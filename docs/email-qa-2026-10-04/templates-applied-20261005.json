@@ -1,0 +1,29 @@
+{
+  "projectRef": "akgrokwnkfqnfjqrildi",
+  "verifiedAt": "2026-10-04T18:38:25.727Z",
+  "actions": [
+    {
+      "action": "confirmation",
+      "subject": "Xác nhận email / Confirm email",
+      "source": "supabase/templates/auth/confirmation.html",
+      "sourceSha256": "ddb829cf13204d1090afa6595fc728a31fea577508f9d62dbd9857a072e6c64e",
+      "persistedSha256": "ddb829cf13204d1090afa6595fc728a31fea577508f9d62dbd9857a072e6c64e",
+      "match": true,
+      "backup": "confirmation-before-20261005.json",
+      "screenshot": "confirmation-applied-20261005.png"
+    },
+    {
+      "action": "recovery",
+      "subject": "Đặt lại mật khẩu / Reset password",
+      "source": "supabase/templates/auth/recovery.html",
+      "sourceSha256": "bad7915bb22996d3e59cecca7fd633980e8a2ccc541e268019eae6a6e07412b1",
+      "persistedSha256": "bad7915bb22996d3e59cecca7fd633980e8a2ccc541e268019eae6a6e07412b1",
+      "match": true,
+      "backup": "recovery-before-20261005.json",
+      "screenshot": "recovery-applied-20261005.png"
+    }
+  ],
+  "verification": "Subject observed and complete HTML copied from source editor after each reload; line endings normalized to LF.",
+  "emailSent": false,
+  "nativeAccepted": false
+}

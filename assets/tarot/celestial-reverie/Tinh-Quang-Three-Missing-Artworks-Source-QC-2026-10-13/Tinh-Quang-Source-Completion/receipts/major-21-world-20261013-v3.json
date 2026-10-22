@@ -1,0 +1,13 @@
+{
+  "cardId": "major-21-world",
+  "prompt": "Precise correction of ONLY the FOUR cloud figures in this THE WORLD artwork. Keep the central dancer, both hands each gripping one short gold baton, laurel wreath, two arbor posts, dais, feet, landscape, style and colors unchanged. Move and shrink cloud figures so their COMPLETE identifying contours are safely inside the image: (1) Angel face/hair/halo upper left, center around 25% canvas width and 17% canvas height, whole face/hair/halo within x=15%..35%, y=10%..25%. (2) Eagle upper right with BOTH COMPLETE WINGS, center at 75% width and 17% height, entire wings and head within x=62%..86%, y=10%..26%. (3) Bull cloud left at dancer hip level, whole head and both horns within x=10%..23%, y=42%..51%. (4) Lion cloud right at dancer hip level, entire head and mane within x=77%..90%, y=42%..51%. Clouds may diffuse into sky but identifying horns, manes, hair, halos and wings MUST have generous surrounding space, no crop, and stay at least 10% away from outer canvas edges. Exactly four symbolic cloud figures, no extras; clouds are not living animals. Preserve portrait 656:1130 ratio and full-bleed naturally painted edges. No labels, words, numbers, signature, watermark, border or frame.",
+  "generationTool": "built-in image_gen",
+  "createdDate": "2026-10-13",
+  "inputImagePath": "raw/major-21-world-20261013-v2.png",
+  "inputImageRole": "exact edit target passed as referenced_image_paths",
+  "sourcePath": "raw/major-21-world-20261013-v3.png",
+  "status": "pending-independent-source-review",
+  "sha256": "4e7583a384e5cbbdc63c5a63793df855c45efbdb668dc56733058cd6aaeeae1d",
+  "sizeBytes": 3235149,
+  "inputImageSha256": "4566d084eec09e20c65984c926990a5e9504e2a9b023a8f1cc4a66767613af3c"
+}

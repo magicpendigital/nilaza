@@ -1,0 +1,190 @@
+{
+  "schemaVersion": 1,
+  "taskId": "mvp-remediation-roadmap-2026-10-01",
+  "ownerAgent": "plan_qc_agent",
+  "lane": "cross_cutting_mvp_planning",
+  "goal": "Create an executable, dependency-ordered Nilaza MVP remediation roadmap, existing-agent ownership, future-task handoff backlog and manager acceptance gates without implementing application changes.",
+  "successCriteria": [
+    "Every planned task has an existing owner role, dependencies, scope, validation, rollback and concrete manager acceptance.",
+    "Distinguish work that can start locally from dependency, environment, database, native-device and release gates.",
+    "Separate invited free beta, monetized MVP and store release; no unrun implementation or tests are labelled complete."
+  ],
+  "writeScope": [
+    "docs/MVP_REMEDIATION_PLAN_2026-10-01.vi.md",
+    "docs/mvp-remediation/2026-10-01/"
+  ],
+  "untouchedSurfaces": [
+    "Application source, seed content, runtime prompts/routes, entitlements, RLS, schema and production are unchanged.",
+    "Existing audit evidence and canonical role/workflow configuration are preserved; no new persistent agents are registered."
+  ],
+  "impact": {
+    "entryPoint": "Planning document and task backlog consumed by the owner and delivery agents; app journeys are acceptance scenarios only.",
+    "dataWrite": "Only new planning Markdown and JSON files in the declared documentation scope; no app or database writes.",
+    "backendContract": "Future tasks explicitly name journal, entitlement, AI contracts, prompt versions and protected Admin boundaries; no API or schema is modified now.",
+    "adminVisibility": "Plan preserves Content Operations and AI Studio and distinguishes draft, active publication and genuine provider tests.",
+    "privacySafety": "Use only sanitized source context and fictional test scenarios; future auth/deletion and cost gates are recorded, no private rows or credentials accessed.",
+    "observability": "Task states remain planned or external-gated; future trace, release and measurement evidence must be attached before acceptance.",
+    "rollback": "Remove only new planning files if superseded; no runtime rollout or data rollback exists."
+  },
+  "canonicalContracts": [
+    "Existing coding-agents.json and feature-workflows.json define delivery-role IDs and lane ownership, not automatically running services.",
+    "Council and Astrology shared canonical contracts remain unchanged; future implementation requires task-specific refreshed preflight and contract validation."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Reviewed current routing, scope, agent ownership, acceptance requirements or dated audit evidence for planning only."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Reviewed current routing, scope, agent ownership, acceptance requirements or dated audit evidence for planning only."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Reviewed current routing, scope, agent ownership, acceptance requirements or dated audit evidence for planning only."
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "sha256": "88a873eb09601bc56640919d407dfd0777ff12d4e8e19b65fc52889b6393f256",
+      "reason": "Reviewed current routing, scope, agent ownership, acceptance requirements or dated audit evidence for planning only."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Reviewed current routing, scope, agent ownership, acceptance requirements or dated audit evidence for planning only."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "c492e69235bc94267f8de0181822602612a5bbda03dd3d144cf4d6c96ff43197",
+      "reason": "Reviewed current routing, scope, agent ownership, acceptance requirements or dated audit evidence for planning only."
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "7a4973733886cb4f1568d38e6d8324d1d8200bb1acd850db486bf5323943f023",
+      "reason": "Reviewed current routing, scope, agent ownership, acceptance requirements or dated audit evidence for planning only."
+    },
+    {
+      "path": "docs/MVP_IMPLEMENTATION_PLAN.md",
+      "sha256": "82612ece83a5bd59a09f05f1a996a01445ebd218aba765a61434a27998bea946",
+      "reason": "Reviewed current routing, scope, agent ownership, acceptance requirements or dated audit evidence for planning only."
+    },
+    {
+      "path": "docs/MVP_TASK_CHECKLIST.md",
+      "sha256": "22545c00ee97cf0f83f22ec3ab78acf6aacb2565b3d82525126fb0af10d0b69d",
+      "reason": "Reviewed current routing, scope, agent ownership, acceptance requirements or dated audit evidence for planning only."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "c14e3443c259659ad51af3621b6418b82a740d22ad06a2832b185e3e02bea364",
+      "reason": "Reviewed current routing, scope, agent ownership, acceptance requirements or dated audit evidence for planning only."
+    },
+    {
+      "path": "supabase/migration-ledger.json",
+      "sha256": "838e8d3fa0ef73a7e2af3e50a0da48e60ab20570b2dd055f73650a600549f6dd",
+      "reason": "Reviewed current routing, scope, agent ownership, acceptance requirements or dated audit evidence for planning only."
+    },
+    {
+      "path": "docs/CUSTOMER_PERSPECTIVE_QA.md",
+      "sha256": "6c37ebd1e6da1d543ea75d4aeaa98994b464f16cad1c3dab3fcaee610997df05",
+      "reason": "Reviewed current routing, scope, agent ownership, acceptance requirements or dated audit evidence for planning only."
+    },
+    {
+      "path": "docs/MOBILE_CI_OWNER_GUIDE.md",
+      "sha256": "1f0a6a28681c44623fec49aaada22d7b3d2fce69529454f81455b1e887de5a21",
+      "reason": "Reviewed current routing, scope, agent ownership, acceptance requirements or dated audit evidence for planning only."
+    },
+    {
+      "path": "packages/agent-config/coding-agents.json",
+      "sha256": "fb44c4e0ba86ed512cf509cfed11e7a4a19b3b0944bbb665937994238a961e10",
+      "reason": "Reviewed current routing, scope, agent ownership, acceptance requirements or dated audit evidence for planning only."
+    },
+    {
+      "path": "packages/agent-config/feature-workflows.json",
+      "sha256": "d666fa979ea9cb016c47d0d2257d8224da20d6e63bd47c77b4dde8f782f2a680",
+      "reason": "Reviewed current routing, scope, agent ownership, acceptance requirements or dated audit evidence for planning only."
+    },
+    {
+      "path": "packages/agent-config/agent-execution-policy.json",
+      "sha256": "1d4c3903c69aef1beebd04fc54cd3e9cbc7236ebac2996e9a0b83cfe97cdd430",
+      "reason": "Reviewed current routing, scope, agent ownership, acceptance requirements or dated audit evidence for planning only."
+    },
+    {
+      "path": "docs/reviews/2026-09-30/REPORT.vi.md",
+      "sha256": "933180a5d0c53dbb60cf1410acd8e78ff7adcf175fdfa052c2f2f1e883b54f8a",
+      "reason": "Reviewed current routing, scope, agent ownership, acceptance requirements or dated audit evidence for planning only."
+    },
+    {
+      "path": "docs/reviews/2026-09-30/ai-customer-quality.vi.md",
+      "sha256": "690cb934e0046c295be19a4bedc7fe3f32809d20d2163b29c5cd4e4ee875c383",
+      "reason": "Reviewed current routing, scope, agent ownership, acceptance requirements or dated audit evidence for planning only."
+    },
+    {
+      "path": "docs/reviews/2026-09-30/mobile-architecture-ux.vi.md",
+      "sha256": "5d43d5d951845a0f99a9101ef6a27eebf37082f928395abb5ba6e743135fdffa",
+      "reason": "Reviewed current routing, scope, agent ownership, acceptance requirements or dated audit evidence for planning only."
+    },
+    {
+      "path": "docs/reviews/2026-09-30/mvp-inventory.vi.md",
+      "sha256": "511a4628840a28e8e6644ba09cb8d05b8de9150ddacd6c8bdbb459479911dad2",
+      "reason": "Reviewed current routing, scope, agent ownership, acceptance requirements or dated audit evidence for planning only."
+    },
+    {
+      "path": "docs/reviews/2026-09-30/security-performance.vi.md",
+      "sha256": "26e2db40e82657643989e047673f20d521a5484ca1c1d74a9185a879189eb477",
+      "reason": "Reviewed current routing, scope, agent ownership, acceptance requirements or dated audit evidence for planning only."
+    },
+    {
+      "path": "package.json",
+      "sha256": "d88632c639a6cafe6a9b0f363476d6109e6b57cec9e40555cd714c97be343da3",
+      "reason": "Reviewed current routing, scope, agent ownership, acceptance requirements or dated audit evidence for planning only."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Applied complete impact map, dependency gates, existing roles and manager-testable acceptance; current guidance remains appropriate."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "This roadmap relies on current local docs/config and dated audit evidence. It selects no new dependency version, provider price or external API behavior; implementers must verify those before their own edits."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "Plan only; future ownership, account isolation, entitlement and protected publisher tests are explicit release gates, not executed now.",
+    "sensitiveData": "No real user data or traces are loaded; subagents receive sanitized source context and fictional scenarios only.",
+    "secretsLogging": "No keys, environment values, login credentials or private outputs enter the roadmap or handoffs.",
+    "externalInput": "Treat audit observations as dated evidence, not mutation authority; future tasks rebaseline the reviewed source state.",
+    "dependencies": "No install/upgrade is performed; audit triage is a future ticket, not an automatic npm audit fix.",
+    "migrationRelease": "Ledger is blocked and future database writes require reconciliation and reviewed owner approval. This documentation record has no deployment, publication or database action.",
+    "stopCondition": "Stop planning scope expansion into implementation, live mutation, credentials, private data or release actions; create a separate reviewed task record before any code work.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "docs/MVP_REMEDIATION_PLAN_2026-10-01.vi.md",
+      "docs/mvp-remediation/2026-10-01/backlog.json",
+      "docs/mvp-remediation/2026-10-01/validate-plan.mjs"
+    ],
+    "note": "This turn writes new documentation only and preserves the owner dirty working tree; current source hashes bind planning assumptions."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/mvp-remediation-roadmap-2026-10-01.json",
+    "node docs/mvp-remediation/2026-10-01/validate-plan.mjs"
+  ],
+  "managerTestPath": "Open the roadmap, inspect the milestone table, choose a task ID and review its exact handoff, start conditions and acceptance path in the backlog. Confirm no role is invented and no feature is marked implemented.",
+  "residualRisk": "The 30 September audit is a dated baseline. Every implementation task must re-read its actual source, refresh preflight and prove runtime/native/backend evidence; this roadmap alone does not close MVP gaps.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deployment": false,
+    "productionRelease": false
+  }
+}

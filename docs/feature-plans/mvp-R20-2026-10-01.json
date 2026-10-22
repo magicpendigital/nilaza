@@ -1,0 +1,1047 @@
+{
+  "schemaVersion": 1,
+  "taskId": "mvp-R20-2026-10-01",
+  "ownerAgent": "content_data_agent",
+  "lane": "ai_content_lane",
+  "goal": "Repair canonical VI/EN Tarot semantics, grammar and reflective safety across all 78 cards while preserving identifiers and data structure.",
+  "successCriteria": [
+    "Exactly 78 original canonical IDs and structural metadata remain unchanged; all text is accented UTF-8 VI and natural EN.",
+    "Four rank-three cards have distinct suit-specific meanings; Three of Swords reflects heartache without predicting loss.",
+    "Each Minor has card-specific upright/reversed meaning and journal question rather than a shared rank template; Page of Wands reversed avoids judging the user.",
+    "Review every canonical card for VI/EN parity, grammar, card theme and reflective safety, with per-card evidence in the report.",
+    "Data validation plus semantic contrast/duplicate/adversarial checks pass; native/artwork/backend/ledger acceptance remains unverified."
+  ],
+  "writeScope": [
+    "packages/content/data/tarot-cards.json",
+    "packages/agent-config/tarot-card-skills.json",
+    "docs/mvp-remediation/2026-10-01/R20-content-qc.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "All seven deck metadata, deck-specific introductions and visual prompts remain untouched.",
+    "Artwork, rendered cards, quality ledgers, generated Admin/Supabase/mobile content and apps/mobile/App.tsx are integration work owned by root.",
+    "Runtime prompts, providers, schemas, entitlements, private storage and live databases remain untouched."
+  ],
+  "impact": {
+    "entryPoint": "Canonical meanings appear in Tarot library/detail, immediate draw reveals and reading results; root will run the generated consumers and manager UI path after integration.",
+    "dataWrite": "Only bilingual canonical JSON text and scoped QC report/plan are edited; no private records, schema changes or live writes.",
+    "backendContract": "Selected card IDs/orientations and response contracts are unchanged; generated Supabase seed must be refreshed by root without executing a live seed.",
+    "adminVisibility": "Root regenerates Admin review seed; any content-bundle publish requires separate owner-controlled integration and runtime readback.",
+    "privacySafety": "Public seed and fictional Tarot scenarios only; interpretation invites agency and avoids predictions, shame, diagnosis or professional instructions.",
+    "observability": "Record reviewed IDs, changed fields, current content hashes and semantic evidence; no provider trace or actual-output improvement is claimed.",
+    "rollback": "Revert only this task's scoped text delta, retaining pre-existing modifications; do not rerun legacy generate-tarot-data or reset unrelated files."
+  },
+  "canonicalContracts": [
+    "packages/content/data/tarot-cards.json is the sole 78-card canonical roster and meaning source; IDs/shape unchanged.",
+    "packages/agent-config/tarot-card-skills.json defines bilingual card-theme, reflection and safety checks; existing edits preserved."
+  ],
+  "allowedDataClasses": [
+    "public_seed",
+    "sanitized_project_context",
+    "synthetic_tarot_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Reviewed current R20 source and final local content delta; metadata/contracts and the content-only integration boundary remain unchanged."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Reviewed current R20 source and final local content delta; metadata/contracts and the content-only integration boundary remain unchanged."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Reviewed current R20 source and final local content delta; metadata/contracts and the content-only integration boundary remain unchanged."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Reviewed current R20 source and final local content delta; metadata/contracts and the content-only integration boundary remain unchanged."
+    },
+    {
+      "path": "docs/TAROT_CONTENT_SYSTEM.md",
+      "sha256": "4772a0e0edee8939fe45486a0c01e24f3c0f8af410321dd966e9fe82226cece9",
+      "reason": "Reviewed current R20 source and final local content delta; metadata/contracts and the content-only integration boundary remain unchanged."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "c492e69235bc94267f8de0181822602612a5bbda03dd3d144cf4d6c96ff43197",
+      "reason": "Reviewed current R20 source and final local content delta; metadata/contracts and the content-only integration boundary remain unchanged."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "2614cb260adf1a58f770e06a16870eb67f37e50f92d4b80ae3ba96120cc0e85e",
+      "reason": "Reviewed current R20 source and final local content delta; metadata/contracts and the content-only integration boundary remain unchanged."
+    },
+    {
+      "path": "skills/nilaza-tarot-content-qc/SKILL.md",
+      "sha256": "678c2c93864f3c835534504bd71bb0ce13802e86b46bb55f470f369d939c69e4",
+      "reason": "Reviewed current R20 source and final local content delta; metadata/contracts and the content-only integration boundary remain unchanged."
+    },
+    {
+      "path": "skills/nilaza-tarot-content-qc/references/bilingual-review.md",
+      "sha256": "d7b901c996166e745983491aaf9149a7e1ffad6bb7cd02c692a0bbf0c13c2e72",
+      "reason": "Reviewed current R20 source and final local content delta; metadata/contracts and the content-only integration boundary remain unchanged."
+    },
+    {
+      "path": "skills/nilaza-tarot-deck-production/SKILL.md",
+      "sha256": "f0ca3a92511dc90a999861d9623c563e494f82c3a07426291bcccfdae8f4eeb6",
+      "reason": "Reviewed current R20 source and final local content delta; metadata/contracts and the content-only integration boundary remain unchanged."
+    },
+    {
+      "path": "skills/nilaza-tarot-deck-production/references/update-deck.md",
+      "sha256": "35ebabc915959fa1c84f70c7c9ab94f62ea20227ba36e3ec2c3ad2f56def6db0",
+      "reason": "Reviewed current R20 source and final local content delta; metadata/contracts and the content-only integration boundary remain unchanged."
+    },
+    {
+      "path": "skills/nilaza-tarot-deck-production/references/integration.md",
+      "sha256": "8dc410494783cbc0f92e9000aac694902a0d917fd7dc464f49759e43ac34c19c",
+      "reason": "Reviewed current R20 source and final local content delta; metadata/contracts and the content-only integration boundary remain unchanged."
+    },
+    {
+      "path": "packages/content/data/tarot-cards.json",
+      "sha256": "2688f997eb10bfcf5a59107b5ff09b7034168eb8a1ca39ac165df2cb192a6865",
+      "reason": "Reviewed current R20 source and final local content delta; metadata/contracts and the content-only integration boundary remain unchanged."
+    },
+    {
+      "path": "packages/content/data/tarot-decks.json",
+      "sha256": "e699d651d8d6b65b35bae51b624056efc9463dadba1c7b856074c54c0e851002",
+      "reason": "Reviewed current R20 source and final local content delta; metadata/contracts and the content-only integration boundary remain unchanged."
+    },
+    {
+      "path": "packages/agent-config/tarot-card-skills.json",
+      "sha256": "f713532df2b47112a634376fdcf850a64120f65c55242acc49774a7273a35503",
+      "reason": "Reviewed current R20 source and final local content delta; metadata/contracts and the content-only integration boundary remain unchanged."
+    },
+    {
+      "path": "scripts/validate-data.mjs",
+      "sha256": "d3588f45f7f79d325484835a668d8d3fbc402891c21214d9f50811956a12c85a",
+      "reason": "Reviewed current R20 source and final local content delta; metadata/contracts and the content-only integration boundary remain unchanged."
+    }
+  ],
+  "workingTreeReview": {
+    "paths": [
+      "packages/content/data/tarot-cards.json",
+      "packages/agent-config/tarot-card-skills.json",
+      "docs/mvp-remediation/2026-10-01/R20-content-qc.vi.md"
+    ],
+    "note": "Current scoped modifications are the R20 canonical copy repair and report. Preserve the pre-existing owner bilingual skill-config changes. Other roadmap agents own unrelated files and generated outputs."
+  },
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Reviewed required impact/preflight and source hashing for a scoped content-only repair; no durable workflow instruction changes."
+    },
+    {
+      "name": "nilaza-tarot-content-qc",
+      "decision": "verified-current",
+      "evidence": "Reviewed bilingual card-specific meaning, natural UTF-8 parity and reflective safety protocol; independent/artwork ledger acceptance delegated to integration root."
+    },
+    {
+      "name": "nilaza-tarot-deck-production",
+      "decision": "verified-current",
+      "evidence": "Reviewed existing-deck update and integration references; preserve decks/art, avoid legacy generator, refresh changed content hashes during root integration."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Original reflective copy is based on current canonical card themes and public local seeds; no external API/library/version changes or historical accuracy claims."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "Content-only local seed edits do not alter authorization or RLS; no database rows or owner credentials are accessed.",
+    "sensitiveData": "Only public canonical card data and invented reflection contexts; no chat, journal, birth records or uploads.",
+    "secretsLogging": "No provider keys, tokens or service-role secrets; output only public copy, hashes and test counts.",
+    "externalInput": "Interpretations treat symbols as possibilities, not facts about a user's life; no generated future, motives or diagnosis.",
+    "dependencies": "No install, provider calls, dependency edits or artwork generation. Existing validator and source-only Node checks are used.",
+    "migrationRelease": "No deploy/publish/migration/seed execution; ledger blocked status respected. Changed content resets acceptance hashes; root integrates outputs.",
+    "stopCondition": "Stop and return to root if repair requires deck/artwork/private/runtime edits or broader write scope.",
+    "unresolvedHighRisks": []
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/mvp-R20-2026-10-01.json",
+    "npm run validate:data",
+    "Source-only semantic check: rank-three contrasts, distinct 56 Minor orientation meanings, 78 unique questions, safe difficult-card framing and VI/EN thematic evidence.",
+    "git diff --check -- packages/content/data/tarot-cards.json packages/agent-config/tarot-card-skills.json docs/mvp-remediation/2026-10-01/R20-content-qc.vi.md"
+  ],
+  "managerTestPath": "After root integration: Explore > Tarot > Classic library > four Three cards, Page of Wands reversed, Eight/Nine of Swords, Six of Pentacles and Knight of Pentacles; switch VI/EN, inspect reveal/result consistency and one usable journal question.",
+  "residualRisk": "This is canonical editorial review, not independent full-deck artwork acceptance or live model/device proof. Deck-specific intro and saved old readings may still differ until root integration/retest.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deployment": false,
+    "publishing": false
+  },
+  "sourceChangeReview": [
+    {
+      "path": "packages/content/data/tarot-cards.json",
+      "beforeSha256": "c850fd6a900b6a4bda0add45abf1b9e0a6d4660425aec64f6d17406fb1dc50be",
+      "afterSha256": "2688f997eb10bfcf5a59107b5ff09b7034168eb8a1ca39ac165df2cb192a6865",
+      "hashNormalization": "UTF-8 text, CRLF normalized to LF",
+      "note": "Baseline equals clean HEAD before R20. All 78 canonical text records reviewed."
+    },
+    {
+      "path": "packages/agent-config/tarot-card-skills.json",
+      "beforeSha256": "e3c91916b7d8817068490e3d74d108b5120e9bd88ed82afcc8a56cf2293b0cb9",
+      "afterSha256": "f713532df2b47112a634376fdcf850a64120f65c55242acc49774a7273a35503",
+      "hashNormalization": "UTF-8 text, CRLF normalized to LF",
+      "note": "Baseline includes pre-existing owner edits; R20 preserves them and adds canonical semantic checks."
+    }
+  ],
+  "gateHistory": {
+    "beforeImplementation": "feature:preflight PASS with the original 16 reviewed source hashes before canonical edits",
+    "finalSourceState": "Current sourceReview binds the two edited JSON sources and unchanged routed documentation; sourceChangeReview preserves the prior hashes."
+  },
+  "semanticAcceptanceMatrix": [
+    {
+      "id": "major-00-fool",
+      "theme": "Khởi đầu / beginning",
+      "reverse": "chuẩn bị / preparation",
+      "uvi": "khởi đầu",
+      "uen": "beginning",
+      "rvi": "chuẩn bị",
+      "ren": "preparation"
+    },
+    {
+      "id": "major-01-magician",
+      "theme": "Nguồn lực và ý định / resources and intention",
+      "reverse": "phân tán / scattered purpose",
+      "uvi": "nguồn lực",
+      "uen": "resources",
+      "rvi": "phân tán",
+      "ren": "scatter"
+    },
+    {
+      "id": "major-02-high-priestess",
+      "theme": "Trực giác và dữ kiện / intuition and evidence",
+      "reverse": "tiếng ồn / noise",
+      "uvi": "Trực giác",
+      "uen": "Intuition",
+      "rvi": "suy đoán",
+      "ren": "guesses"
+    },
+    {
+      "id": "major-03-empress",
+      "theme": "Nuôi dưỡng / nurture",
+      "reverse": "cho quá mức / overgiving",
+      "uvi": "nuôi dưỡng",
+      "uen": "nurture",
+      "rvi": "Cho đi quá mức",
+      "ren": "Overgiving"
+    },
+    {
+      "id": "major-04-emperor",
+      "theme": "Cấu trúc / structure",
+      "reverse": "cứng nhắc / rigidity",
+      "uvi": "cấu trúc",
+      "uen": "structure",
+      "rvi": "quá cứng",
+      "ren": "Rigid"
+    },
+    {
+      "id": "major-05-hierophant",
+      "theme": "Học từ truyền thống / tradition",
+      "reverse": "quy tắc không còn hợp / inherited rules",
+      "uvi": "truyền thống",
+      "uen": "tradition",
+      "rvi": "quy tắc",
+      "ren": "rule"
+    },
+    {
+      "id": "major-06-lovers",
+      "theme": "Kết nối tự nguyện / willing connection",
+      "reverse": "chưa đồng điệu / misalignment",
+      "uvi": "tự nguyện",
+      "uen": "willing",
+      "rvi": "chưa đồng điệu",
+      "ren": "not yet align"
+    },
+    {
+      "id": "major-07-chariot",
+      "theme": "Giữ hướng / direction",
+      "reverse": "nhiều lực kéo / competing pulls",
+      "uvi": "giữ hướng",
+      "uen": "direction",
+      "rvi": "nhiều hướng",
+      "ren": "Competing directions"
+    },
+    {
+      "id": "major-08-strength",
+      "theme": "Can đảm dịu dàng / gentle courage",
+      "reverse": "gồng chịu / excessive endurance",
+      "uvi": "can đảm",
+      "uen": "courage",
+      "rvi": "gồng chịu",
+      "ren": "excessive endurance"
+    },
+    {
+      "id": "major-09-hermit",
+      "theme": "Khoảng riêng / solitude",
+      "reverse": "cô lập hoặc quá bận / isolation or busyness",
+      "uvi": "khoảng riêng",
+      "uen": "private space",
+      "rvi": "cô lập",
+      "ren": "isolation"
+    },
+    {
+      "id": "major-10-wheel",
+      "theme": "Chu kỳ / cycles",
+      "reverse": "nhịp lặp hoặc chống đổi thay / recurring pattern",
+      "uvi": "chu kỳ",
+      "uen": "cycles",
+      "rvi": "nhịp lặp",
+      "ren": "recurring pattern"
+    },
+    {
+      "id": "major-11-justice",
+      "theme": "Dữ kiện công bằng / fair evidence",
+      "reverse": "thiên kiến / bias",
+      "uvi": "công bằng",
+      "uen": "fairly",
+      "rvi": "Thiên kiến",
+      "ren": "Bias"
+    },
+    {
+      "id": "major-12-hanged-man",
+      "theme": "Dừng đổi góc nhìn / pause and perspective",
+      "reverse": "chờ thiếu mục đích / purposeless waiting",
+      "uvi": "góc khác",
+      "uen": "another perspective",
+      "rvi": "thiếu mục đích",
+      "ren": "without purpose"
+    },
+    {
+      "id": "major-13-death",
+      "theme": "Chuyển đổi / transition",
+      "reverse": "chưa sẵn sàng khép lại / reluctance to close",
+      "uvi": "chuyển đổi",
+      "uen": "transition",
+      "rvi": "chưa sẵn sàng",
+      "ren": "Reluctance"
+    },
+    {
+      "id": "major-14-temperance",
+      "theme": "Điều độ / moderation",
+      "reverse": "nghiêng một phía / imbalance",
+      "uvi": "điều độ",
+      "uen": "moderation",
+      "rvi": "nghiêng hẳn",
+      "ren": "leaning too far"
+    },
+    {
+      "id": "major-15-devil",
+      "theme": "Ràng buộc / attachment",
+      "reverse": "nhận diện để có lựa chọn / recognition and choice",
+      "uvi": "ràng buộc",
+      "uen": "attachment",
+      "rvi": "Nhận diện",
+      "ren": "Recognizing"
+    },
+    {
+      "id": "major-16-tower",
+      "theme": "Xem lại nền tảng / foundations",
+      "reverse": "né điều chỉnh / avoiding adjustment",
+      "uvi": "nền tảng",
+      "uen": "foundation",
+      "rvi": "Né tránh",
+      "ren": "Avoiding"
+    },
+    {
+      "id": "major-17-star",
+      "theme": "Hy vọng nhẹ / gentle hope",
+      "reverse": "khó hy vọng / difficulty hoping",
+      "uvi": "hy vọng",
+      "uen": "hope",
+      "rvi": "Khó cảm thấy",
+      "ren": "Difficulty feeling"
+    },
+    {
+      "id": "major-18-moon",
+      "theme": "Mơ hồ và cảm xúc / uncertainty",
+      "reverse": "kiểm tra suy đoán / check guesses",
+      "uvi": "chưa rõ",
+      "uen": "unclear",
+      "rvi": "suy đoán",
+      "ren": "guess"
+    },
+    {
+      "id": "major-19-sun",
+      "theme": "Niềm vui / joy",
+      "reverse": "kỳ vọng quá cao / high expectations",
+      "uvi": "niềm vui",
+      "uen": "joy",
+      "rvi": "kỳ vọng",
+      "ren": "expectations"
+    },
+    {
+      "id": "major-20-judgement",
+      "theme": "Nhìn lại trách nhiệm / review and responsibility",
+      "reverse": "tự trách / self-blame",
+      "uvi": "trải nghiệm",
+      "uen": "experience",
+      "rvi": "Tự trách",
+      "ren": "Self-blame"
+    },
+    {
+      "id": "major-21-world",
+      "theme": "Hoàn tất / completion",
+      "reverse": "phần dang dở / unfinished part",
+      "uvi": "hoàn tất",
+      "uen": "completion",
+      "rvi": "dang dở",
+      "ren": "unfinished"
+    },
+    {
+      "id": "minor-wands-ace",
+      "theme": "Tia ý tưởng / inspiration",
+      "reverse": "chưa có hướng / lack of direction",
+      "uvi": "cảm hứng",
+      "uen": "inspiration",
+      "rvi": "chưa có hướng",
+      "ren": "lack direction"
+    },
+    {
+      "id": "minor-wands-two",
+      "theme": "Chọn hướng / planning direction",
+      "reverse": "kế hoạch chưa rõ / unclear plan",
+      "uvi": "hướng đi",
+      "uen": "direction",
+      "rvi": "kế hoạch chưa rõ",
+      "ren": "unclear plan"
+    },
+    {
+      "id": "minor-wands-three",
+      "theme": "Mở rộng và phản hồi / expansion",
+      "reverse": "kỳ vọng và chờ đợi / waiting",
+      "uvi": "mở rộng",
+      "uen": "widening",
+      "rvi": "Chờ đợi",
+      "ren": "wait"
+    },
+    {
+      "id": "minor-wands-four",
+      "theme": "Cột mốc chung / milestone",
+      "reverse": "thuộc về chưa vững / uncertain belonging",
+      "uvi": "thuộc về",
+      "uen": "belonging",
+      "rvi": "chưa vững",
+      "ren": "uncertain"
+    },
+    {
+      "id": "minor-wands-five",
+      "theme": "Va chạm ý kiến / clashing ideas",
+      "reverse": "né hoặc kéo dài tranh luận / avoided debate",
+      "uvi": "va chạm",
+      "uen": "clashing",
+      "rvi": "Né bất đồng",
+      "ren": "Avoided"
+    },
+    {
+      "id": "minor-wands-six",
+      "theme": "Ghi nhận / recognition",
+      "reverse": "lệ thuộc lời khen / approval dependence",
+      "uvi": "ghi nhận",
+      "uen": "recognition",
+      "rvi": "tán thưởng",
+      "ren": "approval"
+    },
+    {
+      "id": "minor-wands-seven",
+      "theme": "Giữ lập trường / holding position",
+      "reverse": "phòng thủ liên tục / constant defense",
+      "uvi": "lập trường",
+      "uen": "position",
+      "rvi": "Phòng thủ",
+      "ren": "defense"
+    },
+    {
+      "id": "minor-wands-eight",
+      "theme": "Nhịp nhanh trao đổi / rapid communication",
+      "reverse": "chồng thông tin / crossed messages",
+      "uvi": "trao đổi",
+      "uen": "communication",
+      "rvi": "chồng chéo",
+      "ren": "crossed messages"
+    },
+    {
+      "id": "minor-wands-nine",
+      "theme": "Kiên cường có nghỉ / resilience",
+      "reverse": "ép cố quá sức / pushing too hard",
+      "uvi": "kiên cường",
+      "uen": "resilience",
+      "rvi": "cố thêm",
+      "ren": "pushing harder"
+    },
+    {
+      "id": "minor-wands-ten",
+      "theme": "Gánh trách nhiệm / responsibilities",
+      "reverse": "chia hoặc khó nhờ giúp / release or support",
+      "uvi": "trách nhiệm",
+      "uen": "responsibilities",
+      "rvi": "gánh nặng",
+      "ren": "burden"
+    },
+    {
+      "id": "minor-wands-page",
+      "theme": "Khám phá sáng tạo / creative curiosity",
+      "reverse": "ngại thử hoặc thiếu hướng / blocked exploration",
+      "uvi": "tò mò",
+      "uen": "curiosity",
+      "rvi": "ngại thử",
+      "ren": "experimentation"
+    },
+    {
+      "id": "minor-wands-knight",
+      "theme": "Hành động nhiệt huyết / enthusiastic action",
+      "reverse": "vội hoặc đổi liên tục / haste",
+      "uvi": "nhiệt huyết",
+      "uen": "enthusiasm",
+      "rvi": "Vội vàng",
+      "ren": "Haste"
+    },
+    {
+      "id": "minor-wands-queen",
+      "theme": "Tự tin ấm áp / warm confidence",
+      "reverse": "so sánh / comparison",
+      "uvi": "tự tin",
+      "uen": "confidence",
+      "rvi": "So sánh",
+      "ren": "Comparison"
+    },
+    {
+      "id": "minor-wands-king",
+      "theme": "Tầm nhìn phối hợp / coordinated vision",
+      "reverse": "áp đặt hoặc thiếu thực hiện / imposed vision",
+      "uvi": "tầm nhìn",
+      "uen": "vision",
+      "rvi": "áp đặt",
+      "ren": "imposing"
+    },
+    {
+      "id": "minor-cups-ace",
+      "theme": "Mở lòng cảm xúc / openness",
+      "reverse": "khó đón nhận / difficulty receiving",
+      "uvi": "mở lòng",
+      "uen": "openness",
+      "rvi": "khó đón nhận",
+      "ren": "difficulty receiving"
+    },
+    {
+      "id": "minor-cups-two",
+      "theme": "Đáp lại hai phía / reciprocity",
+      "reverse": "chưa đồng điệu / misalignment",
+      "uvi": "hai phía",
+      "uen": "reciprocity",
+      "rvi": "chưa đồng điệu",
+      "ren": "not align"
+    },
+    {
+      "id": "minor-cups-three",
+      "theme": "Tình bạn sẻ chia / friendship",
+      "reverse": "áp lực hòa nhập / fitting in pressure",
+      "uvi": "tình bạn",
+      "uen": "friendship",
+      "rvi": "Áp lực",
+      "ren": "Pressure"
+    },
+    {
+      "id": "minor-cups-four",
+      "theme": "Khoảng lặng trước lời mời / contemplation",
+      "reverse": "quan tâm trở lại hoặc cần nghỉ / rest",
+      "uvi": "khoảng lặng",
+      "uen": "pause",
+      "rvi": "cần nghỉ",
+      "ren": "need rest"
+    },
+    {
+      "id": "minor-cups-five",
+      "theme": "Thừa nhận mất mát / disappointment",
+      "reverse": "thấy điểm tựa hoặc cần thời gian / support",
+      "uvi": "mất mát",
+      "uen": "loss",
+      "rvi": "nâng đỡ",
+      "ren": "supports"
+    },
+    {
+      "id": "minor-cups-six",
+      "theme": "Ký ức và lòng tốt / memory",
+      "reverse": "lý tưởng hóa quá khứ / idealization",
+      "uvi": "ký ức",
+      "uen": "memory",
+      "rvi": "Lý tưởng hóa",
+      "ren": "Idealizing"
+    },
+    {
+      "id": "minor-cups-seven",
+      "theme": "Nhiều khả năng / possibilities",
+      "reverse": "làm rõ tiêu chí / criteria",
+      "uvi": "nhiều khả năng",
+      "uen": "possibilities",
+      "rvi": "tiêu chí",
+      "ren": "criterion"
+    },
+    {
+      "id": "minor-cups-eight",
+      "theme": "Xem lại ý nghĩa / meaning and redirection",
+      "reverse": "quen thuộc hay né cảm xúc / avoidance",
+      "uvi": "ý nghĩa",
+      "uen": "meaningful",
+      "rvi": "tránh cảm xúc",
+      "ren": "avoid feelings"
+    },
+    {
+      "id": "minor-cups-nine",
+      "theme": "Hài lòng hiện tại / contentment",
+      "reverse": "kỳ vọng không đáp nhu cầu / unmet needs",
+      "uvi": "hài lòng",
+      "uen": "contentment",
+      "rvi": "nhu cầu",
+      "ren": "needs"
+    },
+    {
+      "id": "minor-cups-ten",
+      "theme": "Giá trị chung / belonging",
+      "reverse": "hình ảnh lý tưởng / ideal happiness",
+      "uvi": "giá trị",
+      "uen": "values",
+      "rvi": "lý tưởng",
+      "ren": "ideal"
+    },
+    {
+      "id": "minor-cups-page",
+      "theme": "Gọi tên cảm xúc / naming feeling",
+      "reverse": "khó bộc lộ / expression difficulty",
+      "uvi": "cảm xúc",
+      "uen": "feeling",
+      "rvi": "Ngại bộc lộ",
+      "ren": "Reluctance to share"
+    },
+    {
+      "id": "minor-cups-knight",
+      "theme": "Bày tỏ có cân nhắc / considered expression",
+      "reverse": "lý tưởng hoặc hứa thiếu làm / promises",
+      "uvi": "hành động",
+      "uen": "action",
+      "rvi": "lời hứa",
+      "ren": "promises"
+    },
+    {
+      "id": "minor-cups-queen",
+      "theme": "Thấu cảm có ranh giới / empathy",
+      "reverse": "ôm cảm xúc người khác / taking in too much",
+      "uvi": "thấu cảm",
+      "uen": "empathy",
+      "rvi": "Đón nhận quá nhiều",
+      "ren": "Taking in too much"
+    },
+    {
+      "id": "minor-cups-king",
+      "theme": "Cân nhắc khi cảm xúc mạnh / perspective",
+      "reverse": "dồn nén hoặc để cảm xúc quyết / suppression",
+      "uvi": "cân nhắc",
+      "uen": "perspective",
+      "rvi": "Dồn nén",
+      "ren": "Suppressing"
+    },
+    {
+      "id": "minor-swords-ace",
+      "theme": "Ý rõ có dữ kiện / clarity",
+      "reverse": "thông tin thiếu / missing facts",
+      "uvi": "dữ kiện",
+      "uen": "facts",
+      "rvi": "Thông tin thiếu",
+      "ren": "Missing information"
+    },
+    {
+      "id": "minor-swords-two",
+      "theme": "Hai hướng chưa rõ / indecision",
+      "reverse": "quá tải quyết định / pressure",
+      "uvi": "hai hướng",
+      "uen": "two directions",
+      "rvi": "quá tải",
+      "ren": "overwhelming"
+    },
+    {
+      "id": "minor-swords-three",
+      "theme": "Đau lòng có điều kiện / heartache",
+      "reverse": "dịu nỗi đau không ép / gentleness",
+      "uvi": "đau lòng",
+      "uen": "heartache",
+      "rvi": "Không cần ép",
+      "ren": "need not force"
+    },
+    {
+      "id": "minor-swords-four",
+      "theme": "Nghỉ tâm trí / mental rest",
+      "reverse": "khó nghỉ hoặc trở lại sớm / restlessness",
+      "uvi": "khoảng nghỉ",
+      "uen": "break",
+      "rvi": "bồn chồn",
+      "ren": "restlessness"
+    },
+    {
+      "id": "minor-swords-five",
+      "theme": "Giá phải trả để thắng / conflict cost",
+      "reverse": "hòa giải không chịu hại / reconciliation",
+      "uvi": "cái giá",
+      "uen": "cost",
+      "rvi": "Hòa giải",
+      "ren": "Reconciliation"
+    },
+    {
+      "id": "minor-swords-six",
+      "theme": "Bước chuyển / transition",
+      "reverse": "còn vướng / unresolved",
+      "uvi": "bước chuyển",
+      "uen": "transition",
+      "rvi": "còn vướng",
+      "ren": "unresolved"
+    },
+    {
+      "id": "minor-swords-seven",
+      "theme": "Kín đáo và trách nhiệm / discretion",
+      "reverse": "thẳng thắn có riêng tư / honesty",
+      "uvi": "kín đáo",
+      "uen": "discretion",
+      "rvi": "quyền riêng tư",
+      "ren": "privacy"
+    },
+    {
+      "id": "minor-swords-eight",
+      "theme": "Mắc kẹt và giới hạn thật / constraints",
+      "reverse": "lựa chọn nhỏ hoặc hỗ trợ / choice",
+      "uvi": "giới hạn thực tế",
+      "uen": "Real constraints",
+      "rvi": "lựa chọn nhỏ",
+      "ren": "small choice"
+    },
+    {
+      "id": "minor-swords-nine",
+      "theme": "Lo và dữ kiện / worry",
+      "reverse": "chia sẻ không đòi hết lo / sharing",
+      "uvi": "lo âu",
+      "uen": "worry",
+      "rvi": "chia sẻ",
+      "ren": "share"
+    },
+    {
+      "id": "minor-swords-ten",
+      "theme": "Kết thúc khó / difficult ending",
+      "reverse": "bắt đầu lại không ép / restart",
+      "uvi": "kết thúc khó",
+      "uen": "difficult ending",
+      "rvi": "bắt đầu lại",
+      "ren": "restart"
+    },
+    {
+      "id": "minor-swords-page",
+      "theme": "Hỏi và kiểm tra / questions",
+      "reverse": "thông tin chưa đủ / incomplete information",
+      "uvi": "đặt câu hỏi",
+      "uen": "questions",
+      "rvi": "Thông tin chưa đủ",
+      "ren": "Incomplete information"
+    },
+    {
+      "id": "minor-swords-knight",
+      "theme": "Quyết đoán có lắng nghe / decisiveness",
+      "reverse": "vội kết luận / hasty conclusions",
+      "uvi": "quyết đoán",
+      "uen": "decisiveness",
+      "rvi": "Vội kết luận",
+      "ren": "Hasty conclusions"
+    },
+    {
+      "id": "minor-swords-queen",
+      "theme": "Ranh giới thẳng thắn / direct boundaries",
+      "reverse": "bảo vệ quá chặt / overprotection",
+      "uvi": "ranh giới",
+      "uen": "boundaries",
+      "rvi": "Tự bảo vệ",
+      "ren": "Overprotection"
+    },
+    {
+      "id": "minor-swords-king",
+      "theme": "Tiêu chí công bằng / fair criteria",
+      "reverse": "lý lẽ cứng / rigid reasoning",
+      "uvi": "công bằng",
+      "uen": "fair criteria",
+      "rvi": "cứng nhắc",
+      "ren": "Rigid reasoning"
+    },
+    {
+      "id": "minor-pentacles-ace",
+      "theme": "Cơ hội thực tế / practical opportunity",
+      "reverse": "chuẩn bị và khả thi / preparation",
+      "uvi": "cơ hội thực tế",
+      "uen": "practical opportunity",
+      "rvi": "chuẩn bị",
+      "ren": "preparation"
+    },
+    {
+      "id": "minor-pentacles-two",
+      "theme": "Điều phối nguồn lực / juggling",
+      "reverse": "ôm quá nhiều / demands",
+      "uvi": "Điều phối",
+      "uen": "coordinating",
+      "rvi": "Ôm quá nhiều",
+      "ren": "Too many demands"
+    },
+    {
+      "id": "minor-pentacles-three",
+      "theme": "Kỹ năng phối hợp / teamwork",
+      "reverse": "vai trò chưa rõ / unclear roles",
+      "uvi": "kỹ năng khác nhau",
+      "uen": "different skills",
+      "rvi": "Vai trò chưa rõ",
+      "ren": "Unclear roles"
+    },
+    {
+      "id": "minor-pentacles-four",
+      "theme": "Giữ an toàn nguồn lực / security",
+      "reverse": "nới lỏng hoặc sợ mất / control",
+      "uvi": "giữ nguồn lực",
+      "uen": "holding resources",
+      "rvi": "nới lỏng",
+      "ren": "loosen"
+    },
+    {
+      "id": "minor-pentacles-five",
+      "theme": "Thiếu nguồn lực không trách / shortage",
+      "reverse": "hỗ trợ chưa dễ tiếp cận / access",
+      "uvi": "thiếu nguồn lực",
+      "uen": "short of resources",
+      "rvi": "trở ngại",
+      "ren": "difficult"
+    },
+    {
+      "id": "minor-pentacles-six",
+      "theme": "Cho nhận tôn trọng / exchange",
+      "reverse": "lệch cân có điều kiện / unequal exchange",
+      "uvi": "trao và nhận",
+      "uen": "giving and receiving",
+      "rvi": "lệch cân",
+      "ren": "Unequal exchange"
+    },
+    {
+      "id": "minor-pentacles-seven",
+      "theme": "Đánh giá nỗ lực / assessment",
+      "reverse": "chờ thiếu phản hồi / impatience",
+      "uvi": "nỗ lực dài hạn",
+      "uen": "sustained effort",
+      "rvi": "phản hồi",
+      "ren": "feedback"
+    },
+    {
+      "id": "minor-pentacles-eight",
+      "theme": "Rèn kỹ năng / practice",
+      "reverse": "máy móc hoặc hoàn hảo / perfectionism",
+      "uvi": "rèn một kỹ năng",
+      "uen": "developing a skill",
+      "rvi": "hoàn hảo",
+      "ren": "perfectionism"
+    },
+    {
+      "id": "minor-pentacles-nine",
+      "theme": "Tự chủ / self-sufficiency",
+      "reverse": "giá trị gắn thành tựu / achievement worth",
+      "uvi": "tự chủ",
+      "uen": "self-sufficiency",
+      "rvi": "Giá trị bản thân",
+      "ren": "Self-worth"
+    },
+    {
+      "id": "minor-pentacles-ten",
+      "theme": "Nền tảng chung / lasting foundations",
+      "reverse": "kỳ vọng gia đình / expectations",
+      "uvi": "nền tảng dài hạn",
+      "uen": "lasting foundations",
+      "rvi": "Kỳ vọng gia đình",
+      "ren": "Family expectations"
+    },
+    {
+      "id": "minor-pentacles-page",
+      "theme": "Học thực hành / hands-on learning",
+      "reverse": "khó tạo thói quen / starting",
+      "uvi": "thực hành",
+      "uen": "hands-on",
+      "rvi": "Khó bắt đầu",
+      "ren": "Difficulty starting"
+    },
+    {
+      "id": "minor-pentacles-knight",
+      "theme": "Nhịp đều / consistency",
+      "reverse": "cứng hoặc trì trệ / rigid routine",
+      "uvi": "nhịp đều",
+      "uen": "consistency",
+      "rvi": "quá cứng",
+      "ren": "Rigid routine"
+    },
+    {
+      "id": "minor-pentacles-queen",
+      "theme": "Chăm sóc thực tế / practical care",
+      "reverse": "vượt khả năng / capacity",
+      "uvi": "thực tế",
+      "uen": "practical care",
+      "rvi": "vượt khả năng",
+      "ren": "beyond your capacity"
+    },
+    {
+      "id": "minor-pentacles-king",
+      "theme": "Quản trị nguồn lực / resources",
+      "reverse": "kiểm soát hoặc vật chất / control",
+      "uvi": "quản trị nguồn lực",
+      "uen": "use of resources",
+      "rvi": "quá chặt",
+      "ren": "Tight control"
+    }
+  ],
+  "sourceFramingChecks": [
+    {
+      "id": "S3-no-inferred-heartbreak",
+      "cardId": "minor-swords-three",
+      "field": "uprightMeaning",
+      "vi": [
+        "Nếu điều này phù hợp",
+        "không xem tổn thương là điều phải xảy ra"
+      ],
+      "en": [
+        "If this fits",
+        "without treating hurt as something that must happen"
+      ]
+    },
+    {
+      "id": "PageW-no-identity-judgment",
+      "cardId": "minor-wands-page",
+      "field": "reversedMeaning",
+      "vi": [
+        "không định nghĩa khả năng"
+      ],
+      "en": [
+        "does not define your ability"
+      ]
+    },
+    {
+      "id": "S8-real-constraints",
+      "cardId": "minor-swords-eight",
+      "field": "uprightMeaning",
+      "vi": [
+        "giới hạn thực tế",
+        "không cần coi tất cả là do mình tạo ra"
+      ],
+      "en": [
+        "Real constraints",
+        "not everything needs to be treated as self-created"
+      ]
+    },
+    {
+      "id": "S9-no-dismissal-or-diagnosis",
+      "cardId": "minor-swords-nine",
+      "field": "uprightMeaning",
+      "vi": [
+        "không chẩn đoán",
+        "nỗi lo chỉ là tưởng tượng"
+      ],
+      "en": [
+        "does not diagnose",
+        "dismiss worry as imaginary"
+      ]
+    },
+    {
+      "id": "S10-no-guaranteed-recovery",
+      "cardId": "minor-swords-ten",
+      "field": "uprightMeaning",
+      "vi": [
+        "không dự báo tai họa hay bảo đảm",
+        "nghỉ và nhận hỗ trợ"
+      ],
+      "en": [
+        "neither predicts disaster nor guarantees",
+        "rest and support"
+      ]
+    },
+    {
+      "id": "P5-no-blame-inaccessible-help",
+      "cardId": "minor-pentacles-five",
+      "field": "uprightMeaning",
+      "vi": [
+        "Nếu điều này phù hợp",
+        "không nói khó khăn là do bạn chưa cố đủ"
+      ],
+      "en": [
+        "If this fits",
+        "does not blame difficulty"
+      ]
+    },
+    {
+      "id": "P6-no-transactional-promise",
+      "cardId": "minor-pentacles-six",
+      "field": "reversedMeaning",
+      "vi": [
+        "cho đi không bảo đảm sẽ được đáp lại"
+      ],
+      "en": [
+        "giving does not guarantee a return"
+      ]
+    },
+    {
+      "id": "Lovers-no-other-mind-claim",
+      "cardId": "major-06-lovers",
+      "field": "uprightMeaning",
+      "vi": [
+        "không xác nhận tình cảm của người khác"
+      ],
+      "en": [
+        "does not confirm another person's feelings"
+      ]
+    },
+    {
+      "id": "Death-no-literal-or-forced-ending",
+      "cardId": "major-13-death",
+      "field": "uprightMeaning",
+      "vi": [
+        "không dự báo cái chết hay buộc"
+      ],
+      "en": [
+        "does not predict death or require"
+      ]
+    },
+    {
+      "id": "Tower-no-required-suffering",
+      "cardId": "major-16-tower",
+      "field": "uprightMeaning",
+      "vi": [
+        "không báo trước tai họa",
+        "biến cố là cần thiết"
+      ],
+      "en": [
+        "does not predict disaster",
+        "upheaval necessary"
+      ]
+    },
+    {
+      "id": "Priestess-evidence-boundary",
+      "cardId": "major-02-high-priestess",
+      "field": "uprightMeaning",
+      "vi": [
+        "không thay thế dữ kiện"
+      ],
+      "en": [
+        "not a substitute for evidence"
+      ]
+    },
+    {
+      "id": "PKing-no-financial-directive",
+      "cardId": "minor-pentacles-king",
+      "field": "reversedMeaning",
+      "vi": [
+        "không cần quyết định tài chính từ lá bài"
+      ],
+      "en": [
+        "without making financial decisions from the card"
+      ]
+    }
+  ]
+}

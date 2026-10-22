@@ -1,0 +1,200 @@
+[
+  {
+    "file": "admin-astrology-draft.jpg",
+    "format": "JPEG",
+    "width": 1351,
+    "height": 890,
+    "bytes": 150594,
+    "sha256": "8405593e9c4ea3d2a550ff5dcaa2316cae8881f72b6c5d8a3d91ca5b2fe297ea",
+    "evidence": "Actual UI state captured in this audit; see ui-runtime.vi.md for scope and limits."
+  },
+  {
+    "file": "admin-auth-gate.jpg",
+    "format": "JPEG",
+    "width": 1280,
+    "height": 720,
+    "bytes": 82881,
+    "sha256": "a4c1dbde5cec19ad8d839069eb8a4b5c719e719753c9dcd9b14577b3a1eae7cd",
+    "evidence": "Earlier login-required state in this run; user subsequently signed in."
+  },
+  {
+    "file": "admin-cached-draft-status.jpg",
+    "format": "JPEG",
+    "width": 1265,
+    "height": 712,
+    "bytes": 114309,
+    "sha256": "f8c74cbb89081dff8bef3d43b3a321bdff8324821a35aae2043e2a577a82c72d",
+    "evidence": "Actual UI state captured in this audit; see ui-runtime.vi.md for scope and limits."
+  },
+  {
+    "file": "admin-test-no-provider.jpg",
+    "format": "JPEG",
+    "width": 1351,
+    "height": 890,
+    "bytes": 74258,
+    "sha256": "7012d4b8eb31a52787722cde723d98492c090fa43c9a988d6a47a1846309f1f2",
+    "evidence": "Actual UI state captured in this audit; see ui-runtime.vi.md for scope and limits."
+  },
+  {
+    "file": "astrology-chart-mobile.jpg",
+    "format": "JPEG",
+    "width": 390,
+    "height": 844,
+    "bytes": 44425,
+    "sha256": "71e58c95047c9ca143e650d7e3ca95a5acbd1386cf6681a89818b9f06edecba2",
+    "evidence": "Actual UI state captured in this audit; see ui-runtime.vi.md for scope and limits."
+  },
+  {
+    "file": "astrology-form-mobile.jpg",
+    "format": "JPEG",
+    "width": 390,
+    "height": 844,
+    "bytes": 37279,
+    "sha256": "81bb7d5bb688f42248ad3b517285a9c51627fe6168da7a99477d9f19c477dfe4",
+    "evidence": "Actual UI state captured in this audit; see ui-runtime.vi.md for scope and limits."
+  },
+  {
+    "file": "astrology-premium-gate-mobile.jpg",
+    "format": "JPEG",
+    "width": 390,
+    "height": 844,
+    "bytes": 50015,
+    "sha256": "3d5e631607843ae776830d0eb90fde4e778898474eec4a008e0f41b95b7ba7d8",
+    "evidence": "Actual UI state captured in this audit; see ui-runtime.vi.md for scope and limits."
+  },
+  {
+    "file": "astrology-unknown-time-mobile.jpg",
+    "format": "JPEG",
+    "width": 390,
+    "height": 844,
+    "bytes": 43578,
+    "sha256": "a6e6a41497e0272eee5c110da1fa7d90c634e9f7a600ea5e82e0f5e65b57c31c",
+    "evidence": "Actual UI state captured in this audit; see ui-runtime.vi.md for scope and limits."
+  },
+  {
+    "file": "chatgpt-c01-controlled.jpg",
+    "format": "JPEG",
+    "width": 1061,
+    "height": 884,
+    "bytes": 145203,
+    "sha256": "66afe96c862092f492f14aaf1771545b8dbc80516aa813fc4b32181ce3faf03f",
+    "evidence": "Actual UI state captured in this audit; see ui-runtime.vi.md for scope and limits."
+  },
+  {
+    "file": "chatgpt-c01-followup.jpg",
+    "format": "JPEG",
+    "width": 1061,
+    "height": 884,
+    "bytes": 89498,
+    "sha256": "5aa7354f6e1dce48a84d5bf26bb55376953ce402af6a182884796f3e95678358",
+    "evidence": "Actual UI state captured in this audit; see ui-runtime.vi.md for scope and limits."
+  },
+  {
+    "file": "classic-intro-mobile-after-scroll.jpg",
+    "format": "JPEG",
+    "width": 390,
+    "height": 844,
+    "bytes": 54371,
+    "sha256": "00e07b9eed1761598cbdd0af65ca2a6d5320237ca64b7e81845422fefd0d9277",
+    "evidence": "Actual UI state captured in this audit; see ui-runtime.vi.md for scope and limits."
+  },
+  {
+    "file": "classic-intro-mobile.jpg",
+    "format": "JPEG",
+    "width": 390,
+    "height": 844,
+    "bytes": 39943,
+    "sha256": "39df52af8a8580d9f090a5f317de360e96e58c856b779066ba1b6833bec2ccab",
+    "evidence": "Actual UI state captured in this audit; see ui-runtime.vi.md for scope and limits."
+  },
+  {
+    "file": "explore-mobile-bottom.jpg",
+    "format": "JPEG",
+    "width": 390,
+    "height": 844,
+    "bytes": 48019,
+    "sha256": "9a03917ecd2c480eb8c3ee32377fa58d4a240d00ca6e6c787a4b61389a694e86",
+    "evidence": "Actual UI state captured in this audit; see ui-runtime.vi.md for scope and limits."
+  },
+  {
+    "file": "explore-mobile-top.jpg",
+    "format": "JPEG",
+    "width": 390,
+    "height": 844,
+    "bytes": 36125,
+    "sha256": "982819a34d5585b0da888cd3d39d43ddd016ab0c97439b8eb15a3deb4b936550",
+    "evidence": "Actual UI state captured in this audit; see ui-runtime.vi.md for scope and limits."
+  },
+  {
+    "file": "moon-intro-360x640.jpg",
+    "format": "JPEG",
+    "width": 360,
+    "height": 640,
+    "bytes": 21189,
+    "sha256": "33059e98f296c228168513ece162c21f9ee4312d952c377cb65e419d4e56b713",
+    "evidence": "Actual UI state captured in this audit; see ui-runtime.vi.md for scope and limits."
+  },
+  {
+    "file": "moon-intro-mobile.jpg",
+    "format": "JPEG",
+    "width": 390,
+    "height": 844,
+    "bytes": 26484,
+    "sha256": "d785f26a8f8d6c512f94e67a13539d0ad9d517d4471b75aaa8f2abddd4bb24b0",
+    "evidence": "Actual UI state captured in this audit; see ui-runtime.vi.md for scope and limits."
+  },
+  {
+    "file": "persona-c01-desktop.jpg",
+    "format": "JPEG",
+    "width": 872,
+    "height": 884,
+    "bytes": 75472,
+    "sha256": "149dd36237d48827e8451fc85f1e6d61a647537b1f1ad66906ac8dbfd428843d",
+    "evidence": "Actual UI state captured in this audit; see ui-runtime.vi.md for scope and limits."
+  },
+  {
+    "file": "persona-c01-followup-desktop.jpg",
+    "format": "JPEG",
+    "width": 872,
+    "height": 884,
+    "bytes": 91890,
+    "sha256": "71aad979e18171297f2fc5da3c5743fde4bb3e23c25b6ccd7431f515d303842b",
+    "evidence": "Actual UI state captured in this audit; see ui-runtime.vi.md for scope and limits."
+  },
+  {
+    "file": "persona-c01-followup-narrow-desktop.jpg",
+    "format": "JPEG",
+    "width": 872,
+    "height": 884,
+    "bytes": 91890,
+    "sha256": "71aad979e18171297f2fc5da3c5743fde4bb3e23c25b6ccd7431f515d303842b",
+    "evidence": "Desktop872px evidence; not a mobile-size proof."
+  },
+  {
+    "file": "tarot-draw-mobile.jpg",
+    "format": "JPEG",
+    "width": 390,
+    "height": 844,
+    "bytes": 44886,
+    "sha256": "ed6395adbe02da0b1e8961c32ccae4ce3c577f6e225fdf850c0ad184d557dbe9",
+    "evidence": "Actual UI state captured in this audit; see ui-runtime.vi.md for scope and limits."
+  },
+  {
+    "file": "tarot-result-mobile.jpg",
+    "format": "JPEG",
+    "width": 390,
+    "height": 844,
+    "bytes": 39391,
+    "sha256": "6e7baa51b05eb8020905156fb765079876a440f7fbb772245f59557b39db078d",
+    "evidence": "Actual UI state captured in this audit; see ui-runtime.vi.md for scope and limits."
+  },
+  {
+    "file": "tarot-spread-mobile.jpg",
+    "format": "JPEG",
+    "width": 390,
+    "height": 844,
+    "bytes": 41911,
+    "sha256": "f2fd4eb0bea68a9d3485b02e32bf35e1656ace2616b47f304c969de52bf51989",
+    "evidence": "Actual UI state captured in this audit; see ui-runtime.vi.md for scope and limits."
+  }
+]

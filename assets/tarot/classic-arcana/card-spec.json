@@ -1,0 +1,57 @@
+{
+  "deckId": "classic-arcana",
+  "version": "2026-09-24-classic-style-v1",
+  "cardSize": {
+    "width": 1024,
+    "height": 1768
+  },
+  "safeArea": {
+    "x": 96,
+    "y": 128,
+    "width": 832,
+    "height": 1512
+  },
+  "artworkArea": {
+    "x": 184,
+    "y": 220,
+    "width": 656,
+    "height": 1130
+  },
+  "titleArea": {
+    "x": 130,
+    "y": 1382,
+    "width": 764,
+    "height": 104
+  },
+  "keywordArea": {
+    "x": 150,
+    "y": 1488,
+    "width": 724,
+    "height": 52
+  },
+  "colors": {
+    "background": "#2A2823",
+    "panel": "#343128",
+    "ink": "#2A2723",
+    "ivory": "#F3E9D4",
+    "gold": "#C9A45C",
+    "goldDim": "#8A744D",
+    "moon": "#B5AD9C",
+    "teal": "#526361"
+  },
+  "style": {
+    "cornerRadius": 54,
+    "innerRadius": 26,
+    "borderWidth": 6,
+    "artworkCornerRadius": 28,
+    "textureOpacity": 18,
+    "foilLineWidth": 3,
+    "artworkFit": "contain",
+    "artworkRatioTolerance": 0.08
+  },
+  "output": {
+    "artworkDir": "assets/tarot/classic-arcana/artwork",
+    "cardDir": "assets/tarot/classic-arcana/cards",
+    "contactSheetDir": "assets/tarot/classic-arcana/contact-sheets"
+  }
+}

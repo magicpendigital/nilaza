@@ -1,0 +1,13 @@
+{
+  "cardId": "minor-swords-ten",
+  "prompt": "Make a single careful composition correction to this TEN OF SWORDS painting. Keep EXACTLY TEN separate swords, FIVE left and FIVE right, all blades pointing downward into earth behind the resting woman and none touching her. Preserve the same woman, believable face-down resting pose with head on forearm, teal cloak, dawn lake, painterly gouache texture and antique-gold/ivory/teal style. ZOOM OUT and recompose so the COMPLETE woman including feet and the COMPLETE row of ten swords occupy only the CENTRAL 70% OF CANVAS WIDTH. The LEFTMOST crossguard must start at least 15% of canvas width from the LEFT edge; the RIGHTMOST crossguard must end at least 15% of canvas width before the RIGHT edge. The woman's feet must also be at least 15% from the left edge. Keep every hilt, guard and ground-entry tip clearly visible and separate, no extra weapon or reflection. Keep a broad natural lakeshore painted on BOTH sides, filling to canvas edges, not solid padding or borders. Do not alter the total 10 sword count or transform the pose. Tall portrait ratio 656:1130. No letters, title, numbers, watermark or frame.",
+  "generationTool": "built-in image_gen",
+  "createdDate": "2026-10-13",
+  "inputImagePath": "raw/minor-swords-ten-20261013-v1.png",
+  "inputImageRole": "exact edit target passed as referenced_image_paths",
+  "sourcePath": "raw/minor-swords-ten-20261013-v2.png",
+  "status": "pending-independent-source-review",
+  "sha256": "9e1627fea6425620adb753a3d15ecf5fcc25a3ac880ae4945403da83e349edc1",
+  "sizeBytes": 3488361,
+  "inputImageSha256": "ceddc08fa37721a891ff5ed61e166747be98940eb62068e53ed0eb9f1095a463"
+}

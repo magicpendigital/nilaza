@@ -1,0 +1,154 @@
+[
+  {
+    "feature": "oracle_router",
+    "version": "2026-09-14-oracle-pinned-v2",
+    "status": "active",
+    "primaryProvider": "openrouter",
+    "primaryModel": "nex-agi/nex-n2.5-mini:free",
+    "temperature": 0.62,
+    "maxOutputTokens": 300,
+    "responseSchema": "oracle_router_v1",
+    "fallbackWhen": [
+      "missing_api_key",
+      "provider_timeout",
+      "rate_limit",
+      "provider_5xx",
+      "malformed_response"
+    ],
+    "safetyPolicy": {
+      "blockDeterministicPredictions": true,
+      "blockProfessionalAdvice": true,
+      "blockCrisisAdvice": true
+    }
+  },
+  {
+    "feature": "daily_insight",
+    "version": "2026-06-30-llm-routing-v1",
+    "status": "active",
+    "primaryProvider": "openai",
+    "primaryModel": "gpt-5.4-mini",
+    "fallbackProvider": "gemini",
+    "fallbackModel": "gemini-3.5-flash",
+    "temperature": 0.72,
+    "maxOutputTokens": 240,
+    "responseSchema": "daily_insight_v1",
+    "fallbackWhen": [
+      "missing_api_key",
+      "provider_timeout",
+      "rate_limit",
+      "provider_5xx",
+      "malformed_response"
+    ],
+    "safetyPolicy": {
+      "allowSpiritualReflection": true,
+      "blockDeterministicPredictions": true,
+      "blockProfessionalAdvice": true,
+      "blockCrisisAdvice": true
+    }
+  },
+  {
+    "feature": "persona_chat",
+    "version": "2026-09-17-persona-openrouter-free-v1",
+    "status": "active",
+    "primaryProvider": "openrouter",
+    "primaryModel": "openrouter/free",
+    "fallbackProvider": "anthropic",
+    "fallbackModel": "claude-sonnet-4-6",
+    "temperature": 0.68,
+    "maxOutputTokens": 420,
+    "responseSchema": "chat_reply_v2",
+    "fallbackWhen": [
+      "missing_api_key",
+      "provider_timeout",
+      "rate_limit",
+      "provider_5xx",
+      "malformed_response"
+    ],
+    "safetyPolicy": {
+      "requireInspiredByTransparency": true,
+      "blockDeterministicPredictions": true,
+      "blockProfessionalAdvice": true,
+      "blockCrisisAdvice": true
+    }
+  },
+  {
+    "feature": "ai_council",
+    "version": "2026-09-20-ai-council-model-route-v1",
+    "contractRef": "ai_council_contract",
+    "status": "active",
+    "primaryProvider": "openai",
+    "primaryModel": "gpt-5.4",
+    "fallbackProvider": "openrouter",
+    "fallbackModel": "openrouter/auto",
+    "temperature": 0.62,
+    "maxOutputTokens": 900,
+    "responseSchemaRef": "ai_council_contract.responseSchema",
+    "fallbackWhen": [
+      "missing_api_key",
+      "provider_timeout",
+      "rate_limit",
+      "provider_5xx",
+      "schema_validation_failed_once"
+    ],
+    "safetyPolicy": {
+      "requireInspiredByTransparency": true,
+      "blockRawPrivateContext": true,
+      "blockDeterministicPredictions": true,
+      "blockProfessionalAdvice": true,
+      "allowedOpenRouterModelPrefixes": [
+        "openai/gpt-5",
+        "anthropic/claude-",
+        "google/gemini-"
+      ]
+    }
+  },
+  {
+    "feature": "tarot_reading",
+    "version": "2026-06-30-llm-routing-v1",
+    "status": "active",
+    "primaryProvider": "anthropic",
+    "primaryModel": "claude-sonnet-4-6",
+    "fallbackProvider": "openai",
+    "fallbackModel": "gpt-5.4-mini",
+    "temperature": 0.64,
+    "maxOutputTokens": 650,
+    "responseSchema": "tarot_reading_output_v3",
+    "fallbackWhen": [
+      "missing_api_key",
+      "provider_timeout",
+      "rate_limit",
+      "provider_5xx",
+      "malformed_response"
+    ],
+    "safetyPolicy": {
+      "allowSpiritualReflection": true,
+      "blockDeterministicPredictions": true,
+      "blockProfessionalAdvice": true,
+      "requireReflectionQuestion": true
+    }
+  },
+  {
+    "feature": "astrology_report",
+    "version": "2026-09-25-ai-insight-v1",
+    "status": "active",
+    "primaryProvider": "openrouter",
+    "primaryModel": "nex-agi/nex-n2.5-mini:free",
+    "temperature": 0.58,
+    "maxOutputTokens": 1400,
+    "responseSchema": "astrology_ai_insight_v1",
+    "fallbackWhen": [
+      "missing_api_key",
+      "provider_timeout",
+      "rate_limit",
+      "provider_5xx",
+      "malformed_response"
+    ],
+    "safetyPolicy": {
+      "interpretCalculatedPlacementsOnly": true,
+      "blockDeterministicPredictions": true,
+      "blockProfessionalAdvice": true,
+      "requireCalculationCaveats": true,
+      "strictEvidenceFactIds": true
+    }
+  }
+]

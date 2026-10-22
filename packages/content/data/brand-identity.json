@@ -1,0 +1,1170 @@
+{
+  "schemaVersion": 1,
+  "version": "1.0.0",
+  "name": "Nilaza Open Reflection",
+  "status": "design-approved",
+  "approvedAt": "2026-09-11",
+  "masterArchive": "design/brand-experience/2026-09-10/master-v1",
+  "guidelines": "docs/BRAND_GUIDELINES.md",
+  "palette": {
+    "charcoal": "#151416",
+    "ivory": "#F7F1E6",
+    "teal": "#0E5A5A",
+    "gold": "#C9A45C",
+    "rose": "#C9828D",
+    "moonGray": "#A8A3A0"
+  },
+  "typography": {
+    "wordmark": {
+      "family": "EB Garamond",
+      "weight": 400,
+      "tracking": 0.18,
+      "compactTracking": 0.12
+    },
+    "body": {
+      "family": "Hanken Grotesk"
+    },
+    "headings": {
+      "family": "EB Garamond"
+    }
+  },
+  "motion": {
+    "durationMs": 800,
+    "reducedMotion": "static-final-frame",
+    "repeat": false
+  },
+  "copy": {
+    "vi": {
+      "tagline": "Một khoảng mở để lắng nghe mình.",
+      "intro": "Bạn đồng hành AI cho những câu hỏi, cảm xúc và khám phá bản thân.",
+      "startReflection": "Bắt đầu phút phản chiếu",
+      "revisitReflection": "Xem lại phút phản chiếu",
+      "chat": "Trò chuyện",
+      "journal": "Mở Nhật ký",
+      "publicCta": "Tham gia danh sách chờ"
+    },
+    "en": {
+      "tagline": "A space to listen to yourself.",
+      "intro": "An AI companion for your questions, feelings, and self-discovery.",
+      "startReflection": "Start a moment of reflection",
+      "revisitReflection": "Revisit your reflection",
+      "chat": "Chat",
+      "journal": "Open Journal",
+      "publicCta": "Join the waitlist"
+    }
+  },
+  "assets": [
+    {
+      "id": "icon-android-background-teal-1024-png",
+      "role": "icon",
+      "path": "assets/brand/open-reflection/v1/icon/android-background-teal-1024.png",
+      "sha256": "a89900685f8d4b40f5c903749829641d2521d70255b92602f966671bda5ee58d"
+    },
+    {
+      "id": "icon-android-background-teal-1024-svg",
+      "role": "icon",
+      "path": "assets/brand/open-reflection/v1/icon/android-background-teal-1024.svg",
+      "sha256": "036970fc2ea154553d67fc1e25f3fa084f823880c27dffe1cef9d1916a3d2d8f"
+    },
+    {
+      "id": "icon-android-foreground-1024-png",
+      "role": "icon",
+      "path": "assets/brand/open-reflection/v1/icon/android-foreground-1024.png",
+      "sha256": "adc3b682a48171a96a1aee5642ca3b7cc13251e83db492d4651f5d7d1f1e14a4"
+    },
+    {
+      "id": "icon-android-foreground-1024-svg",
+      "role": "icon",
+      "path": "assets/brand/open-reflection/v1/icon/android-foreground-1024.svg",
+      "sha256": "37453326fa134195d5f7995f1732d8ee9dbae56bf9865e35da9bb62d86f5aba9"
+    },
+    {
+      "id": "icon-android-monochrome-1024-png",
+      "role": "icon",
+      "path": "assets/brand/open-reflection/v1/icon/android-monochrome-1024.png",
+      "sha256": "afe4d8dbb54adac88f8cde2dac895e1f6042777782d221f808e0a132f59fdfaf"
+    },
+    {
+      "id": "icon-android-monochrome-1024-svg",
+      "role": "icon",
+      "path": "assets/brand/open-reflection/v1/icon/android-monochrome-1024.svg",
+      "sha256": "bcae3075df11424a996690bcefed737b0f6512fdb70207306d55652160d76e8b"
+    },
+    {
+      "id": "icon-app-icon-charcoal-1024-png",
+      "role": "icon",
+      "path": "assets/brand/open-reflection/v1/icon/app-icon-charcoal-1024.png",
+      "sha256": "d94f216f9318e4cebc6f0c232426338441aec3eb64568d250d0a40747dcb93c9"
+    },
+    {
+      "id": "icon-app-icon-charcoal-1024-svg",
+      "role": "icon",
+      "path": "assets/brand/open-reflection/v1/icon/app-icon-charcoal-1024.svg",
+      "sha256": "bf7f354ee30ee1af592147c855d50932ead10ff63e8a54518c1d5d4b5f81f80a"
+    },
+    {
+      "id": "icon-app-icon-ivory-1024-png",
+      "role": "icon",
+      "path": "assets/brand/open-reflection/v1/icon/app-icon-ivory-1024.png",
+      "sha256": "da858c2f26c8d4484c9772bdca64e5f0e2fb4e9c033df0cca3b844e9d362deef"
+    },
+    {
+      "id": "icon-app-icon-ivory-1024-svg",
+      "role": "icon",
+      "path": "assets/brand/open-reflection/v1/icon/app-icon-ivory-1024.svg",
+      "sha256": "712a2238c257d086090a4a48a486d4b0e52f9cb75e345cd2da364075b8081c19"
+    },
+    {
+      "id": "icon-app-icon-teal-1024-png",
+      "role": "icon",
+      "path": "assets/brand/open-reflection/v1/icon/app-icon-teal-1024.png",
+      "sha256": "0e8d06e34fd32cd9b2119809993676b260f2e1178733d79fe7c83d1fc7562924"
+    },
+    {
+      "id": "icon-app-icon-teal-1024-svg",
+      "role": "icon",
+      "path": "assets/brand/open-reflection/v1/icon/app-icon-teal-1024.svg",
+      "sha256": "e4758612af8a21fe85d0175eddd3783d16a706e0e8c05a824abeaa0a9b5964ef"
+    },
+    {
+      "id": "launch-splash-symbol-charcoal-png",
+      "role": "launch",
+      "path": "assets/brand/open-reflection/v1/launch/splash-symbol-charcoal.png",
+      "sha256": "8cf9a8b68eeecae5afb4b8f80d82e49577e530fb0b0dbe9c6dd1e3b3e97db6da"
+    },
+    {
+      "id": "launch-splash-symbol-charcoal-svg",
+      "role": "launch",
+      "path": "assets/brand/open-reflection/v1/launch/splash-symbol-charcoal.svg",
+      "sha256": "4c6a0bcce61c13357afacf379fbe1273241c6beee8ecb82bdb86579f9a6300a6"
+    },
+    {
+      "id": "launch-splash-symbol-ivory-png",
+      "role": "launch",
+      "path": "assets/brand/open-reflection/v1/launch/splash-symbol-ivory.png",
+      "sha256": "c40a64803c1acc5a6f008b89812c8546da8a851c64bd893aa9a2f27d9f067fa7"
+    },
+    {
+      "id": "launch-splash-symbol-ivory-svg",
+      "role": "launch",
+      "path": "assets/brand/open-reflection/v1/launch/splash-symbol-ivory.svg",
+      "sha256": "9d1ea4639dd9887f1cbe721518acce633e1fce1f094379a7acd9aa6843f90f68"
+    },
+    {
+      "id": "licenses-EB-Garamond-OFL-txt",
+      "role": "licenses",
+      "path": "assets/brand/open-reflection/v1/licenses/EB-Garamond-OFL.txt",
+      "sha256": "f03c8eda63076cd52317dcd40aa04db8472d4cb592dfaafa385129dfdafc7f9c"
+    },
+    {
+      "id": "licenses-Hanken-Grotesk-OFL-txt",
+      "role": "licenses",
+      "path": "assets/brand/open-reflection/v1/licenses/Hanken-Grotesk-OFL.txt",
+      "sha256": "e02ccb89a86839b22feff7872ff5cc355cc0f58318d29eee20e2cf83a612f16d"
+    },
+    {
+      "id": "logo-horizontal-black-png",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/horizontal-black.png",
+      "sha256": "4549129d837a172d393adde6f54ee20bbf8dba8d1ebf6b02325bf0ca50cd0138"
+    },
+    {
+      "id": "logo-horizontal-black-svg",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/horizontal-black.svg",
+      "sha256": "c568c7a46b31fe3f70af991bac50c8a6aa5acb1790830b91f702a409683ee5f0"
+    },
+    {
+      "id": "logo-horizontal-charcoal-png",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/horizontal-charcoal.png",
+      "sha256": "8f42b8e0c9c7d472690214920d665a733723f2952bd5f57ebc7138bb1da8a0cf"
+    },
+    {
+      "id": "logo-horizontal-charcoal-svg",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/horizontal-charcoal.svg",
+      "sha256": "4643497553e24c1f01a2fe1a986479e8fca15d1e5382e00e09d3505af5888538"
+    },
+    {
+      "id": "logo-horizontal-compact-charcoal-png",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/horizontal-compact-charcoal.png",
+      "sha256": "bfc1dbe7d22402f3bfd2ebde6c57f305a76b1564c650bce27cafc84301126b0b"
+    },
+    {
+      "id": "logo-horizontal-compact-charcoal-svg",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/horizontal-compact-charcoal.svg",
+      "sha256": "3b7af641dd3f20c72aba98aba2bafd6cd5a36c95e3937c6a9c8d743f5ceac118"
+    },
+    {
+      "id": "logo-horizontal-compact-ivory-png",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/horizontal-compact-ivory.png",
+      "sha256": "80bfc63738c903239457f068cc43f96c299cc3c534e4ad4e596496a303dc199d"
+    },
+    {
+      "id": "logo-horizontal-compact-ivory-svg",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/horizontal-compact-ivory.svg",
+      "sha256": "04858a7e673d6308727da4462f647a7b6feb48efe430a4b41c6a9a582e8d8703"
+    },
+    {
+      "id": "logo-horizontal-gold-png",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/horizontal-gold.png",
+      "sha256": "116a4b464bb01bfff5e703af1d069686a5ae51a285aa95b64646eac57769e758"
+    },
+    {
+      "id": "logo-horizontal-gold-svg",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/horizontal-gold.svg",
+      "sha256": "4ad1d6716c1d1909e178f8473db8ecf850958055f12ca649f74bd9f392c33754"
+    },
+    {
+      "id": "logo-horizontal-ivory-png",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/horizontal-ivory.png",
+      "sha256": "b6002058dd49ee29c45fcada9d6549311545077600c3a862eb10078d924253fa"
+    },
+    {
+      "id": "logo-horizontal-ivory-svg",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/horizontal-ivory.svg",
+      "sha256": "0f183af6ebdeff823c1f2cba9c6c6a666b9aa6983c773728f0be2610189dc087"
+    },
+    {
+      "id": "logo-horizontal-teal-png",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/horizontal-teal.png",
+      "sha256": "79c00360e88d044cbc88a82825bcc7eeb03c130cc4825285dd89fb868e26287c"
+    },
+    {
+      "id": "logo-horizontal-teal-svg",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/horizontal-teal.svg",
+      "sha256": "3f9fae98341866be07807c0ee008d906ba3c5c54456d418ea2ea2df1aa312bc8"
+    },
+    {
+      "id": "logo-horizontal-white-png",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/horizontal-white.png",
+      "sha256": "402b7014198f46eff385be9e0c381149a154b387b451c524cffc5e17136da010"
+    },
+    {
+      "id": "logo-horizontal-white-svg",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/horizontal-white.svg",
+      "sha256": "44c8124955d7881ee6a45606034beeffd921783923bed32d9c5ab1615332d896"
+    },
+    {
+      "id": "logo-stacked-black-png",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/stacked-black.png",
+      "sha256": "d19ce69ec1616c45b94eb139d289a7bba70585d66c9fbb64315d7099059dca62"
+    },
+    {
+      "id": "logo-stacked-black-svg",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/stacked-black.svg",
+      "sha256": "70af7c7a54c066444edde1cd5df12e7e58d204f596cded0d725562061433215a"
+    },
+    {
+      "id": "logo-stacked-charcoal-png",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/stacked-charcoal.png",
+      "sha256": "3175fb877e40b55c0b27f3744522052f34bcdeee40a7e7f07c5043802bd1a29d"
+    },
+    {
+      "id": "logo-stacked-charcoal-svg",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/stacked-charcoal.svg",
+      "sha256": "3c1f3fb480886d9fffe6297af472f8d76ced0c6f5c03b64a38745d89eca8402b"
+    },
+    {
+      "id": "logo-stacked-gold-png",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/stacked-gold.png",
+      "sha256": "bc801b3e40853be86025d7d8ca519b16c6fb83862fea728f70521b53c9c29b04"
+    },
+    {
+      "id": "logo-stacked-gold-svg",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/stacked-gold.svg",
+      "sha256": "9c647be0e42e5fa10cb75693d3852cffb4653fe341eda592c55470e7a9cf529c"
+    },
+    {
+      "id": "logo-stacked-ivory-png",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/stacked-ivory.png",
+      "sha256": "78f624493b91ee5778e7ec59232019e1ad547b016142833e550b8f0a63570efb"
+    },
+    {
+      "id": "logo-stacked-ivory-svg",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/stacked-ivory.svg",
+      "sha256": "1d268fd2edbc5b75756207e83bd4b1f791370152f1c4e58e4363f54d090af8bc"
+    },
+    {
+      "id": "logo-stacked-teal-png",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/stacked-teal.png",
+      "sha256": "2ded275f314bf228405df9644efd9e637e573c46b2ac58d5bb26987dc4a42aa1"
+    },
+    {
+      "id": "logo-stacked-teal-svg",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/stacked-teal.svg",
+      "sha256": "72364c853abc21e1c7fd836b4ce1890eb5f2b6bac621d5341e79454a4105aa59"
+    },
+    {
+      "id": "logo-stacked-white-png",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/stacked-white.png",
+      "sha256": "d9c55cc83a61e34793eb9955a7024480b484ec359508784d934ca48d68ab7535"
+    },
+    {
+      "id": "logo-stacked-white-svg",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/stacked-white.svg",
+      "sha256": "930e099cf591c034fbd4e78bee6158c9b91993ce5e201b2c85a8cea5a194d178"
+    },
+    {
+      "id": "logo-symbol-black-png",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/symbol-black.png",
+      "sha256": "d9795861c368e38a6a4d89531de7f1e52dad7076b231b59d65f0887449a8ddbe"
+    },
+    {
+      "id": "logo-symbol-black-svg",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/symbol-black.svg",
+      "sha256": "dbbf6fc35bbc7fd71783dea0af46a65326edd5a8b9187f51d3208e439cddf10f"
+    },
+    {
+      "id": "logo-symbol-charcoal-png",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/symbol-charcoal.png",
+      "sha256": "ae396baa309708e79b969995c2027871b96679a082c287a206db9119b579e185"
+    },
+    {
+      "id": "logo-symbol-charcoal-svg",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/symbol-charcoal.svg",
+      "sha256": "4aa1e04cbf1497b3b1c5f77c0370801fa1dcb82ab092ad91b40d599fdc38e708"
+    },
+    {
+      "id": "logo-symbol-gold-png",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/symbol-gold.png",
+      "sha256": "bcb8d3d6ffb75ed3d898e125c664ab4dde9808f66aba40c987e46dd7370de534"
+    },
+    {
+      "id": "logo-symbol-gold-svg",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/symbol-gold.svg",
+      "sha256": "12f859d000d4af49eee54e96750df0ddf80f2a4ccd630299779147c93280beaa"
+    },
+    {
+      "id": "logo-symbol-ivory-png",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/symbol-ivory.png",
+      "sha256": "0e72940beefaa999510df829dfc390ebf330c73e02504d92b4a661a5e5af227b"
+    },
+    {
+      "id": "logo-symbol-ivory-svg",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/symbol-ivory.svg",
+      "sha256": "be00602ad6dd0be2bdc97bafc03aacd21a1c0a6c91e17669185a2cc586b49541"
+    },
+    {
+      "id": "logo-symbol-teal-png",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/symbol-teal.png",
+      "sha256": "f018ecfe9726ffd553a4bd0b85570980be7d6214a51a7f36cd1589ceac40a512"
+    },
+    {
+      "id": "logo-symbol-teal-svg",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/symbol-teal.svg",
+      "sha256": "b78bb145f940d4b73d70a7d53ce3656ebcf58e05d6f5b7a814a7a620ede8fce8"
+    },
+    {
+      "id": "logo-symbol-white-png",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/symbol-white.png",
+      "sha256": "a930d3fc3f5021acd5a0438af5554536027d992c34b833e2285a6e7d22146e81"
+    },
+    {
+      "id": "logo-symbol-white-svg",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/symbol-white.svg",
+      "sha256": "c8ad4270d076523ea01eb1ba474b3c11326fdda23d44a1b2f8daa0d3405f9890"
+    },
+    {
+      "id": "logo-wordmark-charcoal-png",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/wordmark-charcoal.png",
+      "sha256": "7ac80760498d40dd6e8292bb818f79815dd71dc706e80683fd987fa9074bfeea"
+    },
+    {
+      "id": "logo-wordmark-charcoal-svg",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/wordmark-charcoal.svg",
+      "sha256": "b898ccb3b1f6f3500d71b7d76db28a98ac5c01b9c543ad239da7f04edccac5f6"
+    },
+    {
+      "id": "logo-wordmark-ivory-png",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/wordmark-ivory.png",
+      "sha256": "466fd7ee72d4618fe800d0d0c3ccf30e477fe48ac64e882b77d005f19c6fd8e2"
+    },
+    {
+      "id": "logo-wordmark-ivory-svg",
+      "role": "logo",
+      "path": "assets/brand/open-reflection/v1/logo/wordmark-ivory.svg",
+      "sha256": "c59d82131e27c5ddd38b8a18b6032d97707e05cfa960b7f118910ce60d8ba532"
+    },
+    {
+      "id": "motion-center-light-charcoal-png",
+      "role": "motion",
+      "path": "assets/brand/open-reflection/v1/motion/center-light-charcoal.png",
+      "sha256": "496c664b745bc0b0b68d93f7e1321a9b3c4fa6208b877d138d156574d40397b9"
+    },
+    {
+      "id": "motion-center-light-charcoal-svg",
+      "role": "motion",
+      "path": "assets/brand/open-reflection/v1/motion/center-light-charcoal.svg",
+      "sha256": "582a70ecb427e744b59ba4b078f0c02ebba125bc1ca09ad5812c2177d07a8588"
+    },
+    {
+      "id": "motion-center-light-ivory-png",
+      "role": "motion",
+      "path": "assets/brand/open-reflection/v1/motion/center-light-ivory.png",
+      "sha256": "7291f24f9c3640c114ec89052a41c503508757a00cdde676073aa7e1349879d4"
+    },
+    {
+      "id": "motion-center-light-ivory-svg",
+      "role": "motion",
+      "path": "assets/brand/open-reflection/v1/motion/center-light-ivory.svg",
+      "sha256": "5d31bf5ece3de1ec4859b511f0802065f2a78d357886962e8d6006f5ee285e29"
+    },
+    {
+      "id": "motion-left-curve-charcoal-png",
+      "role": "motion",
+      "path": "assets/brand/open-reflection/v1/motion/left-curve-charcoal.png",
+      "sha256": "d37ca3bceb08dd8d15d9e0c171e6338cd0ee20510f8f8c727d117eb14f33d1d0"
+    },
+    {
+      "id": "motion-left-curve-charcoal-svg",
+      "role": "motion",
+      "path": "assets/brand/open-reflection/v1/motion/left-curve-charcoal.svg",
+      "sha256": "5669cae2cd9afe1dd65c59c374732d26200a1ab46f0b0286f2d17fef316b23d5"
+    },
+    {
+      "id": "motion-left-curve-ivory-png",
+      "role": "motion",
+      "path": "assets/brand/open-reflection/v1/motion/left-curve-ivory.png",
+      "sha256": "a64ff225c1919ef0d1725a223256f242671b693d0a258b2a2def78e25a2a752a"
+    },
+    {
+      "id": "motion-left-curve-ivory-svg",
+      "role": "motion",
+      "path": "assets/brand/open-reflection/v1/motion/left-curve-ivory.svg",
+      "sha256": "aefa762a37e3ba41eae7b24333003486ab76f352e7fbeb34cefbf78c760d992d"
+    },
+    {
+      "id": "motion-right-curve-charcoal-png",
+      "role": "motion",
+      "path": "assets/brand/open-reflection/v1/motion/right-curve-charcoal.png",
+      "sha256": "8f65fd081338ecb023ff8755f85a17ed503ad2803097ec5fe6f318934d95ec07"
+    },
+    {
+      "id": "motion-right-curve-charcoal-svg",
+      "role": "motion",
+      "path": "assets/brand/open-reflection/v1/motion/right-curve-charcoal.svg",
+      "sha256": "bf23fe71441885a09b8c1e2e3874ff477474cb2b49ed5c8d233b04004cd49ab6"
+    },
+    {
+      "id": "motion-right-curve-ivory-png",
+      "role": "motion",
+      "path": "assets/brand/open-reflection/v1/motion/right-curve-ivory.png",
+      "sha256": "01649520c1fa0b68bc6dbadf7dd54397d735c266b42ae5a39ca910744032fb63"
+    },
+    {
+      "id": "motion-right-curve-ivory-svg",
+      "role": "motion",
+      "path": "assets/brand/open-reflection/v1/motion/right-curve-ivory.svg",
+      "sha256": "57979b5a6edf9312cce2c5dc10c05c8df2ca88d4b331220e7f0d3026333e3509"
+    },
+    {
+      "id": "source-eb-garamond-latin-400-normal-woff",
+      "role": "source",
+      "path": "assets/brand/open-reflection/v1/source/eb-garamond-latin-400-normal.woff",
+      "sha256": "4667d9135a659b8fae5b5d74eac679150d12dd0e72196fc120f94c0d676568c5"
+    },
+    {
+      "id": "source-geometry-json",
+      "role": "source",
+      "path": "assets/brand/open-reflection/v1/source/geometry.json",
+      "sha256": "6a53f285d96fd40dc279701c3ffab32090a4ee1cba0d5edb4820b6e7838b3bd2"
+    },
+    {
+      "id": "source-HankenGrotesk-Regular-ttf",
+      "role": "source",
+      "path": "assets/brand/open-reflection/v1/source/HankenGrotesk-Regular.ttf",
+      "sha256": "315cda587038b4d21cb4899df306fef5c15b34b6b9470352eba9a3dfce72f380"
+    },
+    {
+      "id": "source-open-reflection-extracted-png",
+      "role": "source",
+      "path": "assets/brand/open-reflection/v1/source/open-reflection-extracted.png",
+      "sha256": "a71423327f79cc5c404e735e072bea3522d444cb009aef88dbbe333469e13a2a"
+    },
+    {
+      "id": "source-open-reflection-trace-svg",
+      "role": "source",
+      "path": "assets/brand/open-reflection/v1/source/open-reflection-trace.svg",
+      "sha256": "fd0d463ef93b81671813c87cec0fb635d91369accbc302859ee90e5ef8852c96"
+    },
+    {
+      "id": "feature-artwork-home",
+      "role": "feature-artwork",
+      "path": "assets/features/open-reflection-home.png",
+      "sha256": "939df7692937f9dd6d8808cc2041b54f60a76509385d28acb4ca8fb6776857af"
+    },
+    {
+      "id": "feature-artwork-welcome",
+      "role": "feature-artwork",
+      "path": "assets/features/open-reflection-welcome.png",
+      "sha256": "9d3cdf0f79ef1974ec25b95dc222e06a42a63a1f20f08c4ccd0bd72ac7a243a8"
+    },
+    {
+      "id": "og-vi",
+      "path": "assets/brand/open-reflection/v1/communication/og-vi.png",
+      "role": "open-graph",
+      "sha256": "dcd893d8f428ca13802441b8d449c6b1df126dcacb9605089f4f81878b64dd94"
+    },
+    {
+      "id": "og-en",
+      "path": "assets/brand/open-reflection/v1/communication/og-en.png",
+      "role": "open-graph",
+      "sha256": "9a82ea55f782ed6cf9af6473905555afbfe940282e9b87213ec673ea0e95e60e"
+    },
+    {
+      "id": "font-eb-garamond-full",
+      "path": "assets/brand/open-reflection/v1/source/EBGaramond-Regular.ttf",
+      "role": "font",
+      "sha256": "a45a5040e1a328d056871d42aa70f10f7ca3bf5c447887b80720542feeead5f2"
+    }
+  ],
+  "outputs": [
+    {
+      "asset": "logo-horizontal-black-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/logo/horizontal-black.png"
+    },
+    {
+      "asset": "logo-horizontal-black-svg",
+      "path": "apps/web/public/brand/v1/logo/horizontal-black.svg"
+    },
+    {
+      "asset": "logo-horizontal-black-svg",
+      "path": "apps/admin/assets/brand/v1/logo/horizontal-black.svg"
+    },
+    {
+      "asset": "logo-horizontal-charcoal-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/logo/horizontal-charcoal.png"
+    },
+    {
+      "asset": "logo-horizontal-charcoal-svg",
+      "path": "apps/web/public/brand/v1/logo/horizontal-charcoal.svg"
+    },
+    {
+      "asset": "logo-horizontal-charcoal-svg",
+      "path": "apps/admin/assets/brand/v1/logo/horizontal-charcoal.svg"
+    },
+    {
+      "asset": "logo-horizontal-compact-charcoal-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/logo/horizontal-compact-charcoal.png"
+    },
+    {
+      "asset": "logo-horizontal-compact-charcoal-svg",
+      "path": "apps/web/public/brand/v1/logo/horizontal-compact-charcoal.svg"
+    },
+    {
+      "asset": "logo-horizontal-compact-charcoal-svg",
+      "path": "apps/admin/assets/brand/v1/logo/horizontal-compact-charcoal.svg"
+    },
+    {
+      "asset": "logo-horizontal-compact-ivory-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/logo/horizontal-compact-ivory.png"
+    },
+    {
+      "asset": "logo-horizontal-compact-ivory-svg",
+      "path": "apps/web/public/brand/v1/logo/horizontal-compact-ivory.svg"
+    },
+    {
+      "asset": "logo-horizontal-compact-ivory-svg",
+      "path": "apps/admin/assets/brand/v1/logo/horizontal-compact-ivory.svg"
+    },
+    {
+      "asset": "logo-horizontal-gold-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/logo/horizontal-gold.png"
+    },
+    {
+      "asset": "logo-horizontal-gold-svg",
+      "path": "apps/web/public/brand/v1/logo/horizontal-gold.svg"
+    },
+    {
+      "asset": "logo-horizontal-gold-svg",
+      "path": "apps/admin/assets/brand/v1/logo/horizontal-gold.svg"
+    },
+    {
+      "asset": "logo-horizontal-ivory-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/logo/horizontal-ivory.png"
+    },
+    {
+      "asset": "logo-horizontal-ivory-svg",
+      "path": "apps/web/public/brand/v1/logo/horizontal-ivory.svg"
+    },
+    {
+      "asset": "logo-horizontal-ivory-svg",
+      "path": "apps/admin/assets/brand/v1/logo/horizontal-ivory.svg"
+    },
+    {
+      "asset": "logo-horizontal-teal-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/logo/horizontal-teal.png"
+    },
+    {
+      "asset": "logo-horizontal-teal-svg",
+      "path": "apps/web/public/brand/v1/logo/horizontal-teal.svg"
+    },
+    {
+      "asset": "logo-horizontal-teal-svg",
+      "path": "apps/admin/assets/brand/v1/logo/horizontal-teal.svg"
+    },
+    {
+      "asset": "logo-horizontal-white-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/logo/horizontal-white.png"
+    },
+    {
+      "asset": "logo-horizontal-white-svg",
+      "path": "apps/web/public/brand/v1/logo/horizontal-white.svg"
+    },
+    {
+      "asset": "logo-horizontal-white-svg",
+      "path": "apps/admin/assets/brand/v1/logo/horizontal-white.svg"
+    },
+    {
+      "asset": "logo-stacked-black-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/logo/stacked-black.png"
+    },
+    {
+      "asset": "logo-stacked-black-svg",
+      "path": "apps/web/public/brand/v1/logo/stacked-black.svg"
+    },
+    {
+      "asset": "logo-stacked-black-svg",
+      "path": "apps/admin/assets/brand/v1/logo/stacked-black.svg"
+    },
+    {
+      "asset": "logo-stacked-charcoal-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/logo/stacked-charcoal.png"
+    },
+    {
+      "asset": "logo-stacked-charcoal-svg",
+      "path": "apps/web/public/brand/v1/logo/stacked-charcoal.svg"
+    },
+    {
+      "asset": "logo-stacked-charcoal-svg",
+      "path": "apps/admin/assets/brand/v1/logo/stacked-charcoal.svg"
+    },
+    {
+      "asset": "logo-stacked-gold-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/logo/stacked-gold.png"
+    },
+    {
+      "asset": "logo-stacked-gold-svg",
+      "path": "apps/web/public/brand/v1/logo/stacked-gold.svg"
+    },
+    {
+      "asset": "logo-stacked-gold-svg",
+      "path": "apps/admin/assets/brand/v1/logo/stacked-gold.svg"
+    },
+    {
+      "asset": "logo-stacked-ivory-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/logo/stacked-ivory.png"
+    },
+    {
+      "asset": "logo-stacked-ivory-svg",
+      "path": "apps/web/public/brand/v1/logo/stacked-ivory.svg"
+    },
+    {
+      "asset": "logo-stacked-ivory-svg",
+      "path": "apps/admin/assets/brand/v1/logo/stacked-ivory.svg"
+    },
+    {
+      "asset": "logo-stacked-teal-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/logo/stacked-teal.png"
+    },
+    {
+      "asset": "logo-stacked-teal-svg",
+      "path": "apps/web/public/brand/v1/logo/stacked-teal.svg"
+    },
+    {
+      "asset": "logo-stacked-teal-svg",
+      "path": "apps/admin/assets/brand/v1/logo/stacked-teal.svg"
+    },
+    {
+      "asset": "logo-stacked-white-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/logo/stacked-white.png"
+    },
+    {
+      "asset": "logo-stacked-white-svg",
+      "path": "apps/web/public/brand/v1/logo/stacked-white.svg"
+    },
+    {
+      "asset": "logo-stacked-white-svg",
+      "path": "apps/admin/assets/brand/v1/logo/stacked-white.svg"
+    },
+    {
+      "asset": "logo-symbol-black-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/logo/symbol-black.png"
+    },
+    {
+      "asset": "logo-symbol-black-svg",
+      "path": "apps/web/public/brand/v1/logo/symbol-black.svg"
+    },
+    {
+      "asset": "logo-symbol-black-svg",
+      "path": "apps/admin/assets/brand/v1/logo/symbol-black.svg"
+    },
+    {
+      "asset": "logo-symbol-charcoal-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/logo/symbol-charcoal.png"
+    },
+    {
+      "asset": "logo-symbol-charcoal-svg",
+      "path": "apps/web/public/brand/v1/logo/symbol-charcoal.svg"
+    },
+    {
+      "asset": "logo-symbol-charcoal-svg",
+      "path": "apps/admin/assets/brand/v1/logo/symbol-charcoal.svg"
+    },
+    {
+      "asset": "logo-symbol-gold-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/logo/symbol-gold.png"
+    },
+    {
+      "asset": "logo-symbol-gold-svg",
+      "path": "apps/web/public/brand/v1/logo/symbol-gold.svg"
+    },
+    {
+      "asset": "logo-symbol-gold-svg",
+      "path": "apps/admin/assets/brand/v1/logo/symbol-gold.svg"
+    },
+    {
+      "asset": "logo-symbol-ivory-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/logo/symbol-ivory.png"
+    },
+    {
+      "asset": "logo-symbol-ivory-svg",
+      "path": "apps/web/public/brand/v1/logo/symbol-ivory.svg"
+    },
+    {
+      "asset": "logo-symbol-ivory-svg",
+      "path": "apps/admin/assets/brand/v1/logo/symbol-ivory.svg"
+    },
+    {
+      "asset": "logo-symbol-teal-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/logo/symbol-teal.png"
+    },
+    {
+      "asset": "logo-symbol-teal-svg",
+      "path": "apps/web/public/brand/v1/logo/symbol-teal.svg"
+    },
+    {
+      "asset": "logo-symbol-teal-svg",
+      "path": "apps/admin/assets/brand/v1/logo/symbol-teal.svg"
+    },
+    {
+      "asset": "logo-symbol-white-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/logo/symbol-white.png"
+    },
+    {
+      "asset": "logo-symbol-white-svg",
+      "path": "apps/web/public/brand/v1/logo/symbol-white.svg"
+    },
+    {
+      "asset": "logo-symbol-white-svg",
+      "path": "apps/admin/assets/brand/v1/logo/symbol-white.svg"
+    },
+    {
+      "asset": "logo-wordmark-charcoal-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/logo/wordmark-charcoal.png"
+    },
+    {
+      "asset": "logo-wordmark-charcoal-svg",
+      "path": "apps/web/public/brand/v1/logo/wordmark-charcoal.svg"
+    },
+    {
+      "asset": "logo-wordmark-charcoal-svg",
+      "path": "apps/admin/assets/brand/v1/logo/wordmark-charcoal.svg"
+    },
+    {
+      "asset": "logo-wordmark-ivory-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/logo/wordmark-ivory.png"
+    },
+    {
+      "asset": "logo-wordmark-ivory-svg",
+      "path": "apps/web/public/brand/v1/logo/wordmark-ivory.svg"
+    },
+    {
+      "asset": "logo-wordmark-ivory-svg",
+      "path": "apps/admin/assets/brand/v1/logo/wordmark-ivory.svg"
+    },
+    {
+      "asset": "motion-center-light-charcoal-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/motion/center-light-charcoal.png"
+    },
+    {
+      "asset": "motion-center-light-ivory-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/motion/center-light-ivory.png"
+    },
+    {
+      "asset": "motion-left-curve-charcoal-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/motion/left-curve-charcoal.png"
+    },
+    {
+      "asset": "motion-left-curve-ivory-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/motion/left-curve-ivory.png"
+    },
+    {
+      "asset": "motion-right-curve-charcoal-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/motion/right-curve-charcoal.png"
+    },
+    {
+      "asset": "motion-right-curve-ivory-png",
+      "path": "apps/mobile/assets/runtime/brand/open-reflection-v1/motion/right-curve-ivory.png"
+    },
+    {
+      "asset": "icon-app-icon-charcoal-1024-png",
+      "path": "apps/mobile/assets/icon.png"
+    },
+    {
+      "asset": "icon-android-foreground-1024-png",
+      "path": "apps/mobile/assets/adaptive-icon.png"
+    },
+    {
+      "asset": "icon-android-monochrome-1024-png",
+      "path": "apps/mobile/assets/monochrome-icon.png"
+    },
+    {
+      "asset": "icon-app-icon-charcoal-1024-png",
+      "path": "apps/mobile/assets/favicon.png",
+      "transform": {
+        "width": 192
+      }
+    },
+    {
+      "asset": "launch-splash-symbol-ivory-png",
+      "path": "apps/mobile/assets/splash.png"
+    },
+    {
+      "asset": "logo-symbol-white-svg",
+      "path": "apps/mobile/assets/notification-icon.png",
+      "transform": {
+        "width": 96,
+        "height": 96,
+        "fit": "contain"
+      }
+    },
+    {
+      "asset": "icon-app-icon-charcoal-1024-svg",
+      "path": "apps/web/public/favicon.svg"
+    },
+    {
+      "asset": "icon-app-icon-charcoal-1024-svg",
+      "path": "apps/admin/favicon.svg"
+    },
+    {
+      "asset": "icon-app-icon-charcoal-1024-png",
+      "path": "apps/mobile/android/app/src/main/res/mipmap-mdpi/ic_launcher.png",
+      "transform": {
+        "width": 48
+      }
+    },
+    {
+      "asset": "icon-app-icon-charcoal-1024-png",
+      "path": "apps/mobile/android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png",
+      "transform": {
+        "width": 48,
+        "round": true
+      }
+    },
+    {
+      "asset": "icon-android-foreground-1024-png",
+      "path": "apps/mobile/android/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png",
+      "transform": {
+        "width": 108
+      }
+    },
+    {
+      "asset": "icon-android-monochrome-1024-png",
+      "path": "apps/mobile/android/app/src/main/res/mipmap-mdpi/ic_launcher_monochrome.png",
+      "transform": {
+        "width": 108
+      }
+    },
+    {
+      "asset": "logo-symbol-white-svg",
+      "path": "apps/mobile/android/app/src/main/res/drawable-mdpi/notification_icon.png",
+      "transform": {
+        "width": 24,
+        "height": 24,
+        "fit": "contain"
+      }
+    },
+    {
+      "asset": "launch-splash-symbol-ivory-png",
+      "path": "apps/mobile/android/app/src/main/res/drawable-mdpi/splashscreen_logo.png",
+      "transform": {
+        "width": 288
+      }
+    },
+    {
+      "asset": "icon-app-icon-charcoal-1024-png",
+      "path": "apps/mobile/android/app/src/main/res/mipmap-hdpi/ic_launcher.png",
+      "transform": {
+        "width": 72
+      }
+    },
+    {
+      "asset": "icon-app-icon-charcoal-1024-png",
+      "path": "apps/mobile/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png",
+      "transform": {
+        "width": 72,
+        "round": true
+      }
+    },
+    {
+      "asset": "icon-android-foreground-1024-png",
+      "path": "apps/mobile/android/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png",
+      "transform": {
+        "width": 162
+      }
+    },
+    {
+      "asset": "icon-android-monochrome-1024-png",
+      "path": "apps/mobile/android/app/src/main/res/mipmap-hdpi/ic_launcher_monochrome.png",
+      "transform": {
+        "width": 162
+      }
+    },
+    {
+      "asset": "logo-symbol-white-svg",
+      "path": "apps/mobile/android/app/src/main/res/drawable-hdpi/notification_icon.png",
+      "transform": {
+        "width": 36,
+        "height": 36,
+        "fit": "contain"
+      }
+    },
+    {
+      "asset": "launch-splash-symbol-ivory-png",
+      "path": "apps/mobile/android/app/src/main/res/drawable-hdpi/splashscreen_logo.png",
+      "transform": {
+        "width": 432
+      }
+    },
+    {
+      "asset": "icon-app-icon-charcoal-1024-png",
+      "path": "apps/mobile/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png",
+      "transform": {
+        "width": 96
+      }
+    },
+    {
+      "asset": "icon-app-icon-charcoal-1024-png",
+      "path": "apps/mobile/android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png",
+      "transform": {
+        "width": 96,
+        "round": true
+      }
+    },
+    {
+      "asset": "icon-android-foreground-1024-png",
+      "path": "apps/mobile/android/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png",
+      "transform": {
+        "width": 216
+      }
+    },
+    {
+      "asset": "icon-android-monochrome-1024-png",
+      "path": "apps/mobile/android/app/src/main/res/mipmap-xhdpi/ic_launcher_monochrome.png",
+      "transform": {
+        "width": 216
+      }
+    },
+    {
+      "asset": "logo-symbol-white-svg",
+      "path": "apps/mobile/android/app/src/main/res/drawable-xhdpi/notification_icon.png",
+      "transform": {
+        "width": 48,
+        "height": 48,
+        "fit": "contain"
+      }
+    },
+    {
+      "asset": "launch-splash-symbol-ivory-png",
+      "path": "apps/mobile/android/app/src/main/res/drawable-xhdpi/splashscreen_logo.png",
+      "transform": {
+        "width": 576
+      }
+    },
+    {
+      "asset": "icon-app-icon-charcoal-1024-png",
+      "path": "apps/mobile/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png",
+      "transform": {
+        "width": 144
+      }
+    },
+    {
+      "asset": "icon-app-icon-charcoal-1024-png",
+      "path": "apps/mobile/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png",
+      "transform": {
+        "width": 144,
+        "round": true
+      }
+    },
+    {
+      "asset": "icon-android-foreground-1024-png",
+      "path": "apps/mobile/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png",
+      "transform": {
+        "width": 324
+      }
+    },
+    {
+      "asset": "icon-android-monochrome-1024-png",
+      "path": "apps/mobile/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_monochrome.png",
+      "transform": {
+        "width": 324
+      }
+    },
+    {
+      "asset": "logo-symbol-white-svg",
+      "path": "apps/mobile/android/app/src/main/res/drawable-xxhdpi/notification_icon.png",
+      "transform": {
+        "width": 72,
+        "height": 72,
+        "fit": "contain"
+      }
+    },
+    {
+      "asset": "launch-splash-symbol-ivory-png",
+      "path": "apps/mobile/android/app/src/main/res/drawable-xxhdpi/splashscreen_logo.png",
+      "transform": {
+        "width": 864
+      }
+    },
+    {
+      "asset": "icon-app-icon-charcoal-1024-png",
+      "path": "apps/mobile/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+      "transform": {
+        "width": 192
+      }
+    },
+    {
+      "asset": "icon-app-icon-charcoal-1024-png",
+      "path": "apps/mobile/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png",
+      "transform": {
+        "width": 192,
+        "round": true
+      }
+    },
+    {
+      "asset": "icon-android-foreground-1024-png",
+      "path": "apps/mobile/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png",
+      "transform": {
+        "width": 432
+      }
+    },
+    {
+      "asset": "icon-android-monochrome-1024-png",
+      "path": "apps/mobile/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_monochrome.png",
+      "transform": {
+        "width": 432
+      }
+    },
+    {
+      "asset": "logo-symbol-white-svg",
+      "path": "apps/mobile/android/app/src/main/res/drawable-xxxhdpi/notification_icon.png",
+      "transform": {
+        "width": 96,
+        "height": 96,
+        "fit": "contain"
+      }
+    },
+    {
+      "asset": "launch-splash-symbol-ivory-png",
+      "path": "apps/mobile/android/app/src/main/res/drawable-xxxhdpi/splashscreen_logo.png",
+      "transform": {
+        "width": 1152
+      }
+    },
+    {
+      "asset": "feature-artwork-home",
+      "path": "apps/mobile/assets/runtime/features/open-reflection-home.jpg",
+      "transform": {
+        "width": 1026,
+        "format": "jpeg"
+      }
+    },
+    {
+      "asset": "feature-artwork-home",
+      "path": "apps/web/public/brand/v1/artwork/home.jpg",
+      "transform": {
+        "width": 1026,
+        "format": "jpeg"
+      }
+    },
+    {
+      "asset": "feature-artwork-welcome",
+      "path": "apps/mobile/assets/runtime/features/open-reflection-welcome.jpg",
+      "transform": {
+        "width": 864,
+        "format": "jpeg"
+      }
+    },
+    {
+      "asset": "feature-artwork-welcome",
+      "path": "apps/web/public/brand/v1/artwork/welcome.jpg",
+      "transform": {
+        "width": 864,
+        "format": "jpeg"
+      }
+    },
+    {
+      "asset": "source-HankenGrotesk-Regular-ttf",
+      "path": "apps/admin/assets/brand/v1/HankenGrotesk-Regular.ttf"
+    },
+    {
+      "asset": "og-vi",
+      "path": "apps/web/public/brand/v1/og-vi.png"
+    },
+    {
+      "asset": "og-en",
+      "path": "apps/web/public/brand/v1/og-en.png"
+    },
+    {
+      "asset": "font-eb-garamond-full",
+      "path": "apps/admin/assets/brand/v1/fonts/EBGaramond-Regular.ttf"
+    }
+  ],
+  "domains": {
+    "organization": "magicpendigital.com",
+    "website": "https://nilaza.magicpendigital.com",
+    "approvedAt": "2026-10-04"
+  }
+}

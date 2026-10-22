@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "deckId": "tinh-quang",
+  "stage": "source_preparation_only",
+  "files": [
+    {
+      "path": "packages/content/data/tarot-staging/tinh-quang/tarot-decks.json",
+      "sha256": "3556139447e2ed5d0b22b383cd82cb7b615eed5c720f36d50c91807ca7a0b18b"
+    },
+    {
+      "path": "packages/content/data/tarot-staging/tinh-quang/tarot-card-designs.json",
+      "sha256": "5a0a7c1eb0227fd73b4a27efeade9da8e5c42d73a081db60674dca1dbd24e799"
+    },
+    {
+      "path": "packages/content/data/tarot-staging/tinh-quang/tarot-deck-backs.json",
+      "sha256": "3e6849d0b06f72e104a91606e0cedc28772d8255b50393fbce39a79175cee115"
+    },
+    {
+      "path": "packages/content/data/tarot-staging/tinh-quang/content.json",
+      "sha256": "9ff724071d1d09c6edafea582550c99bcd418a515b9f4e502c035cc93c125dfd"
+    },
+    {
+      "path": "packages/content/data/tarot-staging/tinh-quang/card-catalog.json",
+      "sha256": "2dad6e02cb26717beb7b64c14d308c8cca7685747a0b54fc4e37f3311f80a729"
+    },
+    {
+      "path": "packages/content/data/tarot-staging/tinh-quang/approved-artwork.json",
+      "sha256": "292f66496cc16c848a70d9f4a7069912b34232379ce326548be034c3c8b7e657"
+    },
+    {
+      "path": "packages/content/data/tarot-staging/tinh-quang/render-plan.json",
+      "sha256": "8e5752ccaf05f666cc7a0a5f8e05d23be909f2bb925e097610e523ecafa89e8b"
+    },
+    {
+      "path": "packages/content/data/tarot-staging/tinh-quang/sync-plan.json",
+      "sha256": "54b9c68f98d75d7748f7a00a89af661456b946f85e88973cae81d03c7a089f46"
+    },
+    {
+      "path": "assets/tarot/tinh-quang/card-spec.json",
+      "sha256": "d4e4d3c33d4e0466849d7d063d783581a4fc36b759fda28f98c78d68f23f2dd2"
+    },
+    {
+      "path": "assets/tarot/tinh-quang/tinh-quang-full-deck-manifest.json",
+      "sha256": "729ea3b8af7ad0ef20a6862aef7bc9d32726415e008ee92fc2435a6d0de02f40"
+    }
+  ],
+  "sourceMetadata": [
+    {
+      "path": "assets/tarot/tinh-quang/Tinh-Quang-Three-Missing-Artworks-Source-QC-2026-10-13/Tinh-Quang-Source-Completion/deck-metadata/content-v6.json",
+      "sha256": "56e333f3cb0f613978beace8e035c845524c1b2b39b79181cdb65e3699eb9032"
+    },
+    {
+      "path": "assets/tarot/tinh-quang/Tinh-Quang-Three-Missing-Artworks-Source-QC-2026-10-13/Tinh-Quang-Source-Completion/deck-metadata/card-spec.json",
+      "sha256": "c3004856345a8c5fb9244a8fbe7121a1e1ff4a0ca79dfa8850ce98eaebbaca26"
+    },
+    {
+      "path": "assets/tarot/tinh-quang/Tinh-Quang-Three-Missing-Artworks-Source-QC-2026-10-13/Tinh-Quang-Source-Completion/deck-metadata/tinh-quang-full-deck-manifest.json",
+      "sha256": "3c1e8f2b097d85f8f812e81612c872840352722ed04b96c6bae13f74424b8f75"
+    },
+    {
+      "path": "assets/tarot/tinh-quang/Tinh-Quang-Three-Missing-Artworks-Source-QC-2026-10-13/Tinh-Quang-Source-Completion/deck-metadata/tinh-quang-only-tarot-decks.json",
+      "sha256": "b5431a5bd4e25cba9cb442bea221e6fc7f7f60fda6c0dd8268491fd9a6f50cd7"
+    },
+    {
+      "path": "assets/tarot/tinh-quang/Tinh-Quang-Three-Missing-Artworks-Source-QC-2026-10-13/Tinh-Quang-Source-Completion/deck-metadata/tinh-quang-only-tarot-card-designs.json",
+      "sha256": "89f445812a3d6d95de4061ee0f8f02d940933efb9011e855d9ab689fe4ba6d5e"
+    },
+    {
+      "path": "assets/tarot/tinh-quang/Tinh-Quang-Three-Missing-Artworks-Source-QC-2026-10-13/Tinh-Quang-Source-Completion/deck-metadata/tinh-quang-only-tarot-deck-backs.json",
+      "sha256": "ef8555b8a6e6292785379b19b09b6be7cf6f6ac7d2ba5738cc733eee6454d5e2"
+    }
+  ],
+  "amendmentsSha256": "c204aca2d875fc7188941086accb4ea956d1f578a4497e6bd903d1cdb836bff0"
+}

@@ -1,0 +1,260 @@
+{
+  "schemaVersion": 1,
+  "taskId": "nilaza-official-domain-2026-10-04",
+  "ownerAgent": "nilaza-domain-integration-owner",
+  "lane": "cross_cutting_domain_setup",
+  "goal": "Integrate owner-approved official website nilaza.magicpendigital.com and prepare Auth QA sending-domain DNS without activating SMTP or public Growth.",
+  "successCriteria": [
+    "Canonical, sitemap, robots and mobile Help resolve to new official origin; environment override remains coherent.",
+    "Waitlist default origin matches new domain and missing/failed CAPTCHA fails closed before any database RPC.",
+    "Resend generates real DNS records for dedicated Auth QA domain; owner applies Cloudflare DNS manually.",
+    "Document live/pending status and keep all schema, credential and campaign changes out of this slice."
+  ],
+  "writeScope": [
+    "apps/web/astro.config.mjs",
+    "apps/web/src/pages/index.astro",
+    "apps/web/src/pages/sitemap.xml.ts",
+    "apps/web/src/pages/robots.txt.ts",
+    "apps/web/public/robots.txt",
+    "apps/web/README.md",
+    "apps/mobile/src/runtimeConfig.ts",
+    "supabase/functions/marketing-waitlist/index.ts",
+    "supabase/functions/marketing-waitlist/turnstile.ts",
+    "scripts/test-marketing-waitlist-security.mjs",
+    "docs/RESEND_AUTH_PILOT_2026-10-04.vi.md",
+    "docs/NILAZA_DOMAIN_SETUP_2026-10-04.vi.md",
+    "apps/web/tsconfig.json"
+  ],
+  "untouchedSurfaces": [
+    "Auth session and recovery contracts, Admin Content/AI Studio/Growth, private data, payments and notification queues remain unchanged.",
+    "Root-domain DNS and mailbox MX are owned by user; no automated DNS write, secret creation, SMTP activation or schema rollout."
+  ],
+  "impact": {
+    "entryPoint": "Public product/Help URLs move to owned subdomain. Native Auth callbacks retain existing dedicated routes; website is not an Auth session consumer.",
+    "dataWrite": "Only local source and provider domain metadata; CAPTCHA failure returns before waitlist database RPC. No SQL or recipient reads.",
+    "backendContract": "CORS uses owned origin with explicit env override; CAPTCHA verifier handles missing secret, network errors and hostname mismatch without fail-open.",
+    "adminVisibility": "Preserve protected Admin and generic aggregate metrics. Document DNS pending, verified and SMTP active as distinct states.",
+    "privacySafety": "No keys or recipient data in source or screenshot; disable Auth tracking and inbound on sending domain; root mailbox configuration remains untouched.",
+    "observability": "Verify public DNS, rendered canonical/robots/sitemap and negative CAPTCHA paths. No claim of live delivery before smoke test.",
+    "rollback": "Revert narrow default URL changes; failed or missing CAPTCHA stays closed. No destructive DNS or migration rollback needed."
+  },
+  "canonicalContracts": [
+    "Astro.site owns all emitted website canonical, robots and sitemap URLs; PUBLIC_SITE_URL remains an intentional override.",
+    "Owner domain decision in runbook defines Nilaza website and separately planned Auth QA/prod sender domains.",
+    "Supabase Auth issues account tokens; public product website must not receive callback tokens without a dedicated consumer."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "aggregate_metrics"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "35757424e5fc5ef5814015ceb87ace0a9b8b5e3602e555a09efd47f49d53b32e",
+      "reason": "Scoped review for whole-app domain routing, public content, anti-abuse boundary or deployment gate."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Scoped review for whole-app domain routing, public content, anti-abuse boundary or deployment gate."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Scoped review for whole-app domain routing, public content, anti-abuse boundary or deployment gate."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "e5fc9e3789ce1978ce3db7b7f41d6dd695d021c6d01ead2b11b3af14a4525f49",
+      "reason": "Scoped review for whole-app domain routing, public content, anti-abuse boundary or deployment gate."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "6cd85c85b43e6ada64745ac13bf34f3fdb2b9e799f5bc2ad176a662d94b154e1",
+      "reason": "Scoped review for whole-app domain routing, public content, anti-abuse boundary or deployment gate."
+    },
+    {
+      "path": "docs/NILAZA_PUBLIC_HELP_CORPUS.md",
+      "sha256": "055549c4bfb13923664f0854a6b44928e7094498af9a64fc6bbe1c17a1a04fb6",
+      "reason": "Scoped review for whole-app domain routing, public content, anti-abuse boundary or deployment gate."
+    },
+    {
+      "path": "apps/web/astro.config.mjs",
+      "sha256": "f9e5dc115479086fbd74ffbd77bd4ee038967a97d4f7ccc651c0e9b1eee2f670",
+      "reason": "Scoped review for whole-app domain routing, public content, anti-abuse boundary or deployment gate."
+    },
+    {
+      "path": "apps/web/src/pages/index.astro",
+      "sha256": "b7ebe3bc6f5d4c7de76eb009589f34616fa8ac832d16fe1a7291e4b08d3249e1",
+      "reason": "Scoped review for whole-app domain routing, public content, anti-abuse boundary or deployment gate."
+    },
+    {
+      "path": "apps/web/src/pages/sitemap.xml.ts",
+      "sha256": "b044840adfa68bfe29a0bc3042e0326f4fbda1b609884894f3c8a4bcac2e75a1",
+      "reason": "Scoped review for whole-app domain routing, public content, anti-abuse boundary or deployment gate."
+    },
+    {
+      "path": "apps/web/README.md",
+      "sha256": "7c81283ac2dbeb373fbbd2c22b0877f779aba723670c7b9717023249191138ce",
+      "reason": "Scoped review for whole-app domain routing, public content, anti-abuse boundary or deployment gate."
+    },
+    {
+      "path": "apps/web/package.json",
+      "sha256": "3040b061a914e06ceff0c32d01b3c4633a6a8c911d01b852fb2f8eb92eb3c5de",
+      "reason": "Scoped review for whole-app domain routing, public content, anti-abuse boundary or deployment gate."
+    },
+    {
+      "path": "apps/mobile/src/runtimeConfig.ts",
+      "sha256": "69677af271bffd4bcb7715b8927f9d9e49530a4d2482fac35cc86842857b9890",
+      "reason": "Scoped review for whole-app domain routing, public content, anti-abuse boundary or deployment gate."
+    },
+    {
+      "path": "supabase/functions/marketing-waitlist/index.ts",
+      "sha256": "40215a6d6f026304fb283e58521c39050a8681f19a63b0de7f67abdfa5259ff0",
+      "reason": "Scoped review for whole-app domain routing, public content, anti-abuse boundary or deployment gate."
+    },
+    {
+      "path": "supabase/functions/marketing-waitlist/helpers.ts",
+      "sha256": "0a67991c1abf9fcef4b463d3eaa9f4b1b2c8412c15d4cf50582d8364ecb4b7e5",
+      "reason": "Scoped review for whole-app domain routing, public content, anti-abuse boundary or deployment gate."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "1e4d2bc7a93a2a140690c7237537de582972db30088309996ab6462a79a53623",
+      "reason": "Scoped review for whole-app domain routing, public content, anti-abuse boundary or deployment gate."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/nilaza-plan-qc.md",
+      "sha256": "1f1ca706c56aef4d08ac94c6475c19a59c3838a218eab9e94ab9436fbe4cda03",
+      "reason": "Scoped review for whole-app domain routing, public content, anti-abuse boundary or deployment gate."
+    },
+    {
+      "path": "skills/nilaza-brand-experience/SKILL.md",
+      "sha256": "1e2acdfac537225ed366a78e6c28b6764a5fe2ac1a1434e583ba21349dee1928",
+      "reason": "Scoped review for whole-app domain routing, public content, anti-abuse boundary or deployment gate."
+    },
+    {
+      "path": "apps/web/src/pages/robots.txt.ts",
+      "reason": "Final domain and CAPTCHA implementation and manager DNS handoff reviewed.",
+      "sha256": "d80cd839b8eb6d84d568300e784c95daeccb969f2fbe5186c7bb568528765bcf"
+    },
+    {
+      "path": "supabase/functions/marketing-waitlist/turnstile.ts",
+      "reason": "Final domain and CAPTCHA implementation and manager DNS handoff reviewed.",
+      "sha256": "a0912cc8f58d35ba8513874afda8f13b5a0c7d3ee95e4eb3006042dc6c89a68f"
+    },
+    {
+      "path": "scripts/test-marketing-waitlist-security.mjs",
+      "reason": "Final domain and CAPTCHA implementation and manager DNS handoff reviewed.",
+      "sha256": "77c2feaf6758f5d1f2959ffa10d218f54312f533e21feaf9cd01a64a34f9656b"
+    },
+    {
+      "path": "docs/NILAZA_DOMAIN_SETUP_2026-10-04.vi.md",
+      "reason": "Final domain and CAPTCHA implementation and manager DNS handoff reviewed.",
+      "sha256": "0a3bd56dd47e3f3cd9ec1888a557805e147496174b2e9c270561065019a9599c"
+    },
+    {
+      "path": "apps/web/tsconfig.json",
+      "sha256": "e5f7de696d16888aaa73dfac1ca4c3f76d37edafb2f0344c7d624fead7ab7f31",
+      "reason": "Web checker found zero files because include only references worker declarations; restore source coverage before reporting validation."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Whole-app reference covers Auth isolation, migration exclusion and separate native release evidence."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Brand guidance covers bilingual communication; no substitute brand imagery or wordmark introduced."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Web declares Astro 7.3.2 and Wrangler 4.130.0; mobile Supabase 2.108.2 remains unchanged. Current official Resend/Cloudflare/Supabase docs reviewed."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://resend.com/docs/dashboard/domains/introduction",
+      "checkedAt": "2026-10-04",
+      "reason": "Official primary source reviewed for domain isolation, exact callbacks, DNS association or server CAPTCHA verification."
+    },
+    {
+      "url": "https://developers.cloudflare.com/pages/configuration/custom-domains/",
+      "checkedAt": "2026-10-04",
+      "reason": "Official primary source reviewed for domain isolation, exact callbacks, DNS association or server CAPTCHA verification."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/auth/redirect-urls",
+      "checkedAt": "2026-10-04",
+      "reason": "Official primary source reviewed for domain isolation, exact callbacks, DNS association or server CAPTCHA verification."
+    },
+    {
+      "url": "https://developers.cloudflare.com/turnstile/get-started/server-side-validation/",
+      "checkedAt": "2026-10-04",
+      "reason": "Official primary source reviewed for domain isolation, exact callbacks, DNS association or server CAPTCHA verification."
+    },
+    {
+      "url": "https://docs.astro.build/en/guides/typescript/",
+      "checkedAt": "2026-10-04",
+      "reason": "Official Astro include/exclude configuration for meaningful source diagnostics."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No schema/RLS changes. Waitlist rejects unapproved origins and failed verification before existing RPC.",
+    "sensitiveData": "No recipient or private user rows accessed. DNS verification public key is public material; no provider credential creation.",
+    "secretsLogging": "SMTP remains off. User applies public DNS records manually; no secret values in source, chat or screenshots.",
+    "externalInput": "Local hardening fails closed for missing secret, network/JSON errors and wrong verification hostname. Public activation waits verified configuration.",
+    "dependencies": "No install or package change. Node built-in type stripping can test pure TypeScript CAPTCHA module without remote imports.",
+    "migrationRelease": "Blocked ledger prevents database rollout. Domain metadata only; website/Edge source not deployed until appropriate cloud access and CAPTCHA configuration.",
+    "stopCondition": "Stop activation without verified DNS, correct target, CAPTCHA and passing checks; do not create credentials, modify root MX, buy plans or repair migrations.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/web/astro.config.mjs",
+      "apps/web/src/pages/index.astro",
+      "apps/web/src/pages/sitemap.xml.ts",
+      "apps/web/src/pages/robots.txt.ts",
+      "apps/web/public/robots.txt",
+      "apps/web/README.md",
+      "apps/mobile/src/runtimeConfig.ts",
+      "supabase/functions/marketing-waitlist/index.ts",
+      "supabase/functions/marketing-waitlist/turnstile.ts",
+      "scripts/test-marketing-waitlist-security.mjs",
+      "docs/RESEND_AUTH_PILOT_2026-10-04.vi.md",
+      "docs/NILAZA_DOMAIN_SETUP_2026-10-04.vi.md",
+      "apps/web/tsconfig.json"
+    ],
+    "note": "Reviewed domain slice plus prior Auth handoff; all scoped local modifications acknowledged. Concurrent official-brand-domain changes had already updated Astro fallback and web README before this slice. Preserve those and all unrelated working tree changes; no blanket deploy/commit."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/nilaza-official-domain-2026-10-04.json",
+    "npm run web:check",
+    "npm run web:build",
+    "npm run validate:public-content",
+    "npm --workspace apps/mobile run check",
+    "node --test scripts/test-marketing-waitlist-security.mjs",
+    "npm run validate:backend",
+    "git diff --check -- apps/web apps/mobile/src/runtimeConfig.ts supabase/functions/marketing-waitlist"
+  ],
+  "managerTestPath": "Owner adds exact Resend DNS records in Cloudflare; provider shows verified, then QA SMTP and native signup/reset smoke tests follow. Website custom domain requires confirmed deployed Pages target.",
+  "residualRisk": "Latest authoritative DNS returns DKIM matching the full public key displayed in Resend and root DMARC p=none. Resend Sending CNAMEs Verified; DKIM and domain Pending at direct UI read. Browser timed out opening Configuration; tracking, SMTP, delivery and Pages target still unverified. No external mutation in this verification step.",
+  "externalActions": {
+    "databaseWrite": false,
+    "providerWrite": true,
+    "deployment": false,
+    "emailSend": false,
+    "note": "Create dedicated Auth QA sending domain in current authorized Resend team to retrieve public verification records; no automated DNS writes."
+  },
+  "validationEvidence": [
+    "Web source diagnostics: 19 files, 0 errors/warnings/hints after fixing include scope.",
+    "Default and PUBLIC_SITE_URL override builds passed; final default build restored. 42 sitemap entries, robots, root and VI/EN Help/product canonical verified.",
+    "Mobile TypeScript, public content, backend contract and scoped whitespace checks passed.",
+    "CAPTCHA pure-module tests passed 5/5; Deno function integration, live SMTP, DNS and native acceptance remain unverified.",
+    "Owner DNS screenshot reviewed; rsend.auth-qa.nilaza -> rsend-apne1.forge.rmta.net and send.auth-qa.nilaza -> send.forge.rmta.net publicly resolve. DKIM expected selector and DMARC not found; no DNS writes.",
+    "Latest Cloudflare screenshot reviewed. Authoritative DKIM Name/full public key matches Resend dashboard, root DMARC exists. Direct Resend UI: both sending CNAMEs Verified; DKIM/domain Pending; Sending enabled, Receiving disabled."
+  ]
+}

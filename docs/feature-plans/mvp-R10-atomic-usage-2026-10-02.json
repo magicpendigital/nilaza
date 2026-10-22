@@ -1,0 +1,410 @@
+{
+  "schemaVersion": 1,
+  "taskId": "mvp-R10-atomic-usage-2026-10-02",
+  "ownerAgent": "workflow_orchestration_agent",
+  "lane": "backend_proxy_lane: approved atomic quota and QA spend contract",
+  "goal": "Implement approved 5 shared Chat/Oracle and 1 one-card Tarot daily limits plus USD5/day and USD50/14-day QA reservation contract; local PostgreSQL WASM replay and fake-provider orchestration only, never activate live spending or rewrite legacy ledger.",
+  "successCriteria": [
+    "Policy records human approval on 2026-10-02; campaign is seeded disabled without fabricated start date and no live activation.",
+    "Quota and integer microUSD day/campaign holds occur in one transaction; replay/conflicting owner/spec cannot obtain second worker lease or provider dispatch; Tarot one-card and shared Chat/Oracle group enforced.",
+    "Known per-attempt costs settle; unknown/dispatched failures retain conservative cost holds while returning failed user quota; successful persisted-result replay returns reference with no second provider call.",
+    "All tables have RLS and customer grants revoked; only service_role invoker RPCs access private meter. No private text stored; anonymous/customer calls denied in actual local SQL fixtures.",
+    "Execute new SQL in PGlite0.5.8 PostgreSQL WASM with synthetic auth/result fixtures; explicitly do not claim multi-connection concurrency, full25-migration replay or Supabase/live readiness.",
+    "Deno pure worker/fake-store and local SQL tests cover same request, shared sixth turn, second Tarot, quota refund, unknown costs, caps, receipt ownership, missing store, persistence/finalization failure and UTC+7 boundaries."
+  ],
+  "writeScope": [
+    "packages/agent-config/ai-usage-policy.json",
+    "supabase/migrations/20261002000000_ai_usage_reservation.sql",
+    "supabase/functions/_shared/ai-usage-store.ts",
+    "supabase/functions/_shared/ai-usage-operation.ts",
+    "supabase/functions/_shared/ai-usage-operation_test.ts",
+    "scripts/test-ai-usage-sql.mjs",
+    "output/mvp-20261002/quota-runtime/",
+    "output/mvp-20261002/npm-cache/",
+    "output/mvp-20261002/ai-usage-sql-results.json",
+    "docs/mvp-remediation/2026-10-02/R10-quota-reservation.vi.md",
+    "docs/mvp-remediation/2026-10-01/R00-quota-budget-proposal.vi.md",
+    "docs/mvp-remediation/2026-10-01/baseline-and-board.vi.md",
+    "docs/mvp-remediation/2026-10-01/execution.json",
+    "docs/mvp-remediation/2026-10-01/R02-clean-qa-bootstrap.json"
+  ],
+  "untouchedSurfaces": [
+    "No live writes, project retarget, historical migration rewrite, deploy, publish or release.",
+    "App/account bridge and privacy integration require separate root record; historical planning backlog untouched."
+  ],
+  "impact": {
+    "entryPoint": "Backend-only reusable metered-operation/store contract for protected AI core; current app/gateway/router remains untouched until separate integration preflight.",
+    "dataWrite": "Local new policy, unapplied SQL, meter/store/tests/docs and isolated test runtime only. New private rows contain UUID/feature/keyed digest/cost states/result reference, no request/response text or credentials.",
+    "backendContract": "Server-owned authenticated operation spec, reserve/claim/attempt receipt/finalize service-only RPCs; day/campaign lock ordering, unknown cost retention and no automatic retry after dispatch; not legacy credit debit.",
+    "adminVisibility": "Future aggregate used/reserved/warnings contract noted, no UI mock read or published config; current protected workspaces retained.",
+    "privacySafety": "RLS enabled and ALL privileges revoked from PUBLIC/anon/authenticated; SECURITY INVOKER and service-only wrapper grants; user deletion anonymizes meter identity, no raw prompts/results saved in ledger.",
+    "observability": "Sanitized status/counters only; test report records engine version/hash/cases and limitations, not tokens/private rows.",
+    "rollback": "Unapplied source removable per exact slice; keep live provider activation off. Once applied, pause new operations and reconcile in-flight cost before any rollback; never revive unsafe debit."
+  },
+  "canonicalContracts": [
+    "packages/agent-config/ai-usage-policy.json is new approved numeric policy source; SQL seed values are compared against it in actual local SQL tests.",
+    "User approval covers numeric policy/implementation, not cloud project creation/apply/deploy/provider topup; legacy blocked ledger is unchanged.",
+    "Request digest is keyed server HMAC of canonical feature/input/policy/route; client never chooses owner, cost, lease or pricing. Worker must use verified user and reviewed token/model bounds when integrated."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "2614cb260adf1a58f770e06a16870eb67f37e50f92d4b80ae3ba96120cc0e85e",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/nilaza-plan-qc.md",
+      "sha256": "f4039cc32b638ce416ee031f33bd9c9fe112d03e81425a0cdadf2c3ae51e9b93",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "docs/WORKFLOWS_SECURITY_RESEARCH.md",
+      "sha256": "a56571e5827b897407bbbd4724819fa6fe22748b702bfdbe0195a7cb73ef0122",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "docs/BACKEND_PROXY_ARCHITECTURE.md",
+      "sha256": "b079458af4a10232efc8804746dd3ae7e8f10d5097800b26f2faf4e922fe91cb",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "docs/AGENT_ARCHITECTURE.md",
+      "sha256": "0b7aaaa4caeb233684fbadbd436e097c07622f17e89f61fca35c3251b7f0263f",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "sha256": "88a873eb09601bc56640919d407dfd0777ff12d4e8e19b65fc52889b6393f256",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "e5fc9e3789ce1978ce3db7b7f41d6dd695d021c6d01ead2b11b3af14a4525f49",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "supabase/migration-ledger.json",
+      "sha256": "e63b4510c844c03d235b3f69d8e9a051c5ce4cbe620369100f5fcb33a9f8d9eb",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "supabase/migrations/202606120001_mvp_schema.sql",
+      "sha256": "226e20601e094426e23170814fab3346eea953bf619d78b0ded153afa37559f5",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "supabase/migrations/20260902131408_owner_capability_boundary.sql",
+      "sha256": "2f8fdac36b93d68f1a32da2d7a83b33c2b41b966589e8be9e1a85d56ace42a24",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "sha256": "f6474f4bd1c721419e18b9cc85672e8b5c910fb03bde85519d30be4fe2640e4c",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "supabase/functions/_shared/model-provider.ts",
+      "sha256": "23ad4cec97c4a486398bbeca6957289b15a3f0b137d5df27710deb06b39159c1",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "supabase/functions/ai-persona-chat/index.ts",
+      "sha256": "0a6dd05111f6bd7555d080590951b10a308bcbfab8ceb33ab14d91d4494e8a77",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/index.ts",
+      "sha256": "a2764c2a1ccb0bf3c73d5144caa39f6d6dae36f4116ac4e01a682d3fc15c26dc",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "supabase/functions/ai-oracle-turn/index.ts",
+      "sha256": "f5d6a8a09cf76f1144310a067fd9e00f462d233bd742de305c8c5bf76084e4b9",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/R00-quota-budget-proposal.vi.md",
+      "sha256": "2fffdab0d642edcf043ef1976235b16c9b3444f9855de085f0c3df957d2bf289",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/R02-clean-qa-bootstrap.json",
+      "sha256": "d08d075628a66253282cb15cce2d003c6de707a93f474ea0722361d51caea566",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "package.json",
+      "sha256": "d88632c639a6cafe6a9b0f363476d6109e6b57cec9e40555cd714c97be343da3",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "ba3e99deb94ffd6b862f2008b5886cb60aac9a60d4fa1c28cc98f4226a2bbedb",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "packages/agent-config/ai-usage-policy.json",
+      "sha256": "a6e80a226c60abf001345ce21b97874eb484f0f769897aea8ab3bdca61d950de",
+      "reason": "Final locally tested approved-policy foundation; no live integration."
+    },
+    {
+      "path": "supabase/migrations/20261002000000_ai_usage_reservation.sql",
+      "sha256": "4d4fc2e57d322fa1d4c60e5e305d18653e73f6b5e8d46fba1a3084a115993424",
+      "reason": "Final locally tested approved-policy foundation; no live integration."
+    },
+    {
+      "path": "supabase/functions/_shared/ai-usage-store.ts",
+      "sha256": "78723906287f5ccceace3260a85132139f4acc163c6c963fb5c608414a341cf4",
+      "reason": "Final locally tested approved-policy foundation; no live integration."
+    },
+    {
+      "path": "supabase/functions/_shared/ai-usage-operation.ts",
+      "sha256": "806a296df48b3dacbc6275dba43b4f3d7a2171fb3234c109ab7ac3140660edb4",
+      "reason": "Final locally tested approved-policy foundation; no live integration."
+    },
+    {
+      "path": "supabase/functions/_shared/ai-usage-operation_test.ts",
+      "sha256": "007bc853bda8d44000cc6869d1bd6b5ff46a86d95f5f27486568c51ad9003741",
+      "reason": "Final locally tested approved-policy foundation; no live integration."
+    },
+    {
+      "path": "scripts/test-ai-usage-sql.mjs",
+      "sha256": "5b0a3d7785d46e2f7678349de29bdbdc6debe55d8c9d13db65f063ac0c28c672",
+      "reason": "Final locally tested approved-policy foundation; no live integration."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Plan & QC remains current: exact impact/preflight, scoped local changes, persisted evidence and explicit live/native/concurrency gates; discoveries fit existing contract/validation gates and do not change skill direction."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Official pglite.dev docs and npm registry pin @electric-sql/pglite0.5.8 SHA512 n9tsbUOhwx2epK1V0ZG9Ar4SHWUju04dhmzZXiSBXwBoleOvIfals33NAaWgagQVAL4Rbvx/Ptsu3P+pA09f6Q==. Install isolated output runtime with ignore-scripts; root app lock/manifest unchanged. PGlite has a single backend connection and does not prove distributed lock races."
+  },
+  "securityReview": {
+    "authzRls": "No customer grant to private meter or privileged monetary RPC. Use SECURITY INVOKER, service-only permissions, verified caller established at later Edge integration; test anon/authenticated denial locally.",
+    "sensitiveData": "Synthetic fixtures only; record keyed digest and result reference, no text/secret. Future retention/export/account deletion gate recorded.",
+    "secretsLogging": "No env values or user rows read; isolated runtime install and synthetic result counts only.",
+    "externalInput": "Service spec validates UUID/feature/digest/cost/attempt count; worker lease hidden from replay; client cannot choose cost when integrated. Disabled campaign blocks all work.",
+    "dependencies": "Registry integrity/version pin; no root dependency install; no provider API or new external credentials.",
+    "migrationRelease": "Unapplied forward SQL only, keep blocked legacy target/ledger; seed inactive campaign with no start. This is not full existing migration replay or live concurrency acceptance.",
+    "stopCondition": "Stop cloud mutation, unresolved unsafe access/false-zero cost or duplicate-dispatch finding; no provider calls/live integration until authoritative token/pricing/QA gates.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "packages/agent-config/ai-usage-policy.json",
+      "supabase/migrations/20261002000000_ai_usage_reservation.sql",
+      "supabase/functions/_shared/ai-usage-store.ts",
+      "supabase/functions/_shared/ai-usage-operation.ts",
+      "supabase/functions/_shared/ai-usage-operation_test.ts",
+      "scripts/test-ai-usage-sql.mjs",
+      "output/mvp-20261002/quota-runtime/",
+      "output/mvp-20261002/npm-cache/",
+      "output/mvp-20261002/ai-usage-sql-results.json",
+      "docs/mvp-remediation/2026-10-02/R10-quota-reservation.vi.md",
+      "docs/mvp-remediation/2026-10-01/R00-quota-budget-proposal.vi.md",
+      "docs/mvp-remediation/2026-10-01/baseline-and-board.vi.md",
+      "docs/mvp-remediation/2026-10-01/execution.json",
+      "docs/mvp-remediation/2026-10-01/R02-clean-qa-bootstrap.json"
+    ],
+    "note": "Root sole writer; preserve existing owner/agent changes and all historical migrations. Test runtime lives in output only, no App/Admin/model route changes."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/mvp-R10-atomic-usage-2026-10-02.json",
+    "node scripts/test-ai-usage-sql.mjs",
+    "node_modules/deno/deno.exe test --no-config --no-lock --deny-import supabase/functions/_shared/ai-usage-operation_test.ts",
+    "npm run validate:backend",
+    "npm run supabase:check",
+    "npm run supabase:migration-ledger:check",
+    "npm run validate:governance"
+  ],
+  "managerTestPath": "Read approved values and local fixtures showing sixth shared turn/second one-card denied, replay does not dispatch, costs/unknown holds and result ownership; live test only after clean target/token-model/RPC integration gates.",
+  "residualRisk": "PGlite is a single-connection local PostgreSQL runtime, not Supabase/multi-client proof. Guard not wired to production entrypoints in this first atomic contract slice; cost caps are inactive until authoritative token/rate/meter integration and QA acceptance.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deployment": false,
+    "productionRelease": false
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://pglite.dev/docs/api",
+      "checkedAt": "2026-10-02",
+      "reason": "Actual PostgreSQL WASM constructor/exec/query/transaction and temporary runtime API."
+    },
+    {
+      "url": "https://pglite.dev/docs/",
+      "checkedAt": "2026-10-02",
+      "reason": "Explicit single exclusive connection; use only as SQL/permission/serial execution proof."
+    },
+    {
+      "url": "https://www.postgresql.org/docs/17/explicit-locking.html",
+      "checkedAt": "2026-10-02",
+      "reason": "Campaign FOR UPDATE serialization and consistent lock ordering; multi-session acceptance remains external."
+    }
+  ],
+  "implementationBaselineReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "2614cb260adf1a58f770e06a16870eb67f37e50f92d4b80ae3ba96120cc0e85e",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/nilaza-plan-qc.md",
+      "sha256": "f4039cc32b638ce416ee031f33bd9c9fe112d03e81425a0cdadf2c3ae51e9b93",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "docs/WORKFLOWS_SECURITY_RESEARCH.md",
+      "sha256": "a56571e5827b897407bbbd4724819fa6fe22748b702bfdbe0195a7cb73ef0122",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "docs/BACKEND_PROXY_ARCHITECTURE.md",
+      "sha256": "b079458af4a10232efc8804746dd3ae7e8f10d5097800b26f2faf4e922fe91cb",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "docs/AGENT_ARCHITECTURE.md",
+      "sha256": "0b7aaaa4caeb233684fbadbd436e097c07622f17e89f61fca35c3251b7f0263f",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "sha256": "88a873eb09601bc56640919d407dfd0777ff12d4e8e19b65fc52889b6393f256",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "e5fc9e3789ce1978ce3db7b7f41d6dd695d021c6d01ead2b11b3af14a4525f49",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "supabase/migration-ledger.json",
+      "sha256": "e63b4510c844c03d235b3f69d8e9a051c5ce4cbe620369100f5fcb33a9f8d9eb",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "supabase/migrations/202606120001_mvp_schema.sql",
+      "sha256": "226e20601e094426e23170814fab3346eea953bf619d78b0ded153afa37559f5",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "supabase/migrations/20260902131408_owner_capability_boundary.sql",
+      "sha256": "2f8fdac36b93d68f1a32da2d7a83b33c2b41b966589e8be9e1a85d56ace42a24",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "sha256": "f6474f4bd1c721419e18b9cc85672e8b5c910fb03bde85519d30be4fe2640e4c",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "supabase/functions/_shared/model-provider.ts",
+      "sha256": "23ad4cec97c4a486398bbeca6957289b15a3f0b137d5df27710deb06b39159c1",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "supabase/functions/ai-persona-chat/index.ts",
+      "sha256": "0a6dd05111f6bd7555d080590951b10a308bcbfab8ceb33ab14d91d4494e8a77",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/index.ts",
+      "sha256": "a2764c2a1ccb0bf3c73d5144caa39f6d6dae36f4116ac4e01a682d3fc15c26dc",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "supabase/functions/ai-oracle-turn/index.ts",
+      "sha256": "f5d6a8a09cf76f1144310a067fd9e00f462d233bd742de305c8c5bf76084e4b9",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/R00-quota-budget-proposal.vi.md",
+      "sha256": "cadb64ff78ed0231e312732ba6a3f7fc0a634d0972bb5c50adcfdef48e4b0e3f",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/R02-clean-qa-bootstrap.json",
+      "sha256": "345b80d02d3cf9c6070d1e3a3dbdb4c4ed1e9f07e77a2becf614022ea969906f",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "package.json",
+      "sha256": "d88632c639a6cafe6a9b0f363476d6109e6b57cec9e40555cd714c97be343da3",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "ba3e99deb94ffd6b862f2008b5886cb60aac9a60d4fa1c28cc98f4226a2bbedb",
+      "reason": "Reviewed approved-policy, routed lifecycle, existing table/result shapes and local-only SQL validation limitations before atomic meter implementation."
+    }
+  ],
+  "validationResult": {
+    "localSqlGroupsPassed": 13,
+    "denoTestsPassed": 15,
+    "backendContracts": "pass",
+    "readiness": {
+      "pass": 72,
+      "warn": 9,
+      "fail": 0
+    },
+    "governance": "pass",
+    "migrationLedger": "blocked",
+    "campaign": "disabled",
+    "liveIntegration": false
+  },
+  "integrationBlockers": [
+    "Authoritative tokenizer/rates and all-provider gate",
+    "Durable operation-keyed save and recovery on PostgreSQL",
+    "Reconciliation and attempt/rate/concurrency abuse controls",
+    "Multi-connection and target PostgreSQL version fixtures; full canonical replay",
+    "Admin aggregates/overrun/warnings and approved exact clean QA target/activation"
+  ]
+}

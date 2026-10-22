@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 1,
+  "taskId": "clean-qa-onboarding-2026-10-04",
+  "ownerAgent": "workflow_orchestration_agent",
+  "lane": "Read-only new-QA identity and bootstrap-readiness evidence",
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "goal": "Verify the user-created paid organization and exact project when supplied; correct a documented Realtime prerequisite without executing schema, copying secrets or switching clients.",
+  "successCriteria": [
+    "Organization ID/name/plan is confirmed from live connector; project identity remains explicitly unknown until a project-specific link is verified.",
+    "Canonical bootstrap hashes and prerequisites are reviewed; Realtime wording matches source migration without copying legacy memberships.",
+    "Blocked execution gates and the next exact user action are recorded; old QA and Admin target remain unchanged."
+  ],
+  "writeScope": [
+    "docs/mvp-remediation/2026-10-04/clean-qa-onboarding/",
+    "docs/mvp-remediation/2026-10-01/R02-clean-qa-bootstrap.json",
+    "docs/mvp-remediation/2026-10-01/R02-clean-qa-inventory.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "No backend code, SQL migration, auth/role/grant, provider, billing, project lifecycle or cloud configuration changes.",
+    "No old-QA repair/push, customer-row export, keys/secrets, content publication, mobile/native release or Admin frontend retarget."
+  ],
+  "impact": {
+    "entryPoint": "User supplies organization dashboard; read resource metadata and one Dashboard page to identify intended new QA.",
+    "dataWrite": "Local onboarding evidence and two existing prerequisite descriptions only; no database or customer data writes.",
+    "backendContract": "No deployed contract change. Canonical25 migrations plus prepared forwards remain candidate pending full replay and exact target acceptance.",
+    "adminVisibility": "Admin stable remains on akgrokwnkfqnfjqrildi; record unsynchronized new backend identity and reasons.",
+    "privacySafety": "Metadata only, no auth tokens/provider secrets/private records or hidden browser-state reads. Missing identity blocks mutation.",
+    "observability": "Resource metadata does not prove schema, RLS or provider execution. Local SQL hashes and focused source review are described separately.",
+    "rollback": "Documentation delta is reversible; preserve original failed provisioning snapshot and all old-QA runtime/data."
+  },
+  "canonicalContracts": [
+    "R02-clean-qa-bootstrap.json binds candidate migrations; source migration20260925155619 is authoritative for generation_jobs Realtime membership.",
+    "Supabase connector exact resource responses identify organization/project; dashboard org ID is not a project reference."
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Scoped discovery and delegated read-only source review; preserve existing source and bind exact prerequisite metadata before documentation correction."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Scoped discovery and delegated read-only source review; preserve existing source and bind exact prerequisite metadata before documentation correction."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "f27f7ec8711e29b152911a917fdf1f5538fc5edf61c248a8f702c04fb54ab73f",
+      "reason": "Scoped discovery and delegated read-only source review; preserve existing source and bind exact prerequisite metadata before documentation correction."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "8202993259b3d25653d0e165103296b256bad6f6e45cd2e743b723561e277002",
+      "reason": "Scoped discovery and delegated read-only source review; preserve existing source and bind exact prerequisite metadata before documentation correction."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/nilaza-plan-qc.md",
+      "sha256": "1f1ca706c56aef4d08ac94c6475c19a59c3838a218eab9e94ab9436fbe4cda03",
+      "reason": "Scoped discovery and delegated read-only source review; preserve existing source and bind exact prerequisite metadata before documentation correction."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/admin-runtime-parity.md",
+      "sha256": "c8233f41b579c278b3a9927cdacc6462a060c28fd367cca3e5deb650f1cc5dfd",
+      "reason": "Scoped discovery and delegated read-only source review; preserve existing source and bind exact prerequisite metadata before documentation correction."
+    },
+    {
+      "path": "skills/manifest.json",
+      "sha256": "e3a7a9d7695b96e19935743090797ffc9a9439a10995c9e8619ca04594f48077",
+      "reason": "Scoped discovery and delegated read-only source review; preserve existing source and bind exact prerequisite metadata before documentation correction."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "e5fc9e3789ce1978ce3db7b7f41d6dd695d021c6d01ead2b11b3af14a4525f49",
+      "reason": "Scoped discovery and delegated read-only source review; preserve existing source and bind exact prerequisite metadata before documentation correction."
+    },
+    {
+      "path": "docs/BACKEND_PROXY_ARCHITECTURE.md",
+      "sha256": "b079458af4a10232efc8804746dd3ae7e8f10d5097800b26f2faf4e922fe91cb",
+      "reason": "Scoped discovery and delegated read-only source review; preserve existing source and bind exact prerequisite metadata before documentation correction."
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "sha256": "88a873eb09601bc56640919d407dfd0777ff12d4e8e19b65fc52889b6393f256",
+      "reason": "Scoped discovery and delegated read-only source review; preserve existing source and bind exact prerequisite metadata before documentation correction."
+    },
+    {
+      "path": "docs/AGENT_ARCHITECTURE.md",
+      "sha256": "0b7aaaa4caeb233684fbadbd436e097c07622f17e89f61fca35c3251b7f0263f",
+      "reason": "Scoped discovery and delegated read-only source review; preserve existing source and bind exact prerequisite metadata before documentation correction."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/R02-clean-qa-inventory.vi.md",
+      "sha256": "6279158cb4bd84ddca4654fef50d9f25b919eb38fa09174b152f85323bb319ef",
+      "reason": "Scoped discovery and delegated read-only source review; preserve existing source and bind exact prerequisite metadata before documentation correction."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/R02-clean-qa-bootstrap.json",
+      "sha256": "d08d075628a66253282cb15cce2d003c6de707a93f474ea0722361d51caea566",
+      "reason": "Scoped discovery and delegated read-only source review; preserve existing source and bind exact prerequisite metadata before documentation correction."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-03/configure-implementation/clean-qa-provision.json",
+      "sha256": "7c01ff35cb3486e7bbd219807a8ff75f6cee30c96cd29b0637dad5e18467dfa9",
+      "reason": "Scoped discovery and delegated read-only source review; preserve existing source and bind exact prerequisite metadata before documentation correction."
+    },
+    {
+      "path": "supabase/migrations/20260925155619_generation_activity_contract_forward.sql",
+      "sha256": "d6de2800385431601296fb1846cb9dc38f72d02ed6645808421fa0d77b04f7a0",
+      "reason": "Scoped discovery and delegated read-only source review; preserve existing source and bind exact prerequisite metadata before documentation correction."
+    },
+    {
+      "path": "scripts/feature-preflight.mjs",
+      "sha256": "5d3fdddab09331401bece2cf65ed501c0f4ef06e94cef0d4bf622f7e521c8e7a",
+      "reason": "Scoped discovery and delegated read-only source review; preserve existing source and bind exact prerequisite metadata before documentation correction."
+    },
+    {
+      "path": "package.json",
+      "sha256": "35091240676cd0cbfb1b762ed4ee245ea8af7d59dd7a4dabb1284e415c7c6ed0",
+      "reason": "Scoped discovery and delegated read-only source review; preserve existing source and bind exact prerequisite metadata before documentation correction."
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "ba3e99deb94ffd6b862f2008b5886cb60aac9a60d4fa1c28cc98f4226a2bbedb",
+      "reason": "Scoped discovery and delegated read-only source review; preserve existing source and bind exact prerequisite metadata before documentation correction."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "PlanQC1.5.3 guidance covers target identity, legacy ledger, partial evidence and cross-layer parity. No durable skill change needed for this metadata-only gate."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Supabase installed CLI package2.108.0 and current MCP metadata; no CLI mutation or install. Docker executable exists but daemon is unavailable, so no full PostgreSQL replay claimed."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://supabase.com/changelog",
+      "checkedAt": "2026-10-04",
+      "reason": "Markdown endpoint content-type unsupported by web tool; HTML fallback reviewed latest Postgres/OrioleDB entries, actual target engine/version still requires verification."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/ai-tools/mcp",
+      "checkedAt": "2026-10-04",
+      "reason": "Official account/project scoping and authentication guidance reviewed; do not infer broader permissions from a list or expose secrets in chat."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "Read-only metadata and existing Dashboard session only; no new permission or grants.",
+    "sensitiveData": "No customer/business rows, migration author identities or private trace payloads.",
+    "secretsLogging": "No password, token, secret or provider key read/export/entry. Project link/ID is sufficient for next verification.",
+    "externalInput": "User-authored organization URL is target intent, not evidence of exact project existence. Pages and query results remain untrusted.",
+    "dependencies": "No new executable/dependency; use reviewed existing connector and Node for scoped documents.",
+    "migrationRelease": "Old ledger stays blocked; no db push/repair/apply/seed/deploy or cutover in this task.",
+    "stopCondition": "Stop dependent execution when exact project, project ownership/region/engine, bootstrap replay or reviewed database scope is missing. Record a gap rather than substitute old QA.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [],
+    "note": "Existing scoped R02 edits reviewed and preserved; only factual prerequisite corrections and additive onboarding evidence are authorized."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/clean-qa-onboarding-2026-10-04.json",
+    "Node JSON parsing and all candidate raw SQL/seed hash readback; no fake replay claim.",
+    "npm run supabase:migration-ledger:check and npm run skills:check; read-only metadata review."
+  ],
+  "managerTestPath": "Read organization MagicpenDigital Pro identity, exact project status and unchanged old target; provide project dashboard link, then review empty schema/prerequisites and concrete target plan before any cloud mutation.",
+  "residualRisk": "Organization metadata alone does not identify a project or prove connector access. Candidate bootstrap lacks full canonical replay and private writer/cost runtime acceptance; these remain execution gates.",
+  "externalActions": {
+    "databaseWrite": false,
+    "frontendDeployment": false,
+    "backendDeployment": false,
+    "providerCall": false,
+    "configPublication": false
+  }
+}

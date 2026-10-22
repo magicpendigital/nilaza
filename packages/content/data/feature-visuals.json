@@ -1,0 +1,605 @@
+[
+  {
+    "id": "oracle",
+    "feature": "oracle",
+    "allowedUse": [
+      "Home Oracle quick action",
+      "Explore Nilaza Oracle feature",
+      "Oracle reflection entry surfaces"
+    ],
+    "assetPath": "assets/features/oracle.png",
+    "visualIntent": {
+      "vi": "Vô cực, vũ trụ và điểm hội tụ phản chiếu của Nilaza; không đại diện cho một persona cụ thể.",
+      "en": "Infinity, cosmos, and Nilaza's central reflection host; not a specific persona."
+    },
+    "forbiddenAssociations": [
+      "persona portrait",
+      "tarot card face",
+      "tarot deck cover"
+    ]
+  },
+  {
+    "id": "ai-council",
+    "feature": "ai_council",
+    "allowedUse": [
+      "AI Council home card",
+      "Explore AI Council feature card",
+      "Council hub preview"
+    ],
+    "assetPath": "assets/features/ai-council.png",
+    "visualIntent": {
+      "vi": "Nhiều lăng kính cùng ngồi quanh một câu hỏi, thể hiện hội đồng chứ không phải một guide đơn lẻ.",
+      "en": "Multiple lenses around one question, communicating a council rather than a single guide."
+    },
+    "forbiddenAssociations": [
+      "Aristotle-only portrait",
+      "single persona portrait",
+      "tarot deck cover"
+    ]
+  },
+  {
+    "id": "astrology",
+    "feature": "astrology",
+    "allowedUse": [
+      "Explore Astrology feature card",
+      "Daily Zodiac Pulse preview",
+      "Astrology report entry surfaces"
+    ],
+    "assetPath": "assets/features/astrology.png",
+    "visualIntent": {
+      "vi": "Bản đồ sao, vòng thiên văn và nhịp biểu tượng; tách khỏi tarot deck và không tự bịa placements.",
+      "en": "Star map, astrolabe circle, and symbolic timing; separate from tarot decks and no invented placements."
+    },
+    "forbiddenAssociations": [
+      "tarot deck cover",
+      "tarot card face",
+      "persona portrait"
+    ]
+  },
+  {
+    "id": "daily-reflection",
+    "feature": "daily_reflection",
+    "allowedUse": [
+      "Home daily insight panel",
+      "Daily Reflection quick action",
+      "Ritual reflection surfaces"
+    ],
+    "assetPath": "assets/features/daily-reflection.png",
+    "visualIntent": {
+      "vi": "Khoảng lặng hằng ngày với trăng, giấy và ánh phản chiếu; không phụ thuộc bộ bài đang chọn.",
+      "en": "A daily pause with moon, paper, and reflective light; independent from the selected deck."
+    },
+    "forbiddenAssociations": [
+      "selected tarot deck back",
+      "specific tarot card",
+      "persona portrait"
+    ]
+  },
+  {
+    "id": "journal",
+    "feature": "journal",
+    "allowedUse": [
+      "Home Journal quick action",
+      "Journal empty state",
+      "Saved insight rows without source artwork"
+    ],
+    "assetPath": "assets/features/journal.png",
+    "visualIntent": {
+      "vi": "Sổ tay và lớp ký ức riêng tư, dành cho saved insights thay vì một lá tarot cố định.",
+      "en": "Notebook and private memory texture for saved insights rather than one fixed tarot card."
+    },
+    "forbiddenAssociations": [
+      "High Priestess hardcode",
+      "tarot deck cover",
+      "persona portrait"
+    ]
+  },
+  {
+    "id": "face-reading",
+    "feature": "face_reading",
+    "allowedUse": [
+      "Deferred Face Reading preview",
+      "Consent-first symbolic preview"
+    ],
+    "assetPath": "assets/features/face-reading.png",
+    "visualIntent": {
+      "vi": "Chân dung biểu tượng và consent-first preview; không suy luận trait nhạy cảm hay vẻ ngoài.",
+      "en": "Symbolic portrait and consent-first preview; no sensitive trait or appearance inference."
+    },
+    "forbiddenAssociations": [
+      "tarot love deck",
+      "attractiveness scoring",
+      "protected trait inference"
+    ]
+  },
+  {
+    "id": "tarot",
+    "feature": "tarot",
+    "allowedUse": [
+      "Generic Tarot feature hero only when no deck-specific surface is intended"
+    ],
+    "assetPath": "assets/features/tarot.png",
+    "visualIntent": {
+      "vi": "Biểu tượng tarot tổng quát cho entry point, còn deck/card surface vẫn dùng đúng artwork của từng bộ.",
+      "en": "A generic tarot symbol for entry points; deck and card surfaces still use deck-specific artwork."
+    },
+    "forbiddenAssociations": [
+      "astrology surface",
+      "journal surface",
+      "face reading surface"
+    ]
+  },
+  {
+    "id": "open-reflection-welcome",
+    "feature": "onboarding",
+    "allowedUse": [
+      "Open Reflection welcome",
+      "Nilaza website and launch layouts"
+    ],
+    "assetPath": "assets/features/open-reflection-welcome.png",
+    "runtimePath": "apps/mobile/assets/runtime/features/open-reflection-welcome.jpg",
+    "brandVersion": "1.0.0",
+    "visualIntent": {
+      "vi": "Khoảng mở bằng đá và ánh trăng phản chiếu trên mặt nước, theo bảng Open Reflection đã chọn.",
+      "en": "Sculptural opening and moonlight reflected on quiet water, following approved Open Reflection art direction."
+    },
+    "forbiddenAssociations": [
+      "tarot card face",
+      "persona portrait",
+      "brand logo replacement"
+    ],
+    "provenance": {
+      "method": "OpenAI ImageGen",
+      "createdAt": "2026-09-11",
+      "reference": "design/brand-experience/2026-09-10/concepts/04-open-reflection-refined.png"
+    }
+  },
+  {
+    "id": "open-reflection-home",
+    "feature": "daily_reflection",
+    "allowedUse": [
+      "Open Reflection home",
+      "Nilaza website and launch layouts"
+    ],
+    "assetPath": "assets/features/open-reflection-home.png",
+    "runtimePath": "apps/mobile/assets/runtime/features/open-reflection-home.jpg",
+    "brandVersion": "1.0.0",
+    "visualIntent": {
+      "vi": "Khoảng mở bằng đá và ánh trăng phản chiếu trên mặt nước, theo bảng Open Reflection đã chọn.",
+      "en": "Sculptural opening and moonlight reflected on quiet water, following approved Open Reflection art direction."
+    },
+    "forbiddenAssociations": [
+      "tarot card face",
+      "persona portrait",
+      "brand logo replacement"
+    ],
+    "provenance": {
+      "method": "OpenAI ImageGen",
+      "createdAt": "2026-09-11",
+      "reference": "design/brand-experience/2026-09-10/concepts/04-open-reflection-refined.png"
+    }
+  },
+  {
+    "id": "astrology-sanctuary",
+    "feature": "astrology",
+    "allowedUse": [
+      "Astrology mythology entry",
+      "Mythology world sanctuary"
+    ],
+    "assetPath": "assets/features/astrology/sanctuary.png",
+    "visualIntent": {
+      "vi": "Đài thiên văn thần thoại và cừu vàng; minh họa trang trí, không phải chart.",
+      "en": "Mythological observatory and golden ram; decorative illustration, not chart data."
+    },
+    "forbiddenAssociations": [
+      "calculated star positions",
+      "personal birth chart",
+      "tarot card",
+      "persona portrait"
+    ],
+    "provenance": {
+      "type": "original_ai_generated",
+      "tool": "imagegen",
+      "createdAt": "2026-09-22",
+      "runtime": "apps/mobile/assets/runtime/features/astrology-sanctuary.jpg",
+      "review": "prototype_pending_owner_review"
+    }
+  },
+  {
+    "id": "astrology-chart-story-stage",
+    "feature": "astrology",
+    "allowedUse": [
+      "Decorative atmosphere behind the deterministic personal chart",
+      "Astrology Chart Story background"
+    ],
+    "assetPath": "assets/features/astrology/chart-story-stage.png",
+    "visualIntent": {
+      "vi": "Cảnh giới thần thoại tạo chiều sâu cho trải nghiệm; chỉ là nền trang trí phía sau vòng sao được tính riêng.",
+      "en": "A mythic world that adds depth to the experience; decorative atmosphere behind a separately calculated chart."
+    },
+    "forbiddenAssociations": [
+      "calculated star positions",
+      "astronomical evidence",
+      "zodiac wheel replacement",
+      "historical reconstruction"
+    ],
+    "provenance": {
+      "type": "original_ai_generated",
+      "tool": "imagegen",
+      "createdAt": "2026-09-22",
+      "runtime": "apps/mobile/assets/runtime/features/astrology-chart-story-stage.jpg",
+      "review": "owner-approved-direction_agent-visual-review-pending"
+    }
+  },
+  {
+    "id": "astrology-chart-story-parchment",
+    "feature": "astrology",
+    "allowedUse": [
+      "Astrology Chart Story sheet texture",
+      "Astrology AI Guide reading surface"
+    ],
+    "assetPath": "assets/features/astrology/chart-story-parchment.png",
+    "visualIntent": {
+      "vi": "Bề mặt giấy ngà dịu cho nội dung bản đồ và Người dẫn đường AI; cảnh khắc mờ chỉ mang tính trang trí.",
+      "en": "A calm ivory reading surface for chart stories and the AI Guide; the faint engraved scene is decorative only."
+    },
+    "forbiddenAssociations": [
+      "calculated star positions",
+      "astronomical evidence",
+      "brand logo replacement"
+    ],
+    "provenance": {
+      "type": "original_ai_generated",
+      "tool": "imagegen",
+      "createdAt": "2026-09-22",
+      "runtime": "apps/mobile/assets/runtime/features/astrology-chart-story-parchment.jpg",
+      "review": "owner-approved-direction_agent-visual-review-pending"
+    }
+  },
+  {
+    "id": "astrology-aries-v2",
+    "feature": "astrology",
+    "allowedUse": [
+      "Mythology chapter artwork"
+    ],
+    "assetPath": "assets/features/astrology/aries-v2.png",
+    "visualIntent": {
+      "vi": "Tranh thần thoại hiện đại; không mô phỏng vị trí sao thực tế.",
+      "en": "Contemporary mythology illustration, not an astronomical map."
+    },
+    "forbiddenAssociations": [
+      "calculated star positions",
+      "personal birth chart",
+      "historical reconstruction"
+    ],
+    "provenance": {
+      "type": "original_ai_generated",
+      "tool": "imagegen",
+      "createdAt": "2026-09-22",
+      "runtime": "apps/mobile/assets/runtime/features/astrology-aries-v2.jpg",
+      "review": "agent_visual_review_passed_owner_review_pending"
+    }
+  },
+  {
+    "id": "astrology-taurus-v2",
+    "feature": "astrology",
+    "allowedUse": [
+      "Mythology chapter artwork"
+    ],
+    "assetPath": "assets/features/astrology/taurus-v2.png",
+    "visualIntent": {
+      "vi": "Tranh thần thoại hiện đại; không mô phỏng vị trí sao thực tế.",
+      "en": "Contemporary mythology illustration, not an astronomical map."
+    },
+    "forbiddenAssociations": [
+      "calculated star positions",
+      "personal birth chart",
+      "historical reconstruction"
+    ],
+    "provenance": {
+      "type": "original_ai_generated",
+      "tool": "imagegen",
+      "createdAt": "2026-09-22",
+      "runtime": "apps/mobile/assets/runtime/features/astrology-taurus-v2.jpg",
+      "review": "agent_visual_review_passed_owner_review_pending"
+    }
+  },
+  {
+    "id": "astrology-gemini-v2",
+    "feature": "astrology",
+    "allowedUse": [
+      "Mythology chapter artwork"
+    ],
+    "assetPath": "assets/features/astrology/gemini-v2.png",
+    "visualIntent": {
+      "vi": "Tranh thần thoại hiện đại; không mô phỏng vị trí sao thực tế.",
+      "en": "Contemporary mythology illustration, not an astronomical map."
+    },
+    "forbiddenAssociations": [
+      "calculated star positions",
+      "personal birth chart",
+      "historical reconstruction"
+    ],
+    "provenance": {
+      "type": "original_ai_generated",
+      "tool": "imagegen",
+      "createdAt": "2026-09-22",
+      "runtime": "apps/mobile/assets/runtime/features/astrology-gemini-v2.jpg",
+      "review": "agent_visual_review_passed_owner_review_pending"
+    }
+  },
+  {
+    "id": "astrology-cancer-v2",
+    "feature": "astrology",
+    "allowedUse": [
+      "Mythology chapter artwork"
+    ],
+    "assetPath": "assets/features/astrology/cancer-v2.png",
+    "visualIntent": {
+      "vi": "Tranh thần thoại hiện đại; không mô phỏng vị trí sao thực tế.",
+      "en": "Contemporary mythology illustration, not an astronomical map."
+    },
+    "forbiddenAssociations": [
+      "calculated star positions",
+      "personal birth chart",
+      "historical reconstruction"
+    ],
+    "provenance": {
+      "type": "original_ai_generated",
+      "tool": "imagegen",
+      "createdAt": "2026-09-22",
+      "runtime": "apps/mobile/assets/runtime/features/astrology-cancer-v2.jpg",
+      "review": "agent_visual_review_passed_owner_review_pending"
+    }
+  },
+  {
+    "id": "astrology-leo-v2",
+    "feature": "astrology",
+    "allowedUse": [
+      "Mythology chapter artwork"
+    ],
+    "assetPath": "assets/features/astrology/leo-v2.png",
+    "visualIntent": {
+      "vi": "Tranh thần thoại hiện đại; không mô phỏng vị trí sao thực tế.",
+      "en": "Contemporary mythology illustration, not an astronomical map."
+    },
+    "forbiddenAssociations": [
+      "calculated star positions",
+      "personal birth chart",
+      "historical reconstruction"
+    ],
+    "provenance": {
+      "type": "original_ai_generated",
+      "tool": "imagegen",
+      "createdAt": "2026-09-22",
+      "runtime": "apps/mobile/assets/runtime/features/astrology-leo-v2.jpg",
+      "review": "agent_visual_review_passed_owner_review_pending"
+    }
+  },
+  {
+    "id": "astrology-virgo-v2",
+    "feature": "astrology",
+    "allowedUse": [
+      "Mythology chapter artwork"
+    ],
+    "assetPath": "assets/features/astrology/virgo-v2.png",
+    "visualIntent": {
+      "vi": "Tranh thần thoại hiện đại; không mô phỏng vị trí sao thực tế.",
+      "en": "Contemporary mythology illustration, not an astronomical map."
+    },
+    "forbiddenAssociations": [
+      "calculated star positions",
+      "personal birth chart",
+      "historical reconstruction"
+    ],
+    "provenance": {
+      "type": "original_ai_generated",
+      "tool": "imagegen",
+      "createdAt": "2026-09-22",
+      "runtime": "apps/mobile/assets/runtime/features/astrology-virgo-v2.jpg",
+      "review": "agent_visual_review_passed_owner_review_pending"
+    }
+  },
+  {
+    "id": "astrology-libra-v2",
+    "feature": "astrology",
+    "allowedUse": [
+      "Mythology chapter artwork"
+    ],
+    "assetPath": "assets/features/astrology/libra-v2.png",
+    "visualIntent": {
+      "vi": "Tranh thần thoại hiện đại; không mô phỏng vị trí sao thực tế.",
+      "en": "Contemporary mythology illustration, not an astronomical map."
+    },
+    "forbiddenAssociations": [
+      "calculated star positions",
+      "personal birth chart",
+      "historical reconstruction"
+    ],
+    "provenance": {
+      "type": "original_ai_generated",
+      "tool": "imagegen",
+      "createdAt": "2026-09-22",
+      "runtime": "apps/mobile/assets/runtime/features/astrology-libra-v2.jpg",
+      "review": "agent_visual_review_passed_owner_review_pending"
+    }
+  },
+  {
+    "id": "astrology-scorpio-v2",
+    "feature": "astrology",
+    "allowedUse": [
+      "Mythology chapter artwork"
+    ],
+    "assetPath": "assets/features/astrology/scorpio-v2.png",
+    "visualIntent": {
+      "vi": "Tranh thần thoại hiện đại; không mô phỏng vị trí sao thực tế.",
+      "en": "Contemporary mythology illustration, not an astronomical map."
+    },
+    "forbiddenAssociations": [
+      "calculated star positions",
+      "personal birth chart",
+      "historical reconstruction"
+    ],
+    "provenance": {
+      "type": "original_ai_generated",
+      "tool": "imagegen",
+      "createdAt": "2026-09-22",
+      "runtime": "apps/mobile/assets/runtime/features/astrology-scorpio-v2.jpg",
+      "review": "agent_visual_review_passed_owner_review_pending"
+    }
+  },
+  {
+    "id": "astrology-sagittarius-v2",
+    "feature": "astrology",
+    "allowedUse": [
+      "Mythology chapter artwork"
+    ],
+    "assetPath": "assets/features/astrology/sagittarius-v2.png",
+    "visualIntent": {
+      "vi": "Tranh thần thoại hiện đại; không mô phỏng vị trí sao thực tế.",
+      "en": "Contemporary mythology illustration, not an astronomical map."
+    },
+    "forbiddenAssociations": [
+      "calculated star positions",
+      "personal birth chart",
+      "historical reconstruction"
+    ],
+    "provenance": {
+      "type": "original_ai_generated",
+      "tool": "imagegen",
+      "createdAt": "2026-09-22",
+      "runtime": "apps/mobile/assets/runtime/features/astrology-sagittarius-v2.jpg",
+      "review": "agent_visual_review_passed_owner_review_pending"
+    }
+  },
+  {
+    "id": "astrology-capricorn-v2",
+    "feature": "astrology",
+    "allowedUse": [
+      "Mythology chapter artwork"
+    ],
+    "assetPath": "assets/features/astrology/capricorn-v2.png",
+    "visualIntent": {
+      "vi": "Tranh thần thoại hiện đại; không mô phỏng vị trí sao thực tế.",
+      "en": "Contemporary mythology illustration, not an astronomical map."
+    },
+    "forbiddenAssociations": [
+      "calculated star positions",
+      "personal birth chart",
+      "historical reconstruction"
+    ],
+    "provenance": {
+      "type": "original_ai_generated",
+      "tool": "imagegen",
+      "createdAt": "2026-09-22",
+      "runtime": "apps/mobile/assets/runtime/features/astrology-capricorn-v2.jpg",
+      "review": "agent_visual_review_passed_owner_review_pending"
+    }
+  },
+  {
+    "id": "astrology-aquarius-v2",
+    "feature": "astrology",
+    "allowedUse": [
+      "Mythology chapter artwork"
+    ],
+    "assetPath": "assets/features/astrology/aquarius-v2.png",
+    "visualIntent": {
+      "vi": "Tranh thần thoại hiện đại; không mô phỏng vị trí sao thực tế.",
+      "en": "Contemporary mythology illustration, not an astronomical map."
+    },
+    "forbiddenAssociations": [
+      "calculated star positions",
+      "personal birth chart",
+      "historical reconstruction"
+    ],
+    "provenance": {
+      "type": "original_ai_generated",
+      "tool": "imagegen",
+      "createdAt": "2026-09-22",
+      "runtime": "apps/mobile/assets/runtime/features/astrology-aquarius-v2.jpg",
+      "review": "agent_visual_review_passed_owner_review_pending"
+    }
+  },
+  {
+    "id": "astrology-pisces-v2",
+    "feature": "astrology",
+    "allowedUse": [
+      "Mythology chapter artwork"
+    ],
+    "assetPath": "assets/features/astrology/pisces-v2.png",
+    "visualIntent": {
+      "vi": "Tranh thần thoại hiện đại; không mô phỏng vị trí sao thực tế.",
+      "en": "Contemporary mythology illustration, not an astronomical map."
+    },
+    "forbiddenAssociations": [
+      "calculated star positions",
+      "personal birth chart",
+      "historical reconstruction"
+    ],
+    "provenance": {
+      "type": "original_ai_generated",
+      "tool": "imagegen",
+      "createdAt": "2026-09-22",
+      "runtime": "apps/mobile/assets/runtime/features/astrology-pisces-v2.jpg",
+      "review": "agent_visual_review_passed_owner_review_pending"
+    }
+  },
+  {
+    "id": "web-product-astrology-android-20261011",
+    "feature": "astrology",
+    "allowedUse": [
+      "Nilaza public landing product walkthrough",
+      "Nilaza Astrology feature detail"
+    ],
+    "assetPath": "assets/features/web-product/astrology-android-vi.png",
+    "visualIntent": {
+      "vi": "Ảnh ứng dụng thật, giao diện công khai không chứa dữ liệu cá nhân; Android0.1.3/build4, ngày11/10/2026.",
+      "en": "Unmodified real app capture of public UI with no personal data; Android0.1.3/build4,2026-10-11."
+    },
+    "forbiddenAssociations": [
+      "production/store release proof",
+      "personal birth chart",
+      "user journal or chat",
+      "translated English app screenshot"
+    ],
+    "provenance": {
+      "device": "Air1 Ultra",
+      "os": "Android13",
+      "appVersion": "0.1.3",
+      "buildNumber": 4,
+      "locale": "vi",
+      "capturedAt": "2026-10-11",
+      "evidenceStatus": "native-screen-verified",
+      "sha256": "ca7caf1e07eee4c8099b3df29b8ca79cf4531cea4810dd9ec1bc6906516652fd"
+    }
+  },
+  {
+    "id": "web-product-mythology-android-20261011",
+    "feature": "astrology",
+    "allowedUse": [
+      "Nilaza public landing product walkthrough",
+      "Nilaza Astrology feature detail"
+    ],
+    "assetPath": "assets/features/web-product/mythology-android-vi.png",
+    "visualIntent": {
+      "vi": "Ảnh ứng dụng thật, giao diện công khai không chứa dữ liệu cá nhân; Android0.1.3/build4, ngày11/10/2026.",
+      "en": "Unmodified real app capture of public UI with no personal data; Android0.1.3/build4,2026-10-11."
+    },
+    "forbiddenAssociations": [
+      "production/store release proof",
+      "personal birth chart",
+      "user journal or chat",
+      "translated English app screenshot"
+    ],
+    "provenance": {
+      "device": "Air1 Ultra",
+      "os": "Android13",
+      "appVersion": "0.1.3",
+      "buildNumber": 4,
+      "locale": "vi",
+      "capturedAt": "2026-10-11",
+      "evidenceStatus": "native-screen-verified",
+      "sha256": "f9aa6a638b9ae449e83ff40b8255e78b927299b3da22a09738d2f44969749b23"
+    }
+  }
+]

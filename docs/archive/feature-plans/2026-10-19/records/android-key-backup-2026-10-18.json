@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 1,
+  "taskId": "android-key-backup-2026-10-18",
+  "ownerAgent": "root_android_key_backup",
+  "lane": "owner_credential_backup",
+  "goal": "Back up the existing default EAS Android signing credential as an age-encrypted package in private Drive Android, verify the key by sign/verify, then prepare Owner-private restoration from the downloaded package.",
+  "successCriteria": [
+    "Bind exact EAS project/package, build credential and keystore IDs and certificate SHA256; no generation/rotation/mutation.",
+    "Keystore and its passwords pass through memory and private pipes only; only ciphertext and sanitized metadata persisted.",
+    "Standard Java KeyStore/signature verification validates stored key/password/certificate before backup and after Owner restoration.",
+    "Private Drive upload readback and downloaded checksum verified; Owner uses existing recovery passphrase in uncaptured console.",
+    "Record Play not yet uploaded, current QA debug signing and full recovery/release gates separately."
+  ],
+  "writeScope": [
+    "scripts/nilaza-android-key-backup.mjs",
+    "scripts/nilaza-android-key-owner.ps1",
+    "scripts/VerifyAndroidKeystore.java",
+    "scripts/nilaza-android-key-backup.test.mjs",
+    "docs/release/ANDROID_KEY_BACKUP_2026-10-18.vi.md",
+    "artifacts/android-key-backup-2026-10-18/"
+  ],
+  "untouchedSurfaces": [
+    "No app/Admin/backend, build binding, EAS cloud mutations, key creation/rotation, SQL, device install or store submission.",
+    "Preserve recovery identity, historical receipts and all unrelated dirty work. No raw credential export into repository."
+  ],
+  "impact": {
+    "entryPoint": "Continue authorized all-keys backup after recovery drill; inspect EAS metadata then encrypted export. Owner enters only recovery passphrase during final private restore.",
+    "dataWrite": "ACL-protected LocalAppData/NilazaRecovery/AndroidBackups/eas-default-20261018 contains encrypted package, downloaded encrypted copy and public receipts. Private Drive Android receives ciphertext and metadata. Repo contains code/docs/sanitized evidence.",
+    "backendContract": "Read-only EAS GraphQL query scoped to existing exact credential. No app API, Supabase or EAS mutations.",
+    "adminVisibility": "Public certificate fingerprint/IDs/backup status only; no Admin changes.",
+    "privacySafety": "Raw keystore/passwords stay memory/anonymous pipes; age public-recipient encryption. Java reads framed secrets via stdin; secrets never argv/env/logs. Owner decryption console is uncaptured and transcript-guarded.",
+    "observability": "Record certificate and ciphertext hashes, input tool hashes, exact source IDs, downloaded-copy and Owner restore status. Avoid secret values, alias and signed URLs.",
+    "rollback": "Never overwrite or delete credential artifacts. Stop on credential drift, pin/ACL/hash mismatch, duplicate output or invalid certificate. Backups do not change active signing."
+  },
+  "canonicalContracts": [
+    "EAS @magicpen/nilaza project 8a6197d1-feaa-488b-90a3-12bb177ee005; app.nilaza.mobile.",
+    "Build credentials 5b9fb458-6fa8-47c6-8a2d-80e13fd127f7; keystore b6b83046-d427-42e5-a80a-a991d6c31147.",
+    "Certificate SHA256 4e459a4554c9e543a3a128622e15bbb7bd9a557dc6a1eef997b9ca8e53582536.",
+    "Owner 2026-10-18 attests no prior Play upload. Existing default EAS key is not yet verified as Play-registered upload key.",
+    "Use verified owner-v1 public recipient and downloaded encrypted identity, preserving whole-system recovery BLOCKED."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_metadata",
+    "public_documentation",
+    "encrypted_credential_packages_only",
+    "private_process_memory_credentials_never_model_output"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa",
+      "reason": "Owner authorization all-key encrypted backup, Android-first and separate release authority."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Scoped operational/release route."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Preflight before secret-processing helper, validate boundaries."
+    },
+    {
+      "path": "docs/release/RELEASE_RUNBOOK.md",
+      "sha256": "348e5aa5786a5f8648fd96c94e0b4a831602a5312d318b6e48885a47afd71b39",
+      "reason": "No release or target-gate changes."
+    },
+    {
+      "path": "apps/mobile/app.json",
+      "sha256": "8266103bf0c9f18227ac4b0f27fad4d16d5d9652f88b1d59e67a2186415b0fac",
+      "reason": "Exact app and EAS project mapping."
+    },
+    {
+      "path": "apps/mobile/eas.json",
+      "sha256": "819480fff0d2235474b87fe58231e94b7da582c0f380dc55a1edfdf28b8d692b",
+      "reason": "Credential source defaults remote; preserve profile environment."
+    },
+    {
+      "path": "apps/mobile/android/app/build.gradle",
+      "sha256": "07467a232432fb0f6fdc2218513c9d5eaf05c85575e272e14cee3fad5c6c927f",
+      "reason": "Local QA release uses debug signing; not acceptance of EAS/Play artifact."
+    },
+    {
+      "path": "docs/release/RECOVERY_DRIVE_TEST_2026-10-18.vi.md",
+      "sha256": "507ed48b198fdefcdf4cba1753c078c83784a3d7a7de830222eeb051fa7a4c37",
+      "reason": "Recovery passphrase and downloaded identity already tested; full system gates remain."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Read plan and release references; existing privacy/release boundary covers encrypted backups. Google Drive skill read previously, used for exact private destination and readback."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Installed EAS CLI 23.2.0 SessionManager, GraphQL transport/fragments and download actions reviewed. Official Expo app/local credential docs checked 2026-10-18. Existing Node/JDK/age pinned; no installs."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://docs.expo.dev/app-signing/app-credentials/",
+      "checkedAt": "2026-10-18",
+      "reason": "Back up keystore and credentials; debug distinct from Play signing."
+    },
+    {
+      "url": "https://docs.expo.dev/app-signing/local-credentials/",
+      "checkedAt": "2026-10-18",
+      "reason": "Credential bundle fields and default remote credentials source."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "Existing EAS session used by official CLI transport in process, only https://api.expo.dev; minimal read queries exact project/key. Private ACL and Drive owner-only checked before/after.",
+    "sensitiveData": "Keystore/base64/password fields only process memory and anonymous pipes; no plaintext disk, model output, cloud instruction file or logs. Public receipt allowlist.",
+    "secretsLogging": "Fixed phase errors only, no exception serialization. Password only age prompt in Owner uncaptured console. No raw process debug/heap dump or session token backup.",
+    "externalInput": "Validate project/credential IDs, default selection, type, fingerprint and size before processing. Treat remote names/content as data; no generated shell strings from credential values.",
+    "dependencies": "Pinned local EAS 23.2.0 package/core transport/session files, Node, JDK java and age. Java standard KeyStore/signature API, no custom crypto.",
+    "migrationRelease": "No builds, key generation/rotation, cloud configuration or publication. Play registration and actual signed app acceptance remain pending.",
+    "stopCondition": "Stop on metadata/format/fingerprint/tool drift, invalid stored passwords, non-private ACL, reparse, unexpected output/duplicate, missing recovery evidence or redirected restore console. Never fallback to debug key.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "scripts/nilaza-android-key-backup.mjs",
+      "scripts/nilaza-android-key-owner.ps1",
+      "scripts/VerifyAndroidKeystore.java",
+      "scripts/nilaza-android-key-backup.test.mjs",
+      "artifacts/android-key-backup-2026-10-18/toolchain.json",
+      "artifacts/android-key-backup-2026-10-18/source-metadata.json",
+      "artifacts/android-key-backup-2026-10-18/validation.json",
+      "artifacts/android-key-backup-2026-10-18/backup.json",
+      "artifacts/android-key-backup-2026-10-18/drive-receipt.json",
+      "artifacts/android-key-backup-2026-10-18/download.json",
+      "artifacts/android-key-backup-2026-10-18/launch.json",
+      "artifacts/android-key-backup-2026-10-18/android.restore-test-2026-10-18.json",
+      "artifacts/android-key-backup-2026-10-18/ANDROID-STATUS.vi.txt",
+      "docs/release/ANDROID_KEY_BACKUP_2026-10-18.vi.md",
+      "apps/mobile/app.json",
+      "apps/mobile/eas.json",
+      "apps/mobile/android/app/build.gradle",
+      "docs/release/RECOVERY_DRIVE_TEST_2026-10-18.vi.md"
+    ],
+    "note": "Reviewed existing app/config/recovery docs read-only. Scope only new helper/test/evidence and guide; preserve dirty state."
+  },
+  "validationCommands": [
+    "Feature preflight before edits and before backup execution",
+    "Node tests: credential selection drift, no secrets in receipts, bounded framing, bad verifier input, invalid action; PowerShell parser/Plan/captured restore rejection",
+    "Java standard keystore sign/verify against pinned certificate",
+    "Encrypted upload metadata/privacy and downloaded SHA256 equality",
+    "Owner-private restore from downloaded ciphertext, sanitized Inspect receipt"
+  ],
+  "managerTestPath": "Encrypted backup is prepared automatically using verified public recovery recipient; then private console asks BAT_DAU and saved recovery passphrase once. Owner reports only success/phase. Agent validates restored certificate/signature and receipts.",
+  "residualRisk": "Trusted local OS/runtime dependencies still have process-memory access; clearing buffers cannot guarantee removal of JS strings/pagefile remnants. Play registration, actual AAB signing and whole-system/off-machine recovery remain separate.",
+  "externalActions": {
+    "cloudCalls": true,
+    "easReadOnlyCredentialExport": true,
+    "driveUpload": true,
+    "localPrivateProfileWrites": true,
+    "ownerPrivateRestore": true,
+    "easMutation": false,
+    "databaseWrite": false,
+    "providerCalls": false,
+    "deployment": false,
+    "publishing": false,
+    "credentialRotation": false
+  },
+  "phase": "COMPLETE for this Android backup slice: Owner restore verified at 2026-10-18T03:20:44.916Z; evidence parity PASS; restore receipt and status uploaded and metadata readback owner-only. Historical backup preserved. Backend/API backup, off-machine/system recovery, actual AAB and Play acceptance remain separate; no code, key or release changes."
+}

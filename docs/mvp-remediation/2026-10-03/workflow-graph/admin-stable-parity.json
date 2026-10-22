@@ -1,0 +1,75 @@
+{
+  "verifiedAt": "2026-10-03T17:39:02.549Z",
+  "deployment": "https://nilaza-admin-staging.vercel.app",
+  "artifactSha256": "c193a047a8fbcdf945d647627810161a7ebba524b60096b2e3d3d53464c39c50",
+  "verified": [
+    {
+      "path": "app.js",
+      "sha256": "ced64f53f5afabe76f4e45b9634bfd521bc675cf805e6656ce909b10106e0904",
+      "exactArtifactParity": true
+    },
+    {
+      "path": "styles.css",
+      "sha256": "c21ce0689f88c3cbc58ba4079766b3d727f594299543c71f65cc3411daad06c6",
+      "exactArtifactParity": true
+    },
+    {
+      "path": "shell.js",
+      "sha256": "057e2797b3dc1b41154c7dd0dc9c67b44ece34eee9a3a0943ff4fd2380d8a3ed",
+      "exactArtifactParity": true
+    },
+    {
+      "path": "workspace-guard.js",
+      "sha256": "8bcb0db693674f4b93fa67aa3d31cc00bf85fe3b002f13123a51635dd6daf0f7",
+      "exactArtifactParity": true
+    },
+    {
+      "path": "admin-capabilities.json",
+      "sha256": "98c37cbbd58795ebc9ae43d04f75a9c073ab9d0f999008f57aa0f3d1c2f59f42",
+      "exactArtifactParity": true
+    },
+    {
+      "path": "workflow-catalog.js",
+      "sha256": "91b319c278f81ca4cfbe76670ef454e1f17af8235090f1f6d325e12d4fc9463d",
+      "exactArtifactParity": true
+    },
+    {
+      "path": "workflow-view.js",
+      "sha256": "a8e8f5d74e95caa10687f897b89e8b5319f55d1e4bd389b58ed0afcbf0cd5c18",
+      "exactArtifactParity": true
+    },
+    {
+      "path": "generated/prompt-composition/bundle.mjs",
+      "sha256": "777b4f1440971f827b43edf7bda966613cc088164839ef3983b67c714a520278",
+      "exactArtifactParity": true
+    },
+    {
+      "path": "generated/prompt-composition/compose.mjs",
+      "sha256": "0f9a08609a0861fb37dd81ce0fd6969a938c8adab2cc7284b9ef4fd8e742b215",
+      "exactArtifactParity": true
+    },
+    {
+      "path": "generated/prompt-composition/manifest.json",
+      "sha256": "a75ac4a025e6a37bd89c66d47faca84ebdf3b0364585c69ebb2b1cf58298dab3",
+      "exactArtifactParity": true
+    },
+    {
+      "path": "generated/content-seed.json",
+      "sha256": "b749952c1153387437879c51cc2e5c4a447a6c7773a96354543c149e5216c677",
+      "exactArtifactParity": true
+    },
+    {
+      "path": "generated/growth-operations.json",
+      "sha256": "f4f85dae0dd111df4add83c703e911fbf3d9baa01bb356b9b2334b5e9e202e7a",
+      "exactArtifactParity": true
+    },
+    {
+      "path": "config.js",
+      "backendTarget": "akgrokwnkfqnfjqrildi",
+      "publicKeyVerified": true,
+      "privateKeyPrinted": false
+    }
+  ],
+  "actualProviderCall": false,
+  "actualDatabaseWrite": false
+}

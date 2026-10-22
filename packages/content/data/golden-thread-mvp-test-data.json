@@ -1,0 +1,504 @@
+{
+  "deckId": "golden-thread",
+  "version": "2026-06-13-mvp-test-v1",
+  "status": "testing",
+  "purpose": {
+    "vi": "Dữ liệu seed để test nhanh bộ bài Sợi Chỉ Vàng trong MVP: chọn deck, rút bài, xem nghĩa xuôi/ngược, các góc nhìn chiến lược, sự nghiệp, quyết định lớn, và lưu Journal.",
+    "en": "Seed data for testing the Golden Thread deck in the MVP: deck selection, card draw, upright/reversed meanings, strategic career/decision angles, and Journal save."
+  },
+  "coverage": {
+    "mvpFlows": [
+      "deck_selection",
+      "one_card_daily",
+      "three_card_reading",
+      "upright_and_reversed",
+      "topic_variants",
+      "ai_failure_fallback",
+      "journal_save"
+    ],
+    "topics": [
+      "career",
+      "decision",
+      "self",
+      "love",
+      "open"
+    ],
+    "minimumCardPool": 12,
+    "sampleReadingCount": 5
+  },
+  "deckVoice": {
+    "promise": {
+      "vi": "Sợi Chỉ Vàng giúp người dùng phân tích sắc bén hiện trạng, làm rõ những nút thắt thử thách và đưa ra chỉ dẫn hành động thực tế cho công việc và quyết định lớn mà không phán xét.",
+      "en": "Golden Thread helps users clearly analyze situations, clarify challenging bottlenecks, and receive practical action steps for career and major decisions without judgment."
+    },
+    "tone": {
+      "vi": [
+        "sắc sảo",
+        "tinh tế",
+        "thực tế",
+        "sáng suốt"
+      ],
+      "en": [
+        "discerning",
+        "elegant",
+        "practical",
+        "insightful"
+      ]
+    },
+    "avoid": {
+      "vi": [
+        "không đưa ra dự báo tài chính hay kết quả đầu tư cố định",
+        "không khuyên người dùng từ chức hay bắt đầu kinh doanh một cách liều lĩnh",
+        "không phán xét hay đổ lỗi cho ngoại cảnh mà tập trung vào hành động thực tế"
+      ],
+      "en": [
+        "do not make fixed financial predictions or investment outcomes",
+        "do not advise users to resign or start a business recklessly",
+        "do not judge or blame external factors; focus on the user's conscious action steps"
+      ]
+    }
+  },
+  "spreadTemplates": [
+    {
+      "id": "golden-thread-one-card",
+      "cardCount": 1,
+      "name": {
+        "vi": "Sợi chỉ dẫn đường",
+        "en": "The Directing Thread"
+      },
+      "positions": [
+        {
+          "key": "focus",
+          "label": {
+            "vi": "Nút thắt cần tháo gỡ",
+            "en": "The bottleneck to address"
+          }
+        }
+      ],
+      "useCase": {
+        "vi": "Daily check-in công việc hoặc câu hỏi ngắn trước khi hành động.",
+        "en": "Daily career check-in or a short question before taking action."
+      }
+    },
+    {
+      "id": "golden-thread-three-card",
+      "cardCount": 3,
+      "name": {
+        "vi": "Hiện tại - Thử thách - Chỉ dẫn",
+        "en": "Current Status - Challenge - Strategy"
+      },
+      "positions": [
+        {
+          "key": "mirror",
+          "label": {
+            "vi": "Hiện trạng thực tế",
+            "en": "Current reality"
+          }
+        },
+        {
+          "key": "crack",
+          "label": {
+            "vi": "Nút thắt chiến lược",
+            "en": "Strategic bottleneck"
+          }
+        },
+        {
+          "key": "petal",
+          "label": {
+            "vi": "Chỉ dẫn hành động",
+            "en": "Action guidance"
+          }
+        }
+      ],
+      "useCase": {
+        "vi": "Trải bài phân tích sâu cho career, decision, và open questions trong MVP.",
+        "en": "Primary analytical reading for career, decisions, and open questions in the MVP."
+      }
+    }
+  ],
+  "topicIntents": [
+    {
+      "topic": "career",
+      "promptHint": {
+        "vi": "Tập trung vào phát triển kỹ năng, cân bằng sức lực, quản lý nguồn lực và giải quyết xung đột công sở.",
+        "en": "Focus on skill development, capacity balance, resource management, and workplace conflict resolution."
+      }
+    },
+    {
+      "topic": "decision",
+      "promptHint": {
+        "vi": "Tập trung làm rõ các lựa chọn, cân bằng rủi ro, phân tích động cơ cốt lõi và hành động thực tế tiếp theo.",
+        "en": "Focus on clarifying choices, balancing risks, analyzing core motives, and practical next steps."
+      }
+    },
+    {
+      "topic": "self",
+      "promptHint": {
+        "vi": "Đọc self thông qua lăng kính kỷ luật cá nhân, lòng tự tôn trong công việc và phát triển năng lực nội tại.",
+        "en": "Read self through personal discipline, professional self-worth, and inner capability development."
+      }
+    },
+    {
+      "topic": "love",
+      "promptHint": {
+        "vi": "Tập trung vào ranh giới cá nhân, cách giao tiếp rõ ràng và sự trưởng thành trong các quyết định mối quan hệ.",
+        "en": "Focus on personal boundaries, clear communication, and maturity in relationship decisions."
+      }
+    },
+    {
+      "topic": "open",
+      "promptHint": {
+        "vi": "Giữ câu trả lời khách quan, hướng về phân tích chiến thuật cuộc sống và khuyến khích tư duy thực tế.",
+        "en": "Keep answers objective, oriented toward tactical life analysis, and encourage practical thinking."
+      }
+    }
+  ],
+  "testCardPool": [
+    {
+      "cardId": "major-01-magician",
+      "roseMirrorAngle": {
+        "vi": "Ý chí tập trung và kỹ năng thực tế sẽ kích hoạt sự chuyển hóa công việc.",
+        "en": "Focused will and practical skills activate career transformation."
+      },
+      "visualCue": {
+        "vi": "hình vô cực lơ lửng, các tia sáng vàng đan chéo trên chất giấy thư cổ xanh teal",
+        "en": "floating infinity loop, gold light rays intersecting on deep teal archival paper"
+      },
+      "qaFocus": "major_arcana_will"
+    },
+    {
+      "cardId": "major-04-emperor",
+      "roseMirrorAngle": {
+        "vi": "Cấu trúc và kỷ luật giúp bạn xây dựng nền tảng vững chắc cho mọi quyết định.",
+        "en": "Structure and discipline build a solid foundation for any decision."
+      },
+      "visualCue": {
+        "vi": "hình vuông vàng lớn chứa kim cương đối xứng, các nét vẽ mảnh sắc sảo",
+        "en": "large gold square enclosing a symmetric diamond, fine precise lines"
+      },
+      "qaFocus": "structure_foundation"
+    },
+    {
+      "cardId": "major-07-chariot",
+      "roseMirrorAngle": {
+        "vi": "Hướng đi rõ ràng và ý chí tiến lên giúp giải quyết sự kéo co nội tâm trong sự nghiệp.",
+        "en": "Clear direction and will resolve inner conflict in career pursuits."
+      },
+      "visualCue": {
+        "vi": "các hình vuông đồng tâm xoay nghiêng, mũi tên vàng mảnh chỉ hướng thẳng",
+        "en": "tilted concentric squares, a fine gold arrow pointing forward"
+      },
+      "qaFocus": "direction_and_will"
+    },
+    {
+      "cardId": "major-09-hermit",
+      "roseMirrorAngle": {
+        "vi": "Một khoảng lặng phân tích giúp bạn tìm ra ý nghĩa thực sự trước khi hành động lớn.",
+        "en": "An analytical pause helps you locate true meaning before taking major action."
+      },
+      "visualCue": {
+        "vi": "đồng hồ cát bằng sợi chỉ vàng đặt trong hình thoi, điểm sáng ngà ở tâm",
+        "en": "gold-thread hourglass inside a diamond, central ivory light point"
+      },
+      "qaFocus": "analytical_pause"
+    },
+    {
+      "cardId": "major-11-justice",
+      "roseMirrorAngle": {
+        "vi": "Quyết định sáng suốt đòi hỏi sự cân bằng công tâm và chịu trách nhiệm với lựa chọn.",
+        "en": "Discerning decisions require fair balancing and taking accountability for choices."
+      },
+      "visualCue": {
+        "vi": "trục cân bằng vàng mảnh đối xứng, các đường treo chỉ vàng tinh xảo",
+        "en": "symmetrical fine gold scale axis, delicate gold-thread hangers"
+      },
+      "qaFocus": "discernment_justice"
+    },
+    {
+      "cardId": "major-21-world",
+      "roseMirrorAngle": {
+        "vi": "Hoàn tất một chương công việc xuất sắc để tích hợp kinh nghiệm vào hành trình tiếp theo.",
+        "en": "Completing a career chapter excellently to integrate experience into the next step."
+      },
+      "visualCue": {
+        "vi": "vòng tròn bầu dục vàng kép đối xứng, mạng lưới hình học mười hai góc ở tâm",
+        "en": "double symmetric gold ellipses, twelve-pointed geometric network at center"
+      },
+      "qaFocus": "completion_integration"
+    },
+    {
+      "cardId": "minor-wands-three",
+      "roseMirrorAngle": {
+        "vi": "Tầm nhìn xa và sự chuẩn bị giúp kế hoạch phát triển có cấu trúc và đúng hướng.",
+        "en": "Far vision and preparation keep growth plans structured and on course."
+      },
+      "visualCue": {
+        "vi": "ba cây gậy vàng thẳng hàng song song hướng lên, tia sáng vàng chéo nhẹ",
+        "en": "three parallel gold staffs pointing upward, soft diagonal gold rays"
+      },
+      "qaFocus": "vision_planning"
+    },
+    {
+      "cardId": "minor-swords-seven",
+      "roseMirrorAngle": {
+        "vi": "Chiến lược thông minh và sự cẩn trọng giúp bạn bảo vệ kết quả trước các biến động.",
+        "en": "Smart strategy and caution protect your outcomes from fluctuations."
+      },
+      "visualCue": {
+        "vi": "bảy thanh kiếm vàng mảnh đan lưới hình học đối xứng",
+        "en": "seven thin gold swords woven into a symmetrical geometric grid"
+      },
+      "qaFocus": "tactical_strategy"
+    },
+    {
+      "cardId": "minor-pentacles-eight",
+      "roseMirrorAngle": {
+        "vi": "Sự rèn luyện kiên trì và tay nghề vững vàng là chìa khóa tạo ra giá trị bền lâu.",
+        "en": "Persistent practice and steady craftsmanship are keys to lasting value."
+      },
+      "visualCue": {
+        "vi": "tám đồng xu tròn khắc sao vàng xếp thẳng hàng đối xứng qua trục",
+        "en": "eight gold-star coins arranged symmetrically along the axis"
+      },
+      "qaFocus": "craft_and_discipline"
+    },
+    {
+      "cardId": "minor-pentacles-ten",
+      "roseMirrorAngle": {
+        "vi": "Xây dựng di sản và tích lũy nguồn lực lâu dài đòi hỏi sự quản lý chiến lược bài bản.",
+        "en": "Building a legacy and long-term resources requires strategic management."
+      },
+      "visualCue": {
+        "vi": "mười đồng xu khắc sao xếp theo mô hình cây sự sống bằng chỉ vàng tinh tế",
+        "en": "ten star-marked coins arranged in a delicate gold-thread Tree of Life pattern"
+      },
+      "qaFocus": "legacy_resources"
+    },
+    {
+      "cardId": "minor-cups-king",
+      "roseMirrorAngle": {
+        "vi": "Sự chín chắn về cảm xúc giúp bạn giữ bình tĩnh trước áp lực và ra quyết định sáng suốt.",
+        "en": "Emotional maturity helps you stay calm under pressure and make sound decisions."
+      },
+      "visualCue": {
+        "vi": "bốn chiếc cốc vàng đặt trong khung kim cương đối xứng, các làn sóng ngà phẳng lặng",
+        "en": "four gold cups inside a symmetric diamond frame, still ivory waves"
+      },
+      "qaFocus": "emotional_maturity"
+    },
+    {
+      "cardId": "minor-swords-king",
+      "roseMirrorAngle": {
+        "vi": "Sự phán đoán sắc bén và tư duy logic giúp làm rõ những rắc rối phức tạp.",
+        "en": "Sharp judgment and logical thinking clarify complex problems."
+      },
+      "visualCue": {
+        "vi": "bốn lưỡi kiếm vàng mảnh hướng tâm đặt trong khung kim cương kép",
+        "en": "four thin gold blades pointing inward inside a double diamond frame"
+      },
+      "qaFocus": "analytical_judgment"
+    }
+  ],
+  "sampleReadings": [
+    {
+      "id": "golden-career-stewardship",
+      "topic": "career",
+      "spreadId": "golden-thread-three-card",
+      "question": {
+        "vi": "Làm thế nào để mình cân bằng giữa làm việc và nghỉ ngơi tốt hơn?",
+        "en": "How can I better balance working and resting?"
+      },
+      "cards": [
+        {
+          "position": "mirror",
+          "cardId": "minor-pentacles-eight",
+          "orientation": "upright"
+        },
+        {
+          "position": "crack",
+          "cardId": "major-04-emperor",
+          "orientation": "reversed"
+        },
+        {
+          "position": "petal",
+          "cardId": "major-09-hermit",
+          "orientation": "upright"
+        }
+      ],
+      "fallbackSummary": {
+        "vi": "Bài đọc khuyên bạn nhận diện thói quen rèn luyện chăm chỉ, điều chỉnh lại cấu trúc công việc đang bị quá tải và dành khoảng lặng phân tích để lấy lại sức.",
+        "en": "The reading advises recognizing your hard work, adjusting your overloaded work structure, and taking an analytical pause to regain capacity."
+      },
+      "journalTitle": {
+        "vi": "Sợi Chỉ Vàng: cân bằng chăm chỉ và khoảng lặng",
+        "en": "Golden Thread: balancing craft and pausing"
+      },
+      "expectedQa": [
+        "shows_selected_deck",
+        "uses_three_cards",
+        "supports_reversed",
+        "saves_to_journal"
+      ]
+    },
+    {
+      "id": "golden-decision-path",
+      "topic": "decision",
+      "spreadId": "golden-thread-three-card",
+      "question": {
+        "vi": "Mình có nên chuyển sang làm việc độc lập toàn thời gian không?",
+        "en": "Should I switch to full-time freelancing?"
+      },
+      "cards": [
+        {
+          "position": "mirror",
+          "cardId": "major-01-magician",
+          "orientation": "upright"
+        },
+        {
+          "position": "crack",
+          "cardId": "minor-swords-seven",
+          "orientation": "upright"
+        },
+        {
+          "position": "petal",
+          "cardId": "major-11-justice",
+          "orientation": "upright"
+        }
+      ],
+      "fallbackSummary": {
+        "vi": "Bài đọc khuyến khích bạn khai thác kỹ năng sẵn có, lập kế hoạch bảo vệ thành quả chiến lược, và ra quyết định công tâm bằng cách cân nhắc rủi ro một cách tỉnh táo.",
+        "en": "The reading encourages leveraging your existing skills, planning to protect your outcomes strategically, and making a balanced decision by soberly weighing risks."
+      },
+      "journalTitle": {
+        "vi": "Sợi Chỉ Vàng: ý chí và cân bằng rủi ro",
+        "en": "Golden Thread: will and balancing risk"
+      },
+      "expectedQa": [
+        "decision_topic",
+        "clear_next_step",
+        "avoids_absolute_advice"
+      ]
+    },
+    {
+      "id": "golden-self-worth-growth",
+      "topic": "self",
+      "spreadId": "golden-thread-three-card",
+      "question": {
+        "vi": "Làm sao để mình tự tin hơn vào năng lực chuyên môn của mình?",
+        "en": "How can I be more confident in my professional skills?"
+      },
+      "cards": [
+        {
+          "position": "mirror",
+          "cardId": "minor-pentacles-eight",
+          "orientation": "upright"
+        },
+        {
+          "position": "crack",
+          "cardId": "major-04-emperor",
+          "orientation": "upright"
+        },
+        {
+          "position": "petal",
+          "cardId": "major-21-world",
+          "orientation": "upright"
+        }
+      ],
+      "fallbackSummary": {
+        "vi": "Bài đọc khuyên bạn nhìn vào tay nghề thực tế đã tích lũy, xây dựng một kỷ luật làm việc khoa học, và ghi nhận những cột mốc thành công để vững vàng tiến bước.",
+        "en": "The reading advises looking at accumulated craft, establishing a scientific work discipline, and recognizing milestones of success to step forward steadily."
+      },
+      "journalTitle": {
+        "vi": "Sợi Chỉ Vàng: năng lực thực tế và di sản",
+        "en": "Golden Thread: actual capability and legacy"
+      },
+      "expectedQa": [
+        "self_topic_supported",
+        "non_judgmental"
+      ]
+    },
+    {
+      "id": "golden-love-boundaries",
+      "topic": "love",
+      "spreadId": "golden-thread-three-card",
+      "question": {
+        "vi": "Có nên phân định rõ ràng giữa công việc và tình cảm trong tình huống này không?",
+        "en": "Should I draw a clear boundary between work and feelings in this situation?"
+      },
+      "cards": [
+        {
+          "position": "mirror",
+          "cardId": "minor-cups-king",
+          "orientation": "upright"
+        },
+        {
+          "position": "crack",
+          "cardId": "major-11-justice",
+          "orientation": "upright"
+        },
+        {
+          "position": "petal",
+          "cardId": "minor-swords-king",
+          "orientation": "upright"
+        }
+      ],
+      "fallbackSummary": {
+        "vi": "Bài đọc nhắc nhở giữ sự chín chắn về cảm xúc, cân nhắc trách nhiệm công bằng của cả hai phía, và thiết lập ranh giới rõ ràng bằng sự sáng suốt và logic.",
+        "en": "The reading points to maintaining emotional maturity, weighing fair responsibilities for both sides, and establishing clear boundaries using discernment and logic."
+      },
+      "journalTitle": {
+        "vi": "Sợi Chỉ Vàng: ranh giới tình cảm và lý trí",
+        "en": "Golden Thread: emotional and rational boundaries"
+      },
+      "expectedQa": [
+        "love_topic_supported",
+        "maturity_focused"
+      ]
+    },
+    {
+      "id": "golden-open-daily",
+      "topic": "open",
+      "spreadId": "golden-thread-one-card",
+      "question": {
+        "vi": "Nút thắt công việc hiện tại mình cần giải quyết gấp là gì?",
+        "en": "What is the urgent work bottleneck I need to resolve?"
+      },
+      "cards": [
+        {
+          "position": "focus",
+          "cardId": "minor-swords-seven",
+          "orientation": "upright"
+        }
+      ],
+      "fallbackSummary": {
+        "vi": "Lá bài nhấn mạnh rằng bạn cần phải có một chiến lược thông minh và sự thận trọng để bảo vệ kết quả tốt trước mọi biến động bất ngờ.",
+        "en": "The card emphasizes that you need a smart strategy and caution to protect your good outcomes against any unexpected changes."
+      },
+      "journalTitle": {
+        "vi": "Sợi Chỉ Vàng: chiến lược và cẩn trọng",
+        "en": "Golden Thread: strategy and caution"
+      },
+      "expectedQa": [
+        "one_card_daily",
+        "open_topic",
+        "fallback_summary"
+      ]
+    }
+  ],
+  "adminSeedChecks": [
+    {
+      "id": "golden-thread-safety-copy",
+      "check": {
+        "vi": "Mọi thông tin phải mang tính định hướng tự phản chiếu và hành động thực tế; tuyệt đối không hứa hẹn kết quả tài chính hay sự nghiệp gia đình cố định.",
+        "en": "All information must be self-reflective and action-oriented; strictly avoid promising fixed financial or career outcomes."
+      }
+    },
+    {
+      "id": "golden-thread-card-reference",
+      "check": {
+        "vi": "Mọi reading phải dùng cardId phù hợp với testCardPool và hệ thống tarot chung.",
+        "en": "Every reading must use cardId values that exist in the testCardPool and general tarot database."
+      }
+    }
+  ]
+}

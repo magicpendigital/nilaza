@@ -1,0 +1,539 @@
+{
+  "schemaVersion": 1,
+  "reviewDate": "2026-10-04",
+  "basis": "source_and_primary_documentation_not_live_production_test",
+  "gitHead": "235f03acb5ab2ad5a598691f25dedb18e2013448",
+  "workingTree": "dirty_prior_changes_preserved",
+  "organization": {
+    "id": "rzbpjfrndhrtxagpgdre",
+    "name": "MagicpenDigital",
+    "plan": "pro",
+    "verification": "Supabase connector get_organization",
+    "project": "owner_confirmed_none_created"
+  },
+  "sourceNormalization": "UTF-8 LF SHA256",
+  "reviewedSources": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "35757424e5fc5ef5814015ceb87ace0a9b8b5e3602e555a09efd47f49d53b32e",
+      "reason": "Full currentAGENTS read; new Official Domains section observed, no domain/settings/runtime mutation in budget revision."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Concurrent release-control additions read with git diff and referenced runbook/profile; design will preserve current environment gates and make paid staging a separate proposal."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Concurrent release-control additions read with git diff and referenced runbook/profile; design will preserve current environment gates and make paid staging a separate proposal."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "1e4d2bc7a93a2a140690c7237537de582972db30088309996ab6462a79a53623",
+      "reason": "Concurrent release-control additions read with git diff and referenced runbook/profile; design will preserve current environment gates and make paid staging a separate proposal."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/nilaza-plan-qc.md",
+      "sha256": "1f1ca706c56aef4d08ac94c6475c19a59c3838a218eab9e94ab9436fbe4cda03",
+      "reason": "Current scoped source or audit evidence read by root/delegated read-only lane; bind the design to reviewed inputs without modifying evidence."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/admin-runtime-parity.md",
+      "sha256": "c8233f41b579c278b3a9927cdacc6462a060c28fd367cca3e5deb650f1cc5dfd",
+      "reason": "Current scoped source or audit evidence read by root/delegated read-only lane; bind the design to reviewed inputs without modifying evidence."
+    },
+    {
+      "path": "skills/manifest.json",
+      "sha256": "6e66487ba7923641ffa7d289fbee2ef779eb2f94d335a5d49ee132e57c1f8b89",
+      "reason": "Concurrent release-control additions read with git diff and referenced runbook/profile; design will preserve current environment gates and make paid staging a separate proposal."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "e5fc9e3789ce1978ce3db7b7f41d6dd695d021c6d01ead2b11b3af14a4525f49",
+      "reason": "Current scoped source or audit evidence read by root/delegated read-only lane; bind the design to reviewed inputs without modifying evidence."
+    },
+    {
+      "path": "supabase/migration-ledger.json",
+      "sha256": "e63b4510c844c03d235b3f69d8e9a051c5ce4cbe620369100f5fcb33a9f8d9eb",
+      "reason": "Current scoped source or audit evidence read by root/delegated read-only lane; bind the design to reviewed inputs without modifying evidence."
+    },
+    {
+      "path": "docs/BACKEND_PROXY_ARCHITECTURE.md",
+      "sha256": "b079458af4a10232efc8804746dd3ae7e8f10d5097800b26f2faf4e922fe91cb",
+      "reason": "Current scoped source or audit evidence read by root/delegated read-only lane; bind the design to reviewed inputs without modifying evidence."
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "sha256": "c6a16c4be5bd732c51158ab66c4ea92bd23c1e817da539f3820546a22d806ec8",
+      "reason": "Concurrent release-control additions read with git diff and referenced runbook/profile; design will preserve current environment gates and make paid staging a separate proposal."
+    },
+    {
+      "path": "docs/AGENT_ARCHITECTURE.md",
+      "sha256": "0b7aaaa4caeb233684fbadbd436e097c07622f17e89f61fca35c3251b7f0263f",
+      "reason": "Current scoped source or audit evidence read by root/delegated read-only lane; bind the design to reviewed inputs without modifying evidence."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Current scoped source or audit evidence read by root/delegated read-only lane; bind the design to reviewed inputs without modifying evidence."
+    },
+    {
+      "path": "docs/ACCOUNT_ISOLATION_IMPLEMENTATION_2026-09-02.md",
+      "sha256": "288e24532ad6cf0262ba98c32db187c0b89099db3c535fa33a3eaff3882e6de0",
+      "reason": "Current scoped source or audit evidence read by root/delegated read-only lane; bind the design to reviewed inputs without modifying evidence."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/R02-clean-qa-inventory.vi.md",
+      "sha256": "6279158cb4bd84ddca4654fef50d9f25b919eb38fa09174b152f85323bb319ef",
+      "reason": "Current scoped source or audit evidence read by root/delegated read-only lane; bind the design to reviewed inputs without modifying evidence."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/R02-clean-qa-bootstrap.json",
+      "sha256": "d08d075628a66253282cb15cce2d003c6de707a93f474ea0722361d51caea566",
+      "reason": "Current scoped source or audit evidence read by root/delegated read-only lane; bind the design to reviewed inputs without modifying evidence."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-02/R10-quota-reservation.vi.md",
+      "sha256": "4f56fedfc90dc12c7a5dbabbe85070db4752f863e1315de15807a612946f592e",
+      "reason": "Current scoped source or audit evidence read by root/delegated read-only lane; bind the design to reviewed inputs without modifying evidence."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-03/admin-configure/report.vi.md",
+      "sha256": "a8c259032e3080d3bd043d8d4fae5f289e289d5d039f4969854515fb94c53240",
+      "reason": "Current scoped source or audit evidence read by root/delegated read-only lane; bind the design to reviewed inputs without modifying evidence."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-03/workflow-graph/report.vi.md",
+      "sha256": "281abf8796fe52a80cad5857249a1ddf849b55c4821c41cdb5918ce1df724354",
+      "reason": "Current scoped source or audit evidence read by root/delegated read-only lane; bind the design to reviewed inputs without modifying evidence."
+    },
+    {
+      "path": "supabase/migrations/202606120001_mvp_schema.sql",
+      "sha256": "226e20601e094426e23170814fab3346eea953bf619d78b0ded153afa37559f5",
+      "reason": "Current scoped source or audit evidence read by root/delegated read-only lane; bind the design to reviewed inputs without modifying evidence."
+    },
+    {
+      "path": "supabase/migrations/20260909014614_ai_trace_observability.sql",
+      "sha256": "8794f35ab9724c18e2dda617f5bc3b1031bd16af067dff70a9cf1ef321e769bc",
+      "reason": "Current scoped source or audit evidence read by root/delegated read-only lane; bind the design to reviewed inputs without modifying evidence."
+    },
+    {
+      "path": "supabase/migrations/20260925155619_generation_activity_contract_forward.sql",
+      "sha256": "d6de2800385431601296fb1846cb9dc38f72d02ed6645808421fa0d77b04f7a0",
+      "reason": "Current scoped source or audit evidence read by root/delegated read-only lane; bind the design to reviewed inputs without modifying evidence."
+    },
+    {
+      "path": "supabase/functions/journal-entries/index.ts",
+      "sha256": "d4cd189f1148fed7c7c6d179ac35e25cc8fefbfee72aa7e2c166e5a9b32fdfb1",
+      "reason": "Current scoped source or audit evidence read by root/delegated read-only lane; bind the design to reviewed inputs without modifying evidence."
+    },
+    {
+      "path": "supabase/functions/journal-entries/handler.ts",
+      "sha256": "b46a28cfb23a0c74d5be766d5f9f6f404e7d946db2250ceb78de785cc9c68018",
+      "reason": "Current scoped source or audit evidence read by root/delegated read-only lane; bind the design to reviewed inputs without modifying evidence."
+    },
+    {
+      "path": "supabase/functions/_shared/ai-request-guard.ts",
+      "sha256": "1fbf5ab7723ebb1d4f9ca55b099a275f53ca1fd7163c4d519054af7519532abb",
+      "reason": "Current scoped source or audit evidence read by root/delegated read-only lane; bind the design to reviewed inputs without modifying evidence."
+    },
+    {
+      "path": "scripts/feature-preflight.mjs",
+      "sha256": "5d3fdddab09331401bece2cf65ed501c0f4ef06e94cef0d4bf622f7e521c8e7a",
+      "reason": "Current scoped source or audit evidence read by root/delegated read-only lane; bind the design to reviewed inputs without modifying evidence."
+    },
+    {
+      "path": "package.json",
+      "sha256": "35091240676cd0cbfb1b762ed4ee245ea8af7d59dd7a4dabb1284e415c7c6ed0",
+      "reason": "Current scoped source or audit evidence read by root/delegated read-only lane; bind the design to reviewed inputs without modifying evidence."
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "ba3e99deb94ffd6b862f2008b5886cb60aac9a60d4fa1c28cc98f4226a2bbedb",
+      "reason": "Current scoped source or audit evidence read by root/delegated read-only lane; bind the design to reviewed inputs without modifying evidence."
+    },
+    {
+      "path": "supabase/config.toml",
+      "sha256": "de68a2a338c3f25255039fc42f4e1cadc3b914d69073d2efa870bea7baf8a434",
+      "reason": "Current scoped source or audit evidence read by root/delegated read-only lane; bind the design to reviewed inputs without modifying evidence."
+    },
+    {
+      "path": "supabase/migrations/202606120002_add_missing_tables.sql",
+      "sha256": "80df182edc581e17f1fa66b91fe16537b89526abf97b889fe232c53e3032c91d",
+      "reason": "Scoped source read by root/delegated read-only review; current release profile and staging resource exception recorded, no implementation edits."
+    },
+    {
+      "path": "supabase/migrations/20260902131408_owner_capability_boundary.sql",
+      "sha256": "2f8fdac36b93d68f1a32da2d7a83b33c2b41b966589e8be9e1a85d56ace42a24",
+      "reason": "Scoped source read by root/delegated read-only review; current release profile and staging resource exception recorded, no implementation edits."
+    },
+    {
+      "path": "supabase/migrations/20260917172721_admin_content_sync.sql",
+      "sha256": "18b50345904d8d6074e56db3aa6400aa24392ea1d61a96e0672a2f8113833ac8",
+      "reason": "Scoped source read by root/delegated read-only review; current release profile and staging resource exception recorded, no implementation edits."
+    },
+    {
+      "path": "supabase/migrations/20260917174042_admin_content_sync_policy_tuning.sql",
+      "sha256": "ac6ae8b06f49db4e6cc8ec464fc1ecaf67a3699500a07132433ed7ed78bdc5ab",
+      "reason": "Scoped source read by root/delegated read-only review; current release profile and staging resource exception recorded, no implementation edits."
+    },
+    {
+      "path": "supabase/migrations/20260926152118_ai_studio_operations.sql",
+      "sha256": "7d17c007edf9807d4dbff19ccaa15283db6dfaaeb2e8a3acd91cd16060ad995a",
+      "reason": "Scoped source read by root/delegated read-only review; current release profile and staging resource exception recorded, no implementation edits."
+    },
+    {
+      "path": "supabase/migrations/20261001000000_private_source_read_boundary.sql",
+      "sha256": "cf54859e0fb9f8ba9f4758cccfdb1ac0810e47d8f318b32c2111fb8cd347459b",
+      "reason": "Scoped source read by root/delegated read-only review; current release profile and staging resource exception recorded, no implementation edits."
+    },
+    {
+      "path": "supabase/migrations/20261002000000_ai_usage_reservation.sql",
+      "sha256": "4d4fc2e57d322fa1d4c60e5e305d18653e73f6b5e8d46fba1a3084a115993424",
+      "reason": "Scoped source read by root/delegated read-only review; current release profile and staging resource exception recorded, no implementation edits."
+    },
+    {
+      "path": "supabase/functions/ai-daily-insight/index.ts",
+      "sha256": "a36a2a186044d7adf28723258f9067b212e4010a5d09d8647a3e02fbff568dce",
+      "reason": "Scoped source read by root/delegated read-only review; current release profile and staging resource exception recorded, no implementation edits."
+    },
+    {
+      "path": "supabase/functions/ai-council/index.ts",
+      "sha256": "10bb7ade586293af521ec559ba823acf37ab75bb44a1e7a170ae99d54e0bec7f",
+      "reason": "Scoped source read by root/delegated read-only review; current release profile and staging resource exception recorded, no implementation edits."
+    },
+    {
+      "path": "supabase/functions/ai-astrology-report/index.ts",
+      "sha256": "ff1b2b2b82df74b833886e7119620c58212f2cb4d7e65269b86beb3d9e14a5ff",
+      "reason": "Scoped source read by root/delegated read-only review; current release profile and staging resource exception recorded, no implementation edits."
+    },
+    {
+      "path": "supabase/functions/profile-upsert/index.ts",
+      "sha256": "87fd04d7b488e1fdfc760d77d684df391ffd27af9f2b0b6c8b6f56bd8f87134e",
+      "reason": "Scoped source read by root/delegated read-only review; current release profile and staging resource exception recorded, no implementation edits."
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "sha256": "a0fb19dd8b84605a40e9d0fd94c3313d9fc222ba8d2879a9bfb47fecfcd6b9a5",
+      "reason": "Scoped source read by root/delegated read-only review; current release profile and staging resource exception recorded, no implementation edits."
+    },
+    {
+      "path": "supabase/functions/user-credits/handler.ts",
+      "sha256": "b47cda5cfb45758d64c9af2cd2f3a0b3883e90091b92bcb90af9ff79aa99b619",
+      "reason": "Scoped source read by root/delegated read-only review; current release profile and staging resource exception recorded, no implementation edits."
+    },
+    {
+      "path": "supabase/functions/ai-oracle-turn/handler.ts",
+      "sha256": "6174435527767edc4efcf8daad71c73fc366425a608dc76247001b7ecb8092cb",
+      "reason": "Scoped source read by root/delegated read-only review; current release profile and staging resource exception recorded, no implementation edits."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "8e8fdf645c65f91e60ae01df8a414ccedd1ab52b924a71891d901ad49e9e3601",
+      "reason": "Concurrent revision read via scoped diff/current runbook-profile; budget update leaves runtime untouched and makes no new feature-acceptance claim."
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "sha256": "a5c4e85d7ae1fe32654df5e391cf6a0147bdfe1b6b7494492612c4360ad6168d",
+      "reason": "Scoped source read by root/delegated read-only review; current release profile and staging resource exception recorded, no implementation edits."
+    },
+    {
+      "path": "apps/mobile/src/auth/supabaseAuth.ts",
+      "sha256": "fb0466fe4db65bb6736a8bdbc68875d9aaff344a4ade0d59396b64792f1fef35",
+      "reason": "Scoped source read by root/delegated read-only review; current release profile and staging resource exception recorded, no implementation edits."
+    },
+    {
+      "path": "apps/mobile/src/auth/useAccountSession.ts",
+      "sha256": "afd11b0b26539d3b7d0c021f530b20ec77bd6ebcd7cee911c2d77a6a0e8535a8",
+      "reason": "Scoped source read by root/delegated read-only review; current release profile and staging resource exception recorded, no implementation edits."
+    },
+    {
+      "path": "supabase/functions/admin-ai-council-config/index.ts",
+      "sha256": "c7fb5859e244842ca5f216bec9181677334e290efd60bcc3fc2e089b9eafa22b",
+      "reason": "Scoped source read by root/delegated read-only review; current release profile and staging resource exception recorded, no implementation edits."
+    },
+    {
+      "path": "apps/admin/content-sync.js",
+      "sha256": "218981563eda1797e284cdf1f466fe6c71b3684c20da90422c5c955371e34cda",
+      "reason": "Scoped source read by root/delegated read-only review; current release profile and staging resource exception recorded, no implementation edits."
+    },
+    {
+      "path": "apps/admin/app.js",
+      "sha256": "ced64f53f5afabe76f4e45b9634bfd521bc675cf805e6656ce909b10106e0904",
+      "reason": "Scoped source read by root/delegated read-only review; current release profile and staging resource exception recorded, no implementation edits."
+    },
+    {
+      "path": "docs/release/RELEASE_RUNBOOK.md",
+      "sha256": "fbeed69f4e883bcf8cfee3031e189adeb433361799f6f250e9a519bceedcba26",
+      "reason": "Concurrent revision read via scoped diff/current runbook-profile; budget update leaves runtime untouched and makes no new feature-acceptance claim."
+    },
+    {
+      "path": "docs/release/OWNER_PACKET.vi.md",
+      "sha256": "9902159357c976d6445f2bcecc6b4621a69904049340a83b44aeaa7298c9bf4c",
+      "reason": "Concurrent revision read via scoped diff/current runbook-profile; budget update leaves runtime untouched and makes no new feature-acceptance claim."
+    },
+    {
+      "path": "docs/release/release-profile.json",
+      "sha256": "f4964d0a17e6fd92d225d01ccacd554fbaf0033161f756571924cdd6a0c2aeaa",
+      "reason": "Concurrent revision read via scoped diff/current runbook-profile; budget update leaves runtime untouched and makes no new feature-acceptance claim."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/release-control.md",
+      "sha256": "2d5f9f15d73844a2e14d5a1f0234d59b269c11499805a63886f0a06ea100f811",
+      "reason": "Scoped source read by root/delegated read-only review; current release profile and staging resource exception recorded, no implementation edits."
+    },
+    {
+      "path": "supabase/functions/_shared/providers/openrouter.ts",
+      "sha256": "1abbbd5ce31fac39f86019f960f9d2c4fb6068f25669d5f389baee24bcb1bbae",
+      "reason": "OpenRouter source reviewed for usage/model/provenance and owner-selected separate AI billing; no code change."
+    },
+    {
+      "path": "supabase/functions/_shared/model-provider.ts",
+      "sha256": "23ad4cec97c4a486398bbeca6957289b15a3f0b137d5df27710deb06b39159c1",
+      "reason": "OpenRouter source reviewed for usage/model/provenance and owner-selected separate AI billing; no code change."
+    },
+    {
+      "path": "packages/agent-config/model-routing.json",
+      "sha256": "25eecd4fcea32769e88ba59e7b287e7ee8cb42d75f70f2198759eacd4bf08eb2",
+      "reason": "OpenRouter source reviewed for usage/model/provenance and owner-selected separate AI billing; no code change."
+    }
+  ],
+  "officialSources": [
+    {
+      "url": "https://supabase.com/changelog",
+      "checkedAt": "2026-10-04",
+      "reason": "Verify current standardPostgres/OrioleDB changes; HTML fallback used because markdown content-type unsupported."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/database/postgres/row-level-security",
+      "checkedAt": "2026-10-04",
+      "reason": "Authoritative distinction between grants, RLS, views and effective client operations."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/api/securing-your-api",
+      "checkedAt": "2026-10-04",
+      "reason": "Exposed schema and least-privilege DataAPI design."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/auth/sessions",
+      "checkedAt": "2026-10-04",
+      "reason": "Session JWT revocation and server-side authorization considerations."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/ai-tools/mcp",
+      "checkedAt": "2026-10-04",
+      "reason": "Account/project identity and access evidence; no secret material in tool inputs."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/auth/auth-smtp",
+      "checkedAt": "2026-10-04",
+      "reason": "Official platform guidance reviewed by root/delegated infrastructure lane; prices/settings proposed until exact dashboard action."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/auth/redirect-urls",
+      "checkedAt": "2026-10-04",
+      "reason": "Official platform guidance reviewed by root/delegated infrastructure lane; prices/settings proposed until exact dashboard action."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/auth/native-mobile-deep-linking",
+      "checkedAt": "2026-10-04",
+      "reason": "Official platform guidance reviewed by root/delegated infrastructure lane; prices/settings proposed until exact dashboard action."
+    },
+    {
+      "url": "https://supabase.com/pricing",
+      "checkedAt": "2026-10-04",
+      "reason": "Official platform guidance reviewed by root/delegated infrastructure lane; prices/settings proposed until exact dashboard action."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/storage/serving/downloads",
+      "checkedAt": "2026-10-04",
+      "reason": "Official platform guidance reviewed by root/delegated infrastructure lane; prices/settings proposed until exact dashboard action."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/storage/cdn/smart-cdn",
+      "checkedAt": "2026-10-04",
+      "reason": "Official platform guidance reviewed by root/delegated infrastructure lane; prices/settings proposed until exact dashboard action."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/platform/regions",
+      "checkedAt": "2026-10-04",
+      "reason": "Official platform guidance reviewed by root/delegated infrastructure lane; prices/settings proposed until exact dashboard action."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/troubleshooting/change-project-region-eWJo5Z",
+      "checkedAt": "2026-10-04",
+      "reason": "Official platform guidance reviewed by root/delegated infrastructure lane; prices/settings proposed until exact dashboard action."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/database/orioledb",
+      "checkedAt": "2026-10-04",
+      "reason": "Official platform guidance reviewed by root/delegated infrastructure lane; prices/settings proposed until exact dashboard action."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/platform/billing-faq",
+      "checkedAt": "2026-10-04",
+      "reason": "Official platform guidance reviewed by root/delegated infrastructure lane; prices/settings proposed until exact dashboard action."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/platform/compute-and-disk",
+      "checkedAt": "2026-10-04",
+      "reason": "Official platform guidance reviewed by root/delegated infrastructure lane; prices/settings proposed until exact dashboard action."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/database/connecting-to-postgres",
+      "checkedAt": "2026-10-04",
+      "reason": "Official platform guidance reviewed by root/delegated infrastructure lane; prices/settings proposed until exact dashboard action."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/platform/backups",
+      "checkedAt": "2026-10-04",
+      "reason": "Official platform guidance reviewed by root/delegated infrastructure lane; prices/settings proposed until exact dashboard action."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/platform/cost-control",
+      "checkedAt": "2026-10-04",
+      "reason": "Official platform guidance reviewed by root/delegated infrastructure lane; prices/settings proposed until exact dashboard action."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/observability/metrics",
+      "checkedAt": "2026-10-04",
+      "reason": "Official platform guidance reviewed by root/delegated infrastructure lane; prices/settings proposed until exact dashboard action."
+    },
+    {
+      "url": "https://openrouter.ai/docs/cookbook/administration/usage-accounting",
+      "checkedAt": "2026-10-04",
+      "reason": "Current official billing/usage/recovery guidance supports budget-specific document revision."
+    }
+  ],
+  "managedSecurity": {
+    "plugin": "Codex Security",
+    "kind": "derived_hardening_not_scan_or_remediation",
+    "path": "C:/Users/Admin/.codex/state/plugins/codex-security/scans/nilaza/artifacts-46cf99682afd0bfb72b4b0e0710b05386809634dc235238e1aa00606fc3d166f/hardening/production-2026-10-04/hardening.md",
+    "evidenceCollectionSha256": "045c865d2f86bb3dd7419372164691b98e8009c2106080d464a8b34f3f4b2f16",
+    "options": [
+      "local-guards",
+      "shared-operation"
+    ],
+    "status": "proposed_not_selected"
+  },
+  "crossReviews": [
+    {
+      "agent": "backend_prompt_implementation",
+      "scope": "25 canonical migrations,2forwards,seed/schema/quota/constraints and final plan",
+      "corrections": [
+        "Exclude unchanged QA R10 campaign",
+        "One-card free Tarot",
+        "Guard OLD-NEW transitions",
+        "Signed URL-cache residual",
+        "Idempotency and retention semantics"
+      ]
+    },
+    {
+      "agent": "admin_configure_implementation",
+      "scope": "Runtime/privacy/auth/Admin and final plan",
+      "corrections": [
+        "Pre-write Journal delete",
+        "Cloud birth/account erase",
+        "Stage provision dependency",
+        "Direct AAL1 mutation rejection"
+      ]
+    },
+    {
+      "agent": "skills_sync_readiness",
+      "scope": "Official infrastructure/cost/backup/isolation and final plan",
+      "corrections": [
+        "Independent deletion-suppression recovery ledger"
+      ]
+    },
+    {
+      "agent": "skills_sync_readiness",
+      "scope": "Final environment policy and price consistency",
+      "result": "PASS_design_consistency_default130_optional_paid_staging140_not_live_production_acceptance",
+      "status": "historical_superseded_before_owner25USD"
+    },
+    {
+      "agent": "backend_prompt_implementation",
+      "scope": "Current OpenRouter adapter/router/provider contract read-only",
+      "result": "Adapter does not yet retain full cost/generation receipts and routes are mixed vendors; no runtime migration/provider call in this revision."
+    },
+    {
+      "agent": "skills_sync_readiness",
+      "scope": "Final owner25USD/OpenRouter doc consistency",
+      "result": "PASS_oneMicro_noPITR_dailyBackup_limits_separateOpenRouterBilling_securityPrivacyGatesPreserved"
+    }
+  ],
+  "checks": {
+    "migrationManifestHashCheck": "prior_agent_27_of_27_match_not_production_allowlist_acceptance",
+    "fullManagedReplay": "BLOCKED_not_run",
+    "liveProductionRlsJwt": "BLOCKED_not_run",
+    "concurrency": "BLOCKED_not_run",
+    "nativeAcceptance": "BLOCKED_not_run",
+    "providerBilling": "BLOCKED_not_run",
+    "load": "BLOCKED_not_run",
+    "restore": "BLOCKED_not_run",
+    "projectCreation": "not_performed",
+    "preflight": "PASS_after_reviewed_skill_sync",
+    "repositorySkillsValidation": "PASS_5_skills",
+    "installedSkillDrift": "PASS",
+    "jsonUtf8LocalLinksSourceHashes": {
+      "status": "PASS",
+      "localLinks": 18,
+      "sourceHashes": 54,
+      "scenarioIds": 37
+    },
+    "managedSecurityArtifacts": {
+      "status": "PASS_readback",
+      "files": 7,
+      "scope": "derived_design_not_remediation"
+    },
+    "legacyMigrationLedger": {
+      "commandExit": 0,
+      "status": "BLOCKED_pending_reconciliation",
+      "meaning": "metadata_contract_check_only_no_push_or_repair_authorized"
+    },
+    "currentRevisionDocumentValidation": {
+      "status": "PASS",
+      "preflight": "PASS",
+      "jsonUtf8": "PASS",
+      "localLinks": 20,
+      "sourceHashes": 57,
+      "selectedBudget": "25USD_oneMicro_noPITR",
+      "aiBilling": "OpenRouter_separate_actual_usage",
+      "runtimeAndCloud": "unchanged"
+    }
+  },
+  "artifacts": [
+    "PRODUCTION_PLAN.vi.md",
+    "project-spec.json",
+    "SCENARIOS.vi.md",
+    "evidence.json"
+  ],
+  "limits": [
+    "No production project exists.",
+    "No private customer queries/secrets/schema writes/billing/deployment/provider calls/traffic cutover.",
+    "QA tests or source freshness are not production proof.",
+    "SLOs,retention,budget and environment settings are proposed decisions.",
+    "Current release profile requires staging in old Free org; new paid staging is a separately reviewed resource/policy proposal.",
+    "Owner25USD base requires one Micro and org credit within included usage; not a universal invoice cap.",
+    "PITR15minuteRPO superseded; daily recovery limits need measurement.",
+    "No runtime route/provider/billing was changed by documentation."
+  ],
+  "scopeStatus": "budget_provider_design_updated_execution_live_acceptance_BLOCKED",
+  "skillSync": {
+    "status": "PASS_two_reviewed_installed_files_synced",
+    "version": "1.5.4",
+    "files": [
+      "SKILL.md",
+      "references/release-control.md"
+    ],
+    "priorInstalledSkillSha256": "8202993259b3d25653d0e165103296b256bad6f6e45cd2e743b723561e277002",
+    "otherMetadata": "preserved"
+  },
+  "revision": {
+    "date": "2026-10-04",
+    "reason": "Ownerselected25USD Supabase and OpenRouter AI separate usage-based spend",
+    "planRecord": "docs/feature-plans/nilaza-production-budget-25-openrouter-2026-10-04.json",
+    "priorSmallPitrProposal": "superseded_not_executed"
+  }
+}

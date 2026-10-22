@@ -1,0 +1,3 @@
+# Historical plan custody — 19 October 2026
+
+These are immutable historical planning snapshots, not active preflight records, current test results, implementation authorization or cloud/release approvals. Original success criteria, residual risks and validation commands are preserved in index.json with REQUIRES_CURRENT_VERIFICATION and explicit adoptedBy links. Composition does not close requirements and never executes recorded commands. Current integration records and their separate actual review/validation evidence govern the new candidate. The original root and v4 candidate remain unchanged.

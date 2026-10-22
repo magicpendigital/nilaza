@@ -1,0 +1,22 @@
+{
+  "cardId": "major-21-world",
+  "prompt": "Use case: illustration-story. Asset type: missing source artwork for existing Nilaza Tinh Quang / Celestial Reverie tarot deck. Create ONE original THE WORLD inner-art painting, same palette, textures and visual vocabulary as the approved Tinh Quang Temperance and Nine of Swords paintings viewed earlier. Tall portrait canvas ratio 656:1130 (approximately 0.5805), critical objects inside 7% safe inset. Full-bleed classical fairytale fine art, luminous midnight teal mountain lake, antique gold highlights, flowing ivory fabric, tactile gouache pigment grain and soft engraving detail; naturalistic adult anatomy, same finely detailed foliage, gold flecks, atmospheric mist. Scene: One adult woman in flowing ivory clothing dances calmly on a round stone dais in a meadow before the lake. One bare foot stands firmly on the dais; the other gently bends in dance. She holds exactly TWO small separate short batons, one gripped naturally in each hand at hip level, wrists and fingers physically believable. Behind her is an oval laurel wreath hanging from a clearly visible two-footed arbor rooted on the ground; both supporting posts join the ground and the wreath is visibly attached. The wreath surrounds the figure inside the scene but MUST NOT become an outer image border or touch the canvas edges. Four SMALL distinct symbolic cloud figures mark four directions: angelic face at upper left, eagle at upper right, bull at lower left, lion at lower right. These four are soft luminous cloud silhouettes, separate and readable, not living animals standing or falling. Keep these four icon-like cloud figures in scene space outside the wreath and above or beside the dais, fully within safe inset. No additional figures or animals. No duplicate batons, no swords. Calm completion and integration; original composition, not a copied published tarot image. No giant central star. Absolutely NO lettering, title, number, watermark, signature, card frame, decorative rectangle or corner border. Only inner illustration: Nilaza's existing renderer will add typography and framing later.",
+  "generationTool": "built-in image_gen",
+  "createdDate": "2026-10-13",
+  "referenceRole": "Previously viewed approved deck raw art: visual vocabulary, palette, texture only",
+  "sourcePath": "raw/major-21-world-20261013-v1.png",
+  "status": "generated-pending-independent-source-review",
+  "sha256": "35113bb172c94d52783659c7aea5540e2bc0874c80c0917ab0794d3fe775844e",
+  "sizeBytes": 3412282,
+  "referenceTransmission": "No image reference path or num_last_images_to_include was supplied in initial generation; images were viewed in conversation then described in prompt.",
+  "styleImagesInspected": [
+    {
+      "file": "major-14-temperance-v1.png",
+      "sha256": "f2905f13ee4b7b5dbceb0d1e7b7d3053e94476c39211324169b9f3aa6b864edb"
+    },
+    {
+      "file": "minor-swords-nine-v1.png",
+      "sha256": "531fc93eeb7420e2c577d89b6ee597d94d98d5f70f8cf8279286893aee83bc28"
+    }
+  ]
+}

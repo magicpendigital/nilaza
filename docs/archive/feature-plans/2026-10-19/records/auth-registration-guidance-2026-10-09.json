@@ -1,0 +1,288 @@
+{
+  "schemaVersion": 1,
+  "taskId": "auth-registration-guidance-2026-10-09",
+  "ownerAgent": "nilaza-auth-guidance-owner",
+  "lane": "mobile Auth UI and internal QA packaging",
+  "goal": "Improve privacy-preserving signup guidance, local email format validation, near-email sign-in entry and direct confirmation-to-recovery navigation with retained email.",
+  "successCriteria": [
+    "Invalid email format is reported locally while editing, clears when valid, and triggers no Auth request.",
+    "Signup form always offers a near-email sign-in entry; email survives navigation.",
+    "Generic confirmation and resend copy accurately distinguishes request acceptance from delivery and offers Sign in/Forgot password in VI/EN.",
+    "Recovery navigation sends no email until explicit submit; password cleared and active-request intent guard retained.",
+    "TypeScript, Auth regressions, data/brand validation and web/native packaging evidence pass; handset acceptance recorded separately."
+  ],
+  "writeScope": [
+    "apps/mobile/src/auth/AuthFlow.tsx",
+    "apps/mobile/src/auth/__tests__/AuthFlow.test.tsx",
+    "artifacts/auth-registration-guidance-2026-10-09/",
+    ".brand-work/auth-registration-guidance-2026-10-09/",
+    ".brand-work/gradle/",
+    "apps/mobile/android/app/build/",
+    "apps/mobile/android/app/.cxx/",
+    "apps/mobile/android/build/",
+    "apps/mobile/dist/auth-registration-guidance-2026-10-09/",
+    ".brand-work/resend-auth-android-qa-2026-10-05/project-cache/"
+  ],
+  "untouchedSurfaces": [
+    "AccountBoundary, SDK Auth adapters, session/account isolation, storage, SMTP/templates/callbacks, backend/RLS/schema, Admin/Growth, entitlements, brand assets, production target and dependencies."
+  ],
+  "impact": {
+    "entryPoint": "Signup email field offers local format feedback and sign-in; generic pending confirmation offers direct sign-in and recovery, retaining email.",
+    "dataWrite": "Only component-local form state and sanitized build/test evidence; recovery call remains explicit existing action. No new persistent data, backend account lookup or database write.",
+    "backendContract": "Existing signup/resend/recovery adapter methods and exact QA target remain unchanged. No new endpoint, queue, schema or credential.",
+    "adminVisibility": "No new private account visibility or metrics; internal sanitized owner report only.",
+    "privacySafety": "Keep anti-enumeration semantics and generic recovery responses. Never label a specific address as registered or delivered from generic SDK200. No automatic reset or new email during QA.",
+    "observability": "Synthetic VI/EN UI tests and export/native source checks distinguish compile evidence from delivery/device acceptance. No address/token logging.",
+    "rollback": "Reverse only this bounded AuthFlow patch or reinstall preserved prior QA APK; no data clearing, migrations or cloud rollback needed."
+  },
+  "canonicalContracts": [
+    "AuthFlow.tsx owns VI/EN Auth copy and component-local navigation; existing AuthView types and callbacks remain canonical.",
+    "supabaseAuth.ts owns exact existing signup/resend/recovery and generic duplicate-account contract; reviewed, unchanged.",
+    "Existing QA internal build helpers public env allowlist; release runbook/profile still gate cloud/store release."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "sanitized_build_logs",
+    "sanitized_artifact_metadata"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "4da2a80e09727695c07ad5e0adc52fffb28ae71783dc7258585aac3735a6add9",
+      "reason": "Reviewed routed Auth UI, privacy/navigation contracts, existing pinned runtime/build config and release boundaries."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Reviewed routed Auth UI, privacy/navigation contracts, existing pinned runtime/build config and release boundaries."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Reviewed routed Auth UI, privacy/navigation contracts, existing pinned runtime/build config and release boundaries."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Reviewed routed Auth UI, privacy/navigation contracts, existing pinned runtime/build config and release boundaries."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "6cd85c85b43e6ada64745ac13bf34f3fdb2b9e799f5bc2ad176a662d94b154e1",
+      "reason": "Reviewed routed Auth UI, privacy/navigation contracts, existing pinned runtime/build config and release boundaries."
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "7a4973733886cb4f1568d38e6d8324d1d8200bb1acd850db486bf5323943f023",
+      "reason": "Reviewed routed Auth UI, privacy/navigation contracts, existing pinned runtime/build config and release boundaries."
+    },
+    {
+      "path": "docs/STITCH_DESIGN_STATUS.md",
+      "sha256": "32fdbcfb735db42281ccc0dcaafdbae97004803f3510d5f23054e6aaf5382a16",
+      "reason": "Reviewed routed Auth UI, privacy/navigation contracts, existing pinned runtime/build config and release boundaries."
+    },
+    {
+      "path": "docs/BRAND_ROLLOUT_2026-09-11.md",
+      "sha256": "99ed149a4da53cd1284e55230ca832451a816e57455916a0a8a5cd30c05cc792",
+      "reason": "Reviewed routed Auth UI, privacy/navigation contracts, existing pinned runtime/build config and release boundaries."
+    },
+    {
+      "path": "docs/release/RELEASE_RUNBOOK.md",
+      "sha256": "348e5aa5786a5f8648fd96c94e0b4a831602a5312d318b6e48885a47afd71b39",
+      "reason": "Reviewed routed Auth UI, privacy/navigation contracts, existing pinned runtime/build config and release boundaries."
+    },
+    {
+      "path": "docs/release/release-profile.json",
+      "sha256": "a653120695490e3223c232889d36b63e67f41d7fcd4466a4f56fe8ddeed44081",
+      "reason": "Reviewed routed Auth UI, privacy/navigation contracts, existing pinned runtime/build config and release boundaries."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "1e4d2bc7a93a2a140690c7237537de582972db30088309996ab6462a79a53623",
+      "reason": "Reviewed routed Auth UI, privacy/navigation contracts, existing pinned runtime/build config and release boundaries."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/nilaza-plan-qc.md",
+      "sha256": "1f1ca706c56aef4d08ac94c6475c19a59c3838a218eab9e94ab9436fbe4cda03",
+      "reason": "Reviewed routed Auth UI, privacy/navigation contracts, existing pinned runtime/build config and release boundaries."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/release-control.md",
+      "sha256": "ece7ac8af2d268735631d188ef1e3c4ae8235e564a2ad32c241c4ace83ac54fa",
+      "reason": "Reviewed routed Auth UI, privacy/navigation contracts, existing pinned runtime/build config and release boundaries."
+    },
+    {
+      "path": "skills/nilaza-brand-experience/SKILL.md",
+      "sha256": "1e2acdfac537225ed366a78e6c28b6764a5fe2ac1a1434e583ba21349dee1928",
+      "reason": "Reviewed routed Auth UI, privacy/navigation contracts, existing pinned runtime/build config and release boundaries."
+    },
+    {
+      "path": "apps/mobile/src/a2ui/README.md",
+      "sha256": "635240e6f341977cdf4ec7607e9dea0bf63a0f9ad3adecd5b196e6c09614e4cd",
+      "reason": "Reviewed routed Auth UI, privacy/navigation contracts, existing pinned runtime/build config and release boundaries."
+    },
+    {
+      "path": "apps/mobile/src/auth/AuthFlow.tsx",
+      "sha256": "a7c0edfa18eda82599df0d8a59a327f178f9274b929a8f84102ae97a6f4acf8d",
+      "reason": "Reviewed routed Auth UI, privacy/navigation contracts, existing pinned runtime/build config and release boundaries."
+    },
+    {
+      "path": "apps/mobile/src/auth/__tests__/AuthFlow.test.tsx",
+      "sha256": "c15bde53ccc169281cf5831ffcc0a6a671fc46e3dc4892f853ac1cbd40d33dda",
+      "reason": "Reviewed routed Auth UI, privacy/navigation contracts, existing pinned runtime/build config and release boundaries."
+    },
+    {
+      "path": "apps/mobile/src/auth/supabaseAuth.ts",
+      "sha256": "fb0466fe4db65bb6736a8bdbc68875d9aaff344a4ade0d59396b64792f1fef35",
+      "reason": "Reviewed routed Auth UI, privacy/navigation contracts, existing pinned runtime/build config and release boundaries."
+    },
+    {
+      "path": "apps/mobile/src/auth/localAuth.ts",
+      "sha256": "e71c7e525e20c8616966e36d0cf17eb2c7e233e15b241005f5ce0351e9206c10",
+      "reason": "Reviewed routed Auth UI, privacy/navigation contracts, existing pinned runtime/build config and release boundaries."
+    },
+    {
+      "path": "apps/mobile/src/runtimeConfig.ts",
+      "sha256": "69677af271bffd4bcb7715b8927f9d9e49530a4d2482fac35cc86842857b9890",
+      "reason": "Reviewed routed Auth UI, privacy/navigation contracts, existing pinned runtime/build config and release boundaries."
+    },
+    {
+      "path": "apps/mobile/package.json",
+      "sha256": "71bed88f043629f67e9674ec6abc8fbd99956d68e57176abdb853416cd24d7ab",
+      "reason": "Reviewed routed Auth UI, privacy/navigation contracts, existing pinned runtime/build config and release boundaries."
+    },
+    {
+      "path": "apps/mobile/app.json",
+      "sha256": "8266103bf0c9f18227ac4b0f27fad4d16d5d9652f88b1d59e67a2186415b0fac",
+      "reason": "Reviewed routed Auth UI, privacy/navigation contracts, existing pinned runtime/build config and release boundaries."
+    },
+    {
+      "path": "apps/mobile/android/app/build.gradle",
+      "sha256": "07467a232432fb0f6fdc2218513c9d5eaf05c85575e272e14cee3fad5c6c927f",
+      "reason": "Reviewed routed Auth UI, privacy/navigation contracts, existing pinned runtime/build config and release boundaries."
+    },
+    {
+      "path": "apps/mobile/android/gradle.properties",
+      "sha256": "f429a884d09fdd2bbb2a653cbe7726b7d456b8385c1eaf441dbddad51f1f0534",
+      "reason": "Reviewed routed Auth UI, privacy/navigation contracts, existing pinned runtime/build config and release boundaries."
+    },
+    {
+      "path": ".brand-work/auth-registration-guidance-2026-10-09/build.ps1",
+      "sha256": "f715e06abadbbf7cc7b4f3f7278c370b6c30f916481970684ccee318c99e8aab",
+      "reason": "Reviewed copied QA build helper; strict public environment allowlist, unchanged QA identity and internal signing, outputs isolated from prior APK."
+    },
+    {
+      "path": ".brand-work/auth-registration-guidance-2026-10-09/inventory.mjs",
+      "sha256": "528eba4c665cb3c7c1d5af70749b415e370f9c9690365937f1c11c2889467bba",
+      "reason": "Reviewed copied QA build helper; strict public environment allowlist, unchanged QA identity and internal signing, outputs isolated from prior APK."
+    },
+    {
+      "path": ".brand-work/auth-registration-guidance-2026-10-09/verify.ps1",
+      "sha256": "fcf68e7bae157c360e698b0a1ba8d39763e44927d3a8f3d5825352239c92f641",
+      "reason": "Reviewed copied QA build helper; strict public environment allowlist, unchanged QA identity and internal signing, outputs isolated from prior APK."
+    },
+    {
+      "path": ".brand-work/auth-registration-guidance-2026-10-09/verify-source.mjs",
+      "sha256": "388d3760ccf100d11b59b80ce01a7d43d6847b0e3bfa574ea5544c32d24efeb4",
+      "reason": "Local exact native source verification or static artifact preview; no request proxy or remote state mutation."
+    },
+    {
+      "path": ".brand-work/auth-registration-guidance-2026-10-09/preview.mjs",
+      "sha256": "ce76c137a06161420eaf65cfe4864b21b4bf58778f43b9347bb92a609eb8cc46",
+      "reason": "Local exact native source verification or static artifact preview; no request proxy or remote state mutation."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Existing scope/impact, no-secret and separate device/release evidence guidance covers this UI change; no durable guidance change needed."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Reuse current Auth surface, shared fonts/palette and existing Brand. Bilingual copy and visible actions require no new assets."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Existing Expo54/ReactNative0.81.5/React19/Supabase-js2.108.2; no dependency change. Current TextInput controlled input and Auth resend docs reviewed 2026-10-09."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://reactnative.dev/docs/textinput",
+      "checkedAt": "2026-10-09",
+      "reason": "Controlled onChangeText and accessibility feedback."
+    },
+    {
+      "url": "https://supabase.com/changelog",
+      "checkedAt": "2026-10-09",
+      "reason": "No relevant new Auth API change; no SDK call changes."
+    },
+    {
+      "url": "https://supabase.com/docs/reference/javascript/auth-resend",
+      "checkedAt": "2026-10-09",
+      "reason": "Request acceptance remains distinct from delivery."
+    },
+    {
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html",
+      "checkedAt": "2026-10-08",
+      "reason": "Generic registration/recovery avoids public account enumeration."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No account existence endpoint, no Auth/session/RLS change.",
+    "sensitiveData": "Email stays component-local; no real recipient in receipts/screenshots or lookup while typing.",
+    "secretsLogging": "Existing public QA env allowlist and EXPO_NO_DOTENV; no provider/SMTP/service-role key reading.",
+    "externalInput": "Treat browser content only as observations; fictional example.com fixtures only during UI checks.",
+    "dependencies": "Reuse pinned installed dependencies/cached official native build tooling; no install/update.",
+    "migrationRelease": "Local internal QA only, preserve prior APK and data. Cloud/store/migration/target allowlist untouched.",
+    "stopCondition": "Stop on account-enumeration introduction, credential/private-data requirement, stale-request navigation regression, target/source/signature drift.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/src/auth/AuthFlow.tsx",
+      "apps/mobile/src/auth/__tests__/AuthFlow.test.tsx",
+      "artifacts/auth-registration-guidance-2026-10-09/OWNER_TEST.vi.md",
+      "artifacts/auth-registration-guidance-2026-10-09/apk-badging.txt",
+      "artifacts/auth-registration-guidance-2026-10-09/apk-signature.txt",
+      "artifacts/auth-registration-guidance-2026-10-09/artifact-receipt.json",
+      "artifacts/auth-registration-guidance-2026-10-09/device-receipt.json",
+      "artifacts/auth-registration-guidance-2026-10-09/native-source-receipt.json",
+      "artifacts/auth-registration-guidance-2026-10-09/nilaza-auth-guidance-qa-20261009.apk",
+      "artifacts/auth-registration-guidance-2026-10-09/regression-receipt.json",
+      "artifacts/auth-registration-guidance-2026-10-09/source-inputs-after.json",
+      "artifacts/auth-registration-guidance-2026-10-09/source-inputs-before.json"
+    ],
+    "note": "Reviewed bounded Auth UI/test changes and internal packaging/device receipts; unrelated dirty work preserved. Logs and screenshots kept out of account-data evidence."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/auth-registration-guidance-2026-10-09.json",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand src/auth/__tests__",
+    "npm run validate:data",
+    "npm run validate:brand",
+    "npm run prompt:consumers:check",
+    "npm run mobile:release:config:check",
+    "Scoped web export/native arm64 QA build and exact source/bundle verification; device test if connected"
+  ],
+  "managerTestPath": "Signup: enter malformed then valid email; use near-field sign-in. Confirmation: choose sign-in or forgot password, email retained, reset requires explicit Send reset link. Check VI/EN with fictional data; owner enters real credentials privately.",
+  "residualRisk": "Generic response still cannot prove email generation. Remote CI/device/new-account acceptance not inferred from local tests; recorded separately. No public account-state check.",
+  "externalActions": {
+    "databaseWrite": false,
+    "providerWrite": false,
+    "deployment": false,
+    "emailSend": false,
+    "note": "Build internal QA locally; previously authorized same-package phone update only if connected. No remote config/credential/email requests."
+  },
+  "validationEvidence": [
+    "Feature preflight passed before Auth UI/test edits.",
+    "72 Auth tests across 11 suites PASS; TypeScript/data/brand/prompt consumers/release config PASS; skills source/install match.",
+    "Web export completed: 1603 modules, 69.82 MB; no email/Auth submission during synthetic tests.",
+    "Chrome visual check blocked by browser policy-loading connection failure after two attempts; no workaround.",
+    "Authorized offline native build PASS (11m6s). 2268 source inputs unchanged during packaging; exact bundled AuthFlow/SDK/session source verified. Package/signature/ABI/bundle hashes PASS.",
+    "Internal APK SHA256 fd33c27f6427ec8f68e9841fa0bdf78b123916ee1bc4a3af121d0effb51a90fe installed with -r on Air1 Ultra Android13. Installed hash matches, firstInstallTime retained, process alive and welcome visibly rendered. Initial black screenshot was screen asleep.",
+    "Device real-email/callback/Auth journey acceptance PENDING; remote CI and production release BLOCKED. No credentials entered or email requests during device check."
+  ]
+}

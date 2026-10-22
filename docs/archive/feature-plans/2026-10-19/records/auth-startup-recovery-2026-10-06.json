@@ -1,0 +1,225 @@
+{
+  "schemaVersion": 1,
+  "taskId": "auth-startup-recovery-2026-10-06",
+  "ownerAgent": "nilaza-auth-startup-owner",
+  "lane": "mobile Auth Android internal packaging",
+  "goal": "Fix stale bootstrap error after successful late SDK Auth event; test persistence/logout boundaries, rebuild and reinstall exact internal QA on connected Air1 Ultra preserving data.",
+  "successCriteria": [
+    "Regression reproduces bootstrap failure followed by successful SDK session event with stale error before fix, then passes after fix.",
+    "Auth session events clear only transient bootstrap error; persistent storage/logout failure stays protected.",
+    "TypeScript/Auth suites, web export, native build/signature/bundle checks pass.",
+    "Exact updated APK installs with -r on connected Air1 Ultra and cold launch reaches Home; no clear-data/signout/email/AI request."
+  ],
+  "writeScope": [
+    "apps/mobile/src/auth/useAccountSession.ts",
+    "apps/mobile/src/auth/__tests__/useAccountSession.test.tsx",
+    "artifacts/auth-startup-recovery-2026-10-06/",
+    ".brand-work/auth-startup-2026-10-06/",
+    ".brand-work/gradle/",
+    "apps/mobile/android/app/build/",
+    "apps/mobile/android/app/.cxx/",
+    "apps/mobile/android/build/",
+    "apps/mobile/dist/auth-startup-recovery-2026-10-06/",
+    ".brand-work/resend-auth-android-qa-2026-10-05/project-cache/"
+  ],
+  "untouchedSurfaces": [
+    "Mobile UI/content, native version/config, SDK dependency versions, Admin/Growth, backend/Auth SMTP/callbacks/schema and canonical allocation decision unchanged."
+  ],
+  "impact": {
+    "entryPoint": "AccountBoundary startup and retry; validated SDK events restore current identity after bootstrap error.",
+    "dataWrite": "Preserve existing SDK token store/account scope and persistence guards; install replacement APK retaining data. Local sanitized test/artifact/device receipts only.",
+    "backendContract": "Same existing QA akgrokwnkfqnfjqrildi; no retarget, migrations/config changes or new credentials. SDK subscription stays synchronous.",
+    "adminVisibility": "Internal owner packet documents compile checks versus pending delivery/device/backend acceptance; protected Admin unchanged.",
+    "privacySafety": "EXPO_NO_DOTENV=1; only allowlisted public runtime variables. Obtain existing public anon key through purpose-built connector, verify role/ref and do not print its value. No Resend/service-role/provider key or live account data.",
+    "observability": "Synthetic regression tests and native cold-start observation; no token/session/error payload logging. Initial handset failure exact transport cause unconfirmed.",
+    "rollback": "Keep previous APK unchanged and record exact new hash; never uninstall/clear app data. Stop on install/signature/source mismatch."
+  },
+  "canonicalContracts": [
+    "apps/mobile/src/auth confirmation/recovery helpers and boundaries own deep-link handling; cloud callbacks already approved.",
+    "apps/mobile/app.json and Android Gradle define package/version/new architecture; existing debug signing explicitly internal QA.",
+    "Release runbook/profile govern cloud release separately; dirty local QA artifact is not an immutable production candidate."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "sanitized_build_logs",
+    "sanitized_artifact_metadata"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "8a3ecacd98f72be04044d5d38b35cd7f4aae2ecd26314302397591fd7454068d",
+      "reason": "Reviewed startup/Auth persistence and existing QA packaging/allocation inputs for bounded bug fix."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Reviewed startup/Auth persistence and existing QA packaging/allocation inputs for bounded bug fix."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Reviewed startup/Auth persistence and existing QA packaging/allocation inputs for bounded bug fix."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Reviewed startup/Auth persistence and existing QA packaging/allocation inputs for bounded bug fix."
+    },
+    {
+      "path": "docs/release/RELEASE_RUNBOOK.md",
+      "sha256": "0b1b139eeb79423d3b137c14145e76430d3c3c51ee55bdbccfd933989d043bc4",
+      "reason": "Reviewed startup/Auth persistence and existing QA packaging/allocation inputs for bounded bug fix."
+    },
+    {
+      "path": "docs/release/SUPABASE_ALLOCATION_2026-10-05.md",
+      "sha256": "edd20f265b3edc5ef9f105f202e58c3772526bc593ad13288df12710e33107de",
+      "reason": "Reviewed startup/Auth persistence and existing QA packaging/allocation inputs for bounded bug fix."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "1e4d2bc7a93a2a140690c7237537de582972db30088309996ab6462a79a53623",
+      "reason": "Reviewed startup/Auth persistence and existing QA packaging/allocation inputs for bounded bug fix."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/nilaza-plan-qc.md",
+      "sha256": "1f1ca706c56aef4d08ac94c6475c19a59c3838a218eab9e94ab9436fbe4cda03",
+      "reason": "Reviewed startup/Auth persistence and existing QA packaging/allocation inputs for bounded bug fix."
+    },
+    {
+      "path": "apps/mobile/src/auth/useAccountSession.ts",
+      "sha256": "aa58c559ab7b732e7aaf49edd11a6ed6f159fddedf3850c11de44d0c2bbd9e49",
+      "reason": "Reviewed startup/Auth persistence and existing QA packaging/allocation inputs for bounded bug fix."
+    },
+    {
+      "path": "apps/mobile/src/auth/__tests__/useAccountSession.test.tsx",
+      "sha256": "63a759f41581cff45a7fc63e3876c9d1a17fe7d6449f6d421a2b81466a4e2964",
+      "reason": "Reviewed startup/Auth persistence and existing QA packaging/allocation inputs for bounded bug fix."
+    },
+    {
+      "path": "apps/mobile/src/auth/supabaseAuth.ts",
+      "sha256": "fb0466fe4db65bb6736a8bdbc68875d9aaff344a4ade0d59396b64792f1fef35",
+      "reason": "Reviewed startup/Auth persistence and existing QA packaging/allocation inputs for bounded bug fix."
+    },
+    {
+      "path": "apps/mobile/src/runtimeConfig.ts",
+      "sha256": "69677af271bffd4bcb7715b8927f9d9e49530a4d2482fac35cc86842857b9890",
+      "reason": "Reviewed startup/Auth persistence and existing QA packaging/allocation inputs for bounded bug fix."
+    },
+    {
+      "path": "apps/mobile/app.json",
+      "sha256": "8266103bf0c9f18227ac4b0f27fad4d16d5d9652f88b1d59e67a2186415b0fac",
+      "reason": "Reviewed startup/Auth persistence and existing QA packaging/allocation inputs for bounded bug fix."
+    },
+    {
+      "path": "apps/mobile/package.json",
+      "sha256": "71bed88f043629f67e9674ec6abc8fbd99956d68e57176abdb853416cd24d7ab",
+      "reason": "Reviewed startup/Auth persistence and existing QA packaging/allocation inputs for bounded bug fix."
+    },
+    {
+      "path": "apps/mobile/android/app/build.gradle",
+      "sha256": "07467a232432fb0f6fdc2218513c9d5eaf05c85575e272e14cee3fad5c6c927f",
+      "reason": "Reviewed startup/Auth persistence and existing QA packaging/allocation inputs for bounded bug fix."
+    },
+    {
+      "path": "apps/mobile/android/gradle.properties",
+      "sha256": "f429a884d09fdd2bbb2a653cbe7726b7d456b8385c1eaf441dbddad51f1f0534",
+      "reason": "Reviewed startup/Auth persistence and existing QA packaging/allocation inputs for bounded bug fix."
+    },
+    {
+      "path": ".brand-work/auth-startup-2026-10-06/build.ps1",
+      "sha256": "f9b8ff7b23d2860143c3e5330ff40438f77468bf95cb877e248304ecb6ac1bdb",
+      "reason": "Reviewed scoped QA packaging/inventory helper; public key only, no private data."
+    },
+    {
+      "path": ".brand-work/auth-startup-2026-10-06/inventory.mjs",
+      "sha256": "5bc8666d7e86e07f54b2541c72d4f932c864d429c2aaf16839c8e8909d012345",
+      "reason": "Reviewed scoped QA packaging/inventory helper; public key only, no private data."
+    },
+    {
+      "path": ".brand-work/auth-startup-2026-10-06/verify.ps1",
+      "sha256": "6fdb3e2ccc90d299da512c9f366594a76f99a6ee2c960b46951f0ebda8bb269a",
+      "reason": "Reviewed native artifact identity/signature/bundle verification; preserves old artifact and rejects private provider markers."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Local internal build requires version/artifact/source/device evidence; migration/cloud gate and credential boundary already covered. No guidance changes."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Installed Expo54/ReactNative0.81.5/Supabase-js2.108.2 and current Auth SDK subscription/session code reviewed. No install or version changes; reuse declared cached Gradle dependencies and SDK."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://supabase.com/docs/reference/javascript/auth-onauthstatechange",
+      "checkedAt": "2026-10-06",
+      "reason": "Current SDK session events and synchronous callback contract reviewed."
+    },
+    {
+      "url": "https://supabase.com/docs/reference/javascript/auth-getsession",
+      "checkedAt": "2026-10-06",
+      "reason": "Stored-session retrieval and refresh contract reviewed."
+    },
+    {
+      "url": "https://developer.android.com/tools/adb",
+      "checkedAt": "2026-10-05",
+      "reason": "Reinstall -r retains data; no downgrade/uninstall/permission grants."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "Accept only existing SDK validated events; retain initial-session, stale-account, logout and persistence guards. No RLS/database change.",
+    "sensitiveData": "No private user rows, inbox content or credentials read; public anon intended for client only.",
+    "secretsLogging": "Disable dotenv and inherited EXPO_PUBLIC variables; use exact public allowlist and silent role/ref verification. Logs contain names/status only; no key/token or recipient.",
+    "externalInput": "Browser content/connector metadata treated as data; only existing approved QA accepted. No external instructions or key-detail workaround.",
+    "dependencies": "Existing pinned app packages and checked-in Gradle wrapper, JDK17/SDK36. No version changes or new tooling.",
+    "migrationRelease": "User-reported bug fix and previously authorized internal QA device update only. No cloud/store release or allocation/allowlist/migration change.",
+    "stopCondition": "Stop if persistence/logout guard bypass, privileged key, target drift, source drift during build, signature/install mismatch or private credential request occurs.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/src/auth/useAccountSession.ts",
+      "apps/mobile/src/auth/__tests__/useAccountSession.test.tsx",
+      "artifacts/auth-startup-recovery-2026-10-06/source-inputs-before.json",
+      "artifacts/auth-startup-recovery-2026-10-06/OWNER_TEST.vi.md",
+      "artifacts/auth-startup-recovery-2026-10-06/apk-badging.txt",
+      "artifacts/auth-startup-recovery-2026-10-06/apk-signature.txt",
+      "artifacts/auth-startup-recovery-2026-10-06/regression-receipt.json",
+      "artifacts/auth-startup-recovery-2026-10-06/source-inputs-after.json",
+      "artifacts/auth-startup-recovery-2026-10-06/artifact-receipt.json",
+      "artifacts/auth-startup-recovery-2026-10-06/device-receipt.json",
+      "artifacts/auth-startup-recovery-2026-10-06/nilaza-auth-startup-qa-20261006.apk"
+    ],
+    "note": "Other source work is preserved; minimal hook/test change only, new dated QA artifacts isolated."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/auth-startup-recovery-2026-10-06.json",
+    "npm --workspace apps/mobile test -- --runInBand src/auth/__tests__",
+    "npm --workspace apps/mobile run check",
+    "npm run prompt:consumers:check",
+    "npm run mobile:release:config:check",
+    "node scripts/validate-mobile-export.mjs apps/mobile/dist/auth-startup-recovery-2026-10-06/",
+    "Local cached Gradle arm64 assemble, verify exact APK and preserve-data device install/cold start"
+  ],
+  "managerTestPath": "Owner sees Home after cold start; test signup/confirmation/reset later using authorized mailbox and self-entered passwords.",
+  "residualRisk": "Normal cold start and synthetic late-SDK-event regression verified. Exact first transport failure trigger remains unconfirmed; no device-induced slow-network test or exact-artifact remote CI, email acceptance or production certification. Allocation and migration gates unchanged.",
+  "externalActions": {
+    "databaseWrite": false,
+    "providerWrite": false,
+    "deployment": false,
+    "emailSend": false,
+    "note": "Owner-reported mobile bug diagnosis and same-target internal reinstall/cold-launch; no explicit account/email/AI requests. Ordinary SDK session refresh only."
+  },
+  "validationEvidence": [
+    "Handset error observed; retry and existing-build cold start both reached Home. No fatal AndroidRuntime/ReactNativeJS error observed.",
+    "Read-only public QA Auth settings returned HTTP200; no session/token payload read.",
+    "Pre-fix regression failed for all three late SDK session events with stale error; persistence-failure guard passed. Fixed handler clears transient error only while no auth-store write failure is present.",
+    "TypeScript PASS; all 11 Auth suites/66 tests PASS; prompt consumers and release configuration PASS. Web helper path corrected to installed expo/bin/cli after missing nested CLI module path; no dependency change.",
+    "Web export PASS, 1603 modules and 639 assets; size validator PASS 69.82 MB.",
+    "Native BUILD SUCCESSFUL in 9m42; 2268 source inputs unchanged. Native source-map hook text exactly matches fixed source. Binary private-pattern scan false positives cross concatenated Hermes string entries: nine matches absent verbatim from all source-map contents/public key; readable compiled QA JS has zero standalone credential-pattern matches. Verifier uses readable JS plus fixed public-env controls, not an exhaustive security claim.",
+    "Updated debug-signed APK verified: SHA-256 3a5897b3889542a8aee2da582ae849883099919ed2b44207e2f5f5ad0c0af618; source map matches exact fixed hook, source inputs stable. Install -r Success on Air1 Ultra; installed digest matches. Cold launch reaches Home without retry, process alive and no fatal errors in sampled app logs."
+  ]
+}

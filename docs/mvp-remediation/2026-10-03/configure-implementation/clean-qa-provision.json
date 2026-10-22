@@ -1,0 +1,20 @@
+{
+  "asOfDate": "2026-10-03",
+  "requestedProject": "Nilaza Clean QA",
+  "organizationId": "drxbmvimiekeoeesgssp",
+  "region": "ap-southeast-1",
+  "costQuotedUsdPerMonth": 0,
+  "userConfirmedCreation": true,
+  "preflight": "clean-qa-provision-2026-10-03 passed before one create attempt",
+  "createResult": "failed_free_active_project_limit",
+  "createdProjectId": null,
+  "reason": "Organization members already reached the maximum of two active Free projects; creation eligibility failed despite the Free-plan cost quote.",
+  "legacyQa": "akgrokwnkfqnfjqrildi",
+  "legacyQaPaused": false,
+  "otherProductTouched": false,
+  "databaseWrite": false,
+  "schemaApplied": false,
+  "appCutover": false,
+  "userFollowup": "User will create a new paid project themselves and notify the agent; finish local/Admin first.",
+  "nextGate": "Verify the user-created exact project, accepted clean Nilaza bootstrap/RLS/auth/roles/seed, then configure public app settings and server-only secrets separately. Do not reuse foreign MCY schema or generic db push/repair."
+}

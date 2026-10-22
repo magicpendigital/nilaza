@@ -1,0 +1,252 @@
+{
+  "schemaVersion": "nilaza-mvp-remediation-backlog-v1",
+  "createdDate": "2026-10-01",
+  "status": "planning_only_not_implemented",
+  "sourceReview": "docs/reviews/2026-09-30/REPORT.vi.md",
+  "scopeDecision": "Proposed G1 invited limited free beta; G2 monetized MVP; G3 store release. Current PRD remains canonical until scope is reviewed at R00.",
+  "handoffPolicy": {
+    "roleConfiguration": "packages/agent-config/coding-agents.json",
+    "laneConfiguration": "packages/agent-config/feature-workflows.json",
+    "coordinationStages": ["planning", "qa", "security_review", "release", "product_acceptance"],
+    "laneMeaning": "Canonical implementation lane IDs follow feature-workflows.json. The listed coordination stages name review/release work only; they create no new Agent or implementation lane. Any partner code fix uses its existing owner lane and a separate exact child scope.",
+    "implementationPreflight": "Every task requires fresh scoped discovery and its own docs/feature-plans/<taskId>.json; this backlog and the documentation preflight do not authorize code or live actions.",
+    "writeScope": "Task scopes below are proposals. Split each integration partner into an exact non-overlapping child handoff before editing; one integration owner for App.tsx and each canonical contract.",
+    "dependencyMeaning": "Dependencies are completion gates. For a split task, startDependencies permit only its declared first slice; completion still requires all dependencies and external gates. Read-only discovery and local contract preparation may precede live gates.",
+    "allowedDataClasses": ["sanitized_project_context", "synthetic_mobile_test_scenarios", "sanitized_ui_screenshots"],
+    "stopCondition": "Stop on scope expansion, secret/private data, missing canonical source, unresolved high risk, unsafe database write, unapproved live action or unavailable evidence; keep blocked channels unverified.",
+    "rollback": "Keep prior version/data compatibility and a reviewed rollback before rollout; use fresh prompt rollback versions with concurrency checks, avoid destructive migration rollback.",
+    "newPersistentAgentRequired": false,
+    "temporarySpecialists": "May spawn task-scoped subagents under existing owners with explicit child scope; configured roles do not launch automatically.",
+    "statusFlow": ["planned", "in_progress", "code_complete", "staging_verified", "native_verified", "manager_accepted"],
+    "separateBlockedState": true,
+    "externalActionsAuthorized": false
+  },
+  "tasks": [
+    {
+      "taskId": "R00", "phase": 0, "title": "Chốt scope, quotas, baseline và board", "ownerAgent": "product_manager_agent", "lane": "planning",
+      "integrationPartners": ["plan_qc_agent", "workflow_orchestration_agent", "qa_review_agent"],
+      "purpose": "Rebaseline current source, deduplicate the audit and declare exactly what G1/G2/G3 exposes.",
+      "writeScope": ["docs/mvp-remediation/", "docs/MVP_TASK_CHECKLIST.md", "docs/MVP_IMPLEMENTATION_PLAN.md"],
+      "dependencies": [], "startMode": "local_after_task_preflight", "externalGates": [], "releaseScope": "G1_required",
+      "acceptance": ["G1 feature and free/premium/quota table states included, gated and deferred capabilities without changing PRD silently.", "Each finding has one task owner, expected behavior, evidence, priority and retest status; reviewed source/dirty state is preserved.", "Current tests/environment, device/network/budget, AI scoring denominator and independent reviewers are recorded anew; historical Done is not current acceptance. Holdout custody is assigned before prompt work."],
+      "validation": ["Manager review of scope and ownership table", "npm run validate:governance if canonical workflow changes"],
+      "managerTestPath": "Read G1 exposed features and rights table, select a finding and locate its owner, dependency, test and completion evidence.",
+      "rollback": "Version the planning board; keep audit and PRD history intact."
+    },
+    {
+      "taskId": "R01", "phase": 0, "title": "Đóng test/build gate đỏ", "ownerAgent": "qa_review_agent", "lane": "qa",
+      "integrationPartners": ["mobile_app_agent", "workflow_orchestration_agent"], "purpose": "Find the cause of Astrology timeout and web EPERM before new acceptance.",
+      "writeScope": ["docs/mvp-remediation/validation/"], "dependencies": ["R00"], "startMode": "local_after_task_preflight", "externalGates": ["sandbox_or_host_permissions_if_required", "CI_environment"], "releaseScope": "G1_required",
+      "acceptance": ["Calculation/storage/test timings identify the timeout cause; do not hide it by only extending timeout or skipping tests.", "Full mobile tests and required web/native embed CI gates pass on the reviewed source.", "Web check/build is verified; environment failures are resolved using allowed escalation rather than presented as source compile success."],
+      "validation": ["npm --workspace apps/mobile run check", "npm --workspace apps/mobile test -- --runInBand", "npm run web:check", "npm run web:build", "Mobile quality CI web export and Android embedded bundle"],
+      "managerTestPath": "Open the new check evidence, install the matching review build and repeat the fictional chart save/reopen path."
+    },
+    {
+      "taskId": "R02", "phase": 0, "title": "Chuẩn bị forward path migration", "ownerAgent": "workflow_orchestration_agent", "lane": "backend_supabase_lane",
+      "integrationPartners": ["security_privacy_agent"], "purpose": "Recover and review the missing remote-only migration source and the safe forward path before live writes.",
+      "writeScope": ["docs/SUPABASE_MIGRATION_LEDGER.md", "supabase/migration-ledger.json", "supabase/migrations/"], "dependencies": ["R00"], "startMode": "read_only_preparation_then_external_gate", "externalGates": ["missing_remote_migration_source", "database_owner_review", "reviewed_staging_forward_path"], "releaseScope": "G1_required",
+      "acceptance": ["Missing SQL is recovered from authoritative source, compared against reviewed Staging history/schema and preserved without inventing or auto repairing history.", "Owner approves exact forward actions; post-action object/history checks justify reconciliation, not a manual status toggle.", "No db push/repair is run while ledger remains blocked."],
+      "validation": ["npm run supabase:migration-ledger:check", "Read-only history/schema comparison", "Post-approval Staging object and history verification"],
+      "managerTestPath": "Review missing source, proposed SQL/diff, affected objects and rollback; approve only the concrete staged operation.",
+      "stopCondition": "Missing source, unrelated schema impact or missing database-owner decision stops live mutation; local contract work may continue."
+    },
+    {
+      "taskId": "R03", "phase": 0, "title": "Triage dependency và security coverage", "ownerAgent": "security_privacy_agent", "lane": "security_review",
+      "integrationPartners": ["workflow_orchestration_agent", "mobile_app_agent"], "purpose": "Separate exploitable/runtime/tooling risks and define verified mitigations and coverage gaps.",
+      "writeScope": ["docs/mvp-remediation/security/"], "dependencies": ["R00"], "startMode": "local_after_task_preflight", "externalGates": ["authorized_security_test_environment", "database_gate_for_advisor_changes"], "releaseScope": "G1_required",
+      "acceptance": ["Each critical/high advisory is reviewed for installed path, reachability and mitigation; every required fix has an existing coding owner, exact child scope and targeted compatibility checks.", "Current ownership/role/rate-limit/logging/RLS gaps are recorded; the test matrix and explicit post-R06/R10 retest handoff to R22 exist. Phase-0 triage does not count as final security acceptance.", "Failed pre-start deep scan is recorded without replacement or invented findings; canonical or separately authorized security coverage is explicit."],
+      "validation": ["Dependency reachability and current official advisory review before any version change", "No-secrets and privacy review", "Current authorized coverage plus final two-account matrix handoff to R22"],
+      "managerTestPath": "Read residual risk table and coverage; require mitigation/retest for exploitable Critical/High issues before real users."
+    },
+    {
+      "taskId": "R04", "phase": 1, "title": "Tarot first fold và hành trình", "ownerAgent": "mobile_app_agent", "lane": "mobile_experience_lane",
+      "integrationPartners": ["design_sync_agent", "content_data_agent"], "purpose": "Fix intrinsic hero height and make intention, explanation, save and navigation coherent.",
+      "writeScope": ["apps/mobile/App.tsx", "apps/mobile/src/features/tarot/", "apps/mobile/src/a2ui/"], "dependencies": ["R00"], "startMode": "local_after_task_preflight", "externalGates": ["native_device_retest"], "releaseScope": "G1_required",
+      "auditRefs": ["M16", "M17", "M18", "U01", "U02", "U03", "U04", "U07", "U08", "U09", "U10"],
+      "acceptance": ["All seven intros show title, short value, tier and reachable CTA at normal font on 360x640/390x844; artwork geometry is verified per slot/native.", "Every reading entry preserves chosen deck and has explicit editable/skippable intention without duplicated deck choice.", "Why explains the current reading; Save versus Write labels match actions; second reading starts 0/N without stale cards/result."],
+      "validation": ["npm --workspace apps/mobile run check", "npm run validate:data", "npm run validate:visual-assets", "Tarot happy path and repeat-reading regression on web and native"],
+      "managerTestPath": "Explore each deck intro, start a reading, edit intention, draw, open Why, save/write, return and start reading two."
+    },
+    {
+      "taskId": "R05", "phase": 1, "title": "Chuẩn hóa shared controls và accessibility", "ownerAgent": "mobile_app_agent", "lane": "mobile_experience_lane",
+      "integrationPartners": ["design_sync_agent", "qa_review_agent"], "purpose": "Apply component states and brand rules consistently across existing customer flows.",
+      "writeScope": ["apps/mobile/src/a2ui/", "apps/mobile/src/theme.ts", "apps/mobile/src/features/persona/", "apps/mobile/src/a2ui/AdaptiveNavigation.tsx"], "dependencies": ["R00"], "startMode": "local_after_task_preflight", "externalGates": ["TalkBack_VoiceOver_native_devices"], "releaseScope": "G1_required",
+      "auditRefs": ["M06", "M07", "M08", "M09", "M10", "M19", "M20", "M23", "U11", "U12", "U15"],
+      "acceptance": ["Interactive targets 48 logical px and selected/disabled/error/focus labels are consistent; tabs stay oriented in subflows.", "VI/EN typography and contrast meet brand, Reduce Motion stops loops, font 200% preserves actions and readable content.", "Reuse shared actions/forms/status/chat; chart/art layouts retain purposeful feature-specific structure."],
+      "validation": ["npm --workspace apps/mobile run check", "Targeted component behavior tests", "npm run validate:brand", "360x640/390x844 and native reader/font/motion matrix"],
+      "managerTestPath": "Choose chips/tabs, enlarge text, enable Reduce Motion and use screen reader across Tarot, chat, Journal and Profile."
+    },
+    {
+      "taskId": "R06", "phase": 1, "title": "Auth, recovery và account isolation", "ownerAgent": "mobile_app_agent", "lane": "mobile_experience_lane",
+      "integrationPartners": ["workflow_orchestration_agent", "security_privacy_agent"], "purpose": "Complete auth/profile state and stop account-crossing callbacks or cached data.",
+      "writeScope": ["apps/mobile/src/auth/", "apps/mobile/src/features/onboarding/", "apps/mobile/src/storage.ts", "apps/mobile/App.tsx", "apps/mobile/src/backendClient.ts"], "dependencies": ["R00"], "startMode": "local_after_task_preflight", "externalGates": ["R02_for_live_writes", "authenticated_disposable_staging_accounts"], "releaseScope": "G1_required",
+      "acceptance": ["Create/login/verify/recovery/goals skip/retry/resume work; no repeated onboarding or dropped profile preferences.", "Switch A-to-B during in-flight AI/sync leaves no A content/callback in B; sessions revoked do not keep protected access.", "Account-scoped cache/server ownership pass two-account/two-client tests."],
+      "validation": ["npm --workspace apps/mobile run check", "Account-boundary tests", "Authenticated staging auth/recovery/ownership matrix"],
+      "managerTestPath": "Use test A/B, change goals, restart, switch accounts during request and follow recovery links; compare privacy of cached/server data."
+    },
+    {
+      "taskId": "R07", "phase": 1, "title": "Journal durability và cloud lifecycle", "ownerAgent": "workflow_orchestration_agent", "lane": "backend_supabase_lane",
+      "integrationPartners": ["mobile_app_agent", "security_privacy_agent"], "purpose": "Define and implement durable private Journal save/update/delete/sync with conflict and offline semantics.",
+      "writeScope": ["supabase/functions/", "supabase/migrations/", "packages/agent-config/"], "dependencies": ["R00", "R06"], "startMode": "local_contract_first_then_external_gate", "externalGates": ["R02", "authenticated_staging_E2E"], "releaseScope": "G1_required",
+      "auditRefs": ["M01", "M02", "generic_storage_failure"],
+      "acceptance": ["Canonical IDs/version/ownership and conflict policy are defined; edit/delete are server operations with pending/error/retry UI.", "Offline queue survives restart, replay is idempotent, tombstones do not resurrect deleted entries.", "Two clients see matching changes; unauthorized account cannot read/edit/delete; disk/network failures never report false success."],
+      "validation": ["npm run validate:backend", "npm run supabase:check", "npm run supabase:migration-ledger:check", "Journal repository/ownership/concurrency/failure tests", "Authenticated two-client staging lifecycle"],
+      "managerTestPath": "Save/edit/delete fictional entries on clientA, refreshB; repeat offline/restart/reconnect and denied access as another account."
+    },
+    {
+      "taskId": "R08", "phase": 1, "title": "Journal note, draft và reopen đúng nguồn", "ownerAgent": "mobile_app_agent", "lane": "mobile_experience_lane",
+      "integrationPartners": ["content_data_agent"], "purpose": "Complete personal continuity and PRD manual notes on the Journal lifecycle.",
+      "writeScope": ["apps/mobile/App.tsx", "apps/mobile/src/features/journal/", "apps/mobile/src/types.ts", "apps/mobile/src/storage.ts"], "dependencies": ["R07"], "startMode": "after_dependency", "externalGates": ["native_back_keyboard_retest"], "releaseScope": "G1_required",
+      "auditRefs": ["M03", "M23", "M24", "M25", "M29", "M30", "U08"],
+      "acceptance": ["Manual note and insight note/mood save through the same durable repository; draft survives navigation/restart under stated policy.", "Tarot reopens its snapshot, chat its persona/session and Astrology its report; missing source has readable recovery.", "Delete confirmation/undo is accurate, search/empty states and recent-entry navigation are unambiguous and bilingual."],
+      "validation": ["npm --workspace apps/mobile run check", "Journal navigation/draft/failure tests", "Native save-reopen-edit-delete happy path"],
+      "managerTestPath": "Create a note, leave/restart/return, reopen each source type, search no-match and test an accidental-delete recovery."
+    },
+    {
+      "taskId": "R09", "phase": 1, "title": "Export file và cloud account deletion", "ownerAgent": "workflow_orchestration_agent", "lane": "backend_supabase_lane",
+      "integrationPartners": ["mobile_app_agent", "security_privacy_agent", "release_readiness_agent"], "purpose": "Implement honest privacy actions for the complete account data lifecycle.",
+      "writeScope": ["supabase/functions/", "supabase/migrations/", "docs/"], "dependencies": ["R06", "R07"], "startMode": "local_contract_first_then_external_gate", "externalGates": ["R02", "approved_disposable_account_and_final_delete_confirmation"], "releaseScope": "G1_required",
+      "acceptance": ["Export creates an openable account-owned file covering declared data without provider keys/admin content.", "Deletion scope/retention, retry/status and session/cache revocation are explicit and verified across clients.", "Network failure never reports deletion complete; operator sees sanitized job status, not raw private data."],
+      "validation": ["npm run validate:backend", "npm run supabase:migration-ledger:check", "Export/ownership/deletion-job tests", "Approved disposable-account staging acceptance"],
+      "managerTestPath": "Open exported fictional data, compare scope, review deletion confirmation and execute the final disposable-account action under policy."
+    },
+    {
+      "taskId": "R10", "phase": 2, "title": "Entitlement, quota và idempotent credits", "ownerAgent": "workflow_orchestration_agent", "lane": "backend_supabase_lane",
+      "integrationPartners": ["mobile_app_agent", "security_privacy_agent"], "purpose": "Make rights and AI spend authoritative before testing or selling premium flows.",
+      "writeScope": ["supabase/functions/", "supabase/migrations/", "packages/agent-config/"], "dependencies": ["R06", "R00"], "startMode": "local_contract_first_then_external_gate", "externalGates": ["R02", "legitimate_free_premium_test_entitlements", "approved_QA_spend_budget"], "releaseScope": "G1_required",
+      "acceptance": ["TierUI matches server rights with loading/retry/expiry; owner preview does not bypass subscription guards.", "All AI routes enforce quota before cost; reservation/settlement/refund semantics and deduct path are verified.", "Concurrent/retried requests do not double-deduct or exceed budget; client/timezone changes cannot grant credits."],
+      "validation": ["npm run validate:backend", "Credit concurrency/idempotency/rollback tests", "Free/premium/expired/offline staging matrix"],
+      "managerTestPath": "Compare test tiers with server, retry/send concurrently, exceed quota and expire a sandbox entitlement; inspect sanitized ledger/result."
+    },
+    {
+      "taskId": "R11", "phase": 2, "title": "Today Pulse, timezone và repeat-day semantics", "ownerAgent": "mobile_app_agent", "lane": "mobile_experience_lane",
+      "integrationPartners": ["workflow_orchestration_agent"], "purpose": "Keep reflection dates and quota semantics consistent without duplicate daily actions.",
+      "writeScope": ["apps/mobile/App.tsx", "apps/mobile/src/features/home/", "apps/mobile/src/features/oracle/"], "dependencies": ["R06", "R10"], "startMode": "after_dependency", "externalGates": ["authenticated_staging_daily_flow"], "releaseScope": "G1_required",
+      "auditRefs": ["M04", "M25"],
+      "acceptance": ["Today Pulse before reveal/after reveal/reopen remains correct for the chosen reflection day.", "Midnight/timezone changes are deterministic and do not duplicate quota or daily credit.", "Home primary, Chat/Journal secondary and direct recent-entry opening remain consistent with Open Reflection."],
+      "validation": ["npm --workspace apps/mobile run check", "Timezone/midnight/cache tests", "Daily flow offline/online and repeated-open QA"],
+      "managerTestPath": "Open before 07:00, reveal/reopen, cross local midnight and change timezone; check reflection and quota separately."
+    },
+    {
+      "taskId": "R12", "phase": 2, "title": "AI provenance, fallback và saved-result contract", "ownerAgent": "workflow_orchestration_agent", "lane": "backend_supabase_lane",
+      "integrationPartners": ["mobile_app_agent", "product_manager_agent", "security_privacy_agent"], "purpose": "Carry actual runtime metadata from provider through trace, consumer and saved result.",
+      "writeScope": ["supabase/functions/_shared/", "supabase/functions/", "packages/agent-config/"], "dependencies": ["R00"], "startMode": "local_contract_first_then_external_gate", "externalGates": ["R02", "authenticated_provider_calls"], "releaseScope": "G1_required",
+      "acceptance": ["Request/result/trace identify prompt/config/route versions, actual provider/model, fallback and schema status.", "UI and Journal distinguish generated, local fallback and error without exposing technical metadata unnecessarily.", "Retry is not a duplicate turn; provider fallback is excluded from successful candidate-quality evaluation."],
+      "validation": ["npm run validate:backend", "Shared response/trace redaction tests", "Provider error/fallback and normal-app trace matching"],
+      "managerTestPath": "Run fictional online/offline/failure turns, save/reopen and match requestId to sanitized trace/status."
+    },
+    {
+      "taskId": "R13", "phase": 2, "title": "Canonical prompt purpose, runtime và publisher", "ownerAgent": "workflow_orchestration_agent", "lane": "backend_supabase_lane",
+      "integrationPartners": ["product_manager_agent", "content_data_agent", "security_privacy_agent"], "purpose": "Make Persona/Tarot/Oracle prompt controls change the runtime version they claim to control.",
+      "writeScope": ["supabase/functions/", "supabase/migrations/", "packages/agent-config/"], "dependencies": ["R12"], "startMode": "local_contract_first_then_external_gate", "externalGates": ["R02", "reviewed_staging_publisher_deployment"], "releaseScope": "G1_required",
+      "acceptance": ["Purpose-specific base/handoff lookup and active pointers replace ambiguous latest-global selection.", "Runtime consumes canonical prompt records with versioned schema/readback; ContentOps bundle does not impersonate runtime prompt control.", "Publisher authorization/CAS/rollback and experimental-route selection are explicit; unassigned experiment has no uncontrolled user traffic.", "frontendContent/assets have declared compatible consumer contracts and readback when exposed live; unwired controls are locked or clearly preview, without requiring dynamic artwork download for G1."],
+      "validation": ["npm run validate:backend", "npm run validate:data", "Purpose/pointer/publisher concurrency tests", "Normal-app VI/EN prompt-version trace after staging publish"],
+      "managerTestPath": "Edit one prompt in Admin, review and publish staging, load both locales, send a new consumer turn and verify expected version; test stale publish and rollback."
+    },
+    {
+      "taskId": "R14", "phase": 2, "title": "Grounding, handoff và phương pháp guide", "ownerAgent": "mobile_app_agent", "lane": "mobile_experience_lane",
+      "integrationPartners": ["workflow_orchestration_agent", "content_data_agent", "qa_review_agent"], "purpose": "Preserve factual symbolic context and make persona guidance specific and actionable.",
+      "writeScope": ["apps/mobile/src/features/persona/", "apps/mobile/src/a2ui/chat.tsx", "apps/mobile/App.tsx", "apps/mobile/src/types.ts"], "dependencies": ["R13", "R10", "R04", "R20"], "startMode": "after_dependency", "externalGates": ["authenticated_provider_retest"], "releaseScope": "G1_required",
+      "auditRefs": ["M05", "M21", "M22", "U06", "U13", "U14", "U15"],
+      "acceptance": ["Fresh Love Oracle C01 contains no unprovided reading/card; requested one action has one bounded action and user agency.", "Typed handoff keeps selected IDs/orientations/caveats despite prefill edits; missing context is acknowledged rather than invented.", "Guide method differs coherently by persona; quick replies, new-message positioning and Save continuity follow actual context."],
+      "validation": ["npm --workspace apps/mobile run check", "Typed handoff/history/quick-reply tests", "Actual C01 two-turn regression and selected-card/caveat cases"],
+      "managerTestPath": "Repeat both C01 inputs in a fresh room, then hand off a reading, edit question and inspect card consistency and saved context."
+    },
+    {
+      "taskId": "R15", "phase": 2, "title": "Council active version và atomic publish", "ownerAgent": "workflow_orchestration_agent", "lane": "backend_supabase_lane",
+      "integrationPartners": ["product_manager_agent", "mobile_app_agent", "content_data_agent"], "purpose": "Deliver the active Council config and make publication safe while preserving the existing contract.",
+      "writeScope": ["supabase/functions/ai-council/", "supabase/functions/admin-ai-council-config/", "supabase/migrations/", "packages/agent-config/council-contract.json"], "dependencies": ["R12"], "startMode": "local_contract_first_then_external_gate", "externalGates": ["R02", "authenticated_Council_E2E"], "releaseScope": "G1_if_Council_enabled_otherwise_G2_or_later",
+      "acceptance": ["Mobile resolves a compatible active config instead of static pin/query-miss fallback; trace proves the version used.", "Atomic/CAS publication preserves active data on mid-operation failure and prevents lost concurrent updates; fresh-version rollback works.", "Unused controls are locked or labelled; multiple lenses are not sold as independent debating agents."],
+      "validation": ["npm run council:contract:check", "npm run admin:test", "npm run validate:backend", "npm run e2e:ai-council:staging in authorized environment", "Publisher failure/concurrency tests"],
+      "managerTestPath": "Publish a changed synthesis mode, run the normal Council room, verify configVersion and test stale publish/failure rollback."
+    },
+    {
+      "taskId": "R16", "phase": 2, "title": "Admin Test Run thật và draft state", "ownerAgent": "product_manager_agent", "lane": "admin_ops_lane",
+      "integrationPartners": ["workflow_orchestration_agent", "security_privacy_agent", "qa_review_agent"], "purpose": "Complete a protected synthetic evaluation path sharing real consumer contracts and truthful operator state.",
+      "writeScope": ["apps/admin/", "docs/NILAZA_ADMIN_AI_STUDIO_OWNER_GUIDE.md"], "dependencies": ["R12", "R13", "R10"], "startMode": "local_contract_first_then_external_gate", "externalGates": ["R02", "reviewed_QA_capability_and_spend_budget"], "releaseScope": "G1_required",
+      "auditRefs": ["U19", "U20", "U21"],
+      "acceptance": ["Test uses the shared runtime assembler/validator and records actual result/version/provider/schema rather than mock score.", "Protected QA path only allows fictional fixtures, least privilege and quota; no client service-role or subscription bypass.", "Draft dirty state survives panel changes/reload; publish/readback/rollback remain clear; existing Admin workspaces remain available.", "Content/assets controls expose compatibility validation, consumer version readback or truthful preview/locked state; no live-success label for an ignored mobile field."],
+      "validation": ["npm run admin:check", "npm run admin:test", "npm run validate:backend", "Both protected Admin workspace happy paths", "Authorized synthetic Test Run versus normal consumer trace"],
+      "managerTestPath": "Edit a draft, switch panel and return, run fictional test, inspect actual output/version, publish staging after validation and re-read consumer trace."
+    },
+    {
+      "taskId": "R17", "phase": 3, "title": "Astrology candidate baseline/publish/retest", "ownerAgent": "content_data_agent", "lane": "ai_content_lane",
+      "integrationPartners": ["workflow_orchestration_agent", "mobile_app_agent", "product_manager_agent", "qa_review_agent"], "purpose": "Validate the existing VI/EN candidate through the genuine Insight contract before activation.",
+      "writeScope": ["packages/agent-config/", "docs/mvp-remediation/ai-evaluation/"], "dependencies": ["R10", "R12", "R16", "R18"], "startMode": "after_dependency", "externalGates": ["R02", "legitimate_Premium_test_session", "authorized_prompt_publication"], "releaseScope": "G1_if_Astrology_AI_enabled_otherwise_G2",
+      "acceptance": ["Same approved facts/model/route/token settings compare baseline and candidate; valid factIds/caveats and unknown-hour limits are preserved.", "One useful small experiment and supported tension or empty tension pass schema/safety; no legacy endpoint is used to prove Insight prompt.", "Atomic pair publish/readback and normal-app render/trace pass; fail invokes prior pair with a fresh rollback version."],
+      "validation": ["npm run astrology:ai-contract:check", "npm run astrology:ai-contract:test", "Actual VI/EN Insight baseline/candidate and normal-app retest"],
+      "managerTestPath": "Open the fictional chart with legitimate entitlement, ask the same focused question before/after, inspect version/facts and retest rollback."
+    },
+    {
+      "taskId": "R18", "phase": 3, "title": "Astrology chart UI và native acceptance", "ownerAgent": "mobile_app_agent", "lane": "mobile_experience_lane",
+      "integrationPartners": ["content_data_agent", "qa_review_agent"], "purpose": "Preserve approved deterministic charts and mythology with understandable input and caveats.",
+      "writeScope": ["apps/mobile/src/features/astrology/", "packages/astrology-core/", "docs/mvp-remediation/astrology/"], "dependencies": ["R01", "R05"], "startMode": "after_dependency", "externalGates": ["Android_iOS_devices", "accuracy_review_for_exposed_cases"], "releaseScope": "G1_if_current_chart_enabled",
+      "auditRefs": ["U16", "U17", "U18"],
+      "acceptance": ["Locale-friendly date/time/unknown-hour input and place confirmation do not reduce calculation precision or fabricate rising/houses.", "Caveats near relevant facts are readable; technical engine IDs remain in detail view, mythology navigation works.", "Deterministic accuracy/grid/consent/persistence checks and native device path pass within documented coverage."],
+      "validation": ["npm run validate:astrology", "npm run astrology:core:test", "npm run astrology:accuracy:check", "npm run astrology:grid:check", "npm --workspace apps/mobile run check", "Native unknown-hour/exact-time chart QA"],
+      "managerTestPath": "Create fictional unknown-hour then exact-time chart, inspect Moon/Rising/houses limits, reopen and read a mythology chapter."
+    },
+    {
+      "taskId": "R19", "phase": 3, "title": "Profiling, lists và bounded refactor", "ownerAgent": "mobile_app_agent", "lane": "mobile_experience_lane",
+      "integrationPartners": ["qa_review_agent", "security_privacy_agent"], "purpose": "Measure release behavior then fix demonstrated scroll, persistence and asset scaling costs.",
+      "writeScope": ["apps/mobile/App.tsx", "apps/mobile/src/features/", "apps/mobile/src/a2ui/", "apps/mobile/src/storage.ts"], "dependencies": ["R00", "R01", "R05", "R07", "R12"], "startDependencies": ["R00", "R01"], "startMode": "R19a_baseline_after_startDependencies_R19b_after_all_dependencies", "externalGates": ["release_devices", "approved_performance_budgets"], "releaseScope": "G1_required",
+      "executionSlices": [
+        {"id": "R19a", "purpose": "Measure the reproducible release baseline after R00/R01 and before optimizations; record source/hash/artifact/device/network, disclose any pre-baseline repair."},
+        {"id": "R19b", "purpose": "After R05/R07/R12 integration, fix measured bottlenecks and compare the same scenarios/devices with R19a; close only when approved budgets pass."}
+      ],
+      "auditRefs": ["M12", "M13", "M14", "M15", "M27", "M28"],
+      "acceptance": ["R19a release baseline is source/hash/artifact-bound after R00/R01 and before optimization; named-device/network startup, interaction, jank, memory, asset and available AI latency/cost are recorded, missing metrics remain unverified.", "R19b fixes measured list/root-scroll/storage bottlenecks and reaches approved budgets; 500 entries/300 messages and 20 enter-exit cycles do not lose data/OOM/grow continuously.", "Refactor only touched feature/state; optional art cache requires integrity/offline/rollback contract and measured reason, not raw-file-size inference."],
+      "validation": ["npm --workspace apps/mobile run check", "Targeted list/storage/regression checks", "npm run validate:mobile-export on matching export", "Release Android/iOS profiling and before-after report"],
+      "managerTestPath": "Use the fixture long history, scroll/send/save/reopen repeatedly and compare measured budgets on the same devices."
+    },
+    {
+      "taskId": "R20", "phase": 1, "title": "Semantic QC Tarot/copy VI-EN", "ownerAgent": "content_data_agent", "lane": "ai_content_lane",
+      "integrationPartners": ["design_sync_agent", "security_privacy_agent"], "purpose": "Correct semantic copy gaps that schema validation missed without adding decks or personas.",
+      "writeScope": ["packages/content/data/", "packages/agent-config/tarot-card-skills.json"], "dependencies": ["R00"], "startMode": "local_after_task_preflight", "externalGates": ["reviewed_content_publication_and_consumer_parity"], "releaseScope": "G1_required",
+      "auditRefs": ["U05", "U06", "U09", "U11", "M23"],
+      "acceptance": ["All 78 canonical cards have semantic VI/EN review; rank-three suit differences and Page of Wands meaning are correct and natural.", "Deck/guide copy accurately describes live capabilities, reflective limits and inspired-by status; raw labels/IDs are removed from customer text.", "Published content and consumer version match; regenerated seed/runtime artifacts retain all seven decks and licensed content boundaries."],
+      "validation": ["npm run validate:data", "Tarot content-QC and bilingual/IP review", "npm run admin:check after gated seed regeneration", "Consumer content-version readback"],
+      "managerTestPath": "Compare selected corrected cards upright/reversed VI/EN, deck claims and the actual installed/published content version."
+    },
+    {
+      "taskId": "R21", "phase": 3, "title": "AI/safety evaluation và independent retest", "ownerAgent": "qa_review_agent", "lane": "qa",
+      "integrationPartners": ["security_privacy_agent", "gen_z_discovery_customer_qa_agent", "emotional_reflection_customer_qa_agent", "wisdom_mentor_customer_qa_agent"], "purpose": "Verify genuine quality, grounding, safety and customer-flow regressions after implementation.",
+      "writeScope": ["docs/mvp-remediation/ai-evaluation/", "docs/mvp-remediation/customer-qa/"], "dependencies": ["R10", "R12", "R13", "R14", "R16", "R20"], "startMode": "after_dependency", "externalGates": ["approved_provider_QA_budget", "valid_protected_sessions", "conditional_R15_R17_when_features_enabled"], "releaseScope": "G1_required",
+      "acceptance": ["At least 14 cases use 3 repetitions/configuration: 10 development and 4 QA-held holdout, 84 case-runs for baseline/candidate at 14 cases. If an author has seen/used old holdout cases, retain them as regressions and create fresh holdout; update the denominator/budget before running.", "Applicable runs have zero safety/grounding hard failures. Two independent non-author reviewers blind-score each response on applicable 0-4 dimensions; each case/dimension has median>=3 across 3 runs for both reviewers, no response score<=1. Disagreement>=2 points requires independent adjudication before the gate; mode and blocked denominator stay separate.", "Natural and grounded ChatGPT pairs use identical fictional prompts, permitted cards/facts and continuity history; record displayed mode/date and actual Nilaza provenance. Missing outputs/metrics remain null; a blocked exposed-feature case blocks acceptance.", "Three existing customer roles review/retest changed flows on named build/mode; findings are deduplicated and simulated behavior is not claimed as customer research."],
+      "validation": ["Controlled actual provider-output suite and schema/grounding checks", "Authorized browser-controlled paired ChatGPT scenarios with identical evidence", "Safety cases in online/local fallback/blocked modes", "Blind scoring and independent post-coding customer QA reports"],
+      "managerTestPath": "Read paired outputs/versions and holdout results, repeat C01 plus selected Tarot/fact/safety cases; see pass/fail/blocked by evidence channel."
+    },
+    {
+      "taskId": "R22", "phase": 4, "title": "RC, security E2E và native nghiệm thu", "ownerAgent": "release_readiness_agent", "lane": "release",
+      "integrationPartners": ["qa_review_agent", "security_privacy_agent", "mobile_app_agent"], "purpose": "Tie successful checks and device/customer acceptance to one reproducible release candidate.",
+      "writeScope": ["docs/mvp-remediation/release/"], "dependencies": ["R01", "R03", "R04", "R05", "R06", "R07", "R08", "R09", "R10", "R11", "R19", "R21"], "startMode": "after_dependency", "externalGates": ["Android_iOS_devices_and_signing", "authenticated_Staging_security_matrix", "conditional_R15_R17_R18_if_exposed"], "releaseScope": "G1_required",
+      "acceptance": ["Matching source/build/artifact SHA256 and full CI/web-export/Android embed evidence are attached; no P0/P1 open in scope.", "Native keyboard/back/readers/font/motion/offline/resume and account/isolation/privacy/usage matrices pass on declared Android/iOS devices; post-R06/R10 authenticated security retest closes R03 remediations with evidence.", "No exploitable Critical/High remains unmitigated; all P2/P3 have owner/disposition. Unsupported platform/channel stays unverified rather than a whole-MVP pass."],
+      "validation": ["npm run mobile:release:config:check", "Mobile quality CI and release manifest", "Authenticated security/usage E2E", "Native device and three-customer-role retest reports"],
+      "managerTestPath": "Install the artifact matching manifest, complete first/repeat/reflection/save/privacy flows and inspect device/CI/security evidence."
+    },
+    {
+      "taskId": "R23", "phase": 4, "title": "UAT, limited pilot và feedback loop", "ownerAgent": "product_manager_agent", "lane": "product_acceptance",
+      "integrationPartners": ["qa_review_agent", "release_readiness_agent"], "purpose": "Validate usefulness and self-service task completion with consenting target users after technical gates.",
+      "writeScope": ["docs/mvp-remediation/pilot/"], "dependencies": ["R22"], "startMode": "after_dependency", "externalGates": ["consenting_testers", "reviewed_pilot_release_and_support_path"], "releaseScope": "G1_required",
+      "acceptance": ["8-12 target testers have declared denominator/method; proposed >=80 percent complete core task without instruction and >=70 percent rate usefulness 4 of 5 or better.", "Consent/minimized events support save/return/usefulness measurement; real conversations/journals are not sent to delivery agents.", "Incident handling, feedback triage, feature disable and budget controls work; small sample is not market validation or guaranteed retention."],
+      "validation": ["Observed target-user UAT on matching RC", "Consent/event minimization review", "Pilot incident/rollback rehearsal"],
+      "managerTestPath": "Observe onboarding-to-reflection-to-Journal/reopen without coaching; compare completion/usefulness and blockers, then decide the next cohort."
+    },
+    {
+      "taskId": "R24", "phase": 5, "title": "Purchase/restore và commercial entitlement", "ownerAgent": "workflow_orchestration_agent", "lane": "backend_supabase_lane",
+      "integrationPartners": ["mobile_app_agent", "release_readiness_agent", "security_privacy_agent"], "purpose": "Complete monetization lifecycle after foundation and actual product usefulness.",
+      "writeScope": ["supabase/functions/", "supabase/migrations/", "packages/agent-config/"], "dependencies": ["R10", "R23"], "startMode": "after_dependency", "externalGates": ["R02", "vendor_store_sandbox_and_secrets", "approved_prices_benefits", "conditional_R17_for_Premium_Astrology"], "releaseScope": "G2_required",
+      "acceptance": ["Sandbox purchase/restore/expiry/refund/cancel and account mapping reflect validated server receipts/webhooks.", "Duplicate/delayed/out-of-order webhooks do not double-grant/charge or retain revoked entitlements; verification failures show retry.", "Prices/rights and paid AI access match approved configuration; no preview tier is sold as a real subscription."],
+      "validation": ["Current official vendor API/license/security review before implementation", "Billing receipt/webhook idempotency tests", "iOS/Android sandbox purchase-restore-refund-expiry matrix"],
+      "managerTestPath": "Buy sandbox product, restore on another client, expire/refund/retry, then check balance, rights and actual Premium AI render/trace."
+    },
+    {
+      "taskId": "R25", "phase": 5, "title": "Store release từng nền tảng", "ownerAgent": "release_readiness_agent", "lane": "release",
+      "integrationPartners": ["mobile_app_agent", "security_privacy_agent", "product_manager_agent"], "purpose": "Prepare concrete signed artifacts, disclosures and release acceptance for each public platform.",
+      "writeScope": ["docs/mvp-remediation/store/", "design/launch/"], "dependencies": ["R22", "R23"], "startMode": "after_dependency", "externalGates": ["store_account_signing_and_devices", "reviewed_final_release_decision", "R24_if_paid_release"], "releaseScope": "G3_required",
+      "acceptance": ["Signed Android/iOS artifacts, source/checksum/CI/device evidence and update-retains-data tests match the submitted candidate.", "Current store/privacy/payment/AI disclosures and screenshots accurately describe enabled features; Help/legal stay separate from internal prompts/docs.", "Support/deletion/incident/rollback path is ready; release only the platform/configuration that passed; OTA remains under its separate tested gate."],
+      "validation": ["npm run mobile:release:config:check", "npm run validate:brand", "npm run validate:launch when exports change", "Current official store-policy review and signed-device acceptance"],
+      "managerTestPath": "Review the exact signed build, disclosures and store preview, verify checksum/platform and make the final release decision."
+    }
+  ]
+}

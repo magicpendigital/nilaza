@@ -1,0 +1,77 @@
+{
+  "capturedAtUtc": "2026-10-02 17:24:08 UTC",
+  "project": {
+    "ref": "akgrokwnkfqnfjqrildi",
+    "name": "Nilaza Staging QA"
+  },
+  "deployment": {
+    "slug": "ai-oracle-turn",
+    "version": 25,
+    "verifyJwt": true,
+    "bundleSha256": "8327737ac5716ec335c4701057d542836145ad419cd8b27da25668edf1073aaf",
+    "createdAt": 1788406914223,
+    "updatedAt": 1788927944454
+  },
+  "routes": [
+    {
+      "id": "19f914d8-5398-4a0d-b6b1-39fc528fae51",
+      "feature": "oracle_router",
+      "version": "2026-09-14-oracle-pinned-v2",
+      "status": "active",
+      "primary_provider": "openrouter",
+      "primary_model": "nex-agi/nex-n2.5-mini:free",
+      "fallback_provider": null,
+      "fallback_model": null,
+      "temperature": "0.62",
+      "max_output_tokens": 300,
+      "response_schema": "oracle_router_v1",
+      "fallback_when": [
+        "missing_api_key",
+        "provider_timeout",
+        "rate_limit",
+        "provider_5xx",
+        "malformed_response"
+      ],
+      "safety_policy": {
+        "blockCrisisAdvice": true,
+        "blockProfessionalAdvice": true,
+        "blockDeterministicPredictions": true
+      },
+      "published_at": "2026-09-14 08:58:50.4896+00"
+    }
+  ],
+  "activeDatabasePrompts": [
+    {
+      "id": "bf6862f4-bdf6-4274-8878-67ad877f9b99",
+      "feature": "oracle_router",
+      "owner_type": "global",
+      "version": "2026-07-06-oracle-router-v1",
+      "status": "active",
+      "locale": "en",
+      "prompt_text": "You are Nilaza Oracle, the central reflection host for Nilaza. Listen to the current user question, answer briefly with warmth and self-reflection, then suggest the right action: reflect here, draw Tarot, ask a guide, open AI Council, cast Astrology, or save to Journal. Oracle does not replace specialized features. Do not select tarot cards with the LLM, do not invent astrology placements, and do not use journal history, birth profile, raw chat, or uploaded images unless the user has allowed that context. Do not make certain predictions, diagnose, or provide medical, legal, financial, or mental-health advice. For self-harm or crisis risk, prioritize safe support and immediate local help.",
+      "published_at": "2026-09-08 17:44:39.789107+00"
+    },
+    {
+      "id": "f3ddb970-280c-4799-b7e1-9d432a157171",
+      "feature": "oracle_router",
+      "owner_type": "global",
+      "version": "2026-07-06-oracle-router-v1",
+      "status": "active",
+      "locale": "vi",
+      "prompt_text": "Bạn là Nilaza Oracle, người dẫn thực hành phản chiếu trung tâm của Nilaza. Hãy lắng nghe câu hỏi hiện tại, phản hồi ngắn gọn, ấm áp và giàu tính tự phản chiếu, sau đó đề xuất action phù hợp: soi tiếp ở đây, rút Tarot, hỏi một guide, mở AI Council, xem Astrology, hoặc lưu Journal. Oracle không thay thế các feature chuyên biệt. Không tự chọn lá tarot bằng LLM, không tự bịa placements astrology, không dùng journal/birth profile/raw chat nếu user chưa cho phép. Không đưa ra dự đoán chắc chắn, chẩn đoán, hoặc lời khuyên y tế, pháp lý, tài chính, sức khỏe tâm thần. Nếu có nguy cơ tự hại hoặc khủng hoảng, ưu tiên phản hồi an toàn và hướng đến trợ giúp khẩn cấp tại địa phương.",
+      "published_at": "2026-09-08 17:44:39.789107+00"
+    }
+  ],
+  "consumption": {
+    "promptSource": "hardcoded oracleSystemPrompt(language)",
+    "databaseOraclePromptsConsumed": false,
+    "messages": "[{role:'user',content:trimmedCurrentUserMessage}]",
+    "ignoredForLlm": [
+      "profile",
+      "recentSafeContext",
+      "consentFlags",
+      "sanitizedHistory"
+    ]
+  },
+  "scope": "Read-only config/code; no raw customer rows, keys, prompt publish, migration or deployment"
+}

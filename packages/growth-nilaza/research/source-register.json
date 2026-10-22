@@ -1,0 +1,108 @@
+{
+  "schemaVersion": "1.0.0",
+  "tenantId": "nilaza",
+  "status": "prepared_internal",
+  "purpose": "Trace dated internal evidence, remaining product gates and research hypotheses. Plans, source integration, device QA and public release acceptance are distinct; none of these sources are real-user interview findings.",
+  "sources": [
+    {
+      "id": "brand_open_reflection_v1",
+      "type": "approved_brand_guidance",
+      "reference": "docs/BRAND_GUIDELINES.md",
+      "allowedUse": "voice, visual boundary and public-core-copy review",
+      "claimAuthority": "brand_only",
+      "reviewedAt": "2026-09-30",
+      "evidenceRole": "approved_identity_source"
+    },
+    {
+      "id": "feature_prd_mvp",
+      "type": "internal_product_requirement",
+      "reference": "docs/FEATURE_PRD.md",
+      "allowedUse": "JTBD and feature-gate hypotheses",
+      "claimAuthority": "not_release_evidence",
+      "reviewedAt": "2026-09-30",
+      "evidenceRole": "historical_or_requirement_context_not_current_release_acceptance"
+    },
+    {
+      "id": "a2_review_checklist",
+      "type": "preliminary_device_review",
+      "reference": "docs/A2_REVIEW_CHECKLIST_2026-09-21.vi.md",
+      "allowedUse": "internal Tarot and guide concept boundaries",
+      "claimAuthority": "internal_only_until_G_A2",
+      "reviewedAt": "2026-09-30",
+      "evidenceRole": "historical_or_requirement_context_not_current_release_acceptance"
+    },
+    {
+      "id": "a1_astrology_scope",
+      "type": "approved_scope",
+      "reference": "docs/A1_BASELINE_AND_DECISION_REGISTER_2026-09-20.vi.md",
+      "allowedUse": "Historical scope and guardrails only; current chart/mythology state comes from Android QA and whole-app review",
+      "claimAuthority": "historical_scope_not_current_runtime_or_release_evidence",
+      "reviewedAt": "2026-09-30",
+      "evidenceRole": "historical_or_requirement_context_not_current_release_acceptance"
+    },
+    {
+      "id": "marketing_pilot_plan",
+      "type": "internal_operating_plan",
+      "reference": "docs/B_PARALLEL_MARKETING_PILOT_EXECUTION_PLAN_2026-09-21.vi.md",
+      "allowedUse": "Historical pilot scope; workflow IDs/readiness come from the current template baseline and Nilaza readiness",
+      "claimAuthority": "not_product_evidence",
+      "reviewedAt": "2026-09-30",
+      "evidenceRole": "historical_or_requirement_context_not_current_release_acceptance"
+    },
+    {
+      "id": "astrology_android_qa_2026_09_23",
+      "type": "internal_android_device_qa",
+      "reference": "docs/ASTROLOGY_ANDROID_QA_2026-09-23.vi.md",
+      "allowedUse": "Integrated local chart/mythology evidence with cloud, AI preview and release limits",
+      "claimAuthority": "internal_only_not_public_release",
+      "reviewedAt": "2026-09-30",
+      "evidenceRole": "dated_device_qa_on_identified_internal_build"
+    },
+    {
+      "id": "tarot_native_qa_2026_09_29",
+      "type": "internal_android_device_qa",
+      "reference": "docs/TAROT_RELEASE_QA_2026-09-29.vi.md",
+      "allowedUse": "Internal Tarot flow/artwork QA and release limitations",
+      "claimAuthority": "internal_only_not_public_release",
+      "reviewedAt": "2026-09-30",
+      "evidenceRole": "dated_native_qa_not_all_platform_acceptance"
+    },
+    {
+      "id": "internal_native_build_2026_09_30",
+      "type": "internal_debug_signed_build_smoke",
+      "reference": "docs/ANDROID_NATIVE_RELEASE_BUILD_2026-09-30.vi.md",
+      "allowedUse": "APK 0.1.3/code 4 provenance and cold-launch/artwork smoke only",
+      "claimAuthority": "not_full_beta_or_store_acceptance",
+      "reviewedAt": "2026-09-30",
+      "evidenceRole": "internal_artifact_smoke_with_signing_and_provenance_limits"
+    },
+    {
+      "id": "whole_app_review_2026_09_30",
+      "type": "current_product_gap_review",
+      "reference": "docs/reviews/2026-09-30/REPORT.vi.md",
+      "allowedUse": "Core/cloud lifecycle, AI runtime/quality, payments, measurement and release work still open",
+      "claimAuthority": "internal_gap_evidence_not_positive_release_claim",
+      "reviewedAt": "2026-09-30",
+      "evidenceRole": "current_unfinished_product_work"
+    },
+    {
+      "id": "growth_template_baseline_2026_09_22",
+      "type": "internal_template_handoff",
+      "reference": "docs/MARKETING_AI_TEMPLATE_HANDOFF_2026-09-22.vi.md",
+      "allowedUse": "W0/W1/W2/W6 foundation and W3/W4/W5 deferred execution boundaries",
+      "claimAuthority": "framework_only_not_deployed_agent_runtime",
+      "reviewedAt": "2026-09-30",
+      "evidenceRole": "reviewed_template_baseline"
+    }
+  ],
+  "prohibitedInputs": [
+    "raw_private_chat",
+    "raw_journal",
+    "birth_profile",
+    "raw_chart",
+    "face_upload",
+    "email_or_phone",
+    "provider_secret"
+  ],
+  "lastReviewedAt": "2026-09-30"
+}

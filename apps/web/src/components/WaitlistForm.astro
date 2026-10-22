@@ -1,0 +1,64 @@
+---
+import type { Locale } from "../lib/site";
+import { waitlistConfig } from "../lib/waitlistConfig";
+const { locale } = Astro.props as { locale: Locale };
+const { endpoint, siteKey, enabled } = waitlistConfig;
+const vi = locale === "vi";
+---
+{enabled ? <form class="waitlist" data-waitlist data-endpoint={endpoint} data-locale={locale} data-turnstile-key={siteKey}>
+  <label><span>{vi ? "Email của bạn" : "Your email"}</span><input type="email" name="email" autocomplete="email" inputmode="email" autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="254" required placeholder="you@example.com" /></label>
+  <label><span>{vi ? "Điều bạn muốn khám phá" : "What would you like to explore?"}</span><select name="interest">
+    <option value="reflection">{vi ? "Sáng rõ & tự chiêm nghiệm" : "Clarity & reflection"}</option><option value="tarot">Tarot</option><option value="guides">{vi ? "Người dẫn đường AI" : "AI guides"}</option><option value="astrology">{vi ? "Chiêm tinh" : "Astrology"}</option>
+  </select></label>
+  <label class="trap" aria-hidden="true">Website<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+  <label class="consent"><input type="checkbox" name="consent" required /> <span>{vi ? "Tôi đồng ý để Nilaza lưu email và gửi thông tin ra mắt, cơ hội trải nghiệm sớm. Khi gửi cập nhật, email sẽ có cách hủy nhận tin." : "I agree to Nilaza storing my email and sending launch news and early access opportunities. Updates will include a way to unsubscribe."}</span></label>
+  <a class="privacy-link" href={"/" + locale + "/privacy"}>{vi ? "Email được sử dụng như thế nào?" : "How will my email be used?"} ↗</a>
+  <div data-turnstile-host></div>
+  <button class="button" type="submit" disabled>{vi ? "Đăng ký trước ra mắt" : "Join the waitlist"}</button>
+  <p class="form-assurance">{vi ? "Miễn phí · Không cần thanh toán · Chưa phải tài khoản ứng dụng." : "Free · No payment required · This does not create an app account."}</p>
+  <p class="form-status" role="status" aria-live="polite">{vi ? "Đang tải bước xác minh…" : "Loading verification…"}</p>
+  <noscript><p>{vi ? "Bật JavaScript để xác minh và gửi đăng ký an toàn." : "Enable JavaScript to verify and submit your signup securely."}</p></noscript>
+</form> : <aside class="beta-notice"><p class="eyebrow">{vi ? "Đăng ký trước ra mắt" : "Prelaunch waitlist"}</p><h3>{vi ? "Kết nối đăng ký đang được hoàn thiện." : "Signup is being connected."}</h3><p>{vi ? "Nilaza chưa ra mắt công khai. Biểu mẫu hiện chưa sẵn sàng nhận email; bạn vui lòng quay lại sau." : "Nilaza has not launched publicly. The form is not ready to accept emails yet; please check back soon."}</p><a href={"/" + locale + "/help/beta-waitlist"}>{vi ? "Tìm hiểu về đăng ký trước ra mắt" : "About the prelaunch waitlist"} →</a></aside>}
+<script>
+  import { trackPublicEvent } from "../lib/analytics";
+  import { sendWaitlistRequest } from "../lib/waitlistRequest";
+  type Turnstile = { render: (container: HTMLElement, options: Record<string, unknown>) => string; reset: (id: string) => void };
+  const win = window as typeof window & { turnstile?: Turnstile };
+  const forms = [...document.querySelectorAll<HTMLFormElement>("[data-waitlist]")];
+  // This runs after the async script's load event. ready() rejects async scripts.
+  const init = () => {
+    if (!win.turnstile) return;
+    for (const form of forms) {
+      const status = form.querySelector<HTMLElement>(".form-status")!;
+      const button = form.querySelector<HTMLButtonElement>("button[type=submit]")!;
+      const host = form.querySelector<HTMLElement>("[data-turnstile-host]")!;
+      const vi = form.dataset.locale === "vi";
+      let token = ""; let sending = false;
+      const widget = win.turnstile!.render(host, { sitekey: form.dataset.turnstileKey, language: vi ? "vi" : "en", theme: "auto", size: host.clientWidth < 300 ? "compact" : "normal",
+        callback: (value: string) => { token = value; button.disabled = sending; if (!form.dataset.status) status.textContent = ""; },
+        "expired-callback": () => { token = ""; button.disabled = true; if (!sending) status.textContent = vi ? "Xác minh đã hết hạn. Vui lòng xác minh lại." : "Verification expired. Please verify again."; },
+        "error-callback": () => { token = ""; button.disabled = true; status.textContent = vi ? "Chưa tải được xác minh. Kiểm tra kết nối hoặc tải lại trang." : "Verification could not load. Check your connection or reload the page."; }
+      });
+      form.addEventListener("submit", async event => {
+        event.preventDefault(); if (sending || !token || !form.reportValidity()) return;
+        const data = new FormData(form); sending = true; button.disabled = true; form.setAttribute("aria-busy", "true");
+        status.textContent = vi ? "Đang ghi nhận đăng ký…" : "Submitting your signup…";
+        const params = new URLSearchParams(location.search);
+        const result = await sendWaitlistRequest(form.dataset.endpoint!, { email: data.get("email"), interest: data.get("interest"), locale: vi ? "vi" : "en", website: data.get("website"), consent: data.get("consent") === "on", turnstileToken: token, utm: Object.fromEntries(["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].map(key => [key, params.get(key)]).filter(([, value]) => value)) });
+        form.dataset.status = result;
+        if (result === "accepted") {
+          form.reset(); status.textContent = vi ? "Đã ghi nhận đăng ký trước ra mắt. Đây chưa phải tài khoản hoặc lời mời dùng ứng dụng; thời điểm và điều kiện trải nghiệm sẽ được thông báo sau." : "Your prelaunch signup has been recorded. This is not an account or an invitation to use the app; access timing and conditions will be announced later.";
+          trackPublicEvent("waitlist_success", { locale: vi ? "vi" : "en", surface: "landing_waitlist" });
+        } else status.textContent = result === "challenge_failed" ? (vi ? "Xác minh chưa hợp lệ hoặc đã hết hạn. Xác minh lại rồi thử gửi; thông tin của bạn vẫn được giữ." : "Verification failed or expired. Verify again and retry; your details have been kept.") : result === "invalid_request" ? (vi ? "Kiểm tra email và sự đồng ý nhận tin rồi thử lại." : "Check your email and consent, then retry.") : (vi ? "Chưa ghi nhận được đăng ký. Thông tin vẫn được giữ; vui lòng thử lại sau." : "Your signup could not be recorded. Your details have been kept; please try again shortly.");
+        sending = false; token = ""; button.disabled = true; form.removeAttribute("aria-busy"); win.turnstile?.reset(widget);
+      });
+    }
+  };
+  if (forms.length) {
+    if (win.turnstile) init();
+    else { const script = document.createElement("script"); script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"; script.async = true; script.onload = init; script.onerror = () => { for (const form of forms) form.querySelector<HTMLElement>(".form-status")!.textContent = form.dataset.locale === "vi" ? "Chưa tải được xác minh. Kiểm tra kết nối hoặc tải lại trang." : "Verification could not load. Check your connection or reload the page."; }; document.head.append(script); }
+  }
+</script>
+<style>
+.waitlist{display:grid;gap:16px;max-width:620px;min-width:0}.waitlist>label:not(.consent){display:grid;gap:7px}.waitlist label>span{font-size:.85rem;color:var(--moon)}input,select{width:100%;min-height:48px;border:1px solid var(--line);border-radius:var(--radius);background:#0f0e0d;color:var(--ivory);padding:14px;outline:none;font-size:16px}input:focus,select:focus{border-color:var(--gold)}.consent{display:flex;align-items:flex-start;gap:10px;min-height:48px;cursor:pointer}.consent input{width:22px;min-height:22px;flex:none;margin-top:3px}.consent span{font-size:.85rem!important;line-height:1.6}.trap{position:absolute!important;left:-9999px!important}.waitlist .button{justify-self:start;min-height:48px}.waitlist .button:disabled{opacity:.65;cursor:wait}.form-assurance{margin:-7px 0 0;font-size:.8rem;color:var(--moon)}.form-status{min-height:1.5em;margin:0;color:var(--gold);font-size:.9rem}.privacy-link{color:var(--gold);font-size:.85rem;min-height:48px;display:inline-flex;align-items:center}.beta-notice{padding:28px;border:1px solid var(--line);border-radius:8px;background:rgba(14,90,90,.07)}.beta-notice h3{font:400 2rem/1.1 var(--display);margin:10px 0}.beta-notice p{max-width:52ch}.beta-notice a{display:inline-flex;align-items:center;min-height:48px;color:var(--gold)}:global(.paper) .beta-notice{border-color:rgba(21,20,22,.2);color:var(--ink)}:global(.paper) .beta-notice a,:global(.paper) .beta-notice .eyebrow,:global(.paper) .form-status,:global(.paper) .privacy-link{color:var(--teal)}:global(.paper) .waitlist label>span,:global(.paper) .form-assurance{color:#655f59}
+</style>

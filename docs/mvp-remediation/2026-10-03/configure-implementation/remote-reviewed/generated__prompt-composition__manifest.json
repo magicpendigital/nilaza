@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "nilaza-prompt-consumer-v1",
+  "bundleId": "nilaza-oracle-composition-preview",
+  "bundleVersion": "2026-10-03.preview.1",
+  "bundleSha256": "f5f364ea94e6f8cfc4812960a5224c07a604b05c646539ec081d004b25041bdc",
+  "usagePolicyVersion": "g1-2026-10-02",
+  "providerActivation": "gated",
+  "files": [
+    {
+      "name": "bundle.mjs",
+      "source": "packages/agent-config/prompt-composition/bundle.mjs",
+      "sha256": "777b4f1440971f827b43edf7bda966613cc088164839ef3983b67c714a520278"
+    },
+    {
+      "name": "compose.mjs",
+      "source": "packages/agent-config/prompt-composition/compose.mjs",
+      "sha256": "0f9a08609a0861fb37dd81ce0fd6969a938c8adab2cc7284b9ef4fd8e742b215"
+    }
+  ]
+}

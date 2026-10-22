@@ -1,0 +1,13 @@
+{
+  "cardId": "major-08-strength",
+  "prompt": "Precise edit to the provided STRENGTH painting: change ONLY the reclining lion's tail. Curl the tail naturally back TOWARD its own hind paws and body, so the tail tip is at least 12% of total canvas width away from the RIGHT edge. No part of lion anatomy may extend farther right than its hindquarters, and the rightmost tail point should be inside the central 76% of canvas width. The rest of the composition is approved: preserve the same lion face, paws and limbs, woman with hands on thighs, both feet on ground, gap between them, warm light, landscape, painterly grain, colors and all other objects. One lion, one woman; do not introduce any extra limb/paw or tail. Keep exactly the same portrait ratio and full-bleed artwork with no text, border or signature.",
+  "generationTool": "built-in image_gen",
+  "createdDate": "2026-10-13",
+  "inputImagePath": "raw/major-08-strength-20261013-v2.png",
+  "inputImageRole": "exact edit target passed as referenced_image_paths",
+  "sourcePath": "raw/major-08-strength-20261013-v3.png",
+  "status": "pending-independent-source-review",
+  "sha256": "3fb3572271ed3b5d88f8a94b40c9c963c28d67430d782b8d0c4517435fa447b5",
+  "sizeBytes": 3590000,
+  "inputImageSha256": "3aaf18637c76e3491972460f1b636837053229e336ef9c65d9bd5a2d19b3c0f9"
+}

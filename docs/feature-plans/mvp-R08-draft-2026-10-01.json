@@ -1,0 +1,136 @@
+{
+  "schemaVersion": 1,
+  "taskId": "mvp-R08-draft-2026-10-01",
+  "ownerAgent": "mobile_app_agent",
+  "lane": "mobile_experience_lane",
+  "goal": "Preserve private per-account manual Journal drafts across back/tab/restart with acknowledged storage and a submission lock that survives remount; root applies prepared agent code after child writer stalled.",
+  "successCriteria": [
+    "Failed or corrupt reads lock edits and never overwrite existing draft with empty state.",
+    "Ordered writes preserve latest draft with explicit memory-only warning/retry on disk failure.",
+    "Store submission lock blocks duplicate note creation across remount; clear only after note ACK, failed clear retries cleanup only."
+  ],
+  "writeScope": [
+    "apps/mobile/src/features/journal/journalDraftStore.ts",
+    "apps/mobile/src/features/journal/__tests__/journalDraftStore.test.ts",
+    "apps/mobile/src/features/journal/JournalComposer.tsx",
+    "apps/mobile/src/features/journal/__tests__/JournalComposer.test.tsx",
+    "docs/mvp-remediation/2026-10-01/R08-draft-handoff.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "No live writes, project retarget, migration SQL, deploy, publish or release.",
+    "App/account bridge and privacy integration require separate root record; historical planning backlog untouched."
+  ],
+  "impact": {
+    "entryPoint": "Private JournalComposer only, optional injected draft store.",
+    "dataWrite": "Account-scoped bounded draft only through injected ACK read/write, no cloud payload.",
+    "backendContract": "No endpoint or schema changes in this exact slice; future live acceptance separately gated.",
+    "adminVisibility": "Canonical seed source/hash and protected workspace verification reported honestly, no publish.",
+    "privacySafety": "Synthetic fixtures or sanitized project context; no raw private content, credentials or author identity.",
+    "observability": "Actual check counts/source bindings and precise blocked dependencies.",
+    "rollback": "Docs-only report can be superseded; implementation rollback remains documented per slice."
+  },
+  "canonicalContracts": [
+    "journalDraftStore.ts owns bounded schema-v1 draft envelope; root supplies account-specific read/write/isActive bridge.",
+    "onSave Promise<boolean> is acknowledged Journal mutation; draft clear after true only, not cloud sync assertion."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Reviewed exact delegated slice/current source before root writes; preserve historical baseline and all unrelated owner edits."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Reviewed exact delegated slice/current source before root writes; preserve historical baseline and all unrelated owner edits."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Reviewed exact delegated slice/current source before root writes; preserve historical baseline and all unrelated owner edits."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Reviewed exact delegated slice/current source before root writes; preserve historical baseline and all unrelated owner edits."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "c492e69235bc94267f8de0181822602612a5bbda03dd3d144cf4d6c96ff43197",
+      "reason": "Reviewed exact delegated slice/current source before root writes; preserve historical baseline and all unrelated owner edits."
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "7a4973733886cb4f1568d38e6d8324d1d8200bb1acd850db486bf5323943f023",
+      "reason": "Reviewed exact delegated slice/current source before root writes; preserve historical baseline and all unrelated owner edits."
+    },
+    {
+      "path": "apps/mobile/src/features/journal/JournalComposer.tsx",
+      "sha256": "53511293bd3a9079accfc753d9b0b8cea6c95e241fd984c073ab5c4ad2af16db",
+      "reason": "Reviewed exact delegated slice/current source before root writes; preserve historical baseline and all unrelated owner edits."
+    },
+    {
+      "path": "apps/mobile/src/features/journal/__tests__/JournalComposer.test.tsx",
+      "sha256": "25c595177a01f469d29c02a231f820505e50a8623f16d6a44ab1b6d6a0e1d373",
+      "reason": "Reviewed exact delegated slice/current source before root writes; preserve historical baseline and all unrelated owner edits."
+    },
+    {
+      "path": "apps/mobile/src/auth/accountStorage.ts",
+      "sha256": "330a0213be9886821b4efe38983116adb9941188153de192edfae0d0c9797cd2",
+      "reason": "Reviewed exact delegated slice/current source before root writes; preserve historical baseline and all unrelated owner edits."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Fresh exact QA plan with full results and separate browser/native/CI/live gates; no skipped case or inflated timeout."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Prepared agent code uses existing A2UI/tokens and bilingual states, no assets or false persistence promises."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Report installed versions and observed connector metadata; no new package/API choice or invented current advisory claims."
+  },
+  "securityReview": {
+    "authzRls": "Local unit tests only; linked DB identity flagged separately.",
+    "sensitiveData": "Synthetic fixtures; no credential/private traces read.",
+    "secretsLogging": "No secret printing or env changes.",
+    "externalInput": "Trusted repository tests/build scripts; results not commands.",
+    "dependencies": "No install/update; existing lockfile version.",
+    "migrationRelease": "Nilaza QA foreign-schema identity unresolved; no live writes/deploy/retarget.",
+    "stopCondition": "Stop outside exact local slice or if ACK/account safeguards weakened; runtime release risks remain blocked.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/src/features/journal/journalDraftStore.ts",
+      "apps/mobile/src/features/journal/__tests__/journalDraftStore.test.ts",
+      "apps/mobile/src/features/journal/JournalComposer.tsx",
+      "apps/mobile/src/features/journal/__tests__/JournalComposer.test.tsx",
+      "docs/mvp-remediation/2026-10-01/R08-draft-handoff.vi.md"
+    ],
+    "note": "Preserve exact existing owner changes; root executes prepared delegated plan with working writer. No other agent scope mutation."
+  },
+  "validationCommands": [
+    "npm --workspace apps/mobile test -- --runInBand src/features/journal/__tests__/journalDraftStore.test.ts src/features/journal/__tests__/JournalComposer.test.tsx",
+    "npm --workspace apps/mobile run check"
+  ],
+  "managerTestPath": "After root bridge, enter fictional draft, back/tab/reopen/restart after ACK; read/write failure, account close, save/unmount/reopen/clear failure.",
+  "residualRisk": "Disk failure retains memory only. Note ACK then failed draft clear can leave older draft after process death; cleanup-only retry prevents same-session duplicate, native acceptance remains separate.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deployment": false,
+    "productionRelease": false
+  },
+  "externalSourceReview": []
+}

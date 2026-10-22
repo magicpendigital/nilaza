@@ -1,0 +1,190 @@
+{
+  "package": "Tinh-Quang-Three-Missing-Artworks-Source-QC-2026-10-13",
+  "files": [
+    {
+      "path": "QC-SUMMARY.json",
+      "sizeBytes": 4877,
+      "sha256": "deebfdf63e6e840187694b07e1a7554e4460ef4cd0ce0ec2d111e1347df2f531"
+    },
+    {
+      "path": "README.vi.md",
+      "sizeBytes": 3642,
+      "sha256": "ffcaaf863149a8b0164c5f31ec176809c9843f0e4451e1f69a614f6230cb092c"
+    },
+    {
+      "path": "SELECTED-78-SOURCES.json",
+      "sizeBytes": 50905,
+      "sha256": "39bb71844ae3ca4c9c7f6cbf9045d922df7183e46fcfdfc9a4243c53899dd207"
+    },
+    {
+      "path": "deck-metadata/Tinh-Quang-Bilingual-Creative-Bible-v6.md",
+      "sizeBytes": 393300,
+      "sha256": "f006ed914af524bda9669c0c7c161701056ef5cace2e8f91470fa77f55c66269"
+    },
+    {
+      "path": "deck-metadata/card-spec.json",
+      "sizeBytes": 1111,
+      "sha256": "c3004856345a8c5fb9244a8fbe7121a1e1ff4a0ca79dfa8850ce98eaebbaca26"
+    },
+    {
+      "path": "deck-metadata/content-v6.json",
+      "sizeBytes": 446348,
+      "sha256": "56e333f3cb0f613978beace8e035c845524c1b2b39b79181cdb65e3699eb9032"
+    },
+    {
+      "path": "deck-metadata/deck-manifest-v4.json",
+      "sizeBytes": 193071,
+      "sha256": "0ac136ba8913b73fec0265e0f0b44672463fafa186bfbf87d5d38f5db6d89734"
+    },
+    {
+      "path": "deck-metadata/tinh-quang-full-deck-manifest.json",
+      "sizeBytes": 193421,
+      "sha256": "3c1e8f2b097d85f8f812e81612c872840352722ed04b96c6bae13f74424b8f75"
+    },
+    {
+      "path": "deck-metadata/tinh-quang-only-tarot-card-designs.json",
+      "sizeBytes": 260667,
+      "sha256": "89f445812a3d6d95de4061ee0f8f02d940933efb9011e855d9ab689fe4ba6d5e"
+    },
+    {
+      "path": "deck-metadata/tinh-quang-only-tarot-deck-backs.json",
+      "sizeBytes": 881,
+      "sha256": "ef8555b8a6e6292785379b19b09b6be7cf6f6ac7d2ba5738cc733eee6454d5e2"
+    },
+    {
+      "path": "deck-metadata/tinh-quang-only-tarot-decks.json",
+      "sizeBytes": 36597,
+      "sha256": "b5431a5bd4e25cba9cb442bea221e6fc7f7f60fda6c0dd8268491fd9a6f50cd7"
+    },
+    {
+      "path": "evidence/BASELINE-MANIFEST.json",
+      "sizeBytes": 72756,
+      "sha256": "c46dd58e66c6811c22f4d60d0858745650546db892c237f0f8373c15e77202cc"
+    },
+    {
+      "path": "evidence/REVIEW-RECORD-DIGESTS.json",
+      "sizeBytes": 215,
+      "sha256": "54c83c294f3311e300723baf07628049f573c9aead13b1a780a7848f08c2e341"
+    },
+    {
+      "path": "evidence/normalization-run.txt",
+      "sizeBytes": 256,
+      "sha256": "c5db2fa9254b99983805c67011ed2b8b7e08ee2a509cd160685879992091ed5a"
+    },
+    {
+      "path": "normalized/major-08-strength.png",
+      "sizeBytes": 1707233,
+      "sha256": "cb45bac6e42fc79d13915ec44ad2b427905730afba4270b261921c9f62562a4c"
+    },
+    {
+      "path": "normalized/major-21-world.png",
+      "sizeBytes": 1529116,
+      "sha256": "da779cf569ce273f5657531dda2004ec2cb6286276ffd79e922200c22993febe"
+    },
+    {
+      "path": "normalized/minor-swords-ten.png",
+      "sizeBytes": 1621661,
+      "sha256": "5f86e863372d256f96a2bef97c43efea3d543259b182114b1b943f71df2cda1f"
+    },
+    {
+      "path": "raw-variants/major-08-strength-20261013-v1.png",
+      "sizeBytes": 3693033,
+      "sha256": "7c1ff491f7d64bf0acafc5c534cac02b02adac9d99e4cb51af7d8c8aa1bb9e8d"
+    },
+    {
+      "path": "raw-variants/major-08-strength-20261013-v2.png",
+      "sizeBytes": 3874674,
+      "sha256": "3aaf18637c76e3491972460f1b636837053229e336ef9c65d9bd5a2d19b3c0f9"
+    },
+    {
+      "path": "raw-variants/major-08-strength-20261013-v3.png",
+      "sizeBytes": 3590000,
+      "sha256": "3fb3572271ed3b5d88f8a94b40c9c963c28d67430d782b8d0c4517435fa447b5"
+    },
+    {
+      "path": "raw-variants/major-21-world-20261013-v1.png",
+      "sizeBytes": 3412282,
+      "sha256": "35113bb172c94d52783659c7aea5540e2bc0874c80c0917ab0794d3fe775844e"
+    },
+    {
+      "path": "raw-variants/major-21-world-20261013-v2.png",
+      "sizeBytes": 3430270,
+      "sha256": "4566d084eec09e20c65984c926990a5e9504e2a9b023a8f1cc4a66767613af3c"
+    },
+    {
+      "path": "raw-variants/major-21-world-20261013-v3.png",
+      "sizeBytes": 3235149,
+      "sha256": "4e7583a384e5cbbdc63c5a63793df855c45efbdb668dc56733058cd6aaeeae1d"
+    },
+    {
+      "path": "raw-variants/major-21-world-20261013-v4.png",
+      "sizeBytes": 3132890,
+      "sha256": "e89082582079bd550346268bf427af11cb28fd135ca01d82f5f7c865e1655364"
+    },
+    {
+      "path": "raw-variants/major-21-world-20261013-v5.png",
+      "sizeBytes": 3012987,
+      "sha256": "76e815ae8ad780c8f096a68906446168a4a873622b154fe2594e12c6408f0a7d"
+    },
+    {
+      "path": "raw-variants/minor-swords-ten-20261013-v1.png",
+      "sizeBytes": 3209390,
+      "sha256": "ceddc08fa37721a891ff5ed61e166747be98940eb62068e53ed0eb9f1095a463"
+    },
+    {
+      "path": "raw-variants/minor-swords-ten-20261013-v2.png",
+      "sizeBytes": 3488361,
+      "sha256": "9e1627fea6425620adb753a3d15ecf5fcc25a3ac880ae4945403da83e349edc1"
+    },
+    {
+      "path": "receipts/major-08-strength-20261013-v1.json",
+      "sizeBytes": 2698,
+      "sha256": "c7620322b5ddc43c8529af668c0d5db5eaa6c0172f0f30a94e42382ef580881c"
+    },
+    {
+      "path": "receipts/major-08-strength-20261013-v2.json",
+      "sizeBytes": 1656,
+      "sha256": "22ba235629bb275d6571e1b180ebd6f4fc8624138bbd0eb29a4e5b069fc72582"
+    },
+    {
+      "path": "receipts/major-08-strength-20261013-v3.json",
+      "sizeBytes": 1324,
+      "sha256": "65903cdc5f9f603843241b6a13afa690186b8e0f41c044e9d0fa3323b80ed167"
+    },
+    {
+      "path": "receipts/major-21-world-20261013-v1.json",
+      "sizeBytes": 3017,
+      "sha256": "b2a920b5099104bec4217a1fb40eb6fc8185118c5deb2054c8a2c51cb1f10b4f"
+    },
+    {
+      "path": "receipts/major-21-world-20261013-v2.json",
+      "sizeBytes": 1868,
+      "sha256": "80618350fef56f76e98afb270acc37cf8bcc4408bd0e8b072c67191c4b620b3d"
+    },
+    {
+      "path": "receipts/major-21-world-20261013-v3.json",
+      "sizeBytes": 1748,
+      "sha256": "805955b2f6a222819a84fbc6dad11412290b10d1e38fe767ffcd9929a3f4ebaa"
+    },
+    {
+      "path": "receipts/major-21-world-20261013-v4.json",
+      "sizeBytes": 1661,
+      "sha256": "7899ef750d4ef8f2cbf8cf9b912e51f633de53660f12274052b4437a8113357d"
+    },
+    {
+      "path": "receipts/major-21-world-20261013-v5.json",
+      "sizeBytes": 1657,
+      "sha256": "4006fe6dde74ed81f64f939f13e3c76df6ca583a4e6b01c153be05d31df83bb8"
+    },
+    {
+      "path": "receipts/minor-swords-ten-20261013-v1.json",
+      "sizeBytes": 2841,
+      "sha256": "3b4faee7c6ff07f8a352dbb050efd19f6af0961923b0cc0147ef58f721f56002"
+    },
+    {
+      "path": "receipts/minor-swords-ten-20261013-v2.json",
+      "sizeBytes": 1671,
+      "sha256": "9ec489a9cd7e54611ea61284ad5676ecff6399f4074c249fef106cd2f325bee9"
+    }
+  ]
+}

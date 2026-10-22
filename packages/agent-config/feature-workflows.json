@@ -1,0 +1,364 @@
+[
+  {
+    "id": "plan_qc_gate",
+    "status": "active",
+    "name": {
+      "vi": "Cong Plan va QC truoc khi trien khai",
+      "en": "Plan and QC gate before implementation"
+    },
+    "purpose": {
+      "vi": "Dam bao moi task quan trong co plan, impact map, validation va handoff truoc khi sua code/content.",
+      "en": "Ensure every meaningful task has a plan, impact map, validation path, and handoff before code or content edits."
+    },
+    "ownerAgent": "plan_qc_agent",
+    "requiredBefore": [
+      "mobile_experience_lane",
+      "ai_content_lane",
+      "trust_safety_lane",
+      "admin_ops_lane",
+      "backend_supabase_lane",
+      "brand_web_documents_lane"
+    ],
+    "qualityGate": [
+      "task_lane_selected",
+      "impact_map_completed",
+      "acceptance_criteria_written",
+      "validation_commands_selected",
+      "manager_test_path_defined",
+      "agent_run_record_declared",
+      "write_scope_declared",
+      "contract_source_declared_when_applicable",
+      "brand_manifest_and_public_boundary_when_applicable",
+      "feature_preflight_passed_before_mutation",
+      "skill_and_knowledge_freshness_reviewed",
+      "security_stop_conditions_reviewed",
+      "verification_status_recorded"
+    ],
+    "blockedIf": [
+      "The requested change can affect navigation, storage, backend contracts, admin, safety, localization, or visual assets but the plan omits that surface.",
+      "No manager-testable acceptance path is defined.",
+      "Validation commands are missing or not scoped to the task.",
+      "An agent handoff lacks owner, write scope, allowed data class, validation, or a stop condition.",
+      "A shared API or prompt contract has no declared canonical source.",
+      "A feature implementation command is requested before a scoped, read-only preflight has passed.",
+      "Relevant skill instructions or time-sensitive technical knowledge have not been reviewed against current project or primary sources.",
+      "A security review finds unresolved secret exposure, private-data risk, unsafe database action, or an undeclared irreversible action."
+    ]
+  },
+  {
+    "id": "parallel_feature_delivery",
+    "status": "active",
+    "name": {
+      "vi": "Phat trien feature song song",
+      "en": "Parallel feature delivery"
+    },
+    "purpose": {
+      "vi": "Chia nhanh cong viec theo feature de coding agents co the lam song song ma khong dam nhau.",
+      "en": "Split work by feature so coding agents can develop in parallel without overlapping files."
+    },
+    "lanes": [
+      {
+        "id": "mobile_experience_lane",
+        "ownerAgent": "mobile_app_agent",
+        "branchPattern": "codex/mobile-{feature}",
+        "writeScope": [
+          "apps/mobile",
+          "packages/content/data"
+        ],
+        "qualityGate": [
+          "mobile:check",
+          "validate:data",
+          "council:contract:check_when_council_changes",
+          "mobile_ci_web_bundle",
+          "mobile_ci_native_embed",
+          "browser_happy_path",
+          "customer_perspective_post_coding_qa",
+          "validate:brand_when_identity_or_public_content_changes"
+        ]
+      },
+      {
+        "id": "ai_content_lane",
+        "ownerAgent": "content_data_agent",
+        "branchPattern": "codex/content-{feature}",
+        "writeScope": [
+          "packages/content/data",
+          "packages/agent-config"
+        ],
+        "qualityGate": [
+          "validate:data",
+          "ip_safety_review",
+          "bilingual_review",
+          "validate:brand_when_identity_or_public_content_changes"
+        ]
+      },
+      {
+        "id": "trust_safety_lane",
+        "ownerAgent": "qa_review_agent",
+        "branchPattern": "codex/safety-{feature}",
+        "writeScope": [
+          "packages/agent-config",
+          "docs"
+        ],
+        "qualityGate": [
+          "safety_prompt_review",
+          "policy_checklist",
+          "privacy_review"
+        ]
+      },
+      {
+        "id": "admin_ops_lane",
+        "ownerAgent": "product_manager_agent",
+        "branchPattern": "codex/admin-{feature}",
+        "writeScope": [
+          "apps/admin",
+          "apps/mobile",
+          "docs",
+          "packages/agent-config"
+        ],
+        "qualityGate": [
+          "admin:check",
+          "admin:test",
+          "admin_content_happy_path",
+          "admin_ai_studio_happy_path",
+          "prompt_version_review",
+          "logs_review",
+          "validate:brand_when_identity_or_public_content_changes"
+        ]
+      },
+      {
+        "id": "backend_supabase_lane",
+        "ownerAgent": "workflow_orchestration_agent",
+        "branchPattern": "codex/backend-{feature}",
+        "writeScope": [
+          "supabase",
+          "scripts",
+          "packages/agent-config",
+          "docs"
+        ],
+        "qualityGate": [
+          "validate:backend",
+          "supabase:check",
+          "council:contract:check_when_council_changes",
+          "authenticated_staging_e2e_when_endpoint_behavior_changes",
+          "migration_ledger_review_before_db_push_or_repair",
+          "redacted_observability_review"
+        ]
+      },
+      {
+        "id": "brand_web_documents_lane",
+        "ownerAgent": "design_sync_agent",
+        "branchPattern": "codex/brand-{feature}",
+        "writeScope": [
+          "assets/brand",
+          "apps/web",
+          "design/launch",
+          "docs",
+          "skills",
+          "packages/content/data/brand-identity.json"
+        ],
+        "qualityGate": [
+          "validate:brand",
+          "skills:check",
+          "web:check",
+          "web:build",
+          "validate:public-content",
+          "rendered_artifact_review",
+          "validate:launch_when_launch_package_changes",
+          "manager_release_acceptance"
+        ]
+      }
+    ],
+    "mergePolicy": {
+      "vi": "Moi nhanh can co summary, test da chay, file da sua va rui ro con lai truoc khi merge.",
+      "en": "Each branch needs a summary, checks run, changed files, and remaining risks before merge."
+    }
+  },
+  {
+    "id": "persona_library_research",
+    "status": "active",
+    "name": {
+      "vi": "Research va phat trien thu vien nhan vat",
+      "en": "Persona library research and expansion"
+    },
+    "purpose": {
+      "vi": "Bo sung vi nhan va guide tu sach theo thi hieu, nhung luon qua danh gia IP, impersonation va safety.",
+      "en": "Add historical and book-inspired guides based on market demand while passing IP, impersonation, and safety review."
+    },
+    "steps": [
+      "trend_scan",
+      "source_legality_review",
+      "persona_card_draft",
+      "prompt_profile_draft",
+      "bilingual_copy_review",
+      "safety_red_team",
+      "admin_publish"
+    ],
+    "blockedIf": [
+      "The persona claims to be the real person or official publisher.",
+      "The content relies on unlicensed copyrighted book text.",
+      "The guide encourages deterministic, medical, legal, financial, or mental-health advice."
+    ]
+  },
+  {
+    "id": "tarot_deck_pipeline",
+    "status": "active",
+    "name": {
+      "vi": "Quy trình sản xuất bộ bài Tarot",
+      "en": "Tarot deck build pipeline"
+    },
+    "purpose": {
+      "vi": "Tạo nội dung song ngữ, 78 hình lá bài, kiểm tra từng ảnh và tích hợp bộ bài đã được duyệt vào ứng dụng.",
+      "en": "Create bilingual content, 78 card images, per-card review evidence, and app integration for an accepted deck."
+    },
+    "steps": [
+      "deck_positioning",
+      "canonical_card_and_content_contract",
+      "bilingual_deck_and_card_copy",
+      "independent_bilingual_content_review",
+      "deck_style_proof",
+      "per_card_scene_and_symbol_plan",
+      "inner_artwork_generation",
+      "normalize_and_render_cards",
+      "per_card_visual_review",
+      "hash_bound_quality_gate",
+      "mobile_runtime_integration",
+      "manager_acceptance"
+    ],
+    "qualityGate": [
+      "Exactly 78 canonical card IDs have VI/EN content and original deck-specific visual prompts.",
+      "Each numbered Minor card has an observed symbol count and location evidence; every card has anatomy, prop, scene, text, mobile and originality review.",
+      "Every accepted review is bound to current content, artwork, card, cover and back SHA-256; changes return affected reviews to pending.",
+      "Every reading remains reflective and avoids certain predictions or professional advice.",
+      "No unresolved visual, content, safety or runtime validation issue remains before manager acceptance.",
+      "Manager acceptance and app release remain separate decisions."
+    ]
+  },
+  {
+    "id": "astrology_decision_pipeline",
+    "status": "active",
+    "name": {
+      "vi": "Pipeline quyet dinh astrology",
+      "en": "Astrology decision pipeline"
+    },
+    "purpose": {
+      "vi": "Danh gia khi nao dung local calculator, khi nao dung API mien phi/tra phi, va khi nao can license.",
+      "en": "Decide when to use local calculation, free/paid API, or licensed ephemeris."
+    },
+    "steps": [
+      "input_privacy_review",
+      "calculation_accuracy_review",
+      "license_review",
+      "api_cost_review",
+      "fallback_design",
+      "interpretation_prompt_review"
+    ],
+    "recommendation": {
+      "vi": "Ứng viên A3/A4 hiện tính bản đồ sao xác định trên thiết bị, không dùng bộ tính giả hay API trả phí mặc định. Bằng chứng kiểm tra vị trí và góc có phạm vi mẫu, không chứng nhận độ chính xác của mọi bản đồ sao; giữ thông báo giấy phép của các thư viện. Chỉ cân nhắc nhà cung cấp hoặc ephemeris khác sau khi duyệt độ chính xác, giấy phép, quyền riêng tư, chi phí và phương án dự phòng. Đồng bộ cloud, nghiệm thu native và phát hành vẫn là các cổng riêng.",
+      "en": "The A3/A4 review candidate calculates charts deterministically on device, without a mock calculator or paid API by default. Sampled longitude and angle checks do not certify every chart; preserve library license notices. Consider another provider or ephemeris only after accuracy, license, privacy, cost, and fallback review. Cloud sync, native acceptance, and release remain separate gates."
+    }
+  },
+  {
+    "id": "customer_perspective_post_coding_qa",
+    "status": "active",
+    "name": {
+      "vi": "Kiểm thử sau coding theo góc nhìn khách hàng",
+      "en": "Post-coding customer-perspective QA"
+    },
+    "purpose": {
+      "vi": "Giao tình huống giả định cho ba góc nhìn khách hàng để kiểm thử mọi luồng mobile vừa coding, xử lý và kiểm tra lại vấn đề trải nghiệm trước khi chủ sản phẩm nghiệm thu.",
+      "en": "Assign synthetic scenarios to three customer perspectives after mobile coding so experience issues across the changed flow are found, fixed, and retested before owner acceptance."
+    },
+    "ownerAgent": "qa_review_agent",
+    "executionMode": "declared_manual_or_orchestrated_handoff",
+    "trigger": "after_coding_handoff_before_manager_acceptance",
+    "customerAgentIds": [
+      "gen_z_discovery_customer_qa_agent",
+      "emotional_reflection_customer_qa_agent",
+      "wisdom_mentor_customer_qa_agent"
+    ],
+    "requiredHandoffFields": [
+      "taskId",
+      "ownerAgent",
+      "purpose",
+      "writeScope",
+      "allowedDataClasses",
+      "validation",
+      "stopCondition"
+    ],
+    "allowedDataClasses": [
+      "sanitized_project_context",
+      "synthetic_mobile_test_scenarios",
+      "synthetic_tarot_test_scenarios",
+      "sanitized_ui_screenshots"
+    ],
+    "evidenceChannels": [
+      "code_audit",
+      "web_export",
+      "native_device"
+    ],
+    "requiredIssueFields": [
+      "issueId",
+      "personaAgent",
+      "evidenceChannel",
+      "buildOrSourceState",
+      "viewportOrDevice",
+      "runtimeMode",
+      "preconditions",
+      "steps",
+      "expected",
+      "actual",
+      "findingStatus",
+      "severity",
+      "sanitizedEvidence",
+      "owner",
+      "retestStatus"
+    ],
+    "findingStatuses": [
+      "reproduced",
+      "code_supported_risk",
+      "hypothesis"
+    ],
+    "severityLevels": [
+      "P0",
+      "P1",
+      "P2",
+      "P3"
+    ],
+    "retestStates": [
+      "not_started",
+      "pass",
+      "fail",
+      "blocked"
+    ],
+    "pilotScenarioSets": [
+      {
+        "feature": "tarot",
+        "scenarioDocument": "docs/CUSTOMER_PERSPECTIVE_QA.md",
+        "regressionIds": [
+          "tarot_second_reading_reset_0_of_n_no_stale_result"
+        ]
+      }
+    ],
+    "steps": [
+      "coding_owner_handoff_with_build_source_mode_and_changed_flow",
+      "qa_owner_declares_subagent_scope_and_synthetic_scenarios",
+      "three_customer_agents_review_with_separate_evidence_channels",
+      "qa_owner_deduplicates_prioritizes_and_assigns_fixes",
+      "coding_owner_fixes_in_separate_approved_stage",
+      "customer_agents_retest_on_new_build_and_record_residual_risk",
+      "manager_reviews_evidence_before_acceptance"
+    ],
+    "qualityGate": [
+      "Code audit, web export, and native-device evidence are labeled separately; an unrun channel is marked unverified.",
+      "The QA owner assigns feature-specific scenarios and regressions for the changed mobile flow; Tarot is the first pilot set.",
+      "Issues include reproducible steps, severity, sanitized evidence, an owner, and a retest outcome.",
+      "P0 and P1 issues remain acceptance blockers until fixed and retested; P2 and P3 require an explicit disposition.",
+      "Synthetic customer roles remain hypotheses until validated with real customer research."
+    ],
+    "blockedIf": [
+      "A handoff lacks a declared owner, exact write scope, allowed data classes, validation, or stop condition.",
+      "The test needs private user content, credentials, production access, or an undeclared write scope.",
+      "A report claims native-device verification using only code audit or web export evidence."
+    ]
+  }
+]

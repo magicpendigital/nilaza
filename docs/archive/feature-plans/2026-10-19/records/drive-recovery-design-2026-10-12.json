@@ -1,0 +1,194 @@
+{
+  "schemaVersion": 1,
+  "taskId": "drive-recovery-design-2026-10-12",
+  "ownerAgent": "nilaza_recovery_design_owner",
+  "lane": "backend_recovery_design",
+  "goal": "Design owner-accessible off-machine backup and encrypted key escrow on Google Drive for Singapore, without creating credentials, exporting managed data or changing release gates.",
+  "successCriteria": [
+    "Explain Supabase plugin authorization vs independently generated backup encryption identity.",
+    "Define portable public-key backup encryption, passphrase-encrypted private identity on restricted Drive, and independent owner-held unlock secret.",
+    "Provide simple lost-machine/lost-Drive/password rotation recovery flows with Auth/Storage/config coverage and measurable acceptance.",
+    "Verify current Drive/age official docs and read-only connected Drive folder metadata; no uploads, real key generation or database writes."
+  ],
+  "writeScope": [
+    "artifacts/drive-recovery-design-2026-10-12/"
+  ],
+  "untouchedSurfaces": [
+    "Website/Edge/SQL/mobile/Admin and existing backup/key vault unchanged.",
+    "Release profile/legacy ledger/target allowlist and production credentials unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Private Vietnamese owner design packet, future backup and restore operator controls; no product UI change.",
+    "dataWrite": "Local design/config and sanitized metadata receipts only. Future design separates ciphertext, encrypted private identity and owner-held unlock secret.",
+    "backendContract": "No Supabase API or SQL changes; full canonical28 target and waitlist consent/suppression must survive eventual restore.",
+    "adminVisibility": "Owner receives status, timestamp, checksum and restore report. No private identity, DB dump, password or PII in Admin/log/chat.",
+    "privacySafety": "Least privilege Drive ACL, public encryption recipient for backup job, owner-only decryption and an independent recovery password/copy. Existing DPAPI remains local QA only.",
+    "observability": "Future source/target/key-version/digest/upload-readback receipts; missing backup or restore marks BLOCKED, not healthy by metadata.",
+    "rollback": "Design only. Future backups append immutable versions, preserve old keys until retention and restore accepted, never overwrite the live database."
+  },
+  "canonicalContracts": [
+    "Current canonical28 schema and release gate remain unchanged.",
+    "Portable age encrypted-identity and public-recipient format from official docs; no custom cryptographic format proposed."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "4da2a80e09727695c07ad5e0adc52fffb28ae71783dc7258585aac3735a6add9",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "sha256": "c6a16c4be5bd732c51158ab66c4ea92bd23c1e817da539f3820546a22d806ec8",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "docs/release/RELEASE_RUNBOOK.md",
+      "sha256": "348e5aa5786a5f8648fd96c94e0b4a831602a5312d318b6e48885a47afd71b39",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "docs/release/release-profile.json",
+      "sha256": "a653120695490e3223c232889d36b63e67f41d7fcd4466a4f56fe8ddeed44081",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "e5fc9e3789ce1978ce3db7b7f41d6dd695d021c6d01ead2b11b3af14a4525f49",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "1e4d2bc7a93a2a140690c7237537de582972db30088309996ab6462a79a53623",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/nilaza-plan-qc.md",
+      "sha256": "1f1ca706c56aef4d08ac94c6475c19a59c3838a218eab9e94ab9436fbe4cda03",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/release-control.md",
+      "sha256": "ece7ac8af2d268735631d188ef1e3c4ae8235e564a2ad32c241c4ace83ac54fa",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "scripts/local-qa-key-vault.ps1",
+      "sha256": "f591475897ff69e0db29197e7b3f1452fc423af83bacf9310e6313bc7db32d19",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "scripts/rehearse-durable-recovery.mjs",
+      "sha256": "708355707d1d0f4746982e7256c342296a522e8315dbe958c3e7bc5f5126557c",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "artifacts/recovery-custody-2026-10-11/OWNER_REVIEW.vi.md",
+      "sha256": "d6b6ad177428a0eb8d31b8b55baaced5917d37f2dd0bd5e046276df91fea23e5",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "artifacts/recovery-custody-2026-10-11/storage-decision.json",
+      "sha256": "075f2b24b40c8bfe09c2823d56ffb06d47251cfb9224e783608ba4bd9c0dd296",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "artifacts/singapore-waitlist-acceptance-2026-10-11/native-rehearsal.json",
+      "sha256": "c67e5ae03267a3663de022b8bd2d14746943e7b3fd8ffac2e033dabe7eee4bfb",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "artifacts/singapore-waitlist-acceptance-2026-10-11/database-target.draft.json",
+      "sha256": "5661ebdaf7f3b85486f1fe27e68563ca2e58e5e4caeae6cf2ddbd1b83bcae4bc",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Existing recovery, independent custody and cloud authority separation directly apply. Google Drive and Supabase external skills read; no repository skill edits required for an unimplemented design."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "No install or update. Current official age encrypted identities and Google Drive inherited ACL docs checked 2026-10-12."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://github.com/FiloSottile/age",
+      "checkedAt": "2026-10-12",
+      "reason": "Primary documentation for concrete custody/encryption/recovery design; not evidence of deployed configuration."
+    },
+    {
+      "url": "https://developers.google.com/workspace/drive/api/guides/manage-sharing",
+      "checkedAt": "2026-10-12",
+      "reason": "Primary documentation for concrete custody/encryption/recovery design; not evidence of deployed configuration."
+    },
+    {
+      "url": "https://support.google.com/drive/answer/2494893",
+      "checkedAt": "2026-10-12",
+      "reason": "Primary documentation for concrete custody/encryption/recovery design; not evidence of deployed configuration."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/platform/backups",
+      "checkedAt": "2026-10-12",
+      "reason": "Primary documentation for concrete custody/encryption/recovery design; not evidence of deployed configuration."
+    },
+    {
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Key_Management_Cheat_Sheet.html",
+      "checkedAt": "2026-10-12",
+      "reason": "Primary documentation for concrete custody/encryption/recovery design; not evidence of deployed configuration."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "Drive permissions and inherited parent ACL reviewed; no grants changed. Existing schema A/B/RLS evidence retained.",
+    "sensitiveData": "No managed user data export or real key read/generation/upload. File metadata only.",
+    "secretsLogging": "Raw recovery keys and passwords stay outside agent/chat/Git; public recipients only for unattended backup design. Owner interacts with a protected local tool when provisioned.",
+    "externalInput": "Retrieved Drive metadata is untrusted; no file contents or commands followed. Verify file IDs and checksum/manifest before future restore.",
+    "dependencies": "Established age tool proposed, pin vendor release/checksum and review help before implementation. No new crypto implementation.",
+    "migrationRelease": "Design cannot clear current managed recovery/operator/allowlist/SQL approval blockers.",
+    "stopCondition": "Stop future provisioning on inherited/shared ACL, missing independent unlock secret, unverified custody/restore or secret exposure. Design may proceed without real data.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "artifacts/drive-recovery-design-2026-10-12/OWNER_DESIGN.vi.md",
+      "artifacts/drive-recovery-design-2026-10-12/recovery-design.json",
+      "artifacts/drive-recovery-design-2026-10-12/drive-discovery.json"
+    ],
+    "note": "Only local design packet created; no file uploads, key generation, secret reads, permissions or database writes."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/drive-recovery-design-2026-10-12.json",
+    "Read-only Drive folder permissions metadata and official age/Drive documentation",
+    "Review lost-machine, lost-Drive, lost-password, wrong-key/tampered-backup and rotation acceptance matrix"
+  ],
+  "managerTestPath": "Review a one-password recovery flow; future drill restores a synthetic archive on a second machine without old Windows DPAPI. Owner enters recovery password privately.",
+  "residualRisk": "Design is not implemented. Google Drive ACL, encrypted identity custody, off-machine restore and protected operator must be actually configured and verified before managed recovery PASS.",
+  "externalActions": {
+    "databaseWrite": false,
+    "providerWrite": false,
+    "deployment": false,
+    "emailSend": false,
+    "note": "Only scoped metadata reads and local design authorized; no live backup/key transmission or sharing."
+  },
+  "validationEvidence": {
+    "driveDiscovery": "Connected metadata read verified; two ambiguous Nilaza folders, no destination selected",
+    "currentDocs": "Official Drive inherited ACL and age encrypted-identity behavior checked",
+    "architectureReview": "Public-only backup job, owner-held independent passphrase, full authentication before restore, offline copy, versioned keys and managed recovery matrix documented",
+    "implementation": "BLOCKED/not started; design is not off-machine recovery evidence"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "cardId": "major-21-world",
+  "prompt": "Edit this THE WORLD painting only to repair safe margins and cloud-symbol placement. Preserve same painterly Tinh Quang texture, midnight teal/antique gold/ivory palette, central adult dancer, exactly two batons, grounded stone dais, laurel wreath attached to two grounded arbor posts, mountain lake and no text/frame. Recompose with generous safety margins: ALL FOUR symbolic cloud figures must be SMALL and entirely inside the canvas, each complete silhouette at least 10% of image width from the left/right edges and 10% of image height from top/bottom. Shrink the angel and eagle clouds substantially. Show the ENTIRE eagle including both complete wings with open sky around it. Angelic face upper left, eagle upper right; MOVE bull cloud to lower left beside dancer hip/upper-leg level and lion cloud to lower right beside dancer hip/upper-leg level, outside the wreath. These are soft cloud symbols, not living creatures. Pull camera back slightly if necessary while preserving one standing foot and one bent foot, each hand gripping one short baton naturally at hip level. Do not add or remove principal symbols. No crop of wings, batons, limbs or posts. Full bleed naturally painted surroundings; no plain border. Tall portrait aspect 656:1130. No letters, labels, numbers, signature, watermark or tarot frame.",
+  "generationTool": "built-in image_gen",
+  "createdDate": "2026-10-13",
+  "inputImagePath": "raw/major-21-world-20261013-v1.png",
+  "inputImageRole": "exact edit target passed as referenced_image_paths",
+  "sourcePath": "raw/major-21-world-20261013-v2.png",
+  "status": "pending-independent-source-review",
+  "sha256": "4566d084eec09e20c65984c926990a5e9504e2a9b023a8f1cc4a66767613af3c",
+  "sizeBytes": 3430270,
+  "inputImageSha256": "35113bb172c94d52783659c7aea5540e2bc0874c80c0917ab0794d3fe775844e"
+}

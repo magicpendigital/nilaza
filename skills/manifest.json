@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "skills": [
+    {
+      "name": "nilaza-plan-qc",
+      "version": "1.5.5",
+      "files": [
+        {
+          "path": "agents/openai.yaml",
+          "sha256": "6376374afa36ea915e72903431ba41975f71b8ec8b0bfd406b87c91132e9b569",
+          "previousInstalledSha256": "6376374afa36ea915e72903431ba41975f71b8ec8b0bfd406b87c91132e9b569"
+        },
+        {
+          "path": "references/admin-runtime-parity.md",
+          "sha256": "c8233f41b579c278b3a9927cdacc6462a060c28fd367cca3e5deb650f1cc5dfd",
+          "previousInstalledSha256": "42aeac40cf61640b4acc613de75640e62aef8f732b157b59cbc2025db8dc742f"
+        },
+        {
+          "path": "references/nilaza-plan-qc.md",
+          "sha256": "1f1ca706c56aef4d08ac94c6475c19a59c3838a218eab9e94ab9436fbe4cda03",
+          "previousInstalledSha256": "f4039cc32b638ce416ee031f33bd9c9fe112d03e81425a0cdadf2c3ae51e9b93"
+        },
+        {
+          "path": "SKILL.md",
+          "sha256": "1e4d2bc7a93a2a140690c7237537de582972db30088309996ab6462a79a53623",
+          "previousInstalledSha256": "2614cb260adf1a58f770e06a16870eb67f37e50f92d4b80ae3ba96120cc0e85e"
+        },
+        {
+          "path": "references/release-control.md",
+          "sha256": "ece7ac8af2d268735631d188ef1e3c4ae8235e564a2ad32c241c4ace83ac54fa",
+          "previousInstalledSha256": "2d5f9f15d73844a2e14d5a1f0234d59b269c11499805a63886f0a06ea100f811"
+        }
+      ]
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "agents/openai.yaml",
+          "sha256": "46179c52555171980f2e2ae775d6d9e2c1f5197c571c8ac831c01db23bcfc0ff"
+        },
+        {
+          "path": "SKILL.md",
+          "sha256": "1e2acdfac537225ed366a78e6c28b6764a5fe2ac1a1434e583ba21349dee1928"
+        }
+      ]
+    },
+    {
+      "name": "nilaza-tarot-deck-production",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "agents/openai.yaml",
+          "sha256": "eda7a57b7d657a86a413525001420b02423814babca8a3475976ca65c68167b7"
+        },
+        {
+          "path": "references/integration.md",
+          "sha256": "8dc410494783cbc0f92e9000aac694902a0d917fd7dc464f49759e43ac34c19c"
+        },
+        {
+          "path": "references/new-deck.md",
+          "sha256": "e67dcec87e648d32c101e7d2e59ad557083cf79ccb6dcd92538f2d8c9d6cd713",
+          "previousInstalledSha256": "880be653a333b2a5bdf993dd3e5c2337b375f9276d4b6772741197fac0bb01c3"
+        },
+        {
+          "path": "references/update-deck.md",
+          "sha256": "35ebabc915959fa1c84f70c7c9ab94f62ea20227ba36e3ec2c3ad2f56def6db0",
+          "previousInstalledSha256": "6080f49b25445f9acd6c1b7a4388aa792aa3169923fd5104dac7f079b431e32e"
+        },
+        {
+          "path": "SKILL.md",
+          "sha256": "31b0303e64652d333ca112803881776069f9f43a2819782e2f2563891032e5f0",
+          "previousInstalledSha256": "50b2ac6c69f4f8245f4c4aad346f3b3da4f6abbd3e2ee02ccb479579c9fa67b6"
+        }
+      ]
+    },
+    {
+      "name": "nilaza-tarot-content-qc",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "agents/openai.yaml",
+          "sha256": "4731ef7eaa31f978bbef5017100eef5b860d9620b5c25e569b35c4209c51493e"
+        },
+        {
+          "path": "references/bilingual-review.md",
+          "sha256": "d7b901c996166e745983491aaf9149a7e1ffad6bb7cd02c692a0bbf0c13c2e72"
+        },
+        {
+          "path": "SKILL.md",
+          "sha256": "e8c7c46e15fe4ec61265c905bc1570eb51035283e021954c00c2d9137e4e256f"
+        }
+      ]
+    },
+    {
+      "name": "nilaza-tarot-art-qc",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "agents/openai.yaml",
+          "sha256": "b636c5165b73540b439c34ccc99577cb72e17ab8460c77cb4606c7646d3bf157"
+        },
+        {
+          "path": "references/visual-review.md",
+          "sha256": "ba053ec881c6c8e1fad5e758168410d9ee55a36cd5e18ae64d86290a0aeb5180",
+          "previousInstalledSha256": "f57f66b597c936954a363883315e411616da421a4bb544c7dd3f7a610f090586"
+        },
+        {
+          "path": "SKILL.md",
+          "sha256": "7aea84a28a0012a0ae07904deea76ab4ec8391f0dd6118462b00d9d58cf98e99",
+          "previousInstalledSha256": "d7ae1b3d211b1f31cbea8195257a62450b50401c3af35b29c566e77b885232cc"
+        }
+      ]
+    }
+  ]
+}

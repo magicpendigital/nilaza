@@ -1,0 +1,102 @@
+{
+  "status": "draft_for_review",
+  "backlogVersion": "2026-09-20-a1",
+  "items": [
+    {
+      "id": "A2.1",
+      "phase": "A2",
+      "title": "Persona continuity and session history",
+      "owner": "product-ai-mobile",
+      "priority": "P0",
+      "dependsOn": ["G-A1"],
+      "writeScope": ["apps/mobile", "supabase/functions", "packages/agent-config", "tests"],
+      "validation": ["mobile:check", "validate:backend", "authenticated staging E2E"],
+      "stopCondition": "Do not add persistence migration while migration ledger is blocked.",
+      "managerTest": "Five-turn chat resumes after close/reopen without mixing accounts."
+    },
+    {
+      "id": "A3.1",
+      "phase": "A3",
+      "title": "Historical timezone and place resolution",
+      "owner": "backend-astro-qa",
+      "priority": "P0",
+      "dependsOn": ["G-A1"],
+      "writeScope": ["supabase/functions/ai-astrology-report", "fixtures", "backend tests"],
+      "validation": ["50+ fixture suite", "validate:backend", "staging E2E"],
+      "stopCondition": "Stop if the provider cannot prove historical offset or if license/data egress is unresolved.",
+      "managerTest": "Same locality on DST transition asks for confirmation instead of silently changing time."
+    },
+    {
+      "id": "A3.2",
+      "phase": "A3",
+      "title": "Typed canonical chart adapter",
+      "owner": "backend-mobile",
+      "priority": "P0",
+      "dependsOn": ["A3.1", "A1-chart-contract"],
+      "writeScope": ["apps/mobile/src/backendClient.ts", "supabase/functions", "shared contract package"],
+      "validation": ["JSON Schema contract tests", "validate:backend", "mobile:check"],
+      "stopCondition": "Do not promote status from draft until fixture and uncertainty tests pass.",
+      "managerTest": "Chart facts appear before interpretation and retain engine/version provenance."
+    },
+    {
+      "id": "A3.3",
+      "phase": "A3",
+      "title": "Birth precision and uncertainty UX",
+      "owner": "mobile-product-qa",
+      "priority": "P0",
+      "dependsOn": ["A3.1", "A3.2"],
+      "writeScope": ["apps/mobile", "copy vi/en", "tests"],
+      "validation": ["mobile:check", "manual exact/approximate/unknown path"],
+      "stopCondition": "No ASC/house display as exact when time is unknown or place is unconfirmed.",
+      "managerTest": "Unknown birth time produces useful limited chart with clear caveat and no false precision."
+    },
+    {
+      "id": "A4.1",
+      "phase": "A4",
+      "title": "Fixture-driven SVG/2.5D chart spike",
+      "owner": "mobile-design",
+      "priority": "P1",
+      "dependsOn": ["A3.2"],
+      "writeScope": ["apps/mobile", "assets/features", "feature-visuals manifest"],
+      "validation": ["visual asset validation", "native-like performance profile", "Reduce Motion QA"],
+      "stopCondition": "Stop if labels obscure facts, motion changes semantic positions, or low-end frame budget fails.",
+      "managerTest": "Tap/highlight/filter exposes exact same chart data in visual and list modes."
+    },
+    {
+      "id": "A4.2",
+      "phase": "A4",
+      "title": "Twelve mythology chapters with provenance",
+      "owner": "editor-content-design",
+      "priority": "P1",
+      "dependsOn": ["G-A1", "A4.1"],
+      "writeScope": ["packages/content/data", "assets/features", "admin content workflow"],
+      "validation": ["validate:data", "validate:visual-assets", "vi/en editorial review"],
+      "stopCondition": "No chapter publish without source/provenance, safety copy and fallback asset.",
+      "managerTest": "Chapter distinguishes general mythology from the user's calculated placement."
+    },
+    {
+      "id": "A5.1",
+      "phase": "A5",
+      "title": "Chart to guide to journal handoff",
+      "owner": "product-ai-mobile",
+      "priority": "P1",
+      "dependsOn": ["A2.1", "A3.2", "A4.1"],
+      "writeScope": ["apps/mobile", "supabase/functions", "prompt configs", "tests"],
+      "validation": ["handoff E2E", "consent/deletion QA", "prompt eval"],
+      "stopCondition": "No handoff if user has not granted context permission; no long-term memory by default.",
+      "managerTest": "A selected Moon placement reaches the guide with the same placement id and returns to chart."
+    },
+    {
+      "id": "A6.1",
+      "phase": "A6",
+      "title": "Release candidate privacy, credits and store evidence",
+      "owner": "release-qa-ops",
+      "priority": "P0",
+      "dependsOn": ["A2.1", "A3.3", "A4.2", "A5.1"],
+      "writeScope": ["apps/mobile", "admin", "backend", "release docs"],
+      "validation": ["mobile:check", "admin:check", "validate:backend", "privacy export/delete", "native release-like QA"],
+      "stopCondition": "No paid scale or production publish while critical privacy, calculation, payment or store evidence is missing.",
+      "managerTest": "New account can reach chart, save, revisit, delete and restore entitlement without duplicate charge."
+    }
+  ]
+}

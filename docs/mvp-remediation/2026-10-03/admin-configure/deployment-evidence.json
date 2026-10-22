@@ -1,0 +1,49 @@
+{
+  "checkedAt": "2026-10-03",
+  "project": "akgrokwnkfqnfjqrildi",
+  "purpose": "Read-only old QA evidence; no cloud mutation",
+  "functions": [
+    {
+      "slug": "admin-ai-council-config",
+      "version": 21,
+      "status": "ACTIVE",
+      "updated_at": 1788406221725,
+      "ezbr_sha256": "17b175c3ad386a6f28e3764f2cfccd666a416ee41a366f94f07d5d579ebc85da"
+    },
+    {
+      "slug": "admin-model-router-config",
+      "version": 24,
+      "status": "ACTIVE",
+      "updated_at": 1790436846662,
+      "ezbr_sha256": "48024a76f43da395cfde4a6c3b48e98d1eb7798e1fad8948e41323084980a884"
+    },
+    {
+      "slug": "ai-council",
+      "version": 25,
+      "status": "ACTIVE",
+      "updated_at": 1789898517154,
+      "ezbr_sha256": "5568a59c2d42d13156d4ecb49249426b2e7ce0bf72da4356a302aca6d42ed734"
+    },
+    {
+      "slug": "ai-oracle-turn",
+      "version": 25,
+      "status": "ACTIVE",
+      "updated_at": 1788927944454,
+      "ezbr_sha256": "8327737ac5716ec335c4701057d542836145ad419cd8b27da25668edf1073aaf"
+    },
+    {
+      "slug": "ai-astrology-insight",
+      "version": 7,
+      "status": "ACTIVE",
+      "updated_at": 1790437020031,
+      "ezbr_sha256": "e17f43c3f601f8b9fdd0a5d97b1d30ec4cdf5aa4cc047672474e3e685e090e09"
+    },
+    {
+      "slug": "admin-astrology-prompt-config",
+      "version": 1,
+      "status": "ACTIVE",
+      "updated_at": 1790436788352,
+      "ezbr_sha256": "8d0d70fb0e84f0504afd236e06a26c49f87de59e074a989c44224ec027875dda"
+    }
+  ]
+}

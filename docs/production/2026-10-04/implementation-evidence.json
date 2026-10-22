@@ -1,0 +1,291 @@
+{
+  "schemaVersion": 1,
+  "resultType": "LocalImplementationEvidence",
+  "checkedAt": "2026-10-04T12:00:10.781Z",
+  "date": "2026-10-04",
+  "tasks": [
+    "nilaza-target-migration-gate-2026-10-04",
+    "nilaza-openrouter-receipts-2026-10-04"
+  ],
+  "implementedSlices": [
+    "W02a_target_guard",
+    "W08a_receipts"
+  ],
+  "overallStatus": "LOCAL_SLICES_VERIFIED_PRODUCTION_BLOCKED",
+  "productionTarget": null,
+  "externalActions": {
+    "projectCreated": false,
+    "databaseWrite": false,
+    "migrationRepair": false,
+    "publishedRoutesChanged": false,
+    "providerSecretsChanged": false,
+    "deployed": false,
+    "realProviderCall": false,
+    "installedSkillReferenceSynced": true
+  },
+  "checks": [
+    {
+      "id": "target-preflight-runner",
+      "status": "PASS",
+      "passed": 51,
+      "failed": 0,
+      "command": "node --test scripts/database-target-gate.test.mjs scripts/feature-preflight.test.mjs scripts/feature-run.test.mjs",
+      "mode": "synthetic_readonly_no_sql"
+    },
+    {
+      "id": "provider-receipt",
+      "status": "PASS",
+      "passed": 29,
+      "failed": 0,
+      "command": "node_modules/.bin/deno test --no-lock --cached-only --allow-env supabase/functions/_shared/model-provider.test.ts supabase/functions/_shared/providers/openrouter-billing.test.ts",
+      "mode": "mock_fetch_no_network_no_real_key"
+    },
+    {
+      "id": "backend-contract",
+      "status": "PASS",
+      "command": "npm run validate:backend",
+      "gatewayPaths": 14,
+      "functions": 21
+    },
+    {
+      "id": "supabase-readiness",
+      "status": "PASS_WITH_WARNINGS",
+      "command": "npm run supabase:check",
+      "passed": 72,
+      "warnings": 9,
+      "failed": 0
+    },
+    {
+      "id": "council-contract",
+      "status": "PASS",
+      "command": "npm run council:contract:check"
+    },
+    {
+      "id": "governance",
+      "status": "PASS",
+      "command": "npm run validate:governance",
+      "agents": 22,
+      "deliveryLanes": 6
+    },
+    {
+      "id": "repo-skills",
+      "status": "PASS",
+      "command": "npm run skills:validate",
+      "skills": 5
+    },
+    {
+      "id": "installed-skills",
+      "status": "PASS",
+      "command": "npm run skills:sync then npm run skills:check",
+      "syncedFiles": 1,
+      "skillVersion": "1.5.5"
+    },
+    {
+      "id": "skill-creator-python",
+      "status": "UNAVAILABLE",
+      "reason": "Bundled Python missing PyYAML; no dependency install performed."
+    },
+    {
+      "id": "legacy-ledger",
+      "status": "BLOCKED",
+      "command": "npm run supabase:migration-ledger:check",
+      "metadataCheck": "PASS",
+      "ledgerStatus": "blocked_pending_reconciliation"
+    },
+    {
+      "id": "draft-target-cli",
+      "status": "BLOCKED_EXPECTED",
+      "exitCode": 2,
+      "command": "node scripts/database-target-gate.mjs --manifest docs/production/2026-10-04/database-target.draft.json"
+    },
+    {
+      "id": "final-feature-preflight",
+      "status": "PASS",
+      "records": 2
+    },
+    {
+      "id": "scoped-diff-whitespace",
+      "status": "PASS",
+      "command": "git diff --check -- scoped tracked implementation files"
+    }
+  ],
+  "sourceReview": [
+    {
+      "path": "scripts/database-target-gate.mjs",
+      "role": "owned_scoped_change",
+      "sha256": "f372cdcbd1fcdfbec4ea0d41f4335affb90ac032f4f4b1b0bd336c2ec4976640",
+      "hashMode": "utf8_lf"
+    },
+    {
+      "path": "scripts/database-target-gate.test.mjs",
+      "role": "owned_scoped_change",
+      "sha256": "38adbe5b96c4d1b2b082fb0046b81f5befe5daad8fc6e206656be790068c0f94",
+      "hashMode": "utf8_lf"
+    },
+    {
+      "path": "scripts/feature-preflight.mjs",
+      "role": "owned_scoped_change",
+      "sha256": "76e65a66fe1dc309edbe1932419936a495c95028d48998d1536ed7f85a763528",
+      "hashMode": "utf8_lf"
+    },
+    {
+      "path": "scripts/feature-preflight.test.mjs",
+      "role": "owned_scoped_change",
+      "sha256": "b97e2d907d3e5c945445bf0a2031bb09b89e0774febde9270433d2d716a46967",
+      "hashMode": "utf8_lf"
+    },
+    {
+      "path": "supabase/functions/_shared/model-provider.ts",
+      "role": "owned_scoped_change",
+      "sha256": "e7f44e70e0f5053925e29dd758bde0f58205ef7762feb3a934a72ba4c019f8cf",
+      "hashMode": "utf8_lf"
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "role": "owned_scoped_change",
+      "sha256": "eee6ec83b09ace735576a8ffdb672521ac98fcc148d39d4c5a5833e71b4f7a7c",
+      "hashMode": "utf8_lf"
+    },
+    {
+      "path": "supabase/functions/_shared/providers/openrouter.ts",
+      "role": "owned_scoped_change",
+      "sha256": "ba456755fe95cfbabdaa28af7d090ceb33ffb9562e926344c10722703f45555c",
+      "hashMode": "utf8_lf"
+    },
+    {
+      "path": "supabase/functions/_shared/providers/openrouter-billing.ts",
+      "role": "owned_scoped_change",
+      "sha256": "66a15323520b44ce969fd47be83d817802faab2a4a3a86b9dd4276a456abe6a4",
+      "hashMode": "utf8_lf"
+    },
+    {
+      "path": "supabase/functions/_shared/providers/openrouter-billing.test.ts",
+      "role": "owned_scoped_change",
+      "sha256": "75391c649a23dc72a74677c049544c11e1204b4e9e725f598d7c1433de8a6d09",
+      "hashMode": "utf8_lf"
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/release-control.md",
+      "role": "owned_scoped_change",
+      "sha256": "ece7ac8af2d268735631d188ef1e3c4ae8235e564a2ad32c241c4ace83ac54fa",
+      "hashMode": "utf8_lf"
+    },
+    {
+      "path": "skills/manifest.json",
+      "role": "owned_scoped_change",
+      "sha256": "10ed569d2a689a6136ebfef7ecaf5dddafa2c6ee0d313e8e23a3fdd1fa427ef7",
+      "hashMode": "utf8_lf"
+    },
+    {
+      "path": "docs/production/2026-10-04/database-target.draft.json",
+      "role": "owned_scoped_change",
+      "sha256": "9232f1586f91b505af81c0696a567fd37d26c7f29e5f715a15f688f4cbcfe4a3",
+      "hashMode": "utf8_lf"
+    },
+    {
+      "path": "docs/production/2026-10-04/database-target-gate.vi.md",
+      "role": "owned_scoped_change",
+      "sha256": "0bcc622f3b72fced04793b3795f5c7d09153d3466b60df2edd4639bdfa3cc482",
+      "hashMode": "utf8_lf"
+    },
+    {
+      "path": "docs/production/2026-10-04/openrouter-receipts.vi.md",
+      "role": "owned_scoped_change",
+      "sha256": "854daa9278b8edbeb14c09634e9ad84a3c6717a6e2cd2bb5063631db808724ed",
+      "hashMode": "utf8_lf"
+    },
+    {
+      "path": "docs/production/2026-10-04/implementation-progress.vi.md",
+      "role": "owned_scoped_change",
+      "sha256": "f82071695b1cd73925bd83cdafdb5a3846ee3269a43c22495c867b08cc1ed5e8",
+      "hashMode": "utf8_lf"
+    },
+    {
+      "path": "docs/production/2026-10-04/PRODUCTION_PLAN.vi.md",
+      "role": "owned_scoped_change",
+      "sha256": "352adfc54161dd766ce5974938df67ab5310d52c6b6de2b3ffca159b0cee06c4",
+      "hashMode": "utf8_lf"
+    },
+    {
+      "path": "AGENTS.md",
+      "role": "reviewed_policy_not_changed_by_this_task",
+      "sha256": "35757424e5fc5ef5814015ceb87ace0a9b8b5e3602e555a09efd47f49d53b32e",
+      "hashMode": "utf8_lf"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "role": "reviewed_policy_not_changed_by_this_task",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "hashMode": "utf8_lf"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "role": "reviewed_policy_not_changed_by_this_task",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "hashMode": "utf8_lf"
+    },
+    {
+      "path": "docs/release/release-profile.json",
+      "role": "reviewed_policy_not_changed_by_this_task",
+      "sha256": "f4964d0a17e6fd92d225d01ccacd554fbaf0033161f756571924cdd6a0c2aeaa",
+      "hashMode": "utf8_lf"
+    },
+    {
+      "path": "docs/release/RELEASE_RUNBOOK.md",
+      "role": "reviewed_policy_not_changed_by_this_task",
+      "sha256": "9f44d674b547e324982b87d79b4c46531e69c4f19d9e475557a60a963a27cae2",
+      "hashMode": "utf8_lf"
+    },
+    {
+      "path": "supabase/migration-ledger.json",
+      "role": "reviewed_policy_not_changed_by_this_task",
+      "sha256": "e63b4510c844c03d235b3f69d8e9a051c5ce4cbe620369100f5fcb33a9f8d9eb",
+      "hashMode": "utf8_lf"
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "role": "reviewed_policy_not_changed_by_this_task",
+      "sha256": "1e4d2bc7a93a2a140690c7237537de582972db30088309996ab6462a79a53623",
+      "hashMode": "utf8_lf"
+    },
+    {
+      "path": "scripts/release-evidence.mjs",
+      "role": "reviewed_policy_not_changed_by_this_task",
+      "sha256": "8e02be5b460fedb8bf44a9dd335eed57ae113decf9e376e0e5e4a685ab1eb5c8",
+      "hashMode": "utf8_lf"
+    }
+  ],
+  "unrun": [
+    "managed_clean_schema_replay",
+    "production_schema_upgrade",
+    "live_auth_rls_grants_acceptance",
+    "transactional_cost_ledger_worker",
+    "authenticated_staging_provider_e2e",
+    "quality_cost_benchmark",
+    "native_acceptance",
+    "micro_equivalent_load",
+    "daily_backup_restore",
+    "production_invoice_readback"
+  ],
+  "limitations": [
+    "Hashes and PASS fields cannot authenticate owner or prove test truth. Independent release checker/allowlist/blockers remain.",
+    "Deno default/frozen commands blocked by write permission and unrelated mobile dependency lock drift. Scoped tests used no-lock cached-only; not a production dependency-lock validation.",
+    "Legacy blocked QA and prior design evidence remain historical; do not reuse old source hashes as current release evidence.",
+    "Receipt fields in existing best-effort metadata are not trusted server-owned accounting. No worker, route migration or Admin actual-cost dashboard is claimed.",
+    "Production security/privacy/export/delete gates remain incomplete."
+  ],
+  "featurePreflightRecords": [
+    {
+      "path": "docs/feature-plans/nilaza-target-migration-gate-2026-10-04.json",
+      "sha256": "dbbba56dceb52a5790ba811821d949f8c60fcd204dc067eecb5789fab5ef9e55",
+      "result": "PASS",
+      "hashMode": "utf8_lf"
+    },
+    {
+      "path": "docs/feature-plans/nilaza-openrouter-receipts-2026-10-04.json",
+      "sha256": "1b8598679b84e066f7d39f49bf47c56cc02c0d6c154fe44164e963630464a372",
+      "result": "PASS",
+      "hashMode": "utf8_lf"
+    }
+  ]
+}

@@ -1,0 +1,325 @@
+{
+  "schemaVersion": 1,
+  "taskId": "growth-local-marketing-runtime-2026-10-01",
+  "ownerAgent": "nilaza-local-growth-runtime-owner",
+  "lane": "local_marketing_orchestration",
+  "goal": "Build a durable internal AI-session handback workflow on canonical Nilaza Growth roles and evidence, render one real bilingual creative, independently review it and stop awaiting Owner review.",
+  "successCriteria": [
+    "A local CLI prepares a source-hashed job, accepts an actual AI-session author packet, renders real VI/EN PNG creative and persists independent hash-bound QA and an Owner review bundle.",
+    "Idempotent replay does not duplicate work; bounded renderer retry and explicit crash reconciliation never fabricate a model call, QA, human approval or product KPI.",
+    "Sensitive or foreign-tenant data, unsafe paths, stale sources, corrupted outputs, self-review and unsupported external approval fail closed.",
+    "Canonical eight roles remain the operating model; hypotheses and future freemium/pricing/ads direction are clearly separated from shipped product facts.",
+    "No provider installation, credentials, API calls, deployments, database/email/ad changes or existing Admin/mobile/source snapshot edits occur."
+  ],
+  "writeScope": [
+    "packages/growth-runtime/",
+    "scripts/growth-local-run.mjs",
+    "scripts/growth-local-runtime.test.mjs",
+    "docs/GROWTH_LOCAL_MARKETING_RUNNER_2026-10-01.vi.md",
+    ".local/growth-runtime/"
+  ],
+  "untouchedSurfaces": [
+    "Existing Admin Growth shell, deployment packaging, static snapshot and canonical twelve-concept seed remain under the current Local Growth deployment task.",
+    "Supabase migrations, Auth, SMTP, email delivery, provider credentials and database records are outside this local module.",
+    "Mobile Tarot/content remediation, payment/quota enforcement, ad SDKs, web and external marketing channels retain their existing state."
+  ],
+  "impact": {
+    "entryPoint": "Owner invokes a local Node CLI and opens its offline review bundle; no new dashboard, web endpoint or protected Admin write capability is introduced.",
+    "dataWrite": "Write only new module files and a local OS-user store under .local/growth-runtime/store; immutable packets, source hashes, creative files, stage receipts and review sidecars are outside public static paths.",
+    "backendContract": "Reuse canonical Growth ProductTruth and roles through the pure existing snapshot builder; use AI-session handback with operator-attested provenance, no network model or database adapter.",
+    "adminVisibility": "Existing Growth workspace remains unchanged while another task deploys it; this slice provides an offline Owner review bundle that can later be mounted in the same workspace.",
+    "privacySafety": "Accept sanitized project context and approved brand sources only; reject contacts, raw private conversations, journals, birth profiles, secrets, foreign tenants, path traversal and links.",
+    "observability": "Persist stage timestamps, attempt counts, input/candidate/file/QA hashes and safe error codes; distinguish actual AI-session handback from fixtures and unknown provider costs.",
+    "rollback": "Stop local CLI use and remove only this new module and its ignored store after review; no database, product, published asset or external account rollback is required."
+  },
+  "canonicalContracts": [
+    "packages/growth-core/config/growth-agent-catalog.json remains the single canonical eight-role catalog; no role duplicates or external action authority are added.",
+    "packages/growth-nilaza/product-truth.json and briefs/sprint-01.json are canonical Nilaza claims and briefs, consumed read-only through buildAdminGrowthSnapshot.",
+    "Existing computeReviewableArtifactHash binds immutable candidate fields; an additional local manifest binds rendered bytes and input/rubric/source hashes.",
+    "Local runtime receipts are distinct from external execution-receipt contracts and never claim publishing, model-provider execution or human approval."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "aggregate_metrics",
+    "licensed_or_approved_asset_reference"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "c492e69235bc94267f8de0181822602612a5bbda03dd3d144cf4d6c96ff43197",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "docs/NILAZA_PUBLIC_HELP_CORPUS.md",
+      "sha256": "5704660cda3711bff07991d158b37f43457a9c2acf39cff187eb9e3a3fb74fd7",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "2614cb260adf1a58f770e06a16870eb67f37e50f92d4b80ae3ba96120cc0e85e",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/nilaza-plan-qc.md",
+      "sha256": "f4039cc32b638ce416ee031f33bd9c9fe112d03e81425a0cdadf2c3ae51e9b93",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "skills/nilaza-brand-experience/SKILL.md",
+      "sha256": "1e2acdfac537225ed366a78e6c28b6764a5fe2ac1a1434e583ba21349dee1928",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "packages/growth-core/config/growth-agent-catalog.json",
+      "sha256": "1cc6d131585b09122645649d97b03b87821786a4b7d9cd6aab7e1c3caf36c759",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "packages/growth-core/config/quality-gates.json",
+      "sha256": "da187f06a8c0cf4b171fd37547f70d7996e76e4e054f56a8104fdcad4f924af5",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "packages/growth-core/config/agent-runner-contract.json",
+      "sha256": "9206677a4d9fc3b60f10feb08d69945674765a9e1117c6ad157ff23f2fcd5486",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "packages/growth-core/config/approval-state-machine.json",
+      "sha256": "0dbff40c02ee0e9b36ff7ff4ed1cb701f2c72bc7b701292d08da361b26f62ddd",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "packages/growth-contracts/schemas/asset-package.schema.json",
+      "sha256": "3107e052b4f6e98b58090b5a5338c477ceb8d2484cd5c873913ffa6565443b7d",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "packages/growth-contracts/schemas/qa-verdict.schema.json",
+      "sha256": "ce8fb350cecd090d792528aceaa0aff67e384ede5cb7e50895a6b60139f7716d",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "packages/growth-nilaza/product-truth.json",
+      "sha256": "0946eb65b9de71a593f822ba5c9c4149d285fde46ec948f1a251bb35c8645e5c",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "packages/growth-nilaza/briefs/sprint-01.json",
+      "sha256": "e7c29d07002a8ed41806488746a3576623f3abc47288f65cf12484b301492554",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "packages/growth-nilaza/content-drafts/sprint-01.json",
+      "sha256": "1c911bab916fc8d087299df1b84f4f8d39e6f419f85fbb37304c84592997bb69",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "packages/growth-nilaza/readiness/sprint-01-readiness.json",
+      "sha256": "3575cc2b9c3e59d0f6154434fe6ef70c24492c46340510cc604ac7e83c421529",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "packages/growth-nilaza/business-pack.json",
+      "sha256": "9453f06afedf5469a99d7a45e44c140146561028db2f966fedc01f781d78252f",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "packages/growth-nilaza/measurement/event-ownership-map.json",
+      "sha256": "22840b10e785fa96464942f2a084ce916d8bd8db2a7d50be8a600991bfa99efe",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "packages/growth-nilaza/learning/sprint-01-learning-note.json",
+      "sha256": "d405539c12f2a7b30ca9326f90deb3b0873f4a7397c62f2d1497eb4a54b19076",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "packages/growth-nilaza/research/source-register.json",
+      "sha256": "447bb26daf5addebe5ca49389949d0d356214dbe441baa234231f786ff7005a0",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "packages/growth-nilaza/operations/roadmap.json",
+      "sha256": "568b24732c387afe50b55d42b1fb8f562baefafc053f50c427b40c7baf5a30aa",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "scripts/build-admin-growth.mjs",
+      "sha256": "ab60c3f6e9c13bf789a5b6f932741969f3ee4a52bf54e033992117533935ab67",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "apps/admin/growth-operations-model.mjs",
+      "sha256": "1487f3600d6e380e0bf81a6e12ebd34fe4b0824e630047f90f77c91fd95bbd3f",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "scripts/growth-framework-validator.mjs",
+      "sha256": "214376a7c88646187fd0518680576b78aa178690ee962913d22dcc6cdbee84e7",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "scripts/validate-growth-tenant-artifacts.mjs",
+      "sha256": "b8ef6b83ad394ec04cdb66714c33666b50aa452f14739e8737558cafe3afd3ff",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "scripts/validate-growth-pilot.mjs",
+      "sha256": "83ab138ec5257f0a9774146cfb138e1c20bc717e16ded3295c032ef210f03726",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "packages/content/data/brand-identity.json",
+      "sha256": "cd94f55aa57274591742fde3957884712f92e8ea775d18fcbcaa3aae6c33cb05",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "assets/brand/open-reflection/v1/logo/horizontal-ivory.png",
+      "sha256": "b6002058dd49ee29c45fcada9d6549311545077600c3a862eb10078d924253fa",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "assets/brand/open-reflection/v1/source/HankenGrotesk-Regular.ttf",
+      "sha256": "315cda587038b4d21cb4899df306fef5c15b34b6b9470352eba9a3dfce72f380",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "assets/brand/open-reflection/v1/source/EBGaramond-Regular.ttf",
+      "sha256": "a45a5040e1a328d056871d42aa70f10f7ca3bf5c447887b80720542feeead5f2",
+      "reason": "Read current canonical contracts, scoped validation helpers, governance or approved brand sources for the local-only job boundary; preserve all existing bytes."
+    },
+    {
+      "path": "packages/growth-runtime/runtime.mjs",
+      "sha256": "bd6d75d578ce221eacfb2570e1d673bac2be9ea001b4c37cc0a4ebe20cfaf01d",
+      "reason": "Reviewed new isolated local runtime, fixed renderer, operator CLI and behavioral/schema contracts; no external adapter or account authority is introduced."
+    },
+    {
+      "path": "packages/growth-runtime/renderer.mjs",
+      "sha256": "decd256f20388f24aa259ab31eec05d34679fee8783f62289a4d000db925de47",
+      "reason": "Reviewed new isolated local runtime, fixed renderer, operator CLI and behavioral/schema contracts; no external adapter or account authority is introduced."
+    },
+    {
+      "path": "packages/growth-runtime/package.json",
+      "sha256": "eac65218e7443472f2eddb04b8936438b827583d450794e5bcd05bb685dae146",
+      "reason": "Reviewed new isolated local runtime, fixed renderer, operator CLI and behavioral/schema contracts; no external adapter or account authority is introduced."
+    },
+    {
+      "path": "scripts/growth-local-run.mjs",
+      "sha256": "887e51df282010c5edebe7c10df926af3f42ae3c46da3e12e4c4f9c900484f8b",
+      "reason": "Reviewed new isolated local runtime, fixed renderer, operator CLI and behavioral/schema contracts; no external adapter or account authority is introduced."
+    },
+    {
+      "path": "scripts/growth-local-runtime.test.mjs",
+      "sha256": "1f8bc5a7ba6f9a8961809d723dd3a78946138833279b9b9cbce2b96b572056da",
+      "reason": "Reviewed new isolated local runtime, fixed renderer, operator CLI and behavioral/schema contracts; no external adapter or account authority is introduced."
+    },
+    {
+      "path": "packages/growth-runtime/schemas/author-packet.schema.json",
+      "sha256": "1437ecb90c3ec2b9c8e8c92c512f94cd26e1943fbf9d0f10dc1749df5751f18e",
+      "reason": "Reviewed new isolated local runtime, fixed renderer, operator CLI and behavioral/schema contracts; no external adapter or account authority is introduced."
+    },
+    {
+      "path": "packages/growth-runtime/schemas/creative-manifest.schema.json",
+      "sha256": "d83ae2f3ed2bcc5480bd7a7b11e20b72f754c6e7bfc6f9dcaaaa14399f5b5bfd",
+      "reason": "Reviewed new isolated local runtime, fixed renderer, operator CLI and behavioral/schema contracts; no external adapter or account authority is introduced."
+    },
+    {
+      "path": "packages/growth-runtime/schemas/runtime-job.schema.json",
+      "sha256": "9321002e42a842b218c0918da7a0092076e2b20ec6a7f57252e41f0e727e671a",
+      "reason": "Reviewed new isolated local runtime, fixed renderer, operator CLI and behavioral/schema contracts; no external adapter or account authority is introduced."
+    },
+    {
+      "path": "packages/growth-runtime/schemas/runtime-receipt.schema.json",
+      "sha256": "f655a7311d5f19746fd1d92d98ba919bf6690ee020c341b996b92ea80779f205",
+      "reason": "Reviewed new isolated local runtime, fixed renderer, operator CLI and behavioral/schema contracts; no external adapter or account authority is introduced."
+    },
+    {
+      "path": "packages/growth-runtime/schemas/trusted-intake.schema.json",
+      "sha256": "585ed22ea95dffa78109c7da0cbccf91ebed0fa03ea192b8493090bbd811e2e6",
+      "reason": "Reviewed new isolated local runtime, fixed renderer, operator CLI and behavioral/schema contracts; no external adapter or account authority is introduced."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Applied pre-edit source review, independent write scopes, Whole-App impact, safety stop conditions, validation and manager review path; no skill exception is needed."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Use Open Reflection v1 outline logo, manifest fonts and reflective VI/EN copy; inspect all rendered slides, retain draft-only publication boundary."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Use only already installed Node v25.9.0 and sharp 0.34.5; verified official sharp text/fontfile renderer documentation, no installs or new paid providers."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://sharp.pixelplumbing.com/api-constructor/",
+      "checkedAt": "2026-10-01",
+      "reason": "Official constructor documentation confirms UTF-8 Pango text, explicit fontfile, dimensions, bounded image input and local rendering API."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "Local CLI relies on the existing Windows user filesystem boundary; identity is operator-attested local-session provenance, not server authentication; no HTTP API or Supabase RLS change.",
+    "sensitiveData": "Reject forbidden nested fields, contacts, credentials, sensitive inference and foreign tenants before persistence; only source refs and sanitized packets enter the store.",
+    "secretsLogging": "No auth files or keys are read and no credentials are created; persist safe error codes without raw error or packet content in operational logs.",
+    "externalInput": "Strict object and value validation, fixed job identifiers and local filenames, size limits, no packet-provided executable/URL/path, escape text/HTML and fail closed on stale QA.",
+    "dependencies": "Reuse local installed sharp and approved manifest fonts; verify hashes and imports, no dependency install or package-lock mutation.",
+    "migrationRelease": "No database, migration repair, Auth/email, deployment, external publishing, campaign, spend, quota or billing changes; future business options remain hypotheses.",
+    "stopCondition": "Stop dependent work for missing local dependencies, credentials/provider setup, source drift or unsafe data; continue only independent scoped local work.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "docs/GROWTH_LOCAL_MARKETING_RUNNER_2026-10-01.vi.md",
+      "packages/growth-runtime/package.json",
+      "packages/growth-runtime/renderer.mjs",
+      "packages/growth-runtime/runtime.mjs",
+      "packages/growth-runtime/schemas/author-packet.schema.json",
+      "packages/growth-runtime/schemas/creative-manifest.schema.json",
+      "packages/growth-runtime/schemas/runtime-job.schema.json",
+      "packages/growth-runtime/schemas/runtime-receipt.schema.json",
+      "packages/growth-runtime/schemas/trusted-intake.schema.json",
+      "scripts/growth-local-run.mjs",
+      "scripts/growth-local-runtime.test.mjs"
+    ],
+    "note": "Reviewed only this task new files; preserve existing dirty Admin, mobile, canonical Growth, lockfile and Supabase changes owned by other Local tasks. Private store output is separately ignored."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/growth-local-marketing-runtime-2026-10-01.json",
+    "node --test scripts/growth-local-runtime.test.mjs",
+    "npm run growth:validate",
+    "npm run validate:governance",
+    "npm run validate:brand",
+    "node scripts/growth-local-run.mjs inspect --job nilaza-pilot-20261001",
+    "git diff --check -- packages/growth-runtime scripts/growth-local-run.mjs scripts/growth-local-runtime.test.mjs"
+  ],
+  "managerTestPath": "Run the documented prepare/import/render/QA commands, inspect persisted receipts and open review.html; check six actual PNGs and VI/EN copy, then leave the job awaiting Owner review.",
+  "residualRisk": "Current AI sessions are handed back with operator-attested provenance; unattended provider dispatch is absent. A hung trusted local renderer needs process restart/reconciliation. Power loss during prepare/author immutable sealing fails closed and may need manual recovery; no automatic approval is fabricated.",
+  "externalActions": {
+    "databaseWrite": false,
+    "publish": false,
+    "deploy": false,
+    "send": false,
+    "spend": false
+  }
+}

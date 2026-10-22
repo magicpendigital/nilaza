@@ -1,0 +1,61 @@
+{
+  "checkedAt": "2026-10-03",
+  "scope": "Admin Configure audit, bounded local remediation and Oracle prompt composition preview",
+  "result": "local-validation-passed; full MVP Configure acceptance remains open",
+  "checks": [
+    { "command": "npm run admin:check", "result": "PASS", "details": "Seed, Growth snapshot and generated Owner guide current; 3 workspaces and 27 capabilities." },
+    { "command": "npm run admin:test", "result": "PASS", "tests": 98, "failed": 0, "aiStudioCases": 39 },
+    { "command": "node --test scripts/prompt-composition.test.mjs", "result": "PASS", "tests": 18, "failed": 0 },
+    { "command": "node --check apps/admin/app.js", "result": "PASS" },
+    { "command": "node --check packages/agent-config/prompt-composition/compose.mjs", "result": "PASS" },
+    { "command": "node --check packages/agent-config/prompt-composition/bundle.mjs", "result": "PASS" },
+    { "command": "npm run validate:data", "result": "PASS", "details": "7 decks, 78 cards each; bilingual data; ASCII Vietnamese, mojibake and safety lint failures all zero. Run before final Admin-only race fixes; canonical content unchanged afterward." },
+    { "command": "npm run validate:governance", "result": "PASS", "details": "22 agents, 6 delivery lanes." },
+    { "command": "git diff --check -- task-scoped tracked files", "result": "PASS", "details": "Only CRLF notices; no whitespace errors." }
+  ],
+  "planPreflight": {
+    "record": "docs/feature-plans/admin-configure-audit-remediation-2026-10-03.json",
+    "status": "PASS",
+    "command": "npm run feature:preflight -- --record docs/feature-plans/admin-configure-audit-remediation-2026-10-03.json",
+    "sourceReviews": 401,
+    "acknowledgedPaths": 4051
+  },
+  "independentReviews": [
+    { "agent": "oracle_backend_audit", "scope": "Deployed/source persistence and runtime matrix; local remediation review", "result": "C42/C43 identified, transferred to fixes and regression tests" },
+    { "agent": "prompt_safety_review", "scope": "Local composition privacy, errors, schema and G1 cap", "result": "PASS after async-error, schema-key and canonical 2000-token corrections; no remaining supported scoped issue" }
+  ],
+  "criticalRegressionEvidence": {
+    "reviewSnapshot": "8 delayed capability cases plus final transport-refresh case send no POST after selection/payload changes; unchanged publication uses reviewed snapshot.",
+    "tracePayload": "Synthetic QA payload clears on workflow navigation; delayed permission/response is invalidated by epoch and cannot return after leave/re-enter.",
+    "draftPreservation": "Route publication retains unrelated prompt/context drafts through reload.",
+    "councilContainment": "GET remains available; seed editor POST is blocked even after a real config response loads."
+  },
+  "promptComposition": {
+    "bundleVersion": "2026-10-03.preview.1",
+    "bundleSha256": "f5f364ea94e6f8cfc4812960a5224c07a604b05c646539ec081d004b25041bdc",
+    "modules": ["core", "oracle-feature", "locale-vi-or-en", "reviewed-tone"],
+    "usagePolicyVersion": "g1-2026-10-02",
+    "maxInputTokensPerAttempt": 2000,
+    "budgetMechanics": "Every enabled locale rejects a synthetic 2001-token complete envelope; tests do not measure real model tokens.",
+    "realTokenizerAcceptance": "NOT ASSESSED",
+    "providerReady": false,
+    "runtimeIntegration": false,
+    "existingOraclePromptRecords": "preserved"
+  },
+  "browserEvidence": {
+    "file": "flow-evidence.json",
+    "screenshots": 16,
+    "screenshotsVisuallyInspected": 16,
+    "baseline": "Saved pre-edit source; no before-fix AI Studio screenshots",
+    "protectedWorkspaces": ["Content Operations", "AI Studio", "Growth Operations"],
+    "viewportReset": true
+  },
+  "issueRegister": { "total": 43, "P0": 1, "P1": 19, "P2": 20, "P3": 3, "note": "Counts include fixed/contained and open findings; inherited Oracle P0 is still open." },
+  "externalActions": { "cloudWrites": false, "databaseWrites": false, "deployments": false, "providerCalls": false, "rawQaPayloadReveal": false },
+  "acceptanceLimits": [
+    "Mocked local tests do not validate live publisher concurrency/CAS, provider output or deployment.",
+    "Prompt composition is isolated and unused by current Admin/mobile/backend consumers.",
+    "Old QA retained as evidence; clean QA and reviewed migration/runtime gates remain open.",
+    "Screen-reader, 200% zoom and complete cross-device accessibility acceptance have not run."
+  ]
+}

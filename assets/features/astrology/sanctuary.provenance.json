@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "origin": "original AI-generated illustration",
+  "tool": "imagegen",
+  "date": "2026-09-22",
+  "master": "assets/features/astrology/sanctuary.png",
+  "runtime": "apps/mobile/assets/runtime/features/astrology-sanctuary.jpg",
+  "masterSha256": "8240e53f1eec2d843ec16e5b41b179d841cd20d4e8e3b699fd7a2adb404c4a0e",
+  "runtimeSha256": "378b12e1782a7951247f4450bcd1f15248821c5fe6d3c9d9f3e4dd794eac0855",
+  "export": {
+    "width": 1000,
+    "format": "jpeg",
+    "quality": 82,
+    "mozjpeg": true
+  },
+  "prompt": "Original premium editorial fantasy, portrait 2:3. Ancient ivory limestone circular arch above dark reflective water; tiny crescent moon, sparse gold stars, deep teal night sky, distant golden ram on plinth. Tactile marble, grasses, cinematic calm, charcoal/ivory/champagne/teal. No text, logo, zodiac chart, people or purple nebula. Decorative mythology, not astronomical data.",
+  "status": "prototype_pending_owner_review"
+}

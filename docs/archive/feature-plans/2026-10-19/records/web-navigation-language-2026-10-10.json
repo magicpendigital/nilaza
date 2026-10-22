@@ -1,0 +1,230 @@
+{
+  "schemaVersion": 1,
+  "taskId": "web-navigation-language-2026-10-10",
+  "ownerAgent": "nilaza-web-menu-owner",
+  "lane": "website_navigation_bugfix",
+  "goal": "Clarify the active language, preserve the localized page on language changes, and soften cross-document navigation without replacing the static site lifecycle.",
+  "successCriteria": [
+    "Explore on landing stays in the document and preserves unsent form state.",
+    "Current Home/Help/Safety menu links scroll to main rather than reloading the same page, including trailing slash variants.",
+    "Both VI and EN are visible with the active language highlighted and named for assistive technology; switching preserves the corresponding page.",
+    "Same-origin page changes use a short native fade with stable header where supported; reduced motion and unsupported browsers retain ordinary navigation.",
+    "Header remains usable at 320px and desktop widths, with no overlap or off-screen controls."
+  ],
+  "writeScope": [
+    "apps/web/src/components/SiteHeader.astro",
+    "apps/web/src/styles/global.css",
+    "artifacts/web-navigation-language-2026-10-10/"
+  ],
+  "untouchedSurfaces": [
+    "Mobile and both protected Admin workspaces, data, backend endpoints, Auth, credits and migrations are untouched.",
+    "Help/legal copy, brand assets, event schemas and production hosting configuration are untouched."
+  ],
+  "impact": {
+    "entryPoint": "Localized header Home/Explore/Help/Safety links and VI/EN language selector, desktop and mobile.",
+    "dataWrite": "Only local source and review artifacts; fragment navigation preserves unsent form and demo state. No remote submission.",
+    "backendContract": "No API or backend change. Existing waitlist and anti-abuse behavior remains unchanged.",
+    "adminVisibility": "No Admin changes; local evidence identifies the prepared source separately from the live website.",
+    "privacySafety": "Synthetic form text only; no waitlist submission, credentials or private rows. Preserve native keyboard link behavior.",
+    "observability": "Existing analytics unchanged. Browser checks verify form state, current fragments, language routing, menu behavior and header geometry; transition styling inspected separately from visual smoothness.",
+    "rollback": "Revert only new selector/current-route styling and global native transition rules; preceding landing fragment fix remains. Static document navigation works without JavaScript."
+  },
+  "canonicalContracts": [
+    "Existing vi/en path segment determines corresponding page; main/features/waitlist remain existing fragment contracts.",
+    "No ClientRouter/document swap: existing menu, waitlist, demo, Help search and analytics retain document initialization."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "4da2a80e09727695c07ad5e0adc52fffb28ae71783dc7258585aac3735a6add9",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "6cd85c85b43e6ada64745ac13bf34f3fdb2b9e799f5bc2ad176a662d94b154e1",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "docs/BRAND_ROLLOUT_2026-09-11.md",
+      "sha256": "99ed149a4da53cd1284e55230ca832451a816e57455916a0a8a5cd30c05cc792",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "docs/NILAZA_PUBLIC_HELP_CORPUS.md",
+      "sha256": "055549c4bfb13923664f0854a6b44928e7094498af9a64fc6bbe1c17a1a04fb6",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "7a4973733886cb4f1568d38e6d8324d1d8200bb1acd850db486bf5323943f023",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "1e4d2bc7a93a2a140690c7237537de582972db30088309996ab6462a79a53623",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "skills/nilaza-brand-experience/SKILL.md",
+      "sha256": "1e2acdfac537225ed366a78e6c28b6764a5fe2ac1a1434e583ba21349dee1928",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/README.md",
+      "sha256": "7c81283ac2dbeb373fbbd2c22b0877f779aba723670c7b9717023249191138ce",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/package.json",
+      "sha256": "3040b061a914e06ceff0c32d01b3c4633a6a8c911d01b852fb2f8eb92eb3c5de",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/astro.config.mjs",
+      "sha256": "f9e5dc115479086fbd74ffbd77bd4ee038967a97d4f7ccc651c0e9b1eee2f670",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/src/components/SiteHeader.astro",
+      "sha256": "eb5d917339a34fae97e2fbf90f08b6d1c9529082e2893f275604ac2818ec004c",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/src/components/FloatingNavigation.astro",
+      "sha256": "d3ee564702d4ab2bdd07bed7255104e1628e3875b6059cb48620960ad617f721",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/src/layouts/BaseLayout.astro",
+      "sha256": "d593cbf011e0c2938839359b8d98c7b673e9a26fc97726ca12e7abf51500aaaa",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/src/styles/global.css",
+      "sha256": "d140a5309ef4d09a743f93615711a034c9c36cda49ec8df4216a3037fbbfeeab",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/src/styles/responsive.css",
+      "sha256": "24e6f418a6bc9f3bffa9f3644d9d51916184b1edf14fd774c7b5e7cfcf701088",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "packages/content/data/brand-identity.json",
+      "sha256": "6a214e9244305b6bf3189f0c2b230ae7e3c6ef9b84b1374e6c0c9772789042d9",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/src/components/Brand.astro",
+      "reason": "Reviewed shrinking brand image to fit language options on narrow headers.",
+      "sha256": "dbf91300bb61488274b7bbcc57158e8870d1990972a73bb55d456ac075aac7f9"
+    },
+    {
+      "path": "artifacts/web-navigation-language-2026-10-10/preview.mjs",
+      "sha256": "33167f86b54259fb3fb591894e6a9127fd5a3eefa32eb7a1467a8f129024dc33",
+      "reason": "Reviewed local preview and sanitized owner acceptance evidence."
+    },
+    {
+      "path": "artifacts/web-navigation-language-2026-10-10/OWNER_TEST.vi.md",
+      "sha256": "00c6957023563c2df667f5b6634ca08459e37c66696f1c34befcc2b083edacd5",
+      "reason": "Reviewed local preview and sanitized owner acceptance evidence."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Scoped impact, synthetic UI checks and separate production handoff already cover this navigation fix; no durable skill change."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Keep current Open Reflection identity and VI/EN Help/waitlist boundaries; no new assets or public copy."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Astro 7.3.2, no dependency changes. Current Astro and MDN documentation checked 2026-10-10 supports native same-origin CSS transitions as progressive enhancement, preserving MPA script lifecycle."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://docs.astro.build/en/guides/view-transitions/",
+      "checkedAt": "2026-10-10",
+      "reason": "Native cross-document transitions versus ClientRouter script lifecycle."
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/At-rules/@view-transition",
+      "checkedAt": "2026-10-10",
+      "reason": "Same-origin opt-in, browser fallback and reduced-motion opt-out."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "Static navigation only; no Auth, RLS or authorization boundary changes.",
+    "sensitiveData": "Use fictional text in unsent local form only; do not inspect actual user records.",
+    "secretsLogging": "No environment file values or secrets in receipts or screenshots.",
+    "externalInput": "Live page is observation only. Fixed existing anchor IDs, no injection or dynamic external URLs.",
+    "dependencies": "Reuse installed packages without downloads or dependency update.",
+    "migrationRelease": "Local source/build/preview only. Existing ledger and runtime bindings remain unchanged.",
+    "stopCondition": "Stop on unintended remote request, lost cross-page Help navigation or unrelated source drift.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/web/src/components/SiteHeader.astro",
+      "apps/web/src/styles/global.css",
+      "artifacts/web-navigation-language-2026-10-10/prepare-plan.mjs",
+      "artifacts/web-navigation-language-2026-10-10/OWNER_TEST.vi.md",
+      "artifacts/web-navigation-language-2026-10-10/preview.mjs",
+      "artifacts/web-navigation-language-2026-10-10/finalize.mjs",
+      "artifacts/web-navigation-language-2026-10-10/mobile-vi-safety.jpg",
+      "artifacts/web-navigation-language-2026-10-10/desktop-en-safety.jpg",
+      "artifacts/web-navigation-language-2026-10-10/build-hashes.json"
+    ],
+    "note": "Header/global already contain preceding local landing scroll fix; preserve it and unrelated dirty work. Live website still exposes original links."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/web-navigation-language-2026-10-10.json",
+    "npm run web:check",
+    "npm run web:build",
+    "npm run validate:public-content",
+    "npm run validate:brand",
+    "npm run skills:check",
+    "Browser desktop/mobile VI/EN current-route, language preservation, keyboard, form and menu checks"
+  ],
+  "managerTestPath": "Landing Explore scrolls and keeps typed unsent email. Open Safety, click Safety again, then EN: stay on corresponding Safety page with EN selected. Repeat on mobile and switch language by keyboard. Check Help search and return links.",
+  "residualRisk": "No production publication. Native animation requires browser support; fallback is ordinary navigation. Separate pages still fetch documents. Reduced-motion tested by emulation; cross-browser smoothness and frame-rate not measured.",
+  "externalActions": {
+    "databaseWrite": false,
+    "providerWrite": false,
+    "deployment": false,
+    "emailSend": false,
+    "note": "Read live site; all implementation and acceptance remain local."
+  },
+  "validationEvidence": [
+    "web:check 19 files, zero diagnostics; build 43 pages and Pagefind 16 pages/two locales PASS after local sandbox write retry.",
+    "Public content, brand, skill drift, scoped whitespace PASS.",
+    "VI mobile Explore keeps unsent input, closes menu, clears header at 80px; EN desktop Explore keeps input, final offset 88px.",
+    "Safety current link #main; VI/EN language changes preserve safety; keyboard Enter works. Help Pagefind tarot search and corresponding EN article verified.",
+    "Header geometry at 320/360/390/851/900/1024 plus desktop1440 verified. Local screenshots saved.",
+    "Reduced-motion browser emulation verified scroll auto and menu transition0.01ms; reset afterwards. Native transition rules/style inspected, no frame-rate measurement; Animation CDP domain unavailable.",
+    "Live site remains original header; no submission or production publication."
+  ]
+}

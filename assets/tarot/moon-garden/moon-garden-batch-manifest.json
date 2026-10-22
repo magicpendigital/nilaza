@@ -1,0 +1,1806 @@
+{
+  "deckId": "moon-garden",
+  "remaining": 75,
+  "items": [
+    {
+      "cardId": "major-01-magician",
+      "name": {
+        "vi": "Nha Gia Kim",
+        "en": "The Magician"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "y chi",
+          "ky nang",
+          "bien hoa"
+        ],
+        "en": [
+          "will",
+          "skill",
+          "transformation"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/major-01-magician.png",
+      "cardPath": "assets/tarot/moon-garden/cards/major-01-magician.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card The Magician.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: will, skill, transformation.\nDeck visual direction: inward, night-botanical, moonlit. Design The Magician in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using the Major Arcana card's own central archetype, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-03-empress",
+      "name": {
+        "vi": "Nu Hoang Nuoi Duong",
+        "en": "The Empress"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "nuoi duong",
+          "sang tao",
+          "phong phu"
+        ],
+        "en": [
+          "nurture",
+          "creation",
+          "abundance"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/major-03-empress.png",
+      "cardPath": "assets/tarot/moon-garden/cards/major-03-empress.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card The Empress.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: nurture, creation, abundance.\nDeck visual direction: inward, night-botanical, moonlit. Design The Empress in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using the Major Arcana card's own central archetype, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-04-emperor",
+      "name": {
+        "vi": "Nguoi Kien Tao",
+        "en": "The Emperor"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "cau truc",
+          "trach nhiem",
+          "nen tang"
+        ],
+        "en": [
+          "structure",
+          "responsibility",
+          "foundation"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/major-04-emperor.png",
+      "cardPath": "assets/tarot/moon-garden/cards/major-04-emperor.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card The Emperor.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: structure, responsibility, foundation.\nDeck visual direction: inward, night-botanical, moonlit. Design The Emperor in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using the Major Arcana card's own central archetype, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-05-hierophant",
+      "name": {
+        "vi": "Nguoi Giu Truyen Thong",
+        "en": "The Hierophant"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "gia tri",
+          "hoc hoi",
+          "truyen thong"
+        ],
+        "en": [
+          "values",
+          "learning",
+          "tradition"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/major-05-hierophant.png",
+      "cardPath": "assets/tarot/moon-garden/cards/major-05-hierophant.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card The Hierophant.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: values, learning, tradition.\nDeck visual direction: inward, night-botanical, moonlit. Design The Hierophant in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using the Major Arcana card's own central archetype, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-06-lovers",
+      "name": {
+        "vi": "Nguoi Yeu",
+        "en": "The Lovers"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "lua chon",
+          "ket noi",
+          "gia tri"
+        ],
+        "en": [
+          "choice",
+          "connection",
+          "values"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/major-06-lovers.png",
+      "cardPath": "assets/tarot/moon-garden/cards/major-06-lovers.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card The Lovers.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: choice, connection, values.\nDeck visual direction: inward, night-botanical, moonlit. Design The Lovers in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using the Major Arcana card's own central archetype, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-07-chariot",
+      "name": {
+        "vi": "Chien Xa",
+        "en": "The Chariot"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "huong di",
+          "y chi",
+          "tien len"
+        ],
+        "en": [
+          "direction",
+          "will",
+          "movement"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/major-07-chariot.png",
+      "cardPath": "assets/tarot/moon-garden/cards/major-07-chariot.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card The Chariot.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: direction, will, movement.\nDeck visual direction: inward, night-botanical, moonlit. Design The Chariot in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using the Major Arcana card's own central archetype, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-08-strength",
+      "name": {
+        "vi": "Suc Manh Diu Dang",
+        "en": "Strength"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "can dam",
+          "tu bi",
+          "kiem che"
+        ],
+        "en": [
+          "courage",
+          "compassion",
+          "restraint"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/major-08-strength.png",
+      "cardPath": "assets/tarot/moon-garden/cards/major-08-strength.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Strength.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: courage, compassion, restraint.\nDeck visual direction: inward, night-botanical, moonlit. Design Strength in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using the Major Arcana card's own central archetype, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-09-hermit",
+      "name": {
+        "vi": "An Si",
+        "en": "The Hermit"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "mot minh",
+          "chieu soi",
+          "tim nghia"
+        ],
+        "en": [
+          "solitude",
+          "illumination",
+          "meaning"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/major-09-hermit.png",
+      "cardPath": "assets/tarot/moon-garden/cards/major-09-hermit.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card The Hermit.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: solitude, illumination, meaning.\nDeck visual direction: inward, night-botanical, moonlit. Design The Hermit in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using the Major Arcana card's own central archetype, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-10-wheel",
+      "name": {
+        "vi": "Vong Xoay",
+        "en": "Wheel of Fortune"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "chu ky",
+          "thay doi",
+          "co hoi"
+        ],
+        "en": [
+          "cycles",
+          "change",
+          "opportunity"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/major-10-wheel.png",
+      "cardPath": "assets/tarot/moon-garden/cards/major-10-wheel.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Wheel of Fortune.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: cycles, change, opportunity.\nDeck visual direction: inward, night-botanical, moonlit. Design Wheel of Fortune in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using the Major Arcana card's own central archetype, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-11-justice",
+      "name": {
+        "vi": "Cong Ly",
+        "en": "Justice"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "su that",
+          "can bang",
+          "trach nhiem"
+        ],
+        "en": [
+          "truth",
+          "balance",
+          "accountability"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/major-11-justice.png",
+      "cardPath": "assets/tarot/moon-garden/cards/major-11-justice.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Justice.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: truth, balance, accountability.\nDeck visual direction: inward, night-botanical, moonlit. Design Justice in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using the Major Arcana card's own central archetype, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-12-hanged-man",
+      "name": {
+        "vi": "Nguoi Dao Chieu",
+        "en": "The Hanged Man"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "tam dung",
+          "goc nhin",
+          "buong bo"
+        ],
+        "en": [
+          "pause",
+          "perspective",
+          "surrender"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/major-12-hanged-man.png",
+      "cardPath": "assets/tarot/moon-garden/cards/major-12-hanged-man.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card The Hanged Man.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: pause, perspective, surrender.\nDeck visual direction: inward, night-botanical, moonlit. Design The Hanged Man in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using the Major Arcana card's own central archetype, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-13-death",
+      "name": {
+        "vi": "Chuyen Hoa",
+        "en": "Death"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "ket thuc",
+          "tai sinh",
+          "chuyen hoa"
+        ],
+        "en": [
+          "ending",
+          "rebirth",
+          "transformation"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/major-13-death.png",
+      "cardPath": "assets/tarot/moon-garden/cards/major-13-death.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Death.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: ending, rebirth, transformation.\nDeck visual direction: inward, night-botanical, moonlit. Design Death in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using the Major Arcana card's own central archetype, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-14-temperance",
+      "name": {
+        "vi": "Hoa Hop",
+        "en": "Temperance"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "dieu do",
+          "pha tron",
+          "hoi phuc"
+        ],
+        "en": [
+          "moderation",
+          "blending",
+          "healing"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/major-14-temperance.png",
+      "cardPath": "assets/tarot/moon-garden/cards/major-14-temperance.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Temperance.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: moderation, blending, healing.\nDeck visual direction: inward, night-botanical, moonlit. Design Temperance in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using the Major Arcana card's own central archetype, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-15-devil",
+      "name": {
+        "vi": "Rang Buoc",
+        "en": "The Devil"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "rang buoc",
+          "ham muon",
+          "ao tuong"
+        ],
+        "en": [
+          "attachment",
+          "desire",
+          "illusion"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/major-15-devil.png",
+      "cardPath": "assets/tarot/moon-garden/cards/major-15-devil.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card The Devil.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: attachment, desire, illusion.\nDeck visual direction: inward, night-botanical, moonlit. Design The Devil in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using the Major Arcana card's own central archetype, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-16-tower",
+      "name": {
+        "vi": "Thap Vo",
+        "en": "The Tower"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "su that bat ngo",
+          "sup do",
+          "giai phong"
+        ],
+        "en": [
+          "revelation",
+          "collapse",
+          "liberation"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/major-16-tower.png",
+      "cardPath": "assets/tarot/moon-garden/cards/major-16-tower.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card The Tower.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: revelation, collapse, liberation.\nDeck visual direction: inward, night-botanical, moonlit. Design The Tower in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using the Major Arcana card's own central archetype, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-17-star",
+      "name": {
+        "vi": "Ngoi Sao",
+        "en": "The Star"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "hy vong",
+          "niem tin",
+          "chua lanh"
+        ],
+        "en": [
+          "hope",
+          "faith",
+          "renewal"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/major-17-star.png",
+      "cardPath": "assets/tarot/moon-garden/cards/major-17-star.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card The Star.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: hope, faith, renewal.\nDeck visual direction: inward, night-botanical, moonlit. Design The Star in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using the Major Arcana card's own central archetype, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-18-moon",
+      "name": {
+        "vi": "Mat Trang",
+        "en": "The Moon"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "mo ho",
+          "giac mo",
+          "vo thuc"
+        ],
+        "en": [
+          "uncertainty",
+          "dreams",
+          "subconscious"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/major-18-moon.png",
+      "cardPath": "assets/tarot/moon-garden/cards/major-18-moon.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card The Moon.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: uncertainty, dreams, subconscious.\nDeck visual direction: inward, night-botanical, moonlit. Design The Moon in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using the Major Arcana card's own central archetype, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-19-sun",
+      "name": {
+        "vi": "Mat Troi",
+        "en": "The Sun"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "niem vui",
+          "ro rang",
+          "song suc"
+        ],
+        "en": [
+          "joy",
+          "clarity",
+          "vitality"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/major-19-sun.png",
+      "cardPath": "assets/tarot/moon-garden/cards/major-19-sun.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card The Sun.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: joy, clarity, vitality.\nDeck visual direction: inward, night-botanical, moonlit. Design The Sun in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using the Major Arcana card's own central archetype, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-20-judgement",
+      "name": {
+        "vi": "Tieng Goi",
+        "en": "Judgement"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "thuc tinh",
+          "goi ten",
+          "tha thu"
+        ],
+        "en": [
+          "awakening",
+          "calling",
+          "release"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/major-20-judgement.png",
+      "cardPath": "assets/tarot/moon-garden/cards/major-20-judgement.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Judgement.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: awakening, calling, release.\nDeck visual direction: inward, night-botanical, moonlit. Design Judgement in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using the Major Arcana card's own central archetype, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-21-world",
+      "name": {
+        "vi": "The Gioi",
+        "en": "The World"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "hoan tat",
+          "tron ven",
+          "hoi nhap"
+        ],
+        "en": [
+          "completion",
+          "wholeness",
+          "integration"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/major-21-world.png",
+      "cardPath": "assets/tarot/moon-garden/cards/major-21-world.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card The World.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: completion, wholeness, integration.\nDeck visual direction: inward, night-botanical, moonlit. Design The World in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using the Major Arcana card's own central archetype, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-ace",
+      "name": {
+        "vi": "At Gay Lua",
+        "en": "Ace of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "hat giong",
+          "tia lua dau tien",
+          "y chi"
+        ],
+        "en": [
+          "seed",
+          "first spark",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-wands-ace.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-wands-ace.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Ace of Wands.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: seed, first spark, will.\nDeck visual direction: inward, night-botanical, moonlit. Design Ace of Wands in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using sprouting staffs and small flames, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-two",
+      "name": {
+        "vi": "Hai Gay Lua",
+        "en": "Two of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "can bang",
+          "chon huong di",
+          "y chi"
+        ],
+        "en": [
+          "balance",
+          "choosing direction",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-wands-two.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-wands-two.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Two of Wands.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: balance, choosing direction, will.\nDeck visual direction: inward, night-botanical, moonlit. Design Two of Wands in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using sprouting staffs and small flames, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-three",
+      "name": {
+        "vi": "Ba Gay Lua",
+        "en": "Three of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "phat trien",
+          "nhin xa hon",
+          "y chi"
+        ],
+        "en": [
+          "growth",
+          "looking outward",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-wands-three.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-wands-three.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Three of Wands.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: growth, looking outward, will.\nDeck visual direction: inward, night-botanical, moonlit. Design Three of Wands in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using sprouting staffs and small flames, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-four",
+      "name": {
+        "vi": "Bon Gay Lua",
+        "en": "Four of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "nen tang",
+          "an mung nho",
+          "y chi"
+        ],
+        "en": [
+          "foundation",
+          "small celebration",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-wands-four.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-wands-four.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Four of Wands.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: foundation, small celebration, will.\nDeck visual direction: inward, night-botanical, moonlit. Design Four of Wands in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using sprouting staffs and small flames, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-five",
+      "name": {
+        "vi": "Nam Gay Lua",
+        "en": "Five of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "ma sat",
+          "va cham y chi",
+          "y chi"
+        ],
+        "en": [
+          "friction",
+          "clashing wills",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-wands-five.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-wands-five.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Five of Wands.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: friction, clashing wills, will.\nDeck visual direction: inward, night-botanical, moonlit. Design Five of Wands in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using sprouting staffs and small flames, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-six",
+      "name": {
+        "vi": "Sau Gay Lua",
+        "en": "Six of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "dieu chinh",
+          "duoc cong nhan",
+          "y chi"
+        ],
+        "en": [
+          "repair",
+          "recognition",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-wands-six.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-wands-six.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Six of Wands.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: repair, recognition, will.\nDeck visual direction: inward, night-botanical, moonlit. Design Six of Wands in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using sprouting staffs and small flames, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-seven",
+      "name": {
+        "vi": "Bay Gay Lua",
+        "en": "Seven of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "thu thach",
+          "giu lap truong",
+          "y chi"
+        ],
+        "en": [
+          "challenge",
+          "holding ground",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-wands-seven.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-wands-seven.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Seven of Wands.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: challenge, holding ground, will.\nDeck visual direction: inward, night-botanical, moonlit. Design Seven of Wands in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using sprouting staffs and small flames, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-eight",
+      "name": {
+        "vi": "Tam Gay Lua",
+        "en": "Eight of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "ren luyen",
+          "tin tuc nhanh",
+          "y chi"
+        ],
+        "en": [
+          "practice",
+          "quick movement",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-wands-eight.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-wands-eight.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Eight of Wands.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: practice, quick movement, will.\nDeck visual direction: inward, night-botanical, moonlit. Design Eight of Wands in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using sprouting staffs and small flames, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-nine",
+      "name": {
+        "vi": "Chin Gay Lua",
+        "en": "Nine of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "thu hoach",
+          "kien cuong",
+          "y chi"
+        ],
+        "en": [
+          "attainment",
+          "resilience",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-wands-nine.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-wands-nine.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Nine of Wands.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: attainment, resilience, will.\nDeck visual direction: inward, night-botanical, moonlit. Design Nine of Wands in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using sprouting staffs and small flames, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-ten",
+      "name": {
+        "vi": "Muoi Gay Lua",
+        "en": "Ten of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "hoan tat",
+          "ganh qua nhieu",
+          "y chi"
+        ],
+        "en": [
+          "completion",
+          "heavy burden",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-wands-ten.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-wands-ten.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Ten of Wands.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: completion, heavy burden, will.\nDeck visual direction: inward, night-botanical, moonlit. Design Ten of Wands in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using sprouting staffs and small flames, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-page",
+      "name": {
+        "vi": "Nguoi Hoc Viec Gay Lua",
+        "en": "Page of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "hoc hoi",
+          "to mo sang tao",
+          "y chi"
+        ],
+        "en": [
+          "apprentice",
+          "creative curiosity",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-wands-page.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-wands-page.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Page of Wands.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: apprentice, creative curiosity, will.\nDeck visual direction: inward, night-botanical, moonlit. Design Page of Wands in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using sprouting staffs and small flames, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-knight",
+      "name": {
+        "vi": "Nguoi Len Duong Gay Lua",
+        "en": "Knight of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "dong luc",
+          "hanh dong nong nhiet",
+          "y chi"
+        ],
+        "en": [
+          "seeker",
+          "impulsive action",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-wands-knight.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-wands-knight.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Knight of Wands.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: seeker, impulsive action, will.\nDeck visual direction: inward, night-botanical, moonlit. Design Knight of Wands in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using sprouting staffs and small flames, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-queen",
+      "name": {
+        "vi": "Nguoi Giu Vuon Gay Lua",
+        "en": "Queen of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "nuoi duong",
+          "tu tin am ap",
+          "y chi"
+        ],
+        "en": [
+          "guardian",
+          "warm confidence",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-wands-queen.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-wands-queen.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Queen of Wands.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: guardian, warm confidence, will.\nDeck visual direction: inward, night-botanical, moonlit. Design Queen of Wands in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using sprouting staffs and small flames, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-king",
+      "name": {
+        "vi": "Nguoi Tri Vi Gay Lua",
+        "en": "King of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "lam chu",
+          "tam nhin dan dat",
+          "y chi"
+        ],
+        "en": [
+          "stewardship",
+          "visionary leadership",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-wands-king.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-wands-king.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card King of Wands.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: stewardship, visionary leadership, will.\nDeck visual direction: inward, night-botanical, moonlit. Design King of Wands in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using sprouting staffs and small flames, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-cups-two",
+      "name": {
+        "vi": "Hai Chiec Coc",
+        "en": "Two of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "keywords": {
+        "vi": [
+          "can bang",
+          "dap lai",
+          "cam xuc"
+        ],
+        "en": [
+          "balance",
+          "mutuality",
+          "emotion"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-cups-two.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-cups-two.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Two of Cups.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: balance, mutuality, emotion.\nDeck visual direction: inward, night-botanical, moonlit. Design Two of Cups in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using chalices, soft water, and moonlight, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-cups-three",
+      "name": {
+        "vi": "Ba Chiec Coc",
+        "en": "Three of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "keywords": {
+        "vi": [
+          "phat trien",
+          "tinh ban",
+          "cam xuc"
+        ],
+        "en": [
+          "growth",
+          "friendship",
+          "emotion"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-cups-three.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-cups-three.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Three of Cups.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: growth, friendship, emotion.\nDeck visual direction: inward, night-botanical, moonlit. Design Three of Cups in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using chalices, soft water, and moonlight, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-cups-four",
+      "name": {
+        "vi": "Bon Chiec Coc",
+        "en": "Four of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "keywords": {
+        "vi": [
+          "nen tang",
+          "chan nan",
+          "cam xuc"
+        ],
+        "en": [
+          "foundation",
+          "emotional pause",
+          "emotion"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-cups-four.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-cups-four.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Four of Cups.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: foundation, emotional pause, emotion.\nDeck visual direction: inward, night-botanical, moonlit. Design Four of Cups in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using chalices, soft water, and moonlight, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-cups-five",
+      "name": {
+        "vi": "Nam Chiec Coc",
+        "en": "Five of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "keywords": {
+        "vi": [
+          "ma sat",
+          "tiec nuoi",
+          "cam xuc"
+        ],
+        "en": [
+          "friction",
+          "grief",
+          "emotion"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-cups-five.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-cups-five.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Five of Cups.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: friction, grief, emotion.\nDeck visual direction: inward, night-botanical, moonlit. Design Five of Cups in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using chalices, soft water, and moonlight, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-cups-six",
+      "name": {
+        "vi": "Sau Chiec Coc",
+        "en": "Six of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "keywords": {
+        "vi": [
+          "dieu chinh",
+          "ky uc",
+          "cam xuc"
+        ],
+        "en": [
+          "repair",
+          "memory",
+          "emotion"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-cups-six.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-cups-six.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Six of Cups.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: repair, memory, emotion.\nDeck visual direction: inward, night-botanical, moonlit. Design Six of Cups in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using chalices, soft water, and moonlight, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-cups-seven",
+      "name": {
+        "vi": "Bay Chiec Coc",
+        "en": "Seven of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "keywords": {
+        "vi": [
+          "thu thach",
+          "nhieu lua chon",
+          "cam xuc"
+        ],
+        "en": [
+          "challenge",
+          "many options",
+          "emotion"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-cups-seven.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-cups-seven.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Seven of Cups.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: challenge, many options, emotion.\nDeck visual direction: inward, night-botanical, moonlit. Design Seven of Cups in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using chalices, soft water, and moonlight, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-cups-eight",
+      "name": {
+        "vi": "Tam Chiec Coc",
+        "en": "Eight of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "keywords": {
+        "vi": [
+          "ren luyen",
+          "roi di",
+          "cam xuc"
+        ],
+        "en": [
+          "practice",
+          "walking away",
+          "emotion"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-cups-eight.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-cups-eight.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Eight of Cups.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: practice, walking away, emotion.\nDeck visual direction: inward, night-botanical, moonlit. Design Eight of Cups in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using chalices, soft water, and moonlight, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-cups-nine",
+      "name": {
+        "vi": "Chin Chiec Coc",
+        "en": "Nine of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "keywords": {
+        "vi": [
+          "thu hoach",
+          "hai long",
+          "cam xuc"
+        ],
+        "en": [
+          "attainment",
+          "contentment",
+          "emotion"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-cups-nine.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-cups-nine.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Nine of Cups.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: attainment, contentment, emotion.\nDeck visual direction: inward, night-botanical, moonlit. Design Nine of Cups in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using chalices, soft water, and moonlight, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-cups-ten",
+      "name": {
+        "vi": "Muoi Chiec Coc",
+        "en": "Ten of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "keywords": {
+        "vi": [
+          "hoan tat",
+          "gan ket",
+          "cam xuc"
+        ],
+        "en": [
+          "completion",
+          "belonging",
+          "emotion"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-cups-ten.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-cups-ten.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Ten of Cups.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: completion, belonging, emotion.\nDeck visual direction: inward, night-botanical, moonlit. Design Ten of Cups in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using chalices, soft water, and moonlight, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-cups-page",
+      "name": {
+        "vi": "Nguoi Hoc Viec Chiec Coc",
+        "en": "Page of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "keywords": {
+        "vi": [
+          "hoc hoi",
+          "tin nhan cam xuc",
+          "cam xuc"
+        ],
+        "en": [
+          "apprentice",
+          "emotional message",
+          "emotion"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-cups-page.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-cups-page.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Page of Cups.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: apprentice, emotional message, emotion.\nDeck visual direction: inward, night-botanical, moonlit. Design Page of Cups in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using chalices, soft water, and moonlight, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-cups-knight",
+      "name": {
+        "vi": "Nguoi Len Duong Chiec Coc",
+        "en": "Knight of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "keywords": {
+        "vi": [
+          "dong luc",
+          "lang man",
+          "cam xuc"
+        ],
+        "en": [
+          "seeker",
+          "romantic pursuit",
+          "emotion"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-cups-knight.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-cups-knight.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Knight of Cups.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: seeker, romantic pursuit, emotion.\nDeck visual direction: inward, night-botanical, moonlit. Design Knight of Cups in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using chalices, soft water, and moonlight, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-cups-queen",
+      "name": {
+        "vi": "Nguoi Giu Vuon Chiec Coc",
+        "en": "Queen of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "keywords": {
+        "vi": [
+          "nuoi duong",
+          "thau cam",
+          "cam xuc"
+        ],
+        "en": [
+          "guardian",
+          "deep empathy",
+          "emotion"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-cups-queen.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-cups-queen.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Queen of Cups.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: guardian, deep empathy, emotion.\nDeck visual direction: inward, night-botanical, moonlit. Design Queen of Cups in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using chalices, soft water, and moonlight, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-cups-king",
+      "name": {
+        "vi": "Nguoi Tri Vi Chiec Coc",
+        "en": "King of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "keywords": {
+        "vi": [
+          "lam chu",
+          "cam xuc chin chan",
+          "cam xuc"
+        ],
+        "en": [
+          "stewardship",
+          "emotional maturity",
+          "emotion"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-cups-king.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-cups-king.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card King of Cups.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: stewardship, emotional maturity, emotion.\nDeck visual direction: inward, night-botanical, moonlit. Design King of Cups in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using chalices, soft water, and moonlight, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-ace",
+      "name": {
+        "vi": "At Luoi Kiem",
+        "en": "Ace of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "hat giong",
+          "su that moi",
+          "suy nghi"
+        ],
+        "en": [
+          "seed",
+          "new truth",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-swords-ace.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-swords-ace.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Ace of Swords.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: seed, new truth, thought.\nDeck visual direction: inward, night-botanical, moonlit. Design Ace of Swords in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using thin blades, clouds, and horizon lines, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-two",
+      "name": {
+        "vi": "Hai Luoi Kiem",
+        "en": "Two of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "can bang",
+          "ne tranh quyet dinh",
+          "suy nghi"
+        ],
+        "en": [
+          "balance",
+          "avoided choice",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-swords-two.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-swords-two.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Two of Swords.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: balance, avoided choice, thought.\nDeck visual direction: inward, night-botanical, moonlit. Design Two of Swords in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using thin blades, clouds, and horizon lines, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-three",
+      "name": {
+        "vi": "Ba Luoi Kiem",
+        "en": "Three of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "phat trien",
+          "dau long",
+          "suy nghi"
+        ],
+        "en": [
+          "growth",
+          "heartache",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-swords-three.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-swords-three.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Three of Swords.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: growth, heartache, thought.\nDeck visual direction: inward, night-botanical, moonlit. Design Three of Swords in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using thin blades, clouds, and horizon lines, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-four",
+      "name": {
+        "vi": "Bon Luoi Kiem",
+        "en": "Four of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "nen tang",
+          "nghi tam tri",
+          "suy nghi"
+        ],
+        "en": [
+          "foundation",
+          "mental rest",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-swords-four.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-swords-four.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Four of Swords.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: foundation, mental rest, thought.\nDeck visual direction: inward, night-botanical, moonlit. Design Four of Swords in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using thin blades, clouds, and horizon lines, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-five",
+      "name": {
+        "vi": "Nam Luoi Kiem",
+        "en": "Five of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "ma sat",
+          "thang ma mat",
+          "suy nghi"
+        ],
+        "en": [
+          "friction",
+          "costly win",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-swords-five.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-swords-five.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Five of Swords.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: friction, costly win, thought.\nDeck visual direction: inward, night-botanical, moonlit. Design Five of Swords in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using thin blades, clouds, and horizon lines, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-six",
+      "name": {
+        "vi": "Sau Luoi Kiem",
+        "en": "Six of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "dieu chinh",
+          "di qua vung kho",
+          "suy nghi"
+        ],
+        "en": [
+          "repair",
+          "moving through difficulty",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-swords-six.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-swords-six.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Six of Swords.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: repair, moving through difficulty, thought.\nDeck visual direction: inward, night-botanical, moonlit. Design Six of Swords in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using thin blades, clouds, and horizon lines, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-seven",
+      "name": {
+        "vi": "Bay Luoi Kiem",
+        "en": "Seven of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "thu thach",
+          "chien luoc",
+          "suy nghi"
+        ],
+        "en": [
+          "challenge",
+          "strategy",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-swords-seven.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-swords-seven.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Seven of Swords.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: challenge, strategy, thought.\nDeck visual direction: inward, night-botanical, moonlit. Design Seven of Swords in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using thin blades, clouds, and horizon lines, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-eight",
+      "name": {
+        "vi": "Tam Luoi Kiem",
+        "en": "Eight of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "ren luyen",
+          "tu gioi han",
+          "suy nghi"
+        ],
+        "en": [
+          "practice",
+          "self-limitation",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-swords-eight.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-swords-eight.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Eight of Swords.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: practice, self-limitation, thought.\nDeck visual direction: inward, night-botanical, moonlit. Design Eight of Swords in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using thin blades, clouds, and horizon lines, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-nine",
+      "name": {
+        "vi": "Chin Luoi Kiem",
+        "en": "Nine of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "thu hoach",
+          "lo au",
+          "suy nghi"
+        ],
+        "en": [
+          "attainment",
+          "anxiety",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-swords-nine.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-swords-nine.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Nine of Swords.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: attainment, anxiety, thought.\nDeck visual direction: inward, night-botanical, moonlit. Design Nine of Swords in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using thin blades, clouds, and horizon lines, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-ten",
+      "name": {
+        "vi": "Muoi Luoi Kiem",
+        "en": "Ten of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "hoan tat",
+          "ket thuc dau",
+          "suy nghi"
+        ],
+        "en": [
+          "completion",
+          "painful ending",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-swords-ten.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-swords-ten.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Ten of Swords.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: completion, painful ending, thought.\nDeck visual direction: inward, night-botanical, moonlit. Design Ten of Swords in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using thin blades, clouds, and horizon lines, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-page",
+      "name": {
+        "vi": "Nguoi Hoc Viec Luoi Kiem",
+        "en": "Page of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "hoc hoi",
+          "quan sat",
+          "suy nghi"
+        ],
+        "en": [
+          "apprentice",
+          "watchful learning",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-swords-page.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-swords-page.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Page of Swords.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: apprentice, watchful learning, thought.\nDeck visual direction: inward, night-botanical, moonlit. Design Page of Swords in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using thin blades, clouds, and horizon lines, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-knight",
+      "name": {
+        "vi": "Nguoi Len Duong Luoi Kiem",
+        "en": "Knight of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "dong luc",
+          "loi noi nhanh",
+          "suy nghi"
+        ],
+        "en": [
+          "seeker",
+          "fast words",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-swords-knight.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-swords-knight.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Knight of Swords.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: seeker, fast words, thought.\nDeck visual direction: inward, night-botanical, moonlit. Design Knight of Swords in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using thin blades, clouds, and horizon lines, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-queen",
+      "name": {
+        "vi": "Nguoi Giu Vuon Luoi Kiem",
+        "en": "Queen of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "nuoi duong",
+          "ranh gioi tri tue",
+          "suy nghi"
+        ],
+        "en": [
+          "guardian",
+          "clear boundaries",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-swords-queen.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-swords-queen.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Queen of Swords.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: guardian, clear boundaries, thought.\nDeck visual direction: inward, night-botanical, moonlit. Design Queen of Swords in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using thin blades, clouds, and horizon lines, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-king",
+      "name": {
+        "vi": "Nguoi Tri Vi Luoi Kiem",
+        "en": "King of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "lam chu",
+          "phan doan sang suot",
+          "suy nghi"
+        ],
+        "en": [
+          "stewardship",
+          "clear judgment",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-swords-king.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-swords-king.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card King of Swords.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: stewardship, clear judgment, thought.\nDeck visual direction: inward, night-botanical, moonlit. Design King of Swords in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using thin blades, clouds, and horizon lines, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-ace",
+      "name": {
+        "vi": "At Dong Xu",
+        "en": "Ace of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "hat giong",
+          "co hoi vat chat",
+          "co the"
+        ],
+        "en": [
+          "seed",
+          "material opportunity",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-pentacles-ace.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-pentacles-ace.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Ace of Pentacles.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: seed, material opportunity, body.\nDeck visual direction: inward, night-botanical, moonlit. Design Ace of Pentacles in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using star-marked coins, roots, and warm earth, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-two",
+      "name": {
+        "vi": "Hai Dong Xu",
+        "en": "Two of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "can bang",
+          "can bang nguon luc",
+          "co the"
+        ],
+        "en": [
+          "balance",
+          "resource balance",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-pentacles-two.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-pentacles-two.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Two of Pentacles.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: balance, resource balance, body.\nDeck visual direction: inward, night-botanical, moonlit. Design Two of Pentacles in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using star-marked coins, roots, and warm earth, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-three",
+      "name": {
+        "vi": "Ba Dong Xu",
+        "en": "Three of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "phat trien",
+          "cong tac",
+          "co the"
+        ],
+        "en": [
+          "growth",
+          "collaboration",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-pentacles-three.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-pentacles-three.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Three of Pentacles.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: growth, collaboration, body.\nDeck visual direction: inward, night-botanical, moonlit. Design Three of Pentacles in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using star-marked coins, roots, and warm earth, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-four",
+      "name": {
+        "vi": "Bon Dong Xu",
+        "en": "Four of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "nen tang",
+          "giu chat",
+          "co the"
+        ],
+        "en": [
+          "foundation",
+          "holding tightly",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-pentacles-four.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-pentacles-four.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Four of Pentacles.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: foundation, holding tightly, body.\nDeck visual direction: inward, night-botanical, moonlit. Design Four of Pentacles in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using star-marked coins, roots, and warm earth, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-five",
+      "name": {
+        "vi": "Nam Dong Xu",
+        "en": "Five of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "ma sat",
+          "thieu thon",
+          "co the"
+        ],
+        "en": [
+          "friction",
+          "scarcity",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-pentacles-five.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-pentacles-five.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Five of Pentacles.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: friction, scarcity, body.\nDeck visual direction: inward, night-botanical, moonlit. Design Five of Pentacles in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using star-marked coins, roots, and warm earth, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-six",
+      "name": {
+        "vi": "Sau Dong Xu",
+        "en": "Six of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "dieu chinh",
+          "cho va nhan",
+          "co the"
+        ],
+        "en": [
+          "repair",
+          "giving and receiving",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-pentacles-six.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-pentacles-six.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Six of Pentacles.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: repair, giving and receiving, body.\nDeck visual direction: inward, night-botanical, moonlit. Design Six of Pentacles in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using star-marked coins, roots, and warm earth, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-seven",
+      "name": {
+        "vi": "Bay Dong Xu",
+        "en": "Seven of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "thu thach",
+          "kien nhan",
+          "co the"
+        ],
+        "en": [
+          "challenge",
+          "patience",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-pentacles-seven.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-pentacles-seven.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Seven of Pentacles.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: challenge, patience, body.\nDeck visual direction: inward, night-botanical, moonlit. Design Seven of Pentacles in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using star-marked coins, roots, and warm earth, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-eight",
+      "name": {
+        "vi": "Tam Dong Xu",
+        "en": "Eight of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "ren luyen",
+          "tay nghe",
+          "co the"
+        ],
+        "en": [
+          "practice",
+          "craft",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-pentacles-eight.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-pentacles-eight.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Eight of Pentacles.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: practice, craft, body.\nDeck visual direction: inward, night-botanical, moonlit. Design Eight of Pentacles in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using star-marked coins, roots, and warm earth, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-nine",
+      "name": {
+        "vi": "Chin Dong Xu",
+        "en": "Nine of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "thu hoach",
+          "tu chu",
+          "co the"
+        ],
+        "en": [
+          "attainment",
+          "self-sufficiency",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-pentacles-nine.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-pentacles-nine.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Nine of Pentacles.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: attainment, self-sufficiency, body.\nDeck visual direction: inward, night-botanical, moonlit. Design Nine of Pentacles in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using star-marked coins, roots, and warm earth, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-ten",
+      "name": {
+        "vi": "Muoi Dong Xu",
+        "en": "Ten of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "hoan tat",
+          "di san",
+          "co the"
+        ],
+        "en": [
+          "completion",
+          "legacy",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-pentacles-ten.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-pentacles-ten.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Ten of Pentacles.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: completion, legacy, body.\nDeck visual direction: inward, night-botanical, moonlit. Design Ten of Pentacles in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using star-marked coins, roots, and warm earth, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-page",
+      "name": {
+        "vi": "Nguoi Hoc Viec Dong Xu",
+        "en": "Page of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "hoc hoi",
+          "hoc cach xay",
+          "co the"
+        ],
+        "en": [
+          "apprentice",
+          "learning to build",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-pentacles-page.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-pentacles-page.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Page of Pentacles.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: apprentice, learning to build, body.\nDeck visual direction: inward, night-botanical, moonlit. Design Page of Pentacles in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using star-marked coins, roots, and warm earth, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-knight",
+      "name": {
+        "vi": "Nguoi Len Duong Dong Xu",
+        "en": "Knight of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "dong luc",
+          "ben bi",
+          "co the"
+        ],
+        "en": [
+          "seeker",
+          "steady effort",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-pentacles-knight.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-pentacles-knight.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Knight of Pentacles.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: seeker, steady effort, body.\nDeck visual direction: inward, night-botanical, moonlit. Design Knight of Pentacles in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using star-marked coins, roots, and warm earth, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-queen",
+      "name": {
+        "vi": "Nguoi Giu Vuon Dong Xu",
+        "en": "Queen of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "nuoi duong",
+          "cham soc thuc te",
+          "co the"
+        ],
+        "en": [
+          "guardian",
+          "practical care",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-pentacles-queen.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-pentacles-queen.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card Queen of Pentacles.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: guardian, practical care, body.\nDeck visual direction: inward, night-botanical, moonlit. Design Queen of Pentacles in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using star-marked coins, roots, and warm earth, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-king",
+      "name": {
+        "vi": "Nguoi Tri Vi Dong Xu",
+        "en": "King of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "lam chu",
+          "quan tri nguon luc",
+          "co the"
+        ],
+        "en": [
+          "stewardship",
+          "resource stewardship",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/moon-garden/artwork/minor-pentacles-king.png",
+      "cardPath": "assets/tarot/moon-garden/cards/minor-pentacles-king.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Moon Garden tarot deck card King of Pentacles.\nStyle: premium mystical editorial, charcoal black paper texture, champagne gold foil line art, soft moonlit botanical details, elegant and serene, refined Gen Z spiritual aesthetic.\nCard meaning cues: stewardship, resource stewardship, body.\nDeck visual direction: inward, night-botanical, moonlit. Design King of Pentacles in a premium mystical editorial tarot-card ratio, original composition that does not copy Rider-Waite, using star-marked coins, roots, and warm earth, warm negative space, refined border, no text on card face.\nComposition: portrait illustration, centered symbolic subject, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, warm ink, muted champagne gold, moon gray, very subtle deep teal shadows.\nAvoid: Rider-Waite copy, bright neon colors, horror occult style, text, commercial deck imitation."
+    }
+  ]
+}

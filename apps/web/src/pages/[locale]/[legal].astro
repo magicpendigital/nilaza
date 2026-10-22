@@ -1,0 +1,21 @@
+---
+import { getCollection, render } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import type { Locale } from "../../lib/site";
+export async function getStaticPaths() {
+  const entries = await getCollection("legal");
+  return entries.map(entry => ({
+    params: { locale: entry.data.locale, legal: entry.data.slug },
+    props: { entry }
+  }));
+}
+const { entry } = Astro.props as { entry: CollectionEntry<"legal"> };
+const locale = entry.data.locale as Locale;
+const { Content } = await render(entry);
+---
+<BaseLayout {locale} title={`${entry.data.title} — Nilaza`} description={entry.data.description}>
+  <section class="legal-hero"><div class="shell"><p class="eyebrow">Nilaza</p><h1 class="display">{entry.data.title}</h1><p>{entry.data.description}</p></div></section>
+  <section class="section paper"><article class="shell prose"><Content /></article></section>
+</BaseLayout>
+<style>.legal-hero{padding:100px 0}.legal-hero h1{font-size:clamp(4rem,10vw,8rem);margin:10px 0}.legal-hero p:last-child{max-width:720px;color:var(--moon);font-size:1.1rem}.paper .prose{color:var(--ink)}</style>

@@ -1,0 +1,111 @@
+{
+  "schemaVersion": "1.0.0",
+  "tenantId": "nilaza",
+  "sprintId": "marketing-ai-sprint-01",
+  "briefs": [
+    {
+      "id": "B01_open_question",
+      "hypothesis": "A calm invitation to name one question may be more differentiated than generic productivity or chatbot copy.",
+      "claimRefs": [
+        "nilaza_space_for_reflection"
+      ],
+      "formats": [
+        "static",
+        "carousel"
+      ],
+      "destinationId": "nilaza_waitlist",
+      "primaryMetric": "waitlist_cta_click",
+      "guardrails": [
+        "claim_hard_fail",
+        "destination_mismatch",
+        "privacy_incident"
+      ]
+    },
+    {
+      "id": "B02_daily_pause",
+      "hypothesis": "A small, non-prescriptive pause can invite reflection without manipulating vulnerability.",
+      "claimRefs": [
+        "nilaza_space_for_reflection"
+      ],
+      "formats": [
+        "static",
+        "short_video"
+      ],
+      "destinationId": "nilaza_waitlist",
+      "primaryMetric": "waitlist_cta_click",
+      "guardrails": [
+        "claim_hard_fail",
+        "emotional_safety"
+      ]
+    },
+    {
+      "id": "B03_tarot_reflection",
+      "hypothesis": "Positioning Tarot as a question ritual can be clearer and safer than a prediction promise.",
+      "claimRefs": [
+        "nilaza_tarot_as_reflection"
+      ],
+      "formats": [
+        "static",
+        "carousel"
+      ],
+      "destinationId": "closed_core_beta",
+      "primaryMetric": "valuable_activation_rate",
+      "guardrails": [
+        "deterministic_prediction",
+        "product_gate_G_A2"
+      ]
+    },
+    {
+      "id": "B04_guided_conversation",
+      "hypothesis": "A structured question and a small next step may communicate differentiated guide value without claiming an expert persona.",
+      "claimRefs": [
+        "nilaza_ai_guides_reflection"
+      ],
+      "formats": [
+        "static",
+        "short_video"
+      ],
+      "destinationId": "closed_core_beta",
+      "primaryMetric": "valuable_activation_rate",
+      "guardrails": [
+        "persona_impersonation",
+        "product_gate_G_A2"
+      ]
+    },
+    {
+      "id": "B05_return_to_note",
+      "hypothesis": "A private note and an opted-in revisit can create a return reason without coercive reminders.",
+      "claimRefs": [
+        "nilaza_journal_revisit_flow"
+      ],
+      "formats": [
+        "static",
+        "carousel"
+      ],
+      "destinationId": "closed_core_beta",
+      "primaryMetric": "repeat_value_days_7d",
+      "guardrails": [
+        "consent_boundary",
+        "product_gate_G_A5"
+      ]
+    },
+    {
+      "id": "B06_astrology_preparation",
+      "hypothesis": "Explaining calculated charts, mythology illustration and reflection as separate layers may build trust in the integrated internal slice while cloud, AI preview, iOS and public beta acceptance remain open.",
+      "claimRefs": [
+        "nilaza_astrology_in_preparation"
+      ],
+      "formats": [
+        "static",
+        "carousel"
+      ],
+      "destinationId": "nilaza_waitlist",
+      "primaryMetric": "waitlist_cta_click",
+      "guardrails": [
+        "astrology_accuracy_claim",
+        "product_gate_G_A3_G_A4"
+      ]
+    }
+  ],
+  "lastReviewedAt": "2026-09-30"
+}

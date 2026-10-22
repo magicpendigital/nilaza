@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "1.0.0",
+  "tenantId": "nilaza",
+  "status": "proposed_cadence",
+  "ownerApproved": false,
+  "timeZoneDecision": "Vietnam audience hypothesis; confirm with Owner before live activation.",
+  "timezone": "Asia/Ho_Chi_Minh",
+  "utcOffsetMinutes": 420,
+  "planningWindow": "Sunday 17:00 local proposal; no recurring task created",
+  "schedulerState": "not_activated",
+  "minimumLeadHours": 24,
+  "maximumVideosPerWeek": 2,
+  "slots": [
+    {
+      "dayOffset": 3,
+      "hourLocal": 20,
+      "format": "short"
+    },
+    {
+      "dayOffset": 6,
+      "hourLocal": 20,
+      "format": "long"
+    }
+  ],
+  "missedSlotAction": "skip_no_catch_up_no_past_publishAt",
+  "planningInputs": [
+    "Current ProductTruth and source hashes",
+    "Nilaza-only editorial ledger from ContentOps",
+    "Approved public sources",
+    "Consented aggregate measurements or unavailable",
+    "Approved production capacity/budget or blocked"
+  ],
+  "selectionPolicy": "Conservative draft pilot: one long video and at most one Short per week; choose from existing reflection templates. AI strategy and production invocation are not implemented.",
+  "futureAutonomy": "Within a separately approved scope, produce draft alternatives, independently QA exact exports, reserve budget in ContentOps and obtain immutable per-video execution envelopes. Current Core external-execution restriction remains.",
+  "killConditions": [
+    "Source or channel mismatch",
+    "Rights/disclosure/QA/approval missing or stale",
+    "Budget unknown or cap exceeded",
+    "OAuth revoked/expired",
+    "Ambiguous upload result",
+    "Duplicate intent or video fingerprint",
+    "Processing/copyright/policy error"
+  ],
+  "maximumByFormat": {
+    "long": 1,
+    "short": 1
+  },
+  "slotTimeEvidence": "illustrative_Vietnam_times_not_owner_approved_not_an_active_schedule"
+}

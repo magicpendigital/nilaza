@@ -1,0 +1,326 @@
+{
+  "schemaVersion": 1,
+  "taskId": "mvp-R00-quota-board-2026-10-01",
+  "ownerAgent": "plan_qc_agent",
+  "lane": "cross_cutting_mvp_delivery_reporting",
+  "goal": "Document approved Tarot allowance, propose shared Chat/Oracle quota and bounded QA budget using actual source routes and official prices, and update truthful execution evidence without activating spend or cloud changes.",
+  "successCriteria": [
+    "Tarot 1/day is approved; shared Chat/Oracle 5/day and USD5/day/USD50 per 14-day QA are proposals with explicit assumptions, fallback costs and activation gates.",
+    "All 26 tasks distinguish local preparation/verification from live/native/full-card acceptance; source boundary and credit read guard evidence are linked.",
+    "Historical backlog and migration history stay byte-identical; no credentials, provider calls, project creation or SQL application."
+  ],
+  "writeScope": [
+    "docs/mvp-remediation/2026-10-01/R00-quota-budget-proposal.vi.md",
+    "docs/mvp-remediation/2026-10-01/baseline-and-board.vi.md",
+    "docs/mvp-remediation/2026-10-01/execution.json",
+    "docs/mvp-remediation/2026-10-01/R03-security-triage.vi.md",
+    "docs/MVP_REMEDIATION_PLAN_2026-10-01.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "No code/schema/provider/role/brand changes under this documentation task.",
+    "Planning backlog and original dated audit remain historical, no unrun test or live/native acceptance is invented."
+  ],
+  "impact": {
+    "entryPoint": "Manager execution board links actual slices and pending gates.",
+    "dataWrite": "Scoped local Markdown/JSON only; no private export payload or live DB content.",
+    "backendContract": "Proposed server-side atomic quota/cost reservation and reconciliation contract only; completed credit read guard and unapplied source-boundary SQL reported separately.",
+    "adminVisibility": "Operator will review proposed shared counters and daily/campaign budget; no Admin configuration saved or published.",
+    "privacySafety": "Per-account counters, fixed server day, body/token limits and safety resources without quota; no private chat contents or credentials.",
+    "observability": "Actual check counts/source bindings and precise blocked dependencies.",
+    "rollback": "Docs-only report can be superseded; implementation rollback remains documented per slice."
+  },
+  "canonicalContracts": [
+    "Existing backlog R00-R25 is historical planning contract; execution board is dated status overlay, not role/deployment authority.",
+    "G1 needs free invited beta native Android+iOS, auth/data/privacy/quota/AI/security and real UAT gates.",
+    "packages/agent-config/model-routing.json and _shared/model-router.ts are current repository defaults; actual deployed active routes are unverified and no config is changed here."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "docs/MVP_REMEDIATION_PLAN_2026-10-01.vi.md",
+      "sha256": "068368d2ff36555aff3d5d0c276ee44e04cf7f61858cdcb9b8428d35fb0fa82c",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "807efad06cb625ad1a299e8ce8c9b792b6430baa3a83b76c1e163d213f33687a",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "apps/mobile/package.json",
+      "sha256": "71bed88f043629f67e9674ec6abc8fbd99956d68e57176abdb853416cd24d7ab",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "ba3e99deb94ffd6b862f2008b5886cb60aac9a60d4fa1c28cc98f4226a2bbedb",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/backlog.json",
+      "sha256": "199cc47f07900fc860f0524aae8ec70eabda0add21238ec25c05fa2bd5b3b74f",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "e5fc9e3789ce1978ce3db7b7f41d6dd695d021c6d01ead2b11b3af14a4525f49",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "supabase/migration-ledger.json",
+      "sha256": "e63b4510c844c03d235b3f69d8e9a051c5ce4cbe620369100f5fcb33a9f8d9eb",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "packages/content/data/tarot-cards.json",
+      "sha256": "2688f997eb10bfcf5a59107b5ff09b7034168eb8a1ca39ac165df2cb192a6865",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "apps/admin/generated/content-seed.json",
+      "sha256": "b749952c1153387437879c51cc2e5c4a447a6c7773a96354543c149e5216c677",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "supabase/seed.generated.sql",
+      "sha256": "4f600aa1cd999112cb160c485f422007e3caf7a3172ac509e20bce8ecade8517",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "apps/mobile/src/features/journal/JournalComposer.tsx",
+      "sha256": "52f1f93d75d88042e1db6311bcb2fa51dff2908b455ff7cc4deb1c7147059260",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "apps/mobile/src/features/privacy/deliverExport.ts",
+      "sha256": "73ee1405a094fd342d07f96a0b1e8cf1c3f772279e23e10e10c6a39a3a709d8c",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "packages/agent-config/model-routing.json",
+      "sha256": "25eecd4fcea32769e88ba59e7b287e7ee8cb42d75f70f2198759eacd4bf08eb2",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "sha256": "f6474f4bd1c721419e18b9cc85672e8b5c910fb03bde85519d30be4fe2640e4c",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/R02-clean-qa-bootstrap.json",
+      "sha256": "345b80d02d3cf9c6070d1e3a3dbdb4c4ed1e9f07e77a2becf614022ea969906f",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/R02-clean-qa-inventory.vi.md",
+      "sha256": "6279158cb4bd84ddca4654fef50d9f25b919eb38fa09174b152f85323bb319ef",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/R03-source-read-forward.vi.md",
+      "sha256": "5e14fa649aafb9be055c3cf6ea499f576f8f796f263300375009d4d3971ba3ca",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "supabase/migrations/20261001000000_private_source_read_boundary.sql",
+      "sha256": "cf54859e0fb9f8ba9f4758cccfdb1ac0810e47d8f318b32c2111fb8cd347459b",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/R10-credits-read-guard.vi.md",
+      "sha256": "c594c1be23a2407e74fb505026b46615455c676b74f4b60114d869a59dff7e3f",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/R19-fonts-handoff.vi.md",
+      "sha256": "b77e5f5e05e5ad8f3f879e4fce3e563e02a4b0885f65b86df04cdfef84d343eb",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/R01-validation.vi.md",
+      "sha256": "05aa5860c9ffc843fd6d7302262ae1bf52cc61cd7a90601a2965acd5fbe9b6b1",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/validate-plan.mjs",
+      "sha256": "94c8ffd78c95a07ee5ab65121147f52767420c5a8db2b9a14e731b82acd7b28d",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/R10-ai-request-guard.vi.md",
+      "sha256": "2f0f71956b91cf8cf23a004695714368f17fd700c9cd20fbdf14f596fc2e42d5",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "supabase/functions/_shared/ai-request-guard.ts",
+      "sha256": "1fbf5ab7723ebb1d4f9ca55b099a275f53ca1fd7163c4d519054af7519532abb",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/index.ts",
+      "sha256": "a2764c2a1ccb0bf3c73d5144caa39f6d6dae36f4116ac4e01a682d3fc15c26dc",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "supabase/functions/ai-persona-chat/index.ts",
+      "sha256": "0a6dd05111f6bd7555d080590951b10a308bcbfab8ceb33ab14d91d4494e8a77",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Fresh exact QA plan with full results and separate browser/native/CI/live gates; no skipped case or inflated timeout."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Official OpenAI GPT-5.4 mini and Anthropic Sonnet 4.6 prices verified 2026-10-01; OpenRouter free routing/privacy/rate-limit caveats reviewed. Prices are estimates, not an invoice."
+  },
+  "securityReview": {
+    "authzRls": "Local unit tests only; linked DB identity flagged separately.",
+    "sensitiveData": "Synthetic fixtures; no credential/private traces read.",
+    "secretsLogging": "No secret printing or env changes.",
+    "externalInput": "Trusted repository tests/build scripts; results not commands.",
+    "dependencies": "No install/update; existing lockfile version.",
+    "migrationRelease": "Mixed NilazaQA/MCY schema remains blocked; docs prepare review only, no db push/repair/deploy or sensitive payload export.",
+    "stopCondition": "Stop native release/live actions or test fake success; record environment limitations.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "docs/mvp-remediation/2026-10-01/R00-quota-budget-proposal.vi.md",
+      "docs/mvp-remediation/2026-10-01/baseline-and-board.vi.md",
+      "docs/mvp-remediation/2026-10-01/execution.json",
+      "docs/mvp-remediation/2026-10-01/R03-security-triage.vi.md",
+      "docs/MVP_REMEDIATION_PLAN_2026-10-01.vi.md"
+    ],
+    "note": "Only scoped documentation and correction of two recorded validation command names; preserve owner code and existing dirty tree."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/mvp-R00-quota-board-2026-10-01.json",
+    "node docs/mvp-remediation/2026-10-01/validate-plan.mjs",
+    "Check execution IDs/references and bootstrap raw hashes; arithmetic fixture uses stated hypothetical input limits."
+  ],
+  "managerTestPath": "Read quota proposal and 26-card board, approve numeric policy separately from project creation/apply/deploy; verify exact local evidence and pending native/live gates.",
+  "residualRisk": "Tests do not prove native accessibility/performance, external CI, real provider quality or mixed staging safety.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deployment": false,
+    "productionRelease": false
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://developers.openai.com/api/docs/models/gpt-5.4-mini",
+      "reason": "USD0.75 input/USD4.50 output per million standard text tokens.",
+      "checkedAt": "2026-10-01"
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "reason": "Sonnet4.6 USD3 input/USD15 output per million standard text tokens.",
+      "checkedAt": "2026-10-01"
+    },
+    {
+      "url": "https://openrouter.ai/docs/faq",
+      "reason": "Free models have separate limits; account/provider privacy and paid fallback need explicit checks.",
+      "checkedAt": "2026-10-01"
+    }
+  ],
+  "implementationBaselineReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "docs/MVP_REMEDIATION_PLAN_2026-10-01.vi.md",
+      "sha256": "63da96b05e8be27d8c0b12ab94d70c2ec33a409ca32d5e31215bbab891119e48",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "3b992f0b9fbb16222d1c9a30b8f8195544def4bd529de1b00a98b10024f0c08a",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "apps/mobile/package.json",
+      "sha256": "71bed88f043629f67e9674ec6abc8fbd99956d68e57176abdb853416cd24d7ab",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "ba3e99deb94ffd6b862f2008b5886cb60aac9a60d4fa1c28cc98f4226a2bbedb",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/backlog.json",
+      "sha256": "199cc47f07900fc860f0524aae8ec70eabda0add21238ec25c05fa2bd5b3b74f",
+      "reason": "Current artifact/implementation reviewed for evidence reporting; no claimed live/native pass."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "c14e3443c259659ad51af3621b6418b82a740d22ad06a2832b185e3e02bea364",
+      "reason": "Current artifact/implementation reviewed for evidence reporting; no claimed live/native pass."
+    },
+    {
+      "path": "supabase/migration-ledger.json",
+      "sha256": "838e8d3fa0ef73a7e2af3e50a0da48e60ab20570b2dd055f73650a600549f6dd",
+      "reason": "Current artifact/implementation reviewed for evidence reporting; no claimed live/native pass."
+    },
+    {
+      "path": "packages/content/data/tarot-cards.json",
+      "sha256": "2688f997eb10bfcf5a59107b5ff09b7034168eb8a1ca39ac165df2cb192a6865",
+      "reason": "Current artifact/implementation reviewed for evidence reporting; no claimed live/native pass."
+    },
+    {
+      "path": "apps/admin/generated/content-seed.json",
+      "sha256": "b749952c1153387437879c51cc2e5c4a447a6c7773a96354543c149e5216c677",
+      "reason": "Current artifact/implementation reviewed for evidence reporting; no claimed live/native pass."
+    },
+    {
+      "path": "supabase/seed.generated.sql",
+      "sha256": "4f600aa1cd999112cb160c485f422007e3caf7a3172ac509e20bce8ecade8517",
+      "reason": "Current artifact/implementation reviewed for evidence reporting; no claimed live/native pass."
+    },
+    {
+      "path": "apps/mobile/src/features/journal/JournalComposer.tsx",
+      "sha256": "53511293bd3a9079accfc753d9b0b8cea6c95e241fd984c073ab5c4ad2af16db",
+      "reason": "Current artifact/implementation reviewed for evidence reporting; no claimed live/native pass."
+    },
+    {
+      "path": "apps/mobile/src/features/privacy/deliverExport.ts",
+      "sha256": "73ee1405a094fd342d07f96a0b1e8cf1c3f772279e23e10e10c6a39a3a709d8c",
+      "reason": "Current artifact/implementation reviewed for evidence reporting; no claimed live/native pass."
+    }
+  ]
+}

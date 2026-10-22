@@ -1,0 +1,381 @@
+[
+  {
+    "id": "tarot_reader_agent",
+    "status": "active",
+    "owner": "product",
+    "purpose": "Generate symbolic tarot readings from structured card selections and user context.",
+    "inputs": [
+      "language",
+      "topic",
+      "question",
+      "spread",
+      "deck",
+      "selectedCards",
+      "userTone"
+    ],
+    "outputs": [
+      "summary",
+      "cardInterpretations",
+      "overallMessage",
+      "reflectionPrompt",
+      "journalTitle"
+    ],
+    "subAgents": [
+      {
+        "id": "card_symbolism_subagent",
+        "purpose": "Explain selected card meanings using approved local card data only."
+      },
+      {
+        "id": "reading_synthesis_subagent",
+        "purpose": "Connect cards into one reflective message without deterministic predictions."
+      },
+      {
+        "id": "journal_prompt_subagent",
+        "purpose": "Create one short reflection question users can save."
+      }
+    ],
+    "safetyBoundaries": [
+      "Do not claim the future is fixed.",
+      "Do not provide medical, legal, financial, or mental-health diagnosis/advice.",
+      "Frame tarot as self-reflection and entertainment."
+    ]
+  },
+  {
+    "id": "wisdom_persona_agent",
+    "status": "active",
+    "owner": "product",
+    "purpose": "Power chats with historical-figure-inspired and book-inspired guides.",
+    "inputs": [
+      "language",
+      "persona",
+      "conversationHistory",
+      "userMessage",
+      "userTone"
+    ],
+    "outputs": [
+      "reply",
+      "suggestedFollowUps",
+      "saveableInsight",
+      "safetyStatus"
+    ],
+    "subAgents": [
+      {
+        "id": "persona_voice_subagent",
+        "purpose": "Apply the selected guide tone, themes, and suggested style."
+      },
+      {
+        "id": "transparency_subagent",
+        "purpose": "Add or preserve inspired-by transparency when needed."
+      },
+      {
+        "id": "followup_question_subagent",
+        "purpose": "Offer short next questions that continue the reflection."
+      }
+    ],
+    "safetyBoundaries": [
+      "Never claim to be the real figure, author, book, publisher, estate, or official representative.",
+      "Do not quote copyrighted books unless the quote is licensed or public domain.",
+      "Refuse unsafe requests with a supportive and concise redirect."
+    ]
+  },
+  {
+    "id": "ai_council_agent",
+    "status": "active",
+    "owner": "product",
+    "purpose": "Orchestrate multi-guide advisory discussions where several AI guides respond to the same user situation in one council thread.",
+    "inputs": [
+      "language",
+      "selectedCouncilPersonas",
+      "userMessage",
+      "sanitizedCouncilHistory",
+      "userGoals",
+      "userTone",
+      "maxGuidesPerTurn"
+    ],
+    "outputs": [
+      "councilTurns",
+      "suggestedFollowUps",
+      "transcriptSummary",
+      "moderationStatus",
+      "promptVersionId"
+    ],
+    "subAgents": [
+      {
+        "id": "council_orchestrator_subagent",
+        "purpose": "Select the guide roster, preserve turn order, and ensure every user turn receives multiple distinct perspectives."
+      },
+      {
+        "id": "persona_voice_subagent",
+        "purpose": "Apply each selected guide's tone, themes, transparency note, and response lens without claiming official representation."
+      },
+      {
+        "id": "synthesis_boundary_subagent",
+        "purpose": "Keep the council reflective and useful without deterministic predictions, diagnosis, or professional advice."
+      }
+    ],
+    "safetyBoundaries": [
+      "Every guide must be framed as an inspired AI guide, not the real person, author, book, publisher, estate, or official representative.",
+      "Do not use journal history, birth profile, raw private chat, or uploaded images unless explicitly enabled by context policy.",
+      "Do not create fake guide-to-guide debate that implies real people are speaking.",
+      "Refuse unsafe requests with supportive, concise safety guidance."
+    ]
+  },
+  {
+    "id": "nilaza_oracle_agent",
+    "status": "active",
+    "owner": "product",
+    "purpose": "Listen to the user's current situation, classify intent, respond briefly as Nilaza Oracle, and route to the right specialized Nilaza experience without replacing it.",
+    "inputs": [
+      "language",
+      "userMessage",
+      "profileGoals",
+      "tone",
+      "currentScreen",
+      "recentSafeContext",
+      "consentFlags",
+      "sanitizedOracleHistory"
+    ],
+    "outputs": [
+      "reply",
+      "intent",
+      "confidence",
+      "actionCards",
+      "handoffContext",
+      "moderationStatus",
+      "promptVersionId"
+    ],
+    "subAgents": [
+      {
+        "id": "oracle_intent_router_subagent",
+        "purpose": "Classify whether the user needs reflection, tarot, persona chat, AI Council, astrology, journal, or safety support."
+      },
+      {
+        "id": "oracle_ritual_host_subagent",
+        "purpose": "Write a warm, concise Nilaza Oracle reply that feels like a premium mystical companion."
+      },
+      {
+        "id": "oracle_handoff_subagent",
+        "purpose": "Create safe handoff context and action cards for specialized features without passing unnecessary private content."
+      },
+      {
+        "id": "oracle_privacy_boundary_subagent",
+        "purpose": "Keep journal memory, birth profile, raw private chat, and uploaded images disabled unless the user explicitly allows them."
+      }
+    ],
+    "safetyBoundaries": [
+      "Do not replace Tarot, Persona, AI Council, Astrology, or Journal; route to those feature agents when specialized behavior is needed.",
+      "Do not use journal history, birth profile, raw private chat, or uploaded images unless the user has explicitly allowed that context.",
+      "Do not select tarot cards with the language model; only pass a safe intention to the tarot flow.",
+      "Do not invent astrology placements or imply fixed outcome.",
+      "Do not provide medical, legal, financial, or mental-health diagnosis/advice.",
+      "For self-harm or crisis content, safety guidance overrides mystical tone and feature routing."
+    ]
+  },
+  {
+    "id": "daily_insight_agent",
+    "status": "active",
+    "owner": "product",
+    "purpose": "Create a short daily reflection insight from user goals, tone, and recent saved entries.",
+    "inputs": [
+      "language",
+      "profile",
+      "recentReadings",
+      "recentJournalEntries"
+    ],
+    "outputs": [
+      "insight",
+      "microAction",
+      "reflectionQuestion"
+    ],
+    "subAgents": [
+      {
+        "id": "ritual_copy_subagent",
+        "purpose": "Write one premium-feeling daily message that is warm and brief."
+      }
+    ],
+    "safetyBoundaries": [
+      "Avoid fixed outcome claims.",
+      "Keep advice low-risk and self-reflective."
+    ]
+  },
+  {
+    "id": "journal_reflection_agent",
+    "status": "active",
+    "owner": "product",
+    "purpose": "Convert tarot and chat outputs into private journal entries.",
+    "inputs": [
+      "language",
+      "sourceType",
+      "sourceTitle",
+      "sourceInsight",
+      "mood"
+    ],
+    "outputs": [
+      "journalTitle",
+      "summary",
+      "reflectionPrompt",
+      "moodSuggestion"
+    ],
+    "subAgents": [
+      {
+        "id": "journal_summary_subagent",
+        "purpose": "Condense source content into one saved private insight."
+      }
+    ],
+    "safetyBoundaries": [
+      "Do not infer sensitive traits.",
+      "Keep entries private by default."
+    ]
+  },
+  {
+    "id": "safety_moderation_agent",
+    "status": "active",
+    "owner": "trust_safety",
+    "purpose": "Classify and redirect risky user requests or generated outputs.",
+    "inputs": [
+      "language",
+      "feature",
+      "userMessage",
+      "generatedContent"
+    ],
+    "outputs": [
+      "status",
+      "reason",
+      "safeMessage",
+      "reportable"
+    ],
+    "subAgents": [
+      {
+        "id": "self_harm_subagent",
+        "purpose": "Detect self-harm intent and return crisis-safe support guidance."
+      },
+      {
+        "id": "regulated_advice_subagent",
+        "purpose": "Detect medical, legal, financial, or mental-health advice requests."
+      },
+      {
+        "id": "impersonation_ip_subagent",
+        "purpose": "Detect claims that could imply official representation or copyrighted-source misuse."
+      }
+    ],
+    "safetyBoundaries": [
+      "Safety agent may override product tone.",
+      "Escalate self-harm content to immediate support messaging."
+    ]
+  },
+  {
+    "id": "astrology_interpreter_agent",
+    "status": "active",
+    "owner": "product",
+    "purpose": "Interpret calculated astrology placements while preserving accuracy caveats.",
+    "inputs": [
+      "language",
+      "birthProfile",
+      "calculationProvider",
+      "placements",
+      "unknownFields"
+    ],
+    "outputs": [
+      "bigThreeSummary",
+      "placementCards",
+      "caveat",
+      "journalPrompt"
+    ],
+    "subAgents": [
+      {
+        "id": "astrology_calculation_subagent",
+        "purpose": "Validate whether placements came from local mock, free API, paid API, or licensed ephemeris."
+      },
+      {
+        "id": "birth_data_privacy_subagent",
+        "purpose": "Ensure birth date, time, and place handling stays privacy-aware."
+      },
+      {
+        "id": "astrology_interpretation_subagent",
+        "purpose": "Write reflective interpretations from known placements only."
+      }
+    ],
+    "safetyBoundaries": [
+      "Never invent chart placements.",
+      "State limitations when birth time, place, or provider accuracy is missing.",
+      "Frame astrology as self-reflection, not fixed outcome."
+    ]
+  },
+  {
+    "id": "content_research_agent",
+    "status": "active",
+    "owner": "content_ops",
+    "purpose": "Research and qualify new personas, books, tarot decks, and market-led content expansions.",
+    "inputs": [
+      "language",
+      "candidate",
+      "marketSignal",
+      "sourceNotes",
+      "riskLevel"
+    ],
+    "outputs": [
+      "approvalStatus",
+      "researchSummary",
+      "ipRisk",
+      "safetyNotes",
+      "recommendedPromptProfile"
+    ],
+    "subAgents": [
+      {
+        "id": "market_signal_subagent",
+        "purpose": "Assess demand from trends, user questions, and retention fit."
+      },
+      {
+        "id": "source_legality_subagent",
+        "purpose": "Check public-domain, licensing, trademark, and copyrighted-source risks."
+      },
+      {
+        "id": "cultural_sensitivity_subagent",
+        "purpose": "Flag sensitive religious, cultural, or historical presentation risks."
+      }
+    ],
+    "safetyBoundaries": [
+      "Do not approve content that depends on unlicensed copyrighted text.",
+      "Do not approve official-representation or impersonation claims.",
+      "Require transparency copy before publish."
+    ]
+  },
+  {
+    "id": "admin_ops_agent",
+    "status": "active",
+    "owner": "operator",
+    "purpose": "Support admin review of logs, prompt drafts, content status, usage metrics, and local audit readiness.",
+    "inputs": [
+      "language",
+      "usageEvents",
+      "promptDrafts",
+      "contentInventory",
+      "auditChecklist"
+    ],
+    "outputs": [
+      "dashboardSummary",
+      "promptChangeWarnings",
+      "contentGaps",
+      "publishBlockers"
+    ],
+    "subAgents": [
+      {
+        "id": "prompt_version_subagent",
+        "purpose": "Track prompt versions, draft edits, and approval requirements."
+      },
+      {
+        "id": "usage_log_subagent",
+        "purpose": "Summarize local usage logs without exposing sensitive user content."
+      },
+      {
+        "id": "publish_readiness_subagent",
+        "purpose": "List security, privacy, policy, and testing blockers before store release."
+      }
+    ],
+    "safetyBoundaries": [
+      "Do not store unnecessary sensitive content in logs.",
+      "Treat prompt changes as versioned operational changes.",
+      "Backend analytics must be privacy-minimized."
+    ]
+  }
+]

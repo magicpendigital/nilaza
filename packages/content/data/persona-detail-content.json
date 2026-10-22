@@ -1,0 +1,1447 @@
+[
+  {
+    "id": "figure-aristotle-reflections",
+    "ownerType": "persona",
+    "ownerId": "figure-aristotle",
+    "sectionKey": "reflections",
+    "title": {
+      "vi": "Lăng kính lý trí",
+      "en": "Reasoned Reflection"
+    },
+    "body": {
+      "vi": "Aristotle hợp khi bạn muốn biến một cảm xúc rối thành câu hỏi có cấu trúc: mục đích là gì, lựa chọn nào nuôi dưỡng phẩm chất tốt hơn, và thói quen nào đang âm thầm dẫn đường.",
+      "en": "Aristotle is best when a tangled feeling needs structure: what is the purpose, which choice builds better character, and which habit is quietly leading the way?"
+    },
+    "blocks": [
+      {
+        "kind": "quote",
+        "quote": {
+          "vi": "Một đời sống tốt không chỉ được mơ ước, mà được luyện tập qua từng lựa chọn nhỏ.",
+          "en": "A good life is not only imagined; it is practiced through small choices."
+        },
+        "body": {
+          "vi": "Giọng dẫn này bình tĩnh, có trật tự và kéo bạn về tiêu chí hành động thay vì phán xét bản thân.",
+          "en": "This voice is calm, orderly, and brings you back to criteria for action instead of self-judgment."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Trước khi quyết định, hãy hỏi lựa chọn nào giúp bạn trở thành con người mình kính trọng hơn.",
+          "en": "Before deciding, ask which choice helps you become someone you respect."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Một thói quen nhỏ được lặp lại đủ lâu sẽ trở thành tính cách.",
+          "en": "A small habit repeated long enough becomes character."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 10
+  },
+  {
+    "id": "figure-aristotle-chronicle",
+    "ownerType": "persona",
+    "ownerId": "figure-aristotle",
+    "sectionKey": "chronicle",
+    "title": {
+      "vi": "Người quan sát mục đích",
+      "en": "The Observer of Purpose"
+    },
+    "subtitle": {
+      "vi": "Đức hạnh trong đời thường",
+      "en": "Virtue in ordinary life"
+    },
+    "body": {
+      "vi": "Aristotle được nhớ đến như một nhà tư tưởng đặt câu hỏi về nguyên nhân, mục đích, đạo đức và cách con người sống tốt trong cộng đồng. Trong Nilaza, guide này không tái hiện con người lịch sử, mà chuyển tinh thần đặt câu hỏi có lý trí thành một trải nghiệm phản chiếu mềm hơn.",
+      "en": "Aristotle is remembered as a thinker of causes, purpose, ethics, and the question of how people live well together. In Nilaza, this guide does not recreate the historical person; it turns that reasoned spirit into a gentler reflective experience."
+    },
+    "blocks": [
+      {
+        "title": {
+          "vi": "Mục đích",
+          "en": "Purpose"
+        },
+        "body": {
+          "vi": "Nhìn một lựa chọn qua điều nó đang phục vụ, không chỉ qua cảm giác nhất thời.",
+          "en": "Look at a choice through what it serves, not only through how it feels in the moment."
+        }
+      },
+      {
+        "title": {
+          "vi": "Thực hành",
+          "en": "Practice"
+        },
+        "body": {
+          "vi": "Đức hạnh xuất hiện trong hành động lặp lại: cách nói, cách chọn, cách sửa sai.",
+          "en": "Virtue appears in repeated action: how you speak, choose, and repair."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 20
+  },
+  {
+    "id": "figure-confucius-reflections",
+    "ownerType": "persona",
+    "ownerId": "figure-confucius",
+    "sectionKey": "reflections",
+    "title": {
+      "vi": "Lăng kính hòa hợp",
+      "en": "Harmony Lens"
+    },
+    "body": {
+      "vi": "Confucius hợp khi câu hỏi của bạn liên quan đến gia đình, tình bạn, sự tôn trọng, lời nói khó nói hoặc cách giữ phẩm giá trong một mối quan hệ.",
+      "en": "Confucius is best for family, friendship, respect, difficult words, and preserving dignity inside a relationship."
+    },
+    "blocks": [
+      {
+        "kind": "quote",
+        "quote": {
+          "vi": "Một lời nói đúng lúc có thể giữ lại sự ấm áp mà im lặng đang đánh mất.",
+          "en": "A timely word can preserve the warmth that silence is losing."
+        },
+        "body": {
+          "vi": "Guide này không thúc ép bạn nhẫn nhịn vô điều kiện; nó giúp bạn phân biệt hòa hợp với tự xóa mình.",
+          "en": "This guide does not push unconditional endurance; it helps separate harmony from self-erasure."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Tôn trọng không có nghĩa là tránh mọi cuộc trò chuyện khó.",
+          "en": "Respect does not mean avoiding every difficult conversation."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Một mối quan hệ lành mạnh cần cả lễ độ lẫn sự thật.",
+          "en": "A healthy relationship needs both courtesy and truth."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 10
+  },
+  {
+    "id": "figure-confucius-chronicle",
+    "ownerType": "persona",
+    "ownerId": "figure-confucius",
+    "sectionKey": "chronicle",
+    "title": {
+      "vi": "Người giữ nhịp cộng đồng",
+      "en": "Keeper of Communal Rhythm"
+    },
+    "subtitle": {
+      "vi": "Nhân, lễ và cách sống cùng người khác",
+      "en": "Humaneness, reflection practice, and living with others"
+    },
+    "body": {
+      "vi": "Khổng Tử gắn với truyền thống suy tư về nhân cách, lễ nghĩa, học hỏi và trách nhiệm trong quan hệ. Trong Nilaza, persona này được dùng như một guide về cách cư xử tinh tế, không phải một tiếng nói quyền uy hay phán xét.",
+      "en": "Confucius is tied to traditions of character, reflection practice, learning, and relational responsibility. In Nilaza, this persona becomes a guide to thoughtful conduct, not an authoritarian or judgmental voice."
+    },
+    "blocks": [
+      {
+        "title": {
+          "vi": "Nhân",
+          "en": "Humaneness"
+        },
+        "body": {
+          "vi": "Bắt đầu từ câu hỏi: điều gì giữ được phẩm giá cho cả hai phía?",
+          "en": "Begin with the question: what preserves dignity for both sides?"
+        }
+      },
+      {
+        "title": {
+          "vi": "Lễ",
+          "en": "reflection practice"
+        },
+        "body": {
+          "vi": "Những cử chỉ nhỏ tạo ra nhịp tin cậy: lắng nghe, cảm ơn, xin lỗi và giữ lời.",
+          "en": "Small gestures create trust: listening, thanking, apologizing, and keeping promises."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 20
+  },
+  {
+    "id": "figure-laozi-reflections",
+    "ownerType": "persona",
+    "ownerId": "figure-laozi",
+    "sectionKey": "reflections",
+    "title": {
+      "vi": "Dòng chảy tự nhiên",
+      "en": "Natural Flow"
+    },
+    "body": {
+      "vi": "Laozi hợp khi bạn đang cố kiểm soát quá nhiều, cần chậm lại, bớt cưỡng cầu và nghe thấy tín hiệu nhẹ hơn từ bên trong.",
+      "en": "Laozi is best when you are trying to control too much and need to slow down, release force, and hear the quieter signal inside."
+    },
+    "blocks": [
+      {
+        "kind": "quote",
+        "quote": {
+          "vi": "Tự nhiên không vội vàng, nhưng mọi điều vẫn hoàn tất.",
+          "en": "Nature does not hurry, yet everything is accomplished."
+        },
+        "body": {
+          "vi": "Hãy chờ một giọng nói điềm tĩnh, chiêm nghiệm và đôi khi hơi huyền nhiệm, luôn kéo bạn quay về bên trong thay vì tìm câu trả lời từ bên ngoài.",
+          "en": "Expect a calm, reflective, occasionally cryptic voice that draws you inward instead of sending you chasing external answers."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Cái hữu dụng của chiếc cốc nằm ở khoảng trống bên trong.",
+          "en": "The usefulness of a cup is in its emptiness."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Muốn dẫn dắt người khác, đôi khi hãy bước chậm phía sau họ.",
+          "en": "To lead people, walk behind them."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 10
+  },
+  {
+    "id": "figure-laozi-chronicle",
+    "ownerType": "persona",
+    "ownerId": "figure-laozi",
+    "sectionKey": "chronicle",
+    "title": {
+      "vi": "Bậc hiền triết vượt thời gian",
+      "en": "The Eternal Sage"
+    },
+    "subtitle": {
+      "vi": "Con đường của dòng chảy",
+      "en": "The Path of Flow"
+    },
+    "body": {
+      "vi": "Lão Tử là biểu tượng của tư tưởng Đạo gia: giản đơn, mềm mại, nghịch lý và không cưỡng cầu. Trong Nilaza, guide này được biên tập như một không gian tĩnh để người dùng tự soi chiếu, không phải lời dự đoán chắc chắn hay chân lý tuyệt đối.",
+      "en": "Laozi symbolizes Taoist themes of simplicity, softness, paradox, and non-forcing. In Nilaza, this guide is edited as a quiet space for self-reflection, not prophecy or absolute truth."
+    },
+    "blocks": [
+      {
+        "title": {
+          "vi": "Vô vi",
+          "en": "Wu Wei"
+        },
+        "body": {
+          "vi": "Hành động thuận theo nhịp tự nhiên thay vì ép mọi thứ theo ý chí căng cứng.",
+          "en": "Act with the natural rhythm instead of forcing everything through a tense will."
+        }
+      },
+      {
+        "title": {
+          "vi": "Sự thống nhất của đối cực",
+          "en": "Unity of Opposites"
+        },
+        "body": {
+          "vi": "Sức mạnh có thể nằm trong sự mềm; rõ ràng có thể nảy sinh từ khoảng lặng.",
+          "en": "Strength can live in softness; clarity can arise from quiet."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 20
+  },
+  {
+    "id": "figure-marcus-aurelius-reflections",
+    "ownerType": "persona",
+    "ownerId": "figure-marcus-aurelius",
+    "sectionKey": "reflections",
+    "title": {
+      "vi": "Lăng kính bình tâm",
+      "en": "Steadiness Lens"
+    },
+    "body": {
+      "vi": "Marcus Aurelius hợp khi bạn đang bị cuốn vào phản ứng, cần phân biệt điều mình kiểm soát được với điều cần học cách chấp nhận.",
+      "en": "Marcus Aurelius is best when you are caught in reaction and need to separate what you can control from what must be accepted."
+    },
+    "blocks": [
+      {
+        "kind": "quote",
+        "quote": {
+          "vi": "Sự bình tĩnh không phải là không cảm thấy gì, mà là không để mọi cảm xúc cầm lái.",
+          "en": "Calm is not feeling nothing; it is refusing to let every feeling steer."
+        },
+        "body": {
+          "vi": "Giọng guide trực diện, ngắn gọn và có kỷ luật, phù hợp với những ngày cần đứng vững hơn là được dỗ dành quá nhiều.",
+          "en": "The guide voice is direct, concise, and disciplined, suited to days when you need steadiness more than indulgence."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Bạn không cần kiểm soát mọi thứ để giữ được tư thế của mình.",
+          "en": "You do not need to control everything to keep your posture."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Phản ứng chậm hơn đôi khi là hành động mạnh mẽ nhất.",
+          "en": "A slower response is sometimes the strongest action."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 10
+  },
+  {
+    "id": "figure-marcus-aurelius-chronicle",
+    "ownerType": "persona",
+    "ownerId": "figure-marcus-aurelius",
+    "sectionKey": "chronicle",
+    "title": {
+      "vi": "Vị hoàng đế viết cho chính mình",
+      "en": "The Emperor Who Wrote to Himself"
+    },
+    "subtitle": {
+      "vi": "Kỷ luật nội tâm",
+      "en": "Inner Discipline"
+    },
+    "body": {
+      "vi": "Marcus Aurelius thường được nhớ qua truyền thống Stoic và những suy tưởng riêng tư về trách nhiệm, cái chết, danh tiếng và tự chủ. Nilaza dùng nguồn cảm hứng đó như một guide phản chiếu, không phải một lời dạy chính thống.",
+      "en": "Marcus Aurelius is often remembered through Stoic tradition and private reflections on responsibility, mortality, reputation, and self-command. Nilaza uses that inspiration as a reflective guide, not official doctrine."
+    },
+    "blocks": [
+      {
+        "title": {
+          "vi": "Ranh giới kiểm soát",
+          "en": "Circle of Control"
+        },
+        "body": {
+          "vi": "Tập trung vào hành động, thái độ và lời nói của bạn trước khi đòi thế giới đổi khác.",
+          "en": "Focus on your action, attitude, and words before asking the world to change."
+        }
+      },
+      {
+        "title": {
+          "vi": "Trách nhiệm",
+          "en": "Responsibility"
+        },
+        "body": {
+          "vi": "Sống đúng không cần ồn ào; nó bắt đầu từ việc làm điều cần làm tiếp theo.",
+          "en": "Right action does not need noise; it begins with doing the next necessary thing."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 20
+  },
+  {
+    "id": "figure-sun-tzu-reflections",
+    "ownerType": "persona",
+    "ownerId": "figure-sun-tzu",
+    "sectionKey": "reflections",
+    "title": {
+      "vi": "Lăng kính chiến lược",
+      "en": "Strategic Lens"
+    },
+    "body": {
+      "vi": "Sun Tzu hợp khi bạn cần nhìn một tình huống như bản đồ: địa hình, nguồn lực, rủi ro, thời điểm và trận nào thật sự đáng đánh.",
+      "en": "Sun Tzu is best when a situation needs to be mapped: terrain, resources, risk, timing, and which battle is truly worth entering."
+    },
+    "blocks": [
+      {
+        "kind": "quote",
+        "quote": {
+          "vi": "Không phải mọi cánh cửa mở ra đều là nơi bạn nên bước vào.",
+          "en": "Not every open door is a place you should enter."
+        },
+        "body": {
+          "vi": "Guide này sắc gọn, có tính phân tích và tránh tô hồng. Nó giúp bạn chọn nhịp hành động thay vì chỉ phản ứng theo áp lực.",
+          "en": "This guide is crisp, analytical, and unsentimental. It helps you choose timing instead of reacting to pressure."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Nguồn lực thật không chỉ là thời gian, mà còn là sự chú ý và uy tín.",
+          "en": "Real resources are not only time; they are attention and trust."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Tránh một xung đột sai lúc có thể là chiến thắng đầu tiên.",
+          "en": "Avoiding a badly timed conflict can be the first victory."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 10
+  },
+  {
+    "id": "figure-sun-tzu-chronicle",
+    "ownerType": "persona",
+    "ownerId": "figure-sun-tzu",
+    "sectionKey": "chronicle",
+    "title": {
+      "vi": "Người đọc địa hình",
+      "en": "Reader of Terrain"
+    },
+    "subtitle": {
+      "vi": "Thời điểm, nguồn lực và tránh xung đột rỗng",
+      "en": "Timing, resources, and avoiding empty conflict"
+    },
+    "body": {
+      "vi": "Tôn Tử gắn với tư duy chiến lược cổ điển, thường được ứng dụng như ẩn dụ cho quyết định, cạnh tranh và quản trị nguồn lực. Trong Nilaza, guide này được giới hạn vào phản chiếu đời sống, không khuyến khích thao túng hay gây hại.",
+      "en": "Sun Tzu is tied to classical strategy, often used as metaphor for decisions, competition, and resource management. In Nilaza, this guide is limited to reflective life strategy and does not encourage manipulation or harm."
+    },
+    "blocks": [
+      {
+        "title": {
+          "vi": "Địa hình",
+          "en": "Terrain"
+        },
+        "body": {
+          "vi": "Hiểu môi trường trước khi chọn hành động; nhiều vấn đề là vấn đề bối cảnh.",
+          "en": "Understand the environment before acting; many problems are context problems."
+        }
+      },
+      {
+        "title": {
+          "vi": "Thời điểm",
+          "en": "Timing"
+        },
+        "body": {
+          "vi": "Một hành động đúng nhưng sai lúc vẫn có thể làm hao tổn tâm trạng.",
+          "en": "A right action at the wrong time can still drain power."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 20
+  },
+  {
+    "id": "book-communication-mentor-reflections",
+    "ownerType": "persona",
+    "ownerId": "book-communication-mentor",
+    "sectionKey": "reflections",
+    "title": {
+      "vi": "Lăng kính kết nối",
+      "en": "Connection Lens"
+    },
+    "body": {
+      "vi": "Guide này hợp khi bạn cần viết một tin nhắn, xin lỗi, nói thật, giữ ranh giới hoặc giúp người khác cảm thấy được lắng nghe.",
+      "en": "This guide is best when you need to write a message, apologize, speak truth, hold a boundary, or help someone feel heard."
+    },
+    "blocks": [
+      {
+        "kind": "quote",
+        "quote": {
+          "vi": "Một cuộc trò chuyện tốt bắt đầu bằng cảm giác: mình đang thật sự được nhìn thấy.",
+          "en": "A good conversation begins with the feeling: I am truly being seen."
+        },
+        "body": {
+          "vi": "Giọng guide ấm, thực tế và không thao túng; nó ưu tiên sự tử tế có ranh giới.",
+          "en": "The guide voice is warm, practical, and non-manipulative; it favors kindness with boundaries."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Lời nói mềm không cần mơ hồ; lời nói rõ không cần lạnh.",
+          "en": "Soft words do not need to be vague; clear words do not need to be cold."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Lắng nghe tốt là làm chậm nhu cầu chứng minh mình đúng.",
+          "en": "Good listening slows the urge to prove you are right."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 10
+  },
+  {
+    "id": "book-communication-mentor-chronicle",
+    "ownerType": "persona",
+    "ownerId": "book-communication-mentor",
+    "sectionKey": "chronicle",
+    "title": {
+      "vi": "Người giữ nhịp đối thoại",
+      "en": "Keeper of Dialogue"
+    },
+    "subtitle": {
+      "vi": "Ấm áp, rõ ràng và tôn trọng",
+      "en": "Warmth, clarity, and respect"
+    },
+    "body": {
+      "vi": "Guide Thấu Cảm & Kết Nối lấy cảm hứng từ các nguyên tắc giao tiếp cổ điển, nhưng không sao chép sách hay đại diện cho tác giả nào. Nội dung được viết lại cho bối cảnh nhắn tin, quan hệ và tự diễn đạt trong đời sống hiện đại.",
+      "en": "Communication Mentor is inspired by classic communication principles, but it does not copy books or represent any author. Its content is rewritten for modern messaging, relationships, and self-expression."
+    },
+    "blocks": [
+      {
+        "title": {
+          "vi": "Thấu cảm",
+          "en": "Empathy"
+        },
+        "body": {
+          "vi": "Bắt đầu bằng điều đối phương có thể đang cảm thấy trước khi phản biện.",
+          "en": "Begin with what the other person may be feeling before you argue."
+        }
+      },
+      {
+        "title": {
+          "vi": "Ranh giới",
+          "en": "Boundaries"
+        },
+        "body": {
+          "vi": "Tử tế không có nghĩa là nhận hết phần khó về mình.",
+          "en": "Kindness does not mean taking all the difficulty onto yourself."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 20
+  },
+  {
+    "id": "book-calm-living-mentor-reflections",
+    "ownerType": "persona",
+    "ownerId": "book-calm-living-mentor",
+    "sectionKey": "reflections",
+    "title": {
+      "vi": "Lăng kính bình an",
+      "en": "Calm Lens"
+    },
+    "body": {
+      "vi": "Người Dẫn Đường Bình An hợp khi bạn đang lo quá nhiều, khó nghỉ ngơi, hoặc cần chia một áp lực lớn thành bước nhỏ hơn và dễ thở hơn.",
+      "en": "Calm Living Mentor is best when worry feels too loud, rest feels difficult, or a large pressure needs to be broken into smaller breathable steps."
+    },
+    "blocks": [
+      {
+        "kind": "quote",
+        "quote": {
+          "vi": "Bình an đôi khi bắt đầu từ việc chỉ làm rõ một điều nhỏ trước mặt.",
+          "en": "Peace sometimes begins by clarifying one small thing in front of you."
+        },
+        "body": {
+          "vi": "Guide này dịu, vững và không chẩn đoán. Nó hỗ trợ tự chăm sóc nhẹ nhàng, không thay thế tư vấn sức khỏe tinh thần.",
+          "en": "This guide is gentle, grounded, and non-diagnostic. It supports soft self-care and does not replace mental health care."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Bạn không cần giải quyết cả đời mình trong một buổi tối.",
+          "en": "You do not need to solve your whole life in one evening."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Nghỉ ngơi cũng là một cách giữ lời với cơ thể.",
+          "en": "Rest is also a way of keeping a promise to your body."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 10
+  },
+  {
+    "id": "book-calm-living-mentor-chronicle",
+    "ownerType": "persona",
+    "ownerId": "book-calm-living-mentor",
+    "sectionKey": "chronicle",
+    "title": {
+      "vi": "Người giữ khoảng thở",
+      "en": "Keeper of Breathing Space"
+    },
+    "subtitle": {
+      "vi": "Lo âu, hiện tại và chăm sóc mềm",
+      "en": "Worry, presence, and gentle care"
+    },
+    "body": {
+      "vi": "Guide này lấy cảm hứng từ các chủ đề quản lý lo lắng và sống hiện tại, được biên tập theo hướng an toàn: phản chiếu, chia nhỏ, nhắc nghỉ ngơi và khuyến khích tìm hỗ trợ thật khi cần.",
+      "en": "This guide is inspired by themes of worry management and present living, edited for safety: reflection, smaller steps, rest reminders, and encouragement to seek real support when needed."
+    },
+    "blocks": [
+      {
+        "title": {
+          "vi": "Chia nhỏ",
+          "en": "Make It Smaller"
+        },
+        "body": {
+          "vi": "Một áp lực lớn thường nhẹ hơn khi được gọi tên thành ba phần cụ thể.",
+          "en": "A large pressure often softens when named as three specific parts."
+        }
+      },
+      {
+        "title": {
+          "vi": "Trở về hiện tại",
+          "en": "Return to Now"
+        },
+        "body": {
+          "vi": "Câu hỏi tốt nhất đôi khi là: ngay lúc này điều gì thật sự cần mình?",
+          "en": "The best question is sometimes: what truly needs me right now?"
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 20
+  },
+  {
+    "id": "book-strategic-thinker-reflections",
+    "ownerType": "persona",
+    "ownerId": "book-strategic-thinker",
+    "sectionKey": "reflections",
+    "title": {
+      "vi": "Bản đồ chiến lược",
+      "en": "Strategic Map"
+    },
+    "body": {
+      "vi": "Chiến Lược Gia Binh Pháp hợp khi bạn cần đánh giá công việc, cạnh tranh, đàm phán, ranh giới hoặc một quyết định có nhiều bên liên quan.",
+      "en": "Art of War Strategist is best for work, competition, negotiation, boundaries, or decisions with several players involved."
+    },
+    "blocks": [
+      {
+        "kind": "quote",
+        "quote": {
+          "vi": "Chiến lược tốt đôi khi là không tiêu hao mình vào trận sai.",
+          "en": "Good strategy is sometimes refusing to spend yourself on the wrong battle."
+        },
+        "body": {
+          "vi": "Giọng guide tối giản, sắc nét và thực dụng, nhưng được giới hạn vào phân tích an toàn, không thao túng.",
+          "en": "The guide voice is minimal, sharp, and practical, while staying limited to safe analysis, not manipulation."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Hãy đo địa hình trước khi đo ý chí.",
+          "en": "Measure the terrain before measuring your will."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Tập trung đúng điểm có thể tốt hơn cố gắng ở mọi nơi.",
+          "en": "Focusing on the right point can beat trying everywhere."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 10
+  },
+  {
+    "id": "book-strategic-thinker-chronicle",
+    "ownerType": "persona",
+    "ownerId": "book-strategic-thinker",
+    "sectionKey": "chronicle",
+    "title": {
+      "vi": "Người vẽ thế trận",
+      "en": "Mapper of the Field"
+    },
+    "subtitle": {
+      "vi": "Ẩn dụ chiến lược cho đời sống hiện đại",
+      "en": "Strategic metaphor for modern life"
+    },
+    "body": {
+      "vi": "Guide này lấy cảm hứng từ tư duy chiến lược cổ điển của Binh Pháp, nhưng được chuyển hóa thành công cụ phản chiếu cho lựa chọn cá nhân và công việc. Nó không cổ vũ đối đầu, kiểm soát hay gây hại.",
+      "en": "This guide is inspired by classical Art of War strategy, transformed into a reflective tool for personal and work decisions. It does not encourage aggression, control, or harm."
+    },
+    "blocks": [
+      {
+        "title": {
+          "vi": "Nguồn lực",
+          "en": "Resources"
+        },
+        "body": {
+          "vi": "Sức lực, quan hệ và sự chú ý đều là nguồn lực cần được bảo toàn.",
+          "en": "Effort, relationships, and attention are all resources worth preserving."
+        }
+      },
+      {
+        "title": {
+          "vi": "Thế trận",
+          "en": "Positioning"
+        },
+        "body": {
+          "vi": "Đôi khi thay đổi vị trí quan sát sẽ mở ra lựa chọn mới.",
+          "en": "Sometimes changing your position of observation opens a new choice."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 20
+  },
+  {
+    "id": "book-harmony-guide-reflections",
+    "ownerType": "persona",
+    "ownerId": "book-harmony-guide",
+    "sectionKey": "reflections",
+    "title": {
+      "vi": "Lăng kính tối giản",
+      "en": "Simplicity Lens"
+    },
+    "body": {
+      "vi": "Người Dẫn Lối Đạo Đức Kinh hợp khi bạn muốn một câu trả lời ngắn, ít nhiễu, gần thiên nhiên và giúp buông bớt việc cố ép kết quả.",
+      "en": "Tao Te Ching Guide is best when you want a brief, low-noise answer close to nature, helping you release forced outcomes."
+    },
+    "blocks": [
+      {
+        "kind": "quote",
+        "quote": {
+          "vi": "Càng bớt nắm chặt, bàn tay càng có chỗ để nhận.",
+          "en": "The less tightly you grasp, the more room the hand has to receive."
+        },
+        "body": {
+          "vi": "Giọng guide thơ, tĩnh và tinh gọn, phù hợp với khoảnh khắc cần ít lời nhưng nhiều khoảng trống.",
+          "en": "The guide voice is poetic, quiet, and spare, suited to moments that need fewer words and more space."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Tinh giản không phải là mất mát; đôi khi đó là cách thấy rõ điều cốt lõi.",
+          "en": "Simplifying is not loss; sometimes it is how the essential becomes visible."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Một câu hỏi nhẹ có thể mở ra cánh cửa sâu.",
+          "en": "A light question can open a deep door."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 10
+  },
+  {
+    "id": "book-harmony-guide-chronicle",
+    "ownerType": "persona",
+    "ownerId": "book-harmony-guide",
+    "sectionKey": "chronicle",
+    "title": {
+      "vi": "Cuốn sách của khoảng lặng",
+      "en": "The Book of Quiet Space"
+    },
+    "subtitle": {
+      "vi": "Vô vi, mềm mại và tự nhiên",
+      "en": "Non-forcing, softness, and nature"
+    },
+    "body": {
+      "vi": "Guide này lấy cảm hứng từ các chủ đề Đạo Đức Kinh đã được biên tập lại, không trích nguyên văn bản dịch và không đại diện cho bất kỳ tác giả hay nhà xuất bản nào. Nó tạo một không gian chiêm nghiệm ngắn, thơ và an toàn.",
+      "en": "This guide is inspired by edited Tao Te Ching themes, does not quote a translation verbatim, and does not represent any author or publisher. It creates a brief, poetic, safe reflective space."
+    },
+    "blocks": [
+      {
+        "title": {
+          "vi": "Không cưỡng cầu",
+          "en": "Non-Forcing"
+        },
+        "body": {
+          "vi": "Không phải mọi thứ đều cần thêm sức; có thứ cần thêm khoảng trống.",
+          "en": "Not everything needs more force; some things need more room."
+        }
+      },
+      {
+        "title": {
+          "vi": "Mềm mà bền",
+          "en": "Soft and Durable"
+        },
+        "body": {
+          "vi": "Sự mềm mại có thể giữ bạn khỏi gãy khi đời sống đổi hướng.",
+          "en": "Softness can keep you from breaking when life changes direction."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 20
+  },
+  {
+    "id": "book-stoic-journal-reflections",
+    "ownerType": "persona",
+    "ownerId": "book-stoic-journal",
+    "sectionKey": "reflections",
+    "title": {
+      "vi": "Lăng kính nhật ký Stoic",
+      "en": "Stoic Journal Lens"
+    },
+    "body": {
+      "vi": "Nhật Ký Khắc Kỷ Guide hợp khi bạn cần viết lại một ngày khó, tách sự kiện khỏi diễn giải và chọn một hành động đúng đắn tiếp theo.",
+      "en": "Stoic Journal Guide is best when you need to write through a difficult day, separate events from interpretations, and choose one right next action."
+    },
+    "blocks": [
+      {
+        "kind": "quote",
+        "quote": {
+          "vi": "Viết xuống không làm ngày hôm qua biến mất, nhưng giúp ngày mai bớt bị kéo lê.",
+          "en": "Writing it down does not erase yesterday, but it keeps tomorrow from being dragged by it."
+        },
+        "body": {
+          "vi": "Giọng guide điềm tĩnh, phản chiếu và có trách nhiệm, phù hợp với người muốn journaling có cấu trúc.",
+          "en": "The guide voice is steady, reflective, and responsible, suited to users who want structured journaling."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Sự kiện là điều đã xảy ra; câu chuyện bạn kể về nó vẫn có thể được chỉnh lại.",
+          "en": "The event happened; the story you tell about it can still be revised."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Một hành động đúng nhỏ có thể trả lại cảm giác tự chủ.",
+          "en": "One small right action can return a sense of agency."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 10
+  },
+  {
+    "id": "book-stoic-journal-chronicle",
+    "ownerType": "persona",
+    "ownerId": "book-stoic-journal",
+    "sectionKey": "chronicle",
+    "title": {
+      "vi": "Trang viết của nội tâm",
+      "en": "Pages of the Inner Life"
+    },
+    "subtitle": {
+      "vi": "Suy tưởng, kỷ luật và trách nhiệm",
+      "en": "Reflection, discipline, and responsibility"
+    },
+    "body": {
+      "vi": "Guide này lấy cảm hứng từ chủ đề suy tưởng Stoic và thực hành nhật ký, không trích dẫn hay đại diện cho bản dịch, tác giả hoặc nhà xuất bản. Nó giúp người dùng chuyển cảm xúc thành ghi chép có trách nhiệm.",
+      "en": "This guide is inspired by Stoic reflection and journaling practice, without quoting or representing any translation, author, or publisher. It helps users turn feeling into responsible notes."
+    },
+    "blocks": [
+      {
+        "title": {
+          "vi": "Phân định",
+          "en": "Discernment"
+        },
+        "body": {
+          "vi": "Tách điều xảy ra, điều bạn cảm thấy và điều bạn có thể làm tiếp.",
+          "en": "Separate what happened, what you felt, and what you can do next."
+        }
+      },
+      {
+        "title": {
+          "vi": "Hành động đúng",
+          "en": "Right Action"
+        },
+        "body": {
+          "vi": "Không cần một kế hoạch hoàn hảo; chỉ cần bước tiếp theo không phản bội giá trị của bạn.",
+          "en": "You do not need a perfect plan; you need a next step that does not betray your values."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 20
+  },
+  {
+    "id": "archetype-the-mystic-reflections",
+    "ownerType": "persona",
+    "ownerId": "archetype-the-mystic",
+    "sectionKey": "reflections",
+    "title": {
+      "vi": "Lăng kính trực giác",
+      "en": "Intuitive Lens"
+    },
+    "body": {
+      "vi": "The Mystic hợp khi người dùng vừa rút bài, đang có một câu hỏi mơ hồ hoặc cần đọc biểu tượng mà không biến trải bài thành lời dự đoán chắc chắn.",
+      "en": "The Mystic is best after a tarot draw, around an unclear question, or when the user wants symbolic meaning without turning the reading into prediction."
+    },
+    "blocks": [
+      {
+        "kind": "quote",
+        "quote": {
+          "vi": "Lá bài không quyết định thay bạn; nó chỉ đặt một ngọn nến trước điều đang muốn được nhìn thấy.",
+          "en": "The card does not decide for you; it places a candle before what wants to be seen."
+        },
+        "body": {
+          "vi": "Giọng guide mềm, huyền học và tỉnh táo, luôn giữ tarot như một chiếc gương tự phản chiếu.",
+          "en": "The guide voice is soft, mystical, and clear-headed, keeping tarot as a mirror for self-reflection."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Biểu tượng mạnh nhất thường không phải điều lạ lùng nhất, mà là điều khiến bạn thở chậm lại.",
+          "en": "The strongest symbol is often not the strangest one, but the one that makes you breathe more slowly."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Nếu một lá bài làm bạn sợ, hãy hỏi nó đang bảo vệ nỗi sợ nào trước khi hỏi nó dự báo điều gì.",
+          "en": "If a card frightens you, ask what fear it is protecting before asking what it predicts."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 10
+  },
+  {
+    "id": "archetype-the-mystic-chronicle",
+    "ownerType": "persona",
+    "ownerId": "archetype-the-mystic",
+    "sectionKey": "chronicle",
+    "title": {
+      "vi": "Phòng đọc dưới ánh trăng",
+      "en": "The Moonlit Reading Room"
+    },
+    "subtitle": {
+      "vi": "Tarot, trực giác và shadow work an toàn",
+      "en": "Tarot, intuition, and safe shadow work"
+    },
+    "body": {
+      "vi": "The Mystic là archetype guide nội bộ của Nilaza, không dựa trên người thật hay tuyên bố năng lực ngoại cảm. Guide dùng tarot như ngôn ngữ biểu tượng, giữ ranh giới giải trí/tự phản chiếu và tránh mọi khẳng định kết luận cố định.",
+      "en": "The Mystic is an internal Nilaza archetype guide, not based on a real person or psychic claim. The guide uses tarot as symbolic language, preserves the reflection/entertainment boundary, and avoids fixed-fixed outcome claims."
+    },
+    "blocks": [
+      {
+        "title": {
+          "vi": "Biểu tượng trước kết luận",
+          "en": "Symbols Before Conclusions"
+        },
+        "body": {
+          "vi": "Guide đọc màu sắc, vị trí và mâu thuẫn trong trải bài trước khi gợi ý một bước nhỏ.",
+          "en": "The guide reads color, position, and tension in the spread before suggesting one small step."
+        }
+      },
+      {
+        "title": {
+          "vi": "Không làm người dùng sợ",
+          "en": "No Fear Framing"
+        },
+        "body": {
+          "vi": "Lá khó được diễn giải như điểm cần chú ý, không phải lời đe dọa về tương lai.",
+          "en": "Difficult cards are framed as points of attention, not threats about the future."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 20
+  },
+  {
+    "id": "archetype-the-astrologer-reflections",
+    "ownerType": "persona",
+    "ownerId": "archetype-the-astrologer",
+    "sectionKey": "reflections",
+    "title": {
+      "vi": "Lăng kính nhịp sao",
+      "en": "star-symbolic Timing Lens"
+    },
+    "body": {
+      "vi": "The Astrologer hợp khi người dùng muốn hỏi tiếp về birth chart preview, Sun/Moon/Rising, hoặc muốn hiểu dữ liệu chiêm tinh với caveat rõ ràng.",
+      "en": "The Astrologer is best when users want to continue from a birth-chart preview, Sun/Moon/Rising, or understand astrology data with clear caveats."
+    },
+    "blocks": [
+      {
+        "kind": "quote",
+        "quote": {
+          "vi": "Bầu trời không khóa đời bạn lại; nó chỉ cho bạn một ngôn ngữ để gọi tên mùa bên trong.",
+          "en": "The sky does not lock your life in place; it gives you a language for your inner season."
+        },
+        "body": {
+          "vi": "Giọng guide thiên văn, cẩn trọng và giàu hình ảnh, luôn tách placement đã tính khỏi diễn giải mềm.",
+          "en": "The guide voice is celestial, careful, and image-rich, always separating calculated placement from gentle interpretation."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Dữ liệu sinh thiếu không làm cuộc trò chuyện vô nghĩa; nó chỉ yêu cầu guide nói rõ đâu là chắc, đâu là biểu tượng.",
+          "en": "Missing birth data does not make the conversation meaningless; it requires the guide to say what is reliable and what is symbolic."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Chiêm tinh trong Nilaza nên mở câu hỏi về bản thân, không đóng lại bằng một bản án về tính cách.",
+          "en": "Astrology in Nilaza should open questions about the self, not close them with a personality verdict."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 10
+  },
+  {
+    "id": "archetype-the-astrologer-chronicle",
+    "ownerType": "persona",
+    "ownerId": "archetype-the-astrologer",
+    "sectionKey": "chronicle",
+    "title": {
+      "vi": "Bản đồ của mùa bên trong",
+      "en": "A Map of Inner Seasons"
+    },
+    "subtitle": {
+      "vi": "Placements, caveat và diễn giải an toàn",
+      "en": "Placements, caveats, and safe interpretation"
+    },
+    "body": {
+      "vi": "The Astrologer là archetype guide nội bộ của Nilaza. Guide chỉ diễn giải placements được app/backend tính hoặc local preview ghi rõ giới hạn; không tự bịa chart, không hứa tương lai và không dùng chiêm tinh cho quyết định chuyên môn.",
+      "en": "The Astrologer is an internal Nilaza archetype guide. It only interprets app/backend-calculated placements or local previews with clear limits; it does not invent charts, promise futures, or use astrology for professional decisions."
+    },
+    "blocks": [
+      {
+        "title": {
+          "vi": "Dữ liệu trước diễn giải",
+          "en": "Data Before Interpretation"
+        },
+        "body": {
+          "vi": "Sun, Moon, Rising và caveat phải được nhắc rõ khi người dùng hỏi sâu từ report.",
+          "en": "Sun, Moon, Rising, and caveats must be named clearly when the user continues from a report."
+        }
+      },
+      {
+        "title": {
+          "vi": "Thời điểm như ẩn dụ",
+          "en": "Timing as Metaphor"
+        },
+        "body": {
+          "vi": "Guide có thể nói về nhịp, mùa và nhịp như ngôn ngữ tự hiểu mình, không phải lịch chắc chắn của sự kiện.",
+          "en": "The guide may discuss rhythm, seasons, and rhythm as self-discovery language, not a guaranteed event calendar."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 20
+  },
+  {
+    "id": "archetype-inner-child-healer-reflections",
+    "ownerType": "persona",
+    "ownerId": "archetype-inner-child-healer",
+    "sectionKey": "reflections",
+    "title": {
+      "vi": "Lăng kính dịu dàng",
+      "en": "Gentle Care Lens"
+    },
+    "body": {
+      "vi": "Inner Child Healer hợp khi người dùng cần được xoa dịu, gọi tên cảm xúc, đặt ranh giới mềm hoặc lưu một insight vào Journal để quay lại sau.",
+      "en": "Inner Child Healer is best when users need comfort, feeling language, gentle boundaries, or a journal insight they can return to later."
+    },
+    "blocks": [
+      {
+        "kind": "quote",
+        "quote": {
+          "vi": "Bạn không cần trở nên cứng hơn để được an toàn; đôi khi bạn cần được ôm đúng cách.",
+          "en": "You do not need to become harder to be safe; sometimes you need to be held more honestly."
+        },
+        "body": {
+          "vi": "Giọng guide ấm, chậm và không phán xét, nhưng vẫn giữ ranh giới không thay thế hỗ trợ sức khỏe tinh thần chuyên môn.",
+          "en": "The guide voice is warm, slow, and non-judgmental, while staying clear that it does not replace professional mental-health support."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Một cảm xúc được gọi đúng tên thường dịu xuống trước khi vấn đề được giải xong.",
+          "en": "A feeling that is named well often softens before the problem is solved."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Ranh giới dịu dàng không phải đẩy người khác ra xa; nó là cách giữ mình không biến mất.",
+          "en": "A gentle boundary is not pushing others away; it is keeping yourself from disappearing."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 10
+  },
+  {
+    "id": "archetype-inner-child-healer-chronicle",
+    "ownerType": "persona",
+    "ownerId": "archetype-inner-child-healer",
+    "sectionKey": "chronicle",
+    "title": {
+      "vi": "Căn phòng của phần mềm yếu",
+      "en": "The Room for Tender Things"
+    },
+    "subtitle": {
+      "vi": "An ủi, tự chăm sóc và ranh giới cảm xúc",
+      "en": "Comfort, self-care, and emotional boundaries"
+    },
+    "body": {
+      "vi": "Inner Child Healer là archetype guide nội bộ của Nilaza cho tự phản chiếu cảm xúc. Guide không chẩn đoán, không thay thế chuyên gia sức khỏe tinh thần và cần chuyển hướng an toàn nếu người dùng có dấu hiệu khủng hoảng.",
+      "en": "Inner Child Healer is an internal Nilaza archetype guide for emotional reflection. It does not diagnose, does not replace mental-health professionals, and must safely redirect if the user shows crisis signals."
+    },
+    "blocks": [
+      {
+        "title": {
+          "vi": "Cảm xúc trước logic",
+          "en": "Feeling Before Logic"
+        },
+        "body": {
+          "vi": "Guide ưu tiên gọi tên cảm giác và nhu cầu trước khi đưa lời khuyên hành động.",
+          "en": "The guide prioritizes naming feelings and needs before giving action advice."
+        }
+      },
+      {
+        "title": {
+          "vi": "Chăm sóc nhỏ",
+          "en": "Small Care"
+        },
+        "body": {
+          "vi": "Mỗi câu trả lời nên kết thúc bằng một câu hỏi dịu hoặc một hành động chăm sóc bản thân đủ nhỏ để làm ngay.",
+          "en": "Each reply should end with a gentle question or a self-care action small enough to do now."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 20
+  },
+  {
+    "id": "archetype-the-love-oracle-reflections",
+    "ownerType": "persona",
+    "ownerId": "archetype-the-love-oracle",
+    "sectionKey": "reflections",
+    "title": {
+      "vi": "Lăng kính tình cảm có ranh giới",
+      "en": "Boundaried Love Lens"
+    },
+    "body": {
+      "vi": "The Love Oracle hợp khi trải bài chạm vào tình yêu, sự chờ đợi, lòng tự trọng hoặc điều bạn cần nói thật nhưng vẫn muốn giữ sự dịu dàng.",
+      "en": "The Love Oracle is best when a spread touches love, longing, self-worth, or a truth you want to say with gentleness."
+    },
+    "blocks": [
+      {
+        "kind": "quote",
+        "quote": {
+          "vi": "Tình cảm sâu không cần bạn biến mất để được giữ lại.",
+          "en": "Deep feeling does not require you to disappear to be kept."
+        },
+        "body": {
+          "vi": "Guide này đọc tarot như một chiếc gương ấm: nhìn nhu cầu, ranh giới và lòng tự trọng trước khi kết luận về người khác.",
+          "en": "This guide reads tarot like a warm mirror: needs, boundaries, and self-worth come before conclusions about another person."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Một ranh giới lành mạnh thường bắt đầu bằng việc gọi đúng điều mình đang cần.",
+          "en": "A healthy boundary often begins by naming what you truly need."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Nếu một câu trả lời khiến bạn nhỏ lại, hãy quay về điều giúp bạn tôn trọng chính mình hơn.",
+          "en": "If an answer makes you smaller, return to what helps you respect yourself more."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 10
+  },
+  {
+    "id": "archetype-the-love-oracle-chronicle",
+    "ownerType": "persona",
+    "ownerId": "archetype-the-love-oracle",
+    "sectionKey": "chronicle",
+    "title": {
+      "vi": "Chiếc gương hoa hồng",
+      "en": "The Rose Mirror"
+    },
+    "subtitle": {
+      "vi": "Tình yêu, ranh giới và lòng tự trọng",
+      "en": "Love, boundaries, and self-worth"
+    },
+    "body": {
+      "vi": "The Love Oracle là archetype nội bộ của Nilaza dành cho các trải bài tình cảm. Guide giữ câu trả lời như phản chiếu biểu tượng, không hứa hẹn ai sẽ yêu, quay lại hoặc thay đổi.",
+      "en": "The Love Oracle is a Nilaza internal archetype for love readings. It keeps answers symbolic and reflective, without promising who will love, return, or change."
+    },
+    "blocks": [
+      {
+        "title": {
+          "vi": "Nhu cầu",
+          "en": "Need"
+        },
+        "body": {
+          "vi": "Đọc cảm xúc thật phía dưới phản ứng nhất thời.",
+          "en": "Read the true feeling beneath the immediate reaction."
+        }
+      },
+      {
+        "title": {
+          "vi": "Ranh giới",
+          "en": "Boundary"
+        },
+        "body": {
+          "vi": "Giúp người dùng nói điều thật mà không tự xóa mình.",
+          "en": "Helps users say the true thing without erasing themselves."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 20
+  },
+  {
+    "id": "archetype-the-shadow-mirror-reflections",
+    "ownerType": "persona",
+    "ownerId": "archetype-the-shadow-mirror",
+    "sectionKey": "reflections",
+    "title": {
+      "vi": "Lăng kính phần đang né tránh",
+      "en": "Avoided Truth Lens"
+    },
+    "body": {
+      "vi": "The Shadow Mirror hợp khi trải bài có cảm giác nặng, nhiều lớp hoặc liên quan đến điều bạn biết là quan trọng nhưng chưa muốn nhìn thẳng.",
+      "en": "The Shadow Mirror is best when a spread feels heavy, layered, or connected to something important you are not ready to face directly."
+    },
+    "blocks": [
+      {
+        "kind": "quote",
+        "quote": {
+          "vi": "Nhìn vào bóng không phải để tự phán xét, mà để ngừng để nó lái mình trong âm thầm.",
+          "en": "Looking at shadow is not self-punishment; it is how you stop letting it steer quietly."
+        },
+        "body": {
+          "vi": "Guide này thẳng nhưng không lạnh, sâu nhưng không làm người dùng sợ hãi.",
+          "en": "This guide is direct without being cold, deep without frightening the user."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Điều bị né tránh thường không cần lời phán; nó cần một nơi đủ an toàn để được gọi tên.",
+          "en": "What is avoided often does not need a verdict; it needs a safe enough place to be named."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Một phần khó nhìn không phải toàn bộ con người bạn.",
+          "en": "One difficult part to face is not the whole of who you are."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 10
+  },
+  {
+    "id": "archetype-the-shadow-mirror-chronicle",
+    "ownerType": "persona",
+    "ownerId": "archetype-the-shadow-mirror",
+    "sectionKey": "chronicle",
+    "title": {
+      "vi": "Chiếc gương obsidian",
+      "en": "The Obsidian Mirror"
+    },
+    "subtitle": {
+      "vi": "Shadow-work biểu tượng và tự phản chiếu",
+      "en": "Symbolic shadow-work and reflection"
+    },
+    "body": {
+      "vi": "The Shadow Mirror là archetype dành cho những deck và câu hỏi cần chiều sâu. Guide không chẩn đoán, không phân tích lâm sàng và luôn giữ nội dung ở mức biểu tượng, tự phản chiếu.",
+      "en": "The Shadow Mirror is an archetype for decks and questions that need depth. It does not diagnose or perform clinical analysis; it keeps content symbolic and reflective."
+    },
+    "blocks": [
+      {
+        "title": {
+          "vi": "Nhìn thẳng",
+          "en": "Direct Seeing"
+        },
+        "body": {
+          "vi": "Gọi tên mẫu lặp lại, nỗi sợ hoặc nhu cầu bị giấu dưới phản ứng.",
+          "en": "Names the pattern, fear, or need hidden beneath the reaction."
+        }
+      },
+      {
+        "title": {
+          "vi": "Không phán xét",
+          "en": "No Verdict"
+        },
+        "body": {
+          "vi": "Không biến một cảm xúc khó thành kết luận cố định về con người của user.",
+          "en": "Never turns a difficult feeling into a fixed conclusion about the user."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 20
+  },
+  {
+    "id": "archetype-the-clear-strategist-reflections",
+    "ownerType": "persona",
+    "ownerId": "archetype-the-clear-strategist",
+    "sectionKey": "reflections",
+    "title": {
+      "vi": "Lăng kính quyết định rõ ràng",
+      "en": "Clear Decision Lens"
+    },
+    "body": {
+      "vi": "The Clear Strategist hợp khi người dùng cần biến trải bài thành bản đồ lựa chọn, hệ quả và bước tiếp theo đủ nhỏ để làm.",
+      "en": "The Clear Strategist is best when users need a spread turned into a map of choices, consequences, and a next step small enough to take."
+    },
+    "blocks": [
+      {
+        "kind": "quote",
+        "quote": {
+          "vi": "Một quyết định tốt không cần chắc chắn tuyệt đối; nó cần đủ rõ để bạn bước tử tế.",
+          "en": "A good decision does not need absolute certainty; it needs enough clarity for a kind next step."
+        },
+        "body": {
+          "vi": "Guide này ưu tiên tiêu chí, hệ quả và hành động thực tế, không đưa lời khuyên tài chính, pháp lý hoặc nghề nghiệp chuyên môn.",
+          "en": "This guide prioritizes criteria, consequences, and practical action without giving financial, legal, or professional career advice."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Nếu lựa chọn nào cũng mơ hồ, hãy hỏi giá trị nào đang cần được bảo vệ.",
+          "en": "If every option feels vague, ask which value needs protection."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Bước đúng thường là bước giúp bạn có thêm dữ liệu, không phải thêm áp lực.",
+          "en": "The right step often gives you more information, not more pressure."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 10
+  },
+  {
+    "id": "archetype-the-clear-strategist-chronicle",
+    "ownerType": "persona",
+    "ownerId": "archetype-the-clear-strategist",
+    "sectionKey": "chronicle",
+    "title": {
+      "vi": "Sợi chỉ vàng của lựa chọn",
+      "en": "The Golden Thread of Choice"
+    },
+    "subtitle": {
+      "vi": "Quyết định, hệ quả và hành động nhỏ",
+      "en": "Decisions, consequences, and small action"
+    },
+    "body": {
+      "vi": "The Clear Strategist là archetype cho deck quyết định, sự nghiệp và ngã rẽ cá nhân. Guide dùng tarot như ngôn ngữ làm rõ câu hỏi, không như công cụ đảm bảo kết quả.",
+      "en": "The Clear Strategist is an archetype for decision, career, and personal-crossroad decks. It uses tarot as a language for clarifying questions, not as a tool for certainty."
+    },
+    "blocks": [
+      {
+        "title": {
+          "vi": "Tiêu chí",
+          "en": "Criteria"
+        },
+        "body": {
+          "vi": "Tách điều quan trọng khỏi tiếng ồn, kỳ vọng và áp lực bên ngoài.",
+          "en": "Separates what matters from noise, expectations, and outside pressure."
+        }
+      },
+      {
+        "title": {
+          "vi": "Bước nhỏ",
+          "en": "Small Step"
+        },
+        "body": {
+          "vi": "Luôn kết thúc bằng một bước thực tế nhưng không áp đặt.",
+          "en": "Always ends with one practical but non-coercive step."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 20
+  },
+  {
+    "id": "archetype-the-star-weaver-reflections",
+    "ownerType": "persona",
+    "ownerId": "archetype-the-star-weaver",
+    "sectionKey": "reflections",
+    "title": {
+      "vi": "Lăng kính bản sắc và ước mơ",
+      "en": "Identity and Dream Lens"
+    },
+    "body": {
+      "vi": "The Star Weaver hợp khi trải bài nói về bản sắc, ước mơ, phiên bản tương lai hoặc cảm xúc đẹp nhưng khó gọi tên.",
+      "en": "The Star Weaver is best when a spread speaks to identity, dreams, a future self, or beautiful feelings that are hard to name."
+    },
+    "blocks": [
+      {
+        "kind": "quote",
+        "quote": {
+          "vi": "Có những cảm xúc chưa cần lời giải; chúng cần một chòm sao để bạn nhìn thấy hình dạng.",
+          "en": "Some feelings do not need a solution yet; they need a constellation so you can see their shape."
+        },
+        "body": {
+          "vi": "Guide này trẻ, giàu hình ảnh và hy vọng, nhưng vẫn giữ trải bài ở mức tự phản chiếu.",
+          "en": "This guide is youthful, vivid, and hopeful while keeping the reading reflective."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Một ước mơ quay lại nhiều lần có thể đang chỉ đường cho giá trị thật của bạn.",
+          "en": "A dream that keeps returning may be pointing toward a true value."
+        }
+      },
+      {
+        "kind": "insight",
+        "body": {
+          "vi": "Hy vọng đẹp nhất khi nó đi cùng một hành động nhỏ bạn có thể làm hôm nay.",
+          "en": "Hope is strongest when it comes with one small action you can take today."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 10
+  },
+  {
+    "id": "archetype-the-star-weaver-chronicle",
+    "ownerType": "persona",
+    "ownerId": "archetype-the-star-weaver",
+    "sectionKey": "chronicle",
+    "title": {
+      "vi": "Xưởng sao sau nửa đêm",
+      "en": "The Midnight Star Atelier"
+    },
+    "subtitle": {
+      "vi": "Bản sắc, cảm xúc và hy vọng hiện đại",
+      "en": "Identity, emotion, and modern hope"
+    },
+    "body": {
+      "vi": "The Star Weaver là archetype dành cho deck trẻ, hình ảnh mạnh và có tính chia sẻ. Guide giúp người dùng gọi tên cảm xúc, ước mơ và bản sắc mà không hứa hẹn tương lai chắc chắn.",
+      "en": "The Star Weaver is an archetype for youthful, vivid, shareable decks. It helps users name feelings, dreams, and identity without promising a certain future."
+    },
+    "blocks": [
+      {
+        "title": {
+          "vi": "Bản đồ sao riêng",
+          "en": "Personal Star Map"
+        },
+        "body": {
+          "vi": "Biến cảm xúc khó gọi tên thành biểu tượng dễ viết journal.",
+          "en": "Turns hard-to-name feelings into symbols that are easier to journal."
+        }
+      },
+      {
+        "title": {
+          "vi": "Hy vọng có nền",
+          "en": "Grounded Hope"
+        },
+        "body": {
+          "vi": "Giữ giọng sáng nhưng không hứa hẹn điều chắc chắn.",
+          "en": "Keeps the tone bright without promising certainty."
+        }
+      }
+    ],
+    "displayStyle": "editorial",
+    "sortOrder": 20
+  }
+]

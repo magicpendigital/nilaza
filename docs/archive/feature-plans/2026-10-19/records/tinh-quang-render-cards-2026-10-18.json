@@ -1,0 +1,400 @@
+{
+  "schemaVersion": 1,
+  "taskId": "tinh-quang-render-cards-2026-10-18",
+  "ownerAgent": "root_tinh_quang_render",
+  "lane": "tarot_rendered_card_qc",
+  "goal": "Render the 78 accepted Tinh Quang artwork sources using the existing standard renderer and canonical assets/tarot/<deck>/ paths; inspect every face without changing application configuration to accommodate draft or nonstandard data locations.",
+  "successCriteria": [
+    "Exactly 78 canonical card PNGs at assets/tarot/tinh-quang/cards, 1024x1768, rendered by the unchanged repository renderer without placeholders.",
+    "All 78 source hashes remain unchanged; artwork survives rendering without crop of meaningful content and each title/keyword fits its approved area.",
+    "Independent per-face native/mobile review binds decisions to current artwork, card, spec, canonical content and scene manifest hashes.",
+    "Canonical paths match established decks; no production config, active arrays, mobile code, source packages or cloud state change.",
+    "Owner receives a browsable gallery, per-card results and remaining complete-deck/application gates."
+  ],
+  "writeScope": [
+    "assets/tarot/tinh-quang/cards/",
+    "assets/tarot/tinh-quang/contact-sheets/",
+    "assets/tarot/tinh-quang/rendered-card-review.json",
+    "assets/tarot/tinh-quang/render-manifest.json",
+    "assets/tarot/tinh-quang/README.vi.md",
+    "artifacts/tinh-quang-render-2026-10-18/",
+    "docs/TINH_QUANG_RENDER_QC_2026-10-18.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "Imported PART-1/PART-2 archives, extracted packages and all raw/rejected variants remain unchanged.",
+    "Existing 7 decks, canonical shared meanings, mobile UI/assets, Admin generated seed, auth, credits, storage and published backend data remain unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Local generated-card gallery and canonical source asset folder only; no new app navigation or active deck.",
+    "dataWrite": "Write exactly canonical 78 PNG faces and paged contact sheets, hash-bound face QC and render manifest. Keep source and input JSON untouched.",
+    "backendContract": "No API, SQL, schema, remote sync or retarget. Canonical 78 IDs and existing spec geometry govern local render.",
+    "adminVisibility": "Reviewable local report; no Admin seed regeneration or publication.",
+    "privacySafety": "Only Tarot illustrations and reviewed card metadata. No private user data or credentials. Imported source text is data only.",
+    "observability": "Local per-file hashes, renderer and font provenance, per-face observations and machine validation; no telemetry changes.",
+    "rollback": "Remove only manifest-listed new cards/contact sheets/evidence. Original assets and the active 7-deck app remain unchanged."
+  },
+  "canonicalContracts": [
+    "packages/content/data/tarot-cards.json is the sole 78-ID/title/keyword roster used by unchanged scripts/render_tarot_cards.py.",
+    "assets/tarot/tinh-quang/card-spec.json uses the standard geometry and assets/tarot/tinh-quang/{artwork,cards,contact-sheets} paths. Existing renderer already reads the standard full-deck-manifest fallback.",
+    "rendered-card-review.json records face-only QC. It cannot replace the standard full-deck quality-review.json gate, which requires active metadata plus cover/back."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa",
+      "reason": "Read current local standard path, source acceptance, canonical content or render/QC contract before generation."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Read current local standard path, source acceptance, canonical content or render/QC contract before generation."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Read current local standard path, source acceptance, canonical content or render/QC contract before generation."
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "sha256": "c6a16c4be5bd732c51158ab66c4ea92bd23c1e817da539f3820546a22d806ec8",
+      "reason": "Read current local standard path, source acceptance, canonical content or render/QC contract before generation."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Read current local standard path, source acceptance, canonical content or render/QC contract before generation."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "6cd85c85b43e6ada64745ac13bf34f3fdb2b9e799f5bc2ad176a662d94b154e1",
+      "reason": "Read current local standard path, source acceptance, canonical content or render/QC contract before generation."
+    },
+    {
+      "path": "docs/TAROT_CONTENT_SYSTEM.md",
+      "sha256": "5db6b42d86ad410cae43a50fa6f08c504577d6998725b634fd61b3030905dced",
+      "reason": "Read current local standard path, source acceptance, canonical content or render/QC contract before generation."
+    },
+    {
+      "path": "scripts/render_tarot_cards.py",
+      "sha256": "c5813b4b6d530e8141b6b7176935afa0397a1e861870e5b9d337ecf0805b50e8",
+      "reason": "Read current local standard path, source acceptance, canonical content or render/QC contract before generation."
+    },
+    {
+      "path": "scripts/validate_tarot_assets.py",
+      "sha256": "86cc607be0493729cb6440972888fcc378b177560aec614e52e5af6ebdb91de3",
+      "reason": "Read current local standard path, source acceptance, canonical content or render/QC contract before generation."
+    },
+    {
+      "path": "scripts/tarot-deck-quality-gate.mjs",
+      "sha256": "6bca9968a025b7f662a0685e146d3ec303f9dd14c2964f79cb6b9307517e9c21",
+      "reason": "Read current local standard path, source acceptance, canonical content or render/QC contract before generation."
+    },
+    {
+      "path": "scripts/tinh-quang-intake.mjs",
+      "sha256": "00923a888c6ef3ad26846d2aebda9612406e25632547a4ef65add8463012ed29",
+      "reason": "Read current local standard path, source acceptance, canonical content or render/QC contract before generation."
+    },
+    {
+      "path": "packages/content/data/tarot-cards.json",
+      "sha256": "e926472eeda71a637a8554e6465f14200ef9873e94a8a9e12611aa765968561f",
+      "reason": "Read current local standard path, source acceptance, canonical content or render/QC contract before generation."
+    },
+    {
+      "path": "packages/content/data/tarot-decks.json",
+      "sha256": "e699d651d8d6b65b35bae51b624056efc9463dadba1c7b856074c54c0e851002",
+      "reason": "Read current local standard path, source acceptance, canonical content or render/QC contract before generation."
+    },
+    {
+      "path": "packages/content/data/tarot-card-designs.json",
+      "sha256": "27590b48adfbe148fd6a4c4e30aee90a7282a6f96606de5ee2336871235f50da",
+      "reason": "Read current local standard path, source acceptance, canonical content or render/QC contract before generation."
+    },
+    {
+      "path": "packages/content/data/tarot-deck-backs.json",
+      "sha256": "86bf4b6255709ea6acc3c8d5f634d04a0bbc0ac79a5e2990db5bbc8cffd04978",
+      "reason": "Read current local standard path, source acceptance, canonical content or render/QC contract before generation."
+    },
+    {
+      "path": "assets/tarot/tinh-quang/card-spec.json",
+      "sha256": "d4e4d3c33d4e0466849d7d063d783581a4fc36b759fda28f98c78d68f23f2dd2",
+      "reason": "Read current local standard path, source acceptance, canonical content or render/QC contract before generation."
+    },
+    {
+      "path": "assets/tarot/tinh-quang/tinh-quang-full-deck-manifest.json",
+      "sha256": "729ea3b8af7ad0ef20a6862aef7bc9d32726415e008ee92fc2435a6d0de02f40",
+      "reason": "Read current local standard path, source acceptance, canonical content or render/QC contract before generation."
+    },
+    {
+      "path": "assets/tarot/tinh-quang/artwork-review.json",
+      "sha256": "e159c67dbb76ba3ef89486034e1fc13120655712a57c327d811dc8852ea27e25",
+      "reason": "Read current local standard path, source acceptance, canonical content or render/QC contract before generation."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/card-spec.json",
+      "sha256": "022d0d5a275dba2cb345dd4bcc40fcd97a402571ea620693a182c6acb2a301c3",
+      "reason": "Read current local standard path, source acceptance, canonical content or render/QC contract before generation."
+    },
+    {
+      "path": "packages/content/data/tarot-staging/tinh-quang/render-plan.json",
+      "sha256": "8e5752ccaf05f666cc7a0a5f8e05d23be909f2bb925e097610e523ecafa89e8b",
+      "reason": "Read current local standard path, source acceptance, canonical content or render/QC contract before generation."
+    },
+    {
+      "path": "packages/content/data/tarot-staging/tinh-quang/staging-manifest.json",
+      "sha256": "36fde2786204e8d74a6d0e80bba4f7ae801fc994ebae73d902276ff65d5713b9",
+      "reason": "Read current local standard path, source acceptance, canonical content or render/QC contract before generation."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Read repository skill and relevant production/visual references. Existing guidance requires fixed template, canonical paths and independent individual native/mobile review. Face-only stage remains separate from cover/back/full-deck/application acceptance; no API/dependency change. Implementation confirms no shared-tool workaround is needed: standard spec paths and full-deck-manifest fallback already work. Keep separate face-only ledger until canonical full-deck prerequisites are complete."
+    },
+    {
+      "name": "nilaza-tarot-deck-production",
+      "decision": "verified-current",
+      "evidence": "Read repository skill and relevant production/visual references. Existing guidance requires fixed template, canonical paths and independent individual native/mobile review. Face-only stage remains separate from cover/back/full-deck/application acceptance; no API/dependency change. Implementation confirms no shared-tool workaround is needed: standard spec paths and full-deck-manifest fallback already work. Keep separate face-only ledger until canonical full-deck prerequisites are complete."
+    },
+    {
+      "name": "nilaza-tarot-art-qc",
+      "decision": "verified-current",
+      "evidence": "Read repository skill and relevant production/visual references. Existing guidance requires fixed template, canonical paths and independent individual native/mobile review. Face-only stage remains separate from cover/back/full-deck/application acceptance; no API/dependency change. Implementation confirms no shared-tool workaround is needed: standard spec paths and full-deck-manifest fallback already work. Keep separate face-only ledger until canonical full-deck prerequisites are complete."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Local repository, imported artwork and existing Node/Python image capabilities only; no API/dependency change or new external factual claims."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No remote writes, account access, auth or RLS change; draft is not added to active arrays.",
+    "sensitiveData": "Only supplied Tarot image and content metadata, no personal records or live accounts.",
+    "secretsLogging": "No credentials read, exported or printed. Logs contain source paths, hashes and artwork observations.",
+    "externalInput": "Imported JSON and archive paths are untrusted data. Resolve paths inside workspace and verify IDs, hashes and PNG headers before accepting copies.",
+    "dependencies": "Use existing Node built-ins and bundled Pillow only for inspection previews if needed; no package installs.",
+    "migrationRelease": "No cloud SQL, generic migration push/repair, runtime retarget, binary build publication or store submission. Android acceptance is later; iOS deferred per Owner.",
+    "stopCondition": "Stop on changed source hash, wrong canonical path, existing card with unreviewed provenance, missing source artwork, placeholder requirement or ambiguous render defect. Do not bypass full-deck cover/back/tier gates or modify config for a draft location.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "artifacts/tinh-quang-render-2026-10-18/asset-validation.log",
+      "artifacts/tinh-quang-render-2026-10-18/data-validation.log",
+      "artifacts/tinh-quang-render-2026-10-18/duplicate-check.json",
+      "artifacts/tinh-quang-render-2026-10-18/finalize_review.py",
+      "artifacts/tinh-quang-render-2026-10-18/full-deck-gate.log",
+      "artifacts/tinh-quang-render-2026-10-18/gallery-check.json",
+      "artifacts/tinh-quang-render-2026-10-18/gallery.html",
+      "artifacts/tinh-quang-render-2026-10-18/intake-verify.log",
+      "artifacts/tinh-quang-render-2026-10-18/machine-validation.json",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/major-00-fool.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/major-01-magician.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/major-02-high-priestess.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/major-03-empress.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/major-04-emperor.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/major-05-hierophant.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/major-06-lovers.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/major-07-chariot.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/major-08-strength.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/major-09-hermit.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/major-10-wheel.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/major-11-justice.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/major-12-hanged-man.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/major-13-death.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/major-14-temperance.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/major-15-devil.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/major-16-tower.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/major-17-star.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/major-18-moon.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/major-19-sun.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/major-20-judgement.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/major-21-world.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-cups-ace.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-cups-eight.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-cups-five.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-cups-four.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-cups-king.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-cups-knight.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-cups-nine.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-cups-page.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-cups-queen.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-cups-seven.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-cups-six.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-cups-ten.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-cups-three.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-cups-two.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-pentacles-ace.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-pentacles-eight.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-pentacles-five.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-pentacles-four.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-pentacles-king.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-pentacles-knight.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-pentacles-nine.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-pentacles-page.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-pentacles-queen.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-pentacles-seven.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-pentacles-six.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-pentacles-ten.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-pentacles-three.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-pentacles-two.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-swords-ace.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-swords-eight.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-swords-five.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-swords-four.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-swords-king.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-swords-knight.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-swords-nine.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-swords-page.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-swords-queen.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-swords-seven.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-swords-six.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-swords-ten.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-swords-three.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-swords-two.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-wands-ace.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-wands-eight.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-wands-five.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-wands-four.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-wands-king.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-wands-knight.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-wands-nine.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-wands-page.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-wands-queen.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-wands-seven.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-wands-six.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-wands-ten.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-wands-three.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/mobile-previews/minor-wands-two.jpg",
+      "artifacts/tinh-quang-render-2026-10-18/preflight.log",
+      "artifacts/tinh-quang-render-2026-10-18/preview-manifest.json",
+      "artifacts/tinh-quang-render-2026-10-18/repair-requests.json",
+      "artifacts/tinh-quang-render-2026-10-18/review-cups-courts.json",
+      "artifacts/tinh-quang-render-2026-10-18/review-major.json",
+      "artifacts/tinh-quang-render-2026-10-18/review-swords-pentacles.json",
+      "artifacts/tinh-quang-render-2026-10-18/review-wands-cups-first24.json",
+      "artifacts/tinh-quang-render-2026-10-18/review-wands-cups.json",
+      "artifacts/tinh-quang-render-2026-10-18/standard-path-audit.json",
+      "artifacts/tinh-quang-render-2026-10-18/validation-results.json",
+      "artifacts/tinh-quang-render-2026-10-18/verify_render.py",
+      "artifacts/tinh-quang-render-2026-10-18/visual-validation.log",
+      "assets/tarot/tinh-quang/README.vi.md",
+      "assets/tarot/tinh-quang/cards/major-00-fool.png",
+      "assets/tarot/tinh-quang/cards/major-01-magician.png",
+      "assets/tarot/tinh-quang/cards/major-02-high-priestess.png",
+      "assets/tarot/tinh-quang/cards/major-03-empress.png",
+      "assets/tarot/tinh-quang/cards/major-04-emperor.png",
+      "assets/tarot/tinh-quang/cards/major-05-hierophant.png",
+      "assets/tarot/tinh-quang/cards/major-06-lovers.png",
+      "assets/tarot/tinh-quang/cards/major-07-chariot.png",
+      "assets/tarot/tinh-quang/cards/major-08-strength.png",
+      "assets/tarot/tinh-quang/cards/major-09-hermit.png",
+      "assets/tarot/tinh-quang/cards/major-10-wheel.png",
+      "assets/tarot/tinh-quang/cards/major-11-justice.png",
+      "assets/tarot/tinh-quang/cards/major-12-hanged-man.png",
+      "assets/tarot/tinh-quang/cards/major-13-death.png",
+      "assets/tarot/tinh-quang/cards/major-14-temperance.png",
+      "assets/tarot/tinh-quang/cards/major-15-devil.png",
+      "assets/tarot/tinh-quang/cards/major-16-tower.png",
+      "assets/tarot/tinh-quang/cards/major-17-star.png",
+      "assets/tarot/tinh-quang/cards/major-18-moon.png",
+      "assets/tarot/tinh-quang/cards/major-19-sun.png",
+      "assets/tarot/tinh-quang/cards/major-20-judgement.png",
+      "assets/tarot/tinh-quang/cards/major-21-world.png",
+      "assets/tarot/tinh-quang/cards/minor-cups-ace.png",
+      "assets/tarot/tinh-quang/cards/minor-cups-eight.png",
+      "assets/tarot/tinh-quang/cards/minor-cups-five.png",
+      "assets/tarot/tinh-quang/cards/minor-cups-four.png",
+      "assets/tarot/tinh-quang/cards/minor-cups-king.png",
+      "assets/tarot/tinh-quang/cards/minor-cups-knight.png",
+      "assets/tarot/tinh-quang/cards/minor-cups-nine.png",
+      "assets/tarot/tinh-quang/cards/minor-cups-page.png",
+      "assets/tarot/tinh-quang/cards/minor-cups-queen.png",
+      "assets/tarot/tinh-quang/cards/minor-cups-seven.png",
+      "assets/tarot/tinh-quang/cards/minor-cups-six.png",
+      "assets/tarot/tinh-quang/cards/minor-cups-ten.png",
+      "assets/tarot/tinh-quang/cards/minor-cups-three.png",
+      "assets/tarot/tinh-quang/cards/minor-cups-two.png",
+      "assets/tarot/tinh-quang/cards/minor-pentacles-ace.png",
+      "assets/tarot/tinh-quang/cards/minor-pentacles-eight.png",
+      "assets/tarot/tinh-quang/cards/minor-pentacles-five.png",
+      "assets/tarot/tinh-quang/cards/minor-pentacles-four.png",
+      "assets/tarot/tinh-quang/cards/minor-pentacles-king.png",
+      "assets/tarot/tinh-quang/cards/minor-pentacles-knight.png",
+      "assets/tarot/tinh-quang/cards/minor-pentacles-nine.png",
+      "assets/tarot/tinh-quang/cards/minor-pentacles-page.png",
+      "assets/tarot/tinh-quang/cards/minor-pentacles-queen.png",
+      "assets/tarot/tinh-quang/cards/minor-pentacles-seven.png",
+      "assets/tarot/tinh-quang/cards/minor-pentacles-six.png",
+      "assets/tarot/tinh-quang/cards/minor-pentacles-ten.png",
+      "assets/tarot/tinh-quang/cards/minor-pentacles-three.png",
+      "assets/tarot/tinh-quang/cards/minor-pentacles-two.png",
+      "assets/tarot/tinh-quang/cards/minor-swords-ace.png",
+      "assets/tarot/tinh-quang/cards/minor-swords-eight.png",
+      "assets/tarot/tinh-quang/cards/minor-swords-five.png",
+      "assets/tarot/tinh-quang/cards/minor-swords-four.png",
+      "assets/tarot/tinh-quang/cards/minor-swords-king.png",
+      "assets/tarot/tinh-quang/cards/minor-swords-knight.png",
+      "assets/tarot/tinh-quang/cards/minor-swords-nine.png",
+      "assets/tarot/tinh-quang/cards/minor-swords-page.png",
+      "assets/tarot/tinh-quang/cards/minor-swords-queen.png",
+      "assets/tarot/tinh-quang/cards/minor-swords-seven.png",
+      "assets/tarot/tinh-quang/cards/minor-swords-six.png",
+      "assets/tarot/tinh-quang/cards/minor-swords-ten.png",
+      "assets/tarot/tinh-quang/cards/minor-swords-three.png",
+      "assets/tarot/tinh-quang/cards/minor-swords-two.png",
+      "assets/tarot/tinh-quang/cards/minor-wands-ace.png",
+      "assets/tarot/tinh-quang/cards/minor-wands-eight.png",
+      "assets/tarot/tinh-quang/cards/minor-wands-five.png",
+      "assets/tarot/tinh-quang/cards/minor-wands-four.png",
+      "assets/tarot/tinh-quang/cards/minor-wands-king.png",
+      "assets/tarot/tinh-quang/cards/minor-wands-knight.png",
+      "assets/tarot/tinh-quang/cards/minor-wands-nine.png",
+      "assets/tarot/tinh-quang/cards/minor-wands-page.png",
+      "assets/tarot/tinh-quang/cards/minor-wands-queen.png",
+      "assets/tarot/tinh-quang/cards/minor-wands-seven.png",
+      "assets/tarot/tinh-quang/cards/minor-wands-six.png",
+      "assets/tarot/tinh-quang/cards/minor-wands-ten.png",
+      "assets/tarot/tinh-quang/cards/minor-wands-three.png",
+      "assets/tarot/tinh-quang/cards/minor-wands-two.png",
+      "assets/tarot/tinh-quang/contact-sheets/tinh-quang-review-01.png",
+      "assets/tarot/tinh-quang/contact-sheets/tinh-quang-review-02.png",
+      "assets/tarot/tinh-quang/contact-sheets/tinh-quang-review-03.png",
+      "assets/tarot/tinh-quang/contact-sheets/tinh-quang-review-04.png",
+      "assets/tarot/tinh-quang/contact-sheets/tinh-quang-review-05.png",
+      "assets/tarot/tinh-quang/contact-sheets/tinh-quang-review-06.png",
+      "assets/tarot/tinh-quang/contact-sheets/tinh-quang-review-07.png",
+      "assets/tarot/tinh-quang/render-manifest.json",
+      "assets/tarot/tinh-quang/rendered-card-review.json",
+      "docs/TINH_QUANG_RENDER_QC_2026-10-18.vi.md"
+    ],
+    "note": "Reviewed all task-owned generated faces, contact sheets, preview/gallery aids, provenance, validation code and evidence. Source packages, accepted artwork and unrelated dirty work remain untouched. Visual decisions are bound to exact hashes in per-group ledgers; acknowledging local outputs is separate from accepting their images."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/tinh-quang-render-cards-2026-10-18.json",
+    "node scripts/tinh-quang-intake.mjs verify",
+    "python scripts/render_tarot_cards.py --deck tinh-quang --all-existing --paged-sheets",
+    "python scripts/validate_tarot_assets.py --deck tinh-quang",
+    "Individual native and mobile face review; exact roster, source/render hashes, masked artwork pixel and text bounds verification",
+    "npm run validate:data",
+    "npm run validate:visual-assets",
+    "node scripts/tarot-deck-quality-gate.mjs prepare --deck tinh-quang --require-deck-intros (readiness check expected BLOCKED until active metadata and cover/back exist)",
+    "python artifacts/tinh-quang-render-2026-10-18/verify_render.py"
+  ],
+  "managerTestPath": "Open the local 78-card face gallery/report, inspect each card and the standard assets/tarot/tinh-quang/cards folder. Confirm titles, symbols and edge crop. Active app remains unchanged until cover/back/tier and final integration gates.",
+  "residualRisk": "Face-only QC does not certify cover/back, access tier, full-deck active metadata, Android rendering or release. No runtime activation or cloud sync performed.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  },
+  "intentionallyUntouched": [
+    "All original source packages, ZIPs, raw variants and accepted artwork PNGs",
+    "packages/content/data/tarot-{decks,cards,card-designs,deck-backs}.json and existing 7 decks",
+    "Draft tarot-staging remains a historical preparation bundle and is not wired as a runtime data source",
+    "All shared renderers, validators, runtime configuration, App.tsx, Admin, backend, SQL, credentials and deployment"
+  ]
+}

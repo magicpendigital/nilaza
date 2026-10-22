@@ -1,0 +1,3434 @@
+[
+  {
+    "id": "major-00-fool",
+    "arcana": "major",
+    "number": 0,
+    "suit": null,
+    "rank": null,
+    "element": "spirit",
+    "name": {
+      "vi": "The Fool",
+      "en": "The Fool"
+    },
+    "keywords": {
+      "vi": [
+        "khởi đầu",
+        "niềm tin",
+        "tự do"
+      ],
+      "en": [
+        "beginnings",
+        "trust",
+        "freedom"
+      ]
+    },
+    "intro": {
+      "vi": "The Fool gợi những bước đầu đầy tò mò bên ngoài điều quen thuộc. Lá bài mời bạn thử một bước nhỏ, vừa giữ lòng tin vừa xem điều cần chuẩn bị và giới hạn của mình.",
+      "en": "The Fool suggests curious first steps beyond the familiar. The card invites a small experiment that combines trust with attention to preparation and your limits."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người bạn, The Fool sẽ rủ bạn khám phá một điều mới với sự tò mò. Họ nhắc bạn rằng khởi đầu có thể nhỏ và vẫn cần chú ý đến giới hạn của mình.",
+      "en": "If The Fool were a friend, they would invite a curious exploration. They would remind you that a beginning can be small and still attentive to your limits."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi một khởi đầu với sự tò mò và lòng tin. Bạn có thể thử một bước nhỏ mà vẫn kiểm tra giới hạn của mình.",
+      "en": "The card suggests a beginning led by curiosity and trust. You can try a small step while checking your limits."
+    },
+    "reversedMeaning": {
+      "vi": "Sự háo hức hoặc nỗi sợ bắt đầu có thể làm bạn bỏ qua điều cần chuẩn bị. Một khoảng dừng giúp phân biệt thử nghiệm với liều lĩnh.",
+      "en": "Excitement or fear of beginning may hide needed preparation. A pause can help distinguish experimentation from recklessness."
+    },
+    "reflectionQuestion": {
+      "vi": "Bước thử nào vừa mới mẻ vừa nằm trong giới hạn bạn thấy an toàn?",
+      "en": "What experiment feels fresh while staying within limits you find safe?"
+    }
+  },
+  {
+    "id": "major-01-magician",
+    "arcana": "major",
+    "number": 1,
+    "suit": null,
+    "rank": null,
+    "element": "spirit",
+    "name": {
+      "vi": "The Magician",
+      "en": "The Magician"
+    },
+    "keywords": {
+      "vi": [
+        "ý chí",
+        "kỹ năng",
+        "biến hóa"
+      ],
+      "en": [
+        "will",
+        "skill",
+        "transformation"
+      ]
+    },
+    "intro": {
+      "vi": "The Magician gợi sự tập trung ý chí và khả năng kết nối nguồn lực. Lá bài mời bạn nhìn vào công cụ đang có, điều còn thiếu và một ý định rõ để bắt đầu.",
+      "en": "The Magician suggests focused will and bringing resources together. The card invites you to notice available tools, what is missing and a clear intention to begin."
+    },
+    "personalityPortrait": {
+      "vi": "Như một người hướng dẫn đầy tự tin, The Magician sẽ không làm hộ bạn. Họ sẽ chỉ vào nguồn lực bạn đang có và hỏi: 'Bạn muốn tạo ra điều gì hôm nay bằng chính đôi tay và khối óc của mình?'",
+      "en": "Like a confident guide, The Magician will not do the work for you. They will point to your resources and ask: 'What do you want to create today with your own hands and mind?'"
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi việc kết nối kỹ năng, nguồn lực và ý định thành một hành động cụ thể. Bắt đầu từ điều đang có, không cần giả định bạn đã có đủ mọi thứ.",
+      "en": "The card suggests connecting skills, resources and intention in one concrete action. Start with what is available without assuming you already have everything."
+    },
+    "reversedMeaning": {
+      "vi": "Ý định thiếu rõ ràng hoặc cách dùng nguồn lực chưa phù hợp có thể làm nỗ lực phân tán. Bạn có thể xem lại mục đích trước khi làm thêm.",
+      "en": "An unclear intention or unsuitable use of resources may scatter effort. You can review the purpose before doing more."
+    },
+    "reflectionQuestion": {
+      "vi": "Bạn có thể dùng kỹ năng nào sẵn có để thực hiện một ý định rõ trong hôm nay?",
+      "en": "Which existing skill could you use for one clear intention today?"
+    }
+  },
+  {
+    "id": "major-02-high-priestess",
+    "arcana": "major",
+    "number": 2,
+    "suit": null,
+    "rank": null,
+    "element": "spirit",
+    "name": {
+      "vi": "The High Priestess",
+      "en": "The High Priestess"
+    },
+    "keywords": {
+      "vi": [
+        "trực giác",
+        "bí mật",
+        "lắng nghe"
+      ],
+      "en": [
+        "intuition",
+        "mystery",
+        "listening"
+      ]
+    },
+    "intro": {
+      "vi": "The High Priestess gợi trực giác và những điều chưa được gọi tên. Lá bài mời bạn lắng nghe cảm nhận trong một khoảng yên, rồi đối chiếu chúng với điều mình biết.",
+      "en": "The High Priestess suggests intuition and what has not yet been named. The card invites quiet attention to feelings, then checking them against what you know."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người bạn, The High Priestess sẽ không vội đưa ra câu trả lời. Họ cùng bạn giữ một khoảng lặng để khám phá điều chưa rõ, không cho rằng trực giác luôn đúng.",
+      "en": "If The High Priestess were a friend, they would not rush an answer. They would share quiet space to explore uncertainty without assuming intuition is always right."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài mời bạn lắng nghe cảm nhận và những điều chưa rõ. Trực giác là một góc nhìn để khám phá, không thay thế dữ kiện cần kiểm chứng.",
+      "en": "The card invites attention to feelings and what is not yet clear. Intuition offers a lens to explore, not a substitute for evidence."
+    },
+    "reversedMeaning": {
+      "vi": "Tiếng ồn hoặc một điều chưa muốn thừa nhận có thể làm việc lắng nghe khó hơn. Tạm dừng để phân biệt cảm nhận, suy đoán và điều đã biết.",
+      "en": "Noise or something hard to acknowledge may make listening difficult. Pause to distinguish feelings, guesses and known facts."
+    },
+    "reflectionQuestion": {
+      "vi": "Cảm nhận nào bạn muốn lắng nghe thêm trước khi đối chiếu với điều đã biết?",
+      "en": "Which feeling would you like to hear more fully before checking it against what you know?"
+    }
+  },
+  {
+    "id": "major-03-empress",
+    "arcana": "major",
+    "number": 3,
+    "suit": null,
+    "rank": null,
+    "element": "spirit",
+    "name": {
+      "vi": "The Empress",
+      "en": "The Empress"
+    },
+    "keywords": {
+      "vi": [
+        "nuôi dưỡng",
+        "sáng tạo",
+        "phong phú"
+      ],
+      "en": [
+        "nurture",
+        "creation",
+        "abundance"
+      ]
+    },
+    "intro": {
+      "vi": "The Empress là cội nguồn của sự nuôi dưỡng, sáng tạo và sự trọn vẹn của vạn vật. Lá bài là lời nhắc nhở nhẹ nhàng rằng bạn có quyền được chăm sóc, được bung nở và tận hưởng vẻ đẹp của hiện tại.",
+      "en": "The Empress is the source of nurture, creation, and the fullness of all things. The card is a gentle reminder that you have the right to be cared for, to bloom, and to enjoy the beauty of the present."
+    },
+    "personalityPortrait": {
+      "vi": "Giống như một người mẹ tinh thần, The Empress ôm ấp bạn bằng sự ấm áp vô điều kiện. Họ sẽ xoa dịu những áp lực bạn tự đặt ra và khuyến khích bạn dịu dàng hơn với chính cơ thể và tâm hồn mình.",
+      "en": "Like a spiritual mother, The Empress embraces you with unconditional warmth. She would soothe your self-imposed pressures and encourage you to be gentler with your own body and soul."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi sự nuôi dưỡng, sáng tạo và khả năng đón nhận. Một điều bạn trân trọng có thể cần thời gian và sự chăm sóc vừa sức.",
+      "en": "The card suggests nurture, creativity and receptivity. Something you value may need time and manageable care."
+    },
+    "reversedMeaning": {
+      "vi": "Cho đi quá mức hoặc bỏ quên nhu cầu riêng có thể làm sự chăm sóc mất cân bằng. Bạn cũng có quyền được nghỉ và nhận hỗ trợ.",
+      "en": "Overgiving or neglecting your needs may unbalance care. You also have the right to rest and receive support."
+    },
+    "reflectionQuestion": {
+      "vi": "Bạn muốn dành sự chăm sóc vừa sức cho mình hoặc điều gì đang lớn lên?",
+      "en": "Where would you like to offer manageable care to yourself or something growing?"
+    }
+  },
+  {
+    "id": "major-04-emperor",
+    "arcana": "major",
+    "number": 4,
+    "suit": null,
+    "rank": null,
+    "element": "spirit",
+    "name": {
+      "vi": "The Emperor",
+      "en": "The Emperor"
+    },
+    "keywords": {
+      "vi": [
+        "cấu trúc",
+        "trách nhiệm",
+        "nền tảng"
+      ],
+      "en": [
+        "structure",
+        "responsibility",
+        "foundation"
+      ]
+    },
+    "intro": {
+      "vi": "The Emperor đại diện cho trật tự, trách nhiệm và nền tảng vững chắc. Trong một thế giới đầy biến động, lá bài này là mỏ neo giúp bạn thiết lập ranh giới an toàn để tự do thực sự có thể tồn tại.",
+      "en": "The Emperor represents order, responsibility, and a solid foundation. In a chaotic world, this card is the anchor that helps you establish safe boundaries so true freedom can exist."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người dẫn dắt, The Emperor mang đến cảm giác vững chãi và an tâm. Họ sẽ nhìn thẳng vào mắt bạn và mời bạn nhận lấy quyền làm chủ cuộc đời mình, bắt đầu từ những kỷ luật nhỏ nhất.",
+      "en": "As a guide, The Emperor brings a sense of solidity and reassurance. He would look you in the eye and invite you to take ownership of your life, starting with the smallest disciplines."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi một cấu trúc rõ, trách nhiệm và ranh giới giúp bạn đứng vững. Kỷ luật có thể nâng đỡ lựa chọn mà không cần kiểm soát mọi thứ.",
+      "en": "The card suggests clear structure, responsibility and boundaries that offer steadiness. Discipline can support choice without controlling everything."
+    },
+    "reversedMeaning": {
+      "vi": "Cấu trúc quá cứng hoặc thiếu ranh giới có thể làm bạn khó xoay xở. Xem lại quy tắc nào giúp ích và quy tắc nào cần điều chỉnh.",
+      "en": "Rigid structure or unclear boundaries may make things harder to manage. Review which rules help and which need adjustment."
+    },
+    "reflectionQuestion": {
+      "vi": "Ranh giới hoặc quy tắc nhỏ nào sẽ giúp bạn thấy vững hơn mà vẫn linh hoạt?",
+      "en": "Which small boundary or rule could make you steadier while leaving room for flexibility?"
+    }
+  },
+  {
+    "id": "major-05-hierophant",
+    "arcana": "major",
+    "number": 5,
+    "suit": null,
+    "rank": null,
+    "element": "spirit",
+    "name": {
+      "vi": "The Hierophant",
+      "en": "The Hierophant"
+    },
+    "keywords": {
+      "vi": [
+        "giá trị",
+        "học hỏi",
+        "truyền thống"
+      ],
+      "en": [
+        "values",
+        "learning",
+        "tradition"
+      ]
+    },
+    "intro": {
+      "vi": "The Hierophant mang năng lượng của những giá trị và niềm tin cốt lõi. Lá bài là một lời mời để bạn nhìn lại những quy tắc mình đang theo đuổi và tự hỏi liệu chúng có còn phù hợp với con người hiện tại của bạn không.",
+      "en": "The Hierophant carries the energy of core values and beliefs. The card is an invitation to look at the rules you follow and ask if they still align with who you are today."
+    },
+    "personalityPortrait": {
+      "vi": "Như một người thầy kiên nhẫn, The Hierophant tôn trọng truyền thống nhưng không áp đặt. Họ sẽ ngồi xuống cùng bạn để rà soát lại những bài học cũ và giữ lại những gì thực sự có giá trị.",
+      "en": "Like a patient mentor, The Hierophant respects tradition without imposing it. They will sit with you to review old lessons and keep only what is truly valuable."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi việc học từ truyền thống, một cộng đồng hoặc người hướng dẫn. Bạn có thể giữ bài học hữu ích và tự xem nó còn phù hợp không.",
+      "en": "The card suggests learning from tradition, a community or a guide. You can keep a useful lesson and decide whether it still fits."
+    },
+    "reversedMeaning": {
+      "vi": "Một quy tắc được thừa hưởng có thể không còn hợp với giá trị hiện tại. Việc đặt câu hỏi không bắt buộc bạn phải phủ nhận mọi điều cũ.",
+      "en": "An inherited rule may no longer fit your current values. Questioning it does not require rejecting everything familiar."
+    },
+    "reflectionQuestion": {
+      "vi": "Bài học nào từ người khác bạn muốn giữ lại vì nó vẫn phù hợp với mình?",
+      "en": "Which lesson from others would you keep because it still fits your values?"
+    }
+  },
+  {
+    "id": "major-06-lovers",
+    "arcana": "major",
+    "number": 6,
+    "suit": null,
+    "rank": null,
+    "element": "spirit",
+    "name": {
+      "vi": "The Lovers",
+      "en": "The Lovers"
+    },
+    "keywords": {
+      "vi": [
+        "lựa chọn",
+        "kết nối",
+        "giá trị"
+      ],
+      "en": [
+        "choice",
+        "connection",
+        "values"
+      ]
+    },
+    "intro": {
+      "vi": "The Lovers mang năng lượng của sự kết nối chân thật và những quyết định từ trái tim. Lá bài nhắc bạn rằng mọi sự lựa chọn quan trọng đều bắt đầu từ việc thấu hiểu những giá trị sâu sắc nhất của chính mình.",
+      "en": "The Lovers carries the energy of true connection and heart-led decisions. The card reminds you that every important choice begins with understanding your deepest values."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người bạn, The Lovers sẽ không phán xét tình cảm của bạn. Họ sẽ nhẹ nhàng khuyến khích bạn chọn một con đường giúp bạn được sống đúng với bản thân mình nhất.",
+      "en": "If it were a friend, The Lovers would not judge your feelings. They would gently encourage you to choose a path that allows you to be your most authentic self."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi sự kết nối tự nguyện và lựa chọn phù hợp với giá trị. Nó không xác nhận tình cảm của người khác hay bảo đảm một mối quan hệ.",
+      "en": "The card suggests willing connection and choices aligned with values. It does not confirm another person's feelings or guarantee a relationship."
+    },
+    "reversedMeaning": {
+      "vi": "Nhu cầu, lời nói và lựa chọn có thể chưa đồng điệu. Bạn có thể làm rõ điều quan trọng với mình mà vẫn tôn trọng quyết định của người khác.",
+      "en": "Needs, words and choices may not yet align. You can clarify what matters to you while respecting another person's decision."
+    },
+    "reflectionQuestion": {
+      "vi": "Lựa chọn nào phù hợp với giá trị của bạn và vẫn tôn trọng sự tự nguyện của cả hai?",
+      "en": "Which choice fits your values while respecting both people's willingness?"
+    }
+  },
+  {
+    "id": "major-07-chariot",
+    "arcana": "major",
+    "number": 7,
+    "suit": null,
+    "rank": null,
+    "element": "spirit",
+    "name": {
+      "vi": "The Chariot",
+      "en": "The Chariot"
+    },
+    "keywords": {
+      "vi": [
+        "hướng đi",
+        "ý chí",
+        "tiến lên"
+      ],
+      "en": [
+        "direction",
+        "will",
+        "movement"
+      ]
+    },
+    "intro": {
+      "vi": "The Chariot mang năng lượng của sự tập trung và ý chí vững vàng. Lá bài không hối thúc bạn phải chạy nhanh, mà khơi gợi sự kiên định để bạn giữ vững tay lái trên con đường đã chọn.",
+      "en": "The Chariot carries the energy of focus and steady will. The card does not rush you to run faster; it inspires the determination to hold the reins steady on your chosen path."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người đồng hành, The Chariot sẽ cùng bạn làm rõ hướng đi giữa những mong muốn khác nhau. Họ mời bạn kết hợp lý trí và cảm xúc để chọn một bước vừa sức, không hứa bạn sẽ đến đích.",
+      "en": "If The Chariot were a companion, they would help clarify a direction amid different wishes. They would invite mind and feeling into a manageable next step without promising you will reach a destination."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi tập trung và giữ hướng khi có những lực kéo khác nhau. Tiến lên có thể là một bước nhất quán, không nhất thiết là đi nhanh.",
+      "en": "The card suggests focus and direction amid competing pulls. Moving forward can mean one consistent step rather than speed."
+    },
+    "reversedMeaning": {
+      "vi": "Chạy theo nhiều hướng hoặc cố kiểm soát mọi thứ có thể khiến bạn mất nhịp. Dừng lại để chọn ưu tiên nằm trong quyền chủ động của mình.",
+      "en": "Competing directions or trying to control everything may disrupt your pace. Pause to choose a priority within your control."
+    },
+    "reflectionQuestion": {
+      "vi": "Bạn muốn giữ hướng đi nào khi những mong muốn đang kéo mình về nhiều phía?",
+      "en": "Which direction would you keep when different wishes pull you several ways?"
+    }
+  },
+  {
+    "id": "major-08-strength",
+    "arcana": "major",
+    "number": 8,
+    "suit": null,
+    "rank": null,
+    "element": "spirit",
+    "name": {
+      "vi": "Strength",
+      "en": "Strength"
+    },
+    "keywords": {
+      "vi": [
+        "can đảm",
+        "từ bi",
+        "kiềm chế"
+      ],
+      "en": [
+        "courage",
+        "compassion",
+        "restraint"
+      ]
+    },
+    "intro": {
+      "vi": "Strength mang năng lượng của sức mạnh nội tâm mềm mại nhưng bền bỉ. Lá bài là lời nhắc nhở rằng lòng can đảm thực sự không đến từ việc trấn áp, mà từ sự thấu hiểu và bao dung với chính những góc tối của mình.",
+      "en": "Strength carries the energy of soft yet resilient inner power. The card is a reminder that true courage comes not from suppression, but from understanding and embracing your own shadows."
+    },
+    "personalityPortrait": {
+      "vi": "Giống như một bàn tay êm ái xoa dịu những căng thẳng, Strength sẽ không đòi hỏi bạn phải gồng mình. Họ sẽ khuyên bạn dùng sự từ bi để xoa dịu những phần đang tổn thương hay giận dữ bên trong.",
+      "en": "Like a gentle hand soothing tension, Strength will not ask you to brace yourself. They will advise you to use compassion to calm the wounded or angry parts within."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi lòng can đảm đi cùng sự dịu dàng. Bạn có thể nhận diện cảm xúc mạnh và chọn cách phản hồi thay vì ép chúng biến mất.",
+      "en": "The card suggests courage alongside gentleness. You can notice strong feelings and choose a response rather than forcing them away."
+    },
+    "reversedMeaning": {
+      "vi": "Tự nghi ngờ hoặc gồng chịu quá mức có thể che khuất nhu cầu của bạn. Biết nghỉ, xin hỗ trợ hoặc nói không cũng là những cách giữ giới hạn.",
+      "en": "Self-doubt or excessive endurance may obscure your needs. Resting, asking for support or saying no can also protect your limits."
+    },
+    "reflectionQuestion": {
+      "vi": "Bạn có thể đáp lại một cảm xúc mạnh bằng sự dịu dàng và ranh giới nào?",
+      "en": "How could you meet a strong feeling with gentleness and a boundary?"
+    }
+  },
+  {
+    "id": "major-09-hermit",
+    "arcana": "major",
+    "number": 9,
+    "suit": null,
+    "rank": null,
+    "element": "spirit",
+    "name": {
+      "vi": "The Hermit",
+      "en": "The Hermit"
+    },
+    "keywords": {
+      "vi": [
+        "một mình",
+        "soi chiếu",
+        "tìm nghĩa"
+      ],
+      "en": [
+        "solitude",
+        "illumination",
+        "meaning"
+      ]
+    },
+    "intro": {
+      "vi": "The Hermit mang năng lượng của sự tĩnh lặng và hành trình quay vào bên trong. Lá bài vỗ về bạn rằng đôi khi, việc lùi lại khỏi đám đông là cách tốt nhất để tìm thấy ánh sáng dẫn đường riêng.",
+      "en": "The Hermit carries the energy of stillness and the inward journey. The card reassures you that sometimes stepping back from the crowd is the best way to find your own guiding light."
+    },
+    "personalityPortrait": {
+      "vi": "Như một người dẫn đường thầm lặng, The Hermit giương cao ngọn đèn sưởi ấm tâm hồn bạn. Họ sẽ cùng bạn đi qua bóng tối, chỉ để lắng nghe những tiếng nói chân thật nhất đang chờ được khám phá.",
+      "en": "Like a quiet guide, The Hermit holds up a lantern to warm your soul. They will walk with you through the dark, simply to listen to the most honest voices waiting to be heard."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi một khoảng riêng để suy ngẫm và nghe rõ điều quan trọng. Chọn sự tĩnh lặng không có nghĩa bạn phải tự xoay xở mọi việc.",
+      "en": "The card suggests private space to reflect on what matters. Choosing quiet does not mean handling everything alone."
+    },
+    "reversedMeaning": {
+      "vi": "Khoảng riêng có thể trở thành cô lập, hoặc sự bận rộn khiến bạn không còn thời gian lắng nghe mình. Cân nhắc nhịp giữa ở một mình và kết nối.",
+      "en": "Private space may become isolation, or busyness may leave no room to listen inward. Consider a balance between solitude and connection."
+    },
+    "reflectionQuestion": {
+      "vi": "Một khoảng riêng vừa đủ sẽ giúp bạn làm rõ câu hỏi nào?",
+      "en": "Which question could a manageable period of solitude help you clarify?"
+    }
+  },
+  {
+    "id": "major-10-wheel",
+    "arcana": "major",
+    "number": 10,
+    "suit": null,
+    "rank": null,
+    "element": "spirit",
+    "name": {
+      "vi": "Wheel of Fortune",
+      "en": "Wheel of Fortune"
+    },
+    "keywords": {
+      "vi": [
+        "chu kỳ",
+        "thay đổi",
+        "cơ hội"
+      ],
+      "en": [
+        "cycles",
+        "change",
+        "opportunity"
+      ]
+    },
+    "intro": {
+      "vi": "Wheel of Fortune gợi những chu kỳ và thay đổi trong cuộc sống. Lá bài mời bạn nhìn phần mình có thể chủ động và phần cần thích nghi, không hứa mọi thay đổi đều tốt.",
+      "en": "Wheel of Fortune suggests life's cycles and changes. The card invites you to notice what you can influence and what calls for adaptation, without promising every change is good."
+    },
+    "personalityPortrait": {
+      "vi": "Giống như một người quan sát thông thái, Wheel of Fortune nhắc nhở bạn không cần bám víu vào hiện tại. Họ sẽ mời bạn thả lỏng và tin tưởng vào nhịp điệu của thời gian.",
+      "en": "Like a wise observer, Wheel of Fortune reminds you not to cling to the present. They will invite you to relax and trust the rhythm of time."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi những chu kỳ và thay đổi không hoàn toàn nằm trong kiểm soát. Bạn có thể phân biệt điều cần thích nghi với điều mình vẫn chủ động được.",
+      "en": "The card suggests cycles and changes not fully within your control. You can distinguish what calls for adaptation from what remains yours to choose."
+    },
+    "reversedMeaning": {
+      "vi": "Một nhịp lặp lại hoặc việc chống lại thay đổi có thể cần được xem xét. Lá bài không nói khó khăn là lỗi của bạn hay một sự trừng phạt.",
+      "en": "A recurring pattern or resistance to change may deserve attention. The card does not blame you for difficulty or frame it as punishment."
+    },
+    "reflectionQuestion": {
+      "vi": "Trong một thay đổi hiện tại, điều gì bạn có thể chủ động điều chỉnh?",
+      "en": "Within a current change, what can you actively adjust?"
+    }
+  },
+  {
+    "id": "major-11-justice",
+    "arcana": "major",
+    "number": 11,
+    "suit": null,
+    "rank": null,
+    "element": "spirit",
+    "name": {
+      "vi": "Justice",
+      "en": "Justice"
+    },
+    "keywords": {
+      "vi": [
+        "sự thật",
+        "cân bằng",
+        "trách nhiệm"
+      ],
+      "en": [
+        "truth",
+        "balance",
+        "accountability"
+      ]
+    },
+    "intro": {
+      "vi": "Justice mang năng lượng của sự minh bạch và trách nhiệm cá nhân. Lá bài không dùng để phán xét đúng sai, mà là một tấm gương trong suốt để bạn nhìn nhận rõ ràng nguyên nhân và kết quả.",
+      "en": "Justice carries the energy of clarity and personal responsibility. The card is not meant to judge right from wrong, but acts as a clear mirror to help you see cause and effect."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người bạn, Justice sẽ rất thẳng thắn và công bằng. Họ sẽ giúp bạn cân nhắc kỹ lưỡng mọi khía cạnh và khuyến khích bạn đưa ra quyết định mà lòng bạn thấy bình yên nhất.",
+      "en": "If it were a friend, Justice would be highly direct and fair. They would help you weigh all sides carefully and encourage you to make the decision that brings your heart the most peace."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi việc cân nhắc dữ kiện, tác động và trách nhiệm một cách công bằng. Đây là lăng kính phản chiếu lựa chọn, không phải dự báo pháp lý.",
+      "en": "The card suggests weighing facts, impact and responsibility fairly. It is a lens for reflecting on choices, not a legal prediction."
+    },
+    "reversedMeaning": {
+      "vi": "Thiên kiến, thông tin thiếu hoặc tự phán xét có thể làm cán cân lệch. Bạn có thể tìm phần dữ kiện còn thiếu trước khi kết luận.",
+      "en": "Bias, missing information or self-judgment may tilt the balance. You can look for missing facts before concluding."
+    },
+    "reflectionQuestion": {
+      "vi": "Dữ kiện nào còn thiếu để bạn cân nhắc một lựa chọn công bằng hơn?",
+      "en": "What information is missing for you to weigh a choice more fairly?"
+    }
+  },
+  {
+    "id": "major-12-hanged-man",
+    "arcana": "major",
+    "number": 12,
+    "suit": null,
+    "rank": null,
+    "element": "spirit",
+    "name": {
+      "vi": "The Hanged Man",
+      "en": "The Hanged Man"
+    },
+    "keywords": {
+      "vi": [
+        "tạm dừng",
+        "góc nhìn",
+        "buông bỏ"
+      ],
+      "en": [
+        "pause",
+        "perspective",
+        "surrender"
+      ]
+    },
+    "intro": {
+      "vi": "The Hanged Man mang năng lượng của sự tạm dừng tự nguyện để nhìn đời qua một lăng kính khác. Lá bài nhắc bạn rằng đôi khi, không làm gì cả lại là hành động sáng suốt nhất.",
+      "en": "The Hanged Man carries the energy of voluntary pause to see the world through a different lens. The card reminds you that sometimes, doing nothing is the wisest action."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người thầy, The Hanged Man sẽ cùng bạn thử một khoảng dừng tự nguyện và nhìn từ góc khác. Họ tôn trọng quyền hành động để bảo vệ mình, không yêu cầu bạn chịu đựng điều gây tổn hại.",
+      "en": "If The Hanged Man were a teacher, they would explore a voluntary pause and another perspective with you. They would respect your right to act for your own safety without asking you to endure harm."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi một khoảng dừng và thử nhìn từ góc khác. Chậm lại có thể giúp bạn nhận ra điều đang cố ép, nhưng không yêu cầu chịu đựng tổn hại.",
+      "en": "The card suggests a pause and another perspective. Slowing down may reveal what you are forcing, without requiring you to endure harm."
+    },
+    "reversedMeaning": {
+      "vi": "Chờ đợi thiếu mục đích hoặc ngại đổi góc nhìn có thể khiến bạn bế tắc. Bạn có thể đặt một điểm dừng rõ để phân biệt nghỉ với trì hoãn.",
+      "en": "Waiting without purpose or resisting a new perspective may feel stuck. A clear end point can distinguish a pause from postponement."
+    },
+    "reflectionQuestion": {
+      "vi": "Nếu tạm dừng một việc, bạn muốn thử nhìn nó từ góc nào khác?",
+      "en": "If you pause one task, which different perspective would you try?"
+    }
+  },
+  {
+    "id": "major-13-death",
+    "arcana": "major",
+    "number": 13,
+    "suit": null,
+    "rank": null,
+    "element": "spirit",
+    "name": {
+      "vi": "Death",
+      "en": "Death"
+    },
+    "keywords": {
+      "vi": [
+        "kết thúc",
+        "tái sinh",
+        "chuyển hóa"
+      ],
+      "en": [
+        "ending",
+        "rebirth",
+        "transformation"
+      ]
+    },
+    "intro": {
+      "vi": "Death gợi sự kết thúc và chuyển đổi trong một hành trình. Lá bài dùng hình ảnh thay đổi để phản chiếu điều đã hết vai trò; nó không dự báo cái chết hay hứa một kết quả mới.",
+      "en": "Death suggests endings and transitions in a journey. Its imagery reflects what has served its purpose; it does not predict death or promise a new outcome."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người bạn, Death sẽ ở bên khi bạn cân nhắc khép một chặng đường. Họ không ép chia ly hay gọi mất mát là cần thiết, mà tôn trọng nhịp chuyển đổi của bạn.",
+      "en": "If Death were a friend, they would stay beside you as you consider closing a chapter. They would not force parting or call loss necessary, but respect your pace of transition."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi kết thúc, chuyển đổi và việc nhường chỗ cho điều mới. Nó không dự báo cái chết hay buộc bạn phải chấm dứt một mối quan hệ.",
+      "en": "The card suggests endings, transition and making room for something new. It does not predict death or require ending a relationship."
+    },
+    "reversedMeaning": {
+      "vi": "Ngại thay đổi hoặc chưa sẵn sàng khép lại có thể cần thời gian và sự nâng đỡ. Bạn có thể chọn một bước chuyển vừa sức, không phải cắt bỏ mọi thứ.",
+      "en": "Reluctance to change or close a chapter may need time and support. You can choose a manageable transition rather than discard everything."
+    },
+    "reflectionQuestion": {
+      "vi": "Điều nào đã hoàn thành vai trò mà bạn muốn khép lại theo nhịp của mình?",
+      "en": "What has served its purpose that you would like to close at your own pace?"
+    }
+  },
+  {
+    "id": "major-14-temperance",
+    "arcana": "major",
+    "number": 14,
+    "suit": null,
+    "rank": null,
+    "element": "spirit",
+    "name": {
+      "vi": "Temperance",
+      "en": "Temperance"
+    },
+    "keywords": {
+      "vi": [
+        "điều độ",
+        "pha trộn",
+        "nhịp vừa sức"
+      ],
+      "en": [
+        "moderation",
+        "blending",
+        "manageable rhythm"
+      ]
+    },
+    "intro": {
+      "vi": "Temperance gợi sự điều độ và hòa quyện giữa những nhu cầu khác nhau. Lá bài mời bạn tìm một nhịp vừa sức, nơi tĩnh lặng và hành động đều có chỗ.",
+      "en": "Temperance suggests moderation and blending different needs. The card invites a manageable rhythm with room for both stillness and action."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người đồng hành, Temperance sẽ giúp bạn điều chỉnh nhịp thay vì ép mình cân bằng hoàn hảo. Họ nhắc rằng những thay đổi nhỏ và đều có thể phù hợp hơn một cố gắng quá sức.",
+      "en": "If Temperance were a companion, they would help adjust your pace rather than demand perfect balance. They would suggest that small, steady changes may fit better than overexertion."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi điều độ và kết hợp những nhu cầu khác nhau. Một nhịp vừa sức có thể giúp bạn phối hợp nghỉ ngơi với hành động.",
+      "en": "The card suggests moderation and blending different needs. A manageable rhythm can help combine rest with action."
+    },
+    "reversedMeaning": {
+      "vi": "Một nhịp quá gấp hoặc nghiêng hẳn về một phía có thể cần điều chỉnh. Bạn có thể thay đổi một phần nhỏ thay vì đòi cân bằng hoàn hảo.",
+      "en": "A rushed pace or leaning too far one way may need adjustment. You can change one small part without demanding perfect balance."
+    },
+    "reflectionQuestion": {
+      "vi": "Hai nhu cầu nào bạn muốn sắp xếp để chúng cùng có chỗ trong ngày?",
+      "en": "Which two needs would you arrange so both have a place in your day?"
+    }
+  },
+  {
+    "id": "major-15-devil",
+    "arcana": "major",
+    "number": 15,
+    "suit": null,
+    "rank": null,
+    "element": "spirit",
+    "name": {
+      "vi": "The Devil",
+      "en": "The Devil"
+    },
+    "keywords": {
+      "vi": [
+        "ràng buộc",
+        "ham muốn",
+        "ảo tưởng"
+      ],
+      "en": [
+        "attachment",
+        "desire",
+        "illusion"
+      ]
+    },
+    "intro": {
+      "vi": "The Devil gợi việc nhìn vào thói quen, ham muốn hoặc ràng buộc có thể thu hẹp lựa chọn. Lá bài mời bạn tự xem chủ đề ấy có phù hợp không và tìm một giới hạn hoặc sự hỗ trợ, không gán lỗi hay sức mạnh siêu nhiên.",
+      "en": "The Devil suggests examining habits, desires or attachments that may narrow choice. The card invites you to decide whether this theme fits and consider a limit or support without blame or supernatural explanations."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người đồng hành, The Devil sẽ cùng bạn nhìn một ràng buộc mà không gọi đó là yếu đuối. Họ tôn trọng những giới hạn thực tế và để bạn chọn bước điều chỉnh hoặc hỗ trợ phù hợp.",
+      "en": "If The Devil were a companion, they would examine an attachment with you without calling it weakness. They would respect real constraints and leave you to choose a fitting adjustment or support."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi nhìn vào một ràng buộc, thói quen hoặc ham muốn đang thu hẹp lựa chọn. Nó không gán bạn là xấu hay giải thích hoàn cảnh bằng sức mạnh siêu nhiên.",
+      "en": "The card suggests examining an attachment, habit or desire that narrows choice. It does not label you as bad or explain your circumstances through supernatural power."
+    },
+    "reversedMeaning": {
+      "vi": "Nhận diện một ràng buộc có thể mở ra lựa chọn mới, nhưng thay đổi không luôn đơn giản. Bạn có thể tìm một giới hạn hoặc sự hỗ trợ phù hợp.",
+      "en": "Recognizing an attachment may open another choice, but change is not always simple. You can seek a suitable limit or support."
+    },
+    "reflectionQuestion": {
+      "vi": "Một ràng buộc nào đang thu hẹp lựa chọn mà bạn muốn nhìn lại không phán xét?",
+      "en": "Which attachment narrows your choices that you would like to examine without judgment?"
+    }
+  },
+  {
+    "id": "major-16-tower",
+    "arcana": "major",
+    "number": 16,
+    "suit": null,
+    "rank": null,
+    "element": "spirit",
+    "name": {
+      "vi": "The Tower",
+      "en": "The Tower"
+    },
+    "keywords": {
+      "vi": [
+        "sự thật bất ngờ",
+        "sụp đổ",
+        "giải phóng"
+      ],
+      "en": [
+        "revelation",
+        "collapse",
+        "liberation"
+      ]
+    },
+    "intro": {
+      "vi": "The Tower mang năng lượng của những sự thật bất ngờ giúp phá vỡ ảo ảnh không còn phù hợp. Lá bài không báo trước điều đáng sợ, mà là một lời mời để bạn giải phóng bản thân khỏi những cấu trúc đã quá chật hẹp.",
+      "en": "The Tower carries the energy of sudden truths that shatter outdated illusions. The card does not foretell disaster; rather, it is an invitation to liberate yourself from structures you have outgrown."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người bạn, The Tower sẽ mang đến sự thức tỉnh mạnh mẽ. Họ sẽ giúp bạn nhìn lại và dọn dẹp những nền móng đã nứt vỡ để lấy chỗ cho một khởi đầu chân thật hơn.",
+      "en": "If it were a friend, The Tower would bring a powerful awakening. They would help you reflect and clear away cracked foundations to make room for a more authentic beginning."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi việc xem lại một giả định hoặc nền tảng khi điều bất ngờ xuất hiện. Nó không báo trước tai họa hay nói biến cố là cần thiết để trưởng thành.",
+      "en": "The card suggests reviewing an assumption or foundation when something unexpected appears. It does not predict disaster or make upheaval necessary for growth."
+    },
+    "reversedMeaning": {
+      "vi": "Né tránh một điều cần điều chỉnh hoặc lo rằng mọi thứ sẽ sụp đổ có thể làm bạn căng thẳng. Bắt đầu từ dữ kiện và phần nền tảng vẫn đáng tin.",
+      "en": "Avoiding an adjustment or fearing total collapse may feel unsettling. Start with facts and the parts of your foundation that remain reliable."
+    },
+    "reflectionQuestion": {
+      "vi": "Điểm tựa nào vẫn đáng tin khi bạn muốn xem lại một giả định?",
+      "en": "Which support remains reliable as you recheck an assumption?"
+    }
+  },
+  {
+    "id": "major-17-star",
+    "arcana": "major",
+    "number": 17,
+    "suit": null,
+    "rank": null,
+    "element": "spirit",
+    "name": {
+      "vi": "The Star",
+      "en": "The Star"
+    },
+    "keywords": {
+      "vi": [
+        "hy vọng",
+        "niềm tin",
+        "tự chăm sóc"
+      ],
+      "en": [
+        "hope",
+        "faith",
+        "self-care"
+      ]
+    },
+    "intro": {
+      "vi": "The Star gợi hy vọng và những điều nhỏ có thể nâng đỡ bạn. Lá bài mời bạn nhận ra một điểm tựa có thật, không hứa rằng khó khăn sẽ tự biến mất.",
+      "en": "The Star suggests hope and small things that can sustain you. The card invites noticing real support without promising that difficulty will disappear on its own."
+    },
+    "personalityPortrait": {
+      "vi": "Như một vì sao êm ái trên bầu trời đêm, The Star mang đến hy vọng thuần khiết. Họ sẽ khẽ vỗ về và giúp bạn tìm lại sự bình yên, khuyến khích bạn tự chăm sóc tâm hồn mình.",
+      "en": "Like a gentle star in the night sky, The Star brings pure hope. They will softly comfort you and help you find peace, encouraging you to nourish your own soul."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi hy vọng nhẹ nhàng và việc tìm lại một điểm tựa. Bạn có thể đón nhận điều nâng đỡ mà không cần chắc mọi thứ sẽ tốt lên.",
+      "en": "The card suggests gentle hope and finding a source of support. You can receive what sustains you without certainty that everything will improve."
+    },
+    "reversedMeaning": {
+      "vi": "Khó cảm thấy hy vọng không phải là một thất bại. Bạn có thể bắt đầu từ điều nhỏ, gần và thực tế thay vì ép mình lạc quan.",
+      "en": "Difficulty feeling hopeful is not a failure. You can begin with something small, nearby and real rather than force optimism."
+    },
+    "reflectionQuestion": {
+      "vi": "Một điều nhỏ và có thật nào đang cho bạn chút hy vọng?",
+      "en": "What small, real thing offers you a little hope?"
+    }
+  },
+  {
+    "id": "major-18-moon",
+    "arcana": "major",
+    "number": 18,
+    "suit": null,
+    "rank": null,
+    "element": "spirit",
+    "name": {
+      "vi": "The Moon",
+      "en": "The Moon"
+    },
+    "keywords": {
+      "vi": [
+        "mơ hồ",
+        "giấc mơ",
+        "vô thức"
+      ],
+      "en": [
+        "uncertainty",
+        "dreams",
+        "subconscious"
+      ]
+    },
+    "intro": {
+      "vi": "The Moon mang năng lượng của cõi vô thức, nơi những giấc mơ và nỗi sợ hãi đan xen. Lá bài mời bạn bước chậm lại trong màn đêm mờ ảo, học cách cảm nhận thay vì cố gắng tìm kiếm sự rõ ràng tuyệt đối.",
+      "en": "The Moon carries the energy of the unconscious, where dreams and fears intertwine. The card invites you to walk slowly in the twilight, learning to feel rather than seeking absolute clarity."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người kể chuyện, The Moon sẽ lắng nghe những cảm xúc khó gọi tên mà không phủ nhận nỗi sợ. Họ cùng bạn giữ chỗ cho điều chưa rõ và phân biệt cảm nhận, tưởng tượng với dữ kiện.",
+      "en": "If The Moon were a storyteller, they would listen to hard-to-name feelings without dismissing fear. They would leave room for uncertainty while distinguishing feelings and imagination from facts."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi cảm xúc, tưởng tượng và thông tin chưa rõ. Bạn có thể lắng nghe cảm nhận mà vẫn tách chúng khỏi điều đã được kiểm chứng.",
+      "en": "The card suggests feelings, imagination and unclear information. You can listen to feelings while separating them from verified facts."
+    },
+    "reversedMeaning": {
+      "vi": "Sự mơ hồ có thể dần rõ hơn, hoặc bạn vẫn cần kiểm tra điều đang suy đoán. Không cần xem một nỗi sợ hay giấc mơ là bằng chứng.",
+      "en": "Uncertainty may be clearing, or a guess may still need checking. A fear or dream need not be treated as evidence."
+    },
+    "reflectionQuestion": {
+      "vi": "Bạn đang biết điều gì và đang suy đoán điều gì trong chuyện còn mơ hồ?",
+      "en": "What do you know, and what are you guessing, in an unclear situation?"
+    }
+  },
+  {
+    "id": "major-19-sun",
+    "arcana": "major",
+    "number": 19,
+    "suit": null,
+    "rank": null,
+    "element": "spirit",
+    "name": {
+      "vi": "The Sun",
+      "en": "The Sun"
+    },
+    "keywords": {
+      "vi": [
+        "niềm vui",
+        "rõ ràng",
+        "sức sống"
+      ],
+      "en": [
+        "joy",
+        "clarity",
+        "vitality"
+      ]
+    },
+    "intro": {
+      "vi": "The Sun gợi niềm vui, sức sống và điều trở nên rõ ràng hơn. Lá bài mời bạn đón nhận một khoảnh khắc tốt mà không dùng nó để khẳng định tương lai hoặc một lựa chọn chắc chắn đúng.",
+      "en": "The Sun suggests joy, vitality and growing clarity. The card invites a good moment without using it to confirm the future or declare a choice certainly right."
+    },
+    "personalityPortrait": {
+      "vi": "Như một người bạn luôn tràn đầy năng lượng, The Sun sẽ cười lớn và ăn mừng cùng bạn. Họ khuyến khích bạn tỏa sáng không ngần ngại và tận hưởng sự sống một cách trọn vẹn.",
+      "en": "Like a friend overflowing with energy, The Sun will laugh loud and celebrate with you. They encourage you to shine without hesitation and enjoy life to the fullest."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi niềm vui, sức sống và sự rõ ràng. Nó mời bạn ghi nhận điều tốt đang có, không xác nhận chắc chắn rằng mình đã chọn đúng đường.",
+      "en": "The card suggests joy, vitality and clarity. It invites appreciation of what is good now without confirming that your path is certainly right."
+    },
+    "reversedMeaning": {
+      "vi": "Niềm vui có thể chưa trọn vẹn hoặc bạn đang đặt kỳ vọng quá cao. Bạn không cần tỏ ra vui để được công nhận.",
+      "en": "Joy may feel partial, or expectations may be too high. You do not need to appear happy to deserve recognition."
+    },
+    "reflectionQuestion": {
+      "vi": "Niềm vui nhỏ nào bạn có thể đón nhận mà không cần chứng minh điều gì?",
+      "en": "Which small joy could you receive without having to prove anything?"
+    }
+  },
+  {
+    "id": "major-20-judgement",
+    "arcana": "major",
+    "number": 20,
+    "suit": null,
+    "rank": null,
+    "element": "spirit",
+    "name": {
+      "vi": "Judgement",
+      "en": "Judgement"
+    },
+    "keywords": {
+      "vi": [
+        "thức tỉnh",
+        "tiếng gọi nội tâm",
+        "tha thứ"
+      ],
+      "en": [
+        "awakening",
+        "calling",
+        "forgiveness"
+      ]
+    },
+    "intro": {
+      "vi": "Judgement gợi việc nhìn lại trải nghiệm và lắng nghe điều quan trọng với mình. Lá bài mời bạn học từ quá khứ và lựa chọn tiếp, thay vì tự kết án hay phải trở thành một phiên bản tốt hơn ngay.",
+      "en": "Judgement suggests reviewing experience and listening to what matters. The card invites learning from the past and choosing what comes next, without self-condemnation or pressure to improve immediately."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người dẫn dắt, Judgement sẽ thổi một hồi kèn rõ ràng và trong trẻo. Họ mời bạn gỡ bỏ những gánh nặng tự trách để bước lên một phiên bản tự do và nhẹ nhàng hơn.",
+      "en": "As a guide, Judgement would blow a clear, resonant horn. They invite you to drop the burdens of self-blame and step into a freer, lighter version of yourself."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi nhìn lại trải nghiệm và chọn cách đáp lại điều quan trọng với bạn. Tự nhìn nhận có thể đi cùng trách nhiệm mà không biến thành tự kết án.",
+      "en": "The card suggests reviewing experience and choosing how to answer what matters. Self-reflection can include responsibility without becoming self-condemnation."
+    },
+    "reversedMeaning": {
+      "vi": "Tự trách hoặc ngại nghe nhu cầu riêng có thể làm một lựa chọn khó rõ. Bạn có thể rút bài học mà không dùng quá khứ để định nghĩa toàn bộ mình.",
+      "en": "Self-blame or difficulty hearing your needs may obscure a choice. You can learn without letting the past define all of you."
+    },
+    "reflectionQuestion": {
+      "vi": "Từ một trải nghiệm cũ, bài học nào bạn muốn mang vào lựa chọn tiếp theo?",
+      "en": "Which lesson from a past experience would you bring to your next choice?"
+    }
+  },
+  {
+    "id": "major-21-world",
+    "arcana": "major",
+    "number": 21,
+    "suit": null,
+    "rank": null,
+    "element": "spirit",
+    "name": {
+      "vi": "The World",
+      "en": "The World"
+    },
+    "keywords": {
+      "vi": [
+        "hoàn tất",
+        "trọn vẹn",
+        "gắn kết"
+      ],
+      "en": [
+        "completion",
+        "wholeness",
+        "integration"
+      ]
+    },
+    "intro": {
+      "vi": "The World gợi sự hoàn tất và kết nối những bài học thành một bức tranh rộng hơn. Lá bài mời bạn ghi nhận một chặng đường, không yêu cầu hành trình ấy phải khép lại hoàn hảo.",
+      "en": "The World suggests completion and connecting lessons into a larger picture. The card invites acknowledging a stage without requiring a perfect ending."
+    },
+    "personalityPortrait": {
+      "vi": "Giống như một người đồng hành đã đi cùng bạn đến tận cùng thế giới, The World mỉm cười đầy tự hào. Họ nhắc bạn hãy dừng lại một nhịp để ghi nhận mọi nỗ lực và ăn mừng sự trưởng thành của chính mình.",
+      "en": "Like a companion who has walked with you to the edge of the world, The World smiles with pride. They remind you to pause, acknowledge your efforts, and celebrate your growth."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi sự hoàn tất và kết nối những gì bạn đã học. Bạn có thể ghi nhận một chặng đường mà không cần gọi nó là hoàn hảo.",
+      "en": "The card suggests completion and bringing together what you have learned. You can acknowledge a stage without calling it perfect."
+    },
+    "reversedMeaning": {
+      "vi": "Một phần còn dang dở hoặc ngại công nhận thành quả có thể khiến bạn khó khép lại. Xác định một việc cuối vừa sức trước khi mở chương mới.",
+      "en": "An unfinished part or difficulty acknowledging progress may prevent closure. Identify one manageable final task before starting another chapter."
+    },
+    "reflectionQuestion": {
+      "vi": "Việc nhỏ nào sẽ giúp bạn khép một chặng đường và ghi nhận nỗ lực của mình?",
+      "en": "Which small task would close this stage and acknowledge your effort?"
+    }
+  },
+  {
+    "id": "minor-wands-ace",
+    "arcana": "minor",
+    "number": 1,
+    "suit": "wands",
+    "rank": "ace",
+    "element": "fire",
+    "name": {
+      "vi": "Ace of Wands",
+      "en": "Ace of Wands"
+    },
+    "keywords": {
+      "vi": [
+        "cảm hứng",
+        "khởi đầu sáng tạo",
+        "thử nghiệm"
+      ],
+      "en": [
+        "inspiration",
+        "creative beginning",
+        "experimentation"
+      ]
+    },
+    "intro": {
+      "vi": "Ace of Wands mang năng lượng của tia lửa đầu tiên thắp sáng bầu trời đêm. Lá bài không hứa hẹn một ngọn lửa vĩnh cửu, mà trao cho bạn mầm mống của một niềm đam mê hoặc ý tưởng mới đang vẫy gọi.",
+      "en": "Ace of Wands carries the energy of the first spark lighting up the night sky. The card does not promise an eternal flame, but hands you the seed of a new passion or idea beckoning you forward."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người bạn, Ace of Wands sẽ rủ bạn thử một ý tưởng bằng sự tò mò. Họ giữ niềm vui khám phá và vẫn để bạn cân nhắc giới hạn trước khi làm.",
+      "en": "If Ace of Wands were a friend, they would invite a curious experiment. They would keep the joy of exploration while leaving room to consider limits."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi một tia cảm hứng hoặc ý tưởng mới. Bạn có thể thử nó ở quy mô nhỏ trước khi cam kết nhiều hơn.",
+      "en": "The card suggests a spark of inspiration or a new idea. You can try it on a small scale before committing more."
+    },
+    "reversedMeaning": {
+      "vi": "Cảm hứng có thể chưa có hướng, hoặc điều kiện bắt đầu chưa sẵn sàng. Một bước thử vừa sức giúp bạn nhận ra điều cần chuẩn bị.",
+      "en": "Inspiration may lack direction, or conditions may not be ready. A manageable experiment can show what preparation is needed."
+    },
+    "reflectionQuestion": {
+      "vi": "Ý tưởng nào bạn muốn thử trong năm phút mà chưa cần quyết định kết quả?",
+      "en": "Which idea would you try for five minutes without deciding the outcome yet?"
+    }
+  },
+  {
+    "id": "minor-wands-two",
+    "arcana": "minor",
+    "number": 2,
+    "suit": "wands",
+    "rank": "two",
+    "element": "fire",
+    "name": {
+      "vi": "Two of Wands",
+      "en": "Two of Wands"
+    },
+    "keywords": {
+      "vi": [
+        "tầm nhìn",
+        "chọn hướng",
+        "lập kế hoạch"
+      ],
+      "en": [
+        "vision",
+        "choosing direction",
+        "planning"
+      ]
+    },
+    "intro": {
+      "vi": "Two of Wands mang năng lượng của người đứng trước ngã rẽ và ngắm nhìn những chân trời xa. Lá bài mời bạn tự hỏi: sự an toàn hiện tại đã đủ, hay một ngọn lửa khao khát vẫn đang thôi thúc bạn khám phá?",
+      "en": "Two of Wands carries the energy of one standing at a crossroads, gazing at distant horizons. The card invites you to ask: is current safety enough, or does a fire of longing still urge you to explore?"
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người đồng hành, Two of Wands sẽ cùng bạn nhìn ra thế giới rộng lớn. Họ giúp bạn vạch ra tầm nhìn xa và khuyến khích bạn bước ra khỏi ranh giới quen thuộc.",
+      "en": "If it were a companion, Two of Wands would look out at the vast world with you. They help you outline a long-term vision and encourage you to step outside your familiar boundaries."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi nhìn ra ngoài điều quen thuộc và cân nhắc một hướng đi. Bạn có thể so sánh mong muốn khám phá với nguồn lực đang có.",
+      "en": "The card suggests looking beyond the familiar and considering a direction. You can compare the wish to explore with available resources."
+    },
+    "reversedMeaning": {
+      "vi": "Ngại điều chưa biết hoặc một kế hoạch chưa rõ có thể khiến bạn đứng giữa các hướng. Làm rõ một ưu tiên trước khi chọn bước tiếp.",
+      "en": "Fear of the unknown or an unclear plan may leave you between directions. Clarify one priority before choosing a next step."
+    },
+    "reflectionQuestion": {
+      "vi": "Bạn cần biết thêm điều gì để chọn giữa điều quen thuộc và một hướng mới?",
+      "en": "What more would you need to know to choose between the familiar and a new direction?"
+    }
+  },
+  {
+    "id": "minor-wands-three",
+    "arcana": "minor",
+    "number": 3,
+    "suit": "wands",
+    "rank": "three",
+    "element": "fire",
+    "name": {
+      "vi": "Three of Wands",
+      "en": "Three of Wands"
+    },
+    "keywords": {
+      "vi": [
+        "mở rộng",
+        "nhìn xa",
+        "chờ phản hồi"
+      ],
+      "en": [
+        "expansion",
+        "looking ahead",
+        "awaiting feedback"
+      ]
+    },
+    "intro": {
+      "vi": "Three of Wands gợi sự mở rộng và những dự định nhìn ra xa hơn. Lá bài mời bạn quan sát phản hồi sau bước đầu, rồi chọn cách điều chỉnh hoặc tiếp tục theo nhịp phù hợp.",
+      "en": "Three of Wands suggests expansion and plans reaching further outward. The card invites observing feedback after a first step, then adjusting or continuing at a fitting pace."
+    },
+    "personalityPortrait": {
+      "vi": "Như một người hoa tiêu đầy kinh nghiệm, Three of Wands nhắc bạn đừng vội vàng gặt hái ngay lập tức. Họ khuyên bạn giữ vững nhịp độ và tin tưởng vào hạt giống mình đã gieo.",
+      "en": "Like an experienced navigator, Three of Wands reminds you not to rush the harvest. They advise you to keep your pace steady and trust the seeds you have sown."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi mở rộng tầm nhìn sau bước khởi đầu. Bạn có thể quan sát phản hồi từ bên ngoài và chuẩn bị cho bước tiếp theo.",
+      "en": "The card suggests widening your view after a first step. You can observe outside feedback and prepare for what comes next."
+    },
+    "reversedMeaning": {
+      "vi": "Chờ đợi lâu hoặc kỳ vọng chưa phù hợp có thể cần một lần nhìn lại. Bạn có thể điều chỉnh kế hoạch mà không xem chậm trễ là thất bại.",
+      "en": "A long wait or mismatched expectations may call for review. You can adjust the plan without treating delay as failure."
+    },
+    "reflectionQuestion": {
+      "vi": "Phản hồi nào sẽ giúp bạn chọn bước mở rộng tiếp theo cho một dự định?",
+      "en": "Which feedback would help you choose the next expansion of a plan?"
+    }
+  },
+  {
+    "id": "minor-wands-four",
+    "arcana": "minor",
+    "number": 4,
+    "suit": "wands",
+    "rank": "four",
+    "element": "fire",
+    "name": {
+      "vi": "Four of Wands",
+      "en": "Four of Wands"
+    },
+    "keywords": {
+      "vi": [
+        "ăn mừng",
+        "thuộc về",
+        "chặng dừng"
+      ],
+      "en": [
+        "celebration",
+        "belonging",
+        "milestone"
+      ]
+    },
+    "intro": {
+      "vi": "Four of Wands gợi sự ăn mừng và trân trọng những chặng dừng chân. Lá bài nhắc bạn không cần đợi đến đích cuối cùng mới dành chỗ cho một niềm vui nhỏ.",
+      "en": "Four of Wands suggests celebration and appreciation of milestones. The card reminds you that you need not wait for a final destination to make room for a small joy."
+    },
+    "personalityPortrait": {
+      "vi": "Giống như một buổi tụ họp bình yên bên lửa trại, Four of Wands mời bạn thả lỏng. Họ sẽ cùng bạn nâng ly vì những thành quả nhỏ bé nhất mà bạn đã dũng cảm đạt được.",
+      "en": "Like a peaceful gathering around a campfire, Four of Wands invites you to relax. They will raise a glass with you to celebrate even the smallest milestones you bravely achieved."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi một chặng dừng để ghi nhận thành quả và cảm giác thuộc về. Niềm vui có thể đến từ một khoảnh khắc chung nhỏ.",
+      "en": "The card suggests a milestone for appreciating progress and belonging. Joy may come from a small shared moment."
+    },
+    "reversedMeaning": {
+      "vi": "Cảm giác thuộc về có thể chưa vững, hoặc một cột mốc chưa được ghi nhận. Bạn có thể chọn cách ăn mừng phù hợp thay vì ép mình hòa vào đám đông.",
+      "en": "Belonging may feel uncertain, or a milestone may go unrecognized. You can celebrate in your own way without forcing yourself into a crowd."
+    },
+    "reflectionQuestion": {
+      "vi": "Bạn muốn ghi nhận một cột mốc nhỏ theo cách nào khiến mình thấy được đón nhận?",
+      "en": "How would you mark a small milestone in a way that feels welcoming?"
+    }
+  },
+  {
+    "id": "minor-wands-five",
+    "arcana": "minor",
+    "number": 5,
+    "suit": "wands",
+    "rank": "five",
+    "element": "fire",
+    "name": {
+      "vi": "Five of Wands",
+      "en": "Five of Wands"
+    },
+    "keywords": {
+      "vi": [
+        "khác biệt",
+        "cạnh tranh",
+        "va chạm"
+      ],
+      "en": [
+        "differences",
+        "competition",
+        "friction"
+      ]
+    },
+    "intro": {
+      "vi": "Five of Wands gợi sự va chạm giữa những ý kiến và mong muốn khác nhau. Lá bài mời bạn tìm cách trao đổi rõ hơn; bất đồng không phải điều phải chịu để trưởng thành.",
+      "en": "Five of Wands suggests friction between different ideas and wishes. The card invites clearer discussion; disagreement is not something you must endure to grow."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người huấn luyện, Five of Wands sẽ đưa bạn vào những thử thách nhỏ. Họ nhắc bạn đừng trốn tránh những khác biệt, mà hãy dùng nó để rèn luyện sự linh hoạt.",
+      "en": "If it were a coach, Five of Wands would put you through small challenges. They remind you not to shy away from differences, but to use them to train your flexibility."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi những ý kiến hoặc mong muốn va chạm. Bạn có thể tìm điều cần trao đổi mà không coi bất đồng là một cuộc chiến phải thắng.",
+      "en": "The card suggests clashing ideas or wishes. You can find what needs discussion without making disagreement a battle to win."
+    },
+    "reversedMeaning": {
+      "vi": "Né bất đồng hoặc tranh luận kéo dài có thể khiến nhu cầu chưa được hiểu. Chọn một điểm để làm rõ, hoặc dừng khi trao đổi không còn hữu ích.",
+      "en": "Avoided disagreement or prolonged debate may leave needs unclear. Clarify one point, or pause when discussion stops being useful."
+    },
+    "reflectionQuestion": {
+      "vi": "Khác biệt nào bạn muốn làm rõ mà không cần thắng người khác?",
+      "en": "Which difference would you clarify without needing to win against someone?"
+    }
+  },
+  {
+    "id": "minor-wands-six",
+    "arcana": "minor",
+    "number": 6,
+    "suit": "wands",
+    "rank": "six",
+    "element": "fire",
+    "name": {
+      "vi": "Six of Wands",
+      "en": "Six of Wands"
+    },
+    "keywords": {
+      "vi": [
+        "ghi nhận",
+        "tự tin",
+        "đóng góp"
+      ],
+      "en": [
+        "recognition",
+        "confidence",
+        "contribution"
+      ]
+    },
+    "intro": {
+      "vi": "Six of Wands gợi sự công nhận và lòng tự tin sau nỗ lực. Lá bài mời bạn ghi nhận một đóng góp cụ thể, không xác nhận rằng người khác đang tán thưởng mình.",
+      "en": "Six of Wands suggests recognition and confidence after effort. The card invites appreciation of a concrete contribution without confirming that others approve of you."
+    },
+    "personalityPortrait": {
+      "vi": "Như một người cổ vũ chân thành, Six of Wands mời bạn ngẩng cao đầu. Họ khuyên bạn hãy cho phép mình được tự hào về bản thân mà không sợ hãi ánh nhìn phán xét.",
+      "en": "Like a genuine cheerleader, Six of Wands invites you to hold your head high. They advise you to allow yourself to be proud without fearing judgmental eyes."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi sự ghi nhận và lòng tự tin sau nỗ lực. Bạn có thể trân trọng một đóng góp cụ thể mà không chờ mọi người tán thành.",
+      "en": "The card suggests recognition and confidence after effort. You can value a concrete contribution without waiting for universal approval."
+    },
+    "reversedMeaning": {
+      "vi": "Thiếu lời khen hoặc phụ thuộc vào sự tán thưởng có thể làm bạn khó thấy tiến bộ. Đánh giá nỗ lực bằng tiêu chí của mình thay vì chỉ bằng ánh nhìn bên ngoài.",
+      "en": "Missing praise or dependence on approval may obscure progress. Assess effort by your own criteria rather than only others' reactions."
+    },
+    "reflectionQuestion": {
+      "vi": "Đóng góp cụ thể nào bạn muốn tự ghi nhận dù chưa được người khác chú ý?",
+      "en": "Which concrete contribution would you acknowledge even if others have not noticed it?"
+    }
+  },
+  {
+    "id": "minor-wands-seven",
+    "arcana": "minor",
+    "number": 7,
+    "suit": "wands",
+    "rank": "seven",
+    "element": "fire",
+    "name": {
+      "vi": "Seven of Wands",
+      "en": "Seven of Wands"
+    },
+    "keywords": {
+      "vi": [
+        "giữ lập trường",
+        "ranh giới",
+        "áp lực"
+      ],
+      "en": [
+        "holding ground",
+        "boundaries",
+        "pressure"
+      ]
+    },
+    "intro": {
+      "vi": "Seven of Wands mang năng lượng của sự phòng thủ và giữ vững ranh giới. Khi áp lực ập đến, lá bài nhắc bạn nhớ lại lý do vì sao bạn bắt đầu và ngọn lửa nào bạn đang muốn bảo vệ.",
+      "en": "Seven of Wands carries the energy of defense and holding boundaries. When pressure arises, the card reminds you why you started and which fire you are trying to protect."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người bảo vệ, Seven of Wands trao cho bạn lòng can đảm. Họ không khuyến khích bạn gây hấn, mà chỉ giúp bạn nói 'không' một cách kiên định với những gì xâm phạm giá trị của bạn.",
+      "en": "If it were a guardian, Seven of Wands grants you courage. They don't encourage aggression, but simply help you say 'no' firmly to anything that compromises your values."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi giữ một lập trường trước áp lực khác biệt. Bạn có thể bảo vệ điều quan trọng bằng ranh giới rõ, không cần gây hấn.",
+      "en": "The card suggests holding a position under competing pressure. You can protect what matters with clear boundaries without aggression."
+    },
+    "reversedMeaning": {
+      "vi": "Phòng thủ liên tục hoặc ôm quá nhiều cuộc đối đầu có thể làm bạn mệt. Chọn điều thật sự cần bảo vệ và cho phép mình nhận hỗ trợ.",
+      "en": "Constant defense or too many confrontations may be tiring. Choose what truly needs protecting and allow support."
+    },
+    "reflectionQuestion": {
+      "vi": "Ranh giới nào bạn muốn giữ mà không phải giải thích hoặc tranh đấu mãi?",
+      "en": "Which boundary would you keep without having to explain or fight for it endlessly?"
+    }
+  },
+  {
+    "id": "minor-wands-eight",
+    "arcana": "minor",
+    "number": 8,
+    "suit": "wands",
+    "rank": "eight",
+    "element": "fire",
+    "name": {
+      "vi": "Eight of Wands",
+      "en": "Eight of Wands"
+    },
+    "keywords": {
+      "vi": [
+        "chuyển động",
+        "thông điệp",
+        "nhịp nhanh"
+      ],
+      "en": [
+        "movement",
+        "messages",
+        "fast pace"
+      ]
+    },
+    "intro": {
+      "vi": "Eight of Wands gợi chuyển động nhanh và những thông điệp cần chú ý. Lá bài mời bạn xem nhịp phản hồi phù hợp, không dự báo tin tức hay khẳng định trì trệ đã chấm dứt.",
+      "en": "Eight of Wands suggests quick movement and messages that need attention. The card invites a fitting response pace without predicting news or declaring that stagnation has ended."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người truyền tin, Eight of Wands sẽ giúp bạn chọn điều cần phản hồi trước. Họ không thúc bạn chạy theo mọi tín hiệu, mà nhắc giữ một nhịp rõ và vừa sức.",
+      "en": "If Eight of Wands were a messenger, they would help choose what needs a response first. They would not rush every signal, but encourage a clear, manageable pace."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi một nhịp nhanh của hành động hoặc trao đổi. Bạn có thể chọn thông tin cần phản hồi trước để không bị cuốn theo mọi tín hiệu.",
+      "en": "The card suggests a fast pace of action or communication. You can choose what needs a response first rather than follow every signal."
+    },
+    "reversedMeaning": {
+      "vi": "Chậm trễ, thông tin chồng chéo hoặc vội vàng có thể làm việc phối hợp khó hơn. Kiểm tra điều đã hiểu trước khi tăng tốc.",
+      "en": "Delays, crossed messages or haste may hinder coordination. Check what is understood before accelerating."
+    },
+    "reflectionQuestion": {
+      "vi": "Thông điệp nào cần được bạn làm rõ trước khi phản hồi nhanh?",
+      "en": "Which message would you clarify before responding quickly?"
+    }
+  },
+  {
+    "id": "minor-wands-nine",
+    "arcana": "minor",
+    "number": 9,
+    "suit": "wands",
+    "rank": "nine",
+    "element": "fire",
+    "name": {
+      "vi": "Nine of Wands",
+      "en": "Nine of Wands"
+    },
+    "keywords": {
+      "vi": [
+        "kiên cường",
+        "giới hạn",
+        "nghỉ lấy sức"
+      ],
+      "en": [
+        "resilience",
+        "limits",
+        "rest"
+      ]
+    },
+    "intro": {
+      "vi": "Nine of Wands gợi sự kiên cường cùng nhu cầu giữ sức sau nỗ lực dài. Lá bài mời bạn nhận ra giới hạn, không khẳng định đã gần đích hoặc phải cố thêm.",
+      "en": "Nine of Wands suggests resilience and conserving energy after sustained effort. The card invites awareness of limits without declaring the finish near or demanding another push."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người đồng hành từng trải, Nine of Wands sẽ ghi nhận nỗ lực của bạn và hỏi điều gì giúp bạn giữ sức. Họ tôn trọng việc nghỉ hoặc điều chỉnh hướng đi.",
+      "en": "If Nine of Wands were a seasoned companion, they would acknowledge your effort and ask what preserves your energy. They would respect rest or a change of direction."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi sự kiên cường cùng nhu cầu giữ sức sau nỗ lực dài. Bạn có thể tiếp tục theo nhịp vừa sức mà vẫn cho phép nghỉ.",
+      "en": "The card suggests resilience alongside the need to preserve energy after sustained effort. You can continue at a manageable pace while allowing rest."
+    },
+    "reversedMeaning": {
+      "vi": "Luôn cảnh giác hoặc ép mình cố thêm có thể che khuất giới hạn. Nghỉ hay điều chỉnh mục tiêu không xóa đi nỗ lực bạn đã bỏ ra.",
+      "en": "Constant vigilance or pushing harder may hide your limits. Resting or adjusting a goal does not erase your effort."
+    },
+    "reflectionQuestion": {
+      "vi": "Giới hạn nào bạn muốn tôn trọng để sự kiên trì không thành kiệt sức?",
+      "en": "Which limit would you honor so persistence does not become exhaustion?"
+    }
+  },
+  {
+    "id": "minor-wands-ten",
+    "arcana": "minor",
+    "number": 10,
+    "suit": "wands",
+    "rank": "ten",
+    "element": "fire",
+    "name": {
+      "vi": "Ten of Wands",
+      "en": "Ten of Wands"
+    },
+    "keywords": {
+      "vi": [
+        "gánh nặng",
+        "trách nhiệm",
+        "chia việc"
+      ],
+      "en": [
+        "burden",
+        "responsibility",
+        "sharing tasks"
+      ]
+    },
+    "intro": {
+      "vi": "Ten of Wands mang năng lượng của sự hoàn tất đi kèm với sức nặng. Lá bài phản chiếu một đôi vai đang gồng gánh quá nhiều trách nhiệm, nhắc bạn tự hỏi xem ngọn lửa nào thực sự thuộc về mình.",
+      "en": "Ten of Wands carries the energy of completion accompanied by heavy weight. The card reflects shoulders bearing too many responsibilities, prompting you to ask which fires truly belong to you."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người thầy, Ten of Wands sẽ từ tốn nhắc bạn đặt bớt đồ đạc xuống. Họ giúp bạn nhận ra ranh giới giữa việc nỗ lực hết mình và việc tự vắt kiệt sức lực không cần thiết.",
+      "en": "If it were a teacher, Ten of Wands would gently tell you to put some baggage down. They help you recognize the boundary between trying your best and unnecessarily exhausting yourself."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi sức nặng của nhiều trách nhiệm cùng lúc. Bạn có thể xem việc nào thuộc phần mình và việc nào cần chia sẻ.",
+      "en": "The card suggests the weight of several responsibilities at once. You can review what is yours and what could be shared."
+    },
+    "reversedMeaning": {
+      "vi": "Bạn có thể đang đặt bớt gánh nặng, hoặc vẫn khó nhờ người khác hỗ trợ. Giảm một việc không đồng nghĩa với bỏ trách nhiệm.",
+      "en": "You may be releasing a burden or still finding it hard to ask for support. Reducing one task does not mean abandoning responsibility."
+    },
+    "reflectionQuestion": {
+      "vi": "Một trách nhiệm nào bạn có thể chia sẻ hoặc giảm bớt trong hôm nay?",
+      "en": "Which responsibility could you share or reduce today?"
+    }
+  },
+  {
+    "id": "minor-wands-page",
+    "arcana": "minor",
+    "number": 11,
+    "suit": "wands",
+    "rank": "page",
+    "element": "fire",
+    "name": {
+      "vi": "Page of Wands",
+      "en": "Page of Wands"
+    },
+    "keywords": {
+      "vi": [
+        "tò mò",
+        "khám phá",
+        "thử sáng tạo"
+      ],
+      "en": [
+        "curiosity",
+        "exploration",
+        "creative experiment"
+      ]
+    },
+    "intro": {
+      "vi": "Page of Wands mang năng lượng của sự tò mò và khao khát khám phá nguyên sơ. Lá bài là ánh mắt háo hức trước một ý tưởng mới mẻ, đánh thức đứa trẻ sáng tạo bên trong bạn mà không màng kết quả.",
+      "en": "Page of Wands carries the energy of curiosity and pristine desire to explore. The card is an eager gaze at a fresh idea, awakening your inner creative child regardless of the outcome."
+    },
+    "personalityPortrait": {
+      "vi": "Như một người bạn trẻ tuổi đầy đam mê, Page of Wands rủ rê bạn thử nghiệm điều gì đó khác biệt. Họ khuyên bạn hãy bắt đầu bằng niềm vui thay vì những tính toán khô khan.",
+      "en": "Like a passionate young friend, Page of Wands invites you to experiment with something different. They advise you to start with joy rather than dry calculations."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi sự tò mò và niềm vui khám phá một ý tưởng mới. Bạn có thể học bằng một thử nghiệm nhỏ, chưa cần biết mình có giỏi hay không.",
+      "en": "The card suggests curiosity and the joy of exploring a new idea. You can learn through a small experiment without deciding whether you are good at it."
+    },
+    "reversedMeaning": {
+      "vi": "Sự hào hứng có thể chưa tìm được hướng, hoặc bạn đang ngại thử vì sợ làm chưa tốt. Chọn một bước khám phá nhỏ; kết quả chưa hoàn chỉnh không định nghĩa khả năng của bạn.",
+      "en": "Excitement may lack direction, or fear of doing poorly may hold back experimentation. Choose a small exploration; an unfinished result does not define your ability."
+    },
+    "reflectionQuestion": {
+      "vi": "Bạn muốn thử điều sáng tạo nào chỉ để khám phá, chưa cần làm thật giỏi?",
+      "en": "Which creative thing would you try simply to explore, without needing to do it well?"
+    }
+  },
+  {
+    "id": "minor-wands-knight",
+    "arcana": "minor",
+    "number": 12,
+    "suit": "wands",
+    "rank": "knight",
+    "element": "fire",
+    "name": {
+      "vi": "Knight of Wands",
+      "en": "Knight of Wands"
+    },
+    "keywords": {
+      "vi": [
+        "nhiệt huyết",
+        "hành động",
+        "phiêu lưu"
+      ],
+      "en": [
+        "enthusiasm",
+        "action",
+        "adventure"
+      ]
+    },
+    "intro": {
+      "vi": "Knight of Wands mang năng lượng của sự tiến lên mãnh liệt và những cuộc phiêu lưu. Lá bài thôi thúc bạn hành động theo tiếng gọi của đam mê, mang theo sự tự tin và lòng nhiệt thành rực cháy.",
+      "en": "Knight of Wands carries the energy of fierce forward motion and adventure. The card urges you to act on the call of passion, bringing confidence and burning enthusiasm."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người đồng hành, Knight of Wands sẽ nắm tay bạn chạy về phía trước. Họ truyền lửa cho bạn, nhưng cũng nhắc nhở bạn thi thoảng hãy nhìn lại để không đánh mất phương hướng.",
+      "en": "If it were a companion, Knight of Wands would take your hand and run forward. They ignite your fire, but also remind you to look back occasionally so as not to lose your direction."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi nhiệt huyết biến ý tưởng thành hành động. Bạn có thể dùng động lực đó cho một bước rõ và kiểm tra giới hạn trước khi đi xa.",
+      "en": "The card suggests enthusiasm turning an idea into action. You can direct it into a clear step and check limits before going further."
+    },
+    "reversedMeaning": {
+      "vi": "Vội vàng hoặc hào hứng thay đổi liên tục có thể làm việc dang dở. Dừng một nhịp để chọn điều bạn muốn theo đến cùng.",
+      "en": "Haste or constantly shifting excitement may leave things unfinished. Pause to choose what you want to follow through."
+    },
+    "reflectionQuestion": {
+      "vi": "Bạn muốn dồn nhiệt huyết vào một việc nào thay vì bắt đầu nhiều việc cùng lúc?",
+      "en": "Where would you focus enthusiasm instead of starting several things at once?"
+    }
+  },
+  {
+    "id": "minor-wands-queen",
+    "arcana": "minor",
+    "number": 13,
+    "suit": "wands",
+    "rank": "queen",
+    "element": "fire",
+    "name": {
+      "vi": "Queen of Wands",
+      "en": "Queen of Wands"
+    },
+    "keywords": {
+      "vi": [
+        "tự tin",
+        "ấm áp",
+        "tự chủ"
+      ],
+      "en": [
+        "confidence",
+        "warmth",
+        "self-possession"
+      ]
+    },
+    "intro": {
+      "vi": "Queen of Wands gợi sự tự tin và ấm áp khi hiện diện. Lá bài mời bạn thể hiện điều mình yêu thích, đồng thời giữ ranh giới không cần ai khác phê chuẩn.",
+      "en": "Queen of Wands suggests confidence and warmth in being present. The card invites expressing what you enjoy while keeping boundaries that need not depend on others' approval."
+    },
+    "personalityPortrait": {
+      "vi": "Giống như một nữ hoàng làm chủ ngọn lửa của riêng mình, Queen of Wands mời bạn yêu lấy bản thân một cách không e dè. Họ khuyến khích bạn lan tỏa ánh sáng bên trong mà không cần xin phép ai.",
+      "en": "Like a queen mastering her own fire, Queen of Wands invites you to love yourself unapologetically. She encourages you to spread your inner light without asking for permission."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi sự tự tin và ấm áp khi thể hiện điều mình yêu thích. Bạn có thể hiện diện rõ mà không cần làm vừa lòng tất cả.",
+      "en": "The card suggests confidence and warmth in expressing what you enjoy. You can be visible without pleasing everyone."
+    },
+    "reversedMeaning": {
+      "vi": "So sánh, tự nghi ngờ hoặc cố giữ hình ảnh mạnh mẽ có thể khiến bạn quên điều mình muốn. Bạn có thể chọn cách thể hiện ít áp lực hơn.",
+      "en": "Comparison, self-doubt or maintaining a strong image may obscure your wishes. You can choose a less pressured way to express yourself."
+    },
+    "reflectionQuestion": {
+      "vi": "Bạn muốn thể hiện điều mình yêu thích thế nào mà không cần được mọi người chấp thuận?",
+      "en": "How would you express what you enjoy without needing everyone's approval?"
+    }
+  },
+  {
+    "id": "minor-wands-king",
+    "arcana": "minor",
+    "number": 14,
+    "suit": "wands",
+    "rank": "king",
+    "element": "fire",
+    "name": {
+      "vi": "King of Wands",
+      "en": "King of Wands"
+    },
+    "keywords": {
+      "vi": [
+        "tầm nhìn",
+        "dẫn dắt",
+        "cam kết"
+      ],
+      "en": [
+        "vision",
+        "leadership",
+        "commitment"
+      ]
+    },
+    "intro": {
+      "vi": "King of Wands gợi tầm nhìn và khả năng kết nối ý tưởng với hành động. Lá bài mời bạn dẫn dắt bằng mục tiêu rõ và sự lắng nghe, không bằng việc áp đặt mọi người theo một hướng.",
+      "en": "King of Wands suggests vision and connecting ideas with action. The card invites leadership through clear purpose and listening, not imposing a single direction."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người dẫn dắt, King of Wands sẽ cùng bạn làm rõ một tầm nhìn và cách phối hợp. Họ mời bạn nhận trách nhiệm mà vẫn lắng nghe giới hạn và đóng góp của người khác.",
+      "en": "If King of Wands were a guide, they would help clarify a vision and a way to collaborate. They would invite responsibility while listening to others' limits and contributions."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi tầm nhìn và khả năng phối hợp người, ý tưởng và hành động. Dẫn dắt có thể là làm rõ mục tiêu và lắng nghe đóng góp khác.",
+      "en": "The card suggests vision and coordinating people, ideas and action. Leadership can mean clarifying a goal and hearing other contributions."
+    },
+    "reversedMeaning": {
+      "vi": "Tầm nhìn thiếu thực hiện hoặc áp đặt một hướng duy nhất có thể làm người khác khó tham gia. Bạn có thể chia sẻ mục tiêu và xem lại cách phối hợp.",
+      "en": "Vision without follow-through or imposing one direction may hinder participation. You can share the goal and review how to work together."
+    },
+    "reflectionQuestion": {
+      "vi": "Bạn có thể làm rõ mục tiêu chung nào để người khác cũng có chỗ đóng góp?",
+      "en": "Which shared goal could you clarify so others have room to contribute?"
+    }
+  },
+  {
+    "id": "minor-cups-ace",
+    "arcana": "minor",
+    "number": 1,
+    "suit": "cups",
+    "rank": "ace",
+    "element": "water",
+    "name": {
+      "vi": "Ace of Cups",
+      "en": "Ace of Cups"
+    },
+    "keywords": {
+      "vi": [
+        "mở lòng",
+        "cảm xúc mới",
+        "đón nhận"
+      ],
+      "en": [
+        "openness",
+        "new feeling",
+        "receptivity"
+      ]
+    },
+    "intro": {
+      "vi": "Ace of Cups mang năng lượng của chiếc cốc tràn đầy tình yêu và sự rộng mở. Lá bài là một khởi đầu dịu dàng, mời gọi bạn cho phép mình được cảm nhận sâu sắc hơn mà không sợ hãi.",
+      "en": "Ace of Cups carries the energy of a cup overflowing with love and openness. The card is a gentle beginning, inviting you to allow yourself to feel more deeply without fear."
+    },
+    "personalityPortrait": {
+      "vi": "Như một người bạn mang đến sự ủi an, Ace of Cups xoa dịu những góc khô cằn trong bạn. Họ khuyên bạn hãy mở lòng đón nhận những hạt giống cảm xúc mới đang nảy mầm.",
+      "en": "Like a comforting friend, Ace of Cups soothes the dry corners within you. They advise you to open your heart to the new seeds of emotion that are sprouting."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi mở lòng với một cảm xúc, nguồn sáng tạo hoặc kết nối mới. Bạn có thể đón nhận theo nhịp mình thấy thoải mái.",
+      "en": "The card suggests openness to a feeling, creative source or new connection. You can receive it at a pace that feels comfortable."
+    },
+    "reversedMeaning": {
+      "vi": "Cảm xúc chưa được gọi tên hoặc khó đón nhận có thể cần một khoảng riêng. Bạn không phải trao tình cảm khi chưa sẵn sàng.",
+      "en": "An unnamed feeling or difficulty receiving may need private space. You need not offer affection before you are ready."
+    },
+    "reflectionQuestion": {
+      "vi": "Cảm xúc mới nào bạn muốn đón nhận theo nhịp của mình?",
+      "en": "Which new feeling would you receive at your own pace?"
+    }
+  },
+  {
+    "id": "minor-cups-two",
+    "arcana": "minor",
+    "number": 2,
+    "suit": "cups",
+    "rank": "two",
+    "element": "water",
+    "name": {
+      "vi": "Two of Cups",
+      "en": "Two of Cups"
+    },
+    "keywords": {
+      "vi": [
+        "đáp lại",
+        "kết nối",
+        "tự nguyện"
+      ],
+      "en": [
+        "reciprocity",
+        "connection",
+        "willingness"
+      ]
+    },
+    "intro": {
+      "vi": "Two of Cups mang năng lượng của sự đồng điệu và sự phản chiếu chân thật. Lá bài nhắc bạn rằng những kết nối ý nghĩa nhất luôn đến từ việc hai bên cùng tự nguyện mở lòng và lắng nghe.",
+      "en": "Two of Cups carries the energy of harmony and honest reflection. The card reminds you that the most meaningful connections always come from both sides willingly opening up and listening."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người bạn, Two of Cups sẽ trao cho bạn một sự thấu hiểu tĩnh lặng. Họ giúp bạn nhìn thấy vẻ đẹp của mình thông qua lăng kính của một người thực sự trân trọng bạn.",
+      "en": "If it were a friend, Two of Cups would offer quiet understanding. They help you see your own beauty through the lens of someone who truly appreciates you."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi sự kết nối có lắng nghe và đáp lại từ hai phía. Nó mời bạn nhìn vào tương tác thực tế, không xác nhận người kia có cùng tình cảm.",
+      "en": "The card suggests connection with listening and reciprocity. It invites attention to actual interactions without confirming shared feelings."
+    },
+    "reversedMeaning": {
+      "vi": "Nhu cầu hoặc cách trao đổi có thể chưa đồng điệu. Bạn có thể làm rõ phần mình muốn mà không ép sự đáp lại.",
+      "en": "Needs or communication may not align. You can clarify what you want without forcing reciprocity."
+    },
+    "reflectionQuestion": {
+      "vi": "Sự đáp lại nào trong tương tác thực tế khiến bạn thấy được tôn trọng?",
+      "en": "Which form of reciprocity in actual interactions makes you feel respected?"
+    }
+  },
+  {
+    "id": "minor-cups-three",
+    "arcana": "minor",
+    "number": 3,
+    "suit": "cups",
+    "rank": "three",
+    "element": "water",
+    "name": {
+      "vi": "Three of Cups",
+      "en": "Three of Cups"
+    },
+    "keywords": {
+      "vi": [
+        "tình bạn",
+        "sẻ chia",
+        "ăn mừng"
+      ],
+      "en": [
+        "friendship",
+        "sharing",
+        "celebration"
+      ]
+    },
+    "intro": {
+      "vi": "Three of Cups mang năng lượng của tình bạn và sự sẻ chia vô tư. Lá bài gợi nhớ về những khoảnh khắc bạn không cần phải gồng mình, chỉ đơn giản là được kết nối và ăn mừng cùng những người cùng tần số.",
+      "en": "Three of Cups carries the energy of friendship and selfless sharing. The card recalls moments when you don't have to brace yourself, simply connecting and celebrating with kindred spirits."
+    },
+    "personalityPortrait": {
+      "vi": "Giống như một vòng tròn ấm áp, Three of Cups rủ bạn tạm quên đi những lo toan. Họ nhắc nhở rằng niềm vui thực sự sẽ được nhân lên khi có người cùng nâng ly.",
+      "en": "Like a warm circle, Three of Cups invites you to momentarily forget your worries. They remind you that true joy multiplies when there is someone to raise a glass with."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi tình bạn, sự hỗ trợ và niềm vui được sẻ chia. Một khoảnh khắc kết nối có thể đáng quý dù không phải buổi tụ họp lớn.",
+      "en": "The card suggests friendship, support and shared joy. A moment of connection can matter without a large gathering."
+    },
+    "reversedMeaning": {
+      "vi": "Áp lực hòa nhập hoặc cảm giác thiếu kết nối có thể cần được lắng nghe. Bạn có thể chọn một vòng tròn phù hợp thay vì cố có mặt ở mọi nơi.",
+      "en": "Pressure to fit in or a lack of connection may need attention. You can choose a fitting circle rather than attend everything."
+    },
+    "reflectionQuestion": {
+      "vi": "Bạn muốn chia sẻ niềm vui nhỏ nào với một người khiến mình thấy thoải mái?",
+      "en": "Which small joy would you share with someone you feel comfortable around?"
+    }
+  },
+  {
+    "id": "minor-cups-four",
+    "arcana": "minor",
+    "number": 4,
+    "suit": "cups",
+    "rank": "four",
+    "element": "water",
+    "name": {
+      "vi": "Four of Cups",
+      "en": "Four of Cups"
+    },
+    "keywords": {
+      "vi": [
+        "khoảng lặng",
+        "chán nản",
+        "xem lại nhu cầu"
+      ],
+      "en": [
+        "pause",
+        "discontent",
+        "reviewing needs"
+      ]
+    },
+    "intro": {
+      "vi": "Four of Cups mang năng lượng của sự hướng nội và những khoảng lặng chưa được lấp đầy. Lá bài không trách cứ sự chán nản của bạn, mà nhẹ nhàng hỏi xem bạn đang thực sự khao khát điều gì khác biệt.",
+      "en": "Four of Cups carries the energy of inwardness and unfulfilled quiet spaces. The card does not blame you for discontent, but gently asks what you may be longing for."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người bạn, Four of Cups sẽ kiên nhẫn ở bên khi bạn chưa thấy hứng thú. Họ không gọi đó là dỗi hờn hay ép bạn vui, mà để bạn tự xem điều mình cần.",
+      "en": "If Four of Cups were a friend, they would stay patiently when interest is low. They would not label it pouting or force cheerfulness, but leave room to explore your needs."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi một khoảng lặng để nhận ra điều chưa khiến bạn thấy gắn kết. Bạn có thể xem lại nhu cầu trước khi đón nhận một lời mời.",
+      "en": "The card suggests a pause to notice what does not feel engaging. You can review your needs before accepting an invitation."
+    },
+    "reversedMeaning": {
+      "vi": "Sự quan tâm có thể đang trở lại, hoặc bạn vẫn cần nghỉ thay vì ép mình hào hứng. Chỉ chọn một điều nhỏ thật sự muốn thử.",
+      "en": "Interest may be returning, or you may still need rest rather than forced enthusiasm. Choose one small thing you genuinely want to try."
+    },
+    "reflectionQuestion": {
+      "vi": "Lời mời hoặc hoạt động nào bạn muốn cân nhắc lại sau một khoảng lặng?",
+      "en": "Which invitation or activity would you reconsider after a pause?"
+    }
+  },
+  {
+    "id": "minor-cups-five",
+    "arcana": "minor",
+    "number": 5,
+    "suit": "cups",
+    "rank": "five",
+    "element": "water",
+    "name": {
+      "vi": "Five of Cups",
+      "en": "Five of Cups"
+    },
+    "keywords": {
+      "vi": [
+        "tiếc nuối",
+        "mất mát",
+        "điểm tựa"
+      ],
+      "en": [
+        "regret",
+        "loss",
+        "support"
+      ]
+    },
+    "intro": {
+      "vi": "Five of Cups mang năng lượng của những chiếc cốc đã đổ và nỗi tiếc nuối chưa nguôi. Lá bài cho phép bạn buồn, nhưng cũng thì thầm nhắc bạn về những chiếc cốc vẫn còn nguyên vẹn ở phía sau.",
+      "en": "Five of Cups carries the energy of spilled cups and unsoothed regret. The card allows you to grieve, but also whispers of the cups that still remain standing behind you."
+    },
+    "personalityPortrait": {
+      "vi": "Giống như một người ôm lấy bạn trong lúc vỡ mộng, Five of Cups không nói những lời sáo rỗng. Họ cùng bạn đối diện với mất mát để rồi nhẹ nhàng hướng ánh nhìn của bạn về phía hy vọng còn sót lại.",
+      "en": "Like someone embracing you during disillusionment, Five of Cups doesn't offer empty platitudes. They face the loss with you, then gently direct your gaze toward remaining hope."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi việc thừa nhận một điều mất mát hoặc không như mong đợi. Nếu điều này phù hợp, bạn có thể buồn mà chưa cần tìm mặt tích cực ngay.",
+      "en": "The card suggests acknowledging loss or something disappointing. If this fits, you can feel sad without immediately finding a positive side."
+    },
+    "reversedMeaning": {
+      "vi": "Bạn có thể bắt đầu nhận ra điều vẫn nâng đỡ mình, hoặc nỗi tiếc nuối còn cần thời gian. Không có hạn chót cho việc cảm thấy khác đi.",
+      "en": "You may begin noticing what still supports you, or regret may need more time. There is no deadline for feeling differently."
+    },
+    "reflectionQuestion": {
+      "vi": "Nếu đang tiếc nuối, điểm tựa nhỏ nào bạn muốn đón nhận mà không phủ nhận nỗi buồn?",
+      "en": "If you feel regret, which small support could you receive without denying sadness?"
+    }
+  },
+  {
+    "id": "minor-cups-six",
+    "arcana": "minor",
+    "number": 6,
+    "suit": "cups",
+    "rank": "six",
+    "element": "water",
+    "name": {
+      "vi": "Six of Cups",
+      "en": "Six of Cups"
+    },
+    "keywords": {
+      "vi": [
+        "ký ức",
+        "hoài niệm",
+        "lòng tốt"
+      ],
+      "en": [
+        "memory",
+        "nostalgia",
+        "kindness"
+      ]
+    },
+    "intro": {
+      "vi": "Six of Cups gợi ký ức, lòng tốt và niềm vui giản dị. Lá bài mời bạn tìm lại một điều từng nâng đỡ mình mà vẫn nhìn quá khứ với cả những phần chưa trọn vẹn.",
+      "en": "Six of Cups suggests memory, kindness and simple joys. The card invites revisiting what once supported you while allowing an imperfect view of the past."
+    },
+    "personalityPortrait": {
+      "vi": "Như một người giữ gìn những kỷ niệm đẹp, Six of Cups vỗ về những mỏi mệt hiện tại của bạn bằng sự ngọt ngào xưa cũ. Họ nhắc bạn rằng sự ngây thơ không phải là điểm yếu, mà là một món quà.",
+      "en": "Like a keeper of beautiful memories, Six of Cups comforts your current weariness with old sweetness. They remind you that innocence is not a weakness, but a gift."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi ký ức, sự thân thuộc và lòng tốt giản dị. Bạn có thể tìm điều từng nâng đỡ mình mà không cần quay lại hoàn cảnh cũ.",
+      "en": "The card suggests memory, familiarity and simple kindness. You can find what once supported you without returning to an old situation."
+    },
+    "reversedMeaning": {
+      "vi": "Lý tưởng hóa quá khứ hoặc khó rời một hình ảnh quen có thể che mờ nhu cầu hiện tại. Giữ điều hữu ích và cho phép mình thay đổi.",
+      "en": "Idealizing the past or holding a familiar image may obscure present needs. Keep what helps and allow yourself to change."
+    },
+    "reflectionQuestion": {
+      "vi": "Điều gì từ một ký ức tốt bạn muốn mang vào hiện tại theo cách mới?",
+      "en": "What from a good memory would you bring into the present in a new way?"
+    }
+  },
+  {
+    "id": "minor-cups-seven",
+    "arcana": "minor",
+    "number": 7,
+    "suit": "cups",
+    "rank": "seven",
+    "element": "water",
+    "name": {
+      "vi": "Seven of Cups",
+      "en": "Seven of Cups"
+    },
+    "keywords": {
+      "vi": [
+        "nhiều lựa chọn",
+        "tưởng tượng",
+        "phân định"
+      ],
+      "en": [
+        "options",
+        "imagination",
+        "discernment"
+      ]
+    },
+    "intro": {
+      "vi": "Seven of Cups mang năng lượng của những ảo ảnh và vô vàn lựa chọn rực rỡ. Lá bài nhắc bạn rằng có những thứ trông rất lấp lánh nhưng không thực sự chứa đựng điều tâm hồn bạn cần.",
+      "en": "Seven of Cups carries the energy of illusions and a myriad of dazzling choices. The card reminds you that some things look sparkling but do not truly contain what your soul needs."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người quan sát, Seven of Cups sẽ cùng bạn phân biệt mong muốn, tưởng tượng và điều có dữ kiện để thử. Họ giúp bạn chọn một tiêu chí thực tế, không hứa một lựa chọn sẽ đem lại sự mãn nguyện.",
+      "en": "If Seven of Cups were an observer, they would distinguish wishes, imagination and possibilities grounded enough to try. They would help choose a practical criterion without promising that one option will bring fulfillment."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi nhiều khả năng và mong muốn cùng xuất hiện. Bạn có thể phân biệt điều hấp dẫn trong tưởng tượng với điều có dữ kiện để thử.",
+      "en": "The card suggests several possibilities and wishes at once. You can distinguish an appealing fantasy from something grounded enough to try."
+    },
+    "reversedMeaning": {
+      "vi": "Sự lựa chọn có thể rõ hơn, hoặc bạn đang muốn chọn nhanh để thoát mơ hồ. Kiểm tra một tiêu chí thực tế trước khi thu hẹp các hướng.",
+      "en": "Choices may be clearer, or you may rush to escape uncertainty. Check one practical criterion before narrowing the options."
+    },
+    "reflectionQuestion": {
+      "vi": "Tiêu chí thực tế nào sẽ giúp bạn chọn một khả năng để tìm hiểu thêm?",
+      "en": "Which practical criterion would help you choose one possibility to explore further?"
+    }
+  },
+  {
+    "id": "minor-cups-eight",
+    "arcana": "minor",
+    "number": 8,
+    "suit": "cups",
+    "rank": "eight",
+    "element": "water",
+    "name": {
+      "vi": "Eight of Cups",
+      "en": "Eight of Cups"
+    },
+    "keywords": {
+      "vi": [
+        "tìm ý nghĩa",
+        "rời điều không phù hợp",
+        "chuyển hướng"
+      ],
+      "en": [
+        "seeking meaning",
+        "leaving what no longer fits",
+        "redirection"
+      ]
+    },
+    "intro": {
+      "vi": "Eight of Cups gợi việc xem điều đang theo đuổi có còn ý nghĩa. Lá bài mời bạn lắng nghe nhu cầu trước khi cân nhắc ở lại, điều chỉnh hoặc đổi hướng, không quyết định thay bạn.",
+      "en": "Eight of Cups suggests asking whether a pursuit still feels meaningful. The card invites listening to your needs before considering staying, adjusting or redirecting, without deciding for you."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người đồng hành, Eight of Cups sẽ cùng bạn làm rõ điều khiến một hướng đi còn ý nghĩa. Họ không quyết định bạn phải rời đi, mà tôn trọng việc ở lại, điều chỉnh hoặc đổi hướng.",
+      "en": "If Eight of Cups were a companion, they would explore what makes a direction meaningful. They would not decide that you must leave, but respect staying, adjusting or redirecting."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi xem điều đang theo đuổi có còn ý nghĩa với bạn không. Bạn có thể cân nhắc đổi hướng, không cần lập tức rời bỏ một người hay hoàn cảnh.",
+      "en": "The card suggests asking whether a pursuit still feels meaningful. You can consider redirection without immediately leaving a person or situation."
+    },
+    "reversedMeaning": {
+      "vi": "Ở lại vì quen thuộc hoặc muốn bỏ đi chỉ để tránh cảm xúc có thể cần được phân biệt. Bạn có thể làm rõ nhu cầu trước khi quyết định.",
+      "en": "Staying from familiarity or leaving to avoid feelings may need distinguishing. You can clarify your needs before deciding."
+    },
+    "reflectionQuestion": {
+      "vi": "Nhu cầu nào khiến bạn cân nhắc thay đổi hướng đang theo đuổi?",
+      "en": "Which need makes you consider changing a direction you are pursuing?"
+    }
+  },
+  {
+    "id": "minor-cups-nine",
+    "arcana": "minor",
+    "number": 9,
+    "suit": "cups",
+    "rank": "nine",
+    "element": "water",
+    "name": {
+      "vi": "Nine of Cups",
+      "en": "Nine of Cups"
+    },
+    "keywords": {
+      "vi": [
+        "hài lòng",
+        "tận hưởng",
+        "biết đủ"
+      ],
+      "en": [
+        "contentment",
+        "enjoyment",
+        "enoughness"
+      ]
+    },
+    "intro": {
+      "vi": "Nine of Cups mang năng lượng của sự tự hào và mãn nguyện nội tâm. Lá bài là một cái mỉm cười rạng rỡ, xác nhận rằng bạn hoàn toàn xứng đáng tận hưởng những điều tốt đẹp đang hiện diện.",
+      "en": "Nine of Cups carries the energy of pride and inner contentment. The card is a radiant smile, affirming that you wholly deserve to enjoy the good things present in your life."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người chủ tiệc, Nine of Cups sẽ mời bạn tận hưởng một niềm vui nhỏ. Họ không yêu cầu bạn phải mãn nguyện mọi lúc, chỉ giúp bạn nhận ra điều đang thấy đủ.",
+      "en": "If Nine of Cups were a host, they would invite a small pleasure. They would not demand constant satisfaction, but help you notice what feels enough."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi sự hài lòng và khả năng tận hưởng điều đã có. Bạn có thể ghi nhận một niềm vui mà không coi nó là lời hứa mọi mong muốn sẽ thành hiện thực.",
+      "en": "The card suggests contentment and enjoyment of what is present. You can appreciate a pleasure without treating it as a promise that every wish will come true."
+    },
+    "reversedMeaning": {
+      "vi": "Điều tưởng sẽ làm bạn hài lòng có thể chưa đáp đúng nhu cầu. Bạn có thể xem lại thế nào là đủ thay vì tìm thêm sự công nhận.",
+      "en": "Something expected to satisfy may not meet your needs. You can review what enough means rather than seek more approval."
+    },
+    "reflectionQuestion": {
+      "vi": "Điều gì đang khiến bạn thấy đủ trong hiện tại, dù chỉ là một khoảnh khắc?",
+      "en": "What feels enough in the present, even for a moment?"
+    }
+  },
+  {
+    "id": "minor-cups-ten",
+    "arcana": "minor",
+    "number": 10,
+    "suit": "cups",
+    "rank": "ten",
+    "element": "water",
+    "name": {
+      "vi": "Ten of Cups",
+      "en": "Ten of Cups"
+    },
+    "keywords": {
+      "vi": [
+        "gắn kết",
+        "mái ấm",
+        "giá trị chung"
+      ],
+      "en": [
+        "belonging",
+        "home",
+        "shared values"
+      ]
+    },
+    "intro": {
+      "vi": "Ten of Cups mang năng lượng của sự trọn vẹn và bình yên trong các mối quan hệ. Lá bài như một cầu vồng rực rỡ sau cơn mưa, mang đến cảm giác an toàn như khi được thực sự trở về nhà.",
+      "en": "Ten of Cups carries the energy of wholeness and peace in relationships. The card is like a vibrant rainbow after rain, bringing the safe feeling of truly returning home."
+    },
+    "personalityPortrait": {
+      "vi": "Như một mái ấm che chở, Ten of Cups ôm lấy mọi mảnh ghép của bạn. Họ nhắc bạn rằng tình yêu đích thực không yêu cầu bạn phải hoàn hảo, mà chỉ cần bạn là chính mình.",
+      "en": "Like a sheltering home, Ten of Cups embraces every piece of you. They remind you that true love doesn't require perfection, only that you be yourself."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi cảm giác thuộc về và những giá trị được cùng chăm sóc. Một mái ấm có thể là gia đình, bạn bè hoặc cộng đồng bạn lựa chọn.",
+      "en": "The card suggests belonging and values cared for together. Home can mean family, friends or a community you choose."
+    },
+    "reversedMeaning": {
+      "vi": "Hình ảnh hạnh phúc lý tưởng có thể khác trải nghiệm thật. Bạn có thể làm rõ nhu cầu kết nối mà không phải giữ một vẻ ngoài hoàn hảo.",
+      "en": "An ideal picture of happiness may differ from lived experience. You can clarify connection needs without maintaining a perfect appearance."
+    },
+    "reflectionQuestion": {
+      "vi": "Một giá trị chung nào khiến bạn thấy thuộc về trong những mối quan hệ mình chọn?",
+      "en": "Which shared value brings belonging in the relationships you choose?"
+    }
+  },
+  {
+    "id": "minor-cups-page",
+    "arcana": "minor",
+    "number": 11,
+    "suit": "cups",
+    "rank": "page",
+    "element": "water",
+    "name": {
+      "vi": "Page of Cups",
+      "en": "Page of Cups"
+    },
+    "keywords": {
+      "vi": [
+        "tò mò cảm xúc",
+        "sáng tạo",
+        "thông điệp dịu dàng"
+      ],
+      "en": [
+        "emotional curiosity",
+        "creativity",
+        "gentle message"
+      ]
+    },
+    "intro": {
+      "vi": "Page of Cups gợi tò mò với cảm xúc và nguồn sáng tạo mới. Lá bài khuyến khích bạn thử lắng nghe điều còn lạ, chưa cần vội kết luận nó có ý nghĩa gì.",
+      "en": "Page of Cups suggests curiosity about feelings and fresh creativity. The card encourages listening to something unfamiliar without rushing to decide what it means."
+    },
+    "personalityPortrait": {
+      "vi": "Giống như một người mộng mơ, Page of Cups rủ bạn nhìn thế giới qua lăng kính thơ ngây. Họ giúp bạn tìm thấy nguồn cảm hứng ở những điều nhỏ bé và kỳ lạ nhất xung quanh.",
+      "en": "Like a dreamer, Page of Cups invites you to view the world through innocent eyes. They help you find inspiration in the smallest and strangest things around you."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi tò mò với một cảm xúc hoặc ý tưởng dịu dàng mới. Bạn có thể thử gọi tên nó mà chưa cần xem đó là sự thật về người khác.",
+      "en": "The card suggests curiosity about a new feeling or gentle idea. You can try naming it without treating it as a truth about someone else."
+    },
+    "reversedMeaning": {
+      "vi": "Ngại bộc lộ hoặc kỳ vọng chưa rõ có thể làm thông điệp cảm xúc khó đi thành lời. Một cách diễn đạt đơn giản giúp bạn kiểm tra điều thật sự muốn nói.",
+      "en": "Reluctance to share or unclear expectations may make feelings hard to express. Simple wording can help check what you want to say."
+    },
+    "reflectionQuestion": {
+      "vi": "Bạn muốn gọi tên cảm xúc nào bằng một câu đơn giản dành cho chính mình?",
+      "en": "Which feeling would you name in one simple sentence for yourself?"
+    }
+  },
+  {
+    "id": "minor-cups-knight",
+    "arcana": "minor",
+    "number": 12,
+    "suit": "cups",
+    "rank": "knight",
+    "element": "water",
+    "name": {
+      "vi": "Knight of Cups",
+      "en": "Knight of Cups"
+    },
+    "keywords": {
+      "vi": [
+        "lý tưởng",
+        "lãng mạn",
+        "bày tỏ"
+      ],
+      "en": [
+        "ideals",
+        "romance",
+        "expression"
+      ]
+    },
+    "intro": {
+      "vi": "Knight of Cups mang năng lượng của sự lãng mạn và theo đuổi lý tưởng. Lá bài là lời mời gọi can đảm sống đúng với tiếng gọi của trái tim, mang theo sự dịu dàng làm áo giáp.",
+      "en": "Knight of Cups carries the energy of romance and pursuing ideals. The card is an invitation to courageously live true to the heart's calling, wearing gentleness as armor."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người bạn, Knight of Cups sẽ cổ vũ bạn bước tới vì những điều bạn trân trọng. Họ nhắc bạn rằng hành động xuất phát từ tình yêu và sự thấu cảm sẽ luôn có sức mạnh lớn lao.",
+      "en": "If it were a friend, Knight of Cups would cheer you on to step forward for what you cherish. They remind you that actions born of love and empathy always hold great power."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi đưa một cảm xúc hoặc lý tưởng vào hành động có cân nhắc. Bạn có thể bày tỏ điều quý trọng mà vẫn tôn trọng ranh giới và sự đáp lại.",
+      "en": "The card suggests bringing a feeling or ideal into considered action. You can express what you value while respecting boundaries and reciprocity."
+    },
+    "reversedMeaning": {
+      "vi": "Lý tưởng hóa hoặc lời hứa chưa đi cùng hành động có thể khiến kỳ vọng lệch. Bạn có thể đối chiếu mong muốn với điều thực sự được làm.",
+      "en": "Idealization or promises without action may misalign expectations. You can compare wishes with what is actually done."
+    },
+    "reflectionQuestion": {
+      "vi": "Hành động nhỏ nào sẽ thể hiện điều bạn trân trọng mà không ép người khác đáp lại?",
+      "en": "Which small action would express what you value without pressuring someone to reciprocate?"
+    }
+  },
+  {
+    "id": "minor-cups-queen",
+    "arcana": "minor",
+    "number": 13,
+    "suit": "cups",
+    "rank": "queen",
+    "element": "water",
+    "name": {
+      "vi": "Queen of Cups",
+      "en": "Queen of Cups"
+    },
+    "keywords": {
+      "vi": [
+        "thấu cảm",
+        "lắng nghe",
+        "ranh giới cảm xúc"
+      ],
+      "en": [
+        "empathy",
+        "listening",
+        "emotional boundaries"
+      ]
+    },
+    "intro": {
+      "vi": "Queen of Cups gợi sự thấu cảm và khả năng lắng nghe cảm xúc. Lá bài mời bạn quan tâm với ranh giới rõ, không yêu cầu phải đón nhận mọi nỗi đau của người khác.",
+      "en": "Queen of Cups suggests empathy and listening to feelings. The card invites care with clear boundaries, not carrying every hurt another person brings."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người bạn, Queen of Cups sẽ lắng nghe mà không hứa giải quyết mọi tổn thương. Họ cùng bạn gọi tên cảm xúc và giữ chỗ cho nhu cầu của cả hai.",
+      "en": "If Queen of Cups were a friend, they would listen without promising to resolve every hurt. They would help name feelings while leaving room for both people's needs."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi lắng nghe cảm xúc bằng sự thấu cảm và ranh giới. Quan tâm đến người khác không yêu cầu bạn mang mọi cảm xúc của họ.",
+      "en": "The card suggests listening with empathy and boundaries. Caring does not require carrying all of another person's feelings."
+    },
+    "reversedMeaning": {
+      "vi": "Đón nhận quá nhiều hoặc khó phân biệt nhu cầu của mình và người khác có thể làm bạn mệt. Bạn có thể lắng nghe mà vẫn giữ giới hạn.",
+      "en": "Taking in too much or confusing your needs with another's may be tiring. You can listen while keeping limits."
+    },
+    "reflectionQuestion": {
+      "vi": "Bạn cần ranh giới nào để lắng nghe một người mà vẫn chăm sóc nhu cầu của mình?",
+      "en": "Which boundary would let you listen to someone while caring for your own needs?"
+    }
+  },
+  {
+    "id": "minor-cups-king",
+    "arcana": "minor",
+    "number": 14,
+    "suit": "cups",
+    "rank": "king",
+    "element": "water",
+    "name": {
+      "vi": "King of Cups",
+      "en": "King of Cups"
+    },
+    "keywords": {
+      "vi": [
+        "điềm tĩnh",
+        "trí tuệ cảm xúc",
+        "cân nhắc"
+      ],
+      "en": [
+        "composure",
+        "emotional intelligence",
+        "consideration"
+      ]
+    },
+    "intro": {
+      "vi": "King of Cups gợi sự điềm tĩnh khi lắng nghe cảm xúc. Lá bài mời bạn giữ một khoảng cân nhắc để cảm nhận sâu mà vẫn chọn cách phản hồi của mình.",
+      "en": "King of Cups suggests composure when listening to feelings. The card invites room for consideration so you can feel deeply and still choose your response."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người dẫn dắt, King of Cups sẽ không để cơn sóng cảm xúc cuốn trôi cả hai. Họ giúp bạn làm chủ nội tâm, biến sự nhạy cảm thành sức mạnh bảo vệ vững chắc.",
+      "en": "As a guide, King of Cups would not let waves of emotion wash you both away. They help you master your interior, turning sensitivity into a strong protective power."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi giữ được sự cân nhắc khi cảm xúc mạnh xuất hiện. Bạn có thể thừa nhận điều đang cảm thấy và chọn phản hồi phù hợp.",
+      "en": "The card suggests retaining perspective when strong feelings arise. You can acknowledge what you feel and choose a fitting response."
+    },
+    "reversedMeaning": {
+      "vi": "Dồn nén cảm xúc hoặc để chúng quyết định thay mình có thể khiến trao đổi khó rõ. Một khoảng dừng giúp bạn nhận diện nhu cầu mà không phủ nhận cảm xúc.",
+      "en": "Suppressing feelings or letting them decide for you may cloud communication. A pause can reveal needs without denying emotion."
+    },
+    "reflectionQuestion": {
+      "vi": "Bạn muốn chọn cách phản hồi nào sau khi gọi tên một cảm xúc mạnh?",
+      "en": "Which response would you choose after naming a strong feeling?"
+    }
+  },
+  {
+    "id": "minor-swords-ace",
+    "arcana": "minor",
+    "number": 1,
+    "suit": "swords",
+    "rank": "ace",
+    "element": "air",
+    "name": {
+      "vi": "Ace of Swords",
+      "en": "Ace of Swords"
+    },
+    "keywords": {
+      "vi": [
+        "rõ ràng",
+        "phân định",
+        "sự thật"
+      ],
+      "en": [
+        "clarity",
+        "discernment",
+        "truth"
+      ]
+    },
+    "intro": {
+      "vi": "Ace of Swords gợi sự rõ ràng và một cách nhìn vấn đề chính xác hơn. Lá bài mời bạn dùng dữ kiện và câu hỏi, không xác nhận rằng mọi suy nghĩ của mình đều đúng.",
+      "en": "Ace of Swords suggests clarity and a more precise view of a problem. The card invites evidence and questions without confirming every thought as true."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người bạn, Ace of Swords sẽ cùng bạn làm rõ một suy nghĩ bằng câu hỏi và dữ kiện. Họ mời bạn xem lại điều chưa chắc mà không gọi sự nhầm lẫn là lỗi hay tự lừa dối.",
+      "en": "If Ace of Swords were a friend, they would clarify a thought with questions and evidence. They would invite checking uncertainty without calling confusion a fault or self-deception."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi một ý rõ hoặc cách gọi tên vấn đề chính xác hơn. Bạn có thể đối chiếu suy nghĩ với dữ kiện trước khi nói hay quyết định.",
+      "en": "The card suggests a clear idea or a more precise way to name a problem. You can check thoughts against facts before speaking or deciding."
+    },
+    "reversedMeaning": {
+      "vi": "Thông tin thiếu, lý lẽ chồng chéo hoặc lời nói chưa rõ có thể làm kết luận vội vàng. Kiểm tra một điều còn mơ hồ thay vì cố chắc chắn.",
+      "en": "Missing information, tangled reasoning or unclear words may encourage hasty conclusions. Check one uncertain point rather than force certainty."
+    },
+    "reflectionQuestion": {
+      "vi": "Một dữ kiện nào sẽ giúp bạn gọi tên vấn đề rõ hơn?",
+      "en": "Which fact would help you name the problem more clearly?"
+    }
+  },
+  {
+    "id": "minor-swords-two",
+    "arcana": "minor",
+    "number": 2,
+    "suit": "swords",
+    "rank": "two",
+    "element": "air",
+    "name": {
+      "vi": "Two of Swords",
+      "en": "Two of Swords"
+    },
+    "keywords": {
+      "vi": [
+        "lưỡng lự",
+        "thông tin thiếu",
+        "cân nhắc"
+      ],
+      "en": [
+        "indecision",
+        "missing information",
+        "weighing options"
+      ]
+    },
+    "intro": {
+      "vi": "Two of Swords gợi sự lưỡng lự giữa hai hướng hoặc khi thông tin còn thiếu. Lá bài mời bạn nhận diện điều cần làm rõ, không quy chần chừ thành lỗi hay sự cố ý né tránh.",
+      "en": "Two of Swords suggests indecision between directions or with incomplete information. The card invites identifying what needs clarity without blaming hesitation or calling it deliberate avoidance."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người quan sát, Two of Swords sẽ cùng bạn cân nhắc điều đã biết và điều còn thiếu. Họ tôn trọng thời gian cần để chọn, thay vì ép bạn lập tức đưa ra quyết định.",
+      "en": "If Two of Swords were an observer, they would weigh what is known and what is missing with you. They would respect the time needed to choose rather than force an immediate decision."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi đứng giữa hai hướng khi chưa đủ rõ để chọn. Bạn có thể cần thêm dữ kiện hoặc thời gian; chần chừ không tự động là né tránh.",
+      "en": "The card suggests being between two directions without enough clarity to choose. You may need information or time; hesitation is not automatically avoidance."
+    },
+    "reversedMeaning": {
+      "vi": "Nhiều thông tin hoặc áp lực phải quyết định có thể khiến bạn quá tải. Thu hẹp một câu hỏi để nhận ra điều đang cản trở lựa chọn.",
+      "en": "Too much information or pressure to decide may feel overwhelming. Narrow one question to identify what blocks the choice."
+    },
+    "reflectionQuestion": {
+      "vi": "Bạn cần thêm dữ kiện hay thời gian để cân nhắc hai hướng đang phân vân?",
+      "en": "Do you need more information or time to weigh the two directions in question?"
+    }
+  },
+  {
+    "id": "minor-swords-three",
+    "arcana": "minor",
+    "number": 3,
+    "suit": "swords",
+    "rank": "three",
+    "element": "air",
+    "name": {
+      "vi": "Three of Swords",
+      "en": "Three of Swords"
+    },
+    "keywords": {
+      "vi": [
+        "đau lòng",
+        "thất vọng",
+        "thành thật với cảm xúc"
+      ],
+      "en": [
+        "heartache",
+        "disappointment",
+        "emotional honesty"
+      ]
+    },
+    "intro": {
+      "vi": "Three of Swords gợi nỗi đau lòng, sự thất vọng và những điều khó nói ra. Đây là lời mời gọi tên cảm xúc nếu phù hợp, không dự báo chia ly hay cho rằng đau khổ là cần thiết.",
+      "en": "Three of Swords suggests heartache, disappointment and things hard to say. It invites naming feelings if this fits, without predicting separation or making suffering necessary."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người bạn, Three of Swords sẽ lắng nghe điều đang làm bạn đau mà không tìm lý do biện minh cho tổn thương. Họ không ép tha thứ, chỉ để bạn tự chọn điều cần nói và hỗ trợ muốn nhận.",
+      "en": "If Three of Swords were a friend, they would listen to what hurts without justifying it. They would not force forgiveness, but leave you to choose what to say and what support to receive."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi những cảm xúc đau lòng, thất vọng hoặc một sự thật khó đón nhận. Nếu điều này phù hợp, bạn có thể gọi tên cảm xúc mà không xem tổn thương là điều phải xảy ra.",
+      "en": "The card suggests heartache, disappointment or a difficult truth. If this fits, you can name the feeling without treating hurt as something that must happen."
+    },
+    "reversedMeaning": {
+      "vi": "Bạn có thể đang tìm cách làm dịu một nỗi đau, hoặc chưa sẵn sàng nói về nó. Không cần ép tha thứ, quên đi hay rút bài học ngay.",
+      "en": "You may be finding a gentler way with hurt or not be ready to discuss it. You need not force forgiveness, forgetting or an immediate lesson."
+    },
+    "reflectionQuestion": {
+      "vi": "Nếu có điều đang làm bạn đau lòng, bạn muốn gọi tên nó bằng lời nào không tự trách?",
+      "en": "If something hurts, how would you name it without blaming yourself?"
+    }
+  },
+  {
+    "id": "minor-swords-four",
+    "arcana": "minor",
+    "number": 4,
+    "suit": "swords",
+    "rank": "four",
+    "element": "air",
+    "name": {
+      "vi": "Four of Swords",
+      "en": "Four of Swords"
+    },
+    "keywords": {
+      "vi": [
+        "nghỉ tâm trí",
+        "khoảng dừng",
+        "lấy lại nhịp"
+      ],
+      "en": [
+        "mental rest",
+        "pause",
+        "regaining pace"
+      ]
+    },
+    "intro": {
+      "vi": "Four of Swords mang năng lượng của sự đình chiến tĩnh lặng. Lá bài là khoảng nghỉ ngơi thiêng liêng để tâm trí bạn được hồi phục sau những cuộc giằng xé nội tâm mệt nhoài.",
+      "en": "Four of Swords carries the energy of a quiet truce. The card is a sacred resting period for your mind to recover after exhausting inner struggles."
+    },
+    "personalityPortrait": {
+      "vi": "Giống như một góc trú ẩn an toàn, Four of Swords yêu cầu bạn hạ vũ khí xuống. Họ nhắc nhở rằng đôi khi, hành động dũng cảm nhất chính là cho phép bản thân chìm vào tĩnh lặng.",
+      "en": "Like a safe sanctuary, Four of Swords asks you to lower your weapons. They remind you that sometimes, the bravest action is allowing yourself to sink into stillness."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi một khoảng nghỉ khỏi việc phải suy nghĩ hoặc phản hồi liên tục. Bạn có thể đặt một điểm dừng nhỏ trước khi quay lại điều cần làm.",
+      "en": "The card suggests a break from constant thinking or responding. You can set a small pause before returning to what needs attention."
+    },
+    "reversedMeaning": {
+      "vi": "Khó nghỉ, bồn chồn hoặc quay lại quá sớm có thể khiến khoảng dừng chưa đủ. Bạn có thể chọn nhịp trở lại vừa sức thay vì ép hiệu suất.",
+      "en": "Difficulty resting, restlessness or returning too soon may leave a pause incomplete. You can choose a manageable return rather than force productivity."
+    },
+    "reflectionQuestion": {
+      "vi": "Khoảng nghỉ nhỏ nào bạn có thể dành cho tâm trí trước khi quay lại một việc?",
+      "en": "Which small mental break could you take before returning to a task?"
+    }
+  },
+  {
+    "id": "minor-swords-five",
+    "arcana": "minor",
+    "number": 5,
+    "suit": "swords",
+    "rank": "five",
+    "element": "air",
+    "name": {
+      "vi": "Five of Swords",
+      "en": "Five of Swords"
+    },
+    "keywords": {
+      "vi": [
+        "xung đột",
+        "cái giá của thắng",
+        "rút khỏi tranh cãi"
+      ],
+      "en": [
+        "conflict",
+        "cost of winning",
+        "stepping back"
+      ]
+    },
+    "intro": {
+      "vi": "Five of Swords mang năng lượng của những xung đột mà phần thắng đi kèm với cái giá quá đắt. Lá bài mời bạn nhìn lại xem cuộc chiến này có thực sự đáng để bạn đánh đổi sự bình yên và các mối quan hệ hay không.",
+      "en": "Five of Swords carries the energy of conflicts where victory comes at too high a cost. The card invites you to look back at whether this battle is truly worth trading your peace and relationships for."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một chiến lược gia, Five of Swords khuyên bạn nên lùi lại. Họ giúp bạn nhận ra rằng đôi khi việc từ bỏ một tranh cãi vô nghĩa mới là chiến thắng thực sự.",
+      "en": "If it were a strategist, Five of Swords advises you to step back. They help you realize that sometimes abandoning a pointless argument is the true victory."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi cân nhắc cái giá của việc cố thắng một tranh luận. Bạn có thể chọn một cách trao đổi khác hoặc dừng khi ranh giới không được tôn trọng.",
+      "en": "The card suggests considering the cost of winning an argument. You can choose another way to communicate or pause when boundaries are not respected."
+    },
+    "reversedMeaning": {
+      "vi": "Mong muốn hòa giải hoặc một xung đột còn dư âm có thể cần được làm rõ. Hòa giải không bắt buộc bạn chấp nhận điều gây tổn hại.",
+      "en": "A wish to reconcile or lingering conflict may need clarity. Reconciliation does not require accepting harm."
+    },
+    "reflectionQuestion": {
+      "vi": "Bạn muốn bảo vệ điều gì thay vì cố thắng một tranh luận?",
+      "en": "What would you protect rather than try to win an argument?"
+    }
+  },
+  {
+    "id": "minor-swords-six",
+    "arcana": "minor",
+    "number": 6,
+    "suit": "swords",
+    "rank": "six",
+    "element": "air",
+    "name": {
+      "vi": "Six of Swords",
+      "en": "Six of Swords"
+    },
+    "keywords": {
+      "vi": [
+        "chuyển tiếp",
+        "tìm khoảng yên",
+        "mang theo bài học"
+      ],
+      "en": [
+        "transition",
+        "seeking calm",
+        "carrying lessons"
+      ]
+    },
+    "intro": {
+      "vi": "Six of Swords gợi một bước chuyển và mong muốn tìm khoảng yên hơn. Lá bài mời bạn xem điều có thể giúp việc chuyển tiếp vừa sức, không xác nhận mọi khó khăn đã ở phía sau.",
+      "en": "Six of Swords suggests transition and the wish for calmer space. The card invites finding what makes a change manageable without confirming that every difficulty is behind you."
+    },
+    "personalityPortrait": {
+      "vi": "Như một người lái đò nhẫn nại, Six of Swords giúp bạn mang theo những bài học thay vì gánh nặng. Họ vỗ về bạn trên hành trình chuyển giao, hướng ánh nhìn về chân trời sáng sủa phía trước.",
+      "en": "Like a patient ferryman, Six of Swords helps you carry lessons instead of burdens. They comfort you on the journey of transition, pointing your gaze to the brighter horizon ahead."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi một bước chuyển từ điều khó sang nhịp dễ chịu hơn. Bạn có thể tìm khoảng cách hoặc sự hỗ trợ, không cần coi chuyện cũ đã được giải quyết hết.",
+      "en": "The card suggests a transition toward a more manageable pace. You can seek distance or support without assuming the past is fully resolved."
+    },
+    "reversedMeaning": {
+      "vi": "Một điều còn vướng hoặc thay đổi chưa sẵn sàng có thể khiến bước chuyển khó hơn. Bạn có thể xem cần hỗ trợ gì thay vì tự trách vì chưa đi tiếp.",
+      "en": "Something unresolved or an unready change may complicate transition. You can consider needed support rather than blame yourself for not moving on."
+    },
+    "reflectionQuestion": {
+      "vi": "Điểm tựa nào sẽ giúp bạn thực hiện một bước chuyển vừa sức?",
+      "en": "Which support would help you take a manageable transitional step?"
+    }
+  },
+  {
+    "id": "minor-swords-seven",
+    "arcana": "minor",
+    "number": 7,
+    "suit": "swords",
+    "rank": "seven",
+    "element": "air",
+    "name": {
+      "vi": "Seven of Swords",
+      "en": "Seven of Swords"
+    },
+    "keywords": {
+      "vi": [
+        "chiến lược",
+        "kín đáo",
+        "trách nhiệm"
+      ],
+      "en": [
+        "strategy",
+        "discretion",
+        "accountability"
+      ]
+    },
+    "intro": {
+      "vi": "Seven of Swords gợi chiến lược, sự kín đáo và điều chưa được nói rõ. Lá bài mời bạn phân biệt quyền riêng tư với việc né trách nhiệm, không dùng nó để kết luận ai đang lừa dối.",
+      "en": "Seven of Swords suggests strategy, discretion and what is left unsaid. The card invites distinguishing privacy from avoided responsibility, not concluding that someone is deceitful."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người quan sát, Seven of Swords sẽ giúp bạn cân nhắc điều cần nói và điều có quyền giữ riêng. Họ cũng nhắc nhìn vào tác động của lựa chọn, không khuyến khích gian dối hay tự buộc tội.",
+      "en": "If Seven of Swords were an observer, they would weigh what needs saying and what may remain private. They would consider the impact of choices without encouraging deception or self-accusation."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi cân nhắc chiến lược, sự kín đáo và điều chưa được nói rõ. Nó không chứng minh ai đang lừa dối; bạn có thể kiểm tra dữ kiện và trách nhiệm của mình.",
+      "en": "The card suggests strategy, discretion and what is left unsaid. It does not prove deceit; you can check facts and your own responsibility."
+    },
+    "reversedMeaning": {
+      "vi": "Một điều né tránh hoặc chưa thẳng thắn có thể cần được làm rõ. Bạn có thể chọn cách nói thật phù hợp mà vẫn giữ quyền riêng tư.",
+      "en": "Something avoided or not stated openly may need clarity. You can choose fitting honesty while preserving privacy."
+    },
+    "reflectionQuestion": {
+      "vi": "Bạn có thể nói rõ một điều cần thiết mà vẫn giữ quyền riêng tư như thế nào?",
+      "en": "How could you clarify one necessary point while preserving privacy?"
+    }
+  },
+  {
+    "id": "minor-swords-eight",
+    "arcana": "minor",
+    "number": 8,
+    "suit": "swords",
+    "rank": "eight",
+    "element": "air",
+    "name": {
+      "vi": "Eight of Swords",
+      "en": "Eight of Swords"
+    },
+    "keywords": {
+      "vi": [
+        "cảm giác mắc kẹt",
+        "giới hạn",
+        "khả năng lựa chọn"
+      ],
+      "en": [
+        "feeling stuck",
+        "constraints",
+        "possibility of choice"
+      ]
+    },
+    "intro": {
+      "vi": "Eight of Swords gợi cảm giác mắc kẹt và khó nhìn ra lựa chọn. Lá bài mời bạn phân biệt giới hạn thực tế với suy đoán; nó không nói khó khăn là do bạn tự tạo ra.",
+      "en": "Eight of Swords suggests feeling stuck and struggling to see a choice. The card invites distinguishing real constraints from assumptions without calling difficulty self-created."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người bạn, Eight of Swords sẽ cùng bạn tìm một khoảng lựa chọn trong những giới hạn đang có. Họ không bảo bạn chỉ cần nghĩ khác là mọi ràng buộc sẽ biến mất.",
+      "en": "If Eight of Swords were a friend, they would explore room for choice within existing constraints. They would not claim that thinking differently makes every constraint disappear."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi cảm giác mắc kẹt hoặc chưa thấy lựa chọn. Có thể có giới hạn thực tế lẫn suy đoán; bạn không cần coi tất cả là do mình tạo ra.",
+      "en": "The card suggests feeling stuck or unable to see a choice. Real constraints and assumptions may coexist; not everything needs to be treated as self-created."
+    },
+    "reversedMeaning": {
+      "vi": "Một lựa chọn nhỏ có thể dần rõ hơn, hoặc bạn vẫn cần hỗ trợ để nhìn ra nó. Tiến chậm không có nghĩa bạn thiếu ý chí.",
+      "en": "A small choice may be becoming visible, or support may still be needed to see it. Slow progress does not mean a lack of will."
+    },
+    "reflectionQuestion": {
+      "vi": "Trong những giới hạn hiện có, lựa chọn nhỏ nào vẫn nằm trong quyền chủ động của bạn?",
+      "en": "Within existing constraints, which small choice remains within your control?"
+    }
+  },
+  {
+    "id": "minor-swords-nine",
+    "arcana": "minor",
+    "number": 9,
+    "suit": "swords",
+    "rank": "nine",
+    "element": "air",
+    "name": {
+      "vi": "Nine of Swords",
+      "en": "Nine of Swords"
+    },
+    "keywords": {
+      "vi": [
+        "lo âu",
+        "suy nghĩ lặp lại",
+        "tự trách"
+      ],
+      "en": [
+        "worry",
+        "repeating thoughts",
+        "self-blame"
+      ]
+    },
+    "intro": {
+      "vi": "Nine of Swords gợi lo âu, suy nghĩ lặp lại và tự trách. Lá bài mời bạn lắng nghe điều đang lo và tìm một điểm tựa, không chẩn đoán hay phủ nhận nỗi lo là tưởng tượng.",
+      "en": "Nine of Swords suggests worry, repeating thoughts and self-blame. The card invites listening to a concern and finding support without diagnosis or dismissing worry as imaginary."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người bạn, Nine of Swords sẽ lắng nghe nỗi lo mà không nói nó nhỏ nhặt hay không có thật. Họ cùng bạn tách điều đã biết khỏi điều chưa rõ và tìm sự hỗ trợ phù hợp.",
+      "en": "If Nine of Swords were a friend, they would listen without calling worry trivial or unreal. They would help separate what is known from what is unclear and seek fitting support."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi lo âu, suy nghĩ lặp lại hoặc tự trách. Nó không chẩn đoán tình trạng của bạn hay nói nỗi lo chỉ là tưởng tượng; bạn có thể tách điều đã biết khỏi điều đang sợ.",
+      "en": "The card suggests worry, repeating thoughts or self-blame. It does not diagnose you or dismiss worry as imaginary; you can separate what is known from what is feared."
+    },
+    "reversedMeaning": {
+      "vi": "Bạn có thể đang tìm cách chia sẻ một nỗi lo, hoặc vẫn khó nói ra. Nhận hỗ trợ và đi từng bước không đòi hỏi bạn phải hết lo ngay.",
+      "en": "You may be finding a way to share a worry or still struggle to speak. Support and small steps do not require worry to disappear at once."
+    },
+    "reflectionQuestion": {
+      "vi": "Với một nỗi lo đang lặp lại, điều gì đã biết và điều gì vẫn chưa được kiểm chứng?",
+      "en": "For a recurring worry, what is known and what remains unverified?"
+    }
+  },
+  {
+    "id": "minor-swords-ten",
+    "arcana": "minor",
+    "number": 10,
+    "suit": "swords",
+    "rank": "ten",
+    "element": "air",
+    "name": {
+      "vi": "Ten of Swords",
+      "en": "Ten of Swords"
+    },
+    "keywords": {
+      "vi": [
+        "kết thúc khó",
+        "giới hạn chịu đựng",
+        "nhận hỗ trợ"
+      ],
+      "en": [
+        "difficult ending",
+        "limits of endurance",
+        "receiving support"
+      ]
+    },
+    "intro": {
+      "vi": "Ten of Swords gợi một kết thúc khó hoặc cảm giác đã chạm giới hạn. Lá bài không dự báo tai họa, cũng không bảo đảm điều tồi tệ nhất đã qua; bạn có thể dành chỗ cho nghỉ và hỗ trợ.",
+      "en": "Ten of Swords suggests a difficult ending or reaching a limit. It neither predicts disaster nor guarantees that the worst has passed; you can make room for rest and support."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người bạn, Ten of Swords sẽ không ép bạn xem một kết thúc khó là điều có ích. Họ ghi nhận giới hạn và để bạn chọn nhịp tiếp theo khi sẵn sàng.",
+      "en": "If Ten of Swords were a friend, they would not force you to call a difficult ending beneficial. They would acknowledge limits and leave you to choose a next pace when ready."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi một kết thúc khó hoặc cảm giác đã chạm giới hạn chịu đựng. Nó không dự báo tai họa hay bảo đảm điều tồi tệ nhất đã qua; nghỉ và nhận hỗ trợ vẫn là những lựa chọn.",
+      "en": "The card suggests a difficult ending or reaching a limit of endurance. It neither predicts disaster nor guarantees the worst is over; rest and support remain choices."
+    },
+    "reversedMeaning": {
+      "vi": "Bạn có thể đang tìm nhịp bắt đầu lại, hoặc một điều khó vẫn chưa khép. Không cần ép mình phục hồi theo một lịch trình hay quay lại điều gây tổn hại.",
+      "en": "You may be finding a way to restart, or a difficult chapter may remain open. You need not force recovery to a schedule or return to what causes harm."
+    },
+    "reflectionQuestion": {
+      "vi": "Nếu đã chạm giới hạn, sự hỗ trợ nhỏ nào bạn muốn nhận trước khi làm thêm?",
+      "en": "If you have reached a limit, which small support would you receive before doing more?"
+    }
+  },
+  {
+    "id": "minor-swords-page",
+    "arcana": "minor",
+    "number": 11,
+    "suit": "swords",
+    "rank": "page",
+    "element": "air",
+    "name": {
+      "vi": "Page of Swords",
+      "en": "Page of Swords"
+    },
+    "keywords": {
+      "vi": [
+        "tò mò",
+        "quan sát",
+        "kiểm chứng"
+      ],
+      "en": [
+        "curiosity",
+        "observation",
+        "verification"
+      ]
+    },
+    "intro": {
+      "vi": "Page of Swords mang năng lượng của sự tò mò, cảnh giác và khao khát tìm hiểu sự thật. Lá bài là một lăng kính sắc bén giúp bạn thu thập thông tin và đặt ra những câu hỏi chưa ai dám hỏi.",
+      "en": "Page of Swords carries the energy of curiosity, vigilance, and the desire to seek truth. The card is a sharp lens helping you gather information and ask questions no one else dares to."
+    },
+    "personalityPortrait": {
+      "vi": "Như một người quan sát sắc sảo, Page of Swords khuyên bạn hãy luôn tỉnh táo và tò mò. Họ nhắc nhở bạn dùng ngôn từ linh hoạt nhưng cũng cẩn trọng để khám phá bản chất thực sự của vấn đề.",
+      "en": "Like a sharp observer, Page of Swords advises you to stay alert and curious. They remind you to use words flexibly but carefully to discover the true nature of the issue."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi quan sát, đặt câu hỏi và học từ thông tin mới. Bạn có thể kiểm tra một điều trước khi biến nó thành kết luận hoặc chia sẻ.",
+      "en": "The card suggests observation, questions and learning from new information. You can check something before turning it into a conclusion or sharing it."
+    },
+    "reversedMeaning": {
+      "vi": "Thông tin chưa đủ hoặc câu hỏi đặt quá vội có thể khiến trao đổi lệch ý. Chậm lại để kiểm tra điều mình nghe và cách mình diễn đạt.",
+      "en": "Incomplete information or hurried questions may misalign communication. Slow down to check what you heard and how you express it."
+    },
+    "reflectionQuestion": {
+      "vi": "Bạn muốn kiểm chứng điều gì trước khi chia sẻ nó như một sự thật?",
+      "en": "What would you verify before sharing it as a fact?"
+    }
+  },
+  {
+    "id": "minor-swords-knight",
+    "arcana": "minor",
+    "number": 12,
+    "suit": "swords",
+    "rank": "knight",
+    "element": "air",
+    "name": {
+      "vi": "Knight of Swords",
+      "en": "Knight of Swords"
+    },
+    "keywords": {
+      "vi": [
+        "quyết đoán",
+        "tốc độ",
+        "tranh luận"
+      ],
+      "en": [
+        "decisiveness",
+        "speed",
+        "debate"
+      ]
+    },
+    "intro": {
+      "vi": "Knight of Swords mang năng lượng của ý chí tốc độ, lao thẳng về phía trước để bảo vệ quan điểm. Lá bài là một luồng không khí dứt khoát, cắt đứt sự ngập ngừng và thúc đẩy hành động chớp nhoáng.",
+      "en": "Knight of Swords carries the energy of fast-paced will, charging forward to defend a stance. The card is a decisive rush of air, cutting through hesitation and prompting lightning action."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người đồng hành, Knight of Swords sẽ kéo bạn chạy theo ý tưởng mãnh liệt. Tuy nhiên, họ cũng khuyên bạn nên giữ một nhịp phanh để không biến lý lẽ sắc bén thành vũ khí làm tổn thương người khác.",
+      "en": "If it were a companion, Knight of Swords would pull you to run after a fierce idea. However, they also advise you to keep a brake ready so sharp logic doesn't turn into a weapon that hurts others."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi hành động nhanh theo một ý rõ hoặc quan điểm mạnh. Bạn có thể giữ sự quyết đoán và vẫn dành chỗ để nghe điều chưa biết.",
+      "en": "The card suggests quick action on a clear idea or strong view. You can retain decisiveness while leaving room to hear what you do not know."
+    },
+    "reversedMeaning": {
+      "vi": "Vội kết luận hoặc dùng lý lẽ để lấn át có thể làm cuộc trao đổi khó hơn. Một nhịp dừng giúp lời nói rõ mà không trở thành áp đặt.",
+      "en": "Hasty conclusions or overpowering reasoning may hinder discussion. A pause can keep words clear without imposing them."
+    },
+    "reflectionQuestion": {
+      "vi": "Bạn có thể kiểm tra giả định nào trước khi phản hồi một cách quyết đoán?",
+      "en": "Which assumption could you check before responding decisively?"
+    }
+  },
+  {
+    "id": "minor-swords-queen",
+    "arcana": "minor",
+    "number": 13,
+    "suit": "swords",
+    "rank": "queen",
+    "element": "air",
+    "name": {
+      "vi": "Queen of Swords",
+      "en": "Queen of Swords"
+    },
+    "keywords": {
+      "vi": [
+        "ranh giới",
+        "thẳng thắn",
+        "độc lập"
+      ],
+      "en": [
+        "boundaries",
+        "directness",
+        "independence"
+      ]
+    },
+    "intro": {
+      "vi": "Queen of Swords gợi sự độc lập, ranh giới rõ và lời nói thẳng thắn. Lá bài mời bạn dùng sự sáng suốt cùng lòng trắc ẩn, không xem cảm xúc là yếu đuối.",
+      "en": "Queen of Swords suggests independence, clear boundaries and direct speech. The card invites discernment with compassion without treating feelings as weakness."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người bạn, Queen of Swords sẽ giúp bạn diễn đạt một ranh giới rõ và tôn trọng. Họ không nhận mình biết điều bạn cần, mà cùng bạn đối chiếu dữ kiện và cảm xúc.",
+      "en": "If Queen of Swords were a friend, they would help express a clear, respectful boundary. They would not claim to know what you need, but examine facts and feelings with you."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi ranh giới rõ và lời nói thẳng thắn dựa trên trải nghiệm. Sự sáng suốt có thể đi cùng cảm xúc và lòng trắc ẩn, không cần lạnh lùng.",
+      "en": "The card suggests clear boundaries and direct speech informed by experience. Discernment can coexist with feeling and compassion without becoming cold."
+    },
+    "reversedMeaning": {
+      "vi": "Tự bảo vệ quá chặt hoặc lo rằng nói rõ sẽ làm mất kết nối có thể khiến bạn khó giao tiếp. Bạn có thể giữ giới hạn mà không phủ nhận cảm xúc.",
+      "en": "Overprotection or fear that clarity will cost connection may hinder communication. You can keep limits without dismissing feelings."
+    },
+    "reflectionQuestion": {
+      "vi": "Bạn muốn nói rõ ranh giới nào bằng lời vừa thẳng thắn vừa tôn trọng?",
+      "en": "Which boundary would you state with both directness and respect?"
+    }
+  },
+  {
+    "id": "minor-swords-king",
+    "arcana": "minor",
+    "number": 14,
+    "suit": "swords",
+    "rank": "king",
+    "element": "air",
+    "name": {
+      "vi": "King of Swords",
+      "en": "King of Swords"
+    },
+    "keywords": {
+      "vi": [
+        "phán đoán",
+        "dữ kiện",
+        "công bằng"
+      ],
+      "en": [
+        "judgment",
+        "evidence",
+        "fairness"
+      ]
+    },
+    "intro": {
+      "vi": "King of Swords gợi phán đoán sáng suốt và tiêu chí công bằng. Lá bài mời bạn làm rõ dữ kiện, xem lại giả định và giữ chỗ cho những góc nhìn khác.",
+      "en": "King of Swords suggests discernment and fair criteria. The card invites clarifying evidence, reviewing assumptions and leaving room for other perspectives."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người dẫn dắt, King of Swords sẽ giúp bạn tách bạch cảm xúc khỏi sự thật. Họ khuyên bạn lùi lại để nhìn bức tranh lớn, từ đó đưa ra những quyết định công bằng và có nền tảng vững chắc.",
+      "en": "As a guide, King of Swords helps you separate emotion from facts. They advise you to step back to see the big picture, making fair decisions with a solid foundation."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi cân nhắc dữ kiện và tiêu chí công bằng khi quyết định. Bạn có thể phân biệt điều đã biết, giả định và cảm xúc mà không phủ nhận phần nào.",
+      "en": "The card suggests weighing evidence and fair criteria when deciding. You can distinguish facts, assumptions and feelings without dismissing any of them."
+    },
+    "reversedMeaning": {
+      "vi": "Lý lẽ cứng nhắc hoặc thiếu dữ kiện có thể làm một phán đoán lệch. Bạn có thể nghe thêm góc nhìn và xem lại tiêu chí của mình.",
+      "en": "Rigid reasoning or missing evidence may skew judgment. You can hear another perspective and review your criteria."
+    },
+    "reflectionQuestion": {
+      "vi": "Tiêu chí nào sẽ giúp bạn đưa ra một lựa chọn rõ ràng và công bằng hơn?",
+      "en": "Which criterion would help you make a clearer and fairer choice?"
+    }
+  },
+  {
+    "id": "minor-pentacles-ace",
+    "arcana": "minor",
+    "number": 1,
+    "suit": "pentacles",
+    "rank": "ace",
+    "element": "earth",
+    "name": {
+      "vi": "Ace of Pentacles",
+      "en": "Ace of Pentacles"
+    },
+    "keywords": {
+      "vi": [
+        "cơ hội thực tế",
+        "nguồn lực",
+        "bước đầu"
+      ],
+      "en": [
+        "practical opportunity",
+        "resources",
+        "first step"
+      ]
+    },
+    "intro": {
+      "vi": "Ace of Pentacles gợi một cơ hội thực tế để bắt đầu xây dựng điều bền vững. Lá bài mời bạn xem nguồn lực, điều kiện và một bước thử, không hứa lợi nhuận hay kết quả sức khỏe.",
+      "en": "Ace of Pentacles suggests a practical opportunity to begin building something lasting. The card invites attention to resources, conditions and a first experiment without promising profit or health outcomes."
+    },
+    "personalityPortrait": {
+      "vi": "Như một món quà bất ngờ, Ace of Pentacles mang đến cảm giác vững chãi và an toàn. Họ mời bạn chạm tay vào thực tại, dùng những nguồn lực đang có để tạo ra điều gì đó lâu bền.",
+      "en": "Like an unexpected gift, Ace of Pentacles brings a sense of solidity and safety. They invite you to touch reality, using the resources you have to create something lasting."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi một cơ hội thực tế để xây dựng kỹ năng, công việc hoặc nền tảng sinh hoạt. Bạn có thể kiểm tra điều kiện và bắt đầu vừa sức; nó không hứa lợi nhuận.",
+      "en": "The card suggests a practical opportunity to build a skill, work or daily foundation. You can check conditions and start modestly; it does not promise profit."
+    },
+    "reversedMeaning": {
+      "vi": "Một cơ hội có thể cần thêm chuẩn bị hoặc chưa phù hợp nguồn lực hiện có. Bạn có thể xem lại tính khả thi thay vì ép nó thành kết quả ngay.",
+      "en": "An opportunity may need preparation or not fit current resources. You can review feasibility rather than force an immediate outcome."
+    },
+    "reflectionQuestion": {
+      "vi": "Nguồn lực sẵn có nào giúp bạn thử một cơ hội thực tế ở quy mô nhỏ?",
+      "en": "Which available resource could help you try a practical opportunity on a small scale?"
+    }
+  },
+  {
+    "id": "minor-pentacles-two",
+    "arcana": "minor",
+    "number": 2,
+    "suit": "pentacles",
+    "rank": "two",
+    "element": "earth",
+    "name": {
+      "vi": "Two of Pentacles",
+      "en": "Two of Pentacles"
+    },
+    "keywords": {
+      "vi": [
+        "cân bằng nguồn lực",
+        "linh hoạt",
+        "ưu tiên"
+      ],
+      "en": [
+        "balancing resources",
+        "flexibility",
+        "priorities"
+      ]
+    },
+    "intro": {
+      "vi": "Two of Pentacles mang năng lượng của sự tung hứng và nhịp điệu uyển chuyển. Lá bài nhắc bạn rằng việc duy trì cân bằng không phải là đứng yên, mà là học cách linh hoạt nương theo những thay đổi liên tục.",
+      "en": "Two of Pentacles carries the energy of juggling and a graceful rhythm. The card reminds you that maintaining balance is not standing still, but learning to flexibly flow with constant changes."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người bạn, Two of Pentacles sẽ cùng bạn xem lại những việc đang phải xoay xở. Họ mời bạn điều chỉnh một ưu tiên hoặc giảm một việc, thay vì phải làm được mọi thứ cùng lúc.",
+      "en": "If Two of Pentacles were a friend, they would review the demands you are juggling. They would invite adjusting a priority or reducing a task rather than doing everything at once."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi điều phối thời gian, công sức và các việc cùng đòi hỏi chú ý. Bạn có thể điều chỉnh ưu tiên thay vì giữ tất cả ở cùng một mức.",
+      "en": "The card suggests coordinating time, effort and competing demands. You can adjust priorities instead of keeping everything at the same level."
+    },
+    "reversedMeaning": {
+      "vi": "Ôm quá nhiều hoặc thiếu nhịp nghỉ có thể làm việc xoay xở khó hơn. Bạn có thể giảm một việc để lịch sinh hoạt vừa sức hơn.",
+      "en": "Too many demands or insufficient rest may complicate juggling. You can reduce one task to make the schedule more manageable."
+    },
+    "reflectionQuestion": {
+      "vi": "Bạn muốn điều chỉnh ưu tiên nào để thời gian và công sức vừa với khả năng hiện tại?",
+      "en": "Which priority would you adjust so time and effort fit your current capacity?"
+    }
+  },
+  {
+    "id": "minor-pentacles-three",
+    "arcana": "minor",
+    "number": 3,
+    "suit": "pentacles",
+    "rank": "three",
+    "element": "earth",
+    "name": {
+      "vi": "Three of Pentacles",
+      "en": "Three of Pentacles"
+    },
+    "keywords": {
+      "vi": [
+        "cộng tác",
+        "tay nghề",
+        "học từ phản hồi"
+      ],
+      "en": [
+        "collaboration",
+        "craft",
+        "learning from feedback"
+      ]
+    },
+    "intro": {
+      "vi": "Three of Pentacles mang năng lượng của sự cộng tác và tay nghề thủ công. Lá bài tôn vinh giá trị của việc làm việc nhóm, nơi mỗi người đóng góp một chuyên môn riêng để xây dựng nên một nền tảng vững chắc.",
+      "en": "Three of Pentacles carries the energy of collaboration and craftsmanship. The card honors the value of teamwork, where everyone contributes a unique expertise to build a solid foundation."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người kiến tạo, Three of Pentacles sẽ ghi nhận đóng góp riêng của mỗi người. Họ cùng bạn tìm cách trao đổi phản hồi và học từ kỹ năng khác, không xem hợp tác là mất đi sự độc lập.",
+      "en": "If Three of Pentacles were a builder, they would value each person's contribution. They would explore feedback and learning across skills without treating collaboration as a loss of independence."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi cùng xây dựng qua kỹ năng khác nhau và phản hồi cụ thể. Bạn có thể làm rõ phần đóng góp của mình và điều cần học từ người khác.",
+      "en": "The card suggests building together through different skills and specific feedback. You can clarify your contribution and what to learn from others."
+    },
+    "reversedMeaning": {
+      "vi": "Vai trò chưa rõ hoặc khó tiếp nhận phản hồi có thể khiến việc chung lệch nhịp. Một thỏa thuận nhỏ về cách phối hợp có thể hữu ích.",
+      "en": "Unclear roles or difficulty receiving feedback may disrupt shared work. A small agreement about coordination may help."
+    },
+    "reflectionQuestion": {
+      "vi": "Bạn muốn xin phản hồi cụ thể nào để đóng góp tốt hơn vào một việc chung?",
+      "en": "Which specific feedback would you request to contribute better to shared work?"
+    }
+  },
+  {
+    "id": "minor-pentacles-four",
+    "arcana": "minor",
+    "number": 4,
+    "suit": "pentacles",
+    "rank": "four",
+    "element": "earth",
+    "name": {
+      "vi": "Four of Pentacles",
+      "en": "Four of Pentacles"
+    },
+    "keywords": {
+      "vi": [
+        "giữ nguồn lực",
+        "an toàn",
+        "nới lỏng"
+      ],
+      "en": [
+        "holding resources",
+        "security",
+        "loosening control"
+      ]
+    },
+    "intro": {
+      "vi": "Four of Pentacles mang năng lượng của sự tích lũy và mong muốn bảo vệ những gì mình có. Lá bài là một cái ôm siết chặt để tìm kiếm sự an toàn, nhưng đôi khi lại vô tình tạo ra rào cản ngăn cản dòng chảy mới.",
+      "en": "Four of Pentacles carries the energy of accumulation and the desire to protect what you have. The card is a tight embrace seeking safety, but sometimes inadvertently creates a barrier preventing new flow."
+    },
+    "personalityPortrait": {
+      "vi": "Như một người giữ cửa thận trọng, Four of Pentacles hiểu được nỗi sợ thiếu thốn của bạn. Tuy nhiên, họ nhẹ nhàng khuyên bạn hãy nới lỏng tay ra một chút để thấy rằng sẻ chia không làm bạn mất đi giá trị.",
+      "en": "Like a cautious gatekeeper, Four of Pentacles understands your fear of scarcity. However, they gently advise you to loosen your grip a bit to see that sharing does not diminish your worth."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi mong muốn giữ nguồn lực và cảm giác an toàn. Bạn có thể xem phần cần bảo vệ và phần đang bị giữ quá chặt.",
+      "en": "The card suggests holding resources and seeking security. You can review what needs protection and what is held too tightly."
+    },
+    "reversedMeaning": {
+      "vi": "Bạn có thể sẵn sàng nới lỏng, hoặc đang lo mất kiểm soát nguồn lực. Chọn một giới hạn rõ thay vì phải cho đi hay giữ lại tất cả.",
+      "en": "You may be ready to loosen your grip or feel anxious about losing control of resources. Choose a clear limit rather than give or retain everything."
+    },
+    "reflectionQuestion": {
+      "vi": "Điều gì bạn muốn giữ an toàn mà không cần kiểm soát mọi thứ quanh nó?",
+      "en": "What would you keep secure without controlling everything around it?"
+    }
+  },
+  {
+    "id": "minor-pentacles-five",
+    "arcana": "minor",
+    "number": 5,
+    "suit": "pentacles",
+    "rank": "five",
+    "element": "earth",
+    "name": {
+      "vi": "Five of Pentacles",
+      "en": "Five of Pentacles"
+    },
+    "keywords": {
+      "vi": [
+        "thiếu thốn",
+        "bị đứng ngoài",
+        "tìm hỗ trợ"
+      ],
+      "en": [
+        "scarcity",
+        "exclusion",
+        "seeking support"
+      ]
+    },
+    "intro": {
+      "vi": "Five of Pentacles gợi cảm giác thiếu nguồn lực hoặc bị đứng ngoài. Lá bài mời bạn cân nhắc hỗ trợ thực tế nếu phù hợp, không hứa trợ giúp luôn sẵn hoặc quy khó khăn thành lỗi của bạn.",
+      "en": "Five of Pentacles suggests limited resources or exclusion. The card invites considering practical support if it fits, without promising help is always available or blaming you for difficulty."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người đồng hành, Five of Pentacles sẽ hỏi sự hỗ trợ nào thực sự tiếp cận được. Họ không xem việc chưa nhận được giúp đỡ là do bạn thiếu cố gắng hay không chịu mở lòng.",
+      "en": "If Five of Pentacles were a companion, they would ask which support is genuinely accessible. They would not blame missing help on insufficient effort or unwillingness to open up."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi cảm giác thiếu nguồn lực hoặc bị đứng ngoài. Nếu điều này phù hợp, bạn có thể tìm hỗ trợ thực tế; nó không nói khó khăn là do bạn chưa cố đủ.",
+      "en": "The card suggests feeling short of resources or excluded. If this fits, you can seek practical support; it does not blame difficulty on insufficient effort."
+    },
+    "reversedMeaning": {
+      "vi": "Một nguồn hỗ trợ có thể dần rõ hơn, hoặc việc tiếp cận vẫn gặp trở ngại. Bạn có thể tìm một bước khả thi mà không tự trách vì chưa được giúp.",
+      "en": "Support may be becoming visible, or access may still be difficult. You can seek a feasible step without blaming yourself for not receiving help."
+    },
+    "reflectionQuestion": {
+      "vi": "Nếu đang thiếu nguồn lực, bạn muốn tìm hiểu một nguồn hỗ trợ thực tế nào?",
+      "en": "If resources are limited, which practical source of support would you explore?"
+    }
+  },
+  {
+    "id": "minor-pentacles-six",
+    "arcana": "minor",
+    "number": 6,
+    "suit": "pentacles",
+    "rank": "six",
+    "element": "earth",
+    "name": {
+      "vi": "Six of Pentacles",
+      "en": "Six of Pentacles"
+    },
+    "keywords": {
+      "vi": [
+        "cho và nhận",
+        "công bằng",
+        "giới hạn giúp đỡ"
+      ],
+      "en": [
+        "giving and receiving",
+        "fairness",
+        "limits of support"
+      ]
+    },
+    "intro": {
+      "vi": "Six of Pentacles mang năng lượng của dòng chảy cho và nhận. Lá bài là cán cân của lòng hào phóng, nhắc bạn về vẻ đẹp của việc hỗ trợ người khác khi dư dả và biết cách đón nhận khi thiếu thốn.",
+      "en": "Six of Pentacles carries the energy of the flow of giving and receiving. The card is the scale of generosity, reminding you of the beauty of supporting others when abundant and knowing how to receive when in need."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người bạn, Six of Pentacles sẽ giúp bạn cân nhắc việc cho và nhận trong khả năng của mình. Họ tôn trọng giới hạn và không đo lòng tốt bằng sự đáp lại.",
+      "en": "If Six of Pentacles were a friend, they would consider giving and receiving within your capacity. They would respect limits and not measure kindness by reciprocation."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi trao và nhận nguồn lực một cách tôn trọng. Bạn có thể xem khả năng giúp đỡ, nhu cầu nhận hỗ trợ và điều kiện đi kèm.",
+      "en": "The card suggests respectful giving and receiving of resources. You can consider your capacity to help, your need for support and attached conditions."
+    },
+    "reversedMeaning": {
+      "vi": "Trao đổi lệch cân hoặc hỗ trợ có điều kiện có thể cần được xem lại. Bạn có quyền giữ ranh giới; cho đi không bảo đảm sẽ được đáp lại.",
+      "en": "Unequal exchange or conditional support may deserve review. You can keep boundaries; giving does not guarantee a return."
+    },
+    "reflectionQuestion": {
+      "vi": "Trong một việc cho hoặc nhận, điều kiện nào sẽ giúp bạn thấy được tôn trọng?",
+      "en": "In giving or receiving, which condition would help you feel respected?"
+    }
+  },
+  {
+    "id": "minor-pentacles-seven",
+    "arcana": "minor",
+    "number": 7,
+    "suit": "pentacles",
+    "rank": "seven",
+    "element": "earth",
+    "name": {
+      "vi": "Seven of Pentacles",
+      "en": "Seven of Pentacles"
+    },
+    "keywords": {
+      "vi": [
+        "kiên nhẫn",
+        "đánh giá tiến độ",
+        "điều chỉnh"
+      ],
+      "en": [
+        "patience",
+        "reviewing progress",
+        "adjustment"
+      ]
+    },
+    "intro": {
+      "vi": "Seven of Pentacles mang năng lượng của sự chờ đợi kiên nhẫn. Lá bài đánh dấu khoảnh khắc bạn dừng lại, dựa vào chiếc cuốc và ngắm nhìn những hạt giống mình đã dày công vun xới đang dần đâm chồi.",
+      "en": "Seven of Pentacles carries the energy of patient waiting. The card marks the moment you pause, lean on your hoe, and gaze at the seeds you have diligently cultivated as they slowly sprout."
+    },
+    "personalityPortrait": {
+      "vi": "Như một người nông dân lành nghề, Seven of Pentacles khuyên bạn đừng vội vàng bứt nụ. Họ mời bạn tận hưởng sự bình yên của việc nỗ lực hết sức mình và tin tưởng vào nhịp điệu phát triển tự nhiên.",
+      "en": "Like a skilled farmer, Seven of Pentacles advises you not to pull the buds in haste. They invite you to enjoy the peace of doing your best and trusting the natural rhythm of growth."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi dừng lại để xem nỗ lực dài hạn đang mang lại điều gì. Bạn có thể cân nhắc tiếp tục, điều chỉnh hoặc chọn một nhịp khác.",
+      "en": "The card suggests pausing to review what sustained effort is producing. You can consider continuing, adjusting or choosing another pace."
+    },
+    "reversedMeaning": {
+      "vi": "Chờ quá lâu không có phản hồi hoặc thiếu kiên nhẫn có thể làm việc đánh giá khó rõ. Nhìn vào dấu hiệu thực tế thay vì cho rằng càng cố lâu càng phải thành công.",
+      "en": "Waiting without feedback or impatience may cloud assessment. Look at real signs rather than assume longer effort must succeed."
+    },
+    "reflectionQuestion": {
+      "vi": "Dấu hiệu thực tế nào sẽ giúp bạn quyết định tiếp tục hay điều chỉnh một nỗ lực?",
+      "en": "Which real sign would help you decide whether to continue or adjust an effort?"
+    }
+  },
+  {
+    "id": "minor-pentacles-eight",
+    "arcana": "minor",
+    "number": 8,
+    "suit": "pentacles",
+    "rank": "eight",
+    "element": "earth",
+    "name": {
+      "vi": "Eight of Pentacles",
+      "en": "Eight of Pentacles"
+    },
+    "keywords": {
+      "vi": [
+        "rèn luyện",
+        "chú ý chi tiết",
+        "tay nghề"
+      ],
+      "en": [
+        "practice",
+        "attention to detail",
+        "craft"
+      ]
+    },
+    "intro": {
+      "vi": "Eight of Pentacles mang năng lượng của sự miệt mài và rèn giũa kỹ năng. Lá bài là một không gian tập trung tĩnh lặng, nơi bạn lặp đi lặp lại một công việc với sự tận tâm để đạt đến độ tinh xảo cao nhất.",
+      "en": "Eight of Pentacles carries the energy of diligence and honing skills. The card is a quiet space of focus, where you repeatedly perform a task with dedication to reach the highest level of mastery."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người thợ thủ công, Eight of Pentacles sẽ cùng bạn chú ý đến một chi tiết đang luyện. Họ ghi nhận việc học từ phản hồi, không yêu cầu làm hoàn hảo hay bỏ qua nhu cầu nghỉ.",
+      "en": "If Eight of Pentacles were a craftsperson, they would share attention to a detail you are practicing. They would value learning from feedback without demanding perfection or neglecting rest."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi rèn một kỹ năng bằng thực hành có chú ý. Một việc nhỏ lặp lại với phản hồi có thể giúp bạn nhận ra phần đang tiến bộ.",
+      "en": "The card suggests developing a skill through attentive practice. A small repeated task with feedback may reveal progress."
+    },
+    "reversedMeaning": {
+      "vi": "Làm máy móc hoặc đòi hỏi hoàn hảo có thể khiến bạn mất hứng thú. Bạn có thể điều chỉnh cách luyện và dành chỗ cho nghỉ ngơi.",
+      "en": "Mechanical work or perfectionism may drain interest. You can adjust practice and make room for rest."
+    },
+    "reflectionQuestion": {
+      "vi": "Bạn muốn chú ý đến chi tiết nào khi luyện một kỹ năng hôm nay?",
+      "en": "Which detail would you focus on while practicing a skill today?"
+    }
+  },
+  {
+    "id": "minor-pentacles-nine",
+    "arcana": "minor",
+    "number": 9,
+    "suit": "pentacles",
+    "rank": "nine",
+    "element": "earth",
+    "name": {
+      "vi": "Nine of Pentacles",
+      "en": "Nine of Pentacles"
+    },
+    "keywords": {
+      "vi": [
+        "tự chủ",
+        "ghi nhận nỗ lực",
+        "tận hưởng"
+      ],
+      "en": [
+        "self-sufficiency",
+        "appreciating effort",
+        "enjoyment"
+      ]
+    },
+    "intro": {
+      "vi": "Nine of Pentacles gợi sự tự chủ và khả năng trân trọng điều đã gây dựng. Lá bài mời bạn tận hưởng một phần thành quả mà không coi độc lập là phải tự làm mọi thứ.",
+      "en": "Nine of Pentacles suggests self-sufficiency and appreciating what has been built. The card invites enjoying some progress without making independence mean doing everything alone."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người bạn, Nine of Pentacles sẽ mời bạn ghi nhận điều mình đã gây dựng và tận hưởng một khoảng nghỉ. Họ nhắc rằng tự chủ vẫn có thể đi cùng kết nối và nhận hỗ trợ.",
+      "en": "If Nine of Pentacles were a friend, they would invite appreciation of what you have built and a moment of rest. They would remind you that autonomy can coexist with connection and support."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi sự tự chủ và khả năng tận hưởng điều đã gây dựng. Bạn có thể ghi nhận nguồn lực riêng mà không phải tự làm mọi thứ một mình.",
+      "en": "The card suggests self-sufficiency and enjoying what has been built. You can appreciate your resources without doing everything alone."
+    },
+    "reversedMeaning": {
+      "vi": "Giá trị bản thân có thể đang bị gắn chặt với thành tựu hoặc hình ảnh đủ đầy. Bạn có thể xem lại nhu cầu thật và cho phép mình nhận hỗ trợ.",
+      "en": "Self-worth may be tied to achievement or an image of abundance. You can review real needs and allow support."
+    },
+    "reflectionQuestion": {
+      "vi": "Bạn muốn trân trọng điều đã gây dựng nào mà không dùng nó để đo giá trị bản thân?",
+      "en": "What would you appreciate about something you have built without measuring your worth by it?"
+    }
+  },
+  {
+    "id": "minor-pentacles-ten",
+    "arcana": "minor",
+    "number": 10,
+    "suit": "pentacles",
+    "rank": "ten",
+    "element": "earth",
+    "name": {
+      "vi": "Ten of Pentacles",
+      "en": "Ten of Pentacles"
+    },
+    "keywords": {
+      "vi": [
+        "nền tảng dài hạn",
+        "di sản",
+        "cộng đồng"
+      ],
+      "en": [
+        "lasting foundation",
+        "legacy",
+        "community"
+      ]
+    },
+    "intro": {
+      "vi": "Ten of Pentacles gợi nền tảng dài hạn, di sản và nguồn lực được cùng gìn giữ. Lá bài mời bạn xem điều muốn truyền lại trong gia đình hoặc cộng đồng, không xác nhận một tương lai giàu có.",
+      "en": "Ten of Pentacles suggests lasting foundations, legacy and shared resources. The card invites considering what to pass on in family or community without confirming a wealthy future."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một bậc trưởng bối, Ten of Pentacles sẽ cùng bạn xem giá trị và nguồn lực muốn gìn giữ lâu dài. Họ không giả định bạn đã đủ đầy, mà hỏi điều gì có thể nâng đỡ cộng đồng theo khả năng hiện tại.",
+      "en": "If Ten of Pentacles were an elder, they would explore values and resources you want to preserve. They would not assume prosperity, but ask what could support a community within your current capacity."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi nền tảng dài hạn và nguồn lực được chia sẻ trong gia đình hoặc cộng đồng. Bạn có thể xem giá trị nào muốn gìn giữ; nó không bảo đảm giàu có.",
+      "en": "The card suggests lasting foundations and resources shared in family or community. You can review which values to preserve; it does not guarantee wealth."
+    },
+    "reversedMeaning": {
+      "vi": "Kỳ vọng gia đình hoặc khác biệt về nguồn lực có thể khiến cảm giác ổn định chưa trọn vẹn. Bạn có thể xác định giá trị mình muốn giữ mà không phải theo mọi khuôn mẫu.",
+      "en": "Family expectations or unequal resources may complicate stability. You can identify values to retain without following every inherited pattern."
+    },
+    "reflectionQuestion": {
+      "vi": "Giá trị nào bạn muốn gìn giữ hoặc truyền lại trong cộng đồng mình chọn?",
+      "en": "Which value would you preserve or pass on in your chosen community?"
+    }
+  },
+  {
+    "id": "minor-pentacles-page",
+    "arcana": "minor",
+    "number": 11,
+    "suit": "pentacles",
+    "rank": "page",
+    "element": "earth",
+    "name": {
+      "vi": "Page of Pentacles",
+      "en": "Page of Pentacles"
+    },
+    "keywords": {
+      "vi": [
+        "học thực tế",
+        "bước nhỏ",
+        "kế hoạch"
+      ],
+      "en": [
+        "practical learning",
+        "small steps",
+        "planning"
+      ]
+    },
+    "intro": {
+      "vi": "Page of Pentacles mang năng lượng của sự tò mò thực tế và khao khát học hỏi vững chắc. Lá bài là ánh mắt chăm chú của một người học việc, cẩn thận đặt viên gạch đầu tiên cho một nền móng mới.",
+      "en": "Page of Pentacles carries the energy of practical curiosity and a solid desire to learn. The card is the attentive gaze of an apprentice, carefully laying the first brick for a new foundation."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người bạn trẻ, Page of Pentacles sẽ rủ bạn bắt tay vào việc thay vì chỉ tưởng tượng. Họ khuyến khích bạn học từ những điều cơ bản nhất và đừng ngại đi từng bước nhỏ một.",
+      "en": "If it were a young friend, Page of Pentacles would invite you to get hands-on instead of just imagining. They encourage you to learn from the basics and not fear taking one small step at a time."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi học bằng thực hành và chuẩn bị một nền tảng cụ thể. Bạn có thể chọn một kỹ năng nhỏ rồi quan sát điều học được.",
+      "en": "The card suggests hands-on learning and preparing a concrete foundation. You can choose a small skill and notice what you learn."
+    },
+    "reversedMeaning": {
+      "vi": "Khó bắt đầu hoặc kế hoạch chưa thành thói quen có thể cần một bước đơn giản hơn. Chưa làm được ngay không nói rằng bạn thiếu khả năng.",
+      "en": "Difficulty starting or turning plans into habits may call for a simpler step. Not succeeding immediately does not imply a lack of ability."
+    },
+    "reflectionQuestion": {
+      "vi": "Kỹ năng thực tế nào bạn muốn học bằng một việc nhỏ có thể thử hôm nay?",
+      "en": "Which practical skill would you learn through one small task today?"
+    }
+  },
+  {
+    "id": "minor-pentacles-knight",
+    "arcana": "minor",
+    "number": 12,
+    "suit": "pentacles",
+    "rank": "knight",
+    "element": "earth",
+    "name": {
+      "vi": "Knight of Pentacles",
+      "en": "Knight of Pentacles"
+    },
+    "keywords": {
+      "vi": [
+        "bền bỉ",
+        "đều đặn",
+        "trách nhiệm"
+      ],
+      "en": [
+        "persistence",
+        "consistency",
+        "responsibility"
+      ]
+    },
+    "intro": {
+      "vi": "Knight of Pentacles gợi sự bền bỉ, nhịp đều và trách nhiệm trong công việc. Lá bài mời bạn chăm chút một bước nhỏ thay vì tăng tốc hay cam kết vượt khả năng.",
+      "en": "Knight of Pentacles suggests persistence, consistency and responsibility in work. The card invites care in a small step rather than speed or commitments beyond your capacity."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người đồng hành, Knight of Pentacles sẽ cùng bạn chọn một nhịp làm việc đáng tin và vừa sức. Họ nhắc sự kiên trì vẫn có chỗ cho nghỉ ngơi và xem lại kế hoạch.",
+      "en": "If Knight of Pentacles were a companion, they would choose a reliable, manageable work rhythm with you. They would leave room within persistence for rest and reviewing the plan."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi sự bền bỉ, nhịp đều và chăm chút công việc. Một bước nhỏ đáng tin có thể phù hợp hơn tăng tốc chỉ để chứng minh mình tiến bộ.",
+      "en": "The card suggests persistence, consistency and care in work. A reliable small step may fit better than accelerating to prove progress."
+    },
+    "reversedMeaning": {
+      "vi": "Thói quen quá cứng hoặc trì trệ có thể cần đổi nhịp. Bạn có thể điều chỉnh một phần mà không bỏ mọi cam kết hay tự trách vì đi chậm.",
+      "en": "Rigid routine or stagnation may call for a change of pace. You can adjust one part without dropping every commitment or blaming a slower speed."
+    },
+    "reflectionQuestion": {
+      "vi": "Thói quen nhỏ nào vừa giúp bạn giữ cam kết vừa có chỗ để nghỉ?",
+      "en": "Which small routine would support a commitment while leaving room to rest?"
+    }
+  },
+  {
+    "id": "minor-pentacles-queen",
+    "arcana": "minor",
+    "number": 13,
+    "suit": "pentacles",
+    "rank": "queen",
+    "element": "earth",
+    "name": {
+      "vi": "Queen of Pentacles",
+      "en": "Queen of Pentacles"
+    },
+    "keywords": {
+      "vi": [
+        "chăm sóc thực tế",
+        "vừa sức",
+        "không gian sống"
+      ],
+      "en": [
+        "practical care",
+        "capacity",
+        "living space"
+      ]
+    },
+    "intro": {
+      "vi": "Queen of Pentacles mang năng lượng của sự trù phú ấm áp và khả năng nuôi dưỡng vạn vật. Lá bài là hiện thân của một không gian an toàn, nơi cả tâm hồn lẫn cơ thể đều được chăm sóc chu đáo.",
+      "en": "Queen of Pentacles carries the energy of warm abundance and the ability to nurture all things. The card embodies a safe space where both soul and body are thoughtfully cared for."
+    },
+    "personalityPortrait": {
+      "vi": "Giống như một người mẹ của đất, Queen of Pentacles sẽ nấu cho bạn một bữa ăn ngon. Họ khuyên bạn trước khi muốn cứu thế giới, hãy chắc chắn rằng bạn đã đối xử tốt với chính cơ thể và không gian sống của mình.",
+      "en": "Like an earth mother, Queen of Pentacles would cook you a hearty meal. They advise you that before trying to save the world, make sure you have treated your own body and living space well."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi chăm sóc bằng những việc thực tế cho mình và người khác. Sự ấm áp có thể đi cùng ranh giới về thời gian và công sức.",
+      "en": "The card suggests practical care for yourself and others. Warmth can coexist with limits on time and effort."
+    },
+    "reversedMeaning": {
+      "vi": "Gánh chăm sóc vượt khả năng hoặc quên nhu cầu riêng có thể làm bạn mệt. Bạn có thể chọn một việc đủ nhỏ và chia sẻ phần còn lại.",
+      "en": "Care beyond your capacity or neglected needs may be tiring. You can choose one small task and share what remains."
+    },
+    "reflectionQuestion": {
+      "vi": "Việc chăm sóc thực tế nào vừa sức với thời gian và công sức của bạn hôm nay?",
+      "en": "Which practical act of care fits your time and energy today?"
+    }
+  },
+  {
+    "id": "minor-pentacles-king",
+    "arcana": "minor",
+    "number": 14,
+    "suit": "pentacles",
+    "rank": "king",
+    "element": "earth",
+    "name": {
+      "vi": "King of Pentacles",
+      "en": "King of Pentacles"
+    },
+    "keywords": {
+      "vi": [
+        "quản trị nguồn lực",
+        "đáng tin",
+        "trách nhiệm"
+      ],
+      "en": [
+        "resource stewardship",
+        "reliability",
+        "responsibility"
+      ]
+    },
+    "intro": {
+      "vi": "King of Pentacles mang năng lượng của sự vững chãi như một ngọn núi và nghệ thuật quản trị tài nguyên. Lá bài đại diện cho việc làm chủ thế giới vật chất để tạo ra sự thịnh vượng không chỉ cho bản thân mà cho cả những người xung quanh.",
+      "en": "King of Pentacles carries the energy of mountain-like solidity and the art of resource management. The card represents mastering the material world to create prosperity not just for oneself but for those around."
+    },
+    "personalityPortrait": {
+      "vi": "Nếu là một người dẫn dắt, King of Pentacles sẽ cùng bạn cân nhắc cách dùng nguồn lực đáng tin và vừa sức. Họ không đo sự an tâm bằng tài sản, mà hỏi điều gì đang nâng đỡ những giá trị bạn chọn.",
+      "en": "If King of Pentacles were a guide, they would consider reliable, manageable use of resources with you. They would not measure reassurance by possessions, but ask what supports your chosen values."
+    },
+    "uprightMeaning": {
+      "vi": "Lá bài gợi quản trị nguồn lực với sự ổn định và trách nhiệm. Bạn có thể dùng tiêu chí thực tế để nâng đỡ điều quan trọng, không xem giá trị bản thân là mức tài sản.",
+      "en": "The card suggests steady, responsible use of resources. Practical criteria can support what matters without equating self-worth with possessions."
+    },
+    "reversedMeaning": {
+      "vi": "Kiểm soát quá chặt hoặc đặt thành tựu vật chất lên trên mọi nhu cầu có thể khiến lựa chọn mất cân bằng. Bạn có thể xem lại ưu tiên, không cần quyết định tài chính từ lá bài.",
+      "en": "Tight control or placing material achievement above every need may unbalance choice. You can review priorities without making financial decisions from the card."
+    },
+    "reflectionQuestion": {
+      "vi": "Bạn muốn sử dụng nguồn lực hiện có để nâng đỡ giá trị nào ngoài thành tựu vật chất?",
+      "en": "Which value beyond material achievement would you support with available resources?"
+    }
+  }
+]

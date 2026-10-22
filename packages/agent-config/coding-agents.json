@@ -1,0 +1,351 @@
+[
+  {
+    "id": "plan_qc_agent",
+    "status": "active",
+    "purpose": "Require implementation plans, impact maps, validation gates, and manager-readable handoffs before non-trivial Nilaza changes.",
+    "readsFirst": [
+      "AGENTS.md",
+      "docs/AGENT_TASK_ROUTER.md",
+      "docs/PLAN_QC_PROTOCOL.md"
+    ],
+    "definitionOfDone": [
+      "The task lane and affected surfaces are identified before edits.",
+      "The plan includes acceptance criteria, validation commands, and manual QA path.",
+      "The final handoff lists changed scope, checks run, residual risk, and next task."
+    ],
+    "subAgents": [
+      {
+        "id": "impact_map_subagent",
+        "purpose": "Check navigation, storage, seed data, backend contracts, admin surfaces, localization, safety/privacy, visual assets, and tests for task impact."
+      },
+      {
+        "id": "qc_gate_subagent",
+        "purpose": "Confirm validation commands and manager-testable acceptance criteria before handoff."
+      }
+    ]
+  },
+  {
+    "id": "product_manager_agent",
+    "status": "active",
+    "purpose": "Maintain PRD, scope, acceptance criteria, and manager-friendly release notes.",
+    "readsFirst": [
+      "AGENTS.md",
+      "docs/FEATURE_PRD.md",
+      "docs/STITCH_DESIGN_STATUS.md",
+      "docs/BRAND_GUIDELINES.md",
+      "docs/BRAND_ROLLOUT_2026-09-11.md"
+    ],
+    "definitionOfDone": [
+      "Feature has clear product behavior.",
+      "Feature is testable by a non-technical reviewer.",
+      "Scope changes are documented.",
+      "Touched brand/UI/public-content surfaces use manifest-approved assets and VI/EN copy; approved, integrated, verified and released statuses have distinct evidence.",
+      "Public exports use Help/legal sources only; internal owner/Agent/prompt material stays protected."
+    ],
+    "subAgents": [
+      {
+        "id": "acceptance_criteria_subagent",
+        "purpose": "Turn feature requests into short testable acceptance criteria."
+      },
+      {
+        "id": "release_notes_subagent",
+        "purpose": "Summarize completed work in simple product language."
+      }
+    ]
+  },
+  {
+    "id": "content_data_agent",
+    "status": "active",
+    "purpose": "Own seed data, bilingual content coverage, persona metadata, tarot card meanings, and validation.",
+    "readsFirst": [
+      "packages/content/data",
+      "packages/agent-config",
+      "docs/BRAND_GUIDELINES.md",
+      "docs/BRAND_ROLLOUT_2026-09-11.md"
+    ],
+    "definitionOfDone": [
+      "All required entries have vi/en fields.",
+      "Safety and transparency notes exist.",
+      "Validation script passes.",
+      "Touched brand/UI/public-content surfaces use manifest-approved assets and VI/EN copy; approved, integrated, verified and released statuses have distinct evidence.",
+      "Public exports use Help/legal sources only; internal owner/Agent/prompt material stays protected."
+    ],
+    "subAgents": [
+      {
+        "id": "bilingual_content_subagent",
+        "purpose": "Check Vietnamese and English copy coverage."
+      },
+      {
+        "id": "ip_safety_subagent",
+        "purpose": "Flag exact copyrighted book text or official-representation wording."
+      }
+    ]
+  },
+  {
+    "id": "mobile_app_agent",
+    "status": "active",
+    "purpose": "Build Expo React Native screens, local data flows, and mobile-friendly UI states.",
+    "readsFirst": [
+      "DESIGN.md",
+      "apps/mobile",
+      "packages/content/data"
+    ],
+    "definitionOfDone": [
+      "Happy path works on mobile-sized screens.",
+      "Local state is saved where expected.",
+      "Empty states and basic error handling exist.",
+      "Mobile CI verifies both a web export and an Android embedded bundle before merge.",
+      "A shared mobile/backend contract has one declared canonical source."
+    ],
+    "subAgents": [
+      {
+        "id": "navigation_flow_subagent",
+        "purpose": "Keep onboarding, tabs, tarot, chat, journal, and profile flows connected."
+      },
+      {
+        "id": "local_storage_subagent",
+        "purpose": "Ensure profile, chat, readings, and journal persist locally."
+      }
+    ]
+  },
+  {
+    "id": "design_sync_agent",
+    "status": "active",
+    "purpose": "Keep mobile, website, Admin, guides and communications aligned with Open Reflection and product layouts.",
+    "readsFirst": [
+      "DESIGN.md",
+      "docs/STITCH_DESIGN_STATUS.md",
+      "docs/BRAND_GUIDELINES.md",
+      "docs/BRAND_ROLLOUT_2026-09-11.md"
+    ],
+    "definitionOfDone": [
+      "UI uses the approved palette and mobile tab structure.",
+      "Changed screens match the approved Open Reflection flow; Stitch is structural reference for unchanged screens.",
+      "Visual density remains premium and readable.",
+      "Touched brand/UI/public-content surfaces use manifest-approved assets and VI/EN copy; approved, integrated, verified and released statuses have distinct evidence.",
+      "Public exports use Help/legal sources only; internal owner/Agent/prompt material stays protected."
+    ],
+    "subAgents": [
+      {
+        "id": "visual_consistency_subagent",
+        "purpose": "Check palette, radius, typography hierarchy, and content density."
+      }
+    ]
+  },
+  {
+    "id": "qa_review_agent",
+    "status": "active",
+    "purpose": "Run local validation, type checks, and manual review notes before handoff.",
+    "readsFirst": [
+      "package.json",
+      "apps/mobile/package.json",
+      "scripts/validate-data.mjs",
+      "docs/BRAND_GUIDELINES.md",
+      "docs/BRAND_ROLLOUT_2026-09-11.md"
+    ],
+    "definitionOfDone": [
+      "Data validation passes.",
+      "Type check is attempted and result is reported.",
+      "Known blockers are clearly listed.",
+      "A failed CI gate or unverified authenticated endpoint is never reported as release-ready.",
+      "Touched brand/UI/public-content surfaces use manifest-approved assets and VI/EN copy; approved, integrated, verified and released statuses have distinct evidence.",
+      "Public exports use Help/legal sources only; internal owner/Agent/prompt material stays protected."
+    ],
+    "subAgents": [
+      {
+        "id": "mvp_flow_subagent",
+        "purpose": "Test onboarding, tarot, chat, journal, and profile happy paths."
+      },
+      {
+        "id": "handoff_summary_subagent",
+        "purpose": "Prepare simple review instructions for the product owner."
+      }
+    ]
+  },
+  {
+    "id": "security_privacy_agent",
+    "status": "active",
+    "purpose": "Review data handling, app permissions, secrets exposure, dependency risk, and publish security blockers.",
+    "readsFirst": [
+      "AGENTS.md",
+      "packages/agent-config/safety-rules.json",
+      "apps/mobile/src/storage.ts"
+    ],
+    "definitionOfDone": [
+      "No secrets are in mobile code.",
+      "Sensitive local storage and backend migration risks are documented.",
+      "Pre-publish blockers are listed."
+    ],
+    "subAgents": [
+      {
+        "id": "secrets_scan_subagent",
+        "purpose": "Search for API keys, tokens, and accidental credentials."
+      },
+      {
+        "id": "privacy_storage_subagent",
+        "purpose": "Assess chat, journal, birth data, and logs for sensitive data exposure."
+      },
+      {
+        "id": "dependency_audit_subagent",
+        "purpose": "Track npm audit issues and upgrade risk before release."
+      }
+    ]
+  },
+  {
+    "id": "workflow_orchestration_agent",
+    "status": "active",
+    "purpose": "Coordinate parallel feature branches, agent handoffs, quality gates, and merge readiness.",
+    "readsFirst": [
+      "packages/agent-config/feature-workflows.json",
+      "docs/AGENT_ARCHITECTURE.md"
+    ],
+    "definitionOfDone": [
+      "Each feature has an owner lane and branch pattern.",
+      "Quality gates are explicit.",
+      "Handoff artifacts are manager-readable.",
+      "Every delegation records its write scope, allowed data classes, validation and stop condition.",
+      "The agent execution policy is validated before workflow/config changes are accepted."
+    ],
+    "subAgents": [
+      {
+        "id": "branch_planning_subagent",
+        "purpose": "Assign feature work to non-overlapping branch lanes."
+      },
+      {
+        "id": "quality_gate_subagent",
+        "purpose": "Ensure validate, typecheck, browser review, and safety reviews are run."
+      }
+    ]
+  },
+  {
+    "id": "release_readiness_agent",
+    "status": "active",
+    "purpose": "Prepare local MVPs for beta, App Store, and Google Play readiness.",
+    "readsFirst": [
+      "docs/MVP_IMPLEMENTATION_PLAN.md",
+      "docs/FEATURE_PRD.md",
+      "docs/BRAND_GUIDELINES.md",
+      "docs/BRAND_ROLLOUT_2026-09-11.md"
+    ],
+    "definitionOfDone": [
+      "Store-policy risks are listed.",
+      "Privacy labels and deletion/export needs are known.",
+      "Backend-required items are separated from local MVP items.",
+      "Touched brand/UI/public-content surfaces use manifest-approved assets and VI/EN copy; approved, integrated, verified and released statuses have distinct evidence.",
+      "Public exports use Help/legal sources only; internal owner/Agent/prompt material stays protected."
+    ],
+    "subAgents": [
+      {
+        "id": "app_store_policy_subagent",
+        "purpose": "Check Apple guidance for UGC, impersonation, payments, and minimum functionality."
+      },
+      {
+        "id": "google_play_policy_subagent",
+        "purpose": "Check Google Play AI-generated content, impersonation, and content safety policies."
+      }
+    ]
+  },
+  {
+    "id": "gen_z_discovery_customer_qa_agent",
+    "status": "active",
+    "purpose": "Simulate a first-time Gen Z journey through changed mobile flows and report discoverability, comprehension, visual hierarchy, and interaction friction as testable hypotheses.",
+    "researchStatus": "synthetic_qa_hypothesis_not_validated_research",
+    "customerGroup": "gen_z_discovery",
+    "readsFirst": [
+      "docs/CUSTOMER_PERSPECTIVE_QA.md",
+      "docs/FEATURE_PRD.md",
+      "docs/BRAND_GUIDELINES.md",
+      "DESIGN.md"
+    ],
+    "testOutcomes": [
+      "A first-time tester can find the changed feature from its supported entry points and understand the next action at each step.",
+      "Primary actions, progress, results, and recovery feedback are clear on a mobile viewport.",
+      "Every reported issue includes steps, expected and actual behavior, mode, source state, severity, and sanitized evidence."
+    ],
+    "definitionOfDone": [
+      "Run the assigned synthetic scenario on the stated build and viewport.",
+      "Report reproducible friction and record unverified hypotheses separately.",
+      "Retest assigned fixes and record pass, fail, or blocked with evidence."
+    ],
+    "subAgents": [
+      {
+        "id": "first_visit_discoverability_subagent",
+        "purpose": "Check entry points, navigation, back behavior, and the first clear call to action without prior product knowledge."
+      },
+      {
+        "id": "task_flow_clarity_subagent",
+        "purpose": "Check the changed task's choices, progress, loading, completion feedback, and recovery from errors."
+      },
+      {
+        "id": "content_readability_and_output_subagent",
+        "purpose": "Check content readability at mobile size and any saved or shared output for completeness and privacy-safe presentation."
+      }
+    ]
+  },
+  {
+    "id": "emotional_reflection_customer_qa_agent",
+    "status": "active",
+    "purpose": "Simulate a customer seeking gentle emotional or relationship reflection across changed mobile flows and report trust, autonomy, safety-copy, privacy, and continuity issues using fictional inputs only.",
+    "researchStatus": "synthetic_qa_hypothesis_not_validated_research",
+    "customerGroup": "emotional_relationship_reflection",
+    "readsFirst": [
+      "docs/CUSTOMER_PERSPECTIVE_QA.md",
+      "docs/FEATURE_PRD.md",
+      "docs/BRAND_GUIDELINES.md",
+      "DESIGN.md"
+    ],
+    "testOutcomes": [
+      "Guidance and reflection copy leave choices with the customer, without certain predictions or professional advice.",
+      "Sensitive inputs and saved content have understandable controls and do not appear in QA evidence.",
+      "Save, return, and follow-up paths explain their effects and recover clearly from failure."
+    ],
+    "definitionOfDone": [
+      "Run the assigned fictional emotional-reflection scenario on the stated build and viewport.",
+      "Report reproducible friction and record unverified hypotheses separately.",
+      "Retest assigned fixes and record pass, fail, or blocked with evidence."
+    ],
+    "subAgents": [
+      {
+        "id": "reflective_tone_and_safety_subagent",
+        "purpose": "Check agency-preserving language, appropriate symbolic framing, and support when a fictional prompt signals distress."
+      },
+      {
+        "id": "privacy_and_continuity_subagent",
+        "purpose": "Check sensitive-input handling, save and return behavior, and follow-up expectations without exposing private content."
+      }
+    ]
+  },
+  {
+    "id": "wisdom_mentor_customer_qa_agent",
+    "status": "active",
+    "purpose": "Simulate a deeper wisdom seeker using changed mobile flows for learning and continued reflection; report content depth, consistency, and continuity issues.",
+    "researchStatus": "synthetic_qa_hypothesis_not_validated_research",
+    "customerGroup": "deeper_mentor_wisdom_seeker",
+    "readsFirst": [
+      "docs/CUSTOMER_PERSPECTIVE_QA.md",
+      "docs/FEATURE_PRD.md",
+      "docs/BRAND_GUIDELINES.md",
+      "DESIGN.md"
+    ],
+    "testOutcomes": [
+      "Inputs, displayed content, and generated or saved outputs remain consistent across the changed flow.",
+      "A customer can explore deeper context and continue reflection without losing context or mistaking symbolic guidance for factual certainty.",
+      "Detail and learning surfaces support deliberate exploration with readable content and stable navigation."
+    ],
+    "definitionOfDone": [
+      "Run the assigned synthetic learning-and-reflection scenario on the stated build and viewport.",
+      "Report reproducible friction and record unverified hypotheses separately.",
+      "Retest assigned fixes and record pass, fail, or blocked with evidence."
+    ],
+    "subAgents": [
+      {
+        "id": "content_consistency_subagent",
+        "purpose": "Compare selected inputs, displayed details, output summaries, and saved content for consistency."
+      },
+      {
+        "id": "depth_and_followup_subagent",
+        "purpose": "Check readable depth, detail navigation, and follow-up continuity in the changed flow."
+      }
+    ]
+  }
+]

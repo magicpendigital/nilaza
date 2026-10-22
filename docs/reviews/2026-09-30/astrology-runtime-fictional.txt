@@ -1,0 +1,99 @@
+- button "← Trở lại":
+  - generic: ← Trở lại
+- generic: NILAZA · ASTROLOGY
+- generic: Bản đồ của bạn
+- generic: 2004-08-16 · Hanoi · VN · Hanoi
+- generic: Asia/Bangkok · Không rõ giờ
+- generic: Khả năng khi chưa rõ giờ sinh
+- generic: Nilaza lấy mẫu mỗi 15 phút trong ngày sinh. Đây là các khả năng được lấy mẫu, không phải giới hạn sai số được bảo đảm.
+- generic: ♌
+- generic: Mặt Trời
+- generic: Cung xuất hiện trong các mẫu
+- generic: ♌
+- generic: Sư Tử
+- generic: Mặt Trời — điều bạn muốn nuôi dưỡng và chủ động thể hiện. Hãy thử đọc vị trí này như một câu hỏi về hướng sống; đừng đồng nhất nó với toàn bộ con người bạn.
+- generic: ✧
+- generic: Mặt Trăng
+- generic: Các cung khả dĩ trong các mẫu
+- generic: ♌
+- generic: Sư Tử
+- generic: ♍
+- generic: Xử Nữ
+- generic: Mặt Trăng — thói quen tìm sự dễ chịu và cảm giác được chăm sóc. Quan sát một tình huống cụ thể gần đây trước khi kết luận. Mặt Trăng đi nhanh nên giờ sinh không rõ có thể đổi cung.
+- generic: ♍
+- generic: Sao Thủy
+- generic: Cung xuất hiện trong các mẫu
+- generic: ♍
+- generic: Xử Nữ
+- generic: Sao Thủy — cách đặt câu hỏi, học và truyền đạt. Thử phân biệt điều bạn đã quan sát với điều bạn đang suy đoán. Đây không phải phép đo trí thông minh.
+- generic: ♋
+- generic: Sao Kim
+- generic: Cung xuất hiện trong các mẫu
+- generic: ♋
+- generic: Cự Giải
+- generic: Sao Kim — điều bạn trân trọng, niềm vui và cách trao nhận. Hãy nghĩ đến một lựa chọn thể hiện giá trị của bạn, thay vì suy ra ai là người hợp hay khắc.
+- generic: ♍
+- generic: Sao Hỏa
+- generic: Cung xuất hiện trong các mẫu
+- generic: ♍
+- generic: Xử Nữ
+- generic: Sao Hỏa — hành động, nỗ lực và cách đặt giới hạn. Một bước thử nhỏ có thể hữu ích hơn việc tự gắn nhãn mạnh mẽ hay yếu đuối. Vị trí này không dự báo xung đột.
+- generic: ♍
+- generic: Sao Mộc
+- generic: Cung xuất hiện trong các mẫu
+- generic: ♍
+- generic: Xử Nữ
+- generic: Sao Mộc — mở rộng trải nghiệm và tìm ý nghĩa. Đối chiếu một điều bạn kỳ vọng với nguồn lực thực tế; niềm tin có thể được điều chỉnh khi có thông tin mới.
+- generic: ♋
+- generic: Sao Thổ
+- generic: Cung xuất hiện trong các mẫu
+- generic: ♋
+- generic: Cự Giải
+- generic: Sao Thổ — trách nhiệm, cấu trúc và thời gian. Phân biệt một giới hạn giúp bạn bền vững với một quy tắc không còn phù hợp. Không dùng biểu tượng này để dự báo tai họa.
+- generic: ♓
+- generic: Sao Thiên Vương
+- generic: Cung xuất hiện trong các mẫu
+- generic: ♓
+- generic: Song Ngư
+- generic: Sao Thiên Vương — đổi mới và nhu cầu tự chủ. Vì chuyển động chậm, cung của thiên thể này được nhiều người cùng thế hệ chia sẻ; không nên đọc thành đặc điểm riêng tuyệt đối.
+- generic: ♒
+- generic: Sao Hải Vương
+- generic: Cung xuất hiện trong các mẫu
+- generic: ♒
+- generic: Bảo Bình
+- generic: Sao Hải Vương — tưởng tượng, lý tưởng và sự mơ hồ. Ghi rõ điều đã biết và điều bạn mong muốn. Đây là vị trí mang tính thế hệ, không xác nhận khả năng tâm linh.
+- generic: ♐
+- generic: Sao Diêm Vương
+- generic: Cung xuất hiện trong các mẫu
+- generic: ♐
+- generic: Nhân Mã
+- generic: Sao Diêm Vương — thay đổi dài hạn, quyền chủ động và điều khó buông. Vị trí theo cung thường chung cho một thế hệ; nội dung chỉ là lăng kính suy ngẫm, không chẩn đoán sang chấn.
+- button "Lưu bản đồ trên thiết bị":
+  - generic: Lưu bản đồ trên thiết bị
+- button "Lưu câu hỏi vào Journal":
+  - generic: Lưu câu hỏi vào Journal
+- generic: Bạn có thể mang các cung và câu hỏi sang trò chuyện. Ngày, giờ và nơi sinh không được đính kèm; chưa gửi tin nhắn cho đến khi bạn chọn gửi.
+- button "Mở trò chuyện với Astrologer":
+  - generic: Mở trò chuyện với Astrologer
+- button "Sửa dữ liệu · tạo bản mới":
+  - generic: Sửa dữ liệu · tạo bản mới
+- generic: Độ tin cậy & phương pháp
+- generic: Vị trí được tính bằng Astronomy Engine 2.1.19 (MIT). Bộ kiểm tra 500 vị trí / 50 thời điểm với NASA/JPL đạt sai số tối đa 0,0051°. Đây là kiểm tra mẫu, không bảo đảm cho mọi đầu vào. Giờ sinh, tọa độ và quy tắc múi giờ lịch sử có thể gây sai lệch lớn hơn.
+- generic: "nilaza-a3-utc-tt-2 · Múi giờ: Asia/Bangkok · thiết bị không công bố phiên bản cơ sở múi giờ; bản lưu giữ UTC và tọa độ đã dùng."
+- generic: Diễn giải biểu tượng không xác định tính cách hoặc dự đoán tương lai. Không dùng kết quả để đưa ra quyết định y tế, pháp lý hoặc tài chính.
+- tablist:
+  - tab "Trang chủ":
+    - generic: 
+    - generic: Trang chủ
+  - tab "Khám phá":
+    - generic: 
+    - generic: Khám phá
+  - tab "Trò chuyện":
+    - generic: 
+    - generic: Trò chuyện
+  - tab "Nhật ký":
+    - generic: 
+    - generic: Nhật ký
+  - tab "Hồ sơ":
+    - generic: 
+    - generic: Hồ sơ

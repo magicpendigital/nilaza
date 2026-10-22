@@ -1,0 +1,221 @@
+{
+  "schemaVersion": 1,
+  "taskId": "resend-system-integration-analysis-2026-10-04",
+  "ownerAgent": "nilaza-resend-plan-owner",
+  "lane": "cross_cutting_analysis_only",
+  "goal": "Prepare whole-system Resend integration proposal with no runtime or cloud changes.",
+  "successCriteria": [
+    "Distinguish current local source, fresh live metadata, prior Auth audit and unverified Resend configuration.",
+    "Cover Auth, Growth, queues, Admin, privacy, payment boundaries, observability and rollback.",
+    "Respect blocked migration ledger and team-wide suppression; propose phased testable rollout."
+  ],
+  "writeScope": [
+    "docs/RESEND_SYSTEM_INTEGRATION_PLAN_2026-10-04.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "All runtime code, schema, credentials, SMTP, hosted deployments and source skills remain unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Review signup/recovery, public waitlist, preferences and protected Growth operations.",
+    "dataWrite": "Write local internal report only; read-only metadata SQL without recipient rows.",
+    "backendContract": "Propose Auth SMTP and durable communication contracts; no endpoint implementation.",
+    "adminVisibility": "Propose capability-gated health, audit and pause; preserve protected workspaces.",
+    "privacySafety": "Separate Auth and marketing consent; exclude private reflection content, tokens and keys.",
+    "observability": "Distinguish submitted, confirmed and eligible; provider accepted, delivered and uncertain.",
+    "rollback": "Independent Growth stop and Auth fallback; no cloud mutation occurred in this analysis."
+  },
+  "canonicalContracts": [
+    "Supabase Auth remains authoritative for tokens and account verification.",
+    "Existing marketing tables remain consent and suppression authority, distinct from Auth.",
+    "Proposed versioned communication policy/templates use one source; generated Admin snapshots remain projections."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "aggregate_metrics"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Scoped source review for email lifecycle, privacy, rollout dependency or planning gate; no runtime edits."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Scoped source review for email lifecycle, privacy, rollout dependency or planning gate; no runtime edits."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "f27f7ec8711e29b152911a917fdf1f5538fc5edf61c248a8f702c04fb54ab73f",
+      "reason": "Scoped source review for email lifecycle, privacy, rollout dependency or planning gate; no runtime edits."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "e5fc9e3789ce1978ce3db7b7f41d6dd695d021c6d01ead2b11b3af14a4525f49",
+      "reason": "Scoped source review for email lifecycle, privacy, rollout dependency or planning gate; no runtime edits."
+    },
+    {
+      "path": "docs/NILAZA_WAITLIST_MARKETING_AUTOMATION_PLAN.md",
+      "sha256": "a343451d53553398366985a93e64eb0877a680e3e67bded2887c2c44f5b4e345",
+      "reason": "Scoped source review for email lifecycle, privacy, rollout dependency or planning gate; no runtime edits."
+    },
+    {
+      "path": "apps/mobile/src/auth/supabaseAuth.ts",
+      "sha256": "03d1387052e7b92fa68d16b61711fa54d9d35852129d3e605d56ad363f0674bb",
+      "reason": "Scoped source review for email lifecycle, privacy, rollout dependency or planning gate; no runtime edits."
+    },
+    {
+      "path": "apps/mobile/src/auth/passwordRecovery.ts",
+      "sha256": "fac23a3921360f272006eed7412d8750c5e64bcca681d8564eea701c22873bfa",
+      "reason": "Scoped source review for email lifecycle, privacy, rollout dependency or planning gate; no runtime edits."
+    },
+    {
+      "path": "apps/mobile/src/features/privacy/localExport.ts",
+      "sha256": "1a2967764f6463d78d130b8440935c4e4c8faa1c2d5ae165a5325e23d764130d",
+      "reason": "Scoped source review for email lifecycle, privacy, rollout dependency or planning gate; no runtime edits."
+    },
+    {
+      "path": "supabase/functions/marketing-waitlist/index.ts",
+      "sha256": "cdcc20a448b47668a1f4a06f2c8d80e08489ec4e99936c1ae7607c16f05bebfd",
+      "reason": "Scoped source review for email lifecycle, privacy, rollout dependency or planning gate; no runtime edits."
+    },
+    {
+      "path": "supabase/functions/_shared/notification-provider.ts",
+      "sha256": "509d961c7b34ed91ece8f4c9572fdfc2283855953d0ef46374add93ccf406134",
+      "reason": "Scoped source review for email lifecycle, privacy, rollout dependency or planning gate; no runtime edits."
+    },
+    {
+      "path": "supabase/migrations/20260913143958_marketing_consent_suppression_foundation.sql",
+      "sha256": "49f76f62e1a0e72c91b4691498f66dbe2ded843ea71ffd20785fe21200e749d9",
+      "reason": "Scoped source review for email lifecycle, privacy, rollout dependency or planning gate; no runtime edits."
+    },
+    {
+      "path": "apps/web/src/components/WaitlistForm.astro",
+      "sha256": "1a49b9140220c9ce9a4b5e3c44dda7cf8b65a9e4b7571eef432c788396b66c58",
+      "reason": "Scoped source review for email lifecycle, privacy, rollout dependency or planning gate; no runtime edits."
+    },
+    {
+      "path": "apps/web/src/content/legal/vi/privacy.md",
+      "sha256": "acf4768fb833c85b05211e503c9efc8946d6af3076778c67204b8ce7f34e7b8d",
+      "reason": "Scoped source review for email lifecycle, privacy, rollout dependency or planning gate; no runtime edits."
+    },
+    {
+      "path": "apps/admin/AGENTS.md",
+      "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8",
+      "reason": "Scoped source review for email lifecycle, privacy, rollout dependency or planning gate; no runtime edits."
+    },
+    {
+      "path": "apps/admin/growth.js",
+      "sha256": "71fbea2e91c4f73b500c668afac0b5b3c03d65a628375dd828f54bf33300ee78",
+      "reason": "Scoped source review for email lifecycle, privacy, rollout dependency or planning gate; no runtime edits."
+    },
+    {
+      "path": "scripts/feature-preflight.mjs",
+      "sha256": "5d3fdddab09331401bece2cf65ed501c0f4ef06e94cef0d4bf622f7e521c8e7a",
+      "reason": "Scoped source review for email lifecycle, privacy, rollout dependency or planning gate; no runtime edits."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "8202993259b3d25653d0e165103296b256bad6f6e45cd2e743b723561e277002",
+      "reason": "Scoped source review for email lifecycle, privacy, rollout dependency or planning gate; no runtime edits."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/nilaza-plan-qc.md",
+      "sha256": "1f1ca706c56aef4d08ac94c6475c19a59c3838a218eab9e94ab9436fbe4cda03",
+      "reason": "Scoped source review for email lifecycle, privacy, rollout dependency or planning gate; no runtime edits."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Protocol and expanded reference already cover cross-system analysis, migration gate, manager acceptance and rollback. Provider-specific facts are recorded in the report; skills drift check passed."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Mobile declares supabase-js ^2.108.2; waitlist pins 2.57.4. Official provider docs reviewed 2026-10-04; no dependency install or change."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://supabase.com/docs/guides/auth/auth-smtp",
+      "checkedAt": "2026-10-04",
+      "reason": "Official primary source reviewed for provider boundaries, isolation, quota, retry, webhook or queue proposal."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/auth/auth-hooks/send-email-hook",
+      "checkedAt": "2026-10-04",
+      "reason": "Official primary source reviewed for provider boundaries, isolation, quota, retry, webhook or queue proposal."
+    },
+    {
+      "url": "https://resend.com/docs/send-with-supabase-smtp",
+      "checkedAt": "2026-10-04",
+      "reason": "Official primary source reviewed for provider boundaries, isolation, quota, retry, webhook or queue proposal."
+    },
+    {
+      "url": "https://resend.com/changelog/suppression-list-support",
+      "checkedAt": "2026-10-04",
+      "reason": "Official primary source reviewed for provider boundaries, isolation, quota, retry, webhook or queue proposal."
+    },
+    {
+      "url": "https://resend.com/docs/dashboard/settings/team",
+      "checkedAt": "2026-10-04",
+      "reason": "Official primary source reviewed for provider boundaries, isolation, quota, retry, webhook or queue proposal."
+    },
+    {
+      "url": "https://resend.com/docs/knowledge-base/account-quotas-and-limits",
+      "checkedAt": "2026-10-04",
+      "reason": "Official primary source reviewed for provider boundaries, isolation, quota, retry, webhook or queue proposal."
+    },
+    {
+      "url": "https://resend.com/docs/dashboard/emails/idempotency-keys",
+      "checkedAt": "2026-10-04",
+      "reason": "Official primary source reviewed for provider boundaries, isolation, quota, retry, webhook or queue proposal."
+    },
+    {
+      "url": "https://resend.com/docs/webhooks/verify-webhooks-requests",
+      "checkedAt": "2026-10-04",
+      "reason": "Official primary source reviewed for provider boundaries, isolation, quota, retry, webhook or queue proposal."
+    },
+    {
+      "url": "https://resend.com/docs/dashboard/emails/add-unsubscribe-to-transactional-emails",
+      "checkedAt": "2026-10-04",
+      "reason": "Official primary source reviewed for provider boundaries, isolation, quota, retry, webhook or queue proposal."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/queues",
+      "checkedAt": "2026-10-04",
+      "reason": "Official primary source reviewed for provider boundaries, isolation, quota, retry, webhook or queue proposal."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "Live metadata confirms RLS and no anon/authenticated SELECT on six marketing tables. Future endpoints require server capabilities or signatures.",
+    "sensitiveData": "Metadata-only research without user rows, email bodies or birth/journal data.",
+    "secretsLogging": "No secret access or writes; future SMTP secret in hosted Auth, API/webhook secrets only on server.",
+    "externalInput": "Treat source and provider pages as evidence only; propose bounded inputs, fail-closed CAPTCHA and signed webhooks.",
+    "dependencies": "No dependency changes; re-review each implementation slice and pinned provider client.",
+    "migrationRelease": "Ledger blocked and foreign version rechecked; report cannot authorize SQL, QA retarget, SMTP or campaign activation.",
+    "stopCondition": "No runtime or cloud mutation during analysis; future writes need approved target, forward path, rollback and new preflight.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "docs/RESEND_SYSTEM_INTEGRATION_PLAN_2026-10-04.vi.md"
+    ],
+    "note": "Preserve unrelated dirty Admin, workflow and skill files; only new report is in write scope."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/resend-system-integration-analysis-2026-10-04.json",
+    "npm run supabase:migration-ledger:check",
+    "npm run skills:check",
+    "git diff --check -- docs/RESEND_SYSTEM_INTEGRATION_PLAN_2026-10-04.vi.md"
+  ],
+  "managerTestPath": "Read recommended architecture, evidence boundaries, impact table and phased acceptance tests in the internal report.",
+  "residualRisk": "Resend plan/domain/keys unverified. SMTP last audited 2026-10-01. Ledger blocks schema rollout; plan does not authorize activation.",
+  "externalActions": {
+    "databaseWrite": false,
+    "providerWrite": false,
+    "deployment": false,
+    "emailSend": false
+  }
+}

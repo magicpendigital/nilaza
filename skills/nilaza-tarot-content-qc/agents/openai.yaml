@@ -1,0 +1,4 @@
+interface:
+  display_name: "Nilaza Tarot Content QC"
+  short_description: "Review bilingual Tarot copy and scene alignment"
+  default_prompt: "Use $nilaza-tarot-content-qc to review Nilaza Tarot deck and card content in Vietnamese and English, correct issues, and record content QC evidence."

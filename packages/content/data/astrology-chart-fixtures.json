@@ -1,0 +1,278 @@
+{
+  "schemaVersion": "nilaza.astrology.chart-fixtures.v1",
+  "status": "internal_geometry_foundation_only",
+  "canonicalChart": {
+    "contractId": "nilaza.astrology.canonical-chart",
+    "contractVersion": "0.1.0"
+  },
+  "fixturePolicy": {
+    "kind": "synthetic_internal_fixture",
+    "isSynthetic": true,
+    "noUserLinkage": true,
+    "calculationStatus": "fixture_only_not_calculation_verified",
+    "vi": "Fixtures này chỉ phục vụ contract, geometry, label collision và list fallback trong môi trường nội bộ. Chúng không phải kết quả tính thiên văn, không đại diện cho người dùng và không được hiển thị như chart cá nhân đã xác minh.",
+    "en": "These fixtures serve only internal contract, geometry, label-collision, and list-fallback work. They are not astronomical calculations, do not represent a user, and must never be displayed as a verified personal chart."
+  },
+  "fixtures": [
+    {
+      "id": "synthetic-tropical-whole-sign-collision-wheel-v1",
+      "kind": "synthetic_internal_fixture",
+      "isSynthetic": true,
+      "calculationStatus": "fixture_only_not_calculation_verified",
+      "title": {
+        "vi": "Fixture vòng Bạch Dương dày nhãn",
+        "en": "Dense-label Aries wheel fixture"
+      },
+      "purpose": {
+        "vi": "Kiểm tra anchor ổn định, label collision, đường aspect và lựa chọn bằng list khi nhiều placement nằm gần nhau. Các giá trị được tác giả tạo cho geometry, không phải output từ calculator.",
+        "en": "Tests stable anchors, label collision, aspect lines, and list selection when several placements are near one another. Values are authored for geometry, not output from a calculator."
+      },
+      "provenance": {
+        "source": "manually_authored_synthetic_geometry_fixture",
+        "sourceVersion": "2026-09-22-a4-foundation",
+        "notAstronomicalReference": true,
+        "reproducibleFromRepository": true,
+        "reviewStatus": "internal_only_pending_g_a3_fixture_suite",
+        "vi": "Không dùng ngày, giờ, nơi sinh, tọa độ, timezone, ID hay dữ liệu từ người dùng thật. Trước G-A3, fixture không được dùng để kết luận về accuracy hoặc quảng cáo calculator.",
+        "en": "No birth date, time, place, coordinates, timezone, ID, or data from a real person is used. Before G-A3, this fixture cannot support an accuracy conclusion or calculator marketing claim."
+      },
+      "privacy": {
+        "hasUserLinkage": false,
+        "containsRawBirthData": false,
+        "allowedUse": [
+          "internal_geometry_test",
+          "internal_accessibility_test",
+          "internal_renderer_prototype"
+        ],
+        "forbiddenUse": [
+          "personal_report",
+          "analytics_payload",
+          "llm_context",
+          "marketing_claim",
+          "production_seed"
+        ]
+      },
+      "chart": {
+        "calculationStatus": "fixture_only_not_calculation_verified",
+        "conventions": {
+          "zodiac": "tropical",
+          "coordinateFrame": "geocentric_ecliptic_longitude",
+          "houseSystem": "whole_sign",
+          "aspectDefinitionsVersion": "major-5-v1"
+        },
+        "time": {
+          "birthTimeKnown": true,
+          "precision": "synthetic_fixture_only",
+          "uncertaintyReason": "This is not a birth profile or a calculation result."
+        },
+        "angles": [
+          {
+            "key": "ascendant",
+            "longitude": 15,
+            "sign": "aries",
+            "degree": 15,
+            "confidence": "fixture_only"
+          },
+          {
+            "key": "midheaven",
+            "longitude": 75,
+            "sign": "gemini",
+            "degree": 15,
+            "confidence": "fixture_only"
+          }
+        ],
+        "placements": [
+          {
+            "body": "sun",
+            "longitude": 13.2,
+            "sign": "aries",
+            "degree": 13.2,
+            "minute": 12,
+            "retrograde": false,
+            "house": 1,
+            "confidence": "fixture_only"
+          },
+          {
+            "body": "moon",
+            "longitude": 15.9,
+            "sign": "aries",
+            "degree": 15.9,
+            "minute": 54,
+            "retrograde": false,
+            "house": 1,
+            "confidence": "fixture_only"
+          },
+          {
+            "body": "mercury",
+            "longitude": 358.4,
+            "sign": "pisces",
+            "degree": 28.4,
+            "minute": 24,
+            "retrograde": true,
+            "house": 12,
+            "confidence": "fixture_only"
+          },
+          {
+            "body": "venus",
+            "longitude": 47.8,
+            "sign": "taurus",
+            "degree": 17.8,
+            "minute": 48,
+            "retrograde": false,
+            "house": 2,
+            "confidence": "fixture_only"
+          },
+          {
+            "body": "mars",
+            "longitude": 105.1,
+            "sign": "cancer",
+            "degree": 15.1,
+            "minute": 6,
+            "retrograde": false,
+            "house": 4,
+            "confidence": "fixture_only"
+          },
+          {
+            "body": "jupiter",
+            "longitude": 195.2,
+            "sign": "libra",
+            "degree": 15.2,
+            "minute": 12,
+            "retrograde": false,
+            "house": 7,
+            "confidence": "fixture_only"
+          },
+          {
+            "body": "saturn",
+            "longitude": 284.8,
+            "sign": "capricorn",
+            "degree": 14.8,
+            "minute": 48,
+            "retrograde": false,
+            "house": 10,
+            "confidence": "fixture_only"
+          },
+          {
+            "body": "uranus",
+            "longitude": 317.4,
+            "sign": "aquarius",
+            "degree": 17.4,
+            "minute": 24,
+            "retrograde": true,
+            "house": 11,
+            "confidence": "fixture_only"
+          },
+          {
+            "body": "neptune",
+            "longitude": 315.3,
+            "sign": "aquarius",
+            "degree": 15.3,
+            "minute": 18,
+            "retrograde": true,
+            "house": 11,
+            "confidence": "fixture_only"
+          },
+          {
+            "body": "pluto",
+            "longitude": 257.7,
+            "sign": "sagittarius",
+            "degree": 17.7,
+            "minute": 42,
+            "retrograde": true,
+            "house": 9,
+            "confidence": "fixture_only"
+          }
+        ],
+        "houses": [
+          { "number": 1, "cuspLongitude": 0, "sign": "aries", "confidence": "fixture_only" },
+          { "number": 2, "cuspLongitude": 30, "sign": "taurus", "confidence": "fixture_only" },
+          { "number": 3, "cuspLongitude": 60, "sign": "gemini", "confidence": "fixture_only" },
+          { "number": 4, "cuspLongitude": 90, "sign": "cancer", "confidence": "fixture_only" },
+          { "number": 5, "cuspLongitude": 120, "sign": "leo", "confidence": "fixture_only" },
+          { "number": 6, "cuspLongitude": 150, "sign": "virgo", "confidence": "fixture_only" },
+          { "number": 7, "cuspLongitude": 180, "sign": "libra", "confidence": "fixture_only" },
+          { "number": 8, "cuspLongitude": 210, "sign": "scorpio", "confidence": "fixture_only" },
+          { "number": 9, "cuspLongitude": 240, "sign": "sagittarius", "confidence": "fixture_only" },
+          { "number": 10, "cuspLongitude": 270, "sign": "capricorn", "confidence": "fixture_only" },
+          { "number": 11, "cuspLongitude": 300, "sign": "aquarius", "confidence": "fixture_only" },
+          { "number": 12, "cuspLongitude": 330, "sign": "pisces", "confidence": "fixture_only" }
+        ],
+        "aspects": [
+          {
+            "bodyA": "sun",
+            "bodyB": "mars",
+            "type": "square",
+            "orb": 1.9,
+            "exactSeparation": 91.9,
+            "confidence": "fixture_only"
+          },
+          {
+            "bodyA": "sun",
+            "bodyB": "jupiter",
+            "type": "opposition",
+            "orb": 2,
+            "exactSeparation": 178,
+            "confidence": "fixture_only"
+          },
+          {
+            "bodyA": "moon",
+            "bodyB": "ascendant",
+            "type": "conjunction",
+            "orb": 0.9,
+            "exactSeparation": 0.9,
+            "confidence": "fixture_only"
+          },
+          {
+            "bodyA": "mars",
+            "bodyB": "jupiter",
+            "type": "square",
+            "orb": 0.1,
+            "exactSeparation": 90.1,
+            "confidence": "fixture_only"
+          },
+          {
+            "bodyA": "saturn",
+            "bodyB": "ascendant",
+            "type": "square",
+            "orb": 0.2,
+            "exactSeparation": 90.2,
+            "confidence": "fixture_only"
+          }
+        ],
+        "uncertainties": [
+          {
+            "code": "other",
+            "severity": "blocking",
+            "messageKey": "fixture_only_not_calculation_verified",
+            "affects": [
+              "placement",
+              "angle",
+              "house",
+              "aspect",
+              "interpretation",
+              "visual"
+            ]
+          }
+        ]
+      },
+      "visualTestExpectations": {
+        "requiresListFallback": true,
+        "expectedDenseClusters": [
+          "aries",
+          "aquarius"
+        ],
+        "selectionIdentifiers": [
+          "sun",
+          "moon",
+          "ascendant",
+          "moon:ascendant:conjunction"
+        ],
+        "prohibitedPresentation": [
+          "verified_personal_chart",
+          "astrological_accuracy_claim",
+          "artwork_as_fact"
+        ]
+      }
+    }
+  ]
+}

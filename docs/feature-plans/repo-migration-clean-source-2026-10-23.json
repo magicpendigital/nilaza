@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "taskId": "repo-migration-clean-source-2026-10-23",
+  "ownerAgent": "release_readiness_agent",
+  "lane": "owner-approved source hygiene and clean repository migration (Option B)",
+  "goal": "Create a clean, size-bounded release source repository from the reviewed allowlisted snapshot, keep the current repository as a private legacy archive, and list stale local data for the Owner to delete; no app, backend, key or store changes.",
+  "successCriteria": [
+    "Back up the current working tree (including untracked source) outside the repository before any other step, with recorded hashes.",
+    "Produce one canonical source tree by reconciling the current workspace with candidate ab597f4, with every differing path explained.",
+    "Build a staging tree outside both repositories with no browser profiles, caches, exports, keys or environment files, and verify type check, tests and data validators against it.",
+    "Only after the Owner reviews the stale-data list and size plan, rename the legacy repository, create the new private repository and push one baseline commit.",
+    "Report which old assets stay in the legacy repository or private archive; never delete Owner data automatically."
+  ],
+  "writeScope": [
+    "docs/release/repo-migration-2026-10-23/"
+  ],
+  "untouchedSurfaces": [
+    "Application source, Supabase migrations and functions, Admin and web code stay unchanged in this repository.",
+    "No SQL, Supabase retarget, credential or signing-key change; legacy QA ledger and release-profile targets stay as they are.",
+    "Vercel project settings, Play Console and EAS are not changed by agents; the Owner re-links Vercel.",
+    "Existing dirty and untracked Owner work is preserved; nothing is deleted from the working directory by the agent."
+  ],
+  "impact": {
+    "entryPoint": "Owner request on 2026-10-23 approving Option B and asking for a list of stale folder data.",
+    "dataWrite": "Local backup and staging directories outside the repository; GitHub repository rename and creation after Owner review; one new baseline commit in the new repository.",
+    "backendContract": "None; no API, schema or contract change.",
+    "adminVisibility": "Admin web is tracked by the new repository; the Vercel link to the old repository must be re-pointed by the Owner.",
+    "privacySafety": "Browser profile directories are excluded from the new repository; only file names and sizes were inspected, never contents.",
+    "observability": "Backup hashes, inventory digests, validation logs and the repository transfer receipt are recorded under the release docs.",
+    "rollback": "The legacy repository remains intact and can be renamed back; backup preserves the whole working tree; no history is rewritten or deleted."
+  },
+  "canonicalContracts": [
+    "Direct Owner approval on 2026-10-23 selects Option B and says to implement the proposed plan.",
+    "AGENTS.md: Android and Google Play first; no SQL, retarget, credential rotation or publication is authorized by this task.",
+    "The release source allowlist in scripts/nilaza-release-candidate.mjs defines which paths may enter a release candidate."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "sanitized_artifact_metadata"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa",
+      "reason": "Owner scope, Android-first decision and gates reviewed before repository work."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Release and Plan and QC routing reviewed."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Plan, impact, validation and handoff gate reviewed."
+    },
+    {
+      "path": "docs/release/RELEASE_RUNBOOK.md",
+      "sha256": "348e5aa5786a5f8648fd96c94e0b4a831602a5312d318b6e48885a47afd71b39",
+      "reason": "Release evidence and hold conditions reviewed."
+    },
+    {
+      "path": "docs/release/ANDROID_RELEASE_UNBLOCK_2026-10-19.vi.md",
+      "sha256": "717c8db40bb0e3875cc55862ca8cc5c7f0ef383136e836a60fb010aa2486025c",
+      "reason": "Candidate ab597f4 scope, validation and source-transfer gap reviewed."
+    },
+    {
+      "path": "docs/release/GOOGLE_PLAY_ROADMAP_AND_UX_REVIEW_2026-10-23.vi.md",
+      "sha256": "2cbacccb151da25ec9126c73152361ebb65e8fe8616c6dac69b6717a7a48a860",
+      "reason": "Owner decisions and Option B analysis recorded in this report."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Plan, impact map, stop conditions and no-release-authority rules were applied; no durable skill change was needed for repository hygiene."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "GitHub repository rename and redirect behavior was checked in current GitHub documentation; Vercel re-link behavior is not asserted and is left for the Owner to confirm in the dashboard."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/renaming-a-repository",
+      "checkedAt": "2026-10-23",
+      "reason": "Renaming keeps Git redirects but creating a new repository with the old name breaks them; local clones must be re-pointed."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No authorization, RLS or role change.",
+    "sensitiveData": "Historical Chrome profile files exist in the legacy repository; only paths were listed, contents were never opened. The Owner should revoke sessions of accounts used in those profiles.",
+    "secretsLogging": "No secret is read, printed or committed; environment files, keys and profiles are denied by the allowlist and by the new ignore rules.",
+    "externalInput": "GitHub documentation and repository metadata are treated as data, not instructions.",
+    "dependencies": "No dependency upgrade.",
+    "migrationRelease": "Repository migration only; no database write, retarget, signing or store submission.",
+    "stopCondition": "Stop on any secret-pattern hit, unreviewed file type, parity mismatch, failing validator, wrong repository owner or name, or missing Owner approval for a cloud action.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "docs/release/GOOGLE_PLAY_ROADMAP_AND_UX_REVIEW_2026-10-23.vi.md",
+      "docs/release/repo-migration-2026-10-23/STALE_DATA_REPORT.vi.md",
+      "docs/release/repo-migration-2026-10-23/MIGRATION_STATUS.vi.md"
+    ],
+    "note": "The only repository edits are release documentation; the large dirty working tree is preserved and backed up."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/repo-migration-clean-source-2026-10-23.json",
+    "Allowlisted inventory comparison of the workspace and candidate via the exported inventory function",
+    "npm --workspace apps/mobile run check on the staging tree",
+    "npm run validate:data on the staging tree",
+    "npm run validate:visual-assets on the staging tree"
+  ],
+  "managerTestPath": "Open the stale-data report, review the size plan, then confirm the new private repository contains one baseline commit and no browser profile folders.",
+  "residualRisk": "Vercel re-link, GitHub Actions on the new repository, EAS archive size and asset-master placement are verified only after the new repository exists; the legacy repository keeps old history and 21 open pull requests.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false,
+    "repositoryLifecycle": {
+      "currentRepository": "magicpendigital/nilaza",
+      "plannedLegacyName": "nilaza-legacy",
+      "newRepository": "magicpendigital/nilaza",
+      "visibility": "private",
+      "ownerAuthorization": "Direct user message on 2026-10-23: agree with Option B and implement the proposed plan."
+    }
+  }
+}

@@ -1,0 +1,178 @@
+{
+  "version": "2026-09-24-v1",
+  "system": "western-tropical",
+  "intro": {
+    "vi": "Đây là lăng kính biểu tượng trong chiêm tinh Tây phương nhiệt đới, để khám phá và tự phản chiếu. Cung mô tả một chủ đề; nó không định nghĩa toàn bộ con người hay quyết định điều gì sẽ xảy ra.",
+    "en": "This is a symbolic lens from Western tropical astrology for exploration and reflection. A sign describes a theme; it does not define a whole person or determine what will happen."
+  },
+  "placementNote": {
+    "vi": "Cùng một cung có thể được đọc khác nhau tùy vị trí: Mặt Trời gợi chủ đề bản sắc và định hướng; Mặt Trăng gợi nhu cầu cảm xúc; Cung Mọc gợi cách bạn bước vào trải nghiệm. Mỗi vị trí là một phần của bản đồ, không phải toàn bộ câu chuyện. Đây là lăng kính biểu tượng để tự phản chiếu, không phải kết luận hay dự đoán.",
+    "en": "The same sign is read differently by placement: the Sun points to identity and direction, the Moon to emotional needs, and the Rising sign to how you enter experience. Each placement is one part of a chart, not the whole story. This is a symbolic lens for reflection, not a verdict or prediction."
+  },
+  "taxonomyReferences": [
+    {
+      "id": "elements",
+      "title": { "vi": "Bốn nguyên tố trong chiêm tinh", "en": "The four elements in astrology" },
+      "url": "https://www.astro.com/astrology/in_elements_e.htm"
+    },
+    {
+      "id": "modalities",
+      "title": { "vi": "Các phẩm chất của cung hoàng đạo", "en": "The zodiacal modes" },
+      "url": "https://www.astro.com/astrologia/in_rgzodiac_e.htm"
+    }
+  ],
+  "elements": {
+    "fire": {
+      "name": { "vi": "Lửa", "en": "Fire" },
+      "description": { "vi": "Sức sống, khởi động và biểu đạt.", "en": "Vitality, initiation, and expression." }
+    },
+    "earth": {
+      "name": { "vi": "Đất", "en": "Earth" },
+      "description": { "vi": "Nguồn lực, hình hài và điều có thể vun đắp.", "en": "Resources, form, and what can be cultivated." }
+    },
+    "air": {
+      "name": { "vi": "Khí", "en": "Air" },
+      "description": { "vi": "Ý tưởng, ngôn ngữ và sự trao đổi.", "en": "Ideas, language, and exchange." }
+    },
+    "water": {
+      "name": { "vi": "Nước", "en": "Water" },
+      "description": { "vi": "Cảm xúc, ký ức và sự cộng hưởng.", "en": "Feeling, memory, and resonance." }
+    }
+  },
+  "modalities": {
+    "cardinal": {
+      "name": { "vi": "Tiên phong", "en": "Cardinal" },
+      "description": { "vi": "Mở một chu kỳ hoặc khởi xướng chuyển động.", "en": "Opening a cycle or initiating movement." }
+    },
+    "fixed": {
+      "name": { "vi": "Kiên định", "en": "Fixed" },
+      "description": { "vi": "Nuôi dưỡng, duy trì và định hình điều đã bắt đầu.", "en": "Nourishing, sustaining, and shaping what has begun." }
+    },
+    "mutable": {
+      "name": { "vi": "Biến đổi", "en": "Mutable" },
+      "description": { "vi": "Điều chỉnh và chuyển tiếp giữa các trạng thái.", "en": "Adjusting and moving between states." }
+    }
+  },
+  "signs": [
+    {
+      "id": "aries",
+      "archetype": { "vi": "Khơi mở", "en": "The Initiator" },
+      "element": "fire",
+      "modality": "cardinal",
+      "meaning": { "vi": "Bạch Dương gợi khoảnh khắc một ý định trở thành bước đi đầu tiên. Lăng kính này đặt sự chủ động, can đảm thử và quyền bắt đầu vào trung tâm; nhịp điệu có thể nhanh hơn phần còn lại của câu chuyện.", "en": "Aries evokes the moment an intention becomes a first step. This lens centers initiative, the courage to try, and the permission to begin; the pace may move faster than the rest of the story." },
+      "resource": { "vi": "Khi được sử dụng có chủ đích, sự thẳng thắn và năng lượng mở đường có thể giúp một việc đang trì hoãn có điểm bắt đầu.", "en": "Used with intention, directness and trailblazing energy can give a delayed task a place to begin." },
+      "invitation": { "vi": "Trước khi lao tới, thử để ý ai hoặc điều gì cần được tính đến để bước đi đầu tiên có chỗ cho cả hành trình.", "en": "Before rushing ahead, notice who or what needs consideration so the first step leaves room for the journey." },
+      "question": { "vi": "Có điều gì bạn muốn bắt đầu bằng một bước nhỏ, đủ an toàn để thử ngay hôm nay?", "en": "What would you like to begin with one small step that feels safe enough to try today?" }
+    },
+    {
+      "id": "taurus",
+      "archetype": { "vi": "Vun bồi", "en": "The Cultivator" },
+      "element": "earth",
+      "modality": "fixed",
+      "meaning": { "vi": "Kim Ngưu gợi cách một điều có giá trị được chăm sóc qua thời gian: cảm nhận bằng cơ thể, xây nền ổn định và nhận ra nguồn lực đang có. Sự bền bỉ ở đây là khả năng ở lại với điều đáng nuôi dưỡng.", "en": "Taurus evokes how something valuable is cared for over time: sensing through the body, building steadiness, and noticing available resources. Its persistence is the capacity to stay with what is worth nurturing." },
+      "resource": { "vi": "Nhịp chậm, sự chú tâm và tính thực tế có thể giúp biến ý định thành một thói quen có thể duy trì.", "en": "A measured pace, attention, and practicality can help turn an intention into a sustainable habit." },
+      "invitation": { "vi": "Hãy phân biệt điều đang nâng đỡ bạn với điều bạn giữ chỉ vì đã quen; sự an toàn cũng có thể lớn lên cùng thay đổi.", "en": "Distinguish what supports you from what you keep only because it is familiar; safety can grow alongside change." },
+      "question": { "vi": "Điều gì đang nuôi dưỡng bạn thật sự, và bạn muốn chăm sóc nó bằng cách nào trong tuần này?", "en": "What is truly nourishing you, and how would you like to care for it this week?" }
+    },
+    {
+      "id": "gemini",
+      "archetype": { "vi": "Kết nối ý tưởng", "en": "The Connector" },
+      "element": "air",
+      "modality": "mutable",
+      "meaning": { "vi": "Song Tử đặt sự tò mò vào chuyển động: đặt câu hỏi, kết nối thông tin và thử nhiều cách diễn đạt. Một cuộc trò chuyện hoặc ý tưởng mới có thể mở cánh cửa; việc chọn điều đáng theo đuổi giúp cánh cửa ấy dẫn tới đâu đó.", "en": "Gemini puts curiosity in motion: asking questions, connecting information, and trying different ways to express an idea. A conversation or a new thought can open a door; choosing what deserves attention helps it lead somewhere." },
+      "resource": { "vi": "Khả năng chuyển góc nhìn và tìm từ ngữ phù hợp có thể giúp một vấn đề trở nên dễ trò chuyện hơn.", "en": "Shifting perspective and finding useful words can make a difficult subject easier to discuss." },
+      "invitation": { "vi": "Khi có nhiều hướng cùng hấp dẫn, thử chọn một câu hỏi quan trọng nhất thay vì buộc mình phải giải quyết tất cả ngay.", "en": "When several directions feel compelling, choose the most important question instead of requiring yourself to solve everything at once." },
+      "question": { "vi": "Cuộc trò chuyện nào bạn muốn có, và điều gì bạn hy vọng hai bên sẽ hiểu rõ hơn sau đó?", "en": "What conversation would you like to have, and what do you hope both people will understand better afterward?" }
+    },
+    {
+      "id": "cancer",
+      "archetype": { "vi": "Tạo nơi chốn", "en": "The Nurturer" },
+      "element": "water",
+      "modality": "cardinal",
+      "meaning": { "vi": "Cự Giải hướng sự chú ý về cảm giác thuộc về, ký ức và những điều cần được chăm nom. Một nơi chốn an toàn có thể là căn phòng, mối quan hệ, thói quen hoặc ranh giới giúp bạn trở về với mình.", "en": "Cancer turns attention toward belonging, memory, and what needs care. A safe place can be a room, a relationship, a routine, or a boundary that helps you return to yourself." },
+      "resource": { "vi": "Sự quan tâm đến bầu không khí và nhu cầu chưa được nói ra có thể giúp tạo nên cảm giác được đón nhận.", "en": "Attention to atmosphere and unspoken needs can help create a sense of welcome." },
+      "invitation": { "vi": "Chăm sóc không đồng nghĩa với gánh thay tất cả; nhu cầu và giới hạn của bạn cũng xứng đáng được lắng nghe.", "en": "Care does not mean carrying everything for others; your own needs and limits deserve attention too." },
+      "question": { "vi": "Bạn cần điều gì để cảm thấy được nâng đỡ, và có thể nói điều đó với ai bằng cách nào?", "en": "What would help you feel supported, and how might you express that need to someone?" }
+    },
+    {
+      "id": "leo",
+      "archetype": { "vi": "Tỏa sáng sáng tạo", "en": "The Creator" },
+      "element": "fire",
+      "modality": "fixed",
+      "meaning": { "vi": "Sư Tử gợi niềm vui được tạo nên điều mang dấu ấn riêng và được hiện diện trọn vẹn trong việc mình chọn. Sự công nhận có thể tiếp sức, còn sáng tạo cũng có giá trị trong những khoảnh khắc không có khán giả.", "en": "Leo evokes the joy of making something personal and showing up fully for what you choose. Recognition can offer encouragement, while creativity also matters in moments without an audience." },
+      "resource": { "vi": "Sự ấm áp, hào phóng và khả năng truyền cảm hứng có thể giúp một nhóm nhớ lại điều khiến họ hào hứng.", "en": "Warmth, generosity, and the ability to inspire can help a group reconnect with what excites them." },
+      "invitation": { "vi": "Thử để ý khi nào mong muốn được nhìn thấy đang tiếp sức cho bạn, và khi nào nó khiến niềm vui phụ thuộc vào lời khen.", "en": "Notice when the wish to be seen energizes you and when it makes joy depend on praise." },
+      "question": { "vi": "Bạn muốn tạo ra điều gì chỉ vì nó làm mình thấy sống động, dù chưa ai đánh giá nó?", "en": "What would you like to create because it makes you feel alive, even before anyone evaluates it?" }
+    },
+    {
+      "id": "virgo",
+      "archetype": { "vi": "Tinh chỉnh và chăm chút", "en": "The Refiner" },
+      "element": "earth",
+      "modality": "mutable",
+      "meaning": { "vi": "Xử Nữ gợi sự chú tâm đến chi tiết và mong muốn làm cho một điều hữu ích hơn. Phân biệt, sắp xếp và lặp lại có thể là cách chăm sóc; chúng cũng cần khoảng nghỉ để không biến tiêu chuẩn thành thước đo giá trị bản thân.", "en": "Virgo evokes attention to detail and the wish to make something more useful. Discernment, organizing, and iteration can be forms of care; they also need rest so standards do not become a measure of personal worth." },
+      "resource": { "vi": "Khả năng quan sát điều cụ thể có thể giúp biến một vấn đề lớn thành bước tiếp theo vừa sức.", "en": "Attention to practical details can turn a large problem into a manageable next step." },
+      "invitation": { "vi": "Hãy thử xác định điểm dừng đủ tốt; không phải việc nào cũng cần được tối ưu trước khi bạn được nghỉ.", "en": "Try defining what is good enough; not everything needs optimizing before you are allowed to rest." },
+      "question": { "vi": "Bước nhỏ nào sẽ hữu ích nhất lúc này, và dấu hiệu nào cho bạn biết đã đến lúc dừng?", "en": "What small step would be most useful now, and what would tell you it is time to stop?" }
+    },
+    {
+      "id": "libra",
+      "archetype": { "vi": "Tìm nhịp cân bằng", "en": "The Balancer" },
+      "element": "air",
+      "modality": "cardinal",
+      "meaning": { "vi": "Thiên Bình đặt trọng tâm vào quan hệ, lựa chọn và cách nhiều nhu cầu cùng có mặt. Cân bằng không nhất thiết là làm mọi người hài lòng; đôi khi nó bắt đầu bằng việc gọi tên khác biệt và thương lượng một thỏa thuận công bằng hơn.", "en": "Libra centers relationships, choices, and how several needs can coexist. Balance need not mean pleasing everyone; sometimes it begins by naming differences and negotiating a fairer arrangement." },
+      "resource": { "vi": "Khả năng lắng nghe nhiều phía và tìm ngôn ngữ chung có thể mở ra một cách hợp tác mới.", "en": "Listening across perspectives and finding shared language can open a new way to cooperate." },
+      "invitation": { "vi": "Đừng để mong muốn giữ hòa khí làm mờ điều bạn thật sự nghĩ; sự bất đồng tử tế vẫn có thể giữ được kết nối.", "en": "Do not let the wish for harmony obscure what you actually think; kind disagreement can still preserve connection." },
+      "question": { "vi": "Trong mối quan hệ này, điều gì cần được nói ra để sự công bằng bao gồm cả bạn?", "en": "In this relationship, what needs to be said so that fairness includes you too?" }
+    },
+    {
+      "id": "scorpio",
+      "archetype": { "vi": "Đi sâu và chuyển hóa", "en": "The Transformer" },
+      "element": "water",
+      "modality": "fixed",
+      "meaning": { "vi": "Bọ Cạp gợi sự chú ý đến điều nằm dưới bề mặt: lòng tin, gắn bó, mất mát và những thay đổi không thể làm qua loa. Đi sâu có thể đem lại hiểu biết, miễn là bạn được chọn tốc độ, mức độ chia sẻ và sự hỗ trợ mình cần.", "en": "Scorpio evokes attention to what lies beneath the surface: trust, attachment, loss, and changes that cannot be rushed. Going deeper can bring understanding when you can choose the pace, what to share, and the support you need." },
+      "resource": { "vi": "Sự tập trung và kiên nhẫn với những chủ đề phức tạp có thể giúp nhìn thấy điều đang thực sự cần thay đổi.", "en": "Focus and patience with complexity can help reveal what may truly need to change." },
+      "invitation": { "vi": "Không phải mọi điều riêng tư đều cần được mở ra cùng lúc; giữ ranh giới cũng là một cách thành thật.", "en": "Not everything private needs to be opened at once; keeping a boundary can also be an honest choice." },
+      "question": { "vi": "Điều gì bạn đã sẵn sàng nhìn sâu hơn, và ranh giới nào sẽ giúp bạn cảm thấy an toàn khi làm vậy?", "en": "What are you ready to look at more deeply, and what boundary would help you feel safe doing so?" }
+    },
+    {
+      "id": "sagittarius",
+      "archetype": { "vi": "Mở rộng chân trời", "en": "The Explorer" },
+      "element": "fire",
+      "modality": "mutable",
+      "meaning": { "vi": "Nhân Mã hướng về khám phá, niềm tin và những câu hỏi giúp thế giới rộng thêm. Một chân trời mới có thể đến từ hành trình xa, cuộc trò chuyện, việc học hoặc thay đổi góc nhìn; kinh nghiệm thực tế giúp ý tưởng giữ được liên hệ với đời sống.", "en": "Sagittarius turns toward exploration, belief, and questions that widen the world. A new horizon can come from travel, conversation, study, or a shift in perspective; lived experience helps ideas stay connected to life." },
+      "resource": { "vi": "Sự lạc quan và khả năng kết nối những trải nghiệm riêng lẻ với một ý nghĩa rộng hơn có thể nuôi dưỡng hy vọng.", "en": "Optimism and the ability to connect separate experiences to a wider meaning can nourish hope." },
+      "invitation": { "vi": "Hãy để niềm tin được cập nhật khi bạn gặp dữ kiện mới; tò mò không đòi hỏi phải có câu trả lời sau cùng.", "en": "Let beliefs update when new evidence appears; curiosity does not require a final answer." },
+      "question": { "vi": "Niềm tin nào đang giúp bạn tiến lên, và trải nghiệm nào có thể làm nó sâu sắc hơn?", "en": "What belief is helping you move forward, and what experience could deepen it?" }
+    },
+    {
+      "id": "capricorn",
+      "archetype": { "vi": "Xây nền dài hạn", "en": "The Builder" },
+      "element": "earth",
+      "modality": "cardinal",
+      "meaning": { "vi": "Ma Kết gợi việc biến mục tiêu thành cấu trúc có thể nâng đỡ theo thời gian: cam kết, trách nhiệm và những bước thực tế. Thành tựu là một phần câu chuyện; cách bạn chăm sóc mình trong lúc xây dựng cũng quan trọng.", "en": "Capricorn evokes turning an aim into structures that can support it over time: commitment, responsibility, and practical steps. Achievement is part of the story; how you care for yourself while building matters too." },
+      "resource": { "vi": "Khả năng nghĩ theo chặng đường dài có thể giúp ưu tiên nguồn lực và giữ cam kết qua những giai đoạn bận rộn.", "en": "Long-range thinking can help prioritize resources and maintain a commitment through busy periods." },
+      "invitation": { "vi": "Bạn có thể điều chỉnh kế hoạch mà vẫn trân trọng giá trị đứng sau nó; nghỉ ngơi không xóa đi nỗ lực đã bỏ ra.", "en": "You can adjust a plan while honoring the value behind it; rest does not erase the effort you have made." },
+      "question": { "vi": "Mục tiêu nào thật sự thuộc về bạn, và nhịp độ nào giúp bạn theo đuổi nó mà vẫn còn sức sống?", "en": "Which goal truly belongs to you, and what pace lets you pursue it while staying well-resourced?" }
+    },
+    {
+      "id": "aquarius",
+      "archetype": { "vi": "Đổi mới cùng cộng đồng", "en": "The Innovator" },
+      "element": "air",
+      "modality": "fixed",
+      "meaning": { "vi": "Bảo Bình gợi những ý tưởng mới được giữ vững đủ lâu để có thể chia sẻ và thử nghiệm cùng người khác. Tầm nhìn tập thể có thể truyền cảm hứng; nó trở nên gần gũi hơn khi gắn với nhu cầu và trải nghiệm cụ thể của con người.", "en": "Aquarius evokes new ideas held steadily enough to be shared and tested with others. A collective vision can inspire; it becomes more humane when connected to people's concrete needs and experiences." },
+      "resource": { "vi": "Khả năng lùi lại để nhìn hệ thống và tưởng tượng lựa chọn khác có thể giúp nhóm thoát khỏi lối mòn.", "en": "Stepping back to see a system and imagine alternatives can help a group move beyond habit." },
+      "invitation": { "vi": "Hãy để ý người cụ thể phía sau ý tưởng lớn; thuộc về một cộng đồng cũng cần chỗ cho sự khác biệt.", "en": "Notice the people behind a big idea; belonging to a community also needs room for difference." },
+      "question": { "vi": "Ý tưởng nào bạn muốn thử cùng người khác, và ai cần được mời tham gia vào cuộc trò chuyện ấy?", "en": "What idea would you like to explore with others, and who needs an invitation into that conversation?" }
+    },
+    {
+      "id": "pisces",
+      "archetype": { "vi": "Lắng nghe điều mơ hồ", "en": "The Dreamer" },
+      "element": "water",
+      "modality": "mutable",
+      "meaning": { "vi": "Song Ngư gợi trí tưởng tượng, lòng trắc ẩn và khả năng cảm nhận những sắc thái khó gọi tên. Sự nhạy cảm có thể mở ra kết nối và sáng tạo; ranh giới giúp bạn phân biệt điều mình cảm thấy với điều mình biết.", "en": "Pisces evokes imagination, compassion, and sensitivity to nuances that are hard to name. Sensitivity can open connection and creativity; boundaries help distinguish what you feel from what you know." },
+      "resource": { "vi": "Trực giác và khả năng tưởng tượng một kết quả khác có thể làm xuất hiện lựa chọn mà trước đó bạn chưa nhìn thấy.", "en": "Intuition and the ability to imagine another outcome can reveal choices you had not seen before." },
+      "invitation": { "vi": "Khi cảm xúc trở nên rộng lớn, hãy tìm một điểm tựa cụ thể: một cuộc trò chuyện, thông tin cần kiểm tra hoặc việc nhỏ trong tầm tay.", "en": "When feelings become vast, find a concrete anchor: a conversation, information to check, or one small action within reach." },
+      "question": { "vi": "Điều bạn đang cảm nhận muốn được lắng nghe ra sao, và điều gì giúp bạn giữ chân mình trong hiện tại?", "en": "What would help you express what you feel, and what helps you stay grounded in the present?" }
+    }
+  ]
+}

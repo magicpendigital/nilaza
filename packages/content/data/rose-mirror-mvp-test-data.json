@@ -1,0 +1,512 @@
+{
+  "deckId": "rose-mirror",
+  "version": "2026-06-11-mvp-test-v1",
+  "status": "testing",
+  "purpose": {
+    "vi": "Dữ liệu seed để test nhanh bộ bài Gương Hồng trong MVP: chọn deck, rút bài, xem nghĩa xuôi/ngược, fallback khi AI lỗi và lưu Journal.",
+    "en": "Seed data for testing the Rose Mirror deck in the MVP: deck selection, card draw, upright/reversed meanings, AI-failure fallback, and Journal save."
+  },
+  "coverage": {
+    "mvpFlows": [
+      "deck_selection",
+      "one_card_daily",
+      "three_card_reading",
+      "upright_and_reversed",
+      "topic_variants",
+      "ai_failure_fallback",
+      "journal_save"
+    ],
+    "topics": [
+      "love",
+      "self",
+      "decision",
+      "career",
+      "open"
+    ],
+    "minimumCardPool": 12,
+    "sampleReadingCount": 5
+  },
+  "deckVoice": {
+    "promise": {
+      "vi": "Gương Hồng giúp người dùng nhìn lại cảm xúc, giá trị bản thân và ranh giới trong các mối quan hệ mà không đưa ra lời dự đoán chắc chắn.",
+      "en": "Rose Mirror helps users reflect on feelings, self-worth, and boundaries in relationships without making predictions."
+    },
+    "tone": {
+      "vi": [
+        "ấm áp",
+        "thành thật",
+        "dịu dàng",
+        "không phán xét"
+      ],
+      "en": [
+        "warm",
+        "honest",
+        "gentle",
+        "non-judgmental"
+      ]
+    },
+    "avoid": {
+      "vi": [
+        "không nói người kia chắc chắn nghĩ gì",
+        "không khuyên theo dõi, kiểm soát hay thử thách người khác",
+        "không biến tarot thành kết luận về số phận tình yêu"
+      ],
+      "en": [
+        "do not claim certainty about what another person thinks",
+        "do not encourage monitoring, controlling, or testing another person",
+        "do not turn tarot into fixed-fate relationship claims"
+      ]
+    }
+  },
+  "spreadTemplates": [
+    {
+      "id": "rose-mirror-one-card",
+      "cardCount": 1,
+      "name": {
+        "vi": "Một gương nhỏ",
+        "en": "One Small Mirror"
+      },
+      "positions": [
+        {
+          "key": "mirror",
+          "label": {
+            "vi": "Điều cần được soi rõ",
+            "en": "What wants to be seen"
+          }
+        }
+      ],
+      "useCase": {
+        "vi": "Daily check-in hoặc câu hỏi ngắn về cảm xúc.",
+        "en": "Daily check-in or a short emotional question."
+      }
+    },
+    {
+      "id": "rose-mirror-three-card",
+      "cardCount": 3,
+      "name": {
+        "vi": "Gương - Vết nứt - Cánh hoa",
+        "en": "Mirror - Crack - Petal"
+      },
+      "positions": [
+        {
+          "key": "mirror",
+          "label": {
+            "vi": "Cảm xúc thật",
+            "en": "Honest feeling"
+          }
+        },
+        {
+          "key": "crack",
+          "label": {
+            "vi": "Ranh giới hoặc vết nứt",
+            "en": "Boundary or crack"
+          }
+        },
+        {
+          "key": "petal",
+          "label": {
+            "vi": "Bước nhỏ dịu dàng",
+            "en": "Gentle next step"
+          }
+        }
+      ],
+      "useCase": {
+        "vi": "Reading chính cho love, self-worth, relationship và open question trong MVP.",
+        "en": "Primary reading for love, self-worth, relationship, and open questions in the MVP."
+      }
+    }
+  ],
+  "topicIntents": [
+    {
+      "topic": "love",
+      "promptHint": {
+        "vi": "Tập trung vào cảm xúc thật, nhu cầu, ranh giới và một cách nói chuyện lành mạnh.",
+        "en": "Focus on honest feelings, needs, boundaries, and one healthy way to communicate."
+      }
+    },
+    {
+      "topic": "self",
+      "promptHint": {
+        "vi": "Tập trung vào lòng tự trọng, mẫu hình cảm xúc và cách đối xử với bản thân.",
+        "en": "Focus on self-worth, emotional patterns, and how the user treats themselves."
+      }
+    },
+    {
+      "topic": "decision",
+      "promptHint": {
+        "vi": "Tập trung vào giá trị, lựa chọn có ý thức và điều cần đặt ranh giới.",
+        "en": "Focus on values, conscious choice, and where a boundary may be needed."
+      }
+    },
+    {
+      "topic": "career",
+      "promptHint": {
+        "vi": "Đọc career theo lăng kính mối quan hệ với công việc, sự công nhận và sức lực cá nhân.",
+        "en": "Read career through the user's relationship with work, recognition, and personal capacity."
+      }
+    },
+    {
+      "topic": "open",
+      "promptHint": {
+        "vi": "Giữ câu trả lời rộng, phản chiếu và không ép câu hỏi thành chuyện tình cảm.",
+        "en": "Keep the answer open, reflective, and avoid forcing every question into romance."
+      }
+    }
+  ],
+  "testCardPool": [
+    {
+      "cardId": "major-02-high-priestess",
+      "roseMirrorAngle": {
+        "vi": "Lắng nghe trực giác trước khi hỏi thêm bằng chứng từ người khác.",
+        "en": "Listening to intuition before seeking more proof from another person."
+      },
+      "visualCue": {
+        "vi": "gương oval phủ sương, rèm lụa hồng trầm, một ngọn nến nhỏ",
+        "en": "misty oval mirror, muted rose silk curtain, one small candle"
+      },
+      "qaFocus": "major_arcana_intuition"
+    },
+    {
+      "cardId": "major-03-empress",
+      "roseMirrorAngle": {
+        "vi": "Cho phép mình được yêu thương mà không phải liên tục chứng minh giá trị.",
+        "en": "Allowing care without constantly proving worth."
+      },
+      "visualCue": {
+        "vi": "bàn trang điểm cổ, cánh hồng mềm, bình nước thủy tinh",
+        "en": "antique vanity, soft rose petals, glass water bowl"
+      },
+      "qaFocus": "self_worth"
+    },
+    {
+      "cardId": "major-06-lovers",
+      "roseMirrorAngle": {
+        "vi": "Kết nối thật cần lựa chọn phù hợp với giá trị, không chỉ cảm xúc mạnh.",
+        "en": "True connection asks for value-aligned choice, not only strong emotion."
+      },
+      "visualCue": {
+        "vi": "hai gương đối diện, ánh nến ấm, sợi chỉ hồng nối giữa",
+        "en": "two facing mirrors, warm candlelight, a rose thread between them"
+      },
+      "qaFocus": "relationship_choice"
+    },
+    {
+      "cardId": "major-08-strength",
+      "roseMirrorAngle": {
+        "vi": "Ranh giới dịu dàng vẫn là một dạng can đảm.",
+        "en": "A gentle boundary can still be an act of courage."
+      },
+      "visualCue": {
+        "vi": "bàn tay đặt lên khung gương nứt, ánh sáng hồng mềm",
+        "en": "hand resting on a cracked mirror frame, soft rose light"
+      },
+      "qaFocus": "boundaries"
+    },
+    {
+      "cardId": "major-18-moon",
+      "roseMirrorAngle": {
+        "vi": "Cảm xúc mơ hồ cần được ghi nhận, nhưng chưa nên biến thành kết luận.",
+        "en": "Unclear feelings deserve notice, but do not need to become conclusions yet."
+      },
+      "visualCue": {
+        "vi": "mặt trăng trong gương nước, bóng hồng mờ, hành lang tối",
+        "en": "moon reflected in a water mirror, blurred roses, dark hallway"
+      },
+      "qaFocus": "uncertainty"
+    },
+    {
+      "cardId": "minor-cups-ace",
+      "roseMirrorAngle": {
+        "vi": "Một cảm xúc mới đang mở ra, cần được đón nhận chậm rãi.",
+        "en": "A new feeling is opening and deserves slow, careful attention."
+      },
+      "visualCue": {
+        "vi": "chiếc cốc bạc đầy cánh hồng, mặt nước phản chiếu ánh nến",
+        "en": "silver cup with rose petals, water reflecting candlelight"
+      },
+      "qaFocus": "new_feeling"
+    },
+    {
+      "cardId": "minor-cups-two",
+      "roseMirrorAngle": {
+        "vi": "Sự đáp lại lẫn nhau quan trọng hơn việc một người cố gắng quá sức.",
+        "en": "Mutuality matters more than one person trying too hard."
+      },
+      "visualCue": {
+        "vi": "hai chiếc cốc gần nhau trên mặt bàn gỗ tối",
+        "en": "two cups close together on a dark wooden table"
+      },
+      "qaFocus": "mutuality"
+    },
+    {
+      "cardId": "minor-cups-five",
+      "roseMirrorAngle": {
+        "vi": "Nỗi buồn đang cần được gọi tên trước khi tìm lối tiếp theo.",
+        "en": "Grief needs to be named before the next step is chosen."
+      },
+      "visualCue": {
+        "vi": "cánh hồng rơi cạnh gương, một cốc nghiêng đổ",
+        "en": "fallen rose petals beside a mirror, one tilted cup"
+      },
+      "qaFocus": "sadness"
+    },
+    {
+      "cardId": "minor-cups-queen",
+      "roseMirrorAngle": {
+        "vi": "Thấu cảm sâu sắc cần đi cùng tự bảo vệ.",
+        "en": "Deep empathy needs to travel with self-protection."
+      },
+      "visualCue": {
+        "vi": "người giữ gương với áo choàng hồng trầm, mặt nước yên",
+        "en": "mirror keeper in muted rose cloak, still water"
+      },
+      "qaFocus": "empathy"
+    },
+    {
+      "cardId": "minor-swords-two",
+      "roseMirrorAngle": {
+        "vi": "Né tránh quyết định có thể đang giữ bạn ở lại trong sự mơ hồ.",
+        "en": "Avoiding a decision may be keeping the user inside ambiguity."
+      },
+      "visualCue": {
+        "vi": "hai lưỡi kiếm bắt chéo trước gương mờ",
+        "en": "two crossed blades before a blurred mirror"
+      },
+      "qaFocus": "decision_avoidance"
+    },
+    {
+      "cardId": "minor-swords-queen",
+      "roseMirrorAngle": {
+        "vi": "Sự rõ ràng và ranh giới có thể là hình thức chăm sóc bản thân.",
+        "en": "Clarity and boundaries can be forms of self-care."
+      },
+      "visualCue": {
+        "vi": "gương sắc nét, lưỡi kiếm mỏng, cánh hồng khô",
+        "en": "clear mirror, thin blade, dried rose petals"
+      },
+      "qaFocus": "clear_boundaries"
+    },
+    {
+      "cardId": "minor-pentacles-six",
+      "roseMirrorAngle": {
+        "vi": "Cân bằng cho và nhận giúp mối quan hệ bớt lệch nhịp.",
+        "en": "Balanced giving and receiving helps relationships become less lopsided."
+      },
+      "visualCue": {
+        "vi": "đồng xu nhỏ trên khay gương, hai bàn tay trao nhận",
+        "en": "small coins on a mirrored tray, two hands giving and receiving"
+      },
+      "qaFocus": "give_receive_balance"
+    }
+  ],
+  "sampleReadings": [
+    {
+      "id": "rose-love-mutuality",
+      "topic": "love",
+      "spreadId": "rose-mirror-three-card",
+      "question": {
+        "vi": "Mình có nên tiếp tục cho mối quan hệ này thêm cơ hội không?",
+        "en": "Should I keep giving this relationship another chance?"
+      },
+      "cards": [
+        {
+          "position": "mirror",
+          "cardId": "minor-cups-two",
+          "orientation": "upright"
+        },
+        {
+          "position": "crack",
+          "cardId": "major-08-strength",
+          "orientation": "reversed"
+        },
+        {
+          "position": "petal",
+          "cardId": "minor-swords-queen",
+          "orientation": "upright"
+        }
+      ],
+      "fallbackSummary": {
+        "vi": "Bài đọc gợi ý nhìn vào sự đáp lại lẫn nhau, nơi bạn đã cố gắng quá sức và một ranh giới rõ ràng cần được nói ra nhẹ nhàng.",
+        "en": "This reading points to mutuality, where the user may be overextending, and one clear boundary that can be spoken gently."
+      },
+      "journalTitle": {
+        "vi": "Gương Hồng: sự đáp lại và ranh giới",
+        "en": "Rose Mirror: mutuality and boundaries"
+      },
+      "expectedQa": [
+        "shows_selected_deck",
+        "uses_three_cards",
+        "supports_reversed",
+        "saves_to_journal"
+      ]
+    },
+    {
+      "id": "rose-self-worth-care",
+      "topic": "self",
+      "spreadId": "rose-mirror-three-card",
+      "question": {
+        "vi": "Mình cần nhớ điều gì để bớt nghiêm khắc với bản thân?",
+        "en": "What should I remember so I can be less harsh with myself?"
+      },
+      "cards": [
+        {
+          "position": "mirror",
+          "cardId": "major-03-empress",
+          "orientation": "upright"
+        },
+        {
+          "position": "crack",
+          "cardId": "minor-cups-five",
+          "orientation": "upright"
+        },
+        {
+          "position": "petal",
+          "cardId": "minor-pentacles-six",
+          "orientation": "upright"
+        }
+      ],
+      "fallbackSummary": {
+        "vi": "Bài đọc đặt trọng tâm vào việc được nuôi dưỡng, gọi tên nỗi buồn và tập cân bằng lại cách cho - nhận với chính mình.",
+        "en": "This reading centers nourishment, naming sadness, and restoring a healthier give-and-receive pattern with the self."
+      },
+      "journalTitle": {
+        "vi": "Gương Hồng: mềm lại với mình",
+        "en": "Rose Mirror: softening toward myself"
+      },
+      "expectedQa": [
+        "self_topic",
+        "gentle_tone",
+        "non_deterministic"
+      ]
+    },
+    {
+      "id": "rose-decision-values",
+      "topic": "decision",
+      "spreadId": "rose-mirror-three-card",
+      "question": {
+        "vi": "Mình đang phân vân giữa việc nói thật và giữ yên lặng.",
+        "en": "I am torn between speaking honestly and staying quiet."
+      },
+      "cards": [
+        {
+          "position": "mirror",
+          "cardId": "minor-swords-two",
+          "orientation": "upright"
+        },
+        {
+          "position": "crack",
+          "cardId": "major-06-lovers",
+          "orientation": "upright"
+        },
+        {
+          "position": "petal",
+          "cardId": "major-02-high-priestess",
+          "orientation": "upright"
+        }
+      ],
+      "fallbackSummary": {
+        "vi": "Bài đọc không ép bạn phải quyết ngay; nó mời bạn nhìn vào giá trị thật, sự né tránh và một khoảng lặng để nghe trực giác.",
+        "en": "This reading does not force an immediate decision; it asks the user to notice values, avoidance, and a quiet space for intuition."
+      },
+      "journalTitle": {
+        "vi": "Gương Hồng: nói thật với sự dịu dàng",
+        "en": "Rose Mirror: honest and gentle"
+      },
+      "expectedQa": [
+        "decision_topic",
+        "clear_next_step",
+        "avoids_absolute_advice"
+      ]
+    },
+    {
+      "id": "rose-career-recognition",
+      "topic": "career",
+      "spreadId": "rose-mirror-three-card",
+      "question": {
+        "vi": "Mình có đang cho quá nhiều ở công việc không?",
+        "en": "Am I giving too much at work?"
+      },
+      "cards": [
+        {
+          "position": "mirror",
+          "cardId": "minor-pentacles-six",
+          "orientation": "reversed"
+        },
+        {
+          "position": "crack",
+          "cardId": "major-08-strength",
+          "orientation": "upright"
+        },
+        {
+          "position": "petal",
+          "cardId": "minor-swords-queen",
+          "orientation": "upright"
+        }
+      ],
+      "fallbackSummary": {
+        "vi": "Đọc career của Gương Hồng nên soi vào quan hệ với công việc: cho và nhận có lệch không, ranh giới nào cần rõ hơn và cách nói nhu cầu không gây chiến.",
+        "en": "Rose Mirror reads career through relationship with work: whether giving and receiving are lopsided, which boundary needs clarity, and how to state a need calmly."
+      },
+      "journalTitle": {
+        "vi": "Gương Hồng: ranh giới với công việc",
+        "en": "Rose Mirror: boundaries with work"
+      },
+      "expectedQa": [
+        "career_topic_supported",
+        "does_not_become_financial_advice"
+      ]
+    },
+    {
+      "id": "rose-open-daily",
+      "topic": "open",
+      "spreadId": "rose-mirror-one-card",
+      "question": {
+        "vi": "Hôm nay mình cần nhìn thấy điều gì?",
+        "en": "What do I need to see today?"
+      },
+      "cards": [
+        {
+          "position": "mirror",
+          "cardId": "major-18-moon",
+          "orientation": "upright"
+        }
+      ],
+      "fallbackSummary": {
+        "vi": "Lá bài mời bạn đi chậm trong vùng mơ hồ: ghi nhận cảm xúc lặp lại, nhưng chưa cần biến nó thành kết luận cuối cùng.",
+        "en": "This card invites the user to move slowly through uncertainty: notice repeating feelings without turning them into final conclusions."
+      },
+      "journalTitle": {
+        "vi": "Gương Hồng: đi chậm trong vùng mơ hồ",
+        "en": "Rose Mirror: moving slowly through uncertainty"
+      },
+      "expectedQa": [
+        "one_card_daily",
+        "open_topic",
+        "fallback_summary"
+      ]
+    }
+  ],
+  "adminSeedChecks": [
+    {
+      "id": "rose-mirror-safety-copy",
+      "check": {
+        "vi": "Mọi summary phải giữ tính phản chiếu, không nói chuyện tình cảm sẽ chắc chắn xảy ra.",
+        "en": "Every summary must stay reflective and avoid claiming relationship outcomes will definitely happen."
+      }
+    },
+    {
+      "id": "rose-mirror-card-reference",
+      "check": {
+        "vi": "Mọi reading phải tham chiếu đúng cardId và position đã được app/backend chọn.",
+        "en": "Every reading must reference the exact cardId and position selected by app/backend logic."
+      }
+    },
+    {
+      "id": "rose-mirror-journal",
+      "check": {
+        "vi": "Mọi sample reading có journalTitle để test lưu Journal và xem lại.",
+        "en": "Every sample reading includes a journalTitle for testing Journal save and revisit."
+      }
+    }
+  ]
+}

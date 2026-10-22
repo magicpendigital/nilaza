@@ -1,0 +1,204 @@
+{
+  "schemaVersion": 1,
+  "projectId": "nilaza",
+  "mode": "cloud",
+  "targets": [],
+  "environmentPolicy": {
+    "stagingOrganizationId": "drxbmvimiekeoeesgssp",
+    "productionOrganizationId": "drxbmvimiekeoeesgssp",
+    "productionProvisioning": "existing-Free-selected-bootstrap-and-production-promotion-pending",
+    "observedOrganizationId": "drxbmvimiekeoeesgssp",
+    "canonicalSelection": "owner-selected-Singapore-2026-10-09",
+    "preferredCanonicalProposal": "superseded-by-owner-selected-Singapore",
+    "allocationStatus": "verified-QA-Free-and-Singapore-Free-transfer-completed",
+    "allocationPlan": "docs/release/SUPABASE_ALLOCATION_2026-10-05.md",
+    "development": "local-synthetic-no-additional-paid-project",
+    "observedSingaporeCandidate": {
+      "projectRef": "etfajmrwyywokgafzxsb",
+      "organizationId": "drxbmvimiekeoeesgssp",
+      "plan": "free",
+      "region": "ap-southeast-1",
+      "status": "ACTIVE_HEALTHY",
+      "verifiedOn": "2026-10-09",
+      "evidencePath": "artifacts/singapore-free-preparation-2026-10-09/readback.json"
+    },
+    "selectedCanonicalProject": {
+      "organizationId": "drxbmvimiekeoeesgssp",
+      "projectRef": "etfajmrwyywokgafzxsb",
+      "selectedOn": "2026-10-09",
+      "lifecycle": "closed-synthetic-prelaunch-QA-then-separately-approved-production-promotion",
+      "runtimeRetarget": "not-performed",
+      "ownerDecision": "Direct user approval of Steps 1 and 2 on 2026-10-09"
+    },
+    "databaseResourcePolicies": {
+      "staging": {
+        "target": {
+          "id": "nilaza-singapore-prelaunch-qa",
+          "kind": "staging",
+          "organizationId": "drxbmvimiekeoeesgssp",
+          "projectRef": "etfajmrwyywokgafzxsb"
+        },
+        "organizationPlan": "free",
+        "compute": "nano",
+        "region": "ap-southeast-1",
+        "postgresMajor": 17,
+        "paidAddons": [],
+        "reviewedOn": "2026-10-09",
+        "scope": "Expected resources only; actual settings, quota, recovery and protected execution must be evidenced."
+      },
+      "production": {
+        "target": {
+          "id": "nilaza-singapore-production-candidate",
+          "kind": "production",
+          "organizationId": "drxbmvimiekeoeesgssp",
+          "projectRef": "etfajmrwyywokgafzxsb"
+        },
+        "organizationPlan": "free",
+        "compute": "nano",
+        "region": "ap-southeast-1",
+        "postgresMajor": 17,
+        "paidAddons": [],
+        "reviewedOn": "2026-10-09",
+        "scope": "Expected resources only; actual settings, quota, recovery and protected execution must be evidenced."
+      }
+    }
+  },
+  "blockers": [
+    "Nilaza QA ledger remains blocked_pending_reconciliation due to foreign MCY history. Do not import foreign SQL, push or repair history to turn a check green.",
+    "Owner selected Singapore Free etfajmrwyywokgafzxsb for closed prelaunch QA then separately approved production promotion. Resource settings, quota/recovery, managed acceptance, operator enforcement and exact SQL approval remain pending; runtime still binds legacy QA. Target allowlist remains empty; historical Pro packets are superseded."
+  ],
+  "ledgerPath": "supabase/migration-ledger.json",
+  "inputRoots": [
+    "apps/mobile/src",
+    "apps/mobile/App.tsx",
+    "apps/mobile/app.json",
+    "apps/mobile/package.json",
+    "apps/admin/admin-access.js",
+    "apps/admin/admin-capabilities.json",
+    "apps/admin/AGENTS.md",
+    "apps/admin/ai-studio.html",
+    "apps/admin/app.js",
+    "apps/admin/build-hosted-config.mjs",
+    "apps/admin/config.js",
+    "apps/admin/content-model.mjs",
+    "apps/admin/content-sync.js",
+    "apps/admin/content.css",
+    "apps/admin/content.html",
+    "apps/admin/content.js",
+    "apps/admin/feedback-inbox.js",
+    "apps/admin/growth-model.mjs",
+    "apps/admin/growth-operations-model.mjs",
+    "apps/admin/growth.css",
+    "apps/admin/growth.html",
+    "apps/admin/growth.js",
+    "apps/admin/index.html",
+    "apps/admin/marketing-automation-sample.json",
+    "apps/admin/README.md",
+    "apps/admin/recovery-core.js",
+    "apps/admin/recovery.html",
+    "apps/admin/recovery.js",
+    "apps/admin/shell.css",
+    "apps/admin/shell.js",
+    "apps/admin/styles.css",
+    "apps/admin/vercel.json",
+    "apps/admin/workflow-catalog.js",
+    "apps/admin/workflow-view.js",
+    "apps/admin/workspace-guard.css",
+    "apps/admin/workspace-guard.js",
+    "apps/admin/assets",
+    "apps/admin/generated",
+    "apps/web/src",
+    "apps/web/public",
+    "apps/web/astro.config.mjs",
+    "apps/web/package.json",
+    "apps/web/tsconfig.json",
+    "packages/agent-config",
+    "packages/ai-contracts",
+    "packages/content/data",
+    "scripts",
+    "package.json",
+    "package-lock.json",
+    ".github/workflows",
+    "skills",
+    "supabase/functions",
+    "supabase/config.toml",
+    "supabase/migration-ledger.json",
+    "AGENTS.md",
+    "docs/release"
+  ],
+  "requiredChecks": [
+    {
+      "id": "source-and-artifact-review",
+      "allowNotApplicable": false
+    },
+    {
+      "id": "owner-acceptance",
+      "allowNotApplicable": false
+    },
+    {
+      "id": "recovery-rehearsal",
+      "allowNotApplicable": false
+    },
+    {
+      "id": "market-readiness-and-recurring-cost",
+      "allowNotApplicable": false
+    },
+    {
+      "id": "migration-ledger",
+      "allowNotApplicable": false
+    },
+    {
+      "id": "clean-schema-replay",
+      "allowNotApplicable": false
+    },
+    {
+      "id": "production-schema-upgrade-synthetic",
+      "allowNotApplicable": false
+    },
+    {
+      "id": "old-client-expand-contract",
+      "allowNotApplicable": false
+    },
+    {
+      "id": "grants-rls-storage-rpc-views",
+      "allowNotApplicable": false
+    },
+    {
+      "id": "actors-a-b-revoked-old-token",
+      "allowNotApplicable": false
+    },
+    {
+      "id": "schema-and-config-drift",
+      "allowNotApplicable": false
+    },
+    {
+      "id": "backup-coverage-and-restore",
+      "allowNotApplicable": false
+    },
+    {
+      "id": "protected-job-and-release-lock",
+      "allowNotApplicable": false
+    },
+    {
+      "id": "staging-smoke-and-observation",
+      "allowNotApplicable": false
+    },
+    {
+      "id": "draft-review-published-revisions",
+      "allowNotApplicable": false
+    },
+    {
+      "id": "approved-content-retrieval",
+      "allowNotApplicable": false
+    },
+    {
+      "id": "account-switch-and-privacy",
+      "allowNotApplicable": false
+    },
+    {
+      "id": "native-device",
+      "allowNotApplicable": false
+    }
+  ],
+  "validationResultType": "EvidenceBundleValidation"
+}

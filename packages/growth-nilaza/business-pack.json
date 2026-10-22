@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "1.0.0",
+  "tenantId": "nilaza",
+  "businessPackVersion": "nilaza-growth-b0-v1",
+  "marketScope": {
+    "primaryLocale": "vi",
+    "secondaryLocale": "en",
+    "audienceHypotheses": [
+      "Adults in Vietnam who want a calm, private reflection ritual for questions and emotions.",
+      "People who already use general AI but want a more designed reflection flow with a clear next step.",
+      "People interested in Tarot, self-discovery and journaling without deterministic spiritual promises."
+    ],
+    "exclusions": [
+      "No targeting or inference based on health, mental state, relationship hardship, religion, birth profile, Tarot result, chat, journal or face data.",
+      "No minors in the Sprint 01 research or beta hypothesis."
+    ]
+  },
+  "northStar": {
+    "id": "repeat_value_days_7d",
+    "meaning": "A person voluntarily finds value on at least two distinct days, rather than only opening the app once."
+  },
+  "allowedDestinations": [
+    {
+      "id": "nilaza_waitlist",
+      "status": "collection_only",
+      "purpose": "Join a waitlist with consent; no automated email is active."
+    },
+    {
+      "id": "closed_core_beta",
+      "status": "not_open",
+      "purpose": "A future owner-approved beta destination after product and support gates."
+    }
+  ],
+  "channelCapability": {
+    "organic": "draft_only",
+    "email": "not_active",
+    "push_marketing": "not_active",
+    "paid_media": "not_active",
+    "social_api": "not_active"
+  },
+  "dataBoundary": {
+    "allowed": ["approved_public_research", "sanitized_tenant_config", "aggregate_metrics"],
+    "forbidden": ["raw_private_chat", "raw_journal", "birth_profile", "raw_chart", "face_upload", "email_or_phone", "provider_secret", "sensitive_inference"]
+  }
+}

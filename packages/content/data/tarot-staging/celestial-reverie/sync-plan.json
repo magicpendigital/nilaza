@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "deckId": "tinh-quang",
+  "activationAllowed": false,
+  "targetProject": null,
+  "sourceReviewStage": "source_artwork_only",
+  "blockers": [
+    "Final card PNGs and native/mobile face QC not run",
+    "Cover and back image files unavailable in supplied package",
+    "Access tier is null and requires an Owner product decision",
+    "Final bilingual content, full-deck quality ledger, Android and remote readback acceptance pending"
+  ],
+  "steps": [
+    "Replace rejected/pending source artworks and re-review their exact hashes.",
+    "Render only admitted artwork and review every actual card face.",
+    "Supply cover/back, review crops and reversible back; resolve access tier.",
+    "Review final VI/EN deck content, then merge the three draft arrays into active canonical data with exactly 78 ready cards.",
+    "Refresh final quality-review.json using standard prepare --require-deck-intros; verify only after all checks pass.",
+    "Generate Admin seed and runtime JPEGs, add exact deck mappings and deck-story adapter; validate data, visuals, typecheck and Android bundle.",
+    "Owner Android acceptance before Google Play; iOS native acceptance deferred. Published database changes need a separately approved exact target and migration path."
+  ],
+  "remoteActionsPerformed": [],
+  "requiredAssets": {
+    "cardCount": 78,
+    "artworkSize": [
+      656,
+      1130
+    ],
+    "renderedCardSize": [
+      1024,
+      1768
+    ],
+    "cover": "assets/tarot/deck-covers/tinh-quang.png",
+    "back": "assets/tarot/deck-backs/tinh-quang.png",
+    "backRotationDegrees": 180
+  },
+  "runtimeBindings": {
+    "cardsModule": "./assets/runtime/tarot/tinh-quang/cards",
+    "coverModule": "../assets/runtime/tarot/deck-covers/tinh-quang.jpg",
+    "backModule": "../assets/runtime/tarot/deck-backs/tinh-quang.jpg",
+    "cardMapOwner": "apps/mobile/App.tsx:deckCardImages",
+    "deckVisualsOwner": "apps/mobile/src/visualAssets.ts:deckVisuals",
+    "deckStoryOwner": "apps/mobile/App.tsx:getTarotDeckStory",
+    "storyFieldMapping": {
+      "origin": "story",
+      "audience": "audience",
+      "ritual": "bestUses",
+      "prompts": "reflectionQuestions"
+    },
+    "exporter": "scripts/build-mobile-runtime-assets.ps1 -OnlyTarotDeck tinh-quang",
+    "generatedAdminSeedScript": "admin:seed"
+  },
+  "activeDataMergeTargets": [
+    "packages/content/data/tarot-decks.json",
+    "packages/content/data/tarot-card-designs.json",
+    "packages/content/data/tarot-deck-backs.json"
+  ]
+}

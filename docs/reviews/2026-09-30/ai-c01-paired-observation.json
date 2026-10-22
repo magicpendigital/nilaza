@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "nilaza-fictional-ui-pair-observation-v1",
+  "pairId": "OBS-C01-LOVE-ORACLE-CHATGPT-CONTROLLED",
+  "capturedDateLocal": "2026-09-30",
+  "dataPolicy": "Fictional test messages and actual answers only; no account identifiers, sidebar history, credentials or unrelated conversations.",
+  "status": "one_observational_variant_pair_not_replicated_benchmark",
+  "plannedSuiteCase": "C01",
+  "variantReason": "Same C01 user text; actual Nilaza persona the-love-oracle differs from planned communication-mentor.",
+  "prompt": "Mình nhắn cho một người mình thích. Hai ngày rồi họ chưa trả lời, nhưng vẫn đăng story. Mình cứ kiểm tra điện thoại và thấy mình không đáng được quan tâm. Mình nên hiểu cảm giác này thế nào?",
+  "repetitions": 1,
+  "blind": false,
+  "independentRaters": false,
+  "customerResearch": "hypothetical_lenses_not_interviews_or_real_customer_preferences",
+  "nilaza": {
+    "persona": "the-love-oracle",
+    "initialContext": "Root reports fresh room, no prior turns, selected Tarot cards or handoff.",
+    "surface": "normal Nilaza web app UI in IAB",
+    "output": "The Love Oracle gửi bạn: Ánh mắt bạn dành cho điện thoại là ngôn ngữ của một trái tim đang mong đợi. Khoảng lặng từ người kia có thể trở thành tấm gương phản chiếu những câu hỏi sâu hơn: \"Điều gì trong tôi đang đo giá trị bản thân bằng sự hồi đáp của họ?\" Thử một bước nhỏ: Viết ra ba điều bạn thực sự xứng đáng nhận được từ một mối quan hệ (dù là hiện tại hay tương lai). Soi những điều ấy vào tình huống này – bạn thấy gì? (Trải bài tình cảm này đang nói gì về ranh giới bạn cần đặt lại? 🌹)",
+    "rawEvidence": "docs/reviews/2026-09-30/persona-runtime-c01-love-oracle.txt",
+    "score": null,
+    "latencyMs": null,
+    "cost": null,
+    "actualProvider": null,
+    "actualModel": null,
+    "activePromptVersion": null,
+    "personaSkillVersion": null,
+    "fallbackUsed": null
+  },
+  "chatgpt": {
+    "surface": "chatgpt.com UI in IAB; user later authorized this browser alternative because Chrome controller was unavailable.",
+    "session": "Root observed signed-in Temporary + Unpersonalized, UI stating memory/plugins/custom instructions ignored.",
+    "displayedMode": "Pro",
+    "displayedPower": "5 of 5",
+    "exactBackendModel": null,
+    "output": "Nghe như điều làm bạn đau không chỉ là chưa được trả lời, mà còn là ý nghĩ: “Họ vẫn có thời gian đăng story, vậy tại sao lại không dành chút quan tâm cho mình?” Khi mình thích một người, sự im lặng của họ dễ trở nên rất nặng. Bạn không “quá nhạy cảm” chỉ vì chuyện này khiến bạn buồn và sốt ruột.\n\nCó thể hiểu cảm giác này như mong được kết nối, nhưng lại phải ở trong sự không chắc chắn. Bạn muốn biết mình có được đón nhận không. Mỗi lần kiểm tra điện thoại là một lần hy vọng tìm thấy câu trả lời; khi vẫn không có tin nhắn, nỗi lo lại có thêm chỗ để lớn lên. Điều đó không có nghĩa bạn yếu đuối hay có vấn đề.\n\nĐiều quan trọng là tách hai câu này ra:\n\n“Họ chưa trả lời mình trong hai ngày.”\n“Mình không đáng được quan tâm.”\n\nCâu đầu là điều đang xảy ra. Câu sau là lời phán xét bạn đang dành cho bản thân trong lúc bị tổn thương — không phải điều mà sự im lặng của họ có thể chứng minh. Kể cả nếu sau này rõ ràng rằng họ không có cùng tình cảm, điều đó nói về tình cảm của người ấy, không quyết định giá trị của bạn.\n\nViệc họ đăng story chưa đủ để biết vì sao họ chưa trả lời. Nhưng bạn cũng không cần tìm lý do hộ họ để phủ nhận sự hụt hẫng của mình. Bạn được phép mong một sự kết nối có hồi đáp; nếu sự thiếu hồi đáp cứ lặp lại, đó là thông tin để cân nhắc mối quan hệ này có phù hợp với nhu cầu của bạn không.\n\nLúc này, bạn có thể thử tạm ẩn story của họ và để điện thoại xa mình một khoảng ngắn, chẳng hạn trong lúc ăn hoặc đi bộ. Không phải để “làm giá”, mà để cho mình nghỉ khỏi việc liên tục chờ đợi. Khi ý nghĩ “mình không đáng được quan tâm” xuất hiện, thử đổi thành: “Mình đang buồn và sợ bị từ chối. Mình chưa biết họ nghĩ gì, nhưng mình không cần tự hạ thấp bản thân để giải thích sự im lặng này.” Bạn không cần hết buồn ngay; trước mắt, chỉ cần đừng biến nỗi buồn thành một bản án về mình.",
+    "rawEvidence": "docs/reviews/2026-09-30/chatgpt-runtime-c01-controlled.txt",
+    "excludedExploratoryEvidence": "docs/reviews/2026-09-30/chatgpt-runtime-c01.txt",
+    "exclusionReason": "First guest response before authentication hydration redirect; not used in the main pair.",
+    "uiWorkedLabel": "Worked for 1m 18s",
+    "uiWorkedLabelIsComparableLatency": false,
+    "score": null,
+    "latencyMs": null,
+    "cost": null
+  },
+  "followUp": {
+    "status": "captured_same_two_user_turns_natural_own_history",
+    "prompt": "Mình chưa muốn nhắn thêm. Bạn giúp mình chọn một việc nhỏ tối nay để không kiểm tra điện thoại liên tục nhé.",
+    "nilazaOutput": "Lá bài The Hanged Man gợi ý bạn thử một khoảnh khắc tĩnh lặng tối nay. Có thể bạn sẽ: • Ngồi với tách trà 3 phút, không làm gì khác • Vẽ nguệch ngoạc lên giấy khi thấy tay với lấy điện thoại Bạn cảm nhận điều gì khi nghĩ về khoảng trống không kiểm tra tin nhắn? Tôi là trợ lý ảo lấy cảm hứng từ tarot, cùng bạn khám phá ranh giới lành mạnh 💫",
+    "chatgptOutput": "Tối nay, mình chọn cho bạn một việc: đi tắm, để điện thoại ở ngoài phòng tắm — dành khoảng 10 phút không xem máy.\n\nTrong lúc tắm, thử để ý cảm giác nước trên da. Khi ý nghĩ “họ trả lời chưa?” xuất hiện, bạn chỉ cần nhắc nhẹ: “Mình đang muốn kiểm tra, nhưng chưa cần làm ngay. Mình tắm xong đã.”\n\nKhông cần ép mình ngừng nghĩ về họ hay đặt mục tiêu không kiểm tra cả tối. Tối nay, một khoảng nghỉ nhỏ khỏi việc chờ đợi là đủ rồi.",
+    "nilazaEvidence": "docs/reviews/2026-09-30/persona-runtime-c01-followup.txt",
+    "chatgptEvidence": "docs/reviews/2026-09-30/chatgpt-runtime-c01-followup.txt",
+    "scores": null,
+    "latencyMs": null,
+    "cost": null,
+    "historyCaveat": "Same user follow-up, but each product sees its own different first reply; this compares natural two-turn experience, not identical controlled history.",
+    "qualitative": "ChatGPT chooses one bounded ten-minute break with the phone outside the bathroom and no whole-evening ban. Nilaza offers two feasible ideas but references an unprovided Hanged Man card without an explicit hypothetical frame; it does not say it drew a card."
+  },
+  "qualitativeComparison": {
+    "specificity": "ChatGPT explicitly uses two days and story activity and separates an observed lack of reply from the self-worth interpretation. Nilaza uses the phone-waiting image but does not clearly explain those two facts.",
+    "trust": "ChatGPT acknowledges uncertainty about the other person's motives. Nilaza assumes a relationship Tarot spread without supplied cards/context.",
+    "action": "Nilaza offers a concrete three-needs writing exercise; ChatGPT offers a short break from checking/story exposure and a reframing sentence. Both leave the user free to choose.",
+    "readability": "Nilaza is brief and atmospheric; ChatGPT gives substantially more explanation, with a higher reading burden.",
+    "limits": "This is a user-experience comparison of one persona UI response against a general ChatGPT response. Different prompt stacks, modes and unknown actual model/fallback are confounders. No attribution of the difference to the model alone."
+  },
+  "customerLenses": [
+    {
+      "role": "gen_z_discovery",
+      "reviewer": "same_child_agent_role_simulation",
+      "finding": "Nilaza is quicker to read and has a distinct mood; ChatGPT explains the user's specific situation more clearly.",
+      "acceptance": [
+        "Use two user details in the opening",
+        "Separate facts and interpretation",
+        "One exercise of five minutes or less",
+        "At most one closing question",
+        "No extra feature needed for immediate value"
+      ],
+      "followUpFinding": "ChatGPT selects one action and explains what to do when the urge appears. Nilaza gives two options despite the request to choose; a three-minute tea activity could still be a useful shorter action if fully specified."
+    },
+    {
+      "role": "woman_emotional_reflection",
+      "reviewer": "same_child_agent_role_simulation",
+      "finding": "ChatGPT directly challenges the self-worth conclusion while respecting uncertainty. Nilaza's writing exercise supports self-respect, but its phantom Tarot context weakens trust.",
+      "acceptance": [
+        "State that silence does not prove diminished self-worth",
+        "No mind-reading of the other person",
+        "Respect the choice not to send another message",
+        "No card/reading references without supplied context",
+        "Journal carryover preserves the actual situation"
+      ],
+      "followUpFinding": "Both respect not sending another message. ChatGPT sets a small finite goal without treating later phone-checking as failure; preserve agency and a clear end point."
+    },
+    {
+      "role": "wisdom_mentor",
+      "reviewer": "same_child_agent_role_simulation",
+      "finding": "ChatGPT has a coherent fact-interpretation-need-uncertainty-action chain; Nilaza's oracle voice is visible but its method is less clear.",
+      "acceptance": [
+        "One recognizable reflective method",
+        "One small experiment with an observable signal",
+        "Follow-up follows the actual prior turn",
+        "Explain why the step connects to this situation",
+        "Persona symbolism does not replace reasoning"
+      ],
+      "followUpFinding": "Nilaza uses an unprovided Hanged Man card as a basis without explicitly marking a hypothetical metaphor. ChatGPT continues the phone-waiting context with a coherent method. This does not prove a card draw or backend selection change."
+    }
+  ],
+  "benchmark": {
+    "suiteCompleted": false,
+    "winRate": null,
+    "overallPreference": null,
+    "scores": null
+  },
+  "adminCandidateStatus": {
+    "astrology": "Root reports active VI/EN versions 2026-09-25-ai-insight-v1 loaded, prior pair preserved, candidate placed into real editors and saved as browser draft. Not published because genuine Insight inference was unavailable.",
+    "council": "Review-only; runtime version-delivery and publish safety gates unresolved.",
+    "candidatesWereTestedInThisPair": false
+  },
+  "observedUserTurnsPerConversation": 2
+}

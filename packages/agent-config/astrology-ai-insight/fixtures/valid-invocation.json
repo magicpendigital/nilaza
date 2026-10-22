@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "nilaza.astrology.ai-insight.invoke.v1",
+  "requestId": "req_astrology_demo_002",
+  "clientChartId": "chart_astrology_demo_002",
+  "language": "vi",
+  "chart": {
+    "contractId": "nilaza.astrology.canonical-chart",
+    "contractVersion": "0.2.0",
+    "calculationVersion": "nilaza-a3-utc-tt-2",
+    "reportRevision": 1,
+    "calculationStatus": "candidate"
+  },
+  "selectedFactIds": ["placement.sun"],
+  "facts": {
+    "placements": [
+      {
+        "factId": "placement.sun",
+        "body": "sun",
+        "sign": "capricorn",
+        "degree": 10.07,
+        "house": null,
+        "retrograde": null,
+        "confidence": {
+          "level": "estimated",
+          "basis": "deterministic_exact_input",
+          "caveatIds": []
+        }
+      }
+    ],
+    "aspects": [],
+    "houses": []
+  },
+  "caveats": [],
+  "userFocus": {
+    "mode": "question",
+    "theme": "open_reflection",
+    "sanitizedQuestion": "Làm sao hiểu rõ hơn nhu cầu phát triển của mình?",
+    "consentScope": "current_focus_only",
+    "contextDisclosure": "chart_facts_and_current_focus_only"
+  },
+  "consent": {
+    "accepted": true,
+    "version": "astrology_ai_fact_sharing_v1"
+  }
+}

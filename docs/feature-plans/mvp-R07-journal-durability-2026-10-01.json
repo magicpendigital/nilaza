@@ -1,0 +1,307 @@
+{
+  "schemaVersion": 1,
+  "taskId": "mvp-R07-journal-durability-2026-10-01",
+  "ownerAgent": "mobile_app_agent",
+  "lane": "mobile_experience_lane",
+  "goal": "Persist Journal add/edit/delete with an account-scoped durable outbox, no false saved acknowledgment, retry on explicit action/reopen and no resurrection from stale cloud reads.",
+  "successCriteria": [
+    "Single journal envelope atomically stores entries, tombstones and pending operations after local acknowledgment.",
+    "Failed disk writes do not update the UI or claim saved; remote failures retain durable retryable mutations.",
+    "Queued revisions cannot let an older cloud ACK overwrite a newer edit/delete; closed account scope cannot write or update the next account.",
+    "Legacy namespaced Journal/hidden IDs migrate without reading ambiguous global caches; manual and Astrology saves use the same path.",
+    "TypeScript and meaningful race/restart/offline/disk-failure tests pass; cloud E2E/native evidence remain separate gated acceptance.",
+    "Independent QA dedupe/failure/merge findings closed with meaningful regression tests."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/backendClient.ts",
+    "apps/mobile/src/features/journal/journalRepository.ts",
+    "apps/mobile/src/features/journal/__tests__/journalRepository.test.ts",
+    "apps/mobile/src/__tests__/backendClient.test.ts",
+    "docs/mvp-remediation/2026-10-01/R07-journal-handoff.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "Server handler is owned by a separate R07 backend child with fresh scoped preflight.",
+    "No schema/migration, live publish/deploy, Admin, payment or account-deletion changes.",
+    "Legacy global storage is never adopted; existing private account namespace and scope cancellation remain canonical."
+  ],
+  "impact": {
+    "entryPoint": "Save insight from Tarot/chat/daily/Astrology, Journal mood/note/delete and sync retry banner.",
+    "dataWrite": "Account-scoped nilaza.journalState.v1 envelope stores entries, tombstones and pending upsert/delete revisions. Namespaced legacy journal/hiddenJournalIds are read only for initial migration; no global account mixing.",
+    "backendContract": "POST /journal/entries retains upsert input; additive operation=delete with localId. Client accepts synced only with matching acknowledged local ID/operation for delete and a real remote ID for upsert. Old server failures keep pending work.",
+    "adminVisibility": "No private Journal contents in Admin or telemetry; only status/sourceType counts.",
+    "privacySafety": "Verified backend auth required for cloud adapter; no provider keys, no private history in error logs, closed session cancels work, durable tombstones prevent deleted entries resurrecting.",
+    "observability": "Saved UI means acknowledged local persistence; synced label means acknowledged server. Pending failures show retry with no raw notes in events.",
+    "rollback": "Retain old namespaced legacy keys; envelope is additive v1. Reverting app must not restore stale legacy entries: export/restore current envelope through reviewed compatibility procedure; do not remove envelope/tombstones."
+  },
+  "canonicalContracts": [
+    "AccountScope and createAccountStorage namespace/strict completion write are unchanged.",
+    "JournalEntry and server journal_entries unique(user_id,local_id)/RLS remain; no schema needed.",
+    "JournalState v1 is one canonical local envelope; exact revision is acknowledged, older responses never replace newer pending state."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "c492e69235bc94267f8de0181822602612a5bbda03dd3d144cf4d6c96ff43197",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "7a4973733886cb4f1568d38e6d8324d1d8200bb1acd850db486bf5323943f023",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "docs/BACKEND_PROXY_ARCHITECTURE.md",
+      "sha256": "b079458af4a10232efc8804746dd3ae7e8f10d5097800b26f2faf4e922fe91cb",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "c14e3443c259659ad51af3621b6418b82a740d22ad06a2832b185e3e02bea364",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "e822f18674c014873ddec5f209408fc16ea11f6c1f8c217b9f094a11f6dc5d0a",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "sha256": "e3c2c1ec939507fd4c42983c8e136595cc9a24256a1c45abb86c73d8be77389e",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "apps/mobile/src/auth/accountStorage.ts",
+      "sha256": "330a0213be9886821b4efe38983116adb9941188153de192edfae0d0c9797cd2",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "apps/mobile/src/auth/accountScope.ts",
+      "sha256": "02cb9e0636411430155e0e65690d78948b8d9836f2ec87fec8e1171051cb0fa0",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "apps/mobile/src/auth/personalData.ts",
+      "sha256": "388cce6d394d8fafcfed6e44f9d750d5f326b7923ad1d1829b77375c47b57e2e",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "apps/mobile/src/types.ts",
+      "sha256": "102780e6ef7e8e8cebbbbe16603986f9cbaf2a2267b63aae4d329a719c0fc527",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "apps/mobile/src/__tests__/backendClient.test.ts",
+      "sha256": "9853f666e5cd63307c0829e833ed5e03b79f26de95bc8effcbd19fab7476a139",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "supabase/functions/journal-entries/index.ts",
+      "sha256": "b0918b1506971b45d80d7fdffe561d558f92fef4753e33efc73e336952f649da",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "supabase/migrations/202606120001_mvp_schema.sql",
+      "sha256": "226e20601e094426e23170814fab3346eea953bf619d78b0ded153afa37559f5",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "supabase/migrations/20260629020702_journal_entries_user_local_id_constraint.sql",
+      "sha256": "9ea543a2e495c2fcf0063db0da949ee7a6bcaacb1b149c537cef43037e84f7f3",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Fresh impact map, one App integration owner, preserved owner dirty edits and separate local/native/live acceptance."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Layout uses current typography, bilingual access/action text, original Tarot assets on Tarot surfaces and explicit browser/native status."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Current Supabase changelog and JS upsert/delete/RLS docs reviewed; existing table unique key and ownership policies require no new schema. No dependency upgrades."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://supabase.com/changelog",
+      "checkedAt": "2026-10-01",
+      "reason": "Markdown index unavailable through browser fetch; reviewed HTML index. Table exposure/grants changes mean live RLS/grants must be independently verified; no DB action here."
+    },
+    {
+      "url": "https://supabase.com/docs/reference/javascript/upsert",
+      "checkedAt": "2026-10-01",
+      "reason": "Acknowledged mutation contract."
+    },
+    {
+      "url": "https://supabase.com/docs/reference/javascript/delete",
+      "checkedAt": "2026-10-01",
+      "reason": "Authenticated owner-filtered delete."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/database/postgres/row-level-security",
+      "checkedAt": "2026-10-01",
+      "reason": "Ownership policies, update read visibility and deletion authorization."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "Client account scope is retained; backend child verifies getUser before owner-filtered upsert/delete; RLS is second boundary, live tests pending.",
+    "sensitiveData": "Private Journal remains in scoped storage; no raw content exported in logs/telemetry.",
+    "secretsLogging": "No env reads/writes, credential changes or new error contents logged.",
+    "externalInput": "Mutation IDs/revisions validated; server bounds and validates note/snapshot input. Client rejects fake or mismatched ACK.",
+    "dependencies": "No install/update. Existing Supabase/AsyncStorage APIs and versions retained.",
+    "migrationRelease": "No DB schema writes, migrations, push/repair, live publish or deployment; ledger remains blocked.",
+    "stopCondition": "Stop before live cloud acceptance, migration/deploy, account deletion or any shared contract expansion beyond additive Journal operation; retain failed outbox.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/backendClient.ts",
+      "apps/mobile/src/features/journal/journalRepository.ts",
+      "apps/mobile/src/features/journal/__tests__/journalRepository.test.ts",
+      "apps/mobile/src/__tests__/backendClient.test.ts",
+      "docs/mvp-remediation/2026-10-01/R07-journal-handoff.vi.md"
+    ],
+    "note": "Root is sole App/backendClient owner; exact child server scope separate. Existing owner fixes to Auth/storage are preserved."
+  },
+  "validationCommands": [
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand src/features/journal/__tests__/journalRepository.test.ts src/__tests__/backendClient.test.ts",
+    "Local fake-transport race/offline/restart/deletion tests; live A/B ownership and device proof remain blocked until reviewed environment gates."
+  ],
+  "managerTestPath": "Save a fictional insight, edit note/mood, reopen app, retry sync, delete and reopen. Disk failure must retain the previous saved entry; offline mutations must remain pending and deletion must not resurrect.",
+  "residualRisk": "No claim of server deployment, staging A/B RLS or native durability; migration forward path remains unresolved. Old clients may need a reviewed compatibility handoff for the additive envelope.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deployment": false,
+    "productionRelease": false
+  },
+  "implementationBaselineReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "c492e69235bc94267f8de0181822602612a5bbda03dd3d144cf4d6c96ff43197",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "7a4973733886cb4f1568d38e6d8324d1d8200bb1acd850db486bf5323943f023",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "docs/BACKEND_PROXY_ARCHITECTURE.md",
+      "sha256": "b079458af4a10232efc8804746dd3ae7e8f10d5097800b26f2faf4e922fe91cb",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "c14e3443c259659ad51af3621b6418b82a740d22ad06a2832b185e3e02bea364",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "e822f18674c014873ddec5f209408fc16ea11f6c1f8c217b9f094a11f6dc5d0a",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "sha256": "e3c2c1ec939507fd4c42983c8e136595cc9a24256a1c45abb86c73d8be77389e",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "apps/mobile/src/auth/accountStorage.ts",
+      "sha256": "330a0213be9886821b4efe38983116adb9941188153de192edfae0d0c9797cd2",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "apps/mobile/src/auth/accountScope.ts",
+      "sha256": "02cb9e0636411430155e0e65690d78948b8d9836f2ec87fec8e1171051cb0fa0",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "apps/mobile/src/auth/personalData.ts",
+      "sha256": "388cce6d394d8fafcfed6e44f9d750d5f326b7923ad1d1829b77375c47b57e2e",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "apps/mobile/src/types.ts",
+      "sha256": "102780e6ef7e8e8cebbbbe16603986f9cbaf2a2267b63aae4d329a719c0fc527",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "apps/mobile/src/__tests__/backendClient.test.ts",
+      "sha256": "9853f666e5cd63307c0829e833ed5e03b79f26de95bc8effcbd19fab7476a139",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "supabase/functions/journal-entries/index.ts",
+      "sha256": "b0918b1506971b45d80d7fdffe561d558f92fef4753e33efc73e336952f649da",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "supabase/migrations/202606120001_mvp_schema.sql",
+      "sha256": "226e20601e094426e23170814fab3346eea953bf619d78b0ded153afa37559f5",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    },
+    {
+      "path": "supabase/migrations/20260629020702_journal_entries_user_local_id_constraint.sql",
+      "sha256": "9ea543a2e495c2fcf0063db0da949ee7a6bcaacb1b149c537cef43037e84f7f3",
+      "reason": "Current R07/R08 integrated source reviewed with independent QA findings; preserve initial baseline and owner changes before corrective edits."
+    }
+  ],
+  "qaReviewFindings": [
+    "Await shared in-flight save instead of returning true before local ACK.",
+    "Strict mutation failure must not be dismissed by background-storage retry; separate mutation/sync errors.",
+    "Await cloud merge in read sync handler so errors appear."
+  ]
+}

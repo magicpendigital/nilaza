@@ -1,0 +1,1231 @@
+{
+  "schemaVersion": "nilaza-clean-qa-bootstrap-candidate-v1",
+  "asOfDate": "2026-10-02",
+  "status": "candidate_not_execution_ready",
+  "ownerDecision": "prepare_clean_nilaza_qa_preserve_legacy_as_evidence",
+  "legacyProjectRef": "akgrokwnkfqnfjqrildi",
+  "newProjectRef": null,
+  "newProjectRegion": null,
+  "executionAuthorized": false,
+  "databaseWritePerformed": false,
+  "baseMigrationCount": 25,
+  "baseMigrations": [
+    {
+      "order": 1,
+      "file": "supabase/migrations/202606120001_mvp_schema.sql",
+      "rawSha256": "038a60942a335d1fede5f19df1e2863960b0e2a67b858a4aa76ed963a04d3740",
+      "reason": "Core Nilaza tables, auth ownership, RLS and the canonical reason/delta/balance_after ledger."
+    },
+    {
+      "order": 2,
+      "file": "supabase/migrations/202606120002_add_missing_tables.sql",
+      "rawSha256": "80df182edc581e17f1fa66b91fe16537b89526abf97b889fe232c53e3032c91d",
+      "reason": "Daily insights, approved-source chunks and vectors. Duplicate ledger CREATE does not reconcile columns."
+    },
+    {
+      "order": 3,
+      "file": "supabase/migrations/20260622000000_upgrade_mvp.sql",
+      "rawSha256": "965fbcce86ac248c4ed96327a83674c79b60a9315aacce7efeaf5b7d4bce7406",
+      "reason": "Chat persona joins and expanded contracts."
+    },
+    {
+      "order": 4,
+      "file": "supabase/migrations/20260622000001_weekly_reflection_cron.sql",
+      "rawSha256": "90fc174f647ad1bc77d3ffd6d5ec7c3cdc4de7307197892dd75f058ef1ab5932",
+      "reason": "Weekly reflection cron is guarded off; its Edge wiring is inactive."
+    },
+    {
+      "order": 5,
+      "file": "supabase/migrations/20260626000000_ai_council_contract.sql",
+      "rawSha256": "152a27d7e72595490e4e516573508876a6d5922a3cc1eb97b09982d98c62c6c1",
+      "reason": "Council session, message and safety contracts."
+    },
+    {
+      "order": 6,
+      "file": "supabase/migrations/20260626000001_journal_mobile_contract.sql",
+      "rawSha256": "c2e619b6f5505ce63d450dff3c6faf6e2a405d737422028d1ea752f7fc0cbfba",
+      "reason": "Journal local ID/mobile contract."
+    },
+    {
+      "order": 7,
+      "file": "supabase/migrations/20260626000002_ai_council_admin_config.sql",
+      "rawSha256": "8de07c0f770b1e10f5f2562d60acd7ad1ed67421690e350776aeb81b196d4d7d",
+      "reason": "Council configuration and template versions."
+    },
+    {
+      "order": 8,
+      "file": "supabase/migrations/20260627000000_astrology_backend_contract.sql",
+      "rawSha256": "11361a02d30d41181aeef3b0db5b5b91298cc841ddf0f061eea3f075a3751f4c",
+      "reason": "Calculated Astrology profiles and reports."
+    },
+    {
+      "order": 9,
+      "file": "supabase/migrations/20260629020702_journal_entries_user_local_id_constraint.sql",
+      "rawSha256": "9ea543a2e495c2fcf0063db0da949ee7a6bcaacb1b149c537cef43037e84f7f3",
+      "reason": "Journal UNIQUE(user_id, local_id) required for upsert."
+    },
+    {
+      "order": 10,
+      "file": "supabase/migrations/20260630000000_model_route_versions.sql",
+      "rawSha256": "14889d571f6476036a2ec8344e6bc6a539e19040e12a6e7958416141e6c7adaf",
+      "reason": "Versioned model routes."
+    },
+    {
+      "order": 11,
+      "file": "supabase/migrations/20260706000000_oracle_contract.sql",
+      "rawSha256": "f0ac733270376b531d7bd1ba9f8c8ef5dbedeffdef75a315c01b2c172fb31b80",
+      "reason": "Oracle contracts."
+    },
+    {
+      "order": 12,
+      "file": "supabase/migrations/20260710000000_notifications_contract.sql",
+      "rawSha256": "51d4cf28e07a1dea9df96169034acd368fba4bd9a2c81cb505c670e99c9c1cb7",
+      "reason": "Notifications and inbox contracts."
+    },
+    {
+      "order": 13,
+      "file": "supabase/migrations/20260902131408_owner_capability_boundary.sql",
+      "rawSha256": "2f8fdac36b93d68f1a32da2d7a83b33c2b41b966589e8be9e1a85d56ace42a24",
+      "reason": "Private owner capabilities, policies and triggers before target exposure."
+    },
+    {
+      "order": 14,
+      "file": "supabase/migrations/20260903033047_reconcile_owner_prerequisites.sql",
+      "rawSha256": "bfc7f7cf54ef7998abd617607f47644e698ee501da0d53a373f5d629b2a311b4",
+      "reason": "Historical daily/source prerequisites; no credit schema reconciliation."
+    },
+    {
+      "order": 15,
+      "file": "supabase/migrations/20260908000000_oracle_model_route.sql",
+      "rawSha256": "ae78d2be77e8b66749ba40d25dd9591b9bdf3b677e27f440fd1b31bb6844a949",
+      "reason": "Oracle routing feature."
+    },
+    {
+      "order": 16,
+      "file": "supabase/migrations/20260909014614_ai_trace_observability.sql",
+      "rawSha256": "8794f35ab9724c18e2dda617f5bc3b1031bd16af067dff70a9cf1ef321e769bc",
+      "reason": "Redacted trace tables/private RPC; initial cron flag off."
+    },
+    {
+      "order": 17,
+      "file": "supabase/migrations/20260909020528_marketing_waitlist_and_admin_documentation.sql",
+      "rawSha256": "93235a9b2de2b13e8a8ab8cf92ff54a8fdedb0d9dfea3296e1c1d3a3df4777c1",
+      "reason": "Waitlist and private Admin document access."
+    },
+    {
+      "order": 18,
+      "file": "supabase/migrations/20260909043000_admin_document_access_log_index.sql",
+      "rawSha256": "2e7b9de0182e4e317a8b57f731bd398ca1c264a66d765c4363007bde29f2bf20",
+      "reason": "Admin document log index."
+    },
+    {
+      "order": 19,
+      "file": "supabase/migrations/20260913143958_marketing_consent_suppression_foundation.sql",
+      "rawSha256": "49f76f62e1a0e72c91b4691498f66dbe2ded843ea71ffd20785fe21200e749d9",
+      "reason": "Marketing consent, suppression and beta invitations; sending has a separate gate."
+    },
+    {
+      "order": 20,
+      "file": "supabase/migrations/20260913184421_growth_waitlist_aggregate_read_model.sql",
+      "rawSha256": "bf5c3611a447137959349a9e6b959dfa1d2bf2cd70ae20a57049e1ded64b2e7a",
+      "reason": "Capability-protected Growth aggregate."
+    },
+    {
+      "order": 21,
+      "file": "supabase/migrations/20260917172721_admin_content_sync.sql",
+      "rawSha256": "18b50345904d8d6074e56db3aa6400aa24392ea1d61a96e0672a2f8113833ac8",
+      "reason": "Recovered authoritative content bundle publication and revisions."
+    },
+    {
+      "order": 22,
+      "file": "supabase/migrations/20260917174042_admin_content_sync_policy_tuning.sql",
+      "rawSha256": "ac6ae8b06f49db4e6cc8ec464fc1ecaf67a3699500a07132433ed7ed78bdc5ab",
+      "reason": "Recovered content bundle policy refinement."
+    },
+    {
+      "order": 23,
+      "file": "supabase/migrations/20260919202005_ai_council_rounds_v2.sql",
+      "rawSha256": "ad48c774864d7af19758f3364bb9224e68b7b367393e4424c0b388e08450cf62",
+      "reason": "Council round v2 compatibility."
+    },
+    {
+      "order": 24,
+      "file": "supabase/migrations/20260925155619_generation_activity_contract_forward.sql",
+      "rawSha256": "d6de2800385431601296fb1846cb9dc38f72d02ed6645808421fa0d77b04f7a0",
+      "reason": "Generation activity forward contract."
+    },
+    {
+      "order": 25,
+      "file": "supabase/migrations/20260926152118_ai_studio_operations.sql",
+      "rawSha256": "7d17c007edf9807d4dbff19ccaa15283db6dfaaeb2e8a3acd91cd16060ad995a",
+      "reason": "AI Studio guarded publishing and QA trace; hourly purge scheduled if pg_cron exists."
+    }
+  ],
+  "preparedForward": [
+    {
+      "order": 26,
+      "file": "supabase/migrations/20261001000000_private_source_read_boundary.sql",
+      "rawSha256": "cf54859e0fb9f8ba9f4758cccfdb1ac0810e47d8f318b32c2111fb8cd347459b",
+      "status": "unapplied_postgres_replay_and_role_tests_required",
+      "purpose": "Deny customer raw-source reads; allow content.read staff and preserve existing publish/delete capabilities. No client redistribution of licensed text."
+    },
+    {
+      "order": 27,
+      "file": "supabase/migrations/20261002000000_ai_usage_reservation.sql",
+      "rawSha256": "4d4fc2e57d322fa1d4c60e5e305d18653e73f6b5e8d46fba1a3084a115993424",
+      "status": "unapplied_local_contract_13_sql_groups_only_not_full_replay_or_live",
+      "purpose": "Disabled approved QA campaign; atomic private quota/budget holds and settlement, actual cost overrun pause; endpoint/persistence/token/reconciliation gates remain."
+    }
+  ],
+  "seed": {
+    "entry": "supabase/seed.sql",
+    "entryRawSha256": "9f36e8db60e8753b14ec293756f42fd05825b511f7d9bde26b6240cc71ecdff0",
+    "payload": "supabase/seed.generated.sql",
+    "payloadRawSha256": "4f600aa1cd999112cb160c485f422007e3caf7a3172ac509e20bce8ecade8517",
+    "payloadBytes": 346246,
+    "notes": [
+      "Entry uses a psql include; it cannot be passed directly to execute_sql.",
+      "Payload has BEGIN/COMMIT, upserts and DELETEs for prompt_versions/Council templates. Seed only an approved empty new QA.",
+      "Seven table payloads; no auth user or first-owner assignment, and no customer data copy."
+    ]
+  },
+  "exclusions": [
+    "Remote20260925160325_initial_mcy_schema forensic-only, absentlocalsource",
+    "Archive/recoveryduplicates outsidecanonical25",
+    "Oldpublic/private schema clone,authusers/customerrows/policies/functions/storage/realtime/secrets"
+  ],
+  "platformPreconditions": [
+    "Owner approves the exact empty target, managed auth.users/auth.uid and roles.",
+    "pgcrypto and vector in public are supported. Apply the latest private capability boundary before exposure.",
+    "Old akg ledger remains blocked. Review a separate target-specific preflight/ledger."
+  ],
+  "runtimePreconditions": [
+    "R10 atomic private SQL/RPC/worker foundation tested local only; not wired current endpoints. Authoritative tokens/rates, operation-keyed result save, reconciliation, abuse rate limits and full AI/Admin budget integration remain required.",
+    "Replay raw-source forward SQL and role fixtures before exposure. R14 approved/licensed retrieval checks remain separate.",
+    "Bootstrap the first QA owner through a separate approved identity/capability step; seed does not create an owner.",
+    "Only new R10 SQL contract replayed on single-connection PGlite with synthetic fixtures. No full canonical replay, live multi-client/A-B, CI/signed native or actual provider acceptance."
+  ],
+  "optionalInfrastructure": {
+    "weeklyCron": "Off.",
+    "initialTraceCron": "Off.",
+    "aiStudioRetention": "Schedules hourly purge if pg_cron is present; review this side effect explicitly.",
+    "qaCapture": "Off until owner consent and purge verification.",
+    "pgNet": "Optional, only for an approved weekly contract.",
+    "storage": "Base SQL defines no application buckets; do not clone legacy storage.",
+    "realtime": "Legacy generation_jobs membership observed. Base SQL does not declare it; review a new explicit allowlist if the product needs subscriptions."
+  },
+  "phases": [
+    "P0 — Bind hashes, target identity/region, forward contracts and target gate.",
+    "P1 — Replay base and prepared forward SQL in isolation; approve an empty target, auth/roles and extensions.",
+    "P2 — Complete atomic credits/reservations and raw-source role tests; add exact forward versions, preserve historical SQL.",
+    "P3 — Approve current R20 seed and a separate first QA owner bootstrap.",
+    "P4 — Approve Edge deployment, secret placement and prompt/route publication separately. Keep capture and weekly cron off; verify purge.",
+    "P5 — Run A/B ownership, Journal, credits, Admin, trace/input and native checks; verify public target identity before cutover."
+  ],
+  "rollback": "Before cutover, keep the legacy QA/current link unchanged and stop failed target phases. Reset/delete of a new target requires exact owner approval. After cutover, revert reviewed runtime configuration and handle new data through a separate retention/export plan. Never delete old QA automatically.",
+  "expectedApplicationTables": [
+    "admin_audit_logs",
+    "admin_content_bundle_events",
+    "admin_content_bundles",
+    "admin_document_access_log",
+    "admin_role_assignments",
+    "ai_council_config_versions",
+    "ai_council_template_versions",
+    "ai_trace_payload_refs",
+    "ai_trace_qa_captures",
+    "ai_trace_runs",
+    "ai_trace_scores",
+    "ai_trace_spans",
+    "astrology_reports",
+    "beta_invites",
+    "birth_profiles",
+    "chat_messages",
+    "chat_session_personas",
+    "chat_sessions",
+    "credit_ledger",
+    "daily_insights",
+    "daily_zodiac_pulse",
+    "device_push_tokens",
+    "generation_jobs",
+    "in_app_notifications",
+    "journal_entries",
+    "marketing_consent_events",
+    "marketing_deliveries",
+    "marketing_email_tokens",
+    "marketing_suppressions",
+    "marketing_waitlist",
+    "model_route_versions",
+    "notification_deliveries",
+    "notification_events",
+    "notification_preferences",
+    "persona_sources",
+    "personas",
+    "prompt_versions",
+    "safety_events",
+    "source_chunks",
+    "source_embeddings",
+    "subscriptions",
+    "tarot_cards",
+    "tarot_decks",
+    "tarot_readings",
+    "usage_events",
+    "user_profiles"
+  ],
+  "legacyObserved": {
+    "method": "Root Supabase connector SELECT catalog/config metadata only; no private business rows, function bodies, migration SQL text or author identity.",
+    "schemaScope": [
+      "public",
+      "nilaza_private",
+      "private helper identities",
+      "auth.users noninternal triggers",
+      "storage policies/bucket config",
+      "realtime config"
+    ],
+    "counts": {
+      "tables": 92,
+      "rlsTables": 92,
+      "forceRlsTables": 0,
+      "views": 0,
+      "columns": 862,
+      "foreignKeys": 159,
+      "appAndAuthTriggers": 13,
+      "canonicalScopeNonExtensionFunctions": 37,
+      "sourcePolicyAndStoragePolicies": 143,
+      "tableGrantGroups": 273,
+      "routineGrantGroupsIncludingExtensions": 424,
+      "buckets": 0,
+      "migrations": 26
+    },
+    "limits": {
+      "tables": 200,
+      "columns": 2000,
+      "foreignKeys": 500,
+      "triggers": 500,
+      "functions": 500,
+      "policies": 1000,
+      "grants": 1000,
+      "buckets": 100,
+      "migrations": 100,
+      "privateFunctions": 100
+    },
+    "classification": {
+      "expectedCanonicalTables": 46,
+      "canonicalPresent": 46,
+      "unexpectedTables": [
+        "asset_components",
+        "asset_rights",
+        "campaigns",
+        "caption_tracks",
+        "checkin_observations",
+        "checkins",
+        "content_placements",
+        "course_lessons",
+        "course_versions",
+        "courses",
+        "daily_dialogues",
+        "dialogue_turns",
+        "editorial_ai_grants",
+        "editorial_items",
+        "editorial_publication_events",
+        "editorial_publications",
+        "editorial_review_events",
+        "editorial_routes",
+        "editorial_seo",
+        "editorial_session_links",
+        "editorial_sources",
+        "editorial_version_topics",
+        "editorial_versions",
+        "help_placements",
+        "media_assets",
+        "media_renditions",
+        "plan_items",
+        "practice_plans",
+        "practice_reflections",
+        "practice_runs",
+        "profiles",
+        "reflection_observations",
+        "session_alternatives",
+        "session_assets",
+        "session_publication_events",
+        "session_publications",
+        "session_review_events",
+        "session_segments",
+        "session_suitability_rules",
+        "session_version_availability",
+        "session_versions",
+        "sessions",
+        "teachers",
+        "topic_localizations",
+        "topics",
+        "user_consents"
+      ],
+      "missingTables": [],
+      "crossApplicationFks": [],
+      "triggers": [
+        {
+          "table_schema": "public",
+          "table_name": "admin_role_assignments",
+          "trigger_name": "audit_role_change",
+          "enabled": "O",
+          "function_schema": "nilaza_private",
+          "function_name": "audit_role_change"
+        },
+        {
+          "table_schema": "public",
+          "table_name": "admin_role_assignments",
+          "trigger_name": "guard_role_change",
+          "enabled": "O",
+          "function_schema": "nilaza_private",
+          "function_name": "guard_role_change"
+        },
+        {
+          "table_schema": "public",
+          "table_name": "checkin_observations",
+          "trigger_name": "checkin_observations_updated_at",
+          "enabled": "O",
+          "function_schema": "private",
+          "function_name": "set_updated_at"
+        },
+        {
+          "table_schema": "public",
+          "table_name": "checkins",
+          "trigger_name": "checkins_updated_at",
+          "enabled": "O",
+          "function_schema": "private",
+          "function_name": "set_updated_at"
+        },
+        {
+          "table_schema": "public",
+          "table_name": "course_versions",
+          "trigger_name": "course_versions_updated_at",
+          "enabled": "O",
+          "function_schema": "private",
+          "function_name": "set_updated_at"
+        },
+        {
+          "table_schema": "public",
+          "table_name": "courses",
+          "trigger_name": "courses_updated_at",
+          "enabled": "O",
+          "function_schema": "private",
+          "function_name": "set_updated_at"
+        },
+        {
+          "table_schema": "public",
+          "table_name": "editorial_versions",
+          "trigger_name": "editorial_versions_updated_at",
+          "enabled": "O",
+          "function_schema": "private",
+          "function_name": "set_updated_at"
+        },
+        {
+          "table_schema": "public",
+          "table_name": "media_assets",
+          "trigger_name": "media_assets_updated_at",
+          "enabled": "O",
+          "function_schema": "private",
+          "function_name": "set_updated_at"
+        },
+        {
+          "table_schema": "public",
+          "table_name": "practice_reflections",
+          "trigger_name": "practice_reflections_updated_at",
+          "enabled": "O",
+          "function_schema": "private",
+          "function_name": "set_updated_at"
+        },
+        {
+          "table_schema": "public",
+          "table_name": "profiles",
+          "trigger_name": "profiles_updated_at",
+          "enabled": "O",
+          "function_schema": "private",
+          "function_name": "set_updated_at"
+        },
+        {
+          "table_schema": "public",
+          "table_name": "session_versions",
+          "trigger_name": "session_versions_updated_at",
+          "enabled": "O",
+          "function_schema": "private",
+          "function_name": "set_updated_at"
+        },
+        {
+          "table_schema": "public",
+          "table_name": "sessions",
+          "trigger_name": "sessions_updated_at",
+          "enabled": "O",
+          "function_schema": "private",
+          "function_name": "set_updated_at"
+        },
+        {
+          "table_schema": "public",
+          "table_name": "teachers",
+          "trigger_name": "teachers_updated_at",
+          "enabled": "O",
+          "function_schema": "private",
+          "function_name": "set_updated_at"
+        }
+      ],
+      "securityDefiners": 17,
+      "withoutSearchPath": [],
+      "creditLedgerColumns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "nullable": "NO",
+          "default": true
+        },
+        {
+          "name": "user_id",
+          "type": "uuid",
+          "nullable": "NO",
+          "default": false
+        },
+        {
+          "name": "reason",
+          "type": "text",
+          "nullable": "NO",
+          "default": false
+        },
+        {
+          "name": "delta",
+          "type": "integer",
+          "nullable": "NO",
+          "default": false
+        },
+        {
+          "name": "balance_after",
+          "type": "integer",
+          "nullable": "NO",
+          "default": false
+        },
+        {
+          "name": "related_feature",
+          "type": "text",
+          "nullable": "YES",
+          "default": false
+        },
+        {
+          "name": "related_id",
+          "type": "uuid",
+          "nullable": "YES",
+          "default": false
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": "NO",
+          "default": true
+        }
+      ],
+      "realtime": [
+        {
+          "publication": "supabase_realtime",
+          "all_tables": false,
+          "schema_name": "public",
+          "table_name": "generation_jobs"
+        }
+      ],
+      "infra": [
+        {
+          "kind": "extension",
+          "name": "pg_stat_statements",
+          "detail": "1.11"
+        },
+        {
+          "kind": "extension",
+          "name": "pgcrypto",
+          "detail": "1.3"
+        },
+        {
+          "kind": "extension",
+          "name": "plpgsql",
+          "detail": "1.0"
+        },
+        {
+          "kind": "extension",
+          "name": "supabase_vault",
+          "detail": "0.3.1"
+        },
+        {
+          "kind": "extension",
+          "name": "uuid-ossp",
+          "detail": "1.1"
+        },
+        {
+          "kind": "extension",
+          "name": "vector",
+          "detail": "0.8.2"
+        },
+        {
+          "kind": "schema",
+          "name": "nilaza_private",
+          "detail": ""
+        },
+        {
+          "kind": "schema",
+          "name": "public",
+          "detail": ""
+        },
+        {
+          "kind": "server",
+          "name": "postgresql",
+          "detail": "17.6"
+        }
+      ]
+    },
+    "canonicalScopeFunctionIdentities": [
+      {
+        "schema_name": "nilaza_private",
+        "name": "ai_trace_detail",
+        "arguments": "trace_id_input text",
+        "security_definer": true,
+        "volatility": "s",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "nilaza_private",
+        "name": "ai_trace_runs",
+        "arguments": "limit_count integer, feature_filter text",
+        "security_definer": true,
+        "volatility": "s",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "nilaza_private",
+        "name": "audit_role_change",
+        "arguments": "",
+        "security_definer": true,
+        "volatility": "v",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "nilaza_private",
+        "name": "current_roles",
+        "arguments": "",
+        "security_definer": true,
+        "volatility": "s",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "nilaza_private",
+        "name": "get_ai_admin_audit_events",
+        "arguments": "limit_count integer",
+        "security_definer": true,
+        "volatility": "s",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "nilaza_private",
+        "name": "get_ai_trace_qa_capture",
+        "arguments": "trace_id_input text",
+        "security_definer": true,
+        "volatility": "v",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "nilaza_private",
+        "name": "get_astrology_prompt_config",
+        "arguments": "",
+        "security_definer": true,
+        "volatility": "s",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "nilaza_private",
+        "name": "growth_waitlist_overview",
+        "arguments": "",
+        "security_definer": true,
+        "volatility": "s",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "nilaza_private",
+        "name": "guard_role_change",
+        "arguments": "",
+        "security_definer": true,
+        "volatility": "v",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "nilaza_private",
+        "name": "has_capability",
+        "arguments": "capability text",
+        "security_definer": false,
+        "volatility": "s",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "nilaza_private",
+        "name": "owner_overview",
+        "arguments": "",
+        "security_definer": true,
+        "volatility": "s",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "nilaza_private",
+        "name": "prune_ai_traces",
+        "arguments": "",
+        "security_definer": true,
+        "volatility": "v",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "nilaza_private",
+        "name": "publish_astrology_prompt_pair",
+        "arguments": "new_version text, expected_vi_version text, expected_en_version text, prompt_vi text, prompt_en text",
+        "security_definer": true,
+        "volatility": "v",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "nilaza_private",
+        "name": "publish_model_route_config",
+        "arguments": "config_input jsonb",
+        "security_definer": true,
+        "volatility": "v",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "nilaza_private",
+        "name": "review_safety",
+        "arguments": "event_id uuid, next_status text",
+        "security_definer": true,
+        "volatility": "v",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "nilaza_private",
+        "name": "safety_queue",
+        "arguments": "",
+        "security_definer": true,
+        "volatility": "s",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "nilaza_private",
+        "name": "save_ai_trace_qa_capture",
+        "arguments": "trace_id_input text, nonce_input text, ciphertext_input text, content_sha256_input text",
+        "security_definer": true,
+        "volatility": "v",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "nilaza_private",
+        "name": "search_ai_trace_runs",
+        "arguments": "limit_count integer, feature_filter text, status_filter text, query_text text",
+        "security_definer": true,
+        "volatility": "s",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "public",
+        "name": "get_admin_access",
+        "arguments": "",
+        "security_definer": false,
+        "volatility": "s",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "public",
+        "name": "get_ai_admin_audit_events",
+        "arguments": "limit_count integer",
+        "security_definer": false,
+        "volatility": "v",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "public",
+        "name": "get_ai_trace_detail",
+        "arguments": "trace_id_input text",
+        "security_definer": false,
+        "volatility": "s",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "public",
+        "name": "get_ai_trace_qa_capture",
+        "arguments": "trace_id_input text",
+        "security_definer": false,
+        "volatility": "v",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "public",
+        "name": "get_ai_trace_runs",
+        "arguments": "limit_count integer, feature_filter text",
+        "security_definer": false,
+        "volatility": "s",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "public",
+        "name": "get_astrology_prompt_config",
+        "arguments": "",
+        "security_definer": false,
+        "volatility": "v",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "public",
+        "name": "get_growth_waitlist_overview",
+        "arguments": "",
+        "security_definer": false,
+        "volatility": "s",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "public",
+        "name": "get_owner_overview",
+        "arguments": "",
+        "security_definer": false,
+        "volatility": "s",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "public",
+        "name": "get_published_content_bundle",
+        "arguments": "p_bundle_key text",
+        "security_definer": false,
+        "volatility": "s",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "public",
+        "name": "get_safety_queue",
+        "arguments": "",
+        "security_definer": false,
+        "volatility": "s",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "public",
+        "name": "has_admin_capability",
+        "arguments": "capability text",
+        "security_definer": false,
+        "volatility": "s",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "public",
+        "name": "is_admin",
+        "arguments": "",
+        "security_definer": false,
+        "volatility": "s",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "public",
+        "name": "publish_astrology_prompt_pair",
+        "arguments": "new_version text, expected_vi_version text, expected_en_version text, prompt_vi text, prompt_en text",
+        "security_definer": false,
+        "volatility": "v",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "public",
+        "name": "publish_content_bundle",
+        "arguments": "p_bundle_id uuid, p_expected_published_version bigint",
+        "security_definer": false,
+        "volatility": "v",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "public",
+        "name": "publish_model_route_config",
+        "arguments": "config_input jsonb",
+        "security_definer": false,
+        "volatility": "v",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "public",
+        "name": "register_marketing_waitlist_request",
+        "arguments": "p_email text, p_email_hash text, p_locale text, p_interest text, p_utm jsonb, p_consent_version text, p_source text",
+        "security_definer": false,
+        "volatility": "v",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "public",
+        "name": "review_safety_event",
+        "arguments": "event_id uuid, next_status text",
+        "security_definer": false,
+        "volatility": "v",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "public",
+        "name": "save_ai_trace_qa_capture",
+        "arguments": "trace_id_input text, nonce_input text, ciphertext_input text, content_sha256_input text",
+        "security_definer": false,
+        "volatility": "v",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      },
+      {
+        "schema_name": "public",
+        "name": "search_ai_trace_runs",
+        "arguments": "limit_count integer, feature_filter text, status_filter text, query_text text",
+        "security_definer": false,
+        "volatility": "v",
+        "search_path": [
+          "search_path=\"\""
+        ]
+      }
+    ],
+    "foreignPrivateFunctionIdentities": [
+      {
+        "schema_name": "private",
+        "name": "set_updated_at",
+        "arguments": "",
+        "security_definer": false,
+        "search_path": null
+      }
+    ],
+    "migrationFingerprints": [
+      {
+        "version": "202606120001",
+        "name": "mvp_schema",
+        "statement_count": 85,
+        "sql_md5": "0112176d86f9a1c3ffc46ba7fd3b53c3"
+      },
+      {
+        "version": "202606120002",
+        "name": "add_missing_tables",
+        "statement_count": 33,
+        "sql_md5": "cb0b89a37c997fc44149592507af7564"
+      },
+      {
+        "version": "20260622000000",
+        "name": "upgrade_mvp",
+        "statement_count": 16,
+        "sql_md5": "4cd8439e219a377909220c3dd20564e4"
+      },
+      {
+        "version": "20260622000001",
+        "name": "weekly_reflection_cron",
+        "statement_count": 1,
+        "sql_md5": "21232afc3022f62087e745490b5a31c8"
+      },
+      {
+        "version": "20260626000000",
+        "name": "ai_council_contract",
+        "statement_count": 10,
+        "sql_md5": "b9c461db09e20ee1a44eb2c92937da25"
+      },
+      {
+        "version": "20260626000001",
+        "name": "journal_mobile_contract",
+        "statement_count": 4,
+        "sql_md5": "2280ddc842f26e1784f87ac4792ee713"
+      },
+      {
+        "version": "20260626000002",
+        "name": "ai_council_admin_config",
+        "statement_count": 17,
+        "sql_md5": "03e7ed24dab00f77e3af54a6d2e5471d"
+      },
+      {
+        "version": "20260627000000",
+        "name": "astrology_backend_contract",
+        "statement_count": 8,
+        "sql_md5": "fec4259cc7278b29551d979c3e62c85e"
+      },
+      {
+        "version": "20260629020702",
+        "name": "journal_entries_user_local_id_constraint",
+        "statement_count": 5,
+        "sql_md5": "5ce07ee7b5e9338c0f1c6ddc07818d33"
+      },
+      {
+        "version": "20260630000000",
+        "name": "model_route_versions",
+        "statement_count": 8,
+        "sql_md5": "660da00441e72c28871b9a7de996b2ac"
+      },
+      {
+        "version": "20260706000000",
+        "name": "oracle_contract",
+        "statement_count": 8,
+        "sql_md5": "2aaae570e5901633fe1831f63638d0d7"
+      },
+      {
+        "version": "20260710000000",
+        "name": "notifications_contract",
+        "statement_count": 26,
+        "sql_md5": "9bccf58d6b7c4608a28add38a92611e8"
+      },
+      {
+        "version": "20260902131408",
+        "name": "owner_capability_boundary",
+        "statement_count": 39,
+        "sql_md5": "6e48f6d15ab7d40439e5c0ae8cf08256"
+      },
+      {
+        "version": "20260903033047",
+        "name": "reconcile_owner_prerequisites",
+        "statement_count": 4,
+        "sql_md5": "ae8700627a1d1e05c8edc6fb869f55aa"
+      },
+      {
+        "version": "20260908000000",
+        "name": "oracle_model_route",
+        "statement_count": 2,
+        "sql_md5": "3e0ac99b2bb19d05b52737818d7c6c52"
+      },
+      {
+        "version": "20260909014614",
+        "name": "ai_trace_observability",
+        "statement_count": 29,
+        "sql_md5": "28bae9a2a88ba6657f9c90a42c04a5cd"
+      },
+      {
+        "version": "20260909020528",
+        "name": "marketing_waitlist_and_admin_documentation",
+        "statement_count": 9,
+        "sql_md5": "b6fa59f15fac175a2cb67bf3238b8172"
+      },
+      {
+        "version": "20260909043000",
+        "name": "admin_document_access_log_index",
+        "statement_count": 1,
+        "sql_md5": "e846a386f8eb6f1e24e7b8fb23664ff3"
+      },
+      {
+        "version": "20260913143958",
+        "name": "marketing_consent_suppression_foundation",
+        "statement_count": 40,
+        "sql_md5": "3f09f33c77d8e6079285dbb764928fcc"
+      },
+      {
+        "version": "20260913184421",
+        "name": "growth_waitlist_aggregate_read_model",
+        "statement_count": 12,
+        "sql_md5": "a762e3bd55bcdf21f0a91add716818c3"
+      },
+      {
+        "version": "20260917172721",
+        "name": "admin_content_sync",
+        "statement_count": 1,
+        "sql_md5": "5d52d75f9af518f3fe8bfe102b000ef5"
+      },
+      {
+        "version": "20260917174042",
+        "name": "admin_content_sync_policy_tuning",
+        "statement_count": 1,
+        "sql_md5": "b297d8a2661c220ccae316bdd29867bc"
+      },
+      {
+        "version": "20260919202005",
+        "name": "ai_council_rounds_v2",
+        "statement_count": 1,
+        "sql_md5": "e425999feb34b6c5515d4327e4ffcccf"
+      },
+      {
+        "version": "20260925155619",
+        "name": "generation_activity_contract_forward",
+        "statement_count": 1,
+        "sql_md5": "78ea079db9254f4cd9504fb50aa1edf5"
+      },
+      {
+        "version": "20260925160325",
+        "name": "initial_mcy_schema",
+        "statement_count": 1,
+        "sql_md5": "5ec18dcb5750592357022e31e4f1b9b9"
+      },
+      {
+        "version": "20260926152118",
+        "name": "ai_studio_operations",
+        "statement_count": 1,
+        "sql_md5": "eccdd488448dd09a926014f5931cbb80"
+      }
+    ],
+    "sourceReadPolicyFingerprints": [
+      {
+        "schema_name": "public",
+        "table_name": "source_chunks",
+        "name": "admins manage source chunks",
+        "command": "*",
+        "permissive": true,
+        "roles": "{authenticated}",
+        "qual_md5": "813d9e454c3791cb54ca8cbc42170a4d",
+        "check_md5": "813d9e454c3791cb54ca8cbc42170a4d",
+        "mentions_auth_uid": false
+      },
+      {
+        "schema_name": "public",
+        "table_name": "source_chunks",
+        "name": "anyone reads source chunks",
+        "command": "r",
+        "permissive": true,
+        "roles": "{PUBLIC}",
+        "qual_md5": "b326b5062b2f0e69046810717534cb09",
+        "check_md5": "d41d8cd98f00b204e9800998ecf8427e",
+        "mentions_auth_uid": false
+      },
+      {
+        "schema_name": "public",
+        "table_name": "source_chunks",
+        "name": "owner deletion boundary",
+        "command": "d",
+        "permissive": false,
+        "roles": "{authenticated}",
+        "qual_md5": "90f2366128824fa8f29fe44518363cd8",
+        "check_md5": "d41d8cd98f00b204e9800998ecf8427e",
+        "mentions_auth_uid": false
+      },
+      {
+        "schema_name": "public",
+        "table_name": "source_embeddings",
+        "name": "admins manage source embeddings",
+        "command": "*",
+        "permissive": true,
+        "roles": "{authenticated}",
+        "qual_md5": "813d9e454c3791cb54ca8cbc42170a4d",
+        "check_md5": "813d9e454c3791cb54ca8cbc42170a4d",
+        "mentions_auth_uid": false
+      },
+      {
+        "schema_name": "public",
+        "table_name": "source_embeddings",
+        "name": "anyone reads source embeddings",
+        "command": "r",
+        "permissive": true,
+        "roles": "{PUBLIC}",
+        "qual_md5": "b326b5062b2f0e69046810717534cb09",
+        "check_md5": "d41d8cd98f00b204e9800998ecf8427e",
+        "mentions_auth_uid": false
+      },
+      {
+        "schema_name": "public",
+        "table_name": "source_embeddings",
+        "name": "owner deletion boundary",
+        "command": "d",
+        "permissive": false,
+        "roles": "{authenticated}",
+        "qual_md5": "90f2366128824fa8f29fe44518363cd8",
+        "check_md5": "d41d8cd98f00b204e9800998ecf8427e",
+        "mentions_auth_uid": false
+      }
+    ],
+    "sourceTableGrants": [
+      {
+        "table_schema": "public",
+        "table_name": "source_chunks",
+        "grantee": "anon",
+        "privileges": "{DELETE,INSERT,REFERENCES,SELECT,TRIGGER,TRUNCATE,UPDATE}"
+      },
+      {
+        "table_schema": "public",
+        "table_name": "source_chunks",
+        "grantee": "authenticated",
+        "privileges": "{DELETE,INSERT,REFERENCES,SELECT,TRIGGER,TRUNCATE,UPDATE}"
+      },
+      {
+        "table_schema": "public",
+        "table_name": "source_chunks",
+        "grantee": "service_role",
+        "privileges": "{DELETE,INSERT,REFERENCES,SELECT,TRIGGER,TRUNCATE,UPDATE}"
+      },
+      {
+        "table_schema": "public",
+        "table_name": "source_embeddings",
+        "grantee": "anon",
+        "privileges": "{DELETE,INSERT,REFERENCES,SELECT,TRIGGER,TRUNCATE,UPDATE}"
+      },
+      {
+        "table_schema": "public",
+        "table_name": "source_embeddings",
+        "grantee": "authenticated",
+        "privileges": "{DELETE,INSERT,REFERENCES,SELECT,TRIGGER,TRUNCATE,UPDATE}"
+      },
+      {
+        "table_schema": "public",
+        "table_name": "source_embeddings",
+        "grantee": "service_role",
+        "privileges": "{DELETE,INSERT,REFERENCES,SELECT,TRIGGER,TRUNCATE,UPDATE}"
+      }
+    ],
+    "coverageLimits": [
+      "All returned rows were below their SQL LIMITs. Metadata equality/counts do not prove matching bodies or safe row access.",
+      "No cross-group public-to-public FK was observed. Dynamic SQL/function calls, policy logic and provider auth hooks remain separate checks.",
+      "Extra tables/helper are outside canonical Nilaza sources; individual full MCY DDL provenance is not established.",
+      "Legacy has no noninternal auth.users trigger in the selected query. External Auth provider/hook settings were not read.",
+      "Keeping old QA unchanged is not a tested forensic backup or a write freeze against other operators."
+    ]
+  }
+}

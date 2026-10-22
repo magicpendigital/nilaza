@@ -1,0 +1,384 @@
+{
+  "schemaVersion": 1,
+  "taskId": "singapore-waitlist-acceptance-2026-10-11",
+  "ownerAgent": "nilaza-waitlist-owner",
+  "lane": "backend_acceptance",
+  "goal": "Complete canonical 28-migration Singapore bootstrap preparation and closed synthetic marketing parity acceptance before separately gated managed execution.",
+  "successCriteria": [
+    "Verify exact Singapore org/ref/Free/Nano/add-ons/quota without reading keys or subscriber rows.",
+    "Prepare exact existing canonical28 bootstrap scope and prove its marketing contract matches the tested waitlist; preserve all old migrations and target allowlist.",
+    "Fresh canonical28 native replay/forward28 upgrade, ordinary A/B/revoked grants/RLS, full restore and marketing projection parity pass with synthetic data.",
+    "Keep the previous website/Edge candidate immutable; no public collection, mail, credential extraction or promotion.",
+    "Deliver exact SQL provenance plus measured evidence and explicit remaining managed execution/recovery decisions."
+  ],
+  "writeScope": [
+    "artifacts/singapore-waitlist-acceptance-2026-10-11/",
+    "supabase/migrations/"
+  ],
+  "untouchedSurfaces": [
+    "Frozen candidate-web and Edge/website source remain unchanged.",
+    "All existing migrations and legacy blocked ledger preserved; mobile/Admin/Auth/AI/credits/DNS untouched.",
+    "Target allowlist and live credentials stay unchanged until actual enforcement and owner decision."
+  ],
+  "impact": {
+    "entryPoint": "Existing prelaunch website remains unchanged; proposed QA uses private synthetic requests.",
+    "dataWrite": "New local acceptance packet and network-none synthetic PostgreSQL only. Existing 28 migrations are read-only inputs; fresh managed metadata reads only.",
+    "backendContract": "Existing ordered 28 canonical migrations and unchanged service-only register_marketing_waitlist_request RPC. No extra or duplicate bootstrap migration.",
+    "adminVisibility": "Future full Nilaza schema remains compatible; Admin and mobile keep old bindings.",
+    "privacySafety": "No real contacts/Auth identities or secrets read. No outbound email/providers. RLS/grants and suppression tested.",
+    "observability": "Sanitized metadata, counts, timings and hashes only. Unknown UI metrics are not zero.",
+    "rollback": "No managed changes in this preparation. Frozen website/Edge remains available; cloud changes require exact target/SQL/operator/recovery evidence."
+  },
+  "canonicalContracts": [
+    "Existing canonical28 Nilaza migration set; no foreign MCY SQL and no migration history repair.",
+    "Same reviewed service-only marketing RPC and private marketing schema."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "4da2a80e09727695c07ad5e0adc52fffb28ae71783dc7258585aac3735a6add9",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "sha256": "c6a16c4be5bd732c51158ab66c4ea92bd23c1e817da539f3820546a22d806ec8",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "docs/release/RELEASE_RUNBOOK.md",
+      "sha256": "348e5aa5786a5f8648fd96c94e0b4a831602a5312d318b6e48885a47afd71b39",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "docs/release/release-profile.json",
+      "sha256": "a653120695490e3223c232889d36b63e67f41d7fcd4466a4f56fe8ddeed44081",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "docs/release/SINGAPORE_FREE_PREPARATION_2026-10-09.vi.md",
+      "sha256": "e69333dc747196ede7f207dcdb7665c87af87a54d59efad1293027ac56218128",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "e5fc9e3789ce1978ce3db7b7f41d6dd695d021c6d01ead2b11b3af14a4525f49",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "docs/NILAZA_WAITLIST_MARKETING_AUTOMATION_PLAN.md",
+      "sha256": "e59f4c3bd328bc36d6efe579f0a9cb79c260b76d780aba8f0085701ffc125e71",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "1e4d2bc7a93a2a140690c7237537de582972db30088309996ab6462a79a53623",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/release-control.md",
+      "sha256": "ece7ac8af2d268735631d188ef1e3c4ae8235e564a2ad32c241c4ace83ac54fa",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "scripts/database-target-gate.mjs",
+      "sha256": "8015a433894f538b8a60cfd41c0e930366ca914e85aee24c995ed1d310b806a4",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "scripts/native-postgres-rehearsal.mjs",
+      "sha256": "da4e490f792bb2085b58756946fb15dd3cdb007e3ae3e2fb1ccdd4d47b816801",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "scripts/rehearse-nilaza-database.mjs",
+      "sha256": "59fb54ef76dc8c8f2dfff1b51767fe8279e87b607238f221e538f52cf9f66049",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/R02-clean-qa-bootstrap.json",
+      "sha256": "d08d075628a66253282cb15cce2d003c6de707a93f474ea0722361d51caea566",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "artifacts/singapore-waitlist-2026-10-11/waitlist-bootstrap.sql",
+      "sha256": "ea94ea2cea08effa13d0c8daaf973afecb626883313a04f3f28d7920ea6eaad8",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "artifacts/singapore-waitlist-2026-10-11/CANDIDATE.json",
+      "sha256": "8ff4e23de4d94359917fa610596922affb7ab0e8ee09564f76e920cf931bfd86",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "artifacts/recovery-custody-2026-10-11/OWNER_REVIEW.vi.md",
+      "sha256": "d6b6ad177428a0eb8d31b8b55baaced5917d37f2dd0bd5e046276df91fea23e5",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/202606120001_mvp_schema.sql",
+      "sha256": "226e20601e094426e23170814fab3346eea953bf619d78b0ded153afa37559f5",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/202606120002_add_missing_tables.sql",
+      "sha256": "80df182edc581e17f1fa66b91fe16537b89526abf97b889fe232c53e3032c91d",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/20260622000000_upgrade_mvp.sql",
+      "sha256": "621167d132d8b06948905ce1a6193cc0f3f3819e2fbb2649d6aea349d2f68029",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/20260622000001_weekly_reflection_cron.sql",
+      "sha256": "90fc174f647ad1bc77d3ffd6d5ec7c3cdc4de7307197892dd75f058ef1ab5932",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/20260626000000_ai_council_contract.sql",
+      "sha256": "152a27d7e72595490e4e516573508876a6d5922a3cc1eb97b09982d98c62c6c1",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/20260626000001_journal_mobile_contract.sql",
+      "sha256": "c2e619b6f5505ce63d450dff3c6faf6e2a405d737422028d1ea752f7fc0cbfba",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/20260626000002_ai_council_admin_config.sql",
+      "sha256": "8de07c0f770b1e10f5f2562d60acd7ad1ed67421690e350776aeb81b196d4d7d",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/20260627000000_astrology_backend_contract.sql",
+      "sha256": "11361a02d30d41181aeef3b0db5b5b91298cc841ddf0f061eea3f075a3751f4c",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/20260629020702_journal_entries_user_local_id_constraint.sql",
+      "sha256": "9ea543a2e495c2fcf0063db0da949ee7a6bcaacb1b149c537cef43037e84f7f3",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/20260630000000_model_route_versions.sql",
+      "sha256": "14889d571f6476036a2ec8344e6bc6a539e19040e12a6e7958416141e6c7adaf",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/20260706000000_oracle_contract.sql",
+      "sha256": "f0ac733270376b531d7bd1ba9f8c8ef5dbedeffdef75a315c01b2c172fb31b80",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/20260710000000_notifications_contract.sql",
+      "sha256": "51d4cf28e07a1dea9df96169034acd368fba4bd9a2c81cb505c670e99c9c1cb7",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/20260902131408_owner_capability_boundary.sql",
+      "sha256": "2f8fdac36b93d68f1a32da2d7a83b33c2b41b966589e8be9e1a85d56ace42a24",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/20260903033047_reconcile_owner_prerequisites.sql",
+      "sha256": "bfc7f7cf54ef7998abd617607f47644e698ee501da0d53a373f5d629b2a311b4",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/20260908000000_oracle_model_route.sql",
+      "sha256": "ae78d2be77e8b66749ba40d25dd9591b9bdf3b677e27f440fd1b31bb6844a949",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/20260909014614_ai_trace_observability.sql",
+      "sha256": "8794f35ab9724c18e2dda617f5bc3b1031bd16af067dff70a9cf1ef321e769bc",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/20260909020528_marketing_waitlist_and_admin_documentation.sql",
+      "sha256": "93235a9b2de2b13e8a8ab8cf92ff54a8fdedb0d9dfea3296e1c1d3a3df4777c1",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/20260909043000_admin_document_access_log_index.sql",
+      "sha256": "2e7b9de0182e4e317a8b57f731bd398ca1c264a66d765c4363007bde29f2bf20",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/20260913143958_marketing_consent_suppression_foundation.sql",
+      "sha256": "49f76f62e1a0e72c91b4691498f66dbe2ded843ea71ffd20785fe21200e749d9",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/20260913184421_growth_waitlist_aggregate_read_model.sql",
+      "sha256": "bf5c3611a447137959349a9e6b959dfa1d2bf2cd70ae20a57049e1ded64b2e7a",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/20260917172721_admin_content_sync.sql",
+      "sha256": "18b50345904d8d6074e56db3aa6400aa24392ea1d61a96e0672a2f8113833ac8",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/20260917174042_admin_content_sync_policy_tuning.sql",
+      "sha256": "ac6ae8b06f49db4e6cc8ec464fc1ecaf67a3699500a07132433ed7ed78bdc5ab",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/20260919202005_ai_council_rounds_v2.sql",
+      "sha256": "ad48c774864d7af19758f3364bb9224e68b7b367393e4424c0b388e08450cf62",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/20260925155619_generation_activity_contract_forward.sql",
+      "sha256": "d6de2800385431601296fb1846cb9dc38f72d02ed6645808421fa0d77b04f7a0",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/20260926152118_ai_studio_operations.sql",
+      "sha256": "7d17c007edf9807d4dbff19ccaa15283db6dfaaeb2e8a3acd91cd16060ad995a",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/20261001000000_private_source_read_boundary.sql",
+      "sha256": "cf54859e0fb9f8ba9f4758cccfdb1ac0810e47d8f318b32c2111fb8cd347459b",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/20261002000000_ai_usage_reservation.sql",
+      "sha256": "4d4fc2e57d322fa1d4c60e5e305d18653e73f6b5e8d46fba1a3084a115993424",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/migrations/20261004183447_client_table_privilege_boundary.sql",
+      "sha256": "2e5af56a94de7f79f403d78cc99fdd3f521984d63e6ca200f3cf7b9e508f8061",
+      "reason": "Reviewed scoped source, full Nilaza upgrade compatibility and separate managed execution/recovery boundary."
+    },
+    {
+      "path": "supabase/seed.generated.sql",
+      "sha256": "4f600aa1cd999112cb160c485f422007e3caf7a3172ac509e20bce8ecade8517",
+      "reason": "Read-only synthetic fixture used by the fresh canonical28 replay/forward-upgrade; archive checksum is asserted against the baseline receipt at runtime."
+    },
+    {
+      "path": "artifacts/singapore-migration-rehearsal-2026-10-05/native-baseline-rehearsal.json",
+      "sha256": "b5fdd69ea1dbd599e97e1f1b197afa72deb86c83ef496067227a4f088679aadd",
+      "reason": "Read-only synthetic fixture used by the fresh canonical28 replay/forward-upgrade; archive checksum is asserted against the baseline receipt at runtime."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Existing whole-app, consent, public copy and target/production separation apply. No new delivery provider, private corpus or app release is implied. Fresh canonical replay/parity confirms the existing canonical migration and release-control guidance remains correct. No skill policy or public brand changes."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Existing whole-app, consent, public copy and target/production separation apply. No new delivery provider, private corpus or app release is implied. Fresh canonical replay/parity confirms the existing canonical migration and release-control guidance remains correct. No skill policy or public brand changes."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Reuse Astro7.3.2, pinned supabase-js2.57.4 and existing native PostgreSQL17 image digest. No dependency installation or update. Current official Supabase/Cloudflare docs checked."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://supabase.com/docs/guides/functions",
+      "checkedAt": "2026-10-11",
+      "reason": "Edge runtime and secrets separation; local acceptance differs from managed function acceptance."
+    },
+    {
+      "url": "https://developers.cloudflare.com/turnstile/get-started/server-side-validation/",
+      "checkedAt": "2026-10-11",
+      "reason": "Hostname validation, single-use 5-minute tokens and reset before retry."
+    },
+    {
+      "url": "https://dash.cloudflare.com/6456e15c06e2f1b933a31cae0454760c/turnstile/widget/0x4AAAAAAEtyj_FHcBMJ7oJU/edit",
+      "checkedAt": "2026-10-11",
+      "reason": "Authenticated UI verified public site key and exact official hostname. Managed mode, pre-clearance off. No widget mutation or secret extraction."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "RPC is service-only invoker; anon/auth cannot access contact tables or sequences. Native tests cover all table privileges, role paths and rollback.",
+    "sensitiveData": "Only .example synthetic email inputs in isolated local tests; never read/export old QA subscriber PII or create managed contacts.",
+    "secretsLogging": "No secret values in build/packet. Public endpoint/site key separate from server service role/Turnstile secret. Logs record sanitized codes only.",
+    "externalInput": "Reject JSON null/array, invalid/oversize content, origin mismatch, missing consent or CAPTCHA; UTM allowlist bounds; no script execution of user text.",
+    "dependencies": "Existing pinned SDK and PostgreSQL image; test injection only in local driver, no production bypass or test secrets in release artifacts.",
+    "migrationRelease": "Local-only canonical SQL preparation and native synthetic compatibility. Preserve existing ledger and release profile. No SQL push/repair or managed mutation.",
+    "stopCondition": "Stop cloud writes on missing exact approval, protected execution or recovery. Stop local bridge on grants/suppression loss or replay failure.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/ACCEPTANCE.json",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/OWNER_REVIEW.vi.md",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/cloud-replay-gate.json",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/database-target.draft.json",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/full-rehearsal-provenance.json",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/full-rehearsal.mjs",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/native-parity-evidence.json",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/native-privilege-audit.json",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/native-rehearsal.json",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/native-restore-invariants.json",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/native-synthetic.dump",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/organization-usage-2026-10-12.png",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/organization-usage.png",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/parity-failure.json",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/parity-qa.mjs",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/preparation-decision.json",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/prepare-full-rehearsal.mjs",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/prepare-packet.mjs",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/prepare-plan.mjs",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/readback-2026-10-12.json",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/seal-acceptance.mjs",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/settings-2026-10-12.json",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/singapore-addons-2026-10-12.png",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/singapore-addons.png",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/singapore-infrastructure-2026-10-12.png",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/singapore-usage-2026-10-12.png",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/singapore-usage.png",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/target-gate-result.json",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/target-ledger.draft.json",
+      "artifacts/singapore-waitlist-acceptance-2026-10-11/target-metadata.json",
+      "supabase/migrations/20261004183447_client_table_privilege_boundary.sql"
+    ],
+    "note": "New acceptance packet only; existing migrations/source and unrelated dirty work preserved."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/singapore-waitlist-acceptance-2026-10-11.json",
+    "Native standalone waitlist bootstrap/RPC/grants/restore tests",
+    "Native full canonical28 replay, marketing projection parity, signup/duplicate/suppression and dump/restore; demonstrate unsupported marketing-first composite upgrade",
+    "Read-only Singapore metadata/settings and candidate hash verification"
+  ],
+  "managerTestPath": "Review the canonical SQL scope and acceptance report; website/phone evidence remains in prior immutable packet. Managed signup is pending a protected reviewed QA execution.",
+  "residualRisk": "Local HTTP/provider fixture and native PostgreSQL do not prove managed Supabase gateway, real Turnstile, quotas, recovery custody, production promotion or delivery. Explicitly blocked until independently verified.",
+  "externalActions": {
+    "databaseWrite": false,
+    "providerWrite": false,
+    "deployment": false,
+    "emailSend": false,
+    "note": "Continue acceptance authorizes scoped verification and candidate preparation. Exact SQL execution, protected credential binding and public promotion remain separate gates."
+  },
+  "ownerScopeDecision": "Direct owner reply on 2026-10-11: Schema Nilaza chuẩn (đề xuất). Preparation of exact canonical28 packet only; cloud SQL/deployment approval separate as stated in question.",
+  "workingTreeNote": "New acceptance packet only; existing migrations/source and unrelated dirty work preserved.",
+  "validationEvidence": {
+    "localSchema": "18 groups plus forward upgrade PASS",
+    "marketingParity": "7 groups PASS",
+    "frozenCandidate": "259 hash checks PASS",
+    "managedExecution": "BLOCKED: recovery, side effects isolation, exact approval, target/operator enforcement",
+    "resources": "Fresh Free/Nano/Singapore, no replicas, three paid add-ons disabled, spend cap enabled; current quotas PASS with Upcoming log ingestion warning"
+  }
+}

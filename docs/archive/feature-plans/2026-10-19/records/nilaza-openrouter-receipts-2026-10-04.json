@@ -1,0 +1,255 @@
+{
+  "schemaVersion": 1,
+  "taskId": "nilaza-openrouter-receipts-2026-10-04",
+  "ownerAgent": "workflow_orchestration_agent",
+  "lane": "backend_provider_billing",
+  "goal": "Preserve authoritative OpenRouter per-attempt billing receipts and separate generation/request IDs, with bounded explicit reconciliation; no route activation or cloud changes.",
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "successCriteria": [
+    "Adapter preserves usage.cost independently from upstream inference cost, generation ID independently from HTTP request ID, actual model and cache/reasoning counts.",
+    "Every OpenRouter attempt retains receipt even on malformed/blocked output; missing or invalid cost is unknown, never silently zero.",
+    "Explicit generation lookup verifies returned identity, bounded timeout and safe metadata; no extra completion calls or lookup added to interactive paths.",
+    "Existing provider/router tests, targeted failure/receipt tests and backend checks pass; live rollout and transactional quota settlement remain separate gates."
+  ],
+  "writeScope": [
+    "supabase/functions/_shared/model-provider.ts",
+    "supabase/functions/_shared/model-router.ts",
+    "supabase/functions/_shared/providers/openrouter.ts",
+    "supabase/functions/_shared/providers/openrouter-billing.ts",
+    "supabase/functions/_shared/providers/openrouter-billing.test.ts",
+    "docs/production/2026-10-04/openrouter-receipts.vi.md",
+    "docs/production/2026-10-04/implementation-progress.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "Mobile, Admin layouts and existing published routes/provider secrets stay unchanged.",
+    "SQL, QA quota campaign, production allowlist, database and all deployed Edge Functions remain unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Existing shared OpenRouter adapter used by AI endpoints; tests use fictional requests and mocked fetch.",
+    "dataWrite": "Existing sanitized server model metadata includes receipt fields; no new tables or migrations, no durable settlement worker yet.",
+    "backendContract": "Backward-compatible optional billingReceipt per response/error/attempt; exact generation lookup only by explicit server caller.",
+    "adminVisibility": "Existing trace attributes can retain flattened safe cost/status/IDs; existing Admin cost dashboard is not changed into an actual-billing dashboard.",
+    "privacySafety": "Receipts allowlist only numeric billing and bounded IDs/models/provider labels; no request content, secret headers or raw lookup payload is persisted.",
+    "observability": "Preserve charged malformed/safety-blocked attempts and actual model; unknown cost remains pending, best-effort traces are not settlement authority.",
+    "rollback": "Revert optional receipt fields and helper; existing provider behavior and routes remain compatible, without any cloud retarget."
+  },
+  "canonicalContracts": [
+    "ModelProviderResponse/ModelProviderError/ModelGenerationResult carry optional OpenRouterBillingReceipt v1; no mobile contract or shared Council schema change.",
+    "usage.cost is the account charge; upstream inference cost remains separate; generation lookup total_cost may reconcile pending receipts."
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "35757424e5fc5ef5814015ceb87ace0a9b8b5e3602e555a09efd47f49d53b32e",
+      "reason": "Reviewed provider/trace/persistence boundary and current contracts; no published route, SQL or live authority change."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Reviewed provider/trace/persistence boundary and current contracts; no published route, SQL or live authority change."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Reviewed provider/trace/persistence boundary and current contracts; no published route, SQL or live authority change."
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "sha256": "c6a16c4be5bd732c51158ab66c4ea92bd23c1e817da539f3820546a22d806ec8",
+      "reason": "Reviewed provider/trace/persistence boundary and current contracts; no published route, SQL or live authority change."
+    },
+    {
+      "path": "docs/AGENT_ARCHITECTURE.md",
+      "sha256": "0b7aaaa4caeb233684fbadbd436e097c07622f17e89f61fca35c3251b7f0263f",
+      "reason": "Reviewed provider/trace/persistence boundary and current contracts; no published route, SQL or live authority change."
+    },
+    {
+      "path": "docs/BACKEND_PROXY_ARCHITECTURE.md",
+      "sha256": "b079458af4a10232efc8804746dd3ae7e8f10d5097800b26f2faf4e922fe91cb",
+      "reason": "Reviewed provider/trace/persistence boundary and current contracts; no published route, SQL or live authority change."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Reviewed provider/trace/persistence boundary and current contracts; no published route, SQL or live authority change."
+    },
+    {
+      "path": "docs/AI_TRACE_OBSERVABILITY.md",
+      "sha256": "b420ad457454f7759f34c34d7a2f74f41536bae952d19baacc6fdf8fc94deef9",
+      "reason": "Reviewed provider/trace/persistence boundary and current contracts; no published route, SQL or live authority change."
+    },
+    {
+      "path": "supabase/functions/_shared/model-provider.ts",
+      "sha256": "e7f44e70e0f5053925e29dd758bde0f58205ef7762feb3a934a72ba4c019f8cf",
+      "reason": "Reviewed provider/trace/persistence boundary and current contracts; no published route, SQL or live authority change."
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "sha256": "eee6ec83b09ace735576a8ffdb672521ac98fcc148d39d4c5a5833e71b4f7a7c",
+      "reason": "Reviewed provider/trace/persistence boundary and current contracts; no published route, SQL or live authority change."
+    },
+    {
+      "path": "supabase/functions/_shared/providers/openrouter.ts",
+      "sha256": "ba456755fe95cfbabdaa28af7d090ceb33ffb9562e926344c10722703f45555c",
+      "reason": "Reviewed provider/trace/persistence boundary and current contracts; no published route, SQL or live authority change."
+    },
+    {
+      "path": "supabase/functions/_shared/model-provider.test.ts",
+      "sha256": "7be03568a41c77b087e7235f92f969658d82e9d28b3ee1a4db6e8af5aae6fd31",
+      "reason": "Reviewed provider/trace/persistence boundary and current contracts; no published route, SQL or live authority change."
+    },
+    {
+      "path": "supabase/functions/_shared/ai-trace.ts",
+      "sha256": "40f83f5cf2fb18e4afa9c39c18ac09f890dcb15f9c8672a3f112afd58653bc57",
+      "reason": "Reviewed provider/trace/persistence boundary and current contracts; no published route, SQL or live authority change."
+    },
+    {
+      "path": "supabase/functions/ai-persona-chat/index.ts",
+      "sha256": "0a6dd05111f6bd7555d080590951b10a308bcbfab8ceb33ab14d91d4494e8a77",
+      "reason": "Reviewed provider/trace/persistence boundary and current contracts; no published route, SQL or live authority change."
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/index.ts",
+      "sha256": "a2764c2a1ccb0bf3c73d5144caa39f6d6dae36f4116ac4e01a682d3fc15c26dc",
+      "reason": "Reviewed provider/trace/persistence boundary and current contracts; no published route, SQL or live authority change."
+    },
+    {
+      "path": "supabase/functions/_shared/ai-usage-operation.ts",
+      "sha256": "806a296df48b3dacbc6275dba43b4f3d7a2171fb3234c109ab7ac3140660edb4",
+      "reason": "Reviewed provider/trace/persistence boundary and current contracts; no published route, SQL or live authority change."
+    },
+    {
+      "path": "packages/agent-config/model-routing.json",
+      "sha256": "25eecd4fcea32769e88ba59e7b287e7ee8cb42d75f70f2198759eacd4bf08eb2",
+      "reason": "Reviewed provider/trace/persistence boundary and current contracts; no published route, SQL or live authority change."
+    },
+    {
+      "path": "scripts/validate-backend-contracts.mjs",
+      "sha256": "d01e79a82ef62bfe505903d7a8cc68fe8f829df2c7f0dcda97d213df407cf83e",
+      "reason": "Reviewed provider/trace/persistence boundary and current contracts; no published route, SQL or live authority change."
+    },
+    {
+      "path": "scripts/check-supabase-readiness.mjs",
+      "sha256": "9d8680965b620cd2410dc33bb77c1cf6141e81d125769fecea01236a12c2518b",
+      "reason": "Reviewed provider/trace/persistence boundary and current contracts; no published route, SQL or live authority change."
+    },
+    {
+      "path": "package.json",
+      "sha256": "35091240676cd0cbfb1b762ed4ee245ea8af7d59dd7a4dabb1284e415c7c6ed0",
+      "reason": "Reviewed provider/trace/persistence boundary and current contracts; no published route, SQL or live authority change."
+    },
+    {
+      "path": "docs/production/2026-10-04/PRODUCTION_PLAN.vi.md",
+      "sha256": "352adfc54161dd766ce5974938df67ab5310d52c6b6de2b3ffca159b0cee06c4",
+      "reason": "Reviewed provider/trace/persistence boundary and current contracts; no published route, SQL or live authority change."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "1e4d2bc7a93a2a140690c7237537de582972db30088309996ab6462a79a53623",
+      "reason": "Reviewed provider/trace/persistence boundary and current contracts; no published route, SQL or live authority change."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/nilaza-plan-qc.md",
+      "sha256": "1f1ca706c56aef4d08ac94c6475c19a59c3838a218eab9e94ab9436fbe4cda03",
+      "reason": "Reviewed provider/trace/persistence boundary and current contracts; no published route, SQL or live authority change."
+    },
+    {
+      "path": "supabase/functions/_shared/providers/openrouter-billing.ts",
+      "reason": "Current scoped implementation reviewed after tests; retain original release authority and record remaining cloud gates.",
+      "sha256": "66a15323520b44ce969fd47be83d817802faab2a4a3a86b9dd4276a456abe6a4"
+    },
+    {
+      "path": "supabase/functions/_shared/providers/openrouter-billing.test.ts",
+      "reason": "Current scoped implementation reviewed after tests; retain original release authority and record remaining cloud gates.",
+      "sha256": "75391c649a23dc72a74677c049544c11e1204b4e9e725f598d7c1433de8a6d09"
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/release-control.md",
+      "reason": "Current scoped implementation reviewed after tests; retain original release authority and record remaining cloud gates.",
+      "sha256": "ece7ac8af2d268735631d188ef1e3c4ae8235e564a2ad32c241c4ace83ac54fa"
+    },
+    {
+      "path": "skills/manifest.json",
+      "reason": "Current scoped implementation reviewed after tests; retain original release authority and record remaining cloud gates.",
+      "sha256": "10ed569d2a689a6136ebfef7ecaf5dddafa2c6ee0d313e8e23a3fdd1fa427ef7"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "PlanQC1.5.5 reviewed after the scoped W02 skill update; target/provider source versus settlement and online gates match this slice. No skill file owned by W08."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Existing Deno2.9 dependency, fetch/AbortController and Node built-ins; current OpenRouter primary API docs reviewed on2026-10-04. No dependency change."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://openrouter.ai/docs/cookbook/administration/usage-accounting",
+      "checkedAt": "2026-10-04",
+      "reason": "Current charge, token details and deprecated usage include behavior reviewed."
+    },
+    {
+      "url": "https://openrouter.ai/docs/api/api-reference/generations/get-generation",
+      "checkedAt": "2026-10-04",
+      "reason": "Exact generation metadata/total_cost response contract reviewed."
+    },
+    {
+      "url": "https://openrouter.ai/support/",
+      "checkedAt": "2026-10-04",
+      "reason": "Credit denomination is USD; fees and usage parameter age assessed separately."
+    },
+    {
+      "url": "https://openrouter.ai/blog/insights/cost-vs-quality-tradeoff-framework-for-agent-models/",
+      "checkedAt": "2026-10-04",
+      "reason": "Provider primary confirmation of usage.cost in USD, published2026-10-01."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No endpoint auth/RLS changes or new exposed handler; reconcile helper is server-only and not activated.",
+    "sensitiveData": "Only explicitly selected cost/count/ID/model fields; no chat, birth data, prompt or arbitrary payload fields.",
+    "secretsLogging": "API key only used in Authorization; fixed OpenRouter URL, redirects refused, errors use safe enums.",
+    "externalInput": "Validate nonnegative finite costs, integer token counts, bounded IDs, exact returned generation ID and timeout.",
+    "dependencies": "Existing Deno runtime and fetch API only; tests mock all network calls.",
+    "migrationRelease": "No schema, provider enablement or remote writes; actual receipt ledger/quota authority requires later reviewed SQL and protected-endpoint staging acceptance.",
+    "stopCondition": "Stop on secret/raw-content leakage, cost ambiguity mapped to zero, missing failure receipt or scope drift; never activate routes or deploy in this slice.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "supabase/functions/_shared/model-provider.ts",
+      "supabase/functions/_shared/model-router.ts",
+      "supabase/functions/_shared/providers/openrouter.ts",
+      "supabase/functions/_shared/providers/openrouter-billing.ts",
+      "supabase/functions/_shared/providers/openrouter-billing.test.ts",
+      "docs/production/2026-10-04/openrouter-receipts.vi.md",
+      "docs/production/2026-10-04/implementation-progress.vi.md"
+    ],
+    "note": "All owned scoped implementation changes reviewed; unrelated work remains intact. Evidence and production plan edits report actual local checks and remaining blockers."
+  },
+  "validationCommands": [
+    "node_modules/.bin/deno test --no-lock --cached-only --allow-env supabase/functions/_shared/model-provider.test.ts supabase/functions/_shared/providers/openrouter-billing.test.ts",
+    "npm run validate:backend",
+    "npm run supabase:check",
+    "npm run supabase:migration-ledger:check",
+    "npm run council:contract:check"
+  ],
+  "managerTestPath": "Read receipt guide and test summary: charged malformed output and fallback attempts stay visible; missing cost is unknown. Live Admin costs and production settlement are explicitly unverified.",
+  "residualRisk": "This slice preserves receipts but does not add a durable transactional ledger or worker. Current routes include direct vendors and production auth/privacy gates remain unresolved; no launch claim or cloud activation.",
+  "externalActions": {
+    "databaseWrite": false,
+    "projectCreation": false,
+    "deploy": false
+  },
+  "ownerDecision": {
+    "date": "2026-10-04",
+    "supabaseBaseUsd": 25,
+    "aiBillingProvider": "openrouter",
+    "instruction": "Use purchased25USD plan for now; AI spend separately through OpenRouter and depends on actual usage.",
+    "executionAuthorization": "Budget/provider preference; no exact project manifest/application approval in this turn."
+  }
+}

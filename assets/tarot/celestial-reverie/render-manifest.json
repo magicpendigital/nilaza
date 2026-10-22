@@ -1,0 +1,3532 @@
+{
+  "schemaVersion": 1,
+  "deckId": "tinh-quang",
+  "date": "2026-10-18",
+  "stage": "rendered_card_faces_only",
+  "command": "python scripts/render_tarot_cards.py --deck tinh-quang --all-existing --paged-sheets",
+  "placeholder": false,
+  "standardPathsVerifiedAgainst": "classic-arcana",
+  "cardCount": 78,
+  "totalCardBytes": 152629491,
+  "inputs": [
+    {
+      "path": "scripts/render_tarot_cards.py",
+      "sha256": "bd58d7cb2d36dd653c8b06934ecdd16facf79f8eaebc880f3b717a4f2985e87f"
+    },
+    {
+      "path": "scripts/validate_tarot_assets.py",
+      "sha256": "b5f8393deb2ae46862874cf81c844c26c218bbd88b55c61f118b4177db86dd16"
+    },
+    {
+      "path": "assets/tarot/tinh-quang/card-spec.json",
+      "sha256": "d4e4d3c33d4e0466849d7d063d783581a4fc36b759fda28f98c78d68f23f2dd2"
+    },
+    {
+      "path": "assets/tarot/tinh-quang/tinh-quang-full-deck-manifest.json",
+      "sha256": "729ea3b8af7ad0ef20a6862aef7bc9d32726415e008ee92fc2435a6d0de02f40"
+    },
+    {
+      "path": "assets/tarot/tinh-quang/artwork-review.json",
+      "sha256": "e159c67dbb76ba3ef89486034e1fc13120655712a57c327d811dc8852ea27e25"
+    },
+    {
+      "path": "packages/content/data/tarot-cards.json",
+      "sha256": "e926472eeda71a637a8554e6465f14200ef9873e94a8a9e12611aa765968561f"
+    },
+    {
+      "path": "packages/content/data/tarot-decks.json",
+      "sha256": "e699d651d8d6b65b35bae51b624056efc9463dadba1c7b856074c54c0e851002"
+    },
+    {
+      "path": "packages/content/data/tarot-card-designs.json",
+      "sha256": "27590b48adfbe148fd6a4c4e30aee90a7282a6f96606de5ee2336871235f50da"
+    },
+    {
+      "path": "packages/content/data/tarot-deck-backs.json",
+      "sha256": "86bf4b6255709ea6acc3c8d5f634d04a0bbc0ac79a5e2990db5bbc8cffd04978"
+    }
+  ],
+  "fonts": [
+    {
+      "path": "C:/Windows/Fonts/georgia.ttf",
+      "sha256": "38dffcaf1fac89492f7c56c600a14daf36ae42f7c21985cd4134ae113124a58f"
+    },
+    {
+      "path": "C:/Windows/Fonts/georgiab.ttf",
+      "sha256": "72a6cd94fab6c179392075d3fb361e269cdddfad41bb7ab385fa22a37e49a900"
+    }
+  ],
+  "cards": [
+    {
+      "cardId": "major-00-fool",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-00-fool.png",
+      "artworkSha256": "a7d8eac2788e6a06e71b6c6ea988c423417a3fc46c59db2ac8b81155e3b5757a",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-00-fool.png",
+      "cardSha256": "f28ba7b0ce8524ac9f555a970048c02da887c83333333e8c37a1d5f512521dbb",
+      "bytes": 1979438,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "THE FOOL",
+        "fontSize": 56,
+        "measuredWidth": 312,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          227,
+          45,
+          537,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "BEGINNINGS / TRUST / FREEDOM",
+        "fontSize": 28,
+        "measuredWidth": 463,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          133,
+          18,
+          592,
+          44
+        ]
+      },
+      "rank": {
+        "text": "MAJOR ARCANA",
+        "fontSize": 24,
+        "measuredWidth": 190,
+        "measuredHeight": 17
+      }
+    },
+    {
+      "cardId": "major-01-magician",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-01-magician.png",
+      "artworkSha256": "958f63ca3548e49c0149defaa2aad7f833c78503761fdf343cbab6298024f82e",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-01-magician.png",
+      "cardSha256": "92e295b8e2a0ccd6ad969bbf189a02e812a70bf5c11f7d4de52d57777547d7af",
+      "bytes": 1928858,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "THE MAGICIAN",
+        "fontSize": 56,
+        "measuredWidth": 466,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          150,
+          45,
+          614,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "WILL / SKILL / TRANSFORMATION",
+        "fontSize": 28,
+        "measuredWidth": 474,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          125,
+          18,
+          597,
+          44
+        ]
+      },
+      "rank": {
+        "text": "MAJOR ARCANA",
+        "fontSize": 24,
+        "measuredWidth": 190,
+        "measuredHeight": 17
+      }
+    },
+    {
+      "cardId": "major-02-high-priestess",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-02-high-priestess.png",
+      "artworkSha256": "67c7d594a583ed8ce27a5ddbdb63773c4e0a914e3ff85961cd9a1587586d041e",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-02-high-priestess.png",
+      "cardSha256": "6803fee2e9a0c3e6abbe9bca887915a6d146654072a894e7da047d807395cb5e",
+      "bytes": 2000351,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "THE HIGH PRIESTESS",
+        "fontSize": 56,
+        "measuredWidth": 664,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          51,
+          45,
+          712,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "INTUITION / MYSTERY / LISTENING",
+        "fontSize": 28,
+        "measuredWidth": 489,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          120,
+          18,
+          606,
+          44
+        ]
+      },
+      "rank": {
+        "text": "MAJOR ARCANA",
+        "fontSize": 24,
+        "measuredWidth": 190,
+        "measuredHeight": 17
+      }
+    },
+    {
+      "cardId": "major-03-empress",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-03-empress.png",
+      "artworkSha256": "60f90d6ee759dfa555afc1e240bb5ae548498e4e19a28ce18c472bb3581b791b",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-03-empress.png",
+      "cardSha256": "1d87e3929bee6d64b4e71c1f09b72f078b2f053e70cb4b5983765044f44b0020",
+      "bytes": 2053454,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "THE EMPRESS",
+        "fontSize": 56,
+        "measuredWidth": 436,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          165,
+          45,
+          598,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "NURTURE / CREATION / ABUNDANCE",
+        "fontSize": 28,
+        "measuredWidth": 513,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          107,
+          18,
+          618,
+          44
+        ]
+      },
+      "rank": {
+        "text": "MAJOR ARCANA",
+        "fontSize": 24,
+        "measuredWidth": 190,
+        "measuredHeight": 17
+      }
+    },
+    {
+      "cardId": "major-04-emperor",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-04-emperor.png",
+      "artworkSha256": "aa1d30395507db088065caea378d99c3f9c0a70850fcaa88c06d425459bfe409",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-04-emperor.png",
+      "cardSha256": "59777d382a3ca2381bd6e0f09f3d359f7f1bf7dd2d97bac2216e5098cdc70c62",
+      "bytes": 1969245,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "THE EMPEROR",
+        "fontSize": 56,
+        "measuredWidth": 457,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          155,
+          45,
+          610,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "STRUCTURE / RESPONSIBILITY / FOUNDATION",
+        "fontSize": 28,
+        "measuredWidth": 644,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          42,
+          18,
+          683,
+          44
+        ]
+      },
+      "rank": {
+        "text": "MAJOR ARCANA",
+        "fontSize": 24,
+        "measuredWidth": 190,
+        "measuredHeight": 17
+      }
+    },
+    {
+      "cardId": "major-05-hierophant",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-05-hierophant.png",
+      "artworkSha256": "fb0729a785c6638b8a203d5d680aaac804e02e7eaeaa0d68fabe3137e8408b66",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-05-hierophant.png",
+      "cardSha256": "e6b5309065bc21b0d3d68c960efe4dde56ea19c0465c7392c9099e6d05781983",
+      "bytes": 1902247,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "THE HIEROPHANT",
+        "fontSize": 56,
+        "measuredWidth": 567,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          100,
+          45,
+          665,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "VALUES / LEARNING / TRADITION",
+        "fontSize": 28,
+        "measuredWidth": 471,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          127,
+          18,
+          596,
+          44
+        ]
+      },
+      "rank": {
+        "text": "MAJOR ARCANA",
+        "fontSize": 24,
+        "measuredWidth": 190,
+        "measuredHeight": 17
+      }
+    },
+    {
+      "cardId": "major-06-lovers",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-06-lovers.png",
+      "artworkSha256": "b147a995153f03ada9058f467066e85d0e6d570a31ad27e12ad3323d59ee1da7",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-06-lovers.png",
+      "cardSha256": "dc57c228991709d718899ab6e3463fdd086a8382cfed289192331b94d32b4d1d",
+      "bytes": 2031817,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "THE LOVERS",
+        "fontSize": 56,
+        "measuredWidth": 391,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          188,
+          45,
+          576,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "CHOICE / CONNECTION / VALUES",
+        "fontSize": 28,
+        "measuredWidth": 460,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          134,
+          18,
+          590,
+          44
+        ]
+      },
+      "rank": {
+        "text": "MAJOR ARCANA",
+        "fontSize": 24,
+        "measuredWidth": 190,
+        "measuredHeight": 17
+      }
+    },
+    {
+      "cardId": "major-07-chariot",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-07-chariot.png",
+      "artworkSha256": "8b9d54e13e81b4e2254a8a2aafc5d47fdf320cd2732a0f888d28e41d5891d516",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-07-chariot.png",
+      "cardSha256": "d647aae1f64b0221cc76a46d153e382268145ad3767edb9ceff2e6f20ae0c607",
+      "bytes": 1930761,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "THE CHARIOT",
+        "fontSize": 56,
+        "measuredWidth": 430,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          168,
+          45,
+          596,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "DIRECTION / WILL / MOVEMENT",
+        "fontSize": 28,
+        "measuredWidth": 451,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          139,
+          18,
+          587,
+          44
+        ]
+      },
+      "rank": {
+        "text": "MAJOR ARCANA",
+        "fontSize": 24,
+        "measuredWidth": 190,
+        "measuredHeight": 17
+      }
+    },
+    {
+      "cardId": "major-08-strength",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-08-strength.png",
+      "artworkSha256": "cb45bac6e42fc79d13915ec44ad2b427905730afba4270b261921c9f62562a4c",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-08-strength.png",
+      "cardSha256": "e56d5f491012047408ee5d01e98048072d8f1bad765af0748c62eacf4e3dc05c",
+      "bytes": 2024941,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "STRENGTH",
+        "fontSize": 56,
+        "measuredWidth": 340,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          214,
+          45,
+          550,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "COURAGE / COMPASSION / RESTRAINT",
+        "fontSize": 28,
+        "measuredWidth": 537,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          96,
+          18,
+          630,
+          44
+        ]
+      },
+      "rank": {
+        "text": "MAJOR ARCANA",
+        "fontSize": 24,
+        "measuredWidth": 190,
+        "measuredHeight": 17
+      }
+    },
+    {
+      "cardId": "major-09-hermit",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-09-hermit.png",
+      "artworkSha256": "fe38b4c090986b32a851cd902e9fd5190ed3c2bdb48e11117e4852d971fad379",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-09-hermit.png",
+      "cardSha256": "87c3befed838965b32ff526538f4d0555a68bda1c47d9a8d051c8ea41abeb85d",
+      "bytes": 2042948,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "THE HERMIT",
+        "fontSize": 56,
+        "measuredWidth": 399,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          184,
+          45,
+          581,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "SOLITUDE / ILLUMINATION / MEANING",
+        "fontSize": 28,
+        "measuredWidth": 546,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          91,
+          18,
+          634,
+          44
+        ]
+      },
+      "rank": {
+        "text": "MAJOR ARCANA",
+        "fontSize": 24,
+        "measuredWidth": 190,
+        "measuredHeight": 17
+      }
+    },
+    {
+      "cardId": "major-10-wheel",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-10-wheel.png",
+      "artworkSha256": "d5e463cec7f6bd68ad08b6e7ec668e392b49049653b6598fa115af992cf07353",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-10-wheel.png",
+      "cardSha256": "7f29409642df0c73c203fd07c39b20cfca1d3e7c5ed1378825bdada500b02d68",
+      "bytes": 2112445,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "WHEEL OF FORTUNE",
+        "fontSize": 56,
+        "measuredWidth": 647,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          58,
+          45,
+          702,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "CYCLES / CHANGE / OPPORTUNITY",
+        "fontSize": 28,
+        "measuredWidth": 478,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          125,
+          18,
+          600,
+          44
+        ]
+      },
+      "rank": {
+        "text": "MAJOR ARCANA",
+        "fontSize": 24,
+        "measuredWidth": 190,
+        "measuredHeight": 17
+      }
+    },
+    {
+      "cardId": "major-11-justice",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-11-justice.png",
+      "artworkSha256": "57c9e1368e30c7ac7d819bcd5ddaec79ce8e2d6367289873343bd5122a5abb91",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-11-justice.png",
+      "cardSha256": "8c5a32df0924a8d29cb3bf54d016d329f3c61faf6483d64f912a95e859444811",
+      "bytes": 1943793,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "JUSTICE",
+        "fontSize": 56,
+        "measuredWidth": 259,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          254,
+          45,
+          510,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "TRUTH / BALANCE / ACCOUNTABILITY",
+        "fontSize": 28,
+        "measuredWidth": 528,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          99,
+          18,
+          625,
+          44
+        ]
+      },
+      "rank": {
+        "text": "MAJOR ARCANA",
+        "fontSize": 24,
+        "measuredWidth": 190,
+        "measuredHeight": 17
+      }
+    },
+    {
+      "cardId": "major-12-hanged-man",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-12-hanged-man.png",
+      "artworkSha256": "bde223636c91960001cde7081cff88f1d7cdd823be8f56864d69e2b562c7fef5",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-12-hanged-man.png",
+      "cardSha256": "1ddc72f326b267cae757e563d3c7b1e93c0c512d3592cda8517a52b8c3595ac2",
+      "bytes": 2002508,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "THE HANGED MAN",
+        "fontSize": 56,
+        "measuredWidth": 575,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          96,
+          45,
+          669,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "PAUSE / PERSPECTIVE / SURRENDER",
+        "fontSize": 28,
+        "measuredWidth": 510,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          109,
+          18,
+          616,
+          44
+        ]
+      },
+      "rank": {
+        "text": "MAJOR ARCANA",
+        "fontSize": 24,
+        "measuredWidth": 190,
+        "measuredHeight": 17
+      }
+    },
+    {
+      "cardId": "major-13-death",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-13-death.png",
+      "artworkSha256": "4d80f16088d28cab532761a03c31f4d32b32a16042bff2825303260036b96fb8",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-13-death.png",
+      "cardSha256": "734041a9bd83dde43e1289071d5ef8090aede2f19bda735818fc0306ede2d552",
+      "bytes": 2005295,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "DEATH",
+        "fontSize": 56,
+        "measuredWidth": 218,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          275,
+          45,
+          489,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "ENDING / REBIRTH / TRANSFORMATION",
+        "fontSize": 28,
+        "measuredWidth": 560,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          84,
+          18,
+          641,
+          44
+        ]
+      },
+      "rank": {
+        "text": "MAJOR ARCANA",
+        "fontSize": 24,
+        "measuredWidth": 190,
+        "measuredHeight": 17
+      }
+    },
+    {
+      "cardId": "major-14-temperance",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-14-temperance.png",
+      "artworkSha256": "3375f4b0960516f17748c96c6859d681d89000eedcadddd0bb5ea880f6323623",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-14-temperance.png",
+      "cardSha256": "362a6d95af91517e89ae31757efce0399d1a174531e471372e1692b4140178e3",
+      "bytes": 1932593,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "TEMPERANCE",
+        "fontSize": 56,
+        "measuredWidth": 428,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          169,
+          45,
+          594,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "MODERATION / BLENDING / MANAGEABLE RHYTHM",
+        "fontSize": 28,
+        "measuredWidth": 724,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          1,
+          18,
+          722,
+          44
+        ]
+      },
+      "rank": {
+        "text": "MAJOR ARCANA",
+        "fontSize": 24,
+        "measuredWidth": 190,
+        "measuredHeight": 17
+      }
+    },
+    {
+      "cardId": "major-15-devil",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-15-devil.png",
+      "artworkSha256": "62f59279e68e52a5d2768a8fe271d7620f64235fae25950e770827ee4c1a13ba",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-15-devil.png",
+      "cardSha256": "5a33804597236a28c9be005b59cd1fe2dc2a5ab0140eb76590a4f00bc5db0a5e",
+      "bytes": 1982020,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "THE DEVIL",
+        "fontSize": 56,
+        "measuredWidth": 337,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          215,
+          45,
+          550,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "ATTACHMENT / DESIRE / ILLUSION",
+        "fontSize": 28,
+        "measuredWidth": 490,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          117,
+          18,
+          605,
+          44
+        ]
+      },
+      "rank": {
+        "text": "MAJOR ARCANA",
+        "fontSize": 24,
+        "measuredWidth": 190,
+        "measuredHeight": 17
+      }
+    },
+    {
+      "cardId": "major-16-tower",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-16-tower.png",
+      "artworkSha256": "678dee64ca4243292b5b6154349d620cf19bfa14a1f5b94c270aa4a400968cc3",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-16-tower.png",
+      "cardSha256": "be2193f359cb64c80b9d8683177bfa4dde4d20ced9a686aedf8f5c6cadbd84d8",
+      "bytes": 1966553,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "THE TOWER",
+        "fontSize": 56,
+        "measuredWidth": 377,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          195,
+          45,
+          570,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "REVELATION / COLLAPSE / LIBERATION",
+        "fontSize": 28,
+        "measuredWidth": 552,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          88,
+          18,
+          637,
+          44
+        ]
+      },
+      "rank": {
+        "text": "MAJOR ARCANA",
+        "fontSize": 24,
+        "measuredWidth": 190,
+        "measuredHeight": 17
+      }
+    },
+    {
+      "cardId": "major-17-star",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-17-star.png",
+      "artworkSha256": "ca2b33df47c840565b5e22165ec4e91c32d544529b268daa832c205194ed3657",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-17-star.png",
+      "cardSha256": "a2bfd213d82692caaeb4a753f4f6e18e29c9f555604c20643336896b45027010",
+      "bytes": 1871683,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "THE STAR",
+        "fontSize": 56,
+        "measuredWidth": 306,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          230,
+          45,
+          534,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "HOPE / FAITH / SELF-CARE",
+        "fontSize": 28,
+        "measuredWidth": 373,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          178,
+          18,
+          548,
+          44
+        ]
+      },
+      "rank": {
+        "text": "MAJOR ARCANA",
+        "fontSize": 24,
+        "measuredWidth": 190,
+        "measuredHeight": 17
+      }
+    },
+    {
+      "cardId": "major-18-moon",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-18-moon.png",
+      "artworkSha256": "a9ea588323189be9aabe50858020b10ced881a9924e7bc690ba0d3a82b3f4ebd",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-18-moon.png",
+      "cardSha256": "9804ab995481aec31900db87db8766f7f1ae1d4229afccf68c99fb0f92719c36",
+      "bytes": 2017199,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "THE MOON",
+        "fontSize": 56,
+        "measuredWidth": 339,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          214,
+          45,
+          551,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "UNCERTAINTY / DREAMS / SUBCONSCIOUS",
+        "fontSize": 28,
+        "measuredWidth": 592,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          68,
+          18,
+          656,
+          44
+        ]
+      },
+      "rank": {
+        "text": "MAJOR ARCANA",
+        "fontSize": 24,
+        "measuredWidth": 190,
+        "measuredHeight": 17
+      }
+    },
+    {
+      "cardId": "major-19-sun",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-19-sun.png",
+      "artworkSha256": "68f1addacf400a007a0f703d14ecf6028d44ec526b92a2b9930bc9f874fe8fb4",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-19-sun.png",
+      "cardSha256": "ee8307f725683e8b570217f3456c8469f0deb48f103808cfe79e484b74d0f055",
+      "bytes": 1976913,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "THE SUN",
+        "fontSize": 56,
+        "measuredWidth": 273,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          247,
+          45,
+          518,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "JOY / CLARITY / VITALITY",
+        "fontSize": 28,
+        "measuredWidth": 355,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          186,
+          18,
+          539,
+          44
+        ]
+      },
+      "rank": {
+        "text": "MAJOR ARCANA",
+        "fontSize": 24,
+        "measuredWidth": 190,
+        "measuredHeight": 17
+      }
+    },
+    {
+      "cardId": "major-20-judgement",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-20-judgement.png",
+      "artworkSha256": "fa708d025611fe71f9b7fb9227dbca44811f2e638cb321400d89dcaa12d741ef",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-20-judgement.png",
+      "cardSha256": "2162c30b43a478fd58cd62abe89368ad53e003c6f1491875e80b9ad74f73d4a4",
+      "bytes": 1949013,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "JUDGEMENT",
+        "fontSize": 56,
+        "measuredWidth": 394,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          186,
+          45,
+          578,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "AWAKENING / CALLING / FORGIVENESS",
+        "fontSize": 28,
+        "measuredWidth": 550,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          87,
+          18,
+          634,
+          44
+        ]
+      },
+      "rank": {
+        "text": "MAJOR ARCANA",
+        "fontSize": 24,
+        "measuredWidth": 190,
+        "measuredHeight": 17
+      }
+    },
+    {
+      "cardId": "major-21-world",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-21-world.png",
+      "artworkSha256": "da779cf569ce273f5657531dda2004ec2cb6286276ffd79e922200c22993febe",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-21-world.png",
+      "cardSha256": "6222dee948149129e021650f39072d39d14e5425104a2363208559441838cf60",
+      "bytes": 1844163,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "THE WORLD",
+        "fontSize": 56,
+        "measuredWidth": 382,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          192,
+          45,
+          570,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "COMPLETION / WHOLENESS / INTEGRATION",
+        "fontSize": 28,
+        "measuredWidth": 615,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          57,
+          18,
+          669,
+          44
+        ]
+      },
+      "rank": {
+        "text": "MAJOR ARCANA",
+        "fontSize": 24,
+        "measuredWidth": 190,
+        "measuredHeight": 17
+      }
+    },
+    {
+      "cardId": "minor-wands-ace",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-ace.png",
+      "artworkSha256": "ef36c471218ce7da4c3bbb93e7bb2ee6a1ac789147d54ae4d5bb18321ad57bfb",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-ace.png",
+      "cardSha256": "ccadf21eccc83b5d09c68c3f19de7c241b038a344bac442e06180a6553c7ed22",
+      "bytes": 1853285,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "ACE OF WANDS",
+        "fontSize": 56,
+        "measuredWidth": 471,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          146,
+          45,
+          614,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "INSPIRATION / CREATIVE BEGINNING / EXPERIMENTATION",
+        "fontSize": 24,
+        "measuredWidth": 705,
+        "measuredHeight": 23,
+        "glyphBoundsWithinArea": [
+          11,
+          20,
+          714,
+          42
+        ]
+      },
+      "rank": {
+        "text": "WANDS / ACE",
+        "fontSize": 24,
+        "measuredWidth": 159,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-wands-two",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-two.png",
+      "artworkSha256": "32cdf1b74e621099e7351385fcfd9b3dc5c9acbea63fc3831b0a4d9cb8378910",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-two.png",
+      "cardSha256": "21073b99289b683b8dccd9d7396b260cabed034b2dc96566f5f1a5e004c0e0c4",
+      "bytes": 1941833,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "TWO OF WANDS",
+        "fontSize": 56,
+        "measuredWidth": 494,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          136,
+          45,
+          627,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "VISION / CHOOSING DIRECTION / PLANNING",
+        "fontSize": 28,
+        "measuredWidth": 618,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          53,
+          18,
+          669,
+          44
+        ]
+      },
+      "rank": {
+        "text": "WANDS / TWO",
+        "fontSize": 24,
+        "measuredWidth": 168,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-wands-three",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-three.png",
+      "artworkSha256": "6f380420ed8d58cfbafdcf6167aacd726967748ca6c858dbe514c34f606559bb",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-three.png",
+      "cardSha256": "35d72be8fc96345b17bf6b3e7e5f6abadda5d82d2c4e57877c957b08350c8a28",
+      "bytes": 1935392,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "THREE OF WANDS",
+        "fontSize": 56,
+        "measuredWidth": 561,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          103,
+          45,
+          661,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "EXPANSION / LOOKING AHEAD / AWAITING FEEDBACK",
+        "fontSize": 26,
+        "measuredWidth": 697,
+        "measuredHeight": 24,
+        "glyphBoundsWithinArea": [
+          16,
+          20,
+          710,
+          43
+        ]
+      },
+      "rank": {
+        "text": "WANDS / THREE",
+        "fontSize": 24,
+        "measuredWidth": 196,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-wands-four",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-four.png",
+      "artworkSha256": "d620c5e10a19c5d07c48301e0295ac517ecaa28392cbf7457f1bff443ea5050a",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-four.png",
+      "cardSha256": "7c679a557a8e504016c2feb2c8808bcdbe8d1cb4dae55357cd027daca0105757",
+      "bytes": 1995800,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "FOUR OF WANDS",
+        "fontSize": 56,
+        "measuredWidth": 523,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          123,
+          45,
+          642,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "CELEBRATION / BELONGING / MILESTONE",
+        "fontSize": 28,
+        "measuredWidth": 584,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          72,
+          18,
+          653,
+          44
+        ]
+      },
+      "rank": {
+        "text": "WANDS / FOUR",
+        "fontSize": 24,
+        "measuredWidth": 180,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-wands-five",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-five.png",
+      "artworkSha256": "82ad14b8206dbd9517c5c8625696edab7decdfdd28f098ecb24f231fc9c411ca",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-five.png",
+      "cardSha256": "e476f6d6a32d5879e0a62e2a5155a720dba1e4a275817f8fcf9d87e976a9c8e7",
+      "bytes": 1949225,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "FIVE OF WANDS",
+        "fontSize": 56,
+        "measuredWidth": 493,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          138,
+          45,
+          627,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "DIFFERENCES / COMPETITION / FRICTION",
+        "fontSize": 28,
+        "measuredWidth": 584,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          72,
+          18,
+          653,
+          44
+        ]
+      },
+      "rank": {
+        "text": "WANDS / FIVE",
+        "fontSize": 24,
+        "measuredWidth": 167,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-wands-six",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-six.png",
+      "artworkSha256": "5958549b8e80eb7cd45c2b84837b0b205f05e473e68842e996950a231f500dc9",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-six.png",
+      "cardSha256": "70cf5fbd8c864723f59e4b4eecacf94ee96256be321c31aa0bda2a596c19b4af",
+      "bytes": 1838626,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "SIX OF WANDS",
+        "fontSize": 56,
+        "measuredWidth": 453,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          158,
+          45,
+          607,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "RECOGNITION / CONFIDENCE / CONTRIBUTION",
+        "fontSize": 28,
+        "measuredWidth": 655,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          37,
+          18,
+          689,
+          44
+        ]
+      },
+      "rank": {
+        "text": "WANDS / SIX",
+        "fontSize": 24,
+        "measuredWidth": 152,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-wands-seven",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-seven.png",
+      "artworkSha256": "4d570465d3021b1380ce3010ffa4a9d90ddf6b1251ca502dcfa2ecdb2df68e02",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-seven.png",
+      "cardSha256": "15d786455aa085769228183d790feccffaf34a6860b385204cb6675bffc6b338",
+      "bytes": 1958215,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "SEVEN OF WANDS",
+        "fontSize": 56,
+        "measuredWidth": 553,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          108,
+          45,
+          657,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "HOLDING GROUND / BOUNDARIES / PRESSURE",
+        "fontSize": 28,
+        "measuredWidth": 651,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          39,
+          18,
+          687,
+          44
+        ]
+      },
+      "rank": {
+        "text": "WANDS / SEVEN",
+        "fontSize": 24,
+        "measuredWidth": 192,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-wands-eight",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-eight.png",
+      "artworkSha256": "888c43694641baa96401cf859775cfbb426bf9dad79b0e81b52e113dc8de20f0",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-eight.png",
+      "cardSha256": "40497410f1c3205f964074629e1c7e619819769bca9785bb38411def172c1686",
+      "bytes": 1844713,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "EIGHT OF WANDS",
+        "fontSize": 56,
+        "measuredWidth": 546,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          111,
+          45,
+          653,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "MOVEMENT / MESSAGES / FAST PACE",
+        "fontSize": 28,
+        "measuredWidth": 517,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          105,
+          18,
+          620,
+          44
+        ]
+      },
+      "rank": {
+        "text": "WANDS / EIGHT",
+        "fontSize": 24,
+        "measuredWidth": 189,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-wands-nine",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-nine.png",
+      "artworkSha256": "6be50ffccb88870850256709188a56881c941f61517768f335132d0b1f6b19c2",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-nine.png",
+      "cardSha256": "988ac35dffc0de05190748b0e58f5246d00f293ba23a8b70e77b32d00b9d87ff",
+      "bytes": 1974721,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "NINE OF WANDS",
+        "fontSize": 56,
+        "measuredWidth": 506,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          130,
+          45,
+          633,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "RESILIENCE / LIMITS / REST",
+        "fontSize": 28,
+        "measuredWidth": 392,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          168,
+          18,
+          557,
+          44
+        ]
+      },
+      "rank": {
+        "text": "WANDS / NINE",
+        "fontSize": 24,
+        "measuredWidth": 173,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-wands-ten",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-ten.png",
+      "artworkSha256": "4cf8190131d12cb31edd3e70be969def8e7b834735d94167187acc16c6caaed5",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-ten.png",
+      "cardSha256": "3b6c5c1a334866806d67f4984c52d7185689d801dda8a789d5750ca8df51c948",
+      "bytes": 1791965,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "TEN OF WANDS",
+        "fontSize": 56,
+        "measuredWidth": 472,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          147,
+          45,
+          616,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "BURDEN / RESPONSIBILITY / SHARING TASKS",
+        "fontSize": 28,
+        "measuredWidth": 628,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          50,
+          18,
+          674,
+          44
+        ]
+      },
+      "rank": {
+        "text": "WANDS / TEN",
+        "fontSize": 24,
+        "measuredWidth": 162,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-wands-page",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-page.png",
+      "artworkSha256": "1793b9e4b3ce76e257dc03be432873b449a419d71834204fcb2aaeb613ea48de",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-page.png",
+      "cardSha256": "471d56119e47fccfb312ab616632d8f985ae5a55d0702c79bc18acee83d5eab2",
+      "bytes": 1989192,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "PAGE OF WANDS",
+        "fontSize": 56,
+        "measuredWidth": 513,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          128,
+          45,
+          637,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "CURIOSITY / EXPLORATION / CREATIVE EXPERIMENT",
+        "fontSize": 26,
+        "measuredWidth": 683,
+        "measuredHeight": 24,
+        "glyphBoundsWithinArea": [
+          23,
+          20,
+          703,
+          43
+        ]
+      },
+      "rank": {
+        "text": "WANDS / PAGE",
+        "fontSize": 24,
+        "measuredWidth": 176,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-wands-knight",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-knight.png",
+      "artworkSha256": "42dc7fbded8c775781a7ed2260f0734fa1f35bc3415262032a637da496974628",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-knight.png",
+      "cardSha256": "23cc478dcb8d8fb2c4bd1ce32a4feb64327e8227d9946a671a08004649956597",
+      "bytes": 2014578,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "KNIGHT OF WANDS",
+        "fontSize": 56,
+        "measuredWidth": 599,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          85,
+          45,
+          680,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "ENTHUSIASM / ACTION / ADVENTURE",
+        "fontSize": 28,
+        "measuredWidth": 523,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          103,
+          18,
+          623,
+          44
+        ]
+      },
+      "rank": {
+        "text": "WANDS / KNIGHT",
+        "fontSize": 24,
+        "measuredWidth": 208,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-wands-queen",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-queen.png",
+      "artworkSha256": "52c6785128e119bb8b5eef85283ad52abc21a2000d7826da45f3c54dfe4494bf",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-queen.png",
+      "cardSha256": "8e9ba5ac2b7f2e5dc684c25db08965ab8d0c564c4a1c8b9553e6095709b6a7dc",
+      "bytes": 1948142,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "QUEEN OF WANDS",
+        "fontSize": 56,
+        "measuredWidth": 567,
+        "measuredHeight": 50,
+        "glyphBoundsWithinArea": [
+          101,
+          40,
+          664,
+          89
+        ]
+      },
+      "keywords": {
+        "text": "CONFIDENCE / WARMTH / SELF-POSSESSION",
+        "fontSize": 28,
+        "measuredWidth": 622,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          53,
+          18,
+          672,
+          44
+        ]
+      },
+      "rank": {
+        "text": "WANDS / QUEEN",
+        "fontSize": 24,
+        "measuredWidth": 199,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-wands-king",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-king.png",
+      "artworkSha256": "3f6166b80d5ae803fb150e1230ef9b71972e729658cf9c63af836944c91ab040",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-king.png",
+      "cardSha256": "b4880415e6e88dd8ecdbf4e8864563e6eaef2adaf6f1458f6bbf49255e326c68",
+      "bytes": 1981053,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "KING OF WANDS",
+        "fontSize": 56,
+        "measuredWidth": 510,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          129,
+          45,
+          635,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "VISION / LEADERSHIP / COMMITMENT",
+        "fontSize": 28,
+        "measuredWidth": 536,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          94,
+          18,
+          628,
+          44
+        ]
+      },
+      "rank": {
+        "text": "WANDS / KING",
+        "fontSize": 24,
+        "measuredWidth": 174,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-cups-ace",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-ace.png",
+      "artworkSha256": "a8da1ab98e4e09bd03008fbd2709aa87b78d87b9933bd15f82a5db1032507900",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-ace.png",
+      "cardSha256": "3bdeb3343370f00065c76fd4ef34b52ff215aad979905237396eed38eff3cf30",
+      "bytes": 1960818,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "ACE OF CUPS",
+        "fontSize": 56,
+        "measuredWidth": 398,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          182,
+          45,
+          577,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "OPENNESS / NEW FEELING / RECEPTIVITY",
+        "fontSize": 28,
+        "measuredWidth": 581,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          74,
+          18,
+          652,
+          44
+        ]
+      },
+      "rank": {
+        "text": "CUPS / ACE",
+        "fontSize": 24,
+        "measuredWidth": 131,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-cups-two",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-two.png",
+      "artworkSha256": "178275277b7ada53b009891ea79b0d29f56bd7655f994ad0d035f23094f22877",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-two.png",
+      "cardSha256": "28c070a4726e954aa2810067d078dde5dbdae1d3dd859a6585180dd277ca1ebc",
+      "bytes": 1713691,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "TWO OF CUPS",
+        "fontSize": 56,
+        "measuredWidth": 421,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          173,
+          45,
+          591,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "RECIPROCITY / CONNECTION / WILLINGNESS",
+        "fontSize": 28,
+        "measuredWidth": 624,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          52,
+          18,
+          672,
+          44
+        ]
+      },
+      "rank": {
+        "text": "CUPS / TWO",
+        "fontSize": 24,
+        "measuredWidth": 140,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-cups-three",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-three.png",
+      "artworkSha256": "3be04f1214f09ad49fe6a3b39fd41039e691a5ed5dfa2958a82966cb3a59b64d",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-three.png",
+      "cardSha256": "14c666ff856b2e6369dc292db0fd7c4d37cca5e8cc2c5b32ae09883678900e4a",
+      "bytes": 1951064,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "THREE OF CUPS",
+        "fontSize": 56,
+        "measuredWidth": 488,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          139,
+          45,
+          624,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "FRIENDSHIP / SHARING / CELEBRATION",
+        "fontSize": 28,
+        "measuredWidth": 558,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          85,
+          18,
+          640,
+          44
+        ]
+      },
+      "rank": {
+        "text": "CUPS / THREE",
+        "fontSize": 24,
+        "measuredWidth": 168,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-cups-four",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-four.png",
+      "artworkSha256": "9148bc64782a6a40afa24ee1b96ab17a9ce6bc0c63fc8adbb36808018ef59cab",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-four.png",
+      "cardSha256": "14e727725c256e095e3e4e9ea7cf0aafc97869323b1dde0d044c8cbcf345d34f",
+      "bytes": 1990382,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "FOUR OF CUPS",
+        "fontSize": 56,
+        "measuredWidth": 450,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          159,
+          45,
+          605,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "PAUSE / DISCONTENT / REVIEWING NEEDS",
+        "fontSize": 28,
+        "measuredWidth": 592,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          68,
+          18,
+          656,
+          44
+        ]
+      },
+      "rank": {
+        "text": "CUPS / FOUR",
+        "fontSize": 24,
+        "measuredWidth": 152,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-cups-five",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-five.png",
+      "artworkSha256": "9a7b0f2449ead2f3e9514f47ab24da27ae852772629afdfae11de22d1547edde",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-five.png",
+      "cardSha256": "2a69f943d4785cc1c2205de334ed5c62e6d78ec8f2dfae15004ca1ac5aa5d621",
+      "bytes": 1946913,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "FIVE OF CUPS",
+        "fontSize": 56,
+        "measuredWidth": 420,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          174,
+          45,
+          590,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "REGRET / LOSS / SUPPORT",
+        "fontSize": 28,
+        "measuredWidth": 367,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          181,
+          18,
+          545,
+          44
+        ]
+      },
+      "rank": {
+        "text": "CUPS / FIVE",
+        "fontSize": 24,
+        "measuredWidth": 139,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-cups-six",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-six.png",
+      "artworkSha256": "86c62bfac87ab15d0c565af82228a2c233592ee34a29b3f75ca7464184ce98f8",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-six.png",
+      "cardSha256": "511abf6d90f84f17fadf9be45ddcf30f8109714839126bf53e25b0dcf3541f03",
+      "bytes": 1997953,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "SIX OF CUPS",
+        "fontSize": 56,
+        "measuredWidth": 380,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          194,
+          45,
+          570,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "MEMORY / NOSTALGIA / KINDNESS",
+        "fontSize": 28,
+        "measuredWidth": 486,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          120,
+          18,
+          603,
+          44
+        ]
+      },
+      "rank": {
+        "text": "CUPS / SIX",
+        "fontSize": 24,
+        "measuredWidth": 124,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-cups-seven",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-seven.png",
+      "artworkSha256": "b3db6c3b10cf06549dba3d90b79d54844841ef57442fc23354ab04a8fc18177f",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-seven.png",
+      "cardSha256": "cad13d2608613b4f7241e58f9f2f0b116da17fd60b0563e7d695a0a290684ae9",
+      "bytes": 2016937,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "SEVEN OF CUPS",
+        "fontSize": 56,
+        "measuredWidth": 480,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          144,
+          45,
+          620,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "OPTIONS / IMAGINATION / DISCERNMENT",
+        "fontSize": 28,
+        "measuredWidth": 583,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          73,
+          18,
+          653,
+          44
+        ]
+      },
+      "rank": {
+        "text": "CUPS / SEVEN",
+        "fontSize": 24,
+        "measuredWidth": 164,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-cups-eight",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-eight.png",
+      "artworkSha256": "ca45f24110c7d6b44400cf9495ec4389af99c2c0e9f6878f28bdf1c49dd95495",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-eight.png",
+      "cardSha256": "30c3d66582c8c2569f478301f807754b892f80a8fe5c12d7e3fdc4d17ba78447",
+      "bytes": 1877667,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "EIGHT OF CUPS",
+        "fontSize": 56,
+        "measuredWidth": 473,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          148,
+          45,
+          617,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "SEEKING MEANING / LEAVING WHAT NO LONGER FITS / REDIRECTION",
+        "fontSize": 20,
+        "measuredWidth": 698,
+        "measuredHeight": 19,
+        "glyphBoundsWithinArea": [
+          14,
+          21,
+          710,
+          35
+        ]
+      },
+      "rank": {
+        "text": "CUPS / EIGHT",
+        "fontSize": 24,
+        "measuredWidth": 161,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-cups-nine",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-nine.png",
+      "artworkSha256": "91d3a11af2cb5025e015bc2c8ce47e512f06169558bfeecf17f9876a0ea9ad8c",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-nine.png",
+      "cardSha256": "8489d1a9072eaeaaaaa12bb8f2e0529316208b5141e0ee236fa014c2b3326add",
+      "bytes": 1908886,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "NINE OF CUPS",
+        "fontSize": 56,
+        "measuredWidth": 433,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          167,
+          45,
+          597,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "CONTENTMENT / ENJOYMENT / ENOUGHNESS",
+        "fontSize": 28,
+        "measuredWidth": 638,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          45,
+          18,
+          679,
+          44
+        ]
+      },
+      "rank": {
+        "text": "CUPS / NINE",
+        "fontSize": 24,
+        "measuredWidth": 145,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-cups-ten",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-ten.png",
+      "artworkSha256": "1409c41ac698cad981d80909e0d20e1d570e7a45105bb1c9928e2c051df0bddc",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-ten.png",
+      "cardSha256": "57fe235d8ed47a883d78cae5877fe460411c235cd29de3e4b6e0b3a56896fa30",
+      "bytes": 1958141,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "TEN OF CUPS",
+        "fontSize": 56,
+        "measuredWidth": 399,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          184,
+          45,
+          580,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "BELONGING / HOME / SHARED VALUES",
+        "fontSize": 28,
+        "measuredWidth": 543,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          93,
+          18,
+          632,
+          44
+        ]
+      },
+      "rank": {
+        "text": "CUPS / TEN",
+        "fontSize": 24,
+        "measuredWidth": 134,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-cups-page",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-page.png",
+      "artworkSha256": "1df64386f4ed985fe30de1a6604859e1d3489d434aedfc4cd94db38dd6e96e3f",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-page.png",
+      "cardSha256": "8fe4ede8b6462339b0fbe174911861a29049a412c11515f17b19a73d5325f27d",
+      "bytes": 1991578,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "PAGE OF CUPS",
+        "fontSize": 56,
+        "measuredWidth": 440,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          164,
+          45,
+          600,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "EMOTIONAL CURIOSITY / CREATIVITY / GENTLE MESSAGE",
+        "fontSize": 24,
+        "measuredWidth": 685,
+        "measuredHeight": 23,
+        "glyphBoundsWithinArea": [
+          22,
+          20,
+          704,
+          42
+        ]
+      },
+      "rank": {
+        "text": "CUPS / PAGE",
+        "fontSize": 24,
+        "measuredWidth": 148,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-cups-knight",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-knight.png",
+      "artworkSha256": "9533e05ef2725f1a02aee777e0b548bbc059a9f4897e1b40ebc785163cb23aad",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-knight.png",
+      "cardSha256": "5387371fee2b771cd1c7c540ae593b527ea3b177c699ed7a318fdb5614ed42ec",
+      "bytes": 1998346,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "KNIGHT OF CUPS",
+        "fontSize": 56,
+        "measuredWidth": 526,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          121,
+          45,
+          643,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "IDEALS / ROMANCE / EXPRESSION",
+        "fontSize": 28,
+        "measuredWidth": 478,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          125,
+          18,
+          600,
+          44
+        ]
+      },
+      "rank": {
+        "text": "CUPS / KNIGHT",
+        "fontSize": 24,
+        "measuredWidth": 180,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-cups-queen",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-queen.png",
+      "artworkSha256": "e801de33b517237b11bc1d5e1bf795ac4d49ad57b333662483e20eed0afe0bf3",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-queen.png",
+      "cardSha256": "55f82688c16f0684736ebdcf2225d15bcb29e430f4ad750bb76c15e061265b32",
+      "bytes": 1972956,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "QUEEN OF CUPS",
+        "fontSize": 56,
+        "measuredWidth": 494,
+        "measuredHeight": 50,
+        "glyphBoundsWithinArea": [
+          137,
+          40,
+          627,
+          89
+        ]
+      },
+      "keywords": {
+        "text": "EMPATHY / LISTENING / EMOTIONAL BOUNDARIES",
+        "fontSize": 28,
+        "measuredWidth": 707,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          11,
+          18,
+          714,
+          44
+        ]
+      },
+      "rank": {
+        "text": "CUPS / QUEEN",
+        "fontSize": 24,
+        "measuredWidth": 171,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-cups-king",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-king.png",
+      "artworkSha256": "56544bf8b7dfb32c18921a286db700b0a4ab5762e75e4a58b1d2ef05c447f903",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-king.png",
+      "cardSha256": "8990a60dc316b6d97bdb594b959da103603071e79a37f16ed21cb7da71632aa4",
+      "bytes": 2017069,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "KING OF CUPS",
+        "fontSize": 56,
+        "measuredWidth": 437,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          166,
+          45,
+          599,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "COMPOSURE / EMOTIONAL INTELLIGENCE / CONSIDERATION",
+        "fontSize": 22,
+        "measuredWidth": 664,
+        "measuredHeight": 21,
+        "glyphBoundsWithinArea": [
+          31,
+          20,
+          693,
+          38
+        ]
+      },
+      "rank": {
+        "text": "CUPS / KING",
+        "fontSize": 24,
+        "measuredWidth": 146,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-swords-ace",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-ace.png",
+      "artworkSha256": "dd286447c442ab7e2e5076b83dacc37c086b4f89eea73276711f9bd4ac933fda",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-ace.png",
+      "cardSha256": "793ba8278ec168a94ec8fbcd129f228148ac018d9dbddbad9d245af87caa8209",
+      "bytes": 1955048,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "ACE OF SWORDS",
+        "fontSize": 56,
+        "measuredWidth": 509,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          127,
+          45,
+          633,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "CLARITY / DISCERNMENT / TRUTH",
+        "fontSize": 28,
+        "measuredWidth": 478,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          125,
+          18,
+          599,
+          44
+        ]
+      },
+      "rank": {
+        "text": "SWORDS / ACE",
+        "fontSize": 24,
+        "measuredWidth": 172,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-swords-two",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-two.png",
+      "artworkSha256": "9c093787124be9d6a8028c14eda5946e082846e01447ab5ec1ad60eba6325209",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-two.png",
+      "cardSha256": "2bab82b85b938d63f96aaa019cfbc3a6209b0c649874c0849953fdbc341695d2",
+      "bytes": 1885047,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "TWO OF SWORDS",
+        "fontSize": 56,
+        "measuredWidth": 532,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          117,
+          45,
+          646,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "INDECISION / MISSING INFORMATION / WEIGHING OPTIONS",
+        "fontSize": 24,
+        "measuredWidth": 711,
+        "measuredHeight": 23,
+        "glyphBoundsWithinArea": [
+          8,
+          20,
+          717,
+          42
+        ]
+      },
+      "rank": {
+        "text": "SWORDS / TWO",
+        "fontSize": 24,
+        "measuredWidth": 181,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-swords-three",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-three.png",
+      "artworkSha256": "f1a06e95dfa977b0b674033ef4627035c32b7adbf6c18f617dd7b08b8fe2b7b0",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-three.png",
+      "cardSha256": "1800cf5d4bf35ba61736543f787ea436c9e9195ead9770439178a0b7f171b486",
+      "bytes": 1895099,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "THREE OF SWORDS",
+        "fontSize": 56,
+        "measuredWidth": 599,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          84,
+          45,
+          680,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "HEARTACHE / DISAPPOINTMENT / EMOTIONAL HONESTY",
+        "fontSize": 24,
+        "measuredWidth": 682,
+        "measuredHeight": 23,
+        "glyphBoundsWithinArea": [
+          23,
+          20,
+          702,
+          42
+        ]
+      },
+      "rank": {
+        "text": "SWORDS / THREE",
+        "fontSize": 24,
+        "measuredWidth": 209,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-swords-four",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-four.png",
+      "artworkSha256": "de1f82b0bb0412c0d34c7291e639fdc9cba9443d9eb39679ca476bce45e53c74",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-four.png",
+      "cardSha256": "1e638846b89b8a9cd15b0addde6a908768302c7127f68b47b25a12cedebabd1f",
+      "bytes": 1914856,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "FOUR OF SWORDS",
+        "fontSize": 56,
+        "measuredWidth": 561,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          104,
+          45,
+          661,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "MENTAL REST / PAUSE / REGAINING PACE",
+        "fontSize": 28,
+        "measuredWidth": 581,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          73,
+          18,
+          652,
+          44
+        ]
+      },
+      "rank": {
+        "text": "SWORDS / FOUR",
+        "fontSize": 24,
+        "measuredWidth": 193,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-swords-five",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-five.png",
+      "artworkSha256": "c28245c34cc6ae94726070767d7b4d578c7ed3448dd5e86a100a24ccdd3024c3",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-five.png",
+      "cardSha256": "86e3ce254a4eae8d0d6c44aa1b0e741f3245f1d35fb9b0e3fb2106a91fdf841b",
+      "bytes": 2048133,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "FIVE OF SWORDS",
+        "fontSize": 56,
+        "measuredWidth": 531,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          119,
+          45,
+          646,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "CONFLICT / COST OF WINNING / STEPPING BACK",
+        "fontSize": 28,
+        "measuredWidth": 670,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          29,
+          18,
+          696,
+          44
+        ]
+      },
+      "rank": {
+        "text": "SWORDS / FIVE",
+        "fontSize": 24,
+        "measuredWidth": 180,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-swords-six",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-six.png",
+      "artworkSha256": "a36a583624b846b875c396aaa0f0101ffa2c3d9436baf741be075f9bd14aa590",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-six.png",
+      "cardSha256": "6bcb89de79b1496a5d268507dbf20a5b0ab0c48ceb0dfefc666bb16539e763da",
+      "bytes": 1866326,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "SIX OF SWORDS",
+        "fontSize": 56,
+        "measuredWidth": 491,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          139,
+          45,
+          626,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "TRANSITION / SEEKING CALM / CARRYING LESSONS",
+        "fontSize": 28,
+        "measuredWidth": 716,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          5,
+          18,
+          718,
+          44
+        ]
+      },
+      "rank": {
+        "text": "SWORDS / SIX",
+        "fontSize": 24,
+        "measuredWidth": 165,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-swords-seven",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-seven.png",
+      "artworkSha256": "012625fe10a1fe34a47c0a5007b8c373dae722c6a69ab2829713570a508df0fc",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-seven.png",
+      "cardSha256": "7f78514cda84e6289c73414565554d423a5b2ee6cb4b3b20133537739a42b55d",
+      "bytes": 1942605,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "SEVEN OF SWORDS",
+        "fontSize": 56,
+        "measuredWidth": 591,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          89,
+          45,
+          676,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "STRATEGY / DISCRETION / ACCOUNTABILITY",
+        "fontSize": 28,
+        "measuredWidth": 618,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          55,
+          18,
+          670,
+          44
+        ]
+      },
+      "rank": {
+        "text": "SWORDS / SEVEN",
+        "fontSize": 24,
+        "measuredWidth": 205,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-swords-eight",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-eight.png",
+      "artworkSha256": "f783026473ab02491d139b93c010e7bea05d0b2752ddc6ba7d0f5a145b81207c",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-eight.png",
+      "cardSha256": "d9ce0d3debab91fc97ab9f64d5bc34d7bb1b229665a99693d08accfc35958a1a",
+      "bytes": 2037201,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "EIGHT OF SWORDS",
+        "fontSize": 56,
+        "measuredWidth": 584,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          92,
+          45,
+          672,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "FEELING STUCK / CONSTRAINTS / POSSIBILITY OF CHOICE",
+        "fontSize": 24,
+        "measuredWidth": 684,
+        "measuredHeight": 23,
+        "glyphBoundsWithinArea": [
+          22,
+          20,
+          703,
+          42
+        ]
+      },
+      "rank": {
+        "text": "SWORDS / EIGHT",
+        "fontSize": 24,
+        "measuredWidth": 202,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-swords-nine",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-nine.png",
+      "artworkSha256": "cb97dbe60c8d10572d75e8f1521908ca5240bb40039f16af6d56da6f3be1c70b",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-nine.png",
+      "cardSha256": "35b3e4c260bc59f889c0581a2d452e94428c65c14565b2f41b55480d9197bb9a",
+      "bytes": 1804821,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "NINE OF SWORDS",
+        "fontSize": 56,
+        "measuredWidth": 544,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          111,
+          45,
+          652,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "WORRY / REPEATING THOUGHTS / SELF-BLAME",
+        "fontSize": 28,
+        "measuredWidth": 662,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          31,
+          18,
+          691,
+          44
+        ]
+      },
+      "rank": {
+        "text": "SWORDS / NINE",
+        "fontSize": 24,
+        "measuredWidth": 186,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-swords-ten",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-ten.png",
+      "artworkSha256": "5f86e863372d256f96a2bef97c43efea3d543259b182114b1b943f71df2cda1f",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-ten.png",
+      "cardSha256": "e694f5d8d743abf4647c7bb03ebaaf85443a94cc33bc32673f0ed0a1351e2404",
+      "bytes": 1947546,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "TEN OF SWORDS",
+        "fontSize": 56,
+        "measuredWidth": 510,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          128,
+          45,
+          635,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "DIFFICULT ENDING / LIMITS OF ENDURANCE / RECEIVING SUPPORT",
+        "fontSize": 20,
+        "measuredWidth": 673,
+        "measuredHeight": 19,
+        "glyphBoundsWithinArea": [
+          27,
+          21,
+          698,
+          35
+        ]
+      },
+      "rank": {
+        "text": "SWORDS / TEN",
+        "fontSize": 24,
+        "measuredWidth": 175,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-swords-page",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-page.png",
+      "artworkSha256": "f3fb1af874697f52a9b984ca75b5f4405c4e2117ab3a2ee9ce4fdf144f41a7a4",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-page.png",
+      "cardSha256": "9c7747ca6f92d65473cdcefd193a377407bf8b05124ba75fdc3eef99b56f2ac6",
+      "bytes": 2012949,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "PAGE OF SWORDS",
+        "fontSize": 56,
+        "measuredWidth": 551,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          109,
+          45,
+          656,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "CURIOSITY / OBSERVATION / VERIFICATION",
+        "fontSize": 28,
+        "measuredWidth": 611,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          59,
+          18,
+          667,
+          44
+        ]
+      },
+      "rank": {
+        "text": "SWORDS / PAGE",
+        "fontSize": 24,
+        "measuredWidth": 189,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-swords-knight",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-knight.png",
+      "artworkSha256": "aa3c31e663e5dccffbc514ed07650f3f90200ff23647f38609022f3a46cf26bf",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-knight.png",
+      "cardSha256": "6a29a67270b632dcb016a1c56222c4dc7ea5afea659484687bd109067e28d2cb",
+      "bytes": 2039965,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "KNIGHT OF SWORDS",
+        "fontSize": 56,
+        "measuredWidth": 637,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          66,
+          45,
+          699,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "DECISIVENESS / SPEED / DEBATE",
+        "fontSize": 28,
+        "measuredWidth": 458,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          135,
+          18,
+          590,
+          44
+        ]
+      },
+      "rank": {
+        "text": "SWORDS / KNIGHT",
+        "fontSize": 24,
+        "measuredWidth": 221,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-swords-queen",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-queen.png",
+      "artworkSha256": "7e343775d178869482307ebe1525dfe6d7bcbb8553dd0bdeefa68ecf0ffe035d",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-queen.png",
+      "cardSha256": "dccdd458fc20dee34fd6b76e3f0745e87b0997ef8540044d918d57fd05bda3b2",
+      "bytes": 1968936,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "QUEEN OF SWORDS",
+        "fontSize": 56,
+        "measuredWidth": 605,
+        "measuredHeight": 50,
+        "glyphBoundsWithinArea": [
+          82,
+          40,
+          683,
+          89
+        ]
+      },
+      "keywords": {
+        "text": "BOUNDARIES / DIRECTNESS / INDEPENDENCE",
+        "fontSize": 28,
+        "measuredWidth": 639,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          45,
+          18,
+          681,
+          44
+        ]
+      },
+      "rank": {
+        "text": "SWORDS / QUEEN",
+        "fontSize": 24,
+        "measuredWidth": 212,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-swords-king",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-king.png",
+      "artworkSha256": "5c876f9044f65338647e2d4dbd2009b69e365b91be8926cd806bab3b75061c18",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-king.png",
+      "cardSha256": "83086f5780a881bd4e677c6b2bfb2f452edc80f04f6c9b4c8e2af36c677d2bc5",
+      "bytes": 1916456,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "KING OF SWORDS",
+        "fontSize": 56,
+        "measuredWidth": 548,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          110,
+          45,
+          654,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "JUDGMENT / EVIDENCE / FAIRNESS",
+        "fontSize": 28,
+        "measuredWidth": 495,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          116,
+          18,
+          608,
+          44
+        ]
+      },
+      "rank": {
+        "text": "SWORDS / KING",
+        "fontSize": 24,
+        "measuredWidth": 187,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-pentacles-ace",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-ace.png",
+      "artworkSha256": "33bcb85aa33f1aaa4c19b0a4a5e58a864f0240bb2efe0dd9cbc28ba8e7772d23",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-ace.png",
+      "cardSha256": "5c105fc56e475a6ccc547a8bd5b235a784728ba9582d5556416f3746b55b6d5c",
+      "bytes": 2002756,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "ACE OF PENTACLES",
+        "fontSize": 56,
+        "measuredWidth": 596,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          83,
+          45,
+          676,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "PRACTICAL OPPORTUNITY / RESOURCES / FIRST STEP",
+        "fontSize": 26,
+        "measuredWidth": 685,
+        "measuredHeight": 24,
+        "glyphBoundsWithinArea": [
+          22,
+          20,
+          703,
+          43
+        ]
+      },
+      "rank": {
+        "text": "PENTACLES / ACE",
+        "fontSize": 24,
+        "measuredWidth": 208,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-pentacles-two",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-two.png",
+      "artworkSha256": "a92995d5c13814a7d8a42c4631b0ce0126101c10f3616b00400899f5648c0f98",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-two.png",
+      "cardSha256": "38c7509a65a371aeb85e680e5db4da35a01d0320670eb3b716b41e1105ed22ea",
+      "bytes": 2022154,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "TWO OF PENTACLES",
+        "fontSize": 56,
+        "measuredWidth": 619,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          74,
+          45,
+          690,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "BALANCING RESOURCES / FLEXIBILITY / PRIORITIES",
+        "fontSize": 26,
+        "measuredWidth": 674,
+        "measuredHeight": 24,
+        "glyphBoundsWithinArea": [
+          27,
+          20,
+          697,
+          43
+        ]
+      },
+      "rank": {
+        "text": "PENTACLES / TWO",
+        "fontSize": 24,
+        "measuredWidth": 217,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-pentacles-three",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-three.png",
+      "artworkSha256": "084fadd522126a36d92f220af95fcb83b920838c7ebd63ded6010bcd49689cc0",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-three.png",
+      "cardSha256": "4b1f487b19b0bb73a29b67c893f48cdde8570d47960a5d09c1525bd049ad5ecb",
+      "bytes": 1942893,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "THREE OF PENTACLES",
+        "fontSize": 56,
+        "measuredWidth": 686,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          40,
+          45,
+          723,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "COLLABORATION / CRAFT / LEARNING FROM FEEDBACK",
+        "fontSize": 26,
+        "measuredWidth": 718,
+        "measuredHeight": 24,
+        "glyphBoundsWithinArea": [
+          5,
+          20,
+          720,
+          43
+        ]
+      },
+      "rank": {
+        "text": "PENTACLES / THREE",
+        "fontSize": 24,
+        "measuredWidth": 245,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-pentacles-four",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-four.png",
+      "artworkSha256": "a1647b488dbaa7d49f6fe94241c27f31f4d884e5c71b6134046bab2534ff0782",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-four.png",
+      "cardSha256": "64a943e3eb37c3a1f7c518db3b3f15ccaf34f88b4a84f484a1bad1429340c16c",
+      "bytes": 2024807,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "FOUR OF PENTACLES",
+        "fontSize": 56,
+        "measuredWidth": 648,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          60,
+          45,
+          704,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "HOLDING RESOURCES / SECURITY / LOOSENING CONTROL",
+        "fontSize": 24,
+        "measuredWidth": 690,
+        "measuredHeight": 23,
+        "glyphBoundsWithinArea": [
+          19,
+          20,
+          706,
+          42
+        ]
+      },
+      "rank": {
+        "text": "PENTACLES / FOUR",
+        "fontSize": 24,
+        "measuredWidth": 229,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-pentacles-five",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-five.png",
+      "artworkSha256": "11b737b941506fac5f78c042afca39e9f13608813e0d25d0549f367a4592c302",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-five.png",
+      "cardSha256": "7c9b3e4c42624d225f8096e8d864e13b785b63a04356ea2cf059c3175869388f",
+      "bytes": 1991211,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "FIVE OF PENTACLES",
+        "fontSize": 56,
+        "measuredWidth": 618,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          75,
+          45,
+          689,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "SCARCITY / EXCLUSION / SEEKING SUPPORT",
+        "fontSize": 28,
+        "measuredWidth": 613,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          58,
+          18,
+          668,
+          44
+        ]
+      },
+      "rank": {
+        "text": "PENTACLES / FIVE",
+        "fontSize": 24,
+        "measuredWidth": 216,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-pentacles-six",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-six.png",
+      "artworkSha256": "cdbe3acc82ce9166086c504dd088a513accbba8e5b7bef7579a24a73253caff3",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-six.png",
+      "cardSha256": "34aa84ae61ca582e40f45d9ab6a377a85beb40439d4a149565ea8599b3bb6cdd",
+      "bytes": 1992354,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "SIX OF PENTACLES",
+        "fontSize": 56,
+        "measuredWidth": 578,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          95,
+          45,
+          669,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "GIVING AND RECEIVING / FAIRNESS / LIMITS OF SUPPORT",
+        "fontSize": 24,
+        "measuredWidth": 682,
+        "measuredHeight": 23,
+        "glyphBoundsWithinArea": [
+          22,
+          20,
+          702,
+          42
+        ]
+      },
+      "rank": {
+        "text": "PENTACLES / SIX",
+        "fontSize": 24,
+        "measuredWidth": 201,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-pentacles-seven",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-seven.png",
+      "artworkSha256": "90da432b9938db0ccf8546fbf36e4b030aff80df5997f2f82465af603bd3c534",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-seven.png",
+      "cardSha256": "19cb8ac58a7fa6a24f1b818c966f3690261dfc10a4a21e681e084ac8c89944a8",
+      "bytes": 1998147,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "SEVEN OF PENTACLES",
+        "fontSize": 56,
+        "measuredWidth": 678,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          45,
+          45,
+          719,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "PATIENCE / REVIEWING PROGRESS / ADJUSTMENT",
+        "fontSize": 28,
+        "measuredWidth": 705,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          12,
+          18,
+          714,
+          44
+        ]
+      },
+      "rank": {
+        "text": "PENTACLES / SEVEN",
+        "fontSize": 24,
+        "measuredWidth": 241,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-pentacles-eight",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-eight.png",
+      "artworkSha256": "500d233b2fa7d8ee26cf079b98cc880cd5186d3e2e26b405d795b238d3750961",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-eight.png",
+      "cardSha256": "1bfa01ab778a60793b5f520044882b543d0896e3106cf07308b6b80affec80ca",
+      "bytes": 1930837,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "EIGHT OF PENTACLES",
+        "fontSize": 56,
+        "measuredWidth": 671,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          49,
+          45,
+          716,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "PRACTICE / ATTENTION TO DETAIL / CRAFT",
+        "fontSize": 28,
+        "measuredWidth": 601,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          64,
+          18,
+          662,
+          44
+        ]
+      },
+      "rank": {
+        "text": "PENTACLES / EIGHT",
+        "fontSize": 24,
+        "measuredWidth": 238,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-pentacles-nine",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-nine.png",
+      "artworkSha256": "df07a30f6164b8bb20f8f6f4c8c41f527c02421610d605baeee71aa325a6bd40",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-nine.png",
+      "cardSha256": "885867d529b891fa77a0ff928a53113ddb92393c58c0def5cd0df70bc79307fc",
+      "bytes": 1868613,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "NINE OF PENTACLES",
+        "fontSize": 56,
+        "measuredWidth": 631,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          68,
+          45,
+          696,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "SELF-SUFFICIENCY / APPRECIATING EFFORT / ENJOYMENT",
+        "fontSize": 24,
+        "measuredWidth": 696,
+        "measuredHeight": 23,
+        "glyphBoundsWithinArea": [
+          16,
+          20,
+          709,
+          42
+        ]
+      },
+      "rank": {
+        "text": "PENTACLES / NINE",
+        "fontSize": 24,
+        "measuredWidth": 222,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-pentacles-ten",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-ten.png",
+      "artworkSha256": "32276bc16f99e2b17f67eeb143a615eaf7cefd09bbdde3daa9ea9c5d64d05ee5",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-ten.png",
+      "cardSha256": "daa99935c0265c374ec41ff0ab0d2bd50225911912de7aa1dd93c6be8fe2f018",
+      "bytes": 1931909,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "TEN OF PENTACLES",
+        "fontSize": 56,
+        "measuredWidth": 597,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          85,
+          45,
+          679,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "LASTING FOUNDATION / LEGACY / COMMUNITY",
+        "fontSize": 28,
+        "measuredWidth": 660,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          34,
+          18,
+          691,
+          44
+        ]
+      },
+      "rank": {
+        "text": "PENTACLES / TEN",
+        "fontSize": 24,
+        "measuredWidth": 211,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-pentacles-page",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-page.png",
+      "artworkSha256": "c4707eb9b765a59cf1e527433a08f1314c4a71de25f6ed57f6aef8569b60dafe",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-page.png",
+      "cardSha256": "a881cb8412bbdd8188b6f65e2d36034ea1487b3812edc3140ade1946397eef26",
+      "bytes": 1962513,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "PAGE OF PENTACLES",
+        "fontSize": 56,
+        "measuredWidth": 638,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          65,
+          45,
+          699,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "PRACTICAL LEARNING / SMALL STEPS / PLANNING",
+        "fontSize": 28,
+        "measuredWidth": 698,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          15,
+          18,
+          710,
+          44
+        ]
+      },
+      "rank": {
+        "text": "PENTACLES / PAGE",
+        "fontSize": 24,
+        "measuredWidth": 225,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-pentacles-knight",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-knight.png",
+      "artworkSha256": "5a22c4a17926e82f253e56d420e2613220a898dc5eca6bd73caa32e3cf38e532",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-knight.png",
+      "cardSha256": "4274c2524908cc46334f160b1dfc8010bc28d41b2fae33cc389615c9913f9d87",
+      "bytes": 1952253,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "KNIGHT OF PENTACLES",
+        "fontSize": 56,
+        "measuredWidth": 724,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          22,
+          45,
+          742,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "PERSISTENCE / CONSISTENCY / RESPONSIBILITY",
+        "fontSize": 28,
+        "measuredWidth": 670,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          29,
+          18,
+          696,
+          44
+        ]
+      },
+      "rank": {
+        "text": "PENTACLES / KNIGHT",
+        "fontSize": 24,
+        "measuredWidth": 257,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-pentacles-queen",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-queen.png",
+      "artworkSha256": "63134e794d2b75ba4acebf26752b4ddbf38f19c29f146bbad74d1e25ccca44e3",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-queen.png",
+      "cardSha256": "94588813eff3e4e77b65e5768292edbc9bb174dec9bf5866fec33af5bb94a789",
+      "bytes": 2013260,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "QUEEN OF PENTACLES",
+        "fontSize": 56,
+        "measuredWidth": 692,
+        "measuredHeight": 50,
+        "glyphBoundsWithinArea": [
+          38,
+          40,
+          726,
+          89
+        ]
+      },
+      "keywords": {
+        "text": "PRACTICAL CARE / CAPACITY / LIVING SPACE",
+        "fontSize": 28,
+        "measuredWidth": 622,
+        "measuredHeight": 27,
+        "glyphBoundsWithinArea": [
+          53,
+          18,
+          672,
+          44
+        ]
+      },
+      "rank": {
+        "text": "PENTACLES / QUEEN",
+        "fontSize": 24,
+        "measuredWidth": 248,
+        "measuredHeight": 23
+      }
+    },
+    {
+      "cardId": "minor-pentacles-king",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-king.png",
+      "artworkSha256": "c6c8f68cfc0f49ecedf71bfcd2e986bcc46093d4c0356cc32fbef41203b0c850",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-king.png",
+      "cardSha256": "88554a3ccf20e3a2c8c60981a580aa3b6b66e3cbbd2ae715455caf991c3812d8",
+      "bytes": 1973417,
+      "size": [
+        1024,
+        1768
+      ],
+      "sourceHashPreserved": true,
+      "maskedArtworkPixelsUnchanged": true,
+      "title": {
+        "text": "KING OF PENTACLES",
+        "fontSize": 56,
+        "measuredWidth": 635,
+        "measuredHeight": 39,
+        "glyphBoundsWithinArea": [
+          67,
+          45,
+          698,
+          84
+        ]
+      },
+      "keywords": {
+        "text": "RESOURCE STEWARDSHIP / RELIABILITY / RESPONSIBILITY",
+        "fontSize": 24,
+        "measuredWidth": 705,
+        "measuredHeight": 23,
+        "glyphBoundsWithinArea": [
+          12,
+          20,
+          714,
+          42
+        ]
+      },
+      "rank": {
+        "text": "PENTACLES / KING",
+        "fontSize": 24,
+        "measuredWidth": 223,
+        "measuredHeight": 23
+      }
+    }
+  ],
+  "contactSheets": [
+    {
+      "path": "assets/tarot/tinh-quang/contact-sheets/tinh-quang-review-01.png",
+      "sha256": "d00760cf3c2dd9a66ced3ef259738e1bb2d3f0a5f9f5a998d657f53aec74692a"
+    },
+    {
+      "path": "assets/tarot/tinh-quang/contact-sheets/tinh-quang-review-02.png",
+      "sha256": "2541f9e479e1ebf3e39c36bf78741e558daa481eef29ad69aa19d4e91267501a"
+    },
+    {
+      "path": "assets/tarot/tinh-quang/contact-sheets/tinh-quang-review-03.png",
+      "sha256": "a147e3141512726790af7ec6ed0759b12d6270f8ad8f765659cf69de172c5ee2"
+    },
+    {
+      "path": "assets/tarot/tinh-quang/contact-sheets/tinh-quang-review-04.png",
+      "sha256": "2bf1adf455fffc1af674c59b40a7c4564e24d2f3fef80ff3e7ff09d5a0818f84"
+    },
+    {
+      "path": "assets/tarot/tinh-quang/contact-sheets/tinh-quang-review-05.png",
+      "sha256": "6d7ab1443bff98a0d653f6de7cbc3398d03fc3bb0396660aa797740178f50720"
+    },
+    {
+      "path": "assets/tarot/tinh-quang/contact-sheets/tinh-quang-review-06.png",
+      "sha256": "b0d59747bd4200263f4d3db20d7bdf75663499c5271f0bdf8ea2c0ddfd2bf3bd"
+    },
+    {
+      "path": "assets/tarot/tinh-quang/contact-sheets/tinh-quang-review-07.png",
+      "sha256": "6901ff5c7b63aced92208b99bd50a4a2f46fce5d9c76c2c9ee37892fc6d070c9"
+    }
+  ],
+  "activationAllowed": false,
+  "fullDeckReady": false,
+  "remainingGates": [
+    "Cover and back images/QC",
+    "Owner access-tier decision",
+    "Canonical active metadata merge and full-deck quality-review.json",
+    "Runtime JPEGs and standard app bindings",
+    "Android and separately approved cloud synchronization"
+  ]
+}

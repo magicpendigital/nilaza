@@ -1,0 +1,101 @@
+{
+  "id": "nilaza.astrology.ai-insight",
+  "version": "1.0.0",
+  "status": "runtime_deployed_staging_configuration_pending",
+  "endpoint": "/ai/astrology-insight",
+  "requestSchema": {
+    "id": "https://nilaza.local/contracts/astrology-ai-insight/request/1.0.0",
+    "path": "packages/agent-config/astrology-ai-insight/request.schema.json"
+  },
+  "invocationSchema": {
+    "id": "https://nilaza.local/contracts/astrology-ai-insight/invocation/1.0.0",
+    "path": "packages/agent-config/astrology-ai-insight/invocation.schema.json"
+  },
+  "responseSchema": {
+    "id": "https://nilaza.local/contracts/astrology-ai-insight/response/1.0.0",
+    "name": "astrology_ai_insight_v1",
+    "path": "packages/agent-config/astrology-ai-insight/response.schema.json"
+  },
+  "promptVersionId": "astrology_interpretation_system",
+  "promptVersion": "2026-09-25-ai-insight-v1",
+  "chartContract": {
+    "id": "nilaza.astrology.canonical-chart",
+    "supportedVersions": [
+      "0.2.0"
+    ],
+    "supportedCalculationVersions": [
+      "nilaza-a3-utc-tt-2"
+    ]
+  },
+  "entitlement": {
+    "requiredEntitlement": "premium_astrology_ai",
+    "enforcementBoundary": "server",
+    "freeFallback": "deterministic_chart_story"
+  },
+  "privacyBoundary": {
+    "mode": "allowlist_only",
+    "allowedDataClasses": [
+      "opaque_request_id",
+      "opaque_report_id",
+      "chart_and_calculation_versions",
+      "selected_calculated_fact_ids",
+      "sanitized_placements_aspects_and_houses",
+      "calculation_caveat_codes",
+      "sanitized_current_user_focus"
+    ],
+    "forbiddenDataClasses": [
+      "raw_birth_date",
+      "raw_birth_time",
+      "raw_birth_place",
+      "latitude_or_longitude",
+      "timezone_or_utc_offset",
+      "raw_birth_profile",
+      "journal_content_or_history",
+      "private_chat_history",
+      "account_or_device_identifier"
+    ],
+    "forbiddenFieldNames": [
+      "birthDate",
+      "dateOfBirth",
+      "birthTime",
+      "timeOfBirth",
+      "birthPlace",
+      "placeOfBirth",
+      "location",
+      "coordinates",
+      "latitude",
+      "longitude",
+      "timezone",
+      "timeZone",
+      "utcOffset",
+      "birthProfile",
+      "journal",
+      "journalEntry",
+      "journalEntries",
+      "chatHistory",
+      "userId",
+      "deviceId"
+    ],
+    "textRule": "The authenticated invocation is validated and stored as an owned report before model context is built. userFocus.sanitizedQuestion is current-turn context only; do not store it in the report, usage event, or trace. The model sees only selected calculated facts and this question."
+  },
+  "evidencePolicy": {
+    "mode": "selected_fact_ids_only",
+    "requireEvidenceOnEveryInterpretationSection": true,
+    "rejectUnknownFactIds": true,
+    "rejectVersionMismatch": true
+  },
+  "safetyPolicy": {
+    "interpretCalculatedFactsOnly": true,
+    "allowSymbolicReflection": true,
+    "blockInventedPlacements": true,
+    "blockDeterministicPredictions": true,
+    "blockMedicalLegalFinancialAndMentalHealthAdvice": true,
+    "requireCalculationCaveats": true,
+    "requiredDisclaimerKey": "astrology_reflection_not_prediction"
+  },
+  "fixtures": {
+    "validRequest": "packages/agent-config/astrology-ai-insight/fixtures/valid-request.json",
+    "validInvocation": "packages/agent-config/astrology-ai-insight/fixtures/valid-invocation.json",
+    "validResponse": "packages/agent-config/astrology-ai-insight/fixtures/valid-response.json"
+  }
+}

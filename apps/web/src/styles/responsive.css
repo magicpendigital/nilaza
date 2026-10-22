@@ -1,0 +1,21 @@
+html, body { overflow-x: clip; }
+.shell { min-width: 0; }
+.nav-shell { min-width: 0; }
+.nav-shell .brand { min-width: 0; }
+.nav-shell .brand-mark { flex: 0 0 32px; }
+.nav-shell .nav-actions { flex: 0 0 auto; }
+.hero-content { min-width: 0; }
+/* Older Safari ignores svh and the flex alignment keyword `end`. */
+.hero { min-height: calc(100vh - 72px); align-items: flex-end; }
+
+@media (max-width: 800px) {
+  .shell { width: calc(100% - 28px); }
+  .hero h1 {
+    max-width: 100% !important;
+    font-size: clamp(2.8rem, 13vw, 4.25rem) !important;
+    overflow-wrap: break-word !important;
+  }
+  .hero-copy { max-width: 100% !important; font-size: .96rem !important; }
+  .hero-actions { display: grid !important; grid-template-columns: 1fr !important; }
+  .hero-actions .button { width: 100% !important; white-space: normal; text-align: center; }
+}

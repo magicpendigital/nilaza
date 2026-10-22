@@ -1,0 +1,338 @@
+{
+  "schemaVersion": 1,
+  "taskId": "mvp-R01-root-validation-2026-10-01",
+  "ownerAgent": "qa_review_agent",
+  "lane": "QA coordination: validation of existing implementation lanes",
+  "goal": "Rebaseline mobile and web checks on actual modified source, diagnose Astrology regression without skipped tests or inflated timeouts.",
+  "successCriteria": [
+    "Full mobile test result and typecheck captured on current root source.",
+    "Web check/build distinguish environment permission errors from compiler failures.",
+    "Actual Astrology failed persistence/retry/reload/delete test passes with real engine or root cause is recorded; native and CI remain explicit gates."
+  ],
+  "writeScope": [
+    "apps/mobile/src/features/astrology/__tests__/AstrologyExperience.test.tsx",
+    "docs/mvp-remediation/2026-10-01/baseline-and-board.vi.md",
+    "docs/mvp-remediation/2026-10-01/R01-validation.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "No App/component/backend/content changes in this validation task.",
+    "No dependency install, migration, deploy, publish, native release or skipped tests."
+  ],
+  "impact": {
+    "entryPoint": "Mobile quality suite and website compilation.",
+    "dataWrite": "Local test/build artifacts only; optional test fix only after evidence diagnosis and refreshed review.",
+    "backendContract": "Mocked/fixture tests, no live backend mutation.",
+    "adminVisibility": "No Admin change.",
+    "privacySafety": "Fictional fixtures only; no keys or private user data.",
+    "observability": "Fresh test counts, source hashes, durations and environment limitations.",
+    "rollback": "Test-only scope; preserve all owner source changes; no production effects."
+  },
+  "canonicalContracts": [
+    "Existing mobile Jest config and scripts remain; do not extend timeout merely to suppress failure.",
+    "MVP gates G1 free invited beta both iOS/Android, G2monetized G3stores; no claim of numeric quota or native acceptance."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "docs/MOBILE_EAS_TESTING.md",
+      "sha256": "615ba8a9cf7cc348be1fc8497fa1d04729dab5c8060724a476f06493f213cfda",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "docs/MOBILE_CI_OWNER_GUIDE.md",
+      "sha256": "1f0a6a28681c44623fec49aaada22d7b3d2fce69529454f81455b1e887de5a21",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "docs/MVP_REMEDIATION_PLAN_2026-10-01.vi.md",
+      "sha256": "63da96b05e8be27d8c0b12ab94d70c2ec33a409ca32d5e31215bbab891119e48",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "3b992f0b9fbb16222d1c9a30b8f8195544def4bd529de1b00a98b10024f0c08a",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "apps/mobile/package.json",
+      "sha256": "71bed88f043629f67e9674ec6abc8fbd99956d68e57176abdb853416cd24d7ab",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "apps/mobile/jest.config.js",
+      "sha256": "0ef0f49fe03f602ef07de0f856e8249ae8f09b57e858682ee0b6fc28dd924f52",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/__tests__/AstrologyExperience.test.tsx",
+      "sha256": "3f35c6f6a0d466c33fcf8252ee41a9a4641c87aa49cf20658085785daf23008d",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+      "sha256": "071121157f922aa56d477e89cf1d512ed8be9c732b051a55d92371d950c673c1",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/persistence.ts",
+      "sha256": "28d8aa06a941e9b1b3cc7d444752747dc0574a73f79ea0d593fd7e56fb9ae538",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "apps/mobile/src/features/journal/journalRepository.ts",
+      "sha256": "5e86779cfa4bf8dd738316341088702648e99a4f6725dd2482a48d168fde540c",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "apps/mobile/src/features/journal/JournalComposer.tsx",
+      "sha256": "53511293bd3a9079accfc753d9b0b8cea6c95e241fd984c073ab5c4ad2af16db",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "apps/web/package.json",
+      "sha256": "3040b061a914e06ceff0c32d01b3c4633a6a8c911d01b852fb2f8eb92eb3c5de",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "package.json",
+      "sha256": "d88632c639a6cafe6a9b0f363476d6109e6b57cec9e40555cd714c97be343da3",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "ba3e99deb94ffd6b862f2008b5886cb60aac9a60d4fa1c28cc98f4226a2bbedb",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "sha256": "e3c2c1ec939507fd4c42983c8e136595cc9a24256a1c45abb86c73d8be77389e",
+      "reason": "Final regression includes current root R04/R05/R07/R08/R09 code and SDK-compatible new export modules; backend-only agent changes remain separate local gates."
+    },
+    {
+      "path": "apps/mobile/src/a2ui/index.tsx",
+      "sha256": "e08b12d9c7930c1df3f6adecea47b4b282faed21e0959a7d2e04012a0b23d867",
+      "reason": "Final regression includes current root R04/R05/R07/R08/R09 code and SDK-compatible new export modules; backend-only agent changes remain separate local gates."
+    },
+    {
+      "path": "apps/mobile/src/a2ui/chat.tsx",
+      "sha256": "9d83a0016af3c5609374655118dd1fadc38b2ddfd6cde63963685990345a534f",
+      "reason": "Final regression includes current root R04/R05/R07/R08/R09 code and SDK-compatible new export modules; backend-only agent changes remain separate local gates."
+    },
+    {
+      "path": "apps/mobile/src/a2ui/AdaptiveNavigation.tsx",
+      "sha256": "f739402eb7601b4124740c71d9d0197ee7c992e27323ba6f414cb46fde420f47",
+      "reason": "Final regression includes current root R04/R05/R07/R08/R09 code and SDK-compatible new export modules; backend-only agent changes remain separate local gates."
+    },
+    {
+      "path": "apps/mobile/src/a2ui/useMotionPreference.ts",
+      "sha256": "6e05be3fbfa2efe5ddb2e0b71437d6c459c2c648789ec19cb2f1c1ee2198398b",
+      "reason": "Final regression includes current root R04/R05/R07/R08/R09 code and SDK-compatible new export modules; backend-only agent changes remain separate local gates."
+    },
+    {
+      "path": "apps/mobile/src/features/privacy/localExport.ts",
+      "sha256": "8be94c9de70fd7ae8140b1f82d28589076b857289d41759843b09ab0b9e885ff",
+      "reason": "Final regression includes current root R04/R05/R07/R08/R09 code and SDK-compatible new export modules; backend-only agent changes remain separate local gates."
+    },
+    {
+      "path": "apps/mobile/src/features/privacy/deliverExport.ts",
+      "sha256": "73ee1405a094fd342d07f96a0b1e8cf1c3f772279e23e10e10c6a39a3a709d8c",
+      "reason": "Final regression includes current root R04/R05/R07/R08/R09 code and SDK-compatible new export modules; backend-only agent changes remain separate local gates."
+    },
+    {
+      "path": "apps/mobile/src/features/privacy/deliverExport.web.ts",
+      "sha256": "4f045efbf2bb18bf37e3b1577cbf160b2d9bf2ef1bed968b72d9b23912e7fe36",
+      "reason": "Final regression includes current root R04/R05/R07/R08/R09 code and SDK-compatible new export modules; backend-only agent changes remain separate local gates."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Fresh exact QA plan with full results and separate browser/native/CI/live gates; no skipped case or inflated timeout."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No install in validation task; read current lock after R09 Expo SDK54-compatible expo-file-system19.0.24 and expo-sharing14.0.8 install. Existing scripts run unchanged."
+  },
+  "securityReview": {
+    "authzRls": "Local unit tests only; linked DB identity flagged separately.",
+    "sensitiveData": "Synthetic fixtures; no credential/private traces read.",
+    "secretsLogging": "No secret printing or env changes.",
+    "externalInput": "Trusted repository tests/build scripts; results not commands.",
+    "dependencies": "No install/update; existing lockfile version.",
+    "migrationRelease": "No external actions; ledger and mixed staging under review.",
+    "stopCondition": "Stop native release/live actions or test fake success; record environment limitations.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/src/features/astrology/__tests__/AstrologyExperience.test.tsx",
+      "docs/mvp-remediation/2026-10-01/baseline-and-board.vi.md",
+      "docs/mvp-remediation/2026-10-01/R01-validation.vi.md"
+    ],
+    "note": "QA scope only; mobile App and other owner work read-only; prior child stalled record not relied on."
+  },
+  "validationCommands": [
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand",
+    "npm run web:check",
+    "npm run web:build",
+    "npm run admin:check",
+    "npm run admin:test"
+  ],
+  "managerTestPath": "Read fresh outcomes/source baseline, replay fictional Astrology save failure/retry/reload; native test remains separately pending.",
+  "residualRisk": "Tests do not prove native accessibility/performance, external CI, real provider quality or mixed staging safety.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deployment": false,
+    "productionRelease": false
+  },
+  "externalSourceReview": [],
+  "implementationBaselineReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "docs/MOBILE_EAS_TESTING.md",
+      "sha256": "615ba8a9cf7cc348be1fc8497fa1d04729dab5c8060724a476f06493f213cfda",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "docs/MOBILE_CI_OWNER_GUIDE.md",
+      "sha256": "1f0a6a28681c44623fec49aaada22d7b3d2fce69529454f81455b1e887de5a21",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "docs/MVP_REMEDIATION_PLAN_2026-10-01.vi.md",
+      "sha256": "63da96b05e8be27d8c0b12ab94d70c2ec33a409ca32d5e31215bbab891119e48",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "3b992f0b9fbb16222d1c9a30b8f8195544def4bd529de1b00a98b10024f0c08a",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "apps/mobile/package.json",
+      "sha256": "71bed88f043629f67e9674ec6abc8fbd99956d68e57176abdb853416cd24d7ab",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "apps/mobile/jest.config.js",
+      "sha256": "0ef0f49fe03f602ef07de0f856e8249ae8f09b57e858682ee0b6fc28dd924f52",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/__tests__/AstrologyExperience.test.tsx",
+      "sha256": "3f35c6f6a0d466c33fcf8252ee41a9a4641c87aa49cf20658085785daf23008d",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+      "sha256": "071121157f922aa56d477e89cf1d512ed8be9c732b051a55d92371d950c673c1",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/persistence.ts",
+      "sha256": "28d8aa06a941e9b1b3cc7d444752747dc0574a73f79ea0d593fd7e56fb9ae538",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "apps/mobile/src/features/journal/journalRepository.ts",
+      "sha256": "5e86779cfa4bf8dd738316341088702648e99a4f6725dd2482a48d168fde540c",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "apps/mobile/src/features/journal/JournalComposer.tsx",
+      "sha256": "53511293bd3a9079accfc753d9b0b8cea6c95e241fd984c073ab5c4ad2af16db",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "apps/web/package.json",
+      "sha256": "3040b061a914e06ceff0c32d01b3c4633a6a8c911d01b852fb2f8eb92eb3c5de",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "package.json",
+      "sha256": "d88632c639a6cafe6a9b0f363476d6109e6b57cec9e40555cd714c97be343da3",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "ba3e99deb94ffd6b862f2008b5886cb60aac9a60d4fa1c28cc98f4226a2bbedb",
+      "reason": "Current QA baseline and real Astrology storage/calculation/test path reviewed; root code changes preserved, no claimed native/live pass."
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "sha256": "e3c2c1ec939507fd4c42983c8e136595cc9a24256a1c45abb86c73d8be77389e",
+      "reason": "Final regression includes current root R04/R05/R07/R08/R09 code and SDK-compatible new export modules; backend-only agent changes remain separate local gates."
+    },
+    {
+      "path": "apps/mobile/src/a2ui/index.tsx",
+      "sha256": "e08b12d9c7930c1df3f6adecea47b4b282faed21e0959a7d2e04012a0b23d867",
+      "reason": "Final regression includes current root R04/R05/R07/R08/R09 code and SDK-compatible new export modules; backend-only agent changes remain separate local gates."
+    },
+    {
+      "path": "apps/mobile/src/a2ui/chat.tsx",
+      "sha256": "9d83a0016af3c5609374655118dd1fadc38b2ddfd6cde63963685990345a534f",
+      "reason": "Final regression includes current root R04/R05/R07/R08/R09 code and SDK-compatible new export modules; backend-only agent changes remain separate local gates."
+    },
+    {
+      "path": "apps/mobile/src/a2ui/AdaptiveNavigation.tsx",
+      "sha256": "f739402eb7601b4124740c71d9d0197ee7c992e27323ba6f414cb46fde420f47",
+      "reason": "Final regression includes current root R04/R05/R07/R08/R09 code and SDK-compatible new export modules; backend-only agent changes remain separate local gates."
+    },
+    {
+      "path": "apps/mobile/src/a2ui/useMotionPreference.ts",
+      "sha256": "6e05be3fbfa2efe5ddb2e0b71437d6c459c2c648789ec19cb2f1c1ee2198398b",
+      "reason": "Final regression includes current root R04/R05/R07/R08/R09 code and SDK-compatible new export modules; backend-only agent changes remain separate local gates."
+    },
+    {
+      "path": "apps/mobile/src/features/privacy/localExport.ts",
+      "sha256": "8be94c9de70fd7ae8140b1f82d28589076b857289d41759843b09ab0b9e885ff",
+      "reason": "Final regression includes current root R04/R05/R07/R08/R09 code and SDK-compatible new export modules; backend-only agent changes remain separate local gates."
+    },
+    {
+      "path": "apps/mobile/src/features/privacy/deliverExport.ts",
+      "sha256": "73ee1405a094fd342d07f96a0b1e8cf1c3f772279e23e10e10c6a39a3a709d8c",
+      "reason": "Final regression includes current root R04/R05/R07/R08/R09 code and SDK-compatible new export modules; backend-only agent changes remain separate local gates."
+    },
+    {
+      "path": "apps/mobile/src/features/privacy/deliverExport.web.ts",
+      "sha256": "4f045efbf2bb18bf37e3b1577cbf160b2d9bf2ef1bed968b72d9b23912e7fe36",
+      "reason": "Final regression includes current root R04/R05/R07/R08/R09 code and SDK-compatible new export modules; backend-only agent changes remain separate local gates."
+    }
+  ]
+}

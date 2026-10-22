@@ -1,0 +1,354 @@
+{
+  "schemaVersion": 1,
+  "taskId": "resend-auth-android-qa-2026-10-05",
+  "ownerAgent": "nilaza-auth-android-qa-owner",
+  "lane": "mobile Auth Android internal packaging",
+  "goal": "Prepare a local debug-signed Android APK containing the current Auth confirmation/recovery implementation for the owner-selected Android test on the existing approved QA; no installation, cloud release or email send.",
+  "successCriteria": [
+    "Current TypeScript, Auth tests and version/native scheme checks pass.",
+    "Fresh Android embedded bundle and standalone arm64 APK assembled locally using verified JDK17/SDK and existing dependencies.",
+    "Artifact SHA-256, source input inventory, exact QA target, signature/version and unrun device/CI gates recorded.",
+    "No provider secret, environment file dump, database write, deployment, APK installation, email send or new target configuration."
+  ],
+  "writeScope": [
+    "artifacts/resend-auth-android-qa-2026-10-05/",
+    ".brand-work/resend-auth-android-qa-2026-10-05/",
+    ".brand-work/gradle/",
+    "apps/mobile/android/app/build/",
+    "apps/mobile/android/app/.cxx/",
+    "apps/mobile/android/build/",
+    "apps/mobile/dist/resend-auth-android-qa-2026-10-05/",
+    "docs/RESEND_AUTH_QA_TEMPLATE_ACTIVATION_2026-10-04.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "All mobile source, native version/configuration, product data, Admin workspaces, Growth and schema remain unchanged.",
+    "Legacy QA migration blocker and empty cloud release allowlist stay intact; no Singapore retarget, cloud build, signing credential change or installation."
+  ],
+  "impact": {
+    "entryPoint": "Existing auth-first welcome and dedicated nilaza://auth/confirm and nilaza://auth/recovery; no new runtime UI.",
+    "dataWrite": "Local build output, preserved prior APK, source hashes and sanitized evidence only. Owner performs test-account credential entry later; no account/user write by agent.",
+    "backendContract": "Compile public Supabase anon configuration only for approved akgrokwnkfqnfjqrildi/org drxbmvimiekeoeesgssp. Auth still issues/verifies tokens and sends via owner-saved SMTP; migrations untouched.",
+    "adminVisibility": "Internal owner packet documents compile checks versus pending delivery/device/backend acceptance; protected Admin unchanged.",
+    "privacySafety": "EXPO_NO_DOTENV=1; only allowlisted public runtime variables. Obtain existing public anon key through purpose-built connector, verify role/ref and do not print its value. No Resend/service-role/provider key or live account data.",
+    "observability": "Record source hashes before/after build, artifact digest, package/version/signature, bundle Auth callback markers, command exit codes and limitations. No test email by agent.",
+    "rollback": "Preserve prior APK/manifest before assemble; new output in dedicated artifact directory. Do not uninstall app, reset source, or change callback/SMTP settings."
+  },
+  "canonicalContracts": [
+    "apps/mobile/src/auth confirmation/recovery helpers and boundaries own deep-link handling; cloud callbacks already approved.",
+    "apps/mobile/app.json and Android Gradle define package/version/new architecture; existing debug signing explicitly internal QA.",
+    "Release runbook/profile govern cloud release separately; dirty local QA artifact is not an immutable production candidate."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "sanitized_build_logs",
+    "sanitized_artifact_metadata"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "35757424e5fc5ef5814015ceb87ace0a9b8b5e3602e555a09efd47f49d53b32e",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "sha256": "c6a16c4be5bd732c51158ab66c4ea92bd23c1e817da539f3820546a22d806ec8",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "e5fc9e3789ce1978ce3db7b7f41d6dd695d021c6d01ead2b11b3af14a4525f49",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "docs/release/RELEASE_RUNBOOK.md",
+      "sha256": "9f44d674b547e324982b87d79b4c46531e69c4f19d9e475557a60a963a27cae2",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "docs/release/release-profile.json",
+      "sha256": "f4964d0a17e6fd92d225d01ccacd554fbaf0033161f756571924cdd6a0c2aeaa",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "docs/MOBILE_EAS_TESTING.md",
+      "sha256": "6ac94c37d62ee9a58cc5963a5fb84777b7d951eaa3bd911a7f10100c6171a350",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "docs/MOBILE_CI_OWNER_GUIDE.md",
+      "sha256": "1f0a6a28681c44623fec49aaada22d7b3d2fce69529454f81455b1e887de5a21",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "1e4d2bc7a93a2a140690c7237537de582972db30088309996ab6462a79a53623",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/nilaza-plan-qc.md",
+      "sha256": "1f1ca706c56aef4d08ac94c6475c19a59c3838a218eab9e94ab9436fbe4cda03",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/release-control.md",
+      "sha256": "ece7ac8af2d268735631d188ef1e3c4ae8235e564a2ad32c241c4ace83ac54fa",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "8e8fdf645c65f91e60ae01df8a414ccedd1ab52b924a71891d901ad49e9e3601",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "apps/mobile/app.json",
+      "sha256": "8266103bf0c9f18227ac4b0f27fad4d16d5d9652f88b1d59e67a2186415b0fac",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "apps/mobile/package.json",
+      "sha256": "71bed88f043629f67e9674ec6abc8fbd99956d68e57176abdb853416cd24d7ab",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "apps/mobile/index.js",
+      "sha256": "0e94c7550ae97a9646eef9c3cf7cd971c65f09d3cc1ec95bbb531bf767e24a65",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "apps/mobile/metro.config.js",
+      "sha256": "d922649180a8576e5d27179a7489240b5ddb3086df921192f58181d06160defa",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "apps/mobile/babel.config.js",
+      "sha256": "687fab073263f11cada0f023e1281a58d201685b614d0dd44ed5770cdb5d1c51",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "apps/mobile/jest.config.js",
+      "sha256": "0ef0f49fe03f602ef07de0f856e8249ae8f09b57e858682ee0b6fc28dd924f52",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "apps/mobile/src/runtimeConfig.ts",
+      "sha256": "69677af271bffd4bcb7715b8927f9d9e49530a4d2482fac35cc86842857b9890",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "apps/mobile/src/auth/emailConfirmation.ts",
+      "sha256": "63d6e2ae8416ed9689424750f35577087490f092486fe91787e4bec33326a143",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "apps/mobile/src/auth/EmailConfirmationBoundary.tsx",
+      "sha256": "1dc5069881988c09afb95d3c4dc52be5c96e175b89a53174fa6e33b1f5e00f42",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "apps/mobile/src/auth/passwordRecovery.ts",
+      "sha256": "fac23a3921360f272006eed7412d8750c5e64bcca681d8564eea701c22873bfa",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "apps/mobile/src/auth/PasswordRecoveryBoundary.tsx",
+      "sha256": "9e156415eb225d634e8562392679dd9ad8d2b85d045154dd98425afbef1d5c1c",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "apps/mobile/src/auth/supabaseAuth.ts",
+      "sha256": "fb0466fe4db65bb6736a8bdbc68875d9aaff344a4ade0d59396b64792f1fef35",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "apps/mobile/src/auth/AuthFlow.tsx",
+      "sha256": "a1758b7bad2d0ba5f79ef1dc675bd191475e0c2f017d3246550e5c43f5202a55",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "apps/mobile/android/app/build.gradle",
+      "sha256": "07467a232432fb0f6fdc2218513c9d5eaf05c85575e272e14cee3fad5c6c927f",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "apps/mobile/android/build.gradle",
+      "sha256": "a678b5c3afa95c1e4ed3066e52370dcb3b453d659fa39edaa17f5cf01469ed69",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "apps/mobile/android/gradle.properties",
+      "sha256": "f429a884d09fdd2bbb2a653cbe7726b7d456b8385c1eaf441dbddad51f1f0534",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "apps/mobile/android/settings.gradle",
+      "sha256": "1d0a61c68b0399df9630d6c6d83fa66dcfada054df82e50354eefc10824ef669",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "apps/mobile/android/gradle/wrapper/gradle-wrapper.properties",
+      "sha256": "7bc07dc04c071a33ae2ac86b3bfdaaa0352d8c5e3132492811c48e1770828a20",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "apps/mobile/android/app/src/main/AndroidManifest.xml",
+      "sha256": "23ad3b612593da3ecf38f052c37e9c05710001faaf4b122c57dbdf979d401175",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "scripts/android-release-environment.ps1",
+      "sha256": "0b416a6c5944364b86a8d572bae1b3715ddb5938db9c808ba17fb1de274aa64a",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "scripts/generate-mobile-release-manifest.mjs",
+      "sha256": "565050d6124816a804fd5c9eb40117fb9b03aabef51ce0b7ca2a57503ac08685",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "scripts/validate-mobile-release-config.mjs",
+      "sha256": "f6c5cfd2673dddad390794bef148877a2f6dc4b1b8c37de9979c7e6e98f8cfc1",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "scripts/validate-mobile-export.mjs",
+      "sha256": "5c52a803648460788c09fda17d789b87f322d06ca9ea4ec35b7719f4f82ffd60",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "package.json",
+      "sha256": "35091240676cd0cbfb1b762ed4ee245ea8af7d59dd7a4dabb1284e415c7c6ed0",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "ba3e99deb94ffd6b862f2008b5886cb60aac9a60d4fa1c28cc98f4226a2bbedb",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": ".github/workflows/mobile-quality.yml",
+      "sha256": "0e6be3645a38f5549fed4f2bfb415dce5457b4757f775984edbe339d137c20e9",
+      "reason": "Reviewed current Auth packaging/configuration, native tooling or QA/release control input; no source edit planned."
+    },
+    {
+      "path": "node_modules/expo-sharing/android/build.gradle",
+      "sha256": "cb552aab32f32af5e3194cf429917bb87afdb891a33f0de73557fdb5546067ec",
+      "reason": "Inspected installed ExpoSharing14.0.8 fixed androidx legacy-support-v4:1.0.0 dependency; offline failure requires missing declared Maven artifacts, no version edit."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Local internal build requires version/artifact/source/device evidence; migration/cloud gate and credential boundary already covered. No guidance changes."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Installed Expo54/ReactNative0.81.5/Reanimated4/JDK17/SDK36/tool22 and checked-in Gradle8.14.3 inspected; no package install or version change. Offline assemble failed only because fixed declared AndroidX artifacts were absent in cache. Allow Gradle to retrieve declared artifacts from existing official Google/Maven repositories without refresh-dependencies, version changes or new SDK/licenses."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://resend.com/docs/send-with-supabase-smtp",
+      "checkedAt": "2026-10-04",
+      "reason": "Official current provider Auth, SMTP, key restriction and callback contract reviewed."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/auth/auth-smtp",
+      "checkedAt": "2026-10-04",
+      "reason": "Official current provider Auth, SMTP, key restriction and callback contract reviewed."
+    },
+    {
+      "url": "https://resend.com/docs/dashboard/api-keys/introduction",
+      "checkedAt": "2026-10-04",
+      "reason": "Official current provider Auth, SMTP, key restriction and callback contract reviewed."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/auth/native-mobile-deep-linking",
+      "checkedAt": "2026-10-04",
+      "reason": "Official current provider Auth, SMTP, key restriction and callback contract reviewed."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/auth/auth-email-templates",
+      "checkedAt": "2026-10-04",
+      "reason": "Current hosted template editing and ConfirmationURL contract verified."
+    },
+    {
+      "url": "https://developer.android.com/build/dependencies",
+      "checkedAt": "2026-10-05",
+      "reason": "Official Android documentation confirms Maven/transitive build dependency resolution; missing fixed AndroidX artifact retrieval requires no source/version edit."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No SQL or Auth user requests during build. QA ledger blocked; full backend and RLS readiness not certified by APK.",
+    "sensitiveData": "No private user rows, inbox content or credentials read; public anon intended for client only.",
+    "secretsLogging": "Disable dotenv and inherited EXPO_PUBLIC variables; use exact public allowlist and silent role/ref verification. Logs contain names/status only; no key/token or recipient.",
+    "externalInput": "Browser content/connector metadata treated as data; only existing approved QA accepted. No external instructions or key-detail workaround.",
+    "dependencies": "Use installed/pinned app packages and checked-in Gradle wrapper; allow existing declared Maven artifacts to download from official configured repositories. No package version edit, prebuild clean, SDK install or new license acceptance.",
+    "migrationRelease": "Local debug-signed artifact only. No cloud build, deploy, target allowlist edit, migration or installation; exact release/owner gates remain blocked.",
+    "stopCondition": "Stop for target/privileged key or source drift, credential/license request, unrecognized dependency source, source/dependency version change or unexplained compile failure. Diagnosed missing-cache failure may retry online after this scoped review.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "artifacts/resend-auth-android-qa-2026-10-05/OWNER_TEST.vi.md",
+      "artifacts/resend-auth-android-qa-2026-10-05/apk-badging.txt",
+      "artifacts/resend-auth-android-qa-2026-10-05/apk-signature.txt",
+      "artifacts/resend-auth-android-qa-2026-10-05/artifact-receipt.json",
+      "artifacts/resend-auth-android-qa-2026-10-05/checks.json",
+      "artifacts/resend-auth-android-qa-2026-10-05/device-install-plan.json",
+      "artifacts/resend-auth-android-qa-2026-10-05/device-install-receipt.json",
+      "artifacts/resend-auth-android-qa-2026-10-05/embedded-bundle-check.json",
+      "artifacts/resend-auth-android-qa-2026-10-05/nilaza-auth-qa-20261005.apk",
+      "artifacts/resend-auth-android-qa-2026-10-05/previous-app-release.apk",
+      "artifacts/resend-auth-android-qa-2026-10-05/previous-app-release.manifest.json",
+      "artifacts/resend-auth-android-qa-2026-10-05/source-inputs-after.json",
+      "artifacts/resend-auth-android-qa-2026-10-05/source-inputs-before.json",
+      "docs/RESEND_AUTH_QA_TEMPLATE_ACTIVATION_2026-10-04.vi.md"
+    ],
+    "note": "Existing mobile Auth work and other concurrent source changes preserved. New dedicated local artifact only; no staging/reset/commit."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/resend-auth-android-qa-2026-10-05.json",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand src/auth/__tests__",
+    "npm run mobile:release:config:check",
+    "node scripts/validate-mobile-export.mjs apps/mobile/dist/resend-auth-android-qa-2026-10-05/",
+    "Local Gradle :app:assembleRelease with arm64-v8a and task cache; verify APK signature/package/version/bundle."
+  ],
+  "managerTestPath": "Owner installs internal Android APK after handoff; uses authorized mailbox, personally enters password, checks confirmation/return-to-app/signin/reset and reports inbox/delivery without tokens. No actual device result yet.",
+  "residualRisk": "Dirty local source; no remote CI for this exact artifact or device acceptance. Legacy QA mixed migration history remains blocked; Auth-only smoke test does not certify app backend, production scale or release authority.",
+  "externalActions": {
+    "databaseWrite": false,
+    "providerWrite": false,
+    "deployment": false,
+    "emailSend": false,
+    "note": "Read existing public QA project/client key metadata; local packaging only, no account creation, sending, cloud build or installation."
+  },
+  "validationEvidence": [
+    "Preflight PASS before local output preparation.",
+    "JDK17.0.19/Android SDK36/tools22 inspection PASS.",
+    "Mobile TypeScript PASS; Auth regression 11 suites/62 tests PASS; version config 0.1.3/Android4/iOS4 PASS.",
+    "Existing public anon key role/ref verified silently; dotenv disabled for build.",
+    "2268 source input hashes recorded; old APK/manifest preserved before assemble.",
+    "First offline assemble FAIL after 20m57: ExpoSharing fixed AndroidX artifacts not cached. Native compilation passed; diagnosed no application source error. Failed log preserved.",
+    "Scoped online retry BUILD SUCCESSFUL in 30m10; no source/dependency version changes. 2268 source input hashes/file set unchanged before/after build.",
+    "APK signature/package/version/ABI and embedded bundle hash PASS: app.nilaza.mobile, 0.1.3/code4, arm64-v8a, Android debug certificate. Artifact SHA-256 b562d0d4189beae08bd81fd5ac6d53baa954709d1ed27f2fb515851e7a46817f, 107847630 bytes.",
+    "Dedicated QA web export PASS (1603 modules); validator PASS 69.82 MB / 82.6 percent below baseline. Six canonical prompt consumer files check PASS.",
+    "No device installation/acceptance, remote CI, email delivery, database write or cloud deployment. Owner test guide and sanitized receipts completed."
+  ]
+}

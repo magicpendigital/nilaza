@@ -1,0 +1,181 @@
+{
+  "schemaVersion": 1,
+  "taskId": "resend-smtp-qa-setup-2026-10-04",
+  "ownerAgent": "nilaza-email-qa-owner",
+  "lane": "cross_cutting_auth_provider_setup",
+  "goal": "Prepare a reviewed Resend SMTP QA configuration after verified domain, with exact native callbacks only after action-time approval and credential entry handed to the owner.",
+  "successCriteria": [
+    "Verified domain and sending DNS confirmed directly; tracking configuration inspected without enabling tracking.",
+    "Nonsecret SMTP draft and domain-restricted Sending API key draft prepared on correct QA target; no credential created or disclosed by agent.",
+    "Exact native callbacks saved only after explicit UI confirmation; no production/wildcard/site-host change.",
+    "Document what is configured, unsaved, awaiting approval and untested; no email send or schema rollout."
+  ],
+  "writeScope": [
+    "docs/NILAZA_DOMAIN_SETUP_2026-10-04.vi.md",
+    "docs/RESEND_AUTH_PILOT_2026-10-04.vi.md",
+    "docs/RESEND_SMTP_QA_SETUP_2026-10-04.vi.md",
+    "docs/email-qa-2026-10-04/"
+  ],
+  "untouchedSurfaces": [
+    "All code, schema, migration history, Admin workspaces, Growth queues/campaigns, user rows, payments and AI flows remain unchanged.",
+    "SMTP Save/credentials belong to owner handoff; no guessed web callback or production target."
+  ],
+  "impact": {
+    "entryPoint": "Native signup/resend/recovery use existing nilaza Auth callback contract; web app origin remains unresolved and is not replaced with public website.",
+    "dataWrite": "Only internal documentation, screenshots and approved Auth configuration metadata. No SQL, recipient reads, account creation or email sends.",
+    "backendContract": "Supabase issues/verifies Auth tokens and Resend SMTP delivers. No Send Email Hook activation or queue contract change.",
+    "adminVisibility": "Provider domain Verified is distinct from SMTP active and actual delivery. Protected Admin remains unchanged.",
+    "privacySafety": "No key/recipient data in source, screenshots or chat. Owner creates Sending-only domain-restricted key and performs new credential entry. Preserve confirmation and disable inbound/avoid tracking.",
+    "observability": "Live dashboard and public DNS checks, exact callback post-save review and credential-free screenshot evidence. Delivery/native smoke test remain pending.",
+    "rollback": "Remove only newly approved callbacks if needed; SMTP draft is not saved. Owner can disable SMTP and revoke newly created key later; no database rollback."
+  },
+  "canonicalContracts": [
+    "Existing native callback helpers own nilaza://auth/confirm and nilaza://auth/recovery.",
+    "SMTP configuration and key handoff recorded in RESEND_SMTP_QA_SETUP; cloud persisted settings remain operational truth.",
+    "Public website does not consume Auth callback tokens."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "aggregate_metrics"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "35757424e5fc5ef5814015ceb87ace0a9b8b5e3602e555a09efd47f49d53b32e",
+      "reason": "Scoped current source and Auth/provider governance review; no changes to code/schema/release policy."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Scoped current source and Auth/provider governance review; no changes to code/schema/release policy."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Scoped current source and Auth/provider governance review; no changes to code/schema/release policy."
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "sha256": "c6a16c4be5bd732c51158ab66c4ea92bd23c1e817da539f3820546a22d806ec8",
+      "reason": "Scoped current source and Auth/provider governance review; no changes to code/schema/release policy."
+    },
+    {
+      "path": "docs/release/RELEASE_RUNBOOK.md",
+      "sha256": "9f44d674b547e324982b87d79b4c46531e69c4f19d9e475557a60a963a27cae2",
+      "reason": "Scoped current source and Auth/provider governance review; no changes to code/schema/release policy."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "e5fc9e3789ce1978ce3db7b7f41d6dd695d021c6d01ead2b11b3af14a4525f49",
+      "reason": "Scoped current source and Auth/provider governance review; no changes to code/schema/release policy."
+    },
+    {
+      "path": "docs/RESEND_AUTH_PILOT_2026-10-04.vi.md",
+      "sha256": "b1019c63c5ec0b8910abee91e3c4183611b9655056349372402559071317abbf",
+      "reason": "Reviewed current handoff after verified DNS, saved exact QA callbacks and unsaved SMTP draft."
+    },
+    {
+      "path": "docs/NILAZA_DOMAIN_SETUP_2026-10-04.vi.md",
+      "sha256": "b2e4b40f154df29f7dfdd2e92e0c016e035f26b96d4536c19e4d751b95100c66",
+      "reason": "Reviewed current handoff after verified DNS, saved exact QA callbacks and unsaved SMTP draft."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "1e4d2bc7a93a2a140690c7237537de582972db30088309996ab6462a79a53623",
+      "reason": "Scoped current source and Auth/provider governance review; no changes to code/schema/release policy."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/nilaza-plan-qc.md",
+      "sha256": "1f1ca706c56aef4d08ac94c6475c19a59c3838a218eab9e94ab9436fbe4cda03",
+      "reason": "Scoped current source and Auth/provider governance review; no changes to code/schema/release policy."
+    },
+    {
+      "path": "apps/mobile/src/auth/emailConfirmation.ts",
+      "sha256": "63d6e2ae8416ed9689424750f35577087490f092486fe91787e4bec33326a143",
+      "reason": "Scoped current source and Auth/provider governance review; no changes to code/schema/release policy."
+    },
+    {
+      "path": "apps/mobile/src/auth/passwordRecovery.ts",
+      "sha256": "fac23a3921360f272006eed7412d8750c5e64bcca681d8564eea701c22873bfa",
+      "reason": "Scoped current source and Auth/provider governance review; no changes to code/schema/release policy."
+    },
+    {
+      "path": "apps/mobile/app.json",
+      "sha256": "8266103bf0c9f18227ac4b0f27fad4d16d5d9652f88b1d59e67a2186415b0fac",
+      "reason": "Scoped current source and Auth/provider governance review; no changes to code/schema/release policy."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Whole-app Auth/provider/credential boundaries and blocked migration gate are already covered; provider UI details stay in runbook."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "No dependencies changed. Current official SMTP, API key and native callback docs reviewed and dashboard forms inspected."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://resend.com/docs/send-with-supabase-smtp",
+      "checkedAt": "2026-10-04",
+      "reason": "Official current provider Auth, SMTP, key restriction and callback contract reviewed."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/auth/auth-smtp",
+      "checkedAt": "2026-10-04",
+      "reason": "Official current provider Auth, SMTP, key restriction and callback contract reviewed."
+    },
+    {
+      "url": "https://resend.com/docs/dashboard/api-keys/introduction",
+      "checkedAt": "2026-10-04",
+      "reason": "Official current provider Auth, SMTP, key restriction and callback contract reviewed."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/auth/native-mobile-deep-linking",
+      "checkedAt": "2026-10-04",
+      "reason": "Official current provider Auth, SMTP, key restriction and callback contract reviewed."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No RLS/schema/row write. Exact existing QA project identity verified on dashboard.",
+    "sensitiveData": "No user/private content accessed; public sender/domain metadata only.",
+    "secretsLogging": "Agent does not create/read/paste credential. Human enters new key in server SMTP field; no EXPO_PUBLIC/repo/chat secret.",
+    "externalInput": "UI content treated as data. Exact callbacks require action-time owner confirmation; no wildcard or guessed website callback.",
+    "dependencies": "No install, script or code changes; static template and ledger checks reused/repeated where relevant.",
+    "migrationRelease": "Ledger remains blocked. No deployment, SQL or schema rollout; no production SMTP.",
+    "stopCondition": "Do not save callbacks without pending explicit approval; do not save SMTP or create credentials. Stop before public cohort/release without app callback, templates, limit and delivery validation.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "docs/NILAZA_DOMAIN_SETUP_2026-10-04.vi.md",
+      "docs/RESEND_AUTH_PILOT_2026-10-04.vi.md",
+      "docs/RESEND_SMTP_QA_SETUP_2026-10-04.vi.md",
+      "docs/email-qa-2026-10-04/callbacks-saved.png",
+      "docs/email-qa-2026-10-04/smtp-draft.png"
+    ],
+    "note": "Existing domain/Auth handoff documents are already dirty from this approved task. Preserve all unrelated code and concurrent workflow changes."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/resend-smtp-qa-setup-2026-10-04.json",
+    "node scripts/validate-auth-email-templates.mjs",
+    "npm run supabase:migration-ledger:check"
+  ],
+  "managerTestPath": "Owner reviews exact callbacks, creates scoped Sending key, enters SMTP credential only after configuration handoff; next stage installs templates and performs native/web signup/reset smoke tests on known app build.",
+  "residualRisk": "Exact native callbacks saved after actual owner approval; domain verified. SMTP unsaved, key not created, templates not applied, Site URL localhost and web QA origin unresolved. Browser disconnected during permission selection; human credential handoff and delivery remain pending.",
+  "externalActions": {
+    "databaseWrite": false,
+    "providerWrite": true,
+    "deployment": false,
+    "emailSend": false,
+    "note": "Saved exactly two QA callbacks after owner action-time approval, verified Total URLs: 2. Prepared unsaved nonsecret SMTP and key name form. Key permission/domain draft not completed because browser disconnected. No key creation, SMTP Save or email send."
+  },
+  "validationEvidence": [
+    "Dashboard post-save: nilaza://auth/confirm and nilaza://auth/recovery, Total URLs 2; screenshot saved.",
+    "SMTP persisted off; draft prepared, Password empty; screenshot saved.",
+    "Template validator PASS: 13 bilingual templates.",
+    "Migration checker exit 0: remains blocked_pending_reconciliation."
+  ]
+}

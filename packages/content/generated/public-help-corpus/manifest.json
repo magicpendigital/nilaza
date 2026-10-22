@@ -1,0 +1,304 @@
+{
+  "schema_version": "nilaza.public-help-corpus.v1",
+  "content_updated_at": "2026-10-11",
+  "audience": "public",
+  "allowed_source_roots": [
+    "apps/web/src/content/help",
+    "apps/web/src/content/legal"
+  ],
+  "excluded_sources": [
+    "docs/NILAZA_ADMIN_AI_STUDIO_OWNER_GUIDE.md",
+    "packages/agent-config",
+    "supabase/functions"
+  ],
+  "assistant_policy": {
+    "allowed": [
+      "product_information",
+      "help_navigation",
+      "feature_status",
+      "privacy_and_safety",
+      "waitlist_and_beta"
+    ],
+    "prohibited": [
+      "personalized_spiritual_reading",
+      "professional_advice",
+      "account_action",
+      "billing_action",
+      "internal_configuration"
+    ],
+    "citation_required": true,
+    "unknown_answer": "Say that the public guides do not contain the answer and link to the closest relevant guide."
+  },
+  "locale_counts": {
+    "en": 11,
+    "vi": 11
+  },
+  "document_count": 22,
+  "chunk_count": 62,
+  "documents": [
+    {
+      "document_id": "help:en:account-notifications",
+      "kind": "help",
+      "locale": "en",
+      "slug": "account-notifications",
+      "title": "Account, recovery, and notifications",
+      "updated_at": "2026-09-20",
+      "public_url_path": "/en/help/account-notifications",
+      "source_path": "apps/web/src/content/help/en/account-notifications.md",
+      "checksum_sha256": "dd399a268e3f6cfd9a2f4ec7adef2ff8afdf1611b9fdce66d72e519f48e5a1f6",
+      "chunk_count": 3
+    },
+    {
+      "document_id": "help:en:astrology-premium",
+      "kind": "help",
+      "locale": "en",
+      "slug": "astrology-premium",
+      "title": "Astrology, the zodiac library, and Premium",
+      "updated_at": "2026-10-11",
+      "public_url_path": "/en/help/astrology-premium",
+      "source_path": "apps/web/src/content/help/en/astrology-premium.md",
+      "checksum_sha256": "b3d2c85cfb2d7904d25576d28844f1fe055aa1d86cb12f54c730b3ed2a050ee3",
+      "chunk_count": 3
+    },
+    {
+      "document_id": "help:en:beta-waitlist",
+      "kind": "help",
+      "locale": "en",
+      "slug": "beta-waitlist",
+      "title": "Join Nilaza before launch",
+      "updated_at": "2026-10-11",
+      "public_url_path": "/en/help/beta-waitlist",
+      "source_path": "apps/web/src/content/help/en/beta-waitlist.md",
+      "checksum_sha256": "b75f3b77c1fda9b8a147e460083785881f9e574ae1a2046c669699b8bba79380",
+      "chunk_count": 4
+    },
+    {
+      "document_id": "help:en:getting-started",
+      "kind": "help",
+      "locale": "en",
+      "slug": "getting-started",
+      "title": "Getting started with Nilaza",
+      "updated_at": "2026-10-11",
+      "public_url_path": "/en/help/getting-started",
+      "source_path": "apps/web/src/content/help/en/getting-started.md",
+      "checksum_sha256": "f39a5466113fdd1b99716bd3641f6b8d6d676ab9796eb913f5c804301a837bf9",
+      "chunk_count": 3
+    },
+    {
+      "document_id": "help:en:guides-council",
+      "kind": "help",
+      "locale": "en",
+      "slug": "guides-council",
+      "title": "AI guides and Council",
+      "updated_at": "2026-09-20",
+      "public_url_path": "/en/help/guides-council",
+      "source_path": "apps/web/src/content/help/en/guides-council.md",
+      "checksum_sha256": "d5f509ba756fa67c4fcbc290559e4158ece2ca532d0c97171654f0a2292005cb",
+      "chunk_count": 2
+    },
+    {
+      "document_id": "help:en:journal-data",
+      "kind": "help",
+      "locale": "en",
+      "slug": "journal-data",
+      "title": "Journal, insights, and data",
+      "updated_at": "2026-10-11",
+      "public_url_path": "/en/help/journal-data",
+      "source_path": "apps/web/src/content/help/en/journal-data.md",
+      "checksum_sha256": "5b027f592b3a8b66c3f4140a72bcab9bbe2c75a282321063a860d97b640ec148",
+      "chunk_count": 2
+    },
+    {
+      "document_id": "help:en:oracle-today-pulse",
+      "kind": "help",
+      "locale": "en",
+      "slug": "oracle-today-pulse",
+      "title": "Oracle and Today Pulse",
+      "updated_at": "2026-09-11",
+      "public_url_path": "/en/help/oracle-today-pulse",
+      "source_path": "apps/web/src/content/help/en/oracle-today-pulse.md",
+      "checksum_sha256": "73053a0a53aa5655bb2e564a22f7b6778a98b7f7751ae8b4e1b09063e24f92fa",
+      "chunk_count": 2
+    },
+    {
+      "document_id": "help:en:tarot",
+      "kind": "help",
+      "locale": "en",
+      "slug": "tarot",
+      "title": "Reflective tarot",
+      "updated_at": "2026-09-09",
+      "public_url_path": "/en/help/tarot",
+      "source_path": "apps/web/src/content/help/en/tarot.md",
+      "checksum_sha256": "3cc940d900308da3865dae59c0088d07dc7e28cfd2d59394cd4322c257e223dc",
+      "chunk_count": 2
+    },
+    {
+      "document_id": "help:vi:account-notifications",
+      "kind": "help",
+      "locale": "vi",
+      "slug": "account-notifications",
+      "title": "Tài khoản, khôi phục và thông báo",
+      "updated_at": "2026-09-20",
+      "public_url_path": "/vi/help/account-notifications",
+      "source_path": "apps/web/src/content/help/vi/account-notifications.md",
+      "checksum_sha256": "17d4d85a054e9fc893dd60c2998e05f03d1e76213604a5b863fc3b4872c8b4ac",
+      "chunk_count": 3
+    },
+    {
+      "document_id": "help:vi:astrology-premium",
+      "kind": "help",
+      "locale": "vi",
+      "slug": "astrology-premium",
+      "title": "Chiêm tinh, thư viện 12 cung và Premium",
+      "updated_at": "2026-10-11",
+      "public_url_path": "/vi/help/astrology-premium",
+      "source_path": "apps/web/src/content/help/vi/astrology-premium.md",
+      "checksum_sha256": "69206a608ca40cae700b657536043a1687c0df55aa6e1de84bd544f2ce20f40e",
+      "chunk_count": 3
+    },
+    {
+      "document_id": "help:vi:beta-waitlist",
+      "kind": "help",
+      "locale": "vi",
+      "slug": "beta-waitlist",
+      "title": "Đăng ký trước ra mắt Nilaza",
+      "updated_at": "2026-10-11",
+      "public_url_path": "/vi/help/beta-waitlist",
+      "source_path": "apps/web/src/content/help/vi/beta-waitlist.md",
+      "checksum_sha256": "99e03396b0869e71647ff2caf32ec59a076496569eca8cc197d3f6a7f90d12b2",
+      "chunk_count": 4
+    },
+    {
+      "document_id": "help:vi:getting-started",
+      "kind": "help",
+      "locale": "vi",
+      "slug": "getting-started",
+      "title": "Bắt đầu với Nilaza",
+      "updated_at": "2026-10-11",
+      "public_url_path": "/vi/help/getting-started",
+      "source_path": "apps/web/src/content/help/vi/getting-started.md",
+      "checksum_sha256": "74c15f70ea8e39fde92715b4e4a915f2db2e1234f0c11d8862b6a3416dbb8790",
+      "chunk_count": 3
+    },
+    {
+      "document_id": "help:vi:guides-council",
+      "kind": "help",
+      "locale": "vi",
+      "slug": "guides-council",
+      "title": "Người dẫn đường và AI Council",
+      "updated_at": "2026-09-20",
+      "public_url_path": "/vi/help/guides-council",
+      "source_path": "apps/web/src/content/help/vi/guides-council.md",
+      "checksum_sha256": "4c8ed999088178c8b2ed19a76750d7a3d96022300e2c00fe2d8c40bb1cdf795d",
+      "chunk_count": 2
+    },
+    {
+      "document_id": "help:vi:journal-data",
+      "kind": "help",
+      "locale": "vi",
+      "slug": "journal-data",
+      "title": "Nhật ký, insight và dữ liệu",
+      "updated_at": "2026-10-11",
+      "public_url_path": "/vi/help/journal-data",
+      "source_path": "apps/web/src/content/help/vi/journal-data.md",
+      "checksum_sha256": "336e6b49a8450aaea4d602c461b0a4405514e3d339564fa850637d29ffbfff72",
+      "chunk_count": 2
+    },
+    {
+      "document_id": "help:vi:oracle-today-pulse",
+      "kind": "help",
+      "locale": "vi",
+      "slug": "oracle-today-pulse",
+      "title": "Oracle và Today Pulse",
+      "updated_at": "2026-09-11",
+      "public_url_path": "/vi/help/oracle-today-pulse",
+      "source_path": "apps/web/src/content/help/vi/oracle-today-pulse.md",
+      "checksum_sha256": "ee8e87e9bfeaa3d79ca2f333add63e0730f1e3b75d12e62b630810bda0590ac4",
+      "chunk_count": 2
+    },
+    {
+      "document_id": "help:vi:tarot",
+      "kind": "help",
+      "locale": "vi",
+      "slug": "tarot",
+      "title": "Tarot phản chiếu",
+      "updated_at": "2026-09-09",
+      "public_url_path": "/vi/help/tarot",
+      "source_path": "apps/web/src/content/help/vi/tarot.md",
+      "checksum_sha256": "7496b831a041de556a091e395c57332eb7f58ae73ecbde42a172f21e706c80fc",
+      "chunk_count": 2
+    },
+    {
+      "document_id": "legal:en:privacy",
+      "kind": "legal",
+      "locale": "en",
+      "slug": "privacy",
+      "title": "Privacy",
+      "updated_at": "2026-10-11",
+      "public_url_path": "/en/privacy",
+      "source_path": "apps/web/src/content/legal/en/privacy.md",
+      "checksum_sha256": "658bd57ed12432746ee297bbc9202dd76759df95892c242a71c62447a38d71f6",
+      "chunk_count": 3
+    },
+    {
+      "document_id": "legal:en:safety",
+      "kind": "legal",
+      "locale": "en",
+      "slug": "safety",
+      "title": "Safety principles",
+      "updated_at": "2026-09-10",
+      "public_url_path": "/en/safety",
+      "source_path": "apps/web/src/content/legal/en/safety.md",
+      "checksum_sha256": "0721f0ee5a312e35eaddc04732bd42d52e000c6e4fca9f37999ca35c8a3cc427",
+      "chunk_count": 4
+    },
+    {
+      "document_id": "legal:en:terms",
+      "kind": "legal",
+      "locale": "en",
+      "slug": "terms",
+      "title": "Terms of use",
+      "updated_at": "2026-09-10",
+      "public_url_path": "/en/terms",
+      "source_path": "apps/web/src/content/legal/en/terms.md",
+      "checksum_sha256": "4d14aa1ecef57bf066acd6601af8bf3499f2b19cfbdf390a6f98d68aecb6ae6f",
+      "chunk_count": 3
+    },
+    {
+      "document_id": "legal:vi:privacy",
+      "kind": "legal",
+      "locale": "vi",
+      "slug": "privacy",
+      "title": "Quyền riêng tư",
+      "updated_at": "2026-10-11",
+      "public_url_path": "/vi/privacy",
+      "source_path": "apps/web/src/content/legal/vi/privacy.md",
+      "checksum_sha256": "3bc7d42ca5c43e4672c8cbe5d10cc0b10e920d29d9af77c5b5bd82fcfb69fee6",
+      "chunk_count": 3
+    },
+    {
+      "document_id": "legal:vi:safety",
+      "kind": "legal",
+      "locale": "vi",
+      "slug": "safety",
+      "title": "Nguyên tắc an toàn",
+      "updated_at": "2026-09-10",
+      "public_url_path": "/vi/safety",
+      "source_path": "apps/web/src/content/legal/vi/safety.md",
+      "checksum_sha256": "7b982f533bdd3ebbc9491ba81e4234994ca350f5ee75e9a1ff12c9a8f123e23e",
+      "chunk_count": 4
+    },
+    {
+      "document_id": "legal:vi:terms",
+      "kind": "legal",
+      "locale": "vi",
+      "slug": "terms",
+      "title": "Điều khoản sử dụng",
+      "updated_at": "2026-09-10",
+      "public_url_path": "/vi/terms",
+      "source_path": "apps/web/src/content/legal/vi/terms.md",
+      "checksum_sha256": "f72272ab9fb1e24bc2673d4ad87e155be18b78e6950a1368ab43b546dfcb42e8",
+      "chunk_count": 3
+    }
+  ]
+}

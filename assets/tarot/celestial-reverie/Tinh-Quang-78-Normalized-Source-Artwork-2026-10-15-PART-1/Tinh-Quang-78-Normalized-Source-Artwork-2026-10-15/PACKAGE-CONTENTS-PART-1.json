@@ -1,0 +1,515 @@
+{
+  "package": "Tinh-Quang-78-Normalized-Source-Artwork-2026-10-15",
+  "part": 1,
+  "totalParts": 2,
+  "artworkCountThisPart": 36,
+  "artworkCountCombined": 78,
+  "scopeThisPart": "22 Major Arcana + 14 Cups",
+  "requiredOtherPart": "Tinh-Quang-78-Normalized-Source-Artwork-2026-10-15-PART-2.zip",
+  "files": [
+    {
+      "cardId": "major-00-fool",
+      "path": "assets/tarot/tinh-quang/artwork/major-00-fool.png",
+      "sizeBytes": 1675818,
+      "sha256": "a7d8eac2788e6a06e71b6c6ea988c423417a3fc46c59db2ac8b81155e3b5757a",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-00-fool.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "major-01-magician",
+      "path": "assets/tarot/tinh-quang/artwork/major-01-magician.png",
+      "sizeBytes": 1632446,
+      "sha256": "958f63ca3548e49c0149defaa2aad7f833c78503761fdf343cbab6298024f82e",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-01-magician.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "major-02-high-priestess",
+      "path": "assets/tarot/tinh-quang/artwork/major-02-high-priestess.png",
+      "sizeBytes": 1700574,
+      "sha256": "67c7d594a583ed8ce27a5ddbdb63773c4e0a914e3ff85961cd9a1587586d041e",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-02-high-priestess.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "major-03-empress",
+      "path": "assets/tarot/tinh-quang/artwork/major-03-empress.png",
+      "sizeBytes": 1742520,
+      "sha256": "60f90d6ee759dfa555afc1e240bb5ae548498e4e19a28ce18c472bb3581b791b",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-03-empress.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "major-04-emperor",
+      "path": "assets/tarot/tinh-quang/artwork/major-04-emperor.png",
+      "sizeBytes": 1668314,
+      "sha256": "aa1d30395507db088065caea378d99c3f9c0a70850fcaa88c06d425459bfe409",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-04-emperor.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "major-05-hierophant",
+      "path": "assets/tarot/tinh-quang/artwork/major-05-hierophant.png",
+      "sizeBytes": 1596602,
+      "sha256": "fb0729a785c6638b8a203d5d680aaac804e02e7eaeaa0d68fabe3137e8408b66",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-05-hierophant.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "major-06-lovers",
+      "path": "assets/tarot/tinh-quang/artwork/major-06-lovers.png",
+      "sizeBytes": 1718094,
+      "sha256": "b147a995153f03ada9058f467066e85d0e6d570a31ad27e12ad3323d59ee1da7",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-06-lovers.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "major-07-chariot",
+      "path": "assets/tarot/tinh-quang/artwork/major-07-chariot.png",
+      "sizeBytes": 1631181,
+      "sha256": "8b9d54e13e81b4e2254a8a2aafc5d47fdf320cd2732a0f888d28e41d5891d516",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-07-chariot.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "major-08-strength",
+      "path": "assets/tarot/tinh-quang/artwork/major-08-strength.png",
+      "sizeBytes": 1707233,
+      "sha256": "cb45bac6e42fc79d13915ec44ad2b427905730afba4270b261921c9f62562a4c",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "patchArchive",
+      "sourcePath": "Tinh-Quang-Source-Completion/normalized/major-08-strength.png",
+      "sourceReviewEvidence": "normalized_inner_art_pass_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "major-09-hermit",
+      "path": "assets/tarot/tinh-quang/artwork/major-09-hermit.png",
+      "sizeBytes": 1738131,
+      "sha256": "fe38b4c090986b32a851cd902e9fd5190ed3c2bdb48e11117e4852d971fad379",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-09-hermit.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "major-10-wheel",
+      "path": "assets/tarot/tinh-quang/artwork/major-10-wheel.png",
+      "sizeBytes": 1787281,
+      "sha256": "d5e463cec7f6bd68ad08b6e7ec668e392b49049653b6598fa115af992cf07353",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-10-wheel.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "major-11-justice",
+      "path": "assets/tarot/tinh-quang/artwork/major-11-justice.png",
+      "sizeBytes": 1652313,
+      "sha256": "57c9e1368e30c7ac7d819bcd5ddaec79ce8e2d6367289873343bd5122a5abb91",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-11-justice.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "major-12-hanged-man",
+      "path": "assets/tarot/tinh-quang/artwork/major-12-hanged-man.png",
+      "sizeBytes": 1694260,
+      "sha256": "bde223636c91960001cde7081cff88f1d7cdd823be8f56864d69e2b562c7fef5",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-12-hanged-man.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "major-13-death",
+      "path": "assets/tarot/tinh-quang/artwork/major-13-death.png",
+      "sizeBytes": 1701755,
+      "sha256": "4d80f16088d28cab532761a03c31f4d32b32a16042bff2825303260036b96fb8",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-13-death.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "major-14-temperance",
+      "path": "assets/tarot/tinh-quang/artwork/major-14-temperance.png",
+      "sizeBytes": 1623902,
+      "sha256": "3375f4b0960516f17748c96c6859d681d89000eedcadddd0bb5ea880f6323623",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-14-temperance.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "major-15-devil",
+      "path": "assets/tarot/tinh-quang/artwork/major-15-devil.png",
+      "sizeBytes": 1692283,
+      "sha256": "62f59279e68e52a5d2768a8fe271d7620f64235fae25950e770827ee4c1a13ba",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-15-devil.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "major-16-tower",
+      "path": "assets/tarot/tinh-quang/artwork/major-16-tower.png",
+      "sizeBytes": 1666547,
+      "sha256": "678dee64ca4243292b5b6154349d620cf19bfa14a1f5b94c270aa4a400968cc3",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-16-tower.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "major-17-star",
+      "path": "assets/tarot/tinh-quang/artwork/major-17-star.png",
+      "sizeBytes": 1574445,
+      "sha256": "ca2b33df47c840565b5e22165ec4e91c32d544529b268daa832c205194ed3657",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-17-star.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "major-18-moon",
+      "path": "assets/tarot/tinh-quang/artwork/major-18-moon.png",
+      "sizeBytes": 1715521,
+      "sha256": "a9ea588323189be9aabe50858020b10ced881a9924e7bc690ba0d3a82b3f4ebd",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-18-moon.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "major-19-sun",
+      "path": "assets/tarot/tinh-quang/artwork/major-19-sun.png",
+      "sizeBytes": 1647149,
+      "sha256": "68f1addacf400a007a0f703d14ecf6028d44ec526b92a2b9930bc9f874fe8fb4",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-19-sun.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "major-20-judgement",
+      "path": "assets/tarot/tinh-quang/artwork/major-20-judgement.png",
+      "sizeBytes": 1623832,
+      "sha256": "fa708d025611fe71f9b7fb9227dbca44811f2e638cb321400d89dcaa12d741ef",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-20-judgement.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "major-21-world",
+      "path": "assets/tarot/tinh-quang/artwork/major-21-world.png",
+      "sizeBytes": 1529116,
+      "sha256": "da779cf569ce273f5657531dda2004ec2cb6286276ffd79e922200c22993febe",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "patchArchive",
+      "sourcePath": "Tinh-Quang-Source-Completion/normalized/major-21-world.png",
+      "sourceReviewEvidence": "normalized_inner_art_pass_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "minor-cups-ace",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-ace.png",
+      "sizeBytes": 1655721,
+      "sha256": "a8da1ab98e4e09bd03008fbd2709aa87b78d87b9933bd15f82a5db1032507900",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-ace.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "minor-cups-eight",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-eight.png",
+      "sizeBytes": 1597233,
+      "sha256": "ca45f24110c7d6b44400cf9495ec4389af99c2c0e9f6878f28bdf1c49dd95495",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-eight.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "minor-cups-five",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-five.png",
+      "sizeBytes": 1647517,
+      "sha256": "9a7b0f2449ead2f3e9514f47ab24da27ae852772629afdfae11de22d1547edde",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-five.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "minor-cups-four",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-four.png",
+      "sizeBytes": 1694427,
+      "sha256": "9148bc64782a6a40afa24ee1b96ab17a9ce6bc0c63fc8adbb36808018ef59cab",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-four.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "minor-cups-king",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-king.png",
+      "sizeBytes": 1704856,
+      "sha256": "56544bf8b7dfb32c18921a286db700b0a4ab5762e75e4a58b1d2ef05c447f903",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-king.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "minor-cups-knight",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-knight.png",
+      "sizeBytes": 1692918,
+      "sha256": "9533e05ef2725f1a02aee777e0b548bbc059a9f4897e1b40ebc785163cb23aad",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-knight.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "minor-cups-nine",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-nine.png",
+      "sizeBytes": 1595469,
+      "sha256": "91d3a11af2cb5025e015bc2c8ce47e512f06169558bfeecf17f9876a0ea9ad8c",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-nine.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "minor-cups-page",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-page.png",
+      "sizeBytes": 1684841,
+      "sha256": "1df64386f4ed985fe30de1a6604859e1d3489d434aedfc4cd94db38dd6e96e3f",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-page.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "minor-cups-queen",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-queen.png",
+      "sizeBytes": 1668576,
+      "sha256": "e801de33b517237b11bc1d5e1bf795ac4d49ad57b333662483e20eed0afe0bf3",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-queen.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "minor-cups-seven",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-seven.png",
+      "sizeBytes": 1713391,
+      "sha256": "b3db6c3b10cf06549dba3d90b79d54844841ef57442fc23354ab04a8fc18177f",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-seven.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "minor-cups-six",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-six.png",
+      "sizeBytes": 1688850,
+      "sha256": "86c62bfac87ab15d0c565af82228a2c233592ee34a29b3f75ca7464184ce98f8",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-six.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "minor-cups-ten",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-ten.png",
+      "sizeBytes": 1644477,
+      "sha256": "1409c41ac698cad981d80909e0d20e1d570e7a45105bb1c9928e2c051df0bddc",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-ten.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "minor-cups-three",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-three.png",
+      "sizeBytes": 1653104,
+      "sha256": "3be04f1214f09ad49fe6a3b39fd41039e691a5ed5dfa2958a82966cb3a59b64d",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-three.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    },
+    {
+      "cardId": "minor-cups-two",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-two.png",
+      "sizeBytes": 1410150,
+      "sha256": "178275277b7ada53b009891ea79b0d29f56bd7655f994ad0d035f23094f22877",
+      "dimensions": [
+        656,
+        1130
+      ],
+      "sourceArchive": "baseArchive",
+      "sourcePath": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-two.png",
+      "sourceReviewEvidence": "retained_normalized_review_2026-10-01_hash_verified_2026-10-13",
+      "finalQC": "pending"
+    }
+  ]
+}

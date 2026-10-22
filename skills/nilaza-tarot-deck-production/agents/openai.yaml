@@ -1,0 +1,4 @@
+interface:
+  display_name: "Nilaza Tarot Deck Production"
+  short_description: "Create themed Tarot decks and run full QC"
+  default_prompt: "Use $nilaza-tarot-deck-production to create or update a Nilaza Tarot deck through content, artwork, QC, and app integration."

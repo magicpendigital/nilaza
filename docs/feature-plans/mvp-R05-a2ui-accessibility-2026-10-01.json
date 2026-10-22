@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 1,
+  "taskId": "mvp-R05-a2ui-accessibility-2026-10-01",
+  "ownerAgent": "mobile_app_agent",
+  "lane": "mobile_experience_lane",
+  "goal": "Apply the shared 48px touch-target token, honest accessibility selection/disabled states, and static reduced-motion behavior to reused A2UI controls.",
+  "successCriteria": [
+    "Interactive shared icon/chip/chat/nav controls use the minimum touch target; decorative avatars keep their size.",
+    "Chip selected, Ritual disabled, date navigation labels and calendar date selection are exposed to screen readers.",
+    "Fade and thinking indicator are static until OS preference is known and stop when reduced motion is enabled.",
+    "Existing A2UI tests and TypeScript pass; responsive mobile browser checks are recorded separately from native acceptance."
+  ],
+  "writeScope": [
+    "apps/mobile/src/theme.ts",
+    "apps/mobile/src/a2ui/index.tsx",
+    "apps/mobile/src/a2ui/chat.tsx",
+    "apps/mobile/src/a2ui/AdaptiveNavigation.tsx",
+    "apps/mobile/src/a2ui/useMotionPreference.ts",
+    "apps/mobile/src/a2ui/__tests__/index.test.tsx",
+    "docs/mvp-remediation/2026-10-01/R05-a2ui-handoff.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "No App.tsx, data, billing, backend or Admin edits.",
+    "Calendar day grid preserves non-overlapping narrow-screen columns; 48px height and explicit labels/selection are implemented, narrow widths remain a disclosed native review item."
+  ],
+  "impact": {
+    "entryPoint": "Shared headers, chips, buttons, chat composer/thinking status, date-picker and navigation used across mobile flows.",
+    "dataWrite": "No persistent data change; only OS motion preference subscription and existing UI interaction callbacks.",
+    "backendContract": "No API, storage or provider changes.",
+    "adminVisibility": "No Admin data or UI change.",
+    "privacySafety": "No private data capture; readable status and selected/disabled state remain available when animation is off.",
+    "observability": "No new telemetry; reduced-motion updates cancel running decorative animations.",
+    "rollback": "Revert scoped shared component patch against reviewed dirty baseline; public prop signatures remain compatible."
+  },
+  "canonicalContracts": [
+    "Existing TarotStage, reading.cards/sourceSnapshot and canonical card meanings are preserved; explanation is displayed seed/context, not provider-private reasoning.",
+    "Open Reflection v1 and current A2UI/brand guidelines govern typography and artwork placement."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Reviewed current shared components, accessibility behavior, brand target and renderer mocks; patch only this exact scope."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Reviewed current shared components, accessibility behavior, brand target and renderer mocks; patch only this exact scope."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Reviewed current shared components, accessibility behavior, brand target and renderer mocks; patch only this exact scope."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "c492e69235bc94267f8de0181822602612a5bbda03dd3d144cf4d6c96ff43197",
+      "reason": "Reviewed current shared components, accessibility behavior, brand target and renderer mocks; patch only this exact scope."
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "7a4973733886cb4f1568d38e6d8324d1d8200bb1acd850db486bf5323943f023",
+      "reason": "Reviewed current shared components, accessibility behavior, brand target and renderer mocks; patch only this exact scope."
+    },
+    {
+      "path": "docs/STITCH_DESIGN_STATUS.md",
+      "sha256": "32fdbcfb735db42281ccc0dcaafdbae97004803f3510d5f23054e6aaf5382a16",
+      "reason": "Reviewed current shared components, accessibility behavior, brand target and renderer mocks; patch only this exact scope."
+    },
+    {
+      "path": "apps/mobile/src/a2ui/README.md",
+      "sha256": "635240e6f341977cdf4ec7607e9dea0bf63a0f9ad3adecd5b196e6c09614e4cd",
+      "reason": "Reviewed current shared components, accessibility behavior, brand target and renderer mocks; patch only this exact scope."
+    },
+    {
+      "path": "apps/mobile/src/theme.ts",
+      "sha256": "bb88d1dd7f1d5add45583ed9107df004258f9827f1f5bae92676ce9076662e8e",
+      "reason": "Reviewed current shared components, accessibility behavior, brand target and renderer mocks; patch only this exact scope."
+    },
+    {
+      "path": "apps/mobile/src/a2ui/index.tsx",
+      "sha256": "544b4b6e6dc2a5b28d0396edf9a715b9d3e7b3f580b65024ddc959c6ad4b890f",
+      "reason": "Reviewed current shared components, accessibility behavior, brand target and renderer mocks; patch only this exact scope."
+    },
+    {
+      "path": "apps/mobile/src/a2ui/chat.tsx",
+      "sha256": "4e4d20996ea1ddb0ac59201dea754e6c9bf53cdc9067d577da6839fe931c9c2a",
+      "reason": "Reviewed current shared components, accessibility behavior, brand target and renderer mocks; patch only this exact scope."
+    },
+    {
+      "path": "apps/mobile/src/a2ui/AdaptiveNavigation.tsx",
+      "sha256": "4cbd78e54ffaca51660c6295ffb4d7f14df894af016af04f2159b15a18510a1c",
+      "reason": "Reviewed current shared components, accessibility behavior, brand target and renderer mocks; patch only this exact scope."
+    },
+    {
+      "path": "apps/mobile/src/a2ui/Brand.tsx",
+      "sha256": "fbe21de348032907af8dccae7308c493613dc5d1e1a598068d8c469d0188b3fe",
+      "reason": "Reviewed current shared components, accessibility behavior, brand target and renderer mocks; patch only this exact scope."
+    },
+    {
+      "path": "apps/mobile/src/a2ui/__tests__/index.test.tsx",
+      "sha256": "32e495d3e91e070e915a6e784620a6ac32006cb12e8bf7f24a868d04947c7ac2",
+      "reason": "Reviewed current shared components, accessibility behavior, brand target and renderer mocks; patch only this exact scope."
+    },
+    {
+      "path": "apps/mobile/package.json",
+      "sha256": "57cf7175b3adaaa749fe897c9a303972addaeaa06c0f43ff732d8464339a6591",
+      "reason": "Reviewed current shared components, accessibility behavior, brand target and renderer mocks; patch only this exact scope."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Fresh impact map, one App integration owner, preserved owner dirty edits and separate local/native/live acceptance."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Layout uses current typography, bilingual access/action text, original Tarot assets on Tarot surfaces and explicit browser/native status."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Installed RN 0.81.5; use existing AccessibilityInfo isReduceMotionEnabled/reduceMotionChanged subscription convention already in Brand and versioned official RN accessibility documentation; no dependency change."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://reactnative.dev/docs/0.81/accessibilityinfo",
+      "checkedAt": "2026-10-01",
+      "reason": "Verify OS motion preference event and promise behavior."
+    },
+    {
+      "url": "https://reactnative.dev/docs/0.81/accessibility",
+      "checkedAt": "2026-10-01",
+      "reason": "Verify accessibilityState selected/disabled and labels."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No authorization or server policy change; existing deck/credit checks remain, no free/Premium bypass introduced.",
+    "sensitiveData": "No saved user rows or private test data are read; synthetic browser scenarios only.",
+    "secretsLogging": "No env/credential/log changes or raw private history exported.",
+    "externalInput": "OS accessibility preference only; static safe fallback if unavailable; calendar date labels use existing deterministic date values.",
+    "dependencies": "No install/update and no remote artwork; installed versions reviewed for the layout behavior.",
+    "migrationRelease": "No migration, database write, publish, deployment or native release action in this slice.",
+    "stopCondition": "Stop before App/backend/data/shared prop-contract expansion; fresh impact review required.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/src/theme.ts",
+      "apps/mobile/src/a2ui/index.tsx",
+      "apps/mobile/src/a2ui/chat.tsx",
+      "apps/mobile/src/a2ui/AdaptiveNavigation.tsx",
+      "apps/mobile/src/a2ui/useMotionPreference.ts",
+      "apps/mobile/src/a2ui/__tests__/index.test.tsx",
+      "docs/mvp-remediation/2026-10-01/R05-a2ui-handoff.vi.md"
+    ],
+    "note": "Existing owner edits are retained; patch current scoped source, no regeneration or reset."
+  },
+  "validationCommands": [
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand src/a2ui/__tests__/index.test.tsx",
+    "Browser 360x640/390x844 header/chip/chat/date controls; native font-scale and screen-reader proof stays pending"
+  ],
+  "managerTestPath": "Use a chip and disabled button, navigate back/header and calendar dates, toggle reduced motion on a physical test device and confirm static readable status.",
+  "residualRisk": "Shared token fix is one R05 slice; hardcoded App controls, contrast, larger-font native layout and whole-app conformance remain separate verification.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deployment": false,
+    "productionRelease": false
+  }
+}

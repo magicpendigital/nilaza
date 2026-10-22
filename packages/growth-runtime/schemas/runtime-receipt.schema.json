@@ -1,0 +1,436 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Nilaza Immutable Local Runtime Receipt",
+  "description": "Actual append-only receipt shape. receiptHash binds the body; jobHash binds job.json; previousReceiptHash chains records. stateSnapshot is authoritative for reconciliation. All stage outputs remain internal and product KPIs remain uncollected.",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "jobId",
+    "tenantId",
+    "workflowId",
+    "inputReferenceHashes",
+    "outputReference",
+    "outputHash",
+    "redactionVerdict",
+    "lintVerdict",
+    "qaVerdict",
+    "humanDecisionState",
+    "sequence",
+    "stage",
+    "occurredAt",
+    "stateAfter",
+    "sourceMode",
+    "inputFingerprint",
+    "previousReceiptHash",
+    "jobHash",
+    "externalAuthority",
+    "stateSnapshot",
+    "receiptHash"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "jobId": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 80,
+      "pattern": "^[a-z][a-z0-9-]{2,79}$"
+    },
+    "tenantId": {
+      "const": "nilaza"
+    },
+    "workflowId": {
+      "const": "W2_content_factory"
+    },
+    "inputReferenceHashes": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 300,
+      "items": {
+        "type": "object",
+        "required": [
+          "relativePath",
+          "sha256"
+        ],
+        "properties": {
+          "relativePath": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "pattern": "^(?:packages|scripts|assets|docs)/(?!.*\\.\\.)(?!.*\\\\)[^\\r\\n]+$"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "outputReference": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000,
+      "pattern": "^(?!/)(?!.*\\\\)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^\\r\\n]+$"
+    },
+    "outputHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "redactionVerdict": {
+      "enum": [
+        "not_run",
+        "pass",
+        "block"
+      ]
+    },
+    "lintVerdict": {
+      "enum": [
+        "not_run",
+        "pass",
+        "block"
+      ]
+    },
+    "qaVerdict": {
+      "enum": [
+        "not_run",
+        "pass",
+        "revise",
+        "block",
+        "invalidated"
+      ]
+    },
+    "humanDecisionState": {
+      "enum": [
+        "pending",
+        "revise",
+        "accepted_internal"
+      ]
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "stage": {
+      "enum": [
+        "prepare",
+        "research",
+        "strategy",
+        "author",
+        "render_started",
+        "render",
+        "render_failed",
+        "qa",
+        "learning",
+        "reconcile",
+        "owner_review"
+      ]
+    },
+    "occurredAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d(?:\\.\\d{3})?Z$"
+    },
+    "stateAfter": {
+      "enum": [
+        "prepared",
+        "author_packet_accepted",
+        "awaiting_render",
+        "rendering",
+        "render_retryable",
+        "render_interrupted",
+        "awaiting_independent_qa",
+        "qa_blocked",
+        "qa_revision_required",
+        "fixture_complete",
+        "awaiting_owner_review",
+        "owner_revision_requested",
+        "owner_kept_internal",
+        "invalidated",
+        "failed"
+      ]
+    },
+    "sourceMode": {
+      "enum": [
+        "actual_ai_session_handback",
+        "fixture"
+      ]
+    },
+    "inputFingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "previousReceiptHash": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "jobHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "externalAuthority": {
+      "const": "none"
+    },
+    "stateSnapshot": {
+      "$ref": "#/$defs/stateSnapshot"
+    },
+    "receiptHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "roles": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": {
+        "enum": [
+          "growth_orchestrator",
+          "research_jtbd",
+          "product_truth_claim_guard",
+          "positioning_experiment",
+          "content_studio",
+          "independent_qa",
+          "distribution_planner",
+          "journey_measurement"
+        ]
+      }
+    },
+    "operationKind": {
+      "enum": [
+        "local_readiness_check",
+        "actual_session_research_handback",
+        "research_not_supplied",
+        "actual_session_strategy_handback",
+        "strategy_not_supplied",
+        "session_content_handback",
+        "trusted_local_renderer",
+        "local_creative_render_and_package",
+        "fixture_review",
+        "independent_session_review",
+        "operational_learning_only",
+        "verified_render_recovery",
+        "local_operator_review_only"
+      ]
+    },
+    "trustedIntakeReference": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000,
+      "pattern": "^(?!/)(?!.*\\\\)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^\\r\\n]+$"
+    },
+    "renderAttempt": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 3
+    },
+    "renderRetryCount": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2
+    },
+    "failureCode": {
+      "type": "string",
+      "pattern": "^[A-Z0-9_]{1,80}$"
+    },
+    "outputVerified": {
+      "type": "boolean"
+    },
+    "candidateHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "creativeBundleHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "identityKind": {
+      "const": "operator_attested_local_session_provenance"
+    },
+    "productKpiStatus": {
+      "const": "not_collected"
+    },
+    "qaOutcome": {
+      "enum": [
+        "pass",
+        "revise",
+        "block"
+      ]
+    },
+    "mismatchedReferences": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 600,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 3000,
+        "pattern": "\\S"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "stateSnapshot": {
+      "type": "object",
+      "required": [
+        "state",
+        "sequence",
+        "revision",
+        "renderAttempts",
+        "ownerDecision",
+        "createdAt",
+        "updatedAt"
+      ],
+      "properties": {
+        "state": {
+          "enum": [
+            "prepared",
+            "author_packet_accepted",
+            "awaiting_render",
+            "rendering",
+            "render_retryable",
+            "render_interrupted",
+            "awaiting_independent_qa",
+            "qa_blocked",
+            "qa_revision_required",
+            "fixture_complete",
+            "awaiting_owner_review",
+            "owner_revision_requested",
+            "owner_kept_internal",
+            "invalidated",
+            "failed"
+          ]
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "renderAttempts": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "ownerDecision": {
+          "enum": [
+            "pending",
+            "revise",
+            "accepted_internal"
+          ]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d(?:\\.\\d{3})?Z$"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d(?:\\.\\d{3})?Z$"
+        },
+        "authorPacketHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "authorIntakeHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "authorPacketReference": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "pattern": "^(?!/)(?!.*\\\\)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^\\r\\n]+$"
+        },
+        "authorIntakeReference": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "pattern": "^(?!/)(?!.*\\\\)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^\\r\\n]+$"
+        },
+        "candidateReference": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "pattern": "^(?!/)(?!.*\\\\)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^\\r\\n]+$"
+        },
+        "candidateHash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "creativeManifestReference": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 2000,
+          "pattern": "^(?!/)(?!.*\\\\)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^\\r\\n]+$"
+        },
+        "creativeBundleHash": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "qaReference": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 2000,
+          "pattern": "^(?!/)(?!.*\\\\)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^\\r\\n]+$"
+        },
+        "qaHash": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "ownerReviewReference": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 2000,
+          "pattern": "^(?!/)(?!.*\\\\)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^\\r\\n]+$"
+        },
+        "ownerReviewHash": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "currentOutputDirectory": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "pattern": "^(?!/)(?!.*\\\\)(?!.*(?:^|/)\\.{1,2}(?:/|$))[^\\r\\n]+$"
+        }
+      },
+      "additionalProperties": false,
+      "dependentRequired": {
+        "authorPacketHash": [
+          "authorIntakeHash",
+          "authorPacketReference",
+          "authorIntakeReference",
+          "candidateReference",
+          "candidateHash"
+        ]
+      }
+    }
+  }
+}

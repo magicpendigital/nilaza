@@ -1,0 +1,6 @@
+{
+  "name": "@nilaza/growth-tenant-config",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Private, sanitized Nilaza tenant configuration for the AI growth framework."
+}

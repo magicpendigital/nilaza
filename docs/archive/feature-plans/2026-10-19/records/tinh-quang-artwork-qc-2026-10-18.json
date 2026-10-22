@@ -1,0 +1,343 @@
+{
+  "schemaVersion": 1,
+  "taskId": "tinh-quang-artwork-qc-2026-10-18",
+  "ownerAgent": "root_tinh_quang_artwork_qc",
+  "lane": "tarot_artwork_intake_and_staged_content",
+  "goal": "Individually review all 78 Tinh Quang source artworks, preserve rejected originals, admit only current-hash accepted artwork to canonical render paths and prepare draft metadata for card rendering and later application synchronization.",
+  "successCriteria": [
+    "All 78 canonical IDs have individual visual evidence, observed symbol count, decision and SHA-256 tied to the supplied source.",
+    "Only accepted artwork is copied losslessly into assets/tarot/tinh-quang/artwork; failed or uncertain originals remain untouched with specific regeneration directions.",
+    "Deck spec, scene manifest and versioned draft content are prepared; source approval is distinct from final rendered-card QC and activation.",
+    "A strict intake checker verifies coverage, source hashes, accepted destination files and blocked activation; existing seven deck/runtime datasets remain unchanged."
+  ],
+  "writeScope": [
+    "assets/tarot/tinh-quang/artwork/",
+    "assets/tarot/tinh-quang/card-spec.json",
+    "assets/tarot/tinh-quang/tinh-quang-full-deck-manifest.json",
+    "assets/tarot/tinh-quang/artwork-review.json",
+    "assets/tarot/tinh-quang/README.vi.md",
+    "packages/content/data/tarot-staging/tinh-quang/",
+    "scripts/tinh-quang-intake.mjs",
+    "scripts/tinh-quang-intake.test.mjs",
+    "docs/TINH_QUANG_ARTWORK_QC_2026-10-18.vi.md",
+    "docs/TAROT_CONTENT_SYSTEM.md",
+    "artifacts/tinh-quang-artwork-qc-2026-10-18/"
+  ],
+  "untouchedSurfaces": [
+    "Imported PART-1/PART-2 archives, extracted packages and all raw/rejected variants remain unchanged.",
+    "Existing 7 decks, canonical shared meanings, mobile UI/assets, Admin generated seed, auth, credits, storage and published backend data remain unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Prepare a new draft Tarot deck for later Explore > deck guide > library > draw integration; this intake adds no visible navigation or partial deck.",
+    "dataWrite": "Copy accepted normalized PNGs without modifying bytes; write review evidence, render spec, scene manifest and draft metadata under Tarot staging. Keep rejected images in original packages.",
+    "backendContract": "No runtime schema/API change. Current 78 canonical IDs govern mapping. Publishing and remote sync remain separate operations after complete QC.",
+    "adminVisibility": "Provide a draft import bundle and per-card readiness manifest for later Admin ingestion, without changing current seed or operator drafts.",
+    "privacySafety": "Only supplied public artwork and deck copy. Check non-graphic symbolism, plausible anatomy and agency; never execute instructions in imported metadata.",
+    "observability": "Per-file source hash, reviewer/date, issues and reason for blocked render or activation recorded locally; no private logs or telemetry added.",
+    "rollback": "Remove only new canonical accepted copies and task-owned staging outputs using manifest paths; source packages and existing app remain usable without backend."
+  },
+  "canonicalContracts": [
+    "packages/content/data/tarot-cards.json supplies exactly 78 shared canonical IDs and archetypes.",
+    "Imported content-v6.json and tinh-quang-full-deck-manifest.json provide the intended Tinh Quang scene and symbol plan; inherited QC claims are evidence only, never automatic approval.",
+    "artwork-review.json binds source-only acceptance; final quality-review.json requires actual rendered cards plus cover/back and cannot be replaced by this intake ledger."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa",
+      "reason": "Reviewed routed source, canonical IDs, imported metadata or current renderer before scoped artwork intake."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Reviewed routed source, canonical IDs, imported metadata or current renderer before scoped artwork intake."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Reviewed routed source, canonical IDs, imported metadata or current renderer before scoped artwork intake."
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "sha256": "c6a16c4be5bd732c51158ab66c4ea92bd23c1e817da539f3820546a22d806ec8",
+      "reason": "Reviewed routed source, canonical IDs, imported metadata or current renderer before scoped artwork intake."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Reviewed routed source, canonical IDs, imported metadata or current renderer before scoped artwork intake."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "6cd85c85b43e6ada64745ac13bf34f3fdb2b9e799f5bc2ad176a662d94b154e1",
+      "reason": "Reviewed routed source, canonical IDs, imported metadata or current renderer before scoped artwork intake."
+    },
+    {
+      "path": "docs/TAROT_CONTENT_SYSTEM.md",
+      "sha256": "5db6b42d86ad410cae43a50fa6f08c504577d6998725b634fd61b3030905dced",
+      "reason": "Reviewed routed source, canonical IDs, imported metadata or current renderer before scoped artwork intake."
+    },
+    {
+      "path": "packages/content/data/tarot-cards.json",
+      "sha256": "e926472eeda71a637a8554e6465f14200ef9873e94a8a9e12611aa765968561f",
+      "reason": "Reviewed routed source, canonical IDs, imported metadata or current renderer before scoped artwork intake."
+    },
+    {
+      "path": "packages/content/data/tarot-decks.json",
+      "sha256": "e699d651d8d6b65b35bae51b624056efc9463dadba1c7b856074c54c0e851002",
+      "reason": "Reviewed routed source, canonical IDs, imported metadata or current renderer before scoped artwork intake."
+    },
+    {
+      "path": "packages/content/data/tarot-card-designs.json",
+      "sha256": "27590b48adfbe148fd6a4c4e30aee90a7282a6f96606de5ee2336871235f50da",
+      "reason": "Reviewed routed source, canonical IDs, imported metadata or current renderer before scoped artwork intake."
+    },
+    {
+      "path": "packages/content/data/tarot-deck-backs.json",
+      "sha256": "86bf4b6255709ea6acc3c8d5f634d04a0bbc0ac79a5e2990db5bbc8cffd04978",
+      "reason": "Reviewed routed source, canonical IDs, imported metadata or current renderer before scoped artwork intake."
+    },
+    {
+      "path": "packages/agent-config/tarot-card-skills.json",
+      "sha256": "f713532df2b47112a634376fdcf850a64120f65c55242acc49774a7273a35503",
+      "reason": "Reviewed routed source, canonical IDs, imported metadata or current renderer before scoped artwork intake."
+    },
+    {
+      "path": "scripts/render_tarot_cards.py",
+      "sha256": "c5813b4b6d530e8141b6b7176935afa0397a1e861870e5b9d337ecf0805b50e8",
+      "reason": "Reviewed routed source, canonical IDs, imported metadata or current renderer before scoped artwork intake."
+    },
+    {
+      "path": "scripts/tarot-deck-quality-gate.mjs",
+      "sha256": "6bca9968a025b7f662a0685e146d3ec303f9dd14c2964f79cb6b9307517e9c21",
+      "reason": "Reviewed routed source, canonical IDs, imported metadata or current renderer before scoped artwork intake."
+    },
+    {
+      "path": "scripts/validate-data.mjs",
+      "sha256": "d3588f45f7f79d325484835a668d8d3fbc402891c21214d9f50811956a12c85a",
+      "reason": "Reviewed routed source, canonical IDs, imported metadata or current renderer before scoped artwork intake."
+    },
+    {
+      "path": "assets/tarot/tinh-quang/Tinh-Quang-Three-Missing-Artworks-Source-QC-2026-10-13/Tinh-Quang-Source-Completion/deck-metadata/content-v6.json",
+      "sha256": "56e333f3cb0f613978beace8e035c845524c1b2b39b79181cdb65e3699eb9032",
+      "reason": "Reviewed routed source, canonical IDs, imported metadata or current renderer before scoped artwork intake."
+    },
+    {
+      "path": "assets/tarot/tinh-quang/Tinh-Quang-Three-Missing-Artworks-Source-QC-2026-10-13/Tinh-Quang-Source-Completion/deck-metadata/tinh-quang-full-deck-manifest.json",
+      "sha256": "3c1e8f2b097d85f8f812e81612c872840352722ed04b96c6bae13f74424b8f75",
+      "reason": "Reviewed routed source, canonical IDs, imported metadata or current renderer before scoped artwork intake."
+    },
+    {
+      "path": "assets/tarot/tinh-quang/Tinh-Quang-Three-Missing-Artworks-Source-QC-2026-10-13/Tinh-Quang-Source-Completion/deck-metadata/card-spec.json",
+      "sha256": "c3004856345a8c5fb9244a8fbe7121a1e1ff4a0ca79dfa8850ce98eaebbaca26",
+      "reason": "Reviewed routed source, canonical IDs, imported metadata or current renderer before scoped artwork intake."
+    },
+    {
+      "path": "assets/tarot/tinh-quang/Tinh-Quang-Three-Missing-Artworks-Source-QC-2026-10-13/Tinh-Quang-Source-Completion/deck-metadata/tinh-quang-only-tarot-decks.json",
+      "sha256": "b5431a5bd4e25cba9cb442bea221e6fc7f7f60fda6c0dd8268491fd9a6f50cd7",
+      "reason": "Reviewed routed source, canonical IDs, imported metadata or current renderer before scoped artwork intake."
+    },
+    {
+      "path": "scripts/tinh-quang-intake.mjs",
+      "sha256": "00923a888c6ef3ad26846d2aebda9612406e25632547a4ef65add8463012ed29",
+      "reason": "Reviewed completed source-only intake guards, tests, individual current-hash decisions or metadata amendments; final card and runtime gates remain separate."
+    },
+    {
+      "path": "scripts/tinh-quang-intake.test.mjs",
+      "sha256": "9e179e91525ea5a88f0ceb6402cb3157daa43845e5416ff796a7c8a9a4d6b95b",
+      "reason": "Reviewed completed source-only intake guards, tests, individual current-hash decisions or metadata amendments; final card and runtime gates remain separate."
+    },
+    {
+      "path": "artifacts/tinh-quang-artwork-qc-2026-10-18/source-inventory.json",
+      "sha256": "73d62b951e68baaad6ba252de5b3d8ed44e58dc8b003b02c89d1b8574cc56f8c",
+      "reason": "Reviewed completed source-only intake guards, tests, individual current-hash decisions or metadata amendments; final card and runtime gates remain separate."
+    },
+    {
+      "path": "assets/tarot/tinh-quang/artwork-review.json",
+      "sha256": "e159c67dbb76ba3ef89486034e1fc13120655712a57c327d811dc8852ea27e25",
+      "reason": "Reviewed completed source-only intake guards, tests, individual current-hash decisions or metadata amendments; final card and runtime gates remain separate."
+    },
+    {
+      "path": "artifacts/tinh-quang-artwork-qc-2026-10-18/metadata-amendments.json",
+      "sha256": "c204aca2d875fc7188941086accb4ea956d1f578a4497e6bd903d1cdb836bff0",
+      "reason": "Reviewed completed source-only intake guards, tests, individual current-hash decisions or metadata amendments; final card and runtime gates remain separate."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Reviewed repository skill and relevant protocol. Separate source intake, rendered-face QC and app release, inspect all images individually and preserve original packages. No durable rule change required. After validation, verified-current: existing skills already require canonical mapping, preservation, independent image/copy review and distinct source/render/device gates; the new local staging route is documented in TAROT_CONTENT_SYSTEM.md."
+    },
+    {
+      "name": "nilaza-tarot-art-qc",
+      "decision": "verified-current",
+      "evidence": "Reviewed repository skill and relevant protocol. Separate source intake, rendered-face QC and app release, inspect all images individually and preserve original packages. No durable rule change required. After validation, verified-current: existing skills already require canonical mapping, preservation, independent image/copy review and distinct source/render/device gates; the new local staging route is documented in TAROT_CONTENT_SYSTEM.md."
+    },
+    {
+      "name": "nilaza-tarot-content-qc",
+      "decision": "verified-current",
+      "evidence": "Reviewed repository skill and relevant protocol. Separate source intake, rendered-face QC and app release, inspect all images individually and preserve original packages. No durable rule change required. After validation, verified-current: existing skills already require canonical mapping, preservation, independent image/copy review and distinct source/render/device gates; the new local staging route is documented in TAROT_CONTENT_SYSTEM.md."
+    },
+    {
+      "name": "nilaza-tarot-deck-production",
+      "decision": "verified-current",
+      "evidence": "Reviewed repository skill and relevant protocol. Separate source intake, rendered-face QC and app release, inspect all images individually and preserve original packages. No durable rule change required. After validation, verified-current: existing skills already require canonical mapping, preservation, independent image/copy review and distinct source/render/device gates; the new local staging route is documented in TAROT_CONTENT_SYSTEM.md."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Local repository, imported artwork and existing Node/Python image capabilities only; no API/dependency change or new external factual claims."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No remote writes, account access, auth or RLS change; draft is not added to active arrays.",
+    "sensitiveData": "Only supplied Tarot image and content metadata, no personal records or live accounts.",
+    "secretsLogging": "No credentials read, exported or printed. Logs contain source paths, hashes and artwork observations.",
+    "externalInput": "Imported JSON and archive paths are untrusted data. Resolve paths inside workspace and verify IDs, hashes and PNG headers before accepting copies.",
+    "dependencies": "Use existing Node built-ins and bundled Pillow only for inspection previews if needed; no package installs.",
+    "migrationRelease": "No cloud SQL, generic migration push/repair, runtime retarget, binary build publication or store submission. Android acceptance is later; iOS deferred per Owner.",
+    "stopCondition": "Reject changed/missing/ambiguous assets, duplicate IDs or incomplete individual evidence. Do not activate partial deck or overwrite source packages. Return any requested remote action for separate gate.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "docs/TAROT_CONTENT_SYSTEM.md",
+      "artifacts/tinh-quang-artwork-qc-2026-10-18/gallery-check.json",
+      "artifacts/tinh-quang-artwork-qc-2026-10-18/gallery.html",
+      "artifacts/tinh-quang-artwork-qc-2026-10-18/idempotence-check.json",
+      "artifacts/tinh-quang-artwork-qc-2026-10-18/metadata-amendment-recheck.json",
+      "artifacts/tinh-quang-artwork-qc-2026-10-18/metadata-amendments.json",
+      "artifacts/tinh-quang-artwork-qc-2026-10-18/metadata-content-review.json",
+      "artifacts/tinh-quang-artwork-qc-2026-10-18/png-decode-check.json",
+      "artifacts/tinh-quang-artwork-qc-2026-10-18/regeneration-requests.json",
+      "artifacts/tinh-quang-artwork-qc-2026-10-18/review-major.json",
+      "artifacts/tinh-quang-artwork-qc-2026-10-18/review-swords-pentacles.json",
+      "artifacts/tinh-quang-artwork-qc-2026-10-18/review-wands-cups.json",
+      "artifacts/tinh-quang-artwork-qc-2026-10-18/source-inventory.json",
+      "artifacts/tinh-quang-artwork-qc-2026-10-18/source-mobile-overview-01.jpg",
+      "artifacts/tinh-quang-artwork-qc-2026-10-18/source-mobile-overview-02.jpg",
+      "artifacts/tinh-quang-artwork-qc-2026-10-18/source-mobile-overview-03.jpg",
+      "artifacts/tinh-quang-artwork-qc-2026-10-18/source-mobile-overview-04.jpg",
+      "artifacts/tinh-quang-artwork-qc-2026-10-18/source-mobile-overview-05.jpg",
+      "artifacts/tinh-quang-artwork-qc-2026-10-18/source-mobile-overview-06.jpg",
+      "artifacts/tinh-quang-artwork-qc-2026-10-18/source-mobile-overview-07.jpg",
+      "artifacts/tinh-quang-artwork-qc-2026-10-18/summary.json",
+      "artifacts/tinh-quang-artwork-qc-2026-10-18/validation-results.json",
+      "assets/tarot/tinh-quang/README.vi.md",
+      "assets/tarot/tinh-quang/artwork-review.json",
+      "assets/tarot/tinh-quang/artwork/major-00-fool.png",
+      "assets/tarot/tinh-quang/artwork/major-01-magician.png",
+      "assets/tarot/tinh-quang/artwork/major-02-high-priestess.png",
+      "assets/tarot/tinh-quang/artwork/major-03-empress.png",
+      "assets/tarot/tinh-quang/artwork/major-04-emperor.png",
+      "assets/tarot/tinh-quang/artwork/major-05-hierophant.png",
+      "assets/tarot/tinh-quang/artwork/major-06-lovers.png",
+      "assets/tarot/tinh-quang/artwork/major-07-chariot.png",
+      "assets/tarot/tinh-quang/artwork/major-08-strength.png",
+      "assets/tarot/tinh-quang/artwork/major-09-hermit.png",
+      "assets/tarot/tinh-quang/artwork/major-10-wheel.png",
+      "assets/tarot/tinh-quang/artwork/major-11-justice.png",
+      "assets/tarot/tinh-quang/artwork/major-12-hanged-man.png",
+      "assets/tarot/tinh-quang/artwork/major-13-death.png",
+      "assets/tarot/tinh-quang/artwork/major-14-temperance.png",
+      "assets/tarot/tinh-quang/artwork/major-15-devil.png",
+      "assets/tarot/tinh-quang/artwork/major-16-tower.png",
+      "assets/tarot/tinh-quang/artwork/major-17-star.png",
+      "assets/tarot/tinh-quang/artwork/major-18-moon.png",
+      "assets/tarot/tinh-quang/artwork/major-19-sun.png",
+      "assets/tarot/tinh-quang/artwork/major-20-judgement.png",
+      "assets/tarot/tinh-quang/artwork/major-21-world.png",
+      "assets/tarot/tinh-quang/artwork/minor-cups-ace.png",
+      "assets/tarot/tinh-quang/artwork/minor-cups-eight.png",
+      "assets/tarot/tinh-quang/artwork/minor-cups-five.png",
+      "assets/tarot/tinh-quang/artwork/minor-cups-four.png",
+      "assets/tarot/tinh-quang/artwork/minor-cups-king.png",
+      "assets/tarot/tinh-quang/artwork/minor-cups-knight.png",
+      "assets/tarot/tinh-quang/artwork/minor-cups-nine.png",
+      "assets/tarot/tinh-quang/artwork/minor-cups-page.png",
+      "assets/tarot/tinh-quang/artwork/minor-cups-queen.png",
+      "assets/tarot/tinh-quang/artwork/minor-cups-seven.png",
+      "assets/tarot/tinh-quang/artwork/minor-cups-six.png",
+      "assets/tarot/tinh-quang/artwork/minor-cups-ten.png",
+      "assets/tarot/tinh-quang/artwork/minor-cups-three.png",
+      "assets/tarot/tinh-quang/artwork/minor-cups-two.png",
+      "assets/tarot/tinh-quang/artwork/minor-pentacles-ace.png",
+      "assets/tarot/tinh-quang/artwork/minor-pentacles-eight.png",
+      "assets/tarot/tinh-quang/artwork/minor-pentacles-five.png",
+      "assets/tarot/tinh-quang/artwork/minor-pentacles-four.png",
+      "assets/tarot/tinh-quang/artwork/minor-pentacles-king.png",
+      "assets/tarot/tinh-quang/artwork/minor-pentacles-knight.png",
+      "assets/tarot/tinh-quang/artwork/minor-pentacles-nine.png",
+      "assets/tarot/tinh-quang/artwork/minor-pentacles-page.png",
+      "assets/tarot/tinh-quang/artwork/minor-pentacles-queen.png",
+      "assets/tarot/tinh-quang/artwork/minor-pentacles-seven.png",
+      "assets/tarot/tinh-quang/artwork/minor-pentacles-six.png",
+      "assets/tarot/tinh-quang/artwork/minor-pentacles-ten.png",
+      "assets/tarot/tinh-quang/artwork/minor-pentacles-three.png",
+      "assets/tarot/tinh-quang/artwork/minor-pentacles-two.png",
+      "assets/tarot/tinh-quang/artwork/minor-swords-ace.png",
+      "assets/tarot/tinh-quang/artwork/minor-swords-eight.png",
+      "assets/tarot/tinh-quang/artwork/minor-swords-five.png",
+      "assets/tarot/tinh-quang/artwork/minor-swords-four.png",
+      "assets/tarot/tinh-quang/artwork/minor-swords-king.png",
+      "assets/tarot/tinh-quang/artwork/minor-swords-knight.png",
+      "assets/tarot/tinh-quang/artwork/minor-swords-nine.png",
+      "assets/tarot/tinh-quang/artwork/minor-swords-page.png",
+      "assets/tarot/tinh-quang/artwork/minor-swords-queen.png",
+      "assets/tarot/tinh-quang/artwork/minor-swords-seven.png",
+      "assets/tarot/tinh-quang/artwork/minor-swords-six.png",
+      "assets/tarot/tinh-quang/artwork/minor-swords-ten.png",
+      "assets/tarot/tinh-quang/artwork/minor-swords-three.png",
+      "assets/tarot/tinh-quang/artwork/minor-swords-two.png",
+      "assets/tarot/tinh-quang/artwork/minor-wands-ace.png",
+      "assets/tarot/tinh-quang/artwork/minor-wands-eight.png",
+      "assets/tarot/tinh-quang/artwork/minor-wands-five.png",
+      "assets/tarot/tinh-quang/artwork/minor-wands-four.png",
+      "assets/tarot/tinh-quang/artwork/minor-wands-king.png",
+      "assets/tarot/tinh-quang/artwork/minor-wands-knight.png",
+      "assets/tarot/tinh-quang/artwork/minor-wands-nine.png",
+      "assets/tarot/tinh-quang/artwork/minor-wands-page.png",
+      "assets/tarot/tinh-quang/artwork/minor-wands-queen.png",
+      "assets/tarot/tinh-quang/artwork/minor-wands-seven.png",
+      "assets/tarot/tinh-quang/artwork/minor-wands-six.png",
+      "assets/tarot/tinh-quang/artwork/minor-wands-ten.png",
+      "assets/tarot/tinh-quang/artwork/minor-wands-three.png",
+      "assets/tarot/tinh-quang/artwork/minor-wands-two.png",
+      "assets/tarot/tinh-quang/card-spec.json",
+      "assets/tarot/tinh-quang/tinh-quang-full-deck-manifest.json",
+      "docs/TINH_QUANG_ARTWORK_QC_2026-10-18.vi.md",
+      "packages/content/data/tarot-staging/tinh-quang/README.vi.md",
+      "packages/content/data/tarot-staging/tinh-quang/approved-artwork.json",
+      "packages/content/data/tarot-staging/tinh-quang/card-catalog.json",
+      "packages/content/data/tarot-staging/tinh-quang/content.json",
+      "packages/content/data/tarot-staging/tinh-quang/render-plan.json",
+      "packages/content/data/tarot-staging/tinh-quang/staging-manifest.json",
+      "packages/content/data/tarot-staging/tinh-quang/sync-plan.json",
+      "packages/content/data/tarot-staging/tinh-quang/tarot-card-designs.json",
+      "packages/content/data/tarot-staging/tinh-quang/tarot-deck-backs.json",
+      "packages/content/data/tarot-staging/tinh-quang/tarot-decks.json",
+      "scripts/tinh-quang-intake.mjs",
+      "scripts/tinh-quang-intake.test.mjs"
+    ],
+    "note": "All task-owned new accepted copies, staging outputs, report, tool/tests and review evidence accounted for. Supplied archives/packages and unrelated dirty work preserved. No active data, mobile assets, Admin seed or remote state changed."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/tinh-quang-artwork-qc-2026-10-18.json",
+    "node --test scripts/tinh-quang-intake.test.mjs",
+    "node scripts/tinh-quang-intake.mjs verify",
+    "npm run validate:data",
+    "npm run validate:visual-assets",
+    "Individual native-size source inspection and a deck consistency/mobile-size review; final rendered-card/cover/back gate stays pending."
+  ],
+  "managerTestPath": "Open the 78-card report and accepted contact sheets, inspect retained rejected sources and regenerate the listed IDs using their corrected prompts. Confirm accepted copies and draft metadata using the intake checker before rendering cards.",
+  "residualRisk": "Source artworks are reviewed; rendered card typography/crop and Android device behavior are not certified by this intake. Cover/back files and access tier may remain unresolved. No incomplete deck is exposed in the app.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

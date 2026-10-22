@@ -1,0 +1,4 @@
+interface:
+  display_name: "Nilaza Plan QC"
+  short_description: "Plan and QC Nilaza tasks before edits"
+  default_prompt: "Use $nilaza-plan-qc to plan and QC a Nilaza implementation task before editing."

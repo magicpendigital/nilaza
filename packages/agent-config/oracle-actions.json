@@ -1,0 +1,109 @@
+{
+  "id": "nilaza_oracle_actions",
+  "version": "2026-07-06-oracle-router-v1",
+  "status": "active",
+  "description": {
+    "vi": "Danh mục hành động mà Nilaza Oracle có thể đề xuất sau khi lắng nghe người dùng.",
+    "en": "The action catalog Nilaza Oracle can suggest after listening to the user."
+  },
+  "actions": [
+    {
+      "id": "reflect_here",
+      "kind": "reflect_here",
+      "target": "oracle",
+      "icon": "sparkles-outline",
+      "enabled": true,
+      "label": {
+        "vi": "Soi tiếp ở đây",
+        "en": "Reflect here"
+      },
+      "detail": {
+        "vi": "Oracle tiếp tục lắng nghe trong một cuộc trò chuyện ngắn.",
+        "en": "Oracle keeps listening in a short reflection chat."
+      },
+      "safetyRule": "Do not present reflection as diagnosis, certainty, or professional advice."
+    },
+    {
+      "id": "draw_tarot",
+      "kind": "draw_tarot",
+      "target": "tarot",
+      "icon": "hand-left-outline",
+      "enabled": true,
+      "label": {
+        "vi": "Rút Tarot",
+        "en": "Draw Tarot"
+      },
+      "detail": {
+        "vi": "Chuyển câu hỏi thành một trải bài biểu tượng.",
+        "en": "Turn the question into a symbolic spread."
+      },
+      "safetyRule": "Card selection stays in app/backend logic; Oracle only passes a safe intention."
+    },
+    {
+      "id": "ask_guide",
+      "kind": "ask_guide",
+      "target": "persona",
+      "icon": "chatbubble-ellipses-outline",
+      "enabled": true,
+      "label": {
+        "vi": "Hỏi một guide",
+        "en": "Ask a guide"
+      },
+      "detail": {
+        "vi": "Mở một persona phù hợp với vấn đề hiện tại.",
+        "en": "Open a persona suited to the current situation."
+      },
+      "safetyRule": "Persona must remain an inspired AI guide, not a real person or official representative."
+    },
+    {
+      "id": "open_council",
+      "kind": "open_council",
+      "target": "council",
+      "icon": "people-outline",
+      "enabled": true,
+      "label": {
+        "vi": "Mở AI Council",
+        "en": "Open AI Council"
+      },
+      "detail": {
+        "vi": "Mời nhiều guide cùng soi một câu hỏi.",
+        "en": "Invite several guides to reflect on one question."
+      },
+      "safetyRule": "Council may use only approved context and sanitized history."
+    },
+    {
+      "id": "cast_astrology",
+      "kind": "cast_astrology",
+      "target": "astrology",
+      "icon": "planet-outline",
+      "enabled": true,
+      "label": {
+        "vi": "Xem nhịp sao",
+        "en": "Read star rhythm"
+      },
+      "detail": {
+        "vi": "Mở birth profile hoặc astrology preview nếu dữ liệu đã sẵn sàng.",
+        "en": "Open birth profile or astrology preview when data is ready."
+      },
+      "requiresConsent": "birth_profile",
+      "safetyRule": "Oracle must never invent placements or imply fixed outcomes."
+    },
+    {
+      "id": "save_journal",
+      "kind": "save_journal",
+      "target": "journal",
+      "icon": "journal-outline",
+      "enabled": true,
+      "label": {
+        "vi": "Lưu vào Journal",
+        "en": "Save to Journal"
+      },
+      "detail": {
+        "vi": "Lưu insight đã được làm sạch vào ký ức riêng tư.",
+        "en": "Save the sanitized insight to private memory."
+      },
+      "requiresConsent": "journal_memory",
+      "safetyRule": "Journal memory remains private and is not reused by Oracle unless the user allows it."
+    }
+  ]
+}

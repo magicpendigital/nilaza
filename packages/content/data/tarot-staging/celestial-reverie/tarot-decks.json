@@ -1,0 +1,443 @@
+[
+  {
+    "id": "tinh-quang",
+    "slug": "tinh-quang",
+    "accessTier": null,
+    "status": "draft",
+    "name": {
+      "vi": "Tinh Quang",
+      "en": "Celestial Reverie"
+    },
+    "shortDescription": {
+      "vi": "Một khoảng trời để nhìn lại, một bước nhỏ để đi tiếp.",
+      "en": "A sky to reflect beneath, a small step to carry forward."
+    },
+    "vibe": {
+      "vi": "Xanh teal đêm, vàng cổ và trắng ngà; hội họa cổ tích có hạt, núi hồ trong sương và ánh sáng thiên thể.",
+      "en": "Midnight teal, antique gold and ivory; grain-rich fairytale painting, misty mountain lakes and celestial light."
+    },
+    "accentColor": "#C9A45C",
+    "visualDirection": {
+      "vi": "Cổ tích hội họa với hạt gouache và nét khắc mềm; teal đêm, vàng cổ, trắng ngà; núi, hồ và sương tạo chiều sâu. Người có dáng mềm nhưng giải phẫu đáng tin. Biểu tượng tarot truyền thống được đặt trong bố cục mới. The Sun giữ ánh ấm vàng mật ong. Tranh bên trong tràn lề, không chữ và không khung; phần mặt bài do bộ ghép Nilaza xử lý riêng.",
+      "en": "Painterly fairytale with gouache grain and soft engraved detail; midnight teal, antique gold and ivory; mountains, lakes and mist create depth. Figures are gentle but anatomically credible. Traditional tarot symbols are placed in original staging. The Sun keeps its honey-gold warmth. Inner art is full bleed, textless and borderless; the Nilaza face compositor handles the finished card separately."
+    },
+    "readingStyle": {
+      "vi": "Dịu dàng, sáng rõ và cụ thể; nói với người đọc bằng “bạn”, không đóng vai tiếng nói biết mọi điều. Dùng “có thể”, “gợi ý”, “mời bạn nhìn lại” cho diễn giải; phân biệt hình ảnh trên bài với sự thật về đời người đọc. Đưa ra câu hỏi và khả năng lựa chọn, không dự đoán chắc chắn, chẩn đoán, gây sợ hãi, hổ thẹn hay thay lời khuyên chuyên môn. Nếu dùng lá ngược, đọc như sự tắc nghẽn, quá mức, hướng nội hoặc một góc nhìn khác; không kết luận người đọc sai, xấu hay đáng chịu khó khăn.",
+      "en": "Gentle, clear and specific; address the reader as “you” without assuming an all-knowing voice. Use “may,” “suggests” and “invites you to consider”; distinguish card imagery from facts about the reader’s life. Offer questions and choices without certain predictions, diagnoses, fear, shame or substitutes for professional advice. If reversals are used, read them as blockage, excess, inward expression or another perspective; never as proof that the reader is wrong, bad or deserving of difficulty."
+    },
+    "story": {
+      "vi": "Tinh Quang mở ra một miền hồ núi nơi ánh vàng cổ đi qua sương teal và đậu trên những việc rất đỗi con người: bắt đầu, lựa chọn, yêu thương, tranh luận, nghỉ ngơi và chăm sóc điều đang lớn. Bầu trời không viết sẵn tương lai. Nó đổi ánh sáng để bạn có thể nhìn một câu chuyện từ nhiều phía.\n\nHành trình của 22 lá Major đi qua những ngưỡng cửa lớn của trải nghiệm. Bốn bộ Minor trở về với nhịp sống cụ thể: Wands giữ ngọn lửa hành động và sáng tạo; Cups theo dòng cảm xúc và kết nối; Swords giúp nhìn vào suy nghĩ, lời nói và xung đột; Pentacles đặt chân xuống đất của công việc, nguồn lực và sự chăm sóc hằng ngày. Mỗi cảnh là một thế giới nhỏ có trọng lượng, điểm tựa và khoảng thở.\n\nTrong bộ bài này, vẻ đẹp không phủ lên khó khăn để xóa nó đi. Cơn mưa, bóng tối và những điều khép lại vẫn có chỗ, bên cạnh ánh ấm, tình bạn và niềm vui. Lá bài không ra lệnh cho bạn phải cảm thấy thế nào. Nó đưa ra một hình ảnh để đối thoại, một câu hỏi để giữ lại và quyền lựa chọn vẫn thuộc về bạn.",
+      "en": "Celestial Reverie opens onto a realm of mountain lakes, where antique-gold light passes through teal mist and settles on deeply human acts: beginning, choosing, loving, disagreeing, resting and tending what is growing. The sky does not write the future in advance. It changes the light so that a story can be seen from more than one side.\n\nThe 22 Major cards move through the larger thresholds of experience. The four Minor suits return to everyday rhythms: Wands hold the fire of action and creativity; Cups follow feeling and connection; Swords attend to thought, language and conflict; Pentacles bring us to the ground of work, resources and daily care. Each scene is a small world with weight, support and room to breathe.\n\nBeauty in this deck does not cover difficulty to erase it. Rain, darkness and endings have a place alongside warmth, friendship and joy. A card does not tell you what you must feel. It offers an image to speak with, a question to carry, and a choice that remains your own."
+    },
+    "bestUses": {
+      "vi": [
+        "Một lá để đặt nhịp suy ngẫm cho ngày",
+        "Viết nhật ký về lựa chọn, cảm xúc và ranh giới",
+        "Khám phá một ý tưởng hoặc dự án sáng tạo",
+        "Trải ba lá: Điều đang hiện diện / Điều cần thêm chú ý / Một bước có thể thử",
+        "Trò chuyện tự nguyện về trải nghiệm của chính mình, không suy đoán ý nghĩ người vắng mặt"
+      ],
+      "en": [
+        "One card to frame a day’s reflection",
+        "Journaling about choices, feelings and boundaries",
+        "Exploring a creative idea or project",
+        "A three-card spread: What is present / What needs attention / One step to try",
+        "Voluntary conversation about one’s own experience, without claiming to know an absent person’s thoughts"
+      ]
+    },
+    "audience": {
+      "vi": "Dành cho người trưởng thành mới làm quen hoặc đã đọc tarot, yêu mỹ thuật cổ tích thiên thể và muốn một giọng đọc giàu cảm xúc nhưng tôn trọng quyền tự quyết. Không đòi hỏi niềm tin siêu nhiên. Người đọc có thể dùng hình ảnh như chất liệu sáng tạo và tự phản tư.",
+      "en": "For adult beginners and experienced tarot readers who enjoy celestial fairytale art and want an emotionally attentive voice that respects agency. No supernatural belief is required. Images can be used as creative and reflective material."
+    },
+    "reflectionQuestions": {
+      "vi": [
+        "Chi tiết nào trong hình giữ ánh mắt mình lâu nhất?",
+        "Điều gì ở đây giống trải nghiệm của mình, và điều gì không giống?",
+        "Mình biết chắc điều gì, và đang suy đoán điều gì?",
+        "Cảm xúc nào đang cần được gọi tên thay vì giải quyết ngay?",
+        "Mình đang giữ một ranh giới, hay giữ quá chặt?",
+        "Nguồn lực hoặc sự hỗ trợ nào đang có trong tầm với?",
+        "Nếu đổi góc nhìn, câu chuyện này còn cách hiểu nào khác?",
+        "Một bước nhỏ, cụ thể và vừa sức mình có thể thử là gì?"
+      ],
+      "en": [
+        "Which detail in the image holds my attention longest?",
+        "What here resembles my experience, and what does not?",
+        "What do I know, and what am I assuming?",
+        "What feeling needs to be named rather than immediately solved?",
+        "Am I holding a boundary, or holding too tightly?",
+        "What resource or support is within reach?",
+        "What other reading becomes possible if I change perspective?",
+        "What small, specific and manageable step could I try?"
+      ]
+    },
+    "readingPreview": {
+      "context": {
+        "vi": "Ví dụ minh họa cho câu hỏi: “Mình muốn tiếp tục một dự án sáng tạo, nhưng chưa rõ bước tiếp theo.” Đây là một cách đọc có thể có, không phải dự đoán.",
+        "en": "Illustrative question: “I want to continue a creative project, but I am unsure of the next step.” This is one possible reading, not a prediction."
+      },
+      "cards": [
+        {
+          "cardId": "minor-swords-two",
+          "position": {
+            "vi": "Điều đang hiện diện",
+            "en": "What is present"
+          },
+          "text": {
+            "vi": "Two of Swords có thể gợi một khoảng lưỡng lự giữa các lựa chọn. Nếu bạn đang cân nhắc hai hướng và chưa muốn bỏ bên nào, hãy thử viết điều đã biết về mỗi hướng, rồi đánh dấu điều còn cần kiểm tra.",
+            "en": "Two of Swords may suggest a pause between options. If you are weighing two directions without wanting to release either, try writing what you know about each, then mark what still needs checking."
+          }
+        },
+        {
+          "cardId": "minor-pentacles-eight",
+          "position": {
+            "vi": "Điều cần thêm chú ý",
+            "en": "What needs attention"
+          },
+          "text": {
+            "vi": "Eight of Pentacles đưa sự chú ý về bàn làm việc. Thay vì chờ toàn bộ dự án sáng rõ, bạn có thể chọn một kỹ năng hoặc một phần nhỏ để làm cẩn thận rồi xem điều gì thay đổi.",
+            "en": "Eight of Pentacles brings attention back to the workbench. Rather than waiting for the whole project to become clear, you might choose one skill or small section to practice carefully and see what changes."
+          }
+        },
+        {
+          "cardId": "major-17-star",
+          "position": {
+            "vi": "Một bước có thể thử",
+            "en": "One step to try"
+          },
+          "text": {
+            "vi": "The Star gợi một cách tiếp tục nhẹ hơn: dành một khoảng ngắn cho điều làm bạn nhớ vì sao mình muốn sáng tạo. Hy vọng không cần là lời hứa về kết quả; nó có thể là chút tin cậy để bạn thử lại.",
+            "en": "The Star suggests a gentler way to continue: make a little time for what reminds you why you want to create. Hope need not promise an outcome; it can be a little trust that lets you try again."
+          }
+        }
+      ],
+      "closingQuestion": {
+        "vi": "Trong tuần này, bạn muốn thử một phần việc nhỏ nào và dùng dấu hiệu gì để biết nó có hữu ích?",
+        "en": "What small piece of work would you like to try this week, and what sign would tell you whether it helped?"
+      }
+    },
+    "cardIntroductions": {
+      "major-00-fool": {
+        "vi": "Con đường chưa có tên mở ra bên hồ. Bạn có thể giữ sự tò mò và vẫn nhìn rõ nơi mình đặt chân.",
+        "en": "An unnamed path opens beside the lake. You can keep your curiosity while noticing where your next step will land."
+      },
+      "major-01-magician": {
+        "vi": "Bốn dụng cụ nằm trong tầm tay, nhưng chính sự chú tâm mới nối chúng thành hành động. Bạn muốn bắt đầu với điều gì?",
+        "en": "Four tools lie within reach, but attention is what turns them into action. What would you like to begin with?"
+      },
+      "major-02-high-priestess": {
+        "vi": "Mặt hồ không trả lời ngay. Khoảng lặng này dành chỗ cho trực giác, và cả những điều bạn chưa cần kết luận.",
+        "en": "The lake does not answer at once. This quiet leaves room for intuition and for things you need not conclude yet."
+      },
+      "major-03-empress": {
+        "vi": "Khu vườn lớn lên nhờ nhiều nhịp chăm sóc nhỏ. Điều gì trong đời bạn đang cần sự dịu dàng có thể duy trì?",
+        "en": "The garden grows through many small acts of care. What in your life needs a gentleness you can sustain?"
+      },
+      "major-04-emperor": {
+        "vi": "Ngai đá đứng vững giữa những sườn núi xa. Một giới hạn rõ ràng có thể bảo vệ điều bạn đang xây dựng.",
+        "en": "The stone throne stands steady amid the distant mountains. A clear boundary can protect what you are building."
+      },
+      "major-05-hierophant": {
+        "vi": "Trong vòng tròn học hỏi, câu hỏi của bạn cũng có chỗ. Bạn có thể nhận điều hữu ích mà không bỏ quên tiếng nói riêng.",
+        "en": "In the learning circle, your questions belong too. You can receive what is useful without leaving your own voice behind."
+      },
+      "major-06-lovers": {
+        "vi": "Hai lối đi gặp nhau mà không xóa dấu chân riêng. Sự gắn kết nào cho phép bạn hiện diện thật lòng?",
+        "en": "Two paths meet without erasing either set of footsteps. What connection lets you show up honestly?"
+      },
+      "major-07-chariot": {
+        "vi": "Hai sức kéo cùng hướng về khoảng mở giữa núi. Bạn đang chọn đường nào, và điều gì giúp các phần của mình cùng tiến?",
+        "en": "Two forces turn toward an opening in the mountains. What course are you choosing, and what helps your different parts move together?"
+      },
+      "major-08-strength": {
+        "vi": "Sức mạnh ở đây không cần thắng ai. Một nhịp thở chậm có thể giúp bạn gặp điều khó bằng sự vững vàng.",
+        "en": "Strength here need not defeat anyone. A slower breath may help you meet something difficult with steadiness."
+      },
+      "major-09-hermit": {
+        "vi": "Chiếc đèn chỉ soi một đoạn đường, và chừng ấy có thể đủ cho lúc này. Bạn nghe rõ điều gì khi bớt tiếng ồn?",
+        "en": "The lantern lights only a stretch of path, and that may be enough for now. What becomes clearer when the noise softens?"
+      },
+      "major-10-wheel": {
+        "vi": "Bánh xe nước tiếp tục quay, dù không vòng nào hoàn toàn giống trước. Bạn có thể chọn cách đáp lại chuyển động này.",
+        "en": "The waterwheel keeps turning, though no cycle is quite the same. You can choose how to respond to this movement."
+      },
+      "major-11-justice": {
+        "vi": "Hai đĩa cân mời bạn nhìn cả bằng chứng lẫn hệ quả. Sự công bằng bắt đầu từ điều được nhìn nhận rõ ràng.",
+        "en": "The two balance pans invite attention to both evidence and consequences. Fairness begins with what can be clearly acknowledged."
+      },
+      "major-12-hanged-man": {
+        "vi": "Thế giới có thể hiện ra khác khi bạn ngừng thúc nó chuyển động. Khoảng dừng nào đang cho bạn thêm góc nhìn?",
+        "en": "The world may appear different when you stop urging it forward. What pause is giving you another perspective?"
+      },
+      "major-13-death": {
+        "vi": "Kỵ sĩ đi qua thung lũng khi bình minh mở giữa hai tháp. Bạn không cần ép mình sẵn sàng để nhận ra điều đang đổi khác.",
+        "en": "The rider crosses the valley as dawn opens between two towers. You need not force readiness to notice what is changing."
+      },
+      "major-14-temperance": {
+        "vi": "Dòng nước đi giữa hai chiếc bình thành một nhịp êm. Sự cân bằng có thể là điều chỉnh nhỏ, thay vì giữ mọi thứ bất động.",
+        "en": "Water moves between two pitchers in a gentle rhythm. Balance may mean small adjustments rather than holding everything still."
+      },
+      "major-15-devil": {
+        "vi": "Sợi xích đã mở vẫn có thể được cảm nhận như một giới hạn. Nhìn thấy điều đang giữ bạn là một cách mở thêm lựa chọn.",
+        "en": "Even an open chain can feel like a limit. Seeing what holds you can open another choice."
+      },
+      "major-16-tower": {
+        "vi": "Ánh chớp làm lộ vết nứt trên tòa tháp. Khi điều quen thuộc đổi khác, bạn được phép tìm lại điểm tựa từng bước.",
+        "en": "Lightning reveals a crack in the tower. When the familiar changes, you are allowed to find your footing one step at a time."
+      },
+      "major-17-star": {
+        "vi": "Một ngôi sao đủ sáng để mặt hồ tìm lại sắc màu. Hy vọng hôm nay có thể nhỏ, cụ thể và vừa tầm tay.",
+        "en": "One star is bright enough for the lake to regain its color. Hope today can be small, specific and within reach."
+      },
+      "major-18-moon": {
+        "vi": "Sương làm mềm đường nét, không nhất thiết che một hiểm nguy. Bạn có thể chờ thêm ánh sáng trước khi gọi tên điều mình thấy.",
+        "en": "Mist softens the outlines without necessarily hiding danger. You can wait for more light before naming what you see."
+      },
+      "major-19-sun": {
+        "vi": "Ánh ấm theo bước ngựa qua đồng hoa hướng dương. Niềm vui nào bạn muốn cho mình đủ thời gian để cảm nhận?",
+        "en": "Warmth follows the horse through the sunflower meadow. What joy would you like to give yourself time to feel?"
+      },
+      "major-20-judgement": {
+        "vi": "Tiếng kèn lan qua thung lũng như một lời mời nhìn lại. Bạn có thể trả lời từ con người mình đang trở thành.",
+        "en": "A trumpet carries through the valley like an invitation to reflect. You can answer from the person you are becoming."
+      },
+      "major-21-world": {
+        "vi": "Điệu múa khép một vòng dưới tán nguyệt quế. Bạn có thể ghi nhận quãng đường đã qua trước khi mở cánh cửa tiếp theo.",
+        "en": "The dance completes a circle beneath the laurel. You can acknowledge the distance traveled before opening the next door."
+      },
+      "minor-wands-ace": {
+        "vi": "Một chồi sáng thức dậy trên thân gỗ. Ý tưởng còn nhỏ nào khiến bạn muốn thử thêm một bước?",
+        "en": "A luminous bud awakens on the wood. What small idea makes you want to try one more step?"
+      },
+      "minor-wands-two": {
+        "vi": "Từ sân cao, bạn nhìn thấy hơn một hướng đi. Dự định nào đáng được cân nhắc trước khi bạn rời chỗ quen?",
+        "en": "From the terrace, more than one direction is visible. Which possibility deserves consideration before you leave familiar ground?"
+      },
+      "minor-wands-three": {
+        "vi": "Cánh buồm nhỏ đã ra khỏi vịnh. Khi điều bạn khởi xướng đi xa hơn, bạn đang chờ tín hiệu nào để bước tiếp?",
+        "en": "A small sail has left the bay. As what you started reaches farther, what signal are you waiting for before your next step?"
+      },
+      "minor-wands-four": {
+        "vi": "Một khoảng sân được mở ra cho niềm vui chung. Thành quả nào đáng được ghi nhận cùng những người khiến bạn thấy thuộc về?",
+        "en": "A courtyard opens for shared joy. What milestone deserves recognition with the people who help you feel you belong?"
+      },
+      "minor-wands-five": {
+        "vi": "Năm nhịp chuyển động chưa khớp nhau. Cuộc thử sức này đang làm rõ khác biệt nào cần được lắng nghe?",
+        "en": "Five movements have not yet found a shared rhythm. What difference is this encounter asking you to hear?"
+      },
+      "minor-wands-six": {
+        "vi": "Những người bạn chờ đón người trở về trên lối đá. Bạn muốn đón nhận lời ghi nhận nào, và nhớ đến sự góp sức của ai?",
+        "en": "Friends wait to welcome the returning figure along the stone path. What recognition would you like to receive, and whose support do you want to remember?"
+      },
+      "minor-wands-seven": {
+        "vi": "Một người đứng vững trên bậc đá trước ranh giới vườn. Điều gì đáng được bảo vệ, và đâu là cách giữ vững mà vẫn vừa sức?",
+        "en": "A figure stands firmly on the stone step before a garden boundary. What deserves protection, and how can you stand firm at a sustainable cost?"
+      },
+      "minor-wands-eight": {
+        "vi": "Tám vệt gỗ cùng hướng qua nền trời mở. Khi nhịp độ tăng, điều gì giúp bạn giữ hướng mà không bỏ quên mình?",
+        "en": "Eight wooden wands share a course across the open sky. As the pace quickens, what helps you stay oriented without losing yourself?"
+      },
+      "minor-wands-nine": {
+        "vi": "Một người dừng nghỉ bên lối vườn, giữa những gậy gỗ đứng yên. Ranh giới nào có thể giúp bạn tiếp tục mà không phải luôn gồng mình?",
+        "en": "A figure rests beside the garden path, among still wooden wands. What boundary could help you continue without staying constantly braced?"
+      },
+      "minor-wands-ten": {
+        "vi": "Mười gậy đã được đặt xuống bên đường. Việc nào thật sự thuộc về bạn, và việc nào có thể được chia sẻ?",
+        "en": "Ten wands have been set down beside the path. Which tasks are truly yours, and which could be shared?"
+      },
+      "minor-wands-page": {
+        "vi": "Chồi mới trên gậy khiến bạn dừng lại quan sát. Bạn muốn thử điều gì chỉ để xem mình có thể học được gì?",
+        "en": "A new bud on the wand makes you pause to look. What would you try simply to discover what you might learn?"
+      },
+      "minor-wands-knight": {
+        "vi": "Gió đã căng áo choàng trước khi con đường hết sương. Sự nhiệt thành của bạn đang cần một hướng đi rõ đến đâu?",
+        "en": "Wind fills the cloak before the path is clear of mist. How much direction does your enthusiasm need right now?"
+      },
+      "minor-wands-queen": {
+        "vi": "Bạn không cần thu nhỏ ánh sáng để dành chỗ cho người khác. Sự tự tin nào vừa chân thật vừa rộng lòng?",
+        "en": "You need not dim your light to make room for others. What confidence feels both genuine and generous?"
+      },
+      "minor-wands-king": {
+        "vi": "Từ khoảng sân cao, bạn nhìn thấy cả đường xa lẫn người đang cùng đi. Tầm nhìn của bạn sẽ nâng đỡ ai?",
+        "en": "From the high courtyard, you see both the road ahead and those traveling with you. Whom will your vision support?"
+      },
+      "minor-cups-ace": {
+        "vi": "Mặt nước dâng đầy chiếc cốc đầu tiên. Bạn muốn dành chỗ cho cảm xúc nào mà chưa cần giải thích ngay?",
+        "en": "Water fills the first cup. What feeling would you like to make room for without explaining it immediately?"
+      },
+      "minor-cups-two": {
+        "vi": "Hai chiếc cốc được nâng lên mà không lấn vào nhau. Sự gần gũi nào có đủ chỗ cho cả hai tiếng nói?",
+        "en": "Two cups rise without crowding each other. What closeness makes enough room for both voices?"
+      },
+      "minor-cups-three": {
+        "vi": "Ba người nâng cốc giữa một buổi gặp giản dị. Ai khiến niềm vui của bạn trở nên rộng hơn khi được chia sẻ?",
+        "en": "Three people lift cups during an unhurried gathering. Who makes your joy feel larger when it is shared?"
+      },
+      "minor-cups-four": {
+        "vi": "Chiếc cốc thứ tư nằm gần nhưng chưa được nhìn đến. Bạn cần thêm nghỉ ngơi, hay một cách khác để gặp điều đang có?",
+        "en": "The fourth cup is nearby but not yet noticed. Do you need more rest, or another way of meeting what is here?"
+      },
+      "minor-cups-five": {
+        "vi": "Ba chiếc cốc đã nghiêng, hai chiếc vẫn đứng phía sau. Bạn có thể tôn trọng điều đã mất mà chưa phải vội quay đi.",
+        "en": "Three cups have tipped, while two remain standing behind. You can honor what was lost without rushing to turn away."
+      },
+      "minor-cups-six": {
+        "vi": "Một cốc hoa được trao giữa khu vườn quen. Ký ức nào có thể mang sự ấm áp đến hiện tại mà không giữ bạn ở lại quá khứ?",
+        "en": "A flower-filled cup is offered in a familiar garden. What memory could bring warmth into the present without keeping you in the past?"
+      },
+      "minor-cups-seven": {
+        "vi": "Bảy hình ảnh cùng gọi sự chú ý của bạn. Lựa chọn nào vẫn có sức nặng khi màn sương tưởng tượng lắng xuống?",
+        "en": "Seven images call for your attention. Which choice still carries weight when the mist of imagination settles?"
+      },
+      "minor-cups-eight": {
+        "vi": "Tám chiếc cốc được để lại ngay ngắn bên bờ. Liệu đổi hướng có phù hợp với điều bạn cần lúc này?",
+        "en": "Eight cups are left carefully beside the shore. Might a change of direction fit what you need at this time?"
+      },
+      "minor-cups-nine": {
+        "vi": "Chín chiếc cốc đứng sau một người đang ngồi nghỉ thư thái. Điều gì đã đủ đầy, dù chưa phải mọi điều bạn mong muốn?",
+        "en": "Nine cups stand behind someone seated at ease. What already feels fulfilling, even if it is not everything you want?"
+      },
+      "minor-cups-ten": {
+        "vi": "Dưới cầu vồng, niềm vui có nhiều chỗ ngồi. Mối quan hệ nào giúp bạn cùng người khác tạo nên cảm giác ở nhà?",
+        "en": "Beneath the rainbow, joy has room for many. What relationship helps you and others make a feeling of home?"
+      },
+      "minor-cups-page": {
+        "vi": "Một chú cá nhỏ xuất hiện nơi bạn không ngờ. Bạn có thể đón cảm xúc lạ bằng sự tò mò thay vì vội đánh giá.",
+        "en": "A small fish appears where you did not expect it. You can greet an unfamiliar feeling with curiosity rather than quick judgement."
+      },
+      "minor-cups-knight": {
+        "vi": "Người đưa tin mang cốc đi chậm qua bãi cỏ. Điều bạn muốn trao có thể rõ hơn khi được nói bằng một lời chân thành.",
+        "en": "The messenger carries a cup slowly through the meadow. What you want to offer may become clearer through one sincere word."
+      },
+      "minor-cups-queen": {
+        "vi": "Chiếc cốc được giữ gần mà không tràn ra mọi phía. Bạn có thể quan tâm sâu sắc và vẫn giữ một khoảng riêng cho mình.",
+        "en": "The cup is held close without spilling everywhere. You can care deeply while keeping a space of your own."
+      },
+      "minor-cups-king": {
+        "vi": "Sóng chuyển động quanh bệ đá, còn chiếc cốc vẫn được giữ vững. Bạn muốn đáp lại cảm xúc này theo cách nào?",
+        "en": "Waves move around the stone platform while the cup stays steady. How would you like to respond to this feeling?"
+      },
+      "minor-swords-ace": {
+        "vi": "Một lưỡi kiếm bắt ánh sáng giữa màn sương. Câu nói rõ ràng nào có thể giúp bạn tách điều đã biết khỏi điều đang đoán?",
+        "en": "One blade catches light within the mist. What clear statement could separate what you know from what you are guessing?"
+      },
+      "minor-swords-two": {
+        "vi": "Hai lưỡi kiếm giữ một khoảng cân bằng mong manh. Bạn còn cần biết điều gì trước khi chọn, và có điều gì bạn có thể đang tránh nhìn không?",
+        "en": "Two blades hold a delicate balance. What else do you need to know before choosing, and what might you be avoiding?"
+      },
+      "minor-swords-three": {
+        "vi": "Ba lưỡi kiếm đi qua trái tim biểu tượng dưới mưa. Nếu chủ đề buồn đau chạm đến bạn, bạn có thể nhìn nhận cảm xúc ấy mà chưa cần biến nó thành bài học.",
+        "en": "Three blades pass through a symbolic heart beneath rain. If the theme of sorrow resonates with you, you can acknowledge that feeling without turning it into a lesson yet."
+      },
+      "minor-swords-four": {
+        "vi": "Bốn thanh kiếm đã được đặt yên. Bạn có thể tạm ngưng giải quyết mọi điều để cho tâm trí một khoảng nghỉ thật sự.",
+        "en": "Four swords have been laid still. You can pause the work of solving everything and give your mind a real interval of rest."
+      },
+      "minor-swords-five": {
+        "vi": "Những thanh kiếm còn lại khi cuộc tranh cãi đã lắng. Điều gì sẽ thực sự được giữ lại nếu bạn cố giành phần thắng?",
+        "en": "The swords remain after the argument grows quiet. What would truly be preserved if you insisted on winning?"
+      },
+      "minor-swords-six": {
+        "vi": "Chiếc thuyền rời vùng nước động, mang theo điều chưa khép lại. Bước chuyển nào có thể giúp bạn có thêm khoảng thở?",
+        "en": "The boat leaves rougher water, carrying what remains unresolved. What transition could give you more room to breathe?"
+      },
+      "minor-swords-seven": {
+        "vi": "Năm thanh kiếm được mang đi, hai thanh còn ở lại. Kế hoạch riêng của bạn đang bảo vệ điều gì, và bỏ sót điều gì?",
+        "en": "Five swords are being carried away while two remain. What is your private strategy protecting, and what might it overlook?"
+      },
+      "minor-swords-eight": {
+        "vi": "Tám thanh kiếm vây quanh nhưng vẫn chừa một lối. Giới hạn nào là thực tế, và điều nào cần thêm thông tin để nhìn khác đi?",
+        "en": "Eight swords surround the space but leave an opening. Which limit is real, and which needs more information to be seen differently?"
+      },
+      "minor-swords-nine": {
+        "vi": "Chín thanh kiếm hiện trên vách trong giờ khó ngủ. Điều đang nặng trong đầu không nhất thiết là toàn bộ sự thật ngoài kia.",
+        "en": "Nine swords appear on the wall during a sleepless hour. What weighs on your mind need not be the whole truth outside."
+      },
+      "minor-swords-ten": {
+        "vi": "Mười thanh kiếm đánh dấu một giới hạn đã chạm tới. Bạn không cần gọi đau đớn là cần thiết để cho phép mình dừng lại.",
+        "en": "Ten swords mark a limit that has been reached. You need not call pain necessary to give yourself permission to stop."
+      },
+      "minor-swords-page": {
+        "vi": "Gió đưa những điều mới đến người đang quan sát. Câu hỏi nào giúp bạn phân biệt sự tò mò với một kết luận quá sớm?",
+        "en": "Wind brings new things to the watchful learner. What question helps you separate curiosity from a premature conclusion?"
+      },
+      "minor-swords-knight": {
+        "vi": "Người cưỡi ngựa tiến nhanh trong gió. Trước khi đẩy ý tưởng đến cùng, giả định nào cần được nhìn lại?",
+        "en": "The rider moves quickly into the wind. Before driving an idea forward, which assumption needs another look?"
+      },
+      "minor-swords-queen": {
+        "vi": "Một tay giữ kiếm, một tay mở lời mời đối thoại. Bạn có thể nói rõ điều mình cần mà vẫn để chỗ cho sự lắng nghe.",
+        "en": "One hand holds a sword, the other opens an invitation to speak. You can state what you need while leaving room to listen."
+      },
+      "minor-swords-king": {
+        "vi": "Thanh kiếm được giữ thẳng, còn ánh mắt nhìn rộng hơn một luận điểm. Quyết định nào cần cả sự rõ ràng lẫn trách nhiệm?",
+        "en": "The sword stays upright while the gaze takes in more than one argument. What decision needs both clarity and responsibility?"
+      },
+      "minor-pentacles-ace": {
+        "vi": "Một đĩa vàng nằm trong bàn tay mở. Cơ hội nhỏ nào có thể trở thành điều bền vững nếu được chăm sóc đều đặn?",
+        "en": "A gold disk rests in an open palm. What small opportunity could become something lasting with steady care?"
+      },
+      "minor-pentacles-two": {
+        "vi": "Hai đĩa vàng theo hai nhịp khác nhau. Bạn có thể điều chỉnh nhịp sống mà không cần giữ mọi thứ hoàn hảo cùng lúc.",
+        "en": "Two gold disks move to different rhythms. You can adjust your pace without keeping everything perfect at once."
+      },
+      "minor-pentacles-three": {
+        "vi": "Ba người cùng nhìn một công trình từ những góc khác nhau. Kỹ năng của ai đang giúp ý tưởng thành hình rõ hơn?",
+        "en": "Three people view one work from different angles. Whose skill is helping the idea take a clearer shape?"
+      },
+      "minor-pentacles-four": {
+        "vi": "Bốn đĩa vàng được giữ sát quanh chỗ ngồi. Điều gì đang đem lại an tâm, và khi nào việc giữ chặt làm bạn khó cử động?",
+        "en": "Four gold disks are kept close around the seat. What brings security, and when does holding tightly limit your movement?"
+      },
+      "minor-pentacles-five": {
+        "vi": "Ánh sáng bên cửa vẫn còn trong đêm lạnh. Khi nguồn lực mỏng đi, bạn có thể gọi tên nhu cầu mà không tự trách mình.",
+        "en": "Light remains at the doorway on a cold night. When resources run thin, you can name your needs without blaming yourself."
+      },
+      "minor-pentacles-six": {
+        "vi": "Sáu đĩa được chia trên hai phần bàn. Bạn muốn sự giúp đỡ được trao nhận theo cách nào để vẫn giữ sự tôn trọng?",
+        "en": "Six disks are shared across two parts of the table. How would you like help to be given and received while preserving respect?"
+      },
+      "minor-pentacles-seven": {
+        "vi": "Bảy đĩa sáng giữa giàn cây đang lớn. Bạn muốn tiếp tục nuôi dưỡng điều gì, và điều gì cần đổi cách chăm?",
+        "en": "Seven disks shine among vines growing on the trellis. What would you like to keep tending, and what needs a different kind of care?"
+      },
+      "minor-pentacles-eight": {
+        "vi": "Đĩa thứ tám đang được hoàn thiện dưới bàn tay chăm chú. Kỹ năng nào lớn lên nhờ một lần làm cẩn thận nữa?",
+        "en": "The eighth disk is being finished under attentive hands. What skill grows through one more careful repetition?"
+      },
+      "minor-pentacles-nine": {
+        "vi": "Chín đĩa hiện giữa khu vườn đã thành hình. Bạn có thể thưởng thức thành quả mà không phải lập tức chứng minh thêm điều gì.",
+        "en": "Nine disks appear in a garden that has taken shape. You can enjoy what you have built without immediately proving something more."
+      },
+      "minor-pentacles-ten": {
+        "vi": "Mười đĩa được gắn vào cổng ngôi nhà nhiều thế hệ. Điều bạn đang xây sẽ nâng đỡ những ai sau ngày hôm nay?",
+        "en": "Ten disks are set into a home shared across generations. Whom will what you are building support beyond today?"
+      },
+      "minor-pentacles-page": {
+        "vi": "Người học việc nâng đĩa lên để nhìn kỹ từng đường nét. Điều cụ thể nào bạn muốn học bằng cách bắt tay vào làm?",
+        "en": "The apprentice lifts the disk to study each detail. What practical thing would you like to learn by doing?"
+      },
+      "minor-pentacles-knight": {
+        "vi": "Con ngựa đứng yên trước cánh đồng dài. Sự bền bỉ hôm nay có thể là một bước nhỏ bạn thật sự giữ được.",
+        "en": "The horse pauses before the long field. Persistence today may be one small step you can genuinely sustain."
+      },
+      "minor-pentacles-queen": {
+        "vi": "Đĩa vàng nghỉ trên đùi giữa khu vườn sống động. Sự chăm sóc nào giúp đời thường của bạn dễ thở hơn?",
+        "en": "The gold disk rests on a lap within a living garden. What care makes your everyday life easier to inhabit?"
+      },
+      "minor-pentacles-king": {
+        "vi": "Một đĩa được giữ vững giữa khu vườn trưởng thành. Bạn muốn dùng điều mình có để tạo sự ổn định theo cách nào?",
+        "en": "One disk is held steadily within a mature garden. How would you like to use what you have to create stability?"
+      }
+    },
+    "stagingNotes": [
+      "Source-only intake; excluded from active deck arrays.",
+      "Themes follow the supplied self-reflection, daily and creative-exploration uses. Access tier remains an Owner product decision. Final faces, cover/back and runtime QC pending."
+    ],
+    "theme": [
+      "self",
+      "daily",
+      "explore"
+    ]
+  }
+]

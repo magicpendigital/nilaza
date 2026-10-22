@@ -1,0 +1,223 @@
+{
+  "schemaVersion": 1,
+  "taskId": "mvp-R07-tombstone-read-2026-10-01",
+  "ownerAgent": "mobile_app_agent",
+  "lane": "mobile_experience_lane",
+  "goal": "Consume server-owned Journal soft-delete tombstones in the durable repository so a second client removes the entry and cancels stale outbox work only after acknowledged local persistence.",
+  "successCriteria": [
+    "Authenticated own-user read includes tombstone metadata; never map deleted content to visible entries.",
+    "Remote tombstone merges durably hide matching entries and cancel stale mutations; late ACK/error cannot resurrect or poison the superseded state.",
+    "Disk failure keeps the previously acknowledged state and explicitly shows sync failure; no live two-client acceptance claimed."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/backendClient.ts",
+    "apps/mobile/src/features/journal/journalRepository.ts",
+    "apps/mobile/src/features/journal/__tests__/journalRepository.test.ts",
+    "docs/mvp-remediation/2026-10-01/R07-journal-handoff.vi.md",
+    "docs/mvp-remediation/2026-10-01/R07-server-local.vi.md",
+    "apps/mobile/src/__tests__/accountQueries.test.ts"
+  ],
+  "untouchedSurfaces": [
+    "No schema, provider, RLS, deployment or live delete.",
+    "Journal draft files belong to separate R08 agent; no edits there."
+  ],
+  "impact": {
+    "entryPoint": "Authenticated Journal history refresh/merge and offline outbox.",
+    "dataWrite": "Account-scoped envelope ACK before applying remote tombstones; no live data mutation in task.",
+    "backendContract": "Existing GET owner filter includes deleted_at rows as tombstone metadata; additive read contract, no query outside account.",
+    "adminVisibility": "No private content in logs/Admin.",
+    "privacySafety": "Deleted rows excluded from visible entries/export; tombstone IDs only, verified own-user SDK read.",
+    "observability": "Superseded old network failure does not mark current final state failed.",
+    "rollback": "Retain tombstones/envelope; old-app read filtering remains compatibility concern, no deletion of envelope."
+  },
+  "canonicalContracts": [
+    "Existing journal mobile contract unique(user_id,local_id), deleted_at and RLS remain unchanged.",
+    "Soft tombstones are delivered to authenticated own-user reads and hidden from UI/export after local ACK; cloud deletion and atomic CAS remain separate."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Review current own-user deleted_at filter, durable merge ordering and server tombstone ACK; preserve concurrent draft/prompt owners."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Review current own-user deleted_at filter, durable merge ordering and server tombstone ACK; preserve concurrent draft/prompt owners."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Review current own-user deleted_at filter, durable merge ordering and server tombstone ACK; preserve concurrent draft/prompt owners."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Review current own-user deleted_at filter, durable merge ordering and server tombstone ACK; preserve concurrent draft/prompt owners."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "c492e69235bc94267f8de0181822602612a5bbda03dd3d144cf4d6c96ff43197",
+      "reason": "Review current own-user deleted_at filter, durable merge ordering and server tombstone ACK; preserve concurrent draft/prompt owners."
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "7a4973733886cb4f1568d38e6d8324d1d8200bb1acd850db486bf5323943f023",
+      "reason": "Review current own-user deleted_at filter, durable merge ordering and server tombstone ACK; preserve concurrent draft/prompt owners."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "81c56b63a977ea0b455ca86e584bf1c5fc77200e982df7d0f1dd2b1a5bf8489c",
+      "reason": "Review current own-user deleted_at filter, durable merge ordering and server tombstone ACK; preserve concurrent draft/prompt owners."
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "sha256": "a5c4e85d7ae1fe32654df5e391cf6a0147bdfe1b6b7494492612c4360ad6168d",
+      "reason": "Review current own-user deleted_at filter, durable merge ordering and server tombstone ACK; preserve concurrent draft/prompt owners."
+    },
+    {
+      "path": "apps/mobile/src/features/journal/journalRepository.ts",
+      "sha256": "aa708d35780006b6fe54a24b1d7a0f217022a9571106d84078957d821b098ab9",
+      "reason": "Review current own-user deleted_at filter, durable merge ordering and server tombstone ACK; preserve concurrent draft/prompt owners."
+    },
+    {
+      "path": "apps/mobile/src/features/journal/__tests__/journalRepository.test.ts",
+      "sha256": "42dc4cbe407a9f3b9eca31b0bbc9df56e850595a1c61e9256b1e824c304a0207",
+      "reason": "Review current own-user deleted_at filter, durable merge ordering and server tombstone ACK; preserve concurrent draft/prompt owners."
+    },
+    {
+      "path": "supabase/functions/journal-entries/index.ts",
+      "sha256": "d4cd189f1148fed7c7c6d179ac35e25cc8fefbfee72aa7e2c166e5a9b32fdfb1",
+      "reason": "Review current own-user deleted_at filter, durable merge ordering and server tombstone ACK; preserve concurrent draft/prompt owners."
+    },
+    {
+      "path": "supabase/functions/journal-entries/handler.ts",
+      "sha256": "b46a28cfb23a0c74d5be766d5f9f6f404e7d946db2250ceb78de785cc9c68018",
+      "reason": "Review current own-user deleted_at filter, durable merge ordering and server tombstone ACK; preserve concurrent draft/prompt owners."
+    },
+    {
+      "path": "apps/mobile/src/__tests__/accountQueries.test.ts",
+      "sha256": "39931c1a461c04d939a711d454ae08df64e5f48fc952e75ab8bc5821c8aadfa4",
+      "reason": "Update owner-query test to the newly reviewed tombstone-read contract while preserving explicit account predicate/token-isolation coverage."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Fresh whole-app and additive legacy contract, local test versus deployment/cross-client/native gates separated."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Existing React refs/state and callbacks, no package or API choice."
+  },
+  "securityReview": {
+    "authzRls": "Existing explicit user_id/session/abort reads; only metadata of authenticated own deleted rows enters envelope.",
+    "sensitiveData": "Synthetic bounded journal fixtures; no private/live data.",
+    "secretsLogging": "Generic errors; no credentials or input content logging.",
+    "externalInput": "Validate tombstone ID list; remote deleted content never displayed/exported.",
+    "dependencies": "Existing pinned Supabase createClient and Deno2.9 installed; pure test handler no remote imports.",
+    "migrationRelease": "Foreign MCY staging remains blocked; no deploy/db apply.",
+    "stopCondition": "Stop live action or fakeACK; record missing cross-client broadcast/atomic revision gate.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/backendClient.ts",
+      "apps/mobile/src/features/journal/journalRepository.ts",
+      "apps/mobile/src/features/journal/__tests__/journalRepository.test.ts",
+      "docs/mvp-remediation/2026-10-01/R07-journal-handoff.vi.md",
+      "docs/mvp-remediation/2026-10-01/R07-server-local.vi.md",
+      "apps/mobile/src/__tests__/accountQueries.test.ts"
+    ],
+    "note": "Root owns App/backend/repository, already dirty from R07; do not revert owner or agent work."
+  },
+  "validationCommands": [
+    "npm --workspace apps/mobile test -- --runInBand src/features/journal/__tests__/journalRepository.test.ts src/__tests__/accountQueries.test.ts src/__tests__/backendClient.test.ts",
+    "npm --workspace apps/mobile run check"
+  ],
+  "managerTestPath": "After approved deployment, clientA delete -> clientB refresh removes same localId; simulate stale B edit/ACK, restart and disk failure with fixtures.",
+  "residualRisk": "GET has no server pagination/CAS; actual two-client RLS/deployment/native gate remains. Tombstoned late write may retain private fields until retention reviewed.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deployment": false,
+    "productionRelease": false
+  },
+  "externalSourceReview": [],
+  "nativeDeliveryReview": "Installed Expo Sharing Android resolves on chooser ActivityResult, which does not prove recipient finished reading. iOS removes after sheet; Android retains only app-private named export for 10 minutes, schedules deletion and startup cleanup; no unrelated files scanned/deleted. Native receiver/device verification remains separate.",
+  "implementationBaselineReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Review current own-user deleted_at filter, durable merge ordering and server tombstone ACK; preserve concurrent draft/prompt owners."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Review current own-user deleted_at filter, durable merge ordering and server tombstone ACK; preserve concurrent draft/prompt owners."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Review current own-user deleted_at filter, durable merge ordering and server tombstone ACK; preserve concurrent draft/prompt owners."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Review current own-user deleted_at filter, durable merge ordering and server tombstone ACK; preserve concurrent draft/prompt owners."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "c492e69235bc94267f8de0181822602612a5bbda03dd3d144cf4d6c96ff43197",
+      "reason": "Review current own-user deleted_at filter, durable merge ordering and server tombstone ACK; preserve concurrent draft/prompt owners."
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "7a4973733886cb4f1568d38e6d8324d1d8200bb1acd850db486bf5323943f023",
+      "reason": "Review current own-user deleted_at filter, durable merge ordering and server tombstone ACK; preserve concurrent draft/prompt owners."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "81c56b63a977ea0b455ca86e584bf1c5fc77200e982df7d0f1dd2b1a5bf8489c",
+      "reason": "Review current own-user deleted_at filter, durable merge ordering and server tombstone ACK; preserve concurrent draft/prompt owners."
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "sha256": "a5c4e85d7ae1fe32654df5e391cf6a0147bdfe1b6b7494492612c4360ad6168d",
+      "reason": "Review current own-user deleted_at filter, durable merge ordering and server tombstone ACK; preserve concurrent draft/prompt owners."
+    },
+    {
+      "path": "apps/mobile/src/features/journal/journalRepository.ts",
+      "sha256": "aa708d35780006b6fe54a24b1d7a0f217022a9571106d84078957d821b098ab9",
+      "reason": "Review current own-user deleted_at filter, durable merge ordering and server tombstone ACK; preserve concurrent draft/prompt owners."
+    },
+    {
+      "path": "apps/mobile/src/features/journal/__tests__/journalRepository.test.ts",
+      "sha256": "95b06bd52cb7950a05256260d451c619dad46ffdb12415c397b164a324544e3a",
+      "reason": "Review current own-user deleted_at filter, durable merge ordering and server tombstone ACK; preserve concurrent draft/prompt owners."
+    },
+    {
+      "path": "supabase/functions/journal-entries/index.ts",
+      "sha256": "d4cd189f1148fed7c7c6d179ac35e25cc8fefbfee72aa7e2c166e5a9b32fdfb1",
+      "reason": "Review current own-user deleted_at filter, durable merge ordering and server tombstone ACK; preserve concurrent draft/prompt owners."
+    },
+    {
+      "path": "supabase/functions/journal-entries/handler.ts",
+      "sha256": "b46a28cfb23a0c74d5be766d5f9f6f404e7d946db2250ceb78de785cc9c68018",
+      "reason": "Review current own-user deleted_at filter, durable merge ordering and server tombstone ACK; preserve concurrent draft/prompt owners."
+    },
+    {
+      "path": "apps/mobile/src/__tests__/accountQueries.test.ts",
+      "sha256": "171787bc203a990261057616fa0eef4ffec99a2325fed4eb9036d5b57e2359c9",
+      "reason": "Update owner-query test to the newly reviewed tombstone-read contract while preserving explicit account predicate/token-isolation coverage."
+    }
+  ]
+}

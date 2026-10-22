@@ -1,0 +1,565 @@
+{
+  "scope": "50_full_charts_10_geographies_and_independent_scalar_angle_formula",
+  "thresholdDegrees": 0.1,
+  "formulaSource": "https://aa.usno.navy.mil/faq/GAST",
+  "limitations": [
+    "Not an external certified full-chart vendor benchmark.",
+    "UT1 approximated by UTC; no observed Earth orientation parameters.",
+    "Approximate independent formula is for regression cross-checks, not a guarantee at polar latitudes."
+  ],
+  "total": 50,
+  "passed": 50,
+  "maxAngleDifferenceDegrees": 0.020872101551731248,
+  "results": [
+    {
+      "utc": "1900-01-01T12:00:00Z",
+      "latitude": 21.0285,
+      "longitude": 105.8542,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.000013449263178699766,
+        "midheaven": 0.000006138684739198652
+      },
+      "passed": true
+    },
+    {
+      "utc": "1901-01-01T00:00:00Z",
+      "latitude": 48.8566,
+      "longitude": 2.3522,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.00015023631578969798,
+        "midheaven": 0.00017349696122437308
+      },
+      "passed": true
+    },
+    {
+      "utc": "1903-02-11T17:49:00Z",
+      "latitude": 40.7128,
+      "longitude": -74.006,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.002404194864539022,
+        "midheaven": 0.0006362443951957175
+      },
+      "passed": true
+    },
+    {
+      "utc": "1905-03-21T10:38:00Z",
+      "latitude": -33.8688,
+      "longitude": 151.2093,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.002089825154598657,
+        "midheaven": 0.0005264115172849415
+      },
+      "passed": true
+    },
+    {
+      "utc": "1907-04-04T03:27:00Z",
+      "latitude": 27.7172,
+      "longitude": 85.324,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.0007621653070373213,
+        "midheaven": 0.00028080152344500675
+      },
+      "passed": true
+    },
+    {
+      "utc": "1912-10-10T21:57:00Z",
+      "latitude": -33.9249,
+      "longitude": 18.4241,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.0016879527852324827,
+        "midheaven": 0.00016540870888093195
+      },
+      "passed": true
+    },
+    {
+      "utc": "1914-11-20T14:46:00Z",
+      "latitude": 64.1466,
+      "longitude": -21.9426,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.020872101551731248,
+        "midheaven": 0.00016184206856451056
+      },
+      "passed": true
+    },
+    {
+      "utc": "1916-12-03T07:35:00Z",
+      "latitude": 1.3521,
+      "longitude": 103.8198,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.00015332179839333548,
+        "midheaven": 0.00009198196744364395
+      },
+      "passed": true
+    },
+    {
+      "utc": "1921-06-09T01:05:00Z",
+      "latitude": 0,
+      "longitude": 0,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.00010648986608430278,
+        "midheaven": 0.00019835954435620806
+      },
+      "passed": true
+    },
+    {
+      "utc": "1923-07-19T18:54:00Z",
+      "latitude": -55,
+      "longitude": -67,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.004156194384677292,
+        "midheaven": 0.000477746317983474
+      },
+      "passed": true
+    },
+    {
+      "utc": "1925-08-02T11:43:00Z",
+      "latitude": 21.0285,
+      "longitude": 105.8542,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.0009045340192415097,
+        "midheaven": 0.00027752340110964724
+      },
+      "passed": true
+    },
+    {
+      "utc": "1927-09-12T04:32:00Z",
+      "latitude": 48.8566,
+      "longitude": 2.3522,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.00012410329156864464,
+        "midheaven": 0.00012825330395571655
+      },
+      "passed": true
+    },
+    {
+      "utc": "1930-02-08T05:13:00Z",
+      "latitude": 40.7128,
+      "longitude": -74.006,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.0005108111107574587,
+        "midheaven": 0.0003207837007721537
+      },
+      "passed": true
+    },
+    {
+      "utc": "1932-03-18T22:02:00Z",
+      "latitude": -33.8688,
+      "longitude": 151.2093,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.00012146567371473793,
+        "midheaven": 0.00032161120202545135
+      },
+      "passed": true
+    },
+    {
+      "utc": "1934-04-01T15:51:00Z",
+      "latitude": 27.7172,
+      "longitude": 85.324,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.0004668679979431545,
+        "midheaven": 0.00040061631784737983
+      },
+      "passed": true
+    },
+    {
+      "utc": "1936-05-11T08:40:00Z",
+      "latitude": -33.9249,
+      "longitude": 18.4241,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.0000901406922366732,
+        "midheaven": 0.00013420748780390568
+      },
+      "passed": true
+    },
+    {
+      "utc": "1941-11-17T02:10:00Z",
+      "latitude": 64.1466,
+      "longitude": -21.9426,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.0005768092066773534,
+        "midheaven": 0.00044112441867127927
+      },
+      "passed": true
+    },
+    {
+      "utc": "1943-12-27T19:59:00Z",
+      "latitude": 1.3521,
+      "longitude": 103.8198,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.0003108328382950276,
+        "midheaven": 0.00041404005492040596
+      },
+      "passed": true
+    },
+    {
+      "utc": "1945-01-10T12:48:00Z",
+      "latitude": 0,
+      "longitude": 0,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.0001965343398069308,
+        "midheaven": 0.00016727374509173387
+      },
+      "passed": true
+    },
+    {
+      "utc": "1950-06-15T12:00:00Z",
+      "latitude": -55,
+      "longitude": -67,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.0030797101601365284,
+        "midheaven": 0.0003444135321615249
+      },
+      "passed": true
+    },
+    {
+      "utc": "1950-07-16T06:18:00Z",
+      "latitude": 21.0285,
+      "longitude": 105.8542,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.000006696139394080092,
+        "midheaven": 0.00041802824034675723
+      },
+      "passed": true
+    },
+    {
+      "utc": "1952-08-26T23:07:00Z",
+      "latitude": 48.8566,
+      "longitude": 2.3522,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.0031208173033974163,
+        "midheaven": 0.0005346942642745489
+      },
+      "passed": true
+    },
+    {
+      "utc": "1954-09-09T16:56:00Z",
+      "latitude": 40.7128,
+      "longitude": -74.006,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.00033816529526120576,
+        "midheaven": 0.00002328523862615839
+      },
+      "passed": true
+    },
+    {
+      "utc": "1959-03-15T10:26:00Z",
+      "latitude": -33.8688,
+      "longitude": 151.2093,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.0021021018280862336,
+        "midheaven": 0.0004708464780378563
+      },
+      "passed": true
+    },
+    {
+      "utc": "1961-04-25T03:15:00Z",
+      "latitude": 27.7172,
+      "longitude": 85.324,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.001246273932110853,
+        "midheaven": 0.00030788676508564095
+      },
+      "passed": true
+    },
+    {
+      "utc": "1963-05-08T20:04:00Z",
+      "latitude": -33.9249,
+      "longitude": 18.4241,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.000569998128980842,
+        "midheaven": 0.00008178161340310908
+      },
+      "passed": true
+    },
+    {
+      "utc": "1965-06-18T13:53:00Z",
+      "latitude": 64.1466,
+      "longitude": -21.9426,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.00006188046302213479,
+        "midheaven": 0.00011053551816075924
+      },
+      "passed": true
+    },
+    {
+      "utc": "1970-12-24T07:23:00Z",
+      "latitude": 1.3521,
+      "longitude": 103.8198,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.0003571445226953074,
+        "midheaven": 0.00048065986516121484
+      },
+      "passed": true
+    },
+    {
+      "utc": "1972-01-07T00:12:00Z",
+      "latitude": 0,
+      "longitude": 0,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.0001796260946775874,
+        "midheaven": 0.00018607661513669882
+      },
+      "passed": true
+    },
+    {
+      "utc": "1974-02-17T17:01:00Z",
+      "latitude": -55,
+      "longitude": -67,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.00014301195596999605,
+        "midheaven": 0.00010300251676653716
+      },
+      "passed": true
+    },
+    {
+      "utc": "1979-08-23T11:31:00Z",
+      "latitude": 21.0285,
+      "longitude": 105.8542,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.0009382977331142683,
+        "midheaven": 0.00030383133548639307
+      },
+      "passed": true
+    },
+    {
+      "utc": "1981-09-06T04:20:00Z",
+      "latitude": 48.8566,
+      "longitude": 2.3522,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.0003533490696554509,
+        "midheaven": 0.0003208019942348983
+      },
+      "passed": true
+    },
+    {
+      "utc": "1983-10-16T21:09:00Z",
+      "latitude": 40.7128,
+      "longitude": -74.006,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.000020224188574502477,
+        "midheaven": 0.000059223765219940105
+      },
+      "passed": true
+    },
+    {
+      "utc": "1988-04-22T15:39:00Z",
+      "latitude": -33.8688,
+      "longitude": 151.2093,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.000330984834249648,
+        "midheaven": 0.0005367987563431598
+      },
+      "passed": true
+    },
+    {
+      "utc": "1990-05-05T08:28:00Z",
+      "latitude": 27.7172,
+      "longitude": 85.324,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.000035430761499810615,
+        "midheaven": 0.00017227727425961348
+      },
+      "passed": true
+    },
+    {
+      "utc": "1992-06-15T01:17:00Z",
+      "latitude": -33.9249,
+      "longitude": 18.4241,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.000006141633548395475,
+        "midheaven": 0.000015545183487120084
+      },
+      "passed": true
+    },
+    {
+      "utc": "1994-07-25T18:06:00Z",
+      "latitude": 64.1466,
+      "longitude": -21.9426,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.0025187816702327837,
+        "midheaven": 0.0000703453832784362
+      },
+      "passed": true
+    },
+    {
+      "utc": "1999-01-04T12:36:00Z",
+      "latitude": 1.3521,
+      "longitude": 103.8198,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.0004236803570165648,
+        "midheaven": 0.00045830547173864034
+      },
+      "passed": true
+    },
+    {
+      "utc": "2000-01-01T12:00:00Z",
+      "latitude": 0,
+      "longitude": 0,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.00024132539397214714,
+        "midheaven": 0.00002577409168225131
+      },
+      "passed": true
+    },
+    {
+      "utc": "2001-02-14T05:25:00Z",
+      "latitude": -55,
+      "longitude": -67,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.0008097126278698852,
+        "midheaven": 0.000038650076248814
+      },
+      "passed": true
+    },
+    {
+      "utc": "2003-03-24T22:14:00Z",
+      "latitude": 21.0285,
+      "longitude": 105.8542,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.0001480499295212212,
+        "midheaven": 0.00014821877209669765
+      },
+      "passed": true
+    },
+    {
+      "utc": "2008-09-03T16:44:00Z",
+      "latitude": 48.8566,
+      "longitude": 2.3522,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.003993169653540463,
+        "midheaven": 0.00025930774529570044
+      },
+      "passed": true
+    },
+    {
+      "utc": "2010-10-13T09:33:00Z",
+      "latitude": 40.7128,
+      "longitude": -74.006,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.000057740294778341195,
+        "midheaven": 0.00006755475214959006
+      },
+      "passed": true
+    },
+    {
+      "utc": "2012-11-23T02:22:00Z",
+      "latitude": -33.8688,
+      "longitude": 151.2093,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.00007526195634000032,
+        "midheaven": 0.00018308977428205253
+      },
+      "passed": true
+    },
+    {
+      "utc": "2017-05-02T20:52:00Z",
+      "latitude": 27.7172,
+      "longitude": 85.324,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.0007429569549231019,
+        "midheaven": 0.00013815593069921306
+      },
+      "passed": true
+    },
+    {
+      "utc": "2019-06-12T13:41:00Z",
+      "latitude": -33.9249,
+      "longitude": 18.4241,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.0009966249201625033,
+        "midheaven": 0.00012868782687291969
+      },
+      "passed": true
+    },
+    {
+      "utc": "2021-07-22T06:30:00Z",
+      "latitude": 64.1466,
+      "longitude": -21.9426,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.0007116194930176789,
+        "midheaven": 0.0001319107914241613
+      },
+      "passed": true
+    },
+    {
+      "utc": "2023-08-05T23:19:00Z",
+      "latitude": 1.3521,
+      "longitude": 103.8198,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.0004338133728651883,
+        "midheaven": 0.00048189826657107915
+      },
+      "passed": true
+    },
+    {
+      "utc": "2026-09-22T12:00:00Z",
+      "latitude": 0,
+      "longitude": 0,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.0000630858469321538,
+        "midheaven": 0.000023220948378366302
+      },
+      "passed": true
+    },
+    {
+      "utc": "2099-12-31T12:00:00Z",
+      "latitude": -55,
+      "longitude": -67,
+      "validationErrors": [],
+      "independentAngleDifferences": {
+        "ascendant": 0.001126932128727276,
+        "midheaven": 0.00043105508746066334
+      },
+      "passed": true
+    }
+  ]
+}

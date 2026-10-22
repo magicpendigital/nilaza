@@ -1,0 +1,5 @@
+assets/tarot/tinh-quang/artwork/major-08-strength.png -> 656 x 1130
+assets/tarot/tinh-quang/artwork/minor-swords-ten.png -> 656 x 1130
+Normalized artwork files: 2
+assets/tarot/tinh-quang/artwork/major-21-world.png -> 656 x 1130
+Normalized artwork files: 1

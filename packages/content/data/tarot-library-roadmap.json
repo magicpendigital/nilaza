@@ -1,0 +1,71 @@
+{
+  "version": "2026-06-07-local-v1",
+  "principles": {
+    "vi": [
+      "Mỗi bộ bài phải có positioning riêng, không chỉ đổi màu.",
+      "Khong copy artwork cua Rider-Waite-Smith hoac deck thuong mai neu chua ro quyen.",
+      "Mỗi reading phải giữ tính reflection, không khẳng định tương lai."
+    ],
+    "en": [
+      "Each deck needs distinct positioning, not just a color swap.",
+      "Do not copy Rider-Waite-Smith or commercial deck artwork without rights review.",
+      "Every reading stays reflective and avoids future certainty."
+    ]
+  },
+  "nextDecks": [
+    {
+      "id": "career-compass",
+      "priority": 1,
+      "accessTier": "premium-preview",
+      "name": {
+        "vi": "La Ban Su Nghiep",
+        "en": "Career Compass"
+      },
+      "theme": [
+        "career",
+        "money",
+        "decision"
+      ],
+      "marketSignal": {
+        "vi": "Gen Z thuong hoi ve nghe nghiep, dinh huong, thu nhap va quyet dinh chuyen viec.",
+        "en": "Gen Z often asks about career direction, income, and job-change decisions."
+      }
+    },
+    {
+      "id": "shadow-bloom",
+      "priority": 2,
+      "accessTier": "premium-preview",
+      "name": {
+        "vi": "Hoa No Trong Bong",
+        "en": "Shadow Bloom"
+      },
+      "theme": [
+        "self-care",
+        "shadow_work",
+        "self"
+      ],
+      "marketSignal": {
+        "vi": "Noi dung shadow work, inner child va self-care co kha nang giu chan nguoi dung journaling.",
+        "en": "Shadow work, inner child, and self-care content can support journaling retention."
+      }
+    },
+    {
+      "id": "venus-letter",
+      "priority": 3,
+      "accessTier": "free",
+      "name": {
+        "vi": "Thu Tu Venus",
+        "en": "Venus Letter"
+      },
+      "theme": [
+        "love",
+        "relationship",
+        "self_worth"
+      ],
+      "marketSignal": {
+        "vi": "Tinh yeu la entry-point manh cho tarot app, can nhan manh ranh gioi va long tu trong.",
+        "en": "Love is a strong tarot app entry point, but should emphasize boundaries and self-worth."
+      }
+    }
+  ]
+}

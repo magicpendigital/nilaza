@@ -1,0 +1,200 @@
+{
+  "schemaVersion": 1,
+  "taskId": "mvp-R02-R03-2026-10-01",
+  "ownerAgent": "security_privacy_agent",
+  "lane": "migration_security_read_only_preparation",
+  "goal": "Record verified foreign MCY schema investigation, owner-reviewed forward choices and current dependency reachability triage without source, dependency or live database mutation; root applies prepared agent documentation.",
+  "successCriteria": [
+    "Preserve historical migration evidence and blocked status/projectRef; do not adopt MCY as intended Nilaza schema.",
+    "Distinguish observed project/migration metadata from unknown actor and dependency coverage.",
+    "Document current lock copies, attack prerequisites and precise future implementation/test gates; no deep scan retry or fabricated release acceptance."
+  ],
+  "writeScope": [
+    "docs/mvp-remediation/2026-10-01/R02-migration-forward-path.vi.md",
+    "docs/mvp-remediation/2026-10-01/R03-security-triage.vi.md",
+    "docs/SUPABASE_MIGRATION_LEDGER.md",
+    "supabase/migration-ledger.json"
+  ],
+  "untouchedSurfaces": [
+    "No live writes, project retarget, migration SQL, deploy, publish or release.",
+    "App/account bridge and privacy integration require separate root record; historical planning backlog untouched."
+  ],
+  "impact": {
+    "entryPoint": "Owner reads migration/security evidence and chooses reviewed future task.",
+    "dataWrite": "Four declared local documentation/ledger metadata files only; preserve blocked state.",
+    "backendContract": "No endpoint or schema changes in this exact slice; future live acceptance separately gated.",
+    "adminVisibility": "Canonical seed source/hash and protected workspace verification reported honestly, no publish.",
+    "privacySafety": "Synthetic fixtures or sanitized project context; no raw private content, credentials or author identity.",
+    "observability": "Actual check counts/source bindings and precise blocked dependencies.",
+    "rollback": "Docs-only report can be superseded; implementation rollback remains documented per slice."
+  },
+  "canonicalContracts": [
+    "Ledger remains blocked_pending_reconciliation and projectRef akgrokwnkfqnfjqrildi; history preservation is not desired-schema approval.",
+    "Current lock copies and historical audit are reachability evidence, not fresh successful audit/exploit proof."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Reviewed exact delegated slice/current source before root writes; preserve historical baseline and all unrelated owner edits."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Reviewed exact delegated slice/current source before root writes; preserve historical baseline and all unrelated owner edits."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Reviewed exact delegated slice/current source before root writes; preserve historical baseline and all unrelated owner edits."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "e5fc9e3789ce1978ce3db7b7f41d6dd695d021c6d01ead2b11b3af14a4525f49",
+      "reason": "Reviewed exact delegated slice/current source before root writes; preserve historical baseline and all unrelated owner edits."
+    },
+    {
+      "path": "supabase/migration-ledger.json",
+      "sha256": "e63b4510c844c03d235b3f69d8e9a051c5ce4cbe620369100f5fcb33a9f8d9eb",
+      "reason": "Reviewed exact delegated slice/current source before root writes; preserve historical baseline and all unrelated owner edits."
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "ba3e99deb94ffd6b862f2008b5886cb60aac9a60d4fa1c28cc98f4226a2bbedb",
+      "reason": "Reviewed exact delegated slice/current source before root writes; preserve historical baseline and all unrelated owner edits."
+    },
+    {
+      "path": "apps/mobile/package.json",
+      "sha256": "71bed88f043629f67e9674ec6abc8fbd99956d68e57176abdb853416cd24d7ab",
+      "reason": "Reviewed exact delegated slice/current source before root writes; preserve historical baseline and all unrelated owner edits."
+    },
+    {
+      "path": "docs/reviews/2026-09-30/dependency-audit.json",
+      "sha256": "225a9d5d313fd0c0c25be22aee7b4b828ff6395bdba481a95f05bf77c5e87e42",
+      "reason": "Reviewed exact delegated slice/current source before root writes; preserve historical baseline and all unrelated owner edits."
+    },
+    {
+      "path": "deno.lock",
+      "sha256": "b2ac0fc2a07bd790a0d1c87827e0f2a313a8b280f049c8867511f58f8c409b98",
+      "reason": "Current exact draft/account-export integration or Deno locked transitive resolver reviewed; bind final validation, not initial implementation baseline."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Fresh exact QA plan with full results and separate browser/native/CI/live gates; no skipped case or inflated timeout."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Delegated security reviewer checked current primary advisories and Supabase docs on 2026-10-01; no dependency upgrade or remote exploit."
+  },
+  "securityReview": {
+    "authzRls": "Local unit tests only; linked DB identity flagged separately.",
+    "sensitiveData": "Synthetic fixtures; no credential/private traces read.",
+    "secretsLogging": "No secret printing or env changes.",
+    "externalInput": "Trusted repository tests/build scripts; results not commands.",
+    "dependencies": "No install/update; existing lockfile version.",
+    "migrationRelease": "Nilaza QA foreign-schema identity unresolved; no live writes/deploy/retarget.",
+    "stopCondition": "Stop outside exact local slice or if ACK/account safeguards weakened; runtime release risks remain blocked.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "docs/mvp-remediation/2026-10-01/R02-migration-forward-path.vi.md",
+      "docs/mvp-remediation/2026-10-01/R03-security-triage.vi.md",
+      "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "supabase/migration-ledger.json"
+    ],
+    "note": "Preserve exact existing owner changes; root executes prepared delegated plan with working writer. No other agent scope mutation."
+  },
+  "validationCommands": [
+    "npm run supabase:migration-ledger:check",
+    "npm run feature:preflight -- --record docs/feature-plans/mvp-R02-R03-2026-10-01.json"
+  ],
+  "managerTestPath": "Review foreign schema metadata and clean-QA versus isolation options; choose concrete forward task before live implementation.",
+  "residualRisk": "Foreign schema dependencies/actor unknown. Critical/high dependency mitigations and native/RLS reachability remain release gates. Safe documentation only, no cloud action authorized.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deployment": false,
+    "productionRelease": false
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://supabase.com/changelog",
+      "checkedAt": "2026-10-01",
+      "reason": "Security Agent primary-source review of affected versions, prerequisites and owner-reviewed forward migration workflow."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/deployment/database-migrations",
+      "checkedAt": "2026-10-01",
+      "reason": "Security Agent primary-source review of affected versions, prerequisites and owner-reviewed forward migration workflow."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/database/postgres/row-level-security",
+      "checkedAt": "2026-10-01",
+      "reason": "Security Agent primary-source review of affected versions, prerequisites and owner-reviewed forward migration workflow."
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-23hp-3jrh-7fpw",
+      "checkedAt": "2026-10-01",
+      "reason": "Security Agent primary-source review of affected versions, prerequisites and owner-reviewed forward migration workflow."
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-qw65-cvwx-89v3",
+      "checkedAt": "2026-10-01",
+      "reason": "Security Agent primary-source review of affected versions, prerequisites and owner-reviewed forward migration workflow."
+    },
+    {
+      "url": "https://github.com/advisories/GHSA-6mj3-qw4j-hgrw",
+      "checkedAt": "2026-10-01",
+      "reason": "Security Agent primary-source review of affected versions, prerequisites and owner-reviewed forward migration workflow."
+    }
+  ],
+  "implementationBaselineReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Reviewed exact delegated slice/current source before root writes; preserve historical baseline and all unrelated owner edits."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Reviewed exact delegated slice/current source before root writes; preserve historical baseline and all unrelated owner edits."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Reviewed exact delegated slice/current source before root writes; preserve historical baseline and all unrelated owner edits."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "c14e3443c259659ad51af3621b6418b82a740d22ad06a2832b185e3e02bea364",
+      "reason": "Reviewed exact delegated slice/current source before root writes; preserve historical baseline and all unrelated owner edits."
+    },
+    {
+      "path": "supabase/migration-ledger.json",
+      "sha256": "838e8d3fa0ef73a7e2af3e50a0da48e60ab20570b2dd055f73650a600549f6dd",
+      "reason": "Reviewed exact delegated slice/current source before root writes; preserve historical baseline and all unrelated owner edits."
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "ba3e99deb94ffd6b862f2008b5886cb60aac9a60d4fa1c28cc98f4226a2bbedb",
+      "reason": "Reviewed exact delegated slice/current source before root writes; preserve historical baseline and all unrelated owner edits."
+    },
+    {
+      "path": "apps/mobile/package.json",
+      "sha256": "71bed88f043629f67e9674ec6abc8fbd99956d68e57176abdb853416cd24d7ab",
+      "reason": "Reviewed exact delegated slice/current source before root writes; preserve historical baseline and all unrelated owner edits."
+    },
+    {
+      "path": "docs/reviews/2026-09-30/dependency-audit.json",
+      "sha256": "225a9d5d313fd0c0c25be22aee7b4b828ff6395bdba481a95f05bf77c5e87e42",
+      "reason": "Reviewed exact delegated slice/current source before root writes; preserve historical baseline and all unrelated owner edits."
+    }
+  ]
+}

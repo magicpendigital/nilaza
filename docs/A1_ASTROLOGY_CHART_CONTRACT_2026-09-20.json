@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "status": "draft_for_review",
+  "contractId": "nilaza.astrology.canonical-chart",
+  "contractVersion": "0.1.0",
+  "effectivePhase": "A3_after_G_A1_approval",
+  "purpose": "Draft canonical boundary between deterministic astrology calculation, AI interpretation, and visual rendering.",
+  "conventions": {
+    "zodiac": "tropical",
+    "coordinateFrame": "geocentric_ecliptic_longitude",
+    "houseSystem": "whole_sign",
+    "supportedBodies": ["sun", "moon", "mercury", "venus", "mars", "jupiter", "saturn", "uranus", "neptune", "pluto"],
+    "angles": ["ascendant", "midheaven"],
+    "aspectDefinitionsVersion": "major-5-v1",
+    "majorAspects": ["conjunction", "sextile", "square", "trine", "opposition"],
+    "rounding": "display_only; classification_uses_full_precision"
+  },
+  "input": {
+    "birthProfileRevisionId": "string",
+    "birthDate": "YYYY-MM-DD",
+    "birthTime": "HH:mm:ss|null",
+    "timePrecision": "exact|approximate|unknown",
+    "timezone": "IANA_timezone|null",
+    "utcOffsetMinutes": "integer|null",
+    "timezoneSource": "historical_iana|user_confirmed|provider|unknown",
+    "place": {
+      "label": "string|null",
+      "latitude": "number|null",
+      "longitude": "number|null",
+      "geocodeProvider": "string|null",
+      "geocodePlaceId": "string|null",
+      "precision": "exact|approximate|unknown"
+    },
+    "consentVersion": "string",
+    "inputHash": "sha256|string"
+  },
+  "calculation": {
+    "engine": "string",
+    "provider": "string",
+    "providerVersion": "string",
+    "ephemerisDataVersion": "string|null",
+    "calculationVersion": "string",
+    "calculatedAt": "ISO-8601 UTC",
+    "correlationId": "string"
+  },
+  "time": {
+    "utcDateTime": "ISO-8601 UTC|null",
+    "birthTimeKnown": "boolean",
+    "precision": "exact|approximate|unknown",
+    "uncertaintyReason": "string|null"
+  },
+  "angles": [
+    {
+      "key": "ascendant|midheaven",
+      "longitude": "number 0 inclusive to <360",
+      "sign": "zodiac sign id",
+      "degree": "number",
+      "confidence": "exact|approximate|unavailable"
+    }
+  ],
+  "placements": [
+    {
+      "body": "body id",
+      "longitude": "number 0 inclusive to <360",
+      "sign": "zodiac sign id",
+      "degree": "number",
+      "minute": "number|null",
+      "retrograde": "boolean|null",
+      "confidence": "exact|approximate|unavailable"
+    }
+  ],
+  "houses": [
+    {
+      "number": "integer 1..12",
+      "cuspLongitude": "number|null",
+      "sign": "zodiac sign id|null",
+      "confidence": "exact|approximate|unavailable"
+    }
+  ],
+  "aspects": [
+    {
+      "bodyA": "body id or angle id",
+      "bodyB": "body id or angle id",
+      "type": "major aspect id",
+      "orb": "number",
+      "exactSeparation": "number",
+      "confidence": "exact|approximate|unavailable"
+    }
+  ],
+  "uncertainties": [
+    {
+      "code": "timezone_offset_missing|time_unknown|place_unconfirmed|near_sign_boundary|near_house_boundary|near_aspect_orb|provider_unavailable|other",
+      "severity": "info|warning|blocking",
+      "messageKey": "localized message key",
+      "affects": ["placement|angle|house|aspect|interpretation|visual"]
+    }
+  ],
+  "provenance": {
+    "source": "deterministic_calculator",
+    "conventionsHash": "sha256|string",
+    "inputRevisionId": "string",
+    "parentChartId": "string|null",
+    "isReproducible": "boolean"
+  },
+  "visualContract": {
+    "rendererInput": "placements|angles|houses|aspects|uncertainties only",
+    "themeVersion": "string",
+    "artworkCannotOverrideFacts": true,
+    "reducedMotionSupported": true,
+    "screenReaderLabelsRequired": true
+  },
+  "forbiddenBehaviors": [
+    "silent_utc_or_noon_fallback_presented_as_exact",
+    "ai_invents_or_changes_placement",
+    "artwork_encodes_uncomputed_degree_or_aspect",
+    "deterministic_fate_or_regulated_advice",
+    "raw_birth_data_in_analytics_or_llm_trace"
+  ],
+  "compatibilityNotes": [
+    "This draft does not replace apps/mobile/src/backendClient.ts until A3 contract review passes.",
+    "Current astronomy-engine MVP output must be adapted into this shape and retain provider/version provenance.",
+    "A3 must add JSON Schema validation and fixture-backed contract tests before changing status to approved."
+  ]
+}

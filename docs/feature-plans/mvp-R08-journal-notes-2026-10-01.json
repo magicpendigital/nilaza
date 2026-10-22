@@ -1,0 +1,206 @@
+{
+  "schemaVersion": 1,
+  "taskId": "mvp-R08-journal-notes-2026-10-01",
+  "ownerAgent": "mobile_app_agent",
+  "lane": "mobile_experience_lane",
+  "goal": "Add independent private notes using acknowledged R07 save and route saved chat/Tarot back to the matching existing source without new AI calls or unrelated Tarot fallback.",
+  "successCriteria": [
+    "Create a manual note with title, text and mood without an AI reading; retain draft on local failure and prevent duplicate submit.",
+    "Manual notes appear in Notes, survive reload, and share R07 storage/sync states.",
+    "Saved Tarot opens its stable saved reading; Persona and Oracle reopen only if matching source history remains; other sources show an explicit unavailable status without starting a new reading."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/journal/JournalComposer.tsx",
+    "apps/mobile/src/features/journal/__tests__/JournalComposer.test.tsx",
+    "docs/mvp-remediation/2026-10-01/R08-notes-handoff.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "R07 server contract/schema and provider prompts are unchanged.",
+    "No cloud mutation deployment, DB migration, account deletion, subscriptions or copyrighted source changes.",
+    "Astrology structured saved-chart restoration remains a separate R18/device gate; saved summary stays readable."
+  ],
+  "impact": {
+    "entryPoint": "Journal list/empty state create note; note composer and saved insight source action.",
+    "dataWrite": "Existing JournalEntry sourceType manual with title/summary/mood through R07 repository; no new store.",
+    "backendContract": "Existing authenticated Journal upsert already accepts manual. No new endpoint or privileged action.",
+    "adminVisibility": "No notes or raw snapshots in Admin; existing sourceType-only event.",
+    "privacySafety": "Private account scope; no AI transmission from writing/reopen; draft retained on failure; missing source never triggers another reading.",
+    "observability": "Local acknowledged save and pending/synced states from R07; no raw draft logging.",
+    "rollback": "Scoped component/route rollback preserves manual entries in R07 envelope and uses existing sourceType/schema."
+  },
+  "canonicalContracts": [
+    "PRD 6.7 manual note and source revisit; JournalEntry schema and R07 envelope remain canonical.",
+    "Only existing matched source IDs/session history determine route; no invented new provider output."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Current integrated source and QA note-count/card consistency reviewed before corrective edits; initial baseline preserved."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Current integrated source and QA note-count/card consistency reviewed before corrective edits; initial baseline preserved."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Current integrated source and QA note-count/card consistency reviewed before corrective edits; initial baseline preserved."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Current integrated source and QA note-count/card consistency reviewed before corrective edits; initial baseline preserved."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "c492e69235bc94267f8de0181822602612a5bbda03dd3d144cf4d6c96ff43197",
+      "reason": "Current integrated source and QA note-count/card consistency reviewed before corrective edits; initial baseline preserved."
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "7a4973733886cb4f1568d38e6d8324d1d8200bb1acd850db486bf5323943f023",
+      "reason": "Current integrated source and QA note-count/card consistency reviewed before corrective edits; initial baseline preserved."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "e822f18674c014873ddec5f209408fc16ea11f6c1f8c217b9f094a11f6dc5d0a",
+      "reason": "Current integrated source and QA note-count/card consistency reviewed before corrective edits; initial baseline preserved."
+    },
+    {
+      "path": "apps/mobile/src/types.ts",
+      "sha256": "102780e6ef7e8e8cebbbbe16603986f9cbaf2a2267b63aae4d329a719c0fc527",
+      "reason": "Current integrated source and QA note-count/card consistency reviewed before corrective edits; initial baseline preserved."
+    },
+    {
+      "path": "apps/mobile/src/features/journal/journalRepository.ts",
+      "sha256": "c9d37c4c5707883301c28a5861d9786efbbe4e4f0f21994a630a85ce8335182f",
+      "reason": "Current integrated source and QA note-count/card consistency reviewed before corrective edits; initial baseline preserved."
+    },
+    {
+      "path": "apps/mobile/src/theme.ts",
+      "sha256": "d5da367499e494b72b7c9de4db1d384ff5bb5f09701c2be1cff5bad0ac3db42a",
+      "reason": "Current integrated source and QA note-count/card consistency reviewed before corrective edits; initial baseline preserved."
+    },
+    {
+      "path": "apps/mobile/src/a2ui/index.tsx",
+      "sha256": "e08b12d9c7930c1df3f6adecea47b4b282faed21e0959a7d2e04012a0b23d867",
+      "reason": "Current integrated source and QA note-count/card consistency reviewed before corrective edits; initial baseline preserved."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Fresh impact map, one App integration owner, preserved owner dirty edits and separate local/native/live acceptance."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Layout uses current typography, bilingual access/action text, original Tarot assets on Tarot surfaces and explicit browser/native status."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No new libraries/APIs. Existing React Native TextInput and acknowledged repository behavior retained."
+  },
+  "securityReview": {
+    "authzRls": "Existing account-scoped R07 store and authenticated upsert; no new grants or privilege.",
+    "sensitiveData": "Notes private; no provider/admin/log transmission. UI source routing only uses current account history.",
+    "secretsLogging": "No credentials/env reads or raw notes in events.",
+    "externalInput": "Bound title 160 and body 10000; disable empty submit and serialize submission. Only current valid persona/message is reopened.",
+    "dependencies": "No dependency mutation.",
+    "migrationRelease": "No DB schema/migration, deployment or publication; environment identity investigation blocks live actions.",
+    "stopCondition": "Stop on unsupported snapshot restore, missing source, database change or live publishing; show unavailable rather than route to unrelated screen.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/features/journal/JournalComposer.tsx",
+      "apps/mobile/src/features/journal/__tests__/JournalComposer.test.tsx",
+      "docs/mvp-remediation/2026-10-01/R08-notes-handoff.vi.md"
+    ],
+    "note": "One root App owner; all existing changes preserved; exact R08 files only."
+  },
+  "validationCommands": [
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand src/features/journal/__tests__/JournalComposer.test.tsx",
+    "Browser create fictional note, reload/reopen, filter Notes; unit fail/duplicate-submit; no irreversible browser deletion."
+  ],
+  "managerTestPath": "Journal -> Write note -> title/body/mood -> save -> Notes -> reload -> open/edit; reopen saved Tarot and a matching current chat, unavailable source must not create new reading.",
+  "residualRisk": "Native, cross-device cloud and chart restoration acceptance remain separate. Live DB identity issue under read-only investigation.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deployment": false,
+    "productionRelease": false
+  },
+  "externalSourceReview": [],
+  "implementationBaselineReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Current integrated source and QA note-count/card consistency reviewed before corrective edits; initial baseline preserved."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Current integrated source and QA note-count/card consistency reviewed before corrective edits; initial baseline preserved."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Current integrated source and QA note-count/card consistency reviewed before corrective edits; initial baseline preserved."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Current integrated source and QA note-count/card consistency reviewed before corrective edits; initial baseline preserved."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "c492e69235bc94267f8de0181822602612a5bbda03dd3d144cf4d6c96ff43197",
+      "reason": "Current integrated source and QA note-count/card consistency reviewed before corrective edits; initial baseline preserved."
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "7a4973733886cb4f1568d38e6d8324d1d8200bb1acd850db486bf5323943f023",
+      "reason": "Current integrated source and QA note-count/card consistency reviewed before corrective edits; initial baseline preserved."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "e822f18674c014873ddec5f209408fc16ea11f6c1f8c217b9f094a11f6dc5d0a",
+      "reason": "Current integrated source and QA note-count/card consistency reviewed before corrective edits; initial baseline preserved."
+    },
+    {
+      "path": "apps/mobile/src/types.ts",
+      "sha256": "102780e6ef7e8e8cebbbbe16603986f9cbaf2a2267b63aae4d329a719c0fc527",
+      "reason": "Current integrated source and QA note-count/card consistency reviewed before corrective edits; initial baseline preserved."
+    },
+    {
+      "path": "apps/mobile/src/features/journal/journalRepository.ts",
+      "sha256": "c9d37c4c5707883301c28a5861d9786efbbe4e4f0f21994a630a85ce8335182f",
+      "reason": "Current integrated source and QA note-count/card consistency reviewed before corrective edits; initial baseline preserved."
+    },
+    {
+      "path": "apps/mobile/src/theme.ts",
+      "sha256": "d5da367499e494b72b7c9de4db1d384ff5bb5f09701c2be1cff5bad0ac3db42a",
+      "reason": "Current integrated source and QA note-count/card consistency reviewed before corrective edits; initial baseline preserved."
+    },
+    {
+      "path": "apps/mobile/src/a2ui/index.tsx",
+      "sha256": "e08b12d9c7930c1df3f6adecea47b4b282faed21e0959a7d2e04012a0b23d867",
+      "reason": "Current integrated source and QA note-count/card consistency reviewed before corrective edits; initial baseline preserved."
+    }
+  ],
+  "qaReviewFindings": [
+    "Manual note counted in memory and edited note text shown in card/detail consistently."
+  ]
+}

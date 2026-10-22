@@ -1,0 +1,78 @@
+---
+import { waitlistConfig } from "../lib/waitlistConfig";
+import type { Locale } from "../lib/site";
+const { locale, waitlistTarget } = Astro.props as { locale: Locale; waitlistTarget?: string };
+const hasWaitlist = Boolean(waitlistTarget);
+const registrationOpen = waitlistConfig.enabled;
+---
+<div class:list={["floating-navigation", { "has-waitlist": hasWaitlist }]} data-floating-navigation data-waitlist-target={waitlistTarget}>
+  <button class="back-to-top" type="button" data-back-to-top hidden>
+    {locale === "vi" ? "Đầu trang" : "Back to top"}
+  </button>
+  {waitlistTarget && registrationOpen && (
+    <a
+      class="mobile-waitlist-cta"
+      href={waitlistTarget}
+      data-mobile-waitlist-cta
+      data-analytics-event="waitlist_cta_click"
+      data-analytics-source="mobile_sticky"
+      data-analytics-surface="landing"
+      data-analytics-target="waitlist"
+      hidden
+    >
+      <span>{locale === "vi" ? "Nhận tin ra mắt Nilaza" : "Get Nilaza launch news"}</span>
+      <strong>{locale === "vi" ? "Đăng ký trước ra mắt" : "Join the waitlist"}</strong>
+    </a>
+  )}
+</div>
+
+<script>
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  for (const navigation of document.querySelectorAll<HTMLElement>("[data-floating-navigation]")) {
+    const backToTop = navigation.querySelector<HTMLButtonElement>("[data-back-to-top]");
+    const mobileCta = navigation.querySelector<HTMLAnchorElement>("[data-mobile-waitlist-cta]");
+    const targetSelector = navigation.dataset.waitlistTarget;
+    const waitlist = targetSelector ? document.querySelector<HTMLElement>(targetSelector) : null;
+    let waitlistVisible = false;
+    let frame = 0;
+
+    const update = () => {
+      frame = 0;
+      const mobile = window.innerWidth <= 850;
+      const pastCtaThreshold = window.scrollY > Math.max(560, window.innerHeight * 0.7);
+      const pastBackThreshold = window.scrollY > (mobile
+        ? Math.max(1400, window.innerHeight * 1.6)
+        : Math.max(640, window.innerHeight * 0.8));
+      if (backToTop) backToTop.hidden = !pastBackThreshold;
+      if (mobileCta) mobileCta.hidden = !pastCtaThreshold || waitlistVisible;
+    };
+
+    const scheduleUpdate = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(update);
+    };
+
+    backToTop?.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: reducedMotion.matches ? "auto" : "smooth" });
+    });
+
+    if (waitlist && mobileCta && "IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(entries => {
+        waitlistVisible = entries.some(entry => entry.isIntersecting);
+        update();
+      }, { rootMargin: "-10% 0px -10% 0px", threshold: 0.05 });
+      observer.observe(waitlist);
+    }
+
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate, { passive: true });
+    update();
+  }
+</script>
+
+<style>
+  .floating-navigation{position:fixed;right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));z-index:40;display:grid;justify-items:end;gap:10px;pointer-events:none}.floating-navigation [hidden]{display:none!important}.back-to-top,.mobile-waitlist-cta{pointer-events:auto;box-shadow:0 14px 38px rgba(0,0,0,.28)}.back-to-top{min-height:48px;padding:.62rem .8rem;border:1px solid rgba(247,241,230,.28);border-radius:var(--radius);background:rgba(21,20,22,.96);color:var(--ivory);font-size:.74rem;font-weight:600;cursor:pointer}.back-to-top:hover,.back-to-top:focus-visible{border-color:var(--gold);color:var(--gold)}.mobile-waitlist-cta{display:none;text-decoration:none}
+  @media(max-width:850px){.floating-navigation{left:max(12px,env(safe-area-inset-left));right:max(12px,env(safe-area-inset-right));bottom:max(12px,env(safe-area-inset-bottom));grid-template-columns:1fr;align-items:end}.mobile-waitlist-cta{grid-column:1;display:grid;justify-items:center;width:100%;gap:1px;min-height:58px;padding:9px 14px;border:1px solid rgba(201,164,92,.62);border-radius:var(--radius);background:rgba(21,20,22,.98);color:var(--ivory);text-align:center}.mobile-waitlist-cta span{color:var(--moon);font-size:.67rem}.mobile-waitlist-cta strong{font-size:.84rem;line-height:1.25}.back-to-top{grid-column:1;justify-self:end}.floating-navigation:not(.has-waitlist) .back-to-top{grid-column:1}}
+  @media(prefers-reduced-motion:reduce){.back-to-top,.mobile-waitlist-cta{transition:none}}
+</style>

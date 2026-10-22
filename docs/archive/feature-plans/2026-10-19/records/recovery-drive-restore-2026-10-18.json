@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "taskId": "recovery-drive-restore-2026-10-18",
+  "ownerAgent": "root_recovery_restore",
+  "lane": "owner_recovery_drill",
+  "goal": "Prepare and launch an Owner-private recovery test using a freshly downloaded encrypted identity from the verified Drive file, without reading original local identity or exposing plaintext key/password.",
+  "successCriteria": [
+    "Downloaded 371-byte ciphertext matches pinned SHA256 and comes from exact observed Drive file.",
+    "Private protected separate directory; preserve original enrollment and all existing files.",
+    "Pinned age decrypts a new harmless public challenge using only downloaded encrypted identity; Owner enters passphrase in uncaptured classic console.",
+    "Only public receipt is inspected; current-machine cloud-backup drill remains distinct from separate-machine/system recovery."
+  ],
+  "writeScope": [
+    "scripts/nilaza-recovery-drive-test.ps1",
+    "docs/release/RECOVERY_DRIVE_TEST_2026-10-18.vi.md",
+    "artifacts/recovery-drive-test-2026-10-18/"
+  ],
+  "untouchedSurfaces": [
+    "Original identity/enrollment script and receipts, existing Drive files, mobile/Admin/backend, SQL, secrets, signing, release policy and target allowlist remain unchanged.",
+    "No key generation, rotation, runtime binding, original-key read, deletion, cloud publication or real user-data access."
+  ],
+  "impact": {
+    "entryPoint": "Owner authorizes Drive restore test; private classic conhost waits for BAT_DAU then requests existing passphrase.",
+    "dataWrite": "New encrypted download, public challenge, harmless decrypted probe and sanitized receipts under protected LocalAppData/NilazaRecovery/RestoreTests/drive-owner-v1-20261018. Repo contains only helper, guide and public evidence. After Owner completion and successful Inspect, add sanitized result and status to the same private Drive Recovery folder; no existing key or historical file replaced.",
+    "backendContract": "No app/backend change; pinned age --decrypt --identity supports encrypted identity natively.",
+    "adminVisibility": "Public status/checksums only; no Admin changes or private content.",
+    "privacySafety": "No password through chat, argv, environment, clipboard automation or transcript. Run rejects redirected streams; private identity is used only inside age and never written plaintext.",
+    "observability": "Exact Drive ID/hash plus helper/vendor hashes, preparation and final Owner receipt. Local download, unlock test and separate-machine restoration reported separately.",
+    "rollback": "Preserve originals and every prior test file; no delete/overwrite. Fail closed on unexpected ACL, reparse, checksum, paths or output. Exclusive lock prevents overlapping tests."
+  },
+  "canonicalContracts": [
+    "Pinned encrypted identity sha256 4bb2563f9627d223ac9116e442a13bef5046aa4d6cbb87082a70581714d5718a and public recipient from verified backup receipt.",
+    "Drive file 14PAhlK38T5w8r_BqSyfHSmo_UUKVwqsf under private Recovery 1NT8l-G30J2XQzfmBOvAYuymMfGEnsmiR.",
+    "No managedRecovery PASS from current-machine download/unlock alone."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_metadata",
+    "public_documentation",
+    "passphrase_encrypted_key_files_only"
+  ],
+  "sourceReview": [
+    {
+      "path": "scripts/nilaza-recovery-drive-test.ps1",
+      "sha256": "991c310a152afca80bbc5ca1771e0866c5e3867252b5d107e24b2eacba8581bd",
+      "reason": "Final helper reviewed: only separate downloaded identity passed to age, public challenge output only, no original-key reads; console/URL/overwrite guards tested."
+    },
+    {
+      "path": "AGENTS.md",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa",
+      "reason": "Owner key custody and separate release gates."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Scoped recovery and release routing."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Plan and security validation before changes."
+    },
+    {
+      "path": "docs/release/RELEASE_RUNBOOK.md",
+      "sha256": "348e5aa5786a5f8648fd96c94e0b4a831602a5312d318b6e48885a47afd71b39",
+      "reason": "Preserve full recovery and release authorization gates."
+    },
+    {
+      "path": "scripts/nilaza-recovery-owner.ps1",
+      "sha256": "97009c2b34ef1ff29ee0abcf269416552ea217fce86c285fd6d6ee09e9a354b3",
+      "reason": "Read proven private console, protected ACL and encrypted identity probe flow; do not edit enrollment."
+    },
+    {
+      "path": "artifacts/recovery-key-backup-2026-10-18/owner-v1.backup.json",
+      "sha256": "654fddcd3557fd30c621258340adf7d95ee2d0aaf36fcf7382d922bb157b9103",
+      "reason": "Exact ciphertext metadata and recovery scope."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Read expanded and release references; current instructions already cover secret custody and scoped gate evidence. Google Drive skill governs readback/download; no new skill behavior required."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Pinned age v1.3.2 README checked 2026-10-18 for encrypted identity support and overwrite behavior; no dependency changes."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://github.com/FiloSottile/age/blob/v1.3.2/README.md",
+      "checkedAt": "2026-10-18",
+      "reason": "Passphrase-encrypted identity can be passed directly with -i. Guard all outputs since age overwrites existing paths."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "Fresh Drive file/folder metadata owner-only; Windows owner+SYSTEM protected ACL. No RLS writes.",
+    "sensitiveData": "Real ciphertext stays outside repository. Public challenge contains no user data. Only age handles private key material internally.",
+    "secretsLogging": "Run refuses captured streams and policy transcription. Fresh powershell -NoProfile; no transcript, shell password variables, clipboard access or screenshots.",
+    "externalInput": "Only connector-provided HTTPS download URL with expected host; ciphertext size/hash pinned before persistence. No instructions from cloud content.",
+    "dependencies": "Pinned age exe checksum verified on every action; no new tools or custom crypto.",
+    "migrationRelease": "No deployment/SQL/key rotation; original identity unchanged. Full managed recovery and separate-machine evidence remain blocked.",
+    "stopCondition": "Stop on ACL/reparse/hash/URL/output collision, transcript/captured console or changed helper/binary. Never bypass execution policy or read raw private key.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "scripts/nilaza-recovery-owner.ps1",
+      "scripts/nilaza-recovery-drive-test.ps1",
+      "docs/release/RECOVERY_DRIVE_TEST_2026-10-18.vi.md",
+      "artifacts/recovery-drive-test-2026-10-18/validation.json",
+      "artifacts/recovery-drive-test-2026-10-18/prepared.json",
+      "artifacts/recovery-drive-test-2026-10-18/launch.json",
+      "artifacts/recovery-drive-test-2026-10-18/owner-v1.restore-test-2026-10-18.json",
+      "artifacts/recovery-drive-test-2026-10-18/RECOVERY-STATUS.vi.txt",
+      "artifacts/recovery-drive-test-2026-10-18/drive-result-receipt.json"
+    ],
+    "note": "Read-only reviewed enrollment script; existing untracked backup evidence preserved. New task output only."
+  },
+  "validationCommands": [
+    "Feature preflight before edits",
+    "PowerShell parser plus read-only Plan",
+    "Captured Run denied before private operation; invalid URL and overwrite rejected",
+    "Fresh download SHA256/header/ACL check and public challenge encryption",
+    "Private Owner Run; public Inspect after Owner completion; no automatic real decryption"
+  ],
+  "managerTestPath": "BAT_DAU -> existing saved passphrase typed/pasted once at age hidden prompt -> Enter -> successful harmless challenge check -> public success message. Tell assistant only success or phase code.",
+  "residualRisk": "Current machine still supplies OS/tools and Google session; completed drill proves usability of Drive copy only. Full lost-machine/system recovery and Android/backend credential backups remain pending.",
+  "externalActions": {
+    "driveRead": true,
+    "driveUpload": true,
+    "driveUploadScope": "Only inspected sanitized result and current status text; no secret values, no overwrite or sharing change.",
+    "cloudCalls": true,
+    "ownerControlledRecoveryDrill": true,
+    "localPrivateProfileWrites": true,
+    "databaseWrite": false,
+    "providerCalls": false,
+    "deployment": false,
+    "publishing": false,
+    "credentialRotation": false
+  },
+  "phase": "Completed: Owner success and read-only Inspect confirm DRIVE_COPY_OWNER_DECRYPT_VERIFIED at 2026-10-17T19:00:47.6968491Z. Local result/validation/guide updated; sanitized result and status uploaded to private Recovery and metadata read back. Separate-machine and whole-system recovery remain pending."
+}

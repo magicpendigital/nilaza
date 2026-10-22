@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "nilaza-ai-usage-policy-v1",
+  "version": "g1-2026-10-02",
+  "approvedOn": "2026-10-02",
+  "environment": "qa",
+  "activation": "disabled_until_reviewed_clean_target_and_runtime_acceptance",
+  "dayTimezone": "Asia/Ho_Chi_Minh",
+  "currency": "USD",
+  "moneyUnit": "microUSD",
+  "freeDaily": { "chatOracleShared": 5, "tarotOneCard": 1 },
+  "qaBudget": {
+    "dailyMicroUSD": 5000000,
+    "campaignMicroUSD": 50000000,
+    "campaignDays": 14,
+    "evaluationMicroUSDWithinCampaign": 10000000,
+    "dailyWarningMicroUSD": [2000000, 4000000],
+    "campaignWarningMicroUSD": 40000000
+  },
+  "maxInputTokensPerAttempt": 2000,
+  "maxProviderAttemptsPerOperation": 2,
+  "pilotFeatures": ["persona_chat", "oracle_router", "tarot_reading"],
+  "rules": {
+    "quotaConsumption": "one_successfully_saved_new_result_per_user_turn",
+    "replay": "return_owned_result_reference_without_new_dispatch",
+    "failureQuota": "refund_failed_user_turn",
+    "unknownCost": "retain_conservative_hold_until_authoritative_reconciliation",
+    "safetyResources": "static_crisis_help_remains_available_without_quota",
+    "evaluation": "requires_live_ai_manage_role_and_uses_campaign_subbudget",
+    "campaignStart": "explicit_operator_activation_not_approval_date"
+  }
+}

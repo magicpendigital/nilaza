@@ -1,0 +1,272 @@
+{
+  "schemaVersion": 1,
+  "taskId": "web-language-position-2026-10-11",
+  "ownerAgent": "nilaza-web-menu-owner",
+  "lane": "website_navigation_bugfix",
+  "goal": "Keep the public website reading section and relative scroll position when switching language; use one accessible native disclosure language list sourced from the published locale configuration.",
+  "successCriteria": [
+    "VI/EN switching after manual scroll (without a fragment) stays in the equivalent section and relative reading position.",
+    "A current-language button opens native names with an explicit current choice; keyboard, Escape, outside-click and mobile menu interactions work.",
+    "414/736/320px layouts remain bounded and emitted CSS remains Safari/iOS15 compatible.",
+    "Published locales and labels drive the selector and alternate SEO links; adding untranslated locales is prevented by typed content contracts.",
+    "Help, deep routes, browser back, reduced motion and blocked sessionStorage have usable fallbacks."
+  ],
+  "writeScope": [
+    "apps/web/src/components/SiteHeader.astro",
+    "apps/web/src/layouts/BaseLayout.astro",
+    "apps/web/src/lib/site.ts",
+    "apps/web/src/lib/languageNavigation.ts",
+    "apps/web/src/pages/",
+    "apps/web/README.md",
+    "artifacts/web-language-position-2026-10-11/"
+  ],
+  "untouchedSurfaces": [
+    "Mobile and both protected Admin workspaces, data, backend endpoints, Auth, credits and migrations are untouched.",
+    "Help/legal copy, brand assets, event schemas and production hosting configuration are untouched."
+  ],
+  "impact": {
+    "entryPoint": "All public headers; both manually scrolled landing sections and nested Help/features/legal routes.",
+    "dataWrite": "One-shot same-tab sessionStorage entry: target path, public anchor, relative progress and expiry. No user content, permanent preference, cookies or backend write.",
+    "backendContract": "Preserve public waitlist endpoint/sitekey and form behavior. No mobile/Auth/SQL changes.",
+    "adminVisibility": "No Admin changes; local build, QA and deployment receipt only.",
+    "privacySafety": "Public UI position only; treat storage as untrusted, validate target/anchor/progress/time, catch unavailable storage. No raw search, email or credentials.",
+    "observability": "Manual browser navigation and source/build validation; no new analytics events.",
+    "rollback": "Normal translated links remain usable without JS; fragment fallback works without storage. Retain previous static Pages production195d7396-a8e1-4542-984e-6fbb45c698b8 for authorized website rollout."
+  },
+  "canonicalContracts": [
+    "Published locales in site.ts plus typed native language names; content dictionaries remain the gate for any new market.",
+    "Equivalent public route and stable section/feature identifiers; relative section progress compensates for translated content height."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "4da2a80e09727695c07ad5e0adc52fffb28ae71783dc7258585aac3735a6add9",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "6cd85c85b43e6ada64745ac13bf34f3fdb2b9e799f5bc2ad176a662d94b154e1",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "docs/BRAND_ROLLOUT_2026-09-11.md",
+      "sha256": "99ed149a4da53cd1284e55230ca832451a816e57455916a0a8a5cd30c05cc792",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "docs/NILAZA_PUBLIC_HELP_CORPUS.md",
+      "sha256": "055549c4bfb13923664f0854a6b44928e7094498af9a64fc6bbe1c17a1a04fb6",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "7a4973733886cb4f1568d38e6d8324d1d8200bb1acd850db486bf5323943f023",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "1e4d2bc7a93a2a140690c7237537de582972db30088309996ab6462a79a53623",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "skills/nilaza-brand-experience/SKILL.md",
+      "sha256": "1e2acdfac537225ed366a78e6c28b6764a5fe2ac1a1434e583ba21349dee1928",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/README.md",
+      "sha256": "fde38be40c15652686b1a92c3874d0c969c3b901ec948e4f51c28e206ab2c9bb",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/package.json",
+      "sha256": "2c21e80409fb09ffb65993fbca6344f4ef92bd99c427743b79c7bd8fc69fc5dd",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/astro.config.mjs",
+      "sha256": "eb201a5005e198eb02d7a528dca980110713b7b41c8b985de5de98070e41139c",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/src/components/SiteHeader.astro",
+      "sha256": "a31c86a2a286771072983480b5756f968eee317c2db846a204ca68ef3e90a480",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/src/components/FloatingNavigation.astro",
+      "sha256": "d3ee564702d4ab2bdd07bed7255104e1628e3875b6059cb48620960ad617f721",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/src/layouts/BaseLayout.astro",
+      "sha256": "040b5c9c90a4358d454c1d4bf62428dfbf28d7a31b5419f07353090118c88ef4",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/src/styles/global.css",
+      "sha256": "d140a5309ef4d09a743f93615711a034c9c36cda49ec8df4216a3037fbbfeeab",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/src/styles/responsive.css",
+      "sha256": "366b819d2a390e04938ae43741d701da3cbba6becabe9a6b19c1b4107c7163c9",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "packages/content/data/brand-identity.json",
+      "sha256": "6a214e9244305b6bf3189f0c2b230ae7e3c6ef9b84b1374e6c0c9772789042d9",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/src/components/Brand.astro",
+      "reason": "Reviewed shrinking brand image to fit language options on narrow headers.",
+      "sha256": "dbf91300bb61488274b7bbcc57158e8870d1990972a73bb55d456ac075aac7f9"
+    },
+    {
+      "path": "docs/NILAZA_WEB_PRODUCTION_ROLLOUT.md",
+      "reason": "Reviewed static website target mapping, existing release boundary and user-authorized scope.",
+      "sha256": "bb526ac30f1fd71ca78cb1c91c57a2d3862461095ba660d9b5aa844046b5476c"
+    },
+    {
+      "path": "docs/release/RELEASE_RUNBOOK.md",
+      "reason": "Reviewed static website target mapping, existing release boundary and user-authorized scope.",
+      "sha256": "348e5aa5786a5f8648fd96c94e0b4a831602a5312d318b6e48885a47afd71b39"
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/release-control.md",
+      "reason": "Reviewed static website target mapping, existing release boundary and user-authorized scope.",
+      "sha256": "ece7ac8af2d268735631d188ef1e3c4ae8235e564a2ad32c241c4ace83ac54fa"
+    },
+    {
+      "path": "scripts/check-web-compatibility.mjs",
+      "sha256": "b8054f6d9fcbd6e38dc5734dd1912d4b96ff708c7510fd41fa18b39ce201982c",
+      "reason": "Regression check inspects emitted CSS and device viewport tags; verified old build fails and corrected build passes."
+    },
+    {
+      "path": "apps/web/src/lib/site.ts",
+      "reason": "Reviewed shared locale routes, section boundaries, SEO and public header integration.",
+      "sha256": "bbffa3965e1fef10a2186eee30b580550d3e5aac54a69f8734ca5dfe3026c35a"
+    },
+    {
+      "path": "apps/web/src/lib/languageNavigation.ts",
+      "sha256": "8e3febffdd332a4d11f8b48fcc5475a3676b66dedd37cdaf5e37af84af4e3fd3",
+      "reason": "Reviewed one-shot route/anchor/progress validation, private-storage fallback and native link navigation;4 failure/restore tests pass."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Verified current: website guidance covers VI/EN route preservation, rendered browser QA, public boundary and brand accessiblity. Detailed extension workflow will be documented in web README; no skill policy changes."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Verified current: website guidance covers VI/EN route preservation, rendered browser QA, public boundary and brand accessiblity. Detailed extension workflow will be documented in web README; no skill policy changes."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Installed Astro7.3.2; native HTML details/summary and sessionStorage with blocked-storage handling require no dependencies. Safari/iOS15 build targets retained."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/details",
+      "checkedAt": "2026-10-11",
+      "reason": "Native disclosure keyboard/open behavior; avoid newer popover/name grouping for Safari15."
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage",
+      "checkedAt": "2026-10-11",
+      "reason": "Same-origin tab-local storage; handle SecurityError and consume one-shot public position."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "Static navigation only; no Auth, RLS or authorization boundary changes.",
+    "sensitiveData": "Use fictional text in unsent local form only; do not inspect actual user records.",
+    "secretsLogging": "No environment file values or secrets in receipts or screenshots.",
+    "externalInput": "Live page is observation only. Fixed existing anchor IDs, no injection or dynamic external URLs.",
+    "dependencies": "Reuse installed packages without downloads or dependency update.",
+    "migrationRelease": "User requested follow-up fixes to the just-deployed public website. Existing session and project-domain verification support scoped static update; no OAuth, credentials, DNS or database changes.",
+    "stopCondition": "Stop on invalid storage/path injection, horizontal overflow, lost public config, failed build/check or unknown deployment target.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/web/src/components/SiteHeader.astro",
+      "apps/web/src/layouts/BaseLayout.astro",
+      "apps/web/src/lib/site.ts",
+      "apps/web/src/lib/languageNavigation.ts",
+      "apps/web/README.md",
+      "apps/web/src/pages/index.astro",
+      "apps/web/src/pages/robots.txt.ts",
+      "apps/web/src/pages/sitemap.xml.ts",
+      "artifacts/web-language-position-2026-10-11/prepare-plan.mjs",
+      "artifacts/web-language-position-2026-10-11/browser-evidence.json",
+      "artifacts/web-language-position-2026-10-11/build.mjs",
+      "artifacts/web-language-position-2026-10-11/live-before.html",
+      "artifacts/web-language-position-2026-10-11/live-public-bindings.json",
+      "artifacts/web-language-position-2026-10-11/nilaza-web-language.zip",
+      "artifacts/web-language-position-2026-10-11/preview.mjs",
+      "artifacts/web-language-position-2026-10-11/record-candidate.mjs",
+      "artifacts/web-language-position-2026-10-11/storage-fallback.test.mjs",
+      "artifacts/web-language-position-2026-10-11/candidate-manifest.json",
+      "apps/web/src/pages/[locale]/index.astro",
+      "artifacts/web-language-position-2026-10-11/cloudflare-success.png",
+      "artifacts/web-language-position-2026-10-11/deployment-receipt.json",
+      "artifacts/web-language-position-2026-10-11/finalize.mjs",
+      "artifacts/web-language-position-2026-10-11/OWNER_HANDOFF.vi.md",
+      "artifacts/web-language-position-2026-10-11/public-browser-evidence.json",
+      "artifacts/web-language-position-2026-10-11/public-http-evidence.json",
+      "artifacts/web-language-position-2026-10-11/public-language-phone.png",
+      "artifacts/web-language-position-2026-10-11/verify-public.mjs"
+    ],
+    "note": "Only landing [locale]/index.astro section identifiers will be edited under pages scope; validator cannot accept literal brackets in individual paths. Existing dirty root/robots/sitemap reviewed and left unchanged. Preserve unrelated dirty work; no reset, staging or backend changes."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/web-language-position-2026-10-11.json",
+    "npm run web:check",
+    "npm run web:build",
+    "npm run validate:public-content",
+    "npm run validate:brand",
+    "npm run skills:check",
+    "Browser: manual scroll hero/reflection/features/cards/guides/trust/waitlist, VI↔EN; nested Help article, Escape/outside/mobile menu, keyboard,320/414/736/desktop, reduced motion, storage unavailable, back navigation."
+  ],
+  "managerTestPath": "On the public VI website scroll without using menu to Guides or a feature card; open language list and choose English. Equivalent content stays in view. Switch back, check current choice, try narrow phone and Help article.",
+  "residualRisk": "Translation height can change line-level alignment; preserve section/feature and relative progress. No physical Safari15 device attached. Only VI/EN translations are available; new market translation/content review is a separate feature.",
+  "externalActions": {
+    "databaseWrite": false,
+    "providerWrite": false,
+    "deployment": true,
+    "emailSend": false,
+    "note": "Continue authorized fixes on the public static website using existing signed-in Cloudflare dashboard; verify current target and preserve rollback. No new credential permissions."
+  },
+  "validationEvidence": [
+    "web:check20 files0 errors/warnings/hints; build43 pages; Pagefind16 Help pages/two locales; compatibility42 pages PASS.",
+    "Public content22 documents58 chunks; brand118 exports84 sources; skills match; scoped whitespace check PASS.",
+    "Native UI clicks and manual scroll: desktop VI/EN feature cards and intro; phone414 Guides/features;320 Guides/Help body;736 Help body/Waitlist. Equivalent anchor and progress within0.015. Keyboard Tab/Return, Escape without scroll, outside-click, mutually exclusive menus, Back and Reduce Motion PASS.",
+    "Four tests run actual transpiled languageNavigation source: blocked storage fragment fallback, modified-click no storage, matching-route restore, invalid/expired/different-route rejection PASS.",
+    "Live and built VI/EN waitlist public bindings match (empty endpoint/sitekey); no form submitted or backend changed.",
+    "No physical Safari/iPhone execution. Translation length can shift line-level alignment; equivalent section/feature and relative position preserved.",
+    "Deployed via authorized existing Cloudflare dashboard: Production,180/180 files uploaded,Success.14 public HTTP checks PASS;6CSS/JS exact hashes. Four public native-click switch comparisons PASS at414px, including source URL without fragment. Receipt and screenshot recorded; new deployment ID unavailable due dashboard loading after reload."
+  ]
+}

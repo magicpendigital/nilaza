@@ -1,0 +1,43 @@
+name: Feature governance
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  feature-governance:
+    name: Plan, skills, and preflight checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout with PR base history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.19.0
+          cache: npm
+
+      - name: Install dependencies without lifecycle scripts
+        run: npm ci --ignore-scripts
+
+      - name: Validate agent governance
+        run: npm run validate:governance
+
+      - name: Validate reviewed repository skills
+        run: npm run skills:validate
+
+      - name: Test feature preflight
+        run: npm run feature:preflight:test
+
+      - name: Require a scoped preflight record for feature changes
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: node scripts/feature-preflight.mjs --ci --base "$BASE_SHA"

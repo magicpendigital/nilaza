@@ -1,0 +1,357 @@
+{
+  "schemaVersion": 1,
+  "status": "owner-selected-free-allocation-plan-only-not-execution-ready",
+  "reviewDate": "2026-10-05",
+  "organization": {
+    "id": "drxbmvimiekeoeesgssp",
+    "name": "Nilaza",
+    "planObserved": "free",
+    "allocationKind": "desired",
+    "observedProCandidate": {
+      "projectRef": "etfajmrwyywokgafzxsb",
+      "organizationId": "rzbpjfrndhrtxagpgdre",
+      "plan": "pro",
+      "status": "ACTIVE_HEALTHY",
+      "createdAtUtc": "2026-10-04T17:39:22.367486Z"
+    },
+    "canonicalSelection": "pending-owner-choice-QA-vs-Singapore"
+  },
+  "recommendation": {
+    "topology": "local-synthetic-plus-existing-free-qa-production-target-unselected",
+    "sameOrganization": true,
+    "rationale": "Owner assigns all Nilaza resources to Nilaza Free; MCY moves out by separately approved transfer.",
+    "currentReleaseProfile": "docs/release/release-profile.json",
+    "allocationPlan": "docs/release/SUPABASE_ALLOCATION_2026-10-05.md",
+    "targetAllowlistObserved": "empty-no-execution-authority"
+  },
+  "projects": [
+    {
+      "environment": "staging",
+      "name": "Nilaza Staging QA",
+      "organizationId": "drxbmvimiekeoeesgssp",
+      "projectId": "akgrokwnkfqnfjqrildi",
+      "statusObserved": "ACTIVE_HEALTHY",
+      "region": "ap-southeast-2",
+      "executionGate": "current-runtime-backed-baseline-ledger-blocked-no-live-mutation-approved"
+    },
+    {
+      "environment": "candidate-not-production",
+      "name": "Nilaza Singapore",
+      "organizationId": "rzbpjfrndhrtxagpgdre",
+      "desiredOrganizationId": "drxbmvimiekeoeesgssp",
+      "projectId": "etfajmrwyywokgafzxsb",
+      "statusObserved": "ACTIVE_HEALTHY",
+      "region": "ap-southeast-1",
+      "executionGate": "preferred-canonical-proposal-pending-owner-selection-transfer-and-release-review",
+      "backup": "Free recovery coverage and measured restore required after downgrade; no Pro backup entitlement assumed"
+    },
+    {
+      "environment": "inactive-legacy",
+      "organizationId": "drxbmvimiekeoeesgssp",
+      "projectId": "uannkrywhxzrulufgqvx",
+      "statusObserved": "INACTIVE",
+      "executionGate": "preserve-no-unpause-or-deletion"
+    }
+  ],
+  "paidStagingAlternative": {
+    "status": "not-selected-no-paid-project-or-branch-for-routine-qa"
+  },
+  "costEstimate": {
+    "currency": "USD",
+    "desiredFreeSubscription": 0,
+    "observedPaidCandidateBilling": "Existing Nilaza Singapore in Pro still incurs compute until an approved transfer changes future billing; accrued charges are not erased.",
+    "condition": "Desired final allocation is Free; actual current invoice, quota, downgrade/recovery and external costs need review. Not a cost guarantee or resource authorization.",
+    "excluded": [
+      "OpenRouter_AI",
+      "SMTP",
+      "external_backup",
+      "Vercel",
+      "EAS"
+    ],
+    "mcysProBilling": "final-target-one-paid-MCY-project"
+  },
+  "auth": {
+    "productionAdminDomain": null,
+    "mobileProductionCallbacks": null,
+    "productionAllowlist": "exact_owned_urls_only_no_localhost_or_preview_wildcards",
+    "emailConfirmation": true,
+    "securePasswordChange": true,
+    "proposedMinimumPasswordLength": 12,
+    "leakedPasswordProtection": true,
+    "customSmtpRequired": true,
+    "smsEnabled": false,
+    "anonymousAiDispatchAllowed": false,
+    "operatorMfaRequired": true,
+    "operatorMutationMinimumAal": "aal2",
+    "captcha": "configure_after_native_acceptance",
+    "ownerBootstrap": "separate_verified_operator_flow_no_qa_email_hardcoding"
+  },
+  "database": {
+    "canonicalMigrationsReviewed": 25,
+    "preparedForwardsReviewed": 2,
+    "fullReplayStatus": "not_run",
+    "existingManifest": "docs/mvp-remediation/2026-10-01/R02-clean-qa-bootstrap.json",
+    "existingManifestStatus": "candidate_not_execution_ready",
+    "productionManifest": null,
+    "qaQuotaMigration": "20261002000000_ai_usage_reservation.sql_reference_only_do_not_apply_unchanged_to_production",
+    "productionQuotaForward": "new_reviewed_production_policy_and_schema_target_allowlist_required",
+    "productionLedger": null,
+    "requiredGateChange": "target_scoped_ledger_and_preflight_preserve_old_qa_block",
+    "legacyQaProjectId": "akgrokwnkfqnfjqrildi",
+    "legacyQaAction": "preserve_no_push_repair_import_or_retarget",
+    "mcyImportAllowed": false,
+    "writeAuthority": "client_owner_scoped_user_authored_data_only_server_owned_generated_outputs_usage_trace_credit_entitlements_publication",
+    "realtime": "review_generation_jobs_publication_membership_owner_policy_and_status_payload_per_target",
+    "seed": "approved_versioned_content_only_not_qa_campaign_or_unreviewed_routes"
+  },
+  "aiPolicy": {
+    "initialProviderDispatchEnabled": false,
+    "initialWorkerEnabled": false,
+    "initialCheckoutEnabled": false,
+    "productFreeQuotaProposed": {
+      "tarotPerDay": 1,
+      "tarotFreeMaxCards": 1,
+      "chatAndOracleSharedPerDay": 5
+    },
+    "freeQuotaConsumptionProposed": "consume_on_valid_persisted_result_refund_known_failure_actual_provider_cost_always_retained_unknown_waits_reconciliation_separate_attempt_abuse_cap",
+    "idempotency": "user_feature_key_and_request_digest_changed_payload_conflicts_completed_replay_uses_original_pinned_release",
+    "quotaClock": "server_authoritative_account_iana_timezone_change_does_not_reset_entitlement",
+    "productionDailyBudgetUsd": null,
+    "productionMonthlyBudgetUsd": null,
+    "productionBudgetDecision": "measure_OpenRouter_actual_cost_tokens_resolved_models_retries_and_DAU_before_setting_production_limits_not_QA_campaign",
+    "approvedQaOnlyPolicy": {
+      "dailyBudgetUsd": 5,
+      "campaignBudgetUsd": 50,
+      "campaignDays": 14
+    },
+    "allPaidPathsMustBeCovered": [
+      "persona",
+      "oracle",
+      "tarot",
+      "daily",
+      "astrology",
+      "council",
+      "admin_playground",
+      "cron",
+      "fallback",
+      "evaluation"
+    ],
+    "unknownPricingOrConfig": "fail_closed",
+    "crisisHelp": "static_support_path_available_without_paid_quota",
+    "billingProvider": "openrouter",
+    "billingSeparateFromSupabase": true,
+    "ownerConfirmedUsageBasedAiBilling": true,
+    "productionDesiredPrimaryAndFallbackProvider": "openrouter",
+    "directVendorFallbackAllowed": false,
+    "currentSourceRouteStatus": "mixed_providers_not_migrated_in_this_docs_revision",
+    "requiredReceiptFields": [
+      "generation_id",
+      "http_request_id",
+      "requested_model",
+      "resolved_model",
+      "upstream_provider_if_available",
+      "tokens_and_reasoning_cache_details",
+      "usage_cost",
+      "attempt_id",
+      "receipt_reconciliation_status"
+    ],
+    "providerPrivacyAndRouting": "review_enforced_model_upstream_allowlist_price_ceiling_and_retention_ZDR_scope",
+    "unknownCost": "pending_reconciliation_not_zero"
+  },
+  "operations": {
+    "targetsNotMeasured": true,
+    "recoveryRtoHours": 4,
+    "nonRecreatableObjectRpoHours": 24,
+    "objectBackup": "independent_encrypted_copy_manifest_hash_restore_drill",
+    "rawPromptResponseLogging": false,
+    "traceMetadataRetentionDaysProposed": 30,
+    "exportDelivery": "authenticated_server_download_current_account_owner_check_no_store_no_direct_storage_signed_url",
+    "exportHandleTtlMinutesProposed": 15,
+    "exportObjectTtlHoursProposed": 24,
+    "directSignedAssetUrlResidualRisk": "independent_of_auth_session_and_signing_keys_CDN_cache_can_outlive_token_expiry_object_delete_invalidation_not_instant",
+    "deletionSuppressionRecoveryLedger": "independent_durable_encrypted_event_store_outside_restored_database_snapshot_missing_range_keeps_destination_closed",
+    "offlineReplayWindowDaysProposed": 30,
+    "tombstoneAndDedupMinimumDaysProposed": 35,
+    "operatorAuditRetentionDaysProposed": 180,
+    "billingRetentionDays": null,
+    "alertsThresholdPercentProposed": [
+      70,
+      85,
+      95
+    ],
+    "spendCapMeaning": "not_a_total_invoice_cap_compute_pitr_addons_and_external_services_separate",
+    "rollback": "disable_dispatch_and_revert_compatible_release_forward_schema_fix_restore_only_for_disaster",
+    "databaseBackup": {
+      "mode": "free-backup-coverage-and-measured-restore-plan-blocked",
+      "retentionDays": null,
+      "pitrEnabled": false,
+      "proDailyBackupEntitlementAssumed": false
+    },
+    "databaseRpoPlanningHours": 24,
+    "databaseRpoBasis": "Owner must select Free-compatible backup/export cadence and verify recovery coverage; 24h is only an unmeasured planning target, not Pro daily-backup proof."
+  },
+  "acceptance": {
+    "scenarioMatrix": "SCENARIOS.vi.md",
+    "allEnabledFeatureP0MustPass": true,
+    "proposedNonAiLoadRps": 10,
+    "proposedNonAiLoadMinutes": 15,
+    "proposedBurstSyntheticUsers": 100,
+    "proposedConcurrentAiOperations": 20,
+    "nonAiP95MillisecondsTarget": 800,
+    "aiP95SecondsTargetOrExplicitAsyncUx": 15,
+    "serverErrorRateMaximumPercentTarget": 1,
+    "marketingCapacityClaim": "none"
+  },
+  "notExecuted": [
+    "project_creation",
+    "billing_change",
+    "SQL_apply",
+    "migration_repair",
+    "deployment",
+    "secret_copy",
+    "role_grant",
+    "provider_call",
+    "public_signup",
+    "traffic_cutover"
+  ],
+  "remainingOwnerDecisions": [
+    "launch_market_and_age_policy",
+    "production_domains_callbacks",
+    "retention_and_billing_scope",
+    "DAU_forecast_and_measured_production_AI_budget",
+    "quota_timezone_refund_attempt_caps_and_offline_replay_windows",
+    "clean_rehearsal_with_existing_local_Free_resources_and_measured_daily_backup_recovery",
+    "canonical_QA_vs_existing_Singapore_choice_before_schema_or_retarget",
+    "exact_two_transfer_sequence_cost_roles_quota_downgrade_review",
+    "Free_backup_coverage_and_measured_restore_without_Pro_entitlement"
+  ],
+  "ownerDecision": {
+    "date": "2026-10-05",
+    "aiProvider": "openrouter",
+    "aiBilling": "separate_actual_usage",
+    "projectCreation": "Singapore-existing-created-2026-10-04T17:39:22.367486Z-no-new-provisioning-in-this-plan",
+    "paidAddons": "deferred",
+    "desiredSupabasePlan": "free",
+    "actualProResource": "etfajmrwyywokgafzxsb-current-Pro-not-transferred"
+  },
+  "supersededProAllocationProposal": {
+    "date": "2026-10-04",
+    "status": "historical-not-current-owner-allocation",
+    "organization": {
+      "id": "rzbpjfrndhrtxagpgdre",
+      "name": "MagicpenDigital",
+      "planObserved": "pro",
+      "projectExistence": "owner_confirmed_no_new_project"
+    },
+    "recommendation": {
+      "topology": "local_plus_staging_plus_production_old_qa_preserved",
+      "sameOrganization": false,
+      "rationale": "Current release policy keeps staging in existing Free organization and production in MagicpenDigital Pro; old QA is blocked, local clean replay or separately approved resource plan required.",
+      "alternative": "Paid staging/Small/PITR deferred by owner25USD budget; separate explicit resource decision required after measured need.",
+      "currentReleaseProfile": "docs/release/release-profile.json",
+      "targetAllowlistObserved": "empty_no_execution_authority"
+    },
+    "projects": [
+      {
+        "environment": "staging",
+        "name": "staging_rehearsal_target_unselected",
+        "organizationId": "drxbmvimiekeoeesgssp",
+        "projectId": null,
+        "existingCandidateProjectId": "akgrokwnkfqnfjqrildi",
+        "existingCandidateGate": "legacy_ledger_blocked_do_not_apply_clean_bootstrap_or_repair",
+        "freeSlots": "two_active_occupied_no_third_slot_assumption",
+        "region": null,
+        "engine": "verify_per_selected_rehearsal_target",
+        "postgresMajor": null,
+        "compute": "existing_free_or_local",
+        "loadAcceptanceCompute": "match_production_micro_or_document_BLOCKED_until_equivalent_measurement",
+        "pitr": {
+          "enabledProposed": false,
+          "retentionDays": null
+        },
+        "initialState": "closed_synthetic_test_users_only"
+      },
+      {
+        "environment": "production",
+        "name": "nilaza-prod",
+        "organizationId": "rzbpjfrndhrtxagpgdre",
+        "projectId": null,
+        "region": "ap-southeast-1",
+        "engine": "standard_postgres",
+        "postgresMajor": 17,
+        "compute": "micro",
+        "pitr": {
+          "enabledProposed": false,
+          "retentionDays": null,
+          "mustBeActiveBeforeRealUserData": false,
+          "reason": "owner_selected_daily_backup_with25USD_base; restore/privacy gates still required"
+        },
+        "initialState": "closed_no_public_signup_provider_worker_checkout_disabled"
+      }
+    ],
+    "paidStagingAlternative": {
+      "status": "deferred_outside_owner_selected25USD_budget",
+      "name": "nilaza-staging",
+      "organizationId": "rzbpjfrndhrtxagpgdre",
+      "projectId": null,
+      "region": "ap-southeast-1",
+      "engine": "standard_postgres",
+      "postgresMajor": 17,
+      "compute": "micro",
+      "estimatedAdditionalMonthlyUsd": 10,
+      "loadTest": "not_selected_no_paid_provisioning_for_tests"
+    },
+    "costEstimate": {
+      "currency": "USD",
+      "period": "full_month_approximate",
+      "subscription": 25,
+      "productionMicroCompute": 10,
+      "organizationComputeCredit": 10,
+      "stagingFreeOrLocalComputeInSupabaseEstimate": 0,
+      "productionPitr": 0,
+      "recommendedTotal": 25,
+      "condition": "One Micro covered by unused organization compute credit,included usage,no other paid compute/addons; verify Upcoming Invoice before action.",
+      "ownerSelectedBaseUsd": 25,
+      "spendCapProposed": true,
+      "paidAddonsEnabled": false,
+      "deferredOptions": [
+        "small_compute",
+        "paid_staging",
+        "pitr",
+        "paid_branch",
+        "custom_domain",
+        "log_drain",
+        "additional_iops",
+        "ipv4_addon"
+      ],
+      "excluded": [
+        "tax",
+        "uncovered_usage_or_addons",
+        "OpenRouter_AI",
+        "SMTP",
+        "external_backup",
+        "Vercel",
+        "EAS"
+      ],
+      "authorization": "Budget preference selected; no exact project manifest/create/apply approved this turn.",
+      "estimateMeaning": "Pro base already purchased,total base estimate not guaranteed final invoice",
+      "sources": [
+        "https://supabase.com/pricing",
+        "https://supabase.com/docs/guides/platform/cost-control"
+      ]
+    },
+    "ownerDecision": {
+      "date": "2026-10-04",
+      "supabaseBaseUsd": 25,
+      "aiProvider": "openrouter",
+      "aiBilling": "separate_actual_usage",
+      "projectCreation": "not_performed_or_exact_manifest_approved",
+      "paidAddons": "deferred"
+    },
+    "databaseBackup": {
+      "mode": "daily_pro",
+      "retentionDays": 7,
+      "pitrEnabled": false
+    }
+  }
+}

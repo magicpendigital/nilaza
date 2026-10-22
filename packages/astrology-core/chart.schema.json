@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nilaza.local/contracts/astrology/0.2.0",
+  "type": "object",
+  "required": ["contractId", "contractVersion", "calculationStatus", "conventions", "time", "provenance", "placements", "angles", "houses", "aspects", "sampledRanges", "uncertainties"],
+  "properties": {
+    "contractId": {"const":"nilaza.astrology.canonical-chart"},
+    "contractVersion": {"const":"0.2.0"},
+    "calculationStatus": {"enum":["candidate"]},
+    "conventions": {"type":"object", "required":["zodiac","houseSystem","coordinateSystem","aspectPolicy","aberration","refraction"], "properties": {"zodiac":{"const":"tropical"},"houseSystem":{"const":"whole_sign"},"coordinateSystem":{"const":"geocentric_true_ecliptic_of_date"},"aspectPolicy":{"const":"major-5-v1"},"aberration":{"const":true},"refraction":{"const":false}}},
+    "time": {"type":"object","required":["precision","birthTimeKnown","utc","range","revision","location","provenance"],"properties":{"revision":{"type":"integer","minimum":1},"precision":{"enum":["exact","approximate","unknown"]},"birthTimeKnown":{"type":"boolean"},"utc":{"type":["string","null"]},"range":{"type":["object","null"],"properties":{"start":{"type":"string"},"endExclusive":{"type":"string"}},"required":["start","endExclusive"]},"location":{"type":"object","required":["id","source","latitude","longitude"],"properties":{"id":{"type":"string","minLength":1},"source":{"type":"string","minLength":1},"latitude":{"type":"number","minimum":-90,"maximum":90},"longitude":{"type":"number","minimum":-180,"maximum":180}}},"provenance":{"type":"object","required":["timezone","resolver","tzdata","icu"],"properties":{"timezone":{"type":"string","minLength":1},"resolver":{"type":"string"},"tzdata":{"type":"string"},"icu":{"type":"string"}}}}},
+    "provenance":{"type":"object","required":["engine","engineVersion","calculationVersion","isReproducible","accuracyEvidence","timescaleVersion"],"properties":{"engine":{"const":"astronomy-engine"},"engineVersion":{"const":"2.1.19"},"calculationVersion":{"const":"nilaza-a3-utc-tt-2"},"isReproducible":{"type":"boolean"},"accuracyEvidence":{"type":"null"},"timescaleVersion":{"const":"usno-utc-tt-2026-09-22-v1"}}},
+    "placements":{"type":"array","maxItems":10,"items":{"$ref":"#/definitions/position"}},
+    "angles":{"type":"array","maxItems":2,"items":{"$ref":"#/definitions/position"}},
+    "houses":{"type":"array","maxItems":12,"items":{"type":"object","required":["house","longitude","sign","confidence"],"properties":{"house":{"type":"integer","minimum":1,"maximum":12},"longitude":{"$ref":"#/definitions/longitude"},"sign":{"$ref":"#/definitions/sign"},"confidence":{"const":"approximate"}}}},
+    "aspects":{"type":"array","maxItems":45,"items":{"type":"object","required":["id","bodyA","bodyB","type","orb","exactSeparation","confidence"],"properties":{"id":{"type":"string"},"bodyA":{"type":"string"},"bodyB":{"type":"string"},"type":{"enum":["conjunction","sextile","square","trine","opposition"]},"orb":{"type":"number","minimum":0,"maximum":6},"exactSeparation":{"type":"number","minimum":0,"maximum":180},"confidence":{"const":"approximate"}}}},
+    "sampledRanges":{"type":"array","maxItems":10,"items":{"type":"object","required":["body","sampleStartLongitude","minOffset","maxOffset","possibleSigns","method"],"properties":{"body":{"type":"string"},"sampleStartLongitude":{"$ref":"#/definitions/longitude"},"minOffset":{"type":"number"},"maxOffset":{"type":"number"},"possibleSigns":{"type":"array","minItems":1,"maxItems":3,"uniqueItems":true,"items":{"$ref":"#/definitions/sign"}},"method":{"const":"15_minute_sampling_not_rigorous_bounds"}}}},
+    "uncertainties":{"type":"array","items":{"type":"object","required":["code","severity"],"properties":{"code":{"type":"string"},"severity":{"enum":["blocking","warning","info"]}}}}
+  },
+  "definitions": {
+    "longitude":{"type":"number","minimum":0,"exclusiveMaximum":360},
+    "sign":{"enum":["aries","taurus","gemini","cancer","leo","virgo","libra","scorpio","sagittarius","capricorn","aquarius","pisces"]},
+    "position":{"type":"object","required":["body","longitude","degree","sign","confidence"],"properties":{"body":{"enum":["sun","moon","mercury","venus","mars","jupiter","saturn","uranus","neptune","pluto","ascendant","midheaven"]},"longitude":{"$ref":"#/definitions/longitude"},"degree":{"type":"number","minimum":0,"exclusiveMaximum":30},"sign":{"$ref":"#/definitions/sign"},"confidence":{"const":"approximate"},"retrograde":{"type":["boolean","null"]}}}
+  }
+}

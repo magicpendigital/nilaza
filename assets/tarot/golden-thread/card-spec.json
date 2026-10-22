@@ -1,0 +1,57 @@
+{
+  "deckId": "golden-thread",
+  "version": "2026-06-13-template-v1",
+  "cardSize": {
+    "width": 1024,
+    "height": 1768
+  },
+  "safeArea": {
+    "x": 96,
+    "y": 128,
+    "width": 832,
+    "height": 1512
+  },
+  "artworkArea": {
+    "x": 184,
+    "y": 220,
+    "width": 656,
+    "height": 1130
+  },
+  "titleArea": {
+    "x": 130,
+    "y": 1382,
+    "width": 764,
+    "height": 104
+  },
+  "keywordArea": {
+    "x": 150,
+    "y": 1488,
+    "width": 724,
+    "height": 52
+  },
+  "colors": {
+    "background": "#072323",
+    "panel": "#0A3333",
+    "ink": "#0E3E3E",
+    "ivory": "#F7F1E6",
+    "gold": "#C9A45C",
+    "goldDim": "#8E7340",
+    "moon": "#A8A3A0",
+    "teal": "#0E5A5A"
+  },
+  "style": {
+    "cornerRadius": 54,
+    "innerRadius": 26,
+    "borderWidth": 6,
+    "artworkCornerRadius": 28,
+    "textureOpacity": 18,
+    "foilLineWidth": 3,
+    "artworkFit": "contain",
+    "artworkRatioTolerance": 0.08
+  },
+  "output": {
+    "artworkDir": "assets/tarot/golden-thread/artwork",
+    "cardDir": "assets/tarot/golden-thread/cards",
+    "contactSheetDir": "assets/tarot/golden-thread/contact-sheets"
+  }
+}

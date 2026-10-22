@@ -1,0 +1,243 @@
+{
+  "schemaVersion": 1,
+  "taskId": "store-release-readiness-2026-10-04",
+  "ownerAgent": "root_release_readiness",
+  "lane": "mobile build environment and release evidence preparation",
+  "goal": "Execute the authorized release preparation in dependency order: normalize Android tools, validate current mobile inputs, refresh clean-QA prerequisites and hand off concrete blockers for an immutable signed candidate.",
+  "successCriteria": [
+    "Android tools installed from official Google distribution are checksummed and isolated inside the workspace; Gradle uses JDK 17 regardless of the machine PATH.",
+    "Reproduce and diagnose the SDK XML warning, validate a native configuration/build task and report remaining warnings truthfully.",
+    "Run current mobile quality checks and bundle exports locally with sanitized receipts; do not call local validation remote CI.",
+    "Refresh accessible project identities and migration candidate hashes without cloud writes; identify exact missing target/replay/approval prerequisites.",
+    "Preserve all existing dirty work and historical artifacts; do not declare a clean or signed release candidate without actual evidence."
+  ],
+  "writeScope": [
+    "scripts/android-release-environment.ps1",
+    "docs/release/STORE_RELEASE_PROGRESS_2026-10-04.vi.md",
+    "artifacts/store-release-readiness-2026-10-04/",
+    ".brand-work/android-sdk/cmdline-tools/",
+    ".brand-work/store-release-readiness-2026-10-04/",
+    ".brand-work/gradle/",
+    "apps/mobile/android/app/build/",
+    "apps/mobile/android/build/"
+  ],
+  "untouchedSurfaces": [
+    "Existing mobile UI/auth/content changes belong to earlier work and are only validated here; no unrelated files are staged or reset.",
+    "Supabase SQL/history, release target allowlist, remote environments, signing credentials and store publication are held behind exact target and protected execution gates."
+  ],
+  "impact": {
+    "entryPoint": "A workspace-local Android environment script and owner-readable sequential release progress; app navigation remains governed by current mobile source.",
+    "dataWrite": "Local downloaded SDK tools, Gradle output, sanitized validation logs and evidence; no customer rows, Auth users or remote configuration changes.",
+    "backendContract": "Read current blocked ledger and clean-QA candidate; public project metadata only. No API/schema change or retarget; synthetic replay must be isolated from outbound services before execution.",
+    "adminVisibility": "Private owner progress records automated results, cloud target status and independent unrun gates; no public Help or Admin content publication.",
+    "privacySafety": "Never print environment values, credentials or private device/account captures. Preserve existing SDK licenses and signing identities; production secrets remain in protected provider/CI tooling.",
+    "observability": "Capture command, exit code, current source SHA, relevant dirty input hashes, official download checksum, tool versions and native warning evidence. This is preparation evidence, not a release manifest or approval.",
+    "rollback": "Use task-local tools/environment and revert only this script/report if needed. Preserve old APK/manifest before a local build. Old QA stays available; do not reset checkout, uninstall device app or rewrite database history.",
+    "surfacesIntentionallyUntouched": "Runtime UI, shared prompts, migrations, private user data, product content, payments and cloud publication.",
+    "agentHandoff": "Root owns this preparation scope; final gates require authenticated CI/EAS, exact backend mapping, protected signing and manager device acceptance on the produced candidate."
+  },
+  "canonicalContracts": [
+    "apps/mobile/android Gradle inputs define SDK 36, NDK 27.1.12297006 and the checked-in wrapper; the workspace-resolved React Native plugin defines native dependencies.",
+    ".github/workflows/mobile-quality.yml defines required source and bundle checks; remote workflow status is distinct from local execution.",
+    "docs/release/RELEASE_RUNBOOK.md and release-profile.json bind immutable release evidence and target-specific approval.",
+    "supabase/migration-ledger.json and R02-clean-qa-bootstrap.json preserve blocked legacy QA and proposed Nilaza-only target prerequisites."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "sanitized_build_logs",
+    "sanitized_artifact_metadata"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "35757424e5fc5ef5814015ceb87ace0a9b8b5e3602e555a09efd47f49d53b32e",
+      "reason": "Reviewed current task-specific source for native environment, clean-QA or immutable release evidence boundaries."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Reviewed current task-specific source for native environment, clean-QA or immutable release evidence boundaries."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Reviewed current task-specific source for native environment, clean-QA or immutable release evidence boundaries."
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "sha256": "c6a16c4be5bd732c51158ab66c4ea92bd23c1e817da539f3820546a22d806ec8",
+      "reason": "Reviewed current task-specific source for native environment, clean-QA or immutable release evidence boundaries."
+    },
+    {
+      "path": "docs/release/RELEASE_RUNBOOK.md",
+      "sha256": "9f44d674b547e324982b87d79b4c46531e69c4f19d9e475557a60a963a27cae2",
+      "reason": "Reviewed current task-specific source for native environment, clean-QA or immutable release evidence boundaries."
+    },
+    {
+      "path": "docs/release/release-profile.json",
+      "sha256": "f4964d0a17e6fd92d225d01ccacd554fbaf0033161f756571924cdd6a0c2aeaa",
+      "reason": "Reviewed current task-specific source for native environment, clean-QA or immutable release evidence boundaries."
+    },
+    {
+      "path": "docs/MOBILE_EAS_TESTING.md",
+      "sha256": "6ac94c37d62ee9a58cc5963a5fb84777b7d951eaa3bd911a7f10100c6171a350",
+      "reason": "Reviewed current task-specific source for native environment, clean-QA or immutable release evidence boundaries."
+    },
+    {
+      "path": "docs/MOBILE_CI_OWNER_GUIDE.md",
+      "sha256": "1f0a6a28681c44623fec49aaada22d7b3d2fce69529454f81455b1e887de5a21",
+      "reason": "Reviewed current task-specific source for native environment, clean-QA or immutable release evidence boundaries."
+    },
+    {
+      "path": "apps/mobile/app.json",
+      "sha256": "8266103bf0c9f18227ac4b0f27fad4d16d5d9652f88b1d59e67a2186415b0fac",
+      "reason": "Reviewed current task-specific source for native environment, clean-QA or immutable release evidence boundaries."
+    },
+    {
+      "path": "apps/mobile/eas.json",
+      "sha256": "819480fff0d2235474b87fe58231e94b7da582c0f380dc55a1edfdf28b8d692b",
+      "reason": "Reviewed current task-specific source for native environment, clean-QA or immutable release evidence boundaries."
+    },
+    {
+      "path": "apps/mobile/package.json",
+      "sha256": "71bed88f043629f67e9674ec6abc8fbd99956d68e57176abdb853416cd24d7ab",
+      "reason": "Reviewed current task-specific source for native environment, clean-QA or immutable release evidence boundaries."
+    },
+    {
+      "path": "apps/mobile/android/settings.gradle",
+      "sha256": "1d0a61c68b0399df9630d6c6d83fa66dcfada054df82e50354eefc10824ef669",
+      "reason": "Reviewed current task-specific source for native environment, clean-QA or immutable release evidence boundaries."
+    },
+    {
+      "path": "apps/mobile/android/build.gradle",
+      "sha256": "a678b5c3afa95c1e4ed3066e52370dcb3b453d659fa39edaa17f5cf01469ed69",
+      "reason": "Reviewed current task-specific source for native environment, clean-QA or immutable release evidence boundaries."
+    },
+    {
+      "path": "apps/mobile/android/gradle.properties",
+      "sha256": "f429a884d09fdd2bbb2a653cbe7726b7d456b8385c1eaf441dbddad51f1f0534",
+      "reason": "Reviewed current task-specific source for native environment, clean-QA or immutable release evidence boundaries."
+    },
+    {
+      "path": "apps/mobile/android/gradle/wrapper/gradle-wrapper.properties",
+      "sha256": "7bc07dc04c071a33ae2ac86b3bfdaaa0352d8c5e3132492811c48e1770828a20",
+      "reason": "Reviewed current task-specific source for native environment, clean-QA or immutable release evidence boundaries."
+    },
+    {
+      "path": ".github/workflows/mobile-quality.yml",
+      "sha256": "0e6be3645a38f5549fed4f2bfb415dce5457b4757f775984edbe339d137c20e9",
+      "reason": "Reviewed current task-specific source for native environment, clean-QA or immutable release evidence boundaries."
+    },
+    {
+      "path": "scripts/feature-preflight.mjs",
+      "sha256": "76e65a66fe1dc309edbe1932419936a495c95028d48998d1536ed7f85a763528",
+      "reason": "Reviewed current task-specific source for native environment, clean-QA or immutable release evidence boundaries."
+    },
+    {
+      "path": "scripts/release-evidence.mjs",
+      "sha256": "8e02be5b460fedb8bf44a9dd335eed57ae113decf9e376e0e5e4a685ab1eb5c8",
+      "reason": "Reviewed current task-specific source for native environment, clean-QA or immutable release evidence boundaries."
+    },
+    {
+      "path": "scripts/database-target-gate.mjs",
+      "sha256": "f372cdcbd1fcdfbec4ea0d41f4335affb90ac032f4f4b1b0bd336c2ec4976640",
+      "reason": "Re-reviewed the updated target gate: still read-only, exact target/profile/SQL/replay-bound and fail-closed; no execution authority added."
+    },
+    {
+      "path": "supabase/migration-ledger.json",
+      "sha256": "e63b4510c844c03d235b3f69d8e9a051c5ce4cbe620369100f5fcb33a9f8d9eb",
+      "reason": "Reviewed current task-specific source for native environment, clean-QA or immutable release evidence boundaries."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/R02-clean-qa-bootstrap.json",
+      "sha256": "d08d075628a66253282cb15cce2d003c6de707a93f474ea0722361d51caea566",
+      "reason": "Reviewed current task-specific source for native environment, clean-QA or immutable release evidence boundaries."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/R02-clean-qa-inventory.vi.md",
+      "sha256": "6279158cb4bd84ddca4654fef50d9f25b919eb38fa09174b152f85323bb319ef",
+      "reason": "Reviewed current task-specific source for native environment, clean-QA or immutable release evidence boundaries."
+    },
+    {
+      "path": "scripts/android-release-environment.ps1",
+      "sha256": "0b416a6c5944364b86a8d572bae1b3715ddb5938db9c808ba17fb1de274aa64a",
+      "reason": "Reviewed and executed the process-local JDK/SDK wrapper; native CMake release configuration passes and environment restoration was verified."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Reviewed impact, release-control and migration stop guidance; task-local tooling and truthful local/remote evidence separation follow the existing skill."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Reviewed official Android SDK Manager/download documentation and checksum on 2026-10-04; preserve installed Expo 54.0.35/RN 0.81.5 and Gradle wrapper rather than upgrading app dependencies. Supabase docs consulted for rehearsal boundaries."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://developer.android.com/tools/sdkmanager",
+      "checkedAt": "2026-10-04",
+      "reason": "Verify supported SDK listing/root and package installation syntax; pin the downloaded archive rather than updating all packages."
+    },
+    {
+      "url": "https://developer.android.com/studio",
+      "checkedAt": "2026-10-04",
+      "reason": "Official Windows command-line tools archive and SHA-256 supply-chain check."
+    },
+    {
+      "url": "https://docs.expo.dev/build-reference/android-builds/",
+      "checkedAt": "2026-10-04",
+      "reason": "Review native Android build stages and signing provenance boundary."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/deployment/database-migrations",
+      "checkedAt": "2026-10-04",
+      "reason": "Verify clean migration rehearsal guidance while respecting the blocked project-specific ledger."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No authorization change; clean QA still needs ordinary A/B/revoked actor acceptance and explicit object/grant inventory before cloud execution.",
+    "sensitiveData": "Use metadata, fictional fixtures and sanitized logs only; no business row dumps or live user copies.",
+    "secretsLogging": "Do not output keystore secrets, environment dumps, provider tokens or raw private payloads; query authentication status only.",
+    "externalInput": "Download HTTPS Google archive, verify published SHA-256 before extraction/execution, and keep generated tools under an explicitly verified workspace path.",
+    "dependencies": "Preserve application lockfile/dependency versions. Pin Android tool archive and process-local JDK/SDK paths; diagnostic discovery of effective AGP is required before considering an app dependency change.",
+    "migrationRelease": "No cloud SQL, retarget, production provisioning or credential mutation in preparation. Source freeze and signed build depend on reviewed dirty inputs and configured protected release identity.",
+    "stopCondition": "Stop dependent release execution on missing target mapping, blocked ledger, authentication/signing access, unrehearsed schema, unmatched hashes or required production secrets in the agent session. Continue independent local checks.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "artifacts/store-release-readiness-2026-10-04/bootstrap-preparation.json",
+      "artifacts/store-release-readiness-2026-10-04/local-validation.json",
+      "artifacts/store-release-readiness-2026-10-04/migration-candidate-hashes.json",
+      "artifacts/store-release-readiness-2026-10-04/native-environment.json",
+      "artifacts/store-release-readiness-2026-10-04/source-change-inventory.json",
+      "artifacts/store-release-readiness-2026-10-04/target-preparation.json",
+      "docs/release/STORE_RELEASE_PROGRESS_2026-10-04.vi.md",
+      "scripts/android-release-environment.ps1"
+    ],
+    "note": "Preserve existing unrelated dirty mobile/auth, web/admin, skills and release evidence work. Scope-specific paths are inventoried before preflight; local validation does not certify a clean candidate."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/store-release-readiness-2026-10-04.json",
+    "powershell -File scripts/android-release-environment.ps1",
+    "npm run mobile:check",
+    "npm --workspace apps/mobile test -- --runInBand",
+    "npm run validate:data",
+    "npm run validate:visual-assets",
+    "npm run validate:governance",
+    "npm run mobile:release:config:check",
+    "npm run supabase:migration-ledger:check",
+    "node --test scripts/release-evidence.test.mjs",
+    "Metro web export and Android embedded bundle using task-local output paths",
+    "Gradle release native configuration task with isolated project cache and JDK 17"
+  ],
+  "managerTestPath": "Read the progress table and hashed local checks. After a signed candidate exists, install its distributed build on supported devices and verify Tarot library/VI/EN/offline/timeout, auth/account switching, Journal and credits before exact-version approval.",
+  "residualRisk": "Legacy QA is blocked, new Sydney target purpose/region is undecided and Docker daemon is not running. GitHub is authenticated and baseline CI passed, but current dirty inputs have no clean-candidate remote CI. Main protection query returned HTTP 403. Local tooling/tests do not establish production signing or manager acceptance.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

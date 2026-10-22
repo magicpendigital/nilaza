@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="vi" data-admin-authorized="false">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nilaza Growth Operations</title>
+    <script src="./config.js?v=admin-sync-v1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./admin-access.js"></script>
+    <script src="./workspace-guard.js"></script>
+    <link rel="stylesheet" href="./workspace-guard.css" />
+    <link rel="stylesheet" href="./growth.css" />
+  </head>
+  <body>
+    <main class="growth-shell">
+      <header class="growth-header">
+        <div>
+          <p class="eyebrow">Growth Operations · Internal review</p>
+          <h1 id="view-title">Tổng quan Growth</h1>
+          <p id="view-description">Hiện trạng sản phẩm, draft nội dung và bước tiếp theo.</p>
+        </div>
+        <div class="header-meta">
+          <span class="fixture-badge" id="growth-source-badge">Loading protected aggregate…</span>
+          <span class="connection-state" id="growth-connection-state"><i></i>Checking sources</span>
+        </div>
+      </header>
+
+      <section class="control-bar" aria-label="Review controls">
+        <div class="locale-filter" role="group" aria-label="Locale filter">
+          <button class="filter active" data-locale="all" aria-pressed="true">VI + EN / All</button>
+          <button class="filter" data-locale="vi" aria-pressed="false">VI</button>
+          <button class="filter" data-locale="en" aria-pressed="false">EN</button>
+        </div>
+        <div class="source-controls"><p>Source: <strong id="fixture-source">Loading…</strong> · Updated: <strong id="fixture-date">—</strong></p><button class="review-fixture" id="refresh-growth" type="button">Thử lại nguồn / Refresh sources</button><button class="review-fixture" id="review-fixture" type="button" hidden>Review synthetic fixture</button></div>
+      </section>
+
+      <div id="growth-status" class="status-message" role="status">Đang xác minh quyền và tải nguồn Growth…</div>
+      <section id="growth-content" class="growth-content" aria-live="polite"></section>
+
+      <footer class="privacy-note">
+        <strong>Privacy boundary</strong>
+        <span id="growth-privacy-note">Nguồn cấu hình đã chọn lọc và số đếm tổng hợp; không hiển thị dữ liệu riêng của người dùng.</span>
+      </footer>
+    </main>
+    <script type="module" src="./growth.js"></script>
+  </body>
+</html>

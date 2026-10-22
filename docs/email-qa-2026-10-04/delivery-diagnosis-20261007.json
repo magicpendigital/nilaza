@@ -1,0 +1,36 @@
+{
+  "observedAt": "2026-10-07T16:54:05Z",
+  "target": "akgrokwnkfqnfjqrildi",
+  "organization": "drxbmvimiekeoeesgssp",
+  "scope": "Authorized QA mailbox diagnosis; no application or cloud configuration changes",
+  "recipient": "owner-authorized-test-mailbox",
+  "accountReadback": {
+    "createdAt": "2026-09-08T07:06:18.427929Z",
+    "emailConfirmedAt": "2026-09-08T10:36:49.617959Z",
+    "confirmationSentAt": "2026-09-08T07:06:18.523315Z"
+  },
+  "authLogEvidence": [
+    { "at": "2026-10-07T16:25:50Z", "path": "/signup", "status": 200, "action": "user_repeated_signup", "matchesAuthorizedMailbox": true },
+    { "at": "2026-10-07T16:44:40Z", "path": "/resend", "status": 200 },
+    { "at": "2026-10-07T16:53:38Z", "path": "/recover", "status": 200, "action": "user_recovery_requested" }
+  ],
+  "resendEvidence": {
+    "team": "magicpendigital",
+    "beforeTest": "No sent emails yet; Last 15 days; All Statuses; All API keys",
+    "test": "One password recovery email using the app's public QA configuration and nilaza://auth/recovery",
+    "acceptedBySupabase": true,
+    "emailId": "01a11748-ee4d-7b97-9717-36949207c30b",
+    "subject": "Đặt lại mật khẩu / Reset password",
+    "status": "Delivered",
+    "observation": "Authenticated Resend sending-list UI",
+    "screenshot": "Ignored local .brand-work/email-delivery-2026-10-07/resend-delivered.png contains the authorized recipient; not copied into repository evidence"
+  },
+  "conclusion": "The reported signup was a repeat signup for an already confirmed QA account. Generic signup/resend success did not establish email generation. A separate recovery test established working Supabase QA-to-Resend SMTP delivery for this recipient.",
+  "remainingAcceptance": [
+    "Owner confirms receipt and mailbox placement; Delivered alone does not establish primary inbox placement",
+    "Owner opens recovery email on Android, chooses password privately, and verifies login",
+    "Fresh-account signup confirmation and Android callback require a separately authorized unused mailbox"
+  ],
+  "privacy": "No password, SMTP credential, session token, recovery link, email body or real mailbox address stored in this receipt. Targeted account timestamps only; no broad user export.",
+  "releaseBoundary": "No migration, database write, account deletion, confirmation bypass, credential read, configuration change, retargeting or production release. The recovery request intentionally issues a one-use link; password changes require the owner to complete the recovery flow."
+}

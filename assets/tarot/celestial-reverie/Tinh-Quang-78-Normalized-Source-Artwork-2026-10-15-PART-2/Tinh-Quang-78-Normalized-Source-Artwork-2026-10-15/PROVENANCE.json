@@ -1,0 +1,35 @@
+{
+  "packagedAtUTC": "2026-10-15T17:53:37.397593+00:00",
+  "baseArchive": {
+    "filename": "Tinh-Quang-Interim-Pre-Render-Review.zip",
+    "libraryFileId": "libfile_78de4c8918cc819190bceee1ef7f3116",
+    "sizeBytes": 381078603,
+    "sha256": "db277e7b1179032cb42cbfb4793eabef41fcc373836b4cfd6a393c3355256bd9",
+    "normalizedSelected": 75
+  },
+  "patchArchive": {
+    "filename": "Tinh-Quang-Three-Missing-Artworks-Source-QC-2026-10-13.zip",
+    "libraryFileId": "libfile_4bfb5bc00eb481919bb033f75a01f444",
+    "driveUrl": "https://drive.google.com/file/d/1wC5jm_Sx7bYw-V4iFphJW_bLCpXBLb4T/view",
+    "sizeBytes": 38601657,
+    "sha256": "d3ddb32a8abf4e5fa242232da1de829a366b57f242ea66e069172897b84ac2c6",
+    "normalizedSelected": 3
+  },
+  "selectionManifest": {
+    "path": "Tinh-Quang-Source-Completion/SELECTED-78-SOURCES.json",
+    "sha256": "39bb71844ae3ca4c9c7f6cbf9045d922df7183e46fcfdfc9a4243c53899dd207"
+  },
+  "verification": {
+    "selectedRawFilesReadAndHashMatched": 78,
+    "selectedNormalizedFilesReadAndHashMatched": 78,
+    "uniqueCardIds": 78,
+    "allNormalizedDimensions": [
+      656,
+      1130
+    ],
+    "sourceArchiveCrcCheck": "PASS",
+    "newVisualReviewPerformed": false,
+    "nilazaIntegrationPerformedByPackaging": false,
+    "finalQCPassClaimed": false
+  }
+}

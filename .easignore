@@ -1,0 +1,45 @@
+# Keep EAS archives focused on the mobile app. EAS can resolve the git root in
+# monorepos, so ignore large local-only folders from the repository root too.
+.git/
+node_modules/
+.expo/
+tmp/
+temporarily/
+design/
+artifacts/
+supabase/
+apps/*/node_modules/
+apps/*/.expo/
+apps/*/dist/
+apps/*/build/
+apps/*/coverage/
+*.log
+*.tmp
+
+# Private local state and generated review exports are never build inputs,
+# including historical profiles that were accidentally tracked in Git.
+**/.env*
+**/.codex*/
+**/.agents/
+**/.gradle*/
+**/.ci*/
+**/.cache/
+**/.android*/
+**/.playwright*/
+**/.astro/
+**/.cxx/
+**/dist*/
+**/web-build/
+**/scratch/
+**/output/
+**/test-results/
+**/local.properties
+**/credentials.json
+**/*.age
+**/*.jks
+**/*.p12
+**/*.pfx
+**/*.pem
+**/*.keystore
+!apps/mobile/android/app/debug.keystore
+

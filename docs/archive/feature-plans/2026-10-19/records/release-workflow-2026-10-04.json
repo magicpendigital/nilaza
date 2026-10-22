@@ -1,0 +1,191 @@
+{
+  "schemaVersion": 1,
+  "taskId": "release-workflow-2026-10-04",
+  "ownerAgent": "release_workflow_owner",
+  "lane": "Agent governance and offline release evidence",
+  "goal": "Prepare scoped project release guidance and a dependency-free read-only evidence checker; preserve current migration blockers and dirty work.",
+  "successCriteria": [
+    "Owner packet separates documentation updated from product and market readiness.",
+    "Fail-closed local gate rejects changed hashes, wrong target/org/project, missing evidence or stale approval.",
+    "Staging remains in existing Free organization; only market-ready end-user production belongs in Pro after exact cost approval."
+  ],
+  "writeScope": [
+    "docs/release/release-profile.json",
+    "docs/release/RELEASE_RUNBOOK.md",
+    "docs/release/OWNER_PACKET.vi.md",
+    "scripts/release-evidence.mjs",
+    "scripts/release-evidence.test.mjs",
+    "AGENTS.md",
+    "skills/nilaza-plan-qc/SKILL.md",
+    "skills/nilaza-plan-qc/references/release-control.md",
+    "docs/AGENT_TASK_ROUTER.md",
+    "docs/PLAN_QC_PROTOCOL.md",
+    "docs/AGENT_RUNBOOK.md",
+    "docs/ONLINE_QA_RELEASE_PLAN.md",
+    "docs/ADMIN_GIT_WORKFLOW.md",
+    "skills/manifest.json"
+  ],
+  "untouchedSurfaces": [
+    "Mobile/Admin/backend runtime and database source stay unchanged.",
+    "No secrets, personal data, live services, installs, commits, pushes, deployments or billing mutations.",
+    "Dirty admin-runtime-parity skill changes and unrelated manifest entries remain intact."
+  ],
+  "impact": {
+    "entryPoint": "Agent instructions route to a local release runbook; app navigation is unchanged.",
+    "dataWrite": "Only scoped Markdown, JSON profile/skill metadata and offline validator files; no user rows or personal saves.",
+    "backendContract": "No backend API change; existing blocked ledger and synthetic schema rehearsal rules remain authoritative.",
+    "adminVisibility": "Plain-language private owner packet; no public/help corpus or Admin runtime change.",
+    "privacySafety": "Checker prohibits credential paths and uses sanitized evidence; production credentials remain outside agent sessions.",
+    "observability": "Four truthful evidence states; no remote CI or enforcement claimed and no fabricated live test.",
+    "rollback": "Retain exact before/after delta and compare-and-swap hashes; reverse only this scoped change after conflict review."
+  },
+  "canonicalContracts": [
+    "docs/release/release-profile.json declares project mode, reviewed organization boundaries, empty cloud target allowlist, current blockers and required checks.",
+    "scripts/release-evidence.mjs verifies exact bytes; it never deploys or grants external authority."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "35757424e5fc5ef5814015ceb87ace0a9b8b5e3602e555a09efd47f49d53b32e",
+      "reason": "Reviewed scoped governance/release source and current byte state; preserve existing dirty changes and migration stop condition."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Reviewed scoped governance/release source and current byte state; preserve existing dirty changes and migration stop condition."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Reviewed scoped governance/release source and current byte state; preserve existing dirty changes and migration stop condition."
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "sha256": "c6a16c4be5bd732c51158ab66c4ea92bd23c1e817da539f3820546a22d806ec8",
+      "reason": "Reviewed scoped governance/release source and current byte state; preserve existing dirty changes and migration stop condition."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "e5fc9e3789ce1978ce3db7b7f41d6dd695d021c6d01ead2b11b3af14a4525f49",
+      "reason": "Reviewed scoped governance/release source and current byte state; preserve existing dirty changes and migration stop condition."
+    },
+    {
+      "path": "docs/ONLINE_QA_RELEASE_PLAN.md",
+      "sha256": "166b64c022dd55596d8409a725708e6bab8501397378bf52e730ea029733dbad",
+      "reason": "Reviewed scoped governance/release source and current byte state; preserve existing dirty changes and migration stop condition."
+    },
+    {
+      "path": "docs/ADMIN_GIT_WORKFLOW.md",
+      "sha256": "2a012862012ab965b6cf427619ecb76413c881f2d85b481b799f68bb46293c51",
+      "reason": "Reviewed scoped governance/release source and current byte state; preserve existing dirty changes and migration stop condition."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "1e4d2bc7a93a2a140690c7237537de582972db30088309996ab6462a79a53623",
+      "reason": "Reviewed scoped governance/release source and current byte state; preserve existing dirty changes and migration stop condition."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/nilaza-plan-qc.md",
+      "sha256": "1f1ca706c56aef4d08ac94c6475c19a59c3838a218eab9e94ab9436fbe4cda03",
+      "reason": "Reviewed scoped governance/release source and current byte state; preserve existing dirty changes and migration stop condition."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/admin-runtime-parity.md",
+      "sha256": "c8233f41b579c278b3a9927cdacc6462a060c28fd367cca3e5deb650f1cc5dfd",
+      "reason": "Reviewed scoped governance/release source and current byte state; preserve existing dirty changes and migration stop condition."
+    },
+    {
+      "path": "skills/manifest.json",
+      "sha256": "6e66487ba7923641ffa7d289fbee2ef779eb2f94d335a5d49ee132e57c1f8b89",
+      "reason": "Reviewed scoped governance/release source and current byte state; preserve existing dirty changes and migration stop condition."
+    },
+    {
+      "path": "scripts/feature-preflight.mjs",
+      "sha256": "5d3fdddab09331401bece2cf65ed501c0f4ef06e94cef0d4bf622f7e521c8e7a",
+      "reason": "Reviewed scoped governance/release source and current byte state; preserve existing dirty changes and migration stop condition."
+    },
+    {
+      "path": "scripts/validate-repo-skills.mjs",
+      "sha256": "79817cb4c73c98ec36d964b0a39376dca6f3968bbdb194e5a3cdf72a663fd6cc",
+      "reason": "Reviewed scoped governance/release source and current byte state; preserve existing dirty changes and migration stop condition."
+    },
+    {
+      "path": "scripts/release-evidence.mjs",
+      "sha256": "8e02be5b460fedb8bf44a9dd335eed57ae113decf9e376e0e5e4a685ab1eb5c8",
+      "reason": "Reviewed scoped governance/release source and current byte state; preserve existing dirty changes and migration stop condition."
+    },
+    {
+      "path": "scripts/release-evidence.test.mjs",
+      "sha256": "a86d7d17c64dff3968b3086bf552a40eddee389d1d7bc1c3591f0de602902468",
+      "reason": "Reviewed scoped governance/release source and current byte state; preserve existing dirty changes and migration stop condition."
+    },
+    {
+      "path": "docs/release/RELEASE_RUNBOOK.md",
+      "sha256": "9f44d674b547e324982b87d79b4c46531e69c4f19d9e475557a60a963a27cae2",
+      "reason": "Reviewed scoped governance/release source and current byte state; preserve existing dirty changes and migration stop condition."
+    },
+    {
+      "path": "docs/release/release-profile.json",
+      "sha256": "f4964d0a17e6fd92d225d01ccacd554fbaf0033161f756571924cdd6a0c2aeaa",
+      "reason": "Reviewed scoped governance/release source and current byte state; preserve existing dirty changes and migration stop condition."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "updated",
+      "evidence": "Add release-control reference and routing while retaining existing dirty admin-runtime-parity contents and metadata."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No dependency additions or provider API implementation; use existing Node and owner-specified policy, treating dated cost/account reports as unverified planning scenarios."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No access policy changes; runbook requires grants/RLS/Storage/RPC/view negative A/B and revoked-token evidence before future release.",
+    "sensitiveData": "Only sanitized source guidance and synthetic fixtures; never copy production user data into staging.",
+    "secretsLogging": "No env contents or secrets read; checker rejects credential file paths, production secrets excluded from agent and untrusted PR sessions.",
+    "externalInput": "Treat manifest/approval as untrusted JSON; reject traversal, unsafe file records and unapproved evidence states.",
+    "dependencies": "No install or new dependency; portable built-in Node checker and tests reviewed in the task workspace first.",
+    "migrationRelease": "Preserve foreign-MCY blocked ledger, empty cloud target allowlist and owner-approved market/provision/release gates.",
+    "stopCondition": "Stop on concurrent file hash changes, unsafe target path, unmet filesystem approval or validator regressions; no live release authorized.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "AGENTS.md",
+      "docs/ADMIN_GIT_WORKFLOW.md",
+      "docs/AGENT_RUNBOOK.md",
+      "docs/AGENT_TASK_ROUTER.md",
+      "docs/ONLINE_QA_RELEASE_PLAN.md",
+      "docs/PLAN_QC_PROTOCOL.md",
+      "skills/manifest.json",
+      "skills/nilaza-plan-qc/SKILL.md",
+      "docs/release/OWNER_PACKET.vi.md",
+      "docs/release/RELEASE_RUNBOOK.md",
+      "docs/release/release-profile.json",
+      "scripts/release-evidence.mjs",
+      "scripts/release-evidence.test.mjs",
+      "skills/nilaza-plan-qc/references/release-control.md"
+    ],
+    "note": "Existing scoped dirty manifest changes are preserved; unrelated Admin/runtime edits stay outside this change. All mutations use expected-before hashes."
+  },
+  "validationCommands": [
+    "node --test scripts/release-evidence.test.mjs",
+    "npm run validate:governance",
+    "npm run skills:validate",
+    "npm run supabase:migration-ledger:check",
+    "npm run feature:preflight -- --record docs/feature-plans/release-workflow-2026-10-04.json"
+  ],
+  "managerTestPath": "Read the Vietnamese owner packet, select a synthetic candidate, and confirm that absent approval or cloud target blocks; no product release is implied.",
+  "residualRisk": "Evidence checks cannot prove truth, owner identity, remote enforcement or a complete dynamic dependency graph; installed skill synchronization remains deferred under no-install scope.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deploy": false,
+    "publish": false
+  }
+}

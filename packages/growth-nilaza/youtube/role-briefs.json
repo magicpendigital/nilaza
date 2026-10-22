@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "1.0.0",
+  "tenantId": "nilaza",
+  "catalogReference": "packages/growth-core/config/growth-agent-catalog.json",
+  "newRoleCount": 0,
+  "roles": [
+    {
+      "roleId": "growth_orchestrator",
+      "displayName": "Điều phối Nilaza YouTube",
+      "brief": "roles/growth_orchestrator.md"
+    },
+    {
+      "roleId": "research_jtbd",
+      "displayName": "Nghiên cứu nguồn và giả thuyết",
+      "brief": "roles/research_jtbd.md"
+    },
+    {
+      "roleId": "product_truth_claim_guard",
+      "displayName": "Kiểm chứng sản phẩm và claim",
+      "brief": "roles/product_truth_claim_guard.md"
+    },
+    {
+      "roleId": "positioning_experiment",
+      "displayName": "Chiến lược và thử nghiệm nội dung",
+      "brief": "roles/positioning_experiment.md"
+    },
+    {
+      "roleId": "content_studio",
+      "displayName": "Kịch bản, thiết kế/chuyển động và audio",
+      "brief": "roles/content_studio.md"
+    },
+    {
+      "roleId": "independent_qa",
+      "displayName": "QA độc lập",
+      "brief": "roles/independent_qa.md"
+    },
+    {
+      "roleId": "distribution_planner",
+      "displayName": "Bàn giao lịch và đối soát kênh",
+      "brief": "roles/distribution_planner.md"
+    },
+    {
+      "roleId": "journey_measurement",
+      "displayName": "Đo lường và học từ aggregate",
+      "brief": "roles/journey_measurement.md"
+    }
+  ],
+  "contentStudioWorkstreams": [
+    "script",
+    "visual_motion",
+    "audio"
+  ],
+  "commonAuthority": "draft_only; future external execution requires separate ContentOps owner-approved gates"
+}

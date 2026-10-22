@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "taskId": "astrology-ai-staging-readiness-2026-09-27",
+  "ownerAgent": "nilaza-project-owner-agent",
+  "lane": "cross_cutting_quality",
+  "goal": "Reconcile Nilaza's Astrology AI staging readiness and the reported Tarot content update against Staging, local seeds, and the available Android artifact; correct the stale local readiness check and identify the next safe manager test without changing remote state.",
+  "successCriteria": [
+    "The readiness checker references the exact AI Studio migration source recorded in the reviewed local ledger.",
+    "Supabase readiness reports zero failures while clearly retaining warnings that cannot be verified from local environment variables.",
+    "Progress documents distinguish earlier successful Qwen calls from the active DeepSeek route that still needs an app-level test.",
+    "The published Staging content bundle and available Android APK are compared with current local Tarot seeds; the still-unverified installed-device state is explicit.",
+    "The plan records that raw QA capture remains disabled while pg_cron purge is absent and does not imply deployment or database-write authorization."
+  ],
+  "writeScope": [
+    "scripts/check-supabase-readiness.mjs",
+    "docs/MVP_TASK_CHECKLIST.md",
+    "docs/AI_TRACE_OBSERVABILITY.md",
+    "docs/NILAZA_PRICING_AI_IMPLEMENTATION_PLAN_2026-09-25.vi.md",
+    "docs/NILAZA_PRICING_AI_QUALITY_STRATEGY_2026-09-25.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "Mobile runtime, installed app data, Android package, and user chart data remain unchanged during this status reconciliation.",
+    "Supabase schema, Edge Functions, model routes, prompts, subscriptions, secrets, and deployment state remain unchanged.",
+    "Vercel production, Tarot content/runtime assets, payment SKU, and raw QA capture remain unchanged."
+  ],
+  "impact": {
+    "entryPoint": "No user or admin flow changes; owners use the readiness report and plan documents to choose the next test.",
+    "dataWrite": "Repository-only updates to one read-only readiness checker and progress documents; no database writes or user data changes.",
+    "backendContract": "No endpoint, schema, prompt, model route, or migration changes; database push/repair remains blocked by the remote-only migration ledger entry.",
+    "adminVisibility": "Documentation will describe route/prompt state and redacted trace evidence; the Admin UI remains unchanged.",
+    "privacySafety": "Only aggregate status, model/provider names, counts, and deployment versions are recorded; no chart facts, questions, prompts, user identifiers, or secret values are copied.",
+    "observability": "Existing redacted traces are used as evidence; no raw capture is enabled because the verified purge extension/job is absent.",
+    "rollback": "Revert the one migration filename check and the dated status notes; no runtime rollback is required."
+  },
+  "canonicalContracts": [
+    "docs/SUPABASE_MIGRATION_LEDGER.md and supabase/migration-ledger.json govern migration safety.",
+    "packages/agent-config/astrology-ai-insight/contract.json governs the Astrology AI request and response contract."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Reviewed Nilaza product, data, release, and migration guardrails."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "304c5b7217d6dcc7022d84ae665755b0071572ce19bda96b12a4780b0590eae3",
+      "reason": "Reviewed QA, mobile, backend, and Supabase task routes."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "d61787c20c01e926e13a2a4d56303ac18a2bbda07b84d8c4c5ac30f6b9712ed2",
+      "reason": "Reviewed cross-surface impact, preflight, migration, and release gates."
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "sha256": "ce7bdd68fa4089a049bef4a73e58fc1bb4d8d869443253c6410c1b986f706242",
+      "reason": "Reviewed authority boundaries for database and deployment actions."
+    },
+    {
+      "path": "docs/MVP_TASK_CHECKLIST.md",
+      "sha256": "22545c00ee97cf0f83f22ec3ab78acf6aacb2565b3d82525126fb0af10d0b69d",
+      "reason": "Reviewed the current product backlog and outdated status snapshot."
+    },
+    {
+      "path": "docs/AI_TRACE_OBSERVABILITY.md",
+      "sha256": "b420ad457454f7759f34c34d7a2f74f41536bae952d19baacc6fdf8fc94deef9",
+      "reason": "Reviewed trace redaction, raw capture gates, and QA runbook."
+    },
+    {
+      "path": "docs/NILAZA_PRICING_AI_IMPLEMENTATION_PLAN_2026-09-25.vi.md",
+      "sha256": "b717e3ef2cdeebc0ba2dca1b968ce8d8a7c8c88b342ba6ad588e805b1bd438eb",
+      "reason": "Reviewed Astrology AI staging stages and remaining acceptance criteria."
+    },
+    {
+      "path": "docs/NILAZA_PRICING_AI_QUALITY_STRATEGY_2026-09-25.vi.md",
+      "sha256": "c619919193c25338bafc651eefa78111a786629c83c3faeb5932be6b6b968b16",
+      "reason": "Reviewed pricing claims and the dated implementation status."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "c14e3443c259659ad51af3621b6418b82a740d22ad06a2832b185e3e02bea364",
+      "reason": "Reviewed the exact staging migration versions and blocked generic migration path."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_REVIEW_2026-09-26_AI_STUDIO.vi.md",
+      "sha256": "359c44af7cb59818a59681da0da22378b50af0e95517c9d2ea1748aab7043ccc",
+      "reason": "Reviewed migration application, Edge Function deployment, trace, and purge evidence."
+    },
+    {
+      "path": "docs/ASTROLOGY_OWNER_TIER_AI_REVIEW_PLAN_2026-09-24.vi.md",
+      "sha256": "00b9605356369686d414bcf6e9ecb9498d77985bfef0d3f17ec4187c0f40a8d3",
+      "reason": "Reviewed owner testing gates and the Free/Premium staging test path."
+    },
+    {
+      "path": "scripts/check-supabase-readiness.mjs",
+      "sha256": "9d8680965b620cd2410dc33bb77c1cf6141e81d125769fecea01236a12c2518b",
+      "reason": "Reviewed the local migration and secret-presence checks; corrected its obsolete applied migration filename."
+    },
+    {
+      "path": "apps/mobile/app.json",
+      "sha256": "fef695c7dace6f706973c608833ae2211e4ebc5d4df2a38b5f6633f40a18c023",
+      "reason": "Verified the currently configured Android app version and package identity."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "97a7c9261e60428ad198c9c6374899581783c552e98b91797e2f13126862f87e",
+      "reason": "Reviewed the signed-in published-content fetch, safe local fallback, and Owner Hub content-version status for the Tarot update report."
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "sha256": "68de9741415e48aeab9624f73686005dfdd9d93d26068791bf44e8b103016d5f",
+      "reason": "Reviewed the authenticated published-bundle RPC result shape without changing it."
+    },
+    {
+      "path": "packages/content/data/tarot-decks.json",
+      "sha256": "e699d651d8d6b65b35bae51b624056efc9463dadba1c7b856074c54c0e851002",
+      "reason": "Compared current local Tarot deck copy, including Classic Arcana card introductions, with the generated and published content bundle."
+    },
+    {
+      "path": "apps/admin/generated/content-seed.json",
+      "sha256": "93c80dff091f19dbf988f73abe875d105fdc71cb106f4daebe2988ddad3766bd",
+      "reason": "Verified the current generated Admin seed hash and its deck/card counts against the published Staging bundle metadata."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Applied its cross-cutting impact, data minimization, migration stop, and manager-test requirements."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No dependencies or Supabase APIs changed; status was checked against repository migration records and read-only Staging metadata."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization or RLS code changes; Staging checks used aggregate metadata without selecting user identifiers.",
+    "sensitiveData": "No raw birth data, chart facts, question, journal, prompt text, or trace payload is recorded in the plan.",
+    "secretsLogging": "Secret values were never queried or printed; the local checker reports only presence/absence.",
+    "externalInput": "No remote payload is executed; SQL queries were read-only metadata and aggregate status checks.",
+    "dependencies": "No package or function dependency changes.",
+    "migrationRelease": "No database write, migration repair, Edge Function deployment, or production release is included; generic migration push remains blocked.",
+    "stopCondition": "Stop before any real app request or raw trace reveal until the owner is on a current test build and explicitly accepts the in-app consent; keep raw capture off without a verified purge schedule.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "scripts/check-supabase-readiness.mjs",
+      "docs/MVP_TASK_CHECKLIST.md",
+      "docs/AI_TRACE_OBSERVABILITY.md",
+      "docs/NILAZA_PRICING_AI_IMPLEMENTATION_PLAN_2026-09-25.vi.md",
+      "docs/NILAZA_PRICING_AI_QUALITY_STRATEGY_2026-09-25.vi.md"
+    ],
+    "note": "Reviewed current staged/unstaged content in these paths; unrelated Mobile, Tarot, Astrology implementation, and migration changes are left untouched by this task."
+  },
+  "validationCommands": [
+    "npm run supabase:check",
+    "npm run supabase:migration-ledger:check (expected to remain blocked; verify no push or repair is attempted)",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand",
+    "npm run validate:astrology && npm run astrology:accuracy:check && npm run astrology:grid:check",
+    "npm run astrology:contract:check && npm run astrology:ai-contract:check && npm run astrology:ai-contract:test",
+    "npm run validate:backend",
+    "npm run admin:check && npm run admin:test",
+    "npm run validate:data && npm run validate:visual-assets",
+    "npm run validate:mobile-export",
+    "npm run mobile:release:config:check",
+    "git diff --check"
+  ],
+  "managerTestPath": "After the phone is reconnected, first confirm package version/build and inspect Owner Hub's App content status. It should show v4 online; open Classic Arcana and its Fool card to verify the updated deck copy. Then open the saved synthetic Astrology QA chart, submit one question, review the current in-app consent, and accept it only if the owner wants a new DeepSeek Staging call. Confirm the answer renders and redacted traces show the new route/model without raw payload.",
+  "residualRisk": "No current DeepSeek model call has been verified on the mobile UI; prior successful OpenRouter traces used Qwen. Staging has published content bundle v4 whose source hash matches the generated Admin seed, and the available local APK contains Classic Arcana, but the installed phone artifact and the app's signed-in content status remain unverified because ADB found no connected device. Staging contains one active Astrology AI entitlement record but its account binding was not exposed or revalidated. pg_cron is absent, so exact QA payload capture must remain disabled.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deployment": false,
+    "productionRelease": false
+  }
+}

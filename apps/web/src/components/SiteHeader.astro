@@ -1,0 +1,147 @@
+---
+import Brand from "./Brand.astro";
+import { copy, locales, languageNames, type Locale } from "../lib/site";
+const { locale, waitlistTarget } = Astro.props as { locale: Locale; waitlistTarget?: string };
+const betaHref = waitlistTarget || `/${locale}#waitlist`;
+const betaLabel = locale === "vi" ? "Đăng ký trước ra mắt" : "Join the waitlist";
+const t = copy[locale].nav;
+// Pages can serve the landing route with a trailing slash. Fragments keep
+// landing navigation in the current document regardless of the URL spelling.
+const currentPath = Astro.url.pathname.replace(/\/+$/, "");
+const isLanding = currentPath === `/${locale}`;
+const homeHref = isLanding ? "#main" : `/${locale}`;
+const landingSection = (id: string) => isLanding ? `#${id}` : `/${locale}#${id}`;
+const pageHref = (page: string) => currentPath === `/${locale}/${page}` ? "#main" : `/${locale}/${page}`;
+const languageHref = (id: Locale) => `/${id}${currentPath.slice(locale.length + 1)}`;
+---
+<header class="site-header">
+  <div class="shell nav-shell">
+    <a class="brand" href={homeHref} aria-label={locale === "vi" ? "Nilaza — Trang chủ" : "Nilaza — Home"}>
+      <Brand variant="horizontal" width={190} decorative />
+    </a>
+    <nav class="primary-nav" aria-label={locale === "vi" ? "Điều hướng chính" : "Primary navigation"}>
+      <a href={landingSection("features")} data-section-link="features">{t.explore}</a>
+      <a href={landingSection("how-it-works")} data-section-link="how-it-works">{t.how}</a>
+      <a href={landingSection("principles")} data-section-link="principles">{t.safety}</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="help-utility" href={pageHref("help")} aria-current={currentPath.startsWith(`/${locale}/help`) ? "page" : undefined}>{t.help} ↗</a>
+      <details class="language-picker">
+        <summary aria-label={`${locale === "vi" ? "Đổi ngôn ngữ. Đang dùng" : "Change language. Current"}: ${languageNames[locale]}`}>
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c5 5 5 13 0 18-5-5-5-13 0-18Z"/></svg>
+          <span>{locale.toUpperCase()}</span><span class="language-chevron" aria-hidden="true">⌄</span>
+        </summary>
+        <nav class="language-list" aria-label={locale === "vi" ? "Chọn ngôn ngữ" : "Choose language"}>
+          {locales.map(language => language === locale
+            ? <span class="language-option" aria-current="true" lang={language}>
+                <span>{languageNames[language]}<small>{locale === "vi" ? "Đang dùng" : "Current language"}</small></span><span aria-hidden="true">✓</span>
+              </span>
+            : <a class="language-option" data-language-link href={languageHref(language)} lang={language} hreflang={language}>{languageNames[language]}</a>
+          )}
+        </nav>
+      </details>
+      <button class="mobile-menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-site-navigation">
+        <span class="menu-glyph" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="sr-only">{locale === "vi" ? "Mở menu" : "Open menu"}</span>
+      </button>
+      <a class="button compact" href={betaHref} data-analytics-event="waitlist_cta_click" data-analytics-source="header" data-analytics-surface="site_header" data-analytics-target="waitlist">{betaLabel}</a>
+    </div>
+  </div>
+  <nav class="mobile-nav-panel shell" id="mobile-site-navigation" aria-label={locale === "vi" ? "Điều hướng di động" : "Mobile navigation"} hidden>
+    <p class="menu-group-label">{locale === "vi" ? "Khám phá Nilaza" : "Explore Nilaza"}</p>
+    <a href={homeHref} aria-current={isLanding ? "page" : undefined}>{t.home}</a>
+    <a href={landingSection("features")} data-section-link="features">{t.explore}</a>
+    <a href={landingSection("how-it-works")} data-section-link="how-it-works">{t.how}</a>
+    <a href={landingSection("principles")} data-section-link="principles">{t.safety}</a>
+    <p class="menu-group-label">{locale === "vi" ? "Hướng dẫn & chính sách" : "Guides & policies"}</p>
+    <a href={pageHref("help")} aria-current={currentPath === `/${locale}/help` ? "page" : undefined}>{t.help}</a>
+    <a href={pageHref("safety")} aria-current={currentPath === `/${locale}/safety` ? "page" : undefined}>{locale === "vi" ? "Nguyên tắc an toàn ↗" : "Safety principles ↗"}</a>
+    <a class="mobile-waitlist-link" href={betaHref} data-analytics-event="waitlist_cta_click" data-analytics-source="mobile_menu" data-analytics-surface="site_header" data-analytics-target="waitlist">{betaLabel}</a>
+  </nav>
+</header>
+<script>
+  import { initializeLanguageNavigation } from "../lib/languageNavigation";
+  initializeLanguageNavigation();
+  const sections = [...document.querySelectorAll<HTMLElement>("main > section[id]")];
+  if (document.querySelector("#intro")) {
+    let pending = false;
+    const updateSection = () => {
+      pending = false;
+      const line = (document.querySelector(".site-header")?.getBoundingClientRect().height || 72) + 48;
+      const current = sections.filter(section => section.getBoundingClientRect().top <= line).pop()?.id;
+      const group = current === "guides" || current === "reflection" ? "how-it-works" : current?.startsWith("feature") ? "features" : current;
+      document.querySelectorAll<HTMLElement>("[data-section-link]").forEach(link => {
+        if (link.dataset.sectionLink === group) link.setAttribute("aria-current", "location");
+        else link.removeAttribute("aria-current");
+      });
+    };
+    window.addEventListener("scroll", () => { if (!pending) { pending = true; requestAnimationFrame(updateSection); } }, { passive: true });
+    updateSection();
+  }
+  const header = document.querySelector<HTMLElement>(".site-header");
+  const languagePicker = header?.querySelector<HTMLDetailsElement>(".language-picker");
+  const languageSummary = languagePicker?.querySelector("summary");
+  const toggle = header?.querySelector<HTMLButtonElement>(".mobile-menu-toggle");
+  const panel = header?.querySelector<HTMLElement>(".mobile-nav-panel");
+  const closeMenu = () => {
+    if (!toggle || !panel) return;
+    toggle.setAttribute("aria-expanded", "false");
+    toggle.querySelector(".sr-only")!.textContent = document.documentElement.lang === "vi" ? "Mở menu" : "Open menu";
+    panel.hidden = true;
+  };
+
+  toggle?.addEventListener("click", () => {
+    if (languagePicker) languagePicker.open = false;
+    if (!panel) return;
+    const open = toggle.getAttribute("aria-expanded") !== "true";
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.querySelector(".sr-only")!.textContent = open
+      ? (document.documentElement.lang === "vi" ? "Đóng menu" : "Close menu")
+      : (document.documentElement.lang === "vi" ? "Mở menu" : "Open menu");
+    panel.hidden = !open;
+  });
+
+  panel?.querySelectorAll("a").forEach(link => link.addEventListener("click", closeMenu));
+  languagePicker?.addEventListener("toggle", () => {
+    if (languagePicker.open) closeMenu();
+  });
+  document.addEventListener("click", event => {
+    if (languagePicker && event.target instanceof Node && !languagePicker.contains(event.target)) languagePicker.open = false;
+    if (!header || !panel || panel.hidden || !(event.target instanceof Node) || header.contains(event.target)) return;
+    closeMenu();
+  });
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+      closeMenu();
+      if (languagePicker?.open) { languagePicker.open = false; languageSummary?.focus({ preventScroll: true }); }
+    }
+  });
+  languagePicker?.addEventListener("focusout", event => {
+    if (event.relatedTarget instanceof Node && !languagePicker.contains(event.relatedTarget)) languagePicker.open = false;
+  });
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 850) closeMenu();
+  }, { passive: true });
+</script>
+<style>
+  .language-picker{position:relative;flex-shrink:0}
+  .language-picker summary{display:flex;align-items:center;justify-content:center;gap:6px;min-height:48px;padding:0 10px;border:1px solid var(--line);border-radius:var(--radius);color:var(--ivory);font-size:.78rem;font-weight:600;list-style:none;cursor:pointer}
+  .language-picker summary::-webkit-details-marker{display:none}
+  .language-picker summary:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .language-picker[open] summary{border-color:var(--gold);color:var(--gold)}
+  .language-chevron{font-size:1rem;line-height:1}
+  .language-list{position:absolute;top:calc(100% + 8px);right:0;width:240px;max-width:calc(100vw - 28px);max-height:70vh;overflow-y:auto;padding:6px;border:1px solid var(--line);border-radius:var(--radius);background:var(--ink);box-shadow:0 12px 30px rgba(0,0,0,.3)}
+  .language-option{display:flex;align-items:center;justify-content:space-between;min-height:48px;padding:10px 12px;border-radius:4px;font-size:.9rem;line-height:1.3;text-decoration:none;color:var(--ivory)}
+  .language-option small{display:block;margin-top:4px;font-size:.7rem;font-weight:400;color:var(--moon)}
+  .language-option[aria-current="true"]{background:rgba(201,164,92,.12);color:var(--gold)}
+  a.language-option:hover{color:var(--ivory);background:rgba(247,241,230,.08)}
+  a.language-option:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .primary-nav a[aria-current="location"],.primary-nav a[aria-current="page"],.mobile-nav-panel a[aria-current="page"]{color:var(--gold)}
+  .site-header{position:sticky;top:0;z-index:15;border-bottom:1px solid var(--line);background:rgba(21,20,22,.97)}
+  .nav-shell{height:72px;display:flex;align-items:center;justify-content:space-between;gap:22px}.brand{display:flex;align-items:center;gap:10px;font-size:.82rem;font-weight:600;letter-spacing:.2em;text-decoration:none}.brand-mark{display:grid;place-items:center;width:32px;height:32px;border:1px solid var(--gold);border-radius:50%;color:var(--gold);font:500 1.4rem var(--display)}.primary-nav{display:flex;gap:18px}.primary-nav a,.locale{color:var(--moon);font-size:.85rem;text-decoration:none}.primary-nav a:hover,.primary-nav a:focus-visible,.locale:hover,.locale:focus-visible{color:var(--ivory)}.nav-actions{display:flex;align-items:center;gap:13px}.compact{min-height:48px;padding:.45rem .8rem;font-size:.78rem}.mobile-menu-toggle{display:none;align-items:center;justify-content:center;width:48px;height:48px;border:1px solid var(--line);border-radius:var(--radius);background:transparent;color:var(--ivory);cursor:pointer}.mobile-menu-toggle:hover,.mobile-menu-toggle:focus-visible{border-color:var(--gold);color:var(--gold)}.menu-glyph{display:grid;gap:4px;width:19px}.menu-glyph i{display:block;height:1px;background:currentColor;transition:transform .16s ease,opacity .16s ease}.mobile-menu-toggle[aria-expanded="true"] .menu-glyph i:nth-child(1){transform:translateY(5px) rotate(45deg)}.mobile-menu-toggle[aria-expanded="true"] .menu-glyph i:nth-child(2){opacity:0}.mobile-menu-toggle[aria-expanded="true"] .menu-glyph i:nth-child(3){transform:translateY(-5px) rotate(-45deg)}.mobile-nav-panel{position:absolute;left:0;right:0;top:calc(100% + 1px);display:grid;gap:2px;padding:12px 14px 16px;border-bottom:1px solid var(--line);background:rgba(21,20,22,.99);box-shadow:0 18px 30px rgba(0,0,0,.22)}.mobile-nav-panel[hidden]{display:none}.mobile-nav-panel a{padding:12px 10px;color:var(--ivory);font-size:.95rem;text-decoration:none}.mobile-nav-panel a:hover,.mobile-nav-panel a:focus-visible{background:rgba(201,164,92,.1);color:var(--gold)}.mobile-nav-panel .mobile-waitlist-link{margin-top:6px;border-top:1px solid var(--line);color:var(--gold);font-weight:600}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  .help-utility{min-height:48px;display:flex;align-items:center;color:var(--moon);font-size:.82rem;text-decoration:none}.menu-group-label{margin:10px 10px 3px;color:var(--moon);font-size:.72rem;letter-spacing:.08em}.mobile-nav-panel{max-height:calc(100vh - 64px);overflow:auto}
+  @media(max-width:1150px){.primary-nav{gap:12px}.primary-nav a{font-size:.76rem}.compact{display:none}}
+  @media(max-width:850px){.primary-nav,.help-utility{display:none}.nav-shell{height:64px}.mobile-menu-toggle{display:inline-flex}.compact{display:none}}
+  @media(max-width:400px){.nav-shell{gap:12px}.nav-actions{gap:8px}.language-picker summary{padding:0 8px}.language-picker summary svg{display:none}}
+  @media(prefers-reduced-motion:reduce){.menu-glyph i{transition:none}}
+</style>

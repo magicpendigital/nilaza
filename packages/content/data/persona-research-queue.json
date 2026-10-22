@@ -1,0 +1,59 @@
+{
+  "version": "2026-06-07-local-v1",
+  "legalRule": {
+    "vi": "Chỉ tạo AI guide lấy cảm hứng, không mạo danh người thật, tác giả, nhà xuất bản, thương hiệu hoặc đại diện chính thức. Không đưa nội dung sách có bản quyền vào retrieval nếu chưa có license.",
+    "en": "Create inspired AI guides only; do not impersonate real people, authors, publishers, brands, or official representatives. Do not ingest copyrighted book content into retrieval without a license."
+  },
+  "evaluationRubric": [
+    "public_domain_or_license_status",
+    "market_demand",
+    "distinct_voice",
+    "safety_risk",
+    "cultural_sensitivity",
+    "monetization_fit"
+  ],
+  "nextCandidates": [
+    {
+      "id": "socrates",
+      "type": "historical_figure",
+      "priority": 1,
+      "name": {
+        "vi": "Socrates",
+        "en": "Socrates"
+      },
+      "reason": {
+        "vi": "Phù hợp flow hỏi đáp, giúp user tự đặt câu hỏi tốt hơn.",
+        "en": "Fits a question-led chat flow and helps users ask better questions."
+      },
+      "riskLevel": "low"
+    },
+    {
+      "id": "jane-austen-inspired-love-guide",
+      "type": "literary_style_guide",
+      "priority": 2,
+      "name": {
+        "vi": "Guide Tình Yêu Kiểu Cổ Điển",
+        "en": "Classic Love Guide"
+      },
+      "reason": {
+        "vi": "Hợp nhóm user quan tâm tình yêu, nhưng nên dùng archetype không dùng tên tác phẩm/tác giả như official.",
+        "en": "Fits love-focused users, but should use an archetype rather than official author/work claims."
+      },
+      "riskLevel": "medium"
+    },
+    {
+      "id": "career-negotiation-mentor",
+      "type": "book_inspired_guide",
+      "priority": 3,
+      "name": {
+        "vi": "Mentor Đàm Phán Sự Nghiệp",
+        "en": "Career Negotiation Mentor"
+      },
+      "reason": {
+        "vi": "Mở rộng sang career và money reflection, cần disclaimer không phải lời khuyên tài chính.",
+        "en": "Expands into career and money reflection, with clear non-financial-advice disclaimer."
+      },
+      "riskLevel": "medium"
+    }
+  ]
+}

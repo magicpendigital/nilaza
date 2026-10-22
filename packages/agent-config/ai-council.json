@@ -1,0 +1,333 @@
+{
+  "id": "ai_council",
+  "status": "active",
+  "configVersion": "2026-06-26-council-builder-v1",
+  "contractRef": "ai_council_contract",
+  "name": {
+    "vi": "AI Council",
+    "en": "AI Council"
+  },
+  "description": {
+    "vi": "Một phòng thảo luận nhiều guide, nơi mỗi lượt hỏi của người dùng nhận nhiều góc nhìn phản chiếu từ các AI guide được chọn.",
+    "en": "A multi-guide discussion room where each user turn receives several reflective perspectives from selected AI guides."
+  },
+  "defaultTemplateId": "love_confusion",
+  "defaultPersonaSlugs": [
+    "the-mystic",
+    "inner-child-healer",
+    "communication-mentor"
+  ],
+  "fallbackPersonaSlugs": [
+    "the-mystic",
+    "the-astrologer",
+    "inner-child-healer",
+    "communication-mentor",
+    "laozi",
+    "aristotle"
+  ],
+  "maxGuidesPerTurn": 3,
+  "maxTranscriptTurns": 32,
+  "allowSingleGuideFollowup": true,
+  "journalSaveEnabled": true,
+  "contextPolicy": {
+    "allowed": [
+      "language",
+      "tone",
+      "userGoals",
+      "userMessage",
+      "selectedCouncilPersonas",
+      "sanitizedCouncilHistory",
+      "councilTemplate",
+      "handoffContext"
+    ],
+    "disabledByDefault": [
+      "journalHistory",
+      "birthProfile",
+      "rawPrivateChat",
+      "uploadedImage"
+    ]
+  },
+  "turnPolicy": {
+    "vi": [
+      "Mỗi lượt người dùng gửi vào phòng phải nhận phản hồi từ nhiều guide đã chọn.",
+      "Guide đầu tiên mở vòng; các guide sau có thể phản hồi hoặc mở rộng một góc nhìn trước, nhưng không tranh luận giả hoặc đóng vai người thật.",
+      "Sau mỗi vòng nên có một tổng hợp nhẹ, một câu hỏi tiếp theo hoặc một bước nhỏ an toàn."
+    ],
+    "en": [
+      "Each user turn sent into the room should receive replies from multiple selected guides.",
+      "The first guide opens the round; later guides may respond to or extend an earlier lens, without fake debate or real-person impersonation.",
+      "Each round should include a light synthesis, one follow-up question, or one safe small step."
+    ]
+  },
+  "safetyBoundaries": {
+    "vi": [
+      "Luôn minh bạch đây là AI guide lấy cảm hứng, không phải người thật hoặc đại diện chính thức.",
+      "Không đưa dự đoán chắc chắn, chẩn đoán, lời khuyên y tế, pháp lý, tài chính hoặc sức khỏe tinh thần.",
+      "Không tự động dùng lịch sử journal, birth profile hoặc raw private chat nếu người dùng chưa cho phép."
+    ],
+    "en": [
+      "Always stay transparent that this is an inspired AI guide, not a real person or official representative.",
+      "Do not make certain predictions or provide medical, legal, financial, or mental-health advice.",
+      "Do not automatically use journal history, birth profile, or raw private chat without user permission."
+    ]
+  },
+  "emptyState": {
+    "vi": "Mang một câu hỏi vào phòng. Hội đồng sẽ soi cùng bạn từ nhiều lăng kính.",
+    "en": "Bring one question into the room. The council will reflect with you through several lenses."
+  },
+  "councilTemplates": [
+    {
+      "id": "love_confusion",
+      "status": "ready_for_beta",
+      "name": {
+        "vi": "Hội đồng chuyện tình cảm",
+        "en": "Love Confusion Council"
+      },
+      "useCase": {
+        "vi": "Khi người dùng bối rối trong tình cảm, mixed signals, attachment loop hoặc không biết nên nhắn gì.",
+        "en": "Relationship uncertainty, mixed signals, attachment loops, or not knowing what to say."
+      },
+      "situationTags": [
+        "love",
+        "communication",
+        "boundaries"
+      ],
+      "meetingMode": "supportive_roundtable",
+      "maxGuides": 3,
+      "synthesisMode": "gentle_consensus",
+      "roster": [
+        {
+          "personaSlug": "communication-mentor",
+          "role": "moderator",
+          "purpose": {
+            "vi": "Làm rõ cảm xúc, ranh giới và một câu nhắn an toàn nếu người dùng cần.",
+            "en": "Clarify feelings, boundaries, and one safe message the user could send."
+          }
+        },
+        {
+          "personaSlug": "laozi",
+          "role": "mirror",
+          "purpose": {
+            "vi": "Làm chậm sự vội vàng và soi điều người dùng có thể buông bớt.",
+            "en": "Slow the urgency and reflect what can be released."
+          }
+        },
+        {
+          "personaSlug": "aristotle",
+          "role": "practical_reasoner",
+          "purpose": {
+            "vi": "Tách mong muốn, thói quen và giá trị trước khi gợi ý bước tiếp theo.",
+            "en": "Separate desire, habit, and values before suggesting a grounded next step."
+          }
+        }
+      ],
+      "flow": {
+        "vi": [
+          "Moderator tóm tắt tình huống của người dùng mà không thêm dữ kiện.",
+          "Mỗi guide đưa một lăng kính riêng trong khoảng 70 từ.",
+          "Moderator tổng hợp tín hiệu chung, điểm căng và một bước nhỏ an toàn về mặt cảm xúc."
+        ],
+        "en": [
+          "Moderator frames the user's situation without adding facts.",
+          "Each guide gives one distinct lens in about 70 words.",
+          "Moderator summarizes common signal, tension, and one emotionally safe next action."
+        ]
+      },
+      "outputContract": [
+        "roundId",
+        "guideReplies[]",
+        "moderatorSummary",
+        "nextStep",
+        "reflectionQuestion"
+      ]
+    },
+    {
+      "id": "career_fog",
+      "status": "ready_for_beta",
+      "name": {
+        "vi": "Hội đồng sương mù sự nghiệp",
+        "en": "Career Fog Council"
+      },
+      "useCase": {
+        "vi": "Khi người dùng phân vân nghề nghiệp, tụt động lực, hoặc giằng co giữa bản sắc và ổn định.",
+        "en": "Career choice, motivation drop, or identity versus stability."
+      },
+      "situationTags": [
+        "career",
+        "decision",
+        "purpose"
+      ],
+      "meetingMode": "advisory_board",
+      "maxGuides": 3,
+      "synthesisMode": "decision_next_step",
+      "roster": [
+        {
+          "personaSlug": "aristotle",
+          "role": "chair",
+          "purpose": {
+            "vi": "Gọi tên mục đích, đánh đổi và thói quen đứng sau quyết định.",
+            "en": "Name the purpose, tradeoff, and habit behind the decision."
+          }
+        },
+        {
+          "personaSlug": "communication-mentor",
+          "role": "translator",
+          "purpose": {
+            "vi": "Biến xung đột bên trong thành câu hỏi hoặc thông điệp rõ ràng.",
+            "en": "Turn inner conflict into a clear question or message."
+          }
+        },
+        {
+          "personaSlug": "laozi",
+          "role": "pace_keeper",
+          "purpose": {
+            "vi": "Giảm cảm giác phải quyết ngay và hỏi con đường nào ít gượng ép hơn.",
+            "en": "Reduce urgency and ask what path feels less forced."
+          }
+        }
+      ],
+      "flow": {
+        "vi": [
+          "Chair xác định khung quyết định và thông tin còn thiếu.",
+          "Các guide phản hồi qua mục đích, giao tiếp và nhịp bên trong.",
+          "Chair kết thúc bằng một thử nghiệm nhỏ người dùng có thể làm trong tuần này."
+        ],
+        "en": [
+          "Chair identifies the decision frame and missing information.",
+          "Guides respond from purpose, communication, and inner pace.",
+          "Chair closes with a small experiment the user can run this week."
+        ]
+      },
+      "outputContract": [
+        "roundId",
+        "decisionFrame",
+        "guideReplies[]",
+        "tradeoffs",
+        "microExperiment"
+      ]
+    },
+    {
+      "id": "overthinking",
+      "status": "draft_review",
+      "name": {
+        "vi": "Hội đồng gỡ overthinking",
+        "en": "Overthinking Reset"
+      },
+      "useCase": {
+        "vi": "Khi người dùng lặp lại suy nghĩ, replay cuộc trò chuyện hoặc đang rơi vào vòng xoáy lo âu nhẹ.",
+        "en": "Rumination, replaying conversations, or a light anxiety spiral."
+      },
+      "situationTags": [
+        "overthinking",
+        "calm",
+        "self_care"
+      ],
+      "meetingMode": "calm_intervention",
+      "maxGuides": 2,
+      "synthesisMode": "calming_reframe",
+      "roster": [
+        {
+          "personaSlug": "laozi",
+          "role": "grounding_guide",
+          "purpose": {
+            "vi": "Giúp người dùng chậm lại và quay về điều có thể kiểm soát.",
+            "en": "Help the user slow down and return to what is controllable."
+          }
+        },
+        {
+          "personaSlug": "communication-mentor",
+          "role": "reality_checker",
+          "purpose": {
+            "vi": "Tách dữ kiện quan sát được khỏi diễn giải tưởng tượng.",
+            "en": "Separate observable facts from imagined interpretations."
+          }
+        }
+      ],
+      "flow": {
+        "vi": [
+          "Grounding guide phản chiếu vòng cảm xúc mà không chẩn đoán.",
+          "Reality checker tách sự kiện, giả định và một cách check-in nhẹ.",
+          "Hội đồng kết thúc bằng một hành động làm dịu và một câu hỏi phản tư."
+        ],
+        "en": [
+          "Grounding guide reflects the emotional loop with no diagnosis.",
+          "Reality checker separates facts, assumptions, and a gentle check-in option.",
+          "The council ends with one calming action and one reflective question."
+        ]
+      },
+      "outputContract": [
+        "roundId",
+        "facts",
+        "assumptions",
+        "guideReplies[]",
+        "calmingAction",
+        "reflectionQuestion"
+      ]
+    },
+    {
+      "id": "big_decision",
+      "status": "draft_review",
+      "name": {
+        "vi": "Hội đồng quyết định lớn",
+        "en": "Big Decision Board"
+      },
+      "useCase": {
+        "vi": "Khi người dùng đứng trước một lựa chọn quan trọng và muốn nghe nhiều lăng kính.",
+        "en": "Important choices where the user wants multiple lenses."
+      },
+      "situationTags": [
+        "decision",
+        "values",
+        "tradeoffs"
+      ],
+      "meetingMode": "structured_debate",
+      "maxGuides": 3,
+      "synthesisMode": "balanced_tradeoff",
+      "roster": [
+        {
+          "personaSlug": "aristotle",
+          "role": "values_chair",
+          "purpose": {
+            "vi": "Đánh giá lựa chọn qua giá trị, hệ quả và thực hành.",
+            "en": "Evaluate the choice through values, consequence, and practice."
+          }
+        },
+        {
+          "personaSlug": "communication-mentor",
+          "role": "stakeholder_lens",
+          "purpose": {
+            "vi": "Xem xét cuộc trò chuyện, ranh giới và những người liên quan.",
+            "en": "Consider conversations, boundaries, and people affected."
+          }
+        },
+        {
+          "personaSlug": "laozi",
+          "role": "inner_weather",
+          "purpose": {
+            "vi": "Nhận diện kháng cự, sự cưỡng ép và điều trở nên đơn giản khi yên lại.",
+            "en": "Notice resistance, force, and what becomes simple when quiet."
+          }
+        }
+      ],
+      "flow": {
+        "vi": [
+          "Chair nêu quyết định và hai hướng có thể đi.",
+          "Các guide phản hồi qua giá trị, quan hệ và tín hiệu bên trong.",
+          "Chair tổng hợp những điều người dùng cần biết thêm trước khi hành động."
+        ],
+        "en": [
+          "Chair states the decision and two plausible paths.",
+          "Guides respond with values, relationships, and inner-signal lenses.",
+          "Chair summarizes where the user needs more information before acting."
+        ]
+      },
+      "outputContract": [
+        "roundId",
+        "choiceFrame",
+        "guideReplies[]",
+        "unknowns",
+        "nextQuestion"
+      ]
+    }
+  ]
+}

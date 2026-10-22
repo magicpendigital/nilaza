@@ -1,0 +1,50 @@
+{
+  "projectRef": "akgrokwnkfqnfjqrildi",
+  "checkedAt": "2026-09-26",
+  "status": "blocked_pending_reconciliation",
+  "localOnly": [],
+  "remoteOnly": [
+    "20260925160325"
+  ],
+  "requiredBeforeDatabaseWrite": [
+    "Resolve foreign MCY investigation: recovering source is forensic preservation, not approval to import into desired Nilaza baseline.",
+    "Keep db push and migration repair blocked; matching timestamps alone does not clear foreign-schema or intended-project gates.",
+    "Database owner must approve intended target, desired Nilaza schema, exact clean-QA or scoped isolation/cleanup forward path, retention, backup and rollback.",
+    "After approved execution, verify target identity, provenance/history, object/dependency/grant/policy inventory and account-isolation plus app/Admin acceptance before reconciliation."
+  ],
+  "notes": "On 2026-09-26 the database owner approved staging-only application of the reviewed AI Studio migration. Supabase applied it as 20260926152118_ai_studio_operations, and the matching local SQL file uses that version. Remote history also contains 20260925160325_initial_mcy_schema, absent locally; its recorded SQL is a separate yoga/editorial schema and was verified not to touch model routes, prompts, traces, or admin audit objects. Keep migration push/repair blocked until that remote-only source is restored and reviewed.",
+  "notesHistoricalAsOf20260926": true,
+  "investigation20261001": {
+    "checkedAt": "2026-10-01",
+    "mode": "read_only_metadata_review",
+    "source": "Root read-only project/migration metadata; historical sources reviewed by security child",
+    "linkedProject": {
+      "name": "Nilaza Staging QA",
+      "projectRef": "akgrokwnkfqnfjqrildi"
+    },
+    "distinctMcyProjectRef": "mhumbczqrzutdnraafhs",
+    "remoteMigrationVersion": "20260925160325",
+    "foreignScope": "yoga/editorial MCY schema confirmed in Nilaza QA history",
+    "actor": "unknown",
+    "statementCount": 1,
+    "hasRecordedAuthor": true,
+    "authorIdentityAccessed": false,
+    "sqlMd5": "5ec18dcb5750592357022e31e4f1b9b9",
+    "observedCreatedTablesSample": [
+      "public.teachers",
+      "public.courses",
+      "public.practice_runs",
+      "public.profiles",
+      "public.user_consents",
+      "editorial_*"
+    ],
+    "sampleIsExhaustive": false,
+    "desiredBaselineDecision": "Never import MCY into executable Nilaza baseline merely to match history; preserve recovered source separately as forensic evidence.",
+    "preferredForwardPath": "Clean owner-approved Nilaza QA from reviewed sources, preserving current evidence; no create/retarget/apply authorization.",
+    "alternativeForwardPath": "Inventory-led isolation/cleanup with exact reviewed SQL, dependency/backup/rollback and owner approval.",
+    "fullRemoteComparisonPerformedByChild": false,
+    "databaseWritePerformed": false,
+    "projectRetargetPerformed": false,
+    "handoff": "docs/mvp-remediation/2026-10-01/R02-migration-forward-path.vi.md"
+  }
+}

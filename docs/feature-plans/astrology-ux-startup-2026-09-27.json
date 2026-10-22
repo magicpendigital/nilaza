@@ -1,0 +1,244 @@
+{
+  "schemaVersion": 1,
+  "taskId": "astrology-ux-startup-2026-09-27",
+  "ownerAgent": "nilaza-project-owner-agent",
+  "lane": "cross_cutting_mobile_design_content_safety",
+  "goal": "Implement the reviewed Astrology UX updates and package them as a new internal Android QA build without changing chart calculation, schema, or app data.",
+  "successCriteria": [
+    "A first-time reviewer can find Sun, Moon, Rising, and a house from Chart Story without switching to another tab to discover the controls.",
+    "The zodiac lens card has readable bilingual text at the approved mobile viewport and meets the brand contrast target.",
+    "The Guide composer is visible in its focus/full state, preserves keyboard and safe-area room, and suggested questions change with the selected focus.",
+    "Free users see an honest locked Premium state before consent or submission, while the server remains the final entitlement authority.",
+    "Generic loading no longer replays the welcome brand reveal, and native splash behavior remains safe for offline and session-recovery failure paths.",
+    "Create an internal Android QA APK from current reviewed mobile source, with a distinct version and SHA-256 manifest.",
+    "Install using replacement install only, preserve existing app data, and confirm package version plus successful cold launch.",
+    "The build workaround redirects only Expo Dev Launcher Gradle generated outputs to the workspace cache and leaves dependency sources untouched."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/a2ui/index.tsx",
+    "apps/mobile/src/features/astrology/AstrologyChartStory.tsx",
+    "apps/mobile/src/features/astrology/AstrologyAiGuidePanel.tsx",
+    "apps/mobile/src/features/astrology/AstrologySignGuide.tsx",
+    "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+    "apps/mobile/src/features/astrology/astrologyAiInsight.ts",
+    "apps/mobile/src/features/astrology/__tests__/AstrologyChartStory.test.tsx",
+    "apps/mobile/src/features/astrology/__tests__/AstrologyAiGuidePanel.test.tsx",
+    "apps/mobile/src/features/astrology/__tests__/astrologyAiInsight.test.ts",
+    "apps/mobile/app.json",
+    "apps/mobile/android/app/build.gradle",
+    "docs/MOBILE_EAS_TESTING.md",
+    "apps/mobile/android/app/build/outputs/apk/release/app-release.apk",
+    "apps/mobile/android/app/build/outputs/apk/release/app-release.manifest.json",
+    "apps/mobile/android/app/build/outputs/apk/release/output-metadata.json",
+    ".gradle-codex/redirect-expo-plugin-output.gradle"
+  ],
+  "untouchedSurfaces": [
+    "Astrology chart calculation, timezone and birth-data contracts remain unchanged.",
+    "Supabase migrations, Edge Function deployment, provider credentials, payment SKUs, and entitlement tables remain unchanged.",
+    "Admin Content Operations and AI Studio remain unchanged; no raw birth data or journal data is added to telemetry.",
+    "Tarot, Persona, Journal, Profile, public Help, and brand asset source files remain unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Explore or saved Astrology chart opens Chart Story; Guide remains a tab inside the chart sheet and the app startup path remains AccountBoundary to AccountApp.",
+    "dataWrite": "Only transient chart selection and question presentation state change; no new birth-data, journal, AsyncStorage, or database write is introduced.",
+    "backendContract": "The existing Astrology AI request/response contract is consumed more completely for suggested follow-ups; entitlement and quota remain server-owned and no migration or deploy is performed.",
+    "adminVisibility": "No new admin data is exposed; existing AI trace and sanitized report behavior remains the operator view.",
+    "privacySafety": "The Guide continues sending only calculated fact IDs and the current consented question; locked-state messaging prevents a free user from entering consent before entitlement is known.",
+    "observability": "No sensitive analytics are added; existing error and usage paths remain, with local QA focused on startup milestones and chart selection discoverability.",
+    "rollback": "Revert the scoped mobile files; the existing chart, local fallback, locked Guide, and welcome flow remain available. Backend behavior is unchanged."
+  },
+  "canonicalContracts": [
+    "packages/agent-config/astrology-ai-insight/response.schema.json is the canonical Astrology AI response contract.",
+    "apps/mobile/src/features/astrology/astrologyAiInsight.ts is the mobile adapter for that contract.",
+    "The server entitlement check in supabase/functions/ai-astrology-insight remains authoritative."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "calculated_astrology_facts",
+    "current_user_question_after_consent"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Reviewed Nilaza product, privacy, brand, and release guardrails."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "304c5b7217d6dcc7022d84ae665755b0071572ce19bda96b12a4780b0590eae3",
+      "reason": "Reviewed mobile Astrology ownership paths and validation commands."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "d61787c20c01e926e13a2a4d56303ac18a2bbda07b84d8c4c5ac30f6b9712ed2",
+      "reason": "Reviewed Whole-App Impact, security, rollback, and preflight requirements."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "c492e69235bc94267f8de0181822602612a5bbda03dd3d144cf4d6c96ff43197",
+      "reason": "Reviewed contrast, typography, motion, and splash guidance."
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "7a4973733886cb4f1568d38e6d8324d1d8200bb1acd850db486bf5323943f023",
+      "reason": "Reviewed mobile layout and Astrology report direction."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Reviewed Astrology user stories and free report expectations."
+    },
+    {
+      "path": "docs/ASTROLOGY_UNIFIED_STORY_UX_DECISION_2026-09-22.vi.md",
+      "sha256": "fc3aa96f441a2709a523430021c276703c75da41af39dcec06b514cfa6d4005b",
+      "reason": "Reviewed approved Chart Story sheet model and known audit gaps."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "117df3e87b78eeda11ae2d7835369fa7a3c3846e6f8fb61e7e00fd82d676eee6",
+      "reason": "Reviewed startup gates and current Astrology AI client capability wiring."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/AstrologyChartStory.tsx",
+      "sha256": "daab1ec74f61779215630576ac2622a436b4ee992d323a4bd74e12842e843b7b",
+      "reason": "Reviewed sheet levels, selection controls, tabs, and story rendering."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/AstrologyAiGuidePanel.tsx",
+      "sha256": "afcc446f782df9e0bca7f663a31030089cc33422352e65eeff9f4b024c7a35c6",
+      "reason": "Reviewed composer, fixed prompts, evidence rail, and locked state."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/AstrologySignGuide.tsx",
+      "sha256": "f514a1e6d1cf95e373cd35c913922e01e07e0fbbf9c59a482c16863efc5797f0",
+      "reason": "Reviewed the chart-mode lens colors and content structure."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+      "sha256": "071121157f922aa56d477e89cf1d512ed8be9c732b051a55d92371d950c673c1",
+      "reason": "Reviewed AI state, consent boundary, entitlement gate, and error mapping."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/astrologyAiInsight.ts",
+      "sha256": "059faa7afe604126c103114d5c03325ec295f6eb3f76f7e8922d61833ccb58e9",
+      "reason": "Reviewed the canonical mobile AI adapter and response flattening."
+    },
+    {
+      "path": "apps/mobile/src/a2ui/index.tsx",
+      "sha256": "544b4b6e6dc2a5b28d0396edf9a715b9d3e7b3f580b65024ddc959c6ad4b890f",
+      "reason": "Reviewed generic RitualLoading brand animation behavior."
+    },
+    {
+      "path": "apps/mobile/app.json",
+      "sha256": "8266103bf0c9f18227ac4b0f27fad4d16d5d9652f88b1d59e67a2186415b0fac",
+      "reason": "Reviewed app and platform versions for an identifiable, data-preserving internal update."
+    },
+    {
+      "path": "apps/mobile/android/app/build.gradle",
+      "sha256": "07467a232432fb0f6fdc2218513c9d5eaf05c85575e272e14cee3fad5c6c927f",
+      "reason": "Reviewed the Android release variant, package id, version and shared debug signing identity."
+    },
+    {
+      "path": "apps/mobile/android/gradle.properties",
+      "sha256": "f429a884d09fdd2bbb2a653cbe7726b7d456b8385c1eaf441dbddad51f1f0534",
+      "reason": "Verified New Architecture remains enabled for React Native and Reanimated."
+    },
+    {
+      "path": "apps/mobile/eas.json",
+      "sha256": "819480fff0d2235474b87fe58231e94b7da582c0f380dc55a1edfdf28b8d692b",
+      "reason": "Confirmed local QA install is separate from EAS preview and production distribution."
+    },
+    {
+      "path": "docs/MOBILE_EAS_TESTING.md",
+      "sha256": "615ba8a9cf7cc348be1fc8497fa1d04729dab5c8060724a476f06493f213cfda",
+      "reason": "Reviewed the local Android QA build and data-preserving update procedure."
+    },
+    {
+      "path": ".gradle-codex/redirect-expo-plugin-output.gradle",
+      "sha256": "980c4dd51690040c0bbd1ea131d65102f47f257b9b4f8a452be7d8826e51c55e",
+      "reason": "Reviewed narrowly scoped Gradle init script that redirects only Expo Dev Launcher generated output away from the access-denied node_modules cache."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Current skill was read and applied for this cross-cutting mobile/UI/AI review."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Current WCAG contrast and Apple/Google subscription guidance were checked on 2026-09-27; no package or runtime dependency change is planned."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://www.w3.org/TR/wcag/",
+      "checkedAt": "2026-09-27",
+      "reason": "Confirm the 4.5:1 minimum contrast target used for the chart lens."
+    },
+    {
+      "url": "https://developer.apple.com/app-store/subscriptions/",
+      "checkedAt": "2026-09-27",
+      "reason": "Confirm recurring subscription value expectations for the Premium recommendation."
+    },
+    {
+      "url": "https://support.google.com/googleplay/android-developer/answer/9900533?hl=en",
+      "checkedAt": "2026-09-27",
+      "reason": "Confirm sustained value and truthful subscription messaging expectations."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No auth or RLS code is changed; the client lock is only a UX guard and the server entitlement check remains authoritative.",
+    "sensitiveData": "Birth details, coordinates, journal, chat history, and raw account identifiers stay outside the new UI state and request payload.",
+    "secretsLogging": "No credentials, provider keys, or raw personal content are added to code, logs, or the plan.",
+    "externalInput": "User questions remain sanitized and consent-gated by the existing adapter; suggested labels are rendered as text only.",
+    "dependencies": "No dependency version or source changes. A Gradle init script redirects only Expo Dev Launcher generated outputs to the workspace cache, and Kotlin compilation runs in-process to avoid daemon session writes under the restricted dependency directory.",
+    "migrationRelease": "No migration, database push, Edge Function deploy, payment release, or store release is performed. The local Android release APK is debug-signed for internal QA and is installed with adb install -r only; never uninstall or clear app data.",
+    "stopCondition": "Stop if the mobile check, targeted tests, preflight, or device review shows a regression in account isolation, consent, or chart selection.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/a2ui/index.tsx",
+      "apps/mobile/src/features/astrology/AstrologyAiGuidePanel.tsx",
+      "apps/mobile/src/features/astrology/AstrologyChartStory.tsx",
+      "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+      "apps/mobile/src/features/astrology/AstrologySignGuide.tsx",
+      "apps/mobile/src/features/astrology/astrologyAiInsight.ts",
+      "apps/mobile/src/features/astrology/__tests__/AstrologyAiGuidePanel.test.tsx",
+      "apps/mobile/src/features/astrology/__tests__/AstrologyChartStory.test.tsx",
+      "apps/mobile/src/features/astrology/__tests__/astrologyAiInsight.test.ts",
+      "apps/mobile/app.json",
+      "apps/mobile/android/app/build.gradle",
+      "docs/MOBILE_EAS_TESTING.md",
+      ".gradle-codex/redirect-expo-plugin-output.gradle"
+    ],
+    "note": "These mobile and Astrology paths already contain owner-supplied uncommitted A3/A4 work; the implementation is constrained to the reviewed files and preserves unrelated changes. A prior native build hit an access-denied Gradle-generated output under node_modules; the retry writes that output to the task-local cache. The init script was reviewed and only redirects one dependency Gradle output into the workspace cache."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/astrology-ux-startup-2026-09-27.json",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand apps/mobile/src/features/astrology/__tests__/AstrologyChartStory.test.tsx apps/mobile/src/features/astrology/__tests__/AstrologyAiGuidePanel.test.tsx apps/mobile/src/features/astrology/__tests__/astrologyAiInsight.test.ts",
+    "npm run validate:data",
+    "npm run validate:visual-assets",
+    "Manual Android path: cold start → Explore → Astrology → open saved chart → find Moon, Rising, House 7 → open Guide → verify locked Free state and composer visibility.",
+    "Manual Android path: warm reopen and offline/session-recovery smoke check without clearing account data.",
+    "npm run mobile:release:config:check",
+    "Gradle :app:assembleRelease for arm64-v8a using the workspace-local Gradle caches",
+    "npm run mobile:release:manifest",
+    "adb install -r apps/mobile/android/app/build/outputs/apk/release/app-release.apk",
+    "adb shell dumpsys package app.nilaza.mobile (verify installed versionName/versionCode)",
+    "adb shell monkey -p app.nilaza.mobile 1 (cold-launch smoke check)",
+    "Gradle --init-script .gradle-codex/redirect-expo-plugin-output.gradle :app:assembleRelease",
+    "Gradle Kotlin compiler uses in-process execution to avoid writing daemon session files under node_modules"
+  ],
+  "managerTestPath": "On the connected Air1 Ultra, confirm app version 0.1.3/build 4 and cold launch. Then open Astrology from Explore, create or open a chart, use the visible story selector to read Moon/Rising/House 7, inspect the readable zodiac lens, open Guide and verify the question field stays visible above the keyboard and Free users see Premium status before consent. Do not send a new AI request unless the user reviews and accepts fresh in-app consent.",
+  "residualRisk": "Native splash P95 across offline, expired-session, and low-end devices still needs a release-build matrix; this APK remains internal QA signed with the debug key and Mobile Quality CI has not run on a pushed commit. AI success and quota retrieval remain backend/staging gates; this install does not send an AI request.",
+  "externalActions": {
+    "databaseWrite": false,
+    "androidDeviceInstall": true,
+    "productionRelease": false
+  }
+}

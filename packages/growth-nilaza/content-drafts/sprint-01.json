@@ -1,0 +1,1211 @@
+{
+  "schemaVersion": "1.0.0",
+  "tenantId": "nilaza",
+  "sprintId": "marketing-ai-sprint-01",
+  "status": "internal_draft_library",
+  "artifactKind": "concept_copy_library",
+  "assetPackages": [
+    {
+      "id": "A01_open_question_static",
+      "tenantId": "nilaza",
+      "briefId": "B01_open_question",
+      "version": "1.0.0",
+      "artifactKind": "concept_copy_package",
+      "status": "draft_internal",
+      "lifecycleState": "draft_internal",
+      "format": "static",
+      "claimRefs": [
+        "nilaza_space_for_reflection"
+      ],
+      "copy": {
+        "vi": {
+          "headline": "Có một câu hỏi vẫn ở lại cùng bạn?",
+          "body": "Hãy thử ba bước: gọi tên điều đang ở lại, nhận ra điều mình đang giả định, rồi chọn một bước nhỏ vừa đủ.",
+          "caption": "Không phải mọi câu hỏi đều cần một đáp án ngay. Ba bước ngắn có thể tạo khoảng mở để nhìn kỹ hơn trước khi bạn chọn điều tiếp theo.",
+          "cta": "Tham gia danh sách chờ",
+          "altText": "Nền charcoal có biểu tượng Open Reflection màu ivory và câu hỏi ngắn bằng tiếng Việt."
+        },
+        "en": {
+          "headline": "What question is still with you?",
+          "body": "Try three steps: name what is still with you, notice an assumption, then choose one small step that feels enough.",
+          "caption": "Not every question needs an immediate answer. Three short steps can make room to look more closely before you choose what comes next.",
+          "cta": "Join the waitlist",
+          "altText": "Charcoal background with the ivory Open Reflection symbol and a short question in English."
+        }
+      },
+      "visualBrief": {
+        "source": "Open Reflection v1 roles only",
+        "reference": "packages/content/data/brand-identity.json",
+        "rightsStatus": "approved_brand_reference",
+        "provenanceStatus": "draft_not_public",
+        "accessibility": {
+          "altTextProvided": true,
+          "smallTextContrastReviewRequired": true
+        }
+      },
+      "destination": {
+        "id": "nilaza_waitlist",
+        "status": "collection_only"
+      },
+      "measurement": {
+        "hypothesis": "A specific reflective question can earn more qualified waitlist interest than generic chatbot language.",
+        "primaryMetric": "waitlist_cta_click",
+        "denominator": "eligible landing viewers by approved source/content tag",
+        "guardrails": [
+          "claim_hard_fail",
+          "destination_mismatch",
+          "privacy_incident"
+        ]
+      },
+      "productionRecord": {
+        "skillVersion": "growth-agent-catalog-1.0.0",
+        "source": "internal_sprint_seed",
+        "modelVersion": "not-applicable-authored-seed",
+        "timeEstimateMinutes": 15,
+        "costUsd": 0,
+        "costStatus": "seed_estimate"
+      },
+      "qa": {
+        "automatedVerdict": "pass",
+        "independentQaStatus": "human_review_required",
+        "hardFailureCodes": [],
+        "softScores": {
+          "jtbd_audience_relevance": 4,
+          "specific_differentiated_value": 3,
+          "proof_claim_precision": 4,
+          "brand_bilingual_editorial_quality": 4,
+          "clarity_cta_destination_fit": 4,
+          "platform_visual_accessibility_fit": 3,
+          "trust_emotional_safety": 4,
+          "experiment_measurement_quality": 3,
+          "operational_traceability_reuse": 4
+        },
+        "reviewerRole": "independent_review_pending",
+        "repairCycles": 0,
+        "scoreStatus": "historical_seed_scores_not_independently_revalidated",
+        "reviewReason": "Historical self-reported seed QA only; no independent review bound to a rendered artifact hash has been recorded."
+      },
+      "approval": {
+        "status": "not_submitted",
+        "artifactHash": null,
+        "targetChannel": null,
+        "expiry": null
+      },
+      "externalReadiness": {
+        "status": "blocked",
+        "blockingGates": [
+          "G-M4",
+          "owner_channel_approval"
+        ]
+      }
+    },
+    {
+      "id": "A02_open_question_carousel",
+      "tenantId": "nilaza",
+      "briefId": "B01_open_question",
+      "version": "1.0.0",
+      "artifactKind": "concept_copy_package",
+      "status": "draft_internal",
+      "lifecycleState": "draft_internal",
+      "format": "carousel",
+      "claimRefs": [
+        "nilaza_space_for_reflection"
+      ],
+      "copy": {
+        "vi": {
+          "headline": "Một câu hỏi, ba bước nhỏ cho tối nay",
+          "body": "1. Điều gì đang chiếm nhiều chỗ trong mình? 2. Mình đang giả định điều gì? 3. Một bước nhỏ nào là vừa đủ?",
+          "caption": "Đây là một nghi thức ba bước: gọi tên điều đang chiếm chỗ, nhìn lại điều mình đang giả định, rồi chọn một bước nhỏ vừa đủ.",
+          "cta": "Tham gia danh sách chờ",
+          "altText": "Ba thẻ nền tối lần lượt nêu ba câu hỏi phản chiếu ngắn."
+        },
+        "en": {
+          "headline": "One question, three small steps for tonight",
+          "body": "1. What is taking up the most space in me right now? 2. What am I assuming? 3. What small step feels enough?",
+          "caption": "This is a three-step ritual: name what is taking up room, notice an assumption, then choose one small step that feels enough.",
+          "cta": "Join the waitlist",
+          "altText": "Three dark cards presenting three short reflection questions."
+        }
+      },
+      "visualBrief": {
+        "source": "Open Reflection v1 roles only",
+        "reference": "packages/content/data/brand-identity.json",
+        "rightsStatus": "approved_brand_reference",
+        "provenanceStatus": "draft_not_public",
+        "accessibility": {
+          "altTextProvided": true,
+          "slideOrderLabeled": true
+        }
+      },
+      "destination": {
+        "id": "nilaza_waitlist",
+        "status": "collection_only"
+      },
+      "measurement": {
+        "hypothesis": "A usable three-question ritual can make the value proposition clearer than a single abstract statement.",
+        "primaryMetric": "waitlist_cta_click",
+        "denominator": "eligible carousel viewers by approved source/content tag",
+        "guardrails": [
+          "claim_hard_fail",
+          "accessibility_failure",
+          "privacy_incident"
+        ]
+      },
+      "productionRecord": {
+        "skillVersion": "growth-agent-catalog-1.0.0",
+        "source": "internal_sprint_seed",
+        "modelVersion": "not-applicable-authored-seed",
+        "timeEstimateMinutes": 20,
+        "costUsd": 0,
+        "costStatus": "seed_estimate"
+      },
+      "qa": {
+        "automatedVerdict": "pass",
+        "independentQaStatus": "human_review_required",
+        "hardFailureCodes": [],
+        "softScores": {
+          "jtbd_audience_relevance": 4,
+          "specific_differentiated_value": 4,
+          "proof_claim_precision": 4,
+          "brand_bilingual_editorial_quality": 4,
+          "clarity_cta_destination_fit": 4,
+          "platform_visual_accessibility_fit": 3,
+          "trust_emotional_safety": 4,
+          "experiment_measurement_quality": 3,
+          "operational_traceability_reuse": 4
+        },
+        "reviewerRole": "independent_review_pending",
+        "repairCycles": 0,
+        "scoreStatus": "historical_seed_scores_not_independently_revalidated",
+        "reviewReason": "Historical self-reported seed QA only; no independent review bound to a rendered artifact hash has been recorded."
+      },
+      "approval": {
+        "status": "not_submitted",
+        "artifactHash": null,
+        "targetChannel": null,
+        "expiry": null
+      },
+      "externalReadiness": {
+        "status": "blocked",
+        "blockingGates": [
+          "G-M4",
+          "owner_channel_approval"
+        ]
+      }
+    },
+    {
+      "id": "A03_daily_pause_static",
+      "tenantId": "nilaza",
+      "briefId": "B02_daily_pause",
+      "version": "1.0.0",
+      "artifactKind": "concept_copy_package",
+      "status": "draft_internal",
+      "lifecycleState": "draft_internal",
+      "format": "static",
+      "claimRefs": [
+        "nilaza_space_for_reflection"
+      ],
+      "copy": {
+        "vi": {
+          "headline": "Trước khi trả lời vội, hãy dừng lại một chút.",
+          "body": "Dừng. Gọi tên điều đang diễn ra. Hỏi xem mình cần điều gì trước khi trả lời.",
+          "caption": "Một phút phản chiếu không thay bạn quyết định. Ba nhịp ngắn giúp bạn nghe rõ hơn điều mình đang muốn nói, trước khi nói ra.",
+          "cta": "Tham gia danh sách chờ",
+          "altText": "Nền teal đậm với một nhịp sáng gold nhỏ và câu hỏi phản chiếu."
+        },
+        "en": {
+          "headline": "Before answering quickly, pause for a moment.",
+          "body": "Pause. Name what is happening. Ask what you need before you respond.",
+          "caption": "A minute of reflection does not make a decision for you. Three short beats can help you hear what you want to say before you say it.",
+          "cta": "Join the waitlist",
+          "altText": "Deep teal background with a small gold point of light and a reflection question."
+        }
+      },
+      "visualBrief": {
+        "source": "Open Reflection v1 roles only",
+        "reference": "packages/content/data/brand-identity.json",
+        "rightsStatus": "approved_brand_reference",
+        "provenanceStatus": "draft_not_public",
+        "accessibility": {
+          "altTextProvided": true,
+          "motion": "none"
+        }
+      },
+      "destination": {
+        "id": "nilaza_waitlist",
+        "status": "collection_only"
+      },
+      "measurement": {
+        "hypothesis": "A relational pause can feel useful without diagnosing a relationship or exploiting vulnerability.",
+        "primaryMetric": "waitlist_cta_click",
+        "denominator": "eligible static viewers by approved source/content tag",
+        "guardrails": [
+          "emotional_safety",
+          "claim_hard_fail",
+          "privacy_incident"
+        ]
+      },
+      "productionRecord": {
+        "skillVersion": "growth-agent-catalog-1.0.0",
+        "source": "internal_sprint_seed",
+        "modelVersion": "not-applicable-authored-seed",
+        "timeEstimateMinutes": 15,
+        "costUsd": 0,
+        "costStatus": "seed_estimate"
+      },
+      "qa": {
+        "automatedVerdict": "pass",
+        "independentQaStatus": "human_review_required",
+        "hardFailureCodes": [],
+        "softScores": {
+          "jtbd_audience_relevance": 4,
+          "specific_differentiated_value": 3,
+          "proof_claim_precision": 4,
+          "brand_bilingual_editorial_quality": 4,
+          "clarity_cta_destination_fit": 4,
+          "platform_visual_accessibility_fit": 3,
+          "trust_emotional_safety": 4,
+          "experiment_measurement_quality": 3,
+          "operational_traceability_reuse": 4
+        },
+        "reviewerRole": "independent_review_pending",
+        "repairCycles": 0,
+        "scoreStatus": "historical_seed_scores_not_independently_revalidated",
+        "reviewReason": "Historical self-reported seed QA only; no independent review bound to a rendered artifact hash has been recorded."
+      },
+      "approval": {
+        "status": "not_submitted",
+        "artifactHash": null,
+        "targetChannel": null,
+        "expiry": null
+      },
+      "externalReadiness": {
+        "status": "blocked",
+        "blockingGates": [
+          "G-M4",
+          "owner_channel_approval"
+        ]
+      }
+    },
+    {
+      "id": "A04_daily_pause_short_video",
+      "tenantId": "nilaza",
+      "briefId": "B02_daily_pause",
+      "version": "1.0.0",
+      "artifactKind": "concept_copy_package",
+      "status": "draft_internal",
+      "lifecycleState": "draft_internal",
+      "format": "short_video",
+      "claimRefs": [
+        "nilaza_space_for_reflection"
+      ],
+      "copy": {
+        "vi": {
+          "headline": "Ba nhịp để quay về với mình",
+          "body": "Dừng. Gọi tên điều đang diễn ra. Hỏi xem một bước nhỏ nào là vừa đủ cho lúc này.",
+          "caption": "Không cần một phiên bản hoàn hảo của bạn để bắt đầu. Chỉ cần ba nhịp ngắn để nhận ra điều gì đang cần được lắng nghe.",
+          "cta": "Tham gia danh sách chờ",
+          "altText": "Video ngắn ba cảnh chữ lớn: Dừng, Gọi tên, Chọn một bước nhỏ."
+        },
+        "en": {
+          "headline": "Three beats to return to yourself",
+          "body": "Pause. Name what is happening. Ask which small step feels enough for now.",
+          "caption": "You do not need a perfect version of yourself to begin. You only need three short beats to notice what needs your attention.",
+          "cta": "Join the waitlist",
+          "altText": "Short video with three large text scenes: Pause, Name it, Choose one small step."
+        }
+      },
+      "visualBrief": {
+        "source": "Open Reflection v1 roles only",
+        "reference": "packages/content/data/brand-identity.json",
+        "rightsStatus": "approved_brand_reference",
+        "provenanceStatus": "draft_not_public",
+        "durationSecondsMax": 18,
+        "storyboard": [
+          {
+            "scene": 1,
+            "durationSeconds": 5,
+            "onScreenText": {
+              "vi": "Dừng",
+              "en": "Pause"
+            }
+          },
+          {
+            "scene": 2,
+            "durationSeconds": 7,
+            "onScreenText": {
+              "vi": "Gọi tên điều đang diễn ra",
+              "en": "Name what is happening"
+            }
+          },
+          {
+            "scene": 3,
+            "durationSeconds": 6,
+            "onScreenText": {
+              "vi": "Chọn một bước nhỏ vừa đủ",
+              "en": "Choose one small step that feels enough"
+            }
+          }
+        ],
+        "captionTranscript": {
+          "vi": "Dừng. Gọi tên điều đang diễn ra. Hỏi xem một bước nhỏ nào là vừa đủ cho lúc này.",
+          "en": "Pause. Name what is happening. Ask which small step feels enough for now."
+        },
+        "accessibility": {
+          "altTextProvided": true,
+          "captionsRequired": true,
+          "reduceMotionAlternativeRequired": true
+        }
+      },
+      "destination": {
+        "id": "nilaza_waitlist",
+        "status": "collection_only"
+      },
+      "measurement": {
+        "hypothesis": "A three-step micro-ritual can make Nilaza's reflection tone memorable without promising a therapeutic outcome.",
+        "primaryMetric": "waitlist_cta_click",
+        "denominator": "eligible completed-video viewers by approved source/content tag",
+        "guardrails": [
+          "emotional_safety",
+          "accessibility_failure",
+          "claim_hard_fail"
+        ]
+      },
+      "productionRecord": {
+        "skillVersion": "growth-agent-catalog-1.0.0",
+        "source": "internal_sprint_seed",
+        "modelVersion": "not-applicable-authored-seed",
+        "timeEstimateMinutes": 25,
+        "costUsd": 0,
+        "costStatus": "seed_estimate"
+      },
+      "qa": {
+        "automatedVerdict": "pass",
+        "independentQaStatus": "human_review_required",
+        "hardFailureCodes": [],
+        "softScores": {
+          "jtbd_audience_relevance": 4,
+          "specific_differentiated_value": 4,
+          "proof_claim_precision": 4,
+          "brand_bilingual_editorial_quality": 4,
+          "clarity_cta_destination_fit": 4,
+          "platform_visual_accessibility_fit": 3,
+          "trust_emotional_safety": 4,
+          "experiment_measurement_quality": 3,
+          "operational_traceability_reuse": 4
+        },
+        "reviewerRole": "independent_review_pending",
+        "repairCycles": 0,
+        "scoreStatus": "historical_seed_scores_not_independently_revalidated",
+        "reviewReason": "Historical self-reported seed QA only; no independent review bound to a rendered artifact hash has been recorded."
+      },
+      "approval": {
+        "status": "not_submitted",
+        "artifactHash": null,
+        "targetChannel": null,
+        "expiry": null
+      },
+      "externalReadiness": {
+        "status": "blocked",
+        "blockingGates": [
+          "G-M4",
+          "owner_channel_approval"
+        ]
+      }
+    },
+    {
+      "id": "A05_tarot_reflection_static",
+      "tenantId": "nilaza",
+      "briefId": "B03_tarot_reflection",
+      "version": "1.0.0",
+      "artifactKind": "concept_copy_package",
+      "status": "draft_internal",
+      "lifecycleState": "draft_internal",
+      "format": "static",
+      "claimRefs": [
+        "nilaza_tarot_as_reflection"
+      ],
+      "copy": {
+        "vi": {
+          "headline": "Nếu một lá bài chỉ được phép hỏi bạn một điều?",
+          "body": "Có điều gì mình đang né khi nhìn vào tình huống này?",
+          "caption": "Tarot không thay bạn quyết định và không hứa trước điều gì sẽ xảy ra. Trong Nilaza, nó được thử nghiệm như một điểm khởi đầu cho cuộc trò chuyện thành thật hơn với chính mình.",
+          "cta": "Đăng ký trải nghiệm beta",
+          "altText": "Minh họa một lá Tarot úp trên nền tối, kèm câu hỏi phản chiếu."
+        },
+        "en": {
+          "headline": "If one card could ask you only one thing?",
+          "body": "What might I be avoiding as I look at this situation?",
+          "caption": "Tarot does not decide for you or promise what will happen. In Nilaza, it is being tested as a starting point for a more honest conversation with yourself.",
+          "cta": "Register for the beta",
+          "altText": "Illustration of a face-down Tarot card on a dark background with a reflection question."
+        }
+      },
+      "visualBrief": {
+        "source": "Tarot surface reference only; no public card artwork selected",
+        "reference": "docs/TAROT_CONTENT_SYSTEM.md",
+        "rightsStatus": "draft_visual_direction_only",
+        "provenanceStatus": "draft_not_public",
+        "accessibility": {
+          "altTextProvided": true,
+          "cardMeaningNotConveyedByColorOnly": true
+        }
+      },
+      "destination": {
+        "id": "closed_core_beta",
+        "status": "not_open"
+      },
+      "measurement": {
+        "hypothesis": "A question-led Tarot explanation can distinguish reflection from prediction for an invited beta cohort.",
+        "primaryMetric": "valuable_activation_rate",
+        "denominator": "eligible invited beta participants",
+        "guardrails": [
+          "deterministic_prediction",
+          "product_gate_G_A2",
+          "privacy_incident"
+        ]
+      },
+      "productionRecord": {
+        "skillVersion": "growth-agent-catalog-1.0.0",
+        "source": "internal_sprint_seed",
+        "modelVersion": "not-applicable-authored-seed",
+        "timeEstimateMinutes": 20,
+        "costUsd": 0,
+        "costStatus": "seed_estimate"
+      },
+      "qa": {
+        "automatedVerdict": "pass",
+        "independentQaStatus": "human_review_required",
+        "hardFailureCodes": [],
+        "softScores": {
+          "jtbd_audience_relevance": 4,
+          "specific_differentiated_value": 4,
+          "proof_claim_precision": 4,
+          "brand_bilingual_editorial_quality": 4,
+          "clarity_cta_destination_fit": 3,
+          "platform_visual_accessibility_fit": 3,
+          "trust_emotional_safety": 4,
+          "experiment_measurement_quality": 4,
+          "operational_traceability_reuse": 4
+        },
+        "reviewerRole": "independent_review_pending",
+        "repairCycles": 0,
+        "scoreStatus": "historical_seed_scores_not_independently_revalidated",
+        "reviewReason": "2026-09-30 source/evidence context changed. Historical seed scores are not current independent QA; review the concept, claim and actual creative before approval."
+      },
+      "approval": {
+        "status": "not_submitted",
+        "artifactHash": null,
+        "targetChannel": null,
+        "expiry": null
+      },
+      "externalReadiness": {
+        "status": "blocked",
+        "blockingGates": [
+          "G-A2",
+          "G-M3",
+          "G-M4"
+        ]
+      }
+    },
+    {
+      "id": "A06_tarot_reflection_carousel",
+      "tenantId": "nilaza",
+      "briefId": "B03_tarot_reflection",
+      "version": "1.0.0",
+      "artifactKind": "concept_copy_package",
+      "status": "draft_internal",
+      "lifecycleState": "draft_internal",
+      "format": "carousel",
+      "claimRefs": [
+        "nilaza_tarot_as_reflection"
+      ],
+      "copy": {
+        "vi": {
+          "headline": "Ba cách đọc một lá bài mà không giao quyền quyết định cho nó",
+          "body": "1. Điều gì đang hiện rõ? 2. Điều gì mình cần nhìn từ một góc khác? 3. Bước nhỏ nào thuộc quyền chọn của mình?",
+          "caption": "Một lá bài có thể là biểu tượng để bạn dừng lại, không phải bản án cho ngày mai. Đây là cách Nilaza đang thử nghiệm Tarot trong beta kín.",
+          "cta": "Đăng ký trải nghiệm beta",
+          "altText": "Ba slide minh họa ba câu hỏi đọc Tarot theo hướng phản chiếu."
+        },
+        "en": {
+          "headline": "Three ways to read a card without handing it your decisions",
+          "body": "1. What is becoming visible? 2. What needs another angle? 3. What small step remains mine to choose?",
+          "caption": "A card can be a symbol that helps you pause, not a verdict on tomorrow. This is how Nilaza is testing Tarot in a closed beta.",
+          "cta": "Register for the beta",
+          "altText": "Three slides illustrating three reflective Tarot-reading questions."
+        }
+      },
+      "visualBrief": {
+        "source": "Tarot surface reference only; no public card artwork selected",
+        "reference": "docs/TAROT_CONTENT_SYSTEM.md",
+        "rightsStatus": "draft_visual_direction_only",
+        "provenanceStatus": "draft_not_public",
+        "accessibility": {
+          "altTextProvided": true,
+          "slideOrderLabeled": true
+        }
+      },
+      "destination": {
+        "id": "closed_core_beta",
+        "status": "not_open"
+      },
+      "measurement": {
+        "hypothesis": "Explaining choice and uncertainty can increase trust more than mystical prediction language in a beta invitation.",
+        "primaryMetric": "valuable_activation_rate",
+        "denominator": "eligible invited beta participants",
+        "guardrails": [
+          "deterministic_prediction",
+          "product_gate_G_A2",
+          "policy_rejection"
+        ]
+      },
+      "productionRecord": {
+        "skillVersion": "growth-agent-catalog-1.0.0",
+        "source": "internal_sprint_seed",
+        "modelVersion": "not-applicable-authored-seed",
+        "timeEstimateMinutes": 25,
+        "costUsd": 0,
+        "costStatus": "seed_estimate"
+      },
+      "qa": {
+        "automatedVerdict": "pass",
+        "independentQaStatus": "human_review_required",
+        "hardFailureCodes": [],
+        "softScores": {
+          "jtbd_audience_relevance": 4,
+          "specific_differentiated_value": 4,
+          "proof_claim_precision": 4,
+          "brand_bilingual_editorial_quality": 4,
+          "clarity_cta_destination_fit": 3,
+          "platform_visual_accessibility_fit": 3,
+          "trust_emotional_safety": 4,
+          "experiment_measurement_quality": 4,
+          "operational_traceability_reuse": 4
+        },
+        "reviewerRole": "independent_review_pending",
+        "repairCycles": 0,
+        "scoreStatus": "historical_seed_scores_not_independently_revalidated",
+        "reviewReason": "2026-09-30 source/evidence context changed. Historical seed scores are not current independent QA; review the concept, claim and actual creative before approval."
+      },
+      "approval": {
+        "status": "not_submitted",
+        "artifactHash": null,
+        "targetChannel": null,
+        "expiry": null
+      },
+      "externalReadiness": {
+        "status": "blocked",
+        "blockingGates": [
+          "G-A2",
+          "G-M3",
+          "G-M4"
+        ]
+      }
+    },
+    {
+      "id": "A07_guided_conversation_static",
+      "tenantId": "nilaza",
+      "briefId": "B04_guided_conversation",
+      "version": "1.0.0",
+      "artifactKind": "concept_copy_package",
+      "status": "draft_internal",
+      "lifecycleState": "draft_internal",
+      "format": "static",
+      "claimRefs": [
+        "nilaza_ai_guides_reflection"
+      ],
+      "copy": {
+        "vi": {
+          "headline": "Đừng chỉ hỏi “Mình nên làm gì?”",
+          "body": "Hãy thử hỏi: “Điều gì mình đang giả định, và bước nào có thể thử trước?”",
+          "caption": "Một cuộc trò chuyện có cấu trúc không chỉ đưa ra một ý tưởng. Nó giúp bạn nhìn thấy giả định, lựa chọn và bước nhỏ tiếp theo. Nilaza đang kiểm chứng trải nghiệm guide AI theo hướng đó.",
+          "cta": "Đăng ký trải nghiệm beta",
+          "altText": "Hai bong bóng hội thoại tối giản chuyển từ câu hỏi chung sang câu hỏi cụ thể hơn."
+        },
+        "en": {
+          "headline": "Do not stop at “What should I do?”",
+          "body": "Try asking: “What am I assuming, and what could I test first?”",
+          "caption": "A structured conversation does more than offer an idea. It can help you see assumptions, options, and one small next step. Nilaza is validating AI guides in that direction.",
+          "cta": "Register for the beta",
+          "altText": "Two minimal chat bubbles moving from a broad question to a more specific one."
+        }
+      },
+      "visualBrief": {
+        "source": "Open Reflection v1 roles only; no real-person portrait",
+        "reference": "docs/BRAND_GUIDELINES.md",
+        "rightsStatus": "approved_brand_reference",
+        "provenanceStatus": "draft_not_public",
+        "accessibility": {
+          "altTextProvided": true,
+          "speakerLabelsRequired": true
+        }
+      },
+      "destination": {
+        "id": "closed_core_beta",
+        "status": "not_open"
+      },
+      "measurement": {
+        "hypothesis": "Method-led guide language can be more credible than a generic 'ask AI anything' promise.",
+        "primaryMetric": "valuable_activation_rate",
+        "denominator": "eligible invited beta participants",
+        "guardrails": [
+          "persona_impersonation",
+          "product_gate_G_A2",
+          "claim_hard_fail"
+        ]
+      },
+      "productionRecord": {
+        "skillVersion": "growth-agent-catalog-1.0.0",
+        "source": "internal_sprint_seed",
+        "modelVersion": "not-applicable-authored-seed",
+        "timeEstimateMinutes": 20,
+        "costUsd": 0,
+        "costStatus": "seed_estimate"
+      },
+      "qa": {
+        "automatedVerdict": "pass",
+        "independentQaStatus": "human_review_required",
+        "hardFailureCodes": [],
+        "softScores": {
+          "jtbd_audience_relevance": 4,
+          "specific_differentiated_value": 4,
+          "proof_claim_precision": 4,
+          "brand_bilingual_editorial_quality": 4,
+          "clarity_cta_destination_fit": 3,
+          "platform_visual_accessibility_fit": 3,
+          "trust_emotional_safety": 4,
+          "experiment_measurement_quality": 4,
+          "operational_traceability_reuse": 4
+        },
+        "reviewerRole": "independent_review_pending",
+        "repairCycles": 0,
+        "scoreStatus": "historical_seed_scores_not_independently_revalidated",
+        "reviewReason": "2026-09-30 source/evidence context changed. Historical seed scores are not current independent QA; review the concept, claim and actual creative before approval."
+      },
+      "approval": {
+        "status": "not_submitted",
+        "artifactHash": null,
+        "targetChannel": null,
+        "expiry": null
+      },
+      "externalReadiness": {
+        "status": "blocked",
+        "blockingGates": [
+          "G-A2",
+          "G-M3",
+          "G-M4"
+        ]
+      }
+    },
+    {
+      "id": "A08_guided_conversation_short_video",
+      "tenantId": "nilaza",
+      "briefId": "B04_guided_conversation",
+      "version": "1.0.0",
+      "artifactKind": "concept_copy_package",
+      "status": "draft_internal",
+      "lifecycleState": "draft_internal",
+      "format": "short_video",
+      "claimRefs": [
+        "nilaza_ai_guides_reflection"
+      ],
+      "copy": {
+        "vi": {
+          "headline": "Một câu hỏi tốt có thể đổi hướng cuộc trò chuyện",
+          "body": "“Mình đang cần điều gì?” → “Điều gì khiến mình tin như vậy?” → “Mình có thể thử gì trong tuần này?”",
+          "caption": "Không có guide nào được quyền quyết định thay bạn. Điều Nilaza đang thử nghiệm là cách một cuộc trò chuyện có cấu trúc có thể giúp bạn tự chọn bước tiếp theo.",
+          "cta": "Đăng ký trải nghiệm beta",
+          "altText": "Video ngắn hiển thị ba câu hỏi nối tiếp trong một cuộc trò chuyện có cấu trúc."
+        },
+        "en": {
+          "headline": "One better question can change a conversation's direction",
+          "body": "“What do I need?” → “What makes me believe that?” → “What could I try this week?”",
+          "caption": "No guide gets to decide for you. Nilaza is testing whether a structured conversation can help you choose your own next step.",
+          "cta": "Register for the beta",
+          "altText": "Short video showing three connected questions in a structured conversation."
+        }
+      },
+      "visualBrief": {
+        "source": "Open Reflection v1 roles only; no real-person portrait",
+        "reference": "docs/BRAND_GUIDELINES.md",
+        "rightsStatus": "approved_brand_reference",
+        "provenanceStatus": "draft_not_public",
+        "durationSecondsMax": 24,
+        "storyboard": [
+          {
+            "scene": 1,
+            "durationSeconds": 7,
+            "onScreenText": {
+              "vi": "Mình đang cần điều gì?",
+              "en": "What do I need?"
+            }
+          },
+          {
+            "scene": 2,
+            "durationSeconds": 9,
+            "onScreenText": {
+              "vi": "Điều gì khiến mình tin như vậy?",
+              "en": "What makes me believe that?"
+            }
+          },
+          {
+            "scene": 3,
+            "durationSeconds": 8,
+            "onScreenText": {
+              "vi": "Mình có thể thử gì trong tuần này?",
+              "en": "What could I try this week?"
+            }
+          }
+        ],
+        "captionTranscript": {
+          "vi": "Mình đang cần điều gì? Điều gì khiến mình tin như vậy? Mình có thể thử gì trong tuần này?",
+          "en": "What do I need? What makes me believe that? What could I try this week?"
+        },
+        "accessibility": {
+          "altTextProvided": true,
+          "captionsRequired": true,
+          "reduceMotionAlternativeRequired": true
+        }
+      },
+      "destination": {
+        "id": "closed_core_beta",
+        "status": "not_open"
+      },
+      "measurement": {
+        "hypothesis": "Showing a method in three beats can make a beta guide offer concrete without claiming expert authority.",
+        "primaryMetric": "valuable_activation_rate",
+        "denominator": "eligible invited beta participants",
+        "guardrails": [
+          "persona_impersonation",
+          "product_gate_G_A2",
+          "accessibility_failure"
+        ]
+      },
+      "productionRecord": {
+        "skillVersion": "growth-agent-catalog-1.0.0",
+        "source": "internal_sprint_seed",
+        "modelVersion": "not-applicable-authored-seed",
+        "timeEstimateMinutes": 25,
+        "costUsd": 0,
+        "costStatus": "seed_estimate"
+      },
+      "qa": {
+        "automatedVerdict": "pass",
+        "independentQaStatus": "human_review_required",
+        "hardFailureCodes": [],
+        "softScores": {
+          "jtbd_audience_relevance": 4,
+          "specific_differentiated_value": 4,
+          "proof_claim_precision": 4,
+          "brand_bilingual_editorial_quality": 4,
+          "clarity_cta_destination_fit": 3,
+          "platform_visual_accessibility_fit": 3,
+          "trust_emotional_safety": 4,
+          "experiment_measurement_quality": 4,
+          "operational_traceability_reuse": 4
+        },
+        "reviewerRole": "independent_review_pending",
+        "repairCycles": 0,
+        "scoreStatus": "historical_seed_scores_not_independently_revalidated",
+        "reviewReason": "2026-09-30 source/evidence context changed. Historical seed scores are not current independent QA; review the concept, claim and actual creative before approval."
+      },
+      "approval": {
+        "status": "not_submitted",
+        "artifactHash": null,
+        "targetChannel": null,
+        "expiry": null
+      },
+      "externalReadiness": {
+        "status": "blocked",
+        "blockingGates": [
+          "G-A2",
+          "G-M3",
+          "G-M4"
+        ]
+      }
+    },
+    {
+      "id": "A09_return_to_note_static",
+      "tenantId": "nilaza",
+      "briefId": "B05_return_to_note",
+      "version": "1.0.0",
+      "artifactKind": "concept_copy_package",
+      "status": "draft_internal",
+      "lifecycleState": "draft_internal",
+      "format": "static",
+      "claimRefs": [
+        "nilaza_journal_revisit_flow"
+      ],
+      "copy": {
+        "vi": {
+          "headline": "Một ghi chú nhỏ cũng có thể là cách giữ lời với mình",
+          "body": "Hôm nay mình nhận ra điều gì? Mình muốn quay lại xem điều gì vào tuần sau?",
+          "caption": "Nilaza đang lên kế hoạch nối một phút phản chiếu với ghi chú và lần quay lại do bạn chọn. Không có lời nhắc nào nên đến khi bạn chưa đồng ý.",
+          "cta": "Theo dõi beta",
+          "altText": "Một mảnh giấy ghi chú ivory trên nền charcoal với hai câu hỏi ngắn."
+        },
+        "en": {
+          "headline": "A small note can be one way to keep a promise to yourself",
+          "body": "What did I notice today? What might I want to revisit next week?",
+          "caption": "Nilaza is planning to connect a reflection moment with a note and a return you choose. No reminder should arrive before you opt in.",
+          "cta": "Follow the beta",
+          "altText": "An ivory note on a charcoal background with two short questions."
+        }
+      },
+      "visualBrief": {
+        "source": "Open Reflection v1 roles only",
+        "reference": "docs/BRAND_GUIDELINES.md",
+        "rightsStatus": "approved_brand_reference",
+        "provenanceStatus": "draft_not_public",
+        "accessibility": {
+          "altTextProvided": true,
+          "smallTextContrastReviewRequired": true
+        }
+      },
+      "destination": {
+        "id": "closed_core_beta",
+        "status": "not_open"
+      },
+      "measurement": {
+        "hypothesis": "Transparent consent language can make a future revisit loop feel trustworthy rather than intrusive.",
+        "primaryMetric": "repeat_value_days_7d",
+        "denominator": "eligible invited beta participants with opted-in reflection follow-up",
+        "guardrails": [
+          "consent_boundary",
+          "product_gate_G_A5",
+          "privacy_incident"
+        ]
+      },
+      "productionRecord": {
+        "skillVersion": "growth-agent-catalog-1.0.0",
+        "source": "internal_sprint_seed",
+        "modelVersion": "not-applicable-authored-seed",
+        "timeEstimateMinutes": 20,
+        "costUsd": 0,
+        "costStatus": "seed_estimate"
+      },
+      "qa": {
+        "automatedVerdict": "pass",
+        "independentQaStatus": "human_review_required",
+        "hardFailureCodes": [],
+        "softScores": {
+          "jtbd_audience_relevance": 4,
+          "specific_differentiated_value": 4,
+          "proof_claim_precision": 4,
+          "brand_bilingual_editorial_quality": 4,
+          "clarity_cta_destination_fit": 3,
+          "platform_visual_accessibility_fit": 3,
+          "trust_emotional_safety": 4,
+          "experiment_measurement_quality": 4,
+          "operational_traceability_reuse": 4
+        },
+        "reviewerRole": "independent_review_pending",
+        "repairCycles": 0,
+        "scoreStatus": "historical_seed_scores_not_independently_revalidated",
+        "reviewReason": "2026-09-30 source/evidence context changed. Historical seed scores are not current independent QA; review the concept, claim and actual creative before approval."
+      },
+      "approval": {
+        "status": "not_submitted",
+        "artifactHash": null,
+        "targetChannel": null,
+        "expiry": null
+      },
+      "externalReadiness": {
+        "status": "blocked",
+        "blockingGates": [
+          "G-A5",
+          "G-M3",
+          "G-M4"
+        ]
+      }
+    },
+    {
+      "id": "A10_return_to_note_carousel",
+      "tenantId": "nilaza",
+      "briefId": "B05_return_to_note",
+      "version": "1.0.0",
+      "artifactKind": "concept_copy_package",
+      "status": "draft_internal",
+      "lifecycleState": "draft_internal",
+      "format": "carousel",
+      "claimRefs": [
+        "nilaza_journal_revisit_flow"
+      ],
+      "copy": {
+        "vi": {
+          "headline": "Một vòng quay lại dịu hơn",
+          "body": "1. Dừng lại. 2. Viết điều bạn muốn nhớ. 3. Chọn nếu và khi nào bạn muốn quay lại.",
+          "caption": "Quay lại với một ghi chú chỉ có ý nghĩa khi điều đó phục vụ bạn. Nilaza đang thiết kế flow này với quyền đồng ý rõ ràng.",
+          "cta": "Theo dõi beta",
+          "altText": "Ba slide trình bày dừng lại, viết ghi chú và chọn thời điểm quay lại."
+        },
+        "en": {
+          "headline": "A gentler return loop",
+          "body": "1. Pause. 2. Write what you want to remember. 3. Choose whether and when to return.",
+          "caption": "Returning to a note matters only when it serves you. Nilaza is designing this flow around clear consent.",
+          "cta": "Follow the beta",
+          "altText": "Three slides presenting pause, write a note, and choose when to return."
+        }
+      },
+      "visualBrief": {
+        "source": "Open Reflection v1 roles only",
+        "reference": "docs/BRAND_GUIDELINES.md",
+        "rightsStatus": "approved_brand_reference",
+        "provenanceStatus": "draft_not_public",
+        "accessibility": {
+          "altTextProvided": true,
+          "slideOrderLabeled": true
+        }
+      },
+      "destination": {
+        "id": "closed_core_beta",
+        "status": "not_open"
+      },
+      "measurement": {
+        "hypothesis": "Letting users choose whether and when to return can provide a more credible retention story than reminder-heavy messaging.",
+        "primaryMetric": "repeat_value_days_7d",
+        "denominator": "eligible invited beta participants with opted-in reflection follow-up",
+        "guardrails": [
+          "consent_boundary",
+          "product_gate_G_A5",
+          "opt_out"
+        ]
+      },
+      "productionRecord": {
+        "skillVersion": "growth-agent-catalog-1.0.0",
+        "source": "internal_sprint_seed",
+        "modelVersion": "not-applicable-authored-seed",
+        "timeEstimateMinutes": 25,
+        "costUsd": 0,
+        "costStatus": "seed_estimate"
+      },
+      "qa": {
+        "automatedVerdict": "pass",
+        "independentQaStatus": "human_review_required",
+        "hardFailureCodes": [],
+        "softScores": {
+          "jtbd_audience_relevance": 4,
+          "specific_differentiated_value": 4,
+          "proof_claim_precision": 4,
+          "brand_bilingual_editorial_quality": 4,
+          "clarity_cta_destination_fit": 3,
+          "platform_visual_accessibility_fit": 3,
+          "trust_emotional_safety": 4,
+          "experiment_measurement_quality": 4,
+          "operational_traceability_reuse": 4
+        },
+        "reviewerRole": "independent_review_pending",
+        "repairCycles": 0,
+        "scoreStatus": "historical_seed_scores_not_independently_revalidated",
+        "reviewReason": "2026-09-30 source/evidence context changed. Historical seed scores are not current independent QA; review the concept, claim and actual creative before approval."
+      },
+      "approval": {
+        "status": "not_submitted",
+        "artifactHash": null,
+        "targetChannel": null,
+        "expiry": null
+      },
+      "externalReadiness": {
+        "status": "blocked",
+        "blockingGates": [
+          "G-A5",
+          "G-M3",
+          "G-M4"
+        ]
+      }
+    },
+    {
+      "id": "A11_astrology_preparation_static",
+      "tenantId": "nilaza",
+      "briefId": "B06_astrology_preparation",
+      "version": "1.1.0",
+      "artifactKind": "concept_copy_package",
+      "status": "draft_internal",
+      "lifecycleState": "draft_internal",
+      "format": "static",
+      "claimRefs": [
+        "nilaza_astrology_in_preparation"
+      ],
+      "copy": {
+        "vi": {
+          "headline": "Một cung hoàng đạo không kể hết câu chuyện của bạn",
+          "body": "Một trải nghiệm bản đồ sao cần nhiều phần để khám phá, không chỉ một nhãn cung Mặt Trời.",
+          "caption": "Nilaza đã tích hợp bản đồ sao cá nhân và thư viện thần thoại để review nội bộ, với QA Android ngày 23/09. Đồng bộ cloud, bản diễn giải AI, iOS và beta công khai còn cần nghiệm thu. Hình minh họa không thay thế dữ liệu tính toán.",
+          "cta": "Tham gia danh sách chờ",
+          "altText": "Một vòng tròn minh họa dữ liệu và một nhãn cung hoàng đạo được phân biệt bằng chú thích."
+        },
+        "en": {
+          "headline": "A zodiac sign does not tell your whole story",
+          "body": "A birth chart has more to explore than a single Sun-sign label.",
+          "caption": "Nilaza has integrated personal birth charts and the mythology library for internal review, with Android QA on September 23. Cloud sync, AI interpretation, iOS and public beta acceptance remain pending. Illustration does not replace calculated data.",
+          "cta": "Join the waitlist",
+          "altText": "A data-circle illustration and a zodiac-sign label separated by explanatory captions."
+        }
+      },
+      "visualBrief": {
+        "source": "Concept for the integrated internal chart and mythology slice; generated illustration is never chart data",
+        "reference": "docs/ASTROLOGY_ANDROID_QA_2026-09-23.vi.md",
+        "rightsStatus": "draft_visual_direction_only",
+        "provenanceStatus": "draft_not_public",
+        "accessibility": {
+          "altTextProvided": true,
+          "dataAndIllustrationVisuallyDistinguished": true
+        }
+      },
+      "destination": {
+        "id": "nilaza_waitlist",
+        "status": "collection_only"
+      },
+      "measurement": {
+        "hypothesis": "Explaining chart versus sign and uncertainty can attract trust without using an unverified accuracy promise.",
+        "primaryMetric": "waitlist_cta_click",
+        "denominator": "eligible education-content viewers by approved source/content tag",
+        "guardrails": [
+          "astrology_accuracy_claim",
+          "product_gate_G_A3_G_A4",
+          "privacy_incident"
+        ]
+      },
+      "productionRecord": {
+        "skillVersion": "growth-agent-catalog-1.0.0",
+        "source": "internal_sprint_seed_updated_against_2026_09_30_evidence",
+        "modelVersion": "not-applicable-authored-seed",
+        "timeEstimateMinutes": 20,
+        "costUsd": 0,
+        "costStatus": "seed_estimate"
+      },
+      "qa": {
+        "automatedVerdict": "pass",
+        "independentQaStatus": "human_review_required",
+        "hardFailureCodes": [],
+        "softScores": {
+          "jtbd_audience_relevance": 3,
+          "specific_differentiated_value": 4,
+          "proof_claim_precision": 4,
+          "brand_bilingual_editorial_quality": 4,
+          "clarity_cta_destination_fit": 3,
+          "platform_visual_accessibility_fit": 3,
+          "trust_emotional_safety": 4,
+          "experiment_measurement_quality": 3,
+          "operational_traceability_reuse": 4
+        },
+        "reviewerRole": "independent_review_pending",
+        "repairCycles": 0,
+        "scoreStatus": "historical_seed_scores_not_independently_revalidated",
+        "reviewReason": "2026-09-30 copy revision 1.1.0 replaces preparation-only messaging with the integrated internal chart/mythology slice and Android QA dated 2026-09-23. Cloud reports, AI previews, iOS and public beta gates remain open. Historical scores are stale; human editorial and independent artifact-bound review are required."
+      },
+      "approval": {
+        "status": "not_submitted",
+        "artifactHash": null,
+        "targetChannel": null,
+        "expiry": null
+      },
+      "externalReadiness": {
+        "status": "blocked",
+        "blockingGates": [
+          "G-A3",
+          "G-A4",
+          "G-M4"
+        ]
+      }
+    },
+    {
+      "id": "A12_astrology_preparation_carousel",
+      "tenantId": "nilaza",
+      "briefId": "B06_astrology_preparation",
+      "version": "1.1.0",
+      "artifactKind": "concept_copy_package",
+      "status": "draft_internal",
+      "lifecycleState": "draft_internal",
+      "format": "carousel",
+      "claimRefs": [
+        "nilaza_astrology_in_preparation"
+      ],
+      "copy": {
+        "vi": {
+          "headline": "Khi đọc về bản đồ sao, có ba điều nên tách riêng",
+          "body": "1. Dữ liệu cần được kiểm chứng. 2. Hình minh họa kể chuyện. 3. Diễn giải là lời mời tự phản chiếu, không phải kết luận về số phận.",
+          "caption": "Dữ liệu tính toán, hình minh họa thần thoại và lời mời phản chiếu cần được tách rõ. Nilaza đã tích hợp bản chart và thư viện thần thoại cho review nội bộ; QA Android không thay nghiệm thu cloud, AI, iOS hoặc phát hành beta công khai.",
+          "cta": "Tham gia danh sách chờ",
+          "altText": "Ba slide phân biệt dữ liệu tính toán, hình minh họa thần thoại và diễn giải tự phản chiếu."
+        },
+        "en": {
+          "headline": "When reading a birth chart, keep three things separate",
+          "body": "1. Data needs verification. 2. Illustration tells a story. 3. Interpretation invites reflection; it does not conclude your fate.",
+          "caption": "Calculated data, mythology illustration and reflective interpretation need clear separation. Nilaza has integrated the chart and mythology library for internal review; Android QA does not replace cloud, AI, iOS or public beta acceptance.",
+          "cta": "Join the waitlist",
+          "altText": "Three slides separating calculated data, mythology-inspired illustration, and reflective interpretation."
+        }
+      },
+      "visualBrief": {
+        "source": "Concept for the integrated internal chart and mythology slice; generated illustration is never chart data",
+        "reference": "docs/ASTROLOGY_ANDROID_QA_2026-09-23.vi.md",
+        "rightsStatus": "draft_visual_direction_only",
+        "provenanceStatus": "draft_not_public",
+        "accessibility": {
+          "altTextProvided": true,
+          "slideOrderLabeled": true,
+          "dataAndIllustrationVisuallyDistinguished": true
+        }
+      },
+      "destination": {
+        "id": "nilaza_waitlist",
+        "status": "collection_only"
+      },
+      "measurement": {
+        "hypothesis": "A transparent explanation of data, artwork and interpretation can build more trust than a mystical accuracy claim.",
+        "primaryMetric": "waitlist_cta_click",
+        "denominator": "eligible education-content viewers by approved source/content tag",
+        "guardrails": [
+          "astrology_accuracy_claim",
+          "product_gate_G_A3_G_A4",
+          "policy_rejection"
+        ]
+      },
+      "productionRecord": {
+        "skillVersion": "growth-agent-catalog-1.0.0",
+        "source": "internal_sprint_seed_updated_against_2026_09_30_evidence",
+        "modelVersion": "not-applicable-authored-seed",
+        "timeEstimateMinutes": 25,
+        "costUsd": 0,
+        "costStatus": "seed_estimate"
+      },
+      "qa": {
+        "automatedVerdict": "pass",
+        "independentQaStatus": "human_review_required",
+        "hardFailureCodes": [],
+        "softScores": {
+          "jtbd_audience_relevance": 3,
+          "specific_differentiated_value": 4,
+          "proof_claim_precision": 4,
+          "brand_bilingual_editorial_quality": 4,
+          "clarity_cta_destination_fit": 3,
+          "platform_visual_accessibility_fit": 3,
+          "trust_emotional_safety": 4,
+          "experiment_measurement_quality": 3,
+          "operational_traceability_reuse": 4
+        },
+        "reviewerRole": "independent_review_pending",
+        "repairCycles": 0,
+        "scoreStatus": "historical_seed_scores_not_independently_revalidated",
+        "reviewReason": "2026-09-30 copy revision 1.1.0 replaces preparation-only messaging with the integrated internal chart/mythology slice and Android QA dated 2026-09-23. Cloud reports, AI previews, iOS and public beta gates remain open. Historical scores are stale; human editorial and independent artifact-bound review are required."
+      },
+      "approval": {
+        "status": "not_submitted",
+        "artifactHash": null,
+        "targetChannel": null,
+        "expiry": null
+      },
+      "externalReadiness": {
+        "status": "blocked",
+        "blockingGates": [
+          "G-A3",
+          "G-A4",
+          "G-M4"
+        ]
+      }
+    }
+  ],
+  "lastReviewedAt": "2026-09-30"
+}

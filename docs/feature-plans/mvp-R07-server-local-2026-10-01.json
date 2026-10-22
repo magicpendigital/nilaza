@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 1,
+  "taskId": "mvp-R07-server-local-2026-10-01",
+  "ownerAgent": "workflow_orchestration_agent",
+  "lane": "backend_supabase_lane",
+  "goal": "Implement an authenticated bounded Journal upsert/delete acknowledgement contract locally; persistent soft-delete tombstones prevent a delayed upsert from making a deleted row visible.",
+  "successCriteria": [
+    "Missing configuration/auth cannot return synced; authenticated user ownership comes only from getUser.",
+    "Legacy upsert and explicit upsert/delete return truthful matching ACK; delete writes a content-cleared tombstone even if entry is not yet on server.",
+    "Tests cover wrong-user targeting, late upsert after delete, malformed/oversized payloads, invalid remote ACK and server failures; no claim cross-client deletion broadcast without read contract."
+  ],
+  "writeScope": [
+    "supabase/functions/journal-entries/index.ts",
+    "supabase/functions/journal-entries/handler.ts",
+    "supabase/functions/journal-entries/handler_test.ts",
+    "docs/mvp-remediation/2026-10-01/R07-server-local.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "No DB schema/RLS/migration push/repair, live deletion, deployment or provider.",
+    "No App/backendClient remote-read changes; two-client tombstone delivery remains explicitly pending."
+  ],
+  "impact": {
+    "entryPoint": "POST journal-entries called by durable local outbox.",
+    "dataWrite": "On authorized future deployment only: journal_entries own user/local-id upsert or soft-delete content-cleared tombstone. Local task writes code/tests only.",
+    "backendContract": "Add operation delete/upsert to current optional-operation POST, exact localId/operation ACK, UUID upsert ACK, config/auth strict.",
+    "adminVisibility": "No private content or raw database error returned to Admin/logs.",
+    "privacySafety": "Verified user + explicit owner filters; no service-role client, secret content not in error output.",
+    "observability": "Truthful ACK/server status; no offline mock synced.",
+    "rollback": "Local code revert safe; forward deployed endpoint retains legacy upsert and existing deleted_at column; review old-client compatibility before rollout."
+  },
+  "canonicalContracts": [
+    "Existing journal mobile contract unique(user_id,local_id), deleted_at and RLS remain unchanged.",
+    "Delete is soft tombstone with content cleared, not cloud account deletion; GET must deliver tombstones for other devices in future slice."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Current strict client ACK, own-user constraint/RLS and deleted_at read boundary reviewed; only local protected handler implementation allowed while mixed staging blocked."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Current strict client ACK, own-user constraint/RLS and deleted_at read boundary reviewed; only local protected handler implementation allowed while mixed staging blocked."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Current strict client ACK, own-user constraint/RLS and deleted_at read boundary reviewed; only local protected handler implementation allowed while mixed staging blocked."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Current strict client ACK, own-user constraint/RLS and deleted_at read boundary reviewed; only local protected handler implementation allowed while mixed staging blocked."
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "sha256": "88a873eb09601bc56640919d407dfd0777ff12d4e8e19b65fc52889b6393f256",
+      "reason": "Current strict client ACK, own-user constraint/RLS and deleted_at read boundary reviewed; only local protected handler implementation allowed while mixed staging blocked."
+    },
+    {
+      "path": "docs/BACKEND_PROXY_ARCHITECTURE.md",
+      "sha256": "b079458af4a10232efc8804746dd3ae7e8f10d5097800b26f2faf4e922fe91cb",
+      "reason": "Current strict client ACK, own-user constraint/RLS and deleted_at read boundary reviewed; only local protected handler implementation allowed while mixed staging blocked."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "c14e3443c259659ad51af3621b6418b82a740d22ad06a2832b185e3e02bea364",
+      "reason": "Current strict client ACK, own-user constraint/RLS and deleted_at read boundary reviewed; only local protected handler implementation allowed while mixed staging blocked."
+    },
+    {
+      "path": "supabase/functions/journal-entries/index.ts",
+      "sha256": "b0918b1506971b45d80d7fdffe561d558f92fef4753e33efc73e336952f649da",
+      "reason": "Current strict client ACK, own-user constraint/RLS and deleted_at read boundary reviewed; only local protected handler implementation allowed while mixed staging blocked."
+    },
+    {
+      "path": "supabase/migrations/20260626000001_journal_mobile_contract.sql",
+      "sha256": "c2e619b6f5505ce63d450dff3c6faf6e2a405d737422028d1ea752f7fc0cbfba",
+      "reason": "Current strict client ACK, own-user constraint/RLS and deleted_at read boundary reviewed; only local protected handler implementation allowed while mixed staging blocked."
+    },
+    {
+      "path": "supabase/migrations/20260629020702_journal_entries_user_local_id_constraint.sql",
+      "sha256": "9ea543a2e495c2fcf0063db0da949ee7a6bcaacb1b149c537cef43037e84f7f3",
+      "reason": "Current strict client ACK, own-user constraint/RLS and deleted_at read boundary reviewed; only local protected handler implementation allowed while mixed staging blocked."
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "sha256": "e3c2c1ec939507fd4c42983c8e136595cc9a24256a1c45abb86c73d8be77389e",
+      "reason": "Current strict client ACK, own-user constraint/RLS and deleted_at read boundary reviewed; only local protected handler implementation allowed while mixed staging blocked."
+    },
+    {
+      "path": "apps/mobile/src/features/journal/journalRepository.ts",
+      "sha256": "5e86779cfa4bf8dd738316341088702648e99a4f6725dd2482a48d168fde540c",
+      "reason": "Current strict client ACK, own-user constraint/RLS and deleted_at read boundary reviewed; only local protected handler implementation allowed while mixed staging blocked."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Fresh whole-app and additive legacy contract, local test versus deployment/cross-client/native gates separated."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Existing React refs/state and callbacks, no package or API choice."
+  },
+  "securityReview": {
+    "authzRls": "JWT getUser identity and explicit owner key; caller user_id ignored, use anon+JWT and existing RLS.",
+    "sensitiveData": "Synthetic bounded journal fixtures; no private/live data.",
+    "secretsLogging": "Generic errors; no credentials or input content logging.",
+    "externalInput": "Streaming body bound128KiB, strict field limits/types, known source type, valid timestamp and snapshot64KiB.",
+    "dependencies": "Existing pinned Supabase createClient and Deno2.9 installed; pure test handler no remote imports.",
+    "migrationRelease": "Foreign MCY staging remains blocked; no deploy/db apply.",
+    "stopCondition": "Stop live action or fakeACK; record missing cross-client broadcast/atomic revision gate.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "supabase/functions/journal-entries/index.ts",
+      "supabase/functions/journal-entries/handler.ts",
+      "supabase/functions/journal-entries/handler_test.ts",
+      "docs/mvp-remediation/2026-10-01/R07-server-local.vi.md"
+    ],
+    "note": "Backend agent transferred exact R07server scope to root; old handler unchanged at start, preserve all other owner functions."
+  },
+  "validationCommands": [
+    "node_modules/.bin/deno.cmd test --no-config --no-lock supabase/functions/journal-entries/handler_test.ts",
+    "npm run validate:backend"
+  ],
+  "managerTestPath": "Review synthetic owner A/B fixture tests; after R02/deployment use disposable accounts with save/delete/restart and two-client readback.",
+  "residualRisk": "No live RLS/database compatibility, transaction/CAS or cross-client tombstone propagation acceptance; soft-delete retention/cloud account deletion separate.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deployment": false,
+    "productionRelease": false
+  },
+  "externalSourceReview": [],
+  "nativeDeliveryReview": "Installed Expo Sharing Android resolves on chooser ActivityResult, which does not prove recipient finished reading. iOS removes after sheet; Android retains only app-private named export for 10 minutes, schedules deletion and startup cleanup; no unrelated files scanned/deleted. Native receiver/device verification remains separate."
+}

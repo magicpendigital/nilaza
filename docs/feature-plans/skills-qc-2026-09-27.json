@@ -1,0 +1,170 @@
+{
+  "schemaVersion": 1,
+  "taskId": "skills-qc-2026-09-27",
+  "ownerAgent": "nilaza-project-owner-agent",
+  "lane": "agent_workflow_skill_governance",
+  "goal": "Require a current, scoped skill and security review before implementing each new Nilaza feature.",
+  "successCriteria": [
+    "A new feature record fails preflight when required plan, source, skill, scope, or security evidence is missing.",
+    "Database-write intent fails while the recorded Supabase migration ledger is blocked.",
+    "A pull request changing feature code, design, or documentation must include a reviewed record covering its changed files.",
+    "Allowlisted local feature commands rerun preflight and check their outputs and dirty execution inputs before starting."
+  ],
+  "writeScope": [
+    "AGENTS.md",
+    "docs/AGENT_RUNBOOK.md",
+    "docs/AGENT_TASK_ROUTER.md",
+    "docs/PLAN_QC_PROTOCOL.md",
+    "package.json",
+    "packages/agent-config/feature-workflows.json",
+    "scripts/feature-preflight.mjs",
+    "scripts/feature-preflight.test.mjs",
+    "scripts/feature-run.mjs",
+    "scripts/feature-run.test.mjs",
+    "scripts/tarot-deck-quality-gate.mjs",
+    "scripts/validate_tarot_assets.py",
+    "scripts/prepare_tarot_artwork_batch.py",
+    "scripts/normalize_tarot_artwork.py",
+    "scripts/validate-agent-governance.mjs",
+    "scripts/validate-repo-skills.mjs",
+    "skills/README.md",
+    "skills/manifest.json",
+    "skills/nilaza-plan-qc/SKILL.md",
+    "skills/nilaza-plan-qc/references/nilaza-plan-qc.md",
+    "skills/nilaza-tarot-deck-production/",
+    "skills/nilaza-tarot-content-qc/",
+    "skills/nilaza-tarot-art-qc/",
+    ".github/workflows/feature-governance.yml"
+  ],
+  "untouchedSurfaces": [
+    "The mobile, Admin, and website runtime interfaces and user data remain unchanged.",
+    "Supabase schema, Edge Functions, deployment state, and provider credentials remain unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Agents start a feature through the routed plan, preflight, and allowlisted feature:run commands.",
+    "dataWrite": "The validator reads repository evidence only; this task publishes governance, reviewed skills, and their local QC scripts.",
+    "backendContract": "No running API contract changes; the migration ledger remains a gate for database writes.",
+    "adminVisibility": "No Admin runtime screen changes; the manager receives a readable preflight result and handoff.",
+    "privacySafety": "Records use sanitized project context and reject forbidden data classes and likely credential strings.",
+    "observability": "Local and CI commands report pass or fail without collecting private telemetry.",
+    "rollback": "Revert the scoped governance files and reinstall the prior reviewed skill version if this gate misroutes work."
+  },
+  "canonicalContracts": [
+    "packages/agent-config/agent-execution-policy.json governs allowed agent data classes and authority.",
+    "supabase/migration-ledger.json governs whether a planned database write may proceed."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Reviewed current product guardrails and agent entry instructions."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "304c5b7217d6dcc7022d84ae665755b0071572ce19bda96b12a4780b0590eae3",
+      "reason": "Reviewed current task lanes and required validation routes."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "d61787c20c01e926e13a2a4d56303ac18a2bbda07b84d8c4c5ac30f6b9712ed2",
+      "reason": "Reviewed the required impact and QC gate before editing."
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "sha256": "ce7bdd68fa4089a049bef4a73e58fc1bb4d8d869443253c6410c1b986f706242",
+      "reason": "Reviewed agent authority and safe delegation boundaries."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "updated",
+      "evidence": "Added source freshness, affected-skill disposition, security stop conditions, and preflight command guidance."
+    },
+    {
+      "name": "nilaza-tarot-deck-production",
+      "decision": "updated",
+      "evidence": "Published the reviewed deck-production skill and its focused QC scripts in the repository manifest and routing."
+    },
+    {
+      "name": "nilaza-tarot-content-qc",
+      "decision": "updated",
+      "evidence": "Published the reviewed bilingual Tarot content QC skill in the repository manifest and routing."
+    },
+    {
+      "name": "nilaza-tarot-art-qc",
+      "decision": "updated",
+      "evidence": "Published the reviewed Tarot artwork QC skill in the repository manifest and routing."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "This governance change adds no package or external API behavior and uses current repository sources."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authentication or RLS code changes; the record requires a scoped review for later feature tasks.",
+    "sensitiveData": "Only sanitized project context is allowed; no user birth, journal, chat, or face data is needed.",
+    "secretsLogging": "Likely credential strings in plans are rejected without echoing their values; no credentials are requested.",
+    "externalInput": "Record and source paths are constrained to repository files; plan commands are never executed.",
+    "dependencies": "No dependency install is required; official source evidence becomes mandatory for volatile claims.",
+    "migrationRelease": "Database-write intent stops while the migration ledger is blocked; deployments remain separately authorized.",
+    "stopCondition": "Stop when skill drift, source hashes, write scope, or unresolved high-risk review fails.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "AGENTS.md",
+      "docs/AGENT_RUNBOOK.md",
+      "docs/AGENT_TASK_ROUTER.md",
+      "docs/PLAN_QC_PROTOCOL.md",
+      "package.json",
+      "packages/agent-config/feature-workflows.json",
+      "scripts/feature-preflight.mjs",
+      "scripts/feature-preflight.test.mjs",
+      "scripts/feature-run.mjs",
+      "scripts/feature-run.test.mjs",
+      "scripts/tarot-deck-quality-gate.mjs",
+      "scripts/validate_tarot_assets.py",
+      "scripts/prepare_tarot_artwork_batch.py",
+      "scripts/normalize_tarot_artwork.py",
+      "scripts/validate-agent-governance.mjs",
+      "scripts/validate-repo-skills.mjs",
+      "skills/README.md",
+      "skills/manifest.json",
+      "skills/nilaza-plan-qc/SKILL.md",
+      "skills/nilaza-plan-qc/references/nilaza-plan-qc.md",
+      "skills/nilaza-tarot-deck-production/SKILL.md",
+      "skills/nilaza-tarot-deck-production/agents/openai.yaml",
+      "skills/nilaza-tarot-deck-production/references/integration.md",
+      "skills/nilaza-tarot-deck-production/references/new-deck.md",
+      "skills/nilaza-tarot-deck-production/references/update-deck.md",
+      "skills/nilaza-tarot-content-qc/SKILL.md",
+      "skills/nilaza-tarot-content-qc/agents/openai.yaml",
+      "skills/nilaza-tarot-content-qc/references/bilingual-review.md",
+      "skills/nilaza-tarot-art-qc/SKILL.md",
+      "skills/nilaza-tarot-art-qc/agents/openai.yaml",
+      "skills/nilaza-tarot-art-qc/references/visual-review.md",
+      ".github/workflows/feature-governance.yml"
+    ],
+    "note": "Skill sources and scoped QC changes were reviewed; unrelated app, Supabase, and QA worktree changes remain outside this record."
+  },
+  "validationCommands": [
+    "npm run feature:preflight:test",
+    "npm run feature:run:test",
+    "npm run validate:governance",
+    "npm run skills:validate",
+    "npm run skills:check",
+    "node --check scripts/tarot-deck-quality-gate.mjs",
+    "Use the configured bundled Python runtime to AST-parse the scoped Tarot QC scripts without writing bytecode.",
+    "npm run feature:preflight -- --record docs/feature-plans/skills-qc-2026-09-27.json"
+  ],
+  "managerTestPath": "Ask Codex to run the scoped preflight record, then verify an unsupported or unscoped feature:run command is blocked.",
+  "residualRisk": "Direct shell commands bypass the runner; dynamic or ignored dependencies need human review, while PR CI checks committed scope rather than local command order.",
+  "externalActions": {
+    "databaseWrite": false
+  }
+}

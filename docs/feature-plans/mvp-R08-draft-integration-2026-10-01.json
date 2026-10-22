@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "taskId": "mvp-R08-draft-integration-2026-10-01",
+  "ownerAgent": "mobile_app_agent",
+  "lane": "mobile_experience_lane",
+  "goal": "Integrate acknowledged per-account Journal draft store into App after account hydration and into validated local export allowlist; no cloud writes.",
+  "successCriteria": [
+    "Account scope and ACK storage bridge survives tab unmount; hydrate only after markHydrated/loaded.",
+    "Export includes validated saved draft declared fields only; malformed envelope aborts export.",
+    "Draft back/tab/reload browser path uses fictional local input without Save/live writes."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/privacy/localExport.ts",
+    "apps/mobile/src/features/privacy/__tests__/localExport.test.ts",
+    "docs/mvp-remediation/2026-10-01/R08-journal-notes-handoff.vi.md",
+    "docs/mvp-remediation/2026-10-01/R09-local-export-handoff.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "No cloud write, DB migration, deploy/publish, provider call or runtime quality evaluation.",
+    "Admin, entitlements, canonical JSON, artwork and all unrelated dirty work preserved."
+  ],
+  "impact": {
+    "entryPoint": "Private JournalComposer only, optional injected draft store.",
+    "dataWrite": "ACK account-local draft bridge and validated local export only.",
+    "backendContract": "No endpoint or schema changes in this exact slice; future live acceptance separately gated.",
+    "adminVisibility": "Canonical seed source/hash and protected workspace verification reported honestly, no publish.",
+    "privacySafety": "Synthetic fixtures or sanitized project context; no raw private content, credentials or author identity.",
+    "observability": "Actual check counts/source bindings and precise blocked dependencies.",
+    "rollback": "Docs-only report can be superseded; implementation rollback remains documented per slice."
+  },
+  "canonicalContracts": [
+    "journalDraftStore.ts schema-v1 plus accountStorage ACK contract; persisted export only."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Current routed implementation/schema reviewed before bounded integration; preserve all dirty owner code."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Current routed implementation/schema reviewed before bounded integration; preserve all dirty owner code."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Current routed implementation/schema reviewed before bounded integration; preserve all dirty owner code."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Current routed implementation/schema reviewed before bounded integration; preserve all dirty owner code."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "81c56b63a977ea0b455ca86e584bf1c5fc77200e982df7d0f1dd2b1a5bf8489c",
+      "reason": "Current routed implementation/schema reviewed before bounded integration; preserve all dirty owner code."
+    },
+    {
+      "path": "apps/mobile/src/auth/accountStorage.ts",
+      "sha256": "330a0213be9886821b4efe38983116adb9941188153de192edfae0d0c9797cd2",
+      "reason": "Current routed implementation/schema reviewed before bounded integration; preserve all dirty owner code."
+    },
+    {
+      "path": "apps/mobile/src/features/journal/journalDraftStore.ts",
+      "sha256": "04fc145fb5cbb296d22c34d0a7741ad617d29b5619292a04150ddc983e574691",
+      "reason": "Current routed implementation/schema reviewed before bounded integration; preserve all dirty owner code."
+    },
+    {
+      "path": "apps/mobile/src/features/journal/JournalComposer.tsx",
+      "sha256": "84970531ddfe9bc025ea7efc886ea347f29de2da51b69bc583c6dcc9ed317149",
+      "reason": "Current routed implementation/schema reviewed before bounded integration; preserve all dirty owner code."
+    },
+    {
+      "path": "apps/mobile/src/features/privacy/localExport.ts",
+      "sha256": "8be94c9de70fd7ae8140b1f82d28589076b857289d41759843b09ab0b9e885ff",
+      "reason": "Current routed implementation/schema reviewed before bounded integration; preserve all dirty owner code."
+    },
+    {
+      "path": "apps/mobile/src/features/privacy/__tests__/localExport.test.ts",
+      "sha256": "068f1bdf190d6df06cffe5d3a8d7906636886d165a81c7dd1b41165715074015",
+      "reason": "Current routed implementation/schema reviewed before bounded integration; preserve all dirty owner code."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Fresh exact QA plan with full results and separate browser/native/CI/live gates; no skipped case or inflated timeout."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Prepared agent code uses existing A2UI/tokens and bilingual states, no assets or false persistence promises."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Report installed versions and observed connector metadata; no new package/API choice or invented current advisory claims."
+  },
+  "securityReview": {
+    "authzRls": "Local unit tests only; linked DB identity flagged separately.",
+    "sensitiveData": "Synthetic fixtures; no credential/private traces read.",
+    "secretsLogging": "No secret printing or env changes.",
+    "externalInput": "Bounded declared draft fields or selected canonical Tarot IDs; no raw prompt/question logs.",
+    "dependencies": "No install/update; existing lockfile version.",
+    "migrationRelease": "Foreign MCY gate remains blocked; no live actions.",
+    "stopCondition": "Stop outside exact local slice or if ACK/account safeguards weakened; runtime release risks remain blocked.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/features/privacy/localExport.ts",
+      "apps/mobile/src/features/privacy/__tests__/localExport.test.ts",
+      "docs/mvp-remediation/2026-10-01/R08-journal-notes-handoff.vi.md",
+      "docs/mvp-remediation/2026-10-01/R09-local-export-handoff.vi.md"
+    ],
+    "note": "Root sole App integrator, prepared source from agent reviewed; no other source/dependency/schema edits."
+  },
+  "validationCommands": [
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand src/features/journal/__tests__ src/features/privacy/__tests__"
+  ],
+  "managerTestPath": "Account scope and ACK storage bridge survives tab unmount; hydrate only after markHydrated/loaded. Export includes validated saved draft declared fields only; malformed envelope aborts export. Draft back/tab/reload browser path uses fictional local input without Save/live writes.",
+  "residualRisk": "Failed disk ACK is memory only; native Back/keyboard/export-device acceptance pending.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deployment": false,
+    "productionRelease": false
+  },
+  "externalSourceReview": []
+}

@@ -1,0 +1,27 @@
+{
+  "id": "ai_council_contract",
+  "version": "2026-09-20-council-rounds-v2",
+  "endpoint": "/ai/ai-council",
+  "responseSchema": "ai_council_rounds_v2",
+  "promptVersionId": "ai_council_system",
+  "requiredTurnFields": [
+    "personaId",
+    "text",
+    "lens",
+    "kind",
+    "sequence"
+  ],
+  "optionalResponseFields": {
+    "synthesis": [
+      "consensus",
+      "tensions",
+      "assumptions",
+      "nextStep",
+      "reflectionQuestion"
+    ]
+  },
+  "privacyBoundary": [
+    "No raw private chat, journal history, birth profile, or uploads without explicit per-context consent.",
+    "Only selected council personas and sanitized council history may be sent by default."
+  ]
+}

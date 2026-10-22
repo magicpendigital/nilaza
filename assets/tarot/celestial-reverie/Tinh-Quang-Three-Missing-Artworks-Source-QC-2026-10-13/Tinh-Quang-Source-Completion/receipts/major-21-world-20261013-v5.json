@@ -1,0 +1,13 @@
+{
+  "cardId": "major-21-world",
+  "prompt": "Final very small safety-margin edit to THE WORLD painting. Change ONLY the LOWER LEFT BULL cloud symbol. Replace the current bull head/neck/shoulders with a compact symbolic BULL HEAD ONLY, with two horns and a thin halo emerging from soft featureless cloud. NO visible neck, shoulder, torso, leg or fur-textured body anywhere to its left or below. Its entire bull head, both horns and halo must sit wholly inside horizontal range x=105 to x=175 on this 955px-wide canvas, at approximately the current vertical location y=630 to y=730. It must have ample open sky/cloud between all recognizable anatomy and the left canvas edge. Paint the area formerly occupied by the bull's long neck/shoulder simply as diffuse cloud and sky matching the rest, not fur. This is a mythic cloud icon, like the existing lion head. Preserve ALL other pixels and composition as closely as possible: lion cloud, angel cloud, eagle wings, dancer, two batons, wreath, grounded arbor, dais, hands, feet, landscape and painterly style. No additional symbol, text, numbers, watermark, border or frame; preserve the tall canvas ratio.",
+  "generationTool": "built-in image_gen",
+  "createdDate": "2026-10-13",
+  "inputImagePath": "raw/major-21-world-20261013-v4.png",
+  "inputImageRole": "exact edit target passed as referenced_image_paths",
+  "sourcePath": "raw/major-21-world-20261013-v5.png",
+  "status": "pending-independent-source-review",
+  "sha256": "76e815ae8ad780c8f096a68906446168a4a873622b154fe2594e12c6408f0a7d",
+  "sizeBytes": 3012987,
+  "inputImageSha256": "e89082582079bd550346268bf427af11cb28fd135ca01d82f5f7c865e1655364"
+}

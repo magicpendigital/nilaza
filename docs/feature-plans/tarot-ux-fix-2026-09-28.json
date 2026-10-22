@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "taskId": "tarot-ux-fix-2026-09-28",
+  "ownerAgent": "tarot_ux_delivery_agent",
+  "lane": "mobile_tarot_ux_repair_and_device_qa",
+  "goal": "Repair the highest risk local Tarot journey issues found in the reviewed audit, then verify the repaired flow on the connected Android device using synthetic customer scenarios.",
+  "successCriteria": [
+    "A new Tarot session clears the previous result, question, selected cards, error, and progress so the draw screen starts at zero.",
+    "Journal Tarot entries retain the original question and card snapshot and can reopen a result view without starting a new reading.",
+    "Journal and Explore Tarot callbacks receive explicit stage values instead of press events, and invalid stage values cannot blank the flow.",
+    "The result identifies each card orientation, the share action is labelled as text sharing, and repeated saves do not create duplicate entries for one reading.",
+    "The mobile check passes and the repaired happy path is exercised on Q88549EEXCUOONGA with sanitized evidence and a customer-persona retest matrix."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx"
+  ],
+  "untouchedSurfaces": [
+    "Supabase credits, reporting endpoints, migrations, and backend contracts remain unchanged because the migration ledger is not an implementation gate for this local slice.",
+    "Tarot seed meanings, deck artwork, admin workspaces, authentication, payment entitlements, and public brand assets remain unchanged.",
+    "Customer QA governance and the previously reviewed Tarot audit remain unchanged; this plan only implements the approved local repair slice."
+  ],
+  "impact": {
+    "entryPoint": "Home, Explore, and Journal open Tarot through explicit stage callbacks; Start over and Back preserve the repaired flow state across topic, spread, deck, draw, result, and Journal reopen.",
+    "dataWrite": "The app writes only local Journal state and its existing sync payload; Tarot snapshots add question and deck context while preserving the existing card identifiers and orientation fields.",
+    "backendContract": "No endpoint shape changes are made; Journal sync receives the richer existing snapshot, and backend-down behavior remains the current local fallback.",
+    "canonicalContract": "TarotStage, JournalEntry, DrawnTarotCard, and the existing local Tarot result shape in apps/mobile/App.tsx remain the canonical client contracts for this slice.",
+    "adminVisibility": "No admin surface changes; any later operator report still receives only the existing sanitized event fields and no raw private question text.",
+    "privacySafety": "Reopen and share handling preserves the user-entered question locally but does not add it to the share payload; test scenarios use fictional questions and do not include account or journal data.",
+    "observability": "Existing Tarot open, draw, save, and sync events remain in place; no new telemetry is required, and device evidence records build, locale, route, and outcome separately.",
+    "rollback": "Revert the scoped App.tsx patch to restore the current local fallback; no migration or remote data change is required, and existing local entries remain readable by the prior summary path.",
+    "surfacesIntentionallyUntouched": "Credits and server reporting are intentionally deferred to a separate reviewed backend slice; deck content, assets, admin, and auth were reviewed and left untouched.",
+    "agentHandoff": "The delivery agent owns App.tsx only, uses synthetic customer scenarios and sanitized screenshots, runs mobile checks plus connected-device QA, and stops before backend or release actions."
+  },
+  "canonicalContracts": [
+    "docs/FEATURE_PRD.md defines Tarot result, Journal, and reflective safety expectations.",
+    "docs/CUSTOMER_PERSPECTIVE_QA.md defines synthetic customer scenarios, evidence fields, severity, and retest rules.",
+    "The existing TarotStage and JournalEntry client types in apps/mobile/App.tsx are the implementation contracts for this local repair."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "synthetic_tarot_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Reviewed Nilaza Tarot guardrails, target users, implementation boundaries, and manager workflow."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "304c5b7217d6dcc7022d84ae665755b0071572ce19bda96b12a4780b0590eae3",
+      "reason": "Reviewed mobile Tarot routing, source paths, and validation commands."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "d61787c20c01e926e13a2a4d56303ac18a2bbda07b84d8c4c5ac30f6b9712ed2",
+      "reason": "Applied the Whole-App impact, preflight, rollback, and manager acceptance requirements."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Reviewed Tarot reading, Journal persistence, and reflective safety expectations before implementation."
+    },
+    {
+      "path": "docs/CUSTOMER_PERSPECTIVE_QA.md",
+      "sha256": "3150da0682d803fc5e09bc15f63a7dea051c886bfce41a13e8ec2093241c9964",
+      "reason": "Reviewed the Tarot pilot scenarios and device evidence format used for the customer retest."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "c5c4f6338ba4d6d4750c9055f622f753768de172fa312e2c3474bb032f3cd2cb",
+      "reason": "Re-reviewed the scoped App.tsx Tarot flow after the local repair patch; unrelated pre-existing changes remain preserved."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Read the current plan protocol and used its preflight, impact map, security review, device validation, and rollback requirements."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Reviewed the Open Reflection identity and kept the repair within existing Tarot copy and visual surfaces."
+    },
+    {
+      "name": "nilaza-tarot-content-qc",
+      "decision": "verified-current",
+      "evidence": "Reviewed Tarot card meaning and orientation requirements; no canonical seed content is changed in this slice."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "The repair uses checked-out TypeScript and repository contracts only; connected-device validation does not require external product or policy claims."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No auth, authorization, RLS, or protected endpoint behavior changes are introduced.",
+    "sensitiveData": "Synthetic questions only; the original question is stored in the existing local Journal snapshot and is excluded from the share payload.",
+    "secretsLogging": "No credentials, tokens, or raw backend payloads are added to code, logs, or device evidence.",
+    "externalInput": "User question text remains untrusted display content; the patch does not execute it or send it to a new surface.",
+    "dependencies": "No dependency installation or generated runtime asset changes are required.",
+    "migrationRelease": "No migration repair, database push, release, deployment, or publishing action is planned.",
+    "stopCondition": "Stop if the mobile check fails, a private question appears in share output, the repaired device flow cannot be verified, or any backend/migration change becomes necessary.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/App.tsx"
+    ],
+    "note": "App.tsx already contains unrelated uncommitted Nilaza work. The scoped Tarot repair will be limited to the callback, session reset, Journal snapshot/reopen, save dedupe, orientation, and share label changes described in this record; unrelated changes are preserved."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/tarot-ux-fix-2026-09-28.json",
+    "npm --workspace apps/mobile run check",
+    "npm run validate:data",
+    "npm run validate:visual-assets",
+    "adb devices confirms the target Android phone is connected before the native test.",
+    "Connected-device Tarot customer QA: Home or Explore -> Tarot -> one-card draw -> result -> save once -> Journal reopen -> Start over -> new draw, with VI locale and sanitized screenshots."
+  ],
+  "managerTestPath": "On the connected phone, open Tarot from Explore, complete a one-card synthetic reading, save it, open it from Journal, press Start over, and confirm the new draw shows 0/1 before any tap; then inspect orientation, share label, and the saved result. Review the agent matrix in docs/CUSTOMER_PERSPECTIVE_QA.md for retest coverage.",
+  "residualRisk": "Native backend credit, reporting, network fallback messaging, and 78-card performance remain open findings for the next approved slice; this device pass covers the local Tarot journey only.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "taskId": "mvp-R19-used-fonts-2026-10-01",
+  "ownerAgent": "mobile_app_agent",
+  "lane": "mobile_experience_lane: measured asset footprint improvement",
+  "goal": "Replace two font barrel imports by exact per-weight imports for the same seven used faces; verify no typography/brand/useFonts change and measure fresh production exports.",
+  "successCriteria": [
+    "Seven font export variables and mappings remain unchanged; TypeScript and affected mobile tests pass.",
+    "Fresh Expo web/Android builds remove21unused TTF assets; compare exact asset/bundle counts and checksums against R01baseline without startup/network claims.",
+    "Document measured savings and pending actual native/web performance gates; no account/backend/content changes."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "output/mvp-20261001-fonts/web",
+    "output/mvp-20261001-fonts/android",
+    "docs/mvp-remediation/2026-10-01/R19-fonts-handoff.vi.md",
+    "docs/mvp-remediation/2026-10-01/R01-validation.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "No useFonts/theme/brand font-face changes; imports only in App.",
+    "No dependency install, content/schema/provider/auth/navigation/preview changes or live deploy."
+  ],
+  "impact": {
+    "entryPoint": "App font imports on startup; exact same7faces.",
+    "dataWrite": "Local App import delta and ignored export artifacts/scoped handoffs only.",
+    "backendContract": "Mocked/fixture tests, no live backend mutation.",
+    "adminVisibility": "No Admin change.",
+    "privacySafety": "Fictional fixtures only; no keys or private user data.",
+    "observability": "Before/after TTF count/bytes and raw/gzip bundle hashes; no causal startup claim.",
+    "rollback": "Revert only font import lines to previous barrels; retain original output baseline and all owner App changes."
+  },
+  "canonicalContracts": [
+    "Existing mobile Jest config and scripts remain; do not extend timeout merely to suppress failure.",
+    "MVP gates G1 free invited beta both iOS/Android, G2monetized G3stores; no claim of numeric quota or native acceptance."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Reviewed same seven faces and direct weight paths; measured unused font asset reachability, no product semantics or network changes."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Reviewed same seven faces and direct weight paths; measured unused font asset reachability, no product semantics or network changes."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Reviewed same seven faces and direct weight paths; measured unused font asset reachability, no product semantics or network changes."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "c492e69235bc94267f8de0181822602612a5bbda03dd3d144cf4d6c96ff43197",
+      "reason": "Reviewed same seven faces and direct weight paths; measured unused font asset reachability, no product semantics or network changes."
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "7a4973733886cb4f1568d38e6d8324d1d8200bb1acd850db486bf5323943f023",
+      "reason": "Reviewed same seven faces and direct weight paths; measured unused font asset reachability, no product semantics or network changes."
+    },
+    {
+      "path": "skills/nilaza-brand-experience/SKILL.md",
+      "sha256": "1e2acdfac537225ed366a78e6c28b6764a5fe2ac1a1434e583ba21349dee1928",
+      "reason": "Reviewed same seven faces and direct weight paths; measured unused font asset reachability, no product semantics or network changes."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "2614cb260adf1a58f770e06a16870eb67f37e50f92d4b80ae3ba96120cc0e85e",
+      "reason": "Reviewed same seven faces and direct weight paths; measured unused font asset reachability, no product semantics or network changes."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "636ab5c9e4a7a4655074603ccbe134740d29de12032df0f1afd06f30e5a52df9",
+      "reason": "Reviewed same seven faces and direct weight paths; measured unused font asset reachability, no product semantics or network changes."
+    },
+    {
+      "path": "apps/mobile/package.json",
+      "sha256": "71bed88f043629f67e9674ec6abc8fbd99956d68e57176abdb853416cd24d7ab",
+      "reason": "Reviewed same seven faces and direct weight paths; measured unused font asset reachability, no product semantics or network changes."
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "ba3e99deb94ffd6b862f2008b5886cb60aac9a60d4fa1c28cc98f4226a2bbedb",
+      "reason": "Reviewed same seven faces and direct weight paths; measured unused font asset reachability, no product semantics or network changes."
+    },
+    {
+      "path": "apps/mobile/metro.config.js",
+      "sha256": "d922649180a8576e5d27179a7489240b5ddb3086df921192f58181d06160defa",
+      "reason": "Reviewed same seven faces and direct weight paths; measured unused font asset reachability, no product semantics or network changes."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/R01-validation.vi.md",
+      "sha256": "cc904d170c29e7ebfdebe0ac3d6580512b3978a1e48717eeadea902ddd46bf41",
+      "reason": "Reviewed same seven faces and direct weight paths; measured unused font asset reachability, no product semantics or network changes."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Exact small slice, measured before/after and native gates remain applicable."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Approved EB Garamond and Hanken faces and typography mappings stay identical."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No install in validation task; read current lock after R09 Expo SDK54-compatible expo-file-system19.0.24 and expo-sharing14.0.8 install. Existing scripts run unchanged."
+  },
+  "securityReview": {
+    "authzRls": "Local unit tests only; linked DB identity flagged separately.",
+    "sensitiveData": "Synthetic fixtures; no credential/private traces read.",
+    "secretsLogging": "No secret printing or env changes.",
+    "externalInput": "Trusted repository tests/build scripts; results not commands.",
+    "dependencies": "No install/update; existing lockfile version.",
+    "migrationRelease": "No external actions; ledger and mixed staging under review.",
+    "stopCondition": "Stop native release/live actions or test fake success; record environment limitations.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/App.tsx",
+      "docs/mvp-remediation/2026-10-01/R01-validation.vi.md"
+    ],
+    "note": "Root sole App owner preserves all existing changes; import-only slice reviewed."
+  },
+  "validationCommands": [
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand src/brand/__tests__/useFontReadiness.test.ts",
+    "Production web export output/mvp-20261001-fonts/web and Android embed output/mvp-20261001-fonts/android; compare font identities and raw bytes",
+    "npm run validate:mobile-export -- output/mvp-20261001-fonts/web"
+  ],
+  "managerTestPath": "Review exact7used font exports and before/after8TTF artifacts; visual/native acceptance remains pending browser/device availability.",
+  "residualRisk": "Tests do not prove native accessibility/performance, external CI, real provider quality or mixed staging safety.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deployment": false,
+    "productionRelease": false
+  },
+  "externalSourceReview": []
+}

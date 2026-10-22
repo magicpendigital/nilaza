@@ -1,0 +1,30 @@
+{
+  "checkedAt": "2026-10-03",
+  "environment": "local Admin against old QA, read-only",
+  "browser": "Codex in-app browser",
+  "authorization": "QA owner login through protected UI; user confirmed login",
+  "viewport": {"default": [1280, 720], "breakpoint": [1024, 768], "reset": true},
+  "cloudWrites": false,
+  "providerCalls": false,
+  "rawQaPayloadReveal": false,
+  "flows": [
+    {"step": 1, "route": "#/content/personas", "result": "Protected Content UI loads; no edit", "screenshot": "01-content-personas.png"},
+    {"step": 2, "route": "#/ai-studio/workflow", "result": "Workflow/Context preview visible", "screenshot": "02-workflow.png"},
+    {"step": 3, "feature": "oracle_router", "section": "Prompt composer", "result": "Local prompt preview; backend route 2026-09-14-oracle-pinned-v2", "screenshot": "03-oracle-prompt-preview.png"},
+    {"step": 4, "feature": "oracle_router", "section": "Model router", "operation": "Check connection GET", "result": "Backend connected; OpenAI/OpenRouter configured presence, Gemini/Anthropic missing; no health/provider probe", "screenshot": "04-model-router-readiness.png"},
+    {"step": 5, "feature": "ai_council", "operation": "Load active config GET", "result": "One config 2026-06-26-council-builder-v1 and four templates; preview unchanged; publish disabled", "screenshot": "05-council-read-only.png"},
+    {"step": 6, "feature": "ai_council", "operation": "Test Run", "result": "No provider test/no tokens/cost/latency measured", "screenshot": "06-test-not-connected.png", "limitation": "Screenshot shows header; panel verified through DOM and separate image16"},
+    {"step": 7, "feature": "astrology_report", "operation": "Automatic prompt GET", "result": "VI and EN active versions 2026-09-25-ai-insight-v1 loaded; button disappeared after async load; no POST", "screenshot": "07-astrology-backend-prompts.png"},
+    {"step": 8, "section": "Versions", "result": "Real route/locale history displayed; no compare/rollback", "screenshot": "08-versions.png"},
+    {"step": 9, "section": "Audit", "operation": "Load recent audit events RPC", "result": "0 events returned in this query; not proof of global absence", "screenshot": "09-audit-metadata.png"},
+    {"step": 10, "feature": "astrology_report", "section": "Trace Explorer", "operation": "Load recent traces RPC", "result": "11 metadata traces, completed/fallback and staging/development; no reveal", "screenshot": "10-trace-metadata.png"},
+    {"step": 11, "feature": "persona_chat", "section": "Persona Prompt Studio", "result": "Three sample personas/layer preview", "screenshot": "11-persona-preview.png"},
+    {"step": 12, "feature": "face_reading", "section": "Model router", "result": "Deferred reason visible; no editor/publication", "screenshot": "12-face-deferred.png"},
+    {"step": 13, "feature": "oracle_router", "operation": "Model node -> Prompt tab -> Save browser draft review", "result": "Browser-only modal, cancelled; no model publish", "screenshot": "13-prompt-draft-review.png"},
+    {"step": 14, "feature": "oracle_router", "operation": "Review model route", "result": "Modal identifies feature/host/primary/fallback/temperature/output/schema; Escape did not close, Cancel closes; no POST", "screenshot": "14-model-route-review.png"},
+    {"step": 15, "operation": "Viewport 1024x768", "result": "Full-width sidebar pushes editor below fold; viewport reset", "screenshot": "15-admin-1024.png"},
+    {"step": 16, "section": "Test output", "result": "No provider test status explicitly visible", "screenshot": "16-test-panel.png"},
+    {"step": 17, "operation": "Shell reload / Growth / Content", "result": "Session restores after initial login flash; all three workspace navigation preserved"}
+  ],
+  "limits": ["No live publication or CAS/race test", "No new LLM quality measured", "No raw private records", "No screen-reader/full accessibility acceptance", "Current images mainly after local remediation, baseline AI UI is source-only"]
+}

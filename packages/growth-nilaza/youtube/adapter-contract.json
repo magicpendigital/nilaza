@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "1.0.0",
+  "tenantId": "nilaza",
+  "contractId": "nilaza_youtube_contentops_handoff_v1",
+  "implementationStatus": "contract_only_consumer_acceptance_pending",
+  "queueOwner": "ContentOps",
+  "namespace": "nilaza.youtube",
+  "dependencyEvidence": {
+    "taskId": "01a10590-6a63-761e-a3c6-1ab4b39b809f",
+    "source": "Parent handoff on 2026-10-05; consumer source/path not independently inspected in this task.",
+    "reportedCapabilities": [
+      "Node/SQLite durable queue",
+      "Immutable approvals",
+      "Idempotency",
+      "Unknown-outcome reconciliation"
+    ],
+    "reportedYoutubeStatus": "private_or_stub_no_OAuth_no_active_schedule",
+    "consumerAcceptance": "pending"
+  },
+  "doesNotImplement": [
+    "publisher",
+    "queue",
+    "OAuth",
+    "scheduler",
+    "video renderer",
+    "model/audio dispatch"
+  ],
+  "transport": "not_bound_no_endpoint",
+  "credentialBoundary": "No token, API key or raw secret in repository or handoff. ContentOps owns a separately authorized Nilaza-scoped credential boundary.",
+  "requiredEnvelopeFields": [
+    "tenantId",
+    "namespace",
+    "contentId",
+    "revision",
+    "locale",
+    "channelId",
+    "sourceFingerprint",
+    "metadata",
+    "assets",
+    "claimRefs",
+    "creators",
+    "disclosure",
+    "publishAt",
+    "initialPrivacy",
+    "everPublished",
+    "budget",
+    "qa",
+    "approval"
+  ],
+  "requiredAssets": [
+    "video",
+    "thumbnail",
+    "audio",
+    "captions"
+  ],
+  "candidateHashDomain": "nilaza-youtube-candidate-v1",
+  "approvalBinding": [
+    "candidate hash including copy/media/rights/claims/disclosure/source/schedule/budget/creator provenance",
+    "independent QA envelope hash",
+    "pinned channel ID",
+    "publishAt",
+    "per-video budget cap",
+    "named Owner",
+    "expiry after planned publishAt"
+  ],
+  "idempotency": {
+    "authority": "ContentOps atomic durable unique reservation, not this config or an empty local ledger",
+    "keyFields": [
+      "nilaza.youtube namespace",
+      "pinned channel ID",
+      "stable content ID",
+      "locale"
+    ],
+    "secondaryCheck": "Same video byte hash on same channel blocks a new content ID; explicit owner-reviewed reuse requires a fresh content decision.",
+    "unknownResult": "Persist original upload-session/video identifiers securely in ContentOps; reconcile read-only. Never issue another videos.insert blindly."
+  },
+  "channelLock": {
+    "before": "Authenticate the Nilaza-owned grant; channels.list(mine=true) must resolve exactly the pinned channel.",
+    "after": "Require returned/retrieved snippet.channelId to match pinned ID before any schedule transition.",
+    "mismatch": "Halt, preserve receipt and notify Owner; no fallback to another channel."
+  },
+  "youtubePreconditions": {
+    "upload": "private staging only after explicit approval; OAuth and API project audit capabilities must be verified separately.",
+    "schedule": "Never-published private video; future UTC publishAt with lead time. Past timestamp is blocked.",
+    "tokenLifecycle": "External Testing with YouTube scopes can issue seven-day refresh tokens; renew/re-authorize only through separately approved operator flow.",
+    "quota": "Read current project/quota capability; no static quota promise.",
+    "receipt": "ContentOps records video ID, snippet channel, processing status, metadata/artifact hashes and publishAt reconciliation; no inferred public success."
+  },
+  "budgetBoundary": "Atomic Nilaza YouTube-only reservation before every paid model/audio/render call; both week and per-video caps, retry budget and kill switch. No app API budget or Mây budget borrowing.",
+  "requiredConsumerTests": [
+    "Concurrent duplicate reserve rejects one job",
+    "Cross-tenant credential/channel rejection",
+    "Approval exact-hash and expiry enforcement",
+    "Unknown upload survives restart and does not re-insert",
+    "OAuth token revocation/expiration halt",
+    "Private processing/copyright failure halt",
+    "Post-upload channel mismatch halt",
+    "Budget race/cap/unknown cost stops",
+    "Schedule past/non-private/previously-public rejection"
+  ],
+  "liveEvidenceStatus": "all_pending"
+}

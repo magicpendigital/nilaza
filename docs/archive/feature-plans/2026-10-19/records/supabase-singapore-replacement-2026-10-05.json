@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "taskId": "supabase-singapore-replacement-2026-10-05",
+  "ownerAgent": "root_project_replacement",
+  "lane": "owner-approved empty project replacement",
+  "goal": "Replace Sydney eorvoncndvfspdsodzfn with one Nilaza Singapore project in MagicpenDigital Pro, preserving the owner-approved Micro baseline without schema or app execution.",
+  "successCriteria": [
+    "Record aggregate empty inventory and owner lifecycle/cost decisions before irreversible deletion.",
+    "Delete only eorvoncndvfspdsodzfn and verify absence using direct metadata and authenticated CLI.",
+    "Create exactly one Nilaza project in ap-southeast-1 and verify organization, standard Postgres, healthy status and empty migration history.",
+    "Record sanitized lifecycle receipts; keep legacy QA ledger and downstream configuration/QA/release gates separate."
+  ],
+  "writeScope": ["docs/release/STORE_RELEASE_PROGRESS_2026-10-04.vi.md", "artifacts/supabase-singapore-replacement-2026-10-05/"],
+  "untouchedSurfaces": ["Preserve all independent dirty mobile/Admin/web/skills work.", "Legacy QA akgrokwnkfqnfjqrildi, MCY and other projects remain untouched.", "No SQL write, migration repair/push, client retarget, signing or store release in this lifecycle slice."],
+  "impact": {
+    "entryPoint": "Explicit user-requested Supabase lifecycle through official CLI and connector.",
+    "dataWrite": "Permanently remove the exact empty Sydney project and create a new empty Singapore project; sanitized local records only.",
+    "backendContract": "New ref and URL need subsequent configuration; schema and migration execution remain separately gated.",
+    "adminVisibility": "Owner-readable report and receipts; no Admin content publication.",
+    "privacySafety": "Read only aggregate counts and metadata; never copy rows or keys.",
+    "observability": "Record old/new refs, org, region, status, inventory, cost decision and command outcomes.",
+    "rollback": "Deletion is irreversible. Zero app/Auth/Storage/functions/history/Vault inventory is recorded; old settings are not exported. New resource begins empty and clients are not retargeted here."
+  },
+  "canonicalContracts": ["Direct owner request authorizes exact Sydney deletion and Singapore replacement; reply selects MagicpenDigital Pro, one Micro and about USD25/month base.", "Supabase requires a new project for region change; no migration history rewrite is involved.", "Existing release allowlist and blocked ledger continue to gate subsequent schema, configuration and production release."],
+  "allowedDataClasses": ["sanitized_project_context", "sanitized_artifact_metadata"],
+  "sourceReview": [
+    {"path": "AGENTS.md", "sha256": "35757424e5fc5ef5814015ceb87ace0a9b8b5e3602e555a09efd47f49d53b32e", "reason": "Reviewed exact owner authority and task routing before lifecycle execution."},
+    {"path": "docs/AGENT_TASK_ROUTER.md", "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c", "reason": "Reviewed environment/release route and minimum scope."},
+    {"path": "docs/PLAN_QC_PROTOCOL.md", "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2", "reason": "Reviewed plan, impact, evidence and downstream execution gates."},
+    {"path": "docs/release/RELEASE_RUNBOOK.md", "sha256": "9f44d674b547e324982b87d79b4c46531e69c4f19d9e475557a60a963a27cae2", "reason": "Owner explicitly selects early empty resource replacement; this does not imply market readiness, approve schema or production launch."},
+    {"path": "docs/SUPABASE_MIGRATION_LEDGER.md", "sha256": "e5fc9e3789ce1978ce3db7b7f41d6dd695d021c6d01ead2b11b3af14a4525f49", "reason": "Preserve foreign-history blocker and all existing QA resources."}
+  ],
+  "skillReview": [{"name": "nilaza-plan-qc", "decision": "verified-current", "evidence": "Applied lifecycle impact and preflight with separate schema/release gates; explicit owner action overrides the earlier preparation-only scope."}],
+  "dependencyReview": {"usesVolatileExternalKnowledge": true, "evidence": "Reviewed official Supabase compute, pricing, delete, region docs and changelog; discovered installed CLI syntax via help on 2026-10-05."},
+  "externalSourceReview": [
+    {"url": "https://supabase.com/pricing", "checkedAt": "2026-10-05", "reason": "Pro USD25 base with USD10 compute credit; one Micro and regional pricing comparison."},
+    {"url": "https://supabase.com/docs/guides/platform/delete-project", "checkedAt": "2026-10-05", "reason": "Official exact delete command, irreversible consequences and billing effects."},
+    {"url": "https://supabase.com/docs/guides/troubleshooting/change-project-region-eWJo5Z", "checkedAt": "2026-10-05", "reason": "Region replacement requires new project and subsequent endpoint/config update."},
+    {"url": "https://supabase.com/changelog", "checkedAt": "2026-10-05", "reason": "Use standard Postgres GA rather than opt-in beta OrioleDB."}
+  ],
+  "securityReview": {
+    "authzRls": "No RLS edits or isolation claims; new schema and ordinary-user acceptance are later gates.",
+    "sensitiveData": "Old inventory has zero Auth users/identities, Storage buckets/objects, app relations/functions, migrations, branches and Vault secrets.",
+    "secretsLogging": "Use existing CLI/connector authentication; do not print tokens/passwords/secret keys or copy them into local evidence.",
+    "externalInput": "Only official Supabase CLI/API and primary docs; tool output does not confer authority.",
+    "dependencies": "Use installed CLI discovered with help; no dependency upgrades or beta engine selection.",
+    "migrationRelease": "Direct user approval covers resource replacement and exact recurring baseline. Schema execution and production launch remain independently blocked.",
+    "stopCondition": "Stop on changed nonempty inventory, wrong ref/org, cost beyond approved one Micro, access failure or unknown create outcome; never repeat uncertain creation blindly.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {"paths": ["docs/release/STORE_RELEASE_PROGRESS_2026-10-04.vi.md", "artifacts/supabase-singapore-replacement-2026-10-05/lifecycle.json"], "note": "Existing dirty progress report belongs to this task; all independent work is preserved. Lifecycle receipt contains aggregate counts and owner-selected cost, no credentials."},
+  "validationCommands": ["npm run feature:preflight -- --record docs/feature-plans/supabase-singapore-replacement-2026-10-05.json", "Supabase aggregate inventory and get_project old/new verification", "Authenticated CLI project list and exact-ref delete verification", "JSON parsing and scoped git diff --check"],
+  "managerTestPath": "Open new dashboard to verify Nilaza, MagicpenDigital Pro, Singapore and healthy state; native app QA waits for schema/config and signed artifact.",
+  "residualRisk": "Deletion cannot restore the old endpoint/settings. get_cost USD0 is not a total bill; owner approves Pro base about USD25 with one Micro before tax/overages/add-ons. Legacy ledger, schema rehearsal and release are still blocked.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false,
+    "projectLifecycle": {"deleteProjectRef": "eorvoncndvfspdsodzfn", "organizationId": "rzbpjfrndhrtxagpgdre", "createName": "Nilaza", "createRegion": "ap-southeast-1", "ownerAuthorization": "Direct user request to delete current Sydney project and replace in Singapore; reply to call_SjbyVoaxoBFCMivTJllFDalg confirms MagicpenDigital Pro, one Micro and about USD25/month base.", "sqlExecution": false}
+  }
+}

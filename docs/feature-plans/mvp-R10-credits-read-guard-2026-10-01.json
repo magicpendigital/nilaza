@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "taskId": "mvp-R10-credits-read-guard-2026-10-01",
+  "ownerAgent": "workflow_orchestration_agent",
+  "lane": "backend_proxy_lane: credits schema read alignment and unsafe debit gate",
+  "goal": "Align signed-in credits GET to verified canonical delta schema; return sanitized bounded auth/read errors and explicitly disable unsafe legacy direct debit until approved atomic generation reservation exists.",
+  "successCriteria": [
+    "Verified signed-in UUID user scope, anon/env/method/body bounds fail with provider/write zero; no raw DB/auth error returned.",
+    "GET reads delta columns with exact count; truncated or malformed totals return unavailable instead of false zero/balance.",
+    "Legacy debit always fails closed with explicit atomic reservation unavailable, never reads-before-inserts, no fabricated charge or success.",
+    "Meaningful pure fake-dependency Deno tests and index typecheck; no deploy, quota numbers, schema or monetary live change."
+  ],
+  "writeScope": [
+    "supabase/functions/user-credits/index.ts",
+    "supabase/functions/user-credits/handler.ts",
+    "supabase/functions/user-credits/handler_test.ts",
+    "docs/mvp-remediation/2026-10-01/R10-credits-read-guard.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "No live writes, project retarget, migration SQL, deploy, publish or release.",
+    "App/account bridge and privacy integration require separate root record; historical planning backlog untouched."
+  ],
+  "impact": {
+    "entryPoint": "GETuser-credits from same client path; POST oldmappedroot or /deduct receives explicit unavailable.",
+    "dataWrite": "Local source/tests/docs only; new endpoint never ledgerINSERT, RPC, provider call or monetary side effect.",
+    "backendContract": "Verified user scoped RLS anon+JWT; delta sum exact count <=1000, explicit503 for unavailable/malformed/truncated; unsupportedmethods405; debitdisabled503.",
+    "adminVisibility": "No Admin/publication changes; R10 fullatomicquota remains open.",
+    "privacySafety": "No privatefixtures/realcredits queried; safeerrorcodes, no token/log/body leaks.",
+    "observability": "Actual check counts/source bindings and precise blocked dependencies.",
+    "rollback": "Revert exact handler adapter only; do not reenable unsafedebit forrollout; keep endpointdisabled until atomiccost approval."
+  },
+  "canonicalContracts": [
+    "Initialledgerdelta/reason/balance_after schema verified actualQA metadata; no fabricated legacyamount field.",
+    "No new cost/quota approval; debit requires future atomicreservation at generationboundary, legacyclientneverauthoritative."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Verified legacycanonicaldelta schema vs amount endpoint and dropped deduct suffix in client map; read-only contract and disabled unsafe mutation exact slice."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Verified legacycanonicaldelta schema vs amount endpoint and dropped deduct suffix in client map; read-only contract and disabled unsafe mutation exact slice."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Verified legacycanonicaldelta schema vs amount endpoint and dropped deduct suffix in client map; read-only contract and disabled unsafe mutation exact slice."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Verified legacycanonicaldelta schema vs amount endpoint and dropped deduct suffix in client map; read-only contract and disabled unsafe mutation exact slice."
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "sha256": "88a873eb09601bc56640919d407dfd0777ff12d4e8e19b65fc52889b6393f256",
+      "reason": "Verified legacycanonicaldelta schema vs amount endpoint and dropped deduct suffix in client map; read-only contract and disabled unsafe mutation exact slice."
+    },
+    {
+      "path": "docs/BACKEND_PROXY_ARCHITECTURE.md",
+      "sha256": "b079458af4a10232efc8804746dd3ae7e8f10d5097800b26f2faf4e922fe91cb",
+      "reason": "Verified legacycanonicaldelta schema vs amount endpoint and dropped deduct suffix in client map; read-only contract and disabled unsafe mutation exact slice."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/R03-security-triage.vi.md",
+      "sha256": "f2386153d4463eeb5bf7db2511279483c454bb21d52320ab12425475f657f59c",
+      "reason": "Verified legacycanonicaldelta schema vs amount endpoint and dropped deduct suffix in client map; read-only contract and disabled unsafe mutation exact slice."
+    },
+    {
+      "path": "supabase/functions/user-credits/index.ts",
+      "sha256": "f7c21ce8081c97c2f3af91d3dec24d2cc39d3ac3d240e112cac2cfb05a56806f",
+      "reason": "Verified legacycanonicaldelta schema vs amount endpoint and dropped deduct suffix in client map; read-only contract and disabled unsafe mutation exact slice."
+    },
+    {
+      "path": "supabase/migrations/202606120001_mvp_schema.sql",
+      "sha256": "226e20601e094426e23170814fab3346eea953bf619d78b0ded153afa37559f5",
+      "reason": "Verified legacycanonicaldelta schema vs amount endpoint and dropped deduct suffix in client map; read-only contract and disabled unsafe mutation exact slice."
+    },
+    {
+      "path": "supabase/migrations/202606120002_add_missing_tables.sql",
+      "sha256": "80df182edc581e17f1fa66b91fe16537b89526abf97b889fe232c53e3032c91d",
+      "reason": "Verified legacycanonicaldelta schema vs amount endpoint and dropped deduct suffix in client map; read-only contract and disabled unsafe mutation exact slice."
+    },
+    {
+      "path": "supabase/migrations/20260903033047_reconcile_owner_prerequisites.sql",
+      "sha256": "bfc7f7cf54ef7998abd617607f47644e698ee501da0d53a373f5d629b2a311b4",
+      "reason": "Verified legacycanonicaldelta schema vs amount endpoint and dropped deduct suffix in client map; read-only contract and disabled unsafe mutation exact slice."
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "sha256": "a5c4e85d7ae1fe32654df5e391cf6a0147bdfe1b6b7494492612c4360ad6168d",
+      "reason": "Verified legacycanonicaldelta schema vs amount endpoint and dropped deduct suffix in client map; read-only contract and disabled unsafe mutation exact slice."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Fresh exact QA plan with full results and separate browser/native/CI/live gates; no skipped case or inflated timeout."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Current repository SQL and sanitized read-only Supabase catalogs; official migration/RLS docs reviewed in R02, no install or guessed compatibility fix."
+  },
+  "securityReview": {
+    "authzRls": "Local unit tests only; linked DB identity flagged separately.",
+    "sensitiveData": "Synthetic fixtures; no credential/private traces read.",
+    "secretsLogging": "No secret printing or env changes.",
+    "externalInput": "Trusted repository tests/build scripts; results not commands.",
+    "dependencies": "No install/update; existing lockfile version.",
+    "migrationRelease": "Nilaza QA foreign-schema identity unresolved; no live writes/deploy/retarget.",
+    "stopCondition": "Foreign/unknown dependencies block execution, never creation/apply/drop/repair/secrets/cutover in this preparation task.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "supabase/functions/user-credits/index.ts"
+    ],
+    "note": "Preserve existing server scope; no App/client changes or DB writes. Root exact handler replacement reviewed."
+  },
+  "validationCommands": [
+    "Local installed Deno test --no-config --no-lock --deny-import supabase/functions/user-credits/handler_test.ts",
+    "Local Deno check --no-config --no-lock --deny-import supabase/functions/user-credits/index.ts",
+    "npm run validate:backend"
+  ],
+  "managerTestPath": "Read fictional fixture tests showing delta balance and failure/anonymous/oversize; verify no successful debit/providercall; live endpoint stays untouched.",
+  "residualRisk": "Foreign schema dependencies/actor unknown. Critical/high dependency mitigations and native/RLS reachability remain release gates. Safe documentation only, no cloud action authorized.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deployment": false,
+    "productionRelease": false
+  },
+  "externalSourceReview": []
+}

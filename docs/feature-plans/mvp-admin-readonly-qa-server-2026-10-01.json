@@ -1,0 +1,1950 @@
+{
+  "schemaVersion": 1,
+  "taskId": "mvp-admin-readonly-qa-server-2026-10-01",
+  "ownerAgent": "admin_cms_agent",
+  "lane": "admin_console_readonly_verification",
+  "goal": "Launch existing protected localhost Admin for read-only post-seed Content Operations and AI Studio checks; no publisher action while mixed staging gate remains.",
+  "successCriteria": [
+    "Dirty-input/entry source coverage and preflight pass before feature:run admin:dev.",
+    "Both protected workspace routes open through normal authentication if retained session exists; no role bypass.",
+    "No publish/content save/provider test or live schema action."
+  ],
+  "writeScope": [
+    "apps/admin/",
+    "docs/mvp-remediation/2026-10-01/R20-seed-integration.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "Launch/read-only task does not grant application or asset edits despite owning-app server scope.",
+    "No DB/provider/publish/deploy or account/role/credentials action."
+  ],
+  "impact": {
+    "entryPoint": "Existing localhost4173 protected Admin shell and two workspace read-only routes.",
+    "dataWrite": "Node server process only; no source mutations. Local UI may retain preexisting local draft caches.",
+    "backendContract": "Normal authenticated read-only Admin boot, no live writes while R02 remains blocked.",
+    "adminVisibility": "Preserve Content/AI Studio/Growth capability boundaries, no raw private content access.",
+    "privacySafety": "Static path allowlist excludes env/internal documents; runtime config only approved public anon key, no secrets.",
+    "observability": "Browser checks distinguish login blocked/server unavailable/read-only verified; no fake publish.",
+    "rollback": "Stop only the server launched by this task, restore viewport; no application data rollback."
+  },
+  "canonicalContracts": [
+    "Existing Admin capabilities/auth/runtime public-path allowlist unchanged."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Reviewed protected Admin scope, current architecture and authentication."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Reviewed protected Admin scope, current architecture and authentication."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Reviewed protected Admin scope, current architecture and authentication."
+    },
+    {
+      "path": "docs/ADMIN_DATA_CONSOLE_ARCHITECTURE.md",
+      "sha256": "2e458cfc73cf5122f90db17feac1316e6eca20d31033103c65d9a3d24280eb71",
+      "reason": "Reviewed protected Admin scope, current architecture and authentication."
+    },
+    {
+      "path": "scripts/admin-runtime-config.mjs",
+      "sha256": "bb189c906f7def29e734c51f95d8cbd77582bcfc1000d7c81af0282cd32503b6",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "scripts/serve-admin.mjs",
+      "sha256": "623808537f944d58062206059a8ed1b6ddc6af5c8985c99ddb980dbb01227486",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "ba3e99deb94ffd6b862f2008b5886cb60aac9a60d4fa1c28cc98f4226a2bbedb",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "package.json",
+      "sha256": "d88632c639a6cafe6a9b0f363476d6109e6b57cec9e40555cd714c97be343da3",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/agent-config/coding-agents.json",
+      "sha256": "fb44c4e0ba86ed512cf509cfed11e7a4a19b3b0944bbb665937994238a961e10",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/agent-config/council-contract.json",
+      "sha256": "8b568a077d9f9988721970679405eb3e641739cd542c6d70c37a6323438b77f8",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/agent-config/feature-workflows.json",
+      "sha256": "d666fa979ea9cb016c47d0d2257d8224da20d6e63bd47c77b4dde8f782f2a680",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/agent-config/model-routing.json",
+      "sha256": "25eecd4fcea32769e88ba59e7b287e7ee8cb42d75f70f2198759eacd4bf08eb2",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/agent-config/prompt-library.json",
+      "sha256": "6e24285ae847c2ee01ff6949ef3b6fd36c5933d31376a185c32b244d97f29bd3",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/agent-config/tarot-card-skills.json",
+      "sha256": "f713532df2b47112a634376fdcf850a64120f65c55242acc49774a7273a35503",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/content/data/brand-exports.json",
+      "sha256": "f4d9172a640dedb055e9d5cc35f12db79f1da0a42eab1c914d5467d7174af8b7",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/content/data/feature-visuals.json",
+      "sha256": "f7fb5b249070897822c1130beb0d487c1a697cd261796efec543a3b97600a821",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/content/data/tarot-card-designs.json",
+      "sha256": "27590b48adfbe148fd6a4c4e30aee90a7282a6f96606de5ee2336871235f50da",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/content/data/tarot-cards.json",
+      "sha256": "2688f997eb10bfcf5a59107b5ff09b7034168eb8a1ca39ac165df2cb192a6865",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/content/data/tarot-deck-backs.json",
+      "sha256": "86bf4b6255709ea6acc3c8d5f634d04a0bbc0ac79a5e2990db5bbc8cffd04978",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/content/data/tarot-decks.json",
+      "sha256": "e699d651d8d6b65b35bae51b624056efc9463dadba1c7b856074c54c0e851002",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "scripts/feature-run.mjs",
+      "sha256": "c8be0a298464bf01e4eaa9e84eb50e4580f5c0ba3d78f776359caf4914393b30",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/features/astrology/aquarius-v2.png",
+      "sha256": "7a102fcc9c42b69ed3ae9e609b6326301b684d3c8e5a81e873bda0850feb67bf",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/features/astrology/aries-v2.png",
+      "sha256": "62720b3c7e338ff29e9cf112904e3e874a423e8f2b9e2930f1438d6fe4be5623",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/features/astrology/cancer-v2.png",
+      "sha256": "a59c81468ae874c63495deb9bb1aad89d7972ec528b760c9a6338e407f930abf",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/features/astrology/capricorn-v2.png",
+      "sha256": "82335949c1864f079ee9059612f94c1ae74fde2718e2bb1bf1a01da78be31f2f",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/features/astrology/chapter-art-generation.json",
+      "sha256": "49bfe339607ca6158de594fc777b691b0c8e4c7b1475e363983f7177317cc73b",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/features/astrology/chart-story-parchment.png",
+      "sha256": "7262e1039cf6160ab661cb36a5b296bddd7ec8e89e939b4aef84f8a47366a98b",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/features/astrology/chart-story-stage.png",
+      "sha256": "3baa3cb8d0d9fab66af4560364f1034d2cf207a95662111b8c55ef8c48941eaa",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/features/astrology/gemini-v2.png",
+      "sha256": "8d552f373c3d4683358871152b558dad49ec293a73e767bda021515d0aa964be",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/features/astrology/leo-v2.png",
+      "sha256": "831490020a62e8eafeaecf33f02b14274f458ff27e32bc7ac8b8c081d20f2f3d",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/features/astrology/libra-v2.png",
+      "sha256": "224c0fa4bc2662b62b2b1bd0c215558dc88dd38cc9030f807ffc34e3b28c3765",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/features/astrology/pisces-v2.png",
+      "sha256": "4993dc674cc9c2e5ed3b126887da744798af5fdb2983ebbb94577331d424c20c",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/features/astrology/sagittarius-v2.png",
+      "sha256": "26f45d3a42eff178d27e15bc0efc6378e21f6f7bfb42675a09f166f21cc5acad",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/features/astrology/sanctuary.png",
+      "sha256": "8240e53f1eec2d843ec16e5b41b179d841cd20d4e8e3b699fd7a2adb404c4a0e",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/features/astrology/sanctuary.provenance.json",
+      "sha256": "23b528791be12547d5112b94ff021f65e2a30bbc69d8bd89079e34a748e89ab4",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/features/astrology/scorpio-v2.png",
+      "sha256": "3129fb44609f350cbd68a90d094c8a2ae15ede60c9cb05c34452311f9fb83577",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/features/astrology/taurus-v2.png",
+      "sha256": "107eb5fc22b6b14579e71aa5b22bf13175aed88a2abb09bcb6bbcaf132c5c0bb",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/features/astrology/virgo-v2.png",
+      "sha256": "ec4e3e9f04f50a4608084932c9bca73efb0dfbdb19d6dcf78b8f9c87ab919953",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork-quality-review.vi.md",
+      "sha256": "1fb1481175f5aeeebbbb06568b67e6d622572fe970eb8513a8af90bddafc676d",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/major-00-fool.png",
+      "sha256": "c0aa0c843790e2b5b720344653a305e66f54b734fcec50c89956f8a98561477f",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/major-01-magician.png",
+      "sha256": "9bc058e1e4fc563849999af815f629a9fd673ebba2cd75d0ded4accf70d76cc1",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/major-02-high-priestess.png",
+      "sha256": "44074d8cd6cbc77de33ebcb5c8ca7c22fb590c4ee80cdb55bc31427d98b18e32",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/major-03-empress.png",
+      "sha256": "10e96389d912cc6b84607858648ccec6c99df8baed8082b63de7b76b2fd73739",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/major-04-emperor.png",
+      "sha256": "9d9984b10bab48fd5845f28bace4bf4d688fbf3f06df96265ae4ed9b61f172e7",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/major-05-hierophant.png",
+      "sha256": "f0283d2e6ed8f575ef8736c3dfbad700ac7fb9e917cf6a454fcc3bcf210753d2",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/major-06-lovers.png",
+      "sha256": "0d6a04780f764040770880bc030d78ca2024ed8eb0902aca7772cd8e914bd18b",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/major-07-chariot.png",
+      "sha256": "dcf0e7821ca5acda2bfcec818920b8244c37911e579effc5c103b95725ae76a7",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/major-08-strength.png",
+      "sha256": "fba7b25c258d9f1c14561928113119d0510f476e1e7008e9f7127e4d7f6c4cb8",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/major-09-hermit.png",
+      "sha256": "4cf218ba3b439feeb1579b8053a273ed93580985a43b38045bb66e4acfd442fd",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/major-10-wheel.png",
+      "sha256": "296244d07db69f7be6ecd2afe21f95b7897a34ee584746a77ce5db041dfc2a35",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/major-11-justice.png",
+      "sha256": "211dc101729841f147c43067e6aaaaabf3a31ea24b5382513a06c2035029c1e0",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/major-12-hanged-man.png",
+      "sha256": "a4ecd44b9c7115552a2327796fb221c88da5a48883e028c7efa5c06505ab2072",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/major-13-death.png",
+      "sha256": "c08f772665f9db53ceb0b5cc5ea407bc714f78732833d374e3076d5e192ebb8b",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/major-14-temperance.png",
+      "sha256": "ceb3860187520c3f3cab957a52e214eba4dc5bbc169f20d801bdd0468ff595ae",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/major-15-devil.png",
+      "sha256": "fb564a8a3afb9b1074aad8e7cd365917a82988086397ca47fe4362d37129fc43",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/major-16-tower.png",
+      "sha256": "6a9e735aad5dc6be88a5e7878c4b2bcb16d93ec530f8e5f7179caa39c19827bf",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/major-17-star.png",
+      "sha256": "4e005dc661c93d71805dda74889797d3fe685cc70861da4db188e72d901e3fdc",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/major-18-moon.png",
+      "sha256": "56238d2920a463d6345312d2e5453259644212a979ecdf35fb36e4129f2914c5",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/major-19-sun.png",
+      "sha256": "2ecbd4a3c50ca691c11fb07792bc1f4dc6ed7dd28ba18be2db65094f198c90f2",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/major-20-judgement.png",
+      "sha256": "602d6f5efe64f5c803fbc12ebcf436c5615a94d64ecd674646e890fe2e38e925",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/major-21-world.png",
+      "sha256": "cf4c39b1d1b90d8601228fac1f86cd508a7a627eebc88e69fb281a319556b6a7",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-cups-ace.png",
+      "sha256": "cd2801bc04216b2609353b90ad713bd13aae59706782e679bf7255138bc26867",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-cups-eight.png",
+      "sha256": "338b1bb9d776c04b3ecdda9eaaea51e5cb5a1ae6fc561d6da918a47279da63fc",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-cups-five.png",
+      "sha256": "19bc7d0bbd5f90b10363bdf53855187350189453444e1f13a6d766a03d6f4adc",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-cups-four.png",
+      "sha256": "bad5a58dc8228b375146418e6fd0c406f75e1b7c5e290d71d5aac264476565dd",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-cups-king.png",
+      "sha256": "2b65d09dca7f045c53d490a0755cf45b9853607c265a3b630d228d4001f641c0",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-cups-knight.png",
+      "sha256": "851b05eb98ff72b19efef09a6cb0e68e94fb033fa83c664844ff029acbf05f26",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-cups-nine.png",
+      "sha256": "3cce620c0d992a033c4472433888f2ae378cf26640a4ad060bf308a59c940176",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-cups-page.png",
+      "sha256": "250d9f5b28e0353cc22449dc8b03c14332f90c9aa691be6a375c33ab6ef1eec5",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-cups-queen.png",
+      "sha256": "10be861037bef22aae87a31c670ff5e757dc889487646728cda9090ff3e612a5",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-cups-seven.png",
+      "sha256": "5b11ce13864caa59211cbcb70041c47bd3ac27778fbfd2802449c4cfc8863c53",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-cups-six.png",
+      "sha256": "7a7f7f5dd207f9ffeaadf3f2ce3045c94f617ffe767e6ba0aab64af9cdf93211",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-cups-ten.png",
+      "sha256": "ff542973d2464327f84bd3ae34e0aac35819bc6455bfb8b2fe5c8f9bb8e9509f",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-cups-three.png",
+      "sha256": "fabac67c1e7e1e7480c32f9d105ea917c5469a92fd935068f8347d1d21baa14e",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-cups-two.png",
+      "sha256": "48688aa4f07b38fa605165df2d0ba528267750db2315ba6925c770c0f14bc364",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-pentacles-ace.png",
+      "sha256": "1e58aaf674c670da17b189587f41856e331c6385b301f235d41db609811ed0ba",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-pentacles-eight.png",
+      "sha256": "adcf373dcd7b3d2dc4fae102058761c0028adc9802543121ce6ea037b01d1f7e",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-pentacles-five.png",
+      "sha256": "4c67a16101723ed49b37a487e1f0b13aeaecc60a9254f73cc4e6f2ad6017bb02",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-pentacles-four.png",
+      "sha256": "a032e6631b264885287e04cc12b5ec5cdabd2896ef9bc2bfc32556c032805d09",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-pentacles-king.png",
+      "sha256": "a4d156a63a00e1046a8e8bceb2913417195289fd39de555e0decddc0929b6cc6",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-pentacles-knight.png",
+      "sha256": "315e0a36c68c1a4a2fbe6a81565c44f5f2cab491e3685f1224bca88c147890a6",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-pentacles-nine.png",
+      "sha256": "f86749ae4b74de7eae33c287e9f720163675745ce96f3ba55984afc5469302c0",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-pentacles-page.png",
+      "sha256": "3472832f0235878ba4184493fa49f77bdd1a0a9ee567a7f00fe89ee5597cff29",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-pentacles-queen.png",
+      "sha256": "6462d3faaf08681074904559ee95ae6f5794865c28c3a5d9ab9b81ab921ee0ba",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-pentacles-seven.png",
+      "sha256": "f1cc161552b8fa29ff3d7744cf24810f881f52c3724ae6411f17031c8f610dfa",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-pentacles-six.png",
+      "sha256": "6a42567805e670e437ef460b6fc664c9ef5c57655392c7caf288ad034bd22487",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-pentacles-ten.png",
+      "sha256": "8f91e17828a44941ab9a87ec172eb3733104ee1206466ef52d41ffc0d04496e1",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-pentacles-three.png",
+      "sha256": "b8b83ba89cc0541ca2e80c990d0f09ff3d7439fd7c39e8e3aaaedebe1d0084a4",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-pentacles-two.png",
+      "sha256": "d0ef7b0e7f67f539178eb3c94419f799301e1fe370ea495d76d1f194e571b0cd",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-swords-ace.png",
+      "sha256": "b3993265e8eb48acf8f73fed10c84bb760caf798d17bd497689e2ac16c7f0f68",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-swords-eight.png",
+      "sha256": "5019a78bc89280cec99fa5a2eb8e4681973c8ae11669c3f1728f40c4bdd680d0",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-swords-five.png",
+      "sha256": "6327d8f516da232efee9010e344d8a6a415428b6d390c8627c57a46c287e2316",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-swords-four.png",
+      "sha256": "293f6633389c10e4acb1c48a7832e180e46b58fe1438e94c2845804e3da26956",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-swords-king.png",
+      "sha256": "fedce478b51be067ca224ff510a7d8aff62065fc8ad8fb38f60dedbb4900d54a",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-swords-knight.png",
+      "sha256": "c22bc1fa0e6ea10527240884bdc7c1e008439a7bd34d8e397d8837e9d2038458",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-swords-nine.png",
+      "sha256": "e54cd3cbe0aed3c8ec5b4dad89d13825dc988709bf36c63617dc33129d3977dc",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-swords-page.png",
+      "sha256": "ee685cf3e81b509e6a4ee8a24618f7f299f6f1f0c662f2cee2c1d7c6eb08cdd6",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-swords-queen.png",
+      "sha256": "75528136757a309a8454bb360d36a6b8e73d5f64d81cd72d97ee919233ccb034",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-swords-seven.png",
+      "sha256": "35d90cf17ccf017b4dd78d23b731b371f5e80cc5ab0fe3de038a9c4f9cb2da5b",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-swords-six.png",
+      "sha256": "2fdd3e40833fc691a7fcaa8c2b2bdc7d720ce069d213dbe5b6396056516f7328",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-swords-ten.png",
+      "sha256": "ecc9950bad9c63c589e3c7e3175fe77b9be7373899fccf7448ee5248b2d07b43",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-swords-three.png",
+      "sha256": "7e679e4f9c3bde03b402236dd9c87bb11a76210bd6f0c28a069d804f3afa6868",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-swords-two.png",
+      "sha256": "6df47a753ddd5453b6abc11ca669cda2a98ccde0c32591389ca810059dd62dab",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-wands-ace.png",
+      "sha256": "54974c17a7e23f27ebfad6a53dd39ae6857f898fe1f6b68758b10c8f1bcb7d88",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-wands-eight.png",
+      "sha256": "6a566d85ecfcd3c3b0f7e99cb9c85e0106f9586869664b2748474764edc4b5b8",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-wands-five.png",
+      "sha256": "c83b0acd48789d8db5d9d54aeda1f4f709b5304cfb0e0085f49531357835d23a",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-wands-four.png",
+      "sha256": "6535f8b963b4e22f9c56f26d81c3c0e3848c0f5f311a9fe434412468eaa73fe0",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-wands-king.png",
+      "sha256": "9f49404f9ea86c8e05f898f45bdb2252ea32865c6bd72618736fd014cd09ed59",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-wands-knight.png",
+      "sha256": "c886f4fbb94cab35351a81fe4a37d99179bd2369e6b4bd7dc1cefe2dda052d71",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-wands-nine.png",
+      "sha256": "a79b655937bb065f9f4dfae713cc43a81fd4bca455444d5f03545adc0f581087",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-wands-page.png",
+      "sha256": "28d39a40ad4f45f8f3553386403f4f9348b8565f58cda0ea5cb556e09cb87033",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-wands-queen.png",
+      "sha256": "abdeb7f34264ba82f689d7f08ee0439a012dca255e4c25384e201c47e579120b",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-wands-seven.png",
+      "sha256": "86ae44a73f415bfff9bbf3e29bd74b87164457f0224c1a523590b8f564736a8f",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-wands-six.png",
+      "sha256": "fa57c6687d94c732b8450f91dc1fd53038a102665d6fda1cadd4556761c3ef82",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-wands-ten.png",
+      "sha256": "a89f80908f917e9cabc05f716f29ac1bf4bd2682c280cb694a20f8c9cd9b4137",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-wands-three.png",
+      "sha256": "7ada5e5fe80c11b0cf9c172fae59fbd16595154f98ea6beb6ebe130bef44c6cc",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/artwork/minor-wands-two.png",
+      "sha256": "0a946318f387e0e3ea5b1a220abd420fbb7b9d940572e5bf887485b17427e5e5",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/card-spec.json",
+      "sha256": "022d0d5a275dba2cb345dd4bcc40fcd97a402571ea620693a182c6acb2a301c3",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/major-00-fool.png",
+      "sha256": "1ebf1874041592a54ca29aea911b5c00546535bd7d091ae91dbe2b9c8a863999",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/major-01-magician.png",
+      "sha256": "48a3ca2e79b3ef77e2c990e4aaf2992bd39cabdf91fd5d1181cc8ca6069cd5f2",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/major-02-high-priestess.png",
+      "sha256": "81fe60247997c43e4a927069d1f079f5c3a7798cf6ec474159c590c9c7b3357f",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/major-03-empress.png",
+      "sha256": "98265f7eb30e672bf2b987257f1208af230d181925fd48b85aad81ba50ef5433",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/major-04-emperor.png",
+      "sha256": "bdfac4187564c898fcce283ef02f993f584e63777de3b4d295b19d893526fd14",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/major-05-hierophant.png",
+      "sha256": "039fd9ed92c1f8bc94d8feeecad5cbe8c3e98381ddf683509b8b8d297f8d1efa",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/major-06-lovers.png",
+      "sha256": "090dd4de0cc09e73f63815cab68f4ea73157fe9373087ccd4ef2dde616515d5d",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/major-07-chariot.png",
+      "sha256": "b0ed58c4ce44756226f3d51e880c38f2ccf96cdaba8f300404ac5844e10ae688",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/major-08-strength.png",
+      "sha256": "8827130e890b73981963ee231d0e77eb8f51889cb15951acad20a16f828c3b55",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/major-09-hermit.png",
+      "sha256": "6f86c07171da06738097628190e0539c1ad344bb972ba80c10591bdf964f9631",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/major-10-wheel.png",
+      "sha256": "ec75880a7e98141ead806e5dddf80ce4b5bcbaebfaf6960cab89e34b2ff7863a",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/major-11-justice.png",
+      "sha256": "1c6e639354e7322fabb7384c5caec79f026ed2d9933e6d41e09536d95ff9fc76",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/major-12-hanged-man.png",
+      "sha256": "bf9df682d257f9eb1fe2fbb45c6ace84ca2c6b2890a8446760e8c58bd9a897a2",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/major-13-death.png",
+      "sha256": "198e35b70427b8452c05a970d09d206e8895d3f369615b3860ff327858f7511f",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/major-14-temperance.png",
+      "sha256": "b24f406eba937ae5e8e1a553cc24224c46a4268ae58e5fa0a4380cc48ebbc3b9",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/major-15-devil.png",
+      "sha256": "10bbe6062cb640a42f87c98b28e91863f1625d13b08ad8208ac563de89f7db27",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/major-16-tower.png",
+      "sha256": "e3e6711c7f0a4be8bfb516f01cd69671eb825f016026e8ad11bb15fdf013fbfa",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/major-17-star.png",
+      "sha256": "8d91e4de650d8179af0d22634ee37354de79771dd66896d1dcee2020bcfd05cd",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/major-18-moon.png",
+      "sha256": "2606dd77e73e7cdbac0724584a56a3e7f19582091d5d723eedcd5b081c3bc0c4",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/major-19-sun.png",
+      "sha256": "f99201042045eb24bce9439d123496bb885ad0953f71753a10c38dcca7c14e06",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/major-20-judgement.png",
+      "sha256": "1d942a040471f75617f6d1cf01c00cdc3493282d5462be2797e86dcb8ad38a56",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/major-21-world.png",
+      "sha256": "ffb82a7672c8278c8c781f328db7bb6580a1b4f1b5602522f219772db95a2c1a",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-cups-ace.png",
+      "sha256": "46a0aee73911f4e4008a8277c24b441ce68641df6048c763d31989b1da3df2b8",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-cups-eight.png",
+      "sha256": "8e47f192a53d0c390a8a4b44beda807503d740b1933b2b7650c32ef1c4260e98",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-cups-five.png",
+      "sha256": "ec0b9ef6aee3c76565d8fa1e30310788cac6cd7abc9560cd55f610cc48213875",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-cups-four.png",
+      "sha256": "cfdff3e0356ee5c08e31a7de3e5aa9db45f7b12f412261d3cc1ac15248cae194",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-cups-king.png",
+      "sha256": "ad2b781ded47288e5e1a18352a38987bcedf5746729c821983fce5d6bf294854",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-cups-knight.png",
+      "sha256": "84c56bb85e13aa82c9980f00c82ea1d919c87f478ccac66dd05d2d6fb8bcefdb",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-cups-nine.png",
+      "sha256": "ce623cc945d500c372024c4b864900d696c5cc9f50161644ea41c5be7a3e44ed",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-cups-page.png",
+      "sha256": "578e2f4e44f466d34176868c1dc33998876cb7acaa3dd9b9bbb17ea3be8f1fb7",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-cups-queen.png",
+      "sha256": "2c772870fc55bddd457f33a05a04b07c9d00ed66e25b3e6fa89719d07b403e7f",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-cups-seven.png",
+      "sha256": "08671a8bdc158d0f5a2e0ff4766373cd0f306637321d5874302ec3d5512649f5",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-cups-six.png",
+      "sha256": "c9b3b62ab4d52889a4af52f6cd952408efacb0f19a68e974f20e922e6e7a1c0d",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-cups-ten.png",
+      "sha256": "55facda2927aba91ffe6b63bef7c931b5a717ec29320836416a6e99e8d78b28b",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-cups-three.png",
+      "sha256": "fe1bc5dc3649c3f566dc2d884f5d9a1f4ea7fd90a767273b0a60bcd9588fab81",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-cups-two.png",
+      "sha256": "70479388cfd0c251c0cf62e74319692adc46f4c4e29abbd007811192f0edb9b6",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-pentacles-ace.png",
+      "sha256": "6c3a9145df208dd591c0195fa123e81f4075199938037694728d1b1f35ccac53",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-pentacles-eight.png",
+      "sha256": "2c84a3cb215803b9ef135bef4c641135de2279384101f833ab78d9b4306f5a77",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-pentacles-five.png",
+      "sha256": "c1010ddb499757d132677ae6bd952d6cf406664edbb1e3a6a317d095093c32a2",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-pentacles-four.png",
+      "sha256": "6539b14175b5a08f9eba34036ad1feefe7bb273129601bfee80fc10071bca2ed",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-pentacles-king.png",
+      "sha256": "9e5dc12d19f8b27335c5a0d7135447f074a282fc320df598a60e8fbf6468483a",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-pentacles-knight.png",
+      "sha256": "3a67d98eca18c71ab7e3a741b324b1784008c6802303ef04bc4090ba37199bdc",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-pentacles-nine.png",
+      "sha256": "d63fb11b18611c448f8f269181d5e649c556d23ffd481c504091fdfe08e8ce09",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-pentacles-page.png",
+      "sha256": "5ffdc4cf3d701e3f6f4027612934b6baf8a88c30aa8b794949989fbabe12f1e1",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-pentacles-queen.png",
+      "sha256": "c064281efa3efebca235c9b49fa1542f6f97fda4f12d62c65ae5a150164b233f",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-pentacles-seven.png",
+      "sha256": "2fe82686b6ec7f4eb749811b7d1e15c200744e874f0af86b63d1eb032592c0cd",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-pentacles-six.png",
+      "sha256": "28f0a8fe1dd6dcbee8cd90344cafd52dc9c94c3e970813ba833aa936c367ee39",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-pentacles-ten.png",
+      "sha256": "c355b7abd795268925d5e38d0b380fa1aa5ec73c7ea51a5585ec244a1992f47e",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-pentacles-three.png",
+      "sha256": "5034d955731e44fb390e838d902024e0a2a668a38df8e41a33330bdee36253e0",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-pentacles-two.png",
+      "sha256": "2f76e9d395733cbdb0e210b08edfc9d3d83119d17ef4e974815602269594c4b3",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-swords-ace.png",
+      "sha256": "98d11beab7b5cb4cb24aefd81925811a75c47b8da331049c281a39acef4162a0",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-swords-eight.png",
+      "sha256": "2620d149e1c7b7aa4a5c0c53021945128a280140b8e02c1b6e88a203107c349e",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-swords-five.png",
+      "sha256": "7942c675bb35647b861065234ea42389f3a3037d9abbf00f578884b4cfb58987",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-swords-four.png",
+      "sha256": "852b96f55fdc83baf88f6601833e49c45dc1f769e8766dfb975427f71964b6b7",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-swords-king.png",
+      "sha256": "9906e79767a77ef4a55167396fd367203bcda8f5e35e9bf2724262a3f0d73838",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-swords-knight.png",
+      "sha256": "dccdc69aa5e99e9f26373aee40b5c0e5cf93656e2c7a87f6c9ddd9235d455a20",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-swords-nine.png",
+      "sha256": "56d200962bf6aa4fd8288225aea139298dfb4f21eef1df0094cf4831858a16a6",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-swords-page.png",
+      "sha256": "7a1cdf981e87b8c6e1a8345f478a5aa8307d4480a68e4f0db7ddf9dcea9b87b7",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-swords-queen.png",
+      "sha256": "5b6dc69c53f4198213a5740dbc8ec0079f1acc37037b292f35906f4db615745c",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-swords-seven.png",
+      "sha256": "84360798711b76c95a88ba013d582bbb727fbf25c9af19f44a98702dd92e7df2",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-swords-six.png",
+      "sha256": "6c6fa584d6769b45b0b9f21577d55ed4633a15a82ca52821d2d1149a619268bb",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-swords-ten.png",
+      "sha256": "174bc13be3d95703d707c026909de4586a5a2b0aea678397a7f73fcc9811a144",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-swords-three.png",
+      "sha256": "ba012738f5c7cdff4fb58100269fd5d716e4526fc803a5adb724aaa34dc2c53e",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-swords-two.png",
+      "sha256": "5186504a851bd34c853a6aa383cccb058e3d0495abea59675eec5381b8cc4ab1",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-wands-ace.png",
+      "sha256": "7f5b14cf5599c458978c2aface5a9f1ecf877245b4760dbe95d1cc7af1eb340d",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-wands-eight.png",
+      "sha256": "a17c357de5c71fdb25a28dd22c85f835be840e70b60ab68aede1bf84244c18b1",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-wands-five.png",
+      "sha256": "be8eaaa96192c154eb218ca3d8c3b7834a8bf316347721f44f6223d3f4eac91b",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-wands-four.png",
+      "sha256": "98df85c76078c4409bc0733d948c6624c40052b43e663596570618a8d111c604",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-wands-king.png",
+      "sha256": "c986cfb4df8e7f1d1743bdf24ca17c6f9d4eb1a4f68e97596493ac9288e22110",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-wands-knight.png",
+      "sha256": "2b633ebbf25a38eb3d56456b87b7fa337ab82368d5b215247a9a302876ab9b25",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-wands-nine.png",
+      "sha256": "57d79798b74ba2311a3cd9846334e3f7dde29d812a48d2214d68ba7ba9bcbb8a",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-wands-page.png",
+      "sha256": "2bef39fdb73d7c23c412951f9efa60e6ab065902b2c2eedb48c8b96c29d01d0e",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-wands-queen.png",
+      "sha256": "e1294c9a13117bc6288671455c7f1d5d7fa531ee61fa44d46046ca851dd3cb67",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-wands-seven.png",
+      "sha256": "55c8433d1d5728cef59ba87c7ad7f16c124d6c8e1a0f430c0aa54c1c32d0d659",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-wands-six.png",
+      "sha256": "5482a2ed390556467d27b76fd29f66765250047aa52d796492f16c6a6b8cf4a0",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-wands-ten.png",
+      "sha256": "b9d1a60321fd143d90110d3f547f8865b12d3575859630541ff87b1a18eb9371",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-wands-three.png",
+      "sha256": "29f0f8dcd52fd2fa5c12b55f6d843947cc76e481d0288d80b3cc126d5417f945",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/cards/minor-wands-two.png",
+      "sha256": "c7affc67a18f3a1f7609f539ad3559d5d038e26ce2c525f13fab77abb40459f8",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/classic-arcana-full-deck-manifest.json",
+      "sha256": "a463ac605277197c4d9bac7c3448d41f5196cda8328c3188b2e1e4554368b331",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/contact-sheets/classic-arcana-review-01.png",
+      "sha256": "9aabf1befae865682e692ad1eb4c84e233c7bce113e6e8bbc24922c5cbafb0c3",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/contact-sheets/classic-arcana-review-02.png",
+      "sha256": "14b82a754d0f37e0fffc85f473de115fa28f9803b977b717af48840691036012",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/contact-sheets/classic-arcana-review-03.png",
+      "sha256": "dba512f49852f959a86df838ded2e2b4ba4afe1fbb425edda543f5bddef5cf86",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/contact-sheets/classic-arcana-review-04.png",
+      "sha256": "10c4ffcbd714484b36a3dc66d241acdeea7336be52f9d314a7711e59b6a73778",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/contact-sheets/classic-arcana-review-05.png",
+      "sha256": "c6c56c7c07d5633b80611f8a6e2a22c523f96f7fb4906b8cfc7fc7eea2514c41",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/contact-sheets/classic-arcana-review-06.png",
+      "sha256": "b67b7e4c6723d4d8be70122cc6658717ed40820739789e06c5ffb81e9681d666",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/contact-sheets/classic-arcana-review-07.png",
+      "sha256": "54bbc00ce46a9d72f897a9ffebca3873a698eca0a6b2534b3862aa0b6bd29910",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/revisions/major-04-emperor-original.png",
+      "sha256": "9d47ed8977cb57f971cbee0897376adc26b342b465e03af6787de27d3b54e5c6",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/revisions/major-04-emperor-pre-reposition-review.png",
+      "sha256": "e0c1a0c9700b082a93e9d0f0ee5a18a4a80822bb8780be3331d1a08a1080ccd2",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/revisions/major-04-emperor-pre-scepter-review.png",
+      "sha256": "dee58ae297f584a1d5abbdb6bc6da8fc65c6f4130553a8eb23a7d4689c7a50e0",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/revisions/major-04-emperor-review-v2.png",
+      "sha256": "5f73f38396559e20ea32e17a5078cc992aff680a2a3069267500254c17eb4334",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/revisions/major-04-emperor-review-v3.png",
+      "sha256": "11bff20115f8ff015b263b794a2f588087a1813d6f9f6b705ac079a92a047f6d",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/revisions/major-04-emperor-review-v4.png",
+      "sha256": "0fe6fbaa3e131b5b99ff92709fd3e7e5a3ce721b2a2f336471dc025415edb64c",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/revisions/minor-cups-nine-original.png",
+      "sha256": "50155b40848708687efac67a0fb8954d472f42a02f231dac6d24a2eafb45d49e",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/revisions/minor-cups-nine-review-v2.png",
+      "sha256": "c56c6530861495de0f6a6023b273355874541293d87f0cec8e59f9a225019860",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/revisions/minor-cups-ten-original.png",
+      "sha256": "6ea7a4f3377c4a0edd702df2f89080290117be2c511ef3890cbde4ba2c15301b",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/revisions/minor-cups-ten-review-v2.png",
+      "sha256": "603455fdb5a578c6a6e3ea42af2b88647ce1e4a398937b4e54e3b84596d574b0",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/revisions/minor-pentacles-eight-original.png",
+      "sha256": "265841203d6cab0ddbfde0742eb932e6334ceb118c448bc4c70ae9248729b036",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/revisions/minor-pentacles-eight-review-v2.png",
+      "sha256": "72792a7f05a7fe59ef21651c7af235ec523d0e4a96cdfc2b45961f0c630afacc",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/revisions/minor-pentacles-nine-original.png",
+      "sha256": "f4a49e20eae6a736d3f0fd7966de8ea771f77b0582b96f26ee827150aef04462",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/revisions/minor-pentacles-nine-review-v2.png",
+      "sha256": "4322e86a45f9cec1f124ec6a32dc9831c00f14e37b2ee336d2a6982561b9cb16",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/revisions/minor-pentacles-ten-original.png",
+      "sha256": "051d65017c02d6bd0fbd95e7bfd4779fa1d48df2601bb18f0aeeb310949df580",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/revisions/minor-pentacles-ten-review-v1.png",
+      "sha256": "55edfbffa21f9e25b33a67e4e4760be455fc60748b6668559b2d16dba8a389d4",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/deck-backs/classic-arcana.png",
+      "sha256": "adac89e6af1d4a3bcf743f245d0222c6c31ba48f3845f26d59f5efaad305f19a",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/deck-covers/classic-arcana.png",
+      "sha256": "efc75e1365ea9b520d57d4a68adffd38defc4e757f55a6f31d61cfe3ad2cc375",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/traditional-style-proof-2026-09-24/artwork/major-00-fool.png",
+      "sha256": "ed5ea0b447d6dda28b1a21648289afdcc089e73eba7044d23904c0aef2cde83b",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/traditional-style-proof-2026-09-24/artwork/major-02-high-priestess.png",
+      "sha256": "c191d1b4e8c43765462a75ceb2d224cd1abca89329732f83bb8a3533455a324f",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "assets/tarot/traditional-style-proof-2026-09-24/artwork/minor-cups-three.png",
+      "sha256": "07dbb9c5b7ee22a3ed2298a443d076b80ba00766aeff87ca118ab45732a90a3c",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/agent-config/astrology-ai-insight/README.md",
+      "sha256": "7a93d53085fd0598b896c47ec14d3ec3fcee200261a6e592c7f321f02172f296",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/agent-config/astrology-ai-insight/contract.json",
+      "sha256": "f5f4b16ef8a950ea8607d4ad797cdf2fa43bde9d972040272e6cbdffdd03c6a5",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/agent-config/astrology-ai-insight/fixtures/valid-invocation.json",
+      "sha256": "f4bb7de8de916f3f6b6a7e5ac7e6dedbd85114212ae86fbc553bee32c3209f57",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/agent-config/astrology-ai-insight/fixtures/valid-request.json",
+      "sha256": "acb47792d2b1fea5c72096184ca829c0b60675ac50d118760f1660bc2bd11226",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/agent-config/astrology-ai-insight/fixtures/valid-response.json",
+      "sha256": "a795ca6cc59677af78cf3bb8bf3162215dd3a94ddfb464e8a0f5f947724cb510",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/agent-config/astrology-ai-insight/invocation.schema.json",
+      "sha256": "0f38beaff4a00ca7930591478ace37503a4aa6e41290a5dba200d4a1e2b42f7a",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/agent-config/astrology-ai-insight/request.schema.json",
+      "sha256": "e37d40a52368039694ed8a810e3d46621ea20b7120ca25024133f316198c5392",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/agent-config/astrology-ai-insight/response.schema.json",
+      "sha256": "9d5351426e95d8f51e9995e04922c6ea0d11ec02e4a00d37a46bf7525b096d79",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/README.md",
+      "sha256": "a76c78d75a035e3aedaf70ccef55b2b6914ad94a5780d58328021edb2edb20a0",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/accuracy-report.json",
+      "sha256": "61e5b94152b19fb5fe0fedf9a723627583d417106bb4c18d05a85d5babf503fd",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/calculator.d.mts",
+      "sha256": "2362265fc7a8305f1328d18071841252662dfe82ea7186d27432cfe6860aaa79",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/calculator.mjs",
+      "sha256": "536802d6f3be8ef87bafe45515ab3b760fe70935fb171eea0594b1ab30869cdb",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/chart-grid-report.json",
+      "sha256": "5ac9e178bca318c59f0e3a805b568205546b3d0acf6db010532e1243a220a8b1",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/chart.schema.json",
+      "sha256": "8f646581668cf9dc8ac2cdf09737b549b8263a8afae0934d32e9871303fbef99",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/fixtures/jupiter-horizons.json",
+      "sha256": "51131f644cddcff63981dce715ad81a69ab12e12fa0c1e99f4585a7fe63050b0",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/fixtures/mars-horizons.json",
+      "sha256": "e65e88ae60f17477d001c9021d3ec6d5b65ae9c7b66c89f14a72b5c2cd614775",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/fixtures/mercury-horizons.json",
+      "sha256": "f30c141b220dfd8d436d18576e512e6d0cc21d09b1541c54c6ce46fe1a628a36",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/fixtures/moon-horizons.json",
+      "sha256": "291c93f947e6cb6f87454410b96bd8f39cbac46c66ea006b8a7128ea4e4ea8a0",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/fixtures/moon-timescale-diagnostic.json",
+      "sha256": "c0f25c44982f2692259a27e3baa680f019634ec8630067a1336dd00590ff6ae8",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/fixtures/neptune-horizons.json",
+      "sha256": "1b18e168250ec33f570d80d8284bd735d69c294e12e01a3552fc73681e2b2ef9",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/fixtures/pluto-horizons.json",
+      "sha256": "9931933ec68a4e4e14829bc2237126eb8a4b60f079badc17a20b0d0cf37bfc76",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/fixtures/reference.json",
+      "sha256": "3c3cf718018e90205c2a596fbb1505d36462036d7360011146d965ff740505eb",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/fixtures/saturn-horizons.json",
+      "sha256": "ffdc7df24794c0741385eee3e6ca2464b9fad409fa7f1f2efd947e7796426d67",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/fixtures/sun-horizons.json",
+      "sha256": "2d6290f74659379f17c40ed3d0297592c8feda9fa8d914771913b20601513f3c",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/fixtures/tai-utc.dat",
+      "sha256": "3524e1ae34d67e858873a89e59983bbc5bd100221da898e796c1b36036a310c3",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/fixtures/uranus-horizons.json",
+      "sha256": "901a014aa2d0ee4d1bcdbbb6d4be59a161b90e36f9e9fd6c64150644a514d269",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/fixtures/venus-horizons.json",
+      "sha256": "28fc8b43c366cccbac5bbfc56514b5638a836dabcf866c82d2a38099fbcc6c5e",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/package.json",
+      "sha256": "0ff7d9bff244a09fe918aad3611c36629d087e9fc65dac32ba8ed05105d78610",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/places.json",
+      "sha256": "27f48fbcf21fae6ec3fae7f6dd30db5f3d8ec3cdbf3ef04e17ddd90a2711933d",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/schema-validator.mjs",
+      "sha256": "4c44aa2bac5e09dbfc74865b12d7effcb00242a6b59e2ec22e63143ca4e29939",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/tai-utc-data.mjs",
+      "sha256": "d4d5fe82a25e1eb7e5e492bc5ad60316a9e4f4f26021b93212d7f4031950d5d6",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/tai-utc.json",
+      "sha256": "b76a59bc4489b48cad4aa0173b902a7b7c3720dcae6c5b7574df3e0bb29f43ad",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/test/calculator.test.mjs",
+      "sha256": "379c8b0979a8af6bfeb60953f7fd7fcde1ba3aa1092bc9bbd93970ceece861fe",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/test/contract.test.mjs",
+      "sha256": "1ed38202cd0a2b62afe746e66825892b06bebb2da2706b9f6f263982e5859b9e",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/test/time.test.mjs",
+      "sha256": "61b73613cf05b89e60f3008ecf09d5f3edd0a4eb51d0670d5c3725139b08a1e8",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/time.d.mts",
+      "sha256": "558eed67b07d208cabf44a7539e8efce59eaf44fb853331a2cfb157b4f29f557",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/time.mjs",
+      "sha256": "7caa87879a20c7d1cc75428246e393f45cd95bdaa297b700cf50ed060c5753a5",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/timescale-diagnostic.json",
+      "sha256": "35d3518a504da24d1923623acd73b1df32e2310de8bfa4141f6b371a823a2c39",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/timescale.mjs",
+      "sha256": "05a1f634889613d8030841e0888988db20b67e54235148145ab596ea3ee0dde8",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/validate.d.mts",
+      "sha256": "b41510df3c34e71837663cfafe7dc9431b8d29ea3e34fcc2693873c6f0010740",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/validate.mjs",
+      "sha256": "dff57aab33245416c7836d19e2fae44b5153f2b3f5cfde21f55f9b72f112f034",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/astrology-core/validation-runtime.mjs",
+      "sha256": "5f1f2d78e247a130eb7f67855b099312646b4bdfbdcb80a2b2e7c0c9d4fe81b8",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/content/data/astrology-chart-fixtures.json",
+      "sha256": "be1ab869b48f5dfecbb83434ad214ca6a1a643b76cd865b4b275867c2b798759",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/content/data/astrology-mythology-chapters.json",
+      "sha256": "210f176a5c656f1c96310db15d192d78388b8e3a140abff493f609150d86455e",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/content/data/astrology-mythology-depth.json",
+      "sha256": "4e2fffa0c1443494c89d54976b8028be28866c43ef3fa6b40b417912a85fccc0",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/content/data/astrology-visual-system.json",
+      "sha256": "117ae68ded6a77041ce5e080f16ab4dd964d834e9bf73ffc3842c843ec776ed3",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/content/data/astrology-zodiac-guides.json",
+      "sha256": "88fa225e591b2dac9ef7ae23ec2af1b48724076b4a32873f6561ccdf1b9935ec",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-contracts/README.md",
+      "sha256": "2bb5a46d630c2f9a827994dda17bb7de77fec51229aa66d27c1b7b22061486b4",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-contracts/contract-index.json",
+      "sha256": "24bc5dac4a8050b8e1d2c02072e50b37f8c1ee841599a23a211439c11861368e",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-contracts/package.json",
+      "sha256": "14c2a05e6cf3a70e7b925f115bcafeb214745757cd5937ac548fb03f42dedae3",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-contracts/schemas/approval-record.schema.json",
+      "sha256": "2ad97201e08e709d4c163dde4dc8e83e0f96ea0d4cdd844dc3e827545024d807",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-contracts/schemas/asset-package.schema.json",
+      "sha256": "3107e052b4f6e98b58090b5a5338c477ceb8d2484cd5c873913ffa6565443b7d",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-contracts/schemas/content-brief.schema.json",
+      "sha256": "0d853834dfcb785cee75193ff7484e450ee3c5e0e49675fd0495be405d2604fc",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-contracts/schemas/execution-receipt.schema.json",
+      "sha256": "ff85bee645f81954c01b30c8f34d330a3cfcc60eadb52a232bb1b68f32257f2c",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-contracts/schemas/learning-export.schema.json",
+      "sha256": "e95c92fbc1de0c1573a1c7e99c1ef8a67c776d316b40ca41a95eed61a1050610",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-contracts/schemas/product-truth.schema.json",
+      "sha256": "944b624466679a80d6b0c164b3e7359f65a0e74aac0ba5d53fbd16b374176f0b",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-contracts/schemas/qa-verdict.schema.json",
+      "sha256": "ce8fb350cecd090d792528aceaa0aff67e384ede5cb7e50895a6b60139f7716d",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/README.md",
+      "sha256": "dbbccc55e167764551015dcda2d0fa525242d033673e89531cb32b7cbf61b393",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/config/agent-runner-contract.json",
+      "sha256": "9206677a4d9fc3b60f10feb08d69945674765a9e1117c6ad157ff23f2fcd5486",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/config/agent-team-topology.json",
+      "sha256": "66b51238071bb3a792401d83a02c0241da6e50016b9e13cb7a45351d7ab6f542",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/config/approval-state-machine.json",
+      "sha256": "0dbff40c02ee0e9b36ff7ff4ed1cb701f2c72bc7b701292d08da361b26f62ddd",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/config/growth-agent-catalog.json",
+      "sha256": "1cc6d131585b09122645649d97b03b87821786a4b7d9cd6aab7e1c3caf36c759",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/config/growth-workflows-b0-b1.json",
+      "sha256": "8513ef6585b2497ee4e8c7f7b3b680ef1e9a0576389a811c62066468f732b74f",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/config/metric-contract.json",
+      "sha256": "821a681b03f3e722e0d101c5fb665070600adb323292a23662a3b68774994ca4",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/config/quality-gates.json",
+      "sha256": "da187f06a8c0cf4b171fd37547f70d7996e76e4e054f56a8104fdcad4f924af5",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/config/skills-catalog.json",
+      "sha256": "b39a61443096920bdf41e95d68ea5cc5a7f87d3d2f46b46b083385011827e159",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/config/tenant-onboarding-policy.json",
+      "sha256": "4d8f97647210a6ab032d7b4f04d91643ec4d4bc6212817c82f1101e25adb539a",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/config/workflow-subworkflows-b0-b1.json",
+      "sha256": "f6bbda66425e2154f85571f7d2343b526cc487022144fa65c5fcc7130a878301",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/export-manifest.json",
+      "sha256": "12e2473cbcd2f8ad262439e47f47c257f24f55948fb8ea12a4163bbba3678ca5",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/export-root-package.json",
+      "sha256": "1adf53afa2ede3b40b794ce02d0aa83f2be985230b9b0cbcdcd5752b14e49857",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/package.json",
+      "sha256": "a51b9f211e173598eb26423b0aa4389e18c166c46248fdf2653bb1a698cb792a",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/repository-template/.github/pull_request_template.md",
+      "sha256": "3d3bdcb4f9c8f60e2423bdc9cb5fdb24126a6e5e5b298a844c32b975390f054d",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/repository-template/.github/workflows/framework-quality.yml",
+      "sha256": "142e6ddb199d2857b66d9aa4ec2ff7b0ab7b035ae7e5b9396f1bb852f0c1f5ae",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/repository-template/.gitignore",
+      "sha256": "5942abdd8863e33fef6fe81a1e46110d187dc63af5fa7b6ec6b2156b16dd0f53",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/repository-template/AGENTS.md",
+      "sha256": "506f8e91d91e2592f23e9f2e3de8578a2bd879722c68243bc72d5551e142f6b9",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/repository-template/CODEOWNERS",
+      "sha256": "725c080b24dcebc5d3133c3003d87f507bda29696588711e457f08fec6793332",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/repository-template/CONTRIBUTING.md",
+      "sha256": "77922755a047a9b3d67ef5a35152c4e0b1a7912fca4e7d2a1bdd7a3bdfe5fca8",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/repository-template/LICENSE_DECISION.md",
+      "sha256": "6bff039a77997a21135e5d9d2fe3c5cf7d292a8d192ad5c783ef8cfdecd0aedd",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/repository-template/README.md",
+      "sha256": "0afb54be50c9a60a262dd9e5198e5e47a7e12817b15b861882cc33de647255fe",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/repository-template/SECURITY.md",
+      "sha256": "28769cdddb4fe9ca8cff3b531c15999bde81ef34d6da56aee930fdd41490c280",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/repository-template/docs/ARTIFACT_EXAMPLES.md",
+      "sha256": "3889070373d0381e4855bfbfbeb458203a8baaf16bbe1ed7a94450dc0ac705fa",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/repository-template/docs/GOVERNANCE.md",
+      "sha256": "72f4b526c5d040f98e00717e1bb535af75bf45a111e0bb19993076599d87298b",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/repository-template/docs/OPERATING_MODEL.md",
+      "sha256": "c2ecbcc25bbebd30ba160ea5514e833fe520aba7bc95cb2760c895a48c1f23e2",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/repository-template/docs/START_HERE.md",
+      "sha256": "5bd89658285b9547d8fb217ca97f7962daab5e65835d8960e6ec837d744d0309",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/repository-template/docs/TENANT_ONBOARDING.md",
+      "sha256": "829329e67f84573dd6bf7def291aa37d8ca8a7a6899c37c1c61954f5d2df19a4",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/repository-template/docs/TWO_BUSINESS_PILOT.md",
+      "sha256": "3b44d70b1d6715ef9a8d705516e777b1ad95ad80ff9e93ef2445ed4428e2240f",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/repository-template/docs/VERSIONING_AND_UPGRADES.md",
+      "sha256": "cab82185911205c43bd5d0bac1a96a1ddc31c5295e7b37364253cb36c273ef70",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/repository-template/skills/README.md",
+      "sha256": "5e4f6dd98f10b2911b38712fa3f7cd2697170a309ff2f11c21b54307008d26d7",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/repository-template/skills/growth-content-factory/SKILL.md",
+      "sha256": "d1583d85e168f3274221d8c78265726851be4acf39dc7dcffeec243fb46ccbb7",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/repository-template/skills/growth-execution-preflight/SKILL.md",
+      "sha256": "52259d67b76a8979c5c38d2aa5051ba76d88b1bd483c72824f9d059e7e898de7",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/repository-template/skills/growth-journey-measurement/SKILL.md",
+      "sha256": "b3a929c7359ff3c91e242f9a32d626d26055203a8e379b8de1ba5c59d56b735d",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/repository-template/skills/growth-learning-synthesis/SKILL.md",
+      "sha256": "46a77a7c1457ca7fef23e824c99f68643fe3bcc20318b273d344268ab12dba5b",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/repository-template/skills/growth-positioning/SKILL.md",
+      "sha256": "27be6d85ed7efe9e5e82daf25dc385d4766fa8d719ae123b38e02faa9143ff87",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/repository-template/skills/growth-quality-gate/SKILL.md",
+      "sha256": "1304abf75c12fa7143c82bc047f420c4434d34fd43fbae0cfd41319b8346e262",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/repository-template/skills/growth-readiness/SKILL.md",
+      "sha256": "47f8454b2ecf9f35e561794cc17eca58794b83974c8d3944910f44871242ddba",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-core/repository-template/skills/growth-research/SKILL.md",
+      "sha256": "f016cc975eb81d2c46411cf9daf7b558c423dbbf609d8fd85e19fe3b18c43798",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-fixtures/README.md",
+      "sha256": "4927fd973e79d0093fe5f415f7c6bce28b96f8ff07f2805698b6e4326a9b4eee",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-fixtures/learning-exports/synthetic-example.json",
+      "sha256": "eb5ef5efeb31672854964e89d5ecac310fc068f3ce6556c0d1f605f989a16bff",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-fixtures/package.json",
+      "sha256": "35f8fba0101252d55f99d89ad34bd197dc000ac092d5602a7c2c459bf9a9e3e7",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-fixtures/qa/adversarial-fixtures.json",
+      "sha256": "b690264e01bbdd8d8a46405c201fca08b2df0e1c81cea36694bfcadba920fc71",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-fixtures/tenant-template/business-pack.json",
+      "sha256": "9ed9e5f3b066b0a5b5bca5b2b1bfe467ead3bbc91896c28d8b1ebc16dc0719d1",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-fixtures/tenant-template/product-truth.json",
+      "sha256": "f6df838fed874d8478be3e22e394b8987ea967e93c9f20a85a85293548da1ca7",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-fixtures/tenant-template/scaffold/README.md",
+      "sha256": "d7bac99dfa11544bda6686cfd07a74fb97a6a903d1061f2304129ca18a79f1b9",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-fixtures/tenant-template/scaffold/approvals/index.json",
+      "sha256": "7e7cb35ba214442624af1db4ba5ce5a89ded9aebf0debd7c0b7ae29f7e174ea2",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-fixtures/tenant-template/scaffold/brand-pack.json",
+      "sha256": "bb730373a66d14caaba91366ece2e8fbf024b9f5eb1015c1e8905c1e8ed5b4a3",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-fixtures/tenant-template/scaffold/briefs/index.json",
+      "sha256": "db5a52157811179c18604030a8432f573a3643680a74c0783f69d896d44ecab5",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-fixtures/tenant-template/scaffold/business-pack.json",
+      "sha256": "72afbfd545d215e4da61a266bad3f37719479abaf3660cdb21a1d679d0744ab6",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-fixtures/tenant-template/scaffold/campaigns/experiment-brief.json",
+      "sha256": "460a4a8907bbb9f3c0a49decd18ce79f8a4c7c5513efb3d543b05f3f8d912448",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-fixtures/tenant-template/scaffold/channels/capability-matrix.json",
+      "sha256": "e8ddb88d302c8ad9474b4beb6f7a15be61d4457c52486fe978c8ef0ee2159eb4",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-fixtures/tenant-template/scaffold/content-drafts/index.json",
+      "sha256": "88e0f603e3e788c55059d46cf486175888e79ca340985fcdfe23cfa99206b629",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-fixtures/tenant-template/scaffold/journey/journey-map.json",
+      "sha256": "9efa5dffb85d872caf1b16cf2864a06aede227114cb94c07e11057df7af6ab40",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-fixtures/tenant-template/scaffold/learning/learning-note.json",
+      "sha256": "5a011968532f0a304a8c3c28491882985ddd32d1469cae83de2178a07f030597",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-fixtures/tenant-template/scaffold/measurement/event-ownership-map.json",
+      "sha256": "df9c134051d73acdc5fa623dee56b6835252396fbad16aaa827b8ac0d7574c11",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-fixtures/tenant-template/scaffold/onboarding-manifest.json",
+      "sha256": "a8d0a3ecae36020938423476e30a7df76a70e8870580ea552b62a9cf76bb7670",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-fixtures/tenant-template/scaffold/privacy/consent-data-map.json",
+      "sha256": "edb5848b9ad488e1780383638a8c9d26372b734e85d49c7a4174345dfe75a4ef",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-fixtures/tenant-template/scaffold/product-truth.json",
+      "sha256": "d101a59fbd80064a9912451d8b8c8f6fc9c6e5cb4679fc0d5eda69d0f8ab8067",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-fixtures/tenant-template/scaffold/readiness.json",
+      "sha256": "e99d2ee2d6fe82299697453ad4838adcfca8422af1288857d396080d987f5581",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-fixtures/tenant-template/scaffold/research/interview-kit.json",
+      "sha256": "b254938df351159d7029f3910deebf35c6c3482442f295717d45d2e4648b4af9",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-fixtures/tenant-template/scaffold/research/source-register.json",
+      "sha256": "dac50bac4eaa775472e2f023d7a872fcdbf24abffeae201081286de7272fedd8",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-fixtures/tenant-template/scaffold/risk-register.json",
+      "sha256": "09fc3442599ba8ea138b3da6a6cae011c08eeb3426721c5b61b38ae8bd7709cf",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-fixtures/tenant-template/scaffold/role-mapping.json",
+      "sha256": "e67a478f3f9ac2db94423287b1bf6d0933f554cb3db86b6dc977580d74120690",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-fixtures/tenant-template/scaffold/tenant-config.json",
+      "sha256": "ead19dcf64ff973491f629db6e2221b067731a4c32893554507dece248f554fc",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-fixtures/tenant-template/tenant-config.json",
+      "sha256": "b3c91d3e3d3e08be9f456f976fc27c9fa35c46a7516d13ee2c1e4ea9a1b4851c",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-nilaza/README.md",
+      "sha256": "7e3921d1454763358a5fca0bd1cfe128266293b5b9b5f3eff4e8a5a2ba4852d2",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-nilaza/brand-pack.json",
+      "sha256": "20d7677a27dbbe90460ab0701aff0fd1590d44b3ae586634ac57ef5baa3dc780",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-nilaza/briefs/sprint-01.json",
+      "sha256": "e7c29d07002a8ed41806488746a3576623f3abc47288f65cf12484b301492554",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-nilaza/business-pack.json",
+      "sha256": "9453f06afedf5469a99d7a45e44c140146561028db2f966fedc01f781d78252f",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-nilaza/content-drafts/sprint-01.json",
+      "sha256": "1c911bab916fc8d087299df1b84f4f8d39e6f419f85fbb37304c84592997bb69",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-nilaza/learning/sprint-01-learning-note.json",
+      "sha256": "d405539c12f2a7b30ca9326f90deb3b0873f4a7397c62f2d1497eb4a54b19076",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-nilaza/measurement/event-ownership-map.json",
+      "sha256": "22840b10e785fa96464942f2a084ce916d8bd8db2a7d50be8a600991bfa99efe",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-nilaza/operations/roadmap.json",
+      "sha256": "568b24732c387afe50b55d42b1fb8f562baefafc053f50c427b40c7baf5a30aa",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-nilaza/package.json",
+      "sha256": "a49fe3439ace390d9e1c21902ee6bbfe69cd41ec96c25095cca8dc6e86d30633",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-nilaza/product-truth.json",
+      "sha256": "0946eb65b9de71a593f822ba5c9c4149d285fde46ec948f1a251bb35c8645e5c",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-nilaza/readiness/sprint-01-readiness.json",
+      "sha256": "3575cc2b9c3e59d0f6154434fe6ef70c24492c46340510cc604ac7e83c421529",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-nilaza/research/interview-kit.json",
+      "sha256": "b578985a39453144d12ffa45a81e548ce50f54295a648d4d38ea99ad5b7bfec4",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-nilaza/research/source-register.json",
+      "sha256": "447bb26daf5addebe5ca49389949d0d356214dbe441baa234231f786ff7005a0",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-nilaza/role-mapping.json",
+      "sha256": "158af5e6b0937a167360aa8c5191229646eb503d4053829b71c3600405031506",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-runtime/package.json",
+      "sha256": "eac65218e7443472f2eddb04b8936438b827583d450794e5bcd05bb685dae146",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-runtime/renderer.mjs",
+      "sha256": "decd256f20388f24aa259ab31eec05d34679fee8783f62289a4d000db925de47",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-runtime/runtime.mjs",
+      "sha256": "bd6d75d578ce221eacfb2570e1d673bac2be9ea001b4c37cc0a4ebe20cfaf01d",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-runtime/schemas/author-packet.schema.json",
+      "sha256": "1437ecb90c3ec2b9c8e8c92c512f94cd26e1943fbf9d0f10dc1749df5751f18e",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-runtime/schemas/creative-manifest.schema.json",
+      "sha256": "d83ae2f3ed2bcc5480bd7a7b11e20b72f754c6e7bfc6f9dcaaaa14399f5b5bfd",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-runtime/schemas/runtime-job.schema.json",
+      "sha256": "9321002e42a842b218c0918da7a0092076e2b20ec6a7f57252e41f0e727e671a",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-runtime/schemas/runtime-receipt.schema.json",
+      "sha256": "e627bd9c23fb2445a5242c4e645e2429dde152b031bcb13c9a085e2f3d6a7d70",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "packages/growth-runtime/schemas/trusted-intake.schema.json",
+      "sha256": "585ed22ea95dffa78109c7da0cbccf91ebed0fa03ea192b8493090bbd811e2e6",
+      "reason": "Preserve reviewed owner dirty input for read-only launch; hash binds current static source/asset, not visual or production acceptance."
+    },
+    {
+      "path": "apps/admin/AGENTS.md",
+      "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8",
+      "reason": "Reviewed protected workspace and role boundary before read-only launch."
+    },
+    {
+      "path": "apps/admin/admin-capabilities.json",
+      "sha256": "159b395086072f6c6af86065d16eba93e092dc5b524f244ad9eae39f1dc03a3a",
+      "reason": "Reviewed protected workspace and role boundary before read-only launch."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Fresh exact QA plan with full results and separate browser/native/CI/live gates; no skipped case or inflated timeout."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Report installed versions and observed connector metadata; no new package/API choice or invented current advisory claims."
+  },
+  "securityReview": {
+    "authzRls": "Local unit tests only; linked DB identity flagged separately.",
+    "sensitiveData": "Synthetic fixtures; no credential/private traces read.",
+    "secretsLogging": "No secret printing or env changes.",
+    "externalInput": "Trusted repository tests/build scripts; results not commands.",
+    "dependencies": "No install/update; existing lockfile version.",
+    "migrationRelease": "Mixed NilazaQA/MCY schema remains blocked; docs prepare review only, no db push/repair/deploy or sensitive payload export.",
+    "stopCondition": "Stop write/publish/provider test or role bypass; mixed staging remains unavailable for rollout.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/",
+      "apps/admin/.vercelignore",
+      "apps/admin/README.md",
+      "apps/admin/admin-capabilities.json",
+      "apps/admin/generated/content-seed.json",
+      "apps/admin/generated/growth-operations.json",
+      "apps/admin/growth-model.mjs",
+      "apps/admin/growth-operations-model.mjs",
+      "apps/admin/growth.css",
+      "apps/admin/growth.html",
+      "apps/admin/growth.js",
+      "docs/mvp-remediation/2026-10-01/R20-seed-integration.vi.md"
+    ],
+    "note": "Owner Admin/Growth dirty code preserved; only launch/read-only checks, never publisher mutations."
+  },
+  "validationCommands": [
+    "npm run feature:run -- --record docs/feature-plans/mvp-admin-readonly-qa-server-2026-10-01.json --script admin:dev",
+    "npm run admin:check",
+    "npm run admin:test"
+  ],
+  "managerTestPath": "Open content/personas and ai-studio/workflow; retain auth guard and verify canonical seed only, no publish.",
+  "residualRisk": "Tests do not prove native accessibility/performance, external CI, real provider quality or mixed staging safety.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deployment": false,
+    "productionRelease": false
+  },
+  "externalSourceReview": []
+}

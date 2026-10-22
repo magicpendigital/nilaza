@@ -1,0 +1,175 @@
+{
+  "schemaVersion": 1,
+  "taskId": "mvp-R04-tarot-flow-2026-10-01",
+  "ownerAgent": "mobile_app_agent",
+  "lane": "mobile_experience_lane",
+  "goal": "Fix Tarot deck first fold, preserve selected deck through explicit optional intention, explain actual selected reading and label save honestly without changing provider/billing/storage contracts.",
+  "successCriteria": [
+    "All seven deck intros show title, brief value and localized tier before full contained artwork; no intrinsic source-height layout.",
+    "Deck-origin reading enters editable optional intention then spread without another required deck selection; quick entry no longer skips intention.",
+    "Why shows actual question, selected cards/positions/orientations and canonical reflective meanings; Save says save rather than write.",
+    "Existing ritual reset, premium/credit guards, artwork and Journal snapshots remain intact."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "docs/mvp-remediation/2026-10-01/R04-tarot-handoff.vi.md",
+    "docs/mvp-remediation/2026-10-01/R04-classic-390.jpg",
+    "docs/mvp-remediation/2026-10-01/R04-why-390.jpg"
+  ],
+  "untouchedSurfaces": [
+    "Canonical seed cards/decks are owned by the separate R20 executor; no edits to content JSON, Admin or provider prompts here.",
+    "Auth, Journal durable storage, entitlements, backend schemas, production and artwork exports remain unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Explore and Tarot deck intro, quick Tarot shortcut, topic/spread/draw/result and Why expansion; retain tab and back history.",
+    "dataWrite": "Only transient deck-origin selection and explanation state; existing onSave/sourceSnapshot contract preserved without new persistence.",
+    "backendContract": "No API schema, provider call or quota rule changed; selected-card interpretation stays in the existing reading contract.",
+    "adminVisibility": "No Admin fields changed; current preview/live boundaries unaffected.",
+    "privacySafety": "Explain only actual app-selected cards and user question, do not invent why a provider chose a phrase; no new personal data, keys or telemetry.",
+    "observability": "Existing tarot_opened/quick_opened traces stay; explain label states symbolic seed explanation rather than a model chain of thought.",
+    "rollback": "Revert only scoped layout/flow changes to the reviewed App state; existing read/save payloads and card assets remain compatible."
+  },
+  "canonicalContracts": [
+    "Existing TarotStage, reading.cards/sourceSnapshot and canonical card meanings are preserved; explanation is displayed seed/context, not provider-private reasoning.",
+    "Open Reflection v1 and current A2UI/brand guidelines govern typography and artwork placement."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Reviewed current Tarot entry, layout, result actions and contract boundaries before the R04 implementation slice."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Reviewed current Tarot entry, layout, result actions and contract boundaries before the R04 implementation slice."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Reviewed current Tarot entry, layout, result actions and contract boundaries before the R04 implementation slice."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Reviewed current Tarot entry, layout, result actions and contract boundaries before the R04 implementation slice."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "c492e69235bc94267f8de0181822602612a5bbda03dd3d144cf4d6c96ff43197",
+      "reason": "Reviewed current Tarot entry, layout, result actions and contract boundaries before the R04 implementation slice."
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "7a4973733886cb4f1568d38e6d8324d1d8200bb1acd850db486bf5323943f023",
+      "reason": "Reviewed current Tarot entry, layout, result actions and contract boundaries before the R04 implementation slice."
+    },
+    {
+      "path": "docs/BRAND_ROLLOUT_2026-09-11.md",
+      "sha256": "57e0b30b43f27e20e4ca69db12efbd726d77d316edf2013c79ca4bb0324861c3",
+      "reason": "Reviewed current Tarot entry, layout, result actions and contract boundaries before the R04 implementation slice."
+    },
+    {
+      "path": "apps/mobile/src/a2ui/README.md",
+      "sha256": "635240e6f341977cdf4ec7607e9dea0bf63a0f9ad3adecd5b196e6c09614e4cd",
+      "reason": "Reviewed current Tarot entry, layout, result actions and contract boundaries before the R04 implementation slice."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "c73f3bd8ea4e31446ebd43bbdbed82069db85ad758135ad975d6134fa9581e9e",
+      "reason": "Reviewed targeted R04 edits after TypeScript pass; original pre-edit hash retained in implementationBaselineReview. Further source changes require a new review."
+    },
+    {
+      "path": "apps/mobile/package.json",
+      "sha256": "57cf7175b3adaaa749fe897c9a303972addaeaa06c0f43ff732d8464339a6591",
+      "reason": "Reviewed current Tarot entry, layout, result actions and contract boundaries before the R04 implementation slice."
+    },
+    {
+      "path": "apps/mobile/src/theme.ts",
+      "sha256": "d5da367499e494b72b7c9de4db1d384ff5bb5f09701c2be1cff5bad0ac3db42a",
+      "reason": "Reviewed shared R05 token update; no Tarot contract change."
+    },
+    {
+      "path": "docs/reviews/2026-09-30/ui-runtime.vi.md",
+      "sha256": "9be1e0fa09b407995a90a82ec6dabdf4dd0e91124b9115ca4748e4963fd37555",
+      "reason": "Reviewed current Tarot entry, layout, result actions and contract boundaries before the R04 implementation slice."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Fresh impact map, one App integration owner, preserved owner dirty edits and separate local/native/live acceptance."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Layout uses current typography, bilingual access/action text, original Tarot assets on Tarot surfaces and explicit browser/native status."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Checked installed React Native 0.81.5 and current official versioned Image/layout documentation for contained absolute-fill image inside an aspect-ratio wrapper; no dependency changes."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://reactnative.dev/docs/0.81/image",
+      "checkedAt": "2026-10-01",
+      "reason": "Official contain sizing and accessibility contract for current RN major/minor."
+    },
+    {
+      "url": "https://reactnative.dev/docs/0.81/layout-props",
+      "checkedAt": "2026-10-01",
+      "reason": "Official layout aspectRatio contract; frame owns dimensions rather than static image metadata."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No authorization or server policy change; existing deck/credit checks remain, no free/Premium bypass introduced.",
+    "sensitiveData": "No saved user rows or private test data are read; synthetic browser scenarios only.",
+    "secretsLogging": "No env/credential/log changes or raw private history exported.",
+    "externalInput": "Question stays plain text; selected deck/card facts come from current canonical runtime data; Why cannot claim internal provider reasoning.",
+    "dependencies": "No install/update and no remote artwork; installed versions reviewed for the layout behavior.",
+    "migrationRelease": "No migration, database write, publish, deployment or native release action in this slice.",
+    "stopCondition": "Stop before expanding into billing, cloud storage, Admin, provider prompts or source data; refresh scope and preflight first.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/App.tsx",
+      "docs/mvp-remediation/2026-10-01/R04-tarot-handoff.vi.md",
+      "docs/mvp-remediation/2026-10-01/R04-classic-390.jpg",
+      "docs/mvp-remediation/2026-10-01/R04-why-390.jpg"
+    ],
+    "note": "App.tsx already contains owner edits; current reviewed SHA is recorded and only targeted Tarot sections are patched. New docs are acknowledged."
+  },
+  "validationCommands": [
+    "npm --workspace apps/mobile run check",
+    "npm run validate:data",
+    "npm run validate:visual-assets",
+    "Browser 360x640/390x844 seven-deck first fold and intention/spread/Why/save/reset happy path"
+  ],
+  "managerTestPath": "Explore a deck, see name/value without scrolling, start intention, choose spread without repeated deck picker, draw and expand Why to compare actual cards; save and begin a second reading.",
+  "residualRisk": "Cloud save durability, provider grounding, entitlement and native evidence remain separate R06-R16/R22 gates; this UI slice cannot certify those.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deployment": false,
+    "productionRelease": false
+  },
+  "implementationBaselineReview": [
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "c73f3bd8ea4e31446ebd43bbdbed82069db85ad758135ad975d6134fa9581e9e",
+      "reason": "Reviewed targeted R04 edits after TypeScript pass; original pre-edit hash retained in implementationBaselineReview. Further source changes require a new review."
+    },
+    {
+      "path": "apps/mobile/src/theme.ts",
+      "sha256": "d5da367499e494b72b7c9de4db1d384ff5bb5f09701c2be1cff5bad0ac3db42a",
+      "reason": "Reviewed shared R05 token update; no Tarot contract change."
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "deckId": "moon-garden",
+  "templateVersion": "2026-06-07-template-v1",
+  "status": "sample_ready_for_review",
+  "cardSize": {
+    "width": 1024,
+    "height": 1768
+  },
+  "samples": [
+    {
+      "cardId": "major-00-fool",
+      "artwork": "assets/tarot/moon-garden/artwork/major-00-fool.png",
+      "card": "assets/tarot/moon-garden/cards/major-00-fool.png",
+      "promptSummary": "Moon Garden inner artwork for The Fool: moonlit garden path, young traveler, small white dog silhouette, botanical gold line art."
+    },
+    {
+      "cardId": "major-02-high-priestess",
+      "artwork": "assets/tarot/moon-garden/artwork/major-02-high-priestess.png",
+      "card": "assets/tarot/moon-garden/cards/major-02-high-priestess.png",
+      "promptSummary": "Moon Garden inner artwork for The High Priestess: seated oracle, vine pillars, closed scroll, crescent moon."
+    },
+    {
+      "cardId": "minor-cups-ace",
+      "artwork": "assets/tarot/moon-garden/artwork/minor-cups-ace.png",
+      "card": "assets/tarot/moon-garden/cards/minor-cups-ace.png",
+      "promptSummary": "Moon Garden inner artwork for Ace of Cups: chalice, moonlit water, night flowers, crescent reflection."
+    }
+  ],
+  "contactSheet": "assets/tarot/moon-garden/contact-sheets/moon-garden-sample-sheet.png",
+  "nextStep": "After product approval, batch-generate the remaining Moon Garden inner artworks and render all 78 cards through the same template."
+}

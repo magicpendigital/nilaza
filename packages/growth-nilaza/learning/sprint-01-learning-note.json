@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "1.0.0",
+  "tenantId": "nilaza",
+  "sprintId": "marketing-ai-sprint-01",
+  "lastReviewedAt": "2026-09-30",
+  "status": "not_collected",
+  "dataSource": "synthetic_only",
+  "crossTenantSharing": "aggregate_learning_export_only",
+  "currentHypotheses": [
+    "A three-step reflection ritual may communicate a clearer first value than generic chatbot wording.",
+    "Internal Tarot, guide, chart and mythology evidence can inform draft hypotheses; it does not establish public beta readiness, customer preference or externally approved claims.",
+    "Trust and consent language should be evaluated alongside activation and repeat-value signals."
+  ],
+  "nonComparabilityRule": "Do not compare raw conversion or customer data across businesses. Compare each business against its own baseline using aligned aggregate definitions only.",
+  "currentProductLimits": [
+    "The latest internal Android build has smoke evidence only; full artifact-specific acceptance and iOS coverage remain open.",
+    "Cloud Journal lifecycle, AI prompt/runtime/grounding quality and entitlements/credits require product acceptance before acquisition experiments scale.",
+    "Source-level web/mobile events are partially present, but no reliable Growth activation or repeat-value aggregate baseline has been collected."
+  ],
+  "nextEvidenceNeeded": [
+    "Real creative, independent hash-bound editorial/accessibility review and human approval",
+    "Authenticated final-build save/reopen/edit/delete/export and two-account isolation evidence",
+    "Versioned AI runtime, grounding, safety and quality regression evidence",
+    "Adult research consent, recruitment and approved de-identified synthesis",
+    "Consent-scoped event emission, persistence and aggregate proof with explicit denominators",
+    "A dated within-Nilaza baseline and meaningful value-day definition before comparing outcomes"
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "asOfDate": "2026-10-03",
+  "taskId": "configure-parity-implementation-2026-10-03",
+  "owner": "backend_prompt_implementation",
+  "status": "local_source_candidate_validated_not_deployed",
+  "preflight": "Root confirmed PASS before GO; final source hashes belong to root consolidation.",
+  "runtime": { "node": "repository installed runtime", "deno": "2.9.0", "supabaseJsImport": "2.7.1 unchanged" },
+  "rawSourceSha256": {
+    "supabase/functions/ai-oracle-turn/index.ts": "4d9332edfd487667742f1b5f069103df1642be2932ed75e8207ea1556e9b4799",
+    "supabase/functions/ai-oracle-turn/handler.ts": "6174435527767edc4efcf8daad71c73fc366425a608dc76247001b7ecb8092cb",
+    "supabase/functions/ai-oracle-turn/handler_test.ts": "99f92be0fb67c343f2de63249ee6be7e9c57a219887ec453969d5a19e056830d",
+    "supabase/functions/_shared/oracle-runtime.mjs": "94602066bb84231a655a1cc8d086ce1b9ddcc5ab64007e5c821a05340b4b2659",
+    "supabase/functions/_shared/model-router.ts": "a0fb19dd8b84605a40e9d0fd94c3313d9fc222ba8d2879a9bfb47fecfcd6b9a5",
+    "supabase/functions/_shared/model-provider.test.ts": "7be03568a41c77b087e7235f92f969658d82e9d28b3ee1a4db6e8af5aae6fd31",
+    "supabase/tests/oracle_auth_test.ts": "b12c850d4f539833255b24db9af90091d7abea3c19a7447e7236634eb482e773",
+    "scripts/oracle-runtime.test.mjs": "ba0a332b506afb3c445077c0436727ed155e80edcbe2d34856c4fa85aa81268e",
+    "scripts/validate-backend-contracts.mjs": "d01e79a82ef62bfe505903d7a8cc68fe8f829df2c7f0dcda97d213df407cf83e"
+  },
+  "checks": [
+    {
+      "command": "node --test scripts/prompt-composition.test.mjs scripts/oracle-runtime.test.mjs",
+      "exitCode": 0,
+      "passed": 74,
+      "failed": 0,
+      "sourceStage": "initial implementation before independent-review crisis additions",
+      "breakdown": { "canonicalComposer": 18, "oracleRuntime": 56, "oracleCrisisPhrases": 30, "oracleIntentCases": 18, "oracleBoundaryGroups": 8 },
+      "limitations": "Pure synthetic fixtures and injected canonical-composer counters; no real tokenizer/provider or customer study."
+    },
+    {
+      "command": "node --test scripts/oracle-runtime.test.mjs",
+      "exitCode": 0,
+      "passed": 65,
+      "failed": 0,
+      "sourceStage": "final after independent-review fixes",
+      "breakdown": { "oracleCrisisPhrases": 36, "oracleIntentCases": 20, "oracleBoundaryGroups": 9 },
+      "limitations": "Synthetic bounded phrase/contract fixtures. No real model/clinical classifier or complete moderation guarantee."
+    },
+    {
+      "command": "node_modules/deno/deno.exe test --no-config --no-lock --deny-import --deny-net --allow-env supabase/functions/ai-oracle-turn/handler_test.ts supabase/functions/_shared/ai-request-guard_test.ts supabase/functions/_shared/model-provider.test.ts",
+      "exitCode": 0,
+      "passed": 42,
+      "failed": 0,
+      "breakdown": { "oracleHandler": 12, "sharedRequestGuard": 13, "modelProviderRouter": 17 },
+      "typeCheck": "passed",
+      "limitations": "Fake verified accounts/store/provider fetch. No live JWT, RLS, route DB query or network dispatch."
+    },
+    {
+      "command": "node_modules/deno/deno.exe test --no-config --no-lock --deny-import --deny-net --allow-env supabase/functions/ai-oracle-turn/handler_test.ts",
+      "exitCode": 0,
+      "passed": 12,
+      "failed": 0,
+      "sourceStage": "final after independent-review fixes",
+      "typeCheck": "passed",
+      "limitations": "Retests added urgent-method positives and laughter negative on actual handler. Shared guard/router and unchanged factory results above remain applicable."
+    },
+    {
+      "command": "node_modules/deno/deno.exe test --no-config --no-lock --cached-only --allow-import=deno.land,esm.sh --deny-net --allow-env supabase/tests/oracle_auth_test.ts",
+      "exitCode": 0,
+      "passed": 9,
+      "failed": 0,
+      "typeCheck": "passed",
+      "limitations": "Factory wiring uses existing cached pinned imports and fake Supabase client; all runtime network denied."
+    },
+    { "command": "npm run validate:backend", "exitCode": 0, "status": "passed", "gatewayPaths": 14, "edgeFunctions": 21, "limitations": "Source contract validator, not hosted acceptance." },
+    { "command": "npm run supabase:check", "exitCode": 0, "passed": 72, "warnings": 9, "failed": 0, "limitations": "Artifact/env-presence readiness, not provider/token/quota activation or QA acceptance." },
+    { "command": "npm run supabase:migration-ledger:check", "exitCode": 0, "status": "blocked_pending_reconciliation", "limitations": "Metadata valid. Exit 0 does not permit migration push/repair or clear blocked target." },
+    { "command": "node --check supabase/functions/_shared/oracle-runtime.mjs", "exitCode": 0, "status": "passed" },
+    { "command": "node --check scripts/oracle-runtime.test.mjs", "exitCode": 0, "status": "passed" },
+    { "command": "node --check scripts/validate-backend-contracts.mjs", "exitCode": 0, "status": "passed" },
+    { "command": "git diff --check -- supabase/functions/ai-oracle-turn/index.ts supabase/functions/_shared/model-router.ts supabase/functions/_shared/model-provider.test.ts scripts/validate-backend-contracts.mjs supabase/tests/oracle_auth_test.ts", "exitCode": 0, "status": "passed" }
+  ],
+  "cloudActions": { "deployed": false, "databaseWrite": false, "schemaApply": false, "providerCall": false, "legacyQaRetargeted": false },
+  "candidateBehavior": {
+    "authenticatedBodyBoundBytes": 32768,
+    "bodyReadTimeoutMs": 5000,
+    "eventAckTimeoutMs": 250,
+    "crisisActionCards": [],
+    "providerEnabled": false,
+    "providerReason": "provider_gate_pending",
+    "tokenAssessment": "not-assessed",
+    "conversationPersisted": false,
+    "normalModelRouteStatuses": ["active"],
+    "multipleActiveRouteBehavior": "ambiguous_active_model_route",
+    "unavailableRouteFallback": "existing local defaults retained; separate activation/cost gate still required"
+  },
+  "residualGates": [
+    "Real provider/model tokenizer and approved input/output/cost bounds",
+    "Durable operation-keyed usage reservation/result/receipt/replay/refund and reconciliation",
+    "Owner-created clean QA exact target, schema replay and authenticated account-isolation acceptance",
+    "Real model eval including all enabled locales/tone and crisis false-positive/false-negative review",
+    "Mobile explicit history/profile consent, 8-message budget and new generation-status UI",
+    "Offline/native crisis behavior and native device acceptance",
+    "Immutable Admin bundle publishing and rollback; local source candidate does not consume old prompt_versions",
+    "Bounded logging ACK can remain unconfirmed; delivery is not guaranteed after worker termination"
+  ]
+}

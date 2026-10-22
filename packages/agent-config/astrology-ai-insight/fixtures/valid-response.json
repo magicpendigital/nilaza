@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "nilaza.astrology.ai-insight.response.v1",
+  "requestId": "req_astrology_demo_001",
+  "reportId": "report_astrology_demo_001",
+  "language": "vi",
+  "headline": "Kỷ luật bên ngoài đang học cách lắng nghe ngọn lửa bên trong",
+  "synthesis": "Mặt Trời Ma Kết gợi mở nhu cầu xây dựng điều bền vững, trong khi Mặt Trăng Bạch Dương phản ứng nhanh trước điều khiến bạn thấy sống động. Góc vuông giữa hai điểm này có thể được dùng như một câu hỏi phản chiếu về nhịp độ: khi nào nên kiên trì với cấu trúc, và khi nào nên thừa nhận một nhu cầu mới đang xuất hiện?",
+  "evidenceFactIds": [
+    "placement.sun",
+    "placement.moon",
+    "aspect.sun_moon.square",
+    "house.1"
+  ],
+  "patterns": [
+    {
+      "id": "pattern.build_then_move",
+      "title": "Xây nền trước khi chuyển động",
+      "interpretation": "Sự kết hợp này có thể khiến bạn muốn chứng minh năng lực bằng kết quả bền vững, đồng thời vẫn cần những khoảng tự chủ đủ nhanh để giữ động lực bên trong.",
+      "evidenceFactIds": [
+        "placement.sun",
+        "placement.moon",
+        "house.1"
+      ],
+      "caveatIds": [
+        "caveat.independent_accuracy"
+      ]
+    }
+  ],
+  "tensions": [
+    {
+      "id": "tension.pace_and_structure",
+      "title": "Nhịp nhanh gặp cấu trúc dài hạn",
+      "interpretation": "Góc vuông không quyết định một kết quả cố định. Nó gợi ý một vùng cần quan sát: phản ứng tức thời có thể cung cấp tín hiệu quan trọng, nhưng quyết định cuối cùng vẫn cần đi qua tiêu chuẩn dài hạn của bạn.",
+      "evidenceFactIds": [
+        "placement.sun",
+        "placement.moon",
+        "aspect.sun_moon.square"
+      ],
+      "caveatIds": [
+        "caveat.independent_accuracy"
+      ]
+    }
+  ],
+  "focusSections": [
+    {
+      "id": "focus.work_decision",
+      "theme": "work",
+      "title": "Một quyết định có đủ cả nền móng và sinh khí",
+      "insight": "Khi cân nhắc công việc, bạn có thể thử đánh giá hai lớp riêng biệt: lựa chọn này có tạo được cấu trúc đáng tin cậy hay không, và nó có cho bạn đủ quyền chủ động để duy trì năng lượng hay không.",
+      "evidenceFactIds": [
+        "placement.sun",
+        "placement.moon",
+        "aspect.sun_moon.square"
+      ],
+      "caveatIds": [
+        "caveat.independent_accuracy"
+      ],
+      "reflectionQuestion": "Lựa chọn nào vừa giúp bạn xây một nền móng dài hạn, vừa giữ được cảm giác chủ động mỗi ngày?"
+    }
+  ],
+  "reflectionQuestions": [
+    "Điều gì trong quyết định hiện tại cần thêm cấu trúc trước khi bạn hành động?",
+    "Tín hiệu nóng lòng nào đang chứa một nhu cầu thật mà bạn chưa gọi tên?"
+  ],
+  "suggestedFollowUps": [
+    {
+      "id": "followup.work_strengths",
+      "label": "Khám phá cách tôi phát huy điểm mạnh trong công việc",
+      "theme": "work",
+      "interactionMode": "ask_ai_guide",
+      "requiresPremium": true
+    },
+    {
+      "id": "followup.decision_rhythm",
+      "label": "Tìm nhịp ra quyết định phù hợp với tôi",
+      "theme": "decision",
+      "interactionMode": "ask_ai_guide",
+      "requiresPremium": true
+    }
+  ],
+  "metadata": {
+    "contractId": "nilaza.astrology.ai-insight",
+    "contractVersion": "1.0.0",
+    "responseSchema": "astrology_ai_insight_v1",
+    "promptVersionId": "astrology_interpretation_system",
+    "promptVersion": "2026-09-25-ai-insight-v1",
+    "chartContractVersion": "0.2.0",
+    "calculationVersion": "nilaza-a3-utc-tt-2",
+    "reportRevision": 1,
+    "interpretationMode": "evidence_bound_reflection",
+    "moderationStatus": "passed",
+    "providerMode": "mock",
+    "disclaimerKey": "astrology_reflection_not_prediction",
+    "generatedAt": "2026-09-22T12:00:00.000Z"
+  }
+}

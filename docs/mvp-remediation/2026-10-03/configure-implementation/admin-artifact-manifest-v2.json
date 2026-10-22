@@ -1,0 +1,310 @@
+{
+  "schemaVersion": "nilaza-reviewed-admin-artifact-v1",
+  "projectId": "prj_cjpkCLLKMUaH6x4Bw6PK6cklx1qL",
+  "teamId": "team_BGXDJYYYe7LSDoGDjWRBFlJH",
+  "sourceRoot": "admin-deploy-source-v2",
+  "artifactSha256": "b24b84d1c0ca97fd36d78d742d267d7b59d817d3e7c76faa7e379e6e89c884de",
+  "files": [
+    {
+      "path": "apps/admin/.vercelignore",
+      "bytes": 34,
+      "sha256": "55c31644ae919f7908bc7dea50ece12968e6f6ed59dafed0660792996bf62c4a"
+    },
+    {
+      "path": "apps/admin/admin-access.js",
+      "bytes": 1128,
+      "sha256": "8e58ba8bd73c6f9134103d91d3ec48d7e0f4434a461aabc0a5c5ae9241d9ae78"
+    },
+    {
+      "path": "apps/admin/admin-capabilities.json",
+      "bytes": 2671,
+      "sha256": "98c37cbbd58795ebc9ae43d04f75a9c073ab9d0f999008f57aa0f3d1c2f59f42"
+    },
+    {
+      "path": "apps/admin/ai-studio.html",
+      "bytes": 7394,
+      "sha256": "500e771857bd07c73e41173808edf45c5f7c58512e87ba0eb6f0a4c08dc1f929"
+    },
+    {
+      "path": "apps/admin/app.js",
+      "bytes": 160768,
+      "sha256": "ef247eecaed7f4e486093642e17df5394f16f56ac7dc6a112fba50dfd42c58db"
+    },
+    {
+      "path": "apps/admin/assets/brand/v1/HankenGrotesk-Regular.ttf",
+      "bytes": 66576,
+      "sha256": "315cda587038b4d21cb4899df306fef5c15b34b6b9470352eba9a3dfce72f380"
+    },
+    {
+      "path": "apps/admin/assets/brand/v1/fonts/EBGaramond-Regular.ttf",
+      "bytes": 558640,
+      "sha256": "a45a5040e1a328d056871d42aa70f10f7ca3bf5c447887b80720542feeead5f2"
+    },
+    {
+      "path": "apps/admin/assets/brand/v1/logo/horizontal-black.svg",
+      "bytes": 9459,
+      "sha256": "c568c7a46b31fe3f70af991bac50c8a6aa5acb1790830b91f702a409683ee5f0"
+    },
+    {
+      "path": "apps/admin/assets/brand/v1/logo/horizontal-charcoal.svg",
+      "bytes": 9459,
+      "sha256": "4643497553e24c1f01a2fe1a986479e8fca15d1e5382e00e09d3505af5888538"
+    },
+    {
+      "path": "apps/admin/assets/brand/v1/logo/horizontal-compact-charcoal.svg",
+      "bytes": 9449,
+      "sha256": "3b7af641dd3f20c72aba98aba2bafd6cd5a36c95e3937c6a9c8d743f5ceac118"
+    },
+    {
+      "path": "apps/admin/assets/brand/v1/logo/horizontal-compact-ivory.svg",
+      "bytes": 9449,
+      "sha256": "04858a7e673d6308727da4462f647a7b6feb48efe430a4b41c6a9a582e8d8703"
+    },
+    {
+      "path": "apps/admin/assets/brand/v1/logo/horizontal-gold.svg",
+      "bytes": 9459,
+      "sha256": "4ad1d6716c1d1909e178f8473db8ecf850958055f12ca649f74bd9f392c33754"
+    },
+    {
+      "path": "apps/admin/assets/brand/v1/logo/horizontal-ivory.svg",
+      "bytes": 9459,
+      "sha256": "0f183af6ebdeff823c1f2cba9c6c6a666b9aa6983c773728f0be2610189dc087"
+    },
+    {
+      "path": "apps/admin/assets/brand/v1/logo/horizontal-teal.svg",
+      "bytes": 9459,
+      "sha256": "3f9fae98341866be07807c0ee008d906ba3c5c54456d418ea2ea2df1aa312bc8"
+    },
+    {
+      "path": "apps/admin/assets/brand/v1/logo/horizontal-white.svg",
+      "bytes": 9459,
+      "sha256": "44c8124955d7881ee6a45606034beeffd921783923bed32d9c5ab1615332d896"
+    },
+    {
+      "path": "apps/admin/assets/brand/v1/logo/stacked-black.svg",
+      "bytes": 9464,
+      "sha256": "70af7c7a54c066444edde1cd5df12e7e58d204f596cded0d725562061433215a"
+    },
+    {
+      "path": "apps/admin/assets/brand/v1/logo/stacked-charcoal.svg",
+      "bytes": 9464,
+      "sha256": "3c1f3fb480886d9fffe6297af472f8d76ced0c6f5c03b64a38745d89eca8402b"
+    },
+    {
+      "path": "apps/admin/assets/brand/v1/logo/stacked-gold.svg",
+      "bytes": 9464,
+      "sha256": "9c647be0e42e5fa10cb75693d3852cffb4653fe341eda592c55470e7a9cf529c"
+    },
+    {
+      "path": "apps/admin/assets/brand/v1/logo/stacked-ivory.svg",
+      "bytes": 9464,
+      "sha256": "1d268fd2edbc5b75756207e83bd4b1f791370152f1c4e58e4363f54d090af8bc"
+    },
+    {
+      "path": "apps/admin/assets/brand/v1/logo/stacked-teal.svg",
+      "bytes": 9464,
+      "sha256": "72364c853abc21e1c7fd836b4ce1890eb5f2b6bac621d5341e79454a4105aa59"
+    },
+    {
+      "path": "apps/admin/assets/brand/v1/logo/stacked-white.svg",
+      "bytes": 9464,
+      "sha256": "930e099cf591c034fbd4e78bee6158c9b91993ce5e201b2c85a8cea5a194d178"
+    },
+    {
+      "path": "apps/admin/assets/brand/v1/logo/symbol-black.svg",
+      "bytes": 2589,
+      "sha256": "dbbf6fc35bbc7fd71783dea0af46a65326edd5a8b9187f51d3208e439cddf10f"
+    },
+    {
+      "path": "apps/admin/assets/brand/v1/logo/symbol-charcoal.svg",
+      "bytes": 2589,
+      "sha256": "4aa1e04cbf1497b3b1c5f77c0370801fa1dcb82ab092ad91b40d599fdc38e708"
+    },
+    {
+      "path": "apps/admin/assets/brand/v1/logo/symbol-gold.svg",
+      "bytes": 2589,
+      "sha256": "12f859d000d4af49eee54e96750df0ddf80f2a4ccd630299779147c93280beaa"
+    },
+    {
+      "path": "apps/admin/assets/brand/v1/logo/symbol-ivory.svg",
+      "bytes": 2589,
+      "sha256": "be00602ad6dd0be2bdc97bafc03aacd21a1c0a6c91e17669185a2cc586b49541"
+    },
+    {
+      "path": "apps/admin/assets/brand/v1/logo/symbol-teal.svg",
+      "bytes": 2589,
+      "sha256": "b78bb145f940d4b73d70a7d53ce3656ebcf58e05d6f5b7a814a7a620ede8fce8"
+    },
+    {
+      "path": "apps/admin/assets/brand/v1/logo/symbol-white.svg",
+      "bytes": 2589,
+      "sha256": "c8ad4270d076523ea01eb1ba474b3c11326fdda23d44a1b2f8daa0d3405f9890"
+    },
+    {
+      "path": "apps/admin/assets/brand/v1/logo/wordmark-charcoal.svg",
+      "bytes": 7015,
+      "sha256": "b898ccb3b1f6f3500d71b7d76db28a98ac5c01b9c543ad239da7f04edccac5f6"
+    },
+    {
+      "path": "apps/admin/assets/brand/v1/logo/wordmark-ivory.svg",
+      "bytes": 7015,
+      "sha256": "c59d82131e27c5ddd38b8a18b6032d97707e05cfa960b7f118910ce60d8ba532"
+    },
+    {
+      "path": "apps/admin/build-hosted-config.mjs",
+      "bytes": 3105,
+      "sha256": "7933750e859ece7163735f52bb7de6d2f8fa0f56c4aa673860ae28ed2a8813a6"
+    },
+    {
+      "path": "apps/admin/config.js",
+      "bytes": 942,
+      "sha256": "4b6388b0b057737478b7cbd9ac750cb66361f6c16305298c2dbeb32dad944384"
+    },
+    {
+      "path": "apps/admin/content-model.mjs",
+      "bytes": 9721,
+      "sha256": "85e4223ff42ae079073951029a033ba88c9a4fe27abbefcb74c2d363d1c79771"
+    },
+    {
+      "path": "apps/admin/content-sync.js",
+      "bytes": 6415,
+      "sha256": "218981563eda1797e284cdf1f466fe6c71b3684c20da90422c5c955371e34cda"
+    },
+    {
+      "path": "apps/admin/content.css",
+      "bytes": 8838,
+      "sha256": "ec62d9dca3983f61db9d8e923df49c7b71a20405d10cc8e370c27999b94f2a59"
+    },
+    {
+      "path": "apps/admin/content.html",
+      "bytes": 1518,
+      "sha256": "1994471d87f0a58dcfd6576a81717cc251d35928338b00dd54e3a009292780cb"
+    },
+    {
+      "path": "apps/admin/content.js",
+      "bytes": 33022,
+      "sha256": "3b91ece53c0d5c9df07947281c67016d7a95cb35eac9b610a50b27de755c693b"
+    },
+    {
+      "path": "apps/admin/favicon.svg",
+      "bytes": 2659,
+      "sha256": "bf7f354ee30ee1af592147c855d50932ead10ff63e8a54518c1d5d4b5f81f80a"
+    },
+    {
+      "path": "apps/admin/generated/content-seed.json",
+      "bytes": 279235,
+      "sha256": "b749952c1153387437879c51cc2e5c4a447a6c7773a96354543c149e5216c677"
+    },
+    {
+      "path": "apps/admin/generated/growth-operations.json",
+      "bytes": 94439,
+      "sha256": "f4f85dae0dd111df4add83c703e911fbf3d9baa01bb356b9b2334b5e9e202e7a"
+    },
+    {
+      "path": "apps/admin/generated/prompt-composition/bundle.mjs",
+      "bytes": 9235,
+      "sha256": "777b4f1440971f827b43edf7bda966613cc088164839ef3983b67c714a520278"
+    },
+    {
+      "path": "apps/admin/generated/prompt-composition/compose.mjs",
+      "bytes": 13970,
+      "sha256": "0f9a08609a0861fb37dd81ce0fd6969a938c8adab2cc7284b9ef4fd8e742b215"
+    },
+    {
+      "path": "apps/admin/generated/prompt-composition/manifest.json",
+      "bytes": 714,
+      "sha256": "a75ac4a025e6a37bd89c66d47faca84ebdf3b0364585c69ebb2b1cf58298dab3"
+    },
+    {
+      "path": "apps/admin/growth-model.mjs",
+      "bytes": 2581,
+      "sha256": "6392cf9daa8581850515b623ea195d0f279757230356ff213470a46f99e55c0b"
+    },
+    {
+      "path": "apps/admin/growth-operations-model.mjs",
+      "bytes": 17305,
+      "sha256": "1487f3600d6e380e0bf81a6e12ebd34fe4b0824e630047f90f77c91fd95bbd3f"
+    },
+    {
+      "path": "apps/admin/growth.css",
+      "bytes": 8999,
+      "sha256": "40cdafbc6a76d7f5c763bf6c62e232c735220a8aaf602288a0e0071542d92f53"
+    },
+    {
+      "path": "apps/admin/growth.html",
+      "bytes": 2561,
+      "sha256": "f8a2a57a311b3653cfd1a34c862f66255d696b2c07e8db965ca9b30c6e89621a"
+    },
+    {
+      "path": "apps/admin/growth.js",
+      "bytes": 26039,
+      "sha256": "e70ec573f6544c1812e5192e6d9e5ec7287622bfb62ded0a5584bc15c8c8f478"
+    },
+    {
+      "path": "apps/admin/index.html",
+      "bytes": 2886,
+      "sha256": "6307e5655984e5d96492b7733148832288696b7f431850899a59d70a5168d5cd"
+    },
+    {
+      "path": "apps/admin/marketing-automation-sample.json",
+      "bytes": 2713,
+      "sha256": "91f98e6d8af9e43da2820d09c99ff493f86b7d394966d36eddd8ae4deb198259"
+    },
+    {
+      "path": "apps/admin/recovery-core.js",
+      "bytes": 1979,
+      "sha256": "3b542f4a524868a30c4ed758cb6ff75bc6a4d039c286ba7b427843906a02e570"
+    },
+    {
+      "path": "apps/admin/recovery.html",
+      "bytes": 2044,
+      "sha256": "22395108237243d37315f6c288c05bff71045a8ee4f8525927f66bb9d6e05334"
+    },
+    {
+      "path": "apps/admin/recovery.js",
+      "bytes": 5576,
+      "sha256": "3ddb31b526a15da9e64f7d4568e082b60dbd9ff078655a178ce30f67b11c5cec"
+    },
+    {
+      "path": "apps/admin/shell.css",
+      "bytes": 5434,
+      "sha256": "15e95fcf388cf1aeeb3a39abf5dafcd00e729078cec28627393ed95e78e240b6"
+    },
+    {
+      "path": "apps/admin/shell.js",
+      "bytes": 9335,
+      "sha256": "057e2797b3dc1b41154c7dd0dc9c67b44ece34eee9a3a0943ff4fd2380d8a3ed"
+    },
+    {
+      "path": "apps/admin/styles.css",
+      "bytes": 24958,
+      "sha256": "dff6f5c8ddb4f8c2cc5e43ec61b657159b03686f3273e00aef58259738c2562e"
+    },
+    {
+      "path": "apps/admin/vercel.json",
+      "bytes": 79,
+      "sha256": "4f6b2c8b605133263ec9ded91c19ae46d44da958e153302c9ff13cc0138f7f45"
+    },
+    {
+      "path": "apps/admin/workspace-guard.css",
+      "bytes": 787,
+      "sha256": "8aa5f9838694a32364d0ed227be7cd860bef6aeeca12787dfd202ae80d5bc2e2"
+    },
+    {
+      "path": "apps/admin/workspace-guard.js",
+      "bytes": 7536,
+      "sha256": "5816d5769255a04cecf1869f93c91abb50783dda4c4a823f286461198de4372e"
+    }
+  ],
+  "backendTarget": "akgrokwnkfqnfjqrildi",
+  "cleanQaCutover": false,
+  "excluded": [
+    "environment files",
+    "README/AGENTS/skills/internal docs",
+    "customer records",
+    "QA payloads",
+    "backend functions",
+    "native/web builds"
+  ],
+  "staticPromptClassification": "generic non-confidential preview seed; static workspace guard does not protect downloaded files"
+}

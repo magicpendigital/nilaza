@@ -1,0 +1,8 @@
+{
+  "projectRef": "akgrokwnkfqnfjqrildi",
+  "action": "recovery",
+  "capturedAt": "2026-10-04T18:36:05.777Z",
+  "subject": "Reset your password",
+  "html": "<h2>Reset your password</h2>\r\n\r\n<p>We received a request to reset your password. Follow the link below to choose a new one.</p>\r\n<p><a href=\"{{ .ConfirmationURL }}\">Reset password</a></p>\r\n\r\n<p>If you didn't request this, you can safely ignore this email.</p>",
+  "source": "Chrome source editor select-all/copy"
+}

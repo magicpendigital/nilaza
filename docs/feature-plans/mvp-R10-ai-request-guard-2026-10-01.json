@@ -1,0 +1,228 @@
+{
+  "schemaVersion": 1,
+  "taskId": "mvp-R10-ai-request-guard-2026-10-01",
+  "ownerAgent": "workflow_orchestration_agent",
+  "lane": "backend_proxy_lane: credits schema read alignment and unsafe debit gate",
+  "goal": "Apply a shared verified-account and bounded JSON-body guard to Tarot and Persona POST before parsing/config/provider/write, with sanitized failures and local fake-auth/stream tests; do not activate quota/spend or deploy.",
+  "successCriteria": [
+    "Missing/malformed/oversize Bearer, failed/anonymous/unknown auth class or invalid verified UUID does not read body or reach configuration/provider/persistence.",
+    "Only JSON object requests <=32768 UTF8 bytes accepted, including when Content-Length is absent/false; malformed/multibyte/stream failure/5s timeout have stable sanitized errors.",
+    "Current successful Tarot/Persona payloads and response shapes remain; pure local Deno tests and both entry type checks pass without provider/network/live writes.",
+    "Quota, total provider token budget, atomic reservation and other AI endpoints are explicitly still pending; no local guard is reported as full R10/G1 acceptance."
+  ],
+  "writeScope": [
+    "supabase/functions/_shared/ai-request-guard.ts",
+    "supabase/functions/_shared/ai-request-guard_test.ts",
+    "supabase/functions/ai-tarot-reading/index.ts",
+    "supabase/functions/ai-persona-chat/index.ts",
+    "docs/mvp-remediation/2026-10-01/R10-ai-request-guard.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "No live writes, project retarget, migration SQL, deploy, publish or release.",
+    "App/account bridge and privacy integration require separate root record; historical planning backlog untouched."
+  ],
+  "impact": {
+    "entryPoint": "Existing ai-tarot-reading and ai-persona-chat POST; OPTIONS and method gate preserved.",
+    "dataWrite": "Exact local source/test/doc only. Verified user id continues to own existing successful persistence; rejected request reaches no provider or write.",
+    "backendContract": "Shared body cap 32768 bytes and 5 second body-read deadline; verified getUser UUID and explicit non-anonymous; no client token decode used as identity.",
+    "adminVisibility": "No Admin config/publish/Test Run changes. These two production source entrypoints share guard; not deployed.",
+    "privacySafety": "Never return raw auth/JSON/stream error or log body/token; bounded incoming body, no private fixture or secret reads.",
+    "observability": "Error codes/statuses only; no new raw payload trace.",
+    "rollback": "Revert only this slice if necessary, keep deployments off until reviewed cost/QA gates; do not revive unsafe debit."
+  },
+  "canonicalContracts": [
+    "Existing Tarot prepareTarotContext and Persona assembler/request fields preserved; no new quota value or provider route policy activated.",
+    "Authenticated users for configured AI flows; explicit anonymous/unknown class fail closed as in R10 credits; local mobile fallback remains separate."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "docs/WORKFLOWS_SECURITY_RESEARCH.md",
+      "sha256": "a56571e5827b897407bbbd4724819fa6fe22748b702bfdbe0195a7cb73ef0122",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "docs/BACKEND_PROXY_ARCHITECTURE.md",
+      "sha256": "b079458af4a10232efc8804746dd3ae7e8f10d5097800b26f2faf4e922fe91cb",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/index.ts",
+      "sha256": "a2764c2a1ccb0bf3c73d5144caa39f6d6dae36f4116ac4e01a682d3fc15c26dc",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "supabase/functions/ai-persona-chat/index.ts",
+      "sha256": "0a6dd05111f6bd7555d080590951b10a308bcbfab8ceb33ab14d91d4494e8a77",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "supabase/functions/_shared/tarot-prompt.ts",
+      "sha256": "1a1abe901a4c2afcd78aa0f20db3c83be466c13fecdbea363999b108e0de8b48",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "supabase/functions/_shared/persona-prompt-assembler.ts",
+      "sha256": "90162e5b78aac16d6b2d211b39b19a954afd68a2d1901975ee633c031ec534d5",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "supabase/functions/user-credits/handler.ts",
+      "sha256": "b47cda5cfb45758d64c9af2cd2f3a0b3883e90091b92bcb90af9ff79aa99b619",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "supabase/functions/user-credits/index.ts",
+      "sha256": "e78d81442959c3f779aa58452eb9e3f5237f5221eb5cee22f9d1e11a0e586348",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "sha256": "a5c4e85d7ae1fe32654df5e391cf6a0147bdfe1b6b7494492612c4360ad6168d",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    },
+    {
+      "path": "packages/agent-config/model-routing.json",
+      "sha256": "25eecd4fcea32769e88ba59e7b287e7ee8cb42d75f70f2198759eacd4bf08eb2",
+      "reason": "Final reviewed current guard/evidence inputs; preserve implementation baseline separately, no live acceptance claim."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Fresh exact QA plan with full results and separate browser/native/CI/live gates; no skipped case or inflated timeout."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Current repository SQL and sanitized read-only Supabase catalogs; official migration/RLS docs reviewed in R02, no install or guessed compatibility fix."
+  },
+  "securityReview": {
+    "authzRls": "getUser(token) verifies identity; UUID and is_anonymous false required. Client uses caller JWT/anon/RLS and no service key.",
+    "sensitiveData": "Synthetic stream/body/auth fixtures only; no real users or raw database rows.",
+    "secretsLogging": "No env values printed; error codes only and no new body/token logging.",
+    "externalInput": "Untrusted headers/body bounded before JSON parse and downstream; declared length cannot bypass counted UTF8 bytes; stalled body times out.",
+    "dependencies": "Use existing cached SDK/Web Streams, no install/import version update.",
+    "migrationRelease": "No SQL/deploy/provider call/retarget. Other AI endpoints and absence of quota/atomic guard remain release blockers, not expanded by scoped validation.",
+    "stopCondition": "Stop unexpected changes or remote/spend action; report unverified native/live and enforce no fake pass.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "supabase/functions/_shared/ai-request-guard.ts",
+      "supabase/functions/_shared/ai-request-guard_test.ts",
+      "supabase/functions/ai-tarot-reading/index.ts",
+      "supabase/functions/ai-persona-chat/index.ts",
+      "docs/mvp-remediation/2026-10-01/R10-ai-request-guard.vi.md"
+    ],
+    "note": "Preserve existing R13 Tarot prompt work, Persona method/history/persistence and extensive unrelated dirty tree. No App, route, SQL, dependency or live edits."
+  },
+  "validationCommands": [
+    "node_modules/deno/deno.exe test --no-config --no-lock --deny-import supabase/functions/_shared/ai-request-guard_test.ts",
+    "node_modules/deno/deno.exe check --no-config --no-lock --deny-import supabase/functions/ai-tarot-reading/index.ts supabase/functions/ai-persona-chat/index.ts",
+    "Existing Tarot prompt tests and npm run validate:backend"
+  ],
+  "managerTestPath": "Read local fixture results: rejected requests do not call fake continuation/body; normal synthetic payload passes with verified account and fields preserved. Live trial follows QA/cost approvals separately.",
+  "residualRisk": "32KiB incoming cap is not a tokenizer/system/retrieval cost cap. Other AI endpoints, provider input history/sections/parser, quotas/reservation/RLS and native acceptance remain open.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deployment": false,
+    "productionRelease": false
+  },
+  "externalSourceReview": [],
+  "implementationBaselineReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Reviewed current caller/token/body parsing order, success payload, auth class and canonical request paths; exact two-endpoint guard scope."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Reviewed current caller/token/body parsing order, success payload, auth class and canonical request paths; exact two-endpoint guard scope."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Reviewed current caller/token/body parsing order, success payload, auth class and canonical request paths; exact two-endpoint guard scope."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Reviewed current caller/token/body parsing order, success payload, auth class and canonical request paths; exact two-endpoint guard scope."
+    },
+    {
+      "path": "docs/WORKFLOWS_SECURITY_RESEARCH.md",
+      "sha256": "a56571e5827b897407bbbd4724819fa6fe22748b702bfdbe0195a7cb73ef0122",
+      "reason": "Reviewed current caller/token/body parsing order, success payload, auth class and canonical request paths; exact two-endpoint guard scope."
+    },
+    {
+      "path": "docs/BACKEND_PROXY_ARCHITECTURE.md",
+      "sha256": "b079458af4a10232efc8804746dd3ae7e8f10d5097800b26f2faf4e922fe91cb",
+      "reason": "Reviewed current caller/token/body parsing order, success payload, auth class and canonical request paths; exact two-endpoint guard scope."
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/index.ts",
+      "sha256": "fa7ddabcdf8ca87dca7909cfab980072c4894e62bc069e012ae5b57437730a60",
+      "reason": "Reviewed current caller/token/body parsing order, success payload, auth class and canonical request paths; exact two-endpoint guard scope."
+    },
+    {
+      "path": "supabase/functions/ai-persona-chat/index.ts",
+      "sha256": "9fa26c13294546a1d4bf565a8444c84611fc059b033e8a3e9cbbc03a49dee079",
+      "reason": "Reviewed current caller/token/body parsing order, success payload, auth class and canonical request paths; exact two-endpoint guard scope."
+    },
+    {
+      "path": "supabase/functions/_shared/tarot-prompt.ts",
+      "sha256": "1a1abe901a4c2afcd78aa0f20db3c83be466c13fecdbea363999b108e0de8b48",
+      "reason": "Reviewed current caller/token/body parsing order, success payload, auth class and canonical request paths; exact two-endpoint guard scope."
+    },
+    {
+      "path": "supabase/functions/_shared/persona-prompt-assembler.ts",
+      "sha256": "90162e5b78aac16d6b2d211b39b19a954afd68a2d1901975ee633c031ec534d5",
+      "reason": "Reviewed current caller/token/body parsing order, success payload, auth class and canonical request paths; exact two-endpoint guard scope."
+    },
+    {
+      "path": "supabase/functions/user-credits/handler.ts",
+      "sha256": "b47cda5cfb45758d64c9af2cd2f3a0b3883e90091b92bcb90af9ff79aa99b619",
+      "reason": "Reviewed current caller/token/body parsing order, success payload, auth class and canonical request paths; exact two-endpoint guard scope."
+    },
+    {
+      "path": "supabase/functions/user-credits/index.ts",
+      "sha256": "e78d81442959c3f779aa58452eb9e3f5237f5221eb5cee22f9d1e11a0e586348",
+      "reason": "Reviewed current caller/token/body parsing order, success payload, auth class and canonical request paths; exact two-endpoint guard scope."
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "sha256": "a5c4e85d7ae1fe32654df5e391cf6a0147bdfe1b6b7494492612c4360ad6168d",
+      "reason": "Reviewed current caller/token/body parsing order, success payload, auth class and canonical request paths; exact two-endpoint guard scope."
+    },
+    {
+      "path": "packages/agent-config/model-routing.json",
+      "sha256": "25eecd4fcea32769e88ba59e7b287e7ee8cb42d75f70f2198759eacd4bf08eb2",
+      "reason": "Reviewed current caller/token/body parsing order, success payload, auth class and canonical request paths; exact two-endpoint guard scope."
+    }
+  ]
+}

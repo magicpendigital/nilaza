@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en" data-admin-authorized="false">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nilaza AI Configuration Studio</title>
+    <script src="./config.js?v=admin-sync-v1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./admin-access.js"></script>
+    <script src="./workspace-guard.js"></script>
+    <link rel="stylesheet" href="./workspace-guard.css" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="studio-shell">
+      <aside class="sidebar" aria-label="AI Studio navigation">
+        <div class="brand"><img class="studio-brand" src="./assets/brand/v1/logo/horizontal-ivory.svg" alt="Nilaza"><div class="brand-subtitle">Configuration Studio</div></div>
+        <div class="nav-section"><p>Features</p><div id="feature-list" class="nav-list"></div></div>
+        <div class="nav-section studio-nav">
+          <p>Studio</p>
+          <button class="nav-button secondary active" data-panel="workflow"><span class="nav-icon">W</span>Workflow</button>
+          <button class="nav-button secondary" data-panel="test"><span class="nav-icon">T</span>Test runs</button>
+          <button class="nav-button secondary" data-panel="versions"><span class="nav-icon">V</span>Versions</button>
+          <button class="nav-button secondary" data-panel="audit"><span class="nav-icon">A</span>Audit log</button>
+        </div>
+        <div class="active-version"><span id="sidebar-version-label">Current contract</span><strong id="sidebar-version">Loading…</strong><small id="sidebar-version-status">Backend route not loaded</small></div>
+      </aside>
+      <main class="main">
+        <header class="topbar">
+          <div class="title-group"><div class="crumb">AI Configuration Studio</div><h1 id="feature-title">Tarot Reading Workflow</h1></div>
+          <div class="topbar-actions">
+            <span class="role-chip" id="admin-role-chip">Admin</span><span class="sync-dot" aria-hidden="true"></span><span id="draft-status" role="status" aria-live="polite">No local changes</span>
+            <span class="pill" id="environment-status" aria-label="Backend target">Backend target: loading…</span>
+            <button class="button ghost" id="open-test">Test Run</button><button class="button ghost" id="optimize-button">Optimize Prompt</button>
+            <button class="button primary" id="publish-button">Publish</button>
+          </div>
+        </header>
+        <section class="status-strip" aria-label="Configuration health">
+          <div><span class="status-label">Workflow</span><strong>Locked</strong></div><div><span class="status-label">Safety</span><strong id="safety-state">Strict</strong></div>
+          <div><span class="status-label">Context risk</span><strong id="risk-state">Medium</strong></div><div><span class="status-label">Model</span><strong id="model-state">GPT-4o</strong></div>
+          <div><span class="status-label">Output</span><strong id="schema-state">Schema v3</strong></div><div><span class="status-label">Quality telemetry</span><strong id="satisfaction-state">Not connected</strong></div>
+        </section>
+        <section class="bottom-panel" id="detail-panel">
+          <div class="tabs" role="tablist" aria-label="AI Studio details">
+            <button id="detail-tab-payload" class="tab active" role="tab" aria-selected="true" aria-controls="detail-content" tabindex="0" data-detail="payload">Payload preview</button><button id="detail-tab-dataMindmap" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="dataMindmap">Data mindmap</button><button id="detail-tab-prompt" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="prompt">Prompt composer</button>
+            <button id="detail-tab-personaStudio" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="personaStudio">Persona Prompt Studio</button><button id="detail-tab-councilBuilder" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="councilBuilder">Council Builder</button><button id="detail-tab-optimization" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="optimization">Optimization loop</button><button id="detail-tab-modelRouter" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="modelRouter">Model router</button><button id="detail-tab-traceExplorer" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="traceExplorer">Trace Explorer</button>
+            <button id="detail-tab-test" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="test">Test output</button><button id="detail-tab-versions" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="versions">Versions</button><button id="detail-tab-audit" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="audit">Audit</button>
+          </div><div id="detail-content" role="tabpanel" tabindex="0" aria-labelledby="detail-tab-payload"></div>
+        </section>
+        <details class="workflow-reference" id="workflow-reference"><summary>Workflow reference · inspect the seven steps</summary><div class="workspace">
+          <section class="canvas-panel">
+            <div class="panel-heading"><div><p class="eyebrow">Locked workflow</p><h2 id="workflow-name">Tarot Reading Workflow</h2></div><span class="lock-chip">Workflow locked</span></div>
+            <div id="workflow-canvas" class="workflow-canvas" aria-label="AI workflow blocks"></div>
+            <div class="canvas-footer"><div class="legend"><span><i class="legend-lock"></i>Locked</span><span><i class="legend-edit"></i>Editable</span><span><i class="legend-warn"></i>Warning</span></div></div>
+          </section>
+          <aside class="inspector"><div class="inspector-header"><div><p class="eyebrow">Inspector</p><h2 id="inspector-title">Context Fields</h2></div><button class="text-button" id="reset-feature">Reset selection</button></div><div id="inspector-body"></div></aside>
+        </div></details>
+      </main>
+    </div>
+    <div class="modal-backdrop" id="modal" hidden><section class="modal" id="publish-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="publish-summary publish-warning" tabindex="-1"><div class="modal-header"><div><p class="eyebrow">Configuration change</p><h2 id="modal-title">Review before publishing</h2></div><button class="icon-button" id="close-modal" aria-label="Close">×</button></div><p id="publish-summary"></p><div class="warning-card" id="publish-warning">Publishing affects the backend project shown above. This preview does not call the provider.</div><div class="modal-actions"><button class="button ghost" id="cancel-publish">Cancel</button><button class="button primary" id="confirm-publish">Publish route</button></div></section></div>
+    <div class="mention-menu" id="mention-menu" hidden></div>
+    <script src="./app.js"></script>
+  </body>
+</html>

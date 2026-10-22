@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "taskId": "tarot-release-qa-2026-09-29",
+  "ownerAgent": "tarot_release_qa_agent",
+  "lane": "mobile_tarot_release_qa",
+  "goal": "Run a release-gate QA pass for the Tarot card library and the EN, offline/error, and backend-timeout paths on the connected Android phone before any release packaging decision.",
+  "successCriteria": [
+    "The selected Tarot deck exposes all 78 unique cards on the device, and a card detail can open, navigate, and return without blank or duplicated content.",
+    "The EN locale renders Tarot library, reading, loading, fallback, and error copy without missing labels, clipping, or mixed-language blockers.",
+    "With network access disabled, a Tarot reading completes through the local fallback or shows a readable retry/error state without an indefinite spinner or duplicate credit/save action.",
+    "A controlled timeout test proves that the Tarot backend request aborts at its declared budget and returns the local fallback; the UI state is recorded on device where practical.",
+    "All findings have severity, sanitized device evidence, and a retest result; no production release, database migration, or remote write is performed."
+  ],
+  "writeScope": [
+    "docs/TAROT_RELEASE_QA_2026-09-29.vi.md",
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/backendClient.ts",
+    "apps/mobile/src/__tests__/backendClient.test.ts"
+  ],
+  "untouchedSurfaces": [
+    "Supabase migrations, credits schema, production endpoints, admin workspaces, authentication, payment entitlements, and public brand assets remain unchanged.",
+    "Canonical Tarot seed meanings, artwork prompts, and the 78-card content dataset remain unchanged unless QA proves a data defect that is separately approved.",
+    "No release upload, store submission, deployment, or irreversible remote action is included in this QA slice."
+  ],
+  "impact": {
+    "entryPoint": "Explore -> Tarot -> deck/library -> card detail, plus a new Tarot reading from topic, spread, deck, draw, and result; profile locale controls the EN pass.",
+    "dataWrite": "Device QA may create only synthetic local Tarot Journal entries needed to verify save/reopen behavior; no private user data is used.",
+    "backendContract": "The existing ai-tarot-reading request, abort signal, 75-second Tarot generation budget, and local fallback contract are tested; endpoint shape is not changed unless a verified UX fix requires it.",
+    "canonicalContract": "TarotStage, DrawnTarotCard, TarotInterpretationInput, generateTarotReading, and the 78-card seed dataset remain the canonical contracts.",
+    "adminVisibility": "No admin UI or operator contract changes; the report stores only sanitized route, locale, timing, and outcome fields.",
+    "privacySafety": "Questions and readings use fictional synthetic prompts; no raw account identifiers, private journal text, auth tokens, or backend payloads enter screenshots or logs.",
+    "observability": "Record build/version, device model, locale, route, elapsed time, network state, outcome, and severity in the QA report; preserve existing app telemetry.",
+    "rollback": "Revert any scoped App.tsx/backendClient.ts/test patch and remove only the QA report/plan if required; no migration or remote data rollback is needed.",
+    "surfacesIntentionallyUntouched": "Admin, backend schema, release publishing, deck content, and unrelated mobile routes are intentionally outside this pass.",
+    "agentHandoff": "The QA agent owns the scoped report and any minimal mobile timeout/fallback repair, runs static checks plus connected-device evidence, and stops at the release-readiness recommendation."
+  },
+  "canonicalContracts": [
+    "docs/FEATURE_PRD.md defines Tarot library, reading result, loading/error, and reflective safety expectations.",
+    "docs/MOBILE_EAS_TESTING.md and docs/MOBILE_CI_OWNER_GUIDE.md define the internal QA versus release artifact boundary.",
+    "docs/CUSTOMER_PERSPECTIVE_QA.md defines sanitized customer scenarios, evidence, severity, and retest rules."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "synthetic_tarot_test_scenarios",
+    "sanitized_ui_screenshots",
+    "sanitized_timing_and_test_logs"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Reviewed Nilaza Tarot guardrails, release boundary, target users, and manager workflow."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "304c5b7217d6dcc7022d84ae665755b0071572ce19bda96b12a4780b0590eae3",
+      "reason": "Reviewed mobile Tarot release-QA routing, source paths, and required validation commands."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "d61787c20c01e926e13a2a4d56303ac18a2bbda07b84d8c4c5ac30f6b9712ed2",
+      "reason": "Applied the Whole-App impact, preflight, rollback, security, and acceptance requirements."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Reviewed Tarot library, reading, bilingual, loading, fallback, error, and reflective safety expectations."
+    },
+    {
+      "path": "docs/MOBILE_EAS_TESTING.md",
+      "sha256": "615ba8a9cf7cc348be1fc8497fa1d04729dab5c8060724a476f06493f213cfda",
+      "reason": "Reviewed connected-device internal QA build limits and release artifact distinctions."
+    },
+    {
+      "path": "docs/MOBILE_CI_OWNER_GUIDE.md",
+      "sha256": "1f0a6a28681c44623fec49aaada22d7b3d2fce69529454f81455b1e887de5a21",
+      "reason": "Reviewed the mobile release gate, manifest, and manager test requirements."
+    },
+    {
+      "path": "docs/CUSTOMER_PERSPECTIVE_QA.md",
+      "sha256": "6c37ebd1e6da1d543ea75d4aeaa98994b464f16cad1c3dab3fcaee610997df05",
+      "reason": "Reviewed synthetic customer scenarios, sanitized evidence, severity, and retest rules."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "96640cef9da8719ae9c518cba695b28afb93736bc549326f883c05b7650d4a40",
+      "reason": "Reviewed Tarot deck/library, locale, draw, fallback, loading, result, and Journal routes before QA."
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "sha256": "68de9741415e48aeab9624f73686005dfdd9d93d26068791bf44e8b103016d5f",
+      "reason": "Reviewed the Tarot request, abort controller, timeout budget, and local fallback path."
+    },
+    {
+      "path": "packages/content/data/tarot-cards.json",
+      "sha256": "c850fd6a900b6a4bda0add45abf1b9e0a6d4660425aec64f6d17406fb1dc50be",
+      "reason": "Reviewed the canonical 78-card seed dataset and bilingual names."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Applied the plan protocol, Whole-App impact map, release boundary, rollback, and manager-testable acceptance requirements."
+    },
+    {
+      "name": "nilaza-tarot-content-qc",
+      "decision": "verified-current",
+      "evidence": "Used the 78-card coverage, bilingual content, orientation, and card-detail expectations for the library pass."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Kept the QA review within the Open Reflection mobile copy and visual surfaces; no brand asset changes are planned."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "The pass uses checked-out source, local validation scripts, the connected Android device, and repository release QA guidance only."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization, RLS, migration, or protected endpoint behavior changes are planned.",
+    "sensitiveData": "Synthetic prompts only; device screenshots and logs are sanitized before being referenced in the report.",
+    "secretsLogging": "No credentials, auth headers, raw backend responses, or personal identifiers are recorded.",
+    "externalInput": "User-facing question and remote content remain untrusted display data; QA does not execute or persist arbitrary code.",
+    "dependencies": "No dependency installation is required for the QA pass.",
+    "migrationRelease": "No database repair, database push, release upload, deployment, or publishing action is planned.",
+    "stopCondition": "Stop if a private payload appears in evidence, the local fallback violates safety copy, a migration/release action becomes necessary, or a high-risk blocker cannot be isolated.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/backendClient.ts",
+      "apps/mobile/src/__tests__/backendClient.test.ts",
+      "docs/TAROT_RELEASE_QA_2026-09-29.vi.md"
+    ],
+    "note": "The workspace contains prior Nilaza work and a connected-device QA APK. Preserve unrelated changes; edits for this slice must remain within the write scope."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/tarot-release-qa-2026-09-29.json",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand",
+    "npm run validate:data",
+    "npm run validate:visual-assets",
+    "npm run validate:governance",
+    "npm run mobile:release:config:check",
+    "npm run supabase:migration-ledger:check",
+    "adb devices confirms Q88549EEXCUOONGA is connected before device QA",
+    "Connected-device QA covers 78-card library, EN, offline/error, timeout, and a retest after any scoped fix"
+  ],
+  "managerTestPath": "On the connected Android phone, open Explore -> Tarot -> the deck library, confirm 78 distinct card names and open a card detail; switch to EN and repeat the visible labels; disable network, start a one-card synthetic reading, confirm a readable fallback/error and no endless spinner; review the timeout test timing and release recommendation in docs/TAROT_RELEASE_QA_2026-09-29.vi.md.",
+  "residualRisk": "A local internal QA APK is not a release artifact; native build signing, store packaging, backend production latency, and remote entitlement behavior remain separate release gates.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

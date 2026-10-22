@@ -1,0 +1,2093 @@
+{
+  "deckId": "classic-arcana",
+  "version": "2026-09-24-classic-style-v1",
+  "status": "full_deck_artwork_quality_reviewed",
+  "includeExisting": true,
+  "cardCount": 78,
+  "style": {
+    "vi": "Minh họa Tarot cổ điển kiểu khắc/in màu thủ công châu Âu, nét mực rõ, giấy ngà cũ, màu chàm bụi, đỏ đất, vàng đất và xanh sage; hình tượng nguyên bản, dễ đọc trên màn hình nhỏ.",
+    "en": "Classic European hand-colored woodcut and early lithograph Tarot, clear ink contours, warm aged ivory paper, dusty blue, faded red, ochre and sage; original archetypal scenes, legible at mobile size."
+  },
+  "visualPromptTemplate": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.",
+  "cards": [
+    {
+      "cardId": "major-00-fool",
+      "name": {
+        "vi": "The Fool",
+        "en": "The Fool"
+      },
+      "arcana": "major",
+      "suit": null,
+      "rank": null,
+      "keywords": {
+        "vi": [
+          "khởi đầu",
+          "niềm tin",
+          "tự do"
+        ],
+        "en": [
+          "beginnings",
+          "trust",
+          "freedom"
+        ]
+      },
+      "scene": "A young traveler pauses at an old stone crossroads, with a small cloth bundle, walking staff and pale companion dog; an open sunlit road leads toward distant hills.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/major-00-fool.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/major-00-fool.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: The Fool.\n\nMeaning cues: beginnings, trust, freedom.\n\nCard-specific scene: A young traveler pauses at an old stone crossroads, with a small cloth bundle, walking staff and pale companion dog; an open sunlit road leads toward distant hills.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "major-01-magician",
+      "name": {
+        "vi": "The Magician",
+        "en": "The Magician"
+      },
+      "arcana": "major",
+      "suit": null,
+      "rank": null,
+      "keywords": {
+        "vi": [
+          "ý chí",
+          "kỹ năng",
+          "biến hóa"
+        ],
+        "en": [
+          "will",
+          "skill",
+          "transformation"
+        ]
+      },
+      "scene": "An artisan stands at a worktable where a cup, blade, flowering staff and coin become tools for one clear intention; a simple gesture catches a shaft of light in a workshop garden.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/major-01-magician.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/major-01-magician.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: The Magician.\n\nMeaning cues: will, skill, transformation.\n\nCard-specific scene: An artisan stands at a worktable where a cup, blade, flowering staff and coin become tools for one clear intention; a simple gesture catches a shaft of light in a workshop garden.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "major-02-high-priestess",
+      "name": {
+        "vi": "The High Priestess",
+        "en": "The High Priestess"
+      },
+      "arcana": "major",
+      "suit": null,
+      "rank": null,
+      "keywords": {
+        "vi": [
+          "trực giác",
+          "bí mật",
+          "lắng nghe"
+        ],
+        "en": [
+          "intuition",
+          "mystery",
+          "listening"
+        ]
+      },
+      "scene": "A calm adult keeper of inner knowing sits at a small stone sanctuary threshold, holding a closed book; a crescent moon hangs over a dark reflecting pool and a pomegranate-patterned curtain.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/major-02-high-priestess.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/major-02-high-priestess.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: The High Priestess.\n\nMeaning cues: intuition, mystery, listening.\n\nCard-specific scene: A calm adult keeper of inner knowing sits at a small stone sanctuary threshold, holding a closed book; a crescent moon hangs over a dark reflecting pool and a pomegranate-patterned curtain.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "major-03-empress",
+      "name": {
+        "vi": "The Empress",
+        "en": "The Empress"
+      },
+      "arcana": "major",
+      "suit": null,
+      "rank": null,
+      "keywords": {
+        "vi": [
+          "nuôi dưỡng",
+          "sáng tạo",
+          "phong phú"
+        ],
+        "en": [
+          "nurture",
+          "creation",
+          "abundance"
+        ]
+      },
+      "scene": "A gracious adult rests in a flourishing orchard among wheat, roses and flowing water, with a small crown of stars and a basket of fruit; abundant but peaceful, never lavish.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/major-03-empress.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/major-03-empress.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: The Empress.\n\nMeaning cues: nurture, creation, abundance.\n\nCard-specific scene: A gracious adult rests in a flourishing orchard among wheat, roses and flowing water, with a small crown of stars and a basket of fruit; abundant but peaceful, never lavish.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "major-04-emperor",
+      "name": {
+        "vi": "The Emperor",
+        "en": "The Emperor"
+      },
+      "arcana": "major",
+      "suit": null,
+      "rank": null,
+      "keywords": {
+        "vi": [
+          "cấu trúc",
+          "trách nhiệm",
+          "nền tảng"
+        ],
+        "en": [
+          "structure",
+          "responsibility",
+          "foundation"
+        ]
+      },
+      "scene": "A mature ruler sits upright on a ram-carved stone throne, both boots planted naturally on the same floor plane. The hand on the viewer-right visibly grips a straight, continuous ceremonial scepter held vertically outside the throne silhouette, with its ferrule resting on the floor; the other hand rests on the opposite armrest. A terraced town stands beyond.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/major-04-emperor.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/major-04-emperor.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: The Emperor.\n\nMeaning cues: structure, responsibility, foundation.\n\nCard-specific scene: A mature ruler sits upright on a ram-carved stone throne, both boots planted naturally on the same floor plane. The hand on the viewer-right visibly grips a straight, continuous ceremonial scepter held vertically outside the throne silhouette; its ferrule rests on the floor. The other hand rests on the opposite armrest. Leave a clear gap between the scepter and throne so no part appears to pass through or behind it. A terraced town stands beyond.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "major-05-hierophant",
+      "name": {
+        "vi": "The Hierophant",
+        "en": "The Hierophant"
+      },
+      "arcana": "major",
+      "suit": null,
+      "rank": null,
+      "keywords": {
+        "vi": [
+          "giá trị",
+          "học hỏi",
+          "truyền thông"
+        ],
+        "en": [
+          "values",
+          "learning",
+          "tradition"
+        ]
+      },
+      "scene": "A patient teacher in an old cloister shares a lesson with two adult apprentices; an open book, two keys and a column of morning light suggest inherited wisdom and chosen values.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/major-05-hierophant.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/major-05-hierophant.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: The Hierophant.\n\nMeaning cues: values, learning, tradition.\n\nCard-specific scene: A patient teacher in an old cloister shares a lesson with two adult apprentices; an open book, two keys and a column of morning light suggest inherited wisdom and chosen values.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "major-06-lovers",
+      "name": {
+        "vi": "The Lovers",
+        "en": "The Lovers"
+      },
+      "arcana": "major",
+      "suit": null,
+      "rank": null,
+      "keywords": {
+        "vi": [
+          "lựa chọn",
+          "kết nối",
+          "giá trị"
+        ],
+        "en": [
+          "choice",
+          "connection",
+          "values"
+        ]
+      },
+      "scene": "Two adults meet at a garden crossroads, each carrying a small lantern; they face one another with space between them while two paths join beneath flowering branches, expressing connection and choice.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/major-06-lovers.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/major-06-lovers.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: The Lovers.\n\nMeaning cues: choice, connection, values.\n\nCard-specific scene: Two adults meet at a garden crossroads, each carrying a small lantern; they face one another with space between them while two paths join beneath flowering branches, expressing connection and choice.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "major-07-chariot",
+      "name": {
+        "vi": "The Chariot",
+        "en": "The Chariot"
+      },
+      "arcana": "major",
+      "suit": null,
+      "rank": null,
+      "keywords": {
+        "vi": [
+          "hướng đi",
+          "ý chí",
+          "tiến lên"
+        ],
+        "en": [
+          "direction",
+          "will",
+          "movement"
+        ]
+      },
+      "scene": "A focused driver guides a compact ceremonial cart through a city gate, drawn by two horses of contrasting colors moving in balance; banners stream forward into open country.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/major-07-chariot.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/major-07-chariot.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: The Chariot.\n\nMeaning cues: direction, will, movement.\n\nCard-specific scene: A focused driver guides a compact ceremonial cart through a city gate, drawn by two horses of contrasting colors moving in balance; banners stream forward into open country.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "major-08-strength",
+      "name": {
+        "vi": "Strength",
+        "en": "Strength"
+      },
+      "arcana": "major",
+      "suit": null,
+      "rank": null,
+      "keywords": {
+        "vi": [
+          "can đảm",
+          "từ bi",
+          "kiềm chế"
+        ],
+        "en": [
+          "courage",
+          "compassion",
+          "restraint"
+        ]
+      },
+      "scene": "A calm adult rests one hand gently on a lion's mane in a quiet garden; the lion is peaceful, and the figure's relaxed posture shows courage through compassion and restraint.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/major-08-strength.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/major-08-strength.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Strength.\n\nMeaning cues: courage, compassion, restraint.\n\nCard-specific scene: A calm adult rests one hand gently on a lion's mane in a quiet garden; the lion is peaceful, and the figure's relaxed posture shows courage through compassion and restraint.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "major-09-hermit",
+      "name": {
+        "vi": "The Hermit",
+        "en": "The Hermit"
+      },
+      "arcana": "major",
+      "suit": null,
+      "rank": null,
+      "keywords": {
+        "vi": [
+          "một mình",
+          "soi chiếu",
+          "tìm nghĩa"
+        ],
+        "en": [
+          "solitude",
+          "illumination",
+          "meaning"
+        ]
+      },
+      "scene": "An elder wayfarer pauses on a high ridge at dusk, holding a hooded lantern that reveals a few steps of the mountain path; the distant valley remains quiet and spacious.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/major-09-hermit.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/major-09-hermit.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: The Hermit.\n\nMeaning cues: solitude, illumination, meaning.\n\nCard-specific scene: An elder wayfarer pauses on a high ridge at dusk, holding a hooded lantern that reveals a few steps of the mountain path; the distant valley remains quiet and spacious.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "major-10-wheel",
+      "name": {
+        "vi": "Wheel of Fortune",
+        "en": "Wheel of Fortune"
+      },
+      "arcana": "major",
+      "suit": null,
+      "rank": null,
+      "keywords": {
+        "vi": [
+          "chu kỳ",
+          "thay đổi",
+          "cơ hội"
+        ],
+        "en": [
+          "cycles",
+          "change",
+          "opportunity"
+        ]
+      },
+      "scene": "A large wooden wheel turns in a village square as leaves, seedpods and small birds mark the seasons around it; a person watches from a doorway, noticing change and opportunity.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/major-10-wheel.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/major-10-wheel.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Wheel of Fortune.\n\nMeaning cues: cycles, change, opportunity.\n\nCard-specific scene: A large wooden wheel turns in a village square as leaves, seedpods and small birds mark the seasons around it; a person watches from a doorway, noticing change and opportunity.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "major-11-justice",
+      "name": {
+        "vi": "Justice",
+        "en": "Justice"
+      },
+      "arcana": "major",
+      "suit": null,
+      "rank": null,
+      "keywords": {
+        "vi": [
+          "sự thật",
+          "cân bằng",
+          "trách nhiệm"
+        ],
+        "en": [
+          "truth",
+          "balance",
+          "accountability"
+        ]
+      },
+      "scene": "A composed magistrate stands in an open stone hall with an upright sword and balanced scales; two equal bowls and a clear window express fairness, truth and accountability.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/major-11-justice.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/major-11-justice.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Justice.\n\nMeaning cues: truth, balance, accountability.\n\nCard-specific scene: A composed magistrate stands in an open stone hall with an upright sword and balanced scales; two equal bowls and a clear window express fairness, truth and accountability.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "major-12-hanged-man",
+      "name": {
+        "vi": "The Hanged Man",
+        "en": "The Hanged Man"
+      },
+      "arcana": "major",
+      "suit": null,
+      "rank": null,
+      "keywords": {
+        "vi": [
+          "tạm dừng",
+          "góc nhìn",
+          "buông bỏ"
+        ],
+        "en": [
+          "pause",
+          "perspective",
+          "surrender"
+        ]
+      },
+      "scene": "A thoughtful traveler sits safely beside a garden pool, studying a reflection that the ripples turn upside down; a leaf floats against gravity in the still image, suggesting a pause and a new perspective.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/major-12-hanged-man.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/major-12-hanged-man.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: The Hanged Man.\n\nMeaning cues: pause, perspective, surrender.\n\nCard-specific scene: A thoughtful traveler sits safely beside a garden pool, studying a reflection that the ripples turn upside down; a leaf floats against gravity in the still image, suggesting a pause and a new perspective.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "major-13-death",
+      "name": {
+        "vi": "Death",
+        "en": "Death"
+      },
+      "arcana": "major",
+      "suit": null,
+      "rank": null,
+      "keywords": {
+        "vi": [
+          "kết thúc",
+          "tái sinh",
+          "Chuyển Hóa"
+        ],
+        "en": [
+          "ending",
+          "rebirth",
+          "transformation"
+        ]
+      },
+      "scene": "An old ceremonial mask and fallen leaves lie beside an open garden gate where a new green shoot emerges; a cloaked traveler walks onward into pale morning, suggesting an ending that makes room for renewal.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/major-13-death.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/major-13-death.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Death.\n\nMeaning cues: ending, rebirth, transformation.\n\nCard-specific scene: An old ceremonial mask and fallen leaves lie beside an open garden gate where a new green shoot emerges; a cloaked traveler walks onward into pale morning, suggesting an ending that makes room for renewal.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "major-14-temperance",
+      "name": {
+        "vi": "Temperance",
+        "en": "Temperance"
+      },
+      "arcana": "major",
+      "suit": null,
+      "rank": null,
+      "keywords": {
+        "vi": [
+          "điều độ",
+          "pha trộn",
+          "hồi phục"
+        ],
+        "en": [
+          "moderation",
+          "blending",
+          "self-care"
+        ]
+      },
+      "scene": "A serene traveler pours water between two simple vessels beside a stream, blending warm and cool reflections; one foot rests on the bank and one near the water, showing measured care.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/major-14-temperance.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/major-14-temperance.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Temperance.\n\nMeaning cues: moderation, blending, self-care.\n\nCard-specific scene: A serene traveler pours water between two simple vessels beside a stream, blending warm and cool reflections; one foot rests on the bank and one near the water, showing measured care.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "major-15-devil",
+      "name": {
+        "vi": "The Devil",
+        "en": "The Devil"
+      },
+      "arcana": "major",
+      "suit": null,
+      "rank": null,
+      "keywords": {
+        "vi": [
+          "ràng buộc",
+          "ham muốn",
+          "ảo tưởng"
+        ],
+        "en": [
+          "attachment",
+          "desire",
+          "illusion"
+        ]
+      },
+      "scene": "Two adults notice loose rings and untied cords lying on a table before a theatrical carved shadow; a small key rests within reach, showing attachment as visible and changeable, without a monster.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/major-15-devil.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/major-15-devil.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: The Devil.\n\nMeaning cues: attachment, desire, illusion.\n\nCard-specific scene: Two adults notice loose rings and untied cords lying on a table before a theatrical carved shadow; a small key rests within reach, showing attachment as visible and changeable, without a monster.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "major-16-tower",
+      "name": {
+        "vi": "The Tower",
+        "en": "The Tower"
+      },
+      "arcana": "major",
+      "suit": null,
+      "rank": null,
+      "keywords": {
+        "vi": [
+          "sự thật bất ngờ",
+          "sụp đổ",
+          "giải phóng"
+        ],
+        "en": [
+          "revelation",
+          "collapse",
+          "liberation"
+        ]
+      },
+      "scene": "A weathered stone watchtower shows one clean crack through its upper wall as a red storm bolt lights the clouds; a steady lamp remains below and a clear path leads away from the old structure.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/major-16-tower.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/major-16-tower.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: The Tower.\n\nMeaning cues: revelation, collapse, liberation.\n\nCard-specific scene: A weathered stone watchtower shows one clean crack through its upper wall as a red storm bolt lights the clouds; a steady lamp remains below and a clear path leads away from the old structure.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "major-17-star",
+      "name": {
+        "vi": "The Star",
+        "en": "The Star"
+      },
+      "arcana": "major",
+      "suit": null,
+      "rank": null,
+      "keywords": {
+        "vi": [
+          "hy vọng",
+          "niềm tin",
+          "tự chăm sóc"
+        ],
+        "en": [
+          "hope",
+          "faith",
+          "renewal"
+        ]
+      },
+      "scene": "A water bearer kneels beside a still pool beneath one bright guiding star and a scatter of smaller stars; water feeds a garden bed and the horizon begins to lighten.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/major-17-star.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/major-17-star.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: The Star.\n\nMeaning cues: hope, faith, renewal.\n\nCard-specific scene: A water bearer kneels beside a still pool beneath one bright guiding star and a scatter of smaller stars; water feeds a garden bed and the horizon begins to lighten.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "major-18-moon",
+      "name": {
+        "vi": "The Moon",
+        "en": "The Moon"
+      },
+      "arcana": "major",
+      "suit": null,
+      "rank": null,
+      "keywords": {
+        "vi": [
+          "mơ hồ",
+          "giấc mơ",
+          "vô thức"
+        ],
+        "en": [
+          "uncertainty",
+          "dreams",
+          "subconscious"
+        ]
+      },
+      "scene": "A winding path crosses a moonlit marsh between two distant cypress silhouettes; a dog and a wolf watch from opposite banks while ripples soften the moon's reflection, holding uncertainty without menace.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/major-18-moon.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/major-18-moon.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: The Moon.\n\nMeaning cues: uncertainty, dreams, subconscious.\n\nCard-specific scene: A winding path crosses a moonlit marsh between two distant cypress silhouettes; a dog and a wolf watch from opposite banks while ripples soften the moon's reflection, holding uncertainty without menace.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "major-19-sun",
+      "name": {
+        "vi": "The Sun",
+        "en": "The Sun"
+      },
+      "arcana": "major",
+      "suit": null,
+      "rank": null,
+      "keywords": {
+        "vi": [
+          "niềm vui",
+          "rõ ràng",
+          "sức sống"
+        ],
+        "en": [
+          "joy",
+          "clarity",
+          "vitality"
+        ]
+      },
+      "scene": "A young person walks through a bright walled garden of sunflowers beneath a generous sun disc; open shutters and clear morning shadows make the scene warm, lively and uncluttered.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/major-19-sun.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/major-19-sun.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: The Sun.\n\nMeaning cues: joy, clarity, vitality.\n\nCard-specific scene: A young person walks through a bright walled garden of sunflowers beneath a generous sun disc; open shutters and clear morning shadows make the scene warm, lively and uncluttered.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "major-20-judgement",
+      "name": {
+        "vi": "Judgement",
+        "en": "Judgement"
+      },
+      "arcana": "major",
+      "suit": null,
+      "rank": null,
+      "keywords": {
+        "vi": [
+          "thức tỉnh",
+          "gọi tên",
+          "tha thứ"
+        ],
+        "en": [
+          "awakening",
+          "calling",
+          "release"
+        ]
+      },
+      "scene": "At dawn, a clear bell rings from a small town tower as people open doors and windows to the light; birds rise above the rooftops, suggesting an awakening and a freely chosen next step.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/major-20-judgement.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/major-20-judgement.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Judgement.\n\nMeaning cues: awakening, calling, release.\n\nCard-specific scene: At dawn, a clear bell rings from a small town tower as people open doors and windows to the light; birds rise above the rooftops, suggesting an awakening and a freely chosen next step.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "major-21-world",
+      "name": {
+        "vi": "The World",
+        "en": "The World"
+      },
+      "arcana": "major",
+      "suit": null,
+      "rank": null,
+      "keywords": {
+        "vi": [
+          "hoàn tất",
+          "trọn vẹn",
+          "hội nhập"
+        ],
+        "en": [
+          "completion",
+          "wholeness",
+          "integration"
+        ]
+      },
+      "scene": "A traveler stands within a circular stone garden arch after completing a long path; four small seasonal emblems mark the corners and a calm landscape opens beyond, suggesting integration and wholeness.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/major-21-world.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/major-21-world.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: The World.\n\nMeaning cues: completion, wholeness, integration.\n\nCard-specific scene: A traveler stands within a circular stone garden arch after completing a long path; four small seasonal emblems mark the corners and a calm landscape opens beyond, suggesting integration and wholeness.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-wands-ace",
+      "name": {
+        "vi": "Ace of Wands",
+        "en": "Ace of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "rank": "ace",
+      "keywords": {
+        "vi": [
+          "hạt giống",
+          "tia lửa đầu tiên",
+          "ý chí"
+        ],
+        "en": [
+          "seed",
+          "first spark",
+          "will"
+        ]
+      },
+      "scene": "A single budding staff is offered above a garden gate by a sunlit hand; one bright leaf marks the first spark of initiative.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-wands-ace.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-wands-ace.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Ace of Wands.\n\nMeaning cues: seed, first spark, will.\n\nCard-specific scene: A single budding staff is offered above a garden gate by a sunlit hand; one bright leaf marks the first spark of initiative.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-wands-two",
+      "name": {
+        "vi": "Two of Wands",
+        "en": "Two of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "rank": "two",
+      "keywords": {
+        "vi": [
+          "cân bằng",
+          "chọn hướng đi",
+          "ý chí"
+        ],
+        "en": [
+          "balance",
+          "choosing direction",
+          "will"
+        ]
+      },
+      "scene": "A traveler studies a folded map from a high garden wall, with two staffs resting beside a small globe and a view of two possible roads.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-wands-two.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-wands-two.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Two of Wands.\n\nMeaning cues: balance, choosing direction, will.\n\nCard-specific scene: A traveler studies a folded map from a high garden wall, with two staffs resting beside a small globe and a view of two possible roads.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-wands-three",
+      "name": {
+        "vi": "Three of Wands",
+        "en": "Three of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "rank": "three",
+      "keywords": {
+        "vi": [
+          "phát triển",
+          "nhìn xa hơn",
+          "ý chí"
+        ],
+        "en": [
+          "growth",
+          "looking outward",
+          "will"
+        ]
+      },
+      "scene": "A figure on a coastal ridge watches three small ships sail toward the horizon, three staffs planted nearby as the view opens outward.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-wands-three.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-wands-three.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Three of Wands.\n\nMeaning cues: growth, looking outward, will.\n\nCard-specific scene: A figure on a coastal ridge watches three small ships sail toward the horizon, three staffs planted nearby as the view opens outward.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-wands-four",
+      "name": {
+        "vi": "Four of Wands",
+        "en": "Four of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "rank": "four",
+      "keywords": {
+        "vi": [
+          "nền tảng",
+          "ăn mừng nhỏ",
+          "ý chí"
+        ],
+        "en": [
+          "foundation",
+          "small celebration",
+          "will"
+        ]
+      },
+      "scene": "Four flowering staffs support a simple garland at a village courtyard entrance where neighbors gather for a modest celebration.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-wands-four.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-wands-four.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Four of Wands.\n\nMeaning cues: foundation, small celebration, will.\n\nCard-specific scene: Four flowering staffs support a simple garland at a village courtyard entrance where neighbors gather for a modest celebration.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-wands-five",
+      "name": {
+        "vi": "Five of Wands",
+        "en": "Five of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "rank": "five",
+      "keywords": {
+        "vi": [
+          "ma sát",
+          "va chạm ý chí",
+          "ý chí"
+        ],
+        "en": [
+          "friction",
+          "clashing wills",
+          "will"
+        ]
+      },
+      "scene": "Five young adults practice with long staffs in an open field, crossing and uncrossing them like a lively lesson rather than a fight.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-wands-five.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-wands-five.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Five of Wands.\n\nMeaning cues: friction, clashing wills, will.\n\nCard-specific scene: Five young adults practice with long staffs in an open field, crossing and uncrossing them like a lively lesson rather than a fight.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-wands-six",
+      "name": {
+        "vi": "Six of Wands",
+        "en": "Six of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "rank": "six",
+      "keywords": {
+        "vi": [
+          "điều chỉnh",
+          "được công nhận",
+          "ý chí"
+        ],
+        "en": [
+          "repair",
+          "recognition",
+          "will"
+        ]
+      },
+      "scene": "A rider returns through a town gate carrying a laurel-tipped staff while neighbors acknowledge the effort with warm, measured celebration.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-wands-six.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-wands-six.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Six of Wands.\n\nMeaning cues: repair, recognition, will.\n\nCard-specific scene: A rider returns through a town gate carrying a laurel-tipped staff while neighbors acknowledge the effort with warm, measured celebration.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-wands-seven",
+      "name": {
+        "vi": "Seven of Wands",
+        "en": "Seven of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "rank": "seven",
+      "keywords": {
+        "vi": [
+          "thử thách",
+          "giữ lập trường",
+          "ý chí"
+        ],
+        "en": [
+          "challenge",
+          "holding ground",
+          "will"
+        ]
+      },
+      "scene": "A watchful traveler stands on a low rise holding one staff as six staffs approach from the path below; the posture is steady, not aggressive.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-wands-seven.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-wands-seven.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Seven of Wands.\n\nMeaning cues: challenge, holding ground, will.\n\nCard-specific scene: A watchful traveler stands on a low rise holding one staff as six staffs approach from the path below; the posture is steady, not aggressive.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-wands-eight",
+      "name": {
+        "vi": "Eight of Wands",
+        "en": "Eight of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "rank": "eight",
+      "keywords": {
+        "vi": [
+          "rèn luyện",
+          "tin tức nhanh",
+          "ý chí"
+        ],
+        "en": [
+          "practice",
+          "quick movement",
+          "will"
+        ]
+      },
+      "scene": "Eight slender staffs sweep across a wide clear sky over a river valley, their parallel movement suggesting swift progress and momentum.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-wands-eight.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-wands-eight.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Eight of Wands.\n\nMeaning cues: practice, quick movement, will.\n\nCard-specific scene: Eight slender staffs sweep across a wide clear sky over a river valley, their parallel movement suggesting swift progress and momentum.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-wands-nine",
+      "name": {
+        "vi": "Nine of Wands",
+        "en": "Nine of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "rank": "nine",
+      "keywords": {
+        "vi": [
+          "thu hoạch",
+          "kiên cường",
+          "ý chí"
+        ],
+        "en": [
+          "attainment",
+          "resilience",
+          "will"
+        ]
+      },
+      "scene": "A resilient traveler pauses beside a fence of nine upright staffs, alert but composed, with an open gate visible nearby.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-wands-nine.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-wands-nine.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Nine of Wands.\n\nMeaning cues: attainment, resilience, will.\n\nCard-specific scene: A resilient traveler pauses beside a fence of nine upright staffs, alert but composed, with an open gate visible nearby.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-wands-ten",
+      "name": {
+        "vi": "Ten of Wands",
+        "en": "Ten of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "rank": "ten",
+      "keywords": {
+        "vi": [
+          "hoàn tất",
+          "gánh quá nhiều",
+          "ý chí"
+        ],
+        "en": [
+          "completion",
+          "heavy burden",
+          "will"
+        ]
+      },
+      "scene": "A person carries a bundle of ten staffs toward a welcoming house, visibly working hard but still choosing where to set the load down.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-wands-ten.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-wands-ten.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Ten of Wands.\n\nMeaning cues: completion, heavy burden, will.\n\nCard-specific scene: A person carries a bundle of ten staffs toward a welcoming house, visibly working hard but still choosing where to set the load down.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-wands-page",
+      "name": {
+        "vi": "Page of Wands",
+        "en": "Page of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "rank": "page",
+      "keywords": {
+        "vi": [
+          "học hỏi",
+          "tò mò sáng tạo",
+          "ý chí"
+        ],
+        "en": [
+          "apprentice",
+          "creative curiosity",
+          "will"
+        ]
+      },
+      "scene": "A curious young adult studies a short flowering staff in a hillside garden, looking toward new growth with creative energy.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-wands-page.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-wands-page.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Page of Wands.\n\nMeaning cues: apprentice, creative curiosity, will.\n\nCard-specific scene: A curious young adult studies a short flowering staff in a hillside garden, looking toward new growth with creative energy.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-wands-knight",
+      "name": {
+        "vi": "Knight of Wands",
+        "en": "Knight of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "rank": "knight",
+      "keywords": {
+        "vi": [
+          "động lực",
+          "hành động nồng nhiệt",
+          "ý chí"
+        ],
+        "en": [
+          "seeker",
+          "impulsive action",
+          "will"
+        ]
+      },
+      "scene": "A bold rider crosses a sunlit plain with one staff held high, cloak moving in the wind; the horse is energetic but under control.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-wands-knight.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-wands-knight.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Knight of Wands.\n\nMeaning cues: seeker, impulsive action, will.\n\nCard-specific scene: A bold rider crosses a sunlit plain with one staff held high, cloak moving in the wind; the horse is energetic but under control.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-wands-queen",
+      "name": {
+        "vi": "Queen of Wands",
+        "en": "Queen of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "rank": "queen",
+      "keywords": {
+        "vi": [
+          "nuôi dưỡng",
+          "tự tin ấm áp",
+          "ý chí"
+        ],
+        "en": [
+          "guardian",
+          "warm confidence",
+          "will"
+        ]
+      },
+      "scene": "A confident adult sits in a sunny garden with a sunflower and a flowering staff, offering warm attention without losing self-possession.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-wands-queen.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-wands-queen.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Queen of Wands.\n\nMeaning cues: guardian, warm confidence, will.\n\nCard-specific scene: A confident adult sits in a sunny garden with a sunflower and a flowering staff, offering warm attention without losing self-possession.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-wands-king",
+      "name": {
+        "vi": "King of Wands",
+        "en": "King of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "rank": "king",
+      "keywords": {
+        "vi": [
+          "làm chủ",
+          "tầm nhìn dẫn dắt",
+          "ý chí"
+        ],
+        "en": [
+          "stewardship",
+          "visionary leadership",
+          "will"
+        ]
+      },
+      "scene": "A visionary steward stands on a garden terrace beside a carved chair and a living staff, looking toward a town he is responsible for guiding.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-wands-king.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-wands-king.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: King of Wands.\n\nMeaning cues: stewardship, visionary leadership, will.\n\nCard-specific scene: A visionary steward stands on a garden terrace beside a carved chair and a living staff, looking toward a town he is responsible for guiding.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-cups-ace",
+      "name": {
+        "vi": "Ace of Cups",
+        "en": "Ace of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "rank": "ace",
+      "keywords": {
+        "vi": [
+          "hạt giống",
+          "mở lòng",
+          "cảm xúc"
+        ],
+        "en": [
+          "seed",
+          "opening heart",
+          "emotion"
+        ]
+      },
+      "scene": "One overflowing cup rests above a clear spring, with water returning to a small garden; a single white blossom signals an open heart.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-cups-ace.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-cups-ace.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Ace of Cups.\n\nMeaning cues: seed, opening heart, emotion.\n\nCard-specific scene: One overflowing cup rests above a clear spring, with water returning to a small garden; a single white blossom signals an open heart.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-cups-two",
+      "name": {
+        "vi": "Two of Cups",
+        "en": "Two of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "rank": "two",
+      "keywords": {
+        "vi": [
+          "cân bằng",
+          "đáp lại",
+          "cảm xúc"
+        ],
+        "en": [
+          "balance",
+          "mutuality",
+          "emotion"
+        ]
+      },
+      "scene": "Two adults exchange simple cups beneath a vine-covered arch, their hands meeting at equal height in a quiet sign of mutuality.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-cups-two.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-cups-two.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Two of Cups.\n\nMeaning cues: balance, mutuality, emotion.\n\nCard-specific scene: Two adults exchange simple cups beneath a vine-covered arch, their hands meeting at equal height in a quiet sign of mutuality.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-cups-three",
+      "name": {
+        "vi": "Three of Cups",
+        "en": "Three of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "rank": "three",
+      "keywords": {
+        "vi": [
+          "phát triển",
+          "tình bạn",
+          "cảm xúc"
+        ],
+        "en": [
+          "growth",
+          "friendship",
+          "emotion"
+        ]
+      },
+      "scene": "Three adult companions share a gentle harvest-table moment in a walled garden, each offering a cup above fruit and a leafy garland; their gestures are warm and equal.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-cups-three.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-cups-three.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Three of Cups.\n\nMeaning cues: growth, friendship, emotion.\n\nCard-specific scene: Three adult companions share a gentle harvest-table moment in a walled garden, each offering a cup above fruit and a leafy garland; their gestures are warm and equal.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-cups-four",
+      "name": {
+        "vi": "Four of Cups",
+        "en": "Four of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "rank": "four",
+      "keywords": {
+        "vi": [
+          "nền tảng",
+          "chán nản",
+          "cảm xúc"
+        ],
+        "en": [
+          "foundation",
+          "emotional pause",
+          "emotion"
+        ]
+      },
+      "scene": "A thoughtful person sits beside a garden pond while three cups rest on a stone ledge and a companion quietly offers a fourth, inviting attention without pressure.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-cups-four.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-cups-four.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Four of Cups.\n\nMeaning cues: foundation, emotional pause, emotion.\n\nCard-specific scene: A thoughtful person sits beside a garden pond while three cups rest on a stone ledge and a companion quietly offers a fourth, inviting attention without pressure.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-cups-five",
+      "name": {
+        "vi": "Five of Cups",
+        "en": "Five of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "rank": "five",
+      "keywords": {
+        "vi": [
+          "ma sát",
+          "tiếc nuối",
+          "cảm xúc"
+        ],
+        "en": [
+          "friction",
+          "grief",
+          "emotion"
+        ]
+      },
+      "scene": "Two cups have spilled near a rain-darkened path while three remain upright; a grieving traveler notices a small bridge and the light beyond the garden wall.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-cups-five.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-cups-five.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Five of Cups.\n\nMeaning cues: friction, grief, emotion.\n\nCard-specific scene: Two cups have spilled near a rain-darkened path while three remain upright; a grieving traveler notices a small bridge and the light beyond the garden wall.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-cups-six",
+      "name": {
+        "vi": "Six of Cups",
+        "en": "Six of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "rank": "six",
+      "keywords": {
+        "vi": [
+          "điều chỉnh",
+          "ký ức",
+          "cảm xúc"
+        ],
+        "en": [
+          "repair",
+          "memory",
+          "emotion"
+        ]
+      },
+      "scene": "Two adults meet again in an old courtyard and exchange a flower-filled cup, with familiar windows and soft afternoon light evoking memory and repair.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-cups-six.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-cups-six.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Six of Cups.\n\nMeaning cues: repair, memory, emotion.\n\nCard-specific scene: Two adults meet again in an old courtyard and exchange a flower-filled cup, with familiar windows and soft afternoon light evoking memory and repair.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-cups-seven",
+      "name": {
+        "vi": "Seven of Cups",
+        "en": "Seven of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "rank": "seven",
+      "keywords": {
+        "vi": [
+          "thử thách",
+          "nhiều lựa chọn",
+          "cảm xúc"
+        ],
+        "en": [
+          "challenge",
+          "many options",
+          "emotion"
+        ]
+      },
+      "scene": "A dreamer pauses in a small gallery before seven distinct vessels, each holding a different symbolic object; the room is wondrous but grounded, a study of choices.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-cups-seven.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-cups-seven.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Seven of Cups.\n\nMeaning cues: challenge, many options, emotion.\n\nCard-specific scene: A dreamer pauses in a small gallery before seven distinct vessels, each holding a different symbolic object; the room is wondrous but grounded, a study of choices.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-cups-eight",
+      "name": {
+        "vi": "Eight of Cups",
+        "en": "Eight of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "rank": "eight",
+      "keywords": {
+        "vi": [
+          "rèn luyện",
+          "rơi đi",
+          "cảm xúc"
+        ],
+        "en": [
+          "practice",
+          "walking away",
+          "emotion"
+        ]
+      },
+      "scene": "A walker leaves eight cups arranged on a terrace and follows a lantern-lit path toward distant hills beneath a quiet moon.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-cups-eight.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-cups-eight.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Eight of Cups.\n\nMeaning cues: practice, walking away, emotion.\n\nCard-specific scene: A walker leaves eight cups arranged on a terrace and follows a lantern-lit path toward distant hills beneath a quiet moon.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-cups-nine",
+      "name": {
+        "vi": "Nine of Cups",
+        "en": "Nine of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "rank": "nine",
+      "keywords": {
+        "vi": [
+          "thu hoạch",
+          "hài lòng",
+          "cảm xúc"
+        ],
+        "en": [
+          "attainment",
+          "contentment",
+          "emotion"
+        ]
+      },
+      "scene": "A contented host reclines at a table holding one gold goblet, with eight more displayed on the shelf behind for nine goblets total after a satisfying meal.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-cups-nine.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-cups-nine.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Nine of Cups.\n\nMeaning cues: attainment, contentment, emotion.\n\nCard-specific scene: A contented host reclines at a table holding one gold goblet, with eight more displayed on the shelf behind for nine goblets total after a satisfying meal.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-cups-ten",
+      "name": {
+        "vi": "Ten of Cups",
+        "en": "Ten of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "rank": "ten",
+      "keywords": {
+        "vi": [
+          "hoàn tất",
+          "gắn kết",
+          "cảm xúc"
+        ],
+        "en": [
+          "completion",
+          "belonging",
+          "emotion"
+        ]
+      },
+      "scene": "A family and chosen friends stand together in a garden beneath a flowered arc of exactly ten gold goblets, with a stream and rooftops beyond, expressing belonging.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-cups-ten.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-cups-ten.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Ten of Cups.\n\nMeaning cues: completion, belonging, emotion.\n\nCard-specific scene: A family and chosen friends stand together in a garden beneath a flowered arc of exactly ten gold goblets, with a stream and rooftops beyond, expressing belonging.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-cups-page",
+      "name": {
+        "vi": "Page of Cups",
+        "en": "Page of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "rank": "page",
+      "keywords": {
+        "vi": [
+          "học hỏi",
+          "tin nhận cảm xúc",
+          "cảm xúc"
+        ],
+        "en": [
+          "apprentice",
+          "emotional message",
+          "emotion"
+        ]
+      },
+      "scene": "A curious young adult studies one decorated cup near a tide pool where a tiny fish rises from the water, suggesting an unexpected emotional message.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-cups-page.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-cups-page.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Page of Cups.\n\nMeaning cues: apprentice, emotional message, emotion.\n\nCard-specific scene: A curious young adult studies one decorated cup near a tide pool where a tiny fish rises from the water, suggesting an unexpected emotional message.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-cups-knight",
+      "name": {
+        "vi": "Knight of Cups",
+        "en": "Knight of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "rank": "knight",
+      "keywords": {
+        "vi": [
+          "động lực",
+          "lãng mạn",
+          "cảm xúc"
+        ],
+        "en": [
+          "seeker",
+          "romantic pursuit",
+          "emotion"
+        ]
+      },
+      "scene": "A courteous rider carries one cup along a calm stream, horse walking steadily through a meadow; the scene suggests an invitation with room for consent.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-cups-knight.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-cups-knight.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Knight of Cups.\n\nMeaning cues: seeker, romantic pursuit, emotion.\n\nCard-specific scene: A courteous rider carries one cup along a calm stream, horse walking steadily through a meadow; the scene suggests an invitation with room for consent.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-cups-queen",
+      "name": {
+        "vi": "Queen of Cups",
+        "en": "Queen of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "rank": "queen",
+      "keywords": {
+        "vi": [
+          "nuôi dưỡng",
+          "thấu cảm",
+          "cảm xúc"
+        ],
+        "en": [
+          "guardian",
+          "deep empathy",
+          "emotion"
+        ]
+      },
+      "scene": "A compassionate adult sits near the shore, holding a lidded cup like a small keepsake and listening to the changing water.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-cups-queen.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-cups-queen.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Queen of Cups.\n\nMeaning cues: guardian, deep empathy, emotion.\n\nCard-specific scene: A compassionate adult sits near the shore, holding a lidded cup like a small keepsake and listening to the changing water.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-cups-king",
+      "name": {
+        "vi": "King of Cups",
+        "en": "King of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "rank": "king",
+      "keywords": {
+        "vi": [
+          "làm chủ",
+          "cảm xúc chín chắn",
+          "cảm xúc"
+        ],
+        "en": [
+          "stewardship",
+          "emotional maturity",
+          "emotion"
+        ]
+      },
+      "scene": "A mature, even-tempered steward sits in a small boat on balanced waves, holding one cup while keeping a calm eye on the distant harbor.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-cups-king.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-cups-king.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: King of Cups.\n\nMeaning cues: stewardship, emotional maturity, emotion.\n\nCard-specific scene: A mature, even-tempered steward sits in a small boat on balanced waves, holding one cup while keeping a calm eye on the distant harbor.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-swords-ace",
+      "name": {
+        "vi": "Ace of Swords",
+        "en": "Ace of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "rank": "ace",
+      "keywords": {
+        "vi": [
+          "hạt giống",
+          "sự thật mới",
+          "suy nghĩ"
+        ],
+        "en": [
+          "seed",
+          "new truth",
+          "thought"
+        ]
+      },
+      "scene": "One clear sword rises from a stone beside a laurel branch as morning light parts the clouds, a simple image of truth and a new idea.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-swords-ace.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-swords-ace.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Ace of Swords.\n\nMeaning cues: seed, new truth, thought.\n\nCard-specific scene: One clear sword rises from a stone beside a laurel branch as morning light parts the clouds, a simple image of truth and a new idea.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-swords-two",
+      "name": {
+        "vi": "Two of Swords",
+        "en": "Two of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "rank": "two",
+      "keywords": {
+        "vi": [
+          "cân bằng",
+          "né tránh quyết định",
+          "suy nghĩ"
+        ],
+        "en": [
+          "balance",
+          "avoided choice",
+          "thought"
+        ]
+      },
+      "scene": "A seated figure considers two sheathed swords laid across a low table by the sea; an open window offers a wider view when they are ready to choose.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-swords-two.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-swords-two.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Two of Swords.\n\nMeaning cues: balance, avoided choice, thought.\n\nCard-specific scene: A seated figure considers two sheathed swords laid across a low table by the sea; an open window offers a wider view when they are ready to choose.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-swords-three",
+      "name": {
+        "vi": "Three of Swords",
+        "en": "Three of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "rank": "three",
+      "keywords": {
+        "vi": [
+          "phát triển",
+          "đau lòng",
+          "suy nghĩ"
+        ],
+        "en": [
+          "growth",
+          "heartache",
+          "thought"
+        ]
+      },
+      "scene": "Three narrow swords stand beside rain-streaked glass and a torn letter, with no body or heart depicted; a small clear patch of sky offers room to heal.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-swords-three.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-swords-three.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Three of Swords.\n\nMeaning cues: growth, heartache, thought.\n\nCard-specific scene: Three narrow swords stand beside rain-streaked glass and a torn letter, with no body or heart depicted; a small clear patch of sky offers room to heal.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-swords-four",
+      "name": {
+        "vi": "Four of Swords",
+        "en": "Four of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "rank": "four",
+      "keywords": {
+        "vi": [
+          "nền tảng",
+          "nghỉ tâm trí",
+          "suy nghĩ"
+        ],
+        "en": [
+          "foundation",
+          "mental rest",
+          "thought"
+        ]
+      },
+      "scene": "A weary scholar rests quietly on a stone bench in a chapel, one sword laid safely on the floor and three hung high on the wall.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-swords-four.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-swords-four.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Four of Swords.\n\nMeaning cues: foundation, mental rest, thought.\n\nCard-specific scene: A weary scholar rests quietly on a stone bench in a chapel, one sword laid safely on the floor and three hung high on the wall.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-swords-five",
+      "name": {
+        "vi": "Five of Swords",
+        "en": "Five of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "rank": "five",
+      "keywords": {
+        "vi": [
+          "ma sát",
+          "thắng mà mất",
+          "suy nghĩ"
+        ],
+        "en": [
+          "friction",
+          "costly win",
+          "thought"
+        ]
+      },
+      "scene": "One traveler lowers a sword while two companions walk away after a costly argument; the open ground between them holds the cost of winning.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-swords-five.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-swords-five.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Five of Swords.\n\nMeaning cues: friction, costly win, thought.\n\nCard-specific scene: One traveler lowers a sword while two companions walk away after a costly argument; the open ground between them holds the cost of winning.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-swords-six",
+      "name": {
+        "vi": "Six of Swords",
+        "en": "Six of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "rank": "six",
+      "keywords": {
+        "vi": [
+          "điều chỉnh",
+          "đi qua vùng khó",
+          "suy nghĩ"
+        ],
+        "en": [
+          "repair",
+          "moving through difficulty",
+          "thought"
+        ]
+      },
+      "scene": "A small boat carries a family and six sheathed swords across a broad river toward calmer banks and pale morning light.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-swords-six.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-swords-six.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Six of Swords.\n\nMeaning cues: repair, moving through difficulty, thought.\n\nCard-specific scene: A small boat carries a family and six sheathed swords across a broad river toward calmer banks and pale morning light.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-swords-seven",
+      "name": {
+        "vi": "Seven of Swords",
+        "en": "Seven of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "rank": "seven",
+      "keywords": {
+        "vi": [
+          "thử thách",
+          "chiến lược",
+          "suy nghĩ"
+        ],
+        "en": [
+          "challenge",
+          "strategy",
+          "thought"
+        ]
+      },
+      "scene": "A careful traveler carries seven sheathed swords across an empty camp at dawn, glancing back toward the route they chose; strategy without threat.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-swords-seven.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-swords-seven.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Seven of Swords.\n\nMeaning cues: challenge, strategy, thought.\n\nCard-specific scene: A careful traveler carries seven sheathed swords across an empty camp at dawn, glancing back toward the route they chose; strategy without threat.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-swords-eight",
+      "name": {
+        "vi": "Eight of Swords",
+        "en": "Eight of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "rank": "eight",
+      "keywords": {
+        "vi": [
+          "rèn luyện",
+          "tự giới hạn",
+          "suy nghĩ"
+        ],
+        "en": [
+          "practice",
+          "self-limitation",
+          "thought"
+        ]
+      },
+      "scene": "A person discovers a clear walking path through eight upright swords; the loose ribbon at their side has already fallen away.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-swords-eight.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-swords-eight.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Eight of Swords.\n\nMeaning cues: practice, self-limitation, thought.\n\nCard-specific scene: A person discovers a clear walking path through eight upright swords; the loose ribbon at their side has already fallen away.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-swords-nine",
+      "name": {
+        "vi": "Nine of Swords",
+        "en": "Nine of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "rank": "nine",
+      "keywords": {
+        "vi": [
+          "thu hoạch",
+          "lo âu",
+          "suy nghĩ"
+        ],
+        "en": [
+          "attainment",
+          "anxiety",
+          "thought"
+        ]
+      },
+      "scene": "A night watcher sits beneath nine swords hung neatly on a wall, one candle and an open window grounding a difficult but passing night.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-swords-nine.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-swords-nine.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Nine of Swords.\n\nMeaning cues: attainment, anxiety, thought.\n\nCard-specific scene: A night watcher sits beneath nine swords hung neatly on a wall, one candle and an open window grounding a difficult but passing night.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-swords-ten",
+      "name": {
+        "vi": "Ten of Swords",
+        "en": "Ten of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "rank": "ten",
+      "keywords": {
+        "vi": [
+          "hoàn tất",
+          "kết thúc đầu",
+          "suy nghĩ"
+        ],
+        "en": [
+          "completion",
+          "painful ending",
+          "thought"
+        ]
+      },
+      "scene": "Ten swords rest point-down in the earth as a storm clears over a quiet field; the dark horizon gives way to a narrow band of morning.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-swords-ten.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-swords-ten.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Ten of Swords.\n\nMeaning cues: completion, painful ending, thought.\n\nCard-specific scene: Ten swords rest point-down in the earth as a storm clears over a quiet field; the dark horizon gives way to a narrow band of morning.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-swords-page",
+      "name": {
+        "vi": "Page of Swords",
+        "en": "Page of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "rank": "page",
+      "keywords": {
+        "vi": [
+          "học hỏi",
+          "quan sát",
+          "suy nghĩ"
+        ],
+        "en": [
+          "apprentice",
+          "watchful learning",
+          "thought"
+        ]
+      },
+      "scene": "A watchful young adult stands on a hill with one light sword pointed toward the ground, cloak lifted by the breeze and eyes on the distant road.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-swords-page.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-swords-page.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Page of Swords.\n\nMeaning cues: apprentice, watchful learning, thought.\n\nCard-specific scene: A watchful young adult stands on a hill with one light sword pointed toward the ground, cloak lifted by the breeze and eyes on the distant road.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-swords-knight",
+      "name": {
+        "vi": "Knight of Swords",
+        "en": "Knight of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "rank": "knight",
+      "keywords": {
+        "vi": [
+          "động lực",
+          "lời nói nhanh",
+          "suy nghĩ"
+        ],
+        "en": [
+          "seeker",
+          "fast words",
+          "thought"
+        ]
+      },
+      "scene": "A swift rider crosses a plain with a sword held safely upward and away from others, banners streaming as clouds open ahead.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-swords-knight.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-swords-knight.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Knight of Swords.\n\nMeaning cues: seeker, fast words, thought.\n\nCard-specific scene: A swift rider crosses a plain with a sword held safely upward and away from others, banners streaming as clouds open ahead.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-swords-queen",
+      "name": {
+        "vi": "Queen of Swords",
+        "en": "Queen of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "rank": "queen",
+      "keywords": {
+        "vi": [
+          "nuôi dưỡng",
+          "ranh giới trí tuệ",
+          "suy nghĩ"
+        ],
+        "en": [
+          "guardian",
+          "clear boundaries",
+          "thought"
+        ]
+      },
+      "scene": "A clear-minded adult sits in an open stone court with a sword resting upright beside the chair and one hand open in welcome to honest words.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-swords-queen.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-swords-queen.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Queen of Swords.\n\nMeaning cues: guardian, clear boundaries, thought.\n\nCard-specific scene: A clear-minded adult sits in an open stone court with a sword resting upright beside the chair and one hand open in welcome to honest words.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-swords-king",
+      "name": {
+        "vi": "King of Swords",
+        "en": "King of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "rank": "king",
+      "keywords": {
+        "vi": [
+          "làm chủ",
+          "phần đoán sáng suốt",
+          "suy nghĩ"
+        ],
+        "en": [
+          "stewardship",
+          "clear judgment",
+          "thought"
+        ]
+      },
+      "scene": "A measured magistrate studies a book at a plain desk while a sheathed sword rests nearby, joining discernment with responsibility.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-swords-king.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-swords-king.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: King of Swords.\n\nMeaning cues: stewardship, clear judgment, thought.\n\nCard-specific scene: A measured magistrate studies a book at a plain desk while a sheathed sword rests nearby, joining discernment with responsibility.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-pentacles-ace",
+      "name": {
+        "vi": "Ace of Pentacles",
+        "en": "Ace of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "rank": "ace",
+      "keywords": {
+        "vi": [
+          "hạt giống",
+          "cơ hội vật chất",
+          "cơ thể"
+        ],
+        "en": [
+          "seed",
+          "material opportunity",
+          "body"
+        ]
+      },
+      "scene": "One golden coin rests in an open hand above a fertile garden gate, with seedlings and a well-kept path suggesting a practical beginning.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-pentacles-ace.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-pentacles-ace.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Ace of Pentacles.\n\nMeaning cues: seed, material opportunity, body.\n\nCard-specific scene: One golden coin rests in an open hand above a fertile garden gate, with seedlings and a well-kept path suggesting a practical beginning.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-pentacles-two",
+      "name": {
+        "vi": "Two of Pentacles",
+        "en": "Two of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "rank": "two",
+      "keywords": {
+        "vi": [
+          "cân bằng",
+          "cân bằng nguồn lực",
+          "cơ thể"
+        ],
+        "en": [
+          "balance",
+          "resource balance",
+          "body"
+        ]
+      },
+      "scene": "A nimble craftsperson balances two coins on a woven ribbon beside a harbor, keeping work and rest in gentle motion.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-pentacles-two.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-pentacles-two.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Two of Pentacles.\n\nMeaning cues: balance, resource balance, body.\n\nCard-specific scene: A nimble craftsperson balances two coins on a woven ribbon beside a harbor, keeping work and rest in gentle motion.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-pentacles-three",
+      "name": {
+        "vi": "Three of Pentacles",
+        "en": "Three of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "rank": "three",
+      "keywords": {
+        "vi": [
+          "phát triển",
+          "cộng tác",
+          "cơ thể"
+        ],
+        "en": [
+          "growth",
+          "collaboration",
+          "body"
+        ]
+      },
+      "scene": "Three craftspeople build a stone arch together; three coins are set into the design as each person's skill supports the shared work.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-pentacles-three.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-pentacles-three.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Three of Pentacles.\n\nMeaning cues: growth, collaboration, body.\n\nCard-specific scene: Three craftspeople build a stone arch together; three coins are set into the design as each person's skill supports the shared work.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-pentacles-four",
+      "name": {
+        "vi": "Four of Pentacles",
+        "en": "Four of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "rank": "four",
+      "keywords": {
+        "vi": [
+          "nền tảng",
+          "giữ chặt",
+          "cơ thể"
+        ],
+        "en": [
+          "foundation",
+          "holding tightly",
+          "body"
+        ]
+      },
+      "scene": "A householder holds four coins close inside a sturdy home, with an open door nearby suggesting security that can still allow connection.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-pentacles-four.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-pentacles-four.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Four of Pentacles.\n\nMeaning cues: foundation, holding tightly, body.\n\nCard-specific scene: A householder holds four coins close inside a sturdy home, with an open door nearby suggesting security that can still allow connection.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-pentacles-five",
+      "name": {
+        "vi": "Five of Pentacles",
+        "en": "Five of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "rank": "five",
+      "keywords": {
+        "vi": [
+          "ma sát",
+          "thiếu thốn",
+          "cơ thể"
+        ],
+        "en": [
+          "friction",
+          "scarcity",
+          "body"
+        ]
+      },
+      "scene": "Two travelers cross a snowy lane past a warmly lit window with five coins carved into its sill; they stay side by side and keep moving toward shelter.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-pentacles-five.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-pentacles-five.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Five of Pentacles.\n\nMeaning cues: friction, scarcity, body.\n\nCard-specific scene: Two travelers cross a snowy lane past a warmly lit window with five coins carved into its sill; they stay side by side and keep moving toward shelter.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-pentacles-six",
+      "name": {
+        "vi": "Six of Pentacles",
+        "en": "Six of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "rank": "six",
+      "keywords": {
+        "vi": [
+          "điều chỉnh",
+          "cho và nhận",
+          "cơ thể"
+        ],
+        "en": [
+          "repair",
+          "giving and receiving",
+          "body"
+        ]
+      },
+      "scene": "Two pairs of hands exchange six coins over a balanced table, with equal light falling on giver and receiver.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-pentacles-six.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-pentacles-six.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Six of Pentacles.\n\nMeaning cues: repair, giving and receiving, body.\n\nCard-specific scene: Two pairs of hands exchange six coins over a balanced table, with equal light falling on giver and receiver.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-pentacles-seven",
+      "name": {
+        "vi": "Seven of Pentacles",
+        "en": "Seven of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "rank": "seven",
+      "keywords": {
+        "vi": [
+          "thử thách",
+          "kiên nhẫn",
+          "cơ thể"
+        ],
+        "en": [
+          "challenge",
+          "patience",
+          "body"
+        ]
+      },
+      "scene": "A gardener studies seven coin-shaped fruits on a vine, taking a patient pause before tending the next row.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-pentacles-seven.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-pentacles-seven.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Seven of Pentacles.\n\nMeaning cues: challenge, patience, body.\n\nCard-specific scene: A gardener studies seven coin-shaped fruits on a vine, taking a patient pause before tending the next row.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-pentacles-eight",
+      "name": {
+        "vi": "Eight of Pentacles",
+        "en": "Eight of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "rank": "eight",
+      "keywords": {
+        "vi": [
+          "rèn luyện",
+          "tay nghề",
+          "cơ thể"
+        ],
+        "en": [
+          "practice",
+          "craft",
+          "body"
+        ]
+      },
+      "scene": "An artisan engraves one coin at a workbench while seven completed pentacle coins hang on the wall for eight total; spare tools sit in a shallow dish nearby.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-pentacles-eight.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-pentacles-eight.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Eight of Pentacles.\n\nMeaning cues: practice, craft, body.\n\nCard-specific scene: An artisan engraves one coin at a workbench while seven completed pentacle coins hang on the wall for eight total; spare tools sit in a shallow dish nearby.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-pentacles-nine",
+      "name": {
+        "vi": "Nine of Pentacles",
+        "en": "Nine of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "rank": "nine",
+      "keywords": {
+        "vi": [
+          "thu hoạch",
+          "tự chủ",
+          "cơ thể"
+        ],
+        "en": [
+          "attainment",
+          "self-sufficiency",
+          "body"
+        ]
+      },
+      "scene": "An independent gardener walks through a mature orchard where exactly nine pentacle coins grow among the branches, five on the left tree and four on the right.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-pentacles-nine.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-pentacles-nine.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Nine of Pentacles.\n\nMeaning cues: attainment, self-sufficiency, body.\n\nCard-specific scene: An independent gardener walks through a mature orchard where exactly nine pentacle coins grow among the branches, five on the left tree and four on the right.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-pentacles-ten",
+      "name": {
+        "vi": "Ten of Pentacles",
+        "en": "Ten of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "rank": "ten",
+      "keywords": {
+        "vi": [
+          "hoàn tất",
+          "di sản",
+          "cơ thể"
+        ],
+        "en": [
+          "completion",
+          "legacy",
+          "body"
+        ]
+      },
+      "scene": "Ten gold pentacle coins are arranged five on each half of the stone arch over a multi-generational family scene; the small golden shapes on the tree remain ordinary fruit.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-pentacles-ten.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-pentacles-ten.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Ten of Pentacles.\n\nMeaning cues: completion, legacy, body.\n\nCard-specific scene: Ten gold pentacle coins are arranged five on each half of the stone arch over a multi-generational family scene; the small golden shapes on the tree remain ordinary fruit.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-pentacles-page",
+      "name": {
+        "vi": "Page of Pentacles",
+        "en": "Page of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "rank": "page",
+      "keywords": {
+        "vi": [
+          "học hỏi",
+          "học cách xây",
+          "cơ thể"
+        ],
+        "en": [
+          "apprentice",
+          "learning to build",
+          "body"
+        ]
+      },
+      "scene": "An eager apprentice turns one coin beside a tray of seedlings, learning how small, practical choices can grow into a craft.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-pentacles-page.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-pentacles-page.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Page of Pentacles.\n\nMeaning cues: apprentice, learning to build, body.\n\nCard-specific scene: An eager apprentice turns one coin beside a tray of seedlings, learning how small, practical choices can grow into a craft.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-pentacles-knight",
+      "name": {
+        "vi": "Knight of Pentacles",
+        "en": "Knight of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "rank": "knight",
+      "keywords": {
+        "vi": [
+          "động lực",
+          "bền bỉ",
+          "cơ thể"
+        ],
+        "en": [
+          "seeker",
+          "steady effort",
+          "body"
+        ]
+      },
+      "scene": "A steady rider follows a farm track with one coin secured in a gloved hand, moving at the pace of a reliable horse.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-pentacles-knight.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-pentacles-knight.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Knight of Pentacles.\n\nMeaning cues: seeker, steady effort, body.\n\nCard-specific scene: A steady rider follows a farm track with one coin secured in a gloved hand, moving at the pace of a reliable horse.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-pentacles-queen",
+      "name": {
+        "vi": "Queen of Pentacles",
+        "en": "Queen of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "rank": "queen",
+      "keywords": {
+        "vi": [
+          "nuôi dưỡng",
+          "chăm sóc thực tế",
+          "cơ thể"
+        ],
+        "en": [
+          "guardian",
+          "practical care",
+          "body"
+        ]
+      },
+      "scene": "A practical, caring adult tends an orchard bench with one coin in hand, surrounded by useful tools, ripe fruit and calm domestic warmth.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-pentacles-queen.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-pentacles-queen.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: Queen of Pentacles.\n\nMeaning cues: guardian, practical care, body.\n\nCard-specific scene: A practical, caring adult tends an orchard bench with one coin in hand, surrounded by useful tools, ripe fruit and calm domestic warmth.\n\nNo text is to be drawn inside the illustration."
+    },
+    {
+      "cardId": "minor-pentacles-king",
+      "name": {
+        "vi": "King of Pentacles",
+        "en": "King of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "rank": "king",
+      "keywords": {
+        "vi": [
+          "làm chủ",
+          "quản trị nguồn lực",
+          "cơ thể"
+        ],
+        "en": [
+          "stewardship",
+          "resource stewardship",
+          "body"
+        ]
+      },
+      "scene": "A responsible steward surveys a harvest and vineyard from a stone terrace, holding one coin as a sign of long-term care rather than wealth display.",
+      "artworkPath": "assets/tarot/classic-arcana/artwork/minor-pentacles-king.png",
+      "cardPath": "assets/tarot/classic-arcana/cards/minor-pentacles-king.png",
+      "prompt": "Use case: stylized-concept.\nAsset type: original inner tarot-card illustration only, to be composited into a fixed Nilaza card template.\nStyle: antique European hand-colored woodcut and early lithographic book illustration, expressive charcoal ink contours, flat patterned color areas, subtle aged-paper grain and slight imperfect print registration. Use a restrained palette of warm ivory, charcoal, dusty ultramarine, faded vermilion, aged ochre and muted sage. Historically evocative yet polished, mature, calm and immediately legible on a mobile screen.\nComposition: portrait 2:3 image; one distinct central subject or symbolic scene, simple readable silhouette, key symbols kept in a generous central safe area. Keep meaningful objects count-correct for the card.\nOriginality: draw on broad historical tarot archetypes but invent a fresh scene and staging for every card. Do not copy a specific published deck's pose, composition, costume, or arrangement of symbols.\nDo not include a card frame, border, card title, number, lettering, watermark, modern object, photorealism, neon, horror, gore, threatening occult spectacle, fixed prophecy, sexualization, or childish cartoon styling.\n\nCard: King of Pentacles.\n\nMeaning cues: stewardship, resource stewardship, body.\n\nCard-specific scene: A responsible steward surveys a harvest and vineyard from a stone terrace, holding one coin as a sign of long-term care rather than wealth display.\n\nNo text is to be drawn inside the illustration."
+    }
+  ],
+  "artworkCount": 78,
+  "renderedCardCount": 78,
+  "contactSheetCount": 7,
+  "updatedAt": "2026-09-25",
+  "qualityReview": {
+    "status": "reviewed",
+    "reviewedAt": "2026-09-25",
+    "cardsReviewedIndividually": 78,
+    "correctedArtworkCount": 6,
+    "corrections": [
+      {
+        "cardId": "major-04-emperor",
+        "issue": "The seated pose was unclear, and the scepter was obscured by the throne, making its grip and support ambiguous.",
+        "resolution": "Revised the seated anatomy and moved the scepter fully outside the throne on the viewer-right; that hand visibly grips the continuous shaft, the other rests on the opposite armrest, and the ferrule contacts the floor."
+      },
+      {
+        "cardId": "minor-cups-nine",
+        "issue": "The illustration showed ten goblets.",
+        "resolution": "Set eight goblets on the shelf and one in the raised hand, nine total."
+      },
+      {
+        "cardId": "minor-cups-ten",
+        "issue": "The rainbow showed eight goblets.",
+        "resolution": "Revised the arc to ten distinct, countable goblets."
+      },
+      {
+        "cardId": "minor-pentacles-eight",
+        "issue": "The wall, workbench and dish showed more than eight pentacles.",
+        "resolution": "Set seven finished pentacles on the wall and one being engraved; replaced spare coins with tools."
+      },
+      {
+        "cardId": "minor-pentacles-nine",
+        "issue": "Only seven pentacle coins were visible among the trees.",
+        "resolution": "Added two coins for a countable total of nine."
+      },
+      {
+        "cardId": "minor-pentacles-ten",
+        "issue": "Only eight pentacle coins were visible on the arch; the small gold shapes on the tree were fruit.",
+        "resolution": "Redrew the arch with exactly ten distinct pentacle coins, five along each half."
+      }
+    ],
+    "otherCards": "No visually significant anatomy, physical plausibility or symbolic-count defects found in the other 72 cards during the individual review.",
+    "assetValidation": {
+      "command": "python scripts/validate_tarot_assets.py --deck classic-arcana",
+      "status": "passed",
+      "cardsChecked": 78,
+      "cardSize": "1024x1768",
+      "contactSheets": 7
+    },
+    "reportPath": "assets/tarot/classic-arcana/artwork-quality-review.vi.md"
+  }
+}

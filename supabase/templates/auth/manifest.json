@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "version": "1.0.0",
+  "brandVersion": "open-reflection-v1",
+  "localeStrategy": "bilingual-vi-en-smtp",
+  "activationStatus": "prepared-not-applied",
+  "pilotActions": [
+    "confirmation",
+    "recovery"
+  ],
+  "securityNotifications": "Prepare only; enable after SMTP and support channel are verified.",
+  "templates": [
+    {
+      "id": "confirmation",
+      "category": "authentication",
+      "subject": "Xác nhận email / Confirm email",
+      "htmlFile": "supabase/templates/auth/confirmation.html",
+      "subjectKey": "mailer_subjects_confirmation",
+      "contentKey": "mailer_templates_confirmation_content",
+      "allowedVariables": [
+        "ConfirmationURL"
+      ],
+      "evidenceStatus": "prepared-not-live-tested"
+    },
+    {
+      "id": "recovery",
+      "category": "authentication",
+      "subject": "Đặt lại mật khẩu / Reset password",
+      "htmlFile": "supabase/templates/auth/recovery.html",
+      "subjectKey": "mailer_subjects_recovery",
+      "contentKey": "mailer_templates_recovery_content",
+      "allowedVariables": [
+        "ConfirmationURL"
+      ],
+      "evidenceStatus": "prepared-not-live-tested"
+    },
+    {
+      "id": "invite",
+      "category": "authentication",
+      "subject": "Lời mời Nilaza / Nilaza invitation",
+      "htmlFile": "supabase/templates/auth/invite.html",
+      "subjectKey": "mailer_subjects_invite",
+      "contentKey": "mailer_templates_invite_content",
+      "allowedVariables": [
+        "ConfirmationURL"
+      ],
+      "evidenceStatus": "prepared-not-live-tested"
+    },
+    {
+      "id": "magic_link",
+      "category": "authentication",
+      "subject": "Liên kết đăng nhập / Sign-in link",
+      "htmlFile": "supabase/templates/auth/magic_link.html",
+      "subjectKey": "mailer_subjects_magic_link",
+      "contentKey": "mailer_templates_magic_link_content",
+      "allowedVariables": [
+        "ConfirmationURL"
+      ],
+      "evidenceStatus": "prepared-not-live-tested"
+    },
+    {
+      "id": "email_change",
+      "category": "authentication",
+      "subject": "Xác nhận đổi email / Confirm email change",
+      "htmlFile": "supabase/templates/auth/email_change.html",
+      "subjectKey": "mailer_subjects_email_change",
+      "contentKey": "mailer_templates_email_change_content",
+      "allowedVariables": [
+        "ConfirmationURL"
+      ],
+      "evidenceStatus": "prepared-not-live-tested"
+    },
+    {
+      "id": "reauthentication",
+      "category": "authentication",
+      "subject": "Mã xác minh Nilaza / Nilaza verification code",
+      "htmlFile": "supabase/templates/auth/reauthentication.html",
+      "subjectKey": "mailer_subjects_reauthentication",
+      "contentKey": "mailer_templates_reauthentication_content",
+      "allowedVariables": [
+        "Token"
+      ],
+      "evidenceStatus": "prepared-not-live-tested"
+    },
+    {
+      "id": "password_changed_notification",
+      "category": "security",
+      "subject": "Mật khẩu đã thay đổi / Password changed",
+      "htmlFile": "supabase/templates/auth/password_changed_notification.html",
+      "subjectKey": "mailer_subjects_password_changed_notification",
+      "contentKey": "mailer_templates_password_changed_notification_content",
+      "allowedVariables": [],
+      "evidenceStatus": "prepared-not-live-tested"
+    },
+    {
+      "id": "email_changed_notification",
+      "category": "security",
+      "subject": "Địa chỉ email đã thay đổi / Email address changed",
+      "htmlFile": "supabase/templates/auth/email_changed_notification.html",
+      "subjectKey": "mailer_subjects_email_changed_notification",
+      "contentKey": "mailer_templates_email_changed_notification_content",
+      "allowedVariables": [],
+      "evidenceStatus": "prepared-not-live-tested"
+    },
+    {
+      "id": "phone_changed_notification",
+      "category": "security",
+      "subject": "Số điện thoại đã thay đổi / Phone number changed",
+      "htmlFile": "supabase/templates/auth/phone_changed_notification.html",
+      "subjectKey": "mailer_subjects_phone_changed_notification",
+      "contentKey": "mailer_templates_phone_changed_notification_content",
+      "allowedVariables": [],
+      "evidenceStatus": "prepared-not-live-tested"
+    },
+    {
+      "id": "identity_linked_notification",
+      "category": "security",
+      "subject": "Đã liên kết cách đăng nhập / Sign-in method linked",
+      "htmlFile": "supabase/templates/auth/identity_linked_notification.html",
+      "subjectKey": "mailer_subjects_identity_linked_notification",
+      "contentKey": "mailer_templates_identity_linked_notification_content",
+      "allowedVariables": [],
+      "evidenceStatus": "prepared-not-live-tested"
+    },
+    {
+      "id": "identity_unlinked_notification",
+      "category": "security",
+      "subject": "Đã gỡ cách đăng nhập / Sign-in method removed",
+      "htmlFile": "supabase/templates/auth/identity_unlinked_notification.html",
+      "subjectKey": "mailer_subjects_identity_unlinked_notification",
+      "contentKey": "mailer_templates_identity_unlinked_notification_content",
+      "allowedVariables": [],
+      "evidenceStatus": "prepared-not-live-tested"
+    },
+    {
+      "id": "mfa_factor_enrolled_notification",
+      "category": "security",
+      "subject": "Đã thêm cách xác minh / Verification method added",
+      "htmlFile": "supabase/templates/auth/mfa_factor_enrolled_notification.html",
+      "subjectKey": "mailer_subjects_mfa_factor_enrolled_notification",
+      "contentKey": "mailer_templates_mfa_factor_enrolled_notification_content",
+      "allowedVariables": [],
+      "evidenceStatus": "prepared-not-live-tested"
+    },
+    {
+      "id": "mfa_factor_unenrolled_notification",
+      "category": "security",
+      "subject": "Đã gỡ cách xác minh / Verification method removed",
+      "htmlFile": "supabase/templates/auth/mfa_factor_unenrolled_notification.html",
+      "subjectKey": "mailer_subjects_mfa_factor_unenrolled_notification",
+      "contentKey": "mailer_templates_mfa_factor_unenrolled_notification_content",
+      "allowedVariables": [],
+      "evidenceStatus": "prepared-not-live-tested"
+    }
+  ]
+}

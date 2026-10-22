@@ -1,0 +1,60 @@
+{
+  "version": "2026-06-07-local-v1",
+  "events": [
+    "onboarding_completed",
+    "tab_opened",
+    "persona_selected",
+    "persona_message_sent",
+    "tarot_reading_drawn",
+    "journal_entry_saved",
+    "language_changed",
+    "prompt_draft_edited",
+    "local_audit_run"
+  ],
+  "localDashboards": [
+    {
+      "id": "usage_overview",
+      "name": {
+        "vi": "Tong quan su dung",
+        "en": "Usage overview"
+      },
+      "metrics": [
+        "totalEvents",
+        "chatMessages",
+        "tarotReadings",
+        "journalEntries",
+        "activeLanguage"
+      ]
+    },
+    {
+      "id": "content_ops",
+      "name": {
+        "vi": "Van hanh noi dung",
+        "en": "Content operations"
+      },
+      "metrics": [
+        "activePersonas",
+        "activeDecks",
+        "promptVersions",
+        "draftPrompts"
+      ]
+    },
+    {
+      "id": "trust_safety",
+      "name": {
+        "vi": "An toan va bao mat",
+        "en": "Trust and safety"
+      },
+      "metrics": [
+        "safetyRules",
+        "blockedTopicRules",
+        "localStorageOnly",
+        "backendStatus"
+      ]
+    }
+  ],
+  "backendStatus": {
+    "vi": "Chua ket noi backend. Tat ca logs va prompts admin dang luu local tren thiet bi review.",
+    "en": "Backend is not connected. Logs and admin prompt drafts are stored locally on the review device."
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "1.0.0",
+  "tenantId": "nilaza",
+  "lastReviewedAt": "2026-09-30",
+  "status": "definition_only",
+  "rule": "Canonical definitions and reviewed source bindings are recorded separately. Source code presence does not prove deployed collection, consent, durable storage or Growth aggregates. Missing denominators and unavailable data must never be replaced with zero or inferred conversion.",
+  "events": [
+    { "id": "waitlist_landing_view", "owner": "web_product", "purpose": "eligible destination denominator", "dataClass": "aggregate_only", "state": "canonical_event_and_aggregate_unverified", "sourceBindings": [] },
+    { "id": "waitlist_cta_click", "owner": "web_product", "purpose": "message-to-destination intent", "dataClass": "aggregate_only", "state": "source_hook_present_growth_aggregate_unverified", "sourceBindings": [
+      { "path": "apps/web/src/lib/analytics.ts", "name": "waitlist_cta_click", "persistence": "Browser custom event; optional Zaraz forwarding with no guaranteed storage", "availability": "Helper and CTA hooks present in source; deployed collection and Growth aggregate unverified" },
+      { "path": "apps/web/src/components/SiteHeader.astro", "name": "data-analytics-event=waitlist_cta_click", "persistence": "CTA instrumentation attribute consumed by the public analytics layer", "availability": "Header hooks present; not a verified unique-view or conversion denominator" }
+    ] },
+    { "id": "waitlist_success", "owner": "web_product", "purpose": "successful HTTP submission signal; not a unique-contact or confirmed-contact count", "dataClass": "aggregate_only", "state": "source_emitter_present_growth_aggregate_unverified", "sourceBindings": [
+      { "path": "apps/web/src/components/WaitlistForm.astro", "name": "waitlist_success", "persistence": "Browser custom event after an HTTP success; optional Zaraz forwarding", "availability": "Emitter present in source; duplicate submissions, provider storage and Growth aggregate unverified" }
+    ] },
+    { "id": "waitlist_consent_recorded", "owner": "web_product", "purpose": "consented collection confirmation", "dataClass": "consent_scoped_aggregate", "state": "consent_submission_present_canonical_event_unverified", "sourceBindings": [
+      { "path": "apps/web/src/components/WaitlistForm.astro", "name": "consent field in waitlist request, not an emitted canonical analytics event", "persistence": "Request to the configured waitlist endpoint; required consent checkbox", "availability": "Source request exists; canonical event persistence and consent-scoped aggregate still need proof" }
+    ] },
+    { "id": "onboarding_completed", "owner": "mobile_product", "purpose": "first-use completion", "dataClass": "aggregate_only", "state": "local_event_present_growth_aggregate_unavailable", "sourceBindings": [
+      { "path": "apps/mobile/App.tsx", "name": "onboarding_completed", "persistence": "Account-scoped local nilaza.events cache, newest 80 events", "availability": "Source emitter and local save/load exist; no verified cloud Growth aggregate" }
+    ] },
+    { "id": "tarot_reading_drawn", "owner": "mobile_product", "purpose": "local draw count; drawing alone does not prove useful reflection", "dataClass": "aggregate_only", "state": "local_event_present_growth_aggregate_unavailable", "sourceBindings": [
+      { "path": "apps/mobile/App.tsx", "name": "tarot_reading_drawn", "persistence": "Account-scoped local nilaza.events cache, newest 80 events", "availability": "Source emitter present; not a canonical first_reflection_viewed or repeat-value event" }
+    ] },
+    { "id": "journal_entry_saved", "owner": "mobile_product", "purpose": "local save action; not durable cloud lifecycle acceptance", "dataClass": "aggregate_only", "state": "local_event_present_growth_aggregate_unavailable", "sourceBindings": [
+      { "path": "apps/mobile/App.tsx", "name": "journal_entry_saved", "persistence": "Account-scoped local nilaza.events cache, newest 80 events", "availability": "Source emitter present; no verified cross-device save/reopen or Growth action aggregate" }
+    ] },
+    { "id": "first_reflection_viewed", "owner": "mobile_product", "purpose": "first-result viewing", "dataClass": "aggregate_only", "state": "canonical_event_and_aggregate_unverified", "sourceBindings": [] },
+    { "id": "reflection_action_completed", "owner": "mobile_product", "purpose": "candidate value action", "dataClass": "aggregate_only", "state": "canonical_event_and_aggregate_unverified", "sourceBindings": [] },
+    { "id": "user_rated_useful", "owner": "mobile_product", "purpose": "voluntary usefulness signal", "dataClass": "aggregate_only", "state": "canonical_event_and_aggregate_unverified", "sourceBindings": [] },
+    { "id": "repeat_value_day", "owner": "analytics_owner", "purpose": "two distinct value days in seven days", "dataClass": "aggregate_only", "state": "canonical_event_and_aggregate_unverified", "sourceBindings": [] }
+  ],
+  "measurementAvailability": [
+    "Activation, retention, attribution and meaningful value-day aggregates are unavailable for campaign optimization.",
+    "The protected waitlist RPC reports unique-contact status counts, not page views, submission attempts or eligibility after all suppression/delay/frequency rules.",
+    "Engagement lacks live provider events. Missing/zero denominators are unavailable; measured zero over a valid denominator can be 0%.",
+    "The bounded local event cache cannot establish a complete seven-day retention baseline."
+  ],
+  "forbiddenDimensions": ["raw_chat", "raw_journal", "birth_data", "chart_data", "face_upload", "sensitive_inference", "raw_utm", "email_or_phone"]
+}

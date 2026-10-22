@@ -1,0 +1,7 @@
+---
+type Props = { variant?: "symbol" | "horizontal" | "stacked" | "wordmark"; tone?: "ivory" | "charcoal" | "teal"; width?: number; decorative?: boolean };
+const { variant = "horizontal", tone = "ivory", width = 190, decorative = false } = Astro.props;
+const file = variant === "horizontal" && tone !== "teal" ? "horizontal-compact" : variant;
+---
+<img class="nilaza-brand" src={`/brand/v1/logo/${file}-${tone}.svg`} alt={decorative ? "" : "Nilaza"} width={width} style={`width:${width}px;max-width:100%;height:auto`} />
+<style>.nilaza-brand{display:block;object-fit:contain;flex-shrink:0}</style>

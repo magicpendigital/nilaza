@@ -1,0 +1,179 @@
+{
+  "asOfDate": "2026-10-03",
+  "taskId": "configure-parity-implementation-2026-10-03",
+  "localAdminStatus": "validated",
+  "hostedAdminStatus": "revision_2_ready_promoted_owner_regression_observed",
+  "backendStatus": "local_provider_gated_candidate_not_deployed",
+  "mvpAccepted": false,
+  "preflight": {
+    "beforeImplementationGo": "passed",
+    "beforeCanonicalGeneration": "passed",
+    "beforeLocalAdminServer": "passed",
+    "beforeArtifactPreparation": "passed",
+    "beforeRevision2ArtifactPreparation": "passed",
+    "finalAfterSkillSync": "passed",
+    "expectedDriftBeforeSkillSync": "installed 1.5.0 vs reviewed repository 1.5.1; sync then check and preflight passed"
+  },
+  "checks": [
+    {
+      "command": "npm run admin:check",
+      "exitCode": 0,
+      "consumerFiles": 6,
+      "workspaces": 3,
+      "capabilities": 27
+    },
+    {
+      "command": "npm run admin:test",
+      "exitCode": 0,
+      "passed": 111,
+      "failed": 0,
+      "finalStage": "revision2 input-bound preview invalidation and explicit compile"
+    },
+    {
+      "command": "node --test scripts/admin-ai-studio-render.test.mjs scripts/admin-shell-state.test.mjs",
+      "exitCode": 0,
+      "passed": 53,
+      "isSubsetOfAdminSuite": true
+    },
+    {
+      "command": "node --test scripts/prompt-consumers.test.mjs",
+      "exitCode": 0,
+      "passed": 5,
+      "providerCalls": 0,
+      "realTokenizerValidated": false
+    },
+    {
+      "command": "node --test scripts/feature-run.test.mjs",
+      "exitCode": 0,
+      "passed": 9
+    },
+    {
+      "command": "npm run skills:validate",
+      "exitCode": 0,
+      "skills": 5
+    },
+    {
+      "command": "npm run skills:sync",
+      "exitCode": 0,
+      "installedFiles": 3,
+      "skill": "nilaza-plan-qc",
+      "version": "1.5.0"
+    },
+    {
+      "command": "npm run skills:check",
+      "exitCode": 0,
+      "status": "installed sources match repository"
+    },
+    {
+      "command": "npm run validate:governance",
+      "exitCode": 0,
+      "agents": 22,
+      "deliveryLanes": 6
+    },
+    {
+      "command": "npm run validate:brand",
+      "exitCode": 0,
+      "exports": 118
+    },
+    {
+      "command": "git diff --check -- scoped implementation paths",
+      "exitCode": 0,
+      "existingUnrelatedChangesPreserved": true
+    },
+    {
+      "command": "skill-creator quick_validate.py",
+      "status": "not_executable_with_available_python",
+      "reason": "PyYAML missing; no dependency installed. Repository source/manifest/drift validators passed instead."
+    },
+    {
+      "command": "npm run skills:sync (revision2 durable preview guidance)",
+      "exitCode": 0,
+      "installedFiles": 1,
+      "skill": "nilaza-plan-qc",
+      "version": "1.5.1"
+    }
+  ],
+  "backendChecks": "backend-validation.json (Oracle65, composer18, Deno42 + factory9; synthetic and no live provider)",
+  "independentReview": {
+    "finalTestsPassed": 70,
+    "parts": [
+      "Oracle65",
+      "consumer/hosted packaging5"
+    ],
+    "remainingP0": "mobile offline safety uses old detector",
+    "noNewRegressionInScopedDelta": true,
+    "adminRevision2RegressionSubsetPassed": 4
+  },
+  "browserLocal": {
+    "verifiedRealRole": "owner",
+    "canonicalLocales": [
+      "vi",
+      "en"
+    ],
+    "laptopBreakpoint": "1024x768",
+    "modalKeyboard": [
+      "Cancel Tab focuses Publish",
+      "Publish Tab wraps to Close",
+      "Escape closes",
+      "focus returns to review trigger"
+    ],
+    "modalFinalComputedBackground": "rgb(21, 20, 22)",
+    "content": {
+      "publishedVersion": 4,
+      "personas": 17,
+      "decks": 7,
+      "cards": 546
+    },
+    "growthSnapshotAccessible": true,
+    "urlLocaleChangeInvalidatesCompiledPreview": true
+  },
+  "browserHosted": {
+    "stableDomain": "https://nilaza-admin-staging.vercel.app",
+    "loginScreenVerified": true,
+    "verifiedRealRole": "owner",
+    "canonicalLocales": [
+      "vi",
+      "en"
+    ],
+    "localeChangesReflectedInUrl": true,
+    "providerReady": false,
+    "bundleVersion": "2026-10-03.preview.1",
+    "backendTarget": "akgrokwnkfqnfjqrildi",
+    "content": {
+      "publishedVersion": 4,
+      "personas": 17,
+      "decks": 7,
+      "cards": 546
+    },
+    "evidenceScreenshots": [
+      "09-online-preview-invalidated-v2.png",
+      "10-online-oracle-preview-final-v2.png"
+    ],
+    "revision": 2,
+    "ownerRegression": [
+      "Compile EN: nilaza-locale-en",
+      "Content Operations: published v4, 17 personas/7 decks/546 cards",
+      "URL Oracle VI: old preview removed, uncompiled status shown",
+      "Explicit Compile VI: nilaza-locale-vi"
+    ],
+    "previewInputChangeInvalidationObserved": true,
+    "explicitCompileRequiredObserved": true
+  },
+  "cloudWrites": {
+    "adminFrontendDeployment": true,
+    "backendFunctionDeployment": false,
+    "aiConfigPublication": false,
+    "databaseWrite": false,
+    "providerCall": false,
+    "cleanQaCutover": false
+  },
+  "limits": [
+    "No real-model quality or token/cost evaluation",
+    "No clean-QA RLS/account-isolation acceptance",
+    "No mobile/native offline safety acceptance",
+    "Browser drafts/session do not cross origins",
+    "Screen-reader/200-percent zoom acceptance incomplete",
+    "Private prompt files are not permitted in static bundles"
+  ],
+  "skillCurrentVersion": "1.5.1"
+}

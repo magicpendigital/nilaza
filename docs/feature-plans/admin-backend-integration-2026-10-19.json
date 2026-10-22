@@ -1,0 +1,504 @@
+{
+  "schemaVersion": 1,
+  "taskId": "admin-backend-integration-2026-10-19",
+  "ownerAgent": "/root + scoped_admin_backend_review",
+  "lane": "admin-backend",
+  "goal": "Review and integrate the exact current admin-backend candidate delta while preserving source custody and unresolved release gates.",
+  "successCriteria": [
+    "Every assigned added, modified and deleted path has current review evidence and an honest disposition.",
+    "Historical requirements remain explicitly adopted or deferred; no cloud or release authority follows from composition."
+  ],
+  "writeScope": [
+    "apps/admin/.gitignore",
+    "apps/admin/.vercel/README.txt",
+    "apps/admin/.vercel/project.json",
+    "apps/admin/README.md",
+    "apps/admin/admin-capabilities.json",
+    "apps/admin/ai-studio.html",
+    "apps/admin/app.js",
+    "apps/admin/content-model.mjs",
+    "apps/admin/content-sync.js",
+    "apps/admin/content.js",
+    "apps/admin/feedback-inbox.js",
+    "apps/admin/generated/content-seed.json",
+    "apps/admin/growth.js",
+    "apps/admin/styles.css",
+    "apps/admin/workflow-catalog.js",
+    "apps/admin/workflow-view.js",
+    "apps/admin/workspace-guard.js",
+    "docs/ADMIN_DATA_CONSOLE_ARCHITECTURE.md",
+    "docs/ADMIN_GIT_WORKFLOW.md",
+    "docs/AI_OPERATIONS_IMPLEMENTATION_2026-10-14.vi.md",
+    "docs/AI_TRACE_OBSERVABILITY.md",
+    "docs/BACKEND_PROXY_ARCHITECTURE.md",
+    "packages/ai-contracts/answer-provenance.ts",
+    "packages/ai-contracts/feedback.ts",
+    "packages/ai-contracts/tarot-output.ts",
+    "packages/content/package.json",
+    "scripts/admin-access.test.mjs",
+    "scripts/admin-ai-studio-render.test.mjs",
+    "scripts/admin-content-model.test.mjs",
+    "scripts/admin-content-sync.test.mjs",
+    "scripts/admin-feedback.test.mjs",
+    "scripts/admin-workflow-catalog.test.mjs",
+    "scripts/ai-answer-endpoints.test.mjs",
+    "scripts/ai-feedback-sql.test.mjs",
+    "scripts/ai-operations-release.test.mjs",
+    "scripts/nilaza-backend-key-backup.mjs",
+    "scripts/nilaza-backend-key-backup.test.mjs",
+    "scripts/nilaza-backend-key-history.mjs",
+    "scripts/nilaza-backend-key-owner.ps1",
+    "scripts/test-marketing-waitlist-client.mjs",
+    "scripts/test-marketing-waitlist-handler.mjs",
+    "scripts/test-marketing-waitlist-security.mjs",
+    "scripts/validate-backend-contracts.mjs",
+    "supabase/functions/README.md",
+    "supabase/functions/_shared/ai-feedback-contract.ts",
+    "supabase/functions/_shared/ai-trace.test.ts",
+    "supabase/functions/_shared/ai-trace.ts",
+    "supabase/functions/_shared/answer-provenance.test.ts",
+    "supabase/functions/_shared/answer-provenance.ts",
+    "supabase/functions/_shared/answer-receipt.test.ts",
+    "supabase/functions/_shared/answer-receipt.ts",
+    "supabase/functions/_shared/model-provider.ts",
+    "supabase/functions/_shared/model-router.ts",
+    "supabase/functions/_shared/providers/openrouter-billing.test.ts",
+    "supabase/functions/_shared/providers/openrouter-billing.ts",
+    "supabase/functions/_shared/providers/openrouter.ts",
+    "supabase/functions/_shared/tarot-output.test.ts",
+    "supabase/functions/_shared/tarot-prompt.ts",
+    "supabase/functions/admin-documentation/owner-guide.ts",
+    "supabase/functions/admin-model-router-config/contract.ts",
+    "supabase/functions/admin-model-router-config/index.ts",
+    "supabase/functions/ai-astrology-insight/index.ts",
+    "supabase/functions/ai-feedback/handler.ts",
+    "supabase/functions/ai-feedback/index.ts",
+    "supabase/functions/ai-tarot-reading/index.ts",
+    "supabase/functions/generate-today-pulse/index.ts",
+    "supabase/functions/marketing-waitlist/handler.ts",
+    "supabase/functions/marketing-waitlist/index.ts",
+    "supabase/functions/marketing-waitlist/turnstile.ts",
+    "supabase/migrations/202606120001_mvp_schema.sql",
+    "supabase/migrations/20260622000000_upgrade_mvp.sql",
+    "supabase/migrations/20261004183447_client_table_privilege_boundary.sql",
+    "supabase/migrations/20261014074711_model_route_publish_contract_v2.sql",
+    "supabase/migrations/20261014080754_ai_feedback_receipts_v1.sql",
+    "supabase/templates/auth/confirmation.html",
+    "supabase/templates/auth/email_change.html",
+    "supabase/templates/auth/email_changed_notification.html",
+    "supabase/templates/auth/identity_linked_notification.html",
+    "supabase/templates/auth/identity_unlinked_notification.html",
+    "supabase/templates/auth/invite.html",
+    "supabase/templates/auth/magic_link.html",
+    "supabase/templates/auth/manifest.json",
+    "supabase/templates/auth/mfa_factor_enrolled_notification.html",
+    "supabase/templates/auth/mfa_factor_unenrolled_notification.html",
+    "supabase/templates/auth/password_changed_notification.html",
+    "supabase/templates/auth/phone_changed_notification.html",
+    "supabase/templates/auth/reauthentication.html",
+    "supabase/templates/auth/recovery.html"
+  ],
+  "untouchedSurfaces": [
+    "Original root source/index/history, original v4 candidate and every existing cloud/security/recovery/native gate remain unchanged."
+  ],
+  "impact": {
+    "dataWrite": "Candidate-only source composition, archived planning bytes and current review/evidence. Original root/v4 and real user or cloud data are untouched.",
+    "backendContract": "Existing API/data/prompts are retained; no cloud deploy/SQL/retarget or provider calls. Known Auth/schema/cost deficiencies remain activation blockers.",
+    "adminVisibility": "Only sanitized review/custody/validation status; Admin Content and AI Studio permissions/publication are not changed by integration.",
+    "privacySafety": "No provider keys in mobile, no raw private data in review receipts, and no archive/owner/prompt ingestion into public Help.",
+    "observability": "Pin exact path/hash classification, delegated current review packets and output evidence to the new candidate. Test/build results are separate and must actually run.",
+    "rollback": "Preserve root and v4; discard or revise only the new candidate through another reviewed operation. Do not overwrite current user data, historical receipts or restore old secrets.",
+    "entryPoint": "Current admin-backend integration of the frozen approved source; see exact per-path classified scope and retained open acceptance requirements."
+  },
+  "canonicalContracts": [
+    "Publish review/CAS/ACK, capability and trace-feedback boundaries remain shared canonical contracts.",
+    "Rename is identity/path-only and collision handling preserves original drafts/outbox; no automatic merge or cloud slug update.",
+    "Current route defaults, premium synthetic fixture and enforced billing remain unaccepted activation prerequisites."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_metadata",
+    "approved_repository_sources"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa",
+      "reason": "Root reviewed current policy, task routing, plan/QC discipline and remaining release gates; no Owner or cloud authority is inferred."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Root reviewed current policy, task routing, plan/QC discipline and remaining release gates; no Owner or cloud authority is inferred."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Root reviewed current policy, task routing, plan/QC discipline and remaining release gates; no Owner or cloud authority is inferred."
+    },
+    {
+      "path": "apps/admin/AGENTS.md",
+      "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8",
+      "reason": "Re-read protected architecture/roles, bilingual editing, per-deck78 drafts, offline draft persistence and safe-delete requirements."
+    },
+    {
+      "path": "apps/admin/admin-capabilities.json",
+      "sha256": "25dfafe10caeb1d9d28ce8a888b395f1241ddc68beca4f9f5ae1e0787b296115",
+      "reason": "Preserve Content Operations, AI Studio and Growth capabilities. Scoped current read checks target/session invalidation, capability refresh, escaped feedback output and stale asynchronous response suppression."
+    },
+    {
+      "path": "apps/admin/app.js",
+      "sha256": "95ccd2ad41dd2971195c40f44b41daa489d6782833abf93821b1282f75e86593",
+      "reason": "Preserve Content Operations, AI Studio and Growth capabilities. Scoped current read checks target/session invalidation, capability refresh, escaped feedback output and stale asynchronous response suppression."
+    },
+    {
+      "path": "apps/admin/feedback-inbox.js",
+      "sha256": "315abcc9b30173cd143b2822179b2886344a2bfc7956ad854fd265ce9a6e518e",
+      "reason": "Preserve Content Operations, AI Studio and Growth capabilities. Scoped current read checks target/session invalidation, capability refresh, escaped feedback output and stale asynchronous response suppression."
+    },
+    {
+      "path": "apps/admin/workspace-guard.js",
+      "sha256": "c1d68194c4642858a5f20c153c8c3461f3ede15059f5bdba3ee504c541a4a113",
+      "reason": "Preserve Content Operations, AI Studio and Growth capabilities. Scoped current read checks target/session invalidation, capability refresh, escaped feedback output and stale asynchronous response suppression."
+    },
+    {
+      "path": "apps/admin/admin-access.js",
+      "sha256": "8e58ba8bd73c6f9134103d91d3ec48d7e0f4434a461aabc0a5c5ae9241d9ae78",
+      "reason": "Preserve Content Operations, AI Studio and Growth capabilities. Scoped current read checks target/session invalidation, capability refresh, escaped feedback output and stale asynchronous response suppression."
+    },
+    {
+      "path": "supabase/functions/admin-model-router-config/contract.ts",
+      "sha256": "996082a907241e06d4fff433121412293834f451ab0b15447d3390da1be605de",
+      "reason": "Current contract validates explicit primary/fallback, expected active ID, request ID and numeric limits. Edge verifies user/capability. SQL serializes actor replay and feature CAS, rejects ambiguous active revisions, revokes direct client writes and writes audit atomically."
+    },
+    {
+      "path": "supabase/functions/admin-model-router-config/index.ts",
+      "sha256": "52025e353e0f29a2393803d6d8e578eb7cb0a1a4bdf2401c4ff7348c02bc784e",
+      "reason": "Current contract validates explicit primary/fallback, expected active ID, request ID and numeric limits. Edge verifies user/capability. SQL serializes actor replay and feature CAS, rejects ambiguous active revisions, revokes direct client writes and writes audit atomically."
+    },
+    {
+      "path": "supabase/functions/admin-model-router-config/readiness.ts",
+      "sha256": "6407973326f4fc61ed1654a3d04209e3b80e82fc9a0834b3ee1323ab2e34980e",
+      "reason": "Current contract validates explicit primary/fallback, expected active ID, request ID and numeric limits. Edge verifies user/capability. SQL serializes actor replay and feature CAS, rejects ambiguous active revisions, revokes direct client writes and writes audit atomically."
+    },
+    {
+      "path": "supabase/migrations/20261014074711_model_route_publish_contract_v2.sql",
+      "sha256": "de7bd65de8e7e7c5d979f63a230737cca2a7ab1a75e9af751bbc2083a29fa4b9",
+      "reason": "Current contract validates explicit primary/fallback, expected active ID, request ID and numeric limits. Edge verifies user/capability. SQL serializes actor replay and feature CAS, rejects ambiguous active revisions, revokes direct client writes and writes audit atomically."
+    },
+    {
+      "path": "supabase/functions/ai-feedback/index.ts",
+      "sha256": "0099accdad5e74b3038a76dee8467c81deeb6a8ede6b72bcb59f5009fa3fbf88",
+      "reason": "Canonical metadata-only contracts reject arbitrary excerpts/notes. Handler authenticates non-anonymous account before bounded JSON. Service-only receipt producer and SQL correlate owner/feature/request/locale/section, keep unknown client origin explicit, enforce idempotency/revision and read-time expiry. Cloud effective grants/purge remain separate."
+    },
+    {
+      "path": "supabase/functions/ai-feedback/handler.ts",
+      "sha256": "76a4bb3c3f7e4e5662fe1b4a6ddd9aa70f8d3750f5d5db226da394b78cdcd9e1",
+      "reason": "Canonical metadata-only contracts reject arbitrary excerpts/notes. Handler authenticates non-anonymous account before bounded JSON. Service-only receipt producer and SQL correlate owner/feature/request/locale/section, keep unknown client origin explicit, enforce idempotency/revision and read-time expiry. Cloud effective grants/purge remain separate."
+    },
+    {
+      "path": "supabase/functions/_shared/ai-feedback-contract.ts",
+      "sha256": "405a6457f4a67d80b5a132660d7c301831937c66e54fe655af5d85918a9b6506",
+      "reason": "Canonical metadata-only contracts reject arbitrary excerpts/notes. Handler authenticates non-anonymous account before bounded JSON. Service-only receipt producer and SQL correlate owner/feature/request/locale/section, keep unknown client origin explicit, enforce idempotency/revision and read-time expiry. Cloud effective grants/purge remain separate."
+    },
+    {
+      "path": "supabase/functions/_shared/ai-request-guard.ts",
+      "sha256": "1fbf5ab7723ebb1d4f9ca55b099a275f53ca1fd7163c4d519054af7519532abb",
+      "reason": "Canonical metadata-only contracts reject arbitrary excerpts/notes. Handler authenticates non-anonymous account before bounded JSON. Service-only receipt producer and SQL correlate owner/feature/request/locale/section, keep unknown client origin explicit, enforce idempotency/revision and read-time expiry. Cloud effective grants/purge remain separate."
+    },
+    {
+      "path": "supabase/functions/_shared/answer-receipt.ts",
+      "sha256": "129e17e3c19b8492728b5c851698cba8952363ff7e3c3201f77d25ea3c72ea85",
+      "reason": "Canonical metadata-only contracts reject arbitrary excerpts/notes. Handler authenticates non-anonymous account before bounded JSON. Service-only receipt producer and SQL correlate owner/feature/request/locale/section, keep unknown client origin explicit, enforce idempotency/revision and read-time expiry. Cloud effective grants/purge remain separate."
+    },
+    {
+      "path": "supabase/functions/_shared/answer-provenance.ts",
+      "sha256": "b97d89dc6826e6670572445e5c322b31923850a4f700ef1bc12222ca189f4edc",
+      "reason": "Canonical metadata-only contracts reject arbitrary excerpts/notes. Handler authenticates non-anonymous account before bounded JSON. Service-only receipt producer and SQL correlate owner/feature/request/locale/section, keep unknown client origin explicit, enforce idempotency/revision and read-time expiry. Cloud effective grants/purge remain separate."
+    },
+    {
+      "path": "packages/ai-contracts/answer-provenance.ts",
+      "sha256": "389edb7786d339f364d23fb571902543393a5ae34af183d2287b755a6cf906d2",
+      "reason": "Canonical metadata-only contracts reject arbitrary excerpts/notes. Handler authenticates non-anonymous account before bounded JSON. Service-only receipt producer and SQL correlate owner/feature/request/locale/section, keep unknown client origin explicit, enforce idempotency/revision and read-time expiry. Cloud effective grants/purge remain separate."
+    },
+    {
+      "path": "packages/ai-contracts/feedback.ts",
+      "sha256": "7e26b9c7e3f0eb1c27aa4a8f84f76129fc5267f21d0cd9c8b3a213b9e8900b0b",
+      "reason": "Canonical metadata-only contracts reject arbitrary excerpts/notes. Handler authenticates non-anonymous account before bounded JSON. Service-only receipt producer and SQL correlate owner/feature/request/locale/section, keep unknown client origin explicit, enforce idempotency/revision and read-time expiry. Cloud effective grants/purge remain separate."
+    },
+    {
+      "path": "packages/ai-contracts/tarot-output.ts",
+      "sha256": "ba535ce3e09c4b5a182e3fba99316723d38712eb25b1ea690098544158f17749",
+      "reason": "Canonical metadata-only contracts reject arbitrary excerpts/notes. Handler authenticates non-anonymous account before bounded JSON. Service-only receipt producer and SQL correlate owner/feature/request/locale/section, keep unknown client origin explicit, enforce idempotency/revision and read-time expiry. Cloud effective grants/purge remain separate."
+    },
+    {
+      "path": "supabase/migrations/20261014080754_ai_feedback_receipts_v1.sql",
+      "sha256": "c8212aa7452d7e759c37f0179af32505410efce845dfad0c7346c58f835eb69c",
+      "reason": "Canonical metadata-only contracts reject arbitrary excerpts/notes. Handler authenticates non-anonymous account before bounded JSON. Service-only receipt producer and SQL correlate owner/feature/request/locale/section, keep unknown client origin explicit, enforce idempotency/revision and read-time expiry. Cloud effective grants/purge remain separate."
+    },
+    {
+      "path": "supabase/functions/_shared/tarot-prompt.ts",
+      "sha256": "8712abbb6d80e0a9e26238a07ce1416799b4bc66185b30798fc1faf840de89b6",
+      "reason": "Carry forward18Oct source review only where exact bytes match, with current spot checks of daily auth continuation, Astrology Premium/attempt count and new-schema route readiness, DB-default route fallback and unused metering definitions. Do not claim these blockers fixed."
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/index.ts",
+      "sha256": "ee19d854d1d8aa8937ea6f79066320dcdb47c49e1062dc90962697adbbf39690",
+      "reason": "Carry forward18Oct source review only where exact bytes match, with current spot checks of daily auth continuation, Astrology Premium/attempt count and new-schema route readiness, DB-default route fallback and unused metering definitions. Do not claim these blockers fixed."
+    },
+    {
+      "path": "supabase/functions/ai-astrology-insight/index.ts",
+      "sha256": "cfa6a540d58abd382507d4bad5e3180703ead2102f74511e0bc6e4368253774b",
+      "reason": "Carry forward18Oct source review only where exact bytes match, with current spot checks of daily auth continuation, Astrology Premium/attempt count and new-schema route readiness, DB-default route fallback and unused metering definitions. Do not claim these blockers fixed."
+    },
+    {
+      "path": "supabase/functions/ai-daily-insight/index.ts",
+      "sha256": "a36a2a186044d7adf28723258f9067b212e4010a5d09d8647a3e02fbff568dce",
+      "reason": "Carry forward18Oct source review only where exact bytes match, with current spot checks of daily auth continuation, Astrology Premium/attempt count and new-schema route readiness, DB-default route fallback and unused metering definitions. Do not claim these blockers fixed."
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "sha256": "3ec74646adf3422853f4ef03090c0e96239acc8078dca603a0115bd12159f4b6",
+      "reason": "Carry forward18Oct source review only where exact bytes match, with current spot checks of daily auth continuation, Astrology Premium/attempt count and new-schema route readiness, DB-default route fallback and unused metering definitions. Do not claim these blockers fixed."
+    },
+    {
+      "path": "supabase/functions/_shared/ai-usage-operation.ts",
+      "sha256": "806a296df48b3dacbc6275dba43b4f3d7a2171fb3234c109ab7ac3140660edb4",
+      "reason": "Carry forward18Oct source review only where exact bytes match, with current spot checks of daily auth continuation, Astrology Premium/attempt count and new-schema route readiness, DB-default route fallback and unused metering definitions. Do not claim these blockers fixed."
+    },
+    {
+      "path": "supabase/functions/_shared/ai-usage-store.ts",
+      "sha256": "78723906287f5ccceace3260a85132139f4acc163c6c963fb5c608414a341cf4",
+      "reason": "Carry forward18Oct source review only where exact bytes match, with current spot checks of daily auth continuation, Astrology Premium/attempt count and new-schema route readiness, DB-default route fallback and unused metering definitions. Do not claim these blockers fixed."
+    },
+    {
+      "path": "supabase/functions/_shared/ai-trace.ts",
+      "sha256": "78f27f581fc4ec10ea0507d0c169787e89a12dbb034b4704761b93880c664221",
+      "reason": "Carry forward18Oct source review only where exact bytes match, with current spot checks of daily auth continuation, Astrology Premium/attempt count and new-schema route readiness, DB-default route fallback and unused metering definitions. Do not claim these blockers fixed."
+    },
+    {
+      "path": "packages/agent-config/model-routing.json",
+      "sha256": "25eecd4fcea32769e88ba59e7b287e7ee8cb42d75f70f2198759eacd4bf08eb2",
+      "reason": "Carry forward18Oct source review only where exact bytes match, with current spot checks of daily auth continuation, Astrology Premium/attempt count and new-schema route readiness, DB-default route fallback and unused metering definitions. Do not claim these blockers fixed."
+    },
+    {
+      "path": "scripts/model-route-publish-sql.test.mjs",
+      "sha256": "d329933238d1235745ed24590434f44b47636d18ccc82d74eae3665e229e06be",
+      "reason": "Prior18Oct synthetic tests and validators are historical current-worktree evidence; verify byte parity only here. No tests are rerun and no remote CI/managed RLS/native result is inferred."
+    },
+    {
+      "path": "scripts/ai-answer-endpoints.test.mjs",
+      "sha256": "d6a2096b5540b455dda04d326eaa57a4af8e0c7d040e3eec3a6a3e6c33584cf2",
+      "reason": "Prior18Oct synthetic tests and validators are historical current-worktree evidence; verify byte parity only here. No tests are rerun and no remote CI/managed RLS/native result is inferred."
+    },
+    {
+      "path": "scripts/ai-feedback-sql.test.mjs",
+      "sha256": "061ae7ca3f5b8d4cc8f84d57055524af6d87bda5305cb00e4dfcef9ccf3a050b",
+      "reason": "Prior18Oct synthetic tests and validators are historical current-worktree evidence; verify byte parity only here. No tests are rerun and no remote CI/managed RLS/native result is inferred."
+    },
+    {
+      "path": "scripts/admin-feedback.test.mjs",
+      "sha256": "5fec885c468545764f3f51113b39c38d349f128a360fb702b2621d67116910ba",
+      "reason": "Prior18Oct synthetic tests and validators are historical current-worktree evidence; verify byte parity only here. No tests are rerun and no remote CI/managed RLS/native result is inferred."
+    },
+    {
+      "path": "apps/admin/content-model.mjs",
+      "sha256": "3675345c540e14737cd4b32da6b4bd1f784682955f0baf7a802860988a9c0104",
+      "reason": "Semantic review: allowlisted deck/composite-card/asset reference/path rename, clone input, idempotent transformation, preserve prose/custom fields/timestamps/status/overrides/audit, collision returns original full input."
+    },
+    {
+      "path": "apps/admin/content-sync.js",
+      "sha256": "29044118560ef034e8f31f1503f55d48795b962f8cd5e8919651a7c60f5d68e7",
+      "reason": "Semantic review: migrate before compact expansion, reject collisions visibly, preserve unknown override envelope and unmatched compact records, keep source version and bundle contract."
+    },
+    {
+      "path": "apps/admin/content.js",
+      "sha256": "42eed466de7107e533a2fbed33cc323bd05b08a9d4e107492ebfd004481b23f2",
+      "reason": "Semantic review: cache and outbox read through identity migration; preserve outbox envelope by spreading existing fields; sticky collision notice blocks syncFromServer/persistRemote; no automatic seed reset/merge."
+    },
+    {
+      "path": "apps/admin/generated/content-seed.json",
+      "sha256": "f8ad186587b562f62590d2145c53585778ac90c25f27c1616e1e691ebb0b25e1",
+      "reason": "Generated public seed metadata review:8 decks,78 base cards; canonical celestial-reverie ID/slug, VI Tinh Quang/EN Celestial Reverie, free; rename receipt pins exact seed bytes. Not independently regenerated in this review."
+    },
+    {
+      "path": "scripts/admin-content-model.test.mjs",
+      "sha256": "fef770d185ae49c66cc04729779f5a41cc850d6b39ab270bb3d9a678341f79ad",
+      "reason": "Read new synthetic assertions for78record edits/immutability/idempotency, only standard paths/references changed, custom data and collisions retained. No test execution."
+    },
+    {
+      "path": "scripts/admin-content-sync.test.mjs",
+      "sha256": "f7fce04d6746b6989da6c5342a6d9a17d1521a33d333d4792eae7697950a099b",
+      "reason": "Read new synthetic assertions for compact78records, outbox envelope, duplicate identity rejection and unmatched compact row roundtrip. No test execution."
+    },
+    {
+      "path": "scripts/admin-content-render.test.mjs",
+      "sha256": "13861f9874c02e0ec9ea2f56525bf688c87c4df4a3b934037fd4cb2c8fa95e7a",
+      "reason": "Byte-check only: unchanged fromv4; existing render coverage is not a new authenticated migration/collision UI test."
+    },
+    {
+      "path": "docs/CELESTIAL_REVERIE_PATH_RENAME_2026-10-19.vi.md",
+      "sha256": "90cff2c40c919ac962cd7f3e0e7050afe32214d96ecf2671194e1aa7b3b4549b",
+      "reason": "Read Owner-approved path/ID change, old/new cache and bundle compatibility, source custody and separate cloud/native gates."
+    },
+    {
+      "path": "docs/archive/feature-plans/2026-10-19/composition.json",
+      "sha256": "461c4f8fddb26c7450ebf82d762e1905c98907cdc97663afea1179173fa0cccc",
+      "reason": "Binds the exact current integration classification, immutable historical custody and separate pending acceptance gates; this hash is not semantic review or release authorization."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Root read current skill, expanded reference and release-control; immutable evidence, independent gates, narrow scopes and honest local/cloud/native distinctions remain applicable. No skill policy edit needed."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Scoped current source/canonical and custody review only; no new dependencies or volatile platform claims are introduced by this review."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No runtime Auth/RLS or credential mutation in this integration; static/source/local checks cannot establish managed isolation, privileged grants or paid dispatch authorization.",
+    "sensitiveData": "Only approved source/canonical data and sanitized metadata; profiles, actual env/key/user data are excluded. Historical governance archive is not a public content or retrieval input.",
+    "secretsLogging": "Fresh lockfile installation and build receive system-only allowlisted environment, empty npm configs and EXPO_NO_DOTENV. No secret values or session data are read or logged.",
+    "externalInput": "Archive commands remain inert text. Fixed paths, hashes, current source inventory and raw per-record custody are verified before candidate-only operations.",
+    "dependencies": "Existing lockfile versions/integrities retained, all downloads from public HTTPS npm registry, lifecycle scripts disabled. Physical candidate-local dependencies replace shared external junctions.",
+    "migrationRelease": "No SQL/repair, runtime retarget, release allowlist changes, keys, remote push, deployment or store publication; failed and historical receipts remain unchanged.",
+    "stopCondition": "Stop on source/packet/dependency/hash drift or failed gates. Local review/build does not close remote CI, cost/Auth, recovery, credential protection, native or Owner release decisions.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/.gitignore",
+      "apps/admin/.vercel/README.txt",
+      "apps/admin/.vercel/project.json",
+      "apps/admin/README.md",
+      "apps/admin/admin-capabilities.json",
+      "apps/admin/ai-studio.html",
+      "apps/admin/app.js",
+      "apps/admin/content-model.mjs",
+      "apps/admin/content-sync.js",
+      "apps/admin/content.js",
+      "apps/admin/feedback-inbox.js",
+      "apps/admin/generated/content-seed.json",
+      "apps/admin/growth.js",
+      "apps/admin/styles.css",
+      "apps/admin/workflow-catalog.js",
+      "apps/admin/workflow-view.js",
+      "apps/admin/workspace-guard.js",
+      "docs/ADMIN_DATA_CONSOLE_ARCHITECTURE.md",
+      "docs/ADMIN_GIT_WORKFLOW.md",
+      "docs/AI_OPERATIONS_IMPLEMENTATION_2026-10-14.vi.md",
+      "docs/AI_TRACE_OBSERVABILITY.md",
+      "docs/BACKEND_PROXY_ARCHITECTURE.md",
+      "packages/ai-contracts/answer-provenance.ts",
+      "packages/ai-contracts/feedback.ts",
+      "packages/ai-contracts/tarot-output.ts",
+      "packages/content/package.json",
+      "scripts/admin-access.test.mjs",
+      "scripts/admin-ai-studio-render.test.mjs",
+      "scripts/admin-content-model.test.mjs",
+      "scripts/admin-content-sync.test.mjs",
+      "scripts/admin-feedback.test.mjs",
+      "scripts/admin-workflow-catalog.test.mjs",
+      "scripts/ai-answer-endpoints.test.mjs",
+      "scripts/ai-feedback-sql.test.mjs",
+      "scripts/ai-operations-release.test.mjs",
+      "scripts/nilaza-backend-key-backup.mjs",
+      "scripts/nilaza-backend-key-backup.test.mjs",
+      "scripts/nilaza-backend-key-history.mjs",
+      "scripts/nilaza-backend-key-owner.ps1",
+      "scripts/test-marketing-waitlist-client.mjs",
+      "scripts/test-marketing-waitlist-handler.mjs",
+      "scripts/test-marketing-waitlist-security.mjs",
+      "scripts/validate-backend-contracts.mjs",
+      "supabase/functions/README.md",
+      "supabase/functions/_shared/ai-feedback-contract.ts",
+      "supabase/functions/_shared/ai-trace.test.ts",
+      "supabase/functions/_shared/ai-trace.ts",
+      "supabase/functions/_shared/answer-provenance.test.ts",
+      "supabase/functions/_shared/answer-provenance.ts",
+      "supabase/functions/_shared/answer-receipt.test.ts",
+      "supabase/functions/_shared/answer-receipt.ts",
+      "supabase/functions/_shared/model-provider.ts",
+      "supabase/functions/_shared/model-router.ts",
+      "supabase/functions/_shared/providers/openrouter-billing.test.ts",
+      "supabase/functions/_shared/providers/openrouter-billing.ts",
+      "supabase/functions/_shared/providers/openrouter.ts",
+      "supabase/functions/_shared/tarot-output.test.ts",
+      "supabase/functions/_shared/tarot-prompt.ts",
+      "supabase/functions/admin-documentation/owner-guide.ts",
+      "supabase/functions/admin-model-router-config/contract.ts",
+      "supabase/functions/admin-model-router-config/index.ts",
+      "supabase/functions/ai-astrology-insight/index.ts",
+      "supabase/functions/ai-feedback/handler.ts",
+      "supabase/functions/ai-feedback/index.ts",
+      "supabase/functions/ai-tarot-reading/index.ts",
+      "supabase/functions/generate-today-pulse/index.ts",
+      "supabase/functions/marketing-waitlist/handler.ts",
+      "supabase/functions/marketing-waitlist/index.ts",
+      "supabase/functions/marketing-waitlist/turnstile.ts",
+      "supabase/migrations/202606120001_mvp_schema.sql",
+      "supabase/migrations/20260622000000_upgrade_mvp.sql",
+      "supabase/migrations/20261004183447_client_table_privilege_boundary.sql",
+      "supabase/migrations/20261014074711_model_route_publish_contract_v2.sql",
+      "supabase/migrations/20261014080754_ai_feedback_receipts_v1.sql",
+      "supabase/templates/auth/confirmation.html",
+      "supabase/templates/auth/email_change.html",
+      "supabase/templates/auth/email_changed_notification.html",
+      "supabase/templates/auth/identity_linked_notification.html",
+      "supabase/templates/auth/identity_unlinked_notification.html",
+      "supabase/templates/auth/invite.html",
+      "supabase/templates/auth/magic_link.html",
+      "supabase/templates/auth/manifest.json",
+      "supabase/templates/auth/mfa_factor_enrolled_notification.html",
+      "supabase/templates/auth/mfa_factor_unenrolled_notification.html",
+      "supabase/templates/auth/password_changed_notification.html",
+      "supabase/templates/auth/phone_changed_notification.html",
+      "supabase/templates/auth/reauthentication.html",
+      "supabase/templates/auth/recovery.html"
+    ],
+    "note": "Current integration of existing candidate state; no historical pre-implementation review or release authority is asserted."
+  },
+  "validationCommands": [
+    "npm run admin:check",
+    "npm run admin:test",
+    "npm run validate:backend",
+    "npm run ai-operations:test",
+    "npm run prompt:consumers:check"
+  ],
+  "managerTestPath": "Inspect the dated candidate report and actual PASS/BLOCKED receipts; after signed Android approval test Explore/deck/library/draw/result/Journal plus authenticated Admin publish/feedback/collision paths. No secret entry in chat.",
+  "residualRisk": "This is an integration/source/custody review with explicit limitations, not a new exhaustive security/art/UX audit, actual test execution, hosted acceptance or release authorization. Existing product and managed gates remain open.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deployment": false,
+    "publishing": false,
+    "credentials": false
+  },
+  "phase": "CURRENT_INTEGRATION_REVIEW_RECORDED_VALIDATION_NOT_RUN_BY_COMPOSER",
+  "reviewBinding": {
+    "comparisonBase": "235f03acb5ab2ad5a598691f25dedb18e2013448",
+    "inputCandidateCommit": "5b3c438fa859db75b55e487ee4668d4e516f6d7a",
+    "classificationSha256": "c04f4c2651769af43b71492b0ee4a054edc0ef1c1405ec5b4af220d2eb8bc06b",
+    "compositionManifestPath": "docs/archive/feature-plans/2026-10-19/composition.json"
+  },
+  "remainingGates": [
+    "Exact remote CI on the eventual actual PR base and safe Vercel auto-deploy/transport path are not verified.",
+    "Auth before every paid dispatch, route/default-schema parity and durable system-wide spend reservations/stop controls remain activation blockers.",
+    "Managed A/B/staff/revocation/RLS, purge scheduler and complete DB/Auth/Storage/jobs/off-machine recovery acceptance remain not run.",
+    "Signed Android artifact, authenticated protected UI and physical-device acceptance remain separate gates; iOS native is deferred.",
+    "Library depth is six of78 representative lessons; current AI still consumes canonical meanings rather than the shared deep-library/Admin knowledge plane.",
+    "Cloud target allowlist stays empty, legacy ledger blocked; no SQL, keys, runtime retarget, paid calls or publication is authorized.",
+    "Model-route SQL integration test imports PGlite from excluded historical output; it is not runnable from this clean lockfile candidate and remains BLOCKED pending a separately reviewed fixture dependency path.",
+    "The Owner Admin guide still cites the old model-publish migration and omits Feedback Inbox/answer-provenance investigation. Current source review does not close the Owner-guide update and authenticated operating-procedure gate.",
+    "2674 removed local/generated paths are metadata-only exclusions; historical Git ancestry and retained screenshots/documents have not been certified safe for remote transport. No exhaustive semantic or pixel review of all classified paths is claimed."
+  ],
+  "semanticReviewEvidence": {
+    "reviewer": "/root + scoped_admin_backend_review",
+    "reviewedAt": "2026-10-20T07:16:16.172Z",
+    "summary": "Scoped reviewer checked33 publish/provenance/backend canonical paths, plus nine rename-related source/evidence paths. Current cache/outbox migration preserves drafts and blocks both sync directions on collisions. Authenticated managed behavior and paid activation remain blocked.",
+    "reviewPacketSha256": "07c3e1901512f3743467e6f2e1501895684861a6856eaee848bb42698c57547e",
+    "commonReviewPacketSha256": "15496b60f09537478649f47910e3944cead7edcc2f521936db34da0b3bc9ef73"
+  }
+}

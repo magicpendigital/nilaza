@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "taskId": "native-release-build-2026-09-30",
+  "ownerAgent": "native_release_build_agent",
+  "lane": "mobile_native_release_gate",
+  "goal": "Run the Android native release build for the current Nilaza mobile workspace, fix build-blocking configuration or environment issues that are safely in scope, and produce a checksummed local QA artifact with provenance.",
+  "successCriteria": [
+    "The checked-in Android Gradle project completes :app:assembleRelease with the current Expo/RN configuration, or the report isolates an external environment blocker after documented repair attempts.",
+    "Any source/config edit is limited to native build inputs and is validated by TypeScript, mobile tests, embedded bundle checks, and the native build itself.",
+    "The resulting APK has verified package/version metadata, checksum, signing status, and a cold-launch/device smoke result.",
+    "No production deployment, store submission, Supabase migration, database repair, or credential changes are performed."
+  ],
+  "writeScope": [
+    "docs/ANDROID_NATIVE_RELEASE_BUILD_2026-09-30.vi.md",
+    "apps/mobile/android/gradle.properties",
+    "apps/mobile/android/build.gradle",
+    "apps/mobile/android/app/build.gradle",
+    "apps/mobile/android/app/build/outputs/apk/release/app-release.apk",
+    "apps/mobile/android/app/build/outputs/apk/release/output-metadata.json",
+    "apps/mobile/android/app/build/outputs/apk/release/app-release.manifest.json",
+    "node_modules/expo-modules-core/expo-module-gradle-plugin/build/",
+    "node_modules/expo-dev-launcher/expo-dev-launcher-gradle-plugin/build/"
+  ],
+  "untouchedSurfaces": [
+    "Tarot/content seed data, mobile product behavior, Supabase migrations, backend endpoints, admin workspaces, payment entitlements, and release publishing remain unchanged.",
+    "The production EAS profile, signing credentials, store metadata, and remote project configuration are not changed by this local build task."
+  ],
+  "impact": {
+    "entryPoint": "Android Gradle :app:assembleRelease from apps/mobile/android; the resulting APK is installed on the connected Air1_Ultra only for cold-launch and existing Tarot smoke verification.",
+    "dataWrite": "The build writes only local Gradle/build outputs and may preserve existing device app data during adb install -r; no user or backend data is created intentionally.",
+    "backendContract": "No backend contract changes. Offline/local fallback remains the safe device path if the installed APK is run without a configured backend.",
+    "adminVisibility": "No admin surface changes; the release manifest records sanitized source, version, checksum, signing, and device evidence only.",
+    "privacySafety": "No credentials, auth tokens, private journal content, or backend payloads are captured. The APK remains debug-signed QA output unless a separate release signing gate is satisfied.",
+    "observability": "Record Gradle task result, version/build code, APK checksum, signing verification, package metadata, device serial/model, and cold-launch result.",
+    "rollback": "Delete or ignore the generated local APK/manifest and revert only a scoped Gradle configuration edit if one is required; no database or remote rollback is needed.",
+    "surfacesIntentionallyUntouched": "Product UI, data contracts, migrations, backend, admin, store publishing, EAS credentials, and production signing are outside this task.",
+    "agentHandoff": "The native release build agent owns Gradle diagnosis, minimal native config repair, artifact provenance, and device smoke evidence, then stops at the local release-readiness recommendation."
+  },
+  "canonicalContracts": [
+    "docs/MOBILE_EAS_TESTING.md defines the local native build, internal QA versus release artifact boundary, and device acceptance rules.",
+    "docs/MOBILE_CI_OWNER_GUIDE.md defines the automated mobile quality baseline and release evidence requirements.",
+    "apps/mobile/app.json and apps/mobile/eas.json are the canonical package/version/profile inputs for this build."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "sanitized_build_logs",
+    "sanitized_artifact_metadata",
+    "sanitized_device_smoke_evidence"
+  ],
+  "sourceReview": [
+    {"path":"AGENTS.md","sha256":"cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79","reason":"Reviewed Nilaza release boundary, native QA rules, migration stop condition, and no-secret guardrails."},
+    {"path":"docs/AGENT_TASK_ROUTER.md","sha256":"304c5b7217d6dcc7022d84ae665755b0071572ce19bda96b12a4780b0590eae3","reason":"Routed the task to mobile release readiness and native Android verification paths."},
+    {"path":"docs/PLAN_QC_PROTOCOL.md","sha256":"d61787c20c01e926e13a2a4d56303ac18a2bbda07b84d8c4c5ac30f6b9712ed2","reason":"Applied the required impact map, preflight, validation, rollback, and release provenance gate."},
+    {"path":"docs/MOBILE_EAS_TESTING.md","sha256":"615ba8a9cf7cc348be1fc8497fa1d04729dab5c8060724a476f06493f213cfda","reason":"Reviewed JDK/SDK/Gradle native build instructions and internal QA versus store release requirements."},
+    {"path":"docs/MOBILE_CI_OWNER_GUIDE.md","sha256":"1f0a6a28681c44623fec49aaada22d7b3d2fce69529454f81455b1e887de5a21","reason":"Reviewed Mobile quality baseline, manifest expectations, and manager device acceptance gate."},
+    {"path":"apps/mobile/app.json","sha256":"8266103bf0c9f18227ac4b0f27fad4d16d5d9652f88b1d59e67a2186415b0fac","reason":"Reviewed Android package, versionCode/version, new architecture, assets, and Expo native plugins."},
+    {"path":"apps/mobile/eas.json","sha256":"819480fff0d2235474b87fe58231e94b7da582c0f380dc55a1edfdf28b8d692b","reason":"Reviewed preview/production build profile separation and publishing boundary."},
+    {"path":"apps/mobile/package.json","sha256":"57cf7175b3adaaa749fe897c9a303972addaeaa06c0f43ff732d8464339a6591","reason":"Reviewed Expo, React Native, Reanimated, and test versions used by the native project."},
+    {"path":"apps/mobile/android/gradle.properties","sha256":"f429a884d09fdd2bbb2a653cbe7726b7d456b8385c1eaf441dbddad51f1f0534","reason":"Reviewed Android SDK, NDK, Hermes, New Architecture, packaging, and Gradle settings before repair."},
+    {"path":"apps/mobile/android/settings.gradle","sha256":"1d0a61c68b0399df9630d6c6d83fa66dcfada054df82e50354eefc10824ef669","reason":"Reviewed React Native/Expo autolinking and monorepo dependency resolution."},
+    {"path":"apps/mobile/android/build.gradle","sha256":"a678b5c3afa95c1e4ed3066e52370dcb3b453d659fa39edaa17f5cf01469ed69","reason":"Reviewed Android Gradle Plugin, Kotlin, SDK, NDK, and repository versions."},
+    {"path":"apps/mobile/android/app/build.gradle","sha256":"07467a232432fb0f6fdc2218513c9d5eaf05c85575e272e14cee3fad5c6c927f","reason":"Reviewed native application ID, release signing, React Native bundle root, Hermes, and packaging inputs."}
+  ],
+  "skillReview": [
+    {"name":"nilaza-plan-qc","decision":"verified-current","evidence":"Applied the native build impact map, preflight, artifact provenance, device smoke, rollback, and release boundary requirements."}
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "The build uses checked-in Gradle files, installed node_modules, the Gradle wrapper, local Android SDK/JDK, and repository release guidance only."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls":"No auth, authorization, RLS, endpoint, or migration behavior changes are planned.",
+    "sensitiveData":"Only sanitized build and device metadata are recorded; no private app data is used.",
+    "secretsLogging":"Do not print keystore passwords, tokens, public environment values containing secrets, or full environment dumps.",
+    "externalInput":"Gradle/npm dependencies are existing project inputs; no new package or remote script is introduced.",
+    "dependencies":"No dependency install or version upgrade is required for the repair; if a missing tool is found, stop and report it rather than changing the lockfile.",
+    "migrationRelease":"No database repair, push, deployment, store upload, EAS production build, or signing credential change is allowed in this task.",
+    "stopCondition":"Stop if the build requires a production secret, migration mutation, destructive clean/reset, dependency upgrade, or an unreviewed native architecture change.",
+    "unresolvedHighRisks":[]
+  },
+  "workingTreeReview": {
+    "paths":[
+      "apps/mobile/android/gradle.properties",
+      "apps/mobile/android/build.gradle",
+      "apps/mobile/android/app/build.gradle",
+      "apps/mobile/android/app/build/outputs/apk/release/app-release.apk",
+      "apps/mobile/android/app/build/outputs/apk/release/output-metadata.json",
+      "apps/mobile/android/app/build/outputs/apk/release/app-release.manifest.json",
+      "docs/ANDROID_NATIVE_RELEASE_BUILD_2026-09-30.vi.md",
+      "node_modules/expo-modules-core/expo-module-gradle-plugin/build/",
+      "node_modules/expo-dev-launcher/expo-dev-launcher-gradle-plugin/build/"
+    ],
+    "note":"The workspace contains prior Nilaza changes and existing local native build outputs. Preserve unrelated changes; only the listed native inputs, generated artifact metadata, and report belong to this task."
+  },
+  "validationCommands":[
+    "npm run feature:preflight -- --record docs/feature-plans/native-release-build-2026-09-30.json",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand",
+    "npm run validate:data",
+    "npm run validate:visual-assets",
+    "npm run validate:governance",
+    "npm run mobile:release:config:check",
+    "npm run supabase:migration-ledger:check",
+    "npm run validate:mobile-export",
+    "apps/mobile/android/gradlew.bat :app:assembleRelease -PreactNativeArchitectures=arm64-v8a --console=plain --no-daemon",
+    "adb devices, adb install -r, apksigner verify, and cold-launch smoke on Q88549EEXCUOONGA"
+  ],
+  "managerTestPath":"Review the manifest next to the APK, install it with adb -r on Air1_Ultra, cold-launch app.nilaza.mobile without Metro, verify Home/Explore/Tarot artwork and the previously approved Tarot smoke path, then compare the version and checksum with the report.",
+  "residualRisk":"A locally debug-signed APK is not a store release. Production signing, EAS credentials, CI provenance, store metadata, backend staging, and migration reconciliation remain separate gates.",
+  "externalActions":{"databaseWrite":false,"productionRelease":false}
+}

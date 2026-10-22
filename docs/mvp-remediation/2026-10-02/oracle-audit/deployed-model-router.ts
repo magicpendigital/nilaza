@@ -1,0 +1,435 @@
+import {
+  ModelGenerationResult,
+  ModelMessage,
+  ModelProviderError,
+  ModelProviderName,
+  ModelProviderRequest,
+  ModelRoute
+} from "./model-provider.ts";
+import { AiTraceContext, AiTraceSpan, createAiTrace, traceGenerationInput } from "./ai-trace.ts";
+import { invokeAnthropic } from "./providers/anthropic.ts";
+import { invokeGemini } from "./providers/gemini.ts";
+import { invokeOpenAI } from "./providers/openai.ts";
+import { invokeOpenRouter } from "./providers/openrouter.ts";
+
+type EnvLike = {
+  get?: (key: string) => string | undefined;
+  [key: string]: unknown;
+};
+
+type SupabaseLike = {
+  from: (table: string) => any;
+};
+
+export const defaultModelRoutes: Record<string, ModelRoute> = {
+  oracle_router: {
+    feature: "oracle_router",
+    version: "2026-09-08-oracle-openrouter-v1",
+    status: "active",
+    primaryProvider: "openrouter",
+    primaryModel: "openrouter/free",
+    temperature: 0.62,
+    maxOutputTokens: 300,
+    responseSchema: "oracle_router_v1",
+    fallbackWhen: ["missing_api_key", "provider_timeout", "rate_limit", "provider_5xx", "malformed_response"],
+    safetyPolicy: { blockDeterministicPredictions: true, blockProfessionalAdvice: true, blockCrisisAdvice: true }
+  },
+  daily_insight: {
+    feature: "daily_insight",
+    version: "2026-06-30-llm-routing-v1",
+    status: "active",
+    primaryProvider: "openai",
+    primaryModel: "gpt-5.4-mini",
+    fallbackProvider: "gemini",
+    fallbackModel: "gemini-3.5-flash",
+    temperature: 0.72,
+    maxOutputTokens: 240,
+    responseSchema: "daily_insight_v1",
+    fallbackWhen: ["missing_api_key", "provider_timeout", "rate_limit", "provider_5xx", "malformed_response"],
+    safetyPolicy: { blockDeterministicPredictions: true, blockProfessionalAdvice: true }
+  },
+  persona_chat: {
+    feature: "persona_chat",
+    version: "2026-06-30-llm-routing-v1",
+    status: "active",
+    primaryProvider: "openai",
+    primaryModel: "gpt-5.4-mini",
+    fallbackProvider: "anthropic",
+    fallbackModel: "claude-sonnet-4-6",
+    temperature: 0.68,
+    maxOutputTokens: 420,
+    responseSchema: "chat_reply_v2",
+    fallbackWhen: ["missing_api_key", "provider_timeout", "rate_limit", "provider_5xx", "malformed_response"],
+    safetyPolicy: { requireInspiredByTransparency: true, blockProfessionalAdvice: true }
+  },
+  ai_council: {
+    feature: "ai_council",
+    version: "2026-06-30-llm-routing-v1",
+    status: "active",
+    primaryProvider: "openai",
+    primaryModel: "gpt-5.4",
+    fallbackProvider: "openrouter",
+    fallbackModel: "openrouter/auto",
+    temperature: 0.62,
+    maxOutputTokens: 900,
+    responseSchema: "ai_council_turns_v1",
+    fallbackWhen: ["missing_api_key", "provider_timeout", "rate_limit", "provider_5xx", "schema_validation_failed_once"],
+    safetyPolicy: {
+      blockRawPrivateContext: true,
+      allowedOpenRouterModelPrefixes: ["openai/gpt-5", "anthropic/claude-", "google/gemini-"]
+    }
+  },
+  tarot_reading: {
+    feature: "tarot_reading",
+    version: "2026-06-30-llm-routing-v1",
+    status: "active",
+    primaryProvider: "anthropic",
+    primaryModel: "claude-sonnet-4-6",
+    fallbackProvider: "openai",
+    fallbackModel: "gpt-5.4-mini",
+    temperature: 0.64,
+    maxOutputTokens: 650,
+    responseSchema: "tarot_reading_output_v3",
+    fallbackWhen: ["missing_api_key", "provider_timeout", "rate_limit", "provider_5xx", "malformed_response"],
+    safetyPolicy: { allowSpiritualReflection: true, blockDeterministicPredictions: true }
+  },
+  astrology_report: {
+    feature: "astrology_report",
+    version: "2026-06-30-llm-routing-v1",
+    status: "active",
+    primaryProvider: "gemini",
+    primaryModel: "gemini-3.5-flash",
+    fallbackProvider: "openai",
+    fallbackModel: "gpt-5.4-mini",
+    temperature: 0.58,
+    maxOutputTokens: 760,
+    responseSchema: "astrology_report_v1",
+    fallbackWhen: ["missing_api_key", "provider_timeout", "rate_limit", "provider_5xx", "malformed_response"],
+    safetyPolicy: { interpretCalculatedPlacementsOnly: true, requireCalculationCaveats: true }
+  }
+};
+
+function envGet(env: EnvLike | undefined, key: string) {
+  const direct = env?.[key];
+  if (typeof direct === "string") return direct;
+  const fromGet = env?.get?.(key);
+  if (typeof fromGet === "string") return fromGet;
+  return typeof Deno !== "undefined" ? Deno.env.get(key) : undefined;
+}
+
+function rowToRoute(row: any, fallback: ModelRoute): ModelRoute {
+  if (!row) return fallback;
+  return {
+    id: row.id,
+    feature: row.feature,
+    version: row.version,
+    status: row.status,
+    primaryProvider: row.primary_provider,
+    primaryModel: row.primary_model,
+    fallbackProvider: row.fallback_provider ?? undefined,
+    fallbackModel: row.fallback_model ?? undefined,
+    temperature: Number(row.temperature ?? fallback.temperature),
+    maxOutputTokens: Number(row.max_output_tokens ?? fallback.maxOutputTokens),
+    responseSchema: row.response_schema ?? fallback.responseSchema,
+    fallbackWhen: Array.isArray(row.fallback_when) ? row.fallback_when : fallback.fallbackWhen,
+    safetyPolicy: row.safety_policy ?? fallback.safetyPolicy
+  };
+}
+
+export async function readActiveModelRoute(supabase: SupabaseLike | null | undefined, feature: string): Promise<ModelRoute> {
+  const fallback = defaultModelRoutes[feature] ?? defaultModelRoutes.persona_chat;
+  if (!supabase) return fallback;
+  try {
+    const { data, error } = await supabase
+      .from("model_route_versions")
+      .select("id, feature, version, status, primary_provider, primary_model, fallback_provider, fallback_model, temperature, max_output_tokens, response_schema, fallback_when, safety_policy")
+      .eq("feature", feature)
+      .in("status", ["active", "experimental"])
+      .order("published_at", { ascending: false })
+      .limit(1);
+    const row = Array.isArray(data) ? data[0] : null;
+    return error || !row ? fallback : rowToRoute(row, fallback);
+  } catch {
+    return fallback;
+  }
+}
+
+function detectSafetyIssue(text: string) {
+  const normalized = text.toLowerCase();
+  const checks = [
+    { code: "self_harm", patterns: ["kill myself", "suicide", "end my life", "tu tu", "tự tử"] },
+    { code: "regulated_advice", patterns: ["medical diagnosis", "legal advice", "financial advice", "diagnose me"] },
+    { code: "deterministic_prediction", patterns: ["will definitely happen", "certainly happen", "guaranteed future"] }
+  ];
+  for (const check of checks) {
+    if (check.patterns.some((pattern) => normalized.includes(pattern))) return check.code;
+  }
+  return null;
+}
+
+function providerSecret(provider: ModelProviderName, env?: EnvLike) {
+  if (provider === "openai") return envGet(env, "OPENAI_API_KEY") ?? "";
+  if (provider === "openrouter") return envGet(env, "OPENROUTER_API_KEY") ?? "";
+  if (provider === "gemini") return envGet(env, "GEMINI_API_KEY") ?? "";
+  return envGet(env, "ANTHROPIC_API_KEY") ?? "";
+}
+
+async function invokeProvider(request: ModelProviderRequest, env?: EnvLike) {
+  const apiKey = providerSecret(request.provider, env);
+  if (request.provider === "openai") return await invokeOpenAI(request, apiKey);
+  if (request.provider === "openrouter") {
+    return await invokeOpenRouter(request, apiKey, {
+      siteUrl: envGet(env, "NILAZA_SITE_URL"),
+      appTitle: envGet(env, "NILAZA_APP_TITLE") ?? "Nilaza"
+    });
+  }
+  if (request.provider === "gemini") return await invokeGemini(request, apiKey);
+  return await invokeAnthropic(request, apiKey);
+}
+
+function shouldFallback(error: ModelProviderError, route: ModelRoute) {
+  if (error.safetyBlocked) return false;
+  if (route.fallbackWhen.includes(error.code)) return true;
+  if (error.retryable && route.fallbackWhen.some((code) => ["provider_timeout", "rate_limit", "provider_5xx"].includes(code))) return true;
+  return false;
+}
+
+export async function generateWithModelRoute(input: {
+  feature: string;
+  system: string;
+  messages: ModelMessage[];
+  fallbackText: string;
+  supabase?: SupabaseLike | null;
+  env?: EnvLike;
+  route?: ModelRoute;
+  trace?: AiTraceContext;
+  traceContext?: {
+    userId?: string;
+    sessionId?: string;
+    clientRequestId?: string;
+    endpoint?: string;
+    environment?: string;
+    metadata?: Record<string, unknown>;
+    request?: Request;
+  };
+}): Promise<ModelGenerationResult> {
+  const traceSetup = input.trace
+    ? { trace: input.trace, rootSpan: input.trace.startSpan({ name: `nilaza.${input.feature}`, type: "chain" }) }
+    : createAiTrace({
+        feature: input.feature,
+        supabase: input.supabase,
+        env: input.env,
+        ...input.traceContext,
+        endpoint: input.traceContext?.endpoint ?? input.traceContext?.request?.url
+      });
+  const trace = traceSetup.trace;
+  const rootSpan = traceSetup.rootSpan;
+  const finish = async (result: ModelGenerationResult, status?: "ok" | "blocked" | "fallback" | "error") => {
+    rootSpan.end(
+      status ?? (result.moderationStatus === "blocked" ? "blocked" : result.moderationStatus === "fallback" ? "fallback" : "ok"),
+      {
+        status: result.moderationStatus,
+        provider: result.provider,
+        model: result.model,
+        fallbackUsed: result.fallbackUsed,
+        attemptCount: result.attempts.length,
+        moderationStatus: result.moderationStatus,
+        safetyReason: result.safetyReason ?? null,
+        traceVersion: "v1"
+      }
+    );
+    const flush = await trace.flush();
+    return {
+      ...result,
+      traceId: trace.traceId,
+      traceSpanId: rootSpan.spanId,
+      tracePersisted: flush.persisted,
+      traceExported: flush.exported,
+      traceUrl: flush.externalTraceUrl
+    };
+  };
+
+  const route = input.route ?? await readActiveModelRoute(input.supabase, input.feature);
+  rootSpan.update({
+    input: traceGenerationInput({
+      route,
+      system: input.system,
+      messages: input.messages
+    }),
+    attributes: {
+      routeVersion: route.version,
+      routeVersionId: route.id ?? null,
+      responseSchema: route.responseSchema,
+      primaryProvider: route.primaryProvider,
+      primaryModel: route.primaryModel,
+      fallbackProvider: route.fallbackProvider ?? null,
+      fallbackModel: route.fallbackModel ?? null
+    }
+  });
+  const promptSafety = detectSafetyIssue(input.messages.map((message) => message.content).join("\n"));
+  if (promptSafety) {
+    return await finish({
+      text: input.fallbackText,
+      provider: "local_fallback",
+      model: "safety_fallback",
+      routeVersionId: route.id,
+      routeVersion: route.version,
+      fallbackUsed: true,
+      attempts: [],
+      latencyMs: 0,
+      usage: {},
+      moderationStatus: "blocked",
+      safetyReason: promptSafety
+    }, "blocked");
+  }
+
+  const attempts: ModelGenerationResult["attempts"] = [];
+  const candidates = [
+    { provider: route.primaryProvider, model: route.primaryModel, fallbackUsed: false },
+    route.fallbackProvider && route.fallbackModel
+      ? { provider: route.fallbackProvider, model: route.fallbackModel, fallbackUsed: true }
+      : null
+  ].filter((candidate): candidate is { provider: ModelProviderName; model: string; fallbackUsed: boolean } => Boolean(candidate));
+
+  for (const candidate of candidates) {
+    let providerSpan: AiTraceSpan | undefined;
+    try {
+      providerSpan = trace.startSpan({
+        name: `llm.${candidate.provider}.${candidate.fallbackUsed ? "fallback" : "primary"}`,
+        type: "generation",
+        parentSpanId: rootSpan.spanId,
+        input: {
+          feature: input.feature,
+          provider: candidate.provider,
+          model: candidate.model,
+          system: input.system,
+          messages: input.messages,
+          temperature: route.temperature,
+          maxOutputTokens: route.maxOutputTokens,
+          responseSchema: route.responseSchema
+        },
+        attributes: {
+          provider: candidate.provider,
+          model: candidate.model,
+          fallbackUsed: candidate.fallbackUsed,
+          routeVersion: route.version
+        }
+      });
+      const response = await invokeProvider({
+        feature: input.feature,
+        provider: candidate.provider,
+        model: candidate.model,
+        system: input.system,
+        messages: input.messages,
+        temperature: route.temperature,
+        maxOutputTokens: route.maxOutputTokens,
+        responseSchema: route.responseSchema,
+        traceHooks: {
+          onRequest: (payload) => providerSpan?.captureWireRequest(payload),
+          onResponse: (payload) => providerSpan?.captureWireResponse(payload)
+        }
+      }, input.env);
+      attempts.push({ provider: candidate.provider, model: candidate.model, ok: true });
+      providerSpan.update({
+        output: {
+          text: response.text,
+          provider: response.provider,
+          model: response.model,
+          requestId: response.requestId ?? null,
+          usage: response.usage,
+          finishReason: response.finishReason ?? null
+        },
+        attributes: {
+          requestId: response.requestId ?? null,
+          latencyMs: response.latencyMs,
+          inputTokens: response.usage.inputTokens ?? null,
+          outputTokens: response.usage.outputTokens ?? null,
+          totalTokens: response.usage.totalTokens ?? null,
+          finishReason: response.finishReason ?? null
+        }
+      }).end("ok");
+      const outputSafety = detectSafetyIssue(response.text);
+      if (outputSafety) {
+        providerSpan.end("blocked", { blocked: true, safetyReason: outputSafety });
+        return await finish({
+          text: input.fallbackText,
+          provider: "local_fallback",
+          model: "safety_fallback",
+          routeVersionId: route.id,
+          routeVersion: route.version,
+          fallbackUsed: true,
+          attempts,
+          latencyMs: response.latencyMs,
+          usage: response.usage,
+          moderationStatus: "blocked",
+          safetyReason: outputSafety
+        }, "blocked");
+      }
+      return await finish({
+        text: response.text,
+        provider: response.provider,
+        model: response.model,
+        routeVersionId: route.id,
+        routeVersion: route.version,
+        fallbackUsed: candidate.fallbackUsed,
+        attempts,
+        requestId: response.requestId,
+        latencyMs: response.latencyMs,
+        usage: response.usage,
+        moderationStatus: "passed"
+      }, "ok");
+    } catch (error) {
+      const providerError = error instanceof ModelProviderError
+        ? error
+        : new ModelProviderError({
+            provider: candidate.provider,
+            code: "provider_timeout",
+            message: error instanceof Error ? error.message : "Provider request failed.",
+            retryable: true
+          });
+      attempts.push({
+        provider: candidate.provider,
+        model: candidate.model,
+        ok: false,
+        code: providerError.code,
+        status: providerError.status
+      });
+      providerSpan?.update({
+        output: {
+          errorCode: providerError.code,
+          status: providerError.status ?? null,
+          retryable: providerError.retryable,
+          safetyBlocked: providerError.safetyBlocked
+        }
+      }).end(providerError.safetyBlocked ? "blocked" : "error");
+      if (!candidate.fallbackUsed && shouldFallback(providerError, route)) continue;
+      return await finish({
+        text: input.fallbackText,
+        provider: "local_fallback",
+        model: "safe_mock",
+        routeVersionId: route.id,
+        routeVersion: route.version,
+        fallbackUsed: true,
+        attempts,
+        latencyMs: 0,
+        usage: {},
+        moderationStatus: providerError.safetyBlocked ? "blocked" : "fallback",
+        safetyReason: providerError.safetyBlocked ? providerError.code : undefined
+      }, providerError.safetyBlocked ? "blocked" : "fallback");
+    }
+  }
+
+  return await finish({
+    text: input.fallbackText,
+    provider: "local_fallback",
+    model: "safe_mock",
+    routeVersionId: route.id,
+    routeVersion: route.version,
+    fallbackUsed: true,
+    attempts,
+    latencyMs: 0,
+    usage: {},
+    moderationStatus: "fallback"
+  }, "fallback");
+}
+

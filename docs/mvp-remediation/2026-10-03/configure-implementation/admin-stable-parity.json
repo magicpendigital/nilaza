@@ -1,0 +1,60 @@
+{
+  "asOfDate": "2026-10-03",
+  "deployment": "https://nilaza-admin-staging.vercel.app",
+  "artifactSha256": "2ee28d18973301dfd576c532324bd38d79be4e48699418a3b4dc08d184694e64",
+  "verified": [
+    {
+      "path": "app.js",
+      "sha256": "68fb59d019838880755172250b52c63b33febf05a970331a0ee7f905d02c2bbc",
+      "exactArtifactParity": true
+    },
+    {
+      "path": "styles.css",
+      "sha256": "dff6f5c8ddb4f8c2cc5e43ec61b657159b03686f3273e00aef58259738c2562e",
+      "exactArtifactParity": true
+    },
+    {
+      "path": "shell.js",
+      "sha256": "057e2797b3dc1b41154c7dd0dc9c67b44ece34eee9a3a0943ff4fd2380d8a3ed",
+      "exactArtifactParity": true
+    },
+    {
+      "path": "admin-capabilities.json",
+      "sha256": "98c37cbbd58795ebc9ae43d04f75a9c073ab9d0f999008f57aa0f3d1c2f59f42",
+      "exactArtifactParity": true
+    },
+    {
+      "path": "generated/prompt-composition/bundle.mjs",
+      "sha256": "777b4f1440971f827b43edf7bda966613cc088164839ef3983b67c714a520278",
+      "exactArtifactParity": true
+    },
+    {
+      "path": "generated/prompt-composition/compose.mjs",
+      "sha256": "0f9a08609a0861fb37dd81ce0fd6969a938c8adab2cc7284b9ef4fd8e742b215",
+      "exactArtifactParity": true
+    },
+    {
+      "path": "generated/prompt-composition/manifest.json",
+      "sha256": "a75ac4a025e6a37bd89c66d47faca84ebdf3b0364585c69ebb2b1cf58298dab3",
+      "exactArtifactParity": true
+    },
+    {
+      "path": "generated/content-seed.json",
+      "sha256": "b749952c1153387437879c51cc2e5c4a447a6c7773a96354543c149e5216c677",
+      "exactArtifactParity": true
+    },
+    {
+      "path": "generated/growth-operations.json",
+      "sha256": "f4f85dae0dd111df4add83c703e911fbf3d9baa01bb356b9b2334b5e9e202e7a",
+      "exactArtifactParity": true
+    },
+    {
+      "path": "config.js",
+      "backendTarget": "akgrokwnkfqnfjqrildi",
+      "publicKeyVerified": true,
+      "privateKeyPrinted": false
+    }
+  ],
+  "actualProviderCall": false,
+  "actualDatabaseWrite": false
+}

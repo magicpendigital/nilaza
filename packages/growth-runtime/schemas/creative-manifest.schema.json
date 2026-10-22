@@ -1,0 +1,350 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Nilaza Hash Bound Local Creative Manifest",
+  "description": "Actual immutable manifest shape: six bilingual slide PNGs plus review.html, copy.json and layout.json, exactly nine unique files. Native runtime hashes every byte, checks PNG metadata and caps files at 16 MiB and total bundle at 64 MiB. Independent review is stored separately without changing the manifest.",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "jobId",
+    "tenantId",
+    "sourceMode",
+    "candidateHash",
+    "inputFingerprint",
+    "rendererVersion",
+    "format",
+    "locales",
+    "outputDirectory",
+    "files",
+    "deterministicRenderVerdict",
+    "visualReviewStatus",
+    "externalAuthority",
+    "bundleHash"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "1.0.0"
+    },
+    "jobId": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 80,
+      "pattern": "^[a-z][a-z0-9-]{2,79}$"
+    },
+    "tenantId": {
+      "const": "nilaza"
+    },
+    "sourceMode": {
+      "enum": [
+        "actual_ai_session_handback",
+        "fixture"
+      ]
+    },
+    "candidateHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "inputFingerprint": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "rendererVersion": {
+      "type": "string"
+    },
+    "format": {
+      "const": "carousel"
+    },
+    "locales": {
+      "const": [
+        "vi",
+        "en"
+      ]
+    },
+    "outputDirectory": {
+      "type": "string",
+      "pattern": "^renders/v[1-3]/attempt-0[1-3]/files$"
+    },
+    "files": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "required": [
+          "relativePath",
+          "sha256",
+          "byteLength",
+          "mimeType"
+        ],
+        "properties": {
+          "relativePath": {
+            "enum": [
+              "slide-vi-01.png",
+              "slide-vi-02.png",
+              "slide-vi-03.png",
+              "slide-en-01.png",
+              "slide-en-02.png",
+              "slide-en-03.png",
+              "review.html",
+              "copy.json",
+              "layout.json"
+            ]
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "byteLength": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 16777216
+          },
+          "mimeType": {
+            "enum": [
+              "image/png",
+              "image/svg+xml",
+              "text/html",
+              "application/json"
+            ]
+          },
+          "width": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 8192
+          },
+          "height": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 8192
+          },
+          "locale": {
+            "enum": [
+              "vi",
+              "en"
+            ]
+          },
+          "pageIndex": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 3
+          }
+        },
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "required": [
+                "mimeType"
+              ],
+              "properties": {
+                "mimeType": {
+                  "const": "image/png"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "width",
+                "height",
+                "locale",
+                "pageIndex"
+              ]
+            }
+          },
+          {
+            "if": {
+              "required": [
+                "relativePath"
+              ],
+              "properties": {
+                "relativePath": {
+                  "enum": [
+                    "copy.json",
+                    "layout.json"
+                  ]
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "mimeType": {
+                  "const": "application/json"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "required": [
+                "relativePath"
+              ],
+              "properties": {
+                "relativePath": {
+                  "const": "review.html"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "mimeType": {
+                  "const": "text/html"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "allOf": [
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "relativePath"
+            ],
+            "properties": {
+              "relativePath": {
+                "const": "slide-vi-01.png"
+              }
+            }
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "relativePath"
+            ],
+            "properties": {
+              "relativePath": {
+                "const": "slide-vi-02.png"
+              }
+            }
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "relativePath"
+            ],
+            "properties": {
+              "relativePath": {
+                "const": "slide-vi-03.png"
+              }
+            }
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "relativePath"
+            ],
+            "properties": {
+              "relativePath": {
+                "const": "slide-en-01.png"
+              }
+            }
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "relativePath"
+            ],
+            "properties": {
+              "relativePath": {
+                "const": "slide-en-02.png"
+              }
+            }
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "relativePath"
+            ],
+            "properties": {
+              "relativePath": {
+                "const": "slide-en-03.png"
+              }
+            }
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "relativePath"
+            ],
+            "properties": {
+              "relativePath": {
+                "const": "review.html"
+              }
+            }
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "relativePath"
+            ],
+            "properties": {
+              "relativePath": {
+                "const": "copy.json"
+              }
+            }
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "relativePath"
+            ],
+            "properties": {
+              "relativePath": {
+                "const": "layout.json"
+              }
+            }
+          },
+          "minContains": 1,
+          "maxContains": 1
+        }
+      ]
+    },
+    "deterministicRenderVerdict": {
+      "const": "pass"
+    },
+    "visualReviewStatus": {
+      "const": "not_reviewed"
+    },
+    "externalAuthority": {
+      "const": "none"
+    },
+    "bundleHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    }
+  },
+  "additionalProperties": false
+}

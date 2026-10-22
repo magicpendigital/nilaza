@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "status": "draft",
+  "operation": "bootstrap",
+  "target": {
+    "id": "nilaza-production-unregistered",
+    "kind": "production",
+    "organizationId": "rzbpjfrndhrtxagpgdre",
+    "projectRef": null
+  },
+  "profileSha256": null,
+  "ledger": null,
+  "migrations": [],
+  "targetMetadata": null,
+  "replay": null,
+  "ownerApproval": null,
+  "notes": "Owner approved Micro/Singapore within25USD base and OpenRouter billing separately. This is not an exact SQL/target execution approval. No project selected or created; legacy QA and independent release blockers remain."
+}

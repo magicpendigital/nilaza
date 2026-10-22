@@ -1,0 +1,17 @@
+---
+import Brand from "./Brand.astro";
+import { copy, type Locale } from "../lib/site";
+const { locale } = Astro.props as { locale: Locale };
+---
+<footer>
+  <div class="shell footer-grid">
+    <div><Brand variant="wordmark" width={160} /><p class="note">{copy[locale].footer}</p></div>
+    <div class="links">
+      <a href={`/${locale}/help`}>{locale === "vi" ? "Trợ giúp" : "Help"}</a>
+      <a href={`/${locale}/privacy`}>{locale === "vi" ? "Quyền riêng tư" : "Privacy"}</a>
+      <a href={`/${locale}/terms`}>{locale === "vi" ? "Điều khoản" : "Terms"}</a>
+      <a href={`/${locale}/safety`}>{locale === "vi" ? "An toàn" : "Safety"}</a>
+    </div>
+  </div>
+</footer>
+<style>footer{border-top:1px solid var(--line);padding:52px 0 68px}.footer-grid{display:flex;justify-content:space-between;gap:30px}.wordmark{font-family:var(--display);font-size:1.5rem;letter-spacing:.18em;margin:0 0 8px}.note{max-width:600px;color:var(--moon);font-size:.86rem}.links{display:flex;flex-wrap:wrap;align-content:flex-start;justify-content:flex-end;gap:18px}.links a{color:var(--moon);font-size:.8rem;text-decoration:none}.links a:hover{color:var(--gold)}@media(max-width:700px){.footer-grid{display:block}.links{justify-content:flex-start;margin-top:28px}}</style>

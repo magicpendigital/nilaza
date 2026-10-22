@@ -1,0 +1,257 @@
+{
+  "schemaVersion": 1,
+  "taskId": "mvp-R20-seed-integration-2026-10-01",
+  "ownerAgent": "content_data_agent",
+  "lane": "content_data_lane",
+  "goal": "Regenerate local Admin and SQL seed from reviewed R20 canonical content without applying SQL or publishing content.",
+  "successCriteria": [
+    "Admin generated 78 cards equal current canonical cards.",
+    "SQL seed contains current canonical card meanings; generated output reviewed, no DB apply.",
+    "Existing protected Admin workspaces and unrelated owner changes preserved; stale artwork/content review receipts remain unaccepted."
+  ],
+  "writeScope": [
+    "apps/admin/generated/content-seed.json",
+    "supabase/seed.generated.sql",
+    "docs/mvp-remediation/2026-10-01/R20-seed-integration.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "No DB seed apply, migrations, grants, live content publish or provider configurations.",
+    "No canonical content editing or artwork/QC acceptance-flag changes.",
+    "No Admin shell or mobile flow changes."
+  ],
+  "impact": {
+    "entryPoint": "Admin canonical content preview and local future SQL artifact.",
+    "dataWrite": "Two deterministic generated local files only, no remote tables.",
+    "backendContract": "SQL artifact not applied; runtime content bundle unchanged remotely.",
+    "adminVisibility": "Current 78-card draft seed; preserve Content Operations and AI Studio capabilities.",
+    "privacySafety": "Public reflective seed only; no private notes/keys or remote side effects.",
+    "observability": "Generator consistency checks, not runtime/LLM acceptance.",
+    "rollback": "Restore exact generated-file baseline or regenerate from reviewed prior canonical source; never apply destructive SQL."
+  },
+  "canonicalContracts": [
+    "R20 reviewed tarot-cards.json is source of truth; generators are consumers.",
+    "Current seed schema preserved; DB may be mixed project so no seed apply."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "apps/admin/AGENTS.md",
+      "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "apps/admin/admin-capabilities.json",
+      "sha256": "159b395086072f6c6af86065d16eba93e092dc5b524f244ad9eae39f1dc03a3a",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "docs/ADMIN_DATA_CONSOLE_ARCHITECTURE.md",
+      "sha256": "2e458cfc73cf5122f90db17feac1316e6eca20d31033103c65d9a3d24280eb71",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "docs/TAROT_CONTENT_SYSTEM.md",
+      "sha256": "4772a0e0edee8939fe45486a0c01e24f3c0f8af410321dd966e9fe82226cece9",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/R20-content-qc.vi.md",
+      "sha256": "84cccdf3f5cafa3298eb8e08e8371914ee17047792d5145b06733a55597e837d",
+      "reason": "R20 semantic handoff and current canonical reviewed; source-only content acceptance, no artwork or LLM pass."
+    },
+    {
+      "path": "docs/feature-plans/mvp-R20-2026-10-01.json",
+      "sha256": "02cfd174d5576b7cd3d16687277b21daef7e2d7f77a9568e3b67a3d1b0909ebe",
+      "reason": "R20 semantic handoff and current canonical reviewed; source-only content acceptance, no artwork or LLM pass."
+    },
+    {
+      "path": "scripts/build-admin-seed.mjs",
+      "sha256": "b12a842fa8aea686fc3f4a6816af846a898ced466cebcef2bad1cec4eab4d646",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "scripts/generate-supabase-seed.mjs",
+      "sha256": "639febdd72921fd07a65381f7c4080f6d1df906f309b79ae85c9acdc63513306",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "scripts/feature-run.mjs",
+      "sha256": "c8be0a298464bf01e4eaa9e84eb50e4580f5c0ba3d78f776359caf4914393b30",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "package.json",
+      "sha256": "d88632c639a6cafe6a9b0f363476d6109e6b57cec9e40555cd714c97be343da3",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "80e0cc1d3ae8f2a2fc4d0caf15280805334c5e4ebdbb55f062ee69aeb6398f49",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "packages/content/data/personas-figures.json",
+      "sha256": "b140b639bd45a7d125daef0d09e5ad95c1fefc814c86bc6bf5cd4d5e5309c06d",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "packages/content/data/personas-books.json",
+      "sha256": "c9633cc3b6237becb11254bcafa72f4a2081f25972e1ff3f78af3f6750636c47",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "packages/content/data/personas-archetypes.json",
+      "sha256": "8dc12fdcf91b5e7ad889adc6d66742945e0c4e7d4a10375f95dee24e6bf06e9e",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "packages/content/data/tarot-decks.json",
+      "sha256": "e699d651d8d6b65b35bae51b624056efc9463dadba1c7b856074c54c0e851002",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "packages/content/data/tarot-cards.json",
+      "sha256": "2688f997eb10bfcf5a59107b5ff09b7034168eb8a1ca39ac165df2cb192a6865",
+      "reason": "R20 semantic handoff and current canonical reviewed; source-only content acceptance, no artwork or LLM pass."
+    },
+    {
+      "path": "packages/content/data/tarot-deck-backs.json",
+      "sha256": "86bf4b6255709ea6acc3c8d5f634d04a0bbc0ac79a5e2990db5bbc8cffd04978",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "packages/agent-config/prompt-library.json",
+      "sha256": "6e24285ae847c2ee01ff6949ef3b6fd36c5933d31376a185c32b244d97f29bd3",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "packages/agent-config/ai-council.json",
+      "sha256": "61829c5943a30e09353dac4e585a42fd0f5e5e119dbdc06052560ebf2d78f402",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "packages/agent-config/council-contract.json",
+      "sha256": "8b568a077d9f9988721970679405eb3e641739cd542c6d70c37a6323438b77f8",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "packages/agent-config/model-routing.json",
+      "sha256": "25eecd4fcea32769e88ba59e7b287e7ee8cb42d75f70f2198759eacd4bf08eb2",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "packages/content/data/brand-exports.json",
+      "sha256": "f4d9172a640dedb055e9d5cc35f12db79f1da0a42eab1c914d5467d7174af8b7",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "packages/content/data/feature-visuals.json",
+      "sha256": "f7fb5b249070897822c1130beb0d487c1a697cd261796efec543a3b97600a821",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "packages/content/data/tarot-card-designs.json",
+      "sha256": "27590b48adfbe148fd6a4c4e30aee90a7282a6f96606de5ee2336871235f50da",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "packages/content/data/astrology-chart-fixtures.json",
+      "sha256": "be1ab869b48f5dfecbb83434ad214ca6a1a643b76cd865b4b275867c2b798759",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "packages/content/data/astrology-mythology-chapters.json",
+      "sha256": "210f176a5c656f1c96310db15d192d78388b8e3a140abff493f609150d86455e",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "packages/content/data/astrology-mythology-depth.json",
+      "sha256": "4e2fffa0c1443494c89d54976b8028be28866c43ef3fa6b40b417912a85fccc0",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "packages/content/data/astrology-visual-system.json",
+      "sha256": "117ae68ded6a77041ce5e080f16ab4dd964d834e9bf73ffc3842c843ec776ed3",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    },
+    {
+      "path": "packages/content/data/astrology-zodiac-guides.json",
+      "sha256": "88fa225e591b2dac9ef7ae23ec2af1b48724076b4a32873f6561ccdf1b9935ec",
+      "reason": "Reviewed deterministic local generation inputs/contracts; retain current owner state without claiming new semantic acceptance of unrelated data."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "R20 owner applied full skill review; this consumer generation adds no content or artwork acceptance and preserves semantic evidence."
+    },
+    {
+      "name": "nilaza-tarot-content-qc",
+      "decision": "verified-current",
+      "evidence": "R20 owner applied full skill review; this consumer generation adds no content or artwork acceptance and preserves semantic evidence."
+    },
+    {
+      "name": "nilaza-tarot-deck-production",
+      "decision": "verified-current",
+      "evidence": "R20 owner applied full skill review; this consumer generation adds no content or artwork acceptance and preserves semantic evidence."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No new libraries/APIs. Existing React Native TextInput and acknowledged repository behavior retained."
+  },
+  "securityReview": {
+    "authzRls": "No backend calls or auth changes.",
+    "sensitiveData": "Only public canonical seed.",
+    "secretsLogging": "No credential/env reads.",
+    "externalInput": "Existing generators SQL-escape and JSON-serialize current local seed.",
+    "dependencies": "No installs or updates; generator current source reviewed.",
+    "migrationRelease": "SQL generated locally only; migration/project identity unresolved; no apply/deploy/publish.",
+    "stopCondition": "Stop before live seed/publish/DB action or QC acceptance flags; artifacts alone do not reconcile migration.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/generated/content-seed.json",
+      "supabase/seed.generated.sql",
+      "docs/mvp-remediation/2026-10-01/R20-seed-integration.vi.md"
+    ],
+    "note": "Root only regenerates declared outputs; reviewed dirty source inputs preserved."
+  },
+  "validationCommands": [
+    "npm run feature:run -- --record docs/feature-plans/mvp-R20-seed-integration-2026-10-01.json --script admin:seed",
+    "npm run supabase:seed:generate",
+    "npm run admin:check",
+    "npm run admin:test",
+    "npm run validate:data",
+    "Verify generated cards equal canonical arrays; do not run seed apply."
+  ],
+  "managerTestPath": "Open generated content preview card library, compare Eight of Swords/Pentacles and Three of Cups/Swords VI/EN; review SQL only, no remote publish.",
+  "residualRisk": "Live published bundle remains old until authorized publish. 546 deck content-review hashes need fresh reviewer decisions, not automatic acceptance.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deployment": false,
+    "productionRelease": false
+  },
+  "externalSourceReview": []
+}

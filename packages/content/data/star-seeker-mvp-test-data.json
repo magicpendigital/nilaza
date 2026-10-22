@@ -1,0 +1,502 @@
+{
+  "deckId": "star-seeker",
+  "version": "2026-06-13-mvp-test-v1",
+  "status": "testing",
+  "purpose": {
+    "vi": "Dữ liệu seed để test bộ bài Star Seeker Anime trong MVP: chọn deck, rút bài, xem nghĩa xuôi/ngược, các góc nhìn trực giác Gen Z, và lưu Journal.",
+    "en": "Seed data for testing the Star Seeker Anime deck in the MVP: deck selection, card draw, upright/reversed meanings, Gen Z intuitive angles, and Journal save."
+  },
+  "coverage": {
+    "mvpFlows": [
+      "deck_selection",
+      "one_card_daily",
+      "three_card_reading",
+      "upright_and_reversed",
+      "topic_variants",
+      "ai_failure_fallback",
+      "journal_save"
+    ],
+    "topics": [
+      "career",
+      "decision",
+      "self",
+      "love",
+      "open"
+    ],
+    "minimumCardPool": 12,
+    "sampleReadingCount": 5
+  },
+  "deckVoice": {
+    "promise": {
+      "vi": "Star Seeker giúp người dùng khai mở các thông điệp biểu tượng, kết nối trực giác qua biểu tượng sao và khơi dậy cảm hứng thực hiện ước mơ lớn bằng nhịp tươi trẻ, thần kỳ.",
+      "en": "Star Seeker helps users unlock symbolic messages, connect with star-symbol intuition, and inspire big dreams with youthful, magical mood."
+    },
+    "tone": {
+      "vi": [
+        "nhiệm màu",
+        "tươi trẻ",
+        "lạc quan",
+        "bầu trời sao"
+      ],
+      "en": [
+        "magical",
+        "youthful",
+        "optimistic",
+        "star-symbolic"
+      ]
+    },
+    "avoid": {
+      "vi": [
+        "không hứa hẹn tương lai tuyệt đối hay dự đoán kết quả cố định",
+        "không đưa ra chẩn đoán y tế, lời khuyên pháp lý hoặc quyết định tài chính cụ thể",
+        "tránh ngôn từ tiêu cực hoặc mang tính đe dọa, luôn giữ giọng khích lệ"
+      ],
+      "en": [
+        "do not promise absolute futures or predict unalterable destinies",
+        "do not provide medical diagnoses, legal advice, or specific financial decisions",
+        "avoid negative or threatening language; always maintain encouraging tone"
+      ]
+    }
+  },
+  "spreadTemplates": [
+    {
+      "id": "star-seeker-one-card",
+      "cardCount": 1,
+      "name": {
+        "vi": "Thông điệp tinh tú",
+        "en": "Message from the Stars"
+      },
+      "positions": [
+        {
+          "key": "focus",
+          "label": {
+            "vi": "Chỉ dẫn bầu trời sao",
+            "en": "star-symbolic direction"
+          }
+        }
+      ],
+      "useCase": {
+        "vi": "Daily check-in trực giác hoặc câu hỏi ngắn cần tín hiệu tinh tú tức thì.",
+        "en": "Daily intuitive check-in or a quick question needing an instant star-symbolic signal."
+      }
+    },
+    {
+      "id": "star-seeker-three-card",
+      "cardCount": 3,
+      "name": {
+        "vi": "Ước mơ - Thử thách - kết luận cố định",
+        "en": "Dream - Challenge - star-symbolic fixed outcome"
+      },
+      "positions": [
+        {
+          "key": "mirror",
+          "label": {
+            "vi": "Ước mơ hiện tại",
+            "en": "Current status of your dream"
+          }
+        },
+        {
+          "key": "crack",
+          "label": {
+            "vi": "Thử thách biểu tượng",
+            "en": "Symbolic challenge"
+          }
+        },
+        {
+          "key": "petal",
+          "label": {
+            "vi": "Khả năng dẫn lối",
+            "en": "Guiding possibilities"
+          }
+        }
+      ],
+      "useCase": {
+        "vi": "Trải bài phân tích sâu cho ước mơ, tình cảm, bản thân và các câu hỏi mở trong MVP.",
+        "en": "Deep analytical reading for dreams, love, self, and open questions in the MVP."
+      }
+    }
+  ],
+  "topicIntents": [
+    {
+      "topic": "career",
+      "promptHint": {
+        "vi": "Tập trung khơi dậy đam mê sáng tạo, định hướng tìm kiếm cơ hội mới và cân bằng cảm xúc công sở.",
+        "en": "Focus on sparking creative passion, guiding towards new opportunities, and balancing workplace emotions."
+      }
+    },
+    {
+      "topic": "decision",
+      "promptHint": {
+        "vi": "Tập trung làm rõ tiếng gọi con tim, tin tưởng trực giác và chọn bước đi mang lại niềm vui lớn nhất.",
+        "en": "Focus on clarifying your heart's calling, trusting intuition, and choosing the step that brings the most joy."
+      }
+    },
+    {
+      "topic": "self",
+      "promptHint": {
+        "vi": "Đọc self thông qua việc thấu hiểu năng lực tinh thần, giải phóng nỗi sợ và yêu thương phiên bản hiện tại.",
+        "en": "Read self through understanding spireflection practice capabilities, releasing fears, and loving your current version."
+      }
+    },
+    {
+      "topic": "love",
+      "promptHint": {
+        "vi": "Tập trung vào sự kết nối đồng điệu, ranh giới yêu thương lành mạnh và đón nhận tình cảm bằng sự chân thành.",
+        "en": "Focus on resonant connection, healthy loving boundaries, and receiving affection with honesty."
+      }
+    },
+    {
+      "topic": "open",
+      "promptHint": {
+        "vi": "Giữ câu trả lời mang tính gợi mở, nhiệm màu và truyền cảm hứng hành động tích cực.",
+        "en": "Keep answers open-ended, magical, and inspiring positive actions."
+      }
+    }
+  ],
+  "testCardPool": [
+    {
+      "cardId": "major-00-fool",
+      "roseMirrorAngle": {
+        "vi": "Hành trình mới đầy hứa hẹn đang chờ bạn mở lòng đón nhận với niềm tin ngây thơ và năng động.",
+        "en": "A promising new journey awaits you, call on your pure faith and dynamic spirit to receive it."
+      },
+      "visualCue": {
+        "vi": "mèo ma thuật nhỏ lơ lửng, các tia sáng hồng phát sáng trên nền tím đậm",
+        "en": "small magical cat floating, pink light rays glowing on deep violet background"
+      },
+      "qaFocus": "new_journey"
+    },
+    {
+      "cardId": "major-02-high-priestess",
+      "roseMirrorAngle": {
+        "vi": "Trực giác sâu thẳm của bạn đang biết rõ câu trả lời; hãy lắng nghe tiếng vọng nội tâm.",
+        "en": "Your deep intuition already knows the answer; listen to your inner echoes."
+      },
+      "visualCue": {
+        "vi": "vòng tròn ngà tinh xảo chứa tinh thể kim cương vàng lấp lánh",
+        "en": "refined ivory circle enclosing a sparkling gold diamond crystal"
+      },
+      "qaFocus": "intuition_trust"
+    },
+    {
+      "cardId": "major-03-empress",
+      "roseMirrorAngle": {
+        "vi": "Khả năng sáng tạo và sự trù phú đang nở rộ, hãy nuôi dưỡng ước mơ bằng sự dịu dàng.",
+        "en": "Creativity and abundance are blooming, nurture your dreams with tenderness."
+      },
+      "visualCue": {
+        "vi": "trái tim hồng rực rỡ với đôi cánh thiên thần màu xanh cyan phát sáng hai bên",
+        "en": "vibrant pink heart with glowing cyan angel wings on both sides"
+      },
+      "qaFocus": "creative_nurture"
+    },
+    {
+      "cardId": "major-07-chariot",
+      "roseMirrorAngle": {
+        "vi": "Hãy tập trung ý chí và thẳng tiến về phía trước; các tinh tú đang hậu thuẫn cho hành động của bạn.",
+        "en": "Focus your will and speed forward; the stars are backing your action."
+      },
+      "visualCue": {
+        "vi": "ngôi sao ngà phát sáng đặt giữa hai vòng tròn cyan đan chéo",
+        "en": "glowing ivory star placed between intersecting cyan circles"
+      },
+      "qaFocus": "star-symbolic_drive"
+    },
+    {
+      "cardId": "major-17-star",
+      "roseMirrorAngle": {
+        "vi": "Niềm hy vọng và sự tự chăm sóc từ bầu trời sao đang tuôn chảy, hãy tin vào khả năng tốt đẹp.",
+        "en": "Hope and star-symbolic self-care are flowing, believe in a open possibility."
+      },
+      "visualCue": {
+        "vi": "ngôi sao ma thuật tám cánh màu vàng lớn, điểm sáng trắng rực rỡ ở tâm",
+        "en": "large eight-pointed gold magic star, brilliant white light point at center"
+      },
+      "qaFocus": "hope_self-care"
+    },
+    {
+      "cardId": "major-18-moon",
+      "roseMirrorAngle": {
+        "vi": "Những giấc mơ huyền ảo đang soi sáng con đường; hãy để trực giác dẫn dắt qua màn sương mù.",
+        "en": "Dreamy visions illuminate the path; let intuition guide you through the fog."
+      },
+      "visualCue": {
+        "vi": "trăng khuyết hồng ngọc ôm lấy vòng tròn cyan, tinh tú vàng lấp lánh",
+        "en": "ruby crescent moon embracing a cyan circle, sparkling gold stars"
+      },
+      "qaFocus": "dream_intuition"
+    },
+    {
+      "cardId": "major-19-sun",
+      "roseMirrorAngle": {
+        "vi": "Niềm vui sướng, sự rõ ràng và thành công rực rỡ đang chiếu sáng mọi ngóc ngách hành trình.",
+        "en": "Joy, clarity, and brilliant success shine on every corner of your path."
+      },
+      "visualCue": {
+        "vi": "vòng tròn vàng chói lọi tỏa tia sáng hồng và cyan đối xứng đầy tâm trạng",
+        "en": "bright gold circle radiating energetic symmetric pink and cyan rays"
+      },
+      "qaFocus": "radiant_joy"
+    },
+    {
+      "cardId": "major-21-world",
+      "roseMirrorAngle": {
+        "vi": "Chu kỳ bầu trời sao đã hoàn thành viên mãn, chào mừng bạn bước vào thế giới mới đầy tự do.",
+        "en": "The star-symbolic cycle has completed beautifully, welcome to your free new world."
+      },
+      "visualCue": {
+        "vi": "vòng tròn cyan lớn ôm lấy tinh cầu lấp lánh và đường viền hồng neon",
+        "en": "large cyan circle enclosing a sparkling planet and neon pink borders"
+      },
+      "qaFocus": "world_completion"
+    },
+    {
+      "cardId": "minor-wands-three",
+      "roseMirrorAngle": {
+        "vi": "Hãy hướng tầm mắt ra xa và chuẩn bị cho một cuộc phiêu lưu nhiệm màu mới.",
+        "en": "Cast your gaze far and prepare for a magical new adventure."
+      },
+      "visualCue": {
+        "vi": "ba cây trượng vàng thẳng hàng có đầu sao hồng phát sáng",
+        "en": "three parallel gold staffs with glowing pink star tips"
+      },
+      "qaFocus": "adventure_vision"
+    },
+    {
+      "cardId": "minor-cups-two",
+      "roseMirrorAngle": {
+        "vi": "Sự kết nối chân thành và hòa hợp cảm xúc đang dệt nên mối quan hệ tuyệt đẹp.",
+        "en": "Honest connection and emotional harmony weave a beautiful relationship."
+      },
+      "visualCue": {
+        "vi": "hai chiếc cốc hình trái tim hồng lấp lánh, chấm sao vàng tỏa ra xung quanh",
+        "en": "two sparkling pink heart-shaped cups, gold stars radiating around"
+      },
+      "qaFocus": "loving_connection"
+    },
+    {
+      "cardId": "minor-swords-ace",
+      "roseMirrorAngle": {
+        "vi": "Một ý tưởng đột phá và sự rõ ràng trong nhận thức sẽ giúp bạn phá vỡ mọi bế tắc.",
+        "en": "A breakthrough idea and mental clarity help you shatter all bottlenecks."
+      },
+      "visualCue": {
+        "vi": "lưỡi kiếm hồng phát sáng thẳng đứng, hào quang cyan bao quanh sắc nét",
+        "en": "vertical glowing pink blade, sharp cyan aura surrounding it"
+      },
+      "qaFocus": "breakthrough_clarity"
+    },
+    {
+      "cardId": "minor-pentacles-ten",
+      "roseMirrorAngle": {
+        "vi": "Nền tảng hạnh phúc vững chắc và sự kết nối gia đình/bạn bè là di sản quý giá nhất.",
+        "en": "A solid foundation of happiness and family/friend connection is the greatest legacy."
+      },
+      "visualCue": {
+        "vi": "mười đồng xu ngôi sao xếp đối xứng trên bản đồ chòm sao bằng chỉ vàng",
+        "en": "ten star coins arranged symmetrically on a gold-thread constellation map"
+      },
+      "qaFocus": "legacy_happiness"
+    }
+  ],
+  "sampleReadings": [
+    {
+      "id": "star-dream-pursuit",
+      "topic": "career",
+      "spreadId": "star-seeker-three-card",
+      "question": {
+        "vi": "Mình nên phát triển sự nghiệp sáng tạo của mình theo hướng nào?",
+        "en": "In what direction should I develop my creative career?"
+      },
+      "cards": [
+        {
+          "position": "mirror",
+          "cardId": "major-03-empress",
+          "orientation": "upright"
+        },
+        {
+          "position": "crack",
+          "cardId": "minor-wands-three",
+          "orientation": "reversed"
+        },
+        {
+          "position": "petal",
+          "cardId": "major-19-sun",
+          "orientation": "upright"
+        }
+      ],
+      "fallbackSummary": {
+        "vi": "Bài đọc khuyên bạn giải phóng khả năng sáng tạo dồi dào, điều chỉnh lại tầm nhìn sự nghiệp đang bị trì hoãn và hướng tới một mục tiêu rực rỡ mang lại niềm vui lớn.",
+        "en": "The reading advises unleashing your abundant creativity, realigning your delayed career vision, and heading towards a radiant goal that brings great joy."
+      },
+      "journalTitle": {
+        "vi": "Kẻ Tìm Sao: sáng tạo nở rộ và thành công rực rỡ",
+        "en": "Star Seeker: blooming creativity and radiant success"
+      },
+      "expectedQa": [
+        "shows_selected_deck",
+        "uses_three_cards",
+        "saves_to_journal"
+      ]
+    },
+    {
+      "id": "star-love-union",
+      "topic": "love",
+      "spreadId": "star-seeker-three-card",
+      "question": {
+        "vi": "Làm thế nào để kết nối sâu sắc hơn với người mình thầm thương?",
+        "en": "How can I connect deeper with the one I secretely admire?"
+      },
+      "cards": [
+        {
+          "position": "mirror",
+          "cardId": "minor-cups-two",
+          "orientation": "upright"
+        },
+        {
+          "position": "crack",
+          "cardId": "major-18-moon",
+          "orientation": "upright"
+        },
+        {
+          "position": "petal",
+          "cardId": "major-17-star",
+          "orientation": "upright"
+        }
+      ],
+      "fallbackSummary": {
+        "vi": "Bài đọc khuyến khích bạn đón nhận sự giao thoa cảm xúc chân thành, vượt qua những nỗi sợ vô cớ trong lòng và hướng về một mối quan hệ hòa hợp, đầy hy vọng.",
+        "en": "The reading encourages receiving honest emotional resonance, overcoming groundless inner fears, and moving towards a harmonious, hopeful relationship."
+      },
+      "journalTitle": {
+        "vi": "Kẻ Tìm Sao: kết nối hòa hợp và hy vọng nhiệm màu",
+        "en": "Star Seeker: harmonious connection and magical hope"
+      },
+      "expectedQa": [
+        "love_topic_supported",
+        "emotional_resonance"
+      ]
+    },
+    {
+      "id": "star-self-realization",
+      "topic": "self",
+      "spreadId": "star-seeker-three-card",
+      "question": {
+        "vi": "Làm sao để mình tin tưởng vào con đường riêng biệt của mình hơn?",
+        "en": "How can I trust my unique path more?"
+      },
+      "cards": [
+        {
+          "position": "mirror",
+          "cardId": "major-02-high-priestess",
+          "orientation": "upright"
+        },
+        {
+          "position": "crack",
+          "cardId": "major-00-fool",
+          "orientation": "reversed"
+        },
+        {
+          "position": "petal",
+          "cardId": "major-21-world",
+          "orientation": "upright"
+        }
+      ],
+      "fallbackSummary": {
+        "vi": "Bài đọc nhắc bạn lắng nghe trực giác sâu sắc sẵn có, đừng ngần ngại trước những khởi đầu chưa hoàn hảo và tin tưởng vào sự hoàn thành viên mãn của chương cuộc đời này.",
+        "en": "The reading reminds you to listen to your existing deep intuition, do not hesitate before imperfect beginnings, and trust in the beautiful completion of this life chapter."
+      },
+      "journalTitle": {
+        "vi": "Kẻ Tìm Sao: trực giác nội tại và chu kỳ viên mãn",
+        "en": "Star Seeker: inner intuition and completed cycle"
+      },
+      "expectedQa": [
+        "self_topic_supported",
+        "encouraging"
+      ]
+    },
+    {
+      "id": "star-decision-choice",
+      "topic": "decision",
+      "spreadId": "star-seeker-three-card",
+      "question": {
+        "vi": "Mình nên chấp nhận lời mời tham gia dự án mới này hay giữ công việc cũ?",
+        "en": "Should I accept this new project invitation or keep my old job?"
+      },
+      "cards": [
+        {
+          "position": "mirror",
+          "cardId": "minor-swords-ace",
+          "orientation": "upright"
+        },
+        {
+          "position": "crack",
+          "cardId": "major-07-chariot",
+          "orientation": "upright"
+        },
+        {
+          "position": "petal",
+          "cardId": "minor-pentacles-ten",
+          "orientation": "upright"
+        }
+      ],
+      "fallbackSummary": {
+        "vi": "Quyết định chấp nhận dự án mới mang lại sự đột phá nhận thức rõ rệt, đòi hỏi bạn phải có ý chí tiến lên quyết liệt và hướng tới sự ổn định bền vững về mặt lâu dài.",
+        "en": "The decision to accept the new project brings a clear mental breakthrough, requiring a strong will to move forward and heading towards long-term sustainable stability."
+      },
+      "journalTitle": {
+        "vi": "Kẻ Tìm Sao: quyết định đột phá và nền tảng lâu dài",
+        "en": "Star Seeker: breakthrough decision and long-term foundation"
+      },
+      "expectedQa": [
+        "decision_topic_supported",
+        "willpower_focus"
+      ]
+    },
+    {
+      "id": "star-open-checkin",
+      "topic": "open",
+      "spreadId": "star-seeker-one-card",
+      "question": {
+        "vi": "bầu trời sao đang gửi gắm thông điệp tinh tú nào đến mình hôm nay?",
+        "en": "What star-symbolic star message is the universe sending me today?"
+      },
+      "cards": [
+        {
+          "position": "focus",
+          "cardId": "major-17-star",
+          "orientation": "upright"
+        }
+      ],
+      "fallbackSummary": {
+        "vi": "Hôm nay là ngày của hy vọng, sự tự chăm sóc và niềm tin tinh khôi. Hãy đón nhận tâm trạng dịu dàng từ các chòm sao để thắp sáng con đường phía trước.",
+        "en": "Today is a day of hope, self-care, and pure faith. Welcome the gentle mood from the constellations to illuminate the path ahead."
+      },
+      "journalTitle": {
+        "vi": "Kẻ Tìm Sao: thông điệp tự chăm sóc từ bầu trời sao",
+        "en": "Star Seeker: self-care message from the cosmos"
+      },
+      "expectedQa": [
+        "one_card_daily",
+        "open_topic",
+        "hopeful_mood"
+      ]
+    }
+  ],
+  "adminSeedChecks": [
+    {
+      "id": "star-seeker-safety-copy",
+      "check": {
+        "vi": "Mọi thông tin phải mang tính khích lệ, gợi mở trực giác; tuyệt đối không đưa ra dự đoán kết quả cố định cố định hay lời khuyên tài chính/pháp lý.",
+        "en": "All information must be encouraging and intuitive; strictly avoid predicting fixed destinies or giving specific financial/legal advice."
+      }
+    },
+    {
+      "id": "star-seeker-card-reference",
+      "check": {
+        "vi": "Mọi reading phải dùng cardId phù hợp với testCardPool và hệ thống tarot chung.",
+        "en": "Every reading must use cardId values that exist in the testCardPool and general tarot database."
+      }
+    }
+  ]
+}

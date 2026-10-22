@@ -1,0 +1,236 @@
+{
+  "schemaVersion": 1,
+  "taskId": "drive-recovery-setup-2026-10-13",
+  "ownerAgent": "nilaza_recovery_design_owner",
+  "lane": "backend_recovery_setup",
+  "goal": "Implement approved private Google Drive recovery storage and pinned age tooling; test only synthetic canonical28 archive, then hand off owner-only passphrase/identity setup outside agent logs.",
+  "successCriteria": [
+    "Create/reuse exact owner-only recovery folder and four children after full metadata ACL readback, no public sharing or unrelated folders modified.",
+    "Pin official age1.3.2 Windows artifact SHA-256, inspect help and test binary integrity before use.",
+    "Synthetic age encrypt/decrypt/wrong-key/tamper/truncation and full native PostgreSQL restore preserve canonical28/RLS fixtures.",
+    "Upload only encrypted synthetic backup and sanitized metadata/guide, verify remote bytes and ACL; no live database export.",
+    "Prepare owner-only private console workflow for passphrase-encrypted identity outside Git and upload ciphertext only after owner confirms local setup."
+  ],
+  "writeScope": [
+    "scripts/nilaza-recovery-owner.ps1",
+    "scripts/rehearse-drive-recovery.mjs",
+    "artifacts/drive-recovery-setup-2026-10-13/",
+    ".brand-work/drive-recovery-tools-2026-10-13/"
+  ],
+  "untouchedSurfaces": [
+    "Frozen website/Edge, all SQL/legacy ledger/release allowlist, mobile/Admin and backend runtime unchanged.",
+    "Existing DPAPI QA vault and all historical evidence unchanged.",
+    "No live backups, email dispatch, paid services, scheduled task or new broad permissions."
+  ],
+  "impact": {
+    "entryPoint": "Approved setup plus private owner console for key enrollment, no website/product UI changes.",
+    "dataWrite": "Private Drive recovery root/folders, encrypted synthetic archive and sanitized receipt/guide; portable vendor binary in ignored workspace cache; owner encrypted key/receipt in new LocalAppData/NilazaRecovery folder with owner/SYSTEM ACL.",
+    "backendContract": "No Supabase cloud writes, schema or provider activation. Canonical28 synthetic native archive is the only database fixture; existing target gates remain.",
+    "adminVisibility": "Sanitized folder IDs/ACL/checksums/status and restore result only. No raw keys, passwords, contact emails or plaintext dumps in Agent outputs.",
+    "privacySafety": "Public recipient for backup; ephemeral test identities exist only in test memory. Owner key generation/passphrase input in a separate private console, no inherited Agent capture or env/argv password. Drive ACL owner-only before every upload.",
+    "observability": "Pinned tool hashes, fixture provenance, encrypt/decrypt/failure/restore checks, remote ciphertext digest/readback and own-container cleanup.",
+    "rollback": "Append-only new private storage; no deletions of previous backups, vault or project. Failure stops upload/restore and keeps managed gates BLOCKED."
+  },
+  "canonicalContracts": [
+    "Official age1.3.2 public recipient + encrypted-identity format, not custom crypto.",
+    "Exact canonical28 synthetic native archive/invariants and existing release-control separation."
+  ],
+  "allowedDataClasses": [
+    "synthetic_fixture",
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "4da2a80e09727695c07ad5e0adc52fffb28ae71783dc7258585aac3735a6add9",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "sha256": "c6a16c4be5bd732c51158ab66c4ea92bd23c1e817da539f3820546a22d806ec8",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "docs/release/RELEASE_RUNBOOK.md",
+      "sha256": "348e5aa5786a5f8648fd96c94e0b4a831602a5312d318b6e48885a47afd71b39",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "docs/release/release-profile.json",
+      "sha256": "a653120695490e3223c232889d36b63e67f41d7fcd4466a4f56fe8ddeed44081",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "e5fc9e3789ce1978ce3db7b7f41d6dd695d021c6d01ead2b11b3af14a4525f49",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "1e4d2bc7a93a2a140690c7237537de582972db30088309996ab6462a79a53623",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/nilaza-plan-qc.md",
+      "sha256": "1f1ca706c56aef4d08ac94c6475c19a59c3838a218eab9e94ab9436fbe4cda03",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/release-control.md",
+      "sha256": "ece7ac8af2d268735631d188ef1e3c4ae8235e564a2ad32c241c4ace83ac54fa",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "scripts/local-qa-key-vault.ps1",
+      "sha256": "f591475897ff69e0db29197e7b3f1452fc423af83bacf9310e6313bc7db32d19",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "scripts/rehearse-durable-recovery.mjs",
+      "sha256": "708355707d1d0f4746982e7256c342296a522e8315dbe958c3e7bc5f5126557c",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "artifacts/recovery-custody-2026-10-11/OWNER_REVIEW.vi.md",
+      "sha256": "d6b6ad177428a0eb8d31b8b55baaced5917d37f2dd0bd5e046276df91fea23e5",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "artifacts/recovery-custody-2026-10-11/storage-decision.json",
+      "sha256": "075f2b24b40c8bfe09c2823d56ffb06d47251cfb9224e783608ba4bd9c0dd296",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "artifacts/singapore-waitlist-acceptance-2026-10-11/native-rehearsal.json",
+      "sha256": "c67e5ae03267a3663de022b8bd2d14746943e7b3fd8ffac2e033dabe7eee4bfb",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": "artifacts/singapore-waitlist-acceptance-2026-10-11/database-target.draft.json",
+      "sha256": "5661ebdaf7f3b85486f1fe27e68563ca2e58e5e4caeae6cf2ddbd1b83bcae4bc",
+      "reason": "Reviewed existing local custody, canonical Singapore acceptance and unchanged protected cloud execution boundary."
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "4f62320f41d1b342bd9463466c4739c97ee44958eb0bacf801df458a44e73708",
+      "reason": "Reviewed immutable fixture, local vendor cache and owner-approved design."
+    },
+    {
+      "path": "scripts/native-postgres-rehearsal.mjs",
+      "sha256": "da4e490f792bb2085b58756946fb15dd3cdb007e3ae3e2fb1ccdd4d47b816801",
+      "reason": "Reviewed immutable fixture, local vendor cache and owner-approved design."
+    },
+    {
+      "path": "artifacts/singapore-waitlist-acceptance-2026-10-11/native-restore-invariants.json",
+      "sha256": "718a76e7b1121bdef37030688be998182a349fb7bae7c5c21786dfa6567da025",
+      "reason": "Reviewed immutable fixture, local vendor cache and owner-approved design."
+    },
+    {
+      "path": "artifacts/drive-recovery-design-2026-10-12/DESIGN.json",
+      "sha256": "24e4925badacacdb600e55e61d48fbb8b655e25cf5e0d8aa1de98320bea34082",
+      "reason": "Reviewed immutable fixture, local vendor cache and owner-approved design."
+    },
+    {
+      "path": "scripts/nilaza-recovery-owner.ps1",
+      "sha256": "5817f2b152eadd92079c78061d9cd5efaacc9ed19392b2673896d85b68949306",
+      "reason": "Reviewed fixed synthetic-only runner and private owner helper candidate; no Setup execution authorized until exact context approval."
+    },
+    {
+      "path": "scripts/rehearse-drive-recovery.mjs",
+      "sha256": "e2e363b27ed94e07ba71d687d7ce0f9b5f629fd98583cd7908b9b5bdd6a6115b",
+      "reason": "Reviewed fixed synthetic-only runner and private owner helper candidate; no Setup execution authorized until exact context approval."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Existing ownership, off-machine recovery and protected secret boundaries apply; real key/passphrase handoff remains owner-only."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Official age1.3.2 portable artifact verified against GitHub release asset SHA256; no global installation. Supabase remains unchanged."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://github.com/FiloSottile/age/releases/tag/v1.3.2",
+      "checkedAt": "2026-10-13",
+      "reason": "Official reviewed Windows binary/asset digest."
+    },
+    {
+      "url": "https://github.com/FiloSottile/age#passphrases",
+      "checkedAt": "2026-10-13",
+      "reason": "Public recipient, encrypted identity and private interactive passphrase interface."
+    },
+    {
+      "url": "https://developers.google.com/workspace/drive/api/guides/manage-sharing",
+      "checkedAt": "2026-10-13",
+      "reason": "Owner-only and inherited permission checks; previous successful primary documentation review retained."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "Owner-only Drive permission readback, no grants broadened; test ordinary A/B/revoked after synthetic restore.",
+    "sensitiveData": "Only fixed synthetic archive and metadata transmitted to approved recovery root. Real database exports remain separately gated.",
+    "secretsLogging": "Raw synthetic identities in test memory only. Real identity/passphrase in owner console outside agent sessions; no secret stdout capture, env/argv or plaintext identity/dump writes.",
+    "externalInput": "Pin vendor binary and fixture digest; reject unknown target, shared ACL, file tampering, path escape/reparse or incomplete decrypt before restore.",
+    "dependencies": "Vendor zip SHA256 f48d8f8f9ebe903ab5027ed067652f2cc1db94bc206976430133b905dcd8e8c7 from official release API; inspect help after extraction.",
+    "migrationRelease": "Cloud SQL and promotion blocked; no release gate/ledger override.",
+    "stopCondition": "Stop on binary/fixture drift, unsafe ACL, owner passphrase missing, failed decrypt/restore or missing protected operator. No live mutation.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "scripts/nilaza-recovery-owner.ps1",
+      "scripts/rehearse-drive-recovery.mjs",
+      "artifacts/drive-recovery-setup-2026-10-13/cleanup.json",
+      "artifacts/drive-recovery-setup-2026-10-13/drive-roundtrip.dump.age",
+      "artifacts/drive-recovery-setup-2026-10-13/drive-roundtrip.json",
+      "artifacts/drive-recovery-setup-2026-10-13/drive-storage.json",
+      "artifacts/drive-recovery-setup-2026-10-13/enrollment-context.json",
+      "artifacts/drive-recovery-setup-2026-10-13/owner-console-authorization.json",
+      "artifacts/drive-recovery-setup-2026-10-13/OWNER_SETUP_REVIEW.vi.md",
+      "artifacts/drive-recovery-setup-2026-10-13/README-RECOVERY.vi.md",
+      "artifacts/drive-recovery-setup-2026-10-13/SETUP.json",
+      "artifacts/drive-recovery-setup-2026-10-13/synthetic-canonical28.dump.age",
+      "artifacts/drive-recovery-setup-2026-10-13/synthetic-recovery.json",
+      "artifacts/drive-recovery-setup-2026-10-13/vendor-tool.json"
+    ],
+    "note": "New explicit human request authorizes reviewed private owner console, not captured Setup test. Existing script/vendor/context hashes verified unchanged; no cloud SQL or permission expansion."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/drive-recovery-setup-2026-10-13.json",
+    "Pinned age version/help and integrity check",
+    "Synthetic encryption negative tests + independent native restore + Drive ciphertext roundtrip and ACL readback",
+    "Owner helper PowerShell parse/dry-run with no real credentials"
+  ],
+  "managerTestPath": "Owner sees private recovery Drive folder and guide, enters passphrase directly in separate local console; agent reads only public recipient/receipt and encrypted file metadata. Off-machine/USB drill and managed recovery remain pending.",
+  "residualRisk": "Owner encrypted identity enrollment and independent passphrase custody, second-machine/USB drill and protected cloud operator remain pending. Agent capture guard was not executed as a Setup negative-test because auto-review rejected that action.",
+  "externalActions": {
+    "databaseWrite": false,
+    "providerWrite": true,
+    "deployment": false,
+    "emailSend": false,
+    "driveWrite": true,
+    "note": "Direct human approval: Đồng ý, hãy tiếp tục, after the exact recovery design. Allows private storage setup, encrypted synthetic backup and owner-encrypted identity flow. No live data export, public sharing or production release implied."
+  },
+  "ownerEnrollmentContextApproval": "DIRECT_HUMAN_REQUEST_RUN_SETUP_IN_REVIEWED_PRIVATE_OWNER_CONTEXT",
+  "validationEvidence": {
+    "folderAcl": "5 folders and 3 uploaded files owner-only observed",
+    "synthetic": "11 groups PASS, canonical28 plus consent/suppression restored",
+    "driveRoundtrip": "461655 bytes exact SHA256 PASS with fresh authenticated file reference",
+    "ownerHelper": "Parser and Plan dry-run PASS; Setup not executed",
+    "cleanup": "2 own containers stopped, temporary capabilities deleted; existing vault/services untouched",
+    "managed": "BLOCKED; no cloud database export/SQL/promotion"
+  }
+}

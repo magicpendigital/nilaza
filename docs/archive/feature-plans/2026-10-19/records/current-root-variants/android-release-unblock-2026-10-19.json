@@ -1,0 +1,204 @@
+{
+  "schemaVersion": 1,
+  "taskId": "android-release-unblock-2026-10-19",
+  "ownerAgent": "root_android_release_unblock",
+  "lane": "release_candidate_and_ci_preparation",
+  "allowedDataClasses": [
+    "sanitized_project_metadata",
+    "public_documentation",
+    "fictional_test_fixtures"
+  ],
+  "goal": "Unblock Android candidate packaging and reconcile CI readiness using a separate dependency installation and reviewed candidate composition, without cloud activation or secret access.",
+  "successCriteria": [
+    "Materialize an exact-byte copy of the frozen v4 source into a new checkout without shared dependency junctions or private files.",
+    "Install lockfile dependencies with a supported Node LTS, lifecycle scripts disabled, no account config or backend credentials, and verify source hashes before and after.",
+    "Run current checks plus actual Metro web and Android embedded exports; record actual bundle hashes and every failure without waiving release gates.",
+    "Prepare or implement reviewed candidate-only historical-plan custody and active integration records covering all real deltas; preserve root plans, v4 and the governance checker.",
+    "Align quality-workflow Node LTS only after local checks on the selected runtime; keep remote CI, signed-native and cloud acceptance distinct.",
+    "Verify safe Vercel Git metadata when Owner login is available; no push, deployment, credential rotation, SQL or store publication."
+  ],
+  "writeScope": [
+    "artifacts/android-release-unblock-2026-10-19/",
+    ".cache/android-release-unblock-2026-10-19/",
+    "docs/release/ANDROID_RELEASE_UNBLOCK_2026-10-19.vi.md",
+    ".github/workflows/mobile-quality.yml",
+    ".github/workflows/admin-quality.yml",
+    ".github/workflows/feature-governance.yml"
+  ],
+  "untouchedSurfaces": [
+    "All mobile, Admin and backend product runtime, prompts, content, SQL, authentication, credits and user data.",
+    "Root Git index/history, previous v4 files and receipts, all old feature-plan bytes and release allowlist/migration policy."
+  ],
+  "impact": {
+    "entryPoint": "Owner requested next Android release step after key guidance; local candidate tooling and read-only account metadata.",
+    "dataWrite": "New ignored dependency/cache/source copy, sanitized receipts and owner report; reviewed quality-workflow Node version only. Historical active-plan disposition occurs only in the new candidate with per-record custody hashes.",
+    "backendContract": "No API/database contract changes, provider calls, deployment or retarget. Canonical Singapore remains gated; legacy runtime bindings are preserved.",
+    "adminVisibility": "Sanitized preparation results and current CI/Vercel access blockers only; no Admin config or raw logs/user content.",
+    "privacySafety": "Never read env/key/session/profile values. Copy only v4 allowlisted bytes, reject links/secrets, blank npm configs and whitelist child environment; no lifecycle scripts or external Git dependencies.",
+    "observability": "Pin source commit/inventory, lockfile, Node/npm versions, install receipt, per-command results, output hashes and plan-adoption mapping. Local PASS is not remote/native/release evidence.",
+    "rollback": "Preserve original checkout and previous candidate; create new noncolliding output directories. Stop on drift, unexpected package registry/source, missing integrity or authority need; retain failed logs instead of removing evidence."
+  },
+  "canonicalContracts": [
+    "Use source-candidate-v4.json digest d69a6fb34a6bed121c6efb3e2ae5fda409e763aa9cd29728c6c54656dba8d524 and commit 5b3c438fa859db75b55e487ee4668d4e516f6d7a as immutable input provenance, not release approval.",
+    "Keep feature-preflight semantics and original comparison base unchanged; no hash-only refresh, blanket scope or hidden old-record failures.",
+    "release-profile target allowlist stays empty and migration-ledger stays blocked; no secret loading, SQL or publish authority."
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa",
+      "reason": "Reviewed routed source, previous failure evidence and current policy; no runtime or high-impact policy edits planned."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Reviewed routed source, previous failure evidence and current policy; no runtime or high-impact policy edits planned."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Reviewed routed source, previous failure evidence and current policy; no runtime or high-impact policy edits planned."
+    },
+    {
+      "path": "docs/release/RELEASE_RUNBOOK.md",
+      "sha256": "348e5aa5786a5f8648fd96c94e0b4a831602a5312d318b6e48885a47afd71b39",
+      "reason": "Reviewed routed source, previous failure evidence and current policy; no runtime or high-impact policy edits planned."
+    },
+    {
+      "path": "docs/release/release-profile.json",
+      "sha256": "522c120a022d8fa2c9784f4eacfd9b9234eaacaa71cf972e507c762f2923a055",
+      "reason": "Reviewed routed source, previous failure evidence and current policy; no runtime or high-impact policy edits planned."
+    },
+    {
+      "path": "docs/release/ANDROID_CANDIDATE_AND_CREDENTIALS_2026-10-18.vi.md",
+      "sha256": "a7ad5477f36449a18c16c6048e7d576fa8e02b27eb0447fb336031aed9eace5a",
+      "reason": "Reviewed routed source, previous failure evidence and current policy; no runtime or high-impact policy edits planned."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "1e4d2bc7a93a2a140690c7237537de582972db30088309996ab6462a79a53623",
+      "reason": "Reviewed routed source, previous failure evidence and current policy; no runtime or high-impact policy edits planned."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/nilaza-plan-qc.md",
+      "sha256": "1f1ca706c56aef4d08ac94c6475c19a59c3838a218eab9e94ab9436fbe4cda03",
+      "reason": "Reviewed routed source, previous failure evidence and current policy; no runtime or high-impact policy edits planned."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/release-control.md",
+      "sha256": "ece7ac8af2d268735631d188ef1e3c4ae8235e564a2ad32c241c4ace83ac54fa",
+      "reason": "Reviewed routed source, previous failure evidence and current policy; no runtime or high-impact policy edits planned."
+    },
+    {
+      "path": "scripts/feature-preflight.mjs",
+      "sha256": "76e65a66fe1dc309edbe1932419936a495c95028d48998d1536ed7f85a763528",
+      "reason": "Reviewed routed source, previous failure evidence and current policy; no runtime or high-impact policy edits planned."
+    },
+    {
+      "path": "scripts/nilaza-release-candidate.mjs",
+      "sha256": "300903130b4e81af903e1f4ef078d905a70b1c1fac59954e5a027fadb3b61355",
+      "reason": "Reviewed routed source, previous failure evidence and current policy; no runtime or high-impact policy edits planned."
+    },
+    {
+      "path": "scripts/validate-repo-skills.mjs",
+      "sha256": "79817cb4c73c98ec36d964b0a39376dca6f3968bbdb194e5a3cdf72a663fd6cc",
+      "reason": "Reviewed routed source, previous failure evidence and current policy; no runtime or high-impact policy edits planned."
+    },
+    {
+      "path": "package.json",
+      "sha256": "d5e47722407394a566adc631c26d412897b9078efaadfb6242773b7b54775dcb",
+      "reason": "Reviewed routed source, previous failure evidence and current policy; no runtime or high-impact policy edits planned."
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "ba3e99deb94ffd6b862f2008b5886cb60aac9a60d4fa1c28cc98f4226a2bbedb",
+      "reason": "Reviewed 1705 lock entries: all 1684 resolved downloads are HTTPS registry.npmjs.org with integrity and no URL auth/query. Lifecycle scripts remain disabled."
+    },
+    {
+      "path": "apps/mobile/package.json",
+      "sha256": "71bed88f043629f67e9674ec6abc8fbd99956d68e57176abdb853416cd24d7ab",
+      "reason": "Reviewed routed source, previous failure evidence and current policy; no runtime or high-impact policy edits planned."
+    },
+    {
+      "path": "apps/mobile/metro.config.js",
+      "sha256": "d922649180a8576e5d27179a7489240b5ddb3086df921192f58181d06160defa",
+      "reason": "Reviewed routed source, previous failure evidence and current policy; no runtime or high-impact policy edits planned."
+    },
+    {
+      "path": ".github/workflows/mobile-quality.yml",
+      "sha256": "4c2e16a9f86c46a46baaf75ce6a4319d90a5317b6e9ed2c97100affcfdaed1d1",
+      "reason": "Reviewed routed source, previous failure evidence and current policy; no runtime or high-impact policy edits planned."
+    },
+    {
+      "path": ".github/workflows/admin-quality.yml",
+      "sha256": "32b2aef880bb5e09b428133b8316a687dd2327ff0ccdbf2ad08af7811aaa6734",
+      "reason": "Reviewed routed source, previous failure evidence and current policy; no runtime or high-impact policy edits planned."
+    },
+    {
+      "path": ".github/workflows/feature-governance.yml",
+      "sha256": "d15480bb492b19a4e3f6ecf3043a28e679459d138513a9ca7cded5e00cd00c34",
+      "reason": "Reviewed routed source, previous failure evidence and current policy; no runtime or high-impact policy edits planned."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Read current skill, expanded reference and release-control. Preparation must preserve gates, exact evidence, secret custody and separate source versus cloud/native acceptance; no skill-policy change needed."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Expo54.0.35/RN0.81 lock retained; SDK54 minimum Node20.19.4. Official Node schedule marks20/25 EOL and24 LTS. Bundled Node24.19.0 available. Fresh npm ci --ignore-scripts --no-audit --no-fund; no dependency upgrades, inherited credentials, shared package junctions or install hooks."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://expo.dev/changelog/sdk-54",
+      "checkedAt": "2026-10-19",
+      "reason": "SDK54 minimum Node20.19.4 and monorepo dependency/autolinking behavior; keep source Metro configuration unchanged for clean-install verification."
+    },
+    {
+      "url": "https://nodejs.org/en/about/previous-releases",
+      "checkedAt": "2026-10-19",
+      "reason": "Official release support: Node24 is LTS; existing local25 and CI20 are EOL, so verify24 before quality-workflow alignment."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No runtime Auth/RLS edits or cloud SQL. Known Auth/route/budget activation blockers remain explicit and cannot be cleared by local build success.",
+    "sensitiveData": "Explicit v4 file list only. No browser profiles, env files, private keys, actual user data or history blob checkout.",
+    "secretsLogging": "Child process receives system-only allowlisted environment plus fixed nonsecret build settings. npm user/global configs empty; logs limited to public package fetch/build/check output.",
+    "externalInput": "Pinned inventory and lockfile with integrity. Reject external file/Git/credential-bearing package resolutions; no arbitrary user-supplied commands, shell evaluation or source URLs.",
+    "dependencies": "Install exactly the lockfile into a new checkout. Disable lifecycle scripts, audit and funding network; use only public HTTPS npm registry and supported bundled Node24. No upgrades or shared root cache mutation.",
+    "migrationRelease": "No root Git mutation, migration ledger repair, release allowlist changes, signing credential loading or publishing. Historical-plan reconciliation keeps bytes in custody and checker semantics unchanged.",
+    "stopCondition": "Stop on source/hash/lockfile drift, package provenance mismatch, unexpected scripts/secret demand or missing authority. Keep failed/export/CI readiness BLOCKED until actual reviewed evidence passes.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      ".github/workflows/mobile-quality.yml",
+      "artifacts/android-release-unblock-2026-10-19/quality-vercel-access.json",
+      "artifacts/android-release-unblock-2026-10-19/.gitignore"
+    ],
+    "note": "Reviewed current preparation artifacts and existing quality-workflow changes by exact current hashes; root dirty work and old candidate remain untouched."
+  },
+  "validationCommands": [
+    "node scripts/feature-preflight.mjs --record docs/feature-plans/android-release-unblock-2026-10-19.json",
+    "Fresh lockfile npm ci with --ignore-scripts --no-audit --no-fund in the new source copy, never in root or v4",
+    "Current-record preflight, mobile/admin/web checks and appropriate existing suites using Node24 and isolated dependencies",
+    "Expo Metro web export and Android export:embed with EXPO_NO_DOTENV=1 and no backend env",
+    "Before-after source and lockfile byte hashes, output artifact hashes and Git status",
+    "CI analogue with unchanged checker and original historical base; no fabricated remote CI receipt"
+  ],
+  "managerTestPath": "Read the dated report and PASS/BLOCKED matrix; Owner may log into Vercel and verify Play Console account/device directly. No password, key or OTP in chat.",
+  "residualRisk": "Fresh Windows local build cannot prove Linux remote CI, protected release execution, managed recovery or signed native acceptance. Known runtime cost/Auth gaps remain activation blockers; no public release is authorized.",
+  "externalActions": {
+    "databaseWrite": false,
+    "cloudCalls": false,
+    "readOnlyAccountMetadata": true,
+    "publicPackageDownloads": true,
+    "providerCalls": false,
+    "deployment": false,
+    "publishing": false,
+    "credentials": false
+  }
+}

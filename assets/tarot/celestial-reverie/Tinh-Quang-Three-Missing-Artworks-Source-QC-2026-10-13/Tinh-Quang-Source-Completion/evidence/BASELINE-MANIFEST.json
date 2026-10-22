@@ -1,0 +1,1771 @@
+{
+  "archive": {
+    "file": "Tinh-Quang-Interim-Pre-Render-Review.zip",
+    "library_file_id": "libfile_78de4c8918cc819190bceee1ef7f3116",
+    "size_bytes": 381078603,
+    "sha256": "db277e7b1179032cb42cbfb4793eabef41fcc373836b4cfd6a393c3355256bd9"
+  },
+  "checkedAt": "2026-10-13T17:45:42.237798+00:00",
+  "files": [
+    {
+      "path": "QC-DECK-ASSETS-REPORT.json",
+      "size_bytes": 6926,
+      "sha256": "9bf32c5dbd833a4e471c0d4da00ee4734d8364591eda6491de48502457fdd9fd"
+    },
+    {
+      "path": "QC-NORMALIZED-REPORT.json",
+      "size_bytes": 122196,
+      "sha256": "fb20ede8b9d971aec66567e796eb742c984725fe3b765c4fcea5bf4c49507ed3"
+    },
+    {
+      "path": "QC-SOURCE-REPORT.json",
+      "size_bytes": 254591,
+      "sha256": "2f3fceed8c28cf8b7482fd6f2708bc17642a6517773c1c67b73ca71c13f5c380"
+    },
+    {
+      "path": "README.vi.md",
+      "size_bytes": 2957,
+      "sha256": "cdb8c8f556ba74bdab3e33f7df5cbe117b88e8ba3afb3260f3ed43017a8b1874"
+    },
+    {
+      "path": "SELECTED-SOURCES.json",
+      "size_bytes": 43077,
+      "sha256": "fe44dacce1a36533fd3c1be729e8a9a7520e527c5adcbe06f5c14622d9cf9de6"
+    },
+    {
+      "path": "Tinh-Quang-75-Source-Overview.jpg",
+      "size_bytes": 1819392,
+      "sha256": "51a55d824385df173d93b1576647f72a64f6152b4186b7b15ee00be3a1af063f"
+    },
+    {
+      "path": "Tinh-Quang-Cover-Back-Preview.jpg",
+      "size_bytes": 360872,
+      "sha256": "3abc9af2f45e25c08d3e1ac6c4247d6d03588f5e5d8b6214d042429347e0bdb7"
+    },
+    {
+      "path": "content-checks/content-metadata-clarification-v6.json",
+      "size_bytes": 437,
+      "sha256": "4f52ec4b71d1f827c134ffc3987f2377b0d255d44394c739d91543147813642d"
+    },
+    {
+      "path": "content-checks/focused-content-checks-v5.json",
+      "size_bytes": 445,
+      "sha256": "1dd41211b564cb3797554b9dd0cb7d7bf278e4ce35ca0fd19e881332ce8b6f5e"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/Tinh-Quang-Bilingual-Creative-Bible-v6.md",
+      "size_bytes": 393300,
+      "sha256": "f006ed914af524bda9669c0c7c161701056ef5cace2e8f91470fa77f55c66269"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/major-00-fool-v1.json",
+      "size_bytes": 2652,
+      "sha256": "24470d0bdcdc7ad707cccb62e74025d58e35b86b6f6732def87989b85c12cebb"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/major-01-magician-v1.json",
+      "size_bytes": 2472,
+      "sha256": "84bd9891f6380a12e93c4bf5e3128d546907a28c6f6d2f99289c8c6574c204cd"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/major-02-high-priestess-v1.json",
+      "size_bytes": 2382,
+      "sha256": "b3546cf3e8fb64ee32c1951bc82aaecbda43380ecd61b91eb5edbd2ef92d36fb"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/major-03-empress-v1.json",
+      "size_bytes": 2455,
+      "sha256": "309404a147fa5354d30246337bfc2f0fd7ec9f1b63bc3241ce9c22092f46ebfa"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/major-04-emperor-v1.json",
+      "size_bytes": 2359,
+      "sha256": "a75ea446ac8208894de33b07590ac1b077006f93eaaf3e828c3c52936906fe5a"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/major-05-hierophant-v1.json",
+      "size_bytes": 2194,
+      "sha256": "4ecffe6c6f55a32b62aba18f3efa3e87e121800e9bfa4bd3620cac36d60e62ee"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/major-06-lovers-v1.json",
+      "size_bytes": 2232,
+      "sha256": "0d96e02d7df3608c7b691e9b963cad30df4cd9c29befe1c555aa6f232f2a65b1"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/major-07-chariot-v1.json",
+      "size_bytes": 2509,
+      "sha256": "0b9a4bb883bf197d7f8dc706ed8856f0c42a46f1923f4f0c1e8910d7a6a19a4f"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/major-08-strength-v1.json",
+      "size_bytes": 2210,
+      "sha256": "05f33876b9588a5bce5c5758849e1084763406c9450a53c16873382f0d446979"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/major-09-hermit-v1.json",
+      "size_bytes": 2214,
+      "sha256": "74598a63a163995a72160790778192cf6cb1a63cf5617a703d303dd8eeabd9eb"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/major-10-wheel-v1.json",
+      "size_bytes": 2261,
+      "sha256": "3a69389d0d9b49598c21de1e8b7565d8c819e7fd3f487672e457d5f22e79e64a"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/major-11-justice-v1.json",
+      "size_bytes": 2191,
+      "sha256": "7036aebc0b65fa0d6481e450b9be9045301946bd6b6d582dd9dce0e699f2e40e"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/major-12-hanged-man-v1.json",
+      "size_bytes": 2548,
+      "sha256": "079cf8b35ac0a7017b36eb56424fee8d2a5d88ab464d5f0ec9c7e89bc7efa07e"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/major-13-death-v1.json",
+      "size_bytes": 2545,
+      "sha256": "0ab738f4323bd5309bbe35c5ac2ba6fda850a8f81370e8c297b1ca8cedbc5175"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/major-14-temperance-v1.json",
+      "size_bytes": 2318,
+      "sha256": "d4b658bae15091e4414fa8b7451456bdfb1df6101ccfc3ecc7bad43936d4c404"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/major-15-devil-v1.json",
+      "size_bytes": 2803,
+      "sha256": "0294a018c91d3fde3b184816e87dfb1679df1b37cd17d39fcfb87845ecf5d5c0"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/major-16-tower-v1.json",
+      "size_bytes": 2383,
+      "sha256": "689f57ef0507d3b4f353c4e98be9d95d79d5f6c2d9cffb7050783eb40f1b1528"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/major-17-star-v1.json",
+      "size_bytes": 2558,
+      "sha256": "735960d24cfbcd35c0db42a24f6f44153659422935a2549a3ff45b34e44a34a8"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/major-17-star-v4.json",
+      "size_bytes": 2687,
+      "sha256": "4b37bcc82e862d2d48dcc5cd1bc734ea81676bd9ca534e14e56a0175f66f58bc"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/major-18-moon-v1.json",
+      "size_bytes": 2560,
+      "sha256": "01fcd521061b3d9cc4094e417c97ebafa79bcd62999522bc8ac23df0dd03a1a3"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/major-19-sun-v1.json",
+      "size_bytes": 2639,
+      "sha256": "72ff97065b63a78f40b79dbc82e874296885c3b915267c9185e6a1ee80a7b936"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/major-20-judgement-v1.json",
+      "size_bytes": 2661,
+      "sha256": "4bc07f47a8a475ba2554eefc75df0022404a2a3ab0e36c816361d2f639a763f5"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/major-21-world-v1.json",
+      "size_bytes": 2989,
+      "sha256": "3e9661fa1764135ea54f2ea7f941ce8622907f925d00533e0dab73eff7208207"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-cups-ace-v1.json",
+      "size_bytes": 2177,
+      "sha256": "9bc10e02fc848c5bc86f539c015ba393397dcc8cd7381c5120a4848a3680b580"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-cups-eight-v1.json",
+      "size_bytes": 2229,
+      "sha256": "594f5b8ea992f5289a3790990972f3ab09baa97865f41bb3a0f2324fb2d1ea4a"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-cups-five-v1.json",
+      "size_bytes": 2320,
+      "sha256": "ab437a139362a68a84b65a17aaef973e274fca5b16055fe8e72afa4a39fada26"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-cups-four-v1.json",
+      "size_bytes": 2220,
+      "sha256": "fbe9333bce3a78d9e41be558f6fc96d4568bcce05393e9414854f8e3cc6be642"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-cups-king-v1.json",
+      "size_bytes": 2226,
+      "sha256": "b114e1521f328c27cf0691ed6957fb0a10a8b26ce0b898a092820870cd34b336"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-cups-knight-v1.json",
+      "size_bytes": 2220,
+      "sha256": "88c53e3fa62808218ba4d3f74a844b91f01c150487ab5b4217db6f118a4a58d8"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-cups-nine-v1.json",
+      "size_bytes": 2136,
+      "sha256": "be086a92e3cfbfca7f7e3111db56cab4e22168099b2b9d3c5b329db670b53264"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-cups-page-v1.json",
+      "size_bytes": 2262,
+      "sha256": "820d525895f00f95293da47da266aa6bb033a6a3948b1a5a6ccd1e1cf24d7225"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-cups-queen-v1.json",
+      "size_bytes": 2189,
+      "sha256": "db833a68cbbbe8e11d613468454a9a6cc4a8963b95edba867c7395f3ae23115e"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-cups-seven-v1.json",
+      "size_bytes": 2319,
+      "sha256": "9a74cf2a39e262590d954314b1bd27868e177765b232ddb6c103f45f4962d877"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-cups-six-v1.json",
+      "size_bytes": 2311,
+      "sha256": "c1438e49fefa06af0fd634941d44a3faf6e26680d9bd34df0e4257375adadc86"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-cups-ten-v1.json",
+      "size_bytes": 2280,
+      "sha256": "a06ccb000b191f149f7da4c2cc1626e155fa90cac3fb4db9c98890be4ebb6833"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-cups-three-v1.json",
+      "size_bytes": 2331,
+      "sha256": "3d18fb71d8180ea9e6d6e7b3ad61f8cdac087eb287a979d1a5bb7e0ee717d29c"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-cups-two.json",
+      "size_bytes": 2601,
+      "sha256": "9840caeab309ed5d27792d41a5d7d6d69e9bda08e3b2abc741038936eaea2904"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-pentacles-ace-v1.json",
+      "size_bytes": 4279,
+      "sha256": "d31894dba73cb180aaab56bea0f4998afb9fc4f7560c0259af466b88d71b49e8"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-pentacles-eight-v1.json",
+      "size_bytes": 2586,
+      "sha256": "fc7c40daccaac614b4801f30711caababbdd1a7ecec0f33a3a9ebe0bb70297ed"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-pentacles-five-v1.json",
+      "size_bytes": 2497,
+      "sha256": "76a14656057796e1d73bbaac76844642b22a60f1e8035336729fcad7fc1dc5b3"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-pentacles-four-v1.json",
+      "size_bytes": 2503,
+      "sha256": "65ccf86de10bc21a713bb8ceaec3760716e00462e2e7cc3f953f1ddd8b6e09d0"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-pentacles-king-v1.json",
+      "size_bytes": 2354,
+      "sha256": "db91ee44470e70f6e1d7bbb094aedad4d636d6f8d0ef3155b8ff1949d52e4ee7"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-pentacles-knight-v1.json",
+      "size_bytes": 2448,
+      "sha256": "0f29c4703e68475400a50f900b934c1d223790c4129a2ee9a76d3029c3217ab4"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-pentacles-nine-v1.json",
+      "size_bytes": 2405,
+      "sha256": "01dc70853cb171592946ac9145b2d5eaba8fd6d1bc64b2ccf2c1d1c61922c873"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-pentacles-page-v1.json",
+      "size_bytes": 2366,
+      "sha256": "4d552cddf22a07cc0de3047ccb8d6e714d082ed746d258669de0b5bdcf24bb1a"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-pentacles-queen-v1.json",
+      "size_bytes": 2433,
+      "sha256": "32df9eae27006e8a0445025fa354c89791474de184589ec3b6a00340b31e85c0"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-pentacles-seven-v1.json",
+      "size_bytes": 2474,
+      "sha256": "f1e2de44f0f44d406c6a4d88a35a306d1cf0010b389e223f11421566e17fef6e"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-pentacles-six-v1.json",
+      "size_bytes": 2584,
+      "sha256": "58401534b1ff6f5043ad6e8c3b75fd1674e09bfeb9f79675728471ae2f51d9c5"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-pentacles-ten-v1.json",
+      "size_bytes": 2546,
+      "sha256": "a3a5aa5f6f7624187704f15e75d2c5e4a94572091b2315661e0fe654160cfb68"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-pentacles-three-v1.json",
+      "size_bytes": 2556,
+      "sha256": "4f611e51fab184ce9c81e9c8734648af161dd929d25a197b7caf43187e614baa"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-pentacles-two-v1.json",
+      "size_bytes": 4478,
+      "sha256": "d16f6eb5a7b2c6c341cabe2dd3885a3abe989e2d95cce564902ae3fe335708b2"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-swords-ace-v1.json",
+      "size_bytes": 4059,
+      "sha256": "49cf0e67f722d48934f8afc14e50f23e76f5586c38bdd501f3bb33cce63918db"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-swords-eight-v1.json",
+      "size_bytes": 4294,
+      "sha256": "59d17284dcea9e2bba6aa7e29028908842d675668a18500839598e6d1add4421"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-swords-five-v1.json",
+      "size_bytes": 4354,
+      "sha256": "0ed204021428982216f659d1969c068d3031e8592743e135c9434bb9c1fd0fbc"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-swords-four-v1.json",
+      "size_bytes": 4346,
+      "sha256": "c39d81474d541a17d142f61b8504b24194eeea4deb71d4a1efe5c5ed2ba75abf"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-swords-king-v1.json",
+      "size_bytes": 2310,
+      "sha256": "6e06af4afdbc403dc03a0f38657972bfce0dc79f8f88d229c2ec73fff1277ab5"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-swords-knight-v1.json",
+      "size_bytes": 2282,
+      "sha256": "0521ee84917626730e691e77aad2f2881a2035951dc195e1ede8703a471d552f"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-swords-nine-v1.json",
+      "size_bytes": 4236,
+      "sha256": "b707e118d47df27a0ec18dce89902486b16a823e8c6cbf9beaebd7680be0e9ec"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-swords-page-v1.json",
+      "size_bytes": 2202,
+      "sha256": "b31e7c8e5accce08f9cdf11bd2430477c655a6f4996305312ed31e6f8c00abef"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-swords-queen-v1.json",
+      "size_bytes": 2269,
+      "sha256": "6048c91e7504f082136dab7edb9b8af45370fba77f36c284212fbefffedff03b"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-swords-seven-v1.json",
+      "size_bytes": 4523,
+      "sha256": "18e40b0760813210bfc9f5a441fa0e4951550348758ccfcd6b607edcedaa04a2"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-swords-six-v1.json",
+      "size_bytes": 4298,
+      "sha256": "64ed9e1980e86cab32dcb0bd1d8390ecaeea3a8e6ee579b5a4c051ee3993f9ab"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-swords-six-v3.json",
+      "size_bytes": 2538,
+      "sha256": "deac57372bd8dacbf5e0d5a71f30d994de69241192ff18a183ab6d1456e66ea0"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-swords-ten-v1.json",
+      "size_bytes": 4402,
+      "sha256": "0ed40a11d8814338d6025dc7f067733d1bd650cf9f89ec72cc8bc6b4f462f024"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-swords-three-v1.json",
+      "size_bytes": 4264,
+      "sha256": "1bab486784f48a25c606eabe711ff725b39ec720dca38aa277eaf71a58fea40b"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-swords-two-v1.json",
+      "size_bytes": 4178,
+      "sha256": "54ec2c0d7453075b762067d9d96c7b3d85dedfbc7be52b1b62342bc0b0c56d02"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-wands-ace-v1.json",
+      "size_bytes": 2145,
+      "sha256": "ede4f05b9fd4ba89fc418b3f12218eaa5bc4f70e3b59c33f1c8637227bdc214e"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-wands-eight.json",
+      "size_bytes": 2571,
+      "sha256": "1723a5b895bcffc643929aa74e8102e06276da2fbb7d3719337751207d2deb13"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-wands-five-v1.json",
+      "size_bytes": 3003,
+      "sha256": "71360be8cfc07a6dbaa3e295caf2d033f70f0a0175a44acb3d4ed965318fd591"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-wands-five-v2.json",
+      "size_bytes": 2246,
+      "sha256": "324a0dd8c712857544b700ae88e706ec1896134704467ae95d2d489fbdbeb2de"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-wands-five-v3.json",
+      "size_bytes": 2634,
+      "sha256": "9e4fc42fa3902007023be40866f103e5910d8780af20c2d5f87283909eb9d0cd"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-wands-four-v1.json",
+      "size_bytes": 2635,
+      "sha256": "29b51f7bbded75c320b561487ab6ac94bd8dba809a7bfc713820937317bc192c"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-wands-king-v1.json",
+      "size_bytes": 2801,
+      "sha256": "9717bcd025b9bccf918b443083298e4b2f461f2163adf1ae18d312d304aeb7ef"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-wands-knight-v1.json",
+      "size_bytes": 2824,
+      "sha256": "a8cd9410ddde229df4c45bd4ba367792ce154bbd76b9fd87da56f9a711515a70"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-wands-nine-v1.json",
+      "size_bytes": 2823,
+      "sha256": "e9fc6e3d35de673b90fa5d0c3a4f9bba816f83f1d30e37aeea33f7d789c1b718"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-wands-page-v1.json",
+      "size_bytes": 2804,
+      "sha256": "6f21bafe9a5e845c30bcb39591b3be2c0132e3b095bd201fd4578b9f29c2c8e8"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-wands-queen-v1.json",
+      "size_bytes": 2864,
+      "sha256": "1882af326c2fd3bafa5d5a40529cfb190f179e4ef97bc7893a038f0ca8ca76d6"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-wands-seven-v1.json",
+      "size_bytes": 2775,
+      "sha256": "1c72de6a45a1afb7d427f455ff3a4d26dca327a9840691459b3a929c39a35254"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-wands-six-v1.json",
+      "size_bytes": 2853,
+      "sha256": "20ac7b240da8b28ca4b647b35cce3443e92776f0f28c68794c19e54c22648abb"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-wands-six-v2.json",
+      "size_bytes": 2658,
+      "sha256": "0bc635cef2955d478f265b11fe4f65401f84cb501bb6e2da60770ebf4ae07355"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-wands-ten-v1.json",
+      "size_bytes": 2902,
+      "sha256": "7812cddb112547522519a97027c6cf8ca0ceda83dd11ceb1f28a9badd1b2ea7e"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-wands-ten-v2.json",
+      "size_bytes": 2288,
+      "sha256": "3776eda1a950673502eb6d41c5acbfaba9a12ff1c5f35c86c4cd7ee3fbf605b1"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-wands-ten-v3.json",
+      "size_bytes": 2395,
+      "sha256": "56071a34ae023064939febb6390e1fb9500734069252e3ce5e235a85a3c2dd7e"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-wands-ten-v4.json",
+      "size_bytes": 2833,
+      "sha256": "e7fd161dcd4583893b998308ecff584b34bbf1d5f81509f14424929edb7c4820"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-wands-ten-v5.json",
+      "size_bytes": 2387,
+      "sha256": "9ce00efe1781ae768fbe8d22ac87640ab2c7078b090e777c295676b76c4baef4"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-wands-three-v1.json",
+      "size_bytes": 2546,
+      "sha256": "8532c5c80b6cd1104666babd28ee09381b0b3b862140829c6f947cc9fc1477fa"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/bibles/minor-wands-two-v1.json",
+      "size_bytes": 2517,
+      "sha256": "dad702f6c9bf795b0f245fb6714f7d17a85592bc774b57571fa8de3ba221f8fa"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/content-v6.json",
+      "size_bytes": 446348,
+      "sha256": "56e333f3cb0f613978beace8e035c845524c1b2b39b79181cdb65e3699eb9032"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/deck-assets/back-vector-build-v2.cjs",
+      "size_bytes": 9896,
+      "sha256": "7b7db4cd299ee62980b82455878504445760808db86e0a07161fef194199f52e"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/deck-assets/back-vector-mobile-v2.png",
+      "size_bytes": 69074,
+      "sha256": "432ca4708a2471008b224b57e28947f446269dc2c805b8ef56f25f10891f4565"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/deck-assets/back-vector-plan-v1.json",
+      "size_bytes": 3419,
+      "sha256": "5be37925e6a8e4571b4c37e972cf8fce184cca980eb9ae87c6eb5acf88b9419d"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/deck-assets/back-vector-receipt-v2.json",
+      "size_bytes": 5660,
+      "sha256": "d3dc110294932d76a4c367c23ac7cb2a5f4e24d7361d51fa370631e74e33d5c7"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/deck-assets/back-vector-self-qc-v2.json",
+      "size_bytes": 5432,
+      "sha256": "46e4b758e4a4d52e2bcb8ef0b447cf93198984ab823e53cf4d91720579b5fc47"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/deck-assets/back-vector-source-v2.png",
+      "size_bytes": 502366,
+      "sha256": "d1933038e9fbb29c6795c83501f8fab50ea676d3eb9e9859334e3ab4daf2aad9"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/deck-assets/back-vector-source-v2.svg",
+      "size_bytes": 19533,
+      "sha256": "6e603e08f40fecb3f97d979538794e226a8c9675e0beaa1b8bfebb10b17e048e"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/deck-assets/cover-receipt-v2.json",
+      "size_bytes": 1078,
+      "sha256": "92bb865da59bdd1d220affd8f46973a990a8c115d237af7fc25ba5f5ecb7e407"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/deck-assets/cover-source-v2.png",
+      "size_bytes": 3359550,
+      "sha256": "331bf9fc7769a080b29f9c4f8a14fccc1b8fd7a2e74d84baafc8d7fdca7a48af"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/deck-manifest-v4.json",
+      "size_bytes": 193071,
+      "sha256": "0ac136ba8913b73fec0265e0f0b44672463fafa186bfbf87d5d38f5db6d89734"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/production-status.json",
+      "size_bytes": 27343,
+      "sha256": "3e0609eca98206a712a138d7438d42b526cca6877e7eb33204e50149413b7ead"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/major-00-fool-v1.png",
+      "size_bytes": 3398773,
+      "sha256": "637a1a76074875a71db6b5ab34639685745dc55e712630f119188fdefe9ebc07"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/major-01-magician-v1.png",
+      "size_bytes": 3290207,
+      "sha256": "aad7a7c4b91040b55937acad1e5fb467d4f767f9d45e380b0b5a21ecead8e496"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/major-02-high-priestess-v1.png",
+      "size_bytes": 3437839,
+      "sha256": "7fbcbc71bb397f8ed50c3bcb164de02d81bc6b3272fb02741ca22bc94306a3bc"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/major-03-empress-v1.png",
+      "size_bytes": 3518846,
+      "sha256": "6a70e7a5ba45e74c21b0aebf2541fb38f48e8854c8843ec1fc9feb8e80b05864"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/major-04-emperor-v1.png",
+      "size_bytes": 3365279,
+      "sha256": "0d8d2d0feaa73b97aee9b282dd15a66a7623534cb13851f2594478492ef0204f"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/major-05-hierophant-v1.png",
+      "size_bytes": 3224455,
+      "sha256": "4deb576c4bce0fb7232ceff6114748cfd5f6bffb3c25054885fc4c9beb8a03d0"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/major-06-lovers-v2.png",
+      "size_bytes": 3380637,
+      "sha256": "923f07ac4433534c750345d69bf6363c2848701ba09f5ebf79575ead34eb6748"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/major-07-chariot-v2.png",
+      "size_bytes": 3197671,
+      "sha256": "7ff9cf0fa2471cd34aee4e94a13eb0715e407364611341fed21b281847a0894b"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/major-09-hermit-v1.png",
+      "size_bytes": 3509203,
+      "sha256": "006953748ecbe4792ad333ea6883dc7c16a74dd8f766da1c9f0e20dfd15c7d63"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/major-10-wheel-v1.png",
+      "size_bytes": 3634849,
+      "sha256": "ff57d9502975478d7cc4e4bd9773642f94ae77b1a6ca85c362e8b099be0219a6"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/major-11-justice-v1.png",
+      "size_bytes": 3332473,
+      "sha256": "89a0f35362ef770e604d36218a3cdc5059d1d65241c29700eaa4c750c4090f4e"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/major-12-hanged-man-v1.png",
+      "size_bytes": 3398468,
+      "sha256": "b675f4d42e72abfef97aa13f5697d2de1fa263f47e9a50c511c3549f15d282b2"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/major-13-death-v1.png",
+      "size_bytes": 3448579,
+      "sha256": "f2ff7b52462341781fa9fbf0504a8e1543fb245b964dafbdd905acae198f03e6"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/major-14-temperance-v1.png",
+      "size_bytes": 3287000,
+      "sha256": "f2905f13ee4b7b5dbceb0d1e7b7d3053e94476c39211324169b9f3aa6b864edb"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/major-15-devil-v1.png",
+      "size_bytes": 3426423,
+      "sha256": "d04cc572182e3299003e1a304209bf5367718922ad8262a886c697e62764c349"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/major-16-tower-v1.png",
+      "size_bytes": 3372798,
+      "sha256": "505da28a607f30cf745d2bc9d935eca6543b2c99d693031cf884474797685534"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/major-17-star-v3.png",
+      "size_bytes": 3040658,
+      "sha256": "321e27d646f1e28d557420ef6dc1e74b2739b8129613384b23b5df8c3bf49ac2"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/major-18-moon-v2.png",
+      "size_bytes": 3381673,
+      "sha256": "4bdaefc3d28b522bfbd7ae5d88ab6416e7c187d3a2d8bb49bf46015eb36090e9"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/major-19-sun-v2.png",
+      "size_bytes": 3253777,
+      "sha256": "16013727bba3c1c2cb98db788e07122dbfc53ffe263af9a4716fd471cf9ec46c"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/major-20-judgement-v3.png",
+      "size_bytes": 3160650,
+      "sha256": "0dc42696c09d2f28e652416c0dd55bc0e199f75aaffae78ce8dfbadd44bc458b"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-cups-ace-v1.png",
+      "size_bytes": 3335912,
+      "sha256": "b2ab861bc6520169422da70dc897da6cf122d4ad95f7c844f3adb97f3cdfa855"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-cups-eight-v2.png",
+      "size_bytes": 3148428,
+      "sha256": "e6921cc6a7e7174d4f67d9b1c45f0e7a4ae69e02e1510e735abe9f3d8c399731"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-cups-five-v1.png",
+      "size_bytes": 3308478,
+      "sha256": "198df591f5b0a3ddcb5d792e32c27a0e703d1ef2b188a3a2525da1d5e8706108"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-cups-four-v1.png",
+      "size_bytes": 3404952,
+      "sha256": "4739bb4d627db26d47eb3c1abc871dcc457344ff2feb58d80f8c30c4c6e53830"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-cups-king-v1.png",
+      "size_bytes": 3429666,
+      "sha256": "62be30372ea9beeeb7752cb9bbb1871e3cce3d713ed283f053f4151dc0fadfa8"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-cups-knight-v1.png",
+      "size_bytes": 3408527,
+      "sha256": "fa9ba337648eba7ef241030541bc716bb2682286901ec18a9232256679fa0e9c"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-cups-nine-v3.png",
+      "size_bytes": 3087915,
+      "sha256": "fff65f8367c2e1eb291d4d44f75f0e3d4ae438553763de06371431fc3bd0b9f5"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-cups-page-v1.png",
+      "size_bytes": 3398019,
+      "sha256": "fdb0fd02f54f29a382e95ae01bc24e64c98c9bda96ddf286b6a03f73e0feb5ef"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-cups-queen-v1.png",
+      "size_bytes": 3361226,
+      "sha256": "5bbe09a182e58ef8a7135c37b5e649e296b004165ba1c47e7052c507c9b375a2"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-cups-seven-v1.png",
+      "size_bytes": 3454991,
+      "sha256": "9e8e9d89438daad98909bb1db86caa8533f9517b6337abd3a0d826420101a4e7"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-cups-six-v1.png",
+      "size_bytes": 3399499,
+      "sha256": "b8c88dfba6933253018ae7b6583d5fcd24b7d08a140af84a9dc593d172e37543"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-cups-ten-v1.png",
+      "size_bytes": 3305527,
+      "sha256": "d51c0d25bd526b7eb7d40fbc17d8348e7af7c97b737983efe433b8373241454f"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-cups-three-v1.png",
+      "size_bytes": 3335530,
+      "sha256": "1619ff78aa82190f122c8a4c1be3f5eda2b8ff9ed6f12490464a33e97ad97cfe"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-cups-two-v4.png",
+      "size_bytes": 2653032,
+      "sha256": "f958eb86cc1a97f1e5cd9262bac80b7f2e0d2b8c45431d46f0f4003e37f29c3a"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-pentacles-ace-v1.png",
+      "size_bytes": 3384008,
+      "sha256": "bf962786e51638894f8c8bd63f6c7a46595d5901317f9a038f7fa98aebc513f6"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-pentacles-eight-v1.png",
+      "size_bytes": 3247712,
+      "sha256": "9f8d323f604c1394bf6991bd6be5fb69259eaae228b1e2cb8c5b3b24bd6d3aa5"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-pentacles-five-v1.png",
+      "size_bytes": 3378296,
+      "sha256": "41ddc604d931903f4d8c3418b9260875617d8153975bdc249407e5cdc6123db2"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-pentacles-four-v1.png",
+      "size_bytes": 3453011,
+      "sha256": "44bcaf40158968cc79adb3cd161694f346cb73322358cf9d05adb7d4df149e2f"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-pentacles-king-v1.png",
+      "size_bytes": 3324763,
+      "sha256": "8f781e8e4e989f44a3d15408e0366863137f32496c7c8a2eeb8ab371ec822713"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-pentacles-knight-v1.png",
+      "size_bytes": 3346953,
+      "sha256": "2f926d9e714113bf148c3e247240f68a4c42126548c9c1dca65fcce239ceabee"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-pentacles-nine-v5.png",
+      "size_bytes": 2947254,
+      "sha256": "e707dd448d5af0c7930b6139312e7f309578326cbd8a44e6bd47f76c15668cff"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-pentacles-page-v1.png",
+      "size_bytes": 3337764,
+      "sha256": "ed949e2cf3ef6924c4134b6d056f297e0febc7e5c3b3753c45fd086e3bfe776b"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-pentacles-queen-v1.png",
+      "size_bytes": 3403590,
+      "sha256": "dee66cec190027ef1c17ac1137d789a7c1019b621ef622fab8b6a7c779d8680d"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-pentacles-seven-v1.png",
+      "size_bytes": 3378563,
+      "sha256": "b85e8267325365c9082c3682fabfcc052058ea9495db35da7c554bb9e5d8f28a"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-pentacles-six-v1.png",
+      "size_bytes": 3397017,
+      "sha256": "4e279834ba21353e2e5a08da1fd42fb5f47b2f13f97161de229836d453149ba6"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-pentacles-ten-v2.png",
+      "size_bytes": 3163697,
+      "sha256": "bc5ec61ed904f5d481502ce686ac6a7d8a6b0912a96d264a326efc232029ef3d"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-pentacles-three-v1.png",
+      "size_bytes": 3259134,
+      "sha256": "760424ebd1ecf9143651da4d23455dbfe84420ad27cb04d942006cb0ba2ed957"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-pentacles-two-v1.png",
+      "size_bytes": 3445901,
+      "sha256": "df55868986ec260476eac7819e5fb2dfa04d7a17e44e3b6526e0cfd7f1c21194"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-swords-ace-v1.png",
+      "size_bytes": 3350017,
+      "sha256": "5dbaf935eb19820f0f2378f5ed177416c3892b88cb1080daa7afaa12cb321150"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-swords-eight-v1.png",
+      "size_bytes": 3495082,
+      "sha256": "24c9dcfb30921e7876752d30fabbeedfb22cce18edb62eeabe9ac25787871798"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-swords-five-v1.png",
+      "size_bytes": 3514232,
+      "sha256": "b7c82dd9e203919954977f68ff9fcdaea8c9f9d037017cac405ebf6fb6d0315e"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-swords-four-v1.png",
+      "size_bytes": 3277744,
+      "sha256": "196baadf874e751ee6994dfd2108ddaf8cd1e8635e48372d038b930655cfa6a2"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-swords-king-v1.png",
+      "size_bytes": 3235623,
+      "sha256": "c3c2a47c138237e92f5315c9caa9f3ddf8eb13d33f790198da2e8e948ea19e06"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-swords-knight-v1.png",
+      "size_bytes": 3493516,
+      "sha256": "08586c1a1c04298ad45ad057c0e910b381c14d0e89159735acb4b53eab429dc2"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-swords-nine-v1.png",
+      "size_bytes": 3025774,
+      "sha256": "531fc93eeb7420e2c577d89b6ee597d94d98d5f70f8cf8279286893aee83bc28"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-swords-page-v1.png",
+      "size_bytes": 3433992,
+      "sha256": "02d091c6517d8abdaf24a7512fd15d292175bd279b32ac3ad3656788d2fd122d"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-swords-queen-v1.png",
+      "size_bytes": 3360945,
+      "sha256": "ad234cf4323d830f9449fba74250ccff9f15d029f7b3061b96e66da20d526f50"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-swords-seven-v2.png",
+      "size_bytes": 3208208,
+      "sha256": "600cf55c0e2d0ea5ed528a3ea46caeb7ed912bd1d34a003859806b817bb284f1"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-swords-six-v2.png",
+      "size_bytes": 3044959,
+      "sha256": "f1d86c2919b520a38f0329dca9df41081cab637da0812b70c72beb320907a77d"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-swords-three-v2.png",
+      "size_bytes": 3143165,
+      "sha256": "c04ec533a40c9044b53ffa9ecea919f18caf16d5cdb636082ba52786c890dc3c"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-swords-two-v2.png",
+      "size_bytes": 3106740,
+      "sha256": "45eca289a1fac16ab8dd2d9ead7b29b367439326abdf9614597ddf190a30ed09"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-wands-ace-v2.png",
+      "size_bytes": 3042123,
+      "sha256": "c8710c37a663c68e7cbc63939933364d7f04cb42352aa64640120c29a12e575c"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-wands-eight-v2.png",
+      "size_bytes": 3030400,
+      "sha256": "4505981aaf5a41c3c0aef54eb194330b67c7cb4253e7a3f1596ca2db2ed79c7c"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-wands-five-v3.png",
+      "size_bytes": 3178780,
+      "sha256": "4e1382600314d52c5dc827bdd5cacfb159b39e89608d03789d7c0640ed8c0507"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-wands-four-v1.png",
+      "size_bytes": 3376964,
+      "sha256": "67c623790c53d0e8dcda32b9a08b510afa9f5fce4e8929ab7e68b93c36cd3fc4"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-wands-king-v1.png",
+      "size_bytes": 3373250,
+      "sha256": "3a06b0e456501d0adf5f1c568355dca7be22898bf22578b7fc125239cc19b7e3"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-wands-knight-v1.png",
+      "size_bytes": 3435328,
+      "sha256": "cdb9118af6f1585dd96760aafbefe1bfdb71c0c74501a740eb33ce788a3f79fe"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-wands-nine-v1.png",
+      "size_bytes": 3377788,
+      "sha256": "372ff9eb43e9947738bf8a291f9158cf38301941b78677d1fbb94e12f3ccd18d"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-wands-page-v1.png",
+      "size_bytes": 3403982,
+      "sha256": "162200c0f2ca9b45952125a2319c5e3528415f003020da7bcb83c78bda41e374"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-wands-queen-v1.png",
+      "size_bytes": 3313774,
+      "sha256": "ffe9f77b30fd131167b1c71f017668ff1dbc84153950d1a851939ff3a94bc045"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-wands-seven-v1.png",
+      "size_bytes": 3325014,
+      "sha256": "c90e618b8580e33c3ccd758472cf817284ab7239ecdcf20cb469e6bc6b00fbe2"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-wands-six-v2.png",
+      "size_bytes": 3001223,
+      "sha256": "a674af672a5a839ab2d6edb8dadf6307982545d94bcaa9fb4643d0ee2455e3cb"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-wands-ten-v5.png",
+      "size_bytes": 2821145,
+      "sha256": "3f3cdbe49cd1008e79e4b032c9f13af11253aa291c6327adcca21ab275115e92"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-wands-three-v1.png",
+      "size_bytes": 3282633,
+      "sha256": "8b5b96c2219be7b28c6aeb8b5047746060bc8a56feb95e70e05465d18ec6facb"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/raw/minor-wands-two-v1.png",
+      "size_bytes": 3296959,
+      "sha256": "fa0a05c1d45d41863e6ed627ab2e0c9fffb1215fbc70e53c5fe05a8d0eac0a52"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/major-00-fool-v1.json",
+      "size_bytes": 2372,
+      "sha256": "1dbe10cfcd05a3be0ed7dd478630bf21bc1b47e09b152ccb9d7b70e86c027d69"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/major-01-magician-v1.json",
+      "size_bytes": 1924,
+      "sha256": "43b1ea7c7d8a499c18056dd7eb0c57423c2dc877ec237c3fa1564bf60fc2bb54"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/major-02-high-priestess-v1.json",
+      "size_bytes": 2228,
+      "sha256": "70e63d2c7399c5b0b769239543a38a0ad60893a347cbc6909070fd210df7911a"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/major-03-empress-v1.json",
+      "size_bytes": 2268,
+      "sha256": "cf9cd2cb5e473a0376f54fde9829f211fc74fe6b459d7e21041e38e1a24b1cee"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/major-04-emperor-v1.json",
+      "size_bytes": 2224,
+      "sha256": "710d1d6a86aed7844a0c7e47701cdf92b599530cf41724f218322383d07878fe"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/major-05-hierophant-v1.json",
+      "size_bytes": 2138,
+      "sha256": "6302262d927a59f83e6368229e1b799bc068fd15d8937f505356b31398f67181"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/major-06-lovers-v2.json",
+      "size_bytes": 923,
+      "sha256": "21a9659b4c54a30ed3a76cbae9689b035f635404d1630cf95c982835f43d16d1"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/major-07-chariot-v2.json",
+      "size_bytes": 1105,
+      "sha256": "b48c5b44910ab382c86f61476592c90c4883cc2f12f4c90d3f1f79dd341a1415"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/major-09-hermit-v1.json",
+      "size_bytes": 1804,
+      "sha256": "80fdd609d8bec48a33471a67933cd1cf3bd1078962d8e686b8d46b20e8d56c62"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/major-10-wheel-v1.json",
+      "size_bytes": 2082,
+      "sha256": "15df4a1527c8316107b2d459b2a21f3d6e0f785d905aedc3e4bc011a556f75fc"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/major-11-justice-v1.json",
+      "size_bytes": 2050,
+      "sha256": "beb62eb28cd18db6b1c364f4877fe0b1f520e3d2765ce0bcaafbabd92bccb95e"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/major-12-hanged-man-v1.json",
+      "size_bytes": 2223,
+      "sha256": "f17f23a8a3c3f12cd11b4dd36a866870c0bfa168a934bfcfed5d71f94a783d4c"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/major-13-death-v1.json",
+      "size_bytes": 2220,
+      "sha256": "6f1183ca945ac6a53e32cb97ea80195a9efbccf707aad09bc33aee000d1bbc50"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/major-14-temperance-v1.json",
+      "size_bytes": 2240,
+      "sha256": "20df4089df8008a43c50282048b0763a64f47df70019bde90ee9960bde527f4b"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/major-15-devil-v1.json",
+      "size_bytes": 2481,
+      "sha256": "80fbf85957dc6e2424632e2f6b94666429be24dc4859357b507a29993757d412"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/major-16-tower-v1.json",
+      "size_bytes": 2271,
+      "sha256": "6a1d72c30546ba6a594d0681addc1f8fa7455df3885c0b6f5894b0cf8401430f"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/major-17-star-v3.json",
+      "size_bytes": 1060,
+      "sha256": "d2a756a0aedbad26a953a2607ddd22138c105a2c3e014f253b10b5675fb356af"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/major-18-moon-v2.json",
+      "size_bytes": 883,
+      "sha256": "2637962d81be5705ff17cabf61d718ab64205ee7c7a6a843793de501b53bb610"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/major-19-sun-v2.json",
+      "size_bytes": 902,
+      "sha256": "5dfa5014f6590d7e3ca7946c25b8eb596d6dfce69621bc5e618e0ef0f4d0b48b"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/major-20-judgement-v3.json",
+      "size_bytes": 1052,
+      "sha256": "bc3216baf4630e7705b6207ab204afb5f7a562f51c6de1840f5124b5c8517ba7"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-cups-ace-v1.json",
+      "size_bytes": 2144,
+      "sha256": "04db693bb77a5c9e52f03777e3c4155730034da5b6a4fe1446b8f3413c95259a"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-cups-eight-v2.json",
+      "size_bytes": 957,
+      "sha256": "f36558a278b2852b67b95cd7444ebe7b6b2a9f0c53ca10f7fa807eacd0beeb05"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-cups-five-v1.json",
+      "size_bytes": 2211,
+      "sha256": "1ca4aadf05fe2e208705cff0d28af23f4b123ac2e6516fd88288c1456c0d3386"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-cups-four-v1.json",
+      "size_bytes": 2161,
+      "sha256": "049340ec2a8af804db08644051144f76530354ec3518a4989e57958ba93ad9f5"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-cups-king-v1.json",
+      "size_bytes": 2103,
+      "sha256": "f748a0cc3d4c31311ea45d82e6ebc9cb15c21ceb976570c0fe3342a3c6ffcfb8"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-cups-knight-v1.json",
+      "size_bytes": 2099,
+      "sha256": "e4ca0e5508b13816f3c355dc304718c210aea932f7545174f83f8d51eefd495f"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-cups-nine-v3.json",
+      "size_bytes": 1136,
+      "sha256": "067a32077cc616d7c840b0cf74bb2d176b4ed0460b8265cee461436e0aba3a13"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-cups-page-v1.json",
+      "size_bytes": 2117,
+      "sha256": "7f929ca43695b960acdecb964ee7138e1de6853317dd07864ed0f803b03b0f1e"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-cups-queen-v1.json",
+      "size_bytes": 2084,
+      "sha256": "81875deb1b8bc44ce94c9acc164340ed24a6f5328561aca98f7303d167e1531d"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-cups-seven-v1.json",
+      "size_bytes": 2233,
+      "sha256": "63def83d5fc16b3fc3441b02bcecb109556545c1ac9b7d5a1d4c1374100f08b8"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-cups-six-v1.json",
+      "size_bytes": 2228,
+      "sha256": "41aa62f49400d80bfeee99d0563224dfa44007e5e1850e11cd2d26f1b4247ca4"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-cups-ten-v1.json",
+      "size_bytes": 2026,
+      "sha256": "52fd3410092636f99f2d6b4682949186e6b4a616a280eae55a9d1e8e681b9adc"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-cups-three-v1.json",
+      "size_bytes": 2212,
+      "sha256": "4a122b7d7af510e829601d2b5f9fdde656dc9dc902bbd48f9141ccac66e0e89b"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-cups-two-v4.json",
+      "size_bytes": 929,
+      "sha256": "da6c334cff1c42cf040c80667ce0c4f3c232eb2b9fb6e460ebe9a9af6600722f"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-pentacles-ace-v1.json",
+      "size_bytes": 2667,
+      "sha256": "241c23c5bcc0026afdde55cd3c97dd4f9dcbbc9e8ec042ecfd4b4763873af0d4"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-pentacles-eight-v1.json",
+      "size_bytes": 2502,
+      "sha256": "e42f2935cf2c06909a338df12ecd5ed17e9c493404eaee7979f8aaa43b281844"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-pentacles-five-v1.json",
+      "size_bytes": 2466,
+      "sha256": "a37a711c812f7d2cb6d2a5a76c7cc6f629e28b3fcc46d023a55d874d21ec9c57"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-pentacles-four-v1.json",
+      "size_bytes": 2461,
+      "sha256": "7fcf035dc5ffe56d157c8ac73c689be3259444b5ba4b8683d2568125e2a6d1d6"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-pentacles-king-v1.json",
+      "size_bytes": 2394,
+      "sha256": "5a3d16f59910bb9a2536a68e432c42174254251ba7821ed92fb7a4ee335f8453"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-pentacles-knight-v1.json",
+      "size_bytes": 2440,
+      "sha256": "03c59a44898c9f6799d8ab66f87ac7742311d5867694d56d9c74a791359ef45d"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-pentacles-nine-v5.json",
+      "size_bytes": 1076,
+      "sha256": "9b8b117d08e10666f8844a482b30ee2164b33e7a709523b90a0b942123fdb867"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-pentacles-page-v1.json",
+      "size_bytes": 2400,
+      "sha256": "c7460d0c2516090e0859aed6335b0598d629a9e421217d55716a04168c9e5a97"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-pentacles-queen-v1.json",
+      "size_bytes": 2429,
+      "sha256": "ec2f49c883cb467b86722706a103bf531aebf40d43b3f70452ce368828314208"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-pentacles-seven-v1.json",
+      "size_bytes": 2450,
+      "sha256": "c6b6e73b06fa2ef68091cc47c6fc6164009c8d543ed849659c4b717ad824c2e4"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-pentacles-six-v1.json",
+      "size_bytes": 2506,
+      "sha256": "a7050f8c5ae450a938933493e3c828b3f5f30f5a30d54b7c0783316d8e052856"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-pentacles-ten-v2.json",
+      "size_bytes": 1070,
+      "sha256": "4f7c098f7df29e2e8f1958d9152a80e9843f6cb65cff35b2cf3172f03b57c181"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-pentacles-three-v1.json",
+      "size_bytes": 2491,
+      "sha256": "9c9c62d02e3cde0e8457b39b1eb52e65d06e83dbf4665d1824c0b8d78f880639"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-pentacles-two-v1.json",
+      "size_bytes": 2757,
+      "sha256": "66fee0a4c729cd6cadcbb494f832400afb3a8b8a47773c7da4b810e1c5bdd3a9"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-swords-ace-v1.json",
+      "size_bytes": 2391,
+      "sha256": "f1c88aa36a2b9f8fd6836fb6f20c3ce3f17f43dfef530482becd8e5b69c83d62"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-swords-eight-v1.json",
+      "size_bytes": 2509,
+      "sha256": "66161a317323235147e9d4c127a27ab5978a8f3a073bbedbc6c84ece596e60ef"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-swords-five-v1.json",
+      "size_bytes": 2528,
+      "sha256": "1ebf4f8bc1951a38aa3b8a78b879f5801f2d5995fa98256a9b3f841fa63e44f6"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-swords-four-v1.json",
+      "size_bytes": 2528,
+      "sha256": "05ffdbd200a64afb41d0d4989983dce624f3301bbcd690a518a6ad25b6558c77"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-swords-king-v1.json",
+      "size_bytes": 2166,
+      "sha256": "4af67169f8aa2c6113890872ef2bee3cc2137bcc5bb90777619dcdec0faea891"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-swords-knight-v1.json",
+      "size_bytes": 2155,
+      "sha256": "9733c345c7b1161df4d31c6867eb7ea3c1085922e5fc02a0525af9faae110461"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-swords-nine-v1.json",
+      "size_bytes": 2494,
+      "sha256": "a871e6e6ec98f27fef6dc40dc9461eeb839094b20d50fd5ccd9f1bb849cb6065"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-swords-page-v1.json",
+      "size_bytes": 2116,
+      "sha256": "2fe0ae34d4fd25f08d26202b01c4c8944fd111395ff288cd6db0b083fc6be1e7"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-swords-queen-v1.json",
+      "size_bytes": 2145,
+      "sha256": "b114b3eec45e210907768cd9ca0c7a3d17505c91899762ba34dc90fcced3680d"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-swords-seven-v2.json",
+      "size_bytes": 981,
+      "sha256": "1d70f8c3b8cbc6a9b1039063a601628474973b3e0456e0f006b9d04892c6a7f2"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-swords-six-v2.json",
+      "size_bytes": 926,
+      "sha256": "cca8a850d122a302bdb85a43cd09c53704efacb4e1c9ff970cd41c425eaa3120"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-swords-three-v2.json",
+      "size_bytes": 1078,
+      "sha256": "5a64302b81ee81c01ef6a2e7f5e235df17d8e1b3196ad8275280866338d5b0bc"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-swords-two-v2.json",
+      "size_bytes": 967,
+      "sha256": "8ed9a49c4961f00bec7a7b219cca79de2fa2070559b1647680cdf9fd410de08e"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-wands-ace-v2.json",
+      "size_bytes": 959,
+      "sha256": "6939550011132c18f91fffbaf18fa8f8e411c840c1a3e84672717d3ed9fb92c3"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-wands-eight-v2.json",
+      "size_bytes": 1041,
+      "sha256": "e2e19e5b6ce3074aa2e199a2053161fcccd5a6465186b38b5e5c8f50b8626e65"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-wands-five-v3.json",
+      "size_bytes": 3368,
+      "sha256": "1ba91d784f33abe4da823eb9a2cc779484674a4043c038d82fadc34c36a72011"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-wands-four-v1.json",
+      "size_bytes": 2138,
+      "sha256": "d97c9417403444450527f85b1ff6766c05cfcd8ad7d3c75ffda34120e5f306a3"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-wands-king-v1.json",
+      "size_bytes": 2375,
+      "sha256": "34bad383bb7ed30b40bd9144dce004fbc0219e2273b2cf68d0ba63a439b53ef0"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-wands-knight-v1.json",
+      "size_bytes": 2396,
+      "sha256": "b31af37385e3fec7bb15fc77555fa70f3cdc1734841de18c1dec6522c36830cf"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-wands-nine-v1.json",
+      "size_bytes": 2342,
+      "sha256": "78a4dd8c82d6dc6c8c74c8ec806d5b5f0876ff3d4b27816bdcdc778690c479f9"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-wands-page-v1.json",
+      "size_bytes": 2359,
+      "sha256": "a1921e84101811c9b7104febbf596bafa20020d19646fa4fcafd8946be4b4a9d"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-wands-queen-v1.json",
+      "size_bytes": 2435,
+      "sha256": "b1e4ef0557fbf2f60822007277f7170d28ec0860db8035856920eab4bcf86ad4"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-wands-seven-v1.json",
+      "size_bytes": 2305,
+      "sha256": "ca6bfad0ed98ae296a5e0a13d3cb4b347cdb9c81e7247b306ae992eac2f296b5"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-wands-six-v2.json",
+      "size_bytes": 3308,
+      "sha256": "aaa4a97517c469a48050d167c2d13d7987f695f1b0a98aa0608f4910bab374c8"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-wands-ten-v5.json",
+      "size_bytes": 3617,
+      "sha256": "62a325c0101730b5908d05565dde983f0e043d41beb1fb75ef0de464e4526741"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-wands-three-v1.json",
+      "size_bytes": 2117,
+      "sha256": "44049ad337dd2abdabed3b3f4247d7f0867ce8da5265b613c5634c409e006bd4"
+    },
+    {
+      "path": "nilaza-tinh-quang-production/receipts/minor-wands-two-v1.json",
+      "size_bytes": 2108,
+      "sha256": "35aaa2f081c32c3ec43e90f1291805896be14033be1cc7a135ed01cfb8dff80e"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/STAGING-STATUS.json",
+      "size_bytes": 444,
+      "sha256": "098a13be6f4dc33cb4f7337a2e890a15c07cbc00d15a65da9827a0d6cca1e539"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/deck-backs/tinh-quang.png",
+      "size_bytes": 502366,
+      "sha256": "d1933038e9fbb29c6795c83501f8fab50ea676d3eb9e9859334e3ab4daf2aad9"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/deck-covers/tinh-quang.png",
+      "size_bytes": 3359550,
+      "sha256": "331bf9fc7769a080b29f9c4f8a14fccc1b8fd7a2e74d84baafc8d7fdca7a48af"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-00-fool.png",
+      "size_bytes": 1675818,
+      "sha256": "a7d8eac2788e6a06e71b6c6ea988c423417a3fc46c59db2ac8b81155e3b5757a"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-01-magician.png",
+      "size_bytes": 1632446,
+      "sha256": "958f63ca3548e49c0149defaa2aad7f833c78503761fdf343cbab6298024f82e"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-02-high-priestess.png",
+      "size_bytes": 1700574,
+      "sha256": "67c7d594a583ed8ce27a5ddbdb63773c4e0a914e3ff85961cd9a1587586d041e"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-03-empress.png",
+      "size_bytes": 1742520,
+      "sha256": "60f90d6ee759dfa555afc1e240bb5ae548498e4e19a28ce18c472bb3581b791b"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-04-emperor.png",
+      "size_bytes": 1668314,
+      "sha256": "aa1d30395507db088065caea378d99c3f9c0a70850fcaa88c06d425459bfe409"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-05-hierophant.png",
+      "size_bytes": 1596602,
+      "sha256": "fb0729a785c6638b8a203d5d680aaac804e02e7eaeaa0d68fabe3137e8408b66"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-06-lovers.png",
+      "size_bytes": 1718094,
+      "sha256": "b147a995153f03ada9058f467066e85d0e6d570a31ad27e12ad3323d59ee1da7"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-07-chariot.png",
+      "size_bytes": 1631181,
+      "sha256": "8b9d54e13e81b4e2254a8a2aafc5d47fdf320cd2732a0f888d28e41d5891d516"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-09-hermit.png",
+      "size_bytes": 1738131,
+      "sha256": "fe38b4c090986b32a851cd902e9fd5190ed3c2bdb48e11117e4852d971fad379"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-10-wheel.png",
+      "size_bytes": 1787281,
+      "sha256": "d5e463cec7f6bd68ad08b6e7ec668e392b49049653b6598fa115af992cf07353"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-11-justice.png",
+      "size_bytes": 1652313,
+      "sha256": "57c9e1368e30c7ac7d819bcd5ddaec79ce8e2d6367289873343bd5122a5abb91"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-12-hanged-man.png",
+      "size_bytes": 1694260,
+      "sha256": "bde223636c91960001cde7081cff88f1d7cdd823be8f56864d69e2b562c7fef5"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-13-death.png",
+      "size_bytes": 1701755,
+      "sha256": "4d80f16088d28cab532761a03c31f4d32b32a16042bff2825303260036b96fb8"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-14-temperance.png",
+      "size_bytes": 1623902,
+      "sha256": "3375f4b0960516f17748c96c6859d681d89000eedcadddd0bb5ea880f6323623"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-15-devil.png",
+      "size_bytes": 1692283,
+      "sha256": "62f59279e68e52a5d2768a8fe271d7620f64235fae25950e770827ee4c1a13ba"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-16-tower.png",
+      "size_bytes": 1666547,
+      "sha256": "678dee64ca4243292b5b6154349d620cf19bfa14a1f5b94c270aa4a400968cc3"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-17-star.png",
+      "size_bytes": 1574445,
+      "sha256": "ca2b33df47c840565b5e22165ec4e91c32d544529b268daa832c205194ed3657"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-18-moon.png",
+      "size_bytes": 1715521,
+      "sha256": "a9ea588323189be9aabe50858020b10ced881a9924e7bc690ba0d3a82b3f4ebd"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-19-sun.png",
+      "size_bytes": 1647149,
+      "sha256": "68f1addacf400a007a0f703d14ecf6028d44ec526b92a2b9930bc9f874fe8fb4"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/major-20-judgement.png",
+      "size_bytes": 1623832,
+      "sha256": "fa708d025611fe71f9b7fb9227dbca44811f2e638cb321400d89dcaa12d741ef"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-ace.png",
+      "size_bytes": 1655721,
+      "sha256": "a8da1ab98e4e09bd03008fbd2709aa87b78d87b9933bd15f82a5db1032507900"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-eight.png",
+      "size_bytes": 1597233,
+      "sha256": "ca45f24110c7d6b44400cf9495ec4389af99c2c0e9f6878f28bdf1c49dd95495"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-five.png",
+      "size_bytes": 1647517,
+      "sha256": "9a7b0f2449ead2f3e9514f47ab24da27ae852772629afdfae11de22d1547edde"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-four.png",
+      "size_bytes": 1694427,
+      "sha256": "9148bc64782a6a40afa24ee1b96ab17a9ce6bc0c63fc8adbb36808018ef59cab"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-king.png",
+      "size_bytes": 1704856,
+      "sha256": "56544bf8b7dfb32c18921a286db700b0a4ab5762e75e4a58b1d2ef05c447f903"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-knight.png",
+      "size_bytes": 1692918,
+      "sha256": "9533e05ef2725f1a02aee777e0b548bbc059a9f4897e1b40ebc785163cb23aad"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-nine.png",
+      "size_bytes": 1595469,
+      "sha256": "91d3a11af2cb5025e015bc2c8ce47e512f06169558bfeecf17f9876a0ea9ad8c"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-page.png",
+      "size_bytes": 1684841,
+      "sha256": "1df64386f4ed985fe30de1a6604859e1d3489d434aedfc4cd94db38dd6e96e3f"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-queen.png",
+      "size_bytes": 1668576,
+      "sha256": "e801de33b517237b11bc1d5e1bf795ac4d49ad57b333662483e20eed0afe0bf3"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-seven.png",
+      "size_bytes": 1713391,
+      "sha256": "b3db6c3b10cf06549dba3d90b79d54844841ef57442fc23354ab04a8fc18177f"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-six.png",
+      "size_bytes": 1688850,
+      "sha256": "86c62bfac87ab15d0c565af82228a2c233592ee34a29b3f75ca7464184ce98f8"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-ten.png",
+      "size_bytes": 1644477,
+      "sha256": "1409c41ac698cad981d80909e0d20e1d570e7a45105bb1c9928e2c051df0bddc"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-three.png",
+      "size_bytes": 1653104,
+      "sha256": "3be04f1214f09ad49fe6a3b39fd41039e691a5ed5dfa2958a82966cb3a59b64d"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-cups-two.png",
+      "size_bytes": 1410150,
+      "sha256": "178275277b7ada53b009891ea79b0d29f56bd7655f994ad0d035f23094f22877"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-pentacles-ace.png",
+      "size_bytes": 1686945,
+      "sha256": "33bcb85aa33f1aaa4c19b0a4a5e58a864f0240bb2efe0dd9cbc28ba8e7772d23"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-pentacles-eight.png",
+      "size_bytes": 1613664,
+      "sha256": "500d233b2fa7d8ee26cf079b98cc880cd5186d3e2e26b405d795b238d3750961"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-pentacles-five.png",
+      "size_bytes": 1679216,
+      "sha256": "11b737b941506fac5f78c042afca39e9f13608813e0d25d0549f367a4592c302"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-pentacles-four.png",
+      "size_bytes": 1706186,
+      "sha256": "a1647b488dbaa7d49f6fe94241c27f31f4d884e5c71b6134046bab2534ff0782"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-pentacles-king.png",
+      "size_bytes": 1651761,
+      "sha256": "c6c8f68cfc0f49ecedf71bfcd2e986bcc46093d4c0356cc32fbef41203b0c850"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-pentacles-knight.png",
+      "size_bytes": 1652855,
+      "sha256": "5a22c4a17926e82f253e56d420e2613220a898dc5eca6bd73caa32e3cf38e532"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-pentacles-nine.png",
+      "size_bytes": 1557747,
+      "sha256": "df07a30f6164b8bb20f8f6f4c8c41f527c02421610d605baeee71aa325a6bd40"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-pentacles-page.png",
+      "size_bytes": 1659489,
+      "sha256": "c4707eb9b765a59cf1e527433a08f1314c4a71de25f6ed57f6aef8569b60dafe"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-pentacles-queen.png",
+      "size_bytes": 1696313,
+      "sha256": "63134e794d2b75ba4acebf26752b4ddbf38f19c29f146bbad74d1e25ccca44e3"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-pentacles-seven.png",
+      "size_bytes": 1682652,
+      "sha256": "90da432b9938db0ccf8546fbf36e4b030aff80df5997f2f82465af603bd3c534"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-pentacles-six.png",
+      "size_bytes": 1689342,
+      "sha256": "cdbe3acc82ce9166086c504dd088a513accbba8e5b7bef7579a24a73253caff3"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-pentacles-ten.png",
+      "size_bytes": 1618015,
+      "sha256": "32276bc16f99e2b17f67eeb143a615eaf7cefd09bbdde3daa9ea9c5d64d05ee5"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-pentacles-three.png",
+      "size_bytes": 1631331,
+      "sha256": "084fadd522126a36d92f220af95fcb83b920838c7ebd63ded6010bcd49689cc0"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-pentacles-two.png",
+      "size_bytes": 1706728,
+      "sha256": "a92995d5c13814a7d8a42c4631b0ce0126101c10f3616b00400899f5648c0f98"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-swords-ace.png",
+      "size_bytes": 1644976,
+      "sha256": "dd286447c442ab7e2e5076b83dacc37c086b4f89eea73276711f9bd4ac933fda"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-swords-eight.png",
+      "size_bytes": 1725314,
+      "sha256": "f783026473ab02491d139b93c010e7bea05d0b2752ddc6ba7d0f5a145b81207c"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-swords-five.png",
+      "size_bytes": 1734756,
+      "sha256": "c28245c34cc6ae94726070767d7b4d578c7ed3448dd5e86a100a24ccdd3024c3"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-swords-four.png",
+      "size_bytes": 1614523,
+      "sha256": "de1f82b0bb0412c0d34c7291e639fdc9cba9443d9eb39679ca476bce45e53c74"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-swords-king.png",
+      "size_bytes": 1604151,
+      "sha256": "5c876f9044f65338647e2d4dbd2009b69e365b91be8926cd806bab3b75061c18"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-swords-knight.png",
+      "size_bytes": 1731317,
+      "sha256": "aa3c31e663e5dccffbc514ed07650f3f90200ff23647f38609022f3a46cf26bf"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-swords-nine.png",
+      "size_bytes": 1489276,
+      "sha256": "cb97dbe60c8d10572d75e8f1521908ca5240bb40039f16af6d56da6f3be1c70b"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-swords-page.png",
+      "size_bytes": 1700164,
+      "sha256": "f3fb1af874697f52a9b984ca75b5f4405c4e2117ab3a2ee9ce4fdf144f41a7a4"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-swords-queen.png",
+      "size_bytes": 1656078,
+      "sha256": "7e343775d178869482307ebe1525dfe6d7bcbb8553dd0bdeefa68ecf0ffe035d"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-swords-seven.png",
+      "size_bytes": 1645953,
+      "sha256": "012625fe10a1fe34a47c0a5007b8c373dae722c6a69ab2829713570a508df0fc"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-swords-six.png",
+      "size_bytes": 1551165,
+      "sha256": "a36a583624b846b875c396aaa0f0101ffa2c3d9436baf741be075f9bd14aa590"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-swords-three.png",
+      "size_bytes": 1594632,
+      "sha256": "f1a06e95dfa977b0b674033ef4627035c32b7adbf6c18f617dd7b08b8fe2b7b0"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-swords-two.png",
+      "size_bytes": 1587600,
+      "sha256": "9c093787124be9d6a8028c14eda5946e082846e01447ab5ec1ad60eba6325209"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-wands-ace.png",
+      "size_bytes": 1544999,
+      "sha256": "ef36c471218ce7da4c3bbb93e7bb2ee6a1ac789147d54ae4d5bb18321ad57bfb"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-wands-eight.png",
+      "size_bytes": 1526710,
+      "sha256": "888c43694641baa96401cf859775cfbb426bf9dad79b0e81b52e113dc8de20f0"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-wands-five.png",
+      "size_bytes": 1625281,
+      "sha256": "82ad14b8206dbd9517c5c8625696edab7decdfdd28f098ecb24f231fc9c411ca"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-wands-four.png",
+      "size_bytes": 1679732,
+      "sha256": "d620c5e10a19c5d07c48301e0295ac517ecaa28392cbf7457f1bff443ea5050a"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-wands-king.png",
+      "size_bytes": 1667024,
+      "sha256": "3f6166b80d5ae803fb150e1230ef9b71972e729658cf9c63af836944c91ab040"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-wands-knight.png",
+      "size_bytes": 1702961,
+      "sha256": "42dc7fbded8c775781a7ed2260f0734fa1f35bc3415262032a637da496974628"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-wands-nine.png",
+      "size_bytes": 1676695,
+      "sha256": "6be50ffccb88870850256709188a56881c941f61517768f335132d0b1f6b19c2"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-wands-page.png",
+      "size_bytes": 1677581,
+      "sha256": "1793b9e4b3ce76e257dc03be432873b449a419d71834204fcb2aaeb613ea48de"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-wands-queen.png",
+      "size_bytes": 1639877,
+      "sha256": "52c6785128e119bb8b5eef85283ad52abc21a2000d7826da45f3c54dfe4494bf"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-wands-seven.png",
+      "size_bytes": 1650815,
+      "sha256": "4d570465d3021b1380ce3010ffa4a9d90ddf6b1251ca502dcfa2ecdb2df68e02"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-wands-six.png",
+      "size_bytes": 1535099,
+      "sha256": "5958549b8e80eb7cd45c2b84837b0b205f05e473e68842e996950a231f500dc9"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-wands-ten.png",
+      "size_bytes": 1495546,
+      "sha256": "4cf8190131d12cb31edd3e70be969def8e7b834735d94167187acc16c6caaed5"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-wands-three.png",
+      "size_bytes": 1627569,
+      "sha256": "6f380420ed8d58cfbafdcf6167aacd726967748ca6c858dbe514c34f606559bb"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/artwork/minor-wands-two.png",
+      "size_bytes": 1637294,
+      "sha256": "32cdf1b74e621099e7351385fcfd9b3dc5c9acbea63fc3831b0a4d9cb8378910"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/card-spec.json",
+      "size_bytes": 1111,
+      "sha256": "c3004856345a8c5fb9244a8fbe7121a1e1ff4a0ca79dfa8850ce98eaebbaca26"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/assets/tarot/tinh-quang/tinh-quang-full-deck-manifest.json",
+      "size_bytes": 193421,
+      "sha256": "3c1e8f2b097d85f8f812e81612c872840352722ed04b96c6bae13f74424b8f75"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/normalization-evidence.json",
+      "size_bytes": 51257,
+      "sha256": "e47a4f684dff274e83bb1d31df5adf8549fec7c0e288fd2cb03215f37b557a11"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/normalization-inputs.json",
+      "size_bytes": 26147,
+      "sha256": "ce8896fdb763c0aab2fb44aa5be117fdc5e292f843eba2a03fa79d1090b708fc"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/normalization-run.txt",
+      "size_bytes": 5114,
+      "sha256": "cc20b88adf27cc4cc4e123463c9fe4eb3d550317baf833878b323a68be84470c"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/original-tooling-integrity.json",
+      "size_bytes": 759,
+      "sha256": "e35401131e5cc48f01136ef033bad945f06ef4f38e7c41cfadf31b00fbfb9e11"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/packages/content/data/tarot-card-designs.json",
+      "size_bytes": 917386,
+      "sha256": "9df8aa71f79b9989d6dbe54ec5840df2ed591f00faa68a3672d16c0fe4da9673"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/packages/content/data/tarot-cards.json",
+      "size_bytes": 184409,
+      "sha256": "2688f997eb10bfcf5a59107b5ff09b7034168eb8a1ca39ac165df2cb192a6865"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/packages/content/data/tarot-deck-backs.json",
+      "size_bytes": 8789,
+      "sha256": "76008c6b386614339331b199605f36bb8919f37cd93a5ef358212e6c876e6f51"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/packages/content/data/tarot-decks.json",
+      "size_bytes": 76939,
+      "sha256": "01bab80b5ab16535f207489451e80c4e3d9c0297614c653bfac69eded3abc11a"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/reports/render_proof_guarded.py",
+      "size_bytes": 1072,
+      "sha256": "23b796e44526b415c80e3a88695d095a251b2e3a34f37e2ed516dbc0863c583b"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/scripts/normalize_tarot_artwork.py",
+      "size_bytes": 4310,
+      "sha256": "0d96afab0513a7fae540110bc2cd96fb417b2a57de883adc4e852e1f1cebd143"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/scripts/render_tarot_cards.py",
+      "size_bytes": 12579,
+      "sha256": "bd58d7cb2d36dd653c8b06934ecdd16facf79f8eaebc880f3b717a4f2985e87f"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/scripts/tarot-deck-quality-gate.mjs",
+      "size_bytes": 26980,
+      "sha256": "6bca9968a025b7f662a0685e146d3ec303f9dd14c2964f79cb6b9307517e9c21"
+    },
+    {
+      "path": "tinh-quang-pre-render-staging/scripts/validate_tarot_assets.py",
+      "size_bytes": 3207,
+      "sha256": "b5f8393deb2ae46862874cf81c844c26c218bbd88b55c61f118b4177db86dd16"
+    }
+  ]
+}

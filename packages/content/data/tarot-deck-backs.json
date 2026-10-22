@@ -1,0 +1,252 @@
+[
+  {
+    "id": "moon-garden-back",
+    "deckId": "moon-garden",
+    "status": "ready_for_mvp",
+    "assetPath": "assets/tarot/deck-backs/moon-garden.png",
+    "cardSize": {
+      "width": 1024,
+      "height": 1768
+    },
+    "safeArea": {
+      "x": 96,
+      "y": 128,
+      "width": 832,
+      "height": 1512
+    },
+    "usage": {
+      "vi": "Hiển thị mặt sau bộ bài trong màn chờ người dùng chạm để rút bài.",
+      "en": "Show the deck back while the user is waiting to tap and draw cards."
+    },
+    "visualDirection": {
+      "vi": "Nền giấy than đen, trăng khuyết, chấm sao và nụ hoa đêm teal, viền vàng champagne nhiều lớp.",
+      "en": "Charcoal paper, crescent moon, small stars and teal night-flower buds, layered champagne-gold border."
+    },
+    "qualityChecks": [
+      "1024x1768",
+      "same_ratio_as_tarot_cards",
+      "no_text",
+      "safe_area_clear",
+      "deck_style_matched"
+    ]
+  },
+  {
+    "id": "rose-mirror-back",
+    "deckId": "rose-mirror",
+    "status": "ready_for_mvp",
+    "assetPath": "assets/tarot/deck-backs/rose-mirror.png",
+    "cardSize": {
+      "width": 1024,
+      "height": 1768
+    },
+    "safeArea": {
+      "x": 96,
+      "y": 128,
+      "width": 832,
+      "height": 1512
+    },
+    "usage": {
+      "vi": "Hiển thị mặt sau bộ bài trong màn chờ người dùng chạm để rút bài.",
+      "en": "Show the deck back while the user is waiting to tap and draw cards."
+    },
+    "visualDirection": {
+      "vi": "Nền than đen pha hồng trầm, gương oval cổ, dấu cánh hồng khô và ánh vàng ấm như nến.",
+      "en": "Charcoal with muted rose, antique oval mirror, dried-petal marks, and warm candle-gold accents."
+    },
+    "qualityChecks": [
+      "1024x1768",
+      "same_ratio_as_tarot_cards",
+      "no_text",
+      "safe_area_clear",
+      "deck_style_matched"
+    ]
+  },
+  {
+    "id": "golden-thread-back",
+    "deckId": "golden-thread",
+    "status": "ready_for_mvp",
+    "assetPath": "assets/tarot/deck-backs/golden-thread.png",
+    "cardSize": {
+      "width": 1024,
+      "height": 1768
+    },
+    "safeArea": {
+      "x": 96,
+      "y": 128,
+      "width": 832,
+      "height": 1512
+    },
+    "usage": {
+      "vi": "Hiển thị mặt sau bộ bài trong màn chờ người dùng chạm để rút bài.",
+      "en": "Show the deck back while the user is waiting to tap and draw cards."
+    },
+    "visualDirection": {
+      "vi": "Nền teal thẳm có texture giấy lưu trữ, mạng hình học đối xứng như sợi chỉ vàng qua vòng tròn và tam giác.",
+      "en": "Deep teal archival paper, with a symmetrical geometric network like gold thread across circles and triangles."
+    },
+    "qualityChecks": [
+      "1024x1768",
+      "same_ratio_as_tarot_cards",
+      "no_text",
+      "safe_area_clear",
+      "deck_style_matched"
+    ]
+  },
+  {
+    "id": "star-seeker-back",
+    "deckId": "star-seeker",
+    "status": "ready_for_mvp",
+    "assetPath": "assets/tarot/deck-backs/star-seeker.png",
+    "cardSize": {
+      "width": 1024,
+      "height": 1768
+    },
+    "safeArea": {
+      "x": 96,
+      "y": 128,
+      "width": 832,
+      "height": 1512
+    },
+    "usage": {
+      "vi": "Hiển thị mặt sau bộ bài trong màn chờ người dùng chạm để rút bài.",
+      "en": "Show the deck back while the user is waiting to tap and draw cards."
+    },
+    "visualDirection": {
+      "vi": "Nền tím đậm đính sao lấp lánh, một vòng tròn ma thuật phong cách anime phát sáng màu hồng neon ở tâm, được bao quanh bởi các ký hiệu bầu trời sao.",
+      "en": "Deep violet starfield base, a central anime-styled magic circle glowing in neon pink, surrounded by star-symbolic glyphs."
+    },
+    "qualityChecks": [
+      "1024x1768",
+      "same_ratio_as_tarot_cards",
+      "no_text",
+      "safe_area_clear",
+      "deck_style_matched"
+    ]
+  },
+  {
+    "id": "stellar-mosaic-back",
+    "deckId": "stellar-mosaic",
+    "status": "ready_for_mvp",
+    "assetPath": "assets/tarot/deck-backs/stellar-mosaic.png",
+    "cardSize": {
+      "width": 1024,
+      "height": 1768
+    },
+    "safeArea": {
+      "x": 96,
+      "y": 128,
+      "width": 832,
+      "height": 1512
+    },
+    "usage": {
+      "vi": "Hiển thị mặt sau bộ bài trong màn chờ người dùng chạm để rút bài.",
+      "en": "Show the deck back while the user is waiting to tap and draw cards."
+    },
+    "visualDirection": {
+      "vi": "Nền tím thạch anh thẫm, huy hiệu học viện tinh tú phát sáng màu vàng và tím ở trung tâm, bao quanh bởi chòm sao.",
+      "en": "Deep amethyst base, a glowing gold and violet Stellar Academy crest at the center, surrounded by constellations."
+    },
+    "qualityChecks": [
+      "1024x1768",
+      "same_ratio_as_tarot_cards",
+      "no_text",
+      "safe_area_clear",
+      "deck_style_matched"
+    ]
+  },
+  {
+    "id": "astral-pop-atelier-back",
+    "deckId": "astral-pop-atelier",
+    "status": "ready_for_mvp",
+    "assetPath": "assets/tarot/deck-backs/astral-pop-atelier.png",
+    "cardSize": {
+      "width": 1024,
+      "height": 1768
+    },
+    "safeArea": {
+      "x": 96,
+      "y": 128,
+      "width": 832,
+      "height": 1512
+    },
+    "usage": {
+      "vi": "Hiển thị mặt sau bộ bài trong màn chờ người dùng chạm để rút bài.",
+      "en": "Show the deck back while the user is waiting to tap and draw cards."
+    },
+    "visualDirection": {
+      "vi": "Mặt sau bài Astral Pop Atelier, kích thước 1024 x 1768px, cùng tỷ lệ với lá tarot đã render. Nền charcoal và ink indigo có texture giấy mịn, trung tâm là biểu tượng cửa sổ atelier hình vòm nhìn ra một chòm sao cyan-coral, các charm nhỏ như ngôi sao, tai nghe pha lê, bút ánh sáng và đồng xu sao xoay thành quỹ đạo mềm. Viền champagne gold nhiều lớp, silhouette rõ khi thu nhỏ trên màn rút bài. Không chữ, không số, không biểu tượng Rider-Waite.",
+      "en": "Astral Pop Atelier card back, 1024 x 1768px, matching the rendered tarot-card ratio. Use charcoal and ink-indigo paper texture, a central arched atelier window opening onto a cyan-coral constellation, with small charms such as stars, crystal headphones, a light pen, and star coins orbiting softly. Layered champagne-gold border, clear silhouette when scaled down on the draw screen. No text, no numbers, no Rider-Waite symbols."
+    },
+    "qualityChecks": [
+      "1024x1768",
+      "same_ratio_as_tarot_cards",
+      "no_text",
+      "safe_area_clear",
+      "deck_style_matched"
+    ]
+  },
+  {
+    "id": "classic-arcana-back",
+    "deckId": "classic-arcana",
+    "status": "ready_for_mvp",
+    "assetPath": "assets/tarot/deck-backs/classic-arcana.png",
+    "cardSize": {
+      "width": 1024,
+      "height": 1768
+    },
+    "safeArea": {
+      "x": 96,
+      "y": 128,
+      "width": 832,
+      "height": 1512
+    },
+    "usage": {
+      "vi": "Hiển thị mặt sau đối xứng của bộ Classic Arcana trong màn chờ người dùng chạm để rút bài.",
+      "en": "Show the symmetrical Classic Arcana card back while the user waits to tap and draw."
+    },
+    "visualDirection": {
+      "vi": "Giấy ngà ấm, khung in hoa lá, Cốc, Pentacle, Kiếm bắt chéo và hoa thị đặt đối xứng để mặt sau không đổi chiều khi lật.",
+      "en": "Warm ivory paper, a floral print border, cups, Pentacles, crossed Swords, and a centered rosette arranged symmetrically so the back reads in either orientation."
+    },
+    "qualityChecks": [
+      "1024x1768",
+      "same_ratio_as_tarot_cards",
+      "no_text",
+      "safe_area_clear",
+      "deck_style_matched",
+      "rotationally_symmetric"
+    ]
+  },
+  {
+    "id": "celestial-reverie-back",
+    "deckId": "celestial-reverie",
+    "status": "ready_for_mvp",
+    "assetPath": "assets/tarot/deck-backs/celestial-reverie.png",
+    "cardSize": {
+      "width": 1024,
+      "height": 1768
+    },
+    "safeArea": {
+      "x": 96,
+      "y": 128,
+      "width": 832,
+      "height": 1512
+    },
+    "usage": {
+      "vi": "Mặt sau của bộ Tinh Quang cho trạng thái rút bài.",
+      "en": "Celestial Reverie card back for the draw state."
+    },
+    "visualDirection": {
+      "vi": "Họa tiết vector thiên thể vàng cổ trên teal đêm, tán lá ngà; đối xứng hình học 180 độ.",
+      "en": "Antique-gold celestial vector on midnight teal with ivory foliage; 180-degree geometric symmetry."
+    },
+    "qualityChecks": [
+      "1024x1768",
+      "same_ratio_as_tarot_cards",
+      "no_text",
+      "safe_area_clear",
+      "deck_style_matched",
+      "rotationally_symmetric"
+    ]
+  }
+]

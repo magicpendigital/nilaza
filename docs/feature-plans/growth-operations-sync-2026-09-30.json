@@ -1,0 +1,275 @@
+{
+  "schemaVersion": 1,
+  "taskId": "growth-operations-sync-2026-09-30",
+  "ownerAgent": "nilaza-growth-operations-owner",
+  "lane": "admin_growth_content_operations",
+  "goal": "Connect the existing draft-only Growth framework to Admin and synchronize evidence, claims, unfinished work and future gates with the reviewed Nilaza source state.",
+  "successCriteria": [
+    "Growth shows product evidence and limits, twelve bilingual concept drafts, measurement gaps and an actionable prioritized roadmap from canonical repository sources.",
+    "Repository readiness remains visible when live waitlist aggregates fail; synthetic counts require an explicit review action and a retry can restore the live source.",
+    "Waitlist metrics distinguish unique contact records, suppression reasons and confirmed pools from actual send eligibility; unavailable denominators never appear as zero conversion.",
+    "Updated Astrology and Tarot copy carries current evidence and pending editorial review; no automated verdict, public approval or native acceptance is invented.",
+    "Generated Growth snapshot freshness and privacy boundaries are checked alongside both existing protected Admin workspaces."
+  ],
+  "writeScope": [
+    "apps/admin/growth.html",
+    "apps/admin/growth.js",
+    "apps/admin/growth.css",
+    "apps/admin/growth-model.mjs",
+    "apps/admin/growth-operations-model.mjs",
+    "apps/admin/admin-capabilities.json",
+    "apps/admin/generated/growth-operations.json",
+    "apps/admin/README.md",
+    "packages/growth-nilaza/",
+    "scripts/build-admin-growth.mjs",
+    "scripts/admin-growth-operations.test.mjs",
+    "scripts/admin-growth-render.test.mjs",
+    "scripts/validate-growth-pilot.mjs",
+    "scripts/growth-pilot-config.test.mjs",
+    "scripts/validate-admin-contract.mjs",
+    "package.json",
+    "scripts/feature-run.mjs",
+    "scripts/feature-run.test.mjs",
+    "docs/PLAN_QC_PROTOCOL.md",
+    "docs/GROWTH_OPERATIONS_HANDOFF_2026-09-30.vi.md",
+    "docs/AGENT_TASK_ROUTER.md",
+    "docs/AI_MARKETING_FRAMEWORK_PLAN_2026-09-20.vi.md",
+    "docs/MARKETING_AI_PHASED_DELIVERY_PLAN_2026-09-20.vi.md",
+    "docs/NILAZA_WAITLIST_MARKETING_AUTOMATION_PLAN.md",
+    "docs/MARKETING_AI_SPRINT_01_IMPLEMENTATION_2026-09-21.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "Mobile runtime, authentication, credits, payments, profile, chart storage, chat and journal contracts retain their existing behavior.",
+    "Content Operations and AI Studio remain separate protected workspaces with their current editing and publishing authority.",
+    "Supabase RPCs, schema, migration ledger, provider configuration and production deployments remain outside this task.",
+    "Portable Growth core and cross-tenant framework exports retain their draft-only contract and private tenant boundary."
+  ],
+  "impact": {
+    "entryPoint": "Shared authenticated Admin shell gains Growth readiness, product truth, content drafts, measurement and roadmap routes. Existing campaign-map and delivery-health links remain; overview becomes the full Growth overview and waitlist moves to the explicit waitlist route.",
+    "dataWrite": "Write versioned sanitized Nilaza Growth JSON, a deterministic selected-field Admin snapshot, scoped code and documentation only; browser review makes no database or approval writes.",
+    "backendContract": "Keep get_growth_waitlist_overview behind overview.read with the existing RPC transport; repository snapshot loads independently after authorization; no sender or provider integration.",
+    "adminVisibility": "Operators can inspect actual product evidence, pending gates, localized concept copy and unmeasured event definitions; draft QA is labeled historical or awaiting editorial review rather than execution approval.",
+    "privacySafety": "Only approved project context and aggregate counts are used. Exclude subscriber identifiers, private chats, journals, birth/chart inputs, secrets and raw research from generated snapshots; escape untrusted text.",
+    "observability": "Show repository review date and source versions separately from live RPC timestamp; missing counts and events remain unavailable; surface loading, empty, malformed data and retry states without private payload logs.",
+    "rollback": "Revert only this task's scoped edits or retain the original waitlist routes; the new repository snapshot has no production side effects and source failures do not silently load synthetic counts."
+  },
+  "canonicalContracts": [
+    "packages/growth-nilaza/product-truth.json is the single Nilaza feature claim and evidence source; preserved claim IDs maintain existing brief references.",
+    "packages/growth-nilaza/content-drafts/sprint-01.json and briefs/sprint-01.json remain the draft library and brief source with unchanged tenant identity.",
+    "packages/growth-nilaza/operations/roadmap.json defines current operating tasks and manager acceptance; measurement/event-ownership-map.json remains definition-only.",
+    "apps/admin/generated/growth-operations.json is a deterministic selected-field projection checked by scripts/build-admin-growth.mjs --check, never a second editable source.",
+    "The existing get_growth_waitlist_overview RPC remains the capability-gated aggregate contract and does not establish send eligibility."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "aggregate_metrics"
+  ],
+  "sourceReview": [
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "96640cef9da8719ae9c518cba695b28afb93736bc549326f883c05b7650d4a40",
+      "reason": "Scoped read of onboarding, Tarot and Journal event emitters, account-scoped save/load and the newest-80 local event limit; no mobile edit."
+    },
+    {
+      "path": "apps/web/src/lib/analytics.ts",
+      "sha256": "25237d709d3211061cabd9750d78eea6dcd190d7c905cecc51b35bbeb9372a1c",
+      "reason": "Reviewed public custom events and optional Zaraz forwarding; source presence does not establish deployed aggregate collection."
+    },
+    {
+      "path": "apps/web/src/components/WaitlistForm.astro",
+      "sha256": "1a49b9140220c9ce9a4b5e3c44dda7cf8b65a9e4b7571eef432c788396b66c58",
+      "reason": "Reviewed required consent submission and waitlist_success after HTTP success, without treating it as unique contact confirmation."
+    },
+    {
+      "path": "apps/web/src/components/SiteHeader.astro",
+      "sha256": "1813c401761f34954810d242ccd3419e348a7fa78f7c869a2e3602078d39e60b",
+      "reason": "Reviewed existing waitlist CTA instrumentation hooks; no website change."
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "80e0cc1d3ae8f2a2fc4d0caf15280805334c5e4ebdbb55f062ee69aeb6398f49",
+      "reason": "Reviewed the pre-existing lockfile diff for local Growth workspace links, AJV and Astrology/mobile dependencies; preserve it unchanged, bind as a dirty generator input without installing packages."
+    },
+    {
+      "path": "scripts/feature-run.mjs",
+      "sha256": "c8be0a298464bf01e4eaa9e84eb50e4580f5c0ba3d78f776359caf4914393b30",
+      "reason": "Reviewed allowlist expansion for the deterministic Growth generator and its exact output and input scope."
+    },
+    {
+      "path": "scripts/build-admin-growth.mjs",
+      "sha256": "ab60c3f6e9c13bf789a5b6f932741969f3ee4a52bf54e033992117533935ab67",
+      "reason": "Reviewed deterministic selected-field projection, privacy gate and source reference validation."
+    },
+    {
+      "path": "apps/admin/growth-operations-model.mjs",
+      "sha256": "1487f3600d6e380e0bf81a6e12ebd34fe4b0824e630047f90f77c91fd95bbd3f",
+      "reason": "Reviewed strict snapshot shapes and lack of execution authority before wiring the generator."
+    },
+    {
+      "path": "docs/reviews/2026-09-30/REPORT.vi.md",
+      "sha256": "933180a5d0c53dbb60cf1410acd8e78ff7adcf175fdfa052c2f2f1e883b54f8a",
+      "reason": "Reviewed current unfinished core, AI/runtime, payment and release blockers."
+    },
+    {
+      "path": "docs/ANDROID_NATIVE_RELEASE_BUILD_2026-09-30.vi.md",
+      "sha256": "6699371e157b1c94e83cc3981d841b49216362e69dd3492eba54c2f59be9ae55",
+      "reason": "Reviewed internal debug-signed 0.1.3/code4 build and native smoke, not full release acceptance."
+    },
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Reviewed product scope, approved brand and production authority boundaries."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Reviewed scoped Admin route and required validation path."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Reviewed source freshness, whole-app impact and pre-edit feature gate."
+    },
+    {
+      "path": "apps/admin/AGENTS.md",
+      "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8",
+      "reason": "Reviewed additive workspace, role and privacy invariants."
+    },
+    {
+      "path": "apps/admin/growth.js",
+      "sha256": "71fbea2e91c4f73b500c668afac0b5b3c03d65a628375dd828f54bf33300ee78",
+      "reason": "Reviewed existing waitlist loading, fixture and metric flow before changes."
+    },
+    {
+      "path": "apps/admin/workspace-guard.js",
+      "sha256": "5816d5769255a04cecf1869f93c91abb50783dda4c4a823f286461198de4372e",
+      "reason": "Reviewed refreshed overview.read authorization and narrow RPC allowlist."
+    },
+    {
+      "path": "packages/growth-nilaza/product-truth.json",
+      "sha256": "0946eb65b9de71a593f822ba5c9c4149d285fde46ec948f1a251bb35c8645e5c",
+      "reason": "Reviewed stale feature evidence and internal-only permissions."
+    },
+    {
+      "path": "packages/growth-nilaza/content-drafts/sprint-01.json",
+      "sha256": "1c911bab916fc8d087299df1b84f4f8d39e6f419f85fbb37304c84592997bb69",
+      "reason": "Reviewed twelve concept packages, QA limits and external blockers."
+    },
+    {
+      "path": "docs/ASTROLOGY_ANDROID_QA_2026-09-23.vi.md",
+      "sha256": "5c5b9af156e652a2a92331e4858aa8efab758ac5e1541e1f26d92aafdcc87109",
+      "reason": "Reviewed local Android candidate evidence and remaining native/cloud/AI release limitations."
+    },
+    {
+      "path": "docs/TAROT_RELEASE_QA_2026-09-29.vi.md",
+      "sha256": "cfd0db745fb73f0d07c62c5d53e9d1ddf770f9f62c3b103c39f88b747e6390cf",
+      "reason": "Reviewed Tarot device evidence and release-candidate limits."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "c492e69235bc94267f8de0181822602612a5bbda03dd3d144cf4d6c96ff43197",
+      "reason": "Reviewed Open Reflection fonts, colors, truthful status and bilingual copy."
+    },
+    {
+      "path": "docs/MARKETING_AI_TEMPLATE_HANDOFF_2026-09-22.vi.md",
+      "sha256": "483d2ed2bafa6994f37e8102ce49d08a6c90cea0da2ff927d6b5b7c4d4c48727",
+      "reason": "Reviewed completed W0/W1/W2/W6 template baseline and deferred execution."
+    },
+    {
+      "path": "scripts/serve-admin.mjs",
+      "sha256": "623808537f944d58062206059a8ed1b6ddc6af5c8985c99ddb980dbb01227486",
+      "reason": "Reviewed loopback server and approved public-path routing for Admin validation."
+    },
+    {
+      "path": "scripts/admin-runtime-config.mjs",
+      "sha256": "bb189c906f7def29e734c51f95d8cbd77582bcfc1000d7c81af0282cd32503b6",
+      "reason": "Reviewed server import public-key validation and path allowlist."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "The existing source protocol covers this additive Admin slice, read-only aggregate transport, generated provenance, delegation and no external actions; no durable policy exception is needed."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Growth uses current Open Reflection fonts and tokens and records verified vs released states without changing master assets or public material."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No dependencies or external APIs are introduced; use current Node built-ins, existing browser modules and repository-owned RPC behavior verified in local sources."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "Preserve overview.read and the workspace/session guard; new repository data loads only after permission checks. No RLS or protected endpoint behavior changes.",
+    "sensitiveData": "Generator selects only approved configuration and concept metadata. No audience, raw research notes, chat, journal, birth/face data or receipts enter the projection.",
+    "secretsLogging": "Never read credentials or print RPC payloads. Retain existing session transport and public configuration; snapshot tests reject unknown or private-shaped data.",
+    "externalInput": "Escape all rendered JSON strings, validate snapshot shapes, constrain selectors/routes and never turn evidence references into arbitrary URLs or runnable commands.",
+    "dependencies": "No dependency installation or provider runtime is needed; deterministic snapshot uses Node built-ins and current reviewed repository inputs.",
+    "migrationRelease": "No database write, migration push/repair, deployment, public publishing, channel connection or budget mutation is performed.",
+    "stopCondition": "Stop for unexpected private data, broader production authority, unresolved high risk or a broken existing workspace; update and rerun preflight before scope expands.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/README.md",
+      "apps/admin/admin-capabilities.json",
+      "apps/admin/growth-model.mjs",
+      "apps/admin/growth.css",
+      "apps/admin/growth.html",
+      "apps/admin/growth.js",
+      "docs/AGENT_TASK_ROUTER.md",
+      "docs/AI_MARKETING_FRAMEWORK_PLAN_2026-09-20.vi.md",
+      "docs/MARKETING_AI_PHASED_DELIVERY_PLAN_2026-09-20.vi.md",
+      "docs/NILAZA_WAITLIST_MARKETING_AUTOMATION_PLAN.md",
+      "docs/PLAN_QC_PROTOCOL.md",
+      "package.json",
+      "scripts/admin-growth-render.test.mjs",
+      "scripts/feature-run.mjs",
+      "scripts/feature-run.test.mjs",
+      "scripts/validate-admin-contract.mjs",
+      "apps/admin/generated/growth-operations.json",
+      "apps/admin/growth-operations-model.mjs",
+      "docs/GROWTH_OPERATIONS_HANDOFF_2026-09-30.vi.md",
+      "docs/MARKETING_AI_SPRINT_01_IMPLEMENTATION_2026-09-21.vi.md",
+      "packages/growth-nilaza/README.md",
+      "packages/growth-nilaza/brand-pack.json",
+      "packages/growth-nilaza/briefs/sprint-01.json",
+      "packages/growth-nilaza/business-pack.json",
+      "packages/growth-nilaza/content-drafts/sprint-01.json",
+      "packages/growth-nilaza/learning/sprint-01-learning-note.json",
+      "packages/growth-nilaza/measurement/event-ownership-map.json",
+      "packages/growth-nilaza/operations/roadmap.json",
+      "packages/growth-nilaza/package.json",
+      "packages/growth-nilaza/product-truth.json",
+      "packages/growth-nilaza/readiness/sprint-01-readiness.json",
+      "packages/growth-nilaza/research/interview-kit.json",
+      "packages/growth-nilaza/research/source-register.json",
+      "packages/growth-nilaza/role-mapping.json",
+      "scripts/admin-growth-operations.test.mjs",
+      "scripts/build-admin-growth.mjs",
+      "scripts/growth-pilot-config.test.mjs",
+      "scripts/validate-growth-pilot.mjs"
+    ],
+    "note": "Existing dirty source is preserved; reviewed scope paths are inventoried from git before preflight. Unrelated mobile, backend and QA work is left untouched."
+  },
+  "validationCommands": [
+    "npm run admin:check",
+    "npm run admin:test",
+    "npm run validate:data",
+    "npm run growth:validate",
+    "npm run growth:test",
+    "npm run validate:governance",
+    "npm run validate:brand",
+    "npm run skills:check",
+    "Browser QA of both protected existing workspaces and Growth routes with labeled synthetic contract data."
+  ],
+  "managerTestPath": "Open Admin Growth, inspect readiness and product truth, select VI/EN and a draft to see evidence and blockers, review measurement and roadmap; then open waitlist, retry live access or explicitly select synthetic data, and verify Content Operations and AI Studio remain accessible.",
+  "residualRisk": "Repository snapshots reflect dated reviewed evidence, not real-time deployment or full manager acceptance. Admin 78 tests and Growth 7 tests pass; final browser layout, accessibility and existing-workspace happy paths remain unverified because the browser debugger/Windows sandbox connection could not be restored. Sender, runtime measurement and staging deployment remain separate gates; no activation or browser acceptance is claimed.",
+  "externalActions": {
+    "databaseWrite": false
+  }
+}

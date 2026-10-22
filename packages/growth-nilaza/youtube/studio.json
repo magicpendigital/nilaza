@@ -1,0 +1,111 @@
+{
+  "schemaVersion": "1.0.0",
+  "tenantId": "nilaza",
+  "studioId": "nilaza_youtube",
+  "namespace": "nilaza.youtube",
+  "mode": "dry_run_only",
+  "enabled": false,
+  "externalAuthority": "none",
+  "providerDispatch": "disabled",
+  "schedulerActivation": false,
+  "killSwitch": true,
+  "coreCatalog": "packages/growth-core/config/growth-agent-catalog.json",
+  "sourceBindings": [
+    {
+      "path": "packages/growth-core/config/growth-agent-catalog.json",
+      "sha256": "sha256:1cc6d131585b09122645649d97b03b87821786a4b7d9cd6aab7e1c3caf36c759"
+    },
+    {
+      "path": "packages/growth-core/config/quality-gates.json",
+      "sha256": "sha256:da187f06a8c0cf4b171fd37547f70d7996e76e4e054f56a8104fdcad4f924af5"
+    },
+    {
+      "path": "packages/growth-core/config/agent-runner-contract.json",
+      "sha256": "sha256:9206677a4d9fc3b60f10feb08d69945674765a9e1117c6ad157ff23f2fcd5486"
+    },
+    {
+      "path": "packages/growth-nilaza/product-truth.json",
+      "sha256": "sha256:0946eb65b9de71a593f822ba5c9c4149d285fde46ec948f1a251bb35c8645e5c"
+    },
+    {
+      "path": "packages/growth-nilaza/brand-pack.json",
+      "sha256": "sha256:20d7677a27dbbe90460ab0701aff0fd1590d44b3ae586634ac57ef5baa3dc780"
+    },
+    {
+      "path": "packages/growth-nilaza/business-pack.json",
+      "sha256": "sha256:9453f06afedf5469a99d7a45e44c140146561028db2f966fedc01f781d78252f"
+    },
+    {
+      "path": "packages/growth-nilaza/role-mapping.json",
+      "sha256": "sha256:158af5e6b0937a167360aa8c5191229646eb503d4053829b71c3600405031506"
+    },
+    {
+      "path": "packages/content/data/brand-identity.json",
+      "sha256": "sha256:6a214e9244305b6bf3189f0c2b230ae7e3c6ef9b84b1374e6c0c9772789042d9"
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "sha256:904643f21d2fbef2ca8342b7e9ec1922f34590ec34809aae3364fb3f21e6657b"
+    },
+    {
+      "path": "packages/growth-runtime/runtime.mjs",
+      "sha256": "sha256:bd6d75d578ce221eacfb2570e1d673bac2be9ea001b4c37cc0a4ebe20cfaf01d"
+    },
+    {
+      "path": "packages/growth-runtime/renderer.mjs",
+      "sha256": "sha256:decd256f20388f24aa259ab31eec05d34679fee8783f62289a4d000db925de47"
+    }
+  ],
+  "roots": {
+    "assets": "packages/growth-nilaza/youtube/assets",
+    "output": ".local/nilaza-youtube/outputs",
+    "editorialLedger": "packages/growth-nilaza/youtube/content-ledger.json",
+    "queueAuthority": "contentops:nilaza.youtube"
+  },
+  "channel": {
+    "id": null,
+    "url": null,
+    "ownerReference": null,
+    "oauthVerification": "pending",
+    "apiProjectAudit": "pending",
+    "tokenLifecycleVerification": "pending",
+    "requireMineTrueBeforeUpload": true,
+    "requireSnippetChannelIdAfterUpload": true,
+    "studioInvitationIsNotApiAuthorization": true,
+    "otherTenantChannelReuse": false,
+    "pendingCandidate": {
+      "displayName": "Mystic Art",
+      "handle": "@mysticartrealm",
+      "publicUrl": "https://www.youtube.com/@mysticartrealm",
+      "selectionStatus": "pending_owner_decision",
+      "ownerClaim": "user_reported_ownership_not_verified_OAuth",
+      "channelId": null,
+      "source": "Parent handoff 2026-10-05; candidate only, not selected or renamed.",
+      "reuseExistingContent": "not_approved"
+    }
+  },
+  "budget": {
+    "currency": "USD",
+    "approved": false,
+    "weeklyCapUSD": null,
+    "perVideoCapUSD": null,
+    "useProductApiBudget": false,
+    "useOtherTenantBudget": false,
+    "reserveThrough": "ContentOps",
+    "unknownCostAction": "stop",
+    "overCapAction": "stop_and_request_owner",
+    "quotaModel": "pending_current_project_verification_no_hardcoded_cost"
+  },
+  "autonomy": {
+    "internalPlanning": "bounded_draft_only",
+    "contentGeneration": "role_briefs_only_no_provider_dispatch",
+    "externalExecution": "disabled_pending_separate_exact_approvals"
+  },
+  "limits": {
+    "maxRepairCycles": 2,
+    "maxBlindInsertRetries": 0,
+    "pauseOnAmbiguousResult": true
+  },
+  "excludedTenant": "Mây thầm thì",
+  "configurationRevision": 2
+}

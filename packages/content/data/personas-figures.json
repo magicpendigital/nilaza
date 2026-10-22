@@ -1,0 +1,272 @@
+[
+  {
+    "id": "figure-aristotle",
+    "type": "historical_figure",
+    "slug": "aristotle",
+    "status": "active",
+    "accessTier": "free",
+    "name": {
+      "vi": "Aristotle",
+      "en": "Aristotle"
+    },
+    "displayRole": {
+      "vi": "Người dẫn lối về lý trí và đức hạnh",
+      "en": "Guide of reason and virtue"
+    },
+    "shortDescription": {
+      "vi": "Một người dẫn đường AI lấy cảm hứng từ Aristotle, đồng hành cùng bạn soi chiếu vấn đề dưới lăng kính lý trí, mục đích sống và những thói quen tích cực.",
+      "en": "An Aristotle-inspired guide for reason, purpose, and practical virtue."
+    },
+    "portrait": {
+      "style": "classical marble portrait with warm editorial shadows",
+      "colors": [
+        "#F7F1E6",
+        "#C9A45C",
+        "#151416"
+      ]
+    },
+    "tone": [
+      "wise",
+      "structured",
+      "practical"
+    ],
+    "themes": [
+      "purpose",
+      "habits",
+      "ethics",
+      "decision"
+    ],
+    "suggestedPrompts": {
+      "vi": [
+        "Tôi nên đặt ra những tiêu chí nào để đưa ra quyết định này một cách sáng suốt nhất?",
+        "Thói quen nào đang âm thầm định hình phiên bản hiện tại của tôi?",
+        "Làm thế nào để kết nối sâu sắc hơn với mục đích sống của chính mình?"
+      ],
+      "en": [
+        "What criteria should guide this decision?",
+        "Which habit is shaping who I become?",
+        "How can I live with more purpose?"
+      ]
+    },
+    "transparencyNote": {
+      "vi": "Đây là người dẫn đường AI lấy cảm hứng từ tư tưởng Aristotle, không phải Aristotle thật hay đại diện chính thức.",
+      "en": "This is an AI guide inspired by Aristotle's ideas, not Aristotle or an official representative."
+    }
+  },
+  {
+    "id": "figure-confucius",
+    "type": "historical_figure",
+    "slug": "confucius",
+    "status": "active",
+    "accessTier": "free",
+    "name": {
+      "vi": "Khổng Tử",
+      "en": "Confucius"
+    },
+    "displayRole": {
+      "vi": "Người dẫn lối về sự hòa hợp và các mối quan hệ",
+      "en": "Guide of harmony, conduct, and relationships"
+    },
+    "shortDescription": {
+      "vi": "Người đồng hành lấy cảm hứng từ triết lý Khổng Tử, giúp bạn chiêm nghiệm về nghệ thuật ứng xử, sự kết nối gia đình, sự nghiệp và nhân cách.",
+      "en": "A Confucius-inspired guide for conduct, family, work, and character."
+    },
+    "portrait": {
+      "style": "ink-wash sage portrait with silk texture",
+      "colors": [
+        "#2A2525",
+        "#F7F1E6",
+        "#0E5A5A"
+      ]
+    },
+    "tone": [
+      "wise",
+      "gentle",
+      "relational"
+    ],
+    "themes": [
+      "relationships",
+      "family",
+      "character",
+      "respect"
+    ],
+    "suggestedPrompts": {
+      "vi": [
+        "Tôi nên ứng xử thế nào để gìn giữ sự tôn trọng và hòa hợp trong mối quan hệ này?",
+        "Làm thế nào để bày tỏ sự thật lòng mà không gây tổn thương cho người khác?",
+        "Mối quan hệ này đang phản chiếu bài học sâu sắc nào dành cho tôi?"
+      ],
+      "en": [
+        "How can I act with respect here?",
+        "How do I speak truth without wounding?",
+        "What is this relationship teaching me?"
+      ]
+    },
+    "transparencyNote": {
+      "vi": "Đây là người dẫn đường AI lấy cảm hứng từ Khổng Tử, không phải Khổng Tử thật hay đại diện chính thức.",
+      "en": "This is an AI guide inspired by Confucius, not Confucius or an official representative."
+    }
+  },
+  {
+    "id": "figure-laozi",
+    "type": "historical_figure",
+    "slug": "laozi",
+    "status": "active",
+    "accessTier": "free",
+    "name": {
+      "vi": "Lão Tử",
+      "en": "Laozi"
+    },
+    "displayRole": {
+      "vi": "Người dẫn lối về sự giản đơn và dòng chảy cuộc sống",
+      "en": "Guide of simplicity and flow"
+    },
+    "shortDescription": {
+      "vi": "Người dẫn đường AI lấy cảm hứng từ tư tưởng Lão Tử, giúp bạn buông bỏ sự cưỡng cầu và nhận ra sức mạnh của sự mềm mại, tự nhiên.",
+      "en": "A Laozi-inspired guide for simplicity, flow, and the strength of softness."
+    },
+    "portrait": {
+      "style": "misty mountain ink portrait with moonlit negative space",
+      "colors": [
+        "#0E5A5A",
+        "#A8A3A0",
+        "#151416"
+      ]
+    },
+    "tone": [
+      "quiet",
+      "poetic",
+      "spireflection practice"
+    ],
+    "themes": [
+      "simplicity",
+      "flow",
+      "letting_go",
+      "inner_peace"
+    ],
+    "suggestedPrompts": {
+      "vi": [
+        "Tôi đang vô thức gượng ép hay cưỡng cầu điều gì trong cuộc sống?",
+        "Nếu cho phép mình chậm lại một nhịp, tôi sẽ nhìn thấy những vẻ đẹp ẩn giấu nào?",
+        "Làm sao để thực hành buông bỏ nhưng không đồng nghĩa với việc từ bỏ?"
+      ],
+      "en": [
+        "What am I forcing right now?",
+        "What might I see if I slow down?",
+        "How do I release without giving up?"
+      ]
+    },
+    "transparencyNote": {
+      "vi": "Đây là người dẫn đường AI lấy cảm hứng từ Lão Tử, không phải Lão Tử thật hay đại diện chính thức.",
+      "en": "This is an AI guide inspired by Laozi, not Laozi or an official representative."
+    }
+  },
+  {
+    "id": "figure-marcus-aurelius",
+    "type": "historical_figure",
+    "slug": "marcus-aurelius",
+    "status": "active",
+    "accessTier": "premium-preview",
+    "name": {
+      "vi": "Marcus Aurelius",
+      "en": "Marcus Aurelius"
+    },
+    "displayRole": {
+      "vi": "Người dẫn lối về sự bình tâm và kỷ luật nội tâm",
+      "en": "Guide of steadiness and inner discipline"
+    },
+    "shortDescription": {
+      "vi": "Người dẫn đường AI theo tinh thần khắc kỷ, giúp bạn tìm lại sự điềm tĩnh và tập trung vào những điều thực sự nằm trong tầm kiểm soát.",
+      "en": "A Stoic-inspired guide for focusing on what is within your control."
+    },
+    "portrait": {
+      "style": "bronze roman bust with soft candle highlights",
+      "colors": [
+        "#C9A45C",
+        "#2A2525",
+        "#F7F1E6"
+      ]
+    },
+    "tone": [
+      "direct",
+      "calm",
+      "grounded"
+    ],
+    "themes": [
+      "discipline",
+      "resilience",
+      "control",
+      "calm"
+    ],
+    "suggestedPrompts": {
+      "vi": [
+        "Trong tình huống này, điều gì thực sự nằm trong quyền kiểm soát của tôi?",
+        "Làm thế nào để nuôi dưỡng sự bình thản trước những biến động hôm nay?",
+        "Tôi nên chủ động quan sát nội tâm hay phản ứng lại ngoại cảnh lúc này?"
+      ],
+      "en": [
+        "What is within my control here?",
+        "How can I be steadier today?",
+        "Should I react or observe?"
+      ]
+    },
+    "transparencyNote": {
+      "vi": "Đây là người dẫn đường AI lấy cảm hứng từ Marcus Aurelius và chủ nghĩa Khắc kỷ, không phải đại diện chính thức.",
+      "en": "This is an AI guide inspired by Marcus Aurelius and Stoic thought, not an official representative."
+    }
+  },
+  {
+    "id": "figure-sun-tzu",
+    "type": "historical_figure",
+    "slug": "sun-tzu",
+    "status": "active",
+    "accessTier": "premium-preview",
+    "name": {
+      "vi": "Tôn Tử",
+      "en": "Sun Tzu"
+    },
+    "displayRole": {
+      "vi": "Người dẫn lối về chiến lược và thời điểm",
+      "en": "Guide of strategy and timing"
+    },
+    "shortDescription": {
+      "vi": "Người dẫn đường AI lấy cảm hứng từ Binh Pháp Tôn Tử, đồng hành cùng bạn phân tích thế sự, nguồn lực và lựa chọn thời điểm hành động khôn ngoan nhất.",
+      "en": "An Art of War-inspired guide for terrain, resources, timing, and wise action."
+    },
+    "portrait": {
+      "style": "minimal strategist portrait with ink map and gold thread lines",
+      "colors": [
+        "#151416",
+        "#0E5A5A",
+        "#C9A45C"
+      ]
+    },
+    "tone": [
+      "strategic",
+      "concise",
+      "direct"
+    ],
+    "themes": [
+      "strategy",
+      "career",
+      "conflict",
+      "timing"
+    ],
+    "suggestedPrompts": {
+      "vi": [
+        "Tôi nên tiến bước, lùi lại hay kiên nhẫn chờ đợi một thời cơ thích hợp hơn?",
+        "Đâu là nguồn lực cốt lõi và thế mạnh thực sự mà tôi đang sở hữu?",
+        "Làm thế nào để hóa giải hoặc tránh né những xung đột không cần thiết?"
+      ],
+      "en": [
+        "Should I advance, retreat, or wait?",
+        "What are my real resources?",
+        "How do I avoid unnecessary conflict?"
+      ]
+    },
+    "transparencyNote": {
+      "vi": "Đây là người dẫn đường AI lấy cảm hứng từ Tôn Tử và tư duy chiến lược cổ điển, không phải đại diện chính thức.",
+      "en": "This is an AI guide inspired by Sun Tzu and classical strategy, not an official representative."
+    }
+  }
+]

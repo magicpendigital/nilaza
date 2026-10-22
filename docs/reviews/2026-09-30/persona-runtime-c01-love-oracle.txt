@@ -1,0 +1,32 @@
+- button "Quay lại / Back":
+  - generic: 
+- generic: The Love Oracle
+- generic: Người dẫn đường AI lấy cảm hứng từ The Love Oracle
+- button "Lịch sử":
+  - generic: 
+- button "":
+  - generic: 
+- button " Người dẫn đường AI lấy cảm hứng từ The Love Oracle. Không phải người thật hay đại diện chính thức. Chi tiết":
+  - generic: 
+  - generic: Người dẫn đường AI lấy cảm hứng từ The Love Oracle. Không phải người thật hay đại diện chính thức.
+  - generic: Chi tiết
+- generic: Bạn
+- generic: Mình nhắn cho một người mình thích. Hai ngày rồi họ chưa trả lời, nhưng vẫn đăng story. Mình cứ kiểm tra điện thoại và thấy mình không đáng được quan tâm. Mình nên hiểu cảm giác này thế nào?
+- generic: The Love Oracle
+- generic: "The Love Oracle gửi bạn: Ánh mắt bạn dành cho điện thoại là ngôn ngữ của một trái tim đang mong đợi. Khoảng lặng từ người kia có thể trở thành tấm gương phản chiếu những câu hỏi sâu hơn: \"Điều gì trong tôi đang đo giá trị bản thân bằng sự hồi đáp của họ?\" Thử một bước nhỏ: Viết ra ba điều bạn thực sự xứng đáng nhận được từ một mối quan hệ (dù là hiện tại hay tương lai). Soi những điều ấy vào tình huống này – bạn thấy gì? (Trải bài tình cảm này đang nói gì về ranh giới bạn cần đặt lại? 🌹)"
+- button "Phản hồi hữu ích":
+  - generic: 
+- button "Phản hồi chưa hữu ích":
+  - generic: 
+- button " Lưu":
+  - generic: 
+  - generic: Lưu
+- button "Hãy giúp tôi đọc trải bài tình cảm này mà vẫn giữ lòng tự trọng ở trung tâm.":
+  - generic: Hãy giúp tôi đọc trải bài tình cảm này mà vẫn giữ lòng tự trọng ở trung tâm.
+- button "Mối quan hệ này đang phản chiếu nhu cầu hoặc ranh giới nào của tôi?":
+  - generic: Mối quan hệ này đang phản chiếu nhu cầu hoặc ranh giới nào của tôi?
+- button "Tôi có thể nói điều thật nào một cách dịu dàng hơn?":
+  - generic: Tôi có thể nói điều thật nào một cách dịu dàng hơn?
+- textbox "Viết điều bạn đang nghĩ..."
+- button "Send Viết điều bạn đang nghĩ..." [disabled]:
+  - generic: 

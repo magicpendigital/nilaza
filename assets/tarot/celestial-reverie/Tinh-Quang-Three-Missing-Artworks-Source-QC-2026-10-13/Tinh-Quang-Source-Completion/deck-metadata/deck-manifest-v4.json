@@ -1,0 +1,1360 @@
+{
+  "deckId": "tinh-quang",
+  "version": "4",
+  "sceneAuthority": "Proposed scenes owned by design_tinh_quang_cards; exact proof scenes locked; generated scene changes must reconcile back to bilingual content before QC.",
+  "visualPromptTemplate": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects.",
+  "cards": [
+    {
+      "cardId": "major-00-fool",
+      "scene": "A young adult traveler in ivory and teal pauses on a broad rock before a mountain cliff edge above a misty lake. A small white dog stands beside their feet; the traveler carries a white rose and a shoulder staff with a cloth bundle tied at one end. Golden starlight draws the eye toward the horizon in a new original composition.",
+      "symbolPlan": {
+        "suit": "major",
+        "requiredCount": null,
+        "locations": [
+          "Rose in left hand at chest height",
+          "Staff angles across right shoulder, bundle behind shoulder",
+          "White dog lower left"
+        ],
+        "contact": "Left hand grips rose stem; right hand grips staff in front of shoulder; shoulder supports staff and bundle. Both feet rest on rock before the edge; all four dog paws are supported by rock.",
+        "exclude": "No duplicate principal symbols; no legible reflections of principal objects."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. A young adult traveler in ivory and teal pauses on a broad rock before a mountain cliff edge above a misty lake. A small white dog stands beside their feet; the traveler carries a white rose and a shoulder staff with a cloth bundle tied at one end. Golden starlight draws the eye toward the horizon in a new original composition. Locations: Rose in left hand at chest height; Staff angles across right shoulder, bundle behind shoulder; White dog lower left. Left hand grips rose stem; right hand grips staff in front of shoulder; shoulder supports staff and bundle. Both feet rest on rock before the edge; all four dog paws are supported by rock. No duplicate principal symbols; no legible reflections of principal objects.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-00-fool.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-00-fool.png"
+    },
+    {
+      "cardId": "major-01-magician",
+      "scene": "An adult maker stands behind a semicircular stone worktable beside the lake, preparing a creative ritual. The table holds exactly one wooden wand, one cup, one short sword and one gold disk engraved with a five-pointed star. A soft ribbon of light connects them without forming another object.",
+      "symbolPlan": {
+        "suit": "major",
+        "requiredCount": null,
+        "locations": [
+          "Wand lies at table left",
+          "Cup stands at rear center",
+          "Sword lies across front",
+          "Disk lies at table right"
+        ],
+        "contact": "All four tools rest fully on the tabletop; left palm rests flat on the table, right hand opens above the light; feet rest on stone ground.",
+        "exclude": "No duplicate principal symbols; no legible reflections of principal objects."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult maker stands behind a semicircular stone worktable beside the lake, preparing a creative ritual. The table holds exactly one wooden wand, one cup, one short sword and one gold disk engraved with a five-pointed star. A soft ribbon of light connects them without forming another object. Locations: Wand lies at table left; Cup stands at rear center; Sword lies across front; Disk lies at table right. All four tools rest fully on the tabletop; left palm rests flat on the table, right hand opens above the light; feet rest on stone ground. No duplicate principal symbols; no legible reflections of principal objects.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-01-magician.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-01-magician.png"
+    },
+    {
+      "cardId": "major-02-high-priestess",
+      "scene": "An adult high priestess sits on a stone seat between two unlettered pillars, ivory on the left and deep teal on the right. A translucent pomegranate-embroidered veil behind her opens toward a night lake; a closed scroll lies on her lap, a small crescent ornament near the seat base.",
+      "symbolPlan": {
+        "suit": "major",
+        "requiredCount": null,
+        "locations": [
+          "Ivory pillar left",
+          "Dark pillar right",
+          "Scroll across lap",
+          "Crescent ornament at seat base"
+        ],
+        "contact": "Pillars join the floor; seat supports torso. Both hands rest lightly on scroll ends; feet rest on stone step.",
+        "exclude": "No duplicate principal symbols; no legible reflections of principal objects."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult high priestess sits on a stone seat between two unlettered pillars, ivory on the left and deep teal on the right. A translucent pomegranate-embroidered veil behind her opens toward a night lake; a closed scroll lies on her lap, a small crescent ornament near the seat base. Locations: Ivory pillar left; Dark pillar right; Scroll across lap; Crescent ornament at seat base. Pillars join the floor; seat supports torso. Both hands rest lightly on scroll ends; feet rest on stone step. No duplicate principal symbols; no legible reflections of principal objects.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-02-high-priestess.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-02-high-priestess.png"
+    },
+    {
+      "cardId": "major-03-empress",
+      "scene": "A full-bodied adult empress sits on a luxurious cushioned seat in a lakeside garden, wearing an ivory pomegranate-patterned gown and a small star crown. Ripe wheat, wildflowers and fruit trees surround her. She holds one short scepter; a heart-shaped shield bearing the Venus symbol rests beside the seat.",
+      "symbolPlan": {
+        "suit": "major",
+        "requiredCount": null,
+        "locations": [
+          "Scepter in right hand",
+          "Shield left of seat",
+          "Ripe wheat below",
+          "Crown on head"
+        ],
+        "contact": "Right hand grips scepter shaft, left rests on lap; shield leans securely against seat on ground; seat supports body and a footrest supports feet.",
+        "exclude": "No duplicate principal symbols; no legible reflections of principal objects."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. A full-bodied adult empress sits on a luxurious cushioned seat in a lakeside garden, wearing an ivory pomegranate-patterned gown and a small star crown. Ripe wheat, wildflowers and fruit trees surround her. She holds one short scepter; a heart-shaped shield bearing the Venus symbol rests beside the seat. Locations: Scepter in right hand; Shield left of seat; Ripe wheat below; Crown on head. Right hand grips scepter shaft, left rests on lap; shield leans securely against seat on ground; seat supports body and a footrest supports feet. No duplicate principal symbols; no legible reflections of principal objects.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-03-empress.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-03-empress.png"
+    },
+    {
+      "cardId": "major-04-emperor",
+      "scene": "An older adult emperor sits firmly on a stone throne with two ram-head reliefs on its arms, amid rocky mountains and a distant lake. An antique-gold-edged teal robe covers simple armor; one scepter and one plain orb suggest responsibility and structure.",
+      "symbolPlan": {
+        "suit": "major",
+        "requiredCount": null,
+        "locations": [
+          "Scepter in right hand",
+          "Orb on left palm",
+          "Two ram heads on throne arms"
+        ],
+        "contact": "Right hand grips scepter with lower end on ground; left palm supports orb with fingers lightly curved around it; throne supports body, feet rest on stone step.",
+        "exclude": "No duplicate principal symbols; no legible reflections of principal objects."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An older adult emperor sits firmly on a stone throne with two ram-head reliefs on its arms, amid rocky mountains and a distant lake. An antique-gold-edged teal robe covers simple armor; one scepter and one plain orb suggest responsibility and structure. Locations: Scepter in right hand; Orb on left palm; Two ram heads on throne arms. Right hand grips scepter with lower end on ground; left palm supports orb with fingers lightly curved around it; throne supports body, feet rest on stone step. No duplicate principal symbols; no legible reflections of principal objects.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-04-emperor.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-04-emperor.png"
+    },
+    {
+      "cardId": "major-05-hierophant",
+      "scene": "Three adults sit in an arc beneath an open library porch: an older guide in the middle and two learners at either side. One open book with no readable text rests on a low lectern; lake and mountains are visible beyond.",
+      "symbolPlan": {
+        "suit": "major",
+        "requiredCount": null,
+        "locations": [
+          "Book on low lectern among the three",
+          "Guide at center"
+        ],
+        "contact": "Lectern supports the book; guide rests one hand on a page and opens the other; all three sit on cushions supported by the floor.",
+        "exclude": "No duplicate principal symbols; no legible reflections of principal objects."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. Three adults sit in an arc beneath an open library porch: an older guide in the middle and two learners at either side. One open book with no readable text rests on a low lectern; lake and mountains are visible beyond. Locations: Book on low lectern among the three; Guide at center. Lectern supports the book; guide rests one hand on a page and opens the other; all three sit on cushions supported by the floor. No duplicate principal symbols; no legible reflections of principal objects.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-05-hierophant.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-05-hierophant.png"
+    },
+    {
+      "cardId": "major-06-lovers",
+      "scene": "Two adults face each other beneath a natural flowering branch arch on a lakeside promontory, each arriving from a separate path. A luminous space remains between them; hands reach toward each other without yet touching, expressions willing and equal.",
+      "symbolPlan": {
+        "suit": "major",
+        "requiredCount": null,
+        "locations": [
+          "Two figures flank the central open space",
+          "Two paths below"
+        ],
+        "contact": "Each person stands firmly on both feet; inner hands open at waist height, outer arms relax naturally; no held props.",
+        "exclude": "No duplicate principal symbols; no legible reflections of principal objects."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. Two adults face each other beneath a natural flowering branch arch on a lakeside promontory, each arriving from a separate path. A luminous space remains between them; hands reach toward each other without yet touching, expressions willing and equal. Locations: Two figures flank the central open space; Two paths below. Each person stands firmly on both feet; inner hands open at waist height, outer arms relax naturally; no held props. No duplicate principal symbols; no legible reflections of principal objects.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-06-lovers.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-06-lovers.png"
+    },
+    {
+      "cardId": "major-07-chariot",
+      "scene": "An adult charioteer in light armor stands within a low two-wheeled stone chariot beneath a star-patterned fabric canopy. An ivory sphinx on the left and a teal sphinx on the right rest ahead, oriented toward an opening in the lakeside mountains. Use a new angled composition, not a copied deck layout.",
+      "symbolPlan": {
+        "suit": "major",
+        "requiredCount": null,
+        "locations": [
+          "Figure within chariot",
+          "Ivory sphinx front left",
+          "Teal sphinx front right"
+        ],
+        "contact": "Both hands rest on chariot rim; body and feet are supported by its floor; wheels touch the stone road. Each sphinx has a coherent body, four limbs and paws clearly supported by ground.",
+        "exclude": "No duplicate principal symbols; no legible reflections of principal objects."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult charioteer in light armor stands within a low two-wheeled stone chariot beneath a star-patterned fabric canopy. An ivory sphinx on the left and a teal sphinx on the right rest ahead, oriented toward an opening in the lakeside mountains. Use a new angled composition, not a copied deck layout. Locations: Figure within chariot; Ivory sphinx front left; Teal sphinx front right. Both hands rest on chariot rim; body and feet are supported by its floor; wheels touch the stone road. Each sphinx has a coherent body, four limbs and paws clearly supported by ground. No duplicate principal symbols; no legible reflections of principal objects.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-07-chariot.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-07-chariot.png"
+    },
+    {
+      "cardId": "major-08-strength",
+      "scene": "An adult sits on a broad rock beside a relaxed reclining lion in a lakeside meadow. Both look in the same direction; the person does not open the lion’s mouth, restrain it or ride it. Warm gold light rests on shoulder and mane.",
+      "symbolPlan": {
+        "suit": "major",
+        "requiredCount": null,
+        "locations": [
+          "Person on left",
+          "Reclining lion on right"
+        ],
+        "contact": "Hands rest on the person’s thighs; feet touch earth; the lion’s four limbs lie naturally supported by ground; a small gap separates them.",
+        "exclude": "No duplicate principal symbols; no legible reflections of principal objects."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult sits on a broad rock beside a relaxed reclining lion in a lakeside meadow. Both look in the same direction; the person does not open the lion’s mouth, restrain it or ride it. Warm gold light rests on shoulder and mane. Locations: Person on left; Reclining lion on right. Hands rest on the person’s thighs; feet touch earth; the lion’s four limbs lie naturally supported by ground; a small gap separates them. No duplicate principal symbols; no legible reflections of principal objects.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-08-strength.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-08-strength.png"
+    },
+    {
+      "cardId": "major-09-hermit",
+      "scene": "An older adult walks slowly on a broad stone path through misty mountains, carrying a small lantern at chest height. A distant lake lies below a gentle slope, not a cliff edge. No followers or imagery of hopeless isolation.",
+      "symbolPlan": {
+        "suit": "major",
+        "requiredCount": null,
+        "locations": [
+          "Lantern in left hand at chest height",
+          "Path ahead on right"
+        ],
+        "contact": "Left hand grips the lantern ring; right hand gathers the cloak edge; one foot is planted, the other steps over visibly supported path.",
+        "exclude": "No duplicate principal symbols; no legible reflections of principal objects."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An older adult walks slowly on a broad stone path through misty mountains, carrying a small lantern at chest height. A distant lake lies below a gentle slope, not a cliff edge. No followers or imagery of hopeless isolation. Locations: Lantern in left hand at chest height; Path ahead on right. Left hand grips the lantern ring; right hand gathers the cloak edge; one foot is planted, the other steps over visibly supported path. No duplicate principal symbols; no legible reflections of principal objects.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-09-hermit.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-09-hermit.png"
+    },
+    {
+      "cardId": "major-10-wheel",
+      "scene": "A large wooden waterwheel with an antique-gold rim turns slowly in a stream entering the lake; four small landscape areas shift from buds to green leaves, gold leaves and cold mist. No figures, letters or numbers appear on the wheel.",
+      "symbolPlan": {
+        "suit": "major",
+        "requiredCount": null,
+        "locations": [
+          "Wheel at center",
+          "Axle joins stone supports on either side",
+          "Stream below"
+        ],
+        "contact": "Wheel axle visibly attaches to two stone supports; lower paddles touch the stream; the mechanism is supported rather than floating.",
+        "exclude": "No duplicate principal symbols; no legible reflections of principal objects."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. A large wooden waterwheel with an antique-gold rim turns slowly in a stream entering the lake; four small landscape areas shift from buds to green leaves, gold leaves and cold mist. No figures, letters or numbers appear on the wheel. Locations: Wheel at center; Axle joins stone supports on either side; Stream below. Wheel axle visibly attaches to two stone supports; lower paddles touch the stream; the mechanism is supported rather than floating. No duplicate principal symbols; no legible reflections of principal objects.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-10-wheel.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-10-wheel.png"
+    },
+    {
+      "cardId": "major-11-justice",
+      "scene": "An adult sits at a stone table in a corridor opening to the lake, considering a two-pan balance on the table and one sword upright in a wooden stand to the right. Light reaches both sides of the face evenly; no blindfold.",
+      "symbolPlan": {
+        "suit": "major",
+        "requiredCount": null,
+        "locations": [
+          "Balance on left half of table",
+          "Sword in stand at right of table"
+        ],
+        "contact": "Balance base rests on table; stand securely supports sword; both hands rest open on the tabletop; feet rest on floor.",
+        "exclude": "No duplicate principal symbols; no legible reflections of principal objects."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult sits at a stone table in a corridor opening to the lake, considering a two-pan balance on the table and one sword upright in a wooden stand to the right. Light reaches both sides of the face evenly; no blindfold. Locations: Balance on left half of table; Sword in stand at right of table. Balance base rests on table; stand securely supports sword; both hands rest open on the tabletop; feet rest on floor. No duplicate principal symbols; no legible reflections of principal objects.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-11-justice.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-11-justice.png"
+    },
+    {
+      "cardId": "major-12-hanged-man",
+      "scene": "A serene adult hangs upside down from a low curved tree branch by a broad fabric loop around one ankle, the other leg bent across in a figure-four shape. Hands rest behind the back, hair falls naturally, and a soft ivory halo surrounds the head. A calm lake and a tree rooted on a rocky shore create symbolic tarot imagery without injury.",
+      "symbolPlan": {
+        "suit": "major",
+        "requiredCount": null,
+        "locations": [
+          "Ankle loop upper center",
+          "Bent leg across upper torso area",
+          "Head and halo below"
+        ],
+        "contact": "Fabric loop visibly connects ankle to sturdy branch; body weight aligns below suspension, with no cord around neck; hands rest behind back, no extra limbs.",
+        "exclude": "No duplicate principal symbols; no legible reflections of principal objects."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. A serene adult hangs upside down from a low curved tree branch by a broad fabric loop around one ankle, the other leg bent across in a figure-four shape. Hands rest behind the back, hair falls naturally, and a soft ivory halo surrounds the head. A calm lake and a tree rooted on a rocky shore create symbolic tarot imagery without injury. Locations: Ankle loop upper center; Bent leg across upper torso area; Head and halo below. Fabric loop visibly connects ankle to sturdy branch; body weight aligns below suspension, with no cord around neck; hands rest behind back, no extra limbs. No duplicate principal symbols; no legible reflections of principal objects.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-12-hanged-man.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-12-hanged-man.png"
+    },
+    {
+      "cardId": "major-13-death",
+      "scene": "A skeletal rider in black-teal armor edged with antique gold rides a white horse along a mountain lakeside path. The rider carries a black banner with one white rose; the sun rises between two distant towers. No blood, corpses or people being trampled; a calm bearing conveys transition.",
+      "symbolPlan": {
+        "suit": "major",
+        "requiredCount": null,
+        "locations": [
+          "Black banner upper left",
+          "Rider center",
+          "White horse lower center",
+          "Two towers and dawn in distance"
+        ],
+        "contact": "Left hand grips banner pole, right hand holds reins; rider sits securely in saddle with legs on either side and feet in stirrups; horse has four coherent legs with supporting hooves on path.",
+        "exclude": "No duplicate principal symbols; no legible reflections of principal objects."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. A skeletal rider in black-teal armor edged with antique gold rides a white horse along a mountain lakeside path. The rider carries a black banner with one white rose; the sun rises between two distant towers. No blood, corpses or people being trampled; a calm bearing conveys transition. Locations: Black banner upper left; Rider center; White horse lower center; Two towers and dawn in distance. Left hand grips banner pole, right hand holds reins; rider sits securely in saddle with legs on either side and feet in stirrups; horse has four coherent legs with supporting hooves on path. No duplicate principal symbols; no legible reflections of principal objects.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-13-death.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-13-death.png"
+    },
+    {
+      "cardId": "major-14-temperance",
+      "scene": "An adult stands on shallow lakeside stone steps, pouring a thin stream from a ceramic pitcher in the right hand into a different-shaped pitcher in the left. The short stream is continuous; one foot rests on a dry step, the other on a shallow submerged step.",
+      "symbolPlan": {
+        "suit": "major",
+        "requiredCount": null,
+        "locations": [
+          "Pouring pitcher at upper right",
+          "Receiving pitcher at lower left"
+        ],
+        "contact": "Each hand grips one pitcher handle with a natural wrist; both vessels have plausible weight; both feet are clearly supported by stone steps.",
+        "exclude": "No duplicate principal symbols; no legible reflections of principal objects."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult stands on shallow lakeside stone steps, pouring a thin stream from a ceramic pitcher in the right hand into a different-shaped pitcher in the left. The short stream is continuous; one foot rests on a dry step, the other on a shallow submerged step. Locations: Pouring pitcher at upper right; Receiving pitcher at lower left. Each hand grips one pitcher handle with a natural wrist; both vessels have plausible weight; both feet are clearly supported by stone steps. No duplicate principal symbols; no legible reflections of principal objects.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-14-temperance.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-14-temperance.png"
+    },
+    {
+      "cardId": "major-15-devil",
+      "scene": "A horned, bat-winged figure sits on a high stone pedestal in a cave opening toward the lake, symbolically solemn rather than threatening. Two clothed adults in ivory and teal stand below on either side. Two antique-gold chains join the pedestal to oversized open waist loops; both clasps are open and one person holds a free chain end, making its removability visible.",
+      "symbolPlan": {
+        "suit": "major",
+        "requiredCount": null,
+        "locations": [
+          "Horned figure on upper central pedestal",
+          "Two adults lower left and right",
+          "Two chains from pedestal to open waist loops"
+        ],
+        "contact": "Pedestal supports horned figure; each adult’s feet rest on stone. One hand lifts a chain end with thumb and fingers, other hands relax or rest at hips; chains hang slack with open clasps, no constriction or neck loops.",
+        "exclude": "No duplicate principal symbols; no legible reflections of principal objects."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. A horned, bat-winged figure sits on a high stone pedestal in a cave opening toward the lake, symbolically solemn rather than threatening. Two clothed adults in ivory and teal stand below on either side. Two antique-gold chains join the pedestal to oversized open waist loops; both clasps are open and one person holds a free chain end, making its removability visible. Locations: Horned figure on upper central pedestal; Two adults lower left and right; Two chains from pedestal to open waist loops. Pedestal supports horned figure; each adult’s feet rest on stone. One hand lifts a chain end with thumb and fingers, other hands relax or rest at hips; chains hang slack with open clasps, no constriction or neck loops. No duplicate principal symbols; no legible reflections of principal objects.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-15-devil.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-15-devil.png"
+    },
+    {
+      "cardId": "major-16-tower",
+      "scene": "Lightning strikes the top of an empty stone observatory on a small island; a few stones fall into an unoccupied area. In the safely distant foreground, an adult under a stone shelter sees the tower across the lake; no falling people, burning bodies or death.",
+      "symbolPlan": {
+        "suit": "major",
+        "requiredCount": null,
+        "locations": [
+          "Tower in distant center",
+          "Lightning above tower",
+          "Shelter and figure at lower left"
+        ],
+        "contact": "Tower is anchored to island; figure stands beneath a column-supported roof, left hand on stone parapet and right arm at side; both feet rest on shelter floor.",
+        "exclude": "No duplicate principal symbols; no legible reflections of principal objects."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. Lightning strikes the top of an empty stone observatory on a small island; a few stones fall into an unoccupied area. In the safely distant foreground, an adult under a stone shelter sees the tower across the lake; no falling people, burning bodies or death. Locations: Tower in distant center; Lightning above tower; Shelter and figure at lower left. Tower is anchored to island; figure stands beneath a column-supported roof, left hand on stone parapet and right arm at side; both feet rest on shelter floor. No duplicate principal symbols; no legible reflections of principal objects.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-16-tower.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-16-tower.png"
+    },
+    {
+      "cardId": "major-17-star",
+      "scene": "An adult woman in an ivory gown sits securely on the rocky lakeshore, pouring from two antique-gold pitchers: one stream onto flowered earth, one into the lake. One large eight-pointed star and seven smaller distinct stars shine above misty mountains. One lowered foot enters the shallow water.",
+      "symbolPlan": {
+        "suit": "major",
+        "requiredCount": null,
+        "locations": [
+          "Left pitcher pours onto earth",
+          "Right pitcher pours into lake",
+          "Large star upper center and seven small stars around"
+        ],
+        "contact": "Each hand grips one pitcher handle with a natural wrist; each stream begins at its pitcher spout. The rocky shore supports the seated pose and body weight; one foot lowers into shallow water, while the other leg is partly covered by the gown.",
+        "exclude": "No duplicate principal symbols; no legible reflections of principal objects."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult woman in an ivory gown sits securely on the rocky lakeshore, pouring from two antique-gold pitchers: one stream onto flowered earth, one into the lake. One large eight-pointed star and seven smaller distinct stars shine above misty mountains. One lowered foot enters the shallow water. Locations: Left pitcher pours onto earth; Right pitcher pours into lake; Large star upper center and seven small stars around. Each hand grips one pitcher handle with a natural wrist; each stream begins at its pitcher spout. The rocky shore supports the seated pose and body weight; one foot lowers into shallow water, while the other leg is partly covered by the gown. No duplicate principal symbols; no legible reflections of principal objects.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-17-star.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-17-star.png"
+    },
+    {
+      "cardId": "major-18-moon",
+      "scene": "A golden-ivory full moon with a gentle face looks over the lake; two distant stone towers flank the scene, a white dog on the left shore and a deep-teal wolf on the right lift their faces toward the moon. A crayfish emerges from water onto a foreground rock; a winding path runs between the towers into misty mountains.",
+      "symbolPlan": {
+        "suit": "major",
+        "requiredCount": null,
+        "locations": [
+          "Moon upper center",
+          "Distant left and right towers",
+          "Dog lower left, wolf lower right",
+          "Crayfish foreground center"
+        ],
+        "contact": "Dog and wolf sit with paws on rocky banks; crayfish legs grip rock while rear body remains in water; towers are anchored to mountainsides, no held props.",
+        "exclude": "No duplicate principal symbols; no legible reflections of principal objects."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. A golden-ivory full moon with a gentle face looks over the lake; two distant stone towers flank the scene, a white dog on the left shore and a deep-teal wolf on the right lift their faces toward the moon. A crayfish emerges from water onto a foreground rock; a winding path runs between the towers into misty mountains. Locations: Moon upper center; Distant left and right towers; Dog lower left, wolf lower right; Crayfish foreground center. Dog and wolf sit with paws on rocky banks; crayfish legs grip rock while rear body remains in water; towers are anchored to mountainsides, no held props. No duplicate principal symbols; no legible reflections of principal objects.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-18-moon.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-18-moon.png"
+    },
+    {
+      "cardId": "major-19-sun",
+      "scene": "A young child in a modest ivory outfit smiles on a gentle white horse standing in a lakeside sunflower meadow. A flowing red-gold banner and a large golden sun create a joyful rhythm; honey gold, pale peach and ivory dominate, teal only in mountain shadows. Innocent, nonsexual scene with the horse standing still.",
+      "symbolPlan": {
+        "suit": "major",
+        "requiredCount": null,
+        "locations": [
+          "Sun upper center",
+          "Red-gold banner upper left",
+          "Rider and horse center",
+          "Low foreground flowers"
+        ],
+        "contact": "Left hand grips a short banner pole braced in a saddle socket, right hand holds loose reins; child sits securely in saddle with both feet in fitted stirrups; horse has four coherent legs with all four hooves on grass.",
+        "exclude": "No duplicate principal symbols; no legible reflections of principal objects."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. A young child in a modest ivory outfit smiles on a gentle white horse standing in a lakeside sunflower meadow. A flowing red-gold banner and a large golden sun create a joyful rhythm; honey gold, pale peach and ivory dominate, teal only in mountain shadows. Innocent, nonsexual scene with the horse standing still. Locations: Sun upper center; Red-gold banner upper left; Rider and horse center; Low foreground flowers. Left hand grips a short banner pole braced in a saddle socket, right hand holds loose reins; child sits securely in saddle with both feet in fitted stirrups; horse has four coherent legs with all four hooves on grass. No duplicate principal symbols; no legible reflections of principal objects.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-19-sun.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-19-sun.png"
+    },
+    {
+      "cardId": "major-20-judgement",
+      "scene": "An ivory-winged angel appears in clouds above the lake, sounding a gold trumpet with an unlettered ivory banner. Below, three adults in light cloth garments rise from three low open stone tombs on the shore, turning toward dawn with open hands. Symbolic awakening, no blood or decaying bodies, no accusatory expression.",
+      "symbolPlan": {
+        "suit": "major",
+        "requiredCount": null,
+        "locations": [
+          "Angel and trumpet upper center",
+          "Three adults and three separate stone tombs below"
+        ],
+        "contact": "Angel is symbolically cloud-borne; one hand grips trumpet shaft near mouth, other supports near bell, mouthpiece meets lips. Each figure below has one foot on the tomb floor and the other on an outer stone step, hands naturally open.",
+        "exclude": "No duplicate principal symbols; no legible reflections of principal objects."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An ivory-winged angel appears in clouds above the lake, sounding a gold trumpet with an unlettered ivory banner. Below, three adults in light cloth garments rise from three low open stone tombs on the shore, turning toward dawn with open hands. Symbolic awakening, no blood or decaying bodies, no accusatory expression. Locations: Angel and trumpet upper center; Three adults and three separate stone tombs below. Angel is symbolically cloud-borne; one hand grips trumpet shaft near mouth, other supports near bell, mouthpiece meets lips. Each figure below has one foot on the tomb floor and the other on an outer stone step, hands naturally open. No duplicate principal symbols; no legible reflections of principal objects.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-20-judgement.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-20-judgement.png"
+    },
+    {
+      "cardId": "major-21-world",
+      "scene": "An adult in flowing ivory clothing dances calmly on a round stone dais before the lake, holding two small short batons. An oval laurel wreath hangs from a two-footed arbor behind, surrounding the figure within the scene without becoming an image border. Four small symbolic cloud figures mark four directions: an angelic face upper left, eagle upper right, bull lower left and lion lower right.",
+      "symbolPlan": {
+        "suit": "major",
+        "requiredCount": null,
+        "locations": [
+          "Dancer at center",
+          "Two short batons in hands at hip level",
+          "Wreath behind",
+          "Angel upper left, eagle upper right, bull lower left, lion lower right"
+        ],
+        "contact": "One foot stands firmly on dais, the other gently bends in dance; each hand grips one separate short baton with natural wrist; wreath attaches to an arbor grounded by two feet. The four corner figures are symbolic cloud images, not falling or trapped animals.",
+        "exclude": "No duplicate principal symbols; no legible reflections of principal objects."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult in flowing ivory clothing dances calmly on a round stone dais before the lake, holding two small short batons. An oval laurel wreath hangs from a two-footed arbor behind, surrounding the figure within the scene without becoming an image border. Four small symbolic cloud figures mark four directions: an angelic face upper left, eagle upper right, bull lower left and lion lower right. Locations: Dancer at center; Two short batons in hands at hip level; Wreath behind; Angel upper left, eagle upper right, bull lower left, lion lower right. One foot stands firmly on dais, the other gently bends in dance; each hand grips one separate short baton with natural wrist; wreath attaches to an arbor grounded by two feet. The four corner figures are symbolic cloud images, not falling or trapped animals. No duplicate principal symbols; no legible reflections of principal objects.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/major-21-world.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/major-21-world.png"
+    },
+    {
+      "cardId": "minor-wands-ace",
+      "scene": "An adult hand enters from the lower right, lifting one wooden wand with ivory buds before a lake at dawn. Only one wand, both ends fully visible; no detached hand floating in space.",
+      "symbolPlan": {
+        "suit": "wands",
+        "requiredCount": 1,
+        "locations": [
+          "One diagonal wand at center"
+        ],
+        "contact": "Fingers wrap below the wand’s midpoint with opposing thumb; wrist visibly joins forearm and sleeve.",
+        "exclude": "No upright trees, poles, reeds, additional staffs, long light rays or reflections that could inflate the count."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult hand enters from the lower right, lifting one wooden wand with ivory buds before a lake at dawn. Only one wand, both ends fully visible; no detached hand floating in space. Exactly 1 suit object TOTAL in the entire image; no additional same-suit objects.  Locations: One diagonal wand at center. Fingers wrap below the wand’s midpoint with opposing thumb; wrist visibly joins forearm and sleeve. No upright trees, poles, reeds, additional staffs, long light rays or reflections that could inflate the count.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-ace.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-ace.png"
+    },
+    {
+      "cardId": "minor-wands-two",
+      "scene": "An adult on a stone terrace considers two branching lakeside paths between two wooden wands in separate low stone sockets. They touch one wand and look outward, carrying no globe.",
+      "symbolPlan": {
+        "suit": "wands",
+        "requiredCount": 2,
+        "locations": [
+          "First wand to figure’s left",
+          "Second wand to figure’s right"
+        ],
+        "contact": "Both wands sit in sockets; left hand lightly wraps the left wand, right arm rests at side; feet stand on terrace.",
+        "exclude": "No upright trees, poles, reeds, additional staffs, long light rays or reflections that could inflate the count."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult on a stone terrace considers two branching lakeside paths between two wooden wands in separate low stone sockets. They touch one wand and look outward, carrying no globe. Exactly 2 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: First wand to figure’s left; Second wand to figure’s right. Both wands sit in sockets; left hand lightly wraps the left wand, right arm rests at side; feet stand on terrace. No upright trees, poles, reeds, additional staffs, long light rays or reflections that could inflate the count.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-two.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-two.png"
+    },
+    {
+      "cardId": "minor-wands-three",
+      "scene": "An adult stands on a low lookout, watching a small sailboat far across the lake. Three wooden wands stand separately in three slots of a curved stone ledge in the foreground without overlapping.",
+      "symbolPlan": {
+        "suit": "wands",
+        "requiredCount": 3,
+        "locations": [
+          "One wand left",
+          "One wand center beside figure",
+          "One wand right"
+        ],
+        "contact": "All three wands have visible supporting slots; hands rest on ledge between wands; feet stand on stone floor.",
+        "exclude": "No upright trees, poles, reeds, additional staffs, long light rays or reflections that could inflate the count."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult stands on a low lookout, watching a small sailboat far across the lake. Three wooden wands stand separately in three slots of a curved stone ledge in the foreground without overlapping. Exactly 3 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: One wand left; One wand center beside figure; One wand right. All three wands have visible supporting slots; hands rest on ledge between wands; feet stand on stone floor. No upright trees, poles, reeds, additional staffs, long light rays or reflections that could inflate the count.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-three.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-three.png"
+    },
+    {
+      "cardId": "minor-wands-four",
+      "scene": "Three adults spread a picnic cloth in a lakeside grassy courtyard beneath four wooden wands marking four corners of a gathering space. A soft fabric ribbon links the four tops; no rigid crossbars or fifth wand.",
+      "symbolPlan": {
+        "suit": "wands",
+        "requiredCount": 4,
+        "locations": [
+          "Front-left wand",
+          "Front-right wand",
+          "Rear-left wand",
+          "Rear-right wand"
+        ],
+        "contact": "Four wand bases sit deeply in four stone sockets; two people hold cloth corners, a third smooths cloth already resting on grass; all feet on ground.",
+        "exclude": "No upright trees, poles, reeds, additional staffs, long light rays or reflections that could inflate the count."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. Three adults spread a picnic cloth in a lakeside grassy courtyard beneath four wooden wands marking four corners of a gathering space. A soft fabric ribbon links the four tops; no rigid crossbars or fifth wand. Exactly 4 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: Front-left wand; Front-right wand; Rear-left wand; Rear-right wand. Four wand bases sit deeply in four stone sockets; two people hold cloth corners, a third smooths cloth already resting on grass; all feet on ground. No upright trees, poles, reeds, additional staffs, long light rays or reflections that could inflate the count.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-four.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-four.png"
+    },
+    {
+      "cardId": "minor-wands-five",
+      "scene": "Five adults rehearse a staff dance on level lakeside ground. Each holds one wand at a different angle; wands neither overlap nor strike anyone. Expressions are focused and slightly puzzled, not violent.",
+      "symbolPlan": {
+        "suit": "wands",
+        "requiredCount": 5,
+        "locations": [
+          "Wand one with far-left figure",
+          "Two with center-left",
+          "Three with center",
+          "Four with center-right",
+          "Five with far-right"
+        ],
+        "contact": "Each wand is held by its owner’s two naturally spaced hands; all five figures have feet on ground; maintain visible gaps between every shaft.",
+        "exclude": "No upright trees, poles, reeds, additional staffs, long light rays or reflections that could inflate the count."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. Five adults rehearse a staff dance on level lakeside ground. Each holds one wand at a different angle; wands neither overlap nor strike anyone. Expressions are focused and slightly puzzled, not violent. Exactly 5 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: Wand one with far-left figure; Two with center-left; Three with center; Four with center-right; Five with far-right. Each wand is held by its owner’s two naturally spaced hands; all five figures have feet on ground; maintain visible gaps between every shaft. No upright trees, poles, reeds, additional staffs, long light rays or reflections that could inflate the count.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-five.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-five.png"
+    },
+    {
+      "cardId": "minor-wands-six",
+      "scene": "An adult returns along a stone path toward five adult friends in an open arc. Each of the six people holds one upright wooden wand; the returning person’s wand carries a small ivory ribbon. No crown or horse.",
+      "symbolPlan": {
+        "suit": "wands",
+        "requiredCount": 6,
+        "locations": [
+          "One wand with central foreground figure",
+          "Five wands with five people in rear arc"
+        ],
+        "contact": "Each person grips one wand at waist height with its lower end on ground; free hand greets or rests at side; no ownerless hands.",
+        "exclude": "No upright trees, poles, reeds, additional staffs, long light rays or reflections that could inflate the count."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult returns along a stone path toward five adult friends in an open arc. Each of the six people holds one upright wooden wand; the returning person’s wand carries a small ivory ribbon. No crown or horse. Exactly 6 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: One wand with central foreground figure; Five wands with five people in rear arc. Each person grips one wand at waist height with its lower end on ground; free hand greets or rests at side; no ownerless hands. No upright trees, poles, reeds, additional staffs, long light rays or reflections that could inflate the count.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-six.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-six.png"
+    },
+    {
+      "cardId": "minor-wands-seven",
+      "scene": "An adult stands on a broad stone step, holding one wand diagonally before the body. Six other wands stand in six slots along the lower step edge, three left and three right, marking a garden boundary; no attackers.",
+      "symbolPlan": {
+        "suit": "wands",
+        "requiredCount": 7,
+        "locations": [
+          "One held wand at center",
+          "Three lower-left wands",
+          "Three lower-right wands"
+        ],
+        "contact": "Two hands grip the central wand at spaced points; stone slots support the other six; feet stand securely on the step.",
+        "exclude": "No upright trees, poles, reeds, additional staffs, long light rays or reflections that could inflate the count."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult stands on a broad stone step, holding one wand diagonally before the body. Six other wands stand in six slots along the lower step edge, three left and three right, marking a garden boundary; no attackers. Exactly 7 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: One held wand at center; Three lower-left wands; Three lower-right wands. Two hands grip the central wand at spaced points; stone slots support the other six; feet stand securely on the step. No upright trees, poles, reeds, additional staffs, long light rays or reflections that could inflate the count.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-seven.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-seven.png"
+    },
+    {
+      "cardId": "minor-wands-eight",
+      "scene": "Exactly eight golden wooden wands fly diagonally through an open teal dawn sky toward a distant lake valley, suggesting swift coordinated movement.",
+      "symbolPlan": {
+        "suit": "wands",
+        "requiredCount": 8,
+        "locations": [
+          "parallel wand 1 upper left",
+          "parallel wand 2",
+          "parallel wand 3",
+          "parallel wand 4",
+          "parallel wand 5",
+          "parallel wand 6",
+          "parallel wand 7",
+          "parallel wand 8 lower right"
+        ],
+        "contact": "All eight wands visibly airborne as a symbolic non-human scene; no ambiguous held or unsupported props.",
+        "exclude": "No trees, reeds, fence posts, sticks, rays or distant repeated shapes resembling extra wands."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. EIGHT OF WANDS proof. Exactly EIGHT distinct slender straight wooden wands floating in coordinated diagonal flight across open sky, all parallel on a lower-left to upper-right diagonal. Each is a warm antique-gold staff with natural wood grain and ONE tiny ivory leaf sprout close to its tip. Arrange in an evenly spaced fan-like band from upper-left toward lower-right, separated so every wand can be counted independently: EIGHT wands total, all tips and ends fully visible, no crossings, no overlaps, no split branches. The eight clear isolated straight staffs dominate top 70% of picture. Below only low rounded misty mountains and a calm serpentine lake, no vertical trees, reeds, fence, sunray lines or sticks that could be mistaken for wands. Atmospheric teal to pale gold dawn, painterly grain, restrained gold motes, no prominent star or geometric spokes that confuse count. This is swift movement and momentum, not weapons, no people.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-eight.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-eight.png",
+      "sceneLock": "approved-proof-v1"
+    },
+    {
+      "cardId": "minor-wands-nine",
+      "scene": "An adult rests on a stone seat beside a garden path, holding one wand; eight others stand in eight stone sockets behind them in two groups of four with a gap between. No wound dressings.",
+      "symbolPlan": {
+        "suit": "wands",
+        "requiredCount": 9,
+        "locations": [
+          "One foreground wand by right hand",
+          "Four rear-left wands",
+          "Four rear-right wands"
+        ],
+        "contact": "Right hand grips wand with lower end on ground, left hand rests on thigh; seat supports body, feet touch floor; all eight rear wands have visible bases.",
+        "exclude": "No upright trees, poles, reeds, additional staffs, long light rays or reflections that could inflate the count."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult rests on a stone seat beside a garden path, holding one wand; eight others stand in eight stone sockets behind them in two groups of four with a gap between. No wound dressings. Exactly 9 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: One foreground wand by right hand; Four rear-left wands; Four rear-right wands. Right hand grips wand with lower end on ground, left hand rests on thigh; seat supports body, feet touch floor; all eight rear wands have visible bases. No upright trees, poles, reeds, additional staffs, long light rays or reflections that could inflate the count.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-nine.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-nine.png"
+    },
+    {
+      "cardId": "minor-wands-ten",
+      "scene": "An adult pauses beside a low wooden handcart; exactly ten wands lie in clear parallel gaps across its bed, both ends unobscured. The person has just set the load down and looks tired without despair.",
+      "symbolPlan": {
+        "suit": "wands",
+        "requiredCount": 10,
+        "locations": [
+          "Ten separate wands on cart bed in lower half"
+        ],
+        "contact": "Cart bed supports all wands; cart has two wheels and short handles visibly unlike suit wands; hands rest on knees, feet touch ground.",
+        "exclude": "No upright trees, poles, reeds, additional staffs, long light rays or reflections that could inflate the count."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult pauses beside a low wooden handcart; exactly ten wands lie in clear parallel gaps across its bed, both ends unobscured. The person has just set the load down and looks tired without despair. Exactly 10 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: Ten separate wands on cart bed in lower half. Cart bed supports all wands; cart has two wheels and short handles visibly unlike suit wands; hands rest on knees, feet touch ground. No upright trees, poles, reeds, additional staffs, long light rays or reflections that could inflate the count.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-ten.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-ten.png"
+    },
+    {
+      "cardId": "minor-wands-page",
+      "scene": "A young adult apprentice stands on a pebbled lakeshore, tilting their head to study a new bud on one wooden wand. A small satchel hangs at the hip; ivory clothing carries earthen-red accents; no childlike appearance.",
+      "symbolPlan": {
+        "suit": "wands",
+        "requiredCount": 1,
+        "locations": [
+          "One wand tilted slightly upright left of torso"
+        ],
+        "contact": "Left hand wraps wand at chest height with lower tip on ground; right index finger points near bud without touching; feet stand firmly.",
+        "exclude": "No upright trees, poles, reeds, additional staffs, long light rays or reflections that could inflate the count."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. A young adult apprentice stands on a pebbled lakeshore, tilting their head to study a new bud on one wooden wand. A small satchel hangs at the hip; ivory clothing carries earthen-red accents; no childlike appearance. Exactly 1 suit object TOTAL in the entire image; no additional same-suit objects.  Locations: One wand tilted slightly upright left of torso. Left hand wraps wand at chest height with lower tip on ground; right index finger points near bud without touching; feet stand firmly. No upright trees, poles, reeds, additional staffs, long light rays or reflections that could inflate the count.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-page.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-page.png"
+    },
+    {
+      "cardId": "minor-wands-knight",
+      "scene": "An adult messenger strides along a gently sloping lakeside path carrying one wooden wand on the right, an earthen-red cloak streaming behind. Motion is purposeful on a broad path, never toward a precipice.",
+      "symbolPlan": {
+        "suit": "wands",
+        "requiredCount": 1,
+        "locations": [
+          "One wand to figure’s right"
+        ],
+        "contact": "Right hand grips wand midpoint with lower end just touching path; left hand holds crossbody satchel strap; one foot supports, the other steps.",
+        "exclude": "No upright trees, poles, reeds, additional staffs, long light rays or reflections that could inflate the count."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult messenger strides along a gently sloping lakeside path carrying one wooden wand on the right, an earthen-red cloak streaming behind. Motion is purposeful on a broad path, never toward a precipice. Exactly 1 suit object TOTAL in the entire image; no additional same-suit objects.  Locations: One wand to figure’s right. Right hand grips wand midpoint with lower end just touching path; left hand holds crossbody satchel strap; one foot supports, the other steps. No upright trees, poles, reeds, additional staffs, long light rays or reflections that could inflate the count.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-knight.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-knight.png"
+    },
+    {
+      "cardId": "minor-wands-queen",
+      "scene": "An adult sits upright yet at ease in a broad woven chair in a lakeside courtyard of yellow flowers, holding one budding wand. A brown cat curls beside their feet; no crown or extra wand-like chair elements.",
+      "symbolPlan": {
+        "suit": "wands",
+        "requiredCount": 1,
+        "locations": [
+          "One wand left of chair",
+          "Cat at lower right"
+        ],
+        "contact": "Left hand grips upright wand with lower end on ground; right hand rests on chair arm; chair and feet rest on solid ground.",
+        "exclude": "No upright trees, poles, reeds, additional staffs, long light rays or reflections that could inflate the count."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult sits upright yet at ease in a broad woven chair in a lakeside courtyard of yellow flowers, holding one budding wand. A brown cat curls beside their feet; no crown or extra wand-like chair elements. Exactly 1 suit object TOTAL in the entire image; no additional same-suit objects.  Locations: One wand left of chair; Cat at lower right. Left hand grips upright wand with lower end on ground; right hand rests on chair arm; chair and feet rest on solid ground. No upright trees, poles, reeds, additional staffs, long light rays or reflections that could inflate the count.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-queen.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-queen.png"
+    },
+    {
+      "cardId": "minor-wands-king",
+      "scene": "An older adult stands on a stone terrace overlooking a lake valley, holding one wooden wand just right of the body; the other hand opens toward the descending path. Antique-gold and teal clothing, inviting rather than commanding posture.",
+      "symbolPlan": {
+        "suit": "wands",
+        "requiredCount": 1,
+        "locations": [
+          "One wand right of torso"
+        ],
+        "contact": "Right hand grips wand at waist with lower end on paving; left hand opens with natural fingers; feet stand on terrace.",
+        "exclude": "No upright trees, poles, reeds, additional staffs, long light rays or reflections that could inflate the count."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An older adult stands on a stone terrace overlooking a lake valley, holding one wooden wand just right of the body; the other hand opens toward the descending path. Antique-gold and teal clothing, inviting rather than commanding posture. Exactly 1 suit object TOTAL in the entire image; no additional same-suit objects.  Locations: One wand right of torso. Right hand grips wand at waist with lower end on paving; left hand opens with natural fingers; feet stand on terrace. No upright trees, poles, reeds, additional staffs, long light rays or reflections that could inflate the count.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-wands-king.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-wands-king.png"
+    },
+    {
+      "cardId": "minor-cups-ace",
+      "scene": "An adult kneels on a lakeside stone step, lifting one ivory-gold cup of luminous water at chest height; a gentle drop spills toward the lake. Low lotus leaves in the distance resemble no cups; no other vessels.",
+      "symbolPlan": {
+        "suit": "cups",
+        "requiredCount": 1,
+        "locations": [
+          "One cup between both hands before chest"
+        ],
+        "contact": "Both hands support the cup’s stem and bowl; stone step supports knees and feet rest behind.",
+        "exclude": "No additional cups, bowls, vessels, cup-shaped flowers or readable vessel reflections in water."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult kneels on a lakeside stone step, lifting one ivory-gold cup of luminous water at chest height; a gentle drop spills toward the lake. Low lotus leaves in the distance resemble no cups; no other vessels. Exactly 1 suit object TOTAL in the entire image; no additional same-suit objects.  Locations: One cup between both hands before chest. Both hands support the cup’s stem and bowl; stone step supports knees and feet rest behind. No additional cups, bowls, vessels, cup-shaped flowers or readable vessel reflections in water.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-ace.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-ace.png"
+    },
+    {
+      "cardId": "minor-cups-two",
+      "scene": "Two adults meet as equals at a lakeside terrace in blue-hour light, each offering one cup toward the other; their cups remain distinct and do not touch, with their exchange expressed by eye contact and open stance.",
+      "symbolPlan": {
+        "suit": "cups",
+        "requiredCount": 2,
+        "locations": [
+          "left adult's right hand at chest level",
+          "right adult's left hand at chest level"
+        ],
+        "contact": "Each cup is clearly held by one hand wrapped naturally around its stem. Other arms relaxed with hands visible. Feet supported on stone terrace.",
+        "exclude": "No chalice motifs, cups in the background, vessel-shaped plants, cup reflections, caduceus or winged lion duplication."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. TWO OF CUPS proof. Exactly TWO adult figures, a woman on left and a man on right, in flowing ivory and muted teal fairytale clothes, neither dominant. Facing each other in a gentle three-quarter stance on a broad stone lakeside terrace. EACH holds exactly ONE elegant antique gold chalice, for exactly TWO chalices TOTAL in whole image. Left woman's right hand visibly grips stem of left chalice; right man's left hand visibly grips stem of right chalice. Both cups held upright at mid-chest height, fully separated by a small clear gap. Free hands relaxed, natural limbs, feet visibly supported. Two slim intertwining gold light arcs over the pair suggest reciprocity, not a literal additional object. Lake, misty mountains, warm distant dawn, subdued flowers. No furniture/table, no other people, no other cup/bowl/vessel, no reflected chalices in water. Quiet mutual trust and reciprocal connection. Figures occupy central 65% height with both full heads and feet shown.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-two.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-two.png",
+      "sceneLock": "approved-proof-v1"
+    },
+    {
+      "cardId": "minor-cups-three",
+      "scene": "Three adults stand in an open triangle in a lakeside garden, each lifting one gold cup at a different height. They smile toward one another; no dining table or extra cups, no identifiable alcohol.",
+      "symbolPlan": {
+        "suit": "cups",
+        "requiredCount": 3,
+        "locations": [
+          "Left figure’s cup at shoulder",
+          "Center figure’s cup at chest",
+          "Right figure’s cup above shoulder"
+        ],
+        "contact": "Each person grips one cup stem with one hand; free hands open gently; feet stand on grass and cups do not touch.",
+        "exclude": "No additional cups, bowls, vessels, cup-shaped flowers or readable vessel reflections in water."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. Three adults stand in an open triangle in a lakeside garden, each lifting one gold cup at a different height. They smile toward one another; no dining table or extra cups, no identifiable alcohol. Exactly 3 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: Left figure’s cup at shoulder; Center figure’s cup at chest; Right figure’s cup above shoulder. Each person grips one cup stem with one hand; free hands open gently; feet stand on grass and cups do not touch. No additional cups, bowls, vessels, cup-shaped flowers or readable vessel reflections in water.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-three.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-three.png"
+    },
+    {
+      "cardId": "minor-cups-four",
+      "scene": "An adult sits reflectively beneath a low lakeside tree; three gold cups stand on a stone slab before them, a fourth rests on a separate stone ledge to the right in a shaft of light. No hand from clouds.",
+      "symbolPlan": {
+        "suit": "cups",
+        "requiredCount": 4,
+        "locations": [
+          "Three spaced cups on lower-left slab",
+          "One cup on right ledge"
+        ],
+        "contact": "All four cup bases rest on stone; hands rest on knees, back leans against trunk, feet on ground.",
+        "exclude": "No additional cups, bowls, vessels, cup-shaped flowers or readable vessel reflections in water."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult sits reflectively beneath a low lakeside tree; three gold cups stand on a stone slab before them, a fourth rests on a separate stone ledge to the right in a shaft of light. No hand from clouds. Exactly 4 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: Three spaced cups on lower-left slab; One cup on right ledge. All four cup bases rest on stone; hands rest on knees, back leans against trunk, feet on ground. No additional cups, bowls, vessels, cup-shaped flowers or readable vessel reflections in water.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-four.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-four.png"
+    },
+    {
+      "cardId": "minor-cups-five",
+      "scene": "An adult in a teal cloak stands beside the lake after rain, looking at three tipped cups on a stone slab; two cups remain upright behind to the right. A small stone bridge reaches the far bank without melodramatic distress.",
+      "symbolPlan": {
+        "suit": "cups",
+        "requiredCount": 5,
+        "locations": [
+          "Three tipped cups front left",
+          "Two upright cups rear right"
+        ],
+        "contact": "All cups are supported by stone; spilled water forms small trails without cup shapes; figure stands on both feet, arms at sides.",
+        "exclude": "No additional cups, bowls, vessels, cup-shaped flowers or readable vessel reflections in water."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult in a teal cloak stands beside the lake after rain, looking at three tipped cups on a stone slab; two cups remain upright behind to the right. A small stone bridge reaches the far bank without melodramatic distress. Exactly 5 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: Three tipped cups front left; Two upright cups rear right. All cups are supported by stone; spilled water forms small trails without cup shapes; figure stands on both feet, arms at sides. No additional cups, bowls, vessels, cup-shaped flowers or readable vessel reflections in water.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-five.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-five.png"
+    },
+    {
+      "cardId": "minor-cups-six",
+      "scene": "Two adults reunite in an old lakeside courtyard. The left person offers one cup of white flowers to the right person; five other flower-filled cups stand along a curved low ledge behind them.",
+      "symbolPlan": {
+        "suit": "cups",
+        "requiredCount": 6,
+        "locations": [
+          "One offered cup at front center",
+          "Five spaced cups on rear ledge"
+        ],
+        "contact": "Left person grips offered cup’s stem; right person brings hands near without touching yet; ledge supports other five, both figures’ feet on paving.",
+        "exclude": "No additional cups, bowls, vessels, cup-shaped flowers or readable vessel reflections in water."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. Two adults reunite in an old lakeside courtyard. The left person offers one cup of white flowers to the right person; five other flower-filled cups stand along a curved low ledge behind them. Exactly 6 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: One offered cup at front center; Five spaced cups on rear ledge. Left person grips offered cup’s stem; right person brings hands near without touching yet; ledge supports other five, both figures’ feet on paving. No additional cups, bowls, vessels, cup-shaped flowers or readable vessel reflections in water.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-six.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-six.png"
+    },
+    {
+      "cardId": "minor-cups-seven",
+      "scene": "An adult considers seven gold cups on seven separate low stone pedestals in a fan. A small vision rises from each: a house, laurel wreath, cloud dragon, silk cloth, gemstone, mountain and plain mirror.",
+      "symbolPlan": {
+        "suit": "cups",
+        "requiredCount": 7,
+        "locations": [
+          "Three front-row cups",
+          "Four higher rear-row cups, none overlapping"
+        ],
+        "contact": "Each cup base touches its pedestal; visions are symbolic mist rather than unsupported solid weights; hands rest behind back, feet on ground.",
+        "exclude": "No additional cups, bowls, vessels, cup-shaped flowers or readable vessel reflections in water."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult considers seven gold cups on seven separate low stone pedestals in a fan. A small vision rises from each: a house, laurel wreath, cloud dragon, silk cloth, gemstone, mountain and plain mirror. Exactly 7 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: Three front-row cups; Four higher rear-row cups, none overlapping. Each cup base touches its pedestal; visions are symbolic mist rather than unsupported solid weights; hands rest behind back, feet on ground. No additional cups, bowls, vessels, cup-shaped flowers or readable vessel reflections in water.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-seven.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-seven.png"
+    },
+    {
+      "cardId": "minor-cups-eight",
+      "scene": "An adult walks up a gentle stone path into misty mountains, glancing back toward eight cups on two broad lakeside steps: five below and three above. A distant crescent moon, no walking staff.",
+      "symbolPlan": {
+        "suit": "cups",
+        "requiredCount": 8,
+        "locations": [
+          "Five cups on lower step",
+          "Three separate cups on upper step"
+        ],
+        "contact": "All eight cup bases rest on steps; left hand holds satchel strap, right arm relaxes; feet follow supported path.",
+        "exclude": "No additional cups, bowls, vessels, cup-shaped flowers or readable vessel reflections in water."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult walks up a gentle stone path into misty mountains, glancing back toward eight cups on two broad lakeside steps: five below and three above. A distant crescent moon, no walking staff. Exactly 8 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: Five cups on lower step; Three separate cups on upper step. All eight cup bases rest on steps; left hand holds satchel strap, right arm relaxes; feet follow supported path. No additional cups, bowls, vessels, cup-shaped flowers or readable vessel reflections in water.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-eight.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-eight.png"
+    },
+    {
+      "cardId": "minor-cups-nine",
+      "scene": "An adult sits comfortably on a broad wooden seat beneath a lake-facing porch; nine gold cups stand in one curved row on a stone shelf behind, none hidden by the person’s head.",
+      "symbolPlan": {
+        "suit": "cups",
+        "requiredCount": 9,
+        "locations": [
+          "Nine evenly spaced cups on shelf across upper middle"
+        ],
+        "contact": "Each cup base rests on shelf; hands open on lap, back and feet supported by seat and floor.",
+        "exclude": "No additional cups, bowls, vessels, cup-shaped flowers or readable vessel reflections in water."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult sits comfortably on a broad wooden seat beneath a lake-facing porch; nine gold cups stand in one curved row on a stone shelf behind, none hidden by the person’s head. Exactly 9 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: Nine evenly spaced cups on shelf across upper middle. Each cup base rests on shelf; hands open on lap, back and feet supported by seat and floor. No additional cups, bowls, vessels, cup-shaped flowers or readable vessel reflections in water.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-nine.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-nine.png"
+    },
+    {
+      "cardId": "minor-cups-ten",
+      "scene": "Four adults of different generations sit together on lakeside house steps beneath a faint rainbow. Exactly ten gold cups stand on two low stone ledges, five on each, before the group; no cups within the rainbow.",
+      "symbolPlan": {
+        "suit": "cups",
+        "requiredCount": 10,
+        "locations": [
+          "Five cups on left ledge",
+          "Five cups on right ledge"
+        ],
+        "contact": "All cups rest on ledges; all four people have supported seats, hands on laps or naturally touching shoulders; feet rest on steps.",
+        "exclude": "No additional cups, bowls, vessels, cup-shaped flowers or readable vessel reflections in water."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. Four adults of different generations sit together on lakeside house steps beneath a faint rainbow. Exactly ten gold cups stand on two low stone ledges, five on each, before the group; no cups within the rainbow. Exactly 10 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: Five cups on left ledge; Five cups on right ledge. All cups rest on ledges; all four people have supported seats, hands on laps or naturally touching shoulders; feet rest on steps. No additional cups, bowls, vessels, cup-shaped flowers or readable vessel reflections in water.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-ten.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-ten.png"
+    },
+    {
+      "cardId": "minor-cups-page",
+      "scene": "A young adult in pale teal stands on the lakeshore, watching one small fish lift its head from the single gold cup they hold. Their expression is gently surprised and delighted; a soft fairytale scene with no second fish.",
+      "symbolPlan": {
+        "suit": "cups",
+        "requiredCount": 1,
+        "locations": [
+          "One cup left of chest",
+          "Fish within cup opening"
+        ],
+        "contact": "Left hand grips stem, right hand supports base; fish’s lower body stays in cup water; feet stand on shore rock.",
+        "exclude": "No additional cups, bowls, vessels, cup-shaped flowers or readable vessel reflections in water."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. A young adult in pale teal stands on the lakeshore, watching one small fish lift its head from the single gold cup they hold. Their expression is gently surprised and delighted; a soft fairytale scene with no second fish. Exactly 1 suit object TOTAL in the entire image; no additional same-suit objects.  Locations: One cup left of chest; Fish within cup opening. Left hand grips stem, right hand supports base; fish’s lower body stays in cup water; feet stand on shore rock. No additional cups, bowls, vessels, cup-shaped flowers or readable vessel reflections in water.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-page.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-page.png"
+    },
+    {
+      "cardId": "minor-cups-knight",
+      "scene": "An adult knight on a pale gray horse moves slowly beside the lake, holding one gold cup upright before the chest. A light teal cloak and calm water frame the cup as focal point; no weapons.",
+      "symbolPlan": {
+        "suit": "cups",
+        "requiredCount": 1,
+        "locations": [
+          "One cup before rider’s chest"
+        ],
+        "contact": "Right hand grips cup stem, left holds reins; rider sits in saddle with feet in stirrups; horse has four clear legs and a plausible slow gait.",
+        "exclude": "No additional cups, bowls, vessels, cup-shaped flowers or readable vessel reflections in water."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult knight on a pale gray horse moves slowly beside the lake, holding one gold cup upright before the chest. A light teal cloak and calm water frame the cup as focal point; no weapons. Exactly 1 suit object TOTAL in the entire image; no additional same-suit objects.  Locations: One cup before rider’s chest. Right hand grips cup stem, left holds reins; rider sits in saddle with feet in stirrups; horse has four clear legs and a plausible slow gait. No additional cups, bowls, vessels, cup-shaped flowers or readable vessel reflections in water.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-knight.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-knight.png"
+    },
+    {
+      "cardId": "minor-cups-queen",
+      "scene": "An adult sits on a curved stone seat beside the lake, regarding the single lidded gold cup in their hands. Soft ivory clothing, calm eyes and shell reliefs on the seat that do not resemble vessels.",
+      "symbolPlan": {
+        "suit": "cups",
+        "requiredCount": 1,
+        "locations": [
+          "One lidded cup between lap and chest"
+        ],
+        "contact": "Both hands support cup base and bowl; fitted lid forms no second cup; seat supports body, feet on dry stone rest.",
+        "exclude": "No additional cups, bowls, vessels, cup-shaped flowers or readable vessel reflections in water."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult sits on a curved stone seat beside the lake, regarding the single lidded gold cup in their hands. Soft ivory clothing, calm eyes and shell reliefs on the seat that do not resemble vessels. Exactly 1 suit object TOTAL in the entire image; no additional same-suit objects.  Locations: One lidded cup between lap and chest. Both hands support cup base and bowl; fitted lid forms no second cup; seat supports body, feet on dry stone rest. No additional cups, bowls, vessels, cup-shaped flowers or readable vessel reflections in water.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-queen.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-queen.png"
+    },
+    {
+      "cardId": "minor-cups-king",
+      "scene": "An older adult sits on a stone seat on a lightly wave-washed lakeside terrace, holding one gold cup over the lap. Teal robes with ivory trim, an open expression; platform visibly joins the shore, no floating throne.",
+      "symbolPlan": {
+        "suit": "cups",
+        "requiredCount": 1,
+        "locations": [
+          "One cup above right side of lap"
+        ],
+        "contact": "Right hand grips cup stem, left rests on seat arm; cup remains upright; seat is grounded and both feet rest on platform.",
+        "exclude": "No additional cups, bowls, vessels, cup-shaped flowers or readable vessel reflections in water."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An older adult sits on a stone seat on a lightly wave-washed lakeside terrace, holding one gold cup over the lap. Teal robes with ivory trim, an open expression; platform visibly joins the shore, no floating throne. Exactly 1 suit object TOTAL in the entire image; no additional same-suit objects.  Locations: One cup above right side of lap. Right hand grips cup stem, left rests on seat arm; cup remains upright; seat is grounded and both feet rest on platform. No additional cups, bowls, vessels, cup-shaped flowers or readable vessel reflections in water.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-cups-king.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-cups-king.png"
+    },
+    {
+      "cardId": "minor-swords-ace",
+      "scene": "An adult hand entering from below lifts one upright silver sword before lake and mountains; a small open gold-leaf wreath appears symbolically around the blade tip, not a heavy crown.",
+      "symbolPlan": {
+        "suit": "swords",
+        "requiredCount": 1,
+        "locations": [
+          "One sword at center, tip above",
+          "Small wreath around tip"
+        ],
+        "contact": "Hand grips hilt below guard with opposing thumb and wrist joined to forearm; blade and hilt are continuous and touch no skin.",
+        "exclude": "No additional swords, knives, decorative weapons, blade-like light rays or sword reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult hand entering from below lifts one upright silver sword before lake and mountains; a small open gold-leaf wreath appears symbolically around the blade tip, not a heavy crown. Exactly 1 suit object TOTAL in the entire image; no additional same-suit objects.  Locations: One sword at center, tip above; Small wreath around tip. Hand grips hilt below guard with opposing thumb and wrist joined to forearm; blade and hilt are continuous and touch no skin. No additional swords, knives, decorative weapons, blade-like light rays or sword reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-ace.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-ace.png"
+    },
+    {
+      "cardId": "minor-swords-two",
+      "scene": "An adult with an ivory blindfold sits on a lakeside stone seat, holding two swords in a broad X before the chest; neither blade touches the body. A crescent moon hangs over calm water.",
+      "symbolPlan": {
+        "suit": "swords",
+        "requiredCount": 2,
+        "locations": [
+          "Sword from left hand points upper right",
+          "Sword from right hand points upper left"
+        ],
+        "contact": "Each hand grips a hilt below its guard; blades cross at one readable point; seat supports body and feet rest on stone.",
+        "exclude": "No additional swords, knives, decorative weapons, blade-like light rays or sword reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult with an ivory blindfold sits on a lakeside stone seat, holding two swords in a broad X before the chest; neither blade touches the body. A crescent moon hangs over calm water. Exactly 2 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: Sword from left hand points upper right; Sword from right hand points upper left. Each hand grips a hilt below its guard; blades cross at one readable point; seat supports body and feet rest on stone. No additional swords, knives, decorative weapons, blade-like light rays or sword reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-two.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-two.png"
+    },
+    {
+      "cardId": "minor-swords-three",
+      "scene": "A symbolic deep-red glass heart floats before rainy mountain-lake clouds, pierced by exactly three silver swords: one vertical and two symmetrical diagonals. No body, blood or real organ.",
+      "symbolPlan": {
+        "suit": "swords",
+        "requiredCount": 3,
+        "locations": [
+          "One central vertical sword",
+          "One left diagonal sword",
+          "One right diagonal sword"
+        ],
+        "contact": "This is an unheld symbolic assemblage; all three swords have distinct visible hilts and tips and pass through glass rather than living tissue.",
+        "exclude": "No additional swords, knives, decorative weapons, blade-like light rays or sword reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. A symbolic deep-red glass heart floats before rainy mountain-lake clouds, pierced by exactly three silver swords: one vertical and two symmetrical diagonals. No body, blood or real organ. Exactly 3 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: One central vertical sword; One left diagonal sword; One right diagonal sword. This is an unheld symbolic assemblage; all three swords have distinct visible hilts and tips and pass through glass rather than living tissue. No additional swords, knives, decorative weapons, blade-like light rays or sword reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-three.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-three.png"
+    },
+    {
+      "cardId": "minor-swords-four",
+      "scene": "An adult rests on a cushioned stone bench beneath a quiet lakeside porch. Three separate upright swords are mounted on the wall behind; the fourth lies horizontally on a low rack beneath the bench, away from the body.",
+      "symbolPlan": {
+        "suit": "swords",
+        "requiredCount": 4,
+        "locations": [
+          "Three upright wall swords upper center",
+          "One horizontal sword on lower rack"
+        ],
+        "contact": "Three swords are held by hilt hooks and blade supports; lower sword rests on two brackets; cushion supports head, body and legs, hands on abdomen.",
+        "exclude": "No additional swords, knives, decorative weapons, blade-like light rays or sword reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult rests on a cushioned stone bench beneath a quiet lakeside porch. Three separate upright swords are mounted on the wall behind; the fourth lies horizontally on a low rack beneath the bench, away from the body. Exactly 4 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: Three upright wall swords upper center; One horizontal sword on lower rack. Three swords are held by hilt hooks and blade supports; lower sword rests on two brackets; cushion supports head, body and legs, hands on abdomen. No additional swords, knives, decorative weapons, blade-like light rays or sword reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-four.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-four.png"
+    },
+    {
+      "cardId": "minor-swords-five",
+      "scene": "An adult in the lakeside foreground holds one downward sword while two other adults walk away in the distance. Four other swords lie separately on the stony ground nearby; no injuries or pursuit.",
+      "symbolPlan": {
+        "suit": "swords",
+        "requiredCount": 5,
+        "locations": [
+          "One held sword right of foreground figure",
+          "Two swords lower left",
+          "Two swords lower right"
+        ],
+        "contact": "Right hand grips hilt with tip directed toward ground away from feet; left arm at side; four swords rest on ground, all figures’ feet supported by path.",
+        "exclude": "No additional swords, knives, decorative weapons, blade-like light rays or sword reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult in the lakeside foreground holds one downward sword while two other adults walk away in the distance. Four other swords lie separately on the stony ground nearby; no injuries or pursuit. Exactly 5 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: One held sword right of foreground figure; Two swords lower left; Two swords lower right. Right hand grips hilt with tip directed toward ground away from feet; left arm at side; four swords rest on ground, all figures’ feet supported by path. No additional swords, knives, decorative weapons, blade-like light rays or sword reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-five.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-five.png"
+    },
+    {
+      "cardId": "minor-swords-six",
+      "scene": "An adult boatkeeper carries one adult passenger across the lake from gray ripples toward brighter water. Six swords stand in six sockets at the boat’s bow, three left and three right, without hiding faces.",
+      "symbolPlan": {
+        "suit": "swords",
+        "requiredCount": 6,
+        "locations": [
+          "Three swords along left bow",
+          "Three swords along right bow"
+        ],
+        "contact": "Six swords sit blade-down in six separate boat sockets, with hilts upward and separated from the seated people. One visible hand of the boatkeeper grips the wooden oar shaft naturally, clearly distinct from a sword; the passenger sits on the boat bench.",
+        "exclude": "No additional swords, knives, decorative weapons, blade-like light rays or sword reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult boatkeeper carries one adult passenger across the lake from gray ripples toward brighter water. Six swords stand in six sockets at the boat’s bow, three left and three right, without hiding faces. Exactly 6 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: Three swords along left bow; Three swords along right bow. Six swords sit blade-down in six separate boat sockets, with hilts upward and separated from the seated people. One visible hand of the boatkeeper grips the wooden oar shaft naturally, clearly distinct from a sword; the passenger sits on the boat bench. No additional swords, knives, decorative weapons, blade-like light rays or sword reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-six.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-six.png"
+    },
+    {
+      "cardId": "minor-swords-seven",
+      "scene": "An adult walks away at an angle from a small lakeside tent carrying five swords in an open rigid cloth carrier, each separately visible. Two swords remain in a wooden stand beside the tent. The figure glances back thoughtfully without being labeled a villain.",
+      "symbolPlan": {
+        "suit": "swords",
+        "requiredCount": 7,
+        "locations": [
+          "Five parallel swords in carrier left of figure",
+          "Two upright swords beside right tent"
+        ],
+        "contact": "Left hand grips carrier’s top handle, right supports rigid base; hands never touch the five blades; stand supports two remaining swords; feet on path.",
+        "exclude": "No additional swords, knives, decorative weapons, blade-like light rays or sword reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult walks away at an angle from a small lakeside tent carrying five swords in an open rigid cloth carrier, each separately visible. Two swords remain in a wooden stand beside the tent. The figure glances back thoughtfully without being labeled a villain. Exactly 7 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: Five parallel swords in carrier left of figure; Two upright swords beside right tent. Left hand grips carrier’s top handle, right supports rigid base; hands never touch the five blades; stand supports two remaining swords; feet on path. No additional swords, knives, decorative weapons, blade-like light rays or sword reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-seven.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-seven.png"
+    },
+    {
+      "cardId": "minor-swords-eight",
+      "scene": "An adult with a blindfold and loose cloth around the elbows stands on level lakeshore. Eight swords are planted in two arcs of four on either side, leaving a clear opening ahead; no sword touches the body.",
+      "symbolPlan": {
+        "suit": "swords",
+        "requiredCount": 8,
+        "locations": [
+          "Four swords in left arc",
+          "Four in right arc",
+          "Open passage in foreground center"
+        ],
+        "contact": "All eight tips are anchored in earth, hilts above; cloth does not constrict and both hands are visible; feet stand on firm dry ground.",
+        "exclude": "No additional swords, knives, decorative weapons, blade-like light rays or sword reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult with a blindfold and loose cloth around the elbows stands on level lakeshore. Eight swords are planted in two arcs of four on either side, leaving a clear opening ahead; no sword touches the body. Exactly 8 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: Four swords in left arc; Four in right arc; Open passage in foreground center. All eight tips are anchored in earth, hilts above; cloth does not constrict and both hands are visible; feet stand on firm dry ground. No additional swords, knives, decorative weapons, blade-like light rays or sword reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-eight.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-eight.png"
+    },
+    {
+      "cardId": "minor-swords-nine",
+      "scene": "An adult sits at the edge of a bed in a room overlooking the night lake, hands lightly against forehead. Nine horizontal swords rest on nine separate wall brackets above, none directed at the figure; a faint dawn appears through the window.",
+      "symbolPlan": {
+        "suit": "swords",
+        "requiredCount": 9,
+        "locations": [
+          "Nine horizontal swords in nine rows on upper wall"
+        ],
+        "contact": "Each sword has two visible supports; elbows rest on thighs, bed supports body, feet rest on floor; no extra hands.",
+        "exclude": "No additional swords, knives, decorative weapons, blade-like light rays or sword reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult sits at the edge of a bed in a room overlooking the night lake, hands lightly against forehead. Nine horizontal swords rest on nine separate wall brackets above, none directed at the figure; a faint dawn appears through the window. Exactly 9 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: Nine horizontal swords in nine rows on upper wall. Each sword has two visible supports; elbows rest on thighs, bed supports body, feet rest on floor; no extra hands. No additional swords, knives, decorative weapons, blade-like light rays or sword reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-nine.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-nine.png"
+    },
+    {
+      "cardId": "minor-swords-ten",
+      "scene": "An adult lies face down on a teal cloak spread over stony shore, face visibly turned to one side and eyes closed. Exactly ten swords stand planted in an arc behind the figure, none piercing the body; pale golden dawn across the lake marks a changing scene.",
+      "symbolPlan": {
+        "suit": "swords",
+        "requiredCount": 10,
+        "locations": [
+          "Ten swords in rear arc, five left and five right without overlap"
+        ],
+        "contact": "Sword tips anchor in earth; head rests on forearm, cloak and ground support whole body; no blood or blade contact with figure.",
+        "exclude": "No additional swords, knives, decorative weapons, blade-like light rays or sword reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult lies face down on a teal cloak spread over stony shore, face visibly turned to one side and eyes closed. Exactly ten swords stand planted in an arc behind the figure, none piercing the body; pale golden dawn across the lake marks a changing scene. Exactly 10 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: Ten swords in rear arc, five left and five right without overlap. Sword tips anchor in earth; head rests on forearm, cloak and ground support whole body; no blood or blade contact with figure. No additional swords, knives, decorative weapons, blade-like light rays or sword reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-ten.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-ten.png"
+    },
+    {
+      "cardId": "minor-swords-page",
+      "scene": "A young adult apprentice stands on a windy lakeside knoll, holding one silver sword at an upright angle beside the body and watching changing clouds. Ivory and teal clothing, alert rather than aggressive stance.",
+      "symbolPlan": {
+        "suit": "swords",
+        "requiredCount": 1,
+        "locations": [
+          "One angled sword right of figure"
+        ],
+        "contact": "Both hands grip hilt below guard; blade points up and away from face; feet stand comfortably apart on ground.",
+        "exclude": "No additional swords, knives, decorative weapons, blade-like light rays or sword reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. A young adult apprentice stands on a windy lakeside knoll, holding one silver sword at an upright angle beside the body and watching changing clouds. Ivory and teal clothing, alert rather than aggressive stance. Exactly 1 suit object TOTAL in the entire image; no additional same-suit objects.  Locations: One angled sword right of figure. Both hands grip hilt below guard; blade points up and away from face; feet stand comfortably apart on ground. No additional swords, knives, decorative weapons, blade-like light rays or sword reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-page.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-page.png"
+    },
+    {
+      "cardId": "minor-swords-knight",
+      "scene": "An adult knight on a gray horse moves quickly along a broad lakeside road, holding one sword raised forward. Clouds lean with the wind; no opponent, battle or horse leaving supported ground.",
+      "symbolPlan": {
+        "suit": "swords",
+        "requiredCount": 1,
+        "locations": [
+          "One sword upper right ahead of rider"
+        ],
+        "contact": "Right hand grips hilt below guard, left holds reins; rider sits in saddle with stirrups; horse has four coherent legs in a running gait, at least one hoof on road.",
+        "exclude": "No additional swords, knives, decorative weapons, blade-like light rays or sword reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult knight on a gray horse moves quickly along a broad lakeside road, holding one sword raised forward. Clouds lean with the wind; no opponent, battle or horse leaving supported ground. Exactly 1 suit object TOTAL in the entire image; no additional same-suit objects.  Locations: One sword upper right ahead of rider. Right hand grips hilt below guard, left holds reins; rider sits in saddle with stirrups; horse has four coherent legs in a running gait, at least one hoof on road. No additional swords, knives, decorative weapons, blade-like light rays or sword reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-knight.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-knight.png"
+    },
+    {
+      "cardId": "minor-swords-queen",
+      "scene": "An adult sits upright on a cloud-carved stone chair on a high lake-facing terrace. They hold one upright sword on the right and open the left hand at chest height; expression clear rather than contemptuous.",
+      "symbolPlan": {
+        "suit": "swords",
+        "requiredCount": 1,
+        "locations": [
+          "One upright sword right of chair",
+          "Left palm open"
+        ],
+        "contact": "Right hand grips hilt below guard with blade away from face; left hand has natural fingers; chair supports body, feet on rest.",
+        "exclude": "No additional swords, knives, decorative weapons, blade-like light rays or sword reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult sits upright on a cloud-carved stone chair on a high lake-facing terrace. They hold one upright sword on the right and open the left hand at chest height; expression clear rather than contemptuous. Exactly 1 suit object TOTAL in the entire image; no additional same-suit objects.  Locations: One upright sword right of chair; Left palm open. Right hand grips hilt below guard with blade away from face; left hand has natural fingers; chair supports body, feet on rest. No additional swords, knives, decorative weapons, blade-like light rays or sword reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-queen.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-queen.png"
+    },
+    {
+      "cardId": "minor-swords-king",
+      "scene": "An older adult sits on a simple stone chair in an open mountain-lake courtyard, holding one upright silver sword; the other hand rests on a closed unlettered book on the chair arm. Deep-teal clothing and a considered posture.",
+      "symbolPlan": {
+        "suit": "swords",
+        "requiredCount": 1,
+        "locations": [
+          "One sword left of figure",
+          "Closed book on right chair arm"
+        ],
+        "contact": "Left hand grips hilt below guard, right rests on book supported by chair arm; chair and stone rest support body and feet.",
+        "exclude": "No additional swords, knives, decorative weapons, blade-like light rays or sword reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An older adult sits on a simple stone chair in an open mountain-lake courtyard, holding one upright silver sword; the other hand rests on a closed unlettered book on the chair arm. Deep-teal clothing and a considered posture. Exactly 1 suit object TOTAL in the entire image; no additional same-suit objects.  Locations: One sword left of figure; Closed book on right chair arm. Left hand grips hilt below guard, right rests on book supported by chair arm; chair and stone rest support body and feet. No additional swords, knives, decorative weapons, blade-like light rays or sword reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-swords-king.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-swords-king.png"
+    },
+    {
+      "cardId": "minor-pentacles-ace",
+      "scene": "An adult hand entering from lower left lifts one round gold pentacle disk before a low garden gate opening toward the lake. Loose earth and seedlings suggest a practical beginning, with no extra coins.",
+      "symbolPlan": {
+        "suit": "pentacles",
+        "requiredCount": 1,
+        "locations": [
+          "One disk at lower center"
+        ],
+        "contact": "Palm supports upright disk’s bottom, fingers curve around lower edge, forearm joins sleeve; disk does not float above hand.",
+        "exclude": "Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult hand entering from lower left lifts one round gold pentacle disk before a low garden gate opening toward the lake. Loose earth and seedlings suggest a practical beginning, with no extra coins. Exactly 1 suit object TOTAL in the entire image; no additional same-suit objects.  Locations: One disk at lower center. Palm supports upright disk’s bottom, fingers curve around lower edge, forearm joins sleeve; disk does not float above hand. Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-ace.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-ace.png"
+    },
+    {
+      "cardId": "minor-pentacles-two",
+      "scene": "An adult stands on a lakeside stone landing holding one gold disk in each hand at different heights. A soft ivory ribbon loops in a figure eight between the disks without becoming a rigid object; two tiny boats ride distant waves.",
+      "symbolPlan": {
+        "suit": "pentacles",
+        "requiredCount": 2,
+        "locations": [
+          "One disk in left hand at shoulder",
+          "One disk in right hand at waist"
+        ],
+        "contact": "Each palm supports a disk’s lower edge; ribbon is loosely tied to disk edges; feet balance on landing.",
+        "exclude": "Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult stands on a lakeside stone landing holding one gold disk in each hand at different heights. A soft ivory ribbon loops in a figure eight between the disks without becoming a rigid object; two tiny boats ride distant waves. Exactly 2 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: One disk in left hand at shoulder; One disk in right hand at waist. Each palm supports a disk’s lower edge; ribbon is loosely tied to disk edges; feet balance on landing. Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-two.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-two.png"
+    },
+    {
+      "cardId": "minor-pentacles-three",
+      "scene": "Three adult craftspeople examine an upright carved stone panel in a lakeside workshop porch. Three gold pentacle disks are inset in a triangle on the panel; one person indicates a detail while two observe, with no other decorative disks.",
+      "symbolPlan": {
+        "suit": "pentacles",
+        "requiredCount": 3,
+        "locations": [
+          "One disk at panel top center",
+          "Two disks lower left and right on panel"
+        ],
+        "contact": "Three disks are securely inset in stone; panel has a supporting base; pointing hand stays distinct from disk, other hands rest at hip or sides.",
+        "exclude": "Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. Three adult craftspeople examine an upright carved stone panel in a lakeside workshop porch. Three gold pentacle disks are inset in a triangle on the panel; one person indicates a detail while two observe, with no other decorative disks. Exactly 3 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: One disk at panel top center; Two disks lower left and right on panel. Three disks are securely inset in stone; panel has a supporting base; pointing hand stays distinct from disk, other hands rest at hip or sides. Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-three.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-three.png"
+    },
+    {
+      "cardId": "minor-pentacles-four",
+      "scene": "An adult sits on a stone bench facing the lake, holding one disk against the chest. One disk is inset in the seat back above the head; two lie on the ground beneath the two feet. Neat clothing and a closed posture without mockery.",
+      "symbolPlan": {
+        "suit": "pentacles",
+        "requiredCount": 4,
+        "locations": [
+          "One disk at chest",
+          "One on seat back",
+          "Two beneath feet"
+        ],
+        "contact": "Both hands clasp chest disk’s edges; upper disk is mounted on chair rather than head; lower disks lie flat on ground, one foot on each.",
+        "exclude": "Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult sits on a stone bench facing the lake, holding one disk against the chest. One disk is inset in the seat back above the head; two lie on the ground beneath the two feet. Neat clothing and a closed posture without mockery. Exactly 4 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: One disk at chest; One on seat back; Two beneath feet. Both hands clasp chest disk’s edges; upper disk is mounted on chair rather than head; lower disks lie flat on ground, one foot on each. Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-four.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-four.png"
+    },
+    {
+      "cardId": "minor-pentacles-five",
+      "scene": "Two cloaked adults walk slowly through light snow beside a lakeside house with a warmly lit open door. Five gold pentacle disks are inset in one vertical row within a tall window beside it; no fallen coins on path.",
+      "symbolPlan": {
+        "suit": "pentacles",
+        "requiredCount": 5,
+        "locations": [
+          "Five disks in vertical row in left window"
+        ],
+        "contact": "Disks are fixed in structurally supported window glass; figures stand on stone path visible through snow, one arm gently around the other’s shoulder; no walking sticks.",
+        "exclude": "Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. Two cloaked adults walk slowly through light snow beside a lakeside house with a warmly lit open door. Five gold pentacle disks are inset in one vertical row within a tall window beside it; no fallen coins on path. Exactly 5 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: Five disks in vertical row in left window. Disks are fixed in structurally supported window glass; figures stand on stone path visible through snow, one arm gently around the other’s shoulder; no walking sticks. Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-five.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-five.png"
+    },
+    {
+      "cardId": "minor-pentacles-six",
+      "scene": "Three adults sit at equal height around a lakeside stone table; the middle person slides one disk toward the left person while the right person opens a hand. Six disks total lie on the table in two groups of three; a small empty balance sits at the rear edge.",
+      "symbolPlan": {
+        "suit": "pentacles",
+        "requiredCount": 6,
+        "locations": [
+          "Three disks on left half, one being slid",
+          "Three disks on right half"
+        ],
+        "contact": "All six disks rest on tabletop; middle hand touches sliding disk edge, receiving hand opens nearby; balance has a base, feet rest on ground.",
+        "exclude": "Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. Three adults sit at equal height around a lakeside stone table; the middle person slides one disk toward the left person while the right person opens a hand. Six disks total lie on the table in two groups of three; a small empty balance sits at the rear edge. Exactly 6 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: Three disks on left half, one being slid; Three disks on right half. All six disks rest on tabletop; middle hand touches sliding disk edge, receiving hand opens nearby; balance has a base, feet rest on ground. Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-six.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-six.png"
+    },
+    {
+      "cardId": "minor-pentacles-seven",
+      "scene": "An adult gardener pauses beside a low vine trellis near the lake. Seven gold disks are individually fastened to it, three above and four below; the person surveys the whole garden rather than one ripe fruit.",
+      "symbolPlan": {
+        "suit": "pentacles",
+        "requiredCount": 7,
+        "locations": [
+          "Three disks in trellis upper row",
+          "Four disks in lower row"
+        ],
+        "contact": "Each disk has a small attachment loop on the supported trellis; hands rest on a broad-bladed spade handle, clearly unlike a disk, feet on earth.",
+        "exclude": "Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult gardener pauses beside a low vine trellis near the lake. Seven gold disks are individually fastened to it, three above and four below; the person surveys the whole garden rather than one ripe fruit. Exactly 7 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: Three disks in trellis upper row; Four disks in lower row. Each disk has a small attachment loop on the supported trellis; hands rest on a broad-bladed spade handle, clearly unlike a disk, feet on earth. Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-seven.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-seven.png"
+    },
+    {
+      "cardId": "minor-pentacles-eight",
+      "scene": "An adult artisan sits at a workshop table opening toward the lake; one gold disk is being engraved on the table, seven finished disks hang on a rack behind in rows of four and three. Each disk bears its own five-pointed star.",
+      "symbolPlan": {
+        "suit": "pentacles",
+        "requiredCount": 8,
+        "locations": [
+          "One disk on table before hands",
+          "Four disks on upper rack row",
+          "Three disks on lower rack row"
+        ],
+        "contact": "Working disk rests in a clamp; left hand holds engraving tool, right holds small mallet; seven disks have separate hooks, chair supports figure.",
+        "exclude": "Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult artisan sits at a workshop table opening toward the lake; one gold disk is being engraved on the table, seven finished disks hang on a rack behind in rows of four and three. Each disk bears its own five-pointed star. Exactly 8 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: One disk on table before hands; Four disks on upper rack row; Three disks on lower rack row. Working disk rests in a clamp; left hand holds engraving tool, right holds small mallet; seven disks have separate hooks, chair supports figure. Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-eight.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-eight.png"
+    },
+    {
+      "cardId": "minor-pentacles-nine",
+      "scene": "An adult in gold-embroidered ivory stands in a lakeside vineyard with a small falcon on a glove. Nine gold disks are fastened to two low vine supports: five left and four right; no disk-shaped jewelry.",
+      "symbolPlan": {
+        "suit": "pentacles",
+        "requiredCount": 9,
+        "locations": [
+          "Five disks on left support",
+          "Four on right support"
+        ],
+        "contact": "Disks attach to supports with hooks; falcon grips left glove with both feet, right arm at side; figure stands on garden path.",
+        "exclude": "Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult in gold-embroidered ivory stands in a lakeside vineyard with a small falcon on a glove. Nine gold disks are fastened to two low vine supports: five left and four right; no disk-shaped jewelry. Exactly 9 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: Five disks on left support; Four on right support. Disks attach to supports with hooks; falcon grips left glove with both feet, right arm at side; figure stands on garden path. Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-nine.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-nine.png"
+    },
+    {
+      "cardId": "minor-pentacles-ten",
+      "scene": "Four adults from three generations sit and stand beneath a lakeside home’s courtyard gate; a dog rests on the paving. Ten gold disks are clearly inset in the stone gate: four across the lintel, three on the left pier and three on the right.",
+      "symbolPlan": {
+        "suit": "pentacles",
+        "requiredCount": 10,
+        "locations": [
+          "Four disks across lintel",
+          "Three on left pier",
+          "Three on right pier"
+        ],
+        "contact": "Ten disks are set into stone; seated figures have benches, standing figures and dog rest on paving; natural hands do not obscure disks.",
+        "exclude": "Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. Four adults from three generations sit and stand beneath a lakeside home’s courtyard gate; a dog rests on the paving. Ten gold disks are clearly inset in the stone gate: four across the lintel, three on the left pier and three on the right. Exactly 10 suit objects TOTAL in the entire image; no additional same-suit objects.  Locations: Four disks across lintel; Three on left pier; Three on right pier. Ten disks are set into stone; seated figures have benches, standing figures and dog rest on paving; natural hands do not obscure disks. Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-ten.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-ten.png"
+    },
+    {
+      "cardId": "minor-pentacles-page",
+      "scene": "A young adult apprentice stands at the edge of lakeside cultivated fields, lifting one gold pentacle to eye level for study. Teal and earth-toned clothing, a closed tool pouch at hip with no visible coins.",
+      "symbolPlan": {
+        "suit": "pentacles",
+        "requiredCount": 1,
+        "locations": [
+          "One disk before face, slightly left so face stays visible"
+        ],
+        "contact": "Both hands cup lower disk edges with clear fingers without hiding star; feet stand on level earth.",
+        "exclude": "Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. A young adult apprentice stands at the edge of lakeside cultivated fields, lifting one gold pentacle to eye level for study. Teal and earth-toned clothing, a closed tool pouch at hip with no visible coins. Exactly 1 suit object TOTAL in the entire image; no additional same-suit objects.  Locations: One disk before face, slightly left so face stays visible. Both hands cup lower disk edges with clear fingers without hiding star; feet stand on level earth. Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-page.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-page.png"
+    },
+    {
+      "cardId": "minor-pentacles-knight",
+      "scene": "An adult knight on a sturdy brown horse pauses on a dirt lane beside lakeside fields, holding one gold disk before the torso. Simple teal and antique-gold clothing, gaze assessing the land; no charging posture.",
+      "symbolPlan": {
+        "suit": "pentacles",
+        "requiredCount": 1,
+        "locations": [
+          "One disk before rider’s lower chest"
+        ],
+        "contact": "Right palm supports disk bottom with fingers around edge, left hand holds reins; rider sits in saddle with feet in stirrups; all four hooves on ground.",
+        "exclude": "Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult knight on a sturdy brown horse pauses on a dirt lane beside lakeside fields, holding one gold disk before the torso. Simple teal and antique-gold clothing, gaze assessing the land; no charging posture. Exactly 1 suit object TOTAL in the entire image; no additional same-suit objects.  Locations: One disk before rider’s lower chest. Right palm supports disk bottom with fingers around edge, left hand holds reins; rider sits in saddle with feet in stirrups; all four hooves on ground. Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-knight.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-knight.png"
+    },
+    {
+      "cardId": "minor-pentacles-queen",
+      "scene": "An adult sits on a cushioned stone seat in a lakeside orchard, holding one gold disk over the lap; a small rabbit rests in a grassy corner. Ivory and teal clothing, attentive and warm posture; no decorative coins.",
+      "symbolPlan": {
+        "suit": "pentacles",
+        "requiredCount": 1,
+        "locations": [
+          "One disk at lap center",
+          "Rabbit lower left"
+        ],
+        "contact": "Both hands cradle lower disk edges and lap supports its weight; seat supports back, feet on ground; rabbit has coherent body and paws.",
+        "exclude": "Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An adult sits on a cushioned stone seat in a lakeside orchard, holding one gold disk over the lap; a small rabbit rests in a grassy corner. Ivory and teal clothing, attentive and warm posture; no decorative coins. Exactly 1 suit object TOTAL in the entire image; no additional same-suit objects.  Locations: One disk at lap center; Rabbit lower left. Both hands cradle lower disk edges and lap supports its weight; seat supports back, feet on ground; rabbit has coherent body and paws. Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-queen.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-queen.png"
+    },
+    {
+      "cardId": "minor-pentacles-king",
+      "scene": "An older adult sits on a bull-relief stone chair in a porch overlooking vineyard and lake. One gold pentacle rests on the lap, steadied by a hand; teal robes carry ivory vine embroidery, with no scattered coins.",
+      "symbolPlan": {
+        "suit": "pentacles",
+        "requiredCount": 1,
+        "locations": [
+          "One disk on left side of lap"
+        ],
+        "contact": "Left hand steadies disk edge against lap, right rests on chair arm; chair has stone base and feet rest on platform.",
+        "exclude": "Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections."
+      },
+      "prompt": "Use case: style-transfer. ONE original tarot INNER ART illustration only, tall portrait aspect ratio 656:1130 (approximately 0.5805 width/height); compose specifically for that taller ratio, keep critical objects fully within 7% safe inset. Reference is approved Nilaza Tinh Quang style ONLY. Remove/omit its gold rectangle: absolutely NO frame, border, text, title, number, letter, watermark, corner ornament border or labels. Full bleed hand-painted luminous classic fairytale fine art, midnight teal shadows, antique-gold foil-like highlights, ivory light, tactile painterly gouache/engraving grain, atmospheric mountain and lake mist, delicate celestial geometry. Original composition, not a copy of any published tarot deck. Clear mobile silhouette. Objects and people physically plausible, no disconnected parts or extra limbs. Do NOT crop key suit objects. An older adult sits on a bull-relief stone chair in a porch overlooking vineyard and lake. One gold pentacle rests on the lap, steadied by a hand; teal robes carry ivory vine embroidery, with no scattered coins. Exactly 1 suit object TOTAL in the entire image; no additional same-suit objects.  Locations: One disk on left side of lap. Left hand steadies disk edge against lap, right rests on chair arm; chair has stone base and feet rest on platform. Each pentacle is one separate round gold disk with one central five-pointed star; no extra coins, disks, loose five-pointed stars or count-inflating reflections.",
+      "artworkPath": "assets/tarot/tinh-quang/artwork/minor-pentacles-king.png",
+      "cardPath": "assets/tarot/tinh-quang/cards/minor-pentacles-king.png"
+    }
+  ]
+}

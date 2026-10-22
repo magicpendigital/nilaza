@@ -1,0 +1,13 @@
+{
+  "utc": "2099-12-31T12:00:00Z",
+  "engineDeltaTSeconds": 202.648344472982,
+  "horizonsTdbMinusUtSeconds": 69.183898,
+  "defaultDifferenceDegrees": 0.021881206203943293,
+  "timeAlignedDiagnosticDifferenceDegrees": 0.0002837426027326728,
+  "decision": "Time-scale mismatch isolated. Default calculator remains blocked; no global delta-T override or lowered threshold.",
+  "limits": [
+    "TDB approximated as TT for diagnosis only.",
+    "Future leap seconds and UT1/EOP are not known.",
+    "A versioned trusted time-scale policy is still required before production."
+  ]
+}

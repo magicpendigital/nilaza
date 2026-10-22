@@ -1,0 +1,228 @@
+{
+  "schemaVersion": 1,
+  "taskId": "local-backup-custody-2026-10-11",
+  "ownerAgent": "nilaza_release_preparation_owner",
+  "lane": "Backend recovery preparation",
+  "goal": "Implement owner-selected split custody: repository holds scripts/checksums; persistent encrypted synthetic QA backup and DPAPI-wrapped key live outside Git, with a separate-process restore test.",
+  "successCriteria": [
+    "Owner storage architecture recorded; no GitHub repository creation or upload inferred.",
+    "Ciphertext and DPAPI CurrentUser wrapped key retained in separate restricted directories outside D:/nilaza.",
+    "Encrypt process exits before a new process retrieves the wrapped key and restores the exact SHA-pinned synthetic PostgreSQL archive.",
+    "Tampering, missing key and scope mismatch fail before database creation; ordinary A/B and revoked access retain protections after restore.",
+    "Only sanitized receipts/checksums in Git; no raw key/new plaintext dump or live data. Managed recovery and offsite custody remain unverified."
+  ],
+  "writeScope": [
+    "scripts/local-qa-key-vault.ps1",
+    "scripts/rehearse-durable-recovery.mjs",
+    "artifacts/recovery-custody-2026-10-11/",
+    "docs/release/SINGAPORE_FREE_PREPARATION_2026-10-09.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "App/Admin/runtime, cloud project/SQL/credentials, legacy ledger and release profile unchanged.",
+    "October 5/9/10 receipts and migrations remain immutable; no new SQL replay claimed."
+  ],
+  "impact": {
+    "entryPoint": "Explicit local synthetic-only CLI plus Vietnamese owner packet; no product UI change.",
+    "dataWrite": "Ciphertext in C:/Users/Admin/AppData/Local/NilazaQARecovery/Backups and DPAPI wrapped keys in sibling Keys; sanitized receipts inside artifacts/recovery-custody-2026-10-11; only task-owned isolated Docker synthetic restore.",
+    "backendContract": "No deployed API/SQL/runtime changes; exact immutable synthetic input only.",
+    "adminVisibility": "Owner sees status/checksum/timing and local storage path; keys never printed.",
+    "privacySafety": "Windows CurrentUser DPAPI and owner/SYSTEM ACL; no arbitrary remote input, no plaintext writes, separate-process pipes, authenticated decryption before restore. Local only does not cover loss of this Windows profile.",
+    "observability": "Source hashes, independent worker PIDs, per-case results, local ACL receipt and own-container cleanup.",
+    "rollback": "Stop only created task container; retained synthetic files are separate from repo. No deletion of prior backups or historical receipts."
+  },
+  "canonicalContracts": [
+    "Immutable October 5 native rehearsal/archive/invariants provide only synthetic source provenance.",
+    "Release profile/target gate and blocked legacy ledger remain unchanged; trial cannot certify managed recovery."
+  ],
+  "allowedDataClasses": [
+    "synthetic_fixture",
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "4da2a80e09727695c07ad5e0adc52fffb28ae71783dc7258585aac3735a6add9",
+      "reason": "Scoped review for isolated synthetic recovery; no cloud writes, immutable historical evidence and existing services preserved."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Scoped review for isolated synthetic recovery; no cloud writes, immutable historical evidence and existing services preserved."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Scoped review for isolated synthetic recovery; no cloud writes, immutable historical evidence and existing services preserved."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "e5fc9e3789ce1978ce3db7b7f41d6dd695d021c6d01ead2b11b3af14a4525f49",
+      "reason": "Scoped review for isolated synthetic recovery; no cloud writes, immutable historical evidence and existing services preserved."
+    },
+    {
+      "path": "docs/release/RELEASE_RUNBOOK.md",
+      "sha256": "348e5aa5786a5f8648fd96c94e0b4a831602a5312d318b6e48885a47afd71b39",
+      "reason": "Scoped review for isolated synthetic recovery; no cloud writes, immutable historical evidence and existing services preserved."
+    },
+    {
+      "path": "docs/release/release-profile.json",
+      "sha256": "a653120695490e3223c232889d36b63e67f41d7fcd4466a4f56fe8ddeed44081",
+      "reason": "Scoped review for isolated synthetic recovery; no cloud writes, immutable historical evidence and existing services preserved."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "1e4d2bc7a93a2a140690c7237537de582972db30088309996ab6462a79a53623",
+      "reason": "Scoped review for isolated synthetic recovery; no cloud writes, immutable historical evidence and existing services preserved."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/nilaza-plan-qc.md",
+      "sha256": "1f1ca706c56aef4d08ac94c6475c19a59c3838a218eab9e94ab9436fbe4cda03",
+      "reason": "Scoped review for isolated synthetic recovery; no cloud writes, immutable historical evidence and existing services preserved."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/release-control.md",
+      "sha256": "ece7ac8af2d268735631d188ef1e3c4ae8235e564a2ad32c241c4ace83ac54fa",
+      "reason": "Scoped review for isolated synthetic recovery; no cloud writes, immutable historical evidence and existing services preserved."
+    },
+    {
+      "path": "scripts/native-postgres-rehearsal.mjs",
+      "sha256": "da4e490f792bb2085b58756946fb15dd3cdb007e3ae3e2fb1ccdd4d47b816801",
+      "reason": "Reviewed minimal optional per-run log directory; default remains previous directory. New runner authenticates full archive before restore, pins synthetic input, and cleans only own network-none containers."
+    },
+    {
+      "path": "scripts/rehearse-nilaza-database.mjs",
+      "sha256": "59fb54ef76dc8c8f2dfff1b51767fe8279e87b607238f221e538f52cf9f66049",
+      "reason": "Scoped review for isolated synthetic recovery; no cloud writes, immutable historical evidence and existing services preserved."
+    },
+    {
+      "path": "artifacts/singapore-migration-rehearsal-2026-10-05/native-rehearsal.json",
+      "sha256": "d08aeba9e6004a3543f31f07ad225279e60c13cde60f4703f827f4f25b710e85",
+      "reason": "Scoped review for isolated synthetic recovery; no cloud writes, immutable historical evidence and existing services preserved."
+    },
+    {
+      "path": "artifacts/singapore-migration-rehearsal-2026-10-05/native-restore-invariants.json",
+      "sha256": "cac2b6f3b3b6834e7b43a0a092f02e6e98abe68613029c108b14c3fe66a555a3",
+      "reason": "Scoped review for isolated synthetic recovery; no cloud writes, immutable historical evidence and existing services preserved."
+    },
+    {
+      "path": "scripts/rehearse-encrypted-recovery.mjs",
+      "sha256": "01b89725e2f364746083ce90c581f47ba2cd55e2681127ff823acdbded767f31",
+      "reason": "Reviewed synthetic-only encrypted fixture trial with in-memory key and actual restore/RLS checks."
+    },
+    {
+      "path": "scripts/local-qa-key-vault.ps1",
+      "sha256": "f591475897ff69e0db29197e7b3f1452fc423af83bacf9310e6313bc7db32d19",
+      "reason": "Reviewed fixed synthetic-only vault, CurrentUser key wrapping via private binary pipes, checksum pinning, separate worker restore, ACL refusal and task-only Docker cleanup."
+    },
+    {
+      "path": "scripts/rehearse-durable-recovery.mjs",
+      "sha256": "708355707d1d0f4746982e7256c342296a522e8315dbe958c3e7bc5f5126557c",
+      "reason": "Reviewed fixed synthetic-only vault, CurrentUser key wrapping via private binary pipes, checksum pinning, separate worker restore, ACL refusal and task-only Docker cleanup."
+    },
+    {
+      "path": "docs/release/SINGAPORE_FREE_PREPARATION_2026-10-09.vi.md",
+      "sha256": "e69333dc747196ede7f207dcdb7665c87af87a54d59efad1293027ac56218128",
+      "reason": "Append dated storage decision and local durable fixture evidence while retaining original settings/cloud blockers and historical receipt timestamps."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Current guide already requires separate custody/offsite/operator/managed acceptance. Implementation discovery is localized to an explicit Windows PS module import; no general skill change needed. Two-process fixture success is not new-machine, Auth/Storage/API or production recovery."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Existing Node v25.9 crypto, Windows PowerShell System.Security ProtectedData CurrentUser, cached pinned PG17.6 Docker image; no dependency install or image pull."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://supabase.com/changelog",
+      "checkedAt": "2026-10-11",
+      "reason": "Read fallback after markdown MIME failure; no cloud upgrade proposed."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/platform/backups",
+      "checkedAt": "2026-10-11",
+      "reason": "Free offsite exports and separate Storage bytes requirement."
+    },
+    {
+      "url": "https://nodejs.org/api/crypto.html",
+      "checkedAt": "2026-10-11",
+      "reason": "GCM AAD/tag and final authentication semantics."
+    },
+    {
+      "url": "https://docs.github.com/en/repositories/creating-and-managing-repositories/repository-limits",
+      "checkedAt": "2026-10-11",
+      "reason": "Owner asked whether private GitHub is suitable for backup; recommend code/metadata in repo, encrypted backup outside Git with independent key custody."
+    },
+    {
+      "url": "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository",
+      "checkedAt": "2026-10-11",
+      "reason": "Owner asked whether private GitHub is suitable for backup; recommend code/metadata in repo, encrypted backup outside Git with independent key custody."
+    },
+    {
+      "url": "https://learn.microsoft.com/en-us/dotnet/api/system.security.cryptography.dataprotectionscope",
+      "checkedAt": "2026-10-11",
+      "reason": "CurrentUser DPAPI scope limits unwrap to same Windows context; no claim of offsite/machine-loss recovery."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "Verify restored ordinary A/B/revoked actors with non-bypass RLS. External local folders allow only current Windows user and SYSTEM.",
+    "sensitiveData": "Checksum-pinned synthetic dump only, never accept cloud URL/live data.",
+    "secretsLogging": "Random AES key travels only anonymous binary child pipes and RAM; DPAPI blob outside repo. Helper error messages fixed; keys never in argv/env/tool output/logs.",
+    "externalInput": "Fixed real owner profile path, refusal on reparse points or preexisting unexpected ACL; runId validated; fixed immutable fixture.",
+    "dependencies": "Built-in Node crypto, System.Security and reviewed native adapter; no packages installed.",
+    "migrationRelease": "No retarget, target allowlist, cloud credential/SQL or legacy ledger changes.",
+    "stopCondition": "Stop on path/ACL/identity mismatch, key persistence failure, authentication/source mismatch or restored invariant/cleanup failure. Real backup waits for concrete custody/offsite/operator gates.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "scripts/local-qa-key-vault.ps1",
+      "scripts/rehearse-durable-recovery.mjs",
+      "artifacts/recovery-custody-2026-10-11/2026-10-10T18-24-51-384Z-3ca25c/recovery.json",
+      "artifacts/recovery-custody-2026-10-11/2026-10-10T18-26-30-976Z-72b514/backup.json",
+      "artifacts/recovery-custody-2026-10-11/2026-10-10T18-26-30-976Z-72b514/nilaza-qa-20261005-29e3f54391.log",
+      "artifacts/recovery-custody-2026-10-11/2026-10-10T18-26-30-976Z-72b514/recovery.json",
+      "artifacts/recovery-custody-2026-10-11/2026-10-10T18-26-30-976Z-72b514/restore.json",
+      "docs/release/SINGAPORE_FREE_PREPARATION_2026-10-09.vi.md",
+      "artifacts/recovery-custody-2026-10-11/2026-10-10T18-26-30-976Z-72b514/vault-readback.json",
+      "artifacts/recovery-custody-2026-10-11/checksums.json",
+      "artifacts/recovery-custody-2026-10-11/OWNER_REVIEW.vi.md",
+      "artifacts/recovery-custody-2026-10-11/storage-decision.json",
+      "artifacts/recovery-custody-2026-10-11/validation.json"
+    ],
+    "note": "Preserve independent dirty app/Admin/web work and all historical recovery receipts; new scope is isolated local synthetic custody only."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/local-backup-custody-2026-10-11.json",
+    "node --check scripts/rehearse-durable-recovery.mjs",
+    "PowerShell parser check for scripts/local-qa-key-vault.ps1",
+    "node scripts/rehearse-durable-recovery.mjs",
+    "Verify key/ciphertext outside repository, ACL, separate worker PIDs, authentication failures before restore, own container stopped and original services unchanged."
+  ],
+  "managerTestPath": "Read artifacts/recovery-custody-2026-10-11/OWNER_REVIEW.vi.md and inspect actual sanitized run receipt, retained ciphertext path and clearly unverified offsite/managed gates.",
+  "residualRisk": "DPAPI CurrentUser is local QA custody only, not offsite key escrow. Backup cadence/retention/custodian/offsite location and managed recovery remain pending; retained local fixture proves process restart, not full Windows reboot or machine loss.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deploy": false,
+    "publish": false,
+    "localSyntheticVaultWrite": {
+      "path": "C:/Users/Admin/AppData/Local/NilazaQARecovery",
+      "basis": "Owner selected scripts/checksums in private repo and encrypted backup outside repo; prior proposed local QA preparation.",
+      "liveData": false
+    }
+  },
+  "validationResults": {
+    "status": "PASS_LOCAL_ONLY",
+    "checks": 21,
+    "receiptPath": "artifacts/recovery-custody-2026-10-11/2026-10-10T18-26-30-976Z-72b514/recovery.json",
+    "receiptSha256": "8043312cc6ec8ff4b50c904361fec37b4b0ea0da1a19d473e1626426908bc120",
+    "offsiteRecovery": "BLOCKED",
+    "managedRecovery": "BLOCKED",
+    "cloudMutation": false,
+    "releaseAuthorized": false
+  }
+}

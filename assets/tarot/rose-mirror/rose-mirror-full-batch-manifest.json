@@ -1,0 +1,1879 @@
+{
+  "deckId": "rose-mirror",
+  "includeExisting": true,
+  "remaining": 78,
+  "items": [
+    {
+      "cardId": "major-00-fool",
+      "name": {
+        "vi": "The Fool",
+        "en": "The Fool"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "khởi đầu",
+          "niềm tin",
+          "tự đó"
+        ],
+        "en": [
+          "beginnings",
+          "trust",
+          "freedom"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/major-00-fool.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/major-00-fool.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card The Fool.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: beginnings, trust, freedom.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A young seeker stands before a slightly open oval mirror on velvet, touching the first candlebeam as if entering a new emotional room; rose petals form a small path, the reflection gentle and unresolved. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-01-magician",
+      "name": {
+        "vi": "The Magician",
+        "en": "The Magician"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "ý chỉ",
+          "kỹ năng",
+          "biến hòa"
+        ],
+        "en": [
+          "will",
+          "skill",
+          "transformation"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/major-01-magician.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/major-01-magician.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card The Magician.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: will, skill, transformation.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A half-length portrait at an antique vanity, four small objects balanced around the mirror: candle, water cup, silver hairpin, and rose-gold coin; the figure gathers reflections into a self-possessed halo. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-02-high-priestess",
+      "name": {
+        "vi": "The High Priestess",
+        "en": "The High Priestess"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "trực giác",
+          "bị mặt",
+          "lắng nghe"
+        ],
+        "en": [
+          "intuition",
+          "mystery",
+          "listening"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/major-02-high-priestess.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/major-02-high-priestess.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card The High Priestess.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: intuition, mystery, listening.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A keeper of secrets sits behind smoky rose silk curtains, a black mirror reflecting ivory light instead of a face; pearls and blurred notes create a deep intuitive hush. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-03-empress",
+      "name": {
+        "vi": "The Empress",
+        "en": "The Empress"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "nuôi đường",
+          "sáng tạo",
+          "phóng phú"
+        ],
+        "en": [
+          "nurture",
+          "creation",
+          "abundance"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/major-03-empress.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/major-03-empress.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card The Empress.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: nurture, creation, abundance.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A tender portrait in a dried-rose conservatory, holding a perfume bottle and hand mirror; silk, pearls, and candlelight emphasize self-nurture and sensual care. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-04-emperor",
+      "name": {
+        "vi": "The Emperor",
+        "en": "The Emperor"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "câu trực",
+          "trách nhiệm",
+          "nền tảng"
+        ],
+        "en": [
+          "structure",
+          "responsibility",
+          "foundation"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/major-04-emperor.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/major-04-emperor.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card The Emperor.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: structure, responsibility, foundation.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A composed figure sits before a sturdy rose-gold square mirror, with a key and neatly tied ribbon on the table; the composition feels grounded, warm, and structured around boundaries. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-05-hierophant",
+      "name": {
+        "vi": "The Hierophant",
+        "en": "The Hierophant"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "giá trị",
+          "học hỏi",
+          "truyền thông"
+        ],
+        "en": [
+          "values",
+          "learning",
+          "tradition"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/major-05-hierophant.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/major-05-hierophant.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card The Hierophant.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: values, learning, tradition.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A guide lights two candles before an antique mirror in a quiet room, with empty picture frames and pearl strands behind; intimate ritual replaces dogma. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-06-lovers",
+      "name": {
+        "vi": "The Lovers",
+        "en": "The Lovers"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "lựa chọn",
+          "kết nói",
+          "giá trị"
+        ],
+        "en": [
+          "choice",
+          "connection",
+          "values"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/major-06-lovers.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/major-06-lovers.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card The Lovers.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: choice, connection, values.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Two oval mirrors lean toward each other on velvet, reflecting two hands almost touching while keeping breathing room; petals and an untied ribbon symbolize conscious choice. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-07-chariot",
+      "name": {
+        "vi": "The Chariot",
+        "en": "The Chariot"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "hướng đi",
+          "ý chỉ",
+          "tiến lên"
+        ],
+        "en": [
+          "direction",
+          "will",
+          "movement"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/major-07-chariot.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/major-07-chariot.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card The Chariot.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: direction, will, movement.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A decisive portrait faces a tall mirror, two muted-rose ribbons pulling in opposite directions but held by a central rose-gold clasp; forceful movement remains self-directed. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-08-strength",
+      "name": {
+        "vi": "Strength",
+        "en": "Strength"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "cần đảm",
+          "từ bị",
+          "kiềm chế"
+        ],
+        "en": [
+          "courage",
+          "compassion",
+          "restraint"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/major-08-strength.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/major-08-strength.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Strength.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: courage, compassion, restraint.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A gentle yet steady figure rests a hand on a glowing crack in the mirror, beside a thorned rose branch wrapped in silk; strength comes from softness with boundaries. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-09-hermit",
+      "name": {
+        "vi": "The Hermit",
+        "en": "The Hermit"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "một mình",
+          "chiếu soi",
+          "tìm nghĩa"
+        ],
+        "en": [
+          "solitude",
+          "illumination",
+          "meaning"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/major-09-hermit.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/major-09-hermit.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card The Hermit.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: solitude, illumination, meaning.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A solitary figure sits in a warm dark corner, holding a small candle toward a pocket mirror; dried petals and quiet space invite self-inquiry. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-10-wheel",
+      "name": {
+        "vi": "Wheel of Fortune",
+        "en": "Wheel of Fortune"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "chủ kỷ",
+          "thấy đổi",
+          "cơ hội"
+        ],
+        "en": [
+          "cycles",
+          "change",
+          "opportunity"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/major-10-wheel.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/major-10-wheel.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Wheel of Fortune.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: cycles, change, opportunity.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A ring of small mirrors turns around a perfume bottle and numberless pocket watch, rose-petal reflections shifting in candlelight; emotional cycles are changing phase. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-11-justice",
+      "name": {
+        "vi": "Justice",
+        "en": "Justice"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "sự thật",
+          "cân bằng",
+          "trách nhiệm"
+        ],
+        "en": [
+          "truth",
+          "balance",
+          "accountability"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/major-11-justice.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/major-11-justice.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Justice.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: truth, balance, accountability.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. An honest portrait stands between two symmetrical mirrors, one reflecting a soft heart, the other a precise key; the light divides the scene without becoming cold. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-12-hanged-man",
+      "name": {
+        "vi": "The Hanged Man",
+        "en": "The Hanged Man"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "tâm Đừng",
+          "góc nhìn",
+          "buông bỏ"
+        ],
+        "en": [
+          "pause",
+          "perspective",
+          "surrender"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/major-12-hanged-man.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/major-12-hanged-man.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card The Hanged Man.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: pause, perspective, surrender.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A mirror hangs upside down from silk ribbon, reflecting a calm face seeing the situation from another angle; rose petals drift slowly through candlelit air. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-13-death",
+      "name": {
+        "vi": "Death",
+        "en": "Death"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "kết thức",
+          "tái sinh",
+          "Chuyển Hóa"
+        ],
+        "en": [
+          "ending",
+          "rebirth",
+          "transformation"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/major-13-death.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/major-13-death.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Death.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: ending, rebirth, transformation.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A hand removes a wilted rose from an antique mirror frame, revealing a new rosebud in ivory light; an elegant composition about endings, release, and emotional renewal. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-14-temperance",
+      "name": {
+        "vi": "Temperance",
+        "en": "Temperance"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "điều đó",
+          "phá tròn",
+          "hỏi phục"
+        ],
+        "en": [
+          "moderation",
+          "blending",
+          "healing"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/major-14-temperance.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/major-14-temperance.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Temperance.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: moderation, blending, healing.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Two glass bottles pour muted rose and ivory light into a reflective bowl before a mirror, forming a balanced glow; gentle reconciliation without drama. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-15-devil",
+      "name": {
+        "vi": "The Devil",
+        "en": "The Devil"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "ràng bước",
+          "ham muốn",
+          "ảo tưởng"
+        ],
+        "en": [
+          "attachment",
+          "desire",
+          "illusion"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/major-15-devil.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/major-15-devil.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card The Devil.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: attachment, desire, illusion.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A velvet vanity holds a smoky mirror reflecting a ribbon tied too tightly around a key; thorned petals and low candlelight speak of desire, attachment, and the choice to untie. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-16-tower",
+      "name": {
+        "vi": "The Tower",
+        "en": "The Tower"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "sự thật bắt ngờ",
+          "sụp đó",
+          "giải phóng"
+        ],
+        "en": [
+          "revelation",
+          "collapse",
+          "liberation"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/major-16-tower.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/major-16-tower.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card The Tower.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: revelation, collapse, liberation.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A standing mirror cracks into rose-gold fragments in an otherwise still room, petals blown from the vanity; truth breaks an old structure without copying a lightning tower. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-17-star",
+      "name": {
+        "vi": "The Star",
+        "en": "The Star"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "hy vòng",
+          "niềm tin",
+          "chữa lành"
+        ],
+        "en": [
+          "hope",
+          "faith",
+          "renewal"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/major-17-star.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/major-17-star.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card The Star.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: hope, faith, renewal.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A figure washes their hands in a water bowl reflecting tiny stars beside an oval mirror, petals floating like a gentle promise; brighter, healing, and hopeful. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-18-moon",
+      "name": {
+        "vi": "The Moon",
+        "en": "The Moon"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "mơ hồ",
+          "giấc mơ",
+          "vô thức"
+        ],
+        "en": [
+          "uncertainty",
+          "dreams",
+          "subconscious"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/major-18-moon.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/major-18-moon.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card The Moon.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: uncertainty, dreams, subconscious.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Two small mirrors reflect the same face with different emotions, between them a blurred moon inside perfume-like water; muted rose mist, pearls, and soft darkness suggest intuition and doubt. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-19-sun",
+      "name": {
+        "vi": "The Sun",
+        "en": "The Sun"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "niềm vui",
+          "rõ ràng",
+          "sống sức"
+        ],
+        "en": [
+          "joy",
+          "clarity",
+          "vitality"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/major-19-sun.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/major-19-sun.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card The Sun.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: joy, clarity, vitality.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. An antique mirror catches warm ivory light that brightens petals on the table, the reflected portrait wearing a small smile; mature joy, never harsh or childish. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-20-judgement",
+      "name": {
+        "vi": "Judgement",
+        "en": "Judgement"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "thức tỉnh",
+          "gọi tên",
+          "thả thứ"
+        ],
+        "en": [
+          "awakening",
+          "calling",
+          "release"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/major-20-judgement.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/major-20-judgement.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Judgement.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: awakening, calling, release.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Small mirror shards form a circle around a figure removing a veil, candlelight calling up inner truth; awakening, forgiveness, and choosing a new voice. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "major-21-world",
+      "name": {
+        "vi": "The World",
+        "en": "The World"
+      },
+      "arcana": "major",
+      "suit": null,
+      "keywords": {
+        "vi": [
+          "hoàn tất",
+          "trọn vẹn",
+          "hỏi nhập"
+        ],
+        "en": [
+          "completion",
+          "wholeness",
+          "integration"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/major-21-world.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/major-21-world.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card The World.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: completion, wholeness, integration.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A mirror room opens into a wreath of dried roses, pearls, and keys, with a centered complete portrait looking directly yet gently; the completion of an emotional maturation cycle. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-ace",
+      "name": {
+        "vi": "Ace of Wands",
+        "en": "Ace of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "hạt giống",
+          "tia lửa đầu tiến",
+          "ý chỉ"
+        ],
+        "en": [
+          "seed",
+          "first spark",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-wands-ace.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-wands-ace.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Ace of Wands.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: seed, first spark, will.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A freshly lit match before a small mirror, its flame reflected as a luminous rosebud; silk ribbon and fine thorns suggest the beginning of conscious desire. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-two",
+      "name": {
+        "vi": "Two of Wands",
+        "en": "Two of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "cân bằng",
+          "chọn hướng đi",
+          "ý chỉ"
+        ],
+        "en": [
+          "balance",
+          "choosing direction",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-wands-two.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-wands-two.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Two of Wands.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: balance, choosing direction, will.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Two candles at the edges of an oval mirror, a key resting on a wordless emotional map between them; a figure considers moving closer or keeping distance. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-three",
+      "name": {
+        "vi": "Three of Wands",
+        "en": "Three of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "phát triển",
+          "nhìn xa hơn",
+          "ý chỉ"
+        ],
+        "en": [
+          "growth",
+          "looking outward",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-wands-three.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-wands-three.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Three of Wands.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: growth, looking outward, will.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Three candle reflections stretch across a tabletop mirror toward a dark rose window; petals move like signals awaiting response after an initiative has been made. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-four",
+      "name": {
+        "vi": "Four of Wands",
+        "en": "Four of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "nền tảng",
+          "ăn mừng nhỏ",
+          "ý chỉ"
+        ],
+        "en": [
+          "foundation",
+          "small celebration",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-wands-four.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-wands-four.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Four of Wands.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: foundation, small celebration, will.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Four small candles form a warm frame around a mirror, untied ribbon and petals arranged in an intimate circle; the safety of being welcomed. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-five",
+      "name": {
+        "vi": "Five of Wands",
+        "en": "Five of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "mà sát",
+          "và chạm ý chỉ",
+          "ý chỉ"
+        ],
+        "en": [
+          "friction",
+          "clashing wills",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-wands-five.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-wands-five.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Five of Wands.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: friction, clashing wills, will.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Five slender candles reflect in a lightly cracked mirror, ribbons pulling off-center; tension, attraction, and clashing egos held in an elegant composition. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-six",
+      "name": {
+        "vi": "Six of Wands",
+        "en": "Six of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "điều chính",
+          "được công nhận",
+          "ý chỉ"
+        ],
+        "en": [
+          "repair",
+          "recognition",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-wands-six.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-wands-six.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Six of Wands.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: repair, recognition, will.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A confident portrait lifts a candle before the mirror, six rose-gold lights appearing around the edge like recognition; soft victory without display. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-seven",
+      "name": {
+        "vi": "Seven of Wands",
+        "en": "Seven of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "thử thách",
+          "giữ lập trường",
+          "ý chỉ"
+        ],
+        "en": [
+          "challenge",
+          "holding ground",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-wands-seven.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-wands-seven.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Seven of Wands.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: challenge, holding ground, will.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A figure holds a candle to their chest while the mirror behind reflects seven thorned rose stems like intrusive questions; still posture, firm boundary. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-eight",
+      "name": {
+        "vi": "Eight of Wands",
+        "en": "Eight of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "rèn luyện",
+          "tin tức nhanh",
+          "ý chỉ"
+        ],
+        "en": [
+          "practice",
+          "quick movement",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-wands-eight.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-wands-eight.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Eight of Wands.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: practice, quick movement, will.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Eight candle streaks travel across a long mirror like wordless messages, petals pulled into motion lines; fast energy while staying refined. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-nine",
+      "name": {
+        "vi": "Nine of Wands",
+        "en": "Nine of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "thứ hoạch",
+          "kiên cường",
+          "ý chỉ"
+        ],
+        "en": [
+          "attainment",
+          "resilience",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-wands-nine.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-wands-nine.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Nine of Wands.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: attainment, resilience, will.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A tired but alert portrait stands behind nine low-burning candles, holding a ribbon so it will not slip from the mirror; endurance and emotional vigilance. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-ten",
+      "name": {
+        "vi": "Ten of Wands",
+        "en": "Ten of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "hoàn tất",
+          "gánh quả nhiều",
+          "ý chỉ"
+        ],
+        "en": [
+          "completion",
+          "heavy burden",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-wands-ten.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-wands-ten.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Ten of Wands.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: completion, heavy burden, will.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Ten fading candles gathered in a rose-gold tray before a mirror, thin smoke veiling half the reflected face; the burden of passion asks to be set down. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-page",
+      "name": {
+        "vi": "Page of Wands",
+        "en": "Page of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "học hỏi",
+          "tò mơ sáng tạo",
+          "ý chỉ"
+        ],
+        "en": [
+          "apprentice",
+          "creative curiosity",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-wands-page.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-wands-page.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Page of Wands.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: apprentice, creative curiosity, will.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A curious young portrait in muted rose silk holds an unstruck match before a pocket mirror; eager, creative, not yet making promises. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-knight",
+      "name": {
+        "vi": "Knight of Wands",
+        "en": "Knight of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "động lực",
+          "hành động nồng nhiệt",
+          "ý chỉ"
+        ],
+        "en": [
+          "seeker",
+          "impulsive action",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-wands-knight.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-wands-knight.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Knight of Wands.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: seeker, impulsive action, will.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A kinetic portrait with silk cloak like candle flame, holding a red-rose ribbon reflected in a tall mirror; strong chemistry needing direction. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-queen",
+      "name": {
+        "vi": "Queen of Wands",
+        "en": "Queen of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "nuôi đường",
+          "tự tin ấm áp",
+          "ý chỉ"
+        ],
+        "en": [
+          "guardian",
+          "warm confidence",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-wands-queen.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-wands-queen.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Queen of Wands.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: guardian, warm confidence, will.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. An inwardly powerful queen sits beside a round mirror, hair touched with rose thorns and candlelight, one hand open in invitation without surrendering boundaries. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-wands-king",
+      "name": {
+        "vi": "King of Wands",
+        "en": "King of Wands"
+      },
+      "arcana": "minor",
+      "suit": "wands",
+      "keywords": {
+        "vi": [
+          "làm chủ",
+          "tâm nhìn dẫn đặt",
+          "ý chỉ"
+        ],
+        "en": [
+          "stewardship",
+          "visionary leadership",
+          "will"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-wands-king.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-wands-king.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card King of Wands.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: stewardship, visionary leadership, will.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A regal portrait before a smoky mirror, candles arranged into an ordered path; passionate energy led with maturity. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-cups-ace",
+      "name": {
+        "vi": "Ace of Cups",
+        "en": "Ace of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "keywords": {
+        "vi": [
+          "hạt giống",
+          "mơ lòng",
+          "cảm xúc"
+        ],
+        "en": [
+          "seed",
+          "opening heart",
+          "emotion"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-cups-ace.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-cups-ace.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Ace of Cups.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: seed, opening heart, emotion.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A rose-gold glass cup filled with water reflects an oval mirror and floating rosebud; ivory light gently overflows like a new feeling allowed to emerge. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-cups-two",
+      "name": {
+        "vi": "Two of Cups",
+        "en": "Two of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "keywords": {
+        "vi": [
+          "cân bằng",
+          "đáp lại",
+          "cảm xúc"
+        ],
+        "en": [
+          "balance",
+          "mutuality",
+          "emotion"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-cups-two.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-cups-two.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Two of Cups.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: balance, mutuality, emotion.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Two water cups sit before two small mirrors, each cup reflecting the other's hand without merging; intimacy, symmetry, and boundaries. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-cups-three",
+      "name": {
+        "vi": "Three of Cups",
+        "en": "Three of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "keywords": {
+        "vi": [
+          "phát triển",
+          "tình bạn",
+          "cảm xúc"
+        ],
+        "en": [
+          "growth",
+          "friendship",
+          "emotion"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-cups-three.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-cups-three.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Three of Cups.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: growth, friendship, emotion.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Three small perfume bottles and three pocket mirrors form a circle on silk, petals scattered like private blessings; friendship joy and emotional support. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-cups-four",
+      "name": {
+        "vi": "Four of Cups",
+        "en": "Four of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "keywords": {
+        "vi": [
+          "nền tảng",
+          "chán nản",
+          "cảm xúc"
+        ],
+        "en": [
+          "foundation",
+          "emotional pause",
+          "emotion"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-cups-four.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-cups-four.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Four of Cups.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: foundation, emotional pause, emotion.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A figure sits beside a fogged mirror, three cups reflected behind and one glowing cup near the hand but untouched; gentle withdrawal before a new offer. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-cups-five",
+      "name": {
+        "vi": "Five of Cups",
+        "en": "Five of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "keywords": {
+        "vi": [
+          "mà sát",
+          "tiếc nuôi",
+          "cảm xúc"
+        ],
+        "en": [
+          "friction",
+          "grief",
+          "emotion"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-cups-five.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-cups-five.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Five of Cups.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: friction, grief, emotion.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Five glass cups on a mirrored table, two still full in the distance and three spilled into muted rose water; grief seen with tenderness. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-cups-six",
+      "name": {
+        "vi": "Six of Cups",
+        "en": "Six of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "keywords": {
+        "vi": [
+          "điều chính",
+          "kỷ ức",
+          "cảm xúc"
+        ],
+        "en": [
+          "repair",
+          "memory",
+          "emotion"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-cups-six.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-cups-six.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Six of Cups.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: repair, memory, emotion.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. An antique mirror reflects a soft memory: young hands placing petals into a water cup; warm ivory nostalgia without being trapped in the past. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-cups-seven",
+      "name": {
+        "vi": "Seven of Cups",
+        "en": "Seven of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "keywords": {
+        "vi": [
+          "thử thách",
+          "nhiều lựa chọn",
+          "cảm xúc"
+        ],
+        "en": [
+          "challenge",
+          "many options",
+          "emotion"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-cups-seven.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-cups-seven.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Seven of Cups.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: challenge, many options, emotion.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Seven glass bottles reflect seven possibilities in a fogged mirror: pearl, key, flower, silk, candle, water, empty space; beautiful but hard to choose. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-cups-eight",
+      "name": {
+        "vi": "Eight of Cups",
+        "en": "Eight of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "keywords": {
+        "vi": [
+          "rèn luyện",
+          "rơi đi",
+          "cảm xúc"
+        ],
+        "en": [
+          "practice",
+          "walking away",
+          "emotion"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-cups-eight.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-cups-eight.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Eight of Cups.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: practice, walking away, emotion.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Eight water cups remain on the table while a reflected figure turns away in dark silk; petals lead out of the familiar room of old feeling. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-cups-nine",
+      "name": {
+        "vi": "Nine of Cups",
+        "en": "Nine of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "keywords": {
+        "vi": [
+          "thứ hoạch",
+          "hai lòng",
+          "cảm xúc"
+        ],
+        "en": [
+          "attainment",
+          "contentment",
+          "emotion"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-cups-nine.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-cups-nine.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Nine of Cups.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: attainment, contentment, emotion.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Nine small cups like fragrance vessels form an arch around a mirror, the reflected portrait relaxed with a very slight smile; private contentment and enoughness. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-cups-ten",
+      "name": {
+        "vi": "Ten of Cups",
+        "en": "Ten of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "keywords": {
+        "vi": [
+          "hoàn tất",
+          "gần kết",
+          "cảm xúc"
+        ],
+        "en": [
+          "completion",
+          "belonging",
+          "emotion"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-cups-ten.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-cups-ten.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Ten of Cups.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: completion, belonging, emotion.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Ten cups reflect into a rose-ivory arc across a long mirror, different hands placing petals into a circle; safe belonging. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-cups-page",
+      "name": {
+        "vi": "Page of Cups",
+        "en": "Page of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "keywords": {
+        "vi": [
+          "học hỏi",
+          "tin nhận cảm xúc",
+          "cảm xúc"
+        ],
+        "en": [
+          "apprentice",
+          "emotional message",
+          "emotion"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-cups-page.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-cups-page.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Page of Cups.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: apprentice, emotional message, emotion.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A dreamy young portrait looks into a water cup like a small mirror, one petal forming an imperfect heart; new feeling and a gentle message. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-cups-knight",
+      "name": {
+        "vi": "Knight of Cups",
+        "en": "Knight of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "keywords": {
+        "vi": [
+          "động lực",
+          "lặng mãn",
+          "cảm xúc"
+        ],
+        "en": [
+          "seeker",
+          "romantic pursuit",
+          "emotion"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-cups-knight.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-cups-knight.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Knight of Cups.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: seeker, romantic pursuit, emotion.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A romantic portrait carries a perfume bottle before a mirror, silk moving like water; sincere gaze, but needing to move slowly. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-cups-queen",
+      "name": {
+        "vi": "Queen of Cups",
+        "en": "Queen of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "keywords": {
+        "vi": [
+          "nuôi đường",
+          "thấu cảm",
+          "cảm xúc"
+        ],
+        "en": [
+          "guardian",
+          "deep empathy",
+          "emotion"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-cups-queen.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-cups-queen.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Queen of Cups.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: guardian, deep empathy, emotion.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. An emotional queen sits beside a water bowl reflecting a blurred moon, touching pearls and petals; deep, compassionate, and protective of her own heart. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-cups-king",
+      "name": {
+        "vi": "King of Cups",
+        "en": "King of Cups"
+      },
+      "arcana": "minor",
+      "suit": "cups",
+      "keywords": {
+        "vi": [
+          "làm chủ",
+          "cảm xúc chín chắn",
+          "cảm xúc"
+        ],
+        "en": [
+          "stewardship",
+          "emotional maturity",
+          "emotion"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-cups-king.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-cups-king.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card King of Cups.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: stewardship, emotional maturity, emotion.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A calm portrait before a black mirror, still water cups arranged around the table; large feeling contained with maturity. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-ace",
+      "name": {
+        "vi": "Ace of Swords",
+        "en": "Ace of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "hạt giống",
+          "sự thật mới",
+          "suy nghĩ"
+        ],
+        "en": [
+          "seed",
+          "new truth",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-swords-ace.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-swords-ace.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Ace of Swords.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: seed, new truth, thought.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A silver hairpin sharp as a blade lies down the center of a mirror, dividing rose mist into two clear fields; truth that is clean, bright, and not cruel. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-two",
+      "name": {
+        "vi": "Two of Swords",
+        "en": "Two of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "cân bằng",
+          "né tránh quyết định",
+          "suy nghĩ"
+        ],
+        "en": [
+          "balance",
+          "avoided choice",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-swords-two.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-swords-two.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Two of Swords.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: balance, avoided choice, thought.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Two hand mirrors cover both sides of a reflected face, two silver hairpins crossed on silk; indecision that needs both heart and truth. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-three",
+      "name": {
+        "vi": "Three of Swords",
+        "en": "Three of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "phát triển",
+          "đầu lòng",
+          "suy nghĩ"
+        ],
+        "en": [
+          "growth",
+          "heartache",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-swords-three.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-swords-three.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Three of Swords.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: growth, heartache, thought.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Three silver pins pierce a rose silk piece before a lightly cracked mirror, with no pierced heart; heartbreak expressed through fabric, glass, and light. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-four",
+      "name": {
+        "vi": "Four of Swords",
+        "en": "Four of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "nền tảng",
+          "nghĩ tâm trị",
+          "suy nghĩ"
+        ],
+        "en": [
+          "foundation",
+          "mental rest",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-swords-four.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-swords-four.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Four of Swords.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: foundation, mental rest, thought.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Four silver pins rest parallel beside a silk-covered mirror, one low candle burning steadily; rest so truth can settle. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-five",
+      "name": {
+        "vi": "Five of Swords",
+        "en": "Five of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "mà sát",
+          "thẳng mà mặt",
+          "suy nghĩ"
+        ],
+        "en": [
+          "friction",
+          "costly win",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-swords-five.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-swords-five.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Five of Swords.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: friction, costly win, thought.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Five small mirror shards reflect a cut ribbon, light sharp while the room stays silent; winning and losing leave distance that must be acknowledged. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-six",
+      "name": {
+        "vi": "Six of Swords",
+        "en": "Six of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "điều chính",
+          "đi quả vững khó",
+          "suy nghĩ"
+        ],
+        "en": [
+          "repair",
+          "moving through difficulty",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-swords-six.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-swords-six.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Six of Swords.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: repair, moving through difficulty, thought.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Six silver pins rest in a velvet box, a small mirror reflecting dark rose water like a quiet departure; moving toward safer ground. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-seven",
+      "name": {
+        "vi": "Seven of Swords",
+        "en": "Seven of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "thử thách",
+          "chiến lược",
+          "suy nghĩ"
+        ],
+        "en": [
+          "challenge",
+          "strategy",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-swords-seven.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-swords-seven.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Seven of Swords.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: challenge, strategy, thought.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Seven glass shards are partly hidden under silk, a hand drawing a pocket mirror out of shadow; strategy, secrecy, and the need for self-honesty. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-eight",
+      "name": {
+        "vi": "Eight of Swords",
+        "en": "Eight of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "rèn luyện",
+          "từ giới hạn",
+          "suy nghĩ"
+        ],
+        "en": [
+          "practice",
+          "self-limitation",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-swords-eight.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-swords-eight.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Eight of Swords.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: practice, self-limitation, thought.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Eight muted-rose ribbons cross a mirror like forbidden lines, the portrait behind seeing a narrow light gap; feeling trapped while another view remains possible. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-nine",
+      "name": {
+        "vi": "Nine of Swords",
+        "en": "Nine of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "thứ hoạch",
+          "lo âu",
+          "suy nghĩ"
+        ],
+        "en": [
+          "attainment",
+          "anxiety",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-swords-nine.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-swords-nine.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Nine of Swords.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: attainment, anxiety, thought.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Nine thin light marks reflect on a bedside mirror while a figure lies awake in low candlelight; anxiety held gently, never horrific. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-ten",
+      "name": {
+        "vi": "Ten of Swords",
+        "en": "Ten of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "hoàn tất",
+          "kết thức đầu",
+          "suy nghĩ"
+        ],
+        "en": [
+          "completion",
+          "painful ending",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-swords-ten.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-swords-ten.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Ten of Swords.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: completion, painful ending, thought.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Ten silver pins have been set down beside a cracked mirror, silk covering the sharpest part; a painful ending as the room begins to brighten. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-page",
+      "name": {
+        "vi": "Page of Swords",
+        "en": "Page of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "học hỏi",
+          "quan sát",
+          "suy nghĩ"
+        ],
+        "en": [
+          "apprentice",
+          "watchful learning",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-swords-page.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-swords-page.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Page of Swords.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: apprentice, watchful learning, thought.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A sharp young portrait studies a hand mirror, holding a silver pin like a pen without writing; curious, alert, learning how to speak truth. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-knight",
+      "name": {
+        "vi": "Knight of Swords",
+        "en": "Knight of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "động lực",
+          "lời nói nhanh",
+          "suy nghĩ"
+        ],
+        "en": [
+          "seeker",
+          "fast words",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-swords-knight.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-swords-knight.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Knight of Swords.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: seeker, fast words, thought.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A portrait rushes toward a tall mirror, silk garment cutting diagonal light, silver pin in hand; truth arrives fast and must soften before it wounds. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-queen",
+      "name": {
+        "vi": "Queen of Swords",
+        "en": "Queen of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "nuôi đường",
+          "ranh giới trị tuệ",
+          "suy nghĩ"
+        ],
+        "en": [
+          "guardian",
+          "clear boundaries",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-swords-queen.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-swords-queen.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Queen of Swords.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: guardian, clear boundaries, thought.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A clear-eyed queen sits before a bright mirror, holding a silver pin and a rose stem with thorns trimmed; compassion paired with precise standards. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-swords-king",
+      "name": {
+        "vi": "King of Swords",
+        "en": "King of Swords"
+      },
+      "arcana": "minor",
+      "suit": "swords",
+      "keywords": {
+        "vi": [
+          "làm chủ",
+          "phần đoán sáng suốt",
+          "suy nghĩ"
+        ],
+        "en": [
+          "stewardship",
+          "clear judgment",
+          "thought"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-swords-king.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-swords-king.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card King of Swords.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: stewardship, clear judgment, thought.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A composed portrait before a square mirror, silver and rose-gold light balanced at the corners; wise decision and responsible speech. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-ace",
+      "name": {
+        "vi": "Ace of Pentacles",
+        "en": "Ace of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "hạt giống",
+          "cơ hội vật chất",
+          "cơ thể"
+        ],
+        "en": [
+          "seed",
+          "material opportunity",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-pentacles-ace.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-pentacles-ace.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Ace of Pentacles.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: seed, material opportunity, body.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A rose-gold coin rests in an open velvet box before a mirror, reflected as an ivory rosebud; a new opportunity for self-worth and care. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-two",
+      "name": {
+        "vi": "Two of Pentacles",
+        "en": "Two of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "cân bằng",
+          "cân bằng nguồn lực",
+          "cơ thể"
+        ],
+        "en": [
+          "balance",
+          "resource balance",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-pentacles-two.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-pentacles-two.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Two of Pentacles.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: balance, resource balance, body.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Two small coins balance on an infinity-shaped ribbon before a tabletop mirror, beside a key and fragrance bottle; balancing needs and resources. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-three",
+      "name": {
+        "vi": "Three of Pentacles",
+        "en": "Three of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "phát triển",
+          "công tác",
+          "cơ thể"
+        ],
+        "en": [
+          "growth",
+          "collaboration",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-pentacles-three.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-pentacles-three.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Three of Pentacles.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: growth, collaboration, body.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Three hands place a pearl, key, and coin around a vanity mirror, with no writing or blueprint; refined collaboration to build what matters. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-four",
+      "name": {
+        "vi": "Four of Pentacles",
+        "en": "Four of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "nền tảng",
+          "giữ chặt",
+          "cơ thể"
+        ],
+        "en": [
+          "foundation",
+          "holding tightly",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-pentacles-four.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-pentacles-four.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Four of Pentacles.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: foundation, holding tightly, body.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Four rose-gold coins are held close around a small mirror, a hand closing the velvet box a little too tightly; self-protection and fear of losing value. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-five",
+      "name": {
+        "vi": "Five of Pentacles",
+        "en": "Five of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "mà sát",
+          "thiếu thốn",
+          "cơ thể"
+        ],
+        "en": [
+          "friction",
+          "scarcity",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-pentacles-five.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-pentacles-five.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Five of Pentacles.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: friction, scarcity, body.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Five dim coins sit outside the mirror's warm light, a soft silk cloth placed near the table edge as an offer of support; scarcity without abandonment. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-six",
+      "name": {
+        "vi": "Six of Pentacles",
+        "en": "Six of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "điều chính",
+          "cho và nhận",
+          "cơ thể"
+        ],
+        "en": [
+          "repair",
+          "giving and receiving",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-pentacles-six.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-pentacles-six.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Six of Pentacles.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: repair, giving and receiving, body.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Six coins and six pearls are evenly shared on a mirrored tray, two hands giving and receiving in candlelight; generosity with balance. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-seven",
+      "name": {
+        "vi": "Seven of Pentacles",
+        "en": "Seven of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "thử thách",
+          "kiên nhẫn",
+          "cơ thể"
+        ],
+        "en": [
+          "challenge",
+          "patience",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-pentacles-seven.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-pentacles-seven.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Seven of Pentacles.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: challenge, patience, body.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Seven small coins rest beside a potted rose in a mirror room, a figure watching the sprout through reflection; patience with value that is growing. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-eight",
+      "name": {
+        "vi": "Eight of Pentacles",
+        "en": "Eight of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "rèn luyện",
+          "tay nghe",
+          "cơ thể"
+        ],
+        "en": [
+          "practice",
+          "craft",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-pentacles-eight.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-pentacles-eight.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Eight of Pentacles.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: practice, craft, body.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Eight small mirrors are polished one by one on velvet, beside delicate tools and dried petals; practicing devotion to craft and care. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-nine",
+      "name": {
+        "vi": "Nine of Pentacles",
+        "en": "Nine of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "thứ hoạch",
+          "từ chủ",
+          "cơ thể"
+        ],
+        "en": [
+          "attainment",
+          "self-sufficiency",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-pentacles-nine.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-pentacles-nine.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Nine of Pentacles.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: attainment, self-sufficiency, body.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A self-possessed portrait in silk stands beside a tall mirror, nine pearls and coins arranged around a fragrance bottle; the beauty of soft independence. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-ten",
+      "name": {
+        "vi": "Ten of Pentacles",
+        "en": "Ten of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "hoàn tất",
+          "đi sẵn",
+          "cơ thể"
+        ],
+        "en": [
+          "completion",
+          "legacy",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-pentacles-ten.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-pentacles-ten.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Ten of Pentacles.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: completion, legacy, body.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. Ten rose-gold coins form an abstract family tree around an antique mirror, with empty frames and dried petals; emotional legacy and lasting security. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-page",
+      "name": {
+        "vi": "Page of Pentacles",
+        "en": "Page of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "học hỏi",
+          "học cách xây",
+          "cơ thể"
+        ],
+        "en": [
+          "apprentice",
+          "learning to build",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-pentacles-page.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-pentacles-page.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Page of Pentacles.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: apprentice, learning to build, body.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A young portrait lifts one coin before a pocket mirror as if studying their own value, bright-eyed and careful; beginning to care for what is real. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-knight",
+      "name": {
+        "vi": "Knight of Pentacles",
+        "en": "Knight of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "động lực",
+          "bên bị",
+          "cơ thể"
+        ],
+        "en": [
+          "seeker",
+          "steady effort",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-pentacles-knight.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-pentacles-knight.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Knight of Pentacles.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: seeker, steady effort, body.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A steadfast portrait places keys one by one onto a mirrored tray, dark velvet and steady candlelight; slow, reliable movement that keeps promises. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-queen",
+      "name": {
+        "vi": "Queen of Pentacles",
+        "en": "Queen of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "nuôi đường",
+          "chạm sóc thực tế",
+          "cơ thể"
+        ],
+        "en": [
+          "guardian",
+          "practical care",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-pentacles-queen.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-pentacles-queen.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card Queen of Pentacles.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: guardian, practical care, body.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A warm queen sits beside an open velvet box, touching a coin, pearls, and a tended rose branch; abundance begins with self-care. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    },
+    {
+      "cardId": "minor-pentacles-king",
+      "name": {
+        "vi": "King of Pentacles",
+        "en": "King of Pentacles"
+      },
+      "arcana": "minor",
+      "suit": "pentacles",
+      "keywords": {
+        "vi": [
+          "làm chủ",
+          "quản trị nguồn lực",
+          "cơ thể"
+        ],
+        "en": [
+          "stewardship",
+          "resource stewardship",
+          "body"
+        ]
+      },
+      "artworkPath": "assets/tarot/rose-mirror/artwork/minor-pentacles-king.png",
+      "cardPath": "assets/tarot/rose-mirror/cards/minor-pentacles-king.png",
+      "prompt": "Use case: stylized-concept\nAsset type: inner tarot card illustration only, to be composited into a fixed card template\nPrimary request: Create the inner artwork for the Rose Mirror tarot deck card King of Pentacles.\nStyle: premium mystical editorial, intimate antique mirror ritual, charcoal paper texture, muted rose and rose-gold accents, warm candlelight, soft glass reflections, silk, pearls, dried petals, refined Gen Z spiritual aesthetic.\nCard meaning cues: stewardship, resource stewardship, body.\nDeck visual direction: love, antique mirrors, muted rose, emotional boundaries. A grounded portrait before a heavy rose-gold mirror frame, keys, coins, and silk arranged with order; stable, generous, responsible value. Design inner artwork in a premium mystical editorial tarot portrait ratio, centered composition with generous negative space, charcoal and muted rose atmosphere, champagne candlelight, antique mirror surfaces, rose-gold, silk, and dried petals. No card frame, no border, no title, no numbers, no text, no watermark, no Rider-Waite copy, no celebrity likeness.\nComposition: portrait illustration, centered symbolic subject or portrait, generous negative space, no card frame, no border, no title, no numbers, no text, no watermark.\nColor palette: charcoal black, deep rose ink, muted rose, ivory highlights, rose-gold and champagne candle accents, moon gray reflections.\nAvoid: Rider-Waite copy, celebrity likeness, bright neon colors, horror occult style, cheap romance imagery, text, commercial deck imitation."
+    }
+  ]
+}

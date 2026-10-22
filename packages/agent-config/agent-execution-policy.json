@@ -1,0 +1,63 @@
+{
+  "id": "nilaza_agent_execution_policy",
+  "version": "2026-09-20-v1",
+  "purpose": "Make AI-assisted delivery traceable, bounded and reviewable; this policy does not grant production access or replace human approval.",
+  "defaultDataClass": "sanitized_project_context",
+  "forbiddenDataClasses": [
+    "raw_private_chat",
+    "raw_journal_entry",
+    "birth_profile",
+    "face_upload",
+    "provider_secret",
+    "service_role_key"
+  ],
+  "agentClasses": {
+    "product": {
+      "allowedWriteScopes": [
+        "docs",
+        "packages/content/data",
+        "packages/agent-config"
+      ],
+      "mayDeploy": false,
+      "mayPublish": false
+    },
+    "coding": {
+      "allowedWriteScopes": [
+        "apps",
+        "packages",
+        "scripts",
+        "supabase",
+        "docs",
+        "skills"
+      ],
+      "mayDeploy": false,
+      "mayPublish": false
+    }
+  },
+  "subAgentContract": {
+    "requiredHandoffFields": [
+      "taskId",
+      "ownerAgent",
+      "purpose",
+      "writeScope",
+      "allowedDataClasses",
+      "validation",
+      "stopCondition"
+    ],
+    "rules": [
+      "A sub-agent may write only within its declared writeScope.",
+      "A sub-agent may not create a second sub-agent unless its parent task explicitly permits it.",
+      "A sub-agent must stop and return control when it needs credentials, a production action, an expanded write scope, or private user data.",
+      "A manager or assigned owner approves deployment, publishing, migration repair and irreversible actions."
+    ]
+  },
+  "requiredRunRecord": [
+    "taskId",
+    "ownerAgent",
+    "scope",
+    "checksRun",
+    "residualRisk",
+    "rollback",
+    "managerTestPath"
+  ]
+}

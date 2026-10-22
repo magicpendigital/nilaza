@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "nilaza.astrology.ai-insight.request.v1",
+  "requestId": "req_astrology_demo_001",
+  "reportId": "report_astrology_demo_001",
+  "language": "vi",
+  "chart": {
+    "contractId": "nilaza.astrology.canonical-chart",
+    "contractVersion": "0.2.0",
+    "calculationVersion": "nilaza-a3-utc-tt-2",
+    "reportRevision": 1,
+    "calculationStatus": "candidate"
+  },
+  "selectedFactIds": [
+    "placement.sun",
+    "placement.moon",
+    "aspect.sun_moon.square",
+    "house.1"
+  ],
+  "facts": {
+    "placements": [
+      {
+        "factId": "placement.sun",
+        "body": "sun",
+        "sign": "capricorn",
+        "degree": 10.07,
+        "house": 1,
+        "retrograde": null,
+        "confidence": {
+          "level": "estimated",
+          "basis": "deterministic_exact_input",
+          "caveatIds": [
+            "caveat.independent_accuracy"
+          ]
+        }
+      },
+      {
+        "factId": "placement.moon",
+        "body": "moon",
+        "sign": "aries",
+        "degree": 8.2,
+        "house": 4,
+        "retrograde": null,
+        "confidence": {
+          "level": "estimated",
+          "basis": "deterministic_exact_input",
+          "caveatIds": [
+            "caveat.independent_accuracy"
+          ]
+        }
+      }
+    ],
+    "aspects": [
+      {
+        "factId": "aspect.sun_moon.square",
+        "bodyA": "sun",
+        "bodyB": "moon",
+        "aspectType": "square",
+        "orb": 1.87,
+        "confidence": {
+          "level": "estimated",
+          "basis": "derived_from_chart",
+          "caveatIds": [
+            "caveat.independent_accuracy"
+          ]
+        }
+      }
+    ],
+    "houses": [
+      {
+        "factId": "house.1",
+        "house": 1,
+        "sign": "capricorn",
+        "confidence": {
+          "level": "estimated",
+          "basis": "derived_from_chart",
+          "caveatIds": [
+            "caveat.independent_accuracy"
+          ]
+        }
+      }
+    ]
+  },
+  "caveats": [
+    {
+      "id": "caveat.independent_accuracy",
+      "code": "independent_accuracy_not_verified",
+      "severity": "warning",
+      "appliesToFactIds": [
+        "placement.sun",
+        "placement.moon",
+        "aspect.sun_moon.square",
+        "house.1"
+      ]
+    }
+  ],
+  "userFocus": {
+    "mode": "question",
+    "theme": "work",
+    "sanitizedQuestion": "Tôi muốn hiểu cách những nhu cầu bên trong ảnh hưởng đến quyết định công việc hiện tại.",
+    "consentScope": "current_focus_only",
+    "contextDisclosure": "chart_facts_and_current_focus_only"
+  }
+}

@@ -1,0 +1,566 @@
+{
+  "schemaVersion": 1,
+  "taskId": "ai-publish-provenance-feedback-2026-10-14",
+  "ownerAgent": "root_ai_operations_delivery",
+  "lane": "cross_cutting_admin_backend_mobile",
+  "goal": "Implement approved A1 publish integrity, then A2 answer provenance and A3 feedback from mobile through backend to Admin, with synthetic local validation and no cloud deployment.",
+  "successCriteria": [
+    "A1 real Edge normalization matches RPC SQL, rejects stale publication and safely replays identical request IDs; null fallback remains disabled.",
+    "A2 preserve optional backward-compatible provenance and exact answer through save/reopen/retry; invalid outputs cannot claim successful AI.",
+    "A3 online receipt/offline queue/failure states are honest and scoped to account; Admin triages feedback linked to versions without raw user content.",
+    "Only local source and isolated synthetic tests change; cloud activation, credentials, production and ledger remain untouched."
+  ],
+  "writeScope": [
+    "apps/admin/",
+    "supabase/functions/admin-model-router-config/",
+    "supabase/migrations/",
+    "scripts/model-route-publish-sql.test.mjs",
+    "scripts/admin-ai-studio-render.test.mjs",
+    "artifacts/ai-operations-2026-10-14/",
+    "docs/AI_OPERATIONS_IMPLEMENTATION_2026-10-14.vi.md",
+    "packages/ai-contracts/",
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/types.ts",
+    "apps/mobile/src/backendClient.ts",
+    "apps/mobile/src/features/astrology/",
+    "apps/mobile/src/features/tarot/",
+    "apps/mobile/src/__tests__/",
+    "supabase/functions/ai-tarot-reading/",
+    "supabase/functions/ai-astrology-insight/",
+    "supabase/functions/_shared/answer-provenance.ts",
+    "supabase/functions/_shared/answer-provenance.test.ts",
+    "supabase/functions/_shared/tarot-output.ts",
+    "supabase/functions/_shared/tarot-output.test.ts",
+    "supabase/functions/_shared/tarot-prompt.ts",
+    "supabase/functions/_shared/ai-trace.ts",
+    "supabase/functions/_shared/ai-trace.test.ts",
+    "apps/mobile/src/features/feedback/",
+    "supabase/functions/ai-feedback/",
+    "supabase/functions/_shared/answer-receipt.ts",
+    "supabase/functions/_shared/answer-receipt.test.ts",
+    "supabase/functions/_shared/ai-feedback-contract.ts",
+    "scripts/ai-feedback-sql.test.mjs",
+    "scripts/admin-feedback.test.mjs",
+    "scripts/validate-backend-contracts.mjs",
+    "scripts/check-supabase-readiness.mjs",
+    "supabase/functions/README.md",
+    "apps/mobile/src/features/privacy/",
+    "supabase/functions/_shared/model-router.ts",
+    "supabase/functions/_shared/model-provider.ts",
+    "scripts/ai-answer-endpoints.test.mjs",
+    "apps/mobile/tsconfig.json",
+    "scripts/admin-workflow-catalog.test.mjs",
+    "docs/AI_TRACE_OBSERVABILITY.md",
+    "scripts/validate-admin-workflow-catalog.mjs",
+    "package.json",
+    "scripts/admin-access.test.mjs"
+  ],
+  "untouchedSurfaces": [
+    "All existing dirty changes are preserved; no reset or old migration rewrite.",
+    "Cloud database, existing local databases, production, credentials, real user data and provider calls remain untouched.",
+    "Tarot/astrology content/artwork and deterministic chart/card logic unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Admin Model Router publication first; later Tarot/Astrology results and Journal report/save actions plus protected Admin feedback inbox.",
+    "dataWrite": "A1 local code and new forward migration only; test uses task-only isolated synthetic database. Later account-scoped local answer snapshots/feedback queue and proposed remote feedback tables via reviewed forward SQL.",
+    "backendContract": "A1 canonical nested route payload, expected active ID and idempotent request receipt. Later additive answer provenance and feedback schema with authenticated ownership validation.",
+    "adminVisibility": "Loaded/draft/published/runtime-observed separate; no invented metrics. Later sanitized feedback inbox with explicit provenance trust and audit.",
+    "privacySafety": "Synthetic fixtures only; no raw private logs, birth records, secrets or user excerpts. Default feedback is bounded metadata; optional raw excerpt remains disabled unless fully controlled.",
+    "observability": "Explicit version metadata allowlist and trace trust boundaries; client observation cannot masquerade as authoritative provider execution.",
+    "rollback": "Restore scoped task diff without resetting prior work. Forward database changes additive; older snapshots remain readable. Cloud rollback and migration application are separate reviewed actions.",
+    "surfacesIntentionallyUntouched": "No content expansion, artwork, model provider activation, calculator changes, billing policy changes, cloud retarget or deployment.",
+    "agentHandoff": "Root completes remaining work. Prior agent output retained and reviewed; no active delegation."
+  },
+  "canonicalContracts": [
+    "A1 admin-model-router-config/contract.ts defines accepted route publish envelope, mapped identically to forward SQL RPC.",
+    "A2 shared answer provenance module/schema will be versioned and consumed by mobile/backend without raw content.",
+    "A3 feedback contract will whitelist enum/id provenance, enforce ownership/RBAC and separate submitted metadata from verified server source."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "static_repository_source_and_provenance_hashes",
+    "public_research_sources",
+    "user_supplied_reference_images"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "4da2a80e09727695c07ad5e0adc52fffb28ae71783dc7258585aac3735a6add9",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "6cd85c85b43e6ada64745ac13bf34f3fdb2b9e799f5bc2ad176a662d94b154e1",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "7a4973733886cb4f1568d38e6d8324d1d8200bb1acd850db486bf5323943f023",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "docs/TAROT_CONTENT_SYSTEM.md",
+      "sha256": "4772a0e0edee8939fe45486a0c01e24f3c0f8af410321dd966e9fe82226cece9",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "docs/AI_TRACE_OBSERVABILITY.md",
+      "sha256": "a9fd079e435ce1d302a5a88eb1d69e917ecd3265a365ffa1dc9a4e164febfe40",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "e5fc9e3789ce1978ce3db7b7f41d6dd695d021c6d01ead2b11b3af14a4525f49",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "docs/release/RELEASE_RUNBOOK.md",
+      "sha256": "348e5aa5786a5f8648fd96c94e0b4a831602a5312d318b6e48885a47afd71b39",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "docs/TAROT_ASTROLOGY_CONTENT_ADMIN_REVIEW_2026-10-14.vi.md",
+      "sha256": "3f2a9cdf373227da102fdd8849f6480957524bbf8e2aced75faf803a817b21e7",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "1e4d2bc7a93a2a140690c7237537de582972db30088309996ab6462a79a53623",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/nilaza-plan-qc.md",
+      "sha256": "1f1ca706c56aef4d08ac94c6475c19a59c3838a218eab9e94ab9436fbe4cda03",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/admin-runtime-parity.md",
+      "sha256": "c8233f41b579c278b3a9927cdacc6462a060c28fd367cca3e5deb650f1cc5dfd",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "skills/nilaza-brand-experience/SKILL.md",
+      "sha256": "1e2acdfac537225ed366a78e6c28b6764a5fe2ac1a1434e583ba21349dee1928",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "skills/nilaza-tarot-content-qc/SKILL.md",
+      "sha256": "678c2c93864f3c835534504bd71bb0ce13802e86b46bb55f470f369d939c69e4",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "skills/nilaza-tarot-content-qc/references/bilingual-review.md",
+      "sha256": "d7b901c996166e745983491aaf9149a7e1ffad6bb7cd02c692a0bbf0c13c2e72",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/admin/AGENTS.md",
+      "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/admin/admin-capabilities.json",
+      "sha256": "25dfafe10caeb1d9d28ce8a888b395f1241ddc68beca4f9f5ae1e0787b296115",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/admin/content-model.mjs",
+      "sha256": "85e4223ff42ae079073951029a033ba88c9a4fe27abbefcb74c2d363d1c79771",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/admin/content-sync.js",
+      "sha256": "218981563eda1797e284cdf1f466fe6c71b3684c20da90422c5c955371e34cda",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/admin/content.js",
+      "sha256": "3b91ece53c0d5c9df07947281c67016d7a95cb35eac9b610a50b27de755c693b",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/admin/app.js",
+      "sha256": "95ccd2ad41dd2971195c40f44b41daa489d6782833abf93821b1282f75e86593",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "scripts/build-admin-seed.mjs",
+      "sha256": "b12a842fa8aea686fc3f4a6816af846a898ced466cebcef2bad1cec4eab4d646",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "scripts/validate-backend-contracts.mjs",
+      "sha256": "4aa0dba1d6b3709f329f24a71e1549fe8a65ed92c002e52571dca21a0498efa7",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "scripts/admin-ai-studio-render.test.mjs",
+      "sha256": "0ea380b90aa5fe8765fffc4ae7922b02f579d7a215c42b8a09fded5980bd5b9c",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "scripts/validate-data.mjs",
+      "sha256": "d3588f45f7f79d325484835a668d8d3fbc402891c21214d9f50811956a12c85a",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "supabase/functions/admin-model-router-config/index.ts",
+      "sha256": "52025e353e0f29a2393803d6d8e578eb7cb0a1a4bdf2401c4ff7348c02bc784e",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "supabase/functions/admin-astrology-prompt-config/index.ts",
+      "sha256": "f7d133d0eaffdaf51a05a4ebc9060bb82cd2f6ae940df7a2ca7eec63ca3baefc",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "supabase/functions/admin-ai-trace-qa-payload/index.ts",
+      "sha256": "352133e4b0397f77aad295875d17876f85dcbb98a03c4d2e6bfbf9e7c1877a02",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/index.ts",
+      "sha256": "ee19d854d1d8aa8937ea6f79066320dcdb47c49e1062dc90962697adbbf39690",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "supabase/functions/_shared/tarot-prompt.ts",
+      "sha256": "8712abbb6d80e0a9e26238a07ce1416799b4bc66185b30798fc1faf840de89b6",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "sha256": "3ec74646adf3422853f4ef03090c0e96239acc8078dca603a0115bd12159f4b6",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "supabase/functions/_shared/model-provider.ts",
+      "sha256": "1adf3e28bb06017d9e7815122121e953e93038724b02e6bc0a3b2c5b54203a6d",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "supabase/functions/_shared/ai-trace.ts",
+      "sha256": "78f27f581fc4ec10ea0507d0c169787e89a12dbb034b4704761b93880c664221",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "supabase/functions/ai-astrology-insight/index.ts",
+      "sha256": "cfa6a540d58abd382507d4bad5e3180703ead2102f74511e0bc6e4368253774b",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "supabase/functions/_shared/astrology-ai-insight.ts",
+      "sha256": "e08190c026d4b2233303a377f64fd8c3dac73f6d5e29649475ed5e4dcc2b6c64",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "supabase/migrations/20260926152118_ai_studio_operations.sql",
+      "sha256": "7d17c007edf9807d4dbff19ccaa15283db6dfaaeb2e8a3acd91cd16060ad995a",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "supabase/migrations/20260909014614_ai_trace_observability.sql",
+      "sha256": "8794f35ab9724c18e2dda617f5bc3b1031bd16af067dff70a9cf1ef321e769bc",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "supabase/migrations/20261004183447_client_table_privilege_boundary.sql",
+      "sha256": "2e5af56a94de7f79f403d78cc99fdd3f521984d63e6ca200f3cf7b9e508f8061",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "packages/agent-config/model-routing.json",
+      "sha256": "25eecd4fcea32769e88ba59e7b287e7ee8cb42d75f70f2198759eacd4bf08eb2",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "packages/agent-config/prompt-library.json",
+      "sha256": "6e24285ae847c2ee01ff6949ef3b6fd36c5933d31376a185c32b244d97f29bd3",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "packages/agent-config/astrology-ai-insight/response.schema.json",
+      "sha256": "9d5351426e95d8f51e9995e04922c6ea0d11ec02e4a00d37a46bf7525b096d79",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "packages/astrology-core/README.md",
+      "sha256": "a76c78d75a035e3aedaf70ccef55b2b6914ad94a5780d58328021edb2edb20a0",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/classic-arcana-full-deck-manifest.json",
+      "sha256": "a463ac605277197c4d9bac7c3448d41f5196cda8328c3188b2e1e4554368b331",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "64c3309a30d5a562744d7361312deac8d74348a98718c8f74de4fcfb0bff8f9d",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "sha256": "4a6efb1925077455954293eb47d06fbc299c5648f7d2066ec7415f5af00eb758",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/mobile/src/features/tarot/learning.ts",
+      "sha256": "4b04afdd6993dc8beb84ee857d6f7d8048a6ece71aa6c470d7719af95e6fc3f5",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/astrologyAiInsight.ts",
+      "sha256": "c37a1c46b062bf969ef43fe9e81e90149c575d07f1360443cf1b089506e382b7",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+      "sha256": "876407a3ed39a1e3f78f3635882b2087c3091807ec9d7fa49109ae5a030d8429",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/AstrologyChartStory.tsx",
+      "sha256": "d88318241913c2ea25103a37b1da3be01958536c1f36f09dbb2faa39ed17d8e5",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/AstrologyGlossary.tsx",
+      "sha256": "4370d2d3bfd59ca86c4d50a792e09d30d54c969d29131debe1740c7a2919c428",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/interpretation.ts",
+      "sha256": "11548005add775e9e597e7eafe3acedb22c4d6cac677aa654f46fc2ad6b40a19",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/MythologyWorld.tsx",
+      "sha256": "55dccdce6db3e500b5589f2ed2f36a253d3d0492a6218d36050b4a77dbadeca9",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/persistence.ts",
+      "sha256": "e2ce7b6a6d1af3d0050f52b892948fd29eff64791da426387012e9a38b0606bc",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "docs/ADMIN_DATA_CONSOLE_ARCHITECTURE.md",
+      "reason": "Current scoped instructions, integration or runtime version source reviewed for A1; preserve dirty state.",
+      "sha256": "2e458cfc73cf5122f90db17feac1316e6eca20d31033103c65d9a3d24280eb71"
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "reason": "Current scoped instructions, integration or runtime version source reviewed for A1; preserve dirty state.",
+      "sha256": "c6a16c4be5bd732c51158ab66c4ea92bd23c1e817da539f3820546a22d806ec8"
+    },
+    {
+      "path": "docs/BACKEND_PROXY_ARCHITECTURE.md",
+      "reason": "Current scoped instructions, integration or runtime version source reviewed for A1; preserve dirty state.",
+      "sha256": "b079458af4a10232efc8804746dd3ae7e8f10d5097800b26f2faf4e922fe91cb"
+    },
+    {
+      "path": "scripts/native-postgres-rehearsal.mjs",
+      "reason": "Current scoped instructions, integration or runtime version source reviewed for A1; preserve dirty state.",
+      "sha256": "da4e490f792bb2085b58756946fb15dd3cdb007e3ae3e2fb1ccdd4d47b816801"
+    },
+    {
+      "path": "package.json",
+      "reason": "Current scoped instructions, integration or runtime version source reviewed for A1; preserve dirty state.",
+      "sha256": "d5e47722407394a566adc631c26d412897b9078efaadfb6242773b7b54775dcb"
+    },
+    {
+      "path": "package-lock.json",
+      "reason": "Current scoped instructions, integration or runtime version source reviewed for A1; preserve dirty state.",
+      "sha256": "ba3e99deb94ffd6b862f2008b5886cb60aac9a60d4fa1c28cc98f4226a2bbedb"
+    },
+    {
+      "path": "apps/mobile/tsconfig.json",
+      "reason": "Reviewed bundler config; allow explicit .ts imports for shared pure contracts consumed by Deno and mobile, noEmit typecheck unchanged",
+      "sha256": "5503bd132074f79502d650d98a7ca267c0689c640a27ca024eaf82afced9b7f3"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Read skill and cross-app/Admin runtime parity references; apply docs-only impact map, source provenance and distinction of editor/runtime/live evidence."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Read skill, Brand Guidelines and DESIGN; preserve Open Reflection and reinterpret poster information hierarchy for mobile rather than importing artwork."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Current official Supabase RLS/changelog and PostgreSQL locking docs reviewed; locked packages unchanged. Supabase changes remain local source/fixture only."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://supabase.com/changelog",
+      "reason": "Current platform changes checked; no affected SDK upgrade introduced.",
+      "checkedAt": "2026-10-14"
+    },
+    {
+      "url": "https://supabase.com/docs/guides/database/postgres/row-level-security",
+      "reason": "Grants plus RLS, ownership and server-only producer policies.",
+      "checkedAt": "2026-10-14"
+    },
+    {
+      "url": "https://www.postgresql.org/docs/current/explicit-locking.html",
+      "reason": "Atomic publication and per-feature transaction locks; compare-and-swap and idempotency still required.",
+      "checkedAt": "2026-10-14"
+    }
+  ],
+  "securityReview": {
+    "authzRls": "Preserve backend admin capability checks and RPC authorization; add expected revision and scoped idempotency. Tests use ordinary synthetic roles, never live service-role bypass as acceptance.",
+    "sensitiveData": "No real data. Feedback initially metadata only; raw excerpt input absent. New snapshots are existing user-local answer data under current account boundary.",
+    "secretsLogging": "Never read env/key files or echo secrets. Local tests have fictional identities and no cloud endpoints.",
+    "externalInput": "Validate all enum/id/size/ownership and stale versions. Provider output and client metadata untrusted; retain validation stages and producer labels.",
+    "dependencies": "Existing locked runtimes; no dependency upgrades. Reuse existing isolated native PostgreSQL adapter or installed PGlite only if available; no downloaded unreviewed tools.",
+    "migrationRelease": "New CLI-created forward migrations only. No cloud db push/repair/apply. Optional local synthetic database uses network-none task-only fixture, no existing database. Ledger/target approval unchanged.",
+    "stopCondition": "Stop for unresolved high-risk preflight findings, real user data, cloud/deployment/credential actions. Server receipt verifies only its service-written metadata; legacy trace content remains unverified. Metadata-only feedback excludes excerpts and notes.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/README.md",
+      "apps/admin/admin-capabilities.json",
+      "apps/admin/ai-studio.html",
+      "apps/admin/app.js",
+      "apps/admin/generated/content-seed.json",
+      "apps/admin/styles.css",
+      "apps/admin/workspace-guard.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/__tests__/backendClient.test.ts",
+      "apps/mobile/src/backendClient.ts",
+      "apps/mobile/src/features/astrology/AstrologyAiGuidePanel.tsx",
+      "apps/mobile/src/features/astrology/AstrologyChartStory.tsx",
+      "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+      "apps/mobile/src/features/astrology/AstrologySignGuide.tsx",
+      "apps/mobile/src/features/astrology/MythologyWorld.tsx",
+      "apps/mobile/src/features/astrology/__tests__/AstrologyChartStory.test.tsx",
+      "apps/mobile/src/features/astrology/__tests__/AstrologyExperience.test.tsx",
+      "apps/mobile/src/features/astrology/__tests__/astrologyAiInsight.test.ts",
+      "apps/mobile/src/features/astrology/astrologyAiInsight.ts",
+      "apps/mobile/src/features/astrology/persistence.ts",
+      "apps/mobile/src/features/privacy/localExport.ts",
+      "apps/mobile/src/types.ts",
+      "apps/mobile/tsconfig.json",
+      "docs/AI_TRACE_OBSERVABILITY.md",
+      "package.json",
+      "scripts/admin-access.test.mjs",
+      "scripts/admin-ai-studio-render.test.mjs",
+      "scripts/check-supabase-readiness.mjs",
+      "scripts/validate-backend-contracts.mjs",
+      "supabase/functions/README.md",
+      "supabase/functions/_shared/ai-trace.test.ts",
+      "supabase/functions/_shared/ai-trace.ts",
+      "supabase/functions/_shared/model-provider.ts",
+      "supabase/functions/_shared/model-router.ts",
+      "supabase/functions/_shared/tarot-prompt.ts",
+      "supabase/functions/admin-model-router-config/index.ts",
+      "supabase/functions/ai-astrology-insight/index.ts",
+      "supabase/functions/ai-tarot-reading/index.ts",
+      "apps/admin/feedback-inbox.js",
+      "apps/admin/workflow-catalog.js",
+      "apps/admin/workflow-view.js",
+      "apps/mobile/src/__tests__/answerOperationsClient.test.ts",
+      "apps/mobile/src/features/astrology/__tests__/answerPersistence.test.ts",
+      "apps/mobile/src/features/astrology/__tests__/readingDepth.test.tsx",
+      "apps/mobile/src/features/astrology/astrologyAiValidation.ts",
+      "apps/mobile/src/features/astrology/interpretation.ts",
+      "apps/mobile/src/features/feedback/FeedbackPanel.tsx",
+      "apps/mobile/src/features/feedback/__tests__/FeedbackPanel.test.tsx",
+      "apps/mobile/src/features/feedback/__tests__/feedbackQueue.test.ts",
+      "apps/mobile/src/features/feedback/feedbackQueue.ts",
+      "apps/mobile/src/features/tarot/TarotDepthPreview.tsx",
+      "apps/mobile/src/features/tarot/__tests__/readingPresentation.test.tsx",
+      "apps/mobile/src/features/tarot/learning.ts",
+      "apps/mobile/src/features/tarot/readingPresentation.ts",
+      "artifacts/ai-operations-2026-10-14/.gitignore",
+      "artifacts/ai-operations-2026-10-14/admin-content.png",
+      "artifacts/ai-operations-2026-10-14/admin-feedback.png",
+      "artifacts/ai-operations-2026-10-14/capture-evidence.mjs",
+      "artifacts/ai-operations-2026-10-14/evidence.json",
+      "artifacts/ai-operations-2026-10-14/feedback-mobile-en-sent.png",
+      "artifacts/ai-operations-2026-10-14/feedback-mobile-vi.png",
+      "artifacts/ai-operations-2026-10-14/feedback-sql-results.json",
+      "artifacts/ai-operations-2026-10-14/preview-server.mjs",
+      "artifacts/ai-operations-2026-10-14/preview.tsx",
+      "artifacts/ai-operations-2026-10-14/refresh-plan.mjs",
+      "artifacts/ai-operations-2026-10-14/update-catalog.mjs",
+      "docs/AI_OPERATIONS_IMPLEMENTATION_2026-10-14.vi.md",
+      "packages/ai-contracts/answer-provenance.ts",
+      "packages/ai-contracts/feedback.ts",
+      "packages/ai-contracts/tarot-output.ts",
+      "scripts/admin-feedback.test.mjs",
+      "scripts/admin-workflow-catalog.test.mjs",
+      "scripts/ai-answer-endpoints.test.mjs",
+      "scripts/ai-feedback-sql.test.mjs",
+      "scripts/model-route-publish-sql.test.mjs",
+      "scripts/validate-admin-workflow-catalog.mjs",
+      "supabase/functions/_shared/ai-feedback-contract.ts",
+      "supabase/functions/_shared/answer-provenance.test.ts",
+      "supabase/functions/_shared/answer-provenance.ts",
+      "supabase/functions/_shared/answer-receipt.test.ts",
+      "supabase/functions/_shared/answer-receipt.ts",
+      "supabase/functions/_shared/tarot-output.test.ts",
+      "supabase/functions/admin-model-router-config/contract.ts",
+      "supabase/functions/ai-feedback/handler.ts",
+      "supabase/functions/ai-feedback/index.ts",
+      "supabase/migrations/20261004183447_client_table_privilege_boundary.sql",
+      "supabase/migrations/20261014074711_model_route_publish_contract_v2.sql",
+      "supabase/migrations/20261014080754_ai_feedback_receipts_v1.sql"
+    ],
+    "note": "Resumed 2026-10-16. Reviewed scoped implementation, receipt ownership/locale binding, explicit unlinked-report choice and deletion tombstone. Unrelated dirty work preserved. Cache files are generated synthetic test artifacts, not production source."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/ai-publish-provenance-feedback-2026-10-14.json",
+    "npm run admin:check",
+    "npm run admin:test",
+    "npm run validate:backend",
+    "npm run supabase:check",
+    "Focused Edge/SQL synthetic publish tests including stale/idempotent/unauthorized/null fallback",
+    "Later phases add mobile type/tests, contracts, exports and browser fixtures before acceptance",
+    "npm --workspace apps/mobile run check",
+    "Focused mobile provenance, snapshot, validation and account race tests",
+    "Deno trace, provenance and Tarot output validation tests",
+    "npm run astrology:ai-contract:check",
+    "npm run prompt:consumers:check",
+    "Focused feedback queue, receipt, ownership, RBAC, idempotency, expiry, triage CAS and account-race tests",
+    "Local UI fixture happy path both Admin workspaces and mobile feedback states"
+  ],
+  "managerTestPath": "Admin load route, change draft, freeze review, publish to authorized QA only, read back revision, detect competing update, retry same receipt; later save/reopen and submit feedback with real delivery states.",
+  "residualRisk": "Local source and synthetic tests cannot certify managed Auth/RLS, deployed functions or native device behavior. Cloud rollout stays gated. No claims of live publication.",
+  "externalActions": {
+    "databaseWrite": false,
+    "localSyntheticDatabaseWrite": true,
+    "cloudCalls": false,
+    "providerCalls": false,
+    "deployment": false,
+    "publishing": false,
+    "credentials": false
+  },
+  "phase": "Locally implemented and validated 2026-10-16: A1 publication, A2 provenance and A3 feedback across App/backend/Admin. Cloud rollout and native acceptance remain separate.",
+  "writeScopeRestrictions": {
+    "apps/admin/": "A1 completed. A3 agent owns isolated feedback module and additive protected route/capability/nav wiring; root catalog refresh and reviews preserve both workspaces.",
+    "supabase/migrations/": "Only new CLI-created forward SQL owned by this task; do not edit prior migrations or apply to cloud.",
+    "artifacts/ai-operations-2026-10-14/": "Task-owned sanitized evidence, local synthetic runtime outputs and pre-edit copies only."
+  }
+}

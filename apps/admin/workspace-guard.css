@@ -1,0 +1,14 @@
+/* Keep geometry while verifying access: display:none resets iframe scrolling. */
+html[data-admin-authorized="false"] body { visibility: hidden; pointer-events: none; }
+#workspace-auth-status { display: none; }
+html[data-admin-authorized="false"] #workspace-auth-status {
+  display: block; visibility: visible; pointer-events: auto;
+  position: fixed; inset: 20px 20px auto; z-index: 10000;
+  padding: 20px; border: 1px solid #C9A45C; border-radius: 8px;
+  color: #F7F1E6; background: #151416; font: 16px/1.6 system-ui, sans-serif;
+}
+#workspace-auth-status button, #workspace-auth-status a {
+  display: inline-flex; align-items: center; min-height: 44px;
+  margin: 8px 12px 0 0; padding: 8px 12px; border-radius: 8px;
+  background: #C9A45C; color: #151416; border: 0; cursor: pointer;
+}

@@ -1,0 +1,13 @@
+{
+  "cardId": "major-21-world",
+  "prompt": "Precision edit of ONLY the lower LEFT bull cloud and lower RIGHT lion cloud in this THE WORLD image. Both are still too close to the outer edges. Move the ENTIRE bull symbolic cloud figure (head, horns, neck and halo together) RIGHT by about 40 pixels on this 955-pixel-wide image and make it 20% smaller. Move the ENTIRE lion symbolic cloud figure (head, mane and halo together) LEFT by about 55 pixels and make it 20% smaller. Their identifying silhouettes including halos must fit completely within x=110..210 for bull and x=750..850 for lion. Keep their current vertical level. Allow diffuse cloud atmosphere to blend naturally but absolutely no horn, mane or halo outside those horizontal bounds. Keep both figures visibly distinct from the arbor. Preserve EVERYTHING ELSE exactly: angel and eagle clouds, dancer anatomy, two separate short batons and grip, laurel wreath, two grounded supports, dais, gold/teal/ivory color, painting detail, lake mountains, original canvas aspect ratio. Exactly four symbolic cloud figures overall. No new lettering, numbers, labels, watermark, signature, frame or border.",
+  "generationTool": "built-in image_gen",
+  "createdDate": "2026-10-13",
+  "inputImagePath": "raw/major-21-world-20261013-v3.png",
+  "inputImageRole": "exact edit target passed as referenced_image_paths",
+  "sourcePath": "raw/major-21-world-20261013-v4.png",
+  "status": "pending-independent-source-review",
+  "sha256": "e89082582079bd550346268bf427af11cb28fd135ca01d82f5f7c865e1655364",
+  "sizeBytes": 3132890,
+  "inputImageSha256": "4e7583a384e5cbbdc63c5a63793df855c45efbdb668dc56733058cd6aaeeae1d"
+}

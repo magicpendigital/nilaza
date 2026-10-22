@@ -1,0 +1,63 @@
+{
+  "version": 1,
+  "workspaces": [
+    {
+      "id": "content",
+      "label": "Content Operations",
+      "entry": "content.html",
+      "description": "Personas, tarot, assets, and app-facing copy",
+      "routes": [
+        { "id": "overview", "label": "Overview" },
+        { "id": "personas", "label": "Personas" },
+        { "id": "decks", "label": "Tarot Decks" },
+        { "id": "cards", "label": "Card Library" },
+        { "id": "assets", "label": "Assets" },
+        { "id": "frontend", "label": "Front-end Content" },
+        { "id": "documentation", "label": "Owner Guide" }
+      ],
+      "requiredCapabilities": [
+        "persona.create", "persona.edit", "persona.publish", "persona.archive", "persona.safeDelete",
+        "deck.createWith78Cards", "deck.edit", "deck.publish", "deck.archive", "deck.safeDelete",
+        "card.editLocalized", "card.publish", "card.archive", "card.safeDelete",
+        "asset.manage", "frontendContent.manage", "role.enforce", "localStorage.persist"
+      ]
+    },
+    {
+      "id": "ai-studio",
+      "label": "AI Studio",
+      "entry": "ai-studio.html",
+      "description": "Workflows, prompts, personas, models, tests, and audit",
+      "routes": [
+        { "id": "workflow", "label": "Workflow" },
+        { "id": "prompt", "label": "Prompt Composer" },
+        { "id": "persona-studio", "label": "Persona Studio" },
+        { "id": "council-builder", "label": "Council Builder" },
+        { "id": "model-router", "label": "Model Router" },
+        { "id": "trace-explorer", "label": "Trace Explorer" },
+        { "id": "test", "label": "Test Runs" },
+        { "id": "versions", "label": "Versions" },
+        { "id": "audit", "label": "Audit" }
+      ],
+      "requiredCapabilities": [
+        "workflow.inspect", "prompt.edit", "personaPrompt.edit", "councilTemplate.configure", "model.route", "test.run", "version.publish", "audit.view"
+      ]
+    },
+    {
+      "id": "growth",
+      "label": "Growth Operations",
+      "entry": "growth.html",
+      "description": "Product readiness, content drafts, measurement, roadmap and protected waitlist aggregates",
+      "routes": [
+        { "id": "overview", "label": "Overview" },
+        { "id": "product-truth", "label": "Product Readiness" },
+        { "id": "content-drafts", "label": "Content Drafts" },
+        { "id": "measurement", "label": "Measurement" },
+        { "id": "roadmap", "label": "Next Steps" },
+        { "id": "waitlist", "label": "Waitlist" },
+        { "id": "campaign-map", "label": "Campaign Map" },
+        { "id": "delivery-health", "label": "Delivery Health" }
+      ],
+      "requiredCapabilities": ["overview.read"]
+    }
+  ]
+}

@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "taskId": "mvp-R13-tarot-prompt-2026-10-01",
+  "ownerAgent": "content_data_agent",
+  "lane": "backend_supabase_lane",
+  "goal": "Resolve exact-locale active global Tarot prompt with actual UUID FK and explicit provenance, VI/EN immutable instructions and canonical selected cards; source and local tests only.",
+  "successCriteria": [
+    "Active lookup uses feature/global/null owner/status/exact locale and rejects invalid/ambiguous rows with explicit degraded fallback.",
+    "Actual row UUID is FK; version label is separate; local ref binds null.",
+    "Model gets app-selected canonical IDs/order/orientation/meanings and explicit VI/EN boundaries; no quality/immunity/live claim."
+  ],
+  "writeScope": [
+    "supabase/functions/ai-tarot-reading/index.ts",
+    "supabase/functions/_shared/tarot-prompt.ts",
+    "supabase/functions/_shared/tarot-prompt.test.ts",
+    "docs/mvp-remediation/2026-10-01/R13-tarot-prompt-handoff.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "No cloud write, DB migration, deploy/publish, provider call or runtime quality evaluation.",
+    "Admin, entitlements, canonical JSON, artwork and all unrelated dirty work preserved."
+  ],
+  "impact": {
+    "entryPoint": "Private JournalComposer only, optional injected draft store.",
+    "dataWrite": "Future existing Tarot persistence receives actual prompt UUID/null; no DB execution now.",
+    "backendContract": "No endpoint or schema changes in this exact slice; future live acceptance separately gated.",
+    "adminVisibility": "Canonical seed source/hash and protected workspace verification reported honestly, no publish.",
+    "privacySafety": "Synthetic fixtures or sanitized project context; no raw private content, credentials or author identity.",
+    "observability": "Actual check counts/source bindings and precise blocked dependencies.",
+    "rollback": "Docs-only report can be superseded; implementation rollback remains documented per slice."
+  },
+  "canonicalContracts": [
+    "Canonical prompt-library.json fallback tarot_reading_system; current prompt_versions has no purpose column.",
+    "Canonical cards selected by app, output summary/reflection/sections unchanged; no schema/publisher change.",
+    "Tarot FK actual prompt row UUID/null; separate config label and local-degraded provenance."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Current routed implementation/schema reviewed before bounded integration; preserve all dirty owner code."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Current routed implementation/schema reviewed before bounded integration; preserve all dirty owner code."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Current routed implementation/schema reviewed before bounded integration; preserve all dirty owner code."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Current routed implementation/schema reviewed before bounded integration; preserve all dirty owner code."
+    },
+    {
+      "path": "docs/BACKEND_PROXY_ARCHITECTURE.md",
+      "sha256": "b079458af4a10232efc8804746dd3ae7e8f10d5097800b26f2faf4e922fe91cb",
+      "reason": "Current routed implementation/schema reviewed before bounded integration; preserve all dirty owner code."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "e5fc9e3789ce1978ce3db7b7f41d6dd695d021c6d01ead2b11b3af14a4525f49",
+      "reason": "Current routed implementation/schema reviewed before bounded integration; preserve all dirty owner code."
+    },
+    {
+      "path": "packages/agent-config/prompt-library.json",
+      "sha256": "6e24285ae847c2ee01ff6949ef3b6fd36c5933d31376a185c32b244d97f29bd3",
+      "reason": "Current routed implementation/schema reviewed before bounded integration; preserve all dirty owner code."
+    },
+    {
+      "path": "packages/content/data/tarot-cards.json",
+      "sha256": "2688f997eb10bfcf5a59107b5ff09b7034168eb8a1ca39ac165df2cb192a6865",
+      "reason": "Current routed implementation/schema reviewed before bounded integration; preserve all dirty owner code."
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/index.ts",
+      "sha256": "d07f7528cc382e8150f7a9ee6a1127042843f3606801654ee93fa618ee008590",
+      "reason": "Current routed implementation/schema reviewed before bounded integration; preserve all dirty owner code."
+    },
+    {
+      "path": "supabase/functions/_shared/ai-trace.ts",
+      "sha256": "40f83f5cf2fb18e4afa9c39c18ac09f890dcb15f9c8672a3f112afd58653bc57",
+      "reason": "Current routed implementation/schema reviewed before bounded integration; preserve all dirty owner code."
+    },
+    {
+      "path": "supabase/migrations/202606120001_mvp_schema.sql",
+      "sha256": "226e20601e094426e23170814fab3346eea953bf619d78b0ded153afa37559f5",
+      "reason": "Current routed implementation/schema reviewed before bounded integration; preserve all dirty owner code."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Local only source/FK/trace boundaries and provider quality gates separated."
+    },
+    {
+      "name": "nilaza-tarot-content-qc",
+      "decision": "verified-current",
+      "evidence": "Canonical selected meanings and VI/EN agency retained; no artwork acceptance claim."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Existing supabase-js2.7.1/std0.168.0 and installed Deno2.9.0 unchanged; security/content agent read official select/order docs."
+  },
+  "securityReview": {
+    "authzRls": "Local unit tests only; linked DB identity flagged separately.",
+    "sensitiveData": "Synthetic fixtures; no credential/private traces read.",
+    "secretsLogging": "No secret printing or env changes.",
+    "externalInput": "Bounded declared draft fields or selected canonical Tarot IDs; no raw prompt/question logs.",
+    "dependencies": "No install/update; existing lockfile version.",
+    "migrationRelease": "Foreign MCY gate remains blocked; no live actions.",
+    "stopCondition": "Stop outside exact local slice or if ACK/account safeguards weakened; runtime release risks remain blocked.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "supabase/functions/ai-tarot-reading/index.ts",
+      "supabase/functions/_shared/tarot-prompt.ts",
+      "supabase/functions/_shared/tarot-prompt.test.ts",
+      "docs/mvp-remediation/2026-10-01/R13-tarot-prompt-handoff.vi.md"
+    ],
+    "note": "Root sole App integrator, prepared source from agent reviewed; no other source/dependency/schema edits."
+  },
+  "validationCommands": [
+    "node_modules/.bin/deno.cmd test --deny-import --no-config --no-lock supabase/functions/_shared/tarot-prompt.test.ts",
+    "node_modules/.bin/deno.cmd check --deny-import --no-config --no-lock supabase/functions/ai-tarot-reading/index.ts",
+    "npm run validate:backend",
+    "npm run supabase:check"
+  ],
+  "managerTestPath": "Active lookup uses feature/global/null owner/status/exact locale and rejects invalid/ambiguous rows with explicit degraded fallback. Actual row UUID is FK; version label is separate; local ref binds null. Model gets app-selected canonical IDs/order/orientation/meanings and explicit VI/EN boundaries; no quality/immunity/live claim.",
+  "residualRisk": "Lint is defense in depth only; same global purpose, no purpose schema/publisher/deck prompt; provider quality and body/auth/quota protections remain separately gated.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deployment": false,
+    "productionRelease": false
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://supabase.com/docs/reference/javascript/select",
+      "checkedAt": "2026-10-01",
+      "reason": "Primary docs reviewed by content Agent for current existing API; no new package/API choice."
+    },
+    {
+      "url": "https://supabase.com/docs/reference/javascript/order",
+      "checkedAt": "2026-10-01",
+      "reason": "Primary docs reviewed by content Agent for current existing API; no new package/API choice."
+    },
+    {
+      "url": "https://supabase.com/changelog",
+      "checkedAt": "2026-10-01",
+      "reason": "Primary docs reviewed by content Agent for current existing API; no new package/API choice."
+    }
+  ]
+}

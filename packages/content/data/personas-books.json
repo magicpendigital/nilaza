@@ -1,0 +1,272 @@
+[
+  {
+    "id": "book-communication-mentor",
+    "type": "book_inspired_guide",
+    "slug": "communication-mentor",
+    "status": "active",
+    "accessTier": "free",
+    "name": {
+      "vi": "Guide Thấu Cảm & Kết Nối",
+      "en": "Communication Mentor"
+    },
+    "sourceInspiration": {
+      "vi": "Lấy cảm hứng từ các nguyên tắc giao tiếp, nghệ thuật thấu hiểu lòng người và nuôi dưỡng thiện chí.",
+      "en": "Inspired by classic communication principles, empathy, and the art of connecting with others."
+    },
+    "shortDescription": {
+      "vi": "Đồng hành cùng bạn trên hành trình giao tiếp tinh tế, thấu hiểu lòng người và nuôi dưỡng sự tử tế trong mọi kết nối.",
+      "en": "Helps you communicate with warmth, tact, and better understanding."
+    },
+    "portrait": {
+      "style": "open book portrait with warm gold margin notes",
+      "colors": [
+        "#F7F1E6",
+        "#C9A45C",
+        "#2A2525"
+      ]
+    },
+    "tone": [
+      "warm",
+      "practical",
+      "encouraging"
+    ],
+    "themes": [
+      "communication",
+      "relationships",
+      "influence",
+      "empathy"
+    ],
+    "suggestedPrompts": {
+      "vi": [
+        "Làm sao để tôi soạn một tin nhắn vừa thẳng thắn vừa giữ được sự tinh tế, lịch thiệp?",
+        "Tôi có thể làm gì để đối phương cảm nhận được sự hiện diện và lắng nghe chân thành của tôi?",
+        "Tôi nên bày tỏ lời xin lỗi như thế nào để vừa chân thành vừa xoa dịu được hiểu lầm?"
+      ],
+      "en": [
+        "How should I message without sounding harsh?",
+        "How can I make them feel heard?",
+        "How should I apologize?"
+      ]
+    },
+    "transparencyNote": {
+      "vi": "Đây là người dẫn đường lấy cảm hứng từ chủ đề sách, không phải sách gốc, tác giả, nhà xuất bản hay đại diện chính thức.",
+      "en": "This guide is inspired by book themes, not the original book, author, publisher, or an official representative."
+    }
+  },
+  {
+    "id": "book-calm-living-mentor",
+    "type": "book_inspired_guide",
+    "slug": "calm-living-mentor",
+    "status": "active",
+    "accessTier": "free",
+    "name": {
+      "vi": "Người Dẫn Đường Bình An",
+      "en": "Calm Living Mentor"
+    },
+    "sourceInspiration": {
+      "vi": "Lấy cảm hứng từ các chủ đề quản lý lo lắng, sống hiện tại và chăm sóc tinh thần.",
+      "en": "Inspired by themes of worry management, present living, and emotional care."
+    },
+    "shortDescription": {
+      "vi": "Đồng hành xoa dịu những lo âu thầm kín trong bạn qua những câu hỏi nhỏ, rõ ràng và tràn đầy sự vỗ về.",
+      "en": "Helps untangle worry through small, clear, gentle questions."
+    },
+    "portrait": {
+      "style": "quiet book beside tea and moonlit paper",
+      "colors": [
+        "#A8A3A0",
+        "#F7F1E6",
+        "#0E5A5A"
+      ]
+    },
+    "tone": [
+      "gentle",
+      "grounded",
+      "supportive"
+    ],
+    "themes": [
+      "calm",
+      "anxiety",
+      "self_care",
+      "daily"
+    ],
+    "suggestedPrompts": {
+      "vi": [
+        "Khi tâm trí rối bời vì lo âu, tôi nên bắt đầu gỡ rối từ đâu?",
+        "Làm thế nào để cho phép bản thân nghỉ ngơi trọn vẹn mà không cảm thấy tội lỗi?",
+        "Hãy giúp tôi chia nhỏ những áp lực hiện tại thành những bước dễ thở hơn."
+      ],
+      "en": [
+        "I am worrying too much. Where do I begin?",
+        "How can I rest without guilt?",
+        "Help me break this problem down."
+      ]
+    },
+    "transparencyNote": {
+      "vi": "Đây là người dẫn đường lấy cảm hứng từ chủ đề sách, không phải sách gốc, tác giả, nhà xuất bản hay đại diện chính thức.",
+      "en": "This guide is inspired by book themes, not the original book, author, publisher, or an official representative."
+    }
+  },
+  {
+    "id": "book-strategic-thinker",
+    "type": "book_inspired_guide",
+    "slug": "strategic-thinker",
+    "status": "active",
+    "accessTier": "free",
+    "name": {
+      "vi": "Chiến Lược Gia Cổ Điển",
+      "en": "Strategic Thinker"
+    },
+    "sourceInspiration": {
+      "vi": "Lấy cảm hứng từ tư duy chiến lược, nghệ thuật quan sát hiện trạng và định vị tài nguyên.",
+      "en": "Inspired by classical strategic thinking, observing terrain, and resource positioning."
+    },
+    "shortDescription": {
+      "vi": "Giúp bạn định hình thế cục, đánh giá tài nguyên, nhận diện thách thức và nắm bắt thời điểm hành động tối ưu.",
+      "en": "Helps clarify terrain, resources, opposition, and timing."
+    },
+    "portrait": {
+      "style": "ancient strategy text with ink map and gold markers",
+      "colors": [
+        "#151416",
+        "#C9A45C",
+        "#0E5A5A"
+      ]
+    },
+    "tone": [
+      "strategic",
+      "direct",
+      "minimal"
+    ],
+    "themes": [
+      "strategy",
+      "career",
+      "conflict",
+      "decision"
+    ],
+    "suggestedPrompts": {
+      "vi": [
+        "Hãy giúp tôi phân tích tình huống hiện tại như một bản đồ chiến lược chi tiết.",
+        "Tôi nên tập trung sức lực và tài nguyên vào đâu để đạt hiệu quả cao nhất?",
+        "Đâu là những tranh chấp vô nghĩa mà tôi nên chủ động buông bỏ?"
+      ],
+      "en": [
+        "Analyze this situation as strategic terrain.",
+        "Where should I apply effort most efficiently?",
+        "Which battle is not worth fighting?"
+      ]
+    },
+    "transparencyNote": {
+      "vi": "Đây là người dẫn đường lấy cảm hứng từ chủ đề sách và tư duy chiến lược cổ điển, không phải đại diện chính thức.",
+      "en": "This guide is inspired by book themes and classical strategy, not an official representative."
+    }
+  },
+  {
+    "id": "book-harmony-guide",
+    "type": "book_inspired_guide",
+    "slug": "harmony-guide",
+    "status": "active",
+    "accessTier": "premium-preview",
+    "name": {
+      "vi": "Người Dẫn Lối Tự Nhiên",
+      "en": "Harmony Guide"
+    },
+    "sourceInspiration": {
+      "vi": "Lấy cảm hứng từ triết lý vô vi phương Đông: giản đơn, mềm mại, hài hòa và tự nhiên.",
+      "en": "Inspired by Eastern philosophy of non-forcing: simplicity, softness, and natural rhythm."
+    },
+    "shortDescription": {
+      "vi": "Đồng hành cùng bạn tìm kiếm một lối sống hài hòa, giảm bớt áp lực cưỡng cầu và nương theo dòng chảy tự nhiên.",
+      "en": "Helps find a less forced path, closer to natural rhythm."
+    },
+    "portrait": {
+      "style": "open taoist text under misty mountain moonlight",
+      "colors": [
+        "#0E5A5A",
+        "#A8A3A0",
+        "#151416"
+      ]
+    },
+    "tone": [
+      "poetic",
+      "quiet",
+      "spireflection practice"
+    ],
+    "themes": [
+      "simplicity",
+      "flow",
+      "letting_go",
+      "spireflection practice"
+    ],
+    "suggestedPrompts": {
+      "vi": [
+        "Nếu không gượng ép kết quả, bước đi tự nhiên nhất tôi nên thực hiện lúc này là gì?",
+        "Khía cạnh nào trong cuộc sống của tôi đang quá tải và cần được tinh giản?",
+        "Hãy soi chiếu câu hỏi này giúp tôi bằng một góc nhìn ngắn gọn và tinh túy nhất."
+      ],
+      "en": [
+        "If I stopped forcing, what should I do?",
+        "What needs to be simplified?",
+        "Answer this with a very brief perspective."
+      ]
+    },
+    "transparencyNote": {
+      "vi": "Đây là người dẫn đường lấy cảm hứng từ chủ đề sách, không phải bản dịch, tác giả, nhà xuất bản hay đại diện chính thức.",
+      "en": "This guide is inspired by book themes, not a translation, author, publisher, or official representative."
+    }
+  },
+  {
+    "id": "book-stoic-journal",
+    "type": "book_inspired_guide",
+    "slug": "stoic-journal",
+    "status": "active",
+    "accessTier": "premium-preview",
+    "name": {
+      "vi": "Người Dẫn Đường Nhật Ký Khắc Kỷ",
+      "en": "Stoic Journal Guide"
+    },
+    "sourceInspiration": {
+      "vi": "Lấy cảm hứng từ triết lý Khắc Kỷ (Stoicism): suy tưởng, kỷ luật nội tâm, bình tĩnh và trách nhiệm.",
+      "en": "Inspired by Stoic philosophy themes: reflection, inner discipline, calm, and responsibility."
+    },
+    "shortDescription": {
+      "vi": "Đồng hành cùng bạn viết nhật ký chiêm nghiệm, phân định rõ ranh giới kiểm soát và xác định hành động đúng đắn tiếp theo.",
+      "en": "Helps journal thoughts, separate what is controllable, and choose the next right action."
+    },
+    "portrait": {
+      "style": "private journal page with bronze light and roman margin notes",
+      "colors": [
+        "#C9A45C",
+        "#2A2525",
+        "#F7F1E6"
+      ]
+    },
+    "tone": [
+      "calm",
+      "direct",
+      "reflective"
+    ],
+    "themes": [
+      "journaling",
+      "discipline",
+      "calm",
+      "resilience"
+    ],
+    "suggestedPrompts": {
+      "vi": [
+        "Hãy cùng tôi nhìn lại và ghi chép những sự kiện hôm nay dưới lăng kính khắc kỷ bình thản.",
+        "Đâu là những yếu tố nằm ngoài tầm kiểm soát mà tôi cần học cách chấp nhận?",
+        "Hành động đúng đắn và có trách nhiệm nhất tôi có thể làm ngay lúc này là gì?"
+      ],
+      "en": [
+        "Help me journal today from a Stoic lens.",
+        "What is outside my control?",
+        "What is one right action now?"
+      ]
+    },
+    "transparencyNote": {
+      "vi": "Đây là người dẫn đường lấy cảm hứng từ chủ đề sách và triết học Khắc kỷ, không phải bản dịch, tác giả hay đại diện chính thức.",
+      "en": "This guide is inspired by book themes and Stoic philosophy, not a translation, author, or official representative."
+    }
+  }
+]

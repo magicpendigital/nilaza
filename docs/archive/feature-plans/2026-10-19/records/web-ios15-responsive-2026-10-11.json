@@ -1,0 +1,267 @@
+{
+  "schemaVersion": 1,
+  "taskId": "web-ios15-responsive-2026-10-11",
+  "ownerAgent": "nilaza-web-menu-owner",
+  "lane": "website_navigation_bugfix",
+  "goal": "Fix production CSS compatibility for iPhone 7 Plus/Safari iOS15, validate emitted artifacts, and deploy the tested static site to the existing domain when authenticated target mapping is verified.",
+  "successCriteria": [
+    "Built CSS uses classic min/max-width queries rather than unsupported media range syntax.",
+    "Portrait414x736 and landscape736x414 layouts show mobile menu, bounded header and hero without horizontal overflow.",
+    "Safari15-compatible viewport/alignment fallbacks exist; desktop and VI/EN navigation remain functional.",
+    "Build rejects unsupported responsive query output so future builds do not silently regress.",
+    "Published target must be verified as the existing Pages project attached to nilaza.magicpendigital.com; preserve current public waitlist configuration and rollback identity."
+  ],
+  "writeScope": [
+    "apps/web/astro.config.mjs",
+    "apps/web/package.json",
+    "apps/web/src/styles/responsive.css",
+    "apps/web/README.md",
+    "scripts/check-web-compatibility.mjs",
+    "artifacts/web-ios15-responsive-2026-10-11/"
+  ],
+  "untouchedSurfaces": [
+    "Mobile and both protected Admin workspaces, data, backend endpoints, Auth, credits and migrations are untouched.",
+    "Help/legal copy, brand assets, event schemas and production hosting configuration are untouched."
+  ],
+  "impact": {
+    "entryPoint": "All website routes use shared CSS. Safari15/iOS15 need classic responsive media queries; pending prior header/language fixes are included in the authorized static build.",
+    "dataWrite": "Only local source/build/evidence plus owner-requested static Pages deployment after target/config check. No form submission or backend mutation.",
+    "backendContract": "Preserve live public waitlist endpoint/sitekey configuration; no endpoint, RLS, Auth or migration changes.",
+    "adminVisibility": "No Admin changes. Website release receipt records deployment identity and domain verification, separate from database release gates.",
+    "privacySafety": "Only public page assets and synthetic unsent form input. Never print OAuth secrets or change DNS/security settings.",
+    "observability": "Built-artifact compatibility check, browser sizes and public readbacks. Desktop Chromium emulation is not a physical Safari15 device test.",
+    "rollback": "Retain previous Cloudflare deployment identity before publication; restore it if route/config/layout smoke checks fail. Local fallback uses vh/flex-end with no script-based sizing."
+  },
+  "canonicalContracts": [
+    "Astro/Vite build target explicitly Safari15/ios15 for emitted CSS and client syntax. Source breakpoint values unchanged.",
+    "Existing localized routes, public environment bindings, analytics and waitlist consent/Turnstile contract unchanged."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "4da2a80e09727695c07ad5e0adc52fffb28ae71783dc7258585aac3735a6add9",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "6cd85c85b43e6ada64745ac13bf34f3fdb2b9e799f5bc2ad176a662d94b154e1",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "docs/BRAND_ROLLOUT_2026-09-11.md",
+      "sha256": "99ed149a4da53cd1284e55230ca832451a816e57455916a0a8a5cd30c05cc792",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "docs/NILAZA_PUBLIC_HELP_CORPUS.md",
+      "sha256": "055549c4bfb13923664f0854a6b44928e7094498af9a64fc6bbe1c17a1a04fb6",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "7a4973733886cb4f1568d38e6d8324d1d8200bb1acd850db486bf5323943f023",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "1e4d2bc7a93a2a140690c7237537de582972db30088309996ab6462a79a53623",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "skills/nilaza-brand-experience/SKILL.md",
+      "sha256": "1e2acdfac537225ed366a78e6c28b6764a5fe2ac1a1434e583ba21349dee1928",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/README.md",
+      "sha256": "d21ec550dfe1a4fc51a22afae4c8c53779add7880ac415422ba889bf9bbf566a",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/package.json",
+      "sha256": "2c21e80409fb09ffb65993fbca6344f4ef92bd99c427743b79c7bd8fc69fc5dd",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/astro.config.mjs",
+      "sha256": "eb201a5005e198eb02d7a528dca980110713b7b41c8b985de5de98070e41139c",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/src/components/SiteHeader.astro",
+      "sha256": "eb5d917339a34fae97e2fbf90f08b6d1c9529082e2893f275604ac2818ec004c",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/src/components/FloatingNavigation.astro",
+      "sha256": "d3ee564702d4ab2bdd07bed7255104e1628e3875b6059cb48620960ad617f721",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/src/layouts/BaseLayout.astro",
+      "sha256": "d593cbf011e0c2938839359b8d98c7b673e9a26fc97726ca12e7abf51500aaaa",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/src/styles/global.css",
+      "sha256": "d140a5309ef4d09a743f93615711a034c9c36cda49ec8df4216a3037fbbfeeab",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/src/styles/responsive.css",
+      "sha256": "366b819d2a390e04938ae43741d701da3cbba6becabe9a6b19c1b4107c7163c9",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "packages/content/data/brand-identity.json",
+      "sha256": "6a214e9244305b6bf3189f0c2b230ae7e3c6ef9b84b1374e6c0c9772789042d9",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/src/components/Brand.astro",
+      "reason": "Reviewed shrinking brand image to fit language options on narrow headers.",
+      "sha256": "dbf91300bb61488274b7bbcc57158e8870d1990972a73bb55d456ac075aac7f9"
+    },
+    {
+      "path": "docs/NILAZA_WEB_PRODUCTION_ROLLOUT.md",
+      "reason": "Reviewed static website target mapping, existing release boundary and user-authorized scope.",
+      "sha256": "bb526ac30f1fd71ca78cb1c91c57a2d3862461095ba660d9b5aa844046b5476c"
+    },
+    {
+      "path": "docs/release/RELEASE_RUNBOOK.md",
+      "reason": "Reviewed static website target mapping, existing release boundary and user-authorized scope.",
+      "sha256": "348e5aa5786a5f8648fd96c94e0b4a831602a5312d318b6e48885a47afd71b39"
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/release-control.md",
+      "reason": "Reviewed static website target mapping, existing release boundary and user-authorized scope.",
+      "sha256": "ece7ac8af2d268735631d188ef1e3c4ae8235e564a2ad32c241c4ace83ac54fa"
+    },
+    {
+      "path": "scripts/check-web-compatibility.mjs",
+      "sha256": "b8054f6d9fcbd6e38dc5734dd1912d4b96ff708c7510fd41fa18b39ce201982c",
+      "reason": "Regression check inspects emitted CSS and device viewport tags; verified old build fails and corrected build passes."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Verified current: existing guidance requires rendered web/build validation, explicit browser support evidence, public boundary and separate release authority. Browser compatibility details belong in web README and regression check."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Verified current: existing guidance requires rendered web/build validation, explicit browser support evidence, public boundary and separate release authority. Browser compatibility details belong in web README and regression check."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Astro7.3.2 with Vite8.2.2 emits width<= media queries under current default CSS target. Live CSS confirms same issue. WebKit range support begins Safari16.4. No package upgrade/install needed; Wrangler4.130.0 already installed."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://webkit.org/blog/13966/webkit-features-in-safari-16-4/",
+      "checkedAt": "2026-10-11",
+      "reason": "Safari16.4 adds media-query range syntax; iOS15 ignores these queries."
+    },
+    {
+      "url": "https://vite.dev/config/build-options#build-csstarget",
+      "checkedAt": "2026-10-11",
+      "reason": "cssTarget controls CSS minification separately; set explicit supported browser targets."
+    },
+    {
+      "url": "https://developers.cloudflare.com/pages/get-started/direct-upload/",
+      "checkedAt": "2026-10-11",
+      "reason": "Deploy prebuilt static artifacts only after exact existing project/domain verification."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "Static navigation only; no Auth, RLS or authorization boundary changes.",
+    "sensitiveData": "Use fictional text in unsent local form only; do not inspect actual user records.",
+    "secretsLogging": "No environment file values or secrets in receipts or screenshots.",
+    "externalInput": "Live page is observation only. Fixed existing anchor IDs, no injection or dynamic external URLs.",
+    "dependencies": "Reuse installed packages without downloads or dependency update.",
+    "migrationRelease": "No SQL/runtime retarget. Explicit user request authorizes static website deploy; CLI auth and actual Pages/domain mapping must still be verified. Do not invent credentials or self-author an owner approval.",
+    "stopCondition": "Stop publication on missing auth approval/session, unknown project-domain mapping, live/build public waitlist mismatch, failed compatibility check, unexpected Worker/function files or private artifacts.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/web/astro.config.mjs",
+      "apps/web/package.json",
+      "apps/web/src/styles/responsive.css",
+      "apps/web/README.md",
+      "artifacts/web-ios15-responsive-2026-10-11/prepare-plan.mjs",
+      "scripts/check-web-compatibility.mjs",
+      "artifacts/web-ios15-responsive-2026-10-11/build.mjs",
+      "artifacts/web-ios15-responsive-2026-10-11/finalize.mjs",
+      "artifacts/web-ios15-responsive-2026-10-11/landscape-736-vi.jpg",
+      "artifacts/web-ios15-responsive-2026-10-11/live-before.html",
+      "artifacts/web-ios15-responsive-2026-10-11/live-public-bindings.json",
+      "artifacts/web-ios15-responsive-2026-10-11/nilaza-web-ios15.zip",
+      "artifacts/web-ios15-responsive-2026-10-11/OWNER_HANDOFF.vi.md",
+      "artifacts/web-ios15-responsive-2026-10-11/portrait-414-vi.jpg",
+      "artifacts/web-ios15-responsive-2026-10-11/preview.mjs",
+      "artifacts/web-ios15-responsive-2026-10-11/responsive-evidence.json",
+      "artifacts/web-ios15-responsive-2026-10-11/candidate-manifest.json",
+      "artifacts/web-ios15-responsive-2026-10-11/cloudflare-before-domain.jpg",
+      "artifacts/web-ios15-responsive-2026-10-11/cloudflare-deploy-success.jpg",
+      "artifacts/web-ios15-responsive-2026-10-11/cloudflare-production.jpg",
+      "artifacts/web-ios15-responsive-2026-10-11/complete.mjs",
+      "artifacts/web-ios15-responsive-2026-10-11/deployment-receipt.json",
+      "artifacts/web-ios15-responsive-2026-10-11/public-http-evidence.json",
+      "artifacts/web-ios15-responsive-2026-10-11/public-portrait-414-vi.png",
+      "artifacts/web-ios15-responsive-2026-10-11/public-responsive-evidence.json",
+      "artifacts/web-ios15-responsive-2026-10-11/verify-public.mjs"
+    ],
+    "note": "Preserve all unrelated dirty mobile/Admin/backend/brand work. Existing pending header/global navigation changes from prior turns reviewed and included in this user-requested deployment. No git reset/stage/commit. Local public baseline, scoped build helper, tested screenshots, zip and artifact hashes reviewed. No unrelated changes staged. Local public baseline, scoped build helper, tested screenshots, zip and artifact hashes reviewed. No unrelated changes staged. Local public baseline, scoped build helper, tested screenshots, zip and artifact hashes reviewed. No unrelated changes staged."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/web-ios15-responsive-2026-10-11.json",
+    "node scripts/check-web-compatibility.mjs (pre-fix must fail, fixed build must pass)",
+    "npm run web:check",
+    "npm run web:build",
+    "npm run validate:public-content",
+    "npm run validate:brand",
+    "npm run skills:check",
+    "Browser 414x736/736x414/320x736/desktop VI/EN and deployment domain readback"
+  ],
+  "managerTestPath": "After public deployment, reload VI landing on iPhone7Plus: logo/language/menu fit, menu opens/closes, hero/buttons fill screen without side gutter. Explore scrolls; Safety and VI/EN work. Rotate landscape and inspect Help search.",
+  "residualRisk": "No physical iPhone attached; verify old Safari compatibility in emitted CSS and review representative viewport. Publication blocked until Cloudflare authenticated project/domain mapping is available.",
+  "externalActions": {
+    "databaseWrite": false,
+    "providerWrite": false,
+    "deployment": true,
+    "emailSend": false,
+    "note": "User explicitly requested static deployment and completed ordinary Cloudflare login. Existing Pages production updated via dashboard; no new OAuth permission/token, DNS/backend/SQL changes. Exact target and rollback recorded in deployment-receipt.json."
+  },
+  "validationEvidence": [
+    "Live CSS confirms width<= breakpoints; WebKit official Safari16.4 notes explain old-browser failure.",
+    "Regression check on previous build FAIL as expected, including inline Help/features styles; fixed build PASS on42 public pages.",
+    "web:check19 files0 diagnostics; web:build43 pages plus16 Help pages/two languages; public content, brand, skills drift and whitespace PASS.",
+    "Browser scoped viewport414x736,736x414,320x736: viewport/page/hero widths match; mobile menu visible, desktop nav hidden. Desktop1440: desktop nav visible, mobile toggle hidden.",
+    "VI menu opens/closes and Explore uses same-document fragment; EN landing no horizontal overflow; Safety link and corresponding VI language path verified.",
+    "All temporary device metrics cleared. No physical iPhone/Safari15 execution or frame-rate measurement.",
+    "Live and built VI/EN waitlist public endpoint/sitekey exactly match (currently both empty); no form submitted or backend activated.",
+    "Cloudflare dashboard signed-in session: nilaza-web-staging custom domain Active/SSL enabled;180/180 files uploaded; production deployment195d7396-a8e1-4542-984e-6fbb45c698b8 successful. Public HTTP12 critical pages/assets PASS;414/736/320 widths match; VI menu/Explore/Safety/EN switch/Help search PASS. Previous production a1c6cae6-d7b0-41e5-8efb-27337975a017 retained for rollback."
+  ]
+}

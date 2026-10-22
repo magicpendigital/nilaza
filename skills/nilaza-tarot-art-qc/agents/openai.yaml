@@ -1,0 +1,4 @@
+interface:
+  display_name: "Nilaza Tarot Art QC"
+  short_description: "Inspect every Tarot card image and track fixes"
+  default_prompt: "Use $nilaza-tarot-art-qc to review Tarot artwork card by card, correct defects, and verify the review ledger."

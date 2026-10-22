@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 1,
+  "taskId": "backend-api-key-backup-2026-10-18",
+  "ownerAgent": "root_backend_api_backup",
+  "lane": "owner_credential_backup",
+  "allowedDataClasses": [
+    "sanitized_project_metadata",
+    "public_documentation",
+    "encrypted_credential_packages_only",
+    "private_process_memory_credentials_never_model_output",
+    "owner_authorized_nilaza_task_history_private_digest_matching_only"
+  ],
+  "goal": "Back up existing recoverable Nilaza backend/API credentials to private Drive Backend-API using verified recovery recipient; report exact coverage and prepare private downloaded-copy restore.",
+  "successCriteria": [
+    "No secret values reach model/logs/argv/new environment or plaintext disk; encrypt existing values in memory.",
+    "Separate canonical Singapore etfajmrwyywokgafzxsb and legacy QA akgrokwnkfqnfjqrildi; no runtime retarget or credential mutation.",
+    "Existing scoped Supabase API keys read by pinned CLI --reveal in captured child pipes only; Edge secrets treated as digests unless proven exportable.",
+    "Exclude VERCEL_OIDC_TOKEN and all session/auth caches from package; classify unknown or missing credentials honestly.",
+    "Verify private Drive metadata, ciphertext round trip and Owner-private restore using existing recovery passphrase; no provider paid calls or live restore."
+  ],
+  "writeScope": [
+    "scripts/nilaza-backend-key-history.mjs",
+    "scripts/nilaza-backend-key-backup.mjs",
+    "scripts/nilaza-backend-key-owner.ps1",
+    "scripts/nilaza-backend-key-backup.test.mjs",
+    "docs/release/BACKEND_API_KEY_BACKUP_2026-10-18.vi.md",
+    "artifacts/backend-api-key-backup-2026-10-18/"
+  ],
+  "untouchedSurfaces": [
+    "Mobile/Admin/backend runtime, SQL, credential creation/rotation, bindings, cloud config, builds and publication.",
+    "All previous recovery/Android identity and receipts; unrelated dirty work; no raw .env or login cache backup."
+  ],
+  "impact": {
+    "entryPoint": "Owner authorized continuation after Android restore PASS. Agent prepares encrypted existing-key backup; Owner only decrypts downloaded copy privately.",
+    "dataWrite": "Protected LocalAppData/NilazaRecovery/BackendBackups/nilaza-20261018 contains encrypted bundle, encrypted download and sanitized receipts. Repo public metadata/tools only. Drive existing Keys/Backend-API private folder.",
+    "backendContract": "Read-only CLI projects api-keys --reveal and secrets list for only two verified Nilaza project refs. Local allowlisted dotenv values. No SQL or cloud write.",
+    "adminVisibility": "Coverage counts/allowlisted credential names, exact project, checksum and restore status; no UI changes or secret values.",
+    "privacySafety": "Use fixed paths, reparse/ACL guards, pinned tools, anonymous pipes to age. Exclude ephemeral tokens/end-user data, prevent raw errors or source values in logs. Restored bytes stay in memory.",
+    "observability": "Public source/coverage list, encrypted blob SHA256 and payload integrity, tool hashes, downloaded-copy/restore receipt. No per-secret hash or signed URL in public records.",
+    "rollback": "Refuse collisions; preserve partials for investigation; stop on changed tools/targets/ACL/unknown unsafe key types. Backups cannot activate secrets."
+  },
+  "canonicalContracts": [
+    "Recovery owner-v1 recipient age1rekcyasv7rgg8k77wfuf0een6re6yy32exuzsw6qsxqhudawlycsxrhd74; downloaded identity SHA256 4bb2563f9627d223ac9116e442a13bef5046aa4d6cbb87082a70581714d5718a.",
+    "Nilaza Free org drxbmvimiekeoeesgssp: Singapore etfajmrwyywokgafzxsb and legacy QA akgrokwnkfqnfjqrildi; separately identified and not promoted production.",
+    "No statement all keys backed up without per-category coverage. managedRecovery remains BLOCKED."
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa",
+      "reason": "Reviewed source for backup authority, exact scope, privacy or proven helper pattern."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Reviewed source for backup authority, exact scope, privacy or proven helper pattern."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Reviewed source for backup authority, exact scope, privacy or proven helper pattern."
+    },
+    {
+      "path": "docs/release/RELEASE_RUNBOOK.md",
+      "sha256": "348e5aa5786a5f8648fd96c94e0b4a831602a5312d318b6e48885a47afd71b39",
+      "reason": "Reviewed source for backup authority, exact scope, privacy or proven helper pattern."
+    },
+    {
+      "path": "docs/release/SOLO_ANDROID_AND_KEYS_2026-10-16.vi.md",
+      "sha256": "9917f87749acd58916f720880e5f8c4dd9f4804e3cf75d5c35e682ce039a6554",
+      "reason": "Reviewed source for backup authority, exact scope, privacy or proven helper pattern."
+    },
+    {
+      "path": "artifacts/solo-android-keys-2026-10-16/KEY-INVENTORY.vi.md",
+      "sha256": "4bbc8017a50d0811a60068ea3d758440cff1567073d09370b96a1e3ed1b44357",
+      "reason": "Reviewed source for backup authority, exact scope, privacy or proven helper pattern."
+    },
+    {
+      "path": "scripts/nilaza-android-key-backup.mjs",
+      "sha256": "43c89c1f56d289e0761dc59a9ccd0474cb0c1e7373c4b62e8c9450f46f87428d",
+      "reason": "Reviewed source for backup authority, exact scope, privacy or proven helper pattern."
+    },
+    {
+      "path": "scripts/nilaza-android-key-owner.ps1",
+      "sha256": "b0130b20eb61d90e5077843060f1f3340d6b6ac8fc1c5c44e5f1201f1687102c",
+      "reason": "Reviewed source for backup authority, exact scope, privacy or proven helper pattern."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Expanded reference and release-control reviewed; no runtime feature change. Drive and Supabase skills applied; no policy change needed."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Installed Supabase CLI 2.108.0 help reviewed for projects api-keys --reveal and secrets list; pinned Node v25.9.0 native parseEnv, node:sqlite readOnly and node:zlib zstd stream are present. Historical rollouts are .jsonl.zst; read existing task index id/cwd/path only, then stream exact Nilaza files with 8GiB bound and report partial coverage. Pinned age; no install. Official Supabase changelog and API docs checked."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://supabase.com/changelog",
+      "checkedAt": "2026-10-18",
+      "reason": "No relevant secret export breaking change observed; markdown endpoint unsupported by browser, HTML index checked."
+    },
+    {
+      "url": "https://supabase.com/docs/reference/api/v1-list-all-secrets",
+      "checkedAt": "2026-10-18",
+      "reason": "Read-only secrets endpoint; CLI may return digest rather than recoverable values, validated by shape."
+    },
+    {
+      "url": "https://supabase.com/docs/reference/cli/supabase-projects-api-keys",
+      "checkedAt": "2026-10-18",
+      "reason": "Installed CLI help is exact invocation source; reveal values only in private process pipe."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "Read-only existing CLI auth used internally; no cache values exported or exposed. No Data API/SQL/user rows; exact project refs explicitly bound. Verify public project org before export.",
+    "sensitiveData": "Secret values only child pipes/memory to standard age encryption. Local .env allowlist excludes VERCEL_OIDC_TOKEN, account tokens and unknown names. No user datasets.",
+    "secretsLogging": "Child stdout/stderr buffered and discarded, fixed phase errors only. Owner passphrase uncaptured console; no transcript, screenshot or clipboard reads. Public receipt schema allowlist.",
+    "externalInput": "Validate stdout JSON shapes/key types/target claims/size limits; names allowlisted before printing. Never execute parsed content, source strings or cloud names.",
+    "dependencies": "Pin Node/age/Supabase native executable/helpers by raw SHA256. Trust local OS/toolchain memory; no new dependencies.",
+    "migrationRelease": "No database writes, seed, project setup, secret set/delete, credential creation/rotation, provider requests, build or publication.",
+    "stopCondition": "Tool/ACL/reparse/target mismatch, missing auth, invalid/ambiguous key encoding, existing output, redirected Owner restore, unexpected payload or actual production-only secret boundary.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "scripts/nilaza-backend-key-history.mjs",
+      "scripts/nilaza-backend-key-backup.mjs",
+      "scripts/nilaza-backend-key-owner.ps1",
+      "scripts/nilaza-backend-key-backup.test.mjs",
+      "docs/release/BACKEND_API_KEY_BACKUP_2026-10-18.vi.md",
+      "artifacts/backend-api-key-backup-2026-10-18/toolchain.json",
+      "artifacts/backend-api-key-backup-2026-10-18/toolchain.backup-origin.json",
+      "artifacts/backend-api-key-backup-2026-10-18/probe.json",
+      "artifacts/backend-api-key-backup-2026-10-18/backup.json",
+      "artifacts/backend-api-key-backup-2026-10-18/download.json",
+      "artifacts/backend-api-key-backup-2026-10-18/drive-receipt.json",
+      "artifacts/backend-api-key-backup-2026-10-18/validation.json",
+      "artifacts/backend-api-key-backup-2026-10-18/launch.json",
+      "artifacts/backend-api-key-backup-2026-10-18/coverage.vi.txt",
+      "artifacts/backend-api-key-backup-2026-10-18/restore-test.json",
+      "scripts/nilaza-android-key-backup.mjs",
+      "scripts/nilaza-android-key-owner.ps1",
+      "docs/release/SOLO_ANDROID_AND_KEYS_2026-10-16.vi.md",
+      "artifacts/solo-android-keys-2026-10-16/KEY-INVENTORY.vi.md"
+    ],
+    "note": "Existing dirty shared tree reviewed, no reset/staging; original env and runtime sources read-only. New scope only helpers/docs/sanitized evidence."
+  },
+  "validationCommands": [
+    "Feature preflight before implementation and execution.",
+    "Node tests: exclude session tokens, wrong project/JWT role, bounded inputs, digest vs exported secret, no secret values in public manifest, payload tamper.",
+    "PowerShell parse/Plan/private ACL and captured Restore refusal.",
+    "Pinned CLI probe prints only sanitized shape/coverage; real encrypted backup inspected and uploaded/downloaded with SHA256 match.",
+    "Owner-private restore validates exact package/entry checksums and public receipt, no runtime activation."
+  ],
+  "managerTestPath": "Owner uses opened classic console, BAT_DAU then existing recovery password once; success confirms downloaded encrypted bundle parsed and its retained values have matching package integrity. Agent checks public receipt.",
+  "residualRisk": "Backup proves recoverability of captured bytes, not provider validity or cloud config completeness. Missing cloud-only/digest-only/DB/SMTP values need explicit coverage and possibly Owner-held original input; no automatic rotation. JS strings/pagefile not guaranteed wiped. Same-machine test only.",
+  "externalActions": {
+    "cloudCalls": true,
+    "supabaseReadOnlyCredentialExport": true,
+    "driveUpload": true,
+    "localPrivateProfileWrites": true,
+    "ownerPrivateRestore": true,
+    "databaseWrite": false,
+    "providerCalls": false,
+    "credentialRotation": false,
+    "deployment": false,
+    "publishing": false
+  },
+  "phase": "COMPLETE for recoverable credential subset: Owner restore verified 2026-10-18T11:11:52.436Z, checksum/source/origin-and-current-toolchain parity PASS; public restore receipt uploaded and existing Drive status updated/read back owner-only. Historical backup preserved. Current QA cloud-only originals remain unavailable; completeBackendCoverage NOT_ESTABLISHED and managedRecovery BLOCKED. No credential/runtime/release changes."
+}

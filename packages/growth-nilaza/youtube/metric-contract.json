@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "1.0.0",
+  "tenantId": "nilaza",
+  "namespace": "nilaza.youtube",
+  "status": "definitions_only_no_collection",
+  "privacy": "Aggregate only; no private reflections, comments containing personal data or viewer-level joins.",
+  "metrics": [
+    {
+      "id": "youtube_impressions_ctr",
+      "numerator": "thumbnail impressions that led to views",
+      "denominator": "eligible YouTube thumbnail impressions",
+      "source": "YouTube Analytics after separately approved access; Shorts feeds need separate applicable definitions",
+      "value": null
+    },
+    {
+      "id": "youtube_average_view_duration",
+      "numerator": "eligible aggregate watch seconds",
+      "denominator": "eligible aggregate views",
+      "source": "YouTube Analytics, metric/window/version required",
+      "value": null
+    },
+    {
+      "id": "youtube_retention",
+      "numerator": "aggregate viewers retained at defined segment",
+      "denominator": "eligible viewers at start for same video and period",
+      "source": "YouTube retention report pending",
+      "value": null
+    },
+    {
+      "id": "waitlist_confirmed_from_youtube",
+      "numerator": "consent-scoped confirmed waitlist registrations with approved attribution",
+      "denominator": "eligible consent-scoped attributed landing visits",
+      "source": "Nilaza existing measurement integration not verified for YouTube",
+      "value": null
+    },
+    {
+      "id": "production_cost_per_accepted_video",
+      "numerator": "verified Nilaza YouTube generation/render cost",
+      "denominator": "independent-QA-accepted video count",
+      "source": "ContentOps billing/reservation receipts pending",
+      "value": null
+    }
+  ],
+  "missingDataRule": "Unavailable when source/denominator is absent or zero; numerator zero with valid positive denominator may be zero. Null is not zero.",
+  "weeklyDecision": "Review evidence quality, one proposed content variable and budget before the next draft plan; no automatic offer/product/audience change.",
+  "northStarReference": "packages/growth-nilaza/business-pack.json northStar is a product metric, not YouTube views or a currently measured result."
+}

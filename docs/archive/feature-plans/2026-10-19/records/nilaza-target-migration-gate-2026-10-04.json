@@ -1,0 +1,255 @@
+{
+  "schemaVersion": 1,
+  "taskId": "nilaza-target-migration-gate-2026-10-04",
+  "ownerAgent": "workflow_orchestration_agent",
+  "lane": "backend_release_governance",
+  "goal": "Implement a read-only target-scoped SQL evidence gate; preserve blocked legacy QA and independent release authority.",
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "successCriteria": [
+    "Database-write preflight binds an allowlisted organization/project/environment, matching ledger, exact SQL, replay and approval.",
+    "Wrong target, missing evidence, stale hashes, blocked ledger and foreign MCY SQL fail closed.",
+    "Legacy plans retain blocked ledger; no target registration, database execution or cloud mutation."
+  ],
+  "writeScope": [
+    "scripts/database-target-gate.mjs",
+    "scripts/database-target-gate.test.mjs",
+    "scripts/feature-preflight.mjs",
+    "scripts/feature-preflight.test.mjs",
+    "docs/production/2026-10-04/database-target-gate.vi.md",
+    "docs/production/2026-10-04/database-target.draft.json",
+    "docs/production/2026-10-04/implementation-progress.vi.md",
+    "skills/nilaza-plan-qc/references/release-control.md",
+    "skills/manifest.json",
+    "docs/production/2026-10-04/PRODUCTION_PLAN.vi.md",
+    "docs/production/2026-10-04/implementation-evidence.json"
+  ],
+  "untouchedSurfaces": [
+    "Mobile, Admin, runtime endpoints, SQL, user data and secrets remain unchanged.",
+    "Release profile and checker retain independent blockers and empty allowlist."
+  ],
+  "impact": {
+    "entryPoint": "Local feature preflight and read-only CLI before planned database writes.",
+    "dataWrite": "Only scoped checker, tests and sanitized repository docs; no database writes.",
+    "backendContract": "Target manifest binds target, operation, ledger, migration set and evidence; no API changes.",
+    "adminVisibility": "Owner can read exact BLOCKED reasons; Admin UI is untouched.",
+    "privacySafety": "Synthetic fixtures only; safe paths and no SQL execution, credentials or private payloads.",
+    "observability": "Deterministic PASS/FAIL/BLOCKED output without telemetry or network.",
+    "rollback": "Revert scoped integration; existing legacy blocked-ledger fallback remains."
+  },
+  "canonicalContracts": [
+    "Release profile is the independent target allowlist and organization boundary; this gate cannot register or authorize targets.",
+    "Target manifest binds a reviewed matching ledger, ordered migration hashes, clean replay and owner approval; legacy QA remains blocked."
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "35757424e5fc5ef5814015ceb87ace0a9b8b5e3602e555a09efd47f49d53b32e",
+      "reason": "Current routed source reviewed for local gate; preserve independent release and legacy ledger authority."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Current routed source reviewed for local gate; preserve independent release and legacy ledger authority."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Current routed source reviewed for local gate; preserve independent release and legacy ledger authority."
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "sha256": "c6a16c4be5bd732c51158ab66c4ea92bd23c1e817da539f3820546a22d806ec8",
+      "reason": "Current routed source reviewed for local gate; preserve independent release and legacy ledger authority."
+    },
+    {
+      "path": "docs/AGENT_ARCHITECTURE.md",
+      "sha256": "0b7aaaa4caeb233684fbadbd436e097c07622f17e89f61fca35c3251b7f0263f",
+      "reason": "Current routed source reviewed for local gate; preserve independent release and legacy ledger authority."
+    },
+    {
+      "path": "docs/BACKEND_PROXY_ARCHITECTURE.md",
+      "sha256": "b079458af4a10232efc8804746dd3ae7e8f10d5097800b26f2faf4e922fe91cb",
+      "reason": "Current routed source reviewed for local gate; preserve independent release and legacy ledger authority."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Current routed source reviewed for local gate; preserve independent release and legacy ledger authority."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "e5fc9e3789ce1978ce3db7b7f41d6dd695d021c6d01ead2b11b3af14a4525f49",
+      "reason": "Current routed source reviewed for local gate; preserve independent release and legacy ledger authority."
+    },
+    {
+      "path": "supabase/migration-ledger.json",
+      "sha256": "e63b4510c844c03d235b3f69d8e9a051c5ce4cbe620369100f5fcb33a9f8d9eb",
+      "reason": "Current routed source reviewed for local gate; preserve independent release and legacy ledger authority."
+    },
+    {
+      "path": "scripts/feature-preflight.mjs",
+      "sha256": "76e65a66fe1dc309edbe1932419936a495c95028d48998d1536ed7f85a763528",
+      "reason": "Current routed source reviewed for local gate; preserve independent release and legacy ledger authority."
+    },
+    {
+      "path": "scripts/feature-preflight.test.mjs",
+      "sha256": "b97e2d907d3e5c945445bf0a2031bb09b89e0774febde9270433d2d716a46967",
+      "reason": "Current routed source reviewed for local gate; preserve independent release and legacy ledger authority."
+    },
+    {
+      "path": "scripts/check-supabase-migration-ledger.mjs",
+      "sha256": "a134a929484dd679e4fc548afe8b76a966c22a7f0ff8f9d4e51ee97ee7176388",
+      "reason": "Current routed source reviewed for local gate; preserve independent release and legacy ledger authority."
+    },
+    {
+      "path": "scripts/release-evidence.mjs",
+      "sha256": "8e02be5b460fedb8bf44a9dd335eed57ae113decf9e376e0e5e4a685ab1eb5c8",
+      "reason": "Current routed source reviewed for local gate; preserve independent release and legacy ledger authority."
+    },
+    {
+      "path": "docs/release/release-profile.json",
+      "sha256": "f4964d0a17e6fd92d225d01ccacd554fbaf0033161f756571924cdd6a0c2aeaa",
+      "reason": "Current routed source reviewed for local gate; preserve independent release and legacy ledger authority."
+    },
+    {
+      "path": "docs/release/RELEASE_RUNBOOK.md",
+      "sha256": "9f44d674b547e324982b87d79b4c46531e69c4f19d9e475557a60a963a27cae2",
+      "reason": "Current routed source reviewed for local gate; preserve independent release and legacy ledger authority."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "1e4d2bc7a93a2a140690c7237537de582972db30088309996ab6462a79a53623",
+      "reason": "Current routed source reviewed for local gate; preserve independent release and legacy ledger authority."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/nilaza-plan-qc.md",
+      "sha256": "1f1ca706c56aef4d08ac94c6475c19a59c3838a218eab9e94ab9436fbe4cda03",
+      "reason": "Current routed source reviewed for local gate; preserve independent release and legacy ledger authority."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/release-control.md",
+      "sha256": "ece7ac8af2d268735631d188ef1e3c4ae8235e564a2ad32c241c4ace83ac54fa",
+      "reason": "Current routed source reviewed for local gate; preserve independent release and legacy ledger authority."
+    },
+    {
+      "path": "docs/production/2026-10-04/project-spec.json",
+      "sha256": "86749270f1e8e7f3dcbab7a7f7b7976e38c36ca18a238b02f4c7d901f0f20a97",
+      "reason": "Current routed source reviewed for local gate; preserve independent release and legacy ledger authority."
+    },
+    {
+      "path": "scripts/database-target-gate.mjs",
+      "reason": "Reviewed current local implementation and skill manifest before scoped durable guidance update.",
+      "sha256": "f372cdcbd1fcdfbec4ea0d41f4335affb90ac032f4f4b1b0bd336c2ec4976640"
+    },
+    {
+      "path": "scripts/database-target-gate.test.mjs",
+      "reason": "Reviewed current local implementation and skill manifest before scoped durable guidance update.",
+      "sha256": "38adbe5b96c4d1b2b082fb0046b81f5befe5daad8fc6e206656be790068c0f94"
+    },
+    {
+      "path": "skills/manifest.json",
+      "reason": "Reviewed current local implementation and skill manifest before scoped durable guidance update.",
+      "sha256": "10ed569d2a689a6136ebfef7ecaf5dddafa2c6ee0d313e8e23a3fdd1fa427ef7"
+    },
+    {
+      "path": "docs/production/2026-10-04/PRODUCTION_PLAN.vi.md",
+      "reason": "Current scoped implementation reviewed after tests; retain original release authority and record remaining cloud gates.",
+      "sha256": "352adfc54161dd766ce5974938df67ab5310d52c6b6de2b3ffca159b0cee06c4"
+    },
+    {
+      "path": "supabase/functions/_shared/providers/openrouter-billing.ts",
+      "reason": "Actual local provider implementation supports the narrow durable skill guidance update.",
+      "sha256": "66a15323520b44ce969fd47be83d817802faab2a4a3a86b9dd4276a456abe6a4"
+    },
+    {
+      "path": "docs/production/2026-10-04/openrouter-receipts.vi.md",
+      "reason": "Actual local provider implementation supports the narrow durable skill guidance update.",
+      "sha256": "854daa9278b8edbeb14c09634e9ad84a3c6717a6e2cd2bb5063631db808724ed"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "updated",
+      "evidence": "Add durable guidance for target-scoped gate and OpenRouter receipt versus settlement/runtime evidence; preserve entrypoint, metadata and independent release authority."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Target checker uses only Node built-ins; scoped skill guidance also reviewed actual Deno2.9/OpenRouter receipt API with current primary sources."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://openrouter.ai/docs/cookbook/administration/usage-accounting",
+      "checkedAt": "2026-10-04",
+      "reason": "Current charge, token details and deprecated usage include behavior reviewed."
+    },
+    {
+      "url": "https://openrouter.ai/docs/api/api-reference/generations/get-generation",
+      "checkedAt": "2026-10-04",
+      "reason": "Exact generation metadata/total_cost response contract reviewed."
+    },
+    {
+      "url": "https://openrouter.ai/support/",
+      "checkedAt": "2026-10-04",
+      "reason": "Credit denomination is USD; fees and usage parameter age assessed separately."
+    },
+    {
+      "url": "https://openrouter.ai/blog/insights/cost-vs-quality-tradeoff-framework-for-agent-models/",
+      "checkedAt": "2026-10-04",
+      "reason": "Provider primary confirmation of usage.cost in USD, published2026-10-01."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No endpoint or RLS changes; exact target binding before local database-write preflight.",
+    "sensitiveData": "Synthetic fixtures and metadata only; no user rows or secrets.",
+    "secretsLogging": "No credentials, SQL execution or raw payload logs; no network calls.",
+    "externalInput": "Reject malformed data, path traversal, outside-root realpaths, hash and identity mismatch.",
+    "dependencies": "Existing Node built-ins only; no install or external execution.",
+    "migrationRelease": "Preserve legacy block and independent release policy; require exact ledger, SQL, replay and approval for another target.",
+    "stopCondition": "Stop on scope drift or any path/hash/identity bypass. All cloud actions remain out of scope.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "scripts/database-target-gate.mjs",
+      "scripts/database-target-gate.test.mjs",
+      "scripts/feature-preflight.mjs",
+      "scripts/feature-preflight.test.mjs",
+      "docs/production/2026-10-04/database-target-gate.vi.md",
+      "docs/production/2026-10-04/database-target.draft.json",
+      "docs/production/2026-10-04/implementation-progress.vi.md",
+      "skills/nilaza-plan-qc/references/release-control.md",
+      "skills/manifest.json",
+      "docs/production/2026-10-04/PRODUCTION_PLAN.vi.md",
+      "docs/production/2026-10-04/implementation-evidence.json"
+    ],
+    "note": "All owned scoped implementation changes reviewed; unrelated work remains intact. Evidence and production plan edits report actual local checks and remaining blockers."
+  },
+  "validationCommands": [
+    "node --test scripts/database-target-gate.test.mjs scripts/feature-preflight.test.mjs scripts/feature-run.test.mjs",
+    "node scripts/database-target-gate.mjs --manifest docs/production/2026-10-04/database-target.draft.json",
+    "npm run validate:governance",
+    "npm run skills:check",
+    "npm run supabase:migration-ledger:check",
+    "npm run skills:validate",
+    "npm run skills:sync",
+    "python C:/Users/Admin/.codex/skills/.system/skill-creator/scripts/quick_validate.py skills/nilaza-plan-qc"
+  ],
+  "managerTestPath": "Run draft checker and read Vietnamese guide; expect BLOCKED with missing project and no database writes.",
+  "residualRisk": "Evidence fields and hashes cannot prove test truth, owner identity or remote enforcement; release review and actual readback remain mandatory. Production security gates remain blocked.",
+  "externalActions": {
+    "databaseWrite": false,
+    "projectCreation": false,
+    "deploy": false
+  },
+  "ownerDecision": {
+    "date": "2026-10-04",
+    "supabaseBaseUsd": 25,
+    "aiBillingProvider": "openrouter",
+    "instruction": "Use purchased25USD plan for now; AI spend separately through OpenRouter and depends on actual usage.",
+    "executionAuthorization": "Budget/provider preference; no exact project manifest/application approval in this turn."
+  }
+}

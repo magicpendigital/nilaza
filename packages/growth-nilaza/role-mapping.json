@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "1.0.0",
+  "tenantId": "nilaza",
+  "mappings": {
+    "workflow_orchestration": "workflow_orchestration_agent",
+    "content_research": "content_data_agent",
+    "product_management": "product_manager_agent",
+    "content_authoring": "content_data_agent",
+    "quality_assurance": "qa_review_agent",
+    "design_operations": "design_sync_agent",
+    "measurement_analysis": "product_manager_agent",
+    "security_privacy_review": "security_privacy_agent"
+  },
+  "externalExecutionAuthority": "none"
+}

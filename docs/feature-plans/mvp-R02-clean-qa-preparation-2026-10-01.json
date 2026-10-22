@@ -1,0 +1,456 @@
+{
+  "schemaVersion": 1,
+  "taskId": "mvp-R02-clean-qa-preparation-2026-10-01",
+  "ownerAgent": "workflow_orchestration_agent",
+  "lane": "backend_proxy_lane: clean Nilaza QA metadata and bootstrap preparation",
+  "goal": "Record owner-selected clean Nilaza QA path, read-only sanitized legacy metadata inventory, exact reviewed local migration manifest and execution preconditions without creating/applying/retargeting/deploying.",
+  "successCriteria": [
+    "Inventory counts/limits classify Nilaza vs MCY/shared/unknown without private rows, SQL bodies or identities.",
+    "Manifest binds ordered25historical Nilaza base SQL rawsha plus separately reviewed unapplied R03 source-read-forward; seeds/futureatomiccredits clearly gated, not executable-clean-ready.",
+    "Owner decision A recorded, target/region/create/apply/deploy/cutover/restore criteria separate and reviewable."
+  ],
+  "writeScope": [
+    "docs/mvp-remediation/2026-10-01/R02-clean-qa-inventory.vi.md",
+    "docs/mvp-remediation/2026-10-01/R02-clean-qa-bootstrap.json",
+    "docs/mvp-remediation/2026-10-01/R02-migration-forward-path.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "No live writes, project retarget, migration SQL, deploy, publish or release.",
+    "App/account bridge and privacy integration require separate root record; historical planning backlog untouched."
+  ],
+  "impact": {
+    "entryPoint": "R02 owner-selected clean QA planning; no current app target change.",
+    "dataWrite": "Scoped docs and sanitized local manifest only; metadata SELECT catalog/config via Supabase connector.",
+    "backendContract": "Expected Nilaza canonical schema compared; current linked akg retains foreign MCY evidence.",
+    "adminVisibility": "Canonical seed source/hash and protected workspace verification reported honestly, no publish.",
+    "privacySafety": "Synthetic fixtures or sanitized project context; no raw private content, credentials or author identity.",
+    "observability": "Actual check counts/source bindings and precise blocked dependencies.",
+    "rollback": "Preparation only; legacy environment untouched; future target backup/restore and config rollback must be approved before execution."
+  },
+  "canonicalContracts": [
+    "Ledger remains blocked_pending_reconciliation and projectRef akgrokwnkfqnfjqrildi; history preservation is not desired-schema approval.",
+    "Current lock copies and historical audit are reachability evidence, not fresh successful audit/exploit proof."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "sha256": "88a873eb09601bc56640919d407dfd0777ff12d4e8e19b65fc52889b6393f256",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "e5fc9e3789ce1978ce3db7b7f41d6dd695d021c6d01ead2b11b3af14a4525f49",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migration-ledger.json",
+      "sha256": "e63b4510c844c03d235b3f69d8e9a051c5ce4cbe620369100f5fcb33a9f8d9eb",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/config.toml",
+      "sha256": "de68a2a338c3f25255039fc42f4e1cadc3b914d69073d2efa870bea7baf8a434",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "docs/BACKEND_PROXY_ARCHITECTURE.md",
+      "sha256": "b079458af4a10232efc8804746dd3ae7e8f10d5097800b26f2faf4e922fe91cb",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/R02-migration-forward-path.vi.md",
+      "sha256": "36482425af93a5af15d7cdbda06ef7c4cda63692842d2a676b96622a813de3ce",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/202606120001_mvp_schema.sql",
+      "sha256": "226e20601e094426e23170814fab3346eea953bf619d78b0ded153afa37559f5",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/202606120002_add_missing_tables.sql",
+      "sha256": "80df182edc581e17f1fa66b91fe16537b89526abf97b889fe232c53e3032c91d",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260622000000_upgrade_mvp.sql",
+      "sha256": "621167d132d8b06948905ce1a6193cc0f3f3819e2fbb2649d6aea349d2f68029",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260622000001_weekly_reflection_cron.sql",
+      "sha256": "90fc174f647ad1bc77d3ffd6d5ec7c3cdc4de7307197892dd75f058ef1ab5932",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260626000000_ai_council_contract.sql",
+      "sha256": "152a27d7e72595490e4e516573508876a6d5922a3cc1eb97b09982d98c62c6c1",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260626000001_journal_mobile_contract.sql",
+      "sha256": "c2e619b6f5505ce63d450dff3c6faf6e2a405d737422028d1ea752f7fc0cbfba",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260626000002_ai_council_admin_config.sql",
+      "sha256": "8de07c0f770b1e10f5f2562d60acd7ad1ed67421690e350776aeb81b196d4d7d",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260627000000_astrology_backend_contract.sql",
+      "sha256": "11361a02d30d41181aeef3b0db5b5b91298cc841ddf0f061eea3f075a3751f4c",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260629020702_journal_entries_user_local_id_constraint.sql",
+      "sha256": "9ea543a2e495c2fcf0063db0da949ee7a6bcaacb1b149c537cef43037e84f7f3",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260630000000_model_route_versions.sql",
+      "sha256": "14889d571f6476036a2ec8344e6bc6a539e19040e12a6e7958416141e6c7adaf",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260706000000_oracle_contract.sql",
+      "sha256": "f0ac733270376b531d7bd1ba9f8c8ef5dbedeffdef75a315c01b2c172fb31b80",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260710000000_notifications_contract.sql",
+      "sha256": "51d4cf28e07a1dea9df96169034acd368fba4bd9a2c81cb505c670e99c9c1cb7",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260902131408_owner_capability_boundary.sql",
+      "sha256": "2f8fdac36b93d68f1a32da2d7a83b33c2b41b966589e8be9e1a85d56ace42a24",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260903033047_reconcile_owner_prerequisites.sql",
+      "sha256": "bfc7f7cf54ef7998abd617607f47644e698ee501da0d53a373f5d629b2a311b4",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260908000000_oracle_model_route.sql",
+      "sha256": "ae78d2be77e8b66749ba40d25dd9591b9bdf3b677e27f440fd1b31bb6844a949",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260909014614_ai_trace_observability.sql",
+      "sha256": "8794f35ab9724c18e2dda617f5bc3b1031bd16af067dff70a9cf1ef321e769bc",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260909020528_marketing_waitlist_and_admin_documentation.sql",
+      "sha256": "93235a9b2de2b13e8a8ab8cf92ff54a8fdedb0d9dfea3296e1c1d3a3df4777c1",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260909043000_admin_document_access_log_index.sql",
+      "sha256": "2e7b9de0182e4e317a8b57f731bd398ca1c264a66d765c4363007bde29f2bf20",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260913143958_marketing_consent_suppression_foundation.sql",
+      "sha256": "49f76f62e1a0e72c91b4691498f66dbe2ded843ea71ffd20785fe21200e749d9",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260913184421_growth_waitlist_aggregate_read_model.sql",
+      "sha256": "bf5c3611a447137959349a9e6b959dfa1d2bf2cd70ae20a57049e1ded64b2e7a",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260917172721_admin_content_sync.sql",
+      "sha256": "18b50345904d8d6074e56db3aa6400aa24392ea1d61a96e0672a2f8113833ac8",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260917174042_admin_content_sync_policy_tuning.sql",
+      "sha256": "ac6ae8b06f49db4e6cc8ec464fc1ecaf67a3699500a07132433ed7ed78bdc5ab",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260919202005_ai_council_rounds_v2.sql",
+      "sha256": "ad48c774864d7af19758f3364bb9224e68b7b367393e4424c0b388e08450cf62",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260925155619_generation_activity_contract_forward.sql",
+      "sha256": "d6de2800385431601296fb1846cb9dc38f72d02ed6645808421fa0d77b04f7a0",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260926152118_ai_studio_operations.sql",
+      "sha256": "7d17c007edf9807d4dbff19ccaa15283db6dfaaeb2e8a3acd91cd16060ad995a",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/seed.sql",
+      "sha256": "9f36e8db60e8753b14ec293756f42fd05825b511f7d9bde26b6240cc71ecdff0",
+      "reason": "Currentseeddestructive/upsertsemantics and forwardrawsourceACL pluscreditsreadguard reviewed; noPostgresapply/deploy."
+    },
+    {
+      "path": "supabase/seed.generated.sql",
+      "sha256": "4f600aa1cd999112cb160c485f422007e3caf7a3172ac509e20bce8ecade8517",
+      "reason": "Currentseeddestructive/upsertsemantics and forwardrawsourceACL pluscreditsreadguard reviewed; noPostgresapply/deploy."
+    },
+    {
+      "path": "scripts/apply-supabase-seed.mjs",
+      "sha256": "18bcbc0a529703246205dd732e800c413cedacf8f4a98378561429c2b892d0ba",
+      "reason": "Currentseeddestructive/upsertsemantics and forwardrawsourceACL pluscreditsreadguard reviewed; noPostgresapply/deploy."
+    },
+    {
+      "path": "scripts/generate-supabase-seed.mjs",
+      "sha256": "639febdd72921fd07a65381f7c4080f6d1df906f309b79ae85c9acdc63513306",
+      "reason": "Currentseeddestructive/upsertsemantics and forwardrawsourceACL pluscreditsreadguard reviewed; noPostgresapply/deploy."
+    },
+    {
+      "path": "supabase/migrations/20261001000000_private_source_read_boundary.sql",
+      "sha256": "cf54859e0fb9f8ba9f4758cccfdb1ac0810e47d8f318b32c2111fb8cd347459b",
+      "reason": "Currentseeddestructive/upsertsemantics and forwardrawsourceACL pluscreditsreadguard reviewed; noPostgresapply/deploy."
+    },
+    {
+      "path": "supabase/functions/user-credits/index.ts",
+      "sha256": "e78d81442959c3f779aa58452eb9e3f5237f5221eb5cee22f9d1e11a0e586348",
+      "reason": "Currentseeddestructive/upsertsemantics and forwardrawsourceACL pluscreditsreadguard reviewed; noPostgresapply/deploy."
+    },
+    {
+      "path": "supabase/functions/user-credits/handler.ts",
+      "sha256": "b47cda5cfb45758d64c9af2cd2f3a0b3883e90091b92bcb90af9ff79aa99b619",
+      "reason": "Currentseeddestructive/upsertsemantics and forwardrawsourceACL pluscreditsreadguard reviewed; noPostgresapply/deploy."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Fresh exact QA plan with full results and separate browser/native/CI/live gates; no skipped case or inflated timeout."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Current repository SQL and sanitized read-only Supabase catalogs; official migration/RLS docs reviewed in R02, no install or guessed compatibility fix."
+  },
+  "securityReview": {
+    "authzRls": "Local unit tests only; linked DB identity flagged separately.",
+    "sensitiveData": "Synthetic fixtures; no credential/private traces read.",
+    "secretsLogging": "No secret printing or env changes.",
+    "externalInput": "Trusted repository tests/build scripts; results not commands.",
+    "dependencies": "No install/update; existing lockfile version.",
+    "migrationRelease": "Nilaza QA foreign-schema identity unresolved; no live writes/deploy/retarget.",
+    "stopCondition": "Foreign/unknown dependencies block execution, never creation/apply/drop/repair/secrets/cutover in this preparation task.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "docs/mvp-remediation/2026-10-01/R02-migration-forward-path.vi.md"
+    ],
+    "note": "Preserve existing forensic evidence and owner-selected preparation scope; old QA immutable, no live writes."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/mvp-R02-clean-qa-preparation-2026-10-01.json",
+    "npm run supabase:migration-ledger:check",
+    "Check25manifest files against rawSHA and ordered version ids; readonlymetadata counts nottruncated"
+  ],
+  "managerTestPath": "Read project identities, foreign object classification, exact local bootstrap files and unresolved prerequisites; review only specific future execution scope.",
+  "residualRisk": "Foreign schema dependencies/actor unknown. Critical/high dependency mitigations and native/RLS reachability remain release gates. Safe documentation only, no cloud action authorized.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deployment": false,
+    "productionRelease": false
+  },
+  "externalSourceReview": [],
+  "preparationBaselineReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "sha256": "88a873eb09601bc56640919d407dfd0777ff12d4e8e19b65fc52889b6393f256",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "e5fc9e3789ce1978ce3db7b7f41d6dd695d021c6d01ead2b11b3af14a4525f49",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migration-ledger.json",
+      "sha256": "e63b4510c844c03d235b3f69d8e9a051c5ce4cbe620369100f5fcb33a9f8d9eb",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/config.toml",
+      "sha256": "de68a2a338c3f25255039fc42f4e1cadc3b914d69073d2efa870bea7baf8a434",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "docs/BACKEND_PROXY_ARCHITECTURE.md",
+      "sha256": "b079458af4a10232efc8804746dd3ae7e8f10d5097800b26f2faf4e922fe91cb",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/R02-migration-forward-path.vi.md",
+      "sha256": "36482425af93a5af15d7cdbda06ef7c4cda63692842d2a676b96622a813de3ce",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/202606120001_mvp_schema.sql",
+      "sha256": "226e20601e094426e23170814fab3346eea953bf619d78b0ded153afa37559f5",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/202606120002_add_missing_tables.sql",
+      "sha256": "80df182edc581e17f1fa66b91fe16537b89526abf97b889fe232c53e3032c91d",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260622000000_upgrade_mvp.sql",
+      "sha256": "621167d132d8b06948905ce1a6193cc0f3f3819e2fbb2649d6aea349d2f68029",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260622000001_weekly_reflection_cron.sql",
+      "sha256": "90fc174f647ad1bc77d3ffd6d5ec7c3cdc4de7307197892dd75f058ef1ab5932",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260626000000_ai_council_contract.sql",
+      "sha256": "152a27d7e72595490e4e516573508876a6d5922a3cc1eb97b09982d98c62c6c1",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260626000001_journal_mobile_contract.sql",
+      "sha256": "c2e619b6f5505ce63d450dff3c6faf6e2a405d737422028d1ea752f7fc0cbfba",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260626000002_ai_council_admin_config.sql",
+      "sha256": "8de07c0f770b1e10f5f2562d60acd7ad1ed67421690e350776aeb81b196d4d7d",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260627000000_astrology_backend_contract.sql",
+      "sha256": "11361a02d30d41181aeef3b0db5b5b91298cc841ddf0f061eea3f075a3751f4c",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260629020702_journal_entries_user_local_id_constraint.sql",
+      "sha256": "9ea543a2e495c2fcf0063db0da949ee7a6bcaacb1b149c537cef43037e84f7f3",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260630000000_model_route_versions.sql",
+      "sha256": "14889d571f6476036a2ec8344e6bc6a539e19040e12a6e7958416141e6c7adaf",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260706000000_oracle_contract.sql",
+      "sha256": "f0ac733270376b531d7bd1ba9f8c8ef5dbedeffdef75a315c01b2c172fb31b80",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260710000000_notifications_contract.sql",
+      "sha256": "51d4cf28e07a1dea9df96169034acd368fba4bd9a2c81cb505c670e99c9c1cb7",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260902131408_owner_capability_boundary.sql",
+      "sha256": "2f8fdac36b93d68f1a32da2d7a83b33c2b41b966589e8be9e1a85d56ace42a24",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260903033047_reconcile_owner_prerequisites.sql",
+      "sha256": "bfc7f7cf54ef7998abd617607f47644e698ee501da0d53a373f5d629b2a311b4",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260908000000_oracle_model_route.sql",
+      "sha256": "ae78d2be77e8b66749ba40d25dd9591b9bdf3b677e27f440fd1b31bb6844a949",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260909014614_ai_trace_observability.sql",
+      "sha256": "8794f35ab9724c18e2dda617f5bc3b1031bd16af067dff70a9cf1ef321e769bc",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260909020528_marketing_waitlist_and_admin_documentation.sql",
+      "sha256": "93235a9b2de2b13e8a8ab8cf92ff54a8fdedb0d9dfea3296e1c1d3a3df4777c1",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260909043000_admin_document_access_log_index.sql",
+      "sha256": "2e7b9de0182e4e317a8b57f731bd398ca1c264a66d765c4363007bde29f2bf20",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260913143958_marketing_consent_suppression_foundation.sql",
+      "sha256": "49f76f62e1a0e72c91b4691498f66dbe2ded843ea71ffd20785fe21200e749d9",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260913184421_growth_waitlist_aggregate_read_model.sql",
+      "sha256": "bf5c3611a447137959349a9e6b959dfa1d2bf2cd70ae20a57049e1ded64b2e7a",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260917172721_admin_content_sync.sql",
+      "sha256": "18b50345904d8d6074e56db3aa6400aa24392ea1d61a96e0672a2f8113833ac8",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260917174042_admin_content_sync_policy_tuning.sql",
+      "sha256": "ac6ae8b06f49db4e6cc8ec464fc1ecaf67a3699500a07132433ed7ed78bdc5ab",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260919202005_ai_council_rounds_v2.sql",
+      "sha256": "ad48c774864d7af19758f3364bb9224e68b7b367393e4424c0b388e08450cf62",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260925155619_generation_activity_contract_forward.sql",
+      "sha256": "d6de2800385431601296fb1846cb9dc38f72d02ed6645808421fa0d77b04f7a0",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    },
+    {
+      "path": "supabase/migrations/20260926152118_ai_studio_operations.sql",
+      "sha256": "7d17c007edf9807d4dbff19ccaa15283db6dfaaeb2e8a3acd91cd16060ad995a",
+      "reason": "Canonical Nilaza migration order and bootstrap prerequisites reviewed with delegated backend/security inventory; MCY SQL excluded from desired schema."
+    }
+  ]
+}

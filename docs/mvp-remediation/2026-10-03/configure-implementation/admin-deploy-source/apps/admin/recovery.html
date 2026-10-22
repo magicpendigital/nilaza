@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="referrer" content="no-referrer" />
+  <title>Khôi phục tài khoản · Nilaza</title>
+  <!-- Scrub bearer credentials before loading any external resource. -->
+  <script>window.nilazaRecoveryFragment = location.hash; history.replaceState(null, "", location.pathname);</script>
+  <link rel="stylesheet" href="./shell.css" />
+</head>
+<body>
+  <main class="login-screen">
+    <section class="login-panel">
+      <div class="brand-mark">N</div>
+      <p class="brand-name">Nilaza</p>
+      <label>Ngôn ngữ / Language<select id="recovery-language"><option value="vi">Tiếng Việt</option><option value="en">English</option></select></label>
+      <h1 id="recovery-title"></h1>
+      <p class="login-copy" id="recovery-copy"></p>
+      <form id="recovery-request" hidden>
+        <label>Email<input id="recovery-email" type="email" autocomplete="email" required /></label>
+        <button id="request-button" class="primary" type="submit"></button>
+      </form>
+      <form id="recovery-update" hidden>
+        <label><span id="password-label"></span><input id="new-password" type="password" autocomplete="new-password" minlength="12" required /></label>
+        <label><span id="confirm-label"></span><input id="confirm-password" type="password" autocomplete="new-password" minlength="12" required /></label>
+        <button id="update-button" class="primary" type="submit"></button>
+      </form>
+      <p id="recovery-status" role="status" aria-live="polite"></p>
+      <button id="new-link" class="secondary" hidden></button>
+      <a class="secondary recovery-back" id="recovery-back" href="./index.html#login"></a>
+    </section>
+  </main>
+    <script src="./config.js?v=admin-sync-v1"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.108.2"></script>
+  <script src="./recovery-core.js"></script>
+  <script src="./recovery.js"></script>
+</body>
+</html>

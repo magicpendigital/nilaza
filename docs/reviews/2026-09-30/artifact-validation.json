@@ -1,0 +1,22 @@
+{
+  "date": "2026-09-30",
+  "kind": "review_artifact_integrity_only_not_product_tests",
+  "jsonParse": {
+    "status": "PASS",
+    "files": 9
+  },
+  "localLinks": {
+    "status": "PASS",
+    "checked": 216
+  },
+  "screenshotManifest": {
+    "status": "PASS",
+    "jpegFiles": 22
+  },
+  "candidatePriorVersionsAndText": "PASS",
+  "twoTurnPairMissingMetricsRemainNull": "PASS",
+  "candidateLivePublish": "NOT_PERFORMED",
+  "candidateProviderRetest": "BLOCKED",
+  "deepSecurityScan": "FAILED_BEFORE_DISCOVERY",
+  "nativeDeviceAndPerformance": "UNVERIFIED"
+}

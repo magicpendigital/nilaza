@@ -1,0 +1,127 @@
+{
+  "version": "2026-09-22",
+  "provider": "imagegen",
+  "style": "Original myth-inspired paintings, not archaeological reconstructions or astronomical maps.",
+  "records": [
+    {
+      "id": "aries",
+      "subject": "A luminous golden ram stepping onto ancient ivory marble stairs above dark teal water, the whole ram and its sweeping horns visible, distant circular temple doorway, courage at a threshold",
+      "master": "assets/features/astrology/aries-v2.png",
+      "runtime": "apps/mobile/assets/runtime/features/astrology-aries-v2.jpg",
+      "masterSha256": "62720b3c7e338ff29e9cf112904e3e874a423e8f2b9e2930f1438d6fe4be5623",
+      "runtimeSha256": "ca2ee38cfa8fb02f246ca7f6077fa31622719261ddd1f39786c9f08e375ded2d",
+      "runtimeBytes": 252458,
+      "generatedFile": "exec-884d8947-00b2-4284-b0cb-6374284d90db.png"
+    },
+    {
+      "id": "taurus",
+      "subject": "A majestic ivory bull resting peacefully in a moonlit island garden, woven gold thread in its horns, pomegranate trees and calm teal sea, whole bull visible",
+      "master": "assets/features/astrology/taurus-v2.png",
+      "runtime": "apps/mobile/assets/runtime/features/astrology-taurus-v2.jpg",
+      "masterSha256": "107eb5fc22b6b14579e71aa5b22bf13175aed88a2abb09bcb6bbcaf132c5c0bb",
+      "runtimeSha256": "8f7acd8b6921946c29f27f4e6e816228b5c39521cff52a64376b20c67e3950ad",
+      "runtimeBytes": 259842,
+      "generatedFile": "exec-c999a62b-6e50-4a0b-8b13-fc9e671203f5.png"
+    },
+    {
+      "id": "gemini",
+      "subject": "Two adult mythic companions in flowing ivory robes on opposite sides of a still reflecting pool, reaching toward two separate gold stars, temple columns and deep teal night",
+      "master": "assets/features/astrology/gemini-v2.png",
+      "runtime": "apps/mobile/assets/runtime/features/astrology-gemini-v2.jpg",
+      "masterSha256": "8d552f373c3d4683358871152b558dad49ec293a73e767bda021515d0aa964be",
+      "runtimeSha256": "c9d5746e350d45b61769031b02e37cd1b4ce540e75064788b707c01714931365",
+      "runtimeBytes": 197552,
+      "generatedFile": "exec-1581917c-901b-4212-a32b-a6d6c9ec328b.png"
+    },
+    {
+      "id": "cancer",
+      "subject": "A small beautifully detailed bronze-gold crab at the edge of a vast moonlit tidal pool with reeds, grand ancient marble architecture in distance, quiet courage, no battle",
+      "master": "assets/features/astrology/cancer-v2.png",
+      "runtime": "apps/mobile/assets/runtime/features/astrology-cancer-v2.jpg",
+      "masterSha256": "a59c81468ae874c63495deb9bb1aad89d7972ec528b760c9a6338e407f930abf",
+      "runtimeSha256": "357ec1fbd1f67630e3d8172e1c74381c57e2103b22a4e5715e0e7e9c84c43891",
+      "runtimeBytes": 231734,
+      "generatedFile": "exec-e7b499ca-c4ef-443a-aa68-6ff93ba47e6d.png"
+    },
+    {
+      "id": "leo",
+      "subject": "A regal tawny lion in soft champagne moonlight outside a ruined ivory temple, full body and mane, contemplative rather than aggressive, deep teal landscape",
+      "master": "assets/features/astrology/leo-v2.png",
+      "runtime": "apps/mobile/assets/runtime/features/astrology-leo-v2.jpg",
+      "masterSha256": "831490020a62e8eafeaecf33f02b14274f458ff27e32bc7ac8b8c081d20f2f3d",
+      "runtimeSha256": "4d6b7fca8d37eb5d1778d1de3a2d446452e832f69ce612aa164b46d225c977c8",
+      "runtimeBytes": 241242,
+      "generatedFile": "exec-50bc28f7-05bf-4db4-84c2-778f803c9d5b.png"
+    },
+    {
+      "id": "virgo",
+      "subject": "A dignified adult goddess in flowing ivory clothing holding a sheaf of wheat, walking through a midnight harvest garden, stars above ancient stone terraces, face subtle",
+      "master": "assets/features/astrology/virgo-v2.png",
+      "runtime": "apps/mobile/assets/runtime/features/astrology-virgo-v2.jpg",
+      "masterSha256": "ec4e3e9f04f50a4608084932c9bca73efb0dfbdb19d6dcf78b8f9c87ab919953",
+      "runtimeSha256": "f7db33e2875173820da040318c41e9f1efd439081f4d4fbf120c0d6b8db66dc5",
+      "runtimeBytes": 209914,
+      "generatedFile": "exec-56e1df69-ceff-47e5-9339-9b16c2e03949.png"
+    },
+    {
+      "id": "libra",
+      "subject": "An elaborate ancient golden balance scale standing in a serene marble courtyard above dark teal sea, unequal beautiful stones resting on its two balanced pans, moonlight",
+      "master": "assets/features/astrology/libra-v2.png",
+      "runtime": "apps/mobile/assets/runtime/features/astrology-libra-v2.jpg",
+      "masterSha256": "224c0fa4bc2662b62b2b1bd0c215558dc88dd38cc9030f807ffc34e3b28c3765",
+      "runtimeSha256": "5a0ce1343eefe5d77999ed092425ea3b1a0b68757f764687165cf503274d44ac",
+      "runtimeBytes": 212346,
+      "generatedFile": "exec-f70e487c-70f2-476d-972c-5947082fad6b.png"
+    },
+    {
+      "id": "scorpio",
+      "subject": "A beautifully detailed bronze scorpion glowing under stars on an ancient stone observatory, enormous night sky, contemplative mysterious atmosphere, not threatening",
+      "master": "assets/features/astrology/scorpio-v2.png",
+      "runtime": "apps/mobile/assets/runtime/features/astrology-scorpio-v2.jpg",
+      "masterSha256": "3129fb44609f350cbd68a90d094c8a2ae15ede60c9cb05c34452311f9fb83577",
+      "runtimeSha256": "291f70a97a910124052f3fa04de8726400dcf823ca2736cae768076b59baf092",
+      "runtimeBytes": 228901,
+      "generatedFile": "exec-28494d02-7fda-4ac3-9964-e4026a44153c.png"
+    },
+    {
+      "id": "sagittarius",
+      "subject": "An adult mythic archer in flowing robes holding a lowered bow and gazing toward a golden star on the horizon, ancient mossy steps and deep teal valley, no aiming or battle",
+      "master": "assets/features/astrology/sagittarius-v2.png",
+      "runtime": "apps/mobile/assets/runtime/features/astrology-sagittarius-v2.jpg",
+      "masterSha256": "26f45d3a42eff178d27e15bc0efc6378e21f6f7bfb42675a09f166f21cc5acad",
+      "runtimeSha256": "a305491a5f72bbc7115afe9b87d11439123275d2533225228427f50dbb5f8d00",
+      "runtimeBytes": 223244,
+      "generatedFile": "exec-8c2e1ec7-ec10-4d89-8825-28442a556a2b.png"
+    },
+    {
+      "id": "capricorn",
+      "subject": "A fantastical sea-goat with ivory goat forebody and shimmering teal fish tail, resting above calm water on a moonlit stone staircase ascending a misty mountain, elegant whole creature",
+      "master": "assets/features/astrology/capricorn-v2.png",
+      "runtime": "apps/mobile/assets/runtime/features/astrology-capricorn-v2.jpg",
+      "masterSha256": "82335949c1864f079ee9059612f94c1ae74fde2718e2bb1bf1a01da78be31f2f",
+      "runtimeSha256": "9869af92f2d74f6aa72444870260d885bd253b3703ca01505fd34f56e9e3021b",
+      "runtimeBytes": 215768,
+      "generatedFile": "exec-1811b183-d685-47ae-9737-4ac164d272fe.png"
+    },
+    {
+      "id": "aquarius",
+      "subject": "An adult mythic water bearer in ivory robes gently pouring a golden amphora into interconnected pools in a moonlit classical garden, teal water channels flowing toward a distant village",
+      "master": "assets/features/astrology/aquarius-v2.png",
+      "runtime": "apps/mobile/assets/runtime/features/astrology-aquarius-v2.jpg",
+      "masterSha256": "7a102fcc9c42b69ed3ae9e609b6326301b684d3c8e5a81e873bda0850feb67bf",
+      "runtimeSha256": "1c7cfc71bd493775b3bce8e151806eaebc8da5e1cd32386c49546d0fa602c227",
+      "runtimeBytes": 268390,
+      "generatedFile": "exec-610b4f39-6070-4b0c-a79d-c767ff4ae524.png"
+    },
+    {
+      "id": "pisces",
+      "subject": "Two elegant luminous fish swimming in opposite directions through deep teal water beneath an ancient marble bridge, a delicate gold ribbon loosely connecting them, dreamlike moon reflections",
+      "master": "assets/features/astrology/pisces-v2.png",
+      "runtime": "apps/mobile/assets/runtime/features/astrology-pisces-v2.jpg",
+      "masterSha256": "4993dc674cc9c2e5ed3b126887da744798af5fdb2983ebbb94577331d424c20c",
+      "runtimeSha256": "bf1088759170f551e3aa63c77a46baccaefbd06ffcce06a3b0345f01a1905626",
+      "runtimeBytes": 224834,
+      "generatedFile": "exec-cfcf5ac5-bca6-4f11-830c-93eae9d8d0c9.png"
+    }
+  ]
+}

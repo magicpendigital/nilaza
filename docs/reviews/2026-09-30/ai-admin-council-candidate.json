@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "nilaza-admin-council-quality-candidate-v1",
+  "candidateId": "2026-09-30-council-small-step-review-v1",
+  "feature": "ai_council",
+  "status": "review_only_blocked_runtime_delivery_not_published",
+  "qualityClaim": "hypothesis_only_no_output_improvement_observed",
+  "intendedPublisher": "existing admin-ai-council-config",
+  "publisherIsAtomicInReviewedSource": false,
+  "contractChangeRequested": false,
+  "modelRouteChangeRequested": false,
+  "statusChangeRequestedByThisArtifact": false,
+  "observedAdminAuthentication": "Root reports owner authenticated through normal Admin UI; this agent did not access credentials or session state.",
+  "draftPatch": {
+    "templateId": "love_confusion",
+    "field": "synthesisMode",
+    "sourceSeedValue": "gentle_consensus",
+    "candidateValue": "decision_next_step",
+    "actualLoadedValue": null,
+    "preserve": ["meetingMode", "maxGuides", "roster", "outputContract", "allOtherTemplates", "contextPolicy", "turnPolicy", "safetyBoundaries", "modelRoute"]
+  },
+  "objective": {
+    "vi": "Kiểm tra liệu mode tổng hợp decision_next_step có giúp kết vòng bằng một bước tự quan sát nhỏ, cụ thể, phù hợp câu hỏi. Đây chỉ là gợi ý enum; không phải một prompt hướng dẫn đã nối runtime.",
+    "en": "Test whether decision_next_step synthesis encourages one specific question-relevant observation step. This is an enum hint, not a wired instruction prompt."
+  },
+  "effectiveRuntimeFields": ["template.id", "meetingMode", "synthesisMode", "maxGuidesPerTurn", "rosterSlugs", "outputContract"],
+  "fieldsPersistedButNotReadForCurrentModelGeneration": ["template.flow", "roster.role", "roster.purpose", "config.context_policy", "config.turn_policy", "config.safety_boundaries", "config.runtime_config.promptVersionId"],
+  "noPromptTextControl": "The current Council system prompt is hardcoded in ai-council/index.ts. No existing Council Builder text field can enforce grounding, one tiny experiment, independent guide methods, or a trust style through that system prompt.",
+  "runtimeDeliveryGate": {
+    "mobilePinnedVersionFromSource": "2026-06-26-council-builder-v1",
+    "mobileCaller": "apps/mobile/src/features/council/useAiCouncilRoom.ts:641",
+    "serverLookup": "supabase/functions/ai-council/index.ts:253",
+    "serverFallback": "supabase/functions/ai-council/index.ts:257",
+    "problem": "The mobile request sends the static bundled configVersion. Server filters active database config by that exact version. Publishing a fresh unique version archives the old active version; a request still pinned to the old version then falls back to its mobile template payload.",
+    "sameVersionRepublish": "Not supported by current insert publisher; migration defines version UNIQUE. Do not bypass this by direct database edits.",
+    "requiredEvidence": "A normal app request must resolve the intended active version with configSource supabase_active_config and the exact candidate template fields. Admin publish success/readback alone is insufficient.",
+    "needsCodeOrExistingVerifiedClientDeliveryPath": true
+  },
+  "publisherRisks": [
+    "Publish performs separate config insert, template insert, active archive and new promotion calls; it is not an atomic transaction or optimistic concurrency compare-and-swap in reviewed source.",
+    "Failure after archiving and before promoting can leave no active config. Concurrent publishers can race.",
+    "A fresh-version rollback through the same publisher still has the mobile version-pin problem. No protected UI activate-prior operation was found in this reviewed endpoint."
+  ],
+  "publisherRequestTemplate": null,
+  "whyNoReadyRequest": "The actual active Admin payload has not been read by this agent and runtime delivery is blocked. Copying a seed-derived full payload would risk overwriting the owner configuration and would not prove any app behavior change.",
+  "prerequisites": [
+    "Capture complete current Admin config/templates and current app build/version through authorized visible UI or normal protected read transport.",
+    "Compare actual loaded synthesisMode; if it already equals decision_next_step, there is no proposed change.",
+    "Resolve the client version pin using a reviewed feature slice or demonstrate an existing legitimate normal UI delivery path. Do not extract tokens or call a hidden inference path to label it an app test.",
+    "Establish an atomic publish/rollback path and preserve the previous complete payload before live promotion.",
+    "Keep model, roster, response schema, safety boundaries and unrelated templates fixed for any comparison.",
+    "Do not run database push or repair while the migration ledger gate is blocked."
+  ],
+  "managerTestAfterDeliveryPrerequisites": [
+    "Open a fresh Council love_confusion room and use fictional C01; record current UI answer and trace configSource/configVersion before editing.",
+    "In existing Council Builder change only synthesis mode to decision_next_step; review the full loaded payload and authorized publish path.",
+    "Reload Admin and run the same prompt in a fresh normal app room; confirm trace uses the candidate version and mode, not mobile_payload.",
+    "Inspect assumptions, agency, distinct guide lenses, a useful synthesis and exactly one feasible small next step. Confirm no cards, facts or other person's motives are invented.",
+    "A provider fallback, model parser repair, absent provenance or failed UI rendering is not a successful quality comparison."
+  ],
+  "benchmark": {
+    "baseline": null,
+    "candidate": null,
+    "scores": null,
+    "pairedChatGPT": null
+  }
+}

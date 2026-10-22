@@ -1,0 +1,159 @@
+{
+  "schemaVersion": "1.0.0",
+  "tenantId": "nilaza",
+  "brandVersion": "open-reflection-v1",
+  "authoritativeReferences": [
+    "docs/BRAND_GUIDELINES.md",
+    "packages/content/data/brand-identity.json",
+    "assets/brand/open-reflection/v1"
+  ],
+  "voice": {
+    "vi": [
+      "ấm",
+      "ngắn",
+      "cụ thể",
+      "tôn trọng quyền tự quyết",
+      "mời suy ngẫm"
+    ],
+    "en": [
+      "warm",
+      "concise",
+      "specific",
+      "agency-respecting",
+      "reflective"
+    ]
+  },
+  "coreCopy": {
+    "vi": "Một khoảng mở để lắng nghe mình.",
+    "en": "A space to listen to yourself."
+  },
+  "safetyBoundary": {
+    "vi": "Nội dung để giải trí và tự phản chiếu; không thay thế hỗ trợ chuyên môn.",
+    "en": "For entertainment and self-reflection; not a substitute for professional support."
+  },
+  "channelPositioning": {
+    "vi": "Một khoảng mở để nghe mình rõ hơn qua câu hỏi, viết ngắn và góc nhìn tự phản chiếu.",
+    "en": "A space to listen to yourself through reflective questions, short writing and different perspectives."
+  },
+  "audienceStatus": "hypotheses_only_no_real_interviews_or_campaign_data",
+  "audienceExclusions": [
+    "No targeting or inference based on health, mental state, relationship hardship, religion, birth profile, Tarot result, chat, journal or face data.",
+    "No minors in the Sprint 01 research or beta hypothesis."
+  ],
+  "editorialTemplates": [
+    {
+      "id": "one_question",
+      "title": {
+        "vi": "Một câu hỏi để lắng nghe mình hôm nay",
+        "en": "One question to listen to yourself today"
+      },
+      "audienceHypothesis": "Người trưởng thành có thể thích một câu hỏi ngắn giúp bắt đầu tự phản chiếu; chưa kiểm chứng.",
+      "claimRefs": [
+        {
+          "featureId": "nilaza_open_reflection_brand",
+          "claimId": "nilaza_space_for_reflection"
+        }
+      ]
+    },
+    {
+      "id": "two_writing_prompts",
+      "title": {
+        "vi": "Bắt đầu bằng hai dòng viết",
+        "en": "Start with two lines of writing"
+      },
+      "audienceHypothesis": "Hai gợi ý viết có thể giúp diễn đạt điều đang quan tâm; không phải dữ liệu khách hàng hay hiệu quả trị liệu.",
+      "claimRefs": [
+        {
+          "featureId": "nilaza_open_reflection_brand",
+          "claimId": "nilaza_space_for_reflection"
+        }
+      ]
+    },
+    {
+      "id": "weekly_reflection",
+      "title": {
+        "vi": "Dành một khoảng mở để nhìn lại tuần",
+        "en": "A space to reflect on your week"
+      },
+      "audienceHypothesis": "Một nghi thức tự nguyện nhìn lại tuần có thể làm rõ câu hỏi và bước nhỏ tiếp theo; chưa có KPI.",
+      "claimRefs": [
+        {
+          "featureId": "nilaza_open_reflection_brand",
+          "claimId": "nilaza_space_for_reflection"
+        }
+      ]
+    }
+  ],
+  "formats": {
+    "short": {
+      "durationSecondsRange": [
+        35,
+        60
+      ],
+      "canvas": [
+        1080,
+        1920
+      ],
+      "structure": [
+        "Một câu hỏi rõ",
+        "Một góc nhìn hoặc gợi ý viết",
+        "Một bước nhỏ tự chọn và ranh giới an toàn"
+      ]
+    },
+    "long": {
+      "durationSecondsRange": [
+        240,
+        360
+      ],
+      "canvas": [
+        1920,
+        1080
+      ],
+      "structure": [
+        "Tình huống phổ quát, không giả lời khách hàng",
+        "Một câu hỏi và các góc nhìn",
+        "Một bài viết ngắn tự thực hiện",
+        "Nhìn lại, CTA và ranh giới"
+      ]
+    }
+  },
+  "locales": {
+    "primary": "vi",
+    "secondary": "en_subtitles_and_review_copy",
+    "separateEnglishUpload": "requires_new_slot_budget_QA_and_owner_envelope"
+  },
+  "destination": {
+    "website": "https://nilaza.magicpendigital.com",
+    "websiteDecisionSource": "docs/BRAND_GUIDELINES.md",
+    "cta": {
+      "vi": "Tham gia danh sách chờ",
+      "en": "Join the waitlist"
+    },
+    "liveUrlConsentStatus": "pending",
+    "storeDownloadClaims": "blocked"
+  },
+  "visualRules": {
+    "logo": "manifest-approved Open Reflection v1 only; no alternate geometry",
+    "heading": "EB Garamond Regular, full Vietnamese glyphs",
+    "body": "Hanken Grotesk; verify actual export readability",
+    "palette": [
+      "#151416",
+      "#F7F1E6",
+      "#0E5A5A",
+      "#C9A45C"
+    ],
+    "motion": "Calm finite transitions, no flashing; logo ends on approved static geometry. Review actual video at phone size.",
+    "screenshots": "Only verified build/device/test-account captures with ProductTruth release scope; no fabricated app screenshots."
+  },
+  "audioRules": {
+    "voice": "Owner/licensed synthetic voice with use rights; no imitation of a real person without explicit consent.",
+    "music": "Owned/licensed/public-domain assets with documented YouTube rights; no reuse of another tenant music, voice or audio catalog.",
+    "generation": "No audio/model paid calls until separate Nilaza YouTube budget approval."
+  },
+  "rightsDisclosure": {
+    "everyAsset": "Record byte hash, source, allowed uses, license evidence and expiration before QA.",
+    "syntheticMedia": "Independent assessment per current policy; realistic generated/altered content and synthetic music require review of disclosure.",
+    "madeForKids": "Adult reflection positioning is not a substitute for per-video audience assessment.",
+    "monetization": "Not promised; originality and platform policy acceptance remain separate gates."
+  }
+}

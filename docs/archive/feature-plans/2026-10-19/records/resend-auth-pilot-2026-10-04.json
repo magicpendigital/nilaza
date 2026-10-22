@@ -1,0 +1,238 @@
+{
+  "schemaVersion": 1,
+  "taskId": "resend-auth-pilot-2026-10-04",
+  "ownerAgent": "nilaza-resend-auth-owner",
+  "lane": "cross_cutting_auth_pilot",
+  "goal": "Implement isolated Auth confirmation callbacks and versioned bilingual SMTP templates; activate sending after verified domain.",
+  "successCriteria": [
+    "Explicit signup/resend callbacks and cooldown are validated.",
+    "Confirmation success needs server getUser without persistent session adoption.",
+    "Templates, recovery regression and narrow QA callback settings are validated."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/auth/supabaseAuth.ts",
+    "apps/mobile/src/auth/AuthFlow.tsx",
+    "apps/mobile/src/auth/emailConfirmation.ts",
+    "apps/mobile/src/auth/EmailConfirmationBoundary.tsx",
+    "apps/mobile/src/auth/__tests__/supabaseAuth.test.ts",
+    "apps/mobile/src/auth/__tests__/emailConfirmation.test.ts",
+    "apps/mobile/src/auth/__tests__/EmailConfirmationBoundary.test.tsx",
+    "supabase/templates/auth/",
+    "scripts/validate-auth-email-templates.mjs",
+    "docs/RESEND_AUTH_PILOT_2026-10-04.vi.md",
+    "apps/mobile/dist/auth-pilot-20261004/"
+  ],
+  "untouchedSurfaces": [
+    "Growth campaigns and schema, Admin, private Chat/Journal, push and payments remain unchanged.",
+    "Production, credentials and paid plans remain unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Signup/resend receive explicit dedicated callbacks; recovery boundary remains outermost.",
+    "dataWrite": "No database or profile write. Confirmation validates JWT without saving or adopting sessions.",
+    "backendContract": "Supabase Auth remains issuer; Resend SMTP waits for verified domain; no hook or queue.",
+    "adminVisibility": "Protected Admin unchanged; sanitized provider and QA settings evidence in internal runbook.",
+    "privacySafety": "Generic signup outcomes, no private reflection data or provider keys in templates or client.",
+    "observability": "Pending signup emits request event instead of account-created count; no recipient/token data. Provider delivery remains unverified.",
+    "rollback": "Revert narrow mobile changes and newly added QA redirects; SMTP remains disabled."
+  },
+  "canonicalContracts": [
+    "Supabase Auth server user verification is authoritative; callback cannot authenticate main app.",
+    "supabase/templates/auth/manifest.json owns SMTP template inventory and supported variables.",
+    "Dedicated confirmation/recovery callbacks remain separate from Growth and queues."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "aggregate_metrics"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "9ee70a05458cf761f62caaf7fa660425d8701986683dc5058b887e21a252b7ba",
+      "reason": "Reviewed Auth isolation, callback, brand or release gate for bounded implementation."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Reviewed Auth isolation, callback, brand or release gate for bounded implementation."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Reviewed Auth isolation, callback, brand or release gate for bounded implementation."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "e5fc9e3789ce1978ce3db7b7f41d6dd695d021c6d01ead2b11b3af14a4525f49",
+      "reason": "Reviewed Auth isolation, callback, brand or release gate for bounded implementation."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Reviewed Auth isolation, callback, brand or release gate for bounded implementation."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "c492e69235bc94267f8de0181822602612a5bbda03dd3d144cf4d6c96ff43197",
+      "reason": "Reviewed Auth isolation, callback, brand or release gate for bounded implementation."
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "7a4973733886cb4f1568d38e6d8324d1d8200bb1acd850db486bf5323943f023",
+      "reason": "Reviewed Auth isolation, callback, brand or release gate for bounded implementation."
+    },
+    {
+      "path": "apps/mobile/src/a2ui/README.md",
+      "sha256": "635240e6f341977cdf4ec7607e9dea0bf63a0f9ad3adecd5b196e6c09614e4cd",
+      "reason": "Reviewed Auth isolation, callback, brand or release gate for bounded implementation."
+    },
+    {
+      "path": "apps/mobile/src/auth/supabaseAuth.ts",
+      "sha256": "fb0466fe4db65bb6736a8bdbc68875d9aaff344a4ade0d59396b64792f1fef35",
+      "reason": "Reviewed Auth isolation, callback, brand or release gate for bounded implementation."
+    },
+    {
+      "path": "apps/mobile/src/auth/passwordRecovery.ts",
+      "sha256": "fac23a3921360f272006eed7412d8750c5e64bcca681d8564eea701c22873bfa",
+      "reason": "Reviewed Auth isolation, callback, brand or release gate for bounded implementation."
+    },
+    {
+      "path": "apps/mobile/src/auth/PasswordRecoveryBoundary.tsx",
+      "sha256": "9e156415eb225d634e8562392679dd9ad8d2b85d045154dd98425afbef1d5c1c",
+      "reason": "Reviewed Auth isolation, callback, brand or release gate for bounded implementation."
+    },
+    {
+      "path": "apps/mobile/src/auth/AuthFlow.tsx",
+      "sha256": "a1758b7bad2d0ba5f79ef1dc675bd191475e0c2f017d3246550e5c43f5202a55",
+      "reason": "Reviewed Auth isolation, callback, brand or release gate for bounded implementation."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "8e8fdf645c65f91e60ae01df8a414ccedd1ab52b924a71891d901ad49e9e3601",
+      "reason": "Reviewed Auth isolation, callback, brand or release gate for bounded implementation."
+    },
+    {
+      "path": "apps/mobile/package.json",
+      "sha256": "71bed88f043629f67e9674ec6abc8fbd99956d68e57176abdb853416cd24d7ab",
+      "reason": "Reviewed Auth isolation, callback, brand or release gate for bounded implementation."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "1e4d2bc7a93a2a140690c7237537de582972db30088309996ab6462a79a53623",
+      "reason": "Reviewed Auth isolation, callback, brand or release gate for bounded implementation."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/nilaza-plan-qc.md",
+      "sha256": "1f1ca706c56aef4d08ac94c6475c19a59c3838a218eab9e94ab9436fbe4cda03",
+      "reason": "Reviewed Auth isolation, callback, brand or release gate for bounded implementation."
+    },
+    {
+      "path": "skills/nilaza-brand-experience/SKILL.md",
+      "sha256": "1e2acdfac537225ed366a78e6c28b6764a5fe2ac1a1434e583ba21349dee1928",
+      "reason": "Reviewed Auth isolation, callback, brand or release gate for bounded implementation."
+    },
+    {
+      "path": ".github/workflows/mobile-quality.yml",
+      "sha256": "0e6be3645a38f5549fed4f2bfb415dce5457b4757f775984edbe339d137c20e9",
+      "reason": "Review export entry and CI validation contract for bounded web/native bundle verification."
+    },
+    {
+      "path": "apps/mobile/index.js",
+      "sha256": "0e94c7550ae97a9646eef9c3cf7cd971c65f09d3cc1ec95bbb531bf767e24a65",
+      "reason": "Review export entry and CI validation contract for bounded web/native bundle verification."
+    },
+    {
+      "path": "scripts/validate-mobile-export.mjs",
+      "sha256": "5c52a803648460788c09fda17d789b87f322d06ca9ea4ec35b7719f4f82ffd60",
+      "reason": "Review export entry and CI validation contract for bounded web/native bundle verification."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Whole-app reference covers Auth isolation, migration exclusion and separate native release evidence."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Brand guidance covers bilingual communication; no substitute brand imagery or wordmark introduced."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Installed supabase-js 2.108.2; no dependency changes. Current primary Auth and SMTP docs reviewed 2026-10-04."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://supabase.com/docs/guides/auth/auth-email-templates",
+      "checkedAt": "2026-10-04",
+      "reason": "Current primary source for callbacks, SMTP and supported template variables."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/auth/redirect-urls",
+      "checkedAt": "2026-10-04",
+      "reason": "Current primary source for callbacks, SMTP and supported template variables."
+    },
+    {
+      "url": "https://resend.com/docs/send-with-supabase-smtp",
+      "checkedAt": "2026-10-04",
+      "reason": "Current primary source for callbacks, SMTP and supported template variables."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No SQL writes. Confirmation requires server getUser and confirmed timestamp without main session adoption.",
+    "sensitiveData": "Only synthetic test recipients; action links and generic bilingual template copy.",
+    "secretsLogging": "No secret creation or client provider keys; scrub web callback fragments and never log tokens.",
+    "externalInput": "Exact callback origin/path and type validation, server identity verification and resend cooldown.",
+    "dependencies": "No dependency installation; current Supabase JS source and official Auth docs reviewed.",
+    "migrationRelease": "Blocked ledger prevents schema rollout. Only exact native QA redirects may be added after local checks.",
+    "stopCondition": "No SMTP or sends without verified domain; no migration repair, schema write or paid-plan purchase.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/auth/AuthFlow.tsx",
+      "apps/mobile/src/auth/__tests__/supabaseAuth.test.ts",
+      "apps/mobile/src/auth/supabaseAuth.ts",
+      "apps/mobile/src/auth/EmailConfirmationBoundary.tsx",
+      "apps/mobile/src/auth/__tests__/EmailConfirmationBoundary.test.tsx",
+      "apps/mobile/src/auth/__tests__/emailConfirmation.test.ts",
+      "apps/mobile/src/auth/emailConfirmation.ts",
+      "docs/RESEND_AUTH_PILOT_2026-10-04.vi.md",
+      "scripts/validate-auth-email-templates.mjs",
+      "supabase/templates/auth/confirmation.html",
+      "supabase/templates/auth/email_change.html",
+      "supabase/templates/auth/email_changed_notification.html",
+      "supabase/templates/auth/identity_linked_notification.html",
+      "supabase/templates/auth/identity_unlinked_notification.html",
+      "supabase/templates/auth/invite.html",
+      "supabase/templates/auth/magic_link.html",
+      "supabase/templates/auth/manifest.json",
+      "supabase/templates/auth/mfa_factor_enrolled_notification.html",
+      "supabase/templates/auth/mfa_factor_unenrolled_notification.html",
+      "supabase/templates/auth/password_changed_notification.html",
+      "supabase/templates/auth/phone_changed_notification.html",
+      "supabase/templates/auth/reauthentication.html",
+      "supabase/templates/auth/recovery.html"
+    ],
+    "note": "All task-authored Auth, templates and handoff paths acknowledged; telemetry distinguishes requests from created accounts. Unrelated working tree remains untouched."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/resend-auth-pilot-2026-10-04.json",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand src/auth/__tests__",
+    "node scripts/validate-auth-email-templates.mjs",
+    "git diff --check -- apps/mobile/App.tsx apps/mobile/src/auth supabase/templates/auth"
+  ],
+  "managerTestPath": "After domain verification: signup QA account, confirm and manually sign in; reset password; old password fails and new succeeds; invalid link stays safe.",
+  "residualRisk": "Domain not purchased; SMTP, live email and native acceptance pending. Migration divergence still blocks queue/schema rollout.",
+  "externalActions": {
+    "databaseWrite": false,
+    "providerWrite": false,
+    "deployment": false,
+    "emailSend": false,
+    "note": "No cloud changes in this slice. SMTP and exact QA callback configuration await domain and smoke-test deployment."
+  }
+}

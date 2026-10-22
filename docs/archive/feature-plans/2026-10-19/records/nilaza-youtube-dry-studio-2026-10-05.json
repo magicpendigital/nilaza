@@ -1,0 +1,241 @@
+{
+  "schemaVersion": 1,
+  "taskId": "nilaza-youtube-dry-studio-2026-10-05",
+  "ownerAgent": "nilaza-youtube-config-owner",
+  "lane": "growth_youtube_dry_configuration",
+  "goal": "Extend the existing eight Nilaza Growth roles with isolated YouTube briefs and offline planning/preflight; no duplicate queue or publisher.",
+  "successCriteria": [
+    "Same eight canonical Growth role IDs; script, motion and audio are content_studio workstreams.",
+    "Nilaza brand, editorial ledger, assets, outputs, channel, budget and proposed weekly slots remain tenant isolated.",
+    "Offline checks reject stale claims, mismatched channels, duplicate intent, unknown rights, stale approval, unsafe schedules, ambiguity and over-budget requests.",
+    "Production providers, OAuth, scheduler and external publishing remain disabled with explicit blockers; ContentOps integration is contract-only.",
+    "Pending Mystic Art handle does not select/pin a channel; conservative proposal is at most one long and one Short per week, all timing and activation still unapproved."
+  ],
+  "writeScope": [
+    "packages/growth-nilaza/youtube/",
+    "scripts/nilaza-youtube-dry-run.mjs",
+    "scripts/nilaza-youtube-dry-run.test.mjs",
+    "docs/NILAZA_YOUTUBE_STUDIO_2026-10-05.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "Mobile, web, Admin UI and generated snapshots remain unchanged.",
+    "Growth Core, existing carousel runtime/renderer and approved six-image pilot are untouched.",
+    "Production database, remote Git, Mây content and ContentOps runtime/queue remain unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Read-only local Node CLI plans draft YouTube work and prints activation blockers.",
+    "dataWrite": "New sanitized config, role briefs, empty editorial ledger and offline validator/test files only; no queue or runtime state writes.",
+    "backendContract": "Draft handoff contract to existing ContentOps; no HTTP client, OAuth flow, provider invocation, uploader or DB integration.",
+    "adminVisibility": "Console JSON plus internal Vietnamese handoff; no UI or public projection of operator materials.",
+    "privacySafety": "Public sources, approved brand and ProductTruth only; no private user data, channel tokens or Mây assets.",
+    "observability": "Offline proposed calendar and pending metric definitions; source hashes and blocker codes; no invented live KPI/cost.",
+    "rollback": "Remove only this new optional studio slice; execution is disabled by construction and existing Growth is unaffected."
+  },
+  "canonicalContracts": [
+    "Existing packages/growth-core/config/growth-agent-catalog.json owns the eight roles.",
+    "Existing Nilaza ProductTruth and BrandPack own product and brand claims.",
+    "New packages/growth-nilaza/youtube/studio.json owns this isolated draft lane; adapter-contract.json is a proposed ContentOps boundary."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "approved_public_research",
+    "licensed_or_approved_asset_reference",
+    "aggregate_metrics"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "8a3ecacd98f72be04044d5d38b35cd7f4aae2ecd26314302397591fd7454068d",
+      "reason": "Reviewed current source for existing Growth authority, product/brand truth, dependency boundary or scoped planning gate."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Reviewed current source for existing Growth authority, product/brand truth, dependency boundary or scoped planning gate."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Reviewed current source for existing Growth authority, product/brand truth, dependency boundary or scoped planning gate."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "6cd85c85b43e6ada64745ac13bf34f3fdb2b9e799f5bc2ad176a662d94b154e1",
+      "reason": "Reviewed current source for existing Growth authority, product/brand truth, dependency boundary or scoped planning gate."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "1e4d2bc7a93a2a140690c7237537de582972db30088309996ab6462a79a53623",
+      "reason": "Reviewed current source for existing Growth authority, product/brand truth, dependency boundary or scoped planning gate."
+    },
+    {
+      "path": "skills/nilaza-brand-experience/SKILL.md",
+      "sha256": "1e2acdfac537225ed366a78e6c28b6764a5fe2ac1a1434e583ba21349dee1928",
+      "reason": "Reviewed current source for existing Growth authority, product/brand truth, dependency boundary or scoped planning gate."
+    },
+    {
+      "path": "packages/growth-core/config/growth-agent-catalog.json",
+      "sha256": "1cc6d131585b09122645649d97b03b87821786a4b7d9cd6aab7e1c3caf36c759",
+      "reason": "Reviewed current source for existing Growth authority, product/brand truth, dependency boundary or scoped planning gate."
+    },
+    {
+      "path": "packages/growth-core/config/agent-runner-contract.json",
+      "sha256": "9206677a4d9fc3b60f10feb08d69945674765a9e1117c6ad157ff23f2fcd5486",
+      "reason": "Reviewed current source for existing Growth authority, product/brand truth, dependency boundary or scoped planning gate."
+    },
+    {
+      "path": "packages/growth-core/config/quality-gates.json",
+      "sha256": "da187f06a8c0cf4b171fd37547f70d7996e76e4e054f56a8104fdcad4f924af5",
+      "reason": "Reviewed current source for existing Growth authority, product/brand truth, dependency boundary or scoped planning gate."
+    },
+    {
+      "path": "packages/growth-core/config/approval-state-machine.json",
+      "sha256": "0dbff40c02ee0e9b36ff7ff4ed1cb701f2c72bc7b701292d08da361b26f62ddd",
+      "reason": "Reviewed current source for existing Growth authority, product/brand truth, dependency boundary or scoped planning gate."
+    },
+    {
+      "path": "packages/growth-nilaza/business-pack.json",
+      "sha256": "9453f06afedf5469a99d7a45e44c140146561028db2f966fedc01f781d78252f",
+      "reason": "Reviewed current source for existing Growth authority, product/brand truth, dependency boundary or scoped planning gate."
+    },
+    {
+      "path": "packages/growth-nilaza/brand-pack.json",
+      "sha256": "20d7677a27dbbe90460ab0701aff0fd1590d44b3ae586634ac57ef5baa3dc780",
+      "reason": "Reviewed current source for existing Growth authority, product/brand truth, dependency boundary or scoped planning gate."
+    },
+    {
+      "path": "packages/growth-nilaza/product-truth.json",
+      "sha256": "0946eb65b9de71a593f822ba5c9c4149d285fde46ec948f1a251bb35c8645e5c",
+      "reason": "Reviewed current source for existing Growth authority, product/brand truth, dependency boundary or scoped planning gate."
+    },
+    {
+      "path": "packages/growth-nilaza/role-mapping.json",
+      "sha256": "158af5e6b0937a167360aa8c5191229646eb503d4053829b71c3600405031506",
+      "reason": "Reviewed current source for existing Growth authority, product/brand truth, dependency boundary or scoped planning gate."
+    },
+    {
+      "path": "packages/content/data/brand-identity.json",
+      "sha256": "6a214e9244305b6bf3189f0c2b230ae7e3c6ef9b84b1374e6c0c9772789042d9",
+      "reason": "Reviewed current source for existing Growth authority, product/brand truth, dependency boundary or scoped planning gate."
+    },
+    {
+      "path": "packages/growth-runtime/runtime.mjs",
+      "sha256": "bd6d75d578ce221eacfb2570e1d673bac2be9ea001b4c37cc0a4ebe20cfaf01d",
+      "reason": "Reviewed current source for existing Growth authority, product/brand truth, dependency boundary or scoped planning gate."
+    },
+    {
+      "path": "packages/growth-runtime/renderer.mjs",
+      "sha256": "decd256f20388f24aa259ab31eec05d34679fee8783f62289a4d000db925de47",
+      "reason": "Reviewed current source for existing Growth authority, product/brand truth, dependency boundary or scoped planning gate."
+    },
+    {
+      "path": "scripts/feature-preflight.mjs",
+      "sha256": "76e65a66fe1dc309edbe1932419936a495c95028d48998d1536ed7f85a763528",
+      "reason": "Reviewed current source for existing Growth authority, product/brand truth, dependency boundary or scoped planning gate."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Current source applies feature preflight, seven impact fields, scoped tests and source/install parity; this dry-only lane introduces no exception."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Current guidelines and manifest remain authoritative; work briefs require brand/source rights and independent review, without changing masters."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Node v25.9.0 observed; no new packages/install. Planner uses Node built-ins. Existing renderer is carousel-only, not a video renderer. YouTube APIs/policies are a future integration boundary only."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://developers.google.com/youtube/v3/docs/videos/insert",
+      "checkedAt": "2026-10-05",
+      "reason": "OAuth upload requirements and private-only restriction for unaudited API projects; do not hardcode volatile quota costs."
+    },
+    {
+      "url": "https://developers.google.com/youtube/v3/docs/videos#status.publishAt",
+      "checkedAt": "2026-10-05",
+      "reason": "Scheduling requires private never-published video; past timestamps can publish immediately."
+    },
+    {
+      "url": "https://developers.google.com/youtube/v3/docs/channels/list",
+      "checkedAt": "2026-10-05",
+      "reason": "Future authenticated mine=true identity check must match pinned Nilaza channel."
+    },
+    {
+      "url": "https://developers.google.com/identity/protocols/oauth2",
+      "checkedAt": "2026-10-05",
+      "reason": "External Testing refresh tokens generally expire after seven days for scopes beyond basic identity."
+    },
+    {
+      "url": "https://support.google.com/youtube/answer/14328491",
+      "checkedAt": "2026-10-05",
+      "reason": "Current synthetic-media disclosure boundaries and independent editorial assessment."
+    },
+    {
+      "url": "https://support.google.com/youtube/answer/9481328",
+      "checkedAt": "2026-10-05",
+      "reason": "Parent-researched Studio invited permissions do not establish YouTube API authorization; live authorization remains unverified."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No authenticated endpoint or SQL changes. Channel pin and verified OAuth identity are mandatory future gates; current dry planner cannot execute.",
+    "sensitiveData": "No raw chat, journal, birth profiles, faces, audience contacts or real metrics; editorial examples are explicitly hypotheses.",
+    "secretsLogging": "No env credential reads, token creation or secret printing. Metadata-only evidence references; adapter receives credential-free draft envelopes.",
+    "externalInput": "Research is data, not authority. Rights, date, claim provenance and disclosure must be checked; ambiguous results and missing evidence stop the workflow.",
+    "dependencies": "No new dependencies. Existing shared roles/quality policy are referenced and hash-pinned, not forked; ContentOps queue is an external unverified dependency.",
+    "migrationRelease": "No migration, cloud project, deployment, push or paid provider work; proposed schedules are internal candidates only.",
+    "stopCondition": "Stop on source drift, cross-tenant paths, stale approval, missing channel identity/OAuth/budget/adapter or any attempted external action.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "docs/NILAZA_YOUTUBE_STUDIO_2026-10-05.vi.md",
+      "packages/growth-nilaza/youtube/README.vi.md",
+      "packages/growth-nilaza/youtube/adapter-contract.json",
+      "packages/growth-nilaza/youtube/assets/README.md",
+      "packages/growth-nilaza/youtube/brand-brief.json",
+      "packages/growth-nilaza/youtube/content-ledger.json",
+      "packages/growth-nilaza/youtube/metric-contract.json",
+      "packages/growth-nilaza/youtube/role-briefs.json",
+      "packages/growth-nilaza/youtube/roles/content_studio.md",
+      "packages/growth-nilaza/youtube/roles/distribution_planner.md",
+      "packages/growth-nilaza/youtube/roles/growth_orchestrator.md",
+      "packages/growth-nilaza/youtube/roles/independent_qa.md",
+      "packages/growth-nilaza/youtube/roles/journey_measurement.md",
+      "packages/growth-nilaza/youtube/roles/positioning_experiment.md",
+      "packages/growth-nilaza/youtube/roles/product_truth_claim_guard.md",
+      "packages/growth-nilaza/youtube/roles/research_jtbd.md",
+      "packages/growth-nilaza/youtube/source-register.json",
+      "packages/growth-nilaza/youtube/studio.json",
+      "packages/growth-nilaza/youtube/weekly-policy.json",
+      "scripts/nilaza-youtube-dry-run.mjs",
+      "scripts/nilaza-youtube-dry-run.test.mjs"
+    ],
+    "note": "Only these newly created optional YouTube slice paths are owned by this task. No existing concurrent source, Growth runtime, approved pilot, database or remote changes were edited."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/nilaza-youtube-dry-studio-2026-10-05.json",
+    "node --test scripts/nilaza-youtube-dry-run.test.mjs",
+    "node scripts/nilaza-youtube-dry-run.mjs --week 2026-10-05",
+    "npm run growth:validate",
+    "npm run growth:test",
+    "npm run validate:governance",
+    "npm run validate:brand",
+    "npm run skills:check"
+  ],
+  "managerTestPath": "Read the internal handoff and eight role briefs; run weekly dry planner, inspect proposed future slots and explicit activation blockers. Change a fixture channel/hash/rights/budget to see rejection; no live calls.",
+  "residualRisk": "No video, model/audio provider, OAuth identity, channel URL, approved API budget, ContentOps consumer acceptance or live scheduling/measurement evidence yet. A configuration/test PASS is not autonomous operation.",
+  "externalActions": {
+    "databaseWrite": false,
+    "publish": false,
+    "deploy": false,
+    "spend": false,
+    "gitPush": false,
+    "schedulerActivation": false
+  }
+}

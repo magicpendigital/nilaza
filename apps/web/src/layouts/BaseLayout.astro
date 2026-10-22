@@ -1,0 +1,51 @@
+---
+import "../styles/global.css";
+import "../styles/responsive.css";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+import FloatingNavigation from "../components/FloatingNavigation.astro";
+import { locales, type Locale } from "../lib/site";
+const { locale, title, description, image, waitlistTarget } = Astro.props as { locale: Locale; title: string; description: string; image?: string; waitlistTarget?: string };
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="theme-color" content="#151416" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {locales.map(language => <link rel="alternate" hreflang={language} href={new URL(`/${language}${Astro.url.pathname.slice(locale.length + 1)}`, Astro.site)} />)}
+    <meta property="og:title" content={title} /><meta property="og:description" content={description} /><meta property="og:type" content="website" /><meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(image || `/brand/v1/og-${locale}.png`, Astro.site)} />
+    <meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify({ "@context": "https://schema.org", "@type": "SoftwareApplication", name: "Nilaza", applicationCategory: "LifestyleApplication", operatingSystem: "iOS, Android", description })} />
+  </head>
+  <body data-locale={locale}>
+    <a class="skip-link" href="#main">{locale === "vi" ? "Đi tới nội dung" : "Skip to content"}</a>
+    <SiteHeader {locale} {waitlistTarget} />
+    <main id="main"><slot /></main>
+    <FloatingNavigation {locale} {waitlistTarget} />
+    <SiteFooter {locale} />
+    <script>
+      import { isPublicAnalyticsEvent, trackPublicEvent } from "../lib/analytics";
+
+      document.addEventListener("click", (event) => {
+        const element = event.target instanceof Element ? event.target.closest<HTMLElement>("[data-analytics-event]") : null;
+        const eventName = element?.dataset.analyticsEvent;
+        if (!element || !eventName || !isPublicAnalyticsEvent(eventName)) return;
+
+        trackPublicEvent(eventName, {
+          locale: document.documentElement.lang === "en" ? "en" : "vi",
+          source: element.dataset.analyticsSource,
+          surface: element.dataset.analyticsSurface,
+          target: element.dataset.analyticsTarget
+        });
+      });
+    </script>
+  </body>
+</html>

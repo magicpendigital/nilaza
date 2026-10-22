@@ -1,0 +1,539 @@
+{
+  "schemaVersion": 1,
+  "taskId": "singapore-waitlist-2026-10-11",
+  "ownerAgent": "nilaza-waitlist-owner",
+  "lane": "web_backend_prelaunch_preparation",
+  "goal": "Prepare a durable Singapore waitlist candidate, truthful bilingual prelaunch acquisition form and complete synthetic validation before managed deployment.",
+  "successCriteria": [
+    "VI/EN invite prelaunch signup, preserve consent and state clearly that acceptance is not app access or guaranteed invitation.",
+    "Both verified endpoint and widget key are required before rendering collection; incomplete configuration never silently accepts email.",
+    "Handler validates exact origin, input bounds, consent, honeypot and fail-closed hostname CAPTCHA before the atomic registration RPC.",
+    "SQL packet reuses reviewed marketing schema only, with private grants/RLS, duplicate handling, suppression preservation, consent history and no mail dispatch.",
+    "Native isolated PostgreSQL and browser/Android synthetic happy and failure paths pass; actual cloud checks remain explicitly blocked until target and widget acceptance.",
+    "Packet binds Singapore org/ref, source/artifact hashes, rollback, remaining gates and manager acceptance without cloud mutation."
+  ],
+  "writeScope": [
+    "apps/web/src/",
+    "apps/web/README.md",
+    "supabase/functions/marketing-waitlist/",
+    "packages/content/generated/public-help-corpus/",
+    "scripts/test-marketing-waitlist-handler.mjs",
+    "scripts/test-marketing-waitlist-client.mjs",
+    "scripts/validate-backend-contracts.mjs",
+    "scripts/check-supabase-readiness.mjs",
+    "apps/web/public/robots.txt",
+    "apps/web/astro.config.mjs",
+    "artifacts/singapore-waitlist-2026-10-11/android-en-success.png",
+    "artifacts/singapore-waitlist-2026-10-11/android-en-ui.xml",
+    "artifacts/singapore-waitlist-2026-10-11/android-evidence.json",
+    "artifacts/singapore-waitlist-2026-10-11/android-initial.png",
+    "artifacts/singapore-waitlist-2026-10-11/android-ui.xml",
+    "artifacts/singapore-waitlist-2026-10-11/android-vi-form.png",
+    "artifacts/singapore-waitlist-2026-10-11/android-vi-result.png",
+    "artifacts/singapore-waitlist-2026-10-11/android-vi-success.png",
+    "artifacts/singapore-waitlist-2026-10-11/bind-dev-inputs.mjs",
+    "artifacts/singapore-waitlist-2026-10-11/browser-api-evidence.json",
+    "artifacts/singapore-waitlist-2026-10-11/browser-api-live.json",
+    "artifacts/singapore-waitlist-2026-10-11/browser-ui-evidence.json",
+    "artifacts/singapore-waitlist-2026-10-11/candidate-verification.json",
+    "artifacts/singapore-waitlist-2026-10-11/CANDIDATE.json",
+    "artifacts/singapore-waitlist-2026-10-11/embedded-evidence.json",
+    "artifacts/singapore-waitlist-2026-10-11/en-320-fields-preserved.png",
+    "artifacts/singapore-waitlist-2026-10-11/en-320-success.png",
+    "artifacts/singapore-waitlist-2026-10-11/finalize-receipts.mjs",
+    "artifacts/singapore-waitlist-2026-10-11/index.ts",
+    "artifacts/singapore-waitlist-2026-10-11/managed-readback.json",
+    "artifacts/singapore-waitlist-2026-10-11/native-evidence.json",
+    "artifacts/singapore-waitlist-2026-10-11/native-failure.json",
+    "artifacts/singapore-waitlist-2026-10-11/native-qa.mjs",
+    "artifacts/singapore-waitlist-2026-10-11/nilaza-qa-20261005-5fc71a0460.log",
+    "artifacts/singapore-waitlist-2026-10-11/nilaza-qa-20261005-ba4cad276e.log",
+    "artifacts/singapore-waitlist-2026-10-11/OWNER_PACKET.vi.md",
+    "artifacts/singapore-waitlist-2026-10-11/package-candidate.mjs",
+    "artifacts/singapore-waitlist-2026-10-11/package-sql.mjs",
+    "artifacts/singapore-waitlist-2026-10-11/prepare-plan.mjs",
+    "artifacts/singapore-waitlist-2026-10-11/sql-provenance.json",
+    "artifacts/singapore-waitlist-2026-10-11/unconfigured-build-evidence.json",
+    "artifacts/singapore-waitlist-2026-10-11/update-copy.mjs",
+    "artifacts/singapore-waitlist-2026-10-11/verify-candidate.mjs",
+    "artifacts/singapore-waitlist-2026-10-11/vi-414-success.png",
+    "artifacts/singapore-waitlist-2026-10-11/vi-challenge-retry.png",
+    "artifacts/singapore-waitlist-2026-10-11/vi-fields-preserved.png",
+    "artifacts/singapore-waitlist-2026-10-11/waitlist-bootstrap.sql",
+    "artifacts/singapore-waitlist-2026-10-11/WaitlistForm.astro",
+    "artifacts/singapore-waitlist-2026-10-11/edge/"
+  ],
+  "untouchedSurfaces": [
+    "Mobile/Auth/Admin/AI/credits/DNS, old QA data and existing SQL migration history remain unchanged.",
+    "No managed SQL, function deploy, credentials, sender/queue activation or public release until reviewed gates pass.",
+    "Frozen candidate-web remains immutable after successful verification; all output hashes are bound in CANDIDATE.json."
+  ],
+  "impact": {
+    "entryPoint": "Header/hero/mobile CTA and local feature/intent signup sections; native VI/EN navigation preserved.",
+    "dataWrite": "Local source/packet plus synthetic isolated PostgreSQL only. Proposed managed write stores normalized email/locale/interest/UTM/consent, but this preparation performs no managed write.",
+    "backendContract": "Existing register_marketing_waitlist_request service-only RPC and generic 202 accepted; typed dependency-injected HTTP handler for complete local integration.",
+    "adminVisibility": "Existing aggregate model compatible, no subscriber PII exported. Admin stays on legacy target until separate approved retarget.",
+    "privacySafety": "Explicit consent unchecked, bounded payload, private table/RPC grants, fail-closed CAPTCHA/hostname, no address enumeration or outbound messages.",
+    "observability": "Coarse success analytics only; sanitized verification receipts, no emails/tokens/provider secrets in logs.",
+    "rollback": "Keep current production 48bd27bf; server errors leave input for retry, widget reset. Cloud deployment blocked until target/secret/recovery acceptance.",
+    "localTesting": "Bind dev server to IPv4 loopback only for authorized Android ADB forwarding; no LAN/public listener."
+  },
+  "canonicalContracts": [
+    "Reviewed marketing table portion of migration 20260909020528 and whole consent migration 20260913143958; package projection does not alter migration history.",
+    "Request email/locale/interest/consent/website/turnstileToken/UTM and response accepted:true remain compatible.",
+    "Official Singapore org drxbmvimiekeoeesgssp/ref etfajmrwyywokgafzxsb, no automatic whole-app retarget."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "4da2a80e09727695c07ad5e0adc52fffb28ae71783dc7258585aac3735a6add9",
+      "reason": "Scoped review of waitlist contracts, public copy, target constraints and local test/build inputs; preserve unrelated dirty baseline."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Scoped review of waitlist contracts, public copy, target constraints and local test/build inputs; preserve unrelated dirty baseline."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Scoped review of waitlist contracts, public copy, target constraints and local test/build inputs; preserve unrelated dirty baseline."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "6cd85c85b43e6ada64745ac13bf34f3fdb2b9e799f5bc2ad176a662d94b154e1",
+      "reason": "Scoped review of waitlist contracts, public copy, target constraints and local test/build inputs; preserve unrelated dirty baseline."
+    },
+    {
+      "path": "docs/NILAZA_PUBLIC_HELP_CORPUS.md",
+      "sha256": "055549c4bfb13923664f0854a6b44928e7094498af9a64fc6bbe1c17a1a04fb6",
+      "reason": "Scoped review of waitlist contracts, public copy, target constraints and local test/build inputs; preserve unrelated dirty baseline."
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "sha256": "c6a16c4be5bd732c51158ab66c4ea92bd23c1e817da539f3820546a22d806ec8",
+      "reason": "Scoped review of waitlist contracts, public copy, target constraints and local test/build inputs; preserve unrelated dirty baseline."
+    },
+    {
+      "path": "docs/release/RELEASE_RUNBOOK.md",
+      "sha256": "348e5aa5786a5f8648fd96c94e0b4a831602a5312d318b6e48885a47afd71b39",
+      "reason": "Scoped review of waitlist contracts, public copy, target constraints and local test/build inputs; preserve unrelated dirty baseline."
+    },
+    {
+      "path": "docs/release/SINGAPORE_FREE_PREPARATION_2026-10-09.vi.md",
+      "sha256": "e69333dc747196ede7f207dcdb7665c87af87a54d59efad1293027ac56218128",
+      "reason": "Scoped review of waitlist contracts, public copy, target constraints and local test/build inputs; preserve unrelated dirty baseline."
+    },
+    {
+      "path": "docs/release/release-profile.json",
+      "sha256": "a653120695490e3223c232889d36b63e67f41d7fcd4466a4f56fe8ddeed44081",
+      "reason": "Scoped review of waitlist contracts, public copy, target constraints and local test/build inputs; preserve unrelated dirty baseline."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "e5fc9e3789ce1978ce3db7b7f41d6dd695d021c6d01ead2b11b3af14a4525f49",
+      "reason": "Scoped review of waitlist contracts, public copy, target constraints and local test/build inputs; preserve unrelated dirty baseline."
+    },
+    {
+      "path": "docs/NILAZA_WAITLIST_MARKETING_AUTOMATION_PLAN.md",
+      "sha256": "e59f4c3bd328bc36d6efe579f0a9cb79c260b76d780aba8f0085701ffc125e71",
+      "reason": "Scoped review of waitlist contracts, public copy, target constraints and local test/build inputs; preserve unrelated dirty baseline."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "1e4d2bc7a93a2a140690c7237537de582972db30088309996ab6462a79a53623",
+      "reason": "Scoped review of waitlist contracts, public copy, target constraints and local test/build inputs; preserve unrelated dirty baseline."
+    },
+    {
+      "path": "skills/nilaza-brand-experience/SKILL.md",
+      "sha256": "1e2acdfac537225ed366a78e6c28b6764a5fe2ac1a1434e583ba21349dee1928",
+      "reason": "Scoped review of waitlist contracts, public copy, target constraints and local test/build inputs; preserve unrelated dirty baseline."
+    },
+    {
+      "path": "apps/web/README.md",
+      "sha256": "eb1f7e80b8822108be4899235e08832ae8b9428a95e743e8f69c5e23c7d4e3bd",
+      "reason": "Scoped review of waitlist contracts, public copy, target constraints and local test/build inputs; preserve unrelated dirty baseline."
+    },
+    {
+      "path": "apps/web/package.json",
+      "sha256": "2c21e80409fb09ffb65993fbca6344f4ef92bd99c427743b79c7bd8fc69fc5dd",
+      "reason": "Scoped review of waitlist contracts, public copy, target constraints and local test/build inputs; preserve unrelated dirty baseline."
+    },
+    {
+      "path": "apps/web/astro.config.mjs",
+      "sha256": "0c3690560fd958b310c77ee6687a75eb86735446962b5b8325105f9da9a7b642",
+      "reason": "Scoped review of waitlist contracts, public copy, target constraints and local test/build inputs; preserve unrelated dirty baseline."
+    },
+    {
+      "path": "apps/web/src/components/WaitlistForm.astro",
+      "sha256": "497c76818e7066702930f1f844b4ec750871f953cc2186f1d5f7fcb50b6b052f",
+      "reason": "Scoped review of waitlist contracts, public copy, target constraints and local test/build inputs; preserve unrelated dirty baseline."
+    },
+    {
+      "path": "apps/web/src/components/SiteHeader.astro",
+      "sha256": "a2274ce958bc4ce49e3ceaf97b9f5a486a0dd991989bbcda18c6e32c7958849e",
+      "reason": "Scoped review of waitlist contracts, public copy, target constraints and local test/build inputs; preserve unrelated dirty baseline."
+    },
+    {
+      "path": "supabase/functions/marketing-waitlist/index.ts",
+      "sha256": "5aacfb4540be568921bc912445dae35709ea433b7b6d6b2f62ed94c95bb3e3c5",
+      "reason": "Scoped review of waitlist contracts, public copy, target constraints and local test/build inputs; preserve unrelated dirty baseline."
+    },
+    {
+      "path": "supabase/functions/marketing-waitlist/helpers.ts",
+      "sha256": "0a67991c1abf9fcef4b463d3eaa9f4b1b2c8412c15d4cf50582d8364ecb4b7e5",
+      "reason": "Scoped review of waitlist contracts, public copy, target constraints and local test/build inputs; preserve unrelated dirty baseline."
+    },
+    {
+      "path": "supabase/functions/marketing-waitlist/turnstile.ts",
+      "sha256": "a0912cc8f58d35ba8513874afda8f13b5a0c7d3ee95e4eb3006042dc6c89a68f",
+      "reason": "Scoped review of waitlist contracts, public copy, target constraints and local test/build inputs; preserve unrelated dirty baseline."
+    },
+    {
+      "path": "supabase/migrations/20260909020528_marketing_waitlist_and_admin_documentation.sql",
+      "sha256": "93235a9b2de2b13e8a8ab8cf92ff54a8fdedb0d9dfea3296e1c1d3a3df4777c1",
+      "reason": "Scoped review of waitlist contracts, public copy, target constraints and local test/build inputs; preserve unrelated dirty baseline."
+    },
+    {
+      "path": "supabase/migrations/20260913143958_marketing_consent_suppression_foundation.sql",
+      "sha256": "49f76f62e1a0e72c91b4691498f66dbe2ded843ea71ffd20785fe21200e749d9",
+      "reason": "Scoped review of waitlist contracts, public copy, target constraints and local test/build inputs; preserve unrelated dirty baseline."
+    },
+    {
+      "path": "scripts/native-postgres-rehearsal.mjs",
+      "sha256": "da4e490f792bb2085b58756946fb15dd3cdb007e3ae3e2fb1ccdd4d47b816801",
+      "reason": "Scoped review of waitlist contracts, public copy, target constraints and local test/build inputs; preserve unrelated dirty baseline."
+    },
+    {
+      "path": "scripts/test-marketing-waitlist-security.mjs",
+      "sha256": "77c2feaf6758f5d1f2959ffa10d218f54312f533e21feaf9cd01a64a34f9656b",
+      "reason": "Scoped review of waitlist contracts, public copy, target constraints and local test/build inputs; preserve unrelated dirty baseline."
+    },
+    {
+      "path": "scripts/feature-preflight.mjs",
+      "sha256": "76e65a66fe1dc309edbe1932419936a495c95028d48998d1536ed7f85a763528",
+      "reason": "Scoped review of waitlist contracts, public copy, target constraints and local test/build inputs; preserve unrelated dirty baseline."
+    },
+    {
+      "path": "package.json",
+      "sha256": "35091240676cd0cbfb1b762ed4ee245ea8af7d59dd7a4dabb1284e415c7c6ed0",
+      "reason": "Scoped review of waitlist contracts, public copy, target constraints and local test/build inputs; preserve unrelated dirty baseline."
+    },
+    {
+      "path": "scripts/build-public-help-corpus.mjs",
+      "sha256": "598259fb5924f6f68485d8ba23dbf3359d5659ff921a575dc840e235cdc99e82",
+      "reason": "Reviewed deterministic allowlisted Help/legal corpus generator; no private sources."
+    },
+    {
+      "path": "scripts/validate-backend-contracts.mjs",
+      "sha256": "f602008f284bf10d0ff65583e58fab2f7de1d143ebb1117d368f257c15387457",
+      "reason": "Update scoped static contract gate to inspect both thin Edge entrypoint and canonical request handler after reviewed refactor."
+    },
+    {
+      "path": "scripts/check-supabase-readiness.mjs",
+      "sha256": "e4dcf3830b3d78ecaa23b53a573dedcd300c8e14512274d105a7ac34ebf25f2e",
+      "reason": "Update scoped static contract gate to inspect both thin Edge entrypoint and canonical request handler after reviewed refactor."
+    },
+    {
+      "path": "apps/web/public/brand/v1/og-en.png",
+      "sha256": "9a82ea55f782ed6cf9af6473905555afbfe940282e9b87213ec673ea0e95e60e",
+      "reason": "Reviewed prior web/brand input or inactive YouTube config required by broad dev runner. Preserved without editing, importing into public pages or enabling execution."
+    },
+    {
+      "path": "apps/web/public/brand/v1/og-vi.png",
+      "sha256": "dcd893d8f428ca13802441b8d449c6b1df126dcacb9605089f4f81878b64dd94",
+      "reason": "Reviewed prior web/brand input or inactive YouTube config required by broad dev runner. Preserved without editing, importing into public pages or enabling execution."
+    },
+    {
+      "path": "apps/web/tsconfig.json",
+      "sha256": "e5f7de696d16888aaa73dfac1ca4c3f76d37edafb2f0344c7d624fead7ab7f31",
+      "reason": "Reviewed prior web/brand input or inactive YouTube config required by broad dev runner. Preserved without editing, importing into public pages or enabling execution."
+    },
+    {
+      "path": "packages/content/data/brand-exports.json",
+      "sha256": "96a954611f1de6b6c063468d9eee11e903f2bea091fc954620cd9f9a322d1bb3",
+      "reason": "Reviewed prior web/brand input or inactive YouTube config required by broad dev runner. Preserved without editing, importing into public pages or enabling execution."
+    },
+    {
+      "path": "packages/content/data/brand-identity.json",
+      "sha256": "6a214e9244305b6bf3189f0c2b230ae7e3c6ef9b84b1374e6c0c9772789042d9",
+      "reason": "Reviewed prior web/brand input or inactive YouTube config required by broad dev runner. Preserved without editing, importing into public pages or enabling execution."
+    },
+    {
+      "path": "packages/content/data/feature-visuals.json",
+      "sha256": "b049426f65efb86b9f389e60b6d5196789e6ee46ff312e9e267e9753b3673f16",
+      "reason": "Reviewed prior web/brand input or inactive YouTube config required by broad dev runner. Preserved without editing, importing into public pages or enabling execution."
+    },
+    {
+      "path": "packages/growth-nilaza/youtube/README.vi.md",
+      "sha256": "5f9435443e5a8c4eac74483057edbc4283adeb0622c0be7e4fa1fed73fd48696",
+      "reason": "Reviewed prior web/brand input or inactive YouTube config required by broad dev runner. Preserved without editing, importing into public pages or enabling execution."
+    },
+    {
+      "path": "packages/growth-nilaza/youtube/adapter-contract.json",
+      "sha256": "c43f1d9839e4ff2e8b21f7e551a08740473d9e37e2c873fbbd8de472aa6faae6",
+      "reason": "Reviewed prior web/brand input or inactive YouTube config required by broad dev runner. Preserved without editing, importing into public pages or enabling execution."
+    },
+    {
+      "path": "packages/growth-nilaza/youtube/assets/README.md",
+      "sha256": "f02800577aa0548db5af49886a54d4a248c753b604b0776fe8b4f8ccd1e8afbf",
+      "reason": "Reviewed prior web/brand input or inactive YouTube config required by broad dev runner. Preserved without editing, importing into public pages or enabling execution."
+    },
+    {
+      "path": "packages/growth-nilaza/youtube/brand-brief.json",
+      "sha256": "ea3bf56012f0ee3bf973bda7dfef428a44b431e9251f9eaed6540ea5099e66d9",
+      "reason": "Reviewed prior web/brand input or inactive YouTube config required by broad dev runner. Preserved without editing, importing into public pages or enabling execution."
+    },
+    {
+      "path": "packages/growth-nilaza/youtube/content-ledger.json",
+      "sha256": "84b3e17dd69b233347fc715c7570bff23000e4b4e06078f5a8646a8ee2f77fa5",
+      "reason": "Reviewed prior web/brand input or inactive YouTube config required by broad dev runner. Preserved without editing, importing into public pages or enabling execution."
+    },
+    {
+      "path": "packages/growth-nilaza/youtube/metric-contract.json",
+      "sha256": "cb11ebdb52a32f70d97c8924d47b823848cb906c237df5e9e38e610877de1ada",
+      "reason": "Reviewed prior web/brand input or inactive YouTube config required by broad dev runner. Preserved without editing, importing into public pages or enabling execution."
+    },
+    {
+      "path": "packages/growth-nilaza/youtube/role-briefs.json",
+      "sha256": "f8b347bc4eb8cc9c0c9cca5b92fff933e0d1e691eef8cc7de80a6f20226ab78a",
+      "reason": "Reviewed prior web/brand input or inactive YouTube config required by broad dev runner. Preserved without editing, importing into public pages or enabling execution."
+    },
+    {
+      "path": "packages/growth-nilaza/youtube/roles/content_studio.md",
+      "sha256": "123321c894629fe80dccaf42e9c058066b555188bcee97eb3a336cca2467a86f",
+      "reason": "Reviewed prior web/brand input or inactive YouTube config required by broad dev runner. Preserved without editing, importing into public pages or enabling execution."
+    },
+    {
+      "path": "packages/growth-nilaza/youtube/roles/distribution_planner.md",
+      "sha256": "1801f5c789577e2282563d59c77d623739f1876c27eae0c8721d50daf6c8b34d",
+      "reason": "Reviewed prior web/brand input or inactive YouTube config required by broad dev runner. Preserved without editing, importing into public pages or enabling execution."
+    },
+    {
+      "path": "packages/growth-nilaza/youtube/roles/growth_orchestrator.md",
+      "sha256": "e65276b62360ed15289375788ffd9391aede6a14c2282880812c34334eaf6a29",
+      "reason": "Reviewed prior web/brand input or inactive YouTube config required by broad dev runner. Preserved without editing, importing into public pages or enabling execution."
+    },
+    {
+      "path": "packages/growth-nilaza/youtube/roles/independent_qa.md",
+      "sha256": "97a1bd28caa490443d98b2e74c7eed31a3dab51ea8c995e717fbc695710acd35",
+      "reason": "Reviewed prior web/brand input or inactive YouTube config required by broad dev runner. Preserved without editing, importing into public pages or enabling execution."
+    },
+    {
+      "path": "packages/growth-nilaza/youtube/roles/journey_measurement.md",
+      "sha256": "779ea6811c2b615756dfcbf912a64d9df5cec2d92dfc1d6fb4be6d5e1574e27b",
+      "reason": "Reviewed prior web/brand input or inactive YouTube config required by broad dev runner. Preserved without editing, importing into public pages or enabling execution."
+    },
+    {
+      "path": "packages/growth-nilaza/youtube/roles/positioning_experiment.md",
+      "sha256": "0bb4174f04a29acb1c770151b7e29b6691f9d27cdc8a2a976fe19c39e9cdd123",
+      "reason": "Reviewed prior web/brand input or inactive YouTube config required by broad dev runner. Preserved without editing, importing into public pages or enabling execution."
+    },
+    {
+      "path": "packages/growth-nilaza/youtube/roles/product_truth_claim_guard.md",
+      "sha256": "077876c1c86cf260d4b835708a79b90e0aef7d4cc38de51117cebd665fe24a44",
+      "reason": "Reviewed prior web/brand input or inactive YouTube config required by broad dev runner. Preserved without editing, importing into public pages or enabling execution."
+    },
+    {
+      "path": "packages/growth-nilaza/youtube/roles/research_jtbd.md",
+      "sha256": "25ed29df82781b1877cf360ec8ead521360ed56e577a2cb5b0123a7cdc4648da",
+      "reason": "Reviewed prior web/brand input or inactive YouTube config required by broad dev runner. Preserved without editing, importing into public pages or enabling execution."
+    },
+    {
+      "path": "packages/growth-nilaza/youtube/source-register.json",
+      "sha256": "5c43e5cc10fd4638f6d01fd54bc6b916773a8e959a6b9220a586a25cc100fb43",
+      "reason": "Reviewed prior web/brand input or inactive YouTube config required by broad dev runner. Preserved without editing, importing into public pages or enabling execution."
+    },
+    {
+      "path": "packages/growth-nilaza/youtube/studio.json",
+      "sha256": "6e63b3deb74f3dcd3b95731faf8f2b56816fc3086c5a14f97743cdd102f77825",
+      "reason": "Reviewed prior web/brand input or inactive YouTube config required by broad dev runner. Preserved without editing, importing into public pages or enabling execution."
+    },
+    {
+      "path": "packages/growth-nilaza/youtube/weekly-policy.json",
+      "sha256": "a819bbaca59579580a5e40c579f9618288150625c78351d13fa4393ba04f8b43",
+      "reason": "Reviewed prior web/brand input or inactive YouTube config required by broad dev runner. Preserved without editing, importing into public pages or enabling execution."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Existing whole-app, consent, public copy and target/production separation apply. No new delivery provider, private corpus or app release is implied."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Existing whole-app, consent, public copy and target/production separation apply. No new delivery provider, private corpus or app release is implied."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Reuse Astro7.3.2, pinned supabase-js2.57.4 and existing native PostgreSQL17 image digest. No dependency installation or update. Current official Supabase/Cloudflare docs checked."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://supabase.com/docs/guides/functions",
+      "checkedAt": "2026-10-11",
+      "reason": "Edge runtime and secrets separation; local acceptance differs from managed function acceptance."
+    },
+    {
+      "url": "https://developers.cloudflare.com/turnstile/get-started/server-side-validation/",
+      "checkedAt": "2026-10-11",
+      "reason": "Hostname validation, single-use 5-minute tokens and reset before retry."
+    },
+    {
+      "url": "https://dash.cloudflare.com/6456e15c06e2f1b933a31cae0454760c/turnstile/widget/0x4AAAAAAEtyj_FHcBMJ7oJU/edit",
+      "checkedAt": "2026-10-11",
+      "reason": "Authenticated UI verified public site key and exact official hostname. Managed mode, pre-clearance off. No widget mutation or secret extraction."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "RPC is service-only invoker; anon/auth cannot access contact tables or sequences. Native tests cover all table privileges, role paths and rollback.",
+    "sensitiveData": "Only .example synthetic email inputs in isolated local tests; never read/export old QA subscriber PII or create managed contacts.",
+    "secretsLogging": "No secret values in build/packet. Public endpoint/site key separate from server service role/Turnstile secret. Logs record sanitized codes only.",
+    "externalInput": "Reject JSON null/array, invalid/oversize content, origin mismatch, missing consent or CAPTCHA; UTM allowlist bounds; no script execution of user text.",
+    "dependencies": "Existing pinned SDK and PostgreSQL image; test injection only in local driver, no production bypass or test secrets in release artifacts.",
+    "migrationRelease": "Local-only preparation; managed target inventory freshly read. Empty release allowlist/production and recovery gates stay blocked, no db push/repair or project bootstrap.",
+    "stopCondition": "Stop cloud execution while managed SQL/target/credential/widget/recovery acceptance missing; stop local candidate on failed tests, private data or unidentified dependencies.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/web/README.md",
+      "apps/web/astro.config.mjs",
+      "apps/web/public/robots.txt",
+      "apps/web/src/components/FloatingNavigation.astro",
+      "apps/web/src/components/SiteHeader.astro",
+      "apps/web/src/components/WaitlistForm.astro",
+      "apps/web/src/content/help/en/astrology-premium.md",
+      "apps/web/src/content/help/en/beta-waitlist.md",
+      "apps/web/src/content/help/en/getting-started.md",
+      "apps/web/src/content/help/en/journal-data.md",
+      "apps/web/src/content/help/vi/astrology-premium.md",
+      "apps/web/src/content/help/vi/beta-waitlist.md",
+      "apps/web/src/content/help/vi/getting-started.md",
+      "apps/web/src/content/help/vi/journal-data.md",
+      "apps/web/src/content/legal/en/privacy.md",
+      "apps/web/src/content/legal/vi/privacy.md",
+      "apps/web/src/layouts/BaseLayout.astro",
+      "apps/web/src/lib/site.ts",
+      "apps/web/src/pages/[locale]/features/[slug].astro",
+      "apps/web/src/pages/[locale]/for/[intent].astro",
+      "apps/web/src/pages/[locale]/help/[slug].astro",
+      "apps/web/src/pages/[locale]/help/index.astro",
+      "apps/web/src/pages/[locale]/index.astro",
+      "apps/web/src/pages/index.astro",
+      "apps/web/src/pages/sitemap.xml.ts",
+      "apps/web/src/styles/global.css",
+      "apps/web/src/styles/responsive.css",
+      "packages/content/generated/public-help-corpus/corpus.jsonl",
+      "packages/content/generated/public-help-corpus/manifest.json",
+      "scripts/check-supabase-readiness.mjs",
+      "scripts/validate-backend-contracts.mjs",
+      "supabase/functions/marketing-waitlist/index.ts",
+      "apps/web/src/lib/featureWorkflows.ts",
+      "apps/web/src/lib/languageNavigation.ts",
+      "apps/web/src/lib/waitlistConfig.ts",
+      "apps/web/src/lib/waitlistRequest.ts",
+      "apps/web/src/pages/robots.txt.ts",
+      "artifacts/singapore-waitlist-2026-10-11/CANDIDATE.json",
+      "artifacts/singapore-waitlist-2026-10-11/OWNER_PACKET.vi.md",
+      "artifacts/singapore-waitlist-2026-10-11/WaitlistForm.astro",
+      "artifacts/singapore-waitlist-2026-10-11/android-en-success.png",
+      "artifacts/singapore-waitlist-2026-10-11/android-en-ui.xml",
+      "artifacts/singapore-waitlist-2026-10-11/android-evidence.json",
+      "artifacts/singapore-waitlist-2026-10-11/android-initial.png",
+      "artifacts/singapore-waitlist-2026-10-11/android-ui.xml",
+      "artifacts/singapore-waitlist-2026-10-11/android-vi-form.png",
+      "artifacts/singapore-waitlist-2026-10-11/android-vi-result.png",
+      "artifacts/singapore-waitlist-2026-10-11/android-vi-success.png",
+      "artifacts/singapore-waitlist-2026-10-11/bind-dev-inputs.mjs",
+      "artifacts/singapore-waitlist-2026-10-11/browser-api-evidence.json",
+      "artifacts/singapore-waitlist-2026-10-11/browser-api-live.json",
+      "artifacts/singapore-waitlist-2026-10-11/browser-ui-evidence.json",
+      "artifacts/singapore-waitlist-2026-10-11/candidate-verification.json",
+      "artifacts/singapore-waitlist-2026-10-11/edge/marketing-waitlist/handler.ts",
+      "artifacts/singapore-waitlist-2026-10-11/edge/marketing-waitlist/helpers.ts",
+      "artifacts/singapore-waitlist-2026-10-11/edge/marketing-waitlist/index.ts",
+      "artifacts/singapore-waitlist-2026-10-11/edge/marketing-waitlist/turnstile.ts",
+      "artifacts/singapore-waitlist-2026-10-11/embedded-evidence.json",
+      "artifacts/singapore-waitlist-2026-10-11/en-320-fields-preserved.png",
+      "artifacts/singapore-waitlist-2026-10-11/en-320-success.png",
+      "artifacts/singapore-waitlist-2026-10-11/finalize-receipts.mjs",
+      "artifacts/singapore-waitlist-2026-10-11/index.ts",
+      "artifacts/singapore-waitlist-2026-10-11/managed-readback.json",
+      "artifacts/singapore-waitlist-2026-10-11/native-evidence.json",
+      "artifacts/singapore-waitlist-2026-10-11/native-failure.json",
+      "artifacts/singapore-waitlist-2026-10-11/native-qa.mjs",
+      "artifacts/singapore-waitlist-2026-10-11/package-candidate.mjs",
+      "artifacts/singapore-waitlist-2026-10-11/package-sql.mjs",
+      "artifacts/singapore-waitlist-2026-10-11/prepare-plan.mjs",
+      "artifacts/singapore-waitlist-2026-10-11/sql-provenance.json",
+      "artifacts/singapore-waitlist-2026-10-11/unconfigured-build-evidence.json",
+      "artifacts/singapore-waitlist-2026-10-11/update-copy.mjs",
+      "artifacts/singapore-waitlist-2026-10-11/verify-candidate.mjs",
+      "artifacts/singapore-waitlist-2026-10-11/vi-414-success.png",
+      "artifacts/singapore-waitlist-2026-10-11/vi-challenge-retry.png",
+      "artifacts/singapore-waitlist-2026-10-11/vi-fields-preserved.png",
+      "artifacts/singapore-waitlist-2026-10-11/waitlist-bootstrap.sql",
+      "scripts/test-marketing-waitlist-client.mjs",
+      "scripts/test-marketing-waitlist-handler.mjs",
+      "supabase/functions/marketing-waitlist/handler.ts",
+      "supabase/functions/marketing-waitlist/turnstile.ts"
+    ],
+    "note": "Scoped prior website/backend dirty inputs reviewed and preserved; no reset, commit or global mutation."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/singapore-waitlist-2026-10-11.json",
+    "npm run web:check",
+    "npm run web:build",
+    "node --test scripts/test-marketing-waitlist-security.mjs scripts/test-marketing-waitlist-handler.mjs scripts/test-marketing-waitlist-client.mjs",
+    "Native PostgreSQL isolated network-none schema/RPC/grants/consent/duplicate/suppression/rollback/recovery tests",
+    "Browser and connected Android synthetic VI/EN signup/failure/retry and mobile QA",
+    "npm run validate:backend",
+    "npm run supabase:check",
+    "npm run supabase:migration-ledger:check",
+    "npm run validate:public-content",
+    "npm run validate:brand",
+    "npm run skills:check"
+  ],
+  "managerTestPath": "Local preview: VI/EN signup, unchecked consent, valid synthetic email, success without app access promise; duplicate same generic result; failed CAPTCHA/network retry preserves inputs. Review target packet before managed activation.",
+  "residualRisk": "Local HTTP/provider fixture and native PostgreSQL do not prove managed Supabase gateway, real Turnstile, quotas, recovery custody, production promotion or delivery. Explicitly blocked until independently verified.",
+  "externalActions": {
+    "databaseWrite": false,
+    "providerWrite": false,
+    "deployment": false,
+    "emailSend": false,
+    "note": "User requested preparation on Singapore and full tests before deploy. This phase creates local candidates/synthetic tests only; live target/credential/cloud execution not inferred."
+  },
+  "validationEvidence": {
+    "completedAt": "2026-10-11T09:40:57.186Z",
+    "candidate": "artifacts/singapore-waitlist-2026-10-11/CANDIDATE.json",
+    "verification": "artifacts/singapore-waitlist-2026-10-11/candidate-verification.json",
+    "native": "artifacts/singapore-waitlist-2026-10-11/native-evidence.json",
+    "browser": "artifacts/singapore-waitlist-2026-10-11/browser-ui-evidence.json",
+    "android": "artifacts/singapore-waitlist-2026-10-11/android-evidence.json",
+    "checks": [
+      "Handler/client/CAPTCHA:15 groups PASS",
+      "Native PostgreSQL17.6:9 groups PASS including concurrency and dump/restore",
+      "Embedded PostgreSQL17.5:8 groups PASS",
+      "Actual Android13 VI/EN local synthetic signup PASS",
+      "Browser414/320 required consent/success/errors/retry/language position PASS",
+      "Astro23files0diagnostics; build43routes; Safari/iOS15CSS42pages; Pagefind16Help2locales",
+      "Public corpus22documents62chunks; brand118exports84sources; skills match; backend validation PASS",
+      "supabase readiness72PASS9environment warnings0FAIL; migration ledger blocked preserved",
+      "Candidate18forms198artifacts hashes verified; no managed acceptance or deployment"
+    ]
+  },
+  "frozenArtifactReview": {
+    "path": "artifacts/singapore-waitlist-2026-10-11/candidate-web/",
+    "manifest": "artifacts/singapore-waitlist-2026-10-11/CANDIDATE.json",
+    "manifestSha256": "8ff4e23de4d94359917fa610596922affb7ab0e8ee09564f76e920cf931bfd86",
+    "artifactsVerified": 198,
+    "evidence": "Original packet directory scope passed before generation. Website was copied once and all bytes were hash-verified. No future writes to frozen candidate-web are planned; it is now outside the active write scope."
+  }
+}

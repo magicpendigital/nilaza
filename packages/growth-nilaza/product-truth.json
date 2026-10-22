@@ -1,0 +1,179 @@
+{
+  "schemaVersion": "1.0.0",
+  "tenantId": "nilaza",
+  "brandPackVersion": "open-reflection-v1",
+  "lastReviewedAt": "2026-09-30",
+  "features": [
+    {
+      "id": "nilaza_open_reflection_brand",
+      "status": "brand_verified",
+      "platforms": ["web", "android", "internal"],
+      "evidence": [
+        {
+          "id": "brand_guidelines_open_reflection_v1",
+          "type": "brand_guideline",
+          "reference": "docs/BRAND_GUIDELINES.md",
+          "expiresAt": "2027-09-11"
+        }
+      ],
+      "claims": [
+        {
+          "id": "nilaza_space_for_reflection",
+          "status": "internal_and_public_candidate",
+          "allowedSurfaces": ["internal_draft", "public_organic_candidate"],
+          "evidenceRefs": ["brand_guidelines_open_reflection_v1"],
+          "expiresAt": "2027-09-11",
+          "copy": {
+            "vi": "Nilaza là một khoảng mở để bạn lắng nghe những câu hỏi, cảm xúc và khám phá bản thân.",
+            "en": "Nilaza is a space to listen to your questions, feelings, and self-discovery."
+          }
+        }
+      ],
+      "prohibitedClaims": ["Nilaza thay thế hỗ trợ chuyên môn", "Nilaza biết chắc tương lai", "Nilaza chữa lành mọi tổn thương"]
+    },
+    {
+      "id": "nilaza_tarot_reflection",
+      "status": "integrated_internal_android_qa_release_pending",
+      "platforms": ["android"],
+      "evidence": [
+        {
+          "id": "a2_device_slice_2026_09_20",
+          "type": "preliminary_device_test",
+          "reference": "docs/A2_REVIEW_CHECKLIST_2026-09-21.vi.md",
+          "expiresAt": "2026-10-21"
+        },
+        {
+          "id": "tarot_native_qa_2026_09_29",
+          "type": "internal_android_qa_not_public_release",
+          "reference": "docs/TAROT_RELEASE_QA_2026-09-29.vi.md",
+          "expiresAt": "2026-10-30"
+        },
+        {
+          "id": "tarot_internal_build_smoke_2026_09_30",
+          "type": "internal_debug_signed_build_smoke_not_full_acceptance",
+          "reference": "docs/ANDROID_NATIVE_RELEASE_BUILD_2026-09-30.vi.md",
+          "expiresAt": "2026-10-30"
+        }
+      ],
+      "claims": [
+        {
+          "id": "nilaza_tarot_as_reflection",
+          "status": "internal_only",
+          "allowedSurfaces": ["internal_draft"],
+          "evidenceRefs": ["tarot_native_qa_2026_09_29", "tarot_internal_build_smoke_2026_09_30"],
+          "expiresAt": "2026-10-30",
+          "copy": {
+            "vi": "Nilaza đã tích hợp luồng Tarot và ghi nhận QA Android nội bộ để mở câu hỏi phản chiếu; lá bài không quyết định thay bạn. Bản phát hành công khai vẫn cần nghiệm thu.",
+            "en": "Nilaza has integrated a Tarot reflection flow with internal Android QA; a card does not decide for you. Public release acceptance remains pending."
+          }
+        }
+      ],
+      "prohibitedClaims": ["Tarot dự đoán chắc chắn", "Tarot biết người khác sẽ làm gì", "Tarot là tư vấn y tế, pháp lý hoặc tài chính"]
+    },
+    {
+      "id": "nilaza_ai_guides_and_council",
+      "status": "integrated_internal_ai_quality_runtime_release_pending",
+      "platforms": ["android"],
+      "evidence": [
+        {
+          "id": "a2_council_device_slice_2026_09_20",
+          "type": "preliminary_device_test",
+          "reference": "docs/A2_IMPLEMENTATION_HANDOFF_2026-09-20.vi.md",
+          "expiresAt": "2026-10-21"
+        },
+        {
+          "id": "ai_runtime_quality_review_2026_09_30",
+          "type": "current_review_with_unresolved_runtime_quality_gates",
+          "reference": "docs/reviews/2026-09-30/REPORT.vi.md",
+          "expiresAt": "2026-10-30"
+        }
+      ],
+      "claims": [
+        {
+          "id": "nilaza_ai_guides_reflection",
+          "status": "internal_only",
+          "allowedSurfaces": ["internal_draft"],
+          "evidenceRefs": ["a2_council_device_slice_2026_09_20", "ai_runtime_quality_review_2026_09_30"],
+          "expiresAt": "2026-10-30",
+          "copy": {
+            "vi": "Nilaza đã có guide AI và Council để review các góc nhìn phản chiếu khác nhau. Prompt, runtime, grounding và chất lượng còn cần kiểm chứng; guide không phải người thật hay chuyên gia chính thức.",
+            "en": "Nilaza has AI guides and Council for internal review of different reflection methods. Prompts, runtime, grounding and quality still need validation; guides are not real people or official experts."
+          }
+        }
+      ],
+      "prohibitedClaims": ["Nói chuyện với nhân vật thật", "Hội đồng chuyên gia chính thức", "Nilaza vượt trội General AI"]
+    },
+    {
+      "id": "nilaza_journal_revisit",
+      "status": "integrated_internal_journal_cloud_lifecycle_release_pending",
+      "platforms": ["android"],
+      "evidence": [
+        {
+          "id": "a5_planned_journey",
+          "type": "planned_scope_only",
+          "reference": "docs/APP_PHASED_DELIVERY_PLAN_2026-09-20.vi.md",
+          "expiresAt": "2026-11-30"
+        },
+        {
+          "id": "journal_lifecycle_review_2026_09_30",
+          "type": "current_review_with_unresolved_cloud_lifecycle_gates",
+          "reference": "docs/reviews/2026-09-30/REPORT.vi.md",
+          "expiresAt": "2026-10-30"
+        }
+      ],
+      "claims": [
+        {
+          "id": "nilaza_journal_revisit_flow",
+          "status": "internal_only",
+          "allowedSurfaces": ["internal_draft"],
+          "evidenceRefs": ["journal_lifecycle_review_2026_09_30"],
+          "expiresAt": "2026-10-30",
+          "copy": {
+            "vi": "Nilaza đã có luồng Nhật ký và lưu insight để review nội bộ. Đồng bộ cloud, sửa/xóa/export và mở lại đúng nguồn còn cần nghiệm thu; nhắc quay lại chỉ có sự đồng ý của bạn.",
+            "en": "Nilaza has Journal and saved-insight flows for internal review. Cloud sync, edit/delete/export and correct-source reopening still need acceptance; return reminders require your consent."
+          }
+        }
+      ],
+      "prohibitedClaims": ["Theo dõi cảm xúc bí mật", "Gửi nhắc nhở marketing không cần đồng ý", "Nhớ mọi điều bạn nói"]
+    },
+    {
+      "id": "nilaza_astrology_preparation",
+      "status": "integrated_internal_android_qa_cloud_ai_release_pending",
+      "platforms": ["android", "internal"],
+      "evidence": [
+        {
+          "id": "a1_astrology_scope",
+          "type": "approved_scope_not_runtime_evidence",
+          "reference": "docs/A1_BASELINE_AND_DECISION_REGISTER_2026-09-20.vi.md",
+          "expiresAt": "2026-11-30"
+        },
+        {
+          "id": "astrology_android_qa_2026_09_23",
+          "type": "internal_android_device_qa_not_public_release",
+          "reference": "docs/ASTROLOGY_ANDROID_QA_2026-09-23.vi.md",
+          "expiresAt": "2026-10-30"
+        },
+        {
+          "id": "astrology_current_release_limits_2026_09_30",
+          "type": "current_review_with_unresolved_cloud_ai_release_gates",
+          "reference": "docs/reviews/2026-09-30/REPORT.vi.md",
+          "expiresAt": "2026-10-30"
+        }
+      ],
+      "claims": [
+        {
+          "id": "nilaza_astrology_in_preparation",
+          "status": "internal_only",
+          "allowedSurfaces": ["internal_draft"],
+          "evidenceRefs": ["astrology_android_qa_2026_09_23", "astrology_current_release_limits_2026_09_30"],
+          "expiresAt": "2026-10-30",
+          "copy": {
+            "vi": "Nilaza đã tích hợp bản đồ sao tính deterministic và thư viện thần thoại, có QA Android nội bộ ngày 23/09. Cloud report, bản AI preview và nghiệm thu iOS/beta công khai chưa hoàn tất.",
+            "en": "Nilaza has integrated deterministic birth charts and the mythology library, with internal Android QA on September 23. Cloud reports, AI previews and iOS/public beta acceptance remain incomplete."
+          }
+        }
+      ],
+      "prohibitedClaims": ["Bản đồ sao chính xác cao đã sẵn sàng", "Rising hoặc nhà chắc chắn khi thiếu giờ sinh", "Chiêm tinh chứng minh tương lai hoặc tính cách"]
+    }
+  ]
+}

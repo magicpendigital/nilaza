@@ -1,0 +1,291 @@
+{
+  "schemaVersion": 1,
+  "taskId": "admin-workflow-graph-2026-10-03",
+  "completedDate": "2026-10-04",
+  "timezone": "Asia/Bangkok",
+  "status": "PASS_READ_ONLY_FRONTEND_RELEASE",
+  "scope": "Per-feature observation graph, protected Admin frontend, local documentation and development skill parity. This does not certify backend execution or MVP completion.",
+  "plan": "docs/feature-plans/admin-workflow-graph-2026-10-03.json",
+  "checks": [
+    {
+      "command": "npm run admin:test",
+      "result": "PASS",
+      "passed": 158,
+      "failed": 0,
+      "note": "Full behavior suite before final Trace Explorer explanatory copy adjustment."
+    },
+    {
+      "command": "Targeted Trace Explorer RPC/empty-state/Workflow record-application tests",
+      "result": "PASS",
+      "passed": 3,
+      "failed": 0,
+      "note": "After the final copy adjustment. No behavior change afterwards."
+    },
+    {
+      "command": "npm run admin:check",
+      "result": "PASS",
+      "note": "Catalog freshness, six shared-prompt consumers, content seed, Growth snapshot, generated Owner Guide and three-workspace/27-capability contract."
+    },
+    {
+      "command": "node --test scripts/admin-workflow-catalog.test.mjs",
+      "result": "PASS",
+      "passed": 21,
+      "note": "Included in the full suite; not an additional 21 independent cases."
+    },
+    {
+      "command": "Transport guard regressions",
+      "result": "PASS",
+      "passed": 15,
+      "note": "Included in the full suite. URL/key mutation, permission/session awaits and late RPC/Edge responses; fixture credentials only."
+    },
+    {
+      "command": "npm run validate:data",
+      "result": "PASS"
+    },
+    {
+      "command": "npm run validate:brand",
+      "result": "PASS",
+      "exports": 118,
+      "sources": 84
+    },
+    {
+      "command": "npm run validate:governance",
+      "result": "PASS",
+      "agents": 22,
+      "lanes": 6
+    },
+    {
+      "command": "npm run skills:validate",
+      "result": "PASS",
+      "skills": 5
+    },
+    {
+      "command": "npm run skills:sync; npm run skills:check",
+      "result": "PASS",
+      "version": "nilaza-plan-qc 1.5.3"
+    },
+    {
+      "command": "Final feature:preflight after final documentation/generated-consumer changes",
+      "result": "PASS"
+    },
+    {
+      "command": "Scoped git diff --check and artifact-helper syntax checks",
+      "result": "PASS"
+    },
+    {
+      "command": "Final npm run admin:check after Owner Guide qualification fixes",
+      "result": "PASS"
+    }
+  ],
+  "catalog": {
+    "features": 8,
+    "nodes": 73,
+    "edges": 69,
+    "typedPorts": 205,
+    "sourceDigests": 34,
+    "executable": false
+  },
+  "acceptance": [
+    {
+      "id": "W01",
+      "result": "PASS",
+      "evidence": "Graph is default Workflow view; legacy seven-step reference is collapsed. Missing-module unavailable state is covered by renderer tests."
+    },
+    {
+      "id": "W02",
+      "result": "PASS",
+      "evidence": "Port schemas validated; local and hosted canonical_cards inspector show types, source, use, destination, privacy and references without user payload."
+    },
+    {
+      "id": "W03",
+      "result": "PASS",
+      "evidence": "Control/data mapping validation and keyboard node/edge selection pass. Hosted locale_prompt edge maps language to language; multiple edges do not assert parallel execution."
+    },
+    {
+      "id": "W04",
+      "result": "PASS",
+      "evidence": "Tarot source graph has nine nodes/eleven edges, canonical enrichment, prompt fallback, safety/provider group, tolerant parse, reading persistence and response; preview tone is not advertised as a runtime input."
+    },
+    {
+      "id": "W05",
+      "result": "PASS",
+      "evidence": "Local/hosted Oracle source candidate visibly disables provider activation; source crisis branch precedes compiler/provider. Cloud revision is explicitly unverified."
+    },
+    {
+      "id": "W06",
+      "result": "PASS",
+      "evidence": "Eight distinct validated catalogs. Council one-model-call caveat; Notifications zero model nodes and separate receipts; Face deferred visible in local/hosted browser."
+    },
+    {
+      "id": "W07",
+      "result": "PASS",
+      "evidence": "Freshness validator and mutation regressions pass; source digests are local-source assertions, not cloud deployment proof. Artifact contains only allowlisted structural metadata and public configuration."
+    },
+    {
+      "id": "W08",
+      "result": "PASS",
+      "evidence": "Projector allowlist, hostile/private/oversized payload rejection and feature/account/transport scoping pass. Actual browser uses existing redacted trace only, without QA reveal."
+    },
+    {
+      "id": "W09",
+      "result": "PASS",
+      "evidence": "Local protected reader loaded twelve records. Applying a matching trace showed one recorded Model Call node labelled origin unverified; other nodes and all edges remain source-only/unknown. Record ownership does not prove producer authenticity."
+    },
+    {
+      "id": "W10",
+      "result": "PASS",
+      "evidence": "Scope/epoch and late-response tests pass. Local workspace switch cleared graph evidence; target URL/key mutation pins transport, blocks dispatch and requires reload."
+    },
+    {
+      "id": "W11",
+      "result": "PASS",
+      "evidence": "Local 1024x768 first node visible after compact health fix; selected node/edge, keyboard, inspector focus, zoom and List-to-Fit work. Hosted keyboard, edge mapping, zoom and List-to-Fit verified at default 888x884. Temporary viewport reset."
+    },
+    {
+      "id": "W12",
+      "result": "PASS",
+      "evidence": "Protected Content/AI/Growth browser paths work on both origins. Full regression suite covers draft, publish modal, Oracle preview and route/Back behavior; no configuration publication performed."
+    },
+    {
+      "id": "W13",
+      "result": "PASS",
+      "evidence": "READY deployment promoted; stable alias resolves exact reviewed ID. Twelve static checksums plus public runtime-config check pass on both unique URL and stable domain. Hosted Owner node/edge inspector and workspace review completed."
+    },
+    {
+      "id": "W14",
+      "result": "PASS",
+      "evidence": "Owner Guide source/generated local and PlanQC1.5.3 updated; skills validation/sync/parity pass. Cloud protected guide, backend/database/native gaps explicitly recorded with reasons and gates."
+    }
+  ],
+  "browser": {
+    "engine": "Codex in-app browser, real existing Owner session",
+    "local": {
+      "url": "http://localhost:4173/apps/admin/",
+      "testedViewport": {
+        "width": 1024,
+        "height": 768
+      },
+      "facts": [
+        "Canonical Tarot cards input schema and typed destinations readable; selection survives transient auth-null refresh.",
+        "Keyboard degraded_prompt control-edge selection and List-to-Fit at 32% work.",
+        "Oracle candidate disabled, Notifications zero model nodes and Face deferred verified.",
+        "Protected trace reader loaded twelve recent redacted records; one matching record applied to Model Call only; workspace switch cleared it.",
+        "Content published v4 overview/Personas and Growth repository snapshot loaded."
+      ]
+    },
+    "online": {
+      "url": "https://nilaza-admin-staging.vercel.app",
+      "testedViewport": {
+        "width": 888,
+        "height": 884,
+        "kind": "default browser viewport"
+      },
+      "facts": [
+        "Tarot nine nodes/eleven edges; canonical_cards selected by keyboard Enter and typed ports readable.",
+        "Locale data edge condition and language-to-language mapping inspected.",
+        "List-to-Fit at 26% and Zoom out to 80% work.",
+        "Oracle candidate/provider disabled, Notifications zero model nodes and Face deferred visible.",
+        "Content overview/Personas loads published v4, seventeen personas, seven decks and 546 cards.",
+        "Growth loads canonical repository snapshot dated 2026-09-30; zero execution channels and explicit internal-review status.",
+        "Returned to Tarot Workflow and kept deliverable tab."
+      ]
+    },
+    "temporaryViewportReset": true,
+    "rawQaRevealed": false,
+    "newProviderRequest": false,
+    "screenshots": [
+      "screenshots/01-local-1024-graph.png",
+      "screenshots/02-local-1024-compact.png",
+      "screenshots/03-local-ports.png",
+      "screenshots/04-online-ports.png",
+      "screenshots/05-online-workflow-final.png"
+    ]
+  },
+  "deployment": {
+    "id": "dpl_5e8V1U1hP25JBaFoCxwQfFQTTZqo",
+    "readyState": "READY",
+    "promoted": true,
+    "stableAliasExactMatch": true,
+    "artifactSha256": "c193a047a8fbcdf945d647627810161a7ebba524b60096b2e3d3d53464c39c50",
+    "files": 60,
+    "sourceBytes": 1650842,
+    "uniqueUrlParity": {
+      "passed": 13,
+      "staticHashes": 12,
+      "publicConfig": 1,
+      "record": "admin-reviewed-parity.json"
+    },
+    "stableParity": {
+      "passed": 13,
+      "staticHashes": 12,
+      "publicConfig": 1,
+      "record": "admin-stable-parity.json"
+    }
+  },
+  "performance": {
+    "sourceDeltaBytes": 107006,
+    "newDependencies": 0,
+    "newMedia": 0,
+    "catalog": {
+      "sourceBytes": 74519,
+      "localGzipBytes": 21674
+    },
+    "view": {
+      "sourceBytes": 10962,
+      "localGzipBytes": 3580
+    },
+    "limitation": "Local byte/gzip measurement only; no cloud compression-header, Core Web Vitals, long-session memory or native performance acceptance claimed."
+  },
+  "notSynchronized": [
+    {
+      "layer": "Backend / database / AI config",
+      "reason": "Old QA preserved, migration ledger blocked; owner-created paid clean QA not yet supplied.",
+      "nextGate": "Reviewed clean-QA bootstrap, privileges/auth/trace producer checks, backend deploy and explicit cutover acceptance."
+    },
+    {
+      "layer": "Protected Owner Guide cloud",
+      "reason": "Guide source/generated consumer updated local only; this deployment is static frontend.",
+      "nextGate": "Deploy protected admin-documentation with reviewed clean-QA backend and verify authenticated guide version."
+    },
+    {
+      "layer": "Mobile native",
+      "reason": "Admin frontend release does not produce APK/IPA or update native runtime.",
+      "nextGate": "Separate native build, device and store acceptance."
+    },
+    {
+      "layer": "Origin-local sessions / browser drafts / trace evidence",
+      "reason": "Localhost and staging have separate origin/storage; sensitive graph observations stay in scoped RAM.",
+      "nextGate": "No raw graph-evidence synchronization planned; existing authorized cloud configuration/content is read per origin."
+    },
+    {
+      "layer": "Skills on other machines",
+      "reason": "PlanQC1.5.3 installed on this machine; development skills are not hosted runtime assets.",
+      "nextGate": "Other machines/Agents run reviewed skills:sync and skills:check."
+    }
+  ],
+  "residualRisks": [
+    "Trace INSERT grants and own-user RLS finding is from local migration source only, not live QA privilege verification; no forged record was inserted. Matching records are explicitly origin-unverified.",
+    "Current trace sanitizer hides some finalization stage/result identities; graph cannot prove parse, validation, save or response stages from those records.",
+    "RPC omits per-span trace_id; only exact authorized run and valid scope are accepted, explicit conflicting IDs rejected; no edge execution inferred.",
+    "Source freshness does not certify that candidate backend code is deployed. Oracle provider remains disabled.",
+    "Clean QA, tokenizer/durable quota/provider evaluation, atomic config publication, mobile offline safety and native acceptance remain MVP gates."
+  ],
+  "resolvedIssues": [
+    "Compact health/header fixed first-node clipping at laptop width.",
+    "Graph selection preserves same-feature selection through transient authentication refresh; genuine scope changes clear private observations.",
+    "Fit obtains panel bounds immediately after List, without requiring an extra graph action.",
+    "Frozen transport target blocks changed URL/key, late authorization and late response without forwarding credentials to a new target.",
+    "Renderer negative assertion initially matched static caveat text; fixed to test exact observed node badge/class.",
+    "Generated Owner Guide and installed skill parity became stale during update; regenerated/synced, preflight and required checks rerun successfully.",
+    "Initial deployment lacked explicit team scope and was denied; read-only project/team verification followed by same-target explicit-scope deployment succeeded, without permission/token changes.",
+    "Final evidence refresh initially hashed binary as text then sandbox denied write; neither attempt changed the record. Correct binary/text hashing and approved scoped write completed with passing preflight."
+  ],
+  "externalMutationScope": "This frontend release only",
+  "backendDeployedInThisRelease": false,
+  "aiConfigPublishedInThisRelease": false,
+  "databaseWrittenInThisRelease": false,
+  "providerCalledInThisRelease": false,
+  "cleanQaCutover": false,
+  "nativeRelease": false,
+  "finalizedAt": "2026-10-03T17:59:51.523Z"
+}

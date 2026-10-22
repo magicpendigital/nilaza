@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "1.0.0",
+  "tenantId": "nilaza",
+  "status": "not_recruited",
+  "minimumParticipantAge": 18,
+  "participantTarget": { "minimum": 15, "maximum": 20, "market": "Vietnam", "primaryLocale": "vi" },
+  "purpose": "Test whether a designed reflection ritual creates clearer first value and a reason to return than a generic AI chat experience.",
+  "consentBoundary": [
+    "Participation is voluntary and may stop at any time.",
+    "Do not ask participants to share birth data, private chats, journal entries, photos or health details.",
+    "Do not pay for positive feedback, app opens or referrals.",
+    "Store only an approved research summary after consent; do not place raw answers in the portable framework."
+  ],
+  "questions": [
+    "What made the first invitation feel relevant or irrelevant to you?",
+    "What did you expect to happen after the first call to action?",
+    "Which wording felt distinct from a general AI chat tool, if any?",
+    "Which wording felt vague, over-promising or difficult to trust?",
+    "What would make a reflection ritual worth returning to on another day?",
+    "Where would you expect control, consent or an opt-out choice?",
+    "Which part of the first-use journey felt unclear?",
+    "What question would you want the product to help you explore without deciding for you?",
+    "What would make you stop using the experience after one try?",
+    "What should Nilaza prove before it asks you to join a beta?"
+  ],
+  "analysisOutput": "aggregate JTBD themes, objections, language snippets approved for internal synthesis, and product/content tickets without identifiers"
+}

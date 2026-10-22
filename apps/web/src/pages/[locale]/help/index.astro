@@ -1,0 +1,81 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { locales, type Locale } from "../../../lib/site";
+export function getStaticPaths() { return locales.map(locale => ({ params: { locale }, props: { locale } })); }
+const { locale } = Astro.props as { locale: Locale };
+const vi = locale === "vi";
+const articles = (await getCollection("help", ({ data }) => data.locale === locale)).sort((a,b) => a.data.order - b.data.order);
+---
+<BaseLayout {locale} title={vi ? "Trung tâm trợ giúp Nilaza" : "Nilaza Help Center"} description={vi ? "Hướng dẫn sử dụng Nilaza, quyền riêng tư, an toàn và trạng thái tính năng." : "Guidance for using Nilaza, privacy, safety, and feature availability."}>
+  <section class="help-hero"><div class="shell"><p class="eyebrow">{vi ? "Trung tâm trợ giúp" : "Help center"}</p><h1 class="display">{vi ? "Bạn muốn tìm hiểu điều gì?" : "What would you like to know?"}</h1><p>{vi ? "Hướng dẫn ngắn, đúng với trạng thái sản phẩm hiện tại." : "Short guides that match the product's current state."}</p><label class="search"><span aria-hidden="true">⌕</span><input type="search" aria-label={vi ? "Tìm trong hướng dẫn Nilaza" : "Search Nilaza guides"} data-help-search placeholder={vi ? "Tìm Oracle, Tarot, Nhật ký…" : "Search Oracle, Tarot, Journal…"} /></label></div></section>
+  <section class="section paper"><div class="shell"><p class="searching" hidden role="status" aria-live="polite">{vi ? "Đang tìm trong nội dung hướng dẫn…" : "Searching inside the guides…"}</p><div class="full-results" hidden><p class="eyebrow">{vi ? "Kết quả trong nội dung bài viết" : "Results inside all guides"}</p><div data-full-results></div></div><div class="article-grid" data-pagefind-ignore>{articles.map(article => <a class="article-card card" data-search-text={`${article.data.title} ${article.data.description} ${article.data.category}`.toLowerCase()} data-analytics-event="help_article_open" data-analytics-source="guide_card" data-analytics-surface="help_center" data-analytics-target={article.data.slug} href={`/${locale}/help/${article.data.slug}`}><div><span class:list={["status", article.data.status]}>{article.data.status === "available" ? (vi ? "Sẵn sàng" : "Available") : article.data.status === "beta" ? "Beta" : (vi ? "Dự kiến" : "Planned")}</span><p class="category">{article.data.category}</p><h2>{article.data.title}</h2><p>{article.data.description}</p></div><span class="arrow">→</span></a>)}</div><div class="no-results card" hidden role="status" aria-live="polite"><p class="eyebrow">{vi ? "Chưa có kết quả" : "No results yet"}</p><h2>{vi ? "Thử một chủ đề gần với điều bạn cần" : "Try a topic close to what you need"}</h2><p>{vi ? "Nilaza chỉ tìm trong các hướng dẫn công khai đã được kiểm duyệt." : "Nilaza only searches approved public guides."}</p><div class="suggestions"><button type="button" data-suggested-search="Oracle">Oracle</button><button type="button" data-suggested-search="Tarot">Tarot</button><button type="button" data-suggested-search={vi ? "quyền riêng tư" : "privacy"}>{vi ? "Quyền riêng tư" : "Privacy"}</button></div><button class="button" type="button" data-clear-help-search>{vi ? "Xem tất cả hướng dẫn" : "View all guides"}</button></div></div></section>
+</BaseLayout>
+<script>
+  import { trackPublicEvent } from "../../../lib/analytics";
+
+  const input = document.querySelector<HTMLInputElement>("[data-help-search]");
+  const cards = [...document.querySelectorAll<HTMLElement>("[data-search-text]")];
+  const grid = document.querySelector<HTMLElement>(".article-grid");
+  const empty = document.querySelector<HTMLElement>(".no-results");
+  const searching = document.querySelector<HTMLElement>(".searching");
+  const full = document.querySelector<HTMLElement>(".full-results");
+  const fullList = document.querySelector<HTMLElement>("[data-full-results]");
+  const clear = document.querySelector<HTMLButtonElement>("[data-clear-help-search]");
+  const suggestions = document.querySelectorAll<HTMLButtonElement>("[data-suggested-search]");
+  let searchRevision = 0;
+  let analyticsTimer: number | undefined;
+
+  const queryLengthBucket = (length: number) => length <= 3 ? "short" : length <= 12 ? "medium" : "long";
+  const trackSearch = (query: string, resultType: "full_text" | "guide_card" | "none", resultCount: number) => {
+    const properties = {
+      locale: document.documentElement.lang === "en" ? "en" : "vi",
+      query_length: queryLengthBucket(query.length),
+      result_count: resultCount,
+      result_type: resultType,
+      surface: "help_center"
+    };
+    analyticsTimer = window.setTimeout(() => {
+      trackPublicEvent("help_search", properties);
+      if (resultType === "none") trackPublicEvent("help_no_result", properties);
+    }, 500);
+  };
+
+  input?.addEventListener("input", async () => {
+    const revision = ++searchRevision;
+    if (analyticsTimer) window.clearTimeout(analyticsTimer);
+    const q = input.value.trim().toLowerCase();
+    let visible = 0;
+    for (const card of cards) { const show = !q || card.dataset.searchText?.includes(q); card.hidden = !show; if (show) visible++; }
+    if (!q) { if (grid) grid.hidden = false; if (full) full.hidden = true; if (empty) empty.hidden = true; if (searching) searching.hidden = true; if (fullList) fullList.replaceChildren(); return; }
+    if (searching) searching.hidden = visible > 0;
+    try {
+      const pagefindPath = "/pagefind/pagefind.js";
+      const pagefind = await import(/* @vite-ignore */ pagefindPath);
+      const result = await pagefind.search(q, { language: document.documentElement.lang });
+      const items = await Promise.all(result.results.slice(0, 8).map((item: { data: () => Promise<{ url: string; meta: { title?: string }; excerpt: string }> }) => item.data()));
+      if (revision !== searchRevision || !fullList) return;
+      fullList.replaceChildren(...items.map(item => {
+        const link = document.createElement("a"); link.className = "full-result card"; link.href = item.url;
+        const title = document.createElement("strong"); title.textContent = item.meta.title || item.url;
+        const excerpt = document.createElement("span"); excerpt.textContent = item.excerpt.replace(/<[^>]+>/g, "");
+        const slug = new URL(item.url, location.origin).pathname.split("/").filter(Boolean).at(-1) || "guide";
+        link.dataset.analyticsEvent = "help_article_open"; link.dataset.analyticsSource = "full_text"; link.dataset.analyticsSurface = "help_center"; link.dataset.analyticsTarget = slug;
+        link.append(title, excerpt); return link;
+      }));
+      if (searching) searching.hidden = true;
+      if (grid) grid.hidden = items.length > 0; if (full) full.hidden = items.length === 0; if (empty) empty.hidden = items.length > 0 || visible > 0;
+      trackSearch(q, items.length > 0 ? "full_text" : visible > 0 ? "guide_card" : "none", items.length || visible);
+    } catch { if (searching) searching.hidden = true; if (grid) grid.hidden = false; if (full) full.hidden = true; if (empty) empty.hidden = visible > 0; trackSearch(q, visible > 0 ? "guide_card" : "none", visible); }
+  });
+
+  const useSuggestedSearch = (value: string) => {
+    if (!input) return;
+    input.value = value;
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    input.focus();
+  };
+  clear?.addEventListener("click", () => useSuggestedSearch(""));
+  for (const suggestion of suggestions) suggestion.addEventListener("click", () => useSuggestedSearch(suggestion.dataset.suggestedSearch || ""));
+</script>
+<style>.help-hero{padding:48px 0 38px;background:radial-gradient(circle at 80% 20%,rgba(14,90,90,.48),transparent 34%)}.help-hero h1{font-size:clamp(2.6rem,5vw,4.4rem);margin:10px 0}.help-hero>div>p:last-of-type{color:var(--moon)}.search{max-width:680px;display:flex;align-items:center;gap:12px;margin-top:35px;border-bottom:1px solid var(--gold)}.search span{font:2rem var(--display);color:var(--gold)}.search input{width:100%;border:0;background:transparent;color:var(--ivory);padding:15px 0;outline:none}.searching{margin:0 0 20px;color:#655f59}.article-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.searching[hidden],.article-grid[hidden],.article-card[hidden],.full-results[hidden],.no-results[hidden]{display:none}.article-card{display:flex;justify-content:space-between;gap:24px;padding:24px;color:var(--ink);text-decoration:none;min-height:220px}.article-card:hover{border-color:var(--gold)}.category{color:#776f67;font-size:.72rem;text-transform:uppercase;letter-spacing:.14em}.article-card h2{font:500 2rem/1.05 var(--display);margin:9px 0}.article-card p:last-child{color:#655f59}.arrow{color:var(--gold);font-size:1.4rem}.no-results{max-width:720px;padding:30px;color:#655f59}.no-results h2{margin:.3rem 0;font:500 2.2rem/1.05 var(--display);color:var(--ink)}.no-results>.eyebrow{color:var(--teal)}.no-results>.button{margin-top:18px}.suggestions{display:flex;flex-wrap:wrap;gap:9px;margin:20px 0 4px}.suggestions button{padding:8px 13px;border:1px solid rgba(14,90,90,.28);border-radius:99px;background:transparent;color:var(--teal);cursor:pointer}.suggestions button:hover,.suggestions button:focus-visible{border-color:var(--teal);background:rgba(14,90,90,.07)}.full-results{margin-bottom:28px}.full-results .eyebrow{color:var(--teal)}[data-full-results]{display:grid;gap:10px}:global(.full-result){display:grid;gap:7px;padding:18px;color:var(--ink);text-decoration:none}:global(.full-result strong){font:500 1.45rem var(--display)}:global(.full-result span){color:#655f59;font-size:.88rem}:global(.full-result mark){background:rgba(201,164,92,.32);color:var(--ink)}@media(max-width:700px){.article-grid{grid-template-columns:1fr}.help-hero{padding-top:38px}.no-results{padding:22px}}</style>

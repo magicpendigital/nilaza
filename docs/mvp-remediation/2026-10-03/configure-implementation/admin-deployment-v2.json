@@ -1,0 +1,61 @@
+{
+  "asOfDate": "2026-10-03",
+  "revision": 2,
+  "projectId": "prj_cjpkCLLKMUaH6x4Bw6PK6cklx1qL",
+  "teamId": "team_BGXDJYYYe7LSDoGDjWRBFlJH",
+  "stableUrl": "https://nilaza-admin-staging.vercel.app",
+  "deploymentId": "dpl_BuWee6a83hqbPNCkpyMxnbuvT9xu",
+  "deploymentUrl": "https://nilaza-admin-staging-pjeygo866-magicpens-projects.vercel.app",
+  "readyState": "READY",
+  "promoted": true,
+  "stableAliasResolvedDeploymentId": "dpl_BuWee6a83hqbPNCkpyMxnbuvT9xu",
+  "previousDeploymentId": "dpl_3tYRg3fr9HhYPnqpnTrxsni22am3",
+  "originalDeploymentId": "dpl_9B7rPsmy3dbdSPSiNMVxm7kt86gy",
+  "artifactSha256": "b24b84d1c0ca97fd36d78d742d267d7b59d817d3e7c76faa7e379e6e89c884de",
+  "artifactFiles": 58,
+  "artifactSourceBytes": 1543836,
+  "packaging": "Isolated allowlist under admin-deploy-source-v2; internal docs/skills/env/customer/QA payload/backend/native excluded",
+  "cliVersion": "59.23.2 existing official cached CLI",
+  "buildNodeVersion": "24.x",
+  "backendTarget": "akgrokwnkfqnfjqrildi",
+  "backendDeployed": false,
+  "aiConfigPublished": false,
+  "databaseWrite": false,
+  "providerCalled": false,
+  "cleanQaCutover": false,
+  "nativeRelease": false,
+  "fix": "Invalidate compiled preview on any current input change, including shell/URL navigation; require explicit compile; keep fictional sample in RAM only",
+  "verification": {
+    "adminSuitePassed": 111,
+    "rendererShellSubsetPassed": 53,
+    "independentRegressionSubsetPassed": 4,
+    "reviewedDeployment": "admin-reviewed-parity-v2.json",
+    "stableDomain": "admin-stable-parity-v2.json",
+    "ownerRegressionObserved": true,
+    "criticalStaticPathsExactSha256": 9,
+    "publicRuntimeConfigVerified": true,
+    "previewLocalesObserved": [
+      "en",
+      "vi"
+    ],
+    "compiledPreviewIsLlmEvaluation": false,
+    "ownerRegression": [
+      "Compile EN: nilaza-locale-en",
+      "Content Operations: published v4, 17 personas/7 decks/546 cards",
+      "URL Oracle VI: old preview removed, uncompiled status shown",
+      "Explicit Compile VI: nilaza-locale-vi"
+    ],
+    "evidenceScreenshots": [
+      "09-online-preview-invalidated-v2.png",
+      "10-online-oracle-preview-final-v2.png"
+    ],
+    "contentPublishedVersion": 4,
+    "contentCounts": {
+      "personas": 17,
+      "decks": 7,
+      "cards": 546
+    }
+  },
+  "rollback": "Verify then promote a reviewed previous deployment on the same staging project. Revision 1 has the stale-locale preview defect; original pre-task deployment is retained separately. Backend/data rollback are separate.",
+  "vercelConnectorLimitation": "Existing wrapper parameter mismatch; used existing authenticated official CLI. No token read or protection weakened."
+}

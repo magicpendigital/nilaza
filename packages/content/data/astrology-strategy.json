@@ -1,0 +1,146 @@
+{
+  "version": "2026-06-07-local-v1",
+  "mvpRecommendation": {
+    "vi": "Dùng local mock calculator minh bạch để demo flow; chỉ hiện Sun/Moon/Rising ước tính và cảnh báo chưa phải kết quả thiên văn chính xác.",
+    "en": "Use a transparent local mock calculator for the demo flow; show estimated Sun/Moon/Rising with a warning that this is not precise astronomical output."
+  },
+  "options": [
+    {
+      "id": "local_mock",
+      "cost": "free",
+      "status": "mvp",
+      "name": "Local transparent mock calculator",
+      "pros": {
+        "vi": [
+          "Chạy offline",
+          "Không gửi birth data ra ngoài",
+          "Tốt cho review UI và prompt"
+        ],
+        "en": [
+          "Works offline",
+          "No birth data leaves device",
+          "Good for UI and prompt review"
+        ]
+      },
+      "cons": {
+        "vi": [
+          "Không đủ chính xác để publish như astrology calculator thật"
+        ],
+        "en": [
+          "Not accurate enough to publish as a real astrology calculator"
+        ]
+      }
+    },
+    {
+      "id": "freeastroapi",
+      "cost": "free-tier",
+      "status": "recommended_beta",
+      "name": "FreeAstroAPI",
+      "pros": {
+        "vi": [
+          "Có free tier",
+          "JSON API",
+          "Hỗ trợ natal charts và timezone/location"
+        ],
+        "en": [
+          "Has free tier",
+          "JSON API",
+          "Supports natal charts and timezone/location"
+        ]
+      },
+      "cons": {
+        "vi": [
+          "Cần backend proxy để bảo vệ API key",
+          "Phụ thuộc dịch vụ ngoài"
+        ],
+        "en": [
+          "Needs backend proxy to protect API key",
+          "Depends on external service"
+        ]
+      }
+    },
+    {
+      "id": "astroapi",
+      "cost": "api-key",
+      "status": "evaluate_later",
+      "name": "AstroAPI",
+      "pros": {
+        "vi": [
+          "API docs rõ",
+          "Có natal, synastry, transit, moon calendar"
+        ],
+        "en": [
+          "Clear API docs",
+          "Offers natal, synastry, transit, moon calendar"
+        ]
+      },
+      "cons": {
+        "vi": [
+          "Cần kiểm tra pricing và quota trước khi scale"
+        ],
+        "en": [
+          "Pricing and quota need review before scaling"
+        ]
+      }
+    },
+    {
+      "id": "swiss_ephemeris",
+      "cost": "license-sensitive",
+      "status": "not_for_closed_source_mvp_without_license_review",
+      "name": "Swiss Ephemeris",
+      "pros": {
+        "vi": [
+          "Độ chính xác cao",
+          "Được dùng rộng rãi trong astrology software"
+        ],
+        "en": [
+          "High accuracy",
+          "Widely used in astrology software"
+        ]
+      },
+      "cons": {
+        "vi": [
+          "AGPL hoặc commercial license; không phù hợp app đóng source nếu chưa mua license"
+        ],
+        "en": [
+          "AGPL or commercial license; not suitable for closed-source app without license purchase"
+        ]
+      }
+    }
+  ],
+  "localPlacements": [
+    {
+      "id": "sun",
+      "name": {
+        "vi": "Mặt Trời",
+        "en": "Sun"
+      },
+      "meaning": {
+        "vi": "Cách bạn tỏa sáng, định hướng và xây dựng bản sắc.",
+        "en": "How you shine, orient yourself, and build identity."
+      }
+    },
+    {
+      "id": "moon",
+      "name": {
+        "vi": "Mặt Trăng",
+        "en": "Moon"
+      },
+      "meaning": {
+        "vi": "Nhu cầu cảm xúc, vùng an toàn và cách bạn hồi phục.",
+        "en": "Emotional needs, safety patterns, and how you restore yourself."
+      }
+    },
+    {
+      "id": "rising",
+      "name": {
+        "vi": "Cung Mọc",
+        "en": "Rising"
+      },
+      "meaning": {
+        "vi": "Cách bạn bước vào thế giới và ấn tượng đầu tiên với người khác.",
+        "en": "How you enter the world and the first impression others receive."
+      }
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+# EXCLUDED exploratory guest observation
+Not part of the controlled pair: authentication hydration later redirected. Sidebar and unrelated history metadata removed.

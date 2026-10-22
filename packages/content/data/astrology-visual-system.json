@@ -1,0 +1,766 @@
+{
+  "schemaVersion": "nilaza.astrology.visual-system.v1",
+  "status": "device_review_candidate",
+  "title": {
+    "vi": "Nền tảng thị giác Bản đồ sao Nilaza",
+    "en": "Nilaza Birth Chart visual foundation"
+  },
+  "purpose": {
+    "vi": "Quy ước dữ liệu cho prototype biểu đồ sao native. Tài liệu này tách chart facts đã được kiểm chứng khỏi minh họa, chuyển động và nội dung thần thoại.",
+    "en": "Data conventions for the native birth-chart prototype. This document separates verified chart facts from illustration, motion, and mythology content."
+  },
+  "chartLanguage": {
+    "primaryTerm": {
+      "vi": "Bản đồ sao",
+      "en": "Birth chart"
+    },
+    "zodiacBoundary": {
+      "vi": "Trong Nilaza v1, vòng biểu đồ dùng 12 cung hoàng đạo nhiệt đới, mỗi cung 30°. Cung chiêm tinh không được trình bày là ranh giới thiên văn chính thức của các chòm sao IAU.",
+      "en": "In Nilaza v1, the chart wheel uses twelve 30-degree tropical zodiac signs. An astrological sign must not be presented as an official IAU constellation boundary."
+    }
+  },
+  "canonicalChart": {
+    "contractId": "nilaza.astrology.canonical-chart",
+    "contractVersion": "0.2.0",
+    "allowedRendererInputs": [
+      "placements",
+      "angles",
+      "houses",
+      "aspects",
+      "uncertainties"
+    ],
+    "requiresCalculationStatus": true,
+    "requiresProvenance": true,
+    "schema": "packages/astrology-core/chart.schema.json",
+    "legacySyntheticFixtureVersion": "0.1.0"
+  },
+  "factAndArtBoundary": {
+    "artworkCannotOverrideFacts": true,
+    "noAiArtworkAsAstronomicalFacts": true,
+    "rules": [
+      {
+        "id": "facts-before-art",
+        "vi": "Vị trí, góc, nhà và khía cạnh chỉ đến từ chart facts có provenance; artwork không được tạo hoặc thay đổi các giá trị này.",
+        "en": "Placements, angles, houses, and aspects come only from chart facts with provenance; artwork must not create or alter them."
+      },
+      {
+        "id": "art-is-symbolic",
+        "vi": "Minh họa AI hoặc minh họa thủ công chỉ là lớp biểu tượng và phải được gắn provenance, quyền sử dụng và alt text; chúng không phải dữ liệu thiên văn hay bằng chứng tính toán.",
+        "en": "AI-generated or hand-made illustration is a symbolic layer only and needs provenance, usage rights, and alt text; it is not astronomical data or calculation evidence."
+      },
+      {
+        "id": "limited-chart-fallback",
+        "vi": "Khi giờ sinh, nơi sinh hoặc timezone chưa đủ tin cậy, renderer chỉ hiện phần facts hợp lệ và giải thích giới hạn; không vẽ Cung Mọc, nhà hoặc wheel cá nhân giả.",
+        "en": "When birth time, place, or timezone is not sufficiently reliable, the renderer shows only valid facts and explains the limit; it must not draw a fabricated Rising sign, houses, or personal wheel."
+      }
+    ]
+  },
+  "visualGate": {
+    "status": "pending_owner_native_and_cloud_review",
+    "vi": "Bản chạy thử có bộ tính local, 12 tranh và 12 chương đọc sâu. Chờ chủ sản phẩm duyệt, kiểm thử thiết bị thật và quyết định đồng bộ cloud trước phát hành.",
+    "en": "Review candidate includes a local calculator, twelve paintings and twelve deep chapters. Owner approval, real-device QA and the cloud-sync decision remain before release.",
+    "requirements": [
+      {
+        "id": "g-a3-canonical-facts",
+        "vi": "A3.2/G-A3 có canonical chart facts cùng fixture accuracy, unknown-time và DST evidence.",
+        "en": "A3.2/G-A3 has canonical chart facts with fixture accuracy, unknown-time, and DST evidence."
+      },
+      {
+        "id": "approved-storyboard",
+        "vi": "Chủ sản phẩm duyệt storyboard cho reveal, chọn planet/aspect và mở mythology chapter.",
+        "en": "The product owner approves a storyboard for reveal, planet/aspect selection, and opening a mythology chapter."
+      },
+      {
+        "id": "licensed-art-layer",
+        "vi": "Có asset layer gốc hoặc license rõ ràng cho hero art, glyph, motif, texture và background; provenance đủ để review.",
+        "en": "An original or clearly licensed asset layer exists for hero art, glyphs, motifs, texture, and backgrounds, with reviewable provenance."
+      },
+      {
+        "id": "renderer-spike",
+        "vi": "Renderer Expo-compatible đã được spike/profile với SVG, zoom/pan, hit targets và fallback list; chỉ thêm Skia/GL khi motion yêu cầu thực sự cần GPU.",
+        "en": "An Expo-compatible renderer has been spiked/profiled with SVG, zoom/pan, hit targets, and a list fallback; Skia/GL is added only when motion truly needs GPU support."
+      },
+      {
+        "id": "native-accessibility-performance",
+        "vi": "Có review Android/iOS thực cho 60fps, font lớn, screen reader và Reduce Motion.",
+        "en": "Real Android/iOS review exists for 60fps, large fonts, screen readers, and Reduce Motion."
+      }
+    ]
+  },
+  "interactionBlueprint": [
+    {
+      "id": "chart-reveal",
+      "status": "implemented_pending_native_review",
+      "vi": "Mở dần các facts đã xác minh; Reduce Motion bỏ reveal và cho phép đọc ngay bằng danh sách.",
+      "en": "Progressively reveal verified facts; Reduce Motion removes the reveal and allows immediate list reading."
+    },
+    {
+      "id": "chart-element-selection",
+      "status": "implemented_pending_native_review",
+      "vi": "Chạm hoặc chọn từ danh sách để mở đúng placement/aspect; danh sách luôn là phương án thay thế khi label chồng lấp.",
+      "en": "Tap or select from a list to open the matching placement/aspect; the list is always an alternative when labels collide."
+    },
+    {
+      "id": "mythology-chapter-open",
+      "status": "implemented_pending_native_review",
+      "vi": "Mở chương kiến thức tổng quát, tách rõ nội dung thần thoại khỏi fact của chart cá nhân.",
+      "en": "Open a general-knowledge chapter that clearly separates mythology from a personal chart fact."
+    }
+  ],
+  "accessibility": {
+    "reducedMotionRequired": true,
+    "screenReaderLabelsRequired": true,
+    "largeTextListFallbackRequired": true,
+    "semanticPositionMustNotDependOnMotion": true
+  },
+  "sourceRegistry": [
+    {
+      "id": "iau-constellations-reference",
+      "type": "scientific-context-reference",
+      "title": "International Astronomical Union — Constellations",
+      "url": "https://www.iau.org/public/themes/constellations/",
+      "usage": {
+        "vi": "Dùng để biên tập ranh giới giữa chòm sao thiên văn và cung hoàng đạo chiêm tinh; không sao chép nội dung hoặc artwork.",
+        "en": "Used to edit the boundary between astronomical constellations and astrological zodiac signs; no content or artwork is reproduced."
+      },
+      "rightsStatus": "facts_reference_only",
+      "reviewStatus": "editorial_review_required_before_publication"
+    },
+    {
+      "id": "apollonius-argonautica-context",
+      "type": "mythology-context-reference",
+      "title": "Apollonius, Argonautica — Golden Fleece narrative",
+      "url": "https://www.gutenberg.org/ebooks/13977",
+      "usage": {
+        "vi": "Nguồn bối cảnh biên tập cho prototype thần thoại Hy Lạp; chapter không tuyên bố một truyền thuyết là nguồn gốc duy nhất của bất kỳ cung nào.",
+        "en": "Editorial context for the Greek-mythology prototype; a chapter does not claim that one tradition is the sole origin of any sign."
+      },
+      "rightsStatus": "source_reference_editorial_review_required",
+      "reviewStatus": "editorial_review_required_before_publication"
+    },
+    {
+      "id": "hyginus",
+      "type": "ancient_mythology_reference",
+      "title": "Hyginus · Astronomica, Book II",
+      "url": "https://la.wikisource.org/wiki/De_Astronomia/Liber_II",
+      "usage": {
+        "vi": "Kể lại bằng lời riêng và phân biệt dị bản; không sao chép bản dịch hiện đại.",
+        "en": "Original retellings with variant distinctions; no modern translation copied."
+      },
+      "rightsStatus": "ancient_public_domain_original_retelling",
+      "reviewStatus": "agent_reviewed_owner_review_pending"
+    }
+  ],
+  "signRegistry": [
+    {
+      "id": "aries",
+      "order": 1,
+      "glyph": "♈",
+      "name": {
+        "vi": "Bạch Dương",
+        "en": "Aries"
+      },
+      "chapterId": "zodiac-aries-v1",
+      "chapterStatus": "bilingual_deep_reading_candidate",
+      "assetStatus": "produced_owner_review_pending"
+    },
+    {
+      "id": "taurus",
+      "order": 2,
+      "glyph": "♉",
+      "name": {
+        "vi": "Kim Ngưu",
+        "en": "Taurus"
+      },
+      "chapterId": "zodiac-taurus-v1",
+      "chapterStatus": "bilingual_deep_reading_candidate",
+      "assetStatus": "produced_owner_review_pending"
+    },
+    {
+      "id": "gemini",
+      "order": 3,
+      "glyph": "♊",
+      "name": {
+        "vi": "Song Tử",
+        "en": "Gemini"
+      },
+      "chapterId": "zodiac-gemini-v1",
+      "chapterStatus": "bilingual_deep_reading_candidate",
+      "assetStatus": "produced_owner_review_pending"
+    },
+    {
+      "id": "cancer",
+      "order": 4,
+      "glyph": "♋",
+      "name": {
+        "vi": "Cự Giải",
+        "en": "Cancer"
+      },
+      "chapterId": "zodiac-cancer-v1",
+      "chapterStatus": "bilingual_deep_reading_candidate",
+      "assetStatus": "produced_owner_review_pending"
+    },
+    {
+      "id": "leo",
+      "order": 5,
+      "glyph": "♌",
+      "name": {
+        "vi": "Sư Tử",
+        "en": "Leo"
+      },
+      "chapterId": "zodiac-leo-v1",
+      "chapterStatus": "bilingual_deep_reading_candidate",
+      "assetStatus": "produced_owner_review_pending"
+    },
+    {
+      "id": "virgo",
+      "order": 6,
+      "glyph": "♍",
+      "name": {
+        "vi": "Xử Nữ",
+        "en": "Virgo"
+      },
+      "chapterId": "zodiac-virgo-v1",
+      "chapterStatus": "bilingual_deep_reading_candidate",
+      "assetStatus": "produced_owner_review_pending"
+    },
+    {
+      "id": "libra",
+      "order": 7,
+      "glyph": "♎",
+      "name": {
+        "vi": "Thiên Bình",
+        "en": "Libra"
+      },
+      "chapterId": "zodiac-libra-v1",
+      "chapterStatus": "bilingual_deep_reading_candidate",
+      "assetStatus": "produced_owner_review_pending"
+    },
+    {
+      "id": "scorpio",
+      "order": 8,
+      "glyph": "♏",
+      "name": {
+        "vi": "Bọ Cạp",
+        "en": "Scorpio"
+      },
+      "chapterId": "zodiac-scorpio-v1",
+      "chapterStatus": "bilingual_deep_reading_candidate",
+      "assetStatus": "produced_owner_review_pending"
+    },
+    {
+      "id": "sagittarius",
+      "order": 9,
+      "glyph": "♐",
+      "name": {
+        "vi": "Nhân Mã",
+        "en": "Sagittarius"
+      },
+      "chapterId": "zodiac-sagittarius-v1",
+      "chapterStatus": "bilingual_deep_reading_candidate",
+      "assetStatus": "produced_owner_review_pending"
+    },
+    {
+      "id": "capricorn",
+      "order": 10,
+      "glyph": "♑",
+      "name": {
+        "vi": "Ma Kết",
+        "en": "Capricorn"
+      },
+      "chapterId": "zodiac-capricorn-v1",
+      "chapterStatus": "bilingual_deep_reading_candidate",
+      "assetStatus": "produced_owner_review_pending"
+    },
+    {
+      "id": "aquarius",
+      "order": 11,
+      "glyph": "♒",
+      "name": {
+        "vi": "Bảo Bình",
+        "en": "Aquarius"
+      },
+      "chapterId": "zodiac-aquarius-v1",
+      "chapterStatus": "bilingual_deep_reading_candidate",
+      "assetStatus": "produced_owner_review_pending"
+    },
+    {
+      "id": "pisces",
+      "order": 12,
+      "glyph": "♓",
+      "name": {
+        "vi": "Song Ngư",
+        "en": "Pisces"
+      },
+      "chapterId": "zodiac-pisces-v1",
+      "chapterStatus": "bilingual_deep_reading_candidate",
+      "assetStatus": "produced_owner_review_pending"
+    }
+  ],
+  "chapterSchema": {
+    "requiredFields": [
+      "id",
+      "signId",
+      "version",
+      "status",
+      "title",
+      "summary",
+      "mythologyContext",
+      "chartFactBoundary",
+      "sources",
+      "artwork"
+    ],
+    "artworkRule": {
+      "vi": "Không có artwork được coi là hoàn thành khi chỉ có prompt. Asset chỉ được gắn sau review provenance, rights và accessibility.",
+      "en": "Artwork is not considered complete from a prompt alone. An asset may be attached only after provenance, rights, and accessibility review."
+    }
+  },
+  "chapters": [
+    {
+      "id": "zodiac-aries-v1",
+      "signId": "aries",
+      "version": "0.2.0",
+      "status": "owner_review_candidate",
+      "title": {
+        "vi": "Bước qua ngưỡng cửa",
+        "en": "Across the threshold"
+      },
+      "summary": {
+        "vi": "Khởi đầu không nhất thiết phải là một lời tuyên bố lớn. Đôi khi, đó chỉ là lần đầu bạn cho phép mình muốn một điều khác. Hình tượng cừu vàng ở đây mở ra câu hỏi về bước đi đầu tiên, không hứa hẹn chiến thắng.",
+        "en": "A beginning need not be a grand declaration. Sometimes it is the first time you allow yourself to want something different. Here, the golden ram invites a question about a first step, without promising victory."
+      },
+      "mythologyContext": {
+        "vi": "Phrixus và Helle rời khỏi hiểm nguy trên lưng con cừu có bộ lông vàng. Nhưng cuộc vượt biển không có một kết thúc trọn vẹn cho cả hai: Helle rơi xuống vùng nước sau này mang tên Hellespont, còn Phrixus đến được Colchis. Trong một cách kể được Hyginus lưu lại, bộ lông được giữ trong đền, còn hình dáng con cừu được đưa lên bầu trời. Vật từng giúp một người sống sót trở thành thứ mà những người khác tiếp tục kiếm tìm.\n\nĐiều đáng chú ý là con cừu không chỉ có một tiểu sử. Hyginus còn ghi một chuyện về đoàn quân kiệt sức vì nóng và khát, đi theo một con cừu rồi tìm được nguồn nước. Cùng một hình ảnh trên trời có thể được giải thích bằng cuộc đào thoát, một món quà được gìn giữ, hoặc một lối dẫn đến sự sống. Thần thoại ở đây giống một kho ký ức nhiều lớp hơn là một hồ sơ nhân vật duy nhất.",
+        "en": "Phrixus and Helle escape danger on a golden-fleeced ram. The sea crossing does not end safely for both: Helle falls into the water later called the Hellespont, while Phrixus reaches Colchis. In one account preserved by Hyginus, the fleece remains in a sanctuary and the ram's image enters the sky. What once helped someone survive becomes something others continue to seek.\n\nThe ram has more than one biography. Hyginus also records exhausted, thirsty soldiers following a ram to water. A single celestial image can thus be explained through escape, a preserved gift, or a guide toward life. Myth operates here as layered cultural memory rather than one definitive character profile."
+      },
+      "chartFactBoundary": {
+        "vi": "12 cung hoàng đạo là các phần 30° của vòng chiêm tinh nhiệt đới, không phải ranh giới chòm sao trên bầu trời. Câu chuyện và câu hỏi dưới đây để khám phá biểu tượng, không xác định tính cách hay tương lai của bạn.",
+        "en": "The 12 signs are 30° divisions of the tropical zodiac, not the boundaries of sky constellations. These stories and questions explore symbols; they do not determine your personality or future."
+      },
+      "sources": [
+        "hyginus",
+        "iau-constellations-reference"
+      ],
+      "artwork": {
+        "status": "produced_owner_review_pending",
+        "assetPath": "apps/mobile/assets/runtime/features/astrology-aries-v2.jpg",
+        "provenanceStatus": "imagegen_manifest_sha256_recorded",
+        "altText": {
+          "vi": "Bạch Dương — tranh biểu tượng thần thoại",
+          "en": "Aries — symbolic mythology painting"
+        }
+      }
+    },
+    {
+      "id": "zodiac-taurus-v1",
+      "signId": "taurus",
+      "version": "0.2.0",
+      "status": "owner_review_candidate",
+      "title": {
+        "vi": "Điều đáng gìn giữ",
+        "en": "What is worth keeping"
+      },
+      "summary": {
+        "vi": "Hãy nghĩ đến một nơi khiến vai bạn thả lỏng. Sự vững vàng có thể đến từ những điều rất nhỏ: bữa ăn tử tế, một nhịp sống vừa sức, lời hứa được giữ. Biểu tượng này mời bạn nhìn lại điều đang nuôi dưỡng mình.",
+        "en": "Think of a place where your shoulders relax. Steadiness can come from small things: a nourishing meal, a sustainable rhythm, a promise kept. This symbol invites you to notice what sustains you."
+      },
+      "mythologyContext": {
+        "vi": "Con bò của Taurus thường được nối với câu chuyện Europa được đưa qua biển đến Crete. Hyginus cũng ghi một cách giải thích khác liên quan đến Io, người mang hình dạng bò. Chỉ riêng việc hai nhân vật xuất hiện trong cùng mục đã cho thấy hình tượng này không có một ý nghĩa cố định, và không nên được giản lược thành vài tính từ về người sinh vào một tháng.\n\nTrong cùng vùng trời, tác giả chuyển sang Hyades và Pleiades: những nhóm sao được kể như các chị em, gắn với sự chăm sóc, mất mát và ký ức. Câu chuyện về Taurus vì thế không chỉ là sức mạnh của một con vật lớn. Nó còn là một mạng lưới tên gọi và quan hệ. Trong tranh Nilaza, con bò nghỉ cạnh vườn và mặt nước; đó là lựa chọn nghệ thuật hiện đại để mở một khoảng yên, không phải cảnh được khẳng định trong văn bản cổ.",
+        "en": "Taurus is often connected with the bull carrying Europa across the sea to Crete. Hyginus also records an explanation involving Io in bovine form. Two figures within the same entry already complicate the idea of a single fixed meaning, let alone a few adjectives for everyone born in one month.\n\nThe account then turns to the Hyades and Pleiades, groups imagined as sisters and connected with care, loss and remembrance. Taurus becomes a network of names and relationships, not merely a powerful animal. Nilaza's resting bull beside a garden and water is a contemporary artistic choice, not a scene claimed by the ancient text."
+      },
+      "chartFactBoundary": {
+        "vi": "12 cung hoàng đạo là các phần 30° của vòng chiêm tinh nhiệt đới, không phải ranh giới chòm sao trên bầu trời. Câu chuyện và câu hỏi dưới đây để khám phá biểu tượng, không xác định tính cách hay tương lai của bạn.",
+        "en": "The 12 signs are 30° divisions of the tropical zodiac, not the boundaries of sky constellations. These stories and questions explore symbols; they do not determine your personality or future."
+      },
+      "sources": [
+        "hyginus",
+        "iau-constellations-reference"
+      ],
+      "artwork": {
+        "status": "produced_owner_review_pending",
+        "assetPath": "apps/mobile/assets/runtime/features/astrology-taurus-v2.jpg",
+        "provenanceStatus": "imagegen_manifest_sha256_recorded",
+        "altText": {
+          "vi": "Kim Ngưu — tranh biểu tượng thần thoại",
+          "en": "Taurus — symbolic mythology painting"
+        }
+      }
+    },
+    {
+      "id": "zodiac-gemini-v1",
+      "signId": "gemini",
+      "version": "0.2.0",
+      "status": "owner_review_candidate",
+      "title": {
+        "vi": "Hai tiếng nói, một cuộc gặp",
+        "en": "Two voices, one encounter"
+      },
+      "summary": {
+        "vi": "Bạn có thể vừa muốn thay đổi, vừa muốn được an toàn. Hai tiếng nói ấy không cần loại trừ nhau. Hãy thử lắng nghe mỗi bên như hai người bạn đang kể những phần khác nhau của cùng một câu chuyện.",
+        "en": "You can want change and safety at once. These voices need not exclude each other. Try hearing each as a friend telling a different part of the same story."
+      },
+      "mythologyContext": {
+        "vi": "Hyginus kể rằng Castor và Pollux được nhớ đến vì sự gắn bó: họ không tranh giành quyền đứng đầu và không tự quyết mọi việc mà thiếu bàn bạc. Hình ảnh hai người trên trời vì vậy trước hết là một câu chuyện về quan hệ. Khi Castor chết, một cách kể được tác giả dẫn lại nói Pollux chia sẻ một phần đời sống với anh em mình. Sự gần gũi được diễn tả bằng việc phân chia cả thứ tưởng như không thể chia.\n\nNhưng mục Gemini không dừng ở hai cái tên quen thuộc. Tác giả còn ghi những nhận diện khác như Hercules và Apollo. Đặt các cách kể cạnh nhau giúp ta nhận ra hình đôi là một cấu trúc mở: có thể nói về sự tương đồng, sự bổ sung, một món nợ tình cảm hoặc một cuộc đối thoại. Nó không tự động mang nghĩa hai mặt hay thiếu nhất quán như những khuôn mẫu hiện đại thường gán.",
+        "en": "Hyginus remembers Castor and Pollux for their bond: neither competed for leadership, and they consulted each other. The celestial pair is first a story about relationship. After Castor's death, one account cited by the author has Pollux share part of his life with his brother. Closeness is expressed by dividing even what seems indivisible.\n\nThe Gemini entry also records other identifications, including Hercules and Apollo. Comparing them reveals the pair as an open structure: likeness, complement, obligation or dialogue. It does not automatically imply being two-faced or inconsistent, as modern stereotypes sometimes suggest."
+      },
+      "chartFactBoundary": {
+        "vi": "12 cung hoàng đạo là các phần 30° của vòng chiêm tinh nhiệt đới, không phải ranh giới chòm sao trên bầu trời. Câu chuyện và câu hỏi dưới đây để khám phá biểu tượng, không xác định tính cách hay tương lai của bạn.",
+        "en": "The 12 signs are 30° divisions of the tropical zodiac, not the boundaries of sky constellations. These stories and questions explore symbols; they do not determine your personality or future."
+      },
+      "sources": [
+        "hyginus",
+        "iau-constellations-reference"
+      ],
+      "artwork": {
+        "status": "produced_owner_review_pending",
+        "assetPath": "apps/mobile/assets/runtime/features/astrology-gemini-v2.jpg",
+        "provenanceStatus": "imagegen_manifest_sha256_recorded",
+        "altText": {
+          "vi": "Song Tử — tranh biểu tượng thần thoại",
+          "en": "Gemini — symbolic mythology painting"
+        }
+      }
+    },
+    {
+      "id": "zodiac-cancer-v1",
+      "signId": "cancer",
+      "version": "0.2.0",
+      "status": "owner_review_candidate",
+      "title": {
+        "vi": "Một nơi để trở về",
+        "en": "A place to return"
+      },
+      "summary": {
+        "vi": "Lớp vỏ có thể giữ một điều mềm mại bên trong. Nhưng bảo vệ mình không nhất thiết là đóng mọi cánh cửa. Hãy hình dung một ranh giới đủ rõ để bạn được nghỉ, và đủ mở để người đáng tin có thể đến gần.",
+        "en": "A shell can protect something tender. Yet protection need not close every door. Imagine a boundary clear enough for rest, and open enough for trusted company."
+      },
+      "mythologyContext": {
+        "vi": "Trong chuyện về trận chiến giữa Hercules và Hydra, con cua xuất hiện từ đầm lầy và cắn vào chân người anh hùng. Nó bị giết, nhưng Juno đưa nó lên bầu trời. Nhân vật nhỏ không chiến thắng cuộc chiến, cũng không trở thành trung tâm của chiến công. Tuy vậy, hành động của nó vẫn được giữ lại trong một hình sao. Đây là một truyện ngắn có kết cục không dễ chịu, khác hẳn hình ảnh chiếc vỏ êm ái mà chúng ta thường liên tưởng đến Cự Giải.\n\nHyginus còn dành nhiều dòng cho hai sao được gọi là Aselli, những con lừa, trong vùng hình cua. Các cách kể gắn chúng với một chuyến qua đầm lầy và với tiếng kêu làm đối thủ khiếp sợ. Một vùng trời có thể chứa nhiều truyện nhỏ lồng nhau; người đọc không cần ép chúng vào một bài học duy nhất về gia đình hay cảm xúc.",
+        "en": "During Hercules' fight with the Hydra, a crab emerges from the marsh and bites his foot. It is killed, but Juno places it in the sky. The small figure neither wins the battle nor becomes the hero, yet its action survives as a stellar image. This uncomfortable ending differs from the cosy shell often associated with Cancer.\n\nHyginus also discusses two stars called the Aselli, or donkeys, within the crab's region. Their stories involve crossing a marsh and cries that frighten an opponent. A region of sky can hold several nested tales without reducing them to one lesson about family or emotion."
+      },
+      "chartFactBoundary": {
+        "vi": "12 cung hoàng đạo là các phần 30° của vòng chiêm tinh nhiệt đới, không phải ranh giới chòm sao trên bầu trời. Câu chuyện và câu hỏi dưới đây để khám phá biểu tượng, không xác định tính cách hay tương lai của bạn.",
+        "en": "The 12 signs are 30° divisions of the tropical zodiac, not the boundaries of sky constellations. These stories and questions explore symbols; they do not determine your personality or future."
+      },
+      "sources": [
+        "hyginus",
+        "iau-constellations-reference"
+      ],
+      "artwork": {
+        "status": "produced_owner_review_pending",
+        "assetPath": "apps/mobile/assets/runtime/features/astrology-cancer-v2.jpg",
+        "provenanceStatus": "imagegen_manifest_sha256_recorded",
+        "altText": {
+          "vi": "Cự Giải — tranh biểu tượng thần thoại",
+          "en": "Cancer — symbolic mythology painting"
+        }
+      }
+    },
+    {
+      "id": "zodiac-leo-v1",
+      "signId": "leo",
+      "version": "0.2.0",
+      "status": "owner_review_candidate",
+      "title": {
+        "vi": "Ánh sáng được chia sẻ",
+        "en": "Light to share"
+      },
+      "summary": {
+        "vi": "Được nhìn thấy không chỉ là đứng giữa sân khấu. Một điều bạn làm bằng sự chân thành cũng có thể mang ánh sáng riêng. Thử nghĩ về niềm vui khi sáng tạo, trước cả khi có người khen ngợi.",
+        "en": "Being seen is more than taking centre stage. Something made with sincerity can carry its own light. Consider the pleasure of creating before anyone applauds."
+      },
+      "mythologyContext": {
+        "vi": "Hyginus mở mục Leo bằng vị thế con sư tử như một loài đứng đầu muông thú. Ông cũng ghi cách kể nối nó với thử thách đầu tiên của Hercules: người anh hùng giết sư tử mà không dùng vũ khí. Cùng một hình tượng có thể được đặt trên trời để biểu dương sự uy nghi của con vật, hoặc để nhắc đến chiến công của người đánh bại nó. Người đọc cần chú ý ai đang là trung tâm của từng cách kể.\n\nNgay sau đó, văn bản chuyển sang một nhóm sao gần đuôi sư tử và câu chuyện mái tóc Berenice. Không gian trên trời được lấp đầy không chỉ bởi các trận chiến mà còn bởi lời hứa, sự mất dấu của một vật dâng cúng và cách con người giải thích nó. Ranh giới câu chuyện rộng hơn ranh giới một biểu tượng mà ứng dụng vẽ ra.",
+        "en": "Hyginus introduces Leo through the lion's standing among wild animals. He also records its connection with Hercules' first contest, in which the hero kills the lion without weapons. The same sky image may honor the animal's majesty or recall the achievement of its conqueror. Notice whose perspective organizes each version.\n\nThe text then moves to stars near the lion's tail and Berenice's hair. Celestial storytelling includes promises, the disappearance of an offering and human attempts to explain it, not only battles. A narrative's reach is wider than the boundaries of an app's symbol."
+      },
+      "chartFactBoundary": {
+        "vi": "12 cung hoàng đạo là các phần 30° của vòng chiêm tinh nhiệt đới, không phải ranh giới chòm sao trên bầu trời. Câu chuyện và câu hỏi dưới đây để khám phá biểu tượng, không xác định tính cách hay tương lai của bạn.",
+        "en": "The 12 signs are 30° divisions of the tropical zodiac, not the boundaries of sky constellations. These stories and questions explore symbols; they do not determine your personality or future."
+      },
+      "sources": [
+        "hyginus",
+        "iau-constellations-reference"
+      ],
+      "artwork": {
+        "status": "produced_owner_review_pending",
+        "assetPath": "apps/mobile/assets/runtime/features/astrology-leo-v2.jpg",
+        "provenanceStatus": "imagegen_manifest_sha256_recorded",
+        "altText": {
+          "vi": "Sư Tử — tranh biểu tượng thần thoại",
+          "en": "Leo — symbolic mythology painting"
+        }
+      }
+    },
+    {
+      "id": "zodiac-virgo-v1",
+      "signId": "virgo",
+      "version": "0.2.0",
+      "status": "owner_review_candidate",
+      "title": {
+        "vi": "Vẻ đẹp của sự chăm nom",
+        "en": "The beauty of tending"
+      },
+      "summary": {
+        "vi": "Chăm chút và cầu toàn đôi khi đứng rất gần nhau. Hãy tìm một việc có thể làm tốt hơn bằng sự dịu dàng, thay vì tự trách. Một phần việc được hoàn thành vừa đủ cũng có thể mở ra khoảng thở.",
+        "en": "Care and perfectionism can stand close together. Find something that could improve through gentleness rather than blame. Finishing something well enough can create room to breathe."
+      },
+      "mythologyContext": {
+        "vi": "Virgo trong Hyginus có nhiều danh tính. Một truyền thống liên hệ hình người nữ với Công Lý, sống gần con người trong thời đại vàng. Khi các thế hệ trở nên tham lam và ít giữ bổn phận hơn, nàng dần rời xa họ rồi bay lên các vì sao. Câu chuyện đặt sự mất mát của một phẩm chất đạo đức vào bầu trời, như thể điều đã vắng mặt dưới đất vẫn có thể được tìm lại bằng cách ngước nhìn.\n\nNhững tác giả và cách kể khác mà Hyginus ghi lại gọi hình này là Ceres, Fortuna, Erigone hoặc Parthenos. Bó lúa trong tranh Nilaza chọn nhấn vào sự chăm chút và nuôi dưỡng; nó không giải quyết tất cả những khác biệt giữa các nguồn. Sự đa dạng danh tính là một phần của chủ đề đáng khám phá, không phải lỗi cần xóa khỏi câu chuyện.",
+        "en": "Virgo has several identities in Hyginus. One tradition connects the figure with Justice, living among people in a golden age. As later generations become greedy and neglect their duties, she withdraws and finally rises to the stars. A lost moral quality is placed in the sky, as though what has disappeared below might still be found by looking upward.\n\nOther accounts identify the figure with Ceres, Fortuna, Erigone or Parthenos. Nilaza's sheaf of wheat emphasizes cultivation and care without resolving these differences. Multiple identities are part of what makes the tradition worth exploring."
+      },
+      "chartFactBoundary": {
+        "vi": "12 cung hoàng đạo là các phần 30° của vòng chiêm tinh nhiệt đới, không phải ranh giới chòm sao trên bầu trời. Câu chuyện và câu hỏi dưới đây để khám phá biểu tượng, không xác định tính cách hay tương lai của bạn.",
+        "en": "The 12 signs are 30° divisions of the tropical zodiac, not the boundaries of sky constellations. These stories and questions explore symbols; they do not determine your personality or future."
+      },
+      "sources": [
+        "hyginus",
+        "iau-constellations-reference"
+      ],
+      "artwork": {
+        "status": "produced_owner_review_pending",
+        "assetPath": "apps/mobile/assets/runtime/features/astrology-virgo-v2.jpg",
+        "provenanceStatus": "imagegen_manifest_sha256_recorded",
+        "altText": {
+          "vi": "Xử Nữ — tranh biểu tượng thần thoại",
+          "en": "Virgo — symbolic mythology painting"
+        }
+      }
+    },
+    {
+      "id": "zodiac-libra-v1",
+      "signId": "libra",
+      "version": "0.2.0",
+      "status": "owner_review_candidate",
+      "title": {
+        "vi": "Khoảng giữa hai phía",
+        "en": "Between two sides"
+      },
+      "summary": {
+        "vi": "Cân bằng không phải lúc nào cũng là chia đều. Có khi nó bắt đầu bằng việc nói thật về phần mình đang gánh. Trong một mối quan hệ, điều công bằng cần được trò chuyện, không chỉ được đoán ra.",
+        "en": "Balance does not always mean equal shares. It may begin with naming what you carry. Fairness in a relationship needs conversation, not guesswork."
+      },
+      "mythologyContext": {
+        "vi": "Thiên Bình có một chi tiết lịch sử dễ bị bỏ qua: trong phần mở đầu và mục Scorpius, Hyginus nhắc vùng tương ứng với Libra như một phần của hình bọ cạp lớn. Ông nói hình rộng ấy được chia thành hai cung, và người La Mã gọi một phần là chiếc cân. Trong cuốn sách này, Libra không có một truyện nhân vật riêng được kể giống các mục lân cận.\n\nThừa nhận khoảng trống đó thú vị hơn việc sáng tác một nữ thần rồi gán cho nguồn cổ. Từ những càng của một sinh vật sang một dụng cụ cân đo, ta thấy con người có thể tổ chức lại cùng một vùng trời bằng hình ảnh khác nhau. Tranh chiếc cân của Nilaza là diễn giải nghệ thuật của biểu tượng hiện nay; bức tranh không phải chứng cứ về hình dáng của một đài thiên văn hay nghi lễ cổ.",
+        "en": "Libra has an easily overlooked historical detail. In the introduction and Scorpius entry, Hyginus describes the corresponding region as part of a large scorpion, divided into two signs, one called the Balance by the Romans. This book does not give Libra an independent character story in the manner of neighboring entries.\n\nAcknowledging that gap is more interesting than inventing a goddess and attributing her to the source. From an animal's claws to a measuring instrument, people can organize a region of sky through different images. Nilaza's balance is a contemporary artistic interpretation, not evidence of an ancient observatory or ritual."
+      },
+      "chartFactBoundary": {
+        "vi": "12 cung hoàng đạo là các phần 30° của vòng chiêm tinh nhiệt đới, không phải ranh giới chòm sao trên bầu trời. Câu chuyện và câu hỏi dưới đây để khám phá biểu tượng, không xác định tính cách hay tương lai của bạn.",
+        "en": "The 12 signs are 30° divisions of the tropical zodiac, not the boundaries of sky constellations. These stories and questions explore symbols; they do not determine your personality or future."
+      },
+      "sources": [
+        "hyginus",
+        "iau-constellations-reference"
+      ],
+      "artwork": {
+        "status": "produced_owner_review_pending",
+        "assetPath": "apps/mobile/assets/runtime/features/astrology-libra-v2.jpg",
+        "provenanceStatus": "imagegen_manifest_sha256_recorded",
+        "altText": {
+          "vi": "Thiên Bình — tranh biểu tượng thần thoại",
+          "en": "Libra — symbolic mythology painting"
+        }
+      }
+    },
+    {
+      "id": "zodiac-scorpio-v1",
+      "signId": "scorpio",
+      "version": "0.2.0",
+      "status": "owner_review_candidate",
+      "title": {
+        "vi": "Dưới mặt nước yên",
+        "en": "Beneath still water"
+      },
+      "summary": {
+        "vi": "Có những cảm xúc chỉ rõ hình khi bạn dành cho chúng một chút thời gian. Bạn không cần kể mọi điều ngay lập tức. Biểu tượng này mời bạn nhận diện một điều sâu bên trong, theo nhịp mình thấy an toàn.",
+        "en": "Some feelings become clearer when given time. You need not reveal everything at once. This symbol invites you to notice something beneath the surface, at a pace that feels safe."
+      },
+      "mythologyContext": {
+        "vi": "Orion tự tin vào khả năng săn bắn đến mức tuyên bố có thể giết mọi sinh vật sinh ra từ đất. Trong cách kể của Hyginus, Đất đáp lại bằng cách gửi một con bọ cạp; sinh vật nhỏ ấy hạ được người thợ săn. Cả Orion và bọ cạp sau đó đều có vị trí trên trời, nhưng được đặt trong một quan hệ kể chuyện: khi bọ cạp mọc lên, Orion lặn xuống.\n\nCâu chuyện không chỉ hỏi ai mạnh hơn ai. Nó giới hạn một lời tuyên bố quá rộng: khả năng thực hiện một việc không tự tạo ra quyền làm việc đó với tất cả mọi thứ. Hình ảnh đối thủ nhỏ cũng phá vỡ cách đo sức mạnh chỉ bằng kích thước. Tuy nhiên, đây là cách lý giải thần thoại; không nên biến mọi chi tiết về mọc và lặn thành một lịch quan sát đúng ở mọi vĩ độ.",
+        "en": "Orion boasts that he can kill every creature produced by the earth. In Hyginus' account, Earth sends a scorpion, and this small creature defeats the hunter. Both enter the sky in a narrative relationship: Orion sets as the scorpion rises.\n\nThe tale does more than compare strength. It limits an expansive claim: being able to do something does not confer the right to do it to everything. A small opponent also disrupts size-based notions of power. This is a mythological explanation, not a universal observing schedule valid at every latitude."
+      },
+      "chartFactBoundary": {
+        "vi": "12 cung hoàng đạo là các phần 30° của vòng chiêm tinh nhiệt đới, không phải ranh giới chòm sao trên bầu trời. Câu chuyện và câu hỏi dưới đây để khám phá biểu tượng, không xác định tính cách hay tương lai của bạn.",
+        "en": "The 12 signs are 30° divisions of the tropical zodiac, not the boundaries of sky constellations. These stories and questions explore symbols; they do not determine your personality or future."
+      },
+      "sources": [
+        "hyginus",
+        "iau-constellations-reference"
+      ],
+      "artwork": {
+        "status": "produced_owner_review_pending",
+        "assetPath": "apps/mobile/assets/runtime/features/astrology-scorpio-v2.jpg",
+        "provenanceStatus": "imagegen_manifest_sha256_recorded",
+        "altText": {
+          "vi": "Bọ Cạp — tranh biểu tượng thần thoại",
+          "en": "Scorpio — symbolic mythology painting"
+        }
+      }
+    },
+    {
+      "id": "zodiac-sagittarius-v1",
+      "signId": "sagittarius",
+      "version": "0.2.0",
+      "status": "owner_review_candidate",
+      "title": {
+        "vi": "Phía bên kia đường chân trời",
+        "en": "Beyond the horizon"
+      },
+      "summary": {
+        "vi": "Một câu hỏi mới có thể đưa bạn đi xa hơn một câu trả lời quen thuộc. Khám phá không nhất thiết là lên đường: bạn có thể thử một cách học, một cuộc gặp, hay một niềm tin được nhìn lại.",
+        "en": "A new question may take you further than a familiar answer. Exploration need not involve travel: try a way of learning, an encounter, or a belief reconsidered."
+      },
+      "mythologyContext": {
+        "vi": "Hình cung thủ thường được gọi chung là nhân mã, nhưng Hyginus cho thấy việc nhận diện không đơn giản. Ông ghi câu chuyện về Crotus, con của người nuôi dưỡng các Muse, sống ở Helicon, thích săn bắn và vui cùng nghệ thuật của họ. Các Muse mong người bạn ấy được ghi nhớ trong các vì sao. Hình ảnh được tạo ra kết hợp dấu hiệu của nhiều kỹ năng, thay vì chỉ vẽ một người theo nghĩa tả thực.\n\nChân ngựa, mũi tên và chiếc đuôi được giải thích như những phần của một chân dung ghép: sự nhanh nhẹn, sự sắc bén và niềm vui bên các Muse. Đọc theo cách này, cung thủ không chỉ là người hướng mắt đi xa. Đó còn là một câu chuyện về việc một người có thể thuộc về nhiều thế giới kỹ năng mà không phải xóa bỏ một phần của mình.",
+        "en": "The archer is often simply called a centaur, but Hyginus complicates that identification. He records Crotus, the son of the Muses' nurse, living on Helicon, enjoying hunting and their arts. The Muses ask for their companion to be remembered among the stars. The resulting figure combines signs of different skills rather than drawing a literal portrait.\n\nHorse legs, arrows and a tail become parts of a composite image: speed, acuity and companionship with the Muses. The archer is therefore not only a distant gaze, but a story about belonging to several worlds of ability without erasing one of them."
+      },
+      "chartFactBoundary": {
+        "vi": "12 cung hoàng đạo là các phần 30° của vòng chiêm tinh nhiệt đới, không phải ranh giới chòm sao trên bầu trời. Câu chuyện và câu hỏi dưới đây để khám phá biểu tượng, không xác định tính cách hay tương lai của bạn.",
+        "en": "The 12 signs are 30° divisions of the tropical zodiac, not the boundaries of sky constellations. These stories and questions explore symbols; they do not determine your personality or future."
+      },
+      "sources": [
+        "hyginus",
+        "iau-constellations-reference"
+      ],
+      "artwork": {
+        "status": "produced_owner_review_pending",
+        "assetPath": "apps/mobile/assets/runtime/features/astrology-sagittarius-v2.jpg",
+        "provenanceStatus": "imagegen_manifest_sha256_recorded",
+        "altText": {
+          "vi": "Nhân Mã — tranh biểu tượng thần thoại",
+          "en": "Sagittarius — symbolic mythology painting"
+        }
+      }
+    },
+    {
+      "id": "zodiac-capricorn-v1",
+      "signId": "capricorn",
+      "version": "0.2.0",
+      "status": "owner_review_candidate",
+      "title": {
+        "vi": "Con đường có nhịp nghỉ",
+        "en": "A path with pauses"
+      },
+      "summary": {
+        "vi": "Một hành trình dài cần cả nỗ lực và chỗ nghỉ. Bạn có thể nghiêm túc với điều mình muốn mà không biến mọi ngày thành bài kiểm tra. Hãy thử chọn một nhịp tiến bộ có thể sống cùng lâu dài.",
+        "en": "A long journey needs effort and places to rest. You can take your hopes seriously without making every day a test. Choose a pace you could live with over time."
+      },
+      "mythologyContext": {
+        "vi": "Dê biển là một hình lai: phần trước thuộc đất, phần sau thuộc nước. Hyginus nối hình này với Aegipan, rồi ghi thêm chuyện các thần tìm cách thoát Typhon bằng những hình dạng khác. Pan nhảy xuống sông, biến phần dưới thành cá và phần trên thành dê. Sự kết hợp khác thường được giữ lại trên trời như dấu vết của một cách ứng phó.\n\nNếu chỉ nhìn dê biển như hình ảnh leo núi và thành tựu, ta sẽ bỏ qua một nửa thân thể của nó. Đuôi cá đưa nước và sự thay đổi môi trường vào câu chuyện. Tranh Nilaza đặt nhân vật giữa bậc đá và biển để giữ cả hai phía: hướng đi và khả năng thích nghi. Ngọn núi trong tranh là sáng tạo hiện đại, không phải một địa danh được xác định từ đoạn văn cổ.",
+        "en": "The sea-goat combines a land animal's forebody with a fish's tail. Hyginus connects it with Aegipan and also records the gods escaping Typhon through changed forms. Pan enters a river, becoming fish below and goat above. The unusual combination remains in the sky as a trace of adaptation.\n\nReading only ambition and mountain climbing into the image overlooks half its body. The fish tail introduces water and changing environments. Nilaza places the creature between steps and sea to retain both direction and adaptability. The painted mountain is contemporary invention, not a location established by the ancient passage."
+      },
+      "chartFactBoundary": {
+        "vi": "12 cung hoàng đạo là các phần 30° của vòng chiêm tinh nhiệt đới, không phải ranh giới chòm sao trên bầu trời. Câu chuyện và câu hỏi dưới đây để khám phá biểu tượng, không xác định tính cách hay tương lai của bạn.",
+        "en": "The 12 signs are 30° divisions of the tropical zodiac, not the boundaries of sky constellations. These stories and questions explore symbols; they do not determine your personality or future."
+      },
+      "sources": [
+        "hyginus",
+        "iau-constellations-reference"
+      ],
+      "artwork": {
+        "status": "produced_owner_review_pending",
+        "assetPath": "apps/mobile/assets/runtime/features/astrology-capricorn-v2.jpg",
+        "provenanceStatus": "imagegen_manifest_sha256_recorded",
+        "altText": {
+          "vi": "Ma Kết — tranh biểu tượng thần thoại",
+          "en": "Capricorn — symbolic mythology painting"
+        }
+      }
+    },
+    {
+      "id": "zodiac-aquarius-v1",
+      "signId": "aquarius",
+      "version": "0.2.0",
+      "status": "owner_review_candidate",
+      "title": {
+        "vi": "Dòng nước gửi về nhau",
+        "en": "Water we share"
+      },
+      "summary": {
+        "vi": "Một ý tưởng có thể bắt đầu rất riêng rồi trở thành điều hữu ích cho nhiều người. Trước khi nghĩ đến thay đổi lớn, hãy nhìn xem ai đang cần được lắng nghe trong cộng đồng nhỏ quanh bạn.",
+        "en": "An idea can begin privately and become useful to others. Before imagining a grand change, notice who needs to be heard in the small community around you."
+      },
+      "mythologyContext": {
+        "vi": "Người mang nước trong Hyginus có nhiều danh tính. Cách giải thích quen thuộc liên hệ với Ganymede, người được đưa đến phục vụ các thần. Một cách kể khác nhìn thấy Deucalion, gắn với trận lụt lớn; cách khác nữa nhắc Cecrops và việc dùng nước trong nghi lễ trước khi con người biết rượu. Chiếc bình nước vì thế không mang một câu chuyện duy nhất.\n\nCùng động tác rót có thể được hiểu như phục vụ, ký ức về biến cố hoặc một thực hành chung. Trong tranh Nilaza, nước đi qua nhiều bể rồi hướng về nơi có người sống. Đây là bình luận thị giác về sự trao đổi và cộng đồng, không phải cảnh được chép lại từ Hyginus. Hình người mang nước cũng không có nghĩa cung Bảo Bình thuộc nhóm Nước trong hệ phân loại chiêm tinh.",
+        "en": "Hyginus gives the water bearer several identities. A familiar account names Ganymede, taken to serve the gods. Another sees Deucalion and the great flood; another names Cecrops and the use of water in ritual before wine. The vessel therefore holds more than one story.\n\nPouring can suggest service, memory of disruption or shared practice. In Nilaza's painting, water passes through connected pools toward inhabited places. This is visual commentary on exchange and community, not a scene transcribed from Hyginus. A water-bearing figure also does not make Aquarius a Water sign within astrological classification."
+      },
+      "chartFactBoundary": {
+        "vi": "12 cung hoàng đạo là các phần 30° của vòng chiêm tinh nhiệt đới, không phải ranh giới chòm sao trên bầu trời. Câu chuyện và câu hỏi dưới đây để khám phá biểu tượng, không xác định tính cách hay tương lai của bạn.",
+        "en": "The 12 signs are 30° divisions of the tropical zodiac, not the boundaries of sky constellations. These stories and questions explore symbols; they do not determine your personality or future."
+      },
+      "sources": [
+        "hyginus",
+        "iau-constellations-reference"
+      ],
+      "artwork": {
+        "status": "produced_owner_review_pending",
+        "assetPath": "apps/mobile/assets/runtime/features/astrology-aquarius-v2.jpg",
+        "provenanceStatus": "imagegen_manifest_sha256_recorded",
+        "altText": {
+          "vi": "Bảo Bình — tranh biểu tượng thần thoại",
+          "en": "Aquarius — symbolic mythology painting"
+        }
+      }
+    },
+    {
+      "id": "zodiac-pisces-v1",
+      "signId": "pisces",
+      "version": "0.2.0",
+      "status": "owner_review_candidate",
+      "title": {
+        "vi": "Giữa hai dòng chảy",
+        "en": "Between two currents"
+      },
+      "summary": {
+        "vi": "Tưởng tượng cho bạn một khoảng mở, còn thực tại cho bạn một điểm tựa. Không cần chọn bỏ một bên. Bạn có thể giữ một giấc mơ, rồi tìm một việc rất cụ thể để chăm sóc mình hôm nay.",
+        "en": "Imagination offers an opening; everyday life offers an anchor. You need not abandon either. Hold a dream, then find one concrete way to care for yourself today."
+      },
+      "mythologyContext": {
+        "vi": "Theo một cách kể Hyginus lưu lại, Venus cùng Cupid đến gần sông Euphrates thì Typhon bất ngờ xuất hiện. Họ lao xuống nước, mang hình cá và thoát khỏi hiểm nguy. Đoạn văn còn liên hệ chuyện này với cách con người trong vùng đối xử với cá. Một hình động vật trên trời được nối với địa điểm, hành động biến hình và tập quán được tác giả thuật lại.\n\nHyginus đồng thời ghi một liên hệ khác qua Eratosthenes về nguồn gốc hai con cá. Điều này nhắc người đọc rằng ngay cả một mục rất ngắn cũng có nhiều tầng truyền đạt: người viết đang dẫn ai, và đang giữ cách kể nào? Sợi dây vàng nối hai cá trong tranh Nilaza là một lựa chọn biểu tượng hiện đại về liên hệ; không được trình bày như chi tiết trích từ đoạn truyện trên.",
+        "en": "In an account preserved by Hyginus, Venus and Cupid are beside the Euphrates when Typhon appears. They enter the water, take fish form and escape. The passage also connects the story with local attitudes toward fish. A celestial animal image is linked with a place, transformation and a custom reported by the author.\n\nHyginus also cites a different connection through Eratosthenes concerning the two fish's origin. Even a short entry has layers of transmission: who is being cited, and which account is preserved? Nilaza's gold connecting ribbon is a contemporary symbol of connection, not a detail claimed from this passage."
+      },
+      "chartFactBoundary": {
+        "vi": "12 cung hoàng đạo là các phần 30° của vòng chiêm tinh nhiệt đới, không phải ranh giới chòm sao trên bầu trời. Câu chuyện và câu hỏi dưới đây để khám phá biểu tượng, không xác định tính cách hay tương lai của bạn.",
+        "en": "The 12 signs are 30° divisions of the tropical zodiac, not the boundaries of sky constellations. These stories and questions explore symbols; they do not determine your personality or future."
+      },
+      "sources": [
+        "hyginus",
+        "iau-constellations-reference"
+      ],
+      "artwork": {
+        "status": "produced_owner_review_pending",
+        "assetPath": "apps/mobile/assets/runtime/features/astrology-pisces-v2.jpg",
+        "provenanceStatus": "imagegen_manifest_sha256_recorded",
+        "altText": {
+          "vi": "Song Ngư — tranh biểu tượng thần thoại",
+          "en": "Pisces — symbolic mythology painting"
+        }
+      }
+    }
+  ],
+  "prototypeImplementation": {
+    "date": "2026-09-22",
+    "entry": "Astrology hub → personal chart / Mythology World",
+    "chapters": "packages/content/data/astrology-mythology-depth.json",
+    "renderer": "react-native-svg 15.12.1",
+    "artwork": "assets/features/astrology/chapter-art-generation.json",
+    "status": "device_review_candidate",
+    "includes": [
+      "12 directly tappable signs",
+      "full portal composition",
+      "12 original portrait paintings",
+      "12 bilingual four-layer deep chapters",
+      "personal deterministic chart",
+      "inline body/aspect/house selection",
+      "bounded pinch zoom and drag",
+      "Reduce Motion aware reading",
+      "account-scoped local revisions, bookmarks, notes and export",
+      "IANA birth and display time zones"
+    ],
+    "notIncluded": [
+      "cloud chart sync",
+      "external certified full-chart benchmark",
+      "native performance and accessibility evidence",
+      "store release"
+    ]
+  }
+}

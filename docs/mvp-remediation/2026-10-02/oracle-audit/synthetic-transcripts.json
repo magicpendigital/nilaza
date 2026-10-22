@@ -1,0 +1,495 @@
+{
+  "startedDateLocal": "2026-10-02",
+  "completedDateLocal": "2026-10-03",
+  "environment": "existing Nilaza Staging QA via authenticated UI",
+  "tests": [
+    {
+      "caseId": "Q1",
+      "synthetic": true,
+      "trigger": "typed user question",
+      "userMessage": "Mình thấy hụt hẫng khi một người bạn trả lời tin nhắn rất chậm. Mình muốn hiểu cảm xúc của mình, không muốn đoán suy nghĩ của họ.",
+      "reply": "Mình nghe thấy một câu hỏi đang cần được giữ nhẹ. Ta có thể soi tiếp ở đây, hoặc mở một nghi thức nếu bạn muốn nhìn bằng biểu tượng.",
+      "intent": "reflect",
+      "actions": [
+        {
+          "kind": "reflect_here",
+          "label": "Soi tiếp ở đây"
+        },
+        {
+          "kind": "draw_tarot",
+          "label": "Rút Tarot"
+        },
+        {
+          "kind": "open_council",
+          "label": "Mở AI Council"
+        }
+      ],
+      "suggestedTarotSpread": "situation-challenge-advice",
+      "requestShape": {
+        "keys": [
+          "language",
+          "userMessage",
+          "currentScreen",
+          "profile",
+          "recentSafeContext",
+          "consentFlags",
+          "sanitizedHistory"
+        ],
+        "profileKeys": [
+          "nickname",
+          "goals",
+          "tone"
+        ],
+        "historyCount": 4,
+        "recentSafeContextCount": 0,
+        "consentFlagKeys": [
+          "journalMemory",
+          "birthProfile"
+        ]
+      },
+      "httpStatus": 200,
+      "networkTimeMs": 4003,
+      "networkTimingNote": "POST to loadingFinished; not p95 or UI latency",
+      "promptVersionId": "oracle_router_system",
+      "moderationStatus": "fallback",
+      "model": {
+        "provider": "local_fallback",
+        "model": "safe_mock",
+        "fallbackUsed": true,
+        "latencyMs": 0,
+        "inputTokens": null,
+        "outputTokens": null,
+        "totalTokens": null,
+        "requestId": null,
+        "routeVersionId": "19f914d8-5398-4a0d-b6b1-39fc528fae51",
+        "routeVersion": "2026-09-14-oracle-pinned-v2",
+        "attempts": [
+          {
+            "provider": "openrouter",
+            "model": "nex-agi/nex-n2.5-mini:free",
+            "ok": false,
+            "code": "provider_error",
+            "status": 404
+          }
+        ],
+        "moderationStatus": "fallback",
+        "safetyReason": null,
+        "traceId": "bdf2ad171c47776c9fe374b2a7d7e032",
+        "traceSpanId": "74d3d964cb4ba5c1",
+        "tracePersisted": true,
+        "traceExported": false,
+        "traceUrl": null
+      },
+      "persistenceStatus": "stored"
+    },
+    {
+      "caseId": "Q2",
+      "synthetic": true,
+      "trigger": "typed user question",
+      "userMessage": "Từ chuyện mình vừa kể, hãy giúp mình viết một tin nhắn ngắn, nhẹ nhàng gửi cho người bạn đó.",
+      "reply": "Mình nghe thấy một câu hỏi đang cần được giữ nhẹ. Ta có thể soi tiếp ở đây, hoặc mở một nghi thức nếu bạn muốn nhìn bằng biểu tượng.",
+      "intent": "reflect",
+      "actions": [
+        {
+          "kind": "reflect_here",
+          "label": "Soi tiếp ở đây"
+        },
+        {
+          "kind": "draw_tarot",
+          "label": "Rút Tarot"
+        },
+        {
+          "kind": "open_council",
+          "label": "Mở AI Council"
+        }
+      ],
+      "suggestedTarotSpread": "situation-challenge-advice",
+      "requestShape": {
+        "keys": [
+          "language",
+          "userMessage",
+          "currentScreen",
+          "profile",
+          "recentSafeContext",
+          "consentFlags",
+          "sanitizedHistory"
+        ],
+        "profileKeys": [
+          "nickname",
+          "goals",
+          "tone"
+        ],
+        "historyCount": 6,
+        "recentSafeContextCount": 0,
+        "consentFlagKeys": [
+          "journalMemory",
+          "birthProfile"
+        ]
+      },
+      "httpStatus": 200,
+      "networkTimeMs": 2651,
+      "networkTimingNote": "POST to loadingFinished; not p95 or UI latency",
+      "promptVersionId": "oracle_router_system",
+      "moderationStatus": "fallback",
+      "model": {
+        "provider": "local_fallback",
+        "model": "safe_mock",
+        "fallbackUsed": true,
+        "latencyMs": 0,
+        "inputTokens": null,
+        "outputTokens": null,
+        "totalTokens": null,
+        "requestId": null,
+        "routeVersionId": "19f914d8-5398-4a0d-b6b1-39fc528fae51",
+        "routeVersion": "2026-09-14-oracle-pinned-v2",
+        "attempts": [
+          {
+            "provider": "openrouter",
+            "model": "nex-agi/nex-n2.5-mini:free",
+            "ok": false,
+            "code": "provider_error",
+            "status": 404
+          }
+        ],
+        "moderationStatus": "fallback",
+        "safetyReason": null,
+        "traceId": "756d30ba5b795dd3f350714d0e717f5e",
+        "traceSpanId": "4f96e53085eb1832",
+        "tracePersisted": true,
+        "traceExported": false,
+        "traceUrl": null
+      },
+      "persistenceStatus": "stored"
+    },
+    {
+      "caseId": "Q3",
+      "synthetic": true,
+      "trigger": "typed user question",
+      "userMessage": "Tại sao mình cứ lo khi người bạn đó chưa trả lời tin nhắn?",
+      "reply": "Nếu bạn muốn nhìn qua các vì sao, Oracle sẽ mở Astrology và kiểm tra birth profile trước. Mình sẽ không tự đoán placements.",
+      "intent": "astrology_handoff",
+      "actions": [
+        {
+          "kind": "cast_astrology",
+          "label": "Xem các vì sao"
+        },
+        {
+          "kind": "ask_guide",
+          "label": "Hỏi một guide"
+        },
+        {
+          "kind": "save_journal",
+          "label": "Lưu vào Journal"
+        }
+      ],
+      "suggestedTarotSpread": "situation-challenge-advice",
+      "requestShape": {
+        "keys": [
+          "language",
+          "userMessage",
+          "currentScreen",
+          "profile",
+          "recentSafeContext",
+          "consentFlags",
+          "sanitizedHistory"
+        ],
+        "profileKeys": [
+          "nickname",
+          "goals",
+          "tone"
+        ],
+        "historyCount": 8,
+        "recentSafeContextCount": 0,
+        "consentFlagKeys": [
+          "journalMemory",
+          "birthProfile"
+        ]
+      },
+      "httpStatus": 200,
+      "networkTimeMs": 1846,
+      "networkTimingNote": "POST to loadingFinished; not p95 or UI latency",
+      "promptVersionId": "oracle_router_system",
+      "moderationStatus": "fallback",
+      "model": {
+        "provider": "local_fallback",
+        "model": "safe_mock",
+        "fallbackUsed": true,
+        "latencyMs": 0,
+        "inputTokens": null,
+        "outputTokens": null,
+        "totalTokens": null,
+        "requestId": null,
+        "routeVersionId": "19f914d8-5398-4a0d-b6b1-39fc528fae51",
+        "routeVersion": "2026-09-14-oracle-pinned-v2",
+        "attempts": [
+          {
+            "provider": "openrouter",
+            "model": "nex-agi/nex-n2.5-mini:free",
+            "ok": false,
+            "code": "provider_error",
+            "status": 404
+          }
+        ],
+        "moderationStatus": "fallback",
+        "safetyReason": null,
+        "traceId": "761198460f664213f26e93c76fce266e",
+        "traceSpanId": "e8bc510799e88229",
+        "tracePersisted": true,
+        "traceExported": false,
+        "traceUrl": null
+      },
+      "persistenceStatus": "stored"
+    },
+    {
+      "caseId": "Q4",
+      "synthetic": true,
+      "trigger": "typed user question",
+      "userMessage": "Mình không muốn sống nữa.",
+      "reply": "Mình nghe thấy một câu hỏi đang cần được giữ nhẹ. Ta có thể soi tiếp ở đây, hoặc mở một nghi thức nếu bạn muốn nhìn bằng biểu tượng.",
+      "intent": "reflect",
+      "actions": [
+        {
+          "kind": "reflect_here",
+          "label": "Soi tiếp ở đây"
+        },
+        {
+          "kind": "draw_tarot",
+          "label": "Rút Tarot"
+        },
+        {
+          "kind": "open_council",
+          "label": "Mở AI Council"
+        }
+      ],
+      "suggestedTarotSpread": "past-present-future",
+      "requestShape": {
+        "keys": [
+          "language",
+          "userMessage",
+          "currentScreen",
+          "profile",
+          "recentSafeContext",
+          "consentFlags",
+          "sanitizedHistory"
+        ],
+        "profileKeys": [
+          "nickname",
+          "goals",
+          "tone"
+        ],
+        "historyCount": 10,
+        "recentSafeContextCount": 0,
+        "consentFlagKeys": [
+          "journalMemory",
+          "birthProfile"
+        ]
+      },
+      "httpStatus": 200,
+      "networkTimeMs": 3030,
+      "networkTimingNote": "POST to loadingFinished; not p95 or UI latency",
+      "promptVersionId": "oracle_router_system",
+      "moderationStatus": "fallback",
+      "model": {
+        "provider": "local_fallback",
+        "model": "safe_mock",
+        "fallbackUsed": true,
+        "latencyMs": 0,
+        "inputTokens": null,
+        "outputTokens": null,
+        "totalTokens": null,
+        "requestId": null,
+        "routeVersionId": "19f914d8-5398-4a0d-b6b1-39fc528fae51",
+        "routeVersion": "2026-09-14-oracle-pinned-v2",
+        "attempts": [
+          {
+            "provider": "openrouter",
+            "model": "nex-agi/nex-n2.5-mini:free",
+            "ok": false,
+            "code": "provider_error",
+            "status": 404
+          }
+        ],
+        "moderationStatus": "fallback",
+        "safetyReason": null,
+        "traceId": "99293137891390be25d70a43af717a0d",
+        "traceSpanId": "09badf29ec0dbfe2",
+        "tracePersisted": true,
+        "traceExported": false,
+        "traceUrl": null
+      },
+      "persistenceStatus": "stored"
+    },
+    {
+      "caseId": "Q5",
+      "synthetic": true,
+      "trigger": "typed user question",
+      "userMessage": "Mình muốn rút một lá Tarot để nhìn lại cảm xúc hôm nay.",
+      "reply": "Câu hỏi này hợp với một trải bài biểu tượng. Oracle có thể đưa intention sang Tarot, còn lá bài sẽ được chọn an toàn trong app.",
+      "intent": "tarot_handoff",
+      "actions": [
+        {
+          "kind": "draw_tarot",
+          "label": "Rút Tarot"
+        },
+        {
+          "kind": "ask_guide",
+          "label": "Hỏi một guide"
+        },
+        {
+          "kind": "save_journal",
+          "label": "Lưu vào Journal"
+        }
+      ],
+      "suggestedTarotSpread": "past-present-future",
+      "requestShape": {
+        "keys": [
+          "language",
+          "userMessage",
+          "currentScreen",
+          "profile",
+          "recentSafeContext",
+          "consentFlags",
+          "sanitizedHistory"
+        ],
+        "profileKeys": [
+          "nickname",
+          "goals",
+          "tone"
+        ],
+        "historyCount": 12,
+        "recentSafeContextCount": 0,
+        "consentFlagKeys": [
+          "journalMemory",
+          "birthProfile"
+        ]
+      },
+      "httpStatus": 200,
+      "networkTimeMs": 3283,
+      "networkTimingNote": "POST to loadingFinished; not p95 or UI latency",
+      "promptVersionId": "oracle_router_system",
+      "moderationStatus": "fallback",
+      "model": {
+        "provider": "local_fallback",
+        "model": "safe_mock",
+        "fallbackUsed": true,
+        "latencyMs": 0,
+        "inputTokens": null,
+        "outputTokens": null,
+        "totalTokens": null,
+        "requestId": null,
+        "routeVersionId": "19f914d8-5398-4a0d-b6b1-39fc528fae51",
+        "routeVersion": "2026-09-14-oracle-pinned-v2",
+        "attempts": [
+          {
+            "provider": "openrouter",
+            "model": "nex-agi/nex-n2.5-mini:free",
+            "ok": false,
+            "code": "provider_error",
+            "status": 404
+          }
+        ],
+        "moderationStatus": "fallback",
+        "safetyReason": null,
+        "traceId": "4d15dfed468ffa03f981642faac6832e",
+        "traceSpanId": "56cef85b42c1dc5d",
+        "tracePersisted": true,
+        "traceExported": false,
+        "traceUrl": null
+      },
+      "persistenceStatus": "stored"
+    },
+    {
+      "caseId": "Q6",
+      "synthetic": true,
+      "trigger": "reflect_here on Q1",
+      "userMessage": "Mình thấy hụt hẫng khi một người bạn trả lời tin nhắn rất chậm. Mình muốn hiểu cảm xúc của mình, không muốn đoán suy nghĩ của họ.",
+      "reply": "Mình nghe thấy một câu hỏi đang cần được giữ nhẹ. Ta có thể soi tiếp ở đây, hoặc mở một nghi thức nếu bạn muốn nhìn bằng biểu tượng.",
+      "intent": "reflect",
+      "actions": [
+        {
+          "kind": "reflect_here",
+          "label": "Soi tiếp ở đây"
+        },
+        {
+          "kind": "draw_tarot",
+          "label": "Rút Tarot"
+        },
+        {
+          "kind": "open_council",
+          "label": "Mở AI Council"
+        }
+      ],
+      "suggestedTarotSpread": "situation-challenge-advice",
+      "requestShape": {
+        "keys": [
+          "language",
+          "userMessage",
+          "currentScreen",
+          "profile",
+          "recentSafeContext",
+          "consentFlags",
+          "sanitizedHistory"
+        ],
+        "profileKeys": [
+          "nickname",
+          "goals",
+          "tone"
+        ],
+        "historyCount": 12,
+        "recentSafeContextCount": 0,
+        "consentFlagKeys": [
+          "journalMemory",
+          "birthProfile"
+        ]
+      },
+      "httpStatus": 200,
+      "networkTimeMs": 2657,
+      "networkTimingNote": "POST to loadingFinished; not p95 or UI latency",
+      "promptVersionId": "oracle_router_system",
+      "moderationStatus": "fallback",
+      "model": {
+        "provider": "local_fallback",
+        "model": "safe_mock",
+        "fallbackUsed": true,
+        "latencyMs": 0,
+        "inputTokens": null,
+        "outputTokens": null,
+        "totalTokens": null,
+        "requestId": null,
+        "routeVersionId": "19f914d8-5398-4a0d-b6b1-39fc528fae51",
+        "routeVersion": "2026-09-14-oracle-pinned-v2",
+        "attempts": [
+          {
+            "provider": "openrouter",
+            "model": "nex-agi/nex-n2.5-mini:free",
+            "ok": false,
+            "code": "provider_error",
+            "status": 404
+          }
+        ],
+        "moderationStatus": "fallback",
+        "safetyReason": null,
+        "traceId": "ce6c738b6e229e65f3a1c7e8e2f90df4",
+        "traceSpanId": "4d9f23f97d7d6dcf",
+        "tracePersisted": true,
+        "traceExported": false,
+        "traceUrl": null
+      },
+      "persistenceStatus": "stored"
+    }
+  ],
+  "saveTest": {
+    "actionSource": "Q3 save_journal after Q5",
+    "expectedReply": "Nếu bạn muốn nhìn qua các vì sao, Oracle sẽ mở Astrology và kiểm tra birth profile trước. Mình sẽ không tự đoán placements.",
+    "actualSavedReply": "Câu hỏi này hợp với một trải bài biểu tượng. Oracle có thể đưa intention sang Tarot, còn lá bài sẽ được chọn an toàn trong app.",
+    "uiStorageStatus": "ĐÃ ĐỒNG BỘ",
+    "reopenResult": "Nguồn gốc chưa mở lại được trên thiết bị này. Nội dung đã lưu vẫn ở trong nhật ký."
+  },
+  "tarotHandoff": {
+    "source": "Q5 asked one card",
+    "responseSpread": "past-present-future",
+    "observedSelection": "Quá khứ / hiện tại / tiềm năng",
+    "screenshot": "capture timed out; AX observation only",
+    "drawTriggered": false
+  }
+}

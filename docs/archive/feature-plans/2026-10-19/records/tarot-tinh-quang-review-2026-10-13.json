@@ -1,0 +1,208 @@
+{
+  "schemaVersion": 1,
+  "taskId": "tarot-tinh-quang-review-2026-10-13",
+  "ownerAgent": "root_tarot_content_reviewer",
+  "lane": "tarot_content_review_and_copy_repair",
+  "goal": "Review all 78 shared canonical Tarot cards, correct evidenced bilingual and reflective-safety defects, then review the intended themed deck once its identity is confirmed.",
+  "successCriteria": [
+    "All 78 canonical IDs have independent VI/EN meaning and safety evidence.",
+    "All 12 evidenced copy findings are corrected and independently rechecked without changing IDs, orientations or core meanings.",
+    "Repository and generated Admin seed are synchronized; tests and actual remaining deck/release gates are reported.",
+    "Deck-specific changes wait for the user to resolve the Tinh quang identity."
+  ],
+  "writeScope": [
+    "packages/content/data/tarot-cards.json",
+    "apps/admin/generated/content-seed.json",
+    "artifacts/tarot-tinh-quang-review-2026-10-13/",
+    "docs/TAROT_TINH_QUANG_REVIEW_2026-10-13.vi.md",
+    "apps/admin/workflow-catalog.js"
+  ],
+  "untouchedSurfaces": [
+    "Mobile and Admin UI code, auth, storage, credits, navigation and private saved readings are preserved.",
+    "Artwork, rendered images, theme metadata, remote database and deployments await the confirmed deck scope."
+  ],
+  "impact": {
+    "entryPoint": "Tarot card study pages and shared local interpretation use canonical copy across all seven decks; no entry/navigation changes.",
+    "dataWrite": "Only curated JSON copy, generated local Admin seed and sanitized review artifacts. Existing journal records are not rewritten.",
+    "backendContract": "Canonical card identity/schema remains unchanged. Remote published content and existing SQL seeds are separate synchronization gates.",
+    "adminVisibility": "Regenerate repository content seed so Content Operations receives repaired shared fields on a fresh draft; do not publish or overwrite existing drafts.",
+    "privacySafety": "Remove promises, assumed personal circumstances and fear dismissal. Only public card copy and fictional QA are used.",
+    "observability": "Record exact before/after text, source hashes, independent review and checks in the audit artifact; no product telemetry is added.",
+    "rollback": "The independent review snapshot contains original fields; restore only patched fields and regenerate the Admin seed, preserving unrelated dirty work."
+  },
+  "canonicalContracts": [
+    "packages/content/data/tarot-cards.json is the canonical roster and shared meaning source for all 78 cards.",
+    "Deck introductions remain tarot-decks.json cardIntroductions overrides; no schema expansion is planned.",
+    "scripts/build-admin-seed.mjs is the only generator for apps/admin/generated/content-seed.json."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_tarot_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "4da2a80e09727695c07ad5e0adc52fffb28ae71783dc7258585aac3735a6add9",
+      "reason": "Read current routed source for copy ownership, safety, consumer parity and scoped validation."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Read current routed source for copy ownership, safety, consumer parity and scoped validation."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Read current routed source for copy ownership, safety, consumer parity and scoped validation."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Read current routed source for copy ownership, safety, consumer parity and scoped validation."
+    },
+    {
+      "path": "docs/TAROT_CONTENT_SYSTEM.md",
+      "sha256": "4772a0e0edee8939fe45486a0c01e24f3c0f8af410321dd966e9fe82226cece9",
+      "reason": "Read current routed source for copy ownership, safety, consumer parity and scoped validation."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "6cd85c85b43e6ada64745ac13bf34f3fdb2b9e799f5bc2ad176a662d94b154e1",
+      "reason": "Read current routed source for copy ownership, safety, consumer parity and scoped validation."
+    },
+    {
+      "path": "packages/content/data/tarot-cards.json",
+      "sha256": "e926472eeda71a637a8554e6465f14200ef9873e94a8a9e12611aa765968561f",
+      "reason": "Read current routed source for copy ownership, safety, consumer parity and scoped validation."
+    },
+    {
+      "path": "packages/content/data/tarot-decks.json",
+      "sha256": "e699d651d8d6b65b35bae51b624056efc9463dadba1c7b856074c54c0e851002",
+      "reason": "Read current routed source for copy ownership, safety, consumer parity and scoped validation."
+    },
+    {
+      "path": "packages/content/data/tarot-card-designs.json",
+      "sha256": "27590b48adfbe148fd6a4c4e30aee90a7282a6f96606de5ee2336871235f50da",
+      "reason": "Read current routed source for copy ownership, safety, consumer parity and scoped validation."
+    },
+    {
+      "path": "packages/agent-config/tarot-card-skills.json",
+      "sha256": "f713532df2b47112a634376fdcf850a64120f65c55242acc49774a7273a35503",
+      "reason": "Read current routed source for copy ownership, safety, consumer parity and scoped validation."
+    },
+    {
+      "path": "scripts/build-admin-seed.mjs",
+      "sha256": "b12a842fa8aea686fc3f4a6816af846a898ced466cebcef2bad1cec4eab4d646",
+      "reason": "Read current routed source for copy ownership, safety, consumer parity and scoped validation."
+    },
+    {
+      "path": "apps/admin/AGENTS.md",
+      "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8",
+      "reason": "Read current routed source for copy ownership, safety, consumer parity and scoped validation."
+    },
+    {
+      "path": "apps/admin/admin-capabilities.json",
+      "sha256": "98c37cbbd58795ebc9ae43d04f75a9c073ab9d0f999008f57aa0f3d1c2f59f42",
+      "reason": "Read current routed source for copy ownership, safety, consumer parity and scoped validation."
+    },
+    {
+      "path": "docs/ADMIN_DATA_CONSOLE_ARCHITECTURE.md",
+      "sha256": "2e458cfc73cf5122f90db17feac1316e6eca20d31033103c65d9a3d24280eb71",
+      "reason": "Read current routed source for copy ownership, safety, consumer parity and scoped validation."
+    },
+    {
+      "path": "package.json",
+      "sha256": "35091240676cd0cbfb1b762ed4ee245ea8af7d59dd7a4dabb1284e415c7c6ed0",
+      "reason": "Reviewed pre-existing diff required by generator execution inventory; preserve unrelated workflow, domain and public screenshot metadata. No changes to these inputs."
+    },
+    {
+      "path": "scripts/feature-preflight.mjs",
+      "sha256": "76e65a66fe1dc309edbe1932419936a495c95028d48998d1536ed7f85a763528",
+      "reason": "Reviewed pre-existing diff required by generator execution inventory; preserve unrelated workflow, domain and public screenshot metadata. No changes to these inputs."
+    },
+    {
+      "path": "packages/content/data/brand-exports.json",
+      "sha256": "96a954611f1de6b6c063468d9eee11e903f2bea091fc954620cd9f9a322d1bb3",
+      "reason": "Reviewed pre-existing diff required by generator execution inventory; preserve unrelated workflow, domain and public screenshot metadata. No changes to these inputs."
+    },
+    {
+      "path": "packages/content/data/brand-identity.json",
+      "sha256": "6a214e9244305b6bf3189f0c2b230ae7e3c6ef9b84b1374e6c0c9772789042d9",
+      "reason": "Reviewed pre-existing diff required by generator execution inventory; preserve unrelated workflow, domain and public screenshot metadata. No changes to these inputs."
+    },
+    {
+      "path": "packages/content/data/feature-visuals.json",
+      "sha256": "b049426f65efb86b9f389e60b6d5196789e6ee46ff312e9e267e9753b3673f16",
+      "reason": "Reviewed pre-existing diff required by generator execution inventory; preserve unrelated workflow, domain and public screenshot metadata. No changes to these inputs."
+    },
+    {
+      "path": "apps/admin/workflow-catalog.js",
+      "sha256": "832548c5dc1e4ad2c3e04dce4a23cf37a79c45a292109471e2b29f8e0cf024d3",
+      "reason": "Reviewed Tarot canonical enrichment binding and schema-preserving copy diff. Update only the Tarot data digest; preserve three unrelated stale source digests and all existing UMD code."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Read repository skill and relevant references; shared copy repair follows canonical IDs, independent bilingual review and current-hash evidence; no durable instruction change is needed."
+    },
+    {
+      "name": "nilaza-tarot-deck-production",
+      "decision": "verified-current",
+      "evidence": "Read repository skill and relevant references; shared copy repair follows canonical IDs, independent bilingual review and current-hash evidence; no durable instruction change is needed."
+    },
+    {
+      "name": "nilaza-tarot-content-qc",
+      "decision": "verified-current",
+      "evidence": "Read repository skill and relevant references; shared copy repair follows canonical IDs, independent bilingual review and current-hash evidence; no durable instruction change is needed."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Editorial repairs use current repository copy and contracts, with no external API, library version, installation or policy change."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authentication, protected runtime or RLS changes. Local generator never publishes to a server.",
+    "sensitiveData": "Only original Tarot copy and synthetic test scenarios; no user journals, accounts, birth data or other private input.",
+    "secretsLogging": "No credentials requested or read. Evidence contains public content, paths and hashes only.",
+    "externalInput": "Tarot prose is reviewed as data. No instructions from card content are executed.",
+    "dependencies": "Use existing local Node/npm and reviewed seed generator; install no dependencies.",
+    "migrationRelease": "No cloud SQL, migration repair, db push, provider activation, deployment or native release.",
+    "stopCondition": "Wait for confirmed deck identity before themed edits. Stop on unrelated concurrent source mutation, unresolved high-risk issue or any remote action outside this task.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/generated/content-seed.json",
+      "packages/content/data/tarot-cards.json",
+      "apps/admin/workflow-catalog.js",
+      "artifacts/tarot-tinh-quang-review-2026-10-13/copy-repairs.json",
+      "artifacts/tarot-tinh-quang-review-2026-10-13/independent-canonical-review.json",
+      "artifacts/tarot-tinh-quang-review-2026-10-13/independent-repair-recheck.json",
+      "artifacts/tarot-tinh-quang-review-2026-10-13/tarot-cards.before.json",
+      "artifacts/tarot-tinh-quang-review-2026-10-13/validation-summary.json",
+      "artifacts/tarot-tinh-quang-review-2026-10-13/workflow-catalog.before.js",
+      "artifacts/tarot-tinh-quang-review-2026-10-13/workflow-digest-repair.json",
+      "docs/TAROT_TINH_QUANG_REVIEW_2026-10-13.vi.md"
+    ],
+    "note": "Shared Tarot source and Admin generated seed were clean at discovery. Many unrelated pre-existing edits are preserved; the independent audit file was newly created for this task. Existing untracked workflow-catalog.js is preserved byte-for-byte except the reviewed Tarot source digest; its prior file is archived before that one-field repair."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/tarot-tinh-quang-review-2026-10-13.json",
+    "npm run validate:data",
+    "npm run feature:run -- --record docs/feature-plans/tarot-tinh-quang-review-2026-10-13.json --script admin:seed",
+    "npm run admin:check",
+    "npm run admin:test",
+    "npm --workspace apps/mobile run check",
+    "npm run validate:visual-assets",
+    "Independent recheck of changed copy and preservation of all untouched fields."
+  ],
+  "managerTestPath": "Explore > Tarot > a chosen deck > inspect all 78 cards in VI and EN; focus on the 12 repaired IDs. Compare a fresh local Admin card draft. Native build, themed visual QC and remote published data need distinct acceptance.",
+  "residualRisk": "Shared canonical repairs affect all seven decks. Existing remote copies, cached Admin drafts and installed binaries do not update automatically. Tinh quang deck identity is still pending.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

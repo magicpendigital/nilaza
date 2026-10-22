@@ -1,0 +1,154 @@
+{
+  "deckId": "astral-pop-atelier",
+  "status": "style_proof",
+  "version": "2026-06-14-proof-v1",
+  "name": {
+    "vi": "Astral Pop Atelier",
+    "en": "Astral Pop Atelier"
+  },
+  "shortDescription": {
+    "vi": "Một bộ bài anime-premium về bản sắc, cảm xúc và hành trình biến những điều khó gọi tên thành bản đồ sao của riêng mình.",
+    "en": "A premium anime-inspired deck about identity, emotion, and turning unnamed feelings into a personal star map."
+  },
+  "vibe": {
+    "vi": "Cảm xúc, điện ảnh, hiện đại, giàu cá tính",
+    "en": "Emotional, cinematic, modern, expressive"
+  },
+  "theme": [
+    "self",
+    "identity",
+    "emotion",
+    "daily",
+    "genz"
+  ],
+  "accentColor": "#7FD8D2",
+  "visualDirection": {
+    "vi": "Phong cách anime editorial cao cấp trong một xưởng sáng tạo sau nửa đêm: nền than đen và indigo, ánh sao cyan, rose-coral, champagne gold, nhân vật biểu cảm và các vật thể cảm xúc biến thành chòm sao.",
+    "en": "Premium anime editorial inside a midnight creative atelier: charcoal and indigo ground, cyan starlight, coral rose, champagne gold, expressive characters, and emotional objects becoming constellations."
+  },
+  "readingStyle": {
+    "vi": "Ấm, giàu hình ảnh, nói với người dùng như một người bạn sáng suốt: gọi tên cảm xúc, nhìn rõ lựa chọn và kết thúc bằng một câu hỏi tự phản chiếu.",
+    "en": "Warm, vivid, and wise like a trusted friend: name the feeling, clarify the choice, and close with one reflective question."
+  },
+  "productionRules": {
+    "cardSize": {
+      "width": 1024,
+      "height": 1768
+    },
+    "artworkArea": {
+      "width": 656,
+      "height": 1130
+    },
+    "artworkOnly": true,
+    "noTextInArtwork": true,
+    "noFrameInArtwork": true,
+    "noRiderWaiteCopy": true,
+    "noFamousAnimeOrCelebrityLikeness": true
+  },
+  "cardBackPrompt": {
+    "vi": "Mặt sau bài Astral Pop Atelier, kích thước 1024 x 1768px, cùng tỷ lệ với lá tarot đã render. Nền charcoal và ink indigo có texture giấy mịn, trung tâm là biểu tượng cửa sổ atelier hình vòm nhìn ra một chòm sao cyan-coral, các charm nhỏ như ngôi sao, tai nghe pha lê, bút ánh sáng và đồng xu sao xoay thành quỹ đạo mềm. Viền champagne gold nhiều lớp, silhouette rõ khi thu nhỏ trên màn rút bài. Không chữ, không số, không biểu tượng Rider-Waite.",
+    "en": "Astral Pop Atelier card back, 1024 x 1768px, matching the rendered tarot-card ratio. Use charcoal and ink-indigo paper texture, a central arched atelier window opening onto a cyan-coral constellation, with small charms such as stars, crystal headphones, a light pen, and star coins orbiting softly. Layered champagne-gold border, clear silhouette when scaled down on the draw screen. No text, no numbers, no Rider-Waite symbols."
+  },
+  "cards": [
+    {
+      "cardId": "major-00-fool",
+      "title": {
+        "vi": "The Fool",
+        "en": "The Fool"
+      },
+      "portrait": {
+        "vi": "Một người trẻ vừa bước vào xưởng sao, mắt sáng vì tò mò, balo mở hé với vài charm phát sáng. Nhân vật không ngây ngô mà là người dám thử, đang đứng ở ngưỡng cửa giữa đời cũ và một bản đồ mới.",
+        "en": "A young seeker entering the star atelier, eyes bright with curiosity, an open backpack holding glowing charms. The character is not naive; they are brave enough to try, standing between an old life and a new map."
+      },
+      "cardStory": {
+        "vi": "The Fool trong Astral Pop Atelier là khoảnh khắc bạn bước vào điều chưa biết với trái tim còn run nhưng vẫn mở. Lá bài không hứa rằng mọi thứ sẽ dễ, chỉ nhắc rằng đôi khi bản sắc mới bắt đầu từ một bước thử rất nhỏ.",
+        "en": "The Fool in Astral Pop Atelier is the moment of entering the unknown with a trembling but open heart. The card does not promise ease; it reminds you that a new identity can begin with one small experiment."
+      },
+      "visualPrompt": {
+        "vi": "Astral Pop Atelier, premium mystical anime editorial. Thiết kế inner artwork cho lá The Fool: một người trẻ đứng ở ngưỡng cửa atelier sau nửa đêm, phía trước là sàn indigo phản chiếu sao, phía sau là thành phố tối mềm, balo mở hé với charm ngôi sao, tai nghe pha lê và mảnh bản đồ sao phát sáng. Gió nhẹ kéo dải ruy băng cyan-coral thành đường chuyển động, ánh champagne gold viền quanh dáng nhân vật. Bố cục chân dung tarot, nhân vật ở trung tâm, nhiều khoảng thở, cảm giác khởi đầu, tự do và niềm tin. Không khung bài, không viền, không tiêu đề, không số, không chữ, không watermark, không sao chép Rider-Waite, không giống nhân vật anime nổi tiếng.",
+        "en": "Astral Pop Atelier, premium mystical anime editorial. Create the inner artwork for The Fool: a young seeker at the doorway of a midnight atelier, an indigo floor reflecting stars ahead, a soft dark city behind, an open backpack with star charms, crystal headphones, and a glowing fragment of a personal star map. A light breeze pulls cyan-coral ribbons into motion, champagne-gold edge light around the character silhouette. Tarot portrait composition, centered figure, generous negative space, feeling of beginning, freedom, and trust. No card frame, no border, no title, no number, no text, no watermark, no Rider-Waite copy, no famous anime character resemblance."
+      },
+      "testingStatus": "ready_for_visual_prototype"
+    },
+    {
+      "cardId": "major-01-magician",
+      "title": {
+        "vi": "The Magician",
+        "en": "The Magician"
+      },
+      "portrait": {
+        "vi": "Một creator trẻ đứng bên bàn làm việc ánh sao, gom bốn vật biểu tượng thành một vòng sáng: bút ánh sáng, cốc nước trăng, lưỡi giấy bạc và đồng xu sao. Ánh mắt tập trung, tự chủ, biết mình có công cụ để bắt đầu.",
+        "en": "A young creator at a starlit worktable, gathering four symbolic tools into one glow: a light pen, moon-water cup, silver paper blade, and star coin. Focused, self-possessed, aware that they already have tools to begin."
+      },
+      "cardStory": {
+        "vi": "The Magician là lúc người dùng nhận ra mình không thiếu năng lực, chỉ cần gom năng lượng vào một ý định rõ. Trong deck này, phép thuật không phải quyền năng bên ngoài mà là khả năng biến cảm xúc thành hành động có hình dạng.",
+        "en": "The Magician is the moment of realizing you are not without power; you need to gather your energy toward one clear intention. Here, magic is not external power but the ability to shape feeling into action."
+      },
+      "visualPrompt": {
+        "vi": "Astral Pop Atelier, premium mystical anime editorial. Thiết kế inner artwork cho lá The Magician: một creator trẻ đứng trước bàn atelier hình bán nguyệt, tay nâng bút ánh sáng vẽ một vòng sao mảnh trong không khí. Trên bàn có bốn vật được sắp cân bằng: glow baton như Wands, cốc nước trăng như Cups, lưỡi giấy bạc như Swords, đồng xu sao như Pentacles. Nền charcoal và ink indigo, ánh cyan và star lemon phản chiếu trên mặt bàn, coral rose chỉ là điểm nhấn nhỏ. Dáng nhân vật tự chủ, tập trung, không phô trương. Bố cục chân dung tarot, trung tâm rõ, nhiều khoảng thở. Không khung bài, không viền, không tiêu đề, không số, không chữ, không watermark, không sao chép Rider-Waite, không giống nhân vật anime nổi tiếng.",
+        "en": "Astral Pop Atelier, premium mystical anime editorial. Create the inner artwork for The Magician: a young creator at a crescent atelier desk, lifting a light pen that draws a thin star circle in the air. On the desk, four balanced objects: a glow baton for Wands, moon-water cup for Cups, silver paper blade for Swords, star coin for Pentacles. Charcoal and ink-indigo ground, cyan and star-lemon reflections on the desk, coral rose as a small accent only. The figure feels focused, self-possessed, and not theatrical. Tarot portrait composition, clear center, generous negative space. No card frame, no border, no title, no number, no text, no watermark, no Rider-Waite copy, no famous anime character resemblance."
+      },
+      "testingStatus": "ready_for_visual_prototype"
+    },
+    {
+      "cardId": "major-02-high-priestess",
+      "title": {
+        "vi": "The High Priestess",
+        "en": "The High Priestess"
+      },
+      "portrait": {
+        "vi": "Một người giữ thư viện cảm xúc ngồi sau rèm ánh sao, khuôn mặt bình tĩnh, tay đặt lên tai nghe pha lê như đang nghe tiếng nói bên trong. Phía sau là hai màn sương sáng nhưng không có chữ.",
+        "en": "A keeper of the emotional library sits behind starlit curtains, calm-faced, one hand on crystal headphones as if listening inward. Behind them are two luminous mist panels with no readable text."
+      },
+      "cardStory": {
+        "vi": "The High Priestess là khoảng lặng giữa các thông báo, nơi trực giác chưa cần giải thích ngay. Lá bài này mời người dùng lắng nghe điều mình đã biết từ lâu nhưng chưa dám tin.",
+        "en": "The High Priestess is the quiet between notifications, where intuition does not need immediate explanation. The card invites the user to listen to what they have long sensed but not yet trusted."
+      },
+      "visualPrompt": {
+        "vi": "Astral Pop Atelier, premium mystical anime editorial. Thiết kế inner artwork cho lá The High Priestess: một người giữ thư viện cảm xúc ngồi trong phòng yên tĩnh của atelier, rèm ánh sao cyan rơi mềm hai bên, tay chạm vào tai nghe pha lê, mắt nhìn xuống mặt nước đen phản chiếu trăng mờ. Phía sau có hai mảng sáng dọc như cánh cửa trực giác nhưng không có chữ hay ký hiệu đọc được. Palette charcoal, ink indigo, soft ivory, cyan, champagne gold rất mảnh; coral rose chỉ xuất hiện như ánh má nhẹ trên vật phản chiếu. Cảm giác bí mật, lắng nghe, nội tâm, không lạnh. Bố cục chân dung tarot, nhân vật trung tâm, khoảng trống rộng. Không khung bài, không viền, không tiêu đề, không số, không chữ, không watermark, không sao chép Rider-Waite, không giống nhân vật anime nổi tiếng.",
+        "en": "Astral Pop Atelier, premium mystical anime editorial. Create the inner artwork for The High Priestess: a keeper of the emotional library sitting in a quiet atelier room, cyan starlight curtains falling softly on both sides, one hand touching crystal headphones, eyes lowered toward black water reflecting a blurred moon. Behind them, two vertical light panels suggest doors of intuition but contain no readable symbols or text. Palette of charcoal, ink indigo, soft ivory, cyan, very thin champagne gold; coral rose appears only as a faint reflected blush. Secretive, listening, inward, not cold. Tarot portrait composition, centered figure, generous empty space. No card frame, no border, no title, no number, no text, no watermark, no Rider-Waite copy, no famous anime character resemblance."
+      },
+      "testingStatus": "ready_for_visual_prototype"
+    },
+    {
+      "cardId": "major-03-empress",
+      "title": {
+        "vi": "The Empress",
+        "en": "The Empress"
+      },
+      "portrait": {
+        "vi": "Một người sáng tạo dịu dàng chăm sóc khu vườn holographic trong atelier, tay nâng chậu cây sao đang nở. Nhân vật mang năng lượng nuôi dưỡng, tự chăm sóc, sáng tạo mềm nhưng không yếu.",
+        "en": "A tender creator tending a holographic garden inside the atelier, holding a blooming star plant. The figure carries nurturing, self-care, and soft creativity without weakness."
+      },
+      "cardStory": {
+        "vi": "The Empress trong deck này là lời nhắc rằng điều được chăm sóc sẽ lớn lên, kể cả bản thân. Vẻ đẹp của lá bài không nằm ở sự hoàn hảo mà ở khả năng cho cảm xúc một nơi an toàn để nở.",
+        "en": "The Empress in this deck reminds us that what is tended will grow, including the self. Its beauty is not perfection but the ability to give feeling a safe place to bloom."
+      },
+      "visualPrompt": {
+        "vi": "Astral Pop Atelier, premium mystical anime editorial. Thiết kế inner artwork cho lá The Empress: một người sáng tạo dịu dàng ngồi trong khu vườn holographic nhỏ bên trong atelier, tay nâng chậu cây sao đang nở thành hoa cyan và coral rose. Xung quanh là vải ivory, dây charm vàng champagne, vài cánh sáng như cánh hoa nổi chậm trong không khí. Nền charcoal và ink indigo giữ cảm giác premium, ánh sáng mềm như sau nửa đêm. Nhân vật có dáng mở, nuôi dưỡng, tự chăm sóc, trưởng thành và ấm áp. Bố cục chân dung tarot, nhân vật và chậu cây là trọng tâm, nhiều khoảng thở. Không khung bài, không viền, không tiêu đề, không số, không chữ, không watermark, không sao chép Rider-Waite, không giống nhân vật anime nổi tiếng.",
+        "en": "Astral Pop Atelier, premium mystical anime editorial. Create the inner artwork for The Empress: a tender creator seated in a small holographic garden inside the atelier, holding a star plant blooming into cyan and coral-rose flowers. Around them are ivory fabric, champagne-gold charm chains, and a few petal-like light fragments drifting slowly. Charcoal and ink-indigo ground keeps the premium mood, with soft after-midnight light. The figure feels open, nurturing, self-caring, mature, and warm. Tarot portrait composition, figure and plant as the focus, generous negative space. No card frame, no border, no title, no number, no text, no watermark, no Rider-Waite copy, no famous anime character resemblance."
+      },
+      "testingStatus": "ready_for_visual_prototype"
+    },
+    {
+      "cardId": "major-04-emperor",
+      "title": {
+        "vi": "The Emperor",
+        "en": "The Emperor"
+      },
+      "portrait": {
+        "vi": "Một kiến trúc sư trẻ của ranh giới ngồi trước mô hình thành phố sao, áo khoác có đường cắt gọn, tay đặt lên khối lập phương ánh vàng. Năng lượng vững, bảo vệ, có cấu trúc nhưng không cứng lạnh.",
+        "en": "A young architect of boundaries sits before a star-city model, wearing a clean-cut jacket, one hand on a gold-lit cube. Steady, protective, structured, but not cold."
+      },
+      "cardStory": {
+        "vi": "The Emperor là phần trong ta biết đặt cấu trúc để tự do có nơi đứng. Trong Astral Pop Atelier, quyền lực đẹp nhất là khả năng tạo khung an toàn cho điều mình đang xây.",
+        "en": "The Emperor is the part of us that sets structure so freedom has somewhere to stand. In Astral Pop Atelier, the best power is the ability to create a safe frame for what we are building."
+      },
+      "visualPrompt": {
+        "vi": "Astral Pop Atelier, premium mystical anime editorial. Thiết kế inner artwork cho lá The Emperor: một kiến trúc sư trẻ ngồi trước mô hình thành phố sao trên bàn atelier, các đường grid cyan và champagne gold tạo thành khối lập phương, cầu thang ánh sáng và cửa vòm nhỏ. Nhân vật mặc áo khoác tối có đường cắt gọn, tay đặt lên một khối vàng sáng như viên đá nền tảng, ánh mắt bình tĩnh và bảo vệ. Nền charcoal, ink indigo, soft ivory highlight, coral rose rất tiết chế. Cảm giác cấu trúc, trách nhiệm, nền tảng, không quân sự, không lạnh lùng. Bố cục chân dung tarot, silhouette rõ, nhiều khoảng thở. Không khung bài, không viền, không tiêu đề, không số, không chữ, không watermark, không sao chép Rider-Waite, không giống nhân vật anime nổi tiếng.",
+        "en": "Astral Pop Atelier, premium mystical anime editorial. Create the inner artwork for The Emperor: a young architect seated before a star-city model on an atelier desk, cyan and champagne-gold grid lines forming a cube, light stairs, and small arches. The figure wears a dark clean-cut jacket, one hand resting on a glowing gold cube like a foundation stone, gaze calm and protective. Charcoal, ink indigo, soft ivory highlights, coral rose used very sparingly. Structured, responsible, foundational, not militaristic, not cold. Tarot portrait composition, clear silhouette, generous negative space. No card frame, no border, no title, no number, no text, no watermark, no Rider-Waite copy, no famous anime character resemblance."
+      },
+      "testingStatus": "ready_for_visual_prototype"
+    }
+  ]
+}

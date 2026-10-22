@@ -1,0 +1,34 @@
+[
+  {
+    "id": "tinh-quang-back",
+    "deckId": "tinh-quang",
+    "status": "draft_review_candidate",
+    "assetPath": "assets/tarot/deck-backs/tinh-quang.png",
+    "cardSize": {
+      "width": 1024,
+      "height": 1768
+    },
+    "safeArea": {
+      "x": 96,
+      "y": 128,
+      "width": 832,
+      "height": 1512
+    },
+    "usage": {
+      "vi": "Mặt sau ứng viên của bộ Tinh Quang, chưa kích hoạt trong app.",
+      "en": "Candidate back for Celestial Reverie, not activated in app."
+    },
+    "visualDirection": {
+      "vi": "Vector thiên thể vàng cổ, teal đêm, lá ngà; đối xứng hình học180 độ.",
+      "en": "Antique-gold celestial vector on midnight teal with ivory foliage;180-degree geometric symmetry."
+    },
+    "qualityChecks": [
+      "1024x1768",
+      "same_ratio_as_tarot_cards",
+      "no_text",
+      "safe_area_clear",
+      "deck_style_matched",
+      "rotationally_symmetric"
+    ]
+  }
+]

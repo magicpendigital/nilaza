@@ -1,0 +1,329 @@
+{
+  "schemaVersion": "nilaza-mvp-execution-overlay-v1",
+  "asOfDate": "2026-10-02",
+  "timezone": "Asia/Bangkok",
+  "baseline": "docs/mvp-remediation/2026-10-01/backlog.json",
+  "baselineSha256": "199cc47f07900fc860f0524aae8ec70eabda0add21238ec25c05fa2bd5b3b74f",
+  "fullPlanComplete": false,
+  "G1": "not_accepted",
+  "G2": "not_accepted",
+  "G3": "not_accepted",
+  "ownerDecision": {
+    "cleanQa": "prepare_clean_nilaza_qa_preserve_old_as_evidence",
+    "legacyProjectRef": "akgrokwnkfqnfjqrildi",
+    "createApplyRetargetDeployAuthorized": false,
+    "tarotFree": "one_card_reading_per_account_per_day_approved",
+    "chatOracleFree": "shared_five_successful_turns_per_account_per_day_approved",
+    "qaBudget": "USD5_per_day_and_USD50_per_14_day_campaign_approved_inactive",
+    "policyApprovedOn": "2026-10-02"
+  },
+  "statesMeaning": {
+    "local_verified": "Declared first local slice checked; not full card or MVP acceptance",
+    "partial": "Some source/tests complete; specific acceptance remains",
+    "preparation": "Evidence/contract/plan only; no live execution",
+    "not_started": "Queued work; local work may continue with fresh preflight, not all blocked by R02",
+    "deferred_G2": "Paid-stage gate separate",
+    "deferred_G3": "Store-stage gate separate"
+  },
+  "tasks": [
+    {
+      "taskId": "R00",
+      "title": "Chốt scope, quotas, baseline và board",
+      "ownerAgent": "product_manager_agent",
+      "status": "partial",
+      "completed": "Chủ sản phẩm duyệt Tarot 1 lá/ngày, Chat/Oracle dùng chung 5 lượt/ngày và QA USD5/ngày, USD50/14 ngày; policy đã version, chưa activation.",
+      "next": "Freeze rubric/holdout; policy activation chỉ sau QA/runtime gates.",
+      "fullCardAccepted": false,
+      "evidence": [
+        "docs/mvp-remediation/2026-10-01/R00-quota-budget-proposal.vi.md"
+      ]
+    },
+    {
+      "taskId": "R01",
+      "title": "Đóng test/build gate đỏ",
+      "ownerAgent": "qa_review_agent",
+      "status": "local_verified",
+      "completed": "44 suites/269 test mobile pass ở baseline Journal/export; sau font: TypeScript, 2 test font và export web/Android pass.",
+      "next": "CI và signed RC Android/iOS; test thiết bị thật.",
+      "fullCardAccepted": false,
+      "evidence": [
+        "docs/mvp-remediation/2026-10-01/R01-validation.vi.md"
+      ]
+    },
+    {
+      "taskId": "R02",
+      "title": "Chuẩn bị forward path migration",
+      "ownerAgent": "workflow_orchestration_agent",
+      "status": "preparation",
+      "completed": "Đã đọc catalog: 92 public tables, 46 canonical và 46 ngoài allowlist; owner chọn chuẩn bị QA sạch, giữ môi trường cũ làm bằng chứng; manifest 25 migration và forward mới.",
+      "next": "Replay PostgreSQL riêng, review credits/cost/roles/seed, xác nhận target/region và duyệt execution cụ thể trước cloud action.",
+      "fullCardAccepted": false,
+      "evidence": [
+        "docs/mvp-remediation/2026-10-01/R02-migration-forward-path.vi.md",
+        "docs/mvp-remediation/2026-10-01/R02-clean-qa-inventory.vi.md",
+        "docs/mvp-remediation/2026-10-01/R02-clean-qa-bootstrap.json"
+      ]
+    },
+    {
+      "taskId": "R03",
+      "title": "Triage dependency và security coverage",
+      "ownerAgent": "security_privacy_agent",
+      "status": "preparation",
+      "completed": "Triage dependency lịch sử và current lock; forward source ACL đã chuẩn bị, chưa apply; deep scan thất bại trước khởi tạo.",
+      "next": "Patch dependency có phạm vi, audit mới; PostgreSQL source role fixtures và coverage độc lập.",
+      "fullCardAccepted": false,
+      "evidence": [
+        "docs/mvp-remediation/2026-10-01/R03-security-triage.vi.md",
+        "docs/mvp-remediation/2026-10-01/R03-source-read-forward.vi.md"
+      ]
+    },
+    {
+      "taskId": "R04",
+      "title": "Tarot first fold và hành trình",
+      "ownerAgent": "mobile_app_agent",
+      "status": "local_verified",
+      "completed": "Tarot intro 7 bộ có tiêu đề/art; ý định sửa/bỏ qua; Vì sao/lưu/reset một lượt kiểm browser 390/360.",
+      "next": "Toàn CTA/art/cỡ chữ 200% và native Android/iOS; không dùng một lượt làm nghiệm thu toàn luồng.",
+      "fullCardAccepted": false,
+      "evidence": [
+        "docs/mvp-remediation/2026-10-01/R04-tarot-handoff.vi.md",
+        "docs/mvp-remediation/2026-10-01/R04-classic-390.jpg",
+        "docs/mvp-remediation/2026-10-01/R04-why-390.jpg"
+      ]
+    },
+    {
+      "taskId": "R05",
+      "title": "Chuẩn hóa shared controls và accessibility",
+      "ownerAgent": "mobile_app_agent",
+      "status": "partial",
+      "completed": "Shared controls 48, states/labels; giảm motion và query race; calendar columns; test mục tiêu pass.",
+      "next": "Calendar cells, hardcodes còn lại, contrast/font 200%, screen reader và native.",
+      "fullCardAccepted": false,
+      "evidence": [
+        "docs/mvp-remediation/2026-10-01/R05-a2ui-handoff.vi.md"
+      ]
+    },
+    {
+      "taskId": "R06",
+      "title": "Auth, recovery và account isolation",
+      "ownerAgent": "mobile_app_agent",
+      "status": "partial",
+      "completed": "Auth intent có generation invalidation, double/cancel và network lifetime guard; 13 test mục tiêu.",
+      "next": "Email verify/reset/OAuth/logout, A-B và native account isolation.",
+      "fullCardAccepted": false,
+      "evidence": [
+        "docs/mvp-remediation/2026-10-01/R06-auth-intent.vi.md"
+      ]
+    },
+    {
+      "taskId": "R07",
+      "title": "Journal durability và cloud lifecycle",
+      "ownerAgent": "workflow_orchestration_agent",
+      "status": "partial",
+      "completed": "Journal theo account đợi durable ACK, outbox và tombstone; 10 test Edge handler local.",
+      "next": "CAS/order/2-client/ownership trên QA sạch; xử lý late upsert nội dung trong tombstone và retention.",
+      "fullCardAccepted": false,
+      "evidence": [
+        "docs/mvp-remediation/2026-10-01/R07-journal-handoff.vi.md",
+        "docs/mvp-remediation/2026-10-01/R07-server-local.vi.md"
+      ]
+    },
+    {
+      "taskId": "R08",
+      "title": "Journal note, draft và reopen đúng nguồn",
+      "ownerAgent": "mobile_app_agent",
+      "status": "partial",
+      "completed": "Note độc lập, mood/filter/reopen Tarot/Chat/Oracle; durable draft và submit lock; 20 test draft/export.",
+      "next": "Browser/native draft; crash giữa save ACK và clear ACK; Astro/daily reopen và undo.",
+      "fullCardAccepted": false,
+      "evidence": [
+        "docs/mvp-remediation/2026-10-01/R08-journal-notes-handoff.vi.md",
+        "docs/mvp-remediation/2026-10-01/R08-draft-handoff.vi.md"
+      ]
+    },
+    {
+      "taskId": "R09",
+      "title": "Export file và cloud account deletion",
+      "ownerAgent": "workflow_orchestration_agent",
+      "status": "partial",
+      "completed": "Xuất JSON local theo allowlist, gồm draft hợp lệ; 10 test privacy; private-cache cleanup native có source.",
+      "next": "Native recipient/expiry/account switch; server export và account deletion/retention.",
+      "fullCardAccepted": false,
+      "evidence": [
+        "docs/mvp-remediation/2026-10-01/R09-local-export-handoff.vi.md"
+      ]
+    },
+    {
+      "taskId": "R10",
+      "title": "Entitlement, quota và idempotent credits",
+      "ownerAgent": "workflow_orchestration_agent",
+      "status": "partial",
+      "completed": "Credit GET theo caller/canonical delta, exact count; POST debit đóng. Tarot/Persona dùng shared verified auth trước parse, UTF8 cap 32KiB, body deadline 5s, error sanitized; guard13+Tarot9 tests và2indexchecks pass. Hai finding payload review độc lập đã sửa. Chưa deploy. Nền tảng atomic usage SQL/RPC/worker local: 13 PostgreSQL groups và 15 Deno tests pass; overrun ghi đủ và pause; campaign disabled, chưa wiring endpoints.",
+      "next": "Operation-keyed durable save/recovery, reconciliation/rate limits, authoritative token/model pricing; tích hợp toàn provider đường chạy rồi live multi-client QA/Admin acceptance.",
+      "fullCardAccepted": false,
+      "evidence": [
+        "docs/mvp-remediation/2026-10-01/R10-credits-read-guard.vi.md",
+        "docs/mvp-remediation/2026-10-01/R10-ai-request-guard.vi.md",
+        "docs/mvp-remediation/2026-10-02/R10-quota-reservation.vi.md",
+        "output/mvp-20261002/ai-usage-sql-results.json"
+      ]
+    },
+    {
+      "taskId": "R11",
+      "title": "Today Pulse, timezone và repeat-day semantics",
+      "ownerAgent": "mobile_app_agent",
+      "status": "not_started",
+      "completed": "Chưa có lát cắt sửa Today Pulse/day semantics mới.",
+      "next": "Shared server-day/timezone, cache/repeat và fake-clock regression sau policy/R10.",
+      "fullCardAccepted": false,
+      "evidence": []
+    },
+    {
+      "taskId": "R12",
+      "title": "AI provenance, fallback và saved-result contract",
+      "ownerAgent": "workflow_orchestration_agent",
+      "status": "partial",
+      "completed": "Tarot backend có prompt UUID/version và fallback metadata trong R13.",
+      "next": "Mobile và saved contract mọi AI: nguồn, version, trạng thái và local fallback.",
+      "fullCardAccepted": false,
+      "evidence": []
+    },
+    {
+      "taskId": "R13",
+      "title": "Canonical prompt purpose, runtime và publisher",
+      "ownerAgent": "workflow_orchestration_agent",
+      "status": "partial",
+      "completed": "Resolver active global đúng locale; FK UUID/null; lá/vị trí/an toàn canonical; 9 test Deno và index check pass.",
+      "next": "Admin publisher purpose/CAS/rollback/readback và provider VI/EN acceptance sau R02/R10.",
+      "fullCardAccepted": false,
+      "evidence": [
+        "docs/mvp-remediation/2026-10-01/R13-tarot-prompt-handoff.vi.md"
+      ]
+    },
+    {
+      "taskId": "R14",
+      "title": "Grounding, handoff và phương pháp guide",
+      "ownerAgent": "mobile_app_agent",
+      "status": "not_started",
+      "completed": "Chỉ canonical Tarot grounding trong R13; chưa sửa toàn persona retrieval.",
+      "next": "Approved/licensed source, disclosure, guide method/handoff và test độc lập.",
+      "fullCardAccepted": false,
+      "evidence": []
+    },
+    {
+      "taskId": "R15",
+      "title": "Council active version và atomic publish",
+      "ownerAgent": "workflow_orchestration_agent",
+      "status": "not_started",
+      "completed": "Validator Council contract hiện có pass; chưa triển khai atomic round mới.",
+      "next": "Versioned request/idempotency/cost/server completion contract.",
+      "fullCardAccepted": false,
+      "evidence": []
+    },
+    {
+      "taskId": "R16",
+      "title": "Admin Test Run thật và draft state",
+      "ownerAgent": "product_manager_agent",
+      "status": "not_started",
+      "completed": "Hai workspace Admin được xem ở phiên bảo vệ; chưa chạy Test Run thật mới.",
+      "next": "Test Run cùng runtime production, draft state, provenance và cost guard.",
+      "fullCardAccepted": false,
+      "evidence": []
+    },
+    {
+      "taskId": "R17",
+      "title": "Astrology candidate baseline/publish/retest",
+      "ownerAgent": "content_data_agent",
+      "status": "not_started",
+      "completed": "Giữ code/test Astrology hiện có; chưa nghiệm thu integration provider mới.",
+      "next": "Chart interpretation/fallback/version và canonical chart acceptance sau R10.",
+      "fullCardAccepted": false,
+      "evidence": []
+    },
+    {
+      "taskId": "R18",
+      "title": "Astrology chart UI và native acceptance",
+      "ownerAgent": "mobile_app_agent",
+      "status": "partial",
+      "completed": "Existing deterministic chart/places/story/experience tests pass trong full suite.",
+      "next": "Review A3/A4 native placements/save/export; không suy ra dữ liệu chart.",
+      "fullCardAccepted": false,
+      "evidence": []
+    },
+    {
+      "taskId": "R19",
+      "title": "Profiling, lists và bounded refactor",
+      "ownerAgent": "mobile_app_agent",
+      "status": "partial",
+      "completed": "Bỏ 21 face font không dùng; web export 74,17 xuống 69,82 MiB; export Android 639 assets; 8 font giữ cùng hash.",
+      "next": "Đo startup/RAM/network/frame trên máy đại diện; review GeoNames delivery contract trước refactor.",
+      "fullCardAccepted": false,
+      "evidence": [
+        "docs/mvp-remediation/2026-10-01/R19-fonts-handoff.vi.md"
+      ]
+    },
+    {
+      "taskId": "R20",
+      "title": "Semantic QC Tarot/copy VI-EN",
+      "ownerAgent": "content_data_agent",
+      "status": "local_verified",
+      "completed": "78 lá VI/EN, 930 chuỗi kiểm semantic rules; seed deep compare SQL 468 values; 78 test Admin pass.",
+      "next": "Review độc lập 546 art/content bindings và native visual; exact Admin publication sau QA sạch.",
+      "fullCardAccepted": false,
+      "evidence": [
+        "docs/mvp-remediation/2026-10-01/R20-content-qc.vi.md",
+        "docs/mvp-remediation/2026-10-01/R20-seed-integration.vi.md"
+      ]
+    },
+    {
+      "taskId": "R21",
+      "title": "AI/safety evaluation và independent retest",
+      "ownerAgent": "qa_review_agent",
+      "status": "not_started",
+      "completed": "Chưa chạy 84 paired runs/holdouts/raters cho nghiệm thu; không có score thay thế bằng mô phỏng.",
+      "next": "Freeze protocol, custody và ngân sách; cùng câu hỏi Nilaza/ChatGPT, blind independent rubric.",
+      "fullCardAccepted": false,
+      "evidence": []
+    },
+    {
+      "taskId": "R22",
+      "title": "RC, security E2E và native nghiệm thu",
+      "ownerAgent": "release_readiness_agent",
+      "status": "preparation",
+      "completed": "15-case security E2E matrix đã chuẩn bị; chưa chạy live/native.",
+      "next": "A/B, cost/input/privacy/deps và signed native RC sau R06/R10/R13.",
+      "fullCardAccepted": false,
+      "evidence": []
+    },
+    {
+      "taskId": "R23",
+      "title": "UAT, limited pilot và feedback loop",
+      "ownerAgent": "product_manager_agent",
+      "status": "not_started",
+      "completed": "Customer agents là mô phỏng, chưa có UAT khách hàng thật.",
+      "next": "8–12 khách hàng mục tiêu sau safe G1 build; quan sát core journey và feedback.",
+      "fullCardAccepted": false,
+      "evidence": []
+    },
+    {
+      "taskId": "R24",
+      "title": "Purchase/restore và commercial entitlement",
+      "ownerAgent": "workflow_orchestration_agent",
+      "status": "deferred_G2",
+      "completed": "Không triển khai payment/entitlement thương mại trong các lát cắt này.",
+      "next": "G2: policy monetization, receipt/webhook/purchase/restore và RevenueCat tests.",
+      "fullCardAccepted": false,
+      "evidence": []
+    },
+    {
+      "taskId": "R25",
+      "title": "Store release từng nền tảng",
+      "ownerAgent": "release_readiness_agent",
+      "status": "deferred_G3",
+      "completed": "Release config 0.1.3/build4 pass; chưa có signed store binary/release.",
+      "next": "G3: native acceptance/privacy/support/signing và store approval riêng.",
+      "fullCardAccepted": false,
+      "evidence": []
+    }
+  ]
+}

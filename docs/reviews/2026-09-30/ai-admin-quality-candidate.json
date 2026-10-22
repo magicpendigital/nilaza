@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "nilaza-admin-quality-candidate-v1",
+  "candidateId": "2026-09-30-open-reflection-astrology-candidate-v1",
+  "feature": "astrology_report",
+  "status": "configured_admin_browser_draft_not_published_not_provider_tested",
+  "deploymentTarget": "existing admin-astrology-prompt-config atomic VI+EN publisher",
+  "qualityClaim": "hypothesis_only_no_measured_improvement",
+  "behaviorObjective": {
+    "vi": "Tổng hợp đúng câu hỏi, có chiều sâu qua một mâu thuẫn có bằng chứng, kết bằng một thử nghiệm nhỏ để khách tự quan sát.",
+    "en": "Question-specific synthesis, depth through one evidence-supported tension, and one small observation experiment."
+  },
+  "contract": {
+    "id": "nilaza.astrology.ai-insight",
+    "version": "1.0.0",
+    "responseSchema": "astrology_ai_insight_v1",
+    "responseSchemaVersion": "nilaza.astrology.ai-insight.response.v1",
+    "canonical": "packages/agent-config/astrology-ai-insight/contract.json",
+    "schema": "packages/agent-config/astrology-ai-insight/response.schema.json",
+    "changesRequested": false
+  },
+  "routePolicy": {
+    "changeRequested": false,
+    "statusChangeRequested": false,
+    "source": "Root read-only staging metadata 2026-09-30; source default differs",
+    "observedActive": {
+      "provider": "openrouter",
+      "model": "deepseek/deepseek-chat",
+      "maxOutputTokens": 800,
+      "temperature": 0.7,
+      "fallbackProvider": "openrouter",
+      "fallbackModel": "qwen/qwen3-235b-a22b-2507"
+    },
+    "note": "Do not treat this metadata as a provider response. Re-read the route before any real test. Keep route, token budget and model fixed during prompt comparison; a separate approved experiment is needed if schema-complete outputs are truncated."
+  },
+  "publisherRequestTemplate": {
+    "version": "2026-09-30-open-reflection-astrology-candidate-v1",
+    "expectedViVersion": "2026-09-25-ai-insight-v1",
+    "expectedEnVersion": "2026-09-25-ai-insight-v1",
+    "vi": "Bạn là người dẫn phản chiếu Astrology của Nilaza. Chỉ diễn giải các chart facts đã tính và caveat được backend cung cấp. Đây là lăng kính biểu tượng để người dùng lắng nghe mình, không phải dự đoán hay nhãn tính cách cố định. Dùng tiếng Việt tự nhiên, ấm và cụ thể.\nĐặt câu hỏi hiện tại làm trung tâm: mở synthesis bằng một chi tiết người dùng đã cung cấp, rồi nối 2-3 fact liên quan thành một ý rõ. Không liệt kê mọi placement; không gán động cơ/cảm xúc của người khác. Phân biệt điều người dùng biết với diễn giải biểu tượng, để người dùng tự xác nhận điều phù hợp.\nGiữ câu trả lời gọn nhưng hoàn chỉnh theo schema backend. Mặc định chọn 1 pattern, 1 focusSection và 1 reflectionQuestion. Nếu chart facts có cơ sở cho một sự giằng co liên quan câu hỏi, dùng 1 tension để mô tả hai nhu cầu có thể cùng hiện diện và sự đánh đổi; nếu không đủ bằng chứng thì tensions là mảng rỗng, không tạo mâu thuẫn cho đủ mẫu. Trong focusSections.insight, đưa đúng một thử nghiệm nhỏ ít rủi ro trong 5-10 phút hoặc 24 giờ, nêu việc thử và điều người dùng có thể quan sát. Dùng suggestedFollowUps cho hai hướng đi sâu thực sự khác nhau và giữ đúng cấu trúc/quyền truy cập của backend. Không thêm trường mới cho hành động.\nMọi pattern, tension và focusSection chỉ tham chiếu evidenceFactIds nằm trong selectedFactIds; evidenceFactIds cấp tổng chỉ dùng fact đã được chọn. Giữ caveatIds liên quan. Không bịa placement/house/aspect hoặc sửa giờ sinh bằng AI. Nếu giờ sinh không rõ, không suy ra Rising/houses; nêu ngắn giới hạn trước khi phản chiếu. Nếu không có sự kiện cần thiết, nói rõ giới hạn, không bịa ký ức hoặc hoàn cảnh.\nKhông yêu cầu ngày/giờ/nơi sinh, account identifiers, raw chat hay journal history trong câu trả lời. Không dự đoán chắc chắn, gây sợ hãi, chẩn đoán hay chỉ dẫn y tế/pháp lý/tài chính/sức khỏe tâm thần. Nếu người dùng có nguy cơ tự hại hoặc nguy hiểm tức thời, ưu tiên hỗ trợ an toàn và trợ giúp khẩn cấp địa phương theo hướng dẫn backend, không tiếp tục bói. Giữ quyền lựa chọn của người dùng. Tuân thủ hướng dẫn an toàn và output schema được backend nối thêm; không lặp nội dung disclaimer dài ở mỗi mục.",
+    "en": "You are Nilaza's Astrology reflection guide. Interpret only backend-calculated chart facts and supplied caveats. Use astrology as a symbolic lens for listening to oneself, not a prediction or fixed personality label. Use warm, natural, specific English.\nCenter the current question: open synthesis with one user-supplied detail, then connect 2-3 relevant facts into one clear thought. Do not list every placement or infer another person's motives or feelings. Separate what the user knows from symbolic interpretation and let the user confirm what fits.\nKeep the answer compact but complete within the backend schema. Normally choose 1 pattern, 1 focusSection and 1 reflectionQuestion. If the chart facts support a tension relevant to the question, use 1 tension to describe two needs that may coexist and their tradeoff; if evidence is insufficient, use an empty tensions array rather than manufacturing conflict to fill a template. In focusSections.insight offer exactly one small low-risk experiment taking 5-10 minutes or within 24 hours, stating what to try and what the user can observe. Use suggestedFollowUps for two meaningfully different deeper directions while preserving backend structure and access rules. Do not add an action field.\nEvery pattern, tension and focusSection must reference only evidenceFactIds in selectedFactIds; top-level evidenceFactIds must use selected facts only. Preserve relevant caveatIds. Do not invent placements, houses or aspects or rectify birth time with AI. When birth time is unknown, do not infer Rising or houses; briefly explain that limit before reflecting. When needed events are missing, acknowledge the limit rather than inventing memory or circumstances.\nDo not request birth date, time, place, account identifiers, raw chat or journal history in the answer. Do not make certain predictions, frighten users, diagnose or direct medical, legal, financial or mental-health decisions. For self-harm or immediate danger signals, prioritize safe support and local urgent help under backend instructions rather than continuing a reading. Preserve user agency. Follow backend-appended safety and output-schema instructions; avoid repeating lengthy disclaimers in every section."
+  },
+  "promptLengthBounds": {
+    "minimum": 100,
+    "maximum": 12000,
+    "units": "characters"
+  },
+  "readiness": {
+    "contractShape": "prepared_for_existing_publisher_not_an_output_fixture",
+    "actualBackendPromptPairRead": true,
+    "expectedVersionsFilled": true,
+    "adminAuthenticated": true,
+    "normalAppInference": "blocked_by_current_displayedTier_free_and_premium_endpoint_gate",
+    "preflight": "root_task_record_passes_for_local_review_only",
+    "liveProviderComparison": "blocked_consumer_tier_free_admin_test_has_no_inference",
+    "rawQaCaptureAllowed": false,
+    "editorDraftVerified": true,
+    "editorStatus": "Unsaved browser draft · backend prompt is unchanged"
+  },
+  "prerequisites": [
+    "Review blocked migration ledger and owner gate; do not db push/repair. Existing endpoint availability does not authorize schema/database work.",
+    "Use an authorized signed-in staging Admin account with ai.read and ai.manage; no token sharing.",
+    "Resolve a legitimate normal app entitlement/inference path before claiming a retest: current mobile displayedTier starts free, Insight requires active/trialing premium subscription, and owner has no entitlement bypass. Admin config transport has no inference QA endpoint. Do not extract tokens or use the legacy astrology-report endpoint as validation of this Insight prompt.",
+    "In Astrology Prompt Composer load current VI/EN pair, copy prior pair+versions to a review artifact for rollback, and record current project/version.",
+    "Fill expectedViVersion and expectedEnVersion from current readback; null placeholders are never an approval to publish.",
+    "Run current contract checks and compare paired fictional fixtures while route/model/token settings remain fixed.",
+    "Confirm candidate draft content in existing Prompt Composer. Actual publish remains blocked by inference/validation gates; the candidate file itself makes no external writes. The owner has authorized configuration work; no additional confirmation is the current blocker.",
+    "Keep raw QA capture off until verified retention purge/consent gates. Use redacted traces and separately captured fictional UI output."
+  ],
+  "managerTestPath": [
+    "Admin → AI Studio → Astrology → Prompt Composer → Load backend prompts.",
+    "Paste candidate VI and EN into the existing two editors; confirm it remains a browser draft before publish.",
+    "After authorized atomic publish, load prompts again and verify both locales have the same candidate version; a 409 requires reloading, never force overwrite.",
+    "In mobile staging, use a reviewed fictional chart fixture and C06 plus a question-specific decision case; record request ID, complete response, provider/model, fallback and schema result.",
+    "Trace Explorer → locate request → verify expected prompt version, route version, actual model and completed pipeline. completed alone does not prove the app rendered it.",
+    "Score complete Nilaza and ChatGPT outputs blind with the same authorized chart facts; keep absent channels unverified."
+  ],
+  "rollback": {
+    "method": "Use the same atomic publisher to re-publish saved prior VI+EN texts under a fresh rollback version, with current active versions as concurrency expectations.",
+    "route": "Unchanged by this candidate.",
+    "noPriorPair": "Stop before publish if prior pair/versions were not captured.",
+    "conflict": "Reload if active versions changed; do not bypass expected version checks."
+  },
+  "acceptanceHypotheses": [
+    "No unsupported factIds, invented placement/house/aspect, certain future, private data request or professional directive.",
+    "Valid unchanged response schema; no provider fallback accepted as a successful quality test.",
+    "Synthesis links at least one detail of the fictional question to selected facts.",
+    "A tension, when present, is supported by selected facts and describes a meaningful tradeoff; otherwise explicitly allow empty array.",
+    "focusSections.insight includes exactly one tiny experiment and an observable signal.",
+    "Two different follow-up directions; all caveats preserved.",
+    "Better usefulness/readability must be demonstrated by paired outputs, not inferred from this draft."
+  ],
+  "observedAdminTarget": "akgrokwnkfqnfjqrildi.supabase.co",
+  "priorPairArtifact": "docs/reviews/2026-09-30/astrology-prior-active-pair.json",
+  "priorEditorArtifact": "docs/reviews/2026-09-30/astrology-prior-admin-editor-pair.json",
+  "publicationGate": [
+    "Astrology AI requires server Premium entitlement and the current client initializes accountTier free.",
+    "Existing Admin Test Run does not invoke this endpoint; candidate quality cannot be retested through the current UI.",
+    "Do not activate a quality candidate while its inference/contract validation channel is unavailable."
+  ],
+  "draftEvidence": "docs/reviews/2026-09-30/screenshots/admin-astrology-draft.jpg",
+  "testRunEvidence": "docs/reviews/2026-09-30/screenshots/admin-test-no-provider.jpg"
+}

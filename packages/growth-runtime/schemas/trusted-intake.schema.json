@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Nilaza Operator Attested Local Trusted Intake",
+  "description": "Separate archived root/operator argument. Local session provenance is operator-attested, not authenticated server identity. Native validation requires author and QA to differ in both agentId and sessionId and prohibits fixture lineage promotion.",
+  "type": "object",
+  "required": [
+    "identityKind",
+    "intakeMode",
+    "sourceMode",
+    "role",
+    "agentId",
+    "sessionId",
+    "rootThreadId",
+    "attestedBy",
+    "attestedAt"
+  ],
+  "properties": {
+    "identityKind": {
+      "const": "operator_attested_local_session_provenance"
+    },
+    "intakeMode": {
+      "enum": [
+        "root_local_program_argument",
+        "owner_cli_attestation"
+      ]
+    },
+    "sourceMode": {
+      "enum": [
+        "actual_ai_session_handback",
+        "fixture"
+      ]
+    },
+    "role": {
+      "enum": [
+        "content_studio",
+        "independent_qa",
+        "owner"
+      ]
+    },
+    "agentId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "pattern": "^(?=[\\s\\S]*\\S)[^\\r\\n]+$"
+    },
+    "sessionId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "pattern": "^(?=[\\s\\S]*\\S)[^\\r\\n]+$"
+    },
+    "rootThreadId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "pattern": "^(?=[\\s\\S]*\\S)[^\\r\\n]+$"
+    },
+    "attestedBy": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 300,
+      "pattern": "^(?=[\\s\\S]*\\S)[^\\r\\n]+$"
+    },
+    "attestedAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d\\d-\\d\\dT\\d\\d:\\d\\d:\\d\\d(?:\\.\\d{3})?Z$"
+    }
+  },
+  "additionalProperties": false
+}

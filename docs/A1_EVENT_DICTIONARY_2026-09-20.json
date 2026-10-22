@@ -1,0 +1,63 @@
+{
+  "status": "draft_for_review",
+  "schemaVersion": "1.0.0",
+  "purpose": "Privacy-safe event spine for product learning and campaign attribution.",
+  "commonFields": {
+    "event_id": "uuid",
+    "event_name": "enum below",
+    "event_schema_version": "string",
+    "occurred_at": "ISO-8601 UTC",
+    "anonymous_or_pseudonymous_user_id": "string",
+    "session_id": "string|null",
+    "correlation_id": "string|null",
+    "app_version": "string",
+    "build_id": "string",
+    "feature_version": "string",
+    "experiment_id": "string|null",
+    "locale": "vi|en",
+    "platform": "ios|android|web",
+    "outcome": "success|failure|cancelled|skipped|null"
+  },
+  "forbiddenFields": [
+    "birthDate",
+    "birthTime",
+    "birthPlace",
+    "latitude",
+    "longitude",
+    "timezone",
+    "raw_chart",
+    "raw_prompt",
+    "raw_ai_response",
+    "chat_message",
+    "journal_text",
+    "email",
+    "phone",
+    "access_token",
+    "provider_api_key"
+  ],
+  "events": [
+    { "name": "astrology_entry_viewed", "requiredProperties": ["entry_surface", "has_saved_chart"], "allowedProperties": ["entry_surface", "has_saved_chart"] },
+    { "name": "birth_profile_started", "requiredProperties": ["flow_id"], "allowedProperties": ["flow_id"] },
+    { "name": "birth_profile_validated", "requiredProperties": ["time_precision", "place_precision", "validation_outcome"], "allowedProperties": ["time_precision", "place_precision", "validation_outcome"] },
+    { "name": "chart_generation_requested", "requiredProperties": ["calculation_version", "request_attempt"], "allowedProperties": ["calculation_version", "request_attempt"] },
+    { "name": "chart_generation_succeeded", "requiredProperties": ["calculation_version", "uncertainty_count", "duration_bucket"], "allowedProperties": ["calculation_version", "uncertainty_count", "duration_bucket"] },
+    { "name": "chart_generation_failed", "requiredProperties": ["error_code", "retryable", "duration_bucket"], "allowedProperties": ["error_code", "retryable", "duration_bucket"] },
+    { "name": "chart_revealed", "requiredProperties": ["reveal_mode"], "allowedProperties": ["reveal_mode"] },
+    { "name": "chart_element_opened", "requiredProperties": ["element_type", "element_key"], "allowedProperties": ["element_type", "element_key"] },
+    { "name": "mythology_chapter_viewed", "requiredProperties": ["chapter_key", "chapter_version"], "allowedProperties": ["chapter_key", "chapter_version"] },
+    { "name": "chart_saved", "requiredProperties": ["chart_revision_id_hash"], "allowedProperties": ["chart_revision_id_hash"] },
+    { "name": "chart_shared", "requiredProperties": ["share_mode"], "allowedProperties": ["share_mode"] },
+    { "name": "astrology_handoff_started", "requiredProperties": ["destination_type", "context_permission"], "allowedProperties": ["destination_type", "context_permission"] },
+    { "name": "useful_rating_recorded", "requiredProperties": ["feature_key", "rating_bucket"], "allowedProperties": ["feature_key", "rating_bucket"] },
+    { "name": "privacy_consent_changed", "requiredProperties": ["consent_purpose", "consent_state"], "allowedProperties": ["consent_purpose", "consent_state"] }
+  ],
+  "campaignBoundary": {
+    "allowed": ["aggregate_counts", "cohort_ids_with_consent", "campaign_id", "source", "medium", "content"],
+    "disallowed": ["raw_birth_data", "raw_chart", "raw_chat_or_journal", "sensitive_inference"]
+  },
+  "implementationNotes": [
+    "Events are a draft until A2/A3 add runtime validation and client/backend deduplication.",
+    "Use buckets for duration and error details; do not send free-form provider or prompt output.",
+    "A delete/export request must cover event records according to the approved retention policy."
+  ]
+}

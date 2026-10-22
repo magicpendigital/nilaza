@@ -1,0 +1,293 @@
+{
+  "schemaVersion": 1,
+  "taskId": "mvp-R09-local-export-2026-10-01",
+  "ownerAgent": "mobile_app_agent",
+  "lane": "mobile_experience_lane",
+  "goal": "Replace count-only export preview with a portable JSON export of this account local data; truthful cloud/local deletion scope and confirmed private sharing.",
+  "successCriteria": [
+    "Private JSON export contains actual saved profile/notes/chat/chart data and explicit local-only scope, excluding auth/device/provider tokens.",
+    "Web downloads JSON; native user chosen sheet, private temporary file cleanup after sheet on iOS and bounded 10-minute private-cache retention plus startup cleanup on Android; no claim of user saved/cancel success.",
+    "Switching account/read failure stops export; local deletion label never claims cloud account deletion; confirmed journal clear states cloud delete is pending."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/package.json",
+    "package-lock.json",
+    "apps/mobile/src/features/privacy/localExport.ts",
+    "apps/mobile/src/features/privacy/deliverExport.ts",
+    "apps/mobile/src/features/privacy/deliverExport.web.ts",
+    "apps/mobile/src/features/privacy/__tests__/localExport.test.ts",
+    "apps/mobile/src/features/privacy/__tests__/deliverExport.test.ts",
+    "apps/mobile/src/features/privacy/__tests__/deliverExport.web.test.ts",
+    "docs/mvp-remediation/2026-10-01/R09-local-export-handoff.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "No cloud account deletion, service-role or auth credential changes.",
+    "No live DB/migration/deployment or provider call.",
+    "All account/global caches and non-export feature data formats preserved."
+  ],
+  "impact": {
+    "entryPoint": "Profile privacy Export local data -> explicit confirmation -> portable file; truthful clear controls.",
+    "dataWrite": "Browser JSON or native dedicated app-private export cache. iOS cleanup in finally; Android successful sheet uses 10-minute TTL + next startup cleanup. Failed delivery immediate cleanup.",
+    "backendContract": "Local device data snapshot only; cloud retention/deletion and complete server export remain unverified R09 gates.",
+    "adminVisibility": "No export content in Admin/traces. Only export requested/outcome count events.",
+    "privacySafety": "Read allowlisted data from active account namespace only; no credential/session/devicepush/grant state; redact reserved secret keys in nested snapshots; no automatic destination transmission.",
+    "observability": "Distinguish download requested/native dialog presented/failed; no misleading cloud export success.",
+    "rollback": "Remove export UI/driver but preserve source data; retain reviewed old package/lock baseline; native review build must be rebuilt for modules."
+  },
+  "canonicalContracts": [
+    "Existing accountStorage loads, JournalEntry/R07 envelope and astrology.v2/council sessions remain canonical.",
+    "Export schema nilaza-local-export-v1 with local-device scope and explicit limitations; no cloud account deletion success."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "c492e69235bc94267f8de0181822602612a5bbda03dd3d144cf4d6c96ff43197",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "7a4973733886cb4f1568d38e6d8324d1d8200bb1acd850db486bf5323943f023",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "docs/WORKFLOWS_SECURITY_RESEARCH.md",
+      "sha256": "a56571e5827b897407bbbd4724819fa6fe22748b702bfdbe0195a7cb73ef0122",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "sha256": "88a873eb09601bc56640919d407dfd0777ff12d4e8e19b65fc52889b6393f256",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "3b992f0b9fbb16222d1c9a30b8f8195544def4bd529de1b00a98b10024f0c08a",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "apps/mobile/package.json",
+      "sha256": "71bed88f043629f67e9674ec6abc8fbd99956d68e57176abdb853416cd24d7ab",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "ba3e99deb94ffd6b862f2008b5886cb60aac9a60d4fa1c28cc98f4226a2bbedb",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "apps/mobile/src/auth/accountStorage.ts",
+      "sha256": "330a0213be9886821b4efe38983116adb9941188153de192edfae0d0c9797cd2",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "apps/mobile/src/auth/accountScope.ts",
+      "sha256": "02cb9e0636411430155e0e65690d78948b8d9836f2ec87fec8e1171051cb0fa0",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "apps/mobile/src/features/journal/journalRepository.ts",
+      "sha256": "5e86779cfa4bf8dd738316341088702648e99a4f6725dd2482a48d168fde540c",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/persistence.ts",
+      "sha256": "28d8aa06a941e9b1b3cc7d444752747dc0574a73f79ea0d593fd7e56fb9ae538",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "apps/mobile/src/features/council/useAiCouncilRoom.ts",
+      "sha256": "a6271061e362e03b875847274f7d23bb0c493735d31ec7cd8540260e2c09778e",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "apps/mobile/src/features/privacy/deliverExport.ts",
+      "sha256": "93a190984b816ed20bfd09144b1a7fe8f8a85d775bffbe6eebd4dc01de5077d8",
+      "reason": "Independent QA identified cleanup error masking sharing outcome; implement best-effort deletion with bounded startup retry, test both success and failure."
+    },
+    {
+      "path": "apps/mobile/src/features/privacy/__tests__/deliverExport.test.ts",
+      "sha256": "b9b6e5637fac3b144853a594c1518125b6030efad40340fa22d1cc58880e4405",
+      "reason": "Independent QA identified cleanup error masking sharing outcome; implement best-effort deletion with bounded startup retry, test both success and failure."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Fresh impact map, one App integration owner, preserved owner dirty edits and separate local/native/live acceptance."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Layout uses current typography, bilingual access/action text, original Tarot assets on Tarot surfaces and explicit browser/native status."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Installed Expo54.0.35 bundled versions ~19.0.23 file-system/~14.0.8 sharing; use npx expo install exact SDK-compatible modules. SDK54 docs reviewed newer recommended19.0.24 compatible patch; no other intended update."
+  },
+  "securityReview": {
+    "authzRls": "Active account storage only; no session tokens or service role required; abort after account closure.",
+    "sensitiveData": "Explicit user confirmation. No raw export logs/provider/Admin; private native cache bounded TTL. Only dedicated generated export filenames considered for cleanup; not other app data.",
+    "secretsLogging": "Do not export credentials/devicepush registration/operator prompt drafts; nested reserved auth/token/key fields filtered.",
+    "externalInput": "Allowlisted keys, validate Journal envelope; bound recursion and JSON errors fail without contents; no partial exported success.",
+    "dependencies": "Two official Expo SDK54 packages via local CLI; capture installed versions/lock delta and native rebuild gate.",
+    "migrationRelease": "No external backend action; mixed DB issue keeps cloud export/deletion deployment unverified.",
+    "stopCondition": "Stop export on account switch/corrupt envelope/secret-bearing unsupported input or native module failure; no fallback fake export.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/App.tsx",
+      "apps/mobile/package.json",
+      "package-lock.json",
+      "apps/mobile/src/features/privacy/localExport.ts",
+      "apps/mobile/src/features/privacy/deliverExport.ts",
+      "apps/mobile/src/features/privacy/deliverExport.web.ts",
+      "apps/mobile/src/features/privacy/__tests__/localExport.test.ts",
+      "apps/mobile/src/features/privacy/__tests__/deliverExport.test.ts",
+      "apps/mobile/src/features/privacy/__tests__/deliverExport.web.test.ts",
+      "docs/mvp-remediation/2026-10-01/R09-local-export-handoff.vi.md"
+    ],
+    "note": "Root sole App/lock owner for this slice; preserve all pre-existing package/lock edits; compare new dependency delta."
+  },
+  "validationCommands": [
+    "npx expo install expo-file-system expo-sharing --npm (workspace mobile; after preflight)",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand src/features/privacy/__tests__",
+    "Synthetic serializer/account-switch/driver-failure and cleanup tests; native file transfer remains device acceptance."
+  ],
+  "managerTestPath": "Profile -> Export data on this device -> confirm private file -> download/save through system; verify own fictional notes/chart, no auth tokens; cancel/read fail/switch account produce no success.",
+  "residualRisk": "Local export excludes server-only histories, raw traces, deleted records and billing/account retention; true cloud account deletion still blocked and not claimed. Native new build required. Android actual recipient read and TTL across app kill/clock change requires native acceptance; immediate deletion race avoided from installed source review.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deployment": false,
+    "productionRelease": false
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://docs.expo.dev/versions/v54.0.0/sdk/filesystem/",
+      "checkedAt": "2026-10-01",
+      "reason": "File/Paths cache create/write/delete native; SDK54 API."
+    },
+    {
+      "url": "https://docs.expo.dev/versions/v54.0.0/sdk/sharing/",
+      "checkedAt": "2026-10-01",
+      "reason": "Native file sharing availability/URI/mime; user chooses destination. Web download separate."
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL_static",
+      "checkedAt": "2026-10-01",
+      "reason": "Web Blob object URL lifecycle and revoke."
+    }
+  ],
+  "implementationBaselineReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "c492e69235bc94267f8de0181822602612a5bbda03dd3d144cf4d6c96ff43197",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "7a4973733886cb4f1568d38e6d8324d1d8200bb1acd850db486bf5323943f023",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "docs/WORKFLOWS_SECURITY_RESEARCH.md",
+      "sha256": "a56571e5827b897407bbbd4724819fa6fe22748b702bfdbe0195a7cb73ef0122",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "sha256": "88a873eb09601bc56640919d407dfd0777ff12d4e8e19b65fc52889b6393f256",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "e5d81adab02dea5614daa7361b3707a5b21a76a8909f100124a46b4b5b1bb944",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "apps/mobile/package.json",
+      "sha256": "57cf7175b3adaaa749fe897c9a303972addaeaa06c0f43ff732d8464339a6591",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "80e0cc1d3ae8f2a2fc4d0caf15280805334c5e4ebdbb55f062ee69aeb6398f49",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "apps/mobile/src/auth/accountStorage.ts",
+      "sha256": "330a0213be9886821b4efe38983116adb9941188153de192edfae0d0c9797cd2",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "apps/mobile/src/auth/accountScope.ts",
+      "sha256": "02cb9e0636411430155e0e65690d78948b8d9836f2ec87fec8e1171051cb0fa0",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "apps/mobile/src/features/journal/journalRepository.ts",
+      "sha256": "5e86779cfa4bf8dd738316341088702648e99a4f6725dd2482a48d168fde540c",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/persistence.ts",
+      "sha256": "28d8aa06a941e9b1b3cc7d444752747dc0574a73f79ea0d593fd7e56fb9ae538",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    },
+    {
+      "path": "apps/mobile/src/features/council/useAiCouncilRoom.ts",
+      "sha256": "a6271061e362e03b875847274f7d23bb0c493735d31ec7cd8540260e2c09778e",
+      "reason": "Reviewed account-scoped private cache, actual data/export boundary and existing source; keep credentials/device tokens and operator drafts out."
+    }
+  ],
+  "nativeDeliveryReview": "Installed Expo Sharing Android resolves on chooser ActivityResult, which does not prove recipient finished reading. iOS removes after sheet; Android retains only app-private named export for 10 minutes, schedules deletion and startup cleanup; no unrelated files scanned/deleted. Native receiver/device verification remains separate."
+}

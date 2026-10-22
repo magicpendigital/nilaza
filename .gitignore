@@ -1,0 +1,75 @@
+node_modules/
+.expo/
+.astro/
+.codex/
+.agents/
+.android-sdk/
+.android-setup/
+.playwright-cli/
+dist/
+build/
+coverage/
+.DS_Store
+*.log
+*.err.log
+web-build/
+output/
+test-results/
+scratch/
+apps/mobile/dist-web/
+apps/mobile/dist-web-qa/
+.env
+.env.local
+
+# Local working files for the approved brand rollout
+/.brand-work/
+.wrangler-config/
+
+# Local dependency cache and Astrology preview exports
+.cache/
+apps/mobile/dist-web-mythology/
+
+# Release-source hygiene (added 2026-10-23, clean repository baseline)
+# Browser/automation profiles and sessions must never be tracked.
+.codex*/
+.ci*/
+.gradle*/
+.npm-cache*/
+.expo*/
+.kotlin*/
+.local/
+apk-inspect/
+**/.cxx/
+
+# Local-only evidence, exports, media and device captures stay outside Git.
+/artifacts/
+/documents/
+/tmp/
+/temporarily/
+/audit/
+/design/
+/output/
+/device-*.png
+/qa-device-*
+/window-*.xml
+
+# Secrets, keys and binaries
+.env*
+!.env.example
+*.keystore
+!apps/mobile/android/app/debug.keystore
+*.jks
+*.p12
+*.pfx
+*.pem
+*.age
+*.apk
+*.aab
+*.idsig
+local.properties
+credentials.json
+
+# Large original artwork masters live outside this repository (see docs/release/repo-migration-2026-10-23/).
+/assets/tarot/**/*.png
+!/assets/tarot/deck-backs/*.png
+!/assets/tarot/deck-covers/*.png

@@ -1,0 +1,13 @@
+{
+  "cardId": "major-08-strength",
+  "prompt": "Edit this STRENGTH source artwork to fix only its composition/safe margins. Keep exactly the same fairytale painting style, color palette, woman, lion, clothing, lighting, mountain lake, and story. Pull the camera back so the complete seated woman AND the complete reclining lion including hindquarters and paws are fully visible with at least 10% canvas margin on ALL sides of important anatomy; the lion's rightmost paw must be far from the right edge. Reduce both principal subjects' size enough to show their full natural grounded bodies comfortably, including both woman's feet on ground and the lion's naturally tucked hind limbs. Maintain a small visible gap between them. Preserve woman's two hands on her own thighs and both looking calmly to right. Extend the meadow/rock/lake surroundings organically to fill all edges; DO NOT add a solid margin or picture frame. Preserve tall portrait aspect ratio 656:1130, full bleed textless borderless artwork. No text, titles, numbers, frame, extra human, extra animal, extra limbs or duplicate paws. This is a margin correction, not a new scene.",
+  "generationTool": "built-in image_gen",
+  "createdDate": "2026-10-13",
+  "inputImagePath": "raw/major-08-strength-20261013-v1.png",
+  "inputImageRole": "exact edit target passed as referenced_image_paths",
+  "sourcePath": "raw/major-08-strength-20261013-v2.png",
+  "status": "pending-independent-source-review",
+  "sha256": "3aaf18637c76e3491972460f1b636837053229e336ef9c65d9bd5a2d19b3c0f9",
+  "sizeBytes": 3874674,
+  "inputImageSha256": "7c1ff491f7d64bf0acafc5c534cac02b02adac9d99e4cb51af7d8c8aa1bb9e8d"
+}

@@ -1,0 +1,365 @@
+{
+  "schemaVersion": 1,
+  "taskId": "web-ux-content-2026-10-11",
+  "ownerAgent": "nilaza-web-menu-owner",
+  "lane": "website_navigation_bugfix",
+  "goal": "Implement owner-approved website audit: clear section navigation, real verified Android illustrations, truthful bilingual product capabilities and beta availability, readable accessible mobile flows, then authorized static production deployment.",
+  "successCriteria": [
+    "Primary navigation scrolls to Features, How it works and Safety/privacy; Help and policies remain explicit separate pages.",
+    "Real Android0.1.3 build4 public-library captures illustrate the app without personal data; no mockup presented as a screenshot.",
+    "VI/EN accurately describe Today Pulse, Oracle, Council, Tarot, standalone Journal notes and integrated local Astrology/mythology; production/AI/cloud limits remain explicit.",
+    "An unconfigured waitlist shows an honest unavailable state before asking for email; no false registration promise.",
+    "Phone layouts, keyboard controls, accessible search, language position, reduced motion and Safari15 emitted CSS pass scoped QA; actual Android website checked.",
+    "Deploy only static reviewed build to existing Cloudflare nilaza-web-staging project and verify public custom domain."
+  ],
+  "writeScope": [
+    "apps/web/src/",
+    "apps/web/README.md",
+    "assets/features/web-product/",
+    "packages/content/data/feature-visuals.json",
+    "packages/content/generated/public-help-corpus/",
+    "artifacts/web-ux-content-2026-10-11/"
+  ],
+  "untouchedSurfaces": [
+    "Mobile source/runtime bindings, accounts, stored user data, backend/RLS/SQL, Admin, credits/payment, DNS and credentials remain unchanged.",
+    "Brand masters, existing locale URLs, legacy QA allocation and mobile release status remain unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Landing primary section links, separate Help/policy links, feature-page breadcrumbs/local beta links, mobile menu and language selector.",
+    "dataWrite": "Static website/content/corpus/assets and local QA receipts only; existing one-shot public reading position preserved. No phone account/profile/chart writes or private data exports.",
+    "backendContract": "Retain current public bindings; absent endpoint renders prelaunch notice. No backend activation/AI calls.",
+    "adminVisibility": "Local build/capture provenance and deployment receipt; no Admin runtime changes.",
+    "privacySafety": "Capture public Android feature/library UI without account identifiers, personal birth data, journal entries or chat transcripts; entertainment/self-reflection boundaries and honest release labels.",
+    "observability": "Existing coarse public analytics only; no raw search/emails logged; native/browser QA evidence.",
+    "rollback": "Restore previous Cloudflare Production deployment 49eecf35-428d-4127-9c62-bcee184e22e0 if required. Preserve source dirty baseline; no backend/DNS changes."
+  },
+  "canonicalContracts": [
+    "Published locales and bilingual public dictionaries in site.ts; public Help Markdown allowlist only.",
+    "Real device build0.1.3/code4 UI plus routed feature handoffs distinguish integrated, verified and released.",
+    "Screenshot sources under assets/features/web-product declared in feature-visuals; derived public exports contain public UI only."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "4da2a80e09727695c07ad5e0adc52fffb28ae71783dc7258585aac3735a6add9",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "6cd85c85b43e6ada64745ac13bf34f3fdb2b9e799f5bc2ad176a662d94b154e1",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "docs/BRAND_ROLLOUT_2026-09-11.md",
+      "sha256": "99ed149a4da53cd1284e55230ca832451a816e57455916a0a8a5cd30c05cc792",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "docs/NILAZA_PUBLIC_HELP_CORPUS.md",
+      "sha256": "055549c4bfb13923664f0854a6b44928e7094498af9a64fc6bbe1c17a1a04fb6",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "7a4973733886cb4f1568d38e6d8324d1d8200bb1acd850db486bf5323943f023",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "1e4d2bc7a93a2a140690c7237537de582972db30088309996ab6462a79a53623",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "skills/nilaza-brand-experience/SKILL.md",
+      "sha256": "1e2acdfac537225ed366a78e6c28b6764a5fe2ac1a1434e583ba21349dee1928",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/README.md",
+      "sha256": "f2c5c57c4c7123c86c8130657d9699e1166b37fc3568ffe978b0127b3ef5e396",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/package.json",
+      "sha256": "2c21e80409fb09ffb65993fbca6344f4ef92bd99c427743b79c7bd8fc69fc5dd",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/astro.config.mjs",
+      "sha256": "eb201a5005e198eb02d7a528dca980110713b7b41c8b985de5de98070e41139c",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/src/components/SiteHeader.astro",
+      "sha256": "ce460f6908c8f0f613fb85bc51d854958af435aacf065000f229c144dbf0a42f",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/src/components/FloatingNavigation.astro",
+      "sha256": "92fe3f98b715ef427971c72b728b3731deaded5463ef04d1907374970d8d35ec",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/src/layouts/BaseLayout.astro",
+      "sha256": "86f89af6084285413d37ada32967d3fb867302a53651966c57d4a139f0e87964",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/src/styles/global.css",
+      "sha256": "7c058b61790cf8cc8b4a97643453ad2c8cb59d49f05eddb3c651aae8fdfbad20",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/src/styles/responsive.css",
+      "sha256": "366b819d2a390e04938ae43741d701da3cbba6becabe9a6b19c1b4107c7163c9",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "packages/content/data/brand-identity.json",
+      "sha256": "6a214e9244305b6bf3189f0c2b230ae7e3c6ef9b84b1374e6c0c9772789042d9",
+      "reason": "Reviewed scoped navigation, existing public/brand boundary and validation configuration before edits."
+    },
+    {
+      "path": "apps/web/src/components/Brand.astro",
+      "reason": "Reviewed shrinking brand image to fit language options on narrow headers.",
+      "sha256": "dbf91300bb61488274b7bbcc57158e8870d1990972a73bb55d456ac075aac7f9"
+    },
+    {
+      "path": "docs/NILAZA_WEB_PRODUCTION_ROLLOUT.md",
+      "reason": "Reviewed static website target mapping, existing release boundary and user-authorized scope.",
+      "sha256": "bb526ac30f1fd71ca78cb1c91c57a2d3862461095ba660d9b5aa844046b5476c"
+    },
+    {
+      "path": "docs/release/RELEASE_RUNBOOK.md",
+      "reason": "Reviewed static website target mapping, existing release boundary and user-authorized scope.",
+      "sha256": "348e5aa5786a5f8648fd96c94e0b4a831602a5312d318b6e48885a47afd71b39"
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/release-control.md",
+      "reason": "Reviewed static website target mapping, existing release boundary and user-authorized scope.",
+      "sha256": "ece7ac8af2d268735631d188ef1e3c4ae8235e564a2ad32c241c4ace83ac54fa"
+    },
+    {
+      "path": "scripts/check-web-compatibility.mjs",
+      "sha256": "b8054f6d9fcbd6e38dc5734dd1912d4b96ff708c7510fd41fa18b39ce201982c",
+      "reason": "Regression check inspects emitted CSS and device viewport tags; verified old build fails and corrected build passes."
+    },
+    {
+      "path": "apps/web/src/lib/site.ts",
+      "reason": "Reviewed shared locale routes, section boundaries, SEO and public header integration.",
+      "sha256": "01211284680d03cbc602a571ea6bc6fee7161f91217e392eea7481f96a3ea5be"
+    },
+    {
+      "path": "apps/web/src/lib/languageNavigation.ts",
+      "sha256": "8e3febffdd332a4d11f8b48fcc5475a3676b66dedd37cdaf5e37af84af4e3fd3",
+      "reason": "Reviewed one-shot route/anchor/progress validation, private-storage fallback and native link navigation;4 failure/restore tests pass."
+    },
+    {
+      "path": "apps/web/src/components/WaitlistForm.astro",
+      "reason": "Reviewed public capability truth, exact output ownership and safe device evidence before implementation.",
+      "sha256": "cde9581720404e1513e595e1b3c36ca845badb4c88aa259cd9e0b04303da1250"
+    },
+    {
+      "path": "packages/content/data/feature-visuals.json",
+      "reason": "Reviewed public capability truth, exact output ownership and safe device evidence before implementation.",
+      "sha256": "b049426f65efb86b9f389e60b6d5196789e6ee46ff312e9e267e9753b3673f16"
+    },
+    {
+      "path": "scripts/build-public-help-corpus.mjs",
+      "reason": "Reviewed public capability truth, exact output ownership and safe device evidence before implementation.",
+      "sha256": "598259fb5924f6f68485d8ba23dbf3359d5659ff921a575dc840e235cdc99e82"
+    },
+    {
+      "path": "docs/MVP_TASK_CHECKLIST.md",
+      "reason": "Reviewed public capability truth, exact output ownership and safe device evidence before implementation.",
+      "sha256": "22545c00ee97cf0f83f22ec3ab78acf6aacb2565b3d82525126fb0af10d0b69d"
+    },
+    {
+      "path": "docs/ANDROID_NATIVE_RELEASE_BUILD_2026-09-30.vi.md",
+      "reason": "Reviewed public capability truth, exact output ownership and safe device evidence before implementation.",
+      "sha256": "6699371e157b1c94e83cc3981d841b49216362e69dd3492eba54c2f59be9ae55"
+    },
+    {
+      "path": "docs/A3_A4_REVIEW_HANDOFF_2026-09-22.vi.md",
+      "reason": "Reviewed public capability truth, exact output ownership and safe device evidence before implementation.",
+      "sha256": "7f50fc4b71d7bfa55985c94a0930add3668e9a49d3244466219390a6d9fa7db6"
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/R08-journal-notes-handoff.vi.md",
+      "reason": "Reviewed public capability truth, exact output ownership and safe device evidence before implementation.",
+      "sha256": "7affe6bc315e2e56e8a1109bcc9b7b4a914269feba6a95145fab1caa4f04b1b9"
+    },
+    {
+      "path": "package.json",
+      "reason": "Reviewed existing dirty gated generator execution input and command configuration; preserve its behavior unchanged.",
+      "sha256": "35091240676cd0cbfb1b762ed4ee245ea8af7d59dd7a4dabb1284e415c7c6ed0"
+    },
+    {
+      "path": "scripts/feature-preflight.mjs",
+      "reason": "Reviewed existing dirty gated generator execution input and command configuration; preserve its behavior unchanged.",
+      "sha256": "76e65a66fe1dc309edbe1932419936a495c95028d48998d1536ed7f85a763528"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Verified current: scoped public Help/brand sources, real device provenance, no private corpus, bilingual accessibility and explicit production authorization apply. Screenshot provenance and unavailable waitlist contract documented in web README."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Verified current: scoped public Help/brand sources, real device provenance, no private corpus, bilingual accessibility and explicit production authorization apply. Screenshot provenance and unavailable waitlist contract documented in web README."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Installed Astro7.3.2; native HTML details/summary and sessionStorage with blocked-storage handling require no dependencies. Safari/iOS15 build targets retained."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/details",
+      "checkedAt": "2026-10-11",
+      "reason": "Native disclosure keyboard/open behavior; avoid newer popover/name grouping for Safari15."
+    },
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage",
+      "checkedAt": "2026-10-11",
+      "reason": "Same-origin tab-local storage; handle SecurityError and consume one-shot public position."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "Static navigation only; no Auth, RLS or authorization boundary changes.",
+    "sensitiveData": "Read public phone feature/library screens only. Never publish account identifiers, real birth charts, private chat/journal, notifications or device serial. No AI/billing calls or new account data.",
+    "secretsLogging": "No environment file values or secrets in receipts or screenshots.",
+    "externalInput": "Live page is observation only. Fixed existing anchor IDs, no injection or dynamic external URLs.",
+    "dependencies": "Reuse installed packages without downloads or dependency update.",
+    "migrationRelease": "Owner explicitly requested static implementation, connected Android use and public deployment this turn. No backend/DNS/credentials or app reinstall authorized.",
+    "stopCondition": "Stop on private content in proposed public capture, unknown target, horizontal overflow, failed checks or lost existing public binding. Empty waitlist must remain honest and collect no email.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/web/src/components/SiteHeader.astro",
+      "apps/web/src/layouts/BaseLayout.astro",
+      "apps/web/src/lib/site.ts",
+      "apps/web/src/lib/languageNavigation.ts",
+      "apps/web/README.md",
+      "apps/web/src/pages/index.astro",
+      "apps/web/src/pages/robots.txt.ts",
+      "apps/web/src/pages/sitemap.xml.ts",
+      "apps/web/src/pages/[locale]/index.astro",
+      "artifacts/web-ux-content-2026-10-11/prepare-plan.mjs",
+      "apps/web/src/styles/global.css",
+      "apps/web/src/styles/responsive.css",
+      "apps/web/src/components/WaitlistForm.astro",
+      "apps/web/src/content/help/en/astrology-premium.md",
+      "apps/web/src/content/help/en/beta-waitlist.md",
+      "apps/web/src/content/help/en/getting-started.md",
+      "apps/web/src/content/help/en/journal-data.md",
+      "apps/web/src/content/help/vi/astrology-premium.md",
+      "apps/web/src/content/help/vi/beta-waitlist.md",
+      "apps/web/src/content/help/vi/getting-started.md",
+      "apps/web/src/content/help/vi/journal-data.md",
+      "apps/web/src/content/legal/en/privacy.md",
+      "apps/web/src/content/legal/vi/privacy.md",
+      "apps/web/src/pages/[locale]/features/[slug].astro",
+      "apps/web/src/pages/[locale]/help/index.astro",
+      "packages/content/data/feature-visuals.json",
+      "apps/web/src/lib/featureWorkflows.ts",
+      "artifacts/web-ux-content-2026-10-11/build.mjs",
+      "artifacts/web-ux-content-2026-10-11/content.mjs",
+      "artifacts/web-ux-content-2026-10-11/implement.mjs",
+      "artifacts/web-ux-content-2026-10-11/landing.mjs",
+      "artifacts/web-ux-content-2026-10-11/preview.mjs",
+      "artifacts/web-ux-content-2026-10-11/refresh-plan.mjs",
+      "assets/features/web-product/astrology-android-vi.png",
+      "assets/features/web-product/mythology-android-vi.png",
+      "apps/web/src/components/FloatingNavigation.astro",
+      "artifacts/web-ux-content-2026-10-11/live-public-bindings.json",
+      "apps/web/src/pages/[locale]/help/[slug].astro",
+      "packages/content/generated/public-help-corpus/corpus.jsonl",
+      "packages/content/generated/public-help-corpus/manifest.json",
+      "artifacts/web-ux-content-2026-10-11/android-local-en-section.png",
+      "artifacts/web-ux-content-2026-10-11/android-local-home.png",
+      "artifacts/web-ux-content-2026-10-11/astrology-landscape.png",
+      "artifacts/web-ux-content-2026-10-11/check-candidate.mjs",
+      "artifacts/web-ux-content-2026-10-11/help-search.png",
+      "artifacts/web-ux-content-2026-10-11/local-320.png",
+      "artifacts/web-ux-content-2026-10-11/local-desktop.png",
+      "artifacts/web-ux-content-2026-10-11/local-phone.png",
+      "artifacts/web-ux-content-2026-10-11/refine.mjs",
+      "artifacts/web-ux-content-2026-10-11/candidate-manifest.json",
+      "artifacts/web-ux-content-2026-10-11/nilaza-web-ux-content.zip",
+      "artifacts/web-ux-content-2026-10-11/record-candidate.mjs",
+      "artifacts/web-ux-content-2026-10-11/verify-public.mjs",
+      "apps/web/src/pages/[locale]/for/[intent].astro",
+      "artifacts/web-ux-content-2026-10-11/refine-intent.mjs",
+      "artifacts/web-ux-content-2026-10-11/OWNER_HANDOFF.vi.md",
+      "artifacts/web-ux-content-2026-10-11/android-evidence.json",
+      "artifacts/web-ux-content-2026-10-11/android-public-en-safety.png",
+      "artifacts/web-ux-content-2026-10-11/android-public-home.png",
+      "artifacts/web-ux-content-2026-10-11/browser-evidence.json",
+      "artifacts/web-ux-content-2026-10-11/cloudflare-success.png",
+      "artifacts/web-ux-content-2026-10-11/deployment-receipt.json",
+      "artifacts/web-ux-content-2026-10-11/finalize.mjs",
+      "artifacts/web-ux-content-2026-10-11/public-http-evidence.json",
+      "artifacts/web-ux-content-2026-10-11/public-product-desktop.png"
+    ],
+    "note": "Reviewed existing dirty website baseline from previous fixes; preserve all unrelated work and record changed source hashes in candidate. No Git mutation."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/web-ux-content-2026-10-11.json",
+    "npm run web:check",
+    "npm run web:build",
+    "npm run feature:run -- --record docs/feature-plans/web-ux-content-2026-10-11.json --script public-help-corpus:build",
+    "npm run validate:public-content",
+    "npm run validate:brand",
+    "npm run validate:visual-assets",
+    "npm run skills:check",
+    "Browser320/414/736/desktop: primary section links, Help/search, language position, keyboard demo/menus, reduced motion, beta state. Physical Android: verified app library and website navigation/locale/responsive screenshots."
+  ],
+  "managerTestPath": "Open public VI on Android, use menu Features/How it works/Safety; change language after scrolling, inspect real Astrology library screenshot and feature steps, read Journal/Astrology Help, verify honest beta availability.",
+  "residualRisk": "Android is an internal build, not store release acceptance. No physical iPhone attached. AI/provider/cloud availability is gated and not inferred from public library or local core. Waitlist backend is not configured, so website cannot accept registrations.",
+  "externalActions": {
+    "databaseWrite": false,
+    "providerWrite": false,
+    "deployment": true,
+    "emailSend": false,
+    "note": "Owner authorized Android observation/screenshots and static public deployment. Existing Cloudflare session only; no new scopes, app install, private data, cloud mutation beyond static Pages."
+  },
+  "validationEvidence": {
+    "completedAt": "2026-10-11T07:24:04.613Z",
+    "candidate": "artifacts/web-ux-content-2026-10-11/candidate-manifest.json",
+    "deployment": "artifacts/web-ux-content-2026-10-11/deployment-receipt.json",
+    "browser": "artifacts/web-ux-content-2026-10-11/browser-evidence.json",
+    "android": "artifacts/web-ux-content-2026-10-11/android-evidence.json",
+    "publicHttp": "artifacts/web-ux-content-2026-10-11/public-http-evidence.json",
+    "checks": [
+      "web:check21files0errors/warnings/hints",
+      "build43pages;Pagefind16Help/2locales;Safari15CSS42pages",
+      "public-content22documents60chunks;brand118exports84sources;visual26assets/mobile684files;skillsmatch",
+      "candidate43HTML/873local-links;4storagefallbacktests;scopedwhitespace",
+      "Browser320/414/736/defaultdesktop;nativeanchors;languageposition;keyboardexample;Helpsearch/noresults",
+      "ActualAndroidChrome:home/menu,Howitworks,VI→EN retainssection;public app0.1.3screens verified"
+    ]
+  }
+}

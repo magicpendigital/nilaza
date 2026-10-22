@@ -1,0 +1,109 @@
+{
+  "deckId": "tinh-quang",
+  "checkedAtUTC": "2026-10-13T18:08:32.205649+00:00",
+  "overall": "SOURCE_COMPLETION_READY; FINAL_NILAZA_QC_BLOCKED",
+  "sourceCount": 78,
+  "newSourcesReviewed": 3,
+  "newNormalizedReviewed": 3,
+  "finalCardFacesReviewed": 0,
+  "finalQCPassed": 0,
+  "preservation": {
+    "baselineFilesChecked": 352,
+    "baselineChanged": 0,
+    "oldNormalizedChecked": 75,
+    "oldNormalizedChanged": 0,
+    "archiveSHA256": "db277e7b1179032cb42cbfb4793eabef41fcc373836b4cfd6a393c3355256bd9"
+  },
+  "metadata": {
+    "contentVersion": 6,
+    "canonicalIDs": 78,
+    "uniqueIDs": 78,
+    "languages": [
+      "vi",
+      "en"
+    ],
+    "emptyOrDuplicateIntros": 0,
+    "canonicalIdentityCheckedAgainst": "2026-10-01 packaged canonical roster; 3 missing IDs additionally confirmed in current desktop catalog",
+    "currentSharedCanonicalMustNotBeOverwritten": true
+  },
+  "reviewStages": {
+    "newRawSources": "PASS preliminary source review",
+    "newNormalizedInnerArt": "PASS normalization review",
+    "finalNativeFaces": "NOT_RUN",
+    "finalMobileFaces": "NOT_RUN",
+    "coverBackAppCrop": "NOT_RUN",
+    "fullDeckLedgerPrepareVerify": "NOT_RUN",
+    "NilazaIntegration": "BLOCKED Git checkout identity/local edits unverified",
+    "NilazaAppTests": "NOT_RUN",
+    "GitCommitPush": "NOT_RUN",
+    "Production": "NOT_DEPLOYED"
+  },
+  "selectedNewCards": [
+    {
+      "cardId": "major-08-strength",
+      "rawFile": "raw-variants/major-08-strength-20261013-v3.png",
+      "rawSha256": "3fb3572271ed3b5d88f8a94b40c9c963c28d67430d782b8d0c4517435fa447b5",
+      "normalizedFile": "normalized/major-08-strength.png",
+      "normalizedSha256": "cb45bac6e42fc79d13915ec44ad2b427905730afba4270b261921c9f62562a4c",
+      "normalizedDimensions": [
+        656,
+        1130
+      ],
+      "sourceReview": "PASS",
+      "normalizedReview": "PASS",
+      "evidence": [
+        "One adult seated on rock, hands on thighs, feet supported; one reclining lion with coherent paws and inward-curled tail.",
+        "Both look the same direction; no restraint or mouth contact; important contours within 7% source inset.",
+        "Approved teal/antique-gold/ivory painterly style retained; no generated lettering, number, watermark or external border.",
+        "Normalized output independently checked against original normalizer and visually reviewed."
+      ],
+      "finalQC": "PENDING"
+    },
+    {
+      "cardId": "major-21-world",
+      "rawFile": "raw-variants/major-21-world-20261013-v5.png",
+      "rawSha256": "76e815ae8ad780c8f096a68906446168a4a873622b154fe2594e12c6408f0a7d",
+      "normalizedFile": "normalized/major-21-world.png",
+      "normalizedSha256": "da779cf569ce273f5657531dda2004ec2cb6286276ffd79e922200c22993febe",
+      "normalizedDimensions": [
+        656,
+        1130
+      ],
+      "sourceReview": "PASS",
+      "normalizedReview": "PASS",
+      "evidence": [
+        "One dancer, exactly two short batons, grounded dais and two-footed arbor supporting oval wreath.",
+        "Four cloud symbols: angel upper left, eagle upper right, bull lower left, lion lower right; all identifying contours in inset.",
+        "Approved teal/antique-gold/ivory painterly style retained; no generated lettering, number, watermark or external border.",
+        "Normalized output independently checked against original normalizer and visually reviewed."
+      ],
+      "finalQC": "PENDING"
+    },
+    {
+      "cardId": "minor-swords-ten",
+      "rawFile": "raw-variants/minor-swords-ten-20261013-v2.png",
+      "rawSha256": "9e1627fea6425620adb753a3d15ecf5fcc25a3ac880ae4945403da83e349edc1",
+      "normalizedFile": "normalized/minor-swords-ten.png",
+      "normalizedSha256": "5f86e863372d256f96a2bef97c43efea3d543259b182114b1b943f71df2cda1f",
+      "normalizedDimensions": [
+        656,
+        1130
+      ],
+      "sourceReview": "PASS",
+      "normalizedReview": "PASS",
+      "evidence": [
+        "Exactly ten separate swords: five left and five right, tips anchored behind the resting adult.",
+        "No sword touches the body; head rests on forearm, body supported by cloak/shore; key anatomy and swords inside inset.",
+        "Approved teal/antique-gold/ivory painterly style retained; no generated lettering, number, watermark or external border.",
+        "Normalized output independently checked against original normalizer and visually reviewed."
+      ],
+      "finalQC": "PENDING"
+    }
+  ],
+  "limits": [
+    "75 earlier source reviews retained by unchanged hashes; not a new full 75-image visual review.",
+    "Originality assessment is preliminary visual review, not exhaustive published-deck comparison or legal rights certification.",
+    "Sources are inner artwork only; no final frame or font acceptance without native renderer output.",
+    "No final QC PASS, repository integration, backend write or deployment is claimed."
+  ]
+}

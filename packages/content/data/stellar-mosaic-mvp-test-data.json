@@ -1,0 +1,504 @@
+{
+  "deckId": "stellar-mosaic",
+  "version": "2026-06-13-mvp-test-v1",
+  "status": "testing",
+  "purpose": {
+    "vi": "Dữ liệu seed để test nhanh bộ bài Học Viện Tinh Tú trong MVP: chọn deck, rút bài, xem nghĩa xuôi/ngược, các câu hỏi về học tập, phát triển cá nhân, tình bạn học đường và lưu Journal.",
+    "en": "Seed data for testing the Stellar Academy deck in the MVP: deck selection, card draw, upright/reversed meanings, academic growth, self-discovery, school friendships, and Journal save."
+  },
+  "coverage": {
+    "mvpFlows": [
+      "deck_selection",
+      "one_card_daily",
+      "three_card_reading",
+      "upright_and_reversed",
+      "topic_variants",
+      "ai_failure_fallback",
+      "journal_save"
+    ],
+    "topics": [
+      "career",
+      "decision",
+      "self",
+      "love",
+      "open"
+    ],
+    "minimumCardPool": 12,
+    "sampleReadingCount": 5
+  },
+  "deckVoice": {
+    "promise": {
+      "vi": "Học Viện Tinh Tú đồng hành cùng bạn qua hình ảnh những học sinh phép thuật, giúp bạn thấu hiểu bản thân, khơi dậy tiềm năng học hỏi, giải tỏa áp lực thi cử và xây dựng các mối quan hệ học đường lành mạnh.",
+      "en": "Stellar Academy accompanies you through magical student archetypes, helping you understand yourself, spark learning potential, relieve academic pressure, and build healthy school relationships."
+    },
+    "tone": {
+      "vi": [
+        "trẻ trung",
+        "đầy cảm hứng",
+        "thấu cảm",
+        "phép thuật"
+      ],
+      "en": [
+        "youthful",
+        "inspiring",
+        "empathetic",
+        "magical"
+      ]
+    },
+    "avoid": {
+      "vi": [
+        "không phán xét điểm số hay kết quả học tập cố định",
+        "không khuyến khích trốn học hay từ bỏ học tập",
+        "không đưa ra dự đoán deterministic về tương lai thi cử hay đỗ trượt"
+      ],
+      "en": [
+        "do not judge grades or fixate on specific academic scores",
+        "do not encourage skipping classes or giving up on education",
+        "do not make deterministic predictions about exam passes or failures"
+      ]
+    }
+  },
+  "spreadTemplates": [
+    {
+      "id": "stellar-mosaic-one-card",
+      "cardCount": 1,
+      "name": {
+        "vi": "Lời khuyên từ Tiền bối",
+        "en": "Advice from a Senior"
+      },
+      "positions": [
+        {
+          "key": "focus",
+          "label": {
+            "vi": "Điểm tựa học hỏi",
+            "en": "The learning anchor"
+          }
+        }
+      ],
+      "useCase": {
+        "vi": "Nhận thông điệp truyền cảm hứng hàng ngày từ các tiền bối phép thuật.",
+        "en": "Receive a daily inspiring message from magical seniors."
+      }
+    },
+    {
+      "id": "stellar-mosaic-three-card",
+      "cardCount": 3,
+      "name": {
+        "vi": "Lớp học - Bạn học - Bài học",
+        "en": "Classroom - Classmate - Lesson"
+      },
+      "positions": [
+        {
+          "key": "classroom",
+          "label": {
+            "vi": "Môi trường học tập hiện tại",
+            "en": "Current learning environment"
+          }
+        },
+        {
+          "key": "classmate",
+          "label": {
+            "vi": "Tương tác và hỗ trợ bạn bè",
+            "en": "Peer interaction and support"
+          }
+        },
+        {
+          "key": "lesson",
+          "label": {
+            "vi": "Bài học cần rút ra",
+            "en": "The lesson to integrate"
+          }
+        }
+      ],
+      "useCase": {
+        "vi": "Trải bài phân tích các vấn đề học tập và mối quan hệ bạn bè trong học đường.",
+        "en": "Standard reading for school life, learning hurdles, and peer connections."
+      }
+    }
+  ],
+  "topicIntents": [
+    {
+      "topic": "career",
+      "promptHint": {
+        "vi": "Tập trung vào định hướng ngành học, phát triển kỹ năng nghiên cứu và chuẩn bị hành trang sự nghiệp từ ghế nhà trường.",
+        "en": "Focus on major orientation, research skill development, and preparing for a career pathway from school."
+      }
+    },
+    {
+      "topic": "decision",
+      "promptHint": {
+        "vi": "Tập trung làm rõ các lựa chọn môn học, quyết định tham gia câu lạc bộ và cách quản lý thời gian ôn thi hiệu quả.",
+        "en": "Focus on clarifying elective choices, club participation decisions, and effective study planning."
+      }
+    },
+    {
+      "topic": "self",
+      "promptHint": {
+        "vi": "Khám phá phong cách học tập cá nhân, vượt qua nỗi sợ thất bại và định vị bản thân trong tập thể học đường.",
+        "en": "Explore personal learning style, overcome fear of academic failure, and position oneself in the student body."
+      }
+    },
+    {
+      "topic": "love",
+      "promptHint": {
+        "vi": "Tập trung vào tình bạn trong sáng, ranh giới lành mạnh trong tình cảm học trò và sự tôn trọng lẫn nhau.",
+        "en": "Focus on sincere school friendships, healthy romantic boundaries, and mutual respect."
+      }
+    },
+    {
+      "topic": "open",
+      "promptHint": {
+        "vi": "Khuyến khích tinh thần tò mò, khám phá tri thức mới và tìm kiếm niềm vui trong mỗi bài học cuộc sống.",
+        "en": "Encourage curiosity, discovery of new knowledge, and finding joy in every life lesson."
+      }
+    }
+  ],
+  "testCardPool": [
+    {
+      "cardId": "major-00-fool",
+      "roseMirrorAngle": {
+        "vi": "Tân học sinh đầy hào hứng bước vào năm học mới với tấm lòng cởi mở và không sợ hãi thử thách.",
+        "en": "An enthusiastic freshman stepping into the school year with an open mind and no fear of challenges."
+      },
+      "visualCue": {
+        "vi": "học sinh tóc hồng nhảy qua bậc thềm học viện, gió thổi bay ba lô, bầu trời tím rực rỡ",
+        "en": "pink-haired student jumping over academy steps, backpack blowing in wind, vivid violet sky"
+      },
+      "qaFocus": "freshman_leap"
+    },
+    {
+      "cardId": "major-01-magician",
+      "roseMirrorAngle": {
+        "vi": "Học sinh thiên tài làm chủ các công cụ học tập, biến ý tưởng sáng tạo thành dự án thực tế xuất sắc.",
+        "en": "A genius student mastering learning tools, turning creative ideas into excellent real projects."
+      },
+      "visualCue": {
+        "vi": "học sinh tóc xanh lam cầm bút vẽ phép thuật, các cuộn sách bay lơ lửng quanh người",
+        "en": "blue-haired student holding a magical drawing stylus, scrolls floating around"
+      },
+      "qaFocus": "talented_creator"
+    },
+    {
+      "cardId": "major-02-high-priestess",
+      "roseMirrorAngle": {
+        "vi": "Thủ khoa lặng lẽ trong thư viện, kết nối tri thức sâu sắc bằng trực giác nhạy bén và óc quan sát lặng thầm.",
+        "en": "The quiet valedictorian in the library, connecting deep knowledge with sharp intuition and silent observation."
+      },
+      "visualCue": {
+        "vi": "nữ sinh đeo kính đọc sách dưới ánh trăng qua cửa sổ kính màu, mái tóc tím dài óng ánh",
+        "en": "glasses-wearing female student reading under moonlight through stained glass, long shimmering violet hair"
+      },
+      "qaFocus": "quiet_valedictorian"
+    },
+    {
+      "cardId": "major-03-empress",
+      "roseMirrorAngle": {
+        "vi": "Chủ tịch câu lạc bộ nghệ thuật gieo mầm ý tưởng, nuôi dưỡng sự sáng tạo và mang lại bầu không khí ấm áp cho cả đội.",
+        "en": "The art club president planting creative seeds, nurturing ideas and bringing warmth to the team."
+      },
+      "visualCue": {
+        "vi": "nữ sinh tóc hồng đội vòng hoa, ngồi vẽ tranh giữa vườn hoa cẩm tú cầu của học viện",
+        "en": "pink-haired female student wearing flower crown, painting in academy hydrangeas garden"
+      },
+      "qaFocus": "creative_nurturer"
+    },
+    {
+      "cardId": "major-04-emperor",
+      "roseMirrorAngle": {
+        "vi": "Hội trưởng hội học sinh nghiêm khắc duy trì kỷ luật, thiết lập thời khóa biểu khoa học để quản lý trường lớp.",
+        "en": "The strict student council president maintaining discipline, establishing structural schedules to manage tasks."
+      },
+      "visualCue": {
+        "vi": "nam sinh tóc vàng mặc đồng phục chỉn chu đứng trước bảng kế hoạch lớn, tay đeo băng đỏ",
+        "en": "neatly uniformed gold-haired male student in front of a planning board, wearing a red armband"
+      },
+      "qaFocus": "school_prefect"
+    },
+    {
+      "cardId": "major-05-hierophant",
+      "roseMirrorAngle": {
+        "vi": "Thầy cô cố vấn giàu kinh nghiệm truyền đạt phương pháp học tập truyền thống và định hướng tư duy chuẩn mực.",
+        "en": "An experienced advisor passing down structured learning methods and standard thinking templates."
+      },
+      "visualCue": {
+        "vi": "người cố vấn tóc bạc chỉ tay lên bảng đen vẽ sơ đồ tri thức tinh tú cổ xưa",
+        "en": "silver-haired advisor pointing to a blackboard drawing ancient star knowledge diagrams"
+      },
+      "qaFocus": "academy_mentor"
+    },
+    {
+      "cardId": "major-06-lovers",
+      "roseMirrorAngle": {
+        "vi": "Đôi bạn cùng tiến chia sẻ mục tiêu chung, hỗ trợ nhau học tập và tìm thấy sự đồng điệu trong tâm hồn.",
+        "en": "Study partners sharing common goals, helping each other study and finding soul harmony."
+      },
+      "visualCue": {
+        "vi": "hai học sinh tóc hồng và xanh cùng che chung một chiếc ô học đường dưới cơn mưa bong bóng",
+        "en": "two students (pink & blue hair) sharing a school umbrella under a bubble rain"
+      },
+      "qaFocus": "study_partners"
+    },
+    {
+      "cardId": "major-07-chariot",
+      "roseMirrorAngle": {
+        "vi": "Đội trưởng đội thể thao quyết chí chiến thắng áp lực thi cử bằng sự rèn luyện kiên cường và ý chí sắt đá.",
+        "en": "The sports team captain determined to win over academic pressure through hard training and iron will."
+      },
+      "visualCue": {
+        "vi": "học sinh tóc xanh lá chạy trên đường pitch, hai mắt phát sáng rực rỡ, hướng về vạch đích",
+        "en": "green-haired student running on athletic track, eyes glowing brightly, heading for finish line"
+      },
+      "qaFocus": "driven_athlete"
+    },
+    {
+      "cardId": "major-09-hermit",
+      "roseMirrorAngle": {
+        "vi": "Một mình nghiên cứu đề tài tự chọn, tìm kiếm sự thấu suốt sâu sắc mà không bị ảnh hưởng bởi đám đông.",
+        "en": "Researching a self-chosen project alone, searching for deep insight unaffected by the crowd."
+      },
+      "visualCue": {
+        "vi": "học sinh ngồi ôm gối trong góc phòng đọc tối, cầm chiếc đèn pin chiếu vào cuốn sách cổ",
+        "en": "student curling up in dark reading corner, shining a flashlight on an ancient book"
+      },
+      "qaFocus": "solitary_scholar"
+    },
+    {
+      "cardId": "major-11-justice",
+      "roseMirrorAngle": {
+        "vi": "Lớp trưởng công tâm giải quyết mâu thuẫn nội bộ, phân chia nhiệm vụ nhóm công bằng và giữ vững sự trung thực.",
+        "en": "The fair class monitor resolving group conflicts, dividing group duties equally, and upholding integrity."
+      },
+      "visualCue": {
+        "vi": "nữ sinh tóc tím đứng thẳng giữ cán cân công lý lấp lánh ánh vàng bên cạnh chồng sổ lớp",
+        "en": "violet-haired female student standing straight, holding glowing golden scale next to class notebooks"
+      },
+      "qaFocus": "class_monitor"
+    },
+    {
+      "cardId": "major-17-star",
+      "roseMirrorAngle": {
+        "vi": "Học sinh theo đuổi giấc mơ nghệ thuật, tìm thấy nguồn cảm hứng dạt dào và niềm tin vào tương lai tươi sáng.",
+        "en": "A student chasing art dreams, finding abundant inspiration and faith in a bright future."
+      },
+      "visualCue": {
+        "vi": "nữ sinh tóc hồng ngước nhìn chòm sao lấp lánh trên ban công phòng thí nghiệm thiên văn",
+        "en": "pink-haired female student looking up at sparkling constellations from astronomy lab balcony"
+      },
+      "qaFocus": "dream_chaser"
+    },
+    {
+      "cardId": "major-21-world",
+      "roseMirrorAngle": {
+        "vi": "Lễ tốt nghiệp rực rỡ hoàn thành xuất sắc chặng đường học tập để tự tin bước ra thế giới rộng lớn hơn.",
+        "en": "A glorious graduation successfully completing the academic path to step confidently into a larger world."
+      },
+      "visualCue": {
+        "vi": "học sinh tung mũ tốt nghiệp giữa quảng trường ngập tràn pháo hoa vàng và cánh hoa anh đào",
+        "en": "students tossing graduation caps in plaza filled with gold confetti and cherry blossom petals"
+      },
+      "qaFocus": "graduation_completion"
+    }
+  ],
+  "sampleReadings": [
+    {
+      "id": "stellar-academic-stress",
+      "topic": "career",
+      "spreadId": "stellar-mosaic-three-card",
+      "question": {
+        "vi": "Làm thế nào để mình quản lý áp lực học tập và thi cử tốt hơn?",
+        "en": "How can I better manage exam and academic pressure?"
+      },
+      "cards": [
+        {
+          "position": "classroom",
+          "cardId": "major-02-high-priestess",
+          "orientation": "upright"
+        },
+        {
+          "position": "classmate",
+          "cardId": "major-04-emperor",
+          "orientation": "reversed"
+        },
+        {
+          "position": "lesson",
+          "cardId": "major-09-hermit",
+          "orientation": "upright"
+        }
+      ],
+      "fallbackSummary": {
+        "vi": "Môi trường hiện tại yêu cầu sự tập trung học hỏi yên tĩnh từ Thủ khoa. Tránh áp lực quản lý quá mức hay các quy tắc gò bó từ ban cán sự. Bài học dành cho bạn là hãy dành một khoảng lặng tự nghiên cứu trong thư viện để lấy lại sự tỉnh táo tinh thần.",
+        "en": "The current environment requires quiet learning focus from the High Priestess. Avoid over-management or strict rule-obeying pressure from authority figures. The lesson is to take a self-study pause in the library to regain mental clarity."
+      },
+      "journalTitle": {
+        "vi": "Học Viện Tinh Tú: cân bằng áp lực thi cử",
+        "en": "Stellar Academy: balancing exam pressure"
+      },
+      "expectedQa": [
+        "shows_selected_deck",
+        "uses_three_cards",
+        "supports_reversed",
+        "saves_to_journal"
+      ]
+    },
+    {
+      "id": "stellar-club-decision",
+      "topic": "decision",
+      "spreadId": "stellar-mosaic-three-card",
+      "question": {
+        "vi": "Mình có nên đăng ký làm phó ban truyền thông của câu lạc bộ không?",
+        "en": "Should I apply to be the media vice-head of the student club?"
+      },
+      "cards": [
+        {
+          "position": "classroom",
+          "cardId": "major-01-magician",
+          "orientation": "upright"
+        },
+        {
+          "position": "classmate",
+          "cardId": "major-06-lovers",
+          "orientation": "upright"
+        },
+        {
+          "position": "lesson",
+          "cardId": "major-11-justice",
+          "orientation": "upright"
+        }
+      ],
+      "fallbackSummary": {
+        "vi": "Bạn có đầy đủ tài năng sáng tạo và công cụ phù hợp của Nhà ảo thuật. Sự hợp tác với những người bạn thân thiết sẽ diễn ra vô cùng thuận lợi. Lớp trưởng công tâm nhắc nhở bạn cần phân chia công việc rõ ràng và chịu trách nhiệm với thời gian biểu của mình.",
+        "en": "You possess the full creative talent and learning tools of the Magician. Collaboration with supportive peers will flow smoothly. The class monitor reminds you to distribute tasks clearly and take accountability for your schedule."
+      },
+      "journalTitle": {
+        "vi": "Học Viện Tinh Tú: quyết định hoạt động ngoại khóa",
+        "en": "Stellar Academy: club participation choice"
+      },
+      "expectedQa": [
+        "decision_topic",
+        "clear_next_step",
+        "avoids_absolute_advice"
+      ]
+    },
+    {
+      "id": "stellar-self-identity",
+      "topic": "self",
+      "spreadId": "stellar-mosaic-three-card",
+      "question": {
+        "vi": "Làm thế nào để mình vượt qua nỗi sợ nói trước đám đông ở lớp?",
+        "en": "How can I overcome my fear of public speaking in class?"
+      },
+      "cards": [
+        {
+          "position": "classroom",
+          "cardId": "major-00-fool",
+          "orientation": "upright"
+        },
+        {
+          "position": "classmate",
+          "cardId": "major-03-empress",
+          "orientation": "upright"
+        },
+        {
+          "position": "lesson",
+          "cardId": "major-21-world",
+          "orientation": "upright"
+        }
+      ],
+      "fallbackSummary": {
+        "vi": "Hãy coi mỗi buổi thuyết trình như bước đi hào hứng đầu tiên của Tân học sinh, không sợ mắc lỗi. Sự ủng hộ ấm áp từ chủ nhiệm câu lạc bộ nghệ thuật sẽ tiếp sức cho bạn. Bài học cốt lõi là sự hoàn thiện bản thân sẽ đạt được thông qua việc dũng cảm trải nghiệm thực tế.",
+        "en": "Treat each presentation as the excited first step of a freshman, without fear of mistakes. Warm encouragement from the nurturing art club leader will support you. The core lesson is that integration and growth are achieved by braving real experiences."
+      },
+      "journalTitle": {
+        "vi": "Học Viện Tinh Tú: tự tin thuyết trình trước lớp",
+        "en": "Stellar Academy: speaking confidently in class"
+      },
+      "expectedQa": [
+        "self_topic_supported",
+        "non_judgmental"
+      ]
+    },
+    {
+      "id": "stellar-friendship-boundaries",
+      "topic": "love",
+      "spreadId": "stellar-mosaic-three-card",
+      "question": {
+        "vi": "Làm sao để giải quyết mâu thuẫn trong nhóm học tập chung?",
+        "en": "How can I resolve conflicts in my study group?"
+      },
+      "cards": [
+        {
+          "position": "classroom",
+          "cardId": "major-11-justice",
+          "orientation": "upright"
+        },
+        {
+          "position": "classmate",
+          "cardId": "major-07-chariot",
+          "orientation": "upright"
+        },
+        {
+          "position": "lesson",
+          "cardId": "major-05-hierophant",
+          "orientation": "upright"
+        }
+      ],
+      "fallbackSummary": {
+        "vi": "Hiện trạng yêu cầu sự công bằng phân chia trách nhiệm từ Lớp trưởng. Tránh xung đột cái tôi hiếu thắng của Đội trưởng thể thao. Cách tốt nhất là tham khảo ý kiến của thầy cô cố vấn hoặc áp dụng phương pháp làm việc có hệ thống truyền thống.",
+        "en": "The situation demands fair task distribution from the Class Monitor. Steer clear of the competitive ego of the driven athlete. The lesson is to consult an experienced academic mentor or apply structured guidelines."
+      },
+      "journalTitle": {
+        "vi": "Học Viện Tinh Tú: hòa giải mâu thuẫn nhóm học",
+        "en": "Stellar Academy: resolving study group conflict"
+      },
+      "expectedQa": [
+        "love_topic_supported",
+        "maturity_focused"
+      ]
+    },
+    {
+      "id": "stellar-daily-inspiration",
+      "topic": "open",
+      "spreadId": "stellar-mosaic-one-card",
+      "question": {
+        "vi": "Động lực học hỏi hôm nay mình cần tập trung vào là gì?",
+        "en": "What learning motivation should I focus on today?"
+      },
+      "cards": [
+        {
+          "position": "focus",
+          "cardId": "major-17-star",
+          "orientation": "upright"
+        }
+      ],
+      "fallbackSummary": {
+        "vi": "Lá bài ngôi sao truyền cảm hứng khuyên bạn giữ vững niềm tin vào ước mơ học tập lâu dài, tiếp tục tò mò khám phá tri thức mới với tâm thế tích cực đầy hy vọng.",
+        "en": "The Star card advises you to hold onto your long-term academic dreams, remaining curious to discover new knowledge with a positive, hopeful mindset."
+      },
+      "journalTitle": {
+        "vi": "Học Viện Tinh Tú: ngôi sao dẫn đường cảm hứng",
+        "en": "Stellar Academy: path of star inspiration"
+      },
+      "expectedQa": [
+        "one_card_daily",
+        "open_topic",
+        "fallback_summary"
+      ]
+    }
+  ],
+  "adminSeedChecks": [
+    {
+      "id": "stellar-mosaic-safety-copy",
+      "check": {
+        "vi": "Mọi thông tin phải mang tính định hướng tự phản chiếu học tập; tuyệt đối không hứa hẹn đỗ trượt kì thi hay điểm số cố định.",
+        "en": "All information must be self-reflective on academic growth; strictly avoid promising exam passes or specific grades."
+      }
+    },
+    {
+      "id": "stellar-mosaic-card-reference",
+      "check": {
+        "vi": "Mọi reading phải dùng cardId phù hợp với testCardPool và hệ thống học đường.",
+        "en": "Every reading must use cardId values that exist in the testCardPool and school-themed system."
+      }
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Nilaza Brand Experience"
+  short_description: "Apply Nilaza identity across product and content"
+  default_prompt: "Use $nilaza-brand-experience to apply the approved Nilaza identity and verify the affected deliverables."

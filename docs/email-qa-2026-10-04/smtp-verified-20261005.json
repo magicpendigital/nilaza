@@ -1,0 +1,17 @@
+{
+  "projectRef": "akgrokwnkfqnfjqrildi",
+  "verifiedAt": "2026-10-04T18:39:09.992Z",
+  "customSmtpEnabled": true,
+  "senderName": "Nilaza QA",
+  "host": "smtp.resend.com",
+  "port": 465,
+  "minimumIntervalSeconds": 60,
+  "storedPasswordHidden": true,
+  "senderAddress": "redacted by tool; value not verified",
+  "username": "redacted by tool; value not verified",
+  "keyScope": "Owner confirms only auth-qa.nilaza.magicpendigital.com; detail inspection rejected by automatic approval review; no credential read",
+  "testSendControlAvailable": false,
+  "emailSent": false,
+  "verification": "Fresh authenticated SMTP dashboard; Save changes disabled; no credentials inspected or changed.",
+  "keyPermission": "Sending access observed in team magicpendigital list"
+}

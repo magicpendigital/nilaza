@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en" data-admin-authorized="false">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nilaza Content Operations</title>
+    <script src="./config.js?v=admin-sync-v1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./admin-access.js"></script>
+    <script src="./workspace-guard.js"></script>
+    <link rel="stylesheet" href="./workspace-guard.css" />
+    <link rel="stylesheet" href="./content.css" />
+  </head>
+  <body>
+    <div class="content-app">
+      <aside class="side-rail">
+        <div class="workspace-title"><strong>Content Operations</strong><span>Shared online content</span></div>
+        <nav id="content-nav"></nav>
+        <div class="source-health"><span>Supabase content bundle</span><strong id="source-version">Loading…</strong><small>Online drafts are shared; local storage protects offline edits.</small></div>
+      </aside>
+      <main class="content-main">
+        <header class="content-header"><div><h1 id="page-title">Personas</h1><p id="page-description">Manage localized persona content and prompt profiles.</p></div><div class="header-actions" id="header-actions"></div></header>
+        <div class="notice" id="notice" role="status" hidden></div>
+        <section id="workspace-content" class="workspace-content"></section>
+      </main>
+    </div>
+    <script type="module" src="./content.js"></script>
+  </body>
+</html>

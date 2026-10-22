@@ -1,0 +1,104 @@
+{
+  "version": "2026-10-01-canonical-semantic-qc-v3",
+  "purpose": {
+    "vi": "Các kỹ năng nội dung giúp AI Agent viết, kiểm tra và mở rộng dữ liệu của từng lá bài Tarot.",
+    "en": "Content skills for AI agents to write, validate, and extend individual tarot card data."
+  },
+  "safetyBoundary": {
+    "vi": "Mọi nội dung Tarot phục vụ giải trí và tự phản chiếu; không khẳng định tương lai hoặc đưa lời khuyên y tế, pháp lý, tài chính.",
+    "en": "All tarot content is entertainment and self-reflection; never claim certain futures or provide medical/legal/financial advice."
+  },
+  "skills": [
+    {
+      "id": "tarot_card_intro_writer",
+      "outputField": "intro",
+      "purpose": {
+        "vi": "Viết giới thiệu ngắn, rõ ý cho từng lá bài.",
+        "en": "Write a short introduction for each card."
+      },
+      "checks": [
+        "short",
+        "bilingual",
+        "non-deterministic",
+        "clear card theme",
+        "does not assert the user's circumstances or promise an outcome"
+      ]
+    },
+    {
+      "id": "tarot_card_personality_builder",
+      "outputField": "personalityPortrait",
+      "purpose": {
+        "vi": "Xây dựng chân dung tính cách của lá bài như một người hướng dẫn nội tâm.",
+        "en": "Build the card's personality portrait as an inner guide."
+      },
+      "checks": [
+        "warm",
+        "distinct",
+        "reflective",
+        "not personified as a real entity"
+      ]
+    },
+    {
+      "id": "tarot_card_meaning_interpreter",
+      "outputField": "uprightMeaning/reversedMeaning",
+      "purpose": {
+        "vi": "Viết ý nghĩa xuôi và ngược có thể dùng trong phần diễn giải của AI.",
+        "en": "Write upright/reversed meanings usable in AI readings."
+      },
+      "checks": [
+        "actionable",
+        "emotionally safe",
+        "no fear claims",
+        "works in love/career/self contexts",
+        "card-specific suit and rank meaning, not a shared numeric-rank template",
+        "VI/EN keywords and orientation meanings express the same theme",
+        "reversed meaning explores blockage, excess or another perspective without judging the user",
+        "does not make suffering necessary, dismiss distress as imaginary or give professional directives"
+      ]
+    },
+    {
+      "id": "tarot_reflection_question_writer",
+      "outputField": "reflectionQuestion",
+      "purpose": {
+        "vi": "Tạo một câu hỏi tự phản chiếu để viết nhật ký sau mỗi lá bài.",
+        "en": "Create a journal question after each card."
+      },
+      "checks": [
+        "one question",
+        "self-reflection",
+        "no shame",
+        "mobile-friendly",
+        "one card-specific focus rather than the same keyword-substitution question for every card",
+        "leaves the user free to confirm or set aside the symbolic theme"
+      ]
+    },
+    {
+      "id": "tarot_card_visual_prompt_designer",
+      "outputField": "visualPrompt",
+      "purpose": {
+        "vi": "Tạo mô tả hình ảnh riêng cho từng bộ bài và từng lá.",
+        "en": "Create visual design prompts per deck and card."
+      },
+      "checks": [
+        "original artwork",
+        "no protected deck copy",
+        "deck-specific",
+        "tarot-card ratio"
+      ]
+    },
+    {
+      "id": "tarot_spread_synthesis_writer",
+      "outputField": "reading.summary",
+      "purpose": {
+        "vi": "Kết nối các lá bài thành một thông điệp ba lá an toàn và có tính gợi mở.",
+        "en": "Synthesize selected cards into a safe 3-card message."
+      },
+      "checks": [
+        "references selected cards",
+        "no fixed fate",
+        "ends with reflection",
+        "mentions uncertainty where needed"
+      ]
+    }
+  ]
+}

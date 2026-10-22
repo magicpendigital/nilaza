@@ -1,0 +1,9 @@
+{
+  "schemaVersion": "1.0.0",
+  "tenantId": "nilaza",
+  "namespace": "nilaza.youtube",
+  "authority": "ContentOps",
+  "status": "empty_editorial_seed_not_authoritative_execution_ledger",
+  "items": [],
+  "note": "No videos or measured outcomes recorded. This sanitized editorial seed is for dry planning. Real durable job/approval/idempotency/video state stays in isolated ContentOps tenant storage; no competing queue here."
+}

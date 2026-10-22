@@ -1,0 +1,142 @@
+---
+import { waitlistConfig } from "../../lib/waitlistConfig";
+import Brand from "../../components/Brand.astro";
+import brand from "../../../../../packages/content/data/brand-identity.json";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import WaitlistForm from "../../components/WaitlistForm.astro";
+import { featureCopy, guideSpotlight, intentions, locales, type Locale } from "../../lib/site";
+
+import astrologyCapture from "../../../../../assets/features/web-product/astrology-android-vi.png";
+import mythologyCapture from "../../../../../assets/features/web-product/mythology-android-vi.png";
+import oracleImage from "../../../../../assets/features/oracle.png";
+import councilImage from "../../../../../assets/features/ai-council.png";
+import tarotImage from "../../../../../assets/features/tarot.png";
+import journalImage from "../../../../../assets/features/journal.png";
+import astrologyImage from "../../../../../assets/features/astrology.png";
+import communicationMentorImage from "../../../../../assets/personas/covers/communication-mentor-v2.jpg";
+import aristotleImage from "../../../../../assets/personas/covers/aristotle-v2.jpg";
+import laoziImage from "../../../../../assets/personas/covers/laozi-v2.jpg";
+
+export function getStaticPaths() { return locales.map(locale => ({ params: { locale }, props: { locale } })); }
+const { locale } = Astro.props as { locale: Locale };
+const features = featureCopy[locale];
+const moments = intentions[locale];
+const images = { oracle: oracleImage, "ai-council": councilImage, tarot: tarotImage, journal: journalImage, astrology: astrologyImage };
+const vi = locale === "vi";
+const identity = brand.copy[locale];
+const registrationOpen = waitlistConfig.enabled;
+const publicCta = vi ? "Đăng ký trước ra mắt" : "Join the waitlist";
+const spotlight = guideSpotlight[locale];
+const title = vi ? "Nilaza — người bạn đồng hành AI cho hành trình thấu hiểu mình" : "Nilaza — an AI companion for understanding yourself";
+const description = vi ? "Khám phá bản thân qua Nilaza Oracle, người dẫn đường AI, Tarot phản chiếu, chiêm tinh và Nhật ký." : "Explore yourself through Nilaza Oracle, AI guides, reflective tarot, astrology, and journaling.";
+---
+<BaseLayout {locale} {title} {description} waitlistTarget="#waitlist">
+  <section class="hero" id="intro">
+    <img class="hero-image" src="/brand/v1/artwork/home.jpg" alt="" fetchpriority="high" />
+    <div class="hero-shade"></div>
+    <div class="shell hero-content">
+      <p class="eyebrow">{vi ? "Bạn đồng hành AI · Bản thử nghiệm" : "AI companion · Beta"}</p>
+      <h1 class="display">{identity.tagline}</h1>
+      <p class="hero-copy">{vi ? "Một phút phản chiếu, một cuộc trò chuyện, một góc nhìn từ Tarot hay chiêm tinh. Nilaza giúp bạn đặt câu hỏi và giữ lại điều đáng nhớ." : "A moment of reflection, a conversation, a lens from tarot or astrology. Nilaza helps you ask better questions and keep what matters."}</p>
+      <div class="hero-actions"><a class="button" href="#waitlist" data-analytics-event="waitlist_cta_click" data-analytics-source="hero" data-analytics-surface="landing" data-analytics-target="waitlist">{publicCta}</a><a class="button secondary" href="#how-it-works">{vi ? "Xem cách Nilaza hoạt động" : "See how Nilaza works"}</a></div>
+      <p class="availability"><span></span>{registrationOpen ? (vi ? "Nhận tin ra mắt & cơ hội trải nghiệm sớm" : "Launch news & early access opportunities") : (vi ? "Đang thử nghiệm nội bộ · Chưa mở đăng ký công khai" : "Internal testing · Public registration not open")}</p>
+    </div>
+  </section>
+
+
+  <section class="section product-section" id="how-it-works">
+    <div class="shell product-grid">
+      <div><p class="eyebrow">{vi ? "Từ một phút lắng nghe đến một điều đáng nhớ" : "From a quiet moment to something worth keeping"}</p><h2 class="section-title">{vi ? "Một hành trình theo nhịp của bạn." : "A journey at your own pace."}</h2>
+        <ol class="journey"><li><strong>{vi ? "Bắt đầu ở Today Pulse" : "Start with Today Pulse"}</strong><p>{vi ? "Từ Trang chủ, mở phút phản chiếu hôm nay và chọn điều đang cần được lắng nghe." : "From Home, open today’s reflection and notice what needs your attention."}</p></li><li><strong>{vi ? "Chọn cách khám phá" : "Choose your way to explore"}</strong><p>{vi ? "Trò chuyện với Oracle hoặc guide; dùng Tarot như một lăng kính; khám phá chiêm tinh và các câu chuyện biểu tượng." : "Talk with Oracle or a guide, use tarot as a lens, or explore astrology and symbolic stories."}</p></li><li><strong>{vi ? "Giữ lại trong Nhật ký" : "Keep it in your Journal"}</strong><p>{vi ? "Lưu insight hữu ích hoặc viết ghi chú riêng cùng cảm xúc để xem lại sau." : "Save a useful insight or write your own note with a mood to revisit later."}</p></li></ol>
+        <a class="button secondary" href={`/${locale}/help/getting-started`}>{vi ? "Đọc hướng dẫn bắt đầu" : "Read the getting-started guide"} ↗</a>
+      </div>
+      <div class="product-captures"><figure><img src={astrologyCapture.src} width="1080" height="2460" loading="lazy" alt={vi ? "Màn hình Astrology trong ứng dụng Nilaza trên Android, với lối vào bản đồ cá nhân và thư viện 12 cung." : "Nilaza Astrology on Android, with personal chart and zodiac library entry points. Interface shown in Vietnamese."}/><figcaption>{vi ? "Astrology · Bản đồ cá nhân" : "Astrology · Personal charts"}</figcaption></figure><figure><img src={mythologyCapture.src} width="1080" height="2460" loading="lazy" alt={vi ? "Thư viện thần thoại với vòng 12 cung tương tác trong Nilaza." : "Nilaza’s mythology library with an interactive zodiac wheel. Interface shown in Vietnamese."}/><figcaption>{vi ? "Thư viện · Không cần thông tin sinh" : "Library · No birth information needed"}</figcaption></figure><p class="capture-note">{vi ? "Ảnh từ ứng dụng Android 0.1.3 · Bản thử nghiệm nội bộ · Giao diện Tiếng Việt." : "Captured from Android app 0.1.3 · Internal test build · Vietnamese interface."}</p></div>
+    </div>
+  </section>
+
+  <section class="section paper intention-section" id="reflection">
+    <div class="shell intention-grid">
+      <div><p class="eyebrow">{vi ? "Bắt đầu từ điều đang thật sự xảy ra" : "Start with what is actually happening"}</p><h2 class="section-title">{vi ? "Hôm nay, bạn cần điều gì?" : "What do you need today?"}</h2><p class="section-lead">{vi ? "Nilaza không ép mọi câu hỏi vào một câu trả lời. Bạn chọn nhịp, giọng và người đồng hành phù hợp với khoảnh khắc." : "Nilaza does not force every question into one answer. You choose the pace, voice, and companion that fits the moment."}</p></div>
+      <div class="oracle-demo" data-oracle-demo>
+        <p class="demo-note">{vi ? "Ví dụ tương tác · Nội dung soạn sẵn, không gửi yêu cầu AI" : "Interactive example · Prewritten content, no AI request"}</p>
+        <div class="demo-tabs" role="group" aria-label={vi ? "Chọn tình huống minh họa" : "Choose an example situation"}>
+          {moments.map((item, index) => <button class:list={["demo-tab", { active: index === 0 }]} data-index={index} aria-pressed={index === 0} type="button">{item.label}</button>)}
+        </div>
+        <div class="demo-dialogue" aria-live="polite" aria-atomic="true">
+          <p class="question" data-question>{moments[0].prompt}</p>
+          <div class="answer"><Brand variant="symbol" tone="teal" width={32} decorative /><p data-answer>{moments[0].response}</p></div>
+        </div>
+        <script is:inline type="application/json" class="moment-data" set:html={JSON.stringify(moments)} />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="features">
+    <div class="shell"><p class="eyebrow">{vi ? "Một hệ sinh thái chiêm nghiệm" : "A reflection ecosystem"}</p><h2 class="section-title">{vi ? "Không chỉ là một chatbot." : "More than a chatbot."}</h2>
+      <div class="feature-list">
+        {features.map((feature, index) => <article class="feature-row" id={`feature-${feature.slug}`} data-language-anchor>
+          <div class="feature-number">0{index + 1}</div>
+          <div class="feature-media"><img src={images[feature.image].src} alt="" loading="lazy" /></div>
+          <div class="feature-copy"><div class="feature-meta"><p class="eyebrow">{feature.eyebrow}</p><span class:list={["status", feature.status]}>{feature.status === "available" ? (vi ? "Đã có trong bản thử nghiệm" : "Available in beta") : (vi ? "Đang hoàn thiện" : "Being refined")}</span></div><h3>{feature.title}</h3><p>{feature.description}</p><a href={`/${locale}/features/${feature.slug}`}>{vi ? "Khám phá tính năng" : "Explore the feature"} →</a></div>
+        </article>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section paper guide-section" id="guides">
+    <div class="shell">
+      <p class="eyebrow">{vi ? "Những cuộc trò chuyện có chủ đích" : "Conversations with intention"}</p>
+      <h2 class="section-title">{vi ? "Một giọng nói cho một góc nhìn. Nhiều góc nhìn khi bạn cần." : "One voice for one lens. Several lenses when you need them."}</h2>
+      <p class="section-lead">{vi ? "Chọn một người dẫn đường AI để đi sâu, hoặc mở Council để các lăng kính nối tiếp nhau quanh cùng một câu hỏi." : "Choose one AI guide to go deeper, or open Council so several lenses can build around the same question."}</p>
+      <div class="guide-showcase">
+        <article class="guide-card persona-card">
+          <div class="guide-card-media"><img src={communicationMentorImage.src} alt="" loading="lazy" /></div>
+          <div class="guide-card-body">
+            <p class="eyebrow">{vi ? "Trò chuyện 1–1" : "One-to-one guide chat"}</p>
+            <h3>{spotlight.persona.name}</h3>
+            <p class="guide-role">{spotlight.persona.role}</p>
+            <div class="sample-message user-message">{spotlight.persona.prompt}</div>
+            <div class="sample-message guide-message"><Brand variant="symbol" tone="teal" width={24} decorative /><span>{spotlight.persona.reply}</span></div>
+            <p class="guide-note">{vi ? "Mẫu minh họa · Không phải transcript của người dùng" : "Illustrative sample · Not a user's transcript"}</p>
+          </div>
+        </article>
+        <article class="guide-card council-card">
+          <div class="council-art"><img src={aristotleImage.src} alt="" loading="lazy" /><img src={laoziImage.src} alt="" loading="lazy" /><span class="council-plus">+</span></div>
+          <div class="guide-card-body">
+            <p class="eyebrow">AI Council</p>
+            <h3>{vi ? "Một câu hỏi, một vòng soi chiếu" : "One question, a round of reflection"}</h3>
+            <div class="sample-message user-message">{spotlight.council.prompt}</div>
+            <div class="guide-chip-row">{spotlight.council.guides.map((guide) => <span>{guide}</span>)}</div>
+            <div class="sample-message guide-message"><span class="message-mark">✦</span><span>{spotlight.council.reply}</span></div>
+            <p class="guide-note">{vi ? "Các guide là trải nghiệm AI lấy cảm hứng, không phải người thật." : "Guides are inspired AI experiences, not real people."}</p>
+          </div>
+        </article>
+      </div>
+      <div class="guide-actions"><a class="button secondary" href={`/${locale}/features/ai-council`}>{vi ? "Xem cách Council hoạt động" : "See how Council works"}</a><a class="text-link" href={`/${locale}/help/guides-council`}>{vi ? "Đọc hướng dẫn trò chuyện" : "Read the conversation guide"} →</a></div>
+    </div>
+  </section>
+
+  <section class="section trust-section" id="principles">
+    <div class="shell trust-grid"><div><p class="eyebrow">{vi ? "Ranh giới tạo nên sự tin cậy" : "Boundaries create trust"}</p><h2 class="section-title">{vi ? "Huyền nhiệm, nhưng không mơ hồ về trách nhiệm." : "Mystical, never vague about responsibility."}</h2></div><div class="trust-points"><p>{vi ? "Nội dung tâm linh được trình bày như biểu tượng để tự chiêm nghiệm, không phải lời tiên đoán chắc chắn." : "Spiritual content is framed as symbolic reflection, never certain prediction."}</p><p>{vi ? "Nilaza không thay thế bác sĩ, luật sư, chuyên gia tài chính hay chuyên gia sức khỏe tâm thần." : "Nilaza does not replace medical, legal, financial, or mental-health professionals."}</p><p>{vi ? "Thông tin sinh là tùy chọn; thư viện thần thoại không yêu cầu hồ sơ sinh. Bản đồ cục bộ và dữ liệu đồng bộ có phạm vi khác nhau — hãy kiểm tra trạng thái trong ứng dụng." : "Birth information is optional; the mythology library needs no birth profile. Local charts and synced data have different scopes — check the status shown in your app."}</p><a href={`/${locale}/privacy`}>{vi ? "Quyền riêng tư & dữ liệu" : "Privacy & data"} ↗</a><br/><a href={`/${locale}/safety`}>{vi ? "Đọc nguyên tắc an toàn" : "Read our safety principles"} →</a></div></div>
+  </section>
+
+  <section class="section paper waitlist-section" id="waitlist">
+    <div class="shell waitlist-grid"><div><p class="eyebrow">{vi ? "Đăng ký trước ra mắt" : "Prelaunch waitlist"}</p><h2 class="section-title">{vi ? "Cùng Nilaza trước ngày ra mắt." : "Be part of Nilaza before launch."}</h2><p class="section-lead">{vi ? "Để lại email để đăng ký nhận thông tin ra mắt và cơ hội trải nghiệm sớm. Nilaza chưa phát hành công khai; ngày mời và quyền truy cập chưa được đảm bảo." : "Leave your email to sign up for launch news and early access opportunities. Nilaza has not launched publicly; invitation timing and access are not guaranteed."}</p></div><WaitlistForm {locale} /></div>
+  </section>
+</BaseLayout>
+
+<script>
+  for (const demo of document.querySelectorAll<HTMLElement>("[data-oracle-demo]")) {
+    const data = JSON.parse(demo.querySelector(".moment-data")?.textContent || "[]");
+    demo.querySelectorAll<HTMLButtonElement>("[data-index]").forEach(button => button.addEventListener("click", () => {
+      const item = data[Number(button.dataset.index)]; if (!item) return;
+      demo.querySelectorAll("[data-index]").forEach(tab => { tab.classList.remove("active"); tab.setAttribute("aria-pressed", "false"); }); button.classList.add("active"); button.setAttribute("aria-pressed", "true");
+      const question = demo.querySelector<HTMLElement>("[data-question]"); const answer = demo.querySelector<HTMLElement>("[data-answer]");
+      if (question) question.textContent = item.prompt; if (answer) answer.textContent = item.response;
+    }));
+  }
+</script>
+<style>
+.hero{position:relative;min-height:calc(100svh - 72px);display:flex;align-items:end;overflow:hidden}.hero-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 44%;filter:saturate(.84) contrast(1.06)}.hero-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(21,20,22,.96) 0%,rgba(21,20,22,.76) 42%,rgba(21,20,22,.14) 73%),linear-gradient(0deg,var(--ink),transparent 50%)}.hero-content{position:relative;padding:110px 0 90px}.hero h1{max-width:940px;margin:15px 0 26px;font-size:clamp(3.2rem,7vw,6.4rem)}.hero h1 em{color:var(--gold);font-weight:400}.hero-copy{max-width:630px;color:#d0c8bb;font-size:1.05rem}.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}.availability{display:flex;align-items:center;gap:9px;color:var(--moon);font-size:.78rem;margin-top:26px}.availability span{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 5px rgba(14,90,90,.24)}.intention-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:70px;align-items:start}.oracle-demo{border:1px solid rgba(21,20,22,.18);background:#fffaf1;padding:22px}.demo-tabs{display:flex;gap:7px;flex-wrap:wrap}.demo-tab{min-height:48px;border:1px solid rgba(21,20,22,.14);background:transparent;color:#70665c;border-radius:99px;padding:.5rem .7rem;font-size:.72rem}.demo-tab.active{background:var(--teal);color:var(--ivory);border-color:var(--teal)}.demo-dialogue{padding:34px 10px 10px}.question{max-width:80%;margin-left:auto;padding:13px 15px;border-radius:14px 14px 2px 14px;background:var(--paper);font-family:var(--display);font-size:1.25rem}.answer{display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;margin-top:25px}.answer-mark{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--gold);font-family:var(--display)}.answer p{margin:2px 0;color:#4d4640}.feature-list{margin-top:50px;border-top:1px solid var(--line)}.feature-row{display:grid;grid-template-columns:50px 260px 1fr;gap:28px;align-items:center;border-bottom:1px solid var(--line);padding:28px 0}.feature-number{color:var(--gold);font:500 1rem var(--display)}.feature-media{aspect-ratio:16/10;overflow:hidden;background:var(--teal)}.feature-media img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}.feature-row:hover img{transform:scale(1.04)}.feature-copy h3{margin:7px 0;font:500 clamp(2rem,4vw,3.6rem)/1 var(--display)}.feature-copy>p{max-width:620px;color:var(--moon)}.feature-copy>a,.trust-points a{color:var(--gold);font-size:.83rem;text-decoration:none}.feature-meta{display:flex;justify-content:space-between;gap:10px;align-items:center}.feature-meta .eyebrow{margin:0}.trust-section{background:var(--teal)}.trust-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:80px}.trust-points p{padding-bottom:20px;border-bottom:1px solid rgba(247,241,230,.2)}.waitlist-grid{display:grid;grid-template-columns:1fr 1fr;gap:90px}.paper .waitlist :global(input),.paper .waitlist :global(select){background:#fffaf1;color:var(--ink);border-color:rgba(21,20,22,.18)}.guide-section{overflow:hidden}.guide-showcase{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:38px}.guide-card{display:grid;grid-template-columns:150px 1fr;background:#fffaf1;border:1px solid rgba(21,20,22,.16);min-height:390px}.guide-card-media{background:var(--teal);overflow:hidden}.guide-card-media img{width:100%;height:100%;object-fit:cover}.guide-card-body{padding:24px;display:flex;flex-direction:column;align-items:flex-start}.guide-card h3{font:500 clamp(1.8rem,3vw,2.8rem)/1 var(--display);margin:8px 0}.guide-role{color:#655f59;margin:0 0 20px;font-size:.9rem}.sample-message{display:flex;gap:10px;width:100%;padding:13px 15px;font-size:.9rem;line-height:1.5}.user-message{background:#ede6db;border-radius:14px 14px 2px 14px;color:#4b443d;margin-left:auto;max-width:92%}.guide-message{background:#f5efe5;border-left:2px solid var(--gold);color:#4b443d;margin-top:10px}.message-mark{display:grid;place-items:center;flex:none;width:22px;height:22px;border-radius:50%;background:var(--ink);color:var(--gold);font:500 .75rem var(--display)}.guide-note{color:#82786f;font-size:.72rem;margin:14px 0 0}.council-art{display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden;min-height:170px;background:var(--ink)}.council-art img{width:100%;height:100%;min-height:170px;object-fit:cover}.council-plus{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--gold);color:var(--ink);font-size:1.4rem}.council-card{display:block}.council-card .guide-card-body{padding-top:20px}.guide-chip-row{display:flex;flex-wrap:wrap;gap:7px;margin:2px 0 3px}.guide-chip-row span{border:1px solid rgba(14,90,90,.3);border-radius:99px;color:var(--teal);padding:6px 9px;font-size:.72rem}.guide-actions{display:flex;align-items:center;gap:22px;margin-top:22px}.text-link{color:var(--teal);font-size:.85rem;text-decoration:none}.text-link:hover{text-decoration:underline}@media(max-width:800px){.hero{min-height:0}.hero-content{padding:48px 0 42px}.hero-shade{background:linear-gradient(0deg,var(--ink) 5%,rgba(21,20,22,.5) 70%,rgba(21,20,22,.55))}.intention-grid,.trust-grid,.waitlist-grid{grid-template-columns:1fr;gap:38px}.feature-row{grid-template-columns:34px 1fr}.feature-media{grid-column:2}.feature-copy{grid-column:2}.feature-meta{align-items:flex-start;flex-direction:column}.hero h1{font-size:clamp(3.3rem,15vw,5.6rem)}.guide-showcase{grid-template-columns:1fr}.guide-card{grid-template-columns:100px 1fr}.guide-actions{align-items:flex-start;flex-direction:column;gap:12px}}
+.product-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}.journey{padding-left:24px;margin:28px 0}.journey li{padding-left:10px;margin-bottom:22px}.journey strong{font-size:1.1rem}.journey p{color:var(--moon);margin:5px 0}.product-captures{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}.product-captures figure{margin:0;min-width:0}.product-captures figure:nth-child(2){margin-top:48px}.product-captures img{width:100%;height:auto;border:1px solid var(--line);border-radius:8px}.product-captures figcaption{font-size:.78rem;line-height:1.4;margin-top:10px}.capture-note{grid-column:1/-1;color:var(--moon);font-size:.72rem}.demo-note{color:#655f59;font-size:.76rem;margin:0 0 14px}.guide-note{color:#655f59}@media(max-width:850px){.product-grid{grid-template-columns:1fr;gap:32px}.product-captures{max-width:580px;margin:auto}.product-captures figure:nth-child(2){margin-top:24px}}
+</style>

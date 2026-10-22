@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "taskId": "mvp-R03-source-read-forward-2026-10-01",
+  "ownerAgent": "workflow_orchestration_agent",
+  "lane": "backend_proxy_lane: raw source content least privilege forward preparation",
+  "goal": "Prepare a new forward SQL narrowing rawsource chunks/embeddings reads to authorizedcontent staff, removing legacypublicusingtrue and anonymous grants; preserve historical25SQL, RLSwrite/deletecapabilities, and approvedbackendretrieval boundary.",
+  "successCriteria": [
+    "Exacttwo canonicaltables only; newforward migration guardrequires capability helper/tables/RLS; noalterhistoricalSQL, no rows/DROPtable/DROPcascade.",
+    "Remove legacyPUBLICSELECTtrue; revoke raw table privileges fromanon/PUBLIC and nonrow privileges fromauthenticated; retain existingstaffwrite/deletepolicies and addcontent.readSELECT.",
+    "Future retrievallives behind approvedbackend; no client license redistribution assumed; no currentdirectsourcefetch in routedimplementations.",
+    "Document rollback/role-test matrix and liveexecution gate; sourcepreparation is not PostgreSQL replay/security acceptance."
+  ],
+  "writeScope": [
+    "supabase/migrations/20261001000000_private_source_read_boundary.sql",
+    "docs/mvp-remediation/2026-10-01/R03-source-read-forward.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "No live writes, project retarget, migration SQL, deploy, publish or release.",
+    "App/account bridge and privacy integration require separate root record; historical planning backlog untouched."
+  ],
+  "impact": {
+    "entryPoint": "Rawsource table authorization; currentPersona/chat interfaces unchanged.",
+    "dataWrite": "Newunapplied SQL/docs only; no livecatalog/row mutation.",
+    "backendContract": "Only authenticatedstaffcontent.read or existingpublishcapability rawread; backend approvedlicensed/publicdomain retrieval must enforce parentstatus/sources and remains R14.",
+    "adminVisibility": "No Admin/publication changes; R10 fullatomicquota remains open.",
+    "privacySafety": "Zero rawsource/embeddings reads, no client fulllicensed text; protectedstaffeditor runtime preserved.",
+    "observability": "Actual check counts/source bindings and precise blocked dependencies.",
+    "rollback": "Keep safe deny if failure; do not restorePUBLICusingtrue. Future approvedrollback preservesrecords and adjusts authorizedstaff path only."
+  },
+  "canonicalContracts": [
+    "Raw source private/proxy-owned, licensed orapproved doesnotgrantwholetext redistribution to clients.",
+    "Historicalowner writes/deletions policies preserved; ledgerblocked means no push/repair/apply under this localtask."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Verified broadread legacy policies, exact staffcapabilities and RPCserver boundary; root catalog MD5true/anonandauthedSELECT metadata, no rawchunks/privatebody read."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Verified broadread legacy policies, exact staffcapabilities and RPCserver boundary; root catalog MD5true/anonandauthedSELECT metadata, no rawchunks/privatebody read."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Verified broadread legacy policies, exact staffcapabilities and RPCserver boundary; root catalog MD5true/anonandauthedSELECT metadata, no rawchunks/privatebody read."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Verified broadread legacy policies, exact staffcapabilities and RPCserver boundary; root catalog MD5true/anonandauthedSELECT metadata, no rawchunks/privatebody read."
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "sha256": "88a873eb09601bc56640919d407dfd0777ff12d4e8e19b65fc52889b6393f256",
+      "reason": "Verified broadread legacy policies, exact staffcapabilities and RPCserver boundary; root catalog MD5true/anonandauthedSELECT metadata, no rawchunks/privatebody read."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "e5fc9e3789ce1978ce3db7b7f41d6dd695d021c6d01ead2b11b3af14a4525f49",
+      "reason": "Verified broadread legacy policies, exact staffcapabilities and RPCserver boundary; root catalog MD5true/anonandauthedSELECT metadata, no rawchunks/privatebody read."
+    },
+    {
+      "path": "supabase/migration-ledger.json",
+      "sha256": "e63b4510c844c03d235b3f69d8e9a051c5ce4cbe620369100f5fcb33a9f8d9eb",
+      "reason": "Verified broadread legacy policies, exact staffcapabilities and RPCserver boundary; root catalog MD5true/anonandauthedSELECT metadata, no rawchunks/privatebody read."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-01/R03-security-triage.vi.md",
+      "sha256": "f2386153d4463eeb5bf7db2511279483c454bb21d52320ab12425475f657f59c",
+      "reason": "Verified broadread legacy policies, exact staffcapabilities and RPCserver boundary; root catalog MD5true/anonandauthedSELECT metadata, no rawchunks/privatebody read."
+    },
+    {
+      "path": "supabase/migrations/202606120001_mvp_schema.sql",
+      "sha256": "226e20601e094426e23170814fab3346eea953bf619d78b0ded153afa37559f5",
+      "reason": "Verified broadread legacy policies, exact staffcapabilities and RPCserver boundary; root catalog MD5true/anonandauthedSELECT metadata, no rawchunks/privatebody read."
+    },
+    {
+      "path": "supabase/migrations/202606120002_add_missing_tables.sql",
+      "sha256": "80df182edc581e17f1fa66b91fe16537b89526abf97b889fe232c53e3032c91d",
+      "reason": "Verified broadread legacy policies, exact staffcapabilities and RPCserver boundary; root catalog MD5true/anonandauthedSELECT metadata, no rawchunks/privatebody read."
+    },
+    {
+      "path": "supabase/migrations/20260902131408_owner_capability_boundary.sql",
+      "sha256": "2f8fdac36b93d68f1a32da2d7a83b33c2b41b966589e8be9e1a85d56ace42a24",
+      "reason": "Verified broadread legacy policies, exact staffcapabilities and RPCserver boundary; root catalog MD5true/anonandauthedSELECT metadata, no rawchunks/privatebody read."
+    },
+    {
+      "path": "supabase/migrations/20260903033047_reconcile_owner_prerequisites.sql",
+      "sha256": "bfc7f7cf54ef7998abd617607f47644e698ee501da0d53a373f5d629b2a311b4",
+      "reason": "Verified broadread legacy policies, exact staffcapabilities and RPCserver boundary; root catalog MD5true/anonandauthedSELECT metadata, no rawchunks/privatebody read."
+    },
+    {
+      "path": "supabase/functions/ai-persona-chat/index.ts",
+      "sha256": "9fa26c13294546a1d4bf565a8444c84611fc059b033e8a3e9cbbc03a49dee079",
+      "reason": "Verified broadread legacy policies, exact staffcapabilities and RPCserver boundary; root catalog MD5true/anonandauthedSELECT metadata, no rawchunks/privatebody read."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Fresh exact QA plan with full results and separate browser/native/CI/live gates; no skipped case or inflated timeout."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Current repository SQL and sanitized read-only Supabase catalogs; official migration/RLS docs reviewed in R02, no install or guessed compatibility fix."
+  },
+  "securityReview": {
+    "authzRls": "Local unit tests only; linked DB identity flagged separately.",
+    "sensitiveData": "Synthetic fixtures; no credential/private traces read.",
+    "secretsLogging": "No secret printing or env changes.",
+    "externalInput": "Trusted repository tests/build scripts; results not commands.",
+    "dependencies": "No install/update; existing lockfile version.",
+    "migrationRelease": "Nilaza QA foreign-schema identity unresolved; no live writes/deploy/retarget.",
+    "stopCondition": "Foreign/unknown dependencies block execution, never creation/apply/drop/repair/secrets/cutover in this preparation task.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [],
+    "note": "Newfiles only; preserve historical migrations and all existing owner source."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/mvp-R03-source-read-forward-2026-10-01.json",
+    "npm run supabase:check",
+    "npm run supabase:migration-ledger:check",
+    "Pending actualisolatedPostgres replay and guest/customer/contentstaff/revoked/service-backendrole fixturetests before anyapply/cutover"
+  ],
+  "managerTestPath": "Review exactforward SQL and roleexpectations; confirm no apply/oldQAchanges. Futuretwoaccounts must be denied rawchunks while authorizedstaff canreview.",
+  "residualRisk": "Foreign schema dependencies/actor unknown. Critical/high dependency mitigations and native/RLS reachability remain release gates. Safe documentation only, no cloud action authorized.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deployment": false,
+    "productionRelease": false
+  },
+  "externalSourceReview": []
+}

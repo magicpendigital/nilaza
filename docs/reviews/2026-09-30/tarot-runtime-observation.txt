@@ -1,0 +1,64 @@
+- button "Quay lại":
+  - generic: 
+- img "Nilaza"
+- button "Bắt đầu lại":
+  - generic: 
+- generic: BẢN THÂN
+- generic: Con đường đang hé mở
+- generic: Thông điệp nào đang cần được nhìn thấy?
+- generic: 12:53:29 30/9/2026
+- generic "Six of Swords. Xem hình lá bài toàn màn hình":
+  - generic: QUÁ KHỨ · XUÔI
+  - generic: Six of Swords
+- generic "Three of Swords. Xem hình lá bài toàn màn hình":
+  - generic: HIỆN TẠI · XUÔI
+  - generic: Three of Swords
+- generic "Page of Wands. Xem hình lá bài toàn màn hình":
+  - generic: TIỀM NĂNG · NGƯỢC
+  - generic: Page of Wands
+- generic: QUÁ KHỨ · XUÔI
+- generic: Six of Swords
+- generic: Sau căng thẳng, bạn có cơ hội điều chỉnh và lấy lại nhịp.
+- generic: HIỆN TẠI · XUÔI
+- generic: Three of Swords
+- generic: Điều bạn bắt đầu đang cần kết nối, phần hỏi và hình đang rõ hơn.
+- generic: TIỀM NĂNG · NGƯỢC
+- generic: Page of Wands
+- generic: Sự non nớt không sai, nhưng cần khiêm tốn và thực hành.
+- generic: + Tổng hợp
+- generic: Quá khứ bạn đã trải qua một giai đoạn chuyển tiếp nhẹ nhàng khỏi những khó khăn. Hiện tại, bạn đối mặt với nỗi đau và sự chia cắt, nhưng đây là bước cần thiết để chữa lành. Tiềm năng tương lai mở ra với sự tò mò và sáng tạo, nhưng cần chú ý đến việc thực hành và khiêm tốn.
+- button " Vì sao Nilaza giải thích như vậy? Xem cách lá bài, vị trí, xuôi/ngược và câu hỏi của bạn được nối thành một thông điệp phản chiếu. ":
+  - generic: 
+  - generic: Vì sao Nilaza giải thích như vậy?
+  - generic: Xem cách lá bài, vị trí, xuôi/ngược và câu hỏi của bạn được nối thành một thông điệp phản chiếu.
+  - generic: 
+- generic: Nhật ký gợi ý
+- generic: Hãy nhìn lại quá khứ để thấy bạn đã đi qua những khó khăn như thế nào. Hiện tại, đối mặt với nỗi đau có thể giúp bạn nhận ra những điều cần giải quyết. Trong tương lai, hãy để sự tò mò và sáng tạo dẫn lối, nhưng không quên học hỏi và thực hành.
+- generic: 
+- generic: Guide đọc trải bài
+- generic: Giọng đọc hợp với Classic Arcana
+- generic: Inner Child Healer
+- generic: Người chăm sóc cảm xúc và đứa trẻ bên trong
+- generic: Hợp khi trải bài chạm vào cảm xúc mong manh hoặc cần được nâng đỡ.
+- button "The Mystic":
+  - generic: The Mystic
+- button "Inner Child Healer":
+  - generic: Inner Child Healer
+- button "The Love Oracle":
+  - generic: The Love Oracle
+- button "The Shadow Mirror":
+  - generic: The Shadow Mirror
+- button "The Clear Strategist":
+  - generic: The Clear Strategist
+- button "The Star Weaver":
+  - generic: The Star Weaver
+- generic: Bạn có thể đổi guide để đổi góc nhìn; trải bài vẫn là tự phản chiếu, không phải kết luận cố định.
+- button "Viết vào nhật ký":
+  - generic: Viết vào nhật ký
+- button "Chia sẻ văn bản trải bài":
+  - generic: 
+- button " Hỏi tiếp Inner Child Healer":
+  - generic: 
+  - generic: Hỏi tiếp Inner Child Healer
+- button "Báo cáo lượt trải bài":
+  - generic: Báo cáo lượt trải bài

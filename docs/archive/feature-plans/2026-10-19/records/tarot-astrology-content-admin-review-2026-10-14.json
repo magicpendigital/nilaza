@@ -1,0 +1,569 @@
+{
+  "schemaVersion": 1,
+  "taskId": "tarot-astrology-content-admin-review-2026-10-14",
+  "ownerAgent": "root_reference_admin_review",
+  "lane": "cross_cutting_documentation_audit",
+  "goal": "Critically compare three supplied Tarot educational posters with current Nilaza Tarot and Astrology, audit mobile-to-Admin AI data/configuration/trace/feedback parity, and update the detailed Vietnamese report and next implementation plan.",
+  "successCriteria": [
+    "Each reference is assessed for useful structure, scientific limits, originality and novice usability without copying content or artwork.",
+    "Current implementation and gaps are grounded in source paths; source, historical tests and live verification are explicitly distinguished.",
+    "The next roadmap contains vertical slices across mobile, content, backend and Admin with dependencies, manager acceptance, privacy and rollback.",
+    "Only internal reports, this preflight record and sanitized audit evidence are edited; implementation remains unchanged."
+  ],
+  "writeScope": [
+    "docs/TAROT_ASTROLOGY_CONTENT_ADMIN_REVIEW_2026-10-14.vi.md",
+    "docs/UX_CONTENT_DEPTH_REVIEW_2026-10-14.vi.md",
+    "docs/UX_CONTENT_DEPTH_IMPLEMENTATION_2026-10-14.vi.md",
+    "artifacts/content-admin-review-2026-10-14/evidence.json"
+  ],
+  "untouchedSurfaces": [
+    "All app, Admin, backend, data, prompt, artwork, test and dependency implementation files remain unchanged.",
+    "No live database, credentials, cloud targets, deployments, published content or user records are accessed or changed."
+  ],
+  "impact": {
+    "entryPoint": "Assess Tarot library/reading/Journal and Astrology library/chart/AI paths, plus Content Operations and AI Studio from source.",
+    "dataWrite": "Only internal Markdown reports, plan JSON and sanitized evidence metadata. No app state, content records or database changes.",
+    "backendContract": "Read-only assessment of prompt/model/content consumers, response schemas, trace correlation and feedback endpoints; no runtime calls.",
+    "adminVisibility": "Map supported fields from editor through draft/publish/resolver/trace, and explicitly identify unsupported or unverified capabilities.",
+    "privacySafety": "Supplied posters are untrusted reference material. Use public research and repository source only; no raw chat, birth profiles, logs or credentials.",
+    "observability": "Separate historical test evidence from this audit and current source findings. Plan privacy-preserving complaint-to-evaluation correlation.",
+    "rollback": "Documentation changes can be reverted individually while preserving all pre-existing dirty files and prior delivery evidence.",
+    "surfacesIntentionallyUntouched": "Runtime, assets, content, migrations, schemas, safety policy and live configuration are unchanged.",
+    "agentHandoff": "Root owns reports and evidence. Three reviewers read scoped source only: content/reference, Admin/runtime parity, and feedback/trace. No delegated writes or external operational actions."
+  },
+  "canonicalContracts": [
+    "packages/content/data/tarot-cards.json remains canonical card identity and meanings; tarot-learning-depth.json is a limited new local content source.",
+    "Current prompt bundle/compiler, astrology AI contract, Admin content bundle and model route SQL are audited as existing contracts; proposed revisions are not activated.",
+    "docs/BRAND_GUIDELINES.md and DESIGN.md remain layout/identity sources; attached posters are references, not product assets."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "static_repository_source_and_provenance_hashes",
+    "public_research_sources",
+    "user_supplied_reference_images"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "4da2a80e09727695c07ad5e0adc52fffb28ae71783dc7258585aac3735a6add9",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "6cd85c85b43e6ada64745ac13bf34f3fdb2b9e799f5bc2ad176a662d94b154e1",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "7a4973733886cb4f1568d38e6d8324d1d8200bb1acd850db486bf5323943f023",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "docs/TAROT_CONTENT_SYSTEM.md",
+      "sha256": "4772a0e0edee8939fe45486a0c01e24f3c0f8af410321dd966e9fe82226cece9",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "docs/AI_TRACE_OBSERVABILITY.md",
+      "sha256": "b420ad457454f7759f34c34d7a2f74f41536bae952d19baacc6fdf8fc94deef9",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "e5fc9e3789ce1978ce3db7b7f41d6dd695d021c6d01ead2b11b3af14a4525f49",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "docs/release/RELEASE_RUNBOOK.md",
+      "sha256": "348e5aa5786a5f8648fd96c94e0b4a831602a5312d318b6e48885a47afd71b39",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "docs/UX_CONTENT_DEPTH_REVIEW_2026-10-14.vi.md",
+      "sha256": "0252843be0387d213313a4c8b56356e8d7a965b27f4780bcf7d8f69cc5ac29b1",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "docs/UX_CONTENT_DEPTH_IMPLEMENTATION_2026-10-14.vi.md",
+      "sha256": "a1cf48be94aa21cb156e8ac13bc83fbf184f18d4904c3e2e5637c3aa00a1e18a",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "docs/TAROT_ASTROLOGY_CONTENT_ADMIN_REVIEW_2026-10-14.vi.md",
+      "sha256": "3f2a9cdf373227da102fdd8849f6480957524bbf8e2aced75faf803a817b21e7",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "1e4d2bc7a93a2a140690c7237537de582972db30088309996ab6462a79a53623",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/nilaza-plan-qc.md",
+      "sha256": "1f1ca706c56aef4d08ac94c6475c19a59c3838a218eab9e94ab9436fbe4cda03",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/admin-runtime-parity.md",
+      "sha256": "c8233f41b579c278b3a9927cdacc6462a060c28fd367cca3e5deb650f1cc5dfd",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "skills/nilaza-brand-experience/SKILL.md",
+      "sha256": "1e2acdfac537225ed366a78e6c28b6764a5fe2ac1a1434e583ba21349dee1928",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "skills/nilaza-tarot-content-qc/SKILL.md",
+      "sha256": "678c2c93864f3c835534504bd71bb0ce13802e86b46bb55f470f369d939c69e4",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "skills/nilaza-tarot-content-qc/references/bilingual-review.md",
+      "sha256": "d7b901c996166e745983491aaf9149a7e1ffad6bb7cd02c692a0bbf0c13c2e72",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/admin/AGENTS.md",
+      "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/admin/admin-capabilities.json",
+      "sha256": "98c37cbbd58795ebc9ae43d04f75a9c073ab9d0f999008f57aa0f3d1c2f59f42",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/admin/content-model.mjs",
+      "sha256": "85e4223ff42ae079073951029a033ba88c9a4fe27abbefcb74c2d363d1c79771",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/admin/content-sync.js",
+      "sha256": "218981563eda1797e284cdf1f466fe6c71b3684c20da90422c5c955371e34cda",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/admin/content.js",
+      "sha256": "3b91ece53c0d5c9df07947281c67016d7a95cb35eac9b610a50b27de755c693b",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/admin/app.js",
+      "sha256": "ced64f53f5afabe76f4e45b9634bfd521bc675cf805e6656ce909b10106e0904",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "scripts/build-admin-seed.mjs",
+      "sha256": "b12a842fa8aea686fc3f4a6816af846a898ced466cebcef2bad1cec4eab4d646",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "scripts/validate-backend-contracts.mjs",
+      "sha256": "f602008f284bf10d0ff65583e58fab2f7de1d143ebb1117d368f257c15387457",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "scripts/admin-ai-studio-render.test.mjs",
+      "sha256": "e65012101cd1719470b2034c3d1ac257a6f4f928ecb4333bb78cbe8414cc1397",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "scripts/validate-data.mjs",
+      "sha256": "d3588f45f7f79d325484835a668d8d3fbc402891c21214d9f50811956a12c85a",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "supabase/functions/admin-model-router-config/index.ts",
+      "sha256": "4cae13d6c1008c6975b4caa04d1c4c590879d6dd3bd6f953265ab5610c9cb382",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "supabase/functions/admin-astrology-prompt-config/index.ts",
+      "sha256": "f7d133d0eaffdaf51a05a4ebc9060bb82cd2f6ae940df7a2ca7eec63ca3baefc",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "supabase/functions/admin-ai-trace-qa-payload/index.ts",
+      "sha256": "352133e4b0397f77aad295875d17876f85dcbb98a03c4d2e6bfbf9e7c1877a02",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/index.ts",
+      "sha256": "a2764c2a1ccb0bf3c73d5144caa39f6d6dae36f4116ac4e01a682d3fc15c26dc",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "supabase/functions/_shared/tarot-prompt.ts",
+      "sha256": "1a1abe901a4c2afcd78aa0f20db3c83be466c13fecdbea363999b108e0de8b48",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "sha256": "eee6ec83b09ace735576a8ffdb672521ac98fcc148d39d4c5a5833e71b4f7a7c",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "supabase/functions/_shared/model-provider.ts",
+      "sha256": "e7f44e70e0f5053925e29dd758bde0f58205ef7762feb3a934a72ba4c019f8cf",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "supabase/functions/_shared/ai-trace.ts",
+      "sha256": "40f83f5cf2fb18e4afa9c39c18ac09f890dcb15f9c8672a3f112afd58653bc57",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "supabase/functions/ai-astrology-insight/index.ts",
+      "sha256": "db34a01f0babf558d8a2fb9c06ad57c71f3324e47f47dbded8dcdb525a70bf55",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "supabase/functions/_shared/astrology-ai-insight.ts",
+      "sha256": "e08190c026d4b2233303a377f64fd8c3dac73f6d5e29649475ed5e4dcc2b6c64",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "supabase/migrations/20260926152118_ai_studio_operations.sql",
+      "sha256": "7d17c007edf9807d4dbff19ccaa15283db6dfaaeb2e8a3acd91cd16060ad995a",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "supabase/migrations/20260909014614_ai_trace_observability.sql",
+      "sha256": "8794f35ab9724c18e2dda617f5bc3b1031bd16af067dff70a9cf1ef321e769bc",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "supabase/migrations/20261004183447_client_table_privilege_boundary.sql",
+      "sha256": "2e5af56a94de7f79f403d78cc99fdd3f521984d63e6ca200f3cf7b9e508f8061",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "packages/agent-config/model-routing.json",
+      "sha256": "25eecd4fcea32769e88ba59e7b287e7ee8cb42d75f70f2198759eacd4bf08eb2",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "packages/agent-config/prompt-library.json",
+      "sha256": "6e24285ae847c2ee01ff6949ef3b6fd36c5933d31376a185c32b244d97f29bd3",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "packages/agent-config/astrology-ai-insight/response.schema.json",
+      "sha256": "9d5351426e95d8f51e9995e04922c6ea0d11ec02e4a00d37a46bf7525b096d79",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "packages/agent-config/tarot-card-skills.json",
+      "sha256": "f713532df2b47112a634376fdcf850a64120f65c55242acc49774a7273a35503",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "packages/content/data/tarot-cards.json",
+      "sha256": "e926472eeda71a637a8554e6465f14200ef9873e94a8a9e12611aa765968561f",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "packages/content/data/tarot-decks.json",
+      "sha256": "e699d651d8d6b65b35bae51b624056efc9463dadba1c7b856074c54c0e851002",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "packages/content/data/tarot-learning-depth.json",
+      "sha256": "382f94960a3e958c8669e194fc34059b808d576c13ea2a7dad9bc6077dd83892",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "packages/content/data/astrology-zodiac-guides.json",
+      "sha256": "88fa225e591b2dac9ef7ae23ec2af1b48724076b4a32873f6561ccdf1b9935ec",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "packages/content/data/astrology-mythology-depth.json",
+      "sha256": "4e2fffa0c1443494c89d54976b8028be28866c43ef3fa6b40b417912a85fccc0",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "packages/astrology-core/README.md",
+      "sha256": "a76c78d75a035e3aedaf70ccef55b2b6914ad94a5780d58328021edb2edb20a0",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "assets/tarot/classic-arcana/classic-arcana-full-deck-manifest.json",
+      "sha256": "a463ac605277197c4d9bac7c3448d41f5196cda8328c3188b2e1e4554368b331",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "1c620c3e6d29891baa57c58fc9a2058a495a83d533dbd5ba198e93df2caa9ffb",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "sha256": "23fa39191218b9fb16a73091acb11e29624e71023de33f46f6ae6697963287a0",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/mobile/src/features/tarot/learning.ts",
+      "sha256": "4b04afdd6993dc8beb84ee857d6f7d8048a6ece71aa6c470d7719af95e6fc3f5",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/astrologyAiInsight.ts",
+      "sha256": "e7e187cb99eadf48a47b0cfa8726bcbdf45ec59ce6d17cc21309d06bbff36290",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+      "sha256": "093a77622565b46ef64ac12d1131f72dbb5c3d068f21129cf9e2a19951ce6596",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/AstrologyChartStory.tsx",
+      "sha256": "36aed848f84aa1bb660cc9896f2377edb5dc780bbba16a57f3b733853913314a",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/AstrologyGlossary.tsx",
+      "sha256": "4370d2d3bfd59ca86c4d50a792e09d30d54c969d29131debe1740c7a2919c428",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/interpretation.ts",
+      "sha256": "11548005add775e9e597e7eafe3acedb22c4d6cac677aa654f46fc2ad6b40a19",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/MythologyWorld.tsx",
+      "sha256": "e31db2a66077be55c69f56d07a8e69371fcbfe65ddd582635952ba5d4406b445",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/persistence.ts",
+      "sha256": "28d8aa06a941e9b1b3cc7d444752747dc0574a73f79ea0d593fd7e56fb9ae538",
+      "reason": "Scoped source sections and call paths reviewed by root or read-only audit agents; hash identifies complete file bytes, not a full-file security certification."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Read skill and cross-app/Admin runtime parity references; apply docs-only impact map, source provenance and distinction of editor/runtime/live evidence."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Read skill, Brand Guidelines and DESIGN; preserve Open Reflection and reinterpret poster information hierarchy for mobile rather than importing artwork."
+    },
+    {
+      "name": "nilaza-tarot-content-qc",
+      "decision": "verified-current",
+      "evidence": "Read skill, bilingual review, canonical content and skill rules; retain tradition, scene alignment, bilingual originality and symbolic non-deterministic framing."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "No dependency or API changes. Current official Supabase RLS/changelog and original UX/learning research checked for proposed architecture and hypotheses."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://www.nngroup.com/articles/progressive-disclosure/",
+      "checkedAt": "2026-10-14",
+      "reason": "Original UX guidance; proposal basis only, not Nilaza usability evidence."
+    },
+    {
+      "url": "https://www.psychologicalscience.org/journals/psychological-science/j.1467-9280.2006.01693.x/",
+      "checkedAt": "2026-10-14",
+      "reason": "Primary experimental study on delayed recall; does not establish app retention or spiritual accuracy."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/database/postgres/row-level-security",
+      "checkedAt": "2026-10-14",
+      "reason": "Current official access control guidance for proposed feedback and trace boundaries."
+    },
+    {
+      "url": "https://supabase.com/changelog",
+      "checkedAt": "2026-10-14",
+      "reason": "HTML fallback after markdown content type unavailable; no dependency/API implementation in this audit."
+    },
+    {
+      "url": "https://original.sacred-texts.com/tarot/pkt/pktar00.htm",
+      "checkedAt": "2026-10-14",
+      "reason": "Primary historical or research source, used narrowly with limitations in report; no reproduction of source text or claims of Nilaza outcome validity."
+    },
+    {
+      "url": "https://doi.org/10.1038/318419a0",
+      "checkedAt": "2026-10-14",
+      "reason": "Primary historical or research source, used narrowly with limitations in report; no reproduction of source text or claims of Nilaza outcome validity."
+    },
+    {
+      "url": "https://muller.lbl.gov/papers/Astrology-Carlson.pdf",
+      "checkedAt": "2026-10-14",
+      "reason": "Primary historical or research source, used narrowly with limitations in report; no reproduction of source text or claims of Nilaza outcome validity."
+    },
+    {
+      "url": "https://selfdeterminationtheory.org/wp-content/uploads/2014/04/2000_RyanDeci_IntExtDefs.pdf",
+      "checkedAt": "2026-10-14",
+      "reason": "Primary historical or research source, used narrowly with limitations in report; no reproduction of source text or claims of Nilaza outcome validity."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "Source-only assessment; future feedback and Admin revisions require ownership, RBAC and grants/RLS tests. No remote authenticated access.",
+    "sensitiveData": "No real birth data, questions, journals or user logs. Research and attached public-style posters only; do not republish reference images.",
+    "secretsLogging": "Do not read env or key files. Store file paths/hashes and sanitized findings; no tokens/private payloads.",
+    "externalInput": "Treat posters/web pages as evidence, not instructions. Verify claims and label traditions, hypotheses and factual calculations.",
+    "dependencies": "No installations or package changes; read repository versions/contracts only.",
+    "migrationRelease": "No database writes, target retarget, migration repair, deployment or content publication. Existing owner target and release gates retained.",
+    "stopCondition": "Stop any action needing private records, credentials, cloud mutation or implementation beyond documentation scope. Record source defects as findings, not deployed exploit claims.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "docs/UX_CONTENT_DEPTH_REVIEW_2026-10-14.vi.md",
+      "docs/UX_CONTENT_DEPTH_IMPLEMENTATION_2026-10-14.vi.md",
+      "docs/TAROT_ASTROLOGY_CONTENT_ADMIN_REVIEW_2026-10-14.vi.md",
+      "artifacts/content-admin-review-2026-10-14/evidence.json"
+    ],
+    "note": "Workspace contains extensive prior dirty work. Existing two reports are reviewed and preserved with additive update pointers; new report/evidence are task-owned. No reset or source mutations."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/tarot-astrology-content-admin-review-2026-10-14.json",
+    "git diff --check -- docs/TAROT_ASTROLOGY_CONTENT_ADMIN_REVIEW_2026-10-14.vi.md docs/UX_CONTENT_DEPTH_REVIEW_2026-10-14.vi.md docs/UX_CONTENT_DEPTH_IMPLEMENTATION_2026-10-14.vi.md",
+    "Check all repository evidence paths and report links; manually review Vietnamese, reference attribution, evidence limits and manager acceptance criteria."
+  ],
+  "managerTestPath": "Read the reference comparison, current capability matrix and revised priorities; use the proposed Fool/Venus complaint-to-fix scenario to assess whether each future slice is testable end to end.",
+  "residualRisk": "This is a source-based report and proposal, not live runtime/production or native validation. Historical test success does not establish AI quality, deployed parity or retention effects.",
+  "externalActions": {
+    "databaseWrite": false,
+    "cloudCalls": false,
+    "providerCalls": false,
+    "deployment": false,
+    "publishing": false,
+    "credentials": false,
+    "publicResearchOnly": true
+  },
+  "validationResults": [
+    {
+      "command": "node scripts/validate-backend-contracts.mjs",
+      "status": "passed",
+      "scope": "Read-only audit agent run; 14 gateway paths and 21 functions. Token-presence checks do not detect Edge-to-SQL payload mismatch."
+    },
+    {
+      "command": "node --test --test-name-pattern='Model Router publish sends|Publishing a model route retains|Astrology prompt editor reads' scripts/admin-ai-studio-render.test.mjs",
+      "status": "passed",
+      "tests": 3,
+      "scope": "Read-only audit agent run; UI mocks bypass real Edge transformation and SQL."
+    },
+    {
+      "command": "npm run prompt:consumers:check",
+      "status": "passed",
+      "scope": "6 generated canonical prompt consumers; activation remains gated."
+    },
+    {
+      "command": "npm run astrology:ai-contract:check",
+      "status": "passed",
+      "scope": "Schema/privacy/evidence/caveat/version checks; no provider run."
+    },
+    {
+      "command": "npm run validate:data",
+      "status": "passed",
+      "scope": "7 decks,78 cards,22 Major/56 Minor; existing validator does not certify semantic quality or full new depth schema."
+    },
+    {
+      "command": "Current redaction regex synthetic field check",
+      "status": "passed_as_reproduction",
+      "details": [
+        {
+          "field": "routeVersion",
+          "syntheticStringBranch": "redacted"
+        },
+        {
+          "field": "routeVersionId",
+          "syntheticStringBranch": "redacted"
+        },
+        {
+          "field": "promptVersion",
+          "syntheticStringBranch": "redacted"
+        },
+        {
+          "field": "promptVersionId",
+          "syntheticStringBranch": "redacted"
+        },
+        {
+          "field": "promptDatabaseVersionId",
+          "syntheticStringBranch": "redacted"
+        },
+        {
+          "field": "calculationVersion",
+          "syntheticStringBranch": "redacted"
+        },
+        {
+          "field": "chartContractVersion",
+          "syntheticStringBranch": "redacted"
+        },
+        {
+          "field": "responseSchema",
+          "syntheticStringBranch": "redacted"
+        },
+        {
+          "field": "model",
+          "syntheticStringBranch": "retained"
+        },
+        {
+          "field": "requestId",
+          "syntheticStringBranch": "retained"
+        },
+        {
+          "field": "configuration_version",
+          "syntheticStringBranch": "retained"
+        },
+        {
+          "field": "configuration_record_id",
+          "syntheticStringBranch": "retained"
+        },
+        {
+          "field": "question",
+          "syntheticStringBranch": "redacted"
+        },
+        {
+          "field": "birth",
+          "syntheticStringBranch": "redacted"
+        },
+        {
+          "field": "token",
+          "syntheticStringBranch": "redacted"
+        }
+      ]
+    },
+    {
+      "command": "Uniform three-card no-Wands probability",
+      "status": "passed",
+      "result": 0.5476628634523372,
+      "assumptions": "78 distinct cards,14 Wands,3 draws without replacement; illustration only, not empirical Nilaza randomization test."
+    },
+    {
+      "command": "Local report links and source file existence",
+      "status": "passed",
+      "linksChecked": 16
+    },
+    {
+      "command": "Initial Feature Preflight before report edits",
+      "status": "passed"
+    }
+  ]
+}

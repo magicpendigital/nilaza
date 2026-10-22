@@ -1,0 +1,555 @@
+{
+  "schemaVersion": 1,
+  "deckId": "tinh-quang",
+  "stage": "source_artwork_only",
+  "reviewPath": "assets/tarot/tinh-quang/artwork-review.json",
+  "reviewSha256": "e159c67dbb76ba3ef89486034e1fc13120655712a57c327d811dc8852ea27e25",
+  "assets": [
+    {
+      "cardId": "major-00-fool",
+      "path": "assets/tarot/tinh-quang/artwork/major-00-fool.png",
+      "sha256": "a7d8eac2788e6a06e71b6c6ea988c423417a3fc46c59db2ac8b81155e3b5757a",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "major-01-magician",
+      "path": "assets/tarot/tinh-quang/artwork/major-01-magician.png",
+      "sha256": "958f63ca3548e49c0149defaa2aad7f833c78503761fdf343cbab6298024f82e",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "major-02-high-priestess",
+      "path": "assets/tarot/tinh-quang/artwork/major-02-high-priestess.png",
+      "sha256": "67c7d594a583ed8ce27a5ddbdb63773c4e0a914e3ff85961cd9a1587586d041e",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "major-03-empress",
+      "path": "assets/tarot/tinh-quang/artwork/major-03-empress.png",
+      "sha256": "60f90d6ee759dfa555afc1e240bb5ae548498e4e19a28ce18c472bb3581b791b",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "major-04-emperor",
+      "path": "assets/tarot/tinh-quang/artwork/major-04-emperor.png",
+      "sha256": "aa1d30395507db088065caea378d99c3f9c0a70850fcaa88c06d425459bfe409",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "major-05-hierophant",
+      "path": "assets/tarot/tinh-quang/artwork/major-05-hierophant.png",
+      "sha256": "fb0729a785c6638b8a203d5d680aaac804e02e7eaeaa0d68fabe3137e8408b66",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "major-06-lovers",
+      "path": "assets/tarot/tinh-quang/artwork/major-06-lovers.png",
+      "sha256": "b147a995153f03ada9058f467066e85d0e6d570a31ad27e12ad3323d59ee1da7",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "major-07-chariot",
+      "path": "assets/tarot/tinh-quang/artwork/major-07-chariot.png",
+      "sha256": "8b9d54e13e81b4e2254a8a2aafc5d47fdf320cd2732a0f888d28e41d5891d516",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "major-08-strength",
+      "path": "assets/tarot/tinh-quang/artwork/major-08-strength.png",
+      "sha256": "cb45bac6e42fc79d13915ec44ad2b427905730afba4270b261921c9f62562a4c",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "major-09-hermit",
+      "path": "assets/tarot/tinh-quang/artwork/major-09-hermit.png",
+      "sha256": "fe38b4c090986b32a851cd902e9fd5190ed3c2bdb48e11117e4852d971fad379",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "major-10-wheel",
+      "path": "assets/tarot/tinh-quang/artwork/major-10-wheel.png",
+      "sha256": "d5e463cec7f6bd68ad08b6e7ec668e392b49049653b6598fa115af992cf07353",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "major-11-justice",
+      "path": "assets/tarot/tinh-quang/artwork/major-11-justice.png",
+      "sha256": "57c9e1368e30c7ac7d819bcd5ddaec79ce8e2d6367289873343bd5122a5abb91",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "major-12-hanged-man",
+      "path": "assets/tarot/tinh-quang/artwork/major-12-hanged-man.png",
+      "sha256": "bde223636c91960001cde7081cff88f1d7cdd823be8f56864d69e2b562c7fef5",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "major-13-death",
+      "path": "assets/tarot/tinh-quang/artwork/major-13-death.png",
+      "sha256": "4d80f16088d28cab532761a03c31f4d32b32a16042bff2825303260036b96fb8",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "major-14-temperance",
+      "path": "assets/tarot/tinh-quang/artwork/major-14-temperance.png",
+      "sha256": "3375f4b0960516f17748c96c6859d681d89000eedcadddd0bb5ea880f6323623",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "major-15-devil",
+      "path": "assets/tarot/tinh-quang/artwork/major-15-devil.png",
+      "sha256": "62f59279e68e52a5d2768a8fe271d7620f64235fae25950e770827ee4c1a13ba",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "major-16-tower",
+      "path": "assets/tarot/tinh-quang/artwork/major-16-tower.png",
+      "sha256": "678dee64ca4243292b5b6154349d620cf19bfa14a1f5b94c270aa4a400968cc3",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "major-17-star",
+      "path": "assets/tarot/tinh-quang/artwork/major-17-star.png",
+      "sha256": "ca2b33df47c840565b5e22165ec4e91c32d544529b268daa832c205194ed3657",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "major-18-moon",
+      "path": "assets/tarot/tinh-quang/artwork/major-18-moon.png",
+      "sha256": "a9ea588323189be9aabe50858020b10ced881a9924e7bc690ba0d3a82b3f4ebd",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "major-19-sun",
+      "path": "assets/tarot/tinh-quang/artwork/major-19-sun.png",
+      "sha256": "68f1addacf400a007a0f703d14ecf6028d44ec526b92a2b9930bc9f874fe8fb4",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "major-20-judgement",
+      "path": "assets/tarot/tinh-quang/artwork/major-20-judgement.png",
+      "sha256": "fa708d025611fe71f9b7fb9227dbca44811f2e638cb321400d89dcaa12d741ef",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "major-21-world",
+      "path": "assets/tarot/tinh-quang/artwork/major-21-world.png",
+      "sha256": "da779cf569ce273f5657531dda2004ec2cb6286276ffd79e922200c22993febe",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-wands-ace",
+      "path": "assets/tarot/tinh-quang/artwork/minor-wands-ace.png",
+      "sha256": "ef36c471218ce7da4c3bbb93e7bb2ee6a1ac789147d54ae4d5bb18321ad57bfb",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-wands-two",
+      "path": "assets/tarot/tinh-quang/artwork/minor-wands-two.png",
+      "sha256": "32cdf1b74e621099e7351385fcfd9b3dc5c9acbea63fc3831b0a4d9cb8378910",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-wands-three",
+      "path": "assets/tarot/tinh-quang/artwork/minor-wands-three.png",
+      "sha256": "6f380420ed8d58cfbafdcf6167aacd726967748ca6c858dbe514c34f606559bb",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-wands-four",
+      "path": "assets/tarot/tinh-quang/artwork/minor-wands-four.png",
+      "sha256": "d620c5e10a19c5d07c48301e0295ac517ecaa28392cbf7457f1bff443ea5050a",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-wands-five",
+      "path": "assets/tarot/tinh-quang/artwork/minor-wands-five.png",
+      "sha256": "82ad14b8206dbd9517c5c8625696edab7decdfdd28f098ecb24f231fc9c411ca",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-wands-six",
+      "path": "assets/tarot/tinh-quang/artwork/minor-wands-six.png",
+      "sha256": "5958549b8e80eb7cd45c2b84837b0b205f05e473e68842e996950a231f500dc9",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-wands-seven",
+      "path": "assets/tarot/tinh-quang/artwork/minor-wands-seven.png",
+      "sha256": "4d570465d3021b1380ce3010ffa4a9d90ddf6b1251ca502dcfa2ecdb2df68e02",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-wands-eight",
+      "path": "assets/tarot/tinh-quang/artwork/minor-wands-eight.png",
+      "sha256": "888c43694641baa96401cf859775cfbb426bf9dad79b0e81b52e113dc8de20f0",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-wands-nine",
+      "path": "assets/tarot/tinh-quang/artwork/minor-wands-nine.png",
+      "sha256": "6be50ffccb88870850256709188a56881c941f61517768f335132d0b1f6b19c2",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-wands-ten",
+      "path": "assets/tarot/tinh-quang/artwork/minor-wands-ten.png",
+      "sha256": "4cf8190131d12cb31edd3e70be969def8e7b834735d94167187acc16c6caaed5",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-wands-page",
+      "path": "assets/tarot/tinh-quang/artwork/minor-wands-page.png",
+      "sha256": "1793b9e4b3ce76e257dc03be432873b449a419d71834204fcb2aaeb613ea48de",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-wands-knight",
+      "path": "assets/tarot/tinh-quang/artwork/minor-wands-knight.png",
+      "sha256": "42dc7fbded8c775781a7ed2260f0734fa1f35bc3415262032a637da496974628",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-wands-queen",
+      "path": "assets/tarot/tinh-quang/artwork/minor-wands-queen.png",
+      "sha256": "52c6785128e119bb8b5eef85283ad52abc21a2000d7826da45f3c54dfe4494bf",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-wands-king",
+      "path": "assets/tarot/tinh-quang/artwork/minor-wands-king.png",
+      "sha256": "3f6166b80d5ae803fb150e1230ef9b71972e729658cf9c63af836944c91ab040",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-cups-ace",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-ace.png",
+      "sha256": "a8da1ab98e4e09bd03008fbd2709aa87b78d87b9933bd15f82a5db1032507900",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-cups-two",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-two.png",
+      "sha256": "178275277b7ada53b009891ea79b0d29f56bd7655f994ad0d035f23094f22877",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-cups-three",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-three.png",
+      "sha256": "3be04f1214f09ad49fe6a3b39fd41039e691a5ed5dfa2958a82966cb3a59b64d",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-cups-four",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-four.png",
+      "sha256": "9148bc64782a6a40afa24ee1b96ab17a9ce6bc0c63fc8adbb36808018ef59cab",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-cups-five",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-five.png",
+      "sha256": "9a7b0f2449ead2f3e9514f47ab24da27ae852772629afdfae11de22d1547edde",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-cups-six",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-six.png",
+      "sha256": "86c62bfac87ab15d0c565af82228a2c233592ee34a29b3f75ca7464184ce98f8",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-cups-seven",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-seven.png",
+      "sha256": "b3db6c3b10cf06549dba3d90b79d54844841ef57442fc23354ab04a8fc18177f",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-cups-eight",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-eight.png",
+      "sha256": "ca45f24110c7d6b44400cf9495ec4389af99c2c0e9f6878f28bdf1c49dd95495",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-cups-nine",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-nine.png",
+      "sha256": "91d3a11af2cb5025e015bc2c8ce47e512f06169558bfeecf17f9876a0ea9ad8c",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-cups-ten",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-ten.png",
+      "sha256": "1409c41ac698cad981d80909e0d20e1d570e7a45105bb1c9928e2c051df0bddc",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-cups-page",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-page.png",
+      "sha256": "1df64386f4ed985fe30de1a6604859e1d3489d434aedfc4cd94db38dd6e96e3f",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-cups-knight",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-knight.png",
+      "sha256": "9533e05ef2725f1a02aee777e0b548bbc059a9f4897e1b40ebc785163cb23aad",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-cups-queen",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-queen.png",
+      "sha256": "e801de33b517237b11bc1d5e1bf795ac4d49ad57b333662483e20eed0afe0bf3",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-cups-king",
+      "path": "assets/tarot/tinh-quang/artwork/minor-cups-king.png",
+      "sha256": "56544bf8b7dfb32c18921a286db700b0a4ab5762e75e4a58b1d2ef05c447f903",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-swords-ace",
+      "path": "assets/tarot/tinh-quang/artwork/minor-swords-ace.png",
+      "sha256": "dd286447c442ab7e2e5076b83dacc37c086b4f89eea73276711f9bd4ac933fda",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-swords-two",
+      "path": "assets/tarot/tinh-quang/artwork/minor-swords-two.png",
+      "sha256": "9c093787124be9d6a8028c14eda5946e082846e01447ab5ec1ad60eba6325209",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-swords-three",
+      "path": "assets/tarot/tinh-quang/artwork/minor-swords-three.png",
+      "sha256": "f1a06e95dfa977b0b674033ef4627035c32b7adbf6c18f617dd7b08b8fe2b7b0",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-swords-four",
+      "path": "assets/tarot/tinh-quang/artwork/minor-swords-four.png",
+      "sha256": "de1f82b0bb0412c0d34c7291e639fdc9cba9443d9eb39679ca476bce45e53c74",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-swords-five",
+      "path": "assets/tarot/tinh-quang/artwork/minor-swords-five.png",
+      "sha256": "c28245c34cc6ae94726070767d7b4d578c7ed3448dd5e86a100a24ccdd3024c3",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-swords-six",
+      "path": "assets/tarot/tinh-quang/artwork/minor-swords-six.png",
+      "sha256": "a36a583624b846b875c396aaa0f0101ffa2c3d9436baf741be075f9bd14aa590",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-swords-seven",
+      "path": "assets/tarot/tinh-quang/artwork/minor-swords-seven.png",
+      "sha256": "012625fe10a1fe34a47c0a5007b8c373dae722c6a69ab2829713570a508df0fc",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-swords-eight",
+      "path": "assets/tarot/tinh-quang/artwork/minor-swords-eight.png",
+      "sha256": "f783026473ab02491d139b93c010e7bea05d0b2752ddc6ba7d0f5a145b81207c",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-swords-nine",
+      "path": "assets/tarot/tinh-quang/artwork/minor-swords-nine.png",
+      "sha256": "cb97dbe60c8d10572d75e8f1521908ca5240bb40039f16af6d56da6f3be1c70b",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-swords-ten",
+      "path": "assets/tarot/tinh-quang/artwork/minor-swords-ten.png",
+      "sha256": "5f86e863372d256f96a2bef97c43efea3d543259b182114b1b943f71df2cda1f",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-swords-page",
+      "path": "assets/tarot/tinh-quang/artwork/minor-swords-page.png",
+      "sha256": "f3fb1af874697f52a9b984ca75b5f4405c4e2117ab3a2ee9ce4fdf144f41a7a4",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-swords-knight",
+      "path": "assets/tarot/tinh-quang/artwork/minor-swords-knight.png",
+      "sha256": "aa3c31e663e5dccffbc514ed07650f3f90200ff23647f38609022f3a46cf26bf",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-swords-queen",
+      "path": "assets/tarot/tinh-quang/artwork/minor-swords-queen.png",
+      "sha256": "7e343775d178869482307ebe1525dfe6d7bcbb8553dd0bdeefa68ecf0ffe035d",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-swords-king",
+      "path": "assets/tarot/tinh-quang/artwork/minor-swords-king.png",
+      "sha256": "5c876f9044f65338647e2d4dbd2009b69e365b91be8926cd806bab3b75061c18",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-pentacles-ace",
+      "path": "assets/tarot/tinh-quang/artwork/minor-pentacles-ace.png",
+      "sha256": "33bcb85aa33f1aaa4c19b0a4a5e58a864f0240bb2efe0dd9cbc28ba8e7772d23",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-pentacles-two",
+      "path": "assets/tarot/tinh-quang/artwork/minor-pentacles-two.png",
+      "sha256": "a92995d5c13814a7d8a42c4631b0ce0126101c10f3616b00400899f5648c0f98",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-pentacles-three",
+      "path": "assets/tarot/tinh-quang/artwork/minor-pentacles-three.png",
+      "sha256": "084fadd522126a36d92f220af95fcb83b920838c7ebd63ded6010bcd49689cc0",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-pentacles-four",
+      "path": "assets/tarot/tinh-quang/artwork/minor-pentacles-four.png",
+      "sha256": "a1647b488dbaa7d49f6fe94241c27f31f4d884e5c71b6134046bab2534ff0782",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-pentacles-five",
+      "path": "assets/tarot/tinh-quang/artwork/minor-pentacles-five.png",
+      "sha256": "11b737b941506fac5f78c042afca39e9f13608813e0d25d0549f367a4592c302",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-pentacles-six",
+      "path": "assets/tarot/tinh-quang/artwork/minor-pentacles-six.png",
+      "sha256": "cdbe3acc82ce9166086c504dd088a513accbba8e5b7bef7579a24a73253caff3",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-pentacles-seven",
+      "path": "assets/tarot/tinh-quang/artwork/minor-pentacles-seven.png",
+      "sha256": "90da432b9938db0ccf8546fbf36e4b030aff80df5997f2f82465af603bd3c534",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-pentacles-eight",
+      "path": "assets/tarot/tinh-quang/artwork/minor-pentacles-eight.png",
+      "sha256": "500d233b2fa7d8ee26cf079b98cc880cd5186d3e2e26b405d795b238d3750961",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-pentacles-nine",
+      "path": "assets/tarot/tinh-quang/artwork/minor-pentacles-nine.png",
+      "sha256": "df07a30f6164b8bb20f8f6f4c8c41f527c02421610d605baeee71aa325a6bd40",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-pentacles-ten",
+      "path": "assets/tarot/tinh-quang/artwork/minor-pentacles-ten.png",
+      "sha256": "32276bc16f99e2b17f67eeb143a615eaf7cefd09bbdde3daa9ea9c5d64d05ee5",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-pentacles-page",
+      "path": "assets/tarot/tinh-quang/artwork/minor-pentacles-page.png",
+      "sha256": "c4707eb9b765a59cf1e527433a08f1314c4a71de25f6ed57f6aef8569b60dafe",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-pentacles-knight",
+      "path": "assets/tarot/tinh-quang/artwork/minor-pentacles-knight.png",
+      "sha256": "5a22c4a17926e82f253e56d420e2613220a898dc5eca6bd73caa32e3cf38e532",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-pentacles-queen",
+      "path": "assets/tarot/tinh-quang/artwork/minor-pentacles-queen.png",
+      "sha256": "63134e794d2b75ba4acebf26752b4ddbf38f19c29f146bbad74d1e25ccca44e3",
+      "width": 656,
+      "height": 1130
+    },
+    {
+      "cardId": "minor-pentacles-king",
+      "path": "assets/tarot/tinh-quang/artwork/minor-pentacles-king.png",
+      "sha256": "c6c8f68cfc0f49ecedf71bfcd2e986bcc46093d4c0356cc32fbef41203b0c850",
+      "width": 656,
+      "height": 1130
+    }
+  ]
+}

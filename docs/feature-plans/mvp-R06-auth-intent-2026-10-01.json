@@ -1,0 +1,142 @@
+{
+  "schemaVersion": 1,
+  "taskId": "mvp-R06-auth-intent-2026-10-01",
+  "ownerAgent": "mobile_app_agent",
+  "lane": "mobile_experience_lane",
+  "goal": "Prevent old delayed auth submissions from overriding a newer view/account intent and guard double submit or stale error updates.",
+  "successCriteria": [
+    "Switching signup A to signin B during artificial UI delay calls only B callback.",
+    "Once a request starts, the form remains visibly pending rather than allowing a competing auth intent; duplicate presses are locked synchronously.",
+    "Unmount/view change prevents stale callback UI updates; existing sign-in/up/recovery/confirmation tests pass."
+  ],
+  "writeScope": [
+    "apps/mobile/src/auth/AuthFlow.tsx",
+    "apps/mobile/src/auth/__tests__/AuthFlow.test.tsx",
+    "docs/mvp-remediation/2026-10-01/R06-auth-intent.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "No network adoption/auth session/storage contract change.",
+    "No live signup/login/password change or credentials."
+  ],
+  "impact": {
+    "entryPoint": "Auth signup/signin/recovery/confirmation action and view changes.",
+    "dataWrite": "No new storage; callbacks retain existing auth lifecycle.",
+    "backendContract": "Prevent outdated UI callback before it can become latest network attempt; request already running holds view until settled.",
+    "adminVisibility": "No Admin change.",
+    "privacySafety": "Fictional emails in tests; no credential logging, account scope unchanged.",
+    "observability": "Targeted race repro then full regression; live auth remains R02-gated.",
+    "rollback": "Revert only AuthFlow delta; no data migration."
+  },
+  "canonicalContracts": [
+    "Existing AuthFlow callback types and SDK authAttempt/account scopes remain authoritative."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "cef7ffbf158a9fd54d0850826ab60945bedde27f02cca3d3de5f8b8cd3a70e79",
+      "reason": "Independent read-only reviewer traced signup420ms versus signin360ms old-intent race; root reviewed exact UI and network owner boundary."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "8cedfa76eb04d6b254bbc195c9070a507d502d9ce416bed935bf353f4fbcd76c",
+      "reason": "Independent read-only reviewer traced signup420ms versus signin360ms old-intent race; root reviewed exact UI and network owner boundary."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "7702620ed06ff3183aca453b81e1bb90457476b69b536978d93d653ee68508b7",
+      "reason": "Independent read-only reviewer traced signup420ms versus signin360ms old-intent race; root reviewed exact UI and network owner boundary."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Independent read-only reviewer traced signup420ms versus signin360ms old-intent race; root reviewed exact UI and network owner boundary."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "c492e69235bc94267f8de0181822602612a5bbda03dd3d144cf4d6c96ff43197",
+      "reason": "Independent read-only reviewer traced signup420ms versus signin360ms old-intent race; root reviewed exact UI and network owner boundary."
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "7a4973733886cb4f1568d38e6d8324d1d8200bb1acd850db486bf5323943f023",
+      "reason": "Independent read-only reviewer traced signup420ms versus signin360ms old-intent race; root reviewed exact UI and network owner boundary."
+    },
+    {
+      "path": "apps/mobile/src/auth/AuthFlow.tsx",
+      "sha256": "01c52cd57cfd8e843c76a8938d3c9efc522521d0022565f111932a77ab591ac3",
+      "reason": "Independent read-only reviewer traced signup420ms versus signin360ms old-intent race; root reviewed exact UI and network owner boundary."
+    },
+    {
+      "path": "apps/mobile/src/auth/__tests__/AuthFlow.test.tsx",
+      "sha256": "82aca6f7ec750ff9f581143c412987a2e4e73bc7aef6837f42bddbe8e7cad206",
+      "reason": "Independent read-only reviewer traced signup420ms versus signin360ms old-intent race; root reviewed exact UI and network owner boundary."
+    },
+    {
+      "path": "apps/mobile/src/auth/supabaseAuth.ts",
+      "sha256": "03d1387052e7b92fa68d16b61711fa54d9d35852129d3e605d56ad363f0674bb",
+      "reason": "Independent read-only reviewer traced signup420ms versus signin360ms old-intent race; root reviewed exact UI and network owner boundary."
+    },
+    {
+      "path": "apps/mobile/src/auth/accountScope.ts",
+      "sha256": "02cb9e0636411430155e0e65690d78948b8d9836f2ec87fec8e1171051cb0fa0",
+      "reason": "Independent read-only reviewer traced signup420ms versus signin360ms old-intent race; root reviewed exact UI and network owner boundary."
+    },
+    {
+      "path": "apps/mobile/src/auth/accountStorage.ts",
+      "sha256": "330a0213be9886821b4efe38983116adb9941188153de192edfae0d0c9797cd2",
+      "reason": "Independent read-only reviewer traced signup420ms versus signin360ms old-intent race; root reviewed exact UI and network owner boundary."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Fresh impact map, one App integration owner, preserved owner dirty edits and separate local/native/live acceptance."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Layout uses current typography, bilingual access/action text, original Tarot assets on Tarot surfaces and explicit browser/native status."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Existing React refs/state and callbacks, no package or API choice."
+  },
+  "securityReview": {
+    "authzRls": "Prevent pre-network old intent crossing account choice; existing server session checks unchanged.",
+    "sensitiveData": "Synthetic emails/password test literals only.",
+    "secretsLogging": "No credential telemetry/output.",
+    "externalInput": "Form validated as before; stale generation rejected.",
+    "dependencies": "No dependency update.",
+    "migrationRelease": "No live environment/deploy.",
+    "stopCondition": "Do not claim live auth/native ownership acceptance from UI race tests.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/src/auth/AuthFlow.tsx",
+      "apps/mobile/src/auth/__tests__/AuthFlow.test.tsx",
+      "docs/mvp-remediation/2026-10-01/R06-auth-intent.vi.md"
+    ],
+    "note": "AuthFlow/test untouched at start; no App or network edits in this slice, preserve owner source."
+  },
+  "validationCommands": [
+    "npm --workspace apps/mobile test -- --runInBand src/auth/__tests__/AuthFlow.test.tsx",
+    "npm --workspace apps/mobile run check"
+  ],
+  "managerTestPath": "Start signup then immediately switch signin before UI delay; only new form starts network. During active network, wait for spinner/result/error before changing form.",
+  "residualRisk": "SDK adoption/callback/account-isolation live E2E and recovery links/native remain separate R06 gates.",
+  "externalActions": {
+    "databaseWrite": false,
+    "deployment": false,
+    "productionRelease": false
+  },
+  "externalSourceReview": [],
+  "nativeDeliveryReview": "Installed Expo Sharing Android resolves on chooser ActivityResult, which does not prove recipient finished reading. iOS removes after sheet; Android retains only app-private named export for 10 minutes, schedules deletion and startup cleanup; no unrelated files scanned/deleted. Native receiver/device verification remains separate."
+}

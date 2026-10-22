@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://nilaza.local/schemas/prompt-composition-bundle-v1",
+  "title": "Nilaza atomic prompt composition bundle v1",
+  "description": "Local preview artifact schema. Cross-reference, unique-ID and content digest validation are additional mandatory gates before future integration.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["bundleSha256", "manifest", "modules"],
+  "properties": {
+    "bundleSha256": { "$ref": "#/$defs/digest" },
+    "manifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schemaVersion", "id", "version", "status", "usagePolicy", "sectionOrder", "core", "features", "locales", "tones", "budgets"],
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "id": { "$ref": "#/$defs/id" },
+        "version": { "$ref": "#/$defs/version" },
+        "status": { "const": "local-preview" },
+        "usagePolicy": {
+          "type": "object", "additionalProperties": false,
+          "required": ["source", "sourceSha256", "schemaVersion", "version", "maxInputTokensPerAttempt"],
+          "properties": {
+            "source": { "const": "packages/agent-config/ai-usage-policy.json" },
+            "sourceSha256": { "$ref": "#/$defs/digest" },
+            "schemaVersion": { "const": "nilaza-ai-usage-policy-v1" },
+            "version": { "$ref": "#/$defs/version" },
+            "maxInputTokensPerAttempt": { "type": "integer", "minimum": 1, "maximum": 2000 }
+          }
+        },
+        "sectionOrder": { "const": ["core", "feature", "locale", "tone"] },
+        "core": { "$ref": "#/$defs/pin" },
+        "features": {
+          "type": "object",
+          "minProperties": 1,
+          "propertyNames": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+          "additionalProperties": { "$ref": "#/$defs/registryEntry" }
+        },
+        "locales": {
+          "type": "object",
+          "minProperties": 1,
+          "propertyNames": { "type": "string", "pattern": "^[a-z]{2,3}(-[A-Za-z0-9]{2,8})*$" },
+          "additionalProperties": { "$ref": "#/$defs/registryEntry" }
+        },
+        "tones": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["balanced", "gentle", "direct"],
+          "properties": {
+            "balanced": { "$ref": "#/$defs/pin" },
+            "gentle": { "$ref": "#/$defs/pin" },
+            "direct": { "$ref": "#/$defs/pin" }
+          }
+        },
+        "budgets": { "$ref": "#/$defs/budgets" }
+      }
+    },
+    "modules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["core", "features", "locales", "tones"],
+      "properties": {
+        "core": { "$ref": "#/$defs/module" },
+        "features": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/module" } },
+        "locales": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/module" } },
+        "tones": { "type": "array", "minItems": 3, "maxItems": 3, "items": { "$ref": "#/$defs/module" } }
+      }
+    }
+  },
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z][a-z0-9-]{2,100}$" },
+    "version": { "type": "string", "minLength": 1, "maxLength": 80, "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$" },
+    "digest": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "pin": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "version", "contentSha256"],
+      "properties": { "id": { "$ref": "#/$defs/id" }, "version": { "$ref": "#/$defs/version" }, "contentSha256": { "$ref": "#/$defs/digest" } }
+    },
+    "module": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "version", "contentSha256", "content"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" }, "version": { "$ref": "#/$defs/version" }, "contentSha256": { "$ref": "#/$defs/digest" },
+        "content": { "type": "string", "minLength": 1, "maxLength": 7600 }
+      }
+    },
+    "registryEntry": {
+      "oneOf": [
+        { "type": "object", "additionalProperties": false, "required": ["enabled", "module"], "properties": { "enabled": { "const": true }, "module": { "$ref": "#/$defs/pin" } } },
+        { "type": "object", "additionalProperties": false, "required": ["enabled", "module"], "properties": { "enabled": { "const": false }, "module": { "type": "null" } } }
+      ]
+    },
+    "sizeLimit": {
+      "type": "object", "additionalProperties": false, "required": ["maxChars", "maxUtf8Bytes"],
+      "properties": { "maxChars": { "type": "integer", "minimum": 1 }, "maxUtf8Bytes": { "type": "integer", "minimum": 1 } }
+    },
+    "tokenLimit": {
+      "type": "object", "additionalProperties": false, "required": ["maxChars", "maxUtf8Bytes", "maxTokens"],
+      "properties": { "maxChars": { "type": "integer", "minimum": 1 }, "maxUtf8Bytes": { "type": "integer", "minimum": 1 }, "maxTokens": { "type": "integer", "minimum": 1 } }
+    },
+    "budgets": {
+      "type": "object", "additionalProperties": false,
+      "required": ["modules", "system", "question", "historyMessage", "contextMessage", "inputMessages", "request", "maxHistoryMessages", "maxGoals", "nickname", "goal"],
+      "properties": {
+        "modules": {
+          "type": "object", "additionalProperties": false, "required": ["core", "feature", "locale", "tone"],
+          "properties": { "core": { "$ref": "#/$defs/tokenLimit" }, "feature": { "$ref": "#/$defs/tokenLimit" }, "locale": { "$ref": "#/$defs/tokenLimit" }, "tone": { "$ref": "#/$defs/tokenLimit" } }
+        },
+        "system": { "$ref": "#/$defs/tokenLimit" }, "question": { "$ref": "#/$defs/tokenLimit" },
+        "historyMessage": { "$ref": "#/$defs/tokenLimit" }, "contextMessage": { "$ref": "#/$defs/tokenLimit" },
+        "inputMessages": { "$ref": "#/$defs/tokenLimit" }, "request": { "$ref": "#/$defs/tokenLimit" },
+        "maxHistoryMessages": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "maxGoals": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "nickname": { "$ref": "#/$defs/sizeLimit" }, "goal": { "$ref": "#/$defs/sizeLimit" }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "version": "2026-06-06-mvp-local",
+  "globalDisclaimers": {
+    "vi": "Nilaza tạo nội dung để giải trí và tự chiêm nghiệm. Ứng dụng không cung cấp chẩn đoán, lời khuyên y tế, pháp lý, tài chính hay sức khỏe tâm thần.",
+    "en": "Nilaza creates content for entertainment and self-reflection. The app does not provide medical, legal, financial, or mental-health diagnosis or advice."
+  },
+  "personaTransparency": {
+    "vi": "Guide này là mô phỏng AI lấy cảm hứng từ một nhân vật, tư tưởng hoặc chủ đề sách; không phải người thật, tác giả, nhà xuất bản hay đại diện chính thức.",
+    "en": "This guide is an AI simulation inspired by a figure, philosophy, or book theme; it is not the real person, author, publisher, or an official representative."
+  },
+  "blockedTopics": [
+    "self_harm_instruction",
+    "medical_diagnosis",
+    "legal_instruction",
+    "financial_guarantee",
+    "mental_health_diagnosis",
+    "protected_trait_inference",
+    "identity_claim",
+    "deterministic_fate_claim"
+  ],
+  "safeFallbacks": {
+    "vi": "Mình có thể đồng hành cùng bạn soi chiếu vấn đề này theo hướng phản chiếu nội tâm an toàn, nhưng mình không thể đưa ra dự đoán chắc chắn hay lời khuyên chuyên môn về chủ đề này.",
+    "en": "I can help you reflect on this safely, but I cannot give certain predictions or professional advice on this topic."
+  }
+}

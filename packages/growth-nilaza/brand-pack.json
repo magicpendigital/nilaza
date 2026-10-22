@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "tenantId": "nilaza",
+  "brandPackVersion": "open-reflection-v1",
+  "authoritativeReferences": [
+    "docs/BRAND_GUIDELINES.md",
+    "packages/content/data/brand-identity.json",
+    "assets/brand/open-reflection/v1"
+  ],
+  "voice": {
+    "vi": ["ấm", "ngắn", "cụ thể", "tôn trọng quyền tự quyết", "mời suy ngẫm"],
+    "en": ["warm", "concise", "specific", "agency-respecting", "reflective"]
+  },
+  "approvedCoreCopy": {
+    "vi": "Một khoảng mở để lắng nghe mình.",
+    "en": "A space to listen to yourself."
+  },
+  "publicBoundary": {
+    "vi": "Nội dung để giải trí và tự phản chiếu; không thay thế hỗ trợ chuyên môn.",
+    "en": "For entertainment and self-reflection; not a substitute for professional support."
+  },
+  "prohibitedCopyPatterns": [
+    "khẳng định định mệnh hoặc tương lai chắc chắn",
+    "chẩn đoán hoặc chữa lành sức khỏe tinh thần/thể chất",
+    "lời khuyên pháp lý hoặc tài chính",
+    "Persona là người thật hoặc đại diện chính thức",
+    "giá, ngày ra mắt, testimonial hoặc hiệu quả chưa xác minh"
+  ],
+  "assetRules": {
+    "brandAssetSource": "assets/brand/open-reflection/v1",
+    "featureAssetSource": "assets/features",
+    "screenshotRule": "A public capture requires verified build, test account, device, locale, date and evidence status.",
+    "draftAssetRule": "Prepared launch assets remain internal until refreshed against ProductTruth and evidence."
+  }
+}

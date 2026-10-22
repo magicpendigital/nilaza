@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://nilaza.local/contracts/astrology-ai-insight/invocation/1.0.0",
+  "title": "Nilaza Astrology AI authenticated invocation v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "requestId", "clientChartId", "language", "chart", "selectedFactIds", "facts", "caveats", "userFocus", "consent"],
+  "properties": {
+    "schemaVersion": { "const": "nilaza.astrology.ai-insight.invoke.v1" },
+    "requestId": { "$ref": "https://nilaza.local/contracts/astrology-ai-insight/request/1.0.0#/definitions/opaqueId" },
+    "clientChartId": { "$ref": "https://nilaza.local/contracts/astrology-ai-insight/request/1.0.0#/definitions/opaqueId" },
+    "language": { "enum": ["vi", "en"] },
+    "chart": { "$ref": "https://nilaza.local/contracts/astrology-ai-insight/request/1.0.0#/properties/chart" },
+    "selectedFactIds": { "$ref": "https://nilaza.local/contracts/astrology-ai-insight/request/1.0.0#/properties/selectedFactIds" },
+    "facts": { "$ref": "https://nilaza.local/contracts/astrology-ai-insight/request/1.0.0#/properties/facts" },
+    "caveats": { "$ref": "https://nilaza.local/contracts/astrology-ai-insight/request/1.0.0#/properties/caveats" },
+    "userFocus": { "$ref": "https://nilaza.local/contracts/astrology-ai-insight/request/1.0.0#/properties/userFocus" },
+    "consent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["accepted", "version"],
+      "properties": {
+        "accepted": { "const": true },
+        "version": { "const": "astrology_ai_fact_sharing_v1" }
+      }
+    },
+    "qaTraceConsent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["accepted", "version"],
+      "properties": {
+        "accepted": { "const": true },
+        "version": { "const": "astrology_ai_qa_trace_v1" }
+      }
+    }
+  }
+}

@@ -1,0 +1,476 @@
+{
+  "schemaVersion": 1,
+  "taskId": "tinh-quang-free-integration-2026-10-18",
+  "ownerAgent": "root_tinh_quang_free_integration",
+  "lane": "tarot_mobile_content_admin_assets",
+  "goal": "Finish Tinh Quang cover/back, promote approved metadata as free in canonical arrays, integrate standard runtime assets/story/preview, verify complete local app candidate without remote publication.",
+  "successCriteria": [
+    "Canonical eighth deck is active/free with78distinct VI/EN intros and78designs; first7deck entries unchanged.",
+    "Cover/back exist at standard source paths; back is exactly180degree symmetric and independently reviewed.",
+    "Standard full-deck QC ledger accepts unchanged78faces plus complete bilingual metadata and cover/back.",
+    "78JPEGcards andcover/back exported by unchanged standard builder; all static bindings use normal runtime paths and deck story/sample are specific to Tinh Quang.",
+    "Admin seed contains78TinhQuang drafts, protected workspaces preserved; data/assets/typecheck/tests and web/Android exports verified where available.",
+    "No backend writes, target change, credential operation, store or production publication; remote bundle publication remains separate."
+  ],
+  "writeScope": [
+    "assets/tarot/deck-covers/tinh-quang.png",
+    "assets/tarot/deck-backs/tinh-quang.png",
+    "assets/tarot/tinh-quang/deck-back.svg",
+    "assets/tarot/tinh-quang/quality-review.json",
+    "assets/tarot/tinh-quang/README.vi.md",
+    "packages/content/data/tarot-decks.json",
+    "packages/content/data/tarot-card-designs.json",
+    "packages/content/data/tarot-deck-backs.json",
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/visualAssets.ts",
+    "apps/mobile/assets/runtime/tarot/tinh-quang/",
+    "apps/mobile/assets/runtime/tarot/deck-covers/tinh-quang.jpg",
+    "apps/mobile/assets/runtime/tarot/deck-backs/tinh-quang.jpg",
+    "apps/admin/generated/content-seed.json",
+    "apps/admin/workflow-catalog.js",
+    "docs/TAROT_CONTENT_SYSTEM.md",
+    "docs/TINH_QUANG_FREE_INTEGRATION_2026-10-18.vi.md",
+    "artifacts/tinh-quang-free-integration-2026-10-18/"
+  ],
+  "untouchedSurfaces": [
+    "Imported PART-1/PART-2 archives, extracted packages and all raw/rejected variants remain unchanged.",
+    "Existing 7 decks, canonical shared meanings, mobile UI/assets, Admin generated seed, auth, credits, storage and published backend data remain unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Local Explore Tarot list > Tinh Quang free deck guide >78library >draw/result; specific story/sample and assets.",
+    "dataWrite": "Append one item to each canonical deck/design/back array, export standard JPEGs, generate Admin seed; existing AsyncStorage reading contracts unchanged.",
+    "backendContract": "No API/SQL change or remote publication. Configured published remote bundle may replace local deck list and omit this candidate until approved publication; preserve that behavior.",
+    "adminVisibility": "Regenerated canonical seed includes free deck and78card drafts; existing protected Content/AI Studio preserved. No publish action.",
+    "privacySafety": "Only Tarot creative/public metadata; no personal data, secrets or provider keys. Fixed card selection unchanged. Reflective VI/EN content preserved.",
+    "observability": "Hash-bound artwork/content/full-deck QC and local validation evidence; no telemetry changes.",
+    "rollback": "Remove only appended deck/design/back, TQbindings/runtime/sourcecover/back and regenerate seed from retained baseline. Preserve source78 and unrelated work."
+  },
+  "canonicalContracts": [
+    "Existing three packages/content/data/tarot-*.json arrays are the active metadata sources. Shared tarot-cards.json and approved TQscene/source/render ledgers stay byte-identical.",
+    "User Owner decision this turn: accessTier free. No payment or entitlement code change.",
+    "Existing standard source/runtime paths and builder; no config changes to consume staging or nested packages.",
+    "Schema2 quality-review.json prepared by unchanged full-deck gate, with revalidated transfer only when current content/artwork hashes match approved evidence."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "docs/AGENT_RUNBOOK.md",
+      "sha256": "c6a16c4be5bd732c51158ab66c4ea92bd23c1e817da539f3820546a22d806ec8",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "6cd85c85b43e6ada64745ac13bf34f3fdb2b9e799f5bc2ad176a662d94b154e1",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "docs/TAROT_CONTENT_SYSTEM.md",
+      "sha256": "4a7bbf5104dd38645d0a85a06be42a4f8b4b8716790939852ac03604dd72b3a7",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "docs/ADMIN_DATA_CONSOLE_ARCHITECTURE.md",
+      "sha256": "2e458cfc73cf5122f90db17feac1316e6eca20d31033103c65d9a3d24280eb71",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "apps/admin/AGENTS.md",
+      "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "apps/admin/admin-capabilities.json",
+      "sha256": "25dfafe10caeb1d9d28ce8a888b395f1241ddc68beca4f9f5ae1e0787b296115",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "scripts/build-admin-seed.mjs",
+      "sha256": "b12a842fa8aea686fc3f4a6816af846a898ced466cebcef2bad1cec4eab4d646",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "scripts/build-mobile-runtime-assets.ps1",
+      "sha256": "c9f2a9e831da41af2735cecdc16bd5b121d4fa308b66844454e5faac45853e4b",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "scripts/tarot-deck-quality-gate.mjs",
+      "sha256": "6bca9968a025b7f662a0685e146d3ec303f9dd14c2964f79cb6b9307517e9c21",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "scripts/validate-data.mjs",
+      "sha256": "d3588f45f7f79d325484835a668d8d3fbc402891c21214d9f50811956a12c85a",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "scripts/validate-mobile-runtime-assets.mjs",
+      "sha256": "f34daf6d23ac97f379c906f9193da63be16f030e806641260b927b5d851d2f3c",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "apps/mobile/package.json",
+      "sha256": "71bed88f043629f67e9674ec6abc8fbd99956d68e57176abdb853416cd24d7ab",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "a4452255875f261480a278b222791172cc03869e8554c5b59cfaaf29ff12bf8c",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "apps/mobile/src/visualAssets.ts",
+      "sha256": "486f762b8251183be55e4004f4fc1b6119f614c91ab3da3a55966c405a1e4a4a",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "apps/admin/workflow-catalog.js",
+      "sha256": "5d25043ec699fb66f8586779e33ff6f250147e2e337029f4f3d8beb8136251fe",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "packages/content/data/tarot-decks.json",
+      "sha256": "8c66b55686112ef3612bfaed3df38f4a231b7d9875f4d11a1e85ec7389591345",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "packages/content/data/tarot-cards.json",
+      "sha256": "e926472eeda71a637a8554e6465f14200ef9873e94a8a9e12611aa765968561f",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "packages/content/data/tarot-card-designs.json",
+      "sha256": "fbc5b1bf151aa0335a1584ac5791f7d4371cc5a0e3ba9ce709246a3893ab7659",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "packages/content/data/tarot-deck-backs.json",
+      "sha256": "7e6fdf290a325ed0c9ec0ec2ee7de7d8b1f6767dab739a6b27fde7e8a65e7f6a",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "packages/content/data/personas-figures.json",
+      "sha256": "b140b639bd45a7d125daef0d09e5ad95c1fefc814c86bc6bf5cd4d5e5309c06d",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "packages/content/data/personas-books.json",
+      "sha256": "c9633cc3b6237becb11254bcafa72f4a2081f25972e1ff3f78af3f6750636c47",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "packages/content/data/personas-archetypes.json",
+      "sha256": "8dc12fdcf91b5e7ad889adc6d66742945e0c4e7d4a10375f95dee24e6bf06e9e",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "assets/tarot/tinh-quang/card-spec.json",
+      "sha256": "d4e4d3c33d4e0466849d7d063d783581a4fc36b759fda28f98c78d68f23f2dd2",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "assets/tarot/tinh-quang/tinh-quang-full-deck-manifest.json",
+      "sha256": "729ea3b8af7ad0ef20a6862aef7bc9d32726415e008ee92fc2435a6d0de02f40",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "assets/tarot/tinh-quang/rendered-card-review.json",
+      "sha256": "43531190bfb6387484e6ac2e214154012aa47e7d8f825a56f6777037449ade22",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "packages/content/data/tarot-staging/tinh-quang/staging-manifest.json",
+      "sha256": "36fde2786204e8d74a6d0e80bba4f7ae801fc994ebae73d902276ff65d5713b9",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "artifacts/tinh-quang-artwork-qc-2026-10-18/metadata-content-review.json",
+      "sha256": "8ca55d598e90dea10d74b4ea2c7c521e54ccbfc412538ddadf0138e9b3cdb443",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "artifacts/tinh-quang-artwork-qc-2026-10-18/metadata-amendment-recheck.json",
+      "sha256": "7b5a8e5602dbf04a66a0bd2facb9b662ceb11c23d98b97dcb09fd190283d19b2",
+      "reason": "Reviewed current canonical metadata, integration surface, provenance or local validation/export contract before changes. Task-owned edits re-reviewed: only TQdata/bindings/story/sample and App source digest; unchanged canonical78 and initial7entries verified."
+    },
+    {
+      "path": "package.json",
+      "sha256": "d5e47722407394a566adc631c26d412897b9078efaadfb6242773b7b54775dcb",
+      "reason": "Conservative runner inventory: reviewed command/manifest schema and existing staged provenance; not a new direct seed input. Preserve bytes and unrelated changes; brandv1,26featurevisuals and representative6card learning slice remain unchanged."
+    },
+    {
+      "path": "scripts/feature-preflight.mjs",
+      "sha256": "76e65a66fe1dc309edbe1932419936a495c95028d48998d1536ed7f85a763528",
+      "reason": "Conservative runner inventory: reviewed command/manifest schema and existing staged provenance; not a new direct seed input. Preserve bytes and unrelated changes; brandv1,26featurevisuals and representative6card learning slice remain unchanged."
+    },
+    {
+      "path": "packages/content/data/brand-identity.json",
+      "sha256": "6a214e9244305b6bf3189f0c2b230ae7e3c6ef9b84b1374e6c0c9772789042d9",
+      "reason": "Conservative runner inventory: reviewed command/manifest schema and existing staged provenance; not a new direct seed input. Preserve bytes and unrelated changes; brandv1,26featurevisuals and representative6card learning slice remain unchanged."
+    },
+    {
+      "path": "packages/content/data/brand-exports.json",
+      "sha256": "96a954611f1de6b6c063468d9eee11e903f2bea091fc954620cd9f9a322d1bb3",
+      "reason": "Conservative runner inventory: reviewed command/manifest schema and existing staged provenance; not a new direct seed input. Preserve bytes and unrelated changes; brandv1,26featurevisuals and representative6card learning slice remain unchanged."
+    },
+    {
+      "path": "packages/content/data/feature-visuals.json",
+      "sha256": "b049426f65efb86b9f389e60b6d5196789e6ee46ff312e9e267e9753b3673f16",
+      "reason": "Conservative runner inventory: reviewed command/manifest schema and existing staged provenance; not a new direct seed input. Preserve bytes and unrelated changes; brandv1,26featurevisuals and representative6card learning slice remain unchanged."
+    },
+    {
+      "path": "packages/content/data/tarot-learning-depth.json",
+      "sha256": "382f94960a3e958c8669e194fc34059b808d576c13ea2a7dad9bc6077dd83892",
+      "reason": "Conservative runner inventory: reviewed command/manifest schema and existing staged provenance; not a new direct seed input. Preserve bytes and unrelated changes; brandv1,26featurevisuals and representative6card learning slice remain unchanged."
+    },
+    {
+      "path": "packages/content/data/tarot-staging/tinh-quang/approved-artwork.json",
+      "sha256": "292f66496cc16c848a70d9f4a7069912b34232379ce326548be034c3c8b7e657",
+      "reason": "Conservative runner inventory: reviewed command/manifest schema and existing staged provenance; not a new direct seed input. Preserve bytes and unrelated changes; brandv1,26featurevisuals and representative6card learning slice remain unchanged."
+    },
+    {
+      "path": "packages/content/data/tarot-staging/tinh-quang/card-catalog.json",
+      "sha256": "2dad6e02cb26717beb7b64c14d308c8cca7685747a0b54fc4e37f3311f80a729",
+      "reason": "Conservative runner inventory: reviewed command/manifest schema and existing staged provenance; not a new direct seed input. Preserve bytes and unrelated changes; brandv1,26featurevisuals and representative6card learning slice remain unchanged."
+    },
+    {
+      "path": "packages/content/data/tarot-staging/tinh-quang/content.json",
+      "sha256": "9ff724071d1d09c6edafea582550c99bcd418a515b9f4e502c035cc93c125dfd",
+      "reason": "Conservative runner inventory: reviewed command/manifest schema and existing staged provenance; not a new direct seed input. Preserve bytes and unrelated changes; brandv1,26featurevisuals and representative6card learning slice remain unchanged."
+    },
+    {
+      "path": "packages/content/data/tarot-staging/tinh-quang/README.vi.md",
+      "sha256": "a442fafd1962ea5a04dfa86f118211fd22df55e4c74fb972c0870b70669479f1",
+      "reason": "Conservative runner inventory: reviewed command/manifest schema and existing staged provenance; not a new direct seed input. Preserve bytes and unrelated changes; brandv1,26featurevisuals and representative6card learning slice remain unchanged."
+    },
+    {
+      "path": "packages/content/data/tarot-staging/tinh-quang/render-plan.json",
+      "sha256": "8e5752ccaf05f666cc7a0a5f8e05d23be909f2bb925e097610e523ecafa89e8b",
+      "reason": "Conservative runner inventory: reviewed command/manifest schema and existing staged provenance; not a new direct seed input. Preserve bytes and unrelated changes; brandv1,26featurevisuals and representative6card learning slice remain unchanged."
+    },
+    {
+      "path": "packages/content/data/tarot-staging/tinh-quang/sync-plan.json",
+      "sha256": "54b9c68f98d75d7748f7a00a89af661456b946f85e88973cae81d03c7a089f46",
+      "reason": "Conservative runner inventory: reviewed command/manifest schema and existing staged provenance; not a new direct seed input. Preserve bytes and unrelated changes; brandv1,26featurevisuals and representative6card learning slice remain unchanged."
+    },
+    {
+      "path": "packages/content/data/tarot-staging/tinh-quang/tarot-card-designs.json",
+      "sha256": "5a0a7c1eb0227fd73b4a27efeade9da8e5c42d73a081db60674dca1dbd24e799",
+      "reason": "Conservative runner inventory: reviewed command/manifest schema and existing staged provenance; not a new direct seed input. Preserve bytes and unrelated changes; brandv1,26featurevisuals and representative6card learning slice remain unchanged."
+    },
+    {
+      "path": "packages/content/data/tarot-staging/tinh-quang/tarot-deck-backs.json",
+      "sha256": "3e6849d0b06f72e104a91606e0cedc28772d8255b50393fbce39a79175cee115",
+      "reason": "Conservative runner inventory: reviewed command/manifest schema and existing staged provenance; not a new direct seed input. Preserve bytes and unrelated changes; brandv1,26featurevisuals and representative6card learning slice remain unchanged."
+    },
+    {
+      "path": "packages/content/data/tarot-staging/tinh-quang/tarot-decks.json",
+      "sha256": "3556139447e2ed5d0b22b383cd82cb7b615eed5c720f36d50c91807ca7a0b18b",
+      "reason": "Conservative runner inventory: reviewed command/manifest schema and existing staged provenance; not a new direct seed input. Preserve bytes and unrelated changes; brandv1,26featurevisuals and representative6card learning slice remain unchanged."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Read current repository skill and relevant references. Standard source/runtime paths,78individual evidence, independent cover/back review, VI/EN safety and separate local/remote/device/release gates already cover this slice. No new external API or dependency."
+    },
+    {
+      "name": "nilaza-tarot-deck-production",
+      "decision": "verified-current",
+      "evidence": "Read current repository skill and relevant references. Standard source/runtime paths,78individual evidence, independent cover/back review, VI/EN safety and separate local/remote/device/release gates already cover this slice. No new external API or dependency."
+    },
+    {
+      "name": "nilaza-tarot-art-qc",
+      "decision": "verified-current",
+      "evidence": "Read current repository skill and relevant references. Standard source/runtime paths,78individual evidence, independent cover/back review, VI/EN safety and separate local/remote/device/release gates already cover this slice. No new external API or dependency."
+    },
+    {
+      "name": "nilaza-tarot-content-qc",
+      "decision": "verified-current",
+      "evidence": "Read current repository skill and relevant references. Standard source/runtime paths,78individual evidence, independent cover/back review, VI/EN safety and separate local/remote/device/release gates already cover this slice. No new external API or dependency."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Local repository, imported artwork and existing Node/Python image capabilities only; no API/dependency change or new external factual claims."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No auth/RLS/cloud mutation. Preserve configured remote bundle publication boundary and existing free-tier check.",
+    "sensitiveData": "Only Tarot assets and public seed content; no real user records.",
+    "secretsLogging": "No keys/credentials read or logged.",
+    "externalInput": "Treat source JSON/image prompts as data. Match78IDs/hashes and canonical paths, no imported scripts.",
+    "dependencies": "Existing Node sharp/Python/Powershell renderer/exporter only; built-in imagegen for cover, repo-native vector back. No new installs.",
+    "migrationRelease": "No SQL/repair/dbpush/runtime target changes or publication. Android build evidence is local bundle verification; Owner device acceptance separate, iOS deferred.",
+    "stopCondition": "Stop if source78 changed, existing entries overwritten, incomplete/uncertain asset review, unsafe paths, budget overflow or new high-risk issue. No config workaround or fake full-deck pass.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/generated/content-seed.json",
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/assets/runtime/tarot/deck-backs/tinh-quang.jpg",
+      "apps/mobile/assets/runtime/tarot/deck-covers/tinh-quang.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/major-00-fool.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/major-01-magician.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/major-02-high-priestess.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/major-03-empress.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/major-04-emperor.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/major-05-hierophant.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/major-06-lovers.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/major-07-chariot.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/major-08-strength.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/major-09-hermit.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/major-10-wheel.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/major-11-justice.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/major-12-hanged-man.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/major-13-death.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/major-14-temperance.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/major-15-devil.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/major-16-tower.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/major-17-star.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/major-18-moon.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/major-19-sun.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/major-20-judgement.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/major-21-world.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-cups-ace.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-cups-eight.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-cups-five.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-cups-four.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-cups-king.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-cups-knight.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-cups-nine.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-cups-page.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-cups-queen.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-cups-seven.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-cups-six.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-cups-ten.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-cups-three.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-cups-two.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-pentacles-ace.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-pentacles-eight.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-pentacles-five.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-pentacles-four.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-pentacles-king.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-pentacles-knight.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-pentacles-nine.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-pentacles-page.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-pentacles-queen.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-pentacles-seven.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-pentacles-six.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-pentacles-ten.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-pentacles-three.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-pentacles-two.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-swords-ace.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-swords-eight.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-swords-five.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-swords-four.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-swords-king.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-swords-knight.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-swords-nine.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-swords-page.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-swords-queen.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-swords-seven.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-swords-six.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-swords-ten.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-swords-three.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-swords-two.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-wands-ace.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-wands-eight.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-wands-five.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-wands-four.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-wands-king.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-wands-knight.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-wands-nine.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-wands-page.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-wands-queen.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-wands-seven.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-wands-six.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-wands-ten.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-wands-three.jpg",
+      "apps/mobile/assets/runtime/tarot/tinh-quang/cards/minor-wands-two.jpg",
+      "apps/mobile/src/visualAssets.ts",
+      "artifacts/tinh-quang-free-integration-2026-10-18/back-mobile-208.png",
+      "artifacts/tinh-quang-free-integration-2026-10-18/back-rotated-180.png",
+      "artifacts/tinh-quang-free-integration-2026-10-18/baseline-manifest.json",
+      "artifacts/tinh-quang-free-integration-2026-10-18/baseline/apps/admin/generated/content-seed.json",
+      "artifacts/tinh-quang-free-integration-2026-10-18/baseline/apps/admin/workflow-catalog.js",
+      "artifacts/tinh-quang-free-integration-2026-10-18/baseline/apps/mobile/App.tsx",
+      "artifacts/tinh-quang-free-integration-2026-10-18/baseline/apps/mobile/src/visualAssets.ts",
+      "artifacts/tinh-quang-free-integration-2026-10-18/baseline/assets/tarot/tinh-quang/README.vi.md",
+      "artifacts/tinh-quang-free-integration-2026-10-18/baseline/docs/TAROT_CONTENT_SYSTEM.md",
+      "artifacts/tinh-quang-free-integration-2026-10-18/baseline/packages/content/data/tarot-card-designs.json",
+      "artifacts/tinh-quang-free-integration-2026-10-18/baseline/packages/content/data/tarot-deck-backs.json",
+      "artifacts/tinh-quang-free-integration-2026-10-18/baseline/packages/content/data/tarot-decks.json",
+      "artifacts/tinh-quang-free-integration-2026-10-18/cover-app-hero-350x233.png",
+      "artifacts/tinh-quang-free-integration-2026-10-18/cover-app-list-contain-350x184.png",
+      "artifacts/tinh-quang-free-integration-2026-10-18/cover-app-thumbnail-90x60.png",
+      "artifacts/tinh-quang-free-integration-2026-10-18/cover-landscape-center-350x184.png",
+      "artifacts/tinh-quang-free-integration-2026-10-18/cover-mobile-360.png",
+      "artifacts/tinh-quang-free-integration-2026-10-18/cover-portrait-center-174x276.png",
+      "artifacts/tinh-quang-free-integration-2026-10-18/final-content-asset-review.json",
+      "assets/tarot/deck-backs/tinh-quang.png",
+      "assets/tarot/deck-covers/tinh-quang.png",
+      "assets/tarot/tinh-quang/README.vi.md",
+      "assets/tarot/tinh-quang/deck-back.svg",
+      "assets/tarot/tinh-quang/quality-review.json",
+      "docs/TAROT_CONTENT_SYSTEM.md",
+      "packages/content/data/tarot-card-designs.json",
+      "packages/content/data/tarot-deck-backs.json",
+      "packages/content/data/tarot-decks.json"
+    ],
+    "note": "Existing dirty mobile/Admin files reviewed and edits restricted to TQ mappings/story/sample and exact canonical Tarot digest. All unrelated changes preserved; output paths added to inventory after generation. Existing .ci exports are intentionally untouched; new export evidence goes under task artifacts."
+  },
+  "validationCommands": [
+    "feature preflight before generation/edits",
+    "standard full-deck prepare/verify --deck tinh-quang --require-deck-intros",
+    "python scripts/validate_tarot_assets.py --deck tinh-quang",
+    "standard runtime builder -OnlyTarotDeck tinh-quang",
+    "npm run validate:data",
+    "npm run validate:visual-assets",
+    "feature:run admin:seed",
+    "npm run admin:check",
+    "npm run admin:test",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand",
+    "Expo web export and Android embedded bundle, validate:mobile-export",
+    "independent cover/back and effective metadata review; preserve previous78hashes"
+  ],
+  "managerTestPath": "Local/review candidate: Explore > Tarot > Tinh Quang free badge > read VI/EN own story/sample > browse78cards >draw/reveal/result/back >save reading. Confirm no premium lock. Configured remote bundle needs separate approved content publication; Owner Android device acceptance remains pending.",
+  "residualRisk": "Local integration is not cloud publication or release. Remote published bundle can omit TQ until separately published. Native device acceptance and runtime source/asset parity must be recorded, not inferred.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  },
+  "intentionallyUntouched": [
+    "Original supplied archives, artwork78, renderedfaces78, historical staged intake bundle and previous evidence",
+    "First7deck entries, auth/entitlements/selection/credits and remote bundle replacement behavior",
+    "Backend/SQL/credentials/targetallowlist/cloud publication and production release",
+    "Admin protected workspace implementation and unrelated dirty work"
+  ]
+}
