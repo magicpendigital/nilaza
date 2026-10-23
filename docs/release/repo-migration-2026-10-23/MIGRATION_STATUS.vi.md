@@ -15,6 +15,22 @@ Ngày 23/10/2026, Asia/Bangkok. Owner đã đồng ý **phương án B** (repo m
 | 4. Đẩy commit gốc | `main` = **`2b91794`** (khớp commit local); nhánh duy nhất `main`, 1 commit |
 | Kiểm lại bằng API | Cây `main`: **2.576 tệp, 280,3 MB, tệp lớn nhất 6 MB, không bị cắt (`truncated=false`), 0 đường dẫn** khớp `.codex*`, `Login Data`, `Cookies`, `.env*`, `.keystore/.jks/.pem`, `.apk/.aab`, `node_modules`. Thư mục gốc chỉ gồm: `.easignore`, `.github`, `.gitignore`, `AGENTS.md`, `DESIGN.md`, `README.md`, `apps`, `assets`, `deno.lock`, `docs`, `package*.json`, `packages`, `scripts`, `skills`, `supabase`, `tsconfig.json`. 0 PR, 0 issue. |
 
+### Vercel (24/10/2026) — đã nối lại
+
+Thực hiện trong trình duyệt tích hợp sau khi Owner tự đăng nhập Vercel (token Vercel của agent không có quyền vào team `magicpens-projects`, Chrome thật không kết nối).
+
+| Mục | Trước | Sau |
+|---|---|---|
+| Repo nối với `nilaza-admin-staging` | `magicpendigital/nilaza-legacy` (nối từ 19/09, đi theo repo đã đổi tên) | **`magicpendigital/nilaza`** — thông báo “Git repository connected”, trang Git hiển thị “Connected just now” |
+| Cách thực hiện | — | Disconnect (hộp thoại xác nhận: cấu hình project được giữ nguyên) → GitHub → chọn `nilaza` trong danh sách repo của `magicpendigital` (Vercel GitHub App đã thấy cả `nilaza` và `nilaza-legacy`) → Connect |
+| Root Directory | `apps/admin` | `apps/admin` (không đổi) |
+| Node.js | 24.x | 24.x (không đổi) |
+| Ignored Build Step | lệnh Custom đã lưu 21/10 | giữ nguyên, đọc lại đúng nội dung (`codex/android-release-unblock-2026-10-19` hoặc rỗng → bỏ qua; nhánh khác như `main` → build) |
+| Production branch | `main` | `main` (không đổi) |
+| Deployment mới do thao tác nối | — | Không có: bản mới nhất vẫn là Production `235f03a` ngày 04/10 |
+
+Chưa kiểm: một lần build thật từ repo mới. **Lần push kế tiếp lên `main` của `nilaza` sẽ tự build và deploy Admin staging (Production)**; nhánh CI cũ `codex/android-release-unblock-2026-10-19` không còn tồn tại trong repo mới nên quy tắc bỏ qua build không còn tác dụng cho nhánh đó — nếu muốn CI chạy trên nhánh khác mà không deploy Admin, cần cập nhật lệnh bỏ qua theo tên nhánh mới. Chưa đổi cài đặt Vercel nào khác. Chưa kiểm project Vercel nào khác trong team có gắn repo cũ hay không.
+
 Lưu ý sau khi đổi tên: đường chuyển hướng cũ từ `nilaza` sang repo cũ đã **không còn** (repo mới dùng lại tên); mọi clone cũ phải dùng URL `nilaza-legacy`. Thư mục `D:\nilaza` giữ nguyên toàn bộ công việc chưa commit và vẫn trỏ về repo cũ; cây sạch `D:\nilaza_clean_staging\repo` là bản clone làm việc của repo mới.
 
 ## 1. Đã làm (local)
@@ -62,7 +78,7 @@ Owner đã xác nhận (23/10): chấp nhận PNG gốc Tarot nằm ngoài repo 
 3. Tạo repo mới private cùng tên (không template, không README tự sinh):
    `gh repo create magicpendigital/nilaza --private --description "Nilaza clean source baseline (2026-10-23)"`
 4. Trong cây sạch: một commit khởi đầu duy nhất, rồi `git push -u origin main` lên `https://github.com/magicpendigital/nilaza.git`. Sau đó đọc lại API GitHub để xác nhận: repo private, nhánh `main` có đúng 1 commit, không có đường dẫn `.codex*`/`Login Data`/`Cookies`.
-5. **Owner làm trong Vercel:** project `nilaza-admin-staging` hiện gắn với repo cũ (theo ID, nên sẽ đi theo repo đã đổi tên). Ngắt kết nối và nối lại với `magicpendigital/nilaza` (Root Directory `apps/admin`; giữ quy tắc Ignored Build Step đã lưu 21/10 hoặc cập nhật tên nhánh CI). Tôi chưa xác minh hành vi này trong tài liệu Vercel.
+5. **Vercel — đã xong 24/10:** project `nilaza-admin-staging` đúng là đi theo repo đã đổi tên (hiển thị `nilaza-legacy`); đã ngắt kết nối và nối lại với `magicpendigital/nilaza`, các cài đặt Root Directory/Node/Ignored Build Step/Production branch giữ nguyên (xem phần “Vercel” ở mục 0).
 6. Sau đó: chạy workflow CI online đúng commit mới; kiểm EAS archive (chưa đo).
 
 **Quay lại nếu cần:** đổi tên ngược `nilaza` → xóa repo mới (cần Owner; công cụ agent không có quyền xóa repo) → `nilaza-legacy` → `nilaza`; không viết lại hay xóa lịch sử nào.
