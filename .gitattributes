@@ -1,0 +1,3 @@
+# Reviewed skill files are pinned by raw-byte SHA-256 in skills/manifest.json.
+# Keep their bytes exactly as reviewed (no line-ending conversion on any platform).
+skills/** -text
