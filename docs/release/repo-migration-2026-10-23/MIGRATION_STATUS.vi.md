@@ -2,7 +2,20 @@
 
 Ngày 23/10/2026, Asia/Bangkok. Owner đã đồng ý **phương án B** (repo mới sạch, repo cũ đổi tên làm kho lưu trữ). Hồ sơ Plan & QC: [`repo-migration-clean-source-2026-10-23.json`](../../feature-plans/repo-migration-clean-source-2026-10-23.json) — Feature Preflight **PASS**. Danh sách dữ liệu cũ để Owner xóa: [STALE_DATA_REPORT.vi.md](STALE_DATA_REPORT.vi.md).
 
-**Trạng thái: toàn bộ bước local đã xong và kiểm chứng; chưa có thao tác nào trên GitHub, Vercel hay cloud.** Bước đổi tên/tạo repo/đẩy chờ Owner xác nhận hai điểm ở mục 4.
+**Trạng thái (cập nhật sau khi Owner duyệt): các bước GitHub đã thực hiện và kiểm lại bằng API — xem mục 0. Còn lại cho Owner: nối lại Vercel (mục 4, bước 5) và chọn nơi lưu PNG gốc Tarot.** Chưa có thay đổi nào về Vercel, Actions, quyền truy cập hay cloud khác.
+
+## 0. Kết quả thực thi trên GitHub (23/10/2026)
+
+| Bước | Kết quả |
+|---|---|
+| Kiểm trước | Repo `magicpendigital/nilaza` (node ID `R_kgDOS4jMTQ`) private, tên `nilaza-legacy` còn trống, cây sạch có commit `2b91794`, không còn thay đổi chờ commit |
+| 1. Đổi tên repo cũ | `magicpendigital/nilaza-legacy`, **cùng node ID `R_kgDOS4jMTQ`**, vẫn private; 29 nhánh và 21 PR mở còn nguyên |
+| 2. Trỏ lại remote của `D:\nilaza` | `origin` = `https://github.com/magicpendigital/nilaza-legacy.git`; `ls-remote` trả đúng `main` = `bdde549` và `codex/admin-shared-content-sync` = `235f03a` |
+| 3. Tạo repo mới | `magicpendigital/nilaza`, node ID **`R_kgDOVUUTSQ`** (khác repo cũ), private, 0 fork |
+| 4. Đẩy commit gốc | `main` = **`2b91794`** (khớp commit local); nhánh duy nhất `main`, 1 commit |
+| Kiểm lại bằng API | Cây `main`: **2.576 tệp, 280,3 MB, tệp lớn nhất 6 MB, không bị cắt (`truncated=false`), 0 đường dẫn** khớp `.codex*`, `Login Data`, `Cookies`, `.env*`, `.keystore/.jks/.pem`, `.apk/.aab`, `node_modules`. Thư mục gốc chỉ gồm: `.easignore`, `.github`, `.gitignore`, `AGENTS.md`, `DESIGN.md`, `README.md`, `apps`, `assets`, `deno.lock`, `docs`, `package*.json`, `packages`, `scripts`, `skills`, `supabase`, `tsconfig.json`. 0 PR, 0 issue. |
+
+Lưu ý sau khi đổi tên: đường chuyển hướng cũ từ `nilaza` sang repo cũ đã **không còn** (repo mới dùng lại tên); mọi clone cũ phải dùng URL `nilaza-legacy`. Thư mục `D:\nilaza` giữ nguyên toàn bộ công việc chưa commit và vẫn trỏ về repo cũ; cây sạch `D:\nilaza_clean_staging\repo` là bản clone làm việc của repo mới.
 
 ## 1. Đã làm (local)
 
@@ -38,9 +51,9 @@ Môi trường: Windows, Node 25.9.0 (CI cấu hình Node 24.19.0; chưa chạy 
 - PNG gốc vẫn nằm: (a) trong repo cũ (phần đã được theo dõi, ~610 MB); (b) trong `D:\nilaza_backup_2026-10-23` (kể cả phần chưa từng vào Git: celestial-reverie 440 MB và revisions của classic-arcana). **Owner cần chọn nơi lưu lâu dài** (đề xuất Drive private hoặc ổ ngoài) trước khi xóa khỏi thư mục dự án.
 - Hệ quả: các công cụ sản xuất Tarot (`tarot-deck-quality-gate`, `prepare_tarot_artwork_batch.py`, `build_*`) cần thư mục PNG gốc; chúng chạy được khi bạn đặt lại PNG vào `assets/tarot/` cục bộ (đã được `.gitignore` bỏ qua). CI hiện tại không cần chúng.
 
-## 4. Bước cloud — cần Owner xác nhận trước khi chạy
+## 4. Bước cloud — đã được Owner duyệt và thực hiện (bước 1–4); bước 5–6 còn lại
 
-Hai điểm cần xác nhận: **(1)** chấp nhận kích thước/loại PNG gốc như mục 3, **(2)** cho phép chạy đúng các lệnh dưới đây. Ngoài các lệnh này, agent không đổi cài đặt Vercel, Actions, branch protection hay quyền truy cập.
+Owner đã xác nhận (23/10): chấp nhận PNG gốc Tarot nằm ngoài repo và cho chạy các lệnh GitHub dưới đây. Ngoài các lệnh này, agent không đổi cài đặt Vercel, Actions, branch protection hay quyền truy cập. Bước 1–4 đã chạy xong (kết quả ở mục 0).
 
 1. Đổi tên repo cũ (giữ private, giữ nguyên 29 nhánh và 27 PR):
    `gh repo rename nilaza-legacy --repo magicpendigital/nilaza --yes`
