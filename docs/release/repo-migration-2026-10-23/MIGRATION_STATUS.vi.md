@@ -2,7 +2,7 @@
 
 Ngày 23/10/2026, Asia/Bangkok. Owner đã đồng ý **phương án B** (repo mới sạch, repo cũ đổi tên làm kho lưu trữ). Hồ sơ Plan & QC: [`repo-migration-clean-source-2026-10-23.json`](../../feature-plans/repo-migration-clean-source-2026-10-23.json) — Feature Preflight **PASS**. Danh sách dữ liệu cũ để Owner xóa: [STALE_DATA_REPORT.vi.md](STALE_DATA_REPORT.vi.md).
 
-**Trạng thái (cập nhật sau khi Owner duyệt): các bước GitHub đã thực hiện và kiểm lại bằng API — xem mục 0. Còn lại cho Owner: nối lại Vercel (mục 4, bước 5) và chọn nơi lưu PNG gốc Tarot.** Chưa có thay đổi nào về Vercel, Actions, quyền truy cập hay cloud khác.
+**Trạng thái cuối (25/10/2026): việc chuyển repo đã HOÀN TẤT** — repo cũ là `nilaza-legacy`, repo mới `nilaza` hoạt động, Vercel đã nối lại và build thành công, CI online đạt (xem mục 0 và mục 6). Còn lại cho Owner: chọn nơi lưu PNG gốc Tarot và dọn dữ liệu cũ theo [STALE_DATA_REPORT.vi.md](STALE_DATA_REPORT.vi.md). Trạng thái dự án hiện tại ở [HANDOFF_CURRENT_STATE.vi.md](../../HANDOFF_CURRENT_STATE.vi.md).
 
 ## 0. Kết quả thực thi trên GitHub (23/10/2026)
 
@@ -31,7 +31,30 @@ Thực hiện trong trình duyệt tích hợp sau khi Owner tự đăng nhập 
 
 **Build thử từ repo mới (24/10/2026, sau khi Owner duyệt đẩy `bd86926`):** deployment `4tGCiLZos…` — **Production, Ready, 8 giây**, nguồn `main` @ `bd86926`, build do Git kích hoạt tự động (`createdBy` magicpendigital). Log build: `Cloning github.com/magicpendigital/nilaza (Branch: main…)` (5,4 giây), lệnh Ignored Build Step chạy và trả 1 (nhánh `main` → tiếp tục build), `vercel build`, `Wrote hosted Admin runtime config`, `Build Completed [247ms]`, `Deployment completed`. Bản này đã gán domain `nilaza-admin-staging.vercel.app` (Current). Kiểm HTTP: trang chủ và `ai-studio.html` trả 200 (`<title>Nilaza Admin`, `Nilaza AI Configuration Studio`; `data-admin-authorized="false"` khi chưa đăng nhập). Cấu hình runtime nhúng trong trang chỉ có `SUPABASE_URL` và khóa **publishable** (46 ký tự); **không có** tên biến kiểu service/secret/private. URL Supabase vẫn là project **QA cũ** (`akgrokwnkfqnfjqrildi`), đúng với trạng thái “chưa retarget sang Singapore”.
 
-Chưa kiểm: đăng nhập Admin và thao tác CMS/AI Studio trên bản mới (cần phiên Owner); luồng CI GitHub Actions trên repo mới. **Mỗi push lên `main` của `nilaza` sẽ tự build và deploy Admin staging (Production)** (đã xác nhận hành vi này); nhánh CI cũ `codex/android-release-unblock-2026-10-19` không còn tồn tại trong repo mới nên quy tắc bỏ qua build không còn tác dụng cho nhánh đó — nếu muốn CI chạy trên nhánh khác mà không deploy Admin, cần cập nhật lệnh bỏ qua theo tên nhánh mới. Chưa đổi cài đặt Vercel nào khác. Chưa kiểm project Vercel nào khác trong team có gắn repo cũ hay không.
+### CI online trên repo mới (GitHub Actions, Linux, Node 24.19.0) — kết quả thực tế
+
+| Commit | Workflow | Kết quả |
+|---|---|---|
+| `2b91794` (commit gốc) | Mobile quality | **SUCCESS** — CI online đầu tiên cho mã nguồn sạch |
+| `2b91794` | Admin quality | **FAILURE** ở bước `skills:validate`: 4 tệp (`nilaza-tarot-deck-production/SKILL.md`, `nilaza-tarot-content-qc/SKILL.md` và `agents/openai.yaml`, `nilaza-tarot-art-qc/SKILL.md`) “không khớp hash manifest” |
+| `55831c0` (sau khi sửa) | Admin quality | **SUCCESS** |
+
+**Nguyên nhân gốc của lỗi skills (cũng giải thích các lỗi skills ở các lượt CI lịch sử):** `skills/manifest.json` ghim SHA-256 của **byte gốc**; 4 tệp này dùng xuống dòng CRLF trong thư mục làm việc, nhưng Git trên Windows (`core.autocrlf=true`) chuẩn hóa sang LF khi commit, nên bản trên GitHub (và cả repo cũ) có hash khác manifest. Kiểm: hash tệp `art-qc/SKILL.md` trên máy = manifest (`7aea84a2…`), trong blob Git cũ/GitHub = `acda5a20…`. **Cách sửa:** thêm `.gitattributes` với `skills/** -text` và lưu lại đúng byte đã duyệt; **không đổi hash nào trong manifest, không sửa nội dung skill**. Đã mô phỏng CI trên một bản clone `core.autocrlf=false` trước khi đẩy: `admin:check`, `admin:test`, `validate:backend`, `validate:governance`, `skills:validate`, `supabase:check`, `supabase:migration-ledger:check` đều đạt, rồi CI thật xác nhận.
+
+Mobile quality không chạy lại ở `55831c0` vì bộ lọc đường dẫn của workflow (lần đẩy chỉ đổi `skills/`, `.gitattributes`, docs). Feature governance chỉ chạy trên Pull Request và Staging AI Council E2E chỉ chạy thủ công, nên chưa chạy lần nào trên repo mới. Vercel deploy `55831c0` cũng Production, Ready, 8 giây.
+
+### Feature governance trên Pull Request thử (24/10/2026) — PR #1, không merge
+
+PR #1 (`codex/android-release-unblock-2026-10-19` → `main`) chỉ sửa tài liệu trạng thái. Nhánh đặt đúng tên được quy tắc Ignored Build Step bỏ qua: trạng thái commit Vercel ghi **“Canceled by Ignored Build Step”**, không có deployment Preview nào được build.
+
+| Lần chạy | Kết quả | Chi tiết |
+|---|---|---|
+| Commit `985c625` (chỉ sửa docs) | **FAILURE** ở bước cuối | 4 bước đầu đạt (`validate:governance`, `skills:validate`, `feature:preflight:test`). Bước “Require a scoped preflight record” báo: *“Feature-affecting PR changes require a changed docs/feature-plans/*.json record”* và *“PR change has no declared writeScope: docs/release/…/MIGRATION_STATUS.vi.md”*. Đây là cổng làm đúng thiết kế: hồ sơ đã có ở commit gốc nhưng **PR phải sửa chính hồ sơ đó** để khai báo phạm vi. |
+| Commit `984de3a` (kèm sửa hồ sơ `docs/feature-plans/repo-migration-clean-source-2026-10-23.json`) | **SUCCESS** | Cùng bộ 5 bước đều đạt trên Linux/Node 24.19.0. Đã mô phỏng trước bằng `feature-preflight.mjs --ci --base origin/main`. |
+
+PR #1 hiện **mở, chưa merge**, mergeable, 2 tệp (+14/−2). `main` vẫn ở `55831c0`. Lưu ý: nội dung PR (kể cả ghi chú này) chưa nằm trên `main`.
+
+Chưa kiểm: đăng nhập Admin và thao tác CMS/AI Studio trên bản mới (cần phiên Owner); Staging AI Council E2E (chạy thủ công). **Mỗi push lên `main` của `nilaza` sẽ tự build và deploy Admin staging (Production)** (đã xác nhận hành vi này); nhánh CI cũ `codex/android-release-unblock-2026-10-19` không còn tồn tại trong repo mới nên quy tắc bỏ qua build không còn tác dụng cho nhánh đó — nếu muốn CI chạy trên nhánh khác mà không deploy Admin, cần cập nhật lệnh bỏ qua theo tên nhánh mới. Chưa đổi cài đặt Vercel nào khác. Chưa kiểm project Vercel nào khác trong team có gắn repo cũ hay không.
 
 Lưu ý sau khi đổi tên: đường chuyển hướng cũ từ `nilaza` sang repo cũ đã **không còn** (repo mới dùng lại tên); mọi clone cũ phải dùng URL `nilaza-legacy`. Thư mục `D:\nilaza` giữ nguyên toàn bộ công việc chưa commit và vẫn trỏ về repo cũ; cây sạch `D:\nilaza_clean_staging\repo` là bản clone làm việc của repo mới.
 
@@ -92,3 +115,15 @@ Owner đã xác nhận (23/10): chấp nhận PNG gốc Tarot nằm ngoài repo 
 - 21 PR mở của các nhánh tự sinh ở lại repo cũ; không chuyển sang repo mới.
 - Chưa chạy trên Linux/Node 24.19.0/CI; EAS có thể có giới hạn riêng về kích thước archive — chưa đo.
 - Hai test SQL của AI Operations cần sửa đường import PGlite trước khi đưa vào CI.
+
+## 6. Trạng thái cuối sau các PR (25/10/2026)
+
+| Mục | Kết quả |
+|---|---|
+| PR #1 (thử Feature governance) | Đóng, **không merge**; nhánh thử trên GitHub đã xóa |
+| PR #2 (làm sạch Android release) | Đã merge vào `main` (merge commit `ecfa7e1`) bởi tài khoản `magicpendigital`; Mobile quality trên `main` đạt; Vercel build Production Ready |
+| Vercel `nilaza-admin-staging` | Nối với `magicpendigital/nilaza`; Root Directory `apps/admin`, Node 24.x, Production branch `main`, Ignored Build Step giữ nguyên |
+| Lỗi hash skill do xuống dòng Windows | Đã sửa bằng `.gitattributes` (`skills/** -text`); không đổi hash nào trong manifest |
+| Nhánh local của bản clone | `main` đã đồng bộ `origin/main`; commit cũ của `main` local được giữ bằng tag `archive/local-main-before-cleanup-2026-10-25`; nhánh thử `codex/android-release-unblock-2026-10-19` còn ở local (remote đã xóa) |
+
+Bài học để lặp lại: (1) mọi lần push lên `main` tự deploy Admin staging; (2) PR nên dùng đúng tên nhánh `codex/android-release-unblock-2026-10-19` để Vercel bỏ qua build (nhánh remote sẽ bị xóa sau mỗi PR); (3) Feature governance bắt buộc PR kèm hồ sơ `docs/feature-plans/*.json` được sửa/thêm trong chính PR, có `writeScope` bao phủ mọi đường dẫn tính năng (kể cả `docs/`).
