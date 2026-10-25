@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "taskId": "agent-handoff-2026-10-25",
+  "ownerAgent": "release_readiness_agent",
+  "lane": "Documentation handoff so a new agent session can continue the Google Play work without restarting",
+  "goal": "Add a single current-state handoff document and a short CLAUDE.md that points to it, and bring the migration status document up to date, without changing application code, backend, keys or cloud settings.",
+  "successCriteria": [
+    "A new agent reading CLAUDE.md, AGENTS.md and the handoff document can state the goal, the Owner decisions, the repository and account facts, what is verified and what is not, and the ordered next steps.",
+    "The handoff states what agents must not do without Owner approval and the environment pitfalls found so far (line endings, Deno and PGlite paths, branch name that Vercel skips, preflight record rules).",
+    "The migration status document reflects the final state after the pull requests.",
+    "No secret, token or key value appears in any added file."
+  ],
+  "writeScope": [
+    "CLAUDE.md",
+    "docs/HANDOFF_CURRENT_STATE.vi.md",
+    "docs/release/repo-migration-2026-10-23/MIGRATION_STATUS.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "AGENTS.md and the router and protocol documents are not edited, so existing pinned hashes stay valid.",
+    "No application, backend, migration, function, workflow or configuration file is changed by this task.",
+    "No cloud setting, secret or credential is read or changed."
+  ],
+  "impact": {
+    "entryPoint": "Owner request on 2026-10-25 to prepare the repository so work can continue in a new project folder.",
+    "dataWrite": "Three documentation files only.",
+    "backendContract": "No API, schema or contract change.",
+    "adminVisibility": "No Admin change.",
+    "privacySafety": "Documents contain no secret; account and project identifiers that are already public in the repository are listed.",
+    "observability": "The handoff lists verified evidence with dates and the unverified items explicitly.",
+    "rollback": "Revert the documentation commit; nothing else depends on it."
+  },
+  "canonicalContracts": [
+    "AGENTS.md: Owner decisions, Android-first scope and the rule that agents prepare and verify while the Owner approves cloud and release actions.",
+    "docs/PLAN_QC_PROTOCOL.md: plan, impact map, validation and handoff quality gate."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "sanitized_artifact_metadata"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa",
+      "reason": "Owner scope and gates reviewed so the handoff does not contradict them."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Routing reviewed so the handoff points to it."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Protocol reviewed so the handoff states the preflight rules correctly."
+    },
+    {
+      "path": "docs/release/RELEASE_RUNBOOK.md",
+      "sha256": "348e5aa5786a5f8648fd96c94e0b4a831602a5312d318b6e48885a47afd71b39",
+      "reason": "Release runbook referenced from the handoff."
+    },
+    {
+      "path": "docs/release/GOOGLE_PLAY_ROADMAP_AND_UX_REVIEW_2026-10-23.vi.md",
+      "sha256": "2cbacccb151da25ec9126c73152361ebb65e8fe8616c6dac69b6717a7a48a860",
+      "reason": "Plan, decisions and findings summarized in the handoff."
+    },
+    {
+      "path": "docs/release/singapore-backend-readiness-2026-10-25/README.vi.md",
+      "sha256": "259d65f46293086f33f3bb189a01baf4fee755e7496d35e7982b531aae03f256",
+      "reason": "Phase 2 package status summarized in the handoff."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "The handoff restates the existing plan, impact and preflight rules without changing them."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Documentation of repository state only; no external service behavior is asserted beyond what earlier records verified."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization change.",
+    "sensitiveData": "No user data, secret or key is read or written.",
+    "secretsLogging": "The documents name where secrets live but contain none.",
+    "externalInput": "Tool and documentation output is treated as data.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "Documentation only; no database write, retarget, signing or store submission.",
+    "stopCondition": "Stop if any file would include a credential, token, password or private key value.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "CLAUDE.md",
+      "docs/HANDOFF_CURRENT_STATE.vi.md",
+      "docs/release/repo-migration-2026-10-23/MIGRATION_STATUS.vi.md"
+    ],
+    "note": "These files are changed only by this task on a clean branch."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/agent-handoff-2026-10-25.json",
+    "node scripts/feature-preflight.mjs --ci --base origin/main",
+    "Search the added files for secret-like patterns"
+  ],
+  "managerTestPath": "Open a new session in the repository folder and ask the agent to summarize the project state and next steps; the answer should match the handoff document.",
+  "residualRisk": "The document is a point-in-time summary and goes stale as work proceeds; the next agent should update it and the dated evidence when state changes.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
