@@ -30,6 +30,9 @@ enabled = false
 [functions.marketing-waitlist]
 verify_jwt = false
 
+[functions.account-delete]
+verify_jwt = true
+
 [functions.admin-documentation]
 verify_jwt = true
 

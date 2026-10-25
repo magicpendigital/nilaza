@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 1,
+  "taskId": "singapore-backend-readiness-2026-10-25",
+  "ownerAgent": "workflow_orchestration_agent",
+  "lane": "Singapore backend readiness packages for Owner approval (phase 2, authoring only)",
+  "goal": "Prepare, without executing anything in the cloud: a reviewed SQL packet for the Singapore project, an account-deletion function with its migration and local tests, an AI cost-guard plan, and an Auth and SMTP plan, so the Owner can approve each step separately.",
+  "successCriteria": [
+    "The SQL packet lists every migration in apply order with SHA-256 and size, the seed, required extensions, pre-checks, post-checks, stop conditions, rollback limits and the exact approvals needed, and states what was and was not read back from the cloud.",
+    "All migrations, including the new account-deletion migration, replay in order on a local PostgreSQL 17 engine with a Supabase-like fixture; the replay receipt is recorded.",
+    "The account-deletion function authenticates a non-anonymous user, refuses staff accounts, is idempotent, never reports success unless the user row is deleted, and returns sanitized errors; its Deno handler tests pass.",
+    "A local SQL test proves that after deletion no row anywhere in the schema still carries a marker inserted into the deleted user data, including tables that only null the user reference or are keyed by email hash.",
+    "The AI cost-guard plan states current gaps honestly, the safe launch order (no provider key, then provider-side key limit, then in-app reservation) and the tested slices required before any paid call is enabled.",
+    "The Auth and SMTP plan lists target settings, sender domain steps, template and callback checks, reviewer test account handling and which steps need Owner login.",
+    "No migration is applied, no function is deployed, no secret or key is read or set, and the migration ledger and release-profile targets are unchanged."
+  ],
+  "writeScope": [
+    "supabase/migrations/20261025000000_account_deletion_v1.sql",
+    "supabase/functions/account-delete/",
+    "supabase/config.toml",
+    "supabase/functions/README.md",
+    "scripts/singapore-packet-replay.mjs",
+    "docs/release/singapore-backend-readiness-2026-10-25/"
+  ],
+  "untouchedSurfaces": [
+    "No cloud call that writes: no SQL execution, migration push or repair, Edge Function deploy, secret change, Auth or SMTP setting change, or Supabase project change.",
+    "supabase/migration-ledger.json and docs/release/release-profile.json targets stay unchanged; the target allowlist remains empty until the Owner approves the packet.",
+    "Existing migrations and existing Edge Functions are not edited; the mobile app, Admin and web are not changed in this task.",
+    "No provider key, EAS variable, signing credential or Vercel setting is touched."
+  ],
+  "impact": {
+    "entryPoint": "Owner request on 2026-10-25 to start phase 2 and approve each step separately.",
+    "dataWrite": "Source files only: one new migration, one new Edge Function directory, a function config entry, a function README section, a local replay script and documents. Nothing is executed against a database outside local synthetic engines.",
+    "backendContract": "Adds an account-delete function and three service-role-only database functions plus one private table; existing functions and gateway paths are unchanged, and the mobile client is not wired yet.",
+    "adminVisibility": "No Admin change; the packet documents that Admin sees the account-deletion request table only through service role, not through client roles.",
+    "privacySafety": "Deletion removes the account and cascades its rows, deletes rows that would otherwise survive with a nulled user reference, scrubs free text in safety events, removes email-keyed waitlist rows, keeps only a domain-separated hash of the user id with status for retries, and keeps the cost ledger de-identified.",
+    "observability": "Deletion requests keep status, attempts and a coarse error code; the replay script records engine, migration hashes and checks in a receipt file.",
+    "rollback": "The migration is additive and not applied; before apply nothing needs rollback. After a future apply, drop the new functions and table with a forward migration; account deletions already performed cannot be undone."
+  },
+  "canonicalContracts": [
+    "AGENTS.md: Singapore is the canonical backend candidate; runtime retarget, cloud SQL, credentials and allowlist activation are separate Owner-approved steps.",
+    "docs/mvp-remediation/2026-10-02/R10-quota-reservation.vi.md: reserve, claim, receipt and finish contract with the approved quotas and QA budget.",
+    "Owner decisions of 2026-10-23: free first release, 18+ audience, OpenRouter with the model configured in Admin, Council and Astrology AI in the first release, sign-in required for AI features.",
+    "Google Play requires an in-app account deletion path and a web deletion request URL for apps that create accounts."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "sanitized_artifact_metadata"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa",
+      "reason": "Owner scope, Singapore allocation and release gates reviewed before backend authoring."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Backend and release routing reviewed."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Plan, impact, validation and handoff gate reviewed."
+    },
+    {
+      "path": "docs/release/RELEASE_RUNBOOK.md",
+      "sha256": "348e5aa5786a5f8648fd96c94e0b4a831602a5312d318b6e48885a47afd71b39",
+      "reason": "Release evidence rules and target gate reviewed."
+    },
+    {
+      "path": "docs/SUPABASE_MIGRATION_LEDGER.md",
+      "sha256": "e5fc9e3789ce1978ce3db7b7f41d6dd695d021c6d01ead2b11b3af14a4525f49",
+      "reason": "Legacy ledger blocker kept; the Singapore packet does not touch it."
+    },
+    {
+      "path": "docs/release/GOOGLE_PLAY_ROADMAP_AND_UX_REVIEW_2026-10-23.vi.md",
+      "sha256": "2cbacccb151da25ec9126c73152361ebb65e8fe8616c6dac69b6717a7a48a860",
+      "reason": "Phase 2 scope and Owner decisions come from this report."
+    },
+    {
+      "path": "docs/mvp-remediation/2026-10-02/R10-quota-reservation.vi.md",
+      "sha256": "4f56fedfc90dc12c7a5dbabbe85070db4752f863e1315de15807a612946f592e",
+      "reason": "Existing reservation SQL, worker and the six gates before paid calls."
+    },
+    {
+      "path": "supabase/functions/_shared/ai-request-guard.ts",
+      "sha256": "1fbf5ab7723ebb1d4f9ca55b099a275f53ca1fd7163c4d519054af7519532abb",
+      "reason": "Shared authenticated JSON request guard reused by the new function."
+    },
+    {
+      "path": "docs/release/SINGAPORE_FREE_PREPARATION_2026-10-09.vi.md",
+      "sha256": "e69333dc747196ede7f207dcdb7665c87af87a54d59efad1293027ac56218128",
+      "reason": "Singapore Free preparation facts and limits."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Plan, impact map, release-control stop conditions and no-cloud-write rules were applied; the task adds no durable workflow rule."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "OpenRouter API key limit fields and Google Play account-deletion rules were checked in current documentation; Supabase auth admin delete behavior is exercised through a local fixture and documented as unverified against the managed service."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://openrouter.ai/docs/api-reference/api-keys/create-api-key",
+      "checkedAt": "2026-10-25",
+      "reason": "API keys accept a USD limit with daily, weekly or monthly reset; behavior at the limit is not stated on that page and must be tested."
+    },
+    {
+      "url": "https://support.google.com/googleplay/android-developer/answer/13327111",
+      "checkedAt": "2026-10-23",
+      "reason": "In-app deletion path plus a web request link and Data safety declarations are required."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "The new private table forces row security and revokes client roles; the three database functions run with invoker rights and are executable only by the service role; the Edge Function verifies a non-anonymous user and refuses active staff accounts.",
+    "sensitiveData": "Only synthetic fixtures are used; no real user data, key or credential is read. The deletion function stores a domain-separated hash of the user id, never an email or a name.",
+    "secretsLogging": "No secret is read, printed or stored; function errors are reduced to coarse codes and never include provider or database messages.",
+    "externalInput": "Request bodies are bounded by the shared guard; provider, documentation and tool output are treated as data, not instructions.",
+    "dependencies": "No dependency or lockfile change; Deno and PGlite are used from outside the repository for local tests only.",
+    "migrationRelease": "The migration is authored but not applied; applying it needs an exact-target Owner-approved packet, and the legacy ledger and empty target allowlist stay as they are.",
+    "stopCondition": "Stop if a replay step fails, if the marker scan finds surviving data, if any test needs a cloud call, or if a change would touch the legacy ledger, the allowlist or a secret.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "supabase/migrations/20261025000000_account_deletion_v1.sql",
+      "supabase/functions/account-delete/handler.ts",
+      "supabase/functions/account-delete/index.ts",
+      "supabase/functions/account-delete/handler_test.ts",
+      "supabase/config.toml",
+      "supabase/functions/README.md",
+      "scripts/singapore-packet-replay.mjs",
+      "docs/release/singapore-backend-readiness-2026-10-25/README.vi.md",
+      "docs/release/singapore-backend-readiness-2026-10-25/01_SQL_PACKET.vi.md",
+      "docs/release/singapore-backend-readiness-2026-10-25/02_ACCOUNT_DELETION.vi.md",
+      "docs/release/singapore-backend-readiness-2026-10-25/03_AI_COST_GUARD_PLAN.vi.md",
+      "docs/release/singapore-backend-readiness-2026-10-25/04_AUTH_SMTP_PLAN.vi.md",
+      "docs/release/singapore-backend-readiness-2026-10-25/packet-manifest.json",
+      "docs/release/singapore-backend-readiness-2026-10-25/replay-receipt.json"
+    ],
+    "note": "The work branch starts clean from origin/main; every file in the write scope is new or edited only by this task."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/singapore-backend-readiness-2026-10-25.json",
+    "deno test for the account-delete handler and the existing shared guard and usage worker tests",
+    "node scripts/singapore-packet-replay.mjs with a local PGlite module path",
+    "npm run validate:backend",
+    "npm run supabase:check",
+    "npm run supabase:migration-ledger:check",
+    "npm run validate:governance"
+  ],
+  "managerTestPath": "Read the SQL packet and the two plans, then approve one step at a time. For account deletion, the local tests show an account and every trace of its synthetic data disappear and a second request is harmless.",
+  "residualRisk": "Managed Supabase behavior (auth.admin.deleteUser, role grants, extensions on Free) is not verified because this session cannot read the Singapore project; the packet repeats the last verified state and lists the read-back queries to run first. The AI cost guard is a plan, not wired code, so no paid provider key should be set before its slices pass.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
