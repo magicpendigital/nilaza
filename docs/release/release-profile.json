@@ -2,7 +2,17 @@
   "schemaVersion": 1,
   "projectId": "nilaza",
   "mode": "cloud",
-  "targets": [],
+  "targets": [
+    {
+      "id": "nilaza-singapore-prelaunch-qa",
+      "kind": "staging",
+      "organizationId": "drxbmvimiekeoeesgssp",
+      "projectRef": "etfajmrwyywokgafzxsb",
+      "registeredFor": "step-2b-owner-review-2026-10-27",
+      "ledgerPath": "supabase/migration-ledgers/nilaza-singapore-prelaunch-qa.json",
+      "scope": "Allowlist registration only. Does not authorize SQL, retargeting, credentials or release; execution needs fresh gate evidence and a separate Owner decision (2c)."
+    }
+  ],
   "environmentPolicy": {
     "stagingOrganizationId": "drxbmvimiekeoeesgssp",
     "productionOrganizationId": "drxbmvimiekeoeesgssp",
@@ -65,7 +75,7 @@
   },
   "blockers": [
     "Nilaza QA ledger remains blocked_pending_reconciliation due to foreign MCY history. Do not import foreign SQL, push or repair history to turn a check green.",
-    "Owner selected Singapore Free etfajmrwyywokgafzxsb for closed prelaunch QA then separately approved production promotion. Resource settings, quota/recovery, managed acceptance, operator enforcement and exact SQL approval remain pending; runtime still binds legacy QA. Target allowlist remains empty; historical Pro packets are superseded."
+    "Owner selected Singapore Free etfajmrwyywokgafzxsb for closed prelaunch QA then separately approved production promotion. Owner approved the exact SQL set (2a, migrationSetSha256 256c8ff7545238bac634e7eb4aaf56d18dfee27450a29ba660df3a8e154cb9a8) on 2026-10-26. The Singapore staging target is allowlisted with its own ledger for Owner review (2b); resource settings, quota/recovery, managed acceptance, operator enforcement and the execution decision (2c) remain pending; runtime still binds legacy QA. No production target is allowlisted; historical Pro packets are superseded."
   ],
   "ledgerPath": "supabase/migration-ledger.json",
   "inputRoots": [
