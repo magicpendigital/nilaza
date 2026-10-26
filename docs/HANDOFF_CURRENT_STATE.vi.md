@@ -1,4 +1,4 @@
-# Nilaza — hiện trạng và bàn giao cho Agent mới (cập nhật 25/10/2026)
+# Nilaza — hiện trạng và bàn giao cho Agent mới (cập nhật 26/10/2026)
 
 Tài liệu này là **điểm vào duy nhất** để một Agent mới (hoặc phiên mới) hiểu dự án đang ở đâu mà không phải bắt đầu lại. Đọc theo thứ tự: `CLAUDE.md` → `AGENTS.md` → tài liệu này → `docs/AGENT_TASK_ROUTER.md` → các tài liệu được chỉ ở mục 9. Nếu có mâu thuẫn, **mã nguồn và kết quả kiểm tra ngày gần nhất thắng tài liệu cũ**; mọi mục dưới đây ghi rõ cái nào *đã kiểm chứng* và cái nào *chưa*.
 
@@ -31,7 +31,7 @@ Quyết định trước đó vẫn hiệu lực: Supabase **Singapore** (`etfaj
 | Bản sao lưu | `D:\nilaza_backup_2026-10-23\workspace` (28.444 tệp, đã kiểm hash mẫu) |
 | Vercel | Project `nilaza-admin-staging`, team `magicpens-projects`, gắn repo `nilaza`, Root Directory `apps/admin`, Node 24.x, Production branch `main` |
 | EAS (Expo) | Tài khoản `magicpen`, project id `8a6197d1-feaa-488b-90a3-12bb177ee005`; **cả 3 môi trường `production`, `preview`, `development` chưa có biến nào** |
-| Supabase | Connector tùy chỉnh trỏ đúng project Singapore, chỉ đọc (do Owner thêm trong Claude → Connectors). Project **QA cũ** `akgrokwnkfqnfjqrildi` (tổ chức khác) vẫn được app và Admin staging trỏ tới |
+| Supabase | Connector tùy chỉnh trỏ đúng project Singapore, chỉ đọc (do Owner thêm trong Claude → Connectors; vai trò DB `supabase_read_only_user`, đã dùng được ngày 26/10). Project Singapore là gói Free: **tự tạm dừng khi lâu không dùng** — lỗi "Database is possibly not accessible" nghĩa là cần Owner bấm khôi phục. Project **QA cũ** `akgrokwnkfqnfjqrildi` (tổ chức khác) vẫn được app và Admin staging trỏ tới |
 | Google Play | Chưa tạo ứng dụng; tài khoản/xác minh là việc của Owner |
 
 ## 4. Tiến độ theo giai đoạn
@@ -40,7 +40,7 @@ Quyết định trước đó vẫn hiệu lực: Supabase **Singapore** (`etfaj
 |---|---|---|
 | **0** | Chốt nguồn, sao lưu, repo sạch, nối Vercel, CI online | **Xong** (xem `docs/release/repo-migration-2026-10-23/`) |
 | **1** | Làm sạch Android release: gỡ quyền thừa, thêm `POST_NOTIFICATIONS`, tắt backup, gỡ activity xem trước | **Xong và đã merge** (PR #2). Đã kiểm manifest *đã gộp* của bản release bằng Gradle; **chưa** dựng AAB |
-| **2** | Gói backend Singapore: SQL, xóa tài khoản, kế hoạch chặn chi phí AI, kế hoạch Auth/SMTP | **Đã soạn và kiểm thử cục bộ; chưa áp/deploy gì.** Nằm trong PR của nhánh `backend/singapore-readiness-2026-10-25` (xem mục 8). Chờ Owner duyệt từng bậc |
+| **2** | Gói backend Singapore: SQL, xóa tài khoản, kế hoạch chặn chi phí AI, kế hoạch Auth/SMTP | **Đã soạn, kiểm thử cục bộ và merge vào `main` (PR #3); chưa áp/deploy gì.** Bậc 1 (đọc lại Singapore) xong 26/10; phiếu duyệt bậc 2 đã soạn — chờ Owner duyệt 2a (xem mục 8) |
 | **3** | UI/UX Gói A (FAB Oracle, chế độ khách, xác nhận 18+, nút xóa tài khoản, ngày địa phương, ma trận thiết bị, báo cáo nội dung AI…) | **Chưa bắt đầu** |
 | **4** | QA online + thiết bị (Air1 Ultra, API 33) + AAB đầu tiên | Chưa; chặn bởi GĐ2 và biến EAS |
 | **5** | Play Console, Data safety, nội dung cửa hàng | Chưa; Owner làm song song |
@@ -50,7 +50,8 @@ Quyết định trước đó vẫn hiệu lực: Supabase **Singapore** (`etfaj
 
 - **CI GitHub Actions (Linux, Node 24.19.0):** Mobile quality ✔ (24/10 và trên `main` 25/10), Admin quality ✔ (24/10), Feature governance ✔ (trên PR thử). Mobile: **327/327 test, 53 suites**, tsc, xuất bundle web và Android nhúng ✔.
 - **Local (Windows):** Deno 41/41 (13 test mới của `account-delete` + 28 của guard/worker); replay **31/31 migration** trên PostgreSQL 17.5 (PGlite) + 10/10 kiểm tra SQL xóa tài khoản kèm đối chứng âm (xem `docs/release/singapore-backend-readiness-2026-10-25/`).
-- **Chưa kiểm chứng:** AAB thật (chữ ký, kích thước, căn chỉnh 16 KB); hành vi trên Supabase thật (`auth.admin.deleteUser`, JWT, vai trò, extension gói Free, tranh chấp nhiều kết nối); hộp thoại quyền thông báo trên Android 13; chất lượng AI online (chưa chạy đánh giá R21); Docker/replay native bản 31 migration; đăng nhập Admin trên bản Vercel mới; trạng thái project Singapore **hôm nay** (lần cuối xác minh trống: 05/10, 09/10, 16/10).
+- **Chưa kiểm chứng:** AAB thật (chữ ký, kích thước, căn chỉnh 16 KB); hành vi trên Supabase thật (`auth.admin.deleteUser`, JWT, vai trò, extension gói Free, tranh chấp nhiều kết nối); hộp thoại quyền thông báo trên Android 13; chất lượng AI online (chưa chạy đánh giá R21); Docker/replay native bản 31 migration; đăng nhập Admin trên bản Vercel mới; vùng/trạng thái project Singapore qua connector (không có công cụ đọc metadata).
+- **Singapore đọc lại 26/10 (chỉ đọc):** Postgres 17.11; 0 bảng public, 0 migration, 0 Edge Function, 0 bucket, 0 người dùng Auth; đủ 3 vai trò; `vector`/`pgcrypto`/`pg_cron`/`pg_net` có sẵn; `postgres` có quyền cấp SELECT trên `auth.users` (rủi ro R1 thấp). Hash gói tính lại từ Git khớp `packet-manifest.json`. Biên nhận: `docs/release/singapore-backend-readiness-2026-10-25/readback-2026-10-26.json`.
 
 ## 6. Môi trường máy này — những điều dễ vấp
 
@@ -69,8 +70,8 @@ Chạy SQL hoặc `db push/repair` trên bất kỳ project Supabase; deploy Edg
 
 ## 8. Việc đang chờ / bước tiếp theo đề xuất (theo thứ tự)
 
-1. **Đọc lại project Singapore (chỉ đọc)** bằng connector Supabase: mục 6 của `01_SQL_PACKET.vi.md` (version, 0 bảng, 0 migration, extension, vai trò). Cập nhật gói nếu khác.
-2. **Owner duyệt gói SQL** (đúng `migrationSetSha256` trong `packet-manifest.json`), đường thực thi (khuyến nghị Supabase CLI, Owner nhập mật khẩu DB), và một PR riêng thêm Singapore vào `release-profile.json` + sổ cái riêng. Sau đó mới áp migration.
+1. ~~Đọc lại project Singapore (chỉ đọc)~~ — **xong 26/10**, vẫn trống, không đổi so với trước.
+2. **Owner duyệt gói SQL** theo `docs/release/singapore-backend-readiness-2026-10-25/05_STEP2_APPROVAL_FORM.vi.md`, tách 3 lần: **2a** chốt `migrationSetSha256` + đích (đang chờ) → **2b** PR riêng thêm Singapore vào `release-profile.json` + sổ cái riêng → **2c** thực thi (khuyến nghị Supabase CLI, Owner nhập mật khẩu DB; đọc lại project ngay trước khi chạy). Tính lại hash trước 2c; hash khác thì duyệt lại.
 3. Deploy `account-delete`; làm **lát cắt mobile** (đường dẫn `/account/delete`, nút "Xóa tài khoản", xác nhận, dọn dữ liệu cục bộ) và **trang web xóa tài khoản** (URL cho Play) — cần hộp thư hỗ trợ (đề xuất Cloudflare Email Routing).
 4. **Auth/SMTP** theo `04_AUTH_SMTP_PLAN.vi.md` (Owner đăng nhập từng dịch vụ).
 5. **Chặn chi phí AI** theo `03_AI_COST_GUARD_PLAN.vi.md`: S1–S3 trước khi đặt khóa OpenRouter; ra mắt thử **không có khóa** là an toàn.

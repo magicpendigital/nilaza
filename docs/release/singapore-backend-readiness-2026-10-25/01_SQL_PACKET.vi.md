@@ -2,16 +2,20 @@
 
 Ngày 25/10/2026, Asia/Bangkok. Đích dự kiến: project `etfajmrwyywokgafzxsb` (Nilaza Singapore), tổ chức Nilaza Free `drxbmvimiekeoeesgssp`, vùng `ap-southeast-1`, PostgreSQL 17. **Gói này không thực thi gì trên cloud.**
 
-## 1. Hiện trạng đích — đã xác minh lần cuối và chưa đọc lại
+## 1. Hiện trạng đích — đọc lại ngày 26/10/2026 (bậc 1 đã xong)
 
 | Mục | Giá trị | Nguồn / giới hạn |
 |---|---|---|
-| Trạng thái | ACTIVE_HEALTHY, Postgres 17, 0 bảng public, 0 migration, 0 Edge Function | Đọc lại ngày 05/10, 09/10 và 16/10 trong các hồ sơ trước |
-| Đọc lại hôm nay (25/10) | **Không làm được** | Công cụ Supabase của phiên này trả "không có quyền" với project này (khác tài khoản/tổ chức). Không suy ra project đã thay đổi hay không |
+| Trước đây | ACTIVE_HEALTHY, Postgres 17, 0 bảng public, 0 migration, 0 Edge Function | Đọc lại ngày 05/10, 09/10 và 16/10 trong các hồ sơ trước |
+| 25/10 | Không đọc được | Công cụ Supabase của phiên đó không có quyền với project |
+| **26/10 — đọc lại (chỉ đọc)** | **PostgreSQL 17.11**; **0 bảng public; 0 migration** (bảng lịch sử migration chưa tồn tại); **0 Edge Function; 0 bucket Storage; 0 người dùng Auth**; đủ 3 vai trò `anon`, `authenticated`, `service_role`; `app.enable_*` chưa đặt | Connector do Owner thêm, vai trò `supabase_read_only_user`. Lần thử đầu bị hết thời gian chờ vì project Free đã tạm dừng; Owner bấm khôi phục rồi đọc lại thành công. Biên nhận: [readback-2026-10-26.json](readback-2026-10-26.json) |
+| So với trước | **Không đổi** — vẫn trống | Trạng thái/vùng project không đọc được qua connector (không có công cụ đọc metadata) |
 | Cấu hình app | Chưa retarget; client và Admin staging vẫn trỏ project QA cũ `akgrokwnkfqnfjqrildi` | `release-profile.json`: `targets = []` |
 | Sổ cái migration | Của project QA cũ vẫn `blocked_pending_reconciliation` | Singapore cần sổ cái và manifest riêng khi áp (bậc 2) |
 
-**Vì vậy bước đầu tiên là đọc lại (chỉ đọc) — xem mục 6.**
+Hash gói đã được tính lại từ Git tại commit `160f449` ngày 26/10: **31/31 tệp, `migrationSetSha256` và seed khớp [packet-manifest.json](packet-manifest.json)**. Phiếu duyệt bậc 2: [05_STEP2_APPROVAL_FORM.vi.md](05_STEP2_APPROVAL_FORM.vi.md).
+
+**Gói Free tự tạm dừng khi lâu không dùng:** phải đọc lại (mục 6) **ngay trước khi áp**, không dựa vào kết quả ngày 26/10.
 
 ## 2. Nội dung gói: 31 migration theo thứ tự áp dụng
 
@@ -57,7 +61,7 @@ So với hồ sơ chuẩn bị tháng 10 (25 migration gốc + 3 bản chuyển 
 
 ## 3. Phần mở rộng, cron và tác dụng phụ
 
-- **Phần mở rộng cần thiết:** `pgcrypto`, `vector` (schema `public`). Cần kiểm tra gói Free cho phép tạo (chưa kiểm).
+- **Phần mở rộng cần thiết:** `pgcrypto`, `vector` (schema `public`). Đọc ngày 26/10: cả `vector` 0.8.2, `pgcrypto` 1.3, `pg_cron` 1.6.4, `pg_net` 0.20.4 **đều có sẵn** trên gói Free. `pgcrypto` **đã bật sẵn ở schema `extensions`**; migration 1 dùng `create extension if not exists pgcrypto` nên sẽ bỏ qua, và không migration nào gọi hàm riêng của pgcrypto (`digest`, `crypt`, `gen_random_bytes`…), nên không ảnh hưởng. `vector` chưa bật, sẽ được migration 2 tạo trong `public`.
 - **Không có tác dụng phụ ra ngoài theo mặc định:** migration 4 (cron HTTP hằng tuần) và migration 16 (cron dọn trace) chỉ chạy khi có cài đặt `app.enable_*` bằng `on` — không đặt thì bỏ qua. Migration 25 chỉ lập lịch nếu `pg_cron` đã bật. `pg_net` chỉ được tạo trong nhánh `weekly reflection` bị tắt.
 - **Hệ quả cần quyết định sau:** nếu không bật `pg_cron` thì không có lịch tự dọn payload QA hết hạn (chúng vẫn không đọc được sau khi hết hạn). Nên bật `pg_cron` **sau khi** áp migration để migration 25 hoặc một lệnh riêng lập lịch dọn.
 - **Chiến dịch AI seed ở `disabled`** (migration 27): chưa có hạn mức nào có hiệu lực.
@@ -75,8 +79,8 @@ So với hồ sơ chuẩn bị tháng 10 (25 migration gốc + 3 bản chuyển 
 
 | # | Rủi ro | Cách xử lý |
 |---|---|---|
-| R1 | `grant select on auth.users to service_role` (migration 27) có thể bị từ chối nếu vai trò chạy migration không đủ quyền trên schema `auth` của dịch vụ được quản lý | Chạy `--dry-run` trước; nếu lỗi, sửa bằng migration chuyển tiếp (vai trò `service_role` thường đã có quyền) — không sửa tệp đã duyệt |
-| R2 | `create extension vector` / `pgcrypto` trên gói Free | Kiểm `select * from pg_available_extensions` ở bước đọc lại |
+| R1 | `grant select on auth.users to service_role` (migration 27) có thể bị từ chối nếu vai trò chạy migration không đủ quyền trên schema `auth` của dịch vụ được quản lý | **Đọc ngày 26/10: rủi ro thấp.** `postgres` (vai trò mà CLI dùng để áp) có quyền SELECT **kèm quyền cấp lại** trên `auth.users` (chủ sở hữu là `supabase_auth_admin`), nên lệnh grant dự kiến thành công. Hiện `service_role` **chưa** có SELECT trên bảng này, nên migration 27 là cần thiết. Vẫn chạy `--dry-run` trước; nếu lỗi, sửa bằng migration chuyển tiếp — không sửa tệp đã duyệt |
+| R2 | `create extension vector` / `pgcrypto` trên gói Free | **Đã loại ngày 26/10:** cả hai có sẵn (xem mục 3) |
 | R3 | **23/31 migration không tự bọc `begin; … commit;`** (8 tệp có). Việc công cụ áp có bọc mỗi tệp trong một transaction hay không **chưa được kiểm chứng**; nếu không, lỗi giữa một tệp có thể để lại trạng thái dở | Dừng ngay ở lỗi đầu tiên; sửa tiến (forward), không chỉnh tay dữ liệu; thử `--dry-run` và đọc cách CLI ghi lịch sử trước khi áp thật |
 | R4 | Migration 3 có `drop table/column` | Chỉ an toàn vì đích **trống**; điều kiện bắt buộc: 0 bảng public trước khi áp |
 | R5 | Free: project bị tạm dừng sau thời gian không dùng | Theo dõi trạng thái; không phải rủi ro của migration |
@@ -88,7 +92,8 @@ Chạy trong SQL Editor của project Singapore hoặc để tôi chạy khi có
 ```sql
 select version(), current_setting('server_version_num');
 select count(*) as public_tables from information_schema.tables where table_schema = 'public';   -- mong đợi 0
-select count(*) from supabase_migrations.schema_migrations;                                          -- mong đợi 0
+select to_regclass('supabase_migrations.schema_migrations');                                         -- null = chưa có migration nào (project trống)
+-- nếu khác null: select count(*) from supabase_migrations.schema_migrations;                          -- mong đợi 0
 select extname, extversion from pg_extension order by 1;                                             -- ghi lại
 select name from pg_available_extensions where name in ('vector','pgcrypto','pg_cron','pg_net');
 select current_setting('app.enable_weekly_reflection_cron', true), current_setting('app.enable_ai_trace_prune_cron', true); -- mong đợi null hoặc off
@@ -100,7 +105,7 @@ Cũng ghi lại (chụp ảnh/đọc dashboard, không ghi gì): Auth → Provid
 ## 7. Cách áp (đề xuất) — khi đã được duyệt
 
 1. **Khuyến nghị: Supabase CLI** từ bản sao repo mới. `supabase link --project-ref etfajmrwyywokgafzxsb` → `supabase db push --dry-run` (xem đúng 31 tệp) → `supabase db push`. Mật khẩu DB do **bạn** nhập, không chuyển qua tôi. CLI chưa cài trên máy này (có thể chạy qua `npx supabase`, chưa thử). Cách này ghi lịch sử migration đúng tên/phiên bản.
-2. Thay thế: tôi áp từng migration qua công cụ Supabase khi tài khoản kết nối có quyền với project (hiện bị từ chối) và bạn duyệt từng lô.
+2. Thay thế: tôi áp từng migration qua công cụ Supabase khi bạn duyệt từng lô. **Hiện không làm được:** connector đang dùng vai trò chỉ đọc `supabase_read_only_user` (đúng như mong muốn) và không có công cụ áp migration.
 3. **Không dùng** dán SQL vào SQL Editor: không ghi lịch sử migration, dễ lệch hash.
 4. Trước khi áp: một PR riêng (bạn duyệt) thêm Singapore vào `release-profile.json` và tạo sổ cái/manifest riêng; **không sửa** sổ cái cũ và không dùng `db push/repair` trên project QA cũ.
 
@@ -128,9 +133,11 @@ Sau đó chạy **Security Advisor** của Supabase và lưu kết quả; không
 ## 9b. Bạn duyệt chính xác điều gì (bậc 2)
 
 1. `migrationSetSha256` = **`256c8ff7545238bac634e7eb4aaf56d18dfee27450a29ba660df3a8e154cb9a8`** và seed `4f600aa1cd999112…`.
-2. Đích: project `etfajmrwyywokgafzxsb`, ap-southeast-1, đã qua bước đọc lại (mục 6) với kết quả khớp.
+2. Đích: project `etfajmrwyywokgafzxsb`, ap-southeast-1, đã qua bước đọc lại (mục 6) với kết quả khớp — **số liệu đọc ngày 26/10 khớp; vùng/trạng thái project chưa đọc lại được qua connector (lần cuối 09/10)**.
 3. Đường thực thi (CLI do bạn nhập mật khẩu) và thời điểm.
 4. PR cập nhật danh sách đích/sổ cái riêng cho Singapore.
+
+Bốn mục này được tách thành **ba lần duyệt riêng, mỗi lần một quyết định** trong [phiếu duyệt bậc 2](05_STEP2_APPROVAL_FORM.vi.md): 2a (nội dung gói + đích) → 2b (PR đích/sổ cái) → 2c (thực thi).
 
 ## 10. Không nằm trong gói này
 
