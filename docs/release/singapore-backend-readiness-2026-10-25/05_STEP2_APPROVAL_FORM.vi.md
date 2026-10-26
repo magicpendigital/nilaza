@@ -7,8 +7,8 @@ Bậc 2 gồm **ba quyết định riêng**, duyệt lần lượt. Mỗi lần 
 | Lần | Quyết định | Trạng thái |
 |---|---|---|
 | **2a** | Chốt **nội dung gói** (31 migration + seed) và **đích** sẽ áp | **Owner đã duyệt ngày 26/10/2026** — xem bản ghi bên dưới |
-| 2b | Một PR thêm Singapore vào danh sách đích (`release-profile.json`) và tạo sổ cái migration riêng | **Đã soạn trên máy ngày 27/10** — xem mục 2b bên dưới; chờ PR #4 merge rồi mới mở PR |
-| 2c | **Thực thi**: bạn chạy Supabase CLI, tự nhập mật khẩu DB, chạy thử (`--dry-run`) rồi áp thật | Chưa xin; soạn sau khi 2b được merge |
+| 2b | Một PR thêm Singapore vào danh sách đích (`release-profile.json`) và tạo sổ cái migration riêng | **Owner đã duyệt ngày 27/10/2026** bằng việc merge PR #5 — xem bản ghi bên dưới |
+| 2c | **Thực thi**: bạn chạy Supabase CLI, tự nhập mật khẩu DB, chạy thử (`--dry-run`) rồi áp thật | **Đang chuẩn bị bằng chứng** — xem mục "Chuẩn bị 2c"; chưa xin duyệt |
 
 ---
 
@@ -69,7 +69,16 @@ Bậc 2 gồm **ba quyết định riêng**, duyệt lần lượt. Mỗi lần 
 
 ## Quyết định 2b — đăng ký đích Singapore (staging) và sổ cái riêng
 
-Soạn ngày 27/10/2026, chỉ trên máy. **Chưa push, chưa mở PR, chưa chạy gì trên cloud.** PR này phải đẩy lên tên nhánh `codex/android-release-unblock-2026-10-19` để Vercel bỏ qua build, mà nhánh đó đang dùng cho PR #4. Vì vậy chỉ mở được PR 2b **sau khi bạn merge PR #4**.
+Soạn ngày 27/10/2026. Đã mở thành PR #5 sau khi PR #4 được merge, và đã merge. Không có gì chạy trên Supabase.
+
+### Bản ghi duyệt
+
+| Mục | Giá trị |
+|---|---|
+| Ngày | 27/10/2026, Asia/Bangkok |
+| Lời Owner (nguyên văn, qua chat với Agent) | "Tôi duyệt 2b: merge PR #5 vào main (biết là Admin staging sẽ tự deploy)." |
+| Thực hiện | PR #5 (đầu nhánh `f9984e6`, CI 4/4 xanh) được merge vào `main` thành commit `9cd0ddc`; Vercel báo deploy Admin staging hoàn tất |
+| Phạm vi | Chỉ đăng ký đích staging và sổ cái riêng. **Không** cho phép chạy SQL (2c) |
 
 ### Bạn duyệt cái gì
 
@@ -113,13 +122,38 @@ Cả hai cùng chỉ đúng 31 tệp với từng hash giống nhau; đây **kh�
 
 ---
 
-## Xem trước 2c (chưa xin duyệt)
+## Chuẩn bị 2c (chưa xin duyệt)
 
-**Bộ kiểm đích cần thêm bằng chứng trước 2c** (phát hiện khi soạn 2b):
-1. **Thông tin project, đọc trong vòng 24 giờ:** `ACTIVE_HEALTHY`, gói Free/Nano, vùng Singapore, Postgres 17, không add-on trả phí; tác dụng phụ (gửi thư, job, đăng ký) đang tắt; đã rà cài đặt tài nguyên, hạn mức và khả năng khôi phục. Connector hiện không đọc được trạng thái và vùng, nên bạn cần đọc trên dashboard hoặc cấp công cụ phù hợp.
-2. **Bản chạy thử trong vòng 7 ngày,** gắn đúng mã của bộ kiểm (`04c1fc1a…`) và Postgres 17, có kiểm phân quyền/RLS **và kiểm khôi phục** (`restoreAcceptance`). Bản chạy thử PGlite ngày 25/10 chưa có kiểm khôi phục, cũng chưa ghi đúng các trường này. Lần kiểm khôi phục trước (05/10) chạy bằng Docker, mà máy này hiện không chạy Docker.
-3. **Sổ cái đọc lại trong vòng 24 giờ.**
-4. **Phiếu duyệt 2c dạng tệp,** hiệu lực tối đa 7 ngày, gắn đúng đích, SQL, sổ cái, thông tin project, bản chạy thử và danh sách đích.
+Cập nhật 27/10/2026. Bộ kiểm đích cần **4 loại bằng chứng** trước khi cho phép thực thi. Trạng thái từng loại:
+
+| # | Bằng chứng | Hạn | Trạng thái |
+|---|---|---|---|
+| 1 | **Bản chạy thử** 31 migration + seed, gắn đúng mã của bộ kiểm (`04c1fc1a…`), Postgres 17, có kiểm phân quyền/RLS và kiểm khôi phục | ≤ 7 ngày | **Có — hai bản chạy trên máy 27/10, cả hai PASS.** **Bản chính: Docker** (ảnh Supabase Postgres 17.6 đã ghim, có sẵn trên máy, không tải thêm; khôi phục bằng `pg_dump`/`pg_restore`): [rehearsal-native-2026-10-27.json](rehearsal-native-2026-10-27.json). Bản phụ PGlite: [rehearsal-embedded-2026-10-27.json](rehearsal-embedded-2026-10-27.json). Hết hạn khoảng 02/11 |
+| 2 | **Thông tin project** (trạng thái, gói, compute, vùng, add-on, tác dụng phụ, rà tài nguyên/hạn mức/khôi phục) | ≤ 24 giờ trước khi chạy | **Chưa — cần bạn đọc trên dashboard.** Mẫu: [target-metadata.template.json](target-metadata.template.json) |
+| 3 | **Sổ cái** đọc lại | ≤ 24 giờ trước khi chạy | Tôi đọc lại qua connector ngay trước khi chạy |
+| 4 | **Phiếu duyệt 2c dạng tệp** | ≤ 7 ngày | Soạn sau khi có 1–3; bạn trả lời một lần |
+
+**Bản chạy thử ngày 27/10 chứng minh gì** (trên máy, dữ liệu giả, không nối cloud):
+- 31/31 migration và seed 78 lá chạy đúng thứ tự trên PostgreSQL 17.6 (Docker) và 17.5 (PGlite).
+- 17/17 kiểm tra đạt, gồm:
+  - người dùng A và B không thấy, không sửa và không xóa được dữ liệu của nhau;
+  - nhân viên bị thu hồi quyền thì không dùng lại được quyền cũ;
+  - claim "owner" giả không mở được quyền quản trị;
+  - hàm hạn mức AI chỉ `service_role` gọi được;
+  - client không TRUNCATE được bảng nào;
+  - khôi phục từ bản lưu giữ nguyên dữ liệu, schema, chỉ mục, quyền và hàm.
+- Bộ kiểm đích nhận biên nhận này. Khi thử với thông tin project **giả lập** (không phải bằng chứng, đã xóa ngay), bộ kiểm chỉ còn chặn ở hai chỗ: hồ sơ còn nháp và chưa có phiếu duyệt.
+
+**Bản Docker** chạy trong container không có mạng, không mở cổng, không gắn thư mục máy, hệ thống tệp chỉ đọc. Container đã dừng sau khi chạy. Khôi phục bằng `pg_dump`/`pg_restore` sang một cụm Postgres độc lập, giữ nguyên quyền và chủ sở hữu.
+
+**Giới hạn:** cả hai bản đều **không** chứng minh hành vi của Supabase thật (Auth, JWT, Storage, nhiều kết nối đồng thời, quyền thật trên schema `auth`). Bảng `auth.users` trong bản thử chỉ có cột `id`.
+
+### Việc cần bạn làm cho 2c
+
+1. ~~Mở Docker Desktop~~ — **xong 27/10**; bản thử Docker PASS, không phải tải ảnh.
+2. **Đọc dashboard Supabase của project Singapore** theo danh sách trong [mẫu thông tin project](target-metadata.template.json), trong vòng 24 giờ trước khi chạy. Bạn chỉ cần báo lại; không đổi cài đặt nào. Quan trọng nhất là mục *cho phép người dùng mới đăng ký*: nếu đang **bật** thì bộ kiểm không coi là "tác dụng phụ đã tắt", và việc tắt nó là **một quyết định cài đặt riêng** tôi sẽ xin bạn.
+3. **Chuẩn bị đăng nhập Supabase CLI và mật khẩu DB** của project. Nếu quên mật khẩu, việc đặt lại là thao tác của bạn trên dashboard. Đừng gửi mật khẩu cho tôi.
+4. **Trả lời phiếu 2c** khi tôi gửi.
 
 **2c — Thực thi.** Bạn tự chạy trên máy, tôi soạn sẵn từng lệnh:
 1. Đọc lại mục 6 gói A ngay trước khi chạy. Gói Free có thể đã tự tạm dừng.
