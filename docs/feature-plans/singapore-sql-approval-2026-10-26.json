@@ -9,7 +9,8 @@
     "Risks R1 and R2 in packet A are updated with the read-only evidence; risk R3 stays open.",
     "The approval form names exactly one decision for now (packet content and target), with object, hashes, risk, stop conditions and rollback, and lists the later separate decisions without approving them.",
     "The README and the handoff document no longer say step 1 is pending or that the packet is still in an open PR.",
-    "No secret, token, password or key value appears in any changed file."
+    "No secret, token, password or key value appears in any changed file.",
+    "The Owner's 2026-10-26 approval of decision 2a is recorded verbatim in the approval form with the full hashes, the commit they were rechecked at, its scope and when it expires."
   ],
   "writeScope": [
     "docs/release/singapore-backend-readiness-2026-10-25/01_SQL_PACKET.vi.md",
@@ -80,12 +81,12 @@
     },
     {
       "path": "docs/release/singapore-backend-readiness-2026-10-25/README.vi.md",
-      "sha256": "02a0fed51cd9a5f09ea52e50f6b197f3fe661878ee688eb1c586984784288c73",
+      "sha256": "5cc01441fdb0993fda3ec2fb641f282835c2fdc903f587668e8f809623d3bed0",
       "reason": "Package status updated."
     },
     {
       "path": "docs/HANDOFF_CURRENT_STATE.vi.md",
-      "sha256": "43e9320c21b954fc1addb993a0e634aa6ff951d7f7fa4e9bda1f82eef26a2e22",
+      "sha256": "a312fdc760fd896ad95e9b46695a588a36e700d7a74a877314ffa32bf97063fa",
       "reason": "Handoff status and next steps updated."
     }
   ],

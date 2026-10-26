@@ -6,13 +6,24 @@ Bậc 2 gồm **ba quyết định riêng**, duyệt lần lượt. Mỗi lần 
 
 | Lần | Quyết định | Trạng thái |
 |---|---|---|
-| **2a** | Chốt **nội dung gói** (31 migration + seed) và **đích** sẽ áp | **Đang xin duyệt — xem bên dưới** |
-| 2b | Một PR thêm Singapore vào danh sách đích (`release-profile.json`) và tạo sổ cái migration riêng | Chưa xin; soạn sau khi 2a được duyệt |
+| **2a** | Chốt **nội dung gói** (31 migration + seed) và **đích** sẽ áp | **Owner đã duyệt ngày 26/10/2026** — xem bản ghi bên dưới |
+| 2b | Một PR thêm Singapore vào danh sách đích (`release-profile.json`) và tạo sổ cái migration riêng | Chưa xin; bước tiếp theo |
 | 2c | **Thực thi**: bạn chạy Supabase CLI, tự nhập mật khẩu DB, chạy thử (`--dry-run`) rồi áp thật | Chưa xin; soạn sau khi 2b được merge |
 
 ---
 
 ## Quyết định 2a — chốt nội dung gói và đích
+
+### Bản ghi duyệt
+
+| Mục | Giá trị |
+|---|---|
+| Ngày | 26/10/2026, Asia/Bangkok |
+| Lời Owner (nguyên văn, qua chat với Agent) | "Tôi duyệt 2a: gói 256c8ff7…cb9a8, seed 4f600aa1…8517, đích etfajmrwyywokgafzxsb." |
+| Hash được duyệt (đầy đủ) | `migrationSetSha256` `256c8ff7545238bac634e7eb4aaf56d18dfee27450a29ba660df3a8e154cb9a8`; seed `4f600aa1cd999112cb160c485f422007e3caf7a3172ac509e20bce8ecade8517` |
+| Kiểm lại ngay lúc duyệt | Tính lại từ Git tại commit `bfb679c` (nhánh của PR #4): 31/31 tệp, hash bộ migration và seed **khớp** |
+| Phạm vi | Chỉ chốt bộ SQL và đích. **Không** cho phép thay đổi danh sách đích (2b), **không** cho phép chạy SQL (2c) |
+| Hết hiệu lực khi | Bất kỳ tệp migration hoặc seed nào thay đổi khiến hash khác bản trên, hoặc Owner rút lại |
 
 ### Bạn duyệt cái gì
 

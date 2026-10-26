@@ -40,7 +40,7 @@ Quyết định trước đó vẫn hiệu lực: Supabase **Singapore** (`etfaj
 |---|---|---|
 | **0** | Chốt nguồn, sao lưu, repo sạch, nối Vercel, CI online | **Xong** (xem `docs/release/repo-migration-2026-10-23/`) |
 | **1** | Làm sạch Android release: gỡ quyền thừa, thêm `POST_NOTIFICATIONS`, tắt backup, gỡ activity xem trước | **Xong và đã merge** (PR #2). Đã kiểm manifest *đã gộp* của bản release bằng Gradle; **chưa** dựng AAB |
-| **2** | Gói backend Singapore: SQL, xóa tài khoản, kế hoạch chặn chi phí AI, kế hoạch Auth/SMTP | **Đã soạn, kiểm thử cục bộ và merge vào `main` (PR #3); chưa áp/deploy gì.** Bậc 1 (đọc lại Singapore) xong 26/10; phiếu duyệt bậc 2 đã soạn — chờ Owner duyệt 2a (xem mục 8) |
+| **2** | Gói backend Singapore: SQL, xóa tài khoản, kế hoạch chặn chi phí AI, kế hoạch Auth/SMTP | **Đã soạn, kiểm thử cục bộ và merge vào `main` (PR #3); chưa áp/deploy gì.** Bậc 1 (đọc lại Singapore) xong 26/10; **Owner đã duyệt 2a ngày 26/10** (chốt gói + đích); chờ 2b rồi 2c (xem mục 8) |
 | **3** | UI/UX Gói A (FAB Oracle, chế độ khách, xác nhận 18+, nút xóa tài khoản, ngày địa phương, ma trận thiết bị, báo cáo nội dung AI…) | **Chưa bắt đầu** |
 | **4** | QA online + thiết bị (Air1 Ultra, API 33) + AAB đầu tiên | Chưa; chặn bởi GĐ2 và biến EAS |
 | **5** | Play Console, Data safety, nội dung cửa hàng | Chưa; Owner làm song song |
@@ -71,7 +71,7 @@ Chạy SQL hoặc `db push/repair` trên bất kỳ project Supabase; deploy Edg
 ## 8. Việc đang chờ / bước tiếp theo đề xuất (theo thứ tự)
 
 1. ~~Đọc lại project Singapore (chỉ đọc)~~ — **xong 26/10**, vẫn trống, không đổi so với trước.
-2. **Owner duyệt gói SQL** theo `docs/release/singapore-backend-readiness-2026-10-25/05_STEP2_APPROVAL_FORM.vi.md`, tách 3 lần: **2a** chốt `migrationSetSha256` + đích (đang chờ) → **2b** PR riêng thêm Singapore vào `release-profile.json` + sổ cái riêng → **2c** thực thi (khuyến nghị Supabase CLI, Owner nhập mật khẩu DB; đọc lại project ngay trước khi chạy). Tính lại hash trước 2c; hash khác thì duyệt lại.
+2. **Owner duyệt gói SQL** theo `docs/release/singapore-backend-readiness-2026-10-25/05_STEP2_APPROVAL_FORM.vi.md`, tách 3 lần: **2a** chốt `migrationSetSha256` + đích (**đã duyệt 26/10**, bản ghi trong phiếu) → **2b** (tiếp theo) PR riêng thêm Singapore vào `release-profile.json` + sổ cái riêng → **2c** thực thi (khuyến nghị Supabase CLI, Owner nhập mật khẩu DB; đọc lại project ngay trước khi chạy). Tính lại hash trước 2c; hash khác thì duyệt lại.
 3. Deploy `account-delete`; làm **lát cắt mobile** (đường dẫn `/account/delete`, nút "Xóa tài khoản", xác nhận, dọn dữ liệu cục bộ) và **trang web xóa tài khoản** (URL cho Play) — cần hộp thư hỗ trợ (đề xuất Cloudflare Email Routing).
 4. **Auth/SMTP** theo `04_AUTH_SMTP_PLAN.vi.md` (Owner đăng nhập từng dịch vụ).
 5. **Chặn chi phí AI** theo `03_AI_COST_GUARD_PLAN.vi.md`: S1–S3 trước khi đặt khóa OpenRouter; ra mắt thử **không có khóa** là an toàn.
