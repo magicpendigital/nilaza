@@ -27,8 +27,8 @@
         },
         {
           "path": "references/release-control.md",
-          "sha256": "ece7ac8af2d268735631d188ef1e3c4ae8235e564a2ad32c241c4ace83ac54fa",
-          "previousInstalledSha256": "2d5f9f15d73844a2e14d5a1f0234d59b269c11499805a63886f0a06ea100f811"
+          "sha256": "7f699c4bf6299eb17ada7a7213850a69d430b2a3ea63260940b374720d95a474",
+          "previousInstalledSha256": "ece7ac8af2d268735631d188ef1e3c4ae8235e564a2ad32c241c4ace83ac54fa"
         }
       ]
     },

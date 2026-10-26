@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "status": "draft",
+  "operation": "bootstrap",
+  "target": {
+    "id": "nilaza-singapore-prelaunch-qa",
+    "kind": "staging",
+    "organizationId": "drxbmvimiekeoeesgssp",
+    "projectRef": "etfajmrwyywokgafzxsb"
+  },
+  "profileSha256": "bfc09e12cf9ed777dfcb0f4ac98846249dca716a010be2e62c3e003d332f0e50",
+  "ledger": {
+    "path": "supabase/migration-ledgers/nilaza-singapore-prelaunch-qa.json",
+    "sha256": "4b1a0ab998de48d46d923cd3548d51a6776880e95351419e45b2dec70538ce74"
+  },
+  "migrations": [
+    {
+      "path": "supabase/migrations/202606120001_mvp_schema.sql",
+      "sha256": "226e20601e094426e23170814fab3346eea953bf619d78b0ded153afa37559f5"
+    },
+    {
+      "path": "supabase/migrations/202606120002_add_missing_tables.sql",
+      "sha256": "80df182edc581e17f1fa66b91fe16537b89526abf97b889fe232c53e3032c91d"
+    },
+    {
+      "path": "supabase/migrations/20260622000000_upgrade_mvp.sql",
+      "sha256": "621167d132d8b06948905ce1a6193cc0f3f3819e2fbb2649d6aea349d2f68029"
+    },
+    {
+      "path": "supabase/migrations/20260622000001_weekly_reflection_cron.sql",
+      "sha256": "90fc174f647ad1bc77d3ffd6d5ec7c3cdc4de7307197892dd75f058ef1ab5932"
+    },
+    {
+      "path": "supabase/migrations/20260626000000_ai_council_contract.sql",
+      "sha256": "152a27d7e72595490e4e516573508876a6d5922a3cc1eb97b09982d98c62c6c1"
+    },
+    {
+      "path": "supabase/migrations/20260626000001_journal_mobile_contract.sql",
+      "sha256": "c2e619b6f5505ce63d450dff3c6faf6e2a405d737422028d1ea752f7fc0cbfba"
+    },
+    {
+      "path": "supabase/migrations/20260626000002_ai_council_admin_config.sql",
+      "sha256": "8de07c0f770b1e10f5f2562d60acd7ad1ed67421690e350776aeb81b196d4d7d"
+    },
+    {
+      "path": "supabase/migrations/20260627000000_astrology_backend_contract.sql",
+      "sha256": "11361a02d30d41181aeef3b0db5b5b91298cc841ddf0f061eea3f075a3751f4c"
+    },
+    {
+      "path": "supabase/migrations/20260629020702_journal_entries_user_local_id_constraint.sql",
+      "sha256": "9ea543a2e495c2fcf0063db0da949ee7a6bcaacb1b149c537cef43037e84f7f3"
+    },
+    {
+      "path": "supabase/migrations/20260630000000_model_route_versions.sql",
+      "sha256": "14889d571f6476036a2ec8344e6bc6a539e19040e12a6e7958416141e6c7adaf"
+    },
+    {
+      "path": "supabase/migrations/20260706000000_oracle_contract.sql",
+      "sha256": "f0ac733270376b531d7bd1ba9f8c8ef5dbedeffdef75a315c01b2c172fb31b80"
+    },
+    {
+      "path": "supabase/migrations/20260710000000_notifications_contract.sql",
+      "sha256": "51d4cf28e07a1dea9df96169034acd368fba4bd9a2c81cb505c670e99c9c1cb7"
+    },
+    {
+      "path": "supabase/migrations/20260902131408_owner_capability_boundary.sql",
+      "sha256": "2f8fdac36b93d68f1a32da2d7a83b33c2b41b966589e8be9e1a85d56ace42a24"
+    },
+    {
+      "path": "supabase/migrations/20260903033047_reconcile_owner_prerequisites.sql",
+      "sha256": "bfc7f7cf54ef7998abd617607f47644e698ee501da0d53a373f5d629b2a311b4"
+    },
+    {
+      "path": "supabase/migrations/20260908000000_oracle_model_route.sql",
+      "sha256": "ae78d2be77e8b66749ba40d25dd9591b9bdf3b677e27f440fd1b31bb6844a949"
+    },
+    {
+      "path": "supabase/migrations/20260909014614_ai_trace_observability.sql",
+      "sha256": "8794f35ab9724c18e2dda617f5bc3b1031bd16af067dff70a9cf1ef321e769bc"
+    },
+    {
+      "path": "supabase/migrations/20260909020528_marketing_waitlist_and_admin_documentation.sql",
+      "sha256": "93235a9b2de2b13e8a8ab8cf92ff54a8fdedb0d9dfea3296e1c1d3a3df4777c1"
+    },
+    {
+      "path": "supabase/migrations/20260909043000_admin_document_access_log_index.sql",
+      "sha256": "2e7b9de0182e4e317a8b57f731bd398ca1c264a66d765c4363007bde29f2bf20"
+    },
+    {
+      "path": "supabase/migrations/20260913143958_marketing_consent_suppression_foundation.sql",
+      "sha256": "49f76f62e1a0e72c91b4691498f66dbe2ded843ea71ffd20785fe21200e749d9"
+    },
+    {
+      "path": "supabase/migrations/20260913184421_growth_waitlist_aggregate_read_model.sql",
+      "sha256": "bf5c3611a447137959349a9e6b959dfa1d2bf2cd70ae20a57049e1ded64b2e7a"
+    },
+    {
+      "path": "supabase/migrations/20260917172721_admin_content_sync.sql",
+      "sha256": "18b50345904d8d6074e56db3aa6400aa24392ea1d61a96e0672a2f8113833ac8"
+    },
+    {
+      "path": "supabase/migrations/20260917174042_admin_content_sync_policy_tuning.sql",
+      "sha256": "ac6ae8b06f49db4e6cc8ec464fc1ecaf67a3699500a07132433ed7ed78bdc5ab"
+    },
+    {
+      "path": "supabase/migrations/20260919202005_ai_council_rounds_v2.sql",
+      "sha256": "ad48c774864d7af19758f3364bb9224e68b7b367393e4424c0b388e08450cf62"
+    },
+    {
+      "path": "supabase/migrations/20260925155619_generation_activity_contract_forward.sql",
+      "sha256": "d6de2800385431601296fb1846cb9dc38f72d02ed6645808421fa0d77b04f7a0"
+    },
+    {
+      "path": "supabase/migrations/20260926152118_ai_studio_operations.sql",
+      "sha256": "7d17c007edf9807d4dbff19ccaa15283db6dfaaeb2e8a3acd91cd16060ad995a"
+    },
+    {
+      "path": "supabase/migrations/20261001000000_private_source_read_boundary.sql",
+      "sha256": "cf54859e0fb9f8ba9f4758cccfdb1ac0810e47d8f318b32c2111fb8cd347459b"
+    },
+    {
+      "path": "supabase/migrations/20261002000000_ai_usage_reservation.sql",
+      "sha256": "4d4fc2e57d322fa1d4c60e5e305d18653e73f6b5e8d46fba1a3084a115993424"
+    },
+    {
+      "path": "supabase/migrations/20261004183447_client_table_privilege_boundary.sql",
+      "sha256": "2e5af56a94de7f79f403d78cc99fdd3f521984d63e6ca200f3cf7b9e508f8061"
+    },
+    {
+      "path": "supabase/migrations/20261014074711_model_route_publish_contract_v2.sql",
+      "sha256": "de7bd65de8e7e7c5d979f63a230737cca2a7ab1a75e9af751bbc2083a29fa4b9"
+    },
+    {
+      "path": "supabase/migrations/20261014080754_ai_feedback_receipts_v1.sql",
+      "sha256": "c8212aa7452d7e759c37f0179af32505410efce845dfad0c7346c58f835eb69c"
+    },
+    {
+      "path": "supabase/migrations/20261025000000_account_deletion_v1.sql",
+      "sha256": "beeee40256b977066f03431a8e8c241bf55183f40fafa09d4e1ef5e9f34870c3"
+    }
+  ],
+  "targetMetadata": null,
+  "replay": null,
+  "ownerApproval": null,
+  "notes": "Draft for step 2b review. Same 31 files the Owner approved in 2a (packet migrationSetSha256 256c8ff7545238bac634e7eb4aaf56d18dfee27450a29ba660df3a8e154cb9a8); the gate encodes the set as JSON, giving 04c1fc1a672c6aeb8f1d99a609563004656359922801988e9c828b060aa955b5. Step 2c must add fresh target metadata, a gate-compatible replay with grant/RLS and restore acceptance, and an exact owner approval, then set status ready_for_review. Not an execution approval."
+}

@@ -2,7 +2,7 @@
 
 Use docs/release/RELEASE_RUNBOOK.md and OWNER_PACKET.vi.md in the active Nilaza repository; keep PLAN_QC_PROTOCOL and existing skill routing. Bind full commit, migration hashes, artifact hashes, config expectations, sanitized evidence and owner packet to one immutable manifest. Any change invalidates approval.
 
-The current migration ledger is blocked_pending_reconciliation due to foreign MCY history. Never import foreign SQL or repair history merely to align versions; desired schema, target and forward path need owner review and actual acceptance. The cloud target allowlist is intentionally empty. A new Pro organization does not imply that projects moved.
+The current migration ledger is blocked_pending_reconciliation due to foreign MCY history. Never import foreign SQL or repair history merely to align versions; desired schema, target and forward path need owner review and actual acceptance. The cloud target allowlist holds at most the Owner-reviewed Singapore staging target `nilaza-singapore-prelaunch-qa` (`etfajmrwyywokgafzxsb`) with its own ledger under `supabase/migration-ledgers/`; no production target is allowlisted. Allowlisting never authorizes SQL, retargeting or release. A new Pro organization does not imply that projects moved.
 
 Rehearse clean schema replay and production-schema upgrade with synthetic fixtures; never clone live user data. Disable outbound jobs in rehearsal. Use expand-contract and bounded backfill checkpoints, including older installed clients. Test grants and RLS owner/tenant predicates together with Storage/signed URLs, RPC EXECUTE, invoker views and privileged function ownership/search_path. Test ordinary A/B users, revoked members and old tokens; service-role success is not RLS proof.
 

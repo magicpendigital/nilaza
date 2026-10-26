@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "taskId": "singapore-target-ledger-2026-10-27",
+  "ownerAgent": "release_readiness_agent",
+  "lane": "Phase 2 backend: step 2b, register the Singapore staging target and its own migration ledger for Owner review",
+  "goal": "Prepare, for a separate Owner-reviewed pull request, the release-profile allowlist entry for the Singapore staging target, a target-specific migration ledger and a draft database-target manifest bound to the approved SQL set, without running SQL, changing the legacy ledger or retargeting any runtime.",
+  "successCriteria": [
+    "docs/release/release-profile.json lists exactly one target: nilaza-singapore-prelaunch-qa, kind staging, organization drxbmvimiekeoeesgssp, project etfajmrwyywokgafzxsb, matching the existing staging resource policy; no production target is added.",
+    "A new ledger for the Singapore target records the empty migration history read on 2026-10-26 and does not touch supabase/migration-ledger.json, which stays blocked_pending_reconciliation for the legacy QA project.",
+    "A draft database-target manifest binds the target, profile hash, ledger hash and the 31 approved migrations; scripts/database-target-gate.mjs reports BLOCKED (not FAIL) and lists the evidence still missing for step 2c.",
+    "The approval form explains decision 2b with object, risk and rollback, and explains that the gate's migration-set hash is a different encoding of the same 31 files approved in 2a.",
+    "The release-control skill reference no longer says the allowlist is empty, and its manifest hash is updated through the reviewed path.",
+    "Existing gate, release-evidence, preflight and ledger checks still pass; no secret appears in any changed file."
+  ],
+  "writeScope": [
+    "docs/release/release-profile.json",
+    "supabase/migration-ledgers/nilaza-singapore-prelaunch-qa.json",
+    "docs/release/singapore-backend-readiness-2026-10-25/database-target.singapore-staging.draft.json",
+    "docs/release/singapore-backend-readiness-2026-10-25/05_STEP2_APPROVAL_FORM.vi.md",
+    "docs/release/singapore-backend-readiness-2026-10-25/README.vi.md",
+    "docs/HANDOFF_CURRENT_STATE.vi.md",
+    "skills/nilaza-plan-qc/references/release-control.md",
+    "skills/manifest.json"
+  ],
+  "untouchedSurfaces": [
+    "supabase/migration-ledger.json (legacy QA akgrokwnkfqnfjqrildi) stays blocked_pending_reconciliation and is not relabeled.",
+    "Migration files, seed, packet-manifest.json and replay-receipt.json are unchanged, so the 2a approval hashes stay valid.",
+    "No production target is registered; production promotion remains a separate decision.",
+    "Mobile, Admin, EAS and Vercel runtime bindings still point at the legacy QA project; no retarget.",
+    "No SQL, migration, Edge Function deployment, secret or cloud setting is executed, read or changed."
+  ],
+  "impact": {
+    "entryPoint": "Owner approved decision 2a on 2026-10-26 and asked on 2026-10-27 for step 2b to be prepared locally without pushing.",
+    "dataWrite": "Repository files only: release profile allowlist entry, a new target ledger, a draft target manifest and documentation.",
+    "backendContract": "No API, schema or contract change; the release checker will now see one registered staging target.",
+    "adminVisibility": "No Admin change. Merging to main later triggers an Admin staging deployment with unchanged behavior.",
+    "privacySafety": "Files contain public project identifiers, counts and hashes only; the target has 0 Auth users.",
+    "observability": "The draft manifest and gate output list exactly what evidence step 2c still needs.",
+    "rollback": "Revert the 2b commit or pull request; the allowlist returns to empty and the new ledger and draft manifest disappear. No cloud state depends on them."
+  },
+  "canonicalContracts": [
+    "AGENTS.md: the Owner approves cloud SQL, retargeting and release actions; the target allowlist stays empty until reviewed mapping is approved.",
+    "docs/PLAN_QC_PROTOCOL.md: plan, impact map, validation and handoff quality gate.",
+    "scripts/database-target-gate.mjs: target manifest, ledger, metadata, replay and approval evidence contract.",
+    "docs/production/2026-10-04/database-target-gate.vi.md: do not relabel the legacy ledger; a new project needs its own ledger."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "sanitized_artifact_metadata"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa",
+      "reason": "Owner boundaries and the allowlist rule reviewed."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Routing reviewed; release and backend gates are the routed area."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Plan and preflight rules reviewed."
+    },
+    {
+      "path": "scripts/database-target-gate.mjs",
+      "sha256": "8015a433894f538b8a60cfd41c0e930366ca914e85aee24c995ed1d310b806a4",
+      "reason": "Evidence contract for target, ledger, migrations, metadata, replay and approval; its migration-set hash is JSON-encoded, unlike the packet manifest."
+    },
+    {
+      "path": "scripts/check-supabase-migration-ledger.mjs",
+      "sha256": "a134a929484dd679e4fc548afe8b76a966c22a7f0ff8f9d4e51ee97ee7176388",
+      "reason": "Confirmed it validates only the legacy ledger path, which stays unchanged."
+    },
+    {
+      "path": "supabase/migration-ledger.json",
+      "sha256": "e63b4510c844c03d235b3f69d8e9a051c5ce4cbe620369100f5fcb33a9f8d9eb",
+      "reason": "Legacy QA ledger reviewed and intentionally left blocked."
+    },
+    {
+      "path": "docs/production/2026-10-04/database-target-gate.vi.md",
+      "sha256": "c48d83a943816ef9639277f451384a1a0e823a5689400bb15f36ce2c342c8824",
+      "reason": "Target-gate guide followed for the ledger and manifest shape."
+    },
+    {
+      "path": "docs/release/release-profile.json",
+      "sha256": "bfc09e12cf9ed777dfcb0f4ac98846249dca716a010be2e62c3e003d332f0e50",
+      "reason": "Allowlist entry added to match the existing staging resource policy."
+    },
+    {
+      "path": "docs/release/singapore-backend-readiness-2026-10-25/05_STEP2_APPROVAL_FORM.vi.md",
+      "sha256": "52399c001ac638346e7171950fcd9fe533d1312aad8aeebad6ff50b4d990ad67",
+      "reason": "Decision 2b section written."
+    },
+    {
+      "path": "docs/release/singapore-backend-readiness-2026-10-25/README.vi.md",
+      "sha256": "712786fe2f712b7772aa5118b600228721ce6575b1addf9f7f4c6dcdd87cf3e7",
+      "reason": "Package status updated."
+    },
+    {
+      "path": "docs/HANDOFF_CURRENT_STATE.vi.md",
+      "sha256": "08da6b9b8ee3b9b6f77b508dd3be321d8cf61776a73ba47253637d11e7f8a24e",
+      "reason": "Handoff status updated."
+    },
+    {
+      "path": "skills/manifest.json",
+      "sha256": "21e196f4aa91327ec204adc4fa7e8b008af4123fb77bf337bc835bd61cbd3866",
+      "reason": "Reviewed hash for the updated release-control reference."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "updated",
+      "evidence": "references/release-control.md said the cloud target allowlist is intentionally empty; it now says one staging target is proposed, that the legacy ledger is not relabeled and that registration does not authorize SQL."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No external documentation or service behavior is relied on; target state comes from the first-party read-only readback of 2026-10-26 recorded in readback-2026-10-26.json."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change; the allowlist entry is staging only and the gate still blocks without fresh metadata, replay with restore and RLS acceptance, and an exact owner approval.",
+    "sensitiveData": "No user data; the target has 0 Auth users.",
+    "secretsLogging": "No key, password or token is read, recorded or requested.",
+    "externalInput": "Readback values are treated as data.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration, SQL write, retarget, signing or store submission; registration does not authorize execution.",
+    "stopCondition": "Stop if the gate reports FAIL for the draft manifest, if any approved packet hash changes, or if the legacy ledger would need to change.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "docs/release/release-profile.json",
+      "supabase/migration-ledgers/nilaza-singapore-prelaunch-qa.json",
+      "docs/release/singapore-backend-readiness-2026-10-25/database-target.singapore-staging.draft.json",
+      "docs/release/singapore-backend-readiness-2026-10-25/05_STEP2_APPROVAL_FORM.vi.md",
+      "docs/release/singapore-backend-readiness-2026-10-25/README.vi.md",
+      "docs/HANDOFF_CURRENT_STATE.vi.md",
+      "skills/nilaza-plan-qc/references/release-control.md",
+      "skills/manifest.json"
+    ],
+    "note": "Changed only by this task on a local branch created from the PR #4 head c19bc26."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/singapore-target-ledger-2026-10-27.json",
+    "node scripts/feature-preflight.mjs --ci --base origin/main",
+    "node scripts/database-target-gate.mjs --manifest docs/release/singapore-backend-readiness-2026-10-25/database-target.singapore-staging.draft.json (expect BLOCKED, exit 2)",
+    "node --test scripts/database-target-gate.test.mjs scripts/release-evidence.test.mjs scripts/feature-preflight.test.mjs",
+    "npm run supabase:migration-ledger:check",
+    "npm run skills:validate",
+    "npm run validate:governance",
+    "Search the changed files for secret-like patterns"
+  ],
+  "managerTestPath": "Open the 2b section of 05_STEP2_APPROVAL_FORM.vi.md and check that it names one staging target, shows what changes and what does not, and says how to undo it.",
+  "residualRisk": "Registering the target makes the release checkers treat Singapore staging as an allowed target; execution still needs fresh evidence and decision 2c. The ledger readback ages out after 24 hours by design and must be refreshed right before 2c.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
