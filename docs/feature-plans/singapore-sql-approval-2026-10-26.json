@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "taskId": "singapore-sql-approval-2026-10-26",
+  "ownerAgent": "release_readiness_agent",
+  "lane": "Phase 2 backend: record the 2026-10-26 read-only Singapore readback and prepare the step 2 Owner approval form",
+  "goal": "Record the read-only state of Supabase project etfajmrwyywokgafzxsb read on 2026-10-26 in packet A, and add an Owner approval form for step 2 (SQL packet) that asks one decision at a time, without running any SQL write, migration, function deployment or settings change.",
+  "successCriteria": [
+    "Packet A states the 2026-10-26 readback values (Postgres version, 0 public tables, 0 migrations, 0 Edge Functions, 0 buckets, 0 Auth users, roles, extensions) and that they match earlier verifications.",
+    "Risks R1 and R2 in packet A are updated with the read-only evidence; risk R3 stays open.",
+    "The approval form names exactly one decision for now (packet content and target), with object, hashes, risk, stop conditions and rollback, and lists the later separate decisions without approving them.",
+    "The README and the handoff document no longer say step 1 is pending or that the packet is still in an open PR.",
+    "No secret, token, password or key value appears in any changed file.",
+    "The Owner's 2026-10-26 approval of decision 2a is recorded verbatim in the approval form with the full hashes, the commit they were rechecked at, its scope and when it expires."
+  ],
+  "writeScope": [
+    "docs/release/singapore-backend-readiness-2026-10-25/01_SQL_PACKET.vi.md",
+    "docs/release/singapore-backend-readiness-2026-10-25/05_STEP2_APPROVAL_FORM.vi.md",
+    "docs/release/singapore-backend-readiness-2026-10-25/readback-2026-10-26.json",
+    "docs/release/singapore-backend-readiness-2026-10-25/README.vi.md",
+    "docs/HANDOFF_CURRENT_STATE.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "Migration files, seed, packet-manifest.json and replay-receipt.json are not edited, so the approved hashes stay unchanged.",
+    "docs/release/release-profile.json targets stay empty and the legacy migration ledger stays blocked_pending_reconciliation.",
+    "No application, Admin, Edge Function, workflow or configuration file is changed.",
+    "No cloud setting, secret or credential is read or changed; the Singapore project received read-only queries only."
+  ],
+  "impact": {
+    "entryPoint": "Owner request on 2026-10-26 to record today's readback in packet A and prepare the step 2 approval form.",
+    "dataWrite": "Documentation and one sanitized readback JSON in the repository only.",
+    "backendContract": "No API, schema or contract change.",
+    "adminVisibility": "No Admin change.",
+    "privacySafety": "The readback contains counts, versions, role names and extension names only; no user data exists in the project and none is recorded.",
+    "observability": "The readback JSON records the queries, the connector role and the time of reading.",
+    "rollback": "Revert the documentation commit; nothing depends on it."
+  },
+  "canonicalContracts": [
+    "AGENTS.md: the Owner approves cloud SQL, retargeting and release actions; the agent prepares and verifies.",
+    "docs/PLAN_QC_PROTOCOL.md: plan, impact map, validation and handoff quality gate.",
+    "docs/release/singapore-backend-readiness-2026-10-25/packet-manifest.json: the migration set and seed hashes the Owner approves."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "sanitized_artifact_metadata"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa",
+      "reason": "Owner approval boundaries reviewed so the form asks for exactly the approvals the project requires."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Routing reviewed; release and backend documentation is the routed area for this task."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Plan and preflight rules reviewed."
+    },
+    {
+      "path": "docs/release/release-profile.json",
+      "sha256": "522c120a022d8fa2c9784f4eacfd9b9234eaacaa71cf972e507c762f2923a055",
+      "reason": "Confirmed targets is empty; the form keeps the target change as a later, separate decision."
+    },
+    {
+      "path": "docs/release/singapore-backend-readiness-2026-10-25/packet-manifest.json",
+      "sha256": "059892b2967bbdd67f9809e2860664669468bad3f8fe7988e870c87b8097c821",
+      "reason": "Migration set and seed hashes recomputed from the Git blobs at 160f449 and found equal to this manifest."
+    },
+    {
+      "path": "supabase/migrations/20261002000000_ai_usage_reservation.sql",
+      "sha256": "4d4fc2e57d322fa1d4c60e5e305d18653e73f6b5e8d46fba1a3084a115993424",
+      "reason": "Checked the grant on auth.users (risk R1) against the live privilege read."
+    },
+    {
+      "path": "docs/release/singapore-backend-readiness-2026-10-25/01_SQL_PACKET.vi.md",
+      "sha256": "d32fbf14fbaf1bfc5d185500f13a2b781b61c6dc44db43278fd3fbf8e7455dc1",
+      "reason": "Packet A updated with the readback."
+    },
+    {
+      "path": "docs/release/singapore-backend-readiness-2026-10-25/README.vi.md",
+      "sha256": "5cc01441fdb0993fda3ec2fb641f282835c2fdc903f587668e8f809623d3bed0",
+      "reason": "Package status updated."
+    },
+    {
+      "path": "docs/HANDOFF_CURRENT_STATE.vi.md",
+      "sha256": "a312fdc760fd896ad95e9b46695a588a36e700d7a74a877314ffa32bf97063fa",
+      "reason": "Handoff status and next steps updated."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "The task follows the existing plan, impact and preflight rules without changing them."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No external documentation or service behavior is relied on. The Singapore project state is a first-party read made on 2026-10-26 through the read-only connector (role supabase_read_only_user), recorded with its queries in readback-2026-10-26.json; the documents date that reading and require a fresh check right before applying."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization change; the readback records that service_role has no SELECT on auth.users today and that postgres holds SELECT with grant option.",
+    "sensitiveData": "The project has 0 Auth users; no user data is read or written.",
+    "secretsLogging": "No key, password or token is read, recorded or requested.",
+    "externalInput": "Query results are treated as data only.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "Documentation only; no migration, SQL write, retarget, signing or store submission.",
+    "stopCondition": "Stop if any changed file would contain a credential, or if a recomputed packet hash differs from packet-manifest.json.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "docs/release/singapore-backend-readiness-2026-10-25/01_SQL_PACKET.vi.md",
+      "docs/release/singapore-backend-readiness-2026-10-25/05_STEP2_APPROVAL_FORM.vi.md",
+      "docs/release/singapore-backend-readiness-2026-10-25/readback-2026-10-26.json",
+      "docs/release/singapore-backend-readiness-2026-10-25/README.vi.md",
+      "docs/HANDOFF_CURRENT_STATE.vi.md"
+    ],
+    "note": "These files are changed only by this task on a clean branch created from main at 160f449."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/singapore-sql-approval-2026-10-26.json",
+    "node scripts/feature-preflight.mjs --ci --base origin/main",
+    "Recompute migrationSetSha256 and seed SHA-256 from Git blobs and compare with packet-manifest.json",
+    "Search the changed files for secret-like patterns"
+  ],
+  "managerTestPath": "Open 05_STEP2_APPROVAL_FORM.vi.md and check that it asks one decision, shows the target project and the two hashes, and says what happens if you approve or decline.",
+  "residualRisk": "The readback is a point-in-time reading; a Free project can pause or change before the apply step, so the form requires a fresh read right before applying.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

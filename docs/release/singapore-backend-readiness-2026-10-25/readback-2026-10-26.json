@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "kind": "nilaza-singapore-readback",
+  "readOn": "2026-10-26",
+  "timezone": "Asia/Bangkok",
+  "projectRef": "etfajmrwyywokgafzxsb",
+  "projectUrl": "https://etfajmrwyywokgafzxsb.supabase.co",
+  "readPath": "Supabase connector added by the Owner; database role supabase_read_only_user",
+  "cloudMutation": false,
+  "note": "First attempt on 2026-10-26 timed out (database not accessible); the Owner restored the paused Free project, then the reads below succeeded. Project status and region were not read by this connector.",
+  "results": {
+    "postgresVersion": "PostgreSQL 17.11 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit",
+    "serverVersionNum": "170011",
+    "publicTables": 0,
+    "migrations": 0,
+    "migrationHistoryTableExists": false,
+    "edgeFunctions": 0,
+    "storageBuckets": 0,
+    "authUsers": 0,
+    "roles": ["anon", "authenticated", "service_role"],
+    "installedExtensions": {
+      "pg_stat_statements": { "version": "1.11", "schema": "extensions" },
+      "pgcrypto": { "version": "1.3", "schema": "extensions" },
+      "plpgsql": { "version": "1.0", "schema": "pg_catalog" },
+      "supabase_vault": { "version": "0.3.1", "schema": "vault" },
+      "uuid-ossp": { "version": "1.1", "schema": "extensions" }
+    },
+    "neededExtensionsAvailable": {
+      "pg_cron": "1.6.4",
+      "pg_net": "0.20.4",
+      "pgcrypto": "1.3",
+      "vector": "0.8.2"
+    },
+    "appSettings": {
+      "app.enable_weekly_reflection_cron": null,
+      "app.enable_ai_trace_prune_cron": null
+    },
+    "roleConfig": {
+      "postgres": "search_path=\"$user\", public, extensions",
+      "anon": "statement_timeout=3s",
+      "authenticated": "statement_timeout=8s",
+      "service_role": "(default)"
+    },
+    "authUsersPrivileges": {
+      "owner": "supabase_auth_admin",
+      "postgresSelectWithGrantOption": true,
+      "serviceRoleSelectNow": false
+    }
+  },
+  "queries": [
+    "select version(), current_setting('server_version_num')",
+    "select count(*) from information_schema.tables where table_schema = 'public'",
+    "select to_regclass('supabase_migrations.schema_migrations') is not null",
+    "list_migrations and list_edge_functions connector tools",
+    "select count(*) from storage.buckets; select count(*) from auth.users",
+    "select extname, extversion, extnamespace from pg_extension",
+    "select name, default_version from pg_available_extensions where name in ('vector','pgcrypto','pg_cron','pg_net')",
+    "select current_setting('app.enable_weekly_reflection_cron', true), current_setting('app.enable_ai_trace_prune_cron', true)",
+    "select rolname, rolconfig from pg_roles where rolname in ('postgres','authenticator','service_role','authenticated','anon')",
+    "select relowner, relacl, has_table_privilege('service_role','auth.users','SELECT'), has_table_privilege('postgres','auth.users','SELECT WITH GRANT OPTION') for auth.users"
+  ],
+  "comparedWithEarlier": "Same as the readbacks of 2026-10-05, 2026-10-09 and 2026-10-16: 0 public tables, 0 migrations, 0 Edge Functions.",
+  "notRead": [
+    "Project status, region and plan (no connector tool for project metadata)",
+    "Auth providers, SMTP and redirect URLs (dashboard only)"
+  ]
+}
