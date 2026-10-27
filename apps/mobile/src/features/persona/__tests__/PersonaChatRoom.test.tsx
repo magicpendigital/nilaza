@@ -149,4 +149,11 @@ describe("PersonaChatRoom", () => {
 
     expect(sendButton).toBeTruthy();
   });
+
+  it("labels the handoff by its real source instead of calling every source astrology", () => {
+    const tree = renderTree(<PersonaChatRoom {...baseProps()} handoffContext={{ sourceType: "tarot_card", sourceId: "moon-garden:major-17-star", sourceLabel: "The Star card", safeSummary: "The Star in Moon Garden." }} />);
+
+    expectText(tree, "Continuing from a tarot card");
+    expect(textContent(tree.toJSON())).not.toContain("astrology preview");
+  });
 });
