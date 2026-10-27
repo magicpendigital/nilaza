@@ -158,9 +158,9 @@ Optional date/time/place and privacy explanation remain in existing Profile/Astr
 
 Keep the existing tone choice and editing controls. No extra onboarding step and no overwriting returning users' choice.
 
-### 5. Home — one reflection action
+### 5. Home — “Hôm nay” (Owner-approved 2026-10-27)
 
-Greeting → dedicated reflection artwork/insight → primary “Bắt đầu phút phản chiếu” / “Xem lại phút phản chiếu”. This reveals/reopens existing Today Pulse, with no new AI session or charge. Two secondary actions: Chat and Open Journal. Continue/recent items use existing data. Discovery remains reachable through Explore/Chat: decks, library, guides, Council, astrology. Keep five tabs and Tarot as a subflow. Implementation/verification evidence lives in `docs/BRAND_ROLLOUT_2026-09-11.md`.
+Date and local moon phase → greeting → Today card hero on the dedicated Home artwork with the primary “Lật lá hôm nay” / “Xem lại lá hôm nay” and the existing streak. This reveals/reopens existing Today Pulse, with no new AI session or charge; after reveal the card screen ends in Save to Journal, Ask deeper (existing tarot-card guide chat) and Share (card and library meaning only). Below: a sky tile (moon phase) and a sign tile that opens Astrology; an “Hỏi Nilaza” field that only prefills Oracle; one suggestion row from the first onboarding goal; Recent with an Open Journal link. Cards keep the 8 px radius. Continue/recent items use existing data. Discovery remains reachable through Explore/Chat: decks, library, guides, Council, astrology. Keep five tabs and Tarot as a subflow. Implementation/verification evidence lives in `docs/BRAND_ROLLOUT_2026-09-11.md`.
 
 ### 6. Explore
 

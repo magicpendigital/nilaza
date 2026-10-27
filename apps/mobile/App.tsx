@@ -15,10 +15,12 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useFontReadiness } from "./src/brand/useFontReadiness";
 import { HomeExperience } from "./src/features/home/HomeExperience";
+import { TodayCardActions, TodayCardReflection } from "./src/features/home/TodayCardReflection";
 import { InboxScreen } from "./src/features/notifications/InboxScreen";
 import { GoalsScreen } from "./src/features/onboarding/GoalsScreen";
 import { persistOnboarding } from "./src/features/onboarding/completeOnboarding";
 import { brandCopy } from "./src/brand/copy";
+import { scrollBandFor, type ScrollBand } from "./src/scrollThresholds";
 
 void SplashScreen.preventAutoHideAsync().catch(() => undefined);
 import {
@@ -124,7 +126,7 @@ import { normalizeTarotSections, tarotSnapshotMeaning, tarotResultSource } from 
 import { getTarotLearningSections, tarotQuestionExamples } from "./src/features/tarot/learning";
 import { MythologyEntry, MythologyWorld } from "./src/features/astrology/MythologyWorld";
 import { AstrologyChartFoundation } from "./src/features/astrology/AstrologyChartFoundation";
-import { toAstrologyChartPresentation, type AstrologyRawChart } from "./src/features/astrology/contracts";
+import { localizeAstrologySign, toAstrologyChartPresentation, type AstrologyRawChart, type AstrologySignId } from "./src/features/astrology/contracts";
 import { colors, layout, spacing, typography } from "./src/theme";
 import { getDeckVisual, getFeatureVisual, getPersonaVisual } from "./src/visualAssets";
 import { AuthFlow } from "./src/auth/AuthFlow";
@@ -2751,7 +2753,8 @@ function stableIndex(seed: string, max: number) {
 
 function buildTodayPulse(profile: Profile, entries: JournalEntry[], dailyInsight: DailyInsight, language: Language, deck: TarotDeck) {
   const primaryGoal = profile.goals[0] ?? "self";
-  const seed = `${dailyInsight.dateKey}:${primaryGoal}:${profile.tone}:${entries.length}`;
+  // Keep today's card stable for the whole day: saving to the Journal must not swap it.
+  const seed = `${dailyInsight.dateKey}:${primaryGoal}:${profile.tone}`;
   const card = cards[stableIndex(seed, cards.length)] ?? cards[0];
   const latestMood = entries.find((entry) => entry.mood)?.mood;
   const moodText = latestMood ? moodLabel(latestMood, language).toLowerCase() : (language === "vi" ? "chưa đặt tên" : "unnamed");
@@ -2854,17 +2857,18 @@ function buildDailyZodiacPulse(
     };
   }
 
+  const signLabel = localizeAstrologySign(sunSign.toLowerCase() as AstrologySignId, language);
   return {
     id: `zodiac-${dailyInsight.dateKey}-${sunSign.toLowerCase()}`,
     dateKey: dailyInsight.dateKey,
     profileCompleteness,
     hasBirthDate: true,
-    sign: sunSign,
+    sign: signLabel,
     mood,
-    title: language === "vi" ? `${sunSign} hôm nay` : `${sunSign} today`,
+    title: language === "vi" ? `${signLabel} hôm nay` : `${signLabel} today`,
     reflection: language === "vi"
-      ? `Với ${sunSign} như một điểm bắt đầu biểu tượng, hôm nay hãy bước vào ${goalPhrase} bằng cách ${cue}.`
-      : `With ${sunSign} as a symbolic starting point, today invites you into ${goalPhrase} by choosing to ${cue}.`,
+      ? `Với ${signLabel} như một điểm bắt đầu biểu tượng, hôm nay hãy bước vào ${goalPhrase} bằng cách ${cue}.`
+      : `With ${signLabel} as a symbolic starting point, today invites you into ${goalPhrase} by choosing to ${cue}.`,
     microAction: language === "vi"
       ? "Giữ đây như một câu hỏi trong ngày, không phải kết luận về tương lai."
       : "Hold this as a question for the day, not a conclusion about the future.",
@@ -3067,7 +3071,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const [contentBundleVersion, setContentBundleVersion] = useState<number | null>(null);
   const onboardingSaving = useRef(false);
   const [currentTime, setCurrentTime] = useState(() => new Date());
-  const [contentScrollY, setContentScrollY] = useState(0);
+  const [scrollBand, setScrollBand] = useState<ScrollBand>(0);
   const [navigationChrome, setNavigationChrome] = useState<NavigationChrome>("expanded");
   const navigationChromeRef = useRef<NavigationChrome>("expanded");
   const lastContentScrollYRef = useRef(0);
@@ -3550,7 +3554,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     if (Platform.OS !== "web" || typeof window === "undefined" || typeof document === "undefined") return;
     const handleWindowScroll = () => {
       const nextScrollY = window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
-      setContentScrollY(nextScrollY);
+      setScrollBand(scrollBandFor(nextScrollY));
     };
     window.addEventListener("scroll", handleWindowScroll, { passive: true });
     handleWindowScroll();
@@ -3558,7 +3562,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   }, []);
 
   useEffect(() => {
-    setContentScrollY(0);
+    setScrollBand(0);
   }, [screen, chatMode, selectedPersonaId]);
 
   useEffect(() => {
@@ -4501,6 +4505,46 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     }
   };
 
+  const saveTodayPulseCard = () => {
+    const card = todayPulse.card;
+    const cardName = displayTarotCardName(card, language);
+    void saveJournal({
+      sourceType: "daily",
+      sourceId: todayCardSourceId(currentDateKey),
+      title: language === "vi" ? `Lá bài hôm nay · ${cardName}` : `Today's card · ${cardName}`,
+      summary: [displayTarotMeaning(card, language), localizedText(card.reflectionQuestion, language, todayPulse.reflectionPrompt), todayPulse.microAction].join("\n\n"),
+      mood: "reflective",
+      sourceSnapshot: {
+        type: "today_pulse",
+        dateKey: currentDateKey,
+        cardId: card.id,
+        deckId: todayPulse.deck.id,
+        reflectionPrompt: todayPulse.reflectionPrompt
+      }
+    });
+    recordEvent("today_card_saved", { cardId: card.id, deckId: todayPulse.deck.id, dateKey: currentDateKey });
+  };
+
+  // Share only the card and its library meaning: never the user's question, mood or Journal text.
+  const shareTodayPulseCard = () => {
+    const card = todayPulse.card;
+    void Share.share({ message: `${displayTarotCardName(card, language)} — ${displayTarotMeaning(card, language)}\n\nNilaza` }).catch(() => undefined);
+    recordEvent("today_card_shared", { cardId: card.id, dateKey: currentDateKey });
+  };
+
+  // Prefill Oracle only; the question is sent when the user presses send there.
+  const openOracleWithQuestion = (text: string) => {
+    openChat("oracle");
+    if (text) setOracleInput(text);
+    recordEvent("home_ask_opened", { prefilled: Boolean(text) });
+  };
+
+  const startTarotForTopic = (topic: TarotTopic) => {
+    startTarot("topic");
+    setTarotTopic(topic);
+    recordEvent("home_goal_suggestion_opened", { topic });
+  };
+
   const toggleGoal = (goal: string) => {
     setOnboardingError("");
     setProfile((current) => ({
@@ -5278,7 +5322,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     const nextScrollY = Math.max(0, event.nativeEvent.contentOffset.y);
     const delta = nextScrollY - lastContentScrollYRef.current;
     lastContentScrollYRef.current = nextScrollY;
-    setContentScrollY(nextScrollY);
+    setScrollBand(scrollBandFor(nextScrollY));
     if (!navigationScrollEligible) return;
     if (navigationIdleTimerRef.current) clearTimeout(navigationIdleTimerRef.current);
     if (delta > 6 && nextScrollY > 48) {
@@ -5426,7 +5470,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       setMode={setChatMode}
       setChatInput={setChatInput}
       setSelectedPersonaId={setSelectedPersonaId}
-      showCompactTitle={contentScrollY > 220}
+      showCompactTitle={scrollBand === 2}
       onFeedback={showToast}
       onClearHandoff={() => setChatHandoffContext(undefined)}
       onNewChat={startFreshPersonaChat}
@@ -5617,33 +5661,28 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                 journalEntries={journalEntries}
                 language={language}
                 profile={profile}
+                currentDateKey={currentDateKey}
                 currentTime={currentTime}
-                selectedPersona={selectedPersona}
                 selectedDeck={selectedDeck}
                 todayPulse={todayPulse}
                 todayPulseRevealed={todayPulseRevealed}
                 zodiacPulse={zodiacPulse}
-                pushEnabled={pushEnabled}
                 unreadNotificationCount={unreadNotificationCount}
                 councilPersonas={councilRoomProps.personas}
                 councilSession={latestCouncilSession}
                 onAiCouncil={openAiCouncilRoom}
-                onChat={() => openChat("oracle")}
-                onEnablePush={enablePushNotifications}
+                onAsk={openOracleWithQuestion}
+                onAskDeeperToday={() => startTarotCardChat(todayPulse.card, selectedDeck)}
+                onGoalSuggestion={startTarotForTopic}
                 onJournal={() => { setJournalEntryToOpen(null); navigate("journal"); }}
                 onOpenRecent={(id) => navigate("journal", id)}
                 onNotifications={() => navigate("inbox")}
-                onLearnTarot={() => startTarot("learn")}
                 onMoodCheck={saveMoodCheck}
-                onQuickTarot={startQuickTarot}
                 onRevealTodayCard={revealTodayPulseCard}
-                onRefreshDaily={() => void refreshDailyInsight(false)}
                 onRerollDaily={previewDailyReroll}
-                onSaveZodiacPulse={saveZodiacPulse}
-                onSituation={startSituation}
-                onZodiacChat={startZodiacFollowup}
+                onSaveTodayCard={saveTodayPulseCard}
+                onShareTodayCard={shareTodayPulseCard}
                 onAstrology={() => startAstrology("hub")}
-                onTarot={() => startTarot("topic")}
               />
             )}
 
@@ -5820,7 +5859,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         )}
         </FadeInView>
 
-        {screen === "explore" && contentScrollY > 170 ? (
+        {screen === "explore" && scrollBand >= 1 ? (
           <StickyExploreSearch language={language} value={searchText} onChangeText={setSearchText} />
         ) : null}
 
@@ -5886,7 +5925,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
           </Pressable>
         ) : null}
 
-        {showNavigation && !hasDedicatedGenerationSurface ? (
+        {/* Home has its own Ask field, so the floating launcher would only cover it. */}
+        {showNavigation && !hasDedicatedGenerationSurface && screen !== "home" ? (
           <Pressable
             accessibilityRole="button"
             accessibilityLabel={language === "vi" ? "Hỏi Nilaza Oracle" : "Ask Nilaza Oracle"}
@@ -5960,23 +6000,16 @@ function homeGreetingLabel(date: Date, language: Language, nickname: string) {
   return `${label}, ${nickname}`;
 }
 
-function homeDayPhase(date: Date): "morning" | "afternoon" | "evening" | "night" {
-  const hour = date.getHours();
-  if (hour >= 5 && hour < 11) return "morning";
-  if (hour >= 11 && hour < 17) return "afternoon";
-  if (hour >= 17 && hour < 21) return "evening";
-  return "night";
-}
+const todayCardSourceId = (dateKey: string) => `today-card:${dateKey}`;
 
 function HomeScreen({
   c,
+  currentDateKey,
   currentTime,
   dailyInsight,
   journalEntries,
   language,
   profile,
-  pushEnabled,
-  selectedPersona,
   selectedDeck,
   todayPulse,
   todayPulseRevealed,
@@ -5985,31 +6018,26 @@ function HomeScreen({
   councilPersonas,
   councilSession,
   onAiCouncil,
+  onAsk,
+  onAskDeeperToday,
   onAstrology,
-  onChat,
-  onEnablePush,
+  onGoalSuggestion,
   onJournal,
   onOpenRecent,
   onNotifications,
-  onLearnTarot,
   onMoodCheck,
-  onQuickTarot,
   onRevealTodayCard,
-  onRefreshDaily,
   onRerollDaily,
-  onSaveZodiacPulse,
-  onSituation,
-  onZodiacChat,
-  onTarot
+  onSaveTodayCard,
+  onShareTodayCard
 }: {
   c: Copy;
+  currentDateKey: string;
   currentTime: Date;
   dailyInsight: DailyInsight;
   journalEntries: JournalEntry[];
   language: Language;
   profile: Profile;
-  pushEnabled: boolean;
-  selectedPersona: Persona;
   selectedDeck: TarotDeck;
   todayPulse: ReturnType<typeof buildTodayPulse>;
   todayPulseRevealed: boolean;
@@ -6018,47 +6046,36 @@ function HomeScreen({
   councilPersonas: Persona[];
   councilSession?: AiCouncilSessionSummary;
   onAiCouncil: () => void;
+  onAsk: (text: string) => void;
+  onAskDeeperToday: () => void;
   onAstrology: () => void;
-  onChat: () => void;
-  onEnablePush: () => void;
+  onGoalSuggestion: (topic: TarotTopic) => void;
   onJournal: () => void;
   onOpenRecent: (id: string) => void;
   onNotifications: () => void;
-  onLearnTarot: () => void;
   onMoodCheck: (moodId: string) => void;
-  onQuickTarot: () => void;
   onRevealTodayCard: () => void;
-  onRefreshDaily: () => void;
   onRerollDaily: () => void;
-  onSaveZodiacPulse: () => void;
-  onSituation: (situation: (typeof situationEntries)[number]) => void;
-  onZodiacChat: () => void;
-  onTarot: () => void;
+  onSaveTodayCard: () => void;
+  onShareTodayCard: () => void;
 }) {
-  const b = brandCopy(language);
-  return <HomeExperience cardBack={getDeckBackImage(selectedDeck.id)} language={language} greeting={homeGreetingLabel(currentTime, language, profile.nickname)} dayPhase={homeDayPhase(currentTime)} revealed={todayPulseRevealed} onReveal={onRevealTodayCard} onChat={onChat} onJournal={onJournal} onNotifications={onNotifications} unread={unreadNotificationCount}
+  const card = todayPulse.card;
+  const cardSaved = journalEntries.some((entry) => entry.sourceType === "daily" && entry.sourceId === todayCardSourceId(currentDateKey));
+  const todayMood = journalEntries.find((entry) => !entry.sourceId && entry.sourceSnapshot?.type === "today_pulse" && entry.sourceSnapshot?.dateKey === currentDateKey)?.mood;
+  return <HomeExperience cardBack={getDeckBackImage(selectedDeck.id)} language={language} greeting={homeGreetingLabel(currentTime, language, profile.nickname)} now={currentTime}
+    revealed={todayPulseRevealed} streak={profile.currentStreak} onReveal={onRevealTodayCard} onAsk={onAsk} onAstrology={onAstrology} onGoalSuggestion={onGoalSuggestion}
+    primaryGoal={profile.goals[0]} zodiac={{ hasBirthDate: zodiacPulse.hasBirthDate, sign: zodiacPulse.sign ?? "", line: zodiacPulse.reflection }}
+    onJournal={onJournal} onNotifications={onNotifications} unread={unreadNotificationCount}
     recent={journalEntries.slice(0, 3).map(entry => ({ id: entry.id, title: entry.title, date: new Date(entry.createdAt).toLocaleDateString(language) }))}
     onOpenRecent={onOpenRecent}
     continuation={councilSession ? <HomeCouncilCard language={language} personas={councilPersonas} session={councilSession} onPress={onAiCouncil} /> : undefined}
-    reflection={<View style={{ gap: 16 }}>
-      <Image source={getTarotCardImage(selectedDeck.id, todayPulse.card.id)} resizeMode="contain" style={{ width: 180, height: 300, alignSelf: "center" }} accessibilityLabel={displayTarotCardName(todayPulse.card, language)} />
-      <Text accessibilityRole="header" style={styles.pulseTitle}>{displayTarotCardName(todayPulse.card, language)}</Text>
-      <Text style={styles.pulseDeckName}>{localizedText(selectedDeck.name, language)}</Text>
-      <Text style={styles.pulseBody}>{localizedText(todayPulse.card.reflectionQuestion, language, localizedText(todayPulse.card.intro, language))}</Text>
-      <Text style={styles.body}>{todayPulse.wisdomLine}</Text>
-      <Text style={styles.body}>{todayPulse.microAction}</Text>
-      <Text style={styles.body}>{todayPulse.reflectionPrompt}</Text>
-      <Text style={styles.pulseMoodLabel}>{b.currentMood}</Text>
-      <View style={styles.wrap}>{moodOptions.slice(0, 5).map(mood => <Chip key={mood.id} active={false} label={localizedText(mood, language)} onPress={() => onMoodCheck(mood.id)} />)}</View>
-      <Text style={styles.sectionKicker}>{dailyInsight.title || c.dailyTitle}</Text>
-      <Text style={styles.body}>{dailyInsight.text}</Text>
-      <Text style={styles.dailyPrompt}>{dailyInsight.reflectionPrompt}</Text>
-      <View style={styles.wrap}>
-        <SecondaryButton label={language === "vi" ? "Làm mới gợi ý" : "Refresh insight"} onPress={onRefreshDaily} />
-        <SecondaryButton label={language === "vi" ? "Đổi gợi ý" : "Reroll insight"} onPress={onRerollDaily} />
-      </View>
-      <Text style={styles.disclaimer}>{c.disclaimer}</Text>
-    </View>}
+    preRevealHint={todayPulse.wisdomLine}
+    reflection={<TodayCardReflection language={language} cardImage={getTarotCardImage(selectedDeck.id, card.id)} cardName={displayTarotCardName(card, language)}
+      deckName={localizedText(selectedDeck.name, language)} keywords={localizedList(card.keywords, language)} meaning={displayTarotMeaning(card, language)}
+      question={localizedText(card.reflectionQuestion, language, todayPulse.reflectionPrompt)} microAction={todayPulse.microAction}
+      guidance={dailyInsight.text} onAnotherGuidance={onRerollDaily} disclaimer={c.disclaimer}
+      moods={moodOptions.map((mood) => ({ id: mood.id, label: localizedText(mood, language) }))} selectedMood={todayMood} onMood={onMoodCheck} />}
+    reflectionActions={<TodayCardActions language={language} saved={cardSaved} onSave={onSaveTodayCard} onAskDeeper={onAskDeeperToday} onShare={onShareTodayCard} />}
   />;
 }
 

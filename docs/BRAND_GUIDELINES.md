@@ -82,7 +82,7 @@ Reduce Motion: hiện frame cuối ngay, dừng chuyển động đang chạy kh
 
 Launch → welcome (Tạo tài khoản / Đăng nhập / ngôn ngữ) → auth và xác nhận hiện có → chọn 1–3 mục tiêu hoặc bỏ qua → Home. Dùng tên tài khoản; giữ giọng đã chọn, mới dùng dịu dàng. Ngày sinh và chỉnh giọng ở Profile/chiêm tinh. Không onboarding lại người đã hoàn tất; lỗi lưu phải có thông báo/thử lại.
 
-Home: lời chào → artwork/gợi ý → một CTA “Bắt đầu phút phản chiếu” / “Xem lại phút phản chiếu”, dùng Today Pulse. Hai hành động phụ: Trò chuyện, Mở Nhật ký. Gần đây/tiếp tục nằm dưới. Explore/Chat giữ lối vào bộ bài, thư viện, guide, Council và chiêm tinh. Không đổi hợp đồng credits hoặc thêm phiên AI.
+Home “Hôm nay” (Owner duyệt 27/10/2026): ngày và pha trăng → lời chào → thẻ Lá bài hôm nay trên artwork Home với CTA “Lật lá hôm nay” / “Xem lại lá hôm nay”, dùng Today Pulse; sau khi lật có Lưu vào Nhật ký, Hỏi sâu hơn, Chia sẻ. Tiếp theo: ô Bầu trời hôm nay và ô cung của bạn, ô “Hỏi Nilaza” chỉ điền sẵn câu hỏi vào Oracle, một gợi ý theo mục tiêu đầu tiên, Gần đây kèm liên kết Mở Nhật ký. Explore/Chat giữ lối vào bộ bài, thư viện, guide, Council và chiêm tinh. Không đổi hợp đồng credits hoặc thêm phiên AI.
 
 ## Xuất bản và trạng thái
 

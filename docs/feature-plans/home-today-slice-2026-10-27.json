@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 1,
+  "taskId": "home-today-slice-2026-10-27",
+  "ownerAgent": "mobile_home_ux_delivery_agent",
+  "lane": "mobile_home_daily_loop_ux",
+  "goal": "Ship the first slice of the 27/10 UI/UX review: a Home 'Hôm nay' with clear daily reasons to return, a Today card screen that ends in Save / Ask deeper / Share instead of only Close, and stop the main shell from re-rendering on every scroll frame.",
+  "successCriteria": [
+    "Home shows, in order: greeting with date and local moon phase, a Today card hero whose primary action reveals or revisits the existing Today Pulse, a sky tile and a zodiac tile, an Ask Nilaza field that opens Oracle with the typed text prefilled (never auto-sent), one goal-based suggestion row, and Recent with an Open Journal link.",
+    "After the card is revealed, the Today card screen shows the card name, deck, keywords, meaning, one reflection question (shown once), the micro action and mood chips with a visible selected state, plus Save to Journal, Ask deeper and Share actions; before reveal only the breathing hint, card back and Close are shown.",
+    "Saving the Today card twice on the same day creates one Journal entry; Ask deeper opens the existing tarot-card guide chat; Share sends only the card name, meaning line and app name with no Journal text or question.",
+    "Scrolling Home, Explore, Journal or Profile no longer stores every scroll offset in shell state; only crossing the 170 px and 220 px thresholds updates state, and the sticky Explore search and compact chat title still appear at the same thresholds.",
+    "npm --workspace apps/mobile run check and the mobile Jest suite pass, and a 390x844 web walkthrough of Home, reveal, save, ask, share and scroll is recorded.",
+    "Today's card stays the same card for the whole day after the user saves it or any other Journal entry; previously the card seed included the Journal entry count and swapped the card after saving."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/home/",
+    "apps/mobile/src/brand/copy.ts",
+    "apps/mobile/src/scrollThresholds.ts",
+    "apps/mobile/src/__tests__/scrollThresholds.test.ts",
+    "DESIGN.md",
+    "docs/BRAND_GUIDELINES.md",
+    "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
+    "apps/mobile/src/features/persona/__tests__/PersonaChatRoom.test.tsx"
+  ],
+  "untouchedSurfaces": [
+    "Tarot flow, Astrology flow, Explore layout, Journal screen and Profile are reviewed and left unchanged except for the shared scroll threshold state; in Chat only the guide-room handoff banner label is corrected so a tarot card, Oracle or zodiac handoff is no longer titled \"astrology preview\".",
+    "Tarot card seed meanings and names, deck artwork, feature-visuals.json and brand assets are unchanged; Vietnamese card names and per-topic meanings belong to a separate content slice with tarot content QC.",
+    "Backend endpoints, Supabase schema, credits, quota, AI routes, Admin and notifications are unchanged; the local-date fix for todayKey (R11) stays a separate task.",
+    "The floating Oracle launcher stays on Explore, Journal and Profile; it is hidden only on Home, where the inline Ask field replaces it and the launcher covered its send button."
+  ],
+  "impact": {
+    "entryPoint": "Home tab is the entry. The Today card hero opens the existing full-screen Today Pulse modal; tiles open Astrology hub or the existing zodiac follow-up chat; the Ask field and chips open Oracle; the goal row opens Tarot at the topic stage with the goal's topic preselected; Recent opens the exact Journal entry and Open Journal opens the list.",
+    "dataWrite": "Save to Journal writes one local Journal entry through the existing saveJournal path (sourceType daily, sourceId today-card:<dateKey>, snapshot type today_pulse with dateKey, cardId, deckId and reflectionPrompt), so existing dedupe, outbox and sync apply. Mood chips keep the existing saveMoodCheck write. No new AsyncStorage keys.",
+    "backendContract": "No endpoint or payload shape changes. Journal sync receives the same entry shape it already accepts; Oracle and guide chat use the existing openChat and startTarotCardChat paths, and nothing is sent until the user presses send in chat.",
+    "canonicalContract": "JournalEntry and ChatHandoffContext in apps/mobile/src/types.ts, buildTodayPulse and buildDailyZodiacPulse in App.tsx, and the tarot card seed in packages/content/data/tarot-cards.json remain the canonical sources; the new moon phase helper is a pure local function with tests.",
+    "adminVisibility": "No Admin surface changes. New analytics event names (today_card_saved, today_card_shared, home_ask_opened, home_goal_suggestion_opened) carry only ids, date key and goal id, never typed text.",
+    "privacySafety": "The Ask field text is only placed in the local chat input; it is not logged or sent until the user sends it in Oracle, where existing auth, quota and safety rules apply. Share excludes the user's question, Journal text and mood. Entertainment and self-reflection disclaimer stays on the Today card screen.",
+    "observability": "Existing today_pulse_card_revealed, daily_mood_check_saved and journal_entry_saved events stay; four new metadata-only events are added through recordEvent. Blind spot: no measure yet of whether users return the next day beyond the existing streak.",
+    "rollback": "Revert the commit to restore the previous Home and modal; no data migration is needed because saved entries use the existing daily sourceType and today_pulse snapshot that older builds already read. Without backend services every new action still works locally.",
+    "surfacesIntentionallyUntouched": "Tarot, Astrology, Explore, Chat, Journal and Profile screens, card content, credits/quota, Admin and backend were reviewed and left unchanged apart from the shared scroll threshold state.",
+    "agentHandoff": "The delivery agent owns only the writeScope above, uses a local test account with synthetic data, runs type check, Jest and a web walkthrough, stops before any commit, push, backend, release or account action, and reports results to the Owner in Vietnamese."
+  },
+  "canonicalContracts": [
+    "DESIGN.md section 5 and docs/BRAND_GUIDELINES.md 'Trải nghiệm đầu tiên được chốt' define the Home structure; both are updated in this task to the Owner-approved 'Hôm nay' structure.",
+    "apps/mobile/src/types.ts JournalEntry and ChatHandoffContext are the data contracts for save and ask.",
+    "buildTodayPulse and buildDailyZodiacPulse in apps/mobile/App.tsx stay the single source of the daily card and zodiac cue."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa",
+      "reason": "Reviewed target users, guardrails, design qualities, palette and the five-tab navigation."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Mobile UI route: App.tsx, A2UI, theme, validation commands and Tarot-as-subflow rules."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Applied the Whole-App impact brief, visual asset rule and mobile validation matrix."
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "592e7e8064293ac1e4eba05d0fffa37ecac1f4b824c742a823224c0db165d43d",
+      "reason": "Home section 5 currently fixes one reflection CTA plus Chat and Journal; it is updated to the Owner-approved structure and keeps 8 px card radius and no nested cards. Re-reviewed after implementation on 2026-10-27; this hash is the implemented state."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "8bc9d6fb4b832aa8abab608eab30114d383cec3f4797afd8a6cdd7e6e8c5a9ae",
+      "reason": "Typography, palette, Home artwork rule and the first-experience Home paragraph reviewed; the Home paragraph is updated. Re-reviewed after implementation on 2026-10-27; this hash is the implemented state."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "565fdd3fefcaa7dd89306fb6abdf00d012d46e0140ab865ddb1e1faa91a30a72",
+      "reason": "Reviewed HomeScreen, Today Pulse and zodiac pulse builders, saveJournal dedupe, openChat, startTarotCardChat, startQuickTarot and the two scroll handlers that store every offset. Re-reviewed after implementation on 2026-10-27; this hash is the implemented state."
+    },
+    {
+      "path": "apps/mobile/src/features/home/HomeExperience.tsx",
+      "sha256": "f2ca0426cf0694ecbe1b7283c530e436b572fc7e53e3dfbb3de6d4c994cb0299",
+      "reason": "Current Home layout and Today Pulse modal that this slice restructures. Re-reviewed after implementation on 2026-10-27; this hash is the implemented state."
+    },
+    {
+      "path": "apps/mobile/src/features/home/__tests__/HomeExperience.test.tsx",
+      "sha256": "b490d108206c4493e4e2b10d895e043a555055f15bbdc37fae7a021b6cb163cc",
+      "reason": "Existing behavior tests (exact recent reopen, no reveal before tap, revisit) that must keep passing in updated form. Re-reviewed after implementation on 2026-10-27; this hash is the implemented state."
+    },
+    {
+      "path": "apps/mobile/src/brand/copy.ts",
+      "sha256": "3e983025b6f430d7d90d56d72a8ce8e4aa3fe5df346b2e57996f156eb9c58414",
+      "reason": "Home copy for five languages; new strings are added for vi and en, other languages fall back to English as today. Re-reviewed after implementation on 2026-10-27; this hash is the implemented state."
+    },
+    {
+      "path": "apps/mobile/src/visualAssets.ts",
+      "sha256": "f2c740c553928456bb49f7b1669c3233e463833a231964c8fc7cf41892ceb314",
+      "reason": "Confirms the Home artwork and tarot/astrology feature visuals already declared and reused without new assets."
+    },
+    {
+      "path": "docs/release/GOOGLE_PLAY_ROADMAP_AND_UX_REVIEW_2026-10-23.vi.md",
+      "sha256": "2cbacccb151da25ec9126c73152361ebb65e8fe8616c6dac69b6717a7a48a860",
+      "reason": "Findings U-A (Oracle overlap), U-C (scroll state per frame) and U-F (empty stats) informed this slice."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Preflight, impact brief, stop conditions and validation matrix applied as written; this slice adds no durable workflow rule."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "The skill routes Home work to DESIGN.md and the brand guidelines, which this task updates; the skill text itself stays accurate."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses only installed React Native APIs already used in the app (Share, TextInput, Modal) and repository contracts; the moon phase uses a fixed mean synodic month and is tested against known dates."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authentication, authorization or RLS change; Oracle and guide chats keep their existing sign-in and quota checks.",
+    "sensitiveData": "Typed Ask text stays in local chat input until the user sends it; Share content excludes questions, Journal text and mood; tests use synthetic names only.",
+    "secretsLogging": "No credentials or keys are read or added; new events log ids and date keys only.",
+    "externalInput": "Ask text is untrusted user input displayed in the chat field only, not executed or interpolated into prompts by this slice.",
+    "dependencies": "No dependency install or upgrade.",
+    "migrationRelease": "No migration, backend deploy, commit, push or release is part of this task.",
+    "stopCondition": "Stop if type check or tests fail, if saving creates duplicate entries, if Share would include private text, or if any backend or credit change becomes necessary.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "DESIGN.md",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/__tests__/scrollThresholds.test.ts",
+      "apps/mobile/src/brand/copy.ts",
+      "apps/mobile/src/features/home/HomeExperience.tsx",
+      "apps/mobile/src/features/home/TodayCardReflection.tsx",
+      "apps/mobile/src/features/home/__tests__/HomeExperience.test.tsx",
+      "apps/mobile/src/features/home/__tests__/TodayCardReflection.test.tsx",
+      "apps/mobile/src/features/home/__tests__/moonPhase.test.ts",
+      "apps/mobile/src/features/home/moonPhase.ts",
+      "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
+      "apps/mobile/src/features/persona/__tests__/PersonaChatRoom.test.tsx",
+      "apps/mobile/src/scrollThresholds.ts",
+      "docs/BRAND_GUIDELINES.md",
+      "docs/feature-plans/home-today-slice-2026-10-27.json"
+    ],
+    "note": "Work happens in a separate worktree on branch feat/home-today-slice-2026-10-27 created from origin/main 49a88e3, so the uncommitted Singapore 2c work in the main checkout is untouched. All listed paths are changed only by this task. Implementation also localizes the zodiac pulse sign name (Pisces -> Song Ngư) inside buildDailyZodiacPulse in App.tsx; all consumers of that field are display text. During the web walkthrough two pre-existing defects on the new paths were fixed: the Today card seed no longer includes the Journal entry count, and the guide-room handoff banner now names each source type."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/home-today-slice-2026-10-27.json",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand",
+    "npm run validate:data",
+    "npm run validate:visual-assets",
+    "Web walkthrough at 390x844 with a local test account: Home, reveal, mood, save twice, ask deeper, share, Ask field, goal suggestion, scroll Explore."
+  ],
+  "managerTestPath": "Open the app, sign in with a test account, and on Hôm nay: tap Lật lá hôm nay, reveal the card, pick a mood, tap Lưu vào Nhật ký twice (one entry appears in Nhật ký), tap Hỏi sâu hơn (guide chat opens with the card), tap Chia sẻ (only card name and meaning). Back on Home, type a question in Hỏi Nilaza and send: Oracle opens with the text ready but not sent. Scroll Explore: the sticky search still appears.",
+  "residualRisk": "Native Android behavior (keyboard over the Ask field, share sheet, font scaling, TalkBack) is not verified in this slice; zh-Hans, ja and ko show English for the new strings; the moon phase is a mean approximation (about half a day); todayKey still uses UTC until the separate R11 fix. Users who already revealed a card today will see a different card once after updating, because the seed changes.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
