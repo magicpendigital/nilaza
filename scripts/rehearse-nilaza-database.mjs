@@ -3,49 +3,71 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import assert from 'node:assert/strict';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { evidenceSha256, migrationSetSha256 } from './database-target-gate.mjs';
 import { NativePostgres, nativeImage } from './native-postgres-rehearsal.mjs';
 
 const root = path.resolve(fileURLToPath(new URL('..', import.meta.url)));
 process.chdir(root);
-const output = 'artifacts/singapore-migration-rehearsal-2026-10-05';
+const args = process.argv.slice(2);
+const pgliteIndex = args.indexOf('--pglite');
+const pgliteRoot = pgliteIndex >= 0 ? args.splice(pgliteIndex, 2)[1] : '.brand-work/singapore-migration-rehearsal-2026-10-05';
+assert.ok(pgliteRoot && !pgliteRoot.startsWith('--'), '--pglite needs a directory');
+assert.ok(args.every(arg => ['--with-privilege-fix','--native','--packet'].includes(arg)), 'unsupported argument');
+const runForward = args.includes('--with-privilege-fix');
+const nativeMode = args.includes('--native');
+// --packet replays the exact Owner-approved Singapore packet instead of the 2026-10-01 candidate.
+const packetMode = args.includes('--packet');
+assert.ok(!(packetMode && runForward), '--packet already contains the privilege-boundary migration');
+const output = packetMode ? 'artifacts/singapore-bootstrap-rehearsal-2026-10-27' : 'artifacts/singapore-migration-rehearsal-2026-10-05';
 const bytes = p => fs.readFileSync(p);
 const rawHash = b => crypto.createHash('sha256').update(b).digest('hex');
 const readJson = p => JSON.parse(bytes(p));
 const write = (name, value) => fs.writeFileSync(`${output}/${name}`, JSON.stringify(value, null, 2) + '\n');
-const candidate = readJson('docs/mvp-remediation/2026-10-01/R02-clean-qa-bootstrap.json');
-const sources = [...candidate.baseMigrations, ...candidate.preparedForward];
+const packetPath = 'docs/release/singapore-backend-readiness-2026-10-25/packet-manifest.json';
+const candidate = packetMode ? null : readJson('docs/mvp-remediation/2026-10-01/R02-clean-qa-bootstrap.json');
+const packet = packetMode ? readJson(packetPath) : null;
+// Packet hashes use the LF basis (Git blob); candidate hashes use raw bytes of the original checkout.
+const sources = packetMode
+  ? packet.migrations.map(m => ({ order: m.order, file: `supabase/migrations/${m.file}`, lfSha256: m.sha256 }))
+  : [...candidate.baseMigrations, ...candidate.preparedForward];
+const seed = packetMode
+  ? { path: packet.seed.file, matches: b => evidenceSha256(b) === packet.seed.sha256, sha256: packet.seed.sha256 }
+  : { path: candidate.seed.payload, matches: b => rawHash(b) === candidate.seed.payloadRawSha256, sha256: candidate.seed.payloadRawSha256 };
 const forwardPath = 'supabase/migrations/20261004183447_client_table_privilege_boundary.sql';
-const runForward = process.argv.includes('--with-privilege-fix');
-const nativeMode = process.argv.includes('--native');
-assert.ok(process.argv.slice(2).every(arg => ['--with-privilege-fix','--native'].includes(arg)), 'unsupported argument');
-const receiptName = nativeMode ? (runForward ? 'native-rehearsal.json' : 'native-baseline-rehearsal.json') : 'embedded-rehearsal.json';
-const archiveName = nativeMode ? (runForward ? 'native-synthetic.dump' : 'native-baseline-synthetic.dump') : 'synthetic-pglite-database.tar.gz';
-const auditName = nativeMode ? (runForward ? 'native-privilege-audit.json' : 'native-baseline-privilege-audit.json') : 'privilege-audit.json';
+// The packet is the full approved set, so its native files are not labelled as a pre-fix baseline.
+const nativeFull = runForward || packetMode;
+const receiptName = nativeMode ? (nativeFull ? 'native-rehearsal.json' : 'native-baseline-rehearsal.json') : 'embedded-rehearsal.json';
+const archiveName = nativeMode ? (nativeFull ? 'native-synthetic.dump' : 'native-baseline-synthetic.dump') : 'synthetic-pglite-database.tar.gz';
+const auditName = nativeMode ? (nativeFull ? 'native-privilege-audit.json' : 'native-baseline-privilege-audit.json') : 'privilege-audit.json';
 let PGlite, pgcrypto, vector;
+const pgliteModule = file => pathToFileURL(path.resolve(root, pgliteRoot, 'node_modules/@electric-sql/pglite/dist', file)).href;
 if (!nativeMode) {
-  ({ PGlite } = await import('../.brand-work/singapore-migration-rehearsal-2026-10-05/node_modules/@electric-sql/pglite/dist/index.js'));
-  ({ pgcrypto } = await import('../.brand-work/singapore-migration-rehearsal-2026-10-05/node_modules/@electric-sql/pglite/dist/contrib/pgcrypto.js'));
-  ({ vector } = await import('../.brand-work/singapore-migration-rehearsal-2026-10-05/node_modules/@electric-sql/pglite/dist/vector/index.js'));
+  ({ PGlite } = await import(pgliteModule('index.js')));
+  ({ pgcrypto } = await import(pgliteModule('contrib/pgcrypto.js')));
+  ({ vector } = await import(pgliteModule('vector/index.js')));
 }
-const createDatabase = options => nativeMode ? NativePostgres.create(options) : PGlite.create({ extensions: { pgcrypto, vector }, ...options });
+const createDatabase = options => nativeMode ? NativePostgres.create({ artifactDirectory: output, ...options }) : PGlite.create({ extensions: { pgcrypto, vector }, ...options });
 const packages = [
   ['@electric-sql/pglite', '0.3.15', 'sha512-Cj++n1Mekf9ETfdc16TlDi+cDDQF0W7EcbyRHYOAeZdsAe8M/FJg18itDTSwyHfar2WIezawM9o0EKaRGVKygQ=='],
 ];
 for (const [name, version, integrity] of nativeMode ? [] : packages) {
-  const lock = readJson('.brand-work/singapore-migration-rehearsal-2026-10-05/package-lock.json');
+  const lock = JSON.parse(fs.readFileSync(path.resolve(root, pgliteRoot, 'package-lock.json')));
   assert.equal(lock.packages[`node_modules/${name}`].version, version);
   assert.equal(lock.packages[`node_modules/${name}`].integrity, integrity);
 }
-for (const s of sources) assert.equal(rawHash(bytes(s.file)), s.rawSha256, `stale candidate: ${s.file}`);
-assert.equal(rawHash(bytes(candidate.seed.payload)), candidate.seed.payloadRawSha256);
+for (const s of sources) {
+  if (packetMode) assert.equal(evidenceSha256(bytes(s.file)), s.lfSha256, `stale packet: ${s.file}`);
+  else assert.equal(rawHash(bytes(s.file)), s.rawSha256, `stale candidate: ${s.file}`);
+}
+assert.ok(seed.matches(bytes(seed.path)), `stale seed: ${seed.path}`);
 const migrations = sources.map(s => ({ path: s.file, sha256: evidenceSha256(bytes(s.file)) }));
 if (runForward) migrations.push({ path: forwardPath, sha256: evidenceSha256(bytes(forwardPath)) });
 const receipt = {
   schemaVersion: 1, status: 'BLOCKED', startedAt: new Date().toISOString(), runtime: nativeMode ? 'Native PostgreSQL in isolated Docker, not managed Supabase' : 'PGlite embedded WASM, not Docker or managed Supabase',
   syntheticOnly: true, sideEffectsDisabled: true, remoteSqlWrites: false,
   migrationSetSha256: migrationSetSha256(migrations), migrations, packageIntegrity: nativeMode ? [] : packages,
+  ...(packetMode ? { source: { packetPath, packetSha256: evidenceSha256(bytes(packetPath)), packetMigrationSetSha256: packet.migrationSetSha256 } } : {}),
   ...(nativeMode ? { image: nativeImage } : {}),
   fixtureBoundary: 'Minimal auth.users(id) and observed auth.uid/jwt/role SQL; observed postgres public default grants; empty Realtime publication. No Auth server, Storage bytes, API or provider.',
   replay: [], checks: [], grantsRlsAcceptance: 'BLOCKED', restoreAcceptance: 'BLOCKED',
@@ -125,8 +147,8 @@ try {
       console.log('PASS forward upgrade preserves synthetic fixture rows and denies both client TRUNCATE roles');
     } finally { await upgrade.close(); }
   }
-  await db.exec(bytes(candidate.seed.payload).toString('utf8'));
-  receipt.seed = { status: 'PASS', path: candidate.seed.payload, rawSha256: candidate.seed.payloadRawSha256 };
+  await db.exec(bytes(seed.path).toString('utf8'));
+  receipt.seed = { status: 'PASS', path: seed.path, [packetMode ? 'sha256' : 'rawSha256']: seed.sha256 };
   await runCase('seed has 78 bilingual canonical cards', async () => {
     const r = (await db.query("select count(*)::int as total, count(*) filter (where name ? 'vi' and name ? 'en' and upright_meaning ? 'vi' and upright_meaning ? 'en')::int as bilingual from tarot_cards")).rows[0];
     assert.deepEqual(r, { total: 78, bilingual: 78 });
@@ -258,7 +280,7 @@ try {
     assert.equal((await roleQuery(restored, editor, "select has_admin_capability('content.read') as allowed")).rows[0].allowed,false);
     receipt.restore = { status: 'PASS', format: nativeMode ? 'pg_dump custom archive + explicit synthetic role bootstrap; pg_restore into independent network-none cluster with ACLs/owners' : 'PGlite physical data-directory archive, not pg_dump or Supabase backup', bytes: archiveBytes.length, sha256: rawHash(archiveBytes), elapsedMs: Math.round(performance.now()-start), invariantsSha256: rawHash(Buffer.from(JSON.stringify(before))) };
     receipt.restoreAcceptance = 'PASS';
-    write(nativeMode ? (runForward ? 'native-restore-invariants.json' : 'native-baseline-restore-invariants.json') : 'restore-invariants.json', before);
+    write(nativeMode ? (nativeFull ? 'native-restore-invariants.json' : 'native-baseline-restore-invariants.json') : 'restore-invariants.json', before);
   });
   receipt.status = receipt.checks.some(x => x.status === 'FAIL') ? 'FAIL' : 'PASS';
   if (nativeMode) receipt.nativeReplay = receipt.sqlReplay;

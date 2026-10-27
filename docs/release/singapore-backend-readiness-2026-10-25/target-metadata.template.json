@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "kind": "nilaza-target-metadata-template",
+  "purpose": "Template for decision 2c. Copy to target-metadata-<date>.json and fill from the Supabase dashboard within 24 hours before execution. null values keep the database target gate BLOCKED on purpose.",
+  "target": {
+    "id": "nilaza-singapore-prelaunch-qa",
+    "kind": "staging",
+    "organizationId": "drxbmvimiekeoeesgssp",
+    "projectRef": "etfajmrwyywokgafzxsb"
+  },
+  "checkedAt": null,
+  "status": null,
+  "organizationPlan": null,
+  "compute": null,
+  "region": null,
+  "postgresMajor": null,
+  "paidAddons": null,
+  "sideEffectsDisabled": null,
+  "resourceSettingsVerified": null,
+  "quotaReview": null,
+  "recoveryReview": null,
+  "expectedByPolicy": {
+    "status": "ACTIVE_HEALTHY",
+    "organizationPlan": "free",
+    "compute": "nano",
+    "region": "ap-southeast-1",
+    "postgresMajor": 17,
+    "paidAddons": [],
+    "sideEffectsDisabled": true,
+    "resourceSettingsVerified": true,
+    "quotaReview": "PASS",
+    "recoveryReview": "PASS"
+  },
+  "ownerChecklist": [
+    "Project overview: status is Active/Healthy, region Southeast Asia (Singapore), plan Free.",
+    "Settings > Compute and Disk: compute Nano; Settings > Add-ons: none enabled.",
+    "Database version: Postgres 17 (agent read 17.11 on 2026-10-26).",
+    "Authentication > Sign In / Providers: record whether new-user sign-up is allowed; side effects count as disabled only when sign-up is off and no custom SMTP, hooks or third-party providers are configured.",
+    "Integrations > Cron and Edge Functions: no scheduled jobs and no functions (agent read 0 functions on 2026-10-26).",
+    "Usage: no quota warning on the Free plan.",
+    "Recovery: the target is empty and synthetic-only; recovery is re-applying the reviewed packet from Git to an empty project. Record whether the dashboard shows backups for this plan."
+  ]
+}

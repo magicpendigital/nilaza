@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "taskId": "singapore-2c-evidence-2026-10-27",
+  "ownerAgent": "release_readiness_agent",
+  "lane": "Phase 2 backend: prepare local evidence for decision 2c (Singapore bootstrap execution)",
+  "goal": "Let the existing local database rehearsal replay the exact 31-migration Singapore packet approved in 2a, produce a gate-compatible replay receipt with grant/RLS and restore acceptance, and prepare the target-metadata checklist and draft 2c form for the Owner, without any cloud write.",
+  "successCriteria": [
+    "scripts/rehearse-nilaza-database.mjs accepts --packet to read the Singapore packet manifest, verifies every migration and the seed against its LF-basis hashes, and writes to a separate artifact directory; the old 2026-10-05 candidate mode is unchanged.",
+    "Embedded (PGlite) and native (isolated network-none Docker, pinned Supabase Postgres 17.6 image already cached) runs over the 31 migrations report PASS for replay, grants/RLS and restore, and their migrationSetSha256 equals the gate encoding 04c1fc1a672c6aeb8f1d99a609563004656359922801988e9c828b060aa955b5; native restore uses pg_dump/pg_restore.",
+    "The database target gate, given the receipt, no longer reports a missing replay; remaining blockers are only Owner-provided metadata, the draft status and the owner approval.",
+    "The approval form records 2b as approved by the merge of PR #5 and lists, in plain language, each task the Owner must do for 2c.",
+    "No SQL runs against any cloud project and no secret appears in any changed file."
+  ],
+  "writeScope": [
+    "scripts/rehearse-nilaza-database.mjs",
+    "docs/release/singapore-backend-readiness-2026-10-25/rehearsal-embedded-2026-10-27.json",
+    "docs/release/singapore-backend-readiness-2026-10-25/rehearsal-native-2026-10-27.json",
+    "docs/release/singapore-backend-readiness-2026-10-25/target-metadata.template.json",
+    "docs/release/singapore-backend-readiness-2026-10-25/05_STEP2_APPROVAL_FORM.vi.md",
+    "docs/release/singapore-backend-readiness-2026-10-25/README.vi.md",
+    "docs/HANDOFF_CURRENT_STATE.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "Migration files, seed and packet-manifest.json are unchanged, so 2a stays valid.",
+    "release-profile.json, the Singapore ledger and the draft target manifest are not edited in this task.",
+    "The legacy QA ledger stays blocked_pending_reconciliation.",
+    "The 2026-10-05 candidate mode of the rehearsal and scripts/native-postgres-rehearsal.mjs are unchanged.",
+    "No mobile, Admin, EAS, Vercel or Supabase setting changes."
+  ],
+  "impact": {
+    "entryPoint": "Owner request on 2026-10-27 to prepare 2c evidence locally and list the Owner's own tasks.",
+    "dataWrite": "Local synthetic databases only (PGlite in this task; isolated network-none Docker later if the Owner starts Docker Desktop); repository documentation and a sanitized receipt.",
+    "backendContract": "No API, schema or contract change.",
+    "adminVisibility": "No Admin change.",
+    "privacySafety": "Synthetic fixtures with random UUIDs only; no real user data, no cloud connection.",
+    "observability": "The receipt records migration hashes, checks, restore invariant digest and runtime limits.",
+    "rollback": "Revert the commit; the rehearsal returns to candidate-only mode and the new documents disappear."
+  },
+  "canonicalContracts": [
+    "AGENTS.md: the Owner approves cloud SQL; the agent prepares and verifies locally.",
+    "docs/PLAN_QC_PROTOCOL.md: plan, impact map, validation and handoff quality gate.",
+    "scripts/database-target-gate.mjs: replay must bind the exact SQL set, Postgres 17, synthetic data, disabled side effects, grant/RLS and restore acceptance within seven days."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "sanitized_artifact_metadata"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa",
+      "reason": "Owner boundaries reviewed."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Routing reviewed."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Plan and preflight rules reviewed."
+    },
+    {
+      "path": "scripts/rehearse-nilaza-database.mjs",
+      "sha256": "726b97c57ac115116f240778a0c1a1d0ea8fd9a608b85d72b7910115f08dca83",
+      "reason": "Existing harness extended with a packet mode."
+    },
+    {
+      "path": "scripts/native-postgres-rehearsal.mjs",
+      "sha256": "da4e490f792bb2085b58756946fb15dd3cdb007e3ae3e2fb1ccdd4d47b816801",
+      "reason": "Native Docker adapter reviewed (network none, labelled containers); not changed."
+    },
+    {
+      "path": "scripts/database-target-gate.mjs",
+      "sha256": "8015a433894f538b8a60cfd41c0e930366ca914e85aee24c995ed1d310b806a4",
+      "reason": "Replay and metadata evidence fields."
+    },
+    {
+      "path": "docs/release/singapore-backend-readiness-2026-10-25/packet-manifest.json",
+      "sha256": "059892b2967bbdd67f9809e2860664669468bad3f8fe7988e870c87b8097c821",
+      "reason": "Source of the 31 migrations and seed for packet mode."
+    },
+    {
+      "path": "docs/release/release-profile.json",
+      "sha256": "bfc09e12cf9ed777dfcb0f4ac98846249dca716a010be2e62c3e003d332f0e50",
+      "reason": "Staging resource policy that the metadata template must match."
+    },
+    {
+      "path": "docs/release/singapore-backend-readiness-2026-10-25/05_STEP2_APPROVAL_FORM.vi.md",
+      "sha256": "d028cfe39b74c79dd454e4ab87974744884abcdb4f4718b42af14608be6b15fa",
+      "reason": "2b record and 2c preparation section."
+    },
+    {
+      "path": "docs/release/singapore-backend-readiness-2026-10-25/README.vi.md",
+      "sha256": "dc279cce4fba6fe20259355d89e7f75fb1e95c2afb315db4d4c871afe495e90f",
+      "reason": "Package status."
+    },
+    {
+      "path": "docs/HANDOFF_CURRENT_STATE.vi.md",
+      "sha256": "10a192f1456d3032e0fabe5806249014dd1037681d4b37f114c269351c601bf6",
+      "reason": "Handoff status."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "release-control.md already requires compatible synthetic replay/restore/RLS evidence and owner decision for a target; this task produces that evidence without changing the rule."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses the pinned local PGlite 0.3.15 install with lockfile integrity already checked by the harness, and the pinned Supabase Postgres image digest in native mode; no external documentation is relied on."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "Rehearsal tests A/B isolation, staff revocation, owner-claim forgery, service-role-only RPCs and client TRUNCATE denial on synthetic data.",
+    "sensitiveData": "Synthetic UUID fixtures only.",
+    "secretsLogging": "No key, password or token is read or recorded; native mode stores only its own container logs.",
+    "externalInput": "Packet files are verified by hash before execution.",
+    "dependencies": "No new dependency.",
+    "migrationRelease": "Local synthetic databases only; no remote SQL, retarget or release.",
+    "stopCondition": "Stop if any packet hash differs, any migration fails, or any grant/RLS/restore check fails.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "scripts/rehearse-nilaza-database.mjs",
+      "docs/release/singapore-backend-readiness-2026-10-25/rehearsal-embedded-2026-10-27.json",
+      "docs/release/singapore-backend-readiness-2026-10-25/rehearsal-native-2026-10-27.json",
+      "docs/release/singapore-backend-readiness-2026-10-25/target-metadata.template.json",
+      "docs/release/singapore-backend-readiness-2026-10-25/05_STEP2_APPROVAL_FORM.vi.md",
+      "docs/release/singapore-backend-readiness-2026-10-25/README.vi.md",
+      "docs/HANDOFF_CURRENT_STATE.vi.md"
+    ],
+    "note": "Changed only by this task on a local branch created from main at 9cd0ddc."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/singapore-2c-evidence-2026-10-27.json",
+    "node scripts/rehearse-nilaza-database.mjs --packet --pglite D:/nilaza/.brand-work/singapore-migration-rehearsal-2026-10-05",
+    "node scripts/rehearse-nilaza-database.mjs --packet --native",
+    "node scripts/database-target-gate.mjs --manifest <local copy of the draft manifest with the replay reference>",
+    "node --test scripts/database-target-gate.test.mjs scripts/release-evidence.test.mjs scripts/feature-preflight.test.mjs",
+    "Search the changed files for secret-like patterns"
+  ],
+  "managerTestPath": "Open the 2c preparation section of 05_STEP2_APPROVAL_FORM.vi.md and check that it lists what is already proven, what you must do yourself, and what is still missing.",
+  "residualRisk": "Neither the PGlite nor the native Docker rehearsal proves managed Supabase behavior (Auth server, JWT, Storage, concurrent connections, real auth schema privileges); auth.users is a minimal id-only fixture. Receipts expire for the gate after seven days.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
