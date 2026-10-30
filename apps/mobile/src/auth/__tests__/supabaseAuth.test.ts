@@ -72,7 +72,7 @@ it("resends a signup confirmation email through the isolated auth client", async
 
 it("signup uses the same confirmation callback without adopting a pending session", async () => {
   await expect(signUpWithSupabaseEmail(" Luna ", "luna@example.test", "synthetic-password")).resolves.toEqual({ pendingEmailConfirmation: true });
-  expect(mockSignup).toHaveBeenCalledWith({ email: "luna@example.test", password: "synthetic-password", options: { emailRedirectTo: "nilaza://auth/confirm", data: { name: "Luna" } } });
+  expect(mockSignup).toHaveBeenCalledWith({ email: "luna@example.test", password: "synthetic-password", options: { emailRedirectTo: "nilaza://auth/confirm", data: { name: "Luna", adult_confirmed_at: expect.any(String) } } });
   expect(mockAdopt).not.toHaveBeenCalled();
 });
 

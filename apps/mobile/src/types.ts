@@ -117,6 +117,8 @@ export type LocalAuthUser = {
   name: string;
   email: string;
   provider: AuthProvider;
+  /** Account creation time from the auth provider, when it supplies one. */
+  createdAt?: string;
 };
 
 export type LocalAuthBackendSession = {

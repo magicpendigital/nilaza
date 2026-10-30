@@ -58,6 +58,7 @@ import aiCouncilConfigData from "../../packages/agent-config/ai-council.json";
 import councilContractData from "../../packages/agent-config/council-contract.json";
 import oracleActionsData from "../../packages/agent-config/oracle-actions.json";
 import safetyRules from "../../packages/agent-config/safety-rules.json";
+import aiUsagePolicy from "../../packages/agent-config/ai-usage-policy.json";
 import {
   AstrologyReportResult,
   BackendOptions,
@@ -193,6 +194,8 @@ import {
   type AccountTier,
   type OwnerTierPreview,
 } from "./src/features/owner/tierPreview";
+import { resolveAccountTier } from "./src/features/owner/accountTierPolicy";
+import { drawRandomCards } from "./src/features/tarot/randomDraw";
 
 type ImageRequireContext = {
   (path: string): ImageSourcePropType;
@@ -533,6 +536,24 @@ const deckCardImages: Record<string, Record<string, ImageSourcePropType>> = {
   "classic-arcana": buildCardImageMap(require.context("./assets/runtime/tarot/classic-arcana/cards", false, /\.jpg$/)),
   "celestial-reverie": buildCardImageMap(require.context("./assets/runtime/tarot/celestial-reverie/cards", false, /\.jpg$/))
 };
+
+/** One rotation rule for every image of a drawn card, so reversed art never shows upright. */
+function reversedCardArt(card: { reversed?: boolean } | null | undefined) {
+  return card?.reversed ? reversedCardArtStyle : null;
+}
+const reversedCardArtStyle = { transform: [{ rotate: "180deg" }] };
+
+/** Text a Journal entry shows: a manual note falls back to its body when the note is blank. */
+function journalEntryBody(entry: JournalEntry) {
+  return entry.sourceType === "manual" && entry.userNote?.trim() ? entry.userNote : entry.summary;
+}
+
+/** Starting value of the note editor, the same from the Journal list and from Home "Recent". */
+function journalDraftNoteFor(entry: JournalEntry | undefined) {
+  if (!entry) return "";
+  if (entry.userNote?.trim()) return entry.userNote;
+  return entry.sourceType === "manual" ? entry.summary : "";
+}
 
 function getTarotCardImage(deckId: string, cardId?: string) {
   if (!cardId) return fallbackCardImage;
@@ -1223,10 +1244,10 @@ const copy = {
     deleteAccountData: "Xóa dữ liệu trên thiết bị",
     clearBirthProfile: "Xóa hồ sơ ngày sinh",
     birthProfileCleared: "Đã xóa hồ sơ ngày sinh trên máy",
-    exportPreview: "Bản xem trước dữ liệu đã sẵn sàng ở backend. MVP hiện hiển thị số liệu trên máy để kiểm tra.",
+    exportPreview: "Đây là số liệu đang lưu trên máy này.",
     adminTitle: "Thao tác Admin",
     premium: "Nilaza Premium",
-    upgrade: "Nâng cấp",
+    upgrade: "Sắp ra mắt",
     restore: "Khôi phục giao dịch mua",
     missingNickname: "Hãy nhập tên hiển thị để Nilaza xưng hô tự nhiên hơn.",
     missingGoals: "Chọn ít nhất một điều bạn đang tìm kiếm hôm nay.",
@@ -1245,20 +1266,20 @@ const copy = {
     freePlan: "Gói miễn phí",
     credits: "Lượt dùng",
     premiumPreview: "Xem trước gói Premium",
-    restorePreview: "Tính năng khôi phục sẽ kết nối RevenueCat ở bản backend.",
-    upgradePreview: "Thanh toán thật sẽ dùng RevenueCat.",
-    freeExperience: "Bạn vẫn có dẫn hướng hôm nay, rút tarot và trò chuyện guide trước khi nâng cấp.",
+    restorePreview: "Khôi phục giao dịch sẽ có khi gói Premium ra mắt.",
+    upgradePreview: "Gói Premium sắp ra mắt. Nilaza sẽ báo bạn khi nội dung này mở.",
+    freeExperience: "Bạn vẫn có lá bài hôm nay, trải Tarot và trò chuyện với người dẫn đường.",
     dailyCredits: "Lượt tarot hôm nay",
     dailyLimit: "Giới hạn/ngày",
-    freeCreditsReset: "Gói miễn phí có 3 lượt Tarot mỗi ngày. Lượt sẽ tự làm mới vào ngày mai.",
-    creditLimitReached: "Bạn đã dùng hết 3 lượt Tarot miễn phí hôm nay. Gói Premium sẽ mở thêm lượt và trải bài sâu hơn.",
-    premiumDeckPreview: "Bộ bài này thuộc gói Premium. Bạn có thể nâng cấp sau; hôm nay hãy dùng một bộ miễn phí để tiếp tục trải bài.",
-    premiumPersonaPreview: "Guide này thuộc gói Premium. Bạn có thể nâng cấp sau; hôm nay hãy thử một guide miễn phí để tiếp tục trò chuyện.",
+    freeCreditsReset: "Lượt Tarot tự làm mới vào đầu ngày mai.",
+    creditLimitReached: "Bạn đã dùng hết lượt Tarot hôm nay. Lượt mới mở vào đầu ngày mai; trong lúc chờ, bạn có thể đọc thư viện 78 lá hoặc mở lại trải bài đã lưu.",
+    premiumDeckPreview: "Bộ bài này sẽ mở khi gói Premium ra mắt. Bạn vẫn xem được câu chuyện và tranh; hôm nay hãy chọn một bộ miễn phí để trải bài.",
+    premiumPersonaPreview: "Người dẫn đường này sẽ mở khi gói Premium ra mắt. Hôm nay hãy chọn một người dẫn đường miễn phí để trò chuyện.",
     reported: "Đã ghi nhận để review safety.",
     reportReading: "Báo cáo lượt trải bài",
     shareReading: "Tạo thẻ chia sẻ",
-    sharePreviewReady: "Đã tạo share card local. Backend sau này sẽ xuất ảnh thật.",
-    sharePrivateNote: "Share card không kèm ghi chú riêng tư.",
+    sharePreviewReady: "Đã mở bảng chia sẻ.",
+    sharePrivateNote: "Thẻ chia sẻ không kèm ghi chú riêng tư.",
     cardMeaning: "Ý nghĩa lá bài",
     deckComposition: "Cấu trúc bộ bài",
     oracleSynthesis: "Oracle's Synthesis",
@@ -1326,10 +1347,10 @@ const copy = {
     deleteAccountData: "Delete data on this device",
     clearBirthProfile: "Clear birth profile",
     birthProfileCleared: "Local birth profile cleared",
-    exportPreview: "Export preview is ready for the backend build. The MVP currently shows local data counts for review.",
+    exportPreview: "These are the counts stored on this device.",
     adminTitle: "Admin operations",
     premium: "Nilaza Premium",
-    upgrade: "Upgrade",
+    upgrade: "Coming soon",
     restore: "Restore purchases",
     missingNickname: "Enter a display name so Nilaza can address you naturally.",
     missingGoals: "Choose at least one thing you are seeking today.",
@@ -1348,19 +1369,19 @@ const copy = {
     freePlan: "Free plan",
     credits: "Credits",
     premiumPreview: "Premium preview",
-    restorePreview: "Restore will connect to RevenueCat in the backend build.",
-    upgradePreview: "Upgrade preview: real payments will use RevenueCat.",
-    freeExperience: "You still get daily insight, tarot, and guide chat before upgrading.",
+    restorePreview: "Restoring purchases will be available when Premium launches.",
+    upgradePreview: "Premium is coming soon. Nilaza will let you know when this opens.",
+    freeExperience: "You still get today's card, Tarot readings and guide chats.",
     dailyCredits: "Tarot today",
     dailyLimit: "Daily limit",
-    freeCreditsReset: "The Free plan includes 3 tarot readings per day. Credits reset tomorrow.",
-    creditLimitReached: "You have used all 3 Free tarot readings today. Premium will unlock more readings and deeper spreads.",
-    premiumDeckPreview: "This deck is a Premium preview. You can upgrade later; use a Free deck today to continue your reading.",
-    premiumPersonaPreview: "This guide is a Premium preview. You can upgrade later; use a Free guide today to continue chatting.",
+    freeCreditsReset: "Tarot readings reset at the start of tomorrow.",
+    creditLimitReached: "You have used today's Tarot readings. New readings open at the start of tomorrow; meanwhile you can browse the 78-card library or reopen a saved reading.",
+    premiumDeckPreview: "This deck opens when Premium launches. You can still read its story and see the art; choose a Free deck to read today.",
+    premiumPersonaPreview: "This guide opens when Premium launches. Choose a Free guide to chat today.",
     reported: "Saved for safety review.",
     reportReading: "Report reading",
     shareReading: "Create share card",
-    sharePreviewReady: "Local share card created. The backend build will export a real image.",
+    sharePreviewReady: "Share sheet opened.",
     sharePrivateNote: "Share cards do not include private notes.",
     cardMeaning: "Card meaning",
     deckComposition: "Deck composition",
@@ -1812,7 +1833,7 @@ const premiumBenefits = [
   { vi: "Reading tarot sâu hơn", en: "Deeper tarot readings" },
   { vi: "Premium guides", en: "Premium guides" },
   { vi: "Toàn bộ lịch sử Journal", en: "Full journal history" },
-  { vi: "Báo cáo nâng cao khi backend sẵn sàng", en: "Advanced reports when backend is ready" }
+  { vi: "Báo cáo chiêm tinh nâng cao", en: "Advanced astrology reports" }
 ];
 
 const tabs: Tab[] = ["home", "explore", "chat", "journal", "profile"];
@@ -1936,10 +1957,19 @@ function buildPersonaSessionSummaries(messages: ChatMessage[], personaId: string
 
 const summarizeForSafety = (text: string) => text.replace(/\s+/g, " ").trim().slice(0, 180);
 
-const todayKey = () => new Date().toISOString().slice(0, 10);
-const dailyTarotCreditLimit = 3;
+// Day keys follow the device calendar, so "today" and daily allowances turn over at
+// local midnight instead of 07:00 in Vietnam (UTC+7).
+const localDateKey = (date: Date) =>
+  `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+const todayKey = () => localDateKey(new Date());
+// Free follows the approved usage policy; Premium keeps the earlier client value until the Owner sets one.
+const premiumDailyTarotLimit = 3;
+const dailyTarotLimitFor = (tier: AccountTier) => tier === "premium" ? premiumDailyTarotLimit : aiUsagePolicy.freeDaily.tarotOneCard;
 
-const isDateKey = (createdAt: string, dateKey: string) => createdAt.slice(0, 10) === dateKey;
+const isDateKey = (createdAt: string, dateKey: string) => {
+  const created = new Date(createdAt);
+  return Number.isNaN(created.getTime()) ? createdAt.slice(0, 10) === dateKey : localDateKey(created) === dateKey;
+};
 
 function previousDateKey(dateKey: string) {
   const date = new Date(`${dateKey}T00:00:00.000Z`);
@@ -2335,26 +2365,14 @@ function buildPersonaReply(persona: Persona, text: string, language: Language, h
   return `${handoffPrefix}${base}\n\n${close}`;
 }
 
-function selectTarotCards(topic: TarotTopic, spread: TarotSpread, question: string, deckId: string, language: Language): DrawnTarotCard[] {
+function selectTarotCards(spread: TarotSpread, language: Language): DrawnTarotCard[] {
   const spreadOption = spreads.find((item) => item.id === spread) ?? spreads[1];
-  const seed = `${Date.now()}-${topic}-${spread}-${question}-${deckId}`;
-  const used = new Set<number>();
-  const selected: DrawnTarotCard[] = [];
   const spreadLabels = localizedList(spreadOption.labels, language);
-
-  while (selected.length < spreadOption.cards) {
-    const index = Math.abs(Math.floor(Math.sin(seed.length + selected.length * 31 + Date.now()) * 10000)) % cards.length;
-    if (!used.has(index)) {
-      used.add(index);
-      selected.push({
-        ...cards[index],
-        reversed: (index + selected.length) % 2 === 0,
-        spread: spreadLabels[selected.length]
-      });
-    }
-  }
-
-  return selected;
+  return drawRandomCards(spreadOption.cards, cards.length).map((pick, position) => ({
+    ...cards[pick.index],
+    reversed: pick.reversed,
+    spread: spreadLabels[position]
+  }));
 }
 
 function buildLocalTarotInterpretation(
@@ -2466,7 +2484,7 @@ export function buildTarotReadingResult(
 }
 
 function drawReading(deck: TarotDeck, topic: TarotTopic, spread: TarotSpread, question: string, language: Language) {
-  const selected = selectTarotCards(topic, spread, question, deck.id, language);
+  const selected = selectTarotCards(spread, language);
   const interpretation = buildLocalTarotInterpretation(deck, topic, spread, question, language, selected);
   return buildTarotReadingResult(deck, topic, spread, question, selected, interpretation, language);
 }
@@ -2896,7 +2914,7 @@ function buildJournalMemory(entries: JournalEntry[], language: Language) {
     : "This week, what keeps returning for your attention?";
   const prompt = topMood
     ? language === "vi"
-      ? `Mood "${moodLabel(topMood, language)}" xuất hiện nhiều nhất. Điều gì đang cần được chăm sóc thay vì chỉ được giải thích?`
+      ? `Cảm xúc “${moodLabel(topMood, language)}” xuất hiện nhiều nhất. Điều gì đang cần được chăm sóc thay vì chỉ được giải thích?`
       : `"${moodLabel(topMood, language)}" is showing up most. What needs care rather than more explanation?`
     : fallbackPrompt;
 
@@ -3161,8 +3179,13 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const c = getCopy(language);
   const selectedPersona = personasById[selectedPersonaId] ?? personas[0];
   const selectedDeck = findTarotDeckById(decksById, selectedDeckId) ?? decks[0];
-  // The current mobile build has no authoritative subscription resolver; fail closed to Free.
-  const displayedTier = resolveDisplayedTier({ accountTier: "free", isOwner, preview: ownerTierPreview });
+  // No subscription resolver yet: the closed-test policy decides the display tier.
+  // Server endpoints keep their own entitlement checks.
+  const accountTier = resolveAccountTier({
+    signedIn: authState.status === "signed_in",
+    accountCreatedAt: authState.status === "signed_in" ? authState.user.createdAt : undefined
+  });
+  const displayedTier = resolveDisplayedTier({ accountTier, isOwner, preview: ownerTierPreview });
   const isOwnerPreviewActive = isOwnerTierPreviewActive({ isOwner, preview: ownerTierPreview });
   const personaSessionSummaries = useMemo(
     () => buildPersonaSessionSummaries(messages, selectedPersonaId, language),
@@ -3179,6 +3202,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const currentDateKey = todayKey();
   const tarotReadingsToday = usageEvents.filter((event) => event.name === "tarot_reading_drawn" && isDateKey(event.createdAt, currentDateKey)).length;
   const chatTurnsToday = messages.filter((message) => message.role === "user" && isDateKey(message.createdAt, currentDateKey)).length;
+  const dailyTarotCreditLimit = dailyTarotLimitFor(displayedTier);
   const creditBalance = backendCredits !== null ? backendCredits : Math.max(0, dailyTarotCreditLimit - tarotReadingsToday);
   // Keep the fallback stable: Zodiac's effect depends on this object through
   // localZodiacPulse. A new fallback on every render causes a request/render loop.
@@ -4052,6 +4076,21 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     setTarotStage("topic");
   };
 
+  const requestTarotStartOver = () => {
+    const unsavedReading = reading && !journalEntriesRef.current.some((entry) => entry.sourceType === "tarot" && entry.sourceId === reading.id);
+    if (!unsavedReading) {
+      resetTarotSession();
+      return;
+    }
+    requestConfirmation({
+      title: language === "vi" ? "Bắt đầu lượt mới?" : "Start a new reading?",
+      body: language === "vi" ? "Trải bài này chưa được lưu vào Nhật ký. Nếu bắt đầu lượt mới, bạn sẽ không mở lại được nó." : "This reading is not saved to your Journal yet. If you start a new one, you cannot reopen it.",
+      confirmLabel: language === "vi" ? "Bắt đầu lượt mới" : "Start new reading",
+      tone: "danger",
+      onConfirm: () => confirmDestructiveAction(resetTarotSession)
+    });
+  };
+
   const startTarot = (stage: TarotStage = "intro") => {
     setTarotReturnScreen(currentTabOrHome());
     resetTarotSession();
@@ -4179,7 +4218,6 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       sourceId: astrologyReport.id,
       title: `Astrology preview - ${focusLabel}`,
       summary: astrologyReport.sections.map((section) => `${section.title}: ${section.body}`).join("\n\n"),
-      mood: "reflective",
       sourceSnapshot: {
         type: "astrology_report_preview",
         calculationStatus: astrologyReport.calculationStatus,
@@ -4203,7 +4241,6 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       sourceId: zodiacPulse.id,
       title: language === "vi" ? `Zodiac Pulse - ${zodiacPulse.title}` : `Zodiac Pulse - ${zodiacPulse.title}`,
       summary: `${zodiacPulse.reflection}\n\n${zodiacPulse.microAction}`,
-      mood: "reflective",
       sourceSnapshot: {
         type: "daily_zodiac_pulse",
         zodiacPulse
@@ -4340,7 +4377,6 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       sourceId: latestOracleReply.id,
       title: "Nilaza Oracle",
       summary: latestOracleReply.text,
-      mood: "reflective",
       sourceSnapshot: {
         type: "oracle_turn",
         intent: latestOracleReply.intent,
@@ -4409,7 +4445,6 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         sourceId: context.sourceId,
         title: "Nilaza Oracle",
         summary: latestOracleReply?.text ?? context.safeSummary,
-        mood: "reflective",
         sourceSnapshot: {
           type: "oracle_handoff",
           safeSummary: context.safeSummary,
@@ -4513,7 +4548,6 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       sourceId: todayCardSourceId(currentDateKey),
       title: language === "vi" ? `Lá bài hôm nay · ${cardName}` : `Today's card · ${cardName}`,
       summary: [displayTarotMeaning(card, language), localizedText(card.reflectionQuestion, language, todayPulse.reflectionPrompt), todayPulse.microAction].join("\n\n"),
-      mood: "reflective",
       sourceSnapshot: {
         type: "today_pulse",
         dateKey: currentDateKey,
@@ -5180,7 +5214,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       try {
         const selectedCards = preselectedCards?.length
           ? preselectedCards
-          : selectTarotCards(tarotTopic, tarotSpread, tarotQuestion, selectedDeck.id, language);
+          : selectTarotCards(tarotSpread, language);
         const interpretation = await generateTarotReading(
           {
             language,
@@ -5587,6 +5621,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
             reading={reading}
             selectedDeck={selectedDeck}
             displayedTier={displayedTier}
+            tarotCreditBalance={creditBalance}
             selectedDeckId={selectedDeckId}
             setSelectedDeckId={(id) => setSelectedDeckId(id)}
             setStage={goToTarotStage}
@@ -5602,7 +5637,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
             setSelectedTarotCardId={setSelectedTarotCardId}
             setSelectedTarotGuideId={setSelectedTarotGuideId}
             onBack={handleTarotBack}
-            onStartOver={resetTarotSession}
+            onStartOver={requestTarotStartOver}
             onAskFollowUp={startTarotFollowup}
             onChatWithCard={startTarotCardChat}
             onCreateShareArtifact={createShareArtifact}
@@ -5639,7 +5674,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
             }}
             onSaveToJournal={(entry) => {
               if (!scope.active) return;
-              void saveJournal({ ...entry, sourceType: "astrology", mood: "reflective", syncStatus: "local" });
+              void saveJournal({ ...entry, sourceType: "astrology", syncStatus: "local" });
             }}
             initialBirth={{date:birthDate,time:birthTime,place:birthPlace,unknown:birthTimeUnknown}}
             onBack={() => navigate("explore")} />
@@ -5796,15 +5831,15 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                   });
                 }}
                 onClearBirthProfile={() => requestConfirmation({
-                  title: language === "vi" ? "Xóa birth profile?" : "Clear birth profile?",
-                  body: language === "vi" ? "Ngày, giờ và nơi sinh sẽ bị xóa khỏi bản local. Bạn vẫn có thể nhập lại sau." : "Birth date, time, and place will be removed from this local build. You can add them again later.",
+                  title: language === "vi" ? "Xóa thông tin ngày sinh?" : "Clear birth details?",
+                  body: language === "vi" ? "Ngày, giờ và nơi sinh sẽ bị xóa khỏi thiết bị này. Bạn vẫn có thể nhập lại sau." : "Birth date, time, and place will be removed from this device. You can add them again later.",
                   confirmLabel: c.clearBirthProfile,
                   tone: "danger",
                   onConfirm: () => confirmDestructiveAction(clearBirthProfile)
                 })}
                 onClearChats={() => requestConfirmation({
                   title: language === "vi" ? "Xóa lịch sử chat?" : "Clear chat history?",
-                  body: language === "vi" ? "Toàn bộ tin nhắn local sẽ bị xóa khỏi thiết bị này." : "All local chat messages will be removed from this device.",
+                  body: language === "vi" ? "Tin nhắn lưu trên thiết bị này sẽ bị xóa. Tin nhắn đã đồng bộ với tài khoản có thể được tải lại ở lần đồng bộ sau." : "Messages stored on this device will be removed. Messages already synced to your account may load again on the next sync.",
                   confirmLabel: language === "vi" ? "Xóa chat" : "Clear chats",
                   tone: "danger",
                   onConfirm: () => confirmDestructiveAction(clearChatHistory)
@@ -5817,8 +5852,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                   onConfirm: () => confirmDestructiveAction(clearJournalHistory)
                 })}
                 onDeleteAccountData={() => requestConfirmation({
-                  title: language === "vi" ? "Xóa toàn bộ dữ liệu local?" : "Delete all local data?",
-                  body: language === "vi" ? "Hồ sơ, chat, journal, birth profile và dữ liệu review local sẽ bị xóa. Tài khoản cloud cần luồng backend riêng." : "Profile, chat, Journal, birth profile, and local review data will be removed. Cloud account deletion still needs the backend flow.",
+                  title: language === "vi" ? "Xóa dữ liệu trên thiết bị này?" : "Delete data on this device?",
+                  body: language === "vi" ? "Hồ sơ, trò chuyện, Nhật ký và thông tin ngày sinh lưu trên thiết bị này sẽ bị xóa. Tài khoản và dữ liệu đã đồng bộ không bị xóa bằng thao tác này." : "Profile, chats, Journal and birth details stored on this device will be removed. Your account and synced data are not deleted by this action.",
                   confirmLabel: c.deleteAccountData,
                   tone: "danger",
                   onConfirm: () => confirmDestructiveAction(clearAllLocalAccountData)
@@ -5839,7 +5874,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                 onSignOut={signOutLocally}
                 onToggleNotificationPreference={updateNotificationPreference}
                 onReset={() => requestConfirmation({
-                  title: language === "vi" ? "Reset bản local?" : "Reset local build?",
+                  title: language === "vi" ? "Đưa ứng dụng về trạng thái mới cài?" : "Reset the app on this device?",
                   body: language === "vi" ? "Thao tác này đưa app về trạng thái mới cài trên thiết bị hiện tại." : "This returns the app to a fresh-install state on this device.",
                   confirmLabel: c.reset,
                   tone: "danger",
@@ -6987,7 +7022,6 @@ function ChatScreen({
       sourceId: lastGuideMessage.id,
       title: personaName,
       summary: lastGuideMessage.text,
-      mood: "reflective",
       sourceSnapshot: {
         type: "chat_message",
         personaId: selectedPersona.id,
@@ -7367,7 +7401,6 @@ function ChatScreen({
         sourceId: message.id,
         title: personaName,
         summary: message.text,
-        mood: "reflective",
         sourceSnapshot: {
           type: "chat_message",
           personaId: selectedPersona.id,
@@ -7402,6 +7435,7 @@ export function TarotFlow({
   reading,
   selectedDeck,
   displayedTier,
+  tarotCreditBalance,
   selectedDeckId,
   setSelectedDeckId,
   setStage,
@@ -7437,6 +7471,7 @@ export function TarotFlow({
   reading: ReturnType<typeof drawReading> | null;
   selectedDeck: TarotDeck;
   displayedTier: AccountTier;
+  tarotCreditBalance: number;
   selectedDeckId: string;
   setSelectedDeckId: (id: string) => void;
   setStage: (stage: TarotStage) => void;
@@ -7579,7 +7614,11 @@ export function TarotFlow({
     language === "vi"
       ? `${localizedText(selectedDeck.name, language)} trải bài`
       : `The ${localizedText(selectedDeck.name, language)} Draw`;
-  const drawPrompt = language === "vi" ? "Chạm vào bộ bài để rút" : "Tap the deck to draw";
+  const drawPrompt = tarotCreditBalance <= 0
+    ? (language === "vi" ? "Hôm nay bạn đã dùng hết lượt Tarot" : "You have used today's Tarot readings")
+    : language === "vi"
+      ? `Chạm vào bộ bài để rút · hôm nay còn ${tarotCreditBalance} lượt`
+      : `Tap the deck to draw · ${tarotCreditBalance} left today`;
   const ritualTimers = useRef<Array<ReturnType<typeof setTimeout>>>([]);
   const reduceRitualMotion = useReducedMotion();
   const [ritualPhase, setRitualPhase] = useState<RitualDrawPhase>("grounding");
@@ -7684,7 +7723,7 @@ export function TarotFlow({
       : resolvedCardMeaningReturnStage === "result"
         ? c.reading
         : resolvedCardMeaningReturnStage === "share"
-          ? language === "vi" ? "Share card" : "Share card"
+          ? language === "vi" ? "Thẻ chia sẻ" : "Share card"
           : language === "vi" ? "Bộ bài" : "Deck";
   const showCardMeaningLibraryAction = resolvedCardMeaningReturnStage === "deckDetail";
   const cardMeaningLibraryLabel = language === "vi" ? "Thư viện 78 lá" : "78-card library";
@@ -7766,7 +7805,8 @@ export function TarotFlow({
       onDraw(ritualSelectedCards);
       return;
     }
-    if (!canViewContentTier(selectedDeck.accessTier, displayedTier)) {
+    // Check the allowance before the first card, not after the whole ritual.
+    if (!canViewContentTier(selectedDeck.accessTier, displayedTier) || (ritualDrawnCount === 0 && tarotCreditBalance <= 0)) {
       onDraw();
       return;
     }
@@ -7774,7 +7814,7 @@ export function TarotFlow({
     const nextCount = Math.min(ritualDrawnCount + 1, selectedSpread.cards);
     const nextSelectedCards = ritualSelectedCards.length === selectedSpread.cards
       ? ritualSelectedCards
-      : selectTarotCards(tarotTopic, tarotSpread, tarotQuestion, selectedDeck.id, language);
+      : selectTarotCards(tarotSpread, language);
     setRitualSelectedCards(nextSelectedCards);
     animateRitualCard(nextCount);
 
@@ -7795,13 +7835,13 @@ export function TarotFlow({
 
   const handleQuickDraw = () => {
     if (tarotGenerating || ritualPhase !== "grounding" || ritualDrawnCount > 0) return;
-    if (!canViewContentTier(selectedDeck.accessTier, displayedTier)) {
+    if (!canViewContentTier(selectedDeck.accessTier, displayedTier) || tarotCreditBalance <= 0) {
       onDraw();
       return;
     }
     clearRitualTimers();
     setRitualPhase("pause_and_breathe");
-    const nextSelectedCards = selectTarotCards(tarotTopic, tarotSpread, tarotQuestion, selectedDeck.id, language);
+    const nextSelectedCards = selectTarotCards(tarotSpread, language);
     setRitualSelectedCards(nextSelectedCards);
     setRitualDrawnCount(0);
     for (let index = 0; index < selectedSpread.cards; index += 1) {
@@ -7891,7 +7931,7 @@ export function TarotFlow({
             <Text style={styles.subTopTitle}>Tarot</Text>
           )}
           <Pressable hitSlop={8} accessibilityLabel={language === "vi" ? "Bắt đầu lại" : "Start over"} accessibilityRole="button" onPress={onStartOver} style={styles.editorialTopIcon}>
-            {isEditorialStage ? <Ionicons name={topBarRight} size={18} color={colors.gold} /> : <Text style={styles.backText} numberOfLines={1}>New</Text>}
+            {isEditorialStage ? <Ionicons name={topBarRight} size={18} color={colors.gold} /> : <Text style={styles.backText} numberOfLines={1}>{language === "vi" ? "Mới" : "New"}</Text>}
           </Pressable>
         </View>
       ) : stage === "cardMeaning" && activeMeaningCard ? (
@@ -8307,7 +8347,7 @@ export function TarotFlow({
                 onPress={() => openFullscreenTarotCard(activeMeaningCard, activeMeaningOrientationLabel)}
                 style={styles.cardMeaningImageStage}
               >
-                <Image source={getTarotCardImage(selectedDeck.id, activeMeaningCard.id)} style={styles.cardMeaningHeroImage} resizeMode="contain" />
+                <Image source={getTarotCardImage(selectedDeck.id, activeMeaningCard.id)} style={[styles.cardMeaningHeroImage, reversedCardArt(activeMeaningFromReading)]} resizeMode="contain" />
                 <View style={styles.tarotImageExpandBadge}>
                   <Ionicons name="expand-outline" size={15} color={colors.ivory} />
                 </View>
@@ -8393,7 +8433,7 @@ export function TarotFlow({
               </Reanimated.View>
               <Reanimated.View style={[ritualDeckStyle, latestRitualCard && ritualCardStyle]}>
               <Pressable accessibilityRole={latestRitualCard ? "imagebutton" : "button"} accessibilityLabel={latestRitualCard ? displayTarotCardName(latestRitualCard, language) : drawStepActionLabel} onPress={latestRitualCard ? () => openFullscreenTarotCard(latestRitualCard, latestRitualCard.spread) : tarotGenerating || drawActionBusy ? undefined : handleDraw} style={styles.editorialDrawDeck}>
-                <Image source={latestRitualCard ? getTarotCardImage(selectedDeck.id, latestRitualCard.id) : selectedDeckBackImage} style={[styles.editorialDrawDeckPhoto, latestRitualCard?.reversed && { transform: [{ rotate: "180deg" }] }]} resizeMode="contain" />
+                <Image source={latestRitualCard ? getTarotCardImage(selectedDeck.id, latestRitualCard.id) : selectedDeckBackImage} style={[styles.editorialDrawDeckPhoto, reversedCardArt(latestRitualCard)]} resizeMode="contain" />
                 {!latestRitualCard &&
                 <View style={styles.editorialDrawDeckOverlay}>
                   <Text style={styles.editorialDrawDeckName}>{localizedText(selectedDeck.name, language)}</Text>
@@ -8427,7 +8467,7 @@ export function TarotFlow({
                             onPress={() => openFullscreenTarotCard(ritualCard, ritualCard.spread)}
                             style={styles.ritualSlotCardPressable}
                           >
-                            <Image source={getTarotCardImage(selectedDeck.id, ritualCard.id)} style={styles.ritualSlotCardImage} resizeMode="cover" />
+                            <Image source={getTarotCardImage(selectedDeck.id, ritualCard.id)} style={[styles.ritualSlotCardImage, reversedCardArt(ritualCard)]} resizeMode="cover" />
                           </Pressable>
                         </Reanimated.View>
                       ) : (
@@ -8451,7 +8491,7 @@ export function TarotFlow({
                   onPress={() => openFullscreenTarotCard(latestRitualCard, latestRitualCard.spread)}
                   style={styles.ritualRevealImageFrame}
                 >
-                  <Image source={getTarotCardImage(selectedDeck.id, latestRitualCard.id)} style={styles.ritualRevealImage} resizeMode="contain" />
+                  <Image source={getTarotCardImage(selectedDeck.id, latestRitualCard.id)} style={[styles.ritualRevealImage, reversedCardArt(latestRitualCard)]} resizeMode="contain" />
                   <View style={styles.tarotImageExpandBadgeSmall}>
                     <Ionicons name="expand-outline" size={12} color={colors.ivory} />
                   </View>
@@ -8511,7 +8551,7 @@ export function TarotFlow({
                   onPress={() => openFullscreenTarotCard(card, card.spread)}
                 >
                   <Text style={[styles.editorialSpreadLabel, index === 1 && styles.editorialSpreadLabelActive]}>{card.spread.toUpperCase()} · {card.reversed ? (language === "vi" ? "NGƯỢC" : "REVERSED") : (language === "vi" ? "XUÔI" : "UPRIGHT")}</Text>
-                  <Image source={getTarotCardImage(selectedDeck.id, card.id)} style={[styles.editorialSpreadCardImage, index === 1 && styles.editorialSpreadCardImageActive]} resizeMode="contain" />
+                  <Image source={getTarotCardImage(selectedDeck.id, card.id)} style={[styles.editorialSpreadCardImage, index === 1 && styles.editorialSpreadCardImageActive, reversedCardArt(card)]} resizeMode="contain" />
                   <Text style={[styles.editorialSpreadCardName, index === 1 && styles.editorialSpreadCardNameActive]}>{displayTarotCardName(card, language)}</Text>
                 </Pressable>
               ))}
@@ -8599,7 +8639,6 @@ export function TarotFlow({
                 sourceId: reading.id,
                 title: `${localizedText(reading.deck.name, language)} - ${localizedText(spreads.find((spread) => spread.id === reading.spread), language, reading.spread)}`,
                 summary: reading.summary,
-                mood: "curious",
                 sourceSnapshot: {
                   type: "tarot_reading",
                   readingId: reading.id,
@@ -8638,7 +8677,7 @@ export function TarotFlow({
 
         {stage === "share" && reading && (
           <View>
-            <Header eyebrow="Local share" title={c.shareReading} />
+            <Header eyebrow={language === "vi" ? "Chia sẻ" : "Share"} title={c.shareReading} />
             {latestShareArtifact ? (
               <View style={styles.sharePreviewCard}>
                 <View style={styles.sharePreviewSpread}>
@@ -8650,7 +8689,7 @@ export function TarotFlow({
                       onPress={() => openFullscreenTarotCard(card, card.spread)}
                       style={[styles.sharePreviewCardSlot, index === 1 && styles.sharePreviewCardSlotCenter]}
                     >
-                      <Image source={getTarotCardImage(selectedDeck.id, card.id)} style={styles.sharePreviewImage} resizeMode="contain" />
+                      <Image source={getTarotCardImage(selectedDeck.id, card.id)} style={[styles.sharePreviewImage, reversedCardArt(card)]} resizeMode="contain" />
                       <Text style={styles.sharePreviewCardName}>{displayTarotCardName(card, language)}</Text>
                     </Pressable>
                   ))}
@@ -8662,8 +8701,8 @@ export function TarotFlow({
               </View>
             ) : (
               <View style={styles.empty}>
-                <Text style={styles.emptyTitle}>{language === "vi" ? "Chưa có share card" : "No share card yet"}</Text>
-                <Text style={styles.muted}>{language === "vi" ? "Tạo bản preview local trước khi backend xuất ảnh thật." : "Create a local preview before the backend exports real images."}</Text>
+                <Text style={styles.emptyTitle}>{language === "vi" ? "Chưa có thẻ chia sẻ" : "No share card yet"}</Text>
+                <Text style={styles.muted}>{language === "vi" ? "Tạo bản xem trước để chọn nội dung trước khi chia sẻ." : "Create a preview to check what you share."}</Text>
               </View>
             )}
             {latestShareArtifact ? (
@@ -8674,7 +8713,6 @@ export function TarotFlow({
                   sourceId: latestShareArtifact.id,
                   title: c.shareReading,
                   summary: String(latestShareArtifact.payload.synthesis ?? reading.summary),
-                  mood: "inspired",
                   sourceSnapshot: {
                     type: "share_card",
                     artifactId: latestShareArtifact.id,
@@ -8750,7 +8788,7 @@ export function TarotFlow({
                   </Pressable>
                 </View>
                 <View style={styles.tarotFullscreenImageStage}>
-                  <Image source={fullscreenTarotCard.source} style={styles.tarotFullscreenImage} resizeMode="contain" />
+                  <Image source={fullscreenTarotCard.source} style={[styles.tarotFullscreenImage, reversedCardArt(fullscreenTarotCard.card as { reversed?: boolean })]} resizeMode="contain" />
                 </View>
                 <Pressable accessibilityRole="button" onPress={openFullscreenCardMeaning} style={styles.tarotFullscreenPrimary}>
                   <Text style={styles.tarotFullscreenPrimaryText}>{language === "vi" ? "Xem ý nghĩa lá bài" : "View card meaning"}</Text>
@@ -9213,7 +9251,7 @@ function JournalScreen({
   const filterLabels: Record<string, string> = { All: "Tất cả", Tarot: "Tarot", Chat: "Trò chuyện", Astrology: "Chiêm tinh", Notes: "Ghi chú" };
   const [activeFilter, setActiveFilter] = useState("All");
   const [selectedEntryId, setSelectedEntryId] = useState<string | null>(initialSelectedEntryId ?? null);
-  const [draftNote, setDraftNote] = useState(entries.find(item => item.id === initialSelectedEntryId)?.userNote ?? "");
+  const [draftNote, setDraftNote] = useState(journalDraftNoteFor(entries.find(item => item.id === initialSelectedEntryId)));
   const [journalSearchOpen, setJournalSearchOpen] = useState(false);
   const [journalSearchText, setJournalSearchText] = useState("");
   const [composing, setComposing] = useState(false);
@@ -9259,7 +9297,7 @@ function JournalScreen({
           <Text style={styles.resultBadge}>{journalSourceLabel(selectedEntry.sourceType, language)}</Text>
           <Text style={styles.personaDetailTitle}>{selectedEntry.title}</Text>
           <Text style={styles.disclaimer}>{new Date(selectedEntry.createdAt).toLocaleString()}</Text>
-          <Text style={styles.personaDetailBody}>{selectedEntry.sourceType === "manual" ? selectedEntry.userNote ?? selectedEntry.summary : selectedEntry.summary}</Text>
+          <Text style={styles.personaDetailBody}>{journalEntryBody(selectedEntry)}</Text>
           <StatusLine label={language === "vi" ? "Lưu trữ" : "Storage"}
             status={selectedEntry.syncStatus === "synced" ? (language === "vi" ? "Đã đồng bộ" : "Synced") : (language === "vi" ? "Đã lưu trên máy" : "Saved on device")}
             tone={selectedEntry.syncStatus === "synced" ? "good" : "neutral"} />
@@ -9395,7 +9433,7 @@ function JournalScreen({
             language={language}
             onPress={() => {
               setSelectedEntryId(entry.id);
-              setDraftNote(entry.userNote ?? (entry.sourceType === "manual" ? entry.summary : ""));
+              setDraftNote(journalDraftNoteFor(entry));
             }}
           />
         ))
@@ -10800,7 +10838,7 @@ function JournalCard({ entry, language, onPress }: { entry: JournalEntry; langua
         <Ionicons name="chevron-forward-outline" size={18} color={colors.gold} />
       </View>
       <Text style={styles.cardTitle}>{entry.title}</Text>
-      <Text style={styles.cardDescription}>{entry.sourceType === "manual" ? entry.userNote ?? entry.summary : entry.summary}</Text>
+      <Text style={styles.cardDescription}>{journalEntryBody(entry)}</Text>
       <View style={styles.metaRail}>
         {entry.mood && <StatusChip label={moodLabel(entry.mood, language)} tone="neutral" />}
         {entry.userNote?.trim() ? <StatusChip label={language === "vi" ? "Có ghi chú" : "Note added"} tone="good" /> : null}

@@ -1,6 +1,6 @@
 import { fireEvent, render } from "@testing-library/react-native";
 import { act, useState } from "react";
-import { AccessibilityInfo } from "react-native";
+import { AccessibilityInfo, Linking } from "react-native";
 
 import { AuthFlow } from "../AuthFlow";
 import type { SignUpOutcome } from "../AuthFlow";
@@ -87,6 +87,7 @@ describe("AuthFlow", () => {
     fireEvent.changeText(screen.getByLabelText(nameLabel), "Luna");
     fireEvent.changeText(screen.getByLabelText(emailLabel), " luna@example.com ");
     fireEvent.changeText(screen.getByLabelText(passwordLabel), "fixture-password");
+    fireEvent.press(screen.getByRole("checkbox"));
     fireEvent.press(screen.getByText(createCopy));
     await act(async () => { jest.advanceTimersByTime(500); });
     expect(screen.getByText(/luna@example.com/)).toBeTruthy();
@@ -111,6 +112,7 @@ describe("AuthFlow", () => {
     fireEvent.changeText(screen.getByLabelText("Name"), "Luna");
     fireEvent.changeText(screen.getByLabelText("Email Address"), "luna@example.com");
     fireEvent.changeText(screen.getByLabelText("Password"), "fixture-password");
+    fireEvent.press(screen.getByRole("checkbox"));
     fireEvent.press(screen.getByText("Create Account"));
     await act(async () => { jest.advanceTimersByTime(500); });
     fireEvent.press(screen.getByText("Resend confirmation email"));
@@ -134,6 +136,7 @@ describe("AuthFlow", () => {
     fireEvent.changeText(screen.getByLabelText("Name"), "QA A");
     fireEvent.changeText(screen.getByLabelText("Email Address"), "qa-a@example.com");
     fireEvent.changeText(screen.getByLabelText("Password"), "fixture-password");
+    fireEvent.press(screen.getByRole("checkbox"));
     fireEvent.press(screen.getByText("Create Account"));
     await act(async () => { jest.advanceTimersByTime(50); });
     fireEvent.press(screen.getByText("Sign In"));
@@ -230,6 +233,7 @@ describe("AuthFlow", () => {
     fireEvent.changeText(screen.getByLabelText("Name"), "Luna");
     fireEvent.changeText(screen.getByLabelText("Email Address"), "luna@example.com");
     fireEvent.changeText(screen.getByLabelText("Password"), "moonlight");
+    fireEvent.press(screen.getByRole("checkbox"));
     fireEvent.press(screen.getByText("Create Account"));
 
     await act(async () => {
@@ -277,6 +281,14 @@ describe("AuthFlow", () => {
     fireEvent.changeText(screen.getByLabelText("Password"), "moonlight");
     fireEvent.press(screen.getByLabelText("Show password"));
     expect(screen.getByLabelText("Hide password")).toBeTruthy();
+    fireEvent.press(screen.getByText("Create Account"));
+    expect(screen.getByText("Nilaza is for people aged 18 and over. Please confirm to create an account.")).toBeTruthy();
+    expect(onSignUp).not.toHaveBeenCalled();
+
+    const adultConfirm = screen.getByRole("checkbox");
+    expect(adultConfirm.props.accessibilityState).toEqual(expect.objectContaining({ checked: false }));
+    fireEvent.press(adultConfirm);
+    expect(screen.getByRole("checkbox").props.accessibilityState).toEqual(expect.objectContaining({ checked: true }));
     fireEvent.press(screen.getByText("Create Account"));
 
     await act(async () => {
@@ -382,7 +394,8 @@ describe("AuthFlow", () => {
     expect(screen.getByText("Continue")).toBeTruthy();
   });
 
-  it("makes social and legal preview controls visibly responsive", () => {
+  it("hides sign-in providers that do not work yet and opens the real legal pages", () => {
+    const openURL = jest.spyOn(Linking, "openURL").mockResolvedValue(true);
     const screen = render(
       <AuthFlow
         language="en"
@@ -395,13 +408,12 @@ describe("AuthFlow", () => {
       />
     );
 
-    fireEvent.press(screen.getByLabelText("Continue with Apple"));
-    expect(screen.getByText("Apple/Google sign-in will activate after OAuth is configured for Staging.")).toBeTruthy();
-    const facebook = screen.getByLabelText("Continue with Facebook, Coming soon");
-    expect(facebook.props.accessibilityState).toEqual(expect.objectContaining({ disabled: true }));
-    fireEvent.press(facebook);
-    expect(screen.getByText("Apple/Google sign-in will activate after OAuth is configured for Staging.")).toBeTruthy();
+    for (const provider of ["Apple", "Google", "Facebook", "X"]) {
+      expect(screen.queryByLabelText(new RegExp(`Continue with ${provider}`))).toBeNull();
+    }
     fireEvent.press(screen.getByText("Terms of Service"));
-    expect(screen.getByText("This legal page is a local preview and will be connected before release.")).toBeTruthy();
+    expect(openURL).toHaveBeenCalledWith("https://nilaza.magicpendigital.com/en/terms/");
+    fireEvent.press(screen.getByText("Privacy Policy"));
+    expect(openURL).toHaveBeenCalledWith("https://nilaza.magicpendigital.com/en/privacy/");
   });
 });

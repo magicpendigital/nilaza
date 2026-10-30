@@ -524,10 +524,10 @@ export function AstrologyExperience({
       const code = (requestError as { code?: string })?.code;
       const localized: Record<string, [string, string]> = {
         authentication_required: ["Hãy đăng nhập để dùng Người dẫn đường AI.", "Sign in to use the AI guide."],
-        premium_required: ["Tính năng này cần quyền Astrology AI Premium.", "Astrology AI Premium access is required for this feature."],
+        premium_required: ["Người dẫn đường AI chưa mở cho tài khoản này. Nilaza sẽ báo bạn khi tính năng sẵn sàng.", "The AI guide is not open for this account yet. Nilaza will let you know when it is ready."],
         daily_limit_reached: ["Bạn đã dùng hết lượt Astrology AI hôm nay. Hãy thử lại vào ngày mai.", "You have reached today's Astrology AI limit. Please try again tomorrow."],
-        route_not_ready: ["Route Astrology AI chưa được cấu hình cho hợp đồng mới.", "The Astrology AI route is not configured for the current contract."],
-        prompt_not_ready: ["Prompt Astrology AI đã duyệt chưa được kích hoạt cho ngôn ngữ này.", "The approved Astrology AI prompt is not active for this language."],
+        route_not_ready: ["Người dẫn đường đang được bảo trì. Câu hỏi của bạn vẫn còn để thử lại sau.", "The guide is under maintenance. Your question is kept so you can try again later."],
+        prompt_not_ready: ["Người dẫn đường đang được bảo trì. Câu hỏi của bạn vẫn còn để thử lại sau.", "The guide is under maintenance. Your question is kept so you can try again later."],
         chart_facts_unavailable: ["AI cần giờ sinh chính xác để dùng các dữ kiện của bản đồ này.", "The AI guide needs an exact birth time to use this chart's facts."],
         crisis_support: ["Bạn xứng đáng được hỗ trợ ngay lúc này. Hãy liên hệ dịch vụ khẩn cấp tại địa phương hoặc một người bạn tin cậy ngay.", "You deserve immediate support. Contact local emergency services or someone you trust now."],
         professional_advice_blocked: ["Astrology AI không thể thay thế tư vấn y tế, pháp lý hoặc tài chính. Hãy trao đổi với chuyên gia phù hợp.", "Astrology AI cannot replace medical, legal, or financial guidance. Please speak with a qualified professional."],

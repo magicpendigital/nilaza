@@ -33,6 +33,12 @@ export function nilazaHelpUrlFor(language: string) {
   return configured ? configured.replace("{locale}", locale) : `https://nilaza.magicpendigital.com/${locale}/help`;
 }
 
+/** Public legal pages published by apps/web. */
+export function nilazaLegalUrlFor(page: "terms" | "privacy", language: string) {
+  const locale = language === "en" ? "en" : "vi";
+  return `https://nilaza.magicpendigital.com/${locale}/${page}/`;
+}
+
 export const supabaseUrl =
   typeof process !== "undefined" ? process.env.EXPO_PUBLIC_SUPABASE_URL?.trim() || undefined : undefined;
 
