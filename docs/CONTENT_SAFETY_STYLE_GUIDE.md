@@ -49,16 +49,16 @@ Avoid in user-facing claims:
 
 ## Tarot Names
 
-Tarot card names must stay in their canonical original form in all languages:
+Owner decision 2026-10-30: each card has one approved Vietnamese name, listed in `docs/content-review/tarot-card-names-vi.md` and stored in `name.vi` of `packages/content/data/tarot-cards.json`. The original English name stays in `name.en` as the canonical name.
 
-- `The Fool`, not "Kẻ Khờ"
-- `The Magician`, not "Nhà Ảo Thuật"
-- `Wheel of Fortune`, not "Bánh Xe Vận Mệnh"
-- `Ace of Cups`, not "Át Cốc"
+- Vietnamese screens show the Vietnamese name as the card title, with the English name beside it (for example "Kẻ Khờ" with "The Fool"), so readers can match it with other books and decks.
+- Use only the approved names: `Kẻ Khờ`, `Bánh Xe Số Phận`, `Át Cốc`, `Tiểu Đồng Tiền`, and so on. Do not invent another translation in a single piece of copy.
+- Vietnamese prose may use the Vietnamese name, the English name, or "lá này". New copy should prefer the Vietnamese name or "lá này"; older copy that uses the English name is still acceptable.
+- Card ids, image files, deck visual-prompt titles and AI context keep the English name.
 
-Vietnamese content may explain meanings in Vietnamese, but should not rename the card. Good example:
+Good example:
 
-> `The Fool` mở ra chủ đề khởi đầu, niềm tin và tự do. Hãy xem lá này như một câu hỏi về bước nhỏ tiếp theo, không phải lời dự báo.
+> Kẻ Khờ mở ra chủ đề khởi đầu, niềm tin và tự do. Hãy xem lá này như một câu hỏi về bước nhỏ tiếp theo, không phải lời dự báo.
 
 ## Required Safety Framing
 
@@ -77,7 +77,7 @@ For self-harm or crisis signals, Nilaza should respond supportively and direct u
 
 Before publishing content:
 
-- Card names remain original in `vi` and `en`.
+- Card names use the approved Vietnamese name in `vi` and the original name in `en`.
 - No deterministic future claims.
 - No claims that Nilaza can diagnose, heal, treat, guarantee, or alter real-world outcomes.
 - No impersonation of real people, authors, publishers, estates, brands, or official representatives.

@@ -6,9 +6,11 @@ import type { JournalEntry, Language } from "../../types";
 import type { JournalDraft, JournalDraftStore } from "./journalDraftStore";
 
 type NoteDraft = Pick<JournalEntry, "title" | "summary" | "mood">;
-export function JournalComposer({ language, onSave, onClose, draftStore }: {
+export function JournalComposer({ language, onSave, onClose, draftStore, prompt }: {
   language: Language; onSave: (draft: NoteDraft) => Promise<boolean>; onClose: () => void;
   draftStore?: JournalDraftStore;
+  // A writing prompt from Home; shown as the heading and used as the title when none is typed. Never written into the draft.
+  prompt?: string;
 }) {
   const vi = language === "vi";
   const [localDraft, setLocalDraft] = useState<JournalDraft>({ title: "", body: "", mood: "reflective" });
@@ -51,7 +53,7 @@ export function JournalComposer({ language, onSave, onClose, draftStore }: {
     setError(false);
     let saved = false;
     try {
-      saved = await onSave({ title: draft.title.trim() || (vi ? "Ghi chú của mình" : "My note"), summary: draft.body.trim(), mood: draft.mood });
+      saved = await onSave({ title: draft.title.trim() || prompt || (vi ? "Ghi chú của mình" : "My note"), summary: draft.body.trim(), mood: draft.mood });
     } catch { saved = false; }
     const cleared = store && captured ? await store.finishSubmit(captured.revision, saved) : saved;
     if (!store) locked.current = false;
@@ -67,7 +69,7 @@ export function JournalComposer({ language, onSave, onClose, draftStore }: {
     if (wasClear && succeeded && mounted.current && currentStore.current === store && store.isActive()) onClose();
   };
   return <View style={styles.stack}>
-    <Text style={styles.title}>{vi ? "Viết cho mình" : "Write for yourself"}</Text>
+    <Text accessibilityRole="header" style={styles.title}>{prompt ?? (vi ? "Viết cho mình" : "Write for yourself")}</Text>
     <Text style={styles.body}>{vi ? "Một vài dòng để ghi lại điều bạn đang cảm thấy. Ghi chú này được giữ trong nhật ký riêng của bạn." : "A few lines to remember what you are feeling. This note stays in your private journal."}</Text>
     {draftStore && !ready ? <View style={styles.stack}>
       <Text accessibilityRole={snapshot?.status === "read_error" ? "alert" : undefined} style={styles.body}>{snapshot?.status === "read_error"
@@ -77,7 +79,7 @@ export function JournalComposer({ language, onSave, onClose, draftStore }: {
     </View> : null}
     <Text style={styles.body}>{vi ? "Tiêu đề · tùy chọn" : "Title · optional"}</Text>
     <TextInput accessibilityLabel={vi ? "Tiêu đề ghi chú" : "Note title"} value={title} onChangeText={title => update({ title })}
-      editable={!disabled} maxLength={160} placeholder={vi ? "Điều mình muốn nhớ" : "Something to remember"}
+      editable={!disabled} maxLength={160} placeholder={prompt ?? (vi ? "Điều mình muốn nhớ" : "Something to remember")}
       placeholderTextColor={colors.moon} style={styles.input} />
     <Text style={styles.body}>{vi ? "Nội dung" : "Your note"}</Text>
     <TextInput accessibilityLabel={vi ? "Nội dung ghi chú" : "Note text"} value={body} onChangeText={body => update({ body })}

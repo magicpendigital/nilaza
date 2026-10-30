@@ -14,7 +14,7 @@ import { HankenGrotesk_600SemiBold } from "@expo-google-fonts/hanken-grotesk/600
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useFontReadiness } from "./src/brand/useFontReadiness";
-import { HomeExperience } from "./src/features/home/HomeExperience";
+import { HomeExperience, type HomeLatest } from "./src/features/home/HomeExperience";
 import { TodayCardActions, TodayCardReflection } from "./src/features/home/TodayCardReflection";
 import { InboxScreen } from "./src/features/notifications/InboxScreen";
 import { GoalsScreen } from "./src/features/onboarding/GoalsScreen";
@@ -114,7 +114,7 @@ import {
   TopBar,
   FadeInView
 } from "./src/a2ui";
-import { localizedList, localizedText, normalizeLanguage } from "./src/i18n";
+import { formatLocalDate, formatLocalDateTime, localizedList, localizedText, normalizeLanguage, relativeDayLabel } from "./src/i18n";
 import { isSupabaseAuthConfigured, nilazaAdminUrl, nilazaBackendBaseUrl, nilazaHelpUrlFor, onlineModeRequired, onlineRuntimeReady, responsiveShellEnabled, supabaseAnonKey, supabaseUrl } from "./src/runtimeConfig";
 import { useAdaptiveLayout } from "./src/responsive";
 import { AdaptiveScaffold, ResponsiveGrid, OverflowChipRail } from "./src/a2ui/layout";
@@ -186,6 +186,8 @@ import { mapDailyInsight, mapJournalRows, mapPersonaMessages, mapProfileSnapshot
 import { buildDevicePushRegistration, requestNotificationPermission, subscribeToNotificationResponses } from "./src/notifications";
 import {
   canViewContentTier,
+  effectiveContentTier,
+  FREE_LAUNCH,
   getAnnualPriceHypothesisMath,
   isOwnerTierPreviewActive,
   premiumPriceHypothesisVnd,
@@ -1250,8 +1252,8 @@ const copy = {
     freeExperience: "Bạn vẫn có dẫn hướng hôm nay, rút tarot và trò chuyện guide trước khi nâng cấp.",
     dailyCredits: "Lượt tarot hôm nay",
     dailyLimit: "Giới hạn/ngày",
-    freeCreditsReset: "Gói miễn phí có 3 lượt Tarot mỗi ngày. Lượt sẽ tự làm mới vào ngày mai.",
-    creditLimitReached: "Bạn đã dùng hết 3 lượt Tarot miễn phí hôm nay. Gói Premium sẽ mở thêm lượt và trải bài sâu hơn.",
+    freeCreditsReset: "Mỗi ngày bạn có 3 lượt trải bài. Lượt làm mới vào ngày mai.",
+    creditLimitReached: "Bạn đã dùng hết 3 lượt trải bài hôm nay. Hẹn bạn ngày mai nhé.",
     premiumDeckPreview: "Bộ bài này thuộc gói Premium. Bạn có thể nâng cấp sau; hôm nay hãy dùng một bộ miễn phí để tiếp tục trải bài.",
     premiumPersonaPreview: "Guide này thuộc gói Premium. Bạn có thể nâng cấp sau; hôm nay hãy thử một guide miễn phí để tiếp tục trò chuyện.",
     reported: "Đã ghi nhận để review safety.",
@@ -1353,8 +1355,8 @@ const copy = {
     freeExperience: "You still get daily insight, tarot, and guide chat before upgrading.",
     dailyCredits: "Tarot today",
     dailyLimit: "Daily limit",
-    freeCreditsReset: "The Free plan includes 3 tarot readings per day. Credits reset tomorrow.",
-    creditLimitReached: "You have used all 3 Free tarot readings today. Premium will unlock more readings and deeper spreads.",
+    freeCreditsReset: "You have 3 tarot readings each day. They refresh tomorrow.",
+    creditLimitReached: "You have used today's 3 tarot readings. See you tomorrow.",
     premiumDeckPreview: "This deck is a Premium preview. You can upgrade later; use a Free deck today to continue your reading.",
     premiumPersonaPreview: "This guide is a Premium preview. You can upgrade later; use a Free guide today to continue chatting.",
     reported: "Saved for safety review.",
@@ -2393,6 +2395,25 @@ function displayTarotCardName(card: TarotCard, language: Language) {
   return localizedText(card.name, language);
 }
 
+const majorNumerals = ["0", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX", "XXI"];
+const suitNames: Record<NonNullable<TarotCard["suit"]>, { vi: string; en: string }> = {
+  wands: { vi: "Gậy", en: "Wands" },
+  cups: { vi: "Cốc", en: "Cups" },
+  swords: { vi: "Kiếm", en: "Swords" },
+  pentacles: { vi: "Tiền", en: "Pentacles" }
+};
+
+// "The Star · Ẩn chính XVII · Xuôi": the English name only when the display name differs from it.
+function displayTarotCardMeta(card: TarotCard & { reversed?: boolean }, language: Language) {
+  const vi = language === "vi";
+  const english = localizedText(card.name, "en");
+  const parts = displayTarotCardName(card, language) === english ? [] : [english];
+  if (card.arcana === "major" && typeof card.number === "number") parts.push(`${vi ? "Ẩn chính" : "Major Arcana"} ${majorNumerals[card.number] ?? card.number}`);
+  else if (card.suit) parts.push(vi ? `Ẩn phụ · Bộ ${suitNames[card.suit].vi}` : `Minor Arcana · ${suitNames[card.suit].en}`);
+  parts.push(card.reversed ? (vi ? "Ngược" : "Reversed") : (vi ? "Xuôi" : "Upright"));
+  return parts.join(" · ");
+}
+
 function displayTarotReflectionTopic(card: TarotCard) {
   if (card.arcana === "major" && typeof card.number === "number") {
     return majorThemesVi[card.number] ?? "điều đang nổi lên";
@@ -2864,6 +2885,7 @@ function buildDailyZodiacPulse(
     profileCompleteness,
     hasBirthDate: true,
     sign: signLabel,
+    signId: sunSign.toLowerCase(),
     mood,
     title: language === "vi" ? `${signLabel} hôm nay` : `${signLabel} today`,
     reflection: language === "vi"
@@ -3072,6 +3094,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const onboardingSaving = useRef(false);
   const [currentTime, setCurrentTime] = useState(() => new Date());
   const [scrollBand, setScrollBand] = useState<ScrollBand>(0);
+  const [journalComposing, setJournalComposing] = useState(false);
+  const [journalPrompt, setJournalPrompt] = useState<string | null>(null);
   const [navigationChrome, setNavigationChrome] = useState<NavigationChrome>("expanded");
   const navigationChromeRef = useRef<NavigationChrome>("expanded");
   const lastContentScrollYRef = useRef(0);
@@ -5505,7 +5529,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const showNavigation = screen !== "tarot" && !(screen === "chat" && (chatMode === "room" || chatMode === "council"));
   const navigation = (
     <AdaptiveNavigation
-      items={tabs.map(item => ({ id: item, icon: tabIcon(item), label: item === "chat" ? (language === "vi" ? "Trò chuyện" : "Chat") : getCopy(language)[item] }))}
+      items={tabs.map(item => ({ id: item, icon: tabIcon(item), label: tabLabel(item, language) }))}
       selected={screen === "inbox" ? "home" : screen}
       mode={adaptiveLayout.navMode}
       chrome={navigationChrome}
@@ -5682,6 +5706,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                 onRerollDaily={previewDailyReroll}
                 onSaveTodayCard={saveTodayPulseCard}
                 onShareTodayCard={shareTodayPulseCard}
+                onWritePrompt={(prompt) => { setJournalPrompt(prompt); setJournalEntryToOpen(null); navigate("journal"); }}
                 onAstrology={() => startAstrology("hub")}
               />
             )}
@@ -5724,6 +5749,9 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
             {screen === "journal" && (
               <JournalScreen
                 c={c}
+                onComposingChange={setJournalComposing}
+                composePrompt={journalPrompt}
+                onComposeDone={() => setJournalPrompt(null)}
                 entries={journalEntries}
                 initialSelectedEntryId={journalEntryToOpen}
                 journalMemory={journalMemory}
@@ -5925,8 +5953,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
           </Pressable>
         ) : null}
 
-        {/* Home has its own Ask field, so the floating launcher would only cover it. */}
-        {showNavigation && !hasDedicatedGenerationSurface && screen !== "home" ? (
+        {/* Home has its own Ask field and the Journal composer has its own Save, so the floating launcher would only cover them. */}
+        {showNavigation && !hasDedicatedGenerationSurface && screen !== "home" && !(screen === "journal" && journalComposing) ? (
           <Pressable
             accessibilityRole="button"
             accessibilityLabel={language === "vi" ? "Hỏi Nilaza Oracle" : "Ask Nilaza Oracle"}
@@ -5977,11 +6005,22 @@ function ConfirmationDialog({
 
 function tabIcon(tab: Tab): any {
   return {
-    home: "home-outline",
+    home: "sunny-outline",
     explore: "compass-outline",
-    chat: "sparkles-outline",
+    chat: "chatbubble-outline",
     journal: "book-outline",
     profile: "person-outline"
+  }[tab];
+}
+
+function tabLabel(tab: Tab, language: Language): string {
+  const vi = language === "vi";
+  return {
+    home: vi ? "Hôm nay" : "Today",
+    explore: vi ? "Khám phá" : "Explore",
+    chat: vi ? "Trò chuyện" : "Chat",
+    journal: vi ? "Nhật ký" : "Journal",
+    profile: vi ? "Tôi" : "Me"
   }[tab];
 }
 
@@ -6029,7 +6068,8 @@ function HomeScreen({
   onRevealTodayCard,
   onRerollDaily,
   onSaveTodayCard,
-  onShareTodayCard
+  onShareTodayCard,
+  onWritePrompt
 }: {
   c: Copy;
   currentDateKey: string;
@@ -6058,25 +6098,47 @@ function HomeScreen({
   onRerollDaily: () => void;
   onSaveTodayCard: () => void;
   onShareTodayCard: () => void;
+  onWritePrompt: (prompt: string) => void;
 }) {
   const card = todayPulse.card;
   const cardSaved = journalEntries.some((entry) => entry.sourceType === "daily" && entry.sourceId === todayCardSourceId(currentDateKey));
   const todayMood = journalEntries.find((entry) => !entry.sourceId && entry.sourceSnapshot?.type === "today_pulse" && entry.sourceSnapshot?.dateKey === currentDateKey)?.mood;
   return <HomeExperience cardBack={getDeckBackImage(selectedDeck.id)} language={language} greeting={homeGreetingLabel(currentTime, language, profile.nickname)} now={currentTime}
     revealed={todayPulseRevealed} streak={profile.currentStreak} onReveal={onRevealTodayCard} onAsk={onAsk} onAstrology={onAstrology} onGoalSuggestion={onGoalSuggestion}
-    primaryGoal={profile.goals[0]} zodiac={{ hasBirthDate: zodiacPulse.hasBirthDate, sign: zodiacPulse.sign ?? "", line: zodiacPulse.reflection }}
+    primaryGoal={profile.goals[0]} zodiac={{ hasBirthDate: zodiacPulse.hasBirthDate, sign: zodiacPulse.sign ?? "", signId: zodiacPulse.signId, line: zodiacPulse.reflection }}
     onJournal={onJournal} onNotifications={onNotifications} unread={unreadNotificationCount}
-    recent={journalEntries.slice(0, 3).map(entry => ({ id: entry.id, title: entry.title, date: new Date(entry.createdAt).toLocaleDateString(language) }))}
-    onOpenRecent={onOpenRecent}
+    latest={homeLatestEntry(journalEntries, currentTime, language)} deckCover={getDeckThumbnailImage(selectedDeck.id)}
+    onOpenRecent={onOpenRecent} onWritePrompt={onWritePrompt}
     continuation={councilSession ? <HomeCouncilCard language={language} personas={councilPersonas} session={councilSession} onPress={onAiCouncil} /> : undefined}
     preRevealHint={todayPulse.wisdomLine}
     reflection={<TodayCardReflection language={language} cardImage={getTarotCardImage(selectedDeck.id, card.id)} cardName={displayTarotCardName(card, language)}
-      deckName={localizedText(selectedDeck.name, language)} keywords={localizedList(card.keywords, language)} meaning={displayTarotMeaning(card, language)}
+      cardMeta={displayTarotCardMeta(card, language)} deckName={localizedText(selectedDeck.name, language)} keywords={localizedList(card.keywords, language)} meaning={displayTarotMeaning(card, language)}
       question={localizedText(card.reflectionQuestion, language, todayPulse.reflectionPrompt)} microAction={todayPulse.microAction}
       guidance={dailyInsight.text} onAnotherGuidance={onRerollDaily} disclaimer={c.disclaimer}
       moods={moodOptions.map((mood) => ({ id: mood.id, label: localizedText(mood, language) }))} selectedMood={todayMood} onMood={onMoodCheck} />}
     reflectionActions={<TodayCardActions language={language} saved={cardSaved} onSave={onSaveTodayCard} onAskDeeper={onAskDeeperToday} onShare={onShareTodayCard} />}
   />;
+}
+
+// The newest saved entry for "Đọc tiếp", with card thumbnails when it is a saved tarot reading.
+function homeLatestEntry(entries: JournalEntry[], now: Date, language: Language): HomeLatest | undefined {
+  const entry = entries[0];
+  if (!entry) return undefined;
+  const snapshot = entry.sourceSnapshot as { type?: unknown; deckId?: unknown; cards?: unknown } | undefined;
+  const deckId = snapshot?.type === "tarot_reading" && typeof snapshot.deckId === "string" ? snapshot.deckId : undefined;
+  const cardIds = deckId && Array.isArray(snapshot?.cards)
+    ? snapshot.cards.map((card: { id?: unknown }) => card?.id).filter((id): id is string => typeof id === "string")
+    : [];
+  const kind = cardIds.length
+    ? language === "vi" ? `Trải ${cardIds.length} lá` : `${cardIds.length}-card reading`
+    : journalSourceLabel(entry.sourceType, language);
+  const day = relativeDayLabel(entry.createdAt, now, language).toLowerCase();
+  return {
+    id: entry.id,
+    title: entry.title,
+    meta: [kind, day, language === "vi" ? "đã lưu" : "saved"].join(" · "),
+    thumbs: deckId ? cardIds.slice(0, 3).map((id) => getTarotCardImage(deckId, id)) : []
+  };
 }
 
 function HomeCouncilCard({
@@ -6091,7 +6153,7 @@ function HomeCouncilCard({
   onPress: () => void;
 }) {
   const hasSession = Boolean(session);
-  const updatedAt = session ? new Date(session.updatedAt).toLocaleDateString() : "";
+  const updatedAt = session ? formatLocalDate(session.updatedAt, language) : "";
   const title = hasSession
     ? language === "vi" ? "Tiếp tục AI Council" : "Continue AI Council"
     : language === "vi" ? "Mở AI Council" : "Open AI Council";
@@ -7479,7 +7541,7 @@ export function TarotFlow({
   const deckSections = getContentSections("tarot_deck", selectedDeck.id);
   const deckStory = getTarotDeckStory(selectedDeck.id);
   const deckPromptExamples = localizedList(deckStory.prompts, language);
-  const deckExperience = getDeckExperience(selectedDeck.id, language, selectedDeck.accessTier);
+  const deckExperience = getDeckExperience(selectedDeck.id, language, effectiveContentTier(selectedDeck.accessTier));
   const deckDetailTraits = [
     { label: c.deckBestFor, value: deckThemes, icon: "sparkles-outline" as const },
     { label: c.deckVisualMood, value: localizedText(selectedDeck.visualDirection, language), icon: "color-palette-outline" as const },
@@ -8141,7 +8203,7 @@ export function TarotFlow({
             <ResponsiveGrid minItemWidth={280} style={styles.editorialDeckStack}>
               {editorialDecks.map((deck) => {
                 const selected = deck.id === selectedDeckId;
-                const isFreeDeck = deck.accessTier === "free";
+                const isFreeDeck = effectiveContentTier(deck.accessTier) === "free";
                 return (
                   <Pressable
                     key={deck.id}
@@ -8188,7 +8250,7 @@ export function TarotFlow({
           <View>
             <View style={styles.deckDetailHero}>
               <View style={styles.deckDetailHeroCopy}>
-                <Text style={styles.deckDetailAccess}>{selectedDeck.accessTier === "free" ? (language === "vi" ? "Miễn phí" : "Free") : "Premium"}</Text>
+                <Text style={styles.deckDetailAccess}>{effectiveContentTier(selectedDeck.accessTier) === "free" ? (language === "vi" ? "Miễn phí" : "Free") : "Premium"}</Text>
                 <Text style={styles.deckDetailTitle}>{localizedText(selectedDeck.name, language)}</Text>
                 <Text style={styles.deckDetailSubtitle}>{localizedText(selectedDeck.shortDescription, language)}</Text>
               </View>
@@ -8233,7 +8295,7 @@ export function TarotFlow({
             <View style={styles.deckExperiencePanel}>
               <View style={styles.deckExperienceHeader}>
                 <View style={styles.deckExperienceIcon}>
-                  <Ionicons name={selectedDeck.accessTier === "free" ? "sparkles-outline" : "diamond-outline"} size={18} color={colors.gold} />
+                  <Ionicons name={effectiveContentTier(selectedDeck.accessTier) === "free" ? "sparkles-outline" : "diamond-outline"} size={18} color={colors.gold} />
                 </View>
                 <View style={styles.flex}>
                   <Text style={styles.deckStoryKicker}>{deckExperience.label}</Text>
@@ -8981,7 +9043,7 @@ function AstrologyFlow({
                     <Ionicons name="journal-outline" size={16} color={colors.gold} />
                     <View style={styles.flex}>
                       <Text style={styles.zodiacRecentTitle}>{entry.title}</Text>
-                      <Text style={styles.zodiacRecentMeta}>{new Date(entry.createdAt).toLocaleDateString()}</Text>
+                      <Text style={styles.zodiacRecentMeta}>{formatLocalDate(entry.createdAt, language)}</Text>
                     </View>
                   </View>
                 ))}
@@ -9164,9 +9226,9 @@ function AstrologyPlacementCard({ icon, label, value }: { icon: keyof typeof Ion
 
 function journalSourceLabel(sourceType: JournalEntry["sourceType"], language: Language) {
   const labels: Record<JournalEntry["sourceType"], { vi: string; en: string }> = {
-    astrology: { vi: "Astrology", en: "Astrology" },
-    chat: { vi: "Chat guide", en: "Chat guide" },
-    daily: { vi: "Daily insight", en: "Daily insight" },
+    astrology: { vi: "Chiêm tinh", en: "Astrology" },
+    chat: { vi: "Trò chuyện", en: "Chat guide" },
+    daily: { vi: "Hôm nay", en: "Daily insight" },
     tarot: { vi: "Tarot", en: "Tarot" },
     share_card: { vi: "Chia sẻ", en: "Share card" },
     manual: { vi: "Ghi chú", en: "Note" }
@@ -9192,7 +9254,10 @@ function JournalScreen({
   onOpenSource,
   canOpenSource,
   onTarot,
-  onUpdate
+  onUpdate,
+  onComposingChange,
+  composePrompt,
+  onComposeDone
 }: {
   c: Copy;
   draftStore: JournalDraftStore;
@@ -9207,6 +9272,9 @@ function JournalScreen({
   canOpenSource?: (entry: JournalEntry) => boolean;
   onTarot: () => void;
   onUpdate: (id: string, patch: Partial<Pick<JournalEntry, "mood" | "userNote">>) => void;
+  onComposingChange?: (composing: boolean) => void;
+  composePrompt?: string | null;
+  onComposeDone?: () => void;
 }) {
   const filters = ["All", "Tarot", "Chat", "Astrology", "Notes"];
   const journalLayout = useAdaptiveLayout();
@@ -9216,7 +9284,16 @@ function JournalScreen({
   const [draftNote, setDraftNote] = useState(entries.find(item => item.id === initialSelectedEntryId)?.userNote ?? "");
   const [journalSearchOpen, setJournalSearchOpen] = useState(false);
   const [journalSearchText, setJournalSearchText] = useState("");
-  const [composing, setComposing] = useState(false);
+  // Keep the Home prompt for this visit only; the parent clears it so a later visit opens the list.
+  const [prompt] = useState(composePrompt ?? undefined);
+  const [composing, setComposing] = useState(Boolean(prompt));
+  useEffect(() => {
+    if (prompt) onComposeDone?.();
+  }, []);
+  useEffect(() => {
+    onComposingChange?.(composing);
+    return () => onComposingChange?.(false);
+  }, [composing, onComposingChange]);
   const selectedEntry = entries.find((entry) => entry.id === selectedEntryId) ?? null;
   const journalSearchQuery = journalSearchText.trim();
   const visibleEntries = entries.filter((entry) => {
@@ -9238,7 +9315,8 @@ function JournalScreen({
     return normalizeSearchString(searchable).includes(normalizeSearchString(journalSearchQuery));
   });
 
-  if (composing) return <JournalComposer language={language} draftStore={draftStore} onSave={onCreateNote} onClose={() => setComposing(false)} />;
+  if (composing) return <JournalComposer language={language} draftStore={draftStore} prompt={prompt} onSave={onCreateNote}
+    onClose={() => setComposing(false)} />;
 
   if (selectedEntry) {
     const openSource = () => onOpenSource?.(selectedEntry);
@@ -9258,7 +9336,7 @@ function JournalScreen({
         <View style={styles.journalDetailHero}>
           <Text style={styles.resultBadge}>{journalSourceLabel(selectedEntry.sourceType, language)}</Text>
           <Text style={styles.personaDetailTitle}>{selectedEntry.title}</Text>
-          <Text style={styles.disclaimer}>{new Date(selectedEntry.createdAt).toLocaleString()}</Text>
+          <Text style={styles.disclaimer}>{formatLocalDateTime(selectedEntry.createdAt, language)}</Text>
           <Text style={styles.personaDetailBody}>{selectedEntry.sourceType === "manual" ? selectedEntry.userNote ?? selectedEntry.summary : selectedEntry.summary}</Text>
           <StatusLine label={language === "vi" ? "Lưu trữ" : "Storage"}
             status={selectedEntry.syncStatus === "synced" ? (language === "vi" ? "Đã đồng bộ" : "Synced") : (language === "vi" ? "Đã lưu trên máy" : "Saved on device")}
@@ -9521,7 +9599,7 @@ function ProfileScreen({
           preferences: "Cá nhân hóa",
           goalsHint: "Chọn các chủ đề bạn muốn Nilaza ưu tiên.",
           toneHint: "Chọn nhịp trả lời phù hợp với tâm trạng hiện tại.",
-          subscription: "Gói Premium & lượt dùng",
+          subscription: FREE_LAUNCH ? "Lượt dùng hôm nay" : "Gói Premium & lượt dùng",
           privacySection: "Riêng tư & dữ liệu",
           privacyBody: onlineSyncAvailable
             ? "Dữ liệu có bản lưu trên thiết bị. Hồ sơ và các lịch sử được hỗ trợ có thể đồng bộ với tài khoản; từng mục Nhật ký cho biết đã đồng bộ hay còn lưu trên máy. Bản đồ chiêm tinh được tính trên thiết bị; chỉ gửi dữ kiện và câu hỏi cho Astrology AI sau khi bạn đồng ý. Đăng xuất không xóa tài khoản trên máy chủ."
@@ -9558,7 +9636,7 @@ function ProfileScreen({
           preferences: "Personalization",
           goalsHint: "Choose what you want Nilaza to prioritize.",
           toneHint: "Choose the response style that fits your current mood.",
-          subscription: "Premium & credits",
+          subscription: FREE_LAUNCH ? "Today's usage" : "Premium & credits",
           privacySection: "Privacy & data",
           privacyBody: onlineSyncAvailable
             ? "Data has an on-device copy. Supported profile and history data can sync with your account; each journal entry shows whether it is synced or saved locally. Charts are calculated on device; Astrology AI receives facts and your question only after consent. Signing out does not delete your server account."
@@ -9841,7 +9919,7 @@ function ProfileScreen({
               >
                 <Text style={styles.notificationPreferenceTitle}>{localizedText(notification.title, language)}</Text>
                 <Text style={styles.notificationPreferenceBody}>{localizedText(notification.body, language)}</Text>
-                <Text style={styles.sourcePath}>{new Date(notification.createdAt).toLocaleString()}</Text>
+                <Text style={styles.sourcePath}>{formatLocalDateTime(notification.createdAt, language)}</Text>
               </Pressable>
               <View style={styles.notificationInboxActions}>
                 <Pressable accessibilityLabel={language === "vi" ? "Mở nội dung" : "Open content"} accessibilityRole="button" style={styles.notificationIconAction} onPress={() => onOpenNotification(notification)}>
@@ -9865,11 +9943,11 @@ function ProfileScreen({
         <View style={styles.profileSectionHeader}>
           <View style={styles.profileHeaderCopy}>
             <Text style={styles.profileSectionEyebrow}>{profileLabels.subscription}</Text>
-            <Text style={styles.premiumTitle}>+ {c.premium}</Text>
+            {FREE_LAUNCH ? null : <Text style={styles.premiumTitle}>+ {c.premium}</Text>}
           </View>
-          <StatusChip label={c.premiumPreview} tone="warn" />
+          {FREE_LAUNCH ? null : <StatusChip label={c.premiumPreview} tone="warn" />}
         </View>
-        <Text style={styles.cardDescription}>{c.freeExperience}</Text>
+        {FREE_LAUNCH ? null : <Text style={styles.cardDescription}>{c.freeExperience}</Text>}
         <Text style={styles.disclaimer}>{c.freeCreditsReset}</Text>
         {isOwner ? (
           <View style={styles.ownerTierPreviewCard}>
@@ -9951,7 +10029,7 @@ function ProfileScreen({
               </View>
             ))}
           </View>
-        ) : (
+        ) : FREE_LAUNCH ? null : (
           <View style={styles.premiumUnavailable}>
             <Text style={styles.premiumUnavailableTitle}>
               {language === "vi" ? "Premium chưa mở bán" : "Premium is not available yet"}
@@ -10548,7 +10626,7 @@ function PersonaCard({ featured, persona, language, onPress }: { featured?: bool
         >
           <View style={styles.rowBetween}>
             <Text style={styles.cardTitle}>{name}</Text>
-            <Text style={styles.badge}>{persona.accessTier}</Text>
+            {effectiveContentTier(persona.accessTier) === "free" ? null : <Text style={styles.badge}>Premium</Text>}
           </View>
           <Text style={styles.cardRole}>{role}</Text>
           <Text style={styles.personaSignature}>{signature}</Text>
@@ -10667,7 +10745,7 @@ function DeckCard({ deck, imageSource, language, selected, onPress }: { deck: Ta
   const vibe = localizedText(deck.vibe, language);
   const description = localizedText(deck.shortDescription, language);
   const actionLabel = language === "vi" ? "Tìm hiểu trước khi rút" : "Learn before drawing";
-  const tierLabel = deck.accessTier === "free" ? (language === "vi" ? "Miễn phí" : "Free") : "Premium";
+  const tierLabel = effectiveContentTier(deck.accessTier) === "free" ? (language === "vi" ? "Miễn phí" : "Free") : "Premium";
 
   return (
     <Pressable
@@ -10805,7 +10883,7 @@ function JournalCard({ entry, language, onPress }: { entry: JournalEntry; langua
         {entry.mood && <StatusChip label={moodLabel(entry.mood, language)} tone="neutral" />}
         {entry.userNote?.trim() ? <StatusChip label={language === "vi" ? "Có ghi chú" : "Note added"} tone="good" /> : null}
       </View>
-      <Text style={styles.muted}>{new Date(entry.createdAt).toLocaleString()}</Text>
+      <Text style={styles.muted}>{formatLocalDateTime(entry.createdAt, language)}</Text>
     </Pressable>
   );
 }

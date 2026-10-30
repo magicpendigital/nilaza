@@ -57,7 +57,9 @@ export const layout = {
 
 export const radius = {
   card: 8,
-  control: 8
+  control: 8,
+  // Buttons, single-line inputs and chips (Owner decision 2026-10-30); cards stay at 8.
+  pill: 999
 };
 
 export const typography = {

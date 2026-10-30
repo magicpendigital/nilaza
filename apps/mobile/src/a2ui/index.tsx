@@ -759,7 +759,7 @@ const styles = StyleSheet.create({
   primaryButton: {
     alignItems: "center",
     backgroundColor: colors.ivory,
-    borderRadius: radius.control,
+    borderRadius: radius.pill,
     marginTop: spacing.lg,
     minHeight: 64,
     justifyContent: "center",
@@ -775,7 +775,7 @@ const styles = StyleSheet.create({
   ritualButton: {
     alignItems: "center",
     backgroundColor: colors.gold,
-    borderRadius: radius.control,
+    borderRadius: radius.pill,
     flexDirection: "row",
     gap: spacing.xs,
     justifyContent: "center",
@@ -794,7 +794,7 @@ const styles = StyleSheet.create({
   secondaryButton: {
     alignItems: "center",
     borderColor: colors.gold,
-    borderRadius: radius.control,
+    borderRadius: radius.pill,
     borderWidth: 1,
     marginTop: spacing.md,
     minHeight: 48,
@@ -808,7 +808,7 @@ const styles = StyleSheet.create({
   chip: {
     alignItems: "center",
     borderColor: colors.border,
-    borderRadius: radius.control,
+    borderRadius: radius.pill,
     borderWidth: 1,
     justifyContent: "center",
     minHeight: layout.minimumTouchTarget,

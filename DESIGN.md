@@ -70,7 +70,7 @@ Typography:
 Shape:
 
 - Cards and panels should use 8px radius or less.
-- Buttons can be softly rounded but should not look pill-shaped everywhere.
+- Buttons, single-line inputs and chips use a full pill radius (Owner decision 2026-10-30, `radius.pill`); multi-line inputs, panels and cards keep 8px or less.
 - Use clear icon buttons for repeated actions such as save, share, close, back, search, and settings.
 
 Imagery:
@@ -160,7 +160,7 @@ Keep the existing tone choice and editing controls. No extra onboarding step and
 
 ### 5. Home — “Hôm nay” (Owner-approved 2026-10-27)
 
-Date and local moon phase → greeting → Today card hero on the dedicated Home artwork with the primary “Lật lá hôm nay” / “Xem lại lá hôm nay” and the existing streak. This reveals/reopens existing Today Pulse, with no new AI session or charge; after reveal the card screen ends in Save to Journal, Ask deeper (existing tarot-card guide chat) and Share (card and library meaning only). Below: a sky tile (moon phase) and a sign tile that opens Astrology; an “Hỏi Nilaza” field that only prefills Oracle; one suggestion row from the first onboarding goal; Recent with an Open Journal link. Cards keep the 8 px radius. Continue/recent items use existing data. Discovery remains reachable through Explore/Chat: decks, library, guides, Council, astrology. Keep five tabs and Tarot as a subflow. Implementation/verification evidence lives in `docs/BRAND_ROLLOUT_2026-09-11.md`.
+Header with the wordmark and a round notification button → date and local moon phase → greeting and a time-of-day line → Today card hero on a solid surface with a gold hairline, two stacked card backs, the primary “Lật lá hôm nay” / “Xem lại lá hôm nay” and the streak dots inside the hero (design canvas, Owner-approved 2026-10-30). This reveals/reopens existing Today Pulse, with no new AI session or charge; after reveal the card screen ends in Save to Journal, Ask deeper (existing tarot-card guide chat) and Share (card and library meaning only). Below: a sky tile (moon phase) and a sign tile with the sign artwork that opens Astrology; an “Hỏi Nilaza” field that only prefills Oracle; “Dành cho bạn · {chủ đề}” with “Đổi chủ đề” cycling love, career and self locally (starting from the first onboarding goal) and a rail of a topic tarot reading, an ask card that only prefills Oracle, and a journal prompt that opens the composer; “Đọc tiếp” with the newest saved entry (card thumbnails for saved readings) and an Open Journal link. No compatibility card until that feature exists. Cards keep the 8 px radius. Continue/recent items use existing data. Discovery remains reachable through Explore/Chat: decks, library, guides, Council, astrology. Keep five tabs (Hôm nay, Khám phá, Trò chuyện, Nhật ký, Tôi) and Tarot as a subflow. Implementation/verification evidence lives in `docs/BRAND_ROLLOUT_2026-09-11.md`.
 
 ### 6. Explore
 

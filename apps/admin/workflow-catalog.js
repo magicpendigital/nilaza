@@ -280,7 +280,7 @@
   },
   {
     "path": "apps/mobile/App.tsx",
-    "sha256": "9363c62b03b7339c0fe8ff6fe39ecd761c8110125db8426323f42a6cbfb22a95"
+    "sha256": "aebeb3342ba6448ebdf5442544b433c6e2e3b16106395187bb491fdb7f12d62a"
   },
   {
     "path": "docs/FEATURE_PRD.md",
@@ -308,7 +308,7 @@
   },
   {
     "path": "packages/content/data/tarot-cards.json",
-    "sha256": "e926472eeda71a637a8554e6465f14200ef9873e94a8a9e12611aa765968561f"
+    "sha256": "dadfbeb7b9bc11d27d95534897f55b76ed3914d7b1657febf2c26a90f3560dfd"
   },
   {
     "path": "supabase/functions/_shared/ai-request-guard.ts",

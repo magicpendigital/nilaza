@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 1,
+  "taskId": "free-launch-slice-2026-10-30",
+  "ownerAgent": "mobile_free_launch_ux_agent",
+  "lane": "mobile_free_launch_access_and_polish",
+  "goal": "Make the first free Google Play build stop selling what does not exist: open the guides and decks marked premium-preview to every account, remove Premium upsell copy and dead Upgrade buttons, show dates in the user's language, and keep the floating Oracle launcher off the Journal composer.",
+  "successCriteria": [
+    "A free account can open and chat with every guide and draw with every deck that is marked premium-preview; no Upgrade button, Premium lock panel or premium-preview badge is shown to that account.",
+    "Astrology AI keeps its existing server-side Premium entitlement and client gate unchanged; content marked premium (none today) stays locked.",
+    "The Profile usage section is titled as today's usage, shows no Premium marketing or broken title, and its copy no longer promises that Premium unlocks more readings; the owner tier preview tools stay available to owners.",
+    "Journal entries, Journal detail, Council session and zodiac history dates render with the app language locale (for Vietnamese: 28/10/2026 00:49), not the browser or device default.",
+    "The floating Oracle launcher is hidden while the Journal composer is open, so it no longer covers Save.",
+    "npm --workspace apps/mobile run check and the mobile Jest suite pass, and a 390x844 web walkthrough confirms a premium-preview guide opens chat and a premium-preview deck can be drawn."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/owner/tierPreview.ts",
+    "apps/mobile/src/features/owner/__tests__/tierPreview.test.ts",
+    "apps/mobile/src/features/council/useAiCouncilRoom.ts",
+    "apps/mobile/src/i18n.ts",
+    "apps/mobile/src/__tests__/i18n.test.ts"
+  ],
+  "untouchedSurfaces": [
+    "The local daily tarot reading limit (3) and the server AI quota policy (1 AI one-card reading per day) are not changed; aligning them is an Owner product decision reported separately.",
+    "Astrology AI entitlement, backend functions, Supabase schema, credits ledger and Admin are unchanged.",
+    "Seed data keeps accessTier values so a later paid release can re-enable locks by flipping one constant; persona and deck content, artwork and brand assets are unchanged.",
+    "Admin and owner diagnostic screens keep their raw tier labels and existing timestamp format."
+  ],
+  "impact": {
+    "entryPoint": "Explore deck rail and deck chooser, Chat guide list and guide detail, Council invite list, Profile usage section, Journal tab and composer.",
+    "dataWrite": "No new data or storage keys. Readings with former preview decks and chats with former preview guides write the same local Journal and message shapes as free ones.",
+    "backendContract": "No endpoint or payload change. Persona chat and tarot endpoints do not check content tiers today; Astrology AI keeps premium_astrology_ai entitlement on the server.",
+    "canonicalContract": "accessTier in packages/content/data and apps/mobile/src/types.ts stays the source of truth; apps/mobile/src/features/owner/tierPreview.ts becomes the single place that maps premium-preview to free while FREE_LAUNCH is true.",
+    "adminVisibility": "No Admin change; Admin still lists raw tiers so operators see which content will lock again when purchases exist.",
+    "privacySafety": "No new data collection. Removing Upgrade buttons that did nothing avoids a store-review risk of advertising unavailable purchases.",
+    "observability": "The premium_deck_preview event stops firing for preview decks because they are no longer blocked; other events unchanged.",
+    "rollback": "Set FREE_LAUNCH to false or revert the commit to restore the previous locks and copy; no data migration is involved.",
+    "surfacesIntentionallyUntouched": "Daily quota numbers, Astrology AI gate, backend, Admin and content data were reviewed and left unchanged.",
+    "agentHandoff": "The delivery agent owns only the writeScope, uses a local test account, runs type check, Jest and a web walkthrough, and stops before commit, push, backend, release or account actions unless the Owner asks."
+  },
+  "canonicalContracts": [
+    "Owner decision 2026-10-23 recorded in docs/HANDOFF_CURRENT_STATE.vi.md: the first Play release is free and sells no Premium.",
+    "apps/mobile/src/features/owner/tierPreview.ts canViewContentTier is the only client gate for content tiers.",
+    "packages/agent-config/ai-usage-policy.json freeDaily defines AI quotas and is not changed here."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa",
+      "reason": "Guardrails, MVP scope and Premium/credits foundation reviewed."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Mobile UI route and validation commands."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Whole-App impact brief and mobile validation matrix applied."
+    },
+    {
+      "path": "docs/HANDOFF_CURRENT_STATE.vi.md",
+      "sha256": "10a192f1456d3032e0fabe5806249014dd1037681d4b37f114c269351c601bf6",
+      "reason": "Owner decisions: free first release, quotas, Council and Astrology AI in the Play build."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "aebeb3342ba6448ebdf5442544b433c6e2e3b16106395187bb491fdb7f12d62a",
+      "reason": "Every canViewContentTier call, tier badges, Premium profile section, credit copy, timestamp renders and the Oracle launcher condition reviewed. Re-reviewed after implementation on 2026-10-30; this hash is the implemented state. Re-hashed after the stacked Home slice (home-finish-2026-10-30) changed this file in the same PR."
+    },
+    {
+      "path": "apps/mobile/src/features/owner/tierPreview.ts",
+      "sha256": "de015e35b93fadf63d75f034ba9b06c74f898d03b8d27e263357d9ce7d5dd532",
+      "reason": "Content tier gate and owner tier preview. Re-reviewed after implementation on 2026-10-30; this hash is the implemented state."
+    },
+    {
+      "path": "apps/mobile/src/features/owner/__tests__/tierPreview.test.ts",
+      "sha256": "cf056755ae726e55854146f99f77f6b028a2d5ca503c0a0b44967ebdbbacc36a",
+      "reason": "Existing gate expectations that change for premium-preview during the free launch. Re-reviewed after implementation on 2026-10-30; this hash is the implemented state."
+    },
+    {
+      "path": "apps/mobile/src/features/council/useAiCouncilRoom.ts",
+      "sha256": "58eaaad9a3e90b08800ed84db660b4aed3fefa2beeee07020f090c089f572e9f",
+      "reason": "Council invite list filters to free personas only. Re-reviewed after implementation on 2026-10-30; this hash is the implemented state."
+    },
+    {
+      "path": "apps/mobile/src/i18n.ts",
+      "sha256": "20ce0f1ba6cd42a71a9e1aab811146a5d65f71830925631b4f6310dee380c182",
+      "reason": "Shared locale helpers where the date formatter is added. Re-reviewed after implementation on 2026-10-30; this hash is the implemented state. Re-hashed after the stacked Home slice (home-finish-2026-10-30) changed this file in the same PR."
+    },
+    {
+      "path": "packages/agent-config/ai-usage-policy.json",
+      "sha256": "a6e80a226c60abf001345ce21b97874eb484f0f769897aea8ab3bdca61d950de",
+      "reason": "Approved AI quotas (1 AI one-card tarot per day) compared with the local 3-reading limit."
+    },
+    {
+      "path": "supabase/functions/ai-astrology-insight/index.ts",
+      "sha256": "cfa6a540d58abd382507d4bad5e3180703ead2102f74511e0bc6e4368253774b",
+      "reason": "Confirms the only server Premium entitlement is Astrology AI; persona chat and tarot do not check content tiers."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Preflight, impact brief, stop conditions and validation applied as written; no new durable workflow rule."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses only the installed JavaScript Intl date API already used elsewhere in the app and repository contracts."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No server authorization change; the client gate only controls display, and the server never checked tiers for persona chat or tarot. Astrology AI entitlement is untouched.",
+    "sensitiveData": "No new data collected or shared; dates are formatted locally.",
+    "secretsLogging": "No credentials or keys touched; no new logs.",
+    "externalInput": "No new user input surfaces.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration, deploy or release.",
+    "stopCondition": "Stop if opening preview content would require a backend entitlement change, if Astrology AI gating changes, or if checks fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/__tests__/i18n.test.ts",
+      "apps/mobile/src/features/council/useAiCouncilRoom.ts",
+      "apps/mobile/src/features/owner/__tests__/tierPreview.test.ts",
+      "apps/mobile/src/features/owner/tierPreview.ts",
+      "apps/mobile/src/i18n.ts",
+      "docs/feature-plans/free-launch-slice-2026-10-30.json"
+    ],
+    "note": "Work happens in the separate worktree on branch feat/free-launch-slice-2026-10-30 from origin/main 36eee45. The Profile usage section also hides the Premium not-for-sale notice while FREE_LAUNCH is true."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/free-launch-slice-2026-10-30.json",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand",
+    "npm run validate:data",
+    "Web walkthrough at 390x844: Marcus Aurelius opens chat, Golden Thread can be drawn, Profile usage section, Journal dates and composer."
+  ],
+  "managerTestPath": "Sign in with a test account. In Trò chuyện open Marcus Aurelius: the button says Bắt đầu chat, not Nâng cấp. In Tarot choose Golden Thread and draw. In Hồ sơ open Lượt dùng hôm nay: no Premium advert. Write a Journal note: the Oracle button does not cover Lưu, and the saved entry shows a Vietnamese date.",
+  "residualRisk": "Native Android date rendering depends on the device Intl data (Hermes); the 3 vs 1 daily tarot limit still needs an Owner decision; locks return only by flipping FREE_LAUNCH when purchases exist.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
