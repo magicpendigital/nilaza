@@ -68,7 +68,7 @@
     {
       "path": "DESIGN.md",
       "reason": "Brand shape and type rules for the new screen.",
-      "sha256": "170330f307d7314fc476e9df7ce814348cb62b50916a7df3416f6322b3b1ea9f"
+      "sha256": "ceb8704a4af1ce37d8ba564c8e65d4cf2eba8624dbc7b5966f0a293baceaf09a"
     },
     {
       "path": "docs/TAROT_CONTENT_SYSTEM.md",
@@ -88,7 +88,7 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Card meaning stage and its top bar.",
-      "sha256": "2c74e1c445eb8ffa6870c190f18b9338b0f2336bb5d6eb874c120cc59fc8a67e"
+      "sha256": "7bf2d6d0f2545af373c3505f3a7b11b852e48c3872d7b7ef13f9b87a5d261892"
     },
     {
       "path": "apps/mobile/src/features/tarot/learning.ts",
@@ -135,20 +135,7 @@
   },
   "workingTreeReview": {
     "paths": [
-      "apps/admin/workflow-catalog.js",
-      "apps/mobile/App.tsx",
-      "apps/mobile/src/features/tarot/TarotCardGuide.tsx",
-      "apps/mobile/src/features/tarot/__tests__/cardGuide.test.tsx",
-      "apps/mobile/src/features/tarot/cardGuide.ts",
-      "docs/TAROT_CONTENT_SYSTEM.md",
-      "docs/content-review/tarot-astrology-correspondences.json",
-      "docs/content-review/tarot-learning-content-draft.md",
-      "docs/content-review/tarot-topic-meanings-major.json",
-      "docs/content-review/tarot-topic-meanings-swords-pentacles.json",
-      "docs/content-review/tarot-topic-meanings-wands-cups.json",
-      "docs/feature-plans/tarot-card-guide-2026-10-31.json",
-      "packages/content/data/tarot-card-guide.json",
-      "scripts/validate-data.mjs"
+      "docs/feature-plans/tarot-card-guide-2026-10-31.json"
     ],
     "note": "Worktree branch feat/tarot-slice-2026-10-31 from main fb714a4. tarot-card-guide.json was generated from the drafts just before this record."
   },
