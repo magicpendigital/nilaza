@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "sourceVersion": "762059452e95ffe73c38e1b47df62f8743108f40774829e0b7b0577134292f25",
+  "sourceVersion": "d6000a79f98f94df2272e9cc4af0e8de9b4b2655d88ee8ce861f8318466864cf",
   "sourcePaths": [
     "packages/content/data/personas-figures.json",
     "packages/content/data/personas-books.json",
@@ -1938,7 +1938,7 @@
       "rank": null,
       "element": "spirit",
       "name": {
-        "vi": "The Fool",
+        "vi": "Kẻ Khờ",
         "en": "The Fool"
       },
       "keywords": {
@@ -1982,7 +1982,7 @@
       "rank": null,
       "element": "spirit",
       "name": {
-        "vi": "The Magician",
+        "vi": "Nhà Ảo Thuật",
         "en": "The Magician"
       },
       "keywords": {
@@ -2026,7 +2026,7 @@
       "rank": null,
       "element": "spirit",
       "name": {
-        "vi": "The High Priestess",
+        "vi": "Nữ Tư Tế",
         "en": "The High Priestess"
       },
       "keywords": {
@@ -2070,7 +2070,7 @@
       "rank": null,
       "element": "spirit",
       "name": {
-        "vi": "The Empress",
+        "vi": "Hoàng Hậu",
         "en": "The Empress"
       },
       "keywords": {
@@ -2114,7 +2114,7 @@
       "rank": null,
       "element": "spirit",
       "name": {
-        "vi": "The Emperor",
+        "vi": "Hoàng Đế",
         "en": "The Emperor"
       },
       "keywords": {
@@ -2158,7 +2158,7 @@
       "rank": null,
       "element": "spirit",
       "name": {
-        "vi": "The Hierophant",
+        "vi": "Giáo Hoàng",
         "en": "The Hierophant"
       },
       "keywords": {
@@ -2202,7 +2202,7 @@
       "rank": null,
       "element": "spirit",
       "name": {
-        "vi": "The Lovers",
+        "vi": "Tình Nhân",
         "en": "The Lovers"
       },
       "keywords": {
@@ -2246,7 +2246,7 @@
       "rank": null,
       "element": "spirit",
       "name": {
-        "vi": "The Chariot",
+        "vi": "Cỗ Xe",
         "en": "The Chariot"
       },
       "keywords": {
@@ -2290,7 +2290,7 @@
       "rank": null,
       "element": "spirit",
       "name": {
-        "vi": "Strength",
+        "vi": "Sức Mạnh",
         "en": "Strength"
       },
       "keywords": {
@@ -2334,7 +2334,7 @@
       "rank": null,
       "element": "spirit",
       "name": {
-        "vi": "The Hermit",
+        "vi": "Ẩn Sĩ",
         "en": "The Hermit"
       },
       "keywords": {
@@ -2378,7 +2378,7 @@
       "rank": null,
       "element": "spirit",
       "name": {
-        "vi": "Wheel of Fortune",
+        "vi": "Bánh Xe Số Phận",
         "en": "Wheel of Fortune"
       },
       "keywords": {
@@ -2422,7 +2422,7 @@
       "rank": null,
       "element": "spirit",
       "name": {
-        "vi": "Justice",
+        "vi": "Công Lý",
         "en": "Justice"
       },
       "keywords": {
@@ -2466,7 +2466,7 @@
       "rank": null,
       "element": "spirit",
       "name": {
-        "vi": "The Hanged Man",
+        "vi": "Người Treo Ngược",
         "en": "The Hanged Man"
       },
       "keywords": {
@@ -2510,7 +2510,7 @@
       "rank": null,
       "element": "spirit",
       "name": {
-        "vi": "Death",
+        "vi": "Cái Chết",
         "en": "Death"
       },
       "keywords": {
@@ -2554,7 +2554,7 @@
       "rank": null,
       "element": "spirit",
       "name": {
-        "vi": "Temperance",
+        "vi": "Tiết Chế",
         "en": "Temperance"
       },
       "keywords": {
@@ -2598,7 +2598,7 @@
       "rank": null,
       "element": "spirit",
       "name": {
-        "vi": "The Devil",
+        "vi": "Ác Quỷ",
         "en": "The Devil"
       },
       "keywords": {
@@ -2642,7 +2642,7 @@
       "rank": null,
       "element": "spirit",
       "name": {
-        "vi": "The Tower",
+        "vi": "Tòa Tháp",
         "en": "The Tower"
       },
       "keywords": {
@@ -2686,7 +2686,7 @@
       "rank": null,
       "element": "spirit",
       "name": {
-        "vi": "The Star",
+        "vi": "Ngôi Sao",
         "en": "The Star"
       },
       "keywords": {
@@ -2730,7 +2730,7 @@
       "rank": null,
       "element": "spirit",
       "name": {
-        "vi": "The Moon",
+        "vi": "Mặt Trăng",
         "en": "The Moon"
       },
       "keywords": {
@@ -2774,7 +2774,7 @@
       "rank": null,
       "element": "spirit",
       "name": {
-        "vi": "The Sun",
+        "vi": "Mặt Trời",
         "en": "The Sun"
       },
       "keywords": {
@@ -2818,7 +2818,7 @@
       "rank": null,
       "element": "spirit",
       "name": {
-        "vi": "Judgement",
+        "vi": "Phán Xét",
         "en": "Judgement"
       },
       "keywords": {
@@ -2862,7 +2862,7 @@
       "rank": null,
       "element": "spirit",
       "name": {
-        "vi": "The World",
+        "vi": "Thế Giới",
         "en": "The World"
       },
       "keywords": {
@@ -2906,7 +2906,7 @@
       "rank": "ace",
       "element": "fire",
       "name": {
-        "vi": "Ace of Wands",
+        "vi": "Át Gậy",
         "en": "Ace of Wands"
       },
       "keywords": {
@@ -2950,7 +2950,7 @@
       "rank": "two",
       "element": "fire",
       "name": {
-        "vi": "Two of Wands",
+        "vi": "Hai Gậy",
         "en": "Two of Wands"
       },
       "keywords": {
@@ -2994,7 +2994,7 @@
       "rank": "three",
       "element": "fire",
       "name": {
-        "vi": "Three of Wands",
+        "vi": "Ba Gậy",
         "en": "Three of Wands"
       },
       "keywords": {
@@ -3038,7 +3038,7 @@
       "rank": "four",
       "element": "fire",
       "name": {
-        "vi": "Four of Wands",
+        "vi": "Bốn Gậy",
         "en": "Four of Wands"
       },
       "keywords": {
@@ -3082,7 +3082,7 @@
       "rank": "five",
       "element": "fire",
       "name": {
-        "vi": "Five of Wands",
+        "vi": "Năm Gậy",
         "en": "Five of Wands"
       },
       "keywords": {
@@ -3126,7 +3126,7 @@
       "rank": "six",
       "element": "fire",
       "name": {
-        "vi": "Six of Wands",
+        "vi": "Sáu Gậy",
         "en": "Six of Wands"
       },
       "keywords": {
@@ -3170,7 +3170,7 @@
       "rank": "seven",
       "element": "fire",
       "name": {
-        "vi": "Seven of Wands",
+        "vi": "Bảy Gậy",
         "en": "Seven of Wands"
       },
       "keywords": {
@@ -3214,7 +3214,7 @@
       "rank": "eight",
       "element": "fire",
       "name": {
-        "vi": "Eight of Wands",
+        "vi": "Tám Gậy",
         "en": "Eight of Wands"
       },
       "keywords": {
@@ -3258,7 +3258,7 @@
       "rank": "nine",
       "element": "fire",
       "name": {
-        "vi": "Nine of Wands",
+        "vi": "Chín Gậy",
         "en": "Nine of Wands"
       },
       "keywords": {
@@ -3302,7 +3302,7 @@
       "rank": "ten",
       "element": "fire",
       "name": {
-        "vi": "Ten of Wands",
+        "vi": "Mười Gậy",
         "en": "Ten of Wands"
       },
       "keywords": {
@@ -3346,7 +3346,7 @@
       "rank": "page",
       "element": "fire",
       "name": {
-        "vi": "Page of Wands",
+        "vi": "Tiểu Đồng Gậy",
         "en": "Page of Wands"
       },
       "keywords": {
@@ -3390,7 +3390,7 @@
       "rank": "knight",
       "element": "fire",
       "name": {
-        "vi": "Knight of Wands",
+        "vi": "Hiệp Sĩ Gậy",
         "en": "Knight of Wands"
       },
       "keywords": {
@@ -3434,7 +3434,7 @@
       "rank": "queen",
       "element": "fire",
       "name": {
-        "vi": "Queen of Wands",
+        "vi": "Nữ Hoàng Gậy",
         "en": "Queen of Wands"
       },
       "keywords": {
@@ -3478,7 +3478,7 @@
       "rank": "king",
       "element": "fire",
       "name": {
-        "vi": "King of Wands",
+        "vi": "Vua Gậy",
         "en": "King of Wands"
       },
       "keywords": {
@@ -3522,7 +3522,7 @@
       "rank": "ace",
       "element": "water",
       "name": {
-        "vi": "Ace of Cups",
+        "vi": "Át Cốc",
         "en": "Ace of Cups"
       },
       "keywords": {
@@ -3566,7 +3566,7 @@
       "rank": "two",
       "element": "water",
       "name": {
-        "vi": "Two of Cups",
+        "vi": "Hai Cốc",
         "en": "Two of Cups"
       },
       "keywords": {
@@ -3610,7 +3610,7 @@
       "rank": "three",
       "element": "water",
       "name": {
-        "vi": "Three of Cups",
+        "vi": "Ba Cốc",
         "en": "Three of Cups"
       },
       "keywords": {
@@ -3654,7 +3654,7 @@
       "rank": "four",
       "element": "water",
       "name": {
-        "vi": "Four of Cups",
+        "vi": "Bốn Cốc",
         "en": "Four of Cups"
       },
       "keywords": {
@@ -3698,7 +3698,7 @@
       "rank": "five",
       "element": "water",
       "name": {
-        "vi": "Five of Cups",
+        "vi": "Năm Cốc",
         "en": "Five of Cups"
       },
       "keywords": {
@@ -3742,7 +3742,7 @@
       "rank": "six",
       "element": "water",
       "name": {
-        "vi": "Six of Cups",
+        "vi": "Sáu Cốc",
         "en": "Six of Cups"
       },
       "keywords": {
@@ -3786,7 +3786,7 @@
       "rank": "seven",
       "element": "water",
       "name": {
-        "vi": "Seven of Cups",
+        "vi": "Bảy Cốc",
         "en": "Seven of Cups"
       },
       "keywords": {
@@ -3830,7 +3830,7 @@
       "rank": "eight",
       "element": "water",
       "name": {
-        "vi": "Eight of Cups",
+        "vi": "Tám Cốc",
         "en": "Eight of Cups"
       },
       "keywords": {
@@ -3874,7 +3874,7 @@
       "rank": "nine",
       "element": "water",
       "name": {
-        "vi": "Nine of Cups",
+        "vi": "Chín Cốc",
         "en": "Nine of Cups"
       },
       "keywords": {
@@ -3918,7 +3918,7 @@
       "rank": "ten",
       "element": "water",
       "name": {
-        "vi": "Ten of Cups",
+        "vi": "Mười Cốc",
         "en": "Ten of Cups"
       },
       "keywords": {
@@ -3962,7 +3962,7 @@
       "rank": "page",
       "element": "water",
       "name": {
-        "vi": "Page of Cups",
+        "vi": "Tiểu Đồng Cốc",
         "en": "Page of Cups"
       },
       "keywords": {
@@ -4006,7 +4006,7 @@
       "rank": "knight",
       "element": "water",
       "name": {
-        "vi": "Knight of Cups",
+        "vi": "Hiệp Sĩ Cốc",
         "en": "Knight of Cups"
       },
       "keywords": {
@@ -4050,7 +4050,7 @@
       "rank": "queen",
       "element": "water",
       "name": {
-        "vi": "Queen of Cups",
+        "vi": "Nữ Hoàng Cốc",
         "en": "Queen of Cups"
       },
       "keywords": {
@@ -4094,7 +4094,7 @@
       "rank": "king",
       "element": "water",
       "name": {
-        "vi": "King of Cups",
+        "vi": "Vua Cốc",
         "en": "King of Cups"
       },
       "keywords": {
@@ -4138,7 +4138,7 @@
       "rank": "ace",
       "element": "air",
       "name": {
-        "vi": "Ace of Swords",
+        "vi": "Át Kiếm",
         "en": "Ace of Swords"
       },
       "keywords": {
@@ -4182,7 +4182,7 @@
       "rank": "two",
       "element": "air",
       "name": {
-        "vi": "Two of Swords",
+        "vi": "Hai Kiếm",
         "en": "Two of Swords"
       },
       "keywords": {
@@ -4226,7 +4226,7 @@
       "rank": "three",
       "element": "air",
       "name": {
-        "vi": "Three of Swords",
+        "vi": "Ba Kiếm",
         "en": "Three of Swords"
       },
       "keywords": {
@@ -4270,7 +4270,7 @@
       "rank": "four",
       "element": "air",
       "name": {
-        "vi": "Four of Swords",
+        "vi": "Bốn Kiếm",
         "en": "Four of Swords"
       },
       "keywords": {
@@ -4314,7 +4314,7 @@
       "rank": "five",
       "element": "air",
       "name": {
-        "vi": "Five of Swords",
+        "vi": "Năm Kiếm",
         "en": "Five of Swords"
       },
       "keywords": {
@@ -4358,7 +4358,7 @@
       "rank": "six",
       "element": "air",
       "name": {
-        "vi": "Six of Swords",
+        "vi": "Sáu Kiếm",
         "en": "Six of Swords"
       },
       "keywords": {
@@ -4402,7 +4402,7 @@
       "rank": "seven",
       "element": "air",
       "name": {
-        "vi": "Seven of Swords",
+        "vi": "Bảy Kiếm",
         "en": "Seven of Swords"
       },
       "keywords": {
@@ -4446,7 +4446,7 @@
       "rank": "eight",
       "element": "air",
       "name": {
-        "vi": "Eight of Swords",
+        "vi": "Tám Kiếm",
         "en": "Eight of Swords"
       },
       "keywords": {
@@ -4490,7 +4490,7 @@
       "rank": "nine",
       "element": "air",
       "name": {
-        "vi": "Nine of Swords",
+        "vi": "Chín Kiếm",
         "en": "Nine of Swords"
       },
       "keywords": {
@@ -4534,7 +4534,7 @@
       "rank": "ten",
       "element": "air",
       "name": {
-        "vi": "Ten of Swords",
+        "vi": "Mười Kiếm",
         "en": "Ten of Swords"
       },
       "keywords": {
@@ -4578,7 +4578,7 @@
       "rank": "page",
       "element": "air",
       "name": {
-        "vi": "Page of Swords",
+        "vi": "Tiểu Đồng Kiếm",
         "en": "Page of Swords"
       },
       "keywords": {
@@ -4622,7 +4622,7 @@
       "rank": "knight",
       "element": "air",
       "name": {
-        "vi": "Knight of Swords",
+        "vi": "Hiệp Sĩ Kiếm",
         "en": "Knight of Swords"
       },
       "keywords": {
@@ -4666,7 +4666,7 @@
       "rank": "queen",
       "element": "air",
       "name": {
-        "vi": "Queen of Swords",
+        "vi": "Nữ Hoàng Kiếm",
         "en": "Queen of Swords"
       },
       "keywords": {
@@ -4710,7 +4710,7 @@
       "rank": "king",
       "element": "air",
       "name": {
-        "vi": "King of Swords",
+        "vi": "Vua Kiếm",
         "en": "King of Swords"
       },
       "keywords": {
@@ -4754,7 +4754,7 @@
       "rank": "ace",
       "element": "earth",
       "name": {
-        "vi": "Ace of Pentacles",
+        "vi": "Át Tiền",
         "en": "Ace of Pentacles"
       },
       "keywords": {
@@ -4798,7 +4798,7 @@
       "rank": "two",
       "element": "earth",
       "name": {
-        "vi": "Two of Pentacles",
+        "vi": "Hai Tiền",
         "en": "Two of Pentacles"
       },
       "keywords": {
@@ -4842,7 +4842,7 @@
       "rank": "three",
       "element": "earth",
       "name": {
-        "vi": "Three of Pentacles",
+        "vi": "Ba Tiền",
         "en": "Three of Pentacles"
       },
       "keywords": {
@@ -4886,7 +4886,7 @@
       "rank": "four",
       "element": "earth",
       "name": {
-        "vi": "Four of Pentacles",
+        "vi": "Bốn Tiền",
         "en": "Four of Pentacles"
       },
       "keywords": {
@@ -4930,7 +4930,7 @@
       "rank": "five",
       "element": "earth",
       "name": {
-        "vi": "Five of Pentacles",
+        "vi": "Năm Tiền",
         "en": "Five of Pentacles"
       },
       "keywords": {
@@ -4974,7 +4974,7 @@
       "rank": "six",
       "element": "earth",
       "name": {
-        "vi": "Six of Pentacles",
+        "vi": "Sáu Tiền",
         "en": "Six of Pentacles"
       },
       "keywords": {
@@ -5018,7 +5018,7 @@
       "rank": "seven",
       "element": "earth",
       "name": {
-        "vi": "Seven of Pentacles",
+        "vi": "Bảy Tiền",
         "en": "Seven of Pentacles"
       },
       "keywords": {
@@ -5062,7 +5062,7 @@
       "rank": "eight",
       "element": "earth",
       "name": {
-        "vi": "Eight of Pentacles",
+        "vi": "Tám Tiền",
         "en": "Eight of Pentacles"
       },
       "keywords": {
@@ -5106,7 +5106,7 @@
       "rank": "nine",
       "element": "earth",
       "name": {
-        "vi": "Nine of Pentacles",
+        "vi": "Chín Tiền",
         "en": "Nine of Pentacles"
       },
       "keywords": {
@@ -5150,7 +5150,7 @@
       "rank": "ten",
       "element": "earth",
       "name": {
-        "vi": "Ten of Pentacles",
+        "vi": "Mười Tiền",
         "en": "Ten of Pentacles"
       },
       "keywords": {
@@ -5194,7 +5194,7 @@
       "rank": "page",
       "element": "earth",
       "name": {
-        "vi": "Page of Pentacles",
+        "vi": "Tiểu Đồng Tiền",
         "en": "Page of Pentacles"
       },
       "keywords": {
@@ -5238,7 +5238,7 @@
       "rank": "knight",
       "element": "earth",
       "name": {
-        "vi": "Knight of Pentacles",
+        "vi": "Hiệp Sĩ Tiền",
         "en": "Knight of Pentacles"
       },
       "keywords": {
@@ -5282,7 +5282,7 @@
       "rank": "queen",
       "element": "earth",
       "name": {
-        "vi": "Queen of Pentacles",
+        "vi": "Nữ Hoàng Tiền",
         "en": "Queen of Pentacles"
       },
       "keywords": {
@@ -5326,7 +5326,7 @@
       "rank": "king",
       "element": "earth",
       "name": {
-        "vi": "King of Pentacles",
+        "vi": "Vua Tiền",
         "en": "King of Pentacles"
       },
       "keywords": {
