@@ -4,6 +4,7 @@ import {
   Animated,
   Image,
   KeyboardAvoidingView,
+  Linking,
   Platform,
   Pressable,
   ScrollView,
@@ -21,6 +22,7 @@ import { languageOptions } from "../i18n";
 import { colors, radius, spacing, typography } from "../theme";
 import { AuthProvider, AuthView, Language } from "../types";
 import { isValidEmail, isValidPassword } from "./localAuth";
+import { nilazaLegalUrlFor } from "../runtimeConfig";
 
 declare const require: (path: string) => number;
 
@@ -66,8 +68,9 @@ type AuthCopy = {
   shortPassword: string;
   resetPasswordEmailRequired: string;
   resetPasswordSent: string;
-  socialPreview: string;
   comingSoon: string;
+  adultConfirm: string;
+  adultRequired: string;
   confirmationTitle: string;
   confirmationBody: (email: string) => string;
   resendConfirmation: string;
@@ -75,7 +78,6 @@ type AuthCopy = {
   confirmationResent: string;
   confirmationResendError: string;
   continueToSignIn: string;
-  legalPreview: string;
   back: string;
 };
 
@@ -119,8 +121,9 @@ const authCopy: Record<"vi" | "en", AuthCopy> = {
     shortPassword: "Mật khẩu cần có ít nhất 8 ký tự.",
     resetPasswordEmailRequired: "Nhập email của bạn để Nilaza gửi liên kết đặt lại mật khẩu.",
     resetPasswordSent: "Nếu email này có tài khoản Nilaza, liên kết đặt lại mật khẩu sẽ được gửi đến hộp thư của bạn.",
-    socialPreview: "Đăng nhập Apple/Google sẽ được bật sau khi cấu hình OAuth cho Staging.",
     comingSoon: "Sắp ra mắt",
+    adultConfirm: "Tôi xác nhận mình từ 18 tuổi trở lên.",
+    adultRequired: "Nilaza dành cho người từ 18 tuổi trở lên. Hãy xác nhận để tạo tài khoản.",
     confirmationTitle: "Kiểm tra email của bạn",
     confirmationBody: (email) => `Nếu ${email} chưa có tài khoản được xác nhận, bạn sẽ nhận được liên kết xác nhận. Hãy kiểm tra hộp thư và mục Spam. Nếu đã xác nhận tài khoản, hãy đăng nhập hoặc đặt lại mật khẩu bên dưới.`,
     resendConfirmation: "Gửi lại email xác nhận",
@@ -128,7 +131,6 @@ const authCopy: Record<"vi" | "en", AuthCopy> = {
     confirmationResent: "Đã nhận yêu cầu gửi lại. Thư xác nhận chỉ được gửi nếu tài khoản còn chờ xác nhận email.",
     confirmationResendError: "Không thể gửi lại email lúc này. Hãy thử lại sau ít phút.",
     continueToSignIn: "Quay lại đăng nhập",
-    legalPreview: "Trang pháp lý đang ở chế độ preview local và sẽ được kết nối trước khi phát hành.",
     back: "Quay lại"
   },
   en: {
@@ -170,8 +172,9 @@ const authCopy: Record<"vi" | "en", AuthCopy> = {
     shortPassword: "Password must be at least 8 characters.",
     resetPasswordEmailRequired: "Enter your email so Nilaza can send a password reset link.",
     resetPasswordSent: "If this email has a Nilaza account, a password reset link will be sent to your inbox.",
-    socialPreview: "Apple/Google sign-in will activate after OAuth is configured for Staging.",
     comingSoon: "Coming soon",
+    adultConfirm: "I confirm that I am 18 or older.",
+    adultRequired: "Nilaza is for people aged 18 and over. Please confirm to create an account.",
     confirmationTitle: "Check your email",
     confirmationBody: (email) => `If ${email} does not already have a confirmed account, you will receive a confirmation link. Check your inbox and spam folder. If you have already confirmed your account, sign in or reset your password below.`,
     resendConfirmation: "Resend confirmation email",
@@ -179,17 +182,19 @@ const authCopy: Record<"vi" | "en", AuthCopy> = {
     confirmationResent: "Resend request received. A confirmation email is only sent if the account is still awaiting email confirmation.",
     confirmationResendError: "We could not resend the email right now. Please try again in a few minutes.",
     continueToSignIn: "Return to sign in",
-    legalPreview: "This legal page is a local preview and will be connected before release.",
     back: "Go back"
   }
 };
 
-const providers: Array<{ id: Exclude<AuthProvider, "email" | "legacy-local">; label: string; icon: any; enabled: boolean }> = [
-  { id: "apple", label: "Apple", icon: "logo-apple", enabled: true },
-  { id: "google", label: "Google", icon: "logo-google", enabled: true },
-  { id: "facebook", label: "Facebook", icon: "logo-facebook", enabled: false },
-  { id: "x", label: "X", icon: "logo-twitter", enabled: false }
+// No social provider completes sign-in yet. Buttons appear only for providers
+// marked as signing in, so a reviewer never meets a control that does nothing.
+const providers: Array<{ id: Exclude<AuthProvider, "email" | "legacy-local">; label: string; icon: any; enabled: boolean; signsIn: boolean }> = [
+  { id: "apple", label: "Apple", icon: "logo-apple", enabled: true, signsIn: false },
+  { id: "google", label: "Google", icon: "logo-google", enabled: true, signsIn: false },
+  { id: "facebook", label: "Facebook", icon: "logo-facebook", enabled: false, signsIn: false },
+  { id: "x", label: "X", icon: "logo-twitter", enabled: false, signsIn: false }
 ];
+const signInProviders = providers.filter((provider) => provider.signsIn);
 
 export type SignUpOutcome = "pending-email-confirmation" | void;
 
@@ -334,13 +339,13 @@ function Divider({ label }: { label: string }) {
   );
 }
 
-function LegalCopy({ copy, signUp, onPreview }: { copy: AuthCopy; signUp: boolean; onPreview: () => void }) {
+function LegalCopy({ copy, signUp, onOpen }: { copy: AuthCopy; signUp: boolean; onOpen: (page: "terms" | "privacy") => void }) {
   return (
     <Text style={styles.legalText}>
       {signUp ? copy.termsLeadSignUp : copy.termsLeadContinue}{" "}
-      <Text accessibilityRole="link" onPress={onPreview} style={styles.legalLink}>{copy.terms}</Text>{" "}
+      <Text accessibilityRole="link" onPress={() => onOpen("terms")} style={styles.legalLink}>{copy.terms}</Text>{" "}
       {copy.and}{" "}
-      <Text accessibilityRole="link" onPress={onPreview} style={styles.legalLink}>{copy.privacy}</Text>.
+      <Text accessibilityRole="link" onPress={() => onOpen("privacy")} style={styles.legalLink}>{copy.privacy}</Text>.
     </Text>
   );
 }
@@ -365,6 +370,7 @@ export function AuthFlow({
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [adultConfirmed, setAdultConfirmed] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [error, setError] = useState("");
   const [previewMessage, setPreviewMessage] = useState("");
@@ -486,6 +492,10 @@ export function AuthFlow({
     }
     if (!isValidPassword(password)) {
       setError(copy.shortPassword);
+      return;
+    }
+    if (!adultConfirmed) {
+      setError(copy.adultRequired);
       return;
     }
     setError("");
@@ -666,12 +676,6 @@ export function AuthFlow({
                 {invalidSignupEmail && error !== copy.invalidEmail ? (
                   <Text accessibilityLiveRegion="polite" style={styles.errorText}>{copy.invalidEmail}</Text>
                 ) : null}
-                <View style={styles.emailSignInRow}>
-                  <Text style={styles.switchAuthText}>{copy.alreadyHaveProfile}</Text>
-                  <Pressable accessibilityRole="link" onPress={() => changeView("sign-in")} hitSlop={8} style={styles.emailSignInLink}>
-                    <Text style={styles.switchAuthLink}>{copy.signIn}</Text>
-                  </Pressable>
-                </View>
                 <FieldLabel label={copy.password} />
                 <View style={styles.passwordField}>
                   <TextInput
@@ -695,6 +699,16 @@ export function AuthFlow({
                     <Ionicons name={passwordVisible ? "eye-off-outline" : "eye-outline"} size={20} color={colors.moon} />
                   </Pressable>
                 </View>
+                <Pressable
+                  accessibilityRole="checkbox"
+                  accessibilityLabel={copy.adultConfirm}
+                  accessibilityState={{ checked: adultConfirmed }}
+                  onPress={() => { setAdultConfirmed((current) => !current); setError(""); }}
+                  style={({ pressed }) => [styles.adultConfirmRow, pressed && styles.controlPressed]}
+                >
+                  <Ionicons name={adultConfirmed ? "checkbox" : "square-outline"} size={22} color={adultConfirmed ? colors.gold : colors.moon} />
+                  <Text style={styles.adultConfirmText}>{copy.adultConfirm}</Text>
+                </Pressable>
                 {error ? <Text accessibilityRole="alert" style={styles.errorText}>{error}</Text> : null}
                 <Pressable
                   accessibilityRole="button"
@@ -704,18 +718,28 @@ export function AuthFlow({
                 >
                   <Text style={styles.primaryButtonText}>{submitting ? copy.creating : copy.createAccount}</Text>
                 </Pressable>
+                <View style={styles.emailSignInRow}>
+                  <Text style={styles.switchAuthText}>{copy.alreadyHaveProfile}</Text>
+                  <Pressable accessibilityRole="link" onPress={() => changeView("sign-in")} hitSlop={8} style={styles.emailSignInLink}>
+                    <Text style={styles.switchAuthLink}>{copy.signIn}</Text>
+                  </Pressable>
+                </View>
               </View>
               )
             ) : null}
 
             {!signUp && !forgotPassword ? (
               <View style={styles.authMethods}>
-                <View style={styles.socialGrid}>
-                  {providers.map((provider) => (
-                    <SocialButton key={provider.id} provider={provider} compact copy={copy} onPress={() => showPreview(copy.socialPreview)} />
-                  ))}
-                </View>
-                <Divider label={copy.orEmail} />
+                {signInProviders.length ? (
+                  <>
+                    <View style={styles.socialGrid}>
+                      {signInProviders.map((provider) => (
+                        <SocialButton key={provider.id} provider={provider} compact copy={copy} onPress={() => showPreview(copy.comingSoon)} />
+                      ))}
+                    </View>
+                    <Divider label={copy.orEmail} />
+                  </>
+                ) : null}
                 <TextInput
                   accessibilityLabel={copy.email}
                   autoCapitalize="none"
@@ -805,12 +829,12 @@ export function AuthFlow({
                   <Text style={styles.forgotBackText}>{copy.continueToSignIn}</Text>
                 </Pressable>
               </View>
-            ) : pendingConfirmationEmail ? null : (
+            ) : pendingConfirmationEmail || !signInProviders.length ? null : (
               <>
                 <Divider label={copy.or} />
                 <View style={styles.socialGrid}>
-                  {providers.map((provider) => (
-                    <SocialButton key={provider.id} provider={provider} compact copy={copy} onPress={() => showPreview(copy.socialPreview)} />
+                  {signInProviders.map((provider) => (
+                    <SocialButton key={provider.id} provider={provider} compact copy={copy} onPress={() => showPreview(copy.comingSoon)} />
                   ))}
                 </View>
               </>
@@ -825,7 +849,7 @@ export function AuthFlow({
 
             {!pendingConfirmationEmail && !forgotPassword ? (
               <View style={[styles.legalArea, signUp && styles.signUpLegalArea]}>
-                <LegalCopy copy={copy} signUp={signUp} onPreview={() => showPreview(copy.legalPreview)} />
+                <LegalCopy copy={copy} signUp={signUp} onOpen={(page) => { void Linking.openURL(nilazaLegalUrlFor(page, language)).catch(() => undefined); }} />
               </View>
             ) : null}
           </Animated.View>
@@ -840,6 +864,20 @@ function FieldLabel({ label }: { label: string }) {
 }
 
 const styles = StyleSheet.create({
+  adultConfirmRow: {
+    alignItems: "center",
+    flexDirection: "row",
+    gap: spacing.sm,
+    marginTop: spacing.sm,
+    minHeight: 48
+  },
+  adultConfirmText: {
+    color: colors.onSurface,
+    flex: 1,
+    fontFamily: typography.bodyFontFamily,
+    fontSize: 14,
+    lineHeight: 20
+  },
   emailSignInRow: {
     alignItems: "center",
     flexDirection: "row",

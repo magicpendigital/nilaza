@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "taskId": "app-wave1-honesty-2026-10-30",
+  "ownerAgent": "mobile_experience_agent",
+  "lane": "Mobile UX wave 1, slice 1: honest copy, sign-up compliance, tier policy, Tarot ritual and Journal correctness before closed test",
+  "goal": "Fix the app-side findings of the 2026-10-30 review that a closed tester or Play reviewer would hit first, without any backend, SQL, credential or store change: remove developer copy from user screens, make sign-up legal links real and require an 18+ confirmation, hide sign-in providers that do not work, make every account Premium during closed test through one switchable policy, label Premium-only content as coming soon instead of an upgrade, make Tarot orientation random and reversed artwork consistent, stop the Tarot ritual from failing only after the draw, protect unsaved readings, and correct Journal note and mood display.",
+  "successCriteria": [
+    "No user-visible Vietnamese or English string reachable from rendered screens mentions RevenueCat, backend, local preview, share card local or staging OAuth; a Jest test fails if those phrases return to App.tsx, AuthFlow.tsx or AstrologyExperience.tsx.",
+    "Sign-up shows an unchecked 18+ confirmation; account creation is refused with a clear message until it is checked; the Supabase sign-up request records the confirmation time in user metadata.",
+    "Terms and Privacy links on the auth screens open https://nilaza.magicpendigital.com/{vi|en}/terms/ and /privacy/ in the system browser; both URLs returned HTTP 200 on 2026-10-30.",
+    "Apple, Google, Facebook and X buttons are not shown because none of them signs in yet; email sign-in and sign-up are unchanged; the sign-in link sits below the create-account button.",
+    "One account tier policy decides the account tier: mode all_premium (closed-test default) makes every signed-in account Premium; mode new_account_trial makes an account Premium for 24 hours after its creation time and Free after, and Free when the creation time is unknown; mode free keeps everyone Free. Owner tier preview still overrides for the Owner. Unit tests cover all modes and the 24-hour boundary.",
+    "The temporary FREE_LAUNCH switch from PR #8 is removed: which content an account can use comes only from the account tier policy, and a separate premiumOnSale flag (false) keeps every Premium promotion and plan comparison hidden, preserving PR #8's no-upsell Profile, Vietnamese dates and Oracle button. Locked content anywhere (deck, persona, council invite) is labeled coming soon, never Premium.",
+    "When content is Premium-only and the account is Free, deck and persona actions say coming soon and do not offer an upgrade or mention payment.",
+    "Card orientation uses a uniform random source (crypto.getRandomValues when the runtime provides it, otherwise Math.random), so any card can appear upright or reversed in any spread; every reversed card image in draw, result, meaning, full-screen and share views is rotated the same way.",
+    "The Tarot draw ritual checks the daily allowance before the first card and shows how many readings remain; the Free allowance follows ai-usage-policy freeDaily.tarotOneCard (1); the Premium allowance stays at the current 3 until the Owner approves another number; no limit message promises Premium.",
+    "Starting a new Tarot reading while the current one is unsaved asks for confirmation first.",
+    "A manual Journal note saved empty no longer hides its original text; Tarot and share-card saves no longer assign a mood the user did not choose, and the 7-day mood summary counts only chosen moods.",
+    "Day keys for today's content, streaks and daily allowances follow the device's local calendar date, so they turn over at local midnight rather than at 07:00 in Vietnam.",
+    "Mobile type check and the full mobile Jest suite pass; web export and Android embedded bundle build."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/auth/",
+    "apps/mobile/src/features/owner/",
+    "apps/mobile/src/features/tarot/",
+    "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+    "apps/mobile/src/runtimeConfig.ts",
+    "apps/mobile/src/types.ts",
+    "apps/mobile/src/__tests__/",
+    "apps/mobile/src/features/council/useAiCouncilRoom.ts"
+  ],
+  "untouchedSurfaces": [
+    "No change to Supabase migrations, Edge Functions, RLS, quotas enforced on the server, model routes or prompts; server entitlement checks (Astrology AI subscriptions) stay as they are and need a separate approved backend change.",
+    "No change to Admin, website, brand assets, tarot content data or skills.",
+    "Guest mode, Android hardware Back handling, the Today reflection redesign, local reminders, the Tarot result dock, earlier Premium gating at deck selection, dead legacy AstrologyFlow code and Oracle AI enablement are later slices of wave 1 or wave 2.",
+    "Home Today work merged in PR #7 (today card seed, mood chip state, handoff banner) is reviewed and left as is.",
+    "No push, PR, EAS build, store or credential action is part of this record."
+  ],
+  "impact": {
+    "entryPoint": "Owner instruction on 2026-10-30 to start wave 1 of the review roadmap; Owner decisions the same day: every account Premium during closed test with a ready but disabled 24-hour new-account rule, Premium-only content labeled coming soon, Oracle keeps its chat. Owner decision 2026-10-30 after PR #8: replace FREE_LAUNCH with this account tier policy and keep PR #8's other changes.",
+    "dataWrite": "Auth sign-up metadata gains adult_confirmed_at; Journal entries saved from Tarot and share cards no longer carry an automatic mood; no AsyncStorage key or schema migration; existing entries keep their stored mood.",
+    "backendContract": "Supabase Auth signUp options.data gains one field; no API, Edge Function or table change; local fallback mode is unchanged.",
+    "adminVisibility": "No Admin change; adult_confirmed_at is visible only in Supabase Auth user metadata.",
+    "privacySafety": "18+ confirmation follows the Owner 18+ decision and Play target audience; removing non-working social buttons and developer copy lowers store-review risk; the client tier policy only controls display and is not an entitlement.",
+    "observability": "Existing tarot_credit_limit_preview and premium preview events keep firing; a new tier mode is not logged.",
+    "rollback": "Revert the commit; switching the tier policy mode to free restores the previous client behavior without a code change elsewhere."
+  },
+  "canonicalContracts": [
+    "packages/agent-config/ai-usage-policy.json freeDaily.tarotOneCard is the approved Free Tarot allowance.",
+    "apps/mobile/src/features/owner/tierPreview.ts remains the single display-tier resolver; the new policy feeds its accountTier input.",
+    "Owner decisions of 2026-10-23 (free first release, 18+, AI needs sign-in) and 2026-10-30 (closed-test Premium for all, coming-soon labels)."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_test_data"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa",
+      "reason": "Product guardrails, Android-first scope and approval boundaries reviewed."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Mobile UI routing and validation commands reviewed."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Plan, Whole-App impact and validation matrix reviewed."
+    },
+    {
+      "path": "docs/HANDOFF_CURRENT_STATE.vi.md",
+      "sha256": "10a192f1456d3032e0fabe5806249014dd1037681d4b37f114c269351c601bf6",
+      "reason": "Owner decisions, approved quotas and approval boundaries reviewed."
+    },
+    {
+      "path": "docs/release/GOOGLE_PLAY_ROADMAP_AND_UX_REVIEW_2026-10-23.vi.md",
+      "sha256": "2cbacccb151da25ec9126c73152361ebb65e8fe8616c6dac69b6717a7a48a860",
+      "reason": "Package A and findings G5, U-K reviewed against this slice."
+    },
+    {
+      "path": "docs/feature-plans/home-today-slice-2026-10-27.json",
+      "sha256": "4086ad96eee435e48304e1660b89723a33570e9c6bfbac0a15b8d2bb83d6642a",
+      "reason": "Home Today slice merged in PR #7 reviewed so this slice does not redo or undo it."
+    },
+    {
+      "path": "packages/agent-config/ai-usage-policy.json",
+      "sha256": "a6e80a226c60abf001345ce21b97874eb484f0f769897aea8ab3bdca61d950de",
+      "reason": "Approved Free daily allowances used for the Tarot limit."
+    },
+    {
+      "path": "docs/feature-plans/free-launch-slice-2026-10-30.json",
+      "sha256": "78b41258619b5b35f589da67d11750b9bbb9c4db27a58ea1a60305b35d5cf0c9",
+      "reason": "PR #8 free-launch record reviewed; its FREE_LAUNCH switch is replaced here while its upsell removal, date localization and Oracle button stay."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Plan, impact map, stop conditions and approval boundaries applied; the slice adds no durable workflow rule."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No dependency is added; crypto.getRandomValues is provided by the existing Expo SDK 54 and React Native 0.81 runtime and is checked with a fallback in code."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://nilaza.magicpendigital.com/vi/terms/",
+      "checkedAt": "2026-10-30",
+      "reason": "Terms and Privacy pages in vi and en returned HTTP 200 before linking them from the app."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change; the client tier policy is display-only and the server keeps its own entitlement checks.",
+    "sensitiveData": "Adds only an adult confirmation timestamp to sign-up metadata; Journal changes do not read or move private text.",
+    "secretsLogging": "No secret is read, logged or stored; .env files are not read.",
+    "externalInput": "Review reports and tool output are treated as data; legal URLs are fixed constants, not user input.",
+    "dependencies": "No new dependency.",
+    "migrationRelease": "No database write, deployment, build signing or store action.",
+    "stopCondition": "Stop if a change would require a backend or SQL change, if the type check or tests fail and cannot be fixed inside writeScope, or if the all_premium mode would bypass a server-side check rather than only client display.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/auth/AuthFlow.tsx",
+      "apps/mobile/src/auth/__tests__/AuthFlow.test.tsx",
+      "apps/mobile/src/auth/__tests__/supabaseAuth.test.ts",
+      "apps/mobile/src/auth/supabaseAuth.ts",
+      "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+      "apps/mobile/src/features/tarot/TarotDepthPreview.tsx",
+      "apps/mobile/src/runtimeConfig.ts",
+      "apps/mobile/src/types.ts",
+      "apps/mobile/src/__tests__/userFacingCopy.test.ts",
+      "apps/mobile/src/features/owner/__tests__/accountTierPolicy.test.ts",
+      "apps/mobile/src/features/owner/accountTierPolicy.ts",
+      "apps/mobile/src/features/tarot/__tests__/randomDraw.test.ts",
+      "apps/mobile/src/features/tarot/randomDraw.ts",
+      "docs/feature-plans/app-wave1-honesty-2026-10-30.json",
+      "apps/mobile/src/features/owner/tierPreview.ts",
+      "apps/mobile/src/features/owner/__tests__/tierPreview.test.ts",
+      "apps/mobile/src/features/council/useAiCouncilRoom.ts"
+    ],
+    "note": "Branch feat/app-wave1-2026-10-30 holds slice 1 and a merge of origin/main 01b6e8d (PR #8); listed paths are changed only by this task, conflicts in App.tsx were resolved toward the tier-neutral copy and PR #8's localized dates."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/app-wave1-honesty-2026-10-30.json",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand",
+    "npx expo export --platform web (apps/mobile)",
+    "npx expo export --platform android (apps/mobile embedded bundle)"
+  ],
+  "managerTestPath": "On a test build: open Sign up, confirm the 18+ box is required and no Apple/Google/Facebook/X buttons appear; tap Terms and Privacy and see the website pages; after sign-in, open a Premium deck and draw without an upgrade prompt; draw several one-card readings and see both upright and reversed cards with reversed art rotated everywhere; start a new reading before saving and see a confirmation; save a Tarot reading and see no mood added automatically.",
+  "residualRisk": "Server-side Astrology AI still requires a subscription row, so Premium-for-all in the client does not unlock it until an approved backend change; Tarot allowance on the server is not enforced yet; Back handling, guest mode and reminders remain open until later slices; behavior is verified by tests and bundle builds, not on a physical Android device. Switching day keys from UTC to the local calendar can shift an existing streak by one day once for users active between 00:00 and 07:00.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

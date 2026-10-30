@@ -23,21 +23,12 @@ export function isOwnerTierPreviewActive(input: {
   return input.isOwner && input.preview !== "account";
 }
 
-// Owner decision 2026-10-23: the first Play release is free and sells nothing, so
-// content marked "premium-preview" is open to every account. Set to false once
-// purchases exist to restore the locks; Astrology AI keeps its server entitlement.
-export const FREE_LAUNCH = true;
-
-export function effectiveContentTier(tier: ContentAccessTier): ContentAccessTier {
-  return FREE_LAUNCH && tier === "premium-preview" ? "free" : tier;
-}
-
 /** This only resolves what the client may display. The server still owns entitlement checks. */
 export function canViewContentTier(
   requiredTier: ContentAccessTier,
   displayedTier: AccountTier,
 ): boolean {
-  return effectiveContentTier(requiredTier) === "free" || displayedTier === "premium";
+  return requiredTier === "free" || displayedTier === "premium";
 }
 
 export function getAnnualPriceHypothesisMath() {

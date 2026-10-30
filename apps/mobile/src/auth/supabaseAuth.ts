@@ -88,7 +88,8 @@ function sessionToAuthState(session: Session, fallbackName?: string): LocalAuthS
       id: session.user.id,
       name,
       email,
-      provider: "email"
+      provider: "email",
+      ...(session.user.created_at ? { createdAt: session.user.created_at } : {})
     },
     backendSession: {
       provider: "supabase",
@@ -125,7 +126,9 @@ export async function signUpWithSupabaseEmail(name: string, email: string, passw
     options: {
       emailRedirectTo: confirmationRedirectUrl(),
       data: {
-        name: name.trim()
+        name: name.trim(),
+        // Sign-up is only reachable after the 18+ confirmation in AuthFlow.
+        adult_confirmed_at: new Date().toISOString()
       }
     }
   }));

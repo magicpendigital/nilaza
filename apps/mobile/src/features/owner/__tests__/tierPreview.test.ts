@@ -1,7 +1,5 @@
 import {
   canViewContentTier,
-  effectiveContentTier,
-  FREE_LAUNCH,
   getAnnualPriceHypothesisMath,
   isOwnerTierPreviewActive,
   premiumPriceHypothesisVnd,
@@ -26,15 +24,9 @@ describe("Owner account tier preview", () => {
   it("keeps premium content for the displayed Premium view", () => {
     expect(canViewContentTier("free", "free")).toBe(true);
     expect(canViewContentTier("premium", "free")).toBe(false);
+    expect(canViewContentTier("premium-preview", "free")).toBe(false);
     expect(canViewContentTier("premium", "premium")).toBe(true);
     expect(canViewContentTier("premium-preview", "premium")).toBe(true);
-  });
-
-  it("opens preview content to free accounts during the free launch", () => {
-    expect(FREE_LAUNCH).toBe(true);
-    expect(canViewContentTier("premium-preview", "free")).toBe(true);
-    expect(effectiveContentTier("premium-preview")).toBe("free");
-    expect(effectiveContentTier("premium")).toBe("premium");
   });
 
   it("calculates the proposed annual price against twelve monthly payments", () => {
