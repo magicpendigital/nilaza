@@ -345,6 +345,18 @@ for (const card of cards) {
     if (hasText(viText) && !vietnameseDiacriticPattern.test(viText)) legacyAsciiTarotViFields += 1;
   }
 }
+// Owner-approved card guide (2026-10-30): one entry per canonical card, accented Vietnamese and English in every field.
+const cardGuide = readJson("packages/content/data/tarot-card-guide.json");
+assert(Object.keys(cardGuide.cards).length === cards.length && cards.every((card) => cardGuide.cards[card.id]), "tarot-card-guide.json must cover exactly the 78 canonical cards");
+for (const [cardId, guide] of Object.entries(cardGuide.cards)) {
+  const fields = { ...Object.fromEntries(["love", "career", "self"].map((topic) => [`topics.${topic}`, guide.topics?.[topic]])), misconception: guide.misconception, element: guide.element, astrology: guide.astrology };
+  for (const optional of ["otherReadings", "supportNote", "modernPlanet", "extraNote"]) if (guide[optional]) fields[optional] = guide[optional];
+  for (const [field, value] of Object.entries(fields)) {
+    assertLocalized(value, `${cardId}.guide.${field}`);
+    if (!["element", "astrology", "modernPlanet"].includes(field)) assert(vietnameseDiacriticPattern.test(value?.vi ?? ""), `${cardId}.guide.${field}.vi must use accented Vietnamese`);
+  }
+  for (const key of guide.noteKeys ?? []) assertLocalized(cardGuide.sharedNotes?.[key], `${cardId}.guide.noteKeys.${key}`);
+}
 for (const designSet of tarotCardDesigns) {
   assert(decks.some((deck) => deck.id === designSet.deckId), `${designSet.deckId} design set does not match a deck`);
   assertLocalized(designSet.style, `${designSet.deckId}.style`);

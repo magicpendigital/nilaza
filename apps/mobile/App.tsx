@@ -125,6 +125,8 @@ import { TarotArtworkButton } from "./src/features/tarot/TarotArtworkButton";
 import { ReadingDetails } from "./src/a2ui/ReadingDetails";
 import { normalizeTarotSections, tarotSnapshotMeaning, tarotResultSource } from "./src/features/tarot/readingPresentation";
 import { getTarotLearningSections, tarotQuestionExamples } from "./src/features/tarot/learning";
+import { getTarotCardGuide } from "./src/features/tarot/cardGuide";
+import { TarotCardGuide } from "./src/features/tarot/TarotCardGuide";
 import { MythologyEntry, MythologyWorld } from "./src/features/astrology/MythologyWorld";
 import { AstrologyChartFoundation } from "./src/features/astrology/AstrologyChartFoundation";
 import { localizeAstrologySign, toAstrologyChartPresentation, type AstrologyRawChart, type AstrologySignId } from "./src/features/astrology/contracts";
@@ -1689,13 +1691,6 @@ const majorThemesVi: Record<number, string> = {
   21: "hoàn tất"
 };
 
-const suitNamesOriginal: Record<NonNullable<TarotCard["suit"]>, string> = {
-  wands: "Wands",
-  cups: "Cups",
-  swords: "Swords",
-  pentacles: "Pentacles"
-};
-
 const rankGuidanceVi: Record<string, { upright: string; reversed: string }> = {
   ace: {
     upright: "hãy bảo vệ mầm ý định đầu tiên và cho nó một bước thử thật nhỏ",
@@ -2428,6 +2423,13 @@ function displayTarotCardMeta(card: TarotCard & { reversed?: boolean }, language
   else if (card.suit) parts.push(vi ? `Ẩn phụ · Bộ ${suitNames[card.suit].vi}` : `Minor Arcana · ${suitNames[card.suit].en}`);
   parts.push(card.reversed ? (vi ? "Ngược" : "Reversed") : (vi ? "Xuôi" : "Upright"));
   return parts.join(" · ");
+}
+
+// "Ẩn chính · VI" / "Ẩn phụ · Bộ Cốc" for the card guide kicker.
+function tarotArcanaLabel(card: TarotCard, language: Language) {
+  const vi = language === "vi";
+  if (card.arcana === "major" && typeof card.number === "number") return `${vi ? "Ẩn chính" : "Major Arcana"} · ${majorNumerals[card.number] ?? card.number}`;
+  return card.suit ? (vi ? `Ẩn phụ · Bộ ${suitNames[card.suit].vi}` : `Minor Arcana · ${suitNames[card.suit].en}`) : vi ? "Ẩn phụ" : "Minor Arcana";
 }
 
 function displayTarotReflectionTopic(card: TarotCard) {
@@ -7629,14 +7631,6 @@ export function TarotFlow({
   const previousMeaningCard = cards[(activeMeaningCardIndex - 1 + cards.length) % cards.length];
   const nextMeaningCard = cards[(activeMeaningCardIndex + 1) % cards.length];
   const activeMeaningKeywords = localizedList(activeMeaningCard.keywords, language);
-  const activeMeaningArcanaLabel = activeMeaningCard.arcana === "major"
-    ? "Major Arcana"
-    : `${activeMeaningCard.suit ? suitNamesOriginal[activeMeaningCard.suit] : "Minor"} Arcana`;
-  const activeMeaningOrientationLabel = activeMeaningFromReading
-    ? activeMeaningFromReading.reversed
-      ? language === "vi" ? "Lá ngược trong trải bài" : "Reversed in this reading"
-      : language === "vi" ? "Lá xuôi trong trải bài" : "Upright in this reading"
-    : language === "vi" ? "Khám phá thư viện" : "Library study";
   const latestShareArtifact = reading
     ? generatedArtifacts.find(
         (artifact) =>
@@ -8008,7 +8002,7 @@ export function TarotFlow({
             <Text style={styles.cardMeaningHeaderButtonText}>{cardMeaningBackLabel}</Text>
           </Pressable>
           <View style={styles.cardMeaningTopContext}>
-            <Text style={styles.cardMeaningTopKicker}>{c.cardMeaning}</Text>
+            <Text style={styles.cardMeaningTopKicker}>{language === "vi" ? "Thư viện" : "Library"} · {activeMeaningCardIndex + 1}/{cards.length}</Text>
             <Text style={styles.cardMeaningTopTitle} numberOfLines={1}>
               {displayTarotCardName(activeMeaningCard, language)} · {localizedText(selectedDeck.name, language)}
             </Text>
@@ -8406,47 +8400,41 @@ export function TarotFlow({
         )}
 
         {stage === "cardMeaning" && activeMeaningCard && (
-          <View>
-            <View style={styles.cardMeaningHero}>
-              <Pressable
-                accessibilityLabel={`${displayTarotCardName(activeMeaningCard, language)}. ${language === "vi" ? "Xem hình lá bài toàn màn hình" : "View full-screen card artwork"}`}
-                accessibilityRole="imagebutton"
-                onPress={() => openFullscreenTarotCard(activeMeaningCard, activeMeaningOrientationLabel)}
-                style={styles.cardMeaningImageStage}
-              >
-                <Image source={getTarotCardImage(selectedDeck.id, activeMeaningCard.id)} style={[styles.cardMeaningHeroImage, reversedCardArt(activeMeaningFromReading)]} resizeMode="contain" />
-                <View style={styles.tarotImageExpandBadge}>
-                  <Ionicons name="expand-outline" size={15} color={colors.ivory} />
-                </View>
-              </Pressable>
-              <View style={styles.cardMeaningHeroCopy}>
-                <Text style={styles.cardMeaningEyebrow}>{activeMeaningArcanaLabel}</Text>
-                <Text style={styles.cardMeaningTitle}>{displayTarotCardName(activeMeaningCard, language)}</Text>
-                <Text style={styles.cardMeaningIntro}>{localizedText(selectedDeck.cardIntroductions?.[activeMeaningCard.id] ?? activeMeaningCard.intro, language)}</Text>
+          <TarotCardGuide
+            key={`${activeMeaningCard.id}-${activeMeaningFromReading ? (activeMeaningFromReading.reversed ? "r" : "u") : "lib"}`}
+            language={language}
+            name={displayTarotCardName(activeMeaningCard, language)}
+            originalName={localizedText(activeMeaningCard.name, "en")}
+            arcanaLabel={tarotArcanaLabel(activeMeaningCard, language)}
+            image={getTarotCardImage(selectedDeck.id, activeMeaningCard.id)}
+            uprightMeaning={localizedText(activeMeaningCard.uprightMeaning, language)}
+            reversedMeaning={localizedText(activeMeaningCard.reversedMeaning, language)}
+            drawnReversed={activeMeaningFromReading?.reversed}
+            guide={getTarotCardGuide(activeMeaningCard.id, language)}
+            practice={localizedText(activeMeaningCard.reflectionQuestion, language)}
+            onOpenImage={(reversed) => openFullscreenTarotCard({ ...activeMeaningCard, reversed, spread: activeMeaningFromReading?.spread ?? "" })}
+            previous={{ name: displayTarotCardName(previousMeaningCard, language), onPress: () => setSelectedTarotCardId(previousMeaningCard.id) }}
+            next={{ name: displayTarotCardName(nextMeaningCard, language), onPress: () => setSelectedTarotCardId(nextMeaningCard.id) }}
+          >
+            <View style={styles.cardMeaningStoryPanel}>
+              <Text style={styles.cardMeaningSectionKicker}>{language === "vi" ? `Trong bộ ${localizedText(selectedDeck.name, language)}` : `In ${localizedText(selectedDeck.name, language)}`}</Text>
+              <Text style={styles.cardMeaningBody}>{localizedText(selectedDeck.cardIntroductions?.[activeMeaningCard.id] ?? activeMeaningCard.intro, language)}</Text>
+              {activeMeaningKeywords.length ? (
                 <View style={styles.cardMeaningChipRow}>
-                  <Text style={styles.cardMeaningChip}>{activeMeaningOrientationLabel}</Text>
                   {activeMeaningKeywords.slice(0, 3).map((keyword) => (
                     <Text key={keyword} style={styles.cardMeaningChip}>{keyword}</Text>
                   ))}
                 </View>
-              </View>
-            </View>
-            <View style={styles.cardMeaningPolarityGrid}>
-              <View style={styles.cardMeaningPolarityCard}>
-                <Text style={styles.cardMeaningSectionKicker}>{language === "vi" ? "Khi xuôi" : "Upright"}</Text>
-                <Text style={styles.cardMeaningBody}>{localizedText(activeMeaningCard.uprightMeaning, language)}</Text>
-              </View>
-              <View style={styles.cardMeaningPolarityCard}>
-                <Text style={styles.cardMeaningSectionKicker}>{language === "vi" ? "Khi ngược" : "Reversed"}</Text>
-                <Text style={styles.cardMeaningBody}>{localizedText(activeMeaningCard.reversedMeaning, language)}</Text>
-              </View>
+              ) : null}
             </View>
             <View style={styles.cardMeaningStoryPanel}>
-              <ReadingDetails key={`${activeMeaningCard.id}-${language}`}
-                label={language === "vi" ? "Hiểu sâu và thực hành với lá này" : "Explore this card in depth"}
-                collapseLabel={language === "vi" ? "Thu gọn bài học" : "Collapse the lesson"}
-                sections={getTarotLearningSections(activeMeaningCard.id, language)} />
-              <Text style={styles.cardMeaningSectionKicker}>{language === "vi" ? "Archetype" : "The archetype"}</Text>
+              {getTarotLearningSections(activeMeaningCard.id, language).length ? (
+                <ReadingDetails key={`${activeMeaningCard.id}-${language}`}
+                  label={language === "vi" ? "Hiểu sâu và thực hành với lá này" : "Explore this card in depth"}
+                  collapseLabel={language === "vi" ? "Thu gọn bài học" : "Collapse the lesson"}
+                  sections={getTarotLearningSections(activeMeaningCard.id, language)} />
+              ) : null}
+              <Text style={styles.cardMeaningSectionKicker}>{language === "vi" ? "Hình mẫu" : "The archetype"}</Text>
               <Text style={styles.cardMeaningStoryTitle}>{language === "vi" ? "Nếu lá bài này là một người bạn" : "If this card were a guide"}</Text>
               <Text style={styles.cardMeaningBody}>{localizedText(activeMeaningCard.personalityPortrait, language, localizedText(activeMeaningCard.intro, language))}</Text>
             </View>
@@ -8460,7 +8448,7 @@ export function TarotFlow({
               </View>
               <View style={styles.flex}>
                 <Text style={styles.cardMeaningChatTitle}>
-                  {language === "vi" ? "Chat với archetype lá bài" : "Chat with this card"}
+                  {language === "vi" ? "Trò chuyện với lá này" : "Chat with this card"}
                 </Text>
                 <Text style={styles.cardMeaningChatBody}>
                   {language === "vi"
@@ -8470,24 +8458,7 @@ export function TarotFlow({
               </View>
               <Ionicons name="arrow-forward-outline" size={18} color={colors.gold} />
             </Pressable>
-            <View style={styles.cardMeaningJournalPanel}>
-              <Ionicons name="journal-outline" size={20} color={colors.gold} />
-              <View style={styles.flex}>
-                <Text style={styles.cardMeaningSectionKicker}>{language === "vi" ? "Câu hỏi phản chiếu" : "Reflection prompt"}</Text>
-                <Text style={styles.cardMeaningJournalText}>{localizedText(activeMeaningCard.reflectionQuestion, language)}</Text>
-              </View>
-            </View>
-            <View style={styles.cardMeaningNeighborRow}>
-              <Pressable accessibilityRole="button" style={styles.cardMeaningNeighborButton} onPress={() => setSelectedTarotCardId(previousMeaningCard.id)}>
-                <Ionicons name="chevron-back-outline" size={16} color={colors.gold} />
-                <Text style={styles.cardMeaningNeighborText} numberOfLines={1}>{displayTarotCardName(previousMeaningCard, language)}</Text>
-              </Pressable>
-              <Pressable accessibilityRole="button" style={styles.cardMeaningNeighborButton} onPress={() => setSelectedTarotCardId(nextMeaningCard.id)}>
-                <Text style={styles.cardMeaningNeighborText} numberOfLines={1}>{displayTarotCardName(nextMeaningCard, language)}</Text>
-                <Ionicons name="chevron-forward-outline" size={16} color={colors.gold} />
-              </Pressable>
-            </View>
-          </View>
+          </TarotCardGuide>
         )}
 
         {stage === "draw" && (
@@ -15023,30 +14994,6 @@ zodiacProfilePrompt: {
     fontSize: 13,
     fontWeight: "900"
   },
-  cardMeaningHero: {
-    backgroundColor: "#1D1A1B",
-    borderColor: "rgba(201, 164, 92, 0.35)",
-    borderRadius: 8,
-    borderWidth: 1,
-    gap: spacing.lg,
-    overflow: "hidden",
-    padding: spacing.lg
-  },
-  cardMeaningImageStage: {
-    alignItems: "center",
-    backgroundColor: "#121112",
-    borderColor: "rgba(247, 241, 230, 0.10)",
-    borderRadius: 8,
-    borderWidth: 1,
-    justifyContent: "center",
-    minHeight: 360,
-    padding: spacing.md,
-    position: "relative"
-  },
-  cardMeaningHeroImage: {
-    height: 330,
-    width: "88%"
-  },
   tarotImageExpandBadge: {
     alignItems: "center",
     backgroundColor: "rgba(21, 20, 22, 0.78)",
@@ -15072,28 +15019,6 @@ zodiacProfilePrompt: {
     right: spacing.xs,
     top: spacing.xs,
     width: 26
-  },
-  cardMeaningHeroCopy: {
-    gap: spacing.sm
-  },
-  cardMeaningEyebrow: {
-    color: colors.gold,
-    fontSize: 12,
-    fontWeight: "900",
-    letterSpacing: 0.6,
-    textTransform: "uppercase"
-  },
-  cardMeaningTitle: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 36,
-    fontWeight: "600",
-    lineHeight: 42
-  },
-  cardMeaningIntro: {
-    color: colors.moon,
-    fontSize: 15,
-    lineHeight: 23
   },
   cardMeaningChipRow: {
     flexDirection: "row",
@@ -15133,21 +15058,6 @@ zodiacProfilePrompt: {
     fontSize: 18,
     lineHeight: 29,
     marginTop: spacing.sm
-  },
-  cardMeaningPolarityGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: spacing.sm,
-    marginTop: spacing.lg
-  },
-  cardMeaningPolarityCard: {
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    flexBasis: 160,
-    flexGrow: 1,
-    padding: spacing.md
   },
   cardMeaningBody: {
     color: colors.moon,
@@ -15201,49 +15111,6 @@ zodiacProfilePrompt: {
     fontSize: 13,
     lineHeight: 19,
     marginTop: spacing.xs
-  },
-  cardMeaningJournalPanel: {
-    alignItems: "flex-start",
-    backgroundColor: "rgba(201, 130, 141, 0.12)",
-    borderColor: "rgba(201, 130, 141, 0.32)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.md,
-    marginTop: spacing.lg,
-    padding: spacing.lg
-  },
-  cardMeaningJournalText: {
-    color: colors.ivory,
-    fontSize: 18,
-    fontStyle: "italic",
-    fontWeight: "700",
-    lineHeight: 28,
-    marginTop: spacing.xs
-  },
-  cardMeaningNeighborRow: {
-    flexDirection: "row",
-    gap: spacing.sm,
-    marginTop: spacing.lg,
-    paddingBottom: spacing.xl
-  },
-  cardMeaningNeighborButton: {
-    alignItems: "center",
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    flex: 1,
-    flexDirection: "row",
-    gap: spacing.xs,
-    justifyContent: "center",
-    minHeight: 52,
-    paddingHorizontal: spacing.sm
-  },
-  cardMeaningNeighborText: {
-    color: colors.ivory,
-    flexShrink: 1,
-    fontSize: 13,
-    fontWeight: "800"
   },
   infoBlock: {
     backgroundColor: colors.panel,

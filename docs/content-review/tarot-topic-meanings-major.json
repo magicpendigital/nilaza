@@ -1,0 +1,447 @@
+{
+  "status": "draft-for-owner-review",
+  "scope": "major-arcana upright topic meanings and misconceptions",
+  "createdAt": "2026-10-30",
+  "cards": {
+    "major-00-fool": {
+      "topics": {
+        "love": {
+          "vi": "Bạn có thể mở lòng với một điều mới bằng sự tò mò, mà vẫn lắng nghe xem mình thấy thoải mái tới đâu.",
+          "en": "You can open up to something new with curiosity, while still listening to how far you feel comfortable going."
+        },
+        "career": {
+          "vi": "Một hướng đi lạ có thể đáng thử. Bắt đầu bằng một bước nhỏ, đủ để học hỏi mà không phải đánh đổi mọi thứ đang có.",
+          "en": "An unfamiliar direction may be worth trying. Start with a small step, enough to learn from without trading away everything you have."
+        },
+        "self": {
+          "vi": "Cho phép mình làm người mới bắt đầu: vụng về một chút cũng được, miễn là bạn vẫn tò mò và tử tế với mình.",
+          "en": "Let yourself be a beginner: being a little clumsy is fine, as long as you stay curious and kind to yourself."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải “cứ liều đi, mọi chuyện sẽ ổn”. Lá này nói về lòng tin khi bắt đầu, và lòng tin vẫn cần để ý đến giới hạn của mình.",
+        "en": "It isn't “just leap, everything will work out.” This card is about trust at a beginning, and trust still pays attention to your limits."
+      }
+    },
+    "major-01-magician": {
+      "topics": {
+        "love": {
+          "vi": "Bạn có nhiều cách để bày tỏ hơn bạn nghĩ. Hãy nói rõ điều mình muốn bằng lời và việc làm, thay vì chờ người kia tự đoán.",
+          "en": "You have more ways to express yourself than you think. Say clearly what you want, in words and actions, instead of waiting for the other person to guess."
+        },
+        "career": {
+          "vi": "Kỹ năng và những gì bạn đang có có thể đã đủ để bắt đầu. Gom chúng lại cho một mục tiêu rõ, rồi làm bước đầu tiên.",
+          "en": "The skills and resources you already have may be enough to begin. Gather them toward one clear goal, then take the first step."
+        },
+        "self": {
+          "vi": "Để ý xem bạn đang có những gì trong tay. Một ý định rõ cộng với việc làm nhỏ thường đi xa hơn là chờ đến lúc đủ đầy.",
+          "en": "Notice what you already have in hand. A clear intention plus a small action often goes further than waiting until everything is ready."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải phép màu hay mánh khóe để điều khiển người khác. Lá này nói về việc dùng khéo những gì bạn thật sự có.",
+        "en": "It isn't magic or a trick for controlling other people. This card is about skillfully using what you truly have."
+      }
+    },
+    "major-02-high-priestess": {
+      "topics": {
+        "love": {
+          "vi": "Có những điều bạn cảm nhận được trước khi nói thành lời. Hãy lắng nghe chúng, rồi nhẹ nhàng hỏi lại thay vì tự kết luận.",
+          "en": "There are things you sense before you can put them into words. Listen to them, then gently ask instead of drawing conclusions on your own."
+        },
+        "career": {
+          "vi": "Chưa cần vội lên tiếng hay quyết định. Quan sát thêm, ghi lại điều bạn cảm thấy, rồi đối chiếu với những gì đã rõ.",
+          "en": "There's no need to rush to speak up or decide. Observe a little longer, note what you sense, then check it against what is already clear."
+        },
+        "self": {
+          "vi": "Dành một khoảng yên để nghe tiếng nói bên trong. Không phải câu hỏi nào cũng cần có câu trả lời ngay hôm nay.",
+          "en": "Make some quiet space to hear your inner voice. Not every question needs an answer today."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải “có người đang giấu bạn bí mật”. Lá này nói về những điều bạn chưa gọi tên được trong chính mình.",
+        "en": "It isn't “someone is keeping a secret from you.” This card is about what you haven't yet been able to name within yourself."
+      }
+    },
+    "major-03-empress": {
+      "topics": {
+        "love": {
+          "vi": "Tình cảm lớn lên khi được chăm sóc đều đặn. Hãy để ý xem bạn có đang nhận lại sự quan tâm như bạn vẫn trao đi không.",
+          "en": "Affection grows when it is tended regularly. Notice whether you are receiving the care you keep giving."
+        },
+        "career": {
+          "vi": "Một ý tưởng hay một dự án cần thời gian để lớn. Cho nó điều kiện tốt và nhịp làm vừa sức, thay vì ép nó ra kết quả ngay.",
+          "en": "An idea or a project needs time to grow. Give it good conditions and a manageable pace, instead of forcing results right away."
+        },
+        "self": {
+          "vi": "Bạn cũng xứng đáng được chăm sóc như cách bạn chăm sóc người khác. Một bữa ăn ngon, một giấc ngủ đủ cũng là nuôi dưỡng.",
+          "en": "You deserve to be cared for the way you care for others. A good meal or a full night's sleep is a form of nurture too."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lúc nào cũng là chuyện mang thai hay làm mẹ, và lá này không chỉ dành cho phụ nữ. Nó nói về sự nuôi dưỡng nói chung: một mối quan hệ, một dự án, hay chính bạn.",
+        "en": "It isn't always about pregnancy or motherhood, and the card isn't only for women. It speaks of nurturing in general: a relationship, a project, or yourself."
+      }
+    },
+    "major-04-emperor": {
+      "topics": {
+        "love": {
+          "vi": "Một mối quan hệ vững cần những thỏa thuận rõ ràng. Nói ra ranh giới của bạn là cách giữ gìn, không phải là kiểm soát.",
+          "en": "A steady relationship needs clear agreements. Naming your boundaries is a way of caring for it, not a way of controlling it."
+        },
+        "career": {
+          "vi": "Đây là lúc dựng khung: lên kế hoạch, chia việc, nhận phần trách nhiệm của mình. Nền móng chắc giúp bạn đi xa mà đỡ mệt.",
+          "en": "This is a time to build structure: make a plan, divide the work, own your part. A solid foundation helps you go further with less strain."
+        },
+        "self": {
+          "vi": "Một vài thói quen đều đặn có thể giúp bạn thấy vững hơn. Kỷ luật ở đây là tự nâng đỡ mình, không phải khắt khe với mình.",
+          "en": "A few steady habits can help you feel more grounded. Discipline here means supporting yourself, not being harsh with yourself."
+        }
+      },
+      "misconception": {
+        "vi": "Không nhất thiết là “sắp có một người đàn ông quyền lực xuất hiện”. Lá này có thể nói về một người bất kỳ đang giữ vai trò dẫn dắt, hoặc về trật tự và trách nhiệm mà chính bạn xây dựng.",
+        "en": "It doesn't have to mean “a powerful man is about to appear.” The card can point to anyone in a leading role, or to the order and responsibility you build yourself."
+      }
+    },
+    "major-05-hierophant": {
+      "topics": {
+        "love": {
+          "vi": "Hai người có thể nhìn lại những điều mình từng được dạy về tình yêu. Giữ lại điều hợp với cả hai, và nghĩ lại điều không còn hợp.",
+          "en": "The two of you might look again at what you were taught about love. Keep what fits you both, and rethink what no longer does."
+        },
+        "career": {
+          "vi": "Học từ người đi trước hay từ cách làm đã có có thể giúp bạn nhanh vững hơn. Bạn vẫn có quyền hỏi vì sao.",
+          "en": "Learning from those who came before, or from established ways of working, can help you find your footing faster. You still have the right to ask why."
+        },
+        "self": {
+          "vi": "Thử nhìn lại những quy tắc bạn đang sống theo. Điều nào thật sự là của bạn, điều nào chỉ là thói quen được truyền lại?",
+          "en": "Look again at the rules you live by. Which ones are truly yours, and which are just habits handed down to you?"
+        }
+      },
+      "misconception": {
+        "vi": "Lá này không bảo bạn phải nghe theo số đông, cũng không báo trước chuyện cưới hỏi. Nó mời bạn chọn những giá trị mình thật sự tin.",
+        "en": "This card doesn't tell you to follow the crowd, and it doesn't predict a wedding. It invites you to choose the values you truly believe in."
+      }
+    },
+    "major-06-lovers": {
+      "topics": {
+        "love": {
+          "vi": "Sức hút thật, nhưng câu hỏi lớn hơn là: hai người có cùng điều quan trọng không?",
+          "en": "The attraction is real, but the bigger question is: do the two of you care about the same things?"
+        },
+        "career": {
+          "vi": "Một quyết định cần chọn phe: chọn cái hợp giá trị của bạn thay vì cái dễ nhất.",
+          "en": "A decision asks you to take a side: choose what fits your values instead of what is easiest."
+        },
+        "self": {
+          "vi": "Hòa giải hai mong muốn trong bạn, thay vì để một bên im lặng.",
+          "en": "Reconcile two wishes within you, instead of letting one side fall silent."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải “sắp có người yêu”. Lá này nói về việc chọn, và chọn thì luôn có điều phải buông.",
+        "en": "It isn't “a new love is on the way.” This card is about choosing, and choosing always means letting something go."
+      }
+    },
+    "major-07-chariot": {
+      "topics": {
+        "love": {
+          "vi": "Khi hai người muốn những hướng khác nhau, hãy cùng nói rõ mỗi người đang đi về đâu. Giữ được nhịp chung quan trọng hơn chuyện ai thắng.",
+          "en": "When the two of you want different directions, talk openly about where each of you is heading. Keeping a shared rhythm matters more than who wins."
+        },
+        "career": {
+          "vi": "Có nhiều việc đang kéo bạn về nhiều phía. Chọn một hướng chính, rồi đi từng bước đều đặn thay vì cố làm tất cả cùng lúc.",
+          "en": "Many things are pulling you in different directions. Pick one main direction, then move in steady steps instead of trying to do everything at once."
+        },
+        "self": {
+          "vi": "Bạn có thể giữ vững tay lái ngay cả khi lòng còn rối. Biết mình muốn đi về đâu đã là một bước rất lớn.",
+          "en": "You can keep a steady hand on the wheel even when you feel unsettled. Knowing where you want to go is already a big step."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải “cứ lao lên là thắng”. Lá này nói về việc giữ hướng giữa nhiều lực kéo, và đôi khi đi chậm mà chắc mới là tiến lên.",
+        "en": "It isn't “charge ahead and you'll win.” This card is about holding your course amid competing pulls, and sometimes slow and steady is what moving forward looks like."
+      }
+    },
+    "major-08-strength": {
+      "topics": {
+        "love": {
+          "vi": "Dịu dàng cũng cần can đảm. Bạn có thể nói thật cảm xúc của mình một cách mềm mỏng, mà vẫn giữ ranh giới của mình.",
+          "en": "Gentleness takes courage too. You can share your true feelings softly while still holding your own boundaries."
+        },
+        "career": {
+          "vi": "Khi áp lực lên cao, một phản ứng bình tĩnh thường có sức nặng hơn lời nói to. Hãy kiên nhẫn với người khác, và với cả chính bạn.",
+          "en": "When pressure rises, a calm response often carries more weight than raised voices. Be patient with others, and with yourself too."
+        },
+        "self": {
+          "vi": "Cảm xúc mạnh không cần bị đè nén hay ép biến mất. Bạn có thể ngồi lại với nó, hiểu nó, rồi chọn cách đáp lại.",
+          "en": "Strong feelings don't need to be pushed down or forced away. You can sit with them, understand them, then choose how to respond."
+        }
+      },
+      "misconception": {
+        "vi": "Mạnh mẽ không có nghĩa là phải gồng lên hay không bao giờ yếu lòng. Lá này nói về sức mạnh dịu dàng, biết ôm lấy cả phần mong manh trong bạn.",
+        "en": "Being strong doesn't mean toughing it out or never feeling vulnerable. This card is about a gentle strength that can hold the fragile parts of you too."
+      }
+    },
+    "major-09-hermit": {
+      "topics": {
+        "love": {
+          "vi": "Cần một khoảng riêng không có nghĩa là bạn thương ít đi. Hiểu rõ mình trước có thể giúp bạn gần người kia một cách thật hơn.",
+          "en": "Needing some space doesn't mean you care less. Understanding yourself first can help you be close to the other person in a truer way."
+        },
+        "career": {
+          "vi": "Lùi lại một chút khỏi ồn ào để tự hỏi: việc này có ý nghĩa gì với bạn? Câu trả lời ấy có thể giúp bạn chọn bước tiếp rõ hơn.",
+          "en": "Step back from the noise for a while and ask: what does this work mean to you? That answer can help you choose your next step more clearly."
+        },
+        "self": {
+          "vi": "Một chút thời gian ở riêng có thể giúp bạn nghe rõ mình. Ở một mình không có nghĩa là phải tự xoay xở mọi chuyện.",
+          "en": "A little time on your own can help you hear yourself clearly. Being alone doesn't mean you have to handle everything by yourself."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải “bạn sẽ cô đơn”. Lá này nói về khoảng lặng bạn tự chọn để tìm câu trả lời của riêng mình.",
+        "en": "It isn't “you'll end up lonely.” This card is about a quiet space you choose for yourself to find your own answers."
+      }
+    },
+    "major-10-wheel": {
+      "topics": {
+        "love": {
+          "vi": "Mối quan hệ nào cũng có lúc lên lúc xuống. Thay vì cố giữ mọi thứ như cũ, hãy để ý điều gì đang đổi và bạn muốn đáp lại ra sao.",
+          "en": "Every relationship has its ups and downs. Instead of trying to keep everything the same, notice what is changing and how you want to respond."
+        },
+        "career": {
+          "vi": "Hoàn cảnh có thể xoay theo hướng bạn chưa lường trước. Tập trung vào phần mình làm được, và để ý những cơ hội mới vừa hé ra.",
+          "en": "Circumstances may turn in ways you didn't expect. Focus on the part you can act on, and watch for new openings as they appear."
+        },
+        "self": {
+          "vi": "Bạn có thể đang ở một khúc quanh của chu kỳ. Hãy hỏi mình: điều gì nằm ngoài tầm tay, và điều gì bạn vẫn chọn được?",
+          "en": "You may be at a turning point in a cycle. Ask yourself: what is out of your hands, and what can you still choose?"
+        }
+      },
+      "misconception": {
+        "vi": "Không phải “vận may sắp đến”. Lá này nói về thay đổi, mà thay đổi không hứa tốt hay xấu, chỉ mời bạn thích nghi và chủ động phần của mình.",
+        "en": "It isn't “good luck is on its way.” This card is about change, and change promises neither good nor bad; it invites you to adapt and take charge of your part."
+      }
+    },
+    "major-11-justice": {
+      "topics": {
+        "love": {
+          "vi": "Một mối quan hệ cân bằng khi cả hai cùng cho và cùng nhận. Nhìn thẳng vào phần của mình, không gánh hết lỗi cũng không đổ hết lỗi.",
+          "en": "A relationship is balanced when both people give and receive. Look honestly at your own part, without taking all the blame or placing it all on the other."
+        },
+        "career": {
+          "vi": "Cân nhắc dữ kiện trước khi quyết định. Một lựa chọn công bằng và rõ ràng thường đứng vững lâu hơn một lựa chọn vội vàng.",
+          "en": "Weigh the facts before you decide. A fair, clear choice usually holds up longer than a hasty one."
+        },
+        "self": {
+          "vi": "Thành thật với chính mình về điều đã xảy ra. Nhận trách nhiệm có thể đi cùng sự tử tế, không cần tự trách mình.",
+          "en": "Be honest with yourself about what happened. Taking responsibility can go hand in hand with kindness, without blaming yourself."
+        }
+      },
+      "misconception": {
+        "vi": "Lá này không đoán trước chuyện thắng thua hay kiện tụng. Nó mời bạn nhìn rõ sự việc, kể cả phần trách nhiệm của mình.",
+        "en": "This card doesn't predict who wins or loses, or how a legal matter turns out. It invites you to see things clearly, including your own part."
+      }
+    },
+    "major-12-hanged-man": {
+      "topics": {
+        "love": {
+          "vi": "Có lẽ đây là lúc thôi cố kéo mọi chuyện theo ý mình. Thử đặt mình vào chỗ người kia và nhìn lại từ đó.",
+          "en": "Perhaps it's time to stop trying to pull things your way. Try standing in the other person's place and looking again from there."
+        },
+        "career": {
+          "vi": "Khi một việc đang đứng yên, thử nhìn nó từ một góc khác. Chờ đợi có chủ đích khác hẳn với bị mắc kẹt.",
+          "en": "When something has stalled, try looking at it from a different angle. Waiting with intention is very different from being stuck."
+        },
+        "self": {
+          "vi": "Cho phép mình tạm dừng mà không thấy có lỗi. Đôi khi buông bớt việc cố gắng lại giúp bạn nhìn rõ hơn.",
+          "en": "Let yourself pause without feeling guilty. Sometimes easing off the effort helps you see more clearly."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải bạn phải chịu đựng hay hy sinh bản thân. Lá này nói về một khoảng dừng bạn tự chọn để nhìn mọi thứ theo cách mới.",
+        "en": "It doesn't mean you have to endure or sacrifice yourself. This card is about a pause you choose, so you can see things in a new way."
+      }
+    },
+    "major-13-death": {
+      "topics": {
+        "love": {
+          "vi": "Một nếp cũ trong cách yêu có thể đã xong vai trò của nó. Khép lại thói quen hay kỳ vọng không còn hợp giúp bạn có chỗ cho điều mới.",
+          "en": "An old pattern in the way you love may have done its job. Closing the door on habits or expectations that no longer fit makes room for something new."
+        },
+        "career": {
+          "vi": "Một giai đoạn có thể đang khép lại. Bạn có thể ghi nhận những gì đã học, rồi từ từ chuẩn bị cho chặng tiếp theo theo nhịp của mình.",
+          "en": "One chapter may be coming to a close. You can acknowledge what you've learned, then slowly prepare for the next stage at your own pace."
+        },
+        "self": {
+          "vi": "Bạn có thể đang lớn ra khỏi một phiên bản cũ của mình. Thấy buồn khi buông là điều bình thường, đó cũng là một phần của thay đổi.",
+          "en": "You may be growing out of an older version of yourself. Feeling sad as you let go is natural; it's part of change too."
+        }
+      },
+      "misconception": {
+        "vi": "Lá này không nói về cái chết hay điều xui rủi. Nó nói về sự kết thúc của một giai đoạn, để điều mới có chỗ bắt đầu.",
+        "en": "This card isn't about physical death or bad luck. It's about one chapter ending, so something new has room to begin."
+      }
+    },
+    "major-14-temperance": {
+      "topics": {
+        "love": {
+          "vi": "Tìm điểm gặp giữa nhu cầu của bạn và của người kia. Một chút nhường nhịn từ cả hai phía có thể tạo nên nhịp chung dễ chịu.",
+          "en": "Look for the meeting point between your needs and theirs. A little give from both sides can create a rhythm that feels good to you both."
+        },
+        "career": {
+          "vi": "Không cần dồn hết sức trong một lần. Xen kẽ làm và nghỉ, kết hợp những cách làm khác nhau để đi được đường dài.",
+          "en": "You don't have to give everything at once. Alternate work and rest, and combine different approaches so you can go the distance."
+        },
+        "self": {
+          "vi": "Bạn không phải chọn giữa cực này và cực kia. Thử pha hai mong muốn thành một nhịp sống vừa sức với mình.",
+          "en": "You don't have to choose one extreme or the other. Try blending two wishes into a pace of life that suits you."
+        }
+      },
+      "misconception": {
+        "vi": "Lá này không bảo bạn phải kìm nén hay sống nhạt nhòa. Điều độ ở đây là tìm mức vừa đủ cho từng điều trong đời mình.",
+        "en": "This card isn't telling you to hold back or live a dull life. Moderation here means finding the right amount of each thing in your life."
+      }
+    },
+    "major-15-devil": {
+      "topics": {
+        "love": {
+          "vi": "Để ý xem có điều gì đang khiến bạn thấy bị trói buộc, như ghen tuông, sợ mất hay một thói quen khó dứt. Nhìn rõ nó là bước đầu để thấy mình vẫn có lựa chọn.",
+          "en": "Notice whether something is making you feel tied down, like jealousy, fear of losing someone, or a habit that's hard to break. Seeing it clearly is the first step to realizing you still have choices."
+        },
+        "career": {
+          "vi": "Có thể bạn đang ở lại một việc vì sợ hơn là vì muốn. Thử gọi tên điều đang giữ chân mình, mà không tự trách.",
+          "en": "You may be staying with something more out of fear than out of wanting to. Try naming what is holding you there, without blaming yourself."
+        },
+        "self": {
+          "vi": "Một ham muốn hay thói quen có thể đang thu hẹp lựa chọn của bạn. Nhìn nó bằng sự tò mò thay vì xấu hổ, và tìm người hỗ trợ nếu cần.",
+          "en": "A desire or habit may be narrowing your choices. Look at it with curiosity instead of shame, and reach out for support if you need it."
+        }
+      },
+      "misconception": {
+        "vi": "Lá này không nói bạn là người xấu hay có thế lực đen tối nào đó. Nó chỉ ra một ràng buộc, và ràng buộc thì có thể nới ra dần.",
+        "en": "This card doesn't say you're a bad person or that some dark force is at work. It points to an attachment, and attachments can be loosened little by little."
+      }
+    },
+    "major-16-tower": {
+      "topics": {
+        "love": {
+          "vi": "Một điều bất ngờ có thể khiến bạn nhìn lại điều mình từng tin về mối quan hệ. Cho mình thời gian để cảm nhận trước khi quyết định.",
+          "en": "Something unexpected may lead you to rethink what you believed about a relationship. Give yourself time to feel before you decide."
+        },
+        "career": {
+          "vi": "Khi một kế hoạch bị lung lay, đó cũng là lúc xem phần nào đã không còn vững. Giữ lại điểm tựa đáng tin, rồi xây lại từ đó.",
+          "en": "When a plan is shaken, it's also a chance to see which parts were no longer solid. Hold on to what is still reliable, then rebuild from there."
+        },
+        "self": {
+          "vi": "Một niềm tin cũ về bản thân có thể đang rạn. Điều đó có thể làm bạn chao đảo, nhưng cũng mở ra chỗ cho một cái nhìn thật hơn.",
+          "en": "An old belief about yourself may be cracking. That can feel unsettling, but it also opens room for a truer view."
+        }
+      },
+      "misconception": {
+        "vi": "Lá này không báo trước tai họa. Nó nói về một giả định cũ được nhìn lại, và bạn không cần phải đổ vỡ thì mới trưởng thành.",
+        "en": "This card doesn't foretell disaster. It's about an old assumption being looked at again, and you don't need things to fall apart in order to grow."
+      }
+    },
+    "major-17-star": {
+      "topics": {
+        "love": {
+          "vi": "Sau những ngày mệt mỏi, bạn có thể cho phép mình tin lại một chút vào sự gần gũi. Hãy bắt đầu từ việc dịu dàng với chính bạn.",
+          "en": "After tiring days, you can let yourself trust a little again in closeness. Start by being gentle with yourself."
+        },
+        "career": {
+          "vi": "Giữ lại một mục tiêu nhỏ cho bạn cảm hứng, kể cả khi mọi thứ chưa rõ. Hy vọng ở đây là điểm tựa, không phải lời hứa.",
+          "en": "Hold on to a small goal that inspires you, even when things aren't clear yet. Hope here is something to lean on, not a promise."
+        },
+        "self": {
+          "vi": "Hãy để ý một điều nhỏ và có thật đang nâng đỡ bạn. Nghỉ ngơi và chăm sóc mình cũng là một cách giữ hy vọng.",
+          "en": "Notice one small, real thing that is holding you up. Resting and caring for yourself is also a way of keeping hope."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải “mọi điều ước sẽ thành”. Lá này nói về hy vọng nhẹ nhàng, giúp bạn đứng dậy mà không cần chắc rằng mọi thứ sẽ ổn.",
+        "en": "It isn't “every wish will come true.” This card is about gentle hope that helps you get back up without needing to be sure everything will be fine."
+      }
+    },
+    "major-18-moon": {
+      "topics": {
+        "love": {
+          "vi": "Khi chưa rõ người kia nghĩ gì, nỗi lo dễ tự viết tiếp câu chuyện. Tách điều bạn biết khỏi điều bạn đoán, rồi hỏi thẳng nếu có thể.",
+          "en": "When you're unsure what the other person thinks, worry can easily write the rest of the story. Separate what you know from what you're guessing, then ask directly if you can."
+        },
+        "career": {
+          "vi": "Thông tin còn mơ hồ, nên chưa cần vội kết luận. Hỏi thêm, ghi chép lại, và đi từng bước nhỏ khi mọi thứ dần rõ.",
+          "en": "Information is still unclear, so there's no need to rush to conclusions. Ask more, write things down, and take small steps as things become clearer."
+        },
+        "self": {
+          "vi": "Giấc mơ, nỗi lo hay những cảm giác khó gọi tên có thể đang muốn nói với bạn điều gì đó. Lắng nghe chúng mà không cần tin hết vào chúng.",
+          "en": "Dreams, worries, or feelings that are hard to name may be trying to tell you something. Listen to them without having to believe all of them."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải “có người đang lừa dối bạn”. Lá này nói về sự mơ hồ, và mời bạn phân biệt cảm nhận với điều đã được kiểm chứng.",
+        "en": "It isn't “someone is deceiving you.” This card is about uncertainty, and invites you to tell your impressions apart from what has been confirmed."
+      }
+    },
+    "major-19-sun": {
+      "topics": {
+        "love": {
+          "vi": "Hãy tận hưởng những khoảnh khắc vui và ấm áp đang có. Sự cởi mở và chân thành giúp hai người nhìn thấy nhau rõ hơn.",
+          "en": "Enjoy the joyful, warm moments you have right now. Openness and sincerity help the two of you see each other more clearly."
+        },
+        "career": {
+          "vi": "Ghi nhận điều bạn đang làm tốt và chia sẻ nó một cách tự nhiên. Sự rõ ràng hôm nay có thể giúp bạn tự tin bước tiếp.",
+          "en": "Recognize what you're doing well and share it naturally. Today's clarity can help you move forward with confidence."
+        },
+        "self": {
+          "vi": "Cho phép mình vui mà không cần lý do lớn. Một chút nắng, một tiếng cười cũng đáng được đón nhận trọn vẹn.",
+          "en": "Let yourself feel joy without needing a big reason. A little sunshine or a laugh deserves to be fully welcomed."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải “mọi chuyện chắc chắn sẽ thành công”. Lá này mời bạn đón nhận niềm vui đang có, không phải một lời bảo đảm cho tương lai.",
+        "en": "It isn't “everything is guaranteed to succeed.” This card invites you to welcome the joy you have now; it isn't a guarantee about the future."
+      }
+    },
+    "major-20-judgement": {
+      "topics": {
+        "love": {
+          "vi": "Nhìn lại những gì đã qua trong chuyện tình cảm bằng sự thấu hiểu. Tha thứ, cho mình hay cho người, là lựa chọn của bạn, không phải nghĩa vụ.",
+          "en": "Look back on what has happened in love with understanding. Forgiveness, for yourself or for someone else, is your choice, not an obligation."
+        },
+        "career": {
+          "vi": "Có thể bạn đang nghe rõ hơn điều mình thật sự muốn làm. Hãy để những trải nghiệm cũ giúp bạn chọn bước tiếp theo.",
+          "en": "You may be hearing more clearly what you truly want to do. Let past experiences help you choose your next step."
+        },
+        "self": {
+          "vi": "Nhìn lại chặng đường của mình mà không tự kết án. Bạn có thể học từ quá khứ và chọn đáp lại điều quan trọng với bạn.",
+          "en": "Look back on your path without condemning yourself. You can learn from the past and choose to answer what matters to you."
+        }
+      },
+      "misconception": {
+        "vi": "Lá này không báo một sự phán xét hay trừng phạt sắp tới. Nó nói về việc tự nhìn lại và đáp lại tiếng gọi bên trong bạn.",
+        "en": "This card doesn't announce a coming judgment or punishment. It's about looking back and answering a call from within you."
+      }
+    },
+    "major-21-world": {
+      "topics": {
+        "love": {
+          "vi": "Ghi nhận chặng đường hai người đã cùng đi, kể cả những bài học. Cảm giác trọn vẹn thường đến khi mỗi người được là chính mình.",
+          "en": "Acknowledge the road you've walked together, lessons included. A sense of wholeness often comes when each of you is free to be yourself."
+        },
+        "career": {
+          "vi": "Một việc có thể đang tới đích. Dành thời gian ghi nhận nỗ lực của mình trước khi vội bắt đầu điều tiếp theo.",
+          "en": "A project may be reaching its finish line. Take time to recognize your effort before rushing into the next thing."
+        },
+        "self": {
+          "vi": "Những mảnh trải nghiệm khác nhau có thể đang ghép lại thành một bức tranh lớn hơn về bạn. Bạn được phép tự hào về chặng đường đó.",
+          "en": "Different pieces of your experience may be coming together into a bigger picture of who you are. You're allowed to feel proud of that journey."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải “mọi thứ đã hoàn hảo và kết thúc”. Lá này nói về một chặng đường khép lại, và bạn có thể ghi nhận nó dù chưa hoàn hảo.",
+        "en": "It isn't “everything is perfect and finished.” This card is about one stage coming to a close, and you can honor it even if it wasn't perfect."
+      }
+    }
+  }
+}

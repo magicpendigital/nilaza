@@ -1,0 +1,1005 @@
+{
+  "status": "draft-for-owner-review",
+  "system": "Golden Dawn (traditional)",
+  "createdAt": "2026-10-30",
+  "notes": {
+    "vi": "Tương ứng theo hệ Golden Dawn truyền thống (Book T / Liber 777). Ẩn chính: hành tinh, cung hoặc nguyên tố; ba lá The Fool, The Hanged Man, Judgement ghi nguyên tố cổ điển, còn hành tinh hiện đại nằm riêng ở trường modernPlanet. Ẩn phụ 2–10: hành tinh trong cung theo từng khoảng 10° (decan, thứ tự Chaldean bắt đầu từ Sao Hỏa ở 0° Bạch Dương). Át: gốc của nguyên tố. Lá hoàng gia: nguyên tố phụ và khoảng cung từ 21° cung trước đến 20° cung sau. Trường element của các lá ẩn chính ứng với hành tinh là quy ước phổ biến, không phải thuộc tính gốc của Golden Dawn (trừ The World, vốn được gán cả Sao Thổ và Đất).",
+    "en": "Correspondences follow the traditional Golden Dawn system (Book T / Liber 777). Major Arcana: planet, sign or element; The Fool, The Hanged Man and Judgement show the classical element, with the modern planet given separately in modernPlanet. Minor 2–10: planet in sign by 10° decan (Chaldean order starting with Mars at 0° Aries). Aces: root of the element. Court cards: sub-element and zodiac span from 21° of one sign to 20° of the next. The element field for planet-ruled Major Arcana is a common convention, not an original Golden Dawn attribute (except The World, which Golden Dawn gives both Saturn and Earth).",
+    "courtMapping": "Rider–Waite names mapped to Golden Dawn titles by image: Knight (mounted) = GD Knight (called King in Book T), Fire of the suit, span ending in the mutable sign; Queen = GD Queen, Water of the suit, span ending in the cardinal sign; King (seated) = GD Prince, Air of the suit, span ending in the fixed sign; Page = GD Princess, Earth of the suit, no zodiac span. Some modern books swap Knight and King (King = Fire of, Knight = Air of); the Owner should pick one convention."
+  },
+  "cards": {
+    "major-00-fool": {
+      "kind": "element",
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Nguyên tố Khí",
+        "en": "Element of Air"
+      },
+      "modernPlanet": {
+        "vi": "Sao Thiên Vương",
+        "en": "Uranus"
+      }
+    },
+    "major-01-magician": {
+      "kind": "planet",
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Sao Thủy",
+        "en": "Mercury"
+      },
+      "noteKeys": [
+        "planetElement"
+      ]
+    },
+    "major-02-high-priestess": {
+      "kind": "planet",
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Mặt Trăng",
+        "en": "Moon"
+      },
+      "noteKeys": [
+        "planetElement"
+      ]
+    },
+    "major-03-empress": {
+      "kind": "planet",
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Sao Kim",
+        "en": "Venus"
+      },
+      "noteKeys": [
+        "planetElement"
+      ],
+      "extraNote": {
+        "vi": "Một số sách xếp Hoàng Hậu vào Nước vì Sao Kim gắn với tình cảm; Nilaza chọn Đất theo hình mùa màng và thiên nhiên trong tranh.",
+        "en": "Some books place The Empress under Water because Venus is linked with feeling; Nilaza uses Earth, after the harvest and nature imagery in the picture."
+      }
+    },
+    "major-04-emperor": {
+      "kind": "sign",
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Bạch Dương",
+        "en": "Aries"
+      }
+    },
+    "major-05-hierophant": {
+      "kind": "sign",
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Kim Ngưu",
+        "en": "Taurus"
+      }
+    },
+    "major-06-lovers": {
+      "kind": "sign",
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Song Tử",
+        "en": "Gemini"
+      }
+    },
+    "major-07-chariot": {
+      "kind": "sign",
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Cự Giải",
+        "en": "Cancer"
+      }
+    },
+    "major-08-strength": {
+      "kind": "sign",
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Sư Tử",
+        "en": "Leo"
+      }
+    },
+    "major-09-hermit": {
+      "kind": "sign",
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Xử Nữ",
+        "en": "Virgo"
+      }
+    },
+    "major-10-wheel": {
+      "kind": "planet",
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Sao Mộc",
+        "en": "Jupiter"
+      },
+      "noteKeys": [
+        "planetElement"
+      ]
+    },
+    "major-11-justice": {
+      "kind": "sign",
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Thiên Bình",
+        "en": "Libra"
+      }
+    },
+    "major-12-hanged-man": {
+      "kind": "element",
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Nguyên tố Nước",
+        "en": "Element of Water"
+      },
+      "modernPlanet": {
+        "vi": "Sao Hải Vương",
+        "en": "Neptune"
+      }
+    },
+    "major-13-death": {
+      "kind": "sign",
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Bọ Cạp",
+        "en": "Scorpio"
+      }
+    },
+    "major-14-temperance": {
+      "kind": "sign",
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Nhân Mã",
+        "en": "Sagittarius"
+      }
+    },
+    "major-15-devil": {
+      "kind": "sign",
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Ma Kết",
+        "en": "Capricorn"
+      }
+    },
+    "major-16-tower": {
+      "kind": "planet",
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Sao Hỏa",
+        "en": "Mars"
+      },
+      "noteKeys": [
+        "planetElement"
+      ]
+    },
+    "major-17-star": {
+      "kind": "sign",
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Bảo Bình",
+        "en": "Aquarius"
+      }
+    },
+    "major-18-moon": {
+      "kind": "sign",
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Song Ngư",
+        "en": "Pisces"
+      }
+    },
+    "major-19-sun": {
+      "kind": "planet",
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Mặt Trời",
+        "en": "Sun"
+      },
+      "noteKeys": [
+        "planetElement"
+      ]
+    },
+    "major-20-judgement": {
+      "kind": "element",
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Nguyên tố Lửa",
+        "en": "Element of Fire"
+      },
+      "modernPlanet": {
+        "vi": "Sao Diêm Vương",
+        "en": "Pluto"
+      }
+    },
+    "major-21-world": {
+      "kind": "planet",
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Sao Thổ",
+        "en": "Saturn"
+      },
+      "noteKeys": [
+        "planetElement"
+      ],
+      "extraNote": {
+        "vi": "Thế Giới là ngoại lệ: hệ Golden Dawn gán cho lá này cả Sao Thổ và nguyên tố Đất.",
+        "en": "The World is the exception: the Golden Dawn assigns this card both Saturn and the element of Earth."
+      }
+    },
+    "minor-wands-ace": {
+      "kind": "element-root",
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Gốc của nguyên tố Lửa",
+        "en": "Root of the powers of Fire"
+      }
+    },
+    "minor-wands-two": {
+      "kind": "decan",
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Sao Hỏa trong Bạch Dương",
+        "en": "Mars in Aries"
+      },
+      "degrees": "0°–10° Aries"
+    },
+    "minor-wands-three": {
+      "kind": "decan",
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Mặt Trời trong Bạch Dương",
+        "en": "Sun in Aries"
+      },
+      "degrees": "10°–20° Aries"
+    },
+    "minor-wands-four": {
+      "kind": "decan",
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Sao Kim trong Bạch Dương",
+        "en": "Venus in Aries"
+      },
+      "degrees": "20°–30° Aries"
+    },
+    "minor-wands-five": {
+      "kind": "decan",
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Sao Thổ trong Sư Tử",
+        "en": "Saturn in Leo"
+      },
+      "degrees": "0°–10° Leo"
+    },
+    "minor-wands-six": {
+      "kind": "decan",
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Sao Mộc trong Sư Tử",
+        "en": "Jupiter in Leo"
+      },
+      "degrees": "10°–20° Leo"
+    },
+    "minor-wands-seven": {
+      "kind": "decan",
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Sao Hỏa trong Sư Tử",
+        "en": "Mars in Leo"
+      },
+      "degrees": "20°–30° Leo"
+    },
+    "minor-wands-eight": {
+      "kind": "decan",
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Sao Thủy trong Nhân Mã",
+        "en": "Mercury in Sagittarius"
+      },
+      "degrees": "0°–10° Sagittarius"
+    },
+    "minor-wands-nine": {
+      "kind": "decan",
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Mặt Trăng trong Nhân Mã",
+        "en": "Moon in Sagittarius"
+      },
+      "degrees": "10°–20° Sagittarius"
+    },
+    "minor-wands-ten": {
+      "kind": "decan",
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Sao Thổ trong Nhân Mã",
+        "en": "Saturn in Sagittarius"
+      },
+      "degrees": "20°–30° Sagittarius"
+    },
+    "minor-wands-page": {
+      "kind": "court",
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Đất của Lửa (không ứng với khoảng cung hoàng đạo nào)",
+        "en": "Earth of Fire (no zodiac span)"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-wands-knight": {
+      "kind": "court",
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Lửa của Lửa; từ 21° Bọ Cạp đến 20° Nhân Mã",
+        "en": "Fire of Fire; 21° Scorpio to 20° Sagittarius"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-wands-queen": {
+      "kind": "court",
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Nước của Lửa; từ 21° Song Ngư đến 20° Bạch Dương",
+        "en": "Water of Fire; 21° Pisces to 20° Aries"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-wands-king": {
+      "kind": "court",
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Khí của Lửa; từ 21° Cự Giải đến 20° Sư Tử",
+        "en": "Air of Fire; 21° Cancer to 20° Leo"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-cups-ace": {
+      "kind": "element-root",
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Gốc của nguyên tố Nước",
+        "en": "Root of the powers of Water"
+      }
+    },
+    "minor-cups-two": {
+      "kind": "decan",
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Sao Kim trong Cự Giải",
+        "en": "Venus in Cancer"
+      },
+      "degrees": "0°–10° Cancer"
+    },
+    "minor-cups-three": {
+      "kind": "decan",
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Sao Thủy trong Cự Giải",
+        "en": "Mercury in Cancer"
+      },
+      "degrees": "10°–20° Cancer"
+    },
+    "minor-cups-four": {
+      "kind": "decan",
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Mặt Trăng trong Cự Giải",
+        "en": "Moon in Cancer"
+      },
+      "degrees": "20°–30° Cancer"
+    },
+    "minor-cups-five": {
+      "kind": "decan",
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Sao Hỏa trong Bọ Cạp",
+        "en": "Mars in Scorpio"
+      },
+      "degrees": "0°–10° Scorpio"
+    },
+    "minor-cups-six": {
+      "kind": "decan",
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Mặt Trời trong Bọ Cạp",
+        "en": "Sun in Scorpio"
+      },
+      "degrees": "10°–20° Scorpio"
+    },
+    "minor-cups-seven": {
+      "kind": "decan",
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Sao Kim trong Bọ Cạp",
+        "en": "Venus in Scorpio"
+      },
+      "degrees": "20°–30° Scorpio"
+    },
+    "minor-cups-eight": {
+      "kind": "decan",
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Sao Thổ trong Song Ngư",
+        "en": "Saturn in Pisces"
+      },
+      "degrees": "0°–10° Pisces"
+    },
+    "minor-cups-nine": {
+      "kind": "decan",
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Sao Mộc trong Song Ngư",
+        "en": "Jupiter in Pisces"
+      },
+      "degrees": "10°–20° Pisces"
+    },
+    "minor-cups-ten": {
+      "kind": "decan",
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Sao Hỏa trong Song Ngư",
+        "en": "Mars in Pisces"
+      },
+      "degrees": "20°–30° Pisces"
+    },
+    "minor-cups-page": {
+      "kind": "court",
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Đất của Nước (không ứng với khoảng cung hoàng đạo nào)",
+        "en": "Earth of Water (no zodiac span)"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-cups-knight": {
+      "kind": "court",
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Lửa của Nước; từ 21° Bảo Bình đến 20° Song Ngư",
+        "en": "Fire of Water; 21° Aquarius to 20° Pisces"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-cups-queen": {
+      "kind": "court",
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Nước của Nước; từ 21° Song Tử đến 20° Cự Giải",
+        "en": "Water of Water; 21° Gemini to 20° Cancer"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-cups-king": {
+      "kind": "court",
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Khí của Nước; từ 21° Thiên Bình đến 20° Bọ Cạp",
+        "en": "Air of Water; 21° Libra to 20° Scorpio"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-swords-ace": {
+      "kind": "element-root",
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Gốc của nguyên tố Khí",
+        "en": "Root of the powers of Air"
+      }
+    },
+    "minor-swords-two": {
+      "kind": "decan",
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Mặt Trăng trong Thiên Bình",
+        "en": "Moon in Libra"
+      },
+      "degrees": "0°–10° Libra"
+    },
+    "minor-swords-three": {
+      "kind": "decan",
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Sao Thổ trong Thiên Bình",
+        "en": "Saturn in Libra"
+      },
+      "degrees": "10°–20° Libra"
+    },
+    "minor-swords-four": {
+      "kind": "decan",
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Sao Mộc trong Thiên Bình",
+        "en": "Jupiter in Libra"
+      },
+      "degrees": "20°–30° Libra"
+    },
+    "minor-swords-five": {
+      "kind": "decan",
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Sao Kim trong Bảo Bình",
+        "en": "Venus in Aquarius"
+      },
+      "degrees": "0°–10° Aquarius"
+    },
+    "minor-swords-six": {
+      "kind": "decan",
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Sao Thủy trong Bảo Bình",
+        "en": "Mercury in Aquarius"
+      },
+      "degrees": "10°–20° Aquarius"
+    },
+    "minor-swords-seven": {
+      "kind": "decan",
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Mặt Trăng trong Bảo Bình",
+        "en": "Moon in Aquarius"
+      },
+      "degrees": "20°–30° Aquarius"
+    },
+    "minor-swords-eight": {
+      "kind": "decan",
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Sao Mộc trong Song Tử",
+        "en": "Jupiter in Gemini"
+      },
+      "degrees": "0°–10° Gemini"
+    },
+    "minor-swords-nine": {
+      "kind": "decan",
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Sao Hỏa trong Song Tử",
+        "en": "Mars in Gemini"
+      },
+      "degrees": "10°–20° Gemini"
+    },
+    "minor-swords-ten": {
+      "kind": "decan",
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Mặt Trời trong Song Tử",
+        "en": "Sun in Gemini"
+      },
+      "degrees": "20°–30° Gemini"
+    },
+    "minor-swords-page": {
+      "kind": "court",
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Đất của Khí (không ứng với khoảng cung hoàng đạo nào)",
+        "en": "Earth of Air (no zodiac span)"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-swords-knight": {
+      "kind": "court",
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Lửa của Khí; từ 21° Kim Ngưu đến 20° Song Tử",
+        "en": "Fire of Air; 21° Taurus to 20° Gemini"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-swords-queen": {
+      "kind": "court",
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Nước của Khí; từ 21° Xử Nữ đến 20° Thiên Bình",
+        "en": "Water of Air; 21° Virgo to 20° Libra"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-swords-king": {
+      "kind": "court",
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Khí của Khí; từ 21° Ma Kết đến 20° Bảo Bình",
+        "en": "Air of Air; 21° Capricorn to 20° Aquarius"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-pentacles-ace": {
+      "kind": "element-root",
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Gốc của nguyên tố Đất",
+        "en": "Root of the powers of Earth"
+      }
+    },
+    "minor-pentacles-two": {
+      "kind": "decan",
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Sao Mộc trong Ma Kết",
+        "en": "Jupiter in Capricorn"
+      },
+      "degrees": "0°–10° Capricorn"
+    },
+    "minor-pentacles-three": {
+      "kind": "decan",
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Sao Hỏa trong Ma Kết",
+        "en": "Mars in Capricorn"
+      },
+      "degrees": "10°–20° Capricorn"
+    },
+    "minor-pentacles-four": {
+      "kind": "decan",
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Mặt Trời trong Ma Kết",
+        "en": "Sun in Capricorn"
+      },
+      "degrees": "20°–30° Capricorn"
+    },
+    "minor-pentacles-five": {
+      "kind": "decan",
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Sao Thủy trong Kim Ngưu",
+        "en": "Mercury in Taurus"
+      },
+      "degrees": "0°–10° Taurus"
+    },
+    "minor-pentacles-six": {
+      "kind": "decan",
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Mặt Trăng trong Kim Ngưu",
+        "en": "Moon in Taurus"
+      },
+      "degrees": "10°–20° Taurus"
+    },
+    "minor-pentacles-seven": {
+      "kind": "decan",
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Sao Thổ trong Kim Ngưu",
+        "en": "Saturn in Taurus"
+      },
+      "degrees": "20°–30° Taurus"
+    },
+    "minor-pentacles-eight": {
+      "kind": "decan",
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Mặt Trời trong Xử Nữ",
+        "en": "Sun in Virgo"
+      },
+      "degrees": "0°–10° Virgo"
+    },
+    "minor-pentacles-nine": {
+      "kind": "decan",
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Sao Kim trong Xử Nữ",
+        "en": "Venus in Virgo"
+      },
+      "degrees": "10°–20° Virgo"
+    },
+    "minor-pentacles-ten": {
+      "kind": "decan",
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Sao Thủy trong Xử Nữ",
+        "en": "Mercury in Virgo"
+      },
+      "degrees": "20°–30° Virgo"
+    },
+    "minor-pentacles-page": {
+      "kind": "court",
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Đất của Đất (không ứng với khoảng cung hoàng đạo nào)",
+        "en": "Earth of Earth (no zodiac span)"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-pentacles-knight": {
+      "kind": "court",
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Lửa của Đất; từ 21° Sư Tử đến 20° Xử Nữ",
+        "en": "Fire of Earth; 21° Leo to 20° Virgo"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-pentacles-queen": {
+      "kind": "court",
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Nước của Đất; từ 21° Nhân Mã đến 20° Ma Kết",
+        "en": "Water of Earth; 21° Sagittarius to 20° Capricorn"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-pentacles-king": {
+      "kind": "court",
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Khí của Đất; từ 21° Bạch Dương đến 20° Kim Ngưu",
+        "en": "Air of Earth; 21° Aries to 20° Taurus"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    }
+  },
+  "sharedNotes": {
+    "court": {
+      "vi": "Ghi chú mở rộng: tên lá hoàng gia khác nhau giữa các hệ. Bộ Rider–Waite dùng Tiểu Đồng, Hiệp Sĩ, Nữ Hoàng, Vua; hệ Golden Dawn gốc dùng Công Chúa, Vua (người cưỡi ngựa), Nữ Hoàng, Hoàng Tử. Nilaza ghép theo hình trong tranh: Hiệp Sĩ cưỡi ngựa là Lửa, Nữ Hoàng là Nước, Vua ngồi ngai là Khí, Tiểu Đồng là Đất. Một số sách khác đổi chỗ Hiệp Sĩ và Vua (Vua là Lửa, Hiệp Sĩ là Khí), nên bạn có thể gặp cách ghi khác ở tài liệu khác.",
+      "en": "Extended note: court card titles differ between systems. Rider–Waite uses Page, Knight, Queen, King; the original Golden Dawn uses Princess, King (the mounted figure), Queen, Prince. Nilaza matches them by the pictures: the mounted Knight is Fire, the Queen is Water, the seated King is Air, the Page is Earth. Some books swap Knight and King (King as Fire, Knight as Air), so you may see a different attribution elsewhere."
+    },
+    "planetElement": {
+      "vi": "Ghi chú: một hành tinh không thuộc riêng nguyên tố nào. Nguyên tố của lá này là quy ước phổ biến trong sách tarot hiện đại, dựa trên tính chất thường gắn với hành tinh đó, không có trong hệ Golden Dawn gốc.",
+      "en": "Note: a planet doesn't belong to a single element. The element shown for this card is a common convention in modern tarot books, based on qualities usually linked to the planet; it isn't part of the original Golden Dawn system."
+    }
+  }
+}

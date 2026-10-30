@@ -1,0 +1,2318 @@
+{
+  "version": "2026-10-31-card-guide-v1",
+  "status": "owner-approved-2026-10-30",
+  "system": "Golden Dawn (traditional)",
+  "sources": {
+    "topics": "docs/content-review/tarot-learning-content-draft.md (Owner decisions 2026-10-30)",
+    "correspondences": {
+      "vi": "Tương ứng theo hệ Golden Dawn truyền thống (Book T / Liber 777). Ẩn chính: hành tinh, cung hoặc nguyên tố; ba lá The Fool, The Hanged Man, Judgement ghi nguyên tố cổ điển, còn hành tinh hiện đại nằm riêng ở trường modernPlanet. Ẩn phụ 2–10: hành tinh trong cung theo từng khoảng 10° (decan, thứ tự Chaldean bắt đầu từ Sao Hỏa ở 0° Bạch Dương). Át: gốc của nguyên tố. Lá hoàng gia: nguyên tố phụ và khoảng cung từ 21° cung trước đến 20° cung sau. Trường element của các lá ẩn chính ứng với hành tinh là quy ước phổ biến, không phải thuộc tính gốc của Golden Dawn (trừ The World, vốn được gán cả Sao Thổ và Đất).",
+      "en": "Correspondences follow the traditional Golden Dawn system (Book T / Liber 777). Major Arcana: planet, sign or element; The Fool, The Hanged Man and Judgement show the classical element, with the modern planet given separately in modernPlanet. Minor 2–10: planet in sign by 10° decan (Chaldean order starting with Mars at 0° Aries). Aces: root of the element. Court cards: sub-element and zodiac span from 21° of one sign to 20° of the next. The element field for planet-ruled Major Arcana is a common convention, not an original Golden Dawn attribute (except The World, which Golden Dawn gives both Saturn and Earth).",
+      "courtMapping": "Rider–Waite names mapped to Golden Dawn titles by image: Knight (mounted) = GD Knight (called King in Book T), Fire of the suit, span ending in the mutable sign; Queen = GD Queen, Water of the suit, span ending in the cardinal sign; King (seated) = GD Prince, Air of the suit, span ending in the fixed sign; Page = GD Princess, Earth of the suit, no zodiac span. Some modern books swap Knight and King (King = Fire of, Knight = Air of); the Owner should pick one convention."
+    }
+  },
+  "sharedNotes": {
+    "court": {
+      "vi": "Ghi chú mở rộng: tên lá hoàng gia khác nhau giữa các hệ. Bộ Rider–Waite dùng Tiểu Đồng, Hiệp Sĩ, Nữ Hoàng, Vua; hệ Golden Dawn gốc dùng Công Chúa, Vua (người cưỡi ngựa), Nữ Hoàng, Hoàng Tử. Nilaza ghép theo hình trong tranh: Hiệp Sĩ cưỡi ngựa là Lửa, Nữ Hoàng là Nước, Vua ngồi ngai là Khí, Tiểu Đồng là Đất. Một số sách khác đổi chỗ Hiệp Sĩ và Vua (Vua là Lửa, Hiệp Sĩ là Khí), nên bạn có thể gặp cách ghi khác ở tài liệu khác.",
+      "en": "Extended note: court card titles differ between systems. Rider–Waite uses Page, Knight, Queen, King; the original Golden Dawn uses Princess, King (the mounted figure), Queen, Prince. Nilaza matches them by the pictures: the mounted Knight is Fire, the Queen is Water, the seated King is Air, the Page is Earth. Some books swap Knight and King (King as Fire, Knight as Air), so you may see a different attribution elsewhere."
+    },
+    "planetElement": {
+      "vi": "Ghi chú: một hành tinh không thuộc riêng nguyên tố nào. Nguyên tố của lá này là quy ước phổ biến trong sách tarot hiện đại, dựa trên tính chất thường gắn với hành tinh đó, không có trong hệ Golden Dawn gốc.",
+      "en": "Note: a planet doesn't belong to a single element. The element shown for this card is a common convention in modern tarot books, based on qualities usually linked to the planet; it isn't part of the original Golden Dawn system."
+    }
+  },
+  "cards": {
+    "major-00-fool": {
+      "topics": {
+        "love": {
+          "vi": "Bạn có thể mở lòng với một điều mới bằng sự tò mò, mà vẫn lắng nghe xem mình thấy thoải mái tới đâu.",
+          "en": "You can open up to something new with curiosity, while still listening to how far you feel comfortable going."
+        },
+        "career": {
+          "vi": "Một hướng đi lạ có thể đáng thử. Bắt đầu bằng một bước nhỏ, đủ để học hỏi mà không phải đánh đổi mọi thứ đang có.",
+          "en": "An unfamiliar direction may be worth trying. Start with a small step, enough to learn from without trading away everything you have."
+        },
+        "self": {
+          "vi": "Cho phép mình làm người mới bắt đầu: vụng về một chút cũng được, miễn là bạn vẫn tò mò và tử tế với mình.",
+          "en": "Let yourself be a beginner: being a little clumsy is fine, as long as you stay curious and kind to yourself."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải “cứ liều đi, mọi chuyện sẽ ổn”. Lá này nói về lòng tin khi bắt đầu, và lòng tin vẫn cần để ý đến giới hạn của mình.",
+        "en": "It isn't “just leap, everything will work out.” This card is about trust at a beginning, and trust still pays attention to your limits."
+      },
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Nguyên tố Khí",
+        "en": "Element of Air"
+      },
+      "modernPlanet": {
+        "vi": "Sao Thiên Vương",
+        "en": "Uranus"
+      }
+    },
+    "major-01-magician": {
+      "topics": {
+        "love": {
+          "vi": "Bạn có nhiều cách để bày tỏ hơn bạn nghĩ. Hãy nói rõ điều mình muốn bằng lời và việc làm, thay vì chờ người kia tự đoán.",
+          "en": "You have more ways to express yourself than you think. Say clearly what you want, in words and actions, instead of waiting for the other person to guess."
+        },
+        "career": {
+          "vi": "Kỹ năng và những gì bạn đang có có thể đã đủ để bắt đầu. Gom chúng lại cho một mục tiêu rõ, rồi làm bước đầu tiên.",
+          "en": "The skills and resources you already have may be enough to begin. Gather them toward one clear goal, then take the first step."
+        },
+        "self": {
+          "vi": "Để ý xem bạn đang có những gì trong tay. Một ý định rõ cộng với việc làm nhỏ thường đi xa hơn là chờ đến lúc đủ đầy.",
+          "en": "Notice what you already have in hand. A clear intention plus a small action often goes further than waiting until everything is ready."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải phép màu hay mánh khóe để điều khiển người khác. Lá này nói về việc dùng khéo những gì bạn thật sự có.",
+        "en": "It isn't magic or a trick for controlling other people. This card is about skillfully using what you truly have."
+      },
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Sao Thủy",
+        "en": "Mercury"
+      },
+      "noteKeys": [
+        "planetElement"
+      ]
+    },
+    "major-02-high-priestess": {
+      "topics": {
+        "love": {
+          "vi": "Có những điều bạn cảm nhận được trước khi nói thành lời. Hãy lắng nghe chúng, rồi nhẹ nhàng hỏi lại thay vì tự kết luận.",
+          "en": "There are things you sense before you can put them into words. Listen to them, then gently ask instead of drawing conclusions on your own."
+        },
+        "career": {
+          "vi": "Chưa cần vội lên tiếng hay quyết định. Quan sát thêm, ghi lại điều bạn cảm thấy, rồi đối chiếu với những gì đã rõ.",
+          "en": "There's no need to rush to speak up or decide. Observe a little longer, note what you sense, then check it against what is already clear."
+        },
+        "self": {
+          "vi": "Dành một khoảng yên để nghe tiếng nói bên trong. Không phải câu hỏi nào cũng cần có câu trả lời ngay hôm nay.",
+          "en": "Make some quiet space to hear your inner voice. Not every question needs an answer today."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải “có người đang giấu bạn bí mật”. Lá này nói về những điều bạn chưa gọi tên được trong chính mình.",
+        "en": "It isn't “someone is keeping a secret from you.” This card is about what you haven't yet been able to name within yourself."
+      },
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Mặt Trăng",
+        "en": "Moon"
+      },
+      "noteKeys": [
+        "planetElement"
+      ]
+    },
+    "major-03-empress": {
+      "topics": {
+        "love": {
+          "vi": "Tình cảm lớn lên khi được chăm sóc đều đặn. Hãy để ý xem bạn có đang nhận lại sự quan tâm như bạn vẫn trao đi không.",
+          "en": "Affection grows when it is tended regularly. Notice whether you are receiving the care you keep giving."
+        },
+        "career": {
+          "vi": "Một ý tưởng hay một dự án cần thời gian để lớn. Cho nó điều kiện tốt và nhịp làm vừa sức, thay vì ép nó ra kết quả ngay.",
+          "en": "An idea or a project needs time to grow. Give it good conditions and a manageable pace, instead of forcing results right away."
+        },
+        "self": {
+          "vi": "Bạn cũng xứng đáng được chăm sóc như cách bạn chăm sóc người khác. Một bữa ăn ngon, một giấc ngủ đủ cũng là nuôi dưỡng.",
+          "en": "You deserve to be cared for the way you care for others. A good meal or a full night's sleep is a form of nurture too."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lúc nào cũng là chuyện mang thai hay làm mẹ, và lá này không chỉ dành cho phụ nữ. Nó nói về sự nuôi dưỡng nói chung: một mối quan hệ, một dự án, hay chính bạn.",
+        "en": "It isn't always about pregnancy or motherhood, and the card isn't only for women. It speaks of nurturing in general: a relationship, a project, or yourself."
+      },
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Sao Kim",
+        "en": "Venus"
+      },
+      "noteKeys": [
+        "planetElement"
+      ],
+      "extraNote": {
+        "vi": "Một số sách xếp Hoàng Hậu vào Nước vì Sao Kim gắn với tình cảm; Nilaza chọn Đất theo hình mùa màng và thiên nhiên trong tranh.",
+        "en": "Some books place The Empress under Water because Venus is linked with feeling; Nilaza uses Earth, after the harvest and nature imagery in the picture."
+      }
+    },
+    "major-04-emperor": {
+      "topics": {
+        "love": {
+          "vi": "Một mối quan hệ vững cần những thỏa thuận rõ ràng. Nói ra ranh giới của bạn là cách giữ gìn, không phải là kiểm soát.",
+          "en": "A steady relationship needs clear agreements. Naming your boundaries is a way of caring for it, not a way of controlling it."
+        },
+        "career": {
+          "vi": "Đây là lúc dựng khung: lên kế hoạch, chia việc, nhận phần trách nhiệm của mình. Nền móng chắc giúp bạn đi xa mà đỡ mệt.",
+          "en": "This is a time to build structure: make a plan, divide the work, own your part. A solid foundation helps you go further with less strain."
+        },
+        "self": {
+          "vi": "Một vài thói quen đều đặn có thể giúp bạn thấy vững hơn. Kỷ luật ở đây là tự nâng đỡ mình, không phải khắt khe với mình.",
+          "en": "A few steady habits can help you feel more grounded. Discipline here means supporting yourself, not being harsh with yourself."
+        }
+      },
+      "misconception": {
+        "vi": "Không nhất thiết là “sắp có một người đàn ông quyền lực xuất hiện”. Lá này có thể nói về một người bất kỳ đang giữ vai trò dẫn dắt, hoặc về trật tự và trách nhiệm mà chính bạn xây dựng.",
+        "en": "It doesn't have to mean “a powerful man is about to appear.” The card can point to anyone in a leading role, or to the order and responsibility you build yourself."
+      },
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Bạch Dương",
+        "en": "Aries"
+      }
+    },
+    "major-05-hierophant": {
+      "topics": {
+        "love": {
+          "vi": "Hai người có thể nhìn lại những điều mình từng được dạy về tình yêu. Giữ lại điều hợp với cả hai, và nghĩ lại điều không còn hợp.",
+          "en": "The two of you might look again at what you were taught about love. Keep what fits you both, and rethink what no longer does."
+        },
+        "career": {
+          "vi": "Học từ người đi trước hay từ cách làm đã có có thể giúp bạn nhanh vững hơn. Bạn vẫn có quyền hỏi vì sao.",
+          "en": "Learning from those who came before, or from established ways of working, can help you find your footing faster. You still have the right to ask why."
+        },
+        "self": {
+          "vi": "Thử nhìn lại những quy tắc bạn đang sống theo. Điều nào thật sự là của bạn, điều nào chỉ là thói quen được truyền lại?",
+          "en": "Look again at the rules you live by. Which ones are truly yours, and which are just habits handed down to you?"
+        }
+      },
+      "misconception": {
+        "vi": "Lá này không bảo bạn phải nghe theo số đông, cũng không báo trước chuyện cưới hỏi. Nó mời bạn chọn những giá trị mình thật sự tin.",
+        "en": "This card doesn't tell you to follow the crowd, and it doesn't predict a wedding. It invites you to choose the values you truly believe in."
+      },
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Kim Ngưu",
+        "en": "Taurus"
+      }
+    },
+    "major-06-lovers": {
+      "topics": {
+        "love": {
+          "vi": "Sức hút thật, nhưng câu hỏi lớn hơn là: hai người có cùng điều quan trọng không?",
+          "en": "The attraction is real, but the bigger question is: do the two of you care about the same things?"
+        },
+        "career": {
+          "vi": "Một quyết định cần chọn phe: chọn cái hợp giá trị của bạn thay vì cái dễ nhất.",
+          "en": "A decision asks you to take a side: choose what fits your values instead of what is easiest."
+        },
+        "self": {
+          "vi": "Hòa giải hai mong muốn trong bạn, thay vì để một bên im lặng.",
+          "en": "Reconcile two wishes within you, instead of letting one side fall silent."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải “sắp có người yêu”. Lá này nói về việc chọn, và chọn thì luôn có điều phải buông.",
+        "en": "It isn't “a new love is on the way.” This card is about choosing, and choosing always means letting something go."
+      },
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Song Tử",
+        "en": "Gemini"
+      }
+    },
+    "major-07-chariot": {
+      "topics": {
+        "love": {
+          "vi": "Khi hai người muốn những hướng khác nhau, hãy cùng nói rõ mỗi người đang đi về đâu. Giữ được nhịp chung quan trọng hơn chuyện ai thắng.",
+          "en": "When the two of you want different directions, talk openly about where each of you is heading. Keeping a shared rhythm matters more than who wins."
+        },
+        "career": {
+          "vi": "Có nhiều việc đang kéo bạn về nhiều phía. Chọn một hướng chính, rồi đi từng bước đều đặn thay vì cố làm tất cả cùng lúc.",
+          "en": "Many things are pulling you in different directions. Pick one main direction, then move in steady steps instead of trying to do everything at once."
+        },
+        "self": {
+          "vi": "Bạn có thể giữ vững tay lái ngay cả khi lòng còn rối. Biết mình muốn đi về đâu đã là một bước rất lớn.",
+          "en": "You can keep a steady hand on the wheel even when you feel unsettled. Knowing where you want to go is already a big step."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải “cứ lao lên là thắng”. Lá này nói về việc giữ hướng giữa nhiều lực kéo, và đôi khi đi chậm mà chắc mới là tiến lên.",
+        "en": "It isn't “charge ahead and you'll win.” This card is about holding your course amid competing pulls, and sometimes slow and steady is what moving forward looks like."
+      },
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Cự Giải",
+        "en": "Cancer"
+      }
+    },
+    "major-08-strength": {
+      "topics": {
+        "love": {
+          "vi": "Dịu dàng cũng cần can đảm. Bạn có thể nói thật cảm xúc của mình một cách mềm mỏng, mà vẫn giữ ranh giới của mình.",
+          "en": "Gentleness takes courage too. You can share your true feelings softly while still holding your own boundaries."
+        },
+        "career": {
+          "vi": "Khi áp lực lên cao, một phản ứng bình tĩnh thường có sức nặng hơn lời nói to. Hãy kiên nhẫn với người khác, và với cả chính bạn.",
+          "en": "When pressure rises, a calm response often carries more weight than raised voices. Be patient with others, and with yourself too."
+        },
+        "self": {
+          "vi": "Cảm xúc mạnh không cần bị đè nén hay ép biến mất. Bạn có thể ngồi lại với nó, hiểu nó, rồi chọn cách đáp lại.",
+          "en": "Strong feelings don't need to be pushed down or forced away. You can sit with them, understand them, then choose how to respond."
+        }
+      },
+      "misconception": {
+        "vi": "Mạnh mẽ không có nghĩa là phải gồng lên hay không bao giờ yếu lòng. Lá này nói về sức mạnh dịu dàng, biết ôm lấy cả phần mong manh trong bạn.",
+        "en": "Being strong doesn't mean toughing it out or never feeling vulnerable. This card is about a gentle strength that can hold the fragile parts of you too."
+      },
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Sư Tử",
+        "en": "Leo"
+      }
+    },
+    "major-09-hermit": {
+      "topics": {
+        "love": {
+          "vi": "Cần một khoảng riêng không có nghĩa là bạn thương ít đi. Hiểu rõ mình trước có thể giúp bạn gần người kia một cách thật hơn.",
+          "en": "Needing some space doesn't mean you care less. Understanding yourself first can help you be close to the other person in a truer way."
+        },
+        "career": {
+          "vi": "Lùi lại một chút khỏi ồn ào để tự hỏi: việc này có ý nghĩa gì với bạn? Câu trả lời ấy có thể giúp bạn chọn bước tiếp rõ hơn.",
+          "en": "Step back from the noise for a while and ask: what does this work mean to you? That answer can help you choose your next step more clearly."
+        },
+        "self": {
+          "vi": "Một chút thời gian ở riêng có thể giúp bạn nghe rõ mình. Ở một mình không có nghĩa là phải tự xoay xở mọi chuyện.",
+          "en": "A little time on your own can help you hear yourself clearly. Being alone doesn't mean you have to handle everything by yourself."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải “bạn sẽ cô đơn”. Lá này nói về khoảng lặng bạn tự chọn để tìm câu trả lời của riêng mình.",
+        "en": "It isn't “you'll end up lonely.” This card is about a quiet space you choose for yourself to find your own answers."
+      },
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Xử Nữ",
+        "en": "Virgo"
+      }
+    },
+    "major-10-wheel": {
+      "topics": {
+        "love": {
+          "vi": "Mối quan hệ nào cũng có lúc lên lúc xuống. Thay vì cố giữ mọi thứ như cũ, hãy để ý điều gì đang đổi và bạn muốn đáp lại ra sao.",
+          "en": "Every relationship has its ups and downs. Instead of trying to keep everything the same, notice what is changing and how you want to respond."
+        },
+        "career": {
+          "vi": "Hoàn cảnh có thể xoay theo hướng bạn chưa lường trước. Tập trung vào phần mình làm được, và để ý những cơ hội mới vừa hé ra.",
+          "en": "Circumstances may turn in ways you didn't expect. Focus on the part you can act on, and watch for new openings as they appear."
+        },
+        "self": {
+          "vi": "Bạn có thể đang ở một khúc quanh của chu kỳ. Hãy hỏi mình: điều gì nằm ngoài tầm tay, và điều gì bạn vẫn chọn được?",
+          "en": "You may be at a turning point in a cycle. Ask yourself: what is out of your hands, and what can you still choose?"
+        }
+      },
+      "misconception": {
+        "vi": "Không phải “vận may sắp đến”. Lá này nói về thay đổi, mà thay đổi không hứa tốt hay xấu, chỉ mời bạn thích nghi và chủ động phần của mình.",
+        "en": "It isn't “good luck is on its way.” This card is about change, and change promises neither good nor bad; it invites you to adapt and take charge of your part."
+      },
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Sao Mộc",
+        "en": "Jupiter"
+      },
+      "noteKeys": [
+        "planetElement"
+      ]
+    },
+    "major-11-justice": {
+      "topics": {
+        "love": {
+          "vi": "Một mối quan hệ cân bằng khi cả hai cùng cho và cùng nhận. Nhìn thẳng vào phần của mình, không gánh hết lỗi cũng không đổ hết lỗi.",
+          "en": "A relationship is balanced when both people give and receive. Look honestly at your own part, without taking all the blame or placing it all on the other."
+        },
+        "career": {
+          "vi": "Cân nhắc dữ kiện trước khi quyết định. Một lựa chọn công bằng và rõ ràng thường đứng vững lâu hơn một lựa chọn vội vàng.",
+          "en": "Weigh the facts before you decide. A fair, clear choice usually holds up longer than a hasty one."
+        },
+        "self": {
+          "vi": "Thành thật với chính mình về điều đã xảy ra. Nhận trách nhiệm có thể đi cùng sự tử tế, không cần tự trách mình.",
+          "en": "Be honest with yourself about what happened. Taking responsibility can go hand in hand with kindness, without blaming yourself."
+        }
+      },
+      "misconception": {
+        "vi": "Lá này không đoán trước chuyện thắng thua hay kiện tụng. Nó mời bạn nhìn rõ sự việc, kể cả phần trách nhiệm của mình.",
+        "en": "This card doesn't predict who wins or loses, or how a legal matter turns out. It invites you to see things clearly, including your own part."
+      },
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Thiên Bình",
+        "en": "Libra"
+      }
+    },
+    "major-12-hanged-man": {
+      "topics": {
+        "love": {
+          "vi": "Có lẽ đây là lúc thôi cố kéo mọi chuyện theo ý mình. Thử đặt mình vào chỗ người kia và nhìn lại từ đó.",
+          "en": "Perhaps it's time to stop trying to pull things your way. Try standing in the other person's place and looking again from there."
+        },
+        "career": {
+          "vi": "Khi một việc đang đứng yên, thử nhìn nó từ một góc khác. Chờ đợi có chủ đích khác hẳn với bị mắc kẹt.",
+          "en": "When something has stalled, try looking at it from a different angle. Waiting with intention is very different from being stuck."
+        },
+        "self": {
+          "vi": "Cho phép mình tạm dừng mà không thấy có lỗi. Đôi khi buông bớt việc cố gắng lại giúp bạn nhìn rõ hơn.",
+          "en": "Let yourself pause without feeling guilty. Sometimes easing off the effort helps you see more clearly."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải bạn phải chịu đựng hay hy sinh bản thân. Lá này nói về một khoảng dừng bạn tự chọn để nhìn mọi thứ theo cách mới.",
+        "en": "It doesn't mean you have to endure or sacrifice yourself. This card is about a pause you choose, so you can see things in a new way."
+      },
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Nguyên tố Nước",
+        "en": "Element of Water"
+      },
+      "modernPlanet": {
+        "vi": "Sao Hải Vương",
+        "en": "Neptune"
+      }
+    },
+    "major-13-death": {
+      "topics": {
+        "love": {
+          "vi": "Một nếp cũ trong cách yêu có thể đã xong vai trò của nó. Khép lại thói quen hay kỳ vọng không còn hợp giúp bạn có chỗ cho điều mới.",
+          "en": "An old pattern in the way you love may have done its job. Closing the door on habits or expectations that no longer fit makes room for something new."
+        },
+        "career": {
+          "vi": "Một giai đoạn có thể đang khép lại. Bạn có thể ghi nhận những gì đã học, rồi từ từ chuẩn bị cho chặng tiếp theo theo nhịp của mình.",
+          "en": "One chapter may be coming to a close. You can acknowledge what you've learned, then slowly prepare for the next stage at your own pace."
+        },
+        "self": {
+          "vi": "Bạn có thể đang lớn ra khỏi một phiên bản cũ của mình. Thấy buồn khi buông là điều bình thường, đó cũng là một phần của thay đổi.",
+          "en": "You may be growing out of an older version of yourself. Feeling sad as you let go is natural; it's part of change too."
+        }
+      },
+      "misconception": {
+        "vi": "Lá này không nói về cái chết hay điều xui rủi. Nó nói về sự kết thúc của một giai đoạn, để điều mới có chỗ bắt đầu.",
+        "en": "This card isn't about physical death or bad luck. It's about one chapter ending, so something new has room to begin."
+      },
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Bọ Cạp",
+        "en": "Scorpio"
+      }
+    },
+    "major-14-temperance": {
+      "topics": {
+        "love": {
+          "vi": "Tìm điểm gặp giữa nhu cầu của bạn và của người kia. Một chút nhường nhịn từ cả hai phía có thể tạo nên nhịp chung dễ chịu.",
+          "en": "Look for the meeting point between your needs and theirs. A little give from both sides can create a rhythm that feels good to you both."
+        },
+        "career": {
+          "vi": "Không cần dồn hết sức trong một lần. Xen kẽ làm và nghỉ, kết hợp những cách làm khác nhau để đi được đường dài.",
+          "en": "You don't have to give everything at once. Alternate work and rest, and combine different approaches so you can go the distance."
+        },
+        "self": {
+          "vi": "Bạn không phải chọn giữa cực này và cực kia. Thử pha hai mong muốn thành một nhịp sống vừa sức với mình.",
+          "en": "You don't have to choose one extreme or the other. Try blending two wishes into a pace of life that suits you."
+        }
+      },
+      "misconception": {
+        "vi": "Lá này không bảo bạn phải kìm nén hay sống nhạt nhòa. Điều độ ở đây là tìm mức vừa đủ cho từng điều trong đời mình.",
+        "en": "This card isn't telling you to hold back or live a dull life. Moderation here means finding the right amount of each thing in your life."
+      },
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Nhân Mã",
+        "en": "Sagittarius"
+      }
+    },
+    "major-15-devil": {
+      "topics": {
+        "love": {
+          "vi": "Để ý xem có điều gì đang khiến bạn thấy bị trói buộc, như ghen tuông, sợ mất hay một thói quen khó dứt. Nhìn rõ nó là bước đầu để thấy mình vẫn có lựa chọn.",
+          "en": "Notice whether something is making you feel tied down, like jealousy, fear of losing someone, or a habit that's hard to break. Seeing it clearly is the first step to realizing you still have choices."
+        },
+        "career": {
+          "vi": "Có thể bạn đang ở lại một việc vì sợ hơn là vì muốn. Thử gọi tên điều đang giữ chân mình, mà không tự trách.",
+          "en": "You may be staying with something more out of fear than out of wanting to. Try naming what is holding you there, without blaming yourself."
+        },
+        "self": {
+          "vi": "Một ham muốn hay thói quen có thể đang thu hẹp lựa chọn của bạn. Nhìn nó bằng sự tò mò thay vì xấu hổ, và tìm người hỗ trợ nếu cần.",
+          "en": "A desire or habit may be narrowing your choices. Look at it with curiosity instead of shame, and reach out for support if you need it."
+        }
+      },
+      "misconception": {
+        "vi": "Lá này không nói bạn là người xấu hay có thế lực đen tối nào đó. Nó chỉ ra một ràng buộc, và ràng buộc thì có thể nới ra dần.",
+        "en": "This card doesn't say you're a bad person or that some dark force is at work. It points to an attachment, and attachments can be loosened little by little."
+      },
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Ma Kết",
+        "en": "Capricorn"
+      }
+    },
+    "major-16-tower": {
+      "topics": {
+        "love": {
+          "vi": "Một điều bất ngờ có thể khiến bạn nhìn lại điều mình từng tin về mối quan hệ. Cho mình thời gian để cảm nhận trước khi quyết định.",
+          "en": "Something unexpected may lead you to rethink what you believed about a relationship. Give yourself time to feel before you decide."
+        },
+        "career": {
+          "vi": "Khi một kế hoạch bị lung lay, đó cũng là lúc xem phần nào đã không còn vững. Giữ lại điểm tựa đáng tin, rồi xây lại từ đó.",
+          "en": "When a plan is shaken, it's also a chance to see which parts were no longer solid. Hold on to what is still reliable, then rebuild from there."
+        },
+        "self": {
+          "vi": "Một niềm tin cũ về bản thân có thể đang rạn. Điều đó có thể làm bạn chao đảo, nhưng cũng mở ra chỗ cho một cái nhìn thật hơn.",
+          "en": "An old belief about yourself may be cracking. That can feel unsettling, but it also opens room for a truer view."
+        }
+      },
+      "misconception": {
+        "vi": "Lá này không báo trước tai họa. Nó nói về một giả định cũ được nhìn lại, và bạn không cần phải đổ vỡ thì mới trưởng thành.",
+        "en": "This card doesn't foretell disaster. It's about an old assumption being looked at again, and you don't need things to fall apart in order to grow."
+      },
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Sao Hỏa",
+        "en": "Mars"
+      },
+      "noteKeys": [
+        "planetElement"
+      ]
+    },
+    "major-17-star": {
+      "topics": {
+        "love": {
+          "vi": "Sau những ngày mệt mỏi, bạn có thể cho phép mình tin lại một chút vào sự gần gũi. Hãy bắt đầu từ việc dịu dàng với chính bạn.",
+          "en": "After tiring days, you can let yourself trust a little again in closeness. Start by being gentle with yourself."
+        },
+        "career": {
+          "vi": "Giữ lại một mục tiêu nhỏ cho bạn cảm hứng, kể cả khi mọi thứ chưa rõ. Hy vọng ở đây là điểm tựa, không phải lời hứa.",
+          "en": "Hold on to a small goal that inspires you, even when things aren't clear yet. Hope here is something to lean on, not a promise."
+        },
+        "self": {
+          "vi": "Hãy để ý một điều nhỏ và có thật đang nâng đỡ bạn. Nghỉ ngơi và chăm sóc mình cũng là một cách giữ hy vọng.",
+          "en": "Notice one small, real thing that is holding you up. Resting and caring for yourself is also a way of keeping hope."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải “mọi điều ước sẽ thành”. Lá này nói về hy vọng nhẹ nhàng, giúp bạn đứng dậy mà không cần chắc rằng mọi thứ sẽ ổn.",
+        "en": "It isn't “every wish will come true.” This card is about gentle hope that helps you get back up without needing to be sure everything will be fine."
+      },
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Bảo Bình",
+        "en": "Aquarius"
+      }
+    },
+    "major-18-moon": {
+      "topics": {
+        "love": {
+          "vi": "Khi chưa rõ người kia nghĩ gì, nỗi lo dễ tự viết tiếp câu chuyện. Tách điều bạn biết khỏi điều bạn đoán, rồi hỏi thẳng nếu có thể.",
+          "en": "When you're unsure what the other person thinks, worry can easily write the rest of the story. Separate what you know from what you're guessing, then ask directly if you can."
+        },
+        "career": {
+          "vi": "Thông tin còn mơ hồ, nên chưa cần vội kết luận. Hỏi thêm, ghi chép lại, và đi từng bước nhỏ khi mọi thứ dần rõ.",
+          "en": "Information is still unclear, so there's no need to rush to conclusions. Ask more, write things down, and take small steps as things become clearer."
+        },
+        "self": {
+          "vi": "Giấc mơ, nỗi lo hay những cảm giác khó gọi tên có thể đang muốn nói với bạn điều gì đó. Lắng nghe chúng mà không cần tin hết vào chúng.",
+          "en": "Dreams, worries, or feelings that are hard to name may be trying to tell you something. Listen to them without having to believe all of them."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải “có người đang lừa dối bạn”. Lá này nói về sự mơ hồ, và mời bạn phân biệt cảm nhận với điều đã được kiểm chứng.",
+        "en": "It isn't “someone is deceiving you.” This card is about uncertainty, and invites you to tell your impressions apart from what has been confirmed."
+      },
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Song Ngư",
+        "en": "Pisces"
+      }
+    },
+    "major-19-sun": {
+      "topics": {
+        "love": {
+          "vi": "Hãy tận hưởng những khoảnh khắc vui và ấm áp đang có. Sự cởi mở và chân thành giúp hai người nhìn thấy nhau rõ hơn.",
+          "en": "Enjoy the joyful, warm moments you have right now. Openness and sincerity help the two of you see each other more clearly."
+        },
+        "career": {
+          "vi": "Ghi nhận điều bạn đang làm tốt và chia sẻ nó một cách tự nhiên. Sự rõ ràng hôm nay có thể giúp bạn tự tin bước tiếp.",
+          "en": "Recognize what you're doing well and share it naturally. Today's clarity can help you move forward with confidence."
+        },
+        "self": {
+          "vi": "Cho phép mình vui mà không cần lý do lớn. Một chút nắng, một tiếng cười cũng đáng được đón nhận trọn vẹn.",
+          "en": "Let yourself feel joy without needing a big reason. A little sunshine or a laugh deserves to be fully welcomed."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải “mọi chuyện chắc chắn sẽ thành công”. Lá này mời bạn đón nhận niềm vui đang có, không phải một lời bảo đảm cho tương lai.",
+        "en": "It isn't “everything is guaranteed to succeed.” This card invites you to welcome the joy you have now; it isn't a guarantee about the future."
+      },
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Mặt Trời",
+        "en": "Sun"
+      },
+      "noteKeys": [
+        "planetElement"
+      ]
+    },
+    "major-20-judgement": {
+      "topics": {
+        "love": {
+          "vi": "Nhìn lại những gì đã qua trong chuyện tình cảm bằng sự thấu hiểu. Tha thứ, cho mình hay cho người, là lựa chọn của bạn, không phải nghĩa vụ.",
+          "en": "Look back on what has happened in love with understanding. Forgiveness, for yourself or for someone else, is your choice, not an obligation."
+        },
+        "career": {
+          "vi": "Có thể bạn đang nghe rõ hơn điều mình thật sự muốn làm. Hãy để những trải nghiệm cũ giúp bạn chọn bước tiếp theo.",
+          "en": "You may be hearing more clearly what you truly want to do. Let past experiences help you choose your next step."
+        },
+        "self": {
+          "vi": "Nhìn lại chặng đường của mình mà không tự kết án. Bạn có thể học từ quá khứ và chọn đáp lại điều quan trọng với bạn.",
+          "en": "Look back on your path without condemning yourself. You can learn from the past and choose to answer what matters to you."
+        }
+      },
+      "misconception": {
+        "vi": "Lá này không báo một sự phán xét hay trừng phạt sắp tới. Nó nói về việc tự nhìn lại và đáp lại tiếng gọi bên trong bạn.",
+        "en": "This card doesn't announce a coming judgment or punishment. It's about looking back and answering a call from within you."
+      },
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Nguyên tố Lửa",
+        "en": "Element of Fire"
+      },
+      "modernPlanet": {
+        "vi": "Sao Diêm Vương",
+        "en": "Pluto"
+      }
+    },
+    "major-21-world": {
+      "topics": {
+        "love": {
+          "vi": "Ghi nhận chặng đường hai người đã cùng đi, kể cả những bài học. Cảm giác trọn vẹn thường đến khi mỗi người được là chính mình.",
+          "en": "Acknowledge the road you've walked together, lessons included. A sense of wholeness often comes when each of you is free to be yourself."
+        },
+        "career": {
+          "vi": "Một việc có thể đang tới đích. Dành thời gian ghi nhận nỗ lực của mình trước khi vội bắt đầu điều tiếp theo.",
+          "en": "A project may be reaching its finish line. Take time to recognize your effort before rushing into the next thing."
+        },
+        "self": {
+          "vi": "Những mảnh trải nghiệm khác nhau có thể đang ghép lại thành một bức tranh lớn hơn về bạn. Bạn được phép tự hào về chặng đường đó.",
+          "en": "Different pieces of your experience may be coming together into a bigger picture of who you are. You're allowed to feel proud of that journey."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải “mọi thứ đã hoàn hảo và kết thúc”. Lá này nói về một chặng đường khép lại, và bạn có thể ghi nhận nó dù chưa hoàn hảo.",
+        "en": "It isn't “everything is perfect and finished.” This card is about one stage coming to a close, and you can honor it even if it wasn't perfect."
+      },
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Sao Thổ",
+        "en": "Saturn"
+      },
+      "noteKeys": [
+        "planetElement"
+      ],
+      "extraNote": {
+        "vi": "Thế Giới là ngoại lệ: hệ Golden Dawn gán cho lá này cả Sao Thổ và nguyên tố Đất.",
+        "en": "The World is the exception: the Golden Dawn assigns this card both Saturn and the element of Earth."
+      }
+    },
+    "minor-wands-ace": {
+      "topics": {
+        "love": {
+          "vi": "Một rung động mới có thể đang nhen lên. Cứ để nó lớn dần qua vài cuộc trò chuyện nhỏ, thay vì vội đặt tên cho mối quan hệ.",
+          "en": "A new spark of interest may be catching. Let it grow through a few small conversations instead of rushing to name the relationship."
+        },
+        "career": {
+          "vi": "Một ý tưởng đang khiến bạn háo hức? Hãy thử nó trong một dự án nhỏ hoặc một buổi chiều cuối tuần, trước khi dành cho nó nhiều thời gian và công sức hơn.",
+          "en": "Is an idea making you eager? Try it in a small project or one weekend afternoon before giving it more time and effort."
+        },
+        "self": {
+          "vi": "Để ý điều gì khiến bạn thấy tò mò trở lại. Tia hứng khởi ấy đáng được ghi lại, dù bạn chưa biết nó sẽ dẫn tới đâu.",
+          "en": "Notice what makes you feel curious again. That spark deserves to be written down, even if you don't yet know where it leads."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải dấu hiệu chắc chắn rằng việc mới nào cũng sẽ thành công. Lá này chỉ một tia cảm hứng, còn nó lớn lên hay không tùy vào cách bạn thử và chăm nó.",
+        "en": "It is not a sure sign that every new venture will succeed. This card points to a spark; whether it grows depends on how you test and tend it."
+      },
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Gốc của nguyên tố Lửa",
+        "en": "Root of the powers of Fire"
+      }
+    },
+    "minor-wands-two": {
+      "topics": {
+        "love": {
+          "vi": "Có thể bạn đang đứng giữa sự quen thuộc và mong muốn điều gì đó rộng hơn. Thử hỏi: mình muốn mối quan hệ này đi về đâu, chứ không chỉ giữ nó như hiện tại?",
+          "en": "You may be standing between the familiar and a wish for something wider. Try asking: where do I want this relationship to go, not just how to keep it as it is?"
+        },
+        "career": {
+          "vi": "Trước khi rẽ hướng, hãy đặt hai cột cạnh nhau: điều bạn muốn khám phá và những gì bạn đang có trong tay, như thời gian, kỹ năng, người hỗ trợ.",
+          "en": "Before changing direction, put two columns side by side: what you want to explore and what you already have, like time, skills and people who support you."
+        },
+        "self": {
+          "vi": "Cho phép mình nhìn ra xa hơn khung cửa quen thuộc. Một bản phác thảo cho năm tới không phải lời hứa, chỉ là cách để bạn biết mình đang hướng về đâu.",
+          "en": "Let yourself look past the familiar window. A sketch of the year ahead is not a promise, just a way to see which way you are facing."
+        }
+      },
+      "misconception": {
+        "vi": "Dễ bị xem là lá của sự do dự, chần chừ. Thật ra đây là giai đoạn lập kế hoạch, khi việc nhìn kỹ trước khi bước cũng là một hành động.",
+        "en": "It's easy to read this as indecision or stalling. In fact it is the planning stage, where looking carefully before stepping is also a form of action."
+      },
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Sao Hỏa trong Bạch Dương",
+        "en": "Mars in Aries"
+      }
+    },
+    "minor-wands-three": {
+      "topics": {
+        "love": {
+          "vi": "Nếu bạn đã bày tỏ một điều, giờ là lúc quan sát cách người kia đáp lại. Kiên nhẫn ở đây là chú ý, không phải ngồi chờ trong lo lắng.",
+          "en": "If you have expressed something, now is a time to notice how the other person responds. Patience here means paying attention, not waiting anxiously."
+        },
+        "career": {
+          "vi": "Khi bước đầu đã đi rồi, hãy nhìn phản hồi từ bên ngoài: ai quan tâm, điều gì cần chỉnh. Đó là chất liệu để bạn chuẩn bị cho chặng kế tiếp.",
+          "en": "Once the first step is taken, look at outside feedback: who is interested, what needs adjusting. That is material for preparing the next stretch."
+        },
+        "self": {
+          "vi": "Thử đứng lùi lại để thấy bức tranh rộng hơn về điều bạn đang xây. Bạn muốn nó lớn thêm theo hướng nào trong vài tháng tới?",
+          "en": "Step back to see a wider picture of what you are building. In which direction would you like it to grow over the next few months?"
+        }
+      },
+      "misconception": {
+        "vi": "Nhiều người đọc lá này thành “tin vui sắp về”. Thật ra nó mời bạn mở rộng tầm nhìn và đọc phản hồi, chứ không hứa một kết quả nào.",
+        "en": "Many read this card as “good news is on its way.” Really, it invites you to widen your view and read the feedback, not to expect any particular result."
+      },
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Mặt Trời trong Bạch Dương",
+        "en": "Sun in Aries"
+      }
+    },
+    "minor-wands-four": {
+      "topics": {
+        "love": {
+          "vi": "Dành thời gian ghi nhận những gì bạn và người ấy đã cùng vun đắp, dù chỉ qua một bữa tối giản dị. Cảm giác được thuộc về thường lớn lên từ những khoảnh khắc như thế.",
+          "en": "Take time to appreciate what you and your partner have built together, even over a simple dinner. A sense of belonging often grows from moments like these."
+        },
+        "career": {
+          "vi": "Trước khi lao sang mục tiêu mới, hãy dừng lại ăn mừng một cột mốc vừa qua cùng những người đã góp sức. Ghi nhận cũng là một phần của công việc.",
+          "en": "Before rushing to the next goal, pause to celebrate a recent milestone with the people who helped. Recognition is part of the work too."
+        },
+        "self": {
+          "vi": "Ở đâu, hoặc bên ai, bạn thấy mình được là chính mình? Một chút thời gian cho nơi đó có thể giúp bạn nạp lại niềm vui.",
+          "en": "Where, or with whom, do you feel free to be yourself? A little time in that place may help you refill your joy."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời báo trước một đám cưới hay chuyện về chung nhà. Lá này nói về việc ghi nhận một chặng đã đi và niềm vui được thuộc về, ở bất kỳ hình thức nào.",
+        "en": "It is not a forecast of a wedding or moving in together. It speaks of honoring a stage you have reached and the joy of belonging, in whatever form that takes."
+      },
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Sao Kim trong Bạch Dương",
+        "en": "Venus in Aries"
+      }
+    },
+    "minor-wands-five": {
+      "topics": {
+        "love": {
+          "vi": "Những lần cãi nhau nhỏ không nhất thiết là dấu hiệu xấu. Thử tìm xem bên dưới cuộc tranh luận, mỗi người đang thật sự cần được hiểu điều gì.",
+          "en": "Small arguments aren't necessarily a bad sign. Try finding what each of you actually needs to be understood beneath the debate."
+        },
+        "career": {
+          "vi": "Trong một nhóm nhiều ý kiến trái chiều, mục tiêu không phải là thắng cuộc tranh luận. Hãy gom các ý lại và hỏi điều gì thật sự cần bàn cho rõ.",
+          "en": "In a team full of opposing views, the goal isn't to win the argument. Gather the ideas and ask what genuinely needs to be talked through."
+        },
+        "self": {
+          "vi": "Để ý xem bạn có đang so mình với người khác đến mệt không. Cạnh tranh có thể thúc bạn tiến lên, nhưng không cần biến mọi thứ thành cuộc đua.",
+          "en": "Notice whether you are comparing yourself with others to the point of exhaustion. Competition can push you forward, but not everything needs to become a race."
+        }
+      },
+      "misconception": {
+        "vi": "Va chạm ở đây không phải điềm báo đổ vỡ. Đó là những bất đồng thường ngày, và chúng có thể là chỗ để hiểu nhau hơn.",
+        "en": "The friction here is not an omen of a breakup. These are everyday disagreements, and they can be a place to understand each other better."
+      },
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Sao Thổ trong Sư Tử",
+        "en": "Saturn in Leo"
+      }
+    },
+    "minor-wands-six": {
+      "topics": {
+        "love": {
+          "vi": "Bạn xứng đáng được nhìn thấy và trân trọng vì con người thật của mình. Thử để ý ai đang ghi nhận bạn bằng hành động, không chỉ bằng lời khen.",
+          "en": "You deserve to be seen and appreciated for who you really are. Notice who acknowledges you through actions, not just compliments."
+        },
+        "career": {
+          "vi": "Hãy gọi tên một đóng góp cụ thể bạn vừa làm tốt, rồi để người khác biết về nó. Tự tin không cần chờ cả phòng vỗ tay.",
+          "en": "Name one concrete contribution you did well, then let others know about it. Confidence doesn't need to wait for the whole room to applaud."
+        },
+        "self": {
+          "vi": "Cho phép mình tự hào một chút mà không thấy ngại. Viết lại một nỗ lực gần đây mà bạn muốn ghi nhận cho chính mình.",
+          "en": "Let yourself feel a little proud without embarrassment. Write down one recent effort you want to acknowledge for yourself."
+        }
+      },
+      "misconception": {
+        "vi": "Thắng lợi ở lá này không phải lời hứa sẽ được thăng chức hay chiến thắng. Nó nói về việc nhận ra giá trị nỗ lực của bạn, dù người khác có tán thưởng hay không.",
+        "en": "The victory in this card is not a promise of a promotion or a win. It is about recognizing the worth of your effort, whether or not others applaud."
+      },
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Sao Mộc trong Sư Tử",
+        "en": "Jupiter in Leo"
+      }
+    },
+    "minor-wands-seven": {
+      "topics": {
+        "love": {
+          "vi": "Khi bị kéo về nhiều phía, từ ý kiến bạn bè đến kỳ vọng của người ấy, bạn vẫn được quyền giữ điều mình cần. Ranh giới rõ ràng không làm bạn kém dịu dàng.",
+          "en": "When you feel pulled in many directions, from friends' opinions to your partner's expectations, you still have the right to keep what you need. Clear boundaries don't make you less gentle."
+        },
+        "career": {
+          "vi": "Nếu ý tưởng của bạn đang bị chất vấn, hãy bảo vệ nó bằng lý lẽ và dữ kiện thay vì giọng to hơn. Giữ vững không có nghĩa là phải đối đầu.",
+          "en": "If your idea is being challenged, defend it with reasoning and facts rather than a louder voice. Holding firm doesn't have to mean confrontation."
+        },
+        "self": {
+          "vi": "Điều gì bạn không muốn nhượng bộ thêm nữa? Gọi tên nó là bước đầu để giữ nó, kể cả khi áp lực đến từ chính kỳ vọng của bạn.",
+          "en": "What are you no longer willing to give up? Naming it is the first step to protecting it, even when the pressure comes from your own expectations."
+        }
+      },
+      "misconception": {
+        "vi": "Giữ lập trường không có nghĩa là chống lại tất cả mọi người. Lá này nói về việc bình tĩnh bảo vệ điều quan trọng, và biết chỗ nào có thể mềm lại.",
+        "en": "Holding your ground doesn't mean fighting everyone. This card is about calmly protecting what matters, and knowing where you can soften."
+      },
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Sao Hỏa trong Sư Tử",
+        "en": "Mars in Leo"
+      }
+    },
+    "minor-wands-eight": {
+      "topics": {
+        "love": {
+          "vi": "Tin nhắn qua lại nhanh có thể làm mọi thứ thấy hồi hộp. Thử chậm một nhịp để hỏi: mình đang trả lời vì muốn, hay vì sợ bỏ lỡ?",
+          "en": "Fast back-and-forth messages can make everything feel thrilling. Try slowing down a beat to ask: am I replying because I want to, or because I'm afraid of missing out?"
+        },
+        "career": {
+          "vi": "Khi việc dồn đến cùng lúc, hãy chọn ba việc cần phản hồi trước và để phần còn lại chờ. Nhịp nhanh dễ thở hơn khi bạn chủ động sắp thứ tự.",
+          "en": "When tasks arrive all at once, pick three that need a response first and let the rest wait. A fast pace is easier to breathe through when you set the order yourself."
+        },
+        "self": {
+          "vi": "Nếu đầu óc đang chạy nhanh hơn cơ thể, một khoảng dừng ngắn có thể giúp bạn bắt kịp chính mình. Không phải tín hiệu nào cũng cần bạn đáp lại ngay.",
+          "en": "If your mind is running faster than your body, a short pause can help you catch up with yourself. Not every signal needs an immediate answer."
+        }
+      },
+      "misconception": {
+        "vi": "Nhiều người mong lá này nghĩa là “sắp có tin nhắn từ người ấy”. Lá này nói về nhịp chuyển động, và bạn vẫn chọn được tốc độ của mình.",
+        "en": "Many hope this card means “a message from them is coming.” It speaks of momentum, and you can still choose your own speed."
+      },
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Sao Thủy trong Nhân Mã",
+        "en": "Mercury in Sagittarius"
+      }
+    },
+    "minor-wands-nine": {
+      "topics": {
+        "love": {
+          "vi": "Nếu những tổn thương cũ khiến bạn luôn dè chừng, điều đó dễ hiểu. Bạn có thể giữ sự cẩn trọng mà vẫn để một chút tin tưởng bước vào, theo nhịp vừa sức.",
+          "en": "If old hurts have made you guarded, that is understandable. You can stay careful while letting a little trust in, at a pace you can manage."
+        },
+        "career": {
+          "vi": "Sau một chặng dài cố gắng, bạn không cần chứng minh mình bền bỉ bằng cách không nghỉ. Hãy xem việc nào cần làm tiếp và việc nào có thể tạm gác.",
+          "en": "After a long stretch of effort, you don't need to prove your resilience by never resting. Look at what needs to continue and what can be set aside for now."
+        },
+        "self": {
+          "vi": "Có thể bạn đã gồng lâu hơn mình nhận ra. Ghi nhận sức bền ấy, và lắng nghe giới hạn của cơ thể như lời một người bạn nhắc bạn nghỉ.",
+          "en": "You may have been holding on longer than you realize. Honor that strength, and listen to your body's limits like a friend reminding you to rest."
+        }
+      },
+      "misconception": {
+        "vi": "Lá này không bảo bạn phải gồng thêm đến cùng. Kiên cường ở đây gồm cả việc biết dừng để lấy lại sức.",
+        "en": "This card isn't telling you to push on to the very end. Resilience here includes knowing when to stop and recover."
+      },
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Mặt Trăng trong Nhân Mã",
+        "en": "Moon in Sagittarius"
+      }
+    },
+    "minor-wands-ten": {
+      "topics": {
+        "love": {
+          "vi": "Giữ một mối quan hệ không nên là việc của riêng một người. Nếu bạn đang gánh phần nhiều, thử nói ra điều đó một cách nhẹ nhàng.",
+          "en": "Keeping a relationship going shouldn't be one person's job. If you are carrying most of it, try saying so gently."
+        },
+        "career": {
+          "vi": "Liệt kê những việc đang đè lên vai, rồi đánh dấu việc nào thật sự là của bạn. Phần còn lại có thể nhờ người khác, giao lại hoặc dời sang tuần sau.",
+          "en": "List the tasks weighing on you, then mark which ones truly belong to you. The rest can be shared with someone, handed back, or moved to next week."
+        },
+        "self": {
+          "vi": "Bạn không cần ôm hết mọi thứ để chứng tỏ mình đủ tốt. Đặt xuống một trách nhiệm nhỏ hôm nay cũng là một cách chăm sóc bản thân.",
+          "en": "You don't have to carry everything to prove you are good enough. Setting down one small responsibility today is also a way of caring for yourself."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải dấu hiệu bạn sắp kiệt sức hay thất bại. Lá này mời bạn nhìn lại cách mình đang mang việc, để chọn phần nào giữ và phần nào chia sẻ.",
+        "en": "It is not a sign that you are about to burn out or fail. This card invites you to look at how you are carrying things, so you can choose what to keep and what to share."
+      },
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Sao Thổ trong Nhân Mã",
+        "en": "Saturn in Sagittarius"
+      }
+    },
+    "minor-wands-page": {
+      "topics": {
+        "love": {
+          "vi": "Thử tìm hiểu một người với sự tò mò thật lòng, như khi khám phá một thành phố mới. Chưa cần biết sẽ đi đến đâu, chỉ cần thấy vui khi được hiểu thêm.",
+          "en": "Try getting to know someone with genuine curiosity, as if exploring a new city. You don't need to know where it leads; just enjoy learning more."
+        },
+        "career": {
+          "vi": "Một kỹ năng mới đang khiến bạn hứng thú? Hãy học thử qua một bài tập nhỏ, và cho phép mình vụng về ở những lần đầu.",
+          "en": "Is a new skill catching your interest? Try learning it through a small exercise, and allow yourself to be clumsy at first."
+        },
+        "self": {
+          "vi": "Lần gần nhất bạn làm gì đó chỉ vì thấy vui là khi nào? Dành cho mình một buổi để thử, không chấm điểm, không so sánh.",
+          "en": "When did you last do something just because it was fun? Give yourself one session to try, with no grading and no comparing."
+        }
+      },
+      "misconception": {
+        "vi": "Người ta hay xem lá này là tin tức hay một người mới sắp đến. Trọng tâm thật ra là tinh thần tò mò của chính bạn khi bắt đầu học điều mới.",
+        "en": "People often take this card as news or a new person on the way. The real focus is your own curious spirit as you begin learning something new."
+      },
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Đất của Lửa (không ứng với khoảng cung hoàng đạo nào)",
+        "en": "Earth of Fire (no zodiac span)"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-wands-knight": {
+      "topics": {
+        "love": {
+          "vi": "Cảm xúc mạnh có thể khiến bạn muốn lao tới ngay. Cứ để nhiệt huyết dẫn đường, nhưng thỉnh thoảng dừng lại xem người kia có đang đi cùng nhịp không.",
+          "en": "Strong feelings may make you want to rush in. Let enthusiasm lead, but pause now and then to see whether the other person is moving at the same pace."
+        },
+        "career": {
+          "vi": "Biến hứng khởi thành một bước rõ ràng trong tuần này, như gửi một bản đề xuất hay bắt tay làm bản thử. Trước khi đi xa hơn, kiểm tra lại sức và thời gian của mình.",
+          "en": "Turn your excitement into one clear step this week, such as sending a proposal or starting a first draft. Before going further, check your energy and time."
+        },
+        "self": {
+          "vi": "Bạn có đang thèm một chút phiêu lưu? Một chuyến đi ngắn, một con đường chưa đi hay một thói quen mới đều có thể khơi lại ngọn lửa ấy.",
+          "en": "Are you craving a bit of adventure? A short trip, an unfamiliar route or a new habit could all rekindle that fire."
+        }
+      },
+      "misconception": {
+        "vi": "Nhiệt huyết ở đây không có nghĩa là cứ lao vào bất cứ điều gì mới. Đó là dồn sức vào hành động rõ ràng, đồng thời vẫn biết giới hạn của mình.",
+        "en": "The enthusiasm here doesn't mean leaping into anything new. It is about putting energy into clear action while still knowing your limits."
+      },
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Lửa của Lửa; từ 21° Bọ Cạp đến 20° Nhân Mã",
+        "en": "Fire of Fire; 21° Scorpio to 20° Sagittarius"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-wands-queen": {
+      "topics": {
+        "love": {
+          "vi": "Bạn rạng rỡ nhất khi được là chính mình, cùng những điều bạn say mê. Một mối quan hệ phù hợp có chỗ cho ánh sáng đó, không đòi bạn thu nhỏ lại.",
+          "en": "You shine most when you get to be yourself, with the things you love. A fitting relationship has room for that light and doesn't ask you to shrink."
+        },
+        "career": {
+          "vi": "Hãy để người khác thấy điều bạn làm giỏi và yêu thích, chẳng hạn chủ động nhận phần việc hợp với thế mạnh. Bạn có thể nổi bật mà không cần làm vừa lòng tất cả.",
+          "en": "Let others see what you are good at and enjoy, for example by volunteering for work that fits your strengths. You can stand out without pleasing everyone."
+        },
+        "self": {
+          "vi": "Sự tự tin không phải lúc nào cũng ồn ào. Đôi khi nó là việc bạn ấm áp với chính mình và giữ nhịp riêng, dù xung quanh nói gì.",
+          "en": "Confidence isn't always loud. Sometimes it is being warm toward yourself and keeping your own rhythm, whatever others say."
+        }
+      },
+      "misconception": {
+        "vi": "Không nhất thiết là một người phụ nữ trong đời bạn. Lá hoàng gia có thể nói về một người bất kỳ, hoặc về một nét trong chính bạn: ở đây là sự tự tin ấm áp, không cần lúc nào cũng rực rỡ hay được mọi người yêu thích.",
+        "en": "It doesn't have to be a woman in your life. A court card can point to anyone, or to a quality in yourself: here, a warm confidence that doesn't need to dazzle or be liked by everyone."
+      },
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Nước của Lửa; từ 21° Song Ngư đến 20° Bạch Dương",
+        "en": "Water of Fire; 21° Pisces to 20° Aries"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-wands-king": {
+      "topics": {
+        "love": {
+          "vi": "Hãy nghĩ về mối quan hệ như một dự định chung: hai người muốn cùng xây điều gì? Dẫn dắt ở đây là nói rõ mong muốn và thật sự lắng nghe mong muốn của người kia.",
+          "en": "Think of the relationship as a shared plan: what do the two of you want to build together? Leading here means stating your wishes clearly and truly listening to theirs."
+        },
+        "career": {
+          "vi": "Nếu bạn đang giữ vai trò dẫn dắt, hãy làm rõ mục tiêu chung trước khi giao việc. Một tầm nhìn tốt luôn có chỗ cho ý tưởng của người khác.",
+          "en": "If you are in a leading role, clarify the shared goal before assigning tasks. A good vision always leaves room for other people's ideas."
+        },
+        "self": {
+          "vi": "Bạn muốn cam kết với điều gì trong vài năm tới? Chọn một hướng đi, rồi để những việc nhỏ hằng ngày cùng phục vụ hướng đó.",
+          "en": "What do you want to commit to over the next few years? Choose a direction, then let small daily actions serve it."
+        }
+      },
+      "misconception": {
+        "vi": "Không cần phải là người quyết định mọi thứ mới được gọi là dẫn dắt. Lá này nói về việc giữ tầm nhìn rõ và mở chỗ cho đóng góp của người khác.",
+        "en": "You don't have to decide everything to count as a leader. This card is about keeping a clear vision and making room for others' contributions."
+      },
+      "element": {
+        "vi": "Lửa",
+        "en": "Fire"
+      },
+      "astrology": {
+        "vi": "Khí của Lửa; từ 21° Cự Giải đến 20° Sư Tử",
+        "en": "Air of Fire; 21° Cancer to 20° Leo"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-cups-ace": {
+      "topics": {
+        "love": {
+          "vi": "Trái tim bạn có thể đang mở ra với một cảm xúc mới, với người mới hoặc với người quen theo một cách khác. Cứ đón nhận chậm rãi, theo nhịp bạn thấy an toàn.",
+          "en": "Your heart may be opening to a new feeling, toward someone new or someone familiar in a different way. Receive it slowly, at a pace that feels safe."
+        },
+        "career": {
+          "vi": "Hãy để ý công việc nào khiến bạn thấy được chạm đến. Một dự án có ý nghĩa với bạn có thể là nguồn sáng tạo đáng để nuôi dưỡng.",
+          "en": "Notice which work makes you feel moved. A project that means something to you may be a creative source worth nurturing."
+        },
+        "self": {
+          "vi": "Hôm nay, bạn có thể cho phép mình cảm nhận trọn một niềm vui nhỏ, như một cốc trà ấm hay một bài hát hay. Mở lòng bắt đầu từ việc đón nhận chính mình.",
+          "en": "Today you can let yourself fully feel a small joy, like a warm cup of tea or a good song. Openness begins with receiving yourself."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời hứa “sắp có tình yêu mới”. Lá này nói về sự mở lòng của chính bạn, với cảm xúc, sáng tạo hay kết nối, theo nhịp bạn chọn.",
+        "en": "It is not a promise that “new love is coming.” This card is about your own openness, to feelings, creativity or connection, at a pace you choose."
+      },
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Gốc của nguyên tố Nước",
+        "en": "Root of the powers of Water"
+      }
+    },
+    "minor-cups-two": {
+      "topics": {
+        "love": {
+          "vi": "Một kết nối đẹp có cả lắng nghe và đáp lại từ hai phía. Thử nhìn vào cách hai người thật sự đối xử với nhau, thay vì đoán người kia đang nghĩ gì.",
+          "en": "A good connection involves listening and responding from both sides. Look at how you two actually treat each other, rather than guessing what they are thinking."
+        },
+        "career": {
+          "vi": "Một mối hợp tác thường nhẹ nhõm hơn khi hai bên cùng tự nguyện và tôn trọng nhau. Bạn đang cho và nhận ở mức cân bằng chứ?",
+          "en": "A partnership tends to feel lighter when both sides are willing and respectful. Are you giving and receiving in balance?"
+        },
+        "self": {
+          "vi": "Bạn đáp lại chính mình thế nào khi mệt hay buồn? Thử nói với bản thân một câu mà bạn vẫn hay nói với người mình thương.",
+          "en": "How do you respond to yourself when you are tired or sad? Try saying to yourself something you would usually say to someone you love."
+        }
+      },
+      "misconception": {
+        "vi": "Dễ bị đọc thành “người ấy cũng thích mình”. Lá này nói về sự đáp lại thật sự trong tương tác, và không xác nhận cảm xúc của bất kỳ ai.",
+        "en": "It's easy to read as “they like me back.” This card is about real reciprocity in your interactions, and it doesn't confirm anyone's feelings."
+      },
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Sao Kim trong Cự Giải",
+        "en": "Venus in Cancer"
+      }
+    },
+    "minor-cups-three": {
+      "topics": {
+        "love": {
+          "vi": "Tình yêu cũng cần những người bạn xung quanh. Thử dành thời gian cho các mối quan hệ thân thiết khác, để trái tim không chỉ xoay quanh một người.",
+          "en": "Love also needs friends around it. Make time for your other close relationships so your heart doesn't revolve around just one person."
+        },
+        "career": {
+          "vi": "Một đồng nghiệp biết hỗ trợ có thể làm ngày làm việc nhẹ hơn nhiều. Hãy ghi nhận thành công chung của nhóm, dù chỉ bằng một lời cảm ơn hay một ly cà phê.",
+          "en": "A supportive colleague can make a workday much lighter. Celebrate the team's shared wins, even with just a thank-you or a coffee together."
+        },
+        "self": {
+          "vi": "Ai là người khiến bạn cười thoải mái nhất? Một cuộc gọi ngắn hay một buổi hẹn nhỏ có thể là điều bạn cần lúc này.",
+          "en": "Who makes you laugh most freely? A short call or a small meetup might be what you need right now."
+        }
+      },
+      "misconception": {
+        "vi": "Không chỉ là tiệc tùng vui chơi. Lá này nói về những người cùng bạn đi qua một chặng đường, và niềm vui khi được chia sẻ, dù chỉ là một buổi gặp nhỏ.",
+        "en": "It isn't only about partying. The card speaks of the people who walk part of the road with you, and the joy of sharing it, even in a small get-together."
+      },
+      "otherReadings": {
+        "vi": "Trong sách của A. E. Waite (1910), lá này là niềm vui trọn vẹn, sự viên mãn và chữa lành; khi ngược thì thêm ý vui chơi quá đà. Cách hiểu “người thứ ba” không có trong sách gốc, mà xuất hiện ở một số cách đọc hiện đại, thường khi lá ngược hoặc đi cùng các lá khác. Nếu câu hỏi của bạn là về chuyện này, hãy xem lá như lời mời nhìn lại sự tin tưởng và ranh giới, không phải bằng chứng.",
+        "en": "In A. E. Waite's book (1910), this card means fulfilment, abundance and healing; reversed, it adds a note of overindulgence. The “third person” reading isn't in the original text; it appears in some modern readings, usually when the card is reversed or paired with other cards. If that is your question, take the card as an invitation to look at trust and boundaries, not as proof."
+      },
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Sao Thủy trong Cự Giải",
+        "en": "Mercury in Cancer"
+      }
+    },
+    "minor-cups-four": {
+      "topics": {
+        "love": {
+          "vi": "Nếu mối quan hệ đang thấy nhạt, đó có thể là lúc hỏi mình thật sự cần gì, thay vì chỉ chờ người kia làm điều gì mới.",
+          "en": "If the relationship feels flat, it may be time to ask what you truly need, rather than waiting for the other person to do something new."
+        },
+        "career": {
+          "vi": "Khi công việc không còn khiến bạn hứng thú, chưa cần vội nhận lời mời đầu tiên. Thử viết ra điều gì đang thiếu trước khi quyết định đổi.",
+          "en": "When work no longer excites you, there is no need to jump at the first offer. Try writing down what is missing before deciding to change."
+        },
+        "self": {
+          "vi": "Cảm giác chán đôi khi là một tín hiệu nhẹ, không phải lỗi của bạn. Cho mình một khoảng lặng để lắng nghe nhu cầu thật bên dưới nó.",
+          "en": "Boredom is sometimes a gentle signal, not your fault. Give yourself a quiet space to hear the real need beneath it."
+        }
+      },
+      "misconception": {
+        "vi": "Chán nản ở đây không có nghĩa là bạn vô ơn hay đang bỏ lỡ cơ hội lớn. Lá này mời bạn xem lại nhu cầu của mình trước khi nói có với điều gì.",
+        "en": "Discontent here doesn't mean you are ungrateful or missing a big opportunity. This card invites you to review your needs before saying yes to anything."
+      },
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Mặt Trăng trong Cự Giải",
+        "en": "Moon in Cancer"
+      }
+    },
+    "minor-cups-five": {
+      "topics": {
+        "love": {
+          "vi": "Bạn được phép buồn khi một mối quan hệ không như mong đợi. Chưa cần vội tìm bài học hay một người thay thế.",
+          "en": "You are allowed to feel sad when a relationship doesn't turn out as you hoped. There is no rush to find a lesson or a replacement."
+        },
+        "career": {
+          "vi": "Một dự án không thành có thể để lại tiếc nuối. Hãy cho mình thời gian thừa nhận điều đó, rồi khi sẵn sàng, nhìn xem điều gì vẫn còn nguyên để dựa vào.",
+          "en": "A project that didn't work out can leave regret. Give yourself time to acknowledge it, then, when you are ready, see what remains intact to lean on."
+        },
+        "self": {
+          "vi": "Nỗi buồn không cần được sửa ngay. Có ai hoặc điều gì đang ở bên cạnh mà bạn có thể tựa vào lúc này không?",
+          "en": "Sadness doesn't need to be fixed right away. Is there someone or something nearby you could lean on right now?"
+        }
+      },
+      "misconception": {
+        "vi": "Lá này không báo trước mất mát hay chia tay. Nó mời bạn thừa nhận một nỗi buồn đã có, nếu điều đó phù hợp, mà không ép mình phải tích cực ngay.",
+        "en": "This card does not predict loss or a breakup. It invites you to acknowledge a sadness that is already there, if that fits, without forcing yourself to be positive right away."
+      },
+      "supportNote": {
+        "vi": "Nếu cảm giác này kéo dài nhiều tuần, làm bạn mất ngủ hay khó sinh hoạt như thường, nói chuyện với chuyên gia tâm lý hoặc bác sĩ là một cách chăm sóc mình, không phải là yếu đuối.",
+        "en": "If this feeling lasts for weeks, or makes it hard to sleep or get through your days, talking with a counsellor or doctor is a way of caring for yourself, not a sign of weakness."
+      },
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Sao Hỏa trong Bọ Cạp",
+        "en": "Mars in Scorpio"
+      }
+    },
+    "minor-cups-six": {
+      "topics": {
+        "love": {
+          "vi": "Một kỷ niệm đẹp có thể nhắc bạn mình từng được yêu thương theo cách nào. Bạn có thể mang sự dịu dàng đó vào hiện tại, mà không cần quay lại với người cũ.",
+          "en": "A sweet memory can remind you how you were once cared for. You can bring that tenderness into the present without going back to an ex."
+        },
+        "career": {
+          "vi": "Điều gì từng khiến bạn mê công việc này ngay từ đầu? Nhớ lại nó có thể giúp bạn tìm lại sự tử tế và niềm vui giản dị trong những việc hằng ngày.",
+          "en": "What first made you love this work? Remembering it may help you find kindness and simple joy in everyday tasks again."
+        },
+        "self": {
+          "vi": "Thử làm một điều nhỏ mà hồi bé bạn rất thích, như vẽ nguệch ngoạc hay ăn một món quen. Lòng tốt với chính mình đôi khi giản dị như vậy.",
+          "en": "Try something small you loved as a child, like doodling or eating a familiar dish. Kindness toward yourself can be that simple."
+        }
+      },
+      "misconception": {
+        "vi": "Ký ức ở lá này không phải tín hiệu người cũ sẽ quay về. Đây là lời mời trân trọng lòng tốt từng nâng đỡ bạn, không phải sống lại quá khứ.",
+        "en": "The memories in this card are not a signal that an ex will return. It is an invitation to cherish the kindness that once supported you, not to relive the past."
+      },
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Mặt Trời trong Bọ Cạp",
+        "en": "Sun in Scorpio"
+      }
+    },
+    "minor-cups-seven": {
+      "topics": {
+        "love": {
+          "vi": "Bạn có thể đang mơ về nhiều kiểu tình yêu cùng lúc. Thử tách điều bạn tưởng tượng về người ấy khỏi những gì họ đã thật sự thể hiện.",
+          "en": "You may be dreaming of many kinds of love at once. Try separating what you imagine about someone from what they have actually shown."
+        },
+        "career": {
+          "vi": "Nhiều hướng đi hấp dẫn cùng hiện ra? Chọn một lựa chọn có đủ thông tin để thử trong hai tuần, thay vì cân nhắc tất cả trong đầu.",
+          "en": "Several appealing paths showing up at once? Pick one with enough information to try for two weeks, instead of weighing them all in your head."
+        },
+        "self": {
+          "vi": "Giấc mơ là chất liệu đẹp, nhưng không phải điều gì cũng cần theo đuổi ngay. Hỏi mình: điều nào mình vẫn muốn khi đã hình dung từng bước cụ thể?",
+          "en": "Dreams are beautiful material, but not all of them need chasing right now. Ask yourself: which one do I still want once I picture the concrete steps?"
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời cảnh báo rằng bạn đang ảo tưởng. Tưởng tượng có giá trị; lá này chỉ mời thêm một bước phân định trước khi chọn.",
+        "en": "It is not a warning that you are deluding yourself. Imagination has value; this card simply invites a step of discernment before choosing."
+      },
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Sao Kim trong Bọ Cạp",
+        "en": "Venus in Scorpio"
+      }
+    },
+    "minor-cups-eight": {
+      "topics": {
+        "love": {
+          "vi": "Khi một mối quan hệ không còn mang lại ý nghĩa như trước, hãy bắt đầu bằng việc gọi tên điều đã thay đổi. Quyết định ở lại hay rời đi có thể để sau.",
+          "en": "When a relationship no longer feels as meaningful as before, start by naming what has changed. Whether to stay or go can wait."
+        },
+        "career": {
+          "vi": "Đôi khi một công việc ổn trên giấy vẫn thấy trống rỗng. Thử hỏi điều gì sẽ khiến nó có ý nghĩa hơn, và chuyển hướng nhỏ nào nằm trong tầm tay bạn.",
+          "en": "Sometimes a job that looks fine on paper still feels empty. Ask what would make it more meaningful, and what small change of direction is within your reach."
+        },
+        "self": {
+          "vi": "Bạn được phép lớn lên khỏi những điều từng rất hợp với mình. Rời một thói quen hay một hình ảnh cũ về bản thân cũng là một chuyến đi.",
+          "en": "You are allowed to outgrow things that once fit you well. Leaving behind an old habit or an old image of yourself is also a journey."
+        }
+      },
+      "misconception": {
+        "vi": "Nhiều người đọc lá này thành “nên bỏ đi” hay “sắp chia tay”. Thật ra nó hỏi điều bạn theo đuổi còn ý nghĩa không, và đổi hướng có thể bắt đầu rất nhỏ.",
+        "en": "Many read this card as “time to leave” or “a breakup is coming.” Really it asks whether what you are pursuing still holds meaning, and a change of direction can start very small."
+      },
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Sao Thổ trong Song Ngư",
+        "en": "Saturn in Pisces"
+      }
+    },
+    "minor-cups-nine": {
+      "topics": {
+        "love": {
+          "vi": "Hãy tận hưởng những điều đang khiến bạn vui trong mối quan hệ, hoặc trong chính quãng thời gian một mình. Hài lòng không cần đợi mọi mong ước được trọn vẹn.",
+          "en": "Enjoy what is making you happy in your relationship, or in your time on your own. Contentment doesn't need to wait for every wish to be complete."
+        },
+        "career": {
+          "vi": "Dừng lại một chút để thấy những gì bạn đã có: kỹ năng, đồng đội, một ngày làm việc ổn. Biết đủ giúp bạn chọn mục tiêu tiếp theo bằng sự bình thản.",
+          "en": "Pause for a moment to see what you already have: skills, teammates, a good workday. A sense of enough helps you choose the next goal calmly."
+        },
+        "self": {
+          "vi": "Bạn có thể tự thưởng cho mình một niềm vui nhỏ mà không thấy áy náy. Một món ăn ngon hay một buổi chiều thong thả đều đáng được tận hưởng trọn vẹn.",
+          "en": "You can treat yourself to a small pleasure without guilt. A good meal or a slow afternoon deserves to be fully enjoyed."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lá “ước gì được nấy”. Lá này nói về việc trân trọng niềm vui đang có, không hứa rằng mọi mong muốn sẽ thành hiện thực.",
+        "en": "It is not a “wish come true” card. This card is about appreciating the joy already present; it doesn't promise that every wish will come true."
+      },
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Sao Mộc trong Song Ngư",
+        "en": "Jupiter in Pisces"
+      }
+    },
+    "minor-cups-ten": {
+      "topics": {
+        "love": {
+          "vi": "Một mái ấm có thể là gia đình, người yêu hay những người bạn mà bạn tự chọn. Thử hỏi: những giá trị nào bạn muốn cùng ai đó chăm sóc lâu dài?",
+          "en": "Home can be family, a partner, or friends you choose. Ask yourself: which values do you want to tend with someone over the long term?"
+        },
+        "career": {
+          "vi": "Bạn thấy thuộc về nhất ở môi trường nào? Một tập thể có chung giá trị có thể khiến công việc ý nghĩa hơn nhiều so với một chức danh đẹp.",
+          "en": "In what kind of environment do you feel you most belong? A team with shared values can make work far more meaningful than an impressive title."
+        },
+        "self": {
+          "vi": "Bạn có thể tự tạo cảm giác mái ấm cho mình, bằng một góc phòng yêu thích hay những thói quen nhỏ làm bạn thấy an yên. Cảm giác thuộc về cũng có thể bắt đầu từ bên trong.",
+          "en": "You can create a sense of home for yourself, with a favorite corner or small habits that put you at ease. Belonging can also begin from within."
+        }
+      },
+      "misconception": {
+        "vi": "Mái ấm ở đây không phải lời hứa về một gia đình hoàn hảo hay cái kết có hậu. Lá này nói về cảm giác thuộc về và giá trị được cùng vun đắp, dù mái ấm của bạn trông như thế nào.",
+        "en": "The home in this card is not a promise of a perfect family or a happy ending. It is about belonging and values tended together, whatever your home looks like."
+      },
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Sao Hỏa trong Song Ngư",
+        "en": "Mars in Pisces"
+      }
+    },
+    "minor-cups-page": {
+      "topics": {
+        "love": {
+          "vi": "Một cảm xúc dịu dàng mới có thể vừa chớm. Thử gọi tên nó trong nhật ký trước, và nhớ rằng đó là cảm xúc của bạn, chưa phải sự thật về người kia.",
+          "en": "A new tender feeling may be just beginning. Try naming it in your journal first, and remember it is your feeling, not yet a truth about the other person."
+        },
+        "career": {
+          "vi": "Một ý tưởng nhẹ nhàng, có chút mơ mộng, có thể đáng để phác thảo. Hãy cho nó một trang giấy riêng trước khi tự hỏi nó có thực tế không.",
+          "en": "A gentle, slightly dreamy idea may be worth sketching. Give it its own page before asking whether it is realistic."
+        },
+        "self": {
+          "vi": "Nếu gọi cảm xúc hôm nay bằng một màu sắc hay một hình ảnh, đó sẽ là gì? Sự tò mò nhẹ nhàng với cảm xúc giúp bạn hiểu mình hơn.",
+          "en": "If you described today's feeling as a color or an image, what would it be? Gentle curiosity about your emotions helps you understand yourself better."
+        }
+      },
+      "misconception": {
+        "vi": "Lá này dễ bị xem là có người sắp tỏ tình. Trọng tâm của nó là sự tò mò với cảm xúc và ý tưởng của chính bạn.",
+        "en": "This card is easily taken to mean someone is about to confess their feelings. Its focus is curiosity about your own feelings and ideas."
+      },
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Đất của Nước (không ứng với khoảng cung hoàng đạo nào)",
+        "en": "Earth of Water (no zodiac span)"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-cups-knight": {
+      "topics": {
+        "love": {
+          "vi": "Bạn có thể muốn bày tỏ tình cảm một cách lãng mạn. Hãy nói điều mình trân trọng, rồi để người kia có không gian đáp lại theo cách của họ.",
+          "en": "You may want to express your feelings romantically. Say what you cherish, then leave the other person space to respond in their own way."
+        },
+        "career": {
+          "vi": "Mang lý tưởng vào công việc là điều đẹp, nhất là khi bạn biến nó thành một bước cụ thể có cân nhắc. Bạn muốn đề xuất điều gì xuất phát từ điều mình tin?",
+          "en": "Bringing ideals into your work is beautiful, especially when you turn them into a concrete, considered step. What would you like to propose that comes from what you believe?"
+        },
+        "self": {
+          "vi": "Điều gì khiến bạn rung động sâu sắc? Thử bày tỏ nó qua một lá thư, một bản nhạc hay vài dòng viết, chỉ cho riêng mình.",
+          "en": "What moves you deeply? Try expressing it through a letter, a song or a few lines of writing, just for yourself."
+        }
+      },
+      "misconception": {
+        "vi": "Không ít người chờ lá này báo một người hoàn hảo sắp đến. Lá này nói về việc bạn bày tỏ lý tưởng và cảm xúc, đồng thời tôn trọng ranh giới của người khác.",
+        "en": "Many wait for this card to announce a perfect partner. It is about you expressing your ideals and feelings while respecting other people's boundaries."
+      },
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Lửa của Nước; từ 21° Bảo Bình đến 20° Song Ngư",
+        "en": "Fire of Water; 21° Aquarius to 20° Pisces"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-cups-queen": {
+      "topics": {
+        "love": {
+          "vi": "Thấu cảm là món quà, nhưng bạn không cần mang hết cảm xúc của người ấy. Lắng nghe sâu và giữ ranh giới có thể đi cùng nhau.",
+          "en": "Empathy is a gift, but you don't have to carry all of your partner's feelings. Deep listening and boundaries can go together."
+        },
+        "career": {
+          "vi": "Khả năng đọc cảm xúc giúp bạn làm việc nhóm tốt hơn. Hãy để ý khi nào bạn đang lắng nghe đồng nghiệp, và khi nào bạn đang ôm luôn áp lực của họ.",
+          "en": "Being able to read emotions helps you work well with a team. Notice when you are listening to colleagues and when you are taking on their stress too."
+        },
+        "self": {
+          "vi": "Cảm xúc của bạn cũng cần được lắng nghe. Dành vài phút yên lặng cho chính mình trước khi lại lắng nghe nỗi niềm của người khác.",
+          "en": "Your own feelings need listening too. Take a few quiet minutes for yourself before opening up again to other people's worries."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải hình mẫu người luôn hy sinh và chịu đựng vì người khác. Lá này nói về thấu cảm có ranh giới: quan tâm mà không đánh mất mình.",
+        "en": "It is not a model of someone who always sacrifices and endures for others. This card is about empathy with boundaries: caring without losing yourself."
+      },
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Nước của Nước; từ 21° Song Tử đến 20° Cự Giải",
+        "en": "Water of Water; 21° Gemini to 20° Cancer"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-cups-king": {
+      "topics": {
+        "love": {
+          "vi": "Khi cảm xúc dâng cao trong một cuộc trò chuyện, bạn có thể thừa nhận nó rồi chọn cách nói thật lòng mà không làm tổn thương nhau.",
+          "en": "When emotions run high in a conversation, you can acknowledge them and choose to speak honestly without hurting each other."
+        },
+        "career": {
+          "vi": "Giữ bình tĩnh trong một cuộc họp căng thẳng không có nghĩa là giấu cảm xúc. Đó là biết điều mình đang cảm thấy và chọn cách phản hồi phù hợp nhất.",
+          "en": "Staying calm in a tense meeting doesn't mean hiding your feelings. It means knowing what you feel and choosing the most fitting response."
+        },
+        "self": {
+          "vi": "Khi một cảm xúc mạnh xuất hiện, thử dừng một nhịp và đặt tên cho nó trước khi hành động. Khoảng dừng nhỏ ấy giúp bạn giữ được nhịp của mình.",
+          "en": "When a strong feeling arises, try pausing a beat to name it before acting. That small pause helps you keep your own rhythm."
+        }
+      },
+      "misconception": {
+        "vi": "Điềm tĩnh không có nghĩa là kìm nén cảm xúc để tỏ ra mạnh mẽ. Lá này nói về việc thừa nhận cảm xúc mà vẫn cân nhắc khi phản hồi.",
+        "en": "Composure doesn't mean suppressing your feelings to seem strong. This card is about acknowledging emotions while staying thoughtful in how you respond."
+      },
+      "element": {
+        "vi": "Nước",
+        "en": "Water"
+      },
+      "astrology": {
+        "vi": "Khí của Nước; từ 21° Thiên Bình đến 20° Bọ Cạp",
+        "en": "Air of Water; 21° Libra to 20° Scorpio"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-swords-ace": {
+      "topics": {
+        "love": {
+          "vi": "Một cuộc trò chuyện rõ ràng có thể giúp nhiều hơn mười lần đoán ý. Bạn đang thật sự muốn nói điều gì với người kia?",
+          "en": "One clear conversation can help more than ten rounds of guessing. What do you actually want to say to them?"
+        },
+        "career": {
+          "vi": "Gọi đúng tên vấn đề là đã đi được nửa đường. Hãy viết nó thành một câu, rồi đối chiếu với dữ kiện đang có.",
+          "en": "Naming the problem precisely gets you halfway there. Write it as one sentence, then check it against the facts you have."
+        },
+        "self": {
+          "vi": "Không phải suy nghĩ nào xuất hiện trong đầu cũng là sự thật. Bạn được phép hỏi lại chính mình: mình biết điều này từ đâu?",
+          "en": "Not every thought that shows up in your head is true. You're allowed to ask yourself: how do I actually know this?"
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời khẳng định rằng bạn đúng. Lá này nói về sự rõ ràng, và rõ ràng đôi khi nghĩa là nhận ra mình đã hiểu sai.",
+        "en": "It doesn't confirm that you're right. This card is about clarity, and sometimes clarity means noticing where you got it wrong."
+      },
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Gốc của nguyên tố Khí",
+        "en": "Root of the powers of Air"
+      }
+    },
+    "minor-swords-two": {
+      "topics": {
+        "love": {
+          "vi": "Có thể bạn đang đứng giữa hai cảm xúc mà chưa muốn chọn. Chưa trả lời ngay cũng được, miễn là bạn biết mình đang chờ điều gì.",
+          "en": "You may be standing between two feelings, not ready to choose. Not answering yet is okay, as long as you know what you're waiting for."
+        },
+        "career": {
+          "vi": "Hai hướng đều có lý, nhưng có thể bạn đang thiếu một mảnh thông tin. Thử liệt kê điều cần biết thêm trước khi buộc mình quyết định.",
+          "en": "Both paths make sense, but you may be missing a piece of information. Try listing what you still need to know before pushing yourself to decide."
+        },
+        "self": {
+          "vi": "Chần chừ không có nghĩa là bạn yếu đuối. Đôi khi đó là cách tâm trí xin thêm thời gian để nhìn cho rõ.",
+          "en": "Hesitating doesn't mean you're weak. Sometimes it's your mind asking for more time to see clearly."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải dấu hiệu bạn đang trốn tránh. Lá này nói về lúc chưa đủ dữ kiện để chọn, và điều cần làm là tìm thêm ánh sáng, không phải tự trách.",
+        "en": "It isn't a sign that you're running away. This card is about not yet having enough to choose; what helps is finding more light, not blaming yourself."
+      },
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Mặt Trăng trong Thiên Bình",
+        "en": "Moon in Libra"
+      }
+    },
+    "minor-swords-three": {
+      "topics": {
+        "love": {
+          "vi": "Nếu có điều gì đang làm bạn đau, lá này mời bạn thừa nhận nó một cách dịu dàng. Gọi tên nỗi buồn không làm nó lớn thêm.",
+          "en": "If something is hurting you, this card invites you to acknowledge it gently. Naming sadness doesn't make it bigger."
+        },
+        "career": {
+          "vi": "Một kỳ vọng không thành có thể để lại cảm giác hụt hẫng thật. Bạn có thể cho phép mình buồn một chút trước khi tìm cách bước tiếp.",
+          "en": "An unmet expectation can leave a very real disappointment. You can let yourself feel sad for a while before looking for the next step."
+        },
+        "self": {
+          "vi": "Thành thật với cảm xúc của mình là một cách tự chăm sóc. Bạn không cần tỏ ra ổn khi trong lòng chưa ổn.",
+          "en": "Being honest with your feelings is a form of self-care. You don't need to look fine when you're not fine inside."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời báo trước chia tay hay phản bội. Lá này nói về việc nhìn thẳng vào nỗi buồn đang có, không dự đoán một nỗi đau sắp tới.",
+        "en": "It's not a warning of a breakup or betrayal. This card is about facing a sadness that's already there, not predicting a hurt to come."
+      },
+      "supportNote": {
+        "vi": "Nếu cảm giác này kéo dài nhiều tuần, làm bạn mất ngủ hay khó sinh hoạt như thường, nói chuyện với chuyên gia tâm lý hoặc bác sĩ là một cách chăm sóc mình, không phải là yếu đuối.",
+        "en": "If this feeling lasts for weeks, or makes it hard to sleep or get through your days, talking with a counsellor or doctor is a way of caring for yourself, not a sign of weakness."
+      },
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Sao Thổ trong Thiên Bình",
+        "en": "Saturn in Libra"
+      }
+    },
+    "minor-swords-four": {
+      "topics": {
+        "love": {
+          "vi": "Không phải cuộc trò chuyện nào cũng cần kết thúc ngay tối nay. Một khoảng lặng có chủ đích có thể giúp hai người nghe nhau rõ hơn.",
+          "en": "Not every conversation needs to be settled tonight. An intentional pause can help you both hear each other better."
+        },
+        "career": {
+          "vi": "Nếu đầu óc đang quá tải, một khoảng nghỉ ngắn có thể là việc có ích nhất lúc này. Bạn sẽ quay lại với cái nhìn tỉnh táo hơn.",
+          "en": "If your mind is overloaded, a short break may be the most useful thing right now. You can come back with a clearer head."
+        },
+        "self": {
+          "vi": "Nghỉ ngơi không phải phần thưởng chỉ dành cho lúc xong việc. Bạn có thể cho tâm trí một điểm dừng nhỏ ngay hôm nay.",
+          "en": "Rest isn't a reward saved for when everything is done. You can give your mind a small stopping point today."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải bạn đang lười hay bỏ cuộc. Lá này nói về một khoảng dừng để lấy lại nhịp, và dừng đúng lúc cũng là một lựa chọn chủ động.",
+        "en": "It doesn't mean you're lazy or giving up. This card is about pausing to regain your pace, and pausing at the right moment is an active choice."
+      },
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Sao Mộc trong Thiên Bình",
+        "en": "Jupiter in Libra"
+      }
+    },
+    "minor-swords-five": {
+      "topics": {
+        "love": {
+          "vi": "Thắng một trận cãi nhau mà người kia thấy tổn thương thì có đáng không? Điều bạn cần là được đúng, hay được hiểu?",
+          "en": "Is winning an argument worth it if the other person walks away hurt? Do you need to be right, or to be understood?"
+        },
+        "career": {
+          "vi": "Khi một cuộc tranh luận chỉ còn là hơn thua, lùi lại không có nghĩa là thua. Bạn có thể chọn cách trao đổi khác, hoặc đặt ranh giới rõ hơn.",
+          "en": "When a debate becomes only about winning, stepping back isn't losing. You can choose another way to talk, or set a clearer boundary."
+        },
+        "self": {
+          "vi": "Thử để ý xem cuộc giằng co nào đang lấy đi sự bình yên của bạn. Có những trận không cần phải đánh đến cùng.",
+          "en": "Notice which tug-of-war is taking away your peace. Some battles don't need to be fought to the end."
+        }
+      },
+      "misconception": {
+        "vi": "Dễ bị đọc thành lời buộc tội rằng ai đó đang chơi xấu. Thật ra lá này nói về cái giá của việc cố thắng, và quyền được rời khỏi một cuộc tranh cãi không lành mạnh.",
+        "en": "It's easy to read as an accusation that someone is playing dirty. In fact, this card is about the cost of insisting on winning, and your right to leave an unhealthy argument."
+      },
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Sao Kim trong Bảo Bình",
+        "en": "Venus in Aquarius"
+      }
+    },
+    "minor-swords-six": {
+      "topics": {
+        "love": {
+          "vi": "Có thể bạn đang dần rời xa một khuôn mẫu cũ trong cách yêu. Đi chậm cũng được, miễn là bạn đang hướng về nơi yên hơn.",
+          "en": "You may be slowly moving away from an old pattern in how you love. Going slowly is fine, as long as you're heading somewhere calmer."
+        },
+        "career": {
+          "vi": "Một bước chuyển đang diễn ra, và bạn không cần đi qua nó một mình. Ai hoặc điều gì có thể giúp chặng đường này vừa sức hơn?",
+          "en": "A transition is underway, and you don't have to go through it alone. Who or what could make this stretch more manageable?"
+        },
+        "self": {
+          "vi": "Bạn có thể mang theo bài học mà không phải mang theo cả nỗi nặng nề. Hãy chọn điều muốn giữ lại cho chặng tới.",
+          "en": "You can carry the lesson without carrying all the weight. Choose what you want to keep for the next stretch."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời hứa rằng mọi chuyện khó đã qua hết. Lá này nói về việc đang trên đường chuyển tiếp, và mặt nước vẫn có thể gợn sóng dù bạn đã rời bến.",
+        "en": "It's not a promise that every hard thing is behind you. This card is about being in transition, and the water may still be choppy even after you've left the shore."
+      },
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Sao Thủy trong Bảo Bình",
+        "en": "Mercury in Aquarius"
+      }
+    },
+    "minor-swords-seven": {
+      "topics": {
+        "love": {
+          "vi": "Có điều gì bạn đang giữ lại để bảo vệ mình không? Riêng tư là quyền của bạn, nhưng giấu đi để né một cuộc trò chuyện thì lại là chuyện khác.",
+          "en": "Is there something you're holding back to protect yourself? Privacy is your right, but hiding something to avoid a conversation is a different matter."
+        },
+        "career": {
+          "vi": "Một chút chiến lược và kín đáo có thể có ích, nhất là khi kế hoạch chưa chín. Chỉ cần bạn vẫn đứng sau những gì mình đã nhận làm.",
+          "en": "A bit of strategy and discretion can help, especially when a plan isn't ready yet. Just make sure you still stand behind what you've committed to."
+        },
+        "self": {
+          "vi": "Thử thành thật hỏi: mình đang khéo léo, hay đang tránh phần trách nhiệm của mình? Câu trả lời không cần nói với ai, chỉ cần rõ với bạn.",
+          "en": "Ask honestly: am I being tactful, or avoiding my share of responsibility? The answer doesn't need to be shared, only clear to you."
+        }
+      },
+      "misconception": {
+        "vi": "Lá này hay bị xem là bằng chứng có người đang lừa dối bạn. Thực ra, nó mời bạn kiểm tra dữ kiện và nhìn lại phần mình trước khi đi đến bất kỳ kết luận nào.",
+        "en": "This card is often taken as proof that someone is deceiving you. Actually, it invites you to check the facts and look at your own part before reaching any conclusion."
+      },
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Mặt Trăng trong Bảo Bình",
+        "en": "Moon in Aquarius"
+      }
+    },
+    "minor-swords-eight": {
+      "topics": {
+        "love": {
+          "vi": "Cảm giác không có lối ra trong một mối quan hệ là thật và đáng được lắng nghe. Thử tách điều bạn chắc chắn khỏi điều bạn đang đoán.",
+          "en": "Feeling there's no way out in a relationship is real and worth listening to. Try separating what you know for sure from what you're assuming."
+        },
+        "career": {
+          "vi": "Có những giới hạn thật, và cũng có những giả định chưa ai kiểm chứng. Một câu hỏi nhỏ gửi đúng người có thể mở ra lựa chọn bạn chưa thấy.",
+          "en": "Some limits are real, and some are assumptions no one has checked. One small question to the right person may reveal an option you haven't seen yet."
+        },
+        "self": {
+          "vi": "Khi thấy mắc kẹt, hãy bắt đầu từ điều nhỏ nhất bạn vẫn còn chọn được. Một bước rất nhỏ cũng là một lựa chọn.",
+          "en": "When you feel stuck, start from the smallest thing you can still choose. Even a very small step is a choice."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời trách rằng bạn tự trói mình. Lá này thừa nhận cảm giác mắc kẹt, đồng thời mời bạn tìm những lựa chọn có thể vẫn còn đó.",
+        "en": "It doesn't blame you for trapping yourself. This card acknowledges the feeling of being stuck, while inviting you to look for choices that may still be there."
+      },
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Sao Mộc trong Song Tử",
+        "en": "Jupiter in Gemini"
+      }
+    },
+    "minor-swords-nine": {
+      "topics": {
+        "love": {
+          "vi": "Nếu một nỗi lo về người kia cứ quay lại lúc đêm khuya, thử viết nó ra giấy. Điều gì là bạn đã biết, và điều gì là bạn đang sợ?",
+          "en": "If a worry about someone keeps coming back late at night, try writing it down. What do you actually know, and what are you afraid of?"
+        },
+        "career": {
+          "vi": "Một sai sót nhỏ có thể bị suy nghĩ phóng to thành cả một câu chuyện. Hãy nhìn lại điều đã xảy ra bằng ánh mắt của một người bạn tử tế.",
+          "en": "A small mistake can get magnified by your thoughts into a whole story. Look back at what happened through the eyes of a kind friend."
+        },
+        "self": {
+          "vi": "Nỗi lo của bạn đáng được lắng nghe, không đáng bị xem nhẹ. Nói ra với một người bạn tin tưởng có thể giúp nó bớt nặng.",
+          "en": "Your worry deserves to be heard, not brushed aside. Telling someone you trust can help it feel less heavy."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời cảnh báo rằng điều bạn sợ sẽ xảy ra. Lá này nói về những suy nghĩ lặp lại và tự trách, và mời bạn tìm một điểm tựa giữa chúng.",
+        "en": "It's not a warning that what you fear will happen. This card is about repeating thoughts and self-blame, and invites you to find something steady among them."
+      },
+      "supportNote": {
+        "vi": "Nếu cảm giác này kéo dài nhiều tuần, làm bạn mất ngủ hay khó sinh hoạt như thường, nói chuyện với chuyên gia tâm lý hoặc bác sĩ là một cách chăm sóc mình, không phải là yếu đuối. Nếu bạn có ý nghĩ làm hại bản thân, hãy gọi ngay cho người thân hoặc số cấp cứu nơi bạn ở (ở Việt Nam: 115).",
+        "en": "If this feeling lasts for weeks, or makes it hard to sleep or get through your days, talking with a counsellor or doctor is a way of caring for yourself, not a sign of weakness. If you have thoughts of harming yourself, please contact someone close to you or your local emergency number right away (in Vietnam: 115)."
+      },
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Sao Hỏa trong Song Tử",
+        "en": "Mars in Gemini"
+      }
+    },
+    "minor-swords-ten": {
+      "topics": {
+        "love": {
+          "vi": "Nếu điều gì đó vừa kết thúc theo cách khó khăn, bạn không cần vội gượng dậy. Cho mình thời gian, và để những người quan tâm bạn ở gần.",
+          "en": "If something has just ended in a painful way, you don't need to rush to get back up. Give yourself time, and let the people who care about you stay close."
+        },
+        "career": {
+          "vi": "Khi đã chạm giới hạn sức chịu đựng, cố thêm chưa chắc là cách tốt nhất. Thừa nhận mình cần nghỉ hoặc cần giúp cũng là một quyết định trưởng thành.",
+          "en": "When you've reached the limit of what you can carry, pushing harder isn't always the best way. Admitting you need rest or help is a mature decision too."
+        },
+        "self": {
+          "vi": "Bạn không phải chứng minh mình chịu đựng được bao nhiêu. Lúc này, nhận hỗ trợ có thể quan trọng hơn việc cố tỏ ra mạnh mẽ.",
+          "en": "You don't have to prove how much you can endure. Right now, receiving support may matter more than trying to look strong."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời báo trước tai họa hay một kết cục không thể thay đổi. Lá này gọi tên cảm giác đã chạm giới hạn, và nhắc rằng nghỉ ngơi cùng sự hỗ trợ vẫn là những lựa chọn của bạn.",
+        "en": "It's not a forecast of disaster or an outcome set in stone. This card names the feeling of reaching a limit, and reminds you that rest and support are still choices you have."
+      },
+      "supportNote": {
+        "vi": "Nếu cảm giác này kéo dài nhiều tuần, làm bạn mất ngủ hay khó sinh hoạt như thường, nói chuyện với chuyên gia tâm lý hoặc bác sĩ là một cách chăm sóc mình, không phải là yếu đuối. Nếu bạn có ý nghĩ làm hại bản thân, hãy gọi ngay cho người thân hoặc số cấp cứu nơi bạn ở (ở Việt Nam: 115).",
+        "en": "If this feeling lasts for weeks, or makes it hard to sleep or get through your days, talking with a counsellor or doctor is a way of caring for yourself, not a sign of weakness. If you have thoughts of harming yourself, please contact someone close to you or your local emergency number right away (in Vietnam: 115)."
+      },
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Mặt Trời trong Song Tử",
+        "en": "Sun in Gemini"
+      }
+    },
+    "minor-swords-page": {
+      "topics": {
+        "love": {
+          "vi": "Tò mò về người kia là điều đẹp, nhưng hỏi trực tiếp thường cho câu trả lời đúng hơn việc đoán ý qua từng tin nhắn.",
+          "en": "Being curious about someone is lovely, but asking directly usually gives a truer answer than reading into every message."
+        },
+        "career": {
+          "vi": "Đây là lúc học hỏi và đặt câu hỏi, kể cả những câu nghe có vẻ ngây ngô. Hãy kiểm tra một thông tin trước khi chuyển nó cho người khác.",
+          "en": "This is a time to learn and ask questions, even ones that sound naive. Check a piece of information before passing it on."
+        },
+        "self": {
+          "vi": "Hãy quan sát bản thân như quan sát một người mới quen: tò mò và không phán xét. Bạn có thể ngạc nhiên vì điều mình nhận ra.",
+          "en": "Observe yourself the way you'd observe someone you just met: curious and without judgment. You might be surprised by what you notice."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời gợi ý bạn nghi ngờ hay dò xét người khác. Lá này nói về sự tò mò lành mạnh: hỏi, quan sát và kiểm chứng trước khi kết luận.",
+        "en": "It's not suggesting you be suspicious of or spy on others. This card is about healthy curiosity: asking, observing and checking before you conclude."
+      },
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Đất của Khí (không ứng với khoảng cung hoàng đạo nào)",
+        "en": "Earth of Air (no zodiac span)"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-swords-knight": {
+      "topics": {
+        "love": {
+          "vi": "Khi bạn đã rõ mình muốn gì, nói thẳng ra là điều tốt. Chỉ cần nhớ chừa một khoảng để nghe người kia đáp lại.",
+          "en": "When you know what you want, saying it directly is a good thing. Just remember to leave some space to hear their reply."
+        },
+        "career": {
+          "vi": "Một ý tưởng rõ và tinh thần quyết đoán có thể giúp công việc tiến nhanh. Trước khi lao đi, thử hỏi: mình đã bỏ sót góc nhìn nào chưa?",
+          "en": "A clear idea and a decisive spirit can move work forward quickly. Before charging ahead, ask: which perspective might I have missed?"
+        },
+        "self": {
+          "vi": "Sự nhanh nhạy là một điểm mạnh của bạn. Nó càng vững hơn khi đi kèm vài nhịp dừng để lắng nghe.",
+          "en": "Your quickness is a real strength. It grows steadier when paired with a few pauses to listen."
+        }
+      },
+      "misconception": {
+        "vi": "Dễ bị hiểu là bạn phải quyết ngay lập tức. Lá này nói về sự quyết đoán, và quyết đoán tốt vẫn chừa chỗ cho điều mình chưa biết.",
+        "en": "It's easy to read as having to decide right this second. This card is about decisiveness, and good decisiveness still leaves room for what you don't yet know."
+      },
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Lửa của Khí; từ 21° Kim Ngưu đến 20° Song Tử",
+        "en": "Fire of Air; 21° Taurus to 20° Gemini"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-swords-queen": {
+      "topics": {
+        "love": {
+          "vi": "Nói rõ điều bạn cần, và cả điều bạn không chấp nhận, là một cách tôn trọng cả hai người. Thẳng thắn vẫn có thể rất ấm áp.",
+          "en": "Saying clearly what you need, and what you won't accept, is a way of respecting you both. Being direct can still be very warm."
+        },
+        "career": {
+          "vi": "Trải nghiệm cho bạn cơ sở để nói thẳng điều mình thấy. Hãy giữ ranh giới rõ ràng mà vẫn để lòng trắc ẩn có mặt trong lời nói.",
+          "en": "Your experience gives you grounds to say plainly what you see. Keep your boundaries clear while letting compassion stay in your words."
+        },
+        "self": {
+          "vi": "Độc lập không có nghĩa là phải khép lòng. Bạn có thể vừa sáng suốt, vừa cho phép mình cảm nhận trọn vẹn.",
+          "en": "Being independent doesn't mean closing your heart. You can be clear-sighted and still let yourself feel fully."
+        }
+      },
+      "misconception": {
+        "vi": "Hay bị gắn với hình ảnh một người lạnh lùng, khó gần. Thật ra đây là sự thẳng thắn có trắc ẩn, nơi cảm xúc không bị xem là yếu đuối.",
+        "en": "It's often linked to someone cold and hard to approach. Really, it's about directness with compassion, where feelings aren't treated as weakness."
+      },
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Nước của Khí; từ 21° Xử Nữ đến 20° Thiên Bình",
+        "en": "Water of Air; 21° Virgo to 20° Libra"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-swords-king": {
+      "topics": {
+        "love": {
+          "vi": "Khi có bất đồng, thử tách riêng điều đã xảy ra, điều bạn đoán và điều bạn cảm thấy. Cả ba đều quan trọng, nhưng không giống nhau.",
+          "en": "In a disagreement, try separating what happened, what you assume and what you feel. All three matter, but they aren't the same."
+        },
+        "career": {
+          "vi": "Một quyết định công bằng cần những tiêu chí mà ai cũng hiểu được. Hãy viết tiêu chí ra trước, rồi mới cân nhắc từng lựa chọn.",
+          "en": "A fair decision needs criteria that everyone can understand. Write the criteria down first, then weigh each option."
+        },
+        "self": {
+          "vi": "Bạn có thể nhìn lại mình một cách công bằng, không quá khắt khe mà cũng không né tránh. Hỏi thêm một góc nhìn khác có thể giúp ích.",
+          "en": "You can look at yourself fairly, neither too harshly nor avoiding the truth. Asking for another perspective may help."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời khuyên gạt cảm xúc sang một bên. Lá này nói về phán đoán dựa trên dữ kiện, và cảm xúc cũng là một dữ kiện đáng được tính đến.",
+        "en": "It's not advice to set your feelings aside. This card is about judgment grounded in evidence, and feelings are evidence worth counting too."
+      },
+      "element": {
+        "vi": "Khí",
+        "en": "Air"
+      },
+      "astrology": {
+        "vi": "Khí của Khí; từ 21° Ma Kết đến 20° Bảo Bình",
+        "en": "Air of Air; 21° Capricorn to 20° Aquarius"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-pentacles-ace": {
+      "topics": {
+        "love": {
+          "vi": "Tình cảm cũng cần những điều cụ thể để lớn lên: một buổi hẹn, một thói quen chung, một lời hứa nhỏ được giữ.",
+          "en": "Feelings also need concrete things to grow: a date, a shared habit, a small promise kept."
+        },
+        "career": {
+          "vi": "Có thể một cơ hội thực tế đang ở ngay trước mặt. Hãy xem mình đang có những nguồn lực gì, rồi thử một bước đầu vừa sức.",
+          "en": "A practical opportunity may be right in front of you. Look at the resources you already have, then try a first step that fits your capacity."
+        },
+        "self": {
+          "vi": "Bắt đầu một nền nếp nhỏ cho bản thân, như sắp xếp lại góc học tập hay học một kỹ năng mới, cũng là gieo một hạt giống bền lâu.",
+          "en": "Starting a small routine for yourself, like rearranging your study corner or learning a new skill, is planting a seed that lasts."
+        }
+      },
+      "misconception": {
+        "vi": "Nhiều người mong lá này là tin sắp có tiền. Thực ra nó nói về một cơ hội cần được vun bằng nỗ lực và điều kiện thực tế, không phải may mắn từ trên trời rơi xuống.",
+        "en": "Many people hope this card means money is coming. Actually, it's about an opportunity that grows with effort and real conditions, not luck falling from the sky."
+      },
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Gốc của nguyên tố Đất",
+        "en": "Root of the powers of Earth"
+      }
+    },
+    "minor-pentacles-two": {
+      "topics": {
+        "love": {
+          "vi": "Giữa việc học, công việc, bạn bè và người thương, thời gian của bạn có giới hạn. Chia sẻ nhịp sống của mình giúp người kia hiểu thay vì phải đoán.",
+          "en": "Between study, work, friends and the person you love, your time has limits. Sharing your rhythm helps them understand instead of guessing."
+        },
+        "career": {
+          "vi": "Nhiều việc cùng lúc đòi sự chú ý, và không việc nào cần được giữ ở cùng một mức. Hôm nay, điều gì thật sự cần đứng đầu danh sách?",
+          "en": "Many tasks want your attention at once, and none of them has to be held at the same level. Today, what truly needs to top the list?"
+        },
+        "self": {
+          "vi": "Cân bằng không phải là đứng yên, mà là điều chỉnh liên tục. Bạn được phép đặt bớt một quả bóng xuống cho nhẹ tay.",
+          "en": "Balance isn't standing still; it's adjusting all the time. You're allowed to set one ball down to lighten your hands."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời khen rằng bạn có thể ôm hết mọi việc. Lá này nói về sự linh hoạt và sắp xếp ưu tiên, kể cả khi điều đó có nghĩa là làm ít đi.",
+        "en": "It's not praise for being able to carry everything. This card is about flexibility and priorities, even when that means doing less."
+      },
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Sao Mộc trong Ma Kết",
+        "en": "Jupiter in Capricorn"
+      }
+    },
+    "minor-pentacles-three": {
+      "topics": {
+        "love": {
+          "vi": "Một mối quan hệ được xây bởi cả hai người, mỗi người góp một phần khác nhau. Bạn đang góp điều gì, và bạn cần người kia góp gì?",
+          "en": "A relationship is built by two people, each bringing something different. What are you contributing, and what do you need them to contribute?"
+        },
+        "career": {
+          "vi": "Làm việc nhóm trôi chảy hơn khi mỗi người rõ phần mình. Hãy nói cụ thể đóng góp của bạn, và đón nhận góp ý như một cách học.",
+          "en": "Teamwork flows better when everyone knows their part. Name your contribution clearly, and take feedback as a way to learn."
+        },
+        "self": {
+          "vi": "Bạn không cần tự mình giỏi mọi thứ. Học từ người khác cũng là một cách trân trọng tay nghề của chính mình.",
+          "en": "You don't have to be good at everything on your own. Learning from others is also a way of honoring your own craft."
+        }
+      },
+      "misconception": {
+        "vi": "Dễ bị thu hẹp thành “lá của công việc nhóm”. Thật ra lá này nói về việc cùng nhau xây điều có giá trị, ở bất kỳ đâu có sự góp sức và lắng nghe.",
+        "en": "It often gets narrowed down to “the teamwork card”. Really, it's about building something meaningful together, wherever there is shared effort and listening."
+      },
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Sao Hỏa trong Ma Kết",
+        "en": "Mars in Capricorn"
+      }
+    },
+    "minor-pentacles-four": {
+      "topics": {
+        "love": {
+          "vi": "Muốn giữ chặt một người hay một cảm giác an toàn là điều dễ hiểu. Thử hỏi mình: điều gì có thể khác đi nếu bạn nới tay một chút?",
+          "en": "Wanting to hold tightly to someone, or to a sense of safety, is understandable. Ask yourself: what might change if you loosened your grip a little?"
+        },
+        "career": {
+          "vi": "Bảo vệ thành quả của mình là chính đáng. Nhưng bám quá chặt vào một cách làm cũ đôi khi khiến cơ hội mới khó bước vào.",
+          "en": "Protecting what you've built is fair. But clinging too tightly to an old way of working can sometimes keep new chances from getting in."
+        },
+        "self": {
+          "vi": "Hãy xem điều gì thật sự cần được bảo vệ, và điều gì bạn đang giữ chỉ vì sợ thiếu. Hai điều này không giống nhau.",
+          "en": "Look at what truly needs protecting, and what you're holding only out of fear of not having enough. They aren't the same thing."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời chê bạn keo kiệt hay ích kỷ. Lá này nói về mong muốn được an toàn, và mời bạn nhìn xem chỗ nào đang giữ vừa đủ, chỗ nào đang siết quá chặt.",
+        "en": "It's not calling you stingy or selfish. This card is about wanting to feel secure, and invites you to see where you're holding just enough and where you're gripping too tight."
+      },
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Mặt Trời trong Ma Kết",
+        "en": "Sun in Capricorn"
+      }
+    },
+    "minor-pentacles-five": {
+      "topics": {
+        "love": {
+          "vi": "Nếu bạn đang thấy mình bị bỏ ra ngoài, cảm giác đó đáng được nói ra. Lúc này, bạn có thể gõ cửa ai?",
+          "en": "If you're feeling left out, that feeling deserves to be spoken. Right now, whose door could you knock on?"
+        },
+        "career": {
+          "vi": "Một giai đoạn thiếu nguồn lực không nói lên giá trị của bạn. Một sự hỗ trợ thực tế, dù nhỏ, có thể đáng để bạn chủ động tìm.",
+          "en": "A stretch of limited resources says nothing about your worth. Practical support, even a small one, may be worth reaching out for."
+        },
+        "self": {
+          "vi": "Khó khăn không có nghĩa là bạn chưa cố gắng đủ. Bạn được phép nhận giúp đỡ mà không cần thấy xấu hổ.",
+          "en": "Difficulty doesn't mean you haven't tried hard enough. You're allowed to accept help without feeling ashamed."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời báo trước cảnh túng quẫn hay mất mát. Lá này gọi tên cảm giác thiếu hụt hoặc lạc lõng, và nhắc rằng tìm hỗ trợ không phải là thất bại.",
+        "en": "It's not a forecast of hardship or loss. This card names the feeling of lacking or being left out, and reminds you that seeking support is not failure."
+      },
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Sao Thủy trong Kim Ngưu",
+        "en": "Mercury in Taurus"
+      }
+    },
+    "minor-pentacles-six": {
+      "topics": {
+        "love": {
+          "vi": "Trong tình cảm, cho và nhận nên đi theo cả hai chiều. Bạn có đang chỉ cho đi mà quên rằng mình cũng xứng đáng được nhận?",
+          "en": "In love, giving and receiving should flow both ways. Are you only giving, forgetting that you deserve to receive too?"
+        },
+        "career": {
+          "vi": "Giúp đồng nghiệp là điều tốt, nhưng sự giúp đỡ cũng cần giới hạn rõ ràng. Hãy để ý xem có điều kiện ngầm nào đi kèm không.",
+          "en": "Helping colleagues is good, but help also needs clear limits. Notice whether any unspoken conditions come attached."
+        },
+        "self": {
+          "vi": "Nhận giúp đỡ không làm bạn kém đi. Biết khi nào nên cho, khi nào nên nhận, là một cách tôn trọng chính mình.",
+          "en": "Receiving help doesn't make you less. Knowing when to give and when to receive is a way of respecting yourself."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời hứa sẽ có người đến giúp bạn. Lá này nói về sự công bằng trong cho và nhận, kể cả quyền nói “mình chỉ giúp được đến đây”.",
+        "en": "It's not a promise that someone will come to help you. This card is about fairness in giving and receiving, including the right to say “this is as far as I can help.”"
+      },
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Mặt Trăng trong Kim Ngưu",
+        "en": "Moon in Taurus"
+      }
+    },
+    "minor-pentacles-seven": {
+      "topics": {
+        "love": {
+          "vi": "Một mối quan hệ cần thời gian để lớn lên. Đây có thể là lúc dừng lại xem điều hai người cùng vun đắp đang thành hình ra sao.",
+          "en": "A relationship needs time to grow. This may be a moment to pause and see how what you've both nurtured is taking shape."
+        },
+        "career": {
+          "vi": "Bạn đã bỏ nhiều công sức, và giờ là lúc nhìn lại. Tiếp tục, điều chỉnh hay đổi sang nhịp khác đều là những lựa chọn hợp lý.",
+          "en": "You've put in a lot of effort, and now is a time to look back. Continuing, adjusting or shifting to another pace are all reasonable choices."
+        },
+        "self": {
+          "vi": "Kết quả chưa thấy rõ không có nghĩa là nỗ lực bị lãng phí. Hãy ghi nhận những gì đã nảy mầm, dù còn nhỏ.",
+          "en": "Results not showing yet doesn't mean your effort was wasted. Notice what has already sprouted, even if it's still small."
+        }
+      },
+      "misconception": {
+        "vi": "Dễ hiểu thành “cứ chờ rồi mọi thứ sẽ đến”. Lá này nói về việc dừng lại đánh giá, để bạn chọn tiếp tục hay điều chỉnh.",
+        "en": "It's easy to read as “just wait and everything will come.” This card is about pausing to review, so you can choose whether to keep going or adjust."
+      },
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Sao Thổ trong Kim Ngưu",
+        "en": "Saturn in Taurus"
+      }
+    },
+    "minor-pentacles-eight": {
+      "topics": {
+        "love": {
+          "vi": "Tình cảm cũng được nuôi bằng những việc nhỏ lặp lại mỗi ngày. Một sự quan tâm đều đặn có khi nói nhiều hơn một lời hứa lớn.",
+          "en": "Love is also nurtured by small things repeated every day. Steady care can sometimes say more than a big promise."
+        },
+        "career": {
+          "vi": "Đây là lúc chăm chút tay nghề qua từng việc nhỏ. Chọn một kỹ năng, luyện tập có chủ đích, và để ý phần mình đang tiến bộ.",
+          "en": "This is a time to refine your craft through small tasks. Choose one skill, practice with intention, and notice where you're improving."
+        },
+        "self": {
+          "vi": "Sự tiến bộ thường lặng lẽ và không hào nhoáng. Bạn có thể tự hào vì mình đã kiên trì, chứ không chỉ vì kết quả.",
+          "en": "Progress is often quiet and unglamorous. You can be proud of having kept at it, not only of the result."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời thúc bạn phải cày cuốc không nghỉ. Lá này nói về sự rèn luyện có chú ý, và nghỉ ngơi cũng là một phần của việc làm tốt.",
+        "en": "It's not urging you to grind without rest. This card is about attentive practice, and rest is part of doing good work too."
+      },
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Mặt Trời trong Xử Nữ",
+        "en": "Sun in Virgo"
+      }
+    },
+    "minor-pentacles-nine": {
+      "topics": {
+        "love": {
+          "vi": "Bạn có thể yêu từ một nơi đủ đầy, chứ không phải vì cần ai đó lấp chỗ trống. Sự tự chủ của bạn cũng là món quà cho mối quan hệ.",
+          "en": "You can love from a place of fullness, not because you need someone to fill a gap. Your self-sufficiency is a gift to the relationship too."
+        },
+        "career": {
+          "vi": "Hãy dành một lúc ghi nhận những gì bạn đã tự gây dựng. Tự chủ không có nghĩa là phải gánh mọi việc một mình.",
+          "en": "Take a moment to recognize what you've built yourself. Being self-reliant doesn't mean carrying every task alone."
+        },
+        "self": {
+          "vi": "Bạn được phép tận hưởng thành quả của mình, kể cả những niềm vui nhỏ. Không cần đợi mọi thứ hoàn hảo mới cho mình thảnh thơi.",
+          "en": "You're allowed to enjoy what you've worked for, small joys included. You don't need everything to be perfect before you let yourself relax."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời hứa về sự giàu có hay một cuộc sống không cần ai. Lá này nói về việc trân trọng điều mình đã xây dựng, và độc lập vẫn có thể đi cùng sự gắn kết.",
+        "en": "It's not a promise of wealth or of a life that needs no one. This card is about appreciating what you've built, and independence can still go hand in hand with connection."
+      },
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Sao Kim trong Xử Nữ",
+        "en": "Venus in Virgo"
+      }
+    },
+    "minor-pentacles-ten": {
+      "topics": {
+        "love": {
+          "vi": "Hai người muốn cùng gìn giữ điều gì về lâu dài? Những giá trị chung có thể là nền móng vững hơn mọi lời hứa.",
+          "en": "What do the two of you want to protect together over time? Shared values can be a steadier foundation than any promise."
+        },
+        "career": {
+          "vi": "Hãy nghĩ về điều bạn muốn để lại qua công việc, không chỉ là thành tích mà còn là cách bạn làm việc cùng người khác.",
+          "en": "Think about what you want to leave behind through your work, not just achievements but the way you work with others."
+        },
+        "self": {
+          "vi": "Bạn mang theo những giá trị từ gia đình và cộng đồng. Điều nào bạn muốn giữ, và điều nào bạn muốn viết lại theo cách của mình?",
+          "en": "You carry values from your family and community. Which ones do you want to keep, and which do you want to rewrite in your own way?"
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời bảo đảm một gia đình viên mãn hay tài sản lớn. Lá này nói về nền tảng dài hạn, và nền tảng ấy được dựng từ giá trị nhiều hơn từ của cải.",
+        "en": "It's not a guarantee of a perfect family or a great fortune. This card is about lasting foundations, and those are built more from values than from possessions."
+      },
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Sao Thủy trong Xử Nữ",
+        "en": "Mercury in Virgo"
+      }
+    },
+    "minor-pentacles-page": {
+      "topics": {
+        "love": {
+          "vi": "Tìm hiểu một người cần sự kiên nhẫn của người mới học việc. Hãy để ý những điều nhỏ và cụ thể mà họ thật sự cần.",
+          "en": "Getting to know someone takes an apprentice's patience. Notice the small, concrete things they really need."
+        },
+        "career": {
+          "vi": "Chọn một kỹ năng nhỏ để học bằng cách làm, và đặt cho nó một kế hoạch vừa phải. Sau một thời gian, hãy xem mình đã học được gì.",
+          "en": "Pick one small skill to learn by doing, and give it a modest plan. After a while, look at what you've learned."
+        },
+        "self": {
+          "vi": "Bạn không cần biết hết mọi thứ mới được bắt đầu. Được làm người mới học cũng là một niềm vui riêng.",
+          "en": "You don't need to know everything before you begin. Being a beginner is a joy of its own."
+        }
+      },
+      "misconception": {
+        "vi": "Hay bị xem là “còn non, chưa đủ giỏi”. Thật ra lá này trân trọng tinh thần học hỏi: chậm, kỹ và cụ thể. Theo cách đọc truyền thống, Tiểu Đồng cũng có thể là người mang tin; với bộ Tiền, đó thường là tin về học tập, công việc hay tiền bạc, và tin ấy vẫn cần bạn bắt tay vào làm.",
+        "en": "It's often seen as “too green, not good enough yet.” In fact the card honours a learner's spirit: slow, careful and concrete. In traditional readings a Page can also be a messenger; for Pentacles, that's usually news about study, work or money, and it still asks you to get to work."
+      },
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Đất của Đất (không ứng với khoảng cung hoàng đạo nào)",
+        "en": "Earth of Earth (no zodiac span)"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-pentacles-knight": {
+      "topics": {
+        "love": {
+          "vi": "Sự đáng tin không ồn ào, nhưng được nhận ra qua thời gian. Giữ những lời hẹn nhỏ có thể nói lên nhiều điều về cách bạn yêu.",
+          "en": "Reliability isn't loud, but it's noticed over time. Keeping small promises can say a lot about how you love."
+        },
+        "career": {
+          "vi": "Một nhịp làm việc đều và chắc tay có thể đưa bạn đi xa hơn một cú tăng tốc. Không cần nhận thêm việc chỉ để chứng tỏ mình tiến bộ.",
+          "en": "A steady, sure pace can take you further than a sudden sprint. There's no need to take on more just to prove you're making progress."
+        },
+        "self": {
+          "vi": "Bạn không cần nhanh, chỉ cần đều. Hôm nay, có bước nhỏ đáng tin nào bạn có thể làm cho chính mình?",
+          "en": "You don't need to be fast, just steady. Today, what small, reliable step could you take for yourself?"
+        }
+      },
+      "misconception": {
+        "vi": "Hay bị xem là chậm chạp hoặc nhàm chán. Lá này nói về sự bền bỉ có trách nhiệm, và giữ được nhịp đều là một sức mạnh thầm lặng.",
+        "en": "It's often seen as slow or dull. This card is about responsible persistence, and keeping a steady pace is a quiet strength."
+      },
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Lửa của Đất; từ 21° Sư Tử đến 20° Xử Nữ",
+        "en": "Fire of Earth; 21° Leo to 20° Virgo"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-pentacles-queen": {
+      "topics": {
+        "love": {
+          "vi": "Yêu thương được thể hiện qua những việc thực tế: một bữa ăn, một lời hỏi han, một không gian dễ chịu. Và bạn cũng xứng đáng được chăm sóc như thế.",
+          "en": "Love shows up in practical things: a meal, a check-in, a comfortable space. And you deserve to be cared for that way too."
+        },
+        "career": {
+          "vi": "Bạn có thể là người mang lại sự ấm áp cho tập thể, miễn là vẫn giữ giới hạn về thời gian và sức lực của mình.",
+          "en": "You can be the one who brings warmth to a team, as long as you keep limits on your own time and energy."
+        },
+        "self": {
+          "vi": "Chăm chút không gian sống và nhịp sinh hoạt cũng là một cách chăm sóc thế giới bên trong. Bắt đầu từ một góc nhỏ thôi cũng đủ.",
+          "en": "Tending your living space and daily rhythm is also a way of caring for your inner world. Starting with one small corner is enough."
+        }
+      },
+      "misconception": {
+        "vi": "Không nhất thiết là một người phụ nữ trong đời bạn, cũng không phải hình mẫu người phải lo cho tất cả. Lá có thể nói về một người bất kỳ hoặc một nét trong chính bạn: sự chăm sóc vừa sức, kể cả chăm sóc chính mình.",
+        "en": "It doesn't have to be a woman in your life, nor an ideal of someone who must look after everyone. It can point to anyone, or to a quality in yourself: care within your capacity, including care for yourself."
+      },
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Nước của Đất; từ 21° Nhân Mã đến 20° Ma Kết",
+        "en": "Water of Earth; 21° Sagittarius to 20° Capricorn"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    },
+    "minor-pentacles-king": {
+      "topics": {
+        "love": {
+          "vi": "Sự vững vàng trong tình cảm đến từ việc giữ lời và có mặt khi cần. Bạn muốn làm chỗ dựa theo cách nào, và bạn cần được nâng đỡ ra sao?",
+          "en": "Steadiness in love comes from keeping your word and showing up when it matters. How do you want to be someone to lean on, and how do you need to be supported?"
+        },
+        "career": {
+          "vi": "Hãy dành thời gian, công sức và kinh nghiệm của bạn cho điều thật sự quan trọng. Sự đáng tin được xây từ những quyết định nhất quán.",
+          "en": "Give your time, effort and experience to what truly matters. Reliability is built from consistent decisions."
+        },
+        "self": {
+          "vi": "Giá trị của bạn không được đo bằng những gì bạn sở hữu. Bạn có thể quản lý nguồn lực của mình một cách vững vàng mà vẫn nhẹ lòng.",
+          "en": "Your worth isn't measured by what you own. You can manage your resources steadily and still keep a light heart."
+        }
+      },
+      "misconception": {
+        "vi": "Thường bị đọc là lá của tiền bạc và quyền lực. Thật ra nó nói về trách nhiệm khi dùng nguồn lực, để nâng đỡ điều quan trọng với bạn và những người xung quanh.",
+        "en": "It's often read as a card about money and power. Really, it's about using resources responsibly, to support what matters to you and the people around you."
+      },
+      "element": {
+        "vi": "Đất",
+        "en": "Earth"
+      },
+      "astrology": {
+        "vi": "Khí của Đất; từ 21° Bạch Dương đến 20° Kim Ngưu",
+        "en": "Air of Earth; 21° Aries to 20° Taurus"
+      },
+      "noteKeys": [
+        "court"
+      ]
+    }
+  }
+}
