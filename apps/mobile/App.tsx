@@ -42,7 +42,7 @@ import {
   View
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Reanimated, { Easing, useAnimatedStyle, useReducedMotion, useSharedValue, withSequence, withTiming } from "react-native-reanimated";
+import { useReducedMotion } from "react-native-reanimated";
 
 import tarotDeckData from "../../packages/content/data/tarot-decks.json";
 import tarotCardData from "../../packages/content/data/tarot-cards.json";
@@ -128,6 +128,7 @@ import { getTarotLearningSections, tarotQuestionExamples } from "./src/features/
 import { getTarotCardGuide } from "./src/features/tarot/cardGuide";
 import { TarotCardGuide } from "./src/features/tarot/TarotCardGuide";
 import { TarotAskStep } from "./src/features/tarot/TarotAskStep";
+import { TarotDrawStep } from "./src/features/tarot/TarotDrawStep";
 import type { AskTopic } from "./src/features/tarot/askHelpers";
 import { MythologyEntry, MythologyWorld } from "./src/features/astrology/MythologyWorld";
 import { AstrologyChartFoundation } from "./src/features/astrology/AstrologyChartFoundation";
@@ -7630,60 +7631,25 @@ export function TarotFlow({
       ? "Chọn bộ bài đồng điệu nhất với hành trình hiện tại của bạn."
       : "Select the deck that resonates with your current journey.";
   const selectedTopicLabel = localizedText(topics.find((topic) => topic.id === tarotTopic), language, tarotTopic);
-  const drawTitle =
-    language === "vi"
-      ? `${localizedText(selectedDeck.name, language)} trải bài`
-      : `The ${localizedText(selectedDeck.name, language)} Draw`;
   const drawPrompt = tarotCreditBalance <= 0
     ? (language === "vi" ? "Hôm nay bạn đã dùng hết lượt Tarot" : "You have used today's Tarot readings")
     : language === "vi"
-      ? `Chạm vào bộ bài để rút · hôm nay còn ${tarotCreditBalance} lượt`
-      : `Tap the deck to draw · ${tarotCreditBalance} left today`;
+      ? `Chạm một lá trong quạt bài · hôm nay còn ${tarotCreditBalance} lượt`
+      : `Tap a card in the fan · ${tarotCreditBalance} left today`;
   const ritualTimers = useRef<Array<ReturnType<typeof setTimeout>>>([]);
   const reduceRitualMotion = useReducedMotion();
   const [ritualPhase, setRitualPhase] = useState<RitualDrawPhase>("grounding");
   const [ritualDrawnCount, setRitualDrawnCount] = useState(0);
   const [ritualSelectedCards, setRitualSelectedCards] = useState<DrawnTarotCard[]>([]);
   const [fullscreenTarotCard, setFullscreenTarotCard] = useState<FullscreenTarotCard | null>(null);
+  const [selectedFanIndex, setSelectedFanIndex] = useState<number | null>(null);
   const [cardMeaningReturnStage, setCardMeaningReturnStage] = useState<TarotStage>("deckDetail");
   const tarotScrollRef = useRef<ScrollView | null>(null);
   const [showTarotBackToTop, setShowTarotBackToTop] = useState(false);
   const [showReadingExplanation, setShowReadingExplanation] = useState(false);
-  const ritualDeckScale = useSharedValue(1);
-  const ritualCardLift = useSharedValue(0);
-  const ritualGlow = useSharedValue(0.28);
-  const ritualDeckStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: ritualDeckScale.value }],
-    opacity: 0.72 + ritualGlow.value * 0.28
-  }));
-  const ritualCardStyle = useAnimatedStyle(() => ({
-    opacity: 1 - ritualCardLift.value * 0.18,
-    transform: [{ translateY: -ritualCardLift.value * 20 }]
-  }));
-  const ritualAuraStyle = useAnimatedStyle(() => ({
-    opacity: 0.18 + ritualGlow.value * 0.52,
-    transform: [{ scale: 0.88 + ritualGlow.value * 0.24 }]
-  }));
-  const drawnCount = tarotGenerating ? selectedSpread.cards : ritualDrawnCount;
   const visibleRitualCards = ritualSelectedCards.slice(0, ritualDrawnCount);
   const latestRitualCard = visibleRitualCards[visibleRitualCards.length - 1];
   const drawActionBusy = stage === "draw" && ritualPhase !== "grounding" && !tarotGenerating;
-  const drawCountLabel =
-    language === "vi"
-      ? `${drawnCount} / ${selectedSpread.cards} lá`
-      : `${drawnCount} of ${selectedSpread.cards} drawn`;
-  const drawGuideText =
-    ritualDrawnCount === 0
-      ? language === "vi"
-        ? "Guide đang ở đây với bạn. Hãy chạm khi bạn đã sẵn sàng; mỗi lần chỉ một lá bước ra."
-        : "Your guide is here with you. Tap when you are ready; one card steps forward at a time."
-      : ritualDrawnCount < selectedSpread.cards
-        ? language === "vi"
-          ? `${latestRitualCard ? displayTarotCardName(latestRitualCard, language) : `Lá ${ritualDrawnCount}`} đã vào vị trí. Hãy đọc thông điệp này một nhịp trước khi rút lá tiếp theo.`
-          : `${latestRitualCard ? displayTarotCardName(latestRitualCard, language) : `Card ${ritualDrawnCount}`} has landed. Read this layer for a breath before drawing the next card.`
-        : language === "vi"
-          ? "Bạn đã rút đủ các lá. Hãy ngắm lá vừa mở, rồi chọn Xem thông điệp khi sẵn sàng."
-          : "All cards are revealed. Take a moment with your last card, then choose View message when ready.";
   const ritualPhaseLabel = (() => {
     if (tarotGenerating || ritualPhase === "reveal") return c.generatingReading;
     if (ritualPhase === "pause_and_breathe") return language === "vi" ? "Dừng một nhịp và thở..." : "Pause and breathe...";
@@ -7708,7 +7674,6 @@ export function TarotFlow({
       : primaryEditorialActionLabel;
   const resultDateLabel = new Date(reading?.createdAt ?? Date.now()).toLocaleString(language === "vi" ? "vi-VN" : "en-US");
   const topBarRight = stage === "result" ? "sparkles-outline" : "refresh-outline";
-  const breathingAnim = useRef(new Animated.Value(0.7)).current;
   const openFullscreenTarotCard = (card: TarotCard | DrawnTarotCard, meta?: string) => {
     const orientationMeta = "reversed" in card
       ? card.reversed
@@ -7766,33 +7731,16 @@ export function TarotFlow({
     setShowReadingExplanation(false);
   }, [reading?.id]);
   useEffect(() => {
-    if (stage === "draw" && !tarotGenerating && !reduceRitualMotion) {
-      const animation = Animated.loop(
-        Animated.sequence([
-          Animated.timing(breathingAnim, { toValue: 1, duration: 1500, useNativeDriver: true }),
-          Animated.timing(breathingAnim, { toValue: 0.7, duration: 1500, useNativeDriver: true })
-        ])
-      );
-      animation.start();
-      return () => animation.stop();
-    } else {
-      breathingAnim.stopAnimation();
-      breathingAnim.setValue(1);
-    }
-  }, [stage, tarotGenerating, breathingAnim, reduceRitualMotion]);
-  useEffect(() => {
     if (stage !== "draw") {
       clearRitualTimers();
       if (stage === "cardMeaning") return;
       setRitualPhase("grounding");
       setRitualDrawnCount(0);
       setRitualSelectedCards([]);
-      ritualDeckScale.value = 1;
-      ritualCardLift.value = 0;
-      ritualGlow.value = 0.28;
+      setSelectedFanIndex(null);
     }
     return clearRitualTimers;
-  }, [stage, cardMeaningReturnStage, selectedSpread.cards, ritualDeckScale, ritualCardLift, ritualGlow]);
+  }, [stage, cardMeaningReturnStage, selectedSpread.cards]);
 
   useEffect(() => {
     if (stage === "draw" && tarotError && !tarotGenerating) setRitualPhase("grounding");
@@ -7803,19 +7751,6 @@ export function TarotFlow({
     setRitualPhase(cardNumber === 1 ? "draw_card_1" : cardNumber === 2 ? "draw_card_2" : "draw_card_3");
     setRitualDrawnCount(cardNumber);
     tarotScrollRef.current?.scrollTo({ y: 0, animated: !reduceRitualMotion });
-    if (reduceRitualMotion) return;
-    ritualDeckScale.value = withSequence(
-      withTiming(1.05, { duration: 260, easing: Easing.out(Easing.cubic) }),
-      withTiming(1, { duration: 260, easing: Easing.inOut(Easing.cubic) })
-    );
-    ritualCardLift.value = withSequence(
-      withTiming(1, { duration: 340, easing: Easing.out(Easing.cubic) }),
-      withTiming(0, { duration: 420, easing: Easing.inOut(Easing.cubic) })
-    );
-    ritualGlow.value = withSequence(
-      withTiming(1, { duration: 280, easing: Easing.out(Easing.cubic) }),
-      withTiming(0.42, { duration: 520, easing: Easing.inOut(Easing.cubic) })
-    );
   };
 
   const handleDraw = () => {
@@ -7853,25 +7788,30 @@ export function TarotFlow({
     }, 1350));
   };
 
+  // Reveals every card not yet drawn; the allowance is checked only before the first card.
   const handleQuickDraw = () => {
-    if (tarotGenerating || ritualPhase !== "grounding" || ritualDrawnCount > 0) return;
-    if (!canViewContentTier(selectedDeck.accessTier, displayedTier) || tarotCreditBalance <= 0) {
+    if (tarotGenerating || ritualPhase !== "grounding" || ritualDrawnCount >= selectedSpread.cards) return;
+    if (!canViewContentTier(selectedDeck.accessTier, displayedTier) || (ritualDrawnCount === 0 && tarotCreditBalance <= 0)) {
       onDraw();
       return;
     }
     clearRitualTimers();
+    setSelectedFanIndex(null);
     setRitualPhase("pause_and_breathe");
-    const nextSelectedCards = selectTarotCards(tarotSpread, language);
-    setRitualSelectedCards(nextSelectedCards);
-    setRitualDrawnCount(0);
-    for (let index = 0; index < selectedSpread.cards; index += 1) {
+    if (ritualSelectedCards.length !== selectedSpread.cards) setRitualSelectedCards(selectTarotCards(tarotSpread, language));
+    for (let index = ritualDrawnCount; index < selectedSpread.cards; index += 1) {
       ritualTimers.current.push(setTimeout(() => {
         animateRitualCard(index + 1);
-      }, 220 + index * 520));
+      }, 220 + (index - ritualDrawnCount) * 520));
     }
     ritualTimers.current.push(setTimeout(() => {
       setRitualPhase("grounding");
-    }, 620 + selectedSpread.cards * 520));
+    }, 620 + (selectedSpread.cards - ritualDrawnCount) * 520));
+  };
+  // Tapping a fanned card raises it; tapping it again (or the main button) turns it over.
+  const handleFanSelect = (index: number) => {
+    if (selectedFanIndex === index) { setSelectedFanIndex(null); handleDraw(); return; }
+    setSelectedFanIndex(index);
   };
   const hasFloatingTarotPrimary = stage === "topic" || stage === "spread" || stage === "deck" || stage === "draw";
   const drawStepActionLabel =
@@ -7893,7 +7833,9 @@ export function TarotFlow({
         ? c.generatingReading
         : !canViewContentTier(selectedDeck.accessTier, displayedTier)
           ? c.upgrade
-          : drawStepActionLabel;
+          : selectedFanIndex !== null && ritualDrawnCount < selectedSpread.cards
+            ? language === "vi" ? "Lật lá này" : "Turn this card"
+            : drawStepActionLabel;
   const floatingTarotPrimaryIcon =
     stage === "deck"
       ? "arrow-forward-outline"
@@ -7908,6 +7850,7 @@ export function TarotFlow({
       else { onKeepSelectedDeckChange(true); setStage("topic"); }
       return;
     }
+    setSelectedFanIndex(null);
     handleDraw();
   };
   const renderTarotLearningEntry = (compact = false) => (
@@ -8388,86 +8331,23 @@ export function TarotFlow({
         )}
 
         {stage === "draw" && (
-          <View style={styles.editorialDrawStage}>
-            <Animated.View style={[styles.editorialDrawDeckWrap, { opacity: latestRitualCard ? 1 : breathingAnim }]}>
-              <Reanimated.View pointerEvents="none" style={[styles.ritualCosmicAura, ritualAuraStyle]}>
-                <Text style={[styles.ritualCosmicSpark, styles.ritualCosmicSparkTop]}>✦</Text>
-                <Text style={[styles.ritualCosmicSpark, styles.ritualCosmicSparkLeft]}>·</Text>
-                <Text style={[styles.ritualCosmicSpark, styles.ritualCosmicSparkRight]}>✦</Text>
-              </Reanimated.View>
-              <Reanimated.View style={[ritualDeckStyle, latestRitualCard && ritualCardStyle]}>
-              <Pressable accessibilityRole={latestRitualCard ? "imagebutton" : "button"} accessibilityLabel={latestRitualCard ? displayTarotCardName(latestRitualCard, language) : drawStepActionLabel} onPress={latestRitualCard ? () => openFullscreenTarotCard(latestRitualCard, latestRitualCard.spread) : tarotGenerating || drawActionBusy ? undefined : handleDraw} style={styles.editorialDrawDeck}>
-                <Image source={latestRitualCard ? getTarotCardImage(selectedDeck.id, latestRitualCard.id) : selectedDeckBackImage} style={[styles.editorialDrawDeckPhoto, reversedCardArt(latestRitualCard)]} resizeMode="contain" />
-                {!latestRitualCard &&
-                <View style={styles.editorialDrawDeckOverlay}>
-                  <Text style={styles.editorialDrawDeckName}>{localizedText(selectedDeck.name, language)}</Text>
-                </View>}
-              </Pressable>
-              </Reanimated.View>
-            </Animated.View>
-            {latestRitualCard ? <Text accessibilityLiveRegion="polite" style={styles.editorialDrawPrompt}>{drawCountLabel} · {displayTarotCardName(latestRitualCard, language)}</Text> : null}
-            <Text style={styles.editorialDrawTitle}>{drawTitle}</Text>
-            <View style={styles.editorialDrawPromptRow}>
-              <Ionicons name="hand-left-outline" size={18} color={colors.gold} />
-              <Text style={styles.editorialDrawPrompt}>{ritualPhaseLabel}</Text>
-            </View>
-            <View style={styles.editorialDrawGuidePanel}>
-              <Text style={styles.editorialDrawGuideLabel}>{language === "vi" ? "Guide trải bài" : "Reading guide"}</Text>
-              <Text style={styles.editorialDrawGuideText}>{drawGuideText}</Text>
-            </View>
-            <Text style={styles.editorialDrawCount}>{drawCountLabel.toUpperCase()}</Text>
-            <View style={styles.editorialSpreadSlots}>
-              {localizedList(selectedSpread.labels, language).map((label, index) => {
-                const ritualCard = ritualSelectedCards[index];
-                const cardVisible = ritualDrawnCount > index || tarotGenerating;
-                return (
-                  <View key={`${label}-${index}`} style={styles.editorialSpreadSlotWrap}>
-                    <View style={[styles.editorialSpreadSlot, index === 1 && styles.editorialSpreadSlotCenter, cardVisible && styles.editorialSpreadSlotFilled]}>
-                      {cardVisible && ritualCard ? (
-                        <Reanimated.View style={styles.ritualSlotCard}>
-                          <Pressable
-                            accessibilityLabel={`${displayTarotCardName(ritualCard, language)}. ${language === "vi" ? "Xem hình lá bài toàn màn hình" : "View full-screen card artwork"}`}
-                            accessibilityRole="imagebutton"
-                            onPress={() => openFullscreenTarotCard(ritualCard, ritualCard.spread)}
-                            style={styles.ritualSlotCardPressable}
-                          >
-                            <Image source={getTarotCardImage(selectedDeck.id, ritualCard.id)} style={[styles.ritualSlotCardImage, reversedCardArt(ritualCard)]} resizeMode="cover" />
-                          </Pressable>
-                        </Reanimated.View>
-                      ) : (
-                        <Ionicons
-                          name={index === 0 ? "sparkles-outline" : index === 1 ? "sunny-outline" : "eye-outline"}
-                          size={26}
-                          color="rgba(247, 241, 230, 0.25)"
-                        />
-                      )}
-                    </View>
-                    <Text style={styles.editorialSpreadSlotLabel}>{label.toUpperCase()}</Text>
-                  </View>
-                );
-              })}
-            </View>
-            {latestRitualCard ? (
-              <View style={styles.ritualRevealPanel}>
-                <Pressable
-                  accessibilityLabel={`${displayTarotCardName(latestRitualCard, language)}. ${language === "vi" ? "Xem hình lá bài toàn màn hình" : "View full-screen card artwork"}`}
-                  accessibilityRole="imagebutton"
-                  onPress={() => openFullscreenTarotCard(latestRitualCard, latestRitualCard.spread)}
-                  style={styles.ritualRevealImageFrame}
-                >
-                  <Image source={getTarotCardImage(selectedDeck.id, latestRitualCard.id)} style={[styles.ritualRevealImage, reversedCardArt(latestRitualCard)]} resizeMode="contain" />
-                  <View style={styles.tarotImageExpandBadgeSmall}>
-                    <Ionicons name="expand-outline" size={12} color={colors.ivory} />
-                  </View>
-                </Pressable>
-                <View style={styles.ritualRevealCopy}>
-                  <Text style={styles.ritualRevealKicker}>{latestRitualCard.spread.toUpperCase()} · {latestRitualCard.reversed ? (language === "vi" ? "NGƯỢC" : "REVERSED") : (language === "vi" ? "XUÔI" : "UPRIGHT")}</Text>
-                  <Text style={styles.ritualRevealTitle}>{displayTarotCardName(latestRitualCard, language)}</Text>
-                  <Text style={styles.ritualRevealBody}>{displayTarotMeaning(latestRitualCard, language)}</Text>
-                  <Text style={styles.ritualRevealPrompt}>{localizedText(latestRitualCard.reflectionQuestion, language)}</Text>
-                </View>
-              </View>
-            ) : null}
+          <TarotDrawStep
+            language={language}
+            question={tarotQuestion}
+            slots={localizedList(selectedSpread.labels, language).map((label, index) => {
+              const ritualCard = ritualSelectedCards[index];
+              const visible = (ritualDrawnCount > index || tarotGenerating) && ritualCard;
+              return { label, card: visible ? { name: displayTarotCardName(ritualCard, language), image: getTarotCardImage(selectedDeck.id, ritualCard.id), reversed: ritualCard.reversed } : undefined };
+            })}
+            backImage={selectedDeckBackImage}
+            selectedFanIndex={selectedFanIndex}
+            onSelectFan={handleFanSelect}
+            onOpenCard={(index) => { const card = ritualSelectedCards[index]; if (card) openFullscreenTarotCard(card, card.spread); }}
+            busy={tarotGenerating || drawActionBusy}
+            status={latestRitualCard && ritualPhase === "grounding" && !tarotGenerating ? `${latestRitualCard.spread} · ${displayTarotCardName(latestRitualCard, language)} · ${latestRitualCard.reversed ? (language === "vi" ? "Ngược" : "Reversed") : (language === "vi" ? "Xuôi" : "Upright")}` : ritualPhaseLabel}
+            onDrawRest={selectedSpread.cards > 1 ? handleQuickDraw : undefined}
+            onChangeDeck={() => setStage("deck")}
+          >
             {!canViewContentTier(selectedDeck.accessTier, displayedTier) ? (
               <View style={styles.errorPanel}>
                 <Text style={styles.errorText}>{c.premiumDeckPreview}</Text>
@@ -8479,21 +8359,7 @@ export function TarotFlow({
                 <Text style={styles.errorText}>{tarotError}</Text>
               </View>
             ) : null}
-            {selectedSpread.cards > 1 && ritualDrawnCount === 0 ? (
-              <Pressable
-                accessibilityRole="button"
-                disabled={tarotGenerating || drawActionBusy}
-                style={[styles.editorialQuickDrawButton, (tarotGenerating || drawActionBusy) && styles.disabledAction]}
-                onPress={handleQuickDraw}
-              >
-                <Ionicons name="flash-outline" size={16} color={colors.gold} />
-                <Text style={styles.editorialQuickDrawButtonText}>{language === "vi" ? `Rút nhanh ${selectedSpread.cards} lá` : `Quick draw ${selectedSpread.cards} cards`}</Text>
-              </Pressable>
-            ) : null}
-            <Pressable accessibilityRole="button" style={styles.editorialMutedButton} onPress={() => setStage("deck")}>
-              <Text style={styles.editorialMutedButtonText}>{language === "vi" ? "Đổi bộ bài" : "Change deck"}</Text>
-            </Pressable>
-          </View>
+          </TarotDrawStep>
         )}
 
         {stage === "result" && reading && (
@@ -11775,20 +11641,6 @@ zodiacProfilePrompt: {
     textAlign: "center",
     textTransform: "uppercase"
   },
-  editorialMutedButton: {
-    alignItems: "center",
-    backgroundColor: "#2A2626",
-    borderRadius: 8,
-    justifyContent: "center",
-    marginTop: spacing.lg,
-    minHeight: 52,
-    width: "100%"
-  },
-  editorialMutedButtonText: {
-    color: colors.moon,
-    fontSize: 14,
-    fontWeight: "700"
-  },
   editorialDeckStack: {
     gap: spacing.md
   },
@@ -11822,31 +11674,6 @@ zodiacProfilePrompt: {
     fontFamily: typography.bodySemiBoldFontFamily,
     fontSize: 13
   },
-  ritualCosmicAura: {
-    alignItems: "center",
-    backgroundColor: "rgba(201, 164, 92, 0.16)",
-    borderColor: "rgba(247, 241, 230, 0.45)",
-    borderRadius: 999,
-    borderWidth: 1,
-    bottom: "5%",
-    justifyContent: "center",
-    left: "5%",
-    position: "absolute",
-    right: "5%",
-    shadowColor: colors.gold,
-    shadowOpacity: 0.8,
-    shadowRadius: 22,
-    top: "5%"
-  },
-  ritualCosmicSpark: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 22,
-    position: "absolute"
-  },
-  ritualCosmicSparkTop: { top: 5 },
-  ritualCosmicSparkLeft: { left: 18, top: "46%" },
-  ritualCosmicSparkRight: { right: 18, top: "28%" },
   editorialDeckCardSelected: {
     borderColor: "rgba(201, 164, 92, 0.75)"
   },
@@ -14857,19 +14684,6 @@ zodiacProfilePrompt: {
     top: spacing.sm,
     width: 34
   },
-  tarotImageExpandBadgeSmall: {
-    alignItems: "center",
-    backgroundColor: "rgba(21, 20, 22, 0.78)",
-    borderColor: "rgba(247, 241, 230, 0.18)",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 26,
-    justifyContent: "center",
-    position: "absolute",
-    right: spacing.xs,
-    top: spacing.xs,
-    width: 26
-  },
   cardMeaningChipRow: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -14968,225 +14782,6 @@ zodiacProfilePrompt: {
     borderRadius: 8,
     borderWidth: 1,
     padding: spacing.md
-  },
-  editorialDrawStage: {
-    alignItems: "center",
-    minHeight: 720,
-    paddingBottom: spacing.xl,
-    paddingTop: spacing.lg
-  },
-  editorialDrawDeckWrap: {
-    borderRadius: 28,
-    marginBottom: spacing.xl,
-    shadowColor: "#000000",
-    shadowOffset: { width: 0, height: 24 },
-    shadowOpacity: 0.28,
-    shadowRadius: 30
-  },
-  editorialDrawDeck: {
-    backgroundColor: "#151311",
-    borderRadius: 18,
-    overflow: "hidden"
-  },
-  editorialDrawDeckPhoto: {
-    height: 348,
-    width: 228
-  },
-  editorialDrawDeckOverlay: {
-    alignItems: "center",
-    backgroundColor: "rgba(21, 20, 22, 0.18)",
-    bottom: 0,
-    justifyContent: "flex-end",
-    left: 0,
-    padding: spacing.md,
-    position: "absolute",
-    right: 0,
-    top: 0
-  },
-  editorialDrawDeckName: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 18,
-    fontWeight: "600",
-    lineHeight: 24,
-    textAlign: "center"
-  },
-  editorialDrawTitle: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 34,
-    fontWeight: "600",
-    lineHeight: 42,
-    textAlign: "center"
-  },
-  editorialDrawPromptRow: {
-    alignItems: "center",
-    flexDirection: "row",
-    gap: spacing.xs,
-    marginTop: spacing.md
-  },
-  editorialDrawPrompt: {
-    color: colors.muted,
-    fontSize: 15,
-    lineHeight: 22
-  },
-  editorialDrawGuidePanel: {
-    backgroundColor: "rgba(247, 241, 230, 0.06)",
-    borderColor: "rgba(201, 164, 92, 0.24)",
-    borderRadius: 8,
-    borderWidth: 1,
-    marginTop: spacing.lg,
-    padding: spacing.md,
-    width: "100%"
-  },
-  editorialDrawGuideLabel: {
-    color: colors.gold,
-    fontSize: 11,
-    fontWeight: "900",
-    letterSpacing: 0.6,
-    textTransform: "uppercase"
-  },
-  editorialDrawGuideText: {
-    color: colors.ivory,
-    fontSize: 15,
-    lineHeight: 23,
-    marginTop: spacing.xs
-  },
-  editorialDrawCount: {
-    color: colors.gold,
-    fontSize: 12,
-    fontWeight: "800",
-    letterSpacing: 0.8,
-    marginTop: spacing.md
-  },
-  editorialSpreadSlots: {
-    flexDirection: "row",
-    gap: spacing.md,
-    justifyContent: "space-between",
-    marginTop: spacing.xl,
-    width: "100%"
-  },
-  editorialSpreadSlotWrap: {
-    alignItems: "center",
-    flex: 1,
-    gap: spacing.md
-  },
-  editorialSpreadSlot: {
-    alignItems: "center",
-    backgroundColor: "#211D1F",
-    borderColor: "rgba(247, 241, 230, 0.14)",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 132,
-    justifyContent: "center",
-    width: "100%"
-  },
-  editorialSpreadSlotFilled: {
-    borderColor: "rgba(201, 164, 92, 0.62)",
-    shadowColor: colors.gold,
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.2,
-    shadowRadius: 18
-  },
-  editorialSpreadSlotCenter: {
-    marginTop: spacing.lg
-  },
-  ritualSlotCard: {
-    borderRadius: 6,
-    height: 112,
-    overflow: "hidden",
-    width: 68
-  },
-  ritualSlotCardPressable: {
-    height: "100%",
-    width: "100%"
-  },
-  ritualSlotCardImage: {
-    height: "100%",
-    width: "100%"
-  },
-  ritualRevealPanel: {
-    alignItems: "stretch",
-    backgroundColor: "#211D1F",
-    borderColor: "rgba(201, 164, 92, 0.35)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.md,
-    marginTop: spacing.lg,
-    padding: spacing.md,
-    width: "100%"
-  },
-  ritualRevealImageFrame: {
-    alignItems: "center",
-    backgroundColor: "#151416",
-    borderColor: "rgba(247, 241, 230, 0.10)",
-    borderRadius: 8,
-    borderWidth: 1,
-    justifyContent: "center",
-    padding: spacing.xs,
-    position: "relative",
-    width: 116
-  },
-  ritualRevealImage: {
-    height: 168,
-    width: "100%"
-  },
-  ritualRevealCopy: {
-    flex: 1,
-    justifyContent: "center"
-  },
-  ritualRevealKicker: {
-    color: colors.gold,
-    fontSize: 10,
-    fontWeight: "900",
-    letterSpacing: 0.5
-  },
-  ritualRevealTitle: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 22,
-    fontWeight: "600",
-    lineHeight: 28,
-    marginTop: spacing.xs
-  },
-  ritualRevealBody: {
-    color: colors.moon,
-    fontSize: 14,
-    lineHeight: 21,
-    marginTop: spacing.xs
-  },
-  ritualRevealPrompt: {
-    color: colors.ivory,
-    fontSize: 13,
-    fontStyle: "italic",
-    fontWeight: "700",
-    lineHeight: 20,
-    marginTop: spacing.sm
-  },
-  editorialSpreadSlotLabel: {
-    color: colors.ivory,
-    fontSize: 12,
-    fontWeight: "800",
-    letterSpacing: 0.8
-  },
-  editorialQuickDrawButton: {
-    alignItems: "center",
-    borderColor: "rgba(201, 164, 92, 0.48)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.xs,
-    justifyContent: "center",
-    marginTop: spacing.lg,
-    minHeight: 48,
-    paddingHorizontal: spacing.md,
-    width: "100%"
-  },
-  editorialQuickDrawButtonText: {
-    color: colors.gold,
-    fontSize: 13,
-    fontWeight: "800"
   },
   drawStage: {
     alignItems: "center",

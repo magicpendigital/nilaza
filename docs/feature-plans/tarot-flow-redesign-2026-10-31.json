@@ -73,7 +73,7 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Card meaning stage and its top bar.",
-      "sha256": "eed794e3a1a95fe6cfcee23fa0f657ddc1325b568be2561f21be0dc032d69876"
+      "sha256": "beb46fae65156f11adf651b3203fd259f1025c706620e1940c86a23eb68b3b63"
     },
     {
       "path": "apps/mobile/src/features/tarot/readingPresentation.ts",
@@ -111,9 +111,8 @@
   "workingTreeReview": {
     "paths": [
       "apps/mobile/App.tsx",
-      "apps/mobile/src/features/tarot/TarotAskStep.tsx",
-      "apps/mobile/src/features/tarot/__tests__/askHelpers.test.ts",
-      "apps/mobile/src/features/tarot/askHelpers.ts",
+      "apps/mobile/src/features/tarot/TarotDrawStep.tsx",
+      "apps/mobile/src/features/tarot/__tests__/TarotDrawStep.test.tsx",
       "docs/feature-plans/tarot-flow-redesign-2026-10-31.json"
     ],
     "note": "Worktree branch feat/tarot-slice-2026-10-31, after the card guide commit 8575812. The ask step files were written just before this record."
