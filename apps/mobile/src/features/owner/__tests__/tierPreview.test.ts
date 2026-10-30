@@ -21,7 +21,7 @@ describe("Owner account tier preview", () => {
     expect(isOwnerTierPreviewActive({ isOwner: true, preview: "account" })).toBe(false);
   });
 
-  it("allows premium UI access only in the displayed Premium view", () => {
+  it("keeps premium content for the displayed Premium view", () => {
     expect(canViewContentTier("free", "free")).toBe(true);
     expect(canViewContentTier("premium", "free")).toBe(false);
     expect(canViewContentTier("premium-preview", "free")).toBe(false);

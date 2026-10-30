@@ -1,0 +1,191 @@
+{
+  "schemaVersion": 1,
+  "taskId": "home-finish-2026-10-30",
+  "ownerAgent": "mobile_home_design_agent",
+  "lane": "mobile_home_today_design_parity",
+  "goal": "Bring Home \"Hôm nay\" in line with the approved design canvas (Main artboard): Today card hero with a card fan and the streak inside it, time-aware subtitle, sign tile with the sign artwork, a topic rail with Change topic, a single Continue reading card, pill-shaped buttons/inputs/chips, and a bottom bar labelled Hôm nay and Tôi.",
+  "successCriteria": [
+    "Home shows, in order: header with bell, date and moon kicker, greeting, time-aware subtitle, Today card hero (solid surface, gold border, two stacked card backs, primary button, streak dots inside the hero), sky tile and sign tile with the sign artwork, Hỏi Nilaza field and chips, Dành cho bạn rail with Đổi chủ đề, and Đọc tiếp with the latest saved entry.",
+    "The Dành cho bạn rail has three cards per topic (love, career, self): a topic tarot reading, an ask card that only prefills Oracle (Owner decision 2026-10-30 replaces the compatibility card), and a journal prompt that opens the Journal composer with that prompt; Đổi chủ đề cycles the three topics without saving anything.",
+    "Đọc tiếp shows the newest Journal entry with up to three card thumbnails for saved tarot readings and a meta line (kind, relative day, saved); the existing AI Council continuation card still appears when a council session exists.",
+    "Primary, secondary, ritual buttons and chips in the shared components, and the Home controls, use a pill radius; cards and panels keep the 8px radius (Owner decision 2026-10-30).",
+    "The bottom bar reads Hôm nay, Khám phá, Trò chuyện, Nhật ký, Tôi (English: Today, Explore, Chat, Journal, Me) with sun and chat-bubble icons and a gold-tinted selected item.",
+    "npm --workspace apps/mobile run check and the mobile Jest suite pass, and a 390x844 web walkthrough confirms each Home block and the journal prompt."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/home/",
+    "apps/mobile/src/features/journal/JournalComposer.tsx",
+    "apps/mobile/src/a2ui/index.tsx",
+    "apps/mobile/src/a2ui/AdaptiveNavigation.tsx",
+    "apps/mobile/src/a2ui/__tests__/",
+    "apps/mobile/src/theme.ts",
+    "apps/mobile/src/types.ts",
+    "apps/mobile/src/i18n.ts",
+    "apps/mobile/src/__tests__/i18n.test.ts",
+    "apps/mobile/src/brand/copy.ts",
+    "DESIGN.md",
+    "docs/BRAND_GUIDELINES.md",
+    "docs/content-review/tarot-card-names-vi.md"
+  ],
+  "untouchedSurfaces": [
+    "Tarot card data in packages/content stays unchanged in this slice; Vietnamese card names are only drafted in docs/content-review for Owner review before they enter the data.",
+    "No compatibility feature, no new spread, no per-topic card meanings; those are separate Owner-approved content tasks.",
+    "Today Pulse, daily limits, journal storage shape, AI endpoints, backend, Admin and release settings are unchanged.",
+    "Other screens keep their bespoke styles until their own slices; only shared buttons and chips change shape app-wide."
+  ],
+  "impact": {
+    "entryPoint": "Home tab, bottom navigation on every tab, Journal composer opened from a Home prompt, and every screen that uses the shared PrimaryButton, SecondaryButton, RitualButton or Chip.",
+    "dataWrite": "No new storage keys or entry shapes. The journal prompt is only shown in the composer and used as the default title when the user leaves the title empty; drafts keep the existing nilaza.journalDraft.v1 store.",
+    "backendContract": "No endpoint or payload change; the ask card only prefills the existing Oracle input.",
+    "canonicalContract": "DESIGN.md section 5 Home paragraph and docs/BRAND_GUIDELINES.md describe the new Home order and the pill-control rule; theme radius gains a pill token while card stays 8.",
+    "adminVisibility": "No Admin change.",
+    "privacySafety": "No new data collected; the compatibility card that would need a third person's birth date is not built.",
+    "observability": "No analytics change.",
+    "rollback": "Revert the commit; no data migration.",
+    "surfacesIntentionallyUntouched": "Card names data, spreads, per-topic meanings, Astrology, Chat, Journal list and Profile layouts are left for later slices.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs type check, Jest and a web walkthrough, and stops before commit, push, backend, release or account actions unless the Owner asks."
+  },
+  "canonicalContracts": [
+    "Owner decisions 2026-10-30 in chat: replace the compatibility card with an existing-feature card, keep 8px cards with pill buttons, add Vietnamese card names after Owner review of a 78-name table, write per-topic meanings in the Tarot slice.",
+    "DESIGN.md section 5 Home structure (Owner-approved 2026-10-27) is updated by this task to match the design canvas.",
+    "apps/mobile/src/theme.ts radius tokens are the single source of control and card radii."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa",
+      "reason": "Guardrails and MVP scope."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Mobile UI route and validation commands."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Impact brief and mobile validation matrix."
+    },
+    {
+      "path": "DESIGN.md",
+      "sha256": "170330f307d7314fc476e9df7ce814348cb62b50916a7df3416f6322b3b1ea9f",
+      "reason": "Home structure, radius rule and tab bar rules that this task updates."
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "sha256": "bce12144fa7d6074c3213c977b0bc0187e2c9fa2d43453fab81f1145fa0129de",
+      "reason": "Home paragraph and control shape guidance."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "aebeb3342ba6448ebdf5442544b433c6e2e3b16106395187bb491fdb7f12d62a",
+      "reason": "HomeScreen wiring, tab labels and icons, Journal screen composer entry, zodiac pulse builder."
+    },
+    {
+      "path": "apps/mobile/src/features/home/HomeExperience.tsx",
+      "sha256": "9225a156817f75817cc25696d5ebec283ac027668b90e701ca48cc4fda0687b6",
+      "reason": "Home layout rebuilt to the canvas."
+    },
+    {
+      "path": "apps/mobile/src/features/home/TodayCardReflection.tsx",
+      "sha256": "4d481df05d83a3c8693f209b7fac11e402392ba784fb8f3d92fa392c6ee85c52",
+      "reason": "Today card actions take the pill shape."
+    },
+    {
+      "path": "apps/mobile/src/features/journal/JournalComposer.tsx",
+      "sha256": "44a4ba4c7ece3a0470b1d94a22e8e52a089637ff7455ae10c0c1dda8d7aa07cb",
+      "reason": "Composer accepts a prompt without touching the draft store contract."
+    },
+    {
+      "path": "apps/mobile/src/a2ui/index.tsx",
+      "sha256": "c0480dc0e10563a61dacc4838fa675468775ec9273b1a05f0666fe817e17a4b9",
+      "reason": "Shared button and chip radii."
+    },
+    {
+      "path": "apps/mobile/src/a2ui/AdaptiveNavigation.tsx",
+      "sha256": "b996c97b8a05fe8a867ce2f3ed0ef08a69ef1d9b57af6dccd8b53eb23a2ecdf4",
+      "reason": "Selected tab tint."
+    },
+    {
+      "path": "apps/mobile/src/theme.ts",
+      "sha256": "04b45e16c5f4092d0a61765de0c00c641f2cdfc6582ad723eafbd0cc78334662",
+      "reason": "Radius tokens."
+    },
+    {
+      "path": "apps/mobile/src/types.ts",
+      "sha256": "85771532c685a7108b7a1c7f11b6c2ab73f3213dea834bb712245dc04d7402b4",
+      "reason": "ZodiacPulse gains a sign id for the sign artwork."
+    },
+    {
+      "path": "apps/mobile/src/visualAssets.ts",
+      "sha256": "f2c740c553928456bb49f7b1669c3233e463833a231964c8fc7cf41892ceb314",
+      "reason": "Sign artwork, deck covers and Oracle visual already bundled."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Preflight, impact brief, stop conditions and validation matrix applied as written; no new durable workflow rule."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "The skill routes Home and control-shape work to DESIGN.md and the brand guidelines, which this task updates; the skill text stays accurate."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing React Native, react-native-svg and Ionicons APIs already in the app."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization change.",
+    "sensitiveData": "No new personal data; the third-person compatibility input is intentionally not built.",
+    "secretsLogging": "No credentials touched; no new logs.",
+    "externalInput": "The journal prompt and ask chips are fixed app copy; user text still goes through the existing Oracle and Journal paths.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration, deploy or release.",
+    "stopCondition": "Stop if the journal prompt would need a draft schema change, if a Home block needs data the app does not have, or if checks fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "DESIGN.md",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/__tests__/i18n.test.ts",
+      "apps/mobile/src/a2ui/AdaptiveNavigation.tsx",
+      "apps/mobile/src/a2ui/index.tsx",
+      "apps/mobile/src/brand/copy.ts",
+      "apps/mobile/src/features/home/HomeExperience.tsx",
+      "apps/mobile/src/features/home/TodayCardReflection.tsx",
+      "apps/mobile/src/features/home/__tests__/HomeExperience.test.tsx",
+      "apps/mobile/src/features/journal/JournalComposer.tsx",
+      "apps/mobile/src/i18n.ts",
+      "apps/mobile/src/theme.ts",
+      "apps/mobile/src/types.ts",
+      "docs/BRAND_GUIDELINES.md",
+      "docs/content-review/tarot-card-names-vi.md",
+      "docs/feature-plans/home-finish-2026-10-30.json"
+    ],
+    "note": "Work happens in the separate worktree on branch feat/home-finish-2026-10-30, stacked on the unmerged free-launch slice (PR #8, a09aae6)."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/home-finish-2026-10-30.json",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand",
+    "Web walkthrough at 390x844: Home blocks, Đổi chủ đề, ask card prefills Oracle, journal prompt opens composer, Đọc tiếp opens the entry, bottom bar labels."
+  ],
+  "managerTestPath": "Open Hôm nay: the card hero shows two stacked card backs and the streak inside it; tap Đổi chủ đề to switch Tình yêu, Công việc, Bản thân; tap Viết về một mối quan hệ to open a note with that prompt; tap the Đọc tiếp card to open the last saved entry; the bottom bar shows Hôm nay and Tôi.",
+  "residualRisk": "Shared button shape changes on every screen at once; screens with bespoke buttons stay square until their slices. Card names stay English until the Owner approves the Vietnamese table.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

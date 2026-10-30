@@ -1,5 +1,8 @@
 import {
+  formatLocalDate,
+  formatLocalDateTime,
   normalizeLanguage,
+  relativeDayLabel,
   localizedText,
   localizedList,
   defaultLanguage,
@@ -70,6 +73,24 @@ describe("i18n", () => {
 
     it("returns an empty array if neither requested nor fallback language list is valid", () => {
        expect(localizedList({ko: ["item"]}, "ja")).toEqual([]);
+    });
+  });
+
+  describe("date formatting", () => {
+    const lateNight = new Date(2026, 9, 28, 0, 49, 37);
+
+    it("uses the app language instead of the device default", () => {
+      expect(formatLocalDate(lateNight, "vi")).toBe("28/10/2026");
+      expect(formatLocalDateTime(lateNight, "vi")).toBe("28/10/2026 00:49");
+      expect(formatLocalDateTime(lateNight.toISOString(), "en")).toBe("10/28/2026 12:49 AM");
+    });
+
+    it("names recent days by calendar day, not by 24-hour blocks", () => {
+      const now = new Date(2026, 9, 30, 8, 0);
+      expect(relativeDayLabel(new Date(2026, 9, 30, 0, 5), now, "vi")).toBe("Hôm nay");
+      expect(relativeDayLabel(new Date(2026, 9, 29, 23, 50), now, "vi")).toBe("Hôm qua");
+      expect(relativeDayLabel(new Date(2026, 9, 27, 12, 0), now, "en")).toBe("3 days ago");
+      expect(relativeDayLabel(new Date(2026, 9, 20, 12, 0), now, "vi")).toBe("20/10/2026");
     });
   });
 });

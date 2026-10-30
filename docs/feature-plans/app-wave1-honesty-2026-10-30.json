@@ -10,6 +10,7 @@
     "Terms and Privacy links on the auth screens open https://nilaza.magicpendigital.com/{vi|en}/terms/ and /privacy/ in the system browser; both URLs returned HTTP 200 on 2026-10-30.",
     "Apple, Google, Facebook and X buttons are not shown because none of them signs in yet; email sign-in and sign-up are unchanged; the sign-in link sits below the create-account button.",
     "One account tier policy decides the account tier: mode all_premium (closed-test default) makes every signed-in account Premium; mode new_account_trial makes an account Premium for 24 hours after its creation time and Free after, and Free when the creation time is unknown; mode free keeps everyone Free. Owner tier preview still overrides for the Owner. Unit tests cover all modes and the 24-hour boundary.",
+    "The temporary FREE_LAUNCH switch from PR #8 is removed: which content an account can use comes only from the account tier policy, and a separate premiumOnSale flag (false) keeps every Premium promotion and plan comparison hidden, preserving PR #8's no-upsell Profile, Vietnamese dates and Oracle button. Locked content anywhere (deck, persona, council invite) is labeled coming soon, never Premium.",
     "When content is Premium-only and the account is Free, deck and persona actions say coming soon and do not offer an upgrade or mention payment.",
     "Card orientation uses a uniform random source (crypto.getRandomValues when the runtime provides it, otherwise Math.random), so any card can appear upright or reversed in any spread; every reversed card image in draw, result, meaning, full-screen and share views is rotated the same way.",
     "The Tarot draw ritual checks the daily allowance before the first card and shows how many readings remain; the Free allowance follows ai-usage-policy freeDaily.tarotOneCard (1); the Premium allowance stays at the current 3 until the Owner approves another number; no limit message promises Premium.",
@@ -26,7 +27,8 @@
     "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
     "apps/mobile/src/runtimeConfig.ts",
     "apps/mobile/src/types.ts",
-    "apps/mobile/src/__tests__/"
+    "apps/mobile/src/__tests__/",
+    "apps/mobile/src/features/council/useAiCouncilRoom.ts"
   ],
   "untouchedSurfaces": [
     "No change to Supabase migrations, Edge Functions, RLS, quotas enforced on the server, model routes or prompts; server entitlement checks (Astrology AI subscriptions) stay as they are and need a separate approved backend change.",
@@ -36,7 +38,7 @@
     "No push, PR, EAS build, store or credential action is part of this record."
   ],
   "impact": {
-    "entryPoint": "Owner instruction on 2026-10-30 to start wave 1 of the review roadmap; Owner decisions the same day: every account Premium during closed test with a ready but disabled 24-hour new-account rule, Premium-only content labeled coming soon, Oracle keeps its chat.",
+    "entryPoint": "Owner instruction on 2026-10-30 to start wave 1 of the review roadmap; Owner decisions the same day: every account Premium during closed test with a ready but disabled 24-hour new-account rule, Premium-only content labeled coming soon, Oracle keeps its chat. Owner decision 2026-10-30 after PR #8: replace FREE_LAUNCH with this account tier policy and keep PR #8's other changes.",
     "dataWrite": "Auth sign-up metadata gains adult_confirmed_at; Journal entries saved from Tarot and share cards no longer carry an automatic mood; no AsyncStorage key or schema migration; existing entries keep their stored mood.",
     "backendContract": "Supabase Auth signUp options.data gains one field; no API, Edge Function or table change; local fallback mode is unchanged.",
     "adminVisibility": "No Admin change; adult_confirmed_at is visible only in Supabase Auth user metadata.",
@@ -88,6 +90,11 @@
       "path": "packages/agent-config/ai-usage-policy.json",
       "sha256": "a6e80a226c60abf001345ce21b97874eb484f0f769897aea8ab3bdca61d950de",
       "reason": "Approved Free daily allowances used for the Tarot limit."
+    },
+    {
+      "path": "docs/feature-plans/free-launch-slice-2026-10-30.json",
+      "sha256": "78b41258619b5b35f589da67d11750b9bbb9c4db27a58ea1a60305b35d5cf0c9",
+      "reason": "PR #8 free-launch record reviewed; its FREE_LAUNCH switch is replaced here while its upsell removal, date localization and Oracle button stay."
     }
   ],
   "skillReview": [
@@ -134,9 +141,12 @@
       "apps/mobile/src/features/owner/accountTierPolicy.ts",
       "apps/mobile/src/features/tarot/__tests__/randomDraw.test.ts",
       "apps/mobile/src/features/tarot/randomDraw.ts",
-      "docs/feature-plans/app-wave1-honesty-2026-10-30.json"
+      "docs/feature-plans/app-wave1-honesty-2026-10-30.json",
+      "apps/mobile/src/features/owner/tierPreview.ts",
+      "apps/mobile/src/features/owner/__tests__/tierPreview.test.ts",
+      "apps/mobile/src/features/council/useAiCouncilRoom.ts"
     ],
-    "note": "Branch feat/app-wave1-2026-10-30 starts from origin/main 36eee45; every listed path is changed only by this slice."
+    "note": "Branch feat/app-wave1-2026-10-30 holds slice 1 and a merge of origin/main 01b6e8d (PR #8); listed paths are changed only by this task, conflicts in App.tsx were resolved toward the tier-neutral copy and PR #8's localized dates."
   },
   "validationCommands": [
     "npm run feature:preflight -- --record docs/feature-plans/app-wave1-honesty-2026-10-30.json",

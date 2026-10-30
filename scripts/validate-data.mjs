@@ -331,7 +331,8 @@ for (const card of cards) {
     assert(hasText(card.rank), `${card.id} is missing rank`);
   }
   assertLocalized(card.name, `${card.id}.name`);
-  assert(card.name.vi === card.name.en, `${card.id}.name.vi must mirror original card name "${card.name.en}"`);
+  // Owner decision 2026-10-30: Vietnamese UI shows the approved Vietnamese name; name.en stays the canonical original.
+  assert(vietnameseDiacriticPattern.test(card.name.vi) && card.name.vi !== card.name.en, `${card.id}.name.vi must be the approved accented Vietnamese name, not "${card.name.en}"`);
   assertLocalized(card.intro, `${card.id}.intro`);
   assertLocalized(card.personalityPortrait, `${card.id}.personalityPortrait`);
   assertLocalized(card.uprightMeaning, `${card.id}.uprightMeaning`);

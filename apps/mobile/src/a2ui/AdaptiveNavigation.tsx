@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 import { Animated, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import type { NavMode } from "../responsive";
-import { colors, layout, radius, spacing, typography } from "../theme";
+import { colors, layout, spacing, typography } from "../theme";
 import { useMotionPreference } from "./useMotionPreference";
 
 export type NavigationItem<T extends string> = {
@@ -72,12 +72,12 @@ export function AdaptiveNavigation<T extends string>({ items, selected, mode, on
 }
 
 const styles = StyleSheet.create({
-  bottom: { backgroundColor: colors.surface, borderTopWidth: 1, borderTopColor: colors.border, flexDirection: "row", overflow: "hidden", paddingTop: spacing.xs, width: "100%" },
+  bottom: { backgroundColor: colors.surface, borderTopWidth: 1, borderTopColor: colors.border, flexDirection: "row", overflow: "hidden", paddingTop: spacing.xs, paddingHorizontal: 6, width: "100%" },
   rail: { backgroundColor: colors.surface, borderRightWidth: 1, borderRightColor: colors.border, width: layout.navigationRailWidth, flexGrow: 0, flexShrink: 0 },
   railContent: { gap: spacing.sm, padding: spacing.xs },
-  item: { flex: 1, minWidth: layout.minimumTouchTarget, minHeight: layout.minimumTouchTarget, alignItems: "center", justifyContent: "center", paddingVertical: spacing.xs, paddingHorizontal: 2, borderRadius: radius.control },
+  item: { flex: 1, minWidth: layout.minimumTouchTarget, minHeight: layout.minimumTouchTarget, alignItems: "center", justifyContent: "center", paddingVertical: spacing.xs, paddingHorizontal: 2, borderRadius: 14 },
   railItem: { flex: 0, minHeight: 72 },
-  selected: { backgroundColor: "rgba(201, 164, 92, 0.08)" },
+  selected: { backgroundColor: "rgba(201, 164, 92, 0.14)" },
   label: { fontFamily: typography.bodySemiBoldFontFamily, fontSize: 11, color: colors.moon, textAlign: "center", flexShrink: 1 },
   labelWrap: { alignItems: "center", justifyContent: "flex-end", overflow: "hidden", width: "100%" },
   selectedLabel: { color: colors.gold }

@@ -70,7 +70,7 @@ Biểu tượng diễn đạt một khoảng mở và sự lắng nghe: hai đư
 
 Hanken Grotesk cho nội dung, nhãn và nút; EB Garamond cho tiêu đề biên tập và wordmark. Font đầy đủ dấu tiếng Việt; không dùng bản Latin-only cho đoạn văn VI. Bản WOFF Latin trong master chỉ là nguồn outline wordmark NILAZA. Khi tải font lỗi, nội dung vẫn đọc được qua font hệ thống; logo dùng outline nên không đổi hình.
 
-Nội dung nhỏ cần tương phản ít nhất 4.5:1, chữ lớn 3:1; không dùng gold/rose làm chữ nhỏ trên ivory. Nút mới có vùng chạm tối thiểu 48 px; hỗ trợ font lớn và xuống dòng. Không dùng màu làm tín hiệu duy nhất. Bố cục giữ khoảng thở, góc bo tối đa 8 px theo DESIGN.
+Nội dung nhỏ cần tương phản ít nhất 4.5:1, chữ lớn 3:1; không dùng gold/rose làm chữ nhỏ trên ivory. Nút mới có vùng chạm tối thiểu 48 px; hỗ trợ font lớn và xuống dòng. Không dùng màu làm tín hiệu duy nhất. Bố cục giữ khoảng thở, thẻ và khung bo tối đa 8 px; nút, ô nhập một dòng và chip bo tròn dạng viên thuốc (Owner duyệt 30/10/2026) theo DESIGN.
 
 ## Motion và khả năng tiếp cận
 
@@ -82,7 +82,7 @@ Reduce Motion: hiện frame cuối ngay, dừng chuyển động đang chạy kh
 
 Launch → welcome (Tạo tài khoản / Đăng nhập / ngôn ngữ) → auth và xác nhận hiện có → chọn 1–3 mục tiêu hoặc bỏ qua → Home. Dùng tên tài khoản; giữ giọng đã chọn, mới dùng dịu dàng. Ngày sinh và chỉnh giọng ở Profile/chiêm tinh. Không onboarding lại người đã hoàn tất; lỗi lưu phải có thông báo/thử lại.
 
-Home “Hôm nay” (Owner duyệt 27/10/2026): ngày và pha trăng → lời chào → thẻ Lá bài hôm nay trên artwork Home với CTA “Lật lá hôm nay” / “Xem lại lá hôm nay”, dùng Today Pulse; sau khi lật có Lưu vào Nhật ký, Hỏi sâu hơn, Chia sẻ. Tiếp theo: ô Bầu trời hôm nay và ô cung của bạn, ô “Hỏi Nilaza” chỉ điền sẵn câu hỏi vào Oracle, một gợi ý theo mục tiêu đầu tiên, Gần đây kèm liên kết Mở Nhật ký. Explore/Chat giữ lối vào bộ bài, thư viện, guide, Council và chiêm tinh. Không đổi hợp đồng credits hoặc thêm phiên AI.
+Home “Hôm nay” (Owner duyệt 27/10/2026): ngày và pha trăng → lời chào → thẻ Lá bài hôm nay trên nền tối có viền vàng, hai mặt sau lá bài xếp chồng, CTA “Lật lá hôm nay” / “Xem lại lá hôm nay” và chuỗi ngày nằm trong thẻ (cập nhật 30/10/2026), dùng Today Pulse; sau khi lật có Lưu vào Nhật ký, Hỏi sâu hơn, Chia sẻ. Tiếp theo: ô Bầu trời hôm nay và ô cung của bạn, ô “Hỏi Nilaza” chỉ điền sẵn câu hỏi vào Oracle, “Dành cho bạn” có “Đổi chủ đề” (tình yêu, sự nghiệp, bản thân) với ba thẻ: trải bài theo chủ đề, hỏi Nilaza (chỉ điền sẵn), gợi ý viết Nhật ký; “Đọc tiếp” là mục đã lưu gần nhất kèm liên kết Mở Nhật ký. Thanh tab: Hôm nay, Khám phá, Trò chuyện, Nhật ký, Tôi. Explore/Chat giữ lối vào bộ bài, thư viện, guide, Council và chiêm tinh. Không đổi hợp đồng credits hoặc thêm phiên AI.
 
 ## Xuất bản và trạng thái
 

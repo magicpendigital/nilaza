@@ -12,12 +12,17 @@ export type AccountTierPolicyMode = "all_premium" | "new_account_trial" | "free"
 export type AccountTierPolicy = {
   mode: AccountTierPolicyMode;
   trialHours: number;
+  /** False while nothing is sold: screens show no Premium promotion or plan comparison. */
+  premiumOnSale: boolean;
 };
 
 export const accountTierPolicy: AccountTierPolicy = {
   mode: "all_premium",
   trialHours: 24,
+  premiumOnSale: false,
 };
+
+export const premiumOnSale = accountTierPolicy.premiumOnSale;
 
 export function resolveAccountTier(input: {
   policy?: AccountTierPolicy;

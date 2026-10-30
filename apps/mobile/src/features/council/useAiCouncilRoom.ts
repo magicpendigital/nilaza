@@ -27,6 +27,8 @@ type UseAiCouncilRoomOptions = {
   personas: Persona[];
   personasById: Record<string, Persona>;
   profile: Profile;
+  /** Which personas the account may invite; defaults to free personas only. */
+  canUsePersona?: (persona: Persona) => boolean;
 };
 
 type UseAiCouncilRoomResult = {
@@ -346,7 +348,8 @@ export function useAiCouncilRoom({
   onTrack,
   personas,
   personasById,
-  profile
+  profile,
+  canUsePersona
 }: UseAiCouncilRoomOptions): UseAiCouncilRoomResult {
   const { loadJson, saveJson } = storage;
   const [question, setQuestion] = useState("");
@@ -474,9 +477,9 @@ export function useAiCouncilRoom({
   const inviteCandidates = useMemo(
     () => personas
       .filter((persona) => !councilPersonas.some((item) => item.id === persona.id))
-      .filter((persona) => persona.accessTier === "free")
+      .filter((persona) => canUsePersona ? canUsePersona(persona) : persona.accessTier === "free")
       .slice(0, 6),
-    [councilPersonas, personas]
+    [canUsePersona, councilPersonas, personas]
   );
   const templatePayload = useMemo(() => buildCouncilTemplatePayload(template, councilPersonas), [councilPersonas, template]);
   const councilFlow = useMemo(() => localizedList(template.flow, language), [language, template.flow]);

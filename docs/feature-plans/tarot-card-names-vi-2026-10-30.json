@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "taskId": "tarot-card-names-vi-2026-10-30",
+  "ownerAgent": "tarot_content_agent",
+  "lane": "tarot_card_names_vietnamese",
+  "goal": "Show the 78 Owner-approved Vietnamese card names in the Vietnamese app, keeping the original English name as the canonical name.en and alongside the Vietnamese name.",
+  "successCriteria": [
+    "packages/content/data/tarot-cards.json name.vi holds the 78 names from docs/content-review/tarot-card-names-vi.md (Owner approved 2026-10-30, all proposed options) and name.en and every other field are unchanged.",
+    "scripts/validate-data.mjs requires an accented Vietnamese name.vi that differs from name.en instead of mirroring it; deck visual-prompt titles still mirror name.en.",
+    "docs/CONTENT_SAFETY_STYLE_GUIDE.md Tarot Names section describes the new rule: Vietnamese UI shows the Vietnamese name with the English name beside it; prose may use either; card ids and AI context keep name.en.",
+    "Admin content seed and supabase/seed.generated.sql are regenerated from the data with LF-normalized reads (as on the Linux CI checkout), and the Admin workflow catalog source digests for apps/mobile/App.tsx (already stale since earlier PRs) and tarot-cards.json are refreshed; no seed is applied to a database.",
+    "npm run validate:data, npm run admin:check, npm --workspace apps/mobile run check and the mobile Jest suite pass, and a web check shows a Vietnamese card name with the English name in the meta line."
+  ],
+  "writeScope": [
+    "packages/content/data/tarot-cards.json",
+    "scripts/validate-data.mjs",
+    "docs/CONTENT_SAFETY_STYLE_GUIDE.md",
+    "docs/content-review/tarot-card-names-vi.md",
+    "apps/admin/generated/content-seed.json",
+    "supabase/seed.generated.sql",
+    "apps/admin/workflow-catalog.js"
+  ],
+  "untouchedSurfaces": [
+    "App code, including apps/mobile/App.tsx and features/tarot, is unchanged: the app already reads localizedText(card.name) and displayTarotCardMeta adds the English name when it differs.",
+    "Existing Vietnamese prose that mentions English card names (intros, meanings) is not rewritten in this task.",
+    "Edge Functions are not deployed and no seed SQL is run; the server keeps its bundled copy until an Owner-approved deploy.",
+    "scripts/generate-tarot-data.mjs is an obsolete baseline generator (unaccented Vietnamese) and is not updated; running it would overwrite far more than names.",
+    "Draft learning content in docs/content-review stays uncommitted and out of the data."
+  ],
+  "impact": {
+    "entryPoint": "Every Vietnamese screen that shows a card name: Today card, Tarot draw and result, card meaning, Journal snapshots, Explore library, Oracle handoff text.",
+    "dataWrite": "No storage change. Saved readings matched by name already accept name.en or name.vi; ids stay the same.",
+    "backendContract": "No payload change; the app sends card ids. The Edge Function bundles tarot-cards.json, so after a future approved deploy the AI context will carry both names; its prompt already says to keep proper card names unchanged.",
+    "canonicalContract": "CONTENT_SAFETY_STYLE_GUIDE Tarot Names section and the validate-data name rule change together, per Owner decision 2026-10-30.",
+    "adminVisibility": "Admin content seed shows the Vietnamese names after the next Admin staging deploy from main.",
+    "privacySafety": "No personal data involved.",
+    "observability": "No analytics change.",
+    "rollback": "Revert the commit; name.vi returns to the English names.",
+    "surfacesIntentionallyUntouched": "Prose rewrites, per-topic meanings and astrology notes are separate tasks.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs the validation commands, commits onto PR #8 branch, and does not merge, deploy or run SQL."
+  },
+  "canonicalContracts": [
+    "Owner decision 2026-10-30 in chat: add Vietnamese card names after reviewing the 78-name table; Owner approved the table as proposed on 2026-10-30.",
+    "docs/CONTENT_SAFETY_STYLE_GUIDE.md Tarot Names section, updated by this task."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Content route and validation commands.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/CONTENT_SAFETY_STYLE_GUIDE.md",
+      "reason": "Current card-name rule that this task changes.",
+      "sha256": "33ec073a7fe94045ee7aeb40bad2ca90b6ab6b0010569131c730380dfb23ceec"
+    },
+    {
+      "path": "docs/content-review/tarot-card-names-vi.md",
+      "reason": "Owner-approved name table.",
+      "sha256": "e964a014196039bed0e271f151eec403229ff0a9dea7322a7abadf39b6d74fb6"
+    },
+    {
+      "path": "packages/content/data/tarot-cards.json",
+      "reason": "Card name data.",
+      "sha256": "dadfbeb7b9bc11d27d95534897f55b76ed3914d7b1657febf2c26a90f3560dfd"
+    },
+    {
+      "path": "scripts/validate-data.mjs",
+      "reason": "Name mirror assertion.",
+      "sha256": "d694732b2e462dd4cd483559dcc735b70f3c6ceea64c6ac0501bd05774cbf7e4"
+    },
+    {
+      "path": "supabase/functions/_shared/tarot-prompt.ts",
+      "reason": "Server bundles the card data and keeps names unchanged in prompts.",
+      "sha256": "8712abbb6d80e0a9e26238a07ce1416799b4bc66185b30798fc1faf840de89b6"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Card name display and saved-reading name matching.",
+      "sha256": "aebeb3342ba6448ebdf5442544b433c6e2e3b16106395187bb491fdb7f12d62a"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    },
+    {
+      "name": "nilaza-tarot-content-qc",
+      "decision": "verified-current",
+      "evidence": "The skill reviews names for accuracy and bilingual parity but does not require English names in Vietnamese; its text stays accurate."
+    },
+    {
+      "name": "nilaza-tarot-deck-production",
+      "decision": "verified-current",
+      "evidence": "Deck production keeps ids, images and visual-prompt titles keyed to name.en; nothing in the skill depends on name.vi."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Data and documentation change only."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization change.",
+    "sensitiveData": "No personal or sensitive data; card names are public content.",
+    "secretsLogging": "No credentials touched.",
+    "externalInput": "Names are fixed reviewed content.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration, deploy or seed apply.",
+    "stopCondition": "Stop if a test or server contract relies on name.vi equalling name.en, or if seeds would need a database apply to stay consistent.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/generated/content-seed.json",
+      "apps/admin/workflow-catalog.js",
+      "docs/CONTENT_SAFETY_STYLE_GUIDE.md",
+      "docs/feature-plans/tarot-card-names-vi-2026-10-30.json",
+      "packages/content/data/tarot-cards.json",
+      "scripts/validate-data.mjs",
+      "supabase/seed.generated.sql"
+    ],
+    "note": "Worktree branch feat/home-finish-2026-10-30 (PR #8). name.vi was written once before this record existed; the record and preflight were then run before any further edit."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/tarot-card-names-vi-2026-10-30.json",
+    "npm run validate:data",
+    "npm run admin:check",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand",
+    "Web check: Vietnamese card name and English meta line."
+  ],
+  "managerTestPath": "Open Hôm nay or Khám phá in Vietnamese: a card reads Ngôi Sao with The Star beside it; switch to English: it reads The Star only.",
+  "residualRisk": "Older Vietnamese prose and AI readings still mention English names until prose is reviewed and the Edge Function is redeployed; the meta line keeps both visible. seed.generated.sql also picks up an older drift (celestial-reverie deck row) that was never regenerated; it is not applied anywhere. On Windows, prompt-consumer and Growth snapshot checks fail from CRLF checkouts on main too; they pass on CI and are not touched.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
