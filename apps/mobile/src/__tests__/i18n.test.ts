@@ -1,4 +1,6 @@
 import {
+  formatLocalDate,
+  formatLocalDateTime,
   normalizeLanguage,
   localizedText,
   localizedList,
@@ -70,6 +72,16 @@ describe("i18n", () => {
 
     it("returns an empty array if neither requested nor fallback language list is valid", () => {
        expect(localizedList({ko: ["item"]}, "ja")).toEqual([]);
+    });
+  });
+
+  describe("date formatting", () => {
+    const lateNight = new Date(2026, 9, 28, 0, 49, 37);
+
+    it("uses the app language instead of the device default", () => {
+      expect(formatLocalDate(lateNight, "vi")).toBe("28/10/2026");
+      expect(formatLocalDateTime(lateNight, "vi")).toBe("28/10/2026 00:49");
+      expect(formatLocalDateTime(lateNight.toISOString(), "en")).toBe("10/28/2026 12:49 AM");
     });
   });
 });

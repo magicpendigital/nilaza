@@ -6,6 +6,7 @@ import { BackendOptions, generateAiCouncilTurn, getChatSessions, getChatMessages
 import { localizedList, localizedText } from "../../i18n";
 import type { AccountStorage } from "../../auth/accountStorage";
 import { mergeById } from "../../auth/personalData";
+import { effectiveContentTier } from "../owner/tierPreview";
 import { AiCouncilConfig, AiCouncilTemplate, GenerationActivity, JournalEntry, Language, LocalizedText, Persona, Profile } from "../../types";
 import type { AiCouncilGuideDetail, AiCouncilQuickReply, AiCouncilRoomProps, AiCouncilSessionSummary, AiCouncilSynthesis, AiCouncilTurn } from "./AiCouncilRoom";
 
@@ -474,7 +475,7 @@ export function useAiCouncilRoom({
   const inviteCandidates = useMemo(
     () => personas
       .filter((persona) => !councilPersonas.some((item) => item.id === persona.id))
-      .filter((persona) => persona.accessTier === "free")
+      .filter((persona) => effectiveContentTier(persona.accessTier) === "free")
       .slice(0, 6),
     [councilPersonas, personas]
   );

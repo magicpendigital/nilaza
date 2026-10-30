@@ -30,6 +30,20 @@ export function localizedText(value: LocalizedText | undefined, language: Langua
   return fallback;
 }
 
+const localeTags: Record<Language, string> = { vi: "vi-VN", en: "en-US", "zh-Hans": "zh-Hans", ja: "ja-JP", ko: "ko-KR" };
+
+// Format in the app language rather than the device default, which showed
+// "10/28/2026, 12:49:37 AM" inside the Vietnamese UI.
+export function formatLocalDate(value: string | number | Date, language: Language): string {
+  return new Date(value).toLocaleDateString(localeTags[language], { day: "2-digit", month: "2-digit", year: "numeric" });
+}
+
+export function formatLocalDateTime(value: string | number | Date, language: Language): string {
+  const date = new Date(value);
+  const time = date.toLocaleTimeString(localeTags[language], { hour: "2-digit", minute: "2-digit", hour12: language === "en" });
+  return `${formatLocalDate(date, language)} ${time}`;
+}
+
 export function localizedList(value: LocalizedList | undefined, language: Language): string[] {
   if (!value) return [];
 
