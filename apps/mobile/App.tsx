@@ -129,6 +129,7 @@ import { getTarotCardGuide } from "./src/features/tarot/cardGuide";
 import { TarotCardGuide } from "./src/features/tarot/TarotCardGuide";
 import { TarotAskStep } from "./src/features/tarot/TarotAskStep";
 import { TarotDrawStep } from "./src/features/tarot/TarotDrawStep";
+import { TarotResultDock, TarotResultView } from "./src/features/tarot/TarotResultView";
 import type { AskTopic } from "./src/features/tarot/askHelpers";
 import { MythologyEntry, MythologyWorld } from "./src/features/astrology/MythologyWorld";
 import { AstrologyChartFoundation } from "./src/features/astrology/AstrologyChartFoundation";
@@ -5657,6 +5658,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
               });
             }}
             onSave={saveJournal}
+            onWriteJournal={(prompt) => { setJournalPrompt(prompt); setJournalEntryToOpen(null); navigate("journal"); }}
             onSpreadChange={(spread) => setTarotSpread(spread)}
             onTopicChange={(topic) => setTarotTopic(topic)}
           />
@@ -7507,7 +7509,8 @@ export function TarotFlow({
   onReportReading,
   onSave,
   onSpreadChange,
-  onTopicChange
+  onTopicChange,
+  onWriteJournal
 }: {
   c: Copy;
   language: Language;
@@ -7544,6 +7547,7 @@ export function TarotFlow({
   onSave: (entry: Omit<JournalEntry, "id" | "createdAt">) => void;
   onSpreadChange: (spread: TarotSpread) => void;
   onTopicChange: (topic: TarotTopic) => void;
+  onWriteJournal?: (prompt: string) => void;
 }) {
   const deckThemes = selectedDeck.theme
     .map((theme) => localizedText(tarotThemeLabels[theme], language, theme))
@@ -7619,12 +7623,10 @@ export function TarotFlow({
   const selectedTarotGuide =
     tarotGuideOptions.find((persona) => persona.id === selectedTarotGuideId) ??
     recommendedTarotGuide;
-  const selectedTarotGuideName = localizedText(selectedTarotGuide.name, language);
   const selectedTarotGuideReason = getTarotGuideReason(selectedDeck.id, selectedTarotGuide, language);
   const editorialDecks = decks;
   const isEditorialStage = stage === "learn" || stage === "topic" || stage === "spread" || stage === "deck" || stage === "deckDetail" || stage === "draw" || stage === "result";
   const topicGridItems = topics.filter((topic) => topic.id !== "open");
-  const editorialReadingTitle = language === "vi" ? "Con đường đang hé mở" : "The Path Unfolding";
   const editorialDeckTitle = language === "vi" ? "Chọn bộ bài theo tâm trạng của bạn" : "Choose your mood";
   const editorialDeckBody =
     language === "vi"
@@ -7646,7 +7648,6 @@ export function TarotFlow({
   const [cardMeaningReturnStage, setCardMeaningReturnStage] = useState<TarotStage>("deckDetail");
   const tarotScrollRef = useRef<ScrollView | null>(null);
   const [showTarotBackToTop, setShowTarotBackToTop] = useState(false);
-  const [showReadingExplanation, setShowReadingExplanation] = useState(false);
   const visibleRitualCards = ritualSelectedCards.slice(0, ritualDrawnCount);
   const latestRitualCard = visibleRitualCards[visibleRitualCards.length - 1];
   const drawActionBusy = stage === "draw" && ritualPhase !== "grounding" && !tarotGenerating;
@@ -7672,7 +7673,6 @@ export function TarotFlow({
     stage === "deck"
       ? `${language === "vi" ? "Tiếp tục với" : "Continue with"} ${localizedText(selectedDeck.name, language)}`
       : primaryEditorialActionLabel;
-  const resultDateLabel = new Date(reading?.createdAt ?? Date.now()).toLocaleString(language === "vi" ? "vi-VN" : "en-US");
   const topBarRight = stage === "result" ? "sparkles-outline" : "refresh-outline";
   const openFullscreenTarotCard = (card: TarotCard | DrawnTarotCard, meta?: string) => {
     const orientationMeta = "reversed" in card
@@ -7727,9 +7727,6 @@ export function TarotFlow({
     setShowTarotBackToTop(false);
     tarotScrollRef.current?.scrollTo({ y: 0, animated: false });
   }, [stage]);
-  useEffect(() => {
-    setShowReadingExplanation(false);
-  }, [reading?.id]);
   useEffect(() => {
     if (stage !== "draw") {
       clearRitualTimers();
@@ -7813,6 +7810,32 @@ export function TarotFlow({
     if (selectedFanIndex === index) { setSelectedFanIndex(null); handleDraw(); return; }
     setSelectedFanIndex(index);
   };
+  const saveTarotReading = () => {
+    if (!reading) return;
+    onSave({
+      sourceType: "tarot",
+      sourceId: reading.id,
+      title: `${localizedText(reading.deck.name, language)} - ${localizedText(spreads.find((spread) => spread.id === reading.spread), language, reading.spread)}`,
+      summary: reading.summary,
+      sourceSnapshot: {
+        type: "tarot_reading",
+        readingId: reading.id,
+        deckId: reading.deck.id,
+        spread: reading.spread,
+        topic: reading.topic,
+        question: reading.question,
+        language: reading.language ?? language,
+        cards: reading.cards,
+        sections: reading.sections,
+        provenance: reading.provenance,
+        contentVersion: reading.contentVersion,
+        promptVersionId: reading.promptVersionId,
+        synthesis: reading.synthesis,
+        reflectionPrompt: reading.reflectionPrompt,
+        moderationStatus: reading.moderationStatus
+      }
+    });
+  };
   const hasFloatingTarotPrimary = stage === "topic" || stage === "spread" || stage === "deck" || stage === "draw";
   const drawStepActionLabel =
     !canViewContentTier(selectedDeck.accessTier, displayedTier)
@@ -7890,6 +7913,8 @@ export function TarotFlow({
           </Pressable>
           {stage === "topic" || stage === "draw" ? (
             <Text style={styles.tarotStepKicker}>{language === "vi" ? "Trải bài" : "Reading"} · {language === "vi" ? "Bước" : "Step"} {stage === "topic" ? 1 : 2}/2</Text>
+          ) : stage === "result" && reading ? (
+            <Text style={styles.tarotStepKicker} numberOfLines={1}>{localizedText(topics.find((topic) => topic.id === reading.topic), language, selectedTopicLabel)} · {reading.selected.length} {language === "vi" ? "lá" : reading.selected.length === 1 ? "card" : "cards"} · {localizedText(reading.deck.name, language)}</Text>
           ) : isEditorialStage ? (
             <Brand variant="horizontal" width={104} />
           ) : (
@@ -7923,7 +7948,7 @@ export function TarotFlow({
       <ScrollView
         ref={tarotScrollRef}
         style={{ flex: 1 }}
-        contentContainerStyle={styles.tarotContent}
+        contentContainerStyle={[styles.tarotContent, (hasFloatingTarotPrimary || (stage === "result" && reading)) && styles.tarotContentDocked]}
         onScroll={handleTarotScroll}
         scrollEventThrottle={16}
       >
@@ -8363,42 +8388,43 @@ export function TarotFlow({
         )}
 
         {stage === "result" && reading && (
-          <View style={styles.editorialResultStage}>
-            <View style={styles.resultIntro}>
-              <Text style={styles.resultBadge}>{selectedTopicLabel.toUpperCase()}</Text>
-              <Text style={styles.editorialResultTitle}>{editorialReadingTitle}</Text>
-              <Text style={styles.editorialResultQuestion}>{reading.question || (language === "vi" ? "Thông điệp nào đang cần được nhìn thấy?" : "What message wants to be seen?")}</Text>
-              <Text style={styles.editorialResultMeta}>{resultDateLabel}</Text>
-            </View>
-
-            <View style={styles.editorialResultSpreadRow}>
-              {reading.selected.map((card, index) => (
-                <Pressable
-                  key={card.id}
-                  accessibilityLabel={`${displayTarotCardName(card, language)}. ${language === "vi" ? "Xem hình lá bài toàn màn hình" : "View full-screen card artwork"}`}
-                  accessibilityRole="imagebutton"
-                  style={[styles.editorialSpreadCardWrap, index === 1 && styles.editorialSpreadCardWrapActive]}
-                  onPress={() => openFullscreenTarotCard(card, card.spread)}
-                >
-                  <Text style={[styles.editorialSpreadLabel, index === 1 && styles.editorialSpreadLabelActive]}>{card.spread.toUpperCase()} · {card.reversed ? (language === "vi" ? "NGƯỢC" : "REVERSED") : (language === "vi" ? "XUÔI" : "UPRIGHT")}</Text>
-                  <Image source={getTarotCardImage(selectedDeck.id, card.id)} style={[styles.editorialSpreadCardImage, index === 1 && styles.editorialSpreadCardImageActive, reversedCardArt(card)]} resizeMode="contain" />
-                  <Text style={[styles.editorialSpreadCardName, index === 1 && styles.editorialSpreadCardNameActive]}>{displayTarotCardName(card, language)}</Text>
-                </Pressable>
-              ))}
-            </View>
-
-            <View style={styles.editorialSynthesisPanel}>
-              <Text style={styles.kicker}>{tarotResultSource(reading.moderationStatus) === "ai"
-                ? (language === "vi" ? "Thông điệp AI" : "AI message")
-                : tarotResultSource(reading.moderationStatus) === "blocked"
-                  ? (language === "vi" ? "Phản hồi an toàn" : "Safety response")
-                  : (language === "vi" ? "Ý nghĩa có sẵn · AI chưa hoàn tất" : "Reference meanings · AI not completed")}</Text>
-              <Text style={styles.body}>{reading.summary}</Text>
-              {reading.language && reading.language !== language ? <Text style={styles.muted}>{language === "vi" ? "Đang giữ nguyên ngôn ngữ của bài đọc đã lưu." : "Showing the original language of this saved reading."}</Text> : null}
-            </View>
-            <ReadingDetails key={`${reading.id}-${reading.summary}`} label={language === "vi" ? "Đọc diễn giải đầy đủ" : "Read the full interpretation"}
-              collapseLabel={language === "vi" ? "Thu gọn diễn giải" : "Collapse interpretation"}
-              sections={reading.sections.map((section, index) => ({ id: `${section.key}-${index}`, title: localizedText(section.title, language), body: localizedText(section.body, language) }))} />
+          <TarotResultView
+            key={reading.id}
+            language={language}
+            question={reading.question ?? ""}
+            cards={reading.selected.map((card, index) => {
+              const aiBody = reading.sections
+                .filter((section) => section.cardIds?.includes(card.id))
+                .map((section) => localizedText(section.body, language))
+                .filter(Boolean)
+                .join("\n\n");
+              return {
+                id: card.id,
+                position: card.spread,
+                name: displayTarotCardName(card, language),
+                originalName: localizedText(card.name, "en"),
+                reversed: card.reversed,
+                image: getTarotCardImage(selectedDeck.id, card.id),
+                body: aiBody || tarotSnapshotMeaning(card, reading.cards[index], language),
+                keywords: localizedList(card.keywords, language).slice(0, 3),
+                onOpenImage: () => openFullscreenTarotCard(card, card.spread),
+                onLearn: () => openCardMeaning(card, "result")
+              };
+            })}
+            summary={reading.summary}
+            sourceLabel={tarotResultSource(reading.moderationStatus) === "ai"
+              ? (language === "vi" ? `Diễn giải AI theo ${reading.selected.length} lá và câu hỏi của bạn · không phải dự đoán chắc chắn` : `AI interpretation of your ${reading.selected.length} cards and question · not a certain prediction`)
+              : tarotResultSource(reading.moderationStatus) === "blocked"
+                ? (language === "vi" ? "Phản hồi an toàn" : "Safety response")
+                : (language === "vi" ? "Ý nghĩa có sẵn · AI chưa hoàn tất" : "Reference meanings · AI not completed")}
+            extraSections={reading.sections
+              .filter((section) => !section.cardIds?.length)
+              .map((section, index) => ({ id: `${section.key}-${index}`, title: localizedText(section.title, language), body: localizedText(section.body, language) }))
+              .filter((section) => section.body)}
+            reflection={reading.reflection}
+            onWriteJournal={onWriteJournal}
+          >
+            {reading.language && reading.language !== language ? <Text style={styles.muted}>{language === "vi" ? "Đang giữ nguyên ngôn ngữ của bài đọc đã lưu." : "Showing the original language of this saved reading."}</Text> : null}
             {tarotResultSource(reading.moderationStatus) === "reference" && onRetryInterpretation ? (
               <Pressable accessibilityRole="button" disabled={tarotGenerating} accessibilityState={{ disabled: tarotGenerating }}
                 onPress={onRetryInterpretation} style={[styles.editorialOutlineButton, tarotGenerating && styles.disabledAction]}>
@@ -8406,104 +8432,19 @@ export function TarotFlow({
               </Pressable>
             ) : null}
             {tarotError ? <Text accessibilityLiveRegion="polite" style={styles.errorText}>{tarotError}</Text> : null}
-            {reading.selected.map((card, index) => (
-              <View key={`${card.id}-meaning`} style={[styles.editorialMeaningCard, index === 1 && styles.editorialMeaningCardFeatured]}>
-                <Text style={styles.editorialMeaningKicker}>{card.spread.toUpperCase()} · {card.reversed ? (language === "vi" ? "NGƯỢC" : "REVERSED") : (language === "vi" ? "XUÔI" : "UPRIGHT")}</Text>
-                <Text style={styles.editorialMeaningTitle}>{displayTarotCardName(card, language)}</Text>
-                <Text style={styles.muted}>{language === "vi" ? "Ý nghĩa tham khảo của lá" : "Card reference meaning"}</Text>
-                <Text style={styles.editorialMeaningBody}>{tarotSnapshotMeaning(card, reading.cards[index], language)}</Text>
-              </View>
-            ))}
-
-            <Pressable accessibilityRole="button" accessibilityState={{ expanded: showReadingExplanation }} style={styles.tarotReadingExplainPanel} onPress={() => setShowReadingExplanation((shown) => !shown)}>
-              <View style={styles.tarotReadingExplainIcon}>
-                <Ionicons name="school-outline" size={18} color={colors.gold} />
-              </View>
-              <View style={styles.flex}>
-                <Text style={styles.tarotReadingExplainTitle}>
-                  {language === "vi" ? "Xem dữ kiện và ý nghĩa lá" : "Review cards and reference meanings"}
-                </Text>
-                <Text style={styles.tarotReadingExplainBody}>
-                  {language === "vi"
-                    ? "Đối chiếu câu hỏi, vị trí và chiều lá; mở thư viện để học thêm."
-                    : "Check the question, positions and orientations; open the library to learn more."}
-                </Text>
-              </View>
-              <Ionicons name={showReadingExplanation ? "chevron-up-outline" : "chevron-down-outline"} size={18} color={colors.gold} />
-            </Pressable>
-            {showReadingExplanation ? (
-              <View style={styles.deckStoryPanel}>
-                <Text style={styles.deckStoryTitle}>{language === "vi" ? "Những dữ kiện của trải bài này" : "This reading's context"}</Text>
-                <Text style={styles.body}>{reading.question || (language === "vi" ? "Bạn chọn phản chiếu mở, không kèm câu hỏi cụ thể." : "You chose an open reflection without a specific question.")}</Text>
-                <Text style={styles.muted}>{language === "vi" ? "Ý nghĩa biểu tượng dưới đây được nối với vị trí và chiều của từng lá bạn đã rút. Bạn có thể chọn điều phù hợp với mình." : "The symbolic meanings below are connected to the position and orientation of the cards you drew. Choose what feels relevant to you."}</Text>
-                {reading.selected.map((card, index) => (
-                  <View key={`${card.id}-explanation`} style={styles.choiceStack}>
-                    <Text style={styles.cardTitle}>{card.spread} · {displayTarotCardName(card, language)} · {card.reversed ? (language === "vi" ? "Ngược" : "Reversed") : (language === "vi" ? "Xuôi" : "Upright")}</Text>
-                    <Text style={styles.body}>{tarotSnapshotMeaning(card, reading.cards[index], language)}</Text>
-                    <Pressable accessibilityRole="button" style={styles.editorialDeckLearnButton} onPress={() => openCardMeaning(card, "result")}>
-                      <Text style={styles.editorialDeckLearnButtonText}>{language === "vi" ? "Khám phá ý nghĩa lá này" : "Explore this card's meaning"}</Text>
-                    </Pressable>
-                  </View>
-                ))}
-              </View>
-            ) : null}
-
-            <View style={styles.promptPanel}>
-              <Text style={styles.kicker}>{c.reflection}</Text>
-              <Text style={styles.promptText}>{reading.reflection}</Text>
-            </View>
-            <TarotGuideSelector
-              deck={selectedDeck}
-              language={language}
-              options={tarotGuideOptions}
-              recommendedGuide={recommendedTarotGuide}
-              selectedGuide={selectedTarotGuide}
-              selectedGuideReason={selectedTarotGuideReason}
-              onSelect={(persona) => setSelectedTarotGuideId(persona.id)}
-            />
-            <Pressable
-              accessibilityRole="button"
-              style={styles.editorialPrimaryButton}
-              onPress={() => onSave({
-                sourceType: "tarot",
-                sourceId: reading.id,
-                title: `${localizedText(reading.deck.name, language)} - ${localizedText(spreads.find((spread) => spread.id === reading.spread), language, reading.spread)}`,
-                summary: reading.summary,
-                sourceSnapshot: {
-                  type: "tarot_reading",
-                  readingId: reading.id,
-                  deckId: reading.deck.id,
-                  spread: reading.spread,
-                  topic: reading.topic,
-                  question: reading.question,
-                  language: reading.language ?? language,
-                  cards: reading.cards,
-                  sections: reading.sections,
-                  provenance: reading.provenance,
-                  contentVersion: reading.contentVersion,
-                  promptVersionId: reading.promptVersionId,
-                  synthesis: reading.synthesis,
-                  reflectionPrompt: reading.reflectionPrompt,
-                  moderationStatus: reading.moderationStatus
-                }
-              })}
-            >
-              <Text style={styles.editorialPrimaryButtonText}>{language === "vi" ? "Lưu trải bài" : "Save reading"}</Text>
-            </Pressable>
-            <Pressable hitSlop={8} accessibilityLabel={language === "vi" ? "Chia sẻ văn bản trải bài" : "Share reading text"} accessibilityRole="button" style={styles.editorialShareButton} onPress={onCreateShareArtifact}>
-              <Ionicons name="share-social-outline" size={18} color={colors.ivory} />
-            </Pressable>
-            <Pressable accessibilityRole="button" style={styles.editorialOutlineButton} onPress={() => onAskFollowUp(selectedTarotGuide.id)}>
-              <Ionicons name="chatbubble-outline" size={16} color={colors.gold} />
-              <Text style={styles.editorialOutlineButtonText}>
-                {language === "vi" ? `Hỏi tiếp ${selectedTarotGuideName}` : `Ask ${selectedTarotGuideName}`}
-              </Text>
-            </Pressable>
-            <Pressable accessibilityRole="button" style={styles.editorialReportLink} onPress={() => onReportReading(reading.summary, reading.id)}>
-              <Text style={styles.editorialReportLinkText}>{c.reportReading}</Text>
-            </Pressable>
-          </View>
+          </TarotResultView>
         )}
+        {stage === "result" && reading ? (
+          <TarotGuideSelector
+            deck={selectedDeck}
+            language={language}
+            options={tarotGuideOptions}
+            recommendedGuide={recommendedTarotGuide}
+            selectedGuide={selectedTarotGuide}
+            selectedGuideReason={selectedTarotGuideReason}
+            onSelect={(persona) => setSelectedTarotGuideId(persona.id)}
+          />
+        ) : null}
 
         {stage === "share" && reading && (
           <View>
@@ -8566,6 +8507,15 @@ export function TarotFlow({
         >
           <Ionicons name="arrow-up-outline" size={18} color={colors.ink} />
         </Pressable>
+      ) : null}
+      {stage === "result" && reading ? (
+        <TarotResultDock
+          language={language}
+          onSave={saveTarotReading}
+          onAskFurther={() => onAskFollowUp(selectedTarotGuide.id)}
+          onShare={onCreateShareArtifact}
+          onReport={() => onReportReading(reading.summary, reading.id)}
+        />
       ) : null}
       {hasFloatingTarotPrimary ? (
         <Pressable
@@ -11014,6 +10964,9 @@ zodiacProfilePrompt: {
     padding: 20,
     paddingBottom: 32
   },
+  tarotContentDocked: {
+    paddingBottom: 128
+  },
   tarotBackToTopButton: {
     alignItems: "center",
     backgroundColor: colors.gold,
@@ -11522,39 +11475,6 @@ zodiacProfilePrompt: {
     fontWeight: "800",
     letterSpacing: 0.6,
     textTransform: "uppercase"
-  },
-  tarotReadingExplainPanel: {
-    alignItems: "center",
-    backgroundColor: "rgba(14, 90, 90, 0.20)",
-    borderColor: "rgba(201, 164, 92, 0.34)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.md,
-    marginTop: spacing.lg,
-    padding: spacing.md
-  },
-  tarotReadingExplainIcon: {
-    alignItems: "center",
-    backgroundColor: "rgba(201, 164, 92, 0.12)",
-    borderColor: "rgba(201, 164, 92, 0.34)",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 38,
-    justifyContent: "center",
-    width: 38
-  },
-  tarotReadingExplainTitle: {
-    color: colors.ivory,
-    fontSize: 15,
-    fontWeight: "900",
-    lineHeight: 20
-  },
-  tarotReadingExplainBody: {
-    color: colors.onSurfaceVariant,
-    fontSize: 13,
-    lineHeight: 19,
-    marginTop: 2
   },
   tarotFloatingPrimaryButton: {
     alignItems: "center",
@@ -14830,36 +14750,6 @@ zodiacProfilePrompt: {
     height: 96,
     width: 62
   },
-  resultIntro: {
-    alignItems: "center",
-    marginTop: spacing.md
-  },
-  editorialResultStage: {
-    paddingBottom: spacing.xl
-  },
-  editorialResultTitle: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 34,
-    fontWeight: "600",
-    lineHeight: 40,
-    marginTop: spacing.md,
-    textAlign: "center"
-  },
-  editorialResultQuestion: {
-    color: colors.ivory,
-    fontSize: 16,
-    lineHeight: 25,
-    marginTop: spacing.md,
-    maxWidth: 320,
-    textAlign: "center"
-  },
-  editorialResultMeta: {
-    color: colors.moon,
-    fontSize: 12,
-    lineHeight: 18,
-    marginTop: spacing.md
-  },
   resultBadge: {
     backgroundColor: "rgba(14, 90, 90, 0.30)",
     borderColor: "rgba(14, 90, 90, 0.60)",
@@ -14886,51 +14776,6 @@ zodiacProfilePrompt: {
     flexDirection: "row",
     gap: spacing.sm,
     marginVertical: spacing.xl
-  },
-  editorialResultSpreadRow: {
-    alignItems: "flex-end",
-    flexDirection: "row",
-    gap: spacing.sm,
-    marginVertical: spacing.xl
-  },
-  editorialSpreadCardWrap: {
-    alignItems: "center",
-    flex: 1
-  },
-  editorialSpreadCardWrapActive: {
-    marginBottom: spacing.lg
-  },
-  editorialSpreadLabel: {
-    color: colors.moon,
-    fontSize: 11,
-    fontWeight: "800",
-    marginBottom: spacing.sm
-  },
-  editorialSpreadLabelActive: {
-    color: colors.gold
-  },
-  editorialSpreadCardImage: {
-    backgroundColor: "#181517",
-    borderColor: "rgba(247, 241, 230, 0.16)",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 172,
-    width: "100%"
-  },
-  editorialSpreadCardImageActive: {
-    borderColor: "rgba(201, 164, 92, 0.48)",
-    height: 204
-  },
-  editorialSpreadCardName: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 18,
-    fontWeight: "600",
-    marginTop: spacing.sm,
-    textAlign: "center"
-  },
-  editorialSpreadCardNameActive: {
-    color: colors.gold
   },
   spreadCardWrap: {
     alignItems: "center",
@@ -14964,35 +14809,6 @@ zodiacProfilePrompt: {
     borderWidth: 1,
     padding: spacing.lg
   },
-  editorialSynthesisPanel: {
-    backgroundColor: "#231F20",
-    borderColor: "rgba(201, 164, 92, 0.28)",
-    borderRadius: 8,
-    borderWidth: 1,
-    marginTop: spacing.xl,
-    padding: spacing.lg
-  },
-  editorialSynthesisTitle: {
-    color: colors.gold,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 18,
-    fontWeight: "600",
-    textAlign: "center"
-  },
-  editorialSynthesisBody: {
-    color: colors.ivory,
-    fontSize: 15,
-    fontStyle: "italic",
-    lineHeight: 28,
-    marginTop: spacing.md,
-    textAlign: "center"
-  },
-  editorialSynthesisDivider: {
-    backgroundColor: "rgba(247, 241, 230, 0.12)",
-    height: 1,
-    marginTop: spacing.lg,
-    width: "100%"
-  },
   editorialPromptLabel: {
     color: colors.moon,
     fontSize: 11,
@@ -15016,59 +14832,11 @@ zodiacProfilePrompt: {
     marginTop: spacing.xl,
     paddingTop: spacing.lg
   },
-  editorialMeaningCard: {
-    backgroundColor: "#231F20",
-    borderColor: "rgba(247, 241, 230, 0.12)",
-    borderRadius: 8,
-    borderWidth: 1,
-    marginTop: spacing.md,
-    padding: spacing.lg
-  },
-  editorialMeaningCardFeatured: {
-    borderColor: "rgba(201, 164, 92, 0.52)"
-  },
-  editorialMeaningKicker: {
-    color: colors.gold,
-    fontSize: 11,
-    fontWeight: "800",
-    letterSpacing: 0.8
-  },
-  editorialMeaningTitle: {
-    color: colors.gold,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 18,
-    fontWeight: "600",
-    marginTop: spacing.xs
-  },
-  editorialMeaningBody: {
-    color: colors.ivory,
-    fontSize: 15,
-    lineHeight: 26,
-    marginTop: spacing.sm
-  },
   resultCardTitle: {
     color: colors.ivory,
     fontSize: 22,
     fontWeight: "800",
     marginTop: spacing.xs
-  },
-  promptPanel: {
-    alignItems: "center",
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    marginTop: spacing.xl,
-    padding: spacing.lg
-  },
-  promptText: {
-    color: colors.ivory,
-    fontSize: 21,
-    fontStyle: "italic",
-    fontWeight: "700",
-    lineHeight: 29,
-    marginTop: spacing.sm,
-    textAlign: "center"
   },
   tarotGuideSelectorPanel: {
     backgroundColor: "#211D1F",
@@ -15220,24 +14988,6 @@ zodiacProfilePrompt: {
   editorialOutlineButtonText: {
     color: colors.gold,
     fontSize: 14,
-    fontWeight: "700"
-  },
-  editorialShareButton: {
-    alignItems: "center",
-    backgroundColor: "#2A2626",
-    borderRadius: 8,
-    height: 44,
-    justifyContent: "center",
-    marginTop: spacing.md,
-    width: 44
-  },
-  editorialReportLink: {
-    alignItems: "center",
-    marginTop: spacing.md
-  },
-  editorialReportLinkText: {
-    color: colors.moon,
-    fontSize: 12,
     fontWeight: "700"
   },
   sharePreviewCard: {

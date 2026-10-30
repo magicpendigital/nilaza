@@ -35,7 +35,7 @@ export default function TarotDepthPreview() {
       summary: language === "vi" ? "Mẫu kiểm tra: bắt đầu nhỏ, trao đổi rõ và luyện từng bước. Đây là dữ liệu giả lập để kiểm giao diện, không phải phản hồi AI." : "Test fixture: begin small, communicate clearly and practice one step. Synthetic UI data, not an AI response.",
       reflection: language === "vi" ? "Một bước thử nào phù hợp hôm nay?" : "Which small experiment could fit today?",
       moderationStatus: "passed",
-      sections: chosen.map((card, index) => ({ key: `position_${index}`, title: { en: `${card.spread} · ${card.name.en}` }, body: { en: language === "vi"
+      sections: chosen.map((card, index) => ({ key: `position_${index}`, cardIds: [card.id], title: { en: `${card.spread} · ${card.name.en}` }, body: { en: language === "vi"
         ? `Phần kiểm tra ${index + 1}: ${card.uprightMeaning.vi} Liên hệ riêng của vị trí này cần được giữ khi lưu và mở lại.`
         : `Test section ${index + 1}: ${card.uprightMeaning.en} This position-specific section must survive saving and reopening.` } })),
     }, language);
@@ -65,6 +65,6 @@ export default function TarotDepthPreview() {
       setSelectedTarotCardId={setCardId} setSelectedTarotGuideId={setGuideId} onBack={() => setStage("cardMeaning")}
       onStartOver={() => setStage("topic")} onAskFollowUp={() => {}} onChatWithCard={() => {}} onCreateShareArtifact={() => {}}
       onDraw={result} onQuestionChange={setQuestion} onReportReading={() => {}}
-      onSave={entry => setSaved(JSON.parse(JSON.stringify(entry.sourceSnapshot)))} onSpreadChange={setSpread} onTopicChange={setTopic} />
+      onSave={entry => setSaved(JSON.parse(JSON.stringify(entry.sourceSnapshot)))} onSpreadChange={setSpread} onTopicChange={setTopic} onWriteJournal={() => {}} />
   </View>;
 }

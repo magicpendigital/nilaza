@@ -63,7 +63,7 @@
     {
       "path": "DESIGN.md",
       "reason": "Brand shape and type rules for the new screen.",
-      "sha256": "170330f307d7314fc476e9df7ce814348cb62b50916a7df3416f6322b3b1ea9f"
+      "sha256": "ceb8704a4af1ce37d8ba564c8e65d4cf2eba8624dbc7b5966f0a293baceaf09a"
     },
     {
       "path": "docs/CONTENT_SAFETY_STYLE_GUIDE.md",
@@ -73,7 +73,7 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Card meaning stage and its top bar.",
-      "sha256": "beb46fae65156f11adf651b3203fd259f1025c706620e1940c86a23eb68b3b63"
+      "sha256": "7bf2d6d0f2545af373c3505f3a7b11b852e48c3872d7b7ef13f9b87a5d261892"
     },
     {
       "path": "apps/mobile/src/features/tarot/readingPresentation.ts",
@@ -110,9 +110,12 @@
   },
   "workingTreeReview": {
     "paths": [
+      "DESIGN.md",
+      "apps/admin/workflow-catalog.js",
       "apps/mobile/App.tsx",
-      "apps/mobile/src/features/tarot/TarotDrawStep.tsx",
-      "apps/mobile/src/features/tarot/__tests__/TarotDrawStep.test.tsx",
+      "apps/mobile/src/features/tarot/TarotDepthPreview.tsx",
+      "apps/mobile/src/features/tarot/TarotResultView.tsx",
+      "apps/mobile/src/features/tarot/__tests__/TarotResultView.test.tsx",
       "docs/feature-plans/tarot-flow-redesign-2026-10-31.json"
     ],
     "note": "Worktree branch feat/tarot-slice-2026-10-31, after the card guide commit 8575812. The ask step files were written just before this record."

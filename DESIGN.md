@@ -238,22 +238,20 @@ Layout:
 
 Keep the chat interface clean and emotionally warm.
 
-### 10. Tarot Topic
+### 10. Tarot Topic (step 1/2, design canvas TarotAsk)
 
 Goal:
 
 Let user set intention.
 
-Layout:
+Layout (one screen, top bar “Trải bài · Bước 1/2”):
 
-- Title: What do you want clarity on?
-- Topic tiles:
-  - Love
-  - Career
-  - Decision
-  - Self
-  - Open question
-- Optional question input.
+- Title “Bạn muốn hỏi điều gì?” and the question field (optional; example questions show while it is empty).
+- A local suggestion card when the question asks the cards to read another person or to predict: a self-focused version with “Dùng câu này” / “Giữ câu của tôi” and an honest note. Nothing is sent to a server.
+- Topic chips Tình yêu, Công việc, Bản thân, Quyết định that follow the question until the person picks one.
+- Spread cards for the available spreads.
+- The selected deck with “Đổi” (opens deck selection).
+- Fixed button “Bắt đầu rút bài” goes straight to the draw.
 
 ### 11. Tarot Deck Selection
 
@@ -267,7 +265,7 @@ Layout:
 - Each deck shows preview image, name, vibe, premium/free label.
 - Continue button.
 
-### 12. Tarot Draw
+### 12. Tarot Draw (step 2/2, design canvas TarotDraw)
 
 Goal:
 
@@ -275,13 +273,13 @@ Create a ritual moment.
 
 Layout:
 
-- Deck centered.
-- Instruction: Tap to draw.
-- Spread slots visible.
-- Animated selected cards.
-- Progress indicator for number of cards drawn.
+- The question at the top.
+- One slot per spread position; the next one outlined in gold, drawn cards shown in place (reversed art rotated).
+- “Hít một hơi chậm. Chọn lá cho vị trí …” and the remaining readings for today.
+- A fan of card backs: tapping a card raises it, the main button becomes “Lật lá này”. Cards stay randomly drawn.
+- “Lật cả N lá ngay” reveals the rest; “Đổi bộ bài”.
 
-### 13. Tarot Result
+### 13. Tarot Result (design canvas TarotResult)
 
 Goal:
 
@@ -289,15 +287,13 @@ Deliver a personal, beautiful, savable reading.
 
 Layout:
 
-- Header with topic and question.
-- Card images in spread layout.
-- Card-by-card interpretation.
-- Overall message.
-- Reflection question.
-- Actions:
-  - Save
-  - Share
-  - Ask a follow-up
+- Top bar with topic, card count and deck; the question in quotes.
+- Card images with position and Vietnamese name.
+- “Tóm lại”: a short heading and the overall message, with the source line (AI, reference meanings or safety response).
+- One collapsible section per card using the AI text for that card (reference meaning otherwise), keywords and “Học thêm về lá này”.
+- Blocks the AI did not return stay hidden (cross-card notes and a small step need the approved prompt update).
+- “Câu hỏi để viết” with “Viết vào Nhật ký”, then the guide choice.
+- Fixed dock: Lưu trải bài, Hỏi tiếp, and a menu for share and report.
 
 ### 14. Astrology Birth Form
 
