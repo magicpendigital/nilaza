@@ -44,6 +44,18 @@ export function formatLocalDateTime(value: string | number | Date, language: Lan
   return `${formatLocalDate(date, language)} ${time}`;
 }
 
+// "Hôm nay" / "Hôm qua" / "3 ngày trước", then a plain date after a week.
+export function relativeDayLabel(value: string | number | Date, now: Date, language: Language): string {
+  const date = new Date(value);
+  const startOf = (day: Date) => new Date(day.getFullYear(), day.getMonth(), day.getDate()).getTime();
+  const days = Math.round((startOf(now) - startOf(date)) / 86_400_000);
+  const vi = language === "vi";
+  if (days <= 0) return vi ? "Hôm nay" : "Today";
+  if (days === 1) return vi ? "Hôm qua" : "Yesterday";
+  if (days < 7) return vi ? `${days} ngày trước` : `${days} days ago`;
+  return formatLocalDate(date, language);
+}
+
 export function localizedList(value: LocalizedList | undefined, language: Language): string[] {
   if (!value) return [];
 

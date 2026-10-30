@@ -71,8 +71,8 @@
     },
     {
       "path": "apps/mobile/App.tsx",
-      "sha256": "f0c4652a598578e72021752c4adbcb4107f368c59b463cb8ec65200437fe02e0",
-      "reason": "Every canViewContentTier call, tier badges, Premium profile section, credit copy, timestamp renders and the Oracle launcher condition reviewed. Re-reviewed after implementation on 2026-10-30; this hash is the implemented state."
+      "sha256": "aebeb3342ba6448ebdf5442544b433c6e2e3b16106395187bb491fdb7f12d62a",
+      "reason": "Every canViewContentTier call, tier badges, Premium profile section, credit copy, timestamp renders and the Oracle launcher condition reviewed. Re-reviewed after implementation on 2026-10-30; this hash is the implemented state. Re-hashed after the stacked Home slice (home-finish-2026-10-30) changed this file in the same PR."
     },
     {
       "path": "apps/mobile/src/features/owner/tierPreview.ts",
@@ -91,8 +91,8 @@
     },
     {
       "path": "apps/mobile/src/i18n.ts",
-      "sha256": "fc81e63ccada725c421cc2e758f596bf85739b9d6040f88a8e1b27d044aaa0b6",
-      "reason": "Shared locale helpers where the date formatter is added. Re-reviewed after implementation on 2026-10-30; this hash is the implemented state."
+      "sha256": "20ce0f1ba6cd42a71a9e1aab811146a5d65f71830925631b4f6310dee380c182",
+      "reason": "Shared locale helpers where the date formatter is added. Re-reviewed after implementation on 2026-10-30; this hash is the implemented state. Re-hashed after the stacked Home slice (home-finish-2026-10-30) changed this file in the same PR."
     },
     {
       "path": "packages/agent-config/ai-usage-policy.json",

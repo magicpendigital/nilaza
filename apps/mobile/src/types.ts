@@ -204,6 +204,7 @@ export type ZodiacPulse = {
   id: string;
   dateKey: string;
   sign?: string;
+  signId?: string;
   profileCompleteness: ZodiacProfileStatus;
   mood: string;
   title: string;
