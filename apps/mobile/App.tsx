@@ -127,6 +127,8 @@ import { normalizeTarotSections, tarotSnapshotMeaning, tarotResultSource } from 
 import { getTarotLearningSections, tarotQuestionExamples } from "./src/features/tarot/learning";
 import { getTarotCardGuide } from "./src/features/tarot/cardGuide";
 import { TarotCardGuide } from "./src/features/tarot/TarotCardGuide";
+import { TarotAskStep } from "./src/features/tarot/TarotAskStep";
+import type { AskTopic } from "./src/features/tarot/askHelpers";
 import { MythologyEntry, MythologyWorld } from "./src/features/astrology/MythologyWorld";
 import { AstrologyChartFoundation } from "./src/features/astrology/AstrologyChartFoundation";
 import { localizeAstrologySign, toAstrologyChartPresentation, type AstrologyRawChart, type AstrologySignId } from "./src/features/astrology/contracts";
@@ -566,35 +568,6 @@ function getTarotCardImage(deckId: string, cardId?: string) {
   return getDeckBackImage(deckId);
 }
 
-const tarotTopicIcons: Record<TarotTopic, keyof typeof Ionicons.glyphMap> = {
-  love: "heart-outline",
-  career: "briefcase-outline",
-  self: "sparkles-outline",
-  decision: "git-compare-outline",
-  open: "infinite-outline"
-};
-const tarotTopicDescriptions: Record<TarotTopic, { vi: string; en: string }> = {
-  love: {
-    vi: "Dò lại cảm xúc, mối quan hệ và điều trái tim bạn đang cần.",
-    en: "Tune into relationships, feelings, and what your heart needs."
-  },
-  career: {
-    vi: "Nhìn rõ hướng đi, cơ hội và nhịp phát triển phù hợp với bạn.",
-    en: "Clarify direction, opportunities, and the pace that fits your growth."
-  },
-  self: {
-    vi: "Lắng nghe bản thân, nhu cầu thật và điều đang cần được chăm sóc.",
-    en: "Listen inward for needs, self-care, and the truth beneath the surface."
-  },
-  decision: {
-    vi: "Soi lại lựa chọn đang mở ra để thấy bước tiếp theo rõ hơn.",
-    en: "Examine the crossroads in front of you and the next step with more clarity."
-  },
-  open: {
-    vi: "Để bài dẫn lối khi bạn chỉ cần một thông điệp mở và trực giác.",
-    en: "Let the cards lead when you want an open message guided by intuition."
-  }
-};
 const personaDomainVisuals: Record<string, { color: string; icon: keyof typeof Ionicons.glyphMap }> = {
   calm: { icon: "moon-outline", color: colors.teal },
   communication: { icon: "chatbubble-ellipses-outline", color: colors.gold },
@@ -1414,7 +1387,7 @@ const tones = [
 
 const topics: Array<{ id: TarotTopic; vi: string; en: string }> = [
   { id: "love", vi: "Tình yêu", en: "Love" },
-  { id: "career", vi: "Sự nghiệp", en: "Career" },
+  { id: "career", vi: "Công việc", en: "Career" },
   { id: "self", vi: "Bản thân", en: "Self" },
   { id: "decision", vi: "Quyết định", en: "Decision" },
   { id: "open", vi: "Câu hỏi mở", en: "Open question" }
@@ -4146,7 +4119,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
 
   const goToTarotStage = (nextStage: TarotStage) => {
     if (tarotStage === nextStage) return;
-    if (tarotStage === "topic" && nextStage === "spread") setTarotIntentionReviewed(true);
+    if (tarotStage === "topic" && (nextStage === "spread" || nextStage === "draw")) setTarotIntentionReviewed(true);
     if (tarotStage === "cardMeaning") {
       setTarotStageHistory((currentHistory) =>
         currentHistory[currentHistory.length - 1] === nextStage ? currentHistory.slice(0, -1) : currentHistory
@@ -7656,21 +7629,7 @@ export function TarotFlow({
     language === "vi"
       ? "Chọn bộ bài đồng điệu nhất với hành trình hiện tại của bạn."
       : "Select the deck that resonates with your current journey.";
-  const editorialTopicBody =
-    language === "vi"
-      ? "Chọn chủ đề để dẫn lối cho trải bài của bạn."
-      : "Select a focus area to guide your reading.";
-  const editorialTopicLabel = language === "vi" ? "Trọng tâm cụ thể (không bắt buộc)" : "Specific focus (optional)";
-  const editorialTopicPlaceholder =
-    tarotTopic === "open"
-      ? language === "vi"
-        ? "Điều gì đang cần một lời nhắn từ trực giác?"
-        : "Ask what your heart is circling..."
-      : language === "vi"
-        ? "Viết điều bạn muốn làm rõ..."
-        : "Ask what your heart is circling...";
   const selectedTopicLabel = localizedText(topics.find((topic) => topic.id === tarotTopic), language, tarotTopic);
-  const selectedTopicDescription = localizedText(tarotTopicDescriptions[tarotTopic], language);
   const drawTitle =
     language === "vi"
       ? `${localizedText(selectedDeck.name, language)} trải bài`
@@ -7928,7 +7887,7 @@ export function TarotFlow({
               ? language === "vi" ? "Rút lá tiếp theo" : "Draw next card"
               : language === "vi" ? "Xem thông điệp" : "View message";
   const floatingTarotPrimaryLabel =
-    stage === "topic" || stage === "spread" ? c.continue : stage === "deck"
+    stage === "topic" ? (language === "vi" ? "Bắt đầu rút bài" : "Start drawing") : stage === "spread" ? c.continue : stage === "deck"
       ? deckSelectionActionLabel
       : tarotGenerating
         ? c.generatingReading
@@ -7942,7 +7901,7 @@ export function TarotFlow({
         ? "lock-closed-outline"
         : "sparkles-outline";
   const handleFloatingTarotPrimary = () => {
-    if (stage === "topic") { setStage("spread"); return; }
+    if (stage === "topic") { setStage("draw"); return; }
     if (stage === "spread") { setStage(keepSelectedDeck ? "draw" : "deck"); return; }
     if (stage === "deck") {
       if (intentionReviewed) setStage("draw");
@@ -7986,7 +7945,9 @@ export function TarotFlow({
           <Pressable hitSlop={8} accessibilityLabel={c.back} accessibilityRole="button" onPress={onBack} style={styles.editorialTopIcon}>
             {isEditorialStage ? <Ionicons name="arrow-back-outline" size={24} color={colors.ivory} /> : <Text style={styles.backText} numberOfLines={1}>{"<"} {c.back}</Text>}
           </Pressable>
-          {isEditorialStage ? (
+          {stage === "topic" || stage === "draw" ? (
+            <Text style={styles.tarotStepKicker}>{language === "vi" ? "Trải bài" : "Reading"} · {language === "vi" ? "Bước" : "Step"} {stage === "topic" ? 1 : 2}/2</Text>
+          ) : isEditorialStage ? (
             <Brand variant="horizontal" width={104} />
           ) : (
             <Text style={styles.subTopTitle}>Tarot</Text>
@@ -8148,60 +8109,25 @@ export function TarotFlow({
         )}
 
         {stage === "topic" && (
-          <View style={styles.editorialStage}>
-            <View style={styles.editorialHero}>
-              <Text style={styles.editorialDisplay}>{c.chooseTopic}</Text>
-              <Text style={styles.editorialSupport}>{editorialTopicBody}</Text>
-            </View>
-            {keepSelectedDeck ? (
-              <View style={styles.choiceStack}>
-                <Text style={styles.cardTitle}>{localizedText(selectedDeck.name, language)}</Text>
-                <Text style={styles.muted}>{language === "vi" ? "Bộ bài bạn đã chọn sẽ được giữ cho trải bài này. Câu hỏi là tùy chọn; tiếp tục để bỏ qua." : "Your selected deck stays with this reading. The question is optional; continue to skip it."}</Text>
-                <SecondaryButton label={language === "vi" ? "Đổi bộ bài" : "Change deck"} onPress={() => { onKeepSelectedDeckChange(false); setStage("deck"); }} />
-              </View>
-            ) : null}
-            <View style={styles.editorialTopicGrid}>
-              {topicGridItems.map((topic) => {
-                const active = tarotTopic === topic.id;
-                return (
-                  <Pressable
-                    key={topic.id}
-                    accessibilityRole="button"
-                    style={[styles.editorialTopicCard, active && styles.editorialTopicCardActive]}
-                    onPress={() => onTopicChange(topic.id)}
-                  >
-                    <Ionicons name={tarotTopicIcons[topic.id]} size={30} color={colors.gold} />
-                    <Text style={styles.editorialTopicTitle}>{localizedText(topic, language).toUpperCase()}</Text>
-                  </Pressable>
-                );
-              })}
-            </View>
-            <Pressable
-              accessibilityRole="button"
-              style={[styles.editorialOpenTile, tarotTopic === "open" && styles.editorialOpenTileActive]}
-              onPress={() => onTopicChange("open")}
-            >
-              <Ionicons name={tarotTopicIcons.open} size={28} color={colors.gold} />
-              <Text style={styles.editorialOpenTileText}>{localizedText(topics.find((topic) => topic.id === "open"), language, "Open question").toUpperCase()}</Text>
-            </Pressable>
-            <Text style={styles.editorialFieldLabel}>{editorialTopicLabel}</Text>
-            <TextInput
-              value={tarotQuestion}
-              onChangeText={onQuestionChange}
-              placeholder={editorialTopicPlaceholder}
-              placeholderTextColor={colors.moon}
-              multiline
-              textAlignVertical="top"
-              style={styles.editorialQuestionInput}
-            />
-            <Text style={styles.muted}>{language === "vi" ? "Chọn một câu hỏi để thử; bạn có thể sửa trước khi rút." : "Choose a question to try; you can edit it before drawing."}</Text>
-            {localizedList(tarotQuestionExamples[tarotTopic], language).map(prompt => (
-              <Pressable key={prompt} accessibilityRole="button" onPress={() => onQuestionChange(prompt)}
-                style={[styles.editorialMutedButton, { minHeight: layout.minimumTouchTarget }]}>
-                <Text style={styles.editorialMutedButtonText}>{prompt}</Text>
-              </Pressable>
-            ))}
-          </View>
+          <TarotAskStep
+            language={language}
+            question={tarotQuestion}
+            onQuestionChange={onQuestionChange}
+            topic={tarotTopic}
+            topics={topicGridItems.map((topic) => ({ id: topic.id as AskTopic, label: localizedText(topic, language) }))}
+            onTopicChange={onTopicChange}
+            examples={localizedList(tarotQuestionExamples[tarotTopic], language)}
+            spreads={spreads.map((spread) => ({
+              id: spread.id,
+              cards: spread.cards,
+              title: language === "vi" ? `${spread.cards} lá` : `${spread.cards} ${spread.cards === 1 ? "card" : "cards"}`,
+              detail: spread.cards === 1 ? (language === "vi" ? "Nhanh, một lời nhắn" : "Quick, one message") : localizedList(spread.labels, language).join(" · ")
+            }))}
+            spreadId={tarotSpread}
+            onSpreadChange={(spreadId) => onSpreadChange(spreadId as TarotSpread)}
+            deck={{ name: localizedText(selectedDeck.name, language), detail: localizedText(selectedDeck.vibe, language), cover: getDeckThumbnailImage(selectedDeck.id), comingSoon: !canViewContentTier(selectedDeck.accessTier, displayedTier) }}
+            onChangeDeck={() => { onKeepSelectedDeckChange(false); setStage("deck"); }}
+          />
         )}
 
         {stage === "spread" && (
@@ -11273,6 +11199,13 @@ zodiacProfilePrompt: {
     borderBottomWidth: 0,
     paddingHorizontal: 20
   },
+  tarotStepKicker: {
+    color: colors.gold,
+    fontFamily: typography.bodySemiBoldFontFamily,
+    fontSize: 11,
+    letterSpacing: 1.5,
+    textTransform: "uppercase"
+  },
   editorialTopIcon: {
     alignItems: "center",
     height: 44,
@@ -11288,24 +11221,10 @@ zodiacProfilePrompt: {
   editorialStage: {
     paddingBottom: spacing.xl
   },
-  editorialHero: {
-    alignItems: "center",
-    gap: spacing.sm,
-    marginBottom: spacing.xl,
-    marginTop: spacing.lg
-  },
   editorialHeroLeft: {
     gap: spacing.sm,
     marginBottom: spacing.xl,
     marginTop: spacing.lg
-  },
-  editorialDisplay: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 36,
-    fontWeight: "600",
-    lineHeight: 44,
-    textAlign: "center"
   },
   editorialDisplayLeft: {
     color: colors.ivory,
@@ -11313,13 +11232,6 @@ zodiacProfilePrompt: {
     fontSize: 32,
     fontWeight: "600",
     lineHeight: 40
-  },
-  editorialSupport: {
-    color: colors.muted,
-    fontSize: 16,
-    lineHeight: 25,
-    maxWidth: 320,
-    textAlign: "center"
   },
   editorialSupportLeft: {
     color: colors.muted,
@@ -11719,55 +11631,6 @@ zodiacProfilePrompt: {
     fontSize: 14,
     lineHeight: 22
   },
-  editorialTopicGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: spacing.md
-  },
-  editorialTopicCard: {
-    alignItems: "center",
-    backgroundColor: "#211D1F",
-    borderColor: "rgba(247, 241, 230, 0.10)",
-    borderRadius: 8,
-    borderWidth: 1,
-    gap: spacing.md,
-    justifyContent: "center",
-    minHeight: 152,
-    padding: spacing.lg,
-    width: "47.5%"
-  },
-  editorialTopicCardActive: {
-    backgroundColor: "rgba(201, 164, 92, 0.10)",
-    borderColor: "rgba(201, 164, 92, 0.52)"
-  },
-  editorialTopicTitle: {
-    color: colors.ivory,
-    fontSize: 14,
-    fontWeight: "800",
-    letterSpacing: 0.8
-  },
-  editorialOpenTile: {
-    alignItems: "center",
-    backgroundColor: "#211D1F",
-    borderColor: "rgba(247, 241, 230, 0.10)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.md,
-    justifyContent: "center",
-    marginTop: spacing.md,
-    minHeight: 92
-  },
-  editorialOpenTileActive: {
-    backgroundColor: "rgba(201, 164, 92, 0.10)",
-    borderColor: "rgba(201, 164, 92, 0.52)"
-  },
-  editorialOpenTileText: {
-    color: colors.ivory,
-    fontSize: 14,
-    fontWeight: "800",
-    letterSpacing: 0.8
-  },
   editorialFieldLabel: {
     color: colors.ivory,
     fontSize: 12,
@@ -11775,19 +11638,6 @@ zodiacProfilePrompt: {
     letterSpacing: 0.6,
     marginTop: spacing.xl,
     textTransform: "uppercase"
-  },
-  editorialQuestionInput: {
-    backgroundColor: "#2B2525",
-    borderColor: "rgba(201, 164, 92, 0.34)",
-    borderRadius: 8,
-    borderWidth: 1,
-    color: colors.ivory,
-    fontSize: 16,
-    lineHeight: 24,
-    marginTop: spacing.md,
-    minHeight: 132,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.md
   },
   editorialPrimaryButton: {
     alignItems: "center",

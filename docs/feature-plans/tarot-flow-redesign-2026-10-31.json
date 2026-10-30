@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "taskId": "tarot-flow-redesign-2026-10-31",
+  "ownerAgent": "mobile_tarot_design_agent",
+  "lane": "mobile_tarot_flow_redesign",
+  "goal": "Bring the Tarot reading flow to the approved design canvas: step 1/2 asks the question with a local reframing suggestion, an auto-detected topic, spread cards and the selected deck on one screen; step 2/2 draws per position from a fanned deck; the result screen leads with the summary, per-card sections and a fixed Save / Ask further dock.",
+  "successCriteria": [
+    "Step 1/2 (topic stage) shows the question field, a local suggestion card when the question asks to read another person or to predict (Dùng câu này / Giữ câu của tôi, with an honest note), topic chips Tình yêu, Công việc, Bản thân, Quyết định that follow the question until the person picks one, spread cards for the three existing spreads, and the selected deck with Đổi; the primary button reads Bắt đầu rút bài and goes straight to the draw stage.",
+    "Step 2/2 (draw stage) shows the question, a slot per spread position, a prompt naming the next position, a fanned deck to tap, Rút ngẫu nhiên and Lật cả N lá ngay; allowance checks and haptics stay as they are.",
+    "The result screen shows the cards with positions and Vietnamese names, a Tóm lại panel with the AI or reference source line, one collapsible section per card using AI sections whose cardIds match (reference meaning otherwise), the reflection question with Viết vào Nhật ký, and a fixed dock with Lưu trải bài, Hỏi tiếp and a menu for share and report. Blocks for which the AI returned nothing are hidden.",
+    "The two new spreads stay hidden; no Edge Function, prompt or migration change is made in this task.",
+    "npm --workspace apps/mobile run check and the mobile Jest suite pass, and a 390x844 web walkthrough covers ask, draw and result."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/tarot/",
+    "apps/mobile/src/brand/copy.ts",
+    "apps/admin/workflow-catalog.js",
+    "DESIGN.md"
+  ],
+  "untouchedSurfaces": [
+    "Spreads data, AI prompt, Edge Functions and database are unchanged; the 3-card love and 4-card crossroads spreads are not shown.",
+    "Card guide screen (previous task), deck detail, learn and share stages keep their layout.",
+    "Allowance rules, journal storage and chat handoff contracts are unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Explore > Trải bài Tarot, Home topic reading card, Oracle handoff to Tarot, quick draw.",
+    "dataWrite": "No new storage. The question, topic and spread use the existing Tarot state; saving still writes the existing tarot_reading snapshot.",
+    "backendContract": "No endpoint or payload change; the AI request is the same.",
+    "canonicalContract": "DESIGN.md Tarot paragraph describes the two-step flow if it changes.",
+    "adminVisibility": "No Admin change; only the workflow catalog digest of App.tsx is refreshed.",
+    "privacySafety": "The question reframing is local and never sends text anywhere; suggestions avoid reading another person and avoid certain predictions.",
+    "observability": "No analytics change.",
+    "rollback": "Revert the commits.",
+    "surfacesIntentionallyUntouched": "Backend, spreads data, share and journal formats.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs the validation commands, commits locally and does not merge, deploy or run SQL."
+  },
+  "canonicalContracts": [
+    "Owner decisions 2026-10-30: merge first then build Tarot; result re-layout now, hide missing blocks; two new spreads hidden until deploy approval; local question suggestions.",
+    "Design canvas TarotAsk, TarotDraw and TarotResult artboards (claude.ai artifact UyhXpoqEUT3RMFJzgPUJ8y)."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Tarot and mobile UI routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "DESIGN.md",
+      "reason": "Brand shape and type rules for the new screen.",
+      "sha256": "170330f307d7314fc476e9df7ce814348cb62b50916a7df3416f6322b3b1ea9f"
+    },
+    {
+      "path": "docs/CONTENT_SAFETY_STYLE_GUIDE.md",
+      "reason": "Card names and safety framing for the guide copy.",
+      "sha256": "33ec073a7fe94045ee7aeb40bad2ca90b6ab6b0010569131c730380dfb23ceec"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Card meaning stage and its top bar.",
+      "sha256": "eed794e3a1a95fe6cfcee23fa0f657ddc1325b568be2561f21be0dc032d69876"
+    },
+    {
+      "path": "apps/mobile/src/features/tarot/readingPresentation.ts",
+      "reason": "AI sections with cardIds and result source labels.",
+      "sha256": "3d948573118aef9351f9e3e73d5142988213270a61fb4e48a069a93766c70e1e"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "The flow follows DESIGN.md shapes (8px cards, pill controls, 48px targets); the skill text stays accurate."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing React Native and Ionicons APIs."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization change.",
+    "sensitiveData": "No personal data; static reviewed content.",
+    "secretsLogging": "No credentials or logs.",
+    "externalInput": "No user input is rendered beyond existing card selection.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration, deploy or release.",
+    "stopCondition": "Stop if a card lacks guide content, if checks fail, or if the screen needs data the app does not have.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/features/tarot/TarotAskStep.tsx",
+      "apps/mobile/src/features/tarot/__tests__/askHelpers.test.ts",
+      "apps/mobile/src/features/tarot/askHelpers.ts",
+      "docs/feature-plans/tarot-flow-redesign-2026-10-31.json"
+    ],
+    "note": "Worktree branch feat/tarot-slice-2026-10-31, after the card guide commit 8575812. The ask step files were written just before this record."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/tarot-flow-redesign-2026-10-31.json",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand",
+    "Web walkthrough at 390x844: ask with a mind-reading question, change topic, pick spread, draw, result, save."
+  ],
+  "managerTestPath": "Khám phá > Trải bài Tarot: type Người ấy có thật lòng với mình không?, see the suggestion and Tình yêu selected, pick 3 lá, Bắt đầu rút bài, tap the fan for each card, read Tóm lại, open a card section, Lưu trải bài.",
+  "residualRisk": "The two new spreads and the Các lá nói gì với nhau / Một bước nhỏ blocks need the approved prompt deploy; until then those blocks stay hidden.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
