@@ -1,6 +1,6 @@
 # Câu hỏi viết Nhật ký — đã đưa vào app, chờ Owner xem lại
 
-Trạng thái: **đang dùng trong app** theo quyết định của Owner ngày 31/10/2026 (soạn 30 câu, dùng luôn, xem lại sau). Mỗi ngày app hiện một câu theo thứ tự; nút "Câu khác" chuyển sang câu kế tiếp. Bản tiếng Anh nằm trong `packages/content/data/journal-prompts.json`.
+Trạng thái: **đã duyệt** — Owner giữ nguyên 30 câu ngày 31/10/2026, đang dùng trong app.
 
 Nguyên tắc: câu hỏi nhẹ, đời thường, gọi "bạn", không chạm chủ đề nặng, không khuyên bảo.
 

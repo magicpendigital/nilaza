@@ -3,7 +3,7 @@
   "taskId": "astrology-ai-deep-read-2026-10-31",
   "ownerAgent": "mobile_astrology_design_agent",
   "lane": "mobile_astrology_redesign",
-  "goal": "Add the Đọc sâu với AI block to the chart overview now that ai-astrology-insight is deployed on QA: free accounts see what the AI adds and Có trong Premium (Sắp ra mắt while nothing is sold); Premium writes one deep read per local day through the existing consent dialog.",
+  "goal": "Add the Đọc sâu với AI block to the chart overview now that ai-astrology-insight is deployed on QA: free accounts see what the AI adds and Có trong Premium (Sắp ra mắt while nothing is sold); Premium writes one deep read per local day through the existing consent dialog. Also show the Council daily limit line now that ai-council is deployed, and mark the 30 journal prompts approved.",
   "successCriteria": [
     "The block shows on the overview for exact birth times.",
     "Free: description plus Có trong Premium that reveals Sắp ra mắt.",
@@ -11,7 +11,10 @@
     "Mobile check and Jest suite pass."
   ],
   "writeScope": [
-    "apps/mobile/src/features/astrology/"
+    "apps/mobile/src/features/astrology/",
+    "apps/mobile/src/features/council/",
+    "packages/content/data/journal-prompts.json",
+    "docs/content-review/"
   ],
   "untouchedSurfaces": [
     "No server change; ai-astrology-insight v8 is already deployed on QA with Owner approval.",
@@ -30,7 +33,8 @@
     "agentHandoff": "The delivery agent owns only the writeScope, runs the validation commands, commits locally and does not merge, deploy or run SQL."
   },
   "canonicalContracts": [
-    "Owner decisions 2026-10-31: Nói rõ + xem trước 1 dòng for the AI block; Astrology AI follows the shared tier switch, 1 per local day; deploy approved and done on QA."
+    "Owner decisions 2026-10-31: Nói rõ + xem trước 1 dòng for the AI block; Astrology AI follows the shared tier switch, 1 per local day; deploy approved and done on QA.",
+    "Owner approved deploying ai-council to QA (done, v26) and kept the 30 journal prompts as written on 2026-10-31."
   ],
   "allowedDataClasses": [
     "sanitized_project_context",
@@ -88,7 +92,10 @@
   },
   "workingTreeReview": {
     "paths": [
-      "docs/feature-plans/astrology-ai-deep-read-2026-10-31.json"
+      "apps/mobile/src/features/council/AiCouncilRoom.tsx",
+      "docs/content-review/journal-prompts-draft.md",
+      "docs/feature-plans/astrology-ai-deep-read-2026-10-31.json",
+      "packages/content/data/journal-prompts.json"
     ],
     "note": "Branch feat/astrology-ai-deep-read-2026-10-31 on main after PR #10."
   },
