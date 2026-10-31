@@ -199,6 +199,61 @@ test("without a birth time the hub hides Rising and today's Moon and invites the
   expect(screen.getByLabelText("Giờ")).toBeTruthy();
   expect(screen.getByLabelText("Năm").props.value).toBe("2000");
 });
+test("So với một người saves another person only after consent, compares and deletes on the device", async () => {
+  const m = memory();
+  const screen = render(
+    <AstrologyExperience language="vi" storage={m.storage} onBack={() => {}} />,
+  );
+  await waitFor(() => expect(screen.getByText("So với một người")).toBeTruthy());
+  fireEvent.press(screen.getByText("So với một người"));
+  // Without an own chart the list asks for it first.
+  expect(screen.getByText(/Lưu lá số của bạn trước/)).toBeTruthy();
+  fireEvent.press(screen.getByText("← Trở lại"));
+  await fillForm(screen, "2000-03-15", "14:30", "Hanoi");
+  fireEvent.press(screen.getByText("Tạo bản đồ"));
+  await waitFor(() => expect(screen.getByText("Lưu bản đồ trên thiết bị")).toBeTruthy());
+  fireEvent.press(screen.getByText("Lưu bản đồ trên thiết bị"));
+  await waitFor(() => expect(m.read().reports).toHaveLength(1));
+  fireEvent.press(screen.getByText("← Trở lại"));
+  fireEvent.press(screen.getByText("So với một người"));
+  fireEvent.press(screen.getByText("Thêm người"));
+  const addPerson = () => {
+    fireEvent.changeText(screen.getByLabelText("Tên hoặc biệt danh"), "Minh");
+    fireEvent.press(screen.getByRole("radio", { name: "Người nhà" }));
+    fireEvent.changeText(screen.getByLabelText("Ngày"), "02");
+    fireEvent.changeText(screen.getByLabelText("Tháng"), "08");
+    fireEvent.changeText(screen.getByLabelText("Năm"), "1998");
+    fireEvent.press(screen.getByText("Không rõ"));
+    fireEvent.changeText(screen.getByLabelText("Nơi sinh"), "Hanoi");
+    fireEvent.press(screen.getAllByText(/^Hanoi ·/)[0]);
+    fireEvent.press(screen.getByText("Đây đúng là nơi sinh của tôi"));
+    fireEvent.press(screen.getByText("Tiếp tục"));
+    fireEvent.press(screen.getByText("Tạo bản đồ"));
+  };
+  addPerson();
+  await waitFor(() => expect(screen.getByText("Trước khi lưu bản đồ của người khác")).toBeTruthy());
+  // Declining keeps nothing.
+  fireEvent.press(screen.getByText("Không lưu"));
+  expect(m.read().people ?? []).toHaveLength(0);
+  fireEvent.press(screen.getByText("Thêm người"));
+  addPerson();
+  await waitFor(() => expect(screen.getByText("Mình hiểu, lưu bản đồ")).toBeTruthy());
+  fireEvent.press(screen.getByText("Mình hiểu, lưu bản đồ"));
+  await waitFor(() => expect(screen.getByText("Bạn và Minh")).toBeTruthy());
+  expect(m.read().people).toHaveLength(1);
+  expect(m.read().people![0]).toMatchObject({ name: "Minh", relationship: "family" });
+  expect(screen.getByText("Nguyên tố")).toBeTruthy();
+  // Minh's birth time is unknown, so the Moon carries a note and no Moon aspect is read.
+  expect(screen.getByText("Giờ sinh chưa rõ nên Mặt Trăng có thể khác.")).toBeTruthy();
+  expect(screen.queryByText(/Mặt Trăng của bạn ·|· Mặt Trăng của Minh/)).toBeNull();
+  // Family hides Venus–Mars, and nothing on this screen offers AI.
+  expect(screen.queryByText(/Sao Kim của bạn · .* · Sao Hỏa của Minh|Sao Hỏa của bạn · .* · Sao Kim của Minh/)).toBeNull();
+  expect(screen.queryByText(/AI/)).toBeNull();
+  fireEvent.press(screen.getByText("Xóa lá số của Minh"));
+  fireEvent.press(screen.getByText("Xác nhận xóa"));
+  await waitFor(() => expect(m.read().people).toHaveLength(0));
+  expect(screen.getByText(/Chưa có ai/)).toBeTruthy();
+});
 test("New York DST overlap requires explicit occurrence and resolves the chosen UTC", async () => {
   const m = memory(),
     screen = render(

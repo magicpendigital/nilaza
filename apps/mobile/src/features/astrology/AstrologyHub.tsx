@@ -15,11 +15,12 @@ export type AstrologyHubProps = {
   onCreateChart: () => void;
   today?: MoonToday | null;
   mythology: { completed: number; total: number; onOpen: () => void };
+  compare: { count: number; onOpen: () => void };
   saved: { count: number; open: boolean; onToggle: () => void };
   disabled?: boolean;
 };
 
-export function AstrologyHub({ language, now, dateLabel, myChart, onCreateChart, today, mythology, saved, disabled }: AstrologyHubProps) {
+export function AstrologyHub({ language, now, dateLabel, myChart, onCreateChart, today, mythology, compare, saved, disabled }: AstrologyHubProps) {
   const vi = language === "vi";
   const event = nextMoonEvent(now);
   const phase = moonPhaseLabel(moonPhaseFor(now).id, language);
@@ -104,6 +105,14 @@ export function AstrologyHub({ language, now, dateLabel, myChart, onCreateChart,
           <Text style={s.tileMeta}>{phase.name} · {moonLine}</Text>
         </View>
       </View>
+      <Pressable accessibilityRole="button" onPress={compare.onOpen} style={s.savedRow}>
+        <Ionicons name="people-outline" size={20} color={colors.gold} />
+        <View style={s.flex}>
+          <Text style={s.tileTitle}>{vi ? "So với một người" : "Compare with someone"}</Text>
+          <Text style={s.tileMeta}>{compare.count ? (vi ? `${compare.count} người đã lưu` : `${compare.count} saved`) : vi ? "Nhịp của hai người gặp nhau ra sao" : "How two rhythms meet"}</Text>
+        </View>
+        <Ionicons name="chevron-forward" size={18} color="#B8B0A4" />
+      </Pressable>
       <Pressable accessibilityRole="button" accessibilityState={{ expanded: saved.open }} onPress={saved.onToggle} style={s.savedRow}>
         <Ionicons name="albums-outline" size={20} color={colors.gold} />
         <View style={s.flex}>

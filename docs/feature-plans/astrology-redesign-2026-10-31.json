@@ -68,7 +68,7 @@
     {
       "path": "DESIGN.md",
       "reason": "Brand shape and type rules for the new screen.",
-      "sha256": "945d50d74cc402a74e709f32a37fe7bffb36cc8eccad14d3e23a0b7238522b90"
+      "sha256": "bea55cef455d6277cff44bda96c73bbfc0741fb33c75698ce45208e286956341"
     },
     {
       "path": "docs/CONTENT_SAFETY_STYLE_GUIDE.md",
@@ -83,7 +83,7 @@
     {
       "path": "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
       "reason": "Hub, form, confirm and report stages being redesigned.",
-      "sha256": "783defefcb9d5cd04d6a37f420280bd21c0df4ec5ed3379c18f01c355db2819e"
+      "sha256": "82d7a14ff579ee956352817f7fd66a4a08540853079e7f8721029ed52d25cae7"
     },
     {
       "path": "apps/mobile/src/features/astrology/AstrologyChartStory.tsx",

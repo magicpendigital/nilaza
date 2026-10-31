@@ -2,6 +2,8 @@ import { AstrologyHub } from "./AstrologyHub";
 import { BirthDateFields, BirthTimeFields } from "./BirthFields";
 import { Big3Summary, BigThreeCards, ChartRowLink, SkyTabs, TopicPanel, chartHeaderLine } from "./ChartOverviewParts";
 import { bigThreeOf, moonHouseToday } from "./sky";
+import { ConsentCard, CompareView, PeopleList, PersonFields } from "./SynastryViews";
+import { compareCharts, synastryText, type RelationshipType } from "./synastry";
 import { big3Story, moonTodayFor, skyTopicIds, topicLabel, topicReading, type SkyTopicId } from "./skyContent";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -57,6 +59,7 @@ import {
   AstrologyData,
   AstrologyPersistence,
   SavedChart,
+  type SavedPerson,
   SavedAstrologyAiInsight,
   astrologyStorageKey,
   freshAstrologyData,
@@ -67,7 +70,7 @@ import {
 } from "./persistence";
 
 type Place = (typeof placeData.places)[number];
-type Stage = "home" | "form" | "confirm" | "report" | "world" | "chart";
+type Stage = "home" | "form" | "confirm" | "report" | "world" | "chart" | "people" | "consent" | "compare";
 const fold = (s: string) =>
   s
     .normalize("NFD")
@@ -202,6 +205,13 @@ export function AstrologyExperience({
   } | null>(null);
   const [report, setReport] = useState<SavedChart | null>(null);
   const [chartTab, setChartTab] = useState<"overview" | SkyTopicId>("overview");
+  // So với một người: the birth form also adds another person, saved only after the consent card.
+  const [formFor, setFormFor] = useState<"self" | "person">("self");
+  const [personName, setPersonName] = useState("");
+  const [personRelation, setPersonRelation] = useState<RelationshipType>("friend");
+  const [personDraft, setPersonDraft] = useState<SavedPerson | null>(null);
+  const [comparePersonId, setComparePersonId] = useState<string | null>(null);
+  const [confirmDeletePerson, setConfirmDeletePerson] = useState(false);
   useEffect(() => setChartTab("overview"), [report?.id]);
   const [aiStatus, setAiStatus] = useState<AstrologyAiGuideStatus>("ready");
   const [aiAnswer, setAiAnswer] = useState<AstrologyAiGuideAnswer | undefined>();
@@ -299,6 +309,43 @@ export function AstrologyExperience({
       if (live.current && account === accountGeneration.current) setBusy(false);
     }
   };
+  const savePerson = async () => {
+    if (!personDraft || writing.current) return;
+    const saved = workingData.current.people ?? [];
+    if (saved.length >= 20) {
+      setError(vi ? "Đã có 20 người. Xóa bớt một người trước khi lưu thêm." : "20 people are saved. Delete one before saving another.");
+      return;
+    }
+    const account = accountGeneration.current;
+    try {
+      await save({
+        ...workingData.current,
+        nextRevision: Math.max(workingData.current.nextRevision, personDraft.input.revision + 1),
+        people: [personDraft, ...saved],
+      });
+      if (!live.current || account !== accountGeneration.current) return;
+      setComparePersonId(personDraft.id);
+      setPersonDraft(null);
+      setConfirmDeletePerson(false);
+      setStage("compare");
+    } catch {
+      if (live.current && account === accountGeneration.current) failSave();
+    }
+  };
+  const deletePerson = async (id: string) => {
+    if (writing.current) return;
+    const account = accountGeneration.current;
+    try {
+      await save({ ...workingData.current, people: (workingData.current.people ?? []).filter((item) => item.id !== id) });
+      if (!live.current || account !== accountGeneration.current) return;
+      setComparePersonId(null);
+      setConfirmDeletePerson(false);
+      setNotice(vi ? "Đã xóa lá số khỏi thiết bị." : "Chart deleted from this device.");
+      setStage("people");
+    } catch {
+      if (live.current && account === accountGeneration.current) failSave();
+    }
+  };
   const failSave = () =>
     setError(
       vi
@@ -334,6 +381,7 @@ export function AstrologyExperience({
     setError("");
   };
   const newForm = () => {
+    setFormFor("self");
     setNotice("");
     setReport(null);
     setPending(null);
@@ -342,8 +390,26 @@ export function AstrologyExperience({
     resetOccurrence();
     setStage("form");
   };
+  const newPersonForm = () => {
+    setFormFor("person");
+    setPersonName("");
+    setPersonRelation("friend");
+    setPersonDraft(null);
+    setNotice("");
+    setDate("");
+    setTime("");
+    setPrecision("exact");
+    setMinutes("30");
+    setPlace(null);
+    setQuery("");
+    setConfirmed(false);
+    setPending(null);
+    resetOccurrence();
+    setStage("form");
+  };
   // Reopen the form from a chart; askTime switches to an exact time for the birth-time invites.
   const editBirthDetails = (r: SavedChart, askTime = false) => {
+    setFormFor("self");
     setNotice("");
     setDate(r.input.date);
     setTime(r.input.time ?? "");
@@ -359,6 +425,10 @@ export function AstrologyExperience({
   const reviewInput = () => {
     setError("");
     setNotice("");
+    if (formFor === "person" && !personName.trim()) {
+      setError(vi ? "Nhập tên hoặc biệt danh của người ấy." : "Enter their name or nickname.");
+      return;
+    }
     if (!place || !confirmed) {
       setError(
         vi
@@ -435,6 +505,19 @@ export function AstrologyExperience({
       if (validateChart(chart).length)
         throw new Error("calculation_contract_failed");
       if (!live.current || operation !== generation.current) return;
+      if (formFor === "person") {
+        setPersonDraft({
+          id: `person-${pending.input.revision}-${Date.now()}`,
+          createdAt: new Date().toISOString(),
+          name: personName.trim(),
+          relationship: personRelation,
+          input: pending.input,
+          placeName: pending.placeName,
+          chart,
+        });
+        setStage("consent");
+        return;
+      }
       const nextReport: SavedChart = {
         id: `chart-${pending.input.revision}-${Date.now()}`,
         createdAt: new Date().toISOString(),
@@ -588,6 +671,11 @@ export function AstrologyExperience({
   const myChart = myChartReport && myChartBig3 ? { report: myChartReport, big3: myChartBig3 } : null;
   // Today's Moon needs the houses, so only an exact birth time shows the block.
   const myMoonHouse = myChart?.big3.timeKnown ? moonHouseToday(myChart.report.chart, now) : null;
+  const people = data.people ?? [];
+  const comparePerson = people.find((item) => item.id === comparePersonId) ?? null;
+  const comparison = comparePerson && myChartReport
+    ? synastryText(compareCharts(myChartReport.chart, comparePerson.chart, comparePerson.relationship), comparePerson.name, language)
+    : null;
   const saveReport = async (includeAnswer = false) => {
     if (!report || writing.current) return;
     const existing = workingData.current.reports.find(r => r.id === report.id);
@@ -653,7 +741,11 @@ export function AstrologyExperience({
     if (stage === "home") onBack();
     else if (stage === "chart") setStage(report ? "report" : "home");
     else if (stage === "confirm") setStage("form");
-    else setStage("home");
+    else if (stage === "compare" || stage === "consent" || (stage === "form" && formFor === "person")) {
+      setPersonDraft(null);
+      setConfirmDeletePerson(false);
+      setStage("people");
+    } else setStage("home");
   };
   useEffect(() => {
     if (stage === "world" || stage === "chart") return;
@@ -754,6 +846,7 @@ export function AstrologyExperience({
                   onCreateChart={newForm}
                   today={myMoonHouse ? moonTodayFor(myMoonHouse.house, language) : null}
                   mythology={{ completed: data.library.completed.length, total: 12, onOpen: () => setStage("world") }}
+                  compare={{ count: people.length, onOpen: () => setStage("people") }}
                   saved={{ count: data.reports.length, open: showSaved, onToggle: () => setShowSaved((open) => !open) }}
                   disabled={!loaded || busy}
                 />
@@ -902,17 +995,65 @@ export function AstrologyExperience({
                 ) : null}
               </>
             )}
+            {stage === "people" && (
+              <PeopleList
+                language={language}
+                people={people}
+                hasOwnChart={!!myChartReport}
+                onAdd={newPersonForm}
+                onOpen={(person) => {
+                  setComparePersonId(person.id);
+                  setConfirmDeletePerson(false);
+                  setStage("compare");
+                }}
+                onCreateOwn={newForm}
+                disabled={!loaded || busy}
+              />
+            )}
+            {stage === "consent" && personDraft && (
+              <ConsentCard
+                language={language}
+                busy={busy}
+                onConfirm={() => void savePerson()}
+                onCancel={() => {
+                  setPersonDraft(null);
+                  setStage("people");
+                }}
+              />
+            )}
+            {stage === "compare" && comparePerson && comparison && (
+              <CompareView
+                language={language}
+                person={comparePerson}
+                text={comparison}
+                confirmDelete={confirmDeletePerson}
+                busy={busy}
+                onDelete={() => (confirmDeletePerson ? void deletePerson(comparePerson.id) : setConfirmDeletePerson(true))}
+                onCancelDelete={() => setConfirmDeletePerson(false)}
+              />
+            )}
             {stage === "form" && (
               <>
-                <Text style={s.kicker}>{vi ? "TẠO LÁ SỐ" : "CREATE A CHART"}</Text>
+                <Text style={s.kicker}>{formFor === "person" ? (vi ? "SO LÁ SỐ" : "COMPARE CHARTS") : vi ? "TẠO LÁ SỐ" : "CREATE A CHART"}</Text>
                 <Text style={s.title}>
-                  {vi ? "Bầu trời lúc bạn chào đời" : "The sky when you were born"}
+                  {formFor === "person"
+                    ? vi ? "Lá số của người ấy" : "Their chart"
+                    : vi ? "Bầu trời lúc bạn chào đời" : "The sky when you were born"}
                 </Text>
                 <Text style={s.body}>
                   {vi
                     ? "Ba thông tin là đủ. Giờ sinh không chắc cũng không sao."
                     : "Three details are enough. It's fine if you're unsure of the time."}
                 </Text>
+                {formFor === "person" ? (
+                  <PersonFields
+                    language={language}
+                    name={personName}
+                    onName={setPersonName}
+                    relationship={personRelation}
+                    onRelationship={setPersonRelation}
+                  />
+                ) : null}
                 <BirthDateFields
                   language={language}
                   value={date}
@@ -1084,12 +1225,16 @@ export function AstrologyExperience({
                   </View>
                 ) : null}
                 <Text style={s.note}>
-                  {vi
-                    ? "Tính ngay trên máy, không trừ lượt. Lưu lại hay không là do bạn chọn sau khi xem."
-                    : "Calculated on this device, no allowance used. You choose whether to save it after you see it."}
+                  {formFor === "person"
+                    ? vi
+                      ? "Tính ngay trên máy, không trừ lượt. Nilaza hỏi bạn trước khi lưu, và không gửi lá số của người ấy cho AI."
+                      : "Calculated on this device, no allowance used. Nilaza asks before saving and never sends their chart to AI."
+                    : vi
+                      ? "Tính ngay trên máy, không trừ lượt. Lưu lại hay không là do bạn chọn sau khi xem."
+                      : "Calculated on this device, no allowance used. You choose whether to save it after you see it."}
                 </Text>
                 <Action
-                  label={vi ? "Xem bầu trời của mình" : "See my sky"}
+                  label={formFor === "person" ? (vi ? "Tiếp tục" : "Continue") : vi ? "Xem bầu trời của mình" : "See my sky"}
                   onPress={reviewInput}
                   disabled={busy || !loaded}
                 />

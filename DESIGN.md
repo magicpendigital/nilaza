@@ -321,6 +321,7 @@ Layout (AstroHub and AstroChart design canvas; content Owner-approved 2026-10-31
 - Without an exact birth time: hide the Rising line and the Today block, read only points whose sign is certain, and show "Bổ sung giờ sinh", which reopens the form on the exact-time mode.
 - Point names are written Thiên đỉnh and Cung mọc everywhere.
 - Save report button, and the AI deep-read block once its server change is deployed.
+- So với một người (Owner-approved 2026-10-31): a hub row opens a list of saved people sorted by relationship. Adding someone reuses the birth form with a name or nickname and relationship chips, then shows the consent card ("Trước khi lưu bản đồ của người khác" / "Mình hiểu, lưu bản đồ") before anything is saved, only on the device. The comparison shows the intro, Sun and Moon element pairs (one card when both share a pair), up to five closest cross-aspects with Thử cùng nhau, keeping both a flowing and a tension aspect when present, then the footer and a delete action. No score, no summary line, no AI entry; Moon aspects are hidden and the Moon element carries a note when a birth time is not exact; Venus–Mars is hidden for Người nhà and Đồng nghiệp, đối tác.
 
 ### 16. Face Reading Consent
 

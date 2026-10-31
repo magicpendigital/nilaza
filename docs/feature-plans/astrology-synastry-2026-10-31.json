@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "taskId": "astrology-synastry-2026-10-31",
+  "ownerAgent": "mobile_astrology_design_agent",
+  "lane": "mobile_astrology_redesign",
+  "goal": "Build So với một người (full synastry): save another person on the device with a name or nickname, relationship type and birth details after the approved consent; compare the user chart with theirs through Sun and Moon element pairs and up to five cross-aspects using the Owner-approved synastry content. Nothing about the other person is sent to AI.",
+  "successCriteria": [
+    "packages/content/data/astrology-synastry.json holds the approved text and validate:data checks its coverage.",
+    "The hub has a So với một người row; without a saved own chart it asks the user to create one first.",
+    "Adding a person reuses the birth form with name and relationship, shows the consent card before saving, and stores the person only in the device astrology data; people can be deleted and are cleared with birth data.",
+    "The comparison shows the intro, Sun and Moon element pairs, up to five closest cross-aspects keeping both a flowing and a tension aspect when present, the footer, no score or summary line; Moon aspects are hidden and the Moon element carries a note when either birth time is not exact; Venus and Mars pairs are hidden for family and work.",
+    "No AI entry point or chat handoff includes another person chart.",
+    "Mobile check, Jest suite and validate:data pass, and a 390x844 web walkthrough covers add, consent, compare and delete."
+  ],
+  "writeScope": [
+    "apps/mobile/src/features/astrology/",
+    "apps/mobile/App.tsx",
+    "packages/content/data/astrology-synastry.json",
+    "scripts/validate-data.mjs",
+    "docs/content-review/",
+    "DESIGN.md",
+    "apps/admin/workflow-catalog.js"
+  ],
+  "untouchedSurfaces": [
+    "Edge Functions, prompts, AI context builders, entitlements and database.",
+    "Account deletion and server sync: other people stay inside the existing device astrology record.",
+    "Tarot, Home, Journal and Chat screens."
+  ],
+  "impact": {
+    "entryPoint": "Khám phá > Chiêm tinh > So với một người.",
+    "dataWrite": "Adds an optional people list to the existing device record nilaza.astrology.v2; older data stays valid.",
+    "backendContract": "No change; the AI block calls the existing ai-astrology-insight contract only after the server change is deployed.",
+    "canonicalContract": "DESIGN.md astrology screens follow the design canvas.",
+    "adminVisibility": "No Admin change; only the workflow catalog digest of App.tsx is refreshed.",
+    "privacySafety": "Another person birth data stays on the device; consent is shown before saving; clearing birth data also clears saved people; no AI or network use.",
+    "observability": "No analytics change.",
+    "rollback": "Revert the commits.",
+    "surfacesIntentionallyUntouched": "Backend, spreads data, share and journal formats.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs the validation commands, commits locally and does not merge, deploy or run SQL."
+  },
+  "canonicalContracts": [
+    "Owner approved astrology-synastry-draft.md as proposed on 2026-10-31: no summary line, one content set for every relationship type (labels and sorting only), keep Người mình đang thích, Moon aspects hidden with a Moon element note when a birth time is unknown, at most five aspects closest first with flowing and tension both kept, and other people charts are never sent to AI so the consent text stays as written.",
+    "Design canvas AstroHub and AstroChart artboards."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Tarot and mobile UI routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "DESIGN.md",
+      "reason": "Brand shape and type rules for the new screen.",
+      "sha256": "bea55cef455d6277cff44bda96c73bbfc0741fb33c75698ce45208e286956341"
+    },
+    {
+      "path": "docs/CONTENT_SAFETY_STYLE_GUIDE.md",
+      "reason": "Card names and safety framing for the guide copy.",
+      "sha256": "33ec073a7fe94045ee7aeb40bad2ca90b6ab6b0010569131c730380dfb23ceec"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Card meaning stage and its top bar.",
+      "sha256": "7bf2d6d0f2545af373c3505f3a7b11b852e48c3872d7b7ef13f9b87a5d261892"
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+      "reason": "Hub, form, confirm and report stages being redesigned.",
+      "sha256": "82d7a14ff579ee956352817f7fd66a4a08540853079e7f8721029ed52d25cae7"
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/AstrologyChartStory.tsx",
+      "reason": "Exact-time chart screen being redesigned.",
+      "sha256": "d88318241913c2ea25103a37b1da3be01958536c1f36f09dbb2faa39ed17d8e5"
+    },
+    {
+      "path": "docs/content-review/astrology-synastry-draft.md",
+      "reason": "Approved synastry copy and decisions.",
+      "sha256": "328effc2256b5d7f4389698bc3e9aecda9b393322566ffd36a346c0a1959b8a3"
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/persistence.ts",
+      "reason": "Device astrology record and its validator.",
+      "sha256": "e10206df73b16a8540d40f050eea8b013225fc8986b14de5931a4a2fce7fc0d8"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "The flow follows DESIGN.md shapes (8px cards, pill controls, 48px targets); the skill text stays accurate."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing React Native and Ionicons APIs."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization change.",
+    "sensitiveData": "Another person birth date, time and place, stored only in the device astrology record after consent.",
+    "secretsLogging": "No credentials or logs.",
+    "externalInput": "Person name is plain text rendered in the app only, limited to 40 characters.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration, deploy or release.",
+    "stopCondition": "Stop if any path would send another person chart to AI or the network, or if checks fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "DESIGN.md",
+      "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+      "apps/mobile/src/features/astrology/AstrologyHub.tsx",
+      "apps/mobile/src/features/astrology/SynastryViews.tsx",
+      "apps/mobile/src/features/astrology/__tests__/AstrologyExperience.test.tsx",
+      "apps/mobile/src/features/astrology/__tests__/persistence.test.ts",
+      "apps/mobile/src/features/astrology/__tests__/synastry.test.ts",
+      "apps/mobile/src/features/astrology/persistence.ts",
+      "apps/mobile/src/features/astrology/synastry.ts",
+      "docs/feature-plans/astrology-synastry-2026-10-31.json",
+      "packages/content/data/astrology-synastry.json",
+      "scripts/validate-data.mjs"
+    ],
+    "note": "Worktree branch feat/astrology-slice-2026-10-31 stacked on PR #10."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/astrology-synastry-2026-10-31.json",
+    "npm run validate:data",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand",
+    "Web walkthrough at 390x844: add person, consent, compare, delete."
+  ],
+  "managerTestPath": "Chiêm tinh > So với một người > Thêm người: enter a name, choose Bạn bè, fill the birth details, accept the consent, read the comparison, then delete the person.",
+  "residualRisk": "Unknown or approximate birth times use the midpoint of the sampled day for planets other than the Moon, which can shift an aspect near its orb limit.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

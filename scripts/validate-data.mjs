@@ -399,7 +399,21 @@ for (const [topicId, topic] of Object.entries(skyTopics.topics)) {
     }
   }
 }
-for (const [label, text] of [["astrology-big3", JSON.stringify(skyBig3)], ["astrology-moon-houses", JSON.stringify(skyMoonHouses)], ["astrology-topic-placements", JSON.stringify(skyTopics)]]) {
+// Owner-approved synastry content (2026-10-31): 10 element pairs and 7 aspect groups with conjunction, flowing and tension text.
+const skySynastry = readJson("packages/content/data/astrology-synastry.json");
+for (const key of ["intro", "footer"]) assertViText(skySynastry[key], `astrology-synastry.${key}`);
+for (const key of ["title", "body", "confirm"]) assertViText(skySynastry.consent?.[key], `astrology-synastry.consent.${key}`);
+for (const key of ["partner", "crush", "friend", "family", "work", "other"]) assertViText(skySynastry.relationshipTypes?.[key], `astrology-synastry.relationshipTypes.${key}`);
+const synastryElements = ["fire", "earth", "air", "water"];
+synastryElements.forEach((first, index) => synastryElements.slice(index).forEach((second) => {
+  for (const field of ["title", "body"]) assertViText(skySynastry.elementPairs?.[`${first}-${second}`]?.[field], `astrology-synastry.elementPairs.${first}-${second}.${field}`);
+}));
+assert(Object.keys(skySynastry.elementPairs).length === 10, "astrology-synastry.json must have exactly 10 element pairs");
+for (const group of ["sun-moon", "moon-moon", "venus-mars", "venus-venus", "sun-sun", "mercury-mercury", "saturn-personal"]) {
+  for (const kind of ["conjunction", "flowing", "tension"]) for (const field of ["title", "body", "try"]) assertViText(skySynastry.aspects?.[group]?.[kind]?.[field], `astrology-synastry.aspects.${group}.${kind}.${field}`);
+}
+assert(!/định mệnh|tri kỷ|soulmate/i.test(JSON.stringify(skySynastry)), "astrology-synastry.json must not promise destiny or soulmates");
+for (const [label, text] of [["astrology-big3", JSON.stringify(skyBig3)], ["astrology-moon-houses", JSON.stringify(skyMoonHouses)], ["astrology-topic-placements", JSON.stringify(skyTopics)], ["astrology-synastry", JSON.stringify(skySynastry)]]) {
   assert(!/Cung Mọc|Thiên Đỉnh/.test(text), `${label}.json must write Cung mọc and Thiên đỉnh`);
 }
 for (const designSet of tarotCardDesigns) {
