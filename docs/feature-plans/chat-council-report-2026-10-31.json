@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "taskId": "chat-council-report-2026-10-31",
+  "ownerAgent": "ai_safety_agent",
+  "lane": "ai_feedback_chat_council",
+  "goal": "The Báo cáo button in guide chat and a new flag on each Council guide turn open the shared feedback panel and send metadata-only feedback to the server (analysis CH-02), queued on the device until the server acknowledges it. A migration lets the existing feedback functions accept persona_chat and ai_council; the Admin feedback inbox lists them.",
+  "successCriteria": [
+    "Báo cáo in guide chat opens the feedback panel with feature persona_chat.",
+    "Each Council guide turn has a flag that opens the panel with feature ai_council.",
+    "The contract, migration and Admin inbox accept persona_chat and ai_council; receipts stay limited to Tarot and Astrology.",
+    "Mobile check, Jest and admin feedback tests pass."
+  ],
+  "writeScope": [
+    "packages/ai-contracts/feedback.ts",
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/feedback/",
+    "apps/mobile/src/features/council/",
+    "supabase/migrations/20261031090000_ai_feedback_conversation_features.sql",
+    "apps/admin/feedback-inbox.js",
+    "apps/admin/workflow-catalog.js"
+  ],
+  "untouchedSurfaces": [
+    "Migration and the ai-feedback deploy wait for Owner approval; nothing is applied in this change.",
+    "No message text, notes or excerpts are sent; only fixed categories and ids."
+  ],
+  "impact": {
+    "entryPoint": "Báo cáo in guide chat and the flag on Council guide turns.",
+    "dataWrite": "Existing nilaza_private.ai_feedback rows, metadata only, 30-day expiry.",
+    "backendContract": "ai-feedback accepts feature persona_chat and ai_council.",
+    "canonicalContract": "Analysis CH-02; Owner decision 2026-10-31: prepare, ask before running.",
+    "adminVisibility": "Admin feedback inbox filters include persona_chat and ai_council.",
+    "privacySafety": "Same metadata-only boundary as Tarot feedback.",
+    "observability": "No analytics or logging change.",
+    "rollback": "Revert the commit on the PR branch.",
+    "surfacesIntentionallyUntouched": "Answer receipts, Tarot and Astrology feedback.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs validation, commits and pushes to the PR branch without merging or deploying."
+  },
+  "canonicalContracts": [
+    "Analysis item CH-02.",
+    "Owner decision 2026-10-31: prepare migration, function and app; run each step only after approval."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Feedback routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "packages/ai-contracts/feedback.ts",
+      "reason": "Feedback contract.",
+      "sha256": "d722d48fc08d5114cab5b46ea33937ea0c2b0088a449e43754f98e9a17e1d073"
+    },
+    {
+      "path": "supabase/migrations/20261014080754_ai_feedback_receipts_v1.sql",
+      "reason": "Original feedback functions.",
+      "sha256": "c8212aa7452d7e759c37f0179af32505410efce845dfad0c7346c58f835eb69c"
+    },
+    {
+      "path": "apps/mobile/src/features/feedback/FeedbackPanel.tsx",
+      "reason": "Shared feedback panel.",
+      "sha256": "4d11596dd6222f6339303d459283aafb0c6b7bfe6702164e702a422cb04e04bd"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing Deno std assert and React Native Linking."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "Functions keep security definer with feedback_user(); grants unchanged by create or replace.",
+    "sensitiveData": "Only fixed categories and opaque ids.",
+    "secretsLogging": "No credentials, tokens or logs are added.",
+    "externalInput": "Only the current message is matched; no new outbound call.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "Migration applied only after Owner approval; ai-feedback not yet deployed on QA.",
+    "stopCondition": "Stop before applying the migration or deploying without Owner approval.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/feedback-inbox.js",
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/features/council/AiCouncilRoom.tsx",
+      "apps/mobile/src/features/feedback/FeedbackPanel.tsx",
+      "apps/mobile/src/features/feedback/__tests__/FeedbackPanel.test.tsx",
+      "docs/feature-plans/chat-council-report-2026-10-31.json",
+      "packages/ai-contracts/feedback.ts",
+      "supabase/migrations/20261031090000_ai_feedback_conversation_features.sql"
+    ],
+    "note": "Stacked on the guest preview commit."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/chat-council-report-2026-10-31.json",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand",
+    "node --test scripts/admin-feedback.test.mjs"
+  ],
+  "managerTestPath": "After the migration and deploy: report a guide reply and a Council turn, then see both in the Admin feedback inbox.",
+  "residualRisk": "Untested against QA until the migration is applied and ai-feedback is deployed.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

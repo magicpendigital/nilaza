@@ -5634,7 +5634,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
               ? "Bạn đang xem thử giao diện bậc tài khoản. Lượt gửi AI đang tạm dừng trong chế độ này."
               : "You are previewing an account tier. AI requests are paused in this view.")
           }
-        : councilRoomProps}
+        : { ...councilRoomProps, onReportTurn: (turnId: string) => setFeedbackTarget({ feature: "ai_council", localAnswerId: turnId, sectionIds: [], language: language === "vi" ? "vi" : "en" }) }}
       favoritePersonaIds={favoritePersonaIds}
       handoffContext={chatHandoffContext}
       backendOptions={backendOptions}
@@ -5659,14 +5659,16 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       onResumePersonaSession={resumePersonaSession}
       onStartPersonaSession={startPersonaSession}
       onToggleFavoritePersona={toggleFavoritePersona}
-      onReport={(summary, sourceId) =>
+      onReport={(summary, sourceId) => {
         recordSafetyEvent({
           feature: "chat",
           sourceId,
           reason: "user_report",
           summary: summarizeForSafety(`persona=${selectedPersonaId}; answerLength=${summary.length}`)
-        })
-      }
+        }, false);
+        // The report itself goes to the server through the shared feedback panel (analysis CH-02).
+        if (sourceId) setFeedbackTarget({ feature: "persona_chat", localAnswerId: sourceId, sectionIds: [], language: language === "vi" ? "vi" : "en" });
+      }}
       onRetry={retryChat}
       onSave={saveJournal}
       onSend={sendMessage}

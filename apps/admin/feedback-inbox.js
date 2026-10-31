@@ -24,7 +24,7 @@
   function cleanRows(value) {
     if (!Array.isArray(value)) throw Error("invalid_response");
     return value.slice(0, 100).filter(row => uuid(row?.feedbackId) && statuses.includes(row.status) && Number.isInteger(row.revision)
-      && row.revision > 0 && ["tarot_reading", "astrology_insight"].includes(row.submitted?.feature) && Object.hasOwn(categories, row.submitted?.category));
+      && row.revision > 0 && ["tarot_reading", "astrology_insight", "persona_chat", "ai_council"].includes(row.submitted?.feature) && Object.hasOwn(categories, row.submitted?.category));
   }
   function safeMetadata(row) {
     const source = row.serverReceipt?.metadata;
@@ -47,7 +47,7 @@
       <p>Chỉ nhóm vấn đề và mã kỹ thuật được gửi. Không có câu hỏi, bài AI, ghi chú hoặc dữ liệu sinh. / Categories and technical IDs only; no question, answer, notes or birth data.</p>
       <p>Biên nhận server xác nhận metadata bên dưới. Nội dung trace cũ vẫn có nguồn ghi chưa xác minh; không dùng nó để khẳng định model đã chạy. / The receipt verifies its metadata; legacy trace origin remains unverified.</p>
       <div class="param-row"><label for="feedback-status">Trạng thái / Status</label><select class="input" id="feedback-status"><option value="all">All</option>${statuses.map(value => `<option value="${value}" ${active.filter === value ? "selected" : ""}>${value}</option>`).join("")}</select>
-      <label for="feedback-feature">Feature</label><select class="input" id="feedback-feature"><option value="all">All</option>${["tarot_reading", "astrology_insight"].map(value => `<option ${active.feature === value ? "selected" : ""}>${value}</option>`).join("")}</select><button type="button" id="feedback-load" class="button primary" ${busy ? "disabled" : ""}>${busy ? "Đang tải / Loading…" : "Tải phản hồi / Load feedback"}</button></div>
+      <label for="feedback-feature">Feature</label><select class="input" id="feedback-feature"><option value="all">All</option>${["tarot_reading", "astrology_insight", "persona_chat", "ai_council"].map(value => `<option ${active.feature === value ? "selected" : ""}>${value}</option>`).join("")}</select><button type="button" id="feedback-load" class="button primary" ${busy ? "disabled" : ""}>${busy ? "Đang tải / Loading…" : "Tải phản hồi / Load feedback"}</button></div>
       ${rows.length ? rows.map(row => {
         const metadata = safeMetadata(row);
         const submitted = row.submitted;

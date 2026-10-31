@@ -100,6 +100,8 @@ export type AiCouncilRoomProps = {
   thread: AiCouncilTurn[];
   /** Shared safety reply for the last message, shown instead of council turns. */
   safetyNotice?: { text: string; crisis: boolean } | null;
+  /** Opens the shared feedback panel for one guide turn (analysis CH-02). */
+  onReportTurn?: (turnId: string) => void;
 };
 
 export function AiCouncilRoom({
@@ -139,6 +141,7 @@ export function AiCouncilRoom({
   question,
   quickReplies,
   safetyNotice,
+  onReportTurn,
   sessionSummaries,
   setupExpanded,
   template,
@@ -421,10 +424,19 @@ export function AiCouncilRoom({
                   : turn.lens;
               return <ChatMessageBubble
                 key={turn.id}
-                action={turn.persona ? (
-                  <Pressable accessibilityRole="button" onPress={() => onOpenGuideChat(turn)} style={styles.bubbleAction}>
-                    <Ionicons name="chatbubble-outline" size={17} color={colors.gold} />
-                  </Pressable>
+                action={turn.persona || onReportTurn ? (
+                  <View style={styles.turnActions}>
+                    {turn.persona ? (
+                      <Pressable accessibilityRole="button" accessibilityLabel={vi ? "Trò chuyện riêng với người dẫn này" : "Chat with this guide"} onPress={() => onOpenGuideChat(turn)} style={styles.bubbleAction}>
+                        <Ionicons name="chatbubble-outline" size={17} color={colors.gold} />
+                      </Pressable>
+                    ) : null}
+                    {onReportTurn ? (
+                      <Pressable accessibilityRole="button" accessibilityLabel={vi ? "Báo cáo câu trả lời này" : "Report this answer"} onPress={() => onReportTurn(turn.id)} style={styles.bubbleAction}>
+                        <Ionicons name="flag-outline" size={17} color={colors.gold} />
+                      </Pressable>
+                    ) : null}
+                  </View>
                 ) : null}
                 author={localizedText(turn.persona?.name, language, "Guide")}
                 avatar={turn.persona ? getPersonaThumbnail(turn.persona) : undefined}
@@ -866,6 +878,10 @@ const styles = StyleSheet.create({
     color: colors.gold,
     fontSize: 12,
     fontWeight: "800"
+  },
+  turnActions: {
+    flexDirection: "row",
+    gap: 8
   },
   bubbleAction: {
     alignItems: "center",
