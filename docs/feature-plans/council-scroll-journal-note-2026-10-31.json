@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "taskId": "council-scroll-journal-note-2026-10-31",
+  "ownerAgent": "mobile_ux_fixes_agent",
+  "lane": "mobile_ux_wave1",
+  "goal": "Close two open analysis items: the Council room scrolls to the newest turn like persona chat (CH-05), and a Journal entry's private note is saved when the person leaves the detail screen without tapping Lưu ghi chú, by the arrow, Android Back or a tab change (JO-01).",
+  "successCriteria": [
+    "The Council room scrolls to the end when a turn arrives or the council starts thinking.",
+    "Leaving a Journal entry with a changed note saves it; deleting the entry does not save it.",
+    "Mobile check and Jest suite pass."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/council/",
+    "apps/mobile/src/__tests__/",
+    "apps/admin/workflow-catalog.js",
+    "apps/mobile/src/features/journal/"
+  ],
+  "untouchedSurfaces": [
+    "No backend, deploy, SQL or settings change.",
+    "Content data unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Council room and Journal entry detail.",
+    "dataWrite": "Uses the existing Journal update; no new storage.",
+    "backendContract": "No backend contract change.",
+    "canonicalContract": "Analysis items CH-05 and JO-01.",
+    "adminVisibility": "Workflow catalog digest of App.tsx refreshed.",
+    "privacySafety": "The note stays where Journal notes are already stored.",
+    "observability": "No analytics or logging change.",
+    "rollback": "Revert the commit on the PR branch.",
+    "surfacesIntentionallyUntouched": "Tarot, Astrology, persona chat.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs validation, commits and pushes to the PR branch without merging or deploying."
+  },
+  "canonicalContracts": [
+    "Analysis artifact items CH-05 (Council auto-scroll) and JO-01 (do not lose an unsaved note)."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile UI routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Journal entry detail and its note editor.",
+      "sha256": "3cb9839139d562c0fc5aa7a05e689a991a1f9c0c20821cf27740c08069bb9646"
+    },
+    {
+      "path": "apps/mobile/src/features/council/AiCouncilRoom.tsx",
+      "reason": "Council thread scroll view.",
+      "sha256": "44d925e4293e2d3d155b95febc65eaf9f8acb0d7fb659e8be52bad8825a03678"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing React Native ScrollView APIs."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change in this task.",
+    "sensitiveData": "The private note is saved through the existing Journal update path only.",
+    "secretsLogging": "No credentials, tokens or logs are added.",
+    "externalInput": "No new user input is sent anywhere.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration, deploy or release.",
+    "stopCondition": "Stop if a change needs new content, a deploy or settings without approval, or if checks fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/features/council/AiCouncilRoom.tsx",
+      "apps/mobile/src/features/journal/__tests__/useSaveNoteOnLeave.test.ts",
+      "apps/mobile/src/features/journal/useSaveNoteOnLeave.ts",
+      "docs/feature-plans/council-scroll-journal-note-2026-10-31.json"
+    ],
+    "note": "Branch from main@0d584b2."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/council-scroll-journal-note-2026-10-31.json",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand"
+  ],
+  "managerTestPath": "Open a Journal entry, type a note, tap back without saving, open it again and see the note. Start a Council and see it scroll to the newest turn.",
+  "residualRisk": "Android Back and scrolling are verified by tests and the web build only, not on a device.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

@@ -211,6 +211,7 @@ import { useDailyInsight } from "./src/features/home/useDailyInsight";
 import { createAccountStorage } from "./src/auth/accountStorage";
 import { createJournalRepository, createJournalSaveCoordinator, journalStateKey } from "./src/features/journal/journalRepository";
 import { JournalComposer } from "./src/features/journal/JournalComposer";
+import { useSaveNoteOnLeave } from "./src/features/journal/useSaveNoteOnLeave";
 import { createJournalDraftStore, journalDraftStorageKey, type JournalDraftStore } from "./src/features/journal/journalDraftStore";
 import { buildLocalExport } from "./src/features/privacy/localExport";
 import { cleanupExportFiles, deliverExport } from "./src/features/privacy/deliverExport";
@@ -8173,6 +8174,11 @@ function JournalScreen({
     return () => onComposingChange?.(false);
   }, [composing, onComposingChange]);
   const selectedEntry = entries.find((entry) => entry.id === selectedEntryId) ?? null;
+  // A changed note is saved when the person leaves the entry by the arrow, Android Back or a tab change.
+  const pendingNote = useSaveNoteOnLeave(
+    selectedEntry && draftNote.trim() !== journalDraftNoteFor(selectedEntry).trim() ? { id: selectedEntry.id, note: draftNote.trim() } : null,
+    (id, note) => onUpdate(id, { userNote: note })
+  );
   if (composing) return <JournalComposer language={language} draftStore={draftStore} prompt={prompt} onSave={onCreateNote}
     onClose={() => setComposing(false)} />;
 
@@ -8181,11 +8187,15 @@ function JournalScreen({
     return (
       <View>
         <View style={styles.subTopBarInline}>
-          <IconButton name="arrow-back-outline" onPress={() => setSelectedEntryId(null)} />
+          <IconButton name="arrow-back-outline" onPress={() => {
+            pendingNote.flush();
+            setSelectedEntryId(null);
+          }} />
           <Text style={styles.subTopTitle}>{language === "vi" ? "Nhật ký" : "Journal"}</Text>
           <IconButton
             name="trash-outline"
             onPress={() => {
+              pendingNote.drop();
               onDelete(selectedEntry.id);
               setSelectedEntryId(null);
             }}

@@ -1,4 +1,5 @@
 ﻿import Ionicons from "@expo/vector-icons/Ionicons";
+import { useEffect, useRef } from "react";
 import { Image, ImageSourcePropType, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import personaShortNamesData from "../../../../../packages/content/data/persona-short-names.json";
 
@@ -140,6 +141,13 @@ export function AiCouncilRoom({
   thread
 }: AiCouncilRoomProps) {
   const vi = language === "vi";
+  // Keep the newest turn in view as the council answers, like persona chat.
+  const scrollRef = useRef<ScrollView | null>(null);
+  useEffect(() => {
+    if (thread.length === 0 && !generating) return;
+    const timer = setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 50);
+    return () => clearTimeout(timer);
+  }, [thread.length, generating]);
   const selectedPersonaIds = new Set(personas.map((persona) => persona.id));
   const councilTitle = customCouncilName.trim() || (vi ? "Hội đồng 3 góc nhìn" : "Three-view council");
   const guideCountWord = vi ? ["Hai", "Ba", "Bốn"][personas.length - 2] ?? String(personas.length) : String(personas.length);
@@ -361,6 +369,7 @@ export function AiCouncilRoom({
       ) : null}
 
       <ScrollView
+        ref={scrollRef}
         contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
