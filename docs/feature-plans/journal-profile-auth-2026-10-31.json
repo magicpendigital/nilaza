@@ -85,7 +85,7 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Card meaning stage and its top bar.",
-      "sha256": "933da22d020f19c7c2a24825cf77ff978a680cf8f4fe9e3f12f3641c5c09ecff"
+      "sha256": "1ac090c2c24de2213743d9c3934c43f4748945611225b150185fbf2b5c2c3617"
     },
     {
       "path": "apps/mobile/src/auth/AuthFlow.tsx",
@@ -134,12 +134,11 @@
     "paths": [
       "apps/admin/workflow-catalog.js",
       "apps/mobile/App.tsx",
-      "apps/mobile/src/features/journal/JournalHome.tsx",
-      "apps/mobile/src/features/journal/__tests__/JournalHome.test.tsx",
-      "docs/content-review/journal-prompts-draft.md",
-      "docs/feature-plans/journal-profile-auth-2026-10-31.json",
-      "packages/content/data/journal-prompts.json",
-      "scripts/validate-data.mjs"
+      "apps/mobile/src/features/profile/DeleteAccountPanel.tsx",
+      "apps/mobile/src/features/profile/ProfileHome.tsx",
+      "apps/mobile/src/features/profile/__tests__/ProfileHome.test.tsx",
+      "apps/mobile/src/features/profile/dailyReminder.ts",
+      "docs/feature-plans/journal-profile-auth-2026-10-31.json"
     ],
     "note": "Worktree branch stacked on PR #10."
   },

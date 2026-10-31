@@ -364,6 +364,7 @@ function generationOptions(options: BackendOptions, patienceMs: number): Backend
 }
 
 const supabaseFunctionPathMap: Record<string, string> = {
+  "/account/delete": "/account-delete",
   "/ai/feedback": "/ai-feedback",
   "/ai/oracle-turn": "/ai-oracle-turn",
   "/ai/persona-chat": "/ai-persona-chat",
@@ -460,6 +461,26 @@ async function postJson<TInput, TResult>(path: string, input: TInput, options: B
   } finally {
     options.session?.controller.signal.removeEventListener("abort", cancel);
     clearTimeout(timeout);
+  }
+}
+
+/** Deletes the signed-in account through account-delete (nilaza.account-delete.v1). Returns an error code or null. */
+export async function requestAccountDeletion(backendOptions: BackendOptions): Promise<string | null> {
+  const options = currentOptions(backendOptions);
+  if (!options.baseUrl || !options.authToken || options.session?.active === false) return "authentication_required";
+  try {
+    const headers: Record<string, string> = { "Content-Type": "application/json", Authorization: `Bearer ${options.authToken}` };
+    if (options.apiKey) headers.apikey = options.apiKey;
+    const response = await fetch(resolveBackendPath(options.baseUrl, "/account/delete"), {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ confirm: "delete-my-account" })
+    });
+    const body = (await response.json().catch(() => ({}))) as { status?: unknown; error?: unknown };
+    if (response.ok && body.status === "completed") return null;
+    return typeof body.error === "string" ? body.error : "deletion_unavailable";
+  } catch {
+    return "deletion_unavailable";
   }
 }
 

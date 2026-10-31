@@ -67,6 +67,7 @@ import {
   deleteAstrologyAiReports,
   generateAstrologyReport,
   generateDailyInsight,
+  requestAccountDeletion,
   generateDailyZodiacPulse,
   generatePersonaReply,
   generateTarotReading,
@@ -115,7 +116,7 @@ import {
   FadeInView
 } from "./src/a2ui";
 import { formatLocalDate, formatLocalDateTime, localizedList, localizedText, normalizeLanguage, relativeDayLabel } from "./src/i18n";
-import { isSupabaseAuthConfigured, nilazaAdminUrl, nilazaBackendBaseUrl, nilazaHelpUrlFor, onlineModeRequired, onlineRuntimeReady, responsiveShellEnabled, supabaseAnonKey, supabaseUrl } from "./src/runtimeConfig";
+import { isSupabaseAuthConfigured, nilazaAdminUrl, nilazaBackendBaseUrl, nilazaHelpUrlFor, nilazaLegalUrlFor, onlineModeRequired, onlineRuntimeReady, responsiveShellEnabled, supabaseAnonKey, supabaseUrl } from "./src/runtimeConfig";
 import { useAdaptiveLayout } from "./src/responsive";
 import { AdaptiveScaffold, ResponsiveGrid, OverflowChipRail } from "./src/a2ui/layout";
 import { AdaptiveNavigation, type NavigationChrome } from "./src/a2ui/AdaptiveNavigation";
@@ -140,6 +141,13 @@ import { AiCouncilRoom, type AiCouncilRoomProps, type AiCouncilSessionSummary, u
 import { OracleRoom } from "./src/features/oracle";
 import { ChatHub } from "./src/features/chat/ChatHub";
 import { JournalHome } from "./src/features/journal/JournalHome";
+import { ProfileHome } from "./src/features/profile/ProfileHome";
+import { DeleteAccountPanel } from "./src/features/profile/DeleteAccountPanel";
+
+// Flip after the Owner approves deploying account-delete and its SQL (Google Play account deletion).
+const accountDeleteLive = false;
+import { applyDailyReminder, dailyReminderKey, defaultDailyReminder, normalizeDailyReminder, type DailyReminder } from "./src/features/profile/dailyReminder";
+import appConfig from "./app.json";
 import { normalizeOracleText, oracleIntent, oracleSafetyReply, oracleSafetySignal } from "../../packages/ai-contracts/oracle-safety.mjs";
 import { PersonaChatRoom } from "./src/features/persona";
 import { createEmailAuthState, displayNameFromEmail } from "./src/auth/localAuth";
@@ -788,13 +796,13 @@ const defaultBirthProfile: BirthProfileDraft = {
 };
 
 const notificationTypes: Array<{ id: NotificationType; vi: string; en: string; channelDefault: "in_app" | "push" }> = [
-  { id: "daily_insight_ready", vi: "Thong diep moi ngay", en: "Daily insight ready", channelDefault: "push" },
-  { id: "tarot_reading_ready", vi: "Ket qua Tarot san sang", en: "Tarot reading ready", channelDefault: "push" },
-  { id: "astrology_report_ready", vi: "Bao cao Astrology san sang", en: "Astrology report ready", channelDefault: "push" },
-  { id: "journal_reflection_reminder", vi: "Nhac viet Journal", en: "Journal reflection reminder", channelDefault: "push" },
-  { id: "account_security", vi: "Tai khoan va bao mat", en: "Account and security", channelDefault: "in_app" },
-  { id: "payment_subscription", vi: "Thanh toan va goi Premium", en: "Payment and subscription", channelDefault: "in_app" },
-  { id: "admin_test", vi: "Thong bao thu", en: "Test notification", channelDefault: "in_app" }
+  { id: "daily_insight_ready", vi: "Thông điệp mỗi ngày", en: "Daily insight ready", channelDefault: "push" },
+  { id: "tarot_reading_ready", vi: "Kết quả trải bài đã sẵn sàng", en: "Tarot reading ready", channelDefault: "push" },
+  { id: "astrology_report_ready", vi: "Lá số chiêm tinh đã sẵn sàng", en: "Astrology report ready", channelDefault: "push" },
+  { id: "journal_reflection_reminder", vi: "Nhắc viết Nhật ký", en: "Journal reflection reminder", channelDefault: "push" },
+  { id: "account_security", vi: "Tài khoản và bảo mật", en: "Account and security", channelDefault: "in_app" },
+  { id: "payment_subscription", vi: "Thanh toán và gói Premium", en: "Payment and subscription", channelDefault: "in_app" },
+  { id: "admin_test", vi: "Thông báo thử", en: "Test notification", channelDefault: "in_app" }
 ];
 
 function defaultNotificationPreferences(now = new Date().toISOString()): NotificationPreference[] {
@@ -3083,6 +3091,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const [screen, setScreen] = useState<Screen>("home");
   const [loaded, setLoaded] = useState(false);
   const [localHydrated, setLocalHydrated] = useState(false);
+  const [dailyReminder, setDailyReminder] = useState<DailyReminder>(defaultDailyReminder);
   const [contentBundleVersion, setContentBundleVersion] = useState<number | null>(null);
   const onboardingSaving = useRef(false);
   const [currentTime, setCurrentTime] = useState(() => new Date());
@@ -3615,6 +3624,30 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   useEffect(() => {
     if (loaded) void saveJson("nilaza.oracleTurns", oracleTurns);
   }, [loaded, oracleTurns]);
+
+  useEffect(() => {
+    if (!localHydrated) return;
+    let active = true;
+    void loadJson<unknown>(dailyReminderKey, defaultDailyReminder).then((value) => {
+      if (active) setDailyReminder(normalizeDailyReminder(value));
+    }).catch(() => undefined);
+    return () => { active = false; };
+  }, [localHydrated]);
+  const changeDailyReminder = async (next: DailyReminder) => {
+    setDailyReminder(next);
+    void saveJson(dailyReminderKey, next);
+    const result = await applyDailyReminder(next, language);
+    if (result === "denied") {
+      const off = { ...next, enabled: false };
+      setDailyReminder(off);
+      void saveJson(dailyReminderKey, off);
+      showToast(language === "vi" ? "Hãy cho phép Nilaza gửi thông báo trong cài đặt điện thoại." : "Allow Nilaza notifications in your phone settings.");
+    } else if (result === "unsupported" && next.enabled) {
+      showToast(language === "vi" ? "Nhắc nhở chỉ chạy trên ứng dụng điện thoại." : "Reminders only work in the phone app.");
+    } else if (result === "scheduled") {
+      showToast(language === "vi" ? "Đã đặt nhắc lá bài hôm nay." : "Today's card reminder is set.");
+    }
+  };
 
   useEffect(() => {
     if (loaded) void saveJson("nilaza.oracleMemoryConsent", oracleMemoryConsent);
@@ -5763,6 +5796,24 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
             {screen === "profile" && !(showAdmin && isAdmin) && (
               <ProfileScreen
                 c={c}
+                signLabel={zodiacPulse.hasBirthDate ? zodiacPulse.sign : undefined}
+                memberSince={authState.status === "signed_in" && authState.user.createdAt
+                  ? new Date(authState.user.createdAt).toLocaleDateString(language === "vi" ? "vi-VN" : "en-GB", { day: "2-digit", month: "2-digit", year: "numeric" })
+                  : undefined}
+                readingsCount={journalEntries.filter((entry) => entry.sourceType === "tarot").length}
+                dailyReminder={dailyReminder}
+                onDailyReminderChange={(next) => { void changeDailyReminder(next); }}
+                onDeleteAccount={async () => {
+                  const failure = await requestAccountDeletion(backendOptions);
+                  if (failure) {
+                    return language === "vi"
+                      ? "Chưa xóa được tài khoản. Hãy thử lại sau hoặc liên hệ hỗ trợ."
+                      : "Your account could not be deleted yet. Try again later or contact support.";
+                  }
+                  await clearAllLocalAccountData();
+                  signOutLocally();
+                  return null;
+                }}
                 birthDate={birthDate}
                 birthPlace={birthPlace}
                 birthTime={birthTime}
@@ -9027,6 +9078,12 @@ function JournalScreen({
 
 function ProfileScreen({
   c,
+  signLabel,
+  memberSince,
+  readingsCount,
+  dailyReminder,
+  onDailyReminderChange,
+  onDeleteAccount,
   birthDate,
   birthPlace,
   birthTime,
@@ -9113,10 +9170,16 @@ function ProfileScreen({
   onSignOut: () => void;
   onToggleNotificationPreference: (channel: NotificationPreference["channel"], type: NotificationType, enabled: boolean) => void;
   onReset: () => void;
+  signLabel?: string;
+  memberSince?: string;
+  readingsCount: number;
+  dailyReminder: DailyReminder;
+  onDailyReminderChange: (next: DailyReminder) => void;
+  onDeleteAccount: () => Promise<string | null>;
 }) {
   const currentTone = tones.find((tone) => tone.id === profile.tone);
   const annualPriceMath = getAnnualPriceHypothesisMath();
-  const [profileSection, setProfileSection] = useState<"overview" | "identity" | "birth" | "preferences" | "privacy" | "notifications" | "premium" | "account">("overview");
+  const [profileSection, setProfileSection] = useState<"overview" | "identity" | "birth" | "preferences" | "privacy" | "notifications" | "premium" | "account" | "deleteAccount">("overview");
   const hasBirthProfile = Boolean(birthDate || birthTime || birthPlace || birthTimeUnknown);
   const birthTimeLabel = birthTimeUnknown || !birthTime ? c.unknownBirthTime : birthTime;
   const selectedGoals = goals.filter((goal) => profile.goals.includes(goal.id));
@@ -9133,8 +9196,8 @@ function ProfileScreen({
           profileReady: "Hồ sơ đã sẵn sàng",
           profileHint: "Tối ưu cách Nilaza xưng hô, gợi ý người dẫn đường, Tarot và Nhật ký.",
           displayName: "Tên hiển thị",
-          displayNameHint: "Tên này dùng trong lời chào, trò chuyện với guide và lời nhắc Nhật ký.",
-          savedLocal: "Tự lưu trên thiết bị và đồng bộ khi backend sẵn sàng.",
+          displayNameHint: "Tên này dùng trong lời chào, khi trò chuyện với người dẫn và trong lời nhắc Nhật ký.",
+          savedLocal: "Tự lưu trên thiết bị và đồng bộ khi có kết nối.",
           birthSection: "Hồ sơ ngày sinh",
           birthBody: "Dùng cho chiêm tinh khi bạn chủ động mở tính năng đó. Có thể để trống hoặc xóa riêng bất cứ lúc nào.",
           notSet: "Chưa nhập",
@@ -9217,61 +9280,44 @@ function ProfileScreen({
     privacy: profileLabels.privacySection,
     notifications: language === "vi" ? "Thông báo" : "Notifications",
     premium: profileLabels.subscription,
-    account: profileLabels.accountSection
+    account: profileLabels.accountSection,
+    deleteAccount: language === "vi" ? "Xóa tài khoản" : "Delete account"
   };
 
   return (
     <View style={styles.profileScreen}>
       {profileSection === "overview" ? (
-        <TopBar title={profileLabels.title} />
+        <ProfileHome
+          language={language}
+          name={profile.nickname}
+          signLabel={signLabel}
+          memberSince={memberSince}
+          stats={{ streak: profile.currentStreak, journal: journalCount, readings: readingsCount }}
+          goals={selectedGoals.map((goal) => localizedText(goal, language)).join(", ") || profileLabels.notSet}
+          tone={currentTone ? localizedText(currentTone, language) : profile.tone}
+          birth={birthDate || profileLabels.notSet}
+          languageLabel={language === "vi" ? "Tiếng Việt" : "English"}
+          reminder={dailyReminder}
+          onReminderChange={onDailyReminderChange}
+          onEdit={() => setProfileSection("identity")}
+          onPreferences={() => setProfileSection("preferences")}
+          onBirth={() => setProfileSection("birth")}
+          onNotifications={() => setProfileSection("notifications")}
+          onPrivacy={() => setProfileSection("privacy")}
+          onUsage={() => setProfileSection("premium")}
+          onAccount={() => setProfileSection("account")}
+          onHelp={() => { void Linking.openURL(nilazaHelpUrlFor(language)).catch(() => undefined); }}
+          onLegal={() => { void Linking.openURL(nilazaLegalUrlFor("terms", language)).catch(() => undefined); }}
+          onSignOut={onSignOut}
+          onAdmin={isAdmin ? onAdmin : undefined}
+          onDeleteAccount={accountDeleteLive ? () => setProfileSection("deleteAccount") : undefined}
+          version={appConfig.expo.version}
+        />
       ) : (
         <SubflowTopBar title={detailTitles[profileSection]} onLeft={() => setProfileSection("overview")} />
       )}
 
-      <View style={[styles.profileHeroCard, profileSection !== "overview" && styles.hidden]}>
-        <View style={styles.profileHeroTop}>
-          <View style={styles.profileAvatar}>
-            <Text style={styles.profileAvatarText}>{profile.nickname.slice(0, 1).toUpperCase()}</Text>
-          </View>
-          <View style={styles.profileHeroCopy}>
-            <Text style={styles.profileTier}>{profileLabels.tier}</Text>
-            <Text style={styles.profileName}>{profile.nickname}</Text>
-            <Text style={styles.profileHeroText}>{profileLabels.profileHint}</Text>
-          </View>
-        </View>
-        <View style={styles.profileQuickStats}>
-          <View style={styles.profileQuickStat}>
-            <Text style={styles.profileQuickValue}>{profile.currentStreak}</Text>
-            <Text style={styles.profileQuickLabel}>{profileLabels.streak}</Text>
-          </View>
-          <View style={styles.profileQuickStat}>
-            <Text style={styles.profileQuickValue}>{selectedGoals.length}</Text>
-            <Text style={styles.profileQuickLabel}>{profileLabels.goals}</Text>
-          </View>
-          <View style={styles.profileQuickStat}>
-            <Text style={styles.profileQuickValue}>{localDataCount}</Text>
-            <Text style={styles.profileQuickLabel}>{profileLabels.data}</Text>
-          </View>
-        </View>
-      </View>
-
-      <View style={[styles.profileSection, profileSection !== "overview" && styles.hidden]}>
-        <View style={styles.profileSectionHeader}>
-          <View style={styles.profileHeaderCopy}>
-            <Text style={styles.profileSectionEyebrow}>{language === "vi" ? "Điều chỉnh theo nhu cầu" : "Tune your space"}</Text>
-            <Text style={styles.profileSectionTitle}>{language === "vi" ? "Chọn một mục để xem chi tiết" : "Choose a section to see details"}</Text>
-          </View>
-        </View>
-        <View style={styles.profileActionGrid}>
-          <ProfileActionButton icon="person-outline" title={language === "vi" ? "Danh tính & ngôn ngữ" : "Identity & language"} detail={profile.nickname} onPress={() => setProfileSection("identity")} />
-          <ProfileActionButton icon="calendar-outline" title={profileLabels.birthSection} detail={hasBirthProfile ? profileLabels.birthSet : c.skipBirth} onPress={() => setProfileSection("birth")} />
-          <ProfileActionButton icon="sparkles-outline" title={profileLabels.preferences} detail={selectedGoals.length ? `${selectedGoals.length} ${language === "vi" ? "ý định" : "intentions"}` : profileLabels.notSet} onPress={() => setProfileSection("preferences")} />
-          <ProfileActionButton icon="notifications-outline" title={language === "vi" ? "Thông báo" : "Notifications"} detail={`${unreadNotificationCount} ${language === "vi" ? "chưa đọc" : "unread"}`} onPress={() => setProfileSection("notifications")} />
-          <ProfileActionButton icon="shield-checkmark-outline" title={profileLabels.privacySection} detail={`${localDataCount} ${language === "vi" ? "mục dữ liệu local" : "local data items"}`} onPress={() => setProfileSection("privacy")} />
-          <ProfileActionButton icon="diamond-outline" title={profileLabels.subscription} detail={`${creditBalance} ${c.credits}`} onPress={() => setProfileSection("premium")} />
-          <ProfileActionButton icon="settings-outline" title={profileLabels.accountSection} detail={profile.nickname} onPress={() => setProfileSection("account")} />
-        </View>
-      </View>
+      {profileSection === "deleteAccount" ? <DeleteAccountPanel language={language} onDelete={onDeleteAccount} /> : null}
 
       <View style={[styles.profileSection, profileSection !== "identity" && styles.hidden]}>
         <View style={styles.profileSectionHeader}>
