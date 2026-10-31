@@ -3,7 +3,7 @@
   "taskId": "ux-wave1-fixes-2026-10-31",
   "ownerAgent": "mobile_ux_fixes_agent",
   "lane": "mobile_ux_wave1",
-  "goal": "Close the remaining wave-1 UX items from the analysis: chat rooms scroll to new messages and label canned replies as fallback, a Journal delete waits five seconds with Hoàn tác, the composer says drafts are kept, and Android Back steps back inside the app instead of leaving it.",
+  "goal": "Close the remaining wave-1 UX items from the analysis: chat rooms scroll to new messages and label canned replies as fallback, a Journal delete waits five seconds with Hoàn tác, the composer says drafts are kept, and Android Back steps back inside the app instead of leaving it. Show the Owner-approved short guide names and taglines in the chat hub, Explore and the Council start screen.",
   "successCriteria": [
     "Persona chat scrolls to the newest message and marks fallback replies.",
     "Journal delete hides the entry and deletes it after five seconds unless Hoàn tác is tapped.",
@@ -17,7 +17,11 @@
     "apps/mobile/src/features/journal/",
     "apps/mobile/src/__tests__/",
     "DESIGN.md",
-    "apps/admin/workflow-catalog.js"
+    "apps/admin/workflow-catalog.js",
+    "packages/content/data/persona-short-names.json",
+    "scripts/validate-data.mjs",
+    "apps/mobile/src/features/chat/",
+    "apps/mobile/src/features/council/"
   ],
   "untouchedSurfaces": [
     "No backend, deploy, SQL or settings change.",
@@ -36,7 +40,8 @@
     "agentHandoff": "The delivery agent owns only the writeScope, runs validation, commits and pushes to the PR branch without merging or deploying."
   },
   "canonicalContracts": [
-    "Analysis artifact wave 1 items: chat auto-scroll and fallback label, Journal ask-before-discard and undo delete, central Android Back."
+    "Analysis artifact wave 1 items: chat auto-scroll and fallback label, Journal ask-before-discard and undo delete, central Android Back.",
+    "Owner approved the 17 short guide names as drafted on 2026-10-31."
   ],
   "allowedDataClasses": [
     "sanitized_project_context",
@@ -62,7 +67,7 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Card meaning stage and its top bar.",
-      "sha256": "f9b8f2d6ea57d932d7de5e24513a5ec8f29da5fe862ab3b6d589a6b960ba5782"
+      "sha256": "bbe71df69113e213edd3b1eedb7b1688ffdf524f9c4382386bed0e331fa99d1b"
     },
     {
       "path": "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
@@ -106,10 +111,10 @@
     "paths": [
       "apps/admin/workflow-catalog.js",
       "apps/mobile/App.tsx",
-      "apps/mobile/src/features/journal/JournalComposer.tsx",
-      "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
-      "apps/mobile/src/features/persona/__tests__/PersonaChatRoom.test.tsx",
-      "docs/feature-plans/ux-wave1-fixes-2026-10-31.json"
+      "apps/mobile/src/features/council/AiCouncilRoom.tsx",
+      "docs/feature-plans/ux-wave1-fixes-2026-10-31.json",
+      "packages/content/data/persona-short-names.json",
+      "scripts/validate-data.mjs"
     ],
     "note": "Worktree branch stacked on PR #10."
   },

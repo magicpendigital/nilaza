@@ -1,0 +1,178 @@
+{
+  "version": "2026-10-31",
+  "status": "approved",
+  "approval": "Owner approved the draft as written in chat on 2026-10-31 (persona-short-names-draft.md).",
+  "scope": "Short display name and one-line tagline for the Trò chuyện hub grid (ChatHub design). The full name, role and description stay on the guide detail screen. Entries marked fromDesign come from the Owner-approved design canvas.",
+  "personas": {
+    "archetype-the-love-oracle": {
+      "short": {
+        "vi": "Chuyện tình cảm",
+        "en": "Love & boundaries"
+      },
+      "tagline": {
+        "vi": "Ranh giới và lòng tự trọng",
+        "en": "Boundaries and self-worth"
+      }
+    },
+    "archetype-inner-child-healer": {
+      "short": {
+        "vi": "Đứa trẻ bên trong",
+        "en": "Inner child"
+      },
+      "tagline": {
+        "vi": "Khi cần được dịu lại",
+        "en": "When you need soothing"
+      }
+    },
+    "archetype-the-mystic": {
+      "short": {
+        "vi": "The Mystic",
+        "en": "The Mystic"
+      },
+      "tagline": {
+        "vi": "Đọc sâu lá bài",
+        "en": "Reading the cards deeply"
+      }
+    },
+    "archetype-the-astrologer": {
+      "short": {
+        "vi": "Nhà chiêm tinh",
+        "en": "The Astrologer"
+      },
+      "tagline": {
+        "vi": "Hỏi về lá số",
+        "en": "Questions about your chart"
+      }
+    },
+    "book-communication-mentor": {
+      "short": {
+        "vi": "Thấu cảm & Kết nối",
+        "en": "Empathy & connection"
+      },
+      "tagline": {
+        "vi": "Nói điều khó nói",
+        "en": "Saying the hard thing"
+      }
+    },
+    "figure-aristotle": {
+      "short": {
+        "vi": "Aristotle",
+        "en": "Aristotle"
+      },
+      "tagline": {
+        "vi": "Lý trí và đức hạnh",
+        "en": "Reason and virtue"
+      }
+    },
+    "figure-confucius": {
+      "short": {
+        "vi": "Khổng Tử",
+        "en": "Confucius"
+      },
+      "tagline": {
+        "vi": "Hòa hợp các mối quan hệ",
+        "en": "Harmony in relationships"
+      }
+    },
+    "figure-laozi": {
+      "short": {
+        "vi": "Lão Tử",
+        "en": "Laozi"
+      },
+      "tagline": {
+        "vi": "Sống giản dị, thuận tự nhiên",
+        "en": "Simple living, with the flow"
+      }
+    },
+    "archetype-the-shadow-mirror": {
+      "short": {
+        "vi": "Tấm gương soi",
+        "en": "The Shadow Mirror"
+      },
+      "tagline": {
+        "vi": "Nhìn phần mình đang né",
+        "en": "Seeing what you avoid"
+      }
+    },
+    "archetype-the-clear-strategist": {
+      "short": {
+        "vi": "Gỡ rối quyết định",
+        "en": "Clear decisions"
+      },
+      "tagline": {
+        "vi": "Chọn bước tiếp theo",
+        "en": "Choosing the next step"
+      }
+    },
+    "archetype-the-star-weaver": {
+      "short": {
+        "vi": "Người dệt ước mơ",
+        "en": "The Star Weaver"
+      },
+      "tagline": {
+        "vi": "Bản sắc và ước mơ",
+        "en": "Identity and dreams"
+      }
+    },
+    "figure-marcus-aurelius": {
+      "short": {
+        "vi": "Marcus Aurelius",
+        "en": "Marcus Aurelius"
+      },
+      "tagline": {
+        "vi": "Bình tâm và kỷ luật",
+        "en": "Calm and self-discipline"
+      }
+    },
+    "figure-sun-tzu": {
+      "short": {
+        "vi": "Tôn Tử",
+        "en": "Sun Tzu"
+      },
+      "tagline": {
+        "vi": "Chiến lược và thời điểm",
+        "en": "Strategy and timing"
+      }
+    },
+    "book-calm-living-mentor": {
+      "short": {
+        "vi": "Bình an",
+        "en": "Calm living"
+      },
+      "tagline": {
+        "vi": "Dịu bớt lo âu",
+        "en": "Easing worry"
+      }
+    },
+    "book-strategic-thinker": {
+      "short": {
+        "vi": "Chiến lược gia",
+        "en": "Strategic thinker"
+      },
+      "tagline": {
+        "vi": "Nhìn rõ thế cục",
+        "en": "Seeing the whole board"
+      }
+    },
+    "book-harmony-guide": {
+      "short": {
+        "vi": "Lối sống tự nhiên",
+        "en": "Natural harmony"
+      },
+      "tagline": {
+        "vi": "Bớt gồng, bớt cưỡng cầu",
+        "en": "Less forcing, more ease"
+      }
+    },
+    "book-stoic-journal": {
+      "short": {
+        "vi": "Nhật ký khắc kỷ",
+        "en": "Stoic journal"
+      },
+      "tagline": {
+        "vi": "Viết để vững lòng",
+        "en": "Writing to steady yourself"
+      }
+    }
+  }
+}

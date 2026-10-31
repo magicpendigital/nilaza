@@ -1,5 +1,6 @@
 ﻿import Ionicons from "@expo/vector-icons/Ionicons";
 import { Image, ImageSourcePropType, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import personaShortNamesData from "../../../../../packages/content/data/persona-short-names.json";
 
 import {
   ChatComposer,
@@ -371,7 +372,7 @@ export function AiCouncilRoom({
               {guideDetails.map(({ persona, role }) => (
                 <View key={`start-${persona.id}`} style={styles.trioGuide}>
                   <Image resizeMode="cover" source={getPersonaThumbnail(persona)} style={styles.trioAvatar} />
-                  <Text numberOfLines={2} style={styles.trioName}>{localizedText(persona.name, language)}</Text>
+                  <Text numberOfLines={2} style={styles.trioName}>{guideShortName(persona, language)}</Text>
                   <Text numberOfLines={2} style={styles.trioRole}>{role}</Text>
                 </View>
               ))}
@@ -486,6 +487,10 @@ export function councilTopicLabel(template: AiCouncilTemplate, language: Languag
   };
   return labels[template.id]?.[language === "vi" ? "vi" : "en"] ?? localizedText(template.name, language);
 }
+
+const shortNames = personaShortNamesData.personas as Record<string, { short: { vi: string; en: string } }>;
+const guideShortName = (persona: Persona, language: Language) =>
+  shortNames[persona.id] ? (language === "vi" ? shortNames[persona.id].short.vi : shortNames[persona.id].short.en) : localizedText(persona.name, language);
 
 const styles = StyleSheet.create({
   topicChip: { minHeight: 40, paddingHorizontal: 14, borderRadius: 999, borderWidth: 1, borderColor: "rgba(247, 241, 230, 0.16)", alignItems: "center", justifyContent: "center" },

@@ -423,6 +423,18 @@ assert(new Set(journalPrompts.prompts.map((item) => item.id)).size === 30, "jour
 for (const item of journalPrompts.prompts) assertViText(item, `journal-prompts.${item.id}`);
 for (const mood of ["calm", "curious", "reflective", "hopeful", "stuck"]) assertViText(journalPrompts.weeklyByMood?.[mood], `journal-prompts.weeklyByMood.${mood}`);
 assertViText(journalPrompts.weeklyEmpty, "journal-prompts.weeklyEmpty");
+// Owner-approved short guide names (2026-10-31): one entry per persona, short name and tagline in vi and en.
+const personaShortNames = readJson("packages/content/data/persona-short-names.json");
+const allPersonaIds = ["personas-archetypes", "personas-figures", "personas-books"].flatMap((name) => {
+  const data = readJson(`packages/content/data/${name}.json`);
+  return (Array.isArray(data) ? data : Object.values(data).find(Array.isArray)).map((persona) => persona.id);
+});
+assert(allPersonaIds.every((id) => personaShortNames.personas[id]) && Object.keys(personaShortNames.personas).length === allPersonaIds.length, "persona-short-names.json must cover exactly every persona");
+for (const [id, entry] of Object.entries(personaShortNames.personas)) {
+  assertLocalized(entry.short, `persona-short-names.${id}.short`);
+  assertLocalized(entry.tagline, `persona-short-names.${id}.tagline`);
+  assert(entry.short.vi.length <= 24 && entry.tagline.vi.length <= 40, `persona-short-names.${id} must stay short enough for the grid`);
+}
 for (const designSet of tarotCardDesigns) {
   assert(decks.some((deck) => deck.id === designSet.deckId), `${designSet.deckId} design set does not match a deck`);
   assertLocalized(designSet.style, `${designSet.deckId}.style`);

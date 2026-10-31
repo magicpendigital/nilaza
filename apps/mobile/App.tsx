@@ -144,6 +144,19 @@ import { ChatHub } from "./src/features/chat/ChatHub";
 import { JournalHome } from "./src/features/journal/JournalHome";
 import { CardLibrary } from "./src/features/tarot/CardLibrary";
 import { ExploreHome } from "./src/features/explore/ExploreHome";
+import personaShortNamesData from "../../packages/content/data/persona-short-names.json";
+
+// Owner-approved short names and one-line taglines for guide grids (2026-10-31); full names stay on detail screens.
+const personaShortNames = personaShortNamesData.personas as Record<string, { short: { vi: string; en: string }; tagline: { vi: string; en: string } }>;
+function personaShortName(persona: Persona, language: Language) {
+  const entry = personaShortNames[persona.id];
+  return entry ? (language === "vi" ? entry.short.vi : entry.short.en) : localizedText(persona.name, language);
+}
+function personaTagline(persona: Persona, language: Language) {
+  const entry = personaShortNames[persona.id];
+  if (entry) return language === "vi" ? entry.tagline.vi : entry.tagline.en;
+  return persona.displayRole ? localizedText(persona.displayRole, language) : localizedText(persona.shortDescription, language);
+}
 
 const learnedTarotCardsKey = "nilaza.learnedTarotCards.v1";
 import { ProfileHome } from "./src/features/profile/ProfileHome";
@@ -5821,8 +5834,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                   // The design suggests the inner-child guide when no goal points elsewhere.
                   ...[recommendedPersonasForProfile(profile)[0] ?? personasById["archetype-inner-child-healer"]].filter((persona): persona is Persona => Boolean(persona)).map((persona) => ({
                     key: persona.id,
-                    title: localizedText(persona.name, language),
-                    detail: persona.displayRole ? localizedText(persona.displayRole, language) : localizedText(persona.shortDescription, language),
+                    title: personaShortName(persona, language),
+                    detail: personaTagline(persona, language),
                     thumbnails: [getPersonaThumbnail(persona)],
                     onPress: () => openChat("detail", persona.id)
                   })),
@@ -6714,9 +6727,8 @@ function ChatScreen({
         councilThumbnails={councilRoomProps.personas.map((persona) => getPersonaThumbnail(persona))}
         guides={personas.map((persona) => ({
           id: persona.id,
-          name: localizedText(persona.name, language),
-          // Short names await Owner review (docs/content-review/persona-short-names-draft.md).
-          tagline: persona.displayRole ? localizedText(persona.displayRole, language) : localizedText(persona.shortDescription, language),
+          name: personaShortName(persona, language),
+          tagline: personaTagline(persona, language),
           thumbnail: getPersonaThumbnail(persona),
           comingSoon: !canViewContentTier(persona.accessTier, displayedTier)
         }))}

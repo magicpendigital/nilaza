@@ -87,12 +87,12 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Card meaning stage and its top bar.",
-      "sha256": "f9b8f2d6ea57d932d7de5e24513a5ec8f29da5fe862ab3b6d589a6b960ba5782"
+      "sha256": "bbe71df69113e213edd3b1eedb7b1688ffdf524f9c4382386bed0e331fa99d1b"
     },
     {
       "path": "apps/mobile/src/features/council/AiCouncilRoom.tsx",
       "reason": "Council start screen.",
-      "sha256": "8f3721a8ce9d0b03b2e2a2e2377cf8dccd3402113c5eab780768827807ba89ce"
+      "sha256": "75169f56344a53ab65ab9e08e850c43aea27458cf7aa781c104c9c72f757e56b"
     },
     {
       "path": "apps/mobile/src/features/oracle/OracleRoom.tsx",
