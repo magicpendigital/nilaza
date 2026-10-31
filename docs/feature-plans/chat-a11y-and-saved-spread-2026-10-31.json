@@ -59,7 +59,7 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Journal saved reading detail.",
-      "sha256": "46afcf6615dd2b197a095e204e7902cae77956a1500ca72259ef7b5fd82e0161"
+      "sha256": "21817f6972670a4a5780496c4d0e0cc50d547b852023ce8921607def6af5d6dd"
     },
     {
       "path": "apps/mobile/src/a2ui/chat.tsx",

@@ -5649,12 +5649,19 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         memoryAllowed={oracleMemoryConsent.journalMemory}
         onAction={handleOracleAction}
         onChangeInput={setOracleInput}
-        onNew={() => {
-          setOracleTurns([]);
-          setOracleInput("");
-          setOracleError("");
-          recordEvent("oracle_session_started");
-        }}
+        onNew={() => requestConfirmation({
+          // Oracle mới asks first, like a new guide chat (analysis OR-03).
+          title: language === "vi" ? "Bắt đầu lượt Oracle mới?" : "Start a new Oracle chat?",
+          body: language === "vi" ? "Các gợi ý hiện tại sẽ được xóa khỏi màn hình này." : "The current suggestions will be cleared from this screen.",
+          confirmLabel: language === "vi" ? "Bắt đầu mới" : "Start new",
+          tone: "danger",
+          onConfirm: () => confirmDestructiveAction(() => {
+            setOracleTurns([]);
+            setOracleInput("");
+            setOracleError("");
+            recordEvent("oracle_session_started");
+          })
+        })}
         onReport={reportLatestOracleReply}
         onSaveLast={saveLatestOracleInsight}
         onSend={sendOracleMessage}
