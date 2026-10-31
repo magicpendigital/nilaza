@@ -1232,7 +1232,7 @@ const copy = {
     exploreTarot: "Khám phá Tarot",
     learnDeck: "Tìm hiểu bộ bài",
     drawWithDeck: "Rút với bộ này",
-    quickDraw: "Rút nhanh 3 lá",
+    quickDraw: "Rút nhanh một lá",
     tarotIntroTitle: "Bạn muốn bắt đầu theo cách nào?",
     tarotIntroText: "Nếu bạn mới dùng Nilaza, hãy xem cảm giác từng bộ bài trước. Nếu đã quen, bạn có thể rút nhanh ngay với bộ bài gần nhất.",
     deckBestFor: "Phù hợp với",
@@ -1335,7 +1335,7 @@ const copy = {
     exploreTarot: "Explore Tarot",
     learnDeck: "Learn the deck",
     drawWithDeck: "Draw with this deck",
-    quickDraw: "Quick 3-card draw",
+    quickDraw: "Quick one-card draw",
     tarotIntroTitle: "How would you like to begin?",
     tarotIntroText: "If you are new to Nilaza, explore each deck's mood first. If you already know your reflection practice, draw quickly with your last deck.",
     deckBestFor: "Best for",
@@ -6098,13 +6098,6 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                 onMarkNotificationRead={markNotificationRead}
                 onSignOut={signOutLocally}
                 onToggleNotificationPreference={updateNotificationPreference}
-                onReset={() => requestConfirmation({
-                  title: language === "vi" ? "Đưa ứng dụng về trạng thái mới cài?" : "Reset the app on this device?",
-                  body: language === "vi" ? "Thao tác này đưa app về trạng thái mới cài trên thiết bị hiện tại." : "This returns the app to a fresh-install state on this device.",
-                  confirmLabel: c.reset,
-                  tone: "danger",
-                  onConfirm: () => confirmDestructiveAction(clearAllLocalAccountData)
-                })}
               />
             )}
 
@@ -8433,8 +8426,7 @@ function ProfileScreen({
   onMarkBirthTimeUnknown,
   onMarkNotificationRead,
   onSignOut,
-  onToggleNotificationPreference,
-  onReset
+  onToggleNotificationPreference
 }: {
   c: Copy;
   birthDate: string;
@@ -8478,7 +8470,6 @@ function ProfileScreen({
   onMarkNotificationRead: (id: string) => void;
   onSignOut: () => void;
   onToggleNotificationPreference: (channel: NotificationPreference["channel"], type: NotificationType, enabled: boolean) => void;
-  onReset: () => void;
   signLabel?: string;
   memberSince?: string;
   readingsCount: number;
@@ -8953,7 +8944,6 @@ function ProfileScreen({
           {isAdmin ? <ProfileActionButton icon="construct-outline" title={language === "vi" ? "Trung tâm quản trị" : "Admin hub"} detail={language === "vi" ? "Nội dung, cấu hình và quyền truy cập" : "Content, configuration and access"} onPress={onAdmin} muted /> : null}
           <ProfileActionButton icon="log-out-outline" title={profileLabels.signOut} detail={profileLabels.signOutDetail} onPress={onSignOut} />
         </View>
-        <SecondaryButton label={c.reset} onPress={onReset} />
       </View>
     </View>
   );

@@ -280,7 +280,7 @@
   },
   {
     "path": "apps/mobile/App.tsx",
-    "sha256": "2dfafb12eb6df4535563002d114df776f1ab1cef0a8e0b15ce7904172a8d3f24"
+    "sha256": "b34f7fbf2d64593ab04d61ba351a2fdd8d45c3324d742dac9db10616772cda71"
   },
   {
     "path": "docs/FEATURE_PRD.md",
