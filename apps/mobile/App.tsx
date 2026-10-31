@@ -4007,6 +4007,18 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     recordEvent("in_app_notification_dismissed", { notificationId: id });
   };
 
+  // Hoàn tác after dismissing brings the notification back as read (analysis PR-05).
+  const restoreNotification = (id: string) => {
+    setInAppNotifications((current) => {
+      const next = current.map((notification) => (
+        notification.id === id && notification.status === "dismissed" ? { ...notification, status: "read" as const } : notification
+      ));
+      syncInboxSnapshot(next);
+      return next;
+    });
+    recordEvent("in_app_notification_restored", { notificationId: id });
+  };
+
   const openNotification = (notification: InAppNotification) => {
     markNotificationRead(notification.id);
     if (notification.targetRoute === "chat") {
@@ -5165,7 +5177,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     recordEvent("persona_chat_resumed", { personaId: selectedPersonaId });
   };
 
-  const sendMessage = (preset?: string) => {
+  const sendMessage = (preset?: string, retry = false) => {
     if (isOwnerPreviewActive) {
       showToast(language === "vi"
         ? "Bạn đang xem thử giao diện bậc tài khoản. Câu hỏi chưa được gửi tới AI."
@@ -5203,7 +5215,9 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       }
     };
     setChatInput("");
-    setMessages((current) => [...current, userMessage]);
+    // Thử lại resends the failed message that is already in the room instead of adding a copy (analysis CH-11).
+    const lastMessage = currentMessages[currentMessages.length - 1];
+    if (!(retry && lastMessage?.role === "user" && lastMessage.text === text)) setMessages((current) => [...current, userMessage]);
     const activity = beginGenerationActivity({
       feature: "persona_chat",
       title: { vi: `${localizedText(selectedPersona.name, language)} đang suy ngẫm`, en: `${localizedText(selectedPersona.name, "en")} is reflecting` },
@@ -5213,7 +5227,6 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       personaId: selectedPersonaId,
       sessionId: activePersonaSessionId
     });
-    completeDailyRitual("persona_chat");
     setTimeout(async () => {
       try {
         const reply = await generatePersonaReply(
@@ -5263,6 +5276,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
           }
         };
         setMessages((current) => [...current, guideMessage]);
+        // The streak counts only once a reply has arrived (analysis CH-11).
+        completeDailyRitual("persona_chat");
         if (reply.remoteSessionId && reply.remoteSessionId !== activePersonaSessionId) {
           setMessages((current) => current.map((message) => (
             personaSessionIdForMessage(message) === activePersonaSessionId && message.personaId === selectedPersonaId
@@ -5303,8 +5318,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
 
   const retryChat = () => {
     if (!lastChatPrompt || chatGenerating) return;
-    setChatInput(lastChatPrompt);
-    sendMessage(lastChatPrompt);
+    sendMessage(lastChatPrompt, true);
   };
 
   const completeOnboarding = async (skippedProfile = false) => {
@@ -5683,7 +5697,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       }}
       onRetry={retryChat}
       onSave={saveJournal}
-      onSend={sendMessage}
+      onSend={(text?: string) => sendMessage(text)}
       onTrack={recordEvent}
       />
     )
@@ -5935,7 +5949,9 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
               <InboxScreen
                 language={language}
                 notifications={inAppNotifications}
+                onBack={() => navigate("home")}
                 onDismiss={dismissNotification}
+                onRestore={restoreNotification}
                 onMarkAllRead={markAllNotificationsRead}
                 onMarkRead={markNotificationRead}
                 onOpen={openNotification}
