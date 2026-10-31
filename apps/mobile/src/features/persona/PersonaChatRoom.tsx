@@ -1,9 +1,10 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { useEffect, useRef } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import { ImageSourcePropType, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { ChatComposer, ChatContextNotice, ChatMessageBubble, ChatRoomHeader, ChatSessionSummary, ChatSurface, ChatThinkingIndicator, QuickReplyRail } from "../../a2ui";
 import { colors, radius, spacing, typography } from "../../theme";
+import { CrisisSupportCard } from "../safety/CrisisSupportCard";
 import { ChatHandoffContext, Language } from "../../types";
 
 export type PersonaChatMessage = {
@@ -180,8 +181,8 @@ export function PersonaChatRoom({
         ) : null}
 
         {messages.map((message) => (
+          <Fragment key={message.id}>
           <ChatMessageBubble
-            key={message.id}
             action={
               message.role === "guide" ? (
                 <View style={styles.bubbleActions}>
@@ -207,6 +208,8 @@ export function PersonaChatRoom({
           >
             {message.text}
           </ChatMessageBubble>
+          {message.role === "guide" && message.uiMetadata?.safety === "crisis" ? <CrisisSupportCard language={language} /> : null}
+          </Fragment>
         ))}
 
         {chatGenerating ? (

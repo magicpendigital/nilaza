@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.7.1";
 import { generateWithModelRoute } from "../_shared/model-router.ts";
+import { safetyRedirectFor } from "../_shared/crisis-safety.ts";
 import { sanitizeProviderMetadata } from "../_shared/model-provider.ts";
 import { assemblePersonaPromptStack } from "../_shared/persona-prompt-assembler.ts";
 import { AiRequestError, aiAuthUserOrUnavailable, guardAiJsonRequest } from "../_shared/ai-request-guard.ts";
@@ -98,6 +99,18 @@ serve(async (req) => {
 
     if (!text) return jsonResponse({ error: "text is required" }, 400);
 
+    const redirect = safetyRedirectFor(text, language);
+    if (redirect) {
+      await supabase.from("safety_events").insert({
+        user_id: userId,
+        feature: "chat",
+        reason: "blocked_topic",
+        summary: `persona_chat safety redirect: ${redirect.signal}`,
+        status: "open"
+      });
+      return jsonResponse({ text: redirect.text, moderationStatus: "blocked", safety: redirect.safety, persistenceStatus: "skipped" });
+    }
+
     const sanitizedHistory = sanitizeHistory(input.sanitizedHistory, text);
     const promptStack = await assemblePersonaPromptStack({
       supabase,
@@ -133,7 +146,8 @@ serve(async (req) => {
         ...sanitizedHistory,
         { role: "user", content: text }
       ],
-      fallbackText: fallbackReply
+      fallbackText: fallbackReply,
+      safetyText: text
     });
     const reply = generation.text;
     const moderationStatus = generation.moderationStatus;

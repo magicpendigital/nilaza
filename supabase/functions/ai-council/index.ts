@@ -4,6 +4,7 @@ import { generateWithModelRoute } from "../_shared/model-router.ts";
 import { compactLines, safeJsonParse, sanitizeProviderMetadata } from "../_shared/model-provider.ts";
 import { councilContract } from "../_shared/council-contract.ts";
 import { councilAllowance, localDayStart } from "../_shared/account-tier-policy.ts";
+import { safetyRedirectFor } from "../_shared/crisis-safety.ts";
 
 type Language = "vi" | "en" | string;
 
@@ -378,6 +379,18 @@ serve(async (req) => {
 
     // Owner decision 2026-10-31: AI Council needs a signed-in account and follows the shared daily allowance.
     if (!supabase || !userId) return jsonResponse({ error: "sign_in_required", message: "Sign in to use AI Council." }, 401);
+    // A safety message is answered before the allowance, so it never uses the day's council.
+    const redirect = safetyRedirectFor(userMessage, language);
+    if (redirect) {
+      await supabase.from("safety_events").insert({
+        user_id: userId,
+        feature: "chat",
+        reason: "blocked_topic",
+        summary: `ai_council safety redirect: ${redirect.signal}`,
+        status: "open"
+      });
+      return jsonResponse({ turns: [], safety: redirect.safety, safetyText: redirect.text, moderationStatus: "blocked", persistenceStatus: "skipped" });
+    }
     const isOpening = (input.sanitizedHistory ?? []).length === 0;
     const { data: todaysEvents, error: usageReadError } = await supabase.from("usage_events")
       .select("metadata")
@@ -442,7 +455,8 @@ serve(async (req) => {
         turns: fallbackTurns.map(({ personaId, text, lens, kind, replyToPersonaId }) => ({ personaId, text, lens, kind, replyToPersonaId })),
         transcriptSummary: `${fallbackTurns.length} guides responded to one ${runtimeConfig.template.meetingMode ?? "council"} turn with sanitized context only.`,
         synthesis: fallbackSynthesis(language, fallbackTurns)
-      })
+      }),
+      safetyText: userMessage
     });
     const parsedCouncil = parseCouncilOutput(generation.text, fallbackTurns, selectedRuntimePersonas, language);
     const turns = parsedCouncil.turns;

@@ -3,6 +3,7 @@ import type { ImageSourcePropType } from "react-native";
 
 import type { ChatParticipant } from "../../a2ui";
 import { BackendLimitError, BackendOptions, generateAiCouncilTurn, getChatSessions, getChatMessages } from "../../backendClient";
+import { oracleSafetyReply, oracleSafetySignal } from "../../../../../packages/ai-contracts/oracle-safety.mjs";
 import { localizedList, localizedText } from "../../i18n";
 import type { AccountStorage } from "../../auth/accountStorage";
 import { mergeById } from "../../auth/personalData";
@@ -368,6 +369,8 @@ export function useAiCouncilRoom({
   const [customPersonaIds, setCustomPersonaIds] = useState<string[] | null>(null);
   const [setupExpanded, setSetupExpanded] = useState(false);
   const [generating, setGenerating] = useState(false);
+  // A safety reply replaces the council's turns for that message; it uses no turn.
+  const [safetyNotice, setSafetyNotice] = useState<{ text: string; crisis: boolean } | null>(null);
   const previousThreadLengthRef = useRef(thread.length);
 
   useEffect(() => {
@@ -521,6 +524,7 @@ export function useAiCouncilRoom({
     requestVersion.current += 1;
     setActiveSessionId(nowId());
     setTemplateId(nextTemplateId);
+    setSafetyNotice(null);
     if (customCouncil) {
       setCustomCouncilName(customCouncil.name);
       setCustomCouncilTone(customCouncil.tone || profile.tone || "gentle");
@@ -637,6 +641,7 @@ export function useAiCouncilRoom({
     setThread((current) => [...current, { id: userTurnId, role: "user" as const, text: userQuestion }].slice(-config.maxTranscriptTurns));
     setQuestion("");
     setFollowUps([]);
+    setSafetyNotice(null);
     try {
       const result = await generateAiCouncilTurn(
         {
@@ -657,7 +662,11 @@ export function useAiCouncilRoom({
             personaId: turn.persona?.id
           }))
         },
-        () => ({
+        () => {
+          // Offline, the same safety policy answers on the device.
+          const signal = oracleSafetySignal(userQuestion);
+          if (signal) return { turns: [], moderationStatus: "blocked", safety: signal === "self_harm_signal" ? "crisis" : "boundary", safetyText: oracleSafetyReply(language, signal) };
+          return {
           turns: councilPersonas.map((persona, index) => {
             const response = buildCouncilReply(config, persona, userQuestion, language, index, template);
             return {
@@ -676,11 +685,18 @@ export function useAiCouncilRoom({
           synthesisMode: template.synthesisMode,
           synthesis: buildFallbackSynthesis(language),
           moderationStatus: containsRiskyRequest(userQuestion) ? "blocked" : "fallback"
-        }),
+          };
+        },
         backendOptions
       );
       if (version !== requestVersion.current || !backendOptions.session?.active) {
         if (activity) onGenerationFinished?.(activity, "failed");
+        return;
+      }
+      if (result.safety) {
+        setSafetyNotice({ text: result.safetyText || oracleSafetyReply(language, result.safety === "crisis" ? "self_harm_signal" : "regulated_request"), crisis: result.safety === "crisis" });
+        onTrack("ai_council_safety_redirect", { language, safety: result.safety });
+        if (activity) onGenerationFinished?.(activity, "ready");
         return;
       }
       const guideTurns: AiCouncilTurn[] = result.turns.map((turn) => {
@@ -852,6 +868,7 @@ export function useAiCouncilRoom({
       question,
       quickReplies,
       sessionSummaries,
+      safetyNotice,
       setupExpanded,
       synthesis,
       template,

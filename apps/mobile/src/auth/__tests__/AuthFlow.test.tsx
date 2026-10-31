@@ -67,6 +67,15 @@ describe("AuthFlow", () => {
     for (const request of [onSignUp, onSignIn, onForgotPassword, onResendConfirmation]) expect(request).not.toHaveBeenCalled();
   });
 
+  it("offers the guest preview on the welcome screen only when it is enabled", () => {
+    const onPreview = jest.fn();
+    const screen = render(<AuthFlow language="vi" view="welcome" onLanguageChange={jest.fn()} onSignIn={jest.fn()} onSignUp={jest.fn()} onForgotPassword={jest.fn()} onViewChange={jest.fn()} onPreview={onPreview} />);
+    fireEvent.press(screen.getByText("Xem thử không cần tài khoản"));
+    expect(onPreview).toHaveBeenCalled();
+    const hidden = render(<Harness initialLanguage="vi" />);
+    expect(hidden.queryByText("Xem thử không cần tài khoản")).toBeNull();
+  });
+
   it("retains the trimmed email when choosing sign-in from the signup email field", () => {
     const onSignUp = jest.fn(), onSignIn = jest.fn();
     const screen = render(<Harness initialView="sign-up" onSignUp={onSignUp} onSignIn={onSignIn} />);

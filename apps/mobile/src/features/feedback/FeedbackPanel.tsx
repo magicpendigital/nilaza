@@ -3,12 +3,12 @@ import { ActivityIndicator, Modal, Pressable, ScrollView, StyleSheet, Text, View
 import type { AccountScope } from "../../auth/accountScope";
 import type { AccountStorage } from "../../auth/accountStorage";
 import { colors, layout, radius, typography } from "../../theme";
-import { isOpaqueAnswerId, type AnswerProvenance, type AnswerFeature } from "../../../../../packages/ai-contracts/answer-provenance";
-import { FEEDBACK_CATEGORIES, type FeedbackCategory, type FeedbackSubmission, type FeedbackReceipt } from "../../../../../packages/ai-contracts/feedback";
+import { isOpaqueAnswerId, type AnswerProvenance } from "../../../../../packages/ai-contracts/answer-provenance";
+import { FEEDBACK_CATEGORIES, type FeedbackCategory, type FeedbackFeature, type FeedbackSubmission, type FeedbackReceipt } from "../../../../../packages/ai-contracts/feedback";
 import { createFeedbackQueue, FeedbackQueueError, type FeedbackQueueItem } from "./feedbackQueue";
 
 export type FeedbackPanelTarget = {
-  feature: AnswerFeature; localAnswerId: string; provenance?: AnswerProvenance;
+  feature: FeedbackFeature; localAnswerId: string; provenance?: AnswerProvenance;
   sectionIds: string[]; sectionLabels?: Record<string, string>; language: "vi" | "en";
 };
 export type FeedbackPanelProps = {
@@ -23,9 +23,11 @@ const categories: Record<FeedbackCategory, [string, string]> = {
   unclear: ["Khó hiểu", "Hard to understand"], inappropriate: ["Không phù hợp hoặc gây khó chịu", "Inappropriate or upsetting"],
   language: ["Lỗi ngôn ngữ", "Language issue"], technical: ["Lỗi kỹ thuật", "Technical issue"],
 };
+const conversationFacts: [string, string] = ["Sai sự thật hoặc hiểu sai ý mình", "Wrong facts or misunderstood me"];
 
 export function FeedbackPanel({ target, storage, scope, ready, send, onClose, onExportServer, onDeleteServer }: FeedbackPanelProps) {
   const vi = target.language === "vi";
+  const conversation = target.feature === "persona_chat" || target.feature === "ai_council";
   const sendRef = useRef(send); sendRef.current = send;
   const queue = useMemo(() => createFeedbackQueue({ storage, scope, send: payload => sendRef.current(payload) }), [storage, scope]);
   const [category, setCategory] = useState<FeedbackCategory>("too_generic");
@@ -129,7 +131,7 @@ export function FeedbackPanel({ target, storage, scope, ready, send, onClose, on
         <Text style={styles.label}>{vi ? "Điều cần cải thiện" : "What could improve?"}</Text>
         {FEEDBACK_CATEGORIES.map(value => <Pressable key={value} accessibilityRole="radio" accessibilityState={{ checked: value === category, disabled: busy }}
           disabled={busy} style={[styles.option, category === value && styles.selected]} onPress={() => { setCategory(value); setError(""); setNotice(""); }}>
-          <Text style={styles.body}>{value === category ? "● " : "○ "}{categories[value][vi ? 0 : 1]}</Text>
+          <Text style={styles.body}>{value === category ? "● " : "○ "}{(conversation && value === "incorrect_facts" ? conversationFacts : categories[value])[vi ? 0 : 1]}</Text>
         </Pressable>)}
         {sections.length ? <><Text style={styles.label}>{vi ? "Phần liên quan" : "Related section"}</Text>
           {[undefined, ...sections].map((value, index) => <Pressable key={value ?? "whole"} accessibilityRole="radio"

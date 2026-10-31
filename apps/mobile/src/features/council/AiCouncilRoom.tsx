@@ -1,4 +1,5 @@
 ﻿import Ionicons from "@expo/vector-icons/Ionicons";
+import { useEffect, useRef } from "react";
 import { Image, ImageSourcePropType, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import personaShortNamesData from "../../../../../packages/content/data/persona-short-names.json";
 
@@ -14,6 +15,7 @@ import {
 } from "../../a2ui";
 import { localizedText } from "../../i18n";
 import { colors, radius, spacing, typography } from "../../theme";
+import { CrisisSupportCard } from "../safety/CrisisSupportCard";
 import { AiCouncilTemplate, Language, Persona } from "../../types";
 
 export type AiCouncilTurn = {
@@ -96,6 +98,10 @@ export type AiCouncilRoomProps = {
   setupExpanded: boolean;
   template: AiCouncilTemplate;
   thread: AiCouncilTurn[];
+  /** Shared safety reply for the last message, shown instead of council turns. */
+  safetyNotice?: { text: string; crisis: boolean } | null;
+  /** Opens the shared feedback panel for one guide turn (analysis CH-02). */
+  onReportTurn?: (turnId: string) => void;
 };
 
 export function AiCouncilRoom({
@@ -134,12 +140,21 @@ export function AiCouncilRoom({
   personas,
   question,
   quickReplies,
+  safetyNotice,
+  onReportTurn,
   sessionSummaries,
   setupExpanded,
   template,
   thread
 }: AiCouncilRoomProps) {
   const vi = language === "vi";
+  // Keep the newest turn in view as the council answers, like persona chat.
+  const scrollRef = useRef<ScrollView | null>(null);
+  useEffect(() => {
+    if (thread.length === 0 && !generating && !safetyNotice) return;
+    const timer = setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 50);
+    return () => clearTimeout(timer);
+  }, [thread.length, generating, safetyNotice]);
   const selectedPersonaIds = new Set(personas.map((persona) => persona.id));
   const councilTitle = customCouncilName.trim() || (vi ? "Hội đồng 3 góc nhìn" : "Three-view council");
   const guideCountWord = vi ? ["Hai", "Ba", "Bốn"][personas.length - 2] ?? String(personas.length) : String(personas.length);
@@ -361,6 +376,7 @@ export function AiCouncilRoom({
       ) : null}
 
       <ScrollView
+        ref={scrollRef}
         contentContainerStyle={styles.content}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
@@ -408,10 +424,19 @@ export function AiCouncilRoom({
                   : turn.lens;
               return <ChatMessageBubble
                 key={turn.id}
-                action={turn.persona ? (
-                  <Pressable accessibilityRole="button" onPress={() => onOpenGuideChat(turn)} style={styles.bubbleAction}>
-                    <Ionicons name="chatbubble-outline" size={17} color={colors.gold} />
-                  </Pressable>
+                action={turn.persona || onReportTurn ? (
+                  <View style={styles.turnActions}>
+                    {turn.persona ? (
+                      <Pressable accessibilityRole="button" accessibilityLabel={vi ? "Trò chuyện riêng với người dẫn này" : "Chat with this guide"} onPress={() => onOpenGuideChat(turn)} style={styles.bubbleAction}>
+                        <Ionicons name="chatbubble-outline" size={17} color={colors.gold} />
+                      </Pressable>
+                    ) : null}
+                    {onReportTurn ? (
+                      <Pressable accessibilityRole="button" accessibilityLabel={vi ? "Báo cáo câu trả lời này" : "Report this answer"} onPress={() => onReportTurn(turn.id)} style={styles.bubbleAction}>
+                        <Ionicons name="flag-outline" size={17} color={colors.gold} />
+                      </Pressable>
+                    ) : null}
+                  </View>
                 ) : null}
                 author={localizedText(turn.persona?.name, language, "Guide")}
                 avatar={turn.persona ? getPersonaThumbnail(turn.persona) : undefined}
@@ -450,6 +475,13 @@ export function AiCouncilRoom({
             </Pressable>
           </View>
         )}
+
+        {safetyNotice ? (
+          <View>
+            <ChatMessageBubble tone="system">{safetyNotice.text}</ChatMessageBubble>
+            {safetyNotice.crisis ? <CrisisSupportCard language={language} /> : null}
+          </View>
+        ) : null}
 
         {generating ? (
           <ChatMessageBubble tone="system">
@@ -846,6 +878,10 @@ const styles = StyleSheet.create({
     color: colors.gold,
     fontSize: 12,
     fontWeight: "800"
+  },
+  turnActions: {
+    flexDirection: "row",
+    gap: 8
   },
   bubbleAction: {
     alignItems: "center",

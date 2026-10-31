@@ -3,10 +3,13 @@ import { isOpaqueAnswerId, type AnswerFeature, type AnswerProvenance } from "./a
 export const AI_FEEDBACK_SCHEMA = "ai-feedback-v1" as const;
 export const FEEDBACK_CATEGORIES = ["too_generic", "incorrect_facts", "unclear", "inappropriate", "language", "technical"] as const;
 export type FeedbackCategory = typeof FEEDBACK_CATEGORIES[number];
+/** Answers people can report. Guide chat and Council have no answer receipts, so their reports stay unverified_client. */
+export const FEEDBACK_FEATURES = ["tarot_reading", "astrology_insight", "persona_chat", "ai_council"] as const;
+export type FeedbackFeature = AnswerFeature | "persona_chat" | "ai_council";
 export type FeedbackSubmission = {
   schemaVersion: typeof AI_FEEDBACK_SCHEMA;
   clientFeedbackId: string;
-  feature: AnswerFeature;
+  feature: FeedbackFeature;
   localAnswerId: string;
   answerReceiptId?: string;
   sectionId?: string;
@@ -36,7 +39,7 @@ const submissionKeys = new Set(["schemaVersion", "clientFeedbackId", "feature", 
 export function parseFeedbackSubmission(value: unknown): FeedbackSubmission | undefined {
   if (!object(value) || Object.keys(value).some(key => !submissionKeys.has(key))) return;
   if (value.schemaVersion !== AI_FEEDBACK_SCHEMA || !isFeedbackUuid(value.clientFeedbackId)
-    || !["tarot_reading", "astrology_insight"].includes(String(value.feature))
+    || !(FEEDBACK_FEATURES as readonly string[]).includes(String(value.feature))
     || !isOpaqueAnswerId(value.localAnswerId) || !FEEDBACK_CATEGORIES.includes(value.category as FeedbackCategory)
     || !["vi", "en"].includes(String(value.language))) return;
   if (value.answerReceiptId !== undefined && !isFeedbackUuid(value.answerReceiptId)

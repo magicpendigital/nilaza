@@ -148,6 +148,8 @@ export type PersonaReplyResult = {
   text: string;
   promptVersionId?: string;
   moderationStatus: "passed" | "blocked" | "fallback";
+  /** Set when the shared safety policy answered instead of the model; "crisis" shows the 115 card. */
+  safety?: "crisis" | "boundary";
   remoteSessionId?: string;
   methodPackId?: string;
   methodPackVersion?: string;
@@ -213,6 +215,9 @@ export type AiCouncilResult = {
   meetingMode?: string;
   synthesisMode?: string;
   moderationStatus: "passed" | "blocked" | "fallback";
+  /** Set with no turns when the shared safety policy answered; safetyText is the reply to show. */
+  safety?: "crisis" | "boundary";
+  safetyText?: string;
   remoteSessionId?: string;
   persistenceStatus?: "stored" | "session_error" | "message_error" | "auth_error" | "skipped";
 };

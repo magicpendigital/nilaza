@@ -208,6 +208,8 @@ export type AuthFlowProps = {
   onResendConfirmation?: (email: string) => Promise<void> | void;
   onForgotPassword: (email: string) => Promise<void> | void;
   onContinueAsGuest?: () => void;
+  /** Opens the static guest preview (78 cards, 12 signs) without an account. */
+  onPreview?: () => void;
 };
 
 function useEntrance(view: AuthView) {
@@ -359,7 +361,8 @@ export function AuthFlow({
   onSignUp,
   onResendConfirmation,
   onForgotPassword,
-  onContinueAsGuest
+  onContinueAsGuest,
+  onPreview
 }: AuthFlowProps) {
   const copy = authCopy[language === "vi" ? "vi" : "en"];
   const entranceStyle = useEntrance(view);
@@ -574,6 +577,11 @@ export function AuthFlow({
               >
                 <Text style={styles.welcomeSecondaryText}>{identity.signIn}</Text>
               </Pressable>
+              {onPreview ? (
+                <Pressable accessibilityRole="button" onPress={onPreview} style={({ pressed }) => [styles.welcomePreviewButton, pressed && styles.controlPressed]}>
+                  <Text style={styles.welcomePreviewText}>{language === "vi" ? "Xem thử không cần tài khoản" : "Look around without an account"}</Text>
+                </Pressable>
+              ) : null}
             </View>
           </ScrollView>
         </View>
@@ -1121,6 +1129,18 @@ const styles = StyleSheet.create({
     letterSpacing: 1.7,
     textAlign: "center",
     textTransform: "uppercase"
+  },
+  welcomePreviewButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: spacing.sm,
+    minHeight: 48
+  },
+  welcomePreviewText: {
+    color: colors.ivory,
+    fontFamily: typography.bodyFontFamily,
+    fontSize: 14,
+    textDecorationLine: "underline"
   },
   signInHint: {
     color: colors.outline,

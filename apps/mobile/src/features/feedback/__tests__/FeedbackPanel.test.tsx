@@ -35,3 +35,16 @@ test("English feedback shows sent only after acknowledgement; deletion needs exp
   await waitFor(() => expect(ui.onDeleteServer).toHaveBeenCalledTimes(1));
   await waitFor(() => expect((ui.saved() as any).items).toEqual([]));
 });
+test("a guide chat report is sent as persona_chat with conversation wording", async () => {
+  let saved: unknown = null;
+  const storage = { loadJson: async () => saved, saveJsonOrThrow: async (_: string, value: unknown) => { saved = JSON.parse(JSON.stringify(value)); } } as any;
+  const scope = new AccountScope({ status: "signed_in", user: { id: "synthetic" } } as any);
+  const send = jest.fn(async (payload: any) => ({ schemaVersion: "ai-feedback-v1" as const, clientFeedbackId: payload.clientFeedbackId,
+    feedbackId: "00000000-0000-4000-8000-000000000002", receivedAt: new Date().toISOString(), correlationStatus: "unverified_client" as const }));
+  const ui = render(<FeedbackPanel target={{ feature: "persona_chat", localAnswerId: "1793440000000-abc", sectionIds: [], language: "vi" }} storage={storage} scope={scope} ready send={send} onClose={() => {}} />);
+  expect(ui.getByText(/Sai sự thật hoặc hiểu sai ý mình/)).toBeTruthy();
+  await waitFor(() => expect(ui.getByRole("button", { name: "Gửi phản hồi" })).toBeEnabled());
+  fireEvent.press(ui.getByRole("button", { name: "Gửi phản hồi" }));
+  await waitFor(() => expect(send).toHaveBeenCalledTimes(1));
+  expect(send.mock.calls[0][0]).toMatchObject({ feature: "persona_chat", localAnswerId: "1793440000000-abc" });
+});
