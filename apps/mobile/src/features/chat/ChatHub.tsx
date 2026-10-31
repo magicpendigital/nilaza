@@ -128,7 +128,7 @@ export function ChatHub({ language, now, recent, councilThumbnails, guides, matc
 
       <View style={s.section}>
         <Text style={s.kicker}>{vi ? "Người dẫn" : "Guides"}</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.chips}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={s.chipScroll} contentContainerStyle={s.chips}>
           {categories.map((item) => {
             const active = item.id === category;
             return (
@@ -187,6 +187,7 @@ const s = StyleSheet.create({
   avatarStack: { width: 84, height: 44 },
   stackAvatar: { position: "absolute", top: 0, width: 44, height: 44, borderRadius: 22, borderWidth: 2, borderColor: "#1F1C1E" },
   councilTitle: { color: colors.ivory, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 15 },
+  chipScroll: { flexGrow: 0 },
   chips: { gap: 8 },
   chip: { minHeight: 40, paddingHorizontal: 14, borderRadius: radius.pill, borderWidth: 1, borderColor: "rgba(247, 241, 230, 0.16)", alignItems: "center", justifyContent: "center" },
   chipActive: { backgroundColor: colors.gold, borderColor: colors.gold },

@@ -155,7 +155,7 @@ export function JournalHome({ language, now, entries, moodLabel, sourceLabel, bo
         </>
       )}
 
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.chips}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={s.chipScroll} contentContainerStyle={s.chips}>
         {filters.map((item) => {
           const active = item.id === filter;
           return (
@@ -223,6 +223,7 @@ const s = StyleSheet.create({
   primaryText: { color: colors.charcoal, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 14.5 },
   secondary: { minHeight: 48, paddingHorizontal: 16, borderRadius: radius.pill, borderWidth: 1, borderColor: "rgba(247, 241, 230, 0.18)", alignItems: "center", justifyContent: "center" },
   secondaryText: { color: "#E9E2D6", fontFamily: typography.bodyFontFamily, fontSize: 14 },
+  chipScroll: { flexGrow: 0 },
   chips: { gap: 8 },
   chip: { minHeight: 40, paddingHorizontal: 14, borderRadius: radius.pill, borderWidth: 1, borderColor: "rgba(247, 241, 230, 0.16)", alignItems: "center", justifyContent: "center" },
   chipActive: { backgroundColor: colors.gold, borderColor: colors.gold },

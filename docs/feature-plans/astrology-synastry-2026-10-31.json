@@ -66,7 +66,7 @@
     {
       "path": "DESIGN.md",
       "reason": "Brand shape and type rules for the new screen.",
-      "sha256": "cc8c75083df9a9609457f35bb2151f3b97c621d8cd74126ec88c5a572d58ad7d"
+      "sha256": "516629403e9d8904208a1b64e6360ab3d4ab6ed4c20d337f689033a0ab00e4a9"
     },
     {
       "path": "docs/CONTENT_SAFETY_STYLE_GUIDE.md",
@@ -76,7 +76,7 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Card meaning stage and its top bar.",
-      "sha256": "f2cf925a7167d18f6e4078339e092059467584b55acd20ef5455b2382fb5df51"
+      "sha256": "f75638336cee126547b597de67d06b00fa12e8ace43b484955b9155d9401c46b"
     },
     {
       "path": "apps/mobile/src/features/astrology/AstrologyExperience.tsx",

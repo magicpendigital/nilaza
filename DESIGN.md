@@ -162,28 +162,13 @@ Keep the existing tone choice and editing controls. No extra onboarding step and
 
 Header with the wordmark and a round notification button → date and local moon phase → greeting and a time-of-day line → Today card hero on a solid surface with a gold hairline, two stacked card backs, the primary “Lật lá hôm nay” / “Xem lại lá hôm nay” and the streak dots inside the hero (design canvas, Owner-approved 2026-10-30). This reveals/reopens existing Today Pulse, with no new AI session or charge; after reveal the card screen ends in Save to Journal, Ask deeper (existing tarot-card guide chat) and Share (card and library meaning only). Below: a sky tile (moon phase) and a sign tile with the sign artwork that opens Astrology; an “Hỏi Nilaza” field that only prefills Oracle; “Dành cho bạn · {chủ đề}” with “Đổi chủ đề” cycling love, career and self locally (starting from the first onboarding goal) and a rail of a topic tarot reading, an ask card that only prefills Oracle, and a journal prompt that opens the composer; “Đọc tiếp” with the newest saved entry (card thumbnails for saved readings) and an Open Journal link. No compatibility card until that feature exists. Cards keep the 8 px radius. Continue/recent items use existing data. Discovery remains reachable through Explore/Chat: decks, library, guides, Council, astrology. Keep five tabs (Hôm nay, Khám phá, Trò chuyện, Nhật ký, Tôi) and Tarot as a subflow. Implementation/verification evidence lives in `docs/BRAND_ROLLOUT_2026-09-11.md`.
 
-### 6. Explore
+### 6. Explore (design canvas Explore and CardLibrary, 2026-10-31)
 
-Goal:
-
-Show all spiritual and wisdom experiences.
-
-Layout:
-
-- Search field.
-- Category chips:
-  - Love
-  - Career
-  - Self
-  - Calm
-  - Mystery
-- Feature tiles:
-  - Tarot
-  - Astrology
-  - Face reading
-  - Wisdom library
-  - Daily ritual
-- Use visual assets for each tile.
+- "Khám phá" title, then a Tarot card ("Hỏi một câu, rút vài lá", "78 lá · 8 bộ bài · có giải nghĩa theo câu hỏi của bạn", Trải bài and Học 78 lá) and an Astrology card ("Bầu trời của bạn", "Big 3, Mặt Trăng hôm nay và so lá số với một người." — never "hợp nhau", per the approved synastry rules).
+- "Chọn bộ bài theo tâm trạng" with Tình yêu (Rose Mirror), Chữa lành (Moon Garden), Quyết định (Golden Thread) and "Xem 8 bộ" (the deck chooser).
+- "Trò chuyện với người dẫn": the guide that fits the user's goals (the inner-child guide when none) and the Hội đồng 3 góc nhìn row, plus "Xem tất cả".
+- "Xem tướng mặt" as a dashed row with "Sắp có"; no other action.
+- Thư viện 78 lá is its own Tarot stage: "Bộ {deck}", "78 lá Tarot", "Đã học n/78" with a thin progress bar (a card counts once its guide is opened; ids are kept on the device and included in the local export), chips Tất cả / Ẩn chính · 22 / Cốc / Gậy / Kiếm / Tiền with a one-line description per group, and a three-column grid of the deck art with the Vietnamese name and "numeral · original name" (majors) or the original name (minors). Tap opens the card guide, long press shows the full artwork. The deck detail links to it.
 
 ### 7. Trò chuyện hub and Council (design canvas ChatHub and Council, Owner decisions 2026-10-31)
 

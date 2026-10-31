@@ -58,7 +58,7 @@ export default function TarotDepthPreview() {
         setStage("result");
       }) : null}
     </View>
-    <TarotFlow c={getCopy(language)} language={language} reading={reading} selectedDeck={deck} displayedTier="free" tarotCreditBalance={1}
+    <TarotFlow c={getCopy(language)} learnedCardIds={[]} onCardLearned={() => undefined} language={language} reading={reading} selectedDeck={deck} displayedTier="free" tarotCreditBalance={1}
       selectedDeckId={deckId} setSelectedDeckId={setDeckId} setStage={setStage} stage={stage} tarotError="" tarotGenerating={false}
       tarotQuestion={question} keepSelectedDeck={keepDeck} intentionReviewed={false} onKeepSelectedDeckChange={setKeepDeck}
       tarotSpread={spread} tarotTopic={topic} generatedArtifacts={[]} selectedTarotCardId={cardId} selectedTarotGuideId={guideId}

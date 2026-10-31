@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "taskId": "explore-library-2026-10-31",
+  "ownerAgent": "mobile_explore_design_agent",
+  "lane": "mobile_explore_redesign",
+  "goal": "Bring the Khám phá tab and the 78-card Tarot library to the Explore and CardLibrary designs: Tarot and Astrology cards, decks by mood, guide shortcuts and the face-reading row marked Sắp có; a library screen with the deck name, Đã học n/78 (a card counts once its guide is opened), group chips and a card grid with Vietnamese and original names.",
+  "successCriteria": [
+    "Khám phá shows the Tarot card (Trải bài, Học 78 lá), the Astrology card, Chọn bộ bài theo tâm trạng with Tình yêu / Chữa lành / Quyết định and Xem 8 bộ, two guide shortcuts and Xem tướng mặt · Sắp có, in Vietnamese without English jargon.",
+    "Học 78 lá opens a library stage with Bộ {deck}, 78 lá Tarot, Đã học n/78, chips Tất cả / Ẩn chính · 22 / Cốc / Gậy / Kiếm / Tiền, a group line and a grid of the deck art with the Vietnamese name and numeral · original name; tapping opens the card guide.",
+    "Opening a card guide records the card on the device under a new key; the deck detail links to the library.",
+    "Mobile check and Jest suite pass; a 390x844 web walkthrough covers Explore and the library."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/explore/",
+    "apps/mobile/src/features/tarot/",
+    "apps/mobile/src/features/privacy/",
+    "apps/mobile/src/__tests__/",
+    "DESIGN.md",
+    "apps/admin/workflow-catalog.js",
+    "docs/content-review/",
+    "apps/mobile/src/features/chat/",
+    "apps/mobile/src/features/journal/"
+  ],
+  "untouchedSurfaces": [
+    "No backend, deploy, SQL or settings change.",
+    "Deck and card content data stay unchanged.",
+    "Chat, Journal, Profile and Astrology screens."
+  ],
+  "impact": {
+    "entryPoint": "Bottom tab Khám phá; Tarot learn entry.",
+    "dataWrite": "New device key nilaza.learnedTarotCards.v1 (card ids only).",
+    "backendContract": "No backend contract change; everything stays in the app.",
+    "canonicalContract": "DESIGN.md Explore and library sections follow the design canvas.",
+    "adminVisibility": "Workflow catalog digest of App.tsx refreshed.",
+    "privacySafety": "Learned cards stay on the device and are included in the local export.",
+    "observability": "No analytics or logging change.",
+    "rollback": "Revert the commits on the PR branch.",
+    "surfacesIntentionallyUntouched": "Tarot reading flow, deck content.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs validation, commits and pushes to the PR branch without merging or deploying."
+  },
+  "canonicalContracts": [
+    "Owner goal 2026-10-31: update UI/UX per the analysis and design artifacts.",
+    "Design canvas Explore and CardLibrary artboards."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Tarot and mobile UI routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "DESIGN.md",
+      "reason": "Brand shape and type rules for the new screen.",
+      "sha256": "516629403e9d8904208a1b64e6360ab3d4ab6ed4c20d337f689033a0ab00e4a9"
+    },
+    {
+      "path": "docs/CONTENT_SAFETY_STYLE_GUIDE.md",
+      "reason": "Card names and safety framing for the guide copy.",
+      "sha256": "33ec073a7fe94045ee7aeb40bad2ca90b6ab6b0010569131c730380dfb23ceec"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Card meaning stage and its top bar.",
+      "sha256": "f75638336cee126547b597de67d06b00fa12e8ace43b484955b9155d9401c46b"
+    },
+    {
+      "path": "apps/mobile/src/features/tarot/TarotCardGuide.tsx",
+      "reason": "Card guide opened from the library.",
+      "sha256": "2a822897f1d453f381faa15fc86ec59274db40ffe70467a060696c75582cf185"
+    },
+    {
+      "path": "packages/content/data/tarot-decks.json",
+      "reason": "Deck themes for the mood tiles.",
+      "sha256": "293af65aa65b0cf09eff34fa4305fc7999fc2bfe48c144a5d3095bd3bbde798c"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "The flow follows DESIGN.md shapes (8px cards, pill controls, 48px targets); the skill text stays accurate."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing React Native and Ionicons APIs."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change in this task.",
+    "sensitiveData": "Only tarot card ids are stored, on the device.",
+    "secretsLogging": "No credentials, tokens or logs are added.",
+    "externalInput": "No new user input is sent anywhere.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration, deploy or release.",
+    "stopCondition": "Stop if a change needs new content, a deploy or settings without approval, or if checks fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "DESIGN.md",
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/features/chat/ChatHub.tsx",
+      "apps/mobile/src/features/explore/ExploreHome.tsx",
+      "apps/mobile/src/features/explore/__tests__/ExploreLibrary.test.tsx",
+      "apps/mobile/src/features/journal/JournalHome.tsx",
+      "apps/mobile/src/features/privacy/localExport.ts",
+      "apps/mobile/src/features/tarot/CardLibrary.tsx",
+      "apps/mobile/src/features/tarot/TarotDepthPreview.tsx",
+      "docs/feature-plans/explore-library-2026-10-31.json"
+    ],
+    "note": "Worktree branch stacked on PR #10."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/explore-library-2026-10-31.json",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand",
+    "Web walkthrough at 390x844: Explore and library."
+  ],
+  "managerTestPath": "Khám phá: tap Học 78 lá, pick Cốc, open Át Cốc, come back and see Đã học 1/78.",
+  "residualRisk": "Đã học counts cards whose guide was opened, not a quiz or explicit mark.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
