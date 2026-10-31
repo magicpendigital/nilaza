@@ -22,7 +22,8 @@
     "supabase/functions/ai-council/",
     "supabase/functions/_shared/providers/",
     "supabase/functions/_shared/model-provider.ts",
-    "apps/admin/workflow-catalog.js"
+    "apps/admin/workflow-catalog.js",
+    "apps/mobile/src/features/oracle/"
   ],
   "untouchedSurfaces": [
     "No SQL. Deploying ai-council, ai-persona-chat and ai-astrology-insight waits for Owner approval.",
