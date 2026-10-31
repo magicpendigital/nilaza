@@ -15,6 +15,7 @@ import {
 } from "../../a2ui";
 import { localizedText } from "../../i18n";
 import { colors, radius, spacing, typography } from "../../theme";
+import { CrisisSupportCard } from "../safety/CrisisSupportCard";
 import { AiCouncilTemplate, Language, Persona } from "../../types";
 
 export type AiCouncilTurn = {
@@ -97,6 +98,8 @@ export type AiCouncilRoomProps = {
   setupExpanded: boolean;
   template: AiCouncilTemplate;
   thread: AiCouncilTurn[];
+  /** Shared safety reply for the last message, shown instead of council turns. */
+  safetyNotice?: { text: string; crisis: boolean } | null;
 };
 
 export function AiCouncilRoom({
@@ -135,6 +138,7 @@ export function AiCouncilRoom({
   personas,
   question,
   quickReplies,
+  safetyNotice,
   sessionSummaries,
   setupExpanded,
   template,
@@ -144,10 +148,10 @@ export function AiCouncilRoom({
   // Keep the newest turn in view as the council answers, like persona chat.
   const scrollRef = useRef<ScrollView | null>(null);
   useEffect(() => {
-    if (thread.length === 0 && !generating) return;
+    if (thread.length === 0 && !generating && !safetyNotice) return;
     const timer = setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 50);
     return () => clearTimeout(timer);
-  }, [thread.length, generating]);
+  }, [thread.length, generating, safetyNotice]);
   const selectedPersonaIds = new Set(personas.map((persona) => persona.id));
   const councilTitle = customCouncilName.trim() || (vi ? "Hội đồng 3 góc nhìn" : "Three-view council");
   const guideCountWord = vi ? ["Hai", "Ba", "Bốn"][personas.length - 2] ?? String(personas.length) : String(personas.length);
@@ -459,6 +463,13 @@ export function AiCouncilRoom({
             </Pressable>
           </View>
         )}
+
+        {safetyNotice ? (
+          <View>
+            <ChatMessageBubble tone="system">{safetyNotice.text}</ChatMessageBubble>
+            {safetyNotice.crisis ? <CrisisSupportCard language={language} /> : null}
+          </View>
+        ) : null}
 
         {generating ? (
           <ChatMessageBubble tone="system">

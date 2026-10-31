@@ -7,6 +7,7 @@ import {
   ModelRoute
 } from "./model-provider.ts";
 import { AiTraceContext, AiTraceSpan, createAiTrace, traceGenerationInput } from "./ai-trace.ts";
+import { oracleSafetySignal } from "../../../packages/ai-contracts/oracle-safety.mjs";
 import { invokeAnthropic } from "./providers/anthropic.ts";
 import { invokeGemini } from "./providers/gemini.ts";
 import { invokeOpenAI } from "./providers/openai.ts";
@@ -219,6 +220,8 @@ export async function generateWithModelRoute(input: {
   system: string;
   messages: ModelMessage[];
   fallbackText: string;
+  /** The person's current message; when set, only it is checked with the shared safety policy, not the whole history. */
+  safetyText?: string;
   supabase?: SupabaseLike | null;
   env?: EnvLike;
   strictTraceRedaction?: boolean;
@@ -314,7 +317,9 @@ export async function generateWithModelRoute(input: {
       fallbackModel: route.fallbackModel ?? null
     }
   });
-  const promptSafety = detectSafetyIssue(input.messages.map((message) => message.content).join("\n"));
+  const promptSafety = input.safetyText !== undefined
+    ? oracleSafetySignal(input.safetyText)
+    : detectSafetyIssue(input.messages.map((message) => message.content).join("\n"));
   if (promptSafety) {
     return await finish({
       text: input.fallbackText,

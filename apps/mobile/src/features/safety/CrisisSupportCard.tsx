@@ -1,0 +1,34 @@
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { Linking, Pressable, StyleSheet, Text, View } from "react-native";
+import { colors, radius, typography } from "../../theme";
+import type { Language } from "../../types";
+
+// Support card under a crisis safety reply in chat and Council. Owner decision 2026-10-31: 115 is the
+// only number shown until other Vietnamese hotlines are verified.
+export function CrisisSupportCard({ language }: { language: Language }) {
+  const vi = language === "vi";
+  return (
+    <View accessibilityRole="summary" style={s.card}>
+      <Text style={s.title}>{vi ? "Bạn không phải ở một mình" : "You do not have to be alone"}</Text>
+      <Text style={s.body}>
+        {vi
+          ? "Nếu bạn đang không an toàn, hãy gọi 115 (cấp cứu) hoặc nhờ một người bạn tin cậy ở cạnh bạn ngay bây giờ."
+          : "If you are not safe, call 115 (emergency, Vietnam) or ask someone you trust to be with you now."}
+      </Text>
+      <Pressable accessibilityRole="button" onPress={() => { void Linking.openURL("tel:115").catch(() => undefined); }} style={s.button}>
+        <Ionicons name="call-outline" size={18} color={colors.charcoal} />
+        <Text style={s.buttonText}>{vi ? "Gọi 115" : "Call 115"}</Text>
+      </Pressable>
+      <Text style={s.note}>{vi ? "Lượt này không tính vào lượt hôm nay của bạn." : "This does not count toward today's turns."}</Text>
+    </View>
+  );
+}
+
+const s = StyleSheet.create({
+  card: { marginTop: 8, padding: 16, borderRadius: radius.card, backgroundColor: "#2A1F22", borderWidth: 1, borderColor: "rgba(231, 183, 190, 0.45)", gap: 10 },
+  title: { color: colors.ivory, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 15.5 },
+  body: { color: "#E9E2D6", fontFamily: typography.bodyFontFamily, fontSize: 14.5, lineHeight: 21 },
+  button: { minHeight: 48, borderRadius: radius.pill, backgroundColor: colors.ivory, flexDirection: "row", gap: 8, alignItems: "center", justifyContent: "center", paddingHorizontal: 16 },
+  buttonText: { color: colors.charcoal, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 15 },
+  note: { color: "#8F877C", fontFamily: typography.bodyFontFamily, fontSize: 12.5, lineHeight: 18 }
+});

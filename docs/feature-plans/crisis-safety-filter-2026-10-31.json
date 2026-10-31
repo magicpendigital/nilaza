@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "taskId": "crisis-safety-filter-2026-10-31",
+  "ownerAgent": "ai_safety_agent",
+  "lane": "ai_safety_crisis_filter",
+  "goal": "One crisis safety policy for persona chat and AI Council (analysis CH-01, AI-01): the bounded Oracle phrase policy, accent-insensitive with word boundaries, checks only the current message, answers before the daily allowance and the model call, logs a safety event and returns a support reply with 115, the only number the Owner approved on 2026-10-31. The app shows a 115 support card, and the same policy answers on the device when offline.",
+  "successCriteria": [
+    "\"Mình muốn chết\" and \"tôi muốn tự sát\" get the support reply; \"tu tuong Lao Tu\" and \"cười muốn chết\" do not.",
+    "A safety reply uses no turn and calls no model.",
+    "Only the current message is checked, so an earlier message never blocks a session.",
+    "The app shows a Gọi 115 card under a crisis reply in chat and Council.",
+    "Deno tests, Oracle runtime tests, mobile check and Jest pass."
+  ],
+  "writeScope": [
+    "supabase/functions/_shared/crisis-safety.ts",
+    "supabase/functions/_shared/crisis-safety_test.ts",
+    "supabase/functions/_shared/model-router.ts",
+    "supabase/functions/ai-persona-chat/",
+    "supabase/functions/ai-council/",
+    "packages/ai-contracts/",
+    "scripts/oracle-runtime.test.mjs",
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/backendClient.ts",
+    "apps/mobile/src/features/safety/",
+    "apps/mobile/src/features/persona/",
+    "apps/mobile/src/features/council/",
+    "apps/admin/workflow-catalog.js"
+  ],
+  "untouchedSurfaces": [
+    "No SQL or migration; safety_events already exists.",
+    "No deploy in this change; ai-persona-chat and ai-council deploys need Owner approval.",
+    "Tarot, Astrology and Daily keep their current router check."
+  ],
+  "impact": {
+    "entryPoint": "Persona chat and AI Council messages.",
+    "dataWrite": "One safety_events row per safety reply (existing table); no chat or usage row.",
+    "backendContract": "ai-persona-chat and ai-council may return safety: crisis|boundary; Council returns no turns with safetyText.",
+    "canonicalContract": "Analysis CH-01 and AI-01; Owner decision 2026-10-31: 115 only.",
+    "adminVisibility": "Workflow catalog digests refreshed.",
+    "privacySafety": "The safety event stores only the signal name, not the message.",
+    "observability": "No analytics or logging change.",
+    "rollback": "Revert the commit on the PR branch.",
+    "surfacesIntentionallyUntouched": "Tarot, Astrology, Daily, Oracle routing.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs validation, commits and pushes to the PR branch without merging or deploying."
+  },
+  "canonicalContracts": [
+    "Analysis items CH-01 and AI-01.",
+    "Owner decision 2026-10-31: do it now with 115 only; add other hotlines after the Owner verifies them."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "AI safety routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "reason": "Prompt safety check.",
+      "sha256": "ed766dc2469ea46480966ade7bc93c6d24244dbb562882cb6c4265f7d9a51738"
+    },
+    {
+      "path": "supabase/functions/ai-persona-chat/index.ts",
+      "reason": "Persona chat handler.",
+      "sha256": "5cec7427c88288895e71261e389110af2d416ee94a6b9253159e007211ab8678"
+    },
+    {
+      "path": "supabase/functions/ai-council/index.ts",
+      "reason": "Council handler and allowance.",
+      "sha256": "34b2cdb914dbd0da00621288aac9704a8465627fba147eba64968d673749ed2c"
+    },
+    {
+      "path": "packages/ai-contracts/oracle-safety.mjs",
+      "reason": "Shared phrase policy.",
+      "sha256": "c1f59cd3bae3442e6f91f0fc48dbddc584fadf3edf5dc086a1db4f438662c933"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing Deno std assert and React Native Linking."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "Safety check runs after sign-in; no RLS change.",
+    "sensitiveData": "The message text is not stored in the safety event.",
+    "secretsLogging": "No credentials, tokens or logs are added.",
+    "externalInput": "Only the current message is matched; no new outbound call.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration. Deploy of two Edge Functions waits for Owner approval.",
+    "stopCondition": "Stop before any deploy without Owner approval, or if checks fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/backendClient.ts",
+      "apps/mobile/src/features/council/AiCouncilRoom.tsx",
+      "apps/mobile/src/features/council/__tests__/useAiCouncilRoom.test.tsx",
+      "apps/mobile/src/features/council/useAiCouncilRoom.ts",
+      "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
+      "apps/mobile/src/features/persona/__tests__/PersonaChatRoom.test.tsx",
+      "apps/mobile/src/features/safety/CrisisSupportCard.tsx",
+      "docs/feature-plans/crisis-safety-filter-2026-10-31.json",
+      "packages/ai-contracts/oracle-safety.mjs",
+      "scripts/oracle-runtime.test.mjs",
+      "supabase/functions/_shared/crisis-safety.ts",
+      "supabase/functions/_shared/crisis-safety_test.ts",
+      "supabase/functions/_shared/model-router.ts",
+      "supabase/functions/ai-council/index.ts",
+      "supabase/functions/ai-persona-chat/index.ts"
+    ],
+    "note": "Stacked on the Council scroll and Journal note commit."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/crisis-safety-filter-2026-10-31.json",
+    "npx deno test --allow-read supabase/functions/_shared/crisis-safety_test.ts",
+    "node --test scripts/oracle-runtime.test.mjs",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand"
+  ],
+  "managerTestPath": "After deploy, send \"Mình muốn chết\" in a guide chat and in Council: a support reply with a Gọi 115 button appears and no turn is used.",
+  "residualRisk": "A bounded phrase list, not a clinical classifier; indirect wording can still pass. Not tested against the deployed functions yet.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

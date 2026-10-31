@@ -85,6 +85,17 @@ it("keeps structured synthesis visible when an older backend omits the optional 
   hook.unmount();
 });
 
+it("a crisis message gets the safety reply and 115 card instead of council turns", async () => {
+  const input = options();
+  const hook = renderHook(() => useAiCouncilRoom(input));
+  await waitFor(() => expect(AsyncStorage.setItem).toHaveBeenCalled());
+  act(() => hook.result.current.roomProps.onQuestionChange("Mình muốn chết"));
+  await act(async () => { await hook.result.current.roomProps.onSend(); });
+  await waitFor(() => expect(hook.result.current.roomProps.safetyNotice).toMatchObject({ crisis: true, text: expect.stringContaining("115") }));
+  expect(hook.result.current.roomProps.thread.filter(turn => turn.role === "guide")).toHaveLength(0);
+  hook.unmount();
+});
+
 it("does not read or write Council history before the account is hydrated", async () => {
   const input = options("A", false);
   const hook = renderHook(() => useAiCouncilRoom(input));

@@ -26,14 +26,16 @@ const crisisCases = [
   ["en", "I see no reason to live"], ["en", "I don’t want to live"],
   ["en", "I wish I were dead"], ["en", "I wish I was dead"], ["en", "I want to disappear forever"],
   ["en", "I am going to shoot myself tonight."], ["en", "I'm going to jump off the bridge tonight"],
-  ["en", "I will take all my sleeping pills tonight"]
+  ["en", "I will take all my sleeping pills tonight"], ["vi", "Mình muốn chết"], ["vi", "tôi muốn tự sát"]
 ];
 for (const [locale, question] of crisisCases) test(`crisis support ${locale}: ${question}`, () => {
   assert.equal(oracleSafetySignal(question), "self_harm_signal");
   assert.equal(oracleIntent(question), "safety_redirect");
   const reply = oracleSafetyReply(locale, "self_harm_signal");
   assert.match(reply, locale === "vi" ? /khẩn cấp|khủng hoảng/ : /emergency|crisis/);
-  assert.doesNotMatch(reply, /Tarot|Council|astrology|[0-9]{3}/);
+  // Owner approved 115 as the only number on 2026-10-31; no other hotline until verified.
+  assert.match(reply, /\b115\b/);
+  assert.doesNotMatch(reply.replace(/\b115\b/, ""), /Tarot|Council|astrology|[0-9]{3}/);
 });
 const intentCases = [
   ["Tại sao mình cứ thấy bối rối?", "reflect"], ["Tôi còn nhiều bài tập chưa hoàn thành", "reflect"],
@@ -123,4 +125,6 @@ test("last user question is not duplicated and provider readiness cannot be enab
 test("laughter idiom exemption cannot hide another explicit crisis in the same message", () => {
   assert.equal(oracleSafetySignal("Tôi muốn chết cười. Nhưng tối nay tôi định nhảy cầu."), "self_harm_signal");
   assert.equal(oracleSafetySignal("Tôi muốn chết cười nhưng tôi muốn chết thật."), "self_harm_signal");
+  assert.equal(oracleSafetySignal("Cười muốn chết luôn"), null);
+  assert.equal(oracleSafetySignal("Cười muốn chết nhưng tôi muốn chết thật."), "self_harm_signal");
 });

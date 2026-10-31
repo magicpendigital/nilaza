@@ -170,4 +170,14 @@ describe("PersonaChatRoom", () => {
     expectText(tree, "Continuing from a tarot card");
     expect(textContent(tree.toJSON())).not.toContain("astrology preview");
   });
+
+  it("shows the 115 support card under a crisis safety reply only", () => {
+    const tree = renderTree(<PersonaChatRoom {...baseProps()} messages={[
+      { id: "m1", role: "user" as const, text: "I want to die" },
+      { id: "m2", role: "guide" as const, text: "I hear that this is very hard.", uiMetadata: { safety: "crisis" } }
+    ]} />);
+    expectText(tree, "Call 115");
+    const ordinary = renderTree(<PersonaChatRoom {...baseProps()} messages={[{ id: "m3", role: "guide" as const, text: "Notice the pause." }]} />);
+    expect(textContent(ordinary.toJSON())).not.toContain("Call 115");
+  });
 });

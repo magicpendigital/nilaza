@@ -5167,10 +5167,15 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
               handoffContext: chatHandoffContext
             }
           },
-          () => ({
-            text: buildPersonaReply(selectedPersona, text, language, chatHandoffContext),
-            moderationStatus: containsRiskyRequest(text) ? "blocked" : "fallback"
-          }),
+          () => {
+            // Offline, the same safety policy answers on the device.
+            const signal = oracleSafetySignal(text);
+            if (signal) return { text: oracleSafetyReply(language, signal), moderationStatus: "blocked", safety: signal === "self_harm_signal" ? "crisis" : "boundary" };
+            return {
+              text: buildPersonaReply(selectedPersona, text, language, chatHandoffContext),
+              moderationStatus: containsRiskyRequest(text) ? "blocked" : "fallback"
+            };
+          },
           backendOptions
         );
         const guideMessage: ChatMessage = {
@@ -5185,6 +5190,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
             clientRequestId,
             // A canned reply (AI unavailable) is labelled in the room.
             ...(reply.moderationStatus === "fallback" ? { fallback: true } : {}),
+            ...(reply.safety === "crisis" ? { safety: "crisis" } : {}),
             ...(chatHandoffContext
               ? {
                 handoffSourceType: chatHandoffContext.sourceType,
