@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "taskId": "guest-preview-2026-10-31",
+  "ownerAgent": "mobile_ux_fixes_agent",
+  "lane": "mobile_guest_preview",
+  "goal": "Guest preview (analysis N-01, Owner decision 2026-10-31): the welcome screen offers Xem thử không cần tài khoản, which opens the 78-card library with card meanings and the 12 sign guides. Anything that calls AI or saves data asks the person to create an account or sign in.",
+  "successCriteria": [
+    "Welcome shows Xem thử không cần tài khoản when guest entry is enabled.",
+    "Guests browse 78 cards with meanings and 12 sign guides; no AI call, no storage write.",
+    "Tạo tài khoản and Đăng nhập leave the preview into the right auth view; Android Back steps back inside the preview.",
+    "Mobile check and Jest suite pass.",
+    "Card images in the 78-card library keep the card ratio on web."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/auth/AuthFlow.tsx",
+    "apps/mobile/src/auth/__tests__/",
+    "apps/mobile/src/features/guest/",
+    "apps/admin/workflow-catalog.js",
+    "apps/mobile/src/features/tarot/CardLibrary.tsx"
+  ],
+  "untouchedSurfaces": [
+    "No backend, deploy, SQL or settings change.",
+    "Content data unchanged.",
+    "Signed-in flows unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Welcome screen before sign-in.",
+    "dataWrite": "None; the preview keeps state in memory only.",
+    "backendContract": "No backend call from the preview.",
+    "canonicalContract": "Analysis N-01; decision 5 (static content without sign-in) confirmed by the Owner on 2026-10-31.",
+    "adminVisibility": "Workflow catalog digest of App.tsx refreshed.",
+    "privacySafety": "No personal data is collected or stored in the preview.",
+    "observability": "No analytics or logging change.",
+    "rollback": "Revert the commit on the PR branch.",
+    "surfacesIntentionallyUntouched": "Tarot reading, chat, Journal, Astrology chart.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs validation, commits and pushes to the PR branch without merging or deploying."
+  },
+  "canonicalContracts": [
+    "Analysis item N-01.",
+    "Owner decision 2026-10-31: open guest mode for static content."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile UI routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Signed-out gate and card guide helpers.",
+      "sha256": "e05cb132e877daccbd22ccf063cf7ab01a9c29c82cf113d270a594fe1ecf6820"
+    },
+    {
+      "path": "apps/mobile/src/auth/AuthFlow.tsx",
+      "reason": "Welcome actions.",
+      "sha256": "078489872b8e0d2d258e4da2017b8ba9b8b496e46a06c2a32d7a563e6994c507"
+    },
+    {
+      "path": "apps/mobile/src/runtimeConfig.ts",
+      "reason": "Guest entry flag.",
+      "sha256": "be7e5953985f0f5c85c3bf6b7a6244122e79363b7324006ceb146dd64da56d74"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing React Native ScrollView APIs."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change in this task.",
+    "sensitiveData": "The private note is saved through the existing Journal update path only.",
+    "secretsLogging": "No credentials, tokens or logs are added.",
+    "externalInput": "No new user input is sent anywhere.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration, deploy or release.",
+    "stopCondition": "Stop if a change needs new content, a deploy or settings without approval, or if checks fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/auth/AuthFlow.tsx",
+      "apps/mobile/src/auth/__tests__/AuthFlow.test.tsx",
+      "apps/mobile/src/features/guest/GuestPreview.tsx",
+      "apps/mobile/src/features/guest/__tests__/GuestPreview.test.tsx",
+      "apps/mobile/src/features/tarot/CardLibrary.tsx",
+      "docs/feature-plans/guest-preview-2026-10-31.json"
+    ],
+    "note": "Stacked on the crisis safety commit."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/guest-preview-2026-10-31.json",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand"
+  ],
+  "managerTestPath": "Sign out, tap Xem thử không cần tài khoản, open a card and a sign, then tap Tạo tài khoản.",
+  "residualRisk": "Android Back in the preview is checked by code and the web build, not on a device.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

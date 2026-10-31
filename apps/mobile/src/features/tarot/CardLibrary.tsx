@@ -76,7 +76,9 @@ export function CardLibrary({ language, deckName, cards, onOpen, onPreview }: {
             onPress={() => onOpen(card.id)}
             onPreview={() => onPreview(card.id)}
           >
-            <Image source={card.image} style={s.image} resizeMode="contain" />
+            <View style={s.image}>
+              <Image source={card.image} style={s.imageFill} resizeMode="contain" />
+            </View>
             <Text numberOfLines={2} style={s.name}>{card.name}</Text>
             <Text numberOfLines={1} style={s.sub}>{card.sub}</Text>
             {card.learned ? <View style={s.learnedDot} /> : null}
@@ -104,7 +106,9 @@ const s = StyleSheet.create({
   groupLine: { color: "#B8B0A4", fontFamily: typography.bodyFontFamily, fontSize: 13.5, lineHeight: 19 },
   grid: { flexDirection: "row", flexWrap: "wrap", rowGap: 16, marginHorizontal: -5 },
   cell: { width: "33.333%", paddingHorizontal: 5, gap: 6 },
-  image: { width: "100%", aspectRatio: 0.58, borderRadius: 6 },
+  image: { width: "100%", aspectRatio: 0.58, borderRadius: 6, overflow: "hidden" },
+  // Explicit size: on web an Image without width and height takes the file's own pixel size.
+  imageFill: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%" },
   name: { color: colors.ivory, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 13, lineHeight: 17 },
   sub: { color: "#8F877C", fontFamily: typography.bodyFontFamily, fontSize: 11.5 },
   learnedDot: { position: "absolute", top: 6, right: 11, width: 10, height: 10, borderRadius: 5, backgroundColor: colors.gold, borderWidth: 2, borderColor: colors.charcoal }

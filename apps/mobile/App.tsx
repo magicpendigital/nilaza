@@ -117,7 +117,7 @@ import {
   FadeInView
 } from "./src/a2ui";
 import { formatLocalDate, formatLocalDateTime, localizedList, localizedText, normalizeLanguage, relativeDayLabel } from "./src/i18n";
-import { isSupabaseAuthConfigured, nilazaAdminUrl, nilazaBackendBaseUrl, nilazaHelpUrlFor, nilazaLegalUrlFor, onlineModeRequired, onlineRuntimeReady, responsiveShellEnabled, supabaseAnonKey, supabaseUrl } from "./src/runtimeConfig";
+import { guestEntryEnabled, isSupabaseAuthConfigured, nilazaAdminUrl, nilazaBackendBaseUrl, nilazaHelpUrlFor, nilazaLegalUrlFor, onlineModeRequired, onlineRuntimeReady, responsiveShellEnabled, supabaseAnonKey, supabaseUrl } from "./src/runtimeConfig";
 import { useAdaptiveLayout } from "./src/responsive";
 import { AdaptiveScaffold, ResponsiveGrid, OverflowChipRail } from "./src/a2ui/layout";
 import { AdaptiveNavigation, type NavigationChrome } from "./src/a2ui/AdaptiveNavigation";
@@ -134,7 +134,9 @@ import { TarotResultDock, TarotResultView } from "./src/features/tarot/TarotResu
 import type { AskTopic } from "./src/features/tarot/askHelpers";
 import { MythologyEntry, MythologyWorld } from "./src/features/astrology/MythologyWorld";
 import { AstrologyChartFoundation } from "./src/features/astrology/AstrologyChartFoundation";
-import { localizeAstrologySign, toAstrologyChartPresentation, type AstrologyRawChart, type AstrologySignId } from "./src/features/astrology/contracts";
+import { astrologySignIds, localizeAstrologySign, toAstrologyChartPresentation, type AstrologyRawChart, type AstrologySignId } from "./src/features/astrology/contracts";
+import { AstrologySignGuide } from "./src/features/astrology/AstrologySignGuide";
+import { GuestPreview } from "./src/features/guest/GuestPreview";
 import { colors, layout, spacing, typography } from "./src/theme";
 import { getDeckVisual, getFeatureVisual, getPersonaVisual } from "./src/visualAssets";
 import { AuthFlow } from "./src/auth/AuthFlow";
@@ -2993,6 +2995,57 @@ export default function App() {
   return <PasswordRecoveryBoundary><EmailConfirmationBoundary><AccountBoundary /></EmailConfirmationBoundary></PasswordRecoveryBoundary>;
 }
 
+/** Guest preview before sign-in: the default deck's 78 cards with meanings and the 12 sign guides. */
+function GuestPreviewScreen({ language, onCreateAccount, onSignIn, onExit }: { language: Language; onCreateAccount: () => void; onSignIn: () => void; onExit: () => void }) {
+  const deck = decks[0];
+  const renderCard = (cardId: string, open: (id: string) => void) => {
+    const index = Math.max(0, cards.findIndex((item) => item.id === cardId));
+    const card = cards[index];
+    const previous = cards[(index + cards.length - 1) % cards.length];
+    const next = cards[(index + 1) % cards.length];
+    return (
+      <TarotCardGuide
+        key={card.id}
+        language={language}
+        name={displayTarotCardName(card, language)}
+        originalName={localizedText(card.name, "en")}
+        arcanaLabel={tarotArcanaLabel(card, language)}
+        image={getTarotCardImage(deck.id, card.id)}
+        uprightMeaning={localizedText(card.uprightMeaning, language)}
+        reversedMeaning={localizedText(card.reversedMeaning, language)}
+        guide={getTarotCardGuide(card.id, language)}
+        practice={localizedText(card.reflectionQuestion, language)}
+        onOpenImage={() => undefined}
+        previous={{ name: displayTarotCardName(previous, language), onPress: () => open(previous.id) }}
+        next={{ name: displayTarotCardName(next, language), onPress: () => open(next.id) }}
+      />
+    );
+  };
+  return (
+    <ScreenShell>
+      <StatusBar barStyle="light-content" backgroundColor={colors.charcoal} />
+      <GuestPreview
+        language={language}
+        deckName={localizedText(deck.name, language)}
+        cards={cards.map((card) => ({
+          id: card.id,
+          group: card.arcana === "major" ? "major" as const : (card.suit as "cups" | "wands" | "swords" | "pentacles"),
+          name: displayTarotCardName(card, language),
+          sub: card.arcana === "major" ? `${majorNumerals[card.number] ?? card.number} · ${card.name.en}` : card.name.en,
+          image: getTarotCardImage(deck.id, card.id),
+          learned: false
+        }))}
+        renderCard={renderCard}
+        signs={astrologySignIds.map((id) => ({ id, name: localizeAstrologySign(id, language) }))}
+        renderSign={(signId) => <AstrologySignGuide signId={signId as AstrologySignId} language={language} mode="detail" />}
+        onCreateAccount={onCreateAccount}
+        onSignIn={onSignIn}
+        onExit={onExit}
+      />
+    </ScreenShell>
+  );
+}
+
 function RuntimeConfigurationNotice() {
   return (
     <ScreenShell>
@@ -3085,6 +3138,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     ...defaultProfile, nickname: authState.status === "signed_in" ? authState.user.name : defaultProfile.nickname
   }));
   const [authView, setAuthView] = useState<AuthView>("welcome");
+  const [guestPreview, setGuestPreview] = useState(false);
   const [screen, setScreen] = useState<Screen>("home");
   const [loaded, setLoaded] = useState(false);
   const [localHydrated, setLocalHydrated] = useState(false);
@@ -5516,6 +5570,10 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   }
 
   if (authState.status === "signed_out") {
+    if (guestPreview) {
+      const leavePreview = (view: AuthView) => { setGuestPreview(false); setAuthView(view); };
+      return <GuestPreviewScreen language={language} onCreateAccount={() => leavePreview("sign-up")} onSignIn={() => leavePreview("sign-in")} onExit={() => leavePreview("welcome")} />;
+    }
     return (
       <>
         <StatusBar barStyle="light-content" backgroundColor={colors.charcoal} />
@@ -5527,6 +5585,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
           onResendConfirmation={resendSignupConfirmation}
           onForgotPassword={resetPasswordLocally}
           onViewChange={setAuthView}
+          onPreview={guestEntryEnabled ? () => setGuestPreview(true) : undefined}
           view={authView}
         />
       </>
