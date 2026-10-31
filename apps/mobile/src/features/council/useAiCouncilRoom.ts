@@ -632,8 +632,13 @@ export function useAiCouncilRoom({
   };
 
   const send = async () => {
-    const userQuestion = question.trim() || (language === "vi" ? "Mình cần một góc nhìn rõ hơn cho hôm nay." : "I need a clearer perspective for today.");
+    const userQuestion = question.trim();
     if (generating || !sessionsLoaded) return;
+    // An empty box sends nothing, so no council turn is used (analysis CO-02).
+    if (!userQuestion) {
+      onFeedback(language === "vi" ? "Hãy viết tình huống của bạn trước khi mở hội đồng." : "Write your situation before opening the council.");
+      return;
+    }
     const version = ++requestVersion.current;
     setGenerating(true);
     const activity = onGenerationStarted?.();

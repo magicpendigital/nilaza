@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "taskId": "copy-and-council-empty-send-2026-10-31",
+  "ownerAgent": "mobile_ux_fixes_agent",
+  "lane": "mobile_copy_cleanup",
+  "goal": "Close small analysis items: Vietnamese strings without diacritics and English labels shown to Vietnamese users (HO-06, JO-07, PR-04: notification titles, toasts, mood labels, push status), and Council no longer sends a default question when the box is empty (CO-02).",
+  "successCriteria": [
+    "Vietnamese notification titles and bodies have diacritics; toasts are localized.",
+    "Push permission status shows Vietnamese words, not granted/denied.",
+    "Mood labels read Cảm xúc instead of Mood.",
+    "An empty Council box sends nothing and uses no turn.",
+    "Mobile check and Jest pass."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/council/",
+    "apps/admin/workflow-catalog.js"
+  ],
+  "untouchedSurfaces": [
+    "No backend, deploy, SQL or settings change.",
+    "Content data unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Notifications, Profile notification status, Journal mood labels, Council composer.",
+    "dataWrite": "No new data; copy and a send guard only.",
+    "backendContract": "No backend contract change.",
+    "canonicalContract": "Analysis items HO-06, JO-07, PR-04, CO-02.",
+    "adminVisibility": "Workflow catalog digest of App.tsx refreshed.",
+    "privacySafety": "The note stays where Journal notes are already stored.",
+    "observability": "No analytics or logging change.",
+    "rollback": "Revert the commit on the PR branch.",
+    "surfacesIntentionallyUntouched": "Tarot, Astrology, chat.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs validation, commits and pushes to the PR branch without merging or deploying."
+  },
+  "canonicalContracts": [
+    "Analysis items HO-06, JO-07, PR-04 and CO-02."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile UI routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Notification copy and mood labels.",
+      "sha256": "963478de40b80f803d4613a69380d9aa5f5a6621ae28873af2e0c32ff8beeb40"
+    },
+    {
+      "path": "apps/mobile/src/features/council/useAiCouncilRoom.ts",
+      "reason": "Council send.",
+      "sha256": "5a680f41a3bfbcc1a99245aafc8ae7fc8a35b58840933cec07f5c733ade24728"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing React Native ScrollView APIs."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change in this task.",
+    "sensitiveData": "The private note is saved through the existing Journal update path only.",
+    "secretsLogging": "No credentials, tokens or logs are added.",
+    "externalInput": "No new user input is sent anywhere.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration, deploy or release.",
+    "stopCondition": "Stop if a change needs new content, a deploy or settings without approval, or if checks fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/features/council/__tests__/useAiCouncilRoom.test.tsx",
+      "apps/mobile/src/features/council/useAiCouncilRoom.ts",
+      "docs/feature-plans/copy-and-council-empty-send-2026-10-31.json"
+    ],
+    "note": "Branch from main@a75e63e."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/copy-and-council-empty-send-2026-10-31.json",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand"
+  ],
+  "managerTestPath": "Open Council and tap send with an empty box: nothing is sent and a short hint appears.",
+  "residualRisk": "Notification copy is checked in code and tests only, not on a device.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
