@@ -137,6 +137,7 @@ import { astrologySignIds, localizeAstrologySign, toAstrologyChartPresentation, 
 import { AstrologySignGuide } from "./src/features/astrology/AstrologySignGuide";
 import { GuestPreview } from "./src/features/guest/GuestPreview";
 import { dailyRhythmFor } from "./src/features/home/dailyRhythm";
+import { localizePulseSign } from "./src/features/home/localizePulseSign";
 import { colors, layout, spacing, typography } from "./src/theme";
 import { getDeckVisual, getFeatureVisual, getPersonaVisual } from "./src/visualAssets";
 import { AuthFlow } from "./src/auth/AuthFlow";
@@ -3443,7 +3444,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       backendOptions
     ).then((result) => {
       if (!active) return;
-      setRemoteZodiacPulse({ requestKey: zodiacPulseRequestKey, pulse: result });
+      setRemoteZodiacPulse({ requestKey: zodiacPulseRequestKey, pulse: localizePulseSign(result, language) });
       recordEvent("daily_zodiac_pulse_loaded", {
         dateKey: result.dateKey,
         source: result.source,
