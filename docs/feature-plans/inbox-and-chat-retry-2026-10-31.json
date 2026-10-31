@@ -58,7 +58,7 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "sendMessage, retryChat, inbox handlers.",
-      "sha256": "b34f7fbf2d64593ab04d61ba351a2fdd8d45c3324d742dac9db10616772cda71"
+      "sha256": "6d3d34409262b6dc110b873f50f0838f582e0bdf15ff5084b5823958cd49b6ab"
     },
     {
       "path": "apps/mobile/src/features/notifications/InboxScreen.tsx",

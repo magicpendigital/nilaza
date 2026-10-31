@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "taskId": "chat-a11y-and-saved-spread-2026-10-31",
+  "ownerAgent": "mobile_ux_fixes_agent",
+  "lane": "mobile_a11y_journal_detail",
+  "goal": "Close analysis items CH-10 and JO-05: chat room header buttons get language-specific screen reader labels (Quay lại, Thêm tùy chọn) and Thử lại reaches 48px; a saved Tarot reading in the Journal shows its question and each card with position and orientation instead of only a card count.",
+  "successCriteria": [
+    "The chat menu button has a label; back label follows the app language; retry is at least 48px tall.",
+    "A saved reading lists the question and each card name, position and Xuôi/Ngược.",
+    "Mobile check and Jest pass."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/a2ui/",
+    "apps/mobile/src/features/persona/",
+    "apps/mobile/src/features/council/",
+    "apps/mobile/src/__tests__/",
+    "apps/admin/workflow-catalog.js"
+  ],
+  "untouchedSurfaces": [
+    "No backend, deploy, SQL or settings change.",
+    "Content data unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Chat room header, chat retry, Journal saved reading detail.",
+    "dataWrite": "No data change; reads the existing saved snapshot.",
+    "backendContract": "No backend contract change.",
+    "canonicalContract": "Analysis items CH-10 and JO-05.",
+    "adminVisibility": "Workflow catalog digest of App.tsx refreshed.",
+    "privacySafety": "The note stays where Journal notes are already stored.",
+    "observability": "No analytics or logging change.",
+    "rollback": "Revert the commit on the PR branch.",
+    "surfacesIntentionallyUntouched": "Tarot reading flow, saving format.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs validation, commits and pushes to the PR branch without merging or deploying."
+  },
+  "canonicalContracts": [
+    "Analysis items CH-10 and JO-05."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile UI routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Journal saved reading detail.",
+      "sha256": "6d3d34409262b6dc110b873f50f0838f582e0bdf15ff5084b5823958cd49b6ab"
+    },
+    {
+      "path": "apps/mobile/src/a2ui/chat.tsx",
+      "reason": "Chat room header.",
+      "sha256": "59d88535ca0bbbf5c3aaa9eb1c9f761c82f124fb3bdd07e7ddaa1857f1fe47fc"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing React Native ScrollView APIs."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change in this task.",
+    "sensitiveData": "The private note is saved through the existing Journal update path only.",
+    "secretsLogging": "No credentials, tokens or logs are added.",
+    "externalInput": "No new user input is sent anywhere.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration, deploy or release.",
+    "stopCondition": "Stop if a change needs new content, a deploy or settings without approval, or if checks fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/a2ui/chat.tsx",
+      "apps/mobile/src/features/council/AiCouncilRoom.tsx",
+      "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
+      "apps/mobile/src/features/persona/__tests__/PersonaChatRoom.test.tsx",
+      "docs/feature-plans/chat-a11y-and-saved-spread-2026-10-31.json"
+    ],
+    "note": "Stacked on the profile reset commit."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/chat-a11y-and-saved-spread-2026-10-31.json",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand"
+  ],
+  "managerTestPath": "Open a saved Tarot reading in the Journal and see the question and each card; with TalkBack, the chat menu button reads Thêm tùy chọn.",
+  "residualRisk": "Screen reader output is checked by tests, not with TalkBack on a device.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

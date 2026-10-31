@@ -589,6 +589,22 @@ function pushPermissionLabel(status: string | undefined, language: Language) {
   return vi ? "Chưa hỏi quyền" : "Not asked yet";
 }
 
+/** Question and card lines of a saved Tarot reading (analysis JO-05): name, position and orientation per card. */
+function savedReadingLines(snapshot: unknown, language: Language): string[] {
+  const vi = language === "vi";
+  const saved = snapshot as { type?: string; question?: unknown; cards?: unknown } | undefined;
+  if (saved?.type !== "tarot_reading" || !Array.isArray(saved.cards)) return [];
+  const lines = typeof saved.question === "string" && saved.question.trim() ? [`${vi ? "Câu hỏi" : "Question"}: ${saved.question.trim()}`] : [];
+  for (const raw of saved.cards.slice(0, 10)) {
+    const card = raw as Partial<DrawnTarotCard> | null;
+    const known = card?.id ? cards.find((item) => item.id === card.id) : undefined;
+    if (!known) continue;
+    const position = typeof card?.spread === "string" && card.spread ? ` · ${card.spread}` : "";
+    lines.push(`${displayTarotCardName(known, language)}${position} · ${card?.reversed ? (vi ? "Ngược" : "Reversed") : (vi ? "Xuôi" : "Upright")}`);
+  }
+  return lines;
+}
+
 /** Text a Journal entry shows: a manual note falls back to its body when the note is blank. */
 function journalEntryBody(entry: JournalEntry) {
   return entry.sourceType === "manual" && entry.userNote?.trim() ? entry.userNote : entry.summary;
@@ -8307,9 +8323,9 @@ function JournalScreen({
               {(selectedEntry.sourceSnapshot as any).deckId && findTarotDeckById(decksById, (selectedEntry.sourceSnapshot as any).deckId) ? ` / ${localizedText(findTarotDeckById(decksById, (selectedEntry.sourceSnapshot as any).deckId)!.name, language)}` : ""}
               {(selectedEntry.sourceSnapshot as any).personaName ? ` / ${(selectedEntry.sourceSnapshot as any).personaName}` : ""}
             </Text>
-            {(selectedEntry.sourceSnapshot as any).cards ? (
-              <Text style={styles.sourcePath}>{language === "vi" ? "Số lá" : "Cards"}: {String((selectedEntry.sourceSnapshot as any).cards.length ?? 0)}</Text>
-            ) : null}
+            {savedReadingLines(selectedEntry.sourceSnapshot, language).map((line, index) => (
+              <Text key={`${index}-${line}`} style={styles.sourcePath}>{line}</Text>
+            ))}
           </View>
         ) : null}
 

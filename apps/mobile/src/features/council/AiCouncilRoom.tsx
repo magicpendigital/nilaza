@@ -187,6 +187,8 @@ export function AiCouncilRoom({
     <View style={styles.screen}>
       <ChatRoomHeader
         activeSessionId={activeSessionId}
+        backLabel={vi ? "Quay lại" : "Back"}
+        menuLabel={vi ? "Thêm tùy chọn" : "More options"}
         emptyHistoryLabel={language === "vi" ? "Chưa có hội đồng nào trước đó." : "No previous council yet."}
         historyLabel={language === "vi" ? "Lịch sử" : "History"}
         historyTitle={language === "vi" ? "Tiếp tục hội đồng" : "Continue a council"}
