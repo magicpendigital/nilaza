@@ -1,5 +1,6 @@
 import { AstrologyHub } from "./AstrologyHub";
 import { BirthDateFields, BirthTimeFields } from "./BirthFields";
+import { BigThreeCards, ChartRowLink, chartHeaderLine } from "./ChartOverviewParts";
 import { bigThreeOf } from "./sky";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
@@ -425,7 +426,7 @@ export function AstrologyExperience({
         chart,
       };
       setReport(nextReport);
-      setStage(chart.time.precision === "exact" ? "chart" : "report");
+      setStage("report");
     } catch {
       if (live.current)
         setError(
@@ -437,6 +438,7 @@ export function AstrologyExperience({
       if (live.current) setBusy(false);
     }
   };
+  const reportBig3 = report ? bigThreeOf(report.chart) : null;
   const presentation = report
     ? toAstrologyChartPresentation(report.chart as unknown as AstrologyRawChart)
     : undefined;
@@ -560,7 +562,7 @@ export function AstrologyExperience({
     setAiErrorMessage("");
     setPendingAiQuestion("");
     setShowAiConsent(false);
-    setStage(r.chart.time.precision === "exact" ? "chart" : "report");
+    setStage("report");
     setNotice("");
   };
   // The newest saved chart stands for the user's own sky on the hub.
@@ -630,7 +632,7 @@ export function AstrologyExperience({
     setError("");
     setNotice("");
     if (stage === "home") onBack();
-    else if (stage === "chart") setStage("home");
+    else if (stage === "chart") setStage(report ? "report" : "home");
     else if (stage === "confirm") setStage("form");
     else setStage("home");
   };
@@ -883,7 +885,7 @@ export function AstrologyExperience({
             )}
             {stage === "form" && (
               <>
-                <Text style={s.kicker}>{vi ? "Tạo lá số" : "Create a chart"}</Text>
+                <Text style={s.kicker}>{vi ? "TẠO LÁ SỐ" : "CREATE A CHART"}</Text>
                 <Text style={s.title}>
                   {vi ? "Bầu trời lúc bạn chào đời" : "The sky when you were born"}
                 </Text>
@@ -1122,27 +1124,25 @@ export function AstrologyExperience({
             )}
             {stage === "report" && report && presentation && (
               <>
-                <Text style={s.title}>
-                  {vi ? "Bản đồ của bạn" : "Your birth chart"}
+                <Text style={s.kicker}>
+                  {chartHeaderLine(report.input, report.placeName, language).toUpperCase()}
                 </Text>
-                <Text style={s.body}>
-                  {report.input.date} · {report.placeName}
+                <Text style={s.title}>
+                  {vi ? "Lá số của bạn" : "Your chart"}
                 </Text>
                 <Text style={s.note}>
-                  {report.input.place.timezone} ·{" "}
-                  {report.input.time ?? (vi ? "Không rõ giờ" : "Unknown time")}
+                  {report.input.place.timezone}
                   {report.input.precision === "approximate"
-                    ? ` ± ${report.input.uncertaintyMinutes} ${vi ? "phút · giờ ước chừng" : "minutes · approximate time"}`
+                    ? ` · ± ${report.input.uncertaintyMinutes} ${vi ? "phút · giờ ước chừng" : "minutes · approximate time"}`
                     : ""}
                 </Text>
+                {reportBig3 ? <BigThreeCards big3={reportBig3} language={language} /> : null}
                 {report.chart.time.precision === "exact" ? (
                   <>
-                    <Action
-                      label={
-                        vi
-                          ? "Khám phá bản đồ tương tác"
-                          : "Explore interactive chart"
-                      }
+                    <ChartRowLink
+                      icon="planet-outline"
+                      title={vi ? "Bánh xe lá số & dữ liệu" : "Chart wheel & data"}
+                      detail={vi ? "Độ, nhà, góc hợp, cách tính" : "Degrees, houses, aspects, method"}
                       onPress={() => setStage("chart")}
                     />
                     {presentation.facts

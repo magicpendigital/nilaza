@@ -1,0 +1,353 @@
+{
+  "version": "2026-10-31-draft",
+  "status": "draft-for-owner-review",
+  "intro": {
+    "vi": "Đây là cách đặt hai bản đồ sao cạnh nhau để xem nhịp của bạn và người ấy gặp nhau ra sao. Nó không chấm điểm mức hợp nhau, không đoán trước tương lai của mối quan hệ và không thay cho việc trò chuyện thật với nhau.",
+    "en": "This places two charts side by side so you can see how your rhythms and theirs meet. It does not score compatibility, predict where the relationship is going, or replace actually talking with each other."
+  },
+  "footer": {
+    "vi": "Diễn giải biểu tượng để tự phản chiếu, không phải dự đoán chắc chắn về hai người.",
+    "en": "A symbolic reading for reflection, not a certain prediction about the two of you."
+  },
+  "consent": {
+    "title": {
+      "vi": "Trước khi lưu bản đồ của người khác",
+      "en": "Before you save someone else's chart"
+    },
+    "body": {
+      "vi": "Ngày, giờ và nơi sinh là thông tin riêng của người ấy. Nilaza chỉ lưu thông tin này trên thiết bị của bạn. Nếu được, hãy hỏi người ấy trước khi lưu, và dùng phần so sánh này để hiểu nhau hơn chứ không phải để đánh giá ai. Bạn có thể xóa bản đồ này bất cứ lúc nào.",
+      "en": "A birth date, time and place are the other person's private information. Nilaza keeps this information only on your device. If you can, ask them before saving, and use this comparison to understand each other better, not to judge anyone. You can delete this chart at any time."
+    },
+    "confirm": {
+      "vi": "Mình hiểu, lưu bản đồ",
+      "en": "I understand, save chart"
+    }
+  },
+  "relationshipTypes": {
+    "partner": { "vi": "Người yêu, bạn đời", "en": "Partner" },
+    "crush": { "vi": "Người mình đang thích", "en": "Someone I like" },
+    "friend": { "vi": "Bạn bè", "en": "Friend" },
+    "family": { "vi": "Người nhà", "en": "Family" },
+    "work": { "vi": "Đồng nghiệp, đối tác", "en": "Work" },
+    "other": { "vi": "Mối quan hệ khác", "en": "Other" }
+  },
+  "elementPairs": {
+    "fire-fire": {
+      "title": { "vi": "Hai ngọn Lửa cùng nhịp nhanh", "en": "Two flames, one quick pace" },
+      "body": {
+        "vi": "Cả hai có thể dễ cuốn nhau vào sự hứng khởi, thích bắt đầu và nói thẳng điều mình muốn. Khi cùng nóng lên một lúc, một khoảng dừng ngắn giúp hai người nghe nhau rõ hơn.",
+        "en": "You may easily sweep each other into enthusiasm, enjoy starting things and say plainly what you want. When you both heat up at once, a short pause helps you hear each other more clearly."
+      }
+    },
+    "fire-earth": {
+      "title": { "vi": "Lửa muốn đi, Đất muốn chắc", "en": "Fire wants to go, Earth wants footing" },
+      "body": {
+        "vi": "Một người hay muốn bắt đầu ngay, người còn lại thường muốn biết việc sẽ đứng vững ra sao. Hai nhịp này có thể bù cho nhau khi mỗi bên hiểu rằng nhanh và chắc đều là một cách quan tâm.",
+        "en": "One of you often wants to start right away, while the other wants to know how things will hold up. These rhythms can balance each other once you both see that speed and steadiness are each a way of caring."
+      }
+    },
+    "fire-air": {
+      "title": { "vi": "Lửa và Khí cùng thổi bùng ý tưởng", "en": "Fire and Air fan the ideas" },
+      "body": {
+        "vi": "Ý tưởng của một người dễ làm người kia hứng khởi, nên những cuộc trò chuyện thường sôi nổi. Điều đáng để ý là cùng nhau chọn ra một việc để làm tới cùng, thay vì chỉ bàn cho vui.",
+        "en": "One person's ideas easily spark the other's, so conversations tend to be lively. It is worth choosing one thing to see through together, rather than only enjoying the talk."
+      }
+    },
+    "fire-water": {
+      "title": { "vi": "Lửa bộc lộ, Nước cảm nhận sâu", "en": "Fire shows it, Water feels it deeply" },
+      "body": {
+        "vi": "Một người thường thể hiện cảm xúc ra ngoài thật nhanh, người còn lại hay cảm nhận lặng lẽ và cần thêm thời gian. Khi Lửa chậm lại một chút và Nước nói ra điều mình thấy, hai người có thể gặp nhau ở giữa.",
+        "en": "One of you tends to show feelings quickly, while the other feels quietly and needs more time. When Fire slows a little and Water says what it notices, you can meet in the middle."
+      }
+    },
+    "earth-earth": {
+      "title": { "vi": "Hai nhịp Đất vững và đều", "en": "Two steady Earth rhythms" },
+      "body": {
+        "vi": "Cả hai có thể thấy yên tâm khi mọi thứ rõ ràng, có kế hoạch và được giữ lời. Thỉnh thoảng cùng thử một điều mới giúp sự quen thuộc không trở thành nếp cứng.",
+        "en": "You may both feel at ease when things are clear, planned and promises are kept. Trying something new together now and then keeps the familiar from turning rigid."
+      }
+    },
+    "earth-air": {
+      "title": { "vi": "Đất cần thực tế, Khí cần ý tưởng", "en": "Earth wants the practical, Air the possible" },
+      "body": {
+        "vi": "Một người muốn biết việc sẽ làm thế nào, người còn lại thích mở ra nhiều khả năng và trò chuyện về chúng. Ý tưởng có chỗ đứng nhờ sự thực tế, còn sự thực tế có thêm khoảng thở nhờ ý tưởng.",
+        "en": "One of you wants to know how things will get done, while the other enjoys opening up possibilities and talking them through. Ideas gain footing from the practical, and the practical gains breathing room from ideas."
+      }
+    },
+    "earth-water": {
+      "title": { "vi": "Đất làm chỗ dựa, Nước giữ cảm xúc", "en": "Earth offers support, Water holds feeling" },
+      "body": {
+        "vi": "Một người thường quan tâm bằng việc làm cụ thể, người còn lại cảm nhận nhiều và cần được lắng nghe. Hai nhịp này dễ tạo cảm giác an toàn, miễn là cả hai nói ra mình muốn được chăm sóc theo cách nào.",
+        "en": "One of you tends to care through practical actions, while the other feels a lot and needs to be heard. These rhythms can feel safe together, as long as you both say how you like to be cared for."
+      }
+    },
+    "air-air": {
+      "title": { "vi": "Hai luồng Khí thích trò chuyện", "en": "Two Air signs who love to talk" },
+      "body": {
+        "vi": "Cả hai có thể nói chuyện hàng giờ, trao đổi nhanh và tò mò về góc nhìn của nhau. Đôi khi dừng lại hỏi người kia đang cảm thấy gì sẽ giúp cuộc trò chuyện chạm sâu hơn.",
+        "en": "You may talk for hours, trade thoughts quickly and stay curious about each other's views. Sometimes pausing to ask how the other person feels helps the conversation go deeper."
+      }
+    },
+    "air-water": {
+      "title": { "vi": "Khí nghĩ bằng lời, Nước cảm bằng lòng", "en": "Air thinks in words, Water in feelings" },
+      "body": {
+        "vi": "Một người thường hiểu mọi chuyện bằng cách nói ra và phân tích, người còn lại hiểu bằng cảm nhận trước. Khi bên này hỏi thêm về cảm xúc và bên kia thử gọi tên nó thành lời, hai người dễ hiểu nhau hơn.",
+        "en": "One of you tends to make sense of things by talking and analysing, while the other understands through feeling first. When one asks more about feelings and the other tries to put them into words, understanding comes more easily."
+      }
+    },
+    "water-water": {
+      "title": { "vi": "Hai dòng Nước cùng cảm nhận sâu", "en": "Two Water signs, both feeling deeply" },
+      "body": {
+        "vi": "Cả hai có thể đọc được tâm trạng của nhau rất nhanh, đôi khi chẳng cần nói ra. Vì cảm xúc dễ lan sang nhau, mỗi người vẫn cần một khoảng riêng để biết đâu là cảm xúc của chính mình.",
+        "en": "You may read each other's moods very quickly, sometimes without a word. Because feelings spread easily between you, each of you still needs some space to know which feelings are your own."
+      }
+    }
+  },
+  "aspects": {
+    "sun-moon": {
+      "conjunction": {
+        "title": { "vi": "Hướng sống chạm vào nhu cầu được chăm sóc", "en": "Direction meets the need for care" },
+        "body": {
+          "vi": "Khi Mặt Trời của một người nằm gần Mặt Trăng của người kia, điều người này theo đuổi có thể chạm thẳng vào cảm giác thân quen của người còn lại. Hai người có thể thấy dễ gần, nhưng vẫn cần hỏi nhau thay vì đoán rằng mình đã hiểu hết.",
+          "en": "When one person's Sun sits close to the other's Moon, what one of you pursues can touch directly on what feels familiar to the other. You may feel easy to be around, yet it still helps to ask rather than assume you already understand everything."
+        },
+        "try": {
+          "vi": "Mỗi người kể một điều nhỏ giúp mình thấy được quan tâm.",
+          "en": "Each share one small thing that makes you feel cared for."
+        }
+      },
+      "flowing": {
+        "title": { "vi": "Hướng đi và cảm xúc dễ hòa nhịp", "en": "Direction and feeling in easy rhythm" },
+        "body": {
+          "vi": "Mặt Trời của một người tạo góc hài hòa với Mặt Trăng của người kia, gợi rằng điều người này muốn làm khá hợp với nhịp cảm xúc của người còn lại. Sự dễ chịu ấy vẫn cần được nuôi bằng những lần hỏi thăm và lắng nghe thật lòng.",
+          "en": "One person's Sun makes a harmonious angle with the other's Moon, suggesting that what one of you wants to do sits fairly well with the other's emotional rhythm. That ease still grows through checking in and listening for real."
+        },
+        "try": {
+          "vi": "Cùng làm một việc nhỏ quen thuộc mà cả hai thấy dễ chịu.",
+          "en": "Share a small, familiar activity you both find comforting."
+        }
+      },
+      "tension": {
+        "title": { "vi": "Khi hướng đi và nhu cầu kéo khác chiều", "en": "When direction and needs pull apart" },
+        "body": {
+          "vi": "Mặt Trời của một người tạo góc căng với Mặt Trăng của người kia, nên điều người này hào hứng đôi khi lại chạm vào chỗ người còn lại cần được yên. Đây là chỗ để hiểu nhau hơn: không ai sai cả, chỉ là hai nhu cầu cần được nói ra.",
+          "en": "One person's Sun makes a tense angle with the other's Moon, so what excites one of you can sometimes press on the other's need for quiet. This is a place to understand each other: nobody is wrong, there are simply two needs to put into words."
+        },
+        "try": {
+          "vi": "Hỏi nhau lúc mệt mỗi người cần được ở cạnh hay ở một mình.",
+          "en": "Ask each other whether, when tired, you want company or space."
+        }
+      }
+    },
+    "moon-moon": {
+      "conjunction": {
+        "title": { "vi": "Hai nhu cầu cảm xúc nằm gần nhau", "en": "Two emotional needs side by side" },
+        "body": {
+          "vi": "Mặt Trăng của hai người nằm gần nhau, gợi rằng cách cả hai tìm sự dễ chịu và cảm giác an toàn có thể khá giống nhau. Vì quá quen, hai người cũng dễ cùng chùng xuống một lúc, nên một người chủ động hỏi thăm trước sẽ có ích.",
+          "en": "Your Moons sit close together, suggesting you may seek comfort and safety in quite similar ways. Because it feels so familiar, you can also dip at the same time, so it helps when one of you checks in first."
+        },
+        "try": {
+          "vi": "Cùng chọn một cách nghỉ ngơi mà cả hai đều thích.",
+          "en": "Choose one way of resting together that you both enjoy."
+        }
+      },
+      "flowing": {
+        "title": { "vi": "Hai cách tìm bình yên dễ hiểu nhau", "en": "Two ways of finding calm that click" },
+        "body": {
+          "vi": "Mặt Trăng của hai người tạo góc hài hòa, gợi rằng mỗi người có thể khá dễ đoán được điều gì làm người kia thấy dễ chịu. Sự hiểu ý này là một nguồn lực quý, nhưng vẫn đáng được kiểm lại bằng lời thay vì chỉ dựa vào cảm giác.",
+          "en": "Your Moons make a harmonious angle, suggesting each of you can sense fairly easily what helps the other feel at ease. That intuition is a real resource, yet it is still worth checking in words rather than relying on feeling alone."
+        },
+        "try": {
+          "vi": "Kể cho nhau nghe một kỷ niệm khiến mình thấy bình yên.",
+          "en": "Tell each other about a memory that makes you feel calm."
+        }
+      },
+      "tension": {
+        "title": { "vi": "Hai cách được an ủi khá khác nhau", "en": "Two different ways of being comforted" },
+        "body": {
+          "vi": "Mặt Trăng của hai người tạo góc căng, gợi rằng điều làm người này thấy được an ủi có thể chưa phải điều người kia cần. Đây là chỗ để học cách chăm sóc nhau theo đúng ngôn ngữ của từng người, thay vì theo cách mình vẫn quen.",
+          "en": "Your Moons make a tense angle, suggesting that what comforts one of you may not be what the other needs. This is a place to learn to care for each other in each person's own language, rather than in the way you are used to."
+        },
+        "try": {
+          "vi": "Mỗi người nói một câu: khi buồn, mình mong người kia làm gì.",
+          "en": "Each finish the sentence: when I'm sad, I'd like you to..."
+        }
+      }
+    },
+    "venus-mars": {
+      "conjunction": {
+        "title": { "vi": "Niềm vui của một người gặp sự chủ động", "en": "One person's delight meets the other's drive" },
+        "body": {
+          "vi": "Sao Kim của một người nằm gần Sao Hỏa của người kia, nên điều người này trân trọng dễ khơi dậy sự chủ động của người còn lại. Sự hào hứng giữa hai người có thể khá mạnh, và sẽ dễ chịu hơn khi cả hai cùng nói rõ nhịp độ mình thấy thoải mái.",
+          "en": "One person's Venus sits close to the other's Mars, so what one of you values easily stirs the other into action. The energy between you can be strong, and it feels better when you both say clearly what pace is comfortable."
+        },
+        "try": {
+          "vi": "Cùng nói rõ nhịp độ mỗi người thấy thoải mái khi làm chung.",
+          "en": "Say what pace each of you finds comfortable when doing things together."
+        }
+      },
+      "flowing": {
+        "title": { "vi": "Trân trọng và chủ động dễ đi cùng nhau", "en": "Appreciation and initiative move together" },
+        "body": {
+          "vi": "Sao Kim của một người tạo góc hài hòa với Sao Hỏa của người kia, gợi rằng cách người này thể hiện sự quý mến ăn ý với cách người kia bắt tay vào việc. Điều này dễ thành việc làm chung vui vẻ, khi cả hai vẫn để ý đến nhu cầu của nhau.",
+          "en": "One person's Venus makes a harmonious angle with the other's Mars, suggesting that how one of you shows warmth fits well with how the other gets things moving. This can turn into enjoyable shared plans, as long as you both keep each other's needs in mind."
+        },
+        "try": {
+          "vi": "Cùng lên kế hoạch cho một buổi đi chơi hay một việc nhỏ.",
+          "en": "Plan an outing or a small project together."
+        }
+      },
+      "tension": {
+        "title": { "vi": "Nhịp mong muốn và nhịp hành động lệch nhau", "en": "When the pace of wanting and doing differ" },
+        "body": {
+          "vi": "Sao Kim của một người tạo góc căng với Sao Hỏa của người kia, nên đôi khi người này muốn chậm và êm, còn người kia muốn nhanh và thẳng. Đây là chỗ để hiểu nhau: cả hai đều đang thể hiện sự quan tâm, chỉ là bằng hai tốc độ khác nhau.",
+          "en": "One person's Venus makes a tense angle with the other's Mars, so at times one of you wants slow and gentle while the other wants fast and direct. This is a place to understand each other: you are both showing care, just at two different speeds."
+        },
+        "try": {
+          "vi": "Thỏa thuận một tín hiệu nhỏ để xin chậm lại khi cần.",
+          "en": "Agree on a small signal for asking to slow down."
+        }
+      }
+    },
+    "venus-venus": {
+      "conjunction": {
+        "title": { "vi": "Hai người trân trọng những điều giống nhau", "en": "Valuing many of the same things" },
+        "body": {
+          "vi": "Sao Kim của hai người nằm gần nhau, gợi rằng cả hai có thể cùng thích một kiểu niềm vui, một gu thẩm mỹ hay một cách trao nhận. Sự giống nhau này dễ tạo cảm giác gần gũi, và vẫn có chỗ để mỗi người giữ nét riêng của mình.",
+          "en": "Your Venuses sit close together, suggesting you may share a kind of enjoyment, a sense of taste or a way of giving and receiving. That likeness can feel close, and there is still room for each of you to keep your own style."
+        },
+        "try": {
+          "vi": "Cùng làm một việc cả hai đều thích trong tuần này.",
+          "en": "Do one thing you both enjoy together this week."
+        }
+      },
+      "flowing": {
+        "title": { "vi": "Hai gu khác nhau mà vẫn dễ hòa", "en": "Different tastes that blend easily" },
+        "body": {
+          "vi": "Sao Kim của hai người tạo góc hài hòa, gợi rằng điều mỗi người quý trọng tuy không giống hệt nhưng khá dễ đi cùng nhau. Hai người có thể mở rộng niềm vui cho nhau bằng cách giới thiệu những điều mình yêu thích.",
+          "en": "Your Venuses make a harmonious angle, suggesting that what each of you treasures is not identical but blends fairly easily. You can widen each other's joys by sharing the things you love."
+        },
+        "try": {
+          "vi": "Mỗi người giới thiệu cho người kia một điều mình yêu thích.",
+          "en": "Each introduce the other to something you love."
+        }
+      },
+      "tension": {
+        "title": { "vi": "Hai cách trân trọng cần làm quen", "en": "Two ways of appreciating to get to know" },
+        "body": {
+          "vi": "Sao Kim của hai người tạo góc căng, gợi rằng cách mỗi người thể hiện sự quý mến hoặc tận hưởng niềm vui có thể khác nhau. Đây là chỗ để tò mò về nhau: một món quà, một lời khen hay thời gian ở bên mang ý nghĩa khác với mỗi người.",
+          "en": "Your Venuses make a tense angle, suggesting you may show warmth or enjoy life in quite different ways. This is a place to be curious about each other: a gift, a compliment or time together can mean different things to each of you."
+        },
+        "try": {
+          "vi": "Hỏi nhau điều gì khiến mỗi người thấy được trân trọng nhất.",
+          "en": "Ask each other what makes you feel most appreciated."
+        }
+      }
+    },
+    "sun-sun": {
+      "conjunction": {
+        "title": { "vi": "Hai hướng đi nằm cạnh nhau", "en": "Two directions side by side" },
+        "body": {
+          "vi": "Mặt Trời của hai người nằm gần nhau, gợi rằng cả hai có thể có cách thể hiện bản thân và điều muốn theo đuổi khá giống nhau. Điều này dễ tạo cảm giác được hiểu, đồng thời nhắc rằng mỗi người vẫn cần chỗ để tỏa sáng theo cách riêng.",
+          "en": "Your Suns sit close together, suggesting you may express yourselves and pursue things in quite similar ways. This can feel like being understood, and it is also a reminder that each of you needs room to shine in your own way."
+        },
+        "try": {
+          "vi": "Khen nhau một điểm mạnh riêng mà mình thấy ở người kia.",
+          "en": "Name one strength you see in the other person."
+        }
+      },
+      "flowing": {
+        "title": { "vi": "Hai hướng đi nâng đỡ nhau", "en": "Two directions that support each other" },
+        "body": {
+          "vi": "Mặt Trời của hai người tạo góc hài hòa, gợi rằng mục tiêu và cách sống của mỗi người có thể dễ ủng hộ nhau. Sự ăn ý này rõ nhất khi hai người thật sự hỏi nhau đang muốn hướng tới điều gì, thay vì đoán rằng mình đã biết.",
+          "en": "Your Suns make a harmonious angle, suggesting your goals and ways of living can support each other easily. This fit shows most when you actually ask what the other is reaching for, rather than assuming you already know."
+        },
+        "try": {
+          "vi": "Chia sẻ với nhau một điều mỗi người đang muốn làm được.",
+          "en": "Share one thing each of you is working toward."
+        }
+      },
+      "tension": {
+        "title": { "vi": "Hai cách tỏa sáng cần chỗ cho nhau", "en": "Two ways of shining that need room" },
+        "body": {
+          "vi": "Mặt Trời của hai người tạo góc căng, gợi rằng cách mỗi người muốn sống và được ghi nhận có thể kéo về hai hướng khác nhau. Đây là chỗ để hiểu nhau hơn: khác hướng không có nghĩa là đối đầu, mà là dịp nhìn thấy thêm một cách sống khác.",
+          "en": "Your Suns make a tense angle, suggesting that how each of you wants to live and be recognised may pull in different directions. This is a place to understand each other: different directions are not a contest, but a chance to see another way of living."
+        },
+        "try": {
+          "vi": "Hỏi nhau điều gì đang quan trọng nhất với mỗi người lúc này.",
+          "en": "Ask each other what matters most to you right now."
+        }
+      }
+    },
+    "mercury-mercury": {
+      "conjunction": {
+        "title": { "vi": "Hai cách nghĩ và nói khá giống nhau", "en": "Thinking and talking in similar ways" },
+        "body": {
+          "vi": "Sao Thủy của hai người nằm gần nhau, gợi rằng cả hai có thể suy nghĩ, đặt câu hỏi và trò chuyện theo nhịp khá giống nhau. Hai người dễ hiểu ý nhau nhanh, nên đôi khi đáng chậm lại để chắc rằng cả hai đang nói về cùng một điều.",
+          "en": "Your Mercuries sit close together, suggesting you may think, ask questions and talk at a similar rhythm. You can catch each other's meaning quickly, so it is sometimes worth slowing down to make sure you are talking about the same thing."
+        },
+        "try": {
+          "vi": "Nhắc lại ý người kia vừa nói trước khi đáp lời.",
+          "en": "Repeat back what the other said before you reply."
+        }
+      },
+      "flowing": {
+        "title": { "vi": "Trò chuyện dễ trôi chảy giữa hai người", "en": "Conversation that flows easily" },
+        "body": {
+          "vi": "Sao Thủy của hai người tạo góc hài hòa, gợi rằng cách mỗi người trao đổi có thể bổ sung cho nhau một cách tự nhiên. Đây là nguồn lực tốt cho những lúc cần cùng bàn bạc, lên kế hoạch hay gỡ một hiểu lầm nhỏ.",
+          "en": "Your Mercuries make a harmonious angle, suggesting your ways of communicating can complement each other naturally. This is a good resource for talking things over, making plans or clearing up a small misunderstanding."
+        },
+        "try": {
+          "vi": "Cùng bàn và viết ra một kế hoạch nhỏ cho tuần tới.",
+          "en": "Talk through and write down a small plan for next week."
+        }
+      },
+      "tension": {
+        "title": { "vi": "Hai cách nói chuyện cần thêm kiên nhẫn", "en": "Two ways of talking that need patience" },
+        "body": {
+          "vi": "Sao Thủy của hai người tạo góc căng, gợi rằng một người có thể nói thẳng và nhanh, còn người kia cần thêm thời gian hoặc một cách nói khác. Đây là chỗ để hiểu nhau: nhiều hiểu lầm đến từ cách nói, chứ chưa chắc đến từ ý muốn.",
+          "en": "Your Mercuries make a tense angle, suggesting one of you may speak quickly and directly while the other needs more time or a different approach. This is a place to understand each other: many misunderstandings come from how things are said, not necessarily from what is meant."
+        },
+        "try": {
+          "vi": "Trước khi kết luận, hỏi lại xem người kia thật sự muốn nói gì.",
+          "en": "Before concluding, ask what the other person really meant."
+        }
+      }
+    },
+    "saturn-personal": {
+      "conjunction": {
+        "title": { "vi": "Một người mang đến sự vững vàng", "en": "One person brings steadiness" },
+        "body": {
+          "vi": "Sao Thổ của một người nằm gần Mặt Trời, Mặt Trăng hoặc Sao Kim của người kia, gợi cảm giác vững vàng và trách nhiệm. Sự vững vàng ấy có lúc nâng đỡ, có lúc khiến người kia thấy gò bó, nên hai người cần nói rõ điều gì thật sự giúp ích.",
+          "en": "One person's Saturn sits close to the other's Sun, Moon or Venus, suggesting one of you may bring a sense of steadiness and responsibility. That steadiness can feel supportive at times and confining at others, so it helps to say clearly what actually helps."
+        },
+        "try": {
+          "vi": "Cùng nói rõ kiểu góp ý nào thấy được nâng đỡ.",
+          "en": "Talk about which kinds of feedback feel supportive."
+        }
+      },
+      "flowing": {
+        "title": { "vi": "Sự kiên nhẫn làm chỗ dựa cho nhau", "en": "Patience as something to lean on" },
+        "body": {
+          "vi": "Sao Thổ của một người tạo góc hài hòa với Mặt Trời, Mặt Trăng hoặc Sao Kim của người kia, gợi một kiểu nâng đỡ bền bỉ và đáng tin. Đây có thể là nguồn lực khi cùng làm một việc dài hơi, miễn là sự chắc chắn vẫn chừa chỗ cho niềm vui.",
+          "en": "One person's Saturn makes a harmonious angle with the other's Sun, Moon or Venus, suggesting a steady, dependable kind of support. This can be a resource when you take on something long-term together, as long as reliability still leaves room for fun."
+        },
+        "try": {
+          "vi": "Cùng chọn một thói quen nhỏ để giữ đều trong tháng này.",
+          "en": "Pick one small habit to keep up together this month."
+        }
+      },
+      "tension": {
+        "title": { "vi": "Khi trách nhiệm và tự do cần thương lượng", "en": "When responsibility and freedom need to negotiate" },
+        "body": {
+          "vi": "Sao Thổ của một người tạo góc căng với Mặt Trời, Mặt Trăng hoặc Sao Kim của người kia, nên có lúc một bên muốn nhắc, bên kia thấy bị đánh giá. Đây là chỗ để hiểu nhau: sau sự khắt khe thường là nỗi lo, nói ra nỗi lo giúp cả hai nhẹ lòng.",
+          "en": "One person's Saturn makes a tense angle with the other's Sun, Moon or Venus, so at times one of you feels the need to remind while the other feels judged. This is a place to understand each other: behind strictness there is often worry, and naming that worry can lighten things for you both."
+        },
+        "try": {
+          "vi": "Thử nói ra nỗi lo của mình thay cho một lời nhắc nhở.",
+          "en": "Try sharing your worry instead of giving a reminder."
+        }
+      }
+    }
+  }
+}

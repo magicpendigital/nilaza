@@ -83,7 +83,7 @@
     {
       "path": "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
       "reason": "Hub, form, confirm and report stages being redesigned.",
-      "sha256": "9f27cf5e33a2a0113751ec7494843ac9613e7244046b76b5087e7429870c2df8"
+      "sha256": "76f31f616848b32818723e29d902cc72d2ad6fd29caabe251ae1413f62baafa5"
     },
     {
       "path": "apps/mobile/src/features/astrology/AstrologyChartStory.tsx",
@@ -121,21 +121,16 @@
   "workingTreeReview": {
     "paths": [
       "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
-      "apps/mobile/src/features/astrology/AstrologyHub.tsx",
-      "apps/mobile/src/features/astrology/BirthFields.tsx",
+      "apps/mobile/src/features/astrology/ChartOverviewParts.tsx",
       "apps/mobile/src/features/astrology/__tests__/AstrologyExperience.test.tsx",
-      "apps/mobile/src/features/astrology/__tests__/BirthFields.test.ts",
-      "apps/mobile/src/features/astrology/__tests__/sky.test.ts",
-      "apps/mobile/src/features/astrology/sky.ts",
-      "apps/mobile/src/features/home/moonPhase.ts",
       "docs/content-review/astrology-big3-fragments.json",
       "docs/content-review/astrology-big3-moon-draft.md",
       "docs/content-review/astrology-moon-houses.json",
       "docs/content-review/astrology-synastry-draft.md",
       "docs/content-review/astrology-synastry.json",
-      "docs/feature-plans/astrology-redesign-2026-10-31.json",
-      "packages/astrology-core/calculator.d.mts",
-      "packages/astrology-core/calculator.mjs"
+      "docs/content-review/astrology-topic-placements-draft.md",
+      "docs/content-review/astrology-topic-placements.json",
+      "docs/feature-plans/astrology-redesign-2026-10-31.json"
     ],
     "note": "Worktree branch feat/astrology-slice-2026-10-31 stacked on the Tarot PR #10 commits."
   },

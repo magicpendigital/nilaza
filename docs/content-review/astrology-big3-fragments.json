@@ -1,0 +1,156 @@
+{
+  "version": "2026-10-31-draft",
+  "status": "draft-for-owner-review",
+  "scope": "Free, non-AI Big 3 summary card. headline = sunHeadline + \" \" + moonClause; summary = moonNeed + \" \" + risingLook.",
+  "roles": {
+    "sun": { "vi": "Bạn là ai", "en": "Who you are" },
+    "moon": { "vi": "Bạn cảm thế nào", "en": "How you feel" },
+    "rising": { "vi": "Người khác thấy", "en": "How others see you" }
+  },
+  "signs": {
+    "aries": {
+      "sunHeadline": { "vi": "Người tiên phong", "en": "The pioneer" },
+      "moonClause": { "vi": "thẳng thắn với cảm xúc", "en": "who is upfront about feelings" },
+      "moonNeed": {
+        "vi": "Bạn cảm nhận nhanh và có thể thấy nhẹ lòng hơn khi được nói ra ngay điều mình cảm thấy.",
+        "en": "You feel things quickly and may feel lighter once you can say what you feel right away."
+      },
+      "risingLook": {
+        "vi": "Người khác thường thấy ở bạn sự nhanh nhẹn, thẳng thắn và dám bắt đầu.",
+        "en": "Others often first notice your energy, directness and readiness to begin."
+      }
+    },
+    "taurus": {
+      "sunHeadline": { "vi": "Người bền bỉ", "en": "The steady cultivator" },
+      "moonClause": { "vi": "cần nhịp sống bình yên", "en": "who needs a calm, unhurried pace" },
+      "moonNeed": {
+        "vi": "Bạn cần thời gian và sự ổn định để thấy yên lòng, rồi mới mở lòng trọn vẹn.",
+        "en": "You need time and stability to feel at ease before you open up fully."
+      },
+      "risingLook": {
+        "vi": "Người khác thường thấy ở bạn sự thư thái, dễ chịu và đáng tin.",
+        "en": "Others often first notice how relaxed, pleasant and dependable you seem."
+      }
+    },
+    "gemini": {
+      "sunHeadline": { "vi": "Người tò mò", "en": "The curious connector" },
+      "moonClause": { "vi": "nhẹ lòng khi được trò chuyện", "en": "who feels lighter after a good talk" },
+      "moonNeed": {
+        "vi": "Bạn thường hiểu cảm xúc của mình rõ hơn khi được nói ra hoặc viết xuống.",
+        "en": "You often understand your feelings better once you say them out loud or write them down."
+      },
+      "risingLook": {
+        "vi": "Người khác thường thấy ở bạn sự lanh lợi, vui vẻ và dễ bắt chuyện.",
+        "en": "Others often first see you as quick-witted, cheerful and easy to talk to."
+      }
+    },
+    "cancer": {
+      "sunHeadline": { "vi": "Người chu đáo", "en": "The nurturer" },
+      "moonClause": { "vi": "biết cách che chở", "en": "who knows how to give shelter" },
+      "moonNeed": {
+        "vi": "Bạn cảm nhận sâu và cần một chốn an toàn trước khi mở lòng.",
+        "en": "You feel deeply and need a safe place before you open up."
+      },
+      "risingLook": {
+        "vi": "Người khác thường thấy ở bạn sự dịu dàng, ân cần và dễ gần.",
+        "en": "Others often first notice your gentleness, thoughtfulness and warmth."
+      }
+    },
+    "leo": {
+      "sunHeadline": { "vi": "Người sáng tạo", "en": "The warm-hearted creator" },
+      "moonClause": { "vi": "cần được trân trọng chân thành", "en": "who needs sincere appreciation" },
+      "moonNeed": {
+        "vi": "Bạn cần được nhìn thấy và trân trọng chân thành để cảm thấy mình được thương.",
+        "en": "You need to be seen and sincerely appreciated to feel truly cared for."
+      },
+      "risingLook": {
+        "vi": "Người khác thường thấy ở bạn sự ấm áp, tự tin và một nét rất riêng.",
+        "en": "Others often first notice your warmth, confidence and a style all your own."
+      }
+    },
+    "virgo": {
+      "sunHeadline": { "vi": "Người tận tâm", "en": "The thoughtful helper" },
+      "moonClause": { "vi": "chăm sóc bằng việc nhỏ", "en": "who cares through small acts" },
+      "moonNeed": {
+        "vi": "Bạn thấy yên hơn khi mọi thứ gọn gàng, và hay thể hiện sự quan tâm bằng việc làm cụ thể.",
+        "en": "You feel calmer when things are in order, and often show care through practical help."
+      },
+      "risingLook": {
+        "vi": "Người khác thường thấy ở bạn sự gọn gàng, tinh ý và khiêm tốn.",
+        "en": "Others often first see you as neat, observant and modest."
+      }
+    },
+    "libra": {
+      "sunHeadline": { "vi": "Người giữ cân bằng", "en": "The balance keeper" },
+      "moonClause": { "vi": "quý sự hòa thuận", "en": "who treasures harmony" },
+      "moonNeed": {
+        "vi": "Bạn thấy yên khi mọi người hòa thuận, và cảm xúc của chính bạn cũng cần được lắng nghe.",
+        "en": "You feel at ease when people get along, and your own feelings deserve to be heard too."
+      },
+      "risingLook": {
+        "vi": "Người khác thường thấy ở bạn sự nhã nhặn, hòa đồng và dễ mến.",
+        "en": "Others often first see you as gracious, sociable and easy to like."
+      }
+    },
+    "scorpio": {
+      "sunHeadline": { "vi": "Người sâu sắc", "en": "The depth seeker" },
+      "moonClause": { "vi": "trao lòng tin chậm mà chắc", "en": "who gives trust slowly but surely" },
+      "moonNeed": {
+        "vi": "Bạn cảm nhận mãnh liệt và cần thời gian để tin; khi đã tin, bạn có thể gắn bó rất sâu.",
+        "en": "You feel intensely and need time to trust; once you do, your bonds can run very deep."
+      },
+      "risingLook": {
+        "vi": "Người khác thường thấy ở bạn sự kín đáo, cuốn hút và có chiều sâu.",
+        "en": "Others often first sense something reserved, magnetic and deep about you."
+      }
+    },
+    "sagittarius": {
+      "sunHeadline": { "vi": "Người khám phá", "en": "The explorer" },
+      "moonClause": { "vi": "vui lên khi gặp điều mới", "en": "who lights up at something new" },
+      "moonNeed": {
+        "vi": "Bạn cần không gian để thở và một chút lạc quan để đi qua những ngày khó.",
+        "en": "You need room to breathe and a little optimism to get through hard days."
+      },
+      "risingLook": {
+        "vi": "Người khác thường thấy ở bạn sự cởi mở, vui tính và ham khám phá.",
+        "en": "Others often first see you as open, good-humored and eager to explore."
+      }
+    },
+    "capricorn": {
+      "sunHeadline": { "vi": "Người đi đường dài", "en": "The patient builder" },
+      "moonClause": { "vi": "vững lòng khi có kế hoạch", "en": "who feels secure with a plan" },
+      "moonNeed": {
+        "vi": "Bạn hay giữ cảm xúc cho riêng mình và thấy vững hơn khi biết bước tiếp theo là gì.",
+        "en": "You tend to keep feelings to yourself and feel steadier when you know the next step."
+      },
+      "risingLook": {
+        "vi": "Người khác thường thấy ở bạn sự chín chắn, điềm đạm và có trách nhiệm.",
+        "en": "Others often first see you as mature, composed and responsible."
+      }
+    },
+    "aquarius": {
+      "sunHeadline": { "vi": "Người dám nghĩ khác", "en": "The free thinker" },
+      "moonClause": { "vi": "cần khoảng riêng để hiểu lòng", "en": "who needs space to sort out feelings" },
+      "moonNeed": {
+        "vi": "Bạn cần một khoảng lùi để hiểu cảm xúc của mình, và quý những ai tôn trọng điều đó.",
+        "en": "You need a step back to understand your feelings, and value people who respect that."
+      },
+      "risingLook": {
+        "vi": "Người khác thường thấy ở bạn sự thân thiện và một nét độc đáo khó trộn lẫn.",
+        "en": "Others often first notice your friendliness and an originality that stands out."
+      }
+    },
+    "pisces": {
+      "sunHeadline": { "vi": "Người mơ mộng", "en": "The dreamer" },
+      "moonClause": { "vi": "dễ đồng cảm với người khác", "en": "who easily feels for others" },
+      "moonNeed": {
+        "vi": "Bạn dễ thấm cảm xúc của người xung quanh, nên cần những khoảng lặng để trở về với mình.",
+        "en": "You easily absorb the moods around you, so quiet moments help you come back to yourself."
+      },
+      "risingLook": {
+        "vi": "Người khác thường thấy ở bạn sự nhẹ nhàng, mơ màng và giàu tưởng tượng.",
+        "en": "Others often first see you as gentle, dreamy and imaginative."
+      }
+    }
+  }
+}

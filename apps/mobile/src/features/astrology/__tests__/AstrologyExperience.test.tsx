@@ -64,6 +64,11 @@ function memory() {
     } as unknown as AstrologyPersistence,
   };
 }
+// Computed and reopened charts land on the overview; the wheel (mocked MythologyWorld) opens from it.
+async function openWheel(screen: ReturnType<typeof render>) {
+  await waitFor(() => expect(screen.getByText("Bánh xe lá số & dữ liệu")).toBeTruthy());
+  fireEvent.press(screen.getByText("Bánh xe lá số & dữ liệu"));
+}
 async function fillForm(
   screen: ReturnType<typeof render>,
   date: string,
@@ -98,6 +103,7 @@ test("Vietnam birth completes calculation, failed disk write is visible, retry s
   await fillForm(screen, "2000-01-01", "12:00", "Hanoi");
   expect(screen.getByText("UTC: 2000-01-01T05:00:00Z")).toBeTruthy();
   fireEvent.press(screen.getByText("Tạo bản đồ"));
+  await openWheel(screen);
   await waitFor(() =>
     expect(screen.getByText("Bản đồ tương tác đã sẵn sàng")).toBeTruthy(),
   );
@@ -120,8 +126,11 @@ test("Vietnam birth completes calculation, failed disk write is visible, retry s
   fireEvent.press(reopened.getByText("1 lá số trên máy này"));
   await waitFor(() => expect(reopened.getByText("Mở bản đồ 1")).toBeTruthy());
   fireEvent.press(reopened.getByText("Mở bản đồ 1"));
+  await openWheel(reopened);
   expect(reopened.getByText("Bản đồ tương tác đã sẵn sàng")).toBeTruthy();
   fireEvent.press(reopened.getByText("Trở về Astrology"));
+  // The wheel returns to the chart overview; one more back reaches the hub.
+  fireEvent.press(reopened.getByText("← Trở lại"));
   fireEvent.press(reopened.getByText("Xóa bản đồ 1"));
   fireEvent.press(reopened.getByText("Hủy"));
   expect(m.read().reports).toHaveLength(1);
@@ -164,6 +173,7 @@ test("Astrology AI consent double tap starts only one provider request", async (
   );
   await fillForm(screen, "2000-01-01", "12:00", "Hanoi");
   fireEvent.press(screen.getByText("Tạo bản đồ"));
+  await openWheel(screen);
   await waitFor(() => expect(screen.getByText("Bản đồ tương tác đã sẵn sàng")).toBeTruthy());
 
   fireEvent.press(screen.getByText("Gửi câu hỏi thử"));
@@ -199,6 +209,7 @@ test("explicit save updates an already saved chart, reopens full AI report and r
     requestAstrologyAi={requestAstrologyAi} onReportAnswer={onReportAnswer} />);
   await fillForm(screen, "2000-01-01", "12:00", "Hanoi");
   fireEvent.press(screen.getByText("Tạo bản đồ"));
+  await openWheel(screen);
   await waitFor(() => expect(screen.getByText("Bản đồ tương tác đã sẵn sàng")).toBeTruthy());
   fireEvent.press(screen.getByText("Lưu bản đồ trên thiết bị"));
   await waitFor(() => expect(m.read().reports).toHaveLength(1));
@@ -219,6 +230,7 @@ test("explicit save updates an already saved chart, reopens full AI report and r
   await waitFor(() => expect(reopened.getByText("1 lá số trên máy này")).toBeTruthy());
   fireEvent.press(reopened.getByText("1 lá số trên máy này"));
   fireEvent.press(reopened.getByText("Mở bản đồ 1"));
+  await openWheel(reopened);
   await waitFor(() => expect(reopened.getByText(responseFixture.headline)).toBeTruthy());
   expect(m.read().reports[0].aiInsight).toEqual(snapshot);
 });
@@ -233,6 +245,7 @@ test("a retry preserves interaction but uses distinct attempt and client request
   const screen = render(<AstrologyExperience language="vi" storage={m.storage} onBack={() => {}} canRequestAstrologyAi requestAstrologyAi={requestAstrologyAi} />);
   await fillForm(screen, "2000-01-01", "12:00", "Hanoi");
   fireEvent.press(screen.getByText("Tạo bản đồ"));
+  await openWheel(screen);
   await waitFor(() => expect(screen.getByText("Gửi câu hỏi thử")).toBeTruthy());
   fireEvent.press(screen.getByText("Gửi câu hỏi thử"));
   fireEvent.press(screen.getByText("Đồng ý và gửi một câu hỏi"));
@@ -268,6 +281,7 @@ test("an old account AI result cannot appear or be saved after storage changes",
   const screen = render(<AstrologyExperience language="vi" storage={old.storage} onBack={() => {}} canRequestAstrologyAi requestAstrologyAi={requestAstrologyAi} />);
   await fillForm(screen, "2000-01-01", "12:00", "Hanoi");
   fireEvent.press(screen.getByText("Tạo bản đồ"));
+  await openWheel(screen);
   await waitFor(() => expect(screen.getByText("Gửi câu hỏi thử")).toBeTruthy());
   fireEvent.press(screen.getByText("Gửi câu hỏi thử"));
   fireEvent.press(screen.getByText("Đồng ý và gửi một câu hỏi"));
