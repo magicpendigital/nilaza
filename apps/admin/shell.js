@@ -140,6 +140,17 @@ async function init() {
   }
 }
 
+// Tell the common sign-in failures apart instead of always blaming the password (analysis AD-27).
+function signInErrorMessage(error) {
+  const code = String(error?.code || "").toLowerCase(), message = String(error?.message || "").toLowerCase(), status = Number(error?.status) || 0;
+  if (code === "email_not_confirmed" || message.includes("not confirmed")) return "Email chưa được xác nhận. Mở thư xác nhận rồi thử lại. / Email not confirmed yet.";
+  if (status === 429 || code.includes("rate") || message.includes("rate limit")) return "Thử quá nhiều lần. Đợi vài phút rồi thử lại. / Too many attempts; wait a few minutes.";
+  if (!status || message.includes("fetch") || message.includes("network")) return "Không kết nối được máy chủ. Kiểm tra mạng rồi thử lại. / Could not reach the server; check the connection.";
+  if (code === "invalid_credentials" || status === 400) return "Email hoặc mật khẩu chưa đúng. / Email or password is incorrect.";
+  return "Chưa đăng nhập được. Thử lại sau ít phút. / Sign-in failed; try again shortly.";
+}
+window.NilazaSignInErrorMessage = signInErrorMessage;
+
 $("#login-form").addEventListener("submit", async (event) => {
   event.preventDefault();
   $("#login-error").textContent = "Signing in...";
@@ -148,7 +159,7 @@ $("#login-form").addEventListener("submit", async (event) => {
   
   const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
   if (error || !data.user) {
-    $("#login-error").textContent = "Email or password is incorrect.";
+    $("#login-error").textContent = signInErrorMessage(error);
     return;
   }
   

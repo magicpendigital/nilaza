@@ -423,7 +423,12 @@ function stageBoundValue(target) {
   saveData();
 }
 document.addEventListener("input",(event)=>{
-  if(event.target.matches("[data-search]")){state.search=event.target.value;render();return;}
+  if(event.target.matches("[data-search]")){
+    // Re-rendering replaces the input; put focus and caret back so typing continues (analysis AD-16).
+    const caret=event.target.selectionStart;state.search=event.target.value;render();
+    const search=document.querySelector("[data-search]");if(search){search.focus();search.setSelectionRange?.(caret,caret);}
+    return;
+  }
   if(event.target.matches("[data-bind]"))stageBoundValue(event.target);
 });
 document.addEventListener("change",(event)=>{

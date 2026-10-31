@@ -65,7 +65,7 @@
     {
       "path": "apps/admin/content.js",
       "reason": "Content actions.",
-      "sha256": "b804b07d5715ebace474f9c6be77e6318b70e825368c67033ce2d88953f651e4"
+      "sha256": "42a4d7da41c369a3548f59e29f9f2b1d09bbed2443b100eba0bb7682d89b479c"
     },
     {
       "path": "apps/admin/content-model.mjs",
