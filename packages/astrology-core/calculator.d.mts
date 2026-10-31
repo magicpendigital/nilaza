@@ -100,6 +100,7 @@ export function calculateAspects(
 ): CandidateChart["aspects"];
 export function circularDifference(a: number, b: number): number;
 export function normalize(n: number): number;
+export function bodyLongitudeAt(body: string, date: Date): number;
 export const calculationVersion: string;
 export const signs: string[];
 export const bodies: string[];

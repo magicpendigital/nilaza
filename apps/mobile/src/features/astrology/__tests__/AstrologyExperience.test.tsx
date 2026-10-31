@@ -72,20 +72,23 @@ async function fillForm(
 ) {
   await waitFor(() =>
     expect(
-      screen.getByRole("button", { name: "Tạo bản đồ sao cá nhân" }).props
+      screen.getByRole("button", { name: "Tạo lá số của bạn" }).props
         .accessibilityState.disabled,
     ).toBe(false),
   );
-  fireEvent.press(screen.getByText("Tạo bản đồ sao cá nhân"));
-  fireEvent.changeText(screen.getByLabelText("Ngày sinh (YYYY-MM-DD)"), date);
-  fireEvent.changeText(
-    screen.getByLabelText("Giờ tại nơi sinh (HH:mm, 24 giờ)"),
-    time,
-  );
-  fireEvent.changeText(screen.getByLabelText("Thành phố nơi sinh"), city);
+  fireEvent.press(screen.getByText("Tạo lá số của bạn"));
+  const [year, month, day] = date.split("-");
+  fireEvent.changeText(screen.getByLabelText("Ngày"), day);
+  fireEvent.changeText(screen.getByLabelText("Tháng"), month);
+  fireEvent.changeText(screen.getByLabelText("Năm"), year);
+  const [hour, minute] = time.split(":").map(Number);
+  fireEvent.changeText(screen.getByLabelText("Giờ"), String(hour % 12 || 12));
+  fireEvent.changeText(screen.getByLabelText("Phút"), String(minute).padStart(2, "0"));
+  fireEvent.press(screen.getByRole("radio", { name: hour >= 12 ? "Chiều" : "Sáng" }));
+  fireEvent.changeText(screen.getByLabelText("Nơi sinh"), city);
   fireEvent.press(screen.getAllByText(new RegExp("^" + city + " ·"))[0]);
   fireEvent.press(screen.getByText("Đây đúng là nơi sinh của tôi"));
-  fireEvent.press(screen.getByText("Kiểm tra thông tin"));
+  fireEvent.press(screen.getByText("Xem bầu trời của mình"));
 }
 test("Vietnam birth completes calculation, failed disk write is visible, retry saves and reload opens the same chart", async () => {
   const m = memory();
@@ -113,8 +116,8 @@ test("Vietnam birth completes calculation, failed disk write is visible, retry s
   const reopened = render(
     <AstrologyExperience language="vi" storage={m.storage} onBack={() => {}} />,
   );
-  await waitFor(() => expect(reopened.getByText("Bản đồ đã lưu · 1")).toBeTruthy());
-  fireEvent.press(reopened.getByText("Bản đồ đã lưu · 1"));
+  await waitFor(() => expect(reopened.getByText("1 lá số trên máy này")).toBeTruthy());
+  fireEvent.press(reopened.getByText("1 lá số trên máy này"));
   await waitFor(() => expect(reopened.getByText("Mở bản đồ 1")).toBeTruthy());
   fireEvent.press(reopened.getByText("Mở bản đồ 1"));
   expect(reopened.getByText("Bản đồ tương tác đã sẵn sàng")).toBeTruthy();
@@ -140,7 +143,7 @@ test("New York DST overlap requires explicit occurrence and resolves the chosen 
   expect(screen.getByText(/Giờ này xuất hiện hai lần/)).toBeTruthy();
   expect(screen.queryByText("Tạo bản đồ")).toBeNull();
   fireEvent.press(screen.getByText("Lần thứ hai · UTC-05:00"));
-  fireEvent.press(screen.getByText("Kiểm tra thông tin"));
+  fireEvent.press(screen.getByText("Xem bầu trời của mình"));
   expect(screen.getByText("UTC: 2020-11-01T06:30:00Z")).toBeTruthy();
 });
 
@@ -213,8 +216,8 @@ test("explicit save updates an already saved chart, reopens full AI report and r
   expect(snapshot.context).not.toHaveProperty("userFocus");
   screen.unmount();
   const reopened = render(<AstrologyExperience language="vi" storage={m.storage} onBack={() => {}} canRequestAstrologyAi onReportAnswer={onReportAnswer} />);
-  await waitFor(() => expect(reopened.getByText("Bản đồ đã lưu · 1")).toBeTruthy());
-  fireEvent.press(reopened.getByText("Bản đồ đã lưu · 1"));
+  await waitFor(() => expect(reopened.getByText("1 lá số trên máy này")).toBeTruthy());
+  fireEvent.press(reopened.getByText("1 lá số trên máy này"));
   fireEvent.press(reopened.getByText("Mở bản đồ 1"));
   await waitFor(() => expect(reopened.getByText(responseFixture.headline)).toBeTruthy());
   expect(m.read().reports[0].aiInsight).toEqual(snapshot);
@@ -250,7 +253,7 @@ test("an old account load cannot replace the newly selected account data", async
   (old.storage.loadJson as jest.Mock).mockImplementationOnce(() => new Promise(resolve => { finishOld = resolve; }));
   const screen = render(<AstrologyExperience language="vi" storage={old.storage} onBack={() => {}} />);
   screen.rerender(<AstrologyExperience language="vi" storage={current.storage} onBack={() => {}} />);
-  await waitFor(() => expect(screen.getByRole("button", { name: "Tạo bản đồ sao cá nhân" }).props.accessibilityState.disabled).toBe(false));
+  await waitFor(() => expect(screen.getByRole("button", { name: "Tạo lá số của bạn" }).props.accessibilityState.disabled).toBe(false));
   finishOld({ ...freshAstrologyData(), displayZone: "Invalid/old_account" });
   await waitFor(() => expect(screen.queryByText(/Dữ liệu Astrology đã lưu không hợp lệ/)).toBeNull());
   expect(current.storage.saveJsonOrThrow).not.toHaveBeenCalled();
@@ -270,7 +273,7 @@ test("an old account AI result cannot appear or be saved after storage changes",
   fireEvent.press(screen.getByText("Đồng ý và gửi một câu hỏi"));
   expect(requestAstrologyAi).toHaveBeenCalledTimes(1);
   screen.rerender(<AstrologyExperience language="vi" storage={current.storage} onBack={() => {}} canRequestAstrologyAi requestAstrologyAi={requestAstrologyAi} />);
-  await waitFor(() => expect(screen.getByText("Bản đồ đã lưu · 0")).toBeTruthy());
+  await waitFor(() => expect(screen.getByText("Chưa có lá số nào")).toBeTruthy());
   complete();
   await waitFor(() => expect(screen.queryByText(responseFixture.headline)).toBeNull());
   expect(current.storage.saveJsonOrThrow).not.toHaveBeenCalled();

@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "taskId": "astrology-redesign-2026-10-31",
+  "ownerAgent": "mobile_astrology_design_agent",
+  "lane": "mobile_astrology_redesign",
+  "goal": "Bring the Astrology area to the approved AstroHub, AstroBirth and AstroChart designs: a hub with the user Big 3 summary, a Moon-in-house Today block, a moon calendar tile, the 12 signs entry with progress and saved charts; a day/month/year birth form; and a chart screen with role-labelled Big 3, a free template summary plus an AI deep-read block, topic tabs and a collapsible wheel and data section. Content that is not yet approved stays hidden.",
+  "successCriteria": [
+    "Hub (home stage) shows the user chart Big 3 with a one-line template summary when a chart is saved, a Today block when the Moon-house content is approved, a moon tile with days to the next full or new moon, 12 cung & thần thoại with chapters read, and saved charts.",
+    "Birth form uses day / month / year fields, keeps the exact / approximate / unknown time modes with AM/PM for exact times, keeps the offline place search, and still computes the chart on the device.",
+    "Chart screen shows name/date/time/place, the template headline and summary, Big 3 cards with roles, an Đọc sâu với AI block (free: what AI adds and Có trong Premium leading to Sắp ra mắt; premium: write button with remaining count; hidden until the server change is deployed), Tổng quan plus topic tabs once their content is approved, and a collapsible wheel and data section.",
+    "Synastry (So với một người) is built in a later task of this slice after its content is approved.",
+    "npm --workspace apps/mobile run check and the mobile Jest suite pass, and a 390x844 web walkthrough covers hub, form and chart."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/astrology/",
+    "apps/mobile/src/features/home/moonPhase.ts",
+    "apps/mobile/src/features/home/__tests__/",
+    "docs/content-review/",
+    "DESIGN.md",
+    "apps/admin/workflow-catalog.js",
+    "packages/astrology-core/calculator.mjs",
+    "packages/astrology-core/calculator.d.mts",
+    "packages/astrology-core/test/"
+  ],
+  "untouchedSurfaces": [
+    "Edge Functions, prompts, entitlements and database are unchanged in this task; the server change for Astrology AI is a separate Owner-approved deploy.",
+    "Astrology content data in packages/content stays unchanged until the Owner approves the drafts.",
+    "Tarot, Home, Journal and Chat screens."
+  ],
+  "impact": {
+    "entryPoint": "Explore > Chiêm tinh, Home sign tile, Profile birth data.",
+    "dataWrite": "Same device store nilaza.astrology.v2; no new keys in this task.",
+    "backendContract": "No change; the AI block calls the existing ai-astrology-insight contract only after the server change is deployed.",
+    "canonicalContract": "DESIGN.md astrology screens follow the design canvas.",
+    "adminVisibility": "No Admin change; only the workflow catalog digest of App.tsx is refreshed.",
+    "privacySafety": "Charts stay on the device; no third-party data is collected in this task.",
+    "observability": "No analytics change.",
+    "rollback": "Revert the commits.",
+    "surfacesIntentionallyUntouched": "Backend, spreads data, share and journal formats.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs the validation commands, commits locally and does not merge, deploy or run SQL."
+  },
+  "canonicalContracts": [
+    "Owner decisions 2026-10-31 in chat: Big 3 summary from existing content plus an AI deep-read block (free sees what AI adds and Có trong Premium; premium writes); server reads the shared account tier switch with 1 per day (deploy needs approval); Moon-in-house Today block after content review; topic tabs after content review; full synastry.",
+    "Design canvas AstroHub, AstroBirth, AstroChart artboards."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Tarot and mobile UI routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "DESIGN.md",
+      "reason": "Brand shape and type rules for the new screen.",
+      "sha256": "ceb8704a4af1ce37d8ba564c8e65d4cf2eba8624dbc7b5966f0a293baceaf09a"
+    },
+    {
+      "path": "docs/CONTENT_SAFETY_STYLE_GUIDE.md",
+      "reason": "Card names and safety framing for the guide copy.",
+      "sha256": "33ec073a7fe94045ee7aeb40bad2ca90b6ab6b0010569131c730380dfb23ceec"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Card meaning stage and its top bar.",
+      "sha256": "7bf2d6d0f2545af373c3505f3a7b11b852e48c3872d7b7ef13f9b87a5d261892"
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+      "reason": "Hub, form, confirm and report stages being redesigned.",
+      "sha256": "9f27cf5e33a2a0113751ec7494843ac9613e7244046b76b5087e7429870c2df8"
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/AstrologyChartStory.tsx",
+      "reason": "Exact-time chart screen being redesigned.",
+      "sha256": "d88318241913c2ea25103a37b1da3be01958536c1f36f09dbb2faa39ed17d8e5"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "The flow follows DESIGN.md shapes (8px cards, pill controls, 48px targets); the skill text stays accurate."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing React Native and Ionicons APIs."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization change.",
+    "sensitiveData": "No personal data; static reviewed content.",
+    "secretsLogging": "No credentials or logs.",
+    "externalInput": "No user input is rendered beyond existing card selection.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration, deploy or release.",
+    "stopCondition": "Stop if a card lacks guide content, if checks fail, or if the screen needs data the app does not have.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+      "apps/mobile/src/features/astrology/AstrologyHub.tsx",
+      "apps/mobile/src/features/astrology/BirthFields.tsx",
+      "apps/mobile/src/features/astrology/__tests__/AstrologyExperience.test.tsx",
+      "apps/mobile/src/features/astrology/__tests__/BirthFields.test.ts",
+      "apps/mobile/src/features/astrology/__tests__/sky.test.ts",
+      "apps/mobile/src/features/astrology/sky.ts",
+      "apps/mobile/src/features/home/moonPhase.ts",
+      "docs/content-review/astrology-big3-fragments.json",
+      "docs/content-review/astrology-big3-moon-draft.md",
+      "docs/content-review/astrology-moon-houses.json",
+      "docs/content-review/astrology-synastry-draft.md",
+      "docs/content-review/astrology-synastry.json",
+      "docs/feature-plans/astrology-redesign-2026-10-31.json",
+      "packages/astrology-core/calculator.d.mts",
+      "packages/astrology-core/calculator.mjs"
+    ],
+    "note": "Worktree branch feat/astrology-slice-2026-10-31 stacked on the Tarot PR #10 commits."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/astrology-redesign-2026-10-31.json",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand",
+    "Web walkthrough at 390x844: hub, birth form, chart."
+  ],
+  "managerTestPath": "Khám phá > Chiêm tinh: see Bầu trời của bạn with your Big 3 and the moon tile; create a chart with ngày/tháng/năm; open the chart and read the summary and Big 3 cards.",
+  "residualRisk": "AI deep-read, Today block, topic tabs and synastry depend on content approval or the server deploy and stay hidden until then.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
