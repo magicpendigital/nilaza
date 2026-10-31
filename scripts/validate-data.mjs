@@ -357,6 +357,51 @@ for (const [cardId, guide] of Object.entries(cardGuide.cards)) {
   }
   for (const key of guide.noteKeys ?? []) assertLocalized(cardGuide.sharedNotes?.[key], `${cardId}.guide.noteKeys.${key}`);
 }
+// Owner-approved astrology sky content (2026-10-31): Big 3 fragments, Moon-in-house texts and topic placements for all 12 signs.
+const zodiacSignIds = ["aries", "taurus", "gemini", "cancer", "leo", "virgo", "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces"];
+const assertViText = (value, label) => {
+  assertLocalized(value, label);
+  assert(vietnameseDiacriticPattern.test(value?.vi ?? ""), `${label}.vi must use accented Vietnamese`);
+};
+const assertPair = (items, label) => {
+  assert(Array.isArray(items) && items.length === 2, `${label} must have 2 items`);
+  (items ?? []).forEach((item, index) => assertViText(item, `${label}[${index}]`));
+};
+const skyBig3 = readJson("packages/content/data/astrology-big3.json");
+for (const key of ["sun", "moon", "rising"]) assertViText(skyBig3.roles?.[key], `astrology-big3.roles.${key}`);
+assertViText(skyBig3.noBirthTime, "astrology-big3.noBirthTime");
+assertViText(skyBig3.moonUncertain, "astrology-big3.moonUncertain");
+assert(Object.keys(skyBig3.signs).length === 12, "astrology-big3.json must cover exactly 12 signs");
+for (const sign of zodiacSignIds) for (const field of ["sunHeadline", "moonClause", "moonNeed", "risingLook"]) assertViText(skyBig3.signs[sign]?.[field], `astrology-big3.${sign}.${field}`);
+const skyMoonHouses = readJson("packages/content/data/astrology-moon-houses.json");
+assertViText(skyMoonHouses.note, "astrology-moon-houses.note");
+assert(Object.keys(skyMoonHouses.houses).length === 12, "astrology-moon-houses.json must cover exactly 12 houses");
+for (let house = 1; house <= 12; house += 1) {
+  const entry = skyMoonHouses.houses[String(house)];
+  assertViText(entry?.title, `astrology-moon-houses.${house}.title`);
+  assertViText(entry?.body, `astrology-moon-houses.${house}.body`);
+  assertPair(entry?.do, `astrology-moon-houses.${house}.do`);
+  assertPair(entry?.avoid, `astrology-moon-houses.${house}.avoid`);
+}
+const skyTopics = readJson("packages/content/data/astrology-topic-placements.json");
+for (const key of ["reminder", "birthTimeNote", "needsBirthTime"]) assertViText(skyTopics[key], `astrology-topic-placements.${key}`);
+for (const [topicId, topic] of Object.entries(skyTopics.topics)) {
+  assert(topic.points.length === 2, `astrology-topic-placements.${topicId} must read 2 points`);
+  for (const point of topic.points) {
+    assertViText(skyTopics.points[point]?.intro, `astrology-topic-placements.points.${point}.intro`);
+    assert(Object.keys(skyTopics.placements[point] ?? {}).length === 12, `astrology-topic-placements.${point} must cover exactly 12 signs`);
+    for (const sign of zodiacSignIds) {
+      const entry = skyTopics.placements[point]?.[sign];
+      assertViText(entry?.title, `astrology-topic-placements.${point}.${sign}.title`);
+      assertViText(entry?.body, `astrology-topic-placements.${point}.${sign}.body`);
+      assertPair(entry?.needs, `astrology-topic-placements.${point}.${sign}.needs`);
+      assertPair(entry?.watch, `astrology-topic-placements.${point}.${sign}.watch`);
+    }
+  }
+}
+for (const [label, text] of [["astrology-big3", JSON.stringify(skyBig3)], ["astrology-moon-houses", JSON.stringify(skyMoonHouses)], ["astrology-topic-placements", JSON.stringify(skyTopics)]]) {
+  assert(!/Cung Mọc|Thiên Đỉnh/.test(text), `${label}.json must write Cung mọc and Thiên đỉnh`);
+}
 for (const designSet of tarotCardDesigns) {
   assert(decks.some((deck) => deck.id === designSet.deckId), `${designSet.deckId} design set does not match a deck`);
   assertLocalized(designSet.style, `${designSet.deckId}.style`);

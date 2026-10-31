@@ -314,19 +314,13 @@ Goal:
 
 Show chart insight in digestible sections.
 
-Layout:
+Layout (AstroHub and AstroChart design canvas; content Owner-approved 2026-10-31, template text only, no AI):
 
-- Big 3 summary cards:
-  - Sun
-  - Moon
-  - Rising
-- Tabs:
-  - Personality
-  - Love
-  - Career
-  - Inner lesson
-- Save report button.
-- Premium expansion section.
+- Hub "Bầu trời của bạn": the newest saved chart's Big 3 card with the headline (Sun opening + Moon clause), the Moon need and the Rising first impression; the "Mặt Trăng hôm nay" block (today's Moon in the user's Whole Sign house, Nên thử / Nên tránh, a reference note); then 12 cung & thần thoại, Lịch trăng and saved charts.
+- Chart overview: date, time and place line, Big 3 cards with roles (Bạn là ai / Bạn cảm thế nào / Người khác thấy), the headline and summary, then pill tabs Tổng quan / Tình yêu (Sao Kim, Sao Hỏa) / Sự nghiệp (Thiên đỉnh, Sao Thổ) / Bản thân (Mặt Trăng, Cung mọc). Each topic point shows a title, a short paragraph, Bạn cần and Cần để ý; each tab ends with "Đây là gợi ý để tự soi chiếu, không phải dự đoán."; Bản thân adds a birth-time note.
+- Without an exact birth time: hide the Rising line and the Today block, read only points whose sign is certain, and show "Bổ sung giờ sinh", which reopens the form on the exact-time mode.
+- Point names are written Thiên đỉnh and Cung mọc everywhere.
+- Save report button, and the AI deep-read block once its server change is deployed.
 
 ### 16. Face Reading Consent
 

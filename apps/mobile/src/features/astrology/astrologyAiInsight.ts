@@ -224,7 +224,7 @@ export function toAstrologyAiGuideAnswer(response: AstrologyAiInsightResponse, c
     independent_accuracy_not_verified: ["Kiểm tra độ chính xác chỉ bao phủ một tập mẫu, không chứng nhận mọi đầu vào.", "Accuracy checks cover samples, not certification for every input."],
     birth_time_uncertain: ["Giờ sinh chưa chắc chắn; một số vị trí có thể thay đổi.", "Birth time is uncertain; some positions may change."],
     sampled_range_not_certified: ["Phạm vi giờ sinh đã được lấy mẫu, chưa chứng nhận cho toàn khoảng.", "The birth-time range was sampled, not certified across the entire interval."],
-    angles_undefined_at_pole: ["Không xác định được các góc tại cực; không dùng nhà hoặc Cung Mọc để kết luận.", "Angles are undefined at the pole; do not draw conclusions from houses or Rising."],
+    angles_undefined_at_pole: ["Không xác định được các góc tại cực; không dùng nhà hoặc Cung mọc để kết luận.", "Angles are undefined at the pole; do not draw conclusions from houses or Rising."],
     high_latitude_review_required: ["Vĩ độ cao cần đối chiếu riêng các góc và hệ nhà.", "High-latitude angles and houses need a separate cross-check."],
   };
   const noteFor = (id: string) => {

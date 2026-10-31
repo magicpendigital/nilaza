@@ -44,11 +44,11 @@ const bodies: Record<string, [string, string]> = {
     "Pluto — long-term change, agency and what is hard to release. A sign placement often spans a generation; it is a reflective lens, not a trauma diagnosis.",
   ],
   ascendant: [
-    "Cung Mọc (ASC) — giao điểm phía đông giữa hoàng đạo và chân trời tại nơi, giờ sinh. Trong cách đọc biểu tượng, nó gợi câu hỏi về cách bước vào một hoàn cảnh mới. Sai giờ sinh có thể làm vị trí này thay đổi đáng kể.",
+    "Cung mọc (ASC) — giao điểm phía đông giữa hoàng đạo và chân trời tại nơi, giờ sinh. Trong cách đọc biểu tượng, nó gợi câu hỏi về cách bước vào một hoàn cảnh mới. Sai giờ sinh có thể làm vị trí này thay đổi đáng kể.",
     "Ascendant (ASC) — the eastern intersection of the ecliptic and horizon at the birth place and time. Symbolically it invites questions about entering new situations. Birth-time errors can shift it substantially.",
   ],
   midheaven: [
-    "Thiên Đỉnh (MC) — giao điểm hoàng đạo với kinh tuyến ở phía trên chân trời. Trong hệ Whole Sign, MC không nhất thiết là đỉnh nhà 10. Có thể dùng nó để suy ngẫm về đóng góp và điều muốn được ghi nhận.",
+    "Thiên đỉnh (MC) — giao điểm hoàng đạo với kinh tuyến ở phía trên chân trời. Trong hệ Whole Sign, MC không nhất thiết là đỉnh nhà 10. Có thể dùng nó để suy ngẫm về đóng góp và điều muốn được ghi nhận.",
     "Midheaven (MC) — the upper intersection of ecliptic and meridian. In Whole Sign houses, it need not be the tenth-house cusp. It can prompt reflection on contribution and recognition.",
   ],
 };

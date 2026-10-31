@@ -72,7 +72,7 @@ const defaultEvidence: Record<"vi" | "en", AstrologyAiGuideEvidence[]> = {
   vi: [
     { id: "sun", glyph: "☉", label: "Mặt Trời" },
     { id: "moon", glyph: "☽", label: "Mặt Trăng" },
-    { id: "ascendant", glyph: "ASC", label: "Cung Mọc" },
+    { id: "ascendant", glyph: "ASC", label: "Cung mọc" },
     { id: "aspects", glyph: "△", label: "Góc hợp" },
   ],
   en: [

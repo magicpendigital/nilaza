@@ -1,16 +1,23 @@
 import { bodyLongitudeAt, signs, type CandidateChart } from "../../../../../packages/astrology-core/calculator.mjs";
 import type { AstrologySignId } from "./contracts";
 
-export type BigThree = { sun: AstrologySignId; moon: AstrologySignId; rising?: AstrologySignId };
+// Each body lists the signs it can be in: one with an exact birth time, the sampled
+// possibilities otherwise. Rising needs an exact time.
+export type BigThree = { sun: AstrologySignId[]; moon: AstrologySignId[]; rising?: AstrologySignId; timeKnown: boolean };
 
-// Sun and Moon always; Rising only when the birth time gives an ascendant.
+// Signs a body or angle can be in. Angles (ascendant, midheaven) exist only with an exact time.
+export function signOptionsOf(chart: CandidateChart, body: string): AstrologySignId[] {
+  const exact = [...chart.placements, ...chart.angles].find((item) => item.body === body)?.sign;
+  if (exact) return [exact as AstrologySignId];
+  return ((chart.sampledRanges ?? []).find((item) => item.body === body)?.possibleSigns ?? []) as AstrologySignId[];
+}
+
 export function bigThreeOf(chart: CandidateChart): BigThree | null {
-  const sign = (body: string) => chart.placements.find((item) => item.body === body)?.sign as AstrologySignId | undefined;
-  const sun = sign("sun");
-  const moon = sign("moon");
-  if (!sun || !moon) return null;
+  const sun = signOptionsOf(chart, "sun");
+  const moon = signOptionsOf(chart, "moon");
+  if (!sun.length || !moon.length) return null;
   const rising = chart.angles.find((item) => item.body === "ascendant")?.sign as AstrologySignId | undefined;
-  return { sun, moon, ...(rising ? { rising } : {}) };
+  return { sun, moon, ...(rising ? { rising } : {}), timeKnown: chart.time.precision === "exact" };
 }
 
 export function moonSignAt(date: Date): AstrologySignId {

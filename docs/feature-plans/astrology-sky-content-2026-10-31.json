@@ -1,0 +1,173 @@
+{
+  "schemaVersion": 1,
+  "taskId": "astrology-sky-content-2026-10-31",
+  "ownerAgent": "mobile_astrology_design_agent",
+  "lane": "mobile_astrology_redesign",
+  "goal": "Move the Owner-approved Big 3 fragments, Moon-in-house texts and 72 topic placements from docs/content-review into packages/content and show them: Big 3 headline and summary on the hub and chart overview, the Mặt Trăng hôm nay block on the hub, and Tổng quan / Tình yêu / Sự nghiệp / Bản thân tabs on the chart overview. Unify the point names to Thiên đỉnh and Cung mọc.",
+  "successCriteria": [
+    "packages/content/data/astrology-big3.json, astrology-moon-houses.json and astrology-topic-placements.json hold the approved text with house 6 renamed to nhịp sống hằng ngày, and validate:data checks their coverage.",
+    "Hub shows the Big 3 headline and summary; the Today block shows only when the birth time is exact; without an exact time the Rising line and Today block are hidden and an invite to add the birth time is shown.",
+    "Chart overview has Tổng quan plus three topic tabs with two placements each, a one-line reminder at the end of each tab, a birth-time note on Bản thân, and one placement plus the invite when a point needs a birth time.",
+    "The app writes Thiên đỉnh and Cung mọc everywhere on screen.",
+    "npm --workspace apps/mobile run check, the mobile Jest suite and validate:data pass, and a 390x844 web walkthrough covers hub and chart tabs."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/astrology/",
+    "apps/mobile/src/features/home/moonPhase.ts",
+    "apps/mobile/src/features/home/__tests__/",
+    "docs/content-review/",
+    "DESIGN.md",
+    "apps/admin/workflow-catalog.js",
+    "packages/content/data/astrology-big3.json",
+    "packages/content/data/astrology-moon-houses.json",
+    "packages/content/data/astrology-topic-placements.json",
+    "packages/content/data/astrology-strategy.json",
+    "packages/content/data/astrology-visual-system.json",
+    "packages/content/data/astrology-zodiac-guides.json",
+    "scripts/validate-data.mjs"
+  ],
+  "untouchedSurfaces": [
+    "Edge Functions, prompts, entitlements and database are unchanged; ai-astrology-report keeps its server wording until a separate deploy.",
+    "Synastry is not built in this task.",
+    "Tarot, Home, Journal and Chat screens."
+  ],
+  "impact": {
+    "entryPoint": "Explore > Chiêm tinh, Home sign tile, Profile birth data.",
+    "dataWrite": "Same device store nilaza.astrology.v2; no new keys in this task.",
+    "backendContract": "No change; the AI block calls the existing ai-astrology-insight contract only after the server change is deployed.",
+    "canonicalContract": "DESIGN.md astrology screens follow the design canvas.",
+    "adminVisibility": "No Admin change; only the workflow catalog digest of App.tsx is refreshed.",
+    "privacySafety": "Charts stay on the device; no third-party data is collected in this task.",
+    "observability": "No analytics change.",
+    "rollback": "Revert the commits.",
+    "surfacesIntentionallyUntouched": "Backend, spreads data, share and journal formats.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs the validation commands, commits locally and does not merge, deploy or run SQL."
+  },
+  "canonicalContracts": [
+    "Owner decisions 2026-10-31 in chat on astrology-big3-moon-draft.md (hide Rising and Today without birth time plus an invite; house 6 renamed; house 8 kept; Leo and Cancer headlines as proposed; uniform Rising openings) and astrology-topic-placements-draft.md (Thiên đỉnh and Cung mọc; Mars kept; reminder at the end of each tab; birth-time note on Bản thân; one placement plus invite without a birth time); remaining content approved as drafted.",
+    "Design canvas AstroHub and AstroChart artboards."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Tarot and mobile UI routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "DESIGN.md",
+      "reason": "Brand shape and type rules for the new screen.",
+      "sha256": "945d50d74cc402a74e709f32a37fe7bffb36cc8eccad14d3e23a0b7238522b90"
+    },
+    {
+      "path": "docs/CONTENT_SAFETY_STYLE_GUIDE.md",
+      "reason": "Card names and safety framing for the guide copy.",
+      "sha256": "33ec073a7fe94045ee7aeb40bad2ca90b6ab6b0010569131c730380dfb23ceec"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Card meaning stage and its top bar.",
+      "sha256": "7bf2d6d0f2545af373c3505f3a7b11b852e48c3872d7b7ef13f9b87a5d261892"
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+      "reason": "Hub, form, confirm and report stages being redesigned.",
+      "sha256": "783defefcb9d5cd04d6a37f420280bd21c0df4ec5ed3379c18f01c355db2819e"
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/AstrologyChartStory.tsx",
+      "reason": "Exact-time chart screen being redesigned.",
+      "sha256": "d88318241913c2ea25103a37b1da3be01958536c1f36f09dbb2faa39ed17d8e5"
+    },
+    {
+      "path": "docs/content-review/astrology-big3-moon-draft.md",
+      "reason": "Approved Big 3 and Moon-house copy.",
+      "sha256": "b776b4e6f8295ea3c644a4bbf73a4847f8522aab20b4699333bc41943f8516c9"
+    },
+    {
+      "path": "docs/content-review/astrology-topic-placements-draft.md",
+      "reason": "Approved topic placement copy.",
+      "sha256": "01f07ea4ef0a5fa245975846ba61aca8acd826018201202f0365a43f9d375929"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "The flow follows DESIGN.md shapes (8px cards, pill controls, 48px targets); the skill text stays accurate."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing React Native and Ionicons APIs."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization change.",
+    "sensitiveData": "Birth data stays on the device; the new text is static reviewed content.",
+    "secretsLogging": "No credentials or logs.",
+    "externalInput": "No user input is rendered beyond existing card selection.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration, deploy or release.",
+    "stopCondition": "Stop if a sign or house lacks approved text, or if checks fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "DESIGN.md",
+      "apps/mobile/src/features/astrology/AstrologyAiGuidePanel.tsx",
+      "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+      "apps/mobile/src/features/astrology/AstrologyGlossary.tsx",
+      "apps/mobile/src/features/astrology/AstrologyHub.tsx",
+      "apps/mobile/src/features/astrology/ChartOverviewParts.tsx",
+      "apps/mobile/src/features/astrology/__tests__/AstrologyExperience.test.tsx",
+      "apps/mobile/src/features/astrology/__tests__/sky.test.ts",
+      "apps/mobile/src/features/astrology/astrologyAiInsight.ts",
+      "apps/mobile/src/features/astrology/contracts.ts",
+      "apps/mobile/src/features/astrology/sky.ts",
+      "apps/mobile/src/features/astrology/skyContent.ts",
+      "docs/feature-plans/astrology-sky-content-2026-10-31.json",
+      "packages/content/data/astrology-big3.json",
+      "packages/content/data/astrology-moon-houses.json",
+      "packages/content/data/astrology-strategy.json",
+      "packages/content/data/astrology-topic-placements.json",
+      "packages/content/data/astrology-visual-system.json",
+      "packages/content/data/astrology-zodiac-guides.json",
+      "scripts/validate-data.mjs"
+    ],
+    "note": "Worktree branch feat/astrology-slice-2026-10-31 stacked on PR #10."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/astrology-sky-content-2026-10-31.json",
+    "npm run validate:data",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand",
+    "Web walkthrough at 390x844: hub and chart tabs."
+  ],
+  "managerTestPath": "Khám phá > Chiêm tinh: the hub card shows a headline such as Người mơ mộng biết cách che chở and the Mặt Trăng hôm nay block; open the chart and switch between Tổng quan, Tình yêu, Sự nghiệp and Bản thân.",
+  "residualRisk": "Approximate and unknown birth times have no placements in the calculator, so their tabs show only signs that stay the same across the whole sampled range.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

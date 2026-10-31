@@ -1,7 +1,8 @@
 import { AstrologyHub } from "./AstrologyHub";
 import { BirthDateFields, BirthTimeFields } from "./BirthFields";
-import { BigThreeCards, ChartRowLink, chartHeaderLine } from "./ChartOverviewParts";
-import { bigThreeOf } from "./sky";
+import { Big3Summary, BigThreeCards, ChartRowLink, SkyTabs, TopicPanel, chartHeaderLine } from "./ChartOverviewParts";
+import { bigThreeOf, moonHouseToday } from "./sky";
+import { big3Story, moonTodayFor, skyTopicIds, topicLabel, topicReading, type SkyTopicId } from "./skyContent";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   ActivityIndicator,
@@ -200,6 +201,8 @@ export function AstrologyExperience({
     placeName: string;
   } | null>(null);
   const [report, setReport] = useState<SavedChart | null>(null);
+  const [chartTab, setChartTab] = useState<"overview" | SkyTopicId>("overview");
+  useEffect(() => setChartTab("overview"), [report?.id]);
   const [aiStatus, setAiStatus] = useState<AstrologyAiGuideStatus>("ready");
   const [aiAnswer, setAiAnswer] = useState<AstrologyAiGuideAnswer | undefined>();
   const [aiSnapshot, setAiSnapshot] = useState<SavedAstrologyAiInsight | undefined>();
@@ -336,6 +339,20 @@ export function AstrologyExperience({
     setPending(null);
     setConfirmed(false);
     setShowDetails(false);
+    resetOccurrence();
+    setStage("form");
+  };
+  // Reopen the form from a chart; askTime switches to an exact time for the birth-time invites.
+  const editBirthDetails = (r: SavedChart, askTime = false) => {
+    setNotice("");
+    setDate(r.input.date);
+    setTime(r.input.time ?? "");
+    setPrecision(askTime ? "exact" : r.input.precision);
+    setMinutes(String(r.input.uncertaintyMinutes ?? 30));
+    const p = placeData.places.find((item) => item.id === r.input.place.id) ?? null;
+    setPlace(p);
+    setQuery(p ? label(p) : "");
+    setConfirmed(false);
     resetOccurrence();
     setStage("form");
   };
@@ -569,6 +586,8 @@ export function AstrologyExperience({
   const myChartReport = data.reports[0];
   const myChartBig3 = myChartReport ? bigThreeOf(myChartReport.chart) : null;
   const myChart = myChartReport && myChartBig3 ? { report: myChartReport, big3: myChartBig3 } : null;
+  // Today's Moon needs the houses, so only an exact birth time shows the block.
+  const myMoonHouse = myChart?.big3.timeKnown ? moonHouseToday(myChart.report.chart, now) : null;
   const saveReport = async (includeAnswer = false) => {
     if (!report || writing.current) return;
     const existing = workingData.current.reports.find(r => r.id === report.id);
@@ -731,9 +750,9 @@ export function AstrologyExperience({
                   language={language}
                   now={now}
                   dateLabel={`${vi ? "Hôm nay" : "Today"} · ${localCalendarLabel(now, data.displayZone, language)}`}
-                  myChart={myChart ? { big3: myChart.big3, onOpen: () => openSavedChart(myChart.report) } : undefined}
+                  myChart={myChart ? { big3: myChart.big3, story: big3Story(myChart.big3, language), onOpen: () => openSavedChart(myChart.report), onAddBirthTime: () => editBirthDetails(myChart.report, true) } : undefined}
                   onCreateChart={newForm}
-                  today={null}
+                  today={myMoonHouse ? moonTodayFor(myMoonHouse.house, language) : null}
                   mythology={{ completed: data.library.completed.length, total: 12, onOpen: () => setStage("world") }}
                   saved={{ count: data.reports.length, open: showSaved, onToggle: () => setShowSaved((open) => !open) }}
                   disabled={!loaded || busy}
@@ -960,7 +979,7 @@ export function AstrologyExperience({
                   <View style={s.disclosure}>
                   <Text style={s.note}>
                     {vi
-                      ? "Bạn vẫn có thể xem các vị trí có khả năng. Không hiển thị Cung Mọc, Thiên Đỉnh, nhà hay góc hợp chính xác khi chưa rõ giờ."
+                      ? "Bạn vẫn có thể xem các vị trí có khả năng. Không hiển thị Cung mọc, Thiên đỉnh, nhà hay góc hợp chính xác khi chưa rõ giờ."
                       : "You can still explore possible placements. Rising sign, Midheaven, houses and exact aspects are unavailable without a confirmed time."}
                   </Text>
                   </View>
@@ -994,7 +1013,7 @@ export function AstrologyExperience({
                 {!place && query.trim().length >= 2 && !matches.length && (
                   <Text style={s.note}>
                     {vi
-                      ? "Không tìm thấy. Thử tên quốc tế không dấu hoặc thành phố lớn gần đó; không chọn nơi xa chỉ để tiếp tục vì Cung Mọc phụ thuộc tọa độ."
+                      ? "Không tìm thấy. Thử tên quốc tế không dấu hoặc thành phố lớn gần đó; không chọn nơi xa chỉ để tiếp tục vì Cung mọc phụ thuộc tọa độ."
                       : "No match. Try an international spelling or a nearby city; do not choose a distant place merely to continue because the Ascendant depends on coordinates."}
                   </Text>
                 )}
@@ -1137,7 +1156,19 @@ export function AstrologyExperience({
                     : ""}
                 </Text>
                 {reportBig3 ? <BigThreeCards big3={reportBig3} language={language} /> : null}
-                {report.chart.time.precision === "exact" ? (
+                {reportBig3 ? <Big3Summary story={big3Story(reportBig3, language)} /> : null}
+                <SkyTabs
+                  tabs={[{ id: "overview" as const, label: vi ? "Tổng quan" : "Overview" }, ...skyTopicIds.map((id) => ({ id, label: topicLabel(id, language) }))]}
+                  active={chartTab}
+                  onChange={setChartTab}
+                />
+                {chartTab !== "overview" ? (
+                  <TopicPanel
+                    reading={topicReading(report.chart, chartTab, language)}
+                    language={language}
+                    onAddBirthTime={() => editBirthDetails(report, true)}
+                  />
+                ) : report.chart.time.precision === "exact" ? (
                   <>
                     <ChartRowLink
                       icon="planet-outline"
@@ -1319,21 +1350,7 @@ export function AstrologyExperience({
                       ? "Sửa dữ liệu · tạo bản mới"
                       : "Edit birth details · new revision"
                   }
-                  onPress={() => {
-                    setDate(report.input.date);
-                    setTime(report.input.time ?? "");
-                    setPrecision(report.input.precision);
-                    setMinutes(String(report.input.uncertaintyMinutes ?? 30));
-                    const p =
-                      placeData.places.find(
-                        (p) => p.id === report.input.place.id,
-                      ) ?? null;
-                    setPlace(p);
-                    setQuery(p ? label(p) : "");
-                    setConfirmed(false);
-                    resetOccurrence();
-                    setStage("form");
-                  }}
+                  onPress={() => editBirthDetails(report)}
                 />
                 <Text style={s.heading}>
                   {vi ? "Độ tin cậy & phương pháp" : "Accuracy & method"}
@@ -1346,7 +1363,7 @@ export function AstrologyExperience({
                 {Math.abs(report.input.place.latitude) > 66 && (
                   <Text style={s.error}>
                     {vi
-                      ? "Vĩ độ cao: cần đối chiếu chuyên biệt Cung Mọc và hệ nhà."
+                      ? "Vĩ độ cao: cần đối chiếu chuyên biệt Cung mọc và hệ nhà."
                       : "High latitude: Ascendant and houses need specialized cross-checking."}
                   </Text>
                 )}

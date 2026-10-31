@@ -139,6 +139,66 @@ test("Vietnam birth completes calculation, failed disk write is visible, retry s
   await waitFor(()=>expect(m.read().reports).toHaveLength(0));
   expect(m.read().nextRevision).toBe(2);
 });
+test("chart overview shows the Big 3 headline and topic tabs; the hub shows today's Moon", async () => {
+  const m = memory();
+  const screen = render(
+    <AstrologyExperience language="vi" storage={m.storage} onBack={() => {}} />,
+  );
+  await fillForm(screen, "2000-01-01", "12:00", "Hanoi");
+  fireEvent.press(screen.getByText("Tạo bản đồ"));
+  // Sun in Capricorn opens the headline.
+  await waitFor(() => expect(screen.getByText(/^Người đi đường dài /)).toBeTruthy());
+  expect(screen.getByRole("tab", { name: "Tổng quan" }).props.accessibilityState.selected).toBe(true);
+  fireEvent.press(screen.getByRole("tab", { name: "Sự nghiệp" }));
+  expect(screen.getByText(/^Thiên đỉnh · /)).toBeTruthy();
+  expect(screen.getByText(/^Sao Thổ · /)).toBeTruthy();
+  expect(screen.getByText("Đây là gợi ý để tự soi chiếu, không phải dự đoán.")).toBeTruthy();
+  expect(screen.queryByText("Bánh xe lá số & dữ liệu")).toBeNull();
+  fireEvent.press(screen.getByRole("tab", { name: "Bản thân" }));
+  expect(screen.getByText("Nếu bạn chưa chắc giờ sinh, phần này có thể khác.")).toBeTruthy();
+  fireEvent.press(screen.getByRole("tab", { name: "Tổng quan" }));
+  fireEvent.press(screen.getByText("Lưu bản đồ trên thiết bị"));
+  await waitFor(() => expect(m.read().reports).toHaveLength(1));
+  fireEvent.press(screen.getByText("← Trở lại"));
+  await waitFor(() => expect(screen.getByText(/^Người đi đường dài /)).toBeTruthy());
+  expect(screen.getByText(/^Mặt Trăng đi qua nhà /)).toBeTruthy();
+  expect(screen.getByText("Nên thử")).toBeTruthy();
+  expect(screen.queryByText("Bổ sung giờ sinh")).toBeNull();
+});
+test("without a birth time the hub hides Rising and today's Moon and invites the time", async () => {
+  const m = memory();
+  const screen = render(
+    <AstrologyExperience language="vi" storage={m.storage} onBack={() => {}} />,
+  );
+  await waitFor(() =>
+    expect(screen.getByRole("button", { name: "Tạo lá số của bạn" }).props.accessibilityState.disabled).toBe(false),
+  );
+  fireEvent.press(screen.getByText("Tạo lá số của bạn"));
+  fireEvent.changeText(screen.getByLabelText("Ngày"), "01");
+  fireEvent.changeText(screen.getByLabelText("Tháng"), "01");
+  fireEvent.changeText(screen.getByLabelText("Năm"), "2000");
+  fireEvent.press(screen.getByText("Không rõ"));
+  fireEvent.changeText(screen.getByLabelText("Nơi sinh"), "Hanoi");
+  fireEvent.press(screen.getAllByText(/^Hanoi ·/)[0]);
+  fireEvent.press(screen.getByText("Đây đúng là nơi sinh của tôi"));
+  fireEvent.press(screen.getByText("Xem bầu trời của mình"));
+  fireEvent.press(screen.getByText("Tạo bản đồ"));
+  await waitFor(() => expect(screen.getByRole("tab", { name: "Sự nghiệp" })).toBeTruthy());
+  fireEvent.press(screen.getByRole("tab", { name: "Sự nghiệp" }));
+  expect(screen.getByText("Phần này cần giờ sinh chính xác.")).toBeTruthy();
+  expect(screen.getByText("Bổ sung giờ sinh")).toBeTruthy();
+  fireEvent.press(screen.getByRole("tab", { name: "Tổng quan" }));
+  fireEvent.press(screen.getByText("Lưu bản đồ trên thiết bị"));
+  await waitFor(() => expect(m.read().reports).toHaveLength(1));
+  fireEvent.press(screen.getByText("← Trở lại"));
+  await waitFor(() => expect(screen.getByText(/Thêm giờ sinh chính xác/)).toBeTruthy());
+  expect(screen.queryByText(/^Mặt Trăng đi qua nhà /)).toBeNull();
+  expect(screen.queryByText("Cung mọc")).toBeNull();
+  fireEvent.press(screen.getByText("Bổ sung giờ sinh"));
+  // The form reopens on the exact-time mode with the saved date.
+  expect(screen.getByLabelText("Giờ")).toBeTruthy();
+  expect(screen.getByLabelText("Năm").props.value).toBe("2000");
+});
 test("New York DST overlap requires explicit occurrence and resolves the chosen UTC", async () => {
   const m = memory(),
     screen = render(

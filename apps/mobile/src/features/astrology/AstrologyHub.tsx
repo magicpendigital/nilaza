@@ -3,18 +3,17 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors, layout, radius, typography } from "../../theme";
 import type { Language } from "../../types";
 import { moonPhaseFor, moonPhaseLabel, nextMoonEvent } from "../home/moonPhase";
-import { localizeAstrologySign } from "./contracts";
+import { signList } from "./ChartOverviewParts";
 import type { BigThree } from "./sky";
-
-export type AstrologyToday = { title: string; doItems: string[]; avoidItems: string[]; note: string };
+import type { Big3Story, MoonToday } from "./skyContent";
 
 export type AstrologyHubProps = {
   language: Language;
   now: Date;
   dateLabel: string;
-  myChart?: { big3: BigThree; summary?: string; onOpen: () => void };
+  myChart?: { big3: BigThree; story: Big3Story; onOpen: () => void; onAddBirthTime: () => void };
   onCreateChart: () => void;
-  today?: AstrologyToday | null;
+  today?: MoonToday | null;
   mythology: { completed: number; total: number; onOpen: () => void };
   saved: { count: number; open: boolean; onToggle: () => void };
   disabled?: boolean;
@@ -29,9 +28,9 @@ export function AstrologyHub({ language, now, dateLabel, myChart, onCreateChart,
     : vi ? `${event.kind === "full" ? "Trăng tròn" : "Trăng non"} sau ${event.days} ngày` : `${event.kind === "full" ? "Full moon" : "New moon"} in ${event.days} ${event.days === 1 ? "day" : "days"}`;
   const rows = myChart
     ? [
-        { glyph: "☉", label: vi ? "Mặt Trời" : "Sun", sign: myChart.big3.sun },
-        { glyph: "☽", label: vi ? "Mặt Trăng" : "Moon", sign: myChart.big3.moon },
-        ...(myChart.big3.rising ? [{ glyph: "↑", label: vi ? "Cung mọc" : "Rising", sign: myChart.big3.rising }] : [])
+        { glyph: "☉", label: vi ? "Mặt Trời" : "Sun", sign: signList(myChart.big3.sun, language) },
+        { glyph: "☽", label: vi ? "Mặt Trăng" : "Moon", sign: signList(myChart.big3.moon, language) },
+        ...(myChart.big3.rising ? [{ glyph: "↑", label: vi ? "Cung mọc" : "Rising", sign: signList([myChart.big3.rising], language) }] : [])
       ]
     : [];
 
@@ -41,18 +40,29 @@ export function AstrologyHub({ language, now, dateLabel, myChart, onCreateChart,
       <Text style={s.title} accessibilityRole="header">{vi ? "Bầu trời của bạn" : "Your sky"}</Text>
 
       {myChart ? (
-        <Pressable accessibilityRole="button" accessibilityLabel={`${rows.map((row) => `${row.label} ${localizeAstrologySign(row.sign, language)}`).join(", ")}. ${vi ? "Xem lá số đầy đủ" : "See full chart"}`}
-          onPress={myChart.onOpen} style={s.bigThree}>
-          {rows.map((row) => (
-            <View key={row.label} style={s.bigRow}>
-              <Text style={s.glyph}>{row.glyph}</Text>
-              <Text style={s.bigLabel}>{row.label}</Text>
-              <Text style={s.bigSign}>{localizeAstrologySign(row.sign, language)}</Text>
-            </View>
-          ))}
-          {myChart.summary ? <Text style={s.summary}>{myChart.summary}</Text> : null}
-          <Text style={s.link}>{vi ? "Xem lá số đầy đủ →" : "See full chart →"}</Text>
-        </Pressable>
+        <View style={s.bigThree}>
+          {myChart.story.headline ? <Text style={s.headline} accessibilityRole="header">{myChart.story.headline}</Text> : null}
+          <View accessible accessibilityLabel={rows.map((row) => `${row.label} ${row.sign}`).join(", ")} style={s.bigRows}>
+            {rows.map((row) => (
+              <View key={row.label} style={s.bigRow}>
+                <Text style={s.glyph}>{row.glyph}</Text>
+                <Text style={s.bigLabel}>{row.label}</Text>
+                <Text style={s.bigSign}>{row.sign}</Text>
+              </View>
+            ))}
+          </View>
+          {myChart.story.lines.map((line) => <Text key={line} style={s.summary}>{line}</Text>)}
+          <View style={s.links}>
+            <Pressable accessibilityRole="button" onPress={myChart.onOpen} style={s.linkButton}>
+              <Text style={s.link}>{vi ? "Xem lá số đầy đủ →" : "See full chart →"}</Text>
+            </Pressable>
+            {myChart.story.needsBirthTime ? (
+              <Pressable accessibilityRole="button" onPress={myChart.onAddBirthTime} style={s.linkButton}>
+                <Text style={s.link}>{vi ? "Bổ sung giờ sinh" : "Add birth time"}</Text>
+              </Pressable>
+            ) : null}
+          </View>
+        </View>
       ) : (
         <View style={s.bigThree}>
           <Text style={s.emptyTitle}>{vi ? "Bầu trời lúc bạn chào đời" : "The sky when you were born"}</Text>
@@ -67,13 +77,14 @@ export function AstrologyHub({ language, now, dateLabel, myChart, onCreateChart,
         <View style={s.today}>
           <Text style={s.kicker}>{dateLabel}</Text>
           <Text style={s.todayTitle}>{today.title}</Text>
+          <Text style={s.body}>{today.body}</Text>
           <View style={s.columns}>
             <View style={s.column}>
-              <Text style={[s.columnLabel, s.doLabel]}>{vi ? "Nên" : "Do"}</Text>
+              <Text style={[s.columnLabel, s.doLabel]}>{today.labels.do}</Text>
               {today.doItems.map((item) => <Text key={item} style={s.item}>{item}</Text>)}
             </View>
             <View style={s.column}>
-              <Text style={[s.columnLabel, s.avoidLabel]}>{vi ? "Nên tránh" : "Avoid"}</Text>
+              <Text style={[s.columnLabel, s.avoidLabel]}>{today.labels.avoid}</Text>
               {today.avoidItems.map((item) => <Text key={item} style={s.item}>{item}</Text>)}
             </View>
           </View>
@@ -111,12 +122,16 @@ const s = StyleSheet.create({
   kicker: { color: colors.gold, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase" },
   title: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 32, lineHeight: 36, marginTop: -6 },
   bigThree: { padding: 18, borderRadius: 18, backgroundColor: "#1F1C1E", borderWidth: 1, borderColor: "rgba(201, 164, 92, 0.4)", gap: 10 },
+  headline: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 24, lineHeight: 29 },
+  bigRows: { gap: 10 },
   bigRow: { flexDirection: "row", alignItems: "center", gap: 10 },
   glyph: { width: 22, color: colors.gold, fontSize: 18, textAlign: "center" },
   bigLabel: { width: 92, color: "#B8B0A4", fontFamily: typography.bodyFontFamily, fontSize: 14 },
   bigSign: { flex: 1, color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 21 },
   summary: { color: "#E9E2D6", fontFamily: typography.bodyFontFamily, fontSize: 15, lineHeight: 22, marginTop: 4 },
-  link: { color: colors.gold, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 13.5, marginTop: 4 },
+  links: { flexDirection: "row", flexWrap: "wrap", columnGap: 18 },
+  linkButton: { minHeight: layout.minimumTouchTarget, justifyContent: "center" },
+  link: { color: colors.gold, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 13.5 },
   emptyTitle: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 22 },
   body: { color: "#E9E2D6", fontFamily: typography.bodyFontFamily, fontSize: 14.5, lineHeight: 21 },
   primary: { minHeight: 52, borderRadius: radius.pill, backgroundColor: colors.ivory, alignItems: "center", justifyContent: "center", marginTop: 4 },
