@@ -1,4 +1,6 @@
 import { AstrologyHub } from "./AstrologyHub";
+import { AiDeepRead } from "./AiDeepRead";
+import { premiumOnSale } from "../owner/accountTierPolicy";
 import { BirthDateFields, BirthTimeFields } from "./BirthFields";
 import { Big3Summary, BigThreeCards, ChartRowLink, SkyTabs, TopicPanel, chartHeaderLine } from "./ChartOverviewParts";
 import { bigThreeOf, moonHouseToday } from "./sky";
@@ -1320,6 +1322,18 @@ export function AstrologyExperience({
                       title={vi ? "Bánh xe lá số & dữ liệu" : "Chart wheel & data"}
                       detail={vi ? "Độ, nhà, góc hợp, cách tính" : "Degrees, houses, aspects, method"}
                       onPress={() => setStage("chart")}
+                    />
+                    <AiDeepRead
+                      language={language}
+                      available={canRequestAstrologyAi && !ownerPremiumPreview}
+                      premiumOnSale={premiumOnSale}
+                      status={panelAiStatus}
+                      answer={aiAnswer}
+                      error={aiErrorMessage}
+                      onWrite={() => beginAiQuestion(vi
+                        ? "Hãy đọc sâu lá số của mình: điều gì nổi bật nhất, các phần nối với nhau thế nào, và mình có thể tự hỏi gì?"
+                        : "Give me a deep read of my chart: what stands out, how the parts connect, and what could I ask myself?")}
+                      onOpenFull={() => setStage("chart")}
                     />
                     {presentation.facts
                       .filter((f) =>
