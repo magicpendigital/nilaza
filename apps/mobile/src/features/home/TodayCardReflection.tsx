@@ -1,14 +1,17 @@
-import { Image, ImageSourcePropType, Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, ImageSourcePropType, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { brandCopy } from "../../brand/copy";
 import { colors, radius, typography } from "../../theme";
 import type { Language } from "../../types";
 
-export function TodayCardReflection({ language, cardImage, cardName, cardMeta, deckName, keywords, meaning, question, microAction, guidance, moods, selectedMood, onMood, onAnotherGuidance, disclaimer }: {
+export function TodayCardReflection({ language, cardImage, cardName, cardMeta, deckName, keywords, meaning, question, microAction, guidance, moods, selectedMood, onMood, onAnotherGuidance, disclaimer, note, onNoteChange, savedNote }: {
   language: Language; cardImage: ImageSourcePropType; cardName: string; cardMeta?: string; deckName: string; keywords: string[]; meaning: string; question: string;
   microAction: string; guidance?: string; moods: Array<{ id: string; label: string }>; selectedMood?: string; onMood: (id: string) => void;
   onAnotherGuidance?: () => void; disclaimer: string;
+  /** Answer to the question, saved with the card (analysis HO-03); savedNote shows it read-only after saving. */
+  note?: string; onNoteChange?: (value: string) => void; savedNote?: string;
 }) {
+  const vi = language === "vi";
   const copy = brandCopy(language);
   return <View style={s.root}>
     <Image source={cardImage} resizeMode="contain" style={s.card} accessibilityLabel={cardName} />
@@ -22,6 +25,20 @@ export function TodayCardReflection({ language, cardImage, cardName, cardMeta, d
       <Text style={s.kicker}>{copy.yourMessage}</Text>
       <Text style={s.messageText}>{meaning}</Text>
       <Text style={s.question}>{question}</Text>
+      {savedNote !== undefined ? (
+        savedNote ? <Text style={s.savedNote}>{savedNote}</Text> : null
+      ) : onNoteChange ? (
+        <TextInput
+          accessibilityLabel={vi ? "Trả lời câu hỏi hôm nay" : "Answer today's question"}
+          value={note ?? ""}
+          onChangeText={onNoteChange}
+          placeholder={vi ? "Hôm nay mình cần…" : "Today I need…"}
+          placeholderTextColor={colors.moon}
+          maxLength={500}
+          multiline
+          style={s.noteInput}
+        />
+      ) : null}
     </View>
     <View style={s.panel}>
       <Text style={s.kicker}>{copy.smallStep}</Text>
@@ -73,6 +90,8 @@ const s = StyleSheet.create({
   kicker: { color: colors.gold, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 12, letterSpacing: 1.2, textTransform: "uppercase" },
   messageText: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 21, lineHeight: 29 },
   question: { color: colors.onSurface, fontFamily: typography.bodyFontFamily, fontSize: 16, lineHeight: 24 },
+  noteInput: { marginTop: 10, minHeight: 48, borderRadius: radius.card, borderWidth: 1, borderColor: "rgba(201, 164, 92, 0.35)", paddingHorizontal: 12, paddingVertical: 10, color: colors.ivory, fontFamily: typography.bodyFontFamily, fontSize: 15, lineHeight: 21 },
+  savedNote: { marginTop: 10, color: colors.ivory, fontFamily: typography.bodyFontFamily, fontSize: 15, lineHeight: 21, fontStyle: "italic" },
   panel: { borderRadius: radius.card, backgroundColor: colors.surfaceContainer, padding: 16, gap: 8 },
   body: { color: colors.onSurface, fontFamily: typography.bodyFontFamily, fontSize: 16, lineHeight: 24 },
   label: { color: colors.ivory, fontFamily: typography.bodyMediumFontFamily, fontSize: 15 },
