@@ -58,12 +58,12 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Journal entry detail and its note editor.",
-      "sha256": "3cb9839139d562c0fc5aa7a05e689a991a1f9c0c20821cf27740c08069bb9646"
+      "sha256": "963134d2a598f4ceddfe94e156b98377a2b1debf32576046415feefd504da521"
     },
     {
       "path": "apps/mobile/src/features/council/AiCouncilRoom.tsx",
       "reason": "Council thread scroll view.",
-      "sha256": "44d925e4293e2d3d155b95febc65eaf9f8acb0d7fb659e8be52bad8825a03678"
+      "sha256": "795e02b80af3ea184a8de43575c431b01cc16f8225c5c2dc24c7be6d6c044dc1"
     }
   ],
   "skillReview": [
