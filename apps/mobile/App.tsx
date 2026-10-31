@@ -1,5 +1,5 @@
 import { FeedbackPanel, type FeedbackPanelTarget } from "./src/features/feedback/FeedbackPanel";
-import { submitAiFeedback, exportAiFeedback, deleteAllAiFeedback } from "./src/backendClient";
+import { submitAiFeedback, exportAiFeedback, deleteAllAiFeedback, BackendLimitError } from "./src/backendClient";
 import { createAnswerAttempt, parseAnswerProvenance, type AnswerProvenance } from "../../packages/ai-contracts/answer-provenance";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { OwnerHub } from "./src/features/owner/OwnerHub";
@@ -5282,8 +5282,11 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
           methodPackVersion: reply.methodPackVersion ?? "unknown"
         });
         finishGenerationActivity(activity, "ready");
-      } catch {
-        setChatError(c.chatError);
+      } catch (error) {
+        // A guide paused from Admin is shown as resting, not as a failed answer.
+        setChatError(error instanceof BackendLimitError && error.code === "feature_paused"
+          ? (language === "vi" ? "Trò chuyện với người dẫn đường đang tạm nghỉ một chút. Hãy thử lại sau." : "Guide chat is resting for a while. Please try again later.")
+          : c.chatError);
         finishGenerationActivity(activity, "failed");
         recordEvent("persona_message_failed", { personaId: selectedPersonaId });
         recordSafetyEvent({

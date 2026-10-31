@@ -5,6 +5,7 @@ import { compactLines, safeJsonParse, sanitizeProviderMetadata } from "../_share
 import { councilContract } from "../_shared/council-contract.ts";
 import { councilAllowance, localDayStart } from "../_shared/account-tier-policy.ts";
 import { safetyRedirectFor } from "../_shared/crisis-safety.ts";
+import { featurePaused, featurePausedBody } from "../_shared/feature-switch.ts";
 
 type Language = "vi" | "en" | string;
 
@@ -391,6 +392,8 @@ serve(async (req) => {
       });
       return jsonResponse({ turns: [], safety: redirect.safety, safetyText: redirect.text, moderationStatus: "blocked", persistenceStatus: "skipped" });
     }
+    // Emergency switch from Admin; a safety reply above still answers while Council rests.
+    if (await featurePaused(supabase, "ai_council")) return jsonResponse(featurePausedBody, 503);
     const isOpening = (input.sanitizedHistory ?? []).length === 0;
     const { data: todaysEvents, error: usageReadError } = await supabase.from("usage_events")
       .select("metadata")

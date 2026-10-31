@@ -633,6 +633,7 @@ export function AstrologyExperience({
         authentication_required: ["Hãy đăng nhập để dùng Người dẫn đường AI.", "Sign in to use the AI guide."],
         premium_required: ["Người dẫn đường AI chưa mở cho tài khoản này. Nilaza sẽ báo bạn khi tính năng sẵn sàng.", "The AI guide is not open for this account yet. Nilaza will let you know when it is ready."],
         daily_limit_reached: ["Bạn đã dùng hết lượt Astrology AI hôm nay. Hãy thử lại vào ngày mai.", "You have reached today's Astrology AI limit. Please try again tomorrow."],
+        feature_paused: ["Đọc sâu với AI đang tạm nghỉ một chút. Lượt của bạn vẫn còn, hãy thử lại sau.", "Deep read with AI is resting for a while. Your turn is kept; please try again later."],
         route_not_ready: ["Người dẫn đường đang được bảo trì. Câu hỏi của bạn vẫn còn để thử lại sau.", "The guide is under maintenance. Your question is kept so you can try again later."],
         prompt_not_ready: ["Người dẫn đường đang được bảo trì. Câu hỏi của bạn vẫn còn để thử lại sau.", "The guide is under maintenance. Your question is kept so you can try again later."],
         chart_facts_unavailable: ["AI cần giờ sinh chính xác để dùng các dữ kiện của bản đồ này.", "The AI guide needs an exact birth time to use this chart's facts."],

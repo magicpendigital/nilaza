@@ -161,6 +161,13 @@ describe("backendClient", () => {
       );
     });
 
+    it("surfaces only a paused feature; other errors keep the fallback reply", async () => {
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 503, json: async () => ({ error: "feature_paused" }) });
+      await expect(generatePersonaReply(input, fallback, backendOptions)).rejects.toMatchObject({ code: "feature_paused", status: 503 });
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 401, json: async () => ({ error: "authentication_required" }) });
+      await expect(generatePersonaReply(input, fallback, backendOptions)).resolves.toMatchObject({ text: "fallback" });
+    });
+
     it("forwards session continuity fields without changing the backend path", async () => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
@@ -329,6 +336,13 @@ describe("backendClient", () => {
       await expect(generateAiCouncilTurn(input, fallback, backendOptions)).rejects.toMatchObject({ code: "sign_in_required", status: 401 });
       // Other server errors still fall back.
       mockFetch.mockResolvedValueOnce({ ok: false, status: 500, json: async () => ({}) });
+      await expect(generateAiCouncilTurn(input, fallback, backendOptions)).resolves.toMatchObject({ moderationStatus: "fallback" });
+    });
+
+    it("surfaces a feature paused from Admin, while other 503s still fall back", async () => {
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 503, json: async () => ({ error: "feature_paused" }) });
+      await expect(generateAiCouncilTurn(input, fallback, backendOptions)).rejects.toEqual(new BackendLimitError("feature_paused", 503));
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 503, json: async () => ({ error: "ai_unavailable" }) });
       await expect(generateAiCouncilTurn(input, fallback, backendOptions)).resolves.toMatchObject({ moderationStatus: "fallback" });
     });
 

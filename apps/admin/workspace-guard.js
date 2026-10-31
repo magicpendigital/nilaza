@@ -158,6 +158,8 @@
     get_ai_admin_audit_events: "ai.read",
     get_ai_feedback_inbox: "safety.review",
     review_ai_feedback: "safety.review",
+    get_ai_feature_switches: "ai.read",
+    set_ai_feature_switch: "ai.manage",
     get_growth_waitlist_overview: "overview.read"
   };
   window.NilazaAdminRpc = async (name, params = {}, capability) => {

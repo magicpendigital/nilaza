@@ -60,7 +60,7 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "buildTodayPulse.",
-      "sha256": "40b39870fb26c862d0f5a4100c99347312cd72de29fc180343992908d69d8604"
+      "sha256": "663c19d4d85bc319daccfc20f29fcc2e3bdef67fb99041574c938c0db77cb931"
     },
     {
       "path": "scripts/validate-data.mjs",

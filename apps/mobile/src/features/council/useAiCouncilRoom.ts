@@ -743,9 +743,11 @@ export function useAiCouncilRoom({
         // Give the question back so nothing the user wrote is lost.
         setThread((current) => current.filter((turn) => turn.id !== userTurnId));
         setQuestion(userQuestion);
-        onFeedback(error.status === 401
-          ? (language === "vi" ? "Đăng nhập để dùng Hội đồng 3 góc nhìn." : "Sign in to use the council.")
-          : (language === "vi" ? "Hôm nay bạn đã dùng lượt hội đồng. Hẹn bạn ngày mai." : "You have used today's council. See you tomorrow."));
+        onFeedback(error.code === "feature_paused"
+          ? (language === "vi" ? "Hội đồng đang tạm nghỉ một chút. Lượt của bạn vẫn còn, hãy thử lại sau." : "The council is resting for a while. Your turn is kept; please try again later.")
+          : error.status === 401
+            ? (language === "vi" ? "Đăng nhập để dùng Hội đồng 3 góc nhìn." : "Sign in to use the council.")
+            : (language === "vi" ? "Hôm nay bạn đã dùng lượt hội đồng. Hẹn bạn ngày mai." : "You have used today's council. See you tomorrow."));
         onTrack("ai_council_turn_limited", { language, status: error.status, code: error.code });
         if (activity) onGenerationFinished?.(activity, "failed");
         return;

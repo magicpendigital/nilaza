@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "taskId": "ai-feature-switches-2026-10-31",
+  "ownerAgent": "ai_operations_agent",
+  "lane": "ai_feature_kill_switch",
+  "goal": "Emergency switches for AI features (analysis CO-01, AD-10; Owner chose the table plus Admin buttons on 2026-10-31): a public.ai_feature_switches table with one row per feature, an ai.manage RPC that requires a reason and writes the admin audit log, a Switches panel in Admin AI Studio, server checks in ai-council, ai-persona-chat and ai-astrology-insight that answer 503 feature_paused, and app copy that says the feature is resting. Until the migration is applied the functions treat a missing table as on. The migration joins the Singapore packet; the packet hash must be recomputed and step 2a re-approved.",
+  "successCriteria": [
+    "Admin with ai.manage can turn a feature off or on with a reason; ai.read can view states.",
+    "A paused feature returns 503 feature_paused before any model call and uses no turn.",
+    "The app shows a resting message instead of a fallback answer.",
+    "A missing table or read error leaves features on.",
+    "Deno, admin and mobile tests pass."
+  ],
+  "writeScope": [
+    "supabase/migrations/20261031100000_ai_feature_switches.sql",
+    "supabase/functions/_shared/feature-switch.ts",
+    "supabase/functions/_shared/feature-switch_test.ts",
+    "supabase/functions/ai-council/",
+    "supabase/functions/ai-persona-chat/",
+    "supabase/functions/ai-astrology-insight/",
+    "apps/admin/feature-switches.js",
+    "apps/admin/ai-studio.html",
+    "apps/admin/app.js",
+    "apps/admin/workspace-guard.js",
+    "apps/admin/workflow-catalog.js",
+    "scripts/admin-feature-switches.test.mjs",
+    "package.json",
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/backendClient.ts",
+    "apps/mobile/src/__tests__/",
+    "apps/mobile/src/features/council/",
+    "docs/HANDOFF_CURRENT_STATE.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "No SQL is run and nothing is deployed in this change; both wait for Owner approval with the Singapore packet.",
+    "Tarot and Daily keep running without a switch check for now."
+  ],
+  "impact": {
+    "entryPoint": "Admin AI Studio Switches panel; ai-council, ai-persona-chat, ai-astrology-insight requests.",
+    "dataWrite": "One row per feature in public.ai_feature_switches and one admin_audit_logs row per change.",
+    "backendContract": "Paused features answer 503 with error feature_paused.",
+    "canonicalContract": "Analysis CO-01 and AD-10; Owner decisions 2026-10-31.",
+    "adminVisibility": "New Switches panel in AI Studio; changes logged to admin_audit_logs.",
+    "privacySafety": "No user data; only feature names, reasons and the admin id.",
+    "observability": "No analytics or logging change.",
+    "rollback": "Revert the commit on the PR branch.",
+    "surfacesIntentionallyUntouched": "Tarot, Daily, content publishing.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs validation, commits and pushes to the PR branch without merging or deploying."
+  },
+  "canonicalContracts": [
+    "Analysis items CO-01 and AD-10.",
+    "Owner decision 2026-10-31: table plus Admin buttons; migrations join the Singapore packet with a re-approved hash."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "AI operations routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/HANDOFF_CURRENT_STATE.vi.md",
+      "reason": "Database gate and Singapore packet.",
+      "sha256": "d52d992ce56c7494997e6a6ac32a0fdfde7bf77754ff5f5c69ef2f7311e7be0a"
+    },
+    {
+      "path": "apps/admin/workspace-guard.js",
+      "reason": "Admin RPC allowlist.",
+      "sha256": "916bd3b34e0fc3d7d59e478f1260640388d3c3f6f4fdbcdc2921cbe3e4b0d6fe"
+    },
+    {
+      "path": "apps/admin/feedback-inbox.js",
+      "reason": "Admin panel pattern.",
+      "sha256": "0221006f8143fcb411d53ac0408c002a62d401e89060d76462c5ba720f60f6d7"
+    },
+    {
+      "path": "supabase/migrations/20261014080754_ai_feedback_receipts_v1.sql",
+      "reason": "Security definer and audit pattern.",
+      "sha256": "c8212aa7452d7e759c37f0179af32505410efce845dfad0c7346c58f835eb69c"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing Deno std assert and React Native Linking."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "Table readable by authenticated users (feature names and on/off only); writes only through a security definer RPC that checks ai.manage.",
+    "sensitiveData": "No user data.",
+    "secretsLogging": "No credentials, tokens or logs are added.",
+    "externalInput": "Reason text bounded to 3-200 characters.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "Migration joins the Singapore packet; not applied to QA (ledger blocked).",
+    "stopCondition": "Stop before running SQL or deploying without Owner approval.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/ai-studio.html",
+      "apps/admin/app.js",
+      "apps/admin/feature-switches.js",
+      "apps/admin/workflow-catalog.js",
+      "apps/admin/workspace-guard.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/__tests__/backendClient.test.ts",
+      "apps/mobile/src/backendClient.ts",
+      "apps/mobile/src/features/council/useAiCouncilRoom.ts",
+      "docs/HANDOFF_CURRENT_STATE.vi.md",
+      "docs/feature-plans/ai-feature-switches-2026-10-31.json",
+      "package.json",
+      "scripts/admin-feature-switches.test.mjs",
+      "supabase/functions/_shared/feature-switch.ts",
+      "supabase/functions/_shared/feature-switch_test.ts",
+      "supabase/functions/ai-astrology-insight/index.ts",
+      "supabase/functions/ai-council/index.ts",
+      "supabase/functions/ai-persona-chat/index.ts",
+      "supabase/migrations/20261031100000_ai_feature_switches.sql"
+    ],
+    "note": "Stacked on the Home daily rhythm commit."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/ai-feature-switches-2026-10-31.json",
+    "npx deno test --allow-read --no-lock supabase/functions/_shared/feature-switch_test.ts",
+    "node --test scripts/admin-feature-switches.test.mjs",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand"
+  ],
+  "managerTestPath": "After the packet is applied: turn Council off in Admin with a reason, see Council answer that it is resting, turn it back on.",
+  "residualRisk": "Untested against a real database until the Singapore packet is applied; fail-open means a broken table read never pauses a feature.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
