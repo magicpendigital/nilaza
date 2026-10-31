@@ -1,0 +1,11 @@
+{
+  "version": "2026-10-31",
+  "note": "One switch for the app's displayed tier and Astrology AI server access. Owner decisions 2026-10-30 (all_premium for closed test) and 2026-10-31 (Astrology AI follows this switch, 1 request per local day).",
+  "mode": "all_premium",
+  "trialHours": 24,
+  "premiumOnSale": false,
+  "astrologyAi": {
+    "dailyLimit": 1,
+    "dayOffsetMinutes": 420
+  }
+}

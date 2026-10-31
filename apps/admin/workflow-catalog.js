@@ -304,7 +304,7 @@
   },
   {
     "path": "packages/astrology-core/calculator.mjs",
-    "sha256": "536802d6f3be8ef87bafe45515ab3b760fe70935fb171eea0594b1ab30869cdb"
+    "sha256": "3adb482e0adaf91b36ea29285ffa5325c0ed63ed0b1050cef7a28ef17aee459b"
   },
   {
     "path": "packages/content/data/tarot-cards.json",
@@ -356,7 +356,7 @@
   },
   {
     "path": "supabase/functions/ai-astrology-insight/index.ts",
-    "sha256": "cfa6a540d58abd382507d4bad5e3180703ead2102f74511e0bc6e4368253774b"
+    "sha256": "93fc5e8db87075de38c868baf00fc5e92c977b1362e5f3c467fa1a6094a5cbf9"
   },
   {
     "path": "supabase/functions/ai-astrology-report/index.ts",

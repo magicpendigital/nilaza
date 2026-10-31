@@ -1,3 +1,4 @@
+import sharedPolicy from "../../../../../packages/agent-config/account-tier-policy.json";
 import type { AccountTier } from "./tierPreview";
 
 /**
@@ -5,7 +6,8 @@ import type { AccountTier } from "./tierPreview";
  * - all_premium: every signed-in account is Premium (closed test, Owner decision 2026-10-30).
  * - new_account_trial: Premium for `trialHours` after the account was created, then Free.
  * - free: everyone is Free.
- * Display only: server endpoints keep their own entitlement checks.
+ * The switch lives in packages/agent-config/account-tier-policy.json, which Astrology AI on the
+ * server reads too; other endpoints keep their own entitlement checks.
  */
 export type AccountTierPolicyMode = "all_premium" | "new_account_trial" | "free";
 
@@ -17,9 +19,9 @@ export type AccountTierPolicy = {
 };
 
 export const accountTierPolicy: AccountTierPolicy = {
-  mode: "all_premium",
-  trialHours: 24,
-  premiumOnSale: false,
+  mode: sharedPolicy.mode as AccountTierPolicyMode,
+  trialHours: sharedPolicy.trialHours,
+  premiumOnSale: sharedPolicy.premiumOnSale,
 };
 
 export const premiumOnSale = accountTierPolicy.premiumOnSale;

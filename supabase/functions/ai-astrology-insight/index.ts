@@ -17,13 +17,13 @@ import {
 import { answerCorsHeaders, readAnswerCorrelation } from "../_shared/answer-provenance.ts";
 import { answerProvenanceSchema, isIncompleteAnswerFinishReason, type AnswerProvenance } from "../../../packages/ai-contracts/answer-provenance.ts";
 import { writeAnswerReceipt } from "../_shared/answer-receipt.ts";
+import { accountTierPolicy, localDayStart, policyGrantsPremium } from "../_shared/account-tier-policy.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": answerCorsHeaders,
   "Access-Control-Allow-Methods": "POST, OPTIONS"
 };
-const dailyAttemptLimit = 8;
 const jsonResponse = (body: Record<string, unknown>, status = 200) => new Response(JSON.stringify(body), {
   status,
   headers: { ...corsHeaders, "Content-Type": "application/json", "Cache-Control": "no-store" }
@@ -138,11 +138,13 @@ serve(async (req) => {
   const supabase = createClient(supabaseUrl, supabaseAnonKey, { global: { headers: { Authorization: authHeader } } });
   const accessToken = authHeader.replace(/^Bearer\s+/i, "");
   let userId: string;
+  let userCreatedAt: string | null = null;
   let ownedReportId: string | null = null;
   try {
     const { data: authData, error: authError } = await supabase.auth.getUser(accessToken);
     if (authError || !authData.user) return safeFailure(401, "authentication_required", "Sign in to use the Astrology AI guide.");
     userId = authData.user.id;
+    userCreatedAt = authData.user.created_at ?? null;
   } catch {
     return safeFailure(503, "authentication_check_unavailable", "Your sign-in could not be checked. Try again shortly.");
   }
@@ -194,15 +196,16 @@ serve(async (req) => {
     const entitled = (subscriptions ?? []).some((subscription: any) =>
       !subscription.current_period_end || Date.parse(subscription.current_period_end) > nowMs
     );
-    if (!entitled) return safeFailure(403, "premium_required", "Astrology AI is available with Premium.");
+    // A paid entitlement or the shared account tier switch (closed test: every signed-in account).
+    if (!entitled && !policyGrantsPremium({ created_at: userCreatedAt })) return safeFailure(403, "premium_required", "Astrology AI is available with Premium.");
 
-    const midnightUtc = new Date();
-    midnightUtc.setUTCHours(0, 0, 0, 0);
+    const dailyAttemptLimit = accountTierPolicy.astrologyAi.dailyLimit;
+    const dayStart = localDayStart();
     const { count, error: usageReadError } = await supabase.from("usage_events")
       .select("id", { count: "exact", head: true })
       .eq("user_id", userId)
       .eq("event_name", "astrology_ai_insight_attempted")
-      .gte("created_at", midnightUtc.toISOString());
+      .gte("created_at", dayStart.toISOString());
     if (usageReadError || count === null) return safeFailure(503, "usage_check_unavailable", "Usage could not be checked. Try again shortly.");
     if (count >= dailyAttemptLimit) return safeFailure(429, "daily_limit_reached", "You have reached today's Astrology AI limit. Please return tomorrow.");
 
