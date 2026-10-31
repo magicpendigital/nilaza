@@ -58,7 +58,7 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Journal entry detail and its note editor.",
-      "sha256": "963134d2a598f4ceddfe94e156b98377a2b1debf32576046415feefd504da521"
+      "sha256": "e05cb132e877daccbd22ccf063cf7ab01a9c29c82cf113d270a594fe1ecf6820"
     },
     {
       "path": "apps/mobile/src/features/council/AiCouncilRoom.tsx",
