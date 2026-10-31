@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "taskId": "astrology-ai-deep-read-2026-10-31",
+  "ownerAgent": "mobile_astrology_design_agent",
+  "lane": "mobile_astrology_redesign",
+  "goal": "Add the Đọc sâu với AI block to the chart overview now that ai-astrology-insight is deployed on QA: free accounts see what the AI adds and Có trong Premium (Sắp ra mắt while nothing is sold); Premium writes one deep read per local day through the existing consent dialog. Also show the Council daily limit line now that ai-council is deployed, and mark the 30 journal prompts approved.",
+  "successCriteria": [
+    "The block shows on the overview for exact birth times.",
+    "Free: description plus Có trong Premium that reveals Sắp ra mắt.",
+    "Premium: Viết bài đọc sâu · 1 lượt/ngày opens the consent dialog; the answer shows with Đọc đầy đủ; errors show their message.",
+    "Mobile check and Jest suite pass."
+  ],
+  "writeScope": [
+    "apps/mobile/src/features/astrology/",
+    "apps/mobile/src/features/council/",
+    "packages/content/data/journal-prompts.json",
+    "docs/content-review/"
+  ],
+  "untouchedSurfaces": [
+    "No server change; ai-astrology-insight v8 is already deployed on QA with Owner approval.",
+    "Content data unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Explore > Chiêm tinh, Home sign tile, Profile birth data.",
+    "dataWrite": "Same device store nilaza.astrology.v2; no new keys in this task.",
+    "backendContract": "No change; the AI block calls the existing ai-astrology-insight contract only after the server change is deployed.",
+    "canonicalContract": "DESIGN.md astrology screens follow the design canvas.",
+    "adminVisibility": "No Admin change; only the workflow catalog digest of App.tsx is refreshed.",
+    "privacySafety": "Charts stay on the device; no third-party data is collected in this task.",
+    "observability": "No analytics change.",
+    "rollback": "Revert the commits.",
+    "surfacesIntentionallyUntouched": "Backend, spreads data, share and journal formats.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs the validation commands, commits locally and does not merge, deploy or run SQL."
+  },
+  "canonicalContracts": [
+    "Owner decisions 2026-10-31: Nói rõ + xem trước 1 dòng for the AI block; Astrology AI follows the shared tier switch, 1 per local day; deploy approved and done on QA.",
+    "Owner approved deploying ai-council to QA (done, v26) and kept the 30 journal prompts as written on 2026-10-31."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Tarot and mobile UI routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+      "reason": "Hub, form, confirm and report stages being redesigned.",
+      "sha256": "3de9ca7942b6c632faa721be83ab061491b63341609eabfff75800d5dbc352a8"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "The flow follows DESIGN.md shapes (8px cards, pill controls, 48px targets); the skill text stays accurate."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing React Native and Ionicons APIs."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization change.",
+    "sensitiveData": "Birth data stays on the device; the new text is static reviewed content.",
+    "secretsLogging": "No credentials or logs.",
+    "externalInput": "No user input is rendered beyond existing card selection.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration, deploy or release.",
+    "stopCondition": "Stop if a sign or house lacks approved text, or if checks fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/src/features/council/AiCouncilRoom.tsx",
+      "docs/content-review/journal-prompts-draft.md",
+      "docs/feature-plans/astrology-ai-deep-read-2026-10-31.json",
+      "packages/content/data/journal-prompts.json"
+    ],
+    "note": "Branch feat/astrology-ai-deep-read-2026-10-31 on main after PR #10."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/astrology-ai-deep-read-2026-10-31.json",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand"
+  ],
+  "managerTestPath": "Chiêm tinh: open a chart with an exact time and tap Viết bài đọc sâu.",
+  "residualRisk": "A real AI call is not verified in this task.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

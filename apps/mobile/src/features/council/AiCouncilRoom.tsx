@@ -470,8 +470,8 @@ export function AiCouncilRoom({
           sendIcon={generating ? "hourglass-outline" : "send-outline"}
           value={question}
         />
-        {/* The daily limit line returns once the ai-council server change is deployed. */}
-        <Text style={styles.footerNote}>{vi ? "AI mô phỏng nhiều góc nhìn để tự phản chiếu" : "AI simulates several perspectives for self-reflection"}</Text>
+        {/* ai-council enforces one council per local day (deployed to staging 2026-10-31). */}
+        <Text style={styles.footerNote}>{vi ? "AI mô phỏng nhiều góc nhìn để tự phản chiếu · 1 lượt hội đồng mỗi ngày" : "AI simulates several perspectives for self-reflection · 1 council a day"}</Text>
       </View>
     </View>
   );
