@@ -18,8 +18,8 @@
         "en": "Reflect here"
       },
       "detail": {
-        "vi": "Oracle tiếp tục lắng nghe trong một cuộc trò chuyện ngắn.",
-        "en": "Oracle keeps listening in a short reflection chat."
+        "vi": "Kể thêm vài dòng để tự nhìn rõ hơn.",
+        "en": "Write a few more lines to see it more clearly."
       },
       "safetyRule": "Do not present reflection as diagnosis, certainty, or professional advice."
     },
@@ -30,12 +30,12 @@
       "icon": "hand-left-outline",
       "enabled": true,
       "label": {
-        "vi": "Rút Tarot",
-        "en": "Draw Tarot"
+        "vi": "Trải bài",
+        "en": "Draw cards"
       },
       "detail": {
-        "vi": "Chuyển câu hỏi thành một trải bài biểu tượng.",
-        "en": "Turn the question into a symbolic spread."
+        "vi": "Mang câu hỏi này sang một lần trải bài.",
+        "en": "Take this question into a spread."
       },
       "safetyRule": "Card selection stays in app/backend logic; Oracle only passes a safe intention."
     },
@@ -46,12 +46,12 @@
       "icon": "chatbubble-ellipses-outline",
       "enabled": true,
       "label": {
-        "vi": "Hỏi một guide",
+        "vi": "Hỏi một người dẫn",
         "en": "Ask a guide"
       },
       "detail": {
-        "vi": "Mở một persona phù hợp với vấn đề hiện tại.",
-        "en": "Open a persona suited to the current situation."
+        "vi": "Mở một người dẫn hợp với chuyện bạn đang kể.",
+        "en": "Open a guide suited to what you are going through."
       },
       "safetyRule": "Persona must remain an inspired AI guide, not a real person or official representative."
     },
@@ -62,12 +62,12 @@
       "icon": "people-outline",
       "enabled": true,
       "label": {
-        "vi": "Mở AI Council",
-        "en": "Open AI Council"
+        "vi": "Hội đồng 3 góc nhìn",
+        "en": "Three-view council"
       },
       "detail": {
-        "vi": "Mời nhiều guide cùng soi một câu hỏi.",
-        "en": "Invite several guides to reflect on one question."
+        "vi": "Ba người dẫn cùng soi một câu hỏi.",
+        "en": "Three guides look at one question."
       },
       "safetyRule": "Council may use only approved context and sanitized history."
     },
@@ -78,12 +78,12 @@
       "icon": "planet-outline",
       "enabled": true,
       "label": {
-        "vi": "Xem nhịp sao",
-        "en": "Read star rhythm"
+        "vi": "Xem lá số",
+        "en": "See your chart"
       },
       "detail": {
-        "vi": "Mở birth profile hoặc astrology preview nếu dữ liệu đã sẵn sàng.",
-        "en": "Open birth profile or astrology preview when data is ready."
+        "vi": "Mở lá số của bạn nếu đã có ngày sinh.",
+        "en": "Open your chart if your birth date is saved."
       },
       "requiresConsent": "birth_profile",
       "safetyRule": "Oracle must never invent placements or imply fixed outcomes."
@@ -95,12 +95,12 @@
       "icon": "journal-outline",
       "enabled": true,
       "label": {
-        "vi": "Lưu vào Journal",
-        "en": "Save to Journal"
+        "vi": "Viết vào Nhật ký",
+        "en": "Write in Journal"
       },
       "detail": {
-        "vi": "Lưu insight đã được làm sạch vào ký ức riêng tư.",
-        "en": "Save the sanitized insight to private memory."
+        "vi": "Viết vài dòng, chỉ lưu trên thiết bị của bạn.",
+        "en": "Write a few lines, saved only on your device."
       },
       "requiresConsent": "journal_memory",
       "safetyRule": "Journal memory remains private and is not reused by Oracle unless the user allows it."

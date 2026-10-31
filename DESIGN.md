@@ -185,23 +185,20 @@ Layout:
   - Daily ritual
 - Use visual assets for each tile.
 
-### 7. Persona List
+### 7. Trò chuyện hub and Council (design canvas ChatHub and Council, Owner decisions 2026-10-31)
 
 Goal:
 
-Help users find a guide.
+Help users continue a conversation, get pointed in a direction, or pick a guide.
 
 Layout:
 
-- Header: Choose your guide.
-- Category tabs:
-  - Sages
-  - Love
-  - Career
-  - Books
-  - Healing
-- Persona cards with portrait, name, short style, premium/free badge.
-- Suggested prompt preview.
+- Header "Trò chuyện" with a round search button that opens a search field for guides and topics.
+- Tiếp tục: the latest conversation with avatar, relative day and its last line.
+- Nilaza Oracle card on ivory with "Bắt đầu kể". Oracle is an on-device direction chooser for the first Play build: it reads the message on the device, uses the same crisis filter as the server, answers with action cards (Trải bài, Hỏi một người dẫn, Hội đồng 3 góc nhìn, Viết vào Nhật ký, Xem lá số) and labels every reply "Gợi ý của Nilaza trên máy, không phải AI trả lời". Nothing is sent.
+- Hội đồng 3 góc nhìn row with three stacked avatars.
+- Người dẫn: pill chips Tất cả / Tình cảm / Chữa lành / Triết gia and a three-column grid of round portraits, name and one line; eight guides first, then "Xem cả N". Short guide names wait for Owner review (docs/content-review/persona-short-names-draft.md). Unavailable guides say "Sắp ra mắt". The transparency note closes the section.
+- Council start screen: header "Hội đồng 3 góc nhìn" with history and a menu (Tự chọn người dẫn, Hội đồng mới, Lưu biên bản); topic chips Tình cảm / Công việc / Nghĩ quá nhiều / Quyết định lớn; three guides with their roles; the headline "Kể một tình huống thật…"; three starter questions; the composer and the note "AI mô phỏng nhiều góc nhìn để tự phản chiếu". The "1 lượt hội đồng mỗi ngày" line returns once the ai-council server change (sign-in required, one council a day with four follow-ups) is deployed.
 
 ### 8. Persona Detail
 

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { ImageSourcePropType } from "react-native";
 
 import type { ChatParticipant } from "../../a2ui";
-import { BackendOptions, generateAiCouncilTurn, getChatSessions, getChatMessages } from "../../backendClient";
+import { BackendLimitError, BackendOptions, generateAiCouncilTurn, getChatSessions, getChatMessages } from "../../backendClient";
 import { localizedList, localizedText } from "../../i18n";
 import type { AccountStorage } from "../../auth/accountStorage";
 import { mergeById } from "../../auth/personalData";
@@ -230,9 +230,9 @@ function buildFallbackSynthesis(language: Language): AiCouncilSynthesis {
 export function councilRoleLabel(role: string | undefined, language: Language) {
   const labels: Record<string, LocalizedText> = {
     chair: { vi: "Chủ tọa", en: "Chair" },
-    moderator: { vi: "Điều phối", en: "Moderator" },
-    mirror: { vi: "Tấm gương", en: "Mirror" },
-    practical_reasoner: { vi: "Lý trí thực tế", en: "Practical reasoner" },
+    moderator: { vi: "Lắng nghe trước", en: "Listens first" },
+    mirror: { vi: "Nhìn chậm lại", en: "Slows things down" },
+    practical_reasoner: { vi: "Cân nhắc thực tế", en: "Weighs the practical" },
     translator: { vi: "Người diễn giải", en: "Translator" },
     pace_keeper: { vi: "Giữ nhịp", en: "Pace keeper" },
     grounding_guide: { vi: "Neo lại", en: "Grounding guide" },
@@ -269,15 +269,15 @@ function councilStarterPrompts(template: AiCouncilTemplate, language: Language) 
   const tagSet = new Set(template.situationTags);
   if (language === "vi") {
     if (tagSet.has("love")) {
-      return ["Mình đang nhận mixed signals, hội đồng nhìn giúp mình với.", "Mình nên nhắn gì mà vẫn giữ ranh giới?", "Cảm xúc nào của mình cần được gọi tên trước?"];
+      return ["Người ấy lúc nóng lúc lạnh, mình nên hiểu thế nào?", "Mình nên nhắn gì mà vẫn giữ được ranh giới?", "Cảm xúc nào của mình cần được gọi tên trước?"];
     }
     if (tagSet.has("career")) {
-      return ["Mình đang mù mờ về bước tiếp theo trong công việc.", "Hội đồng giúp mình tách ổn định và bản sắc.", "Một thử nghiệm nhỏ tuần này nên là gì?"];
+      return ["Mình đang mù mờ về bước tiếp theo trong công việc.", "Giúp mình tách chuyện ổn định với điều mình thật sự muốn.", "Tuần này mình có thể thử một việc nhỏ nào?"];
     }
     if (tagSet.has("overthinking")) {
-      return ["Mình đang replay một cuộc trò chuyện và không thoát ra được.", "Đâu là dữ kiện, đâu là giả định của mình?", "Hội đồng giúp mình chậm lại trong 2 phút."];
+      return ["Mình cứ nghĩ đi nghĩ lại một cuộc trò chuyện mà không thoát ra được.", "Đâu là sự thật, đâu là điều mình đang đoán?", "Giúp mình chậm lại trong 2 phút."];
     }
-    return ["Mình đang đứng trước một lựa chọn lớn.", "Hội đồng giúp mình nhìn các đánh đổi.", "Mình cần biết thêm điều gì trước khi hành động?"];
+    return ["Mình đang đứng trước một lựa chọn lớn.", "Giúp mình nhìn rõ được và mất của từng hướng.", "Mình cần biết thêm điều gì trước khi quyết định?"];
   }
   if (tagSet.has("love")) {
     return ["I am reading mixed signals and need the council's view.", "What could I text while keeping my boundary?", "What feeling should I name first?"];
@@ -415,11 +415,11 @@ export function useAiCouncilRoom({
           // Never replace locally written turns with an empty/error server response.
           setStoredSessions(current => mergeById(current, remote).slice(0, maxStoredSessions));
         } catch {
-          if (mounted) onFeedback(language === "vi" ? "Chưa tải được lịch sử AI Council. Bản lưu trên máy vẫn còn." : "Council history is unavailable. Local history is preserved.");
+          if (mounted) onFeedback(language === "vi" ? "Chưa tải được lịch sử hội đồng. Bản lưu trên máy vẫn còn." : "Council history is unavailable. Local history is preserved.");
         }
       } catch {
         // Do not enable persistence after a failed cache read.
-        if (mounted) onFeedback(language === "vi" ? "Chưa đọc được bản lưu AI Council. Hãy mở lại ứng dụng để thử lại." : "Council cache could not be read. Reopen the app to retry.");
+        if (mounted) onFeedback(language === "vi" ? "Chưa đọc được bản lưu hội đồng. Hãy mở lại ứng dụng để thử lại." : "Council cache could not be read. Reopen the app to retry.");
       }
     }
     void hydrate();
@@ -583,11 +583,11 @@ export function useAiCouncilRoom({
       const baseIds = current ?? councilPersonas.map((item) => item.id);
       const selected = baseIds.includes(persona.id);
       if (selected && baseIds.length <= 2) {
-        onFeedback(language === "vi" ? "AI Council cần ít nhất 2 người dẫn đường để giữ nhiều góc nhìn." : "Keep at least 2 guides so the council has multiple perspectives.");
+        onFeedback(language === "vi" ? "Hội đồng cần ít nhất 2 người dẫn để giữ nhiều góc nhìn." : "Keep at least 2 guides so the council has multiple perspectives.");
         return baseIds;
       }
       if (!selected && baseIds.length >= 4) {
-        onFeedback(language === "vi" ? "Phòng họp nên giữ tối đa 4 người dẫn đường để câu trả lời không bị loãng" : "Keep the room to 4 guides so the answers stay focused");
+        onFeedback(language === "vi" ? "Hội đồng nên giữ tối đa 4 người dẫn để câu trả lời không bị loãng." : "Keep the room to 4 guides so the answers stay focused");
         return baseIds;
       }
       const next = selected ? baseIds.filter((id) => id !== persona.id) : [...baseIds, persona.id];
@@ -633,7 +633,8 @@ export function useAiCouncilRoom({
     const version = ++requestVersion.current;
     setGenerating(true);
     const activity = onGenerationStarted?.();
-    setThread((current) => [...current, { id: nowId(), role: "user" as const, text: userQuestion }].slice(-config.maxTranscriptTurns));
+    const userTurnId = nowId();
+    setThread((current) => [...current, { id: userTurnId, role: "user" as const, text: userQuestion }].slice(-config.maxTranscriptTurns));
     setQuestion("");
     setFollowUps([]);
     try {
@@ -716,8 +717,19 @@ export function useAiCouncilRoom({
         moderationStatus: result.moderationStatus
       });
       if (activity) onGenerationFinished?.(activity, "ready");
-    } catch {
-      onFeedback(language === "vi" ? "AI Council chưa trả lời được, hãy thử lại sau một chút" : "The council could not answer yet. Try again in a moment.");
+    } catch (error) {
+      if (error instanceof BackendLimitError) {
+        // Give the question back so nothing the user wrote is lost.
+        setThread((current) => current.filter((turn) => turn.id !== userTurnId));
+        setQuestion(userQuestion);
+        onFeedback(error.status === 401
+          ? (language === "vi" ? "Đăng nhập để dùng Hội đồng 3 góc nhìn." : "Sign in to use the council.")
+          : (language === "vi" ? "Hôm nay bạn đã dùng lượt hội đồng. Hẹn bạn ngày mai." : "You have used today's council. See you tomorrow."));
+        onTrack("ai_council_turn_limited", { language, status: error.status, code: error.code });
+        if (activity) onGenerationFinished?.(activity, "failed");
+        return;
+      }
+      onFeedback(language === "vi" ? "Hội đồng chưa trả lời được, hãy thử lại sau một chút." : "The council could not answer yet. Try again in a moment.");
       onTrack("ai_council_turn_failed", {
         language,
         backend: backendAvailable
@@ -730,12 +742,12 @@ export function useAiCouncilRoom({
 
   const saveTranscript = () => {
     if (thread.length === 0) {
-      onFeedback(language === "vi" ? "Hãy mở council trước khi lưu" : "Open the council before saving");
+      onFeedback(language === "vi" ? "Hãy bắt đầu hội đồng trước khi lưu." : "Open the council before saving");
       return;
     }
     onSave({
       sourceType: "chat",
-      title: language === "vi" ? "AI Council" : "AI Council",
+      title: language === "vi" ? "Hội đồng 3 góc nhìn" : "Three-view council",
       summary: thread
         .map((item) => item.role === "user" ? `${language === "vi" ? "Bạn" : "You"}: ${item.text}` : `${localizedText(item.persona?.name, language, "Guide")}: ${item.text}`)
         .join("\n\n"),
@@ -762,7 +774,7 @@ export function useAiCouncilRoom({
   const saveCustomCouncil = () => {
     const personaIds = (customPersonaIds ?? councilPersonas.map((persona) => persona.id)).slice(0, 4);
     if (personaIds.length < 2) {
-      onFeedback(language === "vi" ? "Hãy chọn ít nhất 2 người dẫn đường cho AI Council." : "Choose at least 2 guides for your Council.");
+      onFeedback(language === "vi" ? "Hãy chọn ít nhất 2 người dẫn cho hội đồng." : "Choose at least 2 guides for your Council.");
       return;
     }
     const now = new Date().toISOString();
@@ -779,7 +791,7 @@ export function useAiCouncilRoom({
     setCustomCouncilTone(nextCustomCouncil.tone);
     setCustomPersonaIds(nextCustomCouncil.personaIds);
     void saveJson(customCouncilStorageKey, nextCustomCouncil);
-    onFeedback(language === "vi" ? "Đã lưu AI Council tùy chỉnh." : "Custom Council saved.");
+    onFeedback(language === "vi" ? "Đã lưu hội đồng của bạn." : "Custom Council saved.");
     onTrack("ai_council_custom_saved", {
       guideCount: nextCustomCouncil.personaIds.length,
       templateId: nextCustomCouncil.templateId,

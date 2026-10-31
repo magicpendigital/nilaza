@@ -138,15 +138,17 @@ export function AiCouncilRoom({
   template,
   thread
 }: AiCouncilRoomProps) {
+  const vi = language === "vi";
   const selectedPersonaIds = new Set(personas.map((persona) => persona.id));
-  const councilTitle = customCouncilName.trim() || localizedText(template.name, language);
+  const councilTitle = customCouncilName.trim() || (vi ? "Hội đồng 3 góc nhìn" : "Three-view council");
+  const guideCountWord = vi ? ["Hai", "Ba", "Bốn"][personas.length - 2] ?? String(personas.length) : String(personas.length);
   const councilHistory = sessionSummaries.map((session) => ({
     id: session.id,
     meta: `${session.templateName} / ${session.guideCount} ${language === "vi" ? "người dẫn đường" : "guides"} / ${session.turnCount} ${language === "vi" ? "lượt" : "turns"}`,
     title: session.title
   }));
   const councilNotice = language === "vi"
-    ? "AI Council mô phỏng nhiều guide cùng suy nghĩ với bạn. Các phản hồi chỉ dùng cho tự-reflection."
+    ? "Hội đồng là AI mô phỏng nhiều người dẫn cùng suy nghĩ với bạn, để tự phản chiếu."
     : "AI Council simulates several guides thinking with you. Responses are for self-reflection.";
   const gatherGuideOptions = [
     ...guideDetails.map(({ persona, role, purpose }) => ({
@@ -176,7 +178,7 @@ export function AiCouncilRoom({
           {
             icon: "person-add-outline",
             id: "add-guide",
-            label: language === "vi" ? "Tùy chỉnh AI Council" : "Customize Council",
+            label: language === "vi" ? "Tự chọn người dẫn" : "Choose guides yourself",
             onPress: onAddGuide
           },
           {
@@ -202,61 +204,57 @@ export function AiCouncilRoom({
         onBack={onBack}
         onResumeSession={onResumeSession}
         sessions={councilHistory}
-        subtitle={`${personas.length} ${language === "vi" ? "người dẫn đường trong hội đồng" : "guides in council"}`}
+        subtitle={councilTopicLabel(template, language)}
         title={councilTitle}
       />
 
-      <ChatContextNotice
-        brief={councilNotice}
-        detail={language === "vi"
-          ? "Mỗi guide là một AI persona được thiết kế theo một lăng kính riêng, không phải người thật hay đại diện chính thức cho bất kỳ nhân vật, tác giả hoặc tổ chức nào."
-          : "Each guide is a designed AI persona with a distinct lens, not a real person or an official representative of any figure, author, or organization."}
-        detailLabel={language === "vi" ? "Chi tiết" : "Details"}
-      />
-
-      {thread.length === 0 ? (
-      <View style={styles.councilTemplatePanel}>
-        <View style={styles.councilTemplateHeader}>
-          <Text style={styles.sectionKicker}>{language === "vi" ? "Kiểu hội đồng" : "Council format"}</Text>
-        </View>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.templateScroller}>
+      {thread.length > 0 ? (
+        <>
+          <ChatContextNotice
+            brief={councilNotice}
+            detail={language === "vi"
+              ? "Mỗi người dẫn là AI được thiết kế theo một góc nhìn riêng, không phải người thật hay đại diện chính thức cho bất kỳ nhân vật, tác giả hoặc tổ chức nào."
+              : "Each guide is a designed AI persona with a distinct lens, not a real person or an official representative of any figure, author, or organization."}
+            detailLabel={language === "vi" ? "Chi tiết" : "Details"}
+          />
+          <ChatParticipantStrip
+            addLabel={language === "vi" ? "Tự chọn" : "Choose"}
+            density="compact"
+            onAdd={onAddGuide}
+            participants={participants}
+            selectedIds={participants.map((participant) => participant.id)}
+          />
+        </>
+      ) : (
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.templateScroller} accessibilityRole="radiogroup">
           <View style={styles.templateRail}>
             {activeTemplates.map((item) => {
               const active = item.id === template.id;
               return (
                 <Pressable
                   key={`top-template-${item.id}`}
-                  accessibilityRole="button"
-                  accessibilityState={{ selected: active }}
+                  accessibilityRole="radio"
+                  accessibilityState={{ checked: active }}
                   onPress={() => onSelectTemplate(item)}
-                  style={[styles.gatherTemplateChip, active && styles.gatherTemplateChipActive]}
+                  style={[styles.topicChip, active && styles.topicChipActive]}
                 >
-                  <Text numberOfLines={1} style={[styles.gatherTemplateText, active && styles.gatherTemplateTextActive]}>{localizedText(item.name, language)}</Text>
+                  <Text numberOfLines={1} style={[styles.topicChipText, active && styles.topicChipTextActive]}>{councilTopicLabel(item, language)}</Text>
                 </Pressable>
               );
             })}
           </View>
         </ScrollView>
-      </View>
-      ) : null}
-
-      <ChatParticipantStrip
-        addLabel={language === "vi" ? "Tùy chỉnh" : "Customize"}
-        density="compact"
-        onAdd={onAddGuide}
-        participants={participants}
-        selectedIds={participants.map((participant) => participant.id)}
-      />
+      )}
 
       {setupExpanded ? (
         <View style={styles.gatherPanel}>
           <View style={styles.gatherHeader}>
             <View style={styles.flex}>
-              <Text style={styles.kicker}>{language === "vi" ? "AI Council tùy chỉnh" : "Custom Council"}</Text>
+              <Text style={styles.kicker}>{language === "vi" ? "Tự chọn người dẫn" : "Custom Council"}</Text>
               <Text style={styles.gatherTitle}>{language === "vi" ? "Tạo hội đồng của riêng bạn" : "Shape your own council"}</Text>
               <Text style={styles.gatherSubtitle}>
                 {language === "vi"
-                  ? "Đổi tên, chọn tone và giữ 2-4 guide. Nilaza không cho prompt tự do để trải nghiệm vẫn an toàn."
+                  ? "Đặt tên, chọn giọng trả lời và giữ 2–4 người dẫn."
                   : "Rename it, choose a tone, and keep 2-4 guides. Nilaza keeps prompts structured for safety."}
               </Text>
             </View>
@@ -266,16 +264,16 @@ export function AiCouncilRoom({
           </View>
 
           <View style={styles.customPanel}>
-            <Text style={styles.customLabel}>{language === "vi" ? "Tên AI Council" : "Council name"}</Text>
+            <Text style={styles.customLabel}>{language === "vi" ? "Tên hội đồng" : "Council name"}</Text>
             <TextInput
-              accessibilityLabel={language === "vi" ? "Tên AI Council tùy chỉnh" : "Custom Council name"}
+              accessibilityLabel={language === "vi" ? "Tên hội đồng của bạn" : "Custom Council name"}
               onChangeText={onCustomCouncilNameChange}
               placeholder={language === "vi" ? "VD: Hội đồng quyết định sáng suốt" : "e.g. Wise Decision Council"}
               placeholderTextColor={colors.moon}
               style={styles.customInput}
               value={customCouncilName}
             />
-            <Text style={styles.customLabel}>{language === "vi" ? "Tone phản hồi" : "Response tone"}</Text>
+            <Text style={styles.customLabel}>{language === "vi" ? "Giọng trả lời" : "Response tone"}</Text>
             <View style={styles.toneRail}>
               {customToneOptions.map((tone) => {
                 const active = tone.id === customCouncilTone;
@@ -293,7 +291,7 @@ export function AiCouncilRoom({
               })}
             </View>
             {customCouncilSavedAt ? (
-              <Text style={styles.customSavedText}>{language === "vi" ? "Đã lưu AI Council tùy chỉnh." : "Custom Council saved."}</Text>
+              <Text style={styles.customSavedText}>{language === "vi" ? "Đã lưu hội đồng của bạn." : "Custom Council saved."}</Text>
             ) : null}
           </View>
 
@@ -346,11 +344,11 @@ export function AiCouncilRoom({
           <View style={styles.gatherFooter}>
             <Text style={styles.gatherCount}>
               <Text style={styles.gatherCountStrong}>{personas.length}</Text>
-              {language === "vi" ? " / 4 người dẫn đường đã chọn" : " / 4 guides selected"}
+              {language === "vi" ? " / 4 người dẫn đã chọn" : " / 4 guides selected"}
             </Text>
             <View style={styles.gatherFooterActions}>
               <Pressable accessibilityRole="button" onPress={onSaveCustomCouncil} style={styles.gatherSaveButton}>
-                <Text style={styles.gatherSaveText}>{language === "vi" ? "Lưu AI Council" : "Save Council"}</Text>
+                <Text style={styles.gatherSaveText}>{language === "vi" ? "Lưu hội đồng" : "Save Council"}</Text>
               </Pressable>
               <Pressable accessibilityRole="button" onPress={onToggleSetup} style={styles.gatherDoneButton}>
                 <Text style={styles.gatherDoneText}>{language === "vi" ? "Xong" : "Done"}</Text>
@@ -368,139 +366,32 @@ export function AiCouncilRoom({
         style={styles.scroll}
       >
         {thread.length === 0 ? (
-          <View style={styles.roomPanel}>
-            <View style={styles.rowBetween}>
-              <View style={styles.flex}>
-                <Text style={styles.kicker}>Cosmic Symposium</Text>
-                <Text style={styles.roomTitle}>{councilTitle}</Text>
-              </View>
-              <View style={styles.avatarStack}>
-                {personas.map((persona) => (
-                  <Image key={`room-${persona.id}`} resizeMode="cover" source={getPersonaThumbnail(persona)} style={styles.avatar} />
-                ))}
-              </View>
+          <View style={styles.startPanel}>
+            <View style={styles.trio}>
+              {guideDetails.map(({ persona, role }) => (
+                <View key={`start-${persona.id}`} style={styles.trioGuide}>
+                  <Image resizeMode="cover" source={getPersonaThumbnail(persona)} style={styles.trioAvatar} />
+                  <Text numberOfLines={2} style={styles.trioName}>{localizedText(persona.name, language)}</Text>
+                  <Text numberOfLines={2} style={styles.trioRole}>{role}</Text>
+                </View>
+              ))}
             </View>
-            <Text style={styles.inviteText}>
-              {language === "vi"
-                ? "Đưa một tình huống thật vào phòng. Các guide phản hồi theo từng lăng kính, rồi bạn tiếp tục đào sâu như trong một buổi họp tư vấn."
-                : "Bring one real situation into the room. Guides respond through distinct lenses, then you can keep going like an advisory session."}
+            <Text style={styles.startHeadline}>
+              {vi
+                ? `Kể một tình huống thật. ${guideCountWord} người dẫn trả lời từ ${guideCountWord.toLowerCase()} góc, rồi bạn hỏi tiếp.`
+                : `Tell a real situation. ${personas.length} guides answer from ${personas.length} angles, then you can keep asking.`}
             </Text>
-            <View style={styles.metaRow}>
-              <View style={styles.metaPill}>
-                <Ionicons name="people-outline" size={14} color={colors.gold} />
-                <Text style={styles.metaText}>{personas.length} {language === "vi" ? "người dẫn đường" : "guides"}</Text>
-              </View>
-              <View style={styles.metaPill}>
-                <Ionicons name="git-branch-outline" size={14} color={colors.gold} />
-                <Text style={styles.metaText}>{getModeLabel(template.meetingMode, language)}</Text>
-              </View>
-              <View style={styles.metaPill}>
-                <Ionicons name="sparkles-outline" size={14} color={colors.gold} />
-                <Text style={styles.metaText}>{getSynthesisLabel(template.synthesisMode, language)}</Text>
-              </View>
+            <View style={styles.starters}>
+              {quickReplies.slice(0, 3).map((reply) => (
+                <Pressable key={reply.id} accessibilityRole="button" onPress={() => onSelectQuickReply(reply)} style={styles.starter}>
+                  <Text style={styles.starterText}>{reply.label}</Text>
+                </Pressable>
+              ))}
             </View>
           </View>
         ) : null}
 
-        {false && setupExpanded ? (
-          <View style={styles.setupSection}>
-            <Text style={styles.sectionKicker}>{language === "vi" ? "Chọn kiểu buổi họp" : "Choose the council format"}</Text>
-            <View style={styles.templateGrid}>
-              {activeTemplates.map((item) => {
-                const active = item.id === template.id;
-                return (
-                  <Pressable
-                    key={item.id}
-                    accessibilityRole="button"
-                    onPress={() => onSelectTemplate(item)}
-                    style={[styles.templateTile, active && styles.templateTileActive]}
-                  >
-                    <Text style={styles.templateName}>{localizedText(item.name, language)}</Text>
-                    <Text style={styles.templateMeta}>{getModeLabel(item.meetingMode, language)} / {item.maxGuides} guides</Text>
-                  </Pressable>
-                );
-              })}
-            </View>
-
-            <View style={styles.agendaPanel}>
-              <Text style={styles.agendaTitle}>{language === "vi" ? "Nhịp buổi họp" : "Meeting rhythm"}</Text>
-              {(councilFlow.length > 0 ? councilFlow : [localizedText(template.useCase, language)]).slice(0, 3).map((step, index) => (
-                <View key={`${template.id}-flow-${index}`} style={styles.agendaItem}>
-                  <View style={styles.agendaNumber}>
-                    <Text style={styles.agendaNumberText}>{index + 1}</Text>
-                  </View>
-                  <Text style={styles.agendaText}>{step}</Text>
-                </View>
-              ))}
-            </View>
-
-            <Text style={styles.sectionKicker}>{language === "vi" ? "Người dẫn đường trong phòng" : "Guides in the room"}</Text>
-            <View style={styles.guideList}>
-              {guideDetails.map(({ persona, role, purpose }) => (
-                <View key={persona.id} style={styles.guideCard}>
-                  <Image resizeMode="cover" source={getPersonaThumbnail(persona)} style={styles.guideImage} />
-                  <View style={styles.guideCopy}>
-                    <View style={styles.rowBetween}>
-                      <Text style={styles.guideName}>{localizedText(persona.name, language)}</Text>
-                      <Text style={styles.guideRole}>{role}</Text>
-                    </View>
-                    <Text numberOfLines={2} style={styles.guidePurpose}>{purpose}</Text>
-                  </View>
-                  {guestPersonaIds.includes(persona.id) ? (
-                    <Pressable accessibilityRole="button" onPress={() => onToggleGuest(persona)} style={styles.guideRemove}>
-                      <Ionicons name="close-outline" size={16} color={colors.gold} />
-                    </Pressable>
-                  ) : null}
-                </View>
-              ))}
-            </View>
-
-            <View style={styles.invitePanel}>
-              <View style={styles.rowBetween}>
-                <View style={styles.flex}>
-                  <Text style={styles.agendaTitle}>{language === "vi" ? "Mời thêm góc nhìn" : "Invite another lens"}</Text>
-                  <Text style={styles.guidePurpose}>
-                    {language === "vi"
-                      ? "Thêm một guide nếu tình huống cần tiếng nói khác. Giữ tối đa 4 guide để cuộc họp còn rõ."
-                      : "Add a guide when the situation needs another voice. Keep it to 4 guides so the room stays clear."}
-                  </Text>
-                </View>
-                <Text style={styles.guideRole}>{personas.length}/4</Text>
-              </View>
-              <Text style={styles.freeformHint}>
-                {language === "vi"
-                  ? "Không thấy đúng chủ đề? Cứ viết thẳng điều bạn đang cần bàn. Template chỉ định nhịp cuộc họp, không giới hạn nội dung."
-                  : "Do not see your topic? Write exactly what you need to discuss. The template shapes the meeting rhythm; it does not limit your topic."}
-              </Text>
-              <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.promptScroll}>
-                <View style={styles.chipRail}>
-                  {inviteCandidates.map((persona) => (
-                    <Pressable
-                      key={`invite-${persona.id}`}
-                      accessibilityRole="button"
-                      onPress={() => onToggleGuest(persona)}
-                      style={styles.inviteGuideChip}
-                    >
-                      <Image resizeMode="cover" source={getPersonaThumbnail(persona)} style={styles.inviteGuideImage} />
-                      <Text style={styles.promptText}>{localizedText(persona.name, language)}</Text>
-                    </Pressable>
-                  ))}
-                </View>
-              </ScrollView>
-            </View>
-          </View>
-        ) : null}
-
-        {thread.length === 0 ? (
-          <View style={styles.empty}>
-            <Text style={styles.emptyTitle}>{language === "vi" ? "Phòng họp đang chờ bạn" : "The room is waiting"}</Text>
-            <Text style={styles.muted}>
-              {language === "vi"
-                ? "Bắt đầu bằng một tình huống thật, rồi hỏi tiếp nếu bạn muốn các guide trao đổi sâu hơn."
-                : "Start with a real situation, then keep asking if you want the guides to go deeper."}
-            </Text>
-          </View>
-        ) : (
+        {thread.length === 0 ? null : (
           <View style={styles.transcript}>
             <Text style={styles.sectionKicker}>{language === "vi" ? "Biên bản hội đồng" : "Council transcript"}</Text>
             {thread.map((turn) => turn.role === "user" ? (
@@ -531,7 +422,7 @@ export function AiCouncilRoom({
             })())}
             {synthesis ? (
               <View style={styles.synthesisPanel}>
-                <Text style={styles.synthesisTitle}>{language === "vi" ? "Tổng hợp có cấu trúc" : "Structured synthesis"}</Text>
+                <Text style={styles.synthesisTitle}>{language === "vi" ? "Tổng hợp" : "Structured synthesis"}</Text>
                 <Text style={styles.synthesisLabel}>{language === "vi" ? "Điểm chung" : "Consensus"}</Text>
                 <Text style={styles.synthesisBody}>{synthesis.consensus}</Text>
                 {synthesis.tensions.length > 0 ? (
@@ -562,34 +453,56 @@ export function AiCouncilRoom({
         {generating ? (
           <ChatMessageBubble tone="system">
             <ChatThinkingIndicator label={language === "vi"
-              ? "Hội đồng đang lắng nghe. Các guide đang chuẩn bị góc nhìn tiếp theo..."
+              ? "Hội đồng đang lắng nghe. Các người dẫn đang chuẩn bị góc nhìn tiếp theo…"
               : "The council is listening. Guides are preparing the next perspectives..."} />
           </ChatMessageBubble>
         ) : null}
       </ScrollView>
 
       <View style={styles.composerPanel}>
-        <Text style={styles.kicker}>{councilTitle}</Text>
-        <QuickReplyRail prompts={quickReplies} onSelect={onSelectQuickReply} />
-        <Text style={styles.freeformHint}>
-          {language === "vi"
-            ? "Không thấy đúng chủ đề? Cứ viết thẳng điều bạn đang cần bàn."
-            : "Do not see your topic? Write exactly what you need to discuss."}
-        </Text>
+        {thread.length > 0 ? <QuickReplyRail prompts={quickReplies} onSelect={onSelectQuickReply} /> : null}
         <ChatComposer
           disabled={generating}
           onChangeText={onQuestionChange}
           onSend={onSend}
-          placeholder={language === "vi" ? "Nhắn vào phòng hội đồng..." : "Message the council room..."}
+          placeholder={vi ? (thread.length ? "Hỏi tiếp hội đồng…" : "Viết tình huống của bạn…") : thread.length ? "Ask the council more…" : "Write your situation…"}
           sendIcon={generating ? "hourglass-outline" : "send-outline"}
           value={question}
         />
+        {/* The daily limit line returns once the ai-council server change is deployed. */}
+        <Text style={styles.footerNote}>{vi ? "AI mô phỏng nhiều góc nhìn để tự phản chiếu" : "AI simulates several perspectives for self-reflection"}</Text>
       </View>
     </View>
   );
 }
 
+// Short topic labels for the four council templates (Council design).
+export function councilTopicLabel(template: AiCouncilTemplate, language: Language) {
+  const labels: Record<string, { vi: string; en: string }> = {
+    love_confusion: { vi: "Tình cảm", en: "Love" },
+    career_fog: { vi: "Công việc", en: "Work" },
+    overthinking: { vi: "Nghĩ quá nhiều", en: "Overthinking" },
+    big_decision: { vi: "Quyết định lớn", en: "Big decision" }
+  };
+  return labels[template.id]?.[language === "vi" ? "vi" : "en"] ?? localizedText(template.name, language);
+}
+
 const styles = StyleSheet.create({
+  topicChip: { minHeight: 40, paddingHorizontal: 14, borderRadius: 999, borderWidth: 1, borderColor: "rgba(247, 241, 230, 0.16)", alignItems: "center", justifyContent: "center" },
+  topicChipActive: { backgroundColor: colors.rose, borderColor: colors.rose },
+  topicChipText: { color: "#E9E2D6", fontFamily: typography.bodyFontFamily, fontSize: 13.5 },
+  topicChipTextActive: { color: colors.charcoal, fontFamily: typography.bodySemiBoldFontFamily },
+  startPanel: { gap: 22, paddingTop: 20 },
+  trio: { flexDirection: "row", gap: 10 },
+  trioGuide: { flex: 1, minWidth: 0, alignItems: "center", gap: 6 },
+  trioAvatar: { width: 72, height: 72, borderRadius: 36 },
+  trioName: { color: colors.ivory, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 13.5, textAlign: "center" },
+  trioRole: { color: "#B8B0A4", fontFamily: typography.bodyFontFamily, fontSize: 12, textAlign: "center" },
+  startHeadline: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 22, lineHeight: 29, textAlign: "center", paddingHorizontal: 12 },
+  starters: { gap: 8 },
+  starter: { minHeight: 48, paddingHorizontal: 14, paddingVertical: 12, borderRadius: 8, borderWidth: 1, borderColor: "rgba(247, 241, 230, 0.16)", backgroundColor: "#1F1C1E", justifyContent: "center" },
+  starterText: { color: "#E9E2D6", fontFamily: typography.bodyFontFamily, fontSize: 14.5, lineHeight: 20 },
+  footerNote: { color: "#8F877C", fontFamily: typography.bodyFontFamily, fontSize: 11.5, textAlign: "center" },
   screen: {
     backgroundColor: colors.surface,
     flex: 1,
@@ -597,54 +510,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md,
     paddingTop: spacing.sm,
     position: "relative"
-  },
-  councilTemplatePanel: {
-    backgroundColor: colors.surfaceLow,
-    borderColor: colors.border,
-    borderRadius: radius.card,
-    borderWidth: 1,
-    gap: spacing.xs,
-    marginBottom: spacing.xs,
-    padding: spacing.sm
-  },
-  councilTemplateHeader: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between"
-  },
-  topAddButton: {
-    alignItems: "center",
-    borderColor: "rgba(201, 164, 92, 0.32)",
-    borderRadius: radius.control,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.xs,
-    minHeight: 32,
-    paddingHorizontal: spacing.sm
-  },
-  topAddText: {
-    color: colors.gold,
-    fontSize: 12,
-    fontWeight: "900"
-  },
-  compactHeader: {
-    backgroundColor: colors.surfaceLow,
-    borderColor: colors.border,
-    borderRadius: radius.card,
-    borderWidth: 1,
-    marginBottom: 0,
-    padding: spacing.sm
-  },
-  compactTitle: {
-    color: colors.ivory,
-    fontSize: 15,
-    fontWeight: "900"
-  },
-  compactMeta: {
-    color: colors.muted,
-    fontSize: 12,
-    lineHeight: 17,
-    marginTop: 2
   },
   synthesisPanel: {
     backgroundColor: "rgba(14, 90, 90, 0.2)",
@@ -940,19 +805,6 @@ const styles = StyleSheet.create({
     gap: spacing.sm,
     paddingBottom: spacing.sm
   },
-  roomPanel: {
-    backgroundColor: colors.panel,
-    borderColor: "rgba(201, 164, 92, 0.32)",
-    borderRadius: radius.card,
-    borderWidth: 1,
-    padding: spacing.sm
-  },
-  rowBetween: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    gap: spacing.md
-  },
   flex: {
     flex: 1
   },
@@ -963,245 +815,12 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     textTransform: "uppercase"
   },
-  roomTitle: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 22,
-    fontWeight: "700",
-    lineHeight: 27,
-    marginTop: spacing.xs
-  },
-  avatarStack: {
-    flexDirection: "row",
-    marginLeft: spacing.sm
-  },
-  avatar: {
-    borderColor: colors.surface,
-    borderRadius: radius.control,
-    borderWidth: 2,
-    height: 28,
-    marginLeft: -7,
-    width: 28
-  },
-  inviteText: {
-    color: colors.muted,
-    fontSize: 12,
-    lineHeight: 17,
-    marginTop: spacing.xs
-  },
-  metaRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: spacing.xs,
-    marginTop: spacing.sm
-  },
-  metaPill: {
-    alignItems: "center",
-    borderColor: "rgba(201, 164, 92, 0.28)",
-    borderRadius: radius.control,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.xs,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: spacing.xs
-  },
-  metaText: {
-    color: colors.ivory,
-    fontSize: 11,
-    fontWeight: "800"
-  },
-  setupSection: {
-    gap: spacing.sm
-  },
   sectionKicker: {
     color: colors.gold,
     fontSize: 12,
     fontWeight: "800",
     letterSpacing: 1,
     textTransform: "uppercase"
-  },
-  templateGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: spacing.sm
-  },
-  templateTile: {
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: radius.card,
-    borderWidth: 1,
-    minHeight: 74,
-    padding: spacing.sm,
-    width: "48%"
-  },
-  templateTileActive: {
-    backgroundColor: "rgba(201, 164, 92, 0.12)",
-    borderColor: colors.gold
-  },
-  templateName: {
-    color: colors.ivory,
-    fontSize: 13,
-    fontWeight: "900"
-  },
-  templateUseCase: {
-    color: colors.muted,
-    fontSize: 12,
-    lineHeight: 17,
-    marginTop: spacing.xs
-  },
-  templateMeta: {
-    color: colors.gold,
-    fontSize: 11,
-    fontWeight: "800",
-    marginTop: spacing.xs
-  },
-  agendaPanel: {
-    backgroundColor: colors.surfaceLow,
-    borderColor: colors.border,
-    borderRadius: radius.card,
-    borderWidth: 1,
-    padding: spacing.sm
-  },
-  agendaTitle: {
-    color: colors.ivory,
-    fontSize: 15,
-    fontWeight: "900"
-  },
-  agendaItem: {
-    alignItems: "center",
-    flexDirection: "row",
-    gap: spacing.sm,
-    marginTop: spacing.sm
-  },
-  agendaNumber: {
-    alignItems: "center",
-    backgroundColor: "rgba(201, 164, 92, 0.16)",
-    borderRadius: radius.control,
-    height: 22,
-    justifyContent: "center",
-    width: 22
-  },
-  agendaNumberText: {
-    color: colors.gold,
-    fontSize: 12,
-    fontWeight: "900"
-  },
-  agendaText: {
-    color: colors.muted,
-    flex: 1,
-    fontSize: 12,
-    lineHeight: 17
-  },
-  guideList: {
-    gap: spacing.sm
-  },
-  guideCard: {
-    alignItems: "center",
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: radius.card,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.sm,
-    padding: spacing.sm
-  },
-  guideImage: {
-    borderRadius: radius.control,
-    height: 32,
-    width: 32
-  },
-  guideCopy: {
-    flex: 1
-  },
-  guideName: {
-    color: colors.ivory,
-    flex: 1,
-    fontSize: 14,
-    fontWeight: "900"
-  },
-  guideRole: {
-    color: colors.gold,
-    fontSize: 11,
-    fontWeight: "800"
-  },
-  guidePurpose: {
-    color: colors.muted,
-    fontSize: 12,
-    lineHeight: 17,
-    marginTop: 3
-  },
-  guideRemove: {
-    alignItems: "center",
-    borderColor: "rgba(201, 164, 92, 0.34)",
-    borderRadius: radius.control,
-    borderWidth: 1,
-    height: 32,
-    justifyContent: "center",
-    width: 32
-  },
-  invitePanel: {
-    backgroundColor: "rgba(14, 90, 90, 0.14)",
-    borderColor: colors.border,
-    borderRadius: radius.card,
-    borderWidth: 1,
-    padding: spacing.sm
-  },
-  freeformHint: {
-    color: colors.muted,
-    fontSize: 12,
-    fontWeight: "700",
-    lineHeight: 16,
-    marginTop: spacing.xs
-  },
-  promptScroll: {
-    marginTop: spacing.sm
-  },
-  chipRail: {
-    flexDirection: "row",
-    gap: spacing.sm
-  },
-  inviteGuideChip: {
-    alignItems: "center",
-    backgroundColor: colors.surfaceLow,
-    borderColor: "rgba(201, 164, 92, 0.28)",
-    borderRadius: radius.control,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.xs,
-    minHeight: 42,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: spacing.xs
-  },
-  inviteGuideImage: {
-    borderRadius: radius.control,
-    height: 24,
-    width: 24
-  },
-  promptText: {
-    color: colors.ivory,
-    fontSize: 13,
-    fontWeight: "700",
-    lineHeight: 18
-  },
-  empty: {
-    alignItems: "center",
-    borderColor: colors.border,
-    borderRadius: radius.card,
-    borderWidth: 1,
-    padding: spacing.md
-  },
-  emptyTitle: {
-    color: colors.ivory,
-    fontSize: 17,
-    fontWeight: "900",
-    textAlign: "center"
-  },
-  muted: {
-    color: colors.muted,
-    fontSize: 14,
-    lineHeight: 21,
-    marginTop: spacing.xs,
-    textAlign: "center"
   },
   transcript: {
     gap: spacing.md

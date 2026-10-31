@@ -1,4 +1,4 @@
-import { localDayStart, policyGrantsPremium, type TierPolicy } from "./account-tier-policy.ts";
+import { councilAllowance, localDayStart, policyGrantsPremium, type TierPolicy } from "./account-tier-policy.ts";
 function assertEquals(actual: unknown, expected: unknown) { if (JSON.stringify(actual) !== JSON.stringify(expected)) throw new Error(`expected ${JSON.stringify(expected)}, got ${JSON.stringify(actual)}`); }
 
 const policy = (mode: TierPolicy["mode"]): TierPolicy => ({ mode, trialHours: 24, astrologyAi: { dailyLimit: 1, dayOffsetMinutes: 420 } });
@@ -19,4 +19,15 @@ Deno.test("the day starts at local midnight in UTC+7", () => {
   assertEquals(localDayStart(new Date("2026-10-31T10:00:00Z"), 420).toISOString(), "2026-10-30T17:00:00.000Z");
   assertEquals(localDayStart(new Date("2026-10-31T16:59:00Z"), 420).toISOString(), "2026-10-30T17:00:00.000Z");
   assertEquals(localDayStart(new Date("2026-10-31T17:00:00Z"), 420).toISOString(), "2026-10-31T17:00:00.000Z");
+});
+
+Deno.test("AI Council allows one council a day with four follow-ups", () => {
+  const current = { ...policy("all_premium"), council: { dailyCouncils: 1, followUpsPerCouncil: 4 } };
+  const opening = { metadata: { opening: true } }, followUp = { metadata: { opening: false } };
+  assertEquals(councilAllowance([], true, current), { allowed: true });
+  assertEquals(councilAllowance([opening], true, current), { allowed: false, reason: "daily_council_limit" });
+  assertEquals(councilAllowance([opening, followUp, followUp, followUp], false, current), { allowed: true });
+  assertEquals(councilAllowance([opening, followUp, followUp, followUp, followUp], false, current), { allowed: false, reason: "daily_followup_limit" });
+  // Older events without the flag count as openings.
+  assertEquals(councilAllowance([{ metadata: null }], true, current), { allowed: false, reason: "daily_council_limit" });
 });

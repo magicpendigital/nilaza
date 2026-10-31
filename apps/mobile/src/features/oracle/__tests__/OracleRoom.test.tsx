@@ -28,5 +28,5 @@ it("shows the response with the official avatar without technical routing labels
 
 it("keeps fallback status understandable and visible", () => {
   const screen = render(<OracleRoom {...props} turns={[{ id: "qa", role: "oracle", text: "Gợi ý phản chiếu", createdAt: "2026-09-14", moderationStatus: "fallback" }]} />);
-  expect(screen.getByText("Phản hồi dự phòng — kết nối AI chưa sẵn sàng.")).toBeTruthy();
+  expect(screen.getByText("Gợi ý của Nilaza trên máy, không phải AI trả lời.")).toBeTruthy();
 });

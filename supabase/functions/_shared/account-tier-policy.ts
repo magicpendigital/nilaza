@@ -2,7 +2,12 @@ import policy from "../../../packages/agent-config/account-tier-policy.json" wit
 
 // Same switch the app uses for its displayed tier (apps/mobile/src/features/owner/accountTierPolicy.ts).
 export type PolicyMode = "all_premium" | "new_account_trial" | "free";
-export type TierPolicy = { mode: PolicyMode; trialHours: number; astrologyAi: { dailyLimit: number; dayOffsetMinutes: number } };
+export type TierPolicy = {
+  mode: PolicyMode;
+  trialHours: number;
+  astrologyAi: { dailyLimit: number; dayOffsetMinutes: number };
+  council?: { dailyCouncils: number; followUpsPerCouncil: number };
+};
 
 export const accountTierPolicy = policy as TierPolicy;
 
@@ -21,4 +26,18 @@ export function localDayStart(now = new Date(), offsetMinutes = accountTierPolic
   const local = new Date(now.getTime() + offsetMinutes * 60000);
   local.setUTCHours(0, 0, 0, 0);
   return new Date(local.getTime() - offsetMinutes * 60000);
+}
+
+// AI Council allowance for one local day: a council opens with a question that has no history,
+// and each council allows a few follow-up questions. Events logged before the opening flag count as openings.
+export function councilAllowance(
+  todaysEvents: Array<{ metadata?: { opening?: boolean } | null }>,
+  isOpening: boolean,
+  current: TierPolicy = accountTierPolicy
+): { allowed: true } | { allowed: false; reason: "daily_council_limit" | "daily_followup_limit" } {
+  const limits = current.council ?? { dailyCouncils: 1, followUpsPerCouncil: 4 };
+  const openings = todaysEvents.filter((event) => event.metadata?.opening !== false).length;
+  if (isOpening && openings >= limits.dailyCouncils) return { allowed: false, reason: "daily_council_limit" };
+  if (todaysEvents.length >= limits.dailyCouncils * (1 + limits.followUpsPerCouncil)) return { allowed: false, reason: "daily_followup_limit" };
+  return { allowed: true };
 }

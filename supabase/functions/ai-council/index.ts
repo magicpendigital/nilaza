@@ -3,6 +3,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.7.1";
 import { generateWithModelRoute } from "../_shared/model-router.ts";
 import { compactLines, safeJsonParse, sanitizeProviderMetadata } from "../_shared/model-provider.ts";
 import { councilContract } from "../_shared/council-contract.ts";
+import { councilAllowance, localDayStart } from "../_shared/account-tier-policy.ts";
 
 type Language = "vi" | "en" | string;
 
@@ -375,6 +376,19 @@ serve(async (req) => {
       }
     }
 
+    // Owner decision 2026-10-31: AI Council needs a signed-in account and follows the shared daily allowance.
+    if (!supabase || !userId) return jsonResponse({ error: "sign_in_required", message: "Sign in to use AI Council." }, 401);
+    const isOpening = (input.sanitizedHistory ?? []).length === 0;
+    const { data: todaysEvents, error: usageReadError } = await supabase.from("usage_events")
+      .select("metadata")
+      .eq("user_id", userId)
+      .eq("event_name", "ai_council_turn_generated")
+      .gte("created_at", localDayStart().toISOString())
+      .limit(50);
+    if (usageReadError || !todaysEvents) return jsonResponse({ error: "usage_check_unavailable", message: "Usage could not be checked. Try again shortly." }, 503);
+    const allowance = councilAllowance(todaysEvents as Array<{ metadata?: { opening?: boolean } | null }>, isOpening);
+    if (allowance.allowed === false) return jsonResponse({ error: allowance.reason, message: "You have reached today's AI Council limit. Please return tomorrow." }, 429);
+
     const runtimePersonas = await runtimePersonasFromTemplate(supabase, selectedPersonas, runtimeConfig.template.rosterSlugs);
     const maxGuides = Math.max(2, Math.min(runtimeConfig.template.maxGuidesPerTurn ?? runtimePersonas.length, 4));
     const selectedRuntimePersonas = runtimePersonas.slice(0, maxGuides);
@@ -520,6 +534,7 @@ serve(async (req) => {
             event_name: "ai_council_turn_generated",
             feature: "ai_council",
             metadata: {
+              opening: isOpening,
               guideCount: turns.length,
               promptVersionId,
               outputSchema,

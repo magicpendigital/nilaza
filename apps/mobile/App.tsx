@@ -68,7 +68,6 @@ import {
   generateAstrologyReport,
   generateDailyInsight,
   generateDailyZodiacPulse,
-  generateOracleTurn,
   generatePersonaReply,
   generateTarotReading,
   registerNotificationDevice,
@@ -139,6 +138,8 @@ import { getDeckVisual, getFeatureVisual, getPersonaVisual } from "./src/visualA
 import { AuthFlow } from "./src/auth/AuthFlow";
 import { AiCouncilRoom, type AiCouncilRoomProps, type AiCouncilSessionSummary, useAiCouncilRoom } from "./src/features/council";
 import { OracleRoom } from "./src/features/oracle";
+import { ChatHub } from "./src/features/chat/ChatHub";
+import { normalizeOracleText, oracleIntent, oracleSafetyReply, oracleSafetySignal } from "../../packages/ai-contracts/oracle-safety.mjs";
 import { PersonaChatRoom } from "./src/features/persona";
 import { createEmailAuthState, displayNameFromEmail } from "./src/auth/localAuth";
 import { resendSupabaseSignupConfirmation, resetSupabasePasswordForEmail, signInWithSupabaseEmail, signUpWithSupabaseEmail } from "./src/auth/supabaseAuth";
@@ -1843,6 +1844,8 @@ type RecentConversation = {
   updatedAt: string;
   personaId?: string;
   sessionId?: string;
+  /** Last message of the conversation, for the Tiếp tục card. */
+  latestText?: string;
 };
 
 function buildRecentConversations(
@@ -1870,7 +1873,8 @@ function buildRecentConversations(
       preview: (firstQuestion?.text ?? latest?.text ?? "").replace(/\s+/g, " ").trim().slice(0, 72),
       updatedAt: latest?.createdAt ?? "",
       personaId,
-      sessionId
+      sessionId,
+      latestText: (latest?.text ?? "").replace(/\s+/g, " ").trim().slice(0, 96)
     };
   });
   const oracleLatest = [...oracleTurns].sort((a, b) => a.createdAt.localeCompare(b.createdAt)).at(-1);
@@ -1975,14 +1979,9 @@ function oracleActionByKind(kind: OracleActionKind, handoffContext: OracleHandof
 }
 
 function oracleIntentForText(text: string): OracleIntent {
-  const normalized = text.toLowerCase();
-  if (containsRiskyRequest(text)) return "safety_redirect";
-  if (["tarot", "bài", "bÃ i", "rút", "rut", "draw", "spread"].some((word) => normalized.includes(word))) return "tarot_handoff";
-  if (["sao", "astrology", "zodiac", "birth", "cung", "moon", "rising"].some((word) => normalized.includes(word))) return "astrology_handoff";
-  if (["council", "hội đồng", "há»™i Ä‘á»“ng", "nhiều góc", "nhieu goc", "quyết định", "quyet dinh", "decision", "career"].some((word) => normalized.includes(word))) return "council_handoff";
-  if (["guide", "mentor", "nhân vật", "nhan vat", "trò chuyện", "chat"].some((word) => normalized.includes(word))) return "persona_handoff";
-  if (["journal", "nhật ký", "nhat ky", "ghi lại", "ghi lai", "save"].some((word) => normalized.includes(word))) return "journal_handoff";
-  return "reflect";
+  const intent = oracleIntent(text) as OracleIntent;
+  if (intent !== "reflect") return intent;
+  return /\b(?:quyet dinh|nen chon|lua chon|decide|decision)\b/.test(normalizeOracleText(text)) ? "council_handoff" : "reflect";
 }
 
 function buildOracleHandoffContext(text: string, intent: OracleIntent): OracleHandoffContext {
@@ -2004,13 +2003,13 @@ function buildOracleHandoffContext(text: string, intent: OracleIntent): OracleHa
 
 function oracleActionsForIntent(intent: OracleIntent, handoffContext: OracleHandoffContext): OracleActionCard[] {
   const actionKinds: Record<OracleIntent, OracleActionKind[]> = {
-    reflect: ["reflect_here", "draw_tarot", "open_council"],
+    reflect: ["draw_tarot", "ask_guide", "save_journal"],
     tarot_handoff: ["draw_tarot", "ask_guide", "save_journal"],
     persona_handoff: ["ask_guide", "open_council", "draw_tarot"],
     council_handoff: ["open_council", "draw_tarot", "ask_guide"],
     astrology_handoff: ["cast_astrology", "ask_guide", "save_journal"],
     journal_handoff: ["save_journal", "reflect_here"],
-    safety_redirect: ["reflect_here"]
+    safety_redirect: []
   };
   return (actionKinds[intent] ?? actionKinds.reflect).map((kind) => oracleActionByKind(kind, handoffContext));
 }
@@ -2021,23 +2020,23 @@ function buildOracleFallbackResult(text: string, language: Language): OracleTurn
   const actionCards = oracleActionsForIntent(intent, handoffContext);
   const replyByIntent: Record<OracleIntent, string> = {
     reflect: language === "vi"
-      ? "Mình nghe thấy một câu hỏi đang cần được giữ nhẹ, chưa cần ép thành câu trả lời cuối cùng. Ta có thể soi tiếp ở đây, hoặc mở một thực hành phản chiếu nếu bạn muốn nhìn bằng biểu tượng."
-      : "I hear a question that needs to be held gently before it becomes a final answer. We can reflect here, or open a reflection practice if you want a symbolic lens.",
+      ? "Cảm ơn bạn đã kể. Bạn có thể trải vài lá bài để nhìn chuyện này qua biểu tượng, hỏi một người dẫn, hoặc viết vài dòng cho riêng mình."
+      : "Thank you for sharing. You could draw a few cards to see this through symbols, ask a guide, or write a few lines for yourself.",
     tarot_handoff: language === "vi"
-      ? "Câu hỏi này hợp với một trải bài biểu tượng. Oracle có thể đưa intention sang Tarot, còn lá bài sẽ được chọn an toàn trong app."
-      : "This question fits a symbolic spread. Oracle can pass the intention to Tarot, while the cards stay selected safely in app.",
+      ? "Câu hỏi này hợp với một lần trải bài. Mình sẽ mang câu hỏi của bạn sang phần Tarot; lá bài vẫn do bạn tự chọn."
+      : "This question suits a tarot spread. I will carry your question to Tarot; you still choose the cards yourself.",
     persona_handoff: language === "vi"
-      ? "Mình cảm thấy bạn có thể cần một giọng nói cụ thể ở cạnh mình. Oracle có thể mở một guide phù hợp và chỉ chuyển phần tóm tắt an toàn."
-      : "It feels like you may need a specific voice beside you. Oracle can open a fitting guide and pass only a safe summary.",
+      ? "Có vẻ bạn cần một người dẫn để trò chuyện tiếp. Bạn có thể mở một người dẫn phù hợp; chỉ phần tóm tắt câu hỏi được mang theo."
+      : "It sounds like you would like a guide to talk this through. You can open a fitting guide; only a summary of your question goes with you.",
     council_handoff: language === "vi"
-      ? "Đây là kiểu câu hỏi cần nhiều lăng kính hơn một câu trả lời đơn. Oracle có thể mở AI Council để vài guide cùng soi một cách an toàn."
-      : "This is the kind of question that benefits from more than one lens. Oracle can open AI Council so several guides can reflect safely.",
+      ? "Chuyện này đáng được nhìn từ nhiều góc. Hội đồng 3 góc nhìn có thể giúp bạn cân nhắc trước khi quyết định."
+      : "This is worth seeing from several angles. The three-view council can help you weigh it before you decide.",
     astrology_handoff: language === "vi"
-      ? "Nếu bạn muốn nhìn qua các vì sao, Oracle sẽ mở Astrology và kiểm tra birth profile trước. Mình sẽ không tự đoán placements."
-      : "If you want the star lens, Oracle will open Astrology and check your birth profile first. I will not invent placements.",
+      ? "Nếu bạn muốn nhìn qua lá số, mình sẽ mở phần Chiêm tinh. Lá số cần ngày, giờ và nơi sinh của bạn."
+      : "If you would like to look through your chart, I will open Astrology. A chart needs your birth date, time and place.",
     journal_handoff: language === "vi"
-      ? "Điều này có vẻ đáng được lưu lại như một mảnh ký ức riêng tư. Oracle có thể tạo một Journal insight đã được làm sạch."
-      : "This feels worth keeping as a private memory. Oracle can create a sanitized Journal insight.",
+      ? "Điều này có vẻ đáng được giữ lại. Bạn có thể viết vài dòng vào Nhật ký, chỉ lưu trên thiết bị của bạn."
+      : "This seems worth keeping. You can write a few lines in your Journal, saved only on your device.",
     safety_redirect: localizedText(safetyRules.safeFallbacks, language)
   };
   return {
@@ -4301,34 +4300,10 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     });
     setOracleTurns((current) => [...current, userTurn].slice(-40));
     try {
-      const result = await generateOracleTurn(
-        {
-          language,
-          userMessage: text,
-          currentScreen: screen,
-          profile: {
-            nickname: profile.nickname,
-            goals: profile.goals,
-            tone: profile.tone
-          },
-          recentSafeContext: oracleMemoryConsent.journalMemory
-            ? journalEntries.slice(0, 3).map((entry) => ({
-              title: entry.title,
-              sourceType: entry.sourceType,
-              mood: entry.mood,
-              createdAt: entry.createdAt
-            }))
-            : [],
-          consentFlags: oracleMemoryConsent,
-          sanitizedHistory: oracleTurns.slice(-12).map((turn) => ({
-            role: turn.role === "oracle" ? "oracle" : "user",
-            text: summarizeForSafety(turn.text),
-            intent: turn.intent
-          }))
-        },
-        () => buildOracleFallbackResult(text, language),
-        backendOptions
-      );
+      const signal = oracleSafetySignal(text);
+      const result: OracleTurnResult = signal
+        ? { ...buildOracleFallbackResult(text, language), reply: oracleSafetyReply(language, signal), intent: "safety_redirect", actionCards: [], moderationStatus: "blocked" }
+        : buildOracleFallbackResult(text, language);
       const oracleTurn: OracleTurn = {
         id: nowId(),
         role: "oracle",
@@ -4345,7 +4320,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       recordEvent("oracle_turn_created", {
         intent: result.intent,
         moderationStatus: result.moderationStatus,
-        backend: Boolean(nilazaBackendBaseUrl)
+        backend: false
       });
       if (result.moderationStatus === "blocked") {
         recordSafetyEvent({
@@ -7022,8 +6997,6 @@ function ChatScreen({
   onSend: (preset?: string) => void;
   onTrack: (name: string, metadata?: Record<string, string | number | boolean>) => void;
 }) {
-  const [activeCategory, setActiveCategory] = useState<ChatCategory>("all");
-  const [guideSearch, setGuideSearch] = useState("");
   const [detailTab, setDetailTab] = useState<PersonaDetailTab>("reflections");
   const intro = language === "vi"
     ? "Cuộc trò chuyện này là mô phỏng AI lấy cảm hứng, không phải người thật hay đại diện chính thức."
@@ -7034,27 +7007,6 @@ function ChatScreen({
   const personaThumbnail = getPersonaThumbnail(selectedPersona);
   const personaCover = getPersonaCover(selectedPersona);
   const lastGuideMessage = [...currentMessages].reverse().find((message) => message.role === "guide");
-  const categoryOptions: Array<{ id: ChatCategory; label: string }> = [
-    { id: "all", label: language === "vi" ? "Tất cả" : "All" },
-    { id: "favorites", label: language === "vi" ? "Yêu thích" : "Favorites" },
-    { id: "sages", label: language === "vi" ? "Hiền triết" : "Sages" },
-    { id: "love", label: language === "vi" ? "Tình cảm" : "Love" },
-    { id: "career", label: language === "vi" ? "Sự nghiệp" : "Career" },
-    { id: "books", label: language === "vi" ? "Sách" : "Books" },
-    { id: "healing", label: language === "vi" ? "Bình an" : "Self-care" }
-  ];
-  const recommendedPersonas = recommendedPersonasForProfile(profile);
-  const favoritePersonas = favoritePersonaIds
-    .map((id) => personasById[id])
-    .filter((persona): persona is Persona => Boolean(persona));
-  const filteredPersonas = activeCategory === "favorites"
-    ? favoritePersonas.filter((persona) => personaMatchesSearch(persona, language, guideSearch))
-    : personas.filter((persona) => personaMatchesChatCategory(persona, activeCategory) && personaMatchesSearch(persona, language, guideSearch));
-  const guideListTitle = guideSearch.trim()
-    ? (language === "vi" ? "Kết quả phù hợp" : "Matching Guides")
-    : activeCategory === "favorites"
-      ? (language === "vi" ? "Guide yêu thích" : "Favorite guides")
-      : (language === "vi" ? "Tất cả guide" : "All Guides");
   const saveLastInsight = () => {
     if (!lastGuideMessage) {
       onFeedback(language === "vi" ? "Chưa có câu trả lời để lưu" : "No guide answer to save yet");
@@ -7079,122 +7031,42 @@ function ChatScreen({
   };
 
   if (mode === "list") {
+    const latest = recentConversations[0];
+    const latestPersona = latest?.personaId ? personasById[latest.personaId] : undefined;
+    const openGuide = (personaId: string) => {
+      onClearHandoff();
+      setSelectedPersonaId(personaId);
+      setMode("detail");
+    };
     return (
-      <View>
-        <TopBar title="NILAZA" />
-        <Header
-          eyebrow={language === "vi" ? "Wisdom guides" : "Wisdom guides"}
-          title={language === "vi" ? "Chọn guide của bạn" : "Choose Your Guide"}
-        />
-        <Text style={styles.leadLeft}>
-          {language === "vi"
-            ? "Chọn một companion để soi sáng câu hỏi bạn đang mang theo."
-            : "Select a companion to illuminate the question you are carrying."}
-        </Text>
-        {recentConversations.length > 0 ? (
-          <View style={styles.recentConversationSection}>
-            <Text style={styles.sectionKicker}>{language === "vi" ? "Cuộc trò chuyện gần đây" : "Recent conversations"}</Text>
-            {recentConversations.slice(0, 5).map((conversation) => (
-              <Pressable
-                accessibilityLabel={language === "vi" ? `Mở ${conversation.title}` : `Open ${conversation.title}`}
-                accessibilityRole="button"
-                key={conversation.id}
-                onPress={() => onOpenRecentConversation(conversation)}
-                style={styles.recentConversationRow}
-              >
-                <View style={styles.recentConversationIcon}>
-                  <Ionicons name={conversation.kind === "oracle" ? "sparkles-outline" : conversation.kind === "council" ? "people-outline" : "chatbubble-ellipses-outline"} size={17} color={colors.gold} />
-                </View>
-                <View style={styles.flex}>
-                  <Text numberOfLines={1} style={styles.recentConversationTitle}>{conversation.title}</Text>
-                  <Text numberOfLines={1} style={styles.recentConversationPreview}>{conversation.preview}</Text>
-                </View>
-                <Ionicons name="arrow-forward-outline" size={18} color={colors.gold} />
-              </Pressable>
-            ))}
-          </View>
-        ) : null}
-        <View style={styles.councilInvitePanel}>
-          <View style={styles.rowBetween}>
-            <View style={styles.flex}>
-              <Text style={styles.kicker}>{language === "vi" ? "AI Council" : "AI Council"}</Text>
-              <Text style={styles.councilInviteTitle}>{language === "vi" ? "Ba guide cùng soi một vấn đề" : "Three guides, one question"}</Text>
-            </View>
-            <View style={styles.councilAvatarStack}>
-              {councilRoomProps.personas.map((persona) => (
-                <Image key={persona.id} source={getPersonaThumbnail(persona)} style={styles.councilAvatar} resizeMode="cover" />
-              ))}
-            </View>
-          </View>
-          <Text style={styles.councilInviteText}>
-            {language === "vi"
-              ? "Dùng khi bạn cần nhiều góc nhìn trước khi quyết định, nhắn tin, hay tự hiểu một cảm xúc khó gọi tên."
-              : "Use this when you need multiple lenses before deciding, messaging someone, or naming a hard feeling."}
-          </Text>
-          <PrimaryButton label={language === "vi" ? "Mở AI Council" : "Open AI Council"} onPress={() => setMode("council")} />
-        </View>
-        <TextInput
-          value={guideSearch}
-          onChangeText={setGuideSearch}
-          placeholder={language === "vi" ? "Tìm chủ đề, guide..." : "Search topics, guides..."}
-          placeholderTextColor={colors.moon}
-          style={styles.searchInput}
-        />
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.horizontal}>
-          <View style={styles.chipRail}>
-            {categoryOptions.map((item) => (
-              <Chip key={item.id} active={activeCategory === item.id} label={item.label} onPress={() => setActiveCategory(item.id)} />
-            ))}
-          </View>
-        </ScrollView>
-        {recommendedPersonas.length > 0 && !guideSearch.trim() && activeCategory === "all" ? (
-          <View>
-            <Text style={styles.sectionKicker}>{language === "vi" ? "Guide hợp với bạn" : "Matched to Your Goals"}</Text>
-            {recommendedPersonas.map((persona) => (
-              <PersonaCard
-                key={`recommended-${persona.id}`}
-                locked={!canViewContentTier(persona.accessTier, displayedTier)}
-                persona={persona}
-                language={language}
-                featured
-                onPress={() => {
-                  onClearHandoff();
-                  setSelectedPersonaId(persona.id);
-                  setMode("detail");
-                }}
-              />
-            ))}
-          </View>
-        ) : null}
-        <Text style={styles.sectionKicker}>{guideListTitle}</Text>
-        {filteredPersonas.map((persona) => (
-          <PersonaCard
-            key={persona.id}
-            locked={!canViewContentTier(persona.accessTier, displayedTier)}
-            persona={persona}
-            language={language}
-            onPress={() => {
-              onClearHandoff();
-              setSelectedPersonaId(persona.id);
-              setMode("detail");
-            }}
-          />
-        ))}
-        {filteredPersonas.length === 0 && (
-          <View style={styles.empty}>
-            <Text style={styles.emptyTitle}>
-              {activeCategory === "favorites"
-                ? (language === "vi" ? "Chưa có guide yêu thích" : "No favorite guides yet")
-                : (language === "vi" ? "Chưa có guide phù hợp" : "No guide found")}
-            </Text>
-            <Text style={styles.muted}>
-              {activeCategory === "favorites"
-                ? (language === "vi" ? "Mở trang giới thiệu một guide và bấm biểu tượng lưu để thêm vào đây." : "Open a guide detail page and tap the save icon to add it here.")
-                : (language === "vi" ? "Thử chọn nhóm khác để tiếp tục." : "Try another category to continue.")}
-            </Text>
-          </View>
-        )}
-      </View>
+      <ChatHub
+        language={language}
+        now={new Date()}
+        recent={latest ? {
+          title: latest.title,
+          snippet: latest.latestText ?? latest.preview,
+          updatedAt: latest.updatedAt,
+          thumbnail: latestPersona ? getPersonaThumbnail(latestPersona) : undefined,
+          icon: latest.kind === "oracle" ? "sparkles-outline" : latest.kind === "council" ? "people-outline" : "chatbubble-ellipses-outline"
+        } : undefined}
+        councilThumbnails={councilRoomProps.personas.map((persona) => getPersonaThumbnail(persona))}
+        guides={personas.map((persona) => ({
+          id: persona.id,
+          name: localizedText(persona.name, language),
+          // Short names await Owner review (docs/content-review/persona-short-names-draft.md).
+          tagline: persona.displayRole ? localizedText(persona.displayRole, language) : localizedText(persona.shortDescription, language),
+          thumbnail: getPersonaThumbnail(persona),
+          comingSoon: !canViewContentTier(persona.accessTier, displayedTier)
+        }))}
+        matches={(id, category, query) => {
+          const persona = personasById[id];
+          return !!persona && personaMatchesChatCategory(persona, category) && personaMatchesSearch(persona, language, query);
+        }}
+        onOpenRecent={() => latest && onOpenRecentConversation(latest)}
+        onOracle={() => setMode("oracle")}
+        onCouncil={() => setMode("council")}
+        onOpenGuide={openGuide}
+      />
     );
   }
 
@@ -12847,27 +12719,6 @@ zodiacProfilePrompt: {
     lineHeight: 19,
     marginTop: 2
   },
-  councilInvitePanel: {
-    backgroundColor: colors.panel,
-    borderColor: "rgba(201, 164, 92, 0.32)",
-    borderRadius: 8,
-    borderWidth: 1,
-    marginBottom: spacing.lg,
-    padding: spacing.lg
-  },
-  councilInviteTitle: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 24,
-    fontWeight: "600",
-    lineHeight: 30
-  },
-  councilInviteText: {
-    color: colors.muted,
-    fontSize: 14,
-    lineHeight: 22,
-    marginTop: spacing.md
-  },
   councilHubHero: {
     backgroundColor: colors.panel,
     borderColor: "rgba(201, 164, 92, 0.34)",
@@ -13325,41 +13176,6 @@ zodiacProfilePrompt: {
     color: colors.gold,
     fontSize: 25,
     fontWeight: "800"
-  },
-  recentConversationSection: {
-    marginTop: spacing.md
-  },
-  recentConversationRow: {
-    alignItems: "center",
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.sm,
-    marginTop: spacing.sm,
-    minHeight: 64,
-    padding: spacing.sm
-  },
-  recentConversationIcon: {
-    alignItems: "center",
-    backgroundColor: "rgba(201, 164, 92, 0.12)",
-    borderRadius: 8,
-    height: 34,
-    justifyContent: "center",
-    width: 34
-  },
-  recentConversationTitle: {
-    color: colors.ivory,
-    fontFamily: typography.bodySemiBoldFontFamily,
-    fontSize: 14
-  },
-  recentConversationPreview: {
-    color: colors.moon,
-    fontFamily: typography.bodyFontFamily,
-    fontSize: 12,
-    lineHeight: 17,
-    marginTop: 2
   },
   personaCard: {
     alignItems: "flex-start",

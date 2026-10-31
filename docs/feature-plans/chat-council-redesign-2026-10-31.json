@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "taskId": "chat-council-redesign-2026-10-31",
+  "ownerAgent": "mobile_chat_design_agent",
+  "lane": "mobile_chat_redesign",
+  "goal": "Bring the Trò chuyện tab and AI Council start screen to the ChatHub and Council designs: a hub with Tiếp tục, a Nilaza Oracle card, the Council row, guide chips and a three-column guide grid; Oracle becomes an on-device direction chooser that never pretends to be AI; the Council start screen shows topic chips, three guides, the headline, three starter questions and the composer, with custom guide selection moved into the menu. The Council server requires sign-in and allows one council per local day (not deployed). Short guide names are drafted for Owner review.",
+  "successCriteria": [
+    "The chat hub shows Trò chuyện with a search button, Tiếp tục with the latest conversation and its last message, the Nilaza Oracle card with Bắt đầu kể, the Hội đồng 3 góc nhìn row, Người dẫn chips (Tất cả, Tình cảm, Chữa lành, Triết gia), a three-column grid of eight guides plus Xem cả 17, and the transparency note.",
+    "Oracle replies come from the on-device direction chooser with action cards and a label that says it is a suggestion, not an AI answer; no Oracle server call is made.",
+    "Council opens on topic chips mapped to the four templates, three guides with their roles, the headline, three starter questions and the composer; Tự chọn người dẫn, history and report live in the menu; the Cosmic Symposium panel is removed.",
+    "ai-council requires a signed-in account before any model call and allows one council (with up to four follow-ups) per local day from the shared tier policy; the change is not deployed in this task.",
+    "docs/content-review holds a draft of 17 short guide names and taglines; the app keeps current names until approval.",
+    "Mobile check, Jest suite, Deno policy tests and validate:backend pass; a 390x844 web walkthrough covers hub, Oracle and Council."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/council/",
+    "apps/mobile/src/features/oracle/",
+    "apps/mobile/src/features/persona/",
+    "apps/mobile/src/features/chat/",
+    "apps/mobile/src/__tests__/",
+    "docs/content-review/",
+    "DESIGN.md",
+    "apps/admin/workflow-catalog.js",
+    "packages/agent-config/account-tier-policy.json",
+    "supabase/functions/ai-council/index.ts",
+    "supabase/functions/_shared/account-tier-policy.ts",
+    "supabase/functions/_shared/account-tier-policy.test.ts",
+    "apps/mobile/src/backendClient.ts",
+    "packages/ai-contracts/oracle-safety.mjs",
+    "packages/ai-contracts/oracle-safety.d.mts",
+    "supabase/functions/_shared/oracle-runtime.mjs",
+    "packages/agent-config/oracle-actions.json"
+  ],
+  "untouchedSurfaces": [
+    "No deploy, SQL, secrets or Supabase settings; ai-council deploy is a separate Owner approval.",
+    "Persona names and content data stay unchanged until the drafted short names are approved.",
+    "Tarot, Astrology, Journal and Profile screens."
+  ],
+  "impact": {
+    "entryPoint": "Bottom tab Trò chuyện; Oracle launcher; Home and Explore Council links.",
+    "dataWrite": "No new storage keys; Oracle turns keep nilaza.oracleTurns.",
+    "backendContract": "ai-council returns 401 without a signed-in account and 429 daily_council_limit or daily_followup_limit; usage_events metadata adds opening. Oracle no longer calls ai-oracle-turn from the app. Oracle safety and routing move to packages/ai-contracts/oracle-safety.mjs, re-exported by the server runtime unchanged.",
+    "canonicalContract": "DESIGN.md chat and council sections follow the design canvas.",
+    "adminVisibility": "Workflow catalog digests refreshed for changed sources.",
+    "privacySafety": "Oracle stays on the device; Council keeps sanitized context; safety copy unchanged.",
+    "observability": "Council usage events gain the opening flag.",
+    "rollback": "Revert the commits; the server change is not deployed.",
+    "surfacesIntentionallyUntouched": "Persona chat room behaviour, prompts, model routes.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs validation, commits locally and pushes to the PR branch without merging or deploying."
+  },
+  "canonicalContracts": [
+    "Owner decisions 2026-10-31 in chat: draft 17 short guide names for review; AI Council 1 per local day like Astrology AI through the shared tier switch (deploy approved separately); Oracle becomes a direction chooser for the first Play build; custom guide selection moves into the Council menu and the Cosmic Symposium panel goes.",
+    "Design canvas ChatHub and Council artboards."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Tarot and mobile UI routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "DESIGN.md",
+      "reason": "Brand shape and type rules for the new screen.",
+      "sha256": "23ac9481262d39a8290dec3a8519cfcf7c06da017b14e4cead670fd66a9b2188"
+    },
+    {
+      "path": "docs/CONTENT_SAFETY_STYLE_GUIDE.md",
+      "reason": "Card names and safety framing for the guide copy.",
+      "sha256": "33ec073a7fe94045ee7aeb40bad2ca90b6ab6b0010569131c730380dfb23ceec"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Card meaning stage and its top bar.",
+      "sha256": "128208e5cd61713db00165b4cf4fb20d23fd1c29207e4f7daa1109f95107d00e"
+    },
+    {
+      "path": "apps/mobile/src/features/council/AiCouncilRoom.tsx",
+      "reason": "Council start screen.",
+      "sha256": "8f3721a8ce9d0b03b2e2a2e2377cf8dccd3402113c5eab780768827807ba89ce"
+    },
+    {
+      "path": "apps/mobile/src/features/oracle/OracleRoom.tsx",
+      "reason": "Oracle room and its fallback label.",
+      "sha256": "cb8db6dd1891deaef64e652c6606a10e173f35848cff33b59f56937a584a0bad"
+    },
+    {
+      "path": "supabase/functions/ai-council/index.ts",
+      "reason": "Council server auth and usage.",
+      "sha256": "5333f4ff817291943957f88f5e3cee94e1cae27ff8ff75a3d756663909b3779d"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "The flow follows DESIGN.md shapes (8px cards, pill controls, 48px targets); the skill text stays accurate."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing React Native and Ionicons APIs."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "ai-council now rejects unauthenticated calls before any model call.",
+    "sensitiveData": "No new personal data; Oracle text stays on the device.",
+    "secretsLogging": "No credentials or logs.",
+    "externalInput": "Oracle input is matched on the device only.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration, deploy or release.",
+    "stopCondition": "Stop if a change needs SQL, a deploy or new content without approval, or if checks fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "DESIGN.md",
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/__tests__/backendClient.test.ts",
+      "apps/mobile/src/backendClient.ts",
+      "apps/mobile/src/features/chat/ChatHub.tsx",
+      "apps/mobile/src/features/chat/__tests__/ChatHub.test.tsx",
+      "apps/mobile/src/features/council/AiCouncilRoom.tsx",
+      "apps/mobile/src/features/council/useAiCouncilRoom.ts",
+      "apps/mobile/src/features/oracle/OracleRoom.tsx",
+      "apps/mobile/src/features/oracle/__tests__/OracleRoom.test.tsx",
+      "docs/content-review/persona-short-names-draft.md",
+      "docs/content-review/persona-short-names.json",
+      "docs/feature-plans/chat-council-redesign-2026-10-31.json",
+      "packages/agent-config/account-tier-policy.json",
+      "packages/agent-config/oracle-actions.json",
+      "packages/ai-contracts/oracle-safety.d.mts",
+      "packages/ai-contracts/oracle-safety.mjs",
+      "supabase/functions/_shared/account-tier-policy.test.ts",
+      "supabase/functions/_shared/account-tier-policy.ts",
+      "supabase/functions/_shared/oracle-runtime.mjs",
+      "supabase/functions/ai-council/index.ts"
+    ],
+    "note": "Worktree branch stacked on PR #10."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/chat-council-redesign-2026-10-31.json",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand",
+    "npx deno test --allow-read --no-check supabase/functions/_shared/account-tier-policy.test.ts",
+    "npm run validate:backend",
+    "Web walkthrough at 390x844: chat hub, Oracle, Council."
+  ],
+  "managerTestPath": "Trò chuyện: see Tiếp tục, Nilaza Oracle, Hội đồng 3 góc nhìn and the guide grid; tell Oracle a situation and get action cards; open Hội đồng and pick a topic and a starter question.",
+  "residualRisk": "Until ai-council is deployed the app still talks to the old server, which has no daily limit; the Council footer omits the limit line until then.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

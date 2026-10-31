@@ -1,4 +1,5 @@
 import {
+  BackendLimitError,
   generatePersonaReply,
   generateOracleTurn,
   generateAiCouncilTurn,
@@ -319,6 +320,16 @@ describe("backendClient", () => {
           body: expect.stringContaining("\"personaSlug\":\"aristotle\"")
         })
       );
+    });
+
+    it("surfaces the daily limit and sign-in answers instead of a canned reply", async () => {
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 429, json: async () => ({ error: "daily_council_limit" }) });
+      await expect(generateAiCouncilTurn(input, fallback, backendOptions)).rejects.toEqual(new BackendLimitError("daily_council_limit", 429));
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 401, json: async () => ({ error: "sign_in_required" }) });
+      await expect(generateAiCouncilTurn(input, fallback, backendOptions)).rejects.toMatchObject({ code: "sign_in_required", status: 401 });
+      // Other server errors still fall back.
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 500, json: async () => ({}) });
+      await expect(generateAiCouncilTurn(input, fallback, backendOptions)).resolves.toMatchObject({ moderationStatus: "fallback" });
     });
 
     it("returns fallback on backend error", async () => {

@@ -280,7 +280,7 @@
   },
   {
     "path": "apps/mobile/App.tsx",
-    "sha256": "7bf2d6d0f2545af373c3505f3a7b11b852e48c3872d7b7ef13f9b87a5d261892"
+    "sha256": "128208e5cd61713db00165b4cf4fb20d23fd1c29207e4f7daa1109f95107d00e"
   },
   {
     "path": "docs/FEATURE_PRD.md",
@@ -340,7 +340,7 @@
   },
   {
     "path": "supabase/functions/_shared/oracle-runtime.mjs",
-    "sha256": "94602066bb84231a655a1cc8d086ce1b9ddcc5ab64007e5c821a05340b4b2659"
+    "sha256": "2cb113ce48f9d4d2241fc08d30f1fce01970beef409a38a68741da980f8555a8"
   },
   {
     "path": "supabase/functions/_shared/persona-prompt-assembler.ts",
@@ -364,7 +364,7 @@
   },
   {
     "path": "supabase/functions/ai-council/index.ts",
-    "sha256": "10bb7ade586293af521ec559ba823acf37ab75bb44a1e7a170ae99d54e0bec7f"
+    "sha256": "5333f4ff817291943957f88f5e3cee94e1cae27ff8ff75a3d756663909b3779d"
   },
   {
     "path": "supabase/functions/ai-daily-insight/index.ts",
