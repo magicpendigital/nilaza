@@ -580,6 +580,14 @@ function reversedCardArt(card: { reversed?: boolean } | null | undefined) {
 }
 const reversedCardArtStyle = { transform: [{ rotate: "180deg" }] };
 
+function pushPermissionLabel(status: string | undefined, language: Language) {
+  const vi = language === "vi";
+  if (status === "granted") return vi ? "Đã cho phép" : "Allowed";
+  if (status === "denied") return vi ? "Đã tắt trong Cài đặt máy" : "Turned off in device Settings";
+  if (status === "unavailable") return vi ? "Máy này không hỗ trợ" : "Not supported on this device";
+  return vi ? "Chưa hỏi quyền" : "Not asked yet";
+}
+
 /** Text a Journal entry shows: a manual note falls back to its body when the note is blank. */
 function journalEntryBody(entry: JournalEntry) {
   return entry.sourceType === "manual" && entry.userNote?.trim() ? entry.userNote : entry.summary;
@@ -1049,7 +1057,7 @@ function getDeckExperience(deckId: string, language: Language, accessTier: Tarot
     ? language === "vi" ? "Trải nghiệm đã gồm" : "Included experience"
     : language === "vi" ? "Sắp ra mắt" : "Coming soon";
   const sharedUnlocks = language === "vi"
-    ? ["Giọng đọc riêng của bộ bài", "Chat với archetype từng lá", "Share card theo visual theme"]
+    ? ["Giọng đọc riêng của bộ bài", "Chat với archetype từng lá", "Thẻ chia sẻ theo phong cách bộ bài"]
     : ["Deck-specific reading voice", "Chat with each card archetype", "Theme-matched share cards"];
   const catalog: Record<string, { sample: { vi: string; en: string }; unlocks?: { vi: string[]; en: string[] } }> = {
     "moon-garden": {
@@ -2324,7 +2332,7 @@ function buildAstrologyHandoffContext(report: AstrologyReport, language: Languag
   return {
     sourceType: "astrology_report",
     sourceId: report.id,
-    sourceLabel: language === "vi" ? "astrology preview" : "astrology preview",
+    sourceLabel: language === "vi" ? "bài đọc chiêm tinh" : "astrology reading",
     safeSummary: summarizeForSafety(safeSections.map((section) => `${section.title}: ${section.body}`).join(" ")),
     astrology: {
       focus: focusLabel,
@@ -3960,9 +3968,9 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       backend: Boolean(nilazaBackendBaseUrl)
     });
     if (permissionStatus === "granted" && nextRegistration.expoPushToken) {
-      showToast(language === "vi" ? "Notifications enabled for safe reminders." : "Notifications enabled for safe reminders.");
+      showToast(language === "vi" ? "Đã bật thông báo cho lời nhắc an toàn." : "Notifications enabled for safe reminders.");
     } else {
-      showToast(language === "vi" ? "Push unavailable or permission denied. Inbox still works." : "Push unavailable or permission denied. Inbox still works.");
+      showToast(language === "vi" ? "Chưa bật được thông báo trên máy. Hộp thư trong app vẫn hoạt động." : "Push unavailable or permission denied. Inbox still works.");
     }
   };
 
@@ -4025,8 +4033,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     const fallbackNotification: InAppNotification = {
       id: nowId(),
       type: "admin_test",
-      title: { vi: "Thong bao thu Nilaza", en: "Nilaza test notification" },
-      body: { vi: "Day la thong bao thu an toan, khong chua du lieu rieng tu.", en: "This is a safe test notification with no private content." },
+      title: { vi: "Thông báo thử của Nilaza", en: "Nilaza test notification" },
+      body: { vi: "Đây là thông báo thử an toàn, không chứa dữ liệu riêng tư.", en: "This is a safe test notification with no private content." },
       channel: "in_app",
       status: "unread",
       sourceType: "admin",
@@ -4045,7 +4053,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       return next;
     });
     recordEvent("admin_test_notification_created", { status: result.status, backend: Boolean(nilazaBackendBaseUrl) });
-    showToast(language === "vi" ? "Test notification created." : "Test notification created.");
+    showToast(language === "vi" ? "Đã tạo thông báo thử." : "Test notification created.");
   };
 
   const completeDailyRitual = (reason: string) => {
@@ -4112,8 +4120,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     setDailyInsight(nextInsight);
     enqueueInAppNotification({
       type: "daily_insight_ready",
-      title: { vi: "Thong diep hom nay da san sang", en: "Today's insight is ready" },
-      body: { vi: "Mo Nilaza de doc phan reflection trong app.", en: "Open Nilaza to read the reflection inside the app." },
+      title: { vi: "Thông điệp hôm nay đã sẵn sàng", en: "Today's insight is ready" },
+      body: { vi: "Mở Nilaza để đọc phần phản chiếu trong app.", en: "Open Nilaza to read the reflection inside the app." },
       sourceType: "daily",
       sourceId: nextInsight.id,
       targetRoute: "home"
@@ -4319,8 +4327,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       if (nextReport.calculationStatus === "backend_ready") {
         enqueueInAppNotification({
         type: "astrology_report_ready",
-        title: { vi: "Bao cao Astrology da san sang", en: "Astrology report is ready" },
-        body: { vi: "Mo app de xem report. Push khong chua birth data hay noi dung rieng tu.", en: "Open the app to view the report. Push never includes birth data or private details." },
+        title: { vi: "Bài đọc chiêm tinh đã sẵn sàng", en: "Astrology report is ready" },
+        body: { vi: "Mở app để xem bài đọc. Thông báo không chứa dữ liệu sinh hay nội dung riêng tư.", en: "Open the app to view the report. Push never includes birth data or private details." },
         sourceType: "astrology",
         sourceId: nextReport.id,
         targetRoute: "astrology"
@@ -4618,9 +4626,9 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const saveMoodCheck = (moodId: string) => {
     saveJournal({
       sourceType: "daily",
-      title: language === "vi" ? "Mood check hôm nay" : "Today's mood check",
+      title: language === "vi" ? "Cảm xúc hôm nay" : "Today's mood check",
       summary: language === "vi"
-        ? `Mood: ${moodLabel(moodId, language)}. ${todayPulse.microAction}`
+        ? `Cảm xúc: ${moodLabel(moodId, language)}. ${todayPulse.microAction}`
         : `Mood: ${moodLabel(moodId, language)}. ${todayPulse.microAction}`,
       mood: moodId,
       sourceSnapshot: {
@@ -6575,7 +6583,7 @@ function CouncilHub({
     <View>
       <TopBar title="AI Council" />
       <Header
-        eyebrow={language === "vi" ? "Group reflection" : "Group reflection"}
+        eyebrow={language === "vi" ? "Phản chiếu cùng nhiều góc nhìn" : "Group reflection"}
         title={language === "vi" ? "Chọn Council bạn muốn mở" : "Choose a Council to open"}
       />
       <Text style={styles.leadLeft}>
@@ -8299,7 +8307,7 @@ function JournalScreen({
             id: `${section.key}-${index}`, title: localizedText(section.title, language), body: localizedText(section.body, language),
           }))} /> : null}
 
-        <Text style={styles.sectionKicker}>{language === "vi" ? "Mood của bạn" : "Your mood"}</Text>
+        <Text style={styles.sectionKicker}>{language === "vi" ? "Cảm xúc của bạn" : "Your mood"}</Text>
         <View style={styles.wrap}>
           {moodOptions.map((mood) => (
             <Chip
@@ -8751,8 +8759,8 @@ function ProfileScreen({
             : "In-app inbox is always available. Push is opt-in and never includes private reading, chat, journal, or birth details."}
         </Text>
         <View style={styles.notificationStatusRow}>
-          <StatusLine label={language === "vi" ? "Trạng thái thông báo đẩy" : "Push status"} status={devicePushRegistration?.permissionStatus ?? "unknown"} tone={devicePushRegistration?.permissionStatus === "granted" ? "good" : "warn"} />
-          <StatusLine label={language === "vi" ? "Mã thiết bị" : "Expo token"} status={devicePushRegistration?.expoPushToken ? (language === "vi" ? "đã đăng ký" : "registered") : (language === "vi" ? "chưa đăng ký" : "not registered")} tone={devicePushRegistration?.expoPushToken ? "good" : "neutral"} />
+          <StatusLine label={language === "vi" ? "Trạng thái thông báo đẩy" : "Push status"} status={pushPermissionLabel(devicePushRegistration?.permissionStatus, language)} tone={devicePushRegistration?.permissionStatus === "granted" ? "good" : "warn"} />
+          <StatusLine label={language === "vi" ? "Thiết bị nhận thông báo" : "Notification device"} status={devicePushRegistration?.expoPushToken ? (language === "vi" ? "đã đăng ký" : "registered") : (language === "vi" ? "chưa đăng ký" : "not registered")} tone={devicePushRegistration?.expoPushToken ? "good" : "neutral"} />
         </View>
         <SecondaryButton label={language === "vi" ? "Mở hộp thư thông báo" : "Open notification inbox"} onPress={onOpenInbox} />
         <PrimaryButton label={language === "vi" ? "Bật nhắc nhở đẩy" : "Enable push reminders"} onPress={onEnablePush} />

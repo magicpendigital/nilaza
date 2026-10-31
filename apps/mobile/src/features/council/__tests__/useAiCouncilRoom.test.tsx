@@ -96,6 +96,17 @@ it("a crisis message gets the safety reply and 115 card instead of council turns
   hook.unmount();
 });
 
+it("an empty question sends nothing and uses no turn", async () => {
+  const input = options();
+  const hook = renderHook(() => useAiCouncilRoom(input));
+  await waitFor(() => expect(AsyncStorage.setItem).toHaveBeenCalled());
+  await act(async () => { await hook.result.current.roomProps.onSend(); });
+  expect(generateAiCouncilTurn).not.toHaveBeenCalled();
+  expect(input.onFeedback).toHaveBeenCalledWith(expect.stringContaining("Hãy viết"));
+  expect(hook.result.current.roomProps.thread).toHaveLength(0);
+  hook.unmount();
+});
+
 it("does not read or write Council history before the account is hydrated", async () => {
   const input = options("A", false);
   const hook = renderHook(() => useAiCouncilRoom(input));
@@ -128,6 +139,7 @@ it("ignores a generation response after the account scope has closed", async () 
   let release!: (value: unknown) => void;
   (generateAiCouncilTurn as jest.Mock).mockImplementationOnce(() => new Promise(resolve => { release = resolve; }));
   let pending: unknown;
+  act(() => hook.result.current.roomProps.onQuestionChange("Một bước nhỏ cho hôm nay?"));
   await act(async () => { pending = hook.result.current.roomProps.onSend(); });
   input.backendOptions.session.close();
   await act(async () => {
