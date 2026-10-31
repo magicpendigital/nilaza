@@ -101,6 +101,7 @@ export function JournalComposer({ language, onSave, onClose, draftStore, prompt 
     </View> : null}
     <PrimaryButton disabled={disabled || !body.trim()} label={saving ? (vi ? "Đang lưu..." : "Saving...") : (vi ? "Lưu vào nhật ký" : "Save to journal")} onPress={() => { void save(); }} />
     <SecondaryButton disabled={saving} label={vi ? "Quay lại" : "Back"} onPress={onClose} />
+    {draftStore && body.trim() ? <Text style={styles.body}>{vi ? "Bản nháp được giữ trên máy; quay lại viết tiếp lúc nào cũng được." : "Your draft stays on this device; come back to it anytime."}</Text> : null}
   </View>;
 }
 

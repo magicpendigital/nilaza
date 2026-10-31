@@ -25,6 +25,7 @@ import { scrollBandFor, type ScrollBand } from "./src/scrollThresholds";
 void SplashScreen.preventAutoHideAsync().catch(() => undefined);
 import {
   Animated,
+  BackHandler,
   Image,
   ImageSourcePropType,
   Linking,
@@ -4166,6 +4167,35 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     setTarotStage(nextStage);
   };
 
+  // Android Back: close a dialog, step back inside Tarot or a chat room, else return to Hôm nay.
+  // Astrology handles its own stages; on Hôm nay the system default (leave the app) applies.
+  const backRef = useRef<() => boolean>(() => false);
+  backRef.current = () => {
+    if (confirmationDialog) {
+      setConfirmationDialog(null);
+      return true;
+    }
+    if (screen === "astrology") return false;
+    if (screen === "tarot") {
+      handleTarotBack();
+      return true;
+    }
+    if (screen === "chat" && chatMode !== "list") {
+      setChatMode("list");
+      return true;
+    }
+    if (screen !== "home") {
+      navigate("home");
+      return true;
+    }
+    return false;
+  };
+  useEffect(() => {
+    if (Platform.OS !== "android") return;
+    const subscription = BackHandler.addEventListener("hardwareBackPress", () => backRef.current());
+    return () => subscription.remove();
+  }, []);
+
   const handleTarotBack = () => {
     const previousStage = tarotStageHistory[tarotStageHistory.length - 1];
     if (!previousStage) {
@@ -4941,6 +4971,30 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     }
   };
 
+  // The entry is hidden right away and deleted after 5 seconds unless the person taps Hoàn tác.
+  const pendingJournalDelete = useRef<{ id: string; timer: ReturnType<typeof setTimeout> } | null>(null);
+  const [hiddenJournalId, setHiddenJournalId] = useState<string | null>(null);
+  const requestJournalDelete = (id: string) => {
+    const previous = pendingJournalDelete.current;
+    if (previous) {
+      clearTimeout(previous.timer);
+      void deleteJournalEntry(previous.id);
+    }
+    const timer = setTimeout(() => {
+      pendingJournalDelete.current = null;
+      setHiddenJournalId(null);
+      void deleteJournalEntry(id);
+    }, 5000);
+    pendingJournalDelete.current = { id, timer };
+    setHiddenJournalId(id);
+  };
+  const undoJournalDelete = () => {
+    const pending = pendingJournalDelete.current;
+    if (pending) clearTimeout(pending.timer);
+    pendingJournalDelete.current = null;
+    setHiddenJournalId(null);
+  };
+
   const clearChatHistory = () => {
     setMessages([]);
     recordEvent("chat_history_cleared");
@@ -5115,6 +5169,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
           uiMetadata: {
             sessionId: activePersonaSessionId,
             clientRequestId,
+            // A canned reply (AI unavailable) is labelled in the room.
+            ...(reply.moderationStatus === "fallback" ? { fallback: true } : {}),
             ...(chatHandoffContext
               ? {
                 handoffSourceType: chatHandoffContext.sourceType,
@@ -5801,13 +5857,13 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                 onComposingChange={setJournalComposing}
                 composePrompt={journalPrompt}
                 onComposeDone={() => setJournalPrompt(null)}
-                entries={journalEntries}
+                entries={hiddenJournalId ? journalEntries.filter((entry) => entry.id !== hiddenJournalId) : journalEntries}
                 initialSelectedEntryId={journalEntryToOpen}
                 journalMemory={journalMemory}
                 draftStore={journalDraftStore}
                 language={language}
                 onChat={() => openChat("oracle")}
-                onDelete={deleteJournalEntry}
+                onDelete={requestJournalDelete}
                 onTarot={() => startTarot("topic")}
                 onOpenSource={reopenJournalSource}
                 canOpenSource={(entry) => {
@@ -5954,7 +6010,14 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         )}
         </FadeInView>
 
-        {toast ? (
+        {hiddenJournalId ? (
+          <View style={[styles.toast, styles.undoToast]} accessibilityLiveRegion="polite">
+            <Text style={[styles.toastText, styles.flex]}>{language === "vi" ? "Đã xóa mục Nhật ký." : "Journal entry deleted."}</Text>
+            <Pressable accessibilityRole="button" onPress={undoJournalDelete} hitSlop={8} style={styles.undoButton}>
+              <Text style={styles.undoText}>{language === "vi" ? "Hoàn tác" : "Undo"}</Text>
+            </Pressable>
+          </View>
+        ) : toast ? (
           <View style={[styles.toast, screen === "chat" && chatMode === "detail" && styles.toastAbovePersonaCta]}>
             <Text style={styles.toastText}>{toast}</Text>
           </View>
@@ -8983,6 +9046,9 @@ function ProfileInfoTile({
 }
 
 const styles = StyleSheet.create({
+  undoToast: { flexDirection: "row", alignItems: "center", gap: 12 },
+  undoButton: { minHeight: 36, justifyContent: "center", paddingHorizontal: 6 },
+  undoText: { color: colors.gold, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 14 },
   deckLibraryLink: { minHeight: layout.minimumTouchTarget + 16, paddingHorizontal: 14, paddingVertical: 12, borderRadius: 8, backgroundColor: "#1F1C1E", borderWidth: 1, borderColor: "rgba(201, 164, 92, 0.35)", flexDirection: "row", alignItems: "center", gap: 12, marginTop: 8 },
   deckLibraryLinkTitle: { color: colors.ivory, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 15 },
   deckLibraryLinkMeta: { color: "#B8B0A4", fontFamily: typography.bodyFontFamily, fontSize: 12.5, marginTop: 2 },

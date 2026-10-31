@@ -1,5 +1,6 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { ImageSourcePropType, KeyboardAvoidingView, Platform, Pressable, StyleSheet, Text, View } from "react-native";
+import { useEffect, useRef } from "react";
+import { ImageSourcePropType, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { ChatComposer, ChatContextNotice, ChatMessageBubble, ChatRoomHeader, ChatSessionSummary, ChatSurface, ChatThinkingIndicator, QuickReplyRail } from "../../a2ui";
 import { colors, radius, spacing, typography } from "../../theme";
@@ -10,6 +11,7 @@ export type PersonaChatMessage = {
   role: "user" | "guide";
   text: string;
   promptVersionId?: string;
+  uiMetadata?: Record<string, string | number | boolean>;
 };
 
 export type PersonaChatCopy = {
@@ -71,6 +73,12 @@ export function PersonaChatRoom({
   personaTransparency,
   sessionSummaries
 }: PersonaChatRoomProps) {
+  // Keep the newest message in view as replies arrive.
+  const scrollRef = useRef<ScrollView | null>(null);
+  useEffect(() => {
+    const timer = setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 50);
+    return () => clearTimeout(timer);
+  }, [messages.length, chatGenerating]);
   const quickReplies = personaPrompts.slice(0, 3).map((prompt, index) => ({
     id: `${index}-${prompt}`,
     label: prompt
@@ -83,6 +91,7 @@ export function PersonaChatRoom({
   return (
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : undefined} style={styles.shell}>
       <ChatSurface
+        scrollRef={scrollRef}
         header={
           <ChatRoomHeader
             activeSessionId={activeSessionId}
@@ -191,6 +200,9 @@ export function PersonaChatRoom({
             }
             author={message.role === "guide" ? personaName : language === "vi" ? "Bạn" : "You"}
             avatar={message.role === "guide" ? personaThumbnail : undefined}
+            meta={message.role === "guide" && message.uiMetadata?.fallback
+              ? language === "vi" ? "Câu trả lời dự phòng — AI chưa kết nối được." : "Fallback reply — AI is not connected."
+              : undefined}
             tone={message.role === "user" ? "user" : "guide"}
           >
             {message.text}

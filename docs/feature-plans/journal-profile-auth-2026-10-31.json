@@ -85,7 +85,7 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Card meaning stage and its top bar.",
-      "sha256": "f75638336cee126547b597de67d06b00fa12e8ace43b484955b9155d9401c46b"
+      "sha256": "f9b8f2d6ea57d932d7de5e24513a5ec8f29da5fe862ab3b6d589a6b960ba5782"
     },
     {
       "path": "apps/mobile/src/auth/AuthFlow.tsx",
@@ -100,7 +100,7 @@
     {
       "path": "apps/mobile/src/features/journal/JournalComposer.tsx",
       "reason": "Journal composer.",
-      "sha256": "44a4ba4c7ece3a0470b1d94a22e8e52a089637ff7455ae10c0c1dda8d7aa07cb"
+      "sha256": "9f2ca001af067eb4b73132d135526f6786040b5caf7356be275b6825f6d37dba"
     }
   ],
   "skillReview": [

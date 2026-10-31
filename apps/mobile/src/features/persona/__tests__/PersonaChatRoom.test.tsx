@@ -121,6 +121,20 @@ describe("PersonaChatRoom", () => {
     expect(props.onSaveMessage).toHaveBeenCalledWith(props.messages[1]);
   });
 
+  it("labels a canned reply as a fallback, not an AI answer", () => {
+    const props = {
+      ...baseProps(),
+      messages: [
+        { id: "m1", role: "user" as const, text: "Help me decide" },
+        { id: "m2", role: "guide" as const, text: "Canned reply.", uiMetadata: { fallback: true } },
+        { id: "m3", role: "guide" as const, text: "Real reply." }
+      ]
+    };
+    const tree = renderTree(<PersonaChatRoom {...props} />);
+    const metas = tree.root.findAll((node) => typeof node.props.meta === "string").map((node) => node.props.meta);
+    expect(metas).toEqual(["Fallback reply — AI is not connected."]);
+  });
+
   it("keeps composer send disabled while generating and exposes retry on errors", () => {
     const props = {
       ...baseProps(),
