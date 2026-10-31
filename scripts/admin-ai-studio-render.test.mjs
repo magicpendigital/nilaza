@@ -444,7 +444,9 @@ test("Model Router publish sends the canonical provider contract with a unique v
   assert.equal(captured.capability, "ai.manage");
   assert.equal(captured.body.feature, "tarot_reading");
   assert.equal(captured.body.primary.provider, "openrouter");
-  assert.equal(captured.body.fallback.provider, "gemini");
+  // Owner decision 2026-11-01: every default route, fallback included, goes through OpenRouter.
+  assert.equal(captured.body.fallback.provider, "openrouter");
+  assert.equal(captured.body.fallback.model, "openai/gpt-5.4-mini");
   assert.equal(captured.body.temperature, 0);
   assert.equal(captured.body.maxTokens, 1300);
   assert.match(captured.body.version, /^v1\.2\.0-admin-\d+$/);

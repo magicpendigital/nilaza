@@ -332,7 +332,7 @@
   },
   {
     "path": "supabase/functions/_shared/model-router.ts",
-    "sha256": "ed766dc2469ea46480966ade7bc93c6d24244dbb562882cb6c4265f7d9a51738"
+    "sha256": "36194ce24f57024163c947356cbefc7d0be8a9c1a89a4a46b6962ae44d9d0523"
   },
   {
     "path": "supabase/functions/_shared/notification-provider.ts",
