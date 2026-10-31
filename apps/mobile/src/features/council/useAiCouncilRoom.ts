@@ -704,8 +704,9 @@ export function useAiCouncilRoom({
         if (activity) onGenerationFinished?.(activity, "ready");
         return;
       }
-      const guideTurns: AiCouncilTurn[] = result.turns.map((turn) => {
-        const persona = councilPersonas.find((item) => item.id === turn.personaId) ?? personasById[turn.personaId] ?? councilPersonas[0];
+      const guideTurns: AiCouncilTurn[] = result.turns.map((turn, index) => {
+        // An unknown id falls back to the guide in the same seat, never to the first guide for every turn.
+        const persona = councilPersonas.find((item) => item.id === turn.personaId) ?? personasById[turn.personaId] ?? councilPersonas[index % Math.max(1, councilPersonas.length)];
         return {
           id: nowId(),
           role: "guide",
@@ -715,7 +716,8 @@ export function useAiCouncilRoom({
           kind: turn.kind,
           replyToPersonaId: turn.replyToPersonaId,
           sequence: turn.sequence,
-          promptVersionId: turn.promptVersionId ?? result.promptVersionId ?? config.contract.promptVersionId
+          promptVersionId: turn.promptVersionId ?? result.promptVersionId ?? config.contract.promptVersionId,
+          ...(result.moderationStatus === "fallback" ? { fallback: true } : {})
         };
       });
       setThread((current) => [...current, ...guideTurns].slice(-config.maxTranscriptTurns));
@@ -743,9 +745,11 @@ export function useAiCouncilRoom({
         // Give the question back so nothing the user wrote is lost.
         setThread((current) => current.filter((turn) => turn.id !== userTurnId));
         setQuestion(userQuestion);
-        onFeedback(error.status === 401
-          ? (language === "vi" ? "Đăng nhập để dùng Hội đồng 3 góc nhìn." : "Sign in to use the council.")
-          : (language === "vi" ? "Hôm nay bạn đã dùng lượt hội đồng. Hẹn bạn ngày mai." : "You have used today's council. See you tomorrow."));
+        onFeedback(error.code === "feature_paused"
+          ? (language === "vi" ? "Hội đồng đang tạm nghỉ một chút. Lượt của bạn vẫn còn, hãy thử lại sau." : "The council is resting for a while. Your turn is kept; please try again later.")
+          : error.status === 401
+            ? (language === "vi" ? "Đăng nhập để dùng Hội đồng 3 góc nhìn." : "Sign in to use the council.")
+            : (language === "vi" ? "Hôm nay bạn đã dùng lượt hội đồng. Hẹn bạn ngày mai." : "You have used today's council. See you tomorrow."));
         onTrack("ai_council_turn_limited", { language, status: error.status, code: error.code });
         if (activity) onGenerationFinished?.(activity, "failed");
         return;

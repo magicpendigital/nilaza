@@ -97,6 +97,8 @@ export function PersonaChatRoom({
           <ChatRoomHeader
             activeSessionId={activeSessionId}
             avatar={personaThumbnail}
+            backLabel={language === "vi" ? "Quay lại" : "Back"}
+            menuLabel={language === "vi" ? "Thêm tùy chọn" : "More options"}
             emptyHistoryLabel={language === "vi" ? "Chưa có cuộc trò chuyện cũ với người dẫn đường này." : "No previous chat with this guide yet."}
             historyLabel={language === "vi" ? "Lịch sử" : "History"}
             historyTitle={language === "vi" ? "Tiếp tục cuộc trò chuyện" : "Continue a chat"}
@@ -131,6 +133,7 @@ export function PersonaChatRoom({
           <View style={styles.composerWrap}>
             {messages.length > 0 ? <QuickReplyRail prompts={quickReplies} onSelect={(prompt) => onSend(prompt.label)} /> : null}
             <ChatComposer
+              sendLabel={language === "vi" ? "Gửi" : "Send"}
               disabled={chatGenerating}
               onChangeText={onChangeInput}
               onSend={() => onSend()}
@@ -296,7 +299,9 @@ const styles = StyleSheet.create({
   retryButton: {
     alignItems: "center",
     flexDirection: "row",
-    gap: 6
+    gap: 6,
+    minHeight: 48,
+    paddingHorizontal: 8
   },
   retryText: {
     color: colors.gold,

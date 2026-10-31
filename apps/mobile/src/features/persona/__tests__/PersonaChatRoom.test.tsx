@@ -171,6 +171,12 @@ describe("PersonaChatRoom", () => {
     expect(textContent(tree.toJSON())).not.toContain("astrology preview");
   });
 
+  it("labels the header buttons in the app language for screen readers", () => {
+    const tree = renderTree(<PersonaChatRoom {...baseProps()} language="vi" />);
+    const labels = tree.root.findAll((node) => node.props.accessibilityRole === "button").map((node) => node.props.accessibilityLabel);
+    expect(labels).toEqual(expect.arrayContaining(["Quay lại", "Thêm tùy chọn"]));
+  });
+
   it("shows the 115 support card under a crisis safety reply only", () => {
     const tree = renderTree(<PersonaChatRoom {...baseProps()} messages={[
       { id: "m1", role: "user" as const, text: "I want to die" },

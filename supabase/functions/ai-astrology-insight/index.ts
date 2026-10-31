@@ -18,6 +18,7 @@ import { answerCorsHeaders, readAnswerCorrelation } from "../_shared/answer-prov
 import { answerProvenanceSchema, isIncompleteAnswerFinishReason, type AnswerProvenance } from "../../../packages/ai-contracts/answer-provenance.ts";
 import { writeAnswerReceipt } from "../_shared/answer-receipt.ts";
 import { accountTierPolicy, localDayStart, policyGrantsPremium } from "../_shared/account-tier-policy.ts";
+import { featurePaused } from "../_shared/feature-switch.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -147,6 +148,10 @@ serve(async (req) => {
     userCreatedAt = authData.user.created_at ?? null;
   } catch {
     return safeFailure(503, "authentication_check_unavailable", "Your sign-in could not be checked. Try again shortly.");
+  }
+  // Emergency switch from Admin (Owner decision 2026-10-31); checked before any quota or model work.
+  if (await featurePaused(supabase as never, "astrology_insight")) {
+    return safeFailure(503, "feature_paused", "Astrology AI is resting for a while. Please try again later.");
   }
   const configuredEnvironment = Deno.env.get("AI_TRACE_ENVIRONMENT")?.toLowerCase();
   if (!configuredEnvironment || !["staging", "production", "live"].includes(configuredEnvironment)) {

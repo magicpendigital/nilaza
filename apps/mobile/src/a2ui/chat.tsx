@@ -142,6 +142,8 @@ export function ChatParticipantStrip({
 export function ChatRoomHeader({
   activeSessionId,
   avatar,
+  backLabel = "Quay lại",
+  menuLabel = "Thêm tùy chọn",
   emptyHistoryLabel,
   historyLabel,
   historyTitle,
@@ -154,6 +156,9 @@ export function ChatRoomHeader({
 }: {
   activeSessionId?: string;
   avatar?: ImageSourcePropType;
+  /** Screen reader labels in the app language (analysis CH-10). */
+  backLabel?: string;
+  menuLabel?: string;
   emptyHistoryLabel?: string;
   historyLabel: string;
   historyTitle: string;
@@ -180,7 +185,7 @@ export function ChatRoomHeader({
   return (
     <View style={chatStyles.roomHeaderBlock}>
       <View style={chatStyles.roomHeader}>
-        <Pressable accessibilityRole="button" accessibilityLabel="Quay lại / Back" hitSlop={6} onPress={onBack} style={chatStyles.roomHeaderButton}>
+        <Pressable accessibilityRole="button" accessibilityLabel={backLabel} hitSlop={6} onPress={onBack} style={chatStyles.roomHeaderButton}>
           <Ionicons name="arrow-back-outline" size={22} color={colors.ivory} />
         </Pressable>
 
@@ -211,6 +216,7 @@ export function ChatRoomHeader({
         </Pressable>
 
         <Pressable
+          accessibilityLabel={menuLabel}
           accessibilityRole="button"
           accessibilityState={{ expanded: menuOpen }}
           onPress={() => {
@@ -409,6 +415,7 @@ function MarkdownMessageText({ text, style }: { text: string; style: StyleProp<T
 
 export function ChatComposer({
   accessibilityLabel,
+  sendLabel = "Gửi",
   disabled,
   onChangeText,
   onSend,
@@ -417,6 +424,8 @@ export function ChatComposer({
   value
 }: {
   accessibilityLabel?: string;
+  /** Screen reader label of the send button, in the app language. */
+  sendLabel?: string;
   disabled?: boolean;
   onChangeText: (value: string) => void;
   onSend: () => void;
@@ -438,7 +447,7 @@ export function ChatComposer({
         value={value}
       />
       <Pressable
-        accessibilityLabel={accessibilityLabel ? `${accessibilityLabel}: send` : `Send ${placeholder}`}
+        accessibilityLabel={sendLabel}
         accessibilityRole="button"
         accessibilityState={{ disabled: !canSend }}
         disabled={!canSend}

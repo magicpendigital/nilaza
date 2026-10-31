@@ -633,6 +633,7 @@ export function AstrologyExperience({
         authentication_required: ["Hãy đăng nhập để dùng Người dẫn đường AI.", "Sign in to use the AI guide."],
         premium_required: ["Người dẫn đường AI chưa mở cho tài khoản này. Nilaza sẽ báo bạn khi tính năng sẵn sàng.", "The AI guide is not open for this account yet. Nilaza will let you know when it is ready."],
         daily_limit_reached: ["Bạn đã dùng hết lượt Astrology AI hôm nay. Hãy thử lại vào ngày mai.", "You have reached today's Astrology AI limit. Please try again tomorrow."],
+        feature_paused: ["Đọc sâu với AI đang tạm nghỉ một chút. Lượt của bạn vẫn còn, hãy thử lại sau.", "Deep read with AI is resting for a while. Your turn is kept; please try again later."],
         route_not_ready: ["Người dẫn đường đang được bảo trì. Câu hỏi của bạn vẫn còn để thử lại sau.", "The guide is under maintenance. Your question is kept so you can try again later."],
         prompt_not_ready: ["Người dẫn đường đang được bảo trì. Câu hỏi của bạn vẫn còn để thử lại sau.", "The guide is under maintenance. Your question is kept so you can try again later."],
         chart_facts_unavailable: ["AI cần giờ sinh chính xác để dùng các dữ kiện của bản đồ này.", "The AI guide needs an exact birth time to use this chart's facts."],
@@ -1259,7 +1260,7 @@ export function AstrologyExperience({
                 <Text style={s.body}>
                   {pending.input.place.timezone}
                   {pending.resolved.offsetSeconds !== null
-                    ? ` · UTC offset ${pending.resolved.offsetSeconds / 3600}h`
+                    ? ` · ${vi ? "lệch giờ quốc tế" : "UTC offset"} ${pending.resolved.offsetSeconds / 3600 >= 0 ? "+" : ""}${pending.resolved.offsetSeconds / 3600}h`
                     : ""}
                 </Text>
                 <Text style={s.note}>
@@ -1269,7 +1270,7 @@ export function AstrologyExperience({
                 </Text>
                 <Text style={s.body}>
                   {vi
-                    ? "Hoàng đạo nhiệt đới · hệ nhà Whole Sign. Tính trên thiết bị, không trừ credits. Bạn sẽ chọn lưu sau khi xem kết quả."
+                    ? "Hoàng đạo nhiệt đới · hệ nhà Whole Sign. Tính ngay trên máy, không trừ lượt. Bạn chọn lưu hay không sau khi xem kết quả."
                     : "Tropical zodiac · Whole Sign houses. Calculated on device without credits. You can choose to save after viewing the result."}
                 </Text>
                 <Action
@@ -1560,7 +1561,7 @@ export function AstrologyExperience({
             </Text>
             <Text style={s.note}>
               {vi
-                ? "Nilaza sẽ gửi một tập hợp giới hạn gồm các placement, aspect, house và caveat liên quan do hệ thống chọn từ bản đồ, cùng câu hỏi hiện tại tới AI provider để tạo một phản hồi. Ngày giờ nơi sinh, địa điểm, tọa độ, Journal và lịch sử chat không được gửi. Câu hỏi không được lưu trong report hoặc usage log; report đã làm sạch được lưu vào tài khoản để bạn xem và xóa."
+                ? "Nilaza sẽ gửi một số vị trí hành tinh, góc hợp, nhà và lưu ý liên quan do app chọn từ lá số, cùng câu hỏi hiện tại, tới nhà cung cấp AI để viết một bài đọc. Ngày giờ sinh, nơi sinh, tọa độ, Nhật ký và lịch sử trò chuyện không được gửi. Câu hỏi không được lưu trong bài đọc hay nhật ký sử dụng; bài đọc đã lược bớt thông tin được lưu vào tài khoản để bạn xem và xóa."
                 : "Nilaza sends a limited set of relevant placements, aspects, houses and caveats selected by the app, together with your current question, to the AI provider for one response. Birth date, time, place, coordinates, Journal and chat history are excluded. Your question is not saved in the report or usage log; a sanitized report is stored on your account for you to view or delete."}
             </Text>
             {astrologyQaTraceCaptureEnabled ? (

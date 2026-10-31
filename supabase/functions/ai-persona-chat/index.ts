@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.7.1";
 import { generateWithModelRoute } from "../_shared/model-router.ts";
 import { safetyRedirectFor } from "../_shared/crisis-safety.ts";
+import { featurePaused, featurePausedBody } from "../_shared/feature-switch.ts";
 import { sanitizeProviderMetadata } from "../_shared/model-provider.ts";
 import { assemblePersonaPromptStack } from "../_shared/persona-prompt-assembler.ts";
 import { AiRequestError, aiAuthUserOrUnavailable, guardAiJsonRequest } from "../_shared/ai-request-guard.ts";
@@ -110,6 +111,8 @@ serve(async (req) => {
       });
       return jsonResponse({ text: redirect.text, moderationStatus: "blocked", safety: redirect.safety, persistenceStatus: "skipped" });
     }
+    // Emergency switch from Admin; a safety reply above still answers while chat rests.
+    if (await featurePaused(supabase, "persona_chat")) return jsonResponse(featurePausedBody, 503);
 
     const sanitizedHistory = sanitizeHistory(input.sanitizedHistory, text);
     const promptStack = await assemblePersonaPromptStack({

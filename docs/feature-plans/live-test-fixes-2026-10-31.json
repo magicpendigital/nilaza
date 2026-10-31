@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "taskId": "live-test-fixes-2026-10-31",
+  "ownerAgent": "mobile_ux_fixes_agent",
+  "lane": "live_qa_findings_fixes",
+  "goal": "Fix what the live QA test on 2026-10-31 found: Council turns show the right guide (server returns the app persona ids; app falls back by order) and canned replies are labelled; Council back returns to the chat list instead of the old picker; opening a guide from a Council turn no longer pastes the guide text; Astrology consent and confirmation copy is plain Vietnamese; the send button has a Vietnamese label; model calls time out after 40 seconds so a stuck provider falls back instead of hanging two minutes (analysis AI-14, CH-08).",
+  "successCriteria": [
+    "Each Council turn shows its own guide name; fallback turns carry a fallback note.",
+    "Back from Council goes to the chat list.",
+    "Astrology consent and confirm screens have no English jargon in Vietnamese.",
+    "Send button label is Gửi in Vietnamese.",
+    "Provider fetches abort after 40 seconds.",
+    "Deno, mobile and admin checks pass."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/council/",
+    "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+    "apps/mobile/src/a2ui/",
+    "apps/mobile/src/features/persona/",
+    "apps/mobile/src/__tests__/",
+    "supabase/functions/ai-council/",
+    "supabase/functions/_shared/providers/",
+    "supabase/functions/_shared/model-provider.ts",
+    "apps/admin/workflow-catalog.js",
+    "apps/mobile/src/features/oracle/"
+  ],
+  "untouchedSurfaces": [
+    "No SQL. Deploying ai-council, ai-persona-chat and ai-astrology-insight waits for Owner approval.",
+    "The OpenRouter key and route configuration on QA are not read or changed."
+  ],
+  "impact": {
+    "entryPoint": "Council room, chat composer, Astrology consent and confirm screens, all model calls.",
+    "dataWrite": "No data change; response mapping and copy only.",
+    "backendContract": "ai-council turns use the app persona ids; provider calls abort after 40 seconds.",
+    "canonicalContract": "Live QA test 2026-10-31; analysis AI-14 and CH-08.",
+    "adminVisibility": "Workflow catalog digests refreshed.",
+    "privacySafety": "Consent copy keeps the same meaning; no new data sent.",
+    "observability": "No analytics or logging change.",
+    "rollback": "Revert the commit on the PR branch.",
+    "surfacesIntentionallyUntouched": "Model routes, prompts, secrets.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs validation, commits and pushes to the PR branch without merging or deploying."
+  },
+  "canonicalContracts": [
+    "Live QA test findings 2026-10-31.",
+    "Analysis items AI-14 and CH-08."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile and AI routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "supabase/functions/ai-council/index.ts",
+      "reason": "Council turns and fallback.",
+      "sha256": "db8376a5c04a230c0c3684a666e0c2b3008c8784c39b7a716e9d1b89d57da0f7"
+    },
+    {
+      "path": "supabase/functions/_shared/providers/openrouter.ts",
+      "reason": "Provider fetch.",
+      "sha256": "1ff798c91ad51a1514df8f0506f2ea6ef05623e1bb3df01b4ea6e729e53444b4"
+    },
+    {
+      "path": "apps/mobile/src/features/council/useAiCouncilRoom.ts",
+      "reason": "Council turn mapping.",
+      "sha256": "f0a4dcb6e75fe067351ba9f0ff09b8a6f1fbfc1731207aaaad9b5449250b2ca0"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing Deno std assert and React Native Linking."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change.",
+    "sensitiveData": "No new personal data is handled.",
+    "secretsLogging": "No credentials, tokens or logs are added.",
+    "externalInput": "No new input is accepted; only response mapping changes.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration; three function deploys wait for approval.",
+    "stopCondition": "Stop before deploying without Owner approval.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/a2ui/__tests__/index.test.tsx",
+      "apps/mobile/src/a2ui/chat.tsx",
+      "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+      "apps/mobile/src/features/council/AiCouncilRoom.tsx",
+      "apps/mobile/src/features/council/__tests__/useAiCouncilRoom.test.tsx",
+      "apps/mobile/src/features/council/useAiCouncilRoom.ts",
+      "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
+      "docs/feature-plans/live-test-fixes-2026-10-31.json",
+      "supabase/functions/_shared/model-provider.ts",
+      "supabase/functions/_shared/providers/anthropic.ts",
+      "supabase/functions/_shared/providers/gemini.ts",
+      "supabase/functions/_shared/providers/openai.ts",
+      "supabase/functions/_shared/providers/openrouter.ts",
+      "supabase/functions/ai-council/index.ts"
+    ],
+    "note": "Stacked on the chat a11y commit."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/live-test-fixes-2026-10-31.json",
+    "npx deno test --allow-read --allow-env --no-lock supabase/functions/_shared/",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand"
+  ],
+  "managerTestPath": "After deploy: run one Council turn and see three different guide names; if AI fails, see the fallback note within about a minute.",
+  "residualRisk": "The root cause of the missing AI answers on QA (key or route) is not fixed here; it needs the function logs.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

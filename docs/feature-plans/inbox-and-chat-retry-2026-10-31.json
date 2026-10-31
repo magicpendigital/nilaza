@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "taskId": "inbox-and-chat-retry-2026-10-31",
+  "ownerAgent": "mobile_ux_fixes_agent",
+  "lane": "mobile_inbox_chat_fixes",
+  "goal": "Close analysis items PR-05 and CH-11: the notification inbox gets a back button, correct per-item labels, 48px targets and a 5-second Hoàn tác after dismissing; guide chat retry resends the failed message instead of adding a duplicate, and the daily streak counts only after a reply arrives.",
+  "successCriteria": [
+    "Inbox has a back button, 48px controls, per-item Đánh dấu đã đọc labels and Hoàn tác after dismiss.",
+    "Chat retry does not add a second copy of the same message.",
+    "The streak is counted only after a guide reply.",
+    "Mobile check and Jest pass."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/notifications/",
+    "apps/mobile/src/__tests__/",
+    "apps/admin/workflow-catalog.js"
+  ],
+  "untouchedSurfaces": [
+    "No backend, deploy, SQL or settings change.",
+    "Content data unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Notification inbox and guide chat retry.",
+    "dataWrite": "Dismissed notifications can be restored within 5 seconds; no new storage.",
+    "backendContract": "No backend contract change.",
+    "canonicalContract": "Analysis items PR-05 and CH-11.",
+    "adminVisibility": "Workflow catalog digest of App.tsx refreshed.",
+    "privacySafety": "The note stays where Journal notes are already stored.",
+    "observability": "No analytics or logging change.",
+    "rollback": "Revert the commit on the PR branch.",
+    "surfacesIntentionallyUntouched": "Council, Tarot, Journal.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs validation, commits and pushes to the PR branch without merging or deploying."
+  },
+  "canonicalContracts": [
+    "Analysis items PR-05 and CH-11."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile UI routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "sendMessage, retryChat, inbox handlers.",
+      "sha256": "21817f6972670a4a5780496c4d0e0cc50d547b852023ce8921607def6af5d6dd"
+    },
+    {
+      "path": "apps/mobile/src/features/notifications/InboxScreen.tsx",
+      "reason": "Inbox screen.",
+      "sha256": "dd2a8dbee040236279a2a5c1b7275a8f337200bfab7ea4a3252b426d514d01fb"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing React Native ScrollView APIs."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change in this task.",
+    "sensitiveData": "The private note is saved through the existing Journal update path only.",
+    "secretsLogging": "No credentials, tokens or logs are added.",
+    "externalInput": "No new user input is sent anywhere.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration, deploy or release.",
+    "stopCondition": "Stop if a change needs new content, a deploy or settings without approval, or if checks fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/__tests__/InboxScreen.test.tsx",
+      "apps/mobile/src/features/notifications/InboxScreen.tsx",
+      "docs/feature-plans/inbox-and-chat-retry-2026-10-31.json"
+    ],
+    "note": "Stacked on the AI switches commit."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/inbox-and-chat-retry-2026-10-31.json",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand"
+  ],
+  "managerTestPath": "Dismiss a notification and tap Hoàn tác; send a chat message offline, tap Thử lại and see one copy of it.",
+  "residualRisk": "Checked by tests and code review only, not on a device.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

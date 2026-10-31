@@ -354,10 +354,32 @@ function render() {
   $("#workspace-content").innerHTML=output();
 }
 
+// Destructive actions ask first and say what happens (analysis AD-02). Reset and publish-seed overwrite
+// shared content, so they also need the environment name typed.
+function confirmDestructive(action, entity, id) {
+  const env = window.NilazaDescribeEnvironment?.(window.ENV)?.label || "STAGING";
+  const word = env.split(" ")[0];
+  if (action === "delete") return window.confirm(`Xóa vĩnh viễn ${entity}/${id}? Không thể hoàn tác.
+Permanently delete ${entity}/${id}? This cannot be undone.`);
+  if (action === "archive") return window.confirm(`Lưu trữ ${entity}/${id}? App sẽ không dùng bản ghi này nữa sau lần publish tới.
+Archive ${entity}/${id}? The app stops using it after the next publish.`);
+  if (action === "reset-data" || action === "publish-seed") {
+    const what = action === "reset-data"
+      ? "Thay toàn bộ dữ liệu đang sửa bằng bản gốc trong repo và đồng bộ online. / Replace all edited data with the repository seed and sync online."
+      : "Ghi đè TOÀN BỘ nội dung online bằng bản gốc và publish ngay. / Overwrite ALL online content with the seed and publish now.";
+    const typed = window.prompt(`${what}
+Môi trường: ${env}
+Gõ ${word} để xác nhận / Type ${word} to confirm:`);
+    return typeof typed === "string" && typed.trim().toUpperCase() === word.toUpperCase();
+  }
+  return true;
+}
+
 async function handleAction(button) {
   const action=button.dataset.action, entity=button.dataset.entity, id=button.dataset.id;
   try {
     if (action === "load-owner-guide" || action === "reload-owner-guide") { await loadOwnerGuide(); return; }
+    if (!confirmDestructive(action, entity, id)) return;
     const capability = action === "open-deck-cards" || action === "sync-now" ? "content.read" : action === "delete" || action === "reset-data" ? "content.delete" : ["publish", "publish-seed", "archive", "restore"].includes(action) ? "content.publish" : "content.draft";
     if (!await window.NilazaRequireCapability?.(capability)) throw Error("Permission denied. Verify your current access.");
     if (action === "sync-now") { await syncFromServer(); return; }
@@ -401,7 +423,12 @@ function stageBoundValue(target) {
   saveData();
 }
 document.addEventListener("input",(event)=>{
-  if(event.target.matches("[data-search]")){state.search=event.target.value;render();return;}
+  if(event.target.matches("[data-search]")){
+    // Re-rendering replaces the input; put focus and caret back so typing continues (analysis AD-16).
+    const caret=event.target.selectionStart;state.search=event.target.value;render();
+    const search=document.querySelector("[data-search]");if(search){search.focus();search.setSelectionRange?.(caret,caret);}
+    return;
+  }
   if(event.target.matches("[data-bind]"))stageBoundValue(event.target);
 });
 document.addEventListener("change",(event)=>{

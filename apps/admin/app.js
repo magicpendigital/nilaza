@@ -499,7 +499,7 @@ const workflowTransportTarget = (() => {
   if (typeof window.NilazaAdminTransportTarget === "string") return window.NilazaAdminTransportTarget;
   try { return new URL(window.ENV?.SUPABASE_URL || "").origin; } catch { return ""; }
 })();
-const studioRouteDetails = { workflow: "payload", prompt: "prompt", "persona-studio": "personaStudio", "council-builder": "councilBuilder", "model-router": "modelRouter", "trace-explorer": "traceExplorer", test: "test", versions: "versions", audit: "audit", feedback: "feedback" };
+const studioRouteDetails = { workflow: "payload", prompt: "prompt", "persona-studio": "personaStudio", "council-builder": "councilBuilder", "model-router": "modelRouter", "trace-explorer": "traceExplorer", test: "test", versions: "versions", audit: "audit", feedback: "feedback", switches: "switches" };
 const workflowDetailSections = ["payload", "dataMindmap", "optimization"];
 
 function studioRouteState() {
@@ -597,7 +597,7 @@ function restoreAiStudioUiState() {
     const saved = JSON.parse(sessionStorage.getItem(aiStudioUiStorageKey) || "{}");
     if (features.some((item) => item.id === saved.featureId)) state.featureId = saved.featureId;
     if (nodes.some((item) => item.id === saved.nodeId)) state.nodeId = saved.nodeId;
-    const details = ["payload", "dataMindmap", "prompt", "personaStudio", "councilBuilder", "optimization", "modelRouter", "traceExplorer", "test", "versions", "audit", "feedback"];
+    const details = ["payload", "dataMindmap", "prompt", "personaStudio", "councilBuilder", "optimization", "modelRouter", "traceExplorer", "test", "versions", "audit", "feedback", "switches"];
     if (details.includes(saved.detail)) state.detail = saved.detail;
   } catch {
     // Ignore stale or malformed local selection state.
@@ -773,6 +773,7 @@ hydrateAiStudioDrafts();
 restoreAiStudioUiState();
 window.NilazaClearSensitiveAdminState = () => {
   window.NilazaFeedbackInbox?.clear();
+  window.NilazaFeatureSwitches?.clear();
   clearDraftsOnScopeChange();
   clearTraceQaPayload();
   clearWorkflowObservation("Workspace or session changed; previous trace observation cleared.");
@@ -1301,9 +1302,10 @@ function renderDetailPanel() {
   if (state.detail !== "traceExplorer") clearTraceQaPayload();
   syncStudioRoute();
   if (state.detail !== "feedback") window.NilazaFeedbackInbox?.clear();
+  if (state.detail !== "switches") window.NilazaFeatureSwitches?.clear();
   const workflowReference = $("#workflow-reference");
   if (workflowReference && !["payload", "dataMindmap"].includes(state.detail)) workflowReference.open = false;
-  document.querySelectorAll("[data-panel]").forEach(button => button.classList.toggle("active", button.dataset.panel === (state.detail === "test" || state.detail === "versions" || state.detail === "audit" || state.detail === "feedback" ? state.detail : "workflow")));
+  document.querySelectorAll("[data-panel]").forEach(button => button.classList.toggle("active", button.dataset.panel === (state.detail === "test" || state.detail === "versions" || state.detail === "audit" || state.detail === "feedback" || state.detail === "switches" ? state.detail : "workflow")));
   updatePublishButton();
   document.querySelectorAll(".tab").forEach((tab) => {
     tab.classList.toggle("active", tab.dataset.detail === state.detail);
@@ -1314,6 +1316,7 @@ function renderDetailPanel() {
   const activeTab = $(`.tab[data-detail="${state.detail}"]`);
   if (detailPanel && activeTab?.id) detailPanel.setAttribute("aria-labelledby", activeTab.id);
   else if (detailPanel && state.detail === "feedback") detailPanel.setAttribute("aria-labelledby", "feedback-inbox-title");
+  else if (detailPanel && state.detail === "switches") detailPanel.setAttribute("aria-labelledby", "feature-switches-title");
 
   if (state.detail === "prompt") {
     renderPromptDetail();
@@ -1337,6 +1340,10 @@ function renderDetailPanel() {
   }
   if (state.detail === "modelRouter") {
     renderModelRouterDetail();
+    return;
+  }
+  if (state.detail === "switches") {
+    window.NilazaFeatureSwitches?.mount(detailPanel);
     return;
   }
   if (state.detail === "feedback") {
@@ -3094,6 +3101,9 @@ document.addEventListener("click", (event) => {
     }
     if (panelButton.dataset.panel === "feedback") {
       state.detail = "feedback"; persistAiStudioUiState(); renderDetail();
+    }
+    if (panelButton.dataset.panel === "switches") {
+      state.detail = "switches"; persistAiStudioUiState(); renderDetail();
     }
     if (panelButton.dataset.panel === "audit") {
       state.detail = "audit";

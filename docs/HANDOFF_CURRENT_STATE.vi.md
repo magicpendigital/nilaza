@@ -68,6 +68,8 @@ Quyết định trước đó vẫn hiệu lực: Supabase **Singapore** (`etfaj
 
 Chạy SQL hoặc `db push/repair` trên bất kỳ project Supabase; deploy Edge Function; đặt/đọc/xoay bí mật (khóa OpenRouter, service role, SMTP, EAS biến, khóa ký); đổi cài đặt Auth/SMTP/Vercel/GitHub/Play; tạo hoặc xóa tài khoản; phát hành lên cửa hàng; xóa dữ liệu của Owner. Agent không nhập mật khẩu/khóa thay Owner. Sổ cái migration của project QA cũ ở trạng thái `blocked_pending_reconciliation` và `release-profile.json.targets` rỗng — **giữ nguyên** cho tới khi Owner duyệt gói SQL.
 
+**Gói SQL Singapore có thêm migration (31/10, Owner quyết "gộp vào gói Singapore"):** sau bộ 31 tệp đã duyệt ở bước 2a có thêm `20261031090000_ai_feedback_conversation_features.sql` (nút Báo cáo ở Chat và Council) và `20261031100000_ai_feature_switches.sql` (công tắc tắt AI trong Admin). **Không chạy trên QA.** Trước bước 2c phải tính lại `migrationSetSha256` cho bộ 33 tệp, chạy lại bản tập dượt, rồi Owner duyệt lại 2a. Hàm `ai-feedback` chưa từng deploy lên QA; khi chưa có bảng công tắc, các hàm AI coi như đang bật.
+
 ## 8. Việc đang chờ / bước tiếp theo đề xuất (theo thứ tự)
 
 1. ~~Đọc lại project Singapore (chỉ đọc)~~ — **xong 26/10**, vẫn trống, không đổi so với trước.

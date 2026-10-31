@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "taskId": "oracle-new-confirm-2026-10-31",
+  "ownerAgent": "mobile_ux_fixes_agent",
+  "lane": "mobile_oracle_confirm",
+  "goal": "Close analysis item OR-03: Oracle mới asks before clearing the current Oracle turns, like starting a new guide chat. OR-02 is already resolved: the unused journal memory switch is no longer shown.",
+  "successCriteria": [
+    "Oracle mới opens a confirmation; turns are cleared only after confirming.",
+    "Mobile check and Jest pass."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/admin/workflow-catalog.js"
+  ],
+  "untouchedSurfaces": [
+    "No backend, deploy, SQL or settings change.",
+    "Content data unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Oracle room footer.",
+    "dataWrite": "No new data; clearing still happens only on the device, after confirmation.",
+    "backendContract": "No backend contract change.",
+    "canonicalContract": "Analysis items OR-02 and OR-03.",
+    "adminVisibility": "Workflow catalog digest of App.tsx refreshed.",
+    "privacySafety": "The note stays where Journal notes are already stored.",
+    "observability": "No analytics or logging change.",
+    "rollback": "Revert the commit on the PR branch.",
+    "surfacesIntentionallyUntouched": "Oracle routing and safety.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs validation, commits and pushes to the PR branch without merging or deploying."
+  },
+  "canonicalContracts": [
+    "Analysis items OR-02 and OR-03."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile UI routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Oracle onNew and confirmation dialog.",
+      "sha256": "21817f6972670a4a5780496c4d0e0cc50d547b852023ce8921607def6af5d6dd"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing React Native ScrollView APIs."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change in this task.",
+    "sensitiveData": "The private note is saved through the existing Journal update path only.",
+    "secretsLogging": "No credentials, tokens or logs are added.",
+    "externalInput": "No new user input is sent anywhere.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration, deploy or release.",
+    "stopCondition": "Stop if a change needs new content, a deploy or settings without approval, or if checks fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "docs/feature-plans/oracle-new-confirm-2026-10-31.json"
+    ],
+    "note": "Stacked on the live-test fixes commit."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/oracle-new-confirm-2026-10-31.json",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand"
+  ],
+  "managerTestPath": "Ask Oracle something, tap Oracle mới, see a confirmation, cancel and see the turns kept.",
+  "residualRisk": "Checked by typecheck and the existing dialog tests.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

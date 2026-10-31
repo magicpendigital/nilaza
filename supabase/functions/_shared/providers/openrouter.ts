@@ -2,6 +2,7 @@ import {
   ModelProviderError,
   normalizeUsage,
   providerErrorFromResponse,
+  PROVIDER_TIMEOUT_MS,
   readJsonResponse
 } from "../model-provider.ts";
 import type { ModelProviderRequest, ModelProviderResponse } from "../model-provider.ts";
@@ -138,6 +139,7 @@ export async function invokeOpenRouter(
   });
   const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
+    signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS),
     headers,
     body: JSON.stringify(requestBody)
   });

@@ -16,6 +16,18 @@ test("owner can administer while regular mobile users cannot view admin data", (
   assert.equal(permissionsFor("regular_user").canView, false);
 });
 
+test("new drafts never reuse an id after a deletion", () => {
+  const data = fresh();
+  const first = createDraftPersona(data), second = createDraftPersona(data);
+  deleteEntity(data, "personas", first.id);
+  const third = createDraftPersona(data);
+  assert.notEqual(third.id, second.id);
+  assert.equal(new Set(data.personas.map((item) => item.id)).size, data.personas.length);
+  const deckA = createDraftDeck(data), deckB = createDraftDeck(data);
+  deleteEntity(data, "decks", deckA.id);
+  assert.notEqual(createDraftDeck(data).id, deckB.id);
+});
+
 test("repository seed creates a deck-specific card library", () => {
   const data = fresh();
   assert.equal(data.cards.length, data.decks.length * 78);

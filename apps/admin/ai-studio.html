@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Nilaza AI Configuration Studio</title>
     <script src="./config.js?v=admin-sync-v1"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./env-band.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.108.2"></script>
     <script src="./admin-access.js"></script>
     <script src="./workspace-guard.js"></script>
     <link rel="stylesheet" href="./workspace-guard.css" />
@@ -23,6 +24,7 @@
           <button class="nav-button secondary" data-panel="versions"><span class="nav-icon">V</span>Versions</button>
           <button class="nav-button secondary" data-panel="audit"><span class="nav-icon">A</span>Audit log</button>
           <button class="nav-button secondary" data-panel="feedback"><span class="nav-icon">F</span>Feedback Inbox</button>
+          <button class="nav-button secondary" data-panel="switches"><span class="nav-icon">S</span>Công tắc AI</button>
         </div>
         <div class="active-version"><span id="sidebar-version-label">Current contract</span><strong id="sidebar-version">Loading…</strong><small id="sidebar-version-status">Backend route not loaded</small></div>
       </aside>
@@ -63,6 +65,7 @@
     <script src="./workflow-catalog.js"></script>
     <script src="./workflow-view.js"></script>
     <script src="./feedback-inbox.js"></script>
+    <script src="./feature-switches.js"></script>
     <script src="./app.js"></script>
   </body>
 </html>

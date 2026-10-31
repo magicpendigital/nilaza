@@ -423,6 +423,15 @@ assert(new Set(journalPrompts.prompts.map((item) => item.id)).size === 30, "jour
 for (const item of journalPrompts.prompts) assertViText(item, `journal-prompts.${item.id}`);
 for (const mood of ["calm", "curious", "reflective", "hopeful", "stuck"]) assertViText(journalPrompts.weeklyByMood?.[mood], `journal-prompts.weeklyByMood.${mood}`);
 assertViText(journalPrompts.weeklyEmpty, "journal-prompts.weeklyEmpty");
+// Home daily rhythm (HO-02): 30 pause and small-action pairs, one per local day.
+const homeRhythm = readJson("packages/content/data/home-daily-rhythm.json");
+assert(homeRhythm.days.length === 30, "home-daily-rhythm.json must have 30 days");
+assert(new Set(homeRhythm.days.map((item) => item.id)).size === 30, "home-daily-rhythm.json ids must be unique");
+for (const item of homeRhythm.days) {
+  assertViText(item.pause, `home-daily-rhythm.${item.id}.pause`);
+  assertViText(item.action, `home-daily-rhythm.${item.id}.action`);
+}
+
 // Owner-approved short guide names (2026-10-31): one entry per persona, short name and tagline in vi and en.
 const personaShortNames = readJson("packages/content/data/persona-short-names.json");
 const allPersonaIds = ["personas-archetypes", "personas-figures", "personas-books"].flatMap((name) => {

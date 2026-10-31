@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "taskId": "admin-small-fixes-2026-10-31",
+  "ownerAgent": "admin_ux_agent",
+  "lane": "admin_small_fixes",
+  "goal": "Close Admin analysis items AD-16, AD-26 (version pin) and AD-27: the Content search box keeps focus and caret while typing; supabase-js is loaded at the pinned 2.108.2 on every Admin page instead of the floating @2; sign-in errors tell wrong credentials, unconfirmed email, too many attempts and network problems apart.",
+  "successCriteria": [
+    "Typing in Content search keeps focus.",
+    "No Admin page loads supabase-js@2 unpinned.",
+    "Sign-in shows distinct Vietnamese and English messages per error type.",
+    "Admin tests pass."
+  ],
+  "writeScope": [
+    "apps/admin/content.js",
+    "apps/admin/shell.js",
+    "apps/admin/content.html",
+    "apps/admin/index.html",
+    "apps/admin/ai-studio.html",
+    "apps/admin/growth.html",
+    "apps/admin/workflow-catalog.js",
+    "scripts/admin-shell-state.test.mjs",
+    "scripts/admin-small-fixes.test.mjs",
+    "package.json"
+  ],
+  "untouchedSurfaces": [
+    "No backend, SQL, deploy or settings change.",
+    "Publish flow and permissions unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Admin Content search, Admin sign-in, every Admin page script tag.",
+    "dataWrite": "No data change; client behaviour only.",
+    "backendContract": "No backend contract change.",
+    "canonicalContract": "Analysis items AD-16, AD-26 and AD-27.",
+    "adminVisibility": "Clearer sign-in errors.",
+    "privacySafety": "No user data involved.",
+    "observability": "No analytics or logging change.",
+    "rollback": "Revert the commit on the PR branch.",
+    "surfacesIntentionallyUntouched": "Mobile app, Edge Functions.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs validation, commits and pushes to the PR branch without merging or deploying."
+  },
+  "canonicalContracts": [
+    "Analysis items AD-16, AD-26 and AD-27."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Admin routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/admin/content.js",
+      "reason": "Search rendering.",
+      "sha256": "42a4d7da41c369a3548f59e29f9f2b1d09bbed2443b100eba0bb7682d89b479c"
+    },
+    {
+      "path": "apps/admin/shell.js",
+      "reason": "Sign-in errors.",
+      "sha256": "123bd1127248e4b67ff8a8ba3f9f3fad54c2b3e599c1e747f451996fda9aa095"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing Deno std assert and React Native Linking."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization change; confirmations only add a step.",
+    "sensitiveData": "No sensitive data.",
+    "secretsLogging": "No credentials, tokens or logs are added.",
+    "externalInput": "Sign-in error codes from Supabase are mapped to fixed messages only.",
+    "dependencies": "CDN supabase-js pinned to 2.108.2, the version recovery.html and the repo already use.",
+    "migrationRelease": "No migration or deploy; merging to main redeploys Admin staging as usual.",
+    "stopCondition": "Stop if Admin tests fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/ai-studio.html",
+      "apps/admin/content.html",
+      "apps/admin/content.js",
+      "apps/admin/growth.html",
+      "apps/admin/index.html",
+      "apps/admin/shell.js",
+      "docs/feature-plans/admin-small-fixes-2026-10-31.json",
+      "package.json",
+      "scripts/admin-small-fixes.test.mjs"
+    ],
+    "note": "Stacked on the Admin safety basics commit."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/admin-small-fixes-2026-10-31.json",
+    "npm run admin:test"
+  ],
+  "managerTestPath": "Type in Admin Content search without losing focus; sign in with a wrong password and see a clear message.",
+  "residualRisk": "SRI hashes for the CDN script are not added; that needs downloading and hashing the exact file.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

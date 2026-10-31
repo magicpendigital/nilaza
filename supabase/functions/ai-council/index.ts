@@ -5,6 +5,7 @@ import { compactLines, safeJsonParse, sanitizeProviderMetadata } from "../_share
 import { councilContract } from "../_shared/council-contract.ts";
 import { councilAllowance, localDayStart } from "../_shared/account-tier-policy.ts";
 import { safetyRedirectFor } from "../_shared/crisis-safety.ts";
+import { featurePaused, featurePausedBody } from "../_shared/feature-switch.ts";
 
 type Language = "vi" | "en" | string;
 
@@ -112,18 +113,21 @@ function lensForPersona(persona: CouncilPersona, language: Language) {
 
 function buildTurn(persona: CouncilPersona, message: string, language: Language, index: number, previousPersona?: CouncilPersona): CouncilTurn {
   const lens = lensForPersona(persona, language);
-  const name = localize(persona.name, language, "Guide");
-  const trimmed = message.trim();
-  const shortQuestion = trimmed.length > 96 ? `${trimmed.slice(0, 96)}...` : trimmed;
-  const bridge = previousPersona
-    ? language === "vi"
-      ? ` Sau khi cân nhắc góc nhìn của ${localize(previousPersona.name, language, "guide")}, `
-      : ` After considering ${localize(previousPersona.name, language, "the previous guide")}'s lens, `
-    : " ";
-  const text =
-    language === "vi"
-      ? `${name} nhìn qua lăng kính ${lens}:${bridge}đừng ép bản thân có câu trả lời tuyệt đối ngay. Hãy tách "${shortQuestion || "vấn đề này"}" thành điều bạn biết, điều bạn chưa biết, và một bước nhỏ bạn có thể thử trong 24 giờ tới.`
-      : `${name} looks through ${lens}:${bridge}do not force a final answer too soon. Separate "${shortQuestion || "this situation"}" into what you know, what you do not know, and one small step you can try in the next 24 hours.`;
+  // Canned turns used when the model is unavailable (live QA 2026-10-31): short, different per seat, and they
+  // neither quote the question back nor paste the persona description. The app labels them as fallback.
+  void message;
+  const previous = previousPersona ? localize(previousPersona.name, language, language === "vi" ? "người trước" : "the previous guide") : "";
+  const vi = [
+    "Chưa cần vội có câu trả lời tuyệt đối. Thử viết ra điều bạn đã biết chắc và điều còn đang đoán.",
+    `Tiếp nối ${previous}, hãy để ý điều gì đang làm bạn căng nhất khi nghĩ tới chuyện này, rồi cho nó một chút thời gian.`,
+    `Từ những gì ${previous} gợi ý, chọn một bước nhỏ có thể thử trong 24 giờ tới và một dấu hiệu cho biết bước đó có ích.`
+  ];
+  const en = [
+    "No need to rush a final answer. Write down what you know for sure and what you are still guessing.",
+    `Building on ${previous}, notice what feels most tense when you think about this, and give it a little time.`,
+    `From what ${previous} suggested, pick one small step to try in the next 24 hours and one sign that it helped.`
+  ];
+  const text = (language === "vi" ? vi : en)[Math.min(index, 2)];
 
   return {
     personaId: persona.id,
@@ -391,6 +395,8 @@ serve(async (req) => {
       });
       return jsonResponse({ turns: [], safety: redirect.safety, safetyText: redirect.text, moderationStatus: "blocked", persistenceStatus: "skipped" });
     }
+    // Emergency switch from Admin; a safety reply above still answers while Council rests.
+    if (await featurePaused(supabase, "ai_council")) return jsonResponse(featurePausedBody, 503);
     const isOpening = (input.sanitizedHistory ?? []).length === 0;
     const { data: todaysEvents, error: usageReadError } = await supabase.from("usage_events")
       .select("metadata")
@@ -568,10 +574,18 @@ serve(async (req) => {
         }
     }
 
+    // Turns carry database persona ids; answer with the ids the app sent so each turn shows its own guide.
+    const appIdBySlug = new Map(selectedPersonas.map((persona) => [persona.slug, persona.id]));
+    const appIdByRuntimeId = new Map(runtimePersonas.map((persona) => [persona.id, appIdBySlug.get(persona.slug) ?? persona.id]));
+    const appTurns = turns.map((turn) => ({
+      ...turn,
+      personaId: appIdByRuntimeId.get(turn.personaId) ?? turn.personaId,
+      replyToPersonaId: turn.replyToPersonaId ? appIdByRuntimeId.get(turn.replyToPersonaId) ?? turn.replyToPersonaId : turn.replyToPersonaId
+    }));
     return jsonResponse({
       schemaVersion: outputSchema,
       councilContractVersion: councilContract.version,
-      turns,
+      turns: appTurns,
       suggestedFollowUps: parsedCouncil.suggestedFollowUps ?? (
         language === "vi"
           ? ["Mình nên hỏi guide nào sâu hơn?", "Bước nhỏ nào ít rủi ro nhất?", "Điều gì là nhu cầu thật của mình?"]

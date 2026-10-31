@@ -1,5 +1,5 @@
 import { FeedbackPanel, type FeedbackPanelTarget } from "./src/features/feedback/FeedbackPanel";
-import { submitAiFeedback, exportAiFeedback, deleteAllAiFeedback } from "./src/backendClient";
+import { submitAiFeedback, exportAiFeedback, deleteAllAiFeedback, BackendLimitError } from "./src/backendClient";
 import { createAnswerAttempt, parseAnswerProvenance, type AnswerProvenance } from "../../packages/ai-contracts/answer-provenance";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { OwnerHub } from "./src/features/owner/OwnerHub";
@@ -84,7 +84,6 @@ import {
   getUsageEvents,
   getSafetyEvents,
   getDailyInsight,
-  getUserCredits,
   getAdminAccess,
   getPublishedContent,
   requestAstrologyAiInsight
@@ -137,6 +136,7 @@ import { AstrologyChartFoundation } from "./src/features/astrology/AstrologyChar
 import { astrologySignIds, localizeAstrologySign, toAstrologyChartPresentation, type AstrologyRawChart, type AstrologySignId } from "./src/features/astrology/contracts";
 import { AstrologySignGuide } from "./src/features/astrology/AstrologySignGuide";
 import { GuestPreview } from "./src/features/guest/GuestPreview";
+import { dailyRhythmFor } from "./src/features/home/dailyRhythm";
 import { colors, layout, spacing, typography } from "./src/theme";
 import { getDeckVisual, getFeatureVisual, getPersonaVisual } from "./src/visualAssets";
 import { AuthFlow } from "./src/auth/AuthFlow";
@@ -586,6 +586,22 @@ function pushPermissionLabel(status: string | undefined, language: Language) {
   if (status === "denied") return vi ? "Đã tắt trong Cài đặt máy" : "Turned off in device Settings";
   if (status === "unavailable") return vi ? "Máy này không hỗ trợ" : "Not supported on this device";
   return vi ? "Chưa hỏi quyền" : "Not asked yet";
+}
+
+/** Question and card lines of a saved Tarot reading (analysis JO-05): name, position and orientation per card. */
+function savedReadingLines(snapshot: unknown, language: Language): string[] {
+  const vi = language === "vi";
+  const saved = snapshot as { type?: string; question?: unknown; cards?: unknown } | undefined;
+  if (saved?.type !== "tarot_reading" || !Array.isArray(saved.cards)) return [];
+  const lines = typeof saved.question === "string" && saved.question.trim() ? [`${vi ? "Câu hỏi" : "Question"}: ${saved.question.trim()}`] : [];
+  for (const raw of saved.cards.slice(0, 10)) {
+    const card = raw as Partial<DrawnTarotCard> | null;
+    const known = card?.id ? cards.find((item) => item.id === card.id) : undefined;
+    if (!known) continue;
+    const position = typeof card?.spread === "string" && card.spread ? ` · ${card.spread}` : "";
+    lines.push(`${displayTarotCardName(known, language)}${position} · ${card?.reversed ? (vi ? "Ngược" : "Reversed") : (vi ? "Xuôi" : "Upright")}`);
+  }
+  return lines;
 }
 
 /** Text a Journal entry shows: a manual note falls back to its body when the note is blank. */
@@ -1231,7 +1247,7 @@ const copy = {
     exploreTarot: "Khám phá Tarot",
     learnDeck: "Tìm hiểu bộ bài",
     drawWithDeck: "Rút với bộ này",
-    quickDraw: "Rút nhanh 3 lá",
+    quickDraw: "Rút nhanh một lá",
     tarotIntroTitle: "Bạn muốn bắt đầu theo cách nào?",
     tarotIntroText: "Nếu bạn mới dùng Nilaza, hãy xem cảm giác từng bộ bài trước. Nếu đã quen, bạn có thể rút nhanh ngay với bộ bài gần nhất.",
     deckBestFor: "Phù hợp với",
@@ -1334,7 +1350,7 @@ const copy = {
     exploreTarot: "Explore Tarot",
     learnDeck: "Learn the deck",
     drawWithDeck: "Draw with this deck",
-    quickDraw: "Quick 3-card draw",
+    quickDraw: "Quick one-card draw",
     tarotIntroTitle: "How would you like to begin?",
     tarotIntroText: "If you are new to Nilaza, explore each deck's mood first. If you already know your reflection practice, draw quickly with your last deck.",
     deckBestFor: "Best for",
@@ -2818,12 +2834,12 @@ function buildTodayPulse(profile: Profile, entries: JournalEntry[], dailyInsight
   const latestMood = entries.find((entry) => entry.mood)?.mood;
   const moodText = latestMood ? moodLabel(latestMood, language).toLowerCase() : (language === "vi" ? "chưa đặt tên" : "unnamed");
   const goalPhrase = language === "vi" ? getGoalPhraseVi(primaryGoal) : getGoalPhraseEn(primaryGoal);
+  // The pause and the small action change every local day from the 30-day bank (analysis HO-02).
+  const rhythm = dailyRhythmFor(dailyInsight.dateKey, language);
   const wisdomLine = language === "vi"
-    ? `Nilaza mời bạn bước vào ${goalPhrase} bằng một khoảng dừng nhỏ: đặt tay lên tim, hít chậm, rồi tự chọn lúc mình muốn mở bài.`
-    : `Nilaza invites you into ${goalPhrase} with one small pause: place a hand on your heart, breathe slowly, then choose when you want to reveal a card.`;
-  const microAction = language === "vi"
-    ? `Trong 60 giây, viết một câu bắt đầu bằng: "Hôm nay mình cần..." rồi chọn cảm xúc gần nhất với cơ thể.`
-    : `For 60 seconds, write one sentence starting with: "Today I need..." then choose the feeling closest to your body.`;
+    ? `Nilaza mời bạn bước vào ${goalPhrase} bằng một khoảng dừng nhỏ: ${rhythm.pause}`
+    : `Nilaza invites you into ${goalPhrase} with one small pause: ${rhythm.pause}`;
+  const microAction = rhythm.action;
 
   return {
     card,
@@ -3189,7 +3205,6 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   journalEntriesRef.current = journalEntries;
   const [generatedArtifacts, setGeneratedArtifacts] = useState<GeneratedArtifact[]>([]);
   const [dailyInsight, setDailyInsight] = useState<DailyInsight | null>(null);
-  const [backendCredits, setBackendCredits] = useState<number | null>(null);
   const [safetyEvents, setSafetyEvents] = useState<SafetyEvent[]>([]);
   const [tarotStage, setTarotStage] = useState<TarotStage>("topic");
   const [tarotStageHistory, setTarotStageHistory] = useState<TarotStage[]>([]);
@@ -3271,7 +3286,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const tarotReadingsToday = usageEvents.filter((event) => event.name === "tarot_reading_drawn" && isDateKey(event.createdAt, currentDateKey)).length;
   const chatTurnsToday = messages.filter((message) => message.role === "user" && isDateKey(message.createdAt, currentDateKey)).length;
   const dailyTarotCreditLimit = dailyTarotLimitFor(displayedTier);
-  const creditBalance = backendCredits !== null ? backendCredits : Math.max(0, dailyTarotCreditLimit - tarotReadingsToday);
+  // The account tier policy sets the Tarot allowance; the old credit ledger endpoint is not used (live QA 2026-10-31).
+  const creditBalance = Math.max(0, dailyTarotCreditLimit - tarotReadingsToday);
   // Keep the fallback stable: Zodiac's effect depends on this object through
   // localZodiacPulse. A new fallback on every render causes a request/render loop.
   const effectiveDailyInsight = useDailyInsight(
@@ -3582,7 +3598,6 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         const insight = mapDailyInsight(row);
         if (insight) setDailyInsight(current => !current || current.createdAt < insight.createdAt ? insight : current);
       }),
-      apply(() => getUserCredits(backendOptions), setBackendCredits),
       apply(() => getAdminAccess(backendOptions), access => {
         const owner = access.roles.includes("owner");
         setIsAdmin(access.capabilities.includes("hub.read"));
@@ -4004,6 +4019,18 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       return next;
     });
     recordEvent("in_app_notification_dismissed", { notificationId: id });
+  };
+
+  // Hoàn tác after dismissing brings the notification back as read (analysis PR-05).
+  const restoreNotification = (id: string) => {
+    setInAppNotifications((current) => {
+      const next = current.map((notification) => (
+        notification.id === id && notification.status === "dismissed" ? { ...notification, status: "read" as const } : notification
+      ));
+      syncInboxSnapshot(next);
+      return next;
+    });
+    recordEvent("in_app_notification_restored", { notificationId: id });
   };
 
   const openNotification = (notification: InAppNotification) => {
@@ -5164,7 +5191,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     recordEvent("persona_chat_resumed", { personaId: selectedPersonaId });
   };
 
-  const sendMessage = (preset?: string) => {
+  const sendMessage = (preset?: string, retry = false) => {
     if (isOwnerPreviewActive) {
       showToast(language === "vi"
         ? "Bạn đang xem thử giao diện bậc tài khoản. Câu hỏi chưa được gửi tới AI."
@@ -5202,7 +5229,9 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       }
     };
     setChatInput("");
-    setMessages((current) => [...current, userMessage]);
+    // Thử lại resends the failed message that is already in the room instead of adding a copy (analysis CH-11).
+    const lastMessage = currentMessages[currentMessages.length - 1];
+    if (!(retry && lastMessage?.role === "user" && lastMessage.text === text)) setMessages((current) => [...current, userMessage]);
     const activity = beginGenerationActivity({
       feature: "persona_chat",
       title: { vi: `${localizedText(selectedPersona.name, language)} đang suy ngẫm`, en: `${localizedText(selectedPersona.name, "en")} is reflecting` },
@@ -5212,7 +5241,6 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       personaId: selectedPersonaId,
       sessionId: activePersonaSessionId
     });
-    completeDailyRitual("persona_chat");
     setTimeout(async () => {
       try {
         const reply = await generatePersonaReply(
@@ -5262,6 +5290,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
           }
         };
         setMessages((current) => [...current, guideMessage]);
+        // The streak counts only once a reply has arrived (analysis CH-11).
+        completeDailyRitual("persona_chat");
         if (reply.remoteSessionId && reply.remoteSessionId !== activePersonaSessionId) {
           setMessages((current) => current.map((message) => (
             personaSessionIdForMessage(message) === activePersonaSessionId && message.personaId === selectedPersonaId
@@ -5281,8 +5311,11 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
           methodPackVersion: reply.methodPackVersion ?? "unknown"
         });
         finishGenerationActivity(activity, "ready");
-      } catch {
-        setChatError(c.chatError);
+      } catch (error) {
+        // A guide paused from Admin is shown as resting, not as a failed answer.
+        setChatError(error instanceof BackendLimitError && error.code === "feature_paused"
+          ? (language === "vi" ? "Trò chuyện với người dẫn đường đang tạm nghỉ một chút. Hãy thử lại sau." : "Guide chat is resting for a while. Please try again later.")
+          : c.chatError);
         finishGenerationActivity(activity, "failed");
         recordEvent("persona_message_failed", { personaId: selectedPersonaId });
         recordSafetyEvent({
@@ -5299,8 +5332,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
 
   const retryChat = () => {
     if (!lastChatPrompt || chatGenerating) return;
-    setChatInput(lastChatPrompt);
-    sendMessage(lastChatPrompt);
+    sendMessage(lastChatPrompt, true);
   };
 
   const completeOnboarding = async (skippedProfile = false) => {
@@ -5617,12 +5649,19 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         memoryAllowed={oracleMemoryConsent.journalMemory}
         onAction={handleOracleAction}
         onChangeInput={setOracleInput}
-        onNew={() => {
-          setOracleTurns([]);
-          setOracleInput("");
-          setOracleError("");
-          recordEvent("oracle_session_started");
-        }}
+        onNew={() => requestConfirmation({
+          // Oracle mới asks first, like a new guide chat (analysis OR-03).
+          title: language === "vi" ? "Bắt đầu lượt Oracle mới?" : "Start a new Oracle chat?",
+          body: language === "vi" ? "Các gợi ý hiện tại sẽ được xóa khỏi màn hình này." : "The current suggestions will be cleared from this screen.",
+          confirmLabel: language === "vi" ? "Bắt đầu mới" : "Start new",
+          tone: "danger",
+          onConfirm: () => confirmDestructiveAction(() => {
+            setOracleTurns([]);
+            setOracleInput("");
+            setOracleError("");
+            recordEvent("oracle_session_started");
+          })
+        })}
         onReport={reportLatestOracleReply}
         onSaveLast={saveLatestOracleInsight}
         onSend={sendOracleMessage}
@@ -5679,7 +5718,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       }}
       onRetry={retryChat}
       onSave={saveJournal}
-      onSend={sendMessage}
+      onSend={(text?: string) => sendMessage(text)}
       onTrack={recordEvent}
       />
     )
@@ -5931,7 +5970,9 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
               <InboxScreen
                 language={language}
                 notifications={inAppNotifications}
+                onBack={() => navigate("home")}
                 onDismiss={dismissNotification}
+                onRestore={restoreNotification}
                 onMarkAllRead={markAllNotificationsRead}
                 onMarkRead={markNotificationRead}
                 onOpen={openNotification}
@@ -6078,13 +6119,6 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                 onMarkNotificationRead={markNotificationRead}
                 onSignOut={signOutLocally}
                 onToggleNotificationPreference={updateNotificationPreference}
-                onReset={() => requestConfirmation({
-                  title: language === "vi" ? "Đưa ứng dụng về trạng thái mới cài?" : "Reset the app on this device?",
-                  body: language === "vi" ? "Thao tác này đưa app về trạng thái mới cài trên thiết bị hiện tại." : "This returns the app to a fresh-install state on this device.",
-                  confirmLabel: c.reset,
-                  tone: "danger",
-                  onConfirm: () => confirmDestructiveAction(clearAllLocalAccountData)
-                })}
               />
             )}
 
@@ -6835,13 +6869,14 @@ function ChatScreen({
     return (
       <AiCouncilRoom
         {...councilRoomProps}
-        onBack={() => setMode("councilHub")}
+        onBack={() => setMode("list")}
         onOpenGuideChat={(turn) => {
           if (!turn.persona) return;
           onClearHandoff();
           setSelectedPersonaId(turn.persona.id);
           onStartPersonaSession(turn.persona.id);
-          setChatInput(turn.text);
+          // Suggest a short follow-up instead of pasting the guide's own words into the person's box (analysis CH-08).
+          setChatInput(language === "vi" ? "Mình muốn đi sâu hơn vào ý bạn vừa nói trong hội đồng." : "I'd like to go deeper into what you said in the council.");
           setMode("room");
         }}
       />
@@ -8294,9 +8329,9 @@ function JournalScreen({
               {(selectedEntry.sourceSnapshot as any).deckId && findTarotDeckById(decksById, (selectedEntry.sourceSnapshot as any).deckId) ? ` / ${localizedText(findTarotDeckById(decksById, (selectedEntry.sourceSnapshot as any).deckId)!.name, language)}` : ""}
               {(selectedEntry.sourceSnapshot as any).personaName ? ` / ${(selectedEntry.sourceSnapshot as any).personaName}` : ""}
             </Text>
-            {(selectedEntry.sourceSnapshot as any).cards ? (
-              <Text style={styles.sourcePath}>{language === "vi" ? "Số lá" : "Cards"}: {String((selectedEntry.sourceSnapshot as any).cards.length ?? 0)}</Text>
-            ) : null}
+            {savedReadingLines(selectedEntry.sourceSnapshot, language).map((line, index) => (
+              <Text key={`${index}-${line}`} style={styles.sourcePath}>{line}</Text>
+            ))}
           </View>
         ) : null}
 
@@ -8413,8 +8448,7 @@ function ProfileScreen({
   onMarkBirthTimeUnknown,
   onMarkNotificationRead,
   onSignOut,
-  onToggleNotificationPreference,
-  onReset
+  onToggleNotificationPreference
 }: {
   c: Copy;
   birthDate: string;
@@ -8458,7 +8492,6 @@ function ProfileScreen({
   onMarkNotificationRead: (id: string) => void;
   onSignOut: () => void;
   onToggleNotificationPreference: (channel: NotificationPreference["channel"], type: NotificationType, enabled: boolean) => void;
-  onReset: () => void;
   signLabel?: string;
   memberSince?: string;
   readingsCount: number;
@@ -8933,7 +8966,6 @@ function ProfileScreen({
           {isAdmin ? <ProfileActionButton icon="construct-outline" title={language === "vi" ? "Trung tâm quản trị" : "Admin hub"} detail={language === "vi" ? "Nội dung, cấu hình và quyền truy cập" : "Content, configuration and access"} onPress={onAdmin} muted /> : null}
           <ProfileActionButton icon="log-out-outline" title={profileLabels.signOut} detail={profileLabels.signOutDetail} onPress={onSignOut} />
         </View>
-        <SecondaryButton label={c.reset} onPress={onReset} />
       </View>
     </View>
   );

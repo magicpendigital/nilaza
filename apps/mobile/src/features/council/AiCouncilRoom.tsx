@@ -28,6 +28,8 @@ export type AiCouncilTurn = {
   replyToPersonaId?: string;
   sequence?: number;
   promptVersionId?: string;
+  /** Canned turn shown when the model is unavailable; labelled in the room. */
+  fallback?: boolean;
 };
 
 export type AiCouncilGuideDetail = {
@@ -187,6 +189,8 @@ export function AiCouncilRoom({
     <View style={styles.screen}>
       <ChatRoomHeader
         activeSessionId={activeSessionId}
+        backLabel={vi ? "Quay lại" : "Back"}
+        menuLabel={vi ? "Thêm tùy chọn" : "More options"}
         emptyHistoryLabel={language === "vi" ? "Chưa có hội đồng nào trước đó." : "No previous council yet."}
         historyLabel={language === "vi" ? "Lịch sử" : "History"}
         historyTitle={language === "vi" ? "Tiếp tục hội đồng" : "Continue a council"}
@@ -440,7 +444,7 @@ export function AiCouncilRoom({
                 ) : null}
                 author={localizedText(turn.persona?.name, language, "Guide")}
                 avatar={turn.persona ? getPersonaThumbnail(turn.persona) : undefined}
-                meta={interactionMeta}
+                meta={turn.fallback ? (vi ? "Câu trả lời dự phòng — AI chưa kết nối được." : "Fallback reply — AI is not connected.") : interactionMeta}
                 tone="guide"
               >
                 {turn.text}
@@ -495,6 +499,7 @@ export function AiCouncilRoom({
       <View style={styles.composerPanel}>
         {thread.length > 0 ? <QuickReplyRail prompts={quickReplies} onSelect={onSelectQuickReply} /> : null}
         <ChatComposer
+          sendLabel={language === "vi" ? "Gửi" : "Send"}
           disabled={generating}
           onChangeText={onQuestionChange}
           onSend={onSend}

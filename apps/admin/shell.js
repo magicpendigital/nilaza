@@ -96,9 +96,26 @@ function clearWorkspaceFrames() {
   if (container) container.replaceChildren();
 }
 
+// A failed check while already signed in keeps the session and offers a retry (analysis AD-12).
+function showConnectionNotice(user) {
+  let notice = $("#nilaza-connection-notice");
+  if (!notice) {
+    notice = document.createElement("div");
+    notice.id = "nilaza-connection-notice";
+    notice.setAttribute("role", "alert");
+    notice.style.cssText = "position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:1000;display:flex;gap:12px;align-items:center;padding:10px 14px;border-radius:8px;background:#2a2124;color:#f7f1e6;font:14px system-ui,sans-serif";
+    document.body.append(notice);
+  }
+  notice.replaceChildren(Object.assign(document.createElement("span"), { textContent: "Mất kết nối khi kiểm tra quyền. Bạn vẫn đang đăng nhập. / Connection lost while checking access; you are still signed in." }));
+  const retry = Object.assign(document.createElement("button"), { type: "button", textContent: "Thử lại / Retry", className: "button" });
+  retry.addEventListener("click", () => { notice.remove(); void restoreSession(user); });
+  notice.append(retry);
+}
+
 async function restoreSession(user) {
-  let access;
-  try { access = await window.NilazaAccess.load(supabaseClient, user); } catch { access = null; }
+  let access, transient = false;
+  try { access = await window.NilazaAccess.load(supabaseClient, user); } catch (error) { access = null; transient = Boolean(error?.transient); }
+  if (transient && session) return showConnectionNotice(user);
   if (!window.NilazaAccess.can(access, "hub.read")) {
     session = null;
     await supabaseClient.auth.signOut();
@@ -140,6 +157,17 @@ async function init() {
   }
 }
 
+// Tell the common sign-in failures apart instead of always blaming the password (analysis AD-27).
+function signInErrorMessage(error) {
+  const code = String(error?.code || "").toLowerCase(), message = String(error?.message || "").toLowerCase(), status = Number(error?.status) || 0;
+  if (code === "email_not_confirmed" || message.includes("not confirmed")) return "Email chưa được xác nhận. Mở thư xác nhận rồi thử lại. / Email not confirmed yet.";
+  if (status === 429 || code.includes("rate") || message.includes("rate limit")) return "Thử quá nhiều lần. Đợi vài phút rồi thử lại. / Too many attempts; wait a few minutes.";
+  if (!status || message.includes("fetch") || message.includes("network")) return "Không kết nối được máy chủ. Kiểm tra mạng rồi thử lại. / Could not reach the server; check the connection.";
+  if (code === "invalid_credentials" || status === 400) return "Email hoặc mật khẩu chưa đúng. / Email or password is incorrect.";
+  return "Chưa đăng nhập được. Thử lại sau ít phút. / Sign-in failed; try again shortly.";
+}
+window.NilazaSignInErrorMessage = signInErrorMessage;
+
 $("#login-form").addEventListener("submit", async (event) => {
   event.preventDefault();
   $("#login-error").textContent = "Signing in...";
@@ -148,7 +176,7 @@ $("#login-form").addEventListener("submit", async (event) => {
   
   const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
   if (error || !data.user) {
-    $("#login-error").textContent = "Email or password is incorrect.";
+    $("#login-error").textContent = signInErrorMessage(error);
     return;
   }
   

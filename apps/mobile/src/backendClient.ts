@@ -430,7 +430,8 @@ export class BackendLimitError extends Error {
   constructor(readonly code: string, readonly status: number) { super(code); this.name = "BackendLimitError"; }
 }
 
-async function postJson<TInput, TResult>(path: string, input: TInput, options: BackendOptions, correlation?: AnswerCorrelation, surfaceLimits = false): Promise<TResult | null> {
+/** surfaceLimits: true throws sign-in, daily-limit and paused errors; "paused" throws only feature_paused. */
+async function postJson<TInput, TResult>(path: string, input: TInput, options: BackendOptions, correlation?: AnswerCorrelation, surfaceLimits: boolean | "paused" = false): Promise<TResult | null> {
   options = currentOptions(options);
   if (!options.baseUrl) return null;
 
@@ -454,9 +455,12 @@ async function postJson<TInput, TResult>(path: string, input: TInput, options: B
       signal: controller.signal
     });
 
-    if (surfaceLimits && (response.status === 401 || response.status === 429) && options.session?.active !== false) {
+    if (surfaceLimits && [401, 429, 503].includes(response.status) && options.session?.active !== false) {
       const body = (await response.json().catch(() => ({}))) as { error?: unknown };
-      throw new BackendLimitError(typeof body.error === "string" ? body.error : String(response.status), response.status);
+      const code = typeof body.error === "string" ? body.error : String(response.status);
+      // A feature paused from Admin is shown as resting; other 503s still fall back as before.
+      if (code === "feature_paused" || (surfaceLimits === true && response.status !== 503)) throw new BackendLimitError(code, response.status);
+      return null;
     }
     if (!response.ok || options.session?.active === false) return null;
     return (await response.json()) as TResult;
@@ -542,7 +546,7 @@ export async function generatePersonaReply(
   fallback: () => PersonaReplyResult,
   options: BackendOptions = {}
 ): Promise<PersonaReplyResult> {
-  const backendResult = await postJson<PersonaReplyInput, PersonaReplyResult>("/ai/persona-chat", input, generationOptions(options, generationTimeoutMs.persona));
+  const backendResult = await postJson<PersonaReplyInput, PersonaReplyResult>("/ai/persona-chat", input, generationOptions(options, generationTimeoutMs.persona), undefined, "paused");
   return backendResult ?? fallback();
 }
 
