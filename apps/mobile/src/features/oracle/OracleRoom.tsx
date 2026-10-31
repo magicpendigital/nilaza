@@ -82,6 +82,7 @@ export function OracleRoom({
           <View style={styles.composerWrap}>
             {turns.length === 0 ? <QuickReplyRail prompts={starterPrompts} onSelect={(prompt) => onSend(prompt.label)} wrap={adaptiveLayout.layoutMode !== "compact" && !adaptiveLayout.isCompactHeight} /> : null}
             <ChatComposer
+              sendLabel={language === "vi" ? "Gửi" : "Send"}
               accessibilityLabel={language === "vi" ? "Tin nhắn gửi Nilaza Oracle" : "Message to Nilaza Oracle"}
               disabled={generating}
               onChangeText={onChangeInput}

@@ -382,6 +382,7 @@ describe("a2ui Components", () => {
     const emptySendButton = tree.root.findAll((node) => node.props.accessibilityRole === "button")[0];
 
     expect(emptySendButton.props.accessibilityState.disabled).toBe(true);
+    expect(emptySendButton.props.accessibilityLabel).toBe("Gửi");
 
     act(() => {
       tree.update(<ChatComposer onChangeText={jest.fn()} onSend={onSendMock} placeholder="Ask the council" value="I need perspective" />);

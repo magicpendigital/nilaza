@@ -280,7 +280,7 @@
   },
   {
     "path": "apps/mobile/App.tsx",
-    "sha256": "6d3d34409262b6dc110b873f50f0838f582e0bdf15ff5084b5823958cd49b6ab"
+    "sha256": "46afcf6615dd2b197a095e204e7902cae77956a1500ca72259ef7b5fd82e0161"
   },
   {
     "path": "docs/FEATURE_PRD.md",
@@ -328,7 +328,7 @@
   },
   {
     "path": "supabase/functions/_shared/model-provider.ts",
-    "sha256": "1adf3e28bb06017d9e7815122121e953e93038724b02e6bc0a3b2c5b54203a6d"
+    "sha256": "a4c834bc00b8603bd92b53e18767e7f44aca642fcb00c3a21b1936ab72971d36"
   },
   {
     "path": "supabase/functions/_shared/model-router.ts",
@@ -364,7 +364,7 @@
   },
   {
     "path": "supabase/functions/ai-council/index.ts",
-    "sha256": "3dab861902f0b17afff4a478590f1e28f8c6f5b6ee37722c5dfa1039f46a1f02"
+    "sha256": "db8376a5c04a230c0c3684a666e0c2b3008c8784c39b7a716e9d1b89d57da0f7"
   },
   {
     "path": "supabase/functions/ai-daily-insight/index.ts",

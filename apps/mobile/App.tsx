@@ -84,7 +84,6 @@ import {
   getUsageEvents,
   getSafetyEvents,
   getDailyInsight,
-  getUserCredits,
   getAdminAccess,
   getPublishedContent,
   requestAstrologyAiInsight
@@ -3206,7 +3205,6 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   journalEntriesRef.current = journalEntries;
   const [generatedArtifacts, setGeneratedArtifacts] = useState<GeneratedArtifact[]>([]);
   const [dailyInsight, setDailyInsight] = useState<DailyInsight | null>(null);
-  const [backendCredits, setBackendCredits] = useState<number | null>(null);
   const [safetyEvents, setSafetyEvents] = useState<SafetyEvent[]>([]);
   const [tarotStage, setTarotStage] = useState<TarotStage>("topic");
   const [tarotStageHistory, setTarotStageHistory] = useState<TarotStage[]>([]);
@@ -3288,7 +3286,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const tarotReadingsToday = usageEvents.filter((event) => event.name === "tarot_reading_drawn" && isDateKey(event.createdAt, currentDateKey)).length;
   const chatTurnsToday = messages.filter((message) => message.role === "user" && isDateKey(message.createdAt, currentDateKey)).length;
   const dailyTarotCreditLimit = dailyTarotLimitFor(displayedTier);
-  const creditBalance = backendCredits !== null ? backendCredits : Math.max(0, dailyTarotCreditLimit - tarotReadingsToday);
+  // The account tier policy sets the Tarot allowance; the old credit ledger endpoint is not used (live QA 2026-10-31).
+  const creditBalance = Math.max(0, dailyTarotCreditLimit - tarotReadingsToday);
   // Keep the fallback stable: Zodiac's effect depends on this object through
   // localZodiacPulse. A new fallback on every render causes a request/render loop.
   const effectiveDailyInsight = useDailyInsight(
@@ -3599,7 +3598,6 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         const insight = mapDailyInsight(row);
         if (insight) setDailyInsight(current => !current || current.createdAt < insight.createdAt ? insight : current);
       }),
-      apply(() => getUserCredits(backendOptions), setBackendCredits),
       apply(() => getAdminAccess(backendOptions), access => {
         const owner = access.roles.includes("owner");
         setIsAdmin(access.capabilities.includes("hub.read"));
@@ -6864,13 +6862,14 @@ function ChatScreen({
     return (
       <AiCouncilRoom
         {...councilRoomProps}
-        onBack={() => setMode("councilHub")}
+        onBack={() => setMode("list")}
         onOpenGuideChat={(turn) => {
           if (!turn.persona) return;
           onClearHandoff();
           setSelectedPersonaId(turn.persona.id);
           onStartPersonaSession(turn.persona.id);
-          setChatInput(turn.text);
+          // Suggest a short follow-up instead of pasting the guide's own words into the person's box (analysis CH-08).
+          setChatInput(language === "vi" ? "Mình muốn đi sâu hơn vào ý bạn vừa nói trong hội đồng." : "I'd like to go deeper into what you said in the council.");
           setMode("room");
         }}
       />

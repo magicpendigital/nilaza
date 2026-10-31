@@ -415,6 +415,7 @@ function MarkdownMessageText({ text, style }: { text: string; style: StyleProp<T
 
 export function ChatComposer({
   accessibilityLabel,
+  sendLabel = "Gửi",
   disabled,
   onChangeText,
   onSend,
@@ -423,6 +424,8 @@ export function ChatComposer({
   value
 }: {
   accessibilityLabel?: string;
+  /** Screen reader label of the send button, in the app language. */
+  sendLabel?: string;
   disabled?: boolean;
   onChangeText: (value: string) => void;
   onSend: () => void;
@@ -444,7 +447,7 @@ export function ChatComposer({
         value={value}
       />
       <Pressable
-        accessibilityLabel={accessibilityLabel ? `${accessibilityLabel}: send` : `Send ${placeholder}`}
+        accessibilityLabel={sendLabel}
         accessibilityRole="button"
         accessibilityState={{ disabled: !canSend }}
         disabled={!canSend}

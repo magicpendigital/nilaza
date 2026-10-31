@@ -21,6 +21,9 @@ export type ModelRoute = {
   safetyPolicy: Record<string, unknown>;
 };
 
+/** A provider that has not answered after this long is aborted, so the route can fall back (analysis AI-14). */
+export const PROVIDER_TIMEOUT_MS = 40_000;
+
 export type ModelProviderRequest = {
   feature: string;
   provider: ModelProviderName;

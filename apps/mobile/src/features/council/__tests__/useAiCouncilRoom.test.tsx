@@ -96,6 +96,23 @@ it("a crisis message gets the safety reply and 115 card instead of council turns
   hook.unmount();
 });
 
+it("unknown server ids keep each seat's guide and canned turns are marked as fallback", async () => {
+  const input = options("A", true, true);
+  (generateAiCouncilTurn as jest.Mock).mockResolvedValueOnce({
+    turns: [0, 1, 2].map((index) => ({ personaId: `db-uuid-${index}`, text: `Lượt ${index}`, kind: index ? "response" : "opening", sequence: index + 1 })),
+    moderationStatus: "fallback"
+  });
+  const hook = renderHook(() => useAiCouncilRoom(input));
+  await waitFor(() => expect(AsyncStorage.setItem).toHaveBeenCalled());
+  act(() => hook.result.current.roomProps.onQuestionChange("Một bước nhỏ cho hôm nay?"));
+  await act(async () => { await hook.result.current.roomProps.onSend(); });
+  await waitFor(() => expect(hook.result.current.roomProps.thread.filter(turn => turn.role === "guide")).toHaveLength(3));
+  const guides = hook.result.current.roomProps.thread.filter(turn => turn.role === "guide");
+  expect(guides.map(turn => turn.persona?.id)).toEqual(hook.result.current.roomProps.personas.slice(0, 3).map(persona => persona.id));
+  expect(guides.every(turn => turn.fallback)).toBe(true);
+  hook.unmount();
+});
+
 it("an empty question sends nothing and uses no turn", async () => {
   const input = options();
   const hook = renderHook(() => useAiCouncilRoom(input));

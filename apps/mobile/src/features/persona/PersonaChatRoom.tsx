@@ -133,6 +133,7 @@ export function PersonaChatRoom({
           <View style={styles.composerWrap}>
             {messages.length > 0 ? <QuickReplyRail prompts={quickReplies} onSelect={(prompt) => onSend(prompt.label)} /> : null}
             <ChatComposer
+              sendLabel={language === "vi" ? "Gửi" : "Send"}
               disabled={chatGenerating}
               onChangeText={onChangeInput}
               onSend={() => onSend()}

@@ -59,12 +59,12 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Journal saved reading detail.",
-      "sha256": "6d3d34409262b6dc110b873f50f0838f582e0bdf15ff5084b5823958cd49b6ab"
+      "sha256": "46afcf6615dd2b197a095e204e7902cae77956a1500ca72259ef7b5fd82e0161"
     },
     {
       "path": "apps/mobile/src/a2ui/chat.tsx",
       "reason": "Chat room header.",
-      "sha256": "59d88535ca0bbbf5c3aaa9eb1c9f761c82f124fb3bdd07e7ddaa1857f1fe47fc"
+      "sha256": "6baec61a525251f70dd3dc8615d08095849fe369ce0ea437958c08863f1b3139"
     }
   ],
   "skillReview": [

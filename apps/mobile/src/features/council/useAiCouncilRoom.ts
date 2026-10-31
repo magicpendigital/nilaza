@@ -704,8 +704,9 @@ export function useAiCouncilRoom({
         if (activity) onGenerationFinished?.(activity, "ready");
         return;
       }
-      const guideTurns: AiCouncilTurn[] = result.turns.map((turn) => {
-        const persona = councilPersonas.find((item) => item.id === turn.personaId) ?? personasById[turn.personaId] ?? councilPersonas[0];
+      const guideTurns: AiCouncilTurn[] = result.turns.map((turn, index) => {
+        // An unknown id falls back to the guide in the same seat, never to the first guide for every turn.
+        const persona = councilPersonas.find((item) => item.id === turn.personaId) ?? personasById[turn.personaId] ?? councilPersonas[index % Math.max(1, councilPersonas.length)];
         return {
           id: nowId(),
           role: "guide",
@@ -715,7 +716,8 @@ export function useAiCouncilRoom({
           kind: turn.kind,
           replyToPersonaId: turn.replyToPersonaId,
           sequence: turn.sequence,
-          promptVersionId: turn.promptVersionId ?? result.promptVersionId ?? config.contract.promptVersionId
+          promptVersionId: turn.promptVersionId ?? result.promptVersionId ?? config.contract.promptVersionId,
+          ...(result.moderationStatus === "fallback" ? { fallback: true } : {})
         };
       });
       setThread((current) => [...current, ...guideTurns].slice(-config.maxTranscriptTurns));
