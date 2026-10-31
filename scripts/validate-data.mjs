@@ -416,6 +416,13 @@ assert(!/định mệnh|tri kỷ|soulmate/i.test(JSON.stringify(skySynastry)), "
 for (const [label, text] of [["astrology-big3", JSON.stringify(skyBig3)], ["astrology-moon-houses", JSON.stringify(skyMoonHouses)], ["astrology-topic-placements", JSON.stringify(skyTopics)], ["astrology-synastry", JSON.stringify(skySynastry)]]) {
   assert(!/Cung Mọc|Thiên Đỉnh/.test(text), `${label}.json must write Cung mọc and Thiên đỉnh`);
 }
+// Journal prompts (Owner decision 2026-10-31: 30 prompts used right away, reviewed afterwards).
+const journalPrompts = readJson("packages/content/data/journal-prompts.json");
+assert(journalPrompts.prompts.length === 30, "journal-prompts.json must have 30 prompts");
+assert(new Set(journalPrompts.prompts.map((item) => item.id)).size === 30, "journal-prompts.json ids must be unique");
+for (const item of journalPrompts.prompts) assertViText(item, `journal-prompts.${item.id}`);
+for (const mood of ["calm", "curious", "reflective", "hopeful", "stuck"]) assertViText(journalPrompts.weeklyByMood?.[mood], `journal-prompts.weeklyByMood.${mood}`);
+assertViText(journalPrompts.weeklyEmpty, "journal-prompts.weeklyEmpty");
 for (const designSet of tarotCardDesigns) {
   assert(decks.some((deck) => deck.id === designSet.deckId), `${designSet.deckId} design set does not match a deck`);
   assertLocalized(designSet.style, `${designSet.deckId}.style`);

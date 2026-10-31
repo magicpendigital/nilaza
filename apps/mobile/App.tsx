@@ -139,6 +139,7 @@ import { AuthFlow } from "./src/auth/AuthFlow";
 import { AiCouncilRoom, type AiCouncilRoomProps, type AiCouncilSessionSummary, useAiCouncilRoom } from "./src/features/council";
 import { OracleRoom } from "./src/features/oracle";
 import { ChatHub } from "./src/features/chat/ChatHub";
+import { JournalHome } from "./src/features/journal/JournalHome";
 import { normalizeOracleText, oracleIntent, oracleSafetyReply, oracleSafetySignal } from "../../packages/ai-contracts/oracle-safety.mjs";
 import { PersonaChatRoom } from "./src/features/persona";
 import { createEmailAuthState, displayNameFromEmail } from "./src/auth/localAuth";
@@ -8857,7 +8858,7 @@ function journalSourceLabel(sourceType: JournalEntry["sourceType"], language: La
     astrology: { vi: "Chiêm tinh", en: "Astrology" },
     chat: { vi: "Trò chuyện", en: "Chat guide" },
     daily: { vi: "Hôm nay", en: "Daily insight" },
-    tarot: { vi: "Tarot", en: "Tarot" },
+    tarot: { vi: "Trải bài", en: "Tarot" },
     share_card: { vi: "Chia sẻ", en: "Share card" },
     manual: { vi: "Ghi chú", en: "Note" }
   };
@@ -8904,16 +8905,10 @@ function JournalScreen({
   composePrompt?: string | null;
   onComposeDone?: () => void;
 }) {
-  const filters = ["All", "Tarot", "Chat", "Astrology", "Notes"];
-  const journalLayout = useAdaptiveLayout();
-  const filterLabels: Record<string, string> = { All: "Tất cả", Tarot: "Tarot", Chat: "Trò chuyện", Astrology: "Chiêm tinh", Notes: "Ghi chú" };
-  const [activeFilter, setActiveFilter] = useState("All");
   const [selectedEntryId, setSelectedEntryId] = useState<string | null>(initialSelectedEntryId ?? null);
   const [draftNote, setDraftNote] = useState(journalDraftNoteFor(entries.find(item => item.id === initialSelectedEntryId)));
-  const [journalSearchOpen, setJournalSearchOpen] = useState(false);
-  const [journalSearchText, setJournalSearchText] = useState("");
   // Keep the Home prompt for this visit only; the parent clears it so a later visit opens the list.
-  const [prompt] = useState(composePrompt ?? undefined);
+  const [prompt, setPrompt] = useState(composePrompt ?? undefined);
   const [composing, setComposing] = useState(Boolean(prompt));
   useEffect(() => {
     if (prompt) onComposeDone?.();
@@ -8923,26 +8918,6 @@ function JournalScreen({
     return () => onComposingChange?.(false);
   }, [composing, onComposingChange]);
   const selectedEntry = entries.find((entry) => entry.id === selectedEntryId) ?? null;
-  const journalSearchQuery = journalSearchText.trim();
-  const visibleEntries = entries.filter((entry) => {
-    const filterMatches = activeFilter === "All"
-      ? true
-      : activeFilter === "Notes"
-        ? entry.sourceType === "manual" || Boolean(entry.userNote?.trim())
-        : entry.sourceType === activeFilter.toLowerCase();
-    if (!filterMatches) return false;
-    if (!journalSearchQuery) return true;
-    const searchable = [
-      entry.title,
-      entry.summary,
-      entry.userNote ?? "",
-      journalSourceLabel(entry.sourceType, language),
-      moodLabel(entry.mood, language),
-      String(entry.sourceSnapshot?.type ?? "")
-    ].join(" ");
-    return normalizeSearchString(searchable).includes(normalizeSearchString(journalSearchQuery));
-  });
-
   if (composing) return <JournalComposer language={language} draftStore={draftStore} prompt={prompt} onSave={onCreateNote}
     onClose={() => setComposing(false)} />;
 
@@ -9021,92 +8996,32 @@ function JournalScreen({
   }
 
   return (
-    <View>
-      <TopBar
-        title={language === "vi" ? "Nhật ký" : "Journal"}
-        rightIcon={journalSearchOpen ? "close-outline" : "search-outline"}
-        rightLabel={journalSearchOpen ? "Close journal search" : "Search journal"}
-        onRight={() => {
-          if (journalSearchOpen) setJournalSearchText("");
-          setJournalSearchOpen((open) => !open);
-        }}
-      />
-      <Header eyebrow="Private" title={language === "vi" ? "Insight đã lưu" : "Saved insights"} />
-      <Text style={styles.leadLeft}>
-        {language === "vi"
-          ? "Đây là không gian riêng để bạn quay lại các câu trả lời, lá bài và ghi chú đã chạm tới mình."
-          : "A private space for returning to the answers, cards, and notes that felt meaningful."}
-      </Text>
-      <SecondaryButton label={language === "vi" ? "Viết ghi chú" : "Write a note"} onPress={() => setComposing(true)} />
-      {journalSearchOpen ? (
-        <View style={styles.searchModeHeader}>
-          <View style={styles.searchModeIcon}>
-            <Ionicons name="search-outline" size={19} color={colors.gold} />
-          </View>
-          <TextInput
-            accessibilityLabel="Search saved insights"
-            autoFocus
-            value={journalSearchText}
-            onChangeText={setJournalSearchText}
-            placeholder={language === "vi" ? "Tìm insight đã lưu..." : "Search saved insights..."}
-            placeholderTextColor={colors.moon}
-            style={[styles.searchInput, styles.flex]}
-          />
-        </View>
-      ) : null}
-      <View style={styles.memoryPanel}>
-        <View style={styles.rowBetween}>
-          <Text style={styles.sectionKicker}>{language === "vi" ? "Nhật ký 7 ngày" : "Your last seven days"}</Text>
-          <StatusChip
-            label={journalMemory.topMood ? moodLabel(journalMemory.topMood, language) : (language === "vi" ? "Chưa có mood" : "No mood yet")}
-            tone="neutral"
-          />
-        </View>
-        <Text style={styles.memoryTitle}>{language === "vi" ? "Nhìn lại những điều đã ghi" : "Review what you recorded"}</Text>
-        <Text style={styles.memorySummary}>{journalMemory.summary}</Text>
-        <View style={styles.memoryStats}>
-          <MiniStat label={language === "vi" ? "Insight" : "Insights"} value={String(journalMemory.recentCount)} />
-          <MiniStat label={language === "vi" ? "Ghi chú" : "Notes"} value={String(journalMemory.noteCount)} />
-        </View>
-        <Text style={styles.memoryPrompt}>{journalMemory.prompt}</Text>
-      </View>
-      <OverflowChipRail wrap={journalLayout.layoutMode !== "compact"}>
-        {filters.map((filter) => <Chip key={filter} active={activeFilter === filter} label={language === "vi" ? filterLabels[filter] : filter} onPress={() => setActiveFilter(filter)} />)}
-      </OverflowChipRail>
-      {entries.length === 0 ? (
+    <JournalHome
+      language={language}
+      now={new Date()}
+      entries={entries}
+      moodLabel={(mood) => moodLabel(mood, language)}
+      sourceLabel={(sourceType) => journalSourceLabel(sourceType, language)}
+      bodyOf={journalEntryBody}
+      onWrite={(text) => {
+        setPrompt(text);
+        setComposing(true);
+      }}
+      onOpenEntry={(entry) => {
+        setSelectedEntryId(entry.id);
+        setDraftNote(journalDraftNoteFor(entry));
+      }}
+      empty={(
         <View style={styles.empty}>
           <Text style={styles.emptyTitle}>{c.emptyJournal}</Text>
-          <Text style={styles.muted}>{language === "vi" ? "Rút bài hoặc lưu một câu trả lời từ guide để tạo dòng đầu tiên." : "Draw cards or save a guide response to create your first entry."}</Text>
+          <Text style={styles.muted}>{language === "vi" ? "Rút bài, viết vài dòng hoặc lưu một câu trả lời từ người dẫn để tạo mục đầu tiên." : "Draw cards, write a few lines or save a guide's answer to create your first entry."}</Text>
           <View style={styles.quickGrid}>
-            <ActionTile icon="albums-outline" label={c.drawTarot} detail="Tarot" onPress={() => onTarot()} />
-            <ActionTile icon="chatbubble-outline" label="Oracle" detail={language === "vi" ? "Nilaza Oracle" : "Nilaza Oracle"} onPress={onChat} />
+            <ActionTile icon="albums-outline" label={c.drawTarot} detail={language === "vi" ? "Trải bài" : "Tarot"} onPress={() => onTarot()} />
+            <ActionTile icon="chatbubble-outline" label={language === "vi" ? "Trò chuyện" : "Chat"} detail="Nilaza Oracle" onPress={onChat} />
           </View>
         </View>
-      ) : visibleEntries.length === 0 ? (
-        <View style={styles.empty}>
-          {journalSearchQuery ? (
-            <>
-              <Text style={styles.emptyTitle}>{language === "vi" ? "Không tìm thấy nội dung phù hợp" : "No saved insight matches this search"}</Text>
-              <Text style={styles.muted}>{language === "vi" ? "Thử từ khóa, nguồn, cảm xúc hoặc ghi chú khác." : "Try another word, source, mood, or private note."}</Text>
-            </>
-          ) : null}
-          <Text style={styles.emptyTitle}>{language === "vi" ? "Chưa có mục phù hợp" : "No matching entries"}</Text>
-          <Text style={styles.muted}>{language === "vi" ? "Đổi bộ lọc hoặc thêm ghi chú riêng vào một insight đã lưu." : "Change the filter or add a private note to a saved insight."}</Text>
-        </View>
-      ) : (
-        visibleEntries.map((entry) => (
-          <JournalCard
-            key={entry.id}
-            entry={entry}
-            language={language}
-            onPress={() => {
-              setSelectedEntryId(entry.id);
-              setDraftNote(journalDraftNoteFor(entry));
-            }}
-          />
-        ))
       )}
-    </View>
+    />
   );
 }
 
@@ -10498,24 +10413,6 @@ function RecentRow({ detail, title }: { detail: string; title: string }) {
   );
 }
 
-function JournalCard({ entry, language, onPress }: { entry: JournalEntry; language: Language; onPress: () => void }) {
-  return (
-    <Pressable style={styles.journalCard} onPress={onPress}>
-      <View style={styles.rowBetween}>
-        <Text style={styles.badge}>{journalSourceLabel(entry.sourceType, language)}</Text>
-        <Ionicons name="chevron-forward-outline" size={18} color={colors.gold} />
-      </View>
-      <Text style={styles.cardTitle}>{entry.title}</Text>
-      <Text style={styles.cardDescription}>{journalEntryBody(entry)}</Text>
-      <View style={styles.metaRail}>
-        {entry.mood && <StatusChip label={moodLabel(entry.mood, language)} tone="neutral" />}
-        {entry.userNote?.trim() ? <StatusChip label={language === "vi" ? "Có ghi chú" : "Note added"} tone="good" /> : null}
-      </View>
-      <Text style={styles.muted}>{formatLocalDateTime(entry.createdAt, language)}</Text>
-    </Pressable>
-  );
-}
-
 function ProfileActionButton({
   detail,
   icon,
@@ -10676,10 +10573,6 @@ zodiacProfilePrompt: {
     minHeight: 76,
     padding: spacing.md
   },
-  safe: {
-    flex: 1,
-    backgroundColor: colors.charcoal
-  },
   hidden: {
     display: "none"
   },
@@ -10695,12 +10588,6 @@ zodiacProfilePrompt: {
     maxWidth: 520,
     minHeight: 0,
     width: "100%"
-  },
-  center: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "center",
-    padding: spacing.lg
   },
   tarotFullscreenOverlay: {
     backgroundColor: "rgba(10, 9, 10, 0.94)",
@@ -10769,60 +10656,6 @@ zodiacProfilePrompt: {
     color: colors.ink,
     fontSize: 15,
     fontWeight: "900"
-  },
-  onboarding: {
-    gap: spacing.md,
-    padding: spacing.lg,
-    paddingBottom: 56
-  },
-  onboardingHero: {
-    gap: spacing.md,
-    minHeight: 720,
-    justifyContent: "center"
-  },
-  onboardingNav: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    minHeight: 36
-  },
-  onboardingSkipText: {
-    color: colors.moon,
-    fontSize: 13,
-    fontWeight: "800"
-  },
-  soulPreviewPanel: {
-    alignItems: "flex-start",
-    backgroundColor: colors.panel,
-    borderColor: "rgba(201, 164, 92, 0.35)",
-    borderRadius: 8,
-    borderWidth: 1,
-    gap: spacing.md,
-    padding: spacing.lg
-  },
-  soulPreviewLine: {
-    borderTopColor: colors.border,
-    borderTopWidth: 1,
-    paddingTop: spacing.md,
-    width: "100%"
-  },
-  inlineInfoPanel: {
-    alignItems: "center",
-    backgroundColor: "rgba(201, 164, 92, 0.10)",
-    borderColor: "rgba(201, 164, 92, 0.28)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.sm,
-    marginTop: spacing.md,
-    padding: spacing.md
-  },
-  inlineInfoText: {
-    color: colors.ivory,
-    flex: 1,
-    fontFamily: typography.bodyFontFamily,
-    fontSize: 13,
-    lineHeight: 20
   },
   screen: {
     padding: 20,
@@ -10902,12 +10735,6 @@ zodiacProfilePrompt: {
     height: 44,
     justifyContent: "center",
     width: 44
-  },
-  editorialTopBrand: {
-    color: colors.gold,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 24,
-    fontWeight: "600"
   },
   editorialStage: {
     paddingBottom: spacing.xl
@@ -11247,35 +11074,6 @@ zodiacProfilePrompt: {
     lineHeight: 20,
     textAlign: "center"
   },
-  editorialPersonaPrimaryButton: {
-    alignItems: "center",
-    backgroundColor: colors.gold,
-    bottom: 84,
-    borderRadius: 8,
-    flexDirection: "row",
-    gap: spacing.sm,
-    justifyContent: "center",
-    left: 0,
-    marginLeft: "auto" as any,
-    marginRight: "auto" as any,
-    maxWidth: 480,
-    minHeight: 56,
-    paddingHorizontal: spacing.lg,
-    position: "fixed" as any,
-    right: 0,
-    width: "calc(100% - 40px)" as any,
-    zIndex: 30
-  },
-  editorialPersonaPrimaryButtonLocked: {
-    opacity: 0.94
-  },
-  editorialPersonaPrimaryButtonText: {
-    color: colors.charcoal,
-    fontSize: 14,
-    fontWeight: "800",
-    lineHeight: 20,
-    textTransform: "uppercase"
-  },
   personaFloatingCta: {
     alignItems: "center",
     alignSelf: "center",
@@ -11560,42 +11358,6 @@ zodiacProfilePrompt: {
     fontSize: 12,
     fontWeight: "800"
   },
-  brandMark: {
-    alignItems: "center",
-    borderColor: colors.gold,
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 80,
-    justifyContent: "center",
-    width: 58
-  },
-  brandMarkText: {
-    color: colors.gold,
-    fontSize: 34,
-    fontWeight: "800"
-  },
-  moonHalo: {
-    alignItems: "center",
-    alignSelf: "center",
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 190,
-    justifyContent: "center",
-    overflow: "hidden",
-    width: 128
-  },
-  heroCardArt: {
-    height: "100%",
-    opacity: 0.88,
-    width: "100%"
-  },
-  logo: {
-    color: colors.ivory,
-    fontSize: 46,
-    fontWeight: "700",
-    textAlign: "center"
-  },
   lead: {
     color: colors.muted,
     fontFamily: typography.bodyFontFamily,
@@ -11635,71 +11397,6 @@ zodiacProfilePrompt: {
     lineHeight: 55,
     marginBottom: spacing.lg
   },
-  homeTitle: {
-    color: colors.ivory,
-    fontFamily: typography.bodyFontFamily,
-    fontSize: 27,
-    fontWeight: "700",
-    marginTop: spacing.md
-  },
-  homeSubtitle: {
-    color: colors.muted,
-    fontSize: 16,
-    marginTop: spacing.sm,
-    marginBottom: spacing.xl
-  },
-  streakRibbon: {
-    alignItems: "center",
-    backgroundColor: "rgba(14, 90, 90, 0.20)",
-    borderColor: "rgba(201, 164, 92, 0.28)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.sm,
-    marginBottom: spacing.lg,
-    padding: spacing.md
-  },
-  streakRibbonComplete: {
-    backgroundColor: "rgba(201, 164, 92, 0.12)",
-    borderColor: "rgba(201, 164, 92, 0.42)"
-  },
-  streakIconWrap: {
-    alignItems: "center",
-    backgroundColor: "rgba(201, 164, 92, 0.10)",
-    borderColor: "rgba(201, 164, 92, 0.28)",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 36,
-    justifyContent: "center",
-    width: 36
-  },
-  streakTitle: {
-    color: colors.ivory,
-    fontFamily: typography.bodySemiBoldFontFamily,
-    fontSize: 14,
-    lineHeight: 19
-  },
-  streakBody: {
-    color: colors.onSurfaceVariant,
-    fontFamily: typography.bodyFontFamily,
-    fontSize: 12,
-    lineHeight: 17,
-    marginTop: 2
-  },
-  streakCount: {
-    color: colors.gold,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 28,
-    lineHeight: 32,
-    minWidth: 28,
-    textAlign: "right"
-  },
-  sectionTitle: {
-    color: colors.ivory,
-    fontSize: 18,
-    fontWeight: "800",
-    marginTop: spacing.lg
-  },
   body: {
     color: colors.ivory,
     fontFamily: typography.bodyFontFamily,
@@ -11736,17 +11433,6 @@ zodiacProfilePrompt: {
     marginTop: spacing.md,
     padding: spacing.md
   },
-  inlineRetry: {
-    alignItems: "center",
-    flexDirection: "row",
-    gap: spacing.xs,
-    marginTop: spacing.sm
-  },
-  inlineRetryText: {
-    color: colors.gold,
-    fontSize: 13,
-    fontWeight: "800"
-  },
   disabledAction: {
     opacity: 0.55
   },
@@ -11760,10 +11446,6 @@ zodiacProfilePrompt: {
     flexDirection: "row",
     gap: spacing.sm,
     justifyContent: "space-between"
-  },
-  alignEnd: {
-    alignItems: "flex-end",
-    marginTop: spacing.lg
   },
   wrap: {
     flexDirection: "row",
@@ -11941,17 +11623,6 @@ zodiacProfilePrompt: {
     justifyContent: "center",
     width: 116
   },
-  astrologyOrb: {
-    alignItems: "center",
-    backgroundColor: "rgba(14, 90, 90, 0.18)",
-    borderColor: "rgba(201, 164, 92, 0.42)",
-    borderRadius: 8,
-    borderStyle: "dashed",
-    borderWidth: 1,
-    height: 188,
-    justifyContent: "center",
-    width: 188
-  },
   astrologyKicker: {
     color: colors.gold,
     fontFamily: typography.bodySemiBoldFontFamily,
@@ -12009,25 +11680,6 @@ zodiacProfilePrompt: {
     borderWidth: 1,
     marginTop: spacing.lg,
     padding: spacing.lg
-  },
-  astrologyChartFrame: {
-    alignItems: "center",
-    backgroundColor: "rgba(16, 14, 12, 0.62)",
-    borderColor: "rgba(201, 164, 92, 0.30)",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 156,
-    justifyContent: "center",
-    width: 156
-  },
-  astrologyChartMeta: {
-    color: colors.gold,
-    fontFamily: typography.bodySemiBoldFontFamily,
-    fontSize: 10,
-    lineHeight: 15,
-    marginTop: spacing.sm,
-    textAlign: "center",
-    textTransform: "uppercase"
   },
   astrologyReportTabs: {
     borderBottomColor: colors.border,
@@ -12268,85 +11920,10 @@ zodiacProfilePrompt: {
     fontWeight: "900",
     textTransform: "uppercase"
   },
-  smallLightButton: {
-    minHeight: 44,
-    justifyContent: "center",
-    backgroundColor: colors.ivory,
-    borderRadius: 8,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm
-  },
-  smallLightButtonText: {
-    color: colors.ink,
-    fontSize: 12,
-    fontWeight: "800"
-  },
   chipRail: {
     flexDirection: "row",
     gap: spacing.sm,
     paddingVertical: spacing.md
-  },
-  dailyPanel: {
-    backgroundColor: colors.panel,
-    borderColor: "rgba(201, 164, 92, 0.35)",
-    borderRadius: 8,
-    borderWidth: 1,
-    overflow: "hidden",
-    padding: spacing.lg
-  },
-  dailyPanelImage: {
-    bottom: 0,
-    height: "100%",
-    opacity: 0.24,
-    position: "absolute",
-    right: 0,
-    top: 0,
-    width: "48%"
-  },
-  dailyPanelShade: {
-    backgroundColor: "rgba(33, 31, 34, 0.48)",
-    bottom: 0,
-    left: 0,
-    position: "absolute",
-    right: 0,
-    top: 0
-  },
-  dailyText: {
-    color: colors.ivory,
-    fontSize: 24,
-    fontWeight: "700",
-    lineHeight: 34,
-    marginTop: spacing.lg
-  },
-  dailyMeta: {
-    color: colors.moon,
-    fontSize: 11,
-    fontWeight: "700",
-    textTransform: "uppercase"
-  },
-  dailyPrompt: {
-    color: colors.ivory,
-    fontFamily: typography.bodyFontFamily,
-    fontSize: 14,
-    lineHeight: 21,
-    marginTop: spacing.md,
-    opacity: 0.86
-  },
-  dailyActions: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: spacing.sm,
-    marginTop: spacing.lg
-  },
-  zodiacPulsePanel: {
-    alignItems: "flex-start",
-    backgroundColor: "rgba(14, 90, 90, 0.24)",
-    borderColor: "rgba(201, 164, 92, 0.28)",
-    borderRadius: 8,
-    borderWidth: 1,
-    gap: spacing.md,
-    marginTop: spacing.lg,
-    padding: spacing.lg
   },
   zodiacHubPulse: {
     backgroundColor: "rgba(14, 90, 90, 0.24)",
@@ -12392,35 +11969,11 @@ zodiacProfilePrompt: {
     fontSize: 11,
     marginTop: 2
   },
-  zodiacPulseHeader: {
-    alignItems: "center",
-    flexDirection: "row",
-    gap: spacing.md,
-    width: "100%"
-  },
-  zodiacPulseIcon: {
-    alignItems: "center",
-    backgroundColor: "rgba(201, 164, 92, 0.12)",
-    borderColor: "rgba(201, 164, 92, 0.32)",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 42,
-    justifyContent: "center",
-    width: 42
-  },
   zodiacPulseKicker: {
     color: colors.gold,
     fontSize: 11,
     fontWeight: "800",
     textTransform: "uppercase"
-  },
-  zodiacPulseTitle: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 22,
-    fontWeight: "600",
-    lineHeight: 27,
-    marginTop: 2
   },
   zodiacPulseMood: {
     color: colors.moon,
@@ -12489,235 +12042,6 @@ zodiacProfilePrompt: {
     color: colors.gold,
     fontFamily: typography.bodySemiBoldFontFamily,
     fontSize: 12
-  },
-  zodiacPulseIconButton: {
-    alignItems: "center",
-    borderColor: "rgba(201, 164, 92, 0.36)",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 36,
-    justifyContent: "center",
-    width: 36
-  },
-  zodiacPulseButton: {
-    alignItems: "center",
-    backgroundColor: colors.gold,
-    borderRadius: 8,
-    height: 34,
-    justifyContent: "center",
-    width: 34
-  },
-  pulsePanel: {
-    backgroundColor: colors.panel,
-    borderColor: "rgba(201, 164, 92, 0.28)",
-    borderRadius: 8,
-    borderWidth: 1,
-    marginTop: spacing.lg,
-    padding: spacing.lg
-  },
-  pulseHeader: {
-    alignItems: "flex-start",
-    flexDirection: "row",
-    gap: spacing.md,
-    justifyContent: "space-between"
-  },
-  pulseTitle: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 25,
-    fontWeight: "600",
-    lineHeight: 31
-  },
-  pulseRitualStage: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: spacing.lg
-  },
-  pulseCardStage: {
-    alignItems: "center",
-    minWidth: 160,
-    position: "relative"
-  },
-  pulseCardStageRevealed: {
-    minWidth: 190
-  },
-  pulseCardHalo: {
-    backgroundColor: "rgba(201, 164, 92, 0.18)",
-    borderRadius: 8,
-    height: 148,
-    position: "absolute",
-    top: 34,
-    width: 150
-  },
-  pulseCardImage: {
-    backgroundColor: "#181517",
-    borderColor: "rgba(201, 164, 92, 0.46)",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 216,
-    width: 136
-  },
-  pulseCardLabel: {
-    color: colors.gold,
-    fontSize: 11,
-    fontWeight: "800",
-    marginTop: spacing.sm,
-    textAlign: "center",
-    textTransform: "uppercase"
-  },
-  pulseCardKeywords: {
-    color: colors.moon,
-    fontSize: 12,
-    lineHeight: 18,
-    marginTop: 4,
-    maxWidth: 260,
-    textAlign: "center"
-  },
-  pulseCopy: {
-    marginTop: spacing.lg,
-    width: "100%"
-  },
-  pulseDeckLabel: {
-    color: colors.moon,
-    fontSize: 11,
-    fontWeight: "800",
-    textAlign: "center",
-    textTransform: "uppercase"
-  },
-  pulseDeckName: {
-    color: colors.gold,
-    fontSize: 13,
-    fontWeight: "800",
-    marginTop: 4,
-    textAlign: "center",
-    textTransform: "uppercase"
-  },
-  pulseBody: {
-    color: colors.ivory,
-    fontSize: 15,
-    lineHeight: 24,
-    marginTop: spacing.sm,
-    textAlign: "center"
-  },
-  pulseStepList: {
-    gap: spacing.sm,
-    marginTop: spacing.md,
-    width: "100%"
-  },
-  pulseStepRow: {
-    alignItems: "flex-start",
-    flexDirection: "row",
-    gap: spacing.sm,
-    width: "100%"
-  },
-  pulseStepBadge: {
-    backgroundColor: "rgba(201, 164, 92, 0.16)",
-    borderColor: "rgba(201, 164, 92, 0.38)",
-    borderRadius: 8,
-    borderWidth: 1,
-    color: colors.gold,
-    fontSize: 11,
-    fontWeight: "900",
-    height: 24,
-    lineHeight: 22,
-    textAlign: "center",
-    width: 24
-  },
-  pulseStepText: {
-    color: colors.muted,
-    flex: 1,
-    fontSize: 13,
-    lineHeight: 20
-  },
-  pulseMicroAction: {
-    alignItems: "flex-start",
-    backgroundColor: "rgba(14, 90, 90, 0.20)",
-    borderColor: "rgba(14, 90, 90, 0.42)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.sm,
-    marginTop: spacing.md,
-    padding: spacing.md
-  },
-  pulseMicroActionText: {
-    color: colors.ivory,
-    flex: 1,
-    fontSize: 14,
-    lineHeight: 21
-  },
-  pulseMoodLabel: {
-    color: colors.moon,
-    fontSize: 12,
-    fontWeight: "800",
-    marginTop: spacing.lg
-  },
-  pulseActionRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: spacing.sm,
-    marginTop: spacing.md
-  },
-  pulsePrimaryButton: {
-    alignItems: "center",
-    backgroundColor: colors.ivory,
-    borderRadius: 8,
-    flexDirection: "row",
-    gap: spacing.xs,
-    minHeight: 40,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm
-  },
-  pulsePrimaryButtonText: {
-    color: colors.ink,
-    flexShrink: 1,
-    fontSize: 13,
-    fontWeight: "900"
-  },
-  pulseSecondaryButton: {
-    alignItems: "center",
-    borderColor: "rgba(201, 164, 92, 0.42)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.xs,
-    minHeight: 40,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm
-  },
-  pulseSecondaryButtonText: {
-    color: colors.gold,
-    flexShrink: 1,
-    fontSize: 13,
-    fontWeight: "900"
-  },
-  situationGrid: {
-    gap: spacing.sm
-  },
-  situationTile: {
-    alignItems: "center",
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.md,
-    minHeight: 68,
-    padding: spacing.md
-  },
-  situationCopy: {
-    flex: 1
-  },
-  situationTitle: {
-    color: colors.ivory,
-    fontSize: 15,
-    fontWeight: "800"
-  },
-  situationDetail: {
-    color: colors.muted,
-    fontSize: 13,
-    lineHeight: 19,
-    marginTop: 2
   },
   councilHubHero: {
     backgroundColor: colors.panel,
@@ -12837,22 +12161,6 @@ zodiacProfilePrompt: {
     fontSize: 12,
     fontWeight: "900"
   },
-  smallGhostButton: {
-    alignItems: "center",
-    borderColor: "rgba(201, 164, 92, 0.34)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.xs,
-    minHeight: 44,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: spacing.xs
-  },
-  smallGhostButtonText: {
-    color: colors.gold,
-    fontSize: 12,
-    fontWeight: "800"
-  },
   quickGrid: {
     flexDirection: "row",
     gap: spacing.md,
@@ -12912,12 +12220,6 @@ zodiacProfilePrompt: {
     fontSize: 11,
     fontWeight: "700",
     lineHeight: 14
-  },
-  tileGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: spacing.md,
-    marginTop: spacing.md
   },
   featureHero: {
     borderColor: colors.border,
@@ -13007,21 +12309,11 @@ zodiacProfilePrompt: {
     fontWeight: "800",
     marginTop: spacing.md
   },
-  featureSmallTitle: {
-    color: colors.ivory,
-    fontSize: 22,
-    fontWeight: "700"
-  },
   featureDetail: {
     color: colors.muted,
     fontSize: 15,
     lineHeight: 22,
     marginTop: spacing.sm
-  },
-  featureGrid: {
-    flexDirection: "row",
-    gap: spacing.md,
-    marginTop: spacing.md
   },
   visualFeatureCard: {
     backgroundColor: colors.panel,
@@ -13049,14 +12341,6 @@ zodiacProfilePrompt: {
   visualFeatureFullImage: {
     width: 104,
     alignSelf: "center"
-  },
-  visualFeatureShade: {
-    backgroundColor: "rgba(21, 19, 17, 0.54)",
-    bottom: 0,
-    left: 0,
-    position: "absolute",
-    right: 0,
-    top: 0
   },
   visualFeatureContent: {
     flex: 1,
@@ -13140,11 +12424,6 @@ zodiacProfilePrompt: {
     height: "100%",
     width: "100%"
   },
-  avatarText: {
-    color: colors.gold,
-    fontSize: 24,
-    fontWeight: "800"
-  },
   arrowButton: {
     borderColor: colors.gold,
     borderRadius: 8,
@@ -13171,11 +12450,6 @@ zodiacProfilePrompt: {
     borderWidth: 1,
     height: 58,
     width: 38
-  },
-  recentIcon: {
-    color: colors.gold,
-    fontSize: 25,
-    fontWeight: "800"
   },
   personaCard: {
     alignItems: "flex-start",
@@ -13323,62 +12597,6 @@ zodiacProfilePrompt: {
     marginHorizontal: -16,
     paddingHorizontal: 16
   },
-  personaRail: {
-    flexDirection: "row",
-    gap: spacing.sm,
-    paddingVertical: spacing.md
-  },
-  personaPill: {
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    minHeight: 62,
-    padding: spacing.sm,
-    width: 148
-  },
-  activePill: {
-    borderColor: colors.gold
-  },
-  pillTitle: {
-    color: colors.ivory,
-    fontSize: 13,
-    fontWeight: "800"
-  },
-  pillText: {
-    color: colors.moon,
-    fontSize: 11,
-    marginTop: spacing.xs
-  },
-  personaDetailHero: {
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    gap: spacing.sm,
-    padding: spacing.lg
-  },
-  personaPortrait: {
-    alignItems: "center",
-    alignSelf: "center",
-    backgroundColor: colors.charcoal,
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 220,
-    justifyContent: "center",
-    marginBottom: spacing.md,
-    overflow: "hidden",
-    width: "100%"
-  },
-  personaPortraitImage: {
-    height: "100%",
-    width: "100%"
-  },
-  personaPortraitText: {
-    color: colors.gold,
-    fontSize: 84,
-    fontWeight: "800"
-  },
   personaDetailTitle: {
     color: colors.ivory,
     fontSize: 31,
@@ -13391,151 +12609,6 @@ zodiacProfilePrompt: {
     lineHeight: 32,
     marginTop: spacing.xl
   },
-  promptRow: {
-    alignItems: "center",
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.md,
-    justifyContent: "space-between",
-    marginTop: spacing.sm,
-    padding: spacing.lg
-  },
-  promptRowText: {
-    color: colors.ivory,
-    flex: 1,
-    fontSize: 17,
-    lineHeight: 24
-  },
-  segmentedTabs: {
-    backgroundColor: "rgba(247, 241, 230, 0.06)",
-    borderRadius: 8,
-    flexDirection: "row",
-    gap: spacing.xs,
-    marginTop: spacing.md,
-    padding: spacing.xs
-  },
-  segmentedTab: {
-    alignItems: "center",
-    borderRadius: 8,
-    flex: 1,
-    minHeight: 40,
-    justifyContent: "center",
-    paddingHorizontal: spacing.sm
-  },
-  segmentedTabActive: {
-    backgroundColor: "rgba(201, 164, 92, 0.16)"
-  },
-  segmentedTabText: {
-    color: colors.moon,
-    fontSize: 12,
-    fontWeight: "800"
-  },
-  segmentedTabTextActive: {
-    color: colors.gold
-  },
-  chatTopBar: {
-    alignItems: "center",
-    borderBottomColor: colors.border,
-    borderBottomWidth: 1,
-    flexDirection: "row",
-    gap: spacing.md,
-    marginHorizontal: -20,
-    marginTop: -20,
-    padding: 20
-  },
-  chatRoomShell: {
-    flex: 1,
-    paddingBottom: 72,
-    paddingHorizontal: 20,
-    paddingTop: 20
-  },
-  chatMessagesContent: {
-    paddingBottom: spacing.lg
-  },
-  chatComposerDock: {
-    backgroundColor: colors.charcoal,
-    borderTopColor: colors.border,
-    borderTopWidth: 1,
-    marginHorizontal: -20,
-    paddingBottom: spacing.sm,
-    paddingHorizontal: 20,
-    paddingTop: spacing.sm
-  },
-  personaTinyAvatar: {
-    alignItems: "center",
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 42,
-    justifyContent: "center",
-    overflow: "hidden",
-    width: 42
-  },
-  tinyAvatarImage: {
-    height: "100%",
-    width: "100%"
-  },
-  chatTitle: {
-    color: colors.ivory,
-    flex: 1,
-    fontSize: 25,
-    fontWeight: "800"
-  },
-  chatMenu: {
-    color: colors.ivory,
-    fontSize: 22,
-    fontWeight: "800"
-  },
-  chatPanel: {
-    gap: spacing.md,
-    marginTop: spacing.lg
-  },
-  handoffPanel: {
-    alignItems: "flex-start",
-    backgroundColor: "rgba(14, 90, 90, 0.22)",
-    borderColor: "rgba(201, 164, 92, 0.32)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.sm,
-    marginTop: spacing.md,
-    padding: spacing.md
-  },
-  handoffTitle: {
-    color: colors.gold,
-    fontSize: 13,
-    fontWeight: "800",
-    textTransform: "uppercase"
-  },
-  handoffBody: {
-    color: colors.moon,
-    fontSize: 14,
-    lineHeight: 20,
-    marginTop: 4
-  },
-  messageBubble: {
-    borderRadius: 8,
-    padding: spacing.lg
-  },
-  userBubble: {
-    alignSelf: "flex-end",
-    backgroundColor: colors.ivory,
-    borderRadius: 12,
-    maxWidth: "88%",
-    padding: spacing.lg
-  },
-  guideBubble: {
-    alignSelf: "flex-start",
-    backgroundColor: colors.ink,
-    borderColor: colors.border,
-    borderRadius: 12,
-    borderWidth: 1,
-    maxWidth: "88%",
-    padding: spacing.lg
-  },
   typingIndicator: {
     flexDirection: "row",
     alignItems: "center",
@@ -13547,75 +12620,6 @@ zodiacProfilePrompt: {
     height: 6,
     borderRadius: 3,
     backgroundColor: colors.gold,
-  },
-  messageText: {
-    color: colors.ivory,
-    fontSize: 17,
-    lineHeight: 28
-  },
-  userMessageText: {
-    color: colors.charcoal,
-    fontSize: 17,
-    lineHeight: 28
-  },
-  saveLink: {
-    color: colors.gold,
-    fontSize: 13,
-    fontWeight: "800",
-    marginTop: spacing.md
-  },
-  chatActionRow: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: spacing.lg
-  },
-  iconText: {
-    alignItems: "center",
-    flexDirection: "row",
-    gap: spacing.xs
-  },
-  iconAction: {
-    color: colors.moon,
-    fontSize: 13,
-    fontWeight: "800"
-  },
-  newChat: {
-    color: colors.gold,
-    fontSize: 13,
-    fontWeight: "900"
-  },
-  inputRow: {
-    alignItems: "flex-end",
-    flexDirection: "row",
-    gap: spacing.sm
-  },
-  chatInput: {
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    color: colors.ivory,
-    flex: 1,
-    fontSize: 15,
-    maxHeight: 120,
-    minHeight: 54,
-    padding: spacing.md
-  },
-  sendButton: {
-    alignItems: "center",
-    backgroundColor: colors.panel,
-    borderColor: colors.gold,
-    borderRadius: 8,
-    borderWidth: 1,
-    justifyContent: "center",
-    minHeight: 54,
-    paddingHorizontal: spacing.md
-  },
-  sendText: {
-    color: colors.gold,
-    fontSize: 22,
-    fontWeight: "900"
   },
   tarotLandingPanel: {
     alignItems: "center",
@@ -13703,31 +12707,6 @@ zodiacProfilePrompt: {
     color: colors.ivory,
     fontSize: 15,
     lineHeight: 23
-  },
-  tarotLearningGrid: {
-    gap: spacing.sm
-  },
-  tarotLearningItem: {
-    alignItems: "flex-start",
-    backgroundColor: "rgba(247, 241, 230, 0.06)",
-    borderColor: "rgba(247, 241, 230, 0.10)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.sm,
-    padding: spacing.md
-  },
-  tarotLearningItemTitle: {
-    color: colors.ivory,
-    fontSize: 14,
-    fontWeight: "900",
-    lineHeight: 19
-  },
-  tarotLearningItemBody: {
-    color: colors.onSurfaceVariant,
-    fontSize: 13,
-    lineHeight: 19,
-    marginTop: 3
   },
   tarotLearningNote: {
     color: colors.moon,
@@ -14049,14 +13028,6 @@ zodiacProfilePrompt: {
     height: "100%",
     width: "100%"
   },
-  deckDetailHeroShade: {
-    backgroundColor: "rgba(21, 20, 22, 0.46)",
-    bottom: 0,
-    left: 0,
-    position: "absolute",
-    right: 0,
-    top: 0
-  },
   deckDetailHeroCopy: {
     gap: spacing.md,
     justifyContent: "flex-end",
@@ -14091,28 +13062,6 @@ zodiacProfilePrompt: {
     color: colors.ivory,
     fontSize: 16,
     lineHeight: 25
-  },
-  deckDetailImages: {
-    alignItems: "flex-end",
-    flexDirection: "row",
-    gap: spacing.sm,
-    marginBottom: spacing.lg
-  },
-  deckDetailPreview: {
-    backgroundColor: colors.charcoal,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 146,
-    width: 86
-  },
-  deckDetailPreviewCenter: {
-    height: 174,
-    width: 102
-  },
-  deckInfoGrid: {
-    gap: spacing.md,
-    marginTop: spacing.lg
   },
   deckTraitGrid: {
     flexDirection: "row",
@@ -14257,31 +13206,6 @@ zodiacProfilePrompt: {
     fontWeight: "700",
     lineHeight: 18
   },
-  cardMeaningRail: {
-    flexDirection: "row",
-    gap: spacing.sm,
-    marginTop: spacing.md
-  },
-  cardMeaningTile: {
-    alignItems: "center",
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    flex: 1,
-    padding: spacing.sm
-  },
-  cardMeaningThumb: {
-    height: 118,
-    width: "100%"
-  },
-  cardMeaningTileTitle: {
-    color: colors.ivory,
-    fontSize: 12,
-    fontWeight: "800",
-    marginTop: spacing.xs,
-    textAlign: "center"
-  },
   deckLibrarySection: {
     gap: spacing.sm,
     marginTop: spacing.lg
@@ -14402,24 +13326,6 @@ zodiacProfilePrompt: {
   cardMeaningTopSpacer: {
     width: 42
   },
-  cardMeaningLibraryButtonText: {
-    color: colors.gold,
-    fontSize: 13,
-    fontWeight: "900"
-  },
-  tarotImageExpandBadge: {
-    alignItems: "center",
-    backgroundColor: "rgba(21, 20, 22, 0.78)",
-    borderColor: "rgba(247, 241, 230, 0.18)",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 34,
-    justifyContent: "center",
-    position: "absolute",
-    right: spacing.sm,
-    top: spacing.sm,
-    width: 34
-  },
   cardMeaningChipRow: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -14438,26 +13344,12 @@ zodiacProfilePrompt: {
     paddingHorizontal: spacing.sm,
     paddingVertical: spacing.xs
   },
-  cardMeaningGuidePanel: {
-    backgroundColor: "rgba(247, 241, 230, 0.06)",
-    borderColor: "rgba(201, 164, 92, 0.30)",
-    borderRadius: 8,
-    borderWidth: 1,
-    marginTop: spacing.lg,
-    padding: spacing.lg
-  },
   cardMeaningSectionKicker: {
     color: colors.gold,
     fontSize: 11,
     fontWeight: "900",
     letterSpacing: 0.6,
     textTransform: "uppercase"
-  },
-  cardMeaningGuideText: {
-    color: colors.ivory,
-    fontSize: 18,
-    lineHeight: 29,
-    marginTop: spacing.sm
   },
   cardMeaningBody: {
     color: colors.moon,
@@ -14519,53 +13411,6 @@ zodiacProfilePrompt: {
     borderWidth: 1,
     padding: spacing.md
   },
-  drawStage: {
-    alignItems: "center",
-    minHeight: 720,
-    justifyContent: "center"
-  },
-  drawDeck: {
-    backgroundColor: colors.charcoal,
-    borderColor: colors.gold,
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 270,
-    marginVertical: spacing.xl,
-    overflow: "hidden",
-    width: 156
-  },
-  drawDeckImage: {
-    height: "100%",
-    opacity: 0.86,
-    width: "100%"
-  },
-  drawDeckOverlay: {
-    alignItems: "center",
-    backgroundColor: "rgba(21, 20, 22, 0.28)",
-    bottom: 0,
-    justifyContent: "center",
-    left: 0,
-    position: "absolute",
-    right: 0,
-    top: 0
-  },
-  drawDeckText: {
-    color: colors.ivory,
-    fontSize: 26,
-    fontWeight: "800"
-  },
-  spreadSlots: {
-    flexDirection: "row",
-    gap: spacing.md,
-    marginBottom: spacing.lg
-  },
-  spreadSlot: {
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 96,
-    width: 62
-  },
   resultBadge: {
     backgroundColor: "rgba(14, 90, 90, 0.30)",
     borderColor: "rgba(14, 90, 90, 0.60)",
@@ -14578,75 +13423,6 @@ zodiacProfilePrompt: {
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.xs,
     textTransform: "uppercase"
-  },
-  resultQuestion: {
-    color: colors.ivory,
-    fontSize: 25,
-    fontWeight: "700",
-    lineHeight: 34,
-    marginTop: spacing.md,
-    textAlign: "center"
-  },
-  spreadRow: {
-    alignItems: "flex-end",
-    flexDirection: "row",
-    gap: spacing.sm,
-    marginVertical: spacing.xl
-  },
-  spreadCardWrap: {
-    alignItems: "center",
-    flex: 1
-  },
-  spreadCardCenter: {
-    marginBottom: spacing.lg
-  },
-  spreadLabel: {
-    color: colors.moon,
-    fontSize: 10,
-    fontWeight: "800",
-    marginBottom: spacing.sm,
-    textTransform: "uppercase"
-  },
-  spreadLabelActive: {
-    color: colors.gold
-  },
-  spreadCardImage: {
-    backgroundColor: colors.charcoal,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 190,
-    width: "100%"
-  },
-  synthesisPanel: {
-    backgroundColor: colors.panel,
-    borderColor: "rgba(201, 164, 92, 0.35)",
-    borderRadius: 8,
-    borderWidth: 1,
-    padding: spacing.lg
-  },
-  editorialPromptLabel: {
-    color: colors.moon,
-    fontSize: 11,
-    fontWeight: "800",
-    letterSpacing: 0.8,
-    marginTop: spacing.lg,
-    textAlign: "center",
-    textTransform: "uppercase"
-  },
-  editorialPromptBody: {
-    color: colors.gold,
-    fontSize: 17,
-    fontWeight: "600",
-    lineHeight: 28,
-    marginTop: spacing.sm,
-    textAlign: "center"
-  },
-  meaningBlock: {
-    borderTopColor: colors.border,
-    borderTopWidth: 1,
-    marginTop: spacing.xl,
-    paddingTop: spacing.lg
   },
   resultCardTitle: {
     color: colors.ivory,
@@ -14860,54 +13636,12 @@ zodiacProfilePrompt: {
     fontSize: 14,
     lineHeight: 20
   },
-  journalCard: {
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    marginTop: spacing.sm,
-    padding: spacing.md
-  },
   journalDetailHero: {
     backgroundColor: colors.panel,
     borderColor: "rgba(201, 164, 92, 0.35)",
     borderRadius: 8,
     borderWidth: 1,
     padding: spacing.lg
-  },
-  memoryPanel: {
-    backgroundColor: colors.panel,
-    borderColor: "rgba(14, 90, 90, 0.45)",
-    borderRadius: 8,
-    borderWidth: 1,
-    marginBottom: spacing.md,
-    marginTop: spacing.sm,
-    padding: spacing.lg
-  },
-  memoryTitle: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 24,
-    fontWeight: "600",
-    lineHeight: 31
-  },
-  memorySummary: {
-    color: colors.muted,
-    fontSize: 14,
-    lineHeight: 22,
-    marginTop: spacing.sm
-  },
-  memoryStats: {
-    flexDirection: "row",
-    gap: spacing.md,
-    marginTop: spacing.md
-  },
-  memoryPrompt: {
-    color: colors.gold,
-    fontSize: 15,
-    fontWeight: "700",
-    lineHeight: 23,
-    marginTop: spacing.md
   },
   snapshotPanel: {
     backgroundColor: "rgba(14, 90, 90, 0.18)",
@@ -15313,27 +14047,6 @@ zodiacProfilePrompt: {
   premiumMetric: {
     flex: 1
   },
-  profileRow: {
-    alignItems: "center",
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: spacing.sm,
-    padding: spacing.md
-  },
-  profileRowTitle: {
-    color: colors.ivory,
-    fontSize: 18,
-    fontWeight: "800"
-  },
-  profileRowDetail: {
-    color: colors.muted,
-    fontSize: 14,
-    marginTop: spacing.xs
-  },
   profileChevron: {
     color: colors.ivory,
     fontSize: 20
@@ -15375,50 +14088,6 @@ zodiacProfilePrompt: {
     flexShrink: 1,
     fontSize: 14,
     fontWeight: "800"
-  },
-  notificationHomePanel: {
-    alignItems: "center",
-    backgroundColor: "rgba(14, 90, 90, 0.18)",
-    borderColor: "rgba(201, 164, 92, 0.24)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.md,
-    marginBottom: spacing.md,
-    marginTop: spacing.sm,
-    padding: spacing.md
-  },
-  notificationHomeIcon: {
-    alignItems: "center",
-    backgroundColor: "rgba(201, 164, 92, 0.12)",
-    borderRadius: 8,
-    height: 38,
-    justifyContent: "center",
-    width: 38
-  },
-  notificationHomeTitle: {
-    color: colors.ivory,
-    fontSize: 15,
-    fontWeight: "800"
-  },
-  notificationHomeBody: {
-    color: colors.muted,
-    fontSize: 12,
-    lineHeight: 17,
-    marginTop: 2
-  },
-  notificationHomeButton: {
-    alignItems: "center",
-    backgroundColor: colors.gold,
-    borderRadius: 8,
-    minWidth: 44,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm
-  },
-  notificationHomeButtonText: {
-    color: colors.charcoal,
-    fontSize: 13,
-    fontWeight: "900"
   },
   notificationSettingsPanel: {
     backgroundColor: colors.panel,
@@ -15704,40 +14373,6 @@ zodiacProfilePrompt: {
   },
   confirmDangerText: {
     color: colors.rose
-  },
-  tabs: {
-    alignSelf: "center",
-    backgroundColor: "rgba(33, 31, 34, 0.96)",
-    borderTopColor: colors.border,
-    borderTopWidth: 1,
-    bottom: 0,
-    flexDirection: "row",
-    maxWidth: 520,
-    paddingBottom: spacing.sm,
-    paddingHorizontal: spacing.sm,
-    paddingTop: spacing.sm,
-    position: "absolute",
-    width: "100%"
-  },
-  tab: {
-    alignItems: "center",
-    flex: 1,
-    minHeight: 52,
-    justifyContent: "center"
-  },
-  tabIcon: {
-    color: colors.moon,
-    fontSize: 15,
-    fontWeight: "900"
-  },
-  tabText: {
-    color: colors.moon,
-    fontSize: 11,
-    fontWeight: "800",
-    marginTop: spacing.xs
-  },
-  activeTabText: {
-    color: colors.gold
   },
   traitRail: {
     flexDirection: "row",
