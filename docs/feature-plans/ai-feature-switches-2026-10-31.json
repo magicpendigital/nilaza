@@ -29,7 +29,8 @@
     "apps/mobile/src/backendClient.ts",
     "apps/mobile/src/__tests__/",
     "apps/mobile/src/features/council/",
-    "docs/HANDOFF_CURRENT_STATE.vi.md"
+    "docs/HANDOFF_CURRENT_STATE.vi.md",
+    "apps/mobile/src/features/astrology/AstrologyExperience.tsx"
   ],
   "untouchedSurfaces": [
     "No SQL is run and nothing is deployed in this change; both wait for Owner approval with the Singapore packet.",
