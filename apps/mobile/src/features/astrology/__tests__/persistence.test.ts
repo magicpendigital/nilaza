@@ -103,3 +103,18 @@ test("saved reports stay in their account; clearing birth data preserves library
     a.storage.saveJsonOrThrow(astrologyStorageKey, d),
   ).rejects.toThrow();
 });
+test("saved people are optional, validated like charts, and cleared with birth data", async () => {
+  const person = { id: "p1", createdAt: "2026-10-31T00:00:00Z", name: "Minh", relationship: "friend" as const, placeName: "Fixture", input, chart: calculateChart(input) };
+  const base = { ...freshAstrologyData(), nextRevision: 2 };
+  expect(validAstrologyData(base)).toBe(true);
+  expect(validAstrologyData({ ...base, people: [person] })).toBe(true);
+  expect(validAstrologyData({ ...base, people: [{ ...person, name: " " }] })).toBe(false);
+  expect(validAstrologyData({ ...base, people: [{ ...person, name: "x".repeat(41) }] })).toBe(false);
+  expect(validAstrologyData({ ...base, people: [{ ...person, relationship: "enemy" }] })).toBe(false);
+  expect(validAstrologyData({ ...base, people: [{ ...person, input: { ...input, revision: 2 } }] })).toBe(false);
+  const storage = createAccountStorage(new AccountScope({ status: "signed_in", user: { id: "qa-people" } } as any));
+  storage.markHydrated();
+  await storage.saveJsonOrThrow(astrologyStorageKey, { ...base, people: [person] });
+  await clearAstrologyBirthData(storage);
+  expect((await storage.loadJson(astrologyStorageKey, freshAstrologyData())).people).toEqual([]);
+});

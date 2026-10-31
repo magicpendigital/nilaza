@@ -30,7 +30,9 @@ Nilaza now has a testing-ready tarot content layer:
 - `packages/content/data/tarot-decks.json`
   - Deck positioning, visual direction, reading style, access tier, and user-facing VI/EN deck copy.
 - `packages/content/data/tarot-cards.json`
-  - Canonical card data used by the local tarot draw flow.
+  - Canonical card data used by the local tarot draw flow. `name.vi` holds the Owner-approved Vietnamese name (2026-10-30); `name.en` stays the original.
+- `packages/content/data/tarot-card-guide.json`
+  - App-only card guide for the card meaning screen: upright love, career and self meanings, a common misreading, optional other readings and support notes, and Golden Dawn element and astrology correspondences with shared notes. Reviewed source and Owner decisions: `docs/content-review/tarot-learning-content-draft.md`. Not sent to the AI and not in the Admin seed.
 - `packages/content/data/tarot-card-designs.json`
   - Per-deck, per-card visual prompts for all eight 78-card decks.
 - `packages/content/data/tarot-deck-backs.json`

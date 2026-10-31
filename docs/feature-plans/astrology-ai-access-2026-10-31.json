@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "taskId": "astrology-ai-access-2026-10-31",
+  "ownerAgent": "backend_entitlement_agent",
+  "lane": "astrology_ai_access_policy",
+  "goal": "Let the server and the app read one account tier policy so Astrology AI follows the closed-test switch (every signed-in account is Premium) with an Owner-set limit of 1 request per local day, instead of requiring a paid subscription row that no tester has.",
+  "successCriteria": [
+    "packages/agent-config/account-tier-policy.json holds mode, trialHours, premiumOnSale and the Astrology AI daily limit and day offset; apps/mobile accountTierPolicy.ts reads it, with unchanged behaviour and tests.",
+    "supabase/functions/_shared/account-tier-policy.ts resolves the policy tier for an authenticated user (all_premium: premium; new_account_trial: premium within trialHours of auth created_at; free: free) and the start of the local day from the configured offset.",
+    "ai-astrology-insight accepts a request when the user has an active premium_astrology_ai subscription OR the policy tier is premium, and limits attempts to the policy daily limit counted from local midnight (UTC+7 by default), returning the existing 403/429 codes otherwise.",
+    "Deno tests cover the policy modes, the trial boundary and the local-day start; the mobile suite still passes.",
+    "Nothing is deployed: the Edge Function deploy needs a separate Owner approval."
+  ],
+  "writeScope": [
+    "packages/agent-config/account-tier-policy.json",
+    "apps/mobile/src/features/owner/accountTierPolicy.ts",
+    "apps/mobile/src/features/owner/__tests__/",
+    "supabase/functions/_shared/account-tier-policy.ts",
+    "supabase/functions/_shared/account-tier-policy.test.ts",
+    "supabase/functions/ai-astrology-insight/index.ts",
+    "apps/admin/workflow-catalog.js"
+  ],
+  "untouchedSurfaces": [
+    "No migration, SQL, secrets or Supabase settings change.",
+    "Other AI endpoints keep their current checks.",
+    "No deploy in this task."
+  ],
+  "impact": {
+    "entryPoint": "Astrology chart > Đọc sâu với AI / Hỏi Nilaza về lá số.",
+    "dataWrite": "No new tables; the existing usage_events row astrology_ai_insight_attempted is still written per attempt.",
+    "backendContract": "Same request and response; 403 premium_required and 429 daily_limit_reached keep their meaning with the new rule.",
+    "canonicalContract": "account-tier-policy.json becomes the single switch for client display and Astrology AI server access.",
+    "adminVisibility": "No Admin change.",
+    "privacySafety": "No new data; access widens only to signed-in accounts during closed test, capped at 1 per day.",
+    "observability": "No analytics change.",
+    "rollback": "Set mode to free or revert; redeploy needed for the server part.",
+    "surfacesIntentionallyUntouched": "Backend, spreads data, share and journal formats.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs the validation commands, commits locally and does not merge, deploy or run SQL."
+  },
+  "canonicalContracts": [
+    "Owner decision 2026-10-31: server reads the shared account tier switch (closed test = every signed-in account) with 1 Astrology AI request per day; deploy approved separately.",
+    "Owner decision 2026-10-30: one account tier switch (all_premium for closed test)."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Tarot and mobile UI routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "DESIGN.md",
+      "reason": "Brand shape and type rules for the new screen.",
+      "sha256": "516629403e9d8904208a1b64e6360ab3d4ab6ed4c20d337f689033a0ab00e4a9"
+    },
+    {
+      "path": "docs/CONTENT_SAFETY_STYLE_GUIDE.md",
+      "reason": "Card names and safety framing for the guide copy.",
+      "sha256": "33ec073a7fe94045ee7aeb40bad2ca90b6ab6b0010569131c730380dfb23ceec"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Card meaning stage and its top bar.",
+      "sha256": "bbe71df69113e213edd3b1eedb7b1688ffdf524f9c4382386bed0e331fa99d1b"
+    },
+    {
+      "path": "supabase/functions/ai-astrology-insight/index.ts",
+      "reason": "Entitlement and daily limit checks being changed.",
+      "sha256": "93fc5e8db87075de38c868baf00fc5e92c977b1362e5f3c467fa1a6094a5cbf9"
+    },
+    {
+      "path": "apps/mobile/src/features/owner/accountTierPolicy.ts",
+      "reason": "Client policy that must share the same switch.",
+      "sha256": "1f56396c73d6be8e4db41e0d79bfc3690495f2fe49084792d798f7e6a2bace56"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing React Native and Ionicons APIs."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "Access rule changes only inside the function after JWT verification; RLS unchanged.",
+    "sensitiveData": "No personal data; static reviewed content.",
+    "secretsLogging": "No credentials or logs.",
+    "externalInput": "No user input is rendered beyond existing card selection.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration, deploy or release.",
+    "stopCondition": "Stop if the user object has no created_at for trial mode, or if backend validation fails.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/src/features/owner/accountTierPolicy.ts",
+      "docs/feature-plans/astrology-ai-access-2026-10-31.json",
+      "packages/agent-config/account-tier-policy.json",
+      "supabase/functions/_shared/account-tier-policy.test.ts",
+      "supabase/functions/_shared/account-tier-policy.ts",
+      "supabase/functions/ai-astrology-insight/index.ts"
+    ],
+    "note": "Same worktree branch feat/astrology-slice-2026-10-31."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/astrology-ai-access-2026-10-31.json",
+    "npx deno test --allow-read --no-check supabase/functions/_shared/account-tier-policy.test.ts",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand",
+    "npm run validate:backend"
+  ],
+  "managerTestPath": "After an approved deploy: as a closed-test account, open your chart and ask Nilaza; the first question today is answered, the second says the daily limit is reached.",
+  "residualRisk": "Until the Edge Function is redeployed the server still requires a subscription row, so the app keeps the AI block hidden.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

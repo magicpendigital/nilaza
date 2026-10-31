@@ -54,7 +54,7 @@ describe("AuthFlow", () => {
 
   it.each([
     ["en", "Email Address", "Enter a valid email address.", "Already have an account?"],
-    ["vi", "Địa chỉ email", "Hãy nhập một địa chỉ email hợp lệ.", "Đã có tài khoản?"]
+    ["vi", "Email", "Hãy nhập một địa chỉ email hợp lệ.", "Đã có tài khoản?"]
   ] as const)("validates email locally while typing in %s without submitting Auth requests", (language, emailLabel, invalidCopy, accountCopy) => {
     const onSignUp = jest.fn(), onSignIn = jest.fn(), onForgotPassword = jest.fn(), onResendConfirmation = jest.fn();
     const screen = render(<Harness initialView="sign-up" initialLanguage={language} onSignUp={onSignUp} onSignIn={onSignIn} onForgotPassword={onForgotPassword} onResendConfirmation={onResendConfirmation} />);
@@ -80,7 +80,7 @@ describe("AuthFlow", () => {
 
   it.each([
     ["en", "Name", "Email Address", "Password", "Create Account", "Forgot password?", "Send reset link", "Return to sign in"],
-    ["vi", "Tên", "Địa chỉ email", "Mật khẩu", "Tạo tài khoản", "Quên mật khẩu?", "Gửi liên kết đặt lại mật khẩu", "Quay lại đăng nhập"]
+    ["vi", "Tên", "Email", "Mật khẩu", "Tạo tài khoản", "Quên mật khẩu?", "Gửi liên kết đặt lại mật khẩu", "Quay lại đăng nhập"]
   ] as const)("offers direct recovery from generic confirmation in %s without automatically sending a reset", async (language, nameLabel, emailLabel, passwordLabel, createCopy, forgotCopy, sendCopy, returnCopy) => {
     const onForgotPassword = jest.fn();
     const screen = render(<Harness initialView="sign-up" initialLanguage={language} onSignUp={() => "pending-email-confirmation"} onForgotPassword={onForgotPassword} />);
@@ -141,7 +141,7 @@ describe("AuthFlow", () => {
     await act(async () => { jest.advanceTimersByTime(50); });
     fireEvent.press(screen.getByText("Sign In"));
     fireEvent.changeText(screen.getByLabelText("Email Address"), "qa-b@example.com");
-    fireEvent.press(screen.getByText("Continue"));
+    fireEvent.press(screen.getByRole("button", { name: "Sign In" }));
     await act(async () => { jest.advanceTimersByTime(500); });
     expect(onSignUp).not.toHaveBeenCalled();
     expect(onSignIn).toHaveBeenCalledTimes(1);
@@ -155,7 +155,7 @@ describe("AuthFlow", () => {
     fireEvent.press(screen.getByText("Log in"));
     fireEvent.changeText(screen.getByLabelText("Email Address"), "qa@example.com");
     fireEvent.changeText(screen.getByLabelText("Password"), "fixture-password");
-    fireEvent.press(screen.getByText("Continue"));
+    fireEvent.press(screen.getByRole("button", { name: "Sign In" }));
     await act(async () => { jest.advanceTimersByTime(400); });
     fireEvent.press(screen.getByText("Create Account"));
     expect(screen.getByText("Continuing...")).toBeTruthy();
@@ -174,7 +174,7 @@ describe("AuthFlow", () => {
     fireEvent.press(screen.getByText("Log in"));
     fireEvent.changeText(screen.getByLabelText("Email Address"), "qa@example.com");
     fireEvent.changeText(screen.getByLabelText("Password"), "fixture-password");
-    fireEvent.press(screen.getByText("Continue"));
+    fireEvent.press(screen.getByRole("button", { name: "Sign In" }));
     screen.unmount();
     await act(async () => { jest.advanceTimersByTime(400); });
     expect(onSignIn).not.toHaveBeenCalled();
@@ -313,7 +313,7 @@ describe("AuthFlow", () => {
 
     fireEvent.changeText(screen.getByLabelText("Email Address"), "returning@example.com");
     fireEvent.changeText(screen.getByLabelText("Password"), "moonlight");
-    fireEvent.press(screen.getByText("Continue"));
+    fireEvent.press(screen.getByRole("button", { name: "Sign In" }));
     await act(async () => {
       jest.advanceTimersByTime(400);
     });
@@ -361,7 +361,7 @@ describe("AuthFlow", () => {
     expect(onForgotPassword).toHaveBeenCalledWith("returning@example.com");
     expect(screen.getByText("If this email has a Nilaza account, a password reset link will be sent to your inbox.")).toBeTruthy();
     fireEvent.press(screen.getByText("Return to sign in"));
-    expect(screen.getByText("Enter the Sanctum")).toBeTruthy();
+    expect(screen.getByText("Welcome back")).toBeTruthy();
   });
 
   it("shows async sign-in errors and unlocks the submit button", async () => {
@@ -382,7 +382,7 @@ describe("AuthFlow", () => {
 
     fireEvent.changeText(screen.getByLabelText("Email Address"), "returning@example.com");
     fireEvent.changeText(screen.getByLabelText("Password"), "moonlight");
-    fireEvent.press(screen.getByText("Continue"));
+    fireEvent.press(screen.getByRole("button", { name: "Sign In" }));
     expect(screen.getByText("Continuing...")).toBeTruthy();
 
     await act(async () => {
@@ -391,7 +391,7 @@ describe("AuthFlow", () => {
     });
 
     expect(screen.getByText("Invalid login credentials")).toBeTruthy();
-    expect(screen.getByText("Continue")).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Sign In" })).toBeTruthy();
   });
 
   it("hides sign-in providers that do not work yet and opens the real legal pages", () => {

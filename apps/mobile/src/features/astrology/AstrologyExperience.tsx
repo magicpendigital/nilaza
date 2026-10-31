@@ -1,3 +1,10 @@
+import { AstrologyHub } from "./AstrologyHub";
+import { BirthDateFields, BirthTimeFields } from "./BirthFields";
+import { Big3Summary, BigThreeCards, ChartRowLink, SkyTabs, TopicPanel, chartHeaderLine } from "./ChartOverviewParts";
+import { bigThreeOf, moonHouseToday } from "./sky";
+import { ConsentCard, CompareView, PeopleList, PersonFields } from "./SynastryViews";
+import { compareCharts, synastryText, type RelationshipType } from "./synastry";
+import { big3Story, moonTodayFor, skyTopicIds, topicLabel, topicReading, type SkyTopicId } from "./skyContent";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   ActivityIndicator,
@@ -30,7 +37,7 @@ import {
   toAstrologyChartPresentation,
   AstrologyRawChart,
 } from "./contracts";
-import { MythologyEntry, MythologyWorld } from "./MythologyWorld";
+import { MythologyWorld } from "./MythologyWorld";
 import { Control } from "./ZodiacWheel";
 import { bodyMeaning } from "./AstrologyGlossary";
 import { buildSafeAstrologyContext } from "./handoff";
@@ -52,6 +59,7 @@ import {
   AstrologyData,
   AstrologyPersistence,
   SavedChart,
+  type SavedPerson,
   SavedAstrologyAiInsight,
   astrologyStorageKey,
   freshAstrologyData,
@@ -62,7 +70,7 @@ import {
 } from "./persistence";
 
 type Place = (typeof placeData.places)[number];
-type Stage = "home" | "form" | "confirm" | "report" | "world" | "chart";
+type Stage = "home" | "form" | "confirm" | "report" | "world" | "chart" | "people" | "consent" | "compare";
 const fold = (s: string) =>
   s
     .normalize("NFD")
@@ -196,6 +204,15 @@ export function AstrologyExperience({
     placeName: string;
   } | null>(null);
   const [report, setReport] = useState<SavedChart | null>(null);
+  const [chartTab, setChartTab] = useState<"overview" | SkyTopicId>("overview");
+  // So với một người: the birth form also adds another person, saved only after the consent card.
+  const [formFor, setFormFor] = useState<"self" | "person">("self");
+  const [personName, setPersonName] = useState("");
+  const [personRelation, setPersonRelation] = useState<RelationshipType>("friend");
+  const [personDraft, setPersonDraft] = useState<SavedPerson | null>(null);
+  const [comparePersonId, setComparePersonId] = useState<string | null>(null);
+  const [confirmDeletePerson, setConfirmDeletePerson] = useState(false);
+  useEffect(() => setChartTab("overview"), [report?.id]);
   const [aiStatus, setAiStatus] = useState<AstrologyAiGuideStatus>("ready");
   const [aiAnswer, setAiAnswer] = useState<AstrologyAiGuideAnswer | undefined>();
   const [aiSnapshot, setAiSnapshot] = useState<SavedAstrologyAiInsight | undefined>();
@@ -292,6 +309,43 @@ export function AstrologyExperience({
       if (live.current && account === accountGeneration.current) setBusy(false);
     }
   };
+  const savePerson = async () => {
+    if (!personDraft || writing.current) return;
+    const saved = workingData.current.people ?? [];
+    if (saved.length >= 20) {
+      setError(vi ? "Đã có 20 người. Xóa bớt một người trước khi lưu thêm." : "20 people are saved. Delete one before saving another.");
+      return;
+    }
+    const account = accountGeneration.current;
+    try {
+      await save({
+        ...workingData.current,
+        nextRevision: Math.max(workingData.current.nextRevision, personDraft.input.revision + 1),
+        people: [personDraft, ...saved],
+      });
+      if (!live.current || account !== accountGeneration.current) return;
+      setComparePersonId(personDraft.id);
+      setPersonDraft(null);
+      setConfirmDeletePerson(false);
+      setStage("compare");
+    } catch {
+      if (live.current && account === accountGeneration.current) failSave();
+    }
+  };
+  const deletePerson = async (id: string) => {
+    if (writing.current) return;
+    const account = accountGeneration.current;
+    try {
+      await save({ ...workingData.current, people: (workingData.current.people ?? []).filter((item) => item.id !== id) });
+      if (!live.current || account !== accountGeneration.current) return;
+      setComparePersonId(null);
+      setConfirmDeletePerson(false);
+      setNotice(vi ? "Đã xóa lá số khỏi thiết bị." : "Chart deleted from this device.");
+      setStage("people");
+    } catch {
+      if (live.current && account === accountGeneration.current) failSave();
+    }
+  };
   const failSave = () =>
     setError(
       vi
@@ -327,6 +381,7 @@ export function AstrologyExperience({
     setError("");
   };
   const newForm = () => {
+    setFormFor("self");
     setNotice("");
     setReport(null);
     setPending(null);
@@ -335,9 +390,45 @@ export function AstrologyExperience({
     resetOccurrence();
     setStage("form");
   };
+  const newPersonForm = () => {
+    setFormFor("person");
+    setPersonName("");
+    setPersonRelation("friend");
+    setPersonDraft(null);
+    setNotice("");
+    setDate("");
+    setTime("");
+    setPrecision("exact");
+    setMinutes("30");
+    setPlace(null);
+    setQuery("");
+    setConfirmed(false);
+    setPending(null);
+    resetOccurrence();
+    setStage("form");
+  };
+  // Reopen the form from a chart; askTime switches to an exact time for the birth-time invites.
+  const editBirthDetails = (r: SavedChart, askTime = false) => {
+    setFormFor("self");
+    setNotice("");
+    setDate(r.input.date);
+    setTime(r.input.time ?? "");
+    setPrecision(askTime ? "exact" : r.input.precision);
+    setMinutes(String(r.input.uncertaintyMinutes ?? 30));
+    const p = placeData.places.find((item) => item.id === r.input.place.id) ?? null;
+    setPlace(p);
+    setQuery(p ? label(p) : "");
+    setConfirmed(false);
+    resetOccurrence();
+    setStage("form");
+  };
   const reviewInput = () => {
     setError("");
     setNotice("");
+    if (formFor === "person" && !personName.trim()) {
+      setError(vi ? "Nhập tên hoặc biệt danh của người ấy." : "Enter their name or nickname.");
+      return;
+    }
     if (!place || !confirmed) {
       setError(
         vi
@@ -414,6 +505,19 @@ export function AstrologyExperience({
       if (validateChart(chart).length)
         throw new Error("calculation_contract_failed");
       if (!live.current || operation !== generation.current) return;
+      if (formFor === "person") {
+        setPersonDraft({
+          id: `person-${pending.input.revision}-${Date.now()}`,
+          createdAt: new Date().toISOString(),
+          name: personName.trim(),
+          relationship: personRelation,
+          input: pending.input,
+          placeName: pending.placeName,
+          chart,
+        });
+        setStage("consent");
+        return;
+      }
       const nextReport: SavedChart = {
         id: `chart-${pending.input.revision}-${Date.now()}`,
         createdAt: new Date().toISOString(),
@@ -422,7 +526,7 @@ export function AstrologyExperience({
         chart,
       };
       setReport(nextReport);
-      setStage(chart.time.precision === "exact" ? "chart" : "report");
+      setStage("report");
     } catch {
       if (live.current)
         setError(
@@ -434,6 +538,7 @@ export function AstrologyExperience({
       if (live.current) setBusy(false);
     }
   };
+  const reportBig3 = report ? bigThreeOf(report.chart) : null;
   const presentation = report
     ? toAstrologyChartPresentation(report.chart as unknown as AstrologyRawChart)
     : undefined;
@@ -546,6 +651,31 @@ export function AstrologyExperience({
     : aiStatus === "success" && aiAnswer ? "success" : canRequestAstrologyAi
       ? aiStatus
       : aiStatus === "error" ? "error" : "locked";
+  const openSavedChart = (r: SavedChart) => {
+    aiGeneration.current++;
+    aiRequestInFlight.current = false;
+    aiInteractionId.current = undefined;
+    setReport(r);
+    setAiSnapshot(r.aiInsight);
+    setAiAnswer(r.aiInsight ? toAstrologyAiGuideAnswer(r.aiInsight.response, r.aiInsight.context.caveats, r.aiInsight.provenance) : undefined);
+    setAiStatus(r.aiInsight ? "success" : "ready");
+    setAiErrorMessage("");
+    setPendingAiQuestion("");
+    setShowAiConsent(false);
+    setStage("report");
+    setNotice("");
+  };
+  // The newest saved chart stands for the user's own sky on the hub.
+  const myChartReport = data.reports[0];
+  const myChartBig3 = myChartReport ? bigThreeOf(myChartReport.chart) : null;
+  const myChart = myChartReport && myChartBig3 ? { report: myChartReport, big3: myChartBig3 } : null;
+  // Today's Moon needs the houses, so only an exact birth time shows the block.
+  const myMoonHouse = myChart?.big3.timeKnown ? moonHouseToday(myChart.report.chart, now) : null;
+  const people = data.people ?? [];
+  const comparePerson = people.find((item) => item.id === comparePersonId) ?? null;
+  const comparison = comparePerson && myChartReport
+    ? synastryText(compareCharts(myChartReport.chart, comparePerson.chart, comparePerson.relationship), comparePerson.name, language)
+    : null;
   const saveReport = async (includeAnswer = false) => {
     if (!report || writing.current) return;
     const existing = workingData.current.reports.find(r => r.id === report.id);
@@ -609,9 +739,13 @@ export function AstrologyExperience({
     setError("");
     setNotice("");
     if (stage === "home") onBack();
-    else if (stage === "chart") setStage("home");
+    else if (stage === "chart") setStage(report ? "report" : "home");
     else if (stage === "confirm") setStage("form");
-    else setStage("home");
+    else if (stage === "compare" || stage === "consent" || (stage === "form" && formFor === "person")) {
+      setPersonDraft(null);
+      setConfirmDeletePerson(false);
+      setStage("people");
+    } else setStage("home");
   };
   useEffect(() => {
     if (stage === "world" || stage === "chart") return;
@@ -704,65 +838,21 @@ export function AstrologyExperience({
             )}
             {stage === "home" && (
               <>
-                <Text style={s.title}>
-                  {vi ? "Một bầu trời để khám phá" : "A sky to explore"}
-                </Text>
-                <Text style={s.note}>
-                  {localCalendarLabel(now, data.displayZone, language)} ·{" "}
-                  {data.displayZone === "device"
-                    ? vi
-                      ? "Theo thiết bị"
-                      : "Device time zone"
-                    : data.displayZone}
-                </Text>
-                <Text style={s.body}>
-                  {vi
-                    ? "Bắt đầu từ bản đồ của bạn, hoặc khám phá câu chuyện của 12 cung."
-                    : "Begin with your chart, or explore the stories of all twelve signs."}
-                </Text>
-                <Action
-                  label={
-                    vi ? "Tạo bản đồ sao cá nhân" : "Create my birth chart"
-                  }
-                  onPress={newForm}
+                <AstrologyHub
+                  language={language}
+                  now={now}
+                  dateLabel={`${vi ? "Hôm nay" : "Today"} · ${localCalendarLabel(now, data.displayZone, language)}`}
+                  myChart={myChart ? { big3: myChart.big3, story: big3Story(myChart.big3, language), onOpen: () => openSavedChart(myChart.report), onAddBirthTime: () => editBirthDetails(myChart.report, true) } : undefined}
+                  onCreateChart={newForm}
+                  today={myMoonHouse ? moonTodayFor(myMoonHouse.house, language) : null}
+                  mythology={{ completed: data.library.completed.length, total: 12, onOpen: () => setStage("world") }}
+                  compare={{ count: people.length, onOpen: () => setStage("people") }}
+                  saved={{ count: data.reports.length, open: showSaved, onToggle: () => setShowSaved((open) => !open) }}
                   disabled={!loaded || busy}
                 />
-                <Control
-                  label={vi ? "Khám phá 12 cung" : "Explore the 12 signs"}
-                  onPress={() => setStage("world")}
-                />
-                <MythologyEntry
-                  language={language}
-                  compact
-                  onOpen={() => setStage("world")}
-                />
-                <Control
-                  active={showDetails}
-                  label={
-                    showDetails
-                      ? vi
-                        ? "Ẩn cách Nilaza tạo bản đồ"
-                        : "Hide how Nilaza creates a chart"
-                      : vi
-                        ? "Cách Nilaza tạo bản đồ & bảo vệ dữ liệu"
-                        : "How Nilaza calculates and protects your data"
-                  }
-                  onPress={() => setShowDetails((open) => !open)}
-                />
-                {showDetails ? (
-                  <View style={s.disclosure}>
-                    <Text style={s.note}>
-                      {vi
-                        ? "Vị trí được tính trên thiết bị; không cần nhà cung cấp trả phí. Ngày, giờ và nơi sinh không được gửi cho AI Astrology. Nội dung chiêm tinh là biểu tượng để giải trí và tự suy ngẫm."
-                        : "Placements are calculated on your device without a paid vendor. Birth date, time and place are not sent to Astrology AI. Astrology is symbolic content for entertainment and reflection."}
-                    </Text>
-                  </View>
+                {data.reports.length ? (
+                  <Control label={vi ? "Tạo lá số mới" : "Create another chart"} onPress={newForm} />
                 ) : null}
-                <Control
-                  active={showSaved}
-                  label={`${vi ? "Bản đồ đã lưu" : "Saved charts"} · ${data.reports.length}`}
-                  onPress={() => setShowSaved((open) => !open)}
-                />
                 {showSaved ? (
                   <View style={s.homeSection}>
                     {!data.reports.length ? (
@@ -794,20 +884,7 @@ export function AstrologyExperience({
                         </Text>
                         <Control
                           label={(vi ? "Mở bản đồ " : "Open chart ") + r.input.revision}
-                          onPress={() => {
-                            aiGeneration.current++;
-                            aiRequestInFlight.current = false;
-                            aiInteractionId.current = undefined;
-                            setReport(r);
-                            setAiSnapshot(r.aiInsight);
-                            setAiAnswer(r.aiInsight ? toAstrologyAiGuideAnswer(r.aiInsight.response, r.aiInsight.context.caveats, r.aiInsight.provenance) : undefined);
-                            setAiStatus(r.aiInsight ? "success" : "ready");
-                            setAiErrorMessage("");
-                            setPendingAiQuestion("");
-                            setShowAiConsent(false);
-                            setStage(r.chart.time.precision === "exact" ? "chart" : "report");
-                            setNotice("");
-                          }}
+                          onPress={() => openSavedChart(r)}
                         />
                         <Control
                           label={(vi ? "Xóa bản đồ " : "Delete chart ") + r.input.revision}
@@ -815,6 +892,28 @@ export function AstrologyExperience({
                         />
                       </View>
                     ))}
+                  </View>
+                ) : null}
+                <Control
+                  active={showDetails}
+                  label={
+                    showDetails
+                      ? vi
+                        ? "Ẩn cách Nilaza tạo bản đồ"
+                        : "Hide how Nilaza creates a chart"
+                      : vi
+                        ? "Cách Nilaza tạo bản đồ & bảo vệ dữ liệu"
+                        : "How Nilaza calculates and protects your data"
+                  }
+                  onPress={() => setShowDetails((open) => !open)}
+                />
+                {showDetails ? (
+                  <View style={s.disclosure}>
+                    <Text style={s.note}>
+                      {vi
+                        ? "Vị trí được tính trên thiết bị; không cần nhà cung cấp trả phí. Ngày, giờ và nơi sinh không được gửi cho AI Astrology. Nội dung chiêm tinh là biểu tượng để giải trí và tự suy ngẫm."
+                        : "Placements are calculated on your device without a paid vendor. Birth date, time and place are not sent to Astrology AI. Astrology is symbolic content for entertainment and reflection."}
+                    </Text>
                   </View>
                 ) : null}
                 <Control
@@ -896,32 +995,74 @@ export function AstrologyExperience({
                 ) : null}
               </>
             )}
+            {stage === "people" && (
+              <PeopleList
+                language={language}
+                people={people}
+                hasOwnChart={!!myChartReport}
+                onAdd={newPersonForm}
+                onOpen={(person) => {
+                  setComparePersonId(person.id);
+                  setConfirmDeletePerson(false);
+                  setStage("compare");
+                }}
+                onCreateOwn={newForm}
+                disabled={!loaded || busy}
+              />
+            )}
+            {stage === "consent" && personDraft && (
+              <ConsentCard
+                language={language}
+                busy={busy}
+                onConfirm={() => void savePerson()}
+                onCancel={() => {
+                  setPersonDraft(null);
+                  setStage("people");
+                }}
+              />
+            )}
+            {stage === "compare" && comparePerson && comparison && (
+              <CompareView
+                language={language}
+                person={comparePerson}
+                text={comparison}
+                confirmDelete={confirmDeletePerson}
+                busy={busy}
+                onDelete={() => (confirmDeletePerson ? void deletePerson(comparePerson.id) : setConfirmDeletePerson(true))}
+                onCancelDelete={() => setConfirmDeletePerson(false)}
+              />
+            )}
             {stage === "form" && (
               <>
+                <Text style={s.kicker}>{formFor === "person" ? (vi ? "SO LÁ SỐ" : "COMPARE CHARTS") : vi ? "TẠO LÁ SỐ" : "CREATE A CHART"}</Text>
                 <Text style={s.title}>
-                  {vi ? "Tạo bản đồ sao" : "Create your birth chart"}
+                  {formFor === "person"
+                    ? vi ? "Lá số của người ấy" : "Their chart"
+                    : vi ? "Bầu trời lúc bạn chào đời" : "The sky when you were born"}
                 </Text>
                 <Text style={s.body}>
                   {vi
-                    ? "Ngày, giờ và thành phố nơi bạn sinh giúp tính bầu trời thời điểm đó."
-                    : "Your birth date, time and city help calculate the sky at that moment."}
+                    ? "Ba thông tin là đủ. Giờ sinh không chắc cũng không sao."
+                    : "Three details are enough. It's fine if you're unsure of the time."}
                 </Text>
-                <Field
-                  label={
-                    vi ? "Ngày sinh (YYYY-MM-DD)" : "Birth date (YYYY-MM-DD)"
-                  }
+                {formFor === "person" ? (
+                  <PersonFields
+                    language={language}
+                    name={personName}
+                    onName={setPersonName}
+                    relationship={personRelation}
+                    onRelationship={setPersonRelation}
+                  />
+                ) : null}
+                <BirthDateFields
+                  language={language}
                   value={date}
                   onChange={(v) => {
                     setDate(v);
                     resetOccurrence();
                   }}
-                  placeholder="2000-01-31"
                 />
-                <Text style={s.body}>
-                  {vi
-                    ? "Bạn nhớ giờ sinh ở mức nào?"
-                    : "How certain are you about the birth time?"}
-                </Text>
+                <Text style={s.fieldLabel}>{vi ? "Giờ sinh" : "Birth time"}</Text>
                 <View style={s.row}>
                   {(["exact", "approximate", "unknown"] as const).map(
                     (p, i) => (
@@ -929,8 +1070,8 @@ export function AstrologyExperience({
                         key={p}
                         label={
                           vi
-                            ? ["Chính xác", "Ước chừng", "Không rõ giờ"][i]
-                            : ["Known time", "Approximate", "Unknown time"][i]
+                            ? ["Biết chính xác", "Khoảng", "Không rõ"][i]
+                            : ["Exact", "Roughly", "Unknown"][i]
                         }
                         active={precision === p}
                         onPress={() => {
@@ -942,20 +1083,20 @@ export function AstrologyExperience({
                   )}
                 </View>
                 {precision !== "unknown" && (
-                  <Field
-                    label={
-                      vi
-                        ? "Giờ tại nơi sinh (HH:mm, 24 giờ)"
-                        : "Local time at birth place (HH:mm, 24-hour)"
-                    }
+                  <BirthTimeFields
+                    language={language}
                     value={time}
                     onChange={(v) => {
                       setTime(v);
                       resetOccurrence();
                     }}
-                    placeholder="14:30"
                   />
                 )}
+                <Text style={s.note}>
+                  {vi
+                    ? "Không nhớ? Hỏi bố mẹ hoặc xem giấy khai sinh. Chọn “Không rõ” vẫn có Mặt Trời, Mặt Trăng và các hành tinh."
+                    : "Not sure? Ask family or check your birth certificate. Choosing “Unknown” still gives you the Sun, Moon and planets."}
+                </Text>
                 {precision === "approximate" && (
                   <>
                     <Field
@@ -979,13 +1120,13 @@ export function AstrologyExperience({
                   <View style={s.disclosure}>
                   <Text style={s.note}>
                     {vi
-                      ? "Bạn vẫn có thể xem các vị trí có khả năng. Không hiển thị Cung Mọc, Thiên Đỉnh, nhà hay góc hợp chính xác khi chưa rõ giờ."
+                      ? "Bạn vẫn có thể xem các vị trí có khả năng. Không hiển thị Cung mọc, Thiên đỉnh, nhà hay góc hợp chính xác khi chưa rõ giờ."
                       : "You can still explore possible placements. Rising sign, Midheaven, houses and exact aspects are unavailable without a confirmed time."}
                   </Text>
                   </View>
                 )}
                 <Field
-                  label={vi ? "Thành phố nơi sinh" : "Birth city"}
+                  label={vi ? "Nơi sinh" : "Birth place"}
                   value={query}
                   onChange={(v) => {
                     setQuery(v);
@@ -1013,7 +1154,7 @@ export function AstrologyExperience({
                 {!place && query.trim().length >= 2 && !matches.length && (
                   <Text style={s.note}>
                     {vi
-                      ? "Không tìm thấy. Thử tên quốc tế không dấu hoặc thành phố lớn gần đó; không chọn nơi xa chỉ để tiếp tục vì Cung Mọc phụ thuộc tọa độ."
+                      ? "Không tìm thấy. Thử tên quốc tế không dấu hoặc thành phố lớn gần đó; không chọn nơi xa chỉ để tiếp tục vì Cung mọc phụ thuộc tọa độ."
                       : "No match. Try an international spelling or a nearby city; do not choose a distant place merely to continue because the Ascendant depends on coordinates."}
                   </Text>
                 )}
@@ -1064,8 +1205,8 @@ export function AstrologyExperience({
                         ? "Ẩn cách tính & độ chính xác"
                         : "Hide calculation details"
                       : vi
-                        ? "Cách tính & độ chính xác"
-                        : "Calculation & accuracy"
+                        ? "Nilaza tính lá số thế nào?"
+                        : "How does Nilaza calculate a chart?"
                   }
                   onPress={() => setShowDetails((open) => !open)}
                 />
@@ -1083,8 +1224,17 @@ export function AstrologyExperience({
                     </Text>
                   </View>
                 ) : null}
+                <Text style={s.note}>
+                  {formFor === "person"
+                    ? vi
+                      ? "Tính ngay trên máy, không trừ lượt. Nilaza hỏi bạn trước khi lưu, và không gửi lá số của người ấy cho AI."
+                      : "Calculated on this device, no allowance used. Nilaza asks before saving and never sends their chart to AI."
+                    : vi
+                      ? "Tính ngay trên máy, không trừ lượt. Lưu lại hay không là do bạn chọn sau khi xem."
+                      : "Calculated on this device, no allowance used. You choose whether to save it after you see it."}
+                </Text>
                 <Action
-                  label={vi ? "Kiểm tra thông tin" : "Review birth details"}
+                  label={formFor === "person" ? (vi ? "Tiếp tục" : "Continue") : vi ? "Xem bầu trời của mình" : "See my sky"}
                   onPress={reviewInput}
                   disabled={busy || !loaded}
                 />
@@ -1138,27 +1288,37 @@ export function AstrologyExperience({
             )}
             {stage === "report" && report && presentation && (
               <>
-                <Text style={s.title}>
-                  {vi ? "Bản đồ của bạn" : "Your birth chart"}
+                <Text style={s.kicker}>
+                  {chartHeaderLine(report.input, report.placeName, language).toUpperCase()}
                 </Text>
-                <Text style={s.body}>
-                  {report.input.date} · {report.placeName}
+                <Text style={s.title}>
+                  {vi ? "Lá số của bạn" : "Your chart"}
                 </Text>
                 <Text style={s.note}>
-                  {report.input.place.timezone} ·{" "}
-                  {report.input.time ?? (vi ? "Không rõ giờ" : "Unknown time")}
+                  {report.input.place.timezone}
                   {report.input.precision === "approximate"
-                    ? ` ± ${report.input.uncertaintyMinutes} ${vi ? "phút · giờ ước chừng" : "minutes · approximate time"}`
+                    ? ` · ± ${report.input.uncertaintyMinutes} ${vi ? "phút · giờ ước chừng" : "minutes · approximate time"}`
                     : ""}
                 </Text>
-                {report.chart.time.precision === "exact" ? (
+                {reportBig3 ? <BigThreeCards big3={reportBig3} language={language} /> : null}
+                {reportBig3 ? <Big3Summary story={big3Story(reportBig3, language)} /> : null}
+                <SkyTabs
+                  tabs={[{ id: "overview" as const, label: vi ? "Tổng quan" : "Overview" }, ...skyTopicIds.map((id) => ({ id, label: topicLabel(id, language) }))]}
+                  active={chartTab}
+                  onChange={setChartTab}
+                />
+                {chartTab !== "overview" ? (
+                  <TopicPanel
+                    reading={topicReading(report.chart, chartTab, language)}
+                    language={language}
+                    onAddBirthTime={() => editBirthDetails(report, true)}
+                  />
+                ) : report.chart.time.precision === "exact" ? (
                   <>
-                    <Action
-                      label={
-                        vi
-                          ? "Khám phá bản đồ tương tác"
-                          : "Explore interactive chart"
-                      }
+                    <ChartRowLink
+                      icon="planet-outline"
+                      title={vi ? "Bánh xe lá số & dữ liệu" : "Chart wheel & data"}
+                      detail={vi ? "Độ, nhà, góc hợp, cách tính" : "Degrees, houses, aspects, method"}
                       onPress={() => setStage("chart")}
                     />
                     {presentation.facts
@@ -1335,21 +1495,7 @@ export function AstrologyExperience({
                       ? "Sửa dữ liệu · tạo bản mới"
                       : "Edit birth details · new revision"
                   }
-                  onPress={() => {
-                    setDate(report.input.date);
-                    setTime(report.input.time ?? "");
-                    setPrecision(report.input.precision);
-                    setMinutes(String(report.input.uncertaintyMinutes ?? 30));
-                    const p =
-                      placeData.places.find(
-                        (p) => p.id === report.input.place.id,
-                      ) ?? null;
-                    setPlace(p);
-                    setQuery(p ? label(p) : "");
-                    setConfirmed(false);
-                    resetOccurrence();
-                    setStage("form");
-                  }}
+                  onPress={() => editBirthDetails(report)}
                 />
                 <Text style={s.heading}>
                   {vi ? "Độ tin cậy & phương pháp" : "Accuracy & method"}
@@ -1362,7 +1508,7 @@ export function AstrologyExperience({
                 {Math.abs(report.input.place.latitude) > 66 && (
                   <Text style={s.error}>
                     {vi
-                      ? "Vĩ độ cao: cần đối chiếu chuyên biệt Cung Mọc và hệ nhà."
+                      ? "Vĩ độ cao: cần đối chiếu chuyên biệt Cung mọc và hệ nhà."
                       : "High latitude: Ascendant and houses need specialized cross-checking."}
                   </Text>
                 )}
@@ -1655,6 +1801,12 @@ const s = StyleSheet.create({
     justifyContent: "space-between",
     gap: 8,
     flexWrap: "wrap",
+  },
+  fieldLabel: {
+    color: colors.ivory,
+    fontFamily: typography.bodySemiBoldFontFamily,
+    fontSize: 14,
+    marginTop: 8,
   },
   kicker: {
     fontFamily: typography.bodyMediumFontFamily,

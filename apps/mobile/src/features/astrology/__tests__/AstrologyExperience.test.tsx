@@ -64,6 +64,11 @@ function memory() {
     } as unknown as AstrologyPersistence,
   };
 }
+// Computed and reopened charts land on the overview; the wheel (mocked MythologyWorld) opens from it.
+async function openWheel(screen: ReturnType<typeof render>) {
+  await waitFor(() => expect(screen.getByText("Bánh xe lá số & dữ liệu")).toBeTruthy());
+  fireEvent.press(screen.getByText("Bánh xe lá số & dữ liệu"));
+}
 async function fillForm(
   screen: ReturnType<typeof render>,
   date: string,
@@ -72,20 +77,23 @@ async function fillForm(
 ) {
   await waitFor(() =>
     expect(
-      screen.getByRole("button", { name: "Tạo bản đồ sao cá nhân" }).props
+      screen.getByRole("button", { name: "Tạo lá số của bạn" }).props
         .accessibilityState.disabled,
     ).toBe(false),
   );
-  fireEvent.press(screen.getByText("Tạo bản đồ sao cá nhân"));
-  fireEvent.changeText(screen.getByLabelText("Ngày sinh (YYYY-MM-DD)"), date);
-  fireEvent.changeText(
-    screen.getByLabelText("Giờ tại nơi sinh (HH:mm, 24 giờ)"),
-    time,
-  );
-  fireEvent.changeText(screen.getByLabelText("Thành phố nơi sinh"), city);
+  fireEvent.press(screen.getByText("Tạo lá số của bạn"));
+  const [year, month, day] = date.split("-");
+  fireEvent.changeText(screen.getByLabelText("Ngày"), day);
+  fireEvent.changeText(screen.getByLabelText("Tháng"), month);
+  fireEvent.changeText(screen.getByLabelText("Năm"), year);
+  const [hour, minute] = time.split(":").map(Number);
+  fireEvent.changeText(screen.getByLabelText("Giờ"), String(hour % 12 || 12));
+  fireEvent.changeText(screen.getByLabelText("Phút"), String(minute).padStart(2, "0"));
+  fireEvent.press(screen.getByRole("radio", { name: hour >= 12 ? "Chiều" : "Sáng" }));
+  fireEvent.changeText(screen.getByLabelText("Nơi sinh"), city);
   fireEvent.press(screen.getAllByText(new RegExp("^" + city + " ·"))[0]);
   fireEvent.press(screen.getByText("Đây đúng là nơi sinh của tôi"));
-  fireEvent.press(screen.getByText("Kiểm tra thông tin"));
+  fireEvent.press(screen.getByText("Xem bầu trời của mình"));
 }
 test("Vietnam birth completes calculation, failed disk write is visible, retry saves and reload opens the same chart", async () => {
   const m = memory();
@@ -95,6 +103,7 @@ test("Vietnam birth completes calculation, failed disk write is visible, retry s
   await fillForm(screen, "2000-01-01", "12:00", "Hanoi");
   expect(screen.getByText("UTC: 2000-01-01T05:00:00Z")).toBeTruthy();
   fireEvent.press(screen.getByText("Tạo bản đồ"));
+  await openWheel(screen);
   await waitFor(() =>
     expect(screen.getByText("Bản đồ tương tác đã sẵn sàng")).toBeTruthy(),
   );
@@ -113,12 +122,15 @@ test("Vietnam birth completes calculation, failed disk write is visible, retry s
   const reopened = render(
     <AstrologyExperience language="vi" storage={m.storage} onBack={() => {}} />,
   );
-  await waitFor(() => expect(reopened.getByText("Bản đồ đã lưu · 1")).toBeTruthy());
-  fireEvent.press(reopened.getByText("Bản đồ đã lưu · 1"));
+  await waitFor(() => expect(reopened.getByText("1 lá số trên máy này")).toBeTruthy());
+  fireEvent.press(reopened.getByText("1 lá số trên máy này"));
   await waitFor(() => expect(reopened.getByText("Mở bản đồ 1")).toBeTruthy());
   fireEvent.press(reopened.getByText("Mở bản đồ 1"));
+  await openWheel(reopened);
   expect(reopened.getByText("Bản đồ tương tác đã sẵn sàng")).toBeTruthy();
   fireEvent.press(reopened.getByText("Trở về Astrology"));
+  // The wheel returns to the chart overview; one more back reaches the hub.
+  fireEvent.press(reopened.getByText("← Trở lại"));
   fireEvent.press(reopened.getByText("Xóa bản đồ 1"));
   fireEvent.press(reopened.getByText("Hủy"));
   expect(m.read().reports).toHaveLength(1);
@@ -126,6 +138,121 @@ test("Vietnam birth completes calculation, failed disk write is visible, retry s
   fireEvent.press(reopened.getByText("Xác nhận xóa"));
   await waitFor(()=>expect(m.read().reports).toHaveLength(0));
   expect(m.read().nextRevision).toBe(2);
+});
+test("chart overview shows the Big 3 headline and topic tabs; the hub shows today's Moon", async () => {
+  const m = memory();
+  const screen = render(
+    <AstrologyExperience language="vi" storage={m.storage} onBack={() => {}} />,
+  );
+  await fillForm(screen, "2000-01-01", "12:00", "Hanoi");
+  fireEvent.press(screen.getByText("Tạo bản đồ"));
+  // Sun in Capricorn opens the headline.
+  await waitFor(() => expect(screen.getByText(/^Người đi đường dài /)).toBeTruthy());
+  expect(screen.getByRole("tab", { name: "Tổng quan" }).props.accessibilityState.selected).toBe(true);
+  fireEvent.press(screen.getByRole("tab", { name: "Sự nghiệp" }));
+  expect(screen.getByText(/^Thiên đỉnh · /)).toBeTruthy();
+  expect(screen.getByText(/^Sao Thổ · /)).toBeTruthy();
+  expect(screen.getByText("Đây là gợi ý để tự soi chiếu, không phải dự đoán.")).toBeTruthy();
+  expect(screen.queryByText("Bánh xe lá số & dữ liệu")).toBeNull();
+  fireEvent.press(screen.getByRole("tab", { name: "Bản thân" }));
+  expect(screen.getByText("Nếu bạn chưa chắc giờ sinh, phần này có thể khác.")).toBeTruthy();
+  fireEvent.press(screen.getByRole("tab", { name: "Tổng quan" }));
+  fireEvent.press(screen.getByText("Lưu bản đồ trên thiết bị"));
+  await waitFor(() => expect(m.read().reports).toHaveLength(1));
+  fireEvent.press(screen.getByText("← Trở lại"));
+  await waitFor(() => expect(screen.getByText(/^Người đi đường dài /)).toBeTruthy());
+  expect(screen.getByText(/^Mặt Trăng đi qua nhà /)).toBeTruthy();
+  expect(screen.getByText("Nên thử")).toBeTruthy();
+  expect(screen.queryByText("Bổ sung giờ sinh")).toBeNull();
+});
+test("without a birth time the hub hides Rising and today's Moon and invites the time", async () => {
+  const m = memory();
+  const screen = render(
+    <AstrologyExperience language="vi" storage={m.storage} onBack={() => {}} />,
+  );
+  await waitFor(() =>
+    expect(screen.getByRole("button", { name: "Tạo lá số của bạn" }).props.accessibilityState.disabled).toBe(false),
+  );
+  fireEvent.press(screen.getByText("Tạo lá số của bạn"));
+  fireEvent.changeText(screen.getByLabelText("Ngày"), "01");
+  fireEvent.changeText(screen.getByLabelText("Tháng"), "01");
+  fireEvent.changeText(screen.getByLabelText("Năm"), "2000");
+  fireEvent.press(screen.getByText("Không rõ"));
+  fireEvent.changeText(screen.getByLabelText("Nơi sinh"), "Hanoi");
+  fireEvent.press(screen.getAllByText(/^Hanoi ·/)[0]);
+  fireEvent.press(screen.getByText("Đây đúng là nơi sinh của tôi"));
+  fireEvent.press(screen.getByText("Xem bầu trời của mình"));
+  fireEvent.press(screen.getByText("Tạo bản đồ"));
+  await waitFor(() => expect(screen.getByRole("tab", { name: "Sự nghiệp" })).toBeTruthy());
+  fireEvent.press(screen.getByRole("tab", { name: "Sự nghiệp" }));
+  expect(screen.getByText("Phần này cần giờ sinh chính xác.")).toBeTruthy();
+  expect(screen.getByText("Bổ sung giờ sinh")).toBeTruthy();
+  fireEvent.press(screen.getByRole("tab", { name: "Tổng quan" }));
+  fireEvent.press(screen.getByText("Lưu bản đồ trên thiết bị"));
+  await waitFor(() => expect(m.read().reports).toHaveLength(1));
+  fireEvent.press(screen.getByText("← Trở lại"));
+  await waitFor(() => expect(screen.getByText(/Thêm giờ sinh chính xác/)).toBeTruthy());
+  expect(screen.queryByText(/^Mặt Trăng đi qua nhà /)).toBeNull();
+  expect(screen.queryByText("Cung mọc")).toBeNull();
+  fireEvent.press(screen.getByText("Bổ sung giờ sinh"));
+  // The form reopens on the exact-time mode with the saved date.
+  expect(screen.getByLabelText("Giờ")).toBeTruthy();
+  expect(screen.getByLabelText("Năm").props.value).toBe("2000");
+});
+test("So với một người saves another person only after consent, compares and deletes on the device", async () => {
+  const m = memory();
+  const screen = render(
+    <AstrologyExperience language="vi" storage={m.storage} onBack={() => {}} />,
+  );
+  await waitFor(() => expect(screen.getByText("So với một người")).toBeTruthy());
+  fireEvent.press(screen.getByText("So với một người"));
+  // Without an own chart the list asks for it first.
+  expect(screen.getByText(/Lưu lá số của bạn trước/)).toBeTruthy();
+  fireEvent.press(screen.getByText("← Trở lại"));
+  await fillForm(screen, "2000-03-15", "14:30", "Hanoi");
+  fireEvent.press(screen.getByText("Tạo bản đồ"));
+  await waitFor(() => expect(screen.getByText("Lưu bản đồ trên thiết bị")).toBeTruthy());
+  fireEvent.press(screen.getByText("Lưu bản đồ trên thiết bị"));
+  await waitFor(() => expect(m.read().reports).toHaveLength(1));
+  fireEvent.press(screen.getByText("← Trở lại"));
+  fireEvent.press(screen.getByText("So với một người"));
+  fireEvent.press(screen.getByText("Thêm người"));
+  const addPerson = () => {
+    fireEvent.changeText(screen.getByLabelText("Tên hoặc biệt danh"), "Minh");
+    fireEvent.press(screen.getByRole("radio", { name: "Người nhà" }));
+    fireEvent.changeText(screen.getByLabelText("Ngày"), "02");
+    fireEvent.changeText(screen.getByLabelText("Tháng"), "08");
+    fireEvent.changeText(screen.getByLabelText("Năm"), "1998");
+    fireEvent.press(screen.getByText("Không rõ"));
+    fireEvent.changeText(screen.getByLabelText("Nơi sinh"), "Hanoi");
+    fireEvent.press(screen.getAllByText(/^Hanoi ·/)[0]);
+    fireEvent.press(screen.getByText("Đây đúng là nơi sinh của tôi"));
+    fireEvent.press(screen.getByText("Tiếp tục"));
+    fireEvent.press(screen.getByText("Tạo bản đồ"));
+  };
+  addPerson();
+  await waitFor(() => expect(screen.getByText("Trước khi lưu bản đồ của người khác")).toBeTruthy());
+  // Declining keeps nothing.
+  fireEvent.press(screen.getByText("Không lưu"));
+  expect(m.read().people ?? []).toHaveLength(0);
+  fireEvent.press(screen.getByText("Thêm người"));
+  addPerson();
+  await waitFor(() => expect(screen.getByText("Mình hiểu, lưu bản đồ")).toBeTruthy());
+  fireEvent.press(screen.getByText("Mình hiểu, lưu bản đồ"));
+  await waitFor(() => expect(screen.getByText("Bạn và Minh")).toBeTruthy());
+  expect(m.read().people).toHaveLength(1);
+  expect(m.read().people![0]).toMatchObject({ name: "Minh", relationship: "family" });
+  expect(screen.getByText("Nguyên tố")).toBeTruthy();
+  // Minh's birth time is unknown, so the Moon carries a note and no Moon aspect is read.
+  expect(screen.getByText("Giờ sinh chưa rõ nên Mặt Trăng có thể khác.")).toBeTruthy();
+  expect(screen.queryByText(/Mặt Trăng của bạn ·|· Mặt Trăng của Minh/)).toBeNull();
+  // Family hides Venus–Mars, and nothing on this screen offers AI.
+  expect(screen.queryByText(/Sao Kim của bạn · .* · Sao Hỏa của Minh|Sao Hỏa của bạn · .* · Sao Kim của Minh/)).toBeNull();
+  expect(screen.queryByText(/AI/)).toBeNull();
+  fireEvent.press(screen.getByText("Xóa lá số của Minh"));
+  fireEvent.press(screen.getByText("Xác nhận xóa"));
+  await waitFor(() => expect(m.read().people).toHaveLength(0));
+  expect(screen.getByText(/Chưa có ai/)).toBeTruthy();
 });
 test("New York DST overlap requires explicit occurrence and resolves the chosen UTC", async () => {
   const m = memory(),
@@ -140,7 +267,7 @@ test("New York DST overlap requires explicit occurrence and resolves the chosen 
   expect(screen.getByText(/Giờ này xuất hiện hai lần/)).toBeTruthy();
   expect(screen.queryByText("Tạo bản đồ")).toBeNull();
   fireEvent.press(screen.getByText("Lần thứ hai · UTC-05:00"));
-  fireEvent.press(screen.getByText("Kiểm tra thông tin"));
+  fireEvent.press(screen.getByText("Xem bầu trời của mình"));
   expect(screen.getByText("UTC: 2020-11-01T06:30:00Z")).toBeTruthy();
 });
 
@@ -161,6 +288,7 @@ test("Astrology AI consent double tap starts only one provider request", async (
   );
   await fillForm(screen, "2000-01-01", "12:00", "Hanoi");
   fireEvent.press(screen.getByText("Tạo bản đồ"));
+  await openWheel(screen);
   await waitFor(() => expect(screen.getByText("Bản đồ tương tác đã sẵn sàng")).toBeTruthy());
 
   fireEvent.press(screen.getByText("Gửi câu hỏi thử"));
@@ -196,6 +324,7 @@ test("explicit save updates an already saved chart, reopens full AI report and r
     requestAstrologyAi={requestAstrologyAi} onReportAnswer={onReportAnswer} />);
   await fillForm(screen, "2000-01-01", "12:00", "Hanoi");
   fireEvent.press(screen.getByText("Tạo bản đồ"));
+  await openWheel(screen);
   await waitFor(() => expect(screen.getByText("Bản đồ tương tác đã sẵn sàng")).toBeTruthy());
   fireEvent.press(screen.getByText("Lưu bản đồ trên thiết bị"));
   await waitFor(() => expect(m.read().reports).toHaveLength(1));
@@ -213,9 +342,10 @@ test("explicit save updates an already saved chart, reopens full AI report and r
   expect(snapshot.context).not.toHaveProperty("userFocus");
   screen.unmount();
   const reopened = render(<AstrologyExperience language="vi" storage={m.storage} onBack={() => {}} canRequestAstrologyAi onReportAnswer={onReportAnswer} />);
-  await waitFor(() => expect(reopened.getByText("Bản đồ đã lưu · 1")).toBeTruthy());
-  fireEvent.press(reopened.getByText("Bản đồ đã lưu · 1"));
+  await waitFor(() => expect(reopened.getByText("1 lá số trên máy này")).toBeTruthy());
+  fireEvent.press(reopened.getByText("1 lá số trên máy này"));
   fireEvent.press(reopened.getByText("Mở bản đồ 1"));
+  await openWheel(reopened);
   await waitFor(() => expect(reopened.getByText(responseFixture.headline)).toBeTruthy());
   expect(m.read().reports[0].aiInsight).toEqual(snapshot);
 });
@@ -230,6 +360,7 @@ test("a retry preserves interaction but uses distinct attempt and client request
   const screen = render(<AstrologyExperience language="vi" storage={m.storage} onBack={() => {}} canRequestAstrologyAi requestAstrologyAi={requestAstrologyAi} />);
   await fillForm(screen, "2000-01-01", "12:00", "Hanoi");
   fireEvent.press(screen.getByText("Tạo bản đồ"));
+  await openWheel(screen);
   await waitFor(() => expect(screen.getByText("Gửi câu hỏi thử")).toBeTruthy());
   fireEvent.press(screen.getByText("Gửi câu hỏi thử"));
   fireEvent.press(screen.getByText("Đồng ý và gửi một câu hỏi"));
@@ -250,7 +381,7 @@ test("an old account load cannot replace the newly selected account data", async
   (old.storage.loadJson as jest.Mock).mockImplementationOnce(() => new Promise(resolve => { finishOld = resolve; }));
   const screen = render(<AstrologyExperience language="vi" storage={old.storage} onBack={() => {}} />);
   screen.rerender(<AstrologyExperience language="vi" storage={current.storage} onBack={() => {}} />);
-  await waitFor(() => expect(screen.getByRole("button", { name: "Tạo bản đồ sao cá nhân" }).props.accessibilityState.disabled).toBe(false));
+  await waitFor(() => expect(screen.getByRole("button", { name: "Tạo lá số của bạn" }).props.accessibilityState.disabled).toBe(false));
   finishOld({ ...freshAstrologyData(), displayZone: "Invalid/old_account" });
   await waitFor(() => expect(screen.queryByText(/Dữ liệu Astrology đã lưu không hợp lệ/)).toBeNull());
   expect(current.storage.saveJsonOrThrow).not.toHaveBeenCalled();
@@ -265,12 +396,13 @@ test("an old account AI result cannot appear or be saved after storage changes",
   const screen = render(<AstrologyExperience language="vi" storage={old.storage} onBack={() => {}} canRequestAstrologyAi requestAstrologyAi={requestAstrologyAi} />);
   await fillForm(screen, "2000-01-01", "12:00", "Hanoi");
   fireEvent.press(screen.getByText("Tạo bản đồ"));
+  await openWheel(screen);
   await waitFor(() => expect(screen.getByText("Gửi câu hỏi thử")).toBeTruthy());
   fireEvent.press(screen.getByText("Gửi câu hỏi thử"));
   fireEvent.press(screen.getByText("Đồng ý và gửi một câu hỏi"));
   expect(requestAstrologyAi).toHaveBeenCalledTimes(1);
   screen.rerender(<AstrologyExperience language="vi" storage={current.storage} onBack={() => {}} canRequestAstrologyAi requestAstrologyAi={requestAstrologyAi} />);
-  await waitFor(() => expect(screen.getByText("Bản đồ đã lưu · 0")).toBeTruthy());
+  await waitFor(() => expect(screen.getByText("Chưa có lá số nào")).toBeTruthy());
   complete();
   await waitFor(() => expect(screen.queryByText(responseFixture.headline)).toBeNull());
   expect(current.storage.saveJsonOrThrow).not.toHaveBeenCalled();

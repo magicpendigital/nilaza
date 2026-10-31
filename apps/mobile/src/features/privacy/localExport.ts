@@ -9,7 +9,8 @@ const sources = {
   personaMessages: "nilaza.messages", oracleTurns: "nilaza.oracleTurns", dailyInsight: "nilaza.dailyInsight",
   astrology: "nilaza.astrology.v2", councilSessions: "nilaza.aiCouncilSessions.v2",
   savedArtifacts: "nilaza.generatedArtifacts", favorites: "nilaza.favoritePersonaIds",
-  memoryConsent: "nilaza.oracleMemoryConsent", notificationPreferences: "nilaza.notificationPreferences"
+  memoryConsent: "nilaza.oracleMemoryConsent", notificationPreferences: "nilaza.notificationPreferences",
+  learnedTarotCards: "nilaza.learnedTarotCards.v1", dailyReminder: "nilaza.dailyReminder.v1"
 } as const;
 const secretKey = /authorization|password|secret|token|api.?key|service.?role|credential|device.?push|grant/i;
 function exportValue(value: unknown, depth = 0): unknown {

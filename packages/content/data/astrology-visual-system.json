@@ -50,7 +50,7 @@
       },
       {
         "id": "limited-chart-fallback",
-        "vi": "Khi giờ sinh, nơi sinh hoặc timezone chưa đủ tin cậy, renderer chỉ hiện phần facts hợp lệ và giải thích giới hạn; không vẽ Cung Mọc, nhà hoặc wheel cá nhân giả.",
+        "vi": "Khi giờ sinh, nơi sinh hoặc timezone chưa đủ tin cậy, renderer chỉ hiện phần facts hợp lệ và giải thích giới hạn; không vẽ Cung mọc, nhà hoặc wheel cá nhân giả.",
         "en": "When birth time, place, or timezone is not sufficiently reliable, the renderer shows only valid facts and explains the limit; it must not draw a fabricated Rising sign, houses, or personal wheel."
       }
     ]

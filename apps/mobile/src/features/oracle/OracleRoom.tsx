@@ -94,16 +94,14 @@ export function OracleRoom({
         }
         style={styles.surface}
       >
+        {/* Oracle is an on-device direction chooser (Owner decision 2026-10-31): nothing is read or sent. */}
         <View style={styles.privacyPanel}>
-          <Ionicons name={memoryAllowed ? "lock-open-outline" : "lock-closed-outline"} size={16} color={colors.gold} />
+          <Ionicons name="lock-closed-outline" size={16} color={colors.gold} />
           <Text style={styles.privacyText}>
-            {memoryAllowed
-              ? language === "vi" ? "Oracle có thể dùng ký ức Nhật ký đã được làm sạch khi cần." : "Oracle may use sanitized Journal memory when useful."
-              : language === "vi" ? "Oracle không tự đọc Nhật ký hoặc hồ sơ ngày sinh nếu bạn chưa cho phép." : "Oracle will not read Journal or birth profile unless you allow it."}
+            {language === "vi"
+              ? "Oracle đọc câu bạn kể ngay trên máy rồi gợi ý nên đi tiếp đâu. Không có AI trả lời và không gửi đi đâu."
+              : "Oracle reads what you share on your device and suggests where to go next. No AI answers and nothing is sent."}
           </Text>
-          <Pressable accessibilityRole="button" accessibilityState={{ selected: memoryAllowed }} onPress={onToggleMemory} style={styles.privacyToggle}>
-            <Text style={styles.privacyToggleText}>{memoryAllowed ? (language === "vi" ? "Tắt" : "Turn off") : (language === "vi" ? "Cho phép" : "Allow")}</Text>
-          </Pressable>
         </View>
 
         {turns.length === 0 ? (
@@ -111,8 +109,8 @@ export function OracleRoom({
             <Text style={styles.emptyTitle}>{language === "vi" ? "Bạn đang mang theo điều gì?" : "What are you carrying?"}</Text>
             <Text style={styles.emptyBody}>
               {language === "vi"
-                ? "Nilaza Oracle có thể lắng nghe một câu chuyện ngắn, rồi gợi ý Tarot, một người dẫn đường, AI Council, Chiêm tinh hoặc Nhật ký."
-                : "Oracle can listen to a short situation, then suggest Tarot, a guide, AI Council, Astrology, or Journal."}
+                ? "Kể một chuyện ngắn. Oracle gợi ý nên trải bài, hỏi một người dẫn, mở Hội đồng 3 góc nhìn hay viết vài dòng vào Nhật ký."
+                : "Share a short situation. Oracle suggests a spread, a guide, the three-view council or a few lines in your Journal."}
             </Text>
           </View>
         ) : null}
@@ -125,7 +123,7 @@ export function OracleRoom({
               author={turn.role === "oracle" ? "Nilaza Oracle" : language === "vi" ? "Bạn" : "You"}
               avatar={turn.role === "oracle" ? oracleAvatar : undefined}
               meta={turn.role === "oracle" && turn.moderationStatus === "fallback"
-                ? language === "vi" ? "Phản hồi dự phòng — kết nối AI chưa sẵn sàng." : "Fallback response — AI connection is unavailable."
+                ? language === "vi" ? "Gợi ý của Nilaza trên máy, không phải AI trả lời." : "Suggestion from Nilaza on your device, not an AI answer."
                 : undefined}
               tone={turn.role === "user" ? "user" : "guide"}
             >
@@ -328,20 +326,6 @@ const styles = StyleSheet.create({
     fontFamily: typography.bodyFontFamily,
     fontSize: 12,
     lineHeight: 17
-  },
-  privacyToggle: {
-    borderColor: "rgba(201, 164, 92, 0.4)",
-    borderRadius: radius.control,
-    borderWidth: 1,
-    minHeight: 44,
-    justifyContent: "center",
-    paddingHorizontal: spacing.sm,
-    paddingVertical: spacing.xs
-  },
-  privacyToggleText: {
-    color: colors.gold,
-    fontFamily: typography.bodySemiBoldFontFamily,
-    fontSize: 12
   },
   shell: {
     alignItems: "center",

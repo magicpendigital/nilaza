@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 1,
+  "taskId": "tarot-card-guide-2026-10-31",
+  "ownerAgent": "mobile_tarot_design_agent",
+  "lane": "mobile_tarot_card_guide",
+  "goal": "Redesign the Tarot card meaning screen (Học lá) to the approved TarotCard design canvas and fill it with the Owner-approved per-topic meanings, misconceptions, support notes and astrology correspondences for all 78 cards.",
+  "successCriteria": [
+    "packages/content/data/tarot-card-guide.json holds, for all 78 card ids, VI/EN love/career/self meanings (upright), a misconception, optional otherReadings and supportNote, element, astrology, optional modernPlanet and note keys, built from docs/content-review drafts after the Owner decisions of 2026-10-30.",
+    "scripts/validate-data.mjs checks the guide covers exactly the 78 card ids with accented Vietnamese and English text in every field and that note keys resolve.",
+    "The card meaning screen shows, in order: library position n/78, card art (tap = full screen), arcana kicker, Vietnamese name, English name, element and astrology; an Upright/Reversed switch that defaults to the drawn orientation when opened from a reading and rotates the art; the selected orientation meaning; for upright, three topic cards (love, career, self); Hay bị hiểu nhầm; other readings and support notes when present; the reflection prompt as Thực hành; deeper lessons, archetype and Chat with this card kept; astrology notes; previous/next card.",
+    "No Nhìn kỹ bức tranh block and no bookmark button are shown, since that content and feature do not exist yet.",
+    "npm --workspace apps/mobile run check, the mobile Jest suite and npm run validate:data pass, and a 390x844 web check covers a major, a minor and a court card in both orientations."
+  ],
+  "writeScope": [
+    "packages/content/data/tarot-card-guide.json",
+    "apps/mobile/src/features/tarot/cardGuide.ts",
+    "apps/mobile/src/features/tarot/TarotCardGuide.tsx",
+    "apps/mobile/src/features/tarot/__tests__/",
+    "apps/mobile/App.tsx",
+    "scripts/validate-data.mjs",
+    "docs/content-review/",
+    "docs/TAROT_CONTENT_SYSTEM.md",
+    "apps/admin/workflow-catalog.js"
+  ],
+  "untouchedSurfaces": [
+    "tarot-cards.json, the Edge Functions, AI prompts and Admin seed are unchanged; the guide is app-only content.",
+    "Ask, draw and result stages are separate tasks in this slice.",
+    "Nhìn kỹ bức tranh (per-deck picture notes) and a bookmark feature are not built."
+  ],
+  "impact": {
+    "entryPoint": "Explore > deck > 78-card library > a card; Tarot result > a card; Today card meaning when it routes to cardMeaning.",
+    "dataWrite": "No storage change; the Upright/Reversed switch is view state only.",
+    "backendContract": "No endpoint or payload change.",
+    "canonicalContract": "New canonical content file tarot-card-guide.json, documented in docs/TAROT_CONTENT_SYSTEM.md; tarot-cards.json stays canonical for names and core meanings.",
+    "adminVisibility": "Not shown in Admin; Admin seed sources are unchanged.",
+    "privacySafety": "Support notes suggest professional help on four emotionally heavy cards and the 115 emergency number for self-harm thoughts on Nine and Ten of Swords, per Owner decision.",
+    "observability": "No analytics change.",
+    "rollback": "Revert the commit.",
+    "surfacesIntentionallyUntouched": "Other Tarot stages, deck detail grid layout and Explore.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs the validation commands, commits locally and does not merge, deploy or run SQL."
+  },
+  "canonicalContracts": [
+    "Owner decisions 2026-10-30 in chat on the learning content draft (7 points) and the approved 78-name table.",
+    "Design canvas TarotCard artboard (claude.ai artifact UyhXpoqEUT3RMFJzgPUJ8y).",
+    "docs/CONTENT_SAFETY_STYLE_GUIDE.md Tarot Names and safety framing."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Tarot and mobile UI routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "DESIGN.md",
+      "reason": "Brand shape and type rules for the new screen.",
+      "sha256": "516629403e9d8904208a1b64e6360ab3d4ab6ed4c20d337f689033a0ab00e4a9"
+    },
+    {
+      "path": "docs/TAROT_CONTENT_SYSTEM.md",
+      "reason": "Where Tarot content files are documented.",
+      "sha256": "ce561fef5408cf341888ecd50d519e7034c5ccefdc0f91cd99683fba592aba57"
+    },
+    {
+      "path": "docs/CONTENT_SAFETY_STYLE_GUIDE.md",
+      "reason": "Card names and safety framing for the guide copy.",
+      "sha256": "33ec073a7fe94045ee7aeb40bad2ca90b6ab6b0010569131c730380dfb23ceec"
+    },
+    {
+      "path": "docs/content-review/tarot-learning-content-draft.md",
+      "reason": "Owner-reviewed source of the guide content.",
+      "sha256": "1bfa26e9742b35053783e2925f3d784f0cd2fc0fe90b0381fd97396519d9135c"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Card meaning stage and its top bar.",
+      "sha256": "bbe71df69113e213edd3b1eedb7b1688ffdf524f9c4382386bed0e331fa99d1b"
+    },
+    {
+      "path": "apps/mobile/src/features/tarot/learning.ts",
+      "reason": "Existing depth lessons kept on the screen.",
+      "sha256": "4b04afdd6993dc8beb84ee857d6f7d8048a6ece71aa6c470d7719af95e6fc3f5"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    },
+    {
+      "name": "nilaza-tarot-content-qc",
+      "decision": "verified-current",
+      "evidence": "Guide copy was reviewed card by card in the Owner content review; the skill text on bilingual parity and safety stays accurate."
+    },
+    {
+      "name": "nilaza-tarot-deck-production",
+      "decision": "verified-current",
+      "evidence": "No deck, artwork or card id changes; the skill does not cover app-only guide content."
+    },
+    {
+      "name": "nilaza-tarot-art-qc",
+      "decision": "verified-current",
+      "evidence": "The screen reuses the existing card images and rotation only; no artwork is added or changed, so art QC rules are unaffected."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing React Native and Ionicons APIs."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization change.",
+    "sensitiveData": "No personal data; static reviewed content.",
+    "secretsLogging": "No credentials or logs.",
+    "externalInput": "No user input is rendered beyond existing card selection.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration, deploy or release.",
+    "stopCondition": "Stop if a card lacks guide content, if checks fail, or if the screen needs data the app does not have.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "docs/feature-plans/tarot-card-guide-2026-10-31.json"
+    ],
+    "note": "Worktree branch feat/tarot-slice-2026-10-31 from main fb714a4. tarot-card-guide.json was generated from the drafts just before this record."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/tarot-card-guide-2026-10-31.json",
+    "npm run validate:data",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand",
+    "Web check at 390x844: major, minor and court card, both orientations, from library and from a reading."
+  ],
+  "managerTestPath": "Khám phá > a deck > Thư viện 78 lá > Tình Nhân: see Khí and Song Tử, switch Xuôi/Ngược, read Trong tình yêu, Hay bị hiểu nhầm, Thực hành; tap the next card.",
+  "residualRisk": "Topic meanings exist for upright only; reversed shows the core reversed meaning. Picture notes per deck are not written yet.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

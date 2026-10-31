@@ -25,6 +25,7 @@ import { scrollBandFor, type ScrollBand } from "./src/scrollThresholds";
 void SplashScreen.preventAutoHideAsync().catch(() => undefined);
 import {
   Animated,
+  BackHandler,
   Image,
   ImageSourcePropType,
   Linking,
@@ -42,7 +43,7 @@ import {
   View
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Reanimated, { Easing, useAnimatedStyle, useReducedMotion, useSharedValue, withSequence, withTiming } from "react-native-reanimated";
+import { useReducedMotion } from "react-native-reanimated";
 
 import tarotDeckData from "../../packages/content/data/tarot-decks.json";
 import tarotCardData from "../../packages/content/data/tarot-cards.json";
@@ -67,8 +68,8 @@ import {
   deleteAstrologyAiReports,
   generateAstrologyReport,
   generateDailyInsight,
+  requestAccountDeletion,
   generateDailyZodiacPulse,
-  generateOracleTurn,
   generatePersonaReply,
   generateTarotReading,
   registerNotificationDevice,
@@ -116,7 +117,7 @@ import {
   FadeInView
 } from "./src/a2ui";
 import { formatLocalDate, formatLocalDateTime, localizedList, localizedText, normalizeLanguage, relativeDayLabel } from "./src/i18n";
-import { isSupabaseAuthConfigured, nilazaAdminUrl, nilazaBackendBaseUrl, nilazaHelpUrlFor, onlineModeRequired, onlineRuntimeReady, responsiveShellEnabled, supabaseAnonKey, supabaseUrl } from "./src/runtimeConfig";
+import { isSupabaseAuthConfigured, nilazaAdminUrl, nilazaBackendBaseUrl, nilazaHelpUrlFor, nilazaLegalUrlFor, onlineModeRequired, onlineRuntimeReady, responsiveShellEnabled, supabaseAnonKey, supabaseUrl } from "./src/runtimeConfig";
 import { useAdaptiveLayout } from "./src/responsive";
 import { AdaptiveScaffold, ResponsiveGrid, OverflowChipRail } from "./src/a2ui/layout";
 import { AdaptiveNavigation, type NavigationChrome } from "./src/a2ui/AdaptiveNavigation";
@@ -125,6 +126,12 @@ import { TarotArtworkButton } from "./src/features/tarot/TarotArtworkButton";
 import { ReadingDetails } from "./src/a2ui/ReadingDetails";
 import { normalizeTarotSections, tarotSnapshotMeaning, tarotResultSource } from "./src/features/tarot/readingPresentation";
 import { getTarotLearningSections, tarotQuestionExamples } from "./src/features/tarot/learning";
+import { getTarotCardGuide } from "./src/features/tarot/cardGuide";
+import { TarotCardGuide } from "./src/features/tarot/TarotCardGuide";
+import { TarotAskStep } from "./src/features/tarot/TarotAskStep";
+import { TarotDrawStep } from "./src/features/tarot/TarotDrawStep";
+import { TarotResultDock, TarotResultView } from "./src/features/tarot/TarotResultView";
+import type { AskTopic } from "./src/features/tarot/askHelpers";
 import { MythologyEntry, MythologyWorld } from "./src/features/astrology/MythologyWorld";
 import { AstrologyChartFoundation } from "./src/features/astrology/AstrologyChartFoundation";
 import { localizeAstrologySign, toAstrologyChartPresentation, type AstrologyRawChart, type AstrologySignId } from "./src/features/astrology/contracts";
@@ -133,6 +140,33 @@ import { getDeckVisual, getFeatureVisual, getPersonaVisual } from "./src/visualA
 import { AuthFlow } from "./src/auth/AuthFlow";
 import { AiCouncilRoom, type AiCouncilRoomProps, type AiCouncilSessionSummary, useAiCouncilRoom } from "./src/features/council";
 import { OracleRoom } from "./src/features/oracle";
+import { ChatHub } from "./src/features/chat/ChatHub";
+import { JournalHome } from "./src/features/journal/JournalHome";
+import { CardLibrary } from "./src/features/tarot/CardLibrary";
+import { ExploreHome } from "./src/features/explore/ExploreHome";
+import personaShortNamesData from "../../packages/content/data/persona-short-names.json";
+
+// Owner-approved short names and one-line taglines for guide grids (2026-10-31); full names stay on detail screens.
+const personaShortNames = personaShortNamesData.personas as Record<string, { short: { vi: string; en: string }; tagline: { vi: string; en: string } }>;
+function personaShortName(persona: Persona, language: Language) {
+  const entry = personaShortNames[persona.id];
+  return entry ? (language === "vi" ? entry.short.vi : entry.short.en) : localizedText(persona.name, language);
+}
+function personaTagline(persona: Persona, language: Language) {
+  const entry = personaShortNames[persona.id];
+  if (entry) return language === "vi" ? entry.tagline.vi : entry.tagline.en;
+  return persona.displayRole ? localizedText(persona.displayRole, language) : localizedText(persona.shortDescription, language);
+}
+
+const learnedTarotCardsKey = "nilaza.learnedTarotCards.v1";
+import { ProfileHome } from "./src/features/profile/ProfileHome";
+import { DeleteAccountPanel } from "./src/features/profile/DeleteAccountPanel";
+
+// Flip after the Owner approves deploying account-delete and its SQL (Google Play account deletion).
+const accountDeleteLive = false;
+import { applyDailyReminder, dailyReminderKey, defaultDailyReminder, normalizeDailyReminder, type DailyReminder } from "./src/features/profile/dailyReminder";
+import appConfig from "./app.json";
+import { normalizeOracleText, oracleIntent, oracleSafetyReply, oracleSafetySignal } from "../../packages/ai-contracts/oracle-safety.mjs";
 import { PersonaChatRoom } from "./src/features/persona";
 import { createEmailAuthState, displayNameFromEmail } from "./src/auth/localAuth";
 import { resendSupabaseSignupConfirmation, resetSupabasePasswordForEmail, signInWithSupabaseEmail, signUpWithSupabaseEmail } from "./src/auth/supabaseAuth";
@@ -216,8 +250,8 @@ type ChatMode = "oracle" | "list" | "detail" | "room" | "council" | "councilHub"
 type PersonalSyncArea = "chat" | "journal";
 type ChatCategory = "all" | "favorites" | "sages" | "love" | "career" | "books" | "healing";
 type ExploreGuideCategory = "recommended" | ChatCategory;
-type TarotStage = "intro" | "learn" | "topic" | "spread" | "deck" | "deckDetail" | "cardMeaning" | "draw" | "result" | "share";
-const tarotStages: TarotStage[] = ["intro", "learn", "topic", "spread", "deck", "deckDetail", "cardMeaning", "draw", "result", "share"];
+type TarotStage = "intro" | "learn" | "topic" | "spread" | "deck" | "deckDetail" | "library" | "cardMeaning" | "draw" | "result" | "share";
+const tarotStages: TarotStage[] = ["intro", "learn", "topic", "spread", "deck", "deckDetail", "library", "cardMeaning", "draw", "result", "share"];
 const isTarotStage = (value: unknown): value is TarotStage => typeof value === "string" && tarotStages.includes(value as TarotStage);
 type RitualDrawPhase = "grounding" | "draw_card_1" | "pause_and_breathe" | "draw_card_2" | "draw_card_3" | "reveal";
 type AstrologyStage = "world" | "hub" | "intention" | "birth" | "casting" | "report";
@@ -564,35 +598,6 @@ function getTarotCardImage(deckId: string, cardId?: string) {
   return getDeckBackImage(deckId);
 }
 
-const tarotTopicIcons: Record<TarotTopic, keyof typeof Ionicons.glyphMap> = {
-  love: "heart-outline",
-  career: "briefcase-outline",
-  self: "sparkles-outline",
-  decision: "git-compare-outline",
-  open: "infinite-outline"
-};
-const tarotTopicDescriptions: Record<TarotTopic, { vi: string; en: string }> = {
-  love: {
-    vi: "Dò lại cảm xúc, mối quan hệ và điều trái tim bạn đang cần.",
-    en: "Tune into relationships, feelings, and what your heart needs."
-  },
-  career: {
-    vi: "Nhìn rõ hướng đi, cơ hội và nhịp phát triển phù hợp với bạn.",
-    en: "Clarify direction, opportunities, and the pace that fits your growth."
-  },
-  self: {
-    vi: "Lắng nghe bản thân, nhu cầu thật và điều đang cần được chăm sóc.",
-    en: "Listen inward for needs, self-care, and the truth beneath the surface."
-  },
-  decision: {
-    vi: "Soi lại lựa chọn đang mở ra để thấy bước tiếp theo rõ hơn.",
-    en: "Examine the crossroads in front of you and the next step with more clarity."
-  },
-  open: {
-    vi: "Để bài dẫn lối khi bạn chỉ cần một thông điệp mở và trực giác.",
-    en: "Let the cards lead when you want an open message guided by intuition."
-  }
-};
 const personaDomainVisuals: Record<string, { color: string; icon: keyof typeof Ionicons.glyphMap }> = {
   calm: { icon: "moon-outline", color: colors.teal },
   communication: { icon: "chatbubble-ellipses-outline", color: colors.gold },
@@ -809,13 +814,13 @@ const defaultBirthProfile: BirthProfileDraft = {
 };
 
 const notificationTypes: Array<{ id: NotificationType; vi: string; en: string; channelDefault: "in_app" | "push" }> = [
-  { id: "daily_insight_ready", vi: "Thong diep moi ngay", en: "Daily insight ready", channelDefault: "push" },
-  { id: "tarot_reading_ready", vi: "Ket qua Tarot san sang", en: "Tarot reading ready", channelDefault: "push" },
-  { id: "astrology_report_ready", vi: "Bao cao Astrology san sang", en: "Astrology report ready", channelDefault: "push" },
-  { id: "journal_reflection_reminder", vi: "Nhac viet Journal", en: "Journal reflection reminder", channelDefault: "push" },
-  { id: "account_security", vi: "Tai khoan va bao mat", en: "Account and security", channelDefault: "in_app" },
-  { id: "payment_subscription", vi: "Thanh toan va goi Premium", en: "Payment and subscription", channelDefault: "in_app" },
-  { id: "admin_test", vi: "Thong bao thu", en: "Test notification", channelDefault: "in_app" }
+  { id: "daily_insight_ready", vi: "Thông điệp mỗi ngày", en: "Daily insight ready", channelDefault: "push" },
+  { id: "tarot_reading_ready", vi: "Kết quả trải bài đã sẵn sàng", en: "Tarot reading ready", channelDefault: "push" },
+  { id: "astrology_report_ready", vi: "Lá số chiêm tinh đã sẵn sàng", en: "Astrology report ready", channelDefault: "push" },
+  { id: "journal_reflection_reminder", vi: "Nhắc viết Nhật ký", en: "Journal reflection reminder", channelDefault: "push" },
+  { id: "account_security", vi: "Tài khoản và bảo mật", en: "Account and security", channelDefault: "in_app" },
+  { id: "payment_subscription", vi: "Thanh toán và gói Premium", en: "Payment and subscription", channelDefault: "in_app" },
+  { id: "admin_test", vi: "Thông báo thử", en: "Test notification", channelDefault: "in_app" }
 ];
 
 function defaultNotificationPreferences(now = new Date().toISOString()): NotificationPreference[] {
@@ -1237,7 +1242,7 @@ const copy = {
     drawCards: "Chạm để rút 3 lá",
     reading: "Thông điệp của bạn",
     reflection: "Nhật ký gợi ý",
-    emptyJournal: "Chưa có insight nào được lưu.",
+    emptyJournal: "Nhật ký của bạn còn trống.",
     privacy: "Kiểm soát riêng tư",
     reset: "Xóa dữ liệu trên thiết bị",
     exportData: "Xuất dữ liệu trên thiết bị",
@@ -1340,7 +1345,7 @@ const copy = {
     drawCards: "Tap to draw 3 cards",
     reading: "Your reading",
     reflection: "Journal prompt",
-    emptyJournal: "No saved insights yet.",
+    emptyJournal: "Your Journal is empty.",
     privacy: "Privacy controls",
     reset: "Clear local data",
     exportData: "Export data on this device",
@@ -1393,14 +1398,20 @@ const copy = {
 type Copy = (typeof copy)[keyof typeof copy];
 export const getCopy = (language: Language): Copy => copy[language as keyof typeof copy] ?? copy.en;
 
+// Onboarding goals (design canvas Onboarding, Owner decision 2026-10-31). "daily" was retired.
 const goals = [
   { id: "love", vi: "Tình yêu", en: "Love" },
-  { id: "career", vi: "Sự nghiệp", en: "Career" },
-  { id: "self", vi: "Hiểu bản thân", en: "Self" },
-  { id: "healing", vi: "Tự chăm sóc", en: "Self-care" },
-  { id: "daily", vi: "Dẫn đường mỗi ngày", en: "Daily" },
-  { id: "curious", vi: "Tò mò tâm linh", en: "Mystery" }
+  { id: "career", vi: "Công việc", en: "Work" },
+  { id: "self", vi: "Hiểu bản thân", en: "Understanding myself" },
+  { id: "healing", vi: "Chữa lành", en: "Healing" },
+  { id: "decision", vi: "Ra quyết định", en: "Making decisions" },
+  { id: "curious", vi: "Tò mò tâm linh", en: "Spiritual curiosity" }
 ];
+
+// Saved profiles with the retired "daily" goal move to "self".
+function migrateGoals(saved: string[]) {
+  return [...new Set(saved.map((goal) => (goal === "daily" ? "self" : goal)))].filter((goal) => goals.some((item) => item.id === goal)).slice(0, 3);
+}
 
 const tones = [
   { id: "gentle", vi: "Dịu dàng", en: "Gentle", previewVi: "Mình sẽ nói nhẹ, chậm, và an toàn.", previewEn: "I will answer softly, slowly, and safely." },
@@ -1412,7 +1423,7 @@ const tones = [
 
 const topics: Array<{ id: TarotTopic; vi: string; en: string }> = [
   { id: "love", vi: "Tình yêu", en: "Love" },
-  { id: "career", vi: "Sự nghiệp", en: "Career" },
+  { id: "career", vi: "Công việc", en: "Career" },
   { id: "self", vi: "Bản thân", en: "Self" },
   { id: "decision", vi: "Quyết định", en: "Decision" },
   { id: "open", vi: "Câu hỏi mở", en: "Open question" }
@@ -1689,13 +1700,6 @@ const majorThemesVi: Record<number, string> = {
   21: "hoàn tất"
 };
 
-const suitNamesOriginal: Record<NonNullable<TarotCard["suit"]>, string> = {
-  wands: "Wands",
-  cups: "Cups",
-  swords: "Swords",
-  pentacles: "Pentacles"
-};
-
 const rankGuidanceVi: Record<string, { upright: string; reversed: string }> = {
   ace: {
     upright: "hãy bảo vệ mầm ý định đầu tiên và cho nó một bước thử thật nhỏ",
@@ -1873,6 +1877,8 @@ type RecentConversation = {
   updatedAt: string;
   personaId?: string;
   sessionId?: string;
+  /** Last message of the conversation, for the Tiếp tục card. */
+  latestText?: string;
 };
 
 function buildRecentConversations(
@@ -1900,7 +1906,8 @@ function buildRecentConversations(
       preview: (firstQuestion?.text ?? latest?.text ?? "").replace(/\s+/g, " ").trim().slice(0, 72),
       updatedAt: latest?.createdAt ?? "",
       personaId,
-      sessionId
+      sessionId,
+      latestText: (latest?.text ?? "").replace(/\s+/g, " ").trim().slice(0, 96)
     };
   });
   const oracleLatest = [...oracleTurns].sort((a, b) => a.createdAt.localeCompare(b.createdAt)).at(-1);
@@ -2005,14 +2012,9 @@ function oracleActionByKind(kind: OracleActionKind, handoffContext: OracleHandof
 }
 
 function oracleIntentForText(text: string): OracleIntent {
-  const normalized = text.toLowerCase();
-  if (containsRiskyRequest(text)) return "safety_redirect";
-  if (["tarot", "bài", "bÃ i", "rút", "rut", "draw", "spread"].some((word) => normalized.includes(word))) return "tarot_handoff";
-  if (["sao", "astrology", "zodiac", "birth", "cung", "moon", "rising"].some((word) => normalized.includes(word))) return "astrology_handoff";
-  if (["council", "hội đồng", "há»™i Ä‘á»“ng", "nhiều góc", "nhieu goc", "quyết định", "quyet dinh", "decision", "career"].some((word) => normalized.includes(word))) return "council_handoff";
-  if (["guide", "mentor", "nhân vật", "nhan vat", "trò chuyện", "chat"].some((word) => normalized.includes(word))) return "persona_handoff";
-  if (["journal", "nhật ký", "nhat ky", "ghi lại", "ghi lai", "save"].some((word) => normalized.includes(word))) return "journal_handoff";
-  return "reflect";
+  const intent = oracleIntent(text) as OracleIntent;
+  if (intent !== "reflect") return intent;
+  return /\b(?:quyet dinh|nen chon|lua chon|decide|decision)\b/.test(normalizeOracleText(text)) ? "council_handoff" : "reflect";
 }
 
 function buildOracleHandoffContext(text: string, intent: OracleIntent): OracleHandoffContext {
@@ -2034,13 +2036,13 @@ function buildOracleHandoffContext(text: string, intent: OracleIntent): OracleHa
 
 function oracleActionsForIntent(intent: OracleIntent, handoffContext: OracleHandoffContext): OracleActionCard[] {
   const actionKinds: Record<OracleIntent, OracleActionKind[]> = {
-    reflect: ["reflect_here", "draw_tarot", "open_council"],
+    reflect: ["draw_tarot", "ask_guide", "save_journal"],
     tarot_handoff: ["draw_tarot", "ask_guide", "save_journal"],
     persona_handoff: ["ask_guide", "open_council", "draw_tarot"],
     council_handoff: ["open_council", "draw_tarot", "ask_guide"],
     astrology_handoff: ["cast_astrology", "ask_guide", "save_journal"],
     journal_handoff: ["save_journal", "reflect_here"],
-    safety_redirect: ["reflect_here"]
+    safety_redirect: []
   };
   return (actionKinds[intent] ?? actionKinds.reflect).map((kind) => oracleActionByKind(kind, handoffContext));
 }
@@ -2051,23 +2053,23 @@ function buildOracleFallbackResult(text: string, language: Language): OracleTurn
   const actionCards = oracleActionsForIntent(intent, handoffContext);
   const replyByIntent: Record<OracleIntent, string> = {
     reflect: language === "vi"
-      ? "Mình nghe thấy một câu hỏi đang cần được giữ nhẹ, chưa cần ép thành câu trả lời cuối cùng. Ta có thể soi tiếp ở đây, hoặc mở một thực hành phản chiếu nếu bạn muốn nhìn bằng biểu tượng."
-      : "I hear a question that needs to be held gently before it becomes a final answer. We can reflect here, or open a reflection practice if you want a symbolic lens.",
+      ? "Cảm ơn bạn đã kể. Bạn có thể trải vài lá bài để nhìn chuyện này qua biểu tượng, hỏi một người dẫn, hoặc viết vài dòng cho riêng mình."
+      : "Thank you for sharing. You could draw a few cards to see this through symbols, ask a guide, or write a few lines for yourself.",
     tarot_handoff: language === "vi"
-      ? "Câu hỏi này hợp với một trải bài biểu tượng. Oracle có thể đưa intention sang Tarot, còn lá bài sẽ được chọn an toàn trong app."
-      : "This question fits a symbolic spread. Oracle can pass the intention to Tarot, while the cards stay selected safely in app.",
+      ? "Câu hỏi này hợp với một lần trải bài. Mình sẽ mang câu hỏi của bạn sang phần Tarot; lá bài vẫn do bạn tự chọn."
+      : "This question suits a tarot spread. I will carry your question to Tarot; you still choose the cards yourself.",
     persona_handoff: language === "vi"
-      ? "Mình cảm thấy bạn có thể cần một giọng nói cụ thể ở cạnh mình. Oracle có thể mở một guide phù hợp và chỉ chuyển phần tóm tắt an toàn."
-      : "It feels like you may need a specific voice beside you. Oracle can open a fitting guide and pass only a safe summary.",
+      ? "Có vẻ bạn cần một người dẫn để trò chuyện tiếp. Bạn có thể mở một người dẫn phù hợp; chỉ phần tóm tắt câu hỏi được mang theo."
+      : "It sounds like you would like a guide to talk this through. You can open a fitting guide; only a summary of your question goes with you.",
     council_handoff: language === "vi"
-      ? "Đây là kiểu câu hỏi cần nhiều lăng kính hơn một câu trả lời đơn. Oracle có thể mở AI Council để vài guide cùng soi một cách an toàn."
-      : "This is the kind of question that benefits from more than one lens. Oracle can open AI Council so several guides can reflect safely.",
+      ? "Chuyện này đáng được nhìn từ nhiều góc. Hội đồng 3 góc nhìn có thể giúp bạn cân nhắc trước khi quyết định."
+      : "This is worth seeing from several angles. The three-view council can help you weigh it before you decide.",
     astrology_handoff: language === "vi"
-      ? "Nếu bạn muốn nhìn qua các vì sao, Oracle sẽ mở Astrology và kiểm tra birth profile trước. Mình sẽ không tự đoán placements."
-      : "If you want the star lens, Oracle will open Astrology and check your birth profile first. I will not invent placements.",
+      ? "Nếu bạn muốn nhìn qua lá số, mình sẽ mở phần Chiêm tinh. Lá số cần ngày, giờ và nơi sinh của bạn."
+      : "If you would like to look through your chart, I will open Astrology. A chart needs your birth date, time and place.",
     journal_handoff: language === "vi"
-      ? "Điều này có vẻ đáng được lưu lại như một mảnh ký ức riêng tư. Oracle có thể tạo một Journal insight đã được làm sạch."
-      : "This feels worth keeping as a private memory. Oracle can create a sanitized Journal insight.",
+      ? "Điều này có vẻ đáng được giữ lại. Bạn có thể viết vài dòng vào Nhật ký, chỉ lưu trên thiết bị của bạn."
+      : "This seems worth keeping. You can write a few lines in your Journal, saved only on your device.",
     safety_redirect: localizedText(safetyRules.safeFallbacks, language)
   };
   return {
@@ -2430,6 +2432,13 @@ function displayTarotCardMeta(card: TarotCard & { reversed?: boolean }, language
   return parts.join(" · ");
 }
 
+// "Ẩn chính · VI" / "Ẩn phụ · Bộ Cốc" for the card guide kicker.
+function tarotArcanaLabel(card: TarotCard, language: Language) {
+  const vi = language === "vi";
+  if (card.arcana === "major" && typeof card.number === "number") return `${vi ? "Ẩn chính" : "Major Arcana"} · ${majorNumerals[card.number] ?? card.number}`;
+  return card.suit ? (vi ? `Ẩn phụ · Bộ ${suitNames[card.suit].vi}` : `Minor Arcana · ${suitNames[card.suit].en}`) : vi ? "Ẩn phụ" : "Minor Arcana";
+}
+
 function displayTarotReflectionTopic(card: TarotCard) {
   if (card.arcana === "major" && typeof card.number === "number") {
     return majorThemesVi[card.number] ?? "điều đang nổi lên";
@@ -2724,9 +2733,10 @@ function reportFromAstrologyBackendResult(
 function getGoalPhraseVi(goalId: string): string {
   switch (goalId) {
     case "love": return "tình yêu";
-    case "career": return "sự nghiệp";
+    case "career": return "công việc";
     case "self": return "việc thấu hiểu bản thân";
-    case "healing": return "hành trình tự chăm sóc";
+    case "healing": return "hành trình chữa lành";
+    case "decision": return "việc ra quyết định";
     case "daily": return "định hướng mỗi ngày";
     case "curious": return "sự tò mò tâm linh";
     default: return "bản thân";
@@ -2736,9 +2746,10 @@ function getGoalPhraseVi(goalId: string): string {
 function getGoalPhraseEn(goalId: string): string {
   switch (goalId) {
     case "love": return "love";
-    case "career": return "your career";
+    case "career": return "your work";
     case "self": return "self-discovery";
-    case "healing": return "self-care";
+    case "healing": return "healing";
+    case "decision": return "making decisions";
     case "daily": return "daily guidance";
     case "curious": return "mystical exploration";
     default: return "self";
@@ -2977,36 +2988,6 @@ function buildLocalAudit(language: Language) {
   };
 }
 
-function TypingIndicator() {
-  const op1 = useRef(new Animated.Value(0.3)).current;
-  const op2 = useRef(new Animated.Value(0.3)).current;
-  const op3 = useRef(new Animated.Value(0.3)).current;
-
-  useEffect(() => {
-    const anim = (val: Animated.Value, delay: number) =>
-      Animated.sequence([
-        Animated.delay(delay),
-        Animated.loop(
-          Animated.sequence([
-            Animated.timing(val, { toValue: 1, duration: 400, useNativeDriver: true }),
-            Animated.timing(val, { toValue: 0.3, duration: 400, useNativeDriver: true })
-          ])
-        )
-      ]);
-    anim(op1, 0).start();
-    anim(op2, 200).start();
-    anim(op3, 400).start();
-  }, [op1, op2, op3]);
-
-  return (
-    <View style={styles.typingIndicator}>
-      <Animated.View style={[styles.typingDot, { opacity: op1 }]} />
-      <Animated.View style={[styles.typingDot, { opacity: op2 }]} />
-      <Animated.View style={[styles.typingDot, { opacity: op3 }]} />
-    </View>
-  );
-}
-
 export default function App() {
   return <PasswordRecoveryBoundary><EmailConfirmationBoundary><AccountBoundary /></EmailConfirmationBoundary></PasswordRecoveryBoundary>;
 }
@@ -3106,6 +3087,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const [screen, setScreen] = useState<Screen>("home");
   const [loaded, setLoaded] = useState(false);
   const [localHydrated, setLocalHydrated] = useState(false);
+  const [dailyReminder, setDailyReminder] = useState<DailyReminder>(defaultDailyReminder);
+  const [learnedCardIds, setLearnedCardIds] = useState<string[]>([]);
   const [contentBundleVersion, setContentBundleVersion] = useState<number | null>(null);
   const onboardingSaving = useRef(false);
   const [currentTime, setCurrentTime] = useState(() => new Date());
@@ -3454,7 +3437,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         if (!active || !scope.active) return;
         const restoredProfile = savedProfile ?? remoteProfile?.profile ?? profile;
         const restoredBirth = savedBirthProfile ?? remoteProfile?.birth ?? defaultBirthProfile;
-        setProfile({ ...restoredProfile, language: normalizeLanguage(restoredProfile.language) });
+        setProfile({ ...restoredProfile, goals: migrateGoals(restoredProfile.goals ?? []), language: normalizeLanguage(restoredProfile.language) });
         setBirthDate(restoredBirth.birthDate ?? "");
         setBirthTime(restoredBirth.birthTime ?? "");
         setBirthTimeUnknown(Boolean(restoredBirth.birthTimeUnknown));
@@ -3638,6 +3621,47 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   useEffect(() => {
     if (loaded) void saveJson("nilaza.oracleTurns", oracleTurns);
   }, [loaded, oracleTurns]);
+
+  useEffect(() => {
+    if (!localHydrated) return;
+    let active = true;
+    void loadJson<unknown>(dailyReminderKey, defaultDailyReminder).then((value) => {
+      if (active) setDailyReminder(normalizeDailyReminder(value));
+    }).catch(() => undefined);
+    return () => { active = false; };
+  }, [localHydrated]);
+  useEffect(() => {
+    if (!localHydrated) return;
+    let active = true;
+    void loadJson<unknown>(learnedTarotCardsKey, []).then((value) => {
+      if (active && Array.isArray(value)) setLearnedCardIds(value.filter((id): id is string => typeof id === "string" && cards.some((card) => card.id === id)));
+    }).catch(() => undefined);
+    return () => { active = false; };
+  }, [localHydrated]);
+  const markCardLearned = (cardId: string) => {
+    setLearnedCardIds((current) => {
+      if (current.includes(cardId)) return current;
+      const next = [...current, cardId];
+      void saveJson(learnedTarotCardsKey, next);
+      return next;
+    });
+  };
+  const changeDailyReminder = async (next: DailyReminder) => {
+    setDailyReminder(next);
+    void saveJson(dailyReminderKey, next);
+    const result = await applyDailyReminder(next, language);
+    if ((result === "denied" || result === "unsupported") && next.enabled) {
+      // Nothing was scheduled, so the switch must not stay on.
+      const off = { ...next, enabled: false };
+      setDailyReminder(off);
+      void saveJson(dailyReminderKey, off);
+      showToast(result === "denied"
+        ? (language === "vi" ? "Hãy cho phép Nilaza gửi thông báo trong cài đặt điện thoại." : "Allow Nilaza notifications in your phone settings.")
+        : (language === "vi" ? "Nhắc nhở chỉ chạy trên ứng dụng điện thoại." : "Reminders only work in the phone app."));
+    } else if (result === "scheduled") {
+      showToast(language === "vi" ? "Đã đặt nhắc lá bài hôm nay." : "Today's card reminder is set.");
+    }
+  };
 
   useEffect(() => {
     if (loaded) void saveJson("nilaza.oracleMemoryConsent", oracleMemoryConsent);
@@ -4144,7 +4168,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
 
   const goToTarotStage = (nextStage: TarotStage) => {
     if (tarotStage === nextStage) return;
-    if (tarotStage === "topic" && nextStage === "spread") setTarotIntentionReviewed(true);
+    if (tarotStage === "topic" && (nextStage === "spread" || nextStage === "draw")) setTarotIntentionReviewed(true);
     if (tarotStage === "cardMeaning") {
       setTarotStageHistory((currentHistory) =>
         currentHistory[currentHistory.length - 1] === nextStage ? currentHistory.slice(0, -1) : currentHistory
@@ -4155,6 +4179,35 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     setTarotStageHistory((currentHistory) => [...currentHistory, tarotStage].slice(-16));
     setTarotStage(nextStage);
   };
+
+  // Android Back: close a dialog, step back inside Tarot or a chat room, else return to Hôm nay.
+  // Astrology handles its own stages; on Hôm nay the system default (leave the app) applies.
+  const backRef = useRef<() => boolean>(() => false);
+  backRef.current = () => {
+    if (confirmationDialog) {
+      setConfirmationDialog(null);
+      return true;
+    }
+    if (screen === "astrology") return false;
+    if (screen === "tarot") {
+      handleTarotBack();
+      return true;
+    }
+    if (screen === "chat" && chatMode !== "list") {
+      setChatMode("list");
+      return true;
+    }
+    if (screen !== "home") {
+      navigate("home");
+      return true;
+    }
+    return false;
+  };
+  useEffect(() => {
+    if (Platform.OS !== "android") return;
+    const subscription = BackHandler.addEventListener("hardwareBackPress", () => backRef.current());
+    return () => subscription.remove();
+  }, []);
 
   const handleTarotBack = () => {
     const previousStage = tarotStageHistory[tarotStageHistory.length - 1];
@@ -4324,34 +4377,10 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     });
     setOracleTurns((current) => [...current, userTurn].slice(-40));
     try {
-      const result = await generateOracleTurn(
-        {
-          language,
-          userMessage: text,
-          currentScreen: screen,
-          profile: {
-            nickname: profile.nickname,
-            goals: profile.goals,
-            tone: profile.tone
-          },
-          recentSafeContext: oracleMemoryConsent.journalMemory
-            ? journalEntries.slice(0, 3).map((entry) => ({
-              title: entry.title,
-              sourceType: entry.sourceType,
-              mood: entry.mood,
-              createdAt: entry.createdAt
-            }))
-            : [],
-          consentFlags: oracleMemoryConsent,
-          sanitizedHistory: oracleTurns.slice(-12).map((turn) => ({
-            role: turn.role === "oracle" ? "oracle" : "user",
-            text: summarizeForSafety(turn.text),
-            intent: turn.intent
-          }))
-        },
-        () => buildOracleFallbackResult(text, language),
-        backendOptions
-      );
+      const signal = oracleSafetySignal(text);
+      const result: OracleTurnResult = signal
+        ? { ...buildOracleFallbackResult(text, language), reply: oracleSafetyReply(language, signal), intent: "safety_redirect", actionCards: [], moderationStatus: "blocked" }
+        : buildOracleFallbackResult(text, language);
       const oracleTurn: OracleTurn = {
         id: nowId(),
         role: "oracle",
@@ -4368,7 +4397,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       recordEvent("oracle_turn_created", {
         intent: result.intent,
         moderationStatus: result.moderationStatus,
-        backend: Boolean(nilazaBackendBaseUrl)
+        backend: false
       });
       if (result.moderationStatus === "blocked") {
         recordSafetyEvent({
@@ -4955,6 +4984,30 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     }
   };
 
+  // The entry is hidden right away and deleted after 5 seconds unless the person taps Hoàn tác.
+  const pendingJournalDelete = useRef<{ id: string; timer: ReturnType<typeof setTimeout> } | null>(null);
+  const [hiddenJournalId, setHiddenJournalId] = useState<string | null>(null);
+  const requestJournalDelete = (id: string) => {
+    const previous = pendingJournalDelete.current;
+    if (previous) {
+      clearTimeout(previous.timer);
+      void deleteJournalEntry(previous.id);
+    }
+    const timer = setTimeout(() => {
+      pendingJournalDelete.current = null;
+      setHiddenJournalId(null);
+      void deleteJournalEntry(id);
+    }, 5000);
+    pendingJournalDelete.current = { id, timer };
+    setHiddenJournalId(id);
+  };
+  const undoJournalDelete = () => {
+    const pending = pendingJournalDelete.current;
+    if (pending) clearTimeout(pending.timer);
+    pendingJournalDelete.current = null;
+    setHiddenJournalId(null);
+  };
+
   const clearChatHistory = () => {
     setMessages([]);
     recordEvent("chat_history_cleared");
@@ -5129,6 +5182,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
           uiMetadata: {
             sessionId: activePersonaSessionId,
             clientRequestId,
+            // A canned reply (AI unavailable) is labelled in the room.
+            ...(reply.moderationStatus === "fallback" ? { fallback: true } : {}),
             ...(chatHandoffContext
               ? {
                 handoffSourceType: chatHandoffContext.sourceType,
@@ -5472,7 +5527,10 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   }
 
   if (!profile.onboarded) {
-    return <GoalsScreen language={language} choices={goals.map(goal => ({ id: goal.id, label: localizedText(goal, language) }))} selected={profile.goals} saving={creatingProfile} error={onboardingError} onToggle={toggleGoal} onContinue={continueFromGoals} onSkip={skipOnboardingProfile} />;
+    const onboardingSign = getApproximateSunSign(birthDate);
+    return <GoalsScreen language={language} choices={goals.map(goal => ({ id: goal.id, label: localizedText(goal, language) }))} selected={profile.goals} saving={creatingProfile} error={onboardingError} onToggle={toggleGoal} onContinue={continueFromGoals} onSkip={skipOnboardingProfile}
+      birthDate={birthDate} onBirthDateChange={(value) => setBirthDate(value)}
+      sign={onboardingSign ? { id: onboardingSign.toLowerCase(), label: localizeAstrologySign(onboardingSign.toLowerCase() as AstrologySignId, language) } : undefined} />;
   }
 
   const chatScreen = screen === "chat" ? (
@@ -5640,6 +5698,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         ) : screen === "tarot" ? (
           <TarotFlow
             c={c}
+            learnedCardIds={learnedCardIds}
+            onCardLearned={markCardLearned}
             language={language}
             reading={reading}
             selectedDeck={selectedDeck}
@@ -5681,6 +5741,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
               });
             }}
             onSave={saveJournal}
+            onWriteJournal={(prompt) => { setJournalPrompt(prompt); setJournalEntryToOpen(null); navigate("journal"); }}
             onSpreadChange={(spread) => setTarotSpread(spread)}
             onTopicChange={(topic) => setTarotTopic(topic)}
           />
@@ -5746,25 +5807,47 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
             )}
 
             {screen === "explore" && (
-              <ExploreScreen
-                c={c}
-                displayedTier={displayedTier}
-                favoritePersonaIds={favoritePersonaIds}
+              <ExploreHome
                 language={language}
-                profile={profile}
-                searchText={searchText}
-                selectedDeckId={selectedDeckId}
-                setSearchText={setSearchText}
-                setSelectedDeckId={setSelectedDeckId}
-                onAiCouncil={openAiCouncilHub}
+                deckCount={decks.length}
+                onTarot={() => startTarot("topic")}
+                onLibrary={() => startTarot("library")}
                 onAstrology={() => startAstrology("hub")}
-                onChat={(personaId) => {
-                  openChat("detail", personaId);
-                }}
-                onOracle={() => openChat("oracle")}
-                onGuideLibrary={() => openChat("list")}
-                onQuickTarot={startQuickTarot}
-                onTarot={(stage) => startTarot(stage ?? "topic")}
+                onAllDecks={() => startTarot("deck")}
+                decks={[
+                  { id: "rose-mirror", mood: language === "vi" ? "Tình yêu" : "Love" },
+                  { id: "moon-garden", mood: language === "vi" ? "Chữa lành" : "Healing" },
+                  { id: "golden-thread", mood: language === "vi" ? "Quyết định" : "Decisions" }
+                ].flatMap(({ id, mood }) => {
+                  const deck = decksById[id];
+                  return deck ? [{
+                    mood,
+                    deckName: localizedText(deck.name, language),
+                    image: getDeckThumbnailImage(deck.id),
+                    onPress: () => {
+                      setSelectedDeckId(deck.id);
+                      startTarot("deckDetail");
+                    }
+                  }] : [];
+                })}
+                guides={[
+                  // The design suggests the inner-child guide when no goal points elsewhere.
+                  ...[recommendedPersonasForProfile(profile)[0] ?? personasById["archetype-inner-child-healer"]].filter((persona): persona is Persona => Boolean(persona)).map((persona) => ({
+                    key: persona.id,
+                    title: personaShortName(persona, language),
+                    detail: personaTagline(persona, language),
+                    thumbnails: [getPersonaThumbnail(persona)],
+                    onPress: () => openChat("detail", persona.id)
+                  })),
+                  {
+                    key: "council",
+                    title: language === "vi" ? "Hội đồng 3 góc nhìn" : "Three-view council",
+                    detail: language === "vi" ? "Ba người dẫn cùng soi một quyết định" : "Three guides look at one decision",
+                    thumbnails: councilRoomProps.personas.slice(0, 3).map((persona) => getPersonaThumbnail(persona)),
+                    onPress: openAiCouncilRoom
+                  }
+                ]}
+                onAllGuides={() => openChat("list")}
               />
             )}
 
@@ -5787,13 +5870,13 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                 onComposingChange={setJournalComposing}
                 composePrompt={journalPrompt}
                 onComposeDone={() => setJournalPrompt(null)}
-                entries={journalEntries}
+                entries={hiddenJournalId ? journalEntries.filter((entry) => entry.id !== hiddenJournalId) : journalEntries}
                 initialSelectedEntryId={journalEntryToOpen}
                 journalMemory={journalMemory}
                 draftStore={journalDraftStore}
                 language={language}
                 onChat={() => openChat("oracle")}
-                onDelete={deleteJournalEntry}
+                onDelete={requestJournalDelete}
                 onTarot={() => startTarot("topic")}
                 onOpenSource={reopenJournalSource}
                 canOpenSource={(entry) => {
@@ -5809,6 +5892,24 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
             {screen === "profile" && !(showAdmin && isAdmin) && (
               <ProfileScreen
                 c={c}
+                signLabel={zodiacPulse.hasBirthDate ? zodiacPulse.sign : undefined}
+                memberSince={authState.status === "signed_in" && authState.user.createdAt
+                  ? new Date(authState.user.createdAt).toLocaleDateString(language === "vi" ? "vi-VN" : "en-GB", { day: "2-digit", month: "2-digit", year: "numeric" })
+                  : undefined}
+                readingsCount={journalEntries.filter((entry) => entry.sourceType === "tarot").length}
+                dailyReminder={dailyReminder}
+                onDailyReminderChange={(next) => { void changeDailyReminder(next); }}
+                onDeleteAccount={async () => {
+                  const failure = await requestAccountDeletion(backendOptions);
+                  if (failure) {
+                    return language === "vi"
+                      ? "Chưa xóa được tài khoản. Hãy thử lại sau hoặc liên hệ hỗ trợ."
+                      : "Your account could not be deleted yet. Try again later or contact support.";
+                  }
+                  await clearAllLocalAccountData();
+                  signOutLocally();
+                  return null;
+                }}
                 birthDate={birthDate}
                 birthPlace={birthPlace}
                 birthTime={birthTime}
@@ -5922,11 +6023,14 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         )}
         </FadeInView>
 
-        {screen === "explore" && scrollBand >= 1 ? (
-          <StickyExploreSearch language={language} value={searchText} onChangeText={setSearchText} />
-        ) : null}
-
-        {toast ? (
+        {hiddenJournalId ? (
+          <View style={[styles.toast, styles.undoToast]} accessibilityLiveRegion="polite">
+            <Text style={[styles.toastText, styles.flex]}>{language === "vi" ? "Đã xóa mục Nhật ký." : "Journal entry deleted."}</Text>
+            <Pressable accessibilityRole="button" onPress={undoJournalDelete} hitSlop={8} style={styles.undoButton}>
+              <Text style={styles.undoText}>{language === "vi" ? "Hoàn tác" : "Undo"}</Text>
+            </Pressable>
+          </View>
+        ) : toast ? (
           <View style={[styles.toast, screen === "chat" && chatMode === "detail" && styles.toastAbovePersonaCta]}>
             <Text style={styles.toastText}>{toast}</Text>
           </View>
@@ -6238,282 +6342,6 @@ function HomeCouncilCard({
   );
 }
 
-function ExploreScreen({
-  c,
-  displayedTier,
-  favoritePersonaIds,
-  language,
-  profile,
-  searchText,
-  selectedDeckId,
-  setSearchText,
-  setSelectedDeckId,
-  onAiCouncil,
-  onAstrology,
-  onChat,
-  onOracle,
-  onGuideLibrary,
-  onQuickTarot,
-  onTarot
-}: {
-  c: Copy;
-  favoritePersonaIds: string[];
-  language: Language;
-  profile: Profile;
-  searchText: string;
-  selectedDeckId: string;
-  setSearchText: (text: string) => void;
-  setSelectedDeckId: (id: string) => void;
-  onAiCouncil: () => void;
-  onAstrology: () => void;
-  onChat: (personaId: string) => void;
-  onOracle: () => void;
-  onGuideLibrary: () => void;
-  onQuickTarot: () => void;
-  onTarot: (stage?: TarotStage) => void;
-  displayedTier: AccountTier;
-}) {
-  const [activeGuideCategory, setActiveGuideCategory] = useState<ExploreGuideCategory>("recommended");
-  const [guideListExpanded, setGuideListExpanded] = useState(false);
-  const guideFilters: Array<{ id: ExploreGuideCategory; label: string }> = [
-    { id: "recommended", label: language === "vi" ? "Gợi ý" : "Suggested" },
-    { id: "favorites", label: language === "vi" ? "Yêu thích" : "Favorites" },
-    { id: "all", label: language === "vi" ? "Tất cả" : "All" },
-    { id: "love", label: language === "vi" ? "Tình cảm" : "Love" },
-    { id: "career", label: language === "vi" ? "Sự nghiệp" : "Career" },
-    { id: "healing", label: language === "vi" ? "Bình tâm" : "Calm" },
-    { id: "sages", label: language === "vi" ? "Vĩ nhân" : "Sages" },
-    { id: "books", label: language === "vi" ? "Sách" : "Books" }
-  ];
-  const suggestedGuides = recommendedPersonasForProfile(profile);
-  const recommendedGuides = suggestedGuides.length > 0 ? suggestedGuides : personas.slice(0, 3);
-  const favoriteGuides = favoritePersonaIds
-    .map((id) => personasById[id])
-    .filter((persona): persona is Persona => Boolean(persona));
-  const filteredPersonas = activeGuideCategory === "recommended"
-    ? recommendedGuides
-    : activeGuideCategory === "favorites"
-      ? favoriteGuides
-    : personas.filter((persona) => personaMatchesChatCategory(persona, activeGuideCategory));
-  const visibleGuides = guideListExpanded ? filteredPersonas : filteredPersonas.slice(0, 6);
-  const hiddenGuideCount = filteredPersonas.length - visibleGuides.length;
-  const canToggleGuideList = filteredPersonas.length > 6;
-  const trimmedSearchText = searchText.trim();
-  const isSearching = trimmedSearchText.length > 0;
-  const searchResults: ExploreSearchResult[] = [
-    ...buildExploreExperienceSearchResults(language, {
-      onAiCouncil,
-      onAstrology,
-      onOracle,
-      onQuickTarot,
-      onTarot
-    }),
-    ...decks.map((deck) => ({
-      id: `deck-${deck.id}`,
-      kind: "deck" as const,
-      title: localizedText(deck.name, language),
-      meta: language === "vi" ? "Bộ bài Tarot" : "Tarot deck",
-      detail: localizedText(deck.shortDescription, language),
-      icon: "albums-outline" as keyof typeof Ionicons.glyphMap,
-      imageSource: getDeckThumbnailImage(deck.id),
-      searchText: deckSearchText(deck, language),
-      onPress: () => {
-        setSelectedDeckId(deck.id);
-        onTarot("deckDetail");
-      }
-    })),
-    ...personas.map((persona) => ({
-      id: `guide-${persona.id}`,
-      kind: "guide" as const,
-      title: localizedText(persona.name, language),
-      meta: personaRoleLabel(persona, language),
-      detail: localizedText(persona.shortDescription, language),
-      icon: "person-outline" as keyof typeof Ionicons.glyphMap,
-      imageSource: getPersonaThumbnail(persona),
-      searchText: personaSearchText(persona, language),
-      onPress: () => onChat(persona.id)
-    }))
-  ].filter((result) => exploreSearchResultMatches(result, trimmedSearchText));
-  const searchResultLabel = language === "vi"
-    ? `${searchResults.length} kết quả phù hợp`
-    : `${searchResults.length} matching ${searchResults.length === 1 ? "result" : "results"}`;
-
-  useEffect(() => {
-    setGuideListExpanded(false);
-  }, [activeGuideCategory]);
-  const primaryGuide = recommendedGuides[0] ?? personas[0];
-
-  return (
-    <View>
-      <TopBar title="Nilaza" />
-      <Text accessibilityRole="header" style={[styles.displayTitle, { fontFamily: typography.headlineFontFamily, fontWeight: "400", fontSize: 36, lineHeight: 44 }]}>{language === "vi" ? "Khám phá" : "Explore"}</Text>
-      <Text style={styles.leadLeft}>
-        {language === "vi"
-          ? "Chọn Tarot, một người dẫn chuyện hoặc khám phá chiêm tinh."
-          : "Choose Tarot, a guide, or explore astrology."}
-      </Text>
-      <TextInput
-        value={searchText}
-        onChangeText={setSearchText}
-        placeholder={language === "vi" ? "Tìm guide, chủ đề, tarot..." : "Search guides, themes, tarot..."}
-        placeholderTextColor={colors.moon}
-        style={styles.searchInput}
-      />
-      {isSearching ? (
-        <>
-          <View style={styles.searchModeHeader}>
-            <View style={styles.searchModeIcon}>
-              <Ionicons name="search-outline" size={19} color={colors.gold} />
-            </View>
-            <View style={styles.flex}>
-              <Text style={styles.searchModeTitle}>{language === "vi" ? "Kết quả tìm kiếm" : "Search results"}</Text>
-              <Text style={styles.searchModeMeta}>{searchResultLabel}</Text>
-            </View>
-          </View>
-          {searchResults.length > 0 ? (
-            searchResults.slice(0, 12).map((result) => (
-              <ExploreSearchResultCard key={result.id} result={result} language={language} />
-            ))
-          ) : (
-            <View style={styles.empty}>
-              <Text style={styles.emptyTitle}>{language === "vi" ? "Chưa thấy kết quả phù hợp" : "No matching results yet"}</Text>
-              <Text style={styles.muted}>{language === "vi" ? "Thử tên guide, chủ đề khác, hoặc hỏi Oracle để được dẫn tới trải nghiệm phù hợp." : "Try another guide name or theme, or ask Oracle to route you to the right experience."}</Text>
-            </View>
-          )}
-        </>
-      ) : null}
-      {!isSearching ? (
-        <>
-      <Text style={styles.sectionKicker}>{language === "vi" ? "Bắt đầu một thực hành phản chiếu" : "Start a reflection practice"}</Text>
-      <FeatureWide
-        icon="sparkles-outline"
-        label="Nilaza Oracle"
-        detail={language === "vi" ? "Chat với Oracle để được mở đúng Tarot, Guide, Council hoặc Astrology." : "Chat with Oracle to open the right Tarot, Guide, Council, or Astrology path."}
-        onPress={onOracle}
-      />
-      <FeatureHero
-        language={language}
-        onLearnTarot={() => onTarot("learn")}
-        onStartReading={() => onTarot("topic")}
-      />
-      <ResponsiveGrid minItemWidth={240}>
-        <VisualFeatureCard
-          imageSource={getFeatureVisual("ai-council")}
-          icon="people-outline"
-          label="AI Council"
-          detail={language === "vi" ? "Nhiều guide cùng soi một câu hỏi" : "Several guides reflect on one question"}
-          onPress={onAiCouncil}
-        />
-        <VisualFeatureCard
-          imageSource={getFeatureVisual("daily-reflection")}
-          icon="leaf-outline"
-          label="Daily Reflection"
-          detail={language === "vi" ? "Rút nhanh khi bạn chỉ cần một tín hiệu" : "Quick draw when you only need a signal"}
-          onPress={onQuickTarot}
-        />
-        <VisualFeatureCard
-          imageSource={getFeatureVisual("astrology")}
-          icon="planet-outline"
-          label="Astrology"
-          detail={language === "vi" ? "Khám phá bản đồ cá nhân và ý nghĩa 12 cung" : "Explore your chart and the twelve signs"}
-          onPress={onAstrology}
-        />
-        <VisualFeatureCard
-          imageSource={getFeatureVisual("oracle")}
-          icon="person-outline"
-          label={language === "vi" ? "Thư viện guide" : "Guide Library"}
-          detail={language === "vi" ? "Chọn mentor theo tâm trạng hoặc câu hỏi" : "Choose a mentor by mood or question"}
-          onPress={onGuideLibrary}
-        />
-      </ResponsiveGrid>
-      <VisualFeatureCard
-        imageSource={getFeatureVisual("face-reading")}
-        icon="shield-checkmark-outline"
-        label="Face Reading"
-        badge={language === "vi" ? "Chưa mở" : "Not yet available"}
-        detail={language === "vi" ? "Tính năng đang được chuẩn bị cùng quyền kiểm soát ảnh của bạn." : "This feature is being prepared with controls for your photos."}
-        full
-        muted
-        disabled
-      />
-
-      <Text style={styles.sectionKicker}>{language === "vi" ? "Trò chuyện với guide" : "Talk to a guide"}</Text>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.horizontal}>
-        <View style={styles.chipRail}>
-          {guideFilters.map((filter) => (
-            <Chip key={filter.id} active={activeGuideCategory === filter.id} label={filter.label} onPress={() => setActiveGuideCategory(filter.id)} />
-          ))}
-        </View>
-      </ScrollView>
-      {filteredPersonas.length > 0 ? (
-        <>
-          <ResponsiveGrid minItemWidth={300}>{visibleGuides.map((persona) => (
-            <PersonaCard key={persona.id} featured={activeGuideCategory === "recommended"} locked={!canViewContentTier(persona.accessTier, displayedTier)} persona={persona} language={language} onPress={() => onChat(persona.id)} />
-          ))}</ResponsiveGrid>
-          {canToggleGuideList ? (
-            <Pressable accessibilityRole="button" onPress={() => setGuideListExpanded((value) => !value)} style={styles.guideListToggle}>
-              <Text style={styles.guideListToggleText}>
-                {guideListExpanded
-                  ? (language === "vi" ? "Thu gọn danh sách" : "Collapse guides")
-                  : (language === "vi" ? `Xem thêm ${hiddenGuideCount} guide` : `Show ${hiddenGuideCount} more guides`)}
-              </Text>
-              <Ionicons name={guideListExpanded ? "chevron-up-outline" : "chevron-down-outline"} size={16} color={colors.gold} />
-            </Pressable>
-          ) : null}
-        </>
-      ) : (
-        <View style={styles.empty}>
-          <Text style={styles.emptyTitle}>
-            {activeGuideCategory === "favorites"
-              ? (language === "vi" ? "Chưa có guide yêu thích" : "No favorite guides yet")
-              : (language === "vi" ? "Chưa thấy guide phù hợp" : "No matching guides yet")}
-          </Text>
-          <Text style={styles.muted}>
-            {activeGuideCategory === "favorites"
-              ? (language === "vi" ? "Mở trang giới thiệu một guide và bấm biểu tượng lưu để thêm vào danh sách này." : "Open a guide detail page and tap the save icon to add it here.")
-              : (language === "vi" ? "Thử chọn chip khác hoặc quay về Tất cả." : "Try another chip or return to All.")}
-          </Text>
-        </View>
-      )}
-
-      <Text style={styles.sectionKicker}>{language === "vi" ? "Thư viện bộ bài" : "Tarot deck library"}</Text>
-      {decks.map((deck) => (
-        <DeckCard
-          key={deck.id}
-          imageSource={getDeckThumbnailImage(deck.id)}
-          deck={deck}
-          language={language}
-          locked={!canViewContentTier(deck.accessTier, displayedTier)}
-          selected={deck.id === selectedDeckId}
-          onPress={() => {
-            setSelectedDeckId(deck.id);
-            onTarot("deckDetail");
-          }}
-        />
-      ))}
-
-        </>
-      ) : null}
-    </View>
-  );
-}
-
-function StickyExploreSearch({ language, value, onChangeText }: { language: Language; value: string; onChangeText: (value: string) => void }) {
-  return (
-    <View style={styles.exploreStickySearch}>
-      <Ionicons name="search-outline" size={19} color={colors.gold} />
-      <TextInput
-        accessibilityLabel={language === "vi" ? "Tìm kiếm Khám phá" : "Search Explore"}
-        value={value}
-        onChangeText={onChangeText}
-        placeholder={language === "vi" ? "Tìm guide, chủ đề, tarot..." : "Search guides, themes, tarot..."}
-        placeholderTextColor={colors.moon}
-        style={styles.exploreStickySearchInput}
-      />
-    </View>
-  );
-}
-
 function getPersonaThumbnail(persona: Persona) {
   return getPersonaVisual(persona, "thumbnail");
 }
@@ -6542,41 +6370,6 @@ function personaRoleLabel(persona: Persona, language: Language) {
   return localizedText(persona.sourceInspiration, language, persona.type);
 }
 
-function personaVisualSignature(persona: Persona, language: Language) {
-  const signatures: Record<string, { vi: string; en: string }> = {
-    "art-of-war-strategist": {
-      vi: "Sách chiến lược + bản đồ chiến thuật",
-      en: "Strategy text + tactical map"
-    },
-    "calm-living-mentor": {
-      vi: "Trà, journal và ánh trăng yên",
-      en: "Tea, journal, and quiet moonlight"
-    },
-    "communication-mentor": {
-      vi: "Sổ tay kết nối + biểu tượng lắng nghe",
-      en: "Connection notebook + listening symbols"
-    },
-    "meditations-stoic": {
-      vi: "Nhật ký Stoic + ánh đồng cổ",
-      en: "Stoic journal + bronze light"
-    },
-    "sun-tzu": {
-      vi: "Tướng lĩnh cổ điển + địa hình",
-      en: "Classical commander + terrain"
-    },
-    "tao-te-ching-guide": {
-      vi: "Kinh văn Đạo gia + núi sương",
-      en: "Taoist text + misted mountains"
-    }
-  };
-  const fallback = persona.type === "historical_figure"
-    ? language === "vi" ? "Chân dung hiền triết" : "Sage portrait"
-    : persona.type === "book_inspired_guide"
-      ? language === "vi" ? "Guide lấy cảm hứng từ sách" : "Book-inspired visual guide"
-      : language === "vi" ? "Archetype Nilaza" : "Nilaza archetype";
-  return localizedText(signatures[persona.slug], language, fallback);
-}
-
 function personaConversationLens(persona: Persona, language: Language) {
   if (persona.displayRole) return localizedText(persona.displayRole, language);
   const traits = personaTraitPreview(persona, language, 2);
@@ -6603,122 +6396,6 @@ function personaMatchesSearch(persona: Persona, language: Language, query: strin
   return normalizeSearchString(personaSearchText(persona, language)).includes(normalizedQuery);
 }
 
-function deckSearchText(deck: TarotDeck, language: Language) {
-  return [
-    localizedText(deck.name, language),
-    localizedText(deck.shortDescription, language),
-    localizedText(deck.vibe, language),
-    localizedText(deck.visualDirection, language),
-    localizedText(deck.readingStyle, language),
-    ...deck.theme,
-    deck.slug,
-    "tarot",
-    "deck",
-    "cards",
-    "bo bai",
-    "bộ bài",
-    "la bai",
-    "lá bài"
-  ].join(" ");
-}
-
-function exploreSearchResultMatches(result: ExploreSearchResult, query: string) {
-  const normalizedQuery = normalizeSearchString(query.trim());
-  if (!normalizedQuery) return true;
-  return normalizeSearchString(result.searchText).includes(normalizedQuery);
-}
-
-function buildExploreExperienceSearchResults(
-  language: Language,
-  actions: {
-    onAiCouncil: () => void;
-    onAstrology: () => void;
-    onOracle: () => void;
-    onQuickTarot: () => void;
-    onTarot: (stage?: TarotStage) => void;
-  }
-): ExploreSearchResult[] {
-  const experienceMeta = language === "vi" ? "Trải nghiệm" : "Experience";
-  return [
-    {
-      id: "experience-oracle",
-      kind: "experience",
-      title: "Nilaza Oracle",
-      meta: experienceMeta,
-      detail: language === "vi" ? "Chat với Oracle để được mở đúng Tarot, Guide, Council hoặc Astrology." : "Chat with Oracle to open the right Tarot, Guide, Council, or Astrology path.",
-      icon: "sparkles-outline",
-      searchText: "Nilaza Oracle oracle chat guide tarot council astrology hoi oracle tro chuyen dan duong",
-      onPress: actions.onOracle
-    },
-    {
-      id: "experience-tarot",
-      kind: "experience",
-      title: "Tarot reading",
-      meta: experienceMeta,
-      detail: language === "vi" ? "Đặt ý định, chọn trải bài và bộ bài phù hợp với câu hỏi của bạn." : "Set an intention, choose a spread, and pick the deck that fits your question.",
-      icon: "albums-outline",
-      imageSource: getFeatureVisual("tarot"),
-      searchText: "tarot reading cards deck spread draw bo bai la bai trai bai rut bai y dinh",
-      onPress: () => actions.onTarot("topic")
-    },
-    {
-      id: "experience-tarot-learning",
-      kind: "experience",
-      title: language === "vi" ? "Nhập môn Tarot" : "Tarot Learning",
-      meta: language === "vi" ? "Thư viện học" : "Learning library",
-      detail: language === "vi" ? "Học nền tảng, xuôi/ngược, bộ Ẩn và cách Nilaza AI diễn giải trải bài." : "Learn foundations, reversals, arcana, and how Nilaza AI interprets a spread.",
-      icon: "school-outline",
-      imageSource: getFeatureVisual("tarot"),
-      searchText: "tarot learning learn basics beginner nhap mon hoc tarot y nghia la bai xuoi nguoc arcana ai giai thich",
-      onPress: () => actions.onTarot("learn")
-    },
-    {
-      id: "experience-council",
-      kind: "experience",
-      title: "AI Council",
-      meta: experienceMeta,
-      detail: language === "vi" ? "Nhiều guide cùng soi một câu hỏi khi bạn cần nhiều góc nhìn." : "Several guides reflect on one question when you need multiple lenses.",
-      icon: "people-outline",
-      imageSource: getFeatureVisual("ai-council"),
-      searchText: "ai council group guide multiple perspectives hoi dong nhieu guide goc nhin",
-      onPress: actions.onAiCouncil
-    },
-    {
-      id: "experience-astrology",
-      kind: "experience",
-      title: "Astrology",
-      meta: experienceMeta,
-      detail: language === "vi" ? "Preview bản đồ sao từ birth profile; không tự bịa placements." : "Birth chart preview from your birth profile, without invented placements.",
-      icon: "planet-outline",
-      imageSource: getFeatureVisual("astrology"),
-      searchText: "astrology zodiac birth chart stars placements ban do sao chiem tinh cung hoang dao ngay sinh gio sinh",
-      onPress: actions.onAstrology
-    },
-    {
-      id: "experience-daily-reflection",
-      kind: "experience",
-      title: "Daily Reflection",
-      meta: experienceMeta,
-      detail: language === "vi" ? "Rút nhanh khi bạn chỉ cần một tín hiệu để phản chiếu hôm nay." : "Quick draw when you only need one signal for today's reflection.",
-      icon: "leaf-outline",
-      imageSource: getFeatureVisual("daily-reflection"),
-      searchText: "daily reflection quick draw ritual journal tarot hang ngay phan chieu rut nhanh tin hieu",
-      onPress: actions.onQuickTarot
-    },
-    {
-      id: "experience-face-reading",
-      kind: "experience",
-      title: "Face Reading",
-      meta: language === "vi" ? "Preview an toàn" : "Safety preview",
-      detail: language === "vi" ? "Phase sau: chỉ mở khi consent và xoá ảnh đã sẵn sàng." : "Later phase: opens only when consent and deletion controls are ready.",
-      icon: "shield-checkmark-outline",
-      imageSource: getFeatureVisual("face-reading"),
-      searchText: "face reading portrait consent privacy symbolic archetype khuon mat chan dung dong y xoa anh",
-      disabled: true
-    }
-  ];
-}
-
 function normalizeSearchString(value: string) {
   return value
     .toLowerCase()
@@ -6733,6 +6410,7 @@ function personaGoalScore(persona: Persona, profile: Profile) {
     career: ["career", "strategy", "decision", "purpose", "discipline", "practical"],
     curious: ["spiritual", "wisdom", "flow", "poetic"],
     daily: ["daily", "calm", "grounded", "reflective", "practical"],
+    decision: ["decision", "strategy", "clarity", "practical", "growth"],
     healing: ["healing", "calm", "self_care", "inner_peace", "gentle", "supportive"],
     love: ["relationships", "communication", "empathy", "love", "relational"],
     self: ["purpose", "habits", "ethics", "inner_peace", "journaling", "reflective"]
@@ -6808,28 +6486,6 @@ function buildPersonaFallbackSections(persona: Persona, language: Language) {
         ? `Một lăng kính ${trait.toLowerCase()} để bạn nhìn câu hỏi chậm hơn, rõ hơn và an toàn hơn.`
         : `A ${trait.toLowerCase()} lens for seeing your question more slowly, clearly, and safely.`
   }));
-}
-
-function buildCardMeaningSections(card: TarotCard, language: Language) {
-  const name = displayTarotCardName(card, language);
-  const keywords = localizedList(card.keywords, language).join(", ");
-  return [
-    {
-      key: "archetype",
-      title: language === "vi" ? "Archetype" : "The Archetype",
-      body: localizedText(card.personalityPortrait, language, localizedText(card.intro, language))
-    },
-    {
-      key: "symbolism",
-      title: language === "vi" ? "Biểu tượng" : "Symbolism",
-      body: keywords || (language === "vi" ? `${name} mở ra một biểu tượng để tự phản chiếu.` : `${name} opens a symbol for self-reflection.`)
-    },
-    {
-      key: "message",
-      title: language === "vi" ? "Thông điệp" : "The Message",
-      body: displayTarotMeaning(card, language)
-    }
-  ];
 }
 
 function CouncilHub({
@@ -6945,34 +6601,6 @@ function CouncilHub({
   );
 }
 
-function RitualActionTile({
-  detail,
-  icon,
-  imageSource,
-  label,
-  onPress
-}: {
-  detail: string;
-  icon: keyof typeof Ionicons.glyphMap;
-  imageSource: ImageSourcePropType;
-  label: string;
-  onPress: () => void;
-}) {
-  return (
-    <Pressable accessibilityRole="button" style={styles.ritualActionTile} onPress={onPress}>
-      <Image source={imageSource} style={styles.ritualActionImage} resizeMode="cover" />
-      <View style={styles.ritualActionShade} />
-      <View style={styles.ritualActionContent}>
-        <View style={styles.ritualActionIcon}>
-          <Ionicons name={icon} size={16} color={colors.charcoal} />
-        </View>
-        <Text style={styles.ritualActionTitle}>{label}</Text>
-        <Text style={styles.ritualActionDetail}>{detail}</Text>
-      </View>
-    </Pressable>
-  );
-}
-
 function ChatScreen({
   backendOptions,
   c,
@@ -7044,8 +6672,6 @@ function ChatScreen({
   onSend: (preset?: string) => void;
   onTrack: (name: string, metadata?: Record<string, string | number | boolean>) => void;
 }) {
-  const [activeCategory, setActiveCategory] = useState<ChatCategory>("all");
-  const [guideSearch, setGuideSearch] = useState("");
   const [detailTab, setDetailTab] = useState<PersonaDetailTab>("reflections");
   const intro = language === "vi"
     ? "Cuộc trò chuyện này là mô phỏng AI lấy cảm hứng, không phải người thật hay đại diện chính thức."
@@ -7056,27 +6682,6 @@ function ChatScreen({
   const personaThumbnail = getPersonaThumbnail(selectedPersona);
   const personaCover = getPersonaCover(selectedPersona);
   const lastGuideMessage = [...currentMessages].reverse().find((message) => message.role === "guide");
-  const categoryOptions: Array<{ id: ChatCategory; label: string }> = [
-    { id: "all", label: language === "vi" ? "Tất cả" : "All" },
-    { id: "favorites", label: language === "vi" ? "Yêu thích" : "Favorites" },
-    { id: "sages", label: language === "vi" ? "Hiền triết" : "Sages" },
-    { id: "love", label: language === "vi" ? "Tình cảm" : "Love" },
-    { id: "career", label: language === "vi" ? "Sự nghiệp" : "Career" },
-    { id: "books", label: language === "vi" ? "Sách" : "Books" },
-    { id: "healing", label: language === "vi" ? "Bình an" : "Self-care" }
-  ];
-  const recommendedPersonas = recommendedPersonasForProfile(profile);
-  const favoritePersonas = favoritePersonaIds
-    .map((id) => personasById[id])
-    .filter((persona): persona is Persona => Boolean(persona));
-  const filteredPersonas = activeCategory === "favorites"
-    ? favoritePersonas.filter((persona) => personaMatchesSearch(persona, language, guideSearch))
-    : personas.filter((persona) => personaMatchesChatCategory(persona, activeCategory) && personaMatchesSearch(persona, language, guideSearch));
-  const guideListTitle = guideSearch.trim()
-    ? (language === "vi" ? "Kết quả phù hợp" : "Matching Guides")
-    : activeCategory === "favorites"
-      ? (language === "vi" ? "Guide yêu thích" : "Favorite guides")
-      : (language === "vi" ? "Tất cả guide" : "All Guides");
   const saveLastInsight = () => {
     if (!lastGuideMessage) {
       onFeedback(language === "vi" ? "Chưa có câu trả lời để lưu" : "No guide answer to save yet");
@@ -7101,122 +6706,41 @@ function ChatScreen({
   };
 
   if (mode === "list") {
+    const latest = recentConversations[0];
+    const latestPersona = latest?.personaId ? personasById[latest.personaId] : undefined;
+    const openGuide = (personaId: string) => {
+      onClearHandoff();
+      setSelectedPersonaId(personaId);
+      setMode("detail");
+    };
     return (
-      <View>
-        <TopBar title="NILAZA" />
-        <Header
-          eyebrow={language === "vi" ? "Wisdom guides" : "Wisdom guides"}
-          title={language === "vi" ? "Chọn guide của bạn" : "Choose Your Guide"}
-        />
-        <Text style={styles.leadLeft}>
-          {language === "vi"
-            ? "Chọn một companion để soi sáng câu hỏi bạn đang mang theo."
-            : "Select a companion to illuminate the question you are carrying."}
-        </Text>
-        {recentConversations.length > 0 ? (
-          <View style={styles.recentConversationSection}>
-            <Text style={styles.sectionKicker}>{language === "vi" ? "Cuộc trò chuyện gần đây" : "Recent conversations"}</Text>
-            {recentConversations.slice(0, 5).map((conversation) => (
-              <Pressable
-                accessibilityLabel={language === "vi" ? `Mở ${conversation.title}` : `Open ${conversation.title}`}
-                accessibilityRole="button"
-                key={conversation.id}
-                onPress={() => onOpenRecentConversation(conversation)}
-                style={styles.recentConversationRow}
-              >
-                <View style={styles.recentConversationIcon}>
-                  <Ionicons name={conversation.kind === "oracle" ? "sparkles-outline" : conversation.kind === "council" ? "people-outline" : "chatbubble-ellipses-outline"} size={17} color={colors.gold} />
-                </View>
-                <View style={styles.flex}>
-                  <Text numberOfLines={1} style={styles.recentConversationTitle}>{conversation.title}</Text>
-                  <Text numberOfLines={1} style={styles.recentConversationPreview}>{conversation.preview}</Text>
-                </View>
-                <Ionicons name="arrow-forward-outline" size={18} color={colors.gold} />
-              </Pressable>
-            ))}
-          </View>
-        ) : null}
-        <View style={styles.councilInvitePanel}>
-          <View style={styles.rowBetween}>
-            <View style={styles.flex}>
-              <Text style={styles.kicker}>{language === "vi" ? "AI Council" : "AI Council"}</Text>
-              <Text style={styles.councilInviteTitle}>{language === "vi" ? "Ba guide cùng soi một vấn đề" : "Three guides, one question"}</Text>
-            </View>
-            <View style={styles.councilAvatarStack}>
-              {councilRoomProps.personas.map((persona) => (
-                <Image key={persona.id} source={getPersonaThumbnail(persona)} style={styles.councilAvatar} resizeMode="cover" />
-              ))}
-            </View>
-          </View>
-          <Text style={styles.councilInviteText}>
-            {language === "vi"
-              ? "Dùng khi bạn cần nhiều góc nhìn trước khi quyết định, nhắn tin, hay tự hiểu một cảm xúc khó gọi tên."
-              : "Use this when you need multiple lenses before deciding, messaging someone, or naming a hard feeling."}
-          </Text>
-          <PrimaryButton label={language === "vi" ? "Mở AI Council" : "Open AI Council"} onPress={() => setMode("council")} />
-        </View>
-        <TextInput
-          value={guideSearch}
-          onChangeText={setGuideSearch}
-          placeholder={language === "vi" ? "Tìm chủ đề, guide..." : "Search topics, guides..."}
-          placeholderTextColor={colors.moon}
-          style={styles.searchInput}
-        />
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.horizontal}>
-          <View style={styles.chipRail}>
-            {categoryOptions.map((item) => (
-              <Chip key={item.id} active={activeCategory === item.id} label={item.label} onPress={() => setActiveCategory(item.id)} />
-            ))}
-          </View>
-        </ScrollView>
-        {recommendedPersonas.length > 0 && !guideSearch.trim() && activeCategory === "all" ? (
-          <View>
-            <Text style={styles.sectionKicker}>{language === "vi" ? "Guide hợp với bạn" : "Matched to Your Goals"}</Text>
-            {recommendedPersonas.map((persona) => (
-              <PersonaCard
-                key={`recommended-${persona.id}`}
-                locked={!canViewContentTier(persona.accessTier, displayedTier)}
-                persona={persona}
-                language={language}
-                featured
-                onPress={() => {
-                  onClearHandoff();
-                  setSelectedPersonaId(persona.id);
-                  setMode("detail");
-                }}
-              />
-            ))}
-          </View>
-        ) : null}
-        <Text style={styles.sectionKicker}>{guideListTitle}</Text>
-        {filteredPersonas.map((persona) => (
-          <PersonaCard
-            key={persona.id}
-            locked={!canViewContentTier(persona.accessTier, displayedTier)}
-            persona={persona}
-            language={language}
-            onPress={() => {
-              onClearHandoff();
-              setSelectedPersonaId(persona.id);
-              setMode("detail");
-            }}
-          />
-        ))}
-        {filteredPersonas.length === 0 && (
-          <View style={styles.empty}>
-            <Text style={styles.emptyTitle}>
-              {activeCategory === "favorites"
-                ? (language === "vi" ? "Chưa có guide yêu thích" : "No favorite guides yet")
-                : (language === "vi" ? "Chưa có guide phù hợp" : "No guide found")}
-            </Text>
-            <Text style={styles.muted}>
-              {activeCategory === "favorites"
-                ? (language === "vi" ? "Mở trang giới thiệu một guide và bấm biểu tượng lưu để thêm vào đây." : "Open a guide detail page and tap the save icon to add it here.")
-                : (language === "vi" ? "Thử chọn nhóm khác để tiếp tục." : "Try another category to continue.")}
-            </Text>
-          </View>
-        )}
-      </View>
+      <ChatHub
+        language={language}
+        now={new Date()}
+        recent={latest ? {
+          title: latest.title,
+          snippet: latest.latestText ?? latest.preview,
+          updatedAt: latest.updatedAt,
+          thumbnail: latestPersona ? getPersonaThumbnail(latestPersona) : undefined,
+          icon: latest.kind === "oracle" ? "sparkles-outline" : latest.kind === "council" ? "people-outline" : "chatbubble-ellipses-outline"
+        } : undefined}
+        councilThumbnails={councilRoomProps.personas.map((persona) => getPersonaThumbnail(persona))}
+        guides={personas.map((persona) => ({
+          id: persona.id,
+          name: personaShortName(persona, language),
+          tagline: personaTagline(persona, language),
+          thumbnail: getPersonaThumbnail(persona),
+          comingSoon: !canViewContentTier(persona.accessTier, displayedTier)
+        }))}
+        matches={(id, category, query) => {
+          const persona = personasById[id];
+          return !!persona && personaMatchesChatCategory(persona, category) && personaMatchesSearch(persona, language, query);
+        }}
+        onOpenRecent={() => latest && onOpenRecentConversation(latest)}
+        onOracle={() => setMode("oracle")}
+        onCouncil={() => setMode("council")}
+        onOpenGuide={openGuide}
+      />
     );
   }
 
@@ -7498,6 +7022,8 @@ function ChatScreen({
 
 export function TarotFlow({
   c,
+  learnedCardIds,
+  onCardLearned,
   language,
   reading,
   selectedDeck,
@@ -7531,7 +7057,8 @@ export function TarotFlow({
   onReportReading,
   onSave,
   onSpreadChange,
-  onTopicChange
+  onTopicChange,
+  onWriteJournal
 }: {
   c: Copy;
   language: Language;
@@ -7557,6 +7084,8 @@ export function TarotFlow({
   setSelectedTarotCardId: (id: string | null) => void;
   setSelectedTarotGuideId: (id: string) => void;
   onBack: () => void;
+  learnedCardIds: string[];
+  onCardLearned: (cardId: string) => void;
   onStartOver: () => void;
   onAskFollowUp: (personaId?: string) => void;
   onChatWithCard: (card: TarotCard | DrawnTarotCard, deck: TarotDeck, sourceReading?: ReturnType<typeof drawReading> | null) => void;
@@ -7568,6 +7097,7 @@ export function TarotFlow({
   onSave: (entry: Omit<JournalEntry, "id" | "createdAt">) => void;
   onSpreadChange: (spread: TarotSpread) => void;
   onTopicChange: (topic: TarotTopic) => void;
+  onWriteJournal?: (prompt: string) => void;
 }) {
   const deckThemes = selectedDeck.theme
     .map((theme) => localizedText(tarotThemeLabels[theme], language, theme))
@@ -7587,38 +7117,6 @@ export function TarotFlow({
     { label: c.deckVisualMood, value: localizedText(selectedDeck.visualDirection, language), icon: "color-palette-outline" as const },
     { label: c.deckReadingStyle, value: localizedText(selectedDeck.readingStyle, language), icon: "chatbubble-ellipses-outline" as const }
   ];
-  const deckLibrarySections = [
-    {
-      key: "major",
-      title: language === "vi" ? "Major Arcana - hành trình lớn" : "Major Arcana - the larger journey",
-      subtitle: language === "vi" ? "22 lá về bước ngoặt, bài học lớn và chuyển hóa nội tâm." : "22 cards for turning points, larger lessons, and inner change.",
-      cards: cards.filter((card) => card.arcana === "major")
-    },
-    {
-      key: "cups",
-      title: language === "vi" ? "Cups - cảm xúc và kết nối" : "Cups - emotion and connection",
-      subtitle: language === "vi" ? "Tình cảm, lòng trắc ẩn, nhu cầu được lắng nghe và ranh giới mềm." : "Feeling, care, being heard, and softer boundaries.",
-      cards: cards.filter((card) => card.suit === "cups")
-    },
-    {
-      key: "wands",
-      title: language === "vi" ? "Wands - động lực và khởi đầu" : "Wands - drive and beginnings",
-      subtitle: language === "vi" ? "Động lực, cảm hứng, sáng tạo và cách bạn bắt đầu một điều mới." : "Motivation, inspiration, creativity, and how you begin.",
-      cards: cards.filter((card) => card.suit === "wands")
-    },
-    {
-      key: "swords",
-      title: language === "vi" ? "Swords - suy nghĩ và sự thật" : "Swords - thought and truth",
-      subtitle: language === "vi" ? "Niềm tin, lời nói, xung đột nội tâm và cách gọi tên vấn đề." : "Beliefs, words, inner conflict, and naming the issue clearly.",
-      cards: cards.filter((card) => card.suit === "swords")
-    },
-    {
-      key: "pentacles",
-      title: language === "vi" ? "Pentacles - cơ thể và đời sống thực tế" : "Pentacles - body and real life",
-      subtitle: language === "vi" ? "Công việc, tiền bạc, thói quen, sức bền và nền tảng vật chất." : "Work, money, habits, endurance, and material foundations.",
-      cards: cards.filter((card) => card.suit === "pentacles")
-    }
-  ];
   const activeMeaningFromReading = reading?.selected.find((card) => card.id === selectedTarotCardId) ?? null;
   const activeMeaningCard =
     activeMeaningFromReading ??
@@ -7629,14 +7127,6 @@ export function TarotFlow({
   const previousMeaningCard = cards[(activeMeaningCardIndex - 1 + cards.length) % cards.length];
   const nextMeaningCard = cards[(activeMeaningCardIndex + 1) % cards.length];
   const activeMeaningKeywords = localizedList(activeMeaningCard.keywords, language);
-  const activeMeaningArcanaLabel = activeMeaningCard.arcana === "major"
-    ? "Major Arcana"
-    : `${activeMeaningCard.suit ? suitNamesOriginal[activeMeaningCard.suit] : "Minor"} Arcana`;
-  const activeMeaningOrientationLabel = activeMeaningFromReading
-    ? activeMeaningFromReading.reversed
-      ? language === "vi" ? "Lá ngược trong trải bài" : "Reversed in this reading"
-      : language === "vi" ? "Lá xuôi trong trải bài" : "Upright in this reading"
-    : language === "vi" ? "Khám phá thư viện" : "Library study";
   const latestShareArtifact = reading
     ? generatedArtifacts.find(
         (artifact) =>
@@ -7651,86 +7141,34 @@ export function TarotFlow({
   const selectedTarotGuide =
     tarotGuideOptions.find((persona) => persona.id === selectedTarotGuideId) ??
     recommendedTarotGuide;
-  const selectedTarotGuideName = localizedText(selectedTarotGuide.name, language);
   const selectedTarotGuideReason = getTarotGuideReason(selectedDeck.id, selectedTarotGuide, language);
   const editorialDecks = decks;
-  const isEditorialStage = stage === "learn" || stage === "topic" || stage === "spread" || stage === "deck" || stage === "deckDetail" || stage === "draw" || stage === "result";
+  const isEditorialStage = stage === "learn" || stage === "topic" || stage === "spread" || stage === "deck" || stage === "deckDetail" || stage === "library" || stage === "draw" || stage === "result";
   const topicGridItems = topics.filter((topic) => topic.id !== "open");
-  const editorialReadingTitle = language === "vi" ? "Con đường đang hé mở" : "The Path Unfolding";
   const editorialDeckTitle = language === "vi" ? "Chọn bộ bài theo tâm trạng của bạn" : "Choose your mood";
   const editorialDeckBody =
     language === "vi"
       ? "Chọn bộ bài đồng điệu nhất với hành trình hiện tại của bạn."
       : "Select the deck that resonates with your current journey.";
-  const editorialTopicBody =
-    language === "vi"
-      ? "Chọn chủ đề để dẫn lối cho trải bài của bạn."
-      : "Select a focus area to guide your reading.";
-  const editorialTopicLabel = language === "vi" ? "Trọng tâm cụ thể (không bắt buộc)" : "Specific focus (optional)";
-  const editorialTopicPlaceholder =
-    tarotTopic === "open"
-      ? language === "vi"
-        ? "Điều gì đang cần một lời nhắn từ trực giác?"
-        : "Ask what your heart is circling..."
-      : language === "vi"
-        ? "Viết điều bạn muốn làm rõ..."
-        : "Ask what your heart is circling...";
   const selectedTopicLabel = localizedText(topics.find((topic) => topic.id === tarotTopic), language, tarotTopic);
-  const selectedTopicDescription = localizedText(tarotTopicDescriptions[tarotTopic], language);
-  const drawTitle =
-    language === "vi"
-      ? `${localizedText(selectedDeck.name, language)} trải bài`
-      : `The ${localizedText(selectedDeck.name, language)} Draw`;
   const drawPrompt = tarotCreditBalance <= 0
     ? (language === "vi" ? "Hôm nay bạn đã dùng hết lượt Tarot" : "You have used today's Tarot readings")
     : language === "vi"
-      ? `Chạm vào bộ bài để rút · hôm nay còn ${tarotCreditBalance} lượt`
-      : `Tap the deck to draw · ${tarotCreditBalance} left today`;
+      ? `Chạm một lá trong quạt bài · hôm nay còn ${tarotCreditBalance} lượt`
+      : `Tap a card in the fan · ${tarotCreditBalance} left today`;
   const ritualTimers = useRef<Array<ReturnType<typeof setTimeout>>>([]);
   const reduceRitualMotion = useReducedMotion();
   const [ritualPhase, setRitualPhase] = useState<RitualDrawPhase>("grounding");
   const [ritualDrawnCount, setRitualDrawnCount] = useState(0);
   const [ritualSelectedCards, setRitualSelectedCards] = useState<DrawnTarotCard[]>([]);
   const [fullscreenTarotCard, setFullscreenTarotCard] = useState<FullscreenTarotCard | null>(null);
+  const [selectedFanIndex, setSelectedFanIndex] = useState<number | null>(null);
   const [cardMeaningReturnStage, setCardMeaningReturnStage] = useState<TarotStage>("deckDetail");
   const tarotScrollRef = useRef<ScrollView | null>(null);
   const [showTarotBackToTop, setShowTarotBackToTop] = useState(false);
-  const [showReadingExplanation, setShowReadingExplanation] = useState(false);
-  const ritualDeckScale = useSharedValue(1);
-  const ritualCardLift = useSharedValue(0);
-  const ritualGlow = useSharedValue(0.28);
-  const ritualDeckStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: ritualDeckScale.value }],
-    opacity: 0.72 + ritualGlow.value * 0.28
-  }));
-  const ritualCardStyle = useAnimatedStyle(() => ({
-    opacity: 1 - ritualCardLift.value * 0.18,
-    transform: [{ translateY: -ritualCardLift.value * 20 }]
-  }));
-  const ritualAuraStyle = useAnimatedStyle(() => ({
-    opacity: 0.18 + ritualGlow.value * 0.52,
-    transform: [{ scale: 0.88 + ritualGlow.value * 0.24 }]
-  }));
-  const drawnCount = tarotGenerating ? selectedSpread.cards : ritualDrawnCount;
   const visibleRitualCards = ritualSelectedCards.slice(0, ritualDrawnCount);
   const latestRitualCard = visibleRitualCards[visibleRitualCards.length - 1];
   const drawActionBusy = stage === "draw" && ritualPhase !== "grounding" && !tarotGenerating;
-  const drawCountLabel =
-    language === "vi"
-      ? `${drawnCount} / ${selectedSpread.cards} lá`
-      : `${drawnCount} of ${selectedSpread.cards} drawn`;
-  const drawGuideText =
-    ritualDrawnCount === 0
-      ? language === "vi"
-        ? "Guide đang ở đây với bạn. Hãy chạm khi bạn đã sẵn sàng; mỗi lần chỉ một lá bước ra."
-        : "Your guide is here with you. Tap when you are ready; one card steps forward at a time."
-      : ritualDrawnCount < selectedSpread.cards
-        ? language === "vi"
-          ? `${latestRitualCard ? displayTarotCardName(latestRitualCard, language) : `Lá ${ritualDrawnCount}`} đã vào vị trí. Hãy đọc thông điệp này một nhịp trước khi rút lá tiếp theo.`
-          : `${latestRitualCard ? displayTarotCardName(latestRitualCard, language) : `Card ${ritualDrawnCount}`} has landed. Read this layer for a breath before drawing the next card.`
-        : language === "vi"
-          ? "Bạn đã rút đủ các lá. Hãy ngắm lá vừa mở, rồi chọn Xem thông điệp khi sẵn sàng."
-          : "All cards are revealed. Take a moment with your last card, then choose View message when ready.";
   const ritualPhaseLabel = (() => {
     if (tarotGenerating || ritualPhase === "reveal") return c.generatingReading;
     if (ritualPhase === "pause_and_breathe") return language === "vi" ? "Dừng một nhịp và thở..." : "Pause and breathe...";
@@ -7753,9 +7191,7 @@ export function TarotFlow({
     stage === "deck"
       ? `${language === "vi" ? "Tiếp tục với" : "Continue with"} ${localizedText(selectedDeck.name, language)}`
       : primaryEditorialActionLabel;
-  const resultDateLabel = new Date(reading?.createdAt ?? Date.now()).toLocaleString(language === "vi" ? "vi-VN" : "en-US");
   const topBarRight = stage === "result" ? "sparkles-outline" : "refresh-outline";
-  const breathingAnim = useRef(new Animated.Value(0.7)).current;
   const openFullscreenTarotCard = (card: TarotCard | DrawnTarotCard, meta?: string) => {
     const orientationMeta = "reversed" in card
       ? card.reversed
@@ -7769,12 +7205,13 @@ export function TarotFlow({
     });
   };
   const resolveCardMeaningReturnStage = (sourceStage: TarotStage = stage): TarotStage => {
-    if (sourceStage === "draw" || sourceStage === "result" || sourceStage === "share") return sourceStage;
+    if (sourceStage === "draw" || sourceStage === "result" || sourceStage === "share" || sourceStage === "library") return sourceStage;
     return "deckDetail";
   };
   const openCardMeaning = (card: TarotCard | DrawnTarotCard, returnStage: TarotStage = resolveCardMeaningReturnStage()) => {
     setSelectedTarotCardId(card.id);
     setCardMeaningReturnStage(returnStage);
+    onCardLearned(card.id);
     setStage("cardMeaning");
   };
   const openFullscreenCardMeaning = () => {
@@ -7791,8 +7228,10 @@ export function TarotFlow({
         ? c.reading
         : resolvedCardMeaningReturnStage === "share"
           ? language === "vi" ? "Thẻ chia sẻ" : "Share card"
-          : language === "vi" ? "Bộ bài" : "Deck";
-  const showCardMeaningLibraryAction = resolvedCardMeaningReturnStage === "deckDetail";
+          : resolvedCardMeaningReturnStage === "library"
+            ? language === "vi" ? "Thư viện" : "Library"
+            : language === "vi" ? "Bộ bài" : "Deck";
+  const showCardMeaningLibraryAction = resolvedCardMeaningReturnStage === "deckDetail" || resolvedCardMeaningReturnStage === "library";
   const cardMeaningLibraryLabel = language === "vi" ? "Thư viện 78 lá" : "78-card library";
   const handleTarotScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const nextVisible = event.nativeEvent.contentOffset.y > 520;
@@ -7810,36 +7249,16 @@ export function TarotFlow({
     tarotScrollRef.current?.scrollTo({ y: 0, animated: false });
   }, [stage]);
   useEffect(() => {
-    setShowReadingExplanation(false);
-  }, [reading?.id]);
-  useEffect(() => {
-    if (stage === "draw" && !tarotGenerating && !reduceRitualMotion) {
-      const animation = Animated.loop(
-        Animated.sequence([
-          Animated.timing(breathingAnim, { toValue: 1, duration: 1500, useNativeDriver: true }),
-          Animated.timing(breathingAnim, { toValue: 0.7, duration: 1500, useNativeDriver: true })
-        ])
-      );
-      animation.start();
-      return () => animation.stop();
-    } else {
-      breathingAnim.stopAnimation();
-      breathingAnim.setValue(1);
-    }
-  }, [stage, tarotGenerating, breathingAnim, reduceRitualMotion]);
-  useEffect(() => {
     if (stage !== "draw") {
       clearRitualTimers();
       if (stage === "cardMeaning") return;
       setRitualPhase("grounding");
       setRitualDrawnCount(0);
       setRitualSelectedCards([]);
-      ritualDeckScale.value = 1;
-      ritualCardLift.value = 0;
-      ritualGlow.value = 0.28;
+      setSelectedFanIndex(null);
     }
     return clearRitualTimers;
-  }, [stage, cardMeaningReturnStage, selectedSpread.cards, ritualDeckScale, ritualCardLift, ritualGlow]);
+  }, [stage, cardMeaningReturnStage, selectedSpread.cards]);
 
   useEffect(() => {
     if (stage === "draw" && tarotError && !tarotGenerating) setRitualPhase("grounding");
@@ -7850,19 +7269,6 @@ export function TarotFlow({
     setRitualPhase(cardNumber === 1 ? "draw_card_1" : cardNumber === 2 ? "draw_card_2" : "draw_card_3");
     setRitualDrawnCount(cardNumber);
     tarotScrollRef.current?.scrollTo({ y: 0, animated: !reduceRitualMotion });
-    if (reduceRitualMotion) return;
-    ritualDeckScale.value = withSequence(
-      withTiming(1.05, { duration: 260, easing: Easing.out(Easing.cubic) }),
-      withTiming(1, { duration: 260, easing: Easing.inOut(Easing.cubic) })
-    );
-    ritualCardLift.value = withSequence(
-      withTiming(1, { duration: 340, easing: Easing.out(Easing.cubic) }),
-      withTiming(0, { duration: 420, easing: Easing.inOut(Easing.cubic) })
-    );
-    ritualGlow.value = withSequence(
-      withTiming(1, { duration: 280, easing: Easing.out(Easing.cubic) }),
-      withTiming(0.42, { duration: 520, easing: Easing.inOut(Easing.cubic) })
-    );
   };
 
   const handleDraw = () => {
@@ -7900,25 +7306,56 @@ export function TarotFlow({
     }, 1350));
   };
 
+  // Reveals every card not yet drawn; the allowance is checked only before the first card.
   const handleQuickDraw = () => {
-    if (tarotGenerating || ritualPhase !== "grounding" || ritualDrawnCount > 0) return;
-    if (!canViewContentTier(selectedDeck.accessTier, displayedTier) || tarotCreditBalance <= 0) {
+    if (tarotGenerating || ritualPhase !== "grounding" || ritualDrawnCount >= selectedSpread.cards) return;
+    if (!canViewContentTier(selectedDeck.accessTier, displayedTier) || (ritualDrawnCount === 0 && tarotCreditBalance <= 0)) {
       onDraw();
       return;
     }
     clearRitualTimers();
+    setSelectedFanIndex(null);
     setRitualPhase("pause_and_breathe");
-    const nextSelectedCards = selectTarotCards(tarotSpread, language);
-    setRitualSelectedCards(nextSelectedCards);
-    setRitualDrawnCount(0);
-    for (let index = 0; index < selectedSpread.cards; index += 1) {
+    if (ritualSelectedCards.length !== selectedSpread.cards) setRitualSelectedCards(selectTarotCards(tarotSpread, language));
+    for (let index = ritualDrawnCount; index < selectedSpread.cards; index += 1) {
       ritualTimers.current.push(setTimeout(() => {
         animateRitualCard(index + 1);
-      }, 220 + index * 520));
+      }, 220 + (index - ritualDrawnCount) * 520));
     }
     ritualTimers.current.push(setTimeout(() => {
       setRitualPhase("grounding");
-    }, 620 + selectedSpread.cards * 520));
+    }, 620 + (selectedSpread.cards - ritualDrawnCount) * 520));
+  };
+  // Tapping a fanned card raises it; tapping it again (or the main button) turns it over.
+  const handleFanSelect = (index: number) => {
+    if (selectedFanIndex === index) { setSelectedFanIndex(null); handleDraw(); return; }
+    setSelectedFanIndex(index);
+  };
+  const saveTarotReading = () => {
+    if (!reading) return;
+    onSave({
+      sourceType: "tarot",
+      sourceId: reading.id,
+      title: `${localizedText(reading.deck.name, language)} - ${localizedText(spreads.find((spread) => spread.id === reading.spread), language, reading.spread)}`,
+      summary: reading.summary,
+      sourceSnapshot: {
+        type: "tarot_reading",
+        readingId: reading.id,
+        deckId: reading.deck.id,
+        spread: reading.spread,
+        topic: reading.topic,
+        question: reading.question,
+        language: reading.language ?? language,
+        cards: reading.cards,
+        sections: reading.sections,
+        provenance: reading.provenance,
+        contentVersion: reading.contentVersion,
+        promptVersionId: reading.promptVersionId,
+        synthesis: reading.synthesis,
+        reflectionPrompt: reading.reflectionPrompt,
+        moderationStatus: reading.moderationStatus
+      }
+    });
   };
   const hasFloatingTarotPrimary = stage === "topic" || stage === "spread" || stage === "deck" || stage === "draw";
   const drawStepActionLabel =
@@ -7934,13 +7371,15 @@ export function TarotFlow({
               ? language === "vi" ? "Rút lá tiếp theo" : "Draw next card"
               : language === "vi" ? "Xem thông điệp" : "View message";
   const floatingTarotPrimaryLabel =
-    stage === "topic" || stage === "spread" ? c.continue : stage === "deck"
+    stage === "topic" ? (language === "vi" ? "Bắt đầu rút bài" : "Start drawing") : stage === "spread" ? c.continue : stage === "deck"
       ? deckSelectionActionLabel
       : tarotGenerating
         ? c.generatingReading
         : !canViewContentTier(selectedDeck.accessTier, displayedTier)
           ? c.upgrade
-          : drawStepActionLabel;
+          : selectedFanIndex !== null && ritualDrawnCount < selectedSpread.cards
+            ? language === "vi" ? "Lật lá này" : "Turn this card"
+            : drawStepActionLabel;
   const floatingTarotPrimaryIcon =
     stage === "deck"
       ? "arrow-forward-outline"
@@ -7948,13 +7387,14 @@ export function TarotFlow({
         ? "lock-closed-outline"
         : "sparkles-outline";
   const handleFloatingTarotPrimary = () => {
-    if (stage === "topic") { setStage("spread"); return; }
+    if (stage === "topic") { setStage("draw"); return; }
     if (stage === "spread") { setStage(keepSelectedDeck ? "draw" : "deck"); return; }
     if (stage === "deck") {
       if (intentionReviewed) setStage("draw");
       else { onKeepSelectedDeckChange(true); setStage("topic"); }
       return;
     }
+    setSelectedFanIndex(null);
     handleDraw();
   };
   const renderTarotLearningEntry = (compact = false) => (
@@ -7992,7 +7432,11 @@ export function TarotFlow({
           <Pressable hitSlop={8} accessibilityLabel={c.back} accessibilityRole="button" onPress={onBack} style={styles.editorialTopIcon}>
             {isEditorialStage ? <Ionicons name="arrow-back-outline" size={24} color={colors.ivory} /> : <Text style={styles.backText} numberOfLines={1}>{"<"} {c.back}</Text>}
           </Pressable>
-          {isEditorialStage ? (
+          {stage === "topic" || stage === "draw" ? (
+            <Text style={styles.tarotStepKicker}>{language === "vi" ? "Trải bài" : "Reading"} · {language === "vi" ? "Bước" : "Step"} {stage === "topic" ? 1 : 2}/2</Text>
+          ) : stage === "result" && reading ? (
+            <Text style={styles.tarotStepKicker} numberOfLines={1}>{localizedText(topics.find((topic) => topic.id === reading.topic), language, selectedTopicLabel)} · {reading.selected.length} {language === "vi" ? "lá" : reading.selected.length === 1 ? "card" : "cards"} · {localizedText(reading.deck.name, language)}</Text>
+          ) : isEditorialStage ? (
             <Brand variant="horizontal" width={104} />
           ) : (
             <Text style={styles.subTopTitle}>Tarot</Text>
@@ -8008,13 +7452,13 @@ export function TarotFlow({
             <Text style={styles.cardMeaningHeaderButtonText}>{cardMeaningBackLabel}</Text>
           </Pressable>
           <View style={styles.cardMeaningTopContext}>
-            <Text style={styles.cardMeaningTopKicker}>{c.cardMeaning}</Text>
+            <Text style={styles.cardMeaningTopKicker}>{language === "vi" ? "Thư viện" : "Library"} · {activeMeaningCardIndex + 1}/{cards.length}</Text>
             <Text style={styles.cardMeaningTopTitle} numberOfLines={1}>
               {displayTarotCardName(activeMeaningCard, language)} · {localizedText(selectedDeck.name, language)}
             </Text>
           </View>
           {showCardMeaningLibraryAction ? (
-            <Pressable hitSlop={8} accessibilityLabel={cardMeaningLibraryLabel} accessibilityRole="button" style={styles.cardMeaningLibraryButton} onPress={() => setStage("deckDetail")}>
+            <Pressable hitSlop={8} accessibilityLabel={cardMeaningLibraryLabel} accessibilityRole="button" style={styles.cardMeaningLibraryButton} onPress={() => setStage("library")}>
               <Ionicons name="albums-outline" size={17} color={colors.gold} />
             </Pressable>
           ) : (
@@ -8025,7 +7469,7 @@ export function TarotFlow({
       <ScrollView
         ref={tarotScrollRef}
         style={{ flex: 1 }}
-        contentContainerStyle={styles.tarotContent}
+        contentContainerStyle={[styles.tarotContent, (hasFloatingTarotPrimary || (stage === "result" && reading)) && styles.tarotContentDocked]}
         onScroll={handleTarotScroll}
         scrollEventThrottle={16}
       >
@@ -8154,60 +7598,25 @@ export function TarotFlow({
         )}
 
         {stage === "topic" && (
-          <View style={styles.editorialStage}>
-            <View style={styles.editorialHero}>
-              <Text style={styles.editorialDisplay}>{c.chooseTopic}</Text>
-              <Text style={styles.editorialSupport}>{editorialTopicBody}</Text>
-            </View>
-            {keepSelectedDeck ? (
-              <View style={styles.choiceStack}>
-                <Text style={styles.cardTitle}>{localizedText(selectedDeck.name, language)}</Text>
-                <Text style={styles.muted}>{language === "vi" ? "Bộ bài bạn đã chọn sẽ được giữ cho trải bài này. Câu hỏi là tùy chọn; tiếp tục để bỏ qua." : "Your selected deck stays with this reading. The question is optional; continue to skip it."}</Text>
-                <SecondaryButton label={language === "vi" ? "Đổi bộ bài" : "Change deck"} onPress={() => { onKeepSelectedDeckChange(false); setStage("deck"); }} />
-              </View>
-            ) : null}
-            <View style={styles.editorialTopicGrid}>
-              {topicGridItems.map((topic) => {
-                const active = tarotTopic === topic.id;
-                return (
-                  <Pressable
-                    key={topic.id}
-                    accessibilityRole="button"
-                    style={[styles.editorialTopicCard, active && styles.editorialTopicCardActive]}
-                    onPress={() => onTopicChange(topic.id)}
-                  >
-                    <Ionicons name={tarotTopicIcons[topic.id]} size={30} color={colors.gold} />
-                    <Text style={styles.editorialTopicTitle}>{localizedText(topic, language).toUpperCase()}</Text>
-                  </Pressable>
-                );
-              })}
-            </View>
-            <Pressable
-              accessibilityRole="button"
-              style={[styles.editorialOpenTile, tarotTopic === "open" && styles.editorialOpenTileActive]}
-              onPress={() => onTopicChange("open")}
-            >
-              <Ionicons name={tarotTopicIcons.open} size={28} color={colors.gold} />
-              <Text style={styles.editorialOpenTileText}>{localizedText(topics.find((topic) => topic.id === "open"), language, "Open question").toUpperCase()}</Text>
-            </Pressable>
-            <Text style={styles.editorialFieldLabel}>{editorialTopicLabel}</Text>
-            <TextInput
-              value={tarotQuestion}
-              onChangeText={onQuestionChange}
-              placeholder={editorialTopicPlaceholder}
-              placeholderTextColor={colors.moon}
-              multiline
-              textAlignVertical="top"
-              style={styles.editorialQuestionInput}
-            />
-            <Text style={styles.muted}>{language === "vi" ? "Chọn một câu hỏi để thử; bạn có thể sửa trước khi rút." : "Choose a question to try; you can edit it before drawing."}</Text>
-            {localizedList(tarotQuestionExamples[tarotTopic], language).map(prompt => (
-              <Pressable key={prompt} accessibilityRole="button" onPress={() => onQuestionChange(prompt)}
-                style={[styles.editorialMutedButton, { minHeight: layout.minimumTouchTarget }]}>
-                <Text style={styles.editorialMutedButtonText}>{prompt}</Text>
-              </Pressable>
-            ))}
-          </View>
+          <TarotAskStep
+            language={language}
+            question={tarotQuestion}
+            onQuestionChange={onQuestionChange}
+            topic={tarotTopic}
+            topics={topicGridItems.map((topic) => ({ id: topic.id as AskTopic, label: localizedText(topic, language) }))}
+            onTopicChange={onTopicChange}
+            examples={localizedList(tarotQuestionExamples[tarotTopic], language)}
+            spreads={spreads.map((spread) => ({
+              id: spread.id,
+              cards: spread.cards,
+              title: language === "vi" ? `${spread.cards} lá` : `${spread.cards} ${spread.cards === 1 ? "card" : "cards"}`,
+              detail: spread.cards === 1 ? (language === "vi" ? "Nhanh, một lời nhắn" : "Quick, one message") : localizedList(spread.labels, language).join(" · ")
+            }))}
+            spreadId={tarotSpread}
+            onSpreadChange={(spreadId) => onSpreadChange(spreadId as TarotSpread)}
+            deck={{ name: localizedText(selectedDeck.name, language), detail: localizedText(selectedDeck.vibe, language), cover: getDeckThumbnailImage(selectedDeck.id), comingSoon: !canViewContentTier(selectedDeck.accessTier, displayedTier) }}
+            onChangeDeck={() => { onKeepSelectedDeckChange(false); setStage("deck"); }}
+          />
         )}
 
         {stage === "spread" && (
@@ -8289,6 +7698,29 @@ export function TarotFlow({
               })}
             </ResponsiveGrid>
           </View>
+        )}
+
+        {stage === "library" && (
+          <CardLibrary
+            language={language}
+            deckName={localizedText(selectedDeck.name, language)}
+            cards={cards.map((card) => ({
+              id: card.id,
+              group: card.arcana === "major" ? "major" as const : (card.suit as "cups" | "wands" | "swords" | "pentacles"),
+              name: displayTarotCardName(card, language),
+              sub: card.arcana === "major" ? `${majorNumerals[card.number] ?? card.number} · ${card.name.en}` : card.name.en,
+              image: getTarotCardImage(selectedDeck.id, card.id),
+              learned: learnedCardIds.includes(card.id)
+            }))}
+            onOpen={(id) => {
+              const card = cards.find((item) => item.id === id);
+              if (card) openCardMeaning(card, "library");
+            }}
+            onPreview={(id) => {
+              const card = cards.find((item) => item.id === id);
+              if (card) openFullscreenTarotCard(card);
+            }}
+          />
         )}
 
         {stage === "deckDetail" && (
@@ -8373,80 +7805,55 @@ export function TarotFlow({
               </View>
             ) : null}
             {renderTarotLearningEntry(true)}
-            <SectionLabel>{language === "vi" ? "Thư viện 78 lá" : "78-card library"}</SectionLabel>
-            <Text style={styles.deckLibraryIntro}>
-              {language === "vi"
-                ? "Chạm để xem ý nghĩa và gợi ý phản chiếu. Chạm giữ một lá để ngắm tranh toàn màn hình."
-                : "Tap for meanings and reflection prompts. Touch and hold a card to view its full-screen artwork."}
-            </Text>
-            {deckLibrarySections.map((section) => (
-              <View key={section.key} style={styles.deckLibrarySection}>
-                <Text style={styles.deckLibraryTitle}>{section.title}</Text>
-                <Text style={styles.deckLibrarySubtitle}>{section.subtitle}</Text>
-                <View style={styles.deckLibraryGrid}>
-                  {section.cards.map((card) => (
-                    <TarotArtworkButton
-                      key={card.id}
-                      label={`${displayTarotCardName(card, language)}. ${language === "vi" ? "Xem ý nghĩa lá bài" : "View card meaning"}`}
-                      hint={language === "vi" ? "Chạm giữ để xem tranh toàn màn hình" : "Touch and hold for full-screen artwork"}
-                      previewLabel={language === "vi" ? "Xem tranh toàn màn hình" : "View full-screen artwork"}
-                      style={styles.deckLibraryCard}
-                      onPress={() => openCardMeaning(card, "deckDetail")}
-                      onPreview={() => openFullscreenTarotCard(card)}
-                    >
-                      <Image source={getTarotCardImage(selectedDeck.id, card.id)} style={styles.deckLibraryCardImage} resizeMode="contain" />
-                      <Text style={styles.deckLibraryCardName}>{displayTarotCardName(card, language)}</Text>
-                      <Text style={styles.deckLibraryCardMeta}>{localizedList(card.keywords, language).slice(0, 2).join(" / ")}</Text>
-                    </TarotArtworkButton>
-                  ))}
-                </View>
+            <Pressable accessibilityRole="button" onPress={() => setStage("library")} style={styles.deckLibraryLink}>
+              <Ionicons name="albums-outline" size={20} color={colors.gold} />
+              <View style={styles.flex}>
+                <Text style={styles.deckLibraryLinkTitle}>{language === "vi" ? "Thư viện 78 lá" : "78-card library"}</Text>
+                <Text style={styles.deckLibraryLinkMeta}>
+                  {language === "vi" ? `Đã học ${learnedCardIds.length}/${cards.length} · chạm một lá để xem ý nghĩa` : `Learned ${learnedCardIds.length}/${cards.length} · tap a card for its meaning`}
+                </Text>
               </View>
-            ))}
+              <Ionicons name="chevron-forward" size={18} color={colors.moon} />
+            </Pressable>
           </View>
         )}
 
         {stage === "cardMeaning" && activeMeaningCard && (
-          <View>
-            <View style={styles.cardMeaningHero}>
-              <Pressable
-                accessibilityLabel={`${displayTarotCardName(activeMeaningCard, language)}. ${language === "vi" ? "Xem hình lá bài toàn màn hình" : "View full-screen card artwork"}`}
-                accessibilityRole="imagebutton"
-                onPress={() => openFullscreenTarotCard(activeMeaningCard, activeMeaningOrientationLabel)}
-                style={styles.cardMeaningImageStage}
-              >
-                <Image source={getTarotCardImage(selectedDeck.id, activeMeaningCard.id)} style={[styles.cardMeaningHeroImage, reversedCardArt(activeMeaningFromReading)]} resizeMode="contain" />
-                <View style={styles.tarotImageExpandBadge}>
-                  <Ionicons name="expand-outline" size={15} color={colors.ivory} />
-                </View>
-              </Pressable>
-              <View style={styles.cardMeaningHeroCopy}>
-                <Text style={styles.cardMeaningEyebrow}>{activeMeaningArcanaLabel}</Text>
-                <Text style={styles.cardMeaningTitle}>{displayTarotCardName(activeMeaningCard, language)}</Text>
-                <Text style={styles.cardMeaningIntro}>{localizedText(selectedDeck.cardIntroductions?.[activeMeaningCard.id] ?? activeMeaningCard.intro, language)}</Text>
+          <TarotCardGuide
+            key={`${activeMeaningCard.id}-${activeMeaningFromReading ? (activeMeaningFromReading.reversed ? "r" : "u") : "lib"}`}
+            language={language}
+            name={displayTarotCardName(activeMeaningCard, language)}
+            originalName={localizedText(activeMeaningCard.name, "en")}
+            arcanaLabel={tarotArcanaLabel(activeMeaningCard, language)}
+            image={getTarotCardImage(selectedDeck.id, activeMeaningCard.id)}
+            uprightMeaning={localizedText(activeMeaningCard.uprightMeaning, language)}
+            reversedMeaning={localizedText(activeMeaningCard.reversedMeaning, language)}
+            drawnReversed={activeMeaningFromReading?.reversed}
+            guide={getTarotCardGuide(activeMeaningCard.id, language)}
+            practice={localizedText(activeMeaningCard.reflectionQuestion, language)}
+            onOpenImage={(reversed) => openFullscreenTarotCard({ ...activeMeaningCard, reversed, spread: activeMeaningFromReading?.spread ?? "" })}
+            previous={{ name: displayTarotCardName(previousMeaningCard, language), onPress: () => setSelectedTarotCardId(previousMeaningCard.id) }}
+            next={{ name: displayTarotCardName(nextMeaningCard, language), onPress: () => setSelectedTarotCardId(nextMeaningCard.id) }}
+          >
+            <View style={styles.cardMeaningStoryPanel}>
+              <Text style={styles.cardMeaningSectionKicker}>{language === "vi" ? `Trong bộ ${localizedText(selectedDeck.name, language)}` : `In ${localizedText(selectedDeck.name, language)}`}</Text>
+              <Text style={styles.cardMeaningBody}>{localizedText(selectedDeck.cardIntroductions?.[activeMeaningCard.id] ?? activeMeaningCard.intro, language)}</Text>
+              {activeMeaningKeywords.length ? (
                 <View style={styles.cardMeaningChipRow}>
-                  <Text style={styles.cardMeaningChip}>{activeMeaningOrientationLabel}</Text>
                   {activeMeaningKeywords.slice(0, 3).map((keyword) => (
                     <Text key={keyword} style={styles.cardMeaningChip}>{keyword}</Text>
                   ))}
                 </View>
-              </View>
-            </View>
-            <View style={styles.cardMeaningPolarityGrid}>
-              <View style={styles.cardMeaningPolarityCard}>
-                <Text style={styles.cardMeaningSectionKicker}>{language === "vi" ? "Khi xuôi" : "Upright"}</Text>
-                <Text style={styles.cardMeaningBody}>{localizedText(activeMeaningCard.uprightMeaning, language)}</Text>
-              </View>
-              <View style={styles.cardMeaningPolarityCard}>
-                <Text style={styles.cardMeaningSectionKicker}>{language === "vi" ? "Khi ngược" : "Reversed"}</Text>
-                <Text style={styles.cardMeaningBody}>{localizedText(activeMeaningCard.reversedMeaning, language)}</Text>
-              </View>
+              ) : null}
             </View>
             <View style={styles.cardMeaningStoryPanel}>
-              <ReadingDetails key={`${activeMeaningCard.id}-${language}`}
-                label={language === "vi" ? "Hiểu sâu và thực hành với lá này" : "Explore this card in depth"}
-                collapseLabel={language === "vi" ? "Thu gọn bài học" : "Collapse the lesson"}
-                sections={getTarotLearningSections(activeMeaningCard.id, language)} />
-              <Text style={styles.cardMeaningSectionKicker}>{language === "vi" ? "Archetype" : "The archetype"}</Text>
+              {getTarotLearningSections(activeMeaningCard.id, language).length ? (
+                <ReadingDetails key={`${activeMeaningCard.id}-${language}`}
+                  label={language === "vi" ? "Hiểu sâu và thực hành với lá này" : "Explore this card in depth"}
+                  collapseLabel={language === "vi" ? "Thu gọn bài học" : "Collapse the lesson"}
+                  sections={getTarotLearningSections(activeMeaningCard.id, language)} />
+              ) : null}
+              <Text style={styles.cardMeaningSectionKicker}>{language === "vi" ? "Hình mẫu" : "The archetype"}</Text>
               <Text style={styles.cardMeaningStoryTitle}>{language === "vi" ? "Nếu lá bài này là một người bạn" : "If this card were a guide"}</Text>
               <Text style={styles.cardMeaningBody}>{localizedText(activeMeaningCard.personalityPortrait, language, localizedText(activeMeaningCard.intro, language))}</Text>
             </View>
@@ -8460,7 +7867,7 @@ export function TarotFlow({
               </View>
               <View style={styles.flex}>
                 <Text style={styles.cardMeaningChatTitle}>
-                  {language === "vi" ? "Chat với archetype lá bài" : "Chat with this card"}
+                  {language === "vi" ? "Trò chuyện với lá này" : "Chat with this card"}
                 </Text>
                 <Text style={styles.cardMeaningChatBody}>
                   {language === "vi"
@@ -8470,107 +7877,27 @@ export function TarotFlow({
               </View>
               <Ionicons name="arrow-forward-outline" size={18} color={colors.gold} />
             </Pressable>
-            <View style={styles.cardMeaningJournalPanel}>
-              <Ionicons name="journal-outline" size={20} color={colors.gold} />
-              <View style={styles.flex}>
-                <Text style={styles.cardMeaningSectionKicker}>{language === "vi" ? "Câu hỏi phản chiếu" : "Reflection prompt"}</Text>
-                <Text style={styles.cardMeaningJournalText}>{localizedText(activeMeaningCard.reflectionQuestion, language)}</Text>
-              </View>
-            </View>
-            <View style={styles.cardMeaningNeighborRow}>
-              <Pressable accessibilityRole="button" style={styles.cardMeaningNeighborButton} onPress={() => setSelectedTarotCardId(previousMeaningCard.id)}>
-                <Ionicons name="chevron-back-outline" size={16} color={colors.gold} />
-                <Text style={styles.cardMeaningNeighborText} numberOfLines={1}>{displayTarotCardName(previousMeaningCard, language)}</Text>
-              </Pressable>
-              <Pressable accessibilityRole="button" style={styles.cardMeaningNeighborButton} onPress={() => setSelectedTarotCardId(nextMeaningCard.id)}>
-                <Text style={styles.cardMeaningNeighborText} numberOfLines={1}>{displayTarotCardName(nextMeaningCard, language)}</Text>
-                <Ionicons name="chevron-forward-outline" size={16} color={colors.gold} />
-              </Pressable>
-            </View>
-          </View>
+          </TarotCardGuide>
         )}
 
         {stage === "draw" && (
-          <View style={styles.editorialDrawStage}>
-            <Animated.View style={[styles.editorialDrawDeckWrap, { opacity: latestRitualCard ? 1 : breathingAnim }]}>
-              <Reanimated.View pointerEvents="none" style={[styles.ritualCosmicAura, ritualAuraStyle]}>
-                <Text style={[styles.ritualCosmicSpark, styles.ritualCosmicSparkTop]}>✦</Text>
-                <Text style={[styles.ritualCosmicSpark, styles.ritualCosmicSparkLeft]}>·</Text>
-                <Text style={[styles.ritualCosmicSpark, styles.ritualCosmicSparkRight]}>✦</Text>
-              </Reanimated.View>
-              <Reanimated.View style={[ritualDeckStyle, latestRitualCard && ritualCardStyle]}>
-              <Pressable accessibilityRole={latestRitualCard ? "imagebutton" : "button"} accessibilityLabel={latestRitualCard ? displayTarotCardName(latestRitualCard, language) : drawStepActionLabel} onPress={latestRitualCard ? () => openFullscreenTarotCard(latestRitualCard, latestRitualCard.spread) : tarotGenerating || drawActionBusy ? undefined : handleDraw} style={styles.editorialDrawDeck}>
-                <Image source={latestRitualCard ? getTarotCardImage(selectedDeck.id, latestRitualCard.id) : selectedDeckBackImage} style={[styles.editorialDrawDeckPhoto, reversedCardArt(latestRitualCard)]} resizeMode="contain" />
-                {!latestRitualCard &&
-                <View style={styles.editorialDrawDeckOverlay}>
-                  <Text style={styles.editorialDrawDeckName}>{localizedText(selectedDeck.name, language)}</Text>
-                </View>}
-              </Pressable>
-              </Reanimated.View>
-            </Animated.View>
-            {latestRitualCard ? <Text accessibilityLiveRegion="polite" style={styles.editorialDrawPrompt}>{drawCountLabel} · {displayTarotCardName(latestRitualCard, language)}</Text> : null}
-            <Text style={styles.editorialDrawTitle}>{drawTitle}</Text>
-            <View style={styles.editorialDrawPromptRow}>
-              <Ionicons name="hand-left-outline" size={18} color={colors.gold} />
-              <Text style={styles.editorialDrawPrompt}>{ritualPhaseLabel}</Text>
-            </View>
-            <View style={styles.editorialDrawGuidePanel}>
-              <Text style={styles.editorialDrawGuideLabel}>{language === "vi" ? "Guide trải bài" : "Reading guide"}</Text>
-              <Text style={styles.editorialDrawGuideText}>{drawGuideText}</Text>
-            </View>
-            <Text style={styles.editorialDrawCount}>{drawCountLabel.toUpperCase()}</Text>
-            <View style={styles.editorialSpreadSlots}>
-              {localizedList(selectedSpread.labels, language).map((label, index) => {
-                const ritualCard = ritualSelectedCards[index];
-                const cardVisible = ritualDrawnCount > index || tarotGenerating;
-                return (
-                  <View key={`${label}-${index}`} style={styles.editorialSpreadSlotWrap}>
-                    <View style={[styles.editorialSpreadSlot, index === 1 && styles.editorialSpreadSlotCenter, cardVisible && styles.editorialSpreadSlotFilled]}>
-                      {cardVisible && ritualCard ? (
-                        <Reanimated.View style={styles.ritualSlotCard}>
-                          <Pressable
-                            accessibilityLabel={`${displayTarotCardName(ritualCard, language)}. ${language === "vi" ? "Xem hình lá bài toàn màn hình" : "View full-screen card artwork"}`}
-                            accessibilityRole="imagebutton"
-                            onPress={() => openFullscreenTarotCard(ritualCard, ritualCard.spread)}
-                            style={styles.ritualSlotCardPressable}
-                          >
-                            <Image source={getTarotCardImage(selectedDeck.id, ritualCard.id)} style={[styles.ritualSlotCardImage, reversedCardArt(ritualCard)]} resizeMode="cover" />
-                          </Pressable>
-                        </Reanimated.View>
-                      ) : (
-                        <Ionicons
-                          name={index === 0 ? "sparkles-outline" : index === 1 ? "sunny-outline" : "eye-outline"}
-                          size={26}
-                          color="rgba(247, 241, 230, 0.25)"
-                        />
-                      )}
-                    </View>
-                    <Text style={styles.editorialSpreadSlotLabel}>{label.toUpperCase()}</Text>
-                  </View>
-                );
-              })}
-            </View>
-            {latestRitualCard ? (
-              <View style={styles.ritualRevealPanel}>
-                <Pressable
-                  accessibilityLabel={`${displayTarotCardName(latestRitualCard, language)}. ${language === "vi" ? "Xem hình lá bài toàn màn hình" : "View full-screen card artwork"}`}
-                  accessibilityRole="imagebutton"
-                  onPress={() => openFullscreenTarotCard(latestRitualCard, latestRitualCard.spread)}
-                  style={styles.ritualRevealImageFrame}
-                >
-                  <Image source={getTarotCardImage(selectedDeck.id, latestRitualCard.id)} style={[styles.ritualRevealImage, reversedCardArt(latestRitualCard)]} resizeMode="contain" />
-                  <View style={styles.tarotImageExpandBadgeSmall}>
-                    <Ionicons name="expand-outline" size={12} color={colors.ivory} />
-                  </View>
-                </Pressable>
-                <View style={styles.ritualRevealCopy}>
-                  <Text style={styles.ritualRevealKicker}>{latestRitualCard.spread.toUpperCase()} · {latestRitualCard.reversed ? (language === "vi" ? "NGƯỢC" : "REVERSED") : (language === "vi" ? "XUÔI" : "UPRIGHT")}</Text>
-                  <Text style={styles.ritualRevealTitle}>{displayTarotCardName(latestRitualCard, language)}</Text>
-                  <Text style={styles.ritualRevealBody}>{displayTarotMeaning(latestRitualCard, language)}</Text>
-                  <Text style={styles.ritualRevealPrompt}>{localizedText(latestRitualCard.reflectionQuestion, language)}</Text>
-                </View>
-              </View>
-            ) : null}
+          <TarotDrawStep
+            language={language}
+            question={tarotQuestion}
+            slots={localizedList(selectedSpread.labels, language).map((label, index) => {
+              const ritualCard = ritualSelectedCards[index];
+              const visible = (ritualDrawnCount > index || tarotGenerating) && ritualCard;
+              return { label, card: visible ? { name: displayTarotCardName(ritualCard, language), image: getTarotCardImage(selectedDeck.id, ritualCard.id), reversed: ritualCard.reversed } : undefined };
+            })}
+            backImage={selectedDeckBackImage}
+            selectedFanIndex={selectedFanIndex}
+            onSelectFan={handleFanSelect}
+            onOpenCard={(index) => { const card = ritualSelectedCards[index]; if (card) openFullscreenTarotCard(card, card.spread); }}
+            busy={tarotGenerating || drawActionBusy}
+            status={latestRitualCard && ritualPhase === "grounding" && !tarotGenerating ? `${latestRitualCard.spread} · ${displayTarotCardName(latestRitualCard, language)} · ${latestRitualCard.reversed ? (language === "vi" ? "Ngược" : "Reversed") : (language === "vi" ? "Xuôi" : "Upright")}` : ritualPhaseLabel}
+            onDrawRest={selectedSpread.cards > 1 ? handleQuickDraw : undefined}
+            onChangeDeck={() => setStage("deck")}
+          >
             {!canViewContentTier(selectedDeck.accessTier, displayedTier) ? (
               <View style={styles.errorPanel}>
                 <Text style={styles.errorText}>{c.premiumDeckPreview}</Text>
@@ -8582,60 +7909,47 @@ export function TarotFlow({
                 <Text style={styles.errorText}>{tarotError}</Text>
               </View>
             ) : null}
-            {selectedSpread.cards > 1 && ritualDrawnCount === 0 ? (
-              <Pressable
-                accessibilityRole="button"
-                disabled={tarotGenerating || drawActionBusy}
-                style={[styles.editorialQuickDrawButton, (tarotGenerating || drawActionBusy) && styles.disabledAction]}
-                onPress={handleQuickDraw}
-              >
-                <Ionicons name="flash-outline" size={16} color={colors.gold} />
-                <Text style={styles.editorialQuickDrawButtonText}>{language === "vi" ? `Rút nhanh ${selectedSpread.cards} lá` : `Quick draw ${selectedSpread.cards} cards`}</Text>
-              </Pressable>
-            ) : null}
-            <Pressable accessibilityRole="button" style={styles.editorialMutedButton} onPress={() => setStage("deck")}>
-              <Text style={styles.editorialMutedButtonText}>{language === "vi" ? "Đổi bộ bài" : "Change deck"}</Text>
-            </Pressable>
-          </View>
+          </TarotDrawStep>
         )}
 
         {stage === "result" && reading && (
-          <View style={styles.editorialResultStage}>
-            <View style={styles.resultIntro}>
-              <Text style={styles.resultBadge}>{selectedTopicLabel.toUpperCase()}</Text>
-              <Text style={styles.editorialResultTitle}>{editorialReadingTitle}</Text>
-              <Text style={styles.editorialResultQuestion}>{reading.question || (language === "vi" ? "Thông điệp nào đang cần được nhìn thấy?" : "What message wants to be seen?")}</Text>
-              <Text style={styles.editorialResultMeta}>{resultDateLabel}</Text>
-            </View>
-
-            <View style={styles.editorialResultSpreadRow}>
-              {reading.selected.map((card, index) => (
-                <Pressable
-                  key={card.id}
-                  accessibilityLabel={`${displayTarotCardName(card, language)}. ${language === "vi" ? "Xem hình lá bài toàn màn hình" : "View full-screen card artwork"}`}
-                  accessibilityRole="imagebutton"
-                  style={[styles.editorialSpreadCardWrap, index === 1 && styles.editorialSpreadCardWrapActive]}
-                  onPress={() => openFullscreenTarotCard(card, card.spread)}
-                >
-                  <Text style={[styles.editorialSpreadLabel, index === 1 && styles.editorialSpreadLabelActive]}>{card.spread.toUpperCase()} · {card.reversed ? (language === "vi" ? "NGƯỢC" : "REVERSED") : (language === "vi" ? "XUÔI" : "UPRIGHT")}</Text>
-                  <Image source={getTarotCardImage(selectedDeck.id, card.id)} style={[styles.editorialSpreadCardImage, index === 1 && styles.editorialSpreadCardImageActive, reversedCardArt(card)]} resizeMode="contain" />
-                  <Text style={[styles.editorialSpreadCardName, index === 1 && styles.editorialSpreadCardNameActive]}>{displayTarotCardName(card, language)}</Text>
-                </Pressable>
-              ))}
-            </View>
-
-            <View style={styles.editorialSynthesisPanel}>
-              <Text style={styles.kicker}>{tarotResultSource(reading.moderationStatus) === "ai"
-                ? (language === "vi" ? "Thông điệp AI" : "AI message")
-                : tarotResultSource(reading.moderationStatus) === "blocked"
-                  ? (language === "vi" ? "Phản hồi an toàn" : "Safety response")
-                  : (language === "vi" ? "Ý nghĩa có sẵn · AI chưa hoàn tất" : "Reference meanings · AI not completed")}</Text>
-              <Text style={styles.body}>{reading.summary}</Text>
-              {reading.language && reading.language !== language ? <Text style={styles.muted}>{language === "vi" ? "Đang giữ nguyên ngôn ngữ của bài đọc đã lưu." : "Showing the original language of this saved reading."}</Text> : null}
-            </View>
-            <ReadingDetails key={`${reading.id}-${reading.summary}`} label={language === "vi" ? "Đọc diễn giải đầy đủ" : "Read the full interpretation"}
-              collapseLabel={language === "vi" ? "Thu gọn diễn giải" : "Collapse interpretation"}
-              sections={reading.sections.map((section, index) => ({ id: `${section.key}-${index}`, title: localizedText(section.title, language), body: localizedText(section.body, language) }))} />
+          <TarotResultView
+            key={reading.id}
+            language={language}
+            question={reading.question ?? ""}
+            cards={reading.selected.map((card, index) => {
+              const aiBody = reading.sections
+                .filter((section) => section.cardIds?.includes(card.id))
+                .map((section) => localizedText(section.body, language))
+                .filter(Boolean)
+                .join("\n\n");
+              return {
+                id: card.id,
+                position: card.spread,
+                name: displayTarotCardName(card, language),
+                originalName: localizedText(card.name, "en"),
+                reversed: card.reversed,
+                image: getTarotCardImage(selectedDeck.id, card.id),
+                body: aiBody || tarotSnapshotMeaning(card, reading.cards[index], language),
+                keywords: localizedList(card.keywords, language).slice(0, 3),
+                onOpenImage: () => openFullscreenTarotCard(card, card.spread),
+                onLearn: () => openCardMeaning(card, "result")
+              };
+            })}
+            summary={reading.summary}
+            sourceLabel={tarotResultSource(reading.moderationStatus) === "ai"
+              ? (language === "vi" ? `Diễn giải AI theo ${reading.selected.length} lá và câu hỏi của bạn · không phải dự đoán chắc chắn` : `AI interpretation of your ${reading.selected.length} cards and question · not a certain prediction`)
+              : tarotResultSource(reading.moderationStatus) === "blocked"
+                ? (language === "vi" ? "Phản hồi an toàn" : "Safety response")
+                : (language === "vi" ? "Ý nghĩa có sẵn · AI chưa hoàn tất" : "Reference meanings · AI not completed")}
+            extraSections={reading.sections
+              .filter((section) => !section.cardIds?.length)
+              .map((section, index) => ({ id: `${section.key}-${index}`, title: localizedText(section.title, language), body: localizedText(section.body, language) }))
+              .filter((section) => section.body)}
+            reflection={reading.reflection}
+            onWriteJournal={onWriteJournal}
+          >
+            {reading.language && reading.language !== language ? <Text style={styles.muted}>{language === "vi" ? "Đang giữ nguyên ngôn ngữ của bài đọc đã lưu." : "Showing the original language of this saved reading."}</Text> : null}
             {tarotResultSource(reading.moderationStatus) === "reference" && onRetryInterpretation ? (
               <Pressable accessibilityRole="button" disabled={tarotGenerating} accessibilityState={{ disabled: tarotGenerating }}
                 onPress={onRetryInterpretation} style={[styles.editorialOutlineButton, tarotGenerating && styles.disabledAction]}>
@@ -8643,104 +7957,19 @@ export function TarotFlow({
               </Pressable>
             ) : null}
             {tarotError ? <Text accessibilityLiveRegion="polite" style={styles.errorText}>{tarotError}</Text> : null}
-            {reading.selected.map((card, index) => (
-              <View key={`${card.id}-meaning`} style={[styles.editorialMeaningCard, index === 1 && styles.editorialMeaningCardFeatured]}>
-                <Text style={styles.editorialMeaningKicker}>{card.spread.toUpperCase()} · {card.reversed ? (language === "vi" ? "NGƯỢC" : "REVERSED") : (language === "vi" ? "XUÔI" : "UPRIGHT")}</Text>
-                <Text style={styles.editorialMeaningTitle}>{displayTarotCardName(card, language)}</Text>
-                <Text style={styles.muted}>{language === "vi" ? "Ý nghĩa tham khảo của lá" : "Card reference meaning"}</Text>
-                <Text style={styles.editorialMeaningBody}>{tarotSnapshotMeaning(card, reading.cards[index], language)}</Text>
-              </View>
-            ))}
-
-            <Pressable accessibilityRole="button" accessibilityState={{ expanded: showReadingExplanation }} style={styles.tarotReadingExplainPanel} onPress={() => setShowReadingExplanation((shown) => !shown)}>
-              <View style={styles.tarotReadingExplainIcon}>
-                <Ionicons name="school-outline" size={18} color={colors.gold} />
-              </View>
-              <View style={styles.flex}>
-                <Text style={styles.tarotReadingExplainTitle}>
-                  {language === "vi" ? "Xem dữ kiện và ý nghĩa lá" : "Review cards and reference meanings"}
-                </Text>
-                <Text style={styles.tarotReadingExplainBody}>
-                  {language === "vi"
-                    ? "Đối chiếu câu hỏi, vị trí và chiều lá; mở thư viện để học thêm."
-                    : "Check the question, positions and orientations; open the library to learn more."}
-                </Text>
-              </View>
-              <Ionicons name={showReadingExplanation ? "chevron-up-outline" : "chevron-down-outline"} size={18} color={colors.gold} />
-            </Pressable>
-            {showReadingExplanation ? (
-              <View style={styles.deckStoryPanel}>
-                <Text style={styles.deckStoryTitle}>{language === "vi" ? "Những dữ kiện của trải bài này" : "This reading's context"}</Text>
-                <Text style={styles.body}>{reading.question || (language === "vi" ? "Bạn chọn phản chiếu mở, không kèm câu hỏi cụ thể." : "You chose an open reflection without a specific question.")}</Text>
-                <Text style={styles.muted}>{language === "vi" ? "Ý nghĩa biểu tượng dưới đây được nối với vị trí và chiều của từng lá bạn đã rút. Bạn có thể chọn điều phù hợp với mình." : "The symbolic meanings below are connected to the position and orientation of the cards you drew. Choose what feels relevant to you."}</Text>
-                {reading.selected.map((card, index) => (
-                  <View key={`${card.id}-explanation`} style={styles.choiceStack}>
-                    <Text style={styles.cardTitle}>{card.spread} · {displayTarotCardName(card, language)} · {card.reversed ? (language === "vi" ? "Ngược" : "Reversed") : (language === "vi" ? "Xuôi" : "Upright")}</Text>
-                    <Text style={styles.body}>{tarotSnapshotMeaning(card, reading.cards[index], language)}</Text>
-                    <Pressable accessibilityRole="button" style={styles.editorialDeckLearnButton} onPress={() => openCardMeaning(card, "result")}>
-                      <Text style={styles.editorialDeckLearnButtonText}>{language === "vi" ? "Khám phá ý nghĩa lá này" : "Explore this card's meaning"}</Text>
-                    </Pressable>
-                  </View>
-                ))}
-              </View>
-            ) : null}
-
-            <View style={styles.promptPanel}>
-              <Text style={styles.kicker}>{c.reflection}</Text>
-              <Text style={styles.promptText}>{reading.reflection}</Text>
-            </View>
-            <TarotGuideSelector
-              deck={selectedDeck}
-              language={language}
-              options={tarotGuideOptions}
-              recommendedGuide={recommendedTarotGuide}
-              selectedGuide={selectedTarotGuide}
-              selectedGuideReason={selectedTarotGuideReason}
-              onSelect={(persona) => setSelectedTarotGuideId(persona.id)}
-            />
-            <Pressable
-              accessibilityRole="button"
-              style={styles.editorialPrimaryButton}
-              onPress={() => onSave({
-                sourceType: "tarot",
-                sourceId: reading.id,
-                title: `${localizedText(reading.deck.name, language)} - ${localizedText(spreads.find((spread) => spread.id === reading.spread), language, reading.spread)}`,
-                summary: reading.summary,
-                sourceSnapshot: {
-                  type: "tarot_reading",
-                  readingId: reading.id,
-                  deckId: reading.deck.id,
-                  spread: reading.spread,
-                  topic: reading.topic,
-                  question: reading.question,
-                  language: reading.language ?? language,
-                  cards: reading.cards,
-                  sections: reading.sections,
-                  provenance: reading.provenance,
-                  contentVersion: reading.contentVersion,
-                  promptVersionId: reading.promptVersionId,
-                  synthesis: reading.synthesis,
-                  reflectionPrompt: reading.reflectionPrompt,
-                  moderationStatus: reading.moderationStatus
-                }
-              })}
-            >
-              <Text style={styles.editorialPrimaryButtonText}>{language === "vi" ? "Lưu trải bài" : "Save reading"}</Text>
-            </Pressable>
-            <Pressable hitSlop={8} accessibilityLabel={language === "vi" ? "Chia sẻ văn bản trải bài" : "Share reading text"} accessibilityRole="button" style={styles.editorialShareButton} onPress={onCreateShareArtifact}>
-              <Ionicons name="share-social-outline" size={18} color={colors.ivory} />
-            </Pressable>
-            <Pressable accessibilityRole="button" style={styles.editorialOutlineButton} onPress={() => onAskFollowUp(selectedTarotGuide.id)}>
-              <Ionicons name="chatbubble-outline" size={16} color={colors.gold} />
-              <Text style={styles.editorialOutlineButtonText}>
-                {language === "vi" ? `Hỏi tiếp ${selectedTarotGuideName}` : `Ask ${selectedTarotGuideName}`}
-              </Text>
-            </Pressable>
-            <Pressable accessibilityRole="button" style={styles.editorialReportLink} onPress={() => onReportReading(reading.summary, reading.id)}>
-              <Text style={styles.editorialReportLinkText}>{c.reportReading}</Text>
-            </Pressable>
-          </View>
+          </TarotResultView>
         )}
+        {stage === "result" && reading ? (
+          <TarotGuideSelector
+            deck={selectedDeck}
+            language={language}
+            options={tarotGuideOptions}
+            recommendedGuide={recommendedTarotGuide}
+            selectedGuide={selectedTarotGuide}
+            selectedGuideReason={selectedTarotGuideReason}
+            onSelect={(persona) => setSelectedTarotGuideId(persona.id)}
+          />
+        ) : null}
 
         {stage === "share" && reading && (
           <View>
@@ -8803,6 +8032,15 @@ export function TarotFlow({
         >
           <Ionicons name="arrow-up-outline" size={18} color={colors.ink} />
         </Pressable>
+      ) : null}
+      {stage === "result" && reading ? (
+        <TarotResultDock
+          language={language}
+          onSave={saveTarotReading}
+          onAskFurther={() => onAskFollowUp(selectedTarotGuide.id)}
+          onShare={onCreateShareArtifact}
+          onReport={() => onReportReading(reading.summary, reading.id)}
+        />
       ) : null}
       {hasFloatingTarotPrimary ? (
         <Pressable
@@ -8870,409 +8108,12 @@ export function TarotFlow({
   );
 }
 
-function AstrologyFlow({
-  birthDate,
-  birthPlace,
-  birthTime,
-  birthTimeUnknown,
-  error,
-  focus,
-  generating,
-  journalEntries,
-  language,
-  report,
-  setBirthDate,
-  setBirthPlace,
-  setBirthTime,
-  setBirthTimeUnknown,
-  setFocus,
-  setStage,
-  stage,
-  onBack,
-  onAskFollowUp,
-  onGenerate,
-  onSave,
-  onSaveZodiacPulse,
-  onZodiacChat,
-  zodiacPulse
-}: {
-  birthDate: string;
-  birthPlace: string;
-  birthTime: string;
-  birthTimeUnknown: boolean;
-  error: string;
-  focus: AstrologyFocus;
-  generating: boolean;
-  journalEntries: JournalEntry[];
-  language: Language;
-  report: AstrologyReport | null;
-  setBirthDate: (value: string) => void;
-  setBirthPlace: (value: string) => void;
-  setBirthTime: (value: string) => void;
-  setBirthTimeUnknown: (value: boolean) => void;
-  setFocus: (value: AstrologyFocus) => void;
-  setStage: (value: AstrologyStage) => void;
-  stage: AstrologyStage;
-  onBack: () => void;
-  onAskFollowUp: () => void;
-  onGenerate: (focusOverride?: AstrologyFocus) => void;
-  onSave: () => void;
-  onSaveZodiacPulse: () => void;
-  onZodiacChat: () => void;
-  zodiacPulse: ZodiacPulse;
-}) {
-  const focusOption = astrologyFocusOptions.find((item) => item.id === focus) ?? astrologyFocusOptions[0];
-  const focusLabel = localizedText(focusOption.title, language);
-  const hasReport = Boolean(report);
-  const reportMeta = report?.birthDate
-    ? `${report.birthDate}${report.birthPlace ? ` - ${report.birthPlace}` : ""}`
-    : (language === "vi" ? "Birth profile chưa đủ" : "Birth profile incomplete");
-  const activeReportFocus = report?.focus ?? focus;
-  const reportProviderLabel = report?.provider
-    ? `${report.provider}${report.calculationVersion ? ` / ${report.calculationVersion}` : ""}`
-    : (nilazaBackendBaseUrl ? "Backend calculator" : "Local preview");
-  const chartPresentation = useMemo(
-    () => toAstrologyChartPresentation(report?.chart, {
-      provider: report?.provider,
-      calculationVersion: report?.calculationVersion
-    }),
-    [report]
-  );
-  const verifiedChartFacts = chartPresentation.status === "ready";
-  const verificationPendingLabel = language === "vi" ? "Chờ xác minh" : "Verification pending";
-  const moonSnapshotValue = report?.moonSign && verifiedChartFacts
-    ? report.moonSign
-    : report
-      ? verificationPendingLabel
-      : (language === "vi" ? "Chờ calculator" : "Calculator pending");
-  const risingSnapshotValue = report?.risingSign && verifiedChartFacts
-    ? report.risingSign
-    : birthTimeUnknown || !birthTime
-      ? (language === "vi" ? "Thiếu giờ sinh" : "Birth time missing")
-      : report
-        ? verificationPendingLabel
-        : (language === "vi" ? "Cần tọa độ" : "Needs coordinates");
-  const recentZodiacEntries = journalEntries
-    .filter((entry) => entry.sourceType === "astrology" || entry.sourceSnapshot?.type === "daily_zodiac_pulse")
-    .slice(0, 3);
-  const weeklySymbolCount = journalEntries.filter((entry) => {
-    const createdAt = new Date(entry.createdAt).getTime();
-    return Date.now() - createdAt <= 7 * 24 * 60 * 60 * 1000 && (entry.sourceType === "astrology" || entry.sourceSnapshot?.type === "daily_zodiac_pulse");
-  }).length;
-  const chartStatusLabel = {
-    empty: language === "vi" ? "Chưa có ngày sinh" : "Birth date needed",
-    sun_only: language === "vi" ? "Sun-sign pulse" : "Sun-sign pulse",
-    birth_time_missing: language === "vi" ? "Thiếu giờ sinh" : "Birth time missing",
-    full_pending_backend: language === "vi" ? "Chờ backend chart" : "Backend chart pending",
-    full: language === "vi" ? "Chart đã tính" : "Chart calculated"
-  }[zodiacPulse.profileCompleteness];
-
-  return (
-    <View style={styles.astrologyShell}>
-      <SubflowTopBar
-        title="NILAZA"
-        subtitle={stage === "hub" ? "Zodiac" : "Birth Chart"}
-        rightIcon="create-outline"
-        rightLabel={language === "vi" ? "Sửa birth profile" : "Edit birth profile"}
-        onLeft={stage === "hub" ? onBack : () => setStage("hub")}
-        onRight={() => setStage("birth")}
-      />
-
-      {stage === "casting" ? (
-        <View style={styles.astrologyCasting}>
-          <View style={styles.astrologyGateOuter}>
-            <View style={styles.astrologyGateMiddle}>
-              <View style={styles.astrologyGateInner}>
-                <Ionicons name="sunny-outline" size={46} color={colors.gold} />
-              </View>
-            </View>
-          </View>
-          <Text style={styles.astrologyDisplay}>{language === "vi" ? "Đang căn chỉnh tín hiệu..." : "Aligning the spheres..."}</Text>
-          <Text style={styles.astrologyLead}>
-            {language === "vi"
-              ? `Đang tính placements và aspects cho ${birthPlace || "birth profile của bạn"}. Rising/house sẽ có ghi chú nếu thiếu tọa độ.`
-              : `Calculating placements and aspects for ${birthPlace || "your birth profile"}. Rising and houses include notes when coordinates are missing.`}
-          </Text>
-          {generating ? <RitualLoading label={language === "vi" ? "Đang tạo bản đọc an toàn" : "Creating a safe reading"} /> : null}
-        </View>
-      ) : (
-        <ScrollView contentContainerStyle={styles.astrologyContent}>
-          {stage === "hub" && (
-            <View>
-              <Text style={styles.astrologyKicker}>{language === "vi" ? "Zodiac reflection" : "Zodiac reflection"}</Text>
-              <Text style={styles.astrologyDisplay}>{language === "vi" ? "Nhịp sao hôm nay của bạn" : "Your star rhythm today"}</Text>
-              <Text style={styles.astrologyLead}>
-                {language === "vi"
-                  ? "Một vòng lặp nhẹ để mở ngày, hỏi sâu với The Astrologer và lưu lại điều đáng nhớ vào Journal."
-                  : "A light loop for opening the day, asking The Astrologer, and saving what matters into Journal."}
-              </Text>
-
-              <View style={styles.zodiacHubPulse}>
-                <View style={styles.rowBetween}>
-                  <Text style={styles.zodiacPulseKicker}>{language === "vi" ? "Today" : "Today"}</Text>
-                  <StatusChip label={chartStatusLabel} tone={zodiacPulse.profileCompleteness === "full" ? "good" : "warn"} />
-                </View>
-                <Text style={styles.zodiacHubTitle}>{zodiacPulse.title}</Text>
-                <Text style={styles.zodiacPulseMood}>{language === "vi" ? `Mood: ${zodiacPulse.mood}` : `Mood: ${zodiacPulse.mood}`}</Text>
-                <Text style={styles.zodiacPulseBody}>{zodiacPulse.reflection}</Text>
-                <Text style={styles.zodiacPulseNote}>{zodiacPulse.microAction}</Text>
-                <View style={styles.zodiacPulseActions}>
-                  <Pressable accessibilityRole="button" style={styles.zodiacPulsePrimaryButton} onPress={onSaveZodiacPulse}>
-                    <Text style={styles.zodiacPulsePrimaryText}>{language === "vi" ? "Lưu pulse" : "Save pulse"}</Text>
-                    <Ionicons name="bookmark-outline" size={16} color={colors.charcoal} />
-                  </Pressable>
-                  <Pressable accessibilityRole="button" style={styles.zodiacPulseSecondaryButton} onPress={onZodiacChat}>
-                    <Ionicons name="chatbubble-outline" size={15} color={colors.gold} />
-                    <Text style={styles.zodiacPulseSecondaryText}>{language === "vi" ? "Hỏi The Astrologer" : "Ask The Astrologer"}</Text>
-                  </Pressable>
-                </View>
-              </View>
-
-              <View style={styles.astrologyChartPreview}>
-                <Text style={styles.astrologySectionTitle}>{language === "vi" ? "My Chart Snapshot" : "My Chart Snapshot"}</Text>
-                <View style={styles.astrologyBigThree}>
-                  <AstrologyPlacementCard icon="sunny-outline" label="Sun" value={zodiacPulse.hasBirthDate ? zodiacPulse.sign ?? "-" : (language === "vi" ? "Cần ngày sinh" : "Needs birth date")} />
-                  <AstrologyPlacementCard icon="moon-outline" label="Moon" value={moonSnapshotValue} />
-                  <AstrologyPlacementCard icon="chevron-up-outline" label="Rising" value={risingSnapshotValue} />
-                </View>
-                {zodiacPulse.caveats.map((caveat) => (
-                  <View key={caveat} style={styles.zodiacPulseCaveatRow}>
-                    <Ionicons name="information-circle-outline" size={14} color={colors.moon} />
-                    <Text style={styles.zodiacPulseCaveat}>{caveat}</Text>
-                  </View>
-                ))}
-                <Pressable accessibilityRole="button" style={styles.editorialOutlineButton} onPress={() => setStage("birth")}>
-                  <Ionicons name="create-outline" size={16} color={colors.gold} />
-                  <Text style={styles.editorialOutlineButtonText}>{language === "vi" ? "Cập nhật birth profile" : "Update birth profile"}</Text>
-                </Pressable>
-              </View>
-
-              <Text style={styles.sectionKicker}>{language === "vi" ? "Chọn góc nhìn" : "Choose a focus"}</Text>
-              <View style={styles.astrologyFocusStack}>
-                {astrologyFocusOptions.map((item) => {
-                  const active = focus === item.id;
-                  return (
-                    <Pressable
-                      key={item.id}
-                      accessibilityRole="button"
-                      onPress={() => {
-                        setFocus(item.id);
-                        if (birthDate.trim()) onGenerate(item.id);
-                        else setStage("birth");
-                      }}
-                      style={[styles.astrologyFocusCard, active && styles.astrologyFocusCardActive]}
-                    >
-                      <Ionicons name={item.icon} size={28} color={colors.gold} />
-                      <Text style={styles.astrologyFocusTitle}>{localizedText(item.title, language)}</Text>
-                      <Text style={styles.astrologyFocusSubtitle}>{localizedText(item.subtitle, language).toUpperCase()}</Text>
-                    </Pressable>
-                  );
-                })}
-              </View>
-
-              <View style={styles.zodiacRecapPanel}>
-                <Text style={styles.astrologySectionTitle}>{language === "vi" ? "Your week in symbols" : "Your week in symbols"}</Text>
-                <Text style={styles.astrologySectionBody}>
-                  {weeklySymbolCount > 0
-                    ? (language === "vi"
-                        ? `Tuần này bạn đã lưu ${weeklySymbolCount} tín hiệu Zodiac/Astrology. Hãy xem điều gì đang lặp lại trong Journal.`
-                        : `You saved ${weeklySymbolCount} Zodiac/Astrology signals this week. Notice what keeps repeating in Journal.`)
-                    : (language === "vi"
-                        ? "Lưu một pulse hoặc report để Nilaza bắt đầu ghép lại nhịp biểu tượng trong tuần của bạn."
-                        : "Save a pulse or report so Nilaza can start connecting your weekly symbolic rhythm.")}
-                </Text>
-                {recentZodiacEntries.map((entry) => (
-                  <View key={entry.id} style={styles.zodiacRecentRow}>
-                    <Ionicons name="journal-outline" size={16} color={colors.gold} />
-                    <View style={styles.flex}>
-                      <Text style={styles.zodiacRecentTitle}>{entry.title}</Text>
-                      <Text style={styles.zodiacRecentMeta}>{formatLocalDate(entry.createdAt, language)}</Text>
-                    </View>
-                  </View>
-                ))}
-              </View>
-            </View>
-          )}
-
-          {stage === "intention" && (
-            <View>
-              <Text style={styles.astrologyDisplay}>{language === "vi" ? "Các vì sao đang giữ điều gì cho bạn?" : "What do the stars hold for you?"}</Text>
-              <Text style={styles.astrologyLead}>
-                {nilazaBackendBaseUrl
-                  ? (language === "vi"
-                      ? "Chọn một góc nhìn trước khi Nilaza đọc birth profile qua backend calculator, kèm caveat khi thiếu giờ sinh hoặc tọa độ."
-                      : "Set a focus before Nilaza reads your birth profile through the backend calculator, with caveats when birth time or coordinates are missing.")
-                  : (language === "vi"
-                      ? "Chọn một góc nhìn trước khi Nilaza đọc birth profile. Bản local hiện chỉ là preview, không thay thế calculator."
-                      : "Set a focus before Nilaza reads your birth profile. The local app currently shows a preview, not a full calculator result.")}
-              </Text>
-              <View style={styles.astrologyFocusStack}>
-                {astrologyFocusOptions.map((item) => {
-                  const active = focus === item.id;
-                  return (
-                    <Pressable key={item.id} accessibilityRole="button" onPress={() => setFocus(item.id)} style={[styles.astrologyFocusCard, active && styles.astrologyFocusCardActive]}>
-                      <Ionicons name={item.icon} size={28} color={colors.gold} />
-                      <Text style={styles.astrologyFocusTitle}>{localizedText(item.title, language)}</Text>
-                      <Text style={styles.astrologyFocusSubtitle}>{localizedText(item.subtitle, language).toUpperCase()}</Text>
-                    </Pressable>
-                  );
-                })}
-              </View>
-            </View>
-          )}
-
-          {stage === "birth" && (
-            <View>
-              <Text style={styles.astrologyDisplay}>{language === "vi" ? "Khoảnh khắc bạn đến với thế giới" : "The Moment of Your Arrival"}</Text>
-              <Text style={styles.astrologyLead}>
-                {language === "vi"
-                  ? `Birth data là dữ liệu nhạy cảm. ${nilazaBackendBaseUrl ? "Khi backend staging bật, dữ liệu được gửi qua function có JWT để tính chart." : "Nilaza lưu local trong MVP và chỉ dùng khi bạn chủ động mở Astrology."}`
-                  : `Birth data is sensitive. ${nilazaBackendBaseUrl ? "When staging backend is enabled, it is sent through a JWT-backed function to calculate the chart." : "In the MVP, Nilaza stores it locally and only uses it when you open Astrology."}`}
-              </Text>
-              <Text style={styles.editorialFieldLabel}>{language === "vi" ? "Ngày sinh" : "Date of birth"}</Text>
-              <CalendarDatePicker
-                collapsible
-                language={language}
-                value={birthDate}
-                onChange={setBirthDate}
-                placeholder={language === "vi" ? "Chọn ngày sinh" : "Select birth date"}
-              />
-              <Text style={styles.editorialFieldLabel}>{language === "vi" ? "Giờ sinh" : "Time of birth"}</Text>
-              <View style={styles.astrologyFieldShell}>
-                <Ionicons name="time-outline" size={18} color={colors.gold} />
-                <TextInput value={birthTime} onChangeText={setBirthTime} editable={!birthTimeUnknown} placeholder="HH:mm" placeholderTextColor={colors.moon} style={[styles.astrologyInlineInput, birthTimeUnknown && styles.disabledInput]} />
-              </View>
-              <Pressable
-                accessibilityRole="button"
-                style={[styles.profileOptionButton, birthTimeUnknown && styles.profileOptionButtonActive]}
-                onPress={() => setBirthTimeUnknown(!birthTimeUnknown)}
-              >
-                <Ionicons name="time-outline" size={18} color={birthTimeUnknown ? colors.charcoal : colors.gold} />
-                <Text style={[styles.profileOptionText, birthTimeUnknown && styles.profileOptionTextActive]}>
-                  {language === "vi" ? "Tôi không biết giờ sinh chính xác" : "I do not know my exact time"}
-                </Text>
-              </Pressable>
-              <Text style={styles.editorialFieldLabel}>{language === "vi" ? "Nơi sinh" : "Place of birth"}</Text>
-              <View style={styles.astrologyFieldShell}>
-                <Ionicons name="location-outline" size={20} color={colors.gold} />
-                <TextInput value={birthPlace} onChangeText={setBirthPlace} placeholder={language === "vi" ? "Thành phố, quốc gia" : "City, country"} placeholderTextColor={colors.moon} style={styles.astrologyInlineInput} />
-              </View>
-              <View style={styles.astrologyBackendStrip}>
-                <Ionicons name={nilazaBackendBaseUrl ? "checkmark-circle-outline" : "information-circle-outline"} size={18} color={nilazaBackendBaseUrl ? colors.teal : colors.gold} />
-                <Text style={styles.astrologyBackendText}>
-                  {nilazaBackendBaseUrl
-                    ? (language === "vi" ? "Backend calculator đã sẵn sàng. Place search/timezone provider sẽ bổ sung lat/lon và UTC offset ở bước kế tiếp." : "Backend calculator is ready. Place search/timezone provider will add lat/lon and UTC offset next.")
-                    : (language === "vi" ? "Chưa cấu hình backend URL, Nilaza sẽ giữ preview local để bạn vẫn review được flow." : "Backend URL is not configured, so Nilaza keeps a local preview for review.")}
-                </Text>
-              </View>
-              <View style={styles.astrologyPrivacyNote}>
-                <Ionicons name="lock-closed-outline" size={18} color={colors.moon} />
-                <Text style={styles.disclaimer}>{language === "vi" ? "Full Moon/Rising cần backend calculator và geocoding. Mobile client không chứa provider key." : "Full Moon/Rising requires the backend calculator and geocoding. The mobile client contains no provider key."}</Text>
-              </View>
-              {error ? <Text style={styles.errorText}>{error}</Text> : null}
-            </View>
-          )}
-
-          {stage === "report" && (
-            <View>
-              <Text style={styles.astrologyKicker}>{language === "vi" ? "Bản đồ sao preview" : "Ethereal blueprint"}</Text>
-              <Text style={styles.astrologyReportTitle}>{focusLabel}</Text>
-              <Text style={styles.astrologyReportMeta}>{reportMeta}</Text>
-              <View style={styles.astrologyBigThree}>
-                <AstrologyPlacementCard icon="sunny-outline" label="Sun" value={report?.sunSign ?? (language === "vi" ? "Cần ngày sinh" : "Needs birth date")} />
-                <AstrologyPlacementCard icon="moon-outline" label="Moon" value={moonSnapshotValue} />
-                <AstrologyPlacementCard icon="chevron-up-outline" label="Rising" value={risingSnapshotValue} />
-              </View>
-              <AstrologyChartFoundation
-                language={language}
-                presentation={chartPresentation}
-                sourceLabel={reportProviderLabel}
-              />
-              <View style={styles.astrologyReportTabs}>
-                {astrologyFocusOptions.map((item) => {
-                  const active = activeReportFocus === item.id;
-                  return (
-                    <Pressable
-                      key={item.id}
-                      accessibilityRole="button"
-                      disabled={generating}
-                      onPress={() => {
-                        setFocus(item.id);
-                        onGenerate(item.id);
-                      }}
-                      style={[styles.astrologyReportTab, active && styles.astrologyReportTabActive]}
-                    >
-                      <Text style={[styles.astrologyReportTabText, active && styles.astrologyReportTabTextActive]}>{localizedText(item.title, language)}</Text>
-                    </Pressable>
-                  );
-                })}
-              </View>
-              {(report?.sections ?? []).map((section) => (
-                <View key={section.key} style={styles.astrologySectionRow}>
-                  <View style={styles.astrologySectionIcon}>
-                    <Ionicons name={section.icon} size={20} color={colors.gold} />
-                  </View>
-                  <View style={styles.flex}>
-                    <Text style={styles.astrologySectionTitle}>{section.title}</Text>
-                    <Text style={styles.astrologySectionBody}>{section.body}</Text>
-                  </View>
-                </View>
-              ))}
-              <Pressable accessibilityRole="button" disabled={!hasReport} style={[styles.editorialPrimaryButton, !hasReport && styles.disabledAction]} onPress={onSave}>
-                <Text style={styles.editorialPrimaryButtonText}>{language === "vi" ? "Lưu preview vào Journal" : "Save preview to Journal"}</Text>
-              </Pressable>
-              <Pressable accessibilityRole="button" disabled={!hasReport} style={[styles.editorialOutlineButton, !hasReport && styles.disabledAction]} onPress={onAskFollowUp}>
-                <Ionicons name="chatbubble-outline" size={16} color={colors.gold} />
-                <Text style={styles.editorialOutlineButtonText}>{language === "vi" ? "Hỏi sâu hơn với The Astrologer" : "Ask The Astrologer"}</Text>
-              </Pressable>
-              <View style={styles.astrologyPremiumTeaser}>
-                <View style={styles.astrologyPremiumIcon}>
-                  <Ionicons name="lock-closed-outline" size={22} color={colors.gold} />
-                </View>
-                <Text style={styles.astrologyPremiumTitle}>{language === "vi" ? "Điều gì đang mở ra tiếp?" : "What lies ahead?"}</Text>
-                <Text style={styles.astrologyPremiumBody}>
-                  {language === "vi"
-                    ? "Bản transit và synastry sâu hơn sẽ mở khi provider timezone/geocoding và entitlement hoàn tất."
-                    : "Deeper transit and synastry readings unlock after timezone/geocoding providers and entitlement are ready."}
-                </Text>
-                <Text style={styles.astrologyPremiumAction}>{language === "vi" ? "Premium preview" : "Premium preview"}</Text>
-              </View>
-              <Pressable accessibilityRole="button" style={styles.editorialOutlineButton} onPress={() => setStage("birth")}>
-                <Ionicons name="create-outline" size={16} color={colors.gold} />
-                <Text style={styles.editorialOutlineButtonText}>{language === "vi" ? "Sửa birth profile" : "Edit birth profile"}</Text>
-              </Pressable>
-            </View>
-          )}
-        </ScrollView>
-      )}
-      {stage === "intention" || (stage === "birth" && Boolean(birthDate.trim())) ? (
-        <View style={styles.astrologyBottomDock}>
-          <Pressable accessibilityRole="button" style={styles.editorialPrimaryButton} onPress={stage === "intention" ? () => setStage("birth") : () => onGenerate()}>
-            <Text style={styles.editorialPrimaryButtonText}>{stage === "intention" ? (language === "vi" ? "Tiếp tục" : "Continue") : (language === "vi" ? "Tạo preview bản đồ sao" : "Cast my chart preview")}</Text>
-            <Ionicons name={stage === "intention" ? "arrow-forward-outline" : "planet-outline"} size={22} color={colors.ink} />
-          </Pressable>
-        </View>
-      ) : null}
-    </View>
-  );
-}
-
-function AstrologyPlacementCard({ icon, label, value }: { icon: keyof typeof Ionicons.glyphMap; label: string; value: string }) {
-  return (
-    <View style={styles.astrologyPlacementCard}>
-      <Ionicons name={icon} size={22} color={colors.gold} />
-      <Text style={styles.astrologyPlacementLabel}>{label.toUpperCase()}</Text>
-      <Text style={styles.astrologyPlacementValue}>{value}</Text>
-    </View>
-  );
-}
-
 function journalSourceLabel(sourceType: JournalEntry["sourceType"], language: Language) {
   const labels: Record<JournalEntry["sourceType"], { vi: string; en: string }> = {
     astrology: { vi: "Chiêm tinh", en: "Astrology" },
     chat: { vi: "Trò chuyện", en: "Chat guide" },
     daily: { vi: "Hôm nay", en: "Daily insight" },
-    tarot: { vi: "Tarot", en: "Tarot" },
+    tarot: { vi: "Trải bài", en: "Tarot" },
     share_card: { vi: "Chia sẻ", en: "Share card" },
     manual: { vi: "Ghi chú", en: "Note" }
   };
@@ -9319,16 +8160,10 @@ function JournalScreen({
   composePrompt?: string | null;
   onComposeDone?: () => void;
 }) {
-  const filters = ["All", "Tarot", "Chat", "Astrology", "Notes"];
-  const journalLayout = useAdaptiveLayout();
-  const filterLabels: Record<string, string> = { All: "Tất cả", Tarot: "Tarot", Chat: "Trò chuyện", Astrology: "Chiêm tinh", Notes: "Ghi chú" };
-  const [activeFilter, setActiveFilter] = useState("All");
   const [selectedEntryId, setSelectedEntryId] = useState<string | null>(initialSelectedEntryId ?? null);
   const [draftNote, setDraftNote] = useState(journalDraftNoteFor(entries.find(item => item.id === initialSelectedEntryId)));
-  const [journalSearchOpen, setJournalSearchOpen] = useState(false);
-  const [journalSearchText, setJournalSearchText] = useState("");
   // Keep the Home prompt for this visit only; the parent clears it so a later visit opens the list.
-  const [prompt] = useState(composePrompt ?? undefined);
+  const [prompt, setPrompt] = useState(composePrompt ?? undefined);
   const [composing, setComposing] = useState(Boolean(prompt));
   useEffect(() => {
     if (prompt) onComposeDone?.();
@@ -9338,26 +8173,6 @@ function JournalScreen({
     return () => onComposingChange?.(false);
   }, [composing, onComposingChange]);
   const selectedEntry = entries.find((entry) => entry.id === selectedEntryId) ?? null;
-  const journalSearchQuery = journalSearchText.trim();
-  const visibleEntries = entries.filter((entry) => {
-    const filterMatches = activeFilter === "All"
-      ? true
-      : activeFilter === "Notes"
-        ? entry.sourceType === "manual" || Boolean(entry.userNote?.trim())
-        : entry.sourceType === activeFilter.toLowerCase();
-    if (!filterMatches) return false;
-    if (!journalSearchQuery) return true;
-    const searchable = [
-      entry.title,
-      entry.summary,
-      entry.userNote ?? "",
-      journalSourceLabel(entry.sourceType, language),
-      moodLabel(entry.mood, language),
-      String(entry.sourceSnapshot?.type ?? "")
-    ].join(" ");
-    return normalizeSearchString(searchable).includes(normalizeSearchString(journalSearchQuery));
-  });
-
   if (composing) return <JournalComposer language={language} draftStore={draftStore} prompt={prompt} onSave={onCreateNote}
     onClose={() => setComposing(false)} />;
 
@@ -9436,97 +8251,43 @@ function JournalScreen({
   }
 
   return (
-    <View>
-      <TopBar
-        title={language === "vi" ? "Nhật ký" : "Journal"}
-        rightIcon={journalSearchOpen ? "close-outline" : "search-outline"}
-        rightLabel={journalSearchOpen ? "Close journal search" : "Search journal"}
-        onRight={() => {
-          if (journalSearchOpen) setJournalSearchText("");
-          setJournalSearchOpen((open) => !open);
-        }}
-      />
-      <Header eyebrow="Private" title={language === "vi" ? "Insight đã lưu" : "Saved insights"} />
-      <Text style={styles.leadLeft}>
-        {language === "vi"
-          ? "Đây là không gian riêng để bạn quay lại các câu trả lời, lá bài và ghi chú đã chạm tới mình."
-          : "A private space for returning to the answers, cards, and notes that felt meaningful."}
-      </Text>
-      <SecondaryButton label={language === "vi" ? "Viết ghi chú" : "Write a note"} onPress={() => setComposing(true)} />
-      {journalSearchOpen ? (
-        <View style={styles.searchModeHeader}>
-          <View style={styles.searchModeIcon}>
-            <Ionicons name="search-outline" size={19} color={colors.gold} />
-          </View>
-          <TextInput
-            accessibilityLabel="Search saved insights"
-            autoFocus
-            value={journalSearchText}
-            onChangeText={setJournalSearchText}
-            placeholder={language === "vi" ? "Tìm insight đã lưu..." : "Search saved insights..."}
-            placeholderTextColor={colors.moon}
-            style={[styles.searchInput, styles.flex]}
-          />
-        </View>
-      ) : null}
-      <View style={styles.memoryPanel}>
-        <View style={styles.rowBetween}>
-          <Text style={styles.sectionKicker}>{language === "vi" ? "Nhật ký 7 ngày" : "Your last seven days"}</Text>
-          <StatusChip
-            label={journalMemory.topMood ? moodLabel(journalMemory.topMood, language) : (language === "vi" ? "Chưa có mood" : "No mood yet")}
-            tone="neutral"
-          />
-        </View>
-        <Text style={styles.memoryTitle}>{language === "vi" ? "Nhìn lại những điều đã ghi" : "Review what you recorded"}</Text>
-        <Text style={styles.memorySummary}>{journalMemory.summary}</Text>
-        <View style={styles.memoryStats}>
-          <MiniStat label={language === "vi" ? "Insight" : "Insights"} value={String(journalMemory.recentCount)} />
-          <MiniStat label={language === "vi" ? "Ghi chú" : "Notes"} value={String(journalMemory.noteCount)} />
-        </View>
-        <Text style={styles.memoryPrompt}>{journalMemory.prompt}</Text>
-      </View>
-      <OverflowChipRail wrap={journalLayout.layoutMode !== "compact"}>
-        {filters.map((filter) => <Chip key={filter} active={activeFilter === filter} label={language === "vi" ? filterLabels[filter] : filter} onPress={() => setActiveFilter(filter)} />)}
-      </OverflowChipRail>
-      {entries.length === 0 ? (
+    <JournalHome
+      language={language}
+      now={new Date()}
+      entries={entries}
+      moodLabel={(mood) => moodLabel(mood, language)}
+      sourceLabel={(sourceType) => journalSourceLabel(sourceType, language)}
+      bodyOf={journalEntryBody}
+      onWrite={(text) => {
+        setPrompt(text);
+        setComposing(true);
+      }}
+      onOpenEntry={(entry) => {
+        setSelectedEntryId(entry.id);
+        setDraftNote(journalDraftNoteFor(entry));
+      }}
+      empty={(
         <View style={styles.empty}>
           <Text style={styles.emptyTitle}>{c.emptyJournal}</Text>
-          <Text style={styles.muted}>{language === "vi" ? "Rút bài hoặc lưu một câu trả lời từ guide để tạo dòng đầu tiên." : "Draw cards or save a guide response to create your first entry."}</Text>
+          <Text style={styles.muted}>{language === "vi" ? "Rút bài, viết vài dòng hoặc lưu một câu trả lời từ người dẫn để tạo mục đầu tiên." : "Draw cards, write a few lines or save a guide's answer to create your first entry."}</Text>
           <View style={styles.quickGrid}>
-            <ActionTile icon="albums-outline" label={c.drawTarot} detail="Tarot" onPress={() => onTarot()} />
-            <ActionTile icon="chatbubble-outline" label="Oracle" detail={language === "vi" ? "Nilaza Oracle" : "Nilaza Oracle"} onPress={onChat} />
+            <ActionTile icon="albums-outline" label={c.drawTarot} detail={language === "vi" ? "Trải bài" : "Tarot"} onPress={() => onTarot()} />
+            <ActionTile icon="chatbubble-outline" label={language === "vi" ? "Trò chuyện" : "Chat"} detail="Nilaza Oracle" onPress={onChat} />
           </View>
         </View>
-      ) : visibleEntries.length === 0 ? (
-        <View style={styles.empty}>
-          {journalSearchQuery ? (
-            <>
-              <Text style={styles.emptyTitle}>{language === "vi" ? "Không tìm thấy nội dung phù hợp" : "No saved insight matches this search"}</Text>
-              <Text style={styles.muted}>{language === "vi" ? "Thử từ khóa, nguồn, cảm xúc hoặc ghi chú khác." : "Try another word, source, mood, or private note."}</Text>
-            </>
-          ) : null}
-          <Text style={styles.emptyTitle}>{language === "vi" ? "Chưa có mục phù hợp" : "No matching entries"}</Text>
-          <Text style={styles.muted}>{language === "vi" ? "Đổi bộ lọc hoặc thêm ghi chú riêng vào một insight đã lưu." : "Change the filter or add a private note to a saved insight."}</Text>
-        </View>
-      ) : (
-        visibleEntries.map((entry) => (
-          <JournalCard
-            key={entry.id}
-            entry={entry}
-            language={language}
-            onPress={() => {
-              setSelectedEntryId(entry.id);
-              setDraftNote(journalDraftNoteFor(entry));
-            }}
-          />
-        ))
       )}
-    </View>
+    />
   );
 }
 
 function ProfileScreen({
   c,
+  signLabel,
+  memberSince,
+  readingsCount,
+  dailyReminder,
+  onDailyReminderChange,
+  onDeleteAccount,
   birthDate,
   birthPlace,
   birthTime,
@@ -9613,10 +8374,16 @@ function ProfileScreen({
   onSignOut: () => void;
   onToggleNotificationPreference: (channel: NotificationPreference["channel"], type: NotificationType, enabled: boolean) => void;
   onReset: () => void;
+  signLabel?: string;
+  memberSince?: string;
+  readingsCount: number;
+  dailyReminder: DailyReminder;
+  onDailyReminderChange: (next: DailyReminder) => void;
+  onDeleteAccount: () => Promise<string | null>;
 }) {
   const currentTone = tones.find((tone) => tone.id === profile.tone);
   const annualPriceMath = getAnnualPriceHypothesisMath();
-  const [profileSection, setProfileSection] = useState<"overview" | "identity" | "birth" | "preferences" | "privacy" | "notifications" | "premium" | "account">("overview");
+  const [profileSection, setProfileSection] = useState<"overview" | "identity" | "birth" | "preferences" | "privacy" | "notifications" | "premium" | "account" | "deleteAccount">("overview");
   const hasBirthProfile = Boolean(birthDate || birthTime || birthPlace || birthTimeUnknown);
   const birthTimeLabel = birthTimeUnknown || !birthTime ? c.unknownBirthTime : birthTime;
   const selectedGoals = goals.filter((goal) => profile.goals.includes(goal.id));
@@ -9633,8 +8400,8 @@ function ProfileScreen({
           profileReady: "Hồ sơ đã sẵn sàng",
           profileHint: "Tối ưu cách Nilaza xưng hô, gợi ý người dẫn đường, Tarot và Nhật ký.",
           displayName: "Tên hiển thị",
-          displayNameHint: "Tên này dùng trong lời chào, trò chuyện với guide và lời nhắc Nhật ký.",
-          savedLocal: "Tự lưu trên thiết bị và đồng bộ khi backend sẵn sàng.",
+          displayNameHint: "Tên này dùng trong lời chào, khi trò chuyện với người dẫn và trong lời nhắc Nhật ký.",
+          savedLocal: "Tự lưu trên thiết bị và đồng bộ khi có kết nối.",
           birthSection: "Hồ sơ ngày sinh",
           birthBody: "Dùng cho chiêm tinh khi bạn chủ động mở tính năng đó. Có thể để trống hoặc xóa riêng bất cứ lúc nào.",
           notSet: "Chưa nhập",
@@ -9717,61 +8484,44 @@ function ProfileScreen({
     privacy: profileLabels.privacySection,
     notifications: language === "vi" ? "Thông báo" : "Notifications",
     premium: profileLabels.subscription,
-    account: profileLabels.accountSection
+    account: profileLabels.accountSection,
+    deleteAccount: language === "vi" ? "Xóa tài khoản" : "Delete account"
   };
 
   return (
     <View style={styles.profileScreen}>
       {profileSection === "overview" ? (
-        <TopBar title={profileLabels.title} />
+        <ProfileHome
+          language={language}
+          name={profile.nickname}
+          signLabel={signLabel}
+          memberSince={memberSince}
+          stats={{ streak: profile.currentStreak, journal: journalCount, readings: readingsCount }}
+          goals={selectedGoals.map((goal) => localizedText(goal, language)).join(", ") || profileLabels.notSet}
+          tone={currentTone ? localizedText(currentTone, language) : profile.tone}
+          birth={birthDate || profileLabels.notSet}
+          languageLabel={language === "vi" ? "Tiếng Việt" : "English"}
+          reminder={dailyReminder}
+          onReminderChange={onDailyReminderChange}
+          onEdit={() => setProfileSection("identity")}
+          onPreferences={() => setProfileSection("preferences")}
+          onBirth={() => setProfileSection("birth")}
+          onNotifications={() => setProfileSection("notifications")}
+          onPrivacy={() => setProfileSection("privacy")}
+          onUsage={() => setProfileSection("premium")}
+          onAccount={() => setProfileSection("account")}
+          onHelp={() => { void Linking.openURL(nilazaHelpUrlFor(language)).catch(() => undefined); }}
+          onLegal={() => { void Linking.openURL(nilazaLegalUrlFor("terms", language)).catch(() => undefined); }}
+          onSignOut={onSignOut}
+          onAdmin={isAdmin ? onAdmin : undefined}
+          onDeleteAccount={accountDeleteLive ? () => setProfileSection("deleteAccount") : undefined}
+          version={appConfig.expo.version}
+        />
       ) : (
         <SubflowTopBar title={detailTitles[profileSection]} onLeft={() => setProfileSection("overview")} />
       )}
 
-      <View style={[styles.profileHeroCard, profileSection !== "overview" && styles.hidden]}>
-        <View style={styles.profileHeroTop}>
-          <View style={styles.profileAvatar}>
-            <Text style={styles.profileAvatarText}>{profile.nickname.slice(0, 1).toUpperCase()}</Text>
-          </View>
-          <View style={styles.profileHeroCopy}>
-            <Text style={styles.profileTier}>{profileLabels.tier}</Text>
-            <Text style={styles.profileName}>{profile.nickname}</Text>
-            <Text style={styles.profileHeroText}>{profileLabels.profileHint}</Text>
-          </View>
-        </View>
-        <View style={styles.profileQuickStats}>
-          <View style={styles.profileQuickStat}>
-            <Text style={styles.profileQuickValue}>{profile.currentStreak}</Text>
-            <Text style={styles.profileQuickLabel}>{profileLabels.streak}</Text>
-          </View>
-          <View style={styles.profileQuickStat}>
-            <Text style={styles.profileQuickValue}>{selectedGoals.length}</Text>
-            <Text style={styles.profileQuickLabel}>{profileLabels.goals}</Text>
-          </View>
-          <View style={styles.profileQuickStat}>
-            <Text style={styles.profileQuickValue}>{localDataCount}</Text>
-            <Text style={styles.profileQuickLabel}>{profileLabels.data}</Text>
-          </View>
-        </View>
-      </View>
-
-      <View style={[styles.profileSection, profileSection !== "overview" && styles.hidden]}>
-        <View style={styles.profileSectionHeader}>
-          <View style={styles.profileHeaderCopy}>
-            <Text style={styles.profileSectionEyebrow}>{language === "vi" ? "Điều chỉnh theo nhu cầu" : "Tune your space"}</Text>
-            <Text style={styles.profileSectionTitle}>{language === "vi" ? "Chọn một mục để xem chi tiết" : "Choose a section to see details"}</Text>
-          </View>
-        </View>
-        <View style={styles.profileActionGrid}>
-          <ProfileActionButton icon="person-outline" title={language === "vi" ? "Danh tính & ngôn ngữ" : "Identity & language"} detail={profile.nickname} onPress={() => setProfileSection("identity")} />
-          <ProfileActionButton icon="calendar-outline" title={profileLabels.birthSection} detail={hasBirthProfile ? profileLabels.birthSet : c.skipBirth} onPress={() => setProfileSection("birth")} />
-          <ProfileActionButton icon="sparkles-outline" title={profileLabels.preferences} detail={selectedGoals.length ? `${selectedGoals.length} ${language === "vi" ? "ý định" : "intentions"}` : profileLabels.notSet} onPress={() => setProfileSection("preferences")} />
-          <ProfileActionButton icon="notifications-outline" title={language === "vi" ? "Thông báo" : "Notifications"} detail={`${unreadNotificationCount} ${language === "vi" ? "chưa đọc" : "unread"}`} onPress={() => setProfileSection("notifications")} />
-          <ProfileActionButton icon="shield-checkmark-outline" title={profileLabels.privacySection} detail={`${localDataCount} ${language === "vi" ? "mục dữ liệu local" : "local data items"}`} onPress={() => setProfileSection("privacy")} />
-          <ProfileActionButton icon="diamond-outline" title={profileLabels.subscription} detail={`${creditBalance} ${c.credits}`} onPress={() => setProfileSection("premium")} />
-          <ProfileActionButton icon="settings-outline" title={profileLabels.accountSection} detail={profile.nickname} onPress={() => setProfileSection("account")} />
-        </View>
-      </View>
+      {profileSection === "deleteAccount" ? <DeleteAccountPanel language={language} onDelete={onDeleteAccount} /> : null}
 
       <View style={[styles.profileSection, profileSection !== "identity" && styles.hidden]}>
         <View style={styles.profileSectionHeader}>
@@ -10104,611 +8854,6 @@ function ProfileScreen({
   );
 }
 
-function AdminScreen({
-  activeView,
-  auditResult,
-  devicePushRegistration,
-  inAppNotifications,
-  language,
-  messages,
-  notificationPreferences,
-  promptDrafts,
-  recordEvent,
-  safetyEvents,
-  generatedArtifacts,
-  setActiveView,
-  setAuditResult,
-  setPromptDrafts,
-  unreadNotificationCount,
-  usageEvents,
-  onCreateTestNotification,
-  onBack,
-  onReviewSafety
-}: {
-  activeView: AdminView;
-  auditResult: ReturnType<typeof buildLocalAudit> | null;
-  devicePushRegistration: DevicePushRegistration | null;
-  inAppNotifications: InAppNotification[];
-  language: Language;
-  messages: ChatMessage[];
-  notificationPreferences: NotificationPreference[];
-  promptDrafts: PromptDraft[];
-  recordEvent: (name: string, metadata?: UsageEvent["metadata"]) => void;
-  safetyEvents: SafetyEvent[];
-  generatedArtifacts: GeneratedArtifact[];
-  setActiveView: (view: AdminView) => void;
-  setAuditResult: (result: ReturnType<typeof buildLocalAudit>) => void;
-  setPromptDrafts: (updater: (current: PromptDraft[]) => PromptDraft[]) => void;
-  unreadNotificationCount: number;
-  usageEvents: UsageEvent[];
-  onCreateTestNotification: () => void;
-  onBack: () => void;
-  onReviewSafety: (id: string) => void;
-}) {
-  const tarotEvents = usageEvents.filter((event) => event.name === "tarot_reading_drawn").length;
-  const councilEvents = usageEvents.filter((event) => event.name === "ai_council_turn_created").length;
-  const failedJobs = mockJobs.filter((job) => job.status === "failed").length;
-  const activePrompts = promptLibrary.filter((prompt) => prompt.status === "active").length;
-  const openSafetyEvents = safetyEvents.filter((event) => event.status === "open").length;
-  const activeArtifacts = generatedArtifacts.filter((artifact) => artifact.visibility !== "deleted").length;
-  const pushPreferenceCount = notificationPreferences.filter((preference) => preference.channel === "push" && preference.enabled).length;
-  const dismissedNotificationCount = inAppNotifications.filter((notification) => notification.status === "dismissed").length;
-  const labels =
-    language === "vi"
-      ? {
-          title: "Admin Dashboard",
-          synced: "Local",
-          backend: "Backend chưa kết nối",
-          connected: "Not connected",
-          healthy: "Local OK",
-          runAudit: "Chạy audit local",
-          noRaw: "Không hiện nội dung chat/journal raw. Chỉ dùng ID, summary và status.",
-          configFlow: "Luồng quản lý hiện tại",
-          configFlowBody: "Seed JSON -> validate-data -> Expo review. Khi lên production, các bảng Supabase sẽ thay JSON nhưng vẫn giữ id/slug ổn định, version prompt và audit log.",
-          dataSources: "Nguồn dữ liệu",
-          slugAudit: "Slug và đa ngôn ngữ",
-          viEnReady: "VI/EN sẵn sàng",
-          futureLocales: "Locale quốc tế",
-          slugHealth: "Slug health",
-          keyRule: "Quy tắc khóa",
-          recommendation: "Khuyến nghị cấu trúc",
-          promptDrafts: "Prompt draft local",
-          editingLanguage: "Đang sửa ngôn ngữ",
-          noSafetyEvents: "Chưa có report safety nào.",
-          markReviewed: "Đánh dấu đã review"
-        }
-      : {
-          title: "Admin Dashboard",
-          synced: "Local",
-          backend: "Backend not connected",
-          connected: "Not connected",
-          healthy: "Local OK",
-          runAudit: "Run local audit",
-          noRaw: "No raw chat/journal content. Use IDs, summaries, and status only.",
-          configFlow: "Current management flow",
-          configFlowBody: "Seed JSON -> validate-data -> Expo review. In production, Supabase tables should replace JSON while keeping stable ids/slugs, prompt versions, and audit logs.",
-          dataSources: "Data sources",
-          slugAudit: "Slug and localization",
-          viEnReady: "VI/EN ready",
-          futureLocales: "Global locales",
-          slugHealth: "Slug health",
-          keyRule: "Key rule",
-          recommendation: "Structure recommendation",
-          promptDrafts: "Local prompt drafts",
-          editingLanguage: "Editing language",
-          noSafetyEvents: "No safety reports yet.",
-          markReviewed: "Mark reviewed"
-        };
-
-  return (
-    <View>
-      <View style={styles.subTopBarInline}>
-        <Pressable onPress={onBack}>
-          <Text style={styles.backText}>{"<"} Back</Text>
-        </Pressable>
-        <Text style={styles.subTopTitle}>{labels.title}</Text>
-      </View>
-      <View style={styles.adminStatusPill}>
-        <Ionicons name="radio-button-on" size={14} style={styles.adminStatusDot} />
-        <Text style={styles.badge}>{labels.synced}</Text>
-      </View>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.horizontal}>
-        <View style={styles.chipRail}>
-          {adminViews.map((view) => (
-            <Chip
-              key={view.id}
-              active={activeView === view.id}
-              label={localizedText(view, language)}
-              onPress={() => {
-                setActiveView(view.id);
-                recordEvent("admin_view_opened", { view: view.id });
-              }}
-            />
-          ))}
-        </View>
-      </ScrollView>
-
-      {activeView === "dashboard" && (
-        <View>
-          <Text style={styles.sectionKicker}>System Health</Text>
-          <View style={styles.healthPanel}>
-            <StatusLine label="Model API" status="120ms" tone="good" />
-            <StatusLine label="Astrology API" status={labels.connected} tone="warn" />
-            <StatusLine label="Queue Health" status="2 pending" tone="good" />
-          </View>
-          <View style={styles.metricGrid}>
-            <MiniStat label="Tarot" value={String(tarotEvents)} />
-            <MiniStat label="Chat" value={String(messages.length)} />
-            <MiniStat label="Council" value={String(councilEvents)} />
-            <MiniStat label="Sources" value={String(contentSources.length)} />
-            <MiniStat label="Prompt drafts" value={String(promptDrafts.length)} />
-            <MiniStat label="Artifacts" value={String(activeArtifacts)} />
-            <MiniStat label="Safety" value={String(openSafetyEvents)} />
-            <MiniStat label="Slug issues" value={String(invalidSlugCount + duplicateKeyCount)} />
-            <MiniStat label="Failed jobs" value={String(failedJobs)} />
-          </View>
-          <View style={styles.panel}>
-            <Text style={styles.cardTitle}>{labels.configFlow}</Text>
-            <Text style={styles.cardDescription}>{labels.configFlowBody}</Text>
-          </View>
-          <Text style={styles.sectionKicker}>{labels.dataSources}</Text>
-          {contentSourceSummaries.slice(0, 3).map((source) => (
-            <DataSourceRow key={source.id} source={source} language={language} />
-          ))}
-          {mockJobs.map((job) => <JobRow key={job.id} job={job} />)}
-          <View style={styles.panel}>
-            <Text style={styles.body}>{localizedText(adminMetrics.backendStatus, language)}</Text>
-          </View>
-        </View>
-      )}
-
-      {activeView === "prompts" && (
-        <View>
-          <View style={styles.panel}>
-            <Text style={styles.cardTitle}>{activePrompts} active prompt versions</Text>
-            <Text style={styles.disclaimer}>{language === "vi" ? "Cần giữ safety disclaimer trước khi publish." : "Keep safety disclaimers before publishing."}</Text>
-            <StatusLine label={labels.editingLanguage} status={language} tone="neutral" />
-            <StatusLine label="Stored as" status="local draft" tone="warn" />
-          </View>
-          {promptDrafts.map((draft) => {
-            const meta = promptLibrary.find((prompt) => prompt.id === draft.id);
-            return (
-              <View key={draft.id} style={styles.panel}>
-                <View style={styles.rowBetween}>
-                  <Text style={styles.cardTitle}>{localizedText(meta?.name, language, draft.id)}</Text>
-                  <StatusChip label={meta?.status ?? "draft"} tone={meta?.status === "active" ? "good" : "warn"} />
-                </View>
-                <View style={styles.metaRail}>
-                  <Text style={styles.badge}>{draft.version}</Text>
-                  <Text style={styles.badge}>{draft.feature}</Text>
-                </View>
-                <Text style={styles.sourcePath}>{language === "vi" ? "Reviewer" : "Reviewers"}: {(meta?.approvalRequired ?? []).join(", ")}</Text>
-                <TextInput
-                  value={localizedText(draft.content, language)}
-                  onChangeText={(text) => {
-                    setPromptDrafts((current) =>
-                      current.map((item) =>
-                        item.id === draft.id
-                          ? { ...item, content: { ...item.content, [language]: text }, updatedAt: new Date().toISOString() }
-                          : item
-                      )
-                    );
-                    recordEvent("prompt_draft_edited", { promptId: draft.id, language });
-                  }}
-                  multiline
-                  placeholderTextColor={colors.moon}
-                  style={[styles.input, styles.promptInput]}
-                />
-                <Text style={styles.sourcePath}>
-                  {language === "vi" ? "Cập nhật local" : "Local updated"}: {new Date(draft.updatedAt).toLocaleString()}
-                </Text>
-              </View>
-            );
-          })}
-        </View>
-      )}
-
-      {activeView === "content" && (
-        <View>
-          <View style={styles.panel}>
-            <Text style={styles.cardTitle}>{labels.dataSources}</Text>
-            <Text style={styles.cardDescription}>
-              {language === "vi"
-                ? "Mỗi nguồn có file seed hiện tại, chủ sở hữu vận hành, loại khóa và hành động admin cần hỗ trợ."
-                : "Each source shows the current seed file, operational owner, key strategy, and admin action to support."}
-            </Text>
-          </View>
-          {contentSourceSummaries.map((source) => (
-            <DataSourceRow key={source.id} source={source} language={language} expanded />
-          ))}
-          <Text style={styles.sectionKicker}>{language === "vi" ? "Bản ghi mẫu" : "Sample records"}</Text>
-          {[...personas.slice(0, 3), ...decks.slice(0, 2)].map((item: any) => (
-            <View key={item.id} style={styles.contentRow}>
-              <View style={styles.flex}>
-                <Text style={styles.agentName}>{localizedText(item.name, language)}</Text>
-                <Text style={styles.muted}>{item.slug ?? item.id}</Text>
-                <Text style={styles.sourcePath}>{item.type ?? item.theme?.join(", ")}</Text>
-              </View>
-              <StatusChip label={item.accessTier ?? "free"} tone={item.accessTier === "premium" ? "warn" : "good"} />
-            </View>
-          ))}
-        </View>
-      )}
-
-      {activeView === "localization" && (
-        <View>
-          <View style={styles.metricGrid}>
-            <MiniStat label={labels.viEnReady} value={formatRatio(totalViEnReady, totalLocalizedRecords)} />
-            <MiniStat label={labels.futureLocales} value={`${futureLocaleGaps} gaps`} />
-            <MiniStat label={labels.slugHealth} value={invalidSlugCount + duplicateKeyCount === 0 ? "OK" : "Fix"} />
-            <MiniStat label="Locales" value={managedLanguages.length.toString()} />
-          </View>
-          <View style={styles.panel}>
-            <Text style={styles.cardTitle}>{labels.keyRule}</Text>
-            <Text style={styles.cardDescription}>
-              {language === "vi"
-                ? "Giữ id là khóa kỹ thuật bất biến. Dùng slug ASCII lowercase cho route, tìm kiếm và admin. Khi mở public web nhiều quốc gia, thêm localizedSlug theo locale nhưng không đổi id."
-                : "Keep id as the immutable technical key. Use ASCII lowercase slug for routes, search, and admin. When launching multilingual public web pages, add localizedSlug per locale without changing id."}
-            </Text>
-          </View>
-          {contentSourceSummaries.map((source) => (
-            <LocaleAuditRow key={source.id} source={source} language={language} />
-          ))}
-          <View style={styles.panel}>
-            <Text style={styles.cardTitle}>{labels.recommendation}</Text>
-            <Text style={styles.cardDescription}>
-              {language === "vi"
-                ? "Cấu trúc hiện tại phù hợp cho MVP quốc tế ở mức nền tảng vì slug ổn định, không dấu, không trùng. Chưa đủ để launch đa quốc gia vì zh-Hans/ja/ko mới là lựa chọn UI bị khóa, chưa có bản dịch nội dung seed."
-                : "The current structure is a good international MVP foundation because slugs are stable, ASCII-only, and unique. It is not launch-ready for global locales yet because zh-Hans/ja/ko are disabled UI choices and seed content is not translated."}
-            </Text>
-          </View>
-        </View>
-      )}
-
-      {activeView === "jobs" && (
-        <View>
-          {mockJobs.map((job) => <JobRow key={job.id} job={job} />)}
-          {generatedArtifacts.slice(0, 4).map((artifact) => (
-            <View key={artifact.id} style={styles.panel}>
-              <View style={styles.rowBetween}>
-                <Text style={styles.cardTitle}>{artifact.artifactType}</Text>
-                <StatusChip label={artifact.visibility} tone={artifact.visibility === "private" ? "warn" : "good"} />
-              </View>
-              <Text style={styles.sourcePath}>{artifact.sourceType} / {artifact.sourceId}</Text>
-            </View>
-          ))}
-          <View style={styles.panel}>
-            <StatusLine label="Expo Push Token" status={labels.connected} tone="neutral" />
-            <StatusLine label="Delivery receipts" status="0" tone="neutral" />
-            <StatusLine label="Invalid tokens" status="0" tone="good" />
-            <Text style={styles.disclaimer}>{labels.noRaw}</Text>
-          </View>
-        </View>
-      )}
-
-      {activeView === "notifications" && (
-        <View>
-          <View style={styles.metricGrid}>
-            <MiniStat label="Unread" value={String(unreadNotificationCount)} />
-            <MiniStat label="Inbox" value={String(inAppNotifications.filter((item) => item.status !== "dismissed").length)} />
-            <MiniStat label="Push opts" value={String(pushPreferenceCount)} />
-            <MiniStat label="Dismissed" value={String(dismissedNotificationCount)} />
-          </View>
-          <View style={styles.panel}>
-            <Text style={styles.cardTitle}>Notification Operations</Text>
-            <Text style={styles.cardDescription}>
-              {language === "vi"
-                ? "Trang thai local/staging cho in-app inbox va Expo push. Khong hien raw chat, journal, birth data hay cau hoi tarot."
-                : "Local/staging status for in-app inbox and Expo push. No raw chat, journal, birth data, or tarot questions are shown."}
-            </Text>
-            <StatusLine label="Provider" status="Expo Push Service v1" tone="neutral" />
-            <StatusLine label="Permission" status={devicePushRegistration?.permissionStatus ?? "unknown"} tone={devicePushRegistration?.permissionStatus === "granted" ? "good" : "warn"} />
-            <StatusLine label="Expo Push Token" status={devicePushRegistration?.expoPushToken ? "registered" : "not registered"} tone={devicePushRegistration?.expoPushToken ? "good" : "neutral"} />
-            <StatusLine label="Delivery receipts" status="backend contract ready" tone="neutral" />
-            <StatusLine label="Invalid tokens" status="tracked by receipts" tone="good" />
-            <PrimaryButton label={language === "vi" ? "Create safe test notification" : "Create safe test notification"} onPress={onCreateTestNotification} />
-          </View>
-          {inAppNotifications.slice(0, 5).map((notification) => (
-            <View key={`admin-${notification.id}`} style={styles.panel}>
-              <View style={styles.rowBetween}>
-                <Text style={styles.cardTitle}>{localizedText(notification.title, language)}</Text>
-                <StatusChip label={notification.status} tone={notification.status === "unread" ? "warn" : "neutral"} />
-              </View>
-              <Text style={styles.cardDescription}>{localizedText(notification.body, language)}</Text>
-              <Text style={styles.sourcePath}>{notification.type} / {notification.targetRoute ?? "home"} / {new Date(notification.createdAt).toLocaleString()}</Text>
-            </View>
-          ))}
-        </View>
-      )}
-
-      {activeView === "safety" && (
-        <View>
-          <View style={styles.metricGrid}>
-            <MiniStat label="Open" value={String(openSafetyEvents)} />
-            <MiniStat label="Reviewed" value={String(safetyEvents.length - openSafetyEvents)} />
-            <MiniStat label="Rules" value={String((safetyRules.blockedTopics ?? []).length)} />
-            <MiniStat label="Fallbacks" value={Object.keys(safetyRules.safeFallbacks ?? {}).length.toString()} />
-          </View>
-          <PrimaryButton
-            label={labels.runAudit}
-            onPress={() => {
-              const result = buildLocalAudit(language);
-              setAuditResult(result);
-              recordEvent("local_audit_run", { pending: result.pending.length });
-            }}
-          />
-          {auditResult && (
-            <View style={styles.panel}>
-              <Text style={styles.body}>{auditResult.summary}</Text>
-              <Text style={styles.kicker}>Passed</Text>
-              {auditResult.passed.map((item) => <Text key={item} style={styles.cardDescription}>+ {item}</Text>)}
-              <Text style={styles.kicker}>Pending</Text>
-              {auditResult.pending.map((item) => <Text key={item} style={styles.disclaimer}>- {item}</Text>)}
-            </View>
-          )}
-          <Text style={styles.sectionKicker}>{getCopy(language).safetyEvents}</Text>
-          {safetyEvents.length === 0 ? (
-            <View style={styles.empty}>
-              <Text style={styles.emptyTitle}>{labels.noSafetyEvents}</Text>
-              <Text style={styles.muted}>{labels.noRaw}</Text>
-            </View>
-          ) : (
-            safetyEvents.map((event) => (
-              <View key={event.id} style={styles.panel}>
-                <View style={styles.rowBetween}>
-                  <Text style={styles.cardTitle}>{event.feature} / {event.reason}</Text>
-                  <StatusChip label={event.status} tone={event.status === "open" ? "warn" : "good"} />
-                </View>
-                <Text style={styles.sourcePath}>{new Date(event.createdAt).toLocaleString()} | {event.sourceId ?? "no-source"}</Text>
-                <Text style={styles.cardDescription}>{event.summary || labels.noRaw}</Text>
-                {event.status === "open" && (
-                  <SecondaryButton label={labels.markReviewed} onPress={() => onReviewSafety(event.id)} />
-                )}
-              </View>
-            ))
-          )}
-        </View>
-      )}
-    </View>
-  );
-}
-
-function FeatureHero({
-  language,
-  onLearnTarot,
-  onStartReading
-}: {
-  language: Language;
-  onLearnTarot: () => void;
-  onStartReading: () => void;
-}) {
-  const wide = useAdaptiveLayout().layoutMode !== "compact";
-  return (
-    <View style={[styles.featureHero, wide && styles.featureHeroWide]}>
-      <Image source={getFeatureVisual("tarot")} style={[styles.featureHeroImage, wide && styles.featureHeroImageWide]} resizeMode="contain" />
-      {!wide && <View style={styles.featureHeroShade} />}
-      <View style={[styles.featureHeroContent, wide && styles.featureHeroContentWide]}>
-        <Ionicons name="albums-outline" size={24} style={styles.featureIcon} />
-        <Text style={styles.featureTitle}>{language === "vi" ? "Trải bài Tarot" : "Tarot reading"}</Text>
-        <Text style={styles.featureDetail}>
-          {language === "vi"
-            ? "Đặt ý định, chọn độ sâu trải bài, rồi chọn bộ bài hợp với câu hỏi của bạn."
-            : "Set an intention, choose the spread depth, then select the deck that fits your question."}
-        </Text>
-        <View style={styles.heroActionRow}>
-          <Pressable accessibilityRole="button" style={styles.heroPrimaryAction} onPress={onStartReading}>
-            <Text style={styles.heroPrimaryActionText}>{language === "vi" ? "Bắt đầu trải bài" : "Start reading"}</Text>
-          </Pressable>
-          <Pressable accessibilityRole="button" style={styles.heroSecondaryAction} onPress={onLearnTarot}>
-            <Text style={styles.heroSecondaryActionText}>{language === "vi" ? "Học Tarot" : "Learn Tarot"}</Text>
-          </Pressable>
-        </View>
-      </View>
-    </View>
-  );
-}
-
-function VisualFeatureCard({
-  badge,
-  detail,
-  disabled,
-  full,
-  icon,
-  imageSource,
-  label,
-  muted,
-  onPress
-}: {
-  badge?: string;
-  detail: string;
-  disabled?: boolean;
-  full?: boolean;
-  icon: keyof typeof Ionicons.glyphMap;
-  imageSource: ImageSourcePropType;
-  label: string;
-  muted?: boolean;
-  onPress?: () => void;
-}) {
-  const adaptive = useAdaptiveLayout();
-  // React Native Web keeps the source image's intrinsic height unless an
-  // explicit frame height is supplied.  The feature artwork is authored at
-  // 16:10, so derive the frame from the available content width instead of
-  // allowing a 640px intrinsic height to stretch each Explore card.
-  const availableWidth = Math.max(
-    0,
-    Math.min(
-      adaptive.contentMaxWidth,
-      adaptive.width - (adaptive.navMode === "rail" ? adaptive.navigationSize : 0) - adaptive.gutter * 2
-    )
-  );
-  const columns = Math.max(1, Math.min(2, Math.floor((availableWidth + spacing.md) / (240 + spacing.md))));
-  const featureCardWidth = columns > 1 ? (availableWidth - spacing.md * (columns - 1)) / columns : availableWidth;
-  const imageHeight = full ? 65 : Math.max(160, Math.round(featureCardWidth * (5 / 8)));
-  const content = (
-    <>
-      <Image
-        source={imageSource}
-        style={[
-          styles.visualFeatureImage,
-          full && styles.visualFeatureFullImage,
-          { height: imageHeight }
-        ]}
-        resizeMode="contain"
-      />
-      <View style={styles.visualFeatureContent}>
-        <View style={styles.visualFeatureIcon}>
-          <Ionicons name={icon} size={16} color={colors.charcoal} />
-        </View>
-        {badge ? <Text style={styles.visualFeatureBadge}>{badge}</Text> : null}
-        <Text style={styles.visualFeatureTitle}>{label}</Text>
-        <Text style={styles.visualFeatureDetail}>{detail}</Text>
-      </View>
-    </>
-  );
-
-  const cardStyle = [styles.visualFeatureCard, full && styles.visualFeatureCardFull, muted && styles.visualFeatureCardMuted];
-
-  if (disabled || !onPress) {
-    return (
-      <View accessibilityLabel={`${label}: ${badge ?? detail}`} accessibilityState={{ disabled: true }} style={cardStyle}>
-        {content}
-      </View>
-    );
-  }
-
-  return (
-    <Pressable
-      accessibilityRole="button"
-      style={cardStyle}
-      onPress={onPress}
-    >
-      {content}
-    </Pressable>
-  );
-}
-
-function ExploreSearchResultCard({ language, result }: { language: Language; result: ExploreSearchResult }) {
-  const kindLabel: Record<ExploreSearchResultKind, string> = {
-    experience: language === "vi" ? "Trải nghiệm" : "Experience",
-    deck: language === "vi" ? "Bộ bài" : "Deck",
-    guide: "Guide"
-  };
-
-  return (
-    <Pressable
-      accessibilityLabel={`${kindLabel[result.kind]}: ${result.title}`}
-      accessibilityRole="button"
-      disabled={result.disabled}
-      style={[styles.searchResultCard, result.disabled && styles.searchResultCardDisabled]}
-      onPress={result.onPress}
-    >
-      {result.imageSource ? (
-        <Image source={result.imageSource} style={styles.searchResultImage} resizeMode="cover" />
-      ) : (
-        <View style={styles.searchResultIcon}>
-          <Ionicons name={result.icon} size={20} color={colors.gold} />
-        </View>
-      )}
-      <View style={styles.flex}>
-        <View style={styles.searchResultMetaRow}>
-          <Text style={styles.searchResultKind}>{kindLabel[result.kind]}</Text>
-          <Text style={styles.searchResultMeta}>{result.meta}</Text>
-        </View>
-        <Text style={styles.searchResultTitle}>{result.title}</Text>
-        <Text style={styles.searchResultDetail}>{result.detail}</Text>
-      </View>
-      {result.disabled ? (
-        <Text style={styles.searchResultPreview}>Preview</Text>
-      ) : (
-        <Ionicons name="arrow-forward-outline" size={18} color={colors.gold} />
-      )}
-    </Pressable>
-  );
-}
-
-function PersonaFeature({ persona, language, onPress }: { persona: Persona; language: Language; onPress: () => void }) {
-  const name = localizedText(persona.name, language);
-  const signature = personaVisualSignature(persona, language);
-  return (
-    <Pressable style={styles.personaFeature} onPress={onPress}>
-      <View style={styles.featureAvatar}>
-        <Image source={getPersonaThumbnail(persona)} style={styles.featureAvatarImage} resizeMode="cover" />
-      </View>
-      <View style={styles.flex}>
-        <Text style={styles.cardTitle}>{name}</Text>
-        <Text style={styles.personaSignature}>{signature}</Text>
-        <Text style={styles.cardDescription}>{localizedText(persona.shortDescription, language)}</Text>
-      </View>
-      <Text style={styles.arrowButton}>{">"}</Text>
-    </Pressable>
-  );
-}
-
-function PersonaCard({ featured, locked, persona, language, onPress }: { featured?: boolean; locked?: boolean; persona: Persona; language: Language; onPress: () => void }) {
-  const [expanded, setExpanded] = useState(false);
-  const name = localizedText(persona.name, language);
-  const role = personaRoleLabel(persona, language);
-  const traits = personaTraitPreview(persona, language);
-  const promptList = localizedList(persona.suggestedPrompts, language);
-  const promptPreview = promptList[0];
-  const signature = personaVisualSignature(persona, language);
-  const description = localizedText(persona.shortDescription, language);
-  const extraPrompts = promptList.slice(1, 3);
-  const hasExpandableContent = description.length > 120 || promptList.length > 1 || (promptPreview?.length ?? 0) > 92;
-  return (
-    <View style={[styles.personaCard, featured && styles.personaCardFeatured]}>
-      <View style={[styles.avatar, { borderColor: persona.portrait.colors[1] ?? colors.gold }]}>
-        <Image source={getPersonaThumbnail(persona)} style={styles.avatarImage} resizeMode="cover" />
-      </View>
-      <View style={styles.flex}>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={language === "vi" ? `Mở giới thiệu ${name}` : `Open ${name}'s introduction`}
-          onPress={onPress}
-          style={styles.personaCardContent}
-        >
-          <View style={styles.rowBetween}>
-            <Text style={styles.cardTitle}>{name}</Text>
-            {locked ? <Text style={styles.badge}>{language === "vi" ? "Sắp ra mắt" : "Coming soon"}</Text> : null}
-          </View>
-          <Text style={styles.cardRole}>{role}</Text>
-          <Text style={styles.personaSignature}>{signature}</Text>
-          <View style={styles.traitRail}>
-            {traits.map((trait) => (
-              <Text key={trait} style={styles.traitPill}>{trait}</Text>
-            ))}
-          </View>
-          <Text ellipsizeMode="tail" numberOfLines={expanded ? undefined : 3} style={styles.cardDescription}>{description}</Text>
-          {promptPreview ? (
-            <View style={styles.promptPreviewRow}>
-              <Ionicons name="chatbubble-ellipses-outline" size={15} color={colors.gold} />
-              <Text ellipsizeMode="tail" numberOfLines={expanded ? undefined : 2} style={styles.promptPreviewText}>{promptPreview}</Text>
-            </View>
-          ) : null}
-          {expanded && extraPrompts.length > 0 ? (
-            <View style={styles.extraPromptList}>
-              {extraPrompts.map((prompt) => (
-                <Text key={prompt} style={styles.extraPromptText}>- {prompt}</Text>
-              ))}
-            </View>
-          ) : null}
-        </Pressable>
-        {hasExpandableContent ? (
-          <Pressable
-            accessibilityRole="button"
-            accessibilityState={{ expanded }}
-            onPress={() => setExpanded((value) => !value)}
-            style={styles.personaCardToggle}
-          >
-            <Text style={styles.personaCardToggleText}>{expanded ? (language === "vi" ? "Thu gọn" : "Show less") : (language === "vi" ? "Mở rộng" : "Show more")}</Text>
-            <Ionicons name={expanded ? "chevron-up-outline" : "chevron-down-outline"} size={14} color={colors.gold} />
-          </Pressable>
-        ) : null}
-      </View>
-    </View>
-  );
-}
-
 function TarotGuideSelector({
   deck,
   language,
@@ -10780,40 +8925,6 @@ function TarotGuideSelector({
           : "Change the guide to change the lens; the reading stays reflective, not a fixed conclusion."}
       </Text>
     </View>
-  );
-}
-
-function DeckCard({ deck, imageSource, language, locked, selected, onPress }: { deck: TarotDeck; imageSource: ImageSourcePropType; language: Language; locked?: boolean; selected: boolean; onPress: () => void }) {
-  const name = localizedText(deck.name, language);
-  const vibe = localizedText(deck.vibe, language);
-  const description = localizedText(deck.shortDescription, language);
-  const actionLabel = language === "vi" ? "Tìm hiểu trước khi rút" : "Learn before drawing";
-  const tierLabel = locked ? (language === "vi" ? "Sắp ra mắt" : "Coming soon") : (language === "vi" ? "Đã gồm" : "Included");
-
-  return (
-    <Pressable
-      accessibilityLabel={`${name}. ${language === "vi" ? "Tìm hiểu trước khi rút" : "Learn before drawing"}`}
-      accessibilityRole="button"
-      style={[styles.deckCard, selected && styles.selectedDeck]}
-      onPress={onPress}
-    >
-      <View style={styles.deckImageFrame}>
-        <Image source={imageSource} style={styles.deckImage} resizeMode="contain" />
-        <View style={styles.deckImageShade} />
-      </View>
-      <View style={styles.flex}>
-        <View style={styles.rowBetween}>
-          <Text style={styles.cardTitle}>{name}</Text>
-          <Text style={styles.badge}>{tierLabel}</Text>
-        </View>
-        <Text style={styles.cardRole}>{vibe}</Text>
-        <Text style={styles.cardDescription}>{description}</Text>
-        <View style={styles.deckCardAction}>
-          <Text style={styles.deckCardActionText}>{language === "vi" ? "Tìm hiểu trước khi rút" : "Learn before drawing"}</Text>
-          <Ionicons name="arrow-forward-outline" size={16} color={colors.gold} />
-        </View>
-      </View>
-    </Pressable>
   );
 }
 
@@ -10901,36 +9012,6 @@ function InfoBlock({ label, value }: { label: string; value: string }) {
   );
 }
 
-function RecentRow({ detail, title }: { detail: string; title: string }) {
-  return (
-    <View style={styles.recentRow}>
-      <Image source={getFeatureVisual("journal")} style={styles.recentImage} resizeMode="cover" />
-      <View style={styles.flex}>
-        <Text style={styles.agentName}>{title}</Text>
-        <Text style={styles.muted}>{detail}</Text>
-      </View>
-    </View>
-  );
-}
-
-function JournalCard({ entry, language, onPress }: { entry: JournalEntry; language: Language; onPress: () => void }) {
-  return (
-    <Pressable style={styles.journalCard} onPress={onPress}>
-      <View style={styles.rowBetween}>
-        <Text style={styles.badge}>{journalSourceLabel(entry.sourceType, language)}</Text>
-        <Ionicons name="chevron-forward-outline" size={18} color={colors.gold} />
-      </View>
-      <Text style={styles.cardTitle}>{entry.title}</Text>
-      <Text style={styles.cardDescription}>{journalEntryBody(entry)}</Text>
-      <View style={styles.metaRail}>
-        {entry.mood && <StatusChip label={moodLabel(entry.mood, language)} tone="neutral" />}
-        {entry.userNote?.trim() ? <StatusChip label={language === "vi" ? "Có ghi chú" : "Note added"} tone="good" /> : null}
-      </View>
-      <Text style={styles.muted}>{formatLocalDateTime(entry.createdAt, language)}</Text>
-    </Pressable>
-  );
-}
-
 function ProfileActionButton({
   detail,
   icon,
@@ -10976,80 +9057,13 @@ function ProfileInfoTile({
   );
 }
 
-function JobRow({ job }: { job: { id: string; feature: string; provider: string; status: string; time: string; retry: number } }) {
-  const tone: "good" | "warn" | "bad" = job.status === "completed" ? "good" : job.status === "failed" ? "bad" : "warn";
-  return (
-    <View style={styles.jobRow}>
-      <View style={styles.flex}>
-        <Text style={styles.agentName}>{job.id}</Text>
-        <Text style={styles.muted}>{job.feature} / {job.provider}</Text>
-      </View>
-      <View style={styles.jobMeta}>
-        <StatusChip label={job.status} tone={tone} />
-        <Text style={styles.muted}>{job.time}</Text>
-      </View>
-    </View>
-  );
-}
-
-function DataSourceRow({
-  source,
-  language,
-  expanded = false
-}: {
-  source: ReturnType<typeof summarizeContentSource>;
-  language: Language;
-  expanded?: boolean;
-}) {
-  const keyStatus =
-    source.keyStrategy === "slug"
-      ? `${source.recordsCount - source.invalidSlugs.length}/${source.recordsCount} slugs`
-      : language === "vi"
-        ? "ID kỹ thuật"
-        : "Stable IDs";
-  const tone = source.invalidSlugs.length > 0 || source.duplicateKeys > 0 ? "bad" : "good";
-
-  return (
-    <View style={styles.contentRow}>
-      <View style={styles.flex}>
-        <View style={styles.rowBetween}>
-          <Text style={styles.agentName}>{localizedText(source.label, language)}</Text>
-          <StatusChip label={source.owner} tone="neutral" />
-        </View>
-        <Text style={styles.muted}>{source.recordsCount} records / {keyStatus}</Text>
-        <Text style={styles.sourcePath}>{source.sourcePath}</Text>
-        {expanded && <Text style={styles.cardDescription}>{localizedText(source.action, language)}</Text>}
-      </View>
-      <StatusChip label={source.duplicateKeys > 0 ? "Duplicate" : "OK"} tone={tone} />
-    </View>
-  );
-}
-
-function LocaleAuditRow({ source, language }: { source: ReturnType<typeof summarizeContentSource>; language: Language }) {
-  const viEnRatio = formatRatio(source.locale.viEnReady, source.locale.localized);
-  const keyLabel =
-    source.keyStrategy === "slug"
-      ? source.invalidSlugs.length === 0
-        ? "ASCII slug"
-        : "Fix slug"
-      : "Stable id";
-  const tone = source.locale.missingFuture === 0 ? "good" : "warn";
-
-  return (
-    <View style={styles.panel}>
-      <View style={styles.rowBetween}>
-        <Text style={styles.cardTitle}>{localizedText(source.label, language)}</Text>
-        <StatusChip label={keyLabel} tone={source.invalidSlugs.length === 0 ? "good" : "bad"} />
-      </View>
-      <StatusLine label="VI/EN coverage" status={viEnRatio} tone={source.locale.viEnReady === source.locale.localized ? "good" : "warn"} />
-      <StatusLine label="Future locales" status={`${source.locale.missingFuture} missing sets`} tone={tone} />
-      <StatusLine label="Duplicate keys" status={String(source.duplicateKeys)} tone={source.duplicateKeys === 0 ? "good" : "bad"} />
-      <Text style={styles.sourcePath}>{source.sourcePath}</Text>
-    </View>
-  );
-}
-
 const styles = StyleSheet.create({
+  undoToast: { flexDirection: "row", alignItems: "center", gap: 12 },
+  undoButton: { minHeight: 36, justifyContent: "center", paddingHorizontal: 6 },
+  undoText: { color: colors.gold, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 14 },
+  deckLibraryLink: { minHeight: layout.minimumTouchTarget + 16, paddingHorizontal: 14, paddingVertical: 12, borderRadius: 8, backgroundColor: "#1F1C1E", borderWidth: 1, borderColor: "rgba(201, 164, 92, 0.35)", flexDirection: "row", alignItems: "center", gap: 12, marginTop: 8 },
+  deckLibraryLinkTitle: { color: colors.ivory, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 15 },
+  deckLibraryLinkMeta: { color: "#B8B0A4", fontFamily: typography.bodyFontFamily, fontSize: 12.5, marginTop: 2 },
 homeTitleCompact: {
     fontSize: 24,
     lineHeight: 30,
@@ -11091,10 +9105,6 @@ zodiacProfilePrompt: {
     minHeight: 76,
     padding: spacing.md
   },
-  safe: {
-    flex: 1,
-    backgroundColor: colors.charcoal
-  },
   hidden: {
     display: "none"
   },
@@ -11110,12 +9120,6 @@ zodiacProfilePrompt: {
     maxWidth: 520,
     minHeight: 0,
     width: "100%"
-  },
-  center: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "center",
-    padding: spacing.lg
   },
   tarotFullscreenOverlay: {
     backgroundColor: "rgba(10, 9, 10, 0.94)",
@@ -11185,60 +9189,6 @@ zodiacProfilePrompt: {
     fontSize: 15,
     fontWeight: "900"
   },
-  onboarding: {
-    gap: spacing.md,
-    padding: spacing.lg,
-    paddingBottom: 56
-  },
-  onboardingHero: {
-    gap: spacing.md,
-    minHeight: 720,
-    justifyContent: "center"
-  },
-  onboardingNav: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    minHeight: 36
-  },
-  onboardingSkipText: {
-    color: colors.moon,
-    fontSize: 13,
-    fontWeight: "800"
-  },
-  soulPreviewPanel: {
-    alignItems: "flex-start",
-    backgroundColor: colors.panel,
-    borderColor: "rgba(201, 164, 92, 0.35)",
-    borderRadius: 8,
-    borderWidth: 1,
-    gap: spacing.md,
-    padding: spacing.lg
-  },
-  soulPreviewLine: {
-    borderTopColor: colors.border,
-    borderTopWidth: 1,
-    paddingTop: spacing.md,
-    width: "100%"
-  },
-  inlineInfoPanel: {
-    alignItems: "center",
-    backgroundColor: "rgba(201, 164, 92, 0.10)",
-    borderColor: "rgba(201, 164, 92, 0.28)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.sm,
-    marginTop: spacing.md,
-    padding: spacing.md
-  },
-  inlineInfoText: {
-    color: colors.ivory,
-    flex: 1,
-    fontFamily: typography.bodyFontFamily,
-    fontSize: 13,
-    lineHeight: 20
-  },
   screen: {
     padding: 20,
     paddingBottom: 32
@@ -11250,6 +9200,9 @@ zodiacProfilePrompt: {
   tarotContent: {
     padding: 20,
     paddingBottom: 32
+  },
+  tarotContentDocked: {
+    paddingBottom: 128
   },
   tarotBackToTopButton: {
     alignItems: "center",
@@ -11302,39 +9255,26 @@ zodiacProfilePrompt: {
     borderBottomWidth: 0,
     paddingHorizontal: 20
   },
+  tarotStepKicker: {
+    color: colors.gold,
+    fontFamily: typography.bodySemiBoldFontFamily,
+    fontSize: 11,
+    letterSpacing: 1.5,
+    textTransform: "uppercase"
+  },
   editorialTopIcon: {
     alignItems: "center",
     height: 44,
     justifyContent: "center",
     width: 44
   },
-  editorialTopBrand: {
-    color: colors.gold,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 24,
-    fontWeight: "600"
-  },
   editorialStage: {
     paddingBottom: spacing.xl
-  },
-  editorialHero: {
-    alignItems: "center",
-    gap: spacing.sm,
-    marginBottom: spacing.xl,
-    marginTop: spacing.lg
   },
   editorialHeroLeft: {
     gap: spacing.sm,
     marginBottom: spacing.xl,
     marginTop: spacing.lg
-  },
-  editorialDisplay: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 36,
-    fontWeight: "600",
-    lineHeight: 44,
-    textAlign: "center"
   },
   editorialDisplayLeft: {
     color: colors.ivory,
@@ -11342,13 +9282,6 @@ zodiacProfilePrompt: {
     fontSize: 32,
     fontWeight: "600",
     lineHeight: 40
-  },
-  editorialSupport: {
-    color: colors.muted,
-    fontSize: 16,
-    lineHeight: 25,
-    maxWidth: 320,
-    textAlign: "center"
   },
   editorialSupportLeft: {
     color: colors.muted,
@@ -11673,35 +9606,6 @@ zodiacProfilePrompt: {
     lineHeight: 20,
     textAlign: "center"
   },
-  editorialPersonaPrimaryButton: {
-    alignItems: "center",
-    backgroundColor: colors.gold,
-    bottom: 84,
-    borderRadius: 8,
-    flexDirection: "row",
-    gap: spacing.sm,
-    justifyContent: "center",
-    left: 0,
-    marginLeft: "auto" as any,
-    marginRight: "auto" as any,
-    maxWidth: 480,
-    minHeight: 56,
-    paddingHorizontal: spacing.lg,
-    position: "fixed" as any,
-    right: 0,
-    width: "calc(100% - 40px)" as any,
-    zIndex: 30
-  },
-  editorialPersonaPrimaryButtonLocked: {
-    opacity: 0.94
-  },
-  editorialPersonaPrimaryButtonText: {
-    color: colors.charcoal,
-    fontSize: 14,
-    fontWeight: "800",
-    lineHeight: 20,
-    textTransform: "uppercase"
-  },
   personaFloatingCta: {
     alignItems: "center",
     alignSelf: "center",
@@ -11747,127 +9651,6 @@ zodiacProfilePrompt: {
     color: colors.ivory,
     fontSize: 14,
     lineHeight: 22
-  },
-  editorialTopicGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: spacing.md
-  },
-  editorialTopicCard: {
-    alignItems: "center",
-    backgroundColor: "#211D1F",
-    borderColor: "rgba(247, 241, 230, 0.10)",
-    borderRadius: 8,
-    borderWidth: 1,
-    gap: spacing.md,
-    justifyContent: "center",
-    minHeight: 152,
-    padding: spacing.lg,
-    width: "47.5%"
-  },
-  editorialTopicCardActive: {
-    backgroundColor: "rgba(201, 164, 92, 0.10)",
-    borderColor: "rgba(201, 164, 92, 0.52)"
-  },
-  editorialTopicTitle: {
-    color: colors.ivory,
-    fontSize: 14,
-    fontWeight: "800",
-    letterSpacing: 0.8
-  },
-  editorialOpenTile: {
-    alignItems: "center",
-    backgroundColor: "#211D1F",
-    borderColor: "rgba(247, 241, 230, 0.10)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.md,
-    justifyContent: "center",
-    marginTop: spacing.md,
-    minHeight: 92
-  },
-  editorialOpenTileActive: {
-    backgroundColor: "rgba(201, 164, 92, 0.10)",
-    borderColor: "rgba(201, 164, 92, 0.52)"
-  },
-  editorialOpenTileText: {
-    color: colors.ivory,
-    fontSize: 14,
-    fontWeight: "800",
-    letterSpacing: 0.8
-  },
-  editorialFieldLabel: {
-    color: colors.ivory,
-    fontSize: 12,
-    fontWeight: "800",
-    letterSpacing: 0.6,
-    marginTop: spacing.xl,
-    textTransform: "uppercase"
-  },
-  editorialQuestionInput: {
-    backgroundColor: "#2B2525",
-    borderColor: "rgba(201, 164, 92, 0.34)",
-    borderRadius: 8,
-    borderWidth: 1,
-    color: colors.ivory,
-    fontSize: 16,
-    lineHeight: 24,
-    marginTop: spacing.md,
-    minHeight: 132,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.md
-  },
-  editorialPrimaryButton: {
-    alignItems: "center",
-    backgroundColor: colors.ivory,
-    borderRadius: 8,
-    flexDirection: "row",
-    gap: spacing.sm,
-    justifyContent: "center",
-    marginTop: spacing.xl,
-    minHeight: 56,
-    paddingHorizontal: spacing.lg
-  },
-  editorialPrimaryButtonText: {
-    color: colors.ink,
-    fontSize: 14,
-    fontWeight: "800",
-    letterSpacing: 0.6,
-    textTransform: "uppercase"
-  },
-  tarotReadingExplainPanel: {
-    alignItems: "center",
-    backgroundColor: "rgba(14, 90, 90, 0.20)",
-    borderColor: "rgba(201, 164, 92, 0.34)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.md,
-    marginTop: spacing.lg,
-    padding: spacing.md
-  },
-  tarotReadingExplainIcon: {
-    alignItems: "center",
-    backgroundColor: "rgba(201, 164, 92, 0.12)",
-    borderColor: "rgba(201, 164, 92, 0.34)",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 38,
-    justifyContent: "center",
-    width: 38
-  },
-  tarotReadingExplainTitle: {
-    color: colors.ivory,
-    fontSize: 15,
-    fontWeight: "900",
-    lineHeight: 20
-  },
-  tarotReadingExplainBody: {
-    color: colors.onSurfaceVariant,
-    fontSize: 13,
-    lineHeight: 19,
-    marginTop: 2
   },
   tarotFloatingPrimaryButton: {
     alignItems: "center",
@@ -11954,20 +9737,6 @@ zodiacProfilePrompt: {
     textAlign: "center",
     textTransform: "uppercase"
   },
-  editorialMutedButton: {
-    alignItems: "center",
-    backgroundColor: "#2A2626",
-    borderRadius: 8,
-    justifyContent: "center",
-    marginTop: spacing.lg,
-    minHeight: 52,
-    width: "100%"
-  },
-  editorialMutedButtonText: {
-    color: colors.moon,
-    fontSize: 14,
-    fontWeight: "700"
-  },
   editorialDeckStack: {
     gap: spacing.md
   },
@@ -12001,31 +9770,6 @@ zodiacProfilePrompt: {
     fontFamily: typography.bodySemiBoldFontFamily,
     fontSize: 13
   },
-  ritualCosmicAura: {
-    alignItems: "center",
-    backgroundColor: "rgba(201, 164, 92, 0.16)",
-    borderColor: "rgba(247, 241, 230, 0.45)",
-    borderRadius: 999,
-    borderWidth: 1,
-    bottom: "5%",
-    justifyContent: "center",
-    left: "5%",
-    position: "absolute",
-    right: "5%",
-    shadowColor: colors.gold,
-    shadowOpacity: 0.8,
-    shadowRadius: 22,
-    top: "5%"
-  },
-  ritualCosmicSpark: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 22,
-    position: "absolute"
-  },
-  ritualCosmicSparkTop: { top: 5 },
-  ritualCosmicSparkLeft: { left: 18, top: "46%" },
-  ritualCosmicSparkRight: { right: 18, top: "28%" },
   editorialDeckCardSelected: {
     borderColor: "rgba(201, 164, 92, 0.75)"
   },
@@ -12120,42 +9864,6 @@ zodiacProfilePrompt: {
     fontSize: 12,
     fontWeight: "800"
   },
-  brandMark: {
-    alignItems: "center",
-    borderColor: colors.gold,
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 80,
-    justifyContent: "center",
-    width: 58
-  },
-  brandMarkText: {
-    color: colors.gold,
-    fontSize: 34,
-    fontWeight: "800"
-  },
-  moonHalo: {
-    alignItems: "center",
-    alignSelf: "center",
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 190,
-    justifyContent: "center",
-    overflow: "hidden",
-    width: 128
-  },
-  heroCardArt: {
-    height: "100%",
-    opacity: 0.88,
-    width: "100%"
-  },
-  logo: {
-    color: colors.ivory,
-    fontSize: 46,
-    fontWeight: "700",
-    textAlign: "center"
-  },
   lead: {
     color: colors.muted,
     fontFamily: typography.bodyFontFamily,
@@ -12186,79 +9894,6 @@ zodiacProfilePrompt: {
     marginTop: spacing.xl,
     marginBottom: spacing.md,
     textTransform: "uppercase"
-  },
-  displayTitle: {
-    color: colors.ivory,
-    fontFamily: typography.bodyFontFamily,
-    fontSize: 46,
-    fontWeight: "700",
-    lineHeight: 55,
-    marginBottom: spacing.lg
-  },
-  homeTitle: {
-    color: colors.ivory,
-    fontFamily: typography.bodyFontFamily,
-    fontSize: 27,
-    fontWeight: "700",
-    marginTop: spacing.md
-  },
-  homeSubtitle: {
-    color: colors.muted,
-    fontSize: 16,
-    marginTop: spacing.sm,
-    marginBottom: spacing.xl
-  },
-  streakRibbon: {
-    alignItems: "center",
-    backgroundColor: "rgba(14, 90, 90, 0.20)",
-    borderColor: "rgba(201, 164, 92, 0.28)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.sm,
-    marginBottom: spacing.lg,
-    padding: spacing.md
-  },
-  streakRibbonComplete: {
-    backgroundColor: "rgba(201, 164, 92, 0.12)",
-    borderColor: "rgba(201, 164, 92, 0.42)"
-  },
-  streakIconWrap: {
-    alignItems: "center",
-    backgroundColor: "rgba(201, 164, 92, 0.10)",
-    borderColor: "rgba(201, 164, 92, 0.28)",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 36,
-    justifyContent: "center",
-    width: 36
-  },
-  streakTitle: {
-    color: colors.ivory,
-    fontFamily: typography.bodySemiBoldFontFamily,
-    fontSize: 14,
-    lineHeight: 19
-  },
-  streakBody: {
-    color: colors.onSurfaceVariant,
-    fontFamily: typography.bodyFontFamily,
-    fontSize: 12,
-    lineHeight: 17,
-    marginTop: 2
-  },
-  streakCount: {
-    color: colors.gold,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 28,
-    lineHeight: 32,
-    minWidth: 28,
-    textAlign: "right"
-  },
-  sectionTitle: {
-    color: colors.ivory,
-    fontSize: 18,
-    fontWeight: "800",
-    marginTop: spacing.lg
   },
   body: {
     color: colors.ivory,
@@ -12296,17 +9931,6 @@ zodiacProfilePrompt: {
     marginTop: spacing.md,
     padding: spacing.md
   },
-  inlineRetry: {
-    alignItems: "center",
-    flexDirection: "row",
-    gap: spacing.xs,
-    marginTop: spacing.sm
-  },
-  inlineRetryText: {
-    color: colors.gold,
-    fontSize: 13,
-    fontWeight: "800"
-  },
   disabledAction: {
     opacity: 0.55
   },
@@ -12320,10 +9944,6 @@ zodiacProfilePrompt: {
     flexDirection: "row",
     gap: spacing.sm,
     justifyContent: "space-between"
-  },
-  alignEnd: {
-    alignItems: "flex-end",
-    marginTop: spacing.lg
   },
   wrap: {
     flexDirection: "row",
@@ -12346,959 +9966,6 @@ zodiacProfilePrompt: {
     minHeight: 50,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm
-  },
-  disabledInput: {
-    opacity: 0.45
-  },
-  astrologyShell: {
-    backgroundColor: colors.surfaceLowest,
-    flex: 1
-  },
-  astrologyContent: {
-    padding: spacing.screen,
-    paddingBottom: 204
-  },
-  astrologyBottomDock: {
-    backgroundColor: "rgba(16, 14, 12, 0.94)",
-    borderTopColor: colors.border,
-    borderTopWidth: 1,
-    bottom: 72,
-    left: 0,
-    paddingBottom: spacing.md,
-    paddingHorizontal: spacing.screen,
-    paddingTop: spacing.sm,
-    position: "absolute",
-    right: 0
-  },
-  astrologyDisplay: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 38,
-    lineHeight: 44,
-    marginTop: spacing.lg,
-    textAlign: "center"
-  },
-  astrologyLead: {
-    color: colors.onSurfaceVariant,
-    fontFamily: typography.bodyFontFamily,
-    fontSize: 17,
-    lineHeight: 26,
-    marginTop: spacing.md,
-    textAlign: "center"
-  },
-  astrologyFocusStack: {
-    gap: spacing.md,
-    marginTop: spacing.xl
-  },
-  astrologyFocusCard: {
-    alignItems: "center",
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    gap: spacing.sm,
-    minHeight: 132,
-    padding: spacing.lg
-  },
-  astrologyFocusCardActive: {
-    borderColor: colors.gold,
-    backgroundColor: "rgba(201, 164, 92, 0.10)"
-  },
-  astrologyFocusTitle: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 27,
-    lineHeight: 32,
-    textAlign: "center"
-  },
-  astrologyFocusSubtitle: {
-    color: colors.moon,
-    fontFamily: typography.bodySemiBoldFontFamily,
-    fontSize: 12,
-    letterSpacing: 1,
-    textAlign: "center"
-  },
-  astrologyPrivacyNote: {
-    alignItems: "flex-start",
-    borderTopColor: colors.border,
-    borderTopWidth: 1,
-    flexDirection: "row",
-    gap: spacing.sm,
-    marginTop: spacing.lg,
-    paddingTop: spacing.lg
-  },
-  astrologyFieldShell: {
-    alignItems: "center",
-    backgroundColor: "rgba(33, 31, 34, 0.72)",
-    borderColor: "rgba(201, 164, 92, 0.26)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.sm,
-    marginTop: spacing.sm,
-    minHeight: 58,
-    paddingHorizontal: spacing.md
-  },
-  astrologyInlineInput: {
-    color: colors.ivory,
-    flex: 1,
-    fontFamily: typography.bodyFontFamily,
-    fontSize: 16,
-    minHeight: 56,
-    paddingVertical: spacing.sm
-  },
-  astrologyBackendStrip: {
-    alignItems: "flex-start",
-    backgroundColor: "rgba(14, 90, 90, 0.12)",
-    borderColor: "rgba(14, 90, 90, 0.34)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.sm,
-    marginTop: spacing.md,
-    padding: spacing.md
-  },
-  astrologyBackendText: {
-    color: colors.onSurfaceVariant,
-    flex: 1,
-    fontFamily: typography.bodyFontFamily,
-    fontSize: 13,
-    lineHeight: 19
-  },
-  astrologyCasting: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "center",
-    padding: spacing.screen
-  },
-  astrologyGateOuter: {
-    alignItems: "center",
-    borderColor: "rgba(201, 164, 92, 0.42)",
-    borderRadius: 8,
-    borderStyle: "dashed",
-    borderWidth: 1,
-    height: 220,
-    justifyContent: "center",
-    width: 220
-  },
-  astrologyGateMiddle: {
-    alignItems: "center",
-    backgroundColor: "rgba(14, 90, 90, 0.12)",
-    borderColor: "rgba(247, 241, 230, 0.12)",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 164,
-    justifyContent: "center",
-    width: 164
-  },
-  astrologyGateInner: {
-    alignItems: "center",
-    backgroundColor: "rgba(201, 164, 92, 0.10)",
-    borderColor: "rgba(201, 164, 92, 0.24)",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 116,
-    justifyContent: "center",
-    width: 116
-  },
-  astrologyOrb: {
-    alignItems: "center",
-    backgroundColor: "rgba(14, 90, 90, 0.18)",
-    borderColor: "rgba(201, 164, 92, 0.42)",
-    borderRadius: 8,
-    borderStyle: "dashed",
-    borderWidth: 1,
-    height: 188,
-    justifyContent: "center",
-    width: 188
-  },
-  astrologyKicker: {
-    color: colors.gold,
-    fontFamily: typography.bodySemiBoldFontFamily,
-    fontSize: 11,
-    letterSpacing: 1.2,
-    marginTop: spacing.lg,
-    textAlign: "center",
-    textTransform: "uppercase"
-  },
-  astrologyReportTitle: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 32,
-    lineHeight: 38,
-    marginTop: spacing.xs,
-    textAlign: "center"
-  },
-  astrologyReportMeta: {
-    color: colors.moon,
-    fontFamily: typography.bodyFontFamily,
-    fontSize: 13,
-    marginTop: spacing.xs,
-    textAlign: "center"
-  },
-  astrologyBigThree: {
-    gap: spacing.sm,
-    marginTop: spacing.lg
-  },
-  astrologyPlacementCard: {
-    alignItems: "center",
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    gap: spacing.xs,
-    padding: spacing.md
-  },
-  astrologyPlacementLabel: {
-    color: colors.gold,
-    fontFamily: typography.bodySemiBoldFontFamily,
-    fontSize: 11,
-    letterSpacing: 1
-  },
-  astrologyPlacementValue: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 24,
-    lineHeight: 28
-  },
-  astrologyChartPreview: {
-    alignItems: "center",
-    backgroundColor: "rgba(14, 90, 90, 0.10)",
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    marginTop: spacing.lg,
-    padding: spacing.lg
-  },
-  astrologyChartFrame: {
-    alignItems: "center",
-    backgroundColor: "rgba(16, 14, 12, 0.62)",
-    borderColor: "rgba(201, 164, 92, 0.30)",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 156,
-    justifyContent: "center",
-    width: 156
-  },
-  astrologyChartMeta: {
-    color: colors.gold,
-    fontFamily: typography.bodySemiBoldFontFamily,
-    fontSize: 10,
-    lineHeight: 15,
-    marginTop: spacing.sm,
-    textAlign: "center",
-    textTransform: "uppercase"
-  },
-  astrologyReportTabs: {
-    borderBottomColor: colors.border,
-    borderBottomWidth: 1,
-    flexDirection: "row",
-    gap: spacing.sm,
-    marginTop: spacing.xl,
-    paddingBottom: spacing.xs
-  },
-  astrologyReportTab: {
-    flex: 1,
-    minHeight: 36,
-    justifyContent: "center"
-  },
-  astrologyReportTabActive: {
-    borderBottomColor: colors.gold,
-    borderBottomWidth: 2
-  },
-  astrologyReportTabText: {
-    color: colors.moon,
-    fontFamily: typography.bodySemiBoldFontFamily,
-    fontSize: 10,
-    lineHeight: 14,
-    textAlign: "center",
-    textTransform: "uppercase"
-  },
-  astrologyReportTabTextActive: {
-    color: colors.gold
-  },
-  astrologySectionRow: {
-    flexDirection: "row",
-    gap: spacing.md,
-    marginTop: spacing.lg
-  },
-  astrologySectionIcon: {
-    alignItems: "center",
-    backgroundColor: "rgba(201, 164, 92, 0.10)",
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 44,
-    justifyContent: "center",
-    width: 44
-  },
-  astrologySectionTitle: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 22,
-    lineHeight: 28
-  },
-  astrologySectionBody: {
-    color: colors.onSurfaceVariant,
-    fontFamily: typography.bodyFontFamily,
-    fontSize: 15,
-    lineHeight: 23,
-    marginTop: spacing.xs
-  },
-  astrologyPremiumTeaser: {
-    alignItems: "center",
-    backgroundColor: "rgba(33, 31, 34, 0.68)",
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    gap: spacing.xs,
-    marginTop: spacing.lg,
-    padding: spacing.lg
-  },
-  astrologyPremiumIcon: {
-    alignItems: "center",
-    backgroundColor: "rgba(201, 164, 92, 0.10)",
-    borderColor: "rgba(201, 164, 92, 0.32)",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 44,
-    justifyContent: "center",
-    width: 44
-  },
-  astrologyPremiumTitle: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 23,
-    lineHeight: 29,
-    marginTop: spacing.sm,
-    textAlign: "center"
-  },
-  astrologyPremiumBody: {
-    color: colors.onSurfaceVariant,
-    fontFamily: typography.bodyFontFamily,
-    fontSize: 13,
-    lineHeight: 19,
-    maxWidth: 280,
-    textAlign: "center"
-  },
-  astrologyPremiumAction: {
-    color: colors.gold,
-    fontFamily: typography.bodySemiBoldFontFamily,
-    fontSize: 11,
-    marginTop: spacing.xs,
-    textTransform: "uppercase"
-  },
-  searchInput: {
-    backgroundColor: colors.panel,
-    borderColor: "rgba(247, 241, 230, 0.20)",
-    borderRadius: 8,
-    borderWidth: 1,
-    color: colors.ivory,
-    fontFamily: typography.bodyFontFamily,
-    fontSize: 18,
-    minHeight: 58,
-    paddingHorizontal: spacing.md
-  },
-  exploreStickySearch: {
-    alignItems: "center",
-    backgroundColor: colors.charcoal,
-    borderBottomColor: colors.border,
-    borderBottomWidth: 1,
-    flexDirection: "row",
-    gap: spacing.sm,
-    left: 0,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    position: "absolute",
-    right: 0,
-    top: 0,
-    zIndex: 20
-  },
-  exploreStickySearchInput: {
-    color: colors.ivory,
-    flex: 1,
-    fontFamily: typography.bodyFontFamily,
-    fontSize: 16,
-    minHeight: 42,
-    paddingVertical: 0
-  },
-  searchModeHeader: {
-    alignItems: "center",
-    backgroundColor: "rgba(201, 164, 92, 0.10)",
-    borderColor: "rgba(201, 164, 92, 0.34)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.md,
-    marginTop: spacing.lg,
-    padding: spacing.md
-  },
-  searchModeIcon: {
-    alignItems: "center",
-    backgroundColor: "rgba(201, 164, 92, 0.12)",
-    borderColor: "rgba(201, 164, 92, 0.32)",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 38,
-    justifyContent: "center",
-    width: 38
-  },
-  searchModeTitle: {
-    color: colors.ivory,
-    fontFamily: typography.bodySemiBoldFontFamily,
-    fontSize: 15,
-    lineHeight: 20
-  },
-  searchModeMeta: {
-    color: colors.moon,
-    fontFamily: typography.bodyFontFamily,
-    fontSize: 12,
-    lineHeight: 17,
-    marginTop: 2
-  },
-  searchResultCard: {
-    alignItems: "center",
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.md,
-    marginTop: spacing.sm,
-    minHeight: 96,
-    padding: spacing.md
-  },
-  searchResultCardDisabled: {
-    opacity: 0.58
-  },
-  searchResultImage: {
-    backgroundColor: colors.charcoal,
-    borderColor: "rgba(201, 164, 92, 0.30)",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 64,
-    width: 64
-  },
-  searchResultIcon: {
-    alignItems: "center",
-    backgroundColor: "rgba(201, 164, 92, 0.10)",
-    borderColor: "rgba(201, 164, 92, 0.28)",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 48,
-    justifyContent: "center",
-    width: 48
-  },
-  searchResultMetaRow: {
-    alignItems: "center",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: spacing.xs
-  },
-  searchResultKind: {
-    color: colors.gold,
-    fontSize: 11,
-    fontWeight: "900",
-    letterSpacing: 0.4,
-    textTransform: "uppercase"
-  },
-  searchResultMeta: {
-    color: colors.moon,
-    flexShrink: 1,
-    fontSize: 11,
-    fontWeight: "700"
-  },
-  searchResultTitle: {
-    color: colors.ivory,
-    fontFamily: typography.bodySemiBoldFontFamily,
-    fontSize: 16,
-    lineHeight: 21,
-    marginTop: 2
-  },
-  searchResultDetail: {
-    color: colors.muted,
-    fontFamily: typography.bodyFontFamily,
-    fontSize: 12,
-    lineHeight: 17,
-    marginTop: 2
-  },
-  searchResultPreview: {
-    color: colors.moon,
-    fontSize: 11,
-    fontWeight: "900",
-    textTransform: "uppercase"
-  },
-  smallLightButton: {
-    minHeight: 44,
-    justifyContent: "center",
-    backgroundColor: colors.ivory,
-    borderRadius: 8,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm
-  },
-  smallLightButtonText: {
-    color: colors.ink,
-    fontSize: 12,
-    fontWeight: "800"
-  },
-  chipRail: {
-    flexDirection: "row",
-    gap: spacing.sm,
-    paddingVertical: spacing.md
-  },
-  dailyPanel: {
-    backgroundColor: colors.panel,
-    borderColor: "rgba(201, 164, 92, 0.35)",
-    borderRadius: 8,
-    borderWidth: 1,
-    overflow: "hidden",
-    padding: spacing.lg
-  },
-  dailyPanelImage: {
-    bottom: 0,
-    height: "100%",
-    opacity: 0.24,
-    position: "absolute",
-    right: 0,
-    top: 0,
-    width: "48%"
-  },
-  dailyPanelShade: {
-    backgroundColor: "rgba(33, 31, 34, 0.48)",
-    bottom: 0,
-    left: 0,
-    position: "absolute",
-    right: 0,
-    top: 0
-  },
-  dailyText: {
-    color: colors.ivory,
-    fontSize: 24,
-    fontWeight: "700",
-    lineHeight: 34,
-    marginTop: spacing.lg
-  },
-  dailyMeta: {
-    color: colors.moon,
-    fontSize: 11,
-    fontWeight: "700",
-    textTransform: "uppercase"
-  },
-  dailyPrompt: {
-    color: colors.ivory,
-    fontFamily: typography.bodyFontFamily,
-    fontSize: 14,
-    lineHeight: 21,
-    marginTop: spacing.md,
-    opacity: 0.86
-  },
-  dailyActions: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: spacing.sm,
-    marginTop: spacing.lg
-  },
-  zodiacPulsePanel: {
-    alignItems: "flex-start",
-    backgroundColor: "rgba(14, 90, 90, 0.24)",
-    borderColor: "rgba(201, 164, 92, 0.28)",
-    borderRadius: 8,
-    borderWidth: 1,
-    gap: spacing.md,
-    marginTop: spacing.lg,
-    padding: spacing.lg
-  },
-  zodiacHubPulse: {
-    backgroundColor: "rgba(14, 90, 90, 0.24)",
-    borderColor: "rgba(201, 164, 92, 0.28)",
-    borderRadius: 8,
-    borderWidth: 1,
-    gap: spacing.md,
-    marginTop: spacing.lg,
-    padding: spacing.lg
-  },
-  zodiacHubTitle: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 28,
-    fontWeight: "600",
-    lineHeight: 34
-  },
-  zodiacRecapPanel: {
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    gap: spacing.md,
-    marginTop: spacing.lg,
-    padding: spacing.lg
-  },
-  zodiacRecentRow: {
-    alignItems: "center",
-    borderTopColor: "rgba(247, 241, 230, 0.08)",
-    borderTopWidth: 1,
-    flexDirection: "row",
-    gap: spacing.sm,
-    paddingTop: spacing.sm
-  },
-  zodiacRecentTitle: {
-    color: colors.ivory,
-    fontFamily: typography.bodySemiBoldFontFamily,
-    fontSize: 13
-  },
-  zodiacRecentMeta: {
-    color: colors.moon,
-    fontFamily: typography.bodyFontFamily,
-    fontSize: 11,
-    marginTop: 2
-  },
-  zodiacPulseHeader: {
-    alignItems: "center",
-    flexDirection: "row",
-    gap: spacing.md,
-    width: "100%"
-  },
-  zodiacPulseIcon: {
-    alignItems: "center",
-    backgroundColor: "rgba(201, 164, 92, 0.12)",
-    borderColor: "rgba(201, 164, 92, 0.32)",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 42,
-    justifyContent: "center",
-    width: 42
-  },
-  zodiacPulseKicker: {
-    color: colors.gold,
-    fontSize: 11,
-    fontWeight: "800",
-    textTransform: "uppercase"
-  },
-  zodiacPulseTitle: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 22,
-    fontWeight: "600",
-    lineHeight: 27,
-    marginTop: 2
-  },
-  zodiacPulseMood: {
-    color: colors.moon,
-    fontFamily: typography.bodyFontFamily,
-    fontSize: 12,
-    marginTop: 2
-  },
-  zodiacPulseBody: {
-    color: colors.ivory,
-    fontFamily: typography.bodyFontFamily,
-    fontSize: 14,
-    lineHeight: 21,
-    marginTop: spacing.xs,
-    opacity: 0.9
-  },
-  zodiacPulseNote: {
-    color: colors.moon,
-    fontSize: 12,
-    lineHeight: 18,
-    marginTop: spacing.sm
-  },
-  zodiacPulseCaveatRow: {
-    alignItems: "center",
-    flexDirection: "row",
-    gap: spacing.xs
-  },
-  zodiacPulseCaveat: {
-    color: colors.moon,
-    flex: 1,
-    fontFamily: typography.bodyFontFamily,
-    fontSize: 11,
-    lineHeight: 16
-  },
-  zodiacPulseActions: {
-    alignItems: "center",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: spacing.sm,
-    width: "100%"
-  },
-  zodiacPulsePrimaryButton: {
-    alignItems: "center",
-    backgroundColor: colors.gold,
-    borderRadius: 8,
-    flexDirection: "row",
-    gap: spacing.xs,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm
-  },
-  zodiacPulsePrimaryText: {
-    color: colors.charcoal,
-    fontFamily: typography.bodySemiBoldFontFamily,
-    fontSize: 12
-  },
-  zodiacPulseSecondaryButton: {
-    alignItems: "center",
-    borderColor: "rgba(201, 164, 92, 0.36)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.xs,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm
-  },
-  zodiacPulseSecondaryText: {
-    color: colors.gold,
-    fontFamily: typography.bodySemiBoldFontFamily,
-    fontSize: 12
-  },
-  zodiacPulseIconButton: {
-    alignItems: "center",
-    borderColor: "rgba(201, 164, 92, 0.36)",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 36,
-    justifyContent: "center",
-    width: 36
-  },
-  zodiacPulseButton: {
-    alignItems: "center",
-    backgroundColor: colors.gold,
-    borderRadius: 8,
-    height: 34,
-    justifyContent: "center",
-    width: 34
-  },
-  pulsePanel: {
-    backgroundColor: colors.panel,
-    borderColor: "rgba(201, 164, 92, 0.28)",
-    borderRadius: 8,
-    borderWidth: 1,
-    marginTop: spacing.lg,
-    padding: spacing.lg
-  },
-  pulseHeader: {
-    alignItems: "flex-start",
-    flexDirection: "row",
-    gap: spacing.md,
-    justifyContent: "space-between"
-  },
-  pulseTitle: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 25,
-    fontWeight: "600",
-    lineHeight: 31
-  },
-  pulseRitualStage: {
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: spacing.lg
-  },
-  pulseCardStage: {
-    alignItems: "center",
-    minWidth: 160,
-    position: "relative"
-  },
-  pulseCardStageRevealed: {
-    minWidth: 190
-  },
-  pulseCardHalo: {
-    backgroundColor: "rgba(201, 164, 92, 0.18)",
-    borderRadius: 8,
-    height: 148,
-    position: "absolute",
-    top: 34,
-    width: 150
-  },
-  pulseCardImage: {
-    backgroundColor: "#181517",
-    borderColor: "rgba(201, 164, 92, 0.46)",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 216,
-    width: 136
-  },
-  pulseCardLabel: {
-    color: colors.gold,
-    fontSize: 11,
-    fontWeight: "800",
-    marginTop: spacing.sm,
-    textAlign: "center",
-    textTransform: "uppercase"
-  },
-  pulseCardKeywords: {
-    color: colors.moon,
-    fontSize: 12,
-    lineHeight: 18,
-    marginTop: 4,
-    maxWidth: 260,
-    textAlign: "center"
-  },
-  pulseCopy: {
-    marginTop: spacing.lg,
-    width: "100%"
-  },
-  pulseDeckLabel: {
-    color: colors.moon,
-    fontSize: 11,
-    fontWeight: "800",
-    textAlign: "center",
-    textTransform: "uppercase"
-  },
-  pulseDeckName: {
-    color: colors.gold,
-    fontSize: 13,
-    fontWeight: "800",
-    marginTop: 4,
-    textAlign: "center",
-    textTransform: "uppercase"
-  },
-  pulseBody: {
-    color: colors.ivory,
-    fontSize: 15,
-    lineHeight: 24,
-    marginTop: spacing.sm,
-    textAlign: "center"
-  },
-  pulseStepList: {
-    gap: spacing.sm,
-    marginTop: spacing.md,
-    width: "100%"
-  },
-  pulseStepRow: {
-    alignItems: "flex-start",
-    flexDirection: "row",
-    gap: spacing.sm,
-    width: "100%"
-  },
-  pulseStepBadge: {
-    backgroundColor: "rgba(201, 164, 92, 0.16)",
-    borderColor: "rgba(201, 164, 92, 0.38)",
-    borderRadius: 8,
-    borderWidth: 1,
-    color: colors.gold,
-    fontSize: 11,
-    fontWeight: "900",
-    height: 24,
-    lineHeight: 22,
-    textAlign: "center",
-    width: 24
-  },
-  pulseStepText: {
-    color: colors.muted,
-    flex: 1,
-    fontSize: 13,
-    lineHeight: 20
-  },
-  pulseMicroAction: {
-    alignItems: "flex-start",
-    backgroundColor: "rgba(14, 90, 90, 0.20)",
-    borderColor: "rgba(14, 90, 90, 0.42)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.sm,
-    marginTop: spacing.md,
-    padding: spacing.md
-  },
-  pulseMicroActionText: {
-    color: colors.ivory,
-    flex: 1,
-    fontSize: 14,
-    lineHeight: 21
-  },
-  pulseMoodLabel: {
-    color: colors.moon,
-    fontSize: 12,
-    fontWeight: "800",
-    marginTop: spacing.lg
-  },
-  pulseActionRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: spacing.sm,
-    marginTop: spacing.md
-  },
-  pulsePrimaryButton: {
-    alignItems: "center",
-    backgroundColor: colors.ivory,
-    borderRadius: 8,
-    flexDirection: "row",
-    gap: spacing.xs,
-    minHeight: 40,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm
-  },
-  pulsePrimaryButtonText: {
-    color: colors.ink,
-    flexShrink: 1,
-    fontSize: 13,
-    fontWeight: "900"
-  },
-  pulseSecondaryButton: {
-    alignItems: "center",
-    borderColor: "rgba(201, 164, 92, 0.42)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.xs,
-    minHeight: 40,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm
-  },
-  pulseSecondaryButtonText: {
-    color: colors.gold,
-    flexShrink: 1,
-    fontSize: 13,
-    fontWeight: "900"
-  },
-  situationGrid: {
-    gap: spacing.sm
-  },
-  situationTile: {
-    alignItems: "center",
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.md,
-    minHeight: 68,
-    padding: spacing.md
-  },
-  situationCopy: {
-    flex: 1
-  },
-  situationTitle: {
-    color: colors.ivory,
-    fontSize: 15,
-    fontWeight: "800"
-  },
-  situationDetail: {
-    color: colors.muted,
-    fontSize: 13,
-    lineHeight: 19,
-    marginTop: 2
-  },
-  councilInvitePanel: {
-    backgroundColor: colors.panel,
-    borderColor: "rgba(201, 164, 92, 0.32)",
-    borderRadius: 8,
-    borderWidth: 1,
-    marginBottom: spacing.lg,
-    padding: spacing.lg
-  },
-  councilInviteTitle: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 24,
-    fontWeight: "600",
-    lineHeight: 30
-  },
-  councilInviteText: {
-    color: colors.muted,
-    fontSize: 14,
-    lineHeight: 22,
-    marginTop: spacing.md
   },
   councilHubHero: {
     backgroundColor: colors.panel,
@@ -13418,398 +10085,10 @@ zodiacProfilePrompt: {
     fontSize: 12,
     fontWeight: "900"
   },
-  smallGhostButton: {
-    alignItems: "center",
-    borderColor: "rgba(201, 164, 92, 0.34)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.xs,
-    minHeight: 44,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: spacing.xs
-  },
-  smallGhostButtonText: {
-    color: colors.gold,
-    fontSize: 12,
-    fontWeight: "800"
-  },
   quickGrid: {
     flexDirection: "row",
     gap: spacing.md,
     marginTop: spacing.lg
-  },
-  ritualActionTile: {
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    flex: 1,
-    minHeight: 132,
-    overflow: "hidden",
-    position: "relative"
-  },
-  ritualActionImage: {
-    bottom: 0,
-    height: "100%",
-    left: 0,
-    opacity: 0.72,
-    position: "absolute",
-    right: 0,
-    top: 0,
-    width: "100%"
-  },
-  ritualActionShade: {
-    backgroundColor: "rgba(21, 19, 17, 0.48)",
-    bottom: 0,
-    left: 0,
-    position: "absolute",
-    right: 0,
-    top: 0
-  },
-  ritualActionContent: {
-    gap: spacing.xs,
-    minHeight: 132,
-    padding: spacing.sm,
-    position: "relative",
-    justifyContent: "flex-end"
-  },
-  ritualActionIcon: {
-    alignItems: "center",
-    backgroundColor: colors.gold,
-    borderRadius: 8,
-    height: 28,
-    justifyContent: "center",
-    width: 28
-  },
-  ritualActionTitle: {
-    color: colors.ivory,
-    fontSize: 14,
-    fontWeight: "900",
-    lineHeight: 17
-  },
-  ritualActionDetail: {
-    color: colors.onSurfaceVariant,
-    fontSize: 11,
-    fontWeight: "700",
-    lineHeight: 14
-  },
-  tileGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: spacing.md,
-    marginTop: spacing.md
-  },
-  featureHero: {
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    minHeight: 232,
-    justifyContent: "flex-end",
-    marginTop: spacing.xl,
-    overflow: "hidden"
-  },
-  featureHeroWide: {
-    alignItems: "center",
-    flexDirection: "row",
-    backgroundColor: colors.panel
-  },
-  featureHeroImageWide: {
-    position: "relative",
-    width: "44%",
-    height: undefined,
-    aspectRatio: 8 / 5,
-    opacity: 1
-  },
-  featureHeroContentWide: {
-    width: "56%"
-  },
-  featureHeroImage: {
-    height: "100%",
-    opacity: 0.34,
-    position: "absolute",
-    right: 0,
-    width: "70%"
-  },
-  featureHeroShade: {
-    backgroundColor: "rgba(21, 20, 22, 0.36)",
-    bottom: 0,
-    left: 0,
-    position: "absolute",
-    right: 0,
-    top: 0
-  },
-  featureHeroContent: {
-    padding: spacing.lg,
-    // Keep both 44px CTAs on one row on 320px phones. The artwork remains a
-    // quiet background, while the copy gets enough width for a predictable
-    // action area instead of pushing the second button below the tab bar.
-    width: "100%"
-  },
-  heroActionRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: spacing.xs,
-    marginTop: spacing.md
-  },
-  heroPrimaryAction: {
-    minHeight: 44,
-    justifyContent: "center",
-    backgroundColor: colors.ivory,
-    borderRadius: 8,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm
-  },
-  heroPrimaryActionText: {
-    color: colors.ink,
-    fontSize: 12,
-    fontWeight: "800"
-  },
-  heroSecondaryAction: {
-    minHeight: 44,
-    justifyContent: "center",
-    borderColor: colors.gold,
-    borderRadius: 8,
-    borderWidth: 1,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm
-  },
-  heroSecondaryActionText: {
-    color: colors.gold,
-    fontSize: 12,
-    fontWeight: "800"
-  },
-  featureIcon: {
-    color: colors.gold
-  },
-  featureTitle: {
-    color: colors.ivory,
-    fontSize: 28,
-    fontWeight: "800",
-    marginTop: spacing.md
-  },
-  featureSmallTitle: {
-    color: colors.ivory,
-    fontSize: 22,
-    fontWeight: "700"
-  },
-  featureDetail: {
-    color: colors.muted,
-    fontSize: 15,
-    lineHeight: 22,
-    marginTop: spacing.sm
-  },
-  featureGrid: {
-    flexDirection: "row",
-    gap: spacing.md,
-    marginTop: spacing.md
-  },
-  visualFeatureCard: {
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    flex: 1,
-    marginTop: spacing.md,
-    minHeight: 174,
-    overflow: "hidden",
-    position: "relative"
-  },
-  visualFeatureCardFull: {
-    flex: 0,
-    flexDirection: "row",
-    width: "100%"
-  },
-  visualFeatureCardMuted: {
-    opacity: 0.78
-  },
-  visualFeatureImage: {
-    aspectRatio: 8 / 5,
-    width: "100%"
-  },
-  visualFeatureFullImage: {
-    width: 104,
-    alignSelf: "center"
-  },
-  visualFeatureShade: {
-    backgroundColor: "rgba(21, 19, 17, 0.54)",
-    bottom: 0,
-    left: 0,
-    position: "absolute",
-    right: 0,
-    top: 0
-  },
-  visualFeatureContent: {
-    flex: 1,
-    minWidth: 0,
-    gap: spacing.xs,
-    justifyContent: "flex-end",
-    minHeight: 120,
-    padding: spacing.md,
-    position: "relative"
-  },
-  visualFeatureIcon: {
-    alignItems: "center",
-    backgroundColor: colors.ivory,
-    borderRadius: 8,
-    height: 30,
-    justifyContent: "center",
-    width: 30
-  },
-  visualFeatureBadge: {
-    alignSelf: "flex-start",
-    backgroundColor: "rgba(247, 241, 230, 0.88)",
-    borderRadius: 6,
-    color: colors.charcoal,
-    fontSize: 10,
-    fontWeight: "900",
-    letterSpacing: 0,
-    lineHeight: 13,
-    overflow: "hidden",
-    paddingHorizontal: spacing.xs,
-    paddingVertical: 3,
-    textTransform: "uppercase"
-  },
-  visualFeatureTitle: {
-    color: colors.ivory,
-    fontSize: 18,
-    fontWeight: "900",
-    lineHeight: 22
-  },
-  visualFeatureDetail: {
-    color: colors.onSurfaceVariant,
-    fontSize: 12,
-    fontWeight: "700",
-    lineHeight: 17
-  },
-  personaFeature: {
-    alignItems: "center",
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.md,
-    padding: spacing.sm
-  },
-  featureAvatar: {
-    alignItems: "center",
-    backgroundColor: colors.charcoal,
-    borderColor: colors.teal,
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 64,
-    justifyContent: "center",
-    overflow: "hidden",
-    width: 64
-  },
-  featureAvatarImage: {
-    height: "100%",
-    width: "100%"
-  },
-  avatar: {
-    alignItems: "center",
-    backgroundColor: colors.charcoal,
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 58,
-    justifyContent: "center",
-    overflow: "hidden",
-    width: 48
-  },
-  avatarImage: {
-    height: "100%",
-    width: "100%"
-  },
-  avatarText: {
-    color: colors.gold,
-    fontSize: 24,
-    fontWeight: "800"
-  },
-  arrowButton: {
-    borderColor: colors.gold,
-    borderRadius: 8,
-    borderWidth: 1,
-    color: colors.gold,
-    fontSize: 18,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: spacing.xs
-  },
-  recentRow: {
-    alignItems: "center",
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.md,
-    marginTop: spacing.sm,
-    padding: spacing.md
-  },
-  recentImage: {
-    borderColor: colors.gold,
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 58,
-    width: 38
-  },
-  recentIcon: {
-    color: colors.gold,
-    fontSize: 25,
-    fontWeight: "800"
-  },
-  recentConversationSection: {
-    marginTop: spacing.md
-  },
-  recentConversationRow: {
-    alignItems: "center",
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.sm,
-    marginTop: spacing.sm,
-    minHeight: 64,
-    padding: spacing.sm
-  },
-  recentConversationIcon: {
-    alignItems: "center",
-    backgroundColor: "rgba(201, 164, 92, 0.12)",
-    borderRadius: 8,
-    height: 34,
-    justifyContent: "center",
-    width: 34
-  },
-  recentConversationTitle: {
-    color: colors.ivory,
-    fontFamily: typography.bodySemiBoldFontFamily,
-    fontSize: 14
-  },
-  recentConversationPreview: {
-    color: colors.moon,
-    fontFamily: typography.bodyFontFamily,
-    fontSize: 12,
-    lineHeight: 17,
-    marginTop: 2
-  },
-  personaCard: {
-    alignItems: "flex-start",
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.md,
-    marginTop: spacing.sm,
-    padding: spacing.md
-  },
-  personaCardContent: {
-    minWidth: 0
-  },
-  personaCardFeatured: {
-    backgroundColor: "rgba(14, 90, 90, 0.20)",
-    borderColor: "rgba(201, 164, 92, 0.45)"
   },
   cardTitle: {
     color: colors.ivory,
@@ -13817,183 +10096,11 @@ zodiacProfilePrompt: {
     fontSize: 17,
     fontWeight: "800"
   },
-  cardRole: {
-    color: colors.gold,
-    fontSize: 12,
-    lineHeight: 18,
-    marginTop: spacing.xs
-  },
-  personaSignature: {
-    color: colors.moon,
-    fontSize: 11,
-    fontWeight: "800",
-    letterSpacing: 0.2,
-    lineHeight: 16,
-    marginTop: 2,
-    textTransform: "uppercase"
-  },
   cardDescription: {
     color: colors.muted,
     fontSize: 13,
     lineHeight: 20,
     marginTop: spacing.xs
-  },
-  extraPromptList: {
-    gap: spacing.xs,
-    marginTop: spacing.xs,
-    paddingLeft: spacing.xs
-  },
-  extraPromptText: {
-    color: colors.moon,
-    fontSize: 12,
-    fontStyle: "italic",
-    lineHeight: 18
-  },
-  personaCardToggle: {
-    alignItems: "center",
-    alignSelf: "flex-start",
-    flexDirection: "row",
-    gap: spacing.xs,
-    marginTop: spacing.sm,
-    paddingVertical: spacing.xs
-  },
-  personaCardToggleText: {
-    color: colors.gold,
-    fontSize: 12,
-    fontWeight: "800"
-  },
-  guideListToggle: {
-    alignItems: "center",
-    alignSelf: "stretch",
-    borderColor: "rgba(201, 164, 92, 0.34)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.xs,
-    justifyContent: "center",
-    marginTop: spacing.sm,
-    minHeight: 46,
-    paddingHorizontal: spacing.md
-  },
-  guideListToggleText: {
-    color: colors.gold,
-    fontSize: 13,
-    fontWeight: "800"
-  },
-  badge: {
-    color: colors.moon,
-    fontSize: 11,
-    fontWeight: "800",
-    textTransform: "uppercase"
-  },
-  deckCard: {
-    alignItems: "center",
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.md,
-    marginTop: spacing.sm,
-    padding: spacing.md
-  },
-  selectedDeck: {
-    borderColor: colors.gold
-  },
-  deckImageFrame: {
-    backgroundColor: colors.charcoal,
-    borderColor: "rgba(201, 164, 92, 0.38)",
-    borderRadius: 8,
-    borderWidth: 1,
-    aspectRatio: 3 / 2,
-    flexShrink: 0,
-    overflow: "hidden",
-    width: 90
-  },
-  deckImage: {
-    height: "100%",
-    width: "100%"
-  },
-  deckImageShade: {
-    backgroundColor: "rgba(21, 20, 22, 0.08)",
-    bottom: 0,
-    left: 0,
-    position: "absolute",
-    right: 0,
-    top: 0
-  },
-  deckCardAction: {
-    alignItems: "center",
-    flexDirection: "row",
-    gap: spacing.xs,
-    marginTop: spacing.sm
-  },
-  deckCardActionText: {
-    color: colors.gold,
-    fontSize: 12,
-    fontWeight: "800"
-  },
-  horizontal: {
-    // Match the compact gutter; a -20 margin leaves a 4px root overflow when
-    // the web scrollbar reduces clientWidth on 320px viewports.
-    marginHorizontal: -16,
-    paddingHorizontal: 16
-  },
-  personaRail: {
-    flexDirection: "row",
-    gap: spacing.sm,
-    paddingVertical: spacing.md
-  },
-  personaPill: {
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    minHeight: 62,
-    padding: spacing.sm,
-    width: 148
-  },
-  activePill: {
-    borderColor: colors.gold
-  },
-  pillTitle: {
-    color: colors.ivory,
-    fontSize: 13,
-    fontWeight: "800"
-  },
-  pillText: {
-    color: colors.moon,
-    fontSize: 11,
-    marginTop: spacing.xs
-  },
-  personaDetailHero: {
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    gap: spacing.sm,
-    padding: spacing.lg
-  },
-  personaPortrait: {
-    alignItems: "center",
-    alignSelf: "center",
-    backgroundColor: colors.charcoal,
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 220,
-    justifyContent: "center",
-    marginBottom: spacing.md,
-    overflow: "hidden",
-    width: "100%"
-  },
-  personaPortraitImage: {
-    height: "100%",
-    width: "100%"
-  },
-  personaPortraitText: {
-    color: colors.gold,
-    fontSize: 84,
-    fontWeight: "800"
   },
   personaDetailTitle: {
     color: colors.ivory,
@@ -14006,232 +10113,6 @@ zodiacProfilePrompt: {
     fontSize: 20,
     lineHeight: 32,
     marginTop: spacing.xl
-  },
-  promptRow: {
-    alignItems: "center",
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.md,
-    justifyContent: "space-between",
-    marginTop: spacing.sm,
-    padding: spacing.lg
-  },
-  promptRowText: {
-    color: colors.ivory,
-    flex: 1,
-    fontSize: 17,
-    lineHeight: 24
-  },
-  segmentedTabs: {
-    backgroundColor: "rgba(247, 241, 230, 0.06)",
-    borderRadius: 8,
-    flexDirection: "row",
-    gap: spacing.xs,
-    marginTop: spacing.md,
-    padding: spacing.xs
-  },
-  segmentedTab: {
-    alignItems: "center",
-    borderRadius: 8,
-    flex: 1,
-    minHeight: 40,
-    justifyContent: "center",
-    paddingHorizontal: spacing.sm
-  },
-  segmentedTabActive: {
-    backgroundColor: "rgba(201, 164, 92, 0.16)"
-  },
-  segmentedTabText: {
-    color: colors.moon,
-    fontSize: 12,
-    fontWeight: "800"
-  },
-  segmentedTabTextActive: {
-    color: colors.gold
-  },
-  chatTopBar: {
-    alignItems: "center",
-    borderBottomColor: colors.border,
-    borderBottomWidth: 1,
-    flexDirection: "row",
-    gap: spacing.md,
-    marginHorizontal: -20,
-    marginTop: -20,
-    padding: 20
-  },
-  chatRoomShell: {
-    flex: 1,
-    paddingBottom: 72,
-    paddingHorizontal: 20,
-    paddingTop: 20
-  },
-  chatMessagesContent: {
-    paddingBottom: spacing.lg
-  },
-  chatComposerDock: {
-    backgroundColor: colors.charcoal,
-    borderTopColor: colors.border,
-    borderTopWidth: 1,
-    marginHorizontal: -20,
-    paddingBottom: spacing.sm,
-    paddingHorizontal: 20,
-    paddingTop: spacing.sm
-  },
-  personaTinyAvatar: {
-    alignItems: "center",
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 42,
-    justifyContent: "center",
-    overflow: "hidden",
-    width: 42
-  },
-  tinyAvatarImage: {
-    height: "100%",
-    width: "100%"
-  },
-  chatTitle: {
-    color: colors.ivory,
-    flex: 1,
-    fontSize: 25,
-    fontWeight: "800"
-  },
-  chatMenu: {
-    color: colors.ivory,
-    fontSize: 22,
-    fontWeight: "800"
-  },
-  chatPanel: {
-    gap: spacing.md,
-    marginTop: spacing.lg
-  },
-  handoffPanel: {
-    alignItems: "flex-start",
-    backgroundColor: "rgba(14, 90, 90, 0.22)",
-    borderColor: "rgba(201, 164, 92, 0.32)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.sm,
-    marginTop: spacing.md,
-    padding: spacing.md
-  },
-  handoffTitle: {
-    color: colors.gold,
-    fontSize: 13,
-    fontWeight: "800",
-    textTransform: "uppercase"
-  },
-  handoffBody: {
-    color: colors.moon,
-    fontSize: 14,
-    lineHeight: 20,
-    marginTop: 4
-  },
-  messageBubble: {
-    borderRadius: 8,
-    padding: spacing.lg
-  },
-  userBubble: {
-    alignSelf: "flex-end",
-    backgroundColor: colors.ivory,
-    borderRadius: 12,
-    maxWidth: "88%",
-    padding: spacing.lg
-  },
-  guideBubble: {
-    alignSelf: "flex-start",
-    backgroundColor: colors.ink,
-    borderColor: colors.border,
-    borderRadius: 12,
-    borderWidth: 1,
-    maxWidth: "88%",
-    padding: spacing.lg
-  },
-  typingIndicator: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 4,
-    height: 24,
-  },
-  typingDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: colors.gold,
-  },
-  messageText: {
-    color: colors.ivory,
-    fontSize: 17,
-    lineHeight: 28
-  },
-  userMessageText: {
-    color: colors.charcoal,
-    fontSize: 17,
-    lineHeight: 28
-  },
-  saveLink: {
-    color: colors.gold,
-    fontSize: 13,
-    fontWeight: "800",
-    marginTop: spacing.md
-  },
-  chatActionRow: {
-    alignItems: "center",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: spacing.lg
-  },
-  iconText: {
-    alignItems: "center",
-    flexDirection: "row",
-    gap: spacing.xs
-  },
-  iconAction: {
-    color: colors.moon,
-    fontSize: 13,
-    fontWeight: "800"
-  },
-  newChat: {
-    color: colors.gold,
-    fontSize: 13,
-    fontWeight: "900"
-  },
-  inputRow: {
-    alignItems: "flex-end",
-    flexDirection: "row",
-    gap: spacing.sm
-  },
-  chatInput: {
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    color: colors.ivory,
-    flex: 1,
-    fontSize: 15,
-    maxHeight: 120,
-    minHeight: 54,
-    padding: spacing.md
-  },
-  sendButton: {
-    alignItems: "center",
-    backgroundColor: colors.panel,
-    borderColor: colors.gold,
-    borderRadius: 8,
-    borderWidth: 1,
-    justifyContent: "center",
-    minHeight: 54,
-    paddingHorizontal: spacing.md
-  },
-  sendText: {
-    color: colors.gold,
-    fontSize: 22,
-    fontWeight: "900"
   },
   tarotLandingPanel: {
     alignItems: "center",
@@ -14319,31 +10200,6 @@ zodiacProfilePrompt: {
     color: colors.ivory,
     fontSize: 15,
     lineHeight: 23
-  },
-  tarotLearningGrid: {
-    gap: spacing.sm
-  },
-  tarotLearningItem: {
-    alignItems: "flex-start",
-    backgroundColor: "rgba(247, 241, 230, 0.06)",
-    borderColor: "rgba(247, 241, 230, 0.10)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.sm,
-    padding: spacing.md
-  },
-  tarotLearningItemTitle: {
-    color: colors.ivory,
-    fontSize: 14,
-    fontWeight: "900",
-    lineHeight: 19
-  },
-  tarotLearningItemBody: {
-    color: colors.onSurfaceVariant,
-    fontSize: 13,
-    lineHeight: 19,
-    marginTop: 3
   },
   tarotLearningNote: {
     color: colors.moon,
@@ -14665,14 +10521,6 @@ zodiacProfilePrompt: {
     height: "100%",
     width: "100%"
   },
-  deckDetailHeroShade: {
-    backgroundColor: "rgba(21, 20, 22, 0.46)",
-    bottom: 0,
-    left: 0,
-    position: "absolute",
-    right: 0,
-    top: 0
-  },
   deckDetailHeroCopy: {
     gap: spacing.md,
     justifyContent: "flex-end",
@@ -14707,28 +10555,6 @@ zodiacProfilePrompt: {
     color: colors.ivory,
     fontSize: 16,
     lineHeight: 25
-  },
-  deckDetailImages: {
-    alignItems: "flex-end",
-    flexDirection: "row",
-    gap: spacing.sm,
-    marginBottom: spacing.lg
-  },
-  deckDetailPreview: {
-    backgroundColor: colors.charcoal,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 146,
-    width: 86
-  },
-  deckDetailPreviewCenter: {
-    height: 174,
-    width: 102
-  },
-  deckInfoGrid: {
-    gap: spacing.md,
-    marginTop: spacing.lg
   },
   deckTraitGrid: {
     flexDirection: "row",
@@ -14873,88 +10699,6 @@ zodiacProfilePrompt: {
     fontWeight: "700",
     lineHeight: 18
   },
-  cardMeaningRail: {
-    flexDirection: "row",
-    gap: spacing.sm,
-    marginTop: spacing.md
-  },
-  cardMeaningTile: {
-    alignItems: "center",
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    flex: 1,
-    padding: spacing.sm
-  },
-  cardMeaningThumb: {
-    height: 118,
-    width: "100%"
-  },
-  cardMeaningTileTitle: {
-    color: colors.ivory,
-    fontSize: 12,
-    fontWeight: "800",
-    marginTop: spacing.xs,
-    textAlign: "center"
-  },
-  deckLibrarySection: {
-    gap: spacing.sm,
-    marginTop: spacing.lg
-  },
-  deckLibraryTitle: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 22,
-    fontWeight: "600",
-    lineHeight: 28
-  },
-  deckLibrarySubtitle: {
-    color: colors.moon,
-    fontSize: 14,
-    lineHeight: 20
-  },
-  deckLibraryIntro: {
-    color: colors.moon,
-    fontSize: 15,
-    lineHeight: 22,
-    marginTop: spacing.sm
-  },
-  deckLibraryGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: spacing.sm,
-    marginTop: spacing.sm
-  },
-  deckLibraryCard: {
-    alignItems: "center",
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    minHeight: 278,
-    padding: spacing.sm,
-    width: "48.4%"
-  },
-  deckLibraryCardImage: {
-    height: 184,
-    width: "100%"
-  },
-  deckLibraryCardName: {
-    color: colors.ivory,
-    fontSize: 13,
-    fontWeight: "800",
-    lineHeight: 18,
-    marginTop: spacing.sm,
-    textAlign: "center"
-  },
-  deckLibraryCardMeta: {
-    color: colors.moon,
-    fontSize: 11,
-    lineHeight: 15,
-    marginTop: spacing.xs,
-    textAlign: "center"
-  },
   cardMeaningTopBar: {
     alignItems: "center",
     flexDirection: "row",
@@ -15018,83 +10762,6 @@ zodiacProfilePrompt: {
   cardMeaningTopSpacer: {
     width: 42
   },
-  cardMeaningLibraryButtonText: {
-    color: colors.gold,
-    fontSize: 13,
-    fontWeight: "900"
-  },
-  cardMeaningHero: {
-    backgroundColor: "#1D1A1B",
-    borderColor: "rgba(201, 164, 92, 0.35)",
-    borderRadius: 8,
-    borderWidth: 1,
-    gap: spacing.lg,
-    overflow: "hidden",
-    padding: spacing.lg
-  },
-  cardMeaningImageStage: {
-    alignItems: "center",
-    backgroundColor: "#121112",
-    borderColor: "rgba(247, 241, 230, 0.10)",
-    borderRadius: 8,
-    borderWidth: 1,
-    justifyContent: "center",
-    minHeight: 360,
-    padding: spacing.md,
-    position: "relative"
-  },
-  cardMeaningHeroImage: {
-    height: 330,
-    width: "88%"
-  },
-  tarotImageExpandBadge: {
-    alignItems: "center",
-    backgroundColor: "rgba(21, 20, 22, 0.78)",
-    borderColor: "rgba(247, 241, 230, 0.18)",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 34,
-    justifyContent: "center",
-    position: "absolute",
-    right: spacing.sm,
-    top: spacing.sm,
-    width: 34
-  },
-  tarotImageExpandBadgeSmall: {
-    alignItems: "center",
-    backgroundColor: "rgba(21, 20, 22, 0.78)",
-    borderColor: "rgba(247, 241, 230, 0.18)",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 26,
-    justifyContent: "center",
-    position: "absolute",
-    right: spacing.xs,
-    top: spacing.xs,
-    width: 26
-  },
-  cardMeaningHeroCopy: {
-    gap: spacing.sm
-  },
-  cardMeaningEyebrow: {
-    color: colors.gold,
-    fontSize: 12,
-    fontWeight: "900",
-    letterSpacing: 0.6,
-    textTransform: "uppercase"
-  },
-  cardMeaningTitle: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 36,
-    fontWeight: "600",
-    lineHeight: 42
-  },
-  cardMeaningIntro: {
-    color: colors.moon,
-    fontSize: 15,
-    lineHeight: 23
-  },
   cardMeaningChipRow: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -15113,41 +10780,12 @@ zodiacProfilePrompt: {
     paddingHorizontal: spacing.sm,
     paddingVertical: spacing.xs
   },
-  cardMeaningGuidePanel: {
-    backgroundColor: "rgba(247, 241, 230, 0.06)",
-    borderColor: "rgba(201, 164, 92, 0.30)",
-    borderRadius: 8,
-    borderWidth: 1,
-    marginTop: spacing.lg,
-    padding: spacing.lg
-  },
   cardMeaningSectionKicker: {
     color: colors.gold,
     fontSize: 11,
     fontWeight: "900",
     letterSpacing: 0.6,
     textTransform: "uppercase"
-  },
-  cardMeaningGuideText: {
-    color: colors.ivory,
-    fontSize: 18,
-    lineHeight: 29,
-    marginTop: spacing.sm
-  },
-  cardMeaningPolarityGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: spacing.sm,
-    marginTop: spacing.lg
-  },
-  cardMeaningPolarityCard: {
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    flexBasis: 160,
-    flexGrow: 1,
-    padding: spacing.md
   },
   cardMeaningBody: {
     color: colors.moon,
@@ -15202,351 +10840,12 @@ zodiacProfilePrompt: {
     lineHeight: 19,
     marginTop: spacing.xs
   },
-  cardMeaningJournalPanel: {
-    alignItems: "flex-start",
-    backgroundColor: "rgba(201, 130, 141, 0.12)",
-    borderColor: "rgba(201, 130, 141, 0.32)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.md,
-    marginTop: spacing.lg,
-    padding: spacing.lg
-  },
-  cardMeaningJournalText: {
-    color: colors.ivory,
-    fontSize: 18,
-    fontStyle: "italic",
-    fontWeight: "700",
-    lineHeight: 28,
-    marginTop: spacing.xs
-  },
-  cardMeaningNeighborRow: {
-    flexDirection: "row",
-    gap: spacing.sm,
-    marginTop: spacing.lg,
-    paddingBottom: spacing.xl
-  },
-  cardMeaningNeighborButton: {
-    alignItems: "center",
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    flex: 1,
-    flexDirection: "row",
-    gap: spacing.xs,
-    justifyContent: "center",
-    minHeight: 52,
-    paddingHorizontal: spacing.sm
-  },
-  cardMeaningNeighborText: {
-    color: colors.ivory,
-    flexShrink: 1,
-    fontSize: 13,
-    fontWeight: "800"
-  },
   infoBlock: {
     backgroundColor: colors.panel,
     borderColor: colors.border,
     borderRadius: 8,
     borderWidth: 1,
     padding: spacing.md
-  },
-  editorialDrawStage: {
-    alignItems: "center",
-    minHeight: 720,
-    paddingBottom: spacing.xl,
-    paddingTop: spacing.lg
-  },
-  editorialDrawDeckWrap: {
-    borderRadius: 28,
-    marginBottom: spacing.xl,
-    shadowColor: "#000000",
-    shadowOffset: { width: 0, height: 24 },
-    shadowOpacity: 0.28,
-    shadowRadius: 30
-  },
-  editorialDrawDeck: {
-    backgroundColor: "#151311",
-    borderRadius: 18,
-    overflow: "hidden"
-  },
-  editorialDrawDeckPhoto: {
-    height: 348,
-    width: 228
-  },
-  editorialDrawDeckOverlay: {
-    alignItems: "center",
-    backgroundColor: "rgba(21, 20, 22, 0.18)",
-    bottom: 0,
-    justifyContent: "flex-end",
-    left: 0,
-    padding: spacing.md,
-    position: "absolute",
-    right: 0,
-    top: 0
-  },
-  editorialDrawDeckName: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 18,
-    fontWeight: "600",
-    lineHeight: 24,
-    textAlign: "center"
-  },
-  editorialDrawTitle: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 34,
-    fontWeight: "600",
-    lineHeight: 42,
-    textAlign: "center"
-  },
-  editorialDrawPromptRow: {
-    alignItems: "center",
-    flexDirection: "row",
-    gap: spacing.xs,
-    marginTop: spacing.md
-  },
-  editorialDrawPrompt: {
-    color: colors.muted,
-    fontSize: 15,
-    lineHeight: 22
-  },
-  editorialDrawGuidePanel: {
-    backgroundColor: "rgba(247, 241, 230, 0.06)",
-    borderColor: "rgba(201, 164, 92, 0.24)",
-    borderRadius: 8,
-    borderWidth: 1,
-    marginTop: spacing.lg,
-    padding: spacing.md,
-    width: "100%"
-  },
-  editorialDrawGuideLabel: {
-    color: colors.gold,
-    fontSize: 11,
-    fontWeight: "900",
-    letterSpacing: 0.6,
-    textTransform: "uppercase"
-  },
-  editorialDrawGuideText: {
-    color: colors.ivory,
-    fontSize: 15,
-    lineHeight: 23,
-    marginTop: spacing.xs
-  },
-  editorialDrawCount: {
-    color: colors.gold,
-    fontSize: 12,
-    fontWeight: "800",
-    letterSpacing: 0.8,
-    marginTop: spacing.md
-  },
-  editorialSpreadSlots: {
-    flexDirection: "row",
-    gap: spacing.md,
-    justifyContent: "space-between",
-    marginTop: spacing.xl,
-    width: "100%"
-  },
-  editorialSpreadSlotWrap: {
-    alignItems: "center",
-    flex: 1,
-    gap: spacing.md
-  },
-  editorialSpreadSlot: {
-    alignItems: "center",
-    backgroundColor: "#211D1F",
-    borderColor: "rgba(247, 241, 230, 0.14)",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 132,
-    justifyContent: "center",
-    width: "100%"
-  },
-  editorialSpreadSlotFilled: {
-    borderColor: "rgba(201, 164, 92, 0.62)",
-    shadowColor: colors.gold,
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.2,
-    shadowRadius: 18
-  },
-  editorialSpreadSlotCenter: {
-    marginTop: spacing.lg
-  },
-  ritualSlotCard: {
-    borderRadius: 6,
-    height: 112,
-    overflow: "hidden",
-    width: 68
-  },
-  ritualSlotCardPressable: {
-    height: "100%",
-    width: "100%"
-  },
-  ritualSlotCardImage: {
-    height: "100%",
-    width: "100%"
-  },
-  ritualRevealPanel: {
-    alignItems: "stretch",
-    backgroundColor: "#211D1F",
-    borderColor: "rgba(201, 164, 92, 0.35)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.md,
-    marginTop: spacing.lg,
-    padding: spacing.md,
-    width: "100%"
-  },
-  ritualRevealImageFrame: {
-    alignItems: "center",
-    backgroundColor: "#151416",
-    borderColor: "rgba(247, 241, 230, 0.10)",
-    borderRadius: 8,
-    borderWidth: 1,
-    justifyContent: "center",
-    padding: spacing.xs,
-    position: "relative",
-    width: 116
-  },
-  ritualRevealImage: {
-    height: 168,
-    width: "100%"
-  },
-  ritualRevealCopy: {
-    flex: 1,
-    justifyContent: "center"
-  },
-  ritualRevealKicker: {
-    color: colors.gold,
-    fontSize: 10,
-    fontWeight: "900",
-    letterSpacing: 0.5
-  },
-  ritualRevealTitle: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 22,
-    fontWeight: "600",
-    lineHeight: 28,
-    marginTop: spacing.xs
-  },
-  ritualRevealBody: {
-    color: colors.moon,
-    fontSize: 14,
-    lineHeight: 21,
-    marginTop: spacing.xs
-  },
-  ritualRevealPrompt: {
-    color: colors.ivory,
-    fontSize: 13,
-    fontStyle: "italic",
-    fontWeight: "700",
-    lineHeight: 20,
-    marginTop: spacing.sm
-  },
-  editorialSpreadSlotLabel: {
-    color: colors.ivory,
-    fontSize: 12,
-    fontWeight: "800",
-    letterSpacing: 0.8
-  },
-  editorialQuickDrawButton: {
-    alignItems: "center",
-    borderColor: "rgba(201, 164, 92, 0.48)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.xs,
-    justifyContent: "center",
-    marginTop: spacing.lg,
-    minHeight: 48,
-    paddingHorizontal: spacing.md,
-    width: "100%"
-  },
-  editorialQuickDrawButtonText: {
-    color: colors.gold,
-    fontSize: 13,
-    fontWeight: "800"
-  },
-  drawStage: {
-    alignItems: "center",
-    minHeight: 720,
-    justifyContent: "center"
-  },
-  drawDeck: {
-    backgroundColor: colors.charcoal,
-    borderColor: colors.gold,
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 270,
-    marginVertical: spacing.xl,
-    overflow: "hidden",
-    width: 156
-  },
-  drawDeckImage: {
-    height: "100%",
-    opacity: 0.86,
-    width: "100%"
-  },
-  drawDeckOverlay: {
-    alignItems: "center",
-    backgroundColor: "rgba(21, 20, 22, 0.28)",
-    bottom: 0,
-    justifyContent: "center",
-    left: 0,
-    position: "absolute",
-    right: 0,
-    top: 0
-  },
-  drawDeckText: {
-    color: colors.ivory,
-    fontSize: 26,
-    fontWeight: "800"
-  },
-  spreadSlots: {
-    flexDirection: "row",
-    gap: spacing.md,
-    marginBottom: spacing.lg
-  },
-  spreadSlot: {
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 96,
-    width: 62
-  },
-  resultIntro: {
-    alignItems: "center",
-    marginTop: spacing.md
-  },
-  editorialResultStage: {
-    paddingBottom: spacing.xl
-  },
-  editorialResultTitle: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 34,
-    fontWeight: "600",
-    lineHeight: 40,
-    marginTop: spacing.md,
-    textAlign: "center"
-  },
-  editorialResultQuestion: {
-    color: colors.ivory,
-    fontSize: 16,
-    lineHeight: 25,
-    marginTop: spacing.md,
-    maxWidth: 320,
-    textAlign: "center"
-  },
-  editorialResultMeta: {
-    color: colors.moon,
-    fontSize: 12,
-    lineHeight: 18,
-    marginTop: spacing.md
   },
   resultBadge: {
     backgroundColor: "rgba(14, 90, 90, 0.30)",
@@ -15561,202 +10860,11 @@ zodiacProfilePrompt: {
     paddingVertical: spacing.xs,
     textTransform: "uppercase"
   },
-  resultQuestion: {
-    color: colors.ivory,
-    fontSize: 25,
-    fontWeight: "700",
-    lineHeight: 34,
-    marginTop: spacing.md,
-    textAlign: "center"
-  },
-  spreadRow: {
-    alignItems: "flex-end",
-    flexDirection: "row",
-    gap: spacing.sm,
-    marginVertical: spacing.xl
-  },
-  editorialResultSpreadRow: {
-    alignItems: "flex-end",
-    flexDirection: "row",
-    gap: spacing.sm,
-    marginVertical: spacing.xl
-  },
-  editorialSpreadCardWrap: {
-    alignItems: "center",
-    flex: 1
-  },
-  editorialSpreadCardWrapActive: {
-    marginBottom: spacing.lg
-  },
-  editorialSpreadLabel: {
-    color: colors.moon,
-    fontSize: 11,
-    fontWeight: "800",
-    marginBottom: spacing.sm
-  },
-  editorialSpreadLabelActive: {
-    color: colors.gold
-  },
-  editorialSpreadCardImage: {
-    backgroundColor: "#181517",
-    borderColor: "rgba(247, 241, 230, 0.16)",
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 172,
-    width: "100%"
-  },
-  editorialSpreadCardImageActive: {
-    borderColor: "rgba(201, 164, 92, 0.48)",
-    height: 204
-  },
-  editorialSpreadCardName: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 18,
-    fontWeight: "600",
-    marginTop: spacing.sm,
-    textAlign: "center"
-  },
-  editorialSpreadCardNameActive: {
-    color: colors.gold
-  },
-  spreadCardWrap: {
-    alignItems: "center",
-    flex: 1
-  },
-  spreadCardCenter: {
-    marginBottom: spacing.lg
-  },
-  spreadLabel: {
-    color: colors.moon,
-    fontSize: 10,
-    fontWeight: "800",
-    marginBottom: spacing.sm,
-    textTransform: "uppercase"
-  },
-  spreadLabelActive: {
-    color: colors.gold
-  },
-  spreadCardImage: {
-    backgroundColor: colors.charcoal,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 190,
-    width: "100%"
-  },
-  synthesisPanel: {
-    backgroundColor: colors.panel,
-    borderColor: "rgba(201, 164, 92, 0.35)",
-    borderRadius: 8,
-    borderWidth: 1,
-    padding: spacing.lg
-  },
-  editorialSynthesisPanel: {
-    backgroundColor: "#231F20",
-    borderColor: "rgba(201, 164, 92, 0.28)",
-    borderRadius: 8,
-    borderWidth: 1,
-    marginTop: spacing.xl,
-    padding: spacing.lg
-  },
-  editorialSynthesisTitle: {
-    color: colors.gold,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 18,
-    fontWeight: "600",
-    textAlign: "center"
-  },
-  editorialSynthesisBody: {
-    color: colors.ivory,
-    fontSize: 15,
-    fontStyle: "italic",
-    lineHeight: 28,
-    marginTop: spacing.md,
-    textAlign: "center"
-  },
-  editorialSynthesisDivider: {
-    backgroundColor: "rgba(247, 241, 230, 0.12)",
-    height: 1,
-    marginTop: spacing.lg,
-    width: "100%"
-  },
-  editorialPromptLabel: {
-    color: colors.moon,
-    fontSize: 11,
-    fontWeight: "800",
-    letterSpacing: 0.8,
-    marginTop: spacing.lg,
-    textAlign: "center",
-    textTransform: "uppercase"
-  },
-  editorialPromptBody: {
-    color: colors.gold,
-    fontSize: 17,
-    fontWeight: "600",
-    lineHeight: 28,
-    marginTop: spacing.sm,
-    textAlign: "center"
-  },
-  meaningBlock: {
-    borderTopColor: colors.border,
-    borderTopWidth: 1,
-    marginTop: spacing.xl,
-    paddingTop: spacing.lg
-  },
-  editorialMeaningCard: {
-    backgroundColor: "#231F20",
-    borderColor: "rgba(247, 241, 230, 0.12)",
-    borderRadius: 8,
-    borderWidth: 1,
-    marginTop: spacing.md,
-    padding: spacing.lg
-  },
-  editorialMeaningCardFeatured: {
-    borderColor: "rgba(201, 164, 92, 0.52)"
-  },
-  editorialMeaningKicker: {
-    color: colors.gold,
-    fontSize: 11,
-    fontWeight: "800",
-    letterSpacing: 0.8
-  },
-  editorialMeaningTitle: {
-    color: colors.gold,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 18,
-    fontWeight: "600",
-    marginTop: spacing.xs
-  },
-  editorialMeaningBody: {
-    color: colors.ivory,
-    fontSize: 15,
-    lineHeight: 26,
-    marginTop: spacing.sm
-  },
   resultCardTitle: {
     color: colors.ivory,
     fontSize: 22,
     fontWeight: "800",
     marginTop: spacing.xs
-  },
-  promptPanel: {
-    alignItems: "center",
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    marginTop: spacing.xl,
-    padding: spacing.lg
-  },
-  promptText: {
-    color: colors.ivory,
-    fontSize: 21,
-    fontStyle: "italic",
-    fontWeight: "700",
-    lineHeight: 29,
-    marginTop: spacing.sm,
-    textAlign: "center"
   },
   tarotGuideSelectorPanel: {
     backgroundColor: "#211D1F",
@@ -15910,24 +11018,6 @@ zodiacProfilePrompt: {
     fontSize: 14,
     fontWeight: "700"
   },
-  editorialShareButton: {
-    alignItems: "center",
-    backgroundColor: "#2A2626",
-    borderRadius: 8,
-    height: 44,
-    justifyContent: "center",
-    marginTop: spacing.md,
-    width: 44
-  },
-  editorialReportLink: {
-    alignItems: "center",
-    marginTop: spacing.md
-  },
-  editorialReportLinkText: {
-    color: colors.moon,
-    fontSize: 12,
-    fontWeight: "700"
-  },
   sharePreviewCard: {
     alignItems: "center",
     backgroundColor: "#211E1A",
@@ -15982,54 +11072,12 @@ zodiacProfilePrompt: {
     fontSize: 14,
     lineHeight: 20
   },
-  journalCard: {
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    marginTop: spacing.sm,
-    padding: spacing.md
-  },
   journalDetailHero: {
     backgroundColor: colors.panel,
     borderColor: "rgba(201, 164, 92, 0.35)",
     borderRadius: 8,
     borderWidth: 1,
     padding: spacing.lg
-  },
-  memoryPanel: {
-    backgroundColor: colors.panel,
-    borderColor: "rgba(14, 90, 90, 0.45)",
-    borderRadius: 8,
-    borderWidth: 1,
-    marginBottom: spacing.md,
-    marginTop: spacing.sm,
-    padding: spacing.lg
-  },
-  memoryTitle: {
-    color: colors.ivory,
-    fontFamily: typography.headlineFontFamily,
-    fontSize: 24,
-    fontWeight: "600",
-    lineHeight: 31
-  },
-  memorySummary: {
-    color: colors.muted,
-    fontSize: 14,
-    lineHeight: 22,
-    marginTop: spacing.sm
-  },
-  memoryStats: {
-    flexDirection: "row",
-    gap: spacing.md,
-    marginTop: spacing.md
-  },
-  memoryPrompt: {
-    color: colors.gold,
-    fontSize: 15,
-    fontWeight: "700",
-    lineHeight: 23,
-    marginTop: spacing.md
   },
   snapshotPanel: {
     backgroundColor: "rgba(14, 90, 90, 0.18)",
@@ -16053,87 +11101,6 @@ zodiacProfilePrompt: {
   },
   profileScreen: {
     gap: spacing.md
-  },
-  profileHeroCard: {
-    backgroundColor: colors.panelSoft,
-    borderColor: "rgba(201, 164, 92, 0.26)",
-    borderRadius: 8,
-    borderWidth: 1,
-    gap: spacing.md,
-    padding: spacing.lg
-  },
-  profileHeroTop: {
-    alignItems: "center",
-    flexDirection: "row",
-    gap: spacing.md
-  },
-  profileHeroCopy: {
-    flex: 1
-  },
-  profileAvatar: {
-    alignItems: "center",
-    backgroundColor: "rgba(201, 164, 92, 0.10)",
-    borderColor: colors.gold,
-    borderRadius: 8,
-    borderWidth: 1,
-    height: 72,
-    justifyContent: "center",
-    width: 72
-  },
-  profileAvatarText: {
-    color: colors.gold,
-    fontSize: 34,
-    fontWeight: "800"
-  },
-  profileName: {
-    color: colors.ivory,
-    fontSize: 28,
-    fontWeight: "700",
-    marginTop: spacing.xs
-  },
-  profileTier: {
-    alignSelf: "flex-start",
-    backgroundColor: "rgba(14, 90, 90, 0.32)",
-    borderRadius: 8,
-    color: colors.gold,
-    fontSize: 12,
-    fontWeight: "900",
-    marginTop: spacing.sm,
-    overflow: "hidden",
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.xs,
-    textTransform: "uppercase"
-  },
-  profileHeroText: {
-    color: colors.muted,
-    fontSize: 14,
-    lineHeight: 20,
-    marginTop: spacing.xs
-  },
-  profileQuickStats: {
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    overflow: "hidden"
-  },
-  profileQuickStat: {
-    borderRightColor: colors.border,
-    borderRightWidth: 1,
-    flex: 1,
-    padding: spacing.md
-  },
-  profileQuickValue: {
-    color: colors.ivory,
-    fontSize: 22,
-    fontWeight: "900"
-  },
-  profileQuickLabel: {
-    color: colors.muted,
-    fontSize: 12,
-    fontWeight: "700",
-    marginTop: spacing.xs,
-    textTransform: "uppercase"
   },
   profileSection: {
     backgroundColor: colors.panel,
@@ -16435,27 +11402,6 @@ zodiacProfilePrompt: {
   premiumMetric: {
     flex: 1
   },
-  profileRow: {
-    alignItems: "center",
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: spacing.sm,
-    padding: spacing.md
-  },
-  profileRowTitle: {
-    color: colors.ivory,
-    fontSize: 18,
-    fontWeight: "800"
-  },
-  profileRowDetail: {
-    color: colors.muted,
-    fontSize: 14,
-    marginTop: spacing.xs
-  },
   profileChevron: {
     color: colors.ivory,
     fontSize: 20
@@ -16497,50 +11443,6 @@ zodiacProfilePrompt: {
     flexShrink: 1,
     fontSize: 14,
     fontWeight: "800"
-  },
-  notificationHomePanel: {
-    alignItems: "center",
-    backgroundColor: "rgba(14, 90, 90, 0.18)",
-    borderColor: "rgba(201, 164, 92, 0.24)",
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.md,
-    marginBottom: spacing.md,
-    marginTop: spacing.sm,
-    padding: spacing.md
-  },
-  notificationHomeIcon: {
-    alignItems: "center",
-    backgroundColor: "rgba(201, 164, 92, 0.12)",
-    borderRadius: 8,
-    height: 38,
-    justifyContent: "center",
-    width: 38
-  },
-  notificationHomeTitle: {
-    color: colors.ivory,
-    fontSize: 15,
-    fontWeight: "800"
-  },
-  notificationHomeBody: {
-    color: colors.muted,
-    fontSize: 12,
-    lineHeight: 17,
-    marginTop: 2
-  },
-  notificationHomeButton: {
-    alignItems: "center",
-    backgroundColor: colors.gold,
-    borderRadius: 8,
-    minWidth: 44,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm
-  },
-  notificationHomeButtonText: {
-    color: colors.charcoal,
-    fontSize: 13,
-    fontWeight: "900"
   },
   notificationSettingsPanel: {
     backgroundColor: colors.panel,
@@ -16620,51 +11522,6 @@ zodiacProfilePrompt: {
   operatorRow: {
     opacity: 0.78
   },
-  panel: {
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    marginTop: spacing.sm,
-    padding: spacing.md
-  },
-  healthPanel: {
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    padding: spacing.md
-  },
-  adminStatusPill: {
-    alignItems: "center",
-    alignSelf: "flex-end",
-    backgroundColor: "rgba(14, 90, 90, 0.30)",
-    borderColor: colors.teal,
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.sm,
-    marginBottom: spacing.sm,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm
-  },
-  adminStatusDot: {
-    color: colors.teal,
-    fontSize: 16,
-    fontWeight: "900"
-  },
-  metricGrid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: spacing.sm,
-    marginTop: spacing.md
-  },
-  metaRail: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: spacing.sm,
-    marginTop: spacing.sm
-  },
   miniStatValue: {
     color: colors.gold,
     fontSize: 20,
@@ -16676,46 +11533,11 @@ zodiacProfilePrompt: {
     lineHeight: 15,
     marginTop: spacing.xs
   },
-  contentRow: {
-    alignItems: "center",
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.md,
-    marginTop: spacing.sm,
-    padding: spacing.md
-  },
   sourcePath: {
     color: colors.moon,
     fontSize: 11,
     lineHeight: 16,
     marginTop: spacing.xs
-  },
-  jobRow: {
-    alignItems: "center",
-    backgroundColor: colors.panel,
-    borderColor: colors.border,
-    borderRadius: 8,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.md,
-    marginTop: spacing.sm,
-    padding: spacing.md
-  },
-  jobMeta: {
-    alignItems: "flex-end",
-    gap: spacing.xs
-  },
-  promptInput: {
-    minHeight: 118,
-    textAlignVertical: "top"
-  },
-  agentName: {
-    color: colors.ivory,
-    fontSize: 14,
-    fontWeight: "800"
   },
   toast: {
     alignSelf: "center",
@@ -16827,40 +11649,6 @@ zodiacProfilePrompt: {
   confirmDangerText: {
     color: colors.rose
   },
-  tabs: {
-    alignSelf: "center",
-    backgroundColor: "rgba(33, 31, 34, 0.96)",
-    borderTopColor: colors.border,
-    borderTopWidth: 1,
-    bottom: 0,
-    flexDirection: "row",
-    maxWidth: 520,
-    paddingBottom: spacing.sm,
-    paddingHorizontal: spacing.sm,
-    paddingTop: spacing.sm,
-    position: "absolute",
-    width: "100%"
-  },
-  tab: {
-    alignItems: "center",
-    flex: 1,
-    minHeight: 52,
-    justifyContent: "center"
-  },
-  tabIcon: {
-    color: colors.moon,
-    fontSize: 15,
-    fontWeight: "900"
-  },
-  tabText: {
-    color: colors.moon,
-    fontSize: 11,
-    fontWeight: "800",
-    marginTop: spacing.xs
-  },
-  activeTabText: {
-    color: colors.gold
-  },
   traitRail: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -16880,23 +11668,5 @@ zodiacProfilePrompt: {
     paddingVertical: 4,
     marginRight: 4,
     marginBottom: 4
-  },
-  promptPreviewRow: {
-    alignItems: "center",
-    backgroundColor: "rgba(201, 164, 92, 0.06)",
-    borderColor: "rgba(201, 164, 92, 0.25)",
-    borderRadius: 6,
-    borderWidth: 1,
-    flexDirection: "row",
-    gap: spacing.xs,
-    marginTop: spacing.sm,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: spacing.xs
-  },
-  promptPreviewText: {
-    color: colors.gold,
-    fontSize: 12,
-    fontStyle: "italic",
-    flex: 1
   }
 });

@@ -29,6 +29,15 @@ export function moonPhaseFor(date: Date): MoonPhase {
   return { id, ageDays, illumination: (1 - Math.cos(2 * Math.PI * fraction)) / 2, waxing: fraction < 0.5 };
 }
 
+// Whole days until the next full or new moon, whichever comes first (0 = today).
+export function nextMoonEvent(date: Date): { kind: "full" | "new"; days: number } {
+  const { ageDays } = moonPhaseFor(date);
+  const half = SYNODIC_MONTH_DAYS / 2;
+  return ageDays < half
+    ? { kind: "full", days: Math.round(half - ageDays) }
+    : { kind: "new", days: Math.round(SYNODIC_MONTH_DAYS - ageDays) };
+}
+
 const phaseCopy: Record<MoonPhaseId, { vi: string; en: string; hintVi: string; hintEn: string }> = {
   new: { vi: "Trăng non", en: "New moon", hintVi: "Hợp để đặt một ý định nhỏ.", hintEn: "A good time to set one small intention." },
   waxing_crescent: { vi: "Trăng lưỡi liềm đầu", en: "Waxing crescent", hintVi: "Hợp để bắt đầu một việc nhỏ và giữ nhịp.", hintEn: "A good time to start something small and keep at it." },

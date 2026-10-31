@@ -35,6 +35,10 @@ export const circularDifference = (a, b) =>
 const signedDifference = (a, b) => normalize(a - b + 180) - 180;
 const longitude = (body, date) =>
   normalize(A.Ecliptic(A.GeoVector(A.Body[body], new CivilAstroTime(date), true)).elon);
+// Tropical ecliptic longitude of a body at an instant, e.g. today's Moon for the Today block.
+export function bodyLongitudeAt(body, date) {
+  return longitude(body, date);
+}
 const conventions = {
   zodiac: "tropical",
   coordinateSystem: "geocentric_true_ecliptic_of_date",

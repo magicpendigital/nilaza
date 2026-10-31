@@ -148,7 +148,7 @@ Logo, approved VI/EN message, brief AI introduction, primary Create account, sec
 
 ### 2. Goals — one optional step after authentication
 
-Choose 1–3 goals using existing IDs, or Skip. Use the account name and existing tone; new users default to gentle. Preserve old answers. Save before entering Home, show retry on failure. Existing completed accounts never repeat onboarding. Preserve auth confirmation, reset and deep links.
+Choose 1–3 goals, or Để sau (design canvas Onboarding, Owner decision 2026-10-31): "Bước 2/2", "Điều gì đang ở trong lòng bạn?", pill chips Tình yêu / Công việc / Hiểu bản thân / Chữa lành / Ra quyết định / Tò mò tâm linh (the retired "daily" goal migrates to self), an optional birth date (ngày / tháng / năm) that shows the sun sign and the morning sign message, "Lưu trên máy bạn; xóa bất cứ lúc nào trong mục Tôi.", then "Vào Nilaza". Use the account name and existing tone; new users default to gentle. Save before entering Home, show retry on failure. Existing completed accounts never repeat onboarding. Preserve auth confirmation, reset and deep links. Sign-in follows the SignIn canvas with email and password only ("Chào mừng trở lại", Email, Mật khẩu, Quên mật khẩu?, Đăng nhập, Chưa có tài khoản? Tạo tài khoản, the 18+ and terms line); Google, Apple and content preview stay hidden until they exist.
 
 ### 3. Birth profile — Profile/Astrology entry
 
@@ -162,46 +162,28 @@ Keep the existing tone choice and editing controls. No extra onboarding step and
 
 Header with the wordmark and a round notification button → date and local moon phase → greeting and a time-of-day line → Today card hero on a solid surface with a gold hairline, two stacked card backs, the primary “Lật lá hôm nay” / “Xem lại lá hôm nay” and the streak dots inside the hero (design canvas, Owner-approved 2026-10-30). This reveals/reopens existing Today Pulse, with no new AI session or charge; after reveal the card screen ends in Save to Journal, Ask deeper (existing tarot-card guide chat) and Share (card and library meaning only). Below: a sky tile (moon phase) and a sign tile with the sign artwork that opens Astrology; an “Hỏi Nilaza” field that only prefills Oracle; “Dành cho bạn · {chủ đề}” with “Đổi chủ đề” cycling love, career and self locally (starting from the first onboarding goal) and a rail of a topic tarot reading, an ask card that only prefills Oracle, and a journal prompt that opens the composer; “Đọc tiếp” with the newest saved entry (card thumbnails for saved readings) and an Open Journal link. No compatibility card until that feature exists. Cards keep the 8 px radius. Continue/recent items use existing data. Discovery remains reachable through Explore/Chat: decks, library, guides, Council, astrology. Keep five tabs (Hôm nay, Khám phá, Trò chuyện, Nhật ký, Tôi) and Tarot as a subflow. Implementation/verification evidence lives in `docs/BRAND_ROLLOUT_2026-09-11.md`.
 
-### 6. Explore
+### 6. Explore (design canvas Explore and CardLibrary, 2026-10-31)
+
+- "Khám phá" title, then a Tarot card ("Hỏi một câu, rút vài lá", "78 lá · 8 bộ bài · có giải nghĩa theo câu hỏi của bạn", Trải bài and Học 78 lá) and an Astrology card ("Bầu trời của bạn", "Big 3, Mặt Trăng hôm nay và so lá số với một người." — never "hợp nhau", per the approved synastry rules).
+- "Chọn bộ bài theo tâm trạng" with Tình yêu (Rose Mirror), Chữa lành (Moon Garden), Quyết định (Golden Thread) and "Xem 8 bộ" (the deck chooser).
+- "Trò chuyện với người dẫn": the guide that fits the user's goals (the inner-child guide when none) and the Hội đồng 3 góc nhìn row, plus "Xem tất cả".
+- "Xem tướng mặt" as a dashed row with "Sắp có"; no other action.
+- Thư viện 78 lá is its own Tarot stage: "Bộ {deck}", "78 lá Tarot", "Đã học n/78" with a thin progress bar (a card counts once its guide is opened; ids are kept on the device and included in the local export), chips Tất cả / Ẩn chính · 22 / Cốc / Gậy / Kiếm / Tiền with a one-line description per group, and a three-column grid of the deck art with the Vietnamese name and "numeral · original name" (majors) or the original name (minors). Tap opens the card guide, long press shows the full artwork. The deck detail links to it.
+
+### 7. Trò chuyện hub and Council (design canvas ChatHub and Council, Owner decisions 2026-10-31)
 
 Goal:
 
-Show all spiritual and wisdom experiences.
+Help users continue a conversation, get pointed in a direction, or pick a guide.
 
 Layout:
 
-- Search field.
-- Category chips:
-  - Love
-  - Career
-  - Self
-  - Calm
-  - Mystery
-- Feature tiles:
-  - Tarot
-  - Astrology
-  - Face reading
-  - Wisdom library
-  - Daily ritual
-- Use visual assets for each tile.
-
-### 7. Persona List
-
-Goal:
-
-Help users find a guide.
-
-Layout:
-
-- Header: Choose your guide.
-- Category tabs:
-  - Sages
-  - Love
-  - Career
-  - Books
-  - Healing
-- Persona cards with portrait, name, short style, premium/free badge.
-- Suggested prompt preview.
+- Header "Trò chuyện" with a round search button that opens a search field for guides and topics.
+- Tiếp tục: the latest conversation with avatar, relative day and its last line.
+- Nilaza Oracle card on ivory with "Bắt đầu kể". Oracle is an on-device direction chooser for the first Play build: it reads the message on the device, uses the same crisis filter as the server, answers with action cards (Trải bài, Hỏi một người dẫn, Hội đồng 3 góc nhìn, Viết vào Nhật ký, Xem lá số) and labels every reply "Gợi ý của Nilaza trên máy, không phải AI trả lời". Nothing is sent.
+- Hội đồng 3 góc nhìn row with three stacked avatars.
+- Người dẫn: pill chips Tất cả / Tình cảm / Chữa lành / Triết gia and a three-column grid of round portraits, name and one line; eight guides first, then "Xem cả N". Short guide names wait for Owner review (docs/content-review/persona-short-names-draft.md). Unavailable guides say "Sắp ra mắt". The transparency note closes the section.
+- Council start screen: header "Hội đồng 3 góc nhìn" with history and a menu (Tự chọn người dẫn, Hội đồng mới, Lưu biên bản); topic chips Tình cảm / Công việc / Nghĩ quá nhiều / Quyết định lớn; three guides with their roles; the headline "Kể một tình huống thật…"; three starter questions; the composer and the note "AI mô phỏng nhiều góc nhìn để tự phản chiếu". The "1 lượt hội đồng mỗi ngày" line returns once the ai-council server change (sign-in required, one council a day with four follow-ups) is deployed.
 
 ### 8. Persona Detail
 
@@ -238,22 +220,20 @@ Layout:
 
 Keep the chat interface clean and emotionally warm.
 
-### 10. Tarot Topic
+### 10. Tarot Topic (step 1/2, design canvas TarotAsk)
 
 Goal:
 
 Let user set intention.
 
-Layout:
+Layout (one screen, top bar “Trải bài · Bước 1/2”):
 
-- Title: What do you want clarity on?
-- Topic tiles:
-  - Love
-  - Career
-  - Decision
-  - Self
-  - Open question
-- Optional question input.
+- Title “Bạn muốn hỏi điều gì?” and the question field (optional; example questions show while it is empty).
+- A local suggestion card when the question asks the cards to read another person or to predict: a self-focused version with “Dùng câu này” / “Giữ câu của tôi” and an honest note. Nothing is sent to a server.
+- Topic chips Tình yêu, Công việc, Bản thân, Quyết định that follow the question until the person picks one.
+- Spread cards for the available spreads.
+- The selected deck with “Đổi” (opens deck selection).
+- Fixed button “Bắt đầu rút bài” goes straight to the draw.
 
 ### 11. Tarot Deck Selection
 
@@ -267,7 +247,7 @@ Layout:
 - Each deck shows preview image, name, vibe, premium/free label.
 - Continue button.
 
-### 12. Tarot Draw
+### 12. Tarot Draw (step 2/2, design canvas TarotDraw)
 
 Goal:
 
@@ -275,13 +255,13 @@ Create a ritual moment.
 
 Layout:
 
-- Deck centered.
-- Instruction: Tap to draw.
-- Spread slots visible.
-- Animated selected cards.
-- Progress indicator for number of cards drawn.
+- The question at the top.
+- One slot per spread position; the next one outlined in gold, drawn cards shown in place (reversed art rotated).
+- “Hít một hơi chậm. Chọn lá cho vị trí …” and the remaining readings for today.
+- A fan of card backs: tapping a card raises it, the main button becomes “Lật lá này”. Cards stay randomly drawn.
+- “Lật cả N lá ngay” reveals the rest; “Đổi bộ bài”.
 
-### 13. Tarot Result
+### 13. Tarot Result (design canvas TarotResult)
 
 Goal:
 
@@ -289,15 +269,13 @@ Deliver a personal, beautiful, savable reading.
 
 Layout:
 
-- Header with topic and question.
-- Card images in spread layout.
-- Card-by-card interpretation.
-- Overall message.
-- Reflection question.
-- Actions:
-  - Save
-  - Share
-  - Ask a follow-up
+- Top bar with topic, card count and deck; the question in quotes.
+- Card images with position and Vietnamese name.
+- “Tóm lại”: a short heading and the overall message, with the source line (AI, reference meanings or safety response).
+- One collapsible section per card using the AI text for that card (reference meaning otherwise), keywords and “Học thêm về lá này”.
+- Blocks the AI did not return stay hidden (cross-card notes and a small step need the approved prompt update).
+- “Câu hỏi để viết” with “Viết vào Nhật ký”, then the guide choice.
+- Fixed dock: Lưu trải bài, Hỏi tiếp, and a menu for share and report.
 
 ### 14. Astrology Birth Form
 
@@ -318,19 +296,14 @@ Goal:
 
 Show chart insight in digestible sections.
 
-Layout:
+Layout (AstroHub and AstroChart design canvas; content Owner-approved 2026-10-31, template text only, no AI):
 
-- Big 3 summary cards:
-  - Sun
-  - Moon
-  - Rising
-- Tabs:
-  - Personality
-  - Love
-  - Career
-  - Inner lesson
-- Save report button.
-- Premium expansion section.
+- Hub "Bầu trời của bạn": the newest saved chart's Big 3 card with the headline (Sun opening + Moon clause), the Moon need and the Rising first impression; the "Mặt Trăng hôm nay" block (today's Moon in the user's Whole Sign house, Nên thử / Nên tránh, a reference note); then 12 cung & thần thoại, Lịch trăng and saved charts.
+- Chart overview: date, time and place line, Big 3 cards with roles (Bạn là ai / Bạn cảm thế nào / Người khác thấy), the headline and summary, then pill tabs Tổng quan / Tình yêu (Sao Kim, Sao Hỏa) / Sự nghiệp (Thiên đỉnh, Sao Thổ) / Bản thân (Mặt Trăng, Cung mọc). Each topic point shows a title, a short paragraph, Bạn cần and Cần để ý; each tab ends with "Đây là gợi ý để tự soi chiếu, không phải dự đoán."; Bản thân adds a birth-time note.
+- Without an exact birth time: hide the Rising line and the Today block, read only points whose sign is certain, and show "Bổ sung giờ sinh", which reopens the form on the exact-time mode.
+- Point names are written Thiên đỉnh and Cung mọc everywhere.
+- Save report button, and the AI deep-read block once its server change is deployed.
+- So với một người (Owner-approved 2026-10-31): a hub row opens a list of saved people sorted by relationship. Adding someone reuses the birth form with a name or nickname and relationship chips, then shows the consent card ("Trước khi lưu bản đồ của người khác" / "Mình hiểu, lưu bản đồ") before anything is saved, only on the device. The comparison shows the intro, Sun and Moon element pairs (one card when both share a pair), up to five closest cross-aspects with Thử cùng nhau, keeping both a flowing and a tension aspect when present, then the footer and a delete action. No score, no summary line, no AI entry; Moon aspects are hidden and the Moon element carries a note when a birth time is not exact; Venus–Mars is hidden for Người nhà and Đồng nghiệp, đối tác.
 
 ### 16. Face Reading Consent
 
@@ -365,19 +338,15 @@ Layout:
 
 Goal:
 
-Let users revisit saved insights.
+Let users revisit and write (design canvas Journal, Owner decisions 2026-10-31).
 
 Layout:
 
-- Timeline list.
-- Filter chips:
-  - All
-  - Tarot
-  - Chat
-  - Astrology
-  - Notes
-- Mood selector or mood tags.
-- Empty state with action to draw tarot or chat.
+- Header "Nhật ký" with a search button and "Chỉ bạn thấy · lưu trên máy này".
+- 7 ngày qua: one dot per day coloured by the newest mood the user picked (dashed when none, today outlined) and "Tuần này bạn hay thấy {cảm xúc}. {câu hỏi}".
+- Câu hỏi hôm nay from packages/content/data/journal-prompts.json (30 prompts, one per day) with "Viết vài dòng" (opens the composer with the prompt) and "Câu khác".
+- Pill chips Tất cả / Lá bài / Ghi chú / Trò chuyện / Chiêm tinh, then entries grouped by day ("Hôm nay · 31/10", "Hôm qua · 30/10") with a source icon, "NGUỒN · CẢM XÚC" kicker, time, title and two lines.
+- Empty state with actions to draw cards or open chat; detail view keeps mood, private note, delete and open source.
 
 ### 19. Journal Detail
 
@@ -421,17 +390,17 @@ Layout:
 
 Goal:
 
-Control account, birth profile, subscription, and privacy.
+Control account, birth profile, reminders and privacy (design canvas Profile, Owner decisions 2026-10-31).
 
 Layout:
 
-- User display name/avatar.
-- Birth profile.
-- Preferences.
-- Subscription status.
-- Privacy controls.
-- Delete account.
-- Log out.
+- "Tôi", avatar initial, name, "{cung} · bạn đồng hành từ {ngày}", Sửa.
+- Three stats: ngày liên tiếp, mục Nhật ký, lần trải bài.
+- Cá nhân hóa: Mục tiêu, Giọng trò chuyện, Ngày sinh & lá số, Ngôn ngữ.
+- Thông báo: "Nhắc lá bài hôm nay" switch with a time (07:00 / 08:00 / 12:00 / 21:00), scheduled as a local notification; other notifications.
+- Riêng tư & dữ liệu: export or delete data on this device. No Oracle memory toggle, because Oracle runs on the device.
+- Tài khoản: today's usage, Trợ giúp, Điều khoản & Quyền riêng tư, more settings, Đăng xuất; Xóa tài khoản (typed confirmation) appears once account-delete is deployed.
+- Footer "Nilaza {version} · Nội dung để giải trí và tự phản chiếu".
 
 ### 22. Admin Dashboard
 

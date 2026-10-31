@@ -1,0 +1,2297 @@
+{
+  "version": "2026-10-31",
+  "status": "approved",
+  "approval": "Owner approved in chat on 2026-10-31 (astrology-big3-moon-draft.md, astrology-topic-placements-draft.md).",
+  "labels": {
+    "needs": {
+      "vi": "Bạn cần",
+      "en": "You need"
+    },
+    "watch": {
+      "vi": "Cần để ý",
+      "en": "Watch for"
+    }
+  },
+  "reminder": {
+    "vi": "Đây là gợi ý để tự soi chiếu, không phải dự đoán.",
+    "en": "These are prompts for self-reflection, not predictions."
+  },
+  "birthTimeNote": {
+    "vi": "Nếu bạn chưa chắc giờ sinh, phần này có thể khác.",
+    "en": "If you are not sure of your birth time, this part may differ."
+  },
+  "needsBirthTime": {
+    "vi": "Phần này cần giờ sinh chính xác.",
+    "en": "This part needs your exact birth time."
+  },
+  "topics": {
+    "love": {
+      "label": {
+        "vi": "Tình yêu",
+        "en": "Love"
+      },
+      "points": [
+        "venus",
+        "mars"
+      ]
+    },
+    "career": {
+      "label": {
+        "vi": "Sự nghiệp",
+        "en": "Career"
+      },
+      "points": [
+        "mc",
+        "saturn"
+      ]
+    },
+    "self": {
+      "label": {
+        "vi": "Bản thân",
+        "en": "Self"
+      },
+      "points": [
+        "moon",
+        "rising"
+      ]
+    }
+  },
+  "points": {
+    "venus": {
+      "name": {
+        "vi": "Sao Kim",
+        "en": "Venus"
+      },
+      "intro": {
+        "vi": "Sao Kim nói về điều bạn trân trọng trong tình cảm và cách bạn trao, nhận yêu thương.",
+        "en": "Venus is about what you treasure in love and how you give and receive affection."
+      }
+    },
+    "mars": {
+      "name": {
+        "vi": "Sao Hỏa",
+        "en": "Mars"
+      },
+      "intro": {
+        "vi": "Sao Hỏa nói về cách bạn chủ động, theo đuổi, và cách bạn giận rồi làm lành.",
+        "en": "Mars is about how you take the lead, pursue what you want, and how you get upset and make up."
+      }
+    },
+    "mc": {
+      "name": {
+        "vi": "Thiên đỉnh",
+        "en": "Midheaven"
+      },
+      "needsBirthTime": true,
+      "intro": {
+        "vi": "Thiên đỉnh nói về hướng bạn muốn đóng góp và điều bạn muốn được ghi nhận.",
+        "en": "The Midheaven is about where you want to contribute and what you want to be recognized for."
+      }
+    },
+    "saturn": {
+      "name": {
+        "vi": "Sao Thổ",
+        "en": "Saturn"
+      },
+      "intro": {
+        "vi": "Sao Thổ nói về trách nhiệm và những bài học lớn dần theo thời gian.",
+        "en": "Saturn is about responsibility and the lessons that grow with time."
+      }
+    },
+    "moon": {
+      "name": {
+        "vi": "Mặt Trăng",
+        "en": "Moon"
+      },
+      "intro": {
+        "vi": "Mặt Trăng nói về nhu cầu cảm xúc và điều giúp bạn thấy an lòng.",
+        "en": "The Moon is about your emotional needs and what helps you feel at ease."
+      }
+    },
+    "rising": {
+      "name": {
+        "vi": "Cung mọc",
+        "en": "Rising"
+      },
+      "needsBirthTime": true,
+      "intro": {
+        "vi": "Cung mọc nói về cách bạn bước vào hoàn cảnh mới và ấn tượng ban đầu người khác có thể thấy.",
+        "en": "Your Rising sign is about how you step into new situations and the first impression others may get."
+      }
+    }
+  },
+  "placements": {
+    "venus": {
+      "aries": {
+        "title": {
+          "vi": "Bạn yêu thẳng thắn và nhiệt thành",
+          "en": "You love directly and wholeheartedly"
+        },
+        "body": {
+          "vi": "Với Sao Kim ở Bạch Dương, tình cảm của bạn có thể bùng lên nhanh và muốn được bày tỏ ngay. Bạn thường thích sự rõ ràng, chủ động và chút háo hức của lúc mới quen. Khi nhịp hai người khác nhau, chậm lại một chút có thể giúp người kia kịp theo cùng bạn.",
+          "en": "With Venus in Aries, your affection may spark quickly and want to be shown right away. You often enjoy clarity, initiative and the thrill of early connection. When your pace differs from someone else's, slowing down a little can help them meet you there."
+        },
+        "needs": [
+          {
+            "vi": "Được bày tỏ tình cảm thẳng thắn",
+            "en": "Expressing affection openly"
+          },
+          {
+            "vi": "Một chút mới mẻ, phiêu lưu",
+            "en": "A little novelty and adventure"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Vội kết luận khi chưa hiểu nhau",
+            "en": "Rushing before you know each other"
+          },
+          {
+            "vi": "Mất hứng khi nhịp chậm lại",
+            "en": "Losing interest when things slow down"
+          }
+        ]
+      },
+      "taurus": {
+        "title": {
+          "vi": "Bạn yêu bằng sự bền bỉ và ấm áp",
+          "en": "You love with steadiness and warmth"
+        },
+        "body": {
+          "vi": "Sao Kim ở Kim Ngưu gợi một tình cảm lớn lên chậm mà chắc. Bạn có thể thấy được thương qua những điều cụ thể: bữa cơm chung, một cái ôm, sự có mặt đều đặn. Khi đã gắn bó, bạn thường muốn giữ gìn lâu dài, và cũng cần thời gian để quen với thay đổi.",
+          "en": "Venus in Taurus suggests affection that grows slowly and surely. You may feel loved through concrete things: a shared meal, a hug, someone showing up consistently. Once attached, you often want to care for it for the long term, and you may need time to adjust to change."
+        },
+        "needs": [
+          {
+            "vi": "Sự có mặt đều đặn, đáng tin",
+            "en": "Steady, reliable presence"
+          },
+          {
+            "vi": "Những cử chỉ quan tâm cụ thể",
+            "en": "Concrete gestures of care"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Giữ chặt vì sợ thay đổi",
+            "en": "Holding on out of fear of change"
+          },
+          {
+            "vi": "Ngại nói ra khi không vui",
+            "en": "Hesitating to say when you're unhappy"
+          }
+        ]
+      },
+      "gemini": {
+        "title": {
+          "vi": "Bạn yêu qua những cuộc trò chuyện",
+          "en": "You love through conversation"
+        },
+        "body": {
+          "vi": "Với Sao Kim ở Song Tử, sự gần gũi có thể bắt đầu từ một câu chuyện hay, một lời đùa đúng lúc. Bạn thường quý người làm mình tò mò và cùng mình khám phá điều mới. Tình cảm của bạn sống động khi được trò chuyện, và có thể chùng xuống khi mọi thứ trở nên đơn điệu.",
+          "en": "With Venus in Gemini, closeness may begin with a good story or a well-timed joke. You often value people who spark your curiosity and explore new things with you. Your affection comes alive in conversation and may fade when things feel monotonous."
+        },
+        "needs": [
+          {
+            "vi": "Trò chuyện cởi mở, nhiều chủ đề",
+            "en": "Open, wide-ranging conversation"
+          },
+          {
+            "vi": "Không gian để tò mò, đổi mới",
+            "en": "Room for curiosity and change"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Nói nhiều mà ngại nói thật lòng",
+            "en": "Talking a lot but avoiding deeper feelings"
+          },
+          {
+            "vi": "Dễ phân tâm khi thấy nhàm",
+            "en": "Drifting when things feel dull"
+          }
+        ]
+      },
+      "cancer": {
+        "title": {
+          "vi": "Bạn yêu bằng sự chăm sóc",
+          "en": "You love by caring"
+        },
+        "body": {
+          "vi": "Sao Kim ở Cự Giải gợi một trái tim muốn che chở và tạo cảm giác như ở nhà. Bạn có thể thể hiện tình cảm qua việc nhớ những điều nhỏ và chăm lo cho người mình thương. Bạn cũng cần thấy an toàn trước khi mở lòng hoàn toàn.",
+          "en": "Venus in Cancer suggests a heart that wants to protect and create a sense of home. You may show love by remembering small things and looking after the people you care about. You also need to feel safe before opening up fully."
+        },
+        "needs": [
+          {
+            "vi": "Cảm giác an toàn, được thuộc về",
+            "en": "Feeling safe and belonging"
+          },
+          {
+            "vi": "Được chăm sóc lại như bạn trao đi",
+            "en": "Receiving the care you give"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Chăm người khác mà quên mình",
+            "en": "Caring for others and forgetting yourself"
+          },
+          {
+            "vi": "Thu mình lại khi bị tổn thương",
+            "en": "Withdrawing when hurt"
+          }
+        ]
+      },
+      "leo": {
+        "title": {
+          "vi": "Bạn yêu rộng lượng và rạng rỡ",
+          "en": "You love generously and brightly"
+        },
+        "body": {
+          "vi": "Với Sao Kim ở Sư Tử, bạn có thể yêu một cách hào phóng, ấm áp và thích làm người mình thương thấy mình đặc biệt. Bạn thường cũng mong được trân trọng và nhìn thấy. Những lời ghi nhận chân thành và khoảnh khắc vui cùng nhau có thể nuôi dưỡng tình cảm ấy rất nhiều.",
+          "en": "With Venus in Leo, you may love generously and warmly, and enjoy making someone feel special. You often wish to be appreciated and seen in return. Sincere appreciation and joyful moments together can nourish that affection a great deal."
+        },
+        "needs": [
+          {
+            "vi": "Được trân trọng và ghi nhận",
+            "en": "Being appreciated and acknowledged"
+          },
+          {
+            "vi": "Niềm vui, sự lãng mạn cùng nhau",
+            "en": "Shared joy and romance"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Buồn lòng khi không được để ý",
+            "en": "Feeling hurt when unnoticed"
+          },
+          {
+            "vi": "Tự ái che mất điều cần nói",
+            "en": "Pride getting in the way of honesty"
+          }
+        ]
+      },
+      "virgo": {
+        "title": {
+          "vi": "Bạn yêu qua những việc làm chu đáo",
+          "en": "You love through thoughtful acts"
+        },
+        "body": {
+          "vi": "Sao Kim ở Xử Nữ gợi một tình cảm thể hiện qua sự chu đáo: giúp một việc nhỏ, nhớ một thói quen, sắp xếp cho người kia đỡ vất vả. Bạn có thể cần thời gian để tin tưởng. Tình yêu của bạn thường kín đáo nhưng rất thật.",
+          "en": "Venus in Virgo suggests affection shown through thoughtfulness: helping with a small task, remembering a habit, making life a bit easier for someone. You may need time to trust. Your love is often quiet but very real."
+        },
+        "needs": [
+          {
+            "vi": "Sự quan tâm qua hành động",
+            "en": "Care shown through action"
+          },
+          {
+            "vi": "Thời gian để tin tưởng dần",
+            "en": "Time to build trust"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Soi lỗi mình hoặc người kia",
+            "en": "Picking at flaws in yourself or others"
+          },
+          {
+            "vi": "Ngại nhận sự giúp đỡ",
+            "en": "Finding it hard to accept help"
+          }
+        ]
+      },
+      "libra": {
+        "title": {
+          "vi": "Bạn yêu bằng sự hòa hợp",
+          "en": "You love through harmony"
+        },
+        "body": {
+          "vi": "Với Sao Kim ở Thiên Bình, bạn có thể quý sự dịu dàng, lịch thiệp và cảm giác hai người là một đội. Bạn thường để ý đến cái đẹp, sự công bằng và bầu không khí giữa hai người. Giữ hòa khí là điểm mạnh, miễn là tiếng nói của bạn cũng có chỗ.",
+          "en": "With Venus in Libra, you may value gentleness, courtesy and the feeling of being a team. You often notice beauty, fairness and the atmosphere between you. Keeping the peace is a strength, as long as your own voice has room too."
+        },
+        "needs": [
+          {
+            "vi": "Sự công bằng, cùng cho cùng nhận",
+            "en": "Fairness, giving and receiving equally"
+          },
+          {
+            "vi": "Bầu không khí nhẹ nhàng, tôn trọng",
+            "en": "A gentle, respectful atmosphere"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Nhường mãi để tránh va chạm",
+            "en": "Always yielding to avoid conflict"
+          },
+          {
+            "vi": "Khó quyết vì sợ người kia buồn",
+            "en": "Indecision from fear of upsetting someone"
+          }
+        ]
+      },
+      "scorpio": {
+        "title": {
+          "vi": "Bạn yêu sâu sắc và trọn vẹn",
+          "en": "You love deeply and fully"
+        },
+        "body": {
+          "vi": "Sao Kim ở Bọ Cạp gợi một tình cảm sâu, muốn hiểu và được hiểu đến tận cùng. Bạn có thể quý lòng tin và sự thành thật hơn những lời nói hay. Khi đã gắn bó, bạn thường rất chung thủy, và có thể đang học cách tin mà không cần nắm chặt.",
+          "en": "Venus in Scorpio suggests deep affection that wants to understand and be understood fully. You may value trust and honesty more than sweet words. Once attached, you are often very loyal, and may be learning to trust without holding on too tightly."
+        },
+        "needs": [
+          {
+            "vi": "Lòng tin và sự thành thật",
+            "en": "Trust and honesty"
+          },
+          {
+            "vi": "Sự gần gũi có chiều sâu",
+            "en": "Closeness with real depth"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Dễ ghen khi thấy bất an",
+            "en": "Jealousy when feeling insecure"
+          },
+          {
+            "vi": "Giữ kín cảm xúc quá lâu",
+            "en": "Keeping feelings hidden too long"
+          }
+        ]
+      },
+      "sagittarius": {
+        "title": {
+          "vi": "Bạn yêu bằng tinh thần tự do",
+          "en": "You love with a free spirit"
+        },
+        "body": {
+          "vi": "Với Sao Kim ở Nhân Mã, tình cảm của bạn có thể gắn với khám phá: cùng đi, cùng học, cùng cười. Bạn thường quý người tôn trọng không gian riêng và mở rộng thế giới của mình. Sự gắn bó dễ lớn lên khi bạn vẫn thấy mình được là chính mình.",
+          "en": "With Venus in Sagittarius, your affection may be tied to exploration: travelling, learning and laughing together. You often value someone who respects your space and widens your world. Commitment tends to grow when you still feel free to be yourself."
+        },
+        "needs": [
+          {
+            "vi": "Không gian riêng được tôn trọng",
+            "en": "Respect for personal space"
+          },
+          {
+            "vi": "Cùng nhau trải nghiệm điều mới",
+            "en": "New experiences together"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Né tránh khi thấy bị ràng buộc",
+            "en": "Pulling away when feeling tied down"
+          },
+          {
+            "vi": "Nói thẳng mà quên sự tế nhị",
+            "en": "Bluntness without tact"
+          }
+        ]
+      },
+      "capricorn": {
+        "title": {
+          "vi": "Bạn yêu bằng sự cam kết",
+          "en": "You love through commitment"
+        },
+        "body": {
+          "vi": "Sao Kim ở Ma Kết gợi một tình cảm nghiêm túc, xây từng bước và nghĩ đến đường dài. Bạn có thể thể hiện tình yêu qua trách nhiệm, sự đáng tin và những dự định chung. Bạn thường mở lòng chậm, nhưng khi đã chọn thì rất bền lòng.",
+          "en": "Venus in Capricorn suggests serious affection, built step by step with the long road in mind. You may show love through responsibility, reliability and shared plans. You often open up slowly, but once you choose, you stay."
+        },
+        "needs": [
+          {
+            "vi": "Sự nghiêm túc và đáng tin",
+            "en": "Seriousness and reliability"
+          },
+          {
+            "vi": "Cùng nhau xây dự định chung",
+            "en": "Building shared plans together"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Giấu sự mềm lòng sau vẻ cứng rắn",
+            "en": "Hiding tenderness behind toughness"
+          },
+          {
+            "vi": "Quá bận mà quên vui cùng nhau",
+            "en": "Too busy to enjoy each other"
+          }
+        ]
+      },
+      "aquarius": {
+        "title": {
+          "vi": "Bạn yêu như một người bạn thân",
+          "en": "You love like a close friend"
+        },
+        "body": {
+          "vi": "Với Sao Kim ở Bảo Bình, tình cảm của bạn có thể bắt đầu từ tình bạn và sự đồng điệu trong suy nghĩ. Bạn thường quý sự tôn trọng, tự do và cách yêu không theo khuôn mẫu. Bạn cần một người chấp nhận cả những nét khác thường của bạn.",
+          "en": "With Venus in Aquarius, your affection may begin with friendship and a meeting of minds. You often value respect, freedom and love that doesn't follow a script. You need someone who accepts your more unusual sides too."
+        },
+        "needs": [
+          {
+            "vi": "Tình bạn làm nền cho tình yêu",
+            "en": "Friendship at the heart of love"
+          },
+          {
+            "vi": "Được là chính mình, không khuôn mẫu",
+            "en": "Freedom to be yourself"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Giữ khoảng cách khi cảm xúc lớn",
+            "en": "Keeping distance when feelings run deep"
+          },
+          {
+            "vi": "Nghĩ nhiều hơn là cảm",
+            "en": "Thinking more than feeling"
+          }
+        ]
+      },
+      "pisces": {
+        "title": {
+          "vi": "Bạn yêu bằng sự đồng cảm",
+          "en": "You love with empathy"
+        },
+        "body": {
+          "vi": "Sao Kim ở Song Ngư gợi một tình cảm dịu dàng, giàu tưởng tượng và dễ đồng cảm. Bạn có thể cảm được nỗi buồn vui của người kia trước khi họ nói ra. Tình yêu của bạn rất bao dung, và cũng cần ranh giới để bạn không quên chính mình.",
+          "en": "Venus in Pisces suggests tender, imaginative and empathetic affection. You may sense another person's joys and sorrows before they say a word. Your love is very forgiving, and it also needs boundaries so you don't lose yourself."
+        },
+        "needs": [
+          {
+            "vi": "Sự dịu dàng và thấu hiểu",
+            "en": "Tenderness and understanding"
+          },
+          {
+            "vi": "Những phút lãng mạn, mơ mộng cùng nhau",
+            "en": "Shared romance and dreaming"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Lý tưởng hóa người mình thương",
+            "en": "Idealizing the person you love"
+          },
+          {
+            "vi": "Hy sinh đến mức quên mình",
+            "en": "Giving so much you forget yourself"
+          }
+        ]
+      }
+    },
+    "mars": {
+      "aries": {
+        "title": {
+          "vi": "Bạn chủ động và nói thẳng",
+          "en": "You act first and speak plainly"
+        },
+        "body": {
+          "vi": "Sao Hỏa ở Bạch Dương gợi một cách theo đuổi trực tiếp: thích thì nói, muốn thì làm. Khi có va chạm, bạn có thể nóng lên nhanh nhưng cũng nguôi nhanh. Sự thẳng thắn này giúp mọi thứ rõ ràng, nhất là khi đi cùng một chút kiên nhẫn.",
+          "en": "Mars in Aries suggests a direct way of pursuing: if you like someone, you say so. In conflict you may heat up fast and cool down just as fast. This directness keeps things clear, especially with a little patience alongside."
+        },
+        "needs": [
+          {
+            "vi": "Sự rõ ràng, không vòng vo",
+            "en": "Clarity, no games"
+          },
+          {
+            "vi": "Chỗ để xả bớt nóng giận",
+            "en": "Room to let off steam"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Nói khi đang nóng giận",
+            "en": "Speaking in the heat of anger"
+          },
+          {
+            "vi": "Muốn thắng hơn muốn hiểu",
+            "en": "Wanting to win more than to understand"
+          }
+        ]
+      },
+      "taurus": {
+        "title": {
+          "vi": "Bạn theo đuổi chậm mà chắc",
+          "en": "You pursue slowly and steadily"
+        },
+        "body": {
+          "vi": "Với Sao Hỏa ở Kim Ngưu, mong muốn của bạn có thể lớn dần thay vì bùng lên. Bạn thường thể hiện qua sự kiên trì, sự gần gũi và những việc làm cụ thể. Khi bất đồng, bạn có thể giữ lập trường rất lâu, nên đôi khi cần tự hỏi mình đang giữ vì điều gì.",
+          "en": "With Mars in Taurus, desire may build gradually rather than flare up. You often show it through persistence, closeness and concrete actions. In disagreements you can hold your ground for a long time, so it may help to ask what you are holding on for."
+        },
+        "needs": [
+          {
+            "vi": "Thời gian để cảm xúc lớn dần",
+            "en": "Time for feelings to grow"
+          },
+          {
+            "vi": "Sự gần gũi, ấm áp cụ thể",
+            "en": "Warm, tangible closeness"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Cố chấp khi bất đồng",
+            "en": "Stubbornness in disagreements"
+          },
+          {
+            "vi": "Giận âm ỉ mà không nói",
+            "en": "Simmering anger left unspoken"
+          }
+        ]
+      },
+      "gemini": {
+        "title": {
+          "vi": "Bạn tán tỉnh bằng lời nói",
+          "en": "You flirt with words"
+        },
+        "body": {
+          "vi": "Sao Hỏa ở Song Tử gợi một sức hút đến từ sự lanh lợi, câu đùa và những cuộc trò chuyện không dứt. Bạn có thể theo đuổi bằng tin nhắn, câu hỏi và sự tò mò. Khi có va chạm, bạn thường muốn nói cho ra lẽ, và đôi khi lời nói đi nhanh hơn cảm xúc.",
+          "en": "Mars in Gemini suggests attraction sparked by wit, jokes and endless conversation. You may pursue through messages, questions and curiosity. In conflict you often want to talk it through, and sometimes words move faster than feelings."
+        },
+        "needs": [
+          {
+            "vi": "Trao đổi thú vị, kích thích suy nghĩ",
+            "en": "Mentally stimulating exchanges"
+          },
+          {
+            "vi": "Tranh luận vui, không làm tổn thương",
+            "en": "Playful debate that doesn't wound"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Dùng lời sắc để thắng tranh cãi",
+            "en": "Using sharp words to win arguments"
+          },
+          {
+            "vi": "Đổi ý nhanh khiến người kia rối",
+            "en": "Changing your mind and confusing others"
+          }
+        ]
+      },
+      "cancer": {
+        "title": {
+          "vi": "Bạn che chở khi đã thương",
+          "en": "You protect those you love"
+        },
+        "body": {
+          "vi": "Với Sao Hỏa ở Cự Giải, bạn có thể theo đuổi một cách kín đáo, dò xem mình có thấy an toàn bên người kia không. Khi đã gắn bó, bạn thường bảo vệ người mình thương rất mạnh mẽ. Khi giận, bạn có thể thu mình lại hơn là nói thẳng ra.",
+          "en": "With Mars in Cancer, you may pursue quietly, sensing whether you feel safe with the other person. Once attached, you often protect the people you love fiercely. When upset, you may withdraw rather than say it directly."
+        },
+        "needs": [
+          {
+            "vi": "Thấy an toàn rồi mới tiến tới",
+            "en": "Feeling safe before moving closer"
+          },
+          {
+            "vi": "Được hiểu cả khi chưa nói",
+            "en": "Being understood before you speak"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Giận dỗi thay vì nói thẳng",
+            "en": "Sulking instead of speaking up"
+          },
+          {
+            "vi": "Ôm hết nỗi lo về mình",
+            "en": "Carrying every worry alone"
+          }
+        ]
+      },
+      "leo": {
+        "title": {
+          "vi": "Bạn theo đuổi nồng nhiệt, hết mình",
+          "en": "You pursue with passion and pride"
+        },
+        "body": {
+          "vi": "Sao Hỏa ở Sư Tử gợi một cách yêu nồng nhiệt, rộng lượng và thích những cử chỉ ấn tượng. Bạn có thể muốn người kia biết rõ họ quan trọng với bạn ra sao. Khi tự ái bị chạm, bạn dễ phản ứng mạnh, và một lời ghi nhận chân thành thường giúp bạn dịu lại.",
+          "en": "Mars in Leo suggests passionate, generous love with a flair for grand gestures. You may want the other person to know exactly how much they matter. When your pride is touched you may react strongly, and sincere appreciation often helps you soften."
+        },
+        "needs": [
+          {
+            "vi": "Sự ngưỡng mộ và tôn trọng",
+            "en": "Admiration and respect"
+          },
+          {
+            "vi": "Những khoảnh khắc vui, sống động",
+            "en": "Playful, vivid moments"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Tự ái khiến khó xin lỗi",
+            "en": "Pride making apologies hard"
+          },
+          {
+            "vi": "Muốn mình luôn là trung tâm",
+            "en": "Wanting to always be the focus"
+          }
+        ]
+      },
+      "virgo": {
+        "title": {
+          "vi": "Bạn thể hiện qua những việc nhỏ",
+          "en": "You show it through small acts"
+        },
+        "body": {
+          "vi": "Với Sao Hỏa ở Xử Nữ, mong muốn có thể hiện ra qua sự chăm chút: sửa giúp một thứ, lo việc người kia đang bận. Bạn thường tiến tới cẩn thận, quan sát trước khi mở lời. Khi bất đồng, bạn hay góp ý cụ thể, và lời góp ý sẽ dễ nghe hơn khi kèm sự dịu dàng.",
+          "en": "With Mars in Virgo, desire may show through careful attention: fixing something, handling a task the other person is busy with. You often move forward carefully, observing before speaking. In disagreements your feedback can be very specific, and it lands better with gentleness."
+        },
+        "needs": [
+          {
+            "vi": "Sự tin cậy qua việc làm",
+            "en": "Trust built through actions"
+          },
+          {
+            "vi": "Thời gian để quan sát, làm quen",
+            "en": "Time to observe and get comfortable"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Góp ý thành chỉ trích",
+            "en": "Feedback turning into criticism"
+          },
+          {
+            "vi": "Lo lắng làm mất sự tự nhiên",
+            "en": "Worry dampening spontaneity"
+          }
+        ]
+      },
+      "libra": {
+        "title": {
+          "vi": "Bạn theo đuổi nhẹ nhàng, tinh tế",
+          "en": "You pursue with charm and grace"
+        },
+        "body": {
+          "vi": "Sao Hỏa ở Thiên Bình gợi một cách tiến tới duyên dáng, lịch thiệp và để ý cảm xúc người kia. Bạn có thể ngại va chạm và muốn mọi chuyện được giải quyết êm đẹp. Nói ra điều mình muốn, kể cả khi nó khác ý người kia, cũng là một cách giữ gìn mối quan hệ.",
+          "en": "Mars in Libra suggests a graceful, courteous approach that pays attention to the other person's feelings. You may shy away from conflict and want things resolved smoothly. Saying what you want, even when it differs from them, is also a way of caring for the relationship."
+        },
+        "needs": [
+          {
+            "vi": "Sự tôn trọng và công bằng",
+            "en": "Respect and fairness"
+          },
+          {
+            "vi": "Nói chuyện ôn hòa khi bất đồng",
+            "en": "Calm talk during disagreements"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Giấu mong muốn để tránh xung đột",
+            "en": "Hiding your wishes to avoid conflict"
+          },
+          {
+            "vi": "Chần chừ không dám chọn",
+            "en": "Hesitating to choose"
+          }
+        ]
+      },
+      "scorpio": {
+        "title": {
+          "vi": "Bạn mãnh liệt và rất chung thủy",
+          "en": "You love intensely and loyally"
+        },
+        "body": {
+          "vi": "Với Sao Hỏa ở Bọ Cạp, mong muốn có thể sâu và bền, không dễ nói hết thành lời. Bạn thường chỉ mở lòng khi thấy tin tưởng, và khi đã gắn bó thì rất hết lòng. Khi bị tổn thương, bạn có thể im lặng lâu, nên tìm một lúc an toàn để nói ra sẽ giúp ích.",
+          "en": "With Mars in Scorpio, desire may run deep and steady, not easily put into words. You often open up only when you trust, and once attached you are wholehearted. When hurt you may go quiet for a long time, so finding a safe moment to speak can help."
+        },
+        "needs": [
+          {
+            "vi": "Lòng tin rõ ràng, trọn vẹn",
+            "en": "Clear, wholehearted trust"
+          },
+          {
+            "vi": "Sự riêng tư được tôn trọng",
+            "en": "Respect for your privacy"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Giữ hận lâu sau tổn thương",
+            "en": "Holding grudges after being hurt"
+          },
+          {
+            "vi": "Muốn kiểm soát khi bất an",
+            "en": "Wanting control when insecure"
+          }
+        ]
+      },
+      "sagittarius": {
+        "title": {
+          "vi": "Bạn theo đuổi vui vẻ, thẳng thắn",
+          "en": "You pursue with honesty and fun"
+        },
+        "body": {
+          "vi": "Sao Hỏa ở Nhân Mã gợi một cách tiến tới cởi mở, hài hước và thích phiêu lưu cùng nhau. Bạn có thể nói thẳng điều mình nghĩ, đôi khi thẳng hơn người kia mong đợi. Khi thấy bị gò bó, bạn dễ muốn ra ngoài cho thoáng, và nói rõ điều ấy giúp người kia hiểu bạn hơn.",
+          "en": "Mars in Sagittarius suggests an open, humorous approach that loves shared adventure. You may say exactly what you think, sometimes more bluntly than expected. When you feel confined you may want space, and saying so clearly helps the other person understand you."
+        },
+        "needs": [
+          {
+            "vi": "Sự tự do và tin tưởng",
+            "en": "Freedom and trust"
+          },
+          {
+            "vi": "Những chuyến đi, trải nghiệm chung",
+            "en": "Shared trips and experiences"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Nói thẳng mà làm người kia đau",
+            "en": "Bluntness that stings"
+          },
+          {
+            "vi": "Rời đi khi chuyện trở nên nặng nề",
+            "en": "Leaving when things get heavy"
+          }
+        ]
+      },
+      "capricorn": {
+        "title": {
+          "vi": "Bạn theo đuổi kiên định, nghiêm túc",
+          "en": "You pursue with patience and purpose"
+        },
+        "body": {
+          "vi": "Với Sao Hỏa ở Ma Kết, bạn có thể tiến tới có kế hoạch, kiên nhẫn và nghiêm túc với điều mình muốn. Bạn thường thể hiện mong muốn qua sự đáng tin và nỗ lực lâu dài. Khi bất đồng, bạn giữ bình tĩnh khá tốt, và cũng nên cho phép mình nói ra khi đang mệt hay buồn.",
+          "en": "With Mars in Capricorn, you may move forward with a plan, patience and seriousness about what you want. You often show desire through reliability and long-term effort. In disagreements you stay fairly composed, and it helps to also let yourself say when you're tired or sad."
+        },
+        "needs": [
+          {
+            "vi": "Mục tiêu chung rõ ràng",
+            "en": "Clear shared goals"
+          },
+          {
+            "vi": "Nỗ lực của bạn được tôn trọng",
+            "en": "Respect for your efforts"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Trông lạnh lùng khi căng thẳng",
+            "en": "Coming across cold under stress"
+          },
+          {
+            "vi": "Đặt công việc trước cảm xúc",
+            "en": "Putting work before feelings"
+          }
+        ]
+      },
+      "aquarius": {
+        "title": {
+          "vi": "Bạn theo đuổi theo cách riêng",
+          "en": "You pursue in your own way"
+        },
+        "body": {
+          "vi": "Sao Hỏa ở Bảo Bình gợi một cách tiến tới bất ngờ, không theo khuôn mẫu và quý sự độc lập của cả hai. Bạn có thể bị cuốn hút bởi cách nghĩ của một người trước tiên. Khi bất đồng, bạn hay lùi ra để suy nghĩ, và nói rõ mình sẽ quay lại giúp người kia yên tâm.",
+          "en": "Mars in Aquarius suggests an unexpected, unconventional approach that values both people's independence. You may be drawn to someone's mind first. In conflict you may step back to think, and saying you'll come back to it can reassure the other person."
+        },
+        "needs": [
+          {
+            "vi": "Sự độc lập cho cả hai",
+            "en": "Independence for you both"
+          },
+          {
+            "vi": "Sự đồng điệu trong suy nghĩ",
+            "en": "A meeting of minds"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Lạnh nhạt khi cảm xúc dâng cao",
+            "en": "Going distant when emotions rise"
+          },
+          {
+            "vi": "Bướng vì muốn khác người",
+            "en": "Being contrary for its own sake"
+          }
+        ]
+      },
+      "pisces": {
+        "title": {
+          "vi": "Bạn theo đuổi bằng sự mềm mại",
+          "en": "You pursue with gentleness"
+        },
+        "body": {
+          "vi": "Với Sao Hỏa ở Song Ngư, mong muốn có thể đến qua cảm xúc, trí tưởng tượng và sự đồng điệu. Bạn thường tiến tới nhẹ nhàng, cảm nhận xem người kia đang thế nào. Khi có va chạm, bạn dễ né tránh hoặc nhường, nên tập nói ra một mong muốn nhỏ có thể giúp bạn vững hơn.",
+          "en": "With Mars in Pisces, desire may arrive through feeling, imagination and attunement. You often approach gently, sensing how the other person is doing. In conflict you may avoid or give in, so practising voicing one small wish can help you feel steadier."
+        },
+        "needs": [
+          {
+            "vi": "Sự đồng điệu về cảm xúc",
+            "en": "Emotional attunement"
+          },
+          {
+            "vi": "Không khí dịu dàng, lãng mạn",
+            "en": "A gentle, romantic mood"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Né tránh thay vì nói rõ",
+            "en": "Avoiding instead of being clear"
+          },
+          {
+            "vi": "Nhường đến mức mệt mỏi",
+            "en": "Giving in until you're worn out"
+          }
+        ]
+      }
+    },
+    "mc": {
+      "aries": {
+        "title": {
+          "vi": "Bạn muốn mở đường và dẫn đầu",
+          "en": "You want to blaze a trail"
+        },
+        "body": {
+          "vi": "Thiên đỉnh ở Bạch Dương gợi mong muốn được ghi nhận vì sự chủ động và can đảm bắt đầu. Bạn có thể thấy sống động nhất khi được khởi xướng một việc mới hoặc tìm lối đi riêng. Chọn đúng việc đáng dồn sức giúp ngọn lửa ấy cháy lâu hơn.",
+          "en": "Midheaven in Aries suggests a wish to be recognized for initiative and the courage to start. You may feel most alive when launching something new or finding your own path. Choosing which challenges deserve your energy helps that fire last longer."
+        },
+        "needs": [
+          {
+            "vi": "Được chủ động, tự quyết",
+            "en": "Room for initiative and autonomy"
+          },
+          {
+            "vi": "Thử thách đủ hấp dẫn",
+            "en": "Challenges worth rising to"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Nản khi việc kéo dài",
+            "en": "Losing steam on long projects"
+          },
+          {
+            "vi": "Nóng vội với người làm chậm",
+            "en": "Impatience with slower teammates"
+          }
+        ]
+      },
+      "taurus": {
+        "title": {
+          "vi": "Bạn muốn xây điều bền vững",
+          "en": "You want to build something lasting"
+        },
+        "body": {
+          "vi": "Với Thiên đỉnh ở Kim Ngưu, bạn có thể muốn được biết đến vì sự bền bỉ, đáng tin và tạo ra điều có giá trị thật. Bạn thường làm tốt khi có nhịp đều và thấy kết quả cụ thể. Sự kiên nhẫn ấy là một nguồn lực, nhất là khi bạn vẫn mở lòng với cách làm mới.",
+          "en": "With Midheaven in Taurus, you may want to be known for steadiness, reliability and creating something of real value. You often do well with a stable rhythm and tangible results. Your patience is a resource, especially when you stay open to new ways of working."
+        },
+        "needs": [
+          {
+            "vi": "Nhịp làm việc ổn định",
+            "en": "A steady working rhythm"
+          },
+          {
+            "vi": "Thấy kết quả cụ thể, chạm được",
+            "en": "Tangible, visible results"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Ngại nhận việc chưa chắc chắn",
+            "en": "Shying away from uncertain tasks"
+          },
+          {
+            "vi": "Giữ cách làm cũ chỉ vì quen",
+            "en": "Keeping old methods out of habit"
+          }
+        ]
+      },
+      "gemini": {
+        "title": {
+          "vi": "Bạn muốn kết nối và truyền đạt",
+          "en": "You want to connect and communicate"
+        },
+        "body": {
+          "vi": "Thiên đỉnh ở Song Tử gợi mong muốn được ghi nhận vì sự linh hoạt, ham học và khả năng truyền đạt. Bạn có thể thấy hứng thú khi được làm nhiều việc, gặp nhiều người, trao đổi nhiều ý tưởng. Chọn vài điều để đi sâu giúp sự đa năng của bạn thành dấu ấn rõ hơn.",
+          "en": "Midheaven in Gemini suggests a wish to be recognized for versatility, a love of learning and the ability to communicate. You may thrive on variety: many tasks, many people, many ideas. Choosing a few things to go deep on helps your versatility become a clearer signature."
+        },
+        "needs": [
+          {
+            "vi": "Sự đa dạng, học điều mới",
+            "en": "Variety and new learning"
+          },
+          {
+            "vi": "Được trao đổi, chia sẻ ý tưởng",
+            "en": "Space to share ideas"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Ôm nhiều việc cùng lúc",
+            "en": "Taking on too much at once"
+          },
+          {
+            "vi": "Bỏ dở khi hết thấy mới",
+            "en": "Dropping things once the novelty fades"
+          }
+        ]
+      },
+      "cancer": {
+        "title": {
+          "vi": "Bạn muốn chăm lo và nâng đỡ",
+          "en": "You want to nurture and support"
+        },
+        "body": {
+          "vi": "Với Thiên đỉnh ở Cự Giải, bạn có thể muốn được biết đến vì sự tận tâm và khả năng làm người khác thấy được nâng đỡ. Bạn thường làm tốt ở nơi có cảm giác như một gia đình. Chăm cho người khác là điểm mạnh, miễn là bạn cũng giữ lại sức cho mình.",
+          "en": "With Midheaven in Cancer, you may want to be known for dedication and for helping others feel supported. You often do well where there is a sense of family. Caring for others is a strength, as long as you also keep some energy for yourself."
+        },
+        "needs": [
+          {
+            "vi": "Môi trường ấm áp, tin cậy",
+            "en": "A warm, trusting environment"
+          },
+          {
+            "vi": "Thấy việc mình giúp được ai",
+            "en": "Seeing who your work helps"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Nhận việc vì ngại từ chối",
+            "en": "Taking things on because saying no is hard"
+          },
+          {
+            "vi": "Dễ chạnh lòng khi bị góp ý",
+            "en": "Taking feedback to heart"
+          }
+        ]
+      },
+      "leo": {
+        "title": {
+          "vi": "Bạn muốn tỏa sáng bằng dấu ấn riêng",
+          "en": "You want to shine in your own way"
+        },
+        "body": {
+          "vi": "Thiên đỉnh ở Sư Tử gợi mong muốn được ghi nhận vì sự sáng tạo, ấm áp và khả năng truyền cảm hứng. Bạn có thể thấy hào hứng khi được đứng ra, dẫn dắt hoặc làm điều mang dấu ấn riêng. Niềm vui trong chính việc mình làm giúp bạn vững vàng cả khi chưa có lời khen.",
+          "en": "Midheaven in Leo suggests a wish to be recognized for creativity, warmth and the ability to inspire. You may light up when you get to step forward, lead or make something with your own mark. Joy in the work itself keeps you steady even before praise arrives."
+        },
+        "needs": [
+          {
+            "vi": "Được sáng tạo và thể hiện mình",
+            "en": "Room to create and express"
+          },
+          {
+            "vi": "Sự ghi nhận chân thành",
+            "en": "Sincere recognition"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Chùng xuống khi không được khen",
+            "en": "Deflating without praise"
+          },
+          {
+            "vi": "Khó chia sẻ vai trò chính",
+            "en": "Finding it hard to share the spotlight"
+          }
+        ]
+      },
+      "virgo": {
+        "title": {
+          "vi": "Bạn muốn làm điều thật sự có ích",
+          "en": "You want to be truly useful"
+        },
+        "body": {
+          "vi": "Với Thiên đỉnh ở Xử Nữ, bạn có thể muốn được biết đến vì sự tỉ mỉ, đáng tin và làm mọi thứ chạy trơn tru hơn. Bạn thường thấy ý nghĩa khi giúp được một việc cụ thể. Biết đâu là mức đủ tốt giúp bạn làm lâu bền mà không bị kiệt sức.",
+          "en": "With Midheaven in Virgo, you may want to be known for care with detail, reliability and making things run more smoothly. You often find meaning in being concretely helpful. Knowing what is good enough helps you sustain your work without burning out."
+        },
+        "needs": [
+          {
+            "vi": "Việc rõ ràng, có ích thật",
+            "en": "Clear, genuinely useful work"
+          },
+          {
+            "vi": "Thời gian để làm chu đáo",
+            "en": "Time to do things properly"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Cầu toàn đến mức kiệt sức",
+            "en": "Perfectionism that drains you"
+          },
+          {
+            "vi": "Ít khi nhận công của mình",
+            "en": "Rarely taking credit for your work"
+          }
+        ]
+      },
+      "libra": {
+        "title": {
+          "vi": "Bạn muốn kết nối và tạo hài hòa",
+          "en": "You want to bring people together"
+        },
+        "body": {
+          "vi": "Thiên đỉnh ở Thiên Bình gợi mong muốn được ghi nhận vì sự tinh tế, công bằng và khả năng kết nối mọi người. Bạn có thể làm tốt khi được hợp tác, hòa giải hoặc chăm chút cho cái đẹp. Giữ hòa khí là điểm mạnh, và ý kiến riêng của bạn cũng đáng được nói ra.",
+          "en": "Midheaven in Libra suggests a wish to be recognized for tact, fairness and bringing people together. You may do well when collaborating, mediating or caring for beauty. Keeping the peace is a strength, and your own opinion deserves to be voiced too."
+        },
+        "needs": [
+          {
+            "vi": "Làm việc cùng người khác",
+            "en": "Working alongside others"
+          },
+          {
+            "vi": "Môi trường công bằng, tôn trọng",
+            "en": "A fair, respectful environment"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Ngại lên tiếng khi bất đồng",
+            "en": "Hesitating to disagree"
+          },
+          {
+            "vi": "Chần chừ vì muốn ai cũng vui",
+            "en": "Delaying to keep everyone happy"
+          }
+        ]
+      },
+      "scorpio": {
+        "title": {
+          "vi": "Bạn muốn đi sâu và tạo thay đổi thật",
+          "en": "You want to go deep and make real change"
+        },
+        "body": {
+          "vi": "Với Thiên đỉnh ở Bọ Cạp, bạn có thể muốn được biết đến vì sự tập trung, bản lĩnh và khả năng đào sâu vấn đề. Bạn thường thấy ý nghĩa ở những việc cần kiên nhẫn và chạm tới điều cốt lõi. Tin người khác thêm một chút có thể giúp bạn bớt phải gánh một mình.",
+          "en": "With Midheaven in Scorpio, you may want to be known for focus, resilience and getting to the heart of a problem. You often find meaning in work that needs patience and reaches what matters most. Trusting others a little more can help you carry less alone."
+        },
+        "needs": [
+          {
+            "vi": "Việc có chiều sâu, có ý nghĩa",
+            "en": "Work with depth and meaning"
+          },
+          {
+            "vi": "Sự tin cậy và quyền tự chủ",
+            "en": "Trust and autonomy"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Ôm hết việc vì khó tin ai",
+            "en": "Doing it all because trust is hard"
+          },
+          {
+            "vi": "Kín đáo đến mức bị hiểu lầm",
+            "en": "Being so private you're misunderstood"
+          }
+        ]
+      },
+      "sagittarius": {
+        "title": {
+          "vi": "Bạn muốn mở rộng tầm nhìn",
+          "en": "You want to widen horizons"
+        },
+        "body": {
+          "vi": "Thiên đỉnh ở Nhân Mã gợi mong muốn được ghi nhận vì tầm nhìn, sự lạc quan và ham học hỏi. Bạn có thể hứng khởi khi được khám phá, chia sẻ kiến thức hoặc làm điều có ý nghĩa rộng hơn bản thân. Gắn ý tưởng lớn với từng bước cụ thể giúp tầm nhìn ấy đi xa hơn.",
+          "en": "Midheaven in Sagittarius suggests a wish to be recognized for vision, optimism and a love of learning. You may feel inspired when exploring, sharing knowledge or doing work that means something bigger. Linking big ideas to concrete steps helps that vision travel further."
+        },
+        "needs": [
+          {
+            "vi": "Được học hỏi và khám phá",
+            "en": "Room to learn and explore"
+          },
+          {
+            "vi": "Việc gắn với ý nghĩa rộng hơn",
+            "en": "Work tied to a bigger meaning"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Hứa nhiều hơn sức mình",
+            "en": "Promising more than you can do"
+          },
+          {
+            "vi": "Chán khi phải làm chi tiết",
+            "en": "Losing interest in the details"
+          }
+        ]
+      },
+      "capricorn": {
+        "title": {
+          "vi": "Bạn muốn xây dựng từng bước vững chắc",
+          "en": "You want to build step by step"
+        },
+        "body": {
+          "vi": "Với Thiên đỉnh ở Ma Kết, bạn có thể muốn được biết đến vì sự đáng tin, trách nhiệm và khả năng đi đường dài. Bạn thường thấy ý nghĩa khi nhìn lại những gì mình đã gây dựng qua thời gian. Nghỉ ngơi đúng lúc cũng là một phần của sự bền bỉ ấy.",
+          "en": "With Midheaven in Capricorn, you may want to be known for reliability, responsibility and staying the course. You often find meaning in looking back at what you have built over time. Resting at the right moments is also part of that endurance."
+        },
+        "needs": [
+          {
+            "vi": "Mục tiêu dài hạn rõ ràng",
+            "en": "Clear long-term goals"
+          },
+          {
+            "vi": "Được tin giao trách nhiệm",
+            "en": "Being trusted with responsibility"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Đo giá trị mình bằng thành tích",
+            "en": "Measuring your worth by achievements"
+          },
+          {
+            "vi": "Quên nghỉ khi đang cố gắng",
+            "en": "Forgetting to rest while striving"
+          }
+        ]
+      },
+      "aquarius": {
+        "title": {
+          "vi": "Bạn muốn đổi mới cho cộng đồng",
+          "en": "You want to innovate for the community"
+        },
+        "body": {
+          "vi": "Thiên đỉnh ở Bảo Bình gợi mong muốn được ghi nhận vì sự độc đáo, cách nghĩ mới và đóng góp cho cộng đồng. Bạn có thể làm tốt khi được thử cách làm khác và làm cùng những người chung lý tưởng. Gắn ý tưởng với nhu cầu thật của con người giúp nó dễ được đón nhận hơn.",
+          "en": "Midheaven in Aquarius suggests a wish to be recognized for originality, fresh thinking and contributing to a community. You may do well when trying new approaches with people who share your ideals. Linking ideas to people's real needs helps them be welcomed."
+        },
+        "needs": [
+          {
+            "vi": "Tự do thử cách làm mới",
+            "en": "Freedom to try new approaches"
+          },
+          {
+            "vi": "Làm cùng người chung chí hướng",
+            "en": "Working with like-minded people"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Khó hòa vào nề nếp chung",
+            "en": "Struggling with set routines"
+          },
+          {
+            "vi": "Quên người cụ thể vì ý tưởng lớn",
+            "en": "Overlooking people for the big idea"
+          }
+        ]
+      },
+      "pisces": {
+        "title": {
+          "vi": "Bạn muốn sáng tạo và giúp đỡ",
+          "en": "You want to create and help"
+        },
+        "body": {
+          "vi": "Với Thiên đỉnh ở Song Ngư, bạn có thể muốn được biết đến vì lòng trắc ẩn, trí tưởng tượng và sự thấu hiểu người khác. Bạn thường thấy ý nghĩa ở việc sáng tạo, nâng đỡ hoặc chạm tới cảm xúc của ai đó. Một chút cấu trúc giúp những ước mơ ấy thành hình rõ hơn.",
+          "en": "With Midheaven in Pisces, you may want to be known for compassion, imagination and understanding others. You often find meaning in creating, supporting or touching someone's feelings. A little structure helps those dreams take clearer shape."
+        },
+        "needs": [
+          {
+            "vi": "Việc chạm tới cảm xúc, ý nghĩa",
+            "en": "Meaningful, heartfelt work"
+          },
+          {
+            "vi": "Không gian để tưởng tượng",
+            "en": "Space to imagine"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Thiếu ranh giới với việc người khác",
+            "en": "Weak boundaries with others' tasks"
+          },
+          {
+            "vi": "Mơ nhiều mà ngại bắt đầu",
+            "en": "Dreaming but hesitating to begin"
+          }
+        ]
+      }
+    },
+    "saturn": {
+      "aries": {
+        "title": {
+          "vi": "Bạn học cách kiên nhẫn với chính mình",
+          "en": "You're learning patience with yourself"
+        },
+        "body": {
+          "vi": "Sao Thổ ở Bạch Dương gợi một bài học về sự chủ động có cân nhắc. Bạn có thể từng thấy ngại đứng ra hay sợ bắt đầu sai. Theo thời gian, bạn thường học được cách hành động vừa can đảm vừa có kế hoạch, và đó là một sức mạnh rất bền.",
+          "en": "Saturn in Aries suggests a lesson in considered initiative. You may have felt hesitant to step forward or afraid of starting wrong. Over time you often learn to act with both courage and a plan, and that becomes a very lasting strength."
+        },
+        "needs": [
+          {
+            "vi": "Từng bước nhỏ để tự tin",
+            "en": "Small steps to build confidence"
+          },
+          {
+            "vi": "Kế hoạch đi cùng sự can đảm",
+            "en": "A plan alongside courage"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Tự ép mình phải giỏi ngay",
+            "en": "Pressuring yourself to excel at once"
+          },
+          {
+            "vi": "Lưỡng lự quá lâu trước khi bắt đầu",
+            "en": "Hesitating too long to begin"
+          }
+        ]
+      },
+      "taurus": {
+        "title": {
+          "vi": "Bạn xây sự vững vàng qua thời gian",
+          "en": "You build security over time"
+        },
+        "body": {
+          "vi": "Với Sao Thổ ở Kim Ngưu, bạn có thể rất nghiêm túc với sự ổn định và những gì mình làm ra. Bài học ở đây thường là tin vào giá trị của chính mình, không chỉ vào những gì mình có. Sự kiên trì của bạn có thể tạo nên nền móng chắc chắn theo năm tháng.",
+          "en": "With Saturn in Taurus, you may take stability and what you produce very seriously. The lesson here is often to trust your own worth, not only what you have. Your persistence can lay a solid foundation over the years."
+        },
+        "needs": [
+          {
+            "vi": "Nhịp làm việc đều, chắc",
+            "en": "A steady, solid rhythm"
+          },
+          {
+            "vi": "Thấy giá trị của chính mình",
+            "en": "Recognizing your own worth"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Lo quá nhiều về sự ổn định",
+            "en": "Over-worrying about security"
+          },
+          {
+            "vi": "Ngại thử vì sợ mất điều đang có",
+            "en": "Avoiding new things for fear of loss"
+          }
+        ]
+      },
+      "gemini": {
+        "title": {
+          "vi": "Bạn rèn sự rõ ràng trong suy nghĩ",
+          "en": "You're refining clear thinking"
+        },
+        "body": {
+          "vi": "Sao Thổ ở Song Tử gợi một bài học về cách học và truyền đạt có chiều sâu. Bạn có thể từng lo mình nói chưa đủ hay, biết chưa đủ nhiều. Theo thời gian, sự chịu khó học hỏi thường giúp bạn nói ít mà rõ, và được tin cậy vì điều đó.",
+          "en": "Saturn in Gemini suggests a lesson in learning and communicating with depth. You may have worried that you don't speak well enough or know enough. Over time, steady learning often helps you say less but say it clearly, and be trusted for it."
+        },
+        "needs": [
+          {
+            "vi": "Thời gian học kỹ một điều",
+            "en": "Time to learn one thing well"
+          },
+          {
+            "vi": "Cách trình bày có cấu trúc",
+            "en": "A structured way to share ideas"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Sợ nói sai nên im lặng",
+            "en": "Staying silent for fear of being wrong"
+          },
+          {
+            "vi": "So sánh hiểu biết với người khác",
+            "en": "Comparing what you know with others"
+          }
+        ]
+      },
+      "cancer": {
+        "title": {
+          "vi": "Bạn học cách tự nâng đỡ mình",
+          "en": "You're learning to support yourself"
+        },
+        "body": {
+          "vi": "Với Sao Thổ ở Cự Giải, bạn có thể mang trách nhiệm lớn với gia đình hay những người gần mình. Bài học ở đây thường là chăm sóc người khác mà vẫn giữ ranh giới. Theo thời gian, bạn có thể trở thành chỗ dựa vững vàng, kể cả cho chính mình.",
+          "en": "With Saturn in Cancer, you may feel a strong responsibility for family or those close to you. The lesson here is often caring for others while keeping boundaries. Over time you can become a steady support, including for yourself."
+        },
+        "needs": [
+          {
+            "vi": "Ranh giới giữa việc và đời riêng",
+            "en": "Boundaries between work and home"
+          },
+          {
+            "vi": "Một nơi để thật sự nghỉ ngơi",
+            "en": "A place to truly rest"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Gánh hết vì thấy có trách nhiệm",
+            "en": "Carrying everything out of duty"
+          },
+          {
+            "vi": "Giấu cảm xúc để tỏ ra mạnh",
+            "en": "Hiding feelings to seem strong"
+          }
+        ]
+      },
+      "leo": {
+        "title": {
+          "vi": "Bạn tỏa sáng nhờ sự bền bỉ",
+          "en": "You shine through steady effort"
+        },
+        "body": {
+          "vi": "Sao Thổ ở Sư Tử gợi một bài học về sự tự tin được xây dần, không phụ thuộc vào ánh đèn. Bạn có thể từng ngại thể hiện mình hoặc sợ bị đánh giá. Theo thời gian, việc sáng tạo đều đặn thường giúp bạn có một tiếng nói vững vàng và rất riêng.",
+          "en": "Saturn in Leo suggests a lesson in confidence built gradually, without relying on the spotlight. You may have been shy about expressing yourself or afraid of judgment. Over time, steady creative practice often gives you a voice that is solid and truly your own."
+        },
+        "needs": [
+          {
+            "vi": "Thực hành sáng tạo đều đặn",
+            "en": "Regular creative practice"
+          },
+          {
+            "vi": "Tự ghi nhận nỗ lực của mình",
+            "en": "Acknowledging your own efforts"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Ngại thể hiện vì sợ bị chê",
+            "en": "Holding back for fear of criticism"
+          },
+          {
+            "vi": "Quá nghiêm khắc với bản thân",
+            "en": "Being too hard on yourself"
+          }
+        ]
+      },
+      "virgo": {
+        "title": {
+          "vi": "Bạn rèn sự tỉ mỉ thành tay nghề",
+          "en": "You turn care into craft"
+        },
+        "body": {
+          "vi": "Với Sao Thổ ở Xử Nữ, bạn có thể đặt tiêu chuẩn cao cho công việc và cho chính mình. Bài học ở đây thường là phân biệt điều cần hoàn thiện với điều đã đủ tốt. Theo thời gian, sự chăm chút của bạn có thể trở thành một tay nghề đáng tin.",
+          "en": "With Saturn in Virgo, you may set high standards for your work and for yourself. The lesson here is often telling apart what needs refining from what is already good enough. Over time your attention to detail can become trusted craftsmanship."
+        },
+        "needs": [
+          {
+            "vi": "Quy trình rõ ràng, gọn gàng",
+            "en": "Clear, tidy routines"
+          },
+          {
+            "vi": "Biết điểm dừng đủ tốt",
+            "en": "Knowing when it's good enough"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Tự trách vì lỗi nhỏ",
+            "en": "Blaming yourself for small mistakes"
+          },
+          {
+            "vi": "Làm thay người khác vì lo",
+            "en": "Doing others' work out of worry"
+          }
+        ]
+      },
+      "libra": {
+        "title": {
+          "vi": "Bạn học cách hợp tác công bằng",
+          "en": "You're learning fair partnership"
+        },
+        "body": {
+          "vi": "Sao Thổ ở Thiên Bình gợi một bài học về cam kết, công bằng và ranh giới khi làm việc cùng người khác. Bạn có thể nghiêm túc với lời hứa và muốn mọi thứ rõ ràng giữa các bên. Theo thời gian, bạn thường trở thành người được tin cậy khi cần một góc nhìn công bằng.",
+          "en": "Saturn in Libra suggests a lesson in commitment, fairness and boundaries when working with others. You may take promises seriously and want things clear between everyone. Over time you often become someone people trust for a fair perspective."
+        },
+        "needs": [
+          {
+            "vi": "Thỏa thuận rõ ràng giữa các bên",
+            "en": "Clear agreements between people"
+          },
+          {
+            "vi": "Sự công bằng được tôn trọng",
+            "en": "Fairness that is respected"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Nhận thêm việc để giữ hòa khí",
+            "en": "Taking on extra to keep the peace"
+          },
+          {
+            "vi": "Ngại nói không với người khác",
+            "en": "Finding it hard to say no"
+          }
+        ]
+      },
+      "scorpio": {
+        "title": {
+          "vi": "Bạn bền lòng hơn qua chiều sâu",
+          "en": "You grow resilient through depth"
+        },
+        "body": {
+          "vi": "Với Sao Thổ ở Bọ Cạp, bạn có thể rất nghiêm túc với lòng tin và những việc cần cam kết sâu. Bài học ở đây thường là để người khác cùng chia sẻ, thay vì tự kiểm soát hết mọi thứ. Theo thời gian, bạn có thể trở nên vững vàng trước những thay đổi lớn.",
+          "en": "With Saturn in Scorpio, you may take trust and deep commitments very seriously. The lesson here is often letting others share the load instead of controlling everything yourself. Over time you can become steady in the face of big changes."
+        },
+        "needs": [
+          {
+            "vi": "Sự tin tưởng được xây dần",
+            "en": "Trust built gradually"
+          },
+          {
+            "vi": "Người cùng chia sẻ gánh nặng",
+            "en": "People to share the load"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Muốn kiểm soát mọi chi tiết",
+            "en": "Wanting to control every detail"
+          },
+          {
+            "vi": "Giữ áp lực trong lòng quá lâu",
+            "en": "Holding pressure in too long"
+          }
+        ]
+      },
+      "sagittarius": {
+        "title": {
+          "vi": "Bạn biến niềm tin thành việc làm",
+          "en": "You turn beliefs into action"
+        },
+        "body": {
+          "vi": "Sao Thổ ở Nhân Mã gợi một bài học về niềm tin được kiểm nghiệm qua trải nghiệm thật. Bạn có thể nghiêm túc với việc học và với những giá trị mình theo. Theo thời gian, bạn thường trở thành người có góc nhìn rộng mà vẫn thực tế, đáng để người khác lắng nghe.",
+          "en": "Saturn in Sagittarius suggests a lesson in beliefs tested through real experience. You may take learning and your values seriously. Over time you often become someone with a wide yet practical view, worth listening to."
+        },
+        "needs": [
+          {
+            "vi": "Việc học có chiều sâu",
+            "en": "Learning with real depth"
+          },
+          {
+            "vi": "Giá trị rõ để làm điểm tựa",
+            "en": "Clear values to lean on"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Cứng nhắc với quan điểm của mình",
+            "en": "Being rigid about your views"
+          },
+          {
+            "vi": "Ngại thử khi chưa chắc đúng",
+            "en": "Holding back until you're sure"
+          }
+        ]
+      },
+      "capricorn": {
+        "title": {
+          "vi": "Bạn xây dựng bằng sự kiên trì",
+          "en": "You build with perseverance"
+        },
+        "body": {
+          "vi": "Với Sao Thổ ở Ma Kết, bạn có thể có sẵn sự kỷ luật và khả năng nghĩ cho đường dài. Bạn thường biết cách chia mục tiêu lớn thành từng bước và đi tới cùng. Bài học ở đây là nhớ rằng giá trị của bạn không chỉ nằm ở những gì bạn làm được.",
+          "en": "With Saturn in Capricorn, you may have a natural discipline and a knack for thinking long term. You often know how to break big goals into steps and see them through. The lesson here is remembering that your worth isn't only in what you achieve."
+        },
+        "needs": [
+          {
+            "vi": "Mục tiêu rõ, lộ trình cụ thể",
+            "en": "Clear goals and a concrete path"
+          },
+          {
+            "vi": "Nghỉ ngơi mà không thấy có lỗi",
+            "en": "Rest without guilt"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Gồng mình quá lâu",
+            "en": "Pushing yourself for too long"
+          },
+          {
+            "vi": "Khắt khe với nhịp của người khác",
+            "en": "Being strict about others' pace"
+          }
+        ]
+      },
+      "aquarius": {
+        "title": {
+          "vi": "Bạn cho ý tưởng mới một nền vững",
+          "en": "You bring structure to new ideas"
+        },
+        "body": {
+          "vi": "Sao Thổ ở Bảo Bình gợi một bài học về việc biến ý tưởng mới thành điều dùng được cho nhiều người. Bạn có thể nghiêm túc với trách nhiệm của mình trong nhóm và cộng đồng. Theo thời gian, bạn thường biết cách giữ sự độc lập mà vẫn gắn kết với tập thể.",
+          "en": "Saturn in Aquarius suggests a lesson in turning new ideas into something many people can use. You may take your responsibilities in groups and communities seriously. Over time you often learn to keep your independence while staying connected to the group."
+        },
+        "needs": [
+          {
+            "vi": "Cách làm rõ ràng để thử ý tưởng",
+            "en": "A clear way to test ideas"
+          },
+          {
+            "vi": "Vai trò rõ trong nhóm",
+            "en": "A clear role in the group"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Thấy lạc lõng giữa tập thể",
+            "en": "Feeling like an outsider in groups"
+          },
+          {
+            "vi": "Giữ khoảng cách để tự bảo vệ",
+            "en": "Keeping distance to protect yourself"
+          }
+        ]
+      },
+      "pisces": {
+        "title": {
+          "vi": "Bạn cho ước mơ một hình hài rõ",
+          "en": "You give dreams a clear shape"
+        },
+        "body": {
+          "vi": "Với Sao Thổ ở Song Ngư, bạn có thể nghiêm túc với lòng trắc ẩn và những điều mình mơ ước. Bài học ở đây thường là đặt ranh giới để việc giúp đỡ người khác không làm bạn kiệt sức. Theo thời gian, bạn có thể biến trí tưởng tượng thành việc làm cụ thể và bền lâu.",
+          "en": "With Saturn in Pisces, you may take compassion and your dreams seriously. The lesson here is often setting boundaries so helping others doesn't drain you. Over time you can turn imagination into concrete, lasting work."
+        },
+        "needs": [
+          {
+            "vi": "Nhịp làm việc có khung nhẹ nhàng",
+            "en": "A gently structured routine"
+          },
+          {
+            "vi": "Ranh giới khi giúp người khác",
+            "en": "Boundaries when helping others"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Quên mình khi lo cho người khác",
+            "en": "Losing yourself in caring for others"
+          },
+          {
+            "vi": "Né việc khó vì thấy mơ hồ",
+            "en": "Avoiding hard tasks that feel vague"
+          }
+        ]
+      }
+    },
+    "moon": {
+      "aries": {
+        "title": {
+          "vi": "Bạn cảm nhanh và cần được bày tỏ",
+          "en": "You feel fast and need to express it"
+        },
+        "body": {
+          "vi": "Mặt Trăng ở Bạch Dương gợi những cảm xúc đến nhanh, rõ và muốn được nói ra ngay. Bạn có thể thấy dễ chịu hơn khi được vận động, được làm gì đó thay vì ngồi chờ. Cảm xúc của bạn thường qua nhanh, nên một khoảng dừng ngắn trước khi phản ứng có thể giúp bạn rất nhiều.",
+          "en": "Moon in Aries suggests feelings that arrive quickly and clearly, and want to be voiced right away. You may feel better when moving or doing something rather than waiting. Your emotions often pass quickly, so a short pause before reacting can help a lot."
+        },
+        "needs": [
+          {
+            "vi": "Được vận động, xả cảm xúc",
+            "en": "Movement to release feelings"
+          },
+          {
+            "vi": "Sự thẳng thắn từ người xung quanh",
+            "en": "Honesty from those around you"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Phản ứng trước khi kịp nghĩ",
+            "en": "Reacting before thinking"
+          },
+          {
+            "vi": "Thiếu kiên nhẫn khi đang buồn",
+            "en": "Impatience with your own sadness"
+          }
+        ]
+      },
+      "taurus": {
+        "title": {
+          "vi": "Bạn tìm bình yên trong sự ổn định",
+          "en": "You find calm in steadiness"
+        },
+        "body": {
+          "vi": "Với Mặt Trăng ở Kim Ngưu, bạn có thể thấy an lòng nhờ những điều quen thuộc: bữa ăn ngon, giấc ngủ đủ, một góc nhà yên. Cảm xúc của bạn thường ổn định và cần thời gian để thay đổi. Chăm sóc cơ thể cũng là một cách bạn chăm sóc cảm xúc của mình.",
+          "en": "With Moon in Taurus, you may feel at ease through familiar things: a good meal, enough sleep, a quiet corner. Your feelings are often steady and take time to shift. Caring for your body is also a way of caring for your emotions."
+        },
+        "needs": [
+          {
+            "vi": "Nhịp sống đều, dễ chịu",
+            "en": "A steady, comfortable rhythm"
+          },
+          {
+            "vi": "Sự thoải mái cho cơ thể",
+            "en": "Physical comfort"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Khó buông thói quen cũ",
+            "en": "Finding it hard to let go of habits"
+          },
+          {
+            "vi": "Giữ nỗi buồn trong lòng lâu",
+            "en": "Holding sadness in for a long time"
+          }
+        ]
+      },
+      "gemini": {
+        "title": {
+          "vi": "Bạn hiểu cảm xúc qua lời nói",
+          "en": "You understand feelings through words"
+        },
+        "body": {
+          "vi": "Mặt Trăng ở Song Tử gợi một trái tim cần được trò chuyện, được gọi tên điều mình đang cảm thấy. Bạn có thể thấy nhẹ lòng hơn sau khi viết ra hoặc kể cho ai đó nghe. Đôi khi bạn nghĩ về cảm xúc nhiều hơn là để mình thật sự cảm nó.",
+          "en": "Moon in Gemini suggests a heart that needs to talk and to name what it's feeling. You may feel lighter after writing it down or telling someone. Sometimes you think about feelings more than you let yourself truly feel them."
+        },
+        "needs": [
+          {
+            "vi": "Người để trò chuyện, chia sẻ",
+            "en": "Someone to talk things through with"
+          },
+          {
+            "vi": "Viết ra để hiểu mình",
+            "en": "Writing to understand yourself"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Nghĩ nhiều đến rối lòng",
+            "en": "Overthinking until you feel tangled"
+          },
+          {
+            "vi": "Đùa để né cảm xúc thật",
+            "en": "Joking to avoid real feelings"
+          }
+        ]
+      },
+      "cancer": {
+        "title": {
+          "vi": "Bạn cần cảm giác như ở nhà",
+          "en": "You need to feel at home"
+        },
+        "body": {
+          "vi": "Với Mặt Trăng ở Cự Giải, cảm xúc của bạn có thể sâu, nhạy và gắn với ký ức, gia đình, những người thân thương. Bạn thường thấy an lòng khi ở nơi quen thuộc, được chăm sóc và chăm sóc lại. Sự nhạy cảm ấy là một món quà, và cũng cần được chính bạn dịu dàng nâng niu.",
+          "en": "With Moon in Cancer, your feelings may be deep, sensitive and tied to memory, family and loved ones. You often feel at ease in familiar places, caring and being cared for. That sensitivity is a gift that also deserves your own gentle care."
+        },
+        "needs": [
+          {
+            "vi": "Một nơi chốn an toàn, thân quen",
+            "en": "A safe, familiar place"
+          },
+          {
+            "vi": "Được quan tâm khi buồn",
+            "en": "Comfort when you feel low"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Thu mình khi thấy bị tổn thương",
+            "en": "Retreating when hurt"
+          },
+          {
+            "vi": "Ôm cảm xúc của người khác",
+            "en": "Absorbing others' emotions"
+          }
+        ]
+      },
+      "leo": {
+        "title": {
+          "vi": "Bạn cần được thấy và được thương",
+          "en": "You need to be seen and loved"
+        },
+        "body": {
+          "vi": "Mặt Trăng ở Sư Tử gợi một trái tim ấm áp, rộng lượng và mong được trân trọng. Bạn có thể vui lên khi được sáng tạo, được vui chơi, hay nghe ai đó nói rằng họ quý bạn. Bạn cũng có thể học cách tự ghi nhận mình, để niềm vui không phụ thuộc hết vào người khác.",
+          "en": "Moon in Leo suggests a warm, generous heart that wishes to be appreciated. You may brighten when creating, playing, or hearing someone say they value you. You can also learn to appreciate yourself, so your joy doesn't depend entirely on others."
+        },
+        "needs": [
+          {
+            "vi": "Sự ghi nhận và yêu thương",
+            "en": "Recognition and affection"
+          },
+          {
+            "vi": "Thời gian để vui chơi, sáng tạo",
+            "en": "Time to play and create"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Chạnh lòng khi bị bỏ qua",
+            "en": "Feeling hurt when overlooked"
+          },
+          {
+            "vi": "Giấu buồn sau vẻ vui vẻ",
+            "en": "Hiding sadness behind cheerfulness"
+          }
+        ]
+      },
+      "virgo": {
+        "title": {
+          "vi": "Bạn thấy yên khi mọi thứ ngăn nắp",
+          "en": "You feel calm when things are in order"
+        },
+        "body": {
+          "vi": "Với Mặt Trăng ở Xử Nữ, bạn có thể thấy an lòng khi mọi việc được sắp xếp gọn gàng và có ích. Bạn thường chăm sóc người khác qua những việc làm nhỏ, thiết thực. Khi lo lắng, bạn dễ tự soi lỗi mình, nên một lời tử tế với bản thân là rất cần.",
+          "en": "With Moon in Virgo, you may feel at ease when things are tidy and useful. You often care for others through small, practical acts. When anxious you may pick at yourself, so a kind word to yourself really matters."
+        },
+        "needs": [
+          {
+            "vi": "Nhịp sinh hoạt gọn gàng",
+            "en": "A tidy daily routine"
+          },
+          {
+            "vi": "Một việc nhỏ làm được ngay",
+            "en": "One small task you can finish now"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Lo lắng về những điều nhỏ",
+            "en": "Worrying over small things"
+          },
+          {
+            "vi": "Tự chê trách quá nhiều",
+            "en": "Being overly self-critical"
+          }
+        ]
+      },
+      "libra": {
+        "title": {
+          "vi": "Bạn cần sự hài hòa quanh mình",
+          "en": "You need harmony around you"
+        },
+        "body": {
+          "vi": "Mặt Trăng ở Thiên Bình gợi một trái tim nhạy với bầu không khí và các mối quan hệ. Bạn có thể thấy dễ chịu khi mọi người hòa thuận và không gian quanh mình đẹp, gọn. Khi có căng thẳng, bạn dễ nhường để giữ yên, nên cũng cần để ý cảm xúc thật của mình.",
+          "en": "Moon in Libra suggests a heart sensitive to atmosphere and relationships. You may feel at ease when people get along and your surroundings are pleasant. When tension arises you may give way to keep the peace, so it helps to notice your real feelings too."
+        },
+        "needs": [
+          {
+            "vi": "Những mối quan hệ hòa thuận",
+            "en": "Harmonious relationships"
+          },
+          {
+            "vi": "Không gian đẹp, dễ chịu",
+            "en": "A pleasant, beautiful space"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Gác cảm xúc mình để giữ hòa khí",
+            "en": "Setting your feelings aside for peace"
+          },
+          {
+            "vi": "Chờ người khác đồng ý mới yên",
+            "en": "Needing others' approval to feel settled"
+          }
+        ]
+      },
+      "scorpio": {
+        "title": {
+          "vi": "Bạn cảm sâu và cần lòng tin",
+          "en": "You feel deeply and need trust"
+        },
+        "body": {
+          "vi": "Với Mặt Trăng ở Bọ Cạp, cảm xúc của bạn có thể rất sâu, mạnh và không dễ chia sẻ với ai. Bạn thường cần thấy thật sự an toàn mới mở lòng. Khi được tin tưởng, bạn có thể ở bên người khác qua cả những lúc khó khăn nhất.",
+          "en": "With Moon in Scorpio, your feelings may run very deep and strong, and aren't easily shared. You often need to feel truly safe before opening up. When trusted, you can stay with others through their hardest moments."
+        },
+        "needs": [
+          {
+            "vi": "Lòng tin và sự riêng tư",
+            "en": "Trust and privacy"
+          },
+          {
+            "vi": "Người chịu ở lại với cảm xúc sâu",
+            "en": "Someone who stays with deep feelings"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Giữ kín đến mức nặng lòng",
+            "en": "Keeping so much inside it weighs on you"
+          },
+          {
+            "vi": "Khó buông khi bị tổn thương",
+            "en": "Finding it hard to let go of hurt"
+          }
+        ]
+      },
+      "sagittarius": {
+        "title": {
+          "vi": "Bạn cần khoảng trời để thở",
+          "en": "You need room to breathe"
+        },
+        "body": {
+          "vi": "Mặt Trăng ở Nhân Mã gợi một trái tim lạc quan, cần tự do và điều mới để thấy sống động. Bạn có thể nhẹ lòng hơn khi được đi đâu đó, học điều gì đó hoặc cười thật to. Khi buồn, bạn dễ muốn cho qua nhanh, nên hãy cho phép mình ở lại với cảm xúc một chút.",
+          "en": "Moon in Sagittarius suggests an optimistic heart that needs freedom and new things to feel alive. You may feel lighter after going somewhere, learning something or having a good laugh. When sad you may want to move on fast, so it helps to stay with the feeling a little."
+        },
+        "needs": [
+          {
+            "vi": "Tự do và không gian riêng",
+            "en": "Freedom and personal space"
+          },
+          {
+            "vi": "Trải nghiệm mới để thấy hứng khởi",
+            "en": "New experiences to feel inspired"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Lạc quan để né nỗi buồn",
+            "en": "Using optimism to skip sadness"
+          },
+          {
+            "vi": "Bồn chồn khi phải ngồi yên",
+            "en": "Restlessness when you must stay put"
+          }
+        ]
+      },
+      "capricorn": {
+        "title": {
+          "vi": "Bạn tìm an lòng trong sự vững vàng",
+          "en": "You find comfort in feeling steady"
+        },
+        "body": {
+          "vi": "Với Mặt Trăng ở Ma Kết, bạn có thể thấy an tâm khi mọi việc nằm trong tầm tay và có kế hoạch rõ. Bạn thường giữ cảm xúc khá kín, quen tự lo hơn là nhờ ai. Cho phép mình được yếu lòng đôi lúc cũng là một cách mạnh mẽ.",
+          "en": "With Moon in Capricorn, you may feel secure when things are in hand and planned. You often keep feelings private and are used to handling things yourself. Letting yourself be vulnerable at times is also a kind of strength."
+        },
+        "needs": [
+          {
+            "vi": "Kế hoạch rõ để thấy yên tâm",
+            "en": "A clear plan for peace of mind"
+          },
+          {
+            "vi": "Người đáng tin để dựa vào",
+            "en": "Someone reliable to lean on"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Gồng mình, không chịu nghỉ",
+            "en": "Pushing through without rest"
+          },
+          {
+            "vi": "Ngại lên tiếng khi cần giúp",
+            "en": "Hesitating to ask for help"
+          }
+        ]
+      },
+      "aquarius": {
+        "title": {
+          "vi": "Bạn cần được là chính mình",
+          "en": "You need to be yourself"
+        },
+        "body": {
+          "vi": "Mặt Trăng ở Bảo Bình gợi một trái tim cần không gian, sự tôn trọng và tự do suy nghĩ. Bạn có thể thấy dễ chịu bên những người bạn chấp nhận nét riêng của mình. Đôi khi bạn lùi ra nhìn cảm xúc từ xa, điều đó cũng ổn, miễn là bạn quay lại với nó.",
+          "en": "Moon in Aquarius suggests a heart that needs space, respect and freedom of thought. You may feel at ease with friends who accept what makes you different. Sometimes you step back to view feelings from a distance, which is fine, as long as you return to them."
+        },
+        "needs": [
+          {
+            "vi": "Không gian và sự tôn trọng",
+            "en": "Space and respect"
+          },
+          {
+            "vi": "Bạn bè hiểu nét riêng của bạn",
+            "en": "Friends who get your quirks"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Tách mình khỏi cảm xúc",
+            "en": "Detaching from your feelings"
+          },
+          {
+            "vi": "Ngại dựa vào người khác",
+            "en": "Reluctance to lean on others"
+          }
+        ]
+      },
+      "pisces": {
+        "title": {
+          "vi": "Bạn cảm nhận mọi thứ rất sâu",
+          "en": "You feel everything deeply"
+        },
+        "body": {
+          "vi": "Với Mặt Trăng ở Song Ngư, bạn có thể rất nhạy, dễ đồng cảm và cảm được cả những điều không ai nói ra. Bạn thường thấy dịu lại nhờ âm nhạc, nghệ thuật, giấc mơ hoặc một khoảng lặng. Sự nhạy cảm ấy cần ranh giới để bạn phân biệt cảm xúc của mình với của người khác.",
+          "en": "With Moon in Pisces, you may be very sensitive and empathetic, picking up on things no one says aloud. You often calm down through music, art, dreams or quiet time. That sensitivity needs boundaries so you can tell your feelings apart from other people's."
+        },
+        "needs": [
+          {
+            "vi": "Khoảng lặng để nạp lại sức",
+            "en": "Quiet time to recharge"
+          },
+          {
+            "vi": "Nghệ thuật, âm nhạc, sáng tạo",
+            "en": "Art, music and creativity"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Thấm mệt vì cảm thay người khác",
+            "en": "Getting drained by others' feelings"
+          },
+          {
+            "vi": "Trốn vào mơ mộng khi khó khăn",
+            "en": "Escaping into daydreams when it's hard"
+          }
+        ]
+      }
+    },
+    "rising": {
+      "aries": {
+        "title": {
+          "vi": "Bạn bước vào mọi việc đầy hăng hái",
+          "en": "You enter with energy and courage"
+        },
+        "body": {
+          "vi": "Cung mọc Bạch Dương gợi một cách bước vào hoàn cảnh mới thẳng thắn, nhanh nhẹn và dám thử. Người khác có thể thấy bạn tự tin, chủ động ngay từ lần đầu gặp. Bên trong, có thể bạn vẫn đang dò dẫm từng bước, và điều đó hoàn toàn bình thường.",
+          "en": "Aries Rising suggests entering new situations directly, quickly and willing to try. Others may see you as confident and proactive from the first meeting. Inside, you may still be finding your way step by step, and that's completely normal."
+        },
+        "needs": [
+          {
+            "vi": "Được bắt đầu theo cách của mình",
+            "en": "Starting things your own way"
+          },
+          {
+            "vi": "Không gian để hành động",
+            "en": "Room to take action"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Trông vội vàng khi đang hồi hộp",
+            "en": "Seeming rushed when nervous"
+          },
+          {
+            "vi": "Bị hiểu là nóng tính",
+            "en": "Being read as hot-tempered"
+          }
+        ]
+      },
+      "taurus": {
+        "title": {
+          "vi": "Bạn bước vào bình tĩnh và vững vàng",
+          "en": "You enter calm and grounded"
+        },
+        "body": {
+          "vi": "Với Cung mọc Kim Ngưu, bạn có thể bước vào điều mới một cách chậm rãi, quan sát trước khi hòa vào. Người khác thường thấy bạn điềm tĩnh, dễ chịu và đáng tin. Bạn cần chút thời gian để quen, và nhịp ấy giúp bạn chọn đúng điều đáng gắn bó.",
+          "en": "With Taurus Rising, you may enter new things slowly, observing before joining in. Others often see you as calm, pleasant and trustworthy. You need a little time to settle, and that pace helps you choose what's worth committing to."
+        },
+        "needs": [
+          {
+            "vi": "Thời gian để làm quen",
+            "en": "Time to settle in"
+          },
+          {
+            "vi": "Không gian dễ chịu, ổn định",
+            "en": "A comfortable, stable setting"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Ngại bước ra khỏi vùng quen",
+            "en": "Hesitating to leave your comfort zone"
+          },
+          {
+            "vi": "Trông khó gần lúc đầu",
+            "en": "Seeming reserved at first"
+          }
+        ]
+      },
+      "gemini": {
+        "title": {
+          "vi": "Bạn bước vào bằng sự tò mò",
+          "en": "You enter with curiosity"
+        },
+        "body": {
+          "vi": "Cung mọc Song Tử gợi một cách bước vào hoàn cảnh mới linh hoạt, hay hỏi và dễ bắt chuyện. Người khác có thể thấy bạn lanh lợi, vui vẻ và dễ gần. Bạn thường thích nắm thông tin trước khi quyết định, và sự tò mò ấy giúp bạn thích nghi nhanh.",
+          "en": "Gemini Rising suggests entering new situations flexibly, asking questions and starting conversations easily. Others may see you as quick-witted, cheerful and approachable. You often like to gather information before deciding, and that curiosity helps you adapt quickly."
+        },
+        "needs": [
+          {
+            "vi": "Được hỏi han, tìm hiểu",
+            "en": "Room to ask and explore"
+          },
+          {
+            "vi": "Sự đa dạng, không đơn điệu",
+            "en": "Variety over routine"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Nói nhiều khi đang lo",
+            "en": "Talking a lot when anxious"
+          },
+          {
+            "vi": "Khó tập trung vào một hướng",
+            "en": "Struggling to focus on one path"
+          }
+        ]
+      },
+      "cancer": {
+        "title": {
+          "vi": "Bạn bước vào nhẹ nhàng và tinh ý",
+          "en": "You enter gently and attentively"
+        },
+        "body": {
+          "vi": "Với Cung mọc Cự Giải, bạn có thể bước vào điều mới một cách dè dặt, cảm nhận bầu không khí trước khi mở lòng. Người khác thường thấy bạn ấm áp, chu đáo và dễ tâm sự. Khi đã thấy an toàn, bạn có thể khiến người khác cảm thấy như đang ở nhà.",
+          "en": "With Cancer Rising, you may enter new things cautiously, sensing the atmosphere before opening up. Others often see you as warm, caring and easy to confide in. Once you feel safe, you can make others feel right at home."
+        },
+        "needs": [
+          {
+            "vi": "Cảm giác an toàn lúc đầu",
+            "en": "Feeling safe at the start"
+          },
+          {
+            "vi": "Không khí thân thiện, đón chào",
+            "en": "A friendly, welcoming atmosphere"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Thu mình khi ở nơi lạ",
+            "en": "Retreating in unfamiliar places"
+          },
+          {
+            "vi": "Dễ nhiễm tâm trạng xung quanh",
+            "en": "Picking up others' moods easily"
+          }
+        ]
+      },
+      "leo": {
+        "title": {
+          "vi": "Bạn bước vào với sự ấm áp rạng rỡ",
+          "en": "You enter with warmth and presence"
+        },
+        "body": {
+          "vi": "Cung mọc Sư Tử gợi một cách bước vào hoàn cảnh mới tự tin, cởi mở và dễ được chú ý. Người khác có thể thấy bạn ấm áp, hào phóng và cuốn hút. Bạn có thể học cách thoải mái cả khi không ở vị trí trung tâm, vì giá trị của bạn vẫn luôn ở đó.",
+          "en": "Leo Rising suggests entering new situations confidently and openly, often drawing attention. Others may see you as warm, generous and magnetic. You can learn to feel at ease even when you're not the centre of attention, because your worth is still there."
+        },
+        "needs": [
+          {
+            "vi": "Được thể hiện mình tự nhiên",
+            "en": "Freedom to express yourself"
+          },
+          {
+            "vi": "Sự đón nhận chân thành",
+            "en": "A sincere welcome"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Lo về hình ảnh của mình",
+            "en": "Worrying about your image"
+          },
+          {
+            "vi": "Chạnh lòng khi bị lơ đi",
+            "en": "Feeling hurt when ignored"
+          }
+        ]
+      },
+      "virgo": {
+        "title": {
+          "vi": "Bạn bước vào cẩn thận và chu đáo",
+          "en": "You enter carefully and thoughtfully"
+        },
+        "body": {
+          "vi": "Với Cung mọc Xử Nữ, bạn có thể bước vào điều mới bằng cách quan sát kỹ, tìm hiểu trước và chuẩn bị chu đáo. Người khác thường thấy bạn khiêm tốn, gọn gàng và đáng tin. Chuẩn bị giúp bạn yên tâm, và bạn cũng có thể cho phép mình bắt đầu khi chưa hoàn hảo.",
+          "en": "With Virgo Rising, you may enter new things by observing closely, researching and preparing well. Others often see you as modest, tidy and dependable. Preparing helps you feel calm, and you can also let yourself begin before things are perfect."
+        },
+        "needs": [
+          {
+            "vi": "Thông tin rõ trước khi bắt đầu",
+            "en": "Clear information before starting"
+          },
+          {
+            "vi": "Một việc cụ thể để góp sức",
+            "en": "A concrete way to contribute"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Chần chừ vì thấy chưa đủ tốt",
+            "en": "Delaying because it's not good enough"
+          },
+          {
+            "vi": "Tự đánh giá mình quá khắt khe",
+            "en": "Judging yourself too harshly"
+          }
+        ]
+      },
+      "libra": {
+        "title": {
+          "vi": "Bạn bước vào duyên dáng và hòa nhã",
+          "en": "You enter with grace and ease"
+        },
+        "body": {
+          "vi": "Cung mọc Thiên Bình gợi một cách bước vào hoàn cảnh mới lịch thiệp, hòa nhã và dễ kết nối. Người khác có thể thấy bạn dễ mến, tinh tế và biết lắng nghe. Bạn thường để ý cảm xúc của mọi người, và cũng cần nhớ hỏi xem mình thật sự muốn gì.",
+          "en": "Libra Rising suggests entering new situations with courtesy, ease and a knack for connecting. Others may see you as likeable, refined and a good listener. You often tune in to everyone's feelings, and it helps to also ask what you truly want."
+        },
+        "needs": [
+          {
+            "vi": "Không khí hòa nhã, tôn trọng",
+            "en": "A courteous, respectful atmosphere"
+          },
+          {
+            "vi": "Thời gian để cân nhắc",
+            "en": "Time to weigh things up"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Chiều theo người khác quá nhiều",
+            "en": "Going along with others too much"
+          },
+          {
+            "vi": "Khó quyết định nhanh",
+            "en": "Struggling with quick decisions"
+          }
+        ]
+      },
+      "scorpio": {
+        "title": {
+          "vi": "Bạn bước vào sâu lắng và tinh tường",
+          "en": "You enter quietly and perceptively"
+        },
+        "body": {
+          "vi": "Với Cung mọc Bọ Cạp, bạn có thể bước vào điều mới một cách kín đáo, quan sát kỹ trước khi để lộ mình. Người khác thường thấy bạn sâu sắc, mạnh mẽ và hơi khó đoán. Bạn mở lòng từ từ, và những ai được bạn tin thường thấy rõ sự chân thành ấy.",
+          "en": "With Scorpio Rising, you may enter new things discreetly, watching closely before revealing yourself. Others often see you as deep, intense and a little hard to read. You open up gradually, and those you trust often see your sincerity clearly."
+        },
+        "needs": [
+          {
+            "vi": "Thời gian để tin tưởng",
+            "en": "Time to build trust"
+          },
+          {
+            "vi": "Không gian giữ điều riêng tư",
+            "en": "Space to keep some things private"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Bị hiểu là xa cách",
+            "en": "Coming across as distant"
+          },
+          {
+            "vi": "Đề phòng quá mức lúc đầu",
+            "en": "Being overly guarded at first"
+          }
+        ]
+      },
+      "sagittarius": {
+        "title": {
+          "vi": "Bạn bước vào cởi mở và lạc quan",
+          "en": "You enter open and optimistic"
+        },
+        "body": {
+          "vi": "Cung mọc Nhân Mã gợi một cách bước vào hoàn cảnh mới hào hứng, thân thiện và sẵn sàng khám phá. Người khác có thể thấy bạn vui vẻ, thẳng thắn và dễ truyền cảm hứng. Sự háo hức ấy giúp bạn mở ra nhiều cánh cửa, nhất là khi đi cùng chút kiên nhẫn với chi tiết.",
+          "en": "Sagittarius Rising suggests entering new situations with enthusiasm, friendliness and a readiness to explore. Others may see you as cheerful, frank and inspiring. That eagerness opens many doors, especially with a little patience for details."
+        },
+        "needs": [
+          {
+            "vi": "Tự do khám phá theo cách mình",
+            "en": "Freedom to explore your way"
+          },
+          {
+            "vi": "Những người cởi mở, vui vẻ",
+            "en": "Open, good-humoured people"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Nói thẳng trước khi hiểu người",
+            "en": "Speaking bluntly before knowing people"
+          },
+          {
+            "vi": "Hứa nhiều khi đang hứng",
+            "en": "Over-promising when excited"
+          }
+        ]
+      },
+      "capricorn": {
+        "title": {
+          "vi": "Bạn bước vào điềm đạm và nghiêm túc",
+          "en": "You enter composed and serious"
+        },
+        "body": {
+          "vi": "Với Cung mọc Ma Kết, bạn có thể bước vào điều mới một cách thận trọng, nghiêm túc và có chuẩn bị. Người khác thường thấy bạn chín chắn, đáng tin và có trách nhiệm. Bạn có thể cho phép mình thả lỏng hơn một chút, vì sự ấm áp của bạn cũng đáng được nhìn thấy.",
+          "en": "With Capricorn Rising, you may enter new things carefully, seriously and well prepared. Others often see you as mature, reliable and responsible. You can let yourself relax a little, because your warmth deserves to be seen too."
+        },
+        "needs": [
+          {
+            "vi": "Vai trò và kỳ vọng rõ ràng",
+            "en": "Clear roles and expectations"
+          },
+          {
+            "vi": "Thời gian để thấy thoải mái",
+            "en": "Time to feel at ease"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Trông nghiêm hơn lòng mình",
+            "en": "Seeming sterner than you feel"
+          },
+          {
+            "vi": "Tự ép phải làm tốt ngay",
+            "en": "Pressuring yourself to get it right at once"
+          }
+        ]
+      },
+      "aquarius": {
+        "title": {
+          "vi": "Bạn bước vào theo cách rất riêng",
+          "en": "You enter in your own unique way"
+        },
+        "body": {
+          "vi": "Cung mọc Bảo Bình gợi một cách bước vào hoàn cảnh mới thân thiện mà vẫn giữ chút khoảng cách. Người khác có thể thấy bạn độc đáo, cởi mở với ý tưởng lạ và khó bị đóng khung. Bạn thường thấy thoải mái nhất khi được là chính mình mà không phải giải thích.",
+          "en": "Aquarius Rising suggests entering new situations in a friendly way while keeping a little distance. Others may see you as original, open to unusual ideas and hard to pigeonhole. You often feel most comfortable when you can be yourself without explaining."
+        },
+        "needs": [
+          {
+            "vi": "Nét riêng được tôn trọng",
+            "en": "Respect for your individuality"
+          },
+          {
+            "vi": "Không gian để quan sát trước",
+            "en": "Space to observe first"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Bị hiểu là lạnh lùng",
+            "en": "Being read as aloof"
+          },
+          {
+            "vi": "Cố tỏ ra khác để giữ khoảng cách",
+            "en": "Acting different to keep distance"
+          }
+        ]
+      },
+      "pisces": {
+        "title": {
+          "vi": "Bạn bước vào dịu dàng và nhạy cảm",
+          "en": "You enter softly and sensitively"
+        },
+        "body": {
+          "vi": "Với Cung mọc Song Ngư, bạn có thể bước vào điều mới một cách nhẹ nhàng, cảm nhận mọi thứ quanh mình rất rõ. Người khác thường thấy bạn hiền, dễ đồng cảm và có chút mơ mộng. Một vài thói quen giữ mình vững vàng giúp bạn mở lòng mà không bị cuốn theo.",
+          "en": "With Pisces Rising, you may enter new things gently, sensing everything around you vividly. Others often see you as kind, empathetic and a little dreamy. A few grounding habits help you stay open without getting swept away."
+        },
+        "needs": [
+          {
+            "vi": "Không gian yên để định thần",
+            "en": "Quiet space to collect yourself"
+          },
+          {
+            "vi": "Người tử tế, dễ thông cảm",
+            "en": "Kind, understanding people"
+          }
+        ],
+        "watch": [
+          {
+            "vi": "Dễ bị cuốn theo cảm xúc người khác",
+            "en": "Getting swept up in others' moods"
+          },
+          {
+            "vi": "Khó nói không khi được nhờ",
+            "en": "Struggling to say no when asked"
+          }
+        ]
+      }
+    }
+  }
+}

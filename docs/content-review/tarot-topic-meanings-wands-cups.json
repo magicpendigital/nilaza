@@ -1,0 +1,575 @@
+{
+  "status": "draft-for-owner-review",
+  "scope": "wands and cups upright topic meanings and misconceptions",
+  "createdAt": "2026-10-30",
+  "cards": {
+    "minor-wands-ace": {
+      "topics": {
+        "love": {
+          "vi": "Một rung động mới có thể đang nhen lên. Cứ để nó lớn dần qua vài cuộc trò chuyện nhỏ, thay vì vội đặt tên cho mối quan hệ.",
+          "en": "A new spark of interest may be catching. Let it grow through a few small conversations instead of rushing to name the relationship."
+        },
+        "career": {
+          "vi": "Một ý tưởng đang khiến bạn háo hức? Hãy thử nó trong một dự án nhỏ hoặc một buổi chiều cuối tuần, trước khi dành cho nó nhiều thời gian và công sức hơn.",
+          "en": "Is an idea making you eager? Try it in a small project or one weekend afternoon before giving it more time and effort."
+        },
+        "self": {
+          "vi": "Để ý điều gì khiến bạn thấy tò mò trở lại. Tia hứng khởi ấy đáng được ghi lại, dù bạn chưa biết nó sẽ dẫn tới đâu.",
+          "en": "Notice what makes you feel curious again. That spark deserves to be written down, even if you don't yet know where it leads."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải dấu hiệu chắc chắn rằng việc mới nào cũng sẽ thành công. Lá này chỉ một tia cảm hứng, còn nó lớn lên hay không tùy vào cách bạn thử và chăm nó.",
+        "en": "It is not a sure sign that every new venture will succeed. This card points to a spark; whether it grows depends on how you test and tend it."
+      }
+    },
+    "minor-wands-two": {
+      "topics": {
+        "love": {
+          "vi": "Có thể bạn đang đứng giữa sự quen thuộc và mong muốn điều gì đó rộng hơn. Thử hỏi: mình muốn mối quan hệ này đi về đâu, chứ không chỉ giữ nó như hiện tại?",
+          "en": "You may be standing between the familiar and a wish for something wider. Try asking: where do I want this relationship to go, not just how to keep it as it is?"
+        },
+        "career": {
+          "vi": "Trước khi rẽ hướng, hãy đặt hai cột cạnh nhau: điều bạn muốn khám phá và những gì bạn đang có trong tay, như thời gian, kỹ năng, người hỗ trợ.",
+          "en": "Before changing direction, put two columns side by side: what you want to explore and what you already have, like time, skills and people who support you."
+        },
+        "self": {
+          "vi": "Cho phép mình nhìn ra xa hơn khung cửa quen thuộc. Một bản phác thảo cho năm tới không phải lời hứa, chỉ là cách để bạn biết mình đang hướng về đâu.",
+          "en": "Let yourself look past the familiar window. A sketch of the year ahead is not a promise, just a way to see which way you are facing."
+        }
+      },
+      "misconception": {
+        "vi": "Dễ bị xem là lá của sự do dự, chần chừ. Thật ra đây là giai đoạn lập kế hoạch, khi việc nhìn kỹ trước khi bước cũng là một hành động.",
+        "en": "It's easy to read this as indecision or stalling. In fact it is the planning stage, where looking carefully before stepping is also a form of action."
+      }
+    },
+    "minor-wands-three": {
+      "topics": {
+        "love": {
+          "vi": "Nếu bạn đã bày tỏ một điều, giờ là lúc quan sát cách người kia đáp lại. Kiên nhẫn ở đây là chú ý, không phải ngồi chờ trong lo lắng.",
+          "en": "If you have expressed something, now is a time to notice how the other person responds. Patience here means paying attention, not waiting anxiously."
+        },
+        "career": {
+          "vi": "Khi bước đầu đã đi rồi, hãy nhìn phản hồi từ bên ngoài: ai quan tâm, điều gì cần chỉnh. Đó là chất liệu để bạn chuẩn bị cho chặng kế tiếp.",
+          "en": "Once the first step is taken, look at outside feedback: who is interested, what needs adjusting. That is material for preparing the next stretch."
+        },
+        "self": {
+          "vi": "Thử đứng lùi lại để thấy bức tranh rộng hơn về điều bạn đang xây. Bạn muốn nó lớn thêm theo hướng nào trong vài tháng tới?",
+          "en": "Step back to see a wider picture of what you are building. In which direction would you like it to grow over the next few months?"
+        }
+      },
+      "misconception": {
+        "vi": "Nhiều người đọc lá này thành “tin vui sắp về”. Thật ra nó mời bạn mở rộng tầm nhìn và đọc phản hồi, chứ không hứa một kết quả nào.",
+        "en": "Many read this card as “good news is on its way.” Really, it invites you to widen your view and read the feedback, not to expect any particular result."
+      }
+    },
+    "minor-wands-four": {
+      "topics": {
+        "love": {
+          "vi": "Dành thời gian ghi nhận những gì bạn và người ấy đã cùng vun đắp, dù chỉ qua một bữa tối giản dị. Cảm giác được thuộc về thường lớn lên từ những khoảnh khắc như thế.",
+          "en": "Take time to appreciate what you and your partner have built together, even over a simple dinner. A sense of belonging often grows from moments like these."
+        },
+        "career": {
+          "vi": "Trước khi lao sang mục tiêu mới, hãy dừng lại ăn mừng một cột mốc vừa qua cùng những người đã góp sức. Ghi nhận cũng là một phần của công việc.",
+          "en": "Before rushing to the next goal, pause to celebrate a recent milestone with the people who helped. Recognition is part of the work too."
+        },
+        "self": {
+          "vi": "Ở đâu, hoặc bên ai, bạn thấy mình được là chính mình? Một chút thời gian cho nơi đó có thể giúp bạn nạp lại niềm vui.",
+          "en": "Where, or with whom, do you feel free to be yourself? A little time in that place may help you refill your joy."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời báo trước một đám cưới hay chuyện về chung nhà. Lá này nói về việc ghi nhận một chặng đã đi và niềm vui được thuộc về, ở bất kỳ hình thức nào.",
+        "en": "It is not a forecast of a wedding or moving in together. It speaks of honoring a stage you have reached and the joy of belonging, in whatever form that takes."
+      }
+    },
+    "minor-wands-five": {
+      "topics": {
+        "love": {
+          "vi": "Những lần cãi nhau nhỏ không nhất thiết là dấu hiệu xấu. Thử tìm xem bên dưới cuộc tranh luận, mỗi người đang thật sự cần được hiểu điều gì.",
+          "en": "Small arguments aren't necessarily a bad sign. Try finding what each of you actually needs to be understood beneath the debate."
+        },
+        "career": {
+          "vi": "Trong một nhóm nhiều ý kiến trái chiều, mục tiêu không phải là thắng cuộc tranh luận. Hãy gom các ý lại và hỏi điều gì thật sự cần bàn cho rõ.",
+          "en": "In a team full of opposing views, the goal isn't to win the argument. Gather the ideas and ask what genuinely needs to be talked through."
+        },
+        "self": {
+          "vi": "Để ý xem bạn có đang so mình với người khác đến mệt không. Cạnh tranh có thể thúc bạn tiến lên, nhưng không cần biến mọi thứ thành cuộc đua.",
+          "en": "Notice whether you are comparing yourself with others to the point of exhaustion. Competition can push you forward, but not everything needs to become a race."
+        }
+      },
+      "misconception": {
+        "vi": "Va chạm ở đây không phải điềm báo đổ vỡ. Đó là những bất đồng thường ngày, và chúng có thể là chỗ để hiểu nhau hơn.",
+        "en": "The friction here is not an omen of a breakup. These are everyday disagreements, and they can be a place to understand each other better."
+      }
+    },
+    "minor-wands-six": {
+      "topics": {
+        "love": {
+          "vi": "Bạn xứng đáng được nhìn thấy và trân trọng vì con người thật của mình. Thử để ý ai đang ghi nhận bạn bằng hành động, không chỉ bằng lời khen.",
+          "en": "You deserve to be seen and appreciated for who you really are. Notice who acknowledges you through actions, not just compliments."
+        },
+        "career": {
+          "vi": "Hãy gọi tên một đóng góp cụ thể bạn vừa làm tốt, rồi để người khác biết về nó. Tự tin không cần chờ cả phòng vỗ tay.",
+          "en": "Name one concrete contribution you did well, then let others know about it. Confidence doesn't need to wait for the whole room to applaud."
+        },
+        "self": {
+          "vi": "Cho phép mình tự hào một chút mà không thấy ngại. Viết lại một nỗ lực gần đây mà bạn muốn ghi nhận cho chính mình.",
+          "en": "Let yourself feel a little proud without embarrassment. Write down one recent effort you want to acknowledge for yourself."
+        }
+      },
+      "misconception": {
+        "vi": "Thắng lợi ở lá này không phải lời hứa sẽ được thăng chức hay chiến thắng. Nó nói về việc nhận ra giá trị nỗ lực của bạn, dù người khác có tán thưởng hay không.",
+        "en": "The victory in this card is not a promise of a promotion or a win. It is about recognizing the worth of your effort, whether or not others applaud."
+      }
+    },
+    "minor-wands-seven": {
+      "topics": {
+        "love": {
+          "vi": "Khi bị kéo về nhiều phía, từ ý kiến bạn bè đến kỳ vọng của người ấy, bạn vẫn được quyền giữ điều mình cần. Ranh giới rõ ràng không làm bạn kém dịu dàng.",
+          "en": "When you feel pulled in many directions, from friends' opinions to your partner's expectations, you still have the right to keep what you need. Clear boundaries don't make you less gentle."
+        },
+        "career": {
+          "vi": "Nếu ý tưởng của bạn đang bị chất vấn, hãy bảo vệ nó bằng lý lẽ và dữ kiện thay vì giọng to hơn. Giữ vững không có nghĩa là phải đối đầu.",
+          "en": "If your idea is being challenged, defend it with reasoning and facts rather than a louder voice. Holding firm doesn't have to mean confrontation."
+        },
+        "self": {
+          "vi": "Điều gì bạn không muốn nhượng bộ thêm nữa? Gọi tên nó là bước đầu để giữ nó, kể cả khi áp lực đến từ chính kỳ vọng của bạn.",
+          "en": "What are you no longer willing to give up? Naming it is the first step to protecting it, even when the pressure comes from your own expectations."
+        }
+      },
+      "misconception": {
+        "vi": "Giữ lập trường không có nghĩa là chống lại tất cả mọi người. Lá này nói về việc bình tĩnh bảo vệ điều quan trọng, và biết chỗ nào có thể mềm lại.",
+        "en": "Holding your ground doesn't mean fighting everyone. This card is about calmly protecting what matters, and knowing where you can soften."
+      }
+    },
+    "minor-wands-eight": {
+      "topics": {
+        "love": {
+          "vi": "Tin nhắn qua lại nhanh có thể làm mọi thứ thấy hồi hộp. Thử chậm một nhịp để hỏi: mình đang trả lời vì muốn, hay vì sợ bỏ lỡ?",
+          "en": "Fast back-and-forth messages can make everything feel thrilling. Try slowing down a beat to ask: am I replying because I want to, or because I'm afraid of missing out?"
+        },
+        "career": {
+          "vi": "Khi việc dồn đến cùng lúc, hãy chọn ba việc cần phản hồi trước và để phần còn lại chờ. Nhịp nhanh dễ thở hơn khi bạn chủ động sắp thứ tự.",
+          "en": "When tasks arrive all at once, pick three that need a response first and let the rest wait. A fast pace is easier to breathe through when you set the order yourself."
+        },
+        "self": {
+          "vi": "Nếu đầu óc đang chạy nhanh hơn cơ thể, một khoảng dừng ngắn có thể giúp bạn bắt kịp chính mình. Không phải tín hiệu nào cũng cần bạn đáp lại ngay.",
+          "en": "If your mind is running faster than your body, a short pause can help you catch up with yourself. Not every signal needs an immediate answer."
+        }
+      },
+      "misconception": {
+        "vi": "Nhiều người mong lá này nghĩa là “sắp có tin nhắn từ người ấy”. Lá này nói về nhịp chuyển động, và bạn vẫn chọn được tốc độ của mình.",
+        "en": "Many hope this card means “a message from them is coming.” It speaks of momentum, and you can still choose your own speed."
+      }
+    },
+    "minor-wands-nine": {
+      "topics": {
+        "love": {
+          "vi": "Nếu những tổn thương cũ khiến bạn luôn dè chừng, điều đó dễ hiểu. Bạn có thể giữ sự cẩn trọng mà vẫn để một chút tin tưởng bước vào, theo nhịp vừa sức.",
+          "en": "If old hurts have made you guarded, that is understandable. You can stay careful while letting a little trust in, at a pace you can manage."
+        },
+        "career": {
+          "vi": "Sau một chặng dài cố gắng, bạn không cần chứng minh mình bền bỉ bằng cách không nghỉ. Hãy xem việc nào cần làm tiếp và việc nào có thể tạm gác.",
+          "en": "After a long stretch of effort, you don't need to prove your resilience by never resting. Look at what needs to continue and what can be set aside for now."
+        },
+        "self": {
+          "vi": "Có thể bạn đã gồng lâu hơn mình nhận ra. Ghi nhận sức bền ấy, và lắng nghe giới hạn của cơ thể như lời một người bạn nhắc bạn nghỉ.",
+          "en": "You may have been holding on longer than you realize. Honor that strength, and listen to your body's limits like a friend reminding you to rest."
+        }
+      },
+      "misconception": {
+        "vi": "Lá này không bảo bạn phải gồng thêm đến cùng. Kiên cường ở đây gồm cả việc biết dừng để lấy lại sức.",
+        "en": "This card isn't telling you to push on to the very end. Resilience here includes knowing when to stop and recover."
+      }
+    },
+    "minor-wands-ten": {
+      "topics": {
+        "love": {
+          "vi": "Giữ một mối quan hệ không nên là việc của riêng một người. Nếu bạn đang gánh phần nhiều, thử nói ra điều đó một cách nhẹ nhàng.",
+          "en": "Keeping a relationship going shouldn't be one person's job. If you are carrying most of it, try saying so gently."
+        },
+        "career": {
+          "vi": "Liệt kê những việc đang đè lên vai, rồi đánh dấu việc nào thật sự là của bạn. Phần còn lại có thể nhờ người khác, giao lại hoặc dời sang tuần sau.",
+          "en": "List the tasks weighing on you, then mark which ones truly belong to you. The rest can be shared with someone, handed back, or moved to next week."
+        },
+        "self": {
+          "vi": "Bạn không cần ôm hết mọi thứ để chứng tỏ mình đủ tốt. Đặt xuống một trách nhiệm nhỏ hôm nay cũng là một cách chăm sóc bản thân.",
+          "en": "You don't have to carry everything to prove you are good enough. Setting down one small responsibility today is also a way of caring for yourself."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải dấu hiệu bạn sắp kiệt sức hay thất bại. Lá này mời bạn nhìn lại cách mình đang mang việc, để chọn phần nào giữ và phần nào chia sẻ.",
+        "en": "It is not a sign that you are about to burn out or fail. This card invites you to look at how you are carrying things, so you can choose what to keep and what to share."
+      }
+    },
+    "minor-wands-page": {
+      "topics": {
+        "love": {
+          "vi": "Thử tìm hiểu một người với sự tò mò thật lòng, như khi khám phá một thành phố mới. Chưa cần biết sẽ đi đến đâu, chỉ cần thấy vui khi được hiểu thêm.",
+          "en": "Try getting to know someone with genuine curiosity, as if exploring a new city. You don't need to know where it leads; just enjoy learning more."
+        },
+        "career": {
+          "vi": "Một kỹ năng mới đang khiến bạn hứng thú? Hãy học thử qua một bài tập nhỏ, và cho phép mình vụng về ở những lần đầu.",
+          "en": "Is a new skill catching your interest? Try learning it through a small exercise, and allow yourself to be clumsy at first."
+        },
+        "self": {
+          "vi": "Lần gần nhất bạn làm gì đó chỉ vì thấy vui là khi nào? Dành cho mình một buổi để thử, không chấm điểm, không so sánh.",
+          "en": "When did you last do something just because it was fun? Give yourself one session to try, with no grading and no comparing."
+        }
+      },
+      "misconception": {
+        "vi": "Người ta hay xem lá này là tin tức hay một người mới sắp đến. Trọng tâm thật ra là tinh thần tò mò của chính bạn khi bắt đầu học điều mới.",
+        "en": "People often take this card as news or a new person on the way. The real focus is your own curious spirit as you begin learning something new."
+      }
+    },
+    "minor-wands-knight": {
+      "topics": {
+        "love": {
+          "vi": "Cảm xúc mạnh có thể khiến bạn muốn lao tới ngay. Cứ để nhiệt huyết dẫn đường, nhưng thỉnh thoảng dừng lại xem người kia có đang đi cùng nhịp không.",
+          "en": "Strong feelings may make you want to rush in. Let enthusiasm lead, but pause now and then to see whether the other person is moving at the same pace."
+        },
+        "career": {
+          "vi": "Biến hứng khởi thành một bước rõ ràng trong tuần này, như gửi một bản đề xuất hay bắt tay làm bản thử. Trước khi đi xa hơn, kiểm tra lại sức và thời gian của mình.",
+          "en": "Turn your excitement into one clear step this week, such as sending a proposal or starting a first draft. Before going further, check your energy and time."
+        },
+        "self": {
+          "vi": "Bạn có đang thèm một chút phiêu lưu? Một chuyến đi ngắn, một con đường chưa đi hay một thói quen mới đều có thể khơi lại ngọn lửa ấy.",
+          "en": "Are you craving a bit of adventure? A short trip, an unfamiliar route or a new habit could all rekindle that fire."
+        }
+      },
+      "misconception": {
+        "vi": "Nhiệt huyết ở đây không có nghĩa là cứ lao vào bất cứ điều gì mới. Đó là dồn sức vào hành động rõ ràng, đồng thời vẫn biết giới hạn của mình.",
+        "en": "The enthusiasm here doesn't mean leaping into anything new. It is about putting energy into clear action while still knowing your limits."
+      }
+    },
+    "minor-wands-queen": {
+      "topics": {
+        "love": {
+          "vi": "Bạn rạng rỡ nhất khi được là chính mình, cùng những điều bạn say mê. Một mối quan hệ phù hợp có chỗ cho ánh sáng đó, không đòi bạn thu nhỏ lại.",
+          "en": "You shine most when you get to be yourself, with the things you love. A fitting relationship has room for that light and doesn't ask you to shrink."
+        },
+        "career": {
+          "vi": "Hãy để người khác thấy điều bạn làm giỏi và yêu thích, chẳng hạn chủ động nhận phần việc hợp với thế mạnh. Bạn có thể nổi bật mà không cần làm vừa lòng tất cả.",
+          "en": "Let others see what you are good at and enjoy, for example by volunteering for work that fits your strengths. You can stand out without pleasing everyone."
+        },
+        "self": {
+          "vi": "Sự tự tin không phải lúc nào cũng ồn ào. Đôi khi nó là việc bạn ấm áp với chính mình và giữ nhịp riêng, dù xung quanh nói gì.",
+          "en": "Confidence isn't always loud. Sometimes it is being warm toward yourself and keeping your own rhythm, whatever others say."
+        }
+      },
+      "misconception": {
+        "vi": "Không nhất thiết là một người phụ nữ trong đời bạn. Lá hoàng gia có thể nói về một người bất kỳ, hoặc về một nét trong chính bạn: ở đây là sự tự tin ấm áp, không cần lúc nào cũng rực rỡ hay được mọi người yêu thích.",
+        "en": "It doesn't have to be a woman in your life. A court card can point to anyone, or to a quality in yourself: here, a warm confidence that doesn't need to dazzle or be liked by everyone."
+      }
+    },
+    "minor-wands-king": {
+      "topics": {
+        "love": {
+          "vi": "Hãy nghĩ về mối quan hệ như một dự định chung: hai người muốn cùng xây điều gì? Dẫn dắt ở đây là nói rõ mong muốn và thật sự lắng nghe mong muốn của người kia.",
+          "en": "Think of the relationship as a shared plan: what do the two of you want to build together? Leading here means stating your wishes clearly and truly listening to theirs."
+        },
+        "career": {
+          "vi": "Nếu bạn đang giữ vai trò dẫn dắt, hãy làm rõ mục tiêu chung trước khi giao việc. Một tầm nhìn tốt luôn có chỗ cho ý tưởng của người khác.",
+          "en": "If you are in a leading role, clarify the shared goal before assigning tasks. A good vision always leaves room for other people's ideas."
+        },
+        "self": {
+          "vi": "Bạn muốn cam kết với điều gì trong vài năm tới? Chọn một hướng đi, rồi để những việc nhỏ hằng ngày cùng phục vụ hướng đó.",
+          "en": "What do you want to commit to over the next few years? Choose a direction, then let small daily actions serve it."
+        }
+      },
+      "misconception": {
+        "vi": "Không cần phải là người quyết định mọi thứ mới được gọi là dẫn dắt. Lá này nói về việc giữ tầm nhìn rõ và mở chỗ cho đóng góp của người khác.",
+        "en": "You don't have to decide everything to count as a leader. This card is about keeping a clear vision and making room for others' contributions."
+      }
+    },
+    "minor-cups-ace": {
+      "topics": {
+        "love": {
+          "vi": "Trái tim bạn có thể đang mở ra với một cảm xúc mới, với người mới hoặc với người quen theo một cách khác. Cứ đón nhận chậm rãi, theo nhịp bạn thấy an toàn.",
+          "en": "Your heart may be opening to a new feeling, toward someone new or someone familiar in a different way. Receive it slowly, at a pace that feels safe."
+        },
+        "career": {
+          "vi": "Hãy để ý công việc nào khiến bạn thấy được chạm đến. Một dự án có ý nghĩa với bạn có thể là nguồn sáng tạo đáng để nuôi dưỡng.",
+          "en": "Notice which work makes you feel moved. A project that means something to you may be a creative source worth nurturing."
+        },
+        "self": {
+          "vi": "Hôm nay, bạn có thể cho phép mình cảm nhận trọn một niềm vui nhỏ, như một cốc trà ấm hay một bài hát hay. Mở lòng bắt đầu từ việc đón nhận chính mình.",
+          "en": "Today you can let yourself fully feel a small joy, like a warm cup of tea or a good song. Openness begins with receiving yourself."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời hứa “sắp có tình yêu mới”. Lá này nói về sự mở lòng của chính bạn, với cảm xúc, sáng tạo hay kết nối, theo nhịp bạn chọn.",
+        "en": "It is not a promise that “new love is coming.” This card is about your own openness, to feelings, creativity or connection, at a pace you choose."
+      }
+    },
+    "minor-cups-two": {
+      "topics": {
+        "love": {
+          "vi": "Một kết nối đẹp có cả lắng nghe và đáp lại từ hai phía. Thử nhìn vào cách hai người thật sự đối xử với nhau, thay vì đoán người kia đang nghĩ gì.",
+          "en": "A good connection involves listening and responding from both sides. Look at how you two actually treat each other, rather than guessing what they are thinking."
+        },
+        "career": {
+          "vi": "Một mối hợp tác thường nhẹ nhõm hơn khi hai bên cùng tự nguyện và tôn trọng nhau. Bạn đang cho và nhận ở mức cân bằng chứ?",
+          "en": "A partnership tends to feel lighter when both sides are willing and respectful. Are you giving and receiving in balance?"
+        },
+        "self": {
+          "vi": "Bạn đáp lại chính mình thế nào khi mệt hay buồn? Thử nói với bản thân một câu mà bạn vẫn hay nói với người mình thương.",
+          "en": "How do you respond to yourself when you are tired or sad? Try saying to yourself something you would usually say to someone you love."
+        }
+      },
+      "misconception": {
+        "vi": "Dễ bị đọc thành “người ấy cũng thích mình”. Lá này nói về sự đáp lại thật sự trong tương tác, và không xác nhận cảm xúc của bất kỳ ai.",
+        "en": "It's easy to read as “they like me back.” This card is about real reciprocity in your interactions, and it doesn't confirm anyone's feelings."
+      }
+    },
+    "minor-cups-three": {
+      "topics": {
+        "love": {
+          "vi": "Tình yêu cũng cần những người bạn xung quanh. Thử dành thời gian cho các mối quan hệ thân thiết khác, để trái tim không chỉ xoay quanh một người.",
+          "en": "Love also needs friends around it. Make time for your other close relationships so your heart doesn't revolve around just one person."
+        },
+        "career": {
+          "vi": "Một đồng nghiệp biết hỗ trợ có thể làm ngày làm việc nhẹ hơn nhiều. Hãy ghi nhận thành công chung của nhóm, dù chỉ bằng một lời cảm ơn hay một ly cà phê.",
+          "en": "A supportive colleague can make a workday much lighter. Celebrate the team's shared wins, even with just a thank-you or a coffee together."
+        },
+        "self": {
+          "vi": "Ai là người khiến bạn cười thoải mái nhất? Một cuộc gọi ngắn hay một buổi hẹn nhỏ có thể là điều bạn cần lúc này.",
+          "en": "Who makes you laugh most freely? A short call or a small meetup might be what you need right now."
+        }
+      },
+      "misconception": {
+        "vi": "Không chỉ là tiệc tùng vui chơi. Lá này nói về những người cùng bạn đi qua một chặng đường, và niềm vui khi được chia sẻ, dù chỉ là một buổi gặp nhỏ.",
+        "en": "It isn't only about partying. The card speaks of the people who walk part of the road with you, and the joy of sharing it, even in a small get-together."
+      },
+      "otherReadings": {
+        "vi": "Trong sách của A. E. Waite (1910), lá này là niềm vui trọn vẹn, sự viên mãn và chữa lành; khi ngược thì thêm ý vui chơi quá đà. Cách hiểu “người thứ ba” không có trong sách gốc, mà xuất hiện ở một số cách đọc hiện đại, thường khi lá ngược hoặc đi cùng các lá khác. Nếu câu hỏi của bạn là về chuyện này, hãy xem lá như lời mời nhìn lại sự tin tưởng và ranh giới, không phải bằng chứng.",
+        "en": "In A. E. Waite's book (1910), this card means fulfilment, abundance and healing; reversed, it adds a note of overindulgence. The “third person” reading isn't in the original text; it appears in some modern readings, usually when the card is reversed or paired with other cards. If that is your question, take the card as an invitation to look at trust and boundaries, not as proof."
+      }
+    },
+    "minor-cups-four": {
+      "topics": {
+        "love": {
+          "vi": "Nếu mối quan hệ đang thấy nhạt, đó có thể là lúc hỏi mình thật sự cần gì, thay vì chỉ chờ người kia làm điều gì mới.",
+          "en": "If the relationship feels flat, it may be time to ask what you truly need, rather than waiting for the other person to do something new."
+        },
+        "career": {
+          "vi": "Khi công việc không còn khiến bạn hứng thú, chưa cần vội nhận lời mời đầu tiên. Thử viết ra điều gì đang thiếu trước khi quyết định đổi.",
+          "en": "When work no longer excites you, there is no need to jump at the first offer. Try writing down what is missing before deciding to change."
+        },
+        "self": {
+          "vi": "Cảm giác chán đôi khi là một tín hiệu nhẹ, không phải lỗi của bạn. Cho mình một khoảng lặng để lắng nghe nhu cầu thật bên dưới nó.",
+          "en": "Boredom is sometimes a gentle signal, not your fault. Give yourself a quiet space to hear the real need beneath it."
+        }
+      },
+      "misconception": {
+        "vi": "Chán nản ở đây không có nghĩa là bạn vô ơn hay đang bỏ lỡ cơ hội lớn. Lá này mời bạn xem lại nhu cầu của mình trước khi nói có với điều gì.",
+        "en": "Discontent here doesn't mean you are ungrateful or missing a big opportunity. This card invites you to review your needs before saying yes to anything."
+      }
+    },
+    "minor-cups-five": {
+      "topics": {
+        "love": {
+          "vi": "Bạn được phép buồn khi một mối quan hệ không như mong đợi. Chưa cần vội tìm bài học hay một người thay thế.",
+          "en": "You are allowed to feel sad when a relationship doesn't turn out as you hoped. There is no rush to find a lesson or a replacement."
+        },
+        "career": {
+          "vi": "Một dự án không thành có thể để lại tiếc nuối. Hãy cho mình thời gian thừa nhận điều đó, rồi khi sẵn sàng, nhìn xem điều gì vẫn còn nguyên để dựa vào.",
+          "en": "A project that didn't work out can leave regret. Give yourself time to acknowledge it, then, when you are ready, see what remains intact to lean on."
+        },
+        "self": {
+          "vi": "Nỗi buồn không cần được sửa ngay. Có ai hoặc điều gì đang ở bên cạnh mà bạn có thể tựa vào lúc này không?",
+          "en": "Sadness doesn't need to be fixed right away. Is there someone or something nearby you could lean on right now?"
+        }
+      },
+      "misconception": {
+        "vi": "Lá này không báo trước mất mát hay chia tay. Nó mời bạn thừa nhận một nỗi buồn đã có, nếu điều đó phù hợp, mà không ép mình phải tích cực ngay.",
+        "en": "This card does not predict loss or a breakup. It invites you to acknowledge a sadness that is already there, if that fits, without forcing yourself to be positive right away."
+      },
+      "supportNote": {
+        "vi": "Nếu cảm giác này kéo dài nhiều tuần, làm bạn mất ngủ hay khó sinh hoạt như thường, nói chuyện với chuyên gia tâm lý hoặc bác sĩ là một cách chăm sóc mình, không phải là yếu đuối.",
+        "en": "If this feeling lasts for weeks, or makes it hard to sleep or get through your days, talking with a counsellor or doctor is a way of caring for yourself, not a sign of weakness."
+      }
+    },
+    "minor-cups-six": {
+      "topics": {
+        "love": {
+          "vi": "Một kỷ niệm đẹp có thể nhắc bạn mình từng được yêu thương theo cách nào. Bạn có thể mang sự dịu dàng đó vào hiện tại, mà không cần quay lại với người cũ.",
+          "en": "A sweet memory can remind you how you were once cared for. You can bring that tenderness into the present without going back to an ex."
+        },
+        "career": {
+          "vi": "Điều gì từng khiến bạn mê công việc này ngay từ đầu? Nhớ lại nó có thể giúp bạn tìm lại sự tử tế và niềm vui giản dị trong những việc hằng ngày.",
+          "en": "What first made you love this work? Remembering it may help you find kindness and simple joy in everyday tasks again."
+        },
+        "self": {
+          "vi": "Thử làm một điều nhỏ mà hồi bé bạn rất thích, như vẽ nguệch ngoạc hay ăn một món quen. Lòng tốt với chính mình đôi khi giản dị như vậy.",
+          "en": "Try something small you loved as a child, like doodling or eating a familiar dish. Kindness toward yourself can be that simple."
+        }
+      },
+      "misconception": {
+        "vi": "Ký ức ở lá này không phải tín hiệu người cũ sẽ quay về. Đây là lời mời trân trọng lòng tốt từng nâng đỡ bạn, không phải sống lại quá khứ.",
+        "en": "The memories in this card are not a signal that an ex will return. It is an invitation to cherish the kindness that once supported you, not to relive the past."
+      }
+    },
+    "minor-cups-seven": {
+      "topics": {
+        "love": {
+          "vi": "Bạn có thể đang mơ về nhiều kiểu tình yêu cùng lúc. Thử tách điều bạn tưởng tượng về người ấy khỏi những gì họ đã thật sự thể hiện.",
+          "en": "You may be dreaming of many kinds of love at once. Try separating what you imagine about someone from what they have actually shown."
+        },
+        "career": {
+          "vi": "Nhiều hướng đi hấp dẫn cùng hiện ra? Chọn một lựa chọn có đủ thông tin để thử trong hai tuần, thay vì cân nhắc tất cả trong đầu.",
+          "en": "Several appealing paths showing up at once? Pick one with enough information to try for two weeks, instead of weighing them all in your head."
+        },
+        "self": {
+          "vi": "Giấc mơ là chất liệu đẹp, nhưng không phải điều gì cũng cần theo đuổi ngay. Hỏi mình: điều nào mình vẫn muốn khi đã hình dung từng bước cụ thể?",
+          "en": "Dreams are beautiful material, but not all of them need chasing right now. Ask yourself: which one do I still want once I picture the concrete steps?"
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời cảnh báo rằng bạn đang ảo tưởng. Tưởng tượng có giá trị; lá này chỉ mời thêm một bước phân định trước khi chọn.",
+        "en": "It is not a warning that you are deluding yourself. Imagination has value; this card simply invites a step of discernment before choosing."
+      }
+    },
+    "minor-cups-eight": {
+      "topics": {
+        "love": {
+          "vi": "Khi một mối quan hệ không còn mang lại ý nghĩa như trước, hãy bắt đầu bằng việc gọi tên điều đã thay đổi. Quyết định ở lại hay rời đi có thể để sau.",
+          "en": "When a relationship no longer feels as meaningful as before, start by naming what has changed. Whether to stay or go can wait."
+        },
+        "career": {
+          "vi": "Đôi khi một công việc ổn trên giấy vẫn thấy trống rỗng. Thử hỏi điều gì sẽ khiến nó có ý nghĩa hơn, và chuyển hướng nhỏ nào nằm trong tầm tay bạn.",
+          "en": "Sometimes a job that looks fine on paper still feels empty. Ask what would make it more meaningful, and what small change of direction is within your reach."
+        },
+        "self": {
+          "vi": "Bạn được phép lớn lên khỏi những điều từng rất hợp với mình. Rời một thói quen hay một hình ảnh cũ về bản thân cũng là một chuyến đi.",
+          "en": "You are allowed to outgrow things that once fit you well. Leaving behind an old habit or an old image of yourself is also a journey."
+        }
+      },
+      "misconception": {
+        "vi": "Nhiều người đọc lá này thành “nên bỏ đi” hay “sắp chia tay”. Thật ra nó hỏi điều bạn theo đuổi còn ý nghĩa không, và đổi hướng có thể bắt đầu rất nhỏ.",
+        "en": "Many read this card as “time to leave” or “a breakup is coming.” Really it asks whether what you are pursuing still holds meaning, and a change of direction can start very small."
+      }
+    },
+    "minor-cups-nine": {
+      "topics": {
+        "love": {
+          "vi": "Hãy tận hưởng những điều đang khiến bạn vui trong mối quan hệ, hoặc trong chính quãng thời gian một mình. Hài lòng không cần đợi mọi mong ước được trọn vẹn.",
+          "en": "Enjoy what is making you happy in your relationship, or in your time on your own. Contentment doesn't need to wait for every wish to be complete."
+        },
+        "career": {
+          "vi": "Dừng lại một chút để thấy những gì bạn đã có: kỹ năng, đồng đội, một ngày làm việc ổn. Biết đủ giúp bạn chọn mục tiêu tiếp theo bằng sự bình thản.",
+          "en": "Pause for a moment to see what you already have: skills, teammates, a good workday. A sense of enough helps you choose the next goal calmly."
+        },
+        "self": {
+          "vi": "Bạn có thể tự thưởng cho mình một niềm vui nhỏ mà không thấy áy náy. Một món ăn ngon hay một buổi chiều thong thả đều đáng được tận hưởng trọn vẹn.",
+          "en": "You can treat yourself to a small pleasure without guilt. A good meal or a slow afternoon deserves to be fully enjoyed."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lá “ước gì được nấy”. Lá này nói về việc trân trọng niềm vui đang có, không hứa rằng mọi mong muốn sẽ thành hiện thực.",
+        "en": "It is not a “wish come true” card. This card is about appreciating the joy already present; it doesn't promise that every wish will come true."
+      }
+    },
+    "minor-cups-ten": {
+      "topics": {
+        "love": {
+          "vi": "Một mái ấm có thể là gia đình, người yêu hay những người bạn mà bạn tự chọn. Thử hỏi: những giá trị nào bạn muốn cùng ai đó chăm sóc lâu dài?",
+          "en": "Home can be family, a partner, or friends you choose. Ask yourself: which values do you want to tend with someone over the long term?"
+        },
+        "career": {
+          "vi": "Bạn thấy thuộc về nhất ở môi trường nào? Một tập thể có chung giá trị có thể khiến công việc ý nghĩa hơn nhiều so với một chức danh đẹp.",
+          "en": "In what kind of environment do you feel you most belong? A team with shared values can make work far more meaningful than an impressive title."
+        },
+        "self": {
+          "vi": "Bạn có thể tự tạo cảm giác mái ấm cho mình, bằng một góc phòng yêu thích hay những thói quen nhỏ làm bạn thấy an yên. Cảm giác thuộc về cũng có thể bắt đầu từ bên trong.",
+          "en": "You can create a sense of home for yourself, with a favorite corner or small habits that put you at ease. Belonging can also begin from within."
+        }
+      },
+      "misconception": {
+        "vi": "Mái ấm ở đây không phải lời hứa về một gia đình hoàn hảo hay cái kết có hậu. Lá này nói về cảm giác thuộc về và giá trị được cùng vun đắp, dù mái ấm của bạn trông như thế nào.",
+        "en": "The home in this card is not a promise of a perfect family or a happy ending. It is about belonging and values tended together, whatever your home looks like."
+      }
+    },
+    "minor-cups-page": {
+      "topics": {
+        "love": {
+          "vi": "Một cảm xúc dịu dàng mới có thể vừa chớm. Thử gọi tên nó trong nhật ký trước, và nhớ rằng đó là cảm xúc của bạn, chưa phải sự thật về người kia.",
+          "en": "A new tender feeling may be just beginning. Try naming it in your journal first, and remember it is your feeling, not yet a truth about the other person."
+        },
+        "career": {
+          "vi": "Một ý tưởng nhẹ nhàng, có chút mơ mộng, có thể đáng để phác thảo. Hãy cho nó một trang giấy riêng trước khi tự hỏi nó có thực tế không.",
+          "en": "A gentle, slightly dreamy idea may be worth sketching. Give it its own page before asking whether it is realistic."
+        },
+        "self": {
+          "vi": "Nếu gọi cảm xúc hôm nay bằng một màu sắc hay một hình ảnh, đó sẽ là gì? Sự tò mò nhẹ nhàng với cảm xúc giúp bạn hiểu mình hơn.",
+          "en": "If you described today's feeling as a color or an image, what would it be? Gentle curiosity about your emotions helps you understand yourself better."
+        }
+      },
+      "misconception": {
+        "vi": "Lá này dễ bị xem là có người sắp tỏ tình. Trọng tâm của nó là sự tò mò với cảm xúc và ý tưởng của chính bạn.",
+        "en": "This card is easily taken to mean someone is about to confess their feelings. Its focus is curiosity about your own feelings and ideas."
+      }
+    },
+    "minor-cups-knight": {
+      "topics": {
+        "love": {
+          "vi": "Bạn có thể muốn bày tỏ tình cảm một cách lãng mạn. Hãy nói điều mình trân trọng, rồi để người kia có không gian đáp lại theo cách của họ.",
+          "en": "You may want to express your feelings romantically. Say what you cherish, then leave the other person space to respond in their own way."
+        },
+        "career": {
+          "vi": "Mang lý tưởng vào công việc là điều đẹp, nhất là khi bạn biến nó thành một bước cụ thể có cân nhắc. Bạn muốn đề xuất điều gì xuất phát từ điều mình tin?",
+          "en": "Bringing ideals into your work is beautiful, especially when you turn them into a concrete, considered step. What would you like to propose that comes from what you believe?"
+        },
+        "self": {
+          "vi": "Điều gì khiến bạn rung động sâu sắc? Thử bày tỏ nó qua một lá thư, một bản nhạc hay vài dòng viết, chỉ cho riêng mình.",
+          "en": "What moves you deeply? Try expressing it through a letter, a song or a few lines of writing, just for yourself."
+        }
+      },
+      "misconception": {
+        "vi": "Không ít người chờ lá này báo một người hoàn hảo sắp đến. Lá này nói về việc bạn bày tỏ lý tưởng và cảm xúc, đồng thời tôn trọng ranh giới của người khác.",
+        "en": "Many wait for this card to announce a perfect partner. It is about you expressing your ideals and feelings while respecting other people's boundaries."
+      }
+    },
+    "minor-cups-queen": {
+      "topics": {
+        "love": {
+          "vi": "Thấu cảm là món quà, nhưng bạn không cần mang hết cảm xúc của người ấy. Lắng nghe sâu và giữ ranh giới có thể đi cùng nhau.",
+          "en": "Empathy is a gift, but you don't have to carry all of your partner's feelings. Deep listening and boundaries can go together."
+        },
+        "career": {
+          "vi": "Khả năng đọc cảm xúc giúp bạn làm việc nhóm tốt hơn. Hãy để ý khi nào bạn đang lắng nghe đồng nghiệp, và khi nào bạn đang ôm luôn áp lực của họ.",
+          "en": "Being able to read emotions helps you work well with a team. Notice when you are listening to colleagues and when you are taking on their stress too."
+        },
+        "self": {
+          "vi": "Cảm xúc của bạn cũng cần được lắng nghe. Dành vài phút yên lặng cho chính mình trước khi lại lắng nghe nỗi niềm của người khác.",
+          "en": "Your own feelings need listening too. Take a few quiet minutes for yourself before opening up again to other people's worries."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải hình mẫu người luôn hy sinh và chịu đựng vì người khác. Lá này nói về thấu cảm có ranh giới: quan tâm mà không đánh mất mình.",
+        "en": "It is not a model of someone who always sacrifices and endures for others. This card is about empathy with boundaries: caring without losing yourself."
+      }
+    },
+    "minor-cups-king": {
+      "topics": {
+        "love": {
+          "vi": "Khi cảm xúc dâng cao trong một cuộc trò chuyện, bạn có thể thừa nhận nó rồi chọn cách nói thật lòng mà không làm tổn thương nhau.",
+          "en": "When emotions run high in a conversation, you can acknowledge them and choose to speak honestly without hurting each other."
+        },
+        "career": {
+          "vi": "Giữ bình tĩnh trong một cuộc họp căng thẳng không có nghĩa là giấu cảm xúc. Đó là biết điều mình đang cảm thấy và chọn cách phản hồi phù hợp nhất.",
+          "en": "Staying calm in a tense meeting doesn't mean hiding your feelings. It means knowing what you feel and choosing the most fitting response."
+        },
+        "self": {
+          "vi": "Khi một cảm xúc mạnh xuất hiện, thử dừng một nhịp và đặt tên cho nó trước khi hành động. Khoảng dừng nhỏ ấy giúp bạn giữ được nhịp của mình.",
+          "en": "When a strong feeling arises, try pausing a beat to name it before acting. That small pause helps you keep your own rhythm."
+        }
+      },
+      "misconception": {
+        "vi": "Điềm tĩnh không có nghĩa là kìm nén cảm xúc để tỏ ra mạnh mẽ. Lá này nói về việc thừa nhận cảm xúc mà vẫn cân nhắc khi phản hồi.",
+        "en": "Composure doesn't mean suppressing your feelings to seem strong. This card is about acknowledging emotions while staying thoughtful in how you respond."
+      }
+    }
+  }
+}

@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "taskId": "journal-profile-auth-2026-10-31",
+  "ownerAgent": "mobile_account_design_agent",
+  "lane": "mobile_journal_profile_redesign",
+  "goal": "Bring Nhật ký, Tôi, Đăng nhập and Onboarding to the Journal, Profile, SignIn and Onboarding designs: a Journal home with a 7-day mood strip, a weekly line, today’s question with Câu khác (30 drafted prompts used right away), source chips and entries grouped by day; a Profile hub with stats, personalisation, a local morning reminder, privacy, account rows and a hidden account-delete flow; an email-only sign-in screen; and onboarding goals per the design with an optional birth date.",
+  "successCriteria": [
+    "Journal shows the header, privacy line, 7-day strip from user-picked moods, weekly line, today’s question with Viết vài dòng and Câu khác, chips Tất cả / Lá bài / Ghi chú / Trò chuyện / Chiêm tinh and entries grouped by day; detail view and composer keep working.",
+    "Profile shows name, sign and since date, three stats, personalisation, a local daily card reminder with a time, privacy rows, help, terms and privacy, sign out and the version line; Xóa tài khoản stays hidden until account-delete is deployed.",
+    "Sign-in follows the design with email and password only; Google, Apple and preview stay hidden.",
+    "Onboarding goals are Tình yêu, Công việc, Hiểu bản thân, Chữa lành, Ra quyết định, Tò mò tâm linh with old daily goals moved to self; an optional birth date shows the sign.",
+    "Mobile check, Jest suite and validate:data pass; a 390x844 web walkthrough covers Journal and Profile."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/journal/",
+    "apps/mobile/src/features/onboarding/",
+    "apps/mobile/src/features/home/",
+    "apps/mobile/src/features/privacy/",
+    "apps/mobile/src/features/profile/",
+    "apps/mobile/src/auth/",
+    "apps/mobile/src/brand/copy.ts",
+    "apps/mobile/src/notifications.ts",
+    "apps/mobile/src/types.ts",
+    "apps/mobile/src/__tests__/",
+    "apps/mobile/app.json",
+    "apps/mobile/package.json",
+    "packages/content/data/journal-prompts.json",
+    "scripts/validate-data.mjs",
+    "docs/content-review/",
+    "DESIGN.md",
+    "apps/admin/workflow-catalog.js"
+  ],
+  "untouchedSurfaces": [
+    "No deploy, SQL, secrets or Supabase or OAuth settings; account-delete deploy is a separate Owner approval.",
+    "Tarot, Astrology, Chat screens."
+  ],
+  "impact": {
+    "entryPoint": "Tabs Nhật ký and Tôi; sign-in and onboarding.",
+    "dataWrite": "Profile goals migrate daily to self; a local reminder preference key; no server writes.",
+    "backendContract": "No change; the account-delete client calls the existing contract only after deploy.",
+    "canonicalContract": "DESIGN.md Journal, Profile, Sign-in and Onboarding sections follow the design canvas.",
+    "adminVisibility": "Workflow catalog digest of App.tsx refreshed.",
+    "privacySafety": "Journal stays on the device; reminders are local notifications; delete account needs two confirmations.",
+    "observability": "No analytics change.",
+    "rollback": "Revert the commits.",
+    "surfacesIntentionallyUntouched": "Auth providers and backend.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs validation, commits and pushes to the PR branch without merging or deploying."
+  },
+  "canonicalContracts": [
+    "Owner decisions 2026-10-31 in chat: email-only sign-in with Google, Apple and preview hidden; onboarding goals per the design; 30 journal prompts drafted and used right away; account deletion built but hidden until account-delete is deployed.",
+    "Design canvas Journal, Profile, SignIn and Onboarding artboards."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Tarot and mobile UI routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "DESIGN.md",
+      "reason": "Brand shape and type rules for the new screen.",
+      "sha256": "516629403e9d8904208a1b64e6360ab3d4ab6ed4c20d337f689033a0ab00e4a9"
+    },
+    {
+      "path": "docs/CONTENT_SAFETY_STYLE_GUIDE.md",
+      "reason": "Card names and safety framing for the guide copy.",
+      "sha256": "33ec073a7fe94045ee7aeb40bad2ca90b6ab6b0010569131c730380dfb23ceec"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Card meaning stage and its top bar.",
+      "sha256": "bbe71df69113e213edd3b1eedb7b1688ffdf524f9c4382386bed0e331fa99d1b"
+    },
+    {
+      "path": "apps/mobile/src/auth/AuthFlow.tsx",
+      "reason": "Sign-in screens.",
+      "sha256": "267f652b36ef7f9745cdcd1b976ba9ca9637d495cf966c2f19012d7705dcc0d2"
+    },
+    {
+      "path": "apps/mobile/src/features/onboarding/GoalsScreen.tsx",
+      "reason": "Onboarding step.",
+      "sha256": "3de31f25c5df88c7a9200dff010ffcf56254e526a5115ac753836b38b57d9a38"
+    },
+    {
+      "path": "apps/mobile/src/features/journal/JournalComposer.tsx",
+      "reason": "Journal composer.",
+      "sha256": "9f2ca001af067eb4b73132d135526f6786040b5caf7356be275b6825f6d37dba"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "The flow follows DESIGN.md shapes (8px cards, pill controls, 48px targets); the skill text stays accurate."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing React Native and Ionicons APIs."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change; account delete stays hidden until its function is deployed.",
+    "sensitiveData": "Journal text and birth date stay on the device only.",
+    "secretsLogging": "No credentials, tokens or logs are added.",
+    "externalInput": "Journal text is stored locally and never sent.",
+    "dependencies": "No new dependency unless expo-notifications scheduling is already installed.",
+    "migrationRelease": "No migration, deploy or release.",
+    "stopCondition": "Stop if a change needs a deploy, OAuth setup or new dependencies without approval, or if checks fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "DESIGN.md",
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/auth/AuthFlow.tsx",
+      "apps/mobile/src/auth/__tests__/AuthFlow.test.tsx",
+      "apps/mobile/src/brand/copy.ts",
+      "apps/mobile/src/features/onboarding/GoalsScreen.tsx",
+      "apps/mobile/src/features/onboarding/__tests__/GoalsScreen.test.tsx",
+      "docs/feature-plans/journal-profile-auth-2026-10-31.json"
+    ],
+    "note": "Worktree branch stacked on PR #10."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/journal-profile-auth-2026-10-31.json",
+    "npm run validate:data",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand",
+    "Web walkthrough at 390x844: Journal and Profile."
+  ],
+  "managerTestPath": "Nhật ký: see the week strip and today’s question, tap Câu khác and Viết vài dòng; Tôi: see stats and rows, set the morning reminder time.",
+  "residualRisk": "Local reminders are not verified on a real Android device in this task.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

@@ -99,8 +99,8 @@ const labelById: Record<string, AstrologyLocalizedLabel> = {
   uranus: { vi: "Sao Thiên Vương", en: "Uranus" },
   neptune: { vi: "Sao Hải Vương", en: "Neptune" },
   pluto: { vi: "Sao Diêm Vương", en: "Pluto" },
-  ascendant: { vi: "Cung Mọc", en: "Ascendant" },
-  midheaven: { vi: "Thiên Đỉnh", en: "Midheaven" },
+  ascendant: { vi: "Cung mọc", en: "Ascendant" },
+  midheaven: { vi: "Thiên đỉnh", en: "Midheaven" },
 };
 export function localizeAstrologyBody(id: string, language: AstrologyLanguage) {
   return localizeAstrologyLabel(labelById[id] ?? { vi: id, en: id }, language);

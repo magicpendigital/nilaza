@@ -1,0 +1,579 @@
+{
+  "status": "draft-for-owner-review",
+  "scope": "swords and pentacles upright topic meanings and misconceptions",
+  "createdAt": "2026-10-30",
+  "cards": {
+    "minor-swords-ace": {
+      "topics": {
+        "love": {
+          "vi": "Một cuộc trò chuyện rõ ràng có thể giúp nhiều hơn mười lần đoán ý. Bạn đang thật sự muốn nói điều gì với người kia?",
+          "en": "One clear conversation can help more than ten rounds of guessing. What do you actually want to say to them?"
+        },
+        "career": {
+          "vi": "Gọi đúng tên vấn đề là đã đi được nửa đường. Hãy viết nó thành một câu, rồi đối chiếu với dữ kiện đang có.",
+          "en": "Naming the problem precisely gets you halfway there. Write it as one sentence, then check it against the facts you have."
+        },
+        "self": {
+          "vi": "Không phải suy nghĩ nào xuất hiện trong đầu cũng là sự thật. Bạn được phép hỏi lại chính mình: mình biết điều này từ đâu?",
+          "en": "Not every thought that shows up in your head is true. You're allowed to ask yourself: how do I actually know this?"
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời khẳng định rằng bạn đúng. Lá này nói về sự rõ ràng, và rõ ràng đôi khi nghĩa là nhận ra mình đã hiểu sai.",
+        "en": "It doesn't confirm that you're right. This card is about clarity, and sometimes clarity means noticing where you got it wrong."
+      }
+    },
+    "minor-swords-two": {
+      "topics": {
+        "love": {
+          "vi": "Có thể bạn đang đứng giữa hai cảm xúc mà chưa muốn chọn. Chưa trả lời ngay cũng được, miễn là bạn biết mình đang chờ điều gì.",
+          "en": "You may be standing between two feelings, not ready to choose. Not answering yet is okay, as long as you know what you're waiting for."
+        },
+        "career": {
+          "vi": "Hai hướng đều có lý, nhưng có thể bạn đang thiếu một mảnh thông tin. Thử liệt kê điều cần biết thêm trước khi buộc mình quyết định.",
+          "en": "Both paths make sense, but you may be missing a piece of information. Try listing what you still need to know before pushing yourself to decide."
+        },
+        "self": {
+          "vi": "Chần chừ không có nghĩa là bạn yếu đuối. Đôi khi đó là cách tâm trí xin thêm thời gian để nhìn cho rõ.",
+          "en": "Hesitating doesn't mean you're weak. Sometimes it's your mind asking for more time to see clearly."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải dấu hiệu bạn đang trốn tránh. Lá này nói về lúc chưa đủ dữ kiện để chọn, và điều cần làm là tìm thêm ánh sáng, không phải tự trách.",
+        "en": "It isn't a sign that you're running away. This card is about not yet having enough to choose; what helps is finding more light, not blaming yourself."
+      }
+    },
+    "minor-swords-three": {
+      "topics": {
+        "love": {
+          "vi": "Nếu có điều gì đang làm bạn đau, lá này mời bạn thừa nhận nó một cách dịu dàng. Gọi tên nỗi buồn không làm nó lớn thêm.",
+          "en": "If something is hurting you, this card invites you to acknowledge it gently. Naming sadness doesn't make it bigger."
+        },
+        "career": {
+          "vi": "Một kỳ vọng không thành có thể để lại cảm giác hụt hẫng thật. Bạn có thể cho phép mình buồn một chút trước khi tìm cách bước tiếp.",
+          "en": "An unmet expectation can leave a very real disappointment. You can let yourself feel sad for a while before looking for the next step."
+        },
+        "self": {
+          "vi": "Thành thật với cảm xúc của mình là một cách tự chăm sóc. Bạn không cần tỏ ra ổn khi trong lòng chưa ổn.",
+          "en": "Being honest with your feelings is a form of self-care. You don't need to look fine when you're not fine inside."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời báo trước chia tay hay phản bội. Lá này nói về việc nhìn thẳng vào nỗi buồn đang có, không dự đoán một nỗi đau sắp tới.",
+        "en": "It's not a warning of a breakup or betrayal. This card is about facing a sadness that's already there, not predicting a hurt to come."
+      },
+      "supportNote": {
+        "vi": "Nếu cảm giác này kéo dài nhiều tuần, làm bạn mất ngủ hay khó sinh hoạt như thường, nói chuyện với chuyên gia tâm lý hoặc bác sĩ là một cách chăm sóc mình, không phải là yếu đuối.",
+        "en": "If this feeling lasts for weeks, or makes it hard to sleep or get through your days, talking with a counsellor or doctor is a way of caring for yourself, not a sign of weakness."
+      }
+    },
+    "minor-swords-four": {
+      "topics": {
+        "love": {
+          "vi": "Không phải cuộc trò chuyện nào cũng cần kết thúc ngay tối nay. Một khoảng lặng có chủ đích có thể giúp hai người nghe nhau rõ hơn.",
+          "en": "Not every conversation needs to be settled tonight. An intentional pause can help you both hear each other better."
+        },
+        "career": {
+          "vi": "Nếu đầu óc đang quá tải, một khoảng nghỉ ngắn có thể là việc có ích nhất lúc này. Bạn sẽ quay lại với cái nhìn tỉnh táo hơn.",
+          "en": "If your mind is overloaded, a short break may be the most useful thing right now. You can come back with a clearer head."
+        },
+        "self": {
+          "vi": "Nghỉ ngơi không phải phần thưởng chỉ dành cho lúc xong việc. Bạn có thể cho tâm trí một điểm dừng nhỏ ngay hôm nay.",
+          "en": "Rest isn't a reward saved for when everything is done. You can give your mind a small stopping point today."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải bạn đang lười hay bỏ cuộc. Lá này nói về một khoảng dừng để lấy lại nhịp, và dừng đúng lúc cũng là một lựa chọn chủ động.",
+        "en": "It doesn't mean you're lazy or giving up. This card is about pausing to regain your pace, and pausing at the right moment is an active choice."
+      }
+    },
+    "minor-swords-five": {
+      "topics": {
+        "love": {
+          "vi": "Thắng một trận cãi nhau mà người kia thấy tổn thương thì có đáng không? Điều bạn cần là được đúng, hay được hiểu?",
+          "en": "Is winning an argument worth it if the other person walks away hurt? Do you need to be right, or to be understood?"
+        },
+        "career": {
+          "vi": "Khi một cuộc tranh luận chỉ còn là hơn thua, lùi lại không có nghĩa là thua. Bạn có thể chọn cách trao đổi khác, hoặc đặt ranh giới rõ hơn.",
+          "en": "When a debate becomes only about winning, stepping back isn't losing. You can choose another way to talk, or set a clearer boundary."
+        },
+        "self": {
+          "vi": "Thử để ý xem cuộc giằng co nào đang lấy đi sự bình yên của bạn. Có những trận không cần phải đánh đến cùng.",
+          "en": "Notice which tug-of-war is taking away your peace. Some battles don't need to be fought to the end."
+        }
+      },
+      "misconception": {
+        "vi": "Dễ bị đọc thành lời buộc tội rằng ai đó đang chơi xấu. Thật ra lá này nói về cái giá của việc cố thắng, và quyền được rời khỏi một cuộc tranh cãi không lành mạnh.",
+        "en": "It's easy to read as an accusation that someone is playing dirty. In fact, this card is about the cost of insisting on winning, and your right to leave an unhealthy argument."
+      }
+    },
+    "minor-swords-six": {
+      "topics": {
+        "love": {
+          "vi": "Có thể bạn đang dần rời xa một khuôn mẫu cũ trong cách yêu. Đi chậm cũng được, miễn là bạn đang hướng về nơi yên hơn.",
+          "en": "You may be slowly moving away from an old pattern in how you love. Going slowly is fine, as long as you're heading somewhere calmer."
+        },
+        "career": {
+          "vi": "Một bước chuyển đang diễn ra, và bạn không cần đi qua nó một mình. Ai hoặc điều gì có thể giúp chặng đường này vừa sức hơn?",
+          "en": "A transition is underway, and you don't have to go through it alone. Who or what could make this stretch more manageable?"
+        },
+        "self": {
+          "vi": "Bạn có thể mang theo bài học mà không phải mang theo cả nỗi nặng nề. Hãy chọn điều muốn giữ lại cho chặng tới.",
+          "en": "You can carry the lesson without carrying all the weight. Choose what you want to keep for the next stretch."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời hứa rằng mọi chuyện khó đã qua hết. Lá này nói về việc đang trên đường chuyển tiếp, và mặt nước vẫn có thể gợn sóng dù bạn đã rời bến.",
+        "en": "It's not a promise that every hard thing is behind you. This card is about being in transition, and the water may still be choppy even after you've left the shore."
+      }
+    },
+    "minor-swords-seven": {
+      "topics": {
+        "love": {
+          "vi": "Có điều gì bạn đang giữ lại để bảo vệ mình không? Riêng tư là quyền của bạn, nhưng giấu đi để né một cuộc trò chuyện thì lại là chuyện khác.",
+          "en": "Is there something you're holding back to protect yourself? Privacy is your right, but hiding something to avoid a conversation is a different matter."
+        },
+        "career": {
+          "vi": "Một chút chiến lược và kín đáo có thể có ích, nhất là khi kế hoạch chưa chín. Chỉ cần bạn vẫn đứng sau những gì mình đã nhận làm.",
+          "en": "A bit of strategy and discretion can help, especially when a plan isn't ready yet. Just make sure you still stand behind what you've committed to."
+        },
+        "self": {
+          "vi": "Thử thành thật hỏi: mình đang khéo léo, hay đang tránh phần trách nhiệm của mình? Câu trả lời không cần nói với ai, chỉ cần rõ với bạn.",
+          "en": "Ask honestly: am I being tactful, or avoiding my share of responsibility? The answer doesn't need to be shared, only clear to you."
+        }
+      },
+      "misconception": {
+        "vi": "Lá này hay bị xem là bằng chứng có người đang lừa dối bạn. Thực ra, nó mời bạn kiểm tra dữ kiện và nhìn lại phần mình trước khi đi đến bất kỳ kết luận nào.",
+        "en": "This card is often taken as proof that someone is deceiving you. Actually, it invites you to check the facts and look at your own part before reaching any conclusion."
+      }
+    },
+    "minor-swords-eight": {
+      "topics": {
+        "love": {
+          "vi": "Cảm giác không có lối ra trong một mối quan hệ là thật và đáng được lắng nghe. Thử tách điều bạn chắc chắn khỏi điều bạn đang đoán.",
+          "en": "Feeling there's no way out in a relationship is real and worth listening to. Try separating what you know for sure from what you're assuming."
+        },
+        "career": {
+          "vi": "Có những giới hạn thật, và cũng có những giả định chưa ai kiểm chứng. Một câu hỏi nhỏ gửi đúng người có thể mở ra lựa chọn bạn chưa thấy.",
+          "en": "Some limits are real, and some are assumptions no one has checked. One small question to the right person may reveal an option you haven't seen yet."
+        },
+        "self": {
+          "vi": "Khi thấy mắc kẹt, hãy bắt đầu từ điều nhỏ nhất bạn vẫn còn chọn được. Một bước rất nhỏ cũng là một lựa chọn.",
+          "en": "When you feel stuck, start from the smallest thing you can still choose. Even a very small step is a choice."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời trách rằng bạn tự trói mình. Lá này thừa nhận cảm giác mắc kẹt, đồng thời mời bạn tìm những lựa chọn có thể vẫn còn đó.",
+        "en": "It doesn't blame you for trapping yourself. This card acknowledges the feeling of being stuck, while inviting you to look for choices that may still be there."
+      }
+    },
+    "minor-swords-nine": {
+      "topics": {
+        "love": {
+          "vi": "Nếu một nỗi lo về người kia cứ quay lại lúc đêm khuya, thử viết nó ra giấy. Điều gì là bạn đã biết, và điều gì là bạn đang sợ?",
+          "en": "If a worry about someone keeps coming back late at night, try writing it down. What do you actually know, and what are you afraid of?"
+        },
+        "career": {
+          "vi": "Một sai sót nhỏ có thể bị suy nghĩ phóng to thành cả một câu chuyện. Hãy nhìn lại điều đã xảy ra bằng ánh mắt của một người bạn tử tế.",
+          "en": "A small mistake can get magnified by your thoughts into a whole story. Look back at what happened through the eyes of a kind friend."
+        },
+        "self": {
+          "vi": "Nỗi lo của bạn đáng được lắng nghe, không đáng bị xem nhẹ. Nói ra với một người bạn tin tưởng có thể giúp nó bớt nặng.",
+          "en": "Your worry deserves to be heard, not brushed aside. Telling someone you trust can help it feel less heavy."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời cảnh báo rằng điều bạn sợ sẽ xảy ra. Lá này nói về những suy nghĩ lặp lại và tự trách, và mời bạn tìm một điểm tựa giữa chúng.",
+        "en": "It's not a warning that what you fear will happen. This card is about repeating thoughts and self-blame, and invites you to find something steady among them."
+      },
+      "supportNote": {
+        "vi": "Nếu cảm giác này kéo dài nhiều tuần, làm bạn mất ngủ hay khó sinh hoạt như thường, nói chuyện với chuyên gia tâm lý hoặc bác sĩ là một cách chăm sóc mình, không phải là yếu đuối. Nếu bạn có ý nghĩ làm hại bản thân, hãy gọi ngay cho người thân hoặc số cấp cứu nơi bạn ở (ở Việt Nam: 115).",
+        "en": "If this feeling lasts for weeks, or makes it hard to sleep or get through your days, talking with a counsellor or doctor is a way of caring for yourself, not a sign of weakness. If you have thoughts of harming yourself, please contact someone close to you or your local emergency number right away (in Vietnam: 115)."
+      }
+    },
+    "minor-swords-ten": {
+      "topics": {
+        "love": {
+          "vi": "Nếu điều gì đó vừa kết thúc theo cách khó khăn, bạn không cần vội gượng dậy. Cho mình thời gian, và để những người quan tâm bạn ở gần.",
+          "en": "If something has just ended in a painful way, you don't need to rush to get back up. Give yourself time, and let the people who care about you stay close."
+        },
+        "career": {
+          "vi": "Khi đã chạm giới hạn sức chịu đựng, cố thêm chưa chắc là cách tốt nhất. Thừa nhận mình cần nghỉ hoặc cần giúp cũng là một quyết định trưởng thành.",
+          "en": "When you've reached the limit of what you can carry, pushing harder isn't always the best way. Admitting you need rest or help is a mature decision too."
+        },
+        "self": {
+          "vi": "Bạn không phải chứng minh mình chịu đựng được bao nhiêu. Lúc này, nhận hỗ trợ có thể quan trọng hơn việc cố tỏ ra mạnh mẽ.",
+          "en": "You don't have to prove how much you can endure. Right now, receiving support may matter more than trying to look strong."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời báo trước tai họa hay một kết cục không thể thay đổi. Lá này gọi tên cảm giác đã chạm giới hạn, và nhắc rằng nghỉ ngơi cùng sự hỗ trợ vẫn là những lựa chọn của bạn.",
+        "en": "It's not a forecast of disaster or an outcome set in stone. This card names the feeling of reaching a limit, and reminds you that rest and support are still choices you have."
+      },
+      "supportNote": {
+        "vi": "Nếu cảm giác này kéo dài nhiều tuần, làm bạn mất ngủ hay khó sinh hoạt như thường, nói chuyện với chuyên gia tâm lý hoặc bác sĩ là một cách chăm sóc mình, không phải là yếu đuối. Nếu bạn có ý nghĩ làm hại bản thân, hãy gọi ngay cho người thân hoặc số cấp cứu nơi bạn ở (ở Việt Nam: 115).",
+        "en": "If this feeling lasts for weeks, or makes it hard to sleep or get through your days, talking with a counsellor or doctor is a way of caring for yourself, not a sign of weakness. If you have thoughts of harming yourself, please contact someone close to you or your local emergency number right away (in Vietnam: 115)."
+      }
+    },
+    "minor-swords-page": {
+      "topics": {
+        "love": {
+          "vi": "Tò mò về người kia là điều đẹp, nhưng hỏi trực tiếp thường cho câu trả lời đúng hơn việc đoán ý qua từng tin nhắn.",
+          "en": "Being curious about someone is lovely, but asking directly usually gives a truer answer than reading into every message."
+        },
+        "career": {
+          "vi": "Đây là lúc học hỏi và đặt câu hỏi, kể cả những câu nghe có vẻ ngây ngô. Hãy kiểm tra một thông tin trước khi chuyển nó cho người khác.",
+          "en": "This is a time to learn and ask questions, even ones that sound naive. Check a piece of information before passing it on."
+        },
+        "self": {
+          "vi": "Hãy quan sát bản thân như quan sát một người mới quen: tò mò và không phán xét. Bạn có thể ngạc nhiên vì điều mình nhận ra.",
+          "en": "Observe yourself the way you'd observe someone you just met: curious and without judgment. You might be surprised by what you notice."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời gợi ý bạn nghi ngờ hay dò xét người khác. Lá này nói về sự tò mò lành mạnh: hỏi, quan sát và kiểm chứng trước khi kết luận.",
+        "en": "It's not suggesting you be suspicious of or spy on others. This card is about healthy curiosity: asking, observing and checking before you conclude."
+      }
+    },
+    "minor-swords-knight": {
+      "topics": {
+        "love": {
+          "vi": "Khi bạn đã rõ mình muốn gì, nói thẳng ra là điều tốt. Chỉ cần nhớ chừa một khoảng để nghe người kia đáp lại.",
+          "en": "When you know what you want, saying it directly is a good thing. Just remember to leave some space to hear their reply."
+        },
+        "career": {
+          "vi": "Một ý tưởng rõ và tinh thần quyết đoán có thể giúp công việc tiến nhanh. Trước khi lao đi, thử hỏi: mình đã bỏ sót góc nhìn nào chưa?",
+          "en": "A clear idea and a decisive spirit can move work forward quickly. Before charging ahead, ask: which perspective might I have missed?"
+        },
+        "self": {
+          "vi": "Sự nhanh nhạy là một điểm mạnh của bạn. Nó càng vững hơn khi đi kèm vài nhịp dừng để lắng nghe.",
+          "en": "Your quickness is a real strength. It grows steadier when paired with a few pauses to listen."
+        }
+      },
+      "misconception": {
+        "vi": "Dễ bị hiểu là bạn phải quyết ngay lập tức. Lá này nói về sự quyết đoán, và quyết đoán tốt vẫn chừa chỗ cho điều mình chưa biết.",
+        "en": "It's easy to read as having to decide right this second. This card is about decisiveness, and good decisiveness still leaves room for what you don't yet know."
+      }
+    },
+    "minor-swords-queen": {
+      "topics": {
+        "love": {
+          "vi": "Nói rõ điều bạn cần, và cả điều bạn không chấp nhận, là một cách tôn trọng cả hai người. Thẳng thắn vẫn có thể rất ấm áp.",
+          "en": "Saying clearly what you need, and what you won't accept, is a way of respecting you both. Being direct can still be very warm."
+        },
+        "career": {
+          "vi": "Trải nghiệm cho bạn cơ sở để nói thẳng điều mình thấy. Hãy giữ ranh giới rõ ràng mà vẫn để lòng trắc ẩn có mặt trong lời nói.",
+          "en": "Your experience gives you grounds to say plainly what you see. Keep your boundaries clear while letting compassion stay in your words."
+        },
+        "self": {
+          "vi": "Độc lập không có nghĩa là phải khép lòng. Bạn có thể vừa sáng suốt, vừa cho phép mình cảm nhận trọn vẹn.",
+          "en": "Being independent doesn't mean closing your heart. You can be clear-sighted and still let yourself feel fully."
+        }
+      },
+      "misconception": {
+        "vi": "Hay bị gắn với hình ảnh một người lạnh lùng, khó gần. Thật ra đây là sự thẳng thắn có trắc ẩn, nơi cảm xúc không bị xem là yếu đuối.",
+        "en": "It's often linked to someone cold and hard to approach. Really, it's about directness with compassion, where feelings aren't treated as weakness."
+      }
+    },
+    "minor-swords-king": {
+      "topics": {
+        "love": {
+          "vi": "Khi có bất đồng, thử tách riêng điều đã xảy ra, điều bạn đoán và điều bạn cảm thấy. Cả ba đều quan trọng, nhưng không giống nhau.",
+          "en": "In a disagreement, try separating what happened, what you assume and what you feel. All three matter, but they aren't the same."
+        },
+        "career": {
+          "vi": "Một quyết định công bằng cần những tiêu chí mà ai cũng hiểu được. Hãy viết tiêu chí ra trước, rồi mới cân nhắc từng lựa chọn.",
+          "en": "A fair decision needs criteria that everyone can understand. Write the criteria down first, then weigh each option."
+        },
+        "self": {
+          "vi": "Bạn có thể nhìn lại mình một cách công bằng, không quá khắt khe mà cũng không né tránh. Hỏi thêm một góc nhìn khác có thể giúp ích.",
+          "en": "You can look at yourself fairly, neither too harshly nor avoiding the truth. Asking for another perspective may help."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời khuyên gạt cảm xúc sang một bên. Lá này nói về phán đoán dựa trên dữ kiện, và cảm xúc cũng là một dữ kiện đáng được tính đến.",
+        "en": "It's not advice to set your feelings aside. This card is about judgment grounded in evidence, and feelings are evidence worth counting too."
+      }
+    },
+    "minor-pentacles-ace": {
+      "topics": {
+        "love": {
+          "vi": "Tình cảm cũng cần những điều cụ thể để lớn lên: một buổi hẹn, một thói quen chung, một lời hứa nhỏ được giữ.",
+          "en": "Feelings also need concrete things to grow: a date, a shared habit, a small promise kept."
+        },
+        "career": {
+          "vi": "Có thể một cơ hội thực tế đang ở ngay trước mặt. Hãy xem mình đang có những nguồn lực gì, rồi thử một bước đầu vừa sức.",
+          "en": "A practical opportunity may be right in front of you. Look at the resources you already have, then try a first step that fits your capacity."
+        },
+        "self": {
+          "vi": "Bắt đầu một nền nếp nhỏ cho bản thân, như sắp xếp lại góc học tập hay học một kỹ năng mới, cũng là gieo một hạt giống bền lâu.",
+          "en": "Starting a small routine for yourself, like rearranging your study corner or learning a new skill, is planting a seed that lasts."
+        }
+      },
+      "misconception": {
+        "vi": "Nhiều người mong lá này là tin sắp có tiền. Thực ra nó nói về một cơ hội cần được vun bằng nỗ lực và điều kiện thực tế, không phải may mắn từ trên trời rơi xuống.",
+        "en": "Many people hope this card means money is coming. Actually, it's about an opportunity that grows with effort and real conditions, not luck falling from the sky."
+      }
+    },
+    "minor-pentacles-two": {
+      "topics": {
+        "love": {
+          "vi": "Giữa việc học, công việc, bạn bè và người thương, thời gian của bạn có giới hạn. Chia sẻ nhịp sống của mình giúp người kia hiểu thay vì phải đoán.",
+          "en": "Between study, work, friends and the person you love, your time has limits. Sharing your rhythm helps them understand instead of guessing."
+        },
+        "career": {
+          "vi": "Nhiều việc cùng lúc đòi sự chú ý, và không việc nào cần được giữ ở cùng một mức. Hôm nay, điều gì thật sự cần đứng đầu danh sách?",
+          "en": "Many tasks want your attention at once, and none of them has to be held at the same level. Today, what truly needs to top the list?"
+        },
+        "self": {
+          "vi": "Cân bằng không phải là đứng yên, mà là điều chỉnh liên tục. Bạn được phép đặt bớt một quả bóng xuống cho nhẹ tay.",
+          "en": "Balance isn't standing still; it's adjusting all the time. You're allowed to set one ball down to lighten your hands."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời khen rằng bạn có thể ôm hết mọi việc. Lá này nói về sự linh hoạt và sắp xếp ưu tiên, kể cả khi điều đó có nghĩa là làm ít đi.",
+        "en": "It's not praise for being able to carry everything. This card is about flexibility and priorities, even when that means doing less."
+      }
+    },
+    "minor-pentacles-three": {
+      "topics": {
+        "love": {
+          "vi": "Một mối quan hệ được xây bởi cả hai người, mỗi người góp một phần khác nhau. Bạn đang góp điều gì, và bạn cần người kia góp gì?",
+          "en": "A relationship is built by two people, each bringing something different. What are you contributing, and what do you need them to contribute?"
+        },
+        "career": {
+          "vi": "Làm việc nhóm trôi chảy hơn khi mỗi người rõ phần mình. Hãy nói cụ thể đóng góp của bạn, và đón nhận góp ý như một cách học.",
+          "en": "Teamwork flows better when everyone knows their part. Name your contribution clearly, and take feedback as a way to learn."
+        },
+        "self": {
+          "vi": "Bạn không cần tự mình giỏi mọi thứ. Học từ người khác cũng là một cách trân trọng tay nghề của chính mình.",
+          "en": "You don't have to be good at everything on your own. Learning from others is also a way of honoring your own craft."
+        }
+      },
+      "misconception": {
+        "vi": "Dễ bị thu hẹp thành “lá của công việc nhóm”. Thật ra lá này nói về việc cùng nhau xây điều có giá trị, ở bất kỳ đâu có sự góp sức và lắng nghe.",
+        "en": "It often gets narrowed down to “the teamwork card”. Really, it's about building something meaningful together, wherever there is shared effort and listening."
+      }
+    },
+    "minor-pentacles-four": {
+      "topics": {
+        "love": {
+          "vi": "Muốn giữ chặt một người hay một cảm giác an toàn là điều dễ hiểu. Thử hỏi mình: điều gì có thể khác đi nếu bạn nới tay một chút?",
+          "en": "Wanting to hold tightly to someone, or to a sense of safety, is understandable. Ask yourself: what might change if you loosened your grip a little?"
+        },
+        "career": {
+          "vi": "Bảo vệ thành quả của mình là chính đáng. Nhưng bám quá chặt vào một cách làm cũ đôi khi khiến cơ hội mới khó bước vào.",
+          "en": "Protecting what you've built is fair. But clinging too tightly to an old way of working can sometimes keep new chances from getting in."
+        },
+        "self": {
+          "vi": "Hãy xem điều gì thật sự cần được bảo vệ, và điều gì bạn đang giữ chỉ vì sợ thiếu. Hai điều này không giống nhau.",
+          "en": "Look at what truly needs protecting, and what you're holding only out of fear of not having enough. They aren't the same thing."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời chê bạn keo kiệt hay ích kỷ. Lá này nói về mong muốn được an toàn, và mời bạn nhìn xem chỗ nào đang giữ vừa đủ, chỗ nào đang siết quá chặt.",
+        "en": "It's not calling you stingy or selfish. This card is about wanting to feel secure, and invites you to see where you're holding just enough and where you're gripping too tight."
+      }
+    },
+    "minor-pentacles-five": {
+      "topics": {
+        "love": {
+          "vi": "Nếu bạn đang thấy mình bị bỏ ra ngoài, cảm giác đó đáng được nói ra. Lúc này, bạn có thể gõ cửa ai?",
+          "en": "If you're feeling left out, that feeling deserves to be spoken. Right now, whose door could you knock on?"
+        },
+        "career": {
+          "vi": "Một giai đoạn thiếu nguồn lực không nói lên giá trị của bạn. Một sự hỗ trợ thực tế, dù nhỏ, có thể đáng để bạn chủ động tìm.",
+          "en": "A stretch of limited resources says nothing about your worth. Practical support, even a small one, may be worth reaching out for."
+        },
+        "self": {
+          "vi": "Khó khăn không có nghĩa là bạn chưa cố gắng đủ. Bạn được phép nhận giúp đỡ mà không cần thấy xấu hổ.",
+          "en": "Difficulty doesn't mean you haven't tried hard enough. You're allowed to accept help without feeling ashamed."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời báo trước cảnh túng quẫn hay mất mát. Lá này gọi tên cảm giác thiếu hụt hoặc lạc lõng, và nhắc rằng tìm hỗ trợ không phải là thất bại.",
+        "en": "It's not a forecast of hardship or loss. This card names the feeling of lacking or being left out, and reminds you that seeking support is not failure."
+      }
+    },
+    "minor-pentacles-six": {
+      "topics": {
+        "love": {
+          "vi": "Trong tình cảm, cho và nhận nên đi theo cả hai chiều. Bạn có đang chỉ cho đi mà quên rằng mình cũng xứng đáng được nhận?",
+          "en": "In love, giving and receiving should flow both ways. Are you only giving, forgetting that you deserve to receive too?"
+        },
+        "career": {
+          "vi": "Giúp đồng nghiệp là điều tốt, nhưng sự giúp đỡ cũng cần giới hạn rõ ràng. Hãy để ý xem có điều kiện ngầm nào đi kèm không.",
+          "en": "Helping colleagues is good, but help also needs clear limits. Notice whether any unspoken conditions come attached."
+        },
+        "self": {
+          "vi": "Nhận giúp đỡ không làm bạn kém đi. Biết khi nào nên cho, khi nào nên nhận, là một cách tôn trọng chính mình.",
+          "en": "Receiving help doesn't make you less. Knowing when to give and when to receive is a way of respecting yourself."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời hứa sẽ có người đến giúp bạn. Lá này nói về sự công bằng trong cho và nhận, kể cả quyền nói “mình chỉ giúp được đến đây”.",
+        "en": "It's not a promise that someone will come to help you. This card is about fairness in giving and receiving, including the right to say “this is as far as I can help.”"
+      }
+    },
+    "minor-pentacles-seven": {
+      "topics": {
+        "love": {
+          "vi": "Một mối quan hệ cần thời gian để lớn lên. Đây có thể là lúc dừng lại xem điều hai người cùng vun đắp đang thành hình ra sao.",
+          "en": "A relationship needs time to grow. This may be a moment to pause and see how what you've both nurtured is taking shape."
+        },
+        "career": {
+          "vi": "Bạn đã bỏ nhiều công sức, và giờ là lúc nhìn lại. Tiếp tục, điều chỉnh hay đổi sang nhịp khác đều là những lựa chọn hợp lý.",
+          "en": "You've put in a lot of effort, and now is a time to look back. Continuing, adjusting or shifting to another pace are all reasonable choices."
+        },
+        "self": {
+          "vi": "Kết quả chưa thấy rõ không có nghĩa là nỗ lực bị lãng phí. Hãy ghi nhận những gì đã nảy mầm, dù còn nhỏ.",
+          "en": "Results not showing yet doesn't mean your effort was wasted. Notice what has already sprouted, even if it's still small."
+        }
+      },
+      "misconception": {
+        "vi": "Dễ hiểu thành “cứ chờ rồi mọi thứ sẽ đến”. Lá này nói về việc dừng lại đánh giá, để bạn chọn tiếp tục hay điều chỉnh.",
+        "en": "It's easy to read as “just wait and everything will come.” This card is about pausing to review, so you can choose whether to keep going or adjust."
+      }
+    },
+    "minor-pentacles-eight": {
+      "topics": {
+        "love": {
+          "vi": "Tình cảm cũng được nuôi bằng những việc nhỏ lặp lại mỗi ngày. Một sự quan tâm đều đặn có khi nói nhiều hơn một lời hứa lớn.",
+          "en": "Love is also nurtured by small things repeated every day. Steady care can sometimes say more than a big promise."
+        },
+        "career": {
+          "vi": "Đây là lúc chăm chút tay nghề qua từng việc nhỏ. Chọn một kỹ năng, luyện tập có chủ đích, và để ý phần mình đang tiến bộ.",
+          "en": "This is a time to refine your craft through small tasks. Choose one skill, practice with intention, and notice where you're improving."
+        },
+        "self": {
+          "vi": "Sự tiến bộ thường lặng lẽ và không hào nhoáng. Bạn có thể tự hào vì mình đã kiên trì, chứ không chỉ vì kết quả.",
+          "en": "Progress is often quiet and unglamorous. You can be proud of having kept at it, not only of the result."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời thúc bạn phải cày cuốc không nghỉ. Lá này nói về sự rèn luyện có chú ý, và nghỉ ngơi cũng là một phần của việc làm tốt.",
+        "en": "It's not urging you to grind without rest. This card is about attentive practice, and rest is part of doing good work too."
+      }
+    },
+    "minor-pentacles-nine": {
+      "topics": {
+        "love": {
+          "vi": "Bạn có thể yêu từ một nơi đủ đầy, chứ không phải vì cần ai đó lấp chỗ trống. Sự tự chủ của bạn cũng là món quà cho mối quan hệ.",
+          "en": "You can love from a place of fullness, not because you need someone to fill a gap. Your self-sufficiency is a gift to the relationship too."
+        },
+        "career": {
+          "vi": "Hãy dành một lúc ghi nhận những gì bạn đã tự gây dựng. Tự chủ không có nghĩa là phải gánh mọi việc một mình.",
+          "en": "Take a moment to recognize what you've built yourself. Being self-reliant doesn't mean carrying every task alone."
+        },
+        "self": {
+          "vi": "Bạn được phép tận hưởng thành quả của mình, kể cả những niềm vui nhỏ. Không cần đợi mọi thứ hoàn hảo mới cho mình thảnh thơi.",
+          "en": "You're allowed to enjoy what you've worked for, small joys included. You don't need everything to be perfect before you let yourself relax."
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời hứa về sự giàu có hay một cuộc sống không cần ai. Lá này nói về việc trân trọng điều mình đã xây dựng, và độc lập vẫn có thể đi cùng sự gắn kết.",
+        "en": "It's not a promise of wealth or of a life that needs no one. This card is about appreciating what you've built, and independence can still go hand in hand with connection."
+      }
+    },
+    "minor-pentacles-ten": {
+      "topics": {
+        "love": {
+          "vi": "Hai người muốn cùng gìn giữ điều gì về lâu dài? Những giá trị chung có thể là nền móng vững hơn mọi lời hứa.",
+          "en": "What do the two of you want to protect together over time? Shared values can be a steadier foundation than any promise."
+        },
+        "career": {
+          "vi": "Hãy nghĩ về điều bạn muốn để lại qua công việc, không chỉ là thành tích mà còn là cách bạn làm việc cùng người khác.",
+          "en": "Think about what you want to leave behind through your work, not just achievements but the way you work with others."
+        },
+        "self": {
+          "vi": "Bạn mang theo những giá trị từ gia đình và cộng đồng. Điều nào bạn muốn giữ, và điều nào bạn muốn viết lại theo cách của mình?",
+          "en": "You carry values from your family and community. Which ones do you want to keep, and which do you want to rewrite in your own way?"
+        }
+      },
+      "misconception": {
+        "vi": "Không phải lời bảo đảm một gia đình viên mãn hay tài sản lớn. Lá này nói về nền tảng dài hạn, và nền tảng ấy được dựng từ giá trị nhiều hơn từ của cải.",
+        "en": "It's not a guarantee of a perfect family or a great fortune. This card is about lasting foundations, and those are built more from values than from possessions."
+      }
+    },
+    "minor-pentacles-page": {
+      "topics": {
+        "love": {
+          "vi": "Tìm hiểu một người cần sự kiên nhẫn của người mới học việc. Hãy để ý những điều nhỏ và cụ thể mà họ thật sự cần.",
+          "en": "Getting to know someone takes an apprentice's patience. Notice the small, concrete things they really need."
+        },
+        "career": {
+          "vi": "Chọn một kỹ năng nhỏ để học bằng cách làm, và đặt cho nó một kế hoạch vừa phải. Sau một thời gian, hãy xem mình đã học được gì.",
+          "en": "Pick one small skill to learn by doing, and give it a modest plan. After a while, look at what you've learned."
+        },
+        "self": {
+          "vi": "Bạn không cần biết hết mọi thứ mới được bắt đầu. Được làm người mới học cũng là một niềm vui riêng.",
+          "en": "You don't need to know everything before you begin. Being a beginner is a joy of its own."
+        }
+      },
+      "misconception": {
+        "vi": "Hay bị xem là “còn non, chưa đủ giỏi”. Thật ra lá này trân trọng tinh thần học hỏi: chậm, kỹ và cụ thể. Theo cách đọc truyền thống, Tiểu Đồng cũng có thể là người mang tin; với bộ Tiền, đó thường là tin về học tập, công việc hay tiền bạc, và tin ấy vẫn cần bạn bắt tay vào làm.",
+        "en": "It's often seen as “too green, not good enough yet.” In fact the card honours a learner's spirit: slow, careful and concrete. In traditional readings a Page can also be a messenger; for Pentacles, that's usually news about study, work or money, and it still asks you to get to work."
+      }
+    },
+    "minor-pentacles-knight": {
+      "topics": {
+        "love": {
+          "vi": "Sự đáng tin không ồn ào, nhưng được nhận ra qua thời gian. Giữ những lời hẹn nhỏ có thể nói lên nhiều điều về cách bạn yêu.",
+          "en": "Reliability isn't loud, but it's noticed over time. Keeping small promises can say a lot about how you love."
+        },
+        "career": {
+          "vi": "Một nhịp làm việc đều và chắc tay có thể đưa bạn đi xa hơn một cú tăng tốc. Không cần nhận thêm việc chỉ để chứng tỏ mình tiến bộ.",
+          "en": "A steady, sure pace can take you further than a sudden sprint. There's no need to take on more just to prove you're making progress."
+        },
+        "self": {
+          "vi": "Bạn không cần nhanh, chỉ cần đều. Hôm nay, có bước nhỏ đáng tin nào bạn có thể làm cho chính mình?",
+          "en": "You don't need to be fast, just steady. Today, what small, reliable step could you take for yourself?"
+        }
+      },
+      "misconception": {
+        "vi": "Hay bị xem là chậm chạp hoặc nhàm chán. Lá này nói về sự bền bỉ có trách nhiệm, và giữ được nhịp đều là một sức mạnh thầm lặng.",
+        "en": "It's often seen as slow or dull. This card is about responsible persistence, and keeping a steady pace is a quiet strength."
+      }
+    },
+    "minor-pentacles-queen": {
+      "topics": {
+        "love": {
+          "vi": "Yêu thương được thể hiện qua những việc thực tế: một bữa ăn, một lời hỏi han, một không gian dễ chịu. Và bạn cũng xứng đáng được chăm sóc như thế.",
+          "en": "Love shows up in practical things: a meal, a check-in, a comfortable space. And you deserve to be cared for that way too."
+        },
+        "career": {
+          "vi": "Bạn có thể là người mang lại sự ấm áp cho tập thể, miễn là vẫn giữ giới hạn về thời gian và sức lực của mình.",
+          "en": "You can be the one who brings warmth to a team, as long as you keep limits on your own time and energy."
+        },
+        "self": {
+          "vi": "Chăm chút không gian sống và nhịp sinh hoạt cũng là một cách chăm sóc thế giới bên trong. Bắt đầu từ một góc nhỏ thôi cũng đủ.",
+          "en": "Tending your living space and daily rhythm is also a way of caring for your inner world. Starting with one small corner is enough."
+        }
+      },
+      "misconception": {
+        "vi": "Không nhất thiết là một người phụ nữ trong đời bạn, cũng không phải hình mẫu người phải lo cho tất cả. Lá có thể nói về một người bất kỳ hoặc một nét trong chính bạn: sự chăm sóc vừa sức, kể cả chăm sóc chính mình.",
+        "en": "It doesn't have to be a woman in your life, nor an ideal of someone who must look after everyone. It can point to anyone, or to a quality in yourself: care within your capacity, including care for yourself."
+      }
+    },
+    "minor-pentacles-king": {
+      "topics": {
+        "love": {
+          "vi": "Sự vững vàng trong tình cảm đến từ việc giữ lời và có mặt khi cần. Bạn muốn làm chỗ dựa theo cách nào, và bạn cần được nâng đỡ ra sao?",
+          "en": "Steadiness in love comes from keeping your word and showing up when it matters. How do you want to be someone to lean on, and how do you need to be supported?"
+        },
+        "career": {
+          "vi": "Hãy dành thời gian, công sức và kinh nghiệm của bạn cho điều thật sự quan trọng. Sự đáng tin được xây từ những quyết định nhất quán.",
+          "en": "Give your time, effort and experience to what truly matters. Reliability is built from consistent decisions."
+        },
+        "self": {
+          "vi": "Giá trị của bạn không được đo bằng những gì bạn sở hữu. Bạn có thể quản lý nguồn lực của mình một cách vững vàng mà vẫn nhẹ lòng.",
+          "en": "Your worth isn't measured by what you own. You can manage your resources steadily and still keep a light heart."
+        }
+      },
+      "misconception": {
+        "vi": "Thường bị đọc là lá của tiền bạc và quyền lực. Thật ra nó nói về trách nhiệm khi dùng nguồn lực, để nâng đỡ điều quan trọng với bạn và những người xung quanh.",
+        "en": "It's often read as a card about money and power. Really, it's about using resources responsibly, to support what matters to you and the people around you."
+      }
+    }
+  }
+}

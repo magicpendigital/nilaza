@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "taskId": "ux-wave1-fixes-2026-10-31",
+  "ownerAgent": "mobile_ux_fixes_agent",
+  "lane": "mobile_ux_wave1",
+  "goal": "Close the remaining wave-1 UX items from the analysis: chat rooms scroll to new messages and label canned replies as fallback, a Journal delete waits five seconds with Hoàn tác, the composer says drafts are kept, and Android Back steps back inside the app instead of leaving it. Show the Owner-approved short guide names and taglines in the chat hub, Explore and the Council start screen.",
+  "successCriteria": [
+    "Persona chat scrolls to the newest message and marks fallback replies.",
+    "Journal delete hides the entry and deletes it after five seconds unless Hoàn tác is tapped.",
+    "The composer tells the person their draft stays on the device.",
+    "Android Back closes dialogs, steps back in Tarot and chat rooms and returns to Hôm nay from other tabs; Astrology keeps its own handler.",
+    "Mobile check and Jest suite pass."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/persona/",
+    "apps/mobile/src/features/journal/",
+    "apps/mobile/src/__tests__/",
+    "DESIGN.md",
+    "apps/admin/workflow-catalog.js",
+    "packages/content/data/persona-short-names.json",
+    "scripts/validate-data.mjs",
+    "apps/mobile/src/features/chat/",
+    "apps/mobile/src/features/council/"
+  ],
+  "untouchedSurfaces": [
+    "No backend, deploy, SQL or settings change.",
+    "Content data unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Persona chat rooms, Journal detail, the composer and the Android Back button.",
+    "dataWrite": "No new storage; Journal deletion is delayed by five seconds.",
+    "backendContract": "No backend contract change; everything stays in the app.",
+    "canonicalContract": "DESIGN.md Explore and library sections follow the design canvas.",
+    "adminVisibility": "Workflow catalog digest of App.tsx refreshed.",
+    "privacySafety": "Learned cards stay on the device and are included in the local export.",
+    "observability": "No analytics or logging change.",
+    "rollback": "Revert the commits on the PR branch.",
+    "surfacesIntentionallyUntouched": "Tarot reading flow, deck content.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs validation, commits and pushes to the PR branch without merging or deploying."
+  },
+  "canonicalContracts": [
+    "Analysis artifact wave 1 items: chat auto-scroll and fallback label, Journal ask-before-discard and undo delete, central Android Back.",
+    "Owner approved the 17 short guide names as drafted on 2026-10-31."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios",
+    "sanitized_ui_screenshots"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Tarot and mobile UI routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Card meaning stage and its top bar.",
+      "sha256": "bbe71df69113e213edd3b1eedb7b1688ffdf524f9c4382386bed0e331fa99d1b"
+    },
+    {
+      "path": "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
+      "reason": "Chat room scrolling and labels.",
+      "sha256": "1023d51982f3a7751bc590c7ec7dc70d5d7240cb3c0f722db7abd17ed5d0f3c1"
+    },
+    {
+      "path": "apps/mobile/src/features/journal/JournalComposer.tsx",
+      "reason": "Composer draft hint.",
+      "sha256": "9f2ca001af067eb4b73132d135526f6786040b5caf7356be275b6825f6d37dba"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "The flow follows DESIGN.md shapes (8px cards, pill controls, 48px targets); the skill text stays accurate."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing React Native and Ionicons APIs."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change in this task.",
+    "sensitiveData": "Only tarot card ids are stored, on the device.",
+    "secretsLogging": "No credentials, tokens or logs are added.",
+    "externalInput": "No new user input is sent anywhere.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration, deploy or release.",
+    "stopCondition": "Stop if a change needs new content, a deploy or settings without approval, or if checks fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/features/council/AiCouncilRoom.tsx",
+      "docs/feature-plans/ux-wave1-fixes-2026-10-31.json",
+      "packages/content/data/persona-short-names.json",
+      "scripts/validate-data.mjs"
+    ],
+    "note": "Worktree branch stacked on PR #10."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/ux-wave1-fixes-2026-10-31.json",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand"
+  ],
+  "managerTestPath": "Delete a Journal entry and tap Hoàn tác; open a guide chat and see it scroll to the newest reply.",
+  "residualRisk": "Android Back is verified by typecheck and code review only, not on a device.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

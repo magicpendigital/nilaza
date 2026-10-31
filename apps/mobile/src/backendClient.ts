@@ -364,6 +364,7 @@ function generationOptions(options: BackendOptions, patienceMs: number): Backend
 }
 
 const supabaseFunctionPathMap: Record<string, string> = {
+  "/account/delete": "/account-delete",
   "/ai/feedback": "/ai-feedback",
   "/ai/oracle-turn": "/ai-oracle-turn",
   "/ai/persona-chat": "/ai-persona-chat",
@@ -419,7 +420,12 @@ async function getJson<TResult>(path: string, options: BackendOptions): Promise<
   }
 }
 
-async function postJson<TInput, TResult>(path: string, input: TInput, options: BackendOptions, correlation?: AnswerCorrelation): Promise<TResult | null> {
+/** A server answer the user must see (sign in first, or today's allowance is used). */
+export class BackendLimitError extends Error {
+  constructor(readonly code: string, readonly status: number) { super(code); this.name = "BackendLimitError"; }
+}
+
+async function postJson<TInput, TResult>(path: string, input: TInput, options: BackendOptions, correlation?: AnswerCorrelation, surfaceLimits = false): Promise<TResult | null> {
   options = currentOptions(options);
   if (!options.baseUrl) return null;
 
@@ -443,13 +449,38 @@ async function postJson<TInput, TResult>(path: string, input: TInput, options: B
       signal: controller.signal
     });
 
+    if (surfaceLimits && (response.status === 401 || response.status === 429) && options.session?.active !== false) {
+      const body = (await response.json().catch(() => ({}))) as { error?: unknown };
+      throw new BackendLimitError(typeof body.error === "string" ? body.error : String(response.status), response.status);
+    }
     if (!response.ok || options.session?.active === false) return null;
     return (await response.json()) as TResult;
-  } catch {
+  } catch (error) {
+    if (error instanceof BackendLimitError) throw error;
     return null;
   } finally {
     options.session?.controller.signal.removeEventListener("abort", cancel);
     clearTimeout(timeout);
+  }
+}
+
+/** Deletes the signed-in account through account-delete (nilaza.account-delete.v1). Returns an error code or null. */
+export async function requestAccountDeletion(backendOptions: BackendOptions): Promise<string | null> {
+  const options = currentOptions(backendOptions);
+  if (!options.baseUrl || !options.authToken || options.session?.active === false) return "authentication_required";
+  try {
+    const headers: Record<string, string> = { "Content-Type": "application/json", Authorization: `Bearer ${options.authToken}` };
+    if (options.apiKey) headers.apikey = options.apiKey;
+    const response = await fetch(resolveBackendPath(options.baseUrl, "/account/delete"), {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ confirm: "delete-my-account" })
+    });
+    const body = (await response.json().catch(() => ({}))) as { status?: unknown; error?: unknown };
+    if (response.ok && body.status === "completed") return null;
+    return typeof body.error === "string" ? body.error : "deletion_unavailable";
+  } catch {
+    return "deletion_unavailable";
   }
 }
 
@@ -515,7 +546,7 @@ export async function generateAiCouncilTurn(
   fallback: () => AiCouncilResult,
   options: BackendOptions = {}
 ): Promise<AiCouncilResult> {
-  const backendResult = await postJson<AiCouncilInput, AiCouncilResult>("/ai/ai-council", input, generationOptions(options, generationTimeoutMs.council));
+  const backendResult = await postJson<AiCouncilInput, AiCouncilResult>("/ai/ai-council", input, generationOptions(options, generationTimeoutMs.council), undefined, true);
   return backendResult ?? fallback();
 }
 

@@ -1,0 +1,191 @@
+{
+  "version": "2026-10-31-draft",
+  "status": "draft-for-owner-review",
+  "scope": "Hôm nay block: the Moon's current Whole Sign house in the user's natal chart (changes about every 2.5 days).",
+  "note": {
+    "vi": "Từ vị trí Mặt Trăng hôm nay so với lá số của bạn. Để tham khảo và tự phản chiếu.",
+    "en": "Based on today's Moon position in your birth chart. For reference and self-reflection."
+  },
+  "houses": {
+    "1": {
+      "title": { "vi": "Mặt Trăng đi qua nhà bản thân của bạn", "en": "The Moon is moving through your house of self" },
+      "body": {
+        "vi": "Những ngày này, cảm xúc của bạn có thể hiện rõ hơn thường lệ. Đây là dịp để hỏi mình: mình đang cần gì?",
+        "en": "These days your feelings may show more clearly than usual. It can be a chance to ask yourself what you need."
+      },
+      "do": [
+        { "vi": "Hỏi mình đang cảm thấy gì", "en": "Ask yourself how you feel" },
+        { "vi": "Làm một việc nhỏ cho mình", "en": "Do one small thing for yourself" }
+      ],
+      "avoid": [
+        { "vi": "Gồng lên tỏ ra mình ổn", "en": "Pretending you are fine" },
+        { "vi": "Để người khác quyết thay mình", "en": "Letting others decide for you" }
+      ]
+    },
+    "2": {
+      "title": { "vi": "Mặt Trăng đi qua nhà tiền bạc và giá trị của bạn", "en": "The Moon is moving through your house of money and values" },
+      "body": {
+        "vi": "Bạn có thể để ý nhiều hơn đến cảm giác an toàn và những điều mình quý. Thử nhìn xem điều gì thật sự khiến bạn thấy đủ đầy.",
+        "en": "You may pay more attention to feeling secure and to what you value. Notice what truly makes you feel you have enough."
+      },
+      "do": [
+        { "vi": "Viết ra ba điều bạn quý", "en": "Write down three things you value" },
+        { "vi": "Cảm ơn một điều đang có", "en": "Appreciate something you already have" }
+      ],
+      "avoid": [
+        { "vi": "Đo giá trị mình bằng con số", "en": "Measuring your worth in numbers" },
+        { "vi": "So sánh mình với người khác", "en": "Comparing yourself with others" }
+      ]
+    },
+    "3": {
+      "title": { "vi": "Mặt Trăng đi qua nhà giao tiếp của bạn", "en": "The Moon is moving through your house of communication" },
+      "body": {
+        "vi": "Đầu óc có thể bận rộn hơn, và bạn dễ muốn trò chuyện, nhắn tin, hỏi han. Lời nói những ngày này có thể mang nhiều cảm xúc hơn bạn nghĩ.",
+        "en": "Your mind may feel busier, and you might want to talk, text and check in more. Words these days may carry more feeling than you expect."
+      },
+      "do": [
+        { "vi": "Nhắn hỏi thăm một người quen", "en": "Check in with someone you know" },
+        { "vi": "Viết vài dòng về hôm nay", "en": "Write a few lines about today" }
+      ],
+      "avoid": [
+        { "vi": "Trả lời vội khi đang bực", "en": "Replying in a rush when upset" },
+        { "vi": "Đọc tin nhắn rồi tự đoán ý", "en": "Guessing what a message really meant" }
+      ]
+    },
+    "4": {
+      "title": { "vi": "Mặt Trăng đi qua nhà mái ấm và gia đình của bạn", "en": "The Moon is moving through your house of home and family" },
+      "body": {
+        "vi": "Bạn có thể muốn ở gần những gì quen thuộc: căn phòng của mình, người thân, một món ăn nhà làm. Đó là cách cảm xúc tìm chỗ dựa.",
+        "en": "You may want to stay close to what feels familiar: your own room, people close to you, a home-cooked meal. That is how feelings look for somewhere to rest."
+      },
+      "do": [
+        { "vi": "Dọn một góc nhỏ trong nhà", "en": "Tidy one small corner at home" },
+        { "vi": "Gọi điện cho một người thân", "en": "Call someone close to you" }
+      ],
+      "avoid": [
+        { "vi": "Ôm hết chuyện nhà vào mình", "en": "Carrying every family worry alone" },
+        { "vi": "Cố làm vừa lòng cả nhà", "en": "Trying to please everyone at home" }
+      ]
+    },
+    "5": {
+      "title": { "vi": "Mặt Trăng đi qua nhà niềm vui và tình cảm của bạn", "en": "The Moon is moving through your house of joy and romance" },
+      "body": {
+        "vi": "Những ngày này có thể hợp để làm điều mình thích chỉ vì nó vui. Trái tim có thể mở hơn, với người khác và với chính bạn.",
+        "en": "These days may suit doing something just because it is fun. Your heart may feel more open, toward others and toward yourself."
+      },
+      "do": [
+        { "vi": "Dành thời gian cho một sở thích", "en": "Make time for a hobby" },
+        { "vi": "Nói một lời thương với ai đó", "en": "Say something loving to someone" }
+      ],
+      "avoid": [
+        { "vi": "Chờ được khen mới thấy vui", "en": "Waiting for praise to feel good" },
+        { "vi": "Biến niềm vui thành cuộc thi", "en": "Turning fun into a competition" }
+      ]
+    },
+    "6": {
+      "title": { "vi": "Mặt Trăng đi qua nhà sức khỏe và việc hằng ngày của bạn", "en": "The Moon is moving through your house of wellbeing and daily routines" },
+      "body": {
+        "vi": "Bạn có thể muốn sắp xếp lại nhịp sinh hoạt và những việc nhỏ hằng ngày. Một chút ngăn nắp có thể giúp lòng nhẹ hơn.",
+        "en": "You may feel like reorganizing your routine and everyday tasks. A little order can help your mind feel lighter."
+      },
+      "do": [
+        { "vi": "Dọn gọn bàn làm việc", "en": "Clear your desk" },
+        { "vi": "Chia việc lớn thành bước nhỏ", "en": "Break a big task into small steps" }
+      ],
+      "avoid": [
+        { "vi": "Ôm hết việc vào mình", "en": "Taking on every task yourself" },
+        { "vi": "Tự trách vì chưa làm xong", "en": "Blaming yourself for unfinished tasks" }
+      ]
+    },
+    "7": {
+      "title": { "vi": "Mặt Trăng đi qua nhà các mối quan hệ của bạn", "en": "The Moon is moving through your house of relationships" },
+      "body": {
+        "vi": "Bạn có thể nhạy hơn với cách người khác đối xử với mình, và cách mình đối xử với họ. Một cuộc trò chuyện riêng có thể có ý nghĩa hơn thường lệ.",
+        "en": "You may be more sensitive to how others treat you, and how you treat them. A one-on-one conversation may mean more than usual."
+      },
+      "do": [
+        { "vi": "Lắng nghe trọn vẹn một người", "en": "Give someone your full attention" },
+        { "vi": "Nói rõ điều bạn mong muốn", "en": "Say clearly what you hope for" }
+      ],
+      "avoid": [
+        { "vi": "Chiều theo chỉ để giữ hòa khí", "en": "Going along just to keep the peace" },
+        { "vi": "Đoán ý thay vì hỏi thẳng", "en": "Guessing instead of asking" }
+      ]
+    },
+    "8": {
+      "title": { "vi": "Mặt Trăng đi qua nhà gắn bó sâu và sẻ chia của bạn", "en": "The Moon is moving through your house of deep bonds and sharing" },
+      "body": {
+        "vi": "Cảm xúc có thể đi sâu hơn, chạm tới lòng tin, sự gắn bó hay điều bạn khó buông. Bạn không cần mở hết lòng cùng một lúc.",
+        "en": "Feelings may run deeper, touching on trust, closeness or what is hard to let go. You don't need to open up all at once."
+      },
+      "do": [
+        { "vi": "Viết ra điều bạn đang giữ", "en": "Write down what you are holding onto" },
+        { "vi": "Chia sẻ với một người tin cậy", "en": "Share with someone you trust" }
+      ],
+      "avoid": [
+        { "vi": "Ép mình mở lòng quá nhanh", "en": "Pushing yourself to open up too fast" },
+        { "vi": "Thử lòng tin của người khác", "en": "Testing someone's trust" }
+      ]
+    },
+    "9": {
+      "title": { "vi": "Mặt Trăng đi qua nhà học hỏi và đi xa của bạn", "en": "The Moon is moving through your house of learning and travel" },
+      "body": {
+        "vi": "Bạn có thể muốn đổi gió, học điều mới hoặc nhìn mọi chuyện rộng hơn. Một góc nhìn khác có thể làm lòng nhẹ đi.",
+        "en": "You may want a change of scene, something new to learn, or a wider view. A fresh perspective may lighten your mood."
+      },
+      "do": [
+        { "vi": "Đọc vài trang sách mới", "en": "Read a few pages of something new" },
+        { "vi": "Đi một con đường khác", "en": "Take a different route" }
+      ],
+      "avoid": [
+        { "vi": "Cho rằng mình đã biết đủ", "en": "Assuming you already know enough" },
+        { "vi": "Tranh luận chỉ để thắng", "en": "Arguing just to win" }
+      ]
+    },
+    "10": {
+      "title": { "vi": "Mặt Trăng đi qua nhà công việc và hình ảnh của bạn", "en": "The Moon is moving through your house of work and reputation" },
+      "body": {
+        "vi": "Bạn có thể để ý nhiều hơn đến việc mình làm và cách người khác nhìn mình. Hãy ghi nhận cả những nỗ lực chưa ai thấy.",
+        "en": "You may pay more attention to your work and how others see you. Remember to recognize the efforts no one has noticed yet."
+      },
+      "do": [
+        { "vi": "Ghi lại một việc đã làm tốt", "en": "Note one thing you did well" },
+        { "vi": "Chọn một ưu tiên cho hôm nay", "en": "Pick one priority for today" }
+      ],
+      "avoid": [
+        { "vi": "Nhận thêm việc để được khen", "en": "Taking on extra work for approval" },
+        { "vi": "Lấy lời chê làm thước đo", "en": "Letting criticism define you" }
+      ]
+    },
+    "11": {
+      "title": { "vi": "Mặt Trăng đi qua nhà bạn bè và cộng đồng của bạn", "en": "The Moon is moving through your house of friends and community" },
+      "body": {
+        "vi": "Bạn có thể muốn ở gần những người cùng chí hướng, hoặc góp sức cho một điều chung. Cảm giác thuộc về có thể nâng đỡ bạn.",
+        "en": "You may want to be around like-minded people or help with something shared. A sense of belonging can lift you up."
+      },
+      "do": [
+        { "vi": "Hẹn gặp một người bạn", "en": "Make plans with a friend" },
+        { "vi": "Giúp nhóm một việc nhỏ", "en": "Help your group with something small" }
+      ],
+      "avoid": [
+        { "vi": "Gật đầu chỉ để hòa nhóm", "en": "Agreeing just to fit in" },
+        { "vi": "Lướt mạng rồi tự so sánh", "en": "Scrolling and comparing yourself" }
+      ]
+    },
+    "12": {
+      "title": { "vi": "Mặt Trăng đi qua nhà nghỉ ngơi và nội tâm của bạn", "en": "The Moon is moving through your house of rest and inner life" },
+      "body": {
+        "vi": "Bạn có thể thấy cần yên tĩnh và ít gặp gỡ hơn. Những ngày này có thể hợp để chậm lại và lắng nghe mình.",
+        "en": "You may feel a need for quiet and fewer get-togethers. These days can be a good time to slow down and listen inward."
+      },
+      "do": [
+        { "vi": "Dành vài phút ngồi yên", "en": "Sit quietly for a few minutes" },
+        { "vi": "Tắt bớt thông báo một lúc", "en": "Mute notifications for a while" }
+      ],
+      "avoid": [
+        { "vi": "Xếp kín lịch hẹn", "en": "Packing your schedule full" },
+        { "vi": "Tự trách vì cần nghỉ", "en": "Feeling guilty for needing rest" }
+      ]
+    }
+  }
+}

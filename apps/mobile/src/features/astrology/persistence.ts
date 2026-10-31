@@ -22,6 +22,17 @@ export type SavedChart = {
   chart: CandidateChart;
   aiInsight?: SavedAstrologyAiInsight;
 };
+// Another person's chart for So với một người, saved only on this device after the consent card.
+export type SavedPerson = {
+  id: string;
+  createdAt: string;
+  name: string;
+  relationship: "partner" | "crush" | "friend" | "family" | "work" | "other";
+  placeName: string;
+  input: BirthInput;
+  chart: CandidateChart;
+};
+export const personNameMaxLength = 40;
 export type SavedAstrologyAiInsight = {
   schemaVersion: "nilaza.astrology.saved-ai-insight.v1";
   response: AstrologyAiInsightResponse;
@@ -54,6 +65,8 @@ export type AstrologyData = {
   displayZone: string;
   library: LibraryState;
   reports: SavedChart[];
+  /** Optional so records saved before synastry stay valid. */
+  people?: SavedPerson[];
   notes: {
     id: string;
     title: string;
@@ -126,6 +139,25 @@ export function validAstrologyData(value: unknown): value is AstrologyData {
         validStoredInput(r) &&
         (r.aiInsight === undefined || validSavedAstrologyAiInsight(r.aiInsight, r.chart)),
     ) &&
+    (d.people === undefined ||
+      (Array.isArray(d.people) &&
+        d.people.length <= 20 &&
+        new Set(d.people.map((p) => p?.id)).size === d.people.length &&
+        d.people.every(
+          (p) =>
+            p &&
+            typeof p.id === "string" &&
+            typeof p.name === "string" &&
+            p.name.trim().length > 0 &&
+            p.name.length <= personNameMaxLength &&
+            ["partner", "crush", "friend", "family", "work", "other"].includes(p.relationship) &&
+            typeof p.placeName === "string" &&
+            Number.isFinite(Date.parse(p.createdAt)) &&
+            p.input?.revision === p.chart?.time?.revision &&
+            p.input.revision < d.nextRevision &&
+            validateChart(p.chart).length === 0 &&
+            validStoredInput(p),
+        ))) &&
     Array.isArray(d.notes) &&
     d.notes.length <= 100 &&
     d.notes.every(
@@ -139,7 +171,7 @@ export function validAstrologyData(value: unknown): value is AstrologyData {
     )
   );
 }
-function validStoredInput(report: SavedChart) {
+function validStoredInput(report: Pick<SavedChart, "input" | "chart">) {
   try {
     const resolved = resolveBirthInput(report.input),
       saved = report.chart.time;
@@ -165,5 +197,5 @@ export async function clearAstrologyBirthData(storage: AstrologyPersistence) {
   );
   if (!validAstrologyData(data))
     throw new Error("Invalid stored astrology data");
-  await storage.saveJsonOrThrow(astrologyStorageKey, { ...data, reports: [] });
+  await storage.saveJsonOrThrow(astrologyStorageKey, { ...data, reports: [], people: [] });
 }
