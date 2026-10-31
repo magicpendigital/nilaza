@@ -137,6 +137,7 @@ import { AstrologyChartFoundation } from "./src/features/astrology/AstrologyChar
 import { astrologySignIds, localizeAstrologySign, toAstrologyChartPresentation, type AstrologyRawChart, type AstrologySignId } from "./src/features/astrology/contracts";
 import { AstrologySignGuide } from "./src/features/astrology/AstrologySignGuide";
 import { GuestPreview } from "./src/features/guest/GuestPreview";
+import { dailyRhythmFor } from "./src/features/home/dailyRhythm";
 import { colors, layout, spacing, typography } from "./src/theme";
 import { getDeckVisual, getFeatureVisual, getPersonaVisual } from "./src/visualAssets";
 import { AuthFlow } from "./src/auth/AuthFlow";
@@ -2818,12 +2819,12 @@ function buildTodayPulse(profile: Profile, entries: JournalEntry[], dailyInsight
   const latestMood = entries.find((entry) => entry.mood)?.mood;
   const moodText = latestMood ? moodLabel(latestMood, language).toLowerCase() : (language === "vi" ? "chưa đặt tên" : "unnamed");
   const goalPhrase = language === "vi" ? getGoalPhraseVi(primaryGoal) : getGoalPhraseEn(primaryGoal);
+  // The pause and the small action change every local day from the 30-day bank (analysis HO-02).
+  const rhythm = dailyRhythmFor(dailyInsight.dateKey, language);
   const wisdomLine = language === "vi"
-    ? `Nilaza mời bạn bước vào ${goalPhrase} bằng một khoảng dừng nhỏ: đặt tay lên tim, hít chậm, rồi tự chọn lúc mình muốn mở bài.`
-    : `Nilaza invites you into ${goalPhrase} with one small pause: place a hand on your heart, breathe slowly, then choose when you want to reveal a card.`;
-  const microAction = language === "vi"
-    ? `Trong 60 giây, viết một câu bắt đầu bằng: "Hôm nay mình cần..." rồi chọn cảm xúc gần nhất với cơ thể.`
-    : `For 60 seconds, write one sentence starting with: "Today I need..." then choose the feeling closest to your body.`;
+    ? `Nilaza mời bạn bước vào ${goalPhrase} bằng một khoảng dừng nhỏ: ${rhythm.pause}`
+    : `Nilaza invites you into ${goalPhrase} with one small pause: ${rhythm.pause}`;
+  const microAction = rhythm.action;
 
   return {
     card,

@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "taskId": "home-daily-rhythm-2026-10-31",
+  "ownerAgent": "mobile_ux_fixes_agent",
+  "lane": "mobile_home_daily_content",
+  "goal": "Home Hôm nay rotates its pause line and 60-second action through a 30-day drafted bank by local day, so two days in a row never repeat (analysis HO-02). Owner chose on 2026-10-31 to draft 30 days and use them right away, then review.",
+  "successCriteria": [
+    "Consecutive local days show different pause and action lines.",
+    "The bank has 30 unique entries with Vietnamese diacritics and English.",
+    "validate-data, mobile check and Jest pass."
+  ],
+  "writeScope": [
+    "packages/content/data/home-daily-rhythm.json",
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/home/",
+    "scripts/validate-data.mjs",
+    "docs/content-review/home-daily-rhythm-draft.md",
+    "apps/admin/workflow-catalog.js"
+  ],
+  "untouchedSurfaces": [
+    "No backend, deploy, SQL or settings change.",
+    "Today card choice unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Home Hôm nay pause line and small action.",
+    "dataWrite": "No new data; content read from the bundled JSON.",
+    "backendContract": "No backend contract change.",
+    "canonicalContract": "Analysis HO-02; Owner decision 2026-10-31 to draft 30 days and use them.",
+    "adminVisibility": "Workflow catalog digest of App.tsx refreshed.",
+    "privacySafety": "The note stays where Journal notes are already stored.",
+    "observability": "No analytics or logging change.",
+    "rollback": "Revert the commit on the PR branch.",
+    "surfacesIntentionallyUntouched": "Tarot, Journal prompts, notifications.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs validation, commits and pushes to the PR branch without merging or deploying."
+  },
+  "canonicalContracts": [
+    "Analysis item HO-02.",
+    "Owner decision 2026-10-31: draft 30 days, use now, review later."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile UI and content routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "buildTodayPulse.",
+      "sha256": "40b39870fb26c862d0f5a4100c99347312cd72de29fc180343992908d69d8604"
+    },
+    {
+      "path": "scripts/validate-data.mjs",
+      "reason": "Content validation.",
+      "sha256": "0dd7faa5dc97c4e17db31b287f2ba74422c9e0593c1c0768aefb5275854d15ee"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing React Native ScrollView APIs."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change in this task.",
+    "sensitiveData": "The private note is saved through the existing Journal update path only.",
+    "secretsLogging": "No credentials, tokens or logs are added.",
+    "externalInput": "No new user input is sent anywhere.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration, deploy or release.",
+    "stopCondition": "Stop if a change needs new content, a deploy or settings without approval, or if checks fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/features/home/__tests__/dailyRhythm.test.ts",
+      "apps/mobile/src/features/home/dailyRhythm.ts",
+      "docs/content-review/home-daily-rhythm-draft.md",
+      "docs/feature-plans/home-daily-rhythm-2026-10-31.json",
+      "packages/content/data/home-daily-rhythm.json",
+      "scripts/validate-data.mjs"
+    ],
+    "note": "Branch from main@8737872."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/home-daily-rhythm-2026-10-31.json",
+    "node scripts/validate-data.mjs",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand"
+  ],
+  "managerTestPath": "Open Hôm nay on two different days and see a different pause line and small action.",
+  "residualRisk": "Drafted content is used before the Owner review; tone is checked by the Owner afterwards.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
