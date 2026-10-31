@@ -148,7 +148,7 @@ Logo, approved VI/EN message, brief AI introduction, primary Create account, sec
 
 ### 2. Goals — one optional step after authentication
 
-Choose 1–3 goals using existing IDs, or Skip. Use the account name and existing tone; new users default to gentle. Preserve old answers. Save before entering Home, show retry on failure. Existing completed accounts never repeat onboarding. Preserve auth confirmation, reset and deep links.
+Choose 1–3 goals, or Để sau (design canvas Onboarding, Owner decision 2026-10-31): "Bước 2/2", "Điều gì đang ở trong lòng bạn?", pill chips Tình yêu / Công việc / Hiểu bản thân / Chữa lành / Ra quyết định / Tò mò tâm linh (the retired "daily" goal migrates to self), an optional birth date (ngày / tháng / năm) that shows the sun sign and the morning sign message, "Lưu trên máy bạn; xóa bất cứ lúc nào trong mục Tôi.", then "Vào Nilaza". Use the account name and existing tone; new users default to gentle. Save before entering Home, show retry on failure. Existing completed accounts never repeat onboarding. Preserve auth confirmation, reset and deep links. Sign-in follows the SignIn canvas with email and password only ("Chào mừng trở lại", Email, Mật khẩu, Quên mật khẩu?, Đăng nhập, Chưa có tài khoản? Tạo tài khoản, the 18+ and terms line); Google, Apple and content preview stay hidden until they exist.
 
 ### 3. Birth profile — Profile/Astrology entry
 
@@ -353,19 +353,15 @@ Layout:
 
 Goal:
 
-Let users revisit saved insights.
+Let users revisit and write (design canvas Journal, Owner decisions 2026-10-31).
 
 Layout:
 
-- Timeline list.
-- Filter chips:
-  - All
-  - Tarot
-  - Chat
-  - Astrology
-  - Notes
-- Mood selector or mood tags.
-- Empty state with action to draw tarot or chat.
+- Header "Nhật ký" with a search button and "Chỉ bạn thấy · lưu trên máy này".
+- 7 ngày qua: one dot per day coloured by the newest mood the user picked (dashed when none, today outlined) and "Tuần này bạn hay thấy {cảm xúc}. {câu hỏi}".
+- Câu hỏi hôm nay from packages/content/data/journal-prompts.json (30 prompts, one per day) with "Viết vài dòng" (opens the composer with the prompt) and "Câu khác".
+- Pill chips Tất cả / Lá bài / Ghi chú / Trò chuyện / Chiêm tinh, then entries grouped by day ("Hôm nay · 31/10", "Hôm qua · 30/10") with a source icon, "NGUỒN · CẢM XÚC" kicker, time, title and two lines.
+- Empty state with actions to draw cards or open chat; detail view keeps mood, private note, delete and open source.
 
 ### 19. Journal Detail
 
@@ -409,17 +405,17 @@ Layout:
 
 Goal:
 
-Control account, birth profile, subscription, and privacy.
+Control account, birth profile, reminders and privacy (design canvas Profile, Owner decisions 2026-10-31).
 
 Layout:
 
-- User display name/avatar.
-- Birth profile.
-- Preferences.
-- Subscription status.
-- Privacy controls.
-- Delete account.
-- Log out.
+- "Tôi", avatar initial, name, "{cung} · bạn đồng hành từ {ngày}", Sửa.
+- Three stats: ngày liên tiếp, mục Nhật ký, lần trải bài.
+- Cá nhân hóa: Mục tiêu, Giọng trò chuyện, Ngày sinh & lá số, Ngôn ngữ.
+- Thông báo: "Nhắc lá bài hôm nay" switch with a time (07:00 / 08:00 / 12:00 / 21:00), scheduled as a local notification; other notifications.
+- Riêng tư & dữ liệu: export or delete data on this device. No Oracle memory toggle, because Oracle runs on the device.
+- Tài khoản: today's usage, Trợ giúp, Điều khoản & Quyền riêng tư, more settings, Đăng xuất; Xóa tài khoản (typed confirmation) appears once account-delete is deployed.
+- Footer "Nilaza {version} · Nội dung để giải trí và tự phản chiếu".
 
 ### 22. Admin Dashboard
 

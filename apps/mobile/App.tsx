@@ -1224,7 +1224,7 @@ const copy = {
     drawCards: "Chạm để rút 3 lá",
     reading: "Thông điệp của bạn",
     reflection: "Nhật ký gợi ý",
-    emptyJournal: "Chưa có insight nào được lưu.",
+    emptyJournal: "Nhật ký của bạn còn trống.",
     privacy: "Kiểm soát riêng tư",
     reset: "Xóa dữ liệu trên thiết bị",
     exportData: "Xuất dữ liệu trên thiết bị",
@@ -1327,7 +1327,7 @@ const copy = {
     drawCards: "Tap to draw 3 cards",
     reading: "Your reading",
     reflection: "Journal prompt",
-    emptyJournal: "No saved insights yet.",
+    emptyJournal: "Your Journal is empty.",
     privacy: "Privacy controls",
     reset: "Clear local data",
     exportData: "Export data on this device",
@@ -1380,14 +1380,20 @@ const copy = {
 type Copy = (typeof copy)[keyof typeof copy];
 export const getCopy = (language: Language): Copy => copy[language as keyof typeof copy] ?? copy.en;
 
+// Onboarding goals (design canvas Onboarding, Owner decision 2026-10-31). "daily" was retired.
 const goals = [
   { id: "love", vi: "Tình yêu", en: "Love" },
-  { id: "career", vi: "Sự nghiệp", en: "Career" },
-  { id: "self", vi: "Hiểu bản thân", en: "Self" },
-  { id: "healing", vi: "Tự chăm sóc", en: "Self-care" },
-  { id: "daily", vi: "Dẫn đường mỗi ngày", en: "Daily" },
-  { id: "curious", vi: "Tò mò tâm linh", en: "Mystery" }
+  { id: "career", vi: "Công việc", en: "Work" },
+  { id: "self", vi: "Hiểu bản thân", en: "Understanding myself" },
+  { id: "healing", vi: "Chữa lành", en: "Healing" },
+  { id: "decision", vi: "Ra quyết định", en: "Making decisions" },
+  { id: "curious", vi: "Tò mò tâm linh", en: "Spiritual curiosity" }
 ];
+
+// Saved profiles with the retired "daily" goal move to "self".
+function migrateGoals(saved: string[]) {
+  return [...new Set(saved.map((goal) => (goal === "daily" ? "self" : goal)))].filter((goal) => goals.some((item) => item.id === goal)).slice(0, 3);
+}
 
 const tones = [
   { id: "gentle", vi: "Dịu dàng", en: "Gentle", previewVi: "Mình sẽ nói nhẹ, chậm, và an toàn.", previewEn: "I will answer softly, slowly, and safely." },
@@ -2709,9 +2715,10 @@ function reportFromAstrologyBackendResult(
 function getGoalPhraseVi(goalId: string): string {
   switch (goalId) {
     case "love": return "tình yêu";
-    case "career": return "sự nghiệp";
+    case "career": return "công việc";
     case "self": return "việc thấu hiểu bản thân";
-    case "healing": return "hành trình tự chăm sóc";
+    case "healing": return "hành trình chữa lành";
+    case "decision": return "việc ra quyết định";
     case "daily": return "định hướng mỗi ngày";
     case "curious": return "sự tò mò tâm linh";
     default: return "bản thân";
@@ -2721,9 +2728,10 @@ function getGoalPhraseVi(goalId: string): string {
 function getGoalPhraseEn(goalId: string): string {
   switch (goalId) {
     case "love": return "love";
-    case "career": return "your career";
+    case "career": return "your work";
     case "self": return "self-discovery";
-    case "healing": return "self-care";
+    case "healing": return "healing";
+    case "decision": return "making decisions";
     case "daily": return "daily guidance";
     case "curious": return "mystical exploration";
     default: return "self";
@@ -3440,7 +3448,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         if (!active || !scope.active) return;
         const restoredProfile = savedProfile ?? remoteProfile?.profile ?? profile;
         const restoredBirth = savedBirthProfile ?? remoteProfile?.birth ?? defaultBirthProfile;
-        setProfile({ ...restoredProfile, language: normalizeLanguage(restoredProfile.language) });
+        setProfile({ ...restoredProfile, goals: migrateGoals(restoredProfile.goals ?? []), language: normalizeLanguage(restoredProfile.language) });
         setBirthDate(restoredBirth.birthDate ?? "");
         setBirthTime(restoredBirth.birthTime ?? "");
         setBirthTimeUnknown(Boolean(restoredBirth.birthTimeUnknown));
@@ -3637,13 +3645,14 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     setDailyReminder(next);
     void saveJson(dailyReminderKey, next);
     const result = await applyDailyReminder(next, language);
-    if (result === "denied") {
+    if ((result === "denied" || result === "unsupported") && next.enabled) {
+      // Nothing was scheduled, so the switch must not stay on.
       const off = { ...next, enabled: false };
       setDailyReminder(off);
       void saveJson(dailyReminderKey, off);
-      showToast(language === "vi" ? "Hãy cho phép Nilaza gửi thông báo trong cài đặt điện thoại." : "Allow Nilaza notifications in your phone settings.");
-    } else if (result === "unsupported" && next.enabled) {
-      showToast(language === "vi" ? "Nhắc nhở chỉ chạy trên ứng dụng điện thoại." : "Reminders only work in the phone app.");
+      showToast(result === "denied"
+        ? (language === "vi" ? "Hãy cho phép Nilaza gửi thông báo trong cài đặt điện thoại." : "Allow Nilaza notifications in your phone settings.")
+        : (language === "vi" ? "Nhắc nhở chỉ chạy trên ứng dụng điện thoại." : "Reminders only work in the phone app."));
     } else if (result === "scheduled") {
       showToast(language === "vi" ? "Đã đặt nhắc lá bài hôm nay." : "Today's card reminder is set.");
     }
@@ -5458,7 +5467,10 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   }
 
   if (!profile.onboarded) {
-    return <GoalsScreen language={language} choices={goals.map(goal => ({ id: goal.id, label: localizedText(goal, language) }))} selected={profile.goals} saving={creatingProfile} error={onboardingError} onToggle={toggleGoal} onContinue={continueFromGoals} onSkip={skipOnboardingProfile} />;
+    const onboardingSign = getApproximateSunSign(birthDate);
+    return <GoalsScreen language={language} choices={goals.map(goal => ({ id: goal.id, label: localizedText(goal, language) }))} selected={profile.goals} saving={creatingProfile} error={onboardingError} onToggle={toggleGoal} onContinue={continueFromGoals} onSkip={skipOnboardingProfile}
+      birthDate={birthDate} onBirthDateChange={(value) => setBirthDate(value)}
+      sign={onboardingSign ? { id: onboardingSign.toLowerCase(), label: localizeAstrologySign(onboardingSign.toLowerCase() as AstrologySignId, language) } : undefined} />;
   }
 
   const chatScreen = screen === "chat" ? (
@@ -6738,6 +6750,7 @@ function personaGoalScore(persona: Persona, profile: Profile) {
     career: ["career", "strategy", "decision", "purpose", "discipline", "practical"],
     curious: ["spiritual", "wisdom", "flow", "poetic"],
     daily: ["daily", "calm", "grounded", "reflective", "practical"],
+    decision: ["decision", "strategy", "clarity", "practical", "growth"],
     healing: ["healing", "calm", "self_care", "inner_peace", "gentle", "supportive"],
     love: ["relationships", "communication", "empathy", "love", "relational"],
     self: ["purpose", "habits", "ethics", "inner_peace", "journaling", "reflective"]

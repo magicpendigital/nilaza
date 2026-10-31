@@ -87,13 +87,13 @@ const authCopy: Record<"vi" | "en", AuthCopy> = {
     beginJourney: "Bắt đầu hành trình",
     returning: "Tôi đã từng ở đây",
     signInHint: "Đăng nhập",
-    signInTitle: "Trở về Nilaza",
-    signInBody: "Tạo tài khoản hoặc đăng nhập để lưu chiêm nghiệm và lịch sử phản chiếu của bạn.",
+    signInTitle: "Chào mừng trở lại",
+    signInBody: "Nhật ký, lá số và các trải bài đã lưu vẫn chờ bạn.",
     signUpTitle: "Tạo hồ sơ của bạn",
     signUpBody: "Bắt đầu hành trình khám phá bản thân.",
     name: "Tên",
     namePlaceholder: "Người lữ hành",
-    email: "Địa chỉ email",
+    email: "Email",
     emailPlaceholder: "ban@example.com",
     password: "Mật khẩu",
     createAccount: "Tạo tài khoản",
@@ -111,10 +111,10 @@ const authCopy: Record<"vi" | "en", AuthCopy> = {
     alreadyHaveProfile: "Đã có tài khoản?",
     signIn: "Đăng nhập",
     continueWith: "Tiếp tục với",
-    termsLeadContinue: "Khi tiếp tục, bạn đồng ý với",
+    termsLeadContinue: "Tiếp tục nghĩa là bạn từ 18 tuổi và đồng ý với",
     termsLeadSignUp: "Khi đăng ký, bạn đồng ý với",
-    terms: "Điều khoản dịch vụ",
-    privacy: "Chính sách quyền riêng tư",
+    terms: "Điều khoản",
+    privacy: "Chính sách riêng tư",
     and: "và",
     missingName: "Hãy nhập tên bạn muốn Nilaza gọi.",
     invalidEmail: "Hãy nhập một địa chỉ email hợp lệ.",
@@ -138,8 +138,8 @@ const authCopy: Record<"vi" | "en", AuthCopy> = {
     beginJourney: "Begin Your Journey",
     returning: "I Have Been Here Before",
     signInHint: "Sign In",
-    signInTitle: "Enter the Sanctum",
-    signInBody: "Create an account or sign in to save your insights and reflection history.",
+    signInTitle: "Welcome back",
+    signInBody: "Your Journal, charts and saved readings are waiting for you.",
     signUpTitle: "Create Your Profile",
     signUpBody: "Begin your journey of self-discovery.",
     name: "Name",
@@ -162,7 +162,7 @@ const authCopy: Record<"vi" | "en", AuthCopy> = {
     alreadyHaveProfile: "Already have an account?",
     signIn: "Sign In",
     continueWith: "Continue with",
-    termsLeadContinue: "By continuing, you agree to our",
+    termsLeadContinue: "By continuing, you confirm you are 18 or older and agree to our",
     termsLeadSignUp: "By signing up, you agree to our",
     terms: "Terms of Service",
     privacy: "Privacy Policy",
@@ -740,6 +740,7 @@ export function AuthFlow({
                     <Divider label={copy.orEmail} />
                   </>
                 ) : null}
+                <FieldLabel label={copy.email} />
                 <TextInput
                   accessibilityLabel={copy.email}
                   autoCapitalize="none"
@@ -789,7 +790,7 @@ export function AuthFlow({
                   onPress={() => void submitSignIn()}
                   style={({ pressed }) => [styles.primaryButton, styles.signInPrimary, (pressed || submitting) && styles.controlPressed]}
                 >
-                  <Text style={styles.signInPrimaryText}>{submitting ? copy.continuing : copy.continue}</Text>
+                  <Text style={styles.signInPrimaryText}>{submitting ? copy.continuing : copy.signIn}</Text>
                 </Pressable>
                 <View style={styles.switchAuthRow}>
                   <Text style={styles.switchAuthText}>{copy.newToNilaza}</Text>

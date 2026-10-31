@@ -75,7 +75,7 @@
     {
       "path": "DESIGN.md",
       "reason": "Brand shape and type rules for the new screen.",
-      "sha256": "23ac9481262d39a8290dec3a8519cfcf7c06da017b14e4cead670fd66a9b2188"
+      "sha256": "cc8c75083df9a9609457f35bb2151f3b97c621d8cd74126ec88c5a572d58ad7d"
     },
     {
       "path": "docs/CONTENT_SAFETY_STYLE_GUIDE.md",
@@ -85,17 +85,17 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Card meaning stage and its top bar.",
-      "sha256": "1ac090c2c24de2213743d9c3934c43f4748945611225b150185fbf2b5c2c3617"
+      "sha256": "f2cf925a7167d18f6e4078339e092059467584b55acd20ef5455b2382fb5df51"
     },
     {
       "path": "apps/mobile/src/auth/AuthFlow.tsx",
       "reason": "Sign-in screens.",
-      "sha256": "d31926729844f88f2ff80ead983af25ec96db76f949d99cb84219a2db693caf2"
+      "sha256": "267f652b36ef7f9745cdcd1b976ba9ca9637d495cf966c2f19012d7705dcc0d2"
     },
     {
       "path": "apps/mobile/src/features/onboarding/GoalsScreen.tsx",
       "reason": "Onboarding step.",
-      "sha256": "7d22b3ef16a900f861faf7333940db8e87d364484780dfb7fd0a2fe874a7ccd0"
+      "sha256": "3de31f25c5df88c7a9200dff010ffcf56254e526a5115ac753836b38b57d9a38"
     },
     {
       "path": "apps/mobile/src/features/journal/JournalComposer.tsx",
@@ -132,12 +132,14 @@
   },
   "workingTreeReview": {
     "paths": [
+      "DESIGN.md",
       "apps/admin/workflow-catalog.js",
       "apps/mobile/App.tsx",
-      "apps/mobile/src/features/profile/DeleteAccountPanel.tsx",
-      "apps/mobile/src/features/profile/ProfileHome.tsx",
-      "apps/mobile/src/features/profile/__tests__/ProfileHome.test.tsx",
-      "apps/mobile/src/features/profile/dailyReminder.ts",
+      "apps/mobile/src/auth/AuthFlow.tsx",
+      "apps/mobile/src/auth/__tests__/AuthFlow.test.tsx",
+      "apps/mobile/src/brand/copy.ts",
+      "apps/mobile/src/features/onboarding/GoalsScreen.tsx",
+      "apps/mobile/src/features/onboarding/__tests__/GoalsScreen.test.tsx",
       "docs/feature-plans/journal-profile-auth-2026-10-31.json"
     ],
     "note": "Worktree branch stacked on PR #10."

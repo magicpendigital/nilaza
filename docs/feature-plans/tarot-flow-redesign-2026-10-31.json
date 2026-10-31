@@ -63,7 +63,7 @@
     {
       "path": "DESIGN.md",
       "reason": "Brand shape and type rules for the new screen.",
-      "sha256": "23ac9481262d39a8290dec3a8519cfcf7c06da017b14e4cead670fd66a9b2188"
+      "sha256": "cc8c75083df9a9609457f35bb2151f3b97c621d8cd74126ec88c5a572d58ad7d"
     },
     {
       "path": "docs/CONTENT_SAFETY_STYLE_GUIDE.md",
@@ -73,7 +73,7 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Card meaning stage and its top bar.",
-      "sha256": "128208e5cd61713db00165b4cf4fb20d23fd1c29207e4f7daa1109f95107d00e"
+      "sha256": "f2cf925a7167d18f6e4078339e092059467584b55acd20ef5455b2382fb5df51"
     },
     {
       "path": "apps/mobile/src/features/tarot/readingPresentation.ts",
