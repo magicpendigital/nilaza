@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "taskId": "admin-safety-basics-2026-10-31",
+  "ownerAgent": "admin_ux_agent",
+  "lane": "admin_safety_basics",
+  "goal": "Close Admin analysis items AD-02, AD-04 and AD-13: delete, archive, reset and publish-seed in Content ask for confirmation and say what happens (reset and publish-seed require typing the environment name); new persona, deck and asset ids never reuse a number after a deletion; every Admin page shows a coloured environment band (STAGING or PRODUCTION) from the configured backend.",
+  "successCriteria": [
+    "Destructive Content actions ask first; cancelling changes nothing.",
+    "Reset and publish-seed need the environment name typed.",
+    "New ids are unique after deletions.",
+    "An environment band shows on Content, AI Studio and the shell.",
+    "Admin tests pass."
+  ],
+  "writeScope": [
+    "apps/admin/content.js",
+    "apps/admin/content-model.mjs",
+    "apps/admin/env-band.js",
+    "apps/admin/content.html",
+    "apps/admin/index.html",
+    "apps/admin/ai-studio.html",
+    "apps/admin/workflow-catalog.js",
+    "scripts/admin-content-model.test.mjs",
+    "scripts/admin-env-band.test.mjs",
+    "package.json"
+  ],
+  "untouchedSurfaces": [
+    "No backend, SQL, deploy or settings change.",
+    "Publish flow and permissions unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Admin Content actions and every Admin page header.",
+    "dataWrite": "No new data; confirmations gate existing writes.",
+    "backendContract": "No backend contract change.",
+    "canonicalContract": "Analysis items AD-02, AD-04, AD-13.",
+    "adminVisibility": "Environment band on every Admin page.",
+    "privacySafety": "No user data involved.",
+    "observability": "No analytics or logging change.",
+    "rollback": "Revert the commit on the PR branch.",
+    "surfacesIntentionallyUntouched": "Mobile app, Edge Functions.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs validation, commits and pushes to the PR branch without merging or deploying."
+  },
+  "canonicalContracts": [
+    "Analysis items AD-02, AD-04 and AD-13."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Admin routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/admin/content.js",
+      "reason": "Content actions.",
+      "sha256": "b804b07d5715ebace474f9c6be77e6318b70e825368c67033ce2d88953f651e4"
+    },
+    {
+      "path": "apps/admin/content-model.mjs",
+      "reason": "Draft id creation.",
+      "sha256": "dc0d9bdaad58ab30a31cae569abe9e3eab06139bc11cd3232d172bb8297aaf3c"
+    },
+    {
+      "path": "apps/admin/config.js",
+      "reason": "Backend target.",
+      "sha256": "4b6388b0b057737478b7cbd9ac750cb66361f6c16305298c2dbeb32dad944384"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing Deno std assert and React Native Linking."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization change; confirmations only add a step.",
+    "sensitiveData": "No sensitive data.",
+    "secretsLogging": "No credentials, tokens or logs are added.",
+    "externalInput": "Typed environment name is compared locally only.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration or deploy; merging to main redeploys Admin staging as usual.",
+    "stopCondition": "Stop if Admin tests fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/ai-studio.html",
+      "apps/admin/content-model.mjs",
+      "apps/admin/content.html",
+      "apps/admin/content.js",
+      "apps/admin/env-band.js",
+      "apps/admin/index.html",
+      "docs/feature-plans/admin-safety-basics-2026-10-31.json",
+      "package.json",
+      "scripts/admin-content-model.test.mjs",
+      "scripts/admin-env-band.test.mjs"
+    ],
+    "note": "Stacked on the Oracle confirm commit."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/admin-safety-basics-2026-10-31.json",
+    "npm run admin:test"
+  ],
+  "managerTestPath": "In Admin Content, try Delete permanently and Reset local review data: a confirmation explains the result; the band at the top says STAGING.",
+  "residualRisk": "Browser confirm dialogs are plain; a styled dialog can come with the Admin redesign.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

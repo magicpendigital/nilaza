@@ -14,6 +14,11 @@ export const rolePermissions = {
 const clone = (value) => JSON.parse(JSON.stringify(value));
 const localized = (value, locale = "en") => value?.[locale] ?? value?.en ?? value?.vi ?? "";
 const now = () => new Date().toISOString();
+// Next free number for custom ids (analysis AD-04): counting records reused a number after a deletion.
+function nextCustomNumber(items, prefix) {
+  const used = items.map((item) => item.id.startsWith(prefix) ? Number(item.id.slice(prefix.length)) : 0).filter(Number.isInteger);
+  return Math.max(0, ...used) + 1;
+}
 const slugify = (value) => String(value).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
 // Read compatibility only: do not regenerate a cached draft from the seed or
@@ -154,7 +159,7 @@ export function permissionsFor(role) {
 }
 
 export function createDraftPersona(data, editorId = "owner@nilaza.ai") {
-  const number = data.personas.filter((item) => item.id.startsWith("persona-custom-")).length + 1;
+  const number = nextCustomNumber(data.personas, "persona-custom-");
   const id = `persona-custom-${number}`;
   const persona = normalizePersona({
     id,
@@ -176,7 +181,7 @@ export function createDraftPersona(data, editorId = "owner@nilaza.ai") {
 }
 
 export function createDraftDeck(data, editorId = "owner@nilaza.ai") {
-  const number = data.decks.filter((item) => item.id.startsWith("custom-deck-")).length + 1;
+  const number = nextCustomNumber(data.decks, "custom-deck-");
   const id = `custom-deck-${number}`;
   const deck = normalizeDeck({
     id, slug: id, status: "draft", accessTier: "free",
@@ -195,7 +200,7 @@ export function createDraftDeck(data, editorId = "owner@nilaza.ai") {
 }
 
 export function createDraftAsset(data, editorId = "owner@nilaza.ai") {
-  const number = data.assets.filter((item) => item.id.startsWith("asset-custom-")).length + 1;
+  const number = nextCustomNumber(data.assets, "asset-custom-");
   const asset = { id: `asset-custom-${number}`, name: `Draft asset ${number}`, type: "frontend", path: "", status: "draft", linkedTo: "", updatedAt: now(), updatedBy: editorId };
   data.assets.unshift(asset);
   logAction(data, `Created asset draft ${asset.id}`, editorId);
