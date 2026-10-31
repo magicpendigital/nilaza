@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "taskId": "admin-session-network-2026-10-31",
+  "ownerAgent": "admin_ux_agent",
+  "lane": "admin_session_network",
+  "goal": "Close Admin analysis item AD-12: a network failure while re-checking access (for example when the window regains focus) keeps the signed-in Owner in the Admin and shows a retry notice; only a real permission answer signs out and shows Admin access required.",
+  "successCriteria": [
+    "A transient access check failure keeps the session and shows Thử lại.",
+    "A permission denial still signs out.",
+    "Admin tests pass."
+  ],
+  "writeScope": [
+    "apps/admin/shell.js",
+    "apps/admin/admin-access.js",
+    "apps/admin/workflow-catalog.js",
+    "scripts/admin-access.test.mjs",
+    "scripts/admin-small-fixes.test.mjs"
+  ],
+  "untouchedSurfaces": [
+    "No backend, SQL, deploy or settings change.",
+    "Publish flow and permissions unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Admin shell session restore.",
+    "dataWrite": "No data change.",
+    "backendContract": "No backend contract change.",
+    "canonicalContract": "Analysis item AD-12.",
+    "adminVisibility": "Retry notice instead of a surprise sign-out.",
+    "privacySafety": "No user data involved.",
+    "observability": "No analytics or logging change.",
+    "rollback": "Revert the commit on the PR branch.",
+    "surfacesIntentionallyUntouched": "Model router (AD-22) and permissions.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs validation, commits and pushes to the PR branch without merging or deploying."
+  },
+  "canonicalContracts": [
+    "Analysis item AD-12."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Admin routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/admin/shell.js",
+      "reason": "restoreSession.",
+      "sha256": "123bd1127248e4b67ff8a8ba3f9f3fad54c2b3e599c1e747f451996fda9aa095"
+    },
+    {
+      "path": "apps/admin/admin-access.js",
+      "reason": "Access loader.",
+      "sha256": "1e6cc7a5b9a319e317371195451f4d5cdc6265bc87aeb4aadccd71daba91b13d"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing Deno std assert and React Native Linking."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "A transient failure keeps the already verified session; any permission answer still signs out.",
+    "sensitiveData": "No sensitive data.",
+    "secretsLogging": "No credentials, tokens or logs are added.",
+    "externalInput": "Only the error code from the access RPC decides transient versus denied.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration or deploy; merging to main redeploys Admin staging as usual.",
+    "stopCondition": "Stop if Admin tests fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/admin-access.js",
+      "apps/admin/shell.js",
+      "docs/feature-plans/admin-session-network-2026-10-31.json",
+      "scripts/admin-access.test.mjs"
+    ],
+    "note": "Stacked on the Admin small fixes commit."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/admin-session-network-2026-10-31.json",
+    "npm run admin:test"
+  ],
+  "managerTestPath": "With Admin open, drop the network and refocus the window: a retry notice appears and you stay signed in.",
+  "residualRisk": "Checked with unit tests; not observed with a real network drop.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

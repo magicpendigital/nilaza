@@ -11,7 +11,8 @@
     can(session, capability) { return session?.capabilities?.includes(capability) === true; },
     async load(client, user) {
       const { data, error } = await client.rpc("get_admin_access");
-      if (error) throw Error("Unable to verify access");
+      // An error without a database code (offline, timeout) is transient; the shell keeps the session for it.
+      if (error) throw Object.assign(Error("Unable to verify access"), { transient: !(error && typeof error === "object" && error.code) });
       return this.parse(data, user);
     }
   };

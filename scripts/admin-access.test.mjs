@@ -30,6 +30,9 @@ test("fresh access failure or revocation cannot reuse old authority", async () =
   const user = { id: "A" };
   assert.equal(window.NilazaAccess.can(await window.NilazaAccess.load({ rpc: async () => ({ data: { userId: "A", roles: [], capabilities: [] } }) }, user), "hub.read"), false);
   await assert.rejects(window.NilazaAccess.load({ rpc: async () => ({ error: "offline" }) }, user));
+  // A network failure is marked transient so the shell can offer a retry; a database denial is not.
+  await assert.rejects(window.NilazaAccess.load({ rpc: async () => ({ error: { message: "Failed to fetch" } }) }, user), (error) => error.transient === true);
+  await assert.rejects(window.NilazaAccess.load({ rpc: async () => ({ error: { code: "42501", message: "denied" } }) }, user), (error) => error.transient === false);
 });
 
 async function workspaceHarness(pathname = "/ai-studio.html", capabilities = ["ai.read", "ai.manage"]) {
