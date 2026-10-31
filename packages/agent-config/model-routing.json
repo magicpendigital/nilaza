@@ -132,7 +132,7 @@
     "version": "2026-09-25-ai-insight-v1",
     "status": "active",
     "primaryProvider": "openrouter",
-    "primaryModel": "nex-agi/nex-n2.5-mini:free",
+    "primaryModel": "deepseek/deepseek-v4.1-flash-1017",
     "temperature": 0.58,
     "maxOutputTokens": 1400,
     "responseSchema": "astrology_ai_insight_v1",

@@ -1492,3 +1492,28 @@ test('v2 late active read keeps backend policies when browser already contains a
  await settle(dom);const doc=dom.window.document;doc.querySelector('[data-node="model"]').click();assert.equal(doc.querySelector('#model-select').value,'my-local-edit');
  doc.querySelector('#model-router-publish-config').click();await settle(dom);doc.querySelector('#confirm-publish').click();await settle(dom);assert.deepEqual(post.fallbackWhen,[]);assert.deepEqual(post.safetyPolicy,{mustPreserve:true});dom.window.close();
 });
+
+test("Model Router offers only the providers the backend reports as configured", async () => {
+  const dom = createAiStudioDom(undefined, async () => ({ ok: true, json: async () => ({ status: "connected", contractVersion: "model_route_publish_v2", checkedAt: "2026-11-01T00:00:00.000Z", providers: [
+    { provider: "openrouter", secretName: "OPENROUTER_API_KEY", configured: true },
+    { provider: "openai", secretName: "OPENAI_API_KEY", configured: false },
+    { provider: "gemini", secretName: "GEMINI_API_KEY", configured: true }
+  ], routes: [], history: [] }) }));
+  const doc = dom.window.document;
+  await new Promise(resolve => dom.window.setTimeout(resolve, 0));
+  doc.querySelector('[data-feature="ai_council"]').click();
+  doc.querySelector('[data-detail="modelRouter"]').click();
+  doc.querySelector('[data-node="model"]').click();
+  const before = [...doc.querySelector("#provider-select").options].map(option => option.value);
+  assert.deepEqual(before, ["openrouter"]);
+  const endpoint = doc.querySelector("#model-router-admin-endpoint");
+  endpoint.value = "https://example.functions.supabase.co/admin-model-router-config";
+  endpoint.dispatchEvent(new dom.window.Event("input", { bubbles: true }));
+  doc.querySelector("#model-router-check-connection").click();
+  await new Promise(resolve => dom.window.setTimeout(resolve, 0));
+  doc.querySelector('[data-node="model"]').click();
+  const after = [...doc.querySelector("#provider-select").options].map(option => option.value);
+  assert.ok(after.includes("openrouter") && after.includes("gemini"));
+  assert.ok(!after.includes("openai") && !after.includes("anthropic"));
+  dom.window.close();
+});

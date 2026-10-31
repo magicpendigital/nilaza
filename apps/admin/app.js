@@ -169,7 +169,7 @@ const features = [
     status: "Draft",
     risk: "Medium",
     provider: "openrouter",
-    model: "google/gemini-3.5-flash",
+    model: "deepseek/deepseek-v4.1-flash-1017",
     fallbackProvider: "openrouter",
     fallbackModel: "openai/gpt-5.4-mini",
     schema: "astrology_ai_insight_v1",
@@ -243,7 +243,7 @@ const providerCatalog = {
     label: "OpenRouter",
     status: "Connected",
     bestFor: "unified API access to multiple models including open-source ones",
-    models: ["openrouter/free", "openrouter/auto", "openai/gpt-5.4", "openai/gpt-5.4-mini", "anthropic/claude-sonnet-4.6", "google/gemini-3.5-flash", "deepseek/deepseek-chat"]
+    models: ["openrouter/free", "openrouter/auto", "openai/gpt-5.4", "openai/gpt-5.4-mini", "anthropic/claude-sonnet-4.6", "google/gemini-3.5-flash", "deepseek/deepseek-v4.1-flash-1017", "deepseek/deepseek-chat"]
   },
   expo: {
     label: "Expo",
@@ -1054,10 +1054,18 @@ function renderModelRouteEditor(current) {
     </div>`;
 }
 
+// Owner decision 2026-11-01: offer the providers the backend reports as configured (Kiểm tra kết nối);
+// before that check only OpenRouter is offered. A route's current provider always stays visible.
+function providerAvailable(provider) {
+  const status = state.modelRouterAdminResult?.providers;
+  if (!Array.isArray(status)) return provider === "openrouter";
+  return status.some((item) => item.provider === provider && item.configured === true);
+}
+
 function providerOptions(selected, includeNone = false) {
   return (includeNone ? `<option value="" ${!selected ? "selected" : ""}>None · no fallback</option>` : "") + Object.keys(providerCatalog)
-    .filter((provider) => provider === "openrouter" || provider === selected)
-    .map((provider) => `<option value="${escapeHtml(provider)}" ${provider === selected ? "selected" : ""}>${escapeHtml(providerCatalog[provider].label)}${provider === "openrouter" ? "" : " · không dùng nữa, đổi sang OpenRouter"}</option>`)
+    .filter((provider) => provider !== "expo" && (providerAvailable(provider) || provider === selected))
+    .map((provider) => `<option value="${escapeHtml(provider)}" ${provider === selected ? "selected" : ""}>${escapeHtml(providerCatalog[provider].label)}${providerAvailable(provider) ? "" : " · chưa có khóa ở backend"}</option>`)
     .join("");
 }
 
@@ -2157,7 +2165,7 @@ function renderModelRouterDetail() {
       ${renderModelRouteReferences(current)}
       <details><summary>Model catalog · available choices, not health or quality evidence</summary>
       <div class="variant-grid">
-        ${Object.entries(providerCatalog).filter(([name]) => name === "openrouter").map(([name, provider]) => renderProviderCard(name, provider, current)).join("")}
+        ${Object.entries(providerCatalog).filter(([name]) => name !== "expo" && providerAvailable(name)).map(([name, provider]) => renderProviderCard(name, provider, current)).join("")}
       </div>
       <p>Danh mục phía trên giúp tìm model; trạng thái provider bên dưới chỉ xác nhận secret có mặt. Backend target hiện ở đầu trang và không thể đổi trong phiên này.</p>
       </details>

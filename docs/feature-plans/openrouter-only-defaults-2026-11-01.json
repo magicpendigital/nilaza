@@ -3,7 +3,7 @@
   "taskId": "openrouter-only-defaults-2026-11-01",
   "ownerAgent": "ai_operations_agent",
   "lane": "ai_openrouter_only_defaults",
-  "goal": "Analysis AD-22 and the Owner decision of 2026-11-01: the code default model routes keep the same models but call them through OpenRouter (openai/gpt-5.4, openai/gpt-5.4-mini, anthropic/claude-sonnet-4.6, google/gemini-3.5-flash, openrouter/free, openrouter/auto; ids checked against the public OpenRouter model list on 2026-11-01). Admin AI Studio offers only OpenRouter in its provider choices and cards, keeps showing an older non-OpenRouter route as it is so it is never changed silently, and its feature defaults and OpenRouter model list match the server. The canonical model-routing.json and the generated seed follow for daily, persona chat, council and tarot; the astrology_report route keeps its configured model, which the Owner decides separately.",
+  "goal": "Analysis AD-22 and the Owner decision of 2026-11-01: the code default model routes keep the same models but call them through OpenRouter (openai/gpt-5.4, openai/gpt-5.4-mini, anthropic/claude-sonnet-4.6, google/gemini-3.5-flash, openrouter/free, openrouter/auto; ids checked against the public OpenRouter model list on 2026-11-01). Admin AI Studio offers only OpenRouter in its provider choices and cards, keeps showing an older non-OpenRouter route as it is so it is never changed silently, and its feature defaults and OpenRouter model list match the server. The canonical model-routing.json and the generated seed follow for daily, persona chat, council and tarot; the astrology_report route keeps its configured model, which the Owner decides separately. Follow-up Owner decision 2026-11-01: Admin offers the providers the backend reports as configured (OpenRouter only before the check) and Astrology AI (astrology_report) uses deepseek/deepseek-v4.1-flash-1017.",
   "successCriteria": [
     "Code default routes for daily, persona chat, council, tarot and astrology report use provider openrouter.",
     "Admin provider choices show OpenRouter, plus the current provider of an older route.",
@@ -37,7 +37,8 @@
   },
   "canonicalContracts": [
     "Analysis item AD-22.",
-    "Owner decision 2026-11-01: call the same models through OpenRouter; Admin shows OpenRouter only."
+    "Owner decision 2026-11-01: call the same models through OpenRouter; Admin shows OpenRouter only.",
+    "Owner decision 2026-11-01 (follow-up): Admin providers follow backend key status; astrology_report uses deepseek/deepseek-v4.1-flash-1017."
   ],
   "allowedDataClasses": [
     "sanitized_project_context",
@@ -62,12 +63,12 @@
     {
       "path": "supabase/functions/_shared/model-router.ts",
       "reason": "Default routes.",
-      "sha256": "36194ce24f57024163c947356cbefc7d0be8a9c1a89a4a46b6962ae44d9d0523"
+      "sha256": "cba9c310fc9dae34b17d80518cc3edfbd1fc9186c85f432a9d5d50b09b7f8e70"
     },
     {
       "path": "apps/admin/app.js",
       "reason": "Admin model router.",
-      "sha256": "90740b12a1042be0dbb95cc9b5c238fb6f17886658e75389b73eec3fe803b91d"
+      "sha256": "5507cbd7545262c0bd12807fcff040cfc26d5ec9ee1264b7f0e9bf5d13e33741"
     }
   ],
   "skillReview": [

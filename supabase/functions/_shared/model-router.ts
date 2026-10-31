@@ -105,7 +105,7 @@ export const defaultModelRoutes: Record<string, ModelRoute> = {
     version: "2026-06-30-llm-routing-v1",
     status: "active",
     primaryProvider: "openrouter",
-    primaryModel: "google/gemini-3.5-flash",
+    primaryModel: "deepseek/deepseek-v4.1-flash-1017",
     fallbackProvider: "openrouter",
     fallbackModel: "openai/gpt-5.4-mini",
     temperature: 0.58,
