@@ -63,12 +63,12 @@
     {
       "path": "supabase/functions/_shared/model-router.ts",
       "reason": "Default routes.",
-      "sha256": "cba9c310fc9dae34b17d80518cc3edfbd1fc9186c85f432a9d5d50b09b7f8e70"
+      "sha256": "ff6bae40359102f3c34a828187b35192b8d4c33bb075728b1af6c8687665160b"
     },
     {
       "path": "apps/admin/app.js",
       "reason": "Admin model router.",
-      "sha256": "5507cbd7545262c0bd12807fcff040cfc26d5ec9ee1264b7f0e9bf5d13e33741"
+      "sha256": "83431e41c9cd8033b3815554afdc5d66288ffe0377ba514e418857116cf1a70e"
     }
   ],
   "skillReview": [

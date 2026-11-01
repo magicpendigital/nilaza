@@ -178,21 +178,17 @@ test("Astrology Admin can publish the new schema over a stale active route", asy
   dom.window.close();
 });
 
-test("Persona Chat defaults are OpenRouter/free in config and runtime fallback", () => {
+test("every default route uses DeepSeek v4.1 Flash with the Xiaomi MiMo fallback on OpenRouter", () => {
+  // Owner decision 2026-11-02.
   const routes = JSON.parse(read("packages/agent-config/model-routing.json"));
-  const personaRoute = routes.find((route) => route.feature === "persona_chat");
-  assert.deepEqual({
-    version: personaRoute.version,
-    primaryProvider: personaRoute.primaryProvider,
-    primaryModel: personaRoute.primaryModel
-  }, {
-    version: "2026-09-17-persona-openrouter-free-v1",
-    primaryProvider: "openrouter",
-    primaryModel: "openrouter/free"
-  });
-
+  for (const route of routes) {
+    assert.deepEqual([route.primaryProvider, route.primaryModel, route.fallbackProvider, route.fallbackModel],
+      ["openrouter", "deepseek/deepseek-v4.1-flash", "openrouter", "xiaomi/mimo-v2.6-flash"], route.feature);
+  }
   const runtime = read("supabase/functions/_shared/model-router.ts");
-  assert.match(runtime, /persona_chat:\s*\{[\s\S]*?version: "2026-09-17-persona-openrouter-free-v1"[\s\S]*?primaryProvider: "openrouter"[\s\S]*?primaryModel: "openrouter\/free"/);
+  assert.doesNotMatch(runtime, /primaryProvider: "(openai|anthropic|gemini)"/);
+  assert.equal(runtime.split('primaryModel: "deepseek/deepseek-v4.1-flash"').length - 1, routes.length);
+  assert.equal(runtime.split('fallbackModel: "xiaomi/mimo-v2.6-flash"').length - 1, routes.length);
 });
 
 test("Trace Explorer uses the guarded read-only RPC and renders redacted trace fields", async () => {
@@ -446,7 +442,7 @@ test("Model Router publish sends the canonical provider contract with a unique v
   assert.equal(captured.body.primary.provider, "openrouter");
   // Owner decision 2026-11-01: every default route, fallback included, goes through OpenRouter.
   assert.equal(captured.body.fallback.provider, "openrouter");
-  assert.equal(captured.body.fallback.model, "openai/gpt-5.4-mini");
+  assert.equal(captured.body.fallback.model, "xiaomi/mimo-v2.6-flash");
   assert.equal(captured.body.temperature, 0);
   assert.equal(captured.body.maxTokens, 1300);
   assert.match(captured.body.version, /^v1\.2\.0-admin-\d+$/);
