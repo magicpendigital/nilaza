@@ -280,7 +280,7 @@
   },
   {
     "path": "apps/mobile/App.tsx",
-    "sha256": "21817f6972670a4a5780496c4d0e0cc50d547b852023ce8921607def6af5d6dd"
+    "sha256": "50cde7723b69f854967da00b55c6e9feea8c50deb7725d6f8cac3a2a87de643d"
   },
   {
     "path": "docs/FEATURE_PRD.md",
@@ -332,7 +332,7 @@
   },
   {
     "path": "supabase/functions/_shared/model-router.ts",
-    "sha256": "ed766dc2469ea46480966ade7bc93c6d24244dbb562882cb6c4265f7d9a51738"
+    "sha256": "ff6bae40359102f3c34a828187b35192b8d4c33bb075728b1af6c8687665160b"
   },
   {
     "path": "supabase/functions/_shared/notification-provider.ts",

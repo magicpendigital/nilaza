@@ -178,21 +178,17 @@ test("Astrology Admin can publish the new schema over a stale active route", asy
   dom.window.close();
 });
 
-test("Persona Chat defaults are OpenRouter/free in config and runtime fallback", () => {
+test("every default route uses DeepSeek v4.1 Flash with the Xiaomi MiMo fallback on OpenRouter", () => {
+  // Owner decision 2026-11-02.
   const routes = JSON.parse(read("packages/agent-config/model-routing.json"));
-  const personaRoute = routes.find((route) => route.feature === "persona_chat");
-  assert.deepEqual({
-    version: personaRoute.version,
-    primaryProvider: personaRoute.primaryProvider,
-    primaryModel: personaRoute.primaryModel
-  }, {
-    version: "2026-09-17-persona-openrouter-free-v1",
-    primaryProvider: "openrouter",
-    primaryModel: "openrouter/free"
-  });
-
+  for (const route of routes) {
+    assert.deepEqual([route.primaryProvider, route.primaryModel, route.fallbackProvider, route.fallbackModel],
+      ["openrouter", "deepseek/deepseek-v4.1-flash", "openrouter", "xiaomi/mimo-v2.6-flash"], route.feature);
+  }
   const runtime = read("supabase/functions/_shared/model-router.ts");
-  assert.match(runtime, /persona_chat:\s*\{[\s\S]*?version: "2026-09-17-persona-openrouter-free-v1"[\s\S]*?primaryProvider: "openrouter"[\s\S]*?primaryModel: "openrouter\/free"/);
+  assert.doesNotMatch(runtime, /primaryProvider: "(openai|anthropic|gemini)"/);
+  assert.equal(runtime.split('primaryModel: "deepseek/deepseek-v4.1-flash"').length - 1, routes.length);
+  assert.equal(runtime.split('fallbackModel: "xiaomi/mimo-v2.6-flash"').length - 1, routes.length);
 });
 
 test("Trace Explorer uses the guarded read-only RPC and renders redacted trace fields", async () => {
@@ -444,7 +440,9 @@ test("Model Router publish sends the canonical provider contract with a unique v
   assert.equal(captured.capability, "ai.manage");
   assert.equal(captured.body.feature, "tarot_reading");
   assert.equal(captured.body.primary.provider, "openrouter");
-  assert.equal(captured.body.fallback.provider, "gemini");
+  // Owner decision 2026-11-01: every default route, fallback included, goes through OpenRouter.
+  assert.equal(captured.body.fallback.provider, "openrouter");
+  assert.equal(captured.body.fallback.model, "xiaomi/mimo-v2.6-flash");
   assert.equal(captured.body.temperature, 0);
   assert.equal(captured.body.maxTokens, 1300);
   assert.match(captured.body.version, /^v1\.2\.0-admin-\d+$/);
@@ -1489,4 +1487,29 @@ test('v2 late active read keeps backend policies when browser already contains a
  const dom=createAiStudioDom(undefined,async(url,options)=>{if(options.method==='POST'){post=JSON.parse(options.body);return routeReceipt(post);}return connected([row]);},{[draftKey]:draft},{SUPABASE_URL:'https://staging.supabase.co'});
  await settle(dom);const doc=dom.window.document;doc.querySelector('[data-node="model"]').click();assert.equal(doc.querySelector('#model-select').value,'my-local-edit');
  doc.querySelector('#model-router-publish-config').click();await settle(dom);doc.querySelector('#confirm-publish').click();await settle(dom);assert.deepEqual(post.fallbackWhen,[]);assert.deepEqual(post.safetyPolicy,{mustPreserve:true});dom.window.close();
+});
+
+test("Model Router offers only the providers the backend reports as configured", async () => {
+  const dom = createAiStudioDom(undefined, async () => ({ ok: true, json: async () => ({ status: "connected", contractVersion: "model_route_publish_v2", checkedAt: "2026-11-01T00:00:00.000Z", providers: [
+    { provider: "openrouter", secretName: "OPENROUTER_API_KEY", configured: true },
+    { provider: "openai", secretName: "OPENAI_API_KEY", configured: false },
+    { provider: "gemini", secretName: "GEMINI_API_KEY", configured: true }
+  ], routes: [], history: [] }) }));
+  const doc = dom.window.document;
+  await new Promise(resolve => dom.window.setTimeout(resolve, 0));
+  doc.querySelector('[data-feature="ai_council"]').click();
+  doc.querySelector('[data-detail="modelRouter"]').click();
+  doc.querySelector('[data-node="model"]').click();
+  const before = [...doc.querySelector("#provider-select").options].map(option => option.value);
+  assert.deepEqual(before, ["openrouter"]);
+  const endpoint = doc.querySelector("#model-router-admin-endpoint");
+  endpoint.value = "https://example.functions.supabase.co/admin-model-router-config";
+  endpoint.dispatchEvent(new dom.window.Event("input", { bubbles: true }));
+  doc.querySelector("#model-router-check-connection").click();
+  await new Promise(resolve => dom.window.setTimeout(resolve, 0));
+  doc.querySelector('[data-node="model"]').click();
+  const after = [...doc.querySelector("#provider-select").options].map(option => option.value);
+  assert.ok(after.includes("openrouter") && after.includes("gemini"));
+  assert.ok(!after.includes("openai") && !after.includes("anthropic"));
+  dom.window.close();
 });

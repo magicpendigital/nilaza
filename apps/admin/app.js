@@ -7,9 +7,9 @@ const features = [
     status: "Active",
     risk: "Medium",
     provider: "openrouter",
-    model: "openrouter/free",
-    fallbackProvider: "",
-    fallbackModel: "",
+    model: "deepseek/deepseek-v4.1-flash",
+    fallbackProvider: "openrouter",
+    fallbackModel: "xiaomi/mimo-v2.6-flash",
     schema: "oracle_router_v1",
     safety: "Reflection only + handoff safety boundary",
     description: "Central reflection router that returns a concise reply and typed next actions.",
@@ -32,9 +32,9 @@ const features = [
     status: "Active",
     risk: "Medium",
     provider: "openrouter",
-    model: "openrouter/free",
-    fallbackProvider: "anthropic",
-    fallbackModel: "Claude 3.5 Sonnet",
+    model: "deepseek/deepseek-v4.1-flash",
+    fallbackProvider: "openrouter",
+    fallbackModel: "xiaomi/mimo-v2.6-flash",
     schema: "chat_reply_v2",
     safety: "Inspired-by + crisis boundary",
     description: "Warm guide chat with persona prompt, recent messages, and profile tone.",
@@ -57,10 +57,10 @@ const features = [
     version: "2026-06-26-council-builder-v1",
     status: "Active",
     risk: "Medium",
-    provider: "openai",
-    model: "GPT-4o",
-    fallbackProvider: "anthropic",
-    fallbackModel: "Claude 3.5 Sonnet",
+    provider: "openrouter",
+    model: "deepseek/deepseek-v4.1-flash",
+    fallbackProvider: "openrouter",
+    fallbackModel: "xiaomi/mimo-v2.6-flash",
     schema: "ai_council_rounds_v2",
     safety: "Multi-persona inspired-by + sanitized context only",
     description: "Group advisory room where several selected guides respond to one user situation in a council-style thread.",
@@ -86,10 +86,10 @@ const features = [
     version: "v1.2.0",
     status: "Active",
     risk: "Medium",
-    provider: "openai",
-    model: "GPT-4o",
-    fallbackProvider: "gemini",
-    fallbackModel: "Gemini 1.5 Pro",
+    provider: "openrouter",
+    model: "deepseek/deepseek-v4.1-flash",
+    fallbackProvider: "openrouter",
+    fallbackModel: "xiaomi/mimo-v2.6-flash",
     schema: "tarot_reading_output_v3",
     safety: "Strict reflection gate",
     description: "Interpret app-selected cards with spread, question, deck, and safe reflection copy.",
@@ -114,10 +114,10 @@ const features = [
     version: "v1.0.8",
     status: "Active",
     risk: "Low",
-    provider: "openai",
-    model: "GPT-4o-mini",
-    fallbackProvider: "gemini",
-    fallbackModel: "Gemini 1.5 Flash",
+    provider: "openrouter",
+    model: "deepseek/deepseek-v4.1-flash",
+    fallbackProvider: "openrouter",
+    fallbackModel: "xiaomi/mimo-v2.6-flash",
     schema: "daily_insight_v1",
     safety: "Micro-action safe",
     description: "Short daily ritual copy personalized by goals, language, and tone.",
@@ -168,10 +168,10 @@ const features = [
     version: "2026-09-25-ai-insight-v1",
     status: "Draft",
     risk: "Medium",
-    provider: "gemini",
-    model: "gemini-3.5-flash",
-    fallbackProvider: "openai",
-    fallbackModel: "gpt-5.4-mini",
+    provider: "openrouter",
+    model: "deepseek/deepseek-v4.1-flash",
+    fallbackProvider: "openrouter",
+    fallbackModel: "xiaomi/mimo-v2.6-flash",
     schema: "astrology_ai_insight_v1",
     safety: "Selected calculated facts · evidence citations · current focus only",
     description: "Premium reflective guide grounded in the current canonical chart contract. The server checks entitlement, consent, report ownership, and evidence before saving.",
@@ -198,10 +198,10 @@ const features = [
     version: "disabled-v0.1",
     status: "Disabled",
     risk: "High",
-    provider: "openai",
-    model: "Image model",
-    fallbackProvider: "gemini",
-    fallbackModel: "Gemini 1.5 Pro Vision",
+    provider: "openrouter",
+    model: "deepseek/deepseek-v4.1-flash",
+    fallbackProvider: "openrouter",
+    fallbackModel: "xiaomi/mimo-v2.6-flash",
     schema: "symbolic_face_reading_v0",
     safety: "Consent + protected trait block",
     description: "Symbolic archetype reading only. Disabled until consent, deletion, and image safety are ready.",
@@ -243,7 +243,7 @@ const providerCatalog = {
     label: "OpenRouter",
     status: "Connected",
     bestFor: "unified API access to multiple models including open-source ones",
-    models: ["openrouter/free", "deepseek/deepseek-chat", "deepseek/deepseek-reasoner", "anthropic/claude-3.5-sonnet", "meta-llama/llama-3.3-70b-instruct", "google/gemini-2.5-flash"]
+    models: ["deepseek/deepseek-v4.1-flash", "xiaomi/mimo-v2.6-flash", "deepseek/deepseek-v4.1-flash-1017", "openai/gpt-5.4", "openai/gpt-5.4-mini", "anthropic/claude-sonnet-4.6", "google/gemini-3.5-flash", "openrouter/auto", "openrouter/free"]
   },
   expo: {
     label: "Expo",
@@ -1054,10 +1054,18 @@ function renderModelRouteEditor(current) {
     </div>`;
 }
 
+// Owner decision 2026-11-01: offer the providers the backend reports as configured (Kiểm tra kết nối);
+// before that check only OpenRouter is offered. A route's current provider always stays visible.
+function providerAvailable(provider) {
+  const status = state.modelRouterAdminResult?.providers;
+  if (!Array.isArray(status)) return provider === "openrouter";
+  return status.some((item) => item.provider === provider && item.configured === true);
+}
+
 function providerOptions(selected, includeNone = false) {
   return (includeNone ? `<option value="" ${!selected ? "selected" : ""}>None · no fallback</option>` : "") + Object.keys(providerCatalog)
-    .filter((provider) => provider !== "expo")
-    .map((provider) => `<option value="${escapeHtml(provider)}" ${provider === selected ? "selected" : ""}>${escapeHtml(providerCatalog[provider].label)}</option>`)
+    .filter((provider) => provider !== "expo" && (providerAvailable(provider) || provider === selected))
+    .map((provider) => `<option value="${escapeHtml(provider)}" ${provider === selected ? "selected" : ""}>${escapeHtml(providerCatalog[provider].label)}${providerAvailable(provider) ? "" : " · chưa có khóa ở backend"}</option>`)
     .join("");
 }
 
@@ -2157,7 +2165,7 @@ function renderModelRouterDetail() {
       ${renderModelRouteReferences(current)}
       <details><summary>Model catalog · available choices, not health or quality evidence</summary>
       <div class="variant-grid">
-        ${Object.entries(providerCatalog).filter(([name]) => name !== "expo").map(([name, provider]) => renderProviderCard(name, provider, current)).join("")}
+        ${Object.entries(providerCatalog).filter(([name]) => name !== "expo" && providerAvailable(name)).map(([name, provider]) => renderProviderCard(name, provider, current)).join("")}
       </div>
       <p>Danh mục phía trên giúp tìm model; trạng thái provider bên dưới chỉ xác nhận secret có mặt. Backend target hiện ở đầu trang và không thể đổi trong phiên này.</p>
       </details>

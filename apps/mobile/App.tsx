@@ -137,6 +137,7 @@ import { astrologySignIds, localizeAstrologySign, toAstrologyChartPresentation, 
 import { AstrologySignGuide } from "./src/features/astrology/AstrologySignGuide";
 import { GuestPreview } from "./src/features/guest/GuestPreview";
 import { dailyRhythmFor } from "./src/features/home/dailyRhythm";
+import { localizePulseSign } from "./src/features/home/localizePulseSign";
 import { colors, layout, spacing, typography } from "./src/theme";
 import { getDeckVisual, getFeatureVisual, getPersonaVisual } from "./src/visualAssets";
 import { AuthFlow } from "./src/auth/AuthFlow";
@@ -3283,6 +3284,9 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     [activePersonaSessionId, messages, selectedPersonaId]
   );
   const currentDateKey = todayKey();
+  // Answer to the today card question (analysis HO-03); a new local day starts empty.
+  const [todayNote, setTodayNote] = useState("");
+  useEffect(() => { setTodayNote(""); }, [currentDateKey]);
   const tarotReadingsToday = usageEvents.filter((event) => event.name === "tarot_reading_drawn" && isDateKey(event.createdAt, currentDateKey)).length;
   const chatTurnsToday = messages.filter((message) => message.role === "user" && isDateKey(message.createdAt, currentDateKey)).length;
   const dailyTarotCreditLimit = dailyTarotLimitFor(displayedTier);
@@ -3443,7 +3447,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       backendOptions
     ).then((result) => {
       if (!active) return;
-      setRemoteZodiacPulse({ requestKey: zodiacPulseRequestKey, pulse: result });
+      setRemoteZodiacPulse({ requestKey: zodiacPulseRequestKey, pulse: localizePulseSign(result, language) });
       recordEvent("daily_zodiac_pulse_loaded", {
         dateKey: result.dateKey,
         source: result.source,
@@ -4689,6 +4693,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       sourceId: todayCardSourceId(currentDateKey),
       title: language === "vi" ? `Lá bài hôm nay · ${cardName}` : `Today's card · ${cardName}`,
       summary: [displayTarotMeaning(card, language), localizedText(card.reflectionQuestion, language, todayPulse.reflectionPrompt), todayPulse.microAction].join("\n\n"),
+      ...(todayNote.trim() ? { userNote: todayNote.trim() } : {}),
       sourceSnapshot: {
         type: "today_pulse",
         dateKey: currentDateKey,
@@ -5915,6 +5920,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                 onRevealTodayCard={revealTodayPulseCard}
                 onRerollDaily={previewDailyReroll}
                 onSaveTodayCard={saveTodayPulseCard}
+                todayNote={todayNote}
+                onTodayNoteChange={setTodayNote}
                 onShareTodayCard={shareTodayPulseCard}
                 onWritePrompt={(prompt) => { setJournalPrompt(prompt); setJournalEntryToOpen(null); navigate("journal"); }}
                 onAstrology={() => startAstrology("hub")}
@@ -6317,6 +6324,8 @@ function HomeScreen({
   onRevealTodayCard,
   onRerollDaily,
   onSaveTodayCard,
+  todayNote,
+  onTodayNoteChange,
   onShareTodayCard,
   onWritePrompt
 }: {
@@ -6346,11 +6355,14 @@ function HomeScreen({
   onRevealTodayCard: () => void;
   onRerollDaily: () => void;
   onSaveTodayCard: () => void;
+  todayNote: string;
+  onTodayNoteChange: (value: string) => void;
   onShareTodayCard: () => void;
   onWritePrompt: (prompt: string) => void;
 }) {
   const card = todayPulse.card;
-  const cardSaved = journalEntries.some((entry) => entry.sourceType === "daily" && entry.sourceId === todayCardSourceId(currentDateKey));
+  const savedTodayEntry = journalEntries.find((entry) => entry.sourceType === "daily" && entry.sourceId === todayCardSourceId(currentDateKey));
+  const cardSaved = Boolean(savedTodayEntry);
   const todayMood = journalEntries.find((entry) => !entry.sourceId && entry.sourceSnapshot?.type === "today_pulse" && entry.sourceSnapshot?.dateKey === currentDateKey)?.mood;
   return <HomeExperience cardBack={getDeckBackImage(selectedDeck.id)} language={language} greeting={homeGreetingLabel(currentTime, language, profile.nickname)} now={currentTime}
     revealed={todayPulseRevealed} streak={profile.currentStreak} onReveal={onRevealTodayCard} onAsk={onAsk} onAstrology={onAstrology} onGoalSuggestion={onGoalSuggestion}
@@ -6364,7 +6376,8 @@ function HomeScreen({
       cardMeta={displayTarotCardMeta(card, language)} deckName={localizedText(selectedDeck.name, language)} keywords={localizedList(card.keywords, language)} meaning={displayTarotMeaning(card, language)}
       question={localizedText(card.reflectionQuestion, language, todayPulse.reflectionPrompt)} microAction={todayPulse.microAction}
       guidance={dailyInsight.text} onAnotherGuidance={onRerollDaily} disclaimer={c.disclaimer}
-      moods={moodOptions.map((mood) => ({ id: mood.id, label: localizedText(mood, language) }))} selectedMood={todayMood} onMood={onMoodCheck} />}
+      moods={moodOptions.map((mood) => ({ id: mood.id, label: localizedText(mood, language) }))} selectedMood={todayMood} onMood={onMoodCheck}
+      note={todayNote} onNoteChange={onTodayNoteChange} savedNote={savedTodayEntry ? savedTodayEntry.userNote ?? "" : undefined} />}
     reflectionActions={<TodayCardActions language={language} saved={cardSaved} onSave={onSaveTodayCard} onAskDeeper={onAskDeeperToday} onShare={onShareTodayCard} />}
   />;
 }

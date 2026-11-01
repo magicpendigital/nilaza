@@ -26,3 +26,15 @@ it("offers save, ask deeper and share, and locks save once saved", () => {
   fireEvent.press(screen.getByText("Đã lưu"));
   expect(onSave).toHaveBeenCalledTimes(1);
 });
+
+it("lets the person answer the question and shows the saved answer read-only", () => {
+  const onNoteChange = jest.fn();
+  const props = { language: "vi" as const, cardImage: { uri: "card" }, cardName: "The Star", deckName: "Rose Mirror", keywords: [], meaning: "Một khởi đầu dịu.",
+    question: "Điều gì giúp bạn tin lại?", microAction: "Viết ba điều.", moods, onMood: jest.fn(), disclaimer: "Chỉ để tự phản chiếu." };
+  const screen = render(<TodayCardReflection {...props} note="" onNoteChange={onNoteChange} />);
+  fireEvent.changeText(screen.getByLabelText("Trả lời câu hỏi hôm nay"), "Mình cần ngủ sớm.");
+  expect(onNoteChange).toHaveBeenCalledWith("Mình cần ngủ sớm.");
+  screen.rerender(<TodayCardReflection {...props} note="Mình cần ngủ sớm." onNoteChange={onNoteChange} savedNote="Mình cần ngủ sớm." />);
+  expect(screen.queryByLabelText("Trả lời câu hỏi hôm nay")).toBeNull();
+  expect(screen.getByText("Mình cần ngủ sớm.")).toBeTruthy();
+});

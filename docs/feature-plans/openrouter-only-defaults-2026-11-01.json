@@ -1,0 +1,125 @@
+{
+  "schemaVersion": 1,
+  "taskId": "openrouter-only-defaults-2026-11-01",
+  "ownerAgent": "ai_operations_agent",
+  "lane": "ai_openrouter_only_defaults",
+  "goal": "Analysis AD-22 and the Owner decision of 2026-11-01: the code default model routes keep the same models but call them through OpenRouter (openai/gpt-5.4, openai/gpt-5.4-mini, anthropic/claude-sonnet-4.6, google/gemini-3.5-flash, openrouter/free, openrouter/auto; ids checked against the public OpenRouter model list on 2026-11-01). Admin AI Studio offers only OpenRouter in its provider choices and cards, keeps showing an older non-OpenRouter route as it is so it is never changed silently, and its feature defaults and OpenRouter model list match the server. The canonical model-routing.json and the generated seed follow for daily, persona chat, council and tarot; the astrology_report route keeps its configured model, which the Owner decides separately. Follow-up Owner decision 2026-11-01: Admin offers the providers the backend reports as configured (OpenRouter only before the check) and Astrology AI (astrology_report) uses deepseek/deepseek-v4.1-flash-1017.",
+  "successCriteria": [
+    "Code default routes for daily, persona chat, council, tarot and astrology report use provider openrouter.",
+    "Admin provider choices show OpenRouter, plus the current provider of an older route.",
+    "Admin defaults match the server defaults.",
+    "Deno and admin tests pass."
+  ],
+  "writeScope": [
+    "supabase/functions/_shared/model-router.ts",
+    "supabase/functions/_shared/model-provider.test.ts",
+    "apps/admin/app.js",
+    "apps/admin/workflow-catalog.js",
+    "scripts/admin-ai-studio-render.test.mjs",
+    "packages/agent-config/model-routing.json",
+    "supabase/seed.generated.sql"
+  ],
+  "untouchedSurfaces": [
+    "No database model route rows are changed; an active route on the database still wins.",
+    "No secret is read or set. Deploying the AI functions waits for Owner approval."
+  ],
+  "impact": {
+    "entryPoint": "Every AI function that falls back to the code default route; Admin Model Router.",
+    "dataWrite": "No data change; code defaults and Admin choices only.",
+    "backendContract": "Default routes call OpenRouter with provider-prefixed model ids.",
+    "canonicalContract": "Analysis AD-22; Owner decisions 2026-11-01 (OpenRouter only, same models).",
+    "adminVisibility": "Model Router shows OpenRouter only.",
+    "privacySafety": "Requests go through OpenRouter instead of the providers directly; the persona chat primary is unchanged (openrouter/free).",
+    "observability": "No analytics or logging change.",
+    "rollback": "Revert the commit on the PR branch.",
+    "surfacesIntentionallyUntouched": "Oracle route, database routes, prompts.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs validation, commits and pushes to the PR branch without merging or deploying."
+  },
+  "canonicalContracts": [
+    "Analysis item AD-22.",
+    "Owner decision 2026-11-01: call the same models through OpenRouter; Admin shows OpenRouter only.",
+    "Owner decision 2026-11-01 (follow-up): Admin providers follow backend key status; astrology_report uses deepseek/deepseek-v4.1-flash-1017."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "AI operations routes and owners.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "reason": "Default routes.",
+      "sha256": "ff6bae40359102f3c34a828187b35192b8d4c33bb075728b1af6c8687665160b"
+    },
+    {
+      "path": "apps/admin/app.js",
+      "reason": "Admin model router.",
+      "sha256": "83431e41c9cd8033b3815554afdc5d66288ffe0377ba514e418857116cf1a70e"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "OpenRouter model ids were checked against https://openrouter.ai/api/v1/models on 2026-11-01."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://openrouter.ai/api/v1/models",
+      "checkedAt": "2026-11-01",
+      "reason": "Exact OpenRouter ids for gpt-5.4, gpt-5.4-mini, claude-sonnet-4.6 and gemini-3.5-flash."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change.",
+    "sensitiveData": "No new personal data is handled.",
+    "secretsLogging": "No credentials, tokens or logs are added.",
+    "externalInput": "Model ids are fixed strings in code; no new user input.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration; function deploys wait for Owner approval.",
+    "stopCondition": "Stop before deploying without Owner approval or if tests fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/app.js",
+      "apps/admin/workflow-catalog.js",
+      "docs/feature-plans/openrouter-only-defaults-2026-11-01.json",
+      "packages/agent-config/model-routing.json",
+      "scripts/admin-ai-studio-render.test.mjs",
+      "supabase/functions/_shared/model-router.ts",
+      "supabase/seed.generated.sql"
+    ],
+    "note": "Branch from main@895f344."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/openrouter-only-defaults-2026-11-01.json",
+    "npx deno test --allow-read --allow-env --no-lock supabase/functions/_shared/",
+    "npm run admin:test"
+  ],
+  "managerTestPath": "After deploy, run one Council turn on QA and see AI-written turns instead of the fallback note.",
+  "residualRisk": "If the database has an active route that names another provider, it still wins; Admin shows it so the Owner can switch it.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

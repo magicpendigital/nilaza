@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "taskId": "today-card-note-2026-11-01",
+  "ownerAgent": "mobile_ux_fixes_agent",
+  "lane": "mobile_today_card_note",
+  "goal": "Analysis HO-03: the today card asks a reflection question but had nowhere to answer. A one-line note box (Hôm nay mình cần…) sits under the question; Lưu vào Nhật ký saves it as the entry note, and once saved the note is shown read-only.",
+  "successCriteria": [
+    "A note box is under the today card question.",
+    "Saving the today card stores the note on the Journal entry.",
+    "After saving, the note shows as saved text.",
+    "Mobile check and Jest pass."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/home/",
+    "apps/admin/workflow-catalog.js"
+  ],
+  "untouchedSurfaces": [
+    "No backend, deploy, SQL or settings change.",
+    "Content data unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Home today card reflection.",
+    "dataWrite": "The existing Journal entry for the today card gets an optional userNote.",
+    "backendContract": "No backend contract change.",
+    "canonicalContract": "Analysis item HO-03 and the 60-second daily loop.",
+    "adminVisibility": "Workflow catalog digest of App.tsx refreshed.",
+    "privacySafety": "The note stays in the Journal like other notes; the share text still excludes it.",
+    "observability": "No analytics or logging change.",
+    "rollback": "Revert the commit on the PR branch.",
+    "surfacesIntentionallyUntouched": "Today card choice, share text.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs validation, commits and pushes to the PR branch without merging or deploying."
+  },
+  "canonicalContracts": [
+    "Analysis item HO-03 (60-second loop: question, write box, save)."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile UI routes and owners.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "saveTodayPulseCard and Home props.",
+      "sha256": "50cde7723b69f854967da00b55c6e9feea8c50deb7725d6f8cac3a2a87de643d"
+    },
+    {
+      "path": "apps/mobile/src/features/home/TodayCardReflection.tsx",
+      "reason": "Today card reflection view.",
+      "sha256": "95bf86e1873814e38e54899c54fa24ea9ff3cb9e5ff33818f1971e7179534dc5"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing React Native ScrollView APIs."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change in this task.",
+    "sensitiveData": "The private note is saved through the existing Journal update path only.",
+    "secretsLogging": "No credentials, tokens or logs are added.",
+    "externalInput": "No new user input is sent anywhere.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration, deploy or release.",
+    "stopCondition": "Stop if a change needs new content, a deploy or settings without approval, or if checks fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/features/home/TodayCardReflection.tsx",
+      "apps/mobile/src/features/home/__tests__/TodayCardReflection.test.tsx",
+      "docs/feature-plans/today-card-note-2026-11-01.json"
+    ],
+    "note": "Stacked on the zodiac sign name commit."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/today-card-note-2026-11-01.json",
+    "npm --workspace apps/mobile run check",
+    "npm --workspace apps/mobile test -- --runInBand"
+  ],
+  "managerTestPath": "Reveal today card, write a line under the question, tap Lưu vào Nhật ký, open the Journal entry and see the note.",
+  "residualRisk": "Checked by tests and typecheck; not on a device keyboard.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
