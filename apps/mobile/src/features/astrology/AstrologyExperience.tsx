@@ -227,7 +227,8 @@ export function AstrologyExperience({
   const [zoneDraft, setZoneDraft] = useState("device");
   const [now, setNow] = useState(new Date());
   const [deleteId, setDeleteId] = useState<string | null>(null),
-    [exportText, setExportText] = useState<string | null>(null);
+    [exportText, setExportText] = useState<string | null>(null),
+    [showExportRaw, setShowExportRaw] = useState(false);
   const [reflection, setReflection] = useState<{
       title: string;
       prompt: string;
@@ -1663,8 +1664,11 @@ export function AstrologyExperience({
               ? "Bản xuất chứa thông tin sinh và suy ngẫm riêng tư. Chỉ chia sẻ đến nơi bạn chọn và tin cậy."
               : "This export contains private birth data and reflections. Share only to a destination you choose and trust."}
           </Text>
+          {exportText !== null ? (
+            <Text style={s.body}>{astrologyExportSummary(exportText, vi)}</Text>
+          ) : null}
           <Control
-            label={vi ? "Chia sẻ bản xuất JSON" : "Share JSON export"}
+            label={vi ? "Chia sẻ tệp sao lưu" : "Share backup"}
             onPress={() => {
               void Share.share({
                 title: "Nilaza Astrology",
@@ -1678,11 +1682,18 @@ export function AstrologyExperience({
               );
             }}
           />
-          <ScrollView>
-            <Text selectable style={s.note}>
-              {exportText}
-            </Text>
-          </ScrollView>
+          {/* Analysis AS-05: the raw JSON stays behind an explicit toggle. */}
+          <Control
+            label={showExportRaw ? (vi ? "Ẩn nội dung kỹ thuật" : "Hide technical content") : (vi ? "Xem nội dung kỹ thuật" : "Show technical content")}
+            onPress={() => setShowExportRaw((value) => !value)}
+          />
+          {showExportRaw ? (
+            <ScrollView>
+              <Text selectable style={s.note}>
+                {exportText}
+              </Text>
+            </ScrollView>
+          ) : null}
           {message}
         </View>
       </Modal>
@@ -1970,3 +1981,15 @@ const s = StyleSheet.create({
     gap: 18,
   },
 });
+
+/** Plain-language contents of an Astrology backup (analysis AS-05). */
+export function astrologyExportSummary(text: string, vi: boolean): string {
+  let data: { reports?: unknown[]; notes?: unknown[]; library?: { bookmarks?: unknown[]; completed?: unknown[] } } = {};
+  try { data = JSON.parse(text) ?? {}; } catch { /* the raw view still shows the text */ }
+  const charts = Array.isArray(data.reports) ? data.reports.length : 0;
+  const notes = Array.isArray(data.notes) ? data.notes.length : 0;
+  const chapters = Array.isArray(data.library?.completed) ? data.library!.completed!.length : 0;
+  return vi
+    ? `Tệp sao lưu gồm ${charts} lá số, ${notes} suy ngẫm và ${chapters} chương thần thoại đã đọc.`
+    : `The backup holds ${charts} charts, ${notes} reflections and ${chapters} mythology chapters read.`;
+}

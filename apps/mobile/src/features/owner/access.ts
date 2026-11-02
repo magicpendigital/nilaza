@@ -1,4 +1,16 @@
 export const adminRoles = ["owner", "admin", "editor", "safety_reviewer"] as const;
+/** Vietnamese names for the Owner hub (analysis PR-07); unknown codes stay as they are. */
+export const adminRoleLabels: Record<typeof adminRoles[number], string> = {
+  owner: "Chủ sở hữu",
+  admin: "Quản trị viên",
+  editor: "Biên tập viên",
+  safety_reviewer: "Người duyệt an toàn"
+};
+
+export function adminRoleLabel(role: string): string {
+  return adminRoleLabels[role as typeof adminRoles[number]] ?? role;
+}
+
 export const adminCapabilities = ["hub.read", "content.read", "content.draft", "content.publish", "content.delete", "ai.read", "ai.manage", "roles.manage", "overview.read", "notifications.dispatch", "safety.review"] as const;
 export type AdminAccess = { userId: string; roles: string[]; capabilities: string[] };
 

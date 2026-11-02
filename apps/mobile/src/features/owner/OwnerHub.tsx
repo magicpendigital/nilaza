@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { AppState, Linking, Pressable, StyleSheet, Text, View } from "react-native";
 import { getAdminAccess, getOwnerOverview, type BackendOptions } from "../../backendClient";
 import { colors, radius, spacing, typography } from "../../theme";
-import { adminWorkspaceUrl, type AdminAccess } from "./access";
+import { adminWorkspaceUrl, type AdminAccess, adminRoleLabel } from "./access";
 
 export function OwnerHub({ options, consoleUrl, onBack }: { options: BackendOptions; consoleUrl?: string; onBack: () => void }) {
   const [access, setAccess] = useState<AdminAccess | null>(null);
@@ -49,7 +49,7 @@ export function OwnerHub({ options, consoleUrl, onBack }: { options: BackendOpti
     {loading ? <Text accessibilityLiveRegion="polite" style={styles.body}>Đang xác minh quyền…</Text> : null}
     {error ? <Text accessibilityRole="alert" style={styles.body}>{error}</Text> : null}
     {access ? <>
-      <Text style={styles.body}>Vai trò: {access.roles.join(", ")}</Text>
+      <Text style={styles.body}>Vai trò: {access.roles.map(adminRoleLabel).join(", ")}</Text>
       {overview ? Object.entries(counts).map(([key, label]) => <View key={key} style={styles.count}><Text style={styles.body}>{label}</Text><Text style={styles.buttonText}>{overview[key]}</Text></View>) : null}
       <Text style={styles.body}>{access.capabilities.includes("roles.manage") ? "Bạn có quyền quản lý phân quyền. Thao tác quản lý quyền hiện thực hiện qua quy trình quản trị được kiểm soát." : "Chỉ các chức năng được cấp quyền mới khả dụng."}</Text>
       {(["content", "ai-studio"] as const).map(workspace => {
