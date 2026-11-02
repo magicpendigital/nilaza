@@ -6,7 +6,7 @@
     "primaryProvider": "openrouter",
     "primaryModel": "deepseek/deepseek-v4.1-flash",
     "temperature": 0.62,
-    "maxOutputTokens": 300,
+    "maxOutputTokens": 2000,
     "responseSchema": "oracle_router_v1",
     "fallbackWhen": [
       "missing_api_key",
@@ -18,7 +18,10 @@
     "safetyPolicy": {
       "blockDeterministicPredictions": true,
       "blockProfessionalAdvice": true,
-      "blockCrisisAdvice": true
+      "blockCrisisAdvice": true,
+      "reasoning": {
+        "mode": "off"
+      }
     },
     "fallbackProvider": "openrouter",
     "fallbackModel": "xiaomi/mimo-v2.6-flash"
@@ -32,7 +35,7 @@
     "fallbackProvider": "openrouter",
     "fallbackModel": "xiaomi/mimo-v2.6-flash",
     "temperature": 0.72,
-    "maxOutputTokens": 240,
+    "maxOutputTokens": 2000,
     "responseSchema": "daily_insight_v1",
     "fallbackWhen": [
       "missing_api_key",
@@ -45,7 +48,10 @@
       "allowSpiritualReflection": true,
       "blockDeterministicPredictions": true,
       "blockProfessionalAdvice": true,
-      "blockCrisisAdvice": true
+      "blockCrisisAdvice": true,
+      "reasoning": {
+        "mode": "off"
+      }
     }
   },
   {
@@ -57,7 +63,7 @@
     "fallbackProvider": "openrouter",
     "fallbackModel": "xiaomi/mimo-v2.6-flash",
     "temperature": 0.68,
-    "maxOutputTokens": 420,
+    "maxOutputTokens": 2000,
     "responseSchema": "chat_reply_v2",
     "fallbackWhen": [
       "missing_api_key",
@@ -70,7 +76,10 @@
       "requireInspiredByTransparency": true,
       "blockDeterministicPredictions": true,
       "blockProfessionalAdvice": true,
-      "blockCrisisAdvice": true
+      "blockCrisisAdvice": true,
+      "reasoning": {
+        "mode": "off"
+      }
     }
   },
   {
@@ -83,14 +92,14 @@
     "fallbackProvider": "openrouter",
     "fallbackModel": "xiaomi/mimo-v2.6-flash",
     "temperature": 0.62,
-    "maxOutputTokens": 900,
+    "maxOutputTokens": 2000,
     "responseSchemaRef": "ai_council_contract.responseSchema",
     "fallbackWhen": [
       "missing_api_key",
       "provider_timeout",
       "rate_limit",
       "provider_5xx",
-      "schema_validation_failed_once"
+      "malformed_response"
     ],
     "safetyPolicy": {
       "requireInspiredByTransparency": true,
@@ -101,7 +110,11 @@
         "openai/gpt-5",
         "anthropic/claude-",
         "google/gemini-"
-      ]
+      ],
+      "reasoning": {
+        "mode": "low",
+        "maxTokens": 512
+      }
     }
   },
   {
@@ -113,7 +126,7 @@
     "fallbackProvider": "openrouter",
     "fallbackModel": "xiaomi/mimo-v2.6-flash",
     "temperature": 0.64,
-    "maxOutputTokens": 650,
+    "maxOutputTokens": 2000,
     "responseSchema": "tarot_reading_output_v3",
     "fallbackWhen": [
       "missing_api_key",
@@ -126,7 +139,10 @@
       "allowSpiritualReflection": true,
       "blockDeterministicPredictions": true,
       "blockProfessionalAdvice": true,
-      "requireReflectionQuestion": true
+      "requireReflectionQuestion": true,
+      "reasoning": {
+        "mode": "off"
+      }
     }
   },
   {
@@ -136,7 +152,7 @@
     "primaryProvider": "openrouter",
     "primaryModel": "deepseek/deepseek-v4.1-flash",
     "temperature": 0.58,
-    "maxOutputTokens": 1400,
+    "maxOutputTokens": 2000,
     "responseSchema": "astrology_ai_insight_v1",
     "fallbackWhen": [
       "missing_api_key",
@@ -150,7 +166,11 @@
       "blockDeterministicPredictions": true,
       "blockProfessionalAdvice": true,
       "requireCalculationCaveats": true,
-      "strictEvidenceFactIds": true
+      "strictEvidenceFactIds": true,
+      "reasoning": {
+        "mode": "low",
+        "maxTokens": 512
+      }
     },
     "fallbackProvider": "openrouter",
     "fallbackModel": "xiaomi/mimo-v2.6-flash"

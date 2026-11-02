@@ -4,7 +4,8 @@ import {
   ModelProviderError,
   ModelProviderName,
   ModelProviderRequest,
-  ModelRoute
+  ModelRoute,
+  routeReasoning
 } from "./model-provider.ts";
 import { AiTraceContext, AiTraceSpan, createAiTrace, traceGenerationInput } from "./ai-trace.ts";
 import { oracleSafetySignal } from "../../../packages/ai-contracts/oracle-safety.mjs";
@@ -38,10 +39,10 @@ export const defaultModelRoutes: Record<string, ModelRoute> = {
     fallbackProvider: "openrouter",
     fallbackModel: "xiaomi/mimo-v2.6-flash",
     temperature: 0.62,
-    maxOutputTokens: 300,
+    maxOutputTokens: 2000,
     responseSchema: "oracle_router_v1",
     fallbackWhen: ["missing_api_key", "provider_timeout", "rate_limit", "provider_5xx", "malformed_response"],
-    safetyPolicy: { blockDeterministicPredictions: true, blockProfessionalAdvice: true, blockCrisisAdvice: true }
+    safetyPolicy: { blockDeterministicPredictions: true, blockProfessionalAdvice: true, blockCrisisAdvice: true, reasoning: { mode: "off" } }
   },
   daily_insight: {
     feature: "daily_insight",
@@ -52,10 +53,10 @@ export const defaultModelRoutes: Record<string, ModelRoute> = {
     fallbackProvider: "openrouter",
     fallbackModel: "xiaomi/mimo-v2.6-flash",
     temperature: 0.72,
-    maxOutputTokens: 240,
+    maxOutputTokens: 2000,
     responseSchema: "daily_insight_v1",
     fallbackWhen: ["missing_api_key", "provider_timeout", "rate_limit", "provider_5xx", "malformed_response"],
-    safetyPolicy: { blockDeterministicPredictions: true, blockProfessionalAdvice: true }
+    safetyPolicy: { blockDeterministicPredictions: true, blockProfessionalAdvice: true, reasoning: { mode: "off" } }
   },
   persona_chat: {
     feature: "persona_chat",
@@ -66,10 +67,10 @@ export const defaultModelRoutes: Record<string, ModelRoute> = {
     fallbackProvider: "openrouter",
     fallbackModel: "xiaomi/mimo-v2.6-flash",
     temperature: 0.68,
-    maxOutputTokens: 420,
+    maxOutputTokens: 2000,
     responseSchema: "chat_reply_v2",
     fallbackWhen: ["missing_api_key", "provider_timeout", "rate_limit", "provider_5xx", "malformed_response"],
-    safetyPolicy: { requireInspiredByTransparency: true, blockProfessionalAdvice: true }
+    safetyPolicy: { requireInspiredByTransparency: true, blockProfessionalAdvice: true, reasoning: { mode: "off" } }
   },
   ai_council: {
     feature: "ai_council",
@@ -80,12 +81,13 @@ export const defaultModelRoutes: Record<string, ModelRoute> = {
     fallbackProvider: "openrouter",
     fallbackModel: "xiaomi/mimo-v2.6-flash",
     temperature: 0.62,
-    maxOutputTokens: 900,
+    maxOutputTokens: 2000,
     responseSchema: "ai_council_rounds_v2",
-    fallbackWhen: ["missing_api_key", "provider_timeout", "rate_limit", "provider_5xx", "schema_validation_failed_once"],
+    fallbackWhen: ["missing_api_key", "provider_timeout", "rate_limit", "provider_5xx", "malformed_response"],
     safetyPolicy: {
       blockRawPrivateContext: true,
-      allowedOpenRouterModelPrefixes: ["openai/gpt-5", "anthropic/claude-", "google/gemini-"]
+      allowedOpenRouterModelPrefixes: ["openai/gpt-5", "anthropic/claude-", "google/gemini-"],
+      reasoning: { mode: "low", maxTokens: 512 }
     }
   },
   tarot_reading: {
@@ -97,10 +99,10 @@ export const defaultModelRoutes: Record<string, ModelRoute> = {
     fallbackProvider: "openrouter",
     fallbackModel: "xiaomi/mimo-v2.6-flash",
     temperature: 0.64,
-    maxOutputTokens: 650,
+    maxOutputTokens: 2000,
     responseSchema: "tarot_reading_output_v3",
     fallbackWhen: ["missing_api_key", "provider_timeout", "rate_limit", "provider_5xx", "malformed_response"],
-    safetyPolicy: { allowSpiritualReflection: true, blockDeterministicPredictions: true }
+    safetyPolicy: { allowSpiritualReflection: true, blockDeterministicPredictions: true, reasoning: { mode: "off" } }
   },
   astrology_report: {
     feature: "astrology_report",
@@ -111,10 +113,10 @@ export const defaultModelRoutes: Record<string, ModelRoute> = {
     fallbackProvider: "openrouter",
     fallbackModel: "xiaomi/mimo-v2.6-flash",
     temperature: 0.58,
-    maxOutputTokens: 760,
+    maxOutputTokens: 2000,
     responseSchema: "astrology_report_v1",
     fallbackWhen: ["missing_api_key", "provider_timeout", "rate_limit", "provider_5xx", "malformed_response"],
-    safetyPolicy: { interpretCalculatedPlacementsOnly: true, requireCalculationCaveats: true }
+    safetyPolicy: { interpretCalculatedPlacementsOnly: true, requireCalculationCaveats: true, reasoning: { mode: "low", maxTokens: 512 } }
   }
 };
 
@@ -339,6 +341,7 @@ export async function generateWithModelRoute(input: {
   }
 
   const attempts: ModelGenerationResult["attempts"] = [];
+  const reasoning = routeReasoning(route.safetyPolicy);
   const candidates = [
     { provider: route.primaryProvider, model: route.primaryModel, fallbackUsed: false },
     route.fallbackProvider && route.fallbackModel
@@ -361,7 +364,8 @@ export async function generateWithModelRoute(input: {
           messages: input.messages,
           temperature: route.temperature,
           maxOutputTokens: route.maxOutputTokens,
-          responseSchema: route.responseSchema
+          responseSchema: route.responseSchema,
+          reasoning: reasoning ?? null
         },
         attributes: {
           provider: candidate.provider,
@@ -379,6 +383,7 @@ export async function generateWithModelRoute(input: {
         temperature: route.temperature,
         maxOutputTokens: route.maxOutputTokens,
         responseSchema: route.responseSchema,
+        ...(reasoning ? { reasoning } : {}),
         traceHooks: {
           onRequest: (payload) => providerSpan?.captureWireRequest(payload),
           onResponse: (payload) => providerSpan?.captureWireResponse(payload)

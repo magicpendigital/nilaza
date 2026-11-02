@@ -92,6 +92,17 @@ function requiresDirectResponse(request: ModelProviderRequest) {
   return request.feature === "persona_chat" || request.model === "openrouter/free";
 }
 
+// Reasoning tokens count toward max_tokens; a model left on its default can spend the whole
+// budget thinking and return nothing (QA 2026-11-02: 1956 of 2000 tokens). OpenRouter takes
+// either an effort or a max_tokens budget, not both.
+export function openRouterReasoning(request: ModelProviderRequest) {
+  const setting = request.reasoning;
+  if (setting?.mode === "off") return { effort: "none" };
+  if (setting?.maxTokens) return { max_tokens: setting.maxTokens };
+  if (setting) return { effort: setting.mode };
+  return requiresDirectResponse(request) ? { effort: "none" } : undefined;
+}
+
 export async function invokeOpenRouter(
   request: ModelProviderRequest,
   apiKey: string,
@@ -114,6 +125,7 @@ export async function invokeOpenRouter(
   if (attribution?.siteUrl) headers["HTTP-Referer"] = attribution.siteUrl;
   if (attribution?.appTitle) headers["X-Title"] = attribution.appTitle;
 
+  const reasoning = openRouterReasoning(request);
   const requestBody = {
     model: request.model,
     messages: [
@@ -123,9 +135,7 @@ export async function invokeOpenRouter(
     temperature: request.temperature,
     max_tokens: request.maxOutputTokens,
     ...openRouterFormat(request),
-    // The free router may select a reasoning-capable model. Reserve the
-    // response budget for the user-visible answer, not hidden reasoning.
-    ...(requiresDirectResponse(request) ? { reasoning: { effort: "none" } } : {})
+    ...(reasoning ? { reasoning } : {})
   };
   request.traceHooks?.onRequest?.({
     url: "https://openrouter.ai/api/v1/chat/completions",
@@ -177,6 +187,16 @@ export async function invokeOpenRouter(
       provider: "openrouter",
       code: "malformed_response",
       message: "OpenRouter response did not contain message content.",
+      retryable: true,
+      billingReceipt
+    });
+  }
+  // A JSON reply cut off by the output limit cannot be parsed; let the route fall back.
+  if (choice?.finish_reason === "length" && request.feature !== "persona_chat") {
+    throw new ModelProviderError({
+      provider: "openrouter",
+      code: "malformed_response",
+      message: "OpenRouter response was cut off by the output token limit.",
       retryable: true,
       billingReceipt
     });

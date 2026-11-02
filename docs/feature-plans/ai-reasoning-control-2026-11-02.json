@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "taskId": "ai-reasoning-control-2026-11-02",
+  "ownerAgent": "ai_operations_agent",
+  "lane": "ai_reasoning_control",
+  "goal": "Owner decision 2026-11-02: Admin can turn hidden reasoning off or set its level (minimal/low/medium/high) and an optional reasoning token cap per feature; the setting is stored in the route's existing safety_policy JSON as reasoning {mode, maxTokens} (no SQL); OpenRouter calls send reasoning effort none, the effort, or max_tokens accordingly; default output limit is 2000 tokens; defaults are reasoning low with a 512-token cap for ai_council and astrology_report and off for the other features; a reply cut off by the output limit counts as malformed so the fallback runs. Live QA on 2026-11-02 showed DeepSeek v4.1 Flash spent 929/900 and then 1956/2000 output tokens on reasoning and the Council got no usable JSON.",
+  "successCriteria": [
+    "OpenRouter requests carry reasoning effort none when the route mode is off, the effort when a level is set, and max_tokens when a cap is set.",
+    "A finish_reason of length on a JSON feature raises malformed_response so the fallback model runs.",
+    "Code defaults use 2000 output tokens, low reasoning with a 512 cap for ai_council and astrology_report, off elsewhere, and only allowed fallback reasons.",
+    "Admin Model Router shows a Hidden reasoning select and a reasoning token cap and publishes them inside safetyPolicy.reasoning.",
+    "Deno, admin and data checks pass."
+  ],
+  "writeScope": [
+    "supabase/functions/_shared/model-router.ts",
+    "supabase/functions/_shared/model-provider.ts",
+    "supabase/functions/_shared/providers/openrouter.ts",
+    "supabase/functions/_shared/model-reasoning.test.ts",
+    "packages/agent-config/model-routing.json",
+    "supabase/seed.generated.sql",
+    "apps/admin/app.js",
+    "apps/admin/workflow-catalog.js",
+    "scripts/admin-ai-studio-render.test.mjs"
+  ],
+  "untouchedSurfaces": [
+    "No SQL or migration: the setting lives in the existing safety_policy JSON column.",
+    "No secret is read or set; deploys and publishing on QA wait for Owner approval."
+  ],
+  "impact": {
+    "entryPoint": "Every AI function that calls generateWithModelRoute; Admin Model Router editor.",
+    "dataWrite": "No schema change; published routes may carry safety_policy.reasoning.",
+    "backendContract": "OpenRouter request body gains a reasoning object chosen from the route; truncated JSON replies fall back.",
+    "canonicalContract": "Owner decision 2026-11-02: per-feature reasoning control in Admin, default limit 2000 tokens, light reasoning for Council and Astrology.",
+    "adminVisibility": "Model Router shows Hidden reasoning and Reasoning token cap.",
+    "privacySafety": "Reasoning text is never shown or stored; only token counts in the billing receipt.",
+    "observability": "No analytics or logging change.",
+    "rollback": "Revert the commit on the PR branch.",
+    "surfacesIntentionallyUntouched": "Prompts, persona content, database schema, other providers (reasoning applies to OpenRouter only).",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs validation, commits and pushes to the PR branch without merging or deploying."
+  },
+  "canonicalContracts": [
+    "Owner decision 2026-11-02: Admin controls reasoning per feature; default output limit 2000; reasoning low (cap 512) for ai_council and astrology_report, off elsewhere; stored in safety_policy.reasoning."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "AI operations routes and owners.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "reason": "Default routes.",
+      "sha256": "24790b28e5c4fc05440596f5432125cb25810461c7b96043e681519ee0ff0260"
+    },
+    {
+      "path": "apps/admin/app.js",
+      "reason": "Admin model router.",
+      "sha256": "78f56a5e1cbbe13e672b1ed807217ed68b235625d14268feeb0e9cd300862325"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "OpenRouter model ids were checked against https://openrouter.ai/api/v1/models on 2026-11-01."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://openrouter.ai/docs/use-cases/reasoning-tokens",
+      "checkedAt": "2026-11-02",
+      "reason": "reasoning.effort values (none..max), max_tokens as the alternative, reasoning counts toward max_tokens."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change.",
+    "sensitiveData": "No new personal data is handled.",
+    "secretsLogging": "No credentials, tokens or logs are added.",
+    "externalInput": "Model ids are fixed strings in code; no new user input.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration; function deploys wait for Owner approval.",
+    "stopCondition": "Stop before deploying without Owner approval or if tests fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/app.js",
+      "apps/admin/workflow-catalog.js",
+      "docs/feature-plans/ai-reasoning-control-2026-11-02.json",
+      "packages/agent-config/model-routing.json",
+      "scripts/admin-ai-studio-render.test.mjs",
+      "supabase/functions/_shared/model-provider.ts",
+      "supabase/functions/_shared/model-reasoning.test.ts",
+      "supabase/functions/_shared/model-router.ts",
+      "supabase/functions/_shared/providers/openrouter.ts",
+      "supabase/seed.generated.sql"
+    ],
+    "note": "Fresh branch from origin/main."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/ai-reasoning-control-2026-11-02.json",
+    "npx deno test --allow-read --allow-env --no-lock supabase/functions/_shared/",
+    "npm run admin:test",
+    "node scripts/validate-data.mjs"
+  ],
+  "managerTestPath": "After deploy and publishing, run one Council turn on QA and see AI-written turns with reasoning tokens at or under the cap.",
+  "residualRisk": "Some models reject effort none (mandatory reasoning); such a call fails and the fallback runs.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
