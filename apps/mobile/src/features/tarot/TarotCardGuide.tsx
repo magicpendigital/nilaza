@@ -18,6 +18,8 @@ export type TarotCardGuideProps = {
   reversedMeaning: string;
   // Orientation drawn in a reading; undefined when the card is opened from the library.
   drawnReversed?: boolean;
+  // Spread position the card was drawn in, for example "Quá khứ" (analysis TA-13).
+  drawnPosition?: string;
   guide: Guide | null;
   practice: string;
   onOpenImage: (reversed: boolean) => void;
@@ -33,7 +35,7 @@ const topicIcon: Record<TarotGuideTopic["id"], { name: keyof typeof Ionicons.gly
   self: { name: "radio-button-on-outline", color: "#9FD3CF" }
 };
 
-export function TarotCardGuide({ language, name, originalName, arcanaLabel, image, uprightMeaning, reversedMeaning, drawnReversed, guide, practice, onOpenImage, previous, next, children }: TarotCardGuideProps) {
+export function TarotCardGuide({ language, name, originalName, arcanaLabel, image, uprightMeaning, reversedMeaning, drawnReversed, drawnPosition, guide, practice, onOpenImage, previous, next, children }: TarotCardGuideProps) {
   const vi = language === "vi";
   const [reversed, setReversed] = useState(Boolean(drawnReversed));
   const meaning = reversed ? reversedMeaning : uprightMeaning;
@@ -60,7 +62,12 @@ export function TarotCardGuide({ language, name, originalName, arcanaLabel, imag
             </View>
           ) : null}
           {drawnReversed !== undefined ? (
-            <Text style={s.drawn}>{vi ? (drawnReversed ? "Trong trải bài: Ngược" : "Trong trải bài: Xuôi") : drawnReversed ? "In this reading: Reversed" : "In this reading: Upright"}</Text>
+            <Text style={s.drawn}>
+              {vi ? "Trong trải bài" : "In this reading"}
+              {drawnPosition ? (vi ? ` · vị trí ${drawnPosition}` : ` · ${drawnPosition} position`) : ""}
+              {": "}
+              {vi ? (drawnReversed ? "Ngược" : "Xuôi") : drawnReversed ? "Reversed" : "Upright"}
+            </Text>
           ) : null}
         </View>
       </View>

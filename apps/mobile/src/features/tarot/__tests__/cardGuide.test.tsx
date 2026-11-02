@@ -25,13 +25,13 @@ test("guide carries the Owner-approved support, other readings and astrology not
   expect(getTarotCardGuide("major-00-fool", "vi")!.modernPlanet).toBe("Sao Thiên Vương");
 });
 
-function renderGuide(drawnReversed?: boolean) {
+function renderGuide(drawnReversed?: boolean, drawnPosition?: string) {
   const card = cards.find((item) => item.id === "major-06-lovers")!;
   const onPrevious = jest.fn();
   const onOpenImage = jest.fn();
   const screen = render(
     <TarotCardGuide language="vi" name={card.name.vi} originalName={card.name.en} arcanaLabel="Ẩn chính · VI" image={{ uri: "card" }}
-      uprightMeaning="Nghĩa xuôi" reversedMeaning="Nghĩa ngược" drawnReversed={drawnReversed} guide={getTarotCardGuide(card.id, "vi")}
+      uprightMeaning="Nghĩa xuôi" reversedMeaning="Nghĩa ngược" drawnReversed={drawnReversed} drawnPosition={drawnPosition} guide={getTarotCardGuide(card.id, "vi")}
       practice={card.reflectionQuestion.vi} onOpenImage={onOpenImage}
       previous={{ name: "Giáo Hoàng", onPress: onPrevious }} next={{ name: "Cỗ Xe", onPress: jest.fn() }} />
   );
@@ -64,4 +64,10 @@ test("a reversed card from a reading opens on Ngược and hides the upright top
   expect(onOpenImage).toHaveBeenCalledWith(true);
   fireEvent.press(screen.getByRole("tab", { name: "Xuôi" }));
   expect(screen.getByText("Trong tình yêu")).toBeTruthy();
+});
+
+test("a card opened from a reading names its spread position (analysis TA-13)", () => {
+  const { screen } = renderGuide(false, "Quá khứ");
+  expect(screen.getByText("Trong trải bài · vị trí Quá khứ: Xuôi")).toBeTruthy();
+  expect(screen.getByText("Nghĩa xuôi")).toBeTruthy();
 });

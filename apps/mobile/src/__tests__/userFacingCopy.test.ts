@@ -8,6 +8,7 @@ const screenSources = [
   "App.tsx",
   "src/auth/AuthFlow.tsx",
   "src/features/astrology/AstrologyExperience.tsx",
+  "src/features/council/useAiCouncilRoom.ts",
 ];
 
 const bannedPhrases = [
@@ -22,6 +23,18 @@ const bannedPhrases = [
   "Prompt Astrology AI",
   "dữ liệu review local",
   "Reset bản local",
+  // Vietnamese screens mixing English words (analysis TA-10, JO-07, CH-14/15).
+  "Guide đang lắng nghe",
+  "Chưa tạo được reading",
+  "Chọn guide",
+  "Guide gợi ý",
+  "review safety",
+  "chọn prompt ngắn",
+  "Một AI companion",
+  "Các guide cùng",
+  "Mỗi guide sẽ",
+  "cho Astrology AI",
+  "Reading dùng để",
 ];
 
 describe("user-facing copy", () => {
