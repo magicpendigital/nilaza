@@ -9,6 +9,8 @@ const screenSources = [
   "src/auth/AuthFlow.tsx",
   "src/features/astrology/AstrologyExperience.tsx",
   "src/features/council/useAiCouncilRoom.ts",
+  "src/features/astrology/AstrologyChartStory.tsx",
+  "src/features/astrology/AstrologyAiGuidePanel.tsx",
 ];
 
 const bannedPhrases = [
@@ -35,6 +37,11 @@ const bannedPhrases = [
   "Mỗi guide sẽ",
   "cho Astrology AI",
   "Reading dùng để",
+  "vào Journal",
+  "lượt Astrology AI",
+  "Xóa Journal",
+  "tới AI provider",
+  "Bản đọc Astrology",
 ];
 
 describe("user-facing copy", () => {

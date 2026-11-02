@@ -1864,7 +1864,7 @@ const premiumBenefits = [
   { vi: "Nhiều lượt chat guide hơn", en: "More persona chat" },
   { vi: "Reading tarot sâu hơn", en: "Deeper tarot readings" },
   { vi: "Premium guides", en: "Premium guides" },
-  { vi: "Toàn bộ lịch sử Journal", en: "Full journal history" },
+  { vi: "Toàn bộ lịch sử Nhật ký", en: "Full journal history" },
   { vi: "Báo cáo chiêm tinh nâng cao", en: "Advanced astrology reports" }
 ];
 
@@ -2748,7 +2748,7 @@ function reportFromAstrologyBackendResult(
         ? backendSections
         : [{
             key: "summary",
-            title: language === "vi" ? "Bản đọc Astrology" : "Astrology reading",
+            title: language === "vi" ? "Bài đọc chiêm tinh" : "Astrology reading",
             body: result.interpretation.summary,
             icon: "sparkles-outline" as keyof typeof Ionicons.glyphMap
           }]),
@@ -5130,7 +5130,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     } catch {
       setStorageError(true);
       showToast(language === "vi"
-        ? "Chưa xóa được dữ liệu Astrology đã đồng bộ. Hãy thử lại khi có kết nối."
+        ? "Chưa xóa được dữ liệu chiêm tinh đã đồng bộ. Hãy thử lại khi có kết nối."
         : "Synced Astrology data could not be deleted. Try again when connected.");
       return;
     }
@@ -5142,7 +5142,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     recordEvent("birth_profile_cleared");
     showToast(backendOptions.authToken
       ? language === "vi"
-        ? "Đã xóa hồ sơ ngày sinh và report Astrology AI đã đồng bộ"
+        ? "Đã xóa hồ sơ ngày sinh và các bài đọc AI Chiêm tinh đã đồng bộ"
         : "Birth profile and synced Astrology AI reports deleted"
       : c.birthProfileCleared);
   };
@@ -6100,7 +6100,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                 onClearJournal={() => requestConfirmation({
                   title: language === "vi" ? "Xóa Nhật ký?" : "Clear Journal?",
                   body: language === "vi" ? "Các insight và ghi chú sẽ bị xóa trên thiết bị; yêu cầu xoá cũng sẽ được gửi tới cloud khi có kết nối. Share-card trên thiết bị sẽ bị xoá." : "Saved insights and notes will be removed on this device; their deletion will also be sent to the cloud when connected. Device share cards will be removed.",
-                  confirmLabel: language === "vi" ? "Xóa Journal" : "Clear Journal",
+                  confirmLabel: language === "vi" ? "Xóa Nhật ký" : "Clear Journal",
                   tone: "danger",
                   onConfirm: () => confirmDestructiveAction(clearJournalHistory)
                 })}

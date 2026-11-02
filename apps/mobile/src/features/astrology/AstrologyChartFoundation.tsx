@@ -29,7 +29,7 @@ function copy(language: AstrologyLanguage) {
         notCalculated:
           "Không hiển thị Rising, nhà hay góc chiếu như dữ kiện chắc chắn khi thiếu giờ sinh/nơi sinh/timezone đã xác nhận.",
         queued:
-          "Bạn có thể khám phá thư viện thần thoại từ trang Astrology, ngay cả khi chưa có bản đồ cá nhân.",
+          "Bạn có thể khám phá thư viện thần thoại từ trang Chiêm tinh, ngay cả khi chưa có bản đồ cá nhân.",
         placement: "VỊ TRÍ",
         angle: "GÓC",
       }

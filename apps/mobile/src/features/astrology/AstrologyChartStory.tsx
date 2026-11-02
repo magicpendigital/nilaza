@@ -1253,7 +1253,7 @@ export function AstrologyChartStory({
                   </Text>
                 <Text style={styles.methodBody}>
                     {vi
-                      ? "Mỗi lượt Astrology AI cần bạn đồng ý riêng. Ứng dụng gửi một tập hợp giới hạn các dữ kiện chiêm tinh liên quan do Nilaza chọn cùng câu hỏi hiện tại tới AI provider. Ngày, giờ, nơi sinh, tọa độ, múi giờ, Journal và lịch sử trò chuyện không được gửi tới mô hình; câu hỏi không được lưu trong report hoặc usage log."
+                      ? "Mỗi lượt AI Chiêm tinh cần bạn đồng ý riêng. Ứng dụng gửi một tập hợp giới hạn các dữ kiện chiêm tinh liên quan do Nilaza chọn cùng câu hỏi hiện tại tới nhà cung cấp AI. Ngày, giờ, nơi sinh, tọa độ, múi giờ, Nhật ký và lịch sử trò chuyện không được gửi tới mô hình; câu hỏi không được lưu trong report hoặc usage log."
                       : "Astrology AI requires separate consent for each turn. The app sends a limited set of relevant chart facts selected by Nilaza with your current question to the AI provider. Birth date, time, place, coordinates, timezone, Journal, and chat history are excluded from the model request; the question is not stored in the report or usage log."}
                 </Text>
                 </View>

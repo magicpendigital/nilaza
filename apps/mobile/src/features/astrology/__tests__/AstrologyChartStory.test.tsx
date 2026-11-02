@@ -117,7 +117,7 @@ describe("AstrologyChartStory", () => {
     ).toBeTruthy();
     expect(
       screen.getByText(
-        "Chỉ gửi dữ kiện chiêm tinh đã tính và câu hỏi hiện tại sau khi bạn đồng ý. Không gửi ngày giờ nơi sinh, Journal hay lịch sử chat.",
+        "Chỉ gửi dữ kiện chiêm tinh đã tính và câu hỏi hiện tại sau khi bạn đồng ý. Không gửi ngày giờ nơi sinh, Nhật ký hay lịch sử trò chuyện.",
       ),
     ).toBeTruthy();
 
@@ -236,7 +236,7 @@ describe("AstrologyChartStory", () => {
     expect(screen.getByRole("button", { name: "Nhà 1" })).toBeTruthy();
     expect(
       screen.getByText(
-        /Mỗi lượt Astrology AI cần bạn đồng ý riêng/,
+        /Mỗi lượt AI Chiêm tinh cần bạn đồng ý riêng/,
       ),
     ).toBeTruthy();
 
