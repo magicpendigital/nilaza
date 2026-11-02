@@ -142,8 +142,7 @@ Deno.test("OpenRouter applies the canonical Astrology AI JSON schema only to its
       return Object.hasOwn(value, "$ref") || Object.values(value).some(hasRef);
     };
     assert(!hasRef(schema), "Provider schema must inline canonical contract references");
-    // Tarot asks for bare JSON (JSON mode) but never inherits the Astrology schema or provider rules.
-    assert(bodies[1].response_format?.type === "json_object" && bodies[1].provider === undefined, "Other AI routes must not inherit Astrology output settings");
+    assert(bodies[1].response_format === undefined && bodies[1].provider === undefined, "Other AI routes must not inherit Astrology output settings");
   } finally {
     globalThis.fetch = originalFetch;
   }
