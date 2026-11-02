@@ -9050,7 +9050,7 @@ function TarotGuideSelector({
           <Ionicons name="people-outline" size={18} color={colors.ink} />
         </View>
         <View style={styles.flex}>
-          <Text style={styles.tarotGuideKicker}>{language === "vi" ? "Guide đọc trải bài" : "Reading guide"}</Text>
+          <Text style={styles.tarotGuideKicker}>{language === "vi" ? "Người dẫn đọc trải bài" : "Reading guide"}</Text>
           <Text style={styles.tarotGuideTitle}>
             {language === "vi" ? `Giọng đọc hợp với ${deckName}` : `Voice matched to ${deckName}`}
           </Text>
@@ -9090,7 +9090,7 @@ function TarotGuideSelector({
       </ScrollView>
       <Text style={styles.tarotGuideSafetyNote}>
         {language === "vi"
-          ? "Bạn có thể đổi guide để đổi góc nhìn; trải bài vẫn là tự phản chiếu, không phải kết luận cố định."
+          ? "Bạn có thể đổi người dẫn để đổi góc nhìn; trải bài vẫn là tự phản chiếu, không phải kết luận cố định."
           : "Change the guide to change the lens; the reading stays reflective, not a fixed conclusion."}
       </Text>
     </View>
