@@ -53,8 +53,8 @@ function astrologyModelOutputSchema() {
 }
 
 function openRouterFormat(request: ModelProviderRequest) {
-  // Tarot must be bare JSON; JSON mode stops models from wrapping it in a Markdown fence.
-  if (request.feature === "tarot_reading") return { response_format: { type: "json_object" } };
+  // No JSON mode for Tarot: QA 2026-11-03 showed DeepSeek taking 22 s and returning a malformed reply
+  // with it on (6 s without). The rejection code in the trace now names any structure problem.
   if (request.feature !== "astrology_report" || request.responseSchema !== "astrology_ai_insight_v1") return {};
   return {
     response_format: {

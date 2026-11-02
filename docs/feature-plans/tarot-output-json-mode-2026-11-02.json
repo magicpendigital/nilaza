@@ -3,11 +3,11 @@
   "taskId": "tarot-output-json-mode-2026-11-02",
   "ownerAgent": "ai_operations_agent",
   "lane": "ai_tarot_output_reliability",
-  "goal": "Live QA 2026-11-02 (trace read with Owner approval): DeepSeek v4.1 Flash answered a 3-card Tarot reading completely (finish stop, 2891 chars) but the structure check rejected it, so the app showed the library meanings. The rejection cause was not recorded. Record a content-free rejection code in the trace, and ask OpenRouter for JSON mode on Tarot so models return bare JSON instead of a Markdown-fenced block. Acceptance rules stay unchanged.",
+  "goal": "Live QA 2026-11-02 (trace read with Owner approval): DeepSeek v4.1 Flash answered a 3-card Tarot reading completely (finish stop, 2891 chars) but the structure check rejected it, so the app showed the library meanings. The rejection cause was not recorded. Record a content-free rejection code in the trace, and ask OpenRouter for JSON mode on Tarot so models return bare JSON instead of a Markdown-fenced block. Acceptance rules stay unchanged. Follow-up 2026-11-03 (Owner approved): JSON mode is removed again — live QA showed DeepSeek taking 22 s and returning a malformed reply with it on; the trace rejection code stays.",
   "successCriteria": [
     "checkTarotOutputText returns the output or a code (fenced_json, not_json, title, body, card_ids, ...); parseTarotOutput and validateTarotOutput accept exactly what they did.",
     "ai-tarot-reading records rejection.code in the trace finalization when an answer is rejected.",
-    "OpenRouter requests for tarot_reading carry response_format json_object and no Astrology provider settings.",
+    "OpenRouter requests for tarot_reading carry no response_format and no Astrology provider settings (JSON mode removed 2026-11-03).",
     "Deno shared tests, endpoint tests, backend contracts and mobile tests pass."
   ],
   "writeScope": [
@@ -98,15 +98,11 @@
   },
   "workingTreeReview": {
     "paths": [
-      "apps/admin/workflow-catalog.js",
       "docs/feature-plans/tarot-output-json-mode-2026-11-02.json",
-      "packages/ai-contracts/tarot-output.ts",
       "supabase/functions/_shared/model-provider.test.ts",
-      "supabase/functions/_shared/providers/openrouter.ts",
-      "supabase/functions/_shared/tarot-output.test.ts",
-      "supabase/functions/ai-tarot-reading/index.ts"
+      "supabase/functions/_shared/providers/openrouter.ts"
     ],
-    "note": "Fresh branch from main after PR #21."
+    "note": "Follow-up branch from main after PR #22."
   },
   "validationCommands": [
     "npm run feature:preflight -- --record docs/feature-plans/tarot-output-json-mode-2026-11-02.json",
