@@ -25,7 +25,8 @@
     "apps/mobile/src/features/tarot/TarotResultView.tsx",
     "apps/mobile/src/features/tarot/__tests__/TarotResultView.test.tsx",
     "apps/mobile/src/features/journal/savedReading.ts",
-    "apps/mobile/src/features/journal/__tests__/savedReading.test.ts"
+    "apps/mobile/src/features/journal/__tests__/savedReading.test.ts",
+    "apps/admin/workflow-catalog.js"
   ],
   "untouchedSurfaces": [
     "No SQL or migration; deploying ai-astrology-insight waits for Owner approval.",
@@ -106,12 +107,7 @@
   },
   "workingTreeReview": {
     "paths": [
-      "apps/mobile/App.tsx",
-      "apps/mobile/src/__tests__/userFacingCopy.test.ts",
-      "apps/mobile/src/features/journal/__tests__/savedReading.test.ts",
-      "apps/mobile/src/features/journal/savedReading.ts",
-      "apps/mobile/src/features/tarot/TarotResultView.tsx",
-      "apps/mobile/src/features/tarot/__tests__/TarotResultView.test.tsx",
+      "apps/admin/workflow-catalog.js",
       "docs/feature-plans/ui-wave-b-2026-11-02.json"
     ],
     "note": "Fresh branch from origin/main."
