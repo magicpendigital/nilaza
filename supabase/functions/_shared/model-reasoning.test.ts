@@ -66,3 +66,10 @@ Deno.test("OpenRouter sends the reasoning object and treats a JSON reply cut off
     globalThis.fetch = originalFetch;
   }
 });
+
+Deno.test("Astrology waits 60 s per model, other features 40 s (Owner 2026-11-03)", async () => {
+  const { providerTimeoutMs } = await import("./model-provider.ts");
+  assertEquals(providerTimeoutMs("astrology_report"), 60_000, "astrology");
+  assertEquals(providerTimeoutMs("ai_council"), 40_000, "council");
+  assertEquals(2 * providerTimeoutMs("astrology_report") < 150_000, true, "two attempts fit the 150 s idle limit");
+});

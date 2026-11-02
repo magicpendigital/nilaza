@@ -24,6 +24,14 @@ export type ModelRoute = {
 /** A provider that has not answered after this long is aborted, so the route can fall back (analysis AI-14). */
 export const PROVIDER_TIMEOUT_MS = 40_000;
 
+/**
+ * Astrology AI reasons over a strict schema and needs longer (Owner 2026-11-03: 60 s per model). Two
+ * attempts stay under the 150 s Supabase Edge Function idle limit; longer waits need streaming.
+ */
+export function providerTimeoutMs(feature: string) {
+  return feature === "astrology_report" ? 60_000 : PROVIDER_TIMEOUT_MS;
+}
+
 export const REASONING_MODES = ["off", "minimal", "low", "medium", "high"] as const;
 export type ReasoningMode = typeof REASONING_MODES[number];
 /** Hidden reasoning for one route; maxTokens caps the reasoning budget instead of an effort level. */

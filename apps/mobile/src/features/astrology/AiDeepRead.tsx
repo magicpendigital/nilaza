@@ -1,8 +1,32 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors, radius, typography } from "../../theme";
 import type { Language } from "../../types";
+
+// While the deep read is written (up to about two minutes, Owner 2026-11-03) the card names the stage
+// the request is most likely in. Stages follow elapsed time, not live progress, and say so.
+export const deepReadStages = [
+  { after: 0, vi: "Đang đọc các vị trí trong lá số", en: "Reading the placements in your chart" },
+  { after: 10, vi: "Đang nối các góc hợp và suy ngẫm", en: "Connecting aspects and reflecting" },
+  { after: 60, vi: "Đang viết bài đọc", en: "Writing your read" }
+];
+
+export function deepReadStage(elapsedSeconds: number) {
+  return [...deepReadStages].reverse().find((stage) => elapsedSeconds >= stage.after) ?? deepReadStages[0];
+}
+
+function useElapsedSeconds(active: boolean) {
+  const [elapsed, setElapsed] = useState(0);
+  useEffect(() => {
+    setElapsed(0);
+    if (!active) return;
+    const started = Date.now();
+    const timer = setInterval(() => setElapsed(Math.floor((Date.now() - started) / 1000)), 1000);
+    return () => clearInterval(timer);
+  }, [active]);
+  return elapsed;
+}
 
 // Đọc sâu với AI on the chart overview (Owner decisions 2026-10-31): free accounts see what the AI adds
 // and "Có trong Premium" (Sắp ra mắt while nothing is sold); Premium writes one deep read per local day.
@@ -18,6 +42,8 @@ export function AiDeepRead({ language, available, premiumOnSale, status, answer,
 }) {
   const vi = language === "vi";
   const [soon, setSoon] = useState(false);
+  const elapsed = useElapsedSeconds(status === "loading");
+  const stage = deepReadStage(elapsed);
   return (
     <View style={s.card}>
       <View style={s.head}>
@@ -49,6 +75,21 @@ export function AiDeepRead({ language, available, premiumOnSale, status, answer,
               <Text style={s.secondaryText}>{vi ? "Có trong Premium" : "Included in Premium"}</Text>
             </Pressable>
           )}
+          {status === "loading" ? (
+            <View accessibilityLiveRegion="polite" style={s.stages}>
+              {deepReadStages.map((item) => {
+                const done = elapsed >= item.after && item !== stage;
+                const current = item === stage;
+                return (
+                  <View key={item.after} style={s.stageRow}>
+                    <Ionicons name={done ? "checkmark-circle" : current ? "ellipse" : "ellipse-outline"} size={14} color={done || current ? colors.gold : "#6E675F"} />
+                    <Text style={[s.stageText, current && s.stageCurrent]}>{vi ? item.vi : item.en}</Text>
+                  </View>
+                );
+              })}
+              <Text style={s.note}>{vi ? "Thường mất 1–2 phút. Các bước tính theo thời gian chờ, không phải tiến độ thật." : "Usually 1–2 minutes. Steps follow the wait time, not live progress."}</Text>
+            </View>
+          ) : null}
           {soon && !available ? <Text style={s.note}>{premiumOnSale ? (vi ? "Mở mục Tôi để xem gói Premium." : "Open Me to see Premium.") : vi ? "Sắp ra mắt." : "Coming soon."}</Text> : null}
           {status === "error" && error ? <Text accessibilityRole="alert" style={s.error}>{error}</Text> : null}
         </>
@@ -68,6 +109,10 @@ const s = StyleSheet.create({
   primaryText: { color: colors.charcoal, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 14.5 },
   secondary: { minHeight: 48, borderRadius: radius.pill, borderWidth: 1, borderColor: "rgba(247, 241, 230, 0.2)", alignItems: "center", justifyContent: "center", paddingHorizontal: 16 },
   secondaryText: { color: colors.ivory, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 14.5 },
+  stages: { gap: 6 },
+  stageRow: { flexDirection: "row", alignItems: "center", gap: 8 },
+  stageText: { color: "#8F877C", fontFamily: typography.bodyFontFamily, fontSize: 13.5 },
+  stageCurrent: { color: colors.ivory, fontFamily: typography.bodySemiBoldFontFamily },
   note: { color: "#8F877C", fontFamily: typography.bodyFontFamily, fontSize: 12.5, lineHeight: 18 },
   error: { color: "#E7B7BE", fontFamily: typography.bodyFontFamily, fontSize: 13.5 }
 });

@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "taskId": "astrology-ai-timeout-2026-11-03",
+  "ownerAgent": "ai_operations_agent",
+  "lane": "astrology_ai_wait",
+  "goal": "Live QA 2026-11-03 (trace read with Owner approval): Astrology AI with reasoning cap 3000 timed out at 40 s on both DeepSeek and Xiaomi. Owner chose 60 s per model now and streaming later. Supabase Edge Functions end a request that sends nothing within 150 s (docs checked 2026-11-03), so two 60 s attempts fit. The app waits 140 s for Astrology and the deep read card shows time-based stages that say they are not live progress.",
+  "successCriteria": [
+    "providerTimeoutMs returns 60 s for astrology_report and 40 s otherwise; every provider uses it.",
+    "The app waits 140 s for Astrology AI.",
+    "While loading, the deep read card lists three stages that follow elapsed time and says so.",
+    "Deno and mobile tests pass."
+  ],
+  "writeScope": [
+    "supabase/functions/_shared/model-provider.ts",
+    "supabase/functions/_shared/providers/anthropic.ts",
+    "supabase/functions/_shared/providers/gemini.ts",
+    "supabase/functions/_shared/providers/openai.ts",
+    "supabase/functions/_shared/providers/openrouter.ts",
+    "supabase/functions/_shared/model-reasoning.test.ts",
+    "apps/mobile/src/backendClient.ts",
+    "apps/mobile/src/features/astrology/AiDeepRead.tsx",
+    "apps/mobile/src/features/astrology/__tests__/deepReadStages.test.tsx",
+    "apps/admin/workflow-catalog.js"
+  ],
+  "untouchedSurfaces": [
+    "Other features keep the 40 s timeout.",
+    "Deploying ai-astrology-insight waits for Owner approval; streaming is a later task."
+  ],
+  "impact": {
+    "entryPoint": "Astrology AI deep read.",
+    "dataWrite": "No schema change; published routes may carry safety_policy.reasoning.",
+    "backendContract": "Astrology provider calls may run 60 s each.",
+    "canonicalContract": "Owner decision 2026-11-03: 60 s per model for Astrology now, streaming later.",
+    "adminVisibility": "Model Router shows Hidden reasoning and Reasoning token cap.",
+    "privacySafety": "Reasoning text is never shown or stored; only token counts in the billing receipt.",
+    "observability": "No analytics or logging change.",
+    "rollback": "Revert the commit and redeploy ai-astrology-insight.",
+    "surfacesIntentionallyUntouched": "Prompts, persona content, database schema, other providers (reasoning applies to OpenRouter only).",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs validation, commits and pushes to the PR branch without merging or deploying."
+  },
+  "canonicalContracts": [
+    "Owner decision 2026-11-03: Astrology 60 s per model; streaming later starting with persona chat."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "AI operations routes and owners.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "reason": "Default routes.",
+      "sha256": "24790b28e5c4fc05440596f5432125cb25810461c7b96043e681519ee0ff0260"
+    },
+    {
+      "path": "apps/admin/app.js",
+      "reason": "Admin model router.",
+      "sha256": "78f56a5e1cbbe13e672b1ed807217ed68b235625d14268feeb0e9cd300862325"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "OpenRouter model ids were checked against https://openrouter.ai/api/v1/models on 2026-11-01."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://supabase.com/docs/guides/functions/limits",
+      "checkedAt": "2026-11-03",
+      "reason": "Wall clock 150 s Free / 400 s paid; request idle timeout 150 s before a response starts."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change.",
+    "sensitiveData": "No new personal data is handled.",
+    "secretsLogging": "No credentials, tokens or logs are added.",
+    "externalInput": "Model ids are fixed strings in code; no new user input.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration; function deploys wait for Owner approval.",
+    "stopCondition": "Stop before deploying without Owner approval or if tests fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/src/backendClient.ts",
+      "apps/mobile/src/features/astrology/AiDeepRead.tsx",
+      "apps/mobile/src/features/astrology/__tests__/deepReadStages.test.tsx",
+      "docs/feature-plans/astrology-ai-timeout-2026-11-03.json",
+      "supabase/functions/_shared/model-provider.ts",
+      "supabase/functions/_shared/model-reasoning.test.ts",
+      "supabase/functions/_shared/providers/anthropic.ts",
+      "supabase/functions/_shared/providers/gemini.ts",
+      "supabase/functions/_shared/providers/openai.ts",
+      "supabase/functions/_shared/providers/openrouter.ts"
+    ],
+    "note": "Fresh branch from main after PR #26."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/astrology-ai-timeout-2026-11-03.json",
+    "npx deno test --allow-read --allow-env --no-lock supabase/functions/_shared/",
+    "npm --prefix apps/mobile test -- --silent"
+  ],
+  "managerTestPath": "Run a deep read: the card shows the stages, and an AI read arrives within about two minutes.",
+  "residualRisk": "If both models need more than 60 s the read still fails; streaming is the lasting fix.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
