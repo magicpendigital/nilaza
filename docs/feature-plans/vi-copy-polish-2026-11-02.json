@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "taskId": "vi-copy-polish-2026-11-02",
+  "ownerAgent": "mobile_ux_fixes_agent",
+  "lane": "mobile_vi_copy_polish",
+  "goal": "Review items TA-10, JO-07, CH-14/15 and CO-04 (analysis 2026-10-30): Vietnamese screens still mix English words (guide, reading, prompt, review safety, Astrology AI, Oracle's Synthesis, AI companion). Replace them with plain Vietnamese using the approved term \"người dẫn đường\" / \"người dẫn\", and keep them out with the existing user-facing copy test. Also TA-13: a card opened from a reading names its spread position next to the drawn orientation. Also TA-14: each deck in the picker is a radio with a checked state and the Learn button is a separate 48px target.",
+  "successCriteria": [
+    "The Vietnamese copy table in App.tsx, the Council fallback lines and the Astrology consent title use plain Vietnamese.",
+    "userFacingCopy.test.ts bans the old mixed phrases.",
+    "Mobile typecheck and Jest pass.",
+    "A card meaning opened from a reading shows the spread position and the drawn orientation first.",
+    "Deck options expose a checked state and the Learn button is at least 48px tall."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/council/useAiCouncilRoom.ts",
+    "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+    "apps/mobile/src/__tests__/userFacingCopy.test.ts",
+    "apps/mobile/src/features/tarot/TarotCardGuide.tsx",
+    "apps/mobile/src/features/tarot/__tests__/cardGuide.test.tsx"
+  ],
+  "untouchedSurfaces": [
+    "English copy, server prompts, persona content data and Admin are unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Vietnamese strings on Home, Chat, Tarot, Council and Astrology consent.",
+    "dataWrite": "No data is written or migrated.",
+    "backendContract": "No backend request or response changes.",
+    "canonicalContract": "Analysis 2026-10-30 items TA-10, JO-07, CH-14/15, CO-04; Owner-approved term người dẫn đường.",
+    "adminVisibility": "Admin pages are not touched by this change.",
+    "privacySafety": "No change to what data is collected or sent.",
+    "observability": "No analytics or logging change.",
+    "rollback": "Revert the commit.",
+    "surfacesIntentionallyUntouched": "English copy, persona names from the database, prompts.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs validation, commits and pushes to the PR branch without merging or deploying."
+  },
+  "canonicalContracts": [
+    "Analysis 2026-10-30: TA-10, JO-07, CH-14/15, CO-04 — thuần Việt, thuật ngữ người dẫn đường."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile and AI routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "supabase/functions/ai-council/index.ts",
+      "reason": "Council turns and fallback.",
+      "sha256": "db8376a5c04a230c0c3684a666e0c2b3008c8784c39b7a716e9d1b89d57da0f7"
+    },
+    {
+      "path": "supabase/functions/_shared/providers/openrouter.ts",
+      "reason": "Provider fetch.",
+      "sha256": "eacd6917944c1352a11f8ad805f8ed4505742c40eeee41294aa96771c15c8df3"
+    },
+    {
+      "path": "apps/mobile/src/features/council/useAiCouncilRoom.ts",
+      "reason": "Council turn mapping.",
+      "sha256": "d41c2940cd2c145ff18a6f2b263f32546f20e1f67c496ce191b567382e4f77a1"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing Deno std assert and React Native Linking."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change.",
+    "sensitiveData": "No new personal data is handled.",
+    "secretsLogging": "No credentials, tokens or logs are added.",
+    "externalInput": "No new input is accepted; only response mapping changes.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration; three function deploys wait for approval.",
+    "stopCondition": "Stop before deploying without Owner approval.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/__tests__/userFacingCopy.test.ts",
+      "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+      "apps/mobile/src/features/council/useAiCouncilRoom.ts",
+      "apps/mobile/src/features/tarot/TarotCardGuide.tsx",
+      "apps/mobile/src/features/tarot/__tests__/cardGuide.test.tsx",
+      "docs/feature-plans/vi-copy-polish-2026-11-02.json"
+    ],
+    "note": "Fresh branch from origin/main."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/vi-copy-polish-2026-11-02.json",
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent"
+  ],
+  "managerTestPath": "Open Chat, Tarot and Council in Vietnamese and see no English words in labels and status lines.",
+  "residualRisk": "Persona names stored in the database (for example the Council guide name) still start with Guide and need a content change.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

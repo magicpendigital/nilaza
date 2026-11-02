@@ -219,7 +219,7 @@ function buildCouncilReply(config: AiCouncilConfig, persona: Persona, question: 
 function buildFallbackSynthesis(language: Language): AiCouncilSynthesis {
   return {
     consensus: language === "vi"
-      ? "Các guide cùng mời bạn tách điều biết rõ khỏi điều còn thiếu."
+      ? "Các người dẫn cùng mời bạn tách điều biết rõ khỏi điều còn thiếu."
       : "The guides invite you to separate what is known from what is missing.",
     tensions: [language === "vi" ? "Chưa đủ dữ kiện để kết luận thay bạn." : "There is not enough context to conclude for you."],
     assumptions: [language === "vi" ? "Đây là phản chiếu, không phải dự đoán chắc chắn." : "This is reflection, not a certain prediction."],
@@ -295,7 +295,7 @@ function councilStarterPrompts(template: AiCouncilTemplate, language: Language) 
 function councilFallbackFollowUps(template: AiCouncilTemplate, language: Language) {
   const prompts = councilStarterPrompts(template, language);
   return language === "vi"
-    ? [prompts[1] ?? "Hội đồng có thể đi sâu hơn không?", "Mỗi guide sẽ chọn một bước nhỏ nào?", prompts[2] ?? "Điều gì mình đang bỏ sót?"]
+    ? [prompts[1] ?? "Hội đồng có thể đi sâu hơn không?", "Mỗi người dẫn sẽ chọn một bước nhỏ nào?", prompts[2] ?? "Điều gì mình đang bỏ sót?"]
     : [prompts[1] ?? "Can the council go deeper?", "What small step would each guide choose?", prompts[2] ?? "What am I missing?"];
 }
 

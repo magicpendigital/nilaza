@@ -1557,7 +1557,7 @@ export function AstrologyExperience({
         <View style={s.overlay}>
           <View style={s.dialog}>
             <Text style={s.heading}>
-              {vi ? "Cho phép gửi dữ kiện cho Astrology AI?" : "Share chart facts with Astrology AI?"}
+              {vi ? "Cho phép gửi dữ kiện lá số cho AI Chiêm tinh?" : "Share chart facts with Astrology AI?"}
             </Text>
             <Text style={s.note}>
               {vi

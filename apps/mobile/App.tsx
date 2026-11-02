@@ -1228,18 +1228,18 @@ const copy = {
     journal: "Nhật ký",
     profile: "Hồ sơ",
     welcomeTitle: "Nilaza",
-    welcomeText: "Một AI companion huyền học, dịu dàng và tinh tế để bạn lắng nghe bản thân rõ hơn.",
+    welcomeText: "Một người bạn AI dịu dàng, giúp bạn lắng nghe bản thân rõ hơn qua Tarot, chiêm tinh và nhật ký.",
     language: "Ngôn ngữ",
     nickname: "Tên hiển thị",
     seeking: "Hôm nay bạn đang tìm điều gì?",
-    tone: "Bạn muốn guide trả lời theo tone nào?",
+    tone: "Bạn muốn người dẫn đường trò chuyện theo giọng nào?",
     birth: "Thông tin sinh tùy chọn",
     birthDate: "Ngày sinh YYYY-MM-DD",
     birthTime: "Giờ sinh HH:mm",
     birthPlace: "Nơi sinh",
     skipBirth: "Có thể bỏ qua và cập nhật sau.",
-    birthPrivacyNote: "Ngày, giờ và nơi sinh chỉ dùng để cá nhân hóa astrology khi bạn chủ động mở tính năng đó. Bạn có thể để trống.",
-    birthTimeUnknownHint: "Nilaza vẫn có thể gợi ý tarot, guide và nhật ký gợi ý nếu bạn không biết giờ sinh.",
+    birthPrivacyNote: "Ngày, giờ và nơi sinh chỉ dùng để cá nhân hóa phần chiêm tinh khi bạn chủ động mở tính năng đó. Bạn có thể để trống.",
+    birthTimeUnknownHint: "Không biết giờ sinh, Nilaza vẫn gợi ý được Tarot, người dẫn đường và câu hỏi Nhật ký.",
     disclaimer: "Nội dung dùng cho giải trí và tự phản chiếu, không phải lời khuyên chuyên môn.",
     dailyTitle: "Dẫn hướng hôm nay",
     dailyInsight: "Hôm nay mời bạn lắng nghe trước khi quyết định. Một khoảng dừng nhỏ có thể cho thấy đâu là mong muốn thật của mình.",
@@ -1256,9 +1256,9 @@ const copy = {
     deckReadingStyle: "Phong cách đọc",
     chatGuide: "Trò chuyện",
     openJournal: "Nhật ký",
-    recommendedGuide: "Guide gợi ý",
+    recommendedGuide: "Người dẫn gợi ý",
     recent: "Lượt rút gần đây",
-    chooseGuide: "Chọn guide",
+    chooseGuide: "Chọn người dẫn",
     askSomething: "Viết điều bạn đang nghĩ...",
     send: "Gửi",
     newChat: "Hội thoại mới",
@@ -1286,15 +1286,15 @@ const copy = {
     missingGoals: "Chọn ít nhất một điều bạn đang tìm kiếm hôm nay.",
     unknownBirthTime: "Tôi không biết giờ sinh",
     soulPreviewTitle: "Hồ sơ khởi đầu của bạn",
-    soulPreviewText: "Nilaza sẽ dùng những lựa chọn này để gợi ý guide, Tarot và Nhật ký phù hợp hơn. Bạn luôn có thể chỉnh lại trong Hồ sơ.",
+    soulPreviewText: "Nilaza sẽ dùng những lựa chọn này để gợi ý người dẫn đường, Tarot và Nhật ký phù hợp hơn. Bạn luôn có thể chỉnh lại trong Hồ sơ.",
     soulPreviewLoading: "Đang lưu lựa chọn, tạo dẫn hướng đầu tiên và đưa bạn vào Trang chủ.",
     createProfile: "Tạo hồ sơ",
     enterHome: "Vào Nilaza",
     creatingProfile: "Đang tạo khoảnh khắc đầu tiên...",
-    generatingAnswer: "Guide đang lắng nghe...",
-    chatError: "Chưa tạo được câu trả lời. Bạn có thể thử lại hoặc chọn prompt ngắn hơn.",
+    generatingAnswer: "Người dẫn đang lắng nghe…",
+    chatError: "Chưa tạo được câu trả lời. Bạn có thể thử lại hoặc hỏi ngắn hơn.",
     generatingReading: "Đang mở trải bài...",
-    tarotError: "Chưa tạo được reading. Các lá bài vẫn đã được chọn an toàn trong app.",
+    tarotError: "Chưa tạo được lời diễn giải. Các lá bạn đã rút vẫn được giữ nguyên.",
     retry: "Thử lại",
     freePlan: "Gói miễn phí",
     credits: "Lượt dùng",
@@ -1308,14 +1308,14 @@ const copy = {
     creditLimitReached: "Bạn đã dùng hết lượt trải bài hôm nay. Lượt mới mở vào đầu ngày mai; trong lúc chờ, bạn có thể đọc thư viện 78 lá hoặc mở lại trải bài đã lưu.",
     premiumDeckPreview: "Bộ bài này sẽ mở khi gói Premium ra mắt. Bạn vẫn xem được câu chuyện và tranh; hôm nay hãy chọn một bộ miễn phí để trải bài.",
     premiumPersonaPreview: "Người dẫn đường này sẽ mở khi gói Premium ra mắt. Hôm nay hãy chọn một người dẫn đường miễn phí để trò chuyện.",
-    reported: "Đã ghi nhận để review safety.",
+    reported: "Đã ghi nhận. Nilaza sẽ xem lại nội dung này.",
     reportReading: "Báo cáo lượt trải bài",
     shareReading: "Tạo thẻ chia sẻ",
     sharePreviewReady: "Đã mở bảng chia sẻ.",
     sharePrivateNote: "Thẻ chia sẻ không kèm ghi chú riêng tư.",
     cardMeaning: "Ý nghĩa lá bài",
     deckComposition: "Cấu trúc bộ bài",
-    oracleSynthesis: "Oracle's Synthesis",
+    oracleSynthesis: "Tổng hợp của Oracle",
     safetyEvents: "Sự kiện an toàn"
   },
   en: {
@@ -7768,7 +7768,7 @@ export function TarotFlow({
                 />
               ))}
             </View>
-            <Text style={styles.disclaimer}>{language === "vi" ? "Reading dùng để tự phản chiếu, không phải dự đoán chắc chắn." : "Readings are for reflection, not certain predictions."}</Text>
+            <Text style={styles.disclaimer}>{language === "vi" ? "Trải bài dùng để tự phản chiếu, không phải dự đoán chắc chắn." : "Readings are for reflection, not certain predictions."}</Text>
           </View>
         )}
 
@@ -7782,11 +7782,15 @@ export function TarotFlow({
               {editorialDecks.map((deck) => {
                 const selected = deck.id === selectedDeckId;
                 const isFreeDeck = canViewContentTier(deck.accessTier, displayedTier);
+                const deckName = localizedText(deck.name, language);
+                // Analysis TA-14: the card selects, the Learn button is a separate 48px target.
                 return (
+                  <View key={deck.id} style={[styles.editorialDeckCard, selected && styles.editorialDeckCardSelected]}>
                   <Pressable
-                    key={deck.id}
-                    accessibilityRole="button"
-                    style={[styles.editorialDeckCard, selected && styles.editorialDeckCardSelected]}
+                    accessibilityRole="radio"
+                    accessibilityState={{ selected, checked: selected }}
+                    aria-checked={selected}
+                    accessibilityLabel={`${deckName}. ${isFreeDeck ? (language === "vi" ? "Đã gồm" : "Included") : (language === "vi" ? "Sắp ra mắt" : "Coming soon")}`}
                     onPress={() => setSelectedDeckId(deck.id)}
                   >
                     <View style={styles.editorialDeckArtFrame}>
@@ -7801,12 +7805,15 @@ export function TarotFlow({
                         </View>
                       </View>
                     </View>
-                    <View style={styles.editorialDeckCopy}>
-                      <Text style={styles.editorialDeckName}>{localizedText(deck.name, language)}</Text>
+                    <View style={[styles.editorialDeckCopy, styles.editorialDeckCopyTop]}>
+                      <Text style={styles.editorialDeckName}>{deckName}</Text>
                       <Text numberOfLines={2} style={styles.editorialDeckDescription}>{localizedText(deck.shortDescription, language)}</Text>
+                    </View>
+                  </Pressable>
+                    <View style={[styles.editorialDeckCopy, styles.editorialDeckCopyBottom]}>
                       <Pressable
                         accessibilityRole="button"
-                        accessibilityLabel={`${language === "vi" ? "Tìm hiểu bộ bài" : "Learn about"} ${localizedText(deck.name, language)}`}
+                        accessibilityLabel={`${language === "vi" ? "Tìm hiểu bộ bài" : "Learn about"} ${deckName}`}
                         style={styles.editorialDeckLearnButton}
                         onPress={() => {
                           setSelectedDeckId(deck.id);
@@ -7817,7 +7824,7 @@ export function TarotFlow({
                         <Ionicons name="book-outline" size={16} color={colors.gold} />
                       </Pressable>
                     </View>
-                  </Pressable>
+                  </View>
                 );
               })}
             </ResponsiveGrid>
@@ -7953,6 +7960,7 @@ export function TarotFlow({
             uprightMeaning={localizedText(activeMeaningCard.uprightMeaning, language)}
             reversedMeaning={localizedText(activeMeaningCard.reversedMeaning, language)}
             drawnReversed={activeMeaningFromReading?.reversed}
+            drawnPosition={activeMeaningFromReading?.spread || undefined}
             guide={getTarotCardGuide(activeMeaningCard.id, language)}
             practice={localizedText(activeMeaningCard.reflectionQuestion, language)}
             onOpenImage={(reversed) => openFullscreenTarotCard({ ...activeMeaningCard, reversed, spread: activeMeaningFromReading?.spread ?? "" })}
@@ -8543,7 +8551,7 @@ function ProfileScreen({
           subscription: premiumOnSale ? "Gói Premium & lượt dùng" : "Lượt dùng hôm nay",
           privacySection: "Riêng tư & dữ liệu",
           privacyBody: onlineSyncAvailable
-            ? "Dữ liệu có bản lưu trên thiết bị. Hồ sơ và các lịch sử được hỗ trợ có thể đồng bộ với tài khoản; từng mục Nhật ký cho biết đã đồng bộ hay còn lưu trên máy. Bản đồ chiêm tinh được tính trên thiết bị; chỉ gửi dữ kiện và câu hỏi cho Astrology AI sau khi bạn đồng ý. Đăng xuất không xóa tài khoản trên máy chủ."
+            ? "Dữ liệu có bản lưu trên thiết bị. Hồ sơ và các lịch sử được hỗ trợ có thể đồng bộ với tài khoản; từng mục Nhật ký cho biết đã đồng bộ hay còn lưu trên máy. Bản đồ chiêm tinh được tính trên thiết bị; chỉ gửi dữ kiện và câu hỏi cho AI Chiêm tinh sau khi bạn đồng ý. Đăng xuất không xóa tài khoản trên máy chủ."
             : "Hiện chưa có kết nối đồng bộ tài khoản cho nội dung này. Dữ liệu được lưu trên thiết bị; hãy xuất bản sao trước khi đổi hoặc xóa ứng dụng. Khi dùng tài khoản online, dữ liệu được hỗ trợ có thể được đồng bộ. Astrology AI chỉ nhận dữ kiện và câu hỏi sau khi bạn đồng ý.",
           accountSection: "Tài khoản & vận hành",
           operatorTools: "Công cụ vận hành",
@@ -9977,6 +9985,12 @@ zodiacProfilePrompt: {
     lineHeight: 22,
     opacity: 0.84
   },
+  editorialDeckCopyTop: {
+    paddingBottom: 0
+  },
+  editorialDeckCopyBottom: {
+    paddingTop: spacing.xs
+  },
   editorialDeckLearnButton: {
     alignItems: "center",
     alignSelf: "flex-start",
@@ -9985,9 +9999,8 @@ zodiacProfilePrompt: {
     borderWidth: 1,
     flexDirection: "row",
     gap: spacing.xs,
-    marginTop: spacing.xs,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 7
+    minHeight: 48,
+    paddingHorizontal: spacing.md
   },
   editorialDeckLearnButtonText: {
     color: colors.gold,
