@@ -269,7 +269,7 @@ export function AstrologyExperience({
         if (!validAstrologyData(value)) {
           setError(
             vi
-              ? "Dữ liệu Astrology đã lưu không hợp lệ. Chưa ghi đè; bạn có thể xuất bản sao để kiểm tra."
+              ? "Dữ liệu chiêm tinh đã lưu không hợp lệ. Chưa ghi đè; bạn có thể xuất bản sao để kiểm tra."
               : "Stored Astrology data is invalid. It has not been overwritten; export a copy to inspect.",
           );
           return;
@@ -632,13 +632,13 @@ export function AstrologyExperience({
       const localized: Record<string, [string, string]> = {
         authentication_required: ["Hãy đăng nhập để dùng Người dẫn đường AI.", "Sign in to use the AI guide."],
         premium_required: ["Người dẫn đường AI chưa mở cho tài khoản này. Nilaza sẽ báo bạn khi tính năng sẵn sàng.", "The AI guide is not open for this account yet. Nilaza will let you know when it is ready."],
-        daily_limit_reached: ["Bạn đã dùng hết lượt Astrology AI hôm nay. Hãy thử lại vào ngày mai.", "You have reached today's Astrology AI limit. Please try again tomorrow."],
+        daily_limit_reached: ["Bạn đã dùng hết lượt AI Chiêm tinh hôm nay. Hãy thử lại vào ngày mai.", "You have reached today's Astrology AI limit. Please try again tomorrow."],
         feature_paused: ["Đọc sâu với AI đang tạm nghỉ một chút. Lượt của bạn vẫn còn, hãy thử lại sau.", "Deep read with AI is resting for a while. Your turn is kept; please try again later."],
         route_not_ready: ["Người dẫn đường đang được bảo trì. Câu hỏi của bạn vẫn còn để thử lại sau.", "The guide is under maintenance. Your question is kept so you can try again later."],
         prompt_not_ready: ["Người dẫn đường đang được bảo trì. Câu hỏi của bạn vẫn còn để thử lại sau.", "The guide is under maintenance. Your question is kept so you can try again later."],
         chart_facts_unavailable: ["AI cần giờ sinh chính xác để dùng các dữ kiện của bản đồ này.", "The AI guide needs an exact birth time to use this chart's facts."],
         crisis_support: ["Bạn xứng đáng được hỗ trợ ngay lúc này. Hãy liên hệ dịch vụ khẩn cấp tại địa phương hoặc một người bạn tin cậy ngay.", "You deserve immediate support. Contact local emergency services or someone you trust now."],
-        professional_advice_blocked: ["Astrology AI không thể thay thế tư vấn y tế, pháp lý hoặc tài chính. Hãy trao đổi với chuyên gia phù hợp.", "Astrology AI cannot replace medical, legal, or financial guidance. Please speak with a qualified professional."],
+        professional_advice_blocked: ["AI Chiêm tinh không thể thay thế tư vấn y tế, pháp lý hoặc tài chính. Hãy trao đổi với chuyên gia phù hợp.", "Astrology AI cannot replace medical, legal, or financial guidance. Please speak with a qualified professional."],
       };
       const pair = localized[code ?? ""];
       setAiErrorMessage(pair ? pair[vi ? 0 : 1] : (vi
@@ -985,7 +985,7 @@ export function AstrologyExperience({
                         : "Data is saved on this device and is not synced to the cloud. Export a copy before changing devices or clearing app data."}
                     </Text>
                     <Control
-                      label={vi ? "Xuất dữ liệu Astrology" : "Export Astrology data"}
+                      label={vi ? "Xuất dữ liệu chiêm tinh" : "Export Astrology data"}
                       onPress={() => {
                         const account = accountGeneration.current;
                         void storage
@@ -1459,7 +1459,7 @@ export function AstrologyExperience({
                   <Control
                     label={
                       vi
-                        ? "Lưu câu hỏi vào Journal"
+                        ? "Lưu câu hỏi vào Nhật ký"
                         : "Save questions to Journal"
                     }
                     onPress={() => {
@@ -1474,7 +1474,7 @@ export function AstrologyExperience({
                       });
                       setNotice(
                         vi
-                          ? "Đã lưu câu hỏi vào Journal trên thiết bị."
+                          ? "Đã lưu câu hỏi vào Nhật ký trên thiết bị."
                           : "Questions saved to Journal on this device.",
                       );
                     }}

@@ -280,7 +280,7 @@
   },
   {
     "path": "apps/mobile/App.tsx",
-    "sha256": "50cde7723b69f854967da00b55c6e9feea8c50deb7725d6f8cac3a2a87de643d"
+    "sha256": "6c9b7f466b95d760f0bf81c227ac976a8424a29710b420e31e57b275a5e0a0c1"
   },
   {
     "path": "docs/FEATURE_PRD.md",
@@ -356,7 +356,7 @@
   },
   {
     "path": "supabase/functions/ai-astrology-insight/index.ts",
-    "sha256": "6818eb12468327292bc94f36dc2894d9190d4e89d356849ab83e0843af828ac9"
+    "sha256": "a42ae9ddc1ae5b8cf84ae04200b16e92d02d86cf73bf83d3a7625799d8e26445"
   },
   {
     "path": "supabase/functions/ai-astrology-report/index.ts",

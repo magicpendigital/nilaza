@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "taskId": "ui-wave-b-2026-11-02",
+  "ownerAgent": "mobile_ux_fixes_agent",
+  "lane": "mobile_ui_wave_b",
+  "goal": "Live QA 2026-11-02: a failed Astrology AI reading used up the only daily turn while the app said the question was kept for a retry; count only delivered readings (completed or later deleted) against the daily limit, with at most 2 extra failed attempts per day to bound cost. Also finish the Vietnamese copy pass on Astrology (Journal, Astrology AI, AI provider) per analysis TA-10/JO-07, and continue UI items TA-08 and JO-05 from the 2026-10-30 analysis. JO-05 lines from PR #14 read {id, reversed, spread} while synced readings store {cardId, orientation, positionLabel}, so nothing showed for real entries; one parser now reads both.",
+  "successCriteria": [
+    "ai-astrology-insight returns daily_limit_reached only after a delivered reading or after the failed-attempt allowance is spent.",
+    "Vietnamese Astrology and Journal strings use Nhật ký, Chiêm tinh and AI Chiêm tinh; the copy test bans the old phrases.",
+    "Mobile typecheck, Jest and backend contract checks pass.",
+    "TA-08: each card in a Tarot result says whether its paragraph is the reading for this question (Vì sao lá này ở vị trí …) or the general card meaning.",
+    "JO-05: a saved Tarot reading in the Journal shows a row of small card images, reversed cards turned, each labelled with position, name and orientation.",
+    "Journal and Home toasts no longer say insight, cloud or Share-card in Vietnamese."
+  ],
+  "writeScope": [
+    "supabase/functions/ai-astrology-insight/index.ts",
+    "scripts/validate-backend-contracts.mjs",
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/astrology/AstrologyAiGuidePanel.tsx",
+    "apps/mobile/src/features/astrology/AstrologyChartFoundation.tsx",
+    "apps/mobile/src/features/astrology/AstrologyChartStory.tsx",
+    "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+    "apps/mobile/src/features/astrology/__tests__/AstrologyChartStory.test.tsx",
+    "apps/mobile/src/__tests__/userFacingCopy.test.ts",
+    "apps/mobile/src/features/tarot/TarotResultView.tsx",
+    "apps/mobile/src/features/tarot/__tests__/TarotResultView.test.tsx",
+    "apps/mobile/src/features/journal/savedReading.ts",
+    "apps/mobile/src/features/journal/__tests__/savedReading.test.ts",
+    "apps/admin/workflow-catalog.js"
+  ],
+  "untouchedSurfaces": [
+    "No SQL or migration; deploying ai-astrology-insight waits for Owner approval.",
+    "English copy and persona data are unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Astrology AI deep read quota; Vietnamese Astrology and Journal labels.",
+    "dataWrite": "No new writes; the quota now also reads the user's own astrology_reports rows for today.",
+    "backendContract": "daily_limit_reached semantics change: delivered readings count, failed attempts are capped at limit + 2.",
+    "canonicalContract": "Analysis TA-01 (do not charge a turn for a fallback) applied to Astrology AI; TA-10/JO-07 copy.",
+    "adminVisibility": "Admin pages are not touched by this change.",
+    "privacySafety": "No change to what is sent to the model.",
+    "observability": "No analytics or logging change.",
+    "rollback": "Revert the commit and redeploy ai-astrology-insight.",
+    "surfacesIntentionallyUntouched": "English copy, persona names from the database, prompts.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs validation, commits and pushes to the PR branch without merging or deploying."
+  },
+  "canonicalContracts": [
+    "Analysis 2026-10-30 TA-01, TA-10, JO-07; QA finding 2026-11-02 (failed Astrology AI reading spent the daily turn)."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile and AI routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "supabase/functions/ai-council/index.ts",
+      "reason": "Council turns and fallback.",
+      "sha256": "db8376a5c04a230c0c3684a666e0c2b3008c8784c39b7a716e9d1b89d57da0f7"
+    },
+    {
+      "path": "supabase/functions/_shared/providers/openrouter.ts",
+      "reason": "Provider fetch.",
+      "sha256": "eacd6917944c1352a11f8ad805f8ed4505742c40eeee41294aa96771c15c8df3"
+    },
+    {
+      "path": "apps/mobile/src/features/council/useAiCouncilRoom.ts",
+      "reason": "Council turn mapping.",
+      "sha256": "d41c2940cd2c145ff18a6f2b263f32546f20e1f67c496ce191b567382e4f77a1"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing Deno std assert and React Native Linking."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change.",
+    "sensitiveData": "No new personal data is handled.",
+    "secretsLogging": "No credentials, tokens or logs are added.",
+    "externalInput": "No new input is accepted; only response mapping changes.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration; three function deploys wait for approval.",
+    "stopCondition": "Stop before deploying without Owner approval.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/workflow-catalog.js",
+      "docs/feature-plans/ui-wave-b-2026-11-02.json"
+    ],
+    "note": "Fresh branch from origin/main."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/ui-wave-b-2026-11-02.json",
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "node scripts/validate-backend-contracts.mjs",
+    "npx deno check --no-lock supabase/functions/ai-astrology-insight/index.ts"
+  ],
+  "managerTestPath": "After deploy, an Astrology AI failure leaves the deep read available; a delivered reading closes the day.",
+  "residualRisk": "A user can trigger up to 3 paid model calls per day when the provider keeps failing.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

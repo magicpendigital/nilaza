@@ -14,6 +14,8 @@ export type ResultCard = {
   reversed: boolean;
   image: ImageSourcePropType;
   body: string;
+  /** "reading": the AI paragraph tied to this card; "library": the general card meaning (analysis TA-08). */
+  bodySource?: "reading" | "library";
   keywords: string[];
   onOpenImage: () => void;
   onLearn: () => void;
@@ -83,6 +85,11 @@ export function TarotResultView({ language, question, cards, summary, sourceLabe
               </Pressable>
               {expanded ? (
                 <View style={s.accordionBody}>
+                  <Text style={s.bodyKicker}>
+                    {card.bodySource === "library"
+                      ? (vi ? "Nghĩa chung của lá · chưa có diễn giải riêng cho câu hỏi này" : "General card meaning · no reading written for this question")
+                      : (vi ? `Vì sao lá này ở vị trí ${card.position}` : `Why this card sits in ${card.position}`)}
+                  </Text>
                   <Text style={s.body}>{card.body}</Text>
                   {card.keywords.length ? (
                     <View style={s.keywords}>
@@ -184,6 +191,7 @@ const s = StyleSheet.create({
   accordionTitle: { color: colors.ivory, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 16, marginTop: 2 },
   accordionBody: { paddingHorizontal: 18, paddingBottom: 18 },
   body: { color: "#E9E2D6", fontFamily: typography.bodyFontFamily, fontSize: 15, lineHeight: 24 },
+  bodyKicker: { color: colors.gold, fontFamily: typography.bodyFontFamily, fontSize: 12, fontWeight: "700", letterSpacing: 0.4 },
   keywords: { flexDirection: "row", flexWrap: "wrap", gap: 8, marginTop: 12 },
   keyword: { paddingHorizontal: 10, paddingVertical: 5, borderRadius: radius.pill, backgroundColor: "#2A2629", color: "#B8B0A4", fontFamily: typography.bodyFontFamily, fontSize: 12, overflow: "hidden" },
   learn: { minHeight: layout.minimumTouchTarget, justifyContent: "center", alignSelf: "flex-start" },

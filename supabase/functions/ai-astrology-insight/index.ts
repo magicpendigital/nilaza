@@ -20,6 +20,9 @@ import { writeAnswerReceipt } from "../_shared/answer-receipt.ts";
 import { accountTierPolicy, localDayStart, policyGrantsPremium } from "../_shared/account-tier-policy.ts";
 import { featurePaused } from "../_shared/feature-switch.ts";
 
+/** Failed attempts allowed on top of the daily limit before the day is closed. */
+const FAILED_ATTEMPT_ALLOWANCE = 2;
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": answerCorsHeaders,
@@ -212,7 +215,19 @@ serve(async (req) => {
       .eq("event_name", "astrology_ai_insight_attempted")
       .gte("created_at", dayStart.toISOString());
     if (usageReadError || count === null) return safeFailure(503, "usage_check_unavailable", "Usage could not be checked. Try again shortly.");
-    if (count >= dailyAttemptLimit) return safeFailure(429, "daily_limit_reached", "You have reached today's Astrology AI limit. Please return tomorrow.");
+    // Only a delivered reading uses up the day (QA 2026-11-02: a provider failure spent the only
+    // daily turn while the app said the question was kept for a retry). Extra attempts stay capped
+    // so repeated provider failures cannot run up cost. A deleted reading still counts.
+    const { count: deliveredCount, error: deliveredReadError } = await supabase.from("astrology_reports")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", userId)
+      .eq("input_summary->>contractId", ASTROLOGY_AI_CONTRACT.id)
+      .in("status", ["completed", "deleted"])
+      .gte("created_at", dayStart.toISOString());
+    if (deliveredReadError || deliveredCount === null) return safeFailure(503, "usage_check_unavailable", "Usage could not be checked. Try again shortly.");
+    if (deliveredCount >= dailyAttemptLimit || count >= dailyAttemptLimit + FAILED_ATTEMPT_ALLOWANCE) {
+      return safeFailure(429, "daily_limit_reached", "You have reached today's Astrology AI limit. Please return tomorrow.");
+    }
 
     const route = await readActiveModelRoute(supabase, "astrology_report");
     if (!route.id || route.status !== "active" || route.responseSchema !== ASTROLOGY_AI_CONTRACT.responseSchema.name) {

@@ -33,6 +33,17 @@ test("cards open one at a time, missing blocks stay hidden, and the journal prom
   expect(onWriteJournal).toHaveBeenCalledWith("Lần gần nhất mình thấy an toàn là khi nào?");
 });
 
+test("each card says whether its paragraph is the reading for this question or the general meaning (analysis TA-08)", () => {
+  const cards = [{ ...card("The Lovers", "Bạn", "Tình Nhân", "Đoạn AI cho Tình Nhân"), bodySource: "reading" as const },
+    { ...card("Two of Cups", "Mối quan hệ", "Hai Cốc", "Nghĩa có sẵn của Hai Cốc"), bodySource: "library" as const }];
+  const screen = render(
+    <TarotResultView language="vi" question="" cards={cards} summary="Một câu ngắn." sourceLabel="" extraSections={[]} reflection="" />
+  );
+  expect(screen.getByText("Vì sao lá này ở vị trí Bạn")).toBeTruthy();
+  fireEvent.press(screen.getByRole("button", { name: /Mối quan hệ · Xuôi/ }));
+  expect(screen.getByText("Nghĩa chung của lá · chưa có diễn giải riêng cho câu hỏi này")).toBeTruthy();
+});
+
 test("dock saves, asks further and keeps share and report behind the menu", () => {
   const props = { onSave: jest.fn(), onAskFurther: jest.fn(), onShare: jest.fn(), onReport: jest.fn() };
   const screen = render(<TarotResultDock language="vi" {...props} />);

@@ -88,7 +88,7 @@ for (const { functionName } of contracts) {
       const authPosition = source.indexOf("supabase.auth.getUser(");
       const bodyPosition = source.indexOf("await req.text()");
       assert(authPosition >= 0 && bodyPosition > authPosition, "ai-astrology-insight must authenticate before reading private request data");
-      for (const required of ["ASTROLOGY_AI_CONTRACT.entitlement.requiredEntitlement", "usage_events", "astrology_reports", "strictTraceRedaction: true", "ASTROLOGY_AI_CONTRACT.responseSchema.name", "prompt_not_ready", "selectedFactIds", "user_id: userId", "runtime_environment_not_configured", "AI_TRACE_ENVIRONMENT"]) {
+      for (const required of ["ASTROLOGY_AI_CONTRACT.entitlement.requiredEntitlement", "usage_events", "astrology_reports", "strictTraceRedaction: true", "ASTROLOGY_AI_CONTRACT.responseSchema.name", "prompt_not_ready", "selectedFactIds", "user_id: userId", "runtime_environment_not_configured", "AI_TRACE_ENVIRONMENT", "FAILED_ATTEMPT_ALLOWANCE", "deliveredCount >= dailyAttemptLimit"]) {
         assert(source.includes(required), `ai-astrology-insight must preserve ${required}`);
       }
     }

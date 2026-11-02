@@ -145,6 +145,7 @@ import { AiCouncilRoom, type AiCouncilRoomProps, type AiCouncilSessionSummary, u
 import { OracleRoom } from "./src/features/oracle";
 import { ChatHub } from "./src/features/chat/ChatHub";
 import { JournalHome } from "./src/features/journal/JournalHome";
+import { savedReadingCards } from "./src/features/journal/savedReading";
 import { CardLibrary } from "./src/features/tarot/CardLibrary";
 import { ExploreHome } from "./src/features/explore/ExploreHome";
 import personaShortNamesData from "../../packages/content/data/persona-short-names.json";
@@ -592,15 +593,13 @@ function pushPermissionLabel(status: string | undefined, language: Language) {
 /** Question and card lines of a saved Tarot reading (analysis JO-05): name, position and orientation per card. */
 function savedReadingLines(snapshot: unknown, language: Language): string[] {
   const vi = language === "vi";
-  const saved = snapshot as { type?: string; question?: unknown; cards?: unknown } | undefined;
-  if (saved?.type !== "tarot_reading" || !Array.isArray(saved.cards)) return [];
+  const saved = snapshot as { type?: string; question?: unknown } | undefined;
+  if (saved?.type !== "tarot_reading") return [];
   const lines = typeof saved.question === "string" && saved.question.trim() ? [`${vi ? "Câu hỏi" : "Question"}: ${saved.question.trim()}`] : [];
-  for (const raw of saved.cards.slice(0, 10)) {
-    const card = raw as Partial<DrawnTarotCard> | null;
-    const known = card?.id ? cards.find((item) => item.id === card.id) : undefined;
+  for (const card of savedReadingCards(snapshot, language)) {
+    const known = cards.find((item) => item.id === card.id);
     if (!known) continue;
-    const position = typeof card?.spread === "string" && card.spread ? ` · ${card.spread}` : "";
-    lines.push(`${displayTarotCardName(known, language)}${position} · ${card?.reversed ? (vi ? "Ngược" : "Reversed") : (vi ? "Xuôi" : "Upright")}`);
+    lines.push(`${displayTarotCardName(known, language)}${card.position ? ` · ${card.position}` : ""} · ${card.reversed ? (vi ? "Ngược" : "Reversed") : (vi ? "Xuôi" : "Upright")}`);
   }
   return lines;
 }
@@ -1864,7 +1863,7 @@ const premiumBenefits = [
   { vi: "Nhiều lượt chat guide hơn", en: "More persona chat" },
   { vi: "Reading tarot sâu hơn", en: "Deeper tarot readings" },
   { vi: "Premium guides", en: "Premium guides" },
-  { vi: "Toàn bộ lịch sử Journal", en: "Full journal history" },
+  { vi: "Toàn bộ lịch sử Nhật ký", en: "Full journal history" },
   { vi: "Báo cáo chiêm tinh nâng cao", en: "Advanced astrology reports" }
 ];
 
@@ -2748,7 +2747,7 @@ function reportFromAstrologyBackendResult(
         ? backendSections
         : [{
             key: "summary",
-            title: language === "vi" ? "Bản đọc Astrology" : "Astrology reading",
+            title: language === "vi" ? "Bài đọc chiêm tinh" : "Astrology reading",
             body: result.interpretation.summary,
             icon: "sparkles-outline" as keyof typeof Ionicons.glyphMap
           }]),
@@ -4123,7 +4122,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     const currentDateKey = todayKey();
     const canRefresh = !dailyInsight || dailyInsight.dateKey !== currentDateKey || premiumReroll;
     if (!canRefresh) {
-      showToast(language === "vi" ? "Free plan có 1 daily insight mỗi ngày. Premium sẽ có reroll." : "Free plan has one daily insight per day. Premium will unlock rerolls.");
+      showToast(language === "vi" ? "Mỗi ngày có một dẫn hướng hôm nay. Ngày mai sẽ có dẫn hướng mới." : "Free plan has one daily insight per day. Premium will unlock rerolls.");
       recordEvent("daily_insight_reroll_preview", { dateKey: currentDateKey });
       return;
     }
@@ -4514,7 +4513,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
 
   const saveLatestOracleInsight = () => {
     if (!latestOracleReply) {
-      showToast(language === "vi" ? "Chưa có Oracle insight để lưu" : "No Oracle insight to save yet");
+      showToast(language === "vi" ? "Chưa có gợi ý nào từ Oracle để lưu" : "No Oracle insight to save yet");
       return;
     }
     saveJournal({
@@ -4899,7 +4898,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     if (!scope.active) return false;
     const dedupeKey = entry.sourceId ? `${entry.sourceType}:${entry.sourceId}` : null;
     if (dedupeKey && journalEntriesRef.current.some((item) => item.sourceType === entry.sourceType && item.sourceId === entry.sourceId)) {
-      showToast(language === "vi" ? "Insight này đã được lưu" : "This insight is already saved");
+      showToast(language === "vi" ? "Mục này đã được lưu" : "This insight is already saved");
       return true;
     }
     return journalSaveCoordinator.run(dedupeKey, async () => {
@@ -5130,7 +5129,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     } catch {
       setStorageError(true);
       showToast(language === "vi"
-        ? "Chưa xóa được dữ liệu Astrology đã đồng bộ. Hãy thử lại khi có kết nối."
+        ? "Chưa xóa được dữ liệu chiêm tinh đã đồng bộ. Hãy thử lại khi có kết nối."
         : "Synced Astrology data could not be deleted. Try again when connected.");
       return;
     }
@@ -5142,7 +5141,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     recordEvent("birth_profile_cleared");
     showToast(backendOptions.authToken
       ? language === "vi"
-        ? "Đã xóa hồ sơ ngày sinh và report Astrology AI đã đồng bộ"
+        ? "Đã xóa hồ sơ ngày sinh và các bài đọc AI Chiêm tinh đã đồng bộ"
         : "Birth profile and synced Astrology AI reports deleted"
       : c.birthProfileCleared);
   };
@@ -6099,8 +6098,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                 })}
                 onClearJournal={() => requestConfirmation({
                   title: language === "vi" ? "Xóa Nhật ký?" : "Clear Journal?",
-                  body: language === "vi" ? "Các insight và ghi chú sẽ bị xóa trên thiết bị; yêu cầu xoá cũng sẽ được gửi tới cloud khi có kết nối. Share-card trên thiết bị sẽ bị xoá." : "Saved insights and notes will be removed on this device; their deletion will also be sent to the cloud when connected. Device share cards will be removed.",
-                  confirmLabel: language === "vi" ? "Xóa Journal" : "Clear Journal",
+                  body: language === "vi" ? "Các mục Nhật ký và ghi chú sẽ bị xóa trên thiết bị; yêu cầu xóa cũng được gửi lên tài khoản khi có kết nối. Thẻ chia sẻ trên thiết bị cũng bị xóa." : "Saved insights and notes will be removed on this device; their deletion will also be sent to the cloud when connected. Device share cards will be removed.",
+                  confirmLabel: language === "vi" ? "Xóa Nhật ký" : "Clear Journal",
                   tone: "danger",
                   onConfirm: () => confirmDestructiveAction(clearJournalHistory)
                 })}
@@ -8063,6 +8062,7 @@ export function TarotFlow({
                 reversed: card.reversed,
                 image: getTarotCardImage(selectedDeck.id, card.id),
                 body: aiBody || tarotSnapshotMeaning(card, reading.cards[index], language),
+                bodySource: aiBody ? "reading" as const : "library" as const,
                 keywords: localizedList(card.keywords, language).slice(0, 3),
                 onOpenImage: () => openFullscreenTarotCard(card, card.spread),
                 onLearn: () => openCardMeaning(card, "result")
@@ -8350,6 +8350,22 @@ function JournalScreen({
               {(selectedEntry.sourceSnapshot as any).deckId && findTarotDeckById(decksById, (selectedEntry.sourceSnapshot as any).deckId) ? ` / ${localizedText(findTarotDeckById(decksById, (selectedEntry.sourceSnapshot as any).deckId)!.name, language)}` : ""}
               {(selectedEntry.sourceSnapshot as any).personaName ? ` / ${(selectedEntry.sourceSnapshot as any).personaName}` : ""}
             </Text>
+            {savedReadingCards(selectedEntry.sourceSnapshot, language).some((card) => cards.some((item) => item.id === card.id)) ? (
+              <View style={styles.savedCardRow}>
+                {savedReadingCards(selectedEntry.sourceSnapshot, language).flatMap((card) => {
+                  const known = cards.find((item) => item.id === card.id);
+                  return known ? [{ ...card, name: known.name }] : [];
+                }).map((card, index) => (
+                  <Image
+                    key={`${index}-${card.id}`}
+                    accessibilityLabel={`${card.position ? `${card.position}: ` : ""}${localizedText(card.name, language)}, ${card.reversed ? (language === "vi" ? "Ngược" : "Reversed") : (language === "vi" ? "Xuôi" : "Upright")}`}
+                    source={getTarotCardImage(String((selectedEntry.sourceSnapshot as any).deckId ?? ""), card.id)}
+                    style={[styles.savedCardThumb, card.reversed && reversedCardArtStyle]}
+                    resizeMode="cover"
+                  />
+                ))}
+              </View>
+            ) : null}
             {savedReadingLines(selectedEntry.sourceSnapshot, language).map((line, index) => (
               <Text key={`${index}-${line}`} style={styles.sourcePath}>{line}</Text>
             ))}
@@ -8379,7 +8395,7 @@ function JournalScreen({
         <TextInput
           value={draftNote}
           onChangeText={setDraftNote}
-          placeholder={language === "vi" ? "Bạn muốn nhớ điều gì từ insight này?" : "What do you want to remember from this insight?"}
+          placeholder={language === "vi" ? "Bạn muốn nhớ điều gì từ mục này?" : "What do you want to remember from this insight?"}
           placeholderTextColor={colors.moon}
           style={styles.noteInput}
           maxLength={10000}
@@ -11221,6 +11237,17 @@ zodiacProfilePrompt: {
     borderRadius: 8,
     borderWidth: 1,
     padding: spacing.lg
+  },
+  savedCardRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: spacing.sm,
+    marginVertical: spacing.sm
+  },
+  savedCardThumb: {
+    borderRadius: 6,
+    height: 93,
+    width: 56
   },
   snapshotPanel: {
     backgroundColor: "rgba(14, 90, 90, 0.18)",

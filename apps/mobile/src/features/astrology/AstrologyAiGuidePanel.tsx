@@ -151,7 +151,7 @@ export function AstrologyAiGuidePanel({
         intro:
           "Người dẫn đường sẽ nối dữ kiện trên bản đồ với câu hỏi của bạn trong một lượt riêng.",
         readyIntro:
-          "Chỉ gửi dữ kiện chiêm tinh đã tính và câu hỏi hiện tại sau khi bạn đồng ý. Không gửi ngày giờ nơi sinh, Journal hay lịch sử chat.",
+          "Chỉ gửi dữ kiện chiêm tinh đã tính và câu hỏi hiện tại sau khi bạn đồng ý. Không gửi ngày giờ nơi sinh, Nhật ký hay lịch sử trò chuyện.",
         trust: "Dựa trên dữ kiện đã tính · AI không tự tính lại bản đồ",
         placeholder: "Bạn muốn hiểu điều gì về mình?",
         send: "Gửi câu hỏi cho Người dẫn đường AI",
