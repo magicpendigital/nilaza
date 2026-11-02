@@ -228,7 +228,8 @@ export function AstrologyExperience({
   const [now, setNow] = useState(new Date());
   const [deleteId, setDeleteId] = useState<string | null>(null),
     [exportText, setExportText] = useState<string | null>(null),
-    [showExportRaw, setShowExportRaw] = useState(false);
+    [showExportRaw, setShowExportRaw] = useState(false),
+    [showSettings, setShowSettings] = useState(false);
   const [reflection, setReflection] = useState<{
       title: string;
       prompt: string;
@@ -899,57 +900,6 @@ export function AstrologyExperience({
                   </View>
                 ) : null}
                 <Control
-                  active={showDetails}
-                  label={
-                    showDetails
-                      ? vi
-                        ? "Ẩn cách Nilaza tạo bản đồ"
-                        : "Hide how Nilaza creates a chart"
-                      : vi
-                        ? "Cách Nilaza tạo bản đồ & bảo vệ dữ liệu"
-                        : "How Nilaza calculates and protects your data"
-                  }
-                  onPress={() => setShowDetails((open) => !open)}
-                />
-                {showDetails ? (
-                  <View style={s.disclosure}>
-                    <Text style={s.note}>
-                      {vi
-                        ? "Vị trí được tính trên thiết bị; không cần nhà cung cấp trả phí. Ngày, giờ và nơi sinh không được gửi cho AI Astrology. Nội dung chiêm tinh là biểu tượng để giải trí và tự suy ngẫm."
-                        : "Placements are calculated on your device without a paid vendor. Birth date, time and place are not sent to Astrology AI. Astrology is symbolic content for entertainment and reflection."}
-                    </Text>
-                  </View>
-                ) : null}
-                <Control
-                  active={showTimeZone}
-                  label={vi ? "Múi giờ hiển thị" : "Display time zone"}
-                  onPress={() => setShowTimeZone((open) => !open)}
-                />
-                {showTimeZone ? (
-                  <View style={s.homeSection}>
-                    <Text style={s.note}>
-                      {vi
-                        ? "Chỉ đổi giờ hiển thị hôm nay và thời điểm lưu. Múi giờ sinh được xác định riêng theo nơi và ngày sinh."
-                        : "Changes today's display and saved timestamps only. Birth time zone is resolved separately using the birth place and date."}
-                    </Text>
-                    <Field
-                      label={vi ? "Múi giờ (IANA hoặc thiết bị)" : "Time zone (IANA or device)"}
-                      value={zoneDraft}
-                      onChange={setZoneDraft}
-                    />
-                    <ScrollView horizontal contentContainerStyle={{ gap: 8 }}>
-                      {["device", "Asia/Ho_Chi_Minh", "Europe/Paris", "America/New_York", "America/Los_Angeles"].map((z) => (
-                        <Control key={z} label={z} active={zoneDraft === z} onPress={() => setZoneDraft(z)} />
-                      ))}
-                    </ScrollView>
-                    <Action
-                      label={vi ? "Lưu múi giờ" : "Save time zone"}
-                      onPress={() => void changeZone()}
-                      disabled={!loaded || busy}
-                    />
-                  </View>
-                ) : null}
-                <Control
                   active={showReflections}
                   label={`${vi ? "Suy ngẫm đã lưu" : "Saved reflections"} · ${data.notes.length}`}
                   onPress={() => setShowReflections((open) => !open)}
@@ -973,28 +923,89 @@ export function AstrologyExperience({
                     ))}
                   </View>
                 ) : null}
+                {/* Analysis AS-05 (Owner 2026-11-02): method, time zone and backup sit in one settings group. */}
                 <Control
-                  active={showExport}
-                  label={vi ? "Sao lưu & riêng tư" : "Backup & privacy"}
-                  onPress={() => setShowExport((open) => !open)}
+                  active={showSettings}
+                  label={vi ? "Cài đặt & dữ liệu" : "Settings & data"}
+                  onPress={() => setShowSettings((open) => !open)}
                 />
-                {showExport ? (
+                {showSettings ? (
                   <View style={s.homeSection}>
-                    <Text style={s.note}>
-                      {vi
-                        ? "Dữ liệu lưu trên thiết bị này, chưa đồng bộ cloud. Hãy xuất bản sao trước khi đổi máy hoặc xóa dữ liệu ứng dụng."
-                        : "Data is saved on this device and is not synced to the cloud. Export a copy before changing devices or clearing app data."}
-                    </Text>
                     <Control
-                      label={vi ? "Xuất dữ liệu chiêm tinh" : "Export Astrology data"}
-                      onPress={() => {
-                        const account = accountGeneration.current;
-                        void storage
-                          .loadJson<unknown>(astrologyStorageKey, freshAstrologyData())
-                          .then((v) => { if (live.current && account === accountGeneration.current) setExportText(JSON.stringify(v, null, 2)); })
-                          .catch(() => { if (live.current && account === accountGeneration.current) failSave(); });
-                      }}
+                      active={showDetails}
+                      label={
+                        showDetails
+                          ? vi
+                            ? "Ẩn cách Nilaza tạo bản đồ"
+                            : "Hide how Nilaza creates a chart"
+                          : vi
+                            ? "Cách Nilaza tạo bản đồ & bảo vệ dữ liệu"
+                            : "How Nilaza calculates and protects your data"
+                      }
+                      onPress={() => setShowDetails((open) => !open)}
                     />
+                    {showDetails ? (
+                      <View style={s.disclosure}>
+                        <Text style={s.note}>
+                          {vi
+                            ? "Vị trí được tính trên thiết bị; không cần nhà cung cấp trả phí. Ngày, giờ và nơi sinh không được gửi cho AI Chiêm tinh. Nội dung chiêm tinh là biểu tượng để giải trí và tự suy ngẫm."
+                            : "Placements are calculated on your device without a paid vendor. Birth date, time and place are not sent to Astrology AI. Astrology is symbolic content for entertainment and reflection."}
+                        </Text>
+                      </View>
+                    ) : null}
+                    <Control
+                      active={showTimeZone}
+                      label={vi ? "Múi giờ hiển thị" : "Display time zone"}
+                      onPress={() => setShowTimeZone((open) => !open)}
+                    />
+                    {showTimeZone ? (
+                      <View style={s.homeSection}>
+                        <Text style={s.note}>
+                          {vi
+                            ? "Chỉ đổi giờ hiển thị hôm nay và thời điểm lưu. Múi giờ sinh được xác định riêng theo nơi và ngày sinh."
+                            : "Changes today's display and saved timestamps only. Birth time zone is resolved separately using the birth place and date."}
+                        </Text>
+                        <Field
+                          label={vi ? "Múi giờ (IANA hoặc thiết bị)" : "Time zone (IANA or device)"}
+                          value={zoneDraft}
+                          onChange={setZoneDraft}
+                        />
+                        <ScrollView horizontal contentContainerStyle={{ gap: 8 }}>
+                          {["device", "Asia/Ho_Chi_Minh", "Europe/Paris", "America/New_York", "America/Los_Angeles"].map((z) => (
+                            <Control key={z} label={z} active={zoneDraft === z} onPress={() => setZoneDraft(z)} />
+                          ))}
+                        </ScrollView>
+                        <Action
+                          label={vi ? "Lưu múi giờ" : "Save time zone"}
+                          onPress={() => void changeZone()}
+                          disabled={!loaded || busy}
+                        />
+                      </View>
+                    ) : null}
+                    <Control
+                      active={showExport}
+                      label={vi ? "Sao lưu & riêng tư" : "Backup & privacy"}
+                      onPress={() => setShowExport((open) => !open)}
+                    />
+                    {showExport ? (
+                      <View style={s.homeSection}>
+                        <Text style={s.note}>
+                          {vi
+                            ? "Dữ liệu lưu trên thiết bị này, chưa đồng bộ cloud. Hãy xuất bản sao trước khi đổi máy hoặc xóa dữ liệu ứng dụng."
+                            : "Data is saved on this device and is not synced to the cloud. Export a copy before changing devices or clearing app data."}
+                        </Text>
+                        <Control
+                          label={vi ? "Xuất dữ liệu chiêm tinh" : "Export Astrology data"}
+                          onPress={() => {
+                            const account = accountGeneration.current;
+                            void storage
+                              .loadJson<unknown>(astrologyStorageKey, freshAstrologyData())
+                              .then((v) => { if (live.current && account === accountGeneration.current) setExportText(JSON.stringify(v, null, 2)); })
+                              .catch(() => { if (live.current && account === accountGeneration.current) failSave(); });
+                          }}
+                        />
+                      </View>
+                    ) : null}
                   </View>
                 ) : null}
               </>
