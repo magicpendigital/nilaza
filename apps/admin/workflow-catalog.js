@@ -280,7 +280,7 @@
   },
   {
     "path": "apps/mobile/App.tsx",
-    "sha256": "60b02ecb4c053b16d24cd1a340f24e75cdbca7dcfa57fd4f1d6413a814fa25fc"
+    "sha256": "53aa9af5b4c3da1fbffe8a721e034ed618c70c4cb522fe0802a8c15feaa9376c"
   },
   {
     "path": "docs/FEATURE_PRD.md",
@@ -352,7 +352,7 @@
   },
   {
     "path": "supabase/functions/_shared/tarot-prompt.ts",
-    "sha256": "52e16ea1e153d399c1552bc8d303c2ec2f8d09c6c3d3529ca39f5ac91944c81c"
+    "sha256": "22de0210fe977b6cb21151758db9f0d4e1a74875f2ed0b2b5cb44e3a086d6710"
   },
   {
     "path": "supabase/functions/ai-astrology-insight/index.ts",

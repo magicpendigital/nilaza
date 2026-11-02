@@ -70,3 +70,9 @@ Deno.test("metadata distinguishes local-degraded config/FK null and keeps raw pr
   const prompt = await resolveTarotPrompt(null, "vi"), trace = tarotPromptTraceMetadata(prompt);
   equal(tarotPromptMetadata(prompt).promptRecordId, null); equal(trace.configuration_source, "local_canonical"); equal(trace.configuration_status, "local_degraded"); equal(trace.configuration_fallback_code, "lookup_unavailable"); assert(!JSON.stringify(trace).includes(prompt.promptText));
 });
+Deno.test("each card carries its first-mention label, original name first (Owner 2026-11-02)", () => {
+  const vi = prepareTarotContext(spread());
+  equal(vi.selectedCards.map(card => card.displayName), ["Six of Swords (Sáu Kiếm)", "Three of Swords (Ba Kiếm)", "Page of Wands (Tiểu Đồng Gậy)"]);
+  const en = prepareTarotContext({ ...spread(), language: "en" });
+  equal(en.selectedCards[0].displayName, "Six of Swords");
+});

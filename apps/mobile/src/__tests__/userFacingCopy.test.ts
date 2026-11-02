@@ -46,7 +46,9 @@ const bannedPhrases = [
   "Oracle insight để lưu",
   "Insight này đã",
   "Các insight và",
-  "từ insight này"
+  "từ insight này",
+  "Guide đọc trải bài",
+  "đổi guide để"
 ];
 
 describe("user-facing copy", () => {
