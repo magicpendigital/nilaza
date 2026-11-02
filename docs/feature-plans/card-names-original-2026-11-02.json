@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "taskId": "card-names-original-2026-11-02",
+  "ownerAgent": "mobile_ux_fixes_agent",
+  "lane": "tarot_card_name_display",
+  "goal": "Owner decision 2026-11-02 (option B + 5 rules): the original (English) card name is the title everywhere; in Vietnamese the approved Vietnamese name is a smaller line under titles, sentences name a card as \"Six of Swords (Sáu Kiếm)\" on first mention and the original name after; screen readers hear both names; the English app shows only the original name. The Tarot AI language rule follows the same convention. Supersedes the 2026-10-30 Vietnamese-first display.",
+  "successCriteria": [
+    "Card titles in the guide, result, library, today card, fullscreen and share preview use the original name; the Vietnamese name appears as a subtitle in Vietnamese only.",
+    "Sentences, shares, journal lines and chat handoff context use Original (Vietnamese).",
+    "Screen reader labels include both names.",
+    "The Tarot prompt language rule asks for Original (Vietnamese) on first mention; Deno Tarot prompt tests pass.",
+    "Mobile typecheck and Jest pass."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/tarot/cardName.ts",
+    "apps/mobile/src/features/tarot/__tests__/cardName.test.ts",
+    "apps/mobile/src/features/tarot/TarotResultView.tsx",
+    "apps/mobile/src/features/tarot/__tests__/TarotResultView.test.tsx",
+    "apps/mobile/src/features/tarot/TarotCardGuide.tsx",
+    "apps/mobile/src/features/home/TodayCardReflection.tsx",
+    "supabase/functions/_shared/tarot-prompt.ts",
+    "apps/admin/workflow-catalog.js"
+  ],
+  "untouchedSurfaces": [
+    "Card data (name.vi / name.en) and the database are unchanged.",
+    "Deploying ai-tarot-reading for the prompt rule waits for Owner approval."
+  ],
+  "impact": {
+    "entryPoint": "Every place a Tarot card name is shown, plus the Tarot AI language rule.",
+    "dataWrite": "No data is written or migrated.",
+    "backendContract": "Tarot prompt assembly version 2026-11-02-tarot-prompt-v3: card naming convention changes; JSON contract unchanged.",
+    "canonicalContract": "Owner decision 2026-11-02: original card name first, Vietnamese name second.",
+    "adminVisibility": "Admin workflow catalog digests refreshed only.",
+    "privacySafety": "No change to what data is collected or sent.",
+    "observability": "No analytics or logging change.",
+    "rollback": "Revert the commit; redeploy ai-tarot-reading if it was deployed.",
+    "surfacesIntentionallyUntouched": "English copy, persona names from the database, prompts.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs validation, commits and pushes to the PR branch without merging or deploying."
+  },
+  "canonicalContracts": [
+    "Owner decision 2026-11-02: option B — original card name as title, Vietnamese subtitle; Original (Vietnamese) in prose on first mention."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile and AI routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "supabase/functions/ai-council/index.ts",
+      "reason": "Council turns and fallback.",
+      "sha256": "db8376a5c04a230c0c3684a666e0c2b3008c8784c39b7a716e9d1b89d57da0f7"
+    },
+    {
+      "path": "supabase/functions/_shared/providers/openrouter.ts",
+      "reason": "Provider fetch.",
+      "sha256": "eacd6917944c1352a11f8ad805f8ed4505742c40eeee41294aa96771c15c8df3"
+    },
+    {
+      "path": "apps/mobile/src/features/council/useAiCouncilRoom.ts",
+      "reason": "Council turn mapping.",
+      "sha256": "d41c2940cd2c145ff18a6f2b263f32546f20e1f67c496ce191b567382e4f77a1"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing Deno std assert and React Native Linking."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change.",
+    "sensitiveData": "No new personal data is handled.",
+    "secretsLogging": "No credentials, tokens or logs are added.",
+    "externalInput": "No new input is accepted; only response mapping changes.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration; three function deploys wait for approval.",
+    "stopCondition": "Stop before deploying without Owner approval.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/features/home/TodayCardReflection.tsx",
+      "apps/mobile/src/features/tarot/TarotCardGuide.tsx",
+      "apps/mobile/src/features/tarot/TarotResultView.tsx",
+      "apps/mobile/src/features/tarot/__tests__/TarotResultView.test.tsx",
+      "apps/mobile/src/features/tarot/__tests__/cardName.test.ts",
+      "apps/mobile/src/features/tarot/cardName.ts",
+      "docs/feature-plans/card-names-original-2026-11-02.json",
+      "supabase/functions/_shared/tarot-prompt.ts"
+    ],
+    "note": "Fresh branch from origin/main."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/card-names-original-2026-11-02.json",
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "npx deno test --allow-read --allow-env --no-lock supabase/functions/_shared/tarot-prompt.test.ts",
+    "node scripts/validate-admin-workflow-catalog.mjs"
+  ],
+  "managerTestPath": "Open a Tarot result and a card guide in Vietnamese: Six of Swords as the title, Sáu Kiếm under it.",
+  "residualRisk": "Until the QA content bundle carries the approved Vietnamese names, the subtitle on QA may repeat the English name and be hidden.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

@@ -14,7 +14,7 @@ export function TodayCardReflection({ language, cardImage, cardName, cardMeta, d
   const vi = language === "vi";
   const copy = brandCopy(language);
   return <View style={s.root}>
-    <Image source={cardImage} resizeMode="contain" style={s.card} accessibilityLabel={cardName} />
+    <Image source={cardImage} resizeMode="contain" style={s.card} accessibilityLabel={cardMeta ? `${cardName}. ${cardMeta}` : cardName} />
     <View style={s.center}>
       <Text accessibilityRole="header" style={s.title}>{cardName}</Text>
       {cardMeta ? <Text style={s.meta}>{cardMeta}</Text> : null}

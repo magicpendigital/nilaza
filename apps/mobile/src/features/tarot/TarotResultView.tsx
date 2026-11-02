@@ -9,7 +9,9 @@ import type { Language } from "../../types";
 export type ResultCard = {
   id: string;
   position: string;
+  /** Original (English) card name, the title (Owner decision 2026-11-02). */
   name: string;
+  /** Vietnamese name shown under the title; empty in English. */
   originalName: string;
   reversed: boolean;
   image: ImageSourcePropType;
@@ -52,12 +54,13 @@ export function TarotResultView({ language, question, cards, summary, sourceLabe
       <View style={s.cards}>
         {cards.map((card) => (
           <View key={card.id} style={s.cardCol}>
-            <Pressable accessibilityRole="imagebutton" accessibilityLabel={`${card.position}: ${card.name}, ${orientation(card.reversed)}. ${vi ? "Xem hình lá bài toàn màn hình" : "View full-screen card artwork"}`}
+            <Pressable accessibilityRole="imagebutton" accessibilityLabel={`${card.position}: ${card.name}${card.originalName && card.originalName !== card.name ? `, ${card.originalName}` : ""}, ${orientation(card.reversed)}. ${vi ? "Xem hình lá bài toàn màn hình" : "View full-screen card artwork"}`}
               onPress={card.onOpenImage} style={s.cardArt}>
               <Image source={card.image} style={[s.cardImage, card.reversed && s.reversed]} resizeMode="cover" />
             </Pressable>
             <Text style={s.position}>{card.position}</Text>
             <Text style={s.cardName}>{card.name}</Text>
+            {card.originalName && card.originalName !== card.name ? <Text style={s.cardSubName}>{card.originalName}</Text> : null}
           </View>
         ))}
       </View>
@@ -79,7 +82,8 @@ export function TarotResultView({ language, question, cards, summary, sourceLabe
                 <Image source={card.image} style={[s.thumb, card.reversed && s.reversed]} resizeMode="cover" />
                 <View style={s.flex}>
                   <Text style={s.accordionKicker}>{card.position} · {orientation(card.reversed)}</Text>
-                  <Text style={s.accordionTitle}>{card.name}{card.originalName !== card.name ? ` · ${card.originalName}` : ""}</Text>
+                  <Text style={s.accordionTitle}>{card.name}</Text>
+                  {card.originalName && card.originalName !== card.name ? <Text style={s.accordionSubtitle}>{card.originalName}</Text> : null}
                 </View>
                 <Ionicons name={expanded ? "chevron-up" : "chevron-down"} size={18} color="#B8B0A4" />
               </Pressable>
@@ -178,6 +182,7 @@ const s = StyleSheet.create({
   reversed: { transform: [{ rotate: "180deg" }] },
   position: { color: "#B8B0A4", fontFamily: typography.bodySemiBoldFontFamily, fontSize: 11, letterSpacing: 1.1, textTransform: "uppercase", textAlign: "center" },
   cardName: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 17, lineHeight: 19, textAlign: "center" },
+  cardSubName: { color: "#B8B0A4", fontFamily: typography.bodyFontFamily, fontSize: 11.5, textAlign: "center" },
   summary: { marginTop: 22, padding: 20, borderRadius: 18, backgroundColor: "#1F1C1E", borderWidth: 1, borderColor: "rgba(201, 164, 92, 0.4)" },
   kicker: { color: colors.gold, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase" },
   summaryTitle: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 24, lineHeight: 29, marginTop: 10 },
@@ -189,6 +194,7 @@ const s = StyleSheet.create({
   thumb: { width: 30, height: 50, borderRadius: 4 },
   accordionKicker: { color: colors.gold, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 11, letterSpacing: 1.3, textTransform: "uppercase" },
   accordionTitle: { color: colors.ivory, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 16, marginTop: 2 },
+  accordionSubtitle: { color: "#B8B0A4", fontFamily: typography.bodyFontFamily, fontSize: 12.5, marginTop: 1 },
   accordionBody: { paddingHorizontal: 18, paddingBottom: 18 },
   body: { color: "#E9E2D6", fontFamily: typography.bodyFontFamily, fontSize: 15, lineHeight: 24 },
   bodyKicker: { color: colors.gold, fontFamily: typography.bodyFontFamily, fontSize: 12, fontWeight: "700", letterSpacing: 0.4 },
