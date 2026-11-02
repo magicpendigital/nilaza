@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Platform, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import DateTimePicker, { type DateTimePickerEvent } from "@react-native-community/datetimepicker";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors, layout, radius, typography } from "../../theme";
 import type { Language } from "../../types";
 
@@ -24,6 +26,33 @@ export function splitBirthTime(value: string) {
   return { hour: String(h % 12 === 0 ? 12 : h % 12), minute: match[2], afternoon: h >= 12 };
 }
 
+// Analysis AS-04 (Owner 2026-11-02): the device's own date and time picker fills the boxes on
+// Android and iOS; typing still works, and the web keeps the boxes only.
+const nativePicker = Platform.OS === "android" || Platform.OS === "ios";
+
+function PickerButton({ label, onPress }: { label: string; onPress: () => void }) {
+  return (
+    <Pressable accessibilityRole="button" onPress={onPress} style={s.pickerButton}>
+      <Ionicons name="calendar-outline" size={18} color={colors.gold} />
+      <Text style={s.pickerText}>{label}</Text>
+    </Pressable>
+  );
+}
+
+function DevicePicker({ mode, value, onPick, onClose, doneLabel }: { mode: "date" | "time"; value: Date; onPick: (date: Date) => void; onClose: () => void; doneLabel: string }) {
+  const onChange = (event: DateTimePickerEvent, date?: Date) => {
+    if (Platform.OS === "android") onClose();
+    if (event.type === "set" && date) onPick(date);
+  };
+  return (
+    <View>
+      <DateTimePicker value={value} mode={mode} is24Hour display={Platform.OS === "ios" ? "spinner" : "default"}
+        maximumDate={mode === "date" ? new Date() : undefined} onChange={onChange} />
+      {Platform.OS === "ios" ? <PickerButton label={doneLabel} onPress={onClose} /> : null}
+    </View>
+  );
+}
+
 function Box({ label, value, onChange, max, width }: { label: string; value: string; onChange: (value: string) => void; max: number; width: number }) {
   return (
     <View style={{ width }}>
@@ -40,7 +69,9 @@ export function BirthDateFields({ language, value, onChange }: { language: Langu
   const [day, setDay] = useState(initialDay);
   const [month, setMonth] = useState(initialMonth);
   const [year, setYear] = useState(initialYear);
+  const [picking, setPicking] = useState(false);
   const update = (d: string, m: string, y: string) => { setDay(d); setMonth(m); setYear(y); onChange(composeBirthDate(d, m, y)); };
+  const current = composeBirthDate(day, month, year);
   return (
     <View>
       <Text style={s.label}>{vi ? "Ngày sinh" : "Birth date"}</Text>
@@ -49,6 +80,11 @@ export function BirthDateFields({ language, value, onChange }: { language: Langu
         <Box label={vi ? "Tháng" : "Month"} value={month} max={2} width={72} onChange={(m) => update(day, m, year)} />
         <Box label={vi ? "Năm" : "Year"} value={year} max={4} width={104} onChange={(y) => update(day, month, y)} />
       </View>
+      {nativePicker ? <PickerButton label={vi ? "Chọn trên lịch" : "Pick on a calendar"} onPress={() => setPicking(true)} /> : null}
+      {nativePicker && picking ? (
+        <DevicePicker mode="date" value={current ? new Date(`${current}T12:00:00`) : new Date(2000, 0, 1, 12)} doneLabel={vi ? "Xong" : "Done"}
+          onClose={() => setPicking(false)} onPick={(date) => update(String(date.getDate()), String(date.getMonth() + 1), String(date.getFullYear()))} />
+      ) : null}
     </View>
   );
 }
@@ -59,8 +95,15 @@ export function BirthTimeFields({ language, value, onChange }: { language: Langu
   const [hour, setHour] = useState(initial.hour);
   const [minute, setMinute] = useState(initial.minute);
   const [afternoon, setAfternoon] = useState(initial.afternoon);
+  const [picking, setPicking] = useState(false);
   const update = (h: string, m: string, pm: boolean) => { setHour(h); setMinute(m); setAfternoon(pm); onChange(composeBirthTime(h, m, pm)); };
+  const current = composeBirthTime(hour, minute, afternoon);
+  const pickTime = (date: Date) => {
+    const h = date.getHours();
+    update(String(h % 12 === 0 ? 12 : h % 12), String(date.getMinutes()).padStart(2, "0"), h >= 12);
+  };
   return (
+    <View>
     <View style={s.row}>
       <Box label={vi ? "Giờ" : "Hour"} value={hour} max={2} width={72} onChange={(h) => update(h, minute, afternoon)} />
       <Text style={s.colon}>:</Text>
@@ -74,6 +117,12 @@ export function BirthTimeFields({ language, value, onChange }: { language: Langu
         ))}
       </View>
     </View>
+      {nativePicker ? <PickerButton label={vi ? "Chọn giờ trên đồng hồ" : "Pick on a clock"} onPress={() => setPicking(true)} /> : null}
+      {nativePicker && picking ? (
+        <DevicePicker mode="time" value={current ? new Date(`2000-01-01T${current}:00`) : new Date(2000, 0, 1, 8, 0)} doneLabel={vi ? "Xong" : "Done"}
+          onClose={() => setPicking(false)} onPick={pickTime} />
+      ) : null}
+    </View>
   );
 }
 
@@ -83,6 +132,8 @@ const s = StyleSheet.create({
   boxLabel: { color: "#B8B0A4", fontFamily: typography.bodyFontFamily, fontSize: 12, marginBottom: 4 },
   box: { minHeight: layout.minimumTouchTarget + 4, borderRadius: radius.card, borderWidth: 1, borderColor: "rgba(201, 164, 92, 0.45)", backgroundColor: "#1F1C1E", color: colors.ivory, fontFamily: typography.bodyFontFamily, fontSize: 18, textAlign: "center" },
   colon: { color: colors.ivory, fontSize: 20, paddingBottom: 12 },
+  pickerButton: { flexDirection: "row", alignItems: "center", alignSelf: "flex-start", gap: 8, minHeight: layout.minimumTouchTarget, marginTop: 10, paddingHorizontal: 14, borderRadius: radius.pill, borderWidth: 1, borderColor: "rgba(201, 164, 92, 0.45)" },
+  pickerText: { color: colors.gold, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 14 },
   ampm: { flexDirection: "row", padding: 4, borderRadius: radius.pill, backgroundColor: "#1F1C1E", marginLeft: 4 },
   ampmOption: { minHeight: 44, minWidth: 64, paddingHorizontal: 12, borderRadius: radius.pill, alignItems: "center", justifyContent: "center" },
   ampmSelected: { backgroundColor: colors.ivory },

@@ -94,3 +94,13 @@ it("matches the subtitle to the time of day", () => {
   expect(homeSubtitle(new Date(2026, 9, 30, 13, 0), "vi")).toBe("Dừng lại một chút giữa ngày.");
   expect(homeSubtitle(new Date(2026, 9, 30, 22, 0), "vi")).toBe("Ba phút cho riêng mình trước khi ngủ.");
 });
+
+it("shows one next step card that runs its action (analysis HO-05)", () => {
+  const onPress = jest.fn();
+  const screen = render(<HomeExperience {...baseProps} revealed nextStep={{ title: "Viết vài dòng", body: "Một hai câu là đủ.", cta: "Viết ngay", onPress }} />);
+  expect(screen.getByText("Bước tiếp theo")).toBeTruthy();
+  fireEvent.press(screen.getByRole("button", { name: "Viết vài dòng. Một hai câu là đủ." }));
+  expect(onPress).toHaveBeenCalledTimes(1);
+  screen.rerender(<HomeExperience {...baseProps} revealed />);
+  expect(screen.queryByText("Bước tiếp theo")).toBeNull();
+});

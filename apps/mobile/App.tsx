@@ -148,6 +148,7 @@ import { JournalHome } from "./src/features/journal/JournalHome";
 import { savedReadingCards } from "./src/features/journal/savedReading";
 import { cardInline, cardSubtitle, cardTitle } from "./src/features/tarot/cardName";
 import { readingShareText } from "./src/features/tarot/shareText";
+import { homeNextStep, homeNextStepCopy } from "./src/features/home/nextStep";
 import { CardLibrary } from "./src/features/tarot/CardLibrary";
 import { ExploreHome } from "./src/features/explore/ExploreHome";
 import personaShortNamesData from "../../packages/content/data/persona-short-names.json";
@@ -5902,6 +5903,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
             {screen === "home" && (
               <HomeScreen
                 c={c}
+                dailyReminderOn={dailyReminder.enabled}
+                onOpenReminder={() => setScreen("profile")}
                 dailyInsight={effectiveDailyInsight}
                 journalEntries={journalEntries}
                 language={language}
@@ -6333,7 +6336,9 @@ function HomeScreen({
   todayNote,
   onTodayNoteChange,
   onShareTodayCard,
-  onWritePrompt
+  onWritePrompt,
+  dailyReminderOn,
+  onOpenReminder
 }: {
   c: Copy;
   currentDateKey: string;
@@ -6365,11 +6370,20 @@ function HomeScreen({
   onTodayNoteChange: (value: string) => void;
   onShareTodayCard: () => void;
   onWritePrompt: (prompt: string) => void;
+  dailyReminderOn: boolean;
+  onOpenReminder: () => void;
 }) {
   const card = todayPulse.card;
   const savedTodayEntry = journalEntries.find((entry) => entry.sourceType === "daily" && entry.sourceId === todayCardSourceId(currentDateKey));
   const cardSaved = Boolean(savedTodayEntry);
   const todayMood = journalEntries.find((entry) => !entry.sourceId && entry.sourceSnapshot?.type === "today_pulse" && entry.sourceSnapshot?.dateKey === currentDateKey)?.mood;
+  const todayQuestion = localizedText(card.reflectionQuestion, language, todayPulse.reflectionPrompt);
+  // Writing means words of the person's own today: a manual entry or a note on a saved entry.
+  const wroteToday = journalEntries.some((entry) => isDateKey(entry.createdAt, currentDateKey) && (entry.sourceType === "manual" || Boolean(entry.userNote?.trim())));
+  const nextStepId = homeNextStep({ revealed: todayPulseRevealed, wroteToday, reminderOn: dailyReminderOn, reminderSupported: Platform.OS !== "web" });
+  const nextStep = nextStepId === "write" || nextStepId === "reminder"
+    ? { ...homeNextStepCopy(nextStepId, language), onPress: nextStepId === "write" ? () => onWritePrompt(todayQuestion) : onOpenReminder }
+    : undefined;
   return <HomeExperience cardBack={getDeckBackImage(selectedDeck.id)} language={language} greeting={homeGreetingLabel(currentTime, language, profile.nickname)} now={currentTime}
     revealed={todayPulseRevealed} streak={profile.currentStreak} onReveal={onRevealTodayCard} onAsk={onAsk} onAstrology={onAstrology} onGoalSuggestion={onGoalSuggestion}
     primaryGoal={profile.goals[0]} zodiac={{ hasBirthDate: zodiacPulse.hasBirthDate, sign: zodiacPulse.sign ?? "", signId: zodiacPulse.signId, line: zodiacPulse.reflection }}
@@ -6378,9 +6392,10 @@ function HomeScreen({
     onOpenRecent={onOpenRecent} onWritePrompt={onWritePrompt}
     continuation={councilSession ? <HomeCouncilCard language={language} personas={councilPersonas} session={councilSession} onPress={onAiCouncil} /> : undefined}
     preRevealHint={todayPulse.wisdomLine}
+    nextStep={nextStep}
     reflection={<TodayCardReflection language={language} cardImage={getTarotCardImage(selectedDeck.id, card.id)} cardName={displayTarotCardName(card, language)}
       cardMeta={displayTarotCardMeta(card, language)} deckName={localizedText(selectedDeck.name, language)} keywords={localizedList(card.keywords, language)} meaning={displayTarotMeaning(card, language)}
-      question={localizedText(card.reflectionQuestion, language, todayPulse.reflectionPrompt)} microAction={todayPulse.microAction}
+      question={todayQuestion} microAction={todayPulse.microAction}
       guidance={dailyInsight.text} onAnotherGuidance={onRerollDaily} disclaimer={c.disclaimer}
       moods={moodOptions.map((mood) => ({ id: mood.id, label: localizedText(mood, language) }))} selectedMood={todayMood} onMood={onMoodCheck}
       note={todayNote} onNoteChange={onTodayNoteChange} savedNote={savedTodayEntry ? savedTodayEntry.userNote ?? "" : undefined} />}

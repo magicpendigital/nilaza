@@ -63,7 +63,8 @@
             "backgroundColor": "#151416"
           }
         }
-      ]
+      ],
+      "@react-native-community/datetimepicker"
     ],
     "extra": {
       "eas": {

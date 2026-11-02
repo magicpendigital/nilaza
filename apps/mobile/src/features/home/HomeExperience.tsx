@@ -101,13 +101,15 @@ function signVisual(signId?: string): ImageSourcePropType {
   return (signId && getFeatureVisual(`astrology-${signId}-v2` as FeatureVisualId)) || getFeatureVisual("astrology-sanctuary");
 }
 
-export function HomeExperience({ language, greeting, now, revealed, streak, onReveal, onAsk, onAstrology, onGoalSuggestion, onWritePrompt, primaryGoal, zodiac, onJournal, onOpenRecent, onNotifications, unread, reflection, reflectionActions, preRevealHint, cardBack, deckCover, latest, continuation }: {
+export function HomeExperience({ language, greeting, now, revealed, streak, onReveal, onAsk, onAstrology, onGoalSuggestion, onWritePrompt, primaryGoal, zodiac, onJournal, onOpenRecent, onNotifications, unread, reflection, reflectionActions, preRevealHint, cardBack, deckCover, latest, continuation, nextStep }: {
   language: Language; greeting: string; now: Date; revealed: boolean; streak: number; onReveal: () => void;
   onAsk: (text: string) => void; onAstrology: () => void; onGoalSuggestion: (topic: HomeTarotTopic) => void; onWritePrompt: (prompt: string) => void;
   primaryGoal?: string; zodiac: HomeZodiac;
   onJournal: () => void; onOpenRecent?: (id: string) => void; onNotifications: () => void; unread: number;
   reflection: ReactNode; reflectionActions?: ReactNode; preRevealHint?: string; cardBack: ImageSourcePropType; deckCover?: ImageSourcePropType;
   latest?: HomeLatest; continuation?: ReactNode;
+  /** The one suggested next step after today's card is revealed (analysis HO-05). */
+  nextStep?: { title: string; body: string; cta: string; onPress: () => void };
 }) {
   const [open, setOpen] = useState(false);
   const [cardOpened, setCardOpened] = useState(false);
@@ -153,6 +155,15 @@ export function HomeExperience({ language, greeting, now, revealed, streak, onRe
         </View> : null}
       </View>
     </Pressable>
+
+    {nextStep ? <Pressable accessibilityRole="button" accessibilityLabel={`${nextStep.title}. ${nextStep.body}`} onPress={nextStep.onPress} style={s.nextStep}>
+      <View style={s.flexOne}>
+        <Text style={s.kicker}>{language === "vi" ? "Bước tiếp theo" : "Next step"}</Text>
+        <Text style={s.nextStepTitle}>{nextStep.title}</Text>
+        <Text style={s.tileBody}>{nextStep.body}</Text>
+      </View>
+      <Text style={s.link}>{`${nextStep.cta} →`}</Text>
+    </Pressable> : null}
 
     <View style={s.tileRow}>
       <View style={s.tile} accessible accessibilityLabel={`${copy.skyToday}: ${moon.name}. ${moon.hint}`}>
@@ -249,6 +260,9 @@ const s = StyleSheet.create({
   kicker: { color: colors.gold, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase" },
   greeting: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 36, includeFontPadding: false, lineHeight: 42, marginTop: 8 },
   subtitle: { color: "#B8B0A4", fontFamily: typography.bodyFontFamily, fontSize: 15, lineHeight: 22, marginTop: 8, marginBottom: 20 },
+  nextStep: { flexDirection: "row", alignItems: "center", gap: 12, marginTop: 12, minHeight: 48, padding: 16, borderRadius: radius.card, backgroundColor: "#1F1C1E", borderWidth: 1, borderColor: "rgba(247, 241, 230, 0.08)" },
+  nextStepTitle: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 19, lineHeight: 23, marginTop: 4, marginBottom: 2 },
+  flexOne: { flex: 1 },
   hero: { flexDirection: "row", gap: 18, alignItems: "center", padding: 18, borderRadius: radius.card, borderWidth: 1, borderColor: "rgba(201, 164, 92, 0.35)", backgroundColor: "#1F1C1E" },
   fan: { width: 108, height: 178 },
   fanBack: { position: "absolute", left: 10, top: 6, width: 96, height: 166, borderRadius: 8, backgroundColor: "#2A2528", borderWidth: 1, borderColor: "rgba(201, 130, 141, 0.35)", transform: [{ rotate: "7deg" }] },
