@@ -10,9 +10,16 @@ Deno.test("a rejected Tarot answer names a content-free reason for the trace", (
   const ids = ["major-00-fool"];
   assert(checkTarotOutputText("```json\n" + JSON.stringify(output) + "\n```", "en", ids).reason === "fenced_json");
   assert(checkTarotOutputText("A plausible answer", "en", ids).reason === "not_json");
-  assert(checkTarotOutputText(JSON.stringify({ ...output, sections: [{ ...output.sections[0], title: "Theme" }] }), "en", ids).reason === "title");
+  assert(checkTarotOutputText(JSON.stringify({ ...output, sections: [{ ...output.sections[0], title: "" }] }), "en", ids).reason === "title");
   assert(checkTarotOutputText(JSON.stringify(output), "vi", ids).reason === "title");
   assert(checkTarotOutputText(JSON.stringify(output), "en", ids).output?.sections.length === 1);
+});
+Deno.test("a plain-text section title or body counts as the requested locale (QA 2026-11-03)", () => {
+  const plain = { ...output, sections: [{ key: "past", title: "Quá khứ · Six of Swords (Sáu Kiếm)", body: "Một đoạn diễn giải.", cardIds: ["major-00-fool"] }] };
+  const parsed = validateTarotOutput(plain, "vi", ["major-00-fool"]);
+  assert(parsed?.sections[0].title.vi === "Quá khứ · Six of Swords (Sáu Kiếm)" && parsed.sections[0].body.vi === "Một đoạn diễn giải.");
+  assert(!validateTarotOutput({ ...plain, sections: [{ ...plain.sections[0], title: "x".repeat(181) }] }, "vi", ["major-00-fool"]));
+  assert(!validateTarotOutput({ ...plain, sections: [{ ...plain.sections[0], title: 42 }] }, "vi", ["major-00-fool"]));
 });
 Deno.test("Tarot rejects unknown references, duplicate sections, wrong locale and excess fields", () => {
   assert(!validateTarotOutput(output, "en", ["other-card"]));

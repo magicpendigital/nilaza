@@ -13,6 +13,9 @@ function bounded(value: unknown, limit: number): value is string {
   return typeof value === "string" && value.trim().length > 0 && value.length <= limit;
 }
 function localized(value: unknown, locale: "vi" | "en", limit: number): Localized | undefined {
+  // QA 2026-11-03 (trace rejection code "title"): models often write a section title or body as plain
+  // text. Plain text counts as the requested locale; every other rule still applies.
+  if (typeof value === "string") return bounded(value, limit) ? { en: value.trim(), ...(locale === "vi" ? { vi: value.trim() } : {}) } : undefined;
   const obj = record(value);
   if (!obj || Object.keys(obj).some(k => !["en", "vi"].includes(k)) || !bounded(obj[locale], limit)) return;
   if (Object.values(obj).some(v => !bounded(v, limit))) return;
