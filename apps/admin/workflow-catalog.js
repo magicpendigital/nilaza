@@ -280,7 +280,7 @@
   },
   {
     "path": "apps/mobile/App.tsx",
-    "sha256": "5880d3413e2fca9d7ec9db43d9b334a7785f13adf48cb6f421b9acfb2f7a1f84"
+    "sha256": "f66ae54bf9cb1cbccca45a56ee10af32349822f530cc6602d3785c47ad61b9b7"
   },
   {
     "path": "docs/FEATURE_PRD.md",
@@ -384,7 +384,7 @@
   },
   {
     "path": "supabase/functions/ai-persona-chat/index.ts",
-    "sha256": "58816cc9e8e17032d993b45b6eaeb29414f367dd5a9bbda8c0bbdd858cfe5f22"
+    "sha256": "ee40918aebd6cb20ad2bff607d7731bc59a5199bb0b61052875759147d1eb1c0"
   },
   {
     "path": "supabase/functions/ai-tarot-reading/index.ts",

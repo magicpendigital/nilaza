@@ -1,3 +1,4 @@
+import { handoffContextBlock } from "../_shared/chat-handoff.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.7.1";
 import { generateWithModelRoute } from "../_shared/model-router.ts";
@@ -36,6 +37,7 @@ type PersonaInput = {
   userContext?: {
     goals?: string[];
     tone?: string;
+    handoffContext?: unknown;
   };
 };
 
@@ -115,6 +117,8 @@ serve(async (req) => {
     if (await featurePaused(supabase, "persona_chat")) return jsonResponse(featurePausedBody, 503);
 
     const sanitizedHistory = sanitizeHistory(input.sanitizedHistory, text);
+    // Analysis CH-06: context brought from Tarot or Astrology rides with each turn as a labelled block.
+    const handoffBlock = handoffContextBlock(input.userContext?.handoffContext, language === "vi" ? "vi" : "en");
     const promptStack = await assemblePersonaPromptStack({
       supabase,
       language,
@@ -147,7 +151,7 @@ serve(async (req) => {
       system: promptStack.assembledSystemPrompt,
       messages: [
         ...sanitizedHistory,
-        { role: "user", content: text }
+        { role: "user", content: handoffBlock ? `${handoffBlock}\n\n${text}` : text }
       ],
       fallbackText: fallbackReply,
       safetyText: text
