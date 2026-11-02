@@ -53,6 +53,8 @@ function astrologyModelOutputSchema() {
 }
 
 function openRouterFormat(request: ModelProviderRequest) {
+  // Tarot must be bare JSON; JSON mode stops models from wrapping it in a Markdown fence.
+  if (request.feature === "tarot_reading") return { response_format: { type: "json_object" } };
   if (request.feature !== "astrology_report" || request.responseSchema !== "astrology_ai_insight_v1") return {};
   return {
     response_format: {

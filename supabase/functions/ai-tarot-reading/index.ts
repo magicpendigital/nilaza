@@ -7,7 +7,7 @@ import { AiRequestError, aiAuthUserOrUnavailable, guardAiJsonRequest } from "../
 
 import { answerCorsHeaders, readAnswerCorrelation } from "../_shared/answer-provenance.ts";
 import { answerProvenanceSchema, isIncompleteAnswerFinishReason, type AnswerProvenance } from "../../../packages/ai-contracts/answer-provenance.ts";
-import { parseTarotOutput, tarotOutputSchema } from "../../../packages/ai-contracts/tarot-output.ts";
+import { checkTarotOutputText, tarotOutputSchema } from "../../../packages/ai-contracts/tarot-output.ts";
 import { writeAnswerReceipt } from "../_shared/answer-receipt.ts";
 
 type LocalizedText = {
@@ -137,8 +137,9 @@ serve(async (req) => {
       fallbackText: JSON.stringify({ summary, reflection })
     });
     finalizeTrace = generation.finalizeTrace;
-    const validated = generation.moderationStatus === "passed" && !isIncompleteAnswerFinishReason(generation.finishReason)
-      ? parseTarotOutput(generation.text, language, cards.map(card => card.id)) : undefined;
+    const outputCheck = generation.moderationStatus === "passed" && !isIncompleteAnswerFinishReason(generation.finishReason)
+      ? checkTarotOutputText(generation.text, language, cards.map(card => card.id)) : undefined;
+    const validated = outputCheck?.output;
     const parsed = validated ?? { summary, reflection, sections: [] };
     const moderationStatus = generation.moderationStatus === "blocked" ? "blocked" : validated ? "passed" : "fallback";
     const provenance: AnswerProvenance = {
@@ -200,7 +201,9 @@ serve(async (req) => {
     remoteId = reading?.id;
     provenance.persistenceStatus = readingError ? "failed" : "stored";
     provenance.remoteId = remoteId;
-    await finalizeTrace?.({ status: readingError || provenance.validationStatus === "rejected" ? "error" : moderationStatus === "passed" ? "ok" : moderationStatus, output: { stage: readingError ? "persist" : provenance.validationStatus === "rejected" ? "validation" : "response", validationStatus: provenance.validationStatus, persistenceStatus: provenance.persistenceStatus, usageRecorded } });
+    await finalizeTrace?.({ status: readingError || provenance.validationStatus === "rejected" ? "error" : moderationStatus === "passed" ? "ok" : moderationStatus, output: { stage: readingError ? "persist" : provenance.validationStatus === "rejected" ? "validation" : "response", validationStatus: provenance.validationStatus, persistenceStatus: provenance.persistenceStatus, usageRecorded,
+      // Content-free reason for a rejected answer (QA 2026-11-02: DeepSeek replies were rejected without a cause on record).
+      ...(outputCheck?.reason ? { rejection: { code: outputCheck.reason } } : {}) } });
     const receipt = await writeAnswerReceipt({ ...provenance, userId, sectionIds: ["summary", "reflection", ...parsed.sections.map(section => section.key)] });
     if (receipt) {
       provenance.answerReceiptId = receipt.receiptId;
