@@ -149,6 +149,7 @@ import { savedReadingCards } from "./src/features/journal/savedReading";
 import { cardInline, cardSubtitle, cardTitle } from "./src/features/tarot/cardName";
 import { readingShareText } from "./src/features/tarot/shareText";
 import { homeNextStep, homeNextStepCopy } from "./src/features/home/nextStep";
+import { previousDayKey, visibleStreak } from "./src/features/home/streak";
 import { CardLibrary } from "./src/features/tarot/CardLibrary";
 import { ExploreHome } from "./src/features/explore/ExploreHome";
 import personaShortNamesData from "../../packages/content/data/persona-short-names.json";
@@ -2008,11 +2009,7 @@ const isDateKey = (createdAt: string, dateKey: string) => {
   return Number.isNaN(created.getTime()) ? createdAt.slice(0, 10) === dateKey : localDateKey(created) === dateKey;
 };
 
-function previousDateKey(dateKey: string) {
-  const date = new Date(`${dateKey}T00:00:00.000Z`);
-  date.setUTCDate(date.getUTCDate() - 1);
-  return date.toISOString().slice(0, 10);
-}
+const previousDateKey = previousDayKey;
 
 function buildNextStreakProfile(profile: Profile, dateKey: string): Profile {
   if (profile.lastActivityDate === dateKey) return profile;
@@ -2185,41 +2182,17 @@ function buildOracleChatHandoffContext(context: OracleHandoffContext, language: 
   };
 }
 
+// Analysis CH-06 (Owner 2026-11-02): the composer only suggests a short sentence; the cards, question
+// and summary travel as userContext.handoffContext with every message, so clearing the box keeps them.
 function buildHandoffPrompt(context: ChatHandoffContext, language: Language) {
+  const vi = language === "vi";
   if (context.sourceType === "tarot_card" && context.tarot?.cardFocus) {
-    const card = context.tarot.cardFocus;
-    return language === "vi"
-      ? `Mình muốn trò chuyện sâu hơn với archetype của lá ${card.name} trong bộ ${card.deckName}. Hãy giữ cuộc trò chuyện như một gương soi biểu tượng, không phải dự đoán chắc chắn. Tóm tắt: ${context.safeSummary}`
-      : `I want to speak more deeply with the archetype of ${card.name} in the ${card.deckName} deck. Keep this as a symbolic mirror, not a certain prediction. Summary: ${context.safeSummary}`;
+    return vi ? `Mình muốn hiểu thêm về lá ${context.tarot.cardFocus.name}.` : `I'd like to understand ${context.tarot.cardFocus.name} better.`;
   }
-
-  if (context.sourceType === "tarot_reading" && context.tarot) {
-    const cardsLine = context.tarot.cards.map((card) => `${card.position}: ${card.name} (${card.orientation})`).join("; ");
-    return language === "vi"
-      ? `Mình muốn hỏi sâu hơn về trải bài vừa rồi. Câu hỏi: ${context.userQuestion || "mình chưa viết câu hỏi cụ thể"}. Các lá: ${cardsLine}. Tổng hợp: ${context.tarot.synthesis}`
-      : `I want to go deeper into my tarot reading. Question: ${context.userQuestion || "I did not write a specific question"}. Cards: ${cardsLine}. Synthesis: ${context.tarot.synthesis}`;
-  }
-
-  if (context.sourceType === "astrology_report" && context.astrology) {
-    const placements = [
-      context.astrology.sunSign ? `Sun ${context.astrology.sunSign}` : "",
-      context.astrology.moonSign ? `Moon ${context.astrology.moonSign}` : "",
-      context.astrology.risingSign ? `Rising ${context.astrology.risingSign}` : ""
-    ].filter(Boolean).join(", ");
-    return language === "vi"
-      ? `Mình muốn hỏi sâu hơn về astrology preview vừa rồi. Trọng tâm: ${context.astrology.focus}. Placements: ${placements || "chưa đủ dữ liệu"}. Tóm tắt: ${context.safeSummary}`
-      : `I want to go deeper into my astrology preview. Focus: ${context.astrology.focus}. Placements: ${placements || "not enough data yet"}. Summary: ${context.safeSummary}`;
-  }
-
-  if (context.sourceType === "daily_zodiac_pulse" && context.zodiacPulse) {
-    return language === "vi"
-      ? `Mình muốn hỏi sâu hơn về Zodiac Pulse hôm nay. Sign: ${context.zodiacPulse.sign ?? "chưa có"}. Mood: ${context.zodiacPulse.mood}. Tóm tắt: ${context.safeSummary}`
-      : `I want to go deeper into today's Zodiac Pulse. Sign: ${context.zodiacPulse.sign ?? "pending"}. Mood: ${context.zodiacPulse.mood}. Summary: ${context.safeSummary}`;
-  }
-
-  return language === "vi"
-    ? `Mình muốn hỏi sâu hơn về ${context.sourceLabel}: ${context.safeSummary}`
-    : `I want to go deeper into ${context.sourceLabel}: ${context.safeSummary}`;
+  if (context.sourceType === "tarot_reading") return vi ? "Mình muốn hỏi sâu hơn về trải bài vừa rồi." : "I'd like to go deeper into this reading.";
+  if (context.sourceType === "astrology_report") return vi ? "Mình muốn hỏi thêm về lá số của mình." : "I'd like to ask more about my chart.";
+  if (context.sourceType === "daily_zodiac_pulse") return vi ? "Mình muốn hỏi thêm về bầu trời hôm nay." : "I'd like to ask more about today's sky.";
+  return vi ? "Mình muốn nói thêm về điều này." : "I'd like to talk more about this.";
 }
 
 function buildHandoffReplyPrefix(persona: Persona, context: ChatHandoffContext, language: Language) {
@@ -6385,7 +6358,7 @@ function HomeScreen({
     ? { ...homeNextStepCopy(nextStepId, language), onPress: nextStepId === "write" ? () => onWritePrompt(todayQuestion) : onOpenReminder }
     : undefined;
   return <HomeExperience cardBack={getDeckBackImage(selectedDeck.id)} language={language} greeting={homeGreetingLabel(currentTime, language, profile.nickname)} now={currentTime}
-    revealed={todayPulseRevealed} streak={profile.currentStreak} onReveal={onRevealTodayCard} onAsk={onAsk} onAstrology={onAstrology} onGoalSuggestion={onGoalSuggestion}
+    revealed={todayPulseRevealed} streak={visibleStreak(profile.currentStreak, profile.lastActivityDate, currentDateKey)} onReveal={onRevealTodayCard} onAsk={onAsk} onAstrology={onAstrology} onGoalSuggestion={onGoalSuggestion}
     primaryGoal={profile.goals[0]} zodiac={{ hasBirthDate: zodiacPulse.hasBirthDate, sign: zodiacPulse.sign ?? "", signId: zodiacPulse.signId, line: zodiacPulse.reflection }}
     onJournal={onJournal} onNotifications={onNotifications} unread={unreadNotificationCount}
     latest={homeLatestEntry(journalEntries, currentTime, language)} deckCover={getDeckThumbnailImage(selectedDeck.id)}
@@ -7281,6 +7254,7 @@ export function TarotFlow({
           artifact.visibility !== "deleted"
       )
     : undefined;
+  const [premiumDeckNotice, setPremiumDeckNotice] = useState("");
   // Analysis TA-11: the preview shows exactly this text; the share sheet opens only from its Share button.
   const shareReadingText = (target: NonNullable<typeof reading>) => readingShareText({
     cards: target.selected.map((card) => ({ position: card.spread, name: displayTarotCardInline(card, language), reversed: card.reversed })),
@@ -7809,6 +7783,7 @@ export function TarotFlow({
               <Text style={styles.editorialDisplayLeft}>{editorialDeckTitle}</Text>
               <Text style={styles.editorialSupportLeft}>{editorialDeckBody}</Text>
             </View>
+            {premiumDeckNotice ? <Text accessibilityLiveRegion="polite" style={styles.cardDescription}>{premiumDeckNotice}</Text> : null}
             <ResponsiveGrid minItemWidth={280} style={styles.editorialDeckStack}>
               {editorialDecks.map((deck) => {
                 const selected = deck.id === selectedDeckId;
@@ -7819,10 +7794,15 @@ export function TarotFlow({
                   <View key={deck.id} style={[styles.editorialDeckCard, selected && styles.editorialDeckCardSelected]}>
                   <Pressable
                     accessibilityRole="radio"
-                    accessibilityState={{ selected, checked: selected }}
+                    accessibilityState={{ selected, checked: selected, disabled: !isFreeDeck }}
                     aria-checked={selected}
                     accessibilityLabel={`${deckName}. ${isFreeDeck ? (language === "vi" ? "Đã gồm" : "Included") : (language === "vi" ? "Sắp ra mắt" : "Coming soon")}`}
-                    onPress={() => setSelectedDeckId(deck.id)}
+                    // Analysis TA-09 (Owner 2026-11-02): a Premium deck can be previewed (Learn) but not chosen
+                    // on a Free account, so nobody walks four steps to a locked button.
+                    onPress={() => {
+                      if (isFreeDeck) { setSelectedDeckId(deck.id); setPremiumDeckNotice(""); }
+                      else setPremiumDeckNotice(c.premiumDeckPreview);
+                    }}
                   >
                     <View style={styles.editorialDeckArtFrame}>
                       <Image source={getDeckThumbnailImage(deck.id)} style={styles.editorialDeckImage} resizeMode="contain" />
@@ -8685,7 +8665,7 @@ function ProfileScreen({
           name={profile.nickname}
           signLabel={signLabel}
           memberSince={memberSince}
-          stats={{ streak: profile.currentStreak, journal: journalCount, readings: readingsCount }}
+          stats={{ streak: visibleStreak(profile.currentStreak, profile.lastActivityDate, todayKey()), journal: journalCount, readings: readingsCount }}
           goals={selectedGoals.map((goal) => localizedText(goal, language)).join(", ") || profileLabels.notSet}
           tone={currentTone ? localizedText(currentTone, language) : profile.tone}
           birth={birthDate || profileLabels.notSet}
