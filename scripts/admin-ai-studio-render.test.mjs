@@ -451,6 +451,62 @@ test("Model Router publish sends the canonical provider contract with a unique v
   dom.window.close();
 });
 
+test("Hidden reasoning is set per route, blocks a budget with no room for the answer, and publishes in safetyPolicy", async () => {
+  // Owner decision 2026-11-02: reasoning lives in safetyPolicy.reasoning; at least 512 tokens stay for the answer.
+  const requests = [];
+  const dom = createAiStudioDom(undefined, async (url, options, capability) => {
+    const captured = { url, options, capability, body: options.body ? JSON.parse(options.body) : undefined };
+    requests.push(captured);
+    return options.method === "POST"
+      ? routeReceipt(captured.body)
+      : { ok: true, json: async () => ({ status: "connected", contractVersion: "model_route_publish_v2", checkedAt: "2026-11-02T00:00:00.000Z", providers: [], routes: [], history: [] }) };
+  });
+  const doc = dom.window.document;
+  const change = (selector, value) => {
+    const element = doc.querySelector(selector);
+    element.value = value;
+    element.dispatchEvent(new dom.window.Event("change", { bubbles: true }));
+  };
+  await new Promise(resolve => dom.window.setTimeout(resolve, 0));
+  doc.querySelector('[data-feature="tarot_reading"]').click();
+  doc.querySelector('[data-detail="modelRouter"]').click();
+  doc.querySelector('[data-node="model"]').click();
+  assert.equal(doc.querySelector("#reasoning-max-tokens").disabled, true);
+  change("#max-output-tokens", "2000");
+  change("#reasoning-mode", "high");
+  assert.match(doc.body.textContent, /Not enough room for the answer/);
+  change("#reasoning-mode", "low");
+  change("#reasoning-max-tokens", "1700");
+  assert.match(doc.body.textContent, /Not enough room for the answer/);
+  change("#model-router-admin-endpoint", "https://example.functions.supabase.co/admin-model-router-config");
+  doc.querySelector("#model-router-admin-endpoint").dispatchEvent(new dom.window.Event("input", { bubbles: true }));
+  doc.querySelector("#model-router-check-connection").click();
+  await new Promise(resolve => dom.window.setTimeout(resolve, 0));
+  doc.querySelector("#model-router-publish-config").click();
+  await new Promise(resolve => dom.window.setTimeout(resolve, 0));
+  assert.match(doc.querySelector("#draft-status").textContent, /leaving 300 for the answer/);
+  assert.equal(requests.some(request => request.options.method === "POST"), false);
+  change("#reasoning-max-tokens", "512");
+  assert.doesNotMatch(doc.body.textContent, /Not enough room for the answer/);
+  doc.querySelector("#model-router-publish-config").click();
+  await new Promise(resolve => dom.window.setTimeout(resolve, 0));
+  doc.querySelector("#confirm-publish").click();
+  await new Promise(resolve => dom.window.setTimeout(resolve, 0));
+  const captured = requests.find(request => request.options.method === "POST");
+  assert.ok(captured);
+  assert.deepEqual(captured.body.safetyPolicy.reasoning, { mode: "low", maxTokens: 512 });
+  assert.equal(captured.body.maxTokens, 2000);
+  dom.window.close();
+});
+
+test("default routes use 2000 output tokens with light reasoning only for Council and Astrology", () => {
+  // Owner decision 2026-11-02.
+  for (const route of JSON.parse(read("packages/agent-config/model-routing.json"))) {
+    assert.equal(route.maxOutputTokens, 2000, route.feature);
+    assert.deepEqual(route.safetyPolicy.reasoning, ["ai_council", "astrology_report"].includes(route.feature) ? { mode: "low", maxTokens: 512 } : { mode: "off" }, route.feature);
+  }
+});
+
 test("Astrology prompt editor reads active backend prompts and publishes the VI/EN pair atomically", async () => {
   const calls = [];
   const dom = createAiStudioDom(undefined, async (url, options, capability) => {

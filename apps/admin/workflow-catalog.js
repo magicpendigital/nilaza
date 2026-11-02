@@ -328,11 +328,11 @@
   },
   {
     "path": "supabase/functions/_shared/model-provider.ts",
-    "sha256": "a4c834bc00b8603bd92b53e18767e7f44aca642fcb00c3a21b1936ab72971d36"
+    "sha256": "a239c566f578ef0f47e49d76a75c7bb7db388d5ec2cc8b33cfcf925e98ee412e"
   },
   {
     "path": "supabase/functions/_shared/model-router.ts",
-    "sha256": "ff6bae40359102f3c34a828187b35192b8d4c33bb075728b1af6c8687665160b"
+    "sha256": "24790b28e5c4fc05440596f5432125cb25810461c7b96043e681519ee0ff0260"
   },
   {
     "path": "supabase/functions/_shared/notification-provider.ts",

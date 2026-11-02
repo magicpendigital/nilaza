@@ -739,7 +739,7 @@ function applyRemoteModelRoutes(routes) {
     current.fallbackProvider = route.fallback_provider && providerCatalog[route.fallback_provider] ? route.fallback_provider : "";
     current.fallbackModel = route.fallback_model || "";
     current.temperature = Number(route.temperature ?? current.temperature ?? 0.7);
-    current.maxOutputTokens = Number(route.max_output_tokens ?? current.maxOutputTokens ?? 800);
+    current.maxOutputTokens = Number(route.max_output_tokens ?? current.maxOutputTokens ?? 2000);
     current.fallbackWhen = Array.isArray(route.fallback_when) ? route.fallback_when : [];
     current.safetyPolicy = route.safety_policy || {};
     if (current.id === "astrology") {
@@ -1022,7 +1022,8 @@ function renderModelRouteEditor(current) {
     const draft = hasModelRouteDraft(current);
     const effectiveRoute = state.modelRouterRemoteRoutes.find((route) => route.feature === modelRouteFeatureId(current.id));
     const temperature = Number(current.temperature ?? effectiveRoute?.temperature ?? 0.7);
-    const maxOutputTokens = Number(current.maxOutputTokens ?? effectiveRoute?.max_output_tokens ?? 800);
+    const maxOutputTokens = Number(current.maxOutputTokens ?? effectiveRoute?.max_output_tokens ?? 2000);
+    const reasoning = routeReasoningSetting(current);
     return `<div class="model-route-form">
       <div class="inspector-section">
         <p class="helper">Model route changes are saved as a browser draft until published to the backend. Mobile still calls Nilaza backend only.</p>
@@ -1044,6 +1045,10 @@ function renderModelRouteEditor(current) {
       <div class="inspector-section route-limits">
         <div><label class="helper" for="model-temperature">Temperature</label><input id="model-temperature" class="input" type="number" min="0" max="2" step="0.05" value="${escapeHtml(temperature)}" /></div>
         <div><label class="helper" for="max-output-tokens">Maximum output tokens</label><input id="max-output-tokens" class="input" type="number" min="64" max="8192" step="1" value="${escapeHtml(maxOutputTokens)}" /></div>
+        <div><label class="helper" for="reasoning-mode">Hidden reasoning</label><select id="reasoning-mode"><option value="" ${reasoning ? "" : "selected"}>Model default</option>${reasoningModes.map(([mode, label]) => `<option value="${mode}" ${reasoning?.mode === mode ? "selected" : ""}>${label}</option>`).join("")}</select></div>
+        <div><label class="helper" for="reasoning-max-tokens">Reasoning token cap (optional)</label><input id="reasoning-max-tokens" class="input" type="number" min="64" max="8192" step="1" placeholder="Use the level" value="${escapeHtml(reasoning?.maxTokens ?? "")}" ${reasoning && reasoning.mode !== "off" ? "" : "disabled"} /></div>
+        <p class="helper">OpenRouter only. Reasoning tokens count toward the maximum output tokens; Off answers fastest and cheapest.</p>
+        ${reasoningBudgetProblem(current) ? `<div class="warning-card" role="alert"><strong>Not enough room for the answer</strong><p class="helper">${escapeHtml(reasoningBudgetProblem(current))}</p></div>` : ""}
         <div class="mini-grid">
           <div class="mini-card"><span>Route source</span><strong>${draft ? "Browser draft" : effectiveRoute?.status === "active" ? "Backend active" : "Not loaded"}</strong></div>
           <div class="mini-card"><span>Response schema</span><strong>${escapeHtml(effectiveRoute?.response_schema || current.schema)}</strong></div>
@@ -1415,6 +1420,29 @@ function canPublishModelRoute(current = feature()) {
   return !hasAmbiguousModelRoutes(current) && !["notifications", "face_reading"].includes(current.id) && current.status !== "Disabled";
 }
 
+// Owner decision 2026-11-02: hidden reasoning is set per route and stored in safetyPolicy.reasoning
+// {mode, maxTokens}. Reasoning tokens count toward the output limit (OpenRouter takes about 10/20/50/80%
+// of it for minimal/low/medium/high), so publishing is blocked when too little is left for the answer.
+const reasoningModes = [["off", "Off"], ["minimal", "Minimal"], ["low", "Low"], ["medium", "Medium"], ["high", "High"]];
+const reasoningEffortShare = { minimal: 0.1, low: 0.2, medium: 0.5, high: 0.8 };
+const minimumAnswerTokens = 512;
+
+function routeReasoningSetting(current = feature()) {
+  const value = current.safetyPolicy?.reasoning;
+  return value && reasoningModes.some(([mode]) => mode === value.mode) ? value : null;
+}
+
+function reasoningBudgetProblem(current = feature()) {
+  const setting = routeReasoningSetting(current);
+  if (!setting || setting.mode === "off") return "";
+  const maxOutput = Number(current.maxOutputTokens ?? 2000);
+  const budget = Number(setting.maxTokens) || Math.round(maxOutput * reasoningEffortShare[setting.mode]);
+  const left = maxOutput - budget;
+  return left < minimumAnswerTokens
+    ? `Hidden reasoning can use about ${budget} of ${maxOutput} output tokens, leaving ${left} for the answer. Raise the maximum output tokens or lower the reasoning level or cap so at least ${minimumAnswerTokens} remain.`
+    : "";
+}
+
 function hasAmbiguousModelRoutes(current = feature()) {
   return state.modelRouterAmbiguousRoutes.some(route => route.feature === modelRouteFeatureId(current.id));
 }
@@ -1452,7 +1480,7 @@ function modelRoutePublishPayload(current, version, publishRequestId) {
     fallback: ["openai", "openrouter", "gemini", "anthropic"].includes(fallbackProvider) && current.fallbackModel
       ? { provider: fallbackProvider, model: current.fallbackModel } : null,
     temperature: Number(current.temperature ?? 0.7),
-    maxTokens: Number(current.maxOutputTokens ?? 800),
+    maxTokens: Number(current.maxOutputTokens ?? 2000),
     responseSchema: current.schema || "chat_reply_v2",
     fallbackWhen: current.fallbackWhen ?? ["missing_api_key", "provider_timeout", "rate_limit", "provider_5xx", "malformed_response"],
     safetyPolicy: current.safetyPolicy ?? {}
@@ -1646,6 +1674,7 @@ async function publishModelRouterConfig(review) {
     return;
   }
   if (review?.action !== "modelRoute" || !isPublishReviewCurrent(review)) { rejectChangedPublishReview(); return; }
+  if (reasoningBudgetProblem()) { closePublishModal(); $("#draft-status").textContent = reasoningBudgetProblem(); return; }
   if (!await window.NilazaRequireCapability?.("ai.manage")) { $("#draft-status").textContent = "Permission denied"; return; }
   if (!isPublishReviewCurrent(review)) { rejectChangedPublishReview(); return; }
   if (state.modelRouterLoadedScope !== modelRouteScope()) {
@@ -2185,7 +2214,7 @@ function renderModelRouterDetail() {
             primary: { provider: current.provider, model: current.model },
             fallback: { provider: current.fallbackProvider, model: current.fallbackModel },
             temperature: Number(current.temperature ?? remoteRoute?.temperature ?? 0.7),
-            maxTokens: Number(current.maxOutputTokens ?? remoteRoute?.max_output_tokens ?? 800),
+            maxTokens: Number(current.maxOutputTokens ?? remoteRoute?.max_output_tokens ?? 2000),
             fallbackWhen: ["missing_api_key", "provider_timeout", "rate_limit", "provider_5xx", "malformed_response"],
             safetyPolicy: {}
           }, null, 2))}</pre></details>
@@ -3162,6 +3191,7 @@ document.addEventListener("click", (event) => {
     return;
   }
   if (event.target.closest("#model-router-publish-config")) {
+    if (reasoningBudgetProblem()) { $("#draft-status").textContent = reasoningBudgetProblem(); return; }
     openPublishModal();
     return;
   }
@@ -3326,6 +3356,26 @@ document.addEventListener("change", (event) => {
     else current.maxOutputTokens = Math.trunc(value);
     persistFeatureDraft(current, "route");
     $("#draft-status").textContent = "Model route settings saved to browser draft";
+    renderHeader();
+    renderDetail();
+  }
+  if (event.target.id === "reasoning-mode" || event.target.id === "reasoning-max-tokens") {
+    const current = feature();
+    const { reasoning: previous, ...policy } = current.safetyPolicy || {};
+    const mode = event.target.id === "reasoning-mode" ? event.target.value : previous?.mode;
+    const capText = event.target.id === "reasoning-max-tokens" ? event.target.value.trim() : String(previous?.maxTokens ?? "");
+    const cap = Number(capText);
+    if (capText && (!Number.isInteger(cap) || cap < 64 || cap > 8192)) {
+      event.target.setCustomValidity("Enter a whole number from 64 to 8192, or leave it empty.");
+      event.target.reportValidity();
+      return;
+    }
+    event.target.setCustomValidity("");
+    current.safetyPolicy = mode
+      ? { ...policy, reasoning: mode !== "off" && capText ? { mode, maxTokens: cap } : { mode } }
+      : policy;
+    persistFeatureDraft(current, "route");
+    $("#draft-status").textContent = "Hidden reasoning saved to browser draft";
     renderHeader();
     renderDetail();
   }

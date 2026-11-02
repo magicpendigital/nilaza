@@ -24,6 +24,23 @@ export type ModelRoute = {
 /** A provider that has not answered after this long is aborted, so the route can fall back (analysis AI-14). */
 export const PROVIDER_TIMEOUT_MS = 40_000;
 
+export const REASONING_MODES = ["off", "minimal", "low", "medium", "high"] as const;
+export type ReasoningMode = typeof REASONING_MODES[number];
+/** Hidden reasoning for one route; maxTokens caps the reasoning budget instead of an effort level. */
+export type ReasoningSetting = { mode: ReasoningMode; maxTokens?: number };
+
+/**
+ * Owner decision 2026-11-02: Admin stores reasoning in the route's safety_policy JSON as
+ * reasoning {mode, maxTokens}. Anything unrecognised means "not set" and the provider default applies.
+ */
+export function routeReasoning(policy: Record<string, unknown> | null | undefined): ReasoningSetting | undefined {
+  const value = policy?.reasoning as { mode?: unknown; maxTokens?: unknown } | undefined;
+  if (!value || typeof value !== "object" || !REASONING_MODES.includes(value.mode as ReasoningMode)) return undefined;
+  const mode = value.mode as ReasoningMode;
+  const maxTokens = Number(value.maxTokens);
+  return mode !== "off" && Number.isInteger(maxTokens) && maxTokens >= 64 ? { mode, maxTokens } : { mode };
+}
+
 export type ModelProviderRequest = {
   feature: string;
   provider: ModelProviderName;
@@ -33,6 +50,8 @@ export type ModelProviderRequest = {
   temperature: number;
   maxOutputTokens: number;
   responseSchema?: string;
+  /** OpenRouter only for now; other providers ignore it. */
+  reasoning?: ReasoningSetting;
   metadata?: Record<string, unknown>;
   traceHooks?: {
     onRequest?: (payload: { url: string; method: "POST"; body: unknown }) => void;
