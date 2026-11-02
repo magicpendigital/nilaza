@@ -147,6 +147,7 @@ import { ChatHub } from "./src/features/chat/ChatHub";
 import { JournalHome } from "./src/features/journal/JournalHome";
 import { savedReadingCards } from "./src/features/journal/savedReading";
 import { cardInline, cardSubtitle, cardTitle } from "./src/features/tarot/cardName";
+import { readingShareText } from "./src/features/tarot/shareText";
 import { CardLibrary } from "./src/features/tarot/CardLibrary";
 import { ExploreHome } from "./src/features/explore/ExploreHome";
 import personaShortNamesData from "../../packages/content/data/persona-short-names.json";
@@ -1311,8 +1312,8 @@ const copy = {
     reported: "Đã ghi nhận. Nilaza sẽ xem lại nội dung này.",
     reportReading: "Báo cáo lượt trải bài",
     shareReading: "Tạo thẻ chia sẻ",
-    sharePreviewReady: "Đã mở bảng chia sẻ.",
-    sharePrivateNote: "Thẻ chia sẻ không kèm ghi chú riêng tư.",
+    sharePreviewReady: "Xem lại nội dung trước khi chia sẻ.",
+    sharePrivateNote: "Không kèm câu hỏi hay ghi chú riêng của bạn.",
     cardMeaning: "Ý nghĩa lá bài",
     deckComposition: "Cấu trúc bộ bài",
     oracleSynthesis: "Tổng hợp của Oracle",
@@ -1414,8 +1415,8 @@ const copy = {
     reported: "Saved for safety review.",
     reportReading: "Report reading",
     shareReading: "Create share card",
-    sharePreviewReady: "Share sheet opened.",
-    sharePrivateNote: "Share cards do not include private notes.",
+    sharePreviewReady: "Check what will be shared first.",
+    sharePrivateNote: "Your question and private notes are not included.",
     cardMeaning: "Card meaning",
     deckComposition: "Deck composition",
     oracleSynthesis: "Oracle's Synthesis",
@@ -5495,11 +5496,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     setTarotStageHistory((currentHistory) => [...currentHistory, tarotStage].slice(-16));
     setTarotStage("share");
     recordEvent("share_card_created", { sourceId: reading.id, artifactType: artifact.artifactType });
+    // Analysis TA-11: preview first; the share sheet opens only from the preview's Share button.
     showToast(c.sharePreviewReady);
-    void Share.share({
-      title: "Nilaza Tarot",
-      message: `${payload.title} - ${shareCards.map((card) => `${card.title} (${card.orientation})`).join(", ")}\n\n${payload.synthesis}`
-    }).catch(() => undefined);
   };
 
   const councilRoomProps = useAiCouncilRoom({
@@ -7268,6 +7266,16 @@ export function TarotFlow({
           artifact.visibility !== "deleted"
       )
     : undefined;
+  // Analysis TA-11: the preview shows exactly this text; the share sheet opens only from its Share button.
+  const shareReadingText = (target: NonNullable<typeof reading>) => readingShareText({
+    cards: target.selected.map((card) => ({ position: card.spread, name: displayTarotCardInline(card, language), reversed: card.reversed })),
+    summary: target.summary,
+    question: target.question,
+    language
+  });
+  const shareReadingNow = () => {
+    if (reading) void Share.share({ title: "Nilaza Tarot", message: shareReadingText(reading) }).catch(() => undefined);
+  };
   const tarotGuideOptions = getTarotGuideOptions(selectedDeck.id);
   const recommendedTarotGuide = getRecommendedTarotGuide(selectedDeck.id);
   const selectedTarotGuide =
@@ -8131,9 +8139,8 @@ export function TarotFlow({
                     </Pressable>
                   ))}
                 </View>
-                <Text style={styles.kicker}>{String(latestShareArtifact.payload.spread ?? "")}</Text>
-                <Text style={styles.personaDetailTitle}>{String(latestShareArtifact.payload.cardTitle ?? localizedText(reading.deck.name, language))}</Text>
-                <Text style={styles.cardDescription}>{String(latestShareArtifact.payload.synthesis ?? reading.summary)}</Text>
+                <Text style={styles.kicker}>{language === "vi" ? "Nội dung sẽ được chia sẻ" : "What will be shared"}</Text>
+                <Text style={styles.cardDescription}>{shareReadingText(reading)}</Text>
                 <Text style={styles.disclaimer}>{c.sharePrivateNote}</Text>
               </View>
             ) : (
@@ -8143,7 +8150,10 @@ export function TarotFlow({
               </View>
             )}
             {latestShareArtifact ? (
-              <PrimaryButton
+              <PrimaryButton label={language === "vi" ? "Chia sẻ" : "Share"} onPress={shareReadingNow} />
+            ) : null}
+            {latestShareArtifact ? (
+              <SecondaryButton
                 label={c.save}
                 onPress={() => onSave({
                   sourceType: "share_card",
@@ -8159,7 +8169,7 @@ export function TarotFlow({
                 })}
               />
             ) : null}
-            <SecondaryButton label={latestShareArtifact ? (language === "vi" ? "Tạo lại preview" : "Regenerate preview") : c.shareReading} onPress={onCreateShareArtifact} />
+            {latestShareArtifact ? null : <SecondaryButton label={c.shareReading} onPress={onCreateShareArtifact} />}
             <SecondaryButton label={c.reading} onPress={() => setStage("result")} />
           </View>
         )}
@@ -8564,7 +8574,7 @@ function ProfileScreen({
           profileReady: "Hồ sơ đã sẵn sàng",
           profileHint: "Tối ưu cách Nilaza xưng hô, gợi ý người dẫn đường, Tarot và Nhật ký.",
           displayName: "Tên hiển thị",
-          displayNameHint: "Tên này dùng trong lời chào, khi trò chuyện với người dẫn và trong lời nhắc Nhật ký.",
+          displayNameHint: "Tên này hiện trong lời chào trên trang Hôm nay. Nilaza không gửi tên này cho AI khi bạn trò chuyện.",
           savedLocal: "Tự lưu trên thiết bị và đồng bộ khi có kết nối.",
           birthSection: "Hồ sơ ngày sinh",
           birthBody: "Dùng cho chiêm tinh khi bạn chủ động mở tính năng đó. Có thể để trống hoặc xóa riêng bất cứ lúc nào.",
@@ -8601,7 +8611,7 @@ function ProfileScreen({
           profileReady: "Profile is ready",
           profileHint: "Tune how Nilaza addresses you, suggests guides, tarot, and journal prompts.",
           displayName: "Display name",
-          displayNameHint: "Used in greetings, guide chat, and journal prompts.",
+          displayNameHint: "Shown in the greeting on Today. Nilaza does not send this name to the AI when you chat.",
           savedLocal: "Auto-saved on this device and synced when the backend is ready.",
           birthSection: "Birth profile",
           birthBody: "Used for astrology only when you choose to open that feature. You can leave it blank or clear it anytime.",
