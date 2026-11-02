@@ -7,6 +7,7 @@ import { localizedText } from "../../i18n";
 import { colors, radius, spacing, typography } from "../../theme";
 import { Language, OracleActionCard, OracleTurn } from "../../types";
 import { useAdaptiveLayout } from "../../responsive";
+import { CrisisSupportCard } from "../safety/CrisisSupportCard";
 
 const oracleAvatar = require("../../../assets/runtime/brand/open-reflection-v1/logo/symbol-ivory.png");
 
@@ -130,6 +131,7 @@ export function OracleRoom({
             >
               {turn.text}
             </ChatMessageBubble>
+            {turn.role === "oracle" && turn.safety === "crisis" ? <CrisisSupportCard language={language} /> : null}
             {turn.role === "oracle" && turn.actionCards?.length ? (
               <OracleActionRail actions={turn.actionCards} language={language} onAction={onAction} />
             ) : null}

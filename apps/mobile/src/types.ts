@@ -385,6 +385,8 @@ export type OracleTurn = {
   handoffContext?: OracleHandoffContext;
   promptVersionId?: string;
   moderationStatus?: "passed" | "blocked" | "fallback";
+  /** "crisis" shows the Gọi 115 card under the reply (analysis OR-05, Owner: 115 only). */
+  safety?: "crisis" | "boundary";
 };
 
 export type OracleMemoryConsent = {

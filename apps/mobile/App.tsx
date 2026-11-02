@@ -4468,6 +4468,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         actionCards: result.actionCards,
         handoffContext: result.handoffContext,
         promptVersionId: result.promptVersionId,
+        ...(signal ? { safety: signal === "self_harm_signal" ? "crisis" as const : "boundary" as const } : {}),
         moderationStatus: result.moderationStatus
       };
       setOracleTurns((current) => [...current, oracleTurn].slice(-40));

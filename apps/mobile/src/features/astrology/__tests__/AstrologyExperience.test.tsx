@@ -383,7 +383,7 @@ test("an old account load cannot replace the newly selected account data", async
   screen.rerender(<AstrologyExperience language="vi" storage={current.storage} onBack={() => {}} />);
   await waitFor(() => expect(screen.getByRole("button", { name: "Tạo lá số của bạn" }).props.accessibilityState.disabled).toBe(false));
   finishOld({ ...freshAstrologyData(), displayZone: "Invalid/old_account" });
-  await waitFor(() => expect(screen.queryByText(/Dữ liệu Astrology đã lưu không hợp lệ/)).toBeNull());
+  await waitFor(() => expect(screen.queryByText(/Dữ liệu chiêm tinh đã lưu không hợp lệ/)).toBeNull());
   expect(current.storage.saveJsonOrThrow).not.toHaveBeenCalled();
 });
 
@@ -407,4 +407,15 @@ test("an old account AI result cannot appear or be saved after storage changes",
   await waitFor(() => expect(screen.queryByText(responseFixture.headline)).toBeNull());
   expect(current.storage.saveJsonOrThrow).not.toHaveBeenCalled();
   expect(old.storage.saveJsonOrThrow).not.toHaveBeenCalled();
+});
+
+test("method, time zone and backup sit in one settings group on the hub (analysis AS-05)", async () => {
+  const { storage } = memory();
+  const screen = render(<AstrologyExperience language="vi" storage={storage} onBack={() => {}} />);
+  await waitFor(() => expect(screen.getByRole("button", { name: "Tạo lá số của bạn" }).props.accessibilityState.disabled).toBe(false));
+  expect(screen.queryByText("Múi giờ hiển thị")).toBeNull();
+  expect(screen.queryByText("Sao lưu & riêng tư")).toBeNull();
+  fireEvent.press(screen.getByText("Cài đặt & dữ liệu"));
+  expect(screen.getByText("Múi giờ hiển thị")).toBeTruthy();
+  expect(screen.getByText("Sao lưu & riêng tư")).toBeTruthy();
 });

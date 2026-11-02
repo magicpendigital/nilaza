@@ -30,3 +30,10 @@ it("keeps fallback status understandable and visible", () => {
   const screen = render(<OracleRoom {...props} turns={[{ id: "qa", role: "oracle", text: "Gợi ý phản chiếu", createdAt: "2026-09-14", moderationStatus: "fallback" }]} />);
   expect(screen.getByText("Gợi ý của Nilaza trên máy, không phải AI trả lời.")).toBeTruthy();
 });
+
+it("shows the 115 support card under a crisis reply only (analysis OR-05)", () => {
+  const screen = render(<OracleRoom {...props} turns={[{ id: "c", role: "oracle", text: "Bạn không một mình.", createdAt: "2026-11-02", intent: "safety_redirect", moderationStatus: "blocked", safety: "crisis" }]} />);
+  expect(screen.getByText("Gọi 115")).toBeTruthy();
+  screen.rerender(<OracleRoom {...props} turns={[{ id: "b", role: "oracle", text: "Mình không đưa lời khuyên y tế.", createdAt: "2026-11-02", intent: "safety_redirect", moderationStatus: "blocked", safety: "boundary" }]} />);
+  expect(screen.queryByText("Gọi 115")).toBeNull();
+});
