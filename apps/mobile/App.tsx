@@ -146,6 +146,7 @@ import { OracleRoom } from "./src/features/oracle";
 import { ChatHub } from "./src/features/chat/ChatHub";
 import { JournalHome } from "./src/features/journal/JournalHome";
 import { savedReadingCards } from "./src/features/journal/savedReading";
+import { cardInline, cardSubtitle, cardTitle } from "./src/features/tarot/cardName";
 import { CardLibrary } from "./src/features/tarot/CardLibrary";
 import { ExploreHome } from "./src/features/explore/ExploreHome";
 import personaShortNamesData from "../../packages/content/data/persona-short-names.json";
@@ -599,7 +600,7 @@ function savedReadingLines(snapshot: unknown, language: Language): string[] {
   for (const card of savedReadingCards(snapshot, language)) {
     const known = cards.find((item) => item.id === card.id);
     if (!known) continue;
-    lines.push(`${displayTarotCardName(known, language)}${card.position ? ` · ${card.position}` : ""} · ${card.reversed ? (vi ? "Ngược" : "Reversed") : (vi ? "Xuôi" : "Upright")}`);
+    lines.push(`${displayTarotCardInline(known, language)}${card.position ? ` · ${card.position}` : ""} · ${card.reversed ? (vi ? "Ngược" : "Reversed") : (vi ? "Xuôi" : "Upright")}`);
   }
   return lines;
 }
@@ -2257,7 +2258,7 @@ function buildTarotHandoffContext(reading: ReturnType<typeof drawReading>, langu
   const spreadLabel = localizedText(spreads.find((spread) => spread.id === reading.spread), language, reading.spread);
   const topicLabel = localizedText(topics.find((topic) => topic.id === reading.topic), language, reading.topic);
   const cardsForContext = reading.selected.map((card, index) => ({
-    name: displayTarotCardName(card, language),
+    name: displayTarotCardInline(card, language),
     position: localizedText(reading.cards[index]?.positionLabel, language, card.spread),
     orientation: card.reversed ? "reversed" as const : "upright" as const
   }));
@@ -2285,7 +2286,7 @@ function buildTarotCardHandoffContext(
   language: Language,
   reading?: ReturnType<typeof drawReading> | null
 ): ChatHandoffContext {
-  const cardName = displayTarotCardName(card, language);
+  const cardName = displayTarotCardInline(card, language);
   const deckName = localizedText(deck.name, language);
   const orientation = "reversed" in card
     ? card.reversed
@@ -2415,7 +2416,7 @@ function buildLocalTarotInterpretation(
   const spreadOption = spreads.find((item) => item.id === spread) ?? spreads[1];
   const topicLabel = localizedText(topics.find((item) => item.id === topic), language, topic);
   const spreadLabel = localizedText(spreadOption, language, spreadOption.id);
-  const cardNames = selected.map((card) => displayTarotCardName(card, language)).join(", ");
+  const cardNames = selected.map((card) => displayTarotCardInline(card, language)).join(", ");
   const summary =
     language === "vi"
       ? `${question.trim() ? `Bạn đang khám phá câu hỏi: “${question.trim()}”. ` : `Bạn đang phản chiếu về ${topicLabel.toLowerCase()}. `}Trải ${spreadLabel.toLowerCase()} với ${localizedText(deck.name, "vi")} gồm ${cardNames}. Đây là ý nghĩa có sẵn để bạn tự đối chiếu với câu hỏi; diễn giải AI chưa hoàn tất. Hãy chọn một chi tiết khiến bạn chú ý và viết điều nó gợi ra, thay vì xem lá bài là kết luận về tương lai.`
@@ -2436,8 +2437,16 @@ function buildTarotReflectionPrompt(card: TarotCard, topic: TarotTopic, language
   return `Nếu ${keyword.toLowerCase()} đang là chủ đề chính trong ${topicLabel}, một hành động nhỏ nào sẽ giúp bạn thành thật hơn với mình hôm nay?`;
 }
 
-function displayTarotCardName(card: TarotCard, language: Language) {
-  return localizedText(card.name, language);
+function displayTarotCardName(card: TarotCard, _language?: Language) {
+  return cardTitle(card.name);
+}
+
+function displayTarotCardSubtitle(card: TarotCard, language: Language) {
+  return cardSubtitle(card.name, language);
+}
+
+function displayTarotCardInline(card: TarotCard, language: Language) {
+  return cardInline(card.name, language);
 }
 
 const majorNumerals = ["0", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV", "XVI", "XVII", "XVIII", "XIX", "XX", "XXI"];
@@ -2448,11 +2457,11 @@ const suitNames: Record<NonNullable<TarotCard["suit"]>, { vi: string; en: string
   pentacles: { vi: "Tiền", en: "Pentacles" }
 };
 
-// "The Star · Ẩn chính XVII · Xuôi": the English name only when the display name differs from it.
+// "Ngôi Sao · Ẩn chính XVII · Xuôi": the Vietnamese name only when it differs from the original title.
 function displayTarotCardMeta(card: TarotCard & { reversed?: boolean }, language: Language) {
   const vi = language === "vi";
-  const english = localizedText(card.name, "en");
-  const parts = displayTarotCardName(card, language) === english ? [] : [english];
+  const subtitle = displayTarotCardSubtitle(card, language);
+  const parts = subtitle ? [subtitle] : [];
   if (card.arcana === "major" && typeof card.number === "number") parts.push(`${vi ? "Ẩn chính" : "Major Arcana"} ${majorNumerals[card.number] ?? card.number}`);
   else if (card.suit) parts.push(vi ? `Ẩn phụ · Bộ ${suitNames[card.suit].vi}` : `Minor Arcana · ${suitNames[card.suit].en}`);
   parts.push(card.reversed ? (vi ? "Ngược" : "Reversed") : (vi ? "Xuôi" : "Upright"));
@@ -3032,7 +3041,7 @@ function GuestPreviewScreen({ language, onCreateAccount, onSignIn, onExit }: { l
         key={card.id}
         language={language}
         name={displayTarotCardName(card, language)}
-        originalName={localizedText(card.name, "en")}
+        originalName={displayTarotCardSubtitle(card, language)}
         arcanaLabel={tarotArcanaLabel(card, language)}
         image={getTarotCardImage(deck.id, card.id)}
         uprightMeaning={localizedText(card.uprightMeaning, language)}
@@ -3055,7 +3064,7 @@ function GuestPreviewScreen({ language, onCreateAccount, onSignIn, onExit }: { l
           id: card.id,
           group: card.arcana === "major" ? "major" as const : (card.suit as "cups" | "wands" | "swords" | "pentacles"),
           name: displayTarotCardName(card, language),
-          sub: card.arcana === "major" ? `${majorNumerals[card.number] ?? card.number} · ${card.name.en}` : card.name.en,
+          sub: [card.arcana === "major" ? (majorNumerals[card.number] ?? String(card.number)) : "", displayTarotCardSubtitle(card, language)].filter(Boolean).join(" · "),
           image: getTarotCardImage(deck.id, card.id),
           learned: false
         }))}
@@ -4686,7 +4695,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
 
   const saveTodayPulseCard = () => {
     const card = todayPulse.card;
-    const cardName = displayTarotCardName(card, language);
+    const cardName = displayTarotCardInline(card, language);
     void saveJournal({
       sourceType: "daily",
       sourceId: todayCardSourceId(currentDateKey),
@@ -4707,7 +4716,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   // Share only the card and its library meaning: never the user's question, mood or Journal text.
   const shareTodayPulseCard = () => {
     const card = todayPulse.card;
-    void Share.share({ message: `${displayTarotCardName(card, language)} — ${displayTarotMeaning(card, language)}\n\nNilaza` }).catch(() => undefined);
+    void Share.share({ message: `${displayTarotCardInline(card, language)} — ${displayTarotMeaning(card, language)}\n\nNilaza` }).catch(() => undefined);
     recordEvent("today_card_shared", { cardId: card.id, dateKey: currentDateKey });
   };
 
@@ -7838,7 +7847,7 @@ export function TarotFlow({
               id: card.id,
               group: card.arcana === "major" ? "major" as const : (card.suit as "cups" | "wands" | "swords" | "pentacles"),
               name: displayTarotCardName(card, language),
-              sub: card.arcana === "major" ? `${majorNumerals[card.number] ?? card.number} · ${card.name.en}` : card.name.en,
+              sub: [card.arcana === "major" ? (majorNumerals[card.number] ?? String(card.number)) : "", displayTarotCardSubtitle(card, language)].filter(Boolean).join(" · "),
               image: getTarotCardImage(selectedDeck.id, card.id),
               learned: learnedCardIds.includes(card.id)
             }))}
@@ -7953,7 +7962,7 @@ export function TarotFlow({
             key={`${activeMeaningCard.id}-${activeMeaningFromReading ? (activeMeaningFromReading.reversed ? "r" : "u") : "lib"}`}
             language={language}
             name={displayTarotCardName(activeMeaningCard, language)}
-            originalName={localizedText(activeMeaningCard.name, "en")}
+            originalName={displayTarotCardSubtitle(activeMeaningCard, language)}
             arcanaLabel={tarotArcanaLabel(activeMeaningCard, language)}
             image={getTarotCardImage(selectedDeck.id, activeMeaningCard.id)}
             uprightMeaning={localizedText(activeMeaningCard.uprightMeaning, language)}
@@ -8058,7 +8067,7 @@ export function TarotFlow({
                 id: card.id,
                 position: card.spread,
                 name: displayTarotCardName(card, language),
-                originalName: localizedText(card.name, "en"),
+                originalName: displayTarotCardSubtitle(card, language),
                 reversed: card.reversed,
                 image: getTarotCardImage(selectedDeck.id, card.id),
                 body: aiBody || tarotSnapshotMeaning(card, reading.cards[index], language),
@@ -8354,11 +8363,11 @@ function JournalScreen({
               <View style={styles.savedCardRow}>
                 {savedReadingCards(selectedEntry.sourceSnapshot, language).flatMap((card) => {
                   const known = cards.find((item) => item.id === card.id);
-                  return known ? [{ ...card, name: known.name }] : [];
+                  return known ? [{ ...card, label: displayTarotCardInline(known, language) }] : [];
                 }).map((card, index) => (
                   <Image
                     key={`${index}-${card.id}`}
-                    accessibilityLabel={`${card.position ? `${card.position}: ` : ""}${localizedText(card.name, language)}, ${card.reversed ? (language === "vi" ? "Ngược" : "Reversed") : (language === "vi" ? "Xuôi" : "Upright")}`}
+                    accessibilityLabel={`${card.position ? `${card.position}: ` : ""}${card.label}, ${card.reversed ? (language === "vi" ? "Ngược" : "Reversed") : (language === "vi" ? "Xuôi" : "Upright")}`}
                     source={getTarotCardImage(String((selectedEntry.sourceSnapshot as any).deckId ?? ""), card.id)}
                     style={[styles.savedCardThumb, card.reversed && reversedCardArtStyle]}
                     resizeMode="cover"

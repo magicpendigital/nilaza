@@ -53,7 +53,7 @@ export function TarotCardGuide({ language, name, originalName, arcanaLabel, imag
         <View style={s.heroCopy}>
           <Text style={s.kicker}>{arcanaLabel}</Text>
           <Text style={s.name} accessibilityRole="header">{name}</Text>
-          {originalName !== name ? <Text style={s.original}>{originalName}</Text> : null}
+          {originalName && originalName !== name ? <Text style={s.original}>{originalName}</Text> : null}
           {guide ? (
             <View style={s.facts}>
               <Text style={s.fact}>{vi ? "Nguyên tố" : "Element"}: {guide.element}</Text>

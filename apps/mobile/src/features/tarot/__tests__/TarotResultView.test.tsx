@@ -44,6 +44,14 @@ test("each card says whether its paragraph is the reading for this question or t
   expect(screen.getByText("Nghĩa chung của lá · chưa có diễn giải riêng cho câu hỏi này")).toBeTruthy();
 });
 
+test("the original card name is the title with the Vietnamese name under it (Owner decision 2026-11-02)", () => {
+  const cards = [{ ...card("minor-swords-six", "Quá khứ", "Six of Swords", "Đoạn AI"), originalName: "Sáu Kiếm" }];
+  const screen = render(<TarotResultView language="vi" question="" cards={cards} summary="Một câu ngắn." sourceLabel="" extraSections={[]} reflection="" />);
+  expect(screen.getAllByText("Six of Swords").length).toBeGreaterThanOrEqual(2);
+  expect(screen.getAllByText("Sáu Kiếm").length).toBeGreaterThanOrEqual(2);
+  expect(screen.getByRole("imagebutton", { name: /Quá khứ: Six of Swords, Sáu Kiếm, Xuôi/ })).toBeTruthy();
+});
+
 test("dock saves, asks further and keeps share and report behind the menu", () => {
   const props = { onSave: jest.fn(), onAskFurther: jest.fn(), onShare: jest.fn(), onReport: jest.fn() };
   const screen = render(<TarotResultDock language="vi" {...props} />);
