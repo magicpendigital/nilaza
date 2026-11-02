@@ -388,7 +388,7 @@
   },
   {
     "path": "supabase/functions/ai-tarot-reading/index.ts",
-    "sha256": "ee19d854d1d8aa8937ea6f79066320dcdb47c49e1062dc90962697adbbf39690"
+    "sha256": "36dda307efe7410aa66c2a4cff1a5bc081379eb5eae4ed4d21804d08846cc96b"
   },
   {
     "path": "supabase/functions/notification-dispatch/index.ts",
@@ -412,7 +412,7 @@
   },
   {
     "path": "packages/ai-contracts/tarot-output.ts",
-    "sha256": "ba535ce3e09c4b5a182e3fba99316723d38712eb25b1ea690098544158f17749"
+    "sha256": "a3ae57950b2a089b265aac6d97e78b8b90921f6eaa0475db8f632be9ab28c0a2"
   },
   {
     "path": "packages/ai-contracts/answer-provenance.ts",

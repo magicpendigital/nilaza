@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "taskId": "tarot-output-json-mode-2026-11-02",
+  "ownerAgent": "ai_operations_agent",
+  "lane": "ai_tarot_output_reliability",
+  "goal": "Live QA 2026-11-02 (trace read with Owner approval): DeepSeek v4.1 Flash answered a 3-card Tarot reading completely (finish stop, 2891 chars) but the structure check rejected it, so the app showed the library meanings. The rejection cause was not recorded. Record a content-free rejection code in the trace, and ask OpenRouter for JSON mode on Tarot so models return bare JSON instead of a Markdown-fenced block. Acceptance rules stay unchanged.",
+  "successCriteria": [
+    "checkTarotOutputText returns the output or a code (fenced_json, not_json, title, body, card_ids, ...); parseTarotOutput and validateTarotOutput accept exactly what they did.",
+    "ai-tarot-reading records rejection.code in the trace finalization when an answer is rejected.",
+    "OpenRouter requests for tarot_reading carry response_format json_object and no Astrology provider settings.",
+    "Deno shared tests, endpoint tests, backend contracts and mobile tests pass."
+  ],
+  "writeScope": [
+    "packages/ai-contracts/tarot-output.ts",
+    "supabase/functions/_shared/tarot-output.test.ts",
+    "supabase/functions/ai-tarot-reading/index.ts",
+    "supabase/functions/_shared/providers/openrouter.ts",
+    "supabase/functions/_shared/model-provider.test.ts",
+    "apps/admin/workflow-catalog.js"
+  ],
+  "untouchedSurfaces": [
+    "Acceptance rules for Tarot output, prompts and data are unchanged.",
+    "Deploying ai-tarot-reading waits for Owner approval."
+  ],
+  "impact": {
+    "entryPoint": "AI Tarot reading.",
+    "dataWrite": "No schema change; published routes may carry safety_policy.reasoning.",
+    "backendContract": "OpenRouter Tarot calls request JSON mode; trace finalization gains rejection.code.",
+    "canonicalContract": "Tarot output contract nilaza.tarot-output.v1 unchanged.",
+    "adminVisibility": "Trace Explorer shows the rejection code.",
+    "privacySafety": "The rejection code carries no answer text.",
+    "observability": "No analytics or logging change.",
+    "rollback": "Revert the commit and redeploy ai-tarot-reading.",
+    "surfacesIntentionallyUntouched": "Prompts, persona content, database schema, other providers (reasoning applies to OpenRouter only).",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs validation, commits and pushes to the PR branch without merging or deploying."
+  },
+  "canonicalContracts": [
+    "Tarot output contract nilaza.tarot-output.v1 (unchanged); QA finding 2026-11-02."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "AI operations routes and owners.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "reason": "Default routes.",
+      "sha256": "24790b28e5c4fc05440596f5432125cb25810461c7b96043e681519ee0ff0260"
+    },
+    {
+      "path": "apps/admin/app.js",
+      "reason": "Admin model router.",
+      "sha256": "78f56a5e1cbbe13e672b1ed807217ed68b235625d14268feeb0e9cd300862325"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "OpenRouter model ids were checked against https://openrouter.ai/api/v1/models on 2026-11-01."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://openrouter.ai/docs/api-reference/parameters",
+      "checkedAt": "2026-11-02",
+      "reason": "response_format json_object is a supported OpenRouter parameter; DeepSeek v4.1 Flash endpoints list response_format (checked via /api/v1/models/.../endpoints)."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change.",
+    "sensitiveData": "No new personal data is handled.",
+    "secretsLogging": "No credentials, tokens or logs are added.",
+    "externalInput": "Model ids are fixed strings in code; no new user input.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration; function deploys wait for Owner approval.",
+    "stopCondition": "Stop before deploying without Owner approval or if tests fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/admin/workflow-catalog.js",
+      "docs/feature-plans/tarot-output-json-mode-2026-11-02.json",
+      "packages/ai-contracts/tarot-output.ts",
+      "supabase/functions/_shared/model-provider.test.ts",
+      "supabase/functions/_shared/providers/openrouter.ts",
+      "supabase/functions/_shared/tarot-output.test.ts",
+      "supabase/functions/ai-tarot-reading/index.ts"
+    ],
+    "note": "Fresh branch from main after PR #21."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/tarot-output-json-mode-2026-11-02.json",
+    "npx deno test --allow-read --allow-env --no-lock supabase/functions/_shared/",
+    "node --test scripts/ai-answer-endpoints.test.mjs",
+    "node scripts/validate-backend-contracts.mjs"
+  ],
+  "managerTestPath": "After deploy, draw a 3-card reading: the result shows AI-written paragraphs per card; if not, Trace Explorer shows the rejection code.",
+  "residualRisk": "If the rejection was about shape (for example a title as plain text), JSON mode alone will not fix it; the recorded code will say so.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
