@@ -3,11 +3,14 @@
   "taskId": "ui-wave-b-2026-11-02",
   "ownerAgent": "mobile_ux_fixes_agent",
   "lane": "mobile_ui_wave_b",
-  "goal": "Live QA 2026-11-02: a failed Astrology AI reading used up the only daily turn while the app said the question was kept for a retry; count only delivered readings (completed or later deleted) against the daily limit, with at most 2 extra failed attempts per day to bound cost. Also finish the Vietnamese copy pass on Astrology (Journal, Astrology AI, AI provider) per analysis TA-10/JO-07, and continue UI items TA-08 and JO-05 from the 2026-10-30 analysis.",
+  "goal": "Live QA 2026-11-02: a failed Astrology AI reading used up the only daily turn while the app said the question was kept for a retry; count only delivered readings (completed or later deleted) against the daily limit, with at most 2 extra failed attempts per day to bound cost. Also finish the Vietnamese copy pass on Astrology (Journal, Astrology AI, AI provider) per analysis TA-10/JO-07, and continue UI items TA-08 and JO-05 from the 2026-10-30 analysis. JO-05 lines from PR #14 read {id, reversed, spread} while synced readings store {cardId, orientation, positionLabel}, so nothing showed for real entries; one parser now reads both.",
   "successCriteria": [
     "ai-astrology-insight returns daily_limit_reached only after a delivered reading or after the failed-attempt allowance is spent.",
     "Vietnamese Astrology and Journal strings use Nhật ký, Chiêm tinh and AI Chiêm tinh; the copy test bans the old phrases.",
-    "Mobile typecheck, Jest and backend contract checks pass."
+    "Mobile typecheck, Jest and backend contract checks pass.",
+    "TA-08: each card in a Tarot result says whether its paragraph is the reading for this question (Vì sao lá này ở vị trí …) or the general card meaning.",
+    "JO-05: a saved Tarot reading in the Journal shows a row of small card images, reversed cards turned, each labelled with position, name and orientation.",
+    "Journal and Home toasts no longer say insight, cloud or Share-card in Vietnamese."
   ],
   "writeScope": [
     "supabase/functions/ai-astrology-insight/index.ts",
@@ -18,7 +21,11 @@
     "apps/mobile/src/features/astrology/AstrologyChartStory.tsx",
     "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
     "apps/mobile/src/features/astrology/__tests__/AstrologyChartStory.test.tsx",
-    "apps/mobile/src/__tests__/userFacingCopy.test.ts"
+    "apps/mobile/src/__tests__/userFacingCopy.test.ts",
+    "apps/mobile/src/features/tarot/TarotResultView.tsx",
+    "apps/mobile/src/features/tarot/__tests__/TarotResultView.test.tsx",
+    "apps/mobile/src/features/journal/savedReading.ts",
+    "apps/mobile/src/features/journal/__tests__/savedReading.test.ts"
   ],
   "untouchedSurfaces": [
     "No SQL or migration; deploying ai-astrology-insight waits for Owner approval.",
@@ -101,14 +108,11 @@
     "paths": [
       "apps/mobile/App.tsx",
       "apps/mobile/src/__tests__/userFacingCopy.test.ts",
-      "apps/mobile/src/features/astrology/AstrologyAiGuidePanel.tsx",
-      "apps/mobile/src/features/astrology/AstrologyChartFoundation.tsx",
-      "apps/mobile/src/features/astrology/AstrologyChartStory.tsx",
-      "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
-      "apps/mobile/src/features/astrology/__tests__/AstrologyChartStory.test.tsx",
-      "docs/feature-plans/ui-wave-b-2026-11-02.json",
-      "scripts/validate-backend-contracts.mjs",
-      "supabase/functions/ai-astrology-insight/index.ts"
+      "apps/mobile/src/features/journal/__tests__/savedReading.test.ts",
+      "apps/mobile/src/features/journal/savedReading.ts",
+      "apps/mobile/src/features/tarot/TarotResultView.tsx",
+      "apps/mobile/src/features/tarot/__tests__/TarotResultView.test.tsx",
+      "docs/feature-plans/ui-wave-b-2026-11-02.json"
     ],
     "note": "Fresh branch from origin/main."
   },

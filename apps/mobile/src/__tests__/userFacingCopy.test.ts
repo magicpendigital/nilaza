@@ -42,6 +42,11 @@ const bannedPhrases = [
   "Xóa Journal",
   "tới AI provider",
   "Bản đọc Astrology",
+  "daily insight mỗi ngày",
+  "Oracle insight để lưu",
+  "Insight này đã",
+  "Các insight và",
+  "từ insight này"
 ];
 
 describe("user-facing copy", () => {
