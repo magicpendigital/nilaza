@@ -72,6 +72,29 @@ function summarizeAjvErrors(errors: any[] | null | undefined, label: string) {
   return (errors ?? []).map((error) => `${label}${error.instancePath || "$"}: ${error.message}`);
 }
 
+/**
+ * Content-free label for one validation message, e.g. "patterns.body:maxLength" (QA 2026-11-03: traces
+ * only said schema_constraint, not which field). Array indexes and fact IDs are dropped.
+ */
+export function astrologyDiagnosticFieldCode(message: string) {
+  const pointer = message.match(/^response(\/[A-Za-z0-9_/]*)?:/)?.[1] ?? "";
+  const field = pointer.split("/").filter((part) => part && !/^\d+$/.test(part)).join(".") || "root";
+  const rule = /more than \d+ characters/.test(message) ? "maxLength"
+    : /fewer than \d+ characters/.test(message) ? "minLength"
+      : /more than \d+ items/.test(message) ? "maxItems"
+        : /fewer than \d+ items/.test(message) ? "minItems"
+          : /required property/.test(message) ? "required"
+            : /additional properties/.test(message) ? "additionalProperties"
+              : /allowed values|equal to constant/.test(message) ? "enum"
+                : /must be (string|array|object|number|integer|boolean)/.test(message) ? "type"
+                  : /unselected evidence|unsupported evidence/.test(message) ? "evidence"
+                    : /unknown caveat/.test(message) ? "caveat"
+                      : /duplicate section/.test(message) ? "duplicate"
+                        : /mismatch|missing/.test(message) ? "metadata"
+                          : "other";
+  return `${field}:${rule}`.slice(0, 80);
+}
+
 function factCollections(request: any) {
   return [
     ["placements", request?.facts?.placements ?? []],
