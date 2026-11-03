@@ -84,7 +84,6 @@
             "npm:@expo/metro-runtime@~6.1.2",
             "npm:@expo/vector-icons@15.0.3",
             "npm:@react-native-async-storage/async-storage@2.2.0",
-            "npm:@react-native-community/datetimepicker@8.4.4",
             "npm:@supabase/supabase-js@^2.108.2",
             "npm:@testing-library/react-native@13.3.3",
             "npm:@types/jest@^29.5.14",
