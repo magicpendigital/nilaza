@@ -6,6 +6,7 @@ import {
   normalizeUsage,
   providerErrorFromResponse,
   PROVIDER_TIMEOUT_MS,
+  providerTimeoutMs,
   readJsonResponse
 } from "../model-provider.ts";
 
@@ -53,7 +54,7 @@ export async function invokeOpenAI(request: ModelProviderRequest, apiKey: string
   });
   const response = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
-    signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS),
+    signal: AbortSignal.timeout(providerTimeoutMs(request.feature)),
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json"

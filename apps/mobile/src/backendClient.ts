@@ -349,7 +349,8 @@ const defaultTimeoutMs = 8000;
 // A single timeout makes a fast chat feel sluggish and makes a deeper reading
 // fail too early. These are client patience windows, not provider billing caps.
 const generationTimeoutMs = {
-  astrology: 120000,
+  // Server waits up to 60 s per model, two attempts (Owner 2026-11-03); keep a margin for storage.
+  astrology: 140000,
   council: 90000,
   daily: 45000,
   oracle: 60000,

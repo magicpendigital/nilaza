@@ -5,6 +5,7 @@ import {
   normalizeUsage,
   providerErrorFromResponse,
   PROVIDER_TIMEOUT_MS,
+  providerTimeoutMs,
   readJsonResponse
 } from "../model-provider.ts";
 
@@ -44,7 +45,7 @@ export async function invokeGemini(request: ModelProviderRequest, apiKey: string
   });
   const response = await fetch(url, {
     method: "POST",
-    signal: AbortSignal.timeout(PROVIDER_TIMEOUT_MS),
+    signal: AbortSignal.timeout(providerTimeoutMs(request.feature)),
     headers: {
       "Content-Type": "application/json"
     },
