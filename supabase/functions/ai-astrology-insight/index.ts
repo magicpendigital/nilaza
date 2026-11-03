@@ -97,7 +97,7 @@ async function recordOutputRejection(
     validationErrors?: string[];
   } = {}
 ) {
-  const diagnostics = (details.validationErrors ?? []).slice(0, 8).map((message) => {
+  const diagnostics = (details.validationErrors ?? []).slice(0, 16).map((message) => {
     const path = message.match(/^(?:response|invocation)(?:\.[A-Za-z0-9_]+|\[[0-9]+\])*/)?.[0] ?? "response";
     const code = message.includes("evidence") ? "evidence_reference"
       : message.includes("caveat") ? "caveat_reference"
@@ -468,7 +468,7 @@ serve(async (req) => {
           stage: "validation",
           errorCode: "invalid_model_response",
           validationErrorCount: responseErrors.length,
-          validationDiagnostics: (responseErrors.slice(0, 8).map((message) => ({
+          validationDiagnostics: (responseErrors.slice(0, 16).map((message) => ({
             path: message.match(/^response(?:\.[A-Za-z0-9_]+|\[[0-9]+\])*/)?.[0] ?? "response",
             code: message.includes("evidence") ? "evidence_reference"
               : message.includes("caveat") ? "caveat_reference"
