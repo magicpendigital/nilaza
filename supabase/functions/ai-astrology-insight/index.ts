@@ -6,6 +6,7 @@ import { safeJsonParse } from "../_shared/model-provider.ts";
 import { astrologyAiOutputGuidance } from "../_shared/astrology-ai-output-guidance.ts";
 import {
   ASTROLOGY_AI_CONTRACT,
+  astrologyDiagnosticFieldCode,
   hashAstrologyAiInput,
   makeAstrologyAiResponseEnvelope,
   selectAstrologyAiFacts,
@@ -104,7 +105,7 @@ async function recordOutputRejection(
           : message.includes("mismatch") ? "contract_mismatch"
             : message.includes("must ") ? "schema_constraint"
               : "response_contract";
-    return { path, code };
+    return { path, code, field_code: astrologyDiagnosticFieldCode(message) };
   });
   try {
     const { error } = await supabase.from("usage_events").insert({
@@ -474,7 +475,8 @@ serve(async (req) => {
                 : message.includes("forbidden") ? "privacy_field"
                   : message.includes("mismatch") ? "contract_mismatch"
                     : message.includes("must ") ? "schema_constraint"
-                      : "response_contract"
+                      : "response_contract",
+            field_code: astrologyDiagnosticFieldCode(message)
           })))
         }
       });

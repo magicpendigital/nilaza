@@ -324,7 +324,7 @@
   },
   {
     "path": "supabase/functions/_shared/astrology-ai-insight.ts",
-    "sha256": "e08190c026d4b2233303a377f64fd8c3dac73f6d5e29649475ed5e4dcc2b6c64"
+    "sha256": "c3b41f503f4ac68f3f3e6fad62d0f583939411fe3289937edda61bfefbcf9ff9"
   },
   {
     "path": "supabase/functions/_shared/model-provider.ts",
@@ -356,7 +356,7 @@
   },
   {
     "path": "supabase/functions/ai-astrology-insight/index.ts",
-    "sha256": "a42ae9ddc1ae5b8cf84ae04200b16e92d02d86cf73bf83d3a7625799d8e26445"
+    "sha256": "b7972ff7b86dbe6e5b88bd68a61ac3d43cc7ad381edfdca177043cebf87d3cf0"
   },
   {
     "path": "supabase/functions/ai-astrology-report/index.ts",
