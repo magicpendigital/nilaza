@@ -3,7 +3,7 @@ import { Fragment, useEffect, useRef } from "react";
 import { ImageSourcePropType, KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { ChatComposer, ChatContextNotice, ChatMessageBubble, ChatRoomHeader, ChatSessionSummary, ChatSurface, ChatThinkingIndicator, QuickReplyRail } from "../../a2ui";
-import { colors, radius, spacing, typography } from "../../theme";
+import { colors, layout, radius, spacing, typography } from "../../theme";
 import { CrisisSupportCard } from "../safety/CrisisSupportCard";
 import { ChatHandoffContext, Language } from "../../types";
 
@@ -190,14 +190,17 @@ export function PersonaChatRoom({
               message.role === "guide" ? (
                 <View style={styles.bubbleActions}>
                   <Pressable accessibilityLabel={language === "vi" ? "Phản hồi hữu ích" : "Mark as useful"} accessibilityRole="button" onPress={() => onRateMessage?.(message, "useful")} style={styles.bubbleAction}>
-                    <Ionicons name="thumbs-up-outline" size={14} color={colors.gold} />
+                    <Ionicons name="thumbs-up-outline" size={18} color={colors.gold} />
                   </Pressable>
                   <Pressable accessibilityLabel={language === "vi" ? "Phản hồi chưa hữu ích" : "Mark as not useful"} accessibilityRole="button" onPress={() => onRateMessage?.(message, "not_useful")} style={styles.bubbleAction}>
-                    <Ionicons name="thumbs-down-outline" size={14} color={colors.gold} />
+                    <Ionicons name="thumbs-down-outline" size={18} color={colors.gold} />
                   </Pressable>
                   <Pressable accessibilityRole="button" onPress={() => onSaveMessage(message)} style={styles.bubbleAction}>
-                    <Ionicons name="bookmark-outline" size={14} color={colors.gold} />
+                    <Ionicons name="bookmark-outline" size={18} color={colors.gold} />
                     <Text style={styles.bubbleActionText}>{copy.save}</Text>
+                  </Pressable>
+                  <Pressable accessibilityLabel={copy.report} accessibilityRole="button" onPress={onReport} style={styles.bubbleAction}>
+                    <Ionicons name="flag-outline" size={18} color={colors.gold} />
                   </Pressable>
                 </View>
               ) : undefined
@@ -239,7 +242,10 @@ const styles = StyleSheet.create({
   bubbleAction: {
     alignItems: "center",
     flexDirection: "row",
-    gap: 4
+    gap: 4,
+    justifyContent: "center",
+    minHeight: layout.minimumTouchTarget,
+    minWidth: layout.minimumTouchTarget
   },
   bubbleActions: {
     alignItems: "center",

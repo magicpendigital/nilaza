@@ -14,7 +14,7 @@ import {
   QuickReplyRail
 } from "../../a2ui";
 import { localizedText } from "../../i18n";
-import { colors, radius, spacing, typography } from "../../theme";
+import { colors, layout, radius, spacing, typography } from "../../theme";
 import { CrisisSupportCard } from "../safety/CrisisSupportCard";
 import { AiCouncilTemplate, Language, Persona } from "../../types";
 
@@ -626,9 +626,9 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
     borderRadius: radius.control,
     borderWidth: 1,
-    height: 34,
+    height: layout.minimumTouchTarget,
     justifyContent: "center",
-    width: 34
+    width: layout.minimumTouchTarget
   },
   customPanel: {
     backgroundColor: colors.surfaceLow,

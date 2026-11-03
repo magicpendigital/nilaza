@@ -73,3 +73,12 @@ test("account deletion needs the typed phrase and reports failures", async () =>
   await waitFor(() => expect(screen.getByText("Chưa xóa được tài khoản.")).toBeTruthy());
   expect(onDelete).toHaveBeenCalledTimes(1);
 });
+
+test("a new account sees an invitation instead of zero counters", () => {
+  const { screen } = renderProfile({ stats: { streak: 0, journal: 0, readings: 0 } });
+  expect(screen.getByText("Hành trình của bạn bắt đầu từ đây")).toBeTruthy();
+  expect(screen.queryByLabelText("0 mục Nhật ký")).toBeNull();
+  const started = renderProfile({ stats: { streak: 0, journal: 1, readings: 0 } });
+  expect(started.screen.getByLabelText("1 mục Nhật ký")).toBeTruthy();
+  expect(started.screen.queryByText("Hành trình của bạn bắt đầu từ đây")).toBeNull();
+});

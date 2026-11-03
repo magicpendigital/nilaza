@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "taskId": "plan-board-ux-2026-11-03",
+  "ownerAgent": "mobile_ux_fixes_agent",
+  "lane": "Project status board plus mobile Package A leftovers (app-only)",
+  "goal": "Give the Owner and every new agent one living status board (PLAN.md) and keep the 2026-10-30 review backlog in the repo instead of a temporary folder, add the Admin and multi-provider LLM proposals for Owner decision, and close the app-only Package A leftovers found in the 2026-11-03 audit: the Oracle launcher no longer repeats on Explore or covers the last row and reaches 48px, tab labels never collapse to icons only, persona and Council message actions reach 48px with a per-message report, Profile shows an invitation instead of 0/0/0 for a new account, and the Tarot spread hint shows only while the card is closed.",
+  "successCriteria": [
+    "PLAN.md at the repository root lists the goal, Owner decisions, phase status, open work by area with IDs, Owner approvals waiting and the update rule; CLAUDE.md tells agents to read it first.",
+    "docs/backlog/review-2026-10-30.json holds all 107 review items with their status; PLAN.md summarizes counts and open items.",
+    "The Oracle launcher is not shown on Home, Explore, Chat, Tarot, Astrology or the Journal composer; where it shows, it is at least 48px tall and the scroll content has bottom padding so the last row is not covered.",
+    "While scrolling, the tab bar keeps its labels; it slides away only after a long scroll down and returns on scroll up or after 1.2 s idle.",
+    "Persona chat useful, not useful, save and a new report action, and the Council chat and report buttons, have at least 48 x 48 touch targets.",
+    "A new account sees an invitation on Tôi instead of three zero counters; counters return once any is above zero.",
+    "The spread hint Chạm để xem khi nào nên chọn kiểu này shows only while that spread card is closed.",
+    "Mobile type check and the full mobile Jest suite pass."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
+    "apps/mobile/src/features/council/AiCouncilRoom.tsx",
+    "apps/mobile/src/features/profile/ProfileHome.tsx",
+    "apps/mobile/src/features/profile/__tests__/",
+    "docs/backlog/",
+    "docs/proposals/",
+    "docs/HANDOFF_CURRENT_STATE.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "No backend, Edge Function, SQL, prompt, model route, provider or secret change; the Admin and LLM provider documents are proposals awaiting Owner decisions.",
+    "No Admin code change in this record.",
+    "Account deletion stays hidden (accountDeleteLive=false) until account-delete is approved and deployed.",
+    "Large-text caps, list virtualization, heading scale and remaining mixed-language labels are later slices tracked in PLAN.md."
+  ],
+  "impact": {
+    "entryPoint": "Journal list and Tôi tabs (Oracle launcher), every main tab while scrolling (tab bar), persona chat and Council rooms, Tôi for a new account, Tarot spread selection.",
+    "dataWrite": "No data is written or migrated; documents only add repository files.",
+    "backendContract": "No request or response change; the per-message report opens the existing feedback panel.",
+    "adminVisibility": "No Admin change.",
+    "privacySafety": "A report action on each guide message makes the Play AI-content reporting requirement easier to meet; no new personal data.",
+    "observability": "Reports use the existing feedback path; no new events.",
+    "rollback": "Revert the commit; documents have no runtime effect."
+  },
+  "canonicalContracts": [
+    "Roadmap 2026-10-23 Package A; review 2026-10-30 item list (now docs/backlog/review-2026-10-30.json); layout.minimumTouchTarget = 48 in apps/mobile/src/theme.ts."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails, Android-first scope and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile, Admin and backend routes and validation commands.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Plan, Whole-App impact and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/HANDOFF_CURRENT_STATE.vi.md",
+      "reason": "Owner decisions and approval boundaries; stale since 26/10, now pointed at PLAN.md.",
+      "sha256": "66bc3fc1d2d827fdc0010cad003516c325ce66b34621f0aa1a57fa9d5119c2d7"
+    },
+    {
+      "path": "docs/release/GOOGLE_PLAY_ROADMAP_AND_UX_REVIEW_2026-10-23.vi.md",
+      "reason": "Findings U-A, U-F, U-G, U-I and section 0.2 (48px report buttons in every AI surface).",
+      "sha256": "2cbacccb151da25ec9126c73152361ebb65e8fe8616c6dac69b6717a7a48a860"
+    },
+    {
+      "path": "docs/feature-plans/chat-council-report-2026-10-31.json",
+      "reason": "Council report flag and persona report menu reviewed so the per-message report reuses the same panel.",
+      "sha256": "d29894234de3642192ce0b4a5a6ed0e9c78f15c5e9ec60a7994349a5a3217982"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation applied; PLAN.md is referenced from CLAUDE.md and the handoff, and the skill text does not need to change in this slice."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No dependency added. Provider facts in the LLM proposal cite current vendor pages and are marked for Owner verification; nothing is implemented from them here."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change.",
+    "sensitiveData": "No new personal data is handled.",
+    "secretsLogging": "No credentials, tokens or logs are added; documents name secret variables only, never values.",
+    "externalInput": "No new input is accepted.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration, deploy or release.",
+    "stopCondition": "Stop if any change would need a backend deploy, SQL or a secret.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "The four mobile files were edited in this session before the record was written; they are the slice itself and are covered by writeScope.",
+    "paths": [
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
+      "apps/mobile/src/features/council/AiCouncilRoom.tsx",
+      "apps/mobile/src/features/profile/ProfileHome.tsx",
+      "apps/mobile/src/features/profile/__tests__/ProfileHome.test.tsx",
+      "docs/HANDOFF_CURRENT_STATE.vi.md",
+      "docs/backlog/review-2026-10-30.json",
+      "docs/proposals/ADMIN_REDESIGN_2026-11-03.vi.md",
+      "docs/proposals/LLM_PROVIDERS_FALLBACK_2026-11-03.vi.md"
+    ]
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/plan-board-ux-2026-11-03.json",
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent"
+  ],
+  "managerTestPath": "New account: open Tôi and see the invitation instead of 0/0/0. Open Nhật ký and scroll to the bottom: the Oracle button does not cover the last row; Khám phá has no floating Oracle button. Scroll a long list: tab names stay under the icons. In a guide chat, each reply has a flag button. In Tarot, open a spread card: the tap hint disappears.",
+  "residualRisk": "Tab bar and touch targets are checked in tests and code, not yet on a physical Android device.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

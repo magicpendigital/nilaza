@@ -1,6 +1,7 @@
 # Nilaza — hướng dẫn cho Agent (Claude Code)
 
-**Bắt đầu ở đây, theo thứ tự:** `AGENTS.md` → [`docs/HANDOFF_CURRENT_STATE.vi.md`](docs/HANDOFF_CURRENT_STATE.vi.md) (hiện trạng, quyết định của Owner, việc đang chờ, bẫy môi trường) → `docs/AGENT_TASK_ROUTER.md` → `docs/PLAN_QC_PROTOCOL.md`. Không quét toàn repo khi chưa cần.
+**Bắt đầu ở đây:** `git fetch` và làm trên `origin/main` mới nhất → [`PLAN.md`](PLAN.md) (đang ở đâu, còn gì, chờ ai) → chỉ khi cần: [`docs/HANDOFF_CURRENT_STATE.vi.md`](docs/HANDOFF_CURRENT_STATE.vi.md) (quyết định, bẫy môi trường, việc cấm tự làm), `AGENTS.md`, `docs/AGENT_TASK_ROUTER.md`, `docs/PLAN_QC_PROTOCOL.md`. Không quét toàn repo khi chưa cần.
+- **Cuối mỗi PR/phiên: cập nhật `PLAN.md`** (và `docs/backlog/review-2026-10-30.json` nếu đóng một mục rà soát) trong cùng PR.
 
 - Owner không chuyên kỹ thuật và dùng **tiếng Việt**: trả lời bằng tiếng Việt, ngôn ngữ sản phẩm, nêu rõ cái gì *đã kiểm chứng* và cái gì *chưa*.
 - Mục tiêu hiện tại: **Android lên Google Play** (iOS làm sau). Repo phát triển là `github.com/magicpendigital/nilaza`; **không** phát triển ở `nilaza-legacy` hay `D:\nilaza`.

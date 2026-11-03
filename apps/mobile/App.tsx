@@ -3161,7 +3161,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const [navigationChrome, setNavigationChrome] = useState<NavigationChrome>("expanded");
   const navigationChromeRef = useRef<NavigationChrome>("expanded");
   const lastContentScrollYRef = useRef(0);
-  const compactNavigationStartRef = useRef(0);
+  const compactNavigationStartRef = useRef(-1);
   const navigationIdleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [selectedPersonaId, setSelectedPersonaId] = useState(personas[0].id);
   const [favoritePersonaIds, setFavoritePersonaIds] = useState<string[]>([]);
@@ -5515,7 +5515,10 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const scheduleNavigationRestore = () => {
     if (navigationIdleTimerRef.current) clearTimeout(navigationIdleTimerRef.current);
     if (!navigationScrollEligible) return;
-    navigationIdleTimerRef.current = setTimeout(() => updateNavigationChrome("expanded"), 1200);
+    navigationIdleTimerRef.current = setTimeout(() => {
+      compactNavigationStartRef.current = -1;
+      updateNavigationChrome("expanded");
+    }, 1200);
   };
   const handleMainScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const nextScrollY = Math.max(0, event.nativeEvent.contentOffset.y);
@@ -5524,14 +5527,14 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     setScrollBand(scrollBandFor(nextScrollY));
     if (!navigationScrollEligible) return;
     if (navigationIdleTimerRef.current) clearTimeout(navigationIdleTimerRef.current);
+    // Labels stay visible: the bar never shrinks to icons only, and it slides away only after a long scroll down.
     if (delta > 6 && nextScrollY > 48) {
       if (navigationChromeRef.current === "expanded") {
-        compactNavigationStartRef.current = nextScrollY;
-        updateNavigationChrome("compact");
-      } else if (navigationChromeRef.current === "compact" && nextScrollY - compactNavigationStartRef.current > 64) {
-        updateNavigationChrome("hidden");
+        if (compactNavigationStartRef.current < 0) compactNavigationStartRef.current = nextScrollY;
+        else if (nextScrollY - compactNavigationStartRef.current > 160) updateNavigationChrome("hidden");
       }
     } else if (delta < -6) {
+      compactNavigationStartRef.current = -1;
       updateNavigationChrome("expanded");
     }
   };
@@ -5541,7 +5544,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   }, []);
   useEffect(() => {
     lastContentScrollYRef.current = 0;
-    compactNavigationStartRef.current = 0;
+    compactNavigationStartRef.current = -1;
     updateNavigationChrome("expanded");
   }, [chatMode, screen]);
 
@@ -5719,6 +5722,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         ? "chat"
         : null;
   const showNavigation = screen !== "tarot" && !(screen === "chat" && (chatMode === "room" || chatMode === "council"));
+  const showOracleLauncher = showNavigation && !hasDedicatedGenerationSurface && screen !== "home" && screen !== "explore" && !(screen === "journal" && journalComposing);
   const navigation = (
     <AdaptiveNavigation
       items={tabs.map(item => ({ id: item, icon: tabIcon(item), label: tabLabel(item, language) }))}
@@ -5867,7 +5871,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
           <ScrollView
             testID="main-screen-scroll"
             style={{ flex: 1, minHeight: 0 }}
-            contentContainerStyle={[styles.screen, { paddingHorizontal: adaptiveLayout.gutter }]}
+            contentContainerStyle={[styles.screen, { paddingHorizontal: adaptiveLayout.gutter }, showOracleLauncher && styles.screenWithOracleLauncher]}
             keyboardShouldPersistTaps="handled"
             onScroll={handleMainScroll}
             onMomentumScrollEnd={scheduleNavigationRestore}
@@ -6192,8 +6196,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
           </Pressable>
         ) : null}
 
-        {/* Home has its own Ask field and the Journal composer has its own Save, so the floating launcher would only cover them. */}
-        {showNavigation && !hasDedicatedGenerationSurface && screen !== "home" && !(screen === "journal" && journalComposing) ? (
+        {/* Home has its own Ask field, Explore has an Oracle card and the Journal composer has its own Save, so the floating launcher would only repeat or cover them. */}
+        {showOracleLauncher ? (
           <Pressable
             accessibilityRole="button"
             accessibilityLabel={language === "vi" ? "Hỏi Nilaza Oracle" : "Ask Nilaza Oracle"}
@@ -9135,7 +9139,7 @@ function SpreadOptionCard({
           {active ? <Ionicons name="checkmark-circle-outline" size={21} color={colors.gold} /> : null}
         </View>
         <Text style={styles.cardDescription}>{detail}</Text>
-        <Text style={styles.spreadLearnHint}>{language === "vi" ? "Chạm để xem khi nào nên chọn kiểu này." : "Tap to see when this spread fits."}</Text>
+        {active ? null : <Text style={styles.spreadLearnHint}>{language === "vi" ? "Chạm để xem khi nào nên chọn kiểu này." : "Tap to see when this spread fits."}</Text>}
         {active ? (
           <View style={styles.spreadLearnPanel}>
             <MiniGuideRow
@@ -9361,6 +9365,10 @@ zodiacProfilePrompt: {
   screen: {
     padding: 20,
     paddingBottom: 32
+  },
+  // Room for the floating Oracle launcher so it never covers the last row.
+  screenWithOracleLauncher: {
+    paddingBottom: 32 + layout.minimumTouchTarget + spacing.md
   },
   tarotShell: {
     flex: 1,
@@ -9924,7 +9932,7 @@ zodiacProfilePrompt: {
     elevation: 6,
     flexDirection: "row",
     gap: spacing.xs,
-    minHeight: 44,
+    minHeight: layout.minimumTouchTarget,
     paddingHorizontal: spacing.md,
     position: "absolute",
     right: spacing.md,
