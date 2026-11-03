@@ -69,16 +69,23 @@ const unsafeFocusPatterns = [
 ];
 
 function summarizeAjvErrors(errors: any[] | null | undefined, label: string) {
-  return (errors ?? []).map((error) => `${label}${error.instancePath || "$"}: ${error.message}`);
+  // Ajv names a missing property in the message but not an extra one; append it when it is a plain key.
+  return (errors ?? []).map((error) => {
+    const extra = error.params?.additionalProperty;
+    const suffix = typeof extra === "string" && /^[A-Za-z0-9_]{1,40}$/.test(extra) ? ` property '${extra}'` : "";
+    return `${label}${error.instancePath || "$"}: ${error.message}${suffix}`;
+  });
 }
 
 /**
  * Content-free label for one validation message, e.g. "patterns.body:maxLength" (QA 2026-11-03: traces
- * only said schema_constraint, not which field). Array indexes and fact IDs are dropped.
+ * only said schema_constraint, not which field). A missing or extra property is named, e.g.
+ * "patterns.caveatIds:required". Array indexes and fact IDs are dropped.
  */
 export function astrologyDiagnosticFieldCode(message: string) {
   const pointer = message.match(/^response(\/[A-Za-z0-9_/]*)?:/)?.[1] ?? "";
-  const field = pointer.split("/").filter((part) => part && !/^\d+$/.test(part)).join(".") || "root";
+  const property = message.match(/property '([A-Za-z0-9_]{1,40})'/)?.[1];
+  const field = [...pointer.split("/"), property].filter((part) => part && !/^\d+$/.test(part)).join(".") || "root";
   const rule = /more than \d+ characters/.test(message) ? "maxLength"
     : /fewer than \d+ characters/.test(message) ? "minLength"
       : /more than \d+ items/.test(message) ? "maxItems"

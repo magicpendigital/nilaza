@@ -1,4 +1,4 @@
-import { astrologyDiagnosticFieldCode } from "./astrology-ai-insight.ts";
+import { astrologyDiagnosticFieldCode, validateAstrologyAiResponse } from "./astrology-ai-insight.ts";
 import { redactTraceValue } from "./ai-trace.ts";
 
 function assertEquals(actual: unknown, expected: unknown, message: string) {
@@ -8,11 +8,19 @@ function assertEquals(actual: unknown, expected: unknown, message: string) {
 Deno.test("Astrology field code names the field and rule without indexes or IDs", () => {
   assertEquals(astrologyDiagnosticFieldCode("response/patterns/0/body: must NOT have more than 240 characters"), "patterns.body:maxLength", "length");
   assertEquals(astrologyDiagnosticFieldCode("response/reflectionQuestions: must NOT have fewer than 2 items"), "reflectionQuestions:minItems", "items");
-  assertEquals(astrologyDiagnosticFieldCode("response/focusSections/1: must have required property 'title'"), "focusSections:required", "required");
+  assertEquals(astrologyDiagnosticFieldCode("response/focusSections/1: must have required property 'caveatIds'"), "focusSections.caveatIds:required", "required names the property");
+  assertEquals(astrologyDiagnosticFieldCode("response/patterns/0: must NOT have additional properties property 'body'"), "patterns.body:additionalProperties", "extra property is named");
   assertEquals(astrologyDiagnosticFieldCode("response$: must NOT have additional properties"), "root:additionalProperties", "root");
   assertEquals(astrologyDiagnosticFieldCode("response/tensions/0/tone: must be equal to one of the allowed values"), "tensions.tone:enum", "enum");
   assertEquals(astrologyDiagnosticFieldCode("response uses unselected evidence placement:sun"), "root:evidence", "evidence drops the fact ID");
   assertEquals(astrologyDiagnosticFieldCode("response.language mismatch"), "root:metadata", "metadata");
+});
+
+Deno.test("Real validation messages name the missing and the extra property", () => {
+  const request = { selectedFactIds: [], caveats: [], requestId: "r", reportId: "x", language: "vi" } as unknown as Parameters<typeof validateAstrologyAiResponse>[1];
+  const codes = validateAstrologyAiResponse({ patterns: [{ id: "abc", extra: 1 }] }, request).map(astrologyDiagnosticFieldCode);
+  assertEquals(codes.includes("patterns.caveatIds:required"), true, `missing property in ${codes.join(" ")}`);
+  assertEquals(codes.includes("patterns.extra:additionalProperties"), true, `extra property in ${codes.join(" ")}`);
 });
 
 Deno.test("Astrology field code survives trace redaction; the raw message does not", () => {
