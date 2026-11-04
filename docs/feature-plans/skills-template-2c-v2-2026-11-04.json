@@ -1,0 +1,176 @@
+{
+  "schemaVersion": 1,
+  "taskId": "skills-template-2c-v2-2026-11-04",
+  "ownerAgent": "governance_agent",
+  "lane": "Skills governance, reusable project template, Singapore SQL packet v2 evidence",
+  "goal": "Record the Owner decisions of 2026-11-04; rebuild the Singapore SQL packet as v2 (33 migrations, new seed) with fresh local rehearsals because the 2a-approved hash lapsed, and ask for re-approval; review the repository skills together with the mca capabilities, tighten nilaza-plan-qc, add a nilaza-ai-runtime skill, install skills for Claude Code as well as Codex; and create a portable project-template folder distilled from this project for the Owner to reuse.",
+  "successCriteria": [
+    "PLAN.md lists the 2026-11-04 Owner decisions and the v2 re-approval as the next 2c step.",
+    "docs/release/singapore-packet-v2-2026-11-04 holds the 33-file manifest, a PASS PGlite replay (10/10) and a PASS Docker rehearsal (33 migrations, 17/17 checks) and one re-approval request; nothing ran on a cloud project.",
+    "scripts/rehearse-nilaza-database.mjs accepts --manifest for a later packet and keeps the old default.",
+    "npm run skills:validate passes with nilaza-plan-qc 1.6.0 and the new nilaza-ai-runtime; skills:sync installs to both Codex and Claude Code skill folders.",
+    "docs/SKILLS_REVIEW_2026-11-04.vi.md explains keep/change/remove for every skill and how mca capabilities fit.",
+    "project-template/ contains a self-contained, project-neutral starter kit (instructions, PLAN, handoff, plan-QC protocol, feature-plan template, approval form, skills) with a README on how to apply it."
+  ],
+  "writeScope": [
+    "PLAN.md",
+    "CLAUDE.md",
+    "skills/manifest.json",
+    "skills/nilaza-plan-qc/",
+    "skills/nilaza-ai-runtime/",
+    "scripts/sync-project-skills.mjs",
+    "scripts/rehearse-nilaza-database.mjs",
+    "docs/release/singapore-packet-v2-2026-11-04/",
+    "docs/SKILLS_REVIEW_2026-11-04.vi.md",
+    "project-template/"
+  ],
+  "untouchedSurfaces": [
+    "No SQL, deploy, secret or setting change on any Supabase project; 2c waits for re-approval of the v2 hash and Owner dashboard reads.",
+    "The 2026-10-25 packet folder, release-profile.json and the target draft keep the 2a hash until the Owner re-approves.",
+    "No app, Admin or Edge Function code change.",
+    "Backend items the Owner approved on 2026-11-04 (auth and quota for daily insight and astrology report, LLM fallback phase 0, nickname for AI, Tarot 1/day, Premium test account) are tracked in PLAN.md for the next slice."
+  ],
+  "impact": {
+    "entryPoint": "Agents and the Owner starting a session; skill loading in Codex and Claude Code.",
+    "dataWrite": "Repository documents and skill files; skills:sync writes to the user's ~/.codex/skills and ~/.claude/skills only when run.",
+    "backendContract": "No API, Edge Function or table change.",
+    "adminVisibility": "No Admin screen or data change.",
+    "privacySafety": "Rehearsals use synthetic data in a network-less container; templates contain no secrets; the mca delegation rule forbids passing secrets or user data.",
+    "observability": "Rehearsal receipts are committed as evidence.",
+    "rollback": "Revert the commit; re-run skills:sync from the previous manifest."
+  },
+  "canonicalContracts": [
+    "skills/manifest.json is the reviewed source of skill files and hashes.",
+    "Packet hashes use the LF basis (git blob) as in the 2026-10-25 packet."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_test_data"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Skill governance and release routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight and skill update rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/release/singapore-backend-readiness-2026-10-25/05_STEP2_APPROVAL_FORM.vi.md",
+      "reason": "2a approval lapses when the packet hash changes; 2c evidence list.",
+      "sha256": "d028cfe39b74c79dd454e4ab87974744884abcdb4f4718b42af14608be6b15fa"
+    },
+    {
+      "path": "scripts/database-target-gate.mjs",
+      "reason": "Hash basis and evidence the 2c gate needs.",
+      "sha256": "8015a433894f538b8a60cfd41c0e930366ca914e85aee24c995ed1d310b806a4"
+    },
+    {
+      "path": "scripts/singapore-packet-replay.mjs",
+      "reason": "Generates the v2 manifest and PGlite receipt.",
+      "sha256": "2f3a79279257b8754994674c53229ba8871a7c26c566d938776c11697e0e38d1"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "updated",
+      "evidence": "New skill 1.0.0: AI runtime map, nine live-QA rules, AI check commands; validated and synced."
+    },
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "updated",
+      "evidence": "Adds PLAN.md start/finish, approval-hash lapse rule, mca delegation and current check commands; trims a duplicated dated release section."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Brand sources and validation paths unchanged."
+    },
+    {
+      "name": "nilaza-tarot-deck-production",
+      "decision": "verified-current",
+      "evidence": "Deck gate scripts unchanged; no deck production planned in this slice."
+    },
+    {
+      "name": "nilaza-tarot-content-qc",
+      "decision": "verified-current",
+      "evidence": "Bilingual review ledger unchanged."
+    },
+    {
+      "name": "nilaza-tarot-art-qc",
+      "decision": "verified-current",
+      "evidence": "Visual review ledger unchanged; mca quality.evaluator noted as an independent reviewer option in plan-qc."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No dependency added. Claude Code project skills load from ~/.claude/skills/<name>/SKILL.md (Claude Code documentation); Codex from CODEX_HOME/skills."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No change; the rehearsal re-proves A/B isolation and staff revocation on synthetic data.",
+    "sensitiveData": "No real user data; rehearsal containers have no network.",
+    "secretsLogging": "No secrets read or written; the Supabase connector had no permission on the Singapore project and was not used further.",
+    "externalInput": "No new user or network input is accepted.",
+    "dependencies": "No package or dependency is added or upgraded.",
+    "migrationRelease": "No migration applied; the v2 packet requires Owner re-approval and Owner-run CLI.",
+    "stopCondition": "Stop before any cloud action until the Owner re-approves the v2 hash and supplies dashboard metadata.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "skills/nilaza-plan-qc/SKILL.md, scripts/rehearse-nilaza-database.mjs and the v2 packet files were written in this session before this record; they are inside writeScope and reviewed here.",
+    "paths": [
+      "CLAUDE.md",
+      "PLAN.md",
+      "docs/SKILLS_REVIEW_2026-11-04.vi.md",
+      "docs/release/singapore-packet-v2-2026-11-04/README.vi.md",
+      "docs/release/singapore-packet-v2-2026-11-04/packet-manifest.json",
+      "docs/release/singapore-packet-v2-2026-11-04/rehearsal-native-2026-11-04.json",
+      "docs/release/singapore-packet-v2-2026-11-04/replay-receipt.json",
+      "project-template/.github/pull_request_template.md",
+      "project-template/.gitignore",
+      "project-template/AGENTS.md",
+      "project-template/CLAUDE.md",
+      "project-template/PLAN.md",
+      "project-template/README.md",
+      "project-template/docs/APPROVALS.md",
+      "project-template/docs/HANDOFF.md",
+      "project-template/docs/PLAN_QC.md",
+      "project-template/docs/backlog/README.md",
+      "project-template/docs/backlog/review-TEMPLATE.json",
+      "project-template/docs/decisions/0001-TEMPLATE.md",
+      "project-template/docs/feature-plans/_TEMPLATE.json",
+      "project-template/scripts/check-plan.mjs",
+      "project-template/skills/ai-feature-runtime/SKILL.md",
+      "project-template/skills/plan-qc/SKILL.md",
+      "project-template/skills/release-approval/SKILL.md",
+      "scripts/rehearse-nilaza-database.mjs",
+      "scripts/sync-project-skills.mjs",
+      "skills/manifest.json",
+      "skills/nilaza-ai-runtime/SKILL.md",
+      "skills/nilaza-plan-qc/SKILL.md"
+    ]
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/skills-template-2c-v2-2026-11-04.json",
+    "npm run skills:validate",
+    "npm run validate:governance",
+    "node scripts/singapore-packet-replay.mjs --pglite <dir> --receipt <out> --manifest <out>",
+    "node scripts/rehearse-nilaza-database.mjs --packet --native --manifest docs/release/singapore-packet-v2-2026-11-04/packet-manifest.json"
+  ],
+  "managerTestPath": "Open PLAN.md: the 04/11 decisions and the next 2c step are listed. Open docs/release/singapore-packet-v2-2026-11-04/README.vi.md: one re-approval sentence. Open project-template/README.md and follow its 5 steps on an empty folder.",
+  "residualRisk": "Rehearsals do not prove hosted Supabase behavior; skill quality is reviewed by reading, not by an evaluation run.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
