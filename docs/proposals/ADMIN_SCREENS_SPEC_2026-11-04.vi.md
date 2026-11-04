@@ -166,10 +166,10 @@ Mọi tính năng dùng **cùng một khung 8 phần** (để đội biên tập
 | **Giải bài Tarot** (`FeatureTarot`) | `ai-tarot-reading` · `tarot_reading` · D1 | **1 lượt/ngày** (Owner duyệt); rút lá không AI vẫn không giới hạn; nhóm `tarot_one` đã có | `tarot_reading_system` (runtime đọc `prompt_versions`; Admin chưa ghi) | `tarot_reading_output_v3`: summary ≤ 8.000, reflection ≤ 1.500, sections 1–16, cardIds chỉ trong lá đã rút | Núm riêng: cấu trúc (từng lá / kể liền mạch), thí nghiệm nhỏ. Luật riêng: không bịa lá, không gieo sợ hãi với lá "nặng". E4 |
 | **Trò chuyện với người dẫn** (`FeatureChat`) | `ai-persona-chat` · `persona_chat` · có | 5 tin/ngày **chung Oracle** (`chat_oracle`) | `persona_chat_system` + persona skill (màn Người dẫn) + `context_handoff_system` + gói phương pháp | `chat_reply_v2`: 1 câu trả lời ≤ [1.200] ký tự + 1 câu hỏi/bước nhỏ; kiểm ngôn ngữ, không tự nhận người thật | Gửi **tên gọi** (Owner duyệt), giờ địa phương; cắt mục tiêu/giọng (AI-05); ZDR (AI-06); 2 bản active trùng (AI-04) |
 | **Đọc sâu Chiêm tinh** (`FeatureAstroDeep`) | `ai-astrology-insight` · **route riêng `astrology_insight`** (hiện dùng chung `astrology_report`) · có | 1/ngày (đã có, `account-tier-policy.json`) | `astrology_interpretation_system` (publish được) | headline, synthesis, evidenceFactIds, patterns/tensions/focusSections ≥ 1, reflectionQuestions 1–3, suggestedFollowUps ≤ 2 | Không bao giờ gửi ngày/giờ/nơi sinh (khóa). Chờ 60 s/bước. AI-10 |
-| **Astrology report** (`FeatureAstroReport`) | `ai-astrology-report` · `astrology_report` · D1 | 1/ngày, dùng chung lượt Đọc sâu | **Cứng trong mã** → `prompt_versions` | `astrology_report_v1` | **Rủi ro:** không bắt đăng nhập, không hạn mức, app gửi ngày + nơi sinh. Owner chọn: vá hay gộp vào Đọc sâu rồi tắt |
+| **Astrology report** (`FeatureAstroReport`) | `ai-astrology-report` · `astrology_report` · D1 | — | — | — | **Owner chốt 04/11: gộp vào Đọc sâu rồi tắt.** App chuyển các lối vào báo cáo sang Đọc sâu; tắt công tắc rồi gỡ hàm. Màn này chỉ còn để theo dõi tới khi gỡ |
 | **Hội đồng** (`FeatureCouncil`) | `ai-council` · `ai_council` · có | 1 buổi/ngày + 4 câu tiếp (đã có trong policy); số người dẫn 2–4 | `ai_council_system` (**cứng trong mã**) → D5 | `ai_council_rounds_v2` | Núm riêng: kiểu họp (hiện chỉ là nhãn, AI-09), người tổng kết. Dùng prompt/giọng/chủ đề từng người dẫn; ghim người dẫn người dùng chọn; giới hạn lịch sử phía máy chủ |
 | **Oracle** (`FeatureOracle`) | `ai-oracle-turn` · `oracle_router` · D1 | Chung 5 tin/ngày với Chat | `oracle_router_system` | `oracle_router_v1`: reply + `suggestedAction ∈ {reflect, tarot, guide, council, astrology, journal}` | **Chưa gọi model** (OR-01); app gửi 12 lượt, bộ ghép nhận 8 (AI-15) |
-| **Thông điệp hằng ngày** (`FeatureDaily`) | `ai-daily-insight` · `daily_insight` · D1 | 1/ngày, tạo lần mở app đầu tiên, lưu lại | **Cứng trong mã** → `prompt_versions` | `daily_insight_v1`: message ≤ [280], microAction ≤ [120] | **Rủi ro:** không bắt đăng nhập/hạn mức/công tắc; gửi toàn văn 3 mục Nhật ký → đề xuất chỉ nhãn tâm trạng; nối lá hôm nay (HO-07); ghi rõ ngôn ngữ (AI-12) |
+| **Thông điệp hằng ngày** (`FeatureDaily`) | `ai-daily-insight` · `daily_insight` · D1 | 1/ngày, tạo lần mở app đầu tiên, lưu lại | **Cứng trong mã** → `prompt_versions` | `daily_insight_v1`: message ≤ [280], microAction ≤ [120] | **Rủi ro:** không bắt đăng nhập/hạn mức/công tắc; gửi toàn văn 3 mục Nhật ký → **Owner chốt 04/11: bỏ toàn văn, chỉ nhãn tâm trạng 24 giờ**; nối lá hôm nay (HO-07); ghi rõ ngôn ngữ (AI-12) |
 
 Số trong `[ ]` là đề xuất, chờ đội biên tập chốt.
 
@@ -181,7 +181,7 @@ Số trong `[ ]` là đề xuất, chờ đội biên tập chốt.
 | `user.displayName` (tên gọi) | `profiles` | 40 ký tự, làm sạch | Chat, Council, Oracle, Daily (Tarot, Chiêm tinh: tắt mặc định) | Daily đã gửi; còn lại Mới · Edge (CH-13 — Owner duyệt 04/11) |
 | `user.goals`, `user.tone` | onboarding | 5 × 60 ký tự; tone trong danh sách cố định | Chat, Council, Daily | Đã gửi nhưng **ghép thẳng vào system, không giới hạn** → E3 |
 | `localDateTime` | máy chủ, theo múi giờ hồ sơ | — | tất cả trừ Chiêm tinh | Mới · Edge |
-| `recentMood` | nhãn tâm trạng Nhật ký 7 ngày | chỉ nhãn | Chat, Tarot, Daily — **chỉ khi người dùng đồng ý** | Mới · SQL + Edge (cần cờ đồng ý) |
+| `recentMood` | nhãn tâm trạng **ghi trong 24 giờ qua** (Owner chốt 04/11); quá 24 giờ thì không gửi | chỉ nhãn, không gửi lời viết | Chat, Tarot, Daily | Mới · Edge (+ công bố trong chính sách riêng tư) |
 | `history[]` | app | Chat 8 × 800; Council cần giới hạn; Oracle 8 | Chat, Council, Oracle | Đã có (Council chưa giới hạn) |
 | `handoffContext` | Tarot / Chiêm tinh | đã làm sạch | Chat | Đã có |
 | `selectedCards[]` (id, displayName, chiều, vị trí), `spread`, `topic`, `question` | app chọn, máy chủ kiểm | 1–3 lá; câu hỏi 4.096 | Tarot | Đã có |
@@ -235,7 +235,7 @@ Dòng thời gian chung (người, hành động, đối tượng, môi trườn
 
 | Bước | Nội dung | Màn | Backend | Cần Owner duyệt |
 |---|---|---|---|---|
-| **A0 (vá rủi ro, làm trước)** | Bắt đăng nhập + hạn mức cho `ai-daily-insight`, `ai-astrology-report`; tách route `astrology_insight` | — | E2 (phần Daily/Report), D1 | Deploy + SQL |
+| **A0 (vá rủi ro, làm trước)** | Bắt đăng nhập + hạn mức cho `ai-daily-insight` (bỏ toàn văn Nhật ký); tắt `ai-astrology-report` và chuyển lối vào sang Đọc sâu (Owner chốt gộp 04/11); tách route `astrology_insight` | — | E2 (phần Daily/Report), D1 | Deploy + SQL |
 | **A1** | Dọn: bỏ Legacy, bỏ ô JWT/khóa, Lưu nháp vs Phát hành, cảnh báo rời trang, Việt hóa, lỗi đăng nhập tách nguyên nhân | Đăng nhập, mọi màn | — | Không (chỉ mã Admin) |
 | **A2** | Khung điều hướng mới + Tổng quan + Tính năng AI (danh sách) + Nhật ký AI + Phản hồi (phần đọc) | Main, AiFeatures, Traces, Feedback | dùng RPC đã có | Không |
 | **A3** | Nội dung phát hành từng mục, nháp trên máy chủ, lịch sử/khôi phục, lọc 78 lá, upload ảnh | Người dẫn, Bộ bài, Văn bản, Lịch sử thao tác | D7, D8, D10 | SQL + tạo bucket |
@@ -246,15 +246,39 @@ Dòng thời gian chung (người, hành động, đối tượng, môi trườn
 
 A1–A2 làm được ngay vì chỉ sửa mã Admin. Từ A3 trở đi, mỗi bước là 1–2 PR nhỏ kèm migration/deploy riêng, mỗi lần Owner duyệt.
 
-## 5. Quyết định cần Owner
+## 5. Quyết định của Owner (04/11) và việc còn chờ
 
-1. **Astrology report:** vá (bắt đăng nhập, hạn mức, prompt biên tập được) hay **gộp vào Đọc sâu rồi tắt** hàm cũ? Đề xuất: gộp, vì hai hàm trùng mục đích và hàm cũ gửi ngày/nơi sinh.
-2. **Thông điệp hằng ngày:** đồng ý bỏ toàn văn Nhật ký, chỉ gửi nhãn tâm trạng (khi người dùng đồng ý) + lá hôm nay?
-3. **Tâm trạng gần đây** cho Chat/Tarot: có thêm cờ đồng ý trong app không (ảnh hưởng Data safety)?
-4. **Cổng phát hành:** ≥ 8/10 đạt, 0 lỗi an toàn — có cho Owner "phát hành bỏ qua cổng" kèm lý do không?
-5. **Bước dự phòng đắt hơn bước chính** và trần chi phí mỗi lượt (đề xuất tạm 0,02 USD)?
-6. **Vai trò biên tập viên:** cho quyền phát hành nội dung (`content.publish`) hay chỉ lưu nháp, Owner phát hành?
-7. Chốt các con số đề xuất trong `[ ]` (độ dài Chat/Daily/Oracle).
+| # | Câu hỏi | Quyết định |
+|---|---|---|
+| 1 | Astrology report | **Gộp vào Đọc sâu rồi tắt hàm cũ.** Thay A0 "vá Astrology report" bằng: tắt bằng công tắc (D1), chuyển lối vào trong app sang Đọc sâu, rồi gỡ `ai-astrology-report` (cần Owner duyệt deploy) |
+| 2 | Thông điệp hằng ngày | **Đồng ý:** bỏ toàn văn Nhật ký; chỉ gửi nhãn tâm trạng + lá hôm nay; ghi rõ ngôn ngữ |
+| 3 | Tâm trạng gần đây | **Chỉ dùng nhãn tâm trạng ghi trong vòng 24 giờ;** quá 24 giờ thì không gửi. Áp dụng Chat, Tarot, Daily |
+| 4 | Phát hành bỏ qua cổng chạy thử | Owner nhờ phân tích — xem 5.1; đề xuất dưới đây chờ Owner gật |
+| 5 | Bước dự phòng đắt hơn + trần chi phí | **Đồng ý** cho dự phòng đắt hơn; trần **0,02 USD / lượt** |
+| 6 | Quyền biên tập viên | **Chỉ lưu nháp; Owner phát hành.** Biên tập viên có `content.read`, `content.draft`, `ai.read` + quyền chạy thử; `content.publish` và `ai.manage` chỉ Owner |
+| 7 | Con số trong `[ ]` | Còn chờ đội biên tập chốt |
+
+### 5.1. Phân tích câu 4: có cho phát hành bỏ qua cổng chạy thử?
+
+**Cổng gồm hai lớp khác nhau:**
+- *Lớp an toàn tự động* — đúng định dạng đầu ra, các câu khủng hoảng trả thẻ 115, không lộ dữ liệu cấm. Lớp này chạy trong vài giây, rẻ, và lỗi ở đây nghĩa là người dùng có thể nhận câu trả lời hỏng hoặc nguy hiểm.
+- *Lớp chất lượng* — ≥ 8/10 đạt, điểm giọng không kém bản đang chạy. Lớp này cần người chấm và có thể mất nhiều giờ.
+
+**Khi nào bỏ qua là hợp lý:**
+1. *Khôi phục* về một bản đã từng đạt cổng (lỗi vừa phát hành, cần lùi ngay).
+2. *Sửa khẩn cấp an toàn* — bản đang chạy nói điều nguy hiểm, cần thay bằng bản chặt hơn ngay, không đợi người chấm.
+3. Tắt tính năng — việc này dùng công tắc, vốn không qua cổng.
+
+**Rủi ro nếu cho bỏ qua tùy ý:** cổng mất tác dụng ("vội thì bỏ qua"), và Admin là nơi quyết định chất lượng mà Owner muốn làm khác biệt.
+
+**Đề xuất:**
+- **Không bao giờ bỏ qua lớp an toàn tự động.** Nút Phát hành bị khóa nếu lớp này chưa chạy hoặc có lỗi.
+- **Chỉ Owner được bỏ qua lớp chất lượng**, với lý do bắt buộc chọn một trong: "Khôi phục bản đã đạt" hoặc "Sửa khẩn cấp an toàn" (+ ghi chú ≥ 10 ký tự). Biên tập viên không thấy lựa chọn này.
+- Bản phát hành bỏ qua gắn nhãn **"Chưa chấm"** trên mọi màn; hệ thống tự xếp lượt chấm đầy đủ trong 24 giờ và nhắc ở Tổng quan cho tới khi chấm xong.
+- Khôi phục về bản đã đạt cổng **không cần** lý do khẩn cấp — chỉ cần ghi chú như mọi lần phát hành.
+- Ghi vào Lịch sử thao tác với nhãn riêng để rà lại hằng tuần.
+
+Cần thêm vào D2/D6: cột `gate_bypass_reason`, `gate_status (passed / bypassed_pending / bypassed_scored)` và hàng đợi chấm sau.
 
 ## 6. Chưa kiểm chứng
 

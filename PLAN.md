@@ -67,7 +67,7 @@ Bảng rà soát 30/10: **107 mục — 50 xong, 24 làm một phần, 33 chưa 
 1. **Bước 2c** chạy gói SQL lên Singapore (cần Docker mở để làm mới biên nhận chạy thử; biên nhận 27/10 đã hết hạn ~02/11).
 2. Deploy `account-delete` + chọn hộp thư hỗ trợ (đề xuất Cloudflare Email Routing).
 3. Deploy bản vá: bắt buộc đăng nhập + hạn mức cho Daily insight và Astrology report.
-4. ~~Duyệt kiến trúc Admin mới~~ (đã duyệt 04/11). Mới: 7 quyết định ở mục 5 của đặc tả màn Admin (gộp Astrology report vào Đọc sâu? Daily bỏ toàn văn Nhật ký? cổng phát hành…).
+4. ~~Duyệt kiến trúc Admin mới~~ (đã duyệt 04/11). Quyết định 04/11 ở mục 5 của đặc tả màn Admin: gộp Astrology report vào Đọc sâu; Daily bỏ toàn văn Nhật ký; tâm trạng chỉ trong 24 giờ; dự phòng đắt hơn được, trần 0,02 USD/lượt; biên tập viên chỉ lưu nháp. **Còn chờ:** gật đề xuất cổng phát hành (mục 5.1) và các con số độ dài.
 5. Duyệt Giai đoạn 0 của dự phòng LLM; chọn nhà cung cấp trực tiếp đầu tiên (OpenAI / Gemini trả phí / Anthropic).
 6. ~~Tên gọi cho AI, hạn mức Tarot~~ — đã quyết 04/11: gửi tên gọi; Tarot 1 lượt/ngày. Giai đoạn 0 LLM được duyệt; thứ tự trực tiếp Anthropic → Gemini → OpenAI → DeepSeek.
 7. Gắn 3 biến `EXPO_PUBLIC_*` vào EAS production → dựng AAB đầu tiên. Bắt đầu tuyển ≥ 12 (nên 15–20) người thử.
