@@ -253,12 +253,12 @@ A1–A2 làm được ngay vì chỉ sửa mã Admin. Từ A3 trở đi, mỗi b
 | 1 | Astrology report | **Gộp vào Đọc sâu rồi tắt hàm cũ.** Thay A0 "vá Astrology report" bằng: tắt bằng công tắc (D1), chuyển lối vào trong app sang Đọc sâu, rồi gỡ `ai-astrology-report` (cần Owner duyệt deploy) |
 | 2 | Thông điệp hằng ngày | **Đồng ý:** bỏ toàn văn Nhật ký; chỉ gửi nhãn tâm trạng + lá hôm nay; ghi rõ ngôn ngữ |
 | 3 | Tâm trạng gần đây | **Chỉ dùng nhãn tâm trạng ghi trong vòng 24 giờ;** quá 24 giờ thì không gửi. Áp dụng Chat, Tarot, Daily |
-| 4 | Phát hành bỏ qua cổng chạy thử | Owner nhờ phân tích — xem 5.1; đề xuất dưới đây chờ Owner gật |
+| 4 | Phát hành bỏ qua cổng chạy thử | **Duyệt đề xuất 5.1 (04/11):** lớp an toàn tự động không bao giờ bỏ qua; chỉ Owner bỏ qua lớp chất lượng khi khôi phục bản đã đạt hoặc sửa khẩn cấp an toàn; nhãn "Chưa chấm" + chấm lại trong 24 giờ |
 | 5 | Bước dự phòng đắt hơn + trần chi phí | **Đồng ý** cho dự phòng đắt hơn; trần **0,02 USD / lượt** |
 | 6 | Quyền biên tập viên | **Chỉ lưu nháp; Owner phát hành.** Biên tập viên có `content.read`, `content.draft`, `ai.read` + quyền chạy thử; `content.publish` và `ai.manage` chỉ Owner |
 | 7 | Con số trong `[ ]` | Còn chờ đội biên tập chốt |
 
-### 5.1. Phân tích câu 4: có cho phát hành bỏ qua cổng chạy thử?
+### 5.1. Phân tích câu 4: có cho phát hành bỏ qua cổng chạy thử? (Owner duyệt 04/11)
 
 **Cổng gồm hai lớp khác nhau:**
 - *Lớp an toàn tự động* — đúng định dạng đầu ra, các câu khủng hoảng trả thẻ 115, không lộ dữ liệu cấm. Lớp này chạy trong vài giây, rẻ, và lỗi ở đây nghĩa là người dùng có thể nhận câu trả lời hỏng hoặc nguy hiểm.
@@ -271,7 +271,7 @@ A1–A2 làm được ngay vì chỉ sửa mã Admin. Từ A3 trở đi, mỗi b
 
 **Rủi ro nếu cho bỏ qua tùy ý:** cổng mất tác dụng ("vội thì bỏ qua"), và Admin là nơi quyết định chất lượng mà Owner muốn làm khác biệt.
 
-**Đề xuất:**
+**Quyết định (đề xuất được Owner duyệt 04/11):**
 - **Không bao giờ bỏ qua lớp an toàn tự động.** Nút Phát hành bị khóa nếu lớp này chưa chạy hoặc có lỗi.
 - **Chỉ Owner được bỏ qua lớp chất lượng**, với lý do bắt buộc chọn một trong: "Khôi phục bản đã đạt" hoặc "Sửa khẩn cấp an toàn" (+ ghi chú ≥ 10 ký tự). Biên tập viên không thấy lựa chọn này.
 - Bản phát hành bỏ qua gắn nhãn **"Chưa chấm"** trên mọi màn; hệ thống tự xếp lượt chấm đầy đủ trong 24 giờ và nhắc ở Tổng quan cho tới khi chấm xong.
