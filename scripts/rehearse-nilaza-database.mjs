@@ -13,18 +13,25 @@ const args = process.argv.slice(2);
 const pgliteIndex = args.indexOf('--pglite');
 const pgliteRoot = pgliteIndex >= 0 ? args.splice(pgliteIndex, 2)[1] : '.brand-work/singapore-migration-rehearsal-2026-10-05';
 assert.ok(pgliteRoot && !pgliteRoot.startsWith('--'), '--pglite needs a directory');
+// --manifest selects a later Owner-reviewed packet version; the default stays the 2026-10-25 packet.
+const manifestIndex = args.indexOf('--manifest');
+const manifestOption = manifestIndex >= 0 ? args.splice(manifestIndex, 2)[1] : null;
+assert.ok(manifestIndex < 0 || (manifestOption && manifestOption.startsWith('docs/release/') && manifestOption.endsWith('/packet-manifest.json')), '--manifest needs docs/release/<packet>/packet-manifest.json');
 assert.ok(args.every(arg => ['--with-privilege-fix','--native','--packet'].includes(arg)), 'unsupported argument');
 const runForward = args.includes('--with-privilege-fix');
 const nativeMode = args.includes('--native');
 // --packet replays the exact Owner-approved Singapore packet instead of the 2026-10-01 candidate.
 const packetMode = args.includes('--packet');
 assert.ok(!(packetMode && runForward), '--packet already contains the privilege-boundary migration');
-const output = packetMode ? 'artifacts/singapore-bootstrap-rehearsal-2026-10-27' : 'artifacts/singapore-migration-rehearsal-2026-10-05';
+assert.ok(!manifestOption || packetMode, '--manifest needs --packet');
+const output = packetMode
+  ? (manifestOption ? `artifacts/singapore-bootstrap-rehearsal-${path.basename(path.dirname(manifestOption))}` : 'artifacts/singapore-bootstrap-rehearsal-2026-10-27')
+  : 'artifacts/singapore-migration-rehearsal-2026-10-05';
 const bytes = p => fs.readFileSync(p);
 const rawHash = b => crypto.createHash('sha256').update(b).digest('hex');
 const readJson = p => JSON.parse(bytes(p));
 const write = (name, value) => fs.writeFileSync(`${output}/${name}`, JSON.stringify(value, null, 2) + '\n');
-const packetPath = 'docs/release/singapore-backend-readiness-2026-10-25/packet-manifest.json';
+const packetPath = manifestOption || 'docs/release/singapore-backend-readiness-2026-10-25/packet-manifest.json';
 const candidate = packetMode ? null : readJson('docs/mvp-remediation/2026-10-01/R02-clean-qa-bootstrap.json');
 const packet = packetMode ? readJson(packetPath) : null;
 // Packet hashes use the LF basis (Git blob); candidate hashes use raw bytes of the original checkout.

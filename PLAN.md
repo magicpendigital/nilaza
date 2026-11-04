@@ -1,6 +1,6 @@
 # PLAN — bảng tiến độ sống của Nilaza
 
-> **Cập nhật lần cuối: 03/11/2026** — `main` tại `033fb86` (PR #30) + nhánh `feat/plan-board-ux-2026-11-03`.
+> **Cập nhật lần cuối: 04/11/2026** — `main` tại `033fb86` (PR #30); PR #31 đang mở (PLAN, skills, template, gói SQL v2).
 > Đây là **tệp đầu tiên** Owner và mọi Agent đọc khi bắt đầu phiên mới. Nó trả lời: *đang ở đâu, còn gì, chờ ai*. Lý do, quy trình và bẫy môi trường nằm ở [`docs/HANDOFF_CURRENT_STATE.vi.md`](docs/HANDOFF_CURRENT_STATE.vi.md); chi tiết từng việc nằm ở `docs/feature-plans/*.json`.
 
 ## Quy tắc cập nhật (bắt buộc với Agent)
@@ -19,6 +19,7 @@ Ký hiệu: ✅ xong · 🟡 làm một phần · ⬜ chưa làm · ⛔ bị ch�
 - 18+; khách xem được nội dung tĩnh; tính năng gọi AI cần đăng nhập. Mọi tài khoản đăng nhập là Premium trong closed test; nội dung Premium ghi "Sắp có".
 - Ngân sách AI QA 5 USD/ngày, 50 USD/14 ngày. Hạn mức: Chat+Oracle 5/ngày, Tarot 1/ngày, Chiêm tinh AI 1/ngày, Council 1/ngày (+4 câu hỏi tiếp).
 - Crisis: chỉ dùng số **115**. Tên lá: tên gốc tiếng Anh là tiêu đề, tên Việt dòng nhỏ.
+- **04/11:** dự phòng LLM giai đoạn 0 được duyệt; nhà cung cấp trực tiếp ưu tiên **Anthropic → Gemini (khóa trả phí) → OpenAI → DeepSeek**; được gửi **tên gọi** người dùng cho AI trong chat; **Tarot AI 1 lượt/ngày** cho mọi tài khoản; tài khoản thử `magicpendigital@gmail.com` được đặt Premium để test.
 - Backend dự kiến: Supabase **Singapore** `etfajmrwyywokgafzxsb`. App và Admin staging **vẫn trỏ project QA cũ** `akgrokwnkfqnfjqrildi` (nơi chạy live QA 31/10–03/11).
 
 ## 2. Giai đoạn
@@ -27,7 +28,7 @@ Ký hiệu: ✅ xong · 🟡 làm một phần · ⬜ chưa làm · ⛔ bị ch�
 |---|---|---|
 | 0 | Repo sạch, Vercel, CI | ✅ |
 | 1 | Làm sạch Android release (manifest) | ✅ (chưa dựng AAB) |
-| 2 | Backend Singapore: SQL 2a ✅ 2b ✅ 2c ⛔; deploy `account-delete` ⛔; Auth/SMTP ⛔; chặn chi phí AI 🟡 | ⛔ chờ Owner |
+| 2 | Backend Singapore: SQL 2a ✅ 2b ✅; **2c: Owner đồng ý 04/11, nhưng gói đã đổi (33 tệp) → chờ duyệt lại hash v2**; deploy `account-delete` ✅ duyệt, làm sau 2c; Auth/SMTP ⛔; chặn chi phí AI 🟡 | ⛔ chờ Owner |
 | 3 | UI/UX trước closed test (Gói A + rà soát 30/10) | 🟡 phần lớn xong, xem mục 3 |
 | 4 | QA online + thiết bị + AAB đầu tiên | ⬜ chặn bởi GĐ 2 và biến EAS |
 | 5 | Play Console, Data safety, store listing | ⬜ Owner |
@@ -63,15 +64,22 @@ Bảng rà soát 30/10: **107 mục — 50 xong, 24 làm một phần, 33 chưa 
 
 ## 4. Đang chờ Owner (mỗi mục một quyết định)
 
-1. **Bước 2c** chạy gói SQL lên Singapore (cần Docker mở để làm mới biên nhận chạy thử; biên nhận 27/10 đã hết hạn ~02/11).
-2. Deploy `account-delete` + chọn hộp thư hỗ trợ (đề xuất Cloudflare Email Routing).
-3. Deploy bản vá: bắt buộc đăng nhập + hạn mức cho Daily insight và Astrology report.
-4. Duyệt kiến trúc Admin mới (mục 5 của đề xuất Admin).
-5. Duyệt Giai đoạn 0 của dự phòng LLM; chọn nhà cung cấp trực tiếp đầu tiên (OpenAI / Gemini trả phí / Anthropic).
-6. Có gửi tên gọi người dùng cho AI trong chat (CH-13)? Hạn mức Tarot Premium 3 hay 1 lượt/ngày?
-7. Gắn 3 biến `EXPO_PUBLIC_*` vào EAS production → dựng AAB đầu tiên. Bắt đầu tuyển ≥ 12 (nên 15–20) người thử.
+1. **Duyệt lại gói SQL v2** (33 migration, `9375e1fe…a0d5`, seed `702e581f…4cb9`) — [phiếu](docs/release/singapore-packet-v2-2026-11-04/README.vi.md). Chạy thử Docker 17/17 PASS ngày 04/11, dùng được tới 11/11. Sau đó: Owner đọc dashboard Singapore (≤ 24 giờ) và tự đăng nhập Supabase CLI.
+2. Owner tự làm: gắn 3 biến `EXPO_PUBLIC_*` vào EAS production (đã đồng ý 04/11) → dựng AAB đầu tiên; tuyển ≥ 12 (nên 15–20) người thử.
+3. Duyệt bộ thiết kế Admin chi tiết (19 màn) — nhánh `docs/admin-screens-spec-2026-11-04` (chưa push) và canvas thiết kế.
 
-## 5. Đã xong gần đây (31/10 – 03/11)
+## 4b. Đã duyệt 04/11, đang chờ làm (lát cắt backend tiếp theo)
+
+- ⬜ Bắt buộc đăng nhập + hạn mức + công tắc cho `ai-daily-insight` và `ai-astrology-report` (code, rồi xin deploy).
+- ⬜ Dự phòng LLM giai đoạn 0: `models[]` + ZDR cho mọi tính năng, kiểm định dạng trong bộ định tuyến, giữ nội dung lỗi, khóa Gemini sang header.
+- ⬜ Gửi tên gọi cho AI trong chat persona (CH-13); Tarot AI 1 lượt/ngày phía server và app.
+- ⬜ Đặt `magicpendigital@gmail.com` là Premium trên project đang chạy QA (một câu SQL — sẽ đưa lệnh để Owner xác nhận).
+- ⬜ Deploy `account-delete` + trang web xóa dữ liệu + hộp thư hỗ trợ (sau 2c).
+
+## 5. Đã xong gần đây (31/10 – 04/11)
+
+04/11 (PR #31): skills được rà soát — `nilaza-plan-qc` 1.6.0, thêm `nilaza-ai-runtime`, skills cài cho cả Claude Code lẫn Codex ([đánh giá](docs/SKILLS_REVIEW_2026-11-04.vi.md)); thư mục `project-template/` để dùng cho dự án khác; gói SQL v2 chạy thử PASS.
+
 
 PR #9–#30: Home "Hôm nay" (lá hôm nay, ghi chú, nhịp 30 ngày, Bước tiếp theo), chế độ khách, Tarot làm lại theo thiết kế (dock kết quả, Học lá, tên lá gốc + Việt), Nhật ký/Tôi/Đăng nhập theo thiết kế, Chiêm tinh (hub, Big 3, so sánh với người khác, Đọc sâu AI), Chat hub + Council (cuộn tới tin mới, báo cáo, 115), bộ lọc khủng hoảng chung, công tắc AI, Admin (xác nhận thao tác nguy hiểm, chặn trùng ID, môi trường), OpenRouter-only + DeepSeek/Xiaomi, sửa Tarot/Chiêm tinh AI theo live QA (bỏ JSON mode, chờ 60 s, chẩn đoán). Kiểm chứng: mobile 449/449 test, tsc (03/11, máy local).
 
@@ -84,4 +92,5 @@ PR #9–#30: Home "Hôm nay" (lá hôm nay, ghi chú, nhịp 30 ngày, Bước t
 | Cổng Plan & QC, preflight | `docs/PLAN_QC_PROTOCOL.md`, `docs/feature-plans/` |
 | Danh sách 107 mục rà soát + trạng thái | `docs/backlog/review-2026-10-30.json` |
 | Lộ trình Google Play | `docs/release/GOOGLE_PLAY_ROADMAP_AND_UX_REVIEW_2026-10-23.vi.md` |
-| Gói backend Singapore | `docs/release/singapore-backend-readiness-2026-10-25/` |
+| Gói backend Singapore | `docs/release/singapore-backend-readiness-2026-10-25/`, bản v2: `docs/release/singapore-packet-v2-2026-11-04/` |
+| Skill nào cho việc gì | `docs/SKILLS_REVIEW_2026-11-04.vi.md` |
