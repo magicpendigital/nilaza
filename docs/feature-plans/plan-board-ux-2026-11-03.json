@@ -22,7 +22,8 @@
     "apps/mobile/src/features/profile/__tests__/",
     "docs/backlog/",
     "docs/proposals/",
-    "docs/HANDOFF_CURRENT_STATE.vi.md"
+    "docs/HANDOFF_CURRENT_STATE.vi.md",
+    "apps/admin/workflow-catalog.js"
   ],
   "untouchedSurfaces": [
     "No backend, Edge Function, SQL, prompt, model route, provider or secret change; the Admin and LLM provider documents are proposals awaiting Owner decisions.",
@@ -101,7 +102,7 @@
     "unresolvedHighRisks": []
   },
   "workingTreeReview": {
-    "note": "The four mobile files were edited in this session before the record was written; they are the slice itself and are covered by writeScope.",
+    "note": "The four mobile files were edited in this session before the record was written; they are the slice itself and are covered by writeScope. The Admin workflow catalog pins App.tsx by hash, so its pinned hash is refreshed for the App.tsx change (no catalog wording changes).",
     "paths": [
       "apps/mobile/App.tsx",
       "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
@@ -111,13 +112,15 @@
       "docs/HANDOFF_CURRENT_STATE.vi.md",
       "docs/backlog/review-2026-10-30.json",
       "docs/proposals/ADMIN_REDESIGN_2026-11-03.vi.md",
-      "docs/proposals/LLM_PROVIDERS_FALLBACK_2026-11-03.vi.md"
+      "docs/proposals/LLM_PROVIDERS_FALLBACK_2026-11-03.vi.md",
+      "apps/admin/workflow-catalog.js"
     ]
   },
   "validationCommands": [
     "npm run feature:preflight -- --record docs/feature-plans/plan-board-ux-2026-11-03.json",
     "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
-    "npm --prefix apps/mobile test -- --silent"
+    "npm --prefix apps/mobile test -- --silent",
+    "node scripts/validate-admin-workflow-catalog.mjs"
   ],
   "managerTestPath": "New account: open Tôi and see the invitation instead of 0/0/0. Open Nhật ký and scroll to the bottom: the Oracle button does not cover the last row; Khám phá has no floating Oracle button. Scroll a long list: tab names stay under the icons. In a guide chat, each reply has a flag button. In Tarot, open a spread card: the tap hint disappears.",
   "residualRisk": "Tab bar and touch targets are checked in tests and code, not yet on a physical Android device.",
