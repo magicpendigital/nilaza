@@ -1,6 +1,6 @@
 # PLAN — bảng tiến độ sống của Nilaza
 
-> **Cập nhật lần cuối: 03/11/2026** — `main` tại `033fb86` (PR #30) + nhánh `feat/plan-board-ux-2026-11-03`.
+> **Cập nhật lần cuối: 04/11/2026** — `main` tại `033fb86` (PR #30) + nhánh `feat/plan-board-ux-2026-11-03` + nhánh `docs/admin-screens-spec-2026-11-04` (đặc tả màn Admin).
 > Đây là **tệp đầu tiên** Owner và mọi Agent đọc khi bắt đầu phiên mới. Nó trả lời: *đang ở đâu, còn gì, chờ ai*. Lý do, quy trình và bẫy môi trường nằm ở [`docs/HANDOFF_CURRENT_STATE.vi.md`](docs/HANDOFF_CURRENT_STATE.vi.md); chi tiết từng việc nằm ở `docs/feature-plans/*.json`.
 
 ## Quy tắc cập nhật (bắt buộc với Agent)
@@ -52,6 +52,7 @@ Bảng rà soát 30/10: **107 mục — 50 xong, 24 làm một phần, 33 chưa 
 - 🔍 Chờ thử trên máy thật: Back, TalkBack, nhắc buổi sáng, chọn ngày giờ native, bàn phím, chữ lớn.
 
 ### Admin — đề xuất: [`docs/proposals/ADMIN_REDESIGN_2026-11-03.vi.md`](docs/proposals/ADMIN_REDESIGN_2026-11-03.vi.md)
+- ✅ 04/11 Owner duyệt kiến trúc điều hướng. Đặc tả từng màn + trường ↔ bảng/hàm + lộ trình A0–A7: [`docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md`](docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md); thiết kế 19 màn (gồm cấu hình riêng 7 tính năng AI): <https://claude.ai/artifact/JfSTk3fKJANL1T8Ptcxo9k>. Chưa sửa mã. A1–A2 làm được ngay (chỉ mã Admin).
 - ⬜ Nghiêm trọng: AD-01 publish 1 mục đẩy toàn bộ · AD-03/06 nháp và bản publish đè nhau · AD-05 nội dung sửa ở Admin không tới AI · AD-07 không có khôi phục · AD-08 không upload ảnh · AD-09 nháp AI Studio không lưu · AD-11 chỉ prompt Chiêm tinh publish được.
 - ⬜ AD-14/15, 17/18, 19, 20, 21, 23, 24/25, 28–31 (quyền, lưu, xem trước, audit, ngôn ngữ, hộp phản hồi, điều hướng).
 - 🟡 AD-10 công tắc AI (thiếu Tarot, Daily) · AD-26/27.
@@ -66,9 +67,9 @@ Bảng rà soát 30/10: **107 mục — 50 xong, 24 làm một phần, 33 chưa 
 1. **Bước 2c** chạy gói SQL lên Singapore (cần Docker mở để làm mới biên nhận chạy thử; biên nhận 27/10 đã hết hạn ~02/11).
 2. Deploy `account-delete` + chọn hộp thư hỗ trợ (đề xuất Cloudflare Email Routing).
 3. Deploy bản vá: bắt buộc đăng nhập + hạn mức cho Daily insight và Astrology report.
-4. Duyệt kiến trúc Admin mới (mục 5 của đề xuất Admin).
+4. ~~Duyệt kiến trúc Admin mới~~ (đã duyệt 04/11). Mới: 7 quyết định ở mục 5 của đặc tả màn Admin (gộp Astrology report vào Đọc sâu? Daily bỏ toàn văn Nhật ký? cổng phát hành…).
 5. Duyệt Giai đoạn 0 của dự phòng LLM; chọn nhà cung cấp trực tiếp đầu tiên (OpenAI / Gemini trả phí / Anthropic).
-6. Có gửi tên gọi người dùng cho AI trong chat (CH-13)? Hạn mức Tarot Premium 3 hay 1 lượt/ngày?
+6. ~~Tên gọi cho AI, hạn mức Tarot~~ — đã quyết 04/11: gửi tên gọi; Tarot 1 lượt/ngày. Giai đoạn 0 LLM được duyệt; thứ tự trực tiếp Anthropic → Gemini → OpenAI → DeepSeek.
 7. Gắn 3 biến `EXPO_PUBLIC_*` vào EAS production → dựng AAB đầu tiên. Bắt đầu tuyển ≥ 12 (nên 15–20) người thử.
 
 ## 5. Đã xong gần đây (31/10 – 03/11)
