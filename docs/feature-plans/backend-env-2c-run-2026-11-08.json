@@ -3,7 +3,7 @@
   "taskId": "backend-env-2c-run-2026-11-08",
   "ownerAgent": "release_agent",
   "lane": "Release: backend environment strategy and step 2c preparation",
-  "goal": "Record the Owner's 2026-11-08 agreement to run step 2c with SQL packet v2, analyse the backend environment options (keep building on legacy QA versus moving to Singapore) and recommend one, prepare the v2 database-target record and a step-by-step 2c run sheet, and remove project-template/ from the repository after the Owner moved it out.",
+  "goal": "Record the Owner's 2026-11-08 agreement to run step 2c with SQL packet v2, analyse the backend environment options (keep building on legacy QA versus moving to Singapore) and recommend one, prepare the v2 database-target record and a step-by-step 2c run sheet, and remove project-template/ from the repository after the Owner moved it out. Record the Owner-run execution of 2c and its post-apply evidence.",
   "successCriteria": [
     "docs/release/BACKEND_ENVIRONMENT_STRATEGY_2026-11-08.vi.md compares three options with Supabase plan facts read on 2026-11-08 and recommends one.",
     "database-target.singapore-staging.v2.json lists the 33 migrations; node scripts/database-target-gate.mjs reports BLOCKED with 0 errors and only Owner-dependent blockers (draft, ledger readback, target metadata, approval).",
@@ -11,7 +11,8 @@
     "PLAN.md shows 2c approved on 2026-11-08 and the Owner steps before 11/11.",
     "project-template/ is no longer tracked.",
     "target-metadata-2026-11-08.json records the dashboard read; the gate then reports 0 errors and blocks only on sign-up being ON, the ledger readback and the approval file.",
-    "After the Owner switched sign-up off and pasted the CLI ledger readback (33 local, 0 remote), the gate reports PASS with the ledger, metadata and approval files bound by hash."
+    "After the Owner switched sign-up off and pasted the CLI ledger readback (33 local, 0 remote), the gate reports PASS with the ledger, metadata and approval files bound by hash.",
+    "After the Owner's db push on 2026-11-08: migration list shows Local = Remote for 33 versions, the post-apply query passes 10/10, Security Advisor has 0 errors and 3 reviewed warnings; the Singapore ledger records the 33 applied versions."
   ],
   "writeScope": [
     "PLAN.md",
@@ -65,7 +66,7 @@
     {
       "path": "supabase/migration-ledgers/nilaza-singapore-prelaunch-qa.json",
       "reason": "Singapore ledger re-read 2026-11-08 for 2c: empty remote history.",
-      "sha256": "f3992f3724b3c733c8c85f30b072f72aa0d66b3412a26ffa38163da4e8c6b75f"
+      "sha256": "5a310021ab09ed95775e202965d5da9961cb8929340c413886d7478bafdd6b84"
     },
     {
       "path": "supabase/config.toml",
@@ -115,8 +116,10 @@
       "docs/release/singapore-packet-v2-2026-11-04/README.vi.md",
       "docs/release/singapore-packet-v2-2026-11-04/RUN_2C.vi.md",
       "docs/release/singapore-packet-v2-2026-11-04/database-target.singapore-staging.v2.json",
+      "docs/release/singapore-packet-v2-2026-11-04/execution-receipt-2026-11-08.json",
       "docs/release/singapore-packet-v2-2026-11-04/ledger-readback-2026-11-08.json",
       "docs/release/singapore-packet-v2-2026-11-04/owner-approval-2c-2026-11-08.json",
+      "docs/release/singapore-packet-v2-2026-11-04/post-apply-check.sql",
       "docs/release/singapore-packet-v2-2026-11-04/target-metadata-2026-11-08.json",
       "project-template/.github/pull_request_template.md",
       "project-template/.gitignore",
