@@ -1,10 +1,6 @@
 # PLAN — bảng tiến độ sống của Nilaza
 
-<<<<<<< HEAD
-> **Cập nhật lần cuối: 04/11/2026** — `main` tại `033fb86` (PR #30); PR #31 đang mở (PLAN, skills, template, gói SQL v2); PR #32 đang mở (đặc tả màn Admin).
-=======
-> **Cập nhật lần cuối: 08/11/2026** — `main` tại `033fb86` (PR #30); PR #31 đang mở (PLAN, skills, template, gói SQL v2).
->>>>>>> 71d7defba3939d50be822cff419910c46e1e284d
+> **Cập nhật lần cuối: 08/11/2026** — `main` tại `033fb86` (PR #30); PR #31 đang mở (PLAN, skills, template, gói SQL v2); PR #32 đang mở (đặc tả màn Admin).
 > Đây là **tệp đầu tiên** Owner và mọi Agent đọc khi bắt đầu phiên mới. Nó trả lời: *đang ở đâu, còn gì, chờ ai*. Lý do, quy trình và bẫy môi trường nằm ở [`docs/HANDOFF_CURRENT_STATE.vi.md`](docs/HANDOFF_CURRENT_STATE.vi.md); chi tiết từng việc nằm ở `docs/feature-plans/*.json`.
 
 ## Quy tắc cập nhật (bắt buộc với Agent)
