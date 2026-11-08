@@ -64,8 +64,8 @@
     },
     {
       "path": "supabase/migration-ledgers/nilaza-singapore-prelaunch-qa.json",
-      "reason": "Singapore ledger state and readback rule.",
-      "sha256": "4b1a0ab998de48d46d923cd3548d51a6776880e95351419e45b2dec70538ce74"
+      "reason": "Singapore ledger re-read 2026-11-08 for 2c: empty remote history.",
+      "sha256": "f3992f3724b3c733c8c85f30b072f72aa0d66b3412a26ffa38163da4e8c6b75f"
     },
     {
       "path": "supabase/config.toml",
