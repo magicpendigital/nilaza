@@ -3,22 +3,27 @@
   "taskId": "backend-env-2c-run-2026-11-08",
   "ownerAgent": "release_agent",
   "lane": "Release: backend environment strategy and step 2c preparation",
-  "goal": "Record the Owner's 2026-11-08 agreement to run step 2c with SQL packet v2, analyse the backend environment options (keep building on legacy QA versus moving to Singapore) and recommend one, prepare the v2 database-target record and a step-by-step 2c run sheet, and remove project-template/ from the repository after the Owner moved it out.",
+  "goal": "Record the Owner's 2026-11-08 agreement to run step 2c with SQL packet v2, analyse the backend environment options (keep building on legacy QA versus moving to Singapore) and recommend one, prepare the v2 database-target record and a step-by-step 2c run sheet, and remove project-template/ from the repository after the Owner moved it out. Record the Owner-run execution of 2c and its post-apply evidence.",
   "successCriteria": [
     "docs/release/BACKEND_ENVIRONMENT_STRATEGY_2026-11-08.vi.md compares three options with Supabase plan facts read on 2026-11-08 and recommends one.",
     "database-target.singapore-staging.v2.json lists the 33 migrations; node scripts/database-target-gate.mjs reports BLOCKED with 0 errors and only Owner-dependent blockers (draft, ledger readback, target metadata, approval).",
     "RUN_2C.vi.md lists the Owner's dashboard reads, CLI commands, expected outputs and stop conditions.",
     "PLAN.md shows 2c approved on 2026-11-08 and the Owner steps before 11/11.",
-    "project-template/ is no longer tracked."
+    "project-template/ is no longer tracked.",
+    "target-metadata-2026-11-08.json records the dashboard read; the gate then reports 0 errors and blocks only on sign-up being ON, the ledger readback and the approval file.",
+    "After the Owner switched sign-up off and pasted the CLI ledger readback (33 local, 0 remote), the gate reports PASS with the ledger, metadata and approval files bound by hash.",
+    "After the Owner's db push on 2026-11-08: migration list shows Local = Remote for 33 versions, the post-apply query passes 10/10, Security Advisor has 0 errors and 3 reviewed warnings; the Singapore ledger records the 33 applied versions."
   ],
   "writeScope": [
     "PLAN.md",
     "docs/release/BACKEND_ENVIRONMENT_STRATEGY_2026-11-08.vi.md",
     "docs/release/singapore-packet-v2-2026-11-04/",
-    "project-template/"
+    "project-template/",
+    ".gitignore",
+    "supabase/migration-ledgers/nilaza-singapore-prelaunch-qa.json"
   ],
   "untouchedSurfaces": [
-    "No SQL, CLI, deploy, secret or setting change on any project; 2c execution waits for the Owner's dashboard reads and CLI login.",
+    "No SQL, deploy, secret or setting change by the agent; the Owner switched sign-up off and runs db push via CLI after the gate PASS.",
     "release-profile.json, the Singapore ledger and the 2026-10-25 packet stay as they are until execution evidence exists.",
     "No app, Admin or Edge Function code change."
   ],
@@ -60,8 +65,8 @@
     },
     {
       "path": "supabase/migration-ledgers/nilaza-singapore-prelaunch-qa.json",
-      "reason": "Singapore ledger state and readback rule.",
-      "sha256": "4b1a0ab998de48d46d923cd3548d51a6776880e95351419e45b2dec70538ce74"
+      "reason": "Singapore ledger re-read 2026-11-08 for 2c: empty remote history.",
+      "sha256": "5a310021ab09ed95775e202965d5da9961cb8929340c413886d7478bafdd6b84"
     },
     {
       "path": "supabase/config.toml",
@@ -103,13 +108,19 @@
     "unresolvedHighRisks": []
   },
   "workingTreeReview": {
-    "note": "Documents were drafted before this record; project-template/ was deleted by the Owner, who moved it out of the project as planned.",
+    "note": "Documents were drafted before this record; project-template/ was deleted by the Owner, who moved it out of the project as planned. Supabase CLI link files (supabase/.temp/) were committed by mistake in 7ed0ba7; they hold no password and are removed from the index and ignored.",
     "paths": [
+      ".gitignore",
       "PLAN.md",
       "docs/release/BACKEND_ENVIRONMENT_STRATEGY_2026-11-08.vi.md",
       "docs/release/singapore-packet-v2-2026-11-04/README.vi.md",
       "docs/release/singapore-packet-v2-2026-11-04/RUN_2C.vi.md",
       "docs/release/singapore-packet-v2-2026-11-04/database-target.singapore-staging.v2.json",
+      "docs/release/singapore-packet-v2-2026-11-04/execution-receipt-2026-11-08.json",
+      "docs/release/singapore-packet-v2-2026-11-04/ledger-readback-2026-11-08.json",
+      "docs/release/singapore-packet-v2-2026-11-04/owner-approval-2c-2026-11-08.json",
+      "docs/release/singapore-packet-v2-2026-11-04/post-apply-check.sql",
+      "docs/release/singapore-packet-v2-2026-11-04/target-metadata-2026-11-08.json",
       "project-template/.github/pull_request_template.md",
       "project-template/.gitignore",
       "project-template/AGENTS.md",
@@ -126,7 +137,8 @@
       "project-template/scripts/check-plan.mjs",
       "project-template/skills/ai-feature-runtime/SKILL.md",
       "project-template/skills/plan-qc/SKILL.md",
-      "project-template/skills/release-approval/SKILL.md"
+      "project-template/skills/release-approval/SKILL.md",
+      "supabase/migration-ledgers/nilaza-singapore-prelaunch-qa.json"
     ]
   },
   "validationCommands": [

@@ -1,6 +1,6 @@
 # PLAN — bảng tiến độ sống của Nilaza
 
-> **Cập nhật lần cuối: 08/11/2026** — `main` tại `033fb86` (PR #30); PR #31 đang mở (PLAN, skills, template, gói SQL v2); PR #32 đang mở (đặc tả màn Admin).
+> **Cập nhật lần cuối: 08/11/2026** — `main` tại `033fb86` (PR #30); PR #31 đang mở (PLAN, skills, gói SQL v2, **2c đã áp lên Singapore 08/11**); PR #32 đang mở (đặc tả màn Admin).
 > Đây là **tệp đầu tiên** Owner và mọi Agent đọc khi bắt đầu phiên mới. Nó trả lời: *đang ở đâu, còn gì, chờ ai*. Lý do, quy trình và bẫy môi trường nằm ở [`docs/HANDOFF_CURRENT_STATE.vi.md`](docs/HANDOFF_CURRENT_STATE.vi.md); chi tiết từng việc nằm ở `docs/feature-plans/*.json`.
 
 ## Quy tắc cập nhật (bắt buộc với Agent)
@@ -20,7 +20,7 @@ Ký hiệu: ✅ xong · 🟡 làm một phần · ⬜ chưa làm · ⛔ bị ch�
 - Ngân sách AI QA 5 USD/ngày, 50 USD/14 ngày. Hạn mức: Chat+Oracle 5/ngày, Tarot 1/ngày, Chiêm tinh AI 1/ngày, Council 1/ngày (+4 câu hỏi tiếp).
 - Crisis: chỉ dùng số **115**. Tên lá: tên gốc tiếng Anh là tiêu đề, tên Việt dòng nhỏ.
 - **04/11:** dự phòng LLM giai đoạn 0 được duyệt; nhà cung cấp trực tiếp ưu tiên **Anthropic → Gemini (khóa trả phí) → OpenAI → DeepSeek**; được gửi **tên gọi** người dùng cho AI trong chat; **Tarot AI 1 lượt/ngày** cho mọi tài khoản; tài khoản thử `magicpendigital@gmail.com` được đặt Premium để test.
-- Backend dự kiến: Supabase **Singapore** `etfajmrwyywokgafzxsb`. App và Admin staging **vẫn trỏ project QA cũ** `akgrokwnkfqnfjqrildi` (nơi chạy live QA 31/10–03/11).
+- Backend: Supabase **Singapore** `etfajmrwyywokgafzxsb` — **đã có schema (33 migration + seed) từ 08/11**, chưa có Edge Function, khóa hay người dùng; đăng ký người mới **đang tắt**. App và Admin staging **vẫn trỏ project QA cũ** `akgrokwnkfqnfjqrildi` cho tới khi chuyển (phương án C, [phân tích](docs/release/BACKEND_ENVIRONMENT_STRATEGY_2026-11-08.vi.md)).
 
 ## 2. Giai đoạn
 
@@ -28,7 +28,7 @@ Ký hiệu: ✅ xong · 🟡 làm một phần · ⬜ chưa làm · ⛔ bị ch�
 |---|---|---|
 | 0 | Repo sạch, Vercel, CI | ✅ |
 | 1 | Làm sạch Android release (manifest) | ✅ (chưa dựng AAB) |
-| 2 | Backend Singapore: SQL 2a ✅ 2b ✅; **2c: Owner duyệt gói v2 ngày 08/11 → chờ Owner đọc dashboard + đăng nhập CLI**; deploy `account-delete` ✅ duyệt, làm sau 2c; Auth/SMTP ⛔; chặn chi phí AI 🟡 | ⛔ chờ Owner |
+| 2 | Backend Singapore: SQL 2a ✅ 2b ✅ **2c ✅ 08/11** (33/33 migration + seed, kiểm sau áp 10/10, Security Advisor 0 lỗi — [biên nhận](docs/release/singapore-packet-v2-2026-11-04/execution-receipt-2026-11-08.json)); tiếp: Edge Function + khóa ⬜, `account-delete` ⬜, Auth/SMTP ⬜, chặn chi phí AI 🟡 | 🟡 |
 | 3 | UI/UX trước closed test (Gói A + rà soát 30/10) | 🟡 phần lớn xong, xem mục 3 |
 | 4 | QA online + thiết bị + AAB đầu tiên | ⬜ chặn bởi GĐ 2 và biến EAS |
 | 5 | Play Console, Data safety, store listing | ⬜ Owner |
@@ -64,8 +64,7 @@ Bảng rà soát 30/10: **107 mục — 50 xong, 24 làm một phần, 33 chưa 
 
 ## 4. Đang chờ Owner (mỗi mục một quyết định)
 
-1. **Bước 2c — Owner đã đồng ý 08/11 (gói v2).** Việc của Owner trước 11/11 (hạn bản chạy thử): đọc dashboard Singapore và đăng nhập Supabase CLI theo [phiếu chạy 2c](docs/release/singapore-packet-v2-2026-11-04/RUN_2C.vi.md). Bộ kiểm đích: BLOCKED 0 lỗi, chỉ chờ thông tin dashboard, sổ cái đọc lại và tệp lời duyệt.
-   **Phương án môi trường (đề xuất 08/11, [phân tích](docs/release/BACKEND_ENVIRONMENT_STRATEGY_2026-11-08.vi.md)):** local Docker → Singapore làm staging rồi production; đóng băng QA cũ sau khi chuyển; nâng tổ chức Singapore lên Pro (~25 USD/tháng) trước khi mời người thử thật.
+1. **Tiếp theo trên Singapore (mỗi việc một lần duyệt):** (a) deploy các Edge Function + đặt khóa mới riêng cho Singapore (OpenRouter, ZDR); (b) deploy `account-delete`; (c) Auth/SMTP qua Resend rồi bật lại đăng ký; (d) chuyển Admin staging + EAS sang Singapore, đóng băng QA cũ; (e) nâng tổ chức lên Pro (~25 USD/tháng) trước khi mời người thử thật. [Phân tích phương án](docs/release/BACKEND_ENVIRONMENT_STRATEGY_2026-11-08.vi.md).
 2. Owner tự làm: gắn 3 biến `EXPO_PUBLIC_*` vào EAS production (đã đồng ý 04/11) → dựng AAB đầu tiên; tuyển ≥ 12 (nên 15–20) người thử.
 3. Bộ thiết kế Admin chi tiết (19 màn): PR #32 + [đặc tả](docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md) + canvas <https://claude.ai/artifact/JfSTk3fKJANL1T8Ptcxo9k>. Owner đã chốt 04/11: gộp Astrology report vào Đọc sâu; Daily bỏ toàn văn Nhật ký; tâm trạng chỉ dùng nếu ghi trong 24 giờ; dự phòng đắt hơn được, trần 0,02 USD/lượt; biên tập viên chỉ lưu nháp, Owner phát hành. Cổng phát hành theo mục 5.1 của đặc tả (duyệt 04/11): không bỏ qua lớp an toàn; chỉ Owner bỏ qua lớp chất lượng khi khôi phục hoặc sửa khẩn cấp, gắn nhãn "Chưa chấm" và chấm lại trong 24 giờ. **Còn chờ:** các con số độ dài (đội biên tập).
 
@@ -75,9 +74,12 @@ Bảng rà soát 30/10: **107 mục — 50 xong, 24 làm một phần, 33 chưa 
 - ⬜ Dự phòng LLM giai đoạn 0: `models[]` + ZDR cho mọi tính năng, kiểm định dạng trong bộ định tuyến, giữ nội dung lỗi, khóa Gemini sang header.
 - ⬜ Gửi tên gọi cho AI trong chat persona (CH-13); Tarot AI 1 lượt/ngày phía server và app.
 - ⬜ Đặt `magicpendigital@gmail.com` là Premium trên project đang chạy QA (một câu SQL — sẽ đưa lệnh để Owner xác nhận).
-- ⬜ Deploy `account-delete` + trang web xóa dữ liệu + hộp thư hỗ trợ (sau 2c).
+- ⬜ Deploy `account-delete` + trang web xóa dữ liệu + hộp thư hỗ trợ (2c đã xong 08/11 — có thể làm).
+- ⬜ Security Advisor (08/11): chuyển extension `vector` khỏi schema `public` bằng một migration nhỏ, chạy thử local trước. Hai cảnh báo hàm SECURITY DEFINER của công tắc AI được chấp nhận (hàm tự kiểm quyền `ai.read`/`ai.manage`).
 
-## 5. Đã xong gần đây (31/10 – 04/11)
+## 5. Đã xong gần đây (31/10 – 08/11)
+
+08/11: **Bước 2c xong** — Owner chạy `db push` gói v2 lên Singapore; Local = Remote 33/33, 78 lá Tarot, mọi bảng public bật RLS, client không TRUNCATE/không gọi hàm xóa tài khoản, 0 người dùng; Security Advisor 0 lỗi, 3 cảnh báo đã đánh giá.
 
 04/11 (PR #31): skills được rà soát — `nilaza-plan-qc` 1.6.0, thêm `nilaza-ai-runtime`, skills cài cho cả Claude Code lẫn Codex ([đánh giá](docs/SKILLS_REVIEW_2026-11-04.vi.md)); thư mục `project-template/` cho dự án khác (Owner đã chuyển ra khỏi repo 08/11); gói SQL v2 chạy thử PASS.
 

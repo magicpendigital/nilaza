@@ -4,6 +4,23 @@
 
 Hồ sơ đích: [database-target.singapore-staging.v2.json](database-target.singapore-staging.v2.json). Bộ kiểm hiện **BLOCKED, 0 lỗi**, chỉ còn chờ 3 thứ dưới đây.
 
+## Kết quả đọc ngày 08/11/2026 (18:16 giờ Việt Nam)
+
+[target-metadata-2026-11-08.json](target-metadata-2026-11-08.json) — **hết hạn sau 24 giờ** (09/11 18:16); quá hạn thì đọc lại.
+
+| Mục | Kết quả | Bộ kiểm |
+|---|---|---|
+| Trạng thái, vùng, gói, compute, Postgres | Healthy · Singapore · Free · Nano · 17.11 | ✅ |
+| Add-on (IPv4, PITR, tên miền riêng) | Đều tắt | ✅ |
+| Hạn mức Free | Chưa vượt (CSDL 37/500 MB, 189 lượt gọi function) | ✅ |
+| Migration, bảng public, Edge Function, Cron, Auth Hook | Không có | ✅ |
+| Người dùng Auth | Danh sách trống (dòng "10 users" là số ước tính của dashboard) | ✅ |
+| **Cho người mới đăng ký** | **Đang bật** | ⛔ chặn |
+| Sổ cái qua CLI ở repo Nilaza | Chưa có kết quả hợp lệ | ⛔ chặn |
+| Thông báo của Supabase | "Đang điều tra sự cố kỹ thuật" — xem status.supabase.com trước khi chạy | lưu ý |
+
+**Việc còn lại của Owner:** (1) tắt "Allow new users to sign up" (Authentication → Sign In / Providers → User Signups → tắt → Save changes) — bật lại sau khi Auth/SMTP xong; (2) chạy lại `npx supabase link …` và `npx supabase migration list --linked` **trong `D:\nilaza_clean_staging\repo`** và gửi toàn bộ phần bảng kết quả.
+
 ## Bước 1 — Owner đọc dashboard (trong 24 giờ trước khi chạy)
 
 Mở Supabase → project Singapore, chỉ **đọc** rồi trả lời tôi từng dòng (không đổi gì):
