@@ -147,7 +147,10 @@
       "sha256": "36122069b8fc6473f586b506399313225739151663310dd1680948d12c1f6c60"
     }
   ],
-  "targetMetadata": null,
+  "targetMetadata": {
+    "path": "docs/release/singapore-packet-v2-2026-11-04/target-metadata-2026-11-08.json",
+    "sha256": "6d9b070ca9c43100e43ed6a8d194c6c995923b2e7b59475f5b934b04d9dcb13d"
+  },
   "replay": {
     "path": "docs/release/singapore-packet-v2-2026-11-04/rehearsal-native-2026-11-04.json",
     "sha256": "a20fe5cda7d48ef0c73506686a71ca4f11b8c9853fd1f40bad321f22bba11d84"

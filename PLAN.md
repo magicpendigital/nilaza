@@ -64,7 +64,7 @@ Bảng rà soát 30/10: **107 mục — 50 xong, 24 làm một phần, 33 chưa 
 
 ## 4. Đang chờ Owner (mỗi mục một quyết định)
 
-1. **Bước 2c — Owner đã đồng ý 08/11 (gói v2).** Việc của Owner trước 11/11 (hạn bản chạy thử): đọc dashboard Singapore và đăng nhập Supabase CLI theo [phiếu chạy 2c](docs/release/singapore-packet-v2-2026-11-04/RUN_2C.vi.md). Bộ kiểm đích: BLOCKED 0 lỗi, chỉ chờ thông tin dashboard, sổ cái đọc lại và tệp lời duyệt.
+1. **Bước 2c — Owner đã đồng ý 08/11 (gói v2).** Đọc dashboard 08/11: project trống, khỏe, đúng gói/vùng ✅. Còn chặn: **tắt "cho người mới đăng ký"** và **chạy lại `migration list` trong repo Nilaza** ([kết quả](docs/release/singapore-packet-v2-2026-11-04/RUN_2C.vi.md)). Việc của Owner trước 11/11 (hạn bản chạy thử): đọc dashboard Singapore và đăng nhập Supabase CLI theo [phiếu chạy 2c](docs/release/singapore-packet-v2-2026-11-04/RUN_2C.vi.md). Bộ kiểm đích: BLOCKED 0 lỗi, chỉ chờ thông tin dashboard, sổ cái đọc lại và tệp lời duyệt.
    **Phương án môi trường (đề xuất 08/11, [phân tích](docs/release/BACKEND_ENVIRONMENT_STRATEGY_2026-11-08.vi.md)):** local Docker → Singapore làm staging rồi production; đóng băng QA cũ sau khi chuyển; nâng tổ chức Singapore lên Pro (~25 USD/tháng) trước khi mời người thử thật.
 2. Owner tự làm: gắn 3 biến `EXPO_PUBLIC_*` vào EAS production (đã đồng ý 04/11) → dựng AAB đầu tiên; tuyển ≥ 12 (nên 15–20) người thử.
 3. Duyệt bộ thiết kế Admin chi tiết (19 màn) — nhánh `docs/admin-screens-spec-2026-11-04` (chưa push) và canvas thiết kế.

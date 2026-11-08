@@ -9,7 +9,8 @@
     "database-target.singapore-staging.v2.json lists the 33 migrations; node scripts/database-target-gate.mjs reports BLOCKED with 0 errors and only Owner-dependent blockers (draft, ledger readback, target metadata, approval).",
     "RUN_2C.vi.md lists the Owner's dashboard reads, CLI commands, expected outputs and stop conditions.",
     "PLAN.md shows 2c approved on 2026-11-08 and the Owner steps before 11/11.",
-    "project-template/ is no longer tracked."
+    "project-template/ is no longer tracked.",
+    "target-metadata-2026-11-08.json records the dashboard read; the gate then reports 0 errors and blocks only on sign-up being ON, the ledger readback and the approval file."
   ],
   "writeScope": [
     "PLAN.md",
@@ -110,6 +111,7 @@
       "docs/release/singapore-packet-v2-2026-11-04/README.vi.md",
       "docs/release/singapore-packet-v2-2026-11-04/RUN_2C.vi.md",
       "docs/release/singapore-packet-v2-2026-11-04/database-target.singapore-staging.v2.json",
+      "docs/release/singapore-packet-v2-2026-11-04/target-metadata-2026-11-08.json",
       "project-template/.github/pull_request_template.md",
       "project-template/.gitignore",
       "project-template/AGENTS.md",
