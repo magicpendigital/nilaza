@@ -6,17 +6,17 @@
     "organizationId": "drxbmvimiekeoeesgssp",
     "projectRef": "etfajmrwyywokgafzxsb"
   },
-  "checkedAt": "2026-10-26",
+  "checkedAt": "2026-11-08T15:47:36.475Z",
   "status": "reconciled",
   "migrationVersions": [],
   "localOnly": [],
   "remoteOnly": [],
-  "evidencePath": "docs/release/singapore-backend-readiness-2026-10-25/readback-2026-10-26.json",
+  "evidencePath": "docs/release/singapore-packet-v2-2026-11-04/ledger-readback-2026-11-08.json",
   "requiredBeforeDatabaseWrite": [
     "Re-read the target within 24 hours before execution; the database target gate blocks an older checkedAt.",
     "Bootstrap only while migrationVersions is empty and public tables are 0; stop otherwise.",
     "Execute only the Owner-approved SQL set (2a) through the Owner-approved path (2c); no db repair.",
     "After execution, record the applied versions here from a fresh read-only readback before any forward migration."
   ],
-  "notes": "Separate ledger for the Singapore staging target. 'reconciled' means the remote migration history was read as empty on 2026-10-26 (supabase_migrations.schema_migrations did not exist) and nothing diverges; it is not an approval to execute. The legacy QA ledger supabase/migration-ledger.json (akgrokwnkfqnfjqrildi) is unrelated and stays blocked_pending_reconciliation."
+  "notes": "Re-read on 2026-11-08 for step 2c (packet v2): remote migration history empty, nothing diverges. Separate ledger for the Singapore staging target. 'reconciled' means the remote migration history was read as empty on 2026-10-26 (supabase_migrations.schema_migrations did not exist) and nothing diverges; it is not an approval to execute. The legacy QA ledger supabase/migration-ledger.json (akgrokwnkfqnfjqrildi) is unrelated and stays blocked_pending_reconciliation."
 }

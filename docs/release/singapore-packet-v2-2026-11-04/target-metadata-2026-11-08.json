@@ -7,14 +7,14 @@
     "organizationId": "drxbmvimiekeoeesgssp",
     "projectRef": "etfajmrwyywokgafzxsb"
   },
-  "checkedAt": "2026-11-08T11:16:54.088Z",
+  "checkedAt": "2026-11-08T15:47:36.475Z",
   "status": "ACTIVE_HEALTHY",
   "organizationPlan": "free",
   "compute": "nano",
   "region": "ap-southeast-1",
   "postgresMajor": 17,
   "paidAddons": [],
-  "sideEffectsDisabled": false,
+  "sideEffectsDisabled": true,
   "resourceSettingsVerified": true,
   "quotaReview": "PASS",
   "recoveryReview": "PASS",
@@ -22,7 +22,7 @@
     "source": "Owner dashboard read (items 1-5) and agent read-only dashboard visit in the Owner Chrome profile on 2026-11-08",
     "postgresVersion": "17.11.0.002",
     "addons": "Dedicated IPv4, PITR, custom domain: all DISABLED",
-    "authSignup": "Allow new users to sign up: ON; Confirm email: ON; manual linking and anonymous sign-ins OFF; built-in Supabase SMTP; no Auth Hooks; Email the only enabled provider",
+    "authSignup": "Allow new users to sign up: OFF (switched off by the Owner and verified by the agent on the dashboard 2026-11-08); Confirm email ON; manual linking and anonymous sign-ins OFF; built-in Supabase SMTP; no Auth Hooks; Email the only enabled provider",
     "authUsers": "User list empty (dashboard footer shows an estimated 10 from table statistics)",
     "edgeFunctions": "none deployed",
     "cron": "not installed (Owner)",
@@ -30,8 +30,7 @@
     "publicTables": "Database > Tables (public) lists none",
     "usage": "Free plan quota not exceeded in cycle 14 Oct - 14 Nov 2026 (org: database 37/500 MB, Edge invocations 189/500000, MAU 1/50000)",
     "organizationProjects": "Nilaza (ap-southeast-1, Nano) and Nilaza Staging QA (ap-southeast-2, Nano) on the Free plan",
-    "platformNotice": "Dashboard banner: Supabase is investigating a technical issue (check status.supabase.com before execution)",
+    "platformNotice": "status.supabase.com: all systems operational at 2026-11-08T15:47:36.475Z",
     "recovery": "Free plan has no automatic backups; project is empty, so recovery is re-running the packet; PASS for bootstrap only"
-  },
-  "blockerNote": "sideEffectsDisabled is false because new-user sign-up is ON; the Owner decides whether to switch it off before execution."
+  }
 }

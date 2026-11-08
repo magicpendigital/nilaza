@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "kind": "nilaza-database-owner-approval",
+  "decision": "approved",
+  "target": {
+    "id": "nilaza-singapore-prelaunch-qa",
+    "kind": "staging",
+    "organizationId": "drxbmvimiekeoeesgssp",
+    "projectRef": "etfajmrwyywokgafzxsb"
+  },
+  "operation": "bootstrap",
+  "migrationSetSha256": "477fa3c926fa7633b9de695deb4a219b5918cf12ef34d9a8b5567a803758f2f4",
+  "packetMigrationSetSha256": "9375e1fec225399d5d210cee0488e28ed30d2ccf40ab54eeb8d3ce7b3c27a0d5",
+  "seedSha256": "702e581fc6ed19e53390eadf2c4fce3488f30a19db93c4fc78a2fd8c4b234cb9",
+  "ledgerSha256": "f3992f3724b3c733c8c85f30b072f72aa0d66b3412a26ffa38163da4e8c6b75f",
+  "profileSha256": "bfc09e12cf9ed777dfcb0f4ac98846249dca716a010be2e62c3e003d332f0e50",
+  "targetMetadataSha256": "cf3cd1e8046315e367352b237d5fdcde68bd693624009a99edaeb57486af9687",
+  "replaySha256": "a20fe5cda7d48ef0c73506686a71ca4f11b8c9853fd1f40bad321f22bba11d84",
+  "approvalReference": "Owner chat 2026-11-08: \"2c. Đồng ý\" for SQL packet v2 (33 migrations, seed) on Singapore etfajmrwyywokgafzxsb, executed by the Owner via Supabase CLI per RUN_2C.vi.md",
+  "approvedAt": "2026-11-08T08:00:00.000Z",
+  "expiresAt": "2026-11-11T02:57:00.000Z",
+  "scope": "Bootstrap only: db push --include-seed of exactly these 33 files and seed. No repair, no Edge Function deploy, no secrets, no Auth/SMTP change."
+}

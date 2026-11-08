@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "status": "draft",
+  "status": "ready_for_review",
   "operation": "bootstrap",
   "target": {
     "id": "nilaza-singapore-prelaunch-qa",
@@ -11,7 +11,7 @@
   "profileSha256": "bfc09e12cf9ed777dfcb0f4ac98846249dca716a010be2e62c3e003d332f0e50",
   "ledger": {
     "path": "supabase/migration-ledgers/nilaza-singapore-prelaunch-qa.json",
-    "sha256": "4b1a0ab998de48d46d923cd3548d51a6776880e95351419e45b2dec70538ce74"
+    "sha256": "f3992f3724b3c733c8c85f30b072f72aa0d66b3412a26ffa38163da4e8c6b75f"
   },
   "migrations": [
     {
@@ -149,12 +149,15 @@
   ],
   "targetMetadata": {
     "path": "docs/release/singapore-packet-v2-2026-11-04/target-metadata-2026-11-08.json",
-    "sha256": "6d9b070ca9c43100e43ed6a8d194c6c995923b2e7b59475f5b934b04d9dcb13d"
+    "sha256": "cf3cd1e8046315e367352b237d5fdcde68bd693624009a99edaeb57486af9687"
   },
   "replay": {
     "path": "docs/release/singapore-packet-v2-2026-11-04/rehearsal-native-2026-11-04.json",
     "sha256": "a20fe5cda7d48ef0c73506686a71ca4f11b8c9853fd1f40bad321f22bba11d84"
   },
-  "ownerApproval": null,
-  "notes": "v2 draft for step 2c: 33 files (packet migrationSetSha256 9375e1fec225399d5d210cee0488e28ed30d2ccf40ab54eeb8d3ce7b3c27a0d5, gate set 477fa3c926fa7633b9de695deb4a219b5918cf12ef34d9a8b5567a803758f2f4). Owner agreed to 2c on 2026-11-08; target metadata (<=24 h) and the exact approval file are added once the Owner reads the dashboard. Not an execution approval until the gate passes."
+  "ownerApproval": {
+    "path": "docs/release/singapore-packet-v2-2026-11-04/owner-approval-2c-2026-11-08.json",
+    "sha256": "2695ad37c67a26ce2aa162ba6b3679abaf0d8eafabf011967d7268186589b722"
+  },
+  "notes": "v2 for step 2c: 33 files (packet migrationSetSha256 9375e1fe..., gate set 477fa3c926fa7633b9de695deb4a219b5918cf12ef34d9a8b5567a803758f2f4). Ready after the 2026-11-08 dashboard read, ledger readback and Owner approval; execution by the Owner via CLI."
 }
