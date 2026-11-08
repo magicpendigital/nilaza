@@ -28,7 +28,7 @@ Ký hiệu: ✅ xong · 🟡 làm một phần · ⬜ chưa làm · ⛔ bị ch�
 |---|---|---|
 | 0 | Repo sạch, Vercel, CI | ✅ |
 | 1 | Làm sạch Android release (manifest) | ✅ (chưa dựng AAB) |
-| 2 | Backend Singapore: SQL 2a ✅ 2b ✅ **2c ✅ 08/11** (33/33 migration + seed, kiểm sau áp 10/10, Security Advisor 0 lỗi — [biên nhận](docs/release/singapore-packet-v2-2026-11-04/execution-receipt-2026-11-08.json)); tiếp: Edge Function + khóa ⬜, `account-delete` ⬜, Auth/SMTP ⬜, chặn chi phí AI 🟡 | 🟡 |
+| 2 | Backend Singapore: SQL 2a ✅ 2b ✅ **2c ✅ 08/11** (33/33 migration + seed, kiểm sau áp 10/10, Security Advisor 0 lỗi — [biên nhận](docs/release/singapore-packet-v2-2026-11-04/execution-receipt-2026-11-08.json)); Edge Function + khóa ✅ 09/11 (18 hàm, gồm `account-delete`; còn trang web xóa dữ liệu + hộp thư + bật trong app ⬜), Auth/SMTP ⬜, chặn chi phí AI 🟡 | 🟡 |
 | 3 | UI/UX trước closed test (Gói A + rà soát 30/10) | 🟡 phần lớn xong, xem mục 3 |
 | 4 | QA online + thiết bị + AAB đầu tiên | ⬜ chặn bởi GĐ 2 và biến EAS |
 | 5 | Play Console, Data safety, store listing | ⬜ Owner |
@@ -64,7 +64,7 @@ Bảng rà soát 30/10: **107 mục — 50 xong, 24 làm một phần, 33 chưa 
 
 ## 4. Đang chờ Owner (mỗi mục một quyết định)
 
-1. **Tiếp theo trên Singapore (mỗi việc một lần duyệt):** (a) **đang làm:** deploy 18 Edge Function + đặt khóa OpenRouter mới — [phiếu deploy](docs/release/singapore-edge-functions-2026-11-09/RUN_DEPLOY.vi.md) (Owner đặt khóa trên dashboard rồi chạy lệnh); (b) deploy `account-delete`; (c) Auth/SMTP qua Resend rồi bật lại đăng ký; (d) chuyển Admin staging + EAS sang Singapore, đóng băng QA cũ; (e) nâng tổ chức lên Pro (~25 USD/tháng) trước khi mời người thử thật. [Phân tích phương án](docs/release/BACKEND_ENVIRONMENT_STRATEGY_2026-11-08.vi.md).
+1. **Tiếp theo trên Singapore (mỗi việc một lần duyệt):** (a) ✅ **09/11: 18 Edge Function ACTIVE + khóa OpenRouter mới** ([biên nhận](docs/release/singapore-edge-functions-2026-11-09/deploy-receipt-2026-11-09.json)); gọi không đăng nhập đều bị từ chối. Chưa kiểm: phiên đăng nhập thật qua cổng (cần tài khoản thử) và lần gọi model đầu tiên; (b) deploy `account-delete`; (c) Auth/SMTP qua Resend rồi bật lại đăng ký; (d) chuyển Admin staging + EAS sang Singapore, đóng băng QA cũ; (e) nâng tổ chức lên Pro (~25 USD/tháng) trước khi mời người thử thật. [Phân tích phương án](docs/release/BACKEND_ENVIRONMENT_STRATEGY_2026-11-08.vi.md).
 2. Owner tự làm: gắn 3 biến `EXPO_PUBLIC_*` vào EAS production (đã đồng ý 04/11) → dựng AAB đầu tiên; tuyển ≥ 12 (nên 15–20) người thử.
 3. Duyệt bộ thiết kế Admin chi tiết (19 màn) — nhánh `docs/admin-screens-spec-2026-11-04` (chưa push) và canvas thiết kế.
 

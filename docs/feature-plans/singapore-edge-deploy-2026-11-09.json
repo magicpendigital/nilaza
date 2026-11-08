@@ -8,7 +8,8 @@
     "deno check passes for the 18 wave-1 functions.",
     "RUN_DEPLOY.vi.md lists the 18 functions, the held functions with reasons, the secrets (OPENROUTER_API_KEY new and limited, AI_TRACE_ENVIRONMENT=staging), the deploy command, checks and rollback.",
     "No secret value appears in the repository or chat.",
-    "PLAN.md points to the run sheet."
+    "PLAN.md points to the run sheet.",
+    "After the Owner's deploy: 18 functions ACTIVE with verify_jwt on, the two Owner secrets present by name, calls without sign-in rejected and held functions absent (receipt deploy-receipt-2026-11-09.json)."
   ],
   "writeScope": [
     "PLAN.md",
@@ -107,8 +108,9 @@
   "workingTreeReview": {
     "note": "Run sheet drafted before this record; documents only.",
     "paths": [
+      "PLAN.md",
       "docs/release/singapore-edge-functions-2026-11-09/RUN_DEPLOY.vi.md",
-      "PLAN.md"
+      "docs/release/singapore-edge-functions-2026-11-09/deploy-receipt-2026-11-09.json"
     ]
   },
   "validationCommands": [
