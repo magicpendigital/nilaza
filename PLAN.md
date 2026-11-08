@@ -1,6 +1,6 @@
 # PLAN — bảng tiến độ sống của Nilaza
 
-> **Cập nhật lần cuối: 08/11/2026** — `main` tại `033fb86` (PR #30); PR #31 đang mở (PLAN, skills, gói SQL v2, **2c đã áp lên Singapore 08/11**).
+> **Cập nhật lần cuối: 09/11/2026** — `main` tại `033fb86` (PR #30); PR #31 đang mở (PLAN, skills, gói SQL v2, **2c đã áp lên Singapore 08/11**).
 > Đây là **tệp đầu tiên** Owner và mọi Agent đọc khi bắt đầu phiên mới. Nó trả lời: *đang ở đâu, còn gì, chờ ai*. Lý do, quy trình và bẫy môi trường nằm ở [`docs/HANDOFF_CURRENT_STATE.vi.md`](docs/HANDOFF_CURRENT_STATE.vi.md); chi tiết từng việc nằm ở `docs/feature-plans/*.json`.
 
 ## Quy tắc cập nhật (bắt buộc với Agent)
@@ -64,7 +64,7 @@ Bảng rà soát 30/10: **107 mục — 50 xong, 24 làm một phần, 33 chưa 
 
 ## 4. Đang chờ Owner (mỗi mục một quyết định)
 
-1. **Tiếp theo trên Singapore (mỗi việc một lần duyệt):** (a) deploy các Edge Function + đặt khóa mới riêng cho Singapore (OpenRouter, ZDR); (b) deploy `account-delete`; (c) Auth/SMTP qua Resend rồi bật lại đăng ký; (d) chuyển Admin staging + EAS sang Singapore, đóng băng QA cũ; (e) nâng tổ chức lên Pro (~25 USD/tháng) trước khi mời người thử thật. [Phân tích phương án](docs/release/BACKEND_ENVIRONMENT_STRATEGY_2026-11-08.vi.md).
+1. **Tiếp theo trên Singapore (mỗi việc một lần duyệt):** (a) **đang làm:** deploy 18 Edge Function + đặt khóa OpenRouter mới — [phiếu deploy](docs/release/singapore-edge-functions-2026-11-09/RUN_DEPLOY.vi.md) (Owner đặt khóa trên dashboard rồi chạy lệnh); (b) deploy `account-delete`; (c) Auth/SMTP qua Resend rồi bật lại đăng ký; (d) chuyển Admin staging + EAS sang Singapore, đóng băng QA cũ; (e) nâng tổ chức lên Pro (~25 USD/tháng) trước khi mời người thử thật. [Phân tích phương án](docs/release/BACKEND_ENVIRONMENT_STRATEGY_2026-11-08.vi.md).
 2. Owner tự làm: gắn 3 biến `EXPO_PUBLIC_*` vào EAS production (đã đồng ý 04/11) → dựng AAB đầu tiên; tuyển ≥ 12 (nên 15–20) người thử.
 3. Duyệt bộ thiết kế Admin chi tiết (19 màn) — nhánh `docs/admin-screens-spec-2026-11-04` (chưa push) và canvas thiết kế.
 
