@@ -1,6 +1,6 @@
 # PLAN — bảng tiến độ sống của Nilaza
 
-> **Cập nhật lần cuối: 04/11/2026** — `main` tại `033fb86` (PR #30); PR #31 đang mở (PLAN, skills, template, gói SQL v2).
+> **Cập nhật lần cuối: 08/11/2026** — `main` tại `033fb86` (PR #30); PR #31 đang mở (PLAN, skills, template, gói SQL v2).
 > Đây là **tệp đầu tiên** Owner và mọi Agent đọc khi bắt đầu phiên mới. Nó trả lời: *đang ở đâu, còn gì, chờ ai*. Lý do, quy trình và bẫy môi trường nằm ở [`docs/HANDOFF_CURRENT_STATE.vi.md`](docs/HANDOFF_CURRENT_STATE.vi.md); chi tiết từng việc nằm ở `docs/feature-plans/*.json`.
 
 ## Quy tắc cập nhật (bắt buộc với Agent)
@@ -28,7 +28,7 @@ Ký hiệu: ✅ xong · 🟡 làm một phần · ⬜ chưa làm · ⛔ bị ch�
 |---|---|---|
 | 0 | Repo sạch, Vercel, CI | ✅ |
 | 1 | Làm sạch Android release (manifest) | ✅ (chưa dựng AAB) |
-| 2 | Backend Singapore: SQL 2a ✅ 2b ✅; **2c: Owner đồng ý 04/11, nhưng gói đã đổi (33 tệp) → chờ duyệt lại hash v2**; deploy `account-delete` ✅ duyệt, làm sau 2c; Auth/SMTP ⛔; chặn chi phí AI 🟡 | ⛔ chờ Owner |
+| 2 | Backend Singapore: SQL 2a ✅ 2b ✅; **2c: Owner duyệt gói v2 ngày 08/11 → chờ Owner đọc dashboard + đăng nhập CLI**; deploy `account-delete` ✅ duyệt, làm sau 2c; Auth/SMTP ⛔; chặn chi phí AI 🟡 | ⛔ chờ Owner |
 | 3 | UI/UX trước closed test (Gói A + rà soát 30/10) | 🟡 phần lớn xong, xem mục 3 |
 | 4 | QA online + thiết bị + AAB đầu tiên | ⬜ chặn bởi GĐ 2 và biến EAS |
 | 5 | Play Console, Data safety, store listing | ⬜ Owner |
@@ -64,7 +64,8 @@ Bảng rà soát 30/10: **107 mục — 50 xong, 24 làm một phần, 33 chưa 
 
 ## 4. Đang chờ Owner (mỗi mục một quyết định)
 
-1. **Duyệt lại gói SQL v2** (33 migration, `9375e1fe…a0d5`, seed `702e581f…4cb9`) — [phiếu](docs/release/singapore-packet-v2-2026-11-04/README.vi.md). Chạy thử Docker 17/17 PASS ngày 04/11, dùng được tới 11/11. Sau đó: Owner đọc dashboard Singapore (≤ 24 giờ) và tự đăng nhập Supabase CLI.
+1. **Bước 2c — Owner đã đồng ý 08/11 (gói v2).** Việc của Owner trước 11/11 (hạn bản chạy thử): đọc dashboard Singapore và đăng nhập Supabase CLI theo [phiếu chạy 2c](docs/release/singapore-packet-v2-2026-11-04/RUN_2C.vi.md). Bộ kiểm đích: BLOCKED 0 lỗi, chỉ chờ thông tin dashboard, sổ cái đọc lại và tệp lời duyệt.
+   **Phương án môi trường (đề xuất 08/11, [phân tích](docs/release/BACKEND_ENVIRONMENT_STRATEGY_2026-11-08.vi.md)):** local Docker → Singapore làm staging rồi production; đóng băng QA cũ sau khi chuyển; nâng tổ chức Singapore lên Pro (~25 USD/tháng) trước khi mời người thử thật.
 2. Owner tự làm: gắn 3 biến `EXPO_PUBLIC_*` vào EAS production (đã đồng ý 04/11) → dựng AAB đầu tiên; tuyển ≥ 12 (nên 15–20) người thử.
 3. Duyệt bộ thiết kế Admin chi tiết (19 màn) — nhánh `docs/admin-screens-spec-2026-11-04` (chưa push) và canvas thiết kế.
 
@@ -78,7 +79,7 @@ Bảng rà soát 30/10: **107 mục — 50 xong, 24 làm một phần, 33 chưa 
 
 ## 5. Đã xong gần đây (31/10 – 04/11)
 
-04/11 (PR #31): skills được rà soát — `nilaza-plan-qc` 1.6.0, thêm `nilaza-ai-runtime`, skills cài cho cả Claude Code lẫn Codex ([đánh giá](docs/SKILLS_REVIEW_2026-11-04.vi.md)); thư mục `project-template/` để dùng cho dự án khác; gói SQL v2 chạy thử PASS.
+04/11 (PR #31): skills được rà soát — `nilaza-plan-qc` 1.6.0, thêm `nilaza-ai-runtime`, skills cài cho cả Claude Code lẫn Codex ([đánh giá](docs/SKILLS_REVIEW_2026-11-04.vi.md)); thư mục `project-template/` cho dự án khác (Owner đã chuyển ra khỏi repo 08/11); gói SQL v2 chạy thử PASS.
 
 
 PR #9–#30: Home "Hôm nay" (lá hôm nay, ghi chú, nhịp 30 ngày, Bước tiếp theo), chế độ khách, Tarot làm lại theo thiết kế (dock kết quả, Học lá, tên lá gốc + Việt), Nhật ký/Tôi/Đăng nhập theo thiết kế, Chiêm tinh (hub, Big 3, so sánh với người khác, Đọc sâu AI), Chat hub + Council (cuộn tới tin mới, báo cáo, 115), bộ lọc khủng hoảng chung, công tắc AI, Admin (xác nhận thao tác nguy hiểm, chặn trùng ID, môi trường), OpenRouter-only + DeepSeek/Xiaomi, sửa Tarot/Chiêm tinh AI theo live QA (bỏ JSON mode, chờ 60 s, chẩn đoán). Kiểm chứng: mobile 449/449 test, tsc (03/11, máy local).

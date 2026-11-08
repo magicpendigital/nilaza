@@ -1,5 +1,7 @@
 # Gói SQL Singapore v2 (04/11/2026) — xin duyệt lại mã hash trước khi chạy 2c
 
+> **08/11/2026: Owner đồng ý chạy 2c với gói v2.** Các bước tiếp theo: [RUN_2C.vi.md](RUN_2C.vi.md).
+
 Ngày 04/11 Owner đồng ý chạy bước 2c. Khi tính lại hash ngay trước khi chạy, **gói SQL đã khác bản duyệt 26/10** — đúng tình huống mà phiếu 2a ghi "hash khác thì lời duyệt tự hết hiệu lực". Tài liệu này xin **một quyết định**: duyệt bộ SQL mới dưới đây làm đích của 2c. Chưa có gì chạy trên cloud.
 
 ## Khác gì so với bản 26/10
