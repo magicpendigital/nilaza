@@ -16,7 +16,8 @@
     "PLAN.md",
     "docs/release/BACKEND_ENVIRONMENT_STRATEGY_2026-11-08.vi.md",
     "docs/release/singapore-packet-v2-2026-11-04/",
-    "project-template/"
+    "project-template/",
+    ".gitignore"
   ],
   "untouchedSurfaces": [
     "No SQL, CLI, deploy, secret or setting change on any project; 2c execution waits for the Owner's dashboard reads and CLI login.",
@@ -104,8 +105,9 @@
     "unresolvedHighRisks": []
   },
   "workingTreeReview": {
-    "note": "Documents were drafted before this record; project-template/ was deleted by the Owner, who moved it out of the project as planned.",
+    "note": "Documents were drafted before this record; project-template/ was deleted by the Owner, who moved it out of the project as planned. Supabase CLI link files (supabase/.temp/) were committed by mistake in 7ed0ba7; they hold no password and are removed from the index and ignored.",
     "paths": [
+      ".gitignore",
       "PLAN.md",
       "docs/release/BACKEND_ENVIRONMENT_STRATEGY_2026-11-08.vi.md",
       "docs/release/singapore-packet-v2-2026-11-04/README.vi.md",

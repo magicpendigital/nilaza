@@ -73,3 +73,6 @@ credentials.json
 /assets/tarot/**/*.png
 !/assets/tarot/deck-backs/*.png
 !/assets/tarot/deck-covers/*.png
+
+# Supabase CLI link state (local to each machine)
+supabase/.temp/
