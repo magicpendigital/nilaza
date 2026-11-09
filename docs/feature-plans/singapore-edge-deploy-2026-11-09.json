@@ -108,12 +108,13 @@
     "unresolvedHighRisks": []
   },
   "workingTreeReview": {
-    "note": "Run sheet drafted before this record; documents only.",
+    "note": "Run sheet drafted before this record; documents only. 09/11: added a read-only, content-free Tarot rejection diagnostic SQL for the Owner and extra diagnostics in the smoke script.",
     "paths": [
       "PLAN.md",
       "docs/release/singapore-edge-functions-2026-11-09/RUN_DEPLOY.vi.md",
       "docs/release/singapore-edge-functions-2026-11-09/deploy-receipt-2026-11-09.json",
-      "scripts/staging-smoke.mjs"
+      "scripts/staging-smoke.mjs",
+      "docs/release/singapore-edge-functions-2026-11-09/tarot-rejection-check.sql"
     ]
   },
   "validationCommands": [

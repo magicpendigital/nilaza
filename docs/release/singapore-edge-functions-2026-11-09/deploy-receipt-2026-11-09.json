@@ -147,9 +147,15 @@
     "heldFunctions": "404 for ai-daily-insight, ai-astrology-report, generate-today-pulse"
   },
   "notVerified": [
-    "An ES256-signed user access token passing the verify_jwt gateway (no user exists yet)",
-    "A first real model call through the new OpenRouter key",
+    "A Tarot AI answer that passes the output check on Singapore (first call fell back; cause being diagnosed)",
     "Owner-set OpenRouter credit limit and privacy settings (account side)"
   ],
-  "status": "PASS for deployment; end-to-end pending a test account"
+  "status": "PASS for deployment and signed-in gateway; Tarot AI answer quality pending",
+  "signedInSmoke": {
+    "date": "2026-11-09",
+    "tool": "scripts/staging-smoke.mjs (Owner machine, account magicpendigital@gmail.com created in Auth > Users)",
+    "signIn": "OK, access token alg ES256 (kid ce471694...)",
+    "gateway": "user-credits HTTP 200 in 2049 ms: verify_jwt accepts the ES256 user token, no --no-verify-jwt change needed",
+    "tarotAi": "HTTP 200 in 6 s; OpenRouter deepseek/deepseek-v4.1-flash answered but the reply failed the Tarot output check, so the user got the safe fallback text (sourceKind fallback). Rejection code pending: tarot-rejection-check.sql"
+  }
 }

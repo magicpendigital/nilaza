@@ -67,7 +67,11 @@ if (skipAi) {
   const model = body.model ?? {};
   if (model.provider || model.model) console.log(`   model: ${model.provider ?? ""} ${model.model ?? ""}${model.fallbackUsed ? " (dự phòng)" : ""}`.trimEnd());
   if (typeof body.summary === "string") console.log(`   trích: ${body.summary.replace(/\s+/g, " ").slice(0, 160)}…`);
-  if (!ok) console.log(`   chi tiết: ${JSON.stringify(body).slice(0, 300)}`);
+  if (!ok) {
+    const attempts = (model.attempts ?? []).map((a) => `${a.model ?? "?"}:${a.ok ? "ok" : a.code ?? "lỗi"}`).join(", ");
+    console.log(`   chẩn đoán: kiểm cấu trúc = ${body.provenance?.validationStatus ?? "?"} · token ra = ${model.outputTokens ?? "?"} · lượt gọi = ${attempts || "?"}`);
+    console.log("   (mã lý do chi tiết: chạy docs/release/singapore-edge-functions-2026-11-09/tarot-rejection-check.sql trong SQL Editor)");
+  }
 }
 
 await fetch(`${base}/auth/v1/logout`, { method: "POST", headers: { apikey: apiKey, Authorization: `Bearer ${token}` } }).catch(() => undefined);
