@@ -1,4 +1,4 @@
-import { checkTarotOutputText, parseTarotOutput, validateTarotOutput } from "../../../packages/ai-contracts/tarot-output.ts";
+import { checkTarotOutput, checkTarotOutputText, parseTarotOutput, validateTarotOutput } from "../../../packages/ai-contracts/tarot-output.ts";
 function assert(value: unknown) { if (!value) throw new Error("assertion failed"); }
 const output = { summary: "Reflection", reflection: "A question?", sections: [{ key: "theme", title: { en: "Theme" }, body: { en: "Symbolic interpretation" }, cardIds: ["major-00-fool"] }] };
 Deno.test("Tarot accepts only bounded complete JSON, not raw text or partial output", () => {
@@ -20,6 +20,15 @@ Deno.test("a plain-text section title or body counts as the requested locale (QA
   assert(parsed?.sections[0].title.vi === "Quá khứ · Six of Swords (Sáu Kiếm)" && parsed.sections[0].body.vi === "Một đoạn diễn giải.");
   assert(!validateTarotOutput({ ...plain, sections: [{ ...plain.sections[0], title: "x".repeat(181) }] }, "vi", ["major-00-fool"]));
   assert(!validateTarotOutput({ ...plain, sections: [{ ...plain.sections[0], title: 42 }] }, "vi", ["major-00-fool"]));
+});
+Deno.test("a missing or malformed section key becomes section_N; duplicate valid keys still fail (QA 2026-11-09)", () => {
+  const ids = ["major-00-fool"];
+  const body = { en: "Body" };
+  const odd = { ...output, sections: [{ key: "Thông điệp chính", title: { en: "A" }, body }, { title: { en: "B" }, body }, { key: 3, title: { en: "C" }, body }] };
+  const parsed = validateTarotOutput(odd, "en", ids);
+  assert(parsed?.sections.map(s => s.key).join(",") === "section_1,section_2,section_3");
+  assert(checkTarotOutput({ ...output, sections: [{ key: "a", title: { en: "A" }, body }, { key: "a", title: { en: "B" }, body }] }, "en", ids).reason === "section_key");
+  assert(checkTarotOutput({ ...output, sections: [{ key: "section_2", title: { en: "A" }, body }, { key: "bad key", title: { en: "B" }, body }] }, "en", ids).reason === "section_key");
 });
 Deno.test("Tarot rejects unknown references, duplicate sections, wrong locale and excess fields", () => {
   assert(!validateTarotOutput(output, "en", ["other-card"]));

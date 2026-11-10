@@ -28,7 +28,7 @@ Ký hiệu: ✅ xong · 🟡 làm một phần · ⬜ chưa làm · ⛔ bị ch�
 |---|---|---|
 | 0 | Repo sạch, Vercel, CI | ✅ |
 | 1 | Làm sạch Android release (manifest) | ✅ (chưa dựng AAB) |
-| 2 | Backend Singapore: SQL 2a ✅ 2b ✅ **2c ✅ 08/11** (33/33 migration + seed, kiểm sau áp 10/10, Security Advisor 0 lỗi — [biên nhận](docs/release/singapore-packet-v2-2026-11-04/execution-receipt-2026-11-08.json)); Edge Function + khóa ✅ 09/11 (18 hàm, gồm `account-delete`; đăng nhập thật ES256 qua cổng ✅; Tarot AI gọi được model nhưng câu trả lời bị bộ kiểm cấu trúc loại → đang chẩn đoán; còn trang web xóa dữ liệu + hộp thư + bật trong app ⬜), Auth/SMTP ⬜, chặn chi phí AI 🟡 | 🟡 |
+| 2 | Backend Singapore: SQL 2a ✅ 2b ✅ **2c ✅ 08/11** (33/33 migration + seed, kiểm sau áp 10/10, Security Advisor 0 lỗi — [biên nhận](docs/release/singapore-packet-v2-2026-11-04/execution-receipt-2026-11-08.json)); Edge Function + khóa ✅ 09/11 (18 hàm, gồm `account-delete`; đăng nhập thật ES256 qua cổng ✅; Tarot AI gọi được model nhưng bị loại vì model đặt sai mã mục (`section_key`) → đã sửa bộ kiểm trong code, **chờ Owner duyệt deploy lại `ai-tarot-reading`**; còn trang web xóa dữ liệu + hộp thư + bật trong app ⬜), Auth/SMTP ⬜, chặn chi phí AI 🟡 | 🟡 |
 | 3 | UI/UX trước closed test (Gói A + rà soát 30/10) | 🟡 phần lớn xong, xem mục 3 |
 | 4 | QA online + thiết bị + AAB đầu tiên | ⬜ chặn bởi GĐ 2 và biến EAS |
 | 5 | Play Console, Data safety, store listing | ⬜ Owner |

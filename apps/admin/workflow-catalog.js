@@ -412,7 +412,7 @@
   },
   {
     "path": "packages/ai-contracts/tarot-output.ts",
-    "sha256": "b0cdda127c45cdded1e8d7da047a221692cad5c79a0db781d76fb458808e03b8"
+    "sha256": "564186f7c367604d4edc52a102839d3435a21770fb332086ebd752112495dd0e"
   },
   {
     "path": "packages/ai-contracts/answer-provenance.ts",

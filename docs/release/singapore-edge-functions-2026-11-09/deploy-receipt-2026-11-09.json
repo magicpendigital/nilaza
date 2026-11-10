@@ -156,6 +156,6 @@
     "tool": "scripts/staging-smoke.mjs (Owner machine, account magicpendigital@gmail.com created in Auth > Users)",
     "signIn": "OK, access token alg ES256 (kid ce471694...)",
     "gateway": "user-credits HTTP 200 in 2049 ms: verify_jwt accepts the ES256 user token, no --no-verify-jwt change needed",
-    "tarotAi": "HTTP 200 in 6 s; OpenRouter deepseek/deepseek-v4.1-flash answered but the reply failed the Tarot output check, so the user got the safe fallback text (sourceKind fallback). Rejection code pending: tarot-rejection-check.sql"
+    "tarotAi": "HTTP 200 in 6 s; OpenRouter deepseek/deepseek-v4.1-flash answered but the reply failed the Tarot output check, so the user got the safe fallback text (sourceKind fallback). Trace (tarot-rejection-check.sql, 2026-11-10): finish_reason stop, 654 output tokens, validation rejected with code section_key. Fix: tarot-section-key-2026-11-10 (malformed keys become section_N); needs an Owner-approved redeploy of ai-tarot-reading."
   }
 }
