@@ -57,17 +57,17 @@
     {
       "path": "apps/mobile/src/features/council/useAiCouncilRoom.ts",
       "reason": "Toast-only errors; generic failure leaves the question in the thread; full history texts.",
-      "sha256": "d41c2940cd2c145ff18a6f2b263f32546f20e1f67c496ce191b567382e4f77a1"
+      "sha256": "ff9515b1e86da2f796a4fd75786c0b6eba240ca59b3a6364c4c489971aada157"
     },
     {
       "path": "apps/mobile/src/features/council/AiCouncilRoom.tsx",
       "reason": "Renders safetyNotice as a system bubble; place for the error.",
-      "sha256": "e391dcd2dc378593ab722f25d37638ae857825ab5efe92f17dc60eb966cdd7b4"
+      "sha256": "d544a9773d670f8b5cf7df8001d73672aade236d13156da129fc25e14c9a0466"
     },
     {
       "path": "apps/mobile/src/features/council/__tests__/useAiCouncilRoom.test.tsx",
       "reason": "Existing hook tests.",
-      "sha256": "baa3cdd1e0219ee2ef1aef893b41cbfae67d1576cf3aeae73a0f3514646d6498"
+      "sha256": "3decae5ef213d6a7dfd797048a62b8582bdece7c9b11609a124e9134c46cfa01"
     },
     {
       "path": "apps/mobile/src/features/tarot/TarotDrawStep.tsx",
