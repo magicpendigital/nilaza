@@ -97,7 +97,7 @@
     {
       "path": "packages/agent-config/account-tier-policy.json",
       "reason": "Astrology and Council limits.",
-      "sha256": "fab40347679029ddfb4b3749615f1ca950a70fe7571301668692c37680f962cb"
+      "sha256": "25067a5d627bb54eb3f2aef66382f36bc03d3ccf5efe0af93ef0be38eb8fc9c0"
     }
   ],
   "skillReview": [
