@@ -61,7 +61,7 @@
     {
       "path": "supabase/functions/_shared/model-router.ts",
       "reason": "Provider key names read by the router.",
-      "sha256": "24790b28e5c4fc05440596f5432125cb25810461c7b96043e681519ee0ff0260"
+      "sha256": "720958613ca7c9d63404592cfc2a0c35d70514d25364335e0dcf4ed019887ac3"
     },
     {
       "path": "supabase/functions/_shared/ai-trace.ts",

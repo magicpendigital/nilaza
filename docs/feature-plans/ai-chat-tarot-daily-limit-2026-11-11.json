@@ -61,7 +61,7 @@
     {
       "path": "supabase/functions/ai-tarot-reading/index.ts",
       "reason": "Sign-in guard, no limit; every attempt stores a reading with moderationStatus.",
-      "sha256": "44ed784349e1685eb61b0a2b9492e299740899e28c03eb749c8c8782f8995103"
+      "sha256": "c91b3730fd28a005e59716043a3bf46e17216e5c03ebafad52312e95713fc471"
     },
     {
       "path": "supabase/functions/ai-persona-chat/index.ts",

@@ -1232,7 +1232,7 @@
    "size": "S–M",
    "status": "partial",
    "pr": "PR #15",
-   "note": "Chat không còn dùng model :free; mọi tính năng đi qua OpenRouter. Chưa bật cờ không lưu dữ liệu (ZDR) cho Chat và Nhật ký."
+   "note": "Chat không còn dùng model :free; mọi tính năng đi qua OpenRouter. 11/11 (dự phòng LLM giai đoạn 0): mọi tính năng gửi cờ ZDR + không thu thập dữ liệu — code xong, chờ deploy lại các hàm AI."
   },
   {
    "id": "AI-07",

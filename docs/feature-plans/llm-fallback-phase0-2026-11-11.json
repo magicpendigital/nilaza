@@ -1,0 +1,164 @@
+{
+  "schemaVersion": 1,
+  "taskId": "llm-fallback-phase0-2026-11-11",
+  "ownerAgent": "ai_runtime_agent",
+  "lane": "AI runtime: LLM fallback phase 0 (OpenRouter only)",
+  "goal": "Phase 0 of docs/proposals/LLM_PROVIDERS_FALLBACK_2026-11-03.vi.md, approved by the Owner 04/11: privacy flags for every feature, a malformed answer tries the fallback model instead of going straight to the canned text, provider error codes kept for diagnosis, network errors told apart from timeouts, and the Gemini key moved out of the URL. No new key, no SQL.",
+  "successCriteria": [
+    "Every OpenRouter request carries provider { zdr: true, data_collection: 'deny' } (Astrology keeps require_parameters for its JSON schema). Both default models have ZDR endpoints in OpenRouter's public list (checked 11/11: deepseek-v4.1-flash 32 endpoints, mimo-v2.6-flash 4).",
+    "generateWithModelRoute accepts an optional acceptOutput check; when the primary answer fails it, the attempt is recorded as malformed_response with a content-free rejection code and the fallback model is tried once. The last candidate's answer is returned unchanged so the feature's own check still names the rejection.",
+    "Tarot passes its structure check as acceptOutput.",
+    "A provider error keeps OpenRouter's short error code and message (no metadata, which can echo flagged input), at most 160 characters, in the attempt and trace.",
+    "A thrown non-provider error is network_error unless it is a timeout (provider_timeout); both are retryable and fall back.",
+    "Gemini sends the key in the x-goog-api-key header, not the URL.",
+    "Deno tests cover each point; all AI functions pass deno check."
+  ],
+  "writeScope": [
+    "supabase/functions/_shared/model-router.ts",
+    "supabase/functions/_shared/model-provider.ts",
+    "supabase/functions/_shared/providers/openrouter.ts",
+    "supabase/functions/_shared/providers/gemini.ts",
+    "supabase/functions/_shared/model-provider.test.ts",
+    "supabase/functions/ai-tarot-reading/index.ts",
+    "apps/admin/workflow-catalog.js",
+    "docs/backlog/review-2026-10-30.json",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "No models[] in one OpenRouter request: the router already calls primary then fallback as separate traced attempts; packing both into one request would hide which model failed and how much each cost. Revisit in phase 1 with the circuit breaker.",
+    "No SQL, no new provider key, no Admin change.",
+    "No deploy: shared code reaches each AI function only when the Owner redeploys it."
+  ],
+  "impact": {
+    "entryPoint": "Shared model router used by every AI Edge Function.",
+    "dataWrite": "None beyond existing traces (new content-free fields).",
+    "backendContract": "Responses unchanged; Tarot may now come from the fallback model when the primary answer is malformed.",
+    "adminVisibility": "Trace attempts show the rejection code and provider error code; workflow catalog digests refreshed.",
+    "privacySafety": "OpenRouter routes only to zero-data-retention endpoints that do not collect data, for chat, Tarot, Daily and Council too. Gemini key no longer in a URL that could be logged.",
+    "observability": "network_error and provider error code separate failure kinds.",
+    "rollback": "Revert the commit and redeploy."
+  },
+  "canonicalContracts": [
+    "supabase/functions/_shared/model-router.ts generateWithModelRoute",
+    "docs/proposals/LLM_PROVIDERS_FALLBACK_2026-11-03.vi.md section 5 phase 0"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "AI runtime route.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/LLM_PROVIDERS_FALLBACK_2026-11-03.vi.md",
+      "reason": "Approved phase 0 scope.",
+      "sha256": "af435cd85373fb6f90ad667b7a1ed195992c77932fc25241f654f3e544d8f45d"
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "reason": "Two-candidate loop; validation happens after the router.",
+      "sha256": "24790b28e5c4fc05440596f5432125cb25810461c7b96043e681519ee0ff0260"
+    },
+    {
+      "path": "supabase/functions/_shared/model-provider.ts",
+      "reason": "providerErrorFromResponse drops the body.",
+      "sha256": "33e9847291b73c1b28f3523c9bf979d2f1e8f2455005783e8484011be89d3fd5"
+    },
+    {
+      "path": "supabase/functions/_shared/providers/openrouter.ts",
+      "reason": "ZDR only on Astrology; error body discarded.",
+      "sha256": "dd67ba1e426d1b997608acc72725af8323577804dea17b35533acf87033f76b0"
+    },
+    {
+      "path": "supabase/functions/_shared/providers/gemini.ts",
+      "reason": "API key placed in the request URL query.",
+      "sha256": "97f04d65c40e4b73515b45bda7716718dde567f9b871981b8f15b24048904833"
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/index.ts",
+      "reason": "Tarot structure check after the router.",
+      "sha256": "44ed784349e1685eb61b0a2b9492e299740899e28c03eb749c8c8782f8995103"
+    },
+    {
+      "path": "supabase/functions/_shared/model-provider.test.ts",
+      "reason": "Existing router and adapter tests.",
+      "sha256": "7be03568a41c77b087e7235f92f969658d82e9d28b3ee1a4db6e8af5aae6fd31"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before code; Owner approved phase 0 on 04/11; deploy left to the Owner."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Router, provider adapters, traces and fallback rules."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "OpenRouter provider routing flags zdr and data_collection, and the public ZDR endpoint list GET https://openrouter.ai/api/v1/endpoints/zdr read on 2026-11-11."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://openrouter.ai/api/v1/endpoints/zdr",
+      "checkedAt": "2026-11-11",
+      "reason": "deepseek/deepseek-v4.1-flash has 32 ZDR endpoints and xiaomi/mimo-v2.6-flash has 4, most active."
+    },
+    {
+      "url": "https://openrouter.ai/docs/features/provider-routing",
+      "checkedAt": "2026-11-03",
+      "reason": "provider.zdr and provider.data_collection restrict routing per request (cited in the approved proposal)."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No change to who can call; every AI function already requires sign-in.",
+    "sensitiveData": "Stricter: all features restricted to ZDR, no-data-collection endpoints. Provider error metadata (which can echo flagged input) is not kept.",
+    "secretsLogging": "Gemini key moved from URL to header; no secret read or logged.",
+    "externalInput": "Provider error message truncated to 160 characters and stored only in traces.",
+    "dependencies": "No package added or upgraded.",
+    "migrationRelease": "No SQL. Redeploy of AI functions needs Owner approval.",
+    "stopCondition": "Stop if a router test or deno check fails.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record passed preflight before the code edit (11/11). Then: ZDR for every OpenRouter route, provider error detail and network_error, acceptOutput in the router wired to the Tarot check, Gemini key header, tests, catalog digests, AI-06 backlog note and PLAN.md.",
+    "paths": [
+      "PLAN.md",
+      "apps/admin/workflow-catalog.js",
+      "docs/backlog/review-2026-10-30.json",
+      "supabase/functions/_shared/model-provider.test.ts",
+      "supabase/functions/_shared/model-provider.ts",
+      "supabase/functions/_shared/model-router.ts",
+      "supabase/functions/_shared/providers/gemini.ts",
+      "supabase/functions/_shared/providers/openrouter.ts",
+      "supabase/functions/ai-tarot-reading/index.ts"
+    ]
+  },
+  "validationCommands": [
+    "npx --yes deno@2 test supabase/functions/_shared/model-provider.test.ts supabase/functions/_shared/model-reasoning.test.ts supabase/functions/_shared/tarot-output.test.ts",
+    "npx --yes deno@2 check supabase/functions/ai-tarot-reading/index.ts supabase/functions/ai-persona-chat/index.ts supabase/functions/ai-council/index.ts supabase/functions/ai-daily-insight/index.ts supabase/functions/ai-astrology-insight/index.ts supabase/functions/ai-astrology-report/index.ts",
+    "node scripts/validate-admin-workflow-catalog.mjs",
+    "npm run feature:preflight -- --record docs/feature-plans/llm-fallback-phase0-2026-11-11.json"
+  ],
+  "managerTestPath": "After an approved redeploy: staging smoke test passes; a Tarot trace shows provider zdr in the request and, when the primary answer is malformed, a second attempt on the fallback model.",
+  "residualRisk": "If OpenRouter's ZDR endpoints for a model are all down, that model fails and the fallback is tried; if both fail the user gets the canned text. A malformed primary answer now costs a second model call (bounded by the existing two-attempt route).",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

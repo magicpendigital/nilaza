@@ -62,7 +62,7 @@
     {
       "path": "docs/backlog/review-2026-10-30.json",
       "reason": "AD-xx and AI-xx items referenced per screen.",
-      "sha256": "d8f27735afb74c8b1f5ea78b70f79f836df6bc4f0afe1d4bfbb625b36c9bf839"
+      "sha256": "9c0c13ceab42040fa5a605fe985eaaab00c5777e9187c0ba2488a8951184c2fa"
     },
     {
       "path": "apps/admin/feature-switches.js",
@@ -72,7 +72,7 @@
     {
       "path": "supabase/functions/_shared/model-router.ts",
       "reason": "Route fields and defaults.",
-      "sha256": "24790b28e5c4fc05440596f5432125cb25810461c7b96043e681519ee0ff0260"
+      "sha256": "720958613ca7c9d63404592cfc2a0c35d70514d25364335e0dcf4ed019887ac3"
     },
     {
       "path": "supabase/functions/_shared/persona-prompt-assembler.ts",

@@ -150,7 +150,10 @@ serve(async (req) => {
           })
         }
       ],
-      fallbackText: JSON.stringify({ summary, reflection })
+      fallbackText: JSON.stringify({ summary, reflection }),
+      // LLM phase 0: a malformed primary answer tries the fallback model once before the canned text.
+      acceptOutput: (text, finishReason) => isIncompleteAnswerFinishReason(finishReason)
+        ? "incomplete" : checkTarotOutputText(text, language, cards.map(card => card.id)).reason
     });
     finalizeTrace = generation.finalizeTrace;
     const outputCheck = generation.moderationStatus === "passed" && !isIncompleteAnswerFinishReason(generation.finishReason)

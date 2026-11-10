@@ -5,7 +5,8 @@ import {
   ModelProviderName,
   ModelProviderRequest,
   ModelRoute,
-  routeReasoning
+  routeReasoning,
+  thrownProviderError
 } from "./model-provider.ts";
 import { AiTraceContext, AiTraceSpan, createAiTrace, traceGenerationInput } from "./ai-trace.ts";
 import { oracleSafetySignal } from "../../../packages/ai-contracts/oracle-safety.mjs";
@@ -224,6 +225,12 @@ export async function generateWithModelRoute(input: {
   system: string;
   messages: ModelMessage[];
   fallbackText: string;
+  /**
+   * LLM phase 0: the feature's own structure check, run inside the router. It returns a content-free
+   * rejection code for an unusable answer; the fallback model is then tried once. The last candidate's
+   * answer is returned unchanged so the feature's own check still names the rejection.
+   */
+  acceptOutput?: (text: string, finishReason?: string) => string | undefined;
   /** The person's current message; when set, only it is checked with the shared safety policy, not the whole history. */
   safetyText?: string;
   supabase?: SupabaseLike | null;
@@ -437,6 +444,13 @@ export async function generateWithModelRoute(input: {
           safetyReason: outputSafety
         }, "blocked");
       }
+      const hasNext = candidates.indexOf(candidate) < candidates.length - 1;
+      const rejection = hasNext && route.fallbackWhen.includes("malformed_response")
+        ? input.acceptOutput?.(response.text, response.finishReason) : undefined;
+      if (rejection) {
+        attempts[attempts.length - 1] = { ...attempts[attempts.length - 1], ok: false, code: "malformed_response", detail: `output_check:${String(rejection).slice(0, 40)}` };
+        continue;
+      }
       return await finish({
         text: response.text,
         finishReason: response.finishReason,
@@ -454,12 +468,7 @@ export async function generateWithModelRoute(input: {
     } catch (error) {
       const providerError = error instanceof ModelProviderError
         ? error
-        : new ModelProviderError({
-            provider: candidate.provider,
-            code: "provider_timeout",
-            message: error instanceof Error ? error.message : "Provider request failed.",
-            retryable: true
-          });
+        : thrownProviderError(candidate.provider, error);
       const billingReceipt = candidate.provider === "openrouter"
         ? providerError.billingReceipt ?? readOpenRouterBillingReceipt(null, candidate.model)
         : undefined;
@@ -469,6 +478,7 @@ export async function generateWithModelRoute(input: {
         ok: false,
         code: providerError.code,
         status: providerError.status,
+        ...(providerError.providerDetail ? { detail: providerError.providerDetail } : {}),
         ...(billingReceipt ? { resolvedModel: billingReceipt.model, billingReceipt } : {})
       });
       providerSpan?.update({
@@ -483,6 +493,7 @@ export async function generateWithModelRoute(input: {
         output: {
           errorCode: providerError.code,
           status: providerError.status ?? null,
+          providerDetail: providerError.providerDetail ?? null,
           retryable: providerError.retryable,
           safetyBlocked: providerError.safetyBlocked
         }
