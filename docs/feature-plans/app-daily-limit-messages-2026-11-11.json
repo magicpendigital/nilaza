@@ -56,17 +56,17 @@
     {
       "path": "apps/mobile/src/backendClient.ts",
       "reason": "postJson surfaces only feature_paused for chat and nothing for Tarot.",
-      "sha256": "32b6047c2e46a944a58f59ba1f281951f8815b85ff28716782a7905166d41dad"
+      "sha256": "3e3463414c75cd436d928248e1bc9f10544561f7360e9ec8595160353dda8603"
     },
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Chat and Tarot handlers; premiumDailyTarotLimit 3.",
-      "sha256": "4acb6854d7cbdc9e070df503ad3988c05b5a22a3a7c68c1485d9c6edf28d4405"
+      "sha256": "1c91f4390dcb1c6c330c6013e325c01a196ea53c36ac7531e3041233e5ca05fa"
     },
     {
       "path": "apps/mobile/src/__tests__/backendClient.test.ts",
       "reason": "Existing client tests.",
-      "sha256": "a8427cea14fc85540625f532f33f0d9ccf70c0064f16a795f00219e41f9641a1"
+      "sha256": "0a5b9083a1a7a5dfbf5e0706b1ba1e822851fcefea22d87efc4ad93188f6af36"
     }
   ],
   "skillReview": [

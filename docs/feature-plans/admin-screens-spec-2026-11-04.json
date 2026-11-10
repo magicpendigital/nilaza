@@ -62,7 +62,7 @@
     {
       "path": "docs/backlog/review-2026-10-30.json",
       "reason": "AD-xx and AI-xx items referenced per screen.",
-      "sha256": "9c0c13ceab42040fa5a605fe985eaaab00c5777e9187c0ba2488a8951184c2fa"
+      "sha256": "38918a1408068e461ec9e616e31e65e9a2bf360ec90e7fe70ee019f05d74f3f6"
     },
     {
       "path": "apps/admin/feature-switches.js",
@@ -77,7 +77,7 @@
     {
       "path": "supabase/functions/_shared/persona-prompt-assembler.ts",
       "reason": "Persona prompt stack and user context sent today.",
-      "sha256": "90162e5b78aac16d6b2d211b39b19a954afd68a2d1901975ee633c031ec534d5"
+      "sha256": "22de06de144c350927622610ce7c7bc492d8e357ceab6d210d9c918f9226998c"
     },
     {
       "path": "supabase/functions/_shared/tarot-prompt.ts",

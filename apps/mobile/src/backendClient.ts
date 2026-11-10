@@ -140,6 +140,8 @@ export type PersonaReplyInput = {
   userContext: {
     goals: string[];
     tone: string;
+    /** CH-13 (Owner 2026-11-04): the chosen name, so the guide can address the person. */
+    nickname?: string;
     handoffContext?: ChatHandoffContext;
   };
 };

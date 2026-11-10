@@ -280,7 +280,7 @@
   },
   {
     "path": "apps/mobile/App.tsx",
-    "sha256": "4acb6854d7cbdc9e070df503ad3988c05b5a22a3a7c68c1485d9c6edf28d4405"
+    "sha256": "1c91f4390dcb1c6c330c6013e325c01a196ea53c36ac7531e3041233e5ca05fa"
   },
   {
     "path": "docs/FEATURE_PRD.md",
@@ -344,7 +344,7 @@
   },
   {
     "path": "supabase/functions/_shared/persona-prompt-assembler.ts",
-    "sha256": "90162e5b78aac16d6b2d211b39b19a954afd68a2d1901975ee633c031ec534d5"
+    "sha256": "22de06de144c350927622610ce7c7bc492d8e357ceab6d210d9c918f9226998c"
   },
   {
     "path": "supabase/functions/_shared/prompt-composition/compose.mjs",
@@ -384,7 +384,7 @@
   },
   {
     "path": "supabase/functions/ai-persona-chat/index.ts",
-    "sha256": "9001adcffd43ea69c3cf47ad10e34bf250c95caf977b9ec614fa49b86a9a7f31"
+    "sha256": "8349419190e69182484f48a27af69ec861c3c1d213fce56f6199edcee6e14183"
   },
   {
     "path": "supabase/functions/ai-tarot-reading/index.ts",

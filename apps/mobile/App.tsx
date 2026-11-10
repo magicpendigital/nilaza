@@ -5244,6 +5244,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
             userContext: {
               goals: profile.goals,
               tone: profile.tone,
+              ...(profile.nickname?.trim() ? { nickname: profile.nickname.trim().slice(0, 40) } : {}),
               handoffContext: chatHandoffContext
             }
           },
@@ -8582,7 +8583,7 @@ function ProfileScreen({
           profileReady: "Hồ sơ đã sẵn sàng",
           profileHint: "Tối ưu cách Nilaza xưng hô, gợi ý người dẫn đường, Tarot và Nhật ký.",
           displayName: "Tên hiển thị",
-          displayNameHint: "Tên này hiện trong lời chào trên trang Hôm nay. Nilaza không gửi tên này cho AI khi bạn trò chuyện.",
+          displayNameHint: "Tên này hiện trong lời chào trên trang Hôm nay và được gửi cho người dẫn đường khi bạn trò chuyện, để họ gọi bạn bằng tên. Để trống nếu bạn không muốn.",
           savedLocal: "Tự lưu trên thiết bị và đồng bộ khi có kết nối.",
           birthSection: "Hồ sơ ngày sinh",
           birthBody: "Dùng cho chiêm tinh khi bạn chủ động mở tính năng đó. Có thể để trống hoặc xóa riêng bất cứ lúc nào.",
@@ -8619,7 +8620,7 @@ function ProfileScreen({
           profileReady: "Profile is ready",
           profileHint: "Tune how Nilaza addresses you, suggests guides, tarot, and journal prompts.",
           displayName: "Display name",
-          displayNameHint: "Shown in the greeting on Today. Nilaza does not send this name to the AI when you chat.",
+          displayNameHint: "Shown in the greeting on Today and sent to your guide when you chat, so they can call you by name. Leave it empty if you prefer.",
           savedLocal: "Auto-saved on this device and synced when the backend is ready.",
           birthSection: "Birth profile",
           birthBody: "Used for astrology only when you choose to open that feature. You can leave it blank or clear it anytime.",

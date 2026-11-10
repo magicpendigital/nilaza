@@ -66,7 +66,7 @@
     {
       "path": "supabase/functions/ai-persona-chat/index.ts",
       "reason": "Sign-in guard and switch, no limit.",
-      "sha256": "9001adcffd43ea69c3cf47ad10e34bf250c95caf977b9ec614fa49b86a9a7f31"
+      "sha256": "8349419190e69182484f48a27af69ec861c3c1d213fce56f6199edcee6e14183"
     },
     {
       "path": "supabase/functions/_shared/daily-attempts.ts",
@@ -91,7 +91,7 @@
     {
       "path": "apps/mobile/src/backendClient.ts",
       "reason": "App falls back to local text on 429 for chat and Tarot.",
-      "sha256": "2cb3e57807fd01dc1511e57e30e3b2ecf6ddb6bbb9d3bf5e0c81fcb68b45f77d"
+      "sha256": "3e3463414c75cd436d928248e1bc9f10544561f7360e9ec8595160353dda8603"
     }
   ],
   "skillReview": [

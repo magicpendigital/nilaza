@@ -543,7 +543,7 @@
    "size": "S / M",
    "status": "partial",
    "pr": "PR #20",
-   "note": "Câu ở Hồ sơ nói đúng: tên chỉ hiện trong lời chào, không gửi cho AI. Gửi tên cho AI chờ Owner quyết."
+   "note": "11/11: gửi tên gọi cho người dẫn đường trong chat (Owner duyệt 04/11), làm sạch 1 dòng ≤ 40 ký tự; câu ở Hồ sơ sửa theo. Chờ deploy ai-persona-chat + bản AAB tới. Bộ nhớ có đồng ý: chưa làm."
   },
   {
    "id": "OR-02",

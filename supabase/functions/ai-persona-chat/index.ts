@@ -39,6 +39,7 @@ type PersonaInput = {
   userContext?: {
     goals?: string[];
     tone?: string;
+    nickname?: string;
     handoffContext?: unknown;
   };
 };
