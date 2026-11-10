@@ -66,11 +66,12 @@ Bảng rà soát 30/10: **107 mục — 50 xong, 24 làm một phần, 33 chưa 
 
 1. **Tiếp theo trên Singapore (mỗi việc một lần duyệt):** (a) ✅ **09/11: 18 Edge Function ACTIVE + khóa OpenRouter mới** ([biên nhận](docs/release/singapore-edge-functions-2026-11-09/deploy-receipt-2026-11-09.json)); gọi không đăng nhập đều bị từ chối. Chưa kiểm: phiên đăng nhập thật qua cổng (cần tài khoản thử) và lần gọi model đầu tiên; (b) deploy `account-delete`; (c) Auth/SMTP qua Resend rồi bật lại đăng ký; (d) chuyển Admin staging + EAS sang Singapore, đóng băng QA cũ; (e) nâng tổ chức lên Pro (~25 USD/tháng) trước khi mời người thử thật. [Phân tích phương án](docs/release/BACKEND_ENVIRONMENT_STRATEGY_2026-11-08.vi.md).
 2. Owner tự làm: gắn 3 biến `EXPO_PUBLIC_*` vào EAS production (đã đồng ý 04/11) → dựng AAB đầu tiên; tuyển ≥ 12 (nên 15–20) người thử.
-3. Duyệt bộ thiết kế Admin chi tiết (19 màn) — nhánh `docs/admin-screens-spec-2026-11-04` (chưa push) và canvas thiết kế.
+3. Bộ thiết kế Admin chi tiết (19 màn): PR #32 + [đặc tả](docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md) + canvas <https://claude.ai/artifact/JfSTk3fKJANL1T8Ptcxo9k>. Owner đã chốt 04/11: gộp Astrology report vào Đọc sâu; Daily bỏ toàn văn Nhật ký; tâm trạng chỉ dùng nếu ghi trong 24 giờ; dự phòng đắt hơn được, trần 0,02 USD/lượt; biên tập viên chỉ lưu nháp, Owner phát hành. Cổng phát hành theo mục 5.1 của đặc tả (duyệt 04/11): không bỏ qua lớp an toàn; chỉ Owner bỏ qua lớp chất lượng khi khôi phục hoặc sửa khẩn cấp, gắn nhãn "Chưa chấm" và chấm lại trong 24 giờ. **Còn chờ:** các con số độ dài (đội biên tập).
 
 ## 4b. Đã duyệt 04/11, đang chờ làm (lát cắt backend tiếp theo)
 
 - ✅ Bắt buộc đăng nhập + hạn mức 3 lần/ngày (Owner chốt 10/11) + công tắc cho `ai-daily-insight` và `ai-astrology-report` ([hồ sơ](docs/feature-plans/ai-daily-report-guard-2026-11-10.json)): **đã deploy Singapore 10/11**, đọc lại ACTIVE, gọi không đăng nhập trả 401 ([biên nhận](docs/release/singapore-edge-functions-2026-11-09/deploy-receipt-2026-11-09.json)). Chưa thử: lần gọi thứ 4 trong ngày bị chặn 429 trên app. Dòng công tắc cho 2 tính năng này cần một migration sau.
+- ⬜ Còn lại theo quyết định 04/11 (đặc tả PR #32): Daily bỏ toàn văn Nhật ký, chỉ gửi nhãn tâm trạng ghi trong 24 giờ; chuyển lối vào Astrology report sang Đọc sâu rồi tắt hàm cũ.
 - ⬜ Dự phòng LLM giai đoạn 0: `models[]` + ZDR cho mọi tính năng, kiểm định dạng trong bộ định tuyến, giữ nội dung lỗi, khóa Gemini sang header.
 - ⬜ Gửi tên gọi cho AI trong chat persona (CH-13); Tarot AI 1 lượt/ngày phía server và app.
 - ⬜ Đặt `magicpendigital@gmail.com` là Premium trên project đang chạy QA (một câu SQL — sẽ đưa lệnh để Owner xác nhận).
