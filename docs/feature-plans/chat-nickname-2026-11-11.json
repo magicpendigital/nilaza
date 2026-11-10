@@ -58,22 +58,22 @@
     {
       "path": "supabase/functions/_shared/persona-prompt-assembler.ts",
       "reason": "Allowed User Context carries only goals and tone.",
-      "sha256": "90162e5b78aac16d6b2d211b39b19a954afd68a2d1901975ee633c031ec534d5"
+      "sha256": "22de06de144c350927622610ce7c7bc492d8e357ceab6d210d9c918f9226998c"
     },
     {
       "path": "supabase/functions/ai-persona-chat/index.ts",
       "reason": "PersonaInput userContext type.",
-      "sha256": "9001adcffd43ea69c3cf47ad10e34bf250c95caf977b9ec614fa49b86a9a7f31"
+      "sha256": "8349419190e69182484f48a27af69ec861c3c1d213fce56f6199edcee6e14183"
     },
     {
       "path": "apps/mobile/src/backendClient.ts",
       "reason": "PersonaReplyInput userContext type.",
-      "sha256": "2cb3e57807fd01dc1511e57e30e3b2ecf6ddb6bbb9d3bf5e0c81fcb68b45f77d"
+      "sha256": "b6c09a5613a7d0d5b10fdb48178e110b340f5f1d8fc06ebc49dfa6d707c169de"
     },
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Chat send builds userContext; Profile displayNameHint says the name is not sent.",
-      "sha256": "7ad9f7d64bded08387a5bfdea9c8ce3c804df66bdbf12f284cf607cb3049bca8"
+      "sha256": "5affee2a2d0c8b536e2a0e1149cfcea8eb38b351c5e3eb6d3f2d836960b971cc"
     }
   ],
   "skillReview": [

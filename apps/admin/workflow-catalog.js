@@ -280,7 +280,7 @@
   },
   {
     "path": "apps/mobile/App.tsx",
-    "sha256": "1c91f4390dcb1c6c330c6013e325c01a196ea53c36ac7531e3041233e5ca05fa"
+    "sha256": "5affee2a2d0c8b536e2a0e1149cfcea8eb38b351c5e3eb6d3f2d836960b971cc"
   },
   {
     "path": "docs/FEATURE_PRD.md",
@@ -368,7 +368,7 @@
   },
   {
     "path": "supabase/functions/ai-daily-insight/index.ts",
-    "sha256": "91e597c003405f98419817991b8f2f59b196970550f1935377a9174898651a81"
+    "sha256": "60098ef5101ec7cf0979364217fe83e4c2dab1b91d74374248f48a5f22828c58"
   },
   {
     "path": "supabase/functions/ai-daily-zodiac-pulse/index.ts",

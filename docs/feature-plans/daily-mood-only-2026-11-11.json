@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "taskId": "daily-mood-only-2026-11-11",
+  "ownerAgent": "ai_runtime_agent",
+  "lane": "Daily Insight: send only a mood label from the last 24 hours, never journal text",
+  "goal": "Owner decision 04/11 (Admin screens spec, FeatureDaily and the recentMood context row): Daily Insight must not send journal titles or text to the model; it may send the mood label of the most recent journal entry only when that entry was written in the last 24 hours.",
+  "successCriteria": [
+    "The app sends recentMood (the latest entry's mood label, only if created within 24 hours) and no longer sends recentEntries.",
+    "The server sends the model recentMood only: from the new field, or for older app builds from recentEntries moods within 24 hours; journal titles are never forwarded. The label is one line, at most 32 characters.",
+    "The trace metadata records whether a mood was sent, not the entry count or titles.",
+    "Deno test for the mood helper passes; the function passes deno check; app tests and tsc pass."
+  ],
+  "writeScope": [
+    "supabase/functions/ai-daily-insight/index.ts",
+    "supabase/functions/_shared/daily-mood.ts",
+    "supabase/functions/_shared/daily-mood_test.ts",
+    "apps/mobile/src/backendClient.ts",
+    "apps/mobile/App.tsx",
+    "apps/admin/workflow-catalog.js",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "Daily Zodiac Pulse and the legacy Astrology report still send journal titles; tracked separately (Astrology report is to be folded into Deep read).",
+    "No SQL; prompt stays in code until the prompt_versions move."
+  ],
+  "impact": {
+    "entryPoint": "Home daily insight request in App.tsx and ai-daily-insight.",
+    "dataWrite": "No new writes; less personal data leaves the device.",
+    "backendContract": "Optional recentMood added; recentEntries still accepted but only moods within 24 hours are used.",
+    "adminVisibility": "Trace metadata shows moodSent true or false instead of recentEntryCount.",
+    "privacySafety": "Journal titles no longer reach the model provider for Daily Insight.",
+    "observability": "moodSent in trace metadata.",
+    "rollback": "Revert the commit and redeploy ai-daily-insight."
+  },
+  "canonicalContracts": [
+    "docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md recentMood row"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "AI runtime and mobile routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md",
+      "reason": "Owner decision 04/11: mood label within 24 hours only, no journal text.",
+      "sha256": "7eaf7aa64f6827ad96659b06ed7212ce667487f286ad50b717fc04d55c5c69ab"
+    },
+    {
+      "path": "supabase/functions/ai-daily-insight/index.ts",
+      "reason": "Forwards recentEntries titles to the model.",
+      "sha256": "91e597c003405f98419817991b8f2f59b196970550f1935377a9174898651a81"
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "reason": "DailyInsightInput carries recentEntries with titles.",
+      "sha256": "3e3463414c75cd436d928248e1bc9f10544561f7360e9ec8595160353dda8603"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Daily request sends the last 3 journal titles and moods.",
+      "sha256": "1c91f4390dcb1c6c330c6013e325c01a196ea53c36ac7531e3041233e5ca05fa"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before code; decision recorded in the merged Admin spec."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Context each function sends to a model is minimal and declared."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Repository code only."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No change; Daily Insight already requires sign-in and a daily limit.",
+    "sensitiveData": "Reduces data sent: journal titles removed; only a short mood label within 24 hours.",
+    "secretsLogging": "No secret read, written or logged.",
+    "externalInput": "Mood label bounded to one line of 32 characters.",
+    "dependencies": "No package added or upgraded.",
+    "migrationRelease": "No SQL. ai-daily-insight redeploy needs Owner approval; app part ships with the next AAB.",
+    "stopCondition": "Stop if a test, deno check or tsc fails.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record passed preflight before the code edit (11/11). Then: daily-mood helper and test, ai-daily-insight sends recentMood only and records moodSent, app sends recentMood within 24 hours, catalog digests, PLAN.md.",
+    "paths": [
+      "PLAN.md",
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/backendClient.ts",
+      "supabase/functions/_shared/daily-mood.ts",
+      "supabase/functions/_shared/daily-mood_test.ts",
+      "supabase/functions/ai-daily-insight/index.ts"
+    ]
+  },
+  "validationCommands": [
+    "npx --yes deno@2 test --allow-env supabase/functions/_shared/daily-mood_test.ts",
+    "npx --yes deno@2 check supabase/functions/ai-daily-insight/index.ts",
+    "npm run feature:preflight -- --record docs/feature-plans/daily-mood-only-2026-11-11.json"
+  ],
+  "managerTestPath": "A trace of Daily Insight shows moodSent and no journal titles in the request.",
+  "residualRisk": "A mood label is still personal; the privacy policy should list it.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

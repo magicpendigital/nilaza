@@ -6,6 +6,7 @@ import { AiRequestError, aiAuthUserOrUnavailable, guardAiJsonRequest } from "../
 import { featurePaused } from "../_shared/feature-switch.ts";
 import { claimDailyAttempt } from "../_shared/daily-attempts.ts";
 import { accountTierPolicy } from "../_shared/account-tier-policy.ts";
+import { recentMoodFor } from "../_shared/daily-mood.ts";
 
 type DailyInsightInput = {
   language?: "vi" | "en" | string;
@@ -16,8 +17,10 @@ type DailyInsightInput = {
     goals?: string[];
     tone?: string;
   };
+  /** Mood label of the latest journal entry within 24 hours (Owner 2026-11-04). */
+  recentMood?: string;
+  /** Older app builds; only moods within 24 hours are used, titles are never forwarded. */
   recentEntries?: Array<{
-    title?: string;
     mood?: string;
     createdAt?: string;
   }>;
@@ -69,6 +72,7 @@ serve(async (req) => {
     const dateKey = input.dateKey ?? new Date().toISOString().slice(0, 10);
     const rerollCount = input.rerollCount ?? 0;
     const nickname = input.profile?.nickname?.trim();
+    const recentMood = recentMoodFor(input);
 
     const title = language === "vi" ? "Nhịp soi chiếu hôm nay" : "Today's reflective pulse";
     const fallbackText =
@@ -91,7 +95,7 @@ serve(async (req) => {
           dateKey,
           rerollCount,
           goalCount: input.profile?.goals?.length ?? 0,
-          recentEntryCount: input.recentEntries?.length ?? 0,
+          moodSent: Boolean(recentMood),
           promptVersionId: "daily_insight_system"
         }
       },
@@ -111,7 +115,7 @@ serve(async (req) => {
             nickname: nickname ?? null,
             goals: input.profile?.goals ?? [],
             tone: input.profile?.tone ?? null,
-            recentEntries: input.recentEntries ?? []
+            recentMood: recentMood ?? null
           })
         }
       ],
@@ -138,7 +142,7 @@ serve(async (req) => {
             rerollCount,
             goals: input.profile?.goals ?? [],
             tone: input.profile?.tone ?? null,
-            recentEntryCount: input.recentEntries?.length ?? 0,
+            moodSent: Boolean(recentMood),
             promptVersionId: "daily_insight_system",
             model: sanitizeProviderMetadata(generation)
           }

@@ -4123,11 +4123,11 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
           goals: profile.goals,
           tone: profile.tone
         },
-        recentEntries: journalEntries.slice(0, 3).map((entry) => ({
-          title: entry.title,
-          mood: entry.mood,
-          createdAt: entry.createdAt
-        }))
+        // Owner 2026-11-04: only a mood label written in the last 24 hours, never journal text.
+        ...(() => {
+          const latest = journalEntries.find((entry) => entry.mood && Date.now() - Date.parse(entry.createdAt) <= 24 * 60 * 60 * 1000);
+          return latest?.mood ? { recentMood: latest.mood.slice(0, 32) } : {};
+        })()
       },
       () => buildDailyInsight(profile, journalEntries, language, rerollCount),
       backendOptions

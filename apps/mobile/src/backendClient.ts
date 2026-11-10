@@ -102,7 +102,8 @@ export type DailyInsightInput = {
   dateKey: string;
   rerollCount: number;
   profile: Pick<Profile, "nickname" | "goals" | "tone">;
-  recentEntries: Array<Pick<JournalEntry, "title" | "mood" | "createdAt">>;
+  /** Owner 2026-11-04: only the latest mood label written in the last 24 hours; never journal text. */
+  recentMood?: string;
 };
 
 export type DailyZodiacPulseInput = {
