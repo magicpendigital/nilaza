@@ -8,11 +8,14 @@
     "deno check passes for the 18 wave-1 functions.",
     "RUN_DEPLOY.vi.md lists the 18 functions, the held functions with reasons, the secrets (OPENROUTER_API_KEY new and limited, AI_TRACE_ENVIRONMENT=staging), the deploy command, checks and rollback.",
     "No secret value appears in the repository or chat.",
-    "PLAN.md points to the run sheet."
+    "PLAN.md points to the run sheet.",
+    "After the Owner's deploy: 18 functions ACTIVE with verify_jwt on, the two Owner secrets present by name, calls without sign-in rejected and held functions absent (receipt deploy-receipt-2026-11-09.json).",
+    "scripts/staging-smoke.mjs lets the Owner sign in on their own machine (hidden password, nothing printed or saved), then checks the verify_jwt gateway with the project's ES256 token via user-credits and one real Tarot AI call; --skip-ai avoids model cost."
   ],
   "writeScope": [
     "PLAN.md",
-    "docs/release/singapore-edge-functions-2026-11-09/"
+    "docs/release/singapore-edge-functions-2026-11-09/",
+    "scripts/staging-smoke.mjs"
   ],
   "untouchedSurfaces": [
     "No function code change; ai-daily-insight and ai-astrology-report wait for the approved auth and quota patch.",
@@ -97,7 +100,7 @@
   "securityReview": {
     "authzRls": "Functions verify the user inside and rely on RLS; two functions without auth are held.",
     "sensitiveData": "No user data exists on Singapore yet.",
-    "secretsLogging": "Secrets are typed by the Owner in the dashboard; only names are documented.",
+    "secretsLogging": "Secrets are typed by the Owner in the dashboard; only names are documented. The smoke script reads the password from a hidden prompt, never prints the access token, and signs out at the end; only the public publishable key is in the file.",
     "externalInput": "No new input surface beyond existing functions.",
     "dependencies": "No package or dependency is added or upgraded.",
     "migrationRelease": "Deploy is Owner-run; no SQL.",
@@ -105,15 +108,19 @@
     "unresolvedHighRisks": []
   },
   "workingTreeReview": {
-    "note": "Run sheet drafted before this record; documents only.",
+    "note": "Run sheet drafted before this record; documents only. 09/11: added a read-only, content-free Tarot rejection diagnostic SQL for the Owner and extra diagnostics in the smoke script.",
     "paths": [
+      "PLAN.md",
       "docs/release/singapore-edge-functions-2026-11-09/RUN_DEPLOY.vi.md",
-      "PLAN.md"
+      "docs/release/singapore-edge-functions-2026-11-09/deploy-receipt-2026-11-09.json",
+      "scripts/staging-smoke.mjs",
+      "docs/release/singapore-edge-functions-2026-11-09/tarot-rejection-check.sql"
     ]
   },
   "validationCommands": [
     "npx --yes deno@2 check supabase/functions/profile-upsert/index.ts supabase/functions/journal-entries/index.ts supabase/functions/user-credits/index.ts supabase/functions/ai-persona-chat/index.ts supabase/functions/ai-tarot-reading/index.ts supabase/functions/ai-council/index.ts supabase/functions/ai-astrology-insight/index.ts supabase/functions/ai-feedback/index.ts supabase/functions/ai-daily-zodiac-pulse/index.ts supabase/functions/ai-oracle-turn/index.ts supabase/functions/notification-inbox/index.ts supabase/functions/notification-preferences/index.ts supabase/functions/notification-register-device/index.ts supabase/functions/account-delete/index.ts supabase/functions/admin-ai-council-config/index.ts supabase/functions/admin-model-router-config/index.ts supabase/functions/admin-astrology-prompt-config/index.ts supabase/functions/admin-documentation/index.ts",
-    "npm run feature:preflight -- --record docs/feature-plans/singapore-edge-deploy-2026-11-09.json"
+    "npm run feature:preflight -- --record docs/feature-plans/singapore-edge-deploy-2026-11-09.json",
+    "node --check scripts/staging-smoke.mjs"
   ],
   "managerTestPath": "Open RUN_DEPLOY.vi.md, set the two secrets, run the deploy command, send the output.",
   "residualRisk": "verify_jwt acceptance of ES256 user tokens and injection of legacy key variables are verified only after deployment.",

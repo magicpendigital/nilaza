@@ -7,6 +7,8 @@ export type TierPolicy = {
   trialHours: number;
   astrologyAi: { dailyLimit: number; dayOffsetMinutes: number };
   council?: { dailyCouncils: number; followUpsPerCouncil: number };
+  dailyInsight?: { dailyLimit: number };
+  astrologyPreview?: { dailyLimit: number };
 };
 
 export const accountTierPolicy = policy as TierPolicy;

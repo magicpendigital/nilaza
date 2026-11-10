@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "kind": "nilaza-singapore-edge-deploy-receipt",
+  "target": {
+    "projectRef": "etfajmrwyywokgafzxsb",
+    "kind": "staging"
+  },
+  "deployedAt": "2026-11-08T17:2xZ (Owner, CLI 2.108.0, functions deploy --use-api)",
+  "sourceCommit": "9898ab4",
+  "functions": [
+    {
+      "slug": "profile-upsert",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "journal-entries",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "user-credits",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "account-delete",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "ai-persona-chat",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "ai-tarot-reading",
+      "status": "ACTIVE",
+      "version": 2,
+      "verifyJwt": true,
+      "note": "Redeployed 2026-11-10 by the Owner from commit 2fc5843 (section key fix); read back with supabase functions list: ACTIVE, verify_jwt true."
+    },
+    {
+      "slug": "ai-council",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "ai-astrology-insight",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "ai-oracle-turn",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "ai-daily-zodiac-pulse",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "ai-feedback",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "notification-inbox",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "notification-preferences",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "notification-register-device",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "admin-ai-council-config",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "admin-model-router-config",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "admin-astrology-prompt-config",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "admin-documentation",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    }
+  ],
+  "held": [
+    "ai-daily-insight",
+    "ai-astrology-report",
+    "generate-today-pulse",
+    "group-chat-orchestrator",
+    "marketing-waitlist",
+    "admin-ai-trace-qa-payload",
+    "notification-dispatch",
+    "notification-receipts",
+    "notification-send-test"
+  ],
+  "secretsPresentByName": [
+    "OPENROUTER_API_KEY",
+    "AI_TRACE_ENVIRONMENT",
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY",
+    "SUPABASE_DB_URL",
+    "SUPABASE_JWKS",
+    "SUPABASE_PUBLISHABLE_KEYS",
+    "SUPABASE_SECRET_KEYS"
+  ],
+  "secretsNote": "Read with supabase secrets list (names and digests only); no value was read or recorded.",
+  "probes": {
+    "date": "2026-11-09",
+    "noAuthorizationHeader": "401 UNAUTHORIZED_NO_AUTH_HEADER from the gateway for all 7 probed functions",
+    "publishableKeyOnly": "function-level 401 authentication_required for persona chat, tarot, astrology insight, user-credits, account-delete, admin router; ai-council returns 400 input validation first and requires sign-in before any data or model access (source lines 384-385)",
+    "heldFunctions": "404 for ai-daily-insight, ai-astrology-report, generate-today-pulse"
+  },
+  "notVerified": [
+    "Owner-set OpenRouter credit limit and privacy settings (account side)"
+  ],
+  "status": "PASS: deployment, signed-in gateway and a validated Tarot AI answer",
+  "signedInSmoke": {
+    "date": "2026-11-09",
+    "tool": "scripts/staging-smoke.mjs (Owner machine, account magicpendigital@gmail.com created in Auth > Users)",
+    "signIn": "OK, access token alg ES256 (kid ce471694...)",
+    "gateway": "user-credits HTTP 200 in 2049 ms: verify_jwt accepts the ES256 user token, no --no-verify-jwt change needed",
+    "tarotAi": "HTTP 200 in 6 s; OpenRouter deepseek/deepseek-v4.1-flash answered but the reply failed the Tarot output check, so the user got the safe fallback text (sourceKind fallback). Trace (tarot-rejection-check.sql, 2026-11-10): finish_reason stop, 654 output tokens, validation rejected with code section_key. Fix: tarot-section-key-2026-11-10 (malformed keys become section_N); needs an Owner-approved redeploy of ai-tarot-reading."
+  },
+  "signedInSmokeAfterFix": {
+    "date": "2026-11-10",
+    "signIn": "OK ES256",
+    "gateway": "user-credits HTTP 200 (1510 ms)",
+    "tarotAi": "HTTP 200 in 7 s, sourceKind ai, moderation passed, openrouter deepseek/deepseek-v4.1-flash, Vietnamese reading with the card displayName as specified",
+    "result": "PASS"
+  }
+}

@@ -2,6 +2,10 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.7.1";
 import * as Astronomy from "https://esm.sh/astronomy-engine@2.1.19";
 import { generateWithModelRoute } from "../_shared/model-router.ts";
+import { AiRequestError, aiAuthUserOrUnavailable, guardAiJsonRequest } from "../_shared/ai-request-guard.ts";
+import { featurePaused } from "../_shared/feature-switch.ts";
+import { claimDailyAttempt } from "../_shared/daily-attempts.ts";
+import { accountTierPolicy } from "../_shared/account-tier-policy.ts";
 import { compactLines, safeJsonParse, sanitizeProviderMetadata } from "../_shared/model-provider.ts";
 
 type Language = "vi" | "en";
@@ -421,9 +425,33 @@ serve(async (req) => {
   if (req.method !== "POST") return jsonResponse({ error: "Method not allowed" }, 405);
 
   try {
-    const input = (await req.json()) as AstrologyInput;
+    // Sign-in, switch and daily limit come before reading the body or calling a model (decision 2026-11-04; limit 2026-11-10).
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY");
+    const authHeader = req.headers.get("Authorization") ?? "";
+    const supabase = supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey, {
+      global: { headers: { Authorization: authHeader } },
+      auth: { persistSession: false, autoRefreshToken: false }
+    }) : null;
+    const { input: requestInput, userId } = await guardAiJsonRequest(req, {
+      configured: Boolean(supabase),
+      authenticate: async (token) => {
+        if (!supabase) return null;
+        const { data, error } = await supabase.auth.getUser(token);
+        return aiAuthUserOrUnavailable(data?.user, error);
+      }
+    });
+    if (!supabase) return jsonResponse({ error: "ai_unavailable" }, 503);
+    const input = requestInput as AstrologyInput;
     const birthProfile = input.birthProfile ?? {};
     if (!birthProfile.birthDate) return jsonResponse({ error: "birthProfile.birthDate is required" }, 400);
+    if (await featurePaused(supabase as never, "astrology_report")) return jsonResponse({ error: "feature_paused" }, 503);
+    const attempt = await claimDailyAttempt(supabase as never, {
+      userId, eventName: "astrology_report_attempted", feature: "astrology",
+      limit: accountTierPolicy.astrologyPreview?.dailyLimit ?? 3
+    });
+    if (attempt === "limit_reached") return jsonResponse({ error: "daily_limit_reached" }, 429);
+    if (attempt === "unavailable") return jsonResponse({ error: "usage_check_unavailable" }, 503);
 
     const { language, focus, chart, caveats } = buildChart(input);
     const fallbackInterpretation = buildInterpretation(chart, language, focus);
@@ -442,24 +470,9 @@ serve(async (req) => {
       language
     });
 
-    const supabaseUrl = Deno.env.get("SUPABASE_URL");
-    const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY");
-    const authHeader = req.headers.get("Authorization");
     let persistenceStatus = "skipped";
     let remoteId: string | undefined;
     let birthProfileId: string | undefined;
-    let userId: string | undefined;
-    const supabase = supabaseUrl && supabaseAnonKey && authHeader
-      ? createClient(supabaseUrl, supabaseAnonKey, {
-          global: { headers: { Authorization: authHeader } }
-        })
-      : null;
-    if (supabase && authHeader) {
-      const accessToken = authHeader.replace(/^Bearer\s+/i, "");
-      const { data: userData, error: userError } = await supabase.auth.getUser(accessToken);
-      if (!userError && userData.user) userId = userData.user.id;
-      else persistenceStatus = "auth_error";
-    }
     const generation = await generateWithModelRoute({
       feature: "astrology_report",
       supabase,
@@ -590,8 +603,6 @@ serve(async (req) => {
         });
         persistenceStatus = reportError ? "report_error" : "stored";
         remoteId = report?.id;
-    } else if (supabase && !userId) {
-      persistenceStatus = "auth_error";
     }
 
     return jsonResponse({
@@ -608,6 +619,7 @@ serve(async (req) => {
       persistenceStatus
     });
   } catch (error) {
-    return jsonResponse({ error: error instanceof Error ? error.message : "Unknown error" }, 400);
+    if (error instanceof AiRequestError) return jsonResponse({ error: error.code }, error.status);
+    return jsonResponse({ error: "service_unavailable" }, 503);
   }
 });

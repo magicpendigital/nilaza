@@ -2,6 +2,10 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.7.1";
 import { generateWithModelRoute } from "../_shared/model-router.ts";
 import { compactLines, sanitizeProviderMetadata } from "../_shared/model-provider.ts";
+import { AiRequestError, aiAuthUserOrUnavailable, guardAiJsonRequest } from "../_shared/ai-request-guard.ts";
+import { featurePaused } from "../_shared/feature-switch.ts";
+import { claimDailyAttempt } from "../_shared/daily-attempts.ts";
+import { accountTierPolicy } from "../_shared/account-tier-policy.ts";
 
 type DailyInsightInput = {
   language?: "vi" | "en" | string;
@@ -36,7 +40,31 @@ serve(async (req) => {
   if (req.method !== "POST") return jsonResponse({ error: "Method not allowed" }, 405);
 
   try {
-    const input = (await req.json()) as DailyInsightInput;
+    // Sign-in, switch and daily limit come before reading the body or calling a model (decision 2026-11-04; limit 2026-11-10).
+    const supabaseUrl = Deno.env.get("SUPABASE_URL");
+    const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY");
+    const authHeader = req.headers.get("Authorization") ?? "";
+    const supabase = supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey, {
+      global: { headers: { Authorization: authHeader } },
+      auth: { persistSession: false, autoRefreshToken: false }
+    }) : null;
+    const { input: requestInput, userId } = await guardAiJsonRequest(req, {
+      configured: Boolean(supabase),
+      authenticate: async (token) => {
+        if (!supabase) return null;
+        const { data, error } = await supabase.auth.getUser(token);
+        return aiAuthUserOrUnavailable(data?.user, error);
+      }
+    });
+    if (!supabase) return jsonResponse({ error: "ai_unavailable" }, 503);
+    if (await featurePaused(supabase as never, "daily_insight")) return jsonResponse({ error: "feature_paused" }, 503);
+    const attempt = await claimDailyAttempt(supabase as never, {
+      userId, eventName: "daily_insight_attempted", feature: "daily_insight",
+      limit: accountTierPolicy.dailyInsight?.dailyLimit ?? 3
+    });
+    if (attempt === "limit_reached") return jsonResponse({ error: "daily_limit_reached" }, 429);
+    if (attempt === "unavailable") return jsonResponse({ error: "usage_check_unavailable" }, 503);
+    const input = requestInput as DailyInsightInput;
     const language = input.language ?? "vi";
     const dateKey = input.dateKey ?? new Date().toISOString().slice(0, 10);
     const rerollCount = input.rerollCount ?? 0;
@@ -52,22 +80,7 @@ serve(async (req) => {
         ? "Một điều nhỏ nào sẽ giúp mình thấy rõ hơn trong hôm nay?"
         : "What small action would help me see more clearly today?";
 
-    const supabaseUrl = Deno.env.get("SUPABASE_URL");
-    const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY");
-    const authHeader = req.headers.get("Authorization");
     let persistenceStatus = "skipped";
-    let userId: string | undefined;
-    const supabase = supabaseUrl && supabaseAnonKey && authHeader
-      ? createClient(supabaseUrl, supabaseAnonKey, {
-          global: { headers: { Authorization: authHeader } }
-        })
-      : null;
-    if (supabase && authHeader) {
-      const accessToken = authHeader.replace(/^Bearer\s+/i, "");
-      const { data: userData, error: userError } = await supabase.auth.getUser(accessToken);
-      if (!userError && userData.user) userId = userData.user.id;
-      else persistenceStatus = "auth_error";
-    }
     const generation = await generateWithModelRoute({
       feature: "daily_insight",
       supabase,
@@ -131,8 +144,6 @@ serve(async (req) => {
           }
         });
         persistenceStatus = usageError ? "usage_error" : "stored";
-    } else if (supabase && !userId) {
-      persistenceStatus = "auth_error";
     }
 
     return jsonResponse({
@@ -148,6 +159,7 @@ serve(async (req) => {
       persistenceStatus
     });
   } catch (error) {
-    return jsonResponse({ error: error instanceof Error ? error.message : "Unknown error" }, 400);
+    if (error instanceof AiRequestError) return jsonResponse({ error: error.code }, error.status);
+    return jsonResponse({ error: "service_unavailable" }, 503);
   }
 });

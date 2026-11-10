@@ -32,16 +32,20 @@ export function checkTarotOutput(value: unknown, locale: "vi" | "en", selectedCa
   if (!Array.isArray(v.sections) || v.sections.length < 1 || v.sections.length > 16) return { reason: "sections" };
   const seen = new Set<string>();
   const sections: TarotOutput["sections"] = [];
-  for (const item of v.sections) {
+  for (const [index, item] of v.sections.entries()) {
     const s = record(item);
     if (!s || Object.keys(s).some(k => !["key", "title", "body", "cardIds"].includes(k))) return { reason: "section_shape" };
-    if (typeof s.key !== "string" || !/^[a-zA-Z][a-zA-Z0-9_-]{0,63}$/.test(s.key) || seen.has(s.key)) return { reason: "section_key" };
-    seen.add(s.key);
+    // QA 2026-11-09 (Singapore trace code "section_key"): models sometimes write a localized or spaced key.
+    // The key is internal and never displayed, so a malformed one becomes section_N (position only, no model text);
+    // a duplicate valid key is still rejected.
+    const key = typeof s.key === "string" && /^[a-zA-Z][a-zA-Z0-9_-]{0,63}$/.test(s.key) ? s.key : `section_${index + 1}`;
+    if (seen.has(key)) return { reason: "section_key" };
+    seen.add(key);
     const title = localized(s.title, locale, 180), body = localized(s.body, locale, 6000);
     if (!title) return { reason: "title" };
     if (!body) return { reason: "body" };
     if (s.cardIds !== undefined && (!Array.isArray(s.cardIds) || s.cardIds.length > selectedCardIds.length || new Set(s.cardIds).size !== s.cardIds.length || s.cardIds.some(id => typeof id !== "string" || !selectedCardIds.includes(id)))) return { reason: "card_ids" };
-    sections.push({ key: s.key, title, body, ...(Array.isArray(s.cardIds) ? { cardIds: s.cardIds as string[] } : {}) });
+    sections.push({ key, title, body, ...(Array.isArray(s.cardIds) ? { cardIds: s.cardIds as string[] } : {}) });
   }
   return { output: { summary: v.summary.trim(), reflection: v.reflection.trim(), sections } };
 }

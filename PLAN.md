@@ -28,7 +28,7 @@ Ký hiệu: ✅ xong · 🟡 làm một phần · ⬜ chưa làm · ⛔ bị ch�
 |---|---|---|
 | 0 | Repo sạch, Vercel, CI | ✅ |
 | 1 | Làm sạch Android release (manifest) | ✅ (chưa dựng AAB) |
-| 2 | Backend Singapore: SQL 2a ✅ 2b ✅ **2c ✅ 08/11** (33/33 migration + seed, kiểm sau áp 10/10, Security Advisor 0 lỗi — [biên nhận](docs/release/singapore-packet-v2-2026-11-04/execution-receipt-2026-11-08.json)); tiếp: Edge Function + khóa ⬜, `account-delete` ⬜, Auth/SMTP ⬜, chặn chi phí AI 🟡 | 🟡 |
+| 2 | Backend Singapore: SQL 2a ✅ 2b ✅ **2c ✅ 08/11** (33/33 migration + seed, kiểm sau áp 10/10, Security Advisor 0 lỗi — [biên nhận](docs/release/singapore-packet-v2-2026-11-04/execution-receipt-2026-11-08.json)); Edge Function + khóa ✅ 09/11 (18 hàm, gồm `account-delete`; đăng nhập thật ES256 qua cổng ✅; Tarot AI gọi được model nhưng bị loại vì model đặt sai mã mục (`section_key`) → đã sửa bộ kiểm, deploy lại `ai-tarot-reading` v2 ✅ 10/11, smoke test ĐẠT 10/11 (Tarot AI trả lời thật, qua bộ kiểm); còn trang web xóa dữ liệu + hộp thư + bật trong app ⬜), Auth/SMTP ⬜, chặn chi phí AI 🟡 | 🟡 |
 | 3 | UI/UX trước closed test (Gói A + rà soát 30/10) | 🟡 phần lớn xong, xem mục 3 |
 | 4 | QA online + thiết bị + AAB đầu tiên | ⬜ chặn bởi GĐ 2 và biến EAS |
 | 5 | Play Console, Data safety, store listing | ⬜ Owner |
@@ -64,13 +64,13 @@ Bảng rà soát 30/10: **107 mục — 50 xong, 24 làm một phần, 33 chưa 
 
 ## 4. Đang chờ Owner (mỗi mục một quyết định)
 
-1. **Tiếp theo trên Singapore (mỗi việc một lần duyệt):** (a) **đang làm:** deploy 18 Edge Function + đặt khóa OpenRouter mới — [phiếu deploy](docs/release/singapore-edge-functions-2026-11-09/RUN_DEPLOY.vi.md) (Owner đặt khóa trên dashboard rồi chạy lệnh); (b) deploy `account-delete`; (c) Auth/SMTP qua Resend rồi bật lại đăng ký; (d) chuyển Admin staging + EAS sang Singapore, đóng băng QA cũ; (e) nâng tổ chức lên Pro (~25 USD/tháng) trước khi mời người thử thật. [Phân tích phương án](docs/release/BACKEND_ENVIRONMENT_STRATEGY_2026-11-08.vi.md).
+1. **Tiếp theo trên Singapore (mỗi việc một lần duyệt):** (a) ✅ **09/11: 18 Edge Function ACTIVE + khóa OpenRouter mới** ([biên nhận](docs/release/singapore-edge-functions-2026-11-09/deploy-receipt-2026-11-09.json)); gọi không đăng nhập đều bị từ chối. Chưa kiểm: phiên đăng nhập thật qua cổng (cần tài khoản thử) và lần gọi model đầu tiên; (b) deploy `account-delete`; (c) Auth/SMTP qua Resend rồi bật lại đăng ký; (d) chuyển Admin staging + EAS sang Singapore, đóng băng QA cũ; (e) nâng tổ chức lên Pro (~25 USD/tháng) trước khi mời người thử thật. [Phân tích phương án](docs/release/BACKEND_ENVIRONMENT_STRATEGY_2026-11-08.vi.md).
 2. Owner tự làm: gắn 3 biến `EXPO_PUBLIC_*` vào EAS production (đã đồng ý 04/11) → dựng AAB đầu tiên; tuyển ≥ 12 (nên 15–20) người thử.
 3. Bộ thiết kế Admin chi tiết (19 màn): PR #32 + [đặc tả](docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md) + canvas <https://claude.ai/artifact/JfSTk3fKJANL1T8Ptcxo9k>. Owner đã chốt 04/11: gộp Astrology report vào Đọc sâu; Daily bỏ toàn văn Nhật ký; tâm trạng chỉ dùng nếu ghi trong 24 giờ; dự phòng đắt hơn được, trần 0,02 USD/lượt; biên tập viên chỉ lưu nháp, Owner phát hành. Cổng phát hành theo mục 5.1 của đặc tả (duyệt 04/11): không bỏ qua lớp an toàn; chỉ Owner bỏ qua lớp chất lượng khi khôi phục hoặc sửa khẩn cấp, gắn nhãn "Chưa chấm" và chấm lại trong 24 giờ. **Còn chờ:** các con số độ dài (đội biên tập).
 
 ## 4b. Đã duyệt 04/11, đang chờ làm (lát cắt backend tiếp theo)
 
-- ⬜ Bắt buộc đăng nhập + hạn mức + công tắc cho `ai-daily-insight` (bỏ toàn văn Nhật ký, chỉ nhãn tâm trạng 24 giờ); tắt `ai-astrology-report` và chuyển lối vào sang Đọc sâu (code, rồi xin deploy).
+- 🟡 Bắt buộc đăng nhập + hạn mức 3 lần/ngày (Owner chốt 10/11) + công tắc cho `ai-daily-insight` và `ai-astrology-report`: code xong 10/11 ([hồ sơ](docs/feature-plans/ai-daily-report-guard-2026-11-10.json)), **chờ Owner duyệt deploy lên Singapore**; dòng công tắc cho 2 tính năng này cần một migration sau. Còn lại theo quyết định 04/11 (đặc tả PR #32): Daily bỏ toàn văn Nhật ký, chỉ gửi nhãn tâm trạng ghi trong 24 giờ; chuyển lối vào Astrology report sang Đọc sâu rồi tắt hàm cũ.
 - ⬜ Dự phòng LLM giai đoạn 0: `models[]` + ZDR cho mọi tính năng, kiểm định dạng trong bộ định tuyến, giữ nội dung lỗi, khóa Gemini sang header.
 - ⬜ Gửi tên gọi cho AI trong chat persona (CH-13); Tarot AI 1 lượt/ngày phía server và app.
 - ⬜ Đặt `magicpendigital@gmail.com` là Premium trên project đang chạy QA (một câu SQL — sẽ đưa lệnh để Owner xác nhận).
