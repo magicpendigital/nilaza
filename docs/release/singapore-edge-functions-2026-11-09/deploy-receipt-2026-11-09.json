@@ -41,8 +41,9 @@
     {
       "slug": "ai-tarot-reading",
       "status": "ACTIVE",
-      "version": 1,
-      "verifyJwt": true
+      "version": 2,
+      "verifyJwt": true,
+      "note": "Redeployed 2026-11-10 by the Owner from commit 2fc5843 (section key fix); read back with supabase functions list: ACTIVE, verify_jwt true."
     },
     {
       "slug": "ai-council",
