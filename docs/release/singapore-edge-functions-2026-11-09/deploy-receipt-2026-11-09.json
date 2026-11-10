@@ -119,8 +119,6 @@
     }
   ],
   "held": [
-    "ai-daily-insight",
-    "ai-astrology-report",
     "generate-today-pulse",
     "group-chat-orchestrator",
     "marketing-waitlist",
@@ -164,5 +162,14 @@
     "gateway": "user-credits HTTP 200 (1510 ms)",
     "tarotAi": "HTTP 200 in 7 s, sourceKind ai, moderation passed, openrouter deepseek/deepseek-v4.1-flash, Vietnamese reading with the card displayName as specified",
     "result": "PASS"
+  },
+  "guardedDeploy": {
+    "date": "2026-11-10",
+    "record": "docs/feature-plans/ai-daily-report-guard-2026-11-10.json",
+    "commit": "9273744",
+    "deployedBy": "Owner (npx supabase functions deploy --use-api); ai-astrology-report needed two retries after the bundler timed out fetching esm.sh supabase-js (network, not code)",
+    "readBack": "supabase functions list: ai-daily-insight v1 ACTIVE verify_jwt true; ai-astrology-report v1 ACTIVE verify_jwt true",
+    "probes": "no Authorization header: gateway 401 UNAUTHORIZED_NO_AUTH_HEADER for both; publishable key only: function-level 401 authentication_required for both (guard runs before body or model)",
+    "notVerified": "signed-in 4th call of the local day returning 429 daily_limit_reached and the app showing its local text; switch rows for daily_insight and astrology_report need a later migration"
   }
 }

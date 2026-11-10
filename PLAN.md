@@ -58,7 +58,7 @@ Bảng rà soát 30/10: **107 mục — 50 xong, 24 làm một phần, 33 chưa 
 - 🟡 AD-10 công tắc AI (thiếu Tarot, Daily) · AD-26/27.
 
 ### AI / backend — đề xuất: [`docs/proposals/LLM_PROVIDERS_FALLBACK_2026-11-03.vi.md`](docs/proposals/LLM_PROVIDERS_FALLBACK_2026-11-03.vi.md)
-- ⛔ **Ưu tiên chi phí/an toàn:** `ai-daily-insight` và `ai-astrology-report` không bắt đăng nhập, không hạn mức; Chat persona và Tarot AI không có hạn mức phía server (AI-02).
+- ⛔ **Ưu tiên chi phí/an toàn:** ~~`ai-daily-insight` và `ai-astrology-report` không bắt đăng nhập, không hạn mức~~ (đã sửa và deploy 10/11, xem 4b); Chat persona và Tarot AI không có hạn mức phía server (AI-02).
 - ⬜ AI-10 Astrology report và Đọc sâu dùng chung route khác hợp đồng · AI-06 cờ không lưu dữ liệu (ZDR) chỉ có ở Chiêm tinh · AI-05 mục tiêu/giọng ghép thẳng vào system prompt · AI-03 Owner không sửa được prompt Tarot/Persona · AI-07 không chấm điểm trước khi publish · AI-04, 09, 12, 13, 15, 17, 18.
 - ⬜ Dự phòng nhiều nhà cung cấp: Giai đoạn 0 (chỉ OpenRouter: `models[]`, ZDR, kiểm định dạng trong bộ định tuyến) → 1 → 2 → 3.
 
@@ -70,7 +70,8 @@ Bảng rà soát 30/10: **107 mục — 50 xong, 24 làm một phần, 33 chưa 
 
 ## 4b. Đã duyệt 04/11, đang chờ làm (lát cắt backend tiếp theo)
 
-- 🟡 Bắt buộc đăng nhập + hạn mức 3 lần/ngày (Owner chốt 10/11) + công tắc cho `ai-daily-insight` và `ai-astrology-report`: code xong 10/11 ([hồ sơ](docs/feature-plans/ai-daily-report-guard-2026-11-10.json)), **chờ Owner duyệt deploy lên Singapore**; dòng công tắc cho 2 tính năng này cần một migration sau. Còn lại theo quyết định 04/11 (đặc tả PR #32): Daily bỏ toàn văn Nhật ký, chỉ gửi nhãn tâm trạng ghi trong 24 giờ; chuyển lối vào Astrology report sang Đọc sâu rồi tắt hàm cũ.
+- ✅ Bắt buộc đăng nhập + hạn mức 3 lần/ngày (Owner chốt 10/11) + công tắc cho `ai-daily-insight` và `ai-astrology-report` ([hồ sơ](docs/feature-plans/ai-daily-report-guard-2026-11-10.json)): **đã deploy Singapore 10/11**, đọc lại ACTIVE, gọi không đăng nhập trả 401 ([biên nhận](docs/release/singapore-edge-functions-2026-11-09/deploy-receipt-2026-11-09.json)). Chưa thử: lần gọi thứ 4 trong ngày bị chặn 429 trên app. Dòng công tắc cho 2 tính năng này cần một migration sau.
+- ⬜ Còn lại theo quyết định 04/11 (đặc tả PR #32): Daily bỏ toàn văn Nhật ký, chỉ gửi nhãn tâm trạng ghi trong 24 giờ; chuyển lối vào Astrology report sang Đọc sâu rồi tắt hàm cũ.
 - ⬜ Dự phòng LLM giai đoạn 0: `models[]` + ZDR cho mọi tính năng, kiểm định dạng trong bộ định tuyến, giữ nội dung lỗi, khóa Gemini sang header.
 - ⬜ Gửi tên gọi cho AI trong chat persona (CH-13); Tarot AI 1 lượt/ngày phía server và app.
 - ⬜ Đặt `magicpendigital@gmail.com` là Premium trên project đang chạy QA (một câu SQL — sẽ đưa lệnh để Owner xác nhận).
