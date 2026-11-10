@@ -1,5 +1,6 @@
-// daily_insight and astrology_report have no switch row until a later migration, so they read as on.
-export type SwitchedFeature = "ai_council" | "persona_chat" | "astrology_insight" | "daily_insight" | "astrology_report";
+// tarot_reading, daily_insight and astrology_report get their rows from migration 20261111090000;
+// until it is applied they have no row and read as on.
+export type SwitchedFeature = "ai_council" | "persona_chat" | "astrology_insight" | "tarot_reading" | "daily_insight" | "astrology_report";
 
 type SwitchReader = {
   from: (table: string) => {

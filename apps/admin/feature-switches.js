@@ -5,7 +5,10 @@
   const features = {
     ai_council: "Hội đồng 3 góc nhìn / AI Council",
     persona_chat: "Trò chuyện với người dẫn đường / Guide chat",
-    astrology_insight: "Đọc sâu với AI (Chiêm tinh) / Astrology deep read"
+    astrology_insight: "Đọc sâu với AI (Chiêm tinh) / Astrology deep read",
+    tarot_reading: "Diễn giải Tarot bằng AI / Tarot AI reading",
+    daily_insight: "Thông điệp hằng ngày / Daily insight",
+    astrology_report: "Lá số tóm tắt (bản cũ) / Astrology preview (legacy)"
   };
   const initialTransport = { target: window.NilazaAdminTransportTarget || "", url: window.ENV?.SUPABASE_URL || "", key: window.ENV?.SUPABASE_ANON_KEY || "" };
   let invalidated = false, active = null, epoch = 0;

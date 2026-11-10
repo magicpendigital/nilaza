@@ -985,7 +985,7 @@
    "size": "M",
    "status": "partial",
    "pr": "PR #14",
-   "note": "Mục Công tắc AI trong AI Studio (Council, Chat, Đọc sâu Chiêm tinh), bắt buộc lý do, ghi nhật ký. Chờ gói SQL Singapore."
+   "note": "Mục Công tắc AI trong AI Studio (Council, Chat, Đọc sâu Chiêm tinh), bắt buộc lý do, ghi nhật ký; áp lên Singapore 08/11. 11/11: migration 20261111090000 thêm Tarot AI, Daily, Lá số tóm tắt (chạy thử PGlite), Tarot AI đọc công tắc — chờ Owner áp + deploy."
   },
   {
    "id": "AD-11",

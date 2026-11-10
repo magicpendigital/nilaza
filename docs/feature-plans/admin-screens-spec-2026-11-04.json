@@ -62,12 +62,12 @@
     {
       "path": "docs/backlog/review-2026-10-30.json",
       "reason": "AD-xx and AI-xx items referenced per screen.",
-      "sha256": "38918a1408068e461ec9e616e31e65e9a2bf360ec90e7fe70ee019f05d74f3f6"
+      "sha256": "a7c494123b39bc5c5f29a08d169a9eea90a8b1431503d10762cd79198b55b6fc"
     },
     {
       "path": "apps/admin/feature-switches.js",
       "reason": "Existing switch RPCs and fields.",
-      "sha256": "af8698b5d94f89b3a20a7069dcdb9dd18a59115baf15147169020b8952ed6812"
+      "sha256": "1d3ad4b5e179339d99b8cb3276b89c3f78c5e50c81b1841139e1d003c59597d5"
     },
     {
       "path": "supabase/functions/_shared/model-router.ts",

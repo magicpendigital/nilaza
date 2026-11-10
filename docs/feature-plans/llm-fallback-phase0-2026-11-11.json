@@ -89,7 +89,7 @@
     {
       "path": "supabase/functions/ai-tarot-reading/index.ts",
       "reason": "Tarot structure check after the router.",
-      "sha256": "c91b3730fd28a005e59716043a3bf46e17216e5c03ebafad52312e95713fc471"
+      "sha256": "05d72fc17fda0a9c536f7169afc3f899004e73f4482b7510b83f567863735ba3"
     },
     {
       "path": "supabase/functions/_shared/model-provider.test.ts",

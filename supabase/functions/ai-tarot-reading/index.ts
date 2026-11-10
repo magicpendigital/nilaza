@@ -10,6 +10,7 @@ import { answerProvenanceSchema, isIncompleteAnswerFinishReason, type AnswerProv
 import { checkTarotOutputText, tarotOutputSchema } from "../../../packages/ai-contracts/tarot-output.ts";
 import { writeAnswerReceipt } from "../_shared/answer-receipt.ts";
 import { claimDailyAttempt } from "../_shared/daily-attempts.ts";
+import { featurePaused, featurePausedBody } from "../_shared/feature-switch.ts";
 import { localDayStart, tarotDailyLimits } from "../_shared/account-tier-policy.ts";
 
 type LocalizedText = {
@@ -81,6 +82,8 @@ serve(async (req) => {
     if (!supabase) return jsonResponse({ error: "ai_unavailable" }, 503);
     let input;
     try { input = prepareTarotContext(requestInput); } catch { throw new AiRequestError(400, "invalid_tarot_input"); }
+    // Emergency switch from Admin (AD-10), checked before the limit and any model work.
+    if (await featurePaused(supabase as never, "tarot_reading")) return jsonResponse(featurePausedBody, 503);
     // AI-02 (Owner 2026-11-04): one delivered AI reading per local day; failed attempts capped. Checked before any model work.
     const tarotLimits = tarotDailyLimits();
     const { count: deliveredToday, error: deliveredError } = await supabase.from("tarot_readings")

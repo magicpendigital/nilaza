@@ -55,7 +55,7 @@ Bảng rà soát 30/10: **107 mục — 50 xong, 24 làm một phần, 33 chưa 
 ### Admin — đề xuất: [`docs/proposals/ADMIN_REDESIGN_2026-11-03.vi.md`](docs/proposals/ADMIN_REDESIGN_2026-11-03.vi.md)
 - ⬜ Nghiêm trọng: AD-01 publish 1 mục đẩy toàn bộ · AD-03/06 nháp và bản publish đè nhau · AD-05 nội dung sửa ở Admin không tới AI · AD-07 không có khôi phục · AD-08 không upload ảnh · AD-09 nháp AI Studio không lưu · AD-11 chỉ prompt Chiêm tinh publish được.
 - ⬜ AD-14/15, 17/18, 19, 20, 21, 23, 24/25, 28–31 (quyền, lưu, xem trước, audit, ngôn ngữ, hộp phản hồi, điều hướng).
-- 🟡 AD-10 công tắc AI (thiếu Tarot, Daily) · AD-26/27.
+- 🟡 AD-10 công tắc AI: Tarot, Daily, Lá số tóm tắt có migration 11/11, chờ áp · AD-26/27.
 
 ### AI / backend — đề xuất: [`docs/proposals/LLM_PROVIDERS_FALLBACK_2026-11-03.vi.md`](docs/proposals/LLM_PROVIDERS_FALLBACK_2026-11-03.vi.md)
 - ⛔ **Ưu tiên chi phí/an toàn:** ~~`ai-daily-insight` và `ai-astrology-report` không bắt đăng nhập, không hạn mức~~ (đã sửa và deploy 10/11, xem 4b); ~~Chat persona và Tarot AI không có hạn mức phía server~~ (đã deploy 11/11 — xem 4b) (AI-02).
@@ -70,7 +70,7 @@ Bảng rà soát 30/10: **107 mục — 50 xong, 24 làm một phần, 33 chưa 
 
 ## 4b. Đã duyệt 04/11, đang chờ làm (lát cắt backend tiếp theo)
 
-- ✅ Bắt buộc đăng nhập + hạn mức 3 lần/ngày (Owner chốt 10/11) + công tắc cho `ai-daily-insight` và `ai-astrology-report` ([hồ sơ](docs/feature-plans/ai-daily-report-guard-2026-11-10.json)): **đã deploy Singapore 10/11**, đọc lại ACTIVE, gọi không đăng nhập trả 401 ([biên nhận](docs/release/singapore-edge-functions-2026-11-09/deploy-receipt-2026-11-09.json)). Chưa thử: lần gọi thứ 4 trong ngày bị chặn 429 trên app. Dòng công tắc cho 2 tính năng này cần một migration sau.
+- ✅ Bắt buộc đăng nhập + hạn mức 3 lần/ngày (Owner chốt 10/11) + công tắc cho `ai-daily-insight` và `ai-astrology-report` ([hồ sơ](docs/feature-plans/ai-daily-report-guard-2026-11-10.json)): **đã deploy Singapore 10/11**, đọc lại ACTIVE, gọi không đăng nhập trả 401 ([biên nhận](docs/release/singapore-edge-functions-2026-11-09/deploy-receipt-2026-11-09.json)). Chưa thử: lần gọi thứ 4 trong ngày bị chặn 429 trên app. Dòng công tắc: migration `20261111090000` chờ áp.
 - 🟡 Daily chỉ gửi nhãn tâm trạng ghi trong 24 giờ, không gửi tiêu đề/lời Nhật ký ([hồ sơ](docs/feature-plans/daily-mood-only-2026-11-11.json)): code + test xong 11/11, **chờ deploy `ai-daily-insight`** và bản AAB tới.
 - ⬜ Chuyển lối vào Astrology report sang Đọc sâu rồi tắt hàm cũ (đặc tả PR #32).
 - 🟡 Dự phòng LLM giai đoạn 0 ([hồ sơ](docs/feature-plans/llm-fallback-phase0-2026-11-11.json)): ZDR + không thu thập dữ liệu cho mọi tính năng (cả 2 model mặc định có endpoint ZDR, kiểm 11/11); Tarot trả sai định dạng thì thử model dự phòng 1 lần; giữ mã lỗi nhà cung cấp; tách lỗi mạng khỏi hết giờ; khóa Gemini sang header. Code + 36 test xong 11/11, **chờ Owner deploy lại các hàm AI**. Không dùng `models[]` trong 1 yêu cầu (bộ định tuyến đã gọi chính → dự phòng tách riêng, dễ truy vết) — xem lại ở giai đoạn 1.
@@ -78,7 +78,7 @@ Bảng rà soát 30/10: **107 mục — 50 xong, 24 làm một phần, 33 chưa 
 - 🟡 Gửi tên gọi cho AI trong chat persona (CH-13, [hồ sơ](docs/feature-plans/chat-nickname-2026-11-11.json)): code + test xong 11/11, câu ở Hồ sơ đã sửa; **chờ deploy `ai-persona-chat`** và bản AAB tới. Data safety/chính sách riêng tư cần ghi "tên gọi gửi cho nhà cung cấp AI".
 - ⬜ Đặt `magicpendigital@gmail.com` là Premium trên project đang chạy QA (một câu SQL — sẽ đưa lệnh để Owner xác nhận).
 - ⬜ Deploy `account-delete` + trang web xóa dữ liệu + hộp thư hỗ trợ (2c đã xong 08/11 — có thể làm).
-- ⬜ Security Advisor (08/11): chuyển extension `vector` khỏi schema `public` bằng một migration nhỏ, chạy thử local trước. Hai cảnh báo hàm SECURITY DEFINER của công tắc AI được chấp nhận (hàm tự kiểm quyền `ai.read`/`ai.manage`).
+- 🟡 Migration chờ Owner áp lên Singapore ([hồ sơ](docs/feature-plans/switches-vector-migration-2026-11-11.json)): `20261111090000` thêm công tắc cho Tarot AI, Daily, Lá số tóm tắt (Admin thấy 6 công tắc; Tarot AI giờ tôn trọng công tắc) và `20261111090100` chuyển extension `vector` sang schema `extensions` (cảnh báo Security Advisor 08/11). Đã chạy thử trên PGlite (Postgres 17) 11/11 — chưa chạy trên Supabase. Hai cảnh báo hàm SECURITY DEFINER của công tắc AI được chấp nhận (hàm tự kiểm quyền `ai.read`/`ai.manage`).
 
 ## 5. Đã xong gần đây (31/10 – 08/11)
 

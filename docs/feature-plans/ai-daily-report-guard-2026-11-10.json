@@ -78,7 +78,7 @@
     {
       "path": "supabase/functions/_shared/feature-switch.ts",
       "reason": "Switch reader; missing row means on.",
-      "sha256": "a9cb5daf046bf02b985e2554bf4d3dd98b2dd51bc245f5f71b768c5b3314b254"
+      "sha256": "5887ba96354ec90753267ebb4525f54d22b8febdc8f0bc979d8da87eae36e914"
     },
     {
       "path": "supabase/functions/_shared/account-tier-policy.ts",
