@@ -171,5 +171,14 @@
     "readBack": "supabase functions list: ai-daily-insight v1 ACTIVE verify_jwt true; ai-astrology-report v1 ACTIVE verify_jwt true",
     "probes": "no Authorization header: gateway 401 UNAUTHORIZED_NO_AUTH_HEADER for both; publishable key only: function-level 401 authentication_required for both (guard runs before body or model)",
     "notVerified": "signed-in 4th call of the local day returning 429 daily_limit_reached and the app showing its local text; switch rows for daily_insight and astrology_report need a later migration"
+  },
+  "chatTarotLimitDeploy": {
+    "date": "2026-11-11",
+    "record": "docs/feature-plans/ai-chat-tarot-daily-limit-2026-11-11.json",
+    "commit": "140e44b",
+    "deployedBy": "Owner (npx supabase functions deploy --use-api)",
+    "readBack": "supabase functions list: ai-persona-chat v2 ACTIVE verify_jwt true; ai-tarot-reading v3 ACTIVE verify_jwt true",
+    "probes": "no Authorization header: gateway 401 UNAUTHORIZED_NO_AUTH_HEADER for both; publishable key only: function-level 401 authentication_required for both",
+    "notVerified": "signed in: 6th chat message and a second Tarot AI reading after a delivered one returning 429 daily_limit_reached; the app still shows local text on 429"
   }
 }

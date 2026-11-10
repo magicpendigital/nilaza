@@ -1180,7 +1180,7 @@
    "size": "M–L",
    "status": "partial",
    "pr": "PR #10–#16, #31",
-   "note": "Đăng nhập + hạn mức cho Chiêm tinh AI và Council; mọi model gọi qua OpenRouter; giới hạn 40 giây; hạn mức token và suy nghĩ ẩn chỉnh trong Admin, có chặn khi không đủ chỗ trả lời. 10/11: Daily Insight và Chiêm tinh bản cũ bắt đăng nhập + 3 lần/ngày (đã deploy Singapore). 11/11: hạn mức phía server cho Chat persona (5 tin/ngày) và Tarot AI (1 bài đạt/ngày, tối đa 3 lần thử) — code xong, chờ deploy. Chưa có trần chi phí theo ngày và danh sách model cho phép."
+   "note": "Đăng nhập + hạn mức cho Chiêm tinh AI và Council; mọi model gọi qua OpenRouter; giới hạn 40 giây; hạn mức token và suy nghĩ ẩn chỉnh trong Admin, có chặn khi không đủ chỗ trả lời. 10/11: Daily Insight và Chiêm tinh bản cũ bắt đăng nhập + 3 lần/ngày (đã deploy Singapore). 11/11: hạn mức phía server cho Chat persona (5 tin/ngày) và Tarot AI (1 bài đạt/ngày, tối đa 3 lần thử) — đã deploy Singapore 11/11. Chưa có trần chi phí theo ngày và danh sách model cho phép."
   },
   {
    "id": "AI-03",
