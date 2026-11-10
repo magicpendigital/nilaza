@@ -3,9 +3,9 @@
 select
   r.created_at,
   r.status                                              as run_status,
-  r.root_output ->> 'stage'                             as stage,
-  r.root_output ->> 'validationStatus'                  as validation_status,
-  r.root_output -> 'rejection' ->> 'code'               as rejection_code,
+  r.root_output -> 'finalization' ->> 'stage'                           as stage,
+  r.root_output -> 'finalization' ->> 'validationStatus'                as validation_status,
+  r.root_output -> 'finalization' -> 'rejection' ->> 'code'             as rejection_code,
   g.status                                              as model_span_status,
   g.attributes ->> 'finishReason'                       as finish_reason,
   g.attributes ->> 'resolved_model'                     as resolved_model,
