@@ -360,7 +360,7 @@
   },
   {
     "path": "supabase/functions/ai-astrology-report/index.ts",
-    "sha256": "ff1b2b2b82df74b833886e7119620c58212f2cb4d7e65269b86beb3d9e14a5ff"
+    "sha256": "8172b832f8e27af5c1af4580f50cc7f222d5cef7db237f325b4c7d3f78cddf16"
   },
   {
     "path": "supabase/functions/ai-council/index.ts",
@@ -368,7 +368,7 @@
   },
   {
     "path": "supabase/functions/ai-daily-insight/index.ts",
-    "sha256": "a36a2a186044d7adf28723258f9067b212e4010a5d09d8647a3e02fbff568dce"
+    "sha256": "91e597c003405f98419817991b8f2f59b196970550f1935377a9174898651a81"
   },
   {
     "path": "supabase/functions/ai-daily-zodiac-pulse/index.ts",

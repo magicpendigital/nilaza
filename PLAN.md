@@ -70,7 +70,7 @@ Bảng rà soát 30/10: **107 mục — 50 xong, 24 làm một phần, 33 chưa 
 
 ## 4b. Đã duyệt 04/11, đang chờ làm (lát cắt backend tiếp theo)
 
-- ⬜ Bắt buộc đăng nhập + hạn mức + công tắc cho `ai-daily-insight` và `ai-astrology-report` (code, rồi xin deploy).
+- 🟡 Bắt buộc đăng nhập + hạn mức 3 lần/ngày (Owner chốt 10/11) + công tắc cho `ai-daily-insight` và `ai-astrology-report`: code xong 10/11 ([hồ sơ](docs/feature-plans/ai-daily-report-guard-2026-11-10.json)), **chờ Owner duyệt deploy lên Singapore**; dòng công tắc cho 2 tính năng này cần một migration sau.
 - ⬜ Dự phòng LLM giai đoạn 0: `models[]` + ZDR cho mọi tính năng, kiểm định dạng trong bộ định tuyến, giữ nội dung lỗi, khóa Gemini sang header.
 - ⬜ Gửi tên gọi cho AI trong chat persona (CH-13); Tarot AI 1 lượt/ngày phía server và app.
 - ⬜ Đặt `magicpendigital@gmail.com` là Premium trên project đang chạy QA (một câu SQL — sẽ đưa lệnh để Owner xác nhận).
