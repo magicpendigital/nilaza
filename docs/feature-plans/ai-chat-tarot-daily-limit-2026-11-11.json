@@ -91,7 +91,7 @@
     {
       "path": "apps/mobile/src/backendClient.ts",
       "reason": "App falls back to local text on 429 for chat and Tarot.",
-      "sha256": "32b6047c2e46a944a58f59ba1f281951f8815b85ff28716782a7905166d41dad"
+      "sha256": "2cb3e57807fd01dc1511e57e30e3b2ecf6ddb6bbb9d3bf5e0c81fcb68b45f77d"
     }
   ],
   "skillReview": [

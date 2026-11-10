@@ -2001,7 +2001,8 @@ const localDateKey = (date: Date) =>
   `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 const todayKey = () => localDateKey(new Date());
 // Free follows the approved usage policy; Premium keeps the earlier client value until the Owner sets one.
-const premiumDailyTarotLimit = 3;
+// Owner 2026-11-04: 1 Tarot AI reading per day for every account; the server enforces the same limit.
+const premiumDailyTarotLimit = 1;
 const dailyTarotLimitFor = (tier: AccountTier) => tier === "premium" ? premiumDailyTarotLimit : aiUsagePolicy.freeDaily.tarotOneCard;
 
 const isDateKey = (createdAt: string, dateKey: string) => {
@@ -5304,7 +5305,9 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         // A guide paused from Admin is shown as resting, not as a failed answer.
         setChatError(error instanceof BackendLimitError && error.code === "feature_paused"
           ? (language === "vi" ? "Trò chuyện với người dẫn đường đang tạm nghỉ một chút. Hãy thử lại sau." : "Guide chat is resting for a while. Please try again later.")
-          : c.chatError);
+          : error instanceof BackendLimitError && error.code === "daily_limit_reached"
+            ? (language === "vi" ? "Bạn đã dùng hết lượt trò chuyện với người dẫn đường hôm nay. Lượt mới mở vào đầu ngày mai; tin nhắn của bạn vẫn được giữ." : "You have used today's guide messages. New ones open at the start of tomorrow; your message is kept.")
+            : c.chatError);
         finishGenerationActivity(activity, "failed");
         recordEvent("persona_message_failed", { personaId: selectedPersonaId });
         recordSafetyEvent({
@@ -5410,9 +5413,14 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         });
         completeDailyRitual("tarot_reading");
         finishGenerationActivity(activity, "ready");
-      } catch {
+      } catch (error) {
         if (!activeScope.active) return;
-        setTarotError(c.tarotError);
+        const limit = error instanceof BackendLimitError ? error.code : undefined;
+        const message = limit === "daily_limit_reached" ? c.creditLimitReached
+          : limit === "feature_paused" ? (language === "vi" ? "Diễn giải Tarot bằng AI đang tạm nghỉ một chút. Lượt của bạn vẫn còn, hãy thử lại sau." : "Tarot AI readings are resting for a while. Your turn is kept; please try again later.")
+          : c.tarotError;
+        setTarotError(message);
+        if (limit) showToast(message);
         finishGenerationActivity(activity, "failed");
         recordEvent("tarot_reading_failed", { deckId: selectedDeck.id, topic: tarotTopic, spread: tarotSpread });
         recordSafetyEvent({

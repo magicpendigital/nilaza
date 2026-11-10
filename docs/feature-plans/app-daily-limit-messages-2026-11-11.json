@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "taskId": "app-daily-limit-messages-2026-11-11",
+  "ownerAgent": "mobile_app_agent",
+  "lane": "Mobile app: show the server daily limit for persona chat and Tarot AI",
+  "goal": "The server now refuses a 6th chat message and a 2nd delivered Tarot AI reading of the day with 429 daily_limit_reached (deployed 11/11). The app currently swallows that answer and shows its local text as if it were a reply. Tell the person plainly that today's turns are used, keep their cards and message, and align the app's own Tarot counter with the decision of 04/11 (1 Tarot AI reading per day for every account).",
+  "successCriteria": [
+    "generatePersonaReply and generateTarotReading throw BackendLimitError for 429 daily_limit_reached and 503 feature_paused; other failures still fall back to local text as before; 401 is not surfaced for these two calls.",
+    "Chat shows a 'today's guide messages are used, come back tomorrow' message instead of a local reply.",
+    "Tarot shows the existing creditLimitReached message (and a resting message when paused) instead of a local reading.",
+    "The app's Premium Tarot counter is 1 per day (was 3), matching the server.",
+    "backendClient tests cover the new surfacing; existing app tests pass; tsc passes."
+  ],
+  "writeScope": [
+    "apps/mobile/src/backendClient.ts",
+    "apps/mobile/src/__tests__/backendClient.test.ts",
+    "apps/mobile/App.tsx",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "No backend change; no remaining-turns badge for chat yet (needs a read endpoint).",
+    "Council and Astrology keep their existing limit handling."
+  ],
+  "impact": {
+    "entryPoint": "Chat room send and Tarot draw in App.tsx.",
+    "dataWrite": "No new writes; the app stores nothing extra.",
+    "backendContract": "Reads the existing 429 daily_limit_reached and 503 feature_paused bodies.",
+    "adminVisibility": "No Admin change; server attempt events already show the limits.",
+    "privacySafety": "Crisis replies are answered by the server before the limit, so a person in crisis is never told only 'come back tomorrow'; the offline safety reply also still runs for local fallback.",
+    "observability": "Existing persona_message_failed and tarot_reading_failed events.",
+    "rollback": "Revert the commit; ships only with the next app build."
+  },
+  "canonicalContracts": [
+    "apps/mobile/src/backendClient.ts BackendLimitError",
+    "packages/agent-config/account-tier-policy.json"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile route and checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "reason": "postJson surfaces only feature_paused for chat and nothing for Tarot.",
+      "sha256": "32b6047c2e46a944a58f59ba1f281951f8815b85ff28716782a7905166d41dad"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Chat and Tarot handlers; premiumDailyTarotLimit 3.",
+      "sha256": "4acb6854d7cbdc9e070df503ad3988c05b5a22a3a7c68c1485d9c6edf28d4405"
+    },
+    {
+      "path": "apps/mobile/src/__tests__/backendClient.test.ts",
+      "reason": "Existing client tests.",
+      "sha256": "a8427cea14fc85540625f532f33f0d9ccf70c0064f16a795f00219e41f9641a1"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before code; limits from decisions in PLAN.md section 1."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Repository code only."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No change to sign-in or row access; the app only reads an error code.",
+    "sensitiveData": "No new data.",
+    "secretsLogging": "No secret read, written or logged.",
+    "externalInput": "Reads only the error code string from the response body.",
+    "dependencies": "No package added or upgraded.",
+    "migrationRelease": "No SQL; reaches users with the next AAB.",
+    "stopCondition": "Stop if tsc or the app tests fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record passed preflight before the code edit (11/11). Then: 'limits' surfacing mode in backendClient for chat and Tarot, App.tsx limit and paused messages, Premium Tarot counter 1, two client tests, PLAN.md.",
+    "paths": [
+      "PLAN.md",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/__tests__/backendClient.test.ts",
+      "apps/mobile/src/backendClient.ts"
+    ]
+  },
+  "validationCommands": [
+    "npm --prefix apps/mobile run typecheck",
+    "npx --prefix apps/mobile jest src/__tests__/backendClient.test.ts",
+    "npm run feature:preflight -- --record docs/feature-plans/app-daily-limit-messages-2026-11-11.json"
+  ],
+  "managerTestPath": "On a device signed in: after one Tarot AI reading the Tarot screen says today's reading is used; after 5 guide messages the chat says to come back tomorrow.",
+  "residualRisk": "Not tried on a device until the next AAB.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

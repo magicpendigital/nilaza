@@ -69,32 +69,32 @@
     {
       "path": "supabase/functions/_shared/model-router.ts",
       "reason": "Two-candidate loop; validation happens after the router.",
-      "sha256": "24790b28e5c4fc05440596f5432125cb25810461c7b96043e681519ee0ff0260"
+      "sha256": "720958613ca7c9d63404592cfc2a0c35d70514d25364335e0dcf4ed019887ac3"
     },
     {
       "path": "supabase/functions/_shared/model-provider.ts",
       "reason": "providerErrorFromResponse drops the body.",
-      "sha256": "33e9847291b73c1b28f3523c9bf979d2f1e8f2455005783e8484011be89d3fd5"
+      "sha256": "115a014bad0238c26727a04ba9b48a689c6778138b118cc90630bf7b94fa1465"
     },
     {
       "path": "supabase/functions/_shared/providers/openrouter.ts",
       "reason": "ZDR only on Astrology; error body discarded.",
-      "sha256": "dd67ba1e426d1b997608acc72725af8323577804dea17b35533acf87033f76b0"
+      "sha256": "d00aeaefd3066f796eb94e9b1ef56abe9f3a152660b203cce288f5629722d1ab"
     },
     {
       "path": "supabase/functions/_shared/providers/gemini.ts",
       "reason": "API key placed in the request URL query.",
-      "sha256": "97f04d65c40e4b73515b45bda7716718dde567f9b871981b8f15b24048904833"
+      "sha256": "755990966ca6f130257a1b1948e7e68da509d421cfbbd5a70d5a2807af5bfc08"
     },
     {
       "path": "supabase/functions/ai-tarot-reading/index.ts",
       "reason": "Tarot structure check after the router.",
-      "sha256": "44ed784349e1685eb61b0a2b9492e299740899e28c03eb749c8c8782f8995103"
+      "sha256": "c91b3730fd28a005e59716043a3bf46e17216e5c03ebafad52312e95713fc471"
     },
     {
       "path": "supabase/functions/_shared/model-provider.test.ts",
       "reason": "Existing router and adapter tests.",
-      "sha256": "7be03568a41c77b087e7235f92f969658d82e9d28b3ee1a4db6e8af5aae6fd31"
+      "sha256": "ec72745ca236b12bbcf9e12df5b9297ce88cf169f444ef906f769614fd8cb214"
     }
   ],
   "skillReview": [

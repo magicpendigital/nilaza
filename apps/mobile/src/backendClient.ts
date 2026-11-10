@@ -431,8 +431,11 @@ export class BackendLimitError extends Error {
   constructor(readonly code: string, readonly status: number) { super(code); this.name = "BackendLimitError"; }
 }
 
-/** surfaceLimits: true throws sign-in, daily-limit and paused errors; "paused" throws only feature_paused. */
-async function postJson<TInput, TResult>(path: string, input: TInput, options: BackendOptions, correlation?: AnswerCorrelation, surfaceLimits: boolean | "paused" = false): Promise<TResult | null> {
+/**
+ * surfaceLimits: true throws sign-in, daily-limit and paused errors; "paused" throws only feature_paused;
+ * "limits" throws feature_paused and daily_limit_reached (chat and Tarot, server limits 2026-11-11).
+ */
+async function postJson<TInput, TResult>(path: string, input: TInput, options: BackendOptions, correlation?: AnswerCorrelation, surfaceLimits: boolean | "paused" | "limits" = false): Promise<TResult | null> {
   options = currentOptions(options);
   if (!options.baseUrl) return null;
 
@@ -460,7 +463,8 @@ async function postJson<TInput, TResult>(path: string, input: TInput, options: B
       const body = (await response.json().catch(() => ({}))) as { error?: unknown };
       const code = typeof body.error === "string" ? body.error : String(response.status);
       // A feature paused from Admin is shown as resting; other 503s still fall back as before.
-      if (code === "feature_paused" || (surfaceLimits === true && response.status !== 503)) throw new BackendLimitError(code, response.status);
+      if (code === "feature_paused" || (surfaceLimits === true && response.status !== 503)
+        || (surfaceLimits === "limits" && code === "daily_limit_reached")) throw new BackendLimitError(code, response.status);
       return null;
     }
     if (!response.ok || options.session?.active === false) return null;
@@ -547,7 +551,7 @@ export async function generatePersonaReply(
   fallback: () => PersonaReplyResult,
   options: BackendOptions = {}
 ): Promise<PersonaReplyResult> {
-  const backendResult = await postJson<PersonaReplyInput, PersonaReplyResult>("/ai/persona-chat", input, generationOptions(options, generationTimeoutMs.persona), undefined, "paused");
+  const backendResult = await postJson<PersonaReplyInput, PersonaReplyResult>("/ai/persona-chat", input, generationOptions(options, generationTimeoutMs.persona), undefined, "limits");
   return backendResult ?? fallback();
 }
 
@@ -575,7 +579,7 @@ export async function generateTarotReading(
   options: BackendOptions = {},
   correlation: AnswerCorrelation = createAnswerAttempt("tarot_reading", input.language === "en" ? "en" : "vi")
 ): Promise<TarotInterpretationResult> {
-  const remote = await postJson<TarotInterpretationInput, TarotInterpretationResult>("/ai/tarot-reading", input, generationOptions(options, generationTimeoutMs.tarot), correlation);
+  const remote = await postJson<TarotInterpretationInput, TarotInterpretationResult>("/ai/tarot-reading", input, generationOptions(options, generationTimeoutMs.tarot), correlation, "limits");
   const provenance = remote?.provenance ? parseAnswerProvenance(remote.provenance, { feature: "tarot_reading", locale: input.language === "en" ? "en" : "vi", correlation }) : undefined;
   const parsed = remote?.moderationStatus === "passed" ? validateTarotOutput({ summary: remote.summary, reflection: remote.reflection, sections: remote.sections }, input.language === "en" ? "en" : "vi", input.selectedCards.map(card => card.id)) : undefined;
   if (parsed && (!remote?.provenance || provenance?.sourceKind === "ai")) return { ...remote!, ...parsed, provenance };

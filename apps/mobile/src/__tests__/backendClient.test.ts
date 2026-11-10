@@ -168,6 +168,13 @@ describe("backendClient", () => {
       await expect(generatePersonaReply(input, fallback, backendOptions)).resolves.toMatchObject({ text: "fallback" });
     });
 
+    it("surfaces the server daily limit (2026-11-11); a 503 usage check still falls back", async () => {
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 429, json: async () => ({ error: "daily_limit_reached" }) });
+      await expect(generatePersonaReply(input, fallback, backendOptions)).rejects.toMatchObject({ code: "daily_limit_reached", status: 429 });
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 503, json: async () => ({ error: "usage_check_unavailable" }) });
+      await expect(generatePersonaReply(input, fallback, backendOptions)).resolves.toMatchObject({ text: "fallback" });
+    });
+
     it("forwards session continuity fields without changing the backend path", async () => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
@@ -382,6 +389,15 @@ describe("backendClient", () => {
       mockFetch.mockRejectedValueOnce(new Error("Network Error"));
       const result = await generateTarotReading(input, fallback, backendOptions);
       expect(result).toMatchObject({ summary: "fallback", reflection: "fallback", moderationStatus: "fallback", provenance: {sourceKind:"fallback",persistenceStatus:"skipped"} });
+    });
+
+    it("surfaces the server daily limit and a paused feature; sign-in errors still fall back (2026-11-11)", async () => {
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 429, json: async () => ({ error: "daily_limit_reached" }) });
+      await expect(generateTarotReading(input, fallback, backendOptions)).rejects.toMatchObject({ code: "daily_limit_reached", status: 429 });
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 503, json: async () => ({ error: "feature_paused" }) });
+      await expect(generateTarotReading(input, fallback, backendOptions)).rejects.toMatchObject({ code: "feature_paused" });
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 401, json: async () => ({ error: "authentication_required" }) });
+      await expect(generateTarotReading(input, fallback, backendOptions)).resolves.toMatchObject({ summary: "fallback" });
     });
 
     it("keeps complete sections on a valid result and rejects malformed success bodies", async () => {
