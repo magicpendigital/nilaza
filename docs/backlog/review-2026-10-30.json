@@ -166,7 +166,7 @@
    "size": "M",
    "status": "partial",
    "pr": "PR #10",
-   "note": "Luồng Xóa tài khoản đã làm nhưng đang ẩn tới khi account-delete được Owner duyệt deploy."
+   "note": "Luồng Xóa tài khoản đã làm nhưng đang ẩn (accountDeleteLive=false). account-delete ACTIVE trên Singapore 09/11; trang web /account-deletion có từ 11/11. Còn: hộp thư hỗ trợ (Owner) và bật cờ khi app trỏ Singapore."
   },
   {
    "id": "HO-01",

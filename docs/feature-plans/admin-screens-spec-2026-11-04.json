@@ -62,7 +62,7 @@
     {
       "path": "docs/backlog/review-2026-10-30.json",
       "reason": "AD-xx and AI-xx items referenced per screen.",
-      "sha256": "a7c494123b39bc5c5f29a08d169a9eea90a8b1431503d10762cd79198b55b6fc"
+      "sha256": "18280d179ea93e61437cf54563932abd0222ac2260ff313dde1796a134946730"
     },
     {
       "path": "apps/admin/feature-switches.js",

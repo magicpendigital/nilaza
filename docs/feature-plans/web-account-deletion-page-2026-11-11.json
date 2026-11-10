@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "taskId": "web-account-deletion-page-2026-11-11",
+  "ownerAgent": "website_content_agent",
+  "lane": "Website: account and data deletion page for Google Play (PR-01)",
+  "goal": "Google Play requires a public web page that explains how to delete a Nilaza account and its data, including without the app. account-delete is ACTIVE on Singapore since 09/11. Add a bilingual page at /vi/account-deletion and /en/account-deletion that states only what the code does, link it from the footer and the privacy page, and leave a clearly marked place for the support mailbox the Owner has not set up yet.",
+  "successCriteria": [
+    "Legal collection accepts slug account-deletion; vi and en pages render through the existing legal route.",
+    "The page describes the in-app path, what is deleted (account, profile, birth profile, journal, chats, readings, AI traces, usage events, generation jobs, waitlist entry with the same email), what is kept (safety outcome without text; a hashed deletion record removed 90 days after completion), and does not promise a time it cannot verify.",
+    "The page says the support mailbox is being set up and will be listed before testing opens; no invented address.",
+    "Footer and privacy pages link to it.",
+    "astro check passes; the web build passes if it can run locally."
+  ],
+  "writeScope": [
+    "apps/web/src/content.config.ts",
+    "apps/web/src/content/legal/vi/account-deletion.md",
+    "apps/web/src/content/legal/en/account-deletion.md",
+    "apps/web/src/content/legal/vi/privacy.md",
+    "apps/web/src/content/legal/en/privacy.md",
+    "apps/web/src/components/SiteFooter.astro",
+    "docs/backlog/review-2026-10-30.json",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "No deploy of the website (Owner runs the staging deploy).",
+    "In-app delete stays hidden (accountDeleteLive=false) until the app points to Singapore.",
+    "No mailbox is created; the Owner provides it."
+  ],
+  "impact": {
+    "entryPoint": "Public website legal pages.",
+    "dataWrite": "No data written; static pages only.",
+    "backendContract": "Describes the existing nilaza.account-delete.v1 behaviour; no change.",
+    "adminVisibility": "No Admin change; the page is public.",
+    "privacySafety": "Text matches the purge and cascade rules in 20261025000000_account_deletion_v1.sql and account-delete/handler.ts.",
+    "observability": "No new analytics.",
+    "rollback": "Revert the commit."
+  },
+  "canonicalContracts": [
+    "supabase/migrations/20261025000000_account_deletion_v1.sql",
+    "supabase/functions/account-delete/handler.ts"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Website route and checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/web/src/content.config.ts",
+      "reason": "Legal slug enum.",
+      "sha256": "c80134c535a0cd213416f60ca3f88323b6848f691df02eb706997dc855757cb4"
+    },
+    {
+      "path": "apps/web/src/content/legal/vi/privacy.md",
+      "reason": "Privacy page to link from.",
+      "sha256": "3bc7d42ca5c43e4672c8cbe5d10cc0b10e920d29d9af77c5b5bd82fcfb69fee6"
+    },
+    {
+      "path": "apps/web/src/content/legal/en/privacy.md",
+      "reason": "Privacy page to link from.",
+      "sha256": "658bd57ed12432746ee297bbc9202dd76759df95892c242a71c62447a38d71f6"
+    },
+    {
+      "path": "supabase/migrations/20261025000000_account_deletion_v1.sql",
+      "reason": "What purge removes and keeps; 90-day trim of completed requests; staff refused.",
+      "sha256": "beeee40256b977066f03431a8e8c241bf55183f40fafa09d4e1ef5e9f34870c3"
+    },
+    {
+      "path": "supabase/functions/account-delete/handler.ts",
+      "reason": "begin, purge, auth delete, finish order.",
+      "sha256": "c70bd69f494bb5f458b4cbb4bec50c9e3199fd1264acce3e4332f85c12a5e0bf"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before edits; claims limited to verified code."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Public website copy in the existing legal page style, vi and en."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Repository code only; Play requirement is in the release roadmap."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "Static page; no access change.",
+    "sensitiveData": "No personal data on the page; no invented contact address.",
+    "secretsLogging": "No secret read, written or logged.",
+    "externalInput": "None; static markdown.",
+    "dependencies": "No package added or upgraded.",
+    "migrationRelease": "No SQL; website deploy is the Owner's step.",
+    "stopCondition": "Stop if astro check fails.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record passed preflight before the edit (11/11). Then: vi and en account-deletion pages (in-app path checked against ProfileHome: Me > Account > Delete account), legal slug, footer link, privacy page links, PR-01 note and PLAN.md. astro check 0 errors; astro build 45 pages including both new ones.",
+    "paths": [
+      "PLAN.md",
+      "apps/web/src/components/SiteFooter.astro",
+      "apps/web/src/content.config.ts",
+      "apps/web/src/content/legal/en/account-deletion.md",
+      "apps/web/src/content/legal/en/privacy.md",
+      "apps/web/src/content/legal/vi/account-deletion.md",
+      "apps/web/src/content/legal/vi/privacy.md",
+      "docs/backlog/review-2026-10-30.json"
+    ]
+  },
+  "validationCommands": [
+    "npm --prefix apps/web run check",
+    "npm run feature:preflight -- --record docs/feature-plans/web-account-deletion-page-2026-11-11.json"
+  ],
+  "managerTestPath": "Open /vi/account-deletion and /en/account-deletion on the staging site; both link from the footer.",
+  "residualRisk": "Google Play needs a working request channel without the app: the Owner must add the support mailbox before submission.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

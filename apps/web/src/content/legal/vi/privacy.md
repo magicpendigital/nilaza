@@ -19,3 +19,7 @@ Không nhập thông tin mà bạn không muốn xử lý. Nilaza không yêu c�
 Khi biểu mẫu sẵn sàng và bạn chủ động đồng ý, Nilaza lưu email, ngôn ngữ, điều bạn quan tâm, thông tin chiến dịch trong các tham số UTM và thời điểm/phiên bản consent để ghi nhận yêu cầu đăng ký trước ra mắt. Dữ liệu được xử lý qua backend Supabase; trình duyệt không có quyền đọc danh sách email. Chỉ trạng thái ghi nhận thành công xác nhận yêu cầu đã lưu; thông báo kết nối chưa sẵn sàng không thu email.
 
 Email dùng cho thông tin ra mắt và cơ hội trải nghiệm sớm theo consent của bạn. Việc gửi xác nhận/cập nhật là bước riêng; không tự đăng ký marketing từ tài khoản ứng dụng. Khi chiến dịch hoạt động, email cập nhật sẽ có cách hủy nhận tin và các trạng thái hủy/bounce/complaint được giữ. Raw email và nội dung biểu mẫu không được đưa vào sự kiện analytics.
+
+## Xóa tài khoản
+
+Cách xóa tài khoản và dữ liệu nào bị xóa: xem [Xóa tài khoản và dữ liệu](/vi/account-deletion).

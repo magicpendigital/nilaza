@@ -65,17 +65,17 @@
     {
       "path": "supabase/functions/_shared/feature-switch.ts",
       "reason": "Switch reader; missing row means on.",
-      "sha256": "a9cb5daf046bf02b985e2554bf4d3dd98b2dd51bc245f5f71b768c5b3314b254"
+      "sha256": "5887ba96354ec90753267ebb4525f54d22b8febdc8f0bc979d8da87eae36e914"
     },
     {
       "path": "supabase/functions/ai-tarot-reading/index.ts",
       "reason": "Tarot has no switch check.",
-      "sha256": "c91b3730fd28a005e59716043a3bf46e17216e5c03ebafad52312e95713fc471"
+      "sha256": "05d72fc17fda0a9c536f7169afc3f899004e73f4482b7510b83f567863735ba3"
     },
     {
       "path": "apps/admin/feature-switches.js",
       "reason": "Admin list of switchable features.",
-      "sha256": "af8698b5d94f89b3a20a7069dcdb9dd18a59115baf15147169020b8952ed6812"
+      "sha256": "1d3ad4b5e179339d99b8cb3276b89c3f78c5e50c81b1841139e1d003c59597d5"
     },
     {
       "path": "supabase/migrations/202606120002_add_missing_tables.sql",
