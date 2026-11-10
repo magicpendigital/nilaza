@@ -83,12 +83,12 @@
     {
       "path": "supabase/functions/_shared/account-tier-policy.ts",
       "reason": "localDayStart and policy type.",
-      "sha256": "7b44ad28fca34d786138dff52d0687e2cf3e716daccbe020b5bc4a5d83b8b55e"
+      "sha256": "9a915a0e946629ee03cedb44005beefe6e7dc8d6236792206904c38bfd2dcb8f"
     },
     {
       "path": "packages/agent-config/account-tier-policy.json",
       "reason": "Home for the new limits.",
-      "sha256": "25067a5d627bb54eb3f2aef66382f36bc03d3ccf5efe0af93ef0be38eb8fc9c0"
+      "sha256": "79bee268908ae19ed7a07d185060476a0e08bf8b2f91a74baff161840a5c76a0"
     },
     {
       "path": "apps/mobile/src/backendClient.ts",

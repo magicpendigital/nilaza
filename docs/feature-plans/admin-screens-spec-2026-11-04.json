@@ -62,7 +62,7 @@
     {
       "path": "docs/backlog/review-2026-10-30.json",
       "reason": "AD-xx and AI-xx items referenced per screen.",
-      "sha256": "724cd57b4a21a4325fc639c6fa3faea63830f92df6886b6de6e50a0efe3b4e30"
+      "sha256": "ec54e88f33d8de3d198b30e62366391ade286868fbe70dba3f78cef673700a26"
     },
     {
       "path": "apps/admin/feature-switches.js",
@@ -97,7 +97,7 @@
     {
       "path": "packages/agent-config/account-tier-policy.json",
       "reason": "Astrology and Council limits.",
-      "sha256": "25067a5d627bb54eb3f2aef66382f36bc03d3ccf5efe0af93ef0be38eb8fc9c0"
+      "sha256": "79bee268908ae19ed7a07d185060476a0e08bf8b2f91a74baff161840a5c76a0"
     }
   ],
   "skillReview": [

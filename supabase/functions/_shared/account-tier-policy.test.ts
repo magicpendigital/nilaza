@@ -31,3 +31,10 @@ Deno.test("AI Council allows one council a day with four follow-ups", () => {
   // Older events without the flag count as openings.
   assertEquals(councilAllowance([{ metadata: null }], true, current), { allowed: false, reason: "daily_council_limit" });
 });
+
+Deno.test("Tarot AI: one delivered reading a day, three attempts at most; chat five a day (2026-11-11)", async () => {
+  const { accountTierPolicy, tarotDailyLimits } = await import("./account-tier-policy.ts");
+  assertEquals(tarotDailyLimits(), { delivered: 1, attempts: 3 });
+  assertEquals(tarotDailyLimits(policy("all_premium")), { delivered: 1, attempts: 3 });
+  assertEquals(accountTierPolicy.personaChat?.dailyLimit, 5);
+});

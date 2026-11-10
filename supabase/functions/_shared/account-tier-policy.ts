@@ -9,6 +9,8 @@ export type TierPolicy = {
   council?: { dailyCouncils: number; followUpsPerCouncil: number };
   dailyInsight?: { dailyLimit: number };
   astrologyPreview?: { dailyLimit: number };
+  personaChat?: { dailyLimit: number };
+  tarotAi?: { dailyLimit: number; failedAttemptAllowance: number };
 };
 
 export const accountTierPolicy = policy as TierPolicy;
@@ -28,6 +30,13 @@ export function localDayStart(now = new Date(), offsetMinutes = accountTierPolic
   const local = new Date(now.getTime() + offsetMinutes * 60000);
   local.setUTCHours(0, 0, 0, 0);
   return new Date(local.getTime() - offsetMinutes * 60000);
+}
+
+// Tarot AI (Owner 2026-11-04: 1 per day for every account): only a delivered reading uses up the day,
+// like Astrology AI; failed attempts on top are capped so provider failures cannot run up cost.
+export function tarotDailyLimits(current: TierPolicy = accountTierPolicy): { delivered: number; attempts: number } {
+  const limits = current.tarotAi ?? { dailyLimit: 1, failedAttemptAllowance: 2 };
+  return { delivered: limits.dailyLimit, attempts: limits.dailyLimit + limits.failedAttemptAllowance };
 }
 
 // AI Council allowance for one local day: a council opens with a question that has no history,

@@ -1,6 +1,6 @@
 # PLAN — bảng tiến độ sống của Nilaza
 
-> **Cập nhật lần cuối: 09/11/2026** — `main` tại `033fb86` (PR #30); PR #31 đang mở (PLAN, skills, gói SQL v2, **2c đã áp lên Singapore 08/11**).
+> **Cập nhật lần cuối: 11/11/2026** — `main` tại `033fb86` (PR #30); PR #31 đang mở (PLAN, skills, gói SQL v2, **2c đã áp lên Singapore 08/11**).
 > Đây là **tệp đầu tiên** Owner và mọi Agent đọc khi bắt đầu phiên mới. Nó trả lời: *đang ở đâu, còn gì, chờ ai*. Lý do, quy trình và bẫy môi trường nằm ở [`docs/HANDOFF_CURRENT_STATE.vi.md`](docs/HANDOFF_CURRENT_STATE.vi.md); chi tiết từng việc nằm ở `docs/feature-plans/*.json`.
 
 ## Quy tắc cập nhật (bắt buộc với Agent)
@@ -58,7 +58,7 @@ Bảng rà soát 30/10: **107 mục — 50 xong, 24 làm một phần, 33 chưa 
 - 🟡 AD-10 công tắc AI (thiếu Tarot, Daily) · AD-26/27.
 
 ### AI / backend — đề xuất: [`docs/proposals/LLM_PROVIDERS_FALLBACK_2026-11-03.vi.md`](docs/proposals/LLM_PROVIDERS_FALLBACK_2026-11-03.vi.md)
-- ⛔ **Ưu tiên chi phí/an toàn:** ~~`ai-daily-insight` và `ai-astrology-report` không bắt đăng nhập, không hạn mức~~ (đã sửa và deploy 10/11, xem 4b); Chat persona và Tarot AI không có hạn mức phía server (AI-02).
+- ⛔ **Ưu tiên chi phí/an toàn:** ~~`ai-daily-insight` và `ai-astrology-report` không bắt đăng nhập, không hạn mức~~ (đã sửa và deploy 10/11, xem 4b); ~~Chat persona và Tarot AI không có hạn mức phía server~~ (code xong 11/11, chờ deploy — xem 4b) (AI-02).
 - ⬜ AI-10 Astrology report và Đọc sâu dùng chung route khác hợp đồng · AI-06 cờ không lưu dữ liệu (ZDR) chỉ có ở Chiêm tinh · AI-05 mục tiêu/giọng ghép thẳng vào system prompt · AI-03 Owner không sửa được prompt Tarot/Persona · AI-07 không chấm điểm trước khi publish · AI-04, 09, 12, 13, 15, 17, 18.
 - ⬜ Dự phòng nhiều nhà cung cấp: Giai đoạn 0 (chỉ OpenRouter: `models[]`, ZDR, kiểm định dạng trong bộ định tuyến) → 1 → 2 → 3.
 
@@ -66,14 +66,15 @@ Bảng rà soát 30/10: **107 mục — 50 xong, 24 làm một phần, 33 chưa 
 
 1. **Tiếp theo trên Singapore (mỗi việc một lần duyệt):** (a) ✅ **09/11: 18 Edge Function ACTIVE + khóa OpenRouter mới** ([biên nhận](docs/release/singapore-edge-functions-2026-11-09/deploy-receipt-2026-11-09.json)); gọi không đăng nhập đều bị từ chối. Chưa kiểm: phiên đăng nhập thật qua cổng (cần tài khoản thử) và lần gọi model đầu tiên; (b) deploy `account-delete`; (c) Auth/SMTP qua Resend rồi bật lại đăng ký; (d) chuyển Admin staging + EAS sang Singapore, đóng băng QA cũ; (e) nâng tổ chức lên Pro (~25 USD/tháng) trước khi mời người thử thật. [Phân tích phương án](docs/release/BACKEND_ENVIRONMENT_STRATEGY_2026-11-08.vi.md).
 2. Owner tự làm: gắn 3 biến `EXPO_PUBLIC_*` vào EAS production (đã đồng ý 04/11) → dựng AAB đầu tiên; tuyển ≥ 12 (nên 15–20) người thử.
-3. Bộ thiết kế Admin chi tiết (19 màn): PR #32 + [đặc tả](docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md) + canvas <https://claude.ai/artifact/JfSTk3fKJANL1T8Ptcxo9k>. Owner đã chốt 04/11: gộp Astrology report vào Đọc sâu; Daily bỏ toàn văn Nhật ký; tâm trạng chỉ dùng nếu ghi trong 24 giờ; dự phòng đắt hơn được, trần 0,02 USD/lượt; biên tập viên chỉ lưu nháp, Owner phát hành. Cổng phát hành theo mục 5.1 của đặc tả (duyệt 04/11): không bỏ qua lớp an toàn; chỉ Owner bỏ qua lớp chất lượng khi khôi phục hoặc sửa khẩn cấp, gắn nhãn "Chưa chấm" và chấm lại trong 24 giờ. **Còn chờ:** các con số độ dài (đội biên tập).
+3. Bộ thiết kế Admin chi tiết (19 màn): PR #32 (đã merge vào nhánh release 11/11) + [đặc tả](docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md) + canvas <https://claude.ai/artifact/JfSTk3fKJANL1T8Ptcxo9k>. Owner đã chốt 04/11: gộp Astrology report vào Đọc sâu; Daily bỏ toàn văn Nhật ký; tâm trạng chỉ dùng nếu ghi trong 24 giờ; dự phòng đắt hơn được, trần 0,02 USD/lượt; biên tập viên chỉ lưu nháp, Owner phát hành. Cổng phát hành theo mục 5.1 của đặc tả (duyệt 04/11): không bỏ qua lớp an toàn; chỉ Owner bỏ qua lớp chất lượng khi khôi phục hoặc sửa khẩn cấp, gắn nhãn "Chưa chấm" và chấm lại trong 24 giờ. **Còn chờ:** các con số độ dài (đội biên tập).
 
 ## 4b. Đã duyệt 04/11, đang chờ làm (lát cắt backend tiếp theo)
 
 - ✅ Bắt buộc đăng nhập + hạn mức 3 lần/ngày (Owner chốt 10/11) + công tắc cho `ai-daily-insight` và `ai-astrology-report` ([hồ sơ](docs/feature-plans/ai-daily-report-guard-2026-11-10.json)): **đã deploy Singapore 10/11**, đọc lại ACTIVE, gọi không đăng nhập trả 401 ([biên nhận](docs/release/singapore-edge-functions-2026-11-09/deploy-receipt-2026-11-09.json)). Chưa thử: lần gọi thứ 4 trong ngày bị chặn 429 trên app. Dòng công tắc cho 2 tính năng này cần một migration sau.
 - ⬜ Còn lại theo quyết định 04/11 (đặc tả PR #32): Daily bỏ toàn văn Nhật ký, chỉ gửi nhãn tâm trạng ghi trong 24 giờ; chuyển lối vào Astrology report sang Đọc sâu rồi tắt hàm cũ.
 - ⬜ Dự phòng LLM giai đoạn 0: `models[]` + ZDR cho mọi tính năng, kiểm định dạng trong bộ định tuyến, giữ nội dung lỗi, khóa Gemini sang header.
-- ⬜ Gửi tên gọi cho AI trong chat persona (CH-13); Tarot AI 1 lượt/ngày phía server và app.
+- 🟡 Hạn mức phía server ([hồ sơ](docs/feature-plans/ai-chat-tarot-daily-limit-2026-11-11.json)): Chat persona 5 tin/ngày; Tarot AI 1 bài đạt/ngày (AI lỗi thì được thử lại, tối đa 3 lần/ngày). Code + test xong 11/11, **chờ Owner duyệt deploy** `ai-persona-chat` và `ai-tarot-reading`. Phần app (báo "hết lượt hôm nay" thay vì hiện nội dung dự phòng, đếm lượt còn lại) làm lát sau.
+- ⬜ Gửi tên gọi cho AI trong chat persona (CH-13).
 - ⬜ Đặt `magicpendigital@gmail.com` là Premium trên project đang chạy QA (một câu SQL — sẽ đưa lệnh để Owner xác nhận).
 - ⬜ Deploy `account-delete` + trang web xóa dữ liệu + hộp thư hỗ trợ (2c đã xong 08/11 — có thể làm).
 - ⬜ Security Advisor (08/11): chuyển extension `vector` khỏi schema `public` bằng một migration nhỏ, chạy thử local trước. Hai cảnh báo hàm SECURITY DEFINER của công tắc AI được chấp nhận (hàm tự kiểm quyền `ai.read`/`ai.manage`).

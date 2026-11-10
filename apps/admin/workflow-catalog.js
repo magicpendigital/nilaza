@@ -384,11 +384,11 @@
   },
   {
     "path": "supabase/functions/ai-persona-chat/index.ts",
-    "sha256": "ee40918aebd6cb20ad2bff607d7731bc59a5199bb0b61052875759147d1eb1c0"
+    "sha256": "9001adcffd43ea69c3cf47ad10e34bf250c95caf977b9ec614fa49b86a9a7f31"
   },
   {
     "path": "supabase/functions/ai-tarot-reading/index.ts",
-    "sha256": "36dda307efe7410aa66c2a4cff1a5bc081379eb5eae4ed4d21804d08846cc96b"
+    "sha256": "44ed784349e1685eb61b0a2b9492e299740899e28c03eb749c8c8782f8995103"
   },
   {
     "path": "supabase/functions/notification-dispatch/index.ts",

@@ -9,6 +9,8 @@ import { answerCorsHeaders, readAnswerCorrelation } from "../_shared/answer-prov
 import { answerProvenanceSchema, isIncompleteAnswerFinishReason, type AnswerProvenance } from "../../../packages/ai-contracts/answer-provenance.ts";
 import { checkTarotOutputText, tarotOutputSchema } from "../../../packages/ai-contracts/tarot-output.ts";
 import { writeAnswerReceipt } from "../_shared/answer-receipt.ts";
+import { claimDailyAttempt } from "../_shared/daily-attempts.ts";
+import { localDayStart, tarotDailyLimits } from "../_shared/account-tier-policy.ts";
 
 type LocalizedText = {
   vi?: string;
@@ -79,6 +81,20 @@ serve(async (req) => {
     if (!supabase) return jsonResponse({ error: "ai_unavailable" }, 503);
     let input;
     try { input = prepareTarotContext(requestInput); } catch { throw new AiRequestError(400, "invalid_tarot_input"); }
+    // AI-02 (Owner 2026-11-04): one delivered AI reading per local day; failed attempts capped. Checked before any model work.
+    const tarotLimits = tarotDailyLimits();
+    const { count: deliveredToday, error: deliveredError } = await supabase.from("tarot_readings")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", userId)
+      .eq("interpretation->>moderationStatus", "passed")
+      .gte("created_at", localDayStart().toISOString());
+    if (deliveredError || deliveredToday === null) return jsonResponse({ error: "usage_check_unavailable" }, 503);
+    if (deliveredToday >= tarotLimits.delivered) return jsonResponse({ error: "daily_limit_reached" }, 429);
+    const attempt = await claimDailyAttempt(supabase as never, {
+      userId, eventName: "tarot_reading_attempted", feature: "tarot_reading", limit: tarotLimits.attempts
+    });
+    if (attempt === "limit_reached") return jsonResponse({ error: "daily_limit_reached" }, 429);
+    if (attempt === "unavailable") return jsonResponse({ error: "usage_check_unavailable" }, 503);
     const language = input.language;
     const cards = input.selectedCards;
     const correlation = readAnswerCorrelation(req, "tarot_reading", language);

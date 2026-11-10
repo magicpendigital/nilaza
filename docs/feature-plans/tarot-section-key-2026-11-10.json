@@ -60,7 +60,7 @@
     {
       "path": "supabase/functions/ai-tarot-reading/index.ts",
       "reason": "Section keys feed answer receipt sectionIds and the stored interpretation.",
-      "sha256": "36dda307efe7410aa66c2a4cff1a5bc081379eb5eae4ed4d21804d08846cc96b"
+      "sha256": "44ed784349e1685eb61b0a2b9492e299740899e28c03eb749c8c8782f8995103"
     },
     {
       "path": "apps/mobile/src/features/tarot/readingPresentation.ts",

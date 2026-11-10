@@ -1,6 +1,6 @@
 {
   "version": "2026-10-31",
-  "note": "One switch for the app displayed tier, Astrology AI access and the AI Council daily allowance. Owner decisions 2026-10-30 (all_premium for closed test), 2026-10-31 (Astrology AI follows this switch, 1 request per local day; AI Council 1 council per local day for every signed-in account, with follow-up questions inside that council). 2026-11-10: Daily Insight and the legacy Astrology preview allow 3 model attempts per local day each (sign-in required).",
+  "note": "One switch for the app displayed tier, Astrology AI access and the AI Council daily allowance. Owner decisions 2026-10-30 (all_premium for closed test), 2026-10-31 (Astrology AI follows this switch, 1 request per local day; AI Council 1 council per local day for every signed-in account, with follow-up questions inside that council). 2026-11-10: Daily Insight and the legacy Astrology preview allow 3 model attempts per local day each (sign-in required). 2026-11-11: server-side limits for persona chat (Chat+Oracle 5 per local day; Oracle has no model call yet) and Tarot AI (1 delivered reading per local day for every account, Owner 2026-11-04, plus 2 failed attempts).",
   "mode": "all_premium",
   "trialHours": 24,
   "premiumOnSale": false,
@@ -17,5 +17,12 @@
   },
   "astrologyPreview": {
     "dailyLimit": 3
+  },
+  "personaChat": {
+    "dailyLimit": 5
+  },
+  "tarotAi": {
+    "dailyLimit": 1,
+    "failedAttemptAllowance": 2
   }
 }
