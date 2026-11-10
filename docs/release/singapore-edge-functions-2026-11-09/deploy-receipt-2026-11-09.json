@@ -148,15 +148,21 @@
     "heldFunctions": "404 for ai-daily-insight, ai-astrology-report, generate-today-pulse"
   },
   "notVerified": [
-    "A Tarot AI answer that passes the output check on Singapore (first call fell back; cause being diagnosed)",
     "Owner-set OpenRouter credit limit and privacy settings (account side)"
   ],
-  "status": "PASS for deployment and signed-in gateway; Tarot AI answer quality pending",
+  "status": "PASS: deployment, signed-in gateway and a validated Tarot AI answer",
   "signedInSmoke": {
     "date": "2026-11-09",
     "tool": "scripts/staging-smoke.mjs (Owner machine, account magicpendigital@gmail.com created in Auth > Users)",
     "signIn": "OK, access token alg ES256 (kid ce471694...)",
     "gateway": "user-credits HTTP 200 in 2049 ms: verify_jwt accepts the ES256 user token, no --no-verify-jwt change needed",
     "tarotAi": "HTTP 200 in 6 s; OpenRouter deepseek/deepseek-v4.1-flash answered but the reply failed the Tarot output check, so the user got the safe fallback text (sourceKind fallback). Trace (tarot-rejection-check.sql, 2026-11-10): finish_reason stop, 654 output tokens, validation rejected with code section_key. Fix: tarot-section-key-2026-11-10 (malformed keys become section_N); needs an Owner-approved redeploy of ai-tarot-reading."
+  },
+  "signedInSmokeAfterFix": {
+    "date": "2026-11-10",
+    "signIn": "OK ES256",
+    "gateway": "user-credits HTTP 200 (1510 ms)",
+    "tarotAi": "HTTP 200 in 7 s, sourceKind ai, moderation passed, openrouter deepseek/deepseek-v4.1-flash, Vietnamese reading with the card displayName as specified",
+    "result": "PASS"
   }
 }
