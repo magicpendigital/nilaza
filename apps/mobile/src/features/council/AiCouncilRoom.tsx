@@ -102,6 +102,8 @@ export type AiCouncilRoomProps = {
   thread: AiCouncilTurn[];
   /** Shared safety reply for the last message, shown instead of council turns. */
   safetyNotice?: { text: string; crisis: boolean } | null;
+  /** Why the last turn did not arrive (CO-03); the question is back in the box. */
+  roomNotice?: string | null;
   /** Opens the shared feedback panel for one guide turn (analysis CH-02). */
   onReportTurn?: (turnId: string) => void;
 };
@@ -143,6 +145,7 @@ export function AiCouncilRoom({
   question,
   quickReplies,
   safetyNotice,
+  roomNotice,
   onReportTurn,
   sessionSummaries,
   setupExpanded,
@@ -153,10 +156,10 @@ export function AiCouncilRoom({
   // Keep the newest turn in view as the council answers, like persona chat.
   const scrollRef = useRef<ScrollView | null>(null);
   useEffect(() => {
-    if (thread.length === 0 && !generating && !safetyNotice) return;
+    if (thread.length === 0 && !generating && !safetyNotice && !roomNotice) return;
     const timer = setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 50);
     return () => clearTimeout(timer);
-  }, [thread.length, generating, safetyNotice]);
+  }, [thread.length, generating, safetyNotice, roomNotice]);
   const selectedPersonaIds = new Set(personas.map((persona) => persona.id));
   const councilTitle = customCouncilName.trim() || (vi ? "Hội đồng 3 góc nhìn" : "Three-view council");
   const guideCountWord = vi ? ["Hai", "Ba", "Bốn"][personas.length - 2] ?? String(personas.length) : String(personas.length);
@@ -484,6 +487,12 @@ export function AiCouncilRoom({
           <View>
             <ChatMessageBubble tone="system">{safetyNotice.text}</ChatMessageBubble>
             {safetyNotice.crisis ? <CrisisSupportCard language={language} /> : null}
+          </View>
+        ) : null}
+
+        {roomNotice && !generating ? (
+          <View accessibilityLiveRegion="polite">
+            <ChatMessageBubble tone="system">{roomNotice}</ChatMessageBubble>
           </View>
         ) : null}
 

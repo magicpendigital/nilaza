@@ -619,9 +619,9 @@
    "proposal": "Gửi mã persona thay vì cả hồ sơ; cắt lịch sử; nhãn dự phòng.",
    "evidence": "useAiCouncilRoom.ts:640–713",
    "size": "S",
-   "status": "open",
-   "pr": null,
-   "note": null
+   "status": "partial",
+   "pr": "PR #31",
+   "note": "11/11: lỗi hiện ngay trong phòng Hội đồng, câu hỏi trả lại ô nhập ở mọi lỗi, mỗi lượt lịch sử gửi đi ≤ 800 ký tự; câu dự phòng đã có nhãn. Còn: gửi mã persona thay vì cả hồ sơ (cần sửa server)."
   },
   {
    "id": "AS-03",
@@ -762,9 +762,9 @@
    "proposal": "Chạm bộ bài luôn là rút; chạm lá đã rút để xem to.",
    "evidence": "App.tsx:7565, 8378–8384",
    "size": "S–M",
-   "status": "open",
-   "pr": null,
-   "note": null
+   "status": "done",
+   "pr": "PR #31",
+   "note": "Đã sửa khi làm lại màn rút bài (6e0fdfd): chạm quạt bài là rút, chạm lá đã rút mới xem to; test TarotDrawStep. Ghi nhận 11/11."
   },
   {
    "id": "HO-07",

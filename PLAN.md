@@ -43,7 +43,8 @@ Bảng rà soát 30/10: **107 mục — 50 xong, 24 làm một phần, 33 chưa 
 - ✅ (nhánh này) Thanh tab luôn giữ nhãn, chỉ ẩn khi cuộn xuống dài (U-I).
 - ✅ (nhánh này) Nút 👍/👎/Lưu và nút Báo cáo mới trên từng tin nhắn persona, nút Council đạt 48px (mục 0.2 roadmap).
 - ✅ (nhánh này) Tôi: tài khoản mới thấy lời mời thay vì 0/0/0 (U-F); gợi ý "Chạm để xem" ở kiểu trải chỉ hiện khi thẻ đóng (U-G).
-- ⬜ CH-12 bàn phím che ô nhập (Android) · CO-03 lỗi Council chỉ hiện toast · TA-15 chạm bộ bài sau lá đầu mở ảnh · HO-07 nối "lá hôm nay" với Tarot · JO-08 xuất dữ liệu ngoài JSON.
+- ✅ 11/11 TA-15 (đã sửa từ lần làm lại màn rút bài) · 🟡 CO-03 lỗi Council hiện trong phòng, trả câu hỏi về ô nhập, lịch sử gửi đi ≤ 800 ký tự ([hồ sơ](docs/feature-plans/council-inline-error-2026-11-11.json)); còn gửi mã persona thay vì cả hồ sơ (cần sửa server).
+- ⬜ CH-12 bàn phím che ô nhập (cần máy Android thật) · HO-07 nối "lá hôm nay" với Tarot (cần quyết định thiết kế) · JO-08 xuất Nhật ký dạng văn bản (sau Play).
 - 🟡 TA-06 đổi biểu tượng "Bắt đầu lại" · HO-04 · JO-06/07/09 · CH-14/15 · N-04 · PR-04 (chi tiết trong backlog).
 - ⬜ Chữ lớn 150–200% (`maxFontSizeMultiplier`), ảo hóa danh sách dài (U-B, U-C), thang tiêu đề/placeholder/thumbnail (U-D/E/H) — Gói B.
 

@@ -13,6 +13,7 @@ import { useAiCouncilRoom } from "../useAiCouncilRoom";
 
 jest.mock("@react-native-async-storage/async-storage", () => require("@react-native-async-storage/async-storage/jest/async-storage-mock"));
 jest.mock("../../../backendClient", () => ({
+  BackendLimitError: class BackendLimitError extends Error {},
   generateAiCouncilTurn: jest.fn((_input, fallback) => Promise.resolve(fallback())),
   getChatSessions: jest.fn(() => Promise.resolve([])),
   getChatMessages: jest.fn(() => Promise.resolve([]))
@@ -165,5 +166,37 @@ it("ignores a generation response after the account scope has closed", async () 
   });
   expect(hook.result.current.roomProps.thread.some(turn => turn.text === "Late private reply")).toBe(false);
   expect(input.onTrack).not.toHaveBeenCalledWith("ai_council_turn_created", expect.anything());
+  hook.unmount();
+});
+
+it("CO-03: a failed turn shows the reason in the room and gives the question back", async () => {
+  const input = options();
+  (generateAiCouncilTurn as jest.Mock).mockRejectedValueOnce(new Error("network"));
+  const hook = renderHook(() => useAiCouncilRoom(input));
+  await waitFor(() => expect(AsyncStorage.setItem).toHaveBeenCalled());
+  act(() => hook.result.current.roomProps.onQuestionChange("Mình nên bắt đầu từ đâu?"));
+  await act(async () => { await hook.result.current.roomProps.onSend(); });
+  await waitFor(() => expect(hook.result.current.roomProps.roomNotice).toMatch(/vẫn còn trong ô nhập/));
+  expect(hook.result.current.roomProps.question).toBe("Mình nên bắt đầu từ đâu?");
+  expect(hook.result.current.roomProps.thread.some(turn => turn.text === "Mình nên bắt đầu từ đâu?")).toBe(false);
+  act(() => hook.result.current.roomProps.onQuestionChange("Thử lại"));
+  await act(async () => { await hook.result.current.roomProps.onSend(); });
+  await waitFor(() => expect(hook.result.current.roomProps.roomNotice).toBeNull());
+  hook.unmount();
+});
+
+it("CO-03: each history turn sent to the server is at most 800 characters", async () => {
+  const input = options();
+  const hook = renderHook(() => useAiCouncilRoom(input));
+  await waitFor(() => expect(AsyncStorage.setItem).toHaveBeenCalled());
+  act(() => hook.result.current.roomProps.onQuestionChange("x".repeat(2000)));
+  await act(async () => { await hook.result.current.roomProps.onSend(); });
+  await waitFor(() => expect(hook.result.current.roomProps.thread.filter(turn => turn.role === "guide").length).toBeGreaterThan(0));
+  act(() => hook.result.current.roomProps.onQuestionChange("Tiếp theo?"));
+  await act(async () => { await hook.result.current.roomProps.onSend(); });
+  const calls = (generateAiCouncilTurn as jest.Mock).mock.calls;
+  const history = calls[calls.length - 1][0].sanitizedHistory as Array<{ text: string }>;
+  expect(history.length).toBeGreaterThan(0);
+  expect(history.every(turn => turn.text.length <= 800)).toBe(true);
   hook.unmount();
 });

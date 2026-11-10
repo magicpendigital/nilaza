@@ -371,6 +371,8 @@ export function useAiCouncilRoom({
   const [generating, setGenerating] = useState(false);
   // A safety reply replaces the council's turns for that message; it uses no turn.
   const [safetyNotice, setSafetyNotice] = useState<{ text: string; crisis: boolean } | null>(null);
+  // CO-03: why the last turn did not arrive, shown inside the room (not only as a toast).
+  const [roomNotice, setRoomNotice] = useState<string | null>(null);
   const previousThreadLengthRef = useRef(thread.length);
 
   useEffect(() => {
@@ -647,6 +649,12 @@ export function useAiCouncilRoom({
     setQuestion("");
     setFollowUps([]);
     setSafetyNotice(null);
+    setRoomNotice(null);
+    // Give the question back so nothing the user wrote is lost when no answer arrives.
+    const restoreQuestion = () => {
+      setThread((current) => current.filter((turn) => turn.id !== userTurnId));
+      setQuestion(userQuestion);
+    };
     try {
       const result = await generateAiCouncilTurn(
         {
@@ -663,7 +671,8 @@ export function useAiCouncilRoom({
           },
           sanitizedHistory: thread.slice(-config.maxTranscriptTurns).map((turn) => ({
             role: turn.role,
-            text: turn.text,
+            // CO-03: bounded like persona chat so long councils stay under the 32 KB request limit.
+            text: turn.text.replace(/\s+/g, " ").trim().slice(0, 800),
             personaId: turn.persona?.id
           }))
         },
@@ -741,20 +750,28 @@ export function useAiCouncilRoom({
       });
       if (activity) onGenerationFinished?.(activity, "ready");
     } catch (error) {
+      if (version !== requestVersion.current) {
+        if (activity) onGenerationFinished?.(activity, "failed");
+        return;
+      }
+      restoreQuestion();
       if (error instanceof BackendLimitError) {
-        // Give the question back so nothing the user wrote is lost.
-        setThread((current) => current.filter((turn) => turn.id !== userTurnId));
-        setQuestion(userQuestion);
-        onFeedback(error.code === "feature_paused"
+        const message = error.code === "feature_paused"
           ? (language === "vi" ? "Hội đồng đang tạm nghỉ một chút. Lượt của bạn vẫn còn, hãy thử lại sau." : "The council is resting for a while. Your turn is kept; please try again later.")
           : error.status === 401
             ? (language === "vi" ? "Đăng nhập để dùng Hội đồng 3 góc nhìn." : "Sign in to use the council.")
-            : (language === "vi" ? "Hôm nay bạn đã dùng lượt hội đồng. Hẹn bạn ngày mai." : "You have used today's council. See you tomorrow."));
+            : (language === "vi" ? "Hôm nay bạn đã dùng lượt hội đồng. Hẹn bạn ngày mai." : "You have used today's council. See you tomorrow.");
+        setRoomNotice(message);
+        onFeedback(message);
         onTrack("ai_council_turn_limited", { language, status: error.status, code: error.code });
         if (activity) onGenerationFinished?.(activity, "failed");
         return;
       }
-      onFeedback(language === "vi" ? "Hội đồng chưa trả lời được, hãy thử lại sau một chút." : "The council could not answer yet. Try again in a moment.");
+      const message = language === "vi"
+        ? "Hội đồng chưa trả lời được. Câu hỏi của bạn vẫn còn trong ô nhập, hãy thử lại sau một chút."
+        : "The council could not answer yet. Your question is still in the box; try again in a moment.";
+      setRoomNotice(message);
+      onFeedback(message);
       onTrack("ai_council_turn_failed", {
         language,
         backend: backendAvailable
@@ -878,6 +895,7 @@ export function useAiCouncilRoom({
       quickReplies,
       sessionSummaries,
       safetyNotice,
+      roomNotice,
       setupExpanded,
       synthesis,
       template,
