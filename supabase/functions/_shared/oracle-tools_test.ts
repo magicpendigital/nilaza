@@ -1,4 +1,4 @@
-import { ORACLE_MAX_REPLY_CHARS, oracleActionsFromTools, oracleToolInstructions, parseOracleToolOutput, type OracleHandoff } from "./oracle-tools.ts";
+import { ORACLE_MAX_REPLY_CHARS, oracleActionsFromTools, oracleToolInstructions, oracleToolReminder, parseOracleToolOutput, type OracleHandoff } from "./oracle-tools.ts";
 
 function equal(a: unknown, b: unknown) { if (JSON.stringify(a) !== JSON.stringify(b)) throw new Error(`mismatch: ${JSON.stringify(a)} != ${JSON.stringify(b)}`); }
 function assert(value: unknown, reason: string) { if (!value) throw new Error(reason); }
@@ -35,10 +35,25 @@ Deno.test("drops parameters outside the allowlists", () => {
 });
 
 Deno.test("rejects unusable answers with a content-free code", () => {
-  equal(parseOracleToolOutput("Just text").reason, "no_json");
+  equal(parseOracleToolOutput("   ").reason, "empty");
   equal(parseOracleToolOutput("{not json}").reason, "invalid_json");
   equal(parseOracleToolOutput(JSON.stringify({ tools: [] })).reason, "missing_reply");
   equal(parseOracleToolOutput(JSON.stringify({ reply: "{\"tools\": []}" })).reason, "reply_is_json");
+});
+
+Deno.test("live trace 2026-11-12: prose is a reply without tools, and common key variants are read", () => {
+  const prose = parseOracleToolOutput("Mình nghe thấy bạn đang rối {một chút}. Bạn muốn bắt đầu từ đâu?");
+  equal(prose.reason, undefined);
+  equal(prose.output!.tools, []);
+  assert(prose.output!.reply.startsWith("Mình nghe thấy"), "prose reply lost");
+  const variant = parseOracleToolOutput(JSON.stringify({ response: "Ok.", actions: ["draw_tarot", { name: "Ask_Guide", guide: "laozi" }] }));
+  equal(variant.output!.reply, "Ok.");
+  equal(variant.output!.tools, [{ tool: "draw_tarot" }, { tool: "ask_guide", guide: "laozi" }]);
+});
+
+Deno.test("instructions come before the bundle and the format reminder after it", () => {
+  assert(oracleToolInstructions("vi").includes("overrides any later line"), "override missing");
+  assert(oracleToolReminder("vi").includes("exactly one JSON object") && oracleToolReminder("vi").includes("Vietnamese"), "reminder missing");
 });
 
 Deno.test("bounds the reply and accepts an answer with no tools", () => {

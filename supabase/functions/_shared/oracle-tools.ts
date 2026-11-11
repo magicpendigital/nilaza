@@ -60,19 +60,42 @@ export function enabledOracleTools(): CatalogAction[] {
   return actions.filter(action => action.enabled && KINDS.has(action.kind as OracleToolKind));
 }
 
-/** Appended after the pinned Oracle bundle; it supersedes the bundle line that says the app picks action cards. */
+/**
+ * Placed before the pinned Oracle bundle. It overrides the bundle line saying the application handles
+ * action cards: in this version Oracle picks them. oracleToolReminder repeats the format after the bundle.
+ */
 export function oracleToolInstructions(locale: OracleLocale): string {
   const tools = enabledOracleTools().map(action => `- ${action.kind}: ${action.detail.en}`).join("\n");
   const guides = Object.entries(ORACLE_GUIDES).map(([slug, about]) => `${slug} (${about})`).join(", ");
   return [
     `[tools: ${ORACLE_TOOL_CONTRACT_VERSION}]`,
-    "In this app you also choose which next steps to offer. Offer a tool only when it clearly helps with the current message; many replies need none. Never offer more than two.",
+    "This section overrides any later line saying that the application classifies intent or chooses action cards: in this version you choose which next steps to offer, and the application only validates and displays them.",
+    "Offer a tool only when it clearly helps with the current message; many replies need none. Never offer more than two.",
     "Available tools:",
     tools,
     "Optional parameters: draw_tarot may carry \"question\" (the user's question rephrased in at most 140 characters) and \"topic\" (one of love, career, self, decision); ask_guide carries \"guide\" (one of: " + guides + "); open_council may carry \"template\" (one of love_confusion, career_fog, overthinking, big_decision); cast_astrology may carry \"focus\" (one of love, career, soul).",
     "Answer with JSON only, no other text: {\"reply\": \"<2-4 short sentences in " + (locale === "vi" ? "Vietnamese" : "English") + ">\", \"tools\": [{\"tool\": \"<tool>\", ...}]}.",
     "The reply must not list the tools or say that you opened anything; the app shows the tools as buttons under your reply."
   ].join("\n");
+}
+
+/** Repeated after the pinned bundle so the output format is the last instruction the model reads. */
+export function oracleToolReminder(locale: OracleLocale): string {
+  return `[format: ${ORACLE_TOOL_CONTRACT_VERSION}] Output exactly one JSON object and nothing else: {"reply": "<2-4 short sentences in ${locale === "vi" ? "Vietnamese" : "English"}>", "tools": []} with 0-2 tool objects such as {"tool": "draw_tarot", "topic": "love"}.`;
+}
+
+const REPLY_KEYS = ["reply", "response", "answer", "message", "text"];
+const TOOL_LIST_KEYS = ["tools", "actions", "suggestions", "tool_calls"];
+const TOOL_NAME_KEYS = ["tool", "kind", "name", "type", "action", "id"];
+
+function firstString(item: Record<string, unknown>, keys: string[]): unknown {
+  for (const key of keys) if (typeof item[key] === "string") return item[key];
+  return undefined;
+}
+
+function firstArray(item: Record<string, unknown>, keys: string[]): unknown[] {
+  for (const key of keys) if (Array.isArray(item[key])) return item[key] as unknown[];
+  return [];
 }
 
 function jsonCandidate(text: string): string | undefined {
@@ -97,21 +120,30 @@ function oneOf<T extends string>(value: unknown, allowed: readonly T[]): T | und
  * so the router can try the fallback model once. Unknown or disabled tools are dropped, not rejected.
  */
 export function parseOracleToolOutput(text: string): { output?: OracleToolOutput; reason?: string } {
-  const candidate = jsonCandidate(text);
-  if (!candidate) return { reason: "no_json" };
+  const trimmed = text.trim();
+  if (!trimmed) return { reason: "empty" };
+  const candidate = jsonCandidate(trimmed);
+  const looksLikeJson = /^(?:```|\{)/.test(trimmed);
+  // Plain prose is still a usable AI reply; it just offers no tools.
+  const prose = () => {
+    const reply = shortText(trimmed, ORACLE_MAX_REPLY_CHARS);
+    return reply ? { output: { reply, tools: [] } } : { reason: "empty" };
+  };
+  if (!candidate) return looksLikeJson ? { reason: "no_json" } : prose();
   let parsed: unknown;
-  try { parsed = JSON.parse(candidate); } catch { return { reason: "invalid_json" }; }
-  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return { reason: "not_object" };
-  const body = parsed as { reply?: unknown; tools?: unknown };
-  const reply = shortText(body.reply, ORACLE_MAX_REPLY_CHARS);
+  try { parsed = JSON.parse(candidate); } catch { return looksLikeJson ? { reason: "invalid_json" } : prose(); }
+  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return looksLikeJson ? { reason: "not_object" } : prose();
+  const body = parsed as Record<string, unknown>;
+  const reply = shortText(firstString(body, REPLY_KEYS), ORACLE_MAX_REPLY_CHARS);
   if (!reply) return { reason: "missing_reply" };
   if (reply.startsWith("{") || /"tools"\s*:/.test(reply)) return { reason: "reply_is_json" };
   const enabled = new Set(enabledOracleTools().map(action => action.kind));
   const tools: OracleTool[] = [];
-  for (const raw of Array.isArray(body.tools) ? body.tools : []) {
-    if (!raw || typeof raw !== "object") continue;
-    const item = raw as Record<string, unknown>;
-    const kind = typeof item.tool === "string" ? item.tool : typeof item.kind === "string" ? item.kind : undefined;
+  for (const raw of firstArray(body, TOOL_LIST_KEYS)) {
+    const item = (typeof raw === "string" ? { tool: raw } : raw) as Record<string, unknown> | null;
+    if (!item || typeof item !== "object") continue;
+    const named = firstString(item, TOOL_NAME_KEYS);
+    const kind = typeof named === "string" ? named.trim().toLowerCase() : undefined;
     if (!kind || !KINDS.has(kind as OracleToolKind) || !enabled.has(kind)) continue;
     if (tools.some(tool => tool.tool === kind)) continue;
     const tool: OracleTool = { tool: kind as OracleToolKind };

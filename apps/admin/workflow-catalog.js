@@ -376,7 +376,7 @@
   },
   {
     "path": "supabase/functions/ai-oracle-turn/handler.ts",
-    "sha256": "f86f20d68ce59beda731027f8440a115abf4046500e3fe7278e21a0888ebc284"
+    "sha256": "4161f11a7ecf5d592abaed0f1f14d05bf7a441ce8a30360310e4732194769d3b"
   },
   {
     "path": "supabase/functions/ai-oracle-turn/index.ts",

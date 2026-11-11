@@ -3,7 +3,7 @@ import {
   compileOracleInput, readOracleQuestion, oracleIntent, oracleSafetySignal,
   oracleSafetyReply, oracleFallbackReply, OracleInputError, ORACLE_RUNTIME_READINESS
 } from "../_shared/oracle-runtime.mjs";
-import { ORACLE_TOOL_CONTRACT_VERSION, oracleActionsFromTools, oracleToolInstructions, parseOracleToolOutput, type OracleHandoff } from "../_shared/oracle-tools.ts";
+import { ORACLE_TOOL_CONTRACT_VERSION, oracleActionsFromTools, oracleToolInstructions, oracleToolReminder, parseOracleToolOutput, type OracleHandoff } from "../_shared/oracle-tools.ts";
 import { featurePausedBody } from "../_shared/feature-switch.ts";
 
 export const oracleCorsHeaders = {
@@ -158,9 +158,8 @@ async function modelTurn(deps: OracleHandlerDependencies, turn: {
   const promptVersionId = `${turn.promptVersionId}+${ORACLE_TOOL_CONTRACT_VERSION}`;
   const generation = await deps.generate!({
     userId: turn.userId,
-    system: `${turn.compiled.preview.system}
-
-${oracleToolInstructions(turn.locale)}`,
+    // Live trace 2026-11-12: with the contract only after the bundle both models ignored it; it now comes first and the format last.
+    system: [oracleToolInstructions(turn.locale), turn.compiled.preview.system, oracleToolReminder(turn.locale)].join("\n\n"),
     messages: turn.compiled.preview.messages.map(message => ({ role: message.role, content: message.content })),
     safetyText: turn.question,
     acceptOutput: (text, finishReason) => finishReason === "length" ? "incomplete" : parseOracleToolOutput(text).reason

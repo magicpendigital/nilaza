@@ -73,7 +73,7 @@
     {
       "path": "supabase/functions/ai-oracle-turn/handler.ts",
       "reason": "Static local_fallback, heuristic action cards.",
-      "sha256": "f86f20d68ce59beda731027f8440a115abf4046500e3fe7278e21a0888ebc284"
+      "sha256": "4161f11a7ecf5d592abaed0f1f14d05bf7a441ce8a30360310e4732194769d3b"
     },
     {
       "path": "supabase/functions/ai-oracle-turn/handler_test.ts",
@@ -189,7 +189,7 @@
     "unresolvedHighRisks": []
   },
   "workingTreeReview": {
-    "note": "Record passed preflight before the code edit (11/11). Then: oracle-tools.ts contract and tests, handler model path with switch and shared attempt before generate, index wiring to the router, crisis test allows 115 only (pre-existing failure), app Oracle calls the server when signed in with notices on failure, compact chips and AI banner, client and room tests, backend validator rule now requires metering, Admin catalog digests and the stale content seed regenerated, OR-01 backlog note, PLAN.md. 22 Deno tests, 459 app tests, tsc, validate:backend and admin:check pass. CI 7b17a9a: the seed regenerated on Windows hashed CRLF sources; build-admin-seed now normalizes line endings and the seed is back to the LF source version.",
+    "note": "Record passed preflight before the code edit (11/11). Then: oracle-tools.ts contract and tests, handler model path with switch and shared attempt before generate, index wiring to the router, crisis test allows 115 only (pre-existing failure), app Oracle calls the server when signed in with notices on failure, compact chips and AI banner, client and room tests, backend validator rule now requires metering, Admin catalog digests and the stale content seed regenerated, OR-01 backlog note, PLAN.md. 22 Deno tests, 459 app tests, tsc, validate:backend and admin:check pass. CI 7b17a9a: the seed regenerated on Windows hashed CRLF sources; build-admin-seed now normalizes line endings and the seed is back to the LF source version. Live check 12/11 (Owner deployed v2, Owner approved reading the trace, technical fields only): both models answered (307 and 209 chars, finish stop) but neither passed the parser, so the function returned 503. Fix: tool contract now precedes the pinned bundle with an explicit override and a format reminder follows it; parser reads common key variants and treats plain prose as a reply without tools. 24 Deno tests pass.",
     "paths": [
       "PLAN.md",
       "apps/admin/generated/content-seed.json",
