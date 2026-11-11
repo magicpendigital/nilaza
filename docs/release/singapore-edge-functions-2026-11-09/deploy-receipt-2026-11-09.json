@@ -206,5 +206,20 @@
       "followUps": "Hide Retry when the reason is daily limit; Council fallback text capitalises 'Buoc' mid-sentence",
       "notVerified": "Daily insight (needs a birth date); Council daily limit; astrology report"
     }
+  },
+  "oracleAiDeploy20261112": {
+    "record": "docs/feature-plans/oracle-ai-tools-2026-11-11.json",
+    "deployedBy": "Owner (npx supabase functions deploy ai-oracle-turn --use-api): v2 from 133891b, then v3 from 1acee87",
+    "readBack": "list_edge_functions: ai-oracle-turn v3 ACTIVE verify_jwt true; no Authorization header returns 401",
+    "v2Finding": "Signed in on the phone: 503 after about 6 s. Trace read with Owner approval, technical fields only: deepseek/deepseek-v4.1-flash answered 307 chars and xiaomi/mimo-v2.6-flash 209 chars, both finish stop, neither passed the tool parser. Fixed in 1acee87 (contract before the pinned bundle, format reminder after it, tolerant parser).",
+    "deviceTest": {
+      "date": "2026-11-12",
+      "build": "local release APK from 133891b pointing at Singapore, installed over the previous test build",
+      "oracle": "PASS on v3: AI-written reply to a love question, no on-device label, two chips chosen by the model (Trai bai, Hoi mot nguoi dan); the guide chip opened The Love Oracle with the Oracle context",
+      "oracleFailureNotice": "PASS on v2: the room said Oracle cannot answer right now and kept the question in the box",
+      "chatOffline": "PASS: airplane mode, guide chat said the connection is interrupted, kept the message, offered Retry",
+      "councilOffline": "PASS: airplane mode, Council room notice asked to check the Internet, question back in the box, no canned council",
+      "notVerified": "Oracle crisis phrase on the device; Oracle and chat sharing the 5 daily attempts end to end; tool choice quality over more questions"
+    }
   }
 }
