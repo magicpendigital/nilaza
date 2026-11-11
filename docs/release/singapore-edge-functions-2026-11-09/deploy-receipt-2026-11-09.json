@@ -180,5 +180,18 @@
     "readBack": "supabase functions list: ai-persona-chat v2 ACTIVE verify_jwt true; ai-tarot-reading v3 ACTIVE verify_jwt true",
     "probes": "no Authorization header: gateway 401 UNAUTHORIZED_NO_AUTH_HEADER for both; publishable key only: function-level 401 authentication_required for both",
     "notVerified": "signed in: 6th chat message and a second Tarot AI reading after a delivered one returning 429 daily_limit_reached; the app still shows local text on 429"
+  },
+  "batch20261111": {
+    "date": "2026-11-11",
+    "migrations": "20261111090000_ai_feature_switches_tarot_daily_report and 20261111090100_move_vector_extension listed on Singapore (35 migrations), applied by the Owner",
+    "redeploy": "Owner redeployed ai-persona-chat v3, ai-tarot-reading v4, ai-council v2, ai-astrology-insight v2, ai-daily-insight v2, ai-astrology-report v2 (11/11 14:44-14:46 UTC+7), read back ACTIVE with supabase functions list",
+    "signedInSmoke": {
+      "tool": "scripts/staging-smoke.mjs typed by the Owner in the Claude terminal tab",
+      "signIn": "OK ES256",
+      "gateway": "user-credits HTTP 200 (1689 ms)",
+      "tarotAi": "HTTP 200 in 15 s, sourceKind ai, moderation passed, openrouter deepseek/deepseek-v4.1-flash, Vietnamese reading",
+      "result": "PASS"
+    },
+    "notVerified": "second Tarot reading of the day returning 429; chat 6th message; app behaviour on a device"
   }
 }
