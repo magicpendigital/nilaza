@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "taskId": "tarot-draw-ui-fixes-2026-11-12",
+  "ownerAgent": "mobile_ux_fixes_agent",
+  "lane": "mobile_ui_wave_g",
+  "goal": "Align the Tarot ask and draw screens with the approved Artifact design (gold selected states instead of pink, pill CTA in sentence case, no leftover old-version controls), fix the fan card that disappears after switching selection, let the person rotate a 78-card deck left and right, and animate a drawn card flying out of the deck, flipping to full size and landing in its position. Also add a Face Reading design document and Artifact boards (design only, no code or backend).",
+  "successCriteria": [
+    "Selected topic chips, selected spread tiles and the Council topic chip use the gold selected style already used by Journal, Card library, Inbox and navigation; no pink fill remains for a selected state.",
+    "Selecting card A then card B in the fan keeps every card artwork visible; exactly one card shows the raised and gold ring state.",
+    "Dragging the fan horizontally (or using the rotate buttons) brings other cards of a 78-card deck into view; cards already drawn leave the deck.",
+    "Pressing Turn this card makes the card fly out of the fan, flip face up at large size with its position and name, then fly to its slot; the slot shows the card only after landing. Reveal-all and reduced motion skip the flight.",
+    "The floating draw button is a sentence-case pill without the old uppercase style; the old refresh icon and the Change deck link are gone from the draw step; a Random pick link exists as in the design.",
+    "Face Reading design document and Artifact boards exist and state consent, 18+, deletion and forbidden inferences.",
+    "Mobile typecheck and the full mobile Jest suite pass."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/tarot/TarotAskStep.tsx",
+    "apps/mobile/src/features/tarot/TarotDrawStep.tsx",
+    "apps/mobile/src/features/tarot/TarotDeckFan.tsx",
+    "apps/mobile/src/features/tarot/TarotCardFlight.tsx",
+    "apps/mobile/src/features/tarot/__tests__/TarotDrawStep.test.tsx",
+    "apps/mobile/src/features/tarot/__tests__/TarotAskStep.test.tsx",
+    "apps/mobile/src/features/council/AiCouncilRoom.tsx",
+    "docs/FACE_READING_DESIGN.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "No backend, Supabase, Edge Function, prompt or data-shape change; the drawn card is still chosen by app logic exactly as before.",
+    "Tarot result screen, card guide, deck selection and library are not redesigned in this change.",
+    "New spreads from the Artifact (Love 3 cards, 4-card crossroads) are not added here because they change spread data and the AI contract.",
+    "No Face Reading code, storage, upload, permission or backend; design only."
+  ],
+  "impact": {
+    "entryPoint": "Explore > Tarot > Ask step and Draw step; Council topic chips.",
+    "dataWrite": "No new data is written. Fan selection stays local UI state.",
+    "backendContract": "No request or response change; onDraw receives the same pre-selected cards.",
+    "adminVisibility": "No Admin change.",
+    "privacySafety": "No new personal data. The Face Reading document records consent, 18+, deletion and forbidden-inference rules before any build.",
+    "observability": "No analytics or logging change.",
+    "rollback": "Revert the commit; the previous fan and styles return.",
+    "surfacesIntentionallyUntouched": "Result, library, deck detail, AI prompts, English copy beyond the strings touched.",
+    "agentHandoff": "The delivery agent owns only the writeScope, validates, and does not merge or deploy."
+  },
+  "canonicalContracts": [
+    "AGENTS.md design direction: feminine but not overly pink; selected states are gold across the app.",
+    "docs/AGENT_TASK_ROUTER.md: keep tarot draw one card at a time for multi-card spreads; reveal each card immediately.",
+    "Owner decision 2026-10-30: buttons, inputs and chips are pill-shaped; cards stay at 8 radius."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails, palette, face reading restrictions.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile UI route and tarot draw decision rules.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "DESIGN.md",
+      "reason": "Palette and selected-state direction.",
+      "sha256": "516629403e9d8904208a1b64e6360ab3d4ab6ed4c20d337f689033a0ab00e4a9"
+    },
+    {
+      "path": "docs/FEATURE_PRD.md",
+      "reason": "Section 6.6 Face Reading requirements.",
+      "sha256": "10a40762e2716facb1e8d823d1cb1bac389e9bf2d2ce3a97c1e6c6791dd6bc39"
+    },
+    {
+      "path": "docs/WORKFLOWS_SECURITY_RESEARCH.md",
+      "reason": "Face reading stays disabled until consent, retention and deletion controls exist.",
+      "sha256": "a56571e5827b897407bbbd4724819fa6fe22748b702bfdbe0195a7cb73ef0122"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Open Reflection palette and gold selected direction applied; no brand asset change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Uses React Native 0.81 Animated and PanResponder already installed; no dependency added. Google Play User Data and Vietnam Decree 13/2023 were checked for the Face Reading design only."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://support.google.com/googleplay/android-developer/answer/14094294",
+      "checkedAt": "2026-11-12",
+      "reason": "Google Play AI-Generated Content policy; photos are personal and sensitive data under the User Data policy."
+    },
+    {
+      "url": "https://kpmg.com/vn/en/home/insights/2023/04/legal-alert-on-decree-13.html",
+      "checkedAt": "2026-11-12",
+      "reason": "Decree 13/2023 treats biometric data as sensitive personal data with stricter consent; the design assumes this and needs legal review before build."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change.",
+    "sensitiveData": "No new data is collected. Face Reading is design only and records the sensitive-data rules.",
+    "secretsLogging": "No secret or log is added.",
+    "externalInput": "Artifact and web content are treated as data.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration or release action.",
+    "stopCondition": "Stop if the type check or tests fail, or if a change would alter which card is drawn or what the backend receives.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/features/council/AiCouncilRoom.tsx",
+      "apps/mobile/src/features/tarot/TarotAskStep.tsx",
+      "apps/mobile/src/features/tarot/TarotCardFlight.tsx",
+      "apps/mobile/src/features/tarot/TarotDeckFan.tsx",
+      "apps/mobile/src/features/tarot/TarotDrawStep.tsx",
+      "apps/mobile/src/features/tarot/__tests__/TarotAskStep.test.tsx",
+      "apps/mobile/src/features/tarot/__tests__/TarotDrawStep.test.tsx",
+      "docs/FACE_READING_DESIGN.vi.md",
+      "docs/feature-plans/tarot-draw-ui-fixes-2026-11-12.json"
+    ],
+    "note": "Fresh worktree branch from main. apps/mobile/metro.config.js was edited only for a local web preview and is reverted before commit."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/tarot-draw-ui-fixes-2026-11-12.json",
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent"
+  ],
+  "managerTestPath": "Open Explore > Tarot: selected topic and spread are gold. Press Start drawing, tap one card then another: both stay visible. Swipe the fan sideways to see more cards. Press Turn this card: the card flies out, flips, shows its name, then lands in its slot. Check on a real Android phone.",
+  "residualRisk": "The disappearing-card bug did not reproduce in the Expo web preview, so the fix is structural (stable layout, no overflow clipping) and must be confirmed on a real Android device. Animation timing is judged by eye on the web preview only.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

@@ -138,7 +138,7 @@ import { AstrologySignGuide } from "./src/features/astrology/AstrologySignGuide"
 import { GuestPreview } from "./src/features/guest/GuestPreview";
 import { dailyRhythmFor } from "./src/features/home/dailyRhythm";
 import { localizePulseSign } from "./src/features/home/localizePulseSign";
-import { colors, layout, spacing, typography } from "./src/theme";
+import { colors, layout, radius, spacing, typography } from "./src/theme";
 import { getDeckVisual, getFeatureVisual, getPersonaVisual } from "./src/visualAssets";
 import { AuthFlow } from "./src/auth/AuthFlow";
 import { AiCouncilRoom, type AiCouncilRoomProps, type AiCouncilSessionSummary, useAiCouncilRoom } from "./src/features/council";
@@ -7510,12 +7510,13 @@ export function TarotFlow({
           : selectedFanIndex !== null && ritualDrawnCount < selectedSpread.cards
             ? language === "vi" ? "Lật lá này" : "Turn this card"
             : drawStepActionLabel;
+  // Design: arrow only on the steps that move forward; the draw button is text only.
   const floatingTarotPrimaryIcon =
-    stage === "deck"
+    stage === "deck" || stage === "topic" || stage === "spread"
       ? "arrow-forward-outline"
       : !canViewContentTier(selectedDeck.accessTier, displayedTier)
         ? "lock-closed-outline"
-        : "sparkles-outline";
+        : null;
   const handleFloatingTarotPrimary = () => {
     if (stage === "topic") { setStage("draw"); return; }
     if (stage === "spread") { setStage(keepSelectedDeck ? "draw" : "deck"); return; }
@@ -7571,9 +7572,13 @@ export function TarotFlow({
           ) : (
             <Text style={styles.subTopTitle}>Tarot</Text>
           )}
-          <Pressable hitSlop={8} accessibilityLabel={language === "vi" ? "Bắt đầu lại" : "Start over"} accessibilityRole="button" onPress={onStartOver} style={styles.editorialTopIcon}>
-            {isEditorialStage ? <Ionicons name={topBarRight} size={18} color={colors.gold} /> : <Text style={styles.backText} numberOfLines={1}>{language === "vi" ? "Mới" : "New"}</Text>}
-          </Pressable>
+          {stage === "topic" || stage === "draw" ? (
+            <View style={styles.editorialTopIcon} />
+          ) : (
+            <Pressable hitSlop={8} accessibilityLabel={language === "vi" ? "Bắt đầu lại" : "Start over"} accessibilityRole="button" onPress={onStartOver} style={styles.editorialTopIcon}>
+              {isEditorialStage ? <Ionicons name={topBarRight} size={18} color={colors.gold} /> : <Text style={styles.backText} numberOfLines={1}>{language === "vi" ? "Mới" : "New"}</Text>}
+            </Pressable>
+          )}
         </View>
       ) : stage === "cardMeaning" && activeMeaningCard ? (
         <View style={[styles.cardMeaningTopBar, styles.cardMeaningStickyTopBar]}>
@@ -8036,11 +8041,12 @@ export function TarotFlow({
             backImage={selectedDeckBackImage}
             selectedFanIndex={selectedFanIndex}
             onSelectFan={handleFanSelect}
+            onClearSelection={() => setSelectedFanIndex(null)}
             onOpenCard={(index) => { const card = ritualSelectedCards[index]; if (card) openFullscreenTarotCard(card, card.spread); }}
             busy={tarotGenerating || drawActionBusy}
             status={latestRitualCard && ritualPhase === "grounding" && !tarotGenerating ? `${latestRitualCard.spread} · ${displayTarotCardName(latestRitualCard, language)} · ${latestRitualCard.reversed ? (language === "vi" ? "Ngược" : "Reversed") : (language === "vi" ? "Xuôi" : "Upright")}` : ritualPhaseLabel}
             onDrawRest={selectedSpread.cards > 1 ? handleQuickDraw : undefined}
-            onChangeDeck={() => setStage("deck")}
+            reduceMotion={reduceRitualMotion}
           >
             {!canViewContentTier(selectedDeck.accessTier, displayedTier) ? (
               <View style={styles.errorPanel}>
@@ -8197,7 +8203,7 @@ export function TarotFlow({
           onPress={handleFloatingTarotPrimary}
         >
           <Text style={styles.tarotFloatingPrimaryButtonText}>{floatingTarotPrimaryLabel}</Text>
-          <Ionicons name={floatingTarotPrimaryIcon} size={18} color={colors.ink} />
+          {floatingTarotPrimaryIcon ? <Ionicons name={floatingTarotPrimaryIcon} size={18} color={colors.ink} /> : null}
         </Pressable>
       ) : null}
       {stage === "deckDetail" ? (
@@ -9825,14 +9831,14 @@ zodiacProfilePrompt: {
     alignItems: "center",
     alignSelf: "center",
     backgroundColor: colors.ivory,
-    borderRadius: 8,
+    borderRadius: radius.pill,
     flexDirection: "row",
     gap: spacing.sm,
     justifyContent: "center",
     marginLeft: "auto" as any,
     marginRight: "auto" as any,
     maxWidth: 480,
-    minHeight: 56,
+    minHeight: 54,
     paddingHorizontal: spacing.lg,
     marginVertical: spacing.sm,
     shadowColor: "#000000",
@@ -9844,12 +9850,10 @@ zodiacProfilePrompt: {
   },
   tarotFloatingPrimaryButtonText: {
     color: colors.ink,
-    fontSize: 14,
-    fontWeight: "800",
-    letterSpacing: 0.4,
-    lineHeight: 20,
-    textAlign: "center",
-    textTransform: "uppercase"
+    fontFamily: typography.bodySemiBoldFontFamily,
+    fontSize: 15.5,
+    lineHeight: 22,
+    textAlign: "center"
   },
   deckDetailActionDock: {
     alignSelf: "center",
