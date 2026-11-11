@@ -14,7 +14,7 @@ Nếu bạn chưa thấy mục này, bản ứng dụng bạn đang dùng chưa 
 
 ## Xóa khi không mở được ứng dụng
 
-Gửi yêu cầu xóa từ chính địa chỉ email bạn dùng để đăng nhập Nilaza tới hộp thư hỗ trợ. Hộp thư hỗ trợ đang được thiết lập và sẽ được ghi tại đây trước khi Nilaza mở đợt thử nghiệm. Chúng tôi chỉ xử lý yêu cầu đến từ đúng email của tài khoản, để không ai xóa nhầm tài khoản của người khác.
+Gửi email có tiêu đề **"Xóa tài khoản Nilaza"** từ chính địa chỉ email bạn dùng để đăng nhập Nilaza tới hộp thư hỗ trợ: [magicpendigital@gmail.com](mailto:magicpendigital@gmail.com?subject=X%C3%B3a%20t%C3%A0i%20kho%E1%BA%A3n%20Nilaza). Chúng tôi chỉ xử lý yêu cầu đến từ đúng email của tài khoản, để không ai xóa nhầm tài khoản của người khác.
 
 ## Dữ liệu bị xóa
 

@@ -112,7 +112,7 @@
     "unresolvedHighRisks": []
   },
   "workingTreeReview": {
-    "note": "Record passed preflight before the edit (11/11). Then: vi and en account-deletion pages (in-app path checked against ProfileHome: Me > Account > Delete account), legal slug, footer link, privacy page links, PR-01 note and PLAN.md. astro check 0 errors; astro build 45 pages including both new ones.",
+    "note": "Record passed preflight before the edit (11/11). Then: vi and en account-deletion pages (in-app path checked against ProfileHome: Me > Account > Delete account), legal slug, footer link, privacy page links, PR-01 note and PLAN.md. astro check 0 errors; astro build 45 pages including both new ones. 11/11 later: Owner gave the support mailbox; both pages now name it with a mailto link.",
     "paths": [
       "PLAN.md",
       "apps/web/src/components/SiteFooter.astro",

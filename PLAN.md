@@ -49,7 +49,7 @@ Bảng rà soát 30/10: **107 mục — 50 xong, 24 làm một phần, 33 chưa 
 - ⬜ Chữ lớn 150–200% (`maxFontSizeMultiplier`), ảo hóa danh sách dài (U-B, U-C), thang tiêu đề/placeholder/thumbnail (U-D/E/H) — Gói B.
 
 ### App (bị chặn)
-- ⛔ Xóa tài khoản: giao diện đã có nhưng tắt (`accountDeleteLive=false`), chờ deploy `account-delete` + trang web xóa dữ liệu + hộp thư hỗ trợ (PR-01).
+- ⛔ Xóa tài khoản: giao diện đã có nhưng tắt (`accountDeleteLive=false`); hàm, trang web và hộp thư đã có — chờ app trỏ Singapore (PR-01, xem 4b).
 - ⛔ Oracle gọi AI thật (OR-01) · Daily AI tự chạy (HO-02) · Tarot AI mở rộng kiểu trải · Báo cáo về server (CH-02 cần deploy `ai-feedback`).
 - 🔍 Chờ thử trên máy thật: Back, TalkBack, nhắc buổi sáng, chọn ngày giờ native, bàn phím, chữ lớn.
 
@@ -69,7 +69,7 @@ Bảng rà soát 30/10: **107 mục — 50 xong, 24 làm một phần, 33 chưa 
 2. Owner tự làm: gắn 3 biến `EXPO_PUBLIC_*` vào EAS production (đã đồng ý 04/11) → dựng AAB đầu tiên; tuyển ≥ 12 (nên 15–20) người thử.
 3. Bộ thiết kế Admin chi tiết (19 màn): PR #32 (đã merge vào nhánh release 11/11) + [đặc tả](docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md) + canvas <https://claude.ai/artifact/JfSTk3fKJANL1T8Ptcxo9k>. Owner đã chốt 04/11: gộp Astrology report vào Đọc sâu; Daily bỏ toàn văn Nhật ký; tâm trạng chỉ dùng nếu ghi trong 24 giờ; dự phòng đắt hơn được, trần 0,02 USD/lượt; biên tập viên chỉ lưu nháp, Owner phát hành. Cổng phát hành theo mục 5.1 của đặc tả (duyệt 04/11): không bỏ qua lớp an toàn; chỉ Owner bỏ qua lớp chất lượng khi khôi phục hoặc sửa khẩn cấp, gắn nhãn "Chưa chấm" và chấm lại trong 24 giờ. **Còn chờ:** các con số độ dài (đội biên tập).
 
-4. **Lô 11/11 chờ Owner chạy (PR #31):** (a) áp 2 migration `20261111090000` (công tắc Tarot/Daily/Lá số tóm tắt) và `20261111090100` (chuyển `vector`) lên Singapore — chạy `db push --dry-run` trước, chỉ được thấy đúng 2 file này; (b) deploy lại 6 hàm AI dùng bộ định tuyến chung: `ai-persona-chat`, `ai-tarot-reading`, `ai-council`, `ai-astrology-insight`, `ai-daily-insight`, `ai-astrology-report` (dự phòng LLM giai đoạn 0, tên gọi trong chat, Daily chỉ gửi tâm trạng, công tắc Tarot); (c) chạy lại `node scripts/staging-smoke.mjs`; (d) cấp hộp thư hỗ trợ cho trang xóa tài khoản.
+4. **Lô 11/11 (PR #31):** (a) ✅ 2 migration `20261111090000` + `20261111090100` có trên Singapore (đọc danh sách migration 11/11, 35 bản); (b) ✅ 6 hàm AI deploy lại 11/11 14:44–14:46 (`ai-persona-chat` v3, `ai-tarot-reading` v4, `ai-council` v2, `ai-astrology-insight` v2, `ai-daily-insight` v2, `ai-astrology-report` v2); (c) smoke test: đang chạy; (d) ✅ hòm thư hỗ trợ magicpendigital@gmail.com ghi vào trang xóa tài khoản (website chưa deploy lại).
 
 ## 4b. Đã duyệt 04/11, đang chờ làm (lát cắt backend tiếp theo)
 
@@ -80,7 +80,7 @@ Bảng rà soát 30/10: **107 mục — 50 xong, 24 làm một phần, 33 chưa 
 - ✅ Hạn mức phía server ([hồ sơ](docs/feature-plans/ai-chat-tarot-daily-limit-2026-11-11.json)): Chat persona 5 tin/ngày; Tarot AI 1 bài đạt/ngày (AI lỗi thì được thử lại, tối đa 3 lần/ngày). **Đã deploy Singapore 11/11** (`ai-persona-chat` v2, `ai-tarot-reading` v3, đọc lại ACTIVE, gọi không đăng nhập trả 401). Chưa thử khi đăng nhập: tin thứ 6 / bài Tarot thứ 2 bị chặn 429. Phần app ✅ 11/11 ([hồ sơ](docs/feature-plans/app-daily-limit-messages-2026-11-11.json)): Chat và Tarot báo "hết lượt hôm nay" thay vì nội dung dự phòng; bộ đếm Tarot của app về 1/ngày; 451 test app đạt — có hiệu lực từ bản AAB tới, chưa thử trên máy. Chưa có đếm lượt chat còn lại.
 - 🟡 Gửi tên gọi cho AI trong chat persona (CH-13, [hồ sơ](docs/feature-plans/chat-nickname-2026-11-11.json)): code + test xong 11/11, câu ở Hồ sơ đã sửa; **chờ deploy `ai-persona-chat`** và bản AAB tới. Data safety/chính sách riêng tư cần ghi "tên gọi gửi cho nhà cung cấp AI".
 - ⬜ Đặt `magicpendigital@gmail.com` là Premium trên project đang chạy QA (một câu SQL — sẽ đưa lệnh để Owner xác nhận).
-- 🟡 Xóa tài khoản: `account-delete` ✅ ACTIVE trên Singapore 09/11; trang web `/vi|en/account-deletion` ✅ 11/11 ([hồ sơ](docs/feature-plans/web-account-deletion-page-2026-11-11.json), astro check + build đạt, chưa deploy website); **còn chờ Owner: hộp thư hỗ trợ** (trang đang ghi "đang thiết lập") và bật `accountDeleteLive` khi app trỏ Singapore.
+- 🟡 Xóa tài khoản: `account-delete` ✅ ACTIVE trên Singapore 09/11; trang web `/vi|en/account-deletion` ✅ 11/11 ([hồ sơ](docs/feature-plans/web-account-deletion-page-2026-11-11.json), astro check + build đạt, chưa deploy website); hộp thư hỗ trợ magicpendigital@gmail.com ✅ 11/11; còn: deploy lại website và bật `accountDeleteLive` khi app trỏ Singapore.
 - 🟡 Migration chờ Owner áp lên Singapore ([hồ sơ](docs/feature-plans/switches-vector-migration-2026-11-11.json)): `20261111090000` thêm công tắc cho Tarot AI, Daily, Lá số tóm tắt (Admin thấy 6 công tắc; Tarot AI giờ tôn trọng công tắc) và `20261111090100` chuyển extension `vector` sang schema `extensions` (cảnh báo Security Advisor 08/11). Đã chạy thử trên PGlite (Postgres 17) 11/11 — chưa chạy trên Supabase. Hai cảnh báo hàm SECURITY DEFINER của công tắc AI được chấp nhận (hàm tự kiểm quyền `ai.read`/`ai.manage`).
 
 ## 5. Đã xong gần đây (31/10 – 08/11)

@@ -14,7 +14,7 @@ If you do not see this option yet, the app version you use has not turned on in-
 
 ## Delete without the app
 
-Send a deletion request from the same email address you use to sign in to Nilaza to the support mailbox. The support mailbox is being set up and will be listed here before Nilaza opens testing. We only act on requests sent from the account's own email, so no one can delete someone else's account by mistake.
+Email the support mailbox with the subject **"Delete my Nilaza account"** from the same address you use to sign in to Nilaza: [magicpendigital@gmail.com](mailto:magicpendigital@gmail.com?subject=Delete%20my%20Nilaza%20account). We only act on requests sent from the account's own email, so no one can delete someone else's account by mistake.
 
 ## What is deleted
 
