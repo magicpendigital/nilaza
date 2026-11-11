@@ -71,6 +71,7 @@ import {
   requestAccountDeletion,
   generateDailyZodiacPulse,
   generatePersonaReply,
+  generateOracleTurn,
   generateTarotReading,
   registerNotificationDevice,
   sendNotificationTest,
@@ -4454,12 +4455,32 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       targetRoute: "chat",
       targetMode: "oracle"
     });
+    const previousTurns = oracleTurns;
     setOracleTurns((current) => [...current, userTurn].slice(-40));
+    const useAi = Boolean(nilazaBackendBaseUrl && backendOptions.authToken);
     try {
       const signal = oracleSafetySignal(text);
-      const result: OracleTurnResult = signal
-        ? { ...buildOracleFallbackResult(text, language), reply: oracleSafetyReply(language, signal), intent: "safety_redirect", actionCards: [], moderationStatus: "blocked" }
+      const localResult = (): OracleTurnResult => signal
+        ? { ...buildOracleFallbackResult(text, language), reply: oracleSafetyReply(language, signal), intent: "safety_redirect", actionCards: [], moderationStatus: "blocked", safety: signal === "self_harm_signal" ? "crisis" : "boundary" }
         : buildOracleFallbackResult(text, language);
+      // Crisis and boundary replies answer on the device, free and instant; everything else asks the AI when signed in.
+      const tone = ["balanced", "gentle", "direct", "wise", "playful", "spiritual"].includes(profile.tone) ? profile.tone : undefined;
+      const result: OracleTurnResult = signal || !useAi ? localResult() : await generateOracleTurn({
+        language,
+        userMessage: text,
+        currentScreen: "oracle",
+        profile: {
+          ...(profile.nickname?.trim() ? { nickname: profile.nickname.trim().slice(0, 80) } : {}),
+          goals: profile.goals.slice(0, 5).map((goal) => goal.slice(0, 300)),
+          ...(tone ? { tone } : {})
+        },
+        recentSafeContext: [],
+        consentFlags: { journalMemory: false, birthProfile: false, history: true, profile: true },
+        sanitizedHistory: previousTurns
+          .filter((turn) => turn.text.trim())
+          .slice(-8)
+          .map((turn) => ({ role: turn.role, text: turn.text.replace(/\s+/g, " ").trim().slice(0, 1500) }))
+      }, localResult, backendOptions);
       const oracleTurn: OracleTurn = {
         id: nowId(),
         role: "oracle",
@@ -4470,14 +4491,15 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         actionCards: result.actionCards,
         handoffContext: result.handoffContext,
         promptVersionId: result.promptVersionId,
-        ...(signal ? { safety: signal === "self_harm_signal" ? "crisis" as const : "boundary" as const } : {}),
+        ...(result.safety ? { safety: result.safety } : {}),
         moderationStatus: result.moderationStatus
       };
       setOracleTurns((current) => [...current, oracleTurn].slice(-40));
       recordEvent("oracle_turn_created", {
         intent: result.intent,
         moderationStatus: result.moderationStatus,
-        backend: false
+        backend: useAi && !signal,
+        actionCount: result.actionCards.length
       });
       if (result.moderationStatus === "blocked") {
         recordSafetyEvent({
@@ -4487,10 +4509,23 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         }, false);
       }
       finishGenerationActivity(activity, "ready");
-    } catch {
-      setOracleError(language === "vi" ? "Oracle chưa trả lời được. Hãy thử lại trong một lát." : "Oracle could not answer yet. Try again in a moment.");
+    } catch (error) {
+      // Give the question back and say why, like guide chat (ai-unavailable-notice-2026-11-11).
+      setOracleTurns((current) => current.filter((turn) => turn.id !== userTurn.id));
+      setOracleInput(text);
+      const reason = error instanceof BackendUnavailableError ? error.reason
+        : error instanceof BackendLimitError ? error.code : "error";
+      setOracleError(reason === "daily_limit_reached"
+        ? (language === "vi" ? "Bạn đã dùng hết lượt trò chuyện hôm nay (Oracle dùng chung lượt với người dẫn đường). Lượt mới mở vào đầu ngày mai." : "You have used today's conversations (Oracle shares them with guide chat). New ones open at the start of tomorrow.")
+        : reason === "feature_paused"
+          ? (language === "vi" ? "Oracle đang tạm nghỉ một chút. Hãy thử lại sau." : "Oracle is resting for a while. Please try again later.")
+          : reason === "offline"
+            ? (language === "vi" ? "Đường truyền đang gián đoạn. Bạn kiểm tra kết nối Internet rồi gửi lại; câu của bạn vẫn còn trong ô nhập." : "The connection is interrupted. Check your Internet and send again; your message is still in the box.")
+            : reason === "auth"
+              ? (language === "vi" ? "Phiên đăng nhập đã hết hạn. Bạn đăng nhập lại rồi gửi lại nhé." : "Your sign-in has expired. Sign in again, then send again.")
+              : (language === "vi" ? "Oracle chưa trả lời được lúc này. Câu của bạn vẫn còn trong ô nhập, hãy thử lại sau ít phút." : "Oracle cannot answer right now. Your message is still in the box; try again in a few minutes."));
       finishGenerationActivity(activity, "failed");
-      recordEvent("oracle_turn_failed", { backend: Boolean(nilazaBackendBaseUrl) });
+      recordEvent("oracle_turn_failed", { backend: useAi, reason });
     } finally {
       setOracleGenerating(false);
     }
@@ -5650,6 +5685,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const chatScreen = screen === "chat" ? (
     chatMode === "oracle" ? (
       <OracleRoom
+        aiEnabled={Boolean(nilazaBackendBaseUrl && backendOptions.authToken)}
         error={oracleError}
         generating={oracleGenerating}
         input={oracleInput}

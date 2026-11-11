@@ -3,6 +3,8 @@ import {
   compileOracleInput, readOracleQuestion, oracleIntent, oracleSafetySignal,
   oracleSafetyReply, oracleFallbackReply, OracleInputError, ORACLE_RUNTIME_READINESS
 } from "../_shared/oracle-runtime.mjs";
+import { ORACLE_TOOL_CONTRACT_VERSION, oracleActionsFromTools, oracleToolInstructions, parseOracleToolOutput, type OracleHandoff } from "../_shared/oracle-tools.ts";
+import { featurePausedBody } from "../_shared/feature-switch.ts";
 
 export const oracleCorsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -15,6 +17,16 @@ type OracleHandlerDependencies = {
   authenticate: (token: string) => Promise<{ id: string; isAnonymous?: boolean } | null>;
   recordUsage?: (userId: string, metadata: Record<string, unknown>) => Promise<boolean>;
   recordSafety?: (userId: string, reason: string) => Promise<boolean>;
+  /** Model dependencies (oracle-ai-tools-2026-11-11). Without generate the handler keeps the local fallback. */
+  generate?: (input: {
+    userId: string;
+    system: string;
+    messages: Array<{ role: string; content: string }>;
+    safetyText: string;
+    acceptOutput: (text: string, finishReason?: string) => string | undefined;
+  }) => Promise<{ text: string; moderationStatus: "passed" | "blocked" | "fallback"; finishReason?: string; model?: unknown }>;
+  paused?: () => Promise<boolean>;
+  claimAttempt?: (userId: string) => Promise<"allowed" | "limit_reached" | "unavailable">;
 };
 const actionCatalog: Record<ActionKind, {
   icon: string; target: string; label: { vi: string; en: string }; detail: { vi: string; en: string };
@@ -29,12 +41,12 @@ const actionCatalog: Record<ActionKind, {
 function json(body: Record<string, unknown>, status = 200) {
   return new Response(JSON.stringify(body), { status, headers: { ...oracleCorsHeaders, "Content-Type": "application/json" } });
 }
-function handoff(question: string) {
+function handoff(question: string): OracleHandoff {
   const love = /\b(?:love|crush|relationship)\b|tình yêu|tình cảm|mối quan hệ/i.test(question);
   const career = /\b(?:career|job)\b|công việc|nghề nghiệp/i.test(question);
   const decision = /\b(?:decision|choose)\b|quyết định|lựa chọn/i.test(question);
   return {
-    sourceType: "oracle", sourceId: crypto.randomUUID(), userMessage: question,
+    sourceType: "oracle" as const, sourceId: crypto.randomUUID(), userMessage: question,
     safeSummary: question.replace(/\s+/g, " ").trim().slice(0, 180),
     suggestedPersonaSlug: love ? "communication-mentor" : career ? "aristotle" : "the-mystic",
     suggestedCouncilTemplateId: love ? "love_confusion" : career ? "career_fog" : decision ? "big_decision" : "overthinking",
@@ -101,6 +113,7 @@ export function createOracleRuntimeHandler(deps: OracleHandlerDependencies) {
       const intent = oracleIntent(question) as OracleIntent;
       const promptVersionId = `${compiled.preview.provenance.bundleId}@${compiled.preview.provenance.bundleVersion}`;
       const handoffContext = handoff(question);
+      if (deps.generate) return await modelTurn(deps, { userId, locale, question, compiled, promptVersionId, handoffContext });
       const persistenceStatus = await recordUsage(deps, userId, {
         intent, language: locale, promptVersionId,
         promptBundleSha256: compiled.preview.provenance.bundleSha256,
@@ -127,4 +140,54 @@ export function createOracleRuntimeHandler(deps: OracleHandlerDependencies) {
       return json({ error: "oracle_unavailable" }, 503);
     }
   };
+}
+
+/**
+ * The model answers and picks up to two tools (oracle-ai-tools-2026-11-11). The switch and one shared
+ * Chat+Oracle attempt are checked before any model call; an unusable answer from both models is 503.
+ */
+async function modelTurn(deps: OracleHandlerDependencies, turn: {
+  userId: string; locale: "vi" | "en"; question: string;
+  compiled: { preview: { system: string; messages: Array<{ role: string; content: string }> } };
+  promptVersionId: string; handoffContext: OracleHandoff;
+}): Promise<Response> {
+  if (deps.paused && await deps.paused()) return json(featurePausedBody, 503);
+  const attempt = deps.claimAttempt ? await deps.claimAttempt(turn.userId) : "unavailable";
+  if (attempt === "limit_reached") return json({ error: "daily_limit_reached" }, 429);
+  if (attempt === "unavailable") return json({ error: "usage_check_unavailable" }, 503);
+  const promptVersionId = `${turn.promptVersionId}+${ORACLE_TOOL_CONTRACT_VERSION}`;
+  const generation = await deps.generate!({
+    userId: turn.userId,
+    system: `${turn.compiled.preview.system}
+
+${oracleToolInstructions(turn.locale)}`,
+    messages: turn.compiled.preview.messages.map(message => ({ role: message.role, content: message.content })),
+    safetyText: turn.question,
+    acceptOutput: (text, finishReason) => finishReason === "length" ? "incomplete" : parseOracleToolOutput(text).reason
+  });
+  if (generation.moderationStatus === "blocked") {
+    const safetyPersistenceStatus = deps.recordSafety ? await eventAck(() => deps.recordSafety!(turn.userId, "model_safety_block"), "safety_error") : "skipped";
+    await recordUsage(deps, turn.userId, { intent: "safety_redirect", language: turn.locale, generationStatus: "safety_support", promptVersionId, providerDispatched: true });
+    return json({
+      reply: generation.text, intent: "safety_redirect", confidence: 0.9, actionCards: [], moderationStatus: "blocked",
+      generationStatus: "safety_support", promptVersionId, safetyPersistenceStatus, conversationPersisted: false, providerDispatched: true
+    });
+  }
+  const parsed = generation.moderationStatus === "passed" ? parseOracleToolOutput(generation.text).output : undefined;
+  if (!parsed) {
+    await recordUsage(deps, turn.userId, { language: turn.locale, generationStatus: "model_unavailable", promptVersionId, providerDispatched: true });
+    return json({ error: "oracle_unavailable" }, 503);
+  }
+  const built = oracleActionsFromTools(parsed.tools, turn.handoffContext);
+  const persistenceStatus = await recordUsage(deps, turn.userId, {
+    intent: built.intent, language: turn.locale, promptVersionId, generationStatus: "model",
+    toolKinds: parsed.tools.map(tool => tool.tool), providerDispatched: true
+  });
+  return json({
+    reply: parsed.reply, intent: built.intent, confidence: 0.8,
+    actionCards: built.actionCards, handoffContext: built.handoffContext,
+    promptVersionId, moderationStatus: "passed", generationStatus: "model",
+    model: generation.model ?? null, persistenceStatus, usagePersistenceStatus: persistenceStatus,
+    conversationPersisted: false, providerDispatched: true
+  });
 }

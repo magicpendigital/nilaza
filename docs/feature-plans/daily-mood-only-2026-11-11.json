@@ -67,12 +67,12 @@
     {
       "path": "apps/mobile/src/backendClient.ts",
       "reason": "DailyInsightInput carries recentEntries with titles.",
-      "sha256": "ec534cbaddb123563a3f8572f2440047e31529afcc41e1f560921ffd0008d5f6"
+      "sha256": "91f37bd591005c6ef19fe45f3b970bc23bbaa605826e94b9ff6d31693e29021d"
     },
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Daily request sends the last 3 journal titles and moods.",
-      "sha256": "440c7d398277147ee24047976f7676eb2f9b30fa487b231b97eedf74b8fd5a4d"
+      "sha256": "50046a34bf510bc9d8498ad58129f897f1f5534dc8b23d4f071ab0f49cca6183"
     }
   ],
   "skillReview": [

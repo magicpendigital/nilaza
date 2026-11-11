@@ -1,0 +1,220 @@
+{
+  "schemaVersion": 1,
+  "taskId": "oracle-ai-tools-2026-11-11",
+  "ownerAgent": "ai_runtime_agent",
+  "lane": "Backend/AI + mobile: Oracle answers with the model and picks up to two tools; compact chips in the room",
+  "goal": "Owner 11/11 after the device test: Oracle only gives an on-device canned suggestion (OR-01 decision 31/10, option b) and its large action cards feel heavy. Turn Oracle into a real AI host: ai-oracle-turn calls the oracle_router model route, the model writes a short reply and chooses 0-2 tools from the enabled oracle-actions catalog (draw Tarot, ask a guide, open the Council, astrology, Journal, reflect here) with allowlisted parameters; the server validates them and builds the action cards; the app calls the server when signed in and shows the tools as small one-line chips. This supersedes the 31/10 on-device decision at the Owner's request.",
+  "successCriteria": [
+    "ai-oracle-turn: safety signal answers first (unchanged); then the persona_chat switch, then one shared Chat+Oracle attempt (event persona_message_attempted, limit personaChat.dailyLimit) before any model call; 429 daily_limit_reached and 503 usage_check_unavailable or feature_paused.",
+    "The system prompt is the pinned Oracle bundle plus a tool contract; the model returns JSON {reply, tools[]}; the check runs inside the router so a malformed answer tries the fallback model once.",
+    "Server keeps only enabled catalog tools, at most two, deduplicated; guide slugs, Council templates, Tarot topics and astrology focus must be in allowlists or fall back to the heuristic handoff; reply at most 700 characters.",
+    "When both models fail the function returns 503 oracle_unavailable (the app shows the busy notice); a model safety block returns no tools.",
+    "Without model dependencies (tests, local) the handler keeps today's local_fallback response.",
+    "App: signed in with a backend, Oracle calls the server with history and nickname consent flags; offline, busy, limit and paused errors show notices like guide chat; offline crisis reply still answers on the device; without a backend the on-device router stays.",
+    "OracleRoom shows tools as one-line chips (icon + label), the first one highlighted, detail as accessibility hint; the banner says Oracle is AI when the server answers.",
+    "Deno tests for tool parsing and the handler, app tests and tsc pass."
+  ],
+  "writeScope": [
+    "supabase/functions/_shared/oracle-tools.ts",
+    "supabase/functions/_shared/oracle-tools_test.ts",
+    "supabase/functions/ai-oracle-turn/handler.ts",
+    "supabase/functions/ai-oracle-turn/handler_test.ts",
+    "supabase/functions/ai-oracle-turn/index.ts",
+    "apps/mobile/src/backendClient.ts",
+    "apps/mobile/src/__tests__/backendClient.test.ts",
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/oracle/OracleRoom.tsx",
+    "apps/mobile/src/features/oracle/__tests__/OracleRoom.test.tsx",
+    "apps/admin/workflow-catalog.js",
+    "docs/backlog/review-2026-10-30.json",
+    "PLAN.md",
+    "scripts/validate-backend-contracts.mjs",
+    "apps/admin/generated/content-seed.json"
+  ],
+  "untouchedSurfaces": [
+    "The pinned Oracle prompt bundle (prompt-composition) is not edited; the tool contract is appended in oracle-tools.ts.",
+    "No migration: Oracle uses the persona_chat switch and shares its daily attempts.",
+    "Journal memory and birth data are still never sent to Oracle.",
+    "Deploying ai-oracle-turn is an Owner action after review."
+  ],
+  "impact": {
+    "entryPoint": "Nilaza Oracle room from the Chat tab and the floating Oracle button.",
+    "dataWrite": "usage_events gains persona_message_attempted rows with feature oracle_router and oracle_turn_created rows; no conversation is stored on the server.",
+    "backendContract": "ai-oracle-turn returns moderationStatus passed with model-chosen actionCards; same response shape the app already reads.",
+    "adminVisibility": "Pausing guide chat in Admin also pauses Oracle AI; traces appear under feature oracle_router.",
+    "privacySafety": "Question, up to 12 history turns and nickname (only with the profile flag) go to the provider through OpenRouter with ZDR and data collection denied; crisis replies stay static and free.",
+    "observability": "Router traces for oracle_router; oracle_turn_created usage metadata records generationStatus and tool kinds.",
+    "rollback": "Redeploy the previous ai-oracle-turn version (local_fallback) or pause guide chat; the app falls back to notices, not canned answers."
+  },
+  "canonicalContracts": [
+    "packages/agent-config/oracle-actions.json",
+    "supabase/functions/_shared/oracle-tools.ts"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Backend and mobile routes and checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "supabase/functions/ai-oracle-turn/handler.ts",
+      "reason": "Static local_fallback, heuristic action cards.",
+      "sha256": "f86f20d68ce59beda731027f8440a115abf4046500e3fe7278e21a0888ebc284"
+    },
+    {
+      "path": "supabase/functions/ai-oracle-turn/handler_test.ts",
+      "reason": "Existing handler tests to keep.",
+      "sha256": "4606dcdda8be77726a0c966b88d79db2d91e12041032df4f95271e56a8790d6b"
+    },
+    {
+      "path": "supabase/functions/ai-oracle-turn/index.ts",
+      "reason": "Dependency wiring with the user client.",
+      "sha256": "fba24367fadd383ef23e20acc24cf8b558c885f37062df97431ceb3b2af627aa"
+    },
+    {
+      "path": "supabase/functions/_shared/oracle-runtime.mjs",
+      "reason": "Input compiler and pinned prompt preview.",
+      "sha256": "2cb113ce48f9d4d2241fc08d30f1fce01970beef409a38a68741da980f8555a8"
+    },
+    {
+      "path": "supabase/functions/_shared/prompt-composition/bundle.mjs",
+      "reason": "Oracle feature module says the app handles action cards.",
+      "sha256": "777b4f1440971f827b43edf7bda966613cc088164839ef3983b67c714a520278"
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "reason": "oracle_router route, acceptOutput and fallback.",
+      "sha256": "720958613ca7c9d63404592cfc2a0c35d70514d25364335e0dcf4ed019887ac3"
+    },
+    {
+      "path": "supabase/functions/_shared/daily-attempts.ts",
+      "reason": "Shared attempt counter.",
+      "sha256": "3bc88cfe87dc82dc223d3e32a54d0c2d91adebc805b837386172066195cd1816"
+    },
+    {
+      "path": "supabase/functions/ai-persona-chat/index.ts",
+      "reason": "Pattern for switch, attempts and router call.",
+      "sha256": "8349419190e69182484f48a27af69ec861c3c1d213fce56f6199edcee6e14183"
+    },
+    {
+      "path": "packages/agent-config/oracle-actions.json",
+      "reason": "Tool catalog with enabled flags and labels.",
+      "sha256": "0cf33f2c534d7a552e09712ee5d93e5b14b2ee5e0e1869f54b5a6ba40ff6e09c"
+    },
+    {
+      "path": "packages/agent-config/model-routing.json",
+      "reason": "oracle_router route values.",
+      "sha256": "fe12e9305c53c0507204dd5b8d8d9a63b378a693a43971fa2f5416a1c96c5275"
+    },
+    {
+      "path": "packages/agent-config/ai-council.json",
+      "reason": "Council template ids for the allowlist.",
+      "sha256": "61829c5943a30e09353dac4e585a42fd0f5e5e119dbdc06052560ebf2d78f402"
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "reason": "generateOracleTurn exists but is never called.",
+      "sha256": "91f37bd591005c6ef19fe45f3b970bc23bbaa605826e94b9ff6d31693e29021d"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "sendOracleMessage builds only the on-device result; action handoffs.",
+      "sha256": "50046a34bf510bc9d8498ad58129f897f1f5534dc8b23d4f071ab0f49cca6183"
+    },
+    {
+      "path": "apps/mobile/src/features/oracle/OracleRoom.tsx",
+      "reason": "Large two-line action cards and the no-AI banner.",
+      "sha256": "202d5539398af8c0a50239c7ff0f9da8b98caae5223c60c94d45bd79814f4d84"
+    },
+    {
+      "path": "apps/mobile/src/features/oracle/__tests__/OracleRoom.test.tsx",
+      "reason": "Existing room render tests.",
+      "sha256": "ae453e6dfe79a88c46998f2a8b57e09308e77d45d96dee512b235e938b53be79"
+    },
+    {
+      "path": "apps/mobile/src/__tests__/backendClient.test.ts",
+      "reason": "Oracle client tests.",
+      "sha256": "ba964bc7f58a1bdf7e8c4e87fe0b3520dd8092021772b078589e0f82beb27e4a"
+    },
+    {
+      "path": "scripts/validate-backend-contracts.mjs",
+      "reason": "Oracle rule forbade any provider call; now requires switch and quota before the model.",
+      "sha256": "f3ab7061575b9dd66eac1edad17a33558d11ee188744d3006ef075f3e4188c43"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before code; Owner request 11/11."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Check inside the router, sign-in + quota + switch before the model, ZDR route, safety block never falls through."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses the existing router and OpenRouter phase 0 settings; no new provider or package."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "Sign-in required (guardAiJsonRequest); usage rows written with the user's own client under existing RLS.",
+    "sensitiveData": "No journal or birth data; nickname only with the profile consent flag; history capped at 12 turns.",
+    "secretsLogging": "No secret read, written or logged; usage metadata holds no question text.",
+    "externalInput": "Model output is untrusted: parsed tolerantly, tools and parameters checked against allowlists, reply length bounded.",
+    "dependencies": "No package added or upgraded.",
+    "migrationRelease": "No SQL; function deploy and AAB are Owner actions.",
+    "stopCondition": "Stop if a model call can happen without sign-in, switch and attempt, or a crisis message reaches the model.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record passed preflight before the code edit (11/11). Then: oracle-tools.ts contract and tests, handler model path with switch and shared attempt before generate, index wiring to the router, crisis test allows 115 only (pre-existing failure), app Oracle calls the server when signed in with notices on failure, compact chips and AI banner, client and room tests, backend validator rule now requires metering, Admin catalog digests and the stale content seed regenerated, OR-01 backlog note, PLAN.md. 22 Deno tests, 459 app tests, tsc, validate:backend and admin:check pass.",
+    "paths": [
+      "PLAN.md",
+      "apps/admin/generated/content-seed.json",
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/__tests__/backendClient.test.ts",
+      "apps/mobile/src/backendClient.ts",
+      "apps/mobile/src/features/oracle/OracleRoom.tsx",
+      "apps/mobile/src/features/oracle/__tests__/OracleRoom.test.tsx",
+      "docs/backlog/review-2026-10-30.json",
+      "scripts/validate-backend-contracts.mjs",
+      "supabase/functions/_shared/oracle-tools.ts",
+      "supabase/functions/_shared/oracle-tools_test.ts",
+      "supabase/functions/ai-oracle-turn/handler.ts",
+      "supabase/functions/ai-oracle-turn/handler_test.ts",
+      "supabase/functions/ai-oracle-turn/index.ts"
+    ]
+  },
+  "validationCommands": [
+    "npx --yes deno@2 test --allow-env supabase/functions/ai-oracle-turn supabase/functions/_shared/oracle-tools_test.ts",
+    "npx --yes deno@2 check supabase/functions/ai-oracle-turn/index.ts",
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npx --prefix apps/mobile jest",
+    "npm run feature:preflight -- --record docs/feature-plans/oracle-ai-tools-2026-11-11.json",
+    "npm run validate:backend",
+    "npm run admin:check"
+  ],
+  "managerTestPath": "After the Owner deploys ai-oracle-turn and installs a new APK: open Oracle, tell a short love worry; the reply is AI-written and shows at most two small chips such as 'Trải bài' and 'Hỏi một người dẫn'; tapping a chip opens that feature with the question carried over. A crisis phrase shows 115 and no chips.",
+  "residualRisk": "Model may pick a weaker tool; tool choice quality needs live QA. Oracle and chat share 5 attempts a day, so heavy Oracle use leaves fewer guide messages.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

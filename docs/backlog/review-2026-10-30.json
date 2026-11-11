@@ -113,8 +113,8 @@
    "evidence": "_shared/oracle-runtime.mjs:5–9, 186–190 · ai-oracle-turn/handler.ts:73",
    "size": "M / L",
    "status": "done",
-   "pr": "PR #10",
-   "note": "Owner chọn (b): Oracle là bộ chọn hướng đi chạy trên máy, không giả làm AI; dùng chung bộ lọc an toàn với server."
+   "pr": "PR #10 + PR #31",
+   "note": "Owner chọn (b): Oracle là bộ chọn hướng đi chạy trên máy, không giả làm AI; dùng chung bộ lọc an toàn với server. 11/11 Owner đổi quyết định sau khi thử trên máy: Oracle gọi AI thật (oracle-ai-tools-2026-11-11) — model trả lời ngắn và chọn tối đa 2 công cụ trong danh mục oracle-actions, máy chủ kiểm danh sách cho phép; dùng chung công tắc và 5 lượt/ngày với Chat; câu khủng hoảng vẫn tĩnh, không gọi model; thẻ thành nút gọn một dòng. Code + 22 test Deno + 459 test app xong; chờ Owner deploy ai-oracle-turn và APK mới để thử."
   },
   {
    "id": "CH-03",

@@ -229,11 +229,14 @@ export type OracleTurnInput = {
   language: Language;
   userMessage: string;
   currentScreen: string;
-  profile: Pick<Profile, "nickname" | "goals" | "tone">;
+  profile: Partial<Pick<Profile, "nickname" | "goals" | "tone">>;
   recentSafeContext: Array<Pick<JournalEntry, "title" | "sourceType" | "mood" | "createdAt">>;
   consentFlags: {
     journalMemory: boolean;
     birthProfile: boolean;
+    /** oracle-ai-tools-2026-11-11: let the server use the recent turns and the nickname/goals/tone. */
+    history?: boolean;
+    profile?: boolean;
   };
   sanitizedHistory: Array<{
     role: "user" | "oracle";
@@ -250,6 +253,8 @@ export type OracleTurnResult = {
   handoffContext?: OracleHandoffContext;
   promptVersionId?: string;
   moderationStatus: "passed" | "blocked" | "fallback";
+  /** Set on the on-device crisis or boundary reply. */
+  safety?: "crisis" | "boundary";
 };
 
 export type TarotInterpretationInput = {
@@ -615,8 +620,13 @@ export async function generateOracleTurn(
   fallback: () => OracleTurnResult,
   options: BackendOptions = {}
 ): Promise<OracleTurnResult> {
-  const backendResult = await postJson<OracleTurnInput, OracleTurnResult>("/ai/oracle-turn", input, generationOptions(options, generationTimeoutMs.oracle));
-  return backendResult ?? fallback();
+  // oracle-ai-tools-2026-11-11: Oracle answers with the model; limits, pauses and failures are shown, not canned.
+  try {
+    const backendResult = await postJson<OracleTurnInput, OracleTurnResult>("/ai/oracle-turn", input, generationOptions(options, generationTimeoutMs.oracle), undefined, "limits", true);
+    return backendResult ?? fallback();
+  } catch (error) {
+    return localSafetyReplyOrThrow(error, fallback);
+  }
 }
 
 export async function generateTarotReading(

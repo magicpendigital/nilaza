@@ -280,7 +280,7 @@
   },
   {
     "path": "apps/mobile/App.tsx",
-    "sha256": "5affee2a2d0c8b536e2a0e1149cfcea8eb38b351c5e3eb6d3f2d836960b971cc"
+    "sha256": "50046a34bf510bc9d8498ad58129f897f1f5534dc8b23d4f071ab0f49cca6183"
   },
   {
     "path": "docs/FEATURE_PRD.md",
@@ -376,11 +376,11 @@
   },
   {
     "path": "supabase/functions/ai-oracle-turn/handler.ts",
-    "sha256": "6174435527767edc4efcf8daad71c73fc366425a608dc76247001b7ecb8092cb"
+    "sha256": "f86f20d68ce59beda731027f8440a115abf4046500e3fe7278e21a0888ebc284"
   },
   {
     "path": "supabase/functions/ai-oracle-turn/index.ts",
-    "sha256": "4d9332edfd487667742f1b5f069103df1642be2932ed75e8207ea1556e9b4799"
+    "sha256": "fba24367fadd383ef23e20acc24cf8b558c885f37062df97431ceb3b2af627aa"
   },
   {
     "path": "supabase/functions/ai-persona-chat/index.ts",

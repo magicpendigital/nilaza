@@ -61,32 +61,32 @@
     {
       "path": "apps/mobile/src/backendClient.ts",
       "reason": "postJson turns every failure into null and callers then use the canned reply.",
-      "sha256": "b6c09a5613a7d0d5b10fdb48178e110b340f5f1d8fc06ebc49dfa6d707c169de"
+      "sha256": "91f37bd591005c6ef19fe45f3b970bc23bbaa605826e94b9ff6d31693e29021d"
     },
     {
       "path": "apps/mobile/src/__tests__/backendClient.test.ts",
       "reason": "Existing client tests to extend.",
-      "sha256": "0a5b9083a1a7a5dfbf5e0706b1ba1e822851fcefea22d87efc4ad93188f6af36"
+      "sha256": "ba964bc7f58a1bdf7e8c4e87fe0b3520dd8092021772b078589e0f82beb27e4a"
     },
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Guide chat send handler and error text.",
-      "sha256": "5affee2a2d0c8b536e2a0e1149cfcea8eb38b351c5e3eb6d3f2d836960b971cc"
+      "sha256": "50046a34bf510bc9d8498ad58129f897f1f5534dc8b23d4f071ab0f49cca6183"
     },
     {
       "path": "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
       "reason": "Error panel always shows Retry.",
-      "sha256": "8bbbb9a24560f7443750d6ad7f621c2d77374a3d7a8b27ae6b7c5af3f1f1a9b3"
+      "sha256": "5fb7566697b748b03464e344fa707b2fe0a1ffca36e23eda1d62f10bed8186a7"
     },
     {
       "path": "apps/mobile/src/features/council/useAiCouncilRoom.ts",
       "reason": "Council failure branch and room notice.",
-      "sha256": "ff9515b1e86da2f796a4fd75786c0b6eba240ca59b3a6364c4c489971aada157"
+      "sha256": "3045721157f953d8832314142900a228fcb8845660a0ebaa3981e62f47ce2d69"
     },
     {
       "path": "apps/mobile/src/features/council/__tests__/useAiCouncilRoom.test.tsx",
       "reason": "Council hook tests and backend mock.",
-      "sha256": "3decae5ef213d6a7dfd797048a62b8582bdece7c9b11609a124e9134c46cfa01"
+      "sha256": "64ec10a961f17d347e5f4ad547c5bd361d20fed51b4bf451e0bfcbdc1188fd31"
     }
   ],
   "skillReview": [

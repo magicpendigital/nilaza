@@ -37,3 +37,20 @@ it("shows the 115 support card under a crisis reply only (analysis OR-05)", () =
   screen.rerender(<OracleRoom {...props} turns={[{ id: "b", role: "oracle", text: "Mình không đưa lời khuyên y tế.", createdAt: "2026-11-02", intent: "safety_redirect", moderationStatus: "blocked", safety: "boundary" }]} />);
   expect(screen.queryByText("Gọi 115")).toBeNull();
 });
+
+it("shows model tools as one-line chips with the detail as a hint, and the AI banner (oracle-ai-tools-2026-11-11)", () => {
+  const card = (kind: "draw_tarot" | "ask_guide" | "open_council", vi: string) => ({
+    id: kind, kind, icon: "sparkles-outline", target: "tarot" as const, enabled: true,
+    label: { vi, en: vi }, detail: { vi: `Chi tiết ${vi}`, en: "detail" }
+  });
+  const onAction = jest.fn();
+  const screen = render(<OracleRoom {...props} aiEnabled onAction={onAction} turns={[{ id: "o", role: "oracle", text: "Mình nghe bạn.", createdAt: "2026-11-11", moderationStatus: "passed",
+    actionCards: [card("draw_tarot", "Trải bài"), card("ask_guide", "Hỏi một người dẫn"), card("open_council", "Hội đồng"), { ...card("open_council", "Thừa"), id: "extra" }] }]} />);
+  expect(screen.getByText(/Oracle là AI/)).toBeTruthy();
+  expect(screen.getByText("Trải bài")).toBeTruthy();
+  expect(screen.queryByText("Chi tiết Trải bài")).toBeNull();
+  expect(screen.queryByText("Thừa")).toBeNull();
+  expect(screen.getByHintText("Chi tiết Trải bài")).toBeTruthy();
+  require("@testing-library/react-native").fireEvent.press(screen.getByText("Hỏi một người dẫn"));
+  expect(onAction).toHaveBeenCalledWith(expect.objectContaining({ kind: "ask_guide" }));
+});

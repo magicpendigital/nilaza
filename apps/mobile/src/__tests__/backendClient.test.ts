@@ -126,16 +126,20 @@ describe("backendClient", () => {
       );
     });
 
-    it("returns fallback on backend error", async () => {
-      mockFetch.mockRejectedValueOnce(new Error("Network Error"));
-      const result = await generateOracleTurn(input, fallback, backendOptions);
-      expect(result).toEqual({
-        reply: "fallback",
-        intent: "reflect",
-        confidence: 0.5,
-        actionCards: [],
-        moderationStatus: "fallback"
-      });
+    it("says offline, busy and limit instead of a canned Oracle reply (oracle-ai-tools-2026-11-11)", async () => {
+      mockFetch.mockRejectedValueOnce(new TypeError("Network request failed"));
+      await expect(generateOracleTurn(input, fallback, backendOptions)).rejects.toEqual(new BackendUnavailableError("offline"));
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 503, json: async () => ({ error: "oracle_unavailable" }) });
+      await expect(generateOracleTurn(input, fallback, backendOptions)).rejects.toMatchObject({ reason: "busy", status: 503 });
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 429, json: async () => ({ error: "daily_limit_reached" }) });
+      await expect(generateOracleTurn(input, fallback, backendOptions)).rejects.toEqual(new BackendLimitError("daily_limit_reached", 429));
+    });
+
+    it("keeps the on-device crisis reply and the local router without a backend", async () => {
+      const safety = jest.fn().mockReturnValue({ reply: "Call 115", intent: "safety_redirect", confidence: 0.95, actionCards: [], moderationStatus: "blocked", safety: "crisis" });
+      mockFetch.mockRejectedValueOnce(new TypeError("Network request failed"));
+      await expect(generateOracleTurn(input, safety, backendOptions)).resolves.toMatchObject({ safety: "crisis" });
+      await expect(generateOracleTurn(input, fallback, { baseUrl: undefined })).resolves.toMatchObject({ moderationStatus: "fallback" });
     });
   });
 

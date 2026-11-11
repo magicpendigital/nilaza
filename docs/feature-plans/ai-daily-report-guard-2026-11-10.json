@@ -93,7 +93,7 @@
     {
       "path": "apps/mobile/src/backendClient.ts",
       "reason": "App falls back to local text when the call fails.",
-      "sha256": "ec534cbaddb123563a3f8572f2440047e31529afcc41e1f560921ffd0008d5f6"
+      "sha256": "91f37bd591005c6ef19fe45f3b970bc23bbaa605826e94b9ff6d31693e29021d"
     }
   ],
   "skillReview": [
