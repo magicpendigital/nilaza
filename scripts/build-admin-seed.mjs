@@ -13,7 +13,8 @@ const sourcePaths = [
   "packages/content/data/tarot-deck-backs.json"
 ];
 const read = (relativePath) => JSON.parse(fs.readFileSync(path.join(root, relativePath), "utf8"));
-const rawSources = sourcePaths.map((relativePath) => ({ relativePath, contents: fs.readFileSync(path.join(root, relativePath), "utf8") }));
+// Line endings are normalized so a Windows checkout (CRLF) and CI (LF) agree on the source version.
+const rawSources = sourcePaths.map((relativePath) => ({ relativePath, contents: fs.readFileSync(path.join(root, relativePath), "utf8").replace(/\r\n?/g, "\n") }));
 const sourceVersion = crypto.createHash("sha256").update(rawSources.map((item) => `${item.relativePath}\0${item.contents}`).join("\0")).digest("hex");
 const figures = read(sourcePaths[0]);
 const books = read(sourcePaths[1]);
@@ -90,7 +91,7 @@ const seed = {
 const expected = `${JSON.stringify(seed, null, 2)}\n`;
 const check = process.argv.includes("--check");
 if (check) {
-  const actual = fs.existsSync(outputPath) ? fs.readFileSync(outputPath, "utf8") : "";
+  const actual = fs.existsSync(outputPath) ? fs.readFileSync(outputPath, "utf8").replace(/\r\n?/g, "\n") : "";
   if (actual !== expected) {
     console.error("Admin content seed is stale. Run: npm run admin:seed");
     process.exit(1);

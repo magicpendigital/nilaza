@@ -29,7 +29,8 @@
     "docs/backlog/review-2026-10-30.json",
     "PLAN.md",
     "scripts/validate-backend-contracts.mjs",
-    "apps/admin/generated/content-seed.json"
+    "apps/admin/generated/content-seed.json",
+    "scripts/build-admin-seed.mjs"
   ],
   "untouchedSurfaces": [
     "The pinned Oracle prompt bundle (prompt-composition) is not edited; the tool contract is appended in oracle-tools.ts.",
@@ -153,6 +154,11 @@
       "path": "scripts/validate-backend-contracts.mjs",
       "reason": "Oracle rule forbade any provider call; now requires switch and quota before the model.",
       "sha256": "f3ab7061575b9dd66eac1edad17a33558d11ee188744d3006ef075f3e4188c43"
+    },
+    {
+      "path": "scripts/build-admin-seed.mjs",
+      "reason": "Seed source version hashed raw CRLF text on Windows, so CI (LF) saw a stale seed.",
+      "sha256": "f6cff0ccb73c7d7b57385f496ea16b595606a2b6eceb977db13d793ccb58d71b"
     }
   ],
   "skillReview": [
@@ -183,7 +189,7 @@
     "unresolvedHighRisks": []
   },
   "workingTreeReview": {
-    "note": "Record passed preflight before the code edit (11/11). Then: oracle-tools.ts contract and tests, handler model path with switch and shared attempt before generate, index wiring to the router, crisis test allows 115 only (pre-existing failure), app Oracle calls the server when signed in with notices on failure, compact chips and AI banner, client and room tests, backend validator rule now requires metering, Admin catalog digests and the stale content seed regenerated, OR-01 backlog note, PLAN.md. 22 Deno tests, 459 app tests, tsc, validate:backend and admin:check pass.",
+    "note": "Record passed preflight before the code edit (11/11). Then: oracle-tools.ts contract and tests, handler model path with switch and shared attempt before generate, index wiring to the router, crisis test allows 115 only (pre-existing failure), app Oracle calls the server when signed in with notices on failure, compact chips and AI banner, client and room tests, backend validator rule now requires metering, Admin catalog digests and the stale content seed regenerated, OR-01 backlog note, PLAN.md. 22 Deno tests, 459 app tests, tsc, validate:backend and admin:check pass. CI 7b17a9a: the seed regenerated on Windows hashed CRLF sources; build-admin-seed now normalizes line endings and the seed is back to the LF source version.",
     "paths": [
       "PLAN.md",
       "apps/admin/generated/content-seed.json",
@@ -194,6 +200,7 @@
       "apps/mobile/src/features/oracle/OracleRoom.tsx",
       "apps/mobile/src/features/oracle/__tests__/OracleRoom.test.tsx",
       "docs/backlog/review-2026-10-30.json",
+      "scripts/build-admin-seed.mjs",
       "scripts/validate-backend-contracts.mjs",
       "supabase/functions/_shared/oracle-tools.ts",
       "supabase/functions/_shared/oracle-tools_test.ts",
