@@ -7,13 +7,14 @@ import archetypeData from "../../../../../../packages/content/data/personas-arch
 import { createAccountStorage } from "../../../auth/accountStorage";
 import { AccountScope } from "../../../auth/accountScope";
 import { createEmailAuthState } from "../../../auth/localAuth";
-import { generateAiCouncilTurn, getChatSessions } from "../../../backendClient";
+import { BackendUnavailableError, generateAiCouncilTurn, getChatSessions } from "../../../backendClient";
 import type { AiCouncilConfig, Persona, Profile } from "../../../types";
 import { useAiCouncilRoom } from "../useAiCouncilRoom";
 
 jest.mock("@react-native-async-storage/async-storage", () => require("@react-native-async-storage/async-storage/jest/async-storage-mock"));
 jest.mock("../../../backendClient", () => ({
   BackendLimitError: class BackendLimitError extends Error {},
+  BackendUnavailableError: class BackendUnavailableError extends Error {},
   generateAiCouncilTurn: jest.fn((_input, fallback) => Promise.resolve(fallback())),
   getChatSessions: jest.fn(() => Promise.resolve([])),
   getChatMessages: jest.fn(() => Promise.resolve([]))
@@ -182,6 +183,20 @@ it("CO-03: a failed turn shows the reason in the room and gives the question bac
   act(() => hook.result.current.roomProps.onQuestionChange("Thử lại"));
   await act(async () => { await hook.result.current.roomProps.onSend(); });
   await waitFor(() => expect(hook.result.current.roomProps.roomNotice).toBeNull());
+  hook.unmount();
+});
+
+it("offline: the room asks to check the Internet instead of showing a canned council", async () => {
+  const input = options();
+  const offline = Object.assign(new BackendUnavailableError("offline"), { reason: "offline" });
+  (generateAiCouncilTurn as jest.Mock).mockRejectedValueOnce(offline);
+  const hook = renderHook(() => useAiCouncilRoom(input));
+  await waitFor(() => expect(AsyncStorage.setItem).toHaveBeenCalled());
+  act(() => hook.result.current.roomProps.onQuestionChange("Mình nên bắt đầu từ đâu?"));
+  await act(async () => { await hook.result.current.roomProps.onSend(); });
+  await waitFor(() => expect(hook.result.current.roomProps.roomNotice).toMatch(/kiểm tra kết nối Internet/));
+  expect(hook.result.current.roomProps.question).toBe("Mình nên bắt đầu từ đâu?");
+  expect(hook.result.current.roomProps.thread.some(turn => turn.role === "guide")).toBe(false);
   hook.unmount();
 });
 

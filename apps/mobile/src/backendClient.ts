@@ -435,17 +435,33 @@ export class BackendLimitError extends Error {
 }
 
 /**
+ * The request reached no usable answer: offline (no connection), busy (timeout, server error or an
+ * unreadable answer) or auth (the sign-in expired). Chat and Council show this instead of a canned reply.
+ */
+export type BackendUnavailableReason = "offline" | "busy" | "auth";
+export class BackendUnavailableError extends Error {
+  constructor(readonly reason: BackendUnavailableReason, readonly status?: number) { super(reason); this.name = "BackendUnavailableError"; }
+}
+
+/**
  * surfaceLimits: true throws sign-in, daily-limit and paused errors; "paused" throws only feature_paused;
  * "limits" throws feature_paused and daily_limit_reached (chat and Tarot, server limits 2026-11-11).
+ * surfaceUnavailable: throw BackendUnavailableError instead of returning null when the request fails
+ * (2026-11-11). A request cancelled by its session still returns null quietly.
  */
-async function postJson<TInput, TResult>(path: string, input: TInput, options: BackendOptions, correlation?: AnswerCorrelation, surfaceLimits: boolean | "paused" | "limits" = false): Promise<TResult | null> {
+async function postJson<TInput, TResult>(path: string, input: TInput, options: BackendOptions, correlation?: AnswerCorrelation, surfaceLimits: boolean | "paused" | "limits" = false, surfaceUnavailable = false): Promise<TResult | null> {
   options = currentOptions(options);
   if (!options.baseUrl) return null;
 
   const controller = new AbortController();
   const cancel = () => controller.abort();
   options.session?.controller.signal.addEventListener("abort", cancel);
-  const timeout = setTimeout(() => controller.abort(), options.timeoutMs ?? defaultTimeoutMs);
+  let timedOut = false;
+  const timeout = setTimeout(() => { timedOut = true; controller.abort(); }, options.timeoutMs ?? defaultTimeoutMs);
+  const unavailable = (status: number) => {
+    if (!surfaceUnavailable || options.session?.active === false) return null;
+    throw new BackendUnavailableError(status === 401 ? "auth" : "busy", status);
+  };
 
   try {
     const headers: Record<string, string> = {
@@ -468,13 +484,20 @@ async function postJson<TInput, TResult>(path: string, input: TInput, options: B
       // A feature paused from Admin is shown as resting; other 503s still fall back as before.
       if (code === "feature_paused" || (surfaceLimits === true && response.status !== 503)
         || (surfaceLimits === "limits" && code === "daily_limit_reached")) throw new BackendLimitError(code, response.status);
-      return null;
+      return unavailable(response.status);
     }
-    if (!response.ok || options.session?.active === false) return null;
-    return (await response.json()) as TResult;
+    if (options.session?.active === false) return null;
+    if (!response.ok) return unavailable(response.status);
+    try {
+      return (await response.json()) as TResult;
+    } catch {
+      return unavailable(response.status === 401 ? 500 : 502);
+    }
   } catch (error) {
-    if (error instanceof BackendLimitError) throw error;
-    return null;
+    if (error instanceof BackendLimitError || error instanceof BackendUnavailableError) throw error;
+    if (!surfaceUnavailable || options.session?.active === false || options.session?.controller.signal.aborted) return null;
+    // A timeout means the AI took too long; any other thrown fetch error means no connection.
+    throw new BackendUnavailableError(timedOut ? "busy" : "offline");
   } finally {
     options.session?.controller.signal.removeEventListener("abort", cancel);
     clearTimeout(timeout);
@@ -554,8 +577,24 @@ export async function generatePersonaReply(
   fallback: () => PersonaReplyResult,
   options: BackendOptions = {}
 ): Promise<PersonaReplyResult> {
-  const backendResult = await postJson<PersonaReplyInput, PersonaReplyResult>("/ai/persona-chat", input, generationOptions(options, generationTimeoutMs.persona), undefined, "limits");
-  return backendResult ?? fallback();
+  try {
+    const backendResult = await postJson<PersonaReplyInput, PersonaReplyResult>("/ai/persona-chat", input, generationOptions(options, generationTimeoutMs.persona), undefined, "limits", true);
+    return backendResult ?? fallback();
+  } catch (error) {
+    return localSafetyReplyOrThrow(error, fallback);
+  }
+}
+
+/**
+ * When the AI is unreachable, the on-device crisis or boundary reply still answers; anything else is
+ * rethrown so the room says why (no connection, busy) instead of showing a canned reply.
+ */
+function localSafetyReplyOrThrow<T extends { safety?: unknown }>(error: unknown, fallback: () => T): T {
+  if (error instanceof BackendUnavailableError) {
+    const local = fallback();
+    if (local.safety) return local;
+  }
+  throw error;
 }
 
 export async function generateAiCouncilTurn(
@@ -563,8 +602,12 @@ export async function generateAiCouncilTurn(
   fallback: () => AiCouncilResult,
   options: BackendOptions = {}
 ): Promise<AiCouncilResult> {
-  const backendResult = await postJson<AiCouncilInput, AiCouncilResult>("/ai/ai-council", input, generationOptions(options, generationTimeoutMs.council), undefined, true);
-  return backendResult ?? fallback();
+  try {
+    const backendResult = await postJson<AiCouncilInput, AiCouncilResult>("/ai/ai-council", input, generationOptions(options, generationTimeoutMs.council), undefined, true, true);
+    return backendResult ?? fallback();
+  } catch (error) {
+    return localSafetyReplyOrThrow(error, fallback);
+  }
 }
 
 export async function generateOracleTurn(

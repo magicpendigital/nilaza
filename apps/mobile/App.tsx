@@ -1,5 +1,5 @@
 import { FeedbackPanel, type FeedbackPanelTarget } from "./src/features/feedback/FeedbackPanel";
-import { submitAiFeedback, exportAiFeedback, deleteAllAiFeedback, BackendLimitError } from "./src/backendClient";
+import { submitAiFeedback, exportAiFeedback, deleteAllAiFeedback, BackendLimitError, BackendUnavailableError } from "./src/backendClient";
 import { createAnswerAttempt, parseAnswerProvenance, type AnswerProvenance } from "../../packages/ai-contracts/answer-provenance";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { OwnerHub } from "./src/features/owner/OwnerHub";
@@ -3218,6 +3218,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const [creatingProfile, setCreatingProfile] = useState(false);
   const [chatGenerating, setChatGenerating] = useState(false);
   const [chatError, setChatError] = useState("");
+  const [chatErrorRetryable, setChatErrorRetryable] = useState(true);
   const [lastChatPrompt, setLastChatPrompt] = useState("");
   const [tarotGenerating, setTarotGenerating] = useState(false);
   const tarotGenerationInFlight = useRef(false);
@@ -5303,14 +5304,23 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         });
         finishGenerationActivity(activity, "ready");
       } catch (error) {
-        // A guide paused from Admin is shown as resting, not as a failed answer.
+        // A guide paused from Admin is shown as resting, not as a failed answer. Limits and pauses offer no
+        // Retry; a lost connection or a busy AI says so instead of showing a canned reply (device test 11/11).
+        const unavailableReason = error instanceof BackendUnavailableError ? error.reason : undefined;
+        setChatErrorRetryable(!(error instanceof BackendLimitError));
         setChatError(error instanceof BackendLimitError && error.code === "feature_paused"
           ? (language === "vi" ? "Trò chuyện với người dẫn đường đang tạm nghỉ một chút. Hãy thử lại sau." : "Guide chat is resting for a while. Please try again later.")
           : error instanceof BackendLimitError && error.code === "daily_limit_reached"
             ? (language === "vi" ? "Bạn đã dùng hết lượt trò chuyện với người dẫn đường hôm nay. Lượt mới mở vào đầu ngày mai; tin nhắn của bạn vẫn được giữ." : "You have used today's guide messages. New ones open at the start of tomorrow; your message is kept.")
-            : c.chatError);
+            : unavailableReason === "offline"
+              ? (language === "vi" ? "Đường truyền đang gián đoạn. Bạn kiểm tra kết nối Internet rồi bấm Thử lại; tin nhắn của bạn vẫn được giữ." : "The connection is interrupted. Check your Internet, then tap Retry; your message is kept.")
+              : unavailableReason === "busy"
+                ? (language === "vi" ? "Người dẫn đường chưa trả lời được lúc này. Bạn thử lại sau ít phút; tin nhắn của bạn vẫn được giữ." : "The guide cannot answer right now. Try again in a few minutes; your message is kept.")
+                : unavailableReason === "auth"
+                  ? (language === "vi" ? "Phiên đăng nhập đã hết hạn. Bạn đăng nhập lại rồi thử lại nhé." : "Your sign-in has expired. Sign in again, then retry.")
+                  : c.chatError);
         finishGenerationActivity(activity, "failed");
-        recordEvent("persona_message_failed", { personaId: selectedPersonaId });
+        recordEvent("persona_message_failed", { personaId: selectedPersonaId, reason: unavailableReason ?? (error instanceof BackendLimitError ? error.code : "error") });
         recordSafetyEvent({
           feature: "chat",
           sourceId: selectedPersonaId,
@@ -5714,7 +5724,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         // The report itself goes to the server through the shared feedback panel (analysis CH-02).
         if (sourceId) setFeedbackTarget({ feature: "persona_chat", localAnswerId: sourceId, sectionIds: [], language: language === "vi" ? "vi" : "en" });
       }}
-      onRetry={retryChat}
+      onRetry={chatErrorRetryable ? retryChat : undefined}
       onSave={saveJournal}
       onSend={(text?: string) => sendMessage(text)}
       onTrack={recordEvent}
@@ -6798,7 +6808,7 @@ function ChatScreen({
   onStartPersonaSession: (personaId?: string) => void;
   onToggleFavoritePersona: (personaId: string) => void;
   onReport: (summary: string, sourceId?: string) => void;
-  onRetry: () => void;
+  onRetry?: () => void;
   onSave: (entry: Omit<JournalEntry, "id" | "createdAt">) => void;
   onSend: (preset?: string) => void;
   onTrack: (name: string, metadata?: Record<string, string | number | boolean>) => void;

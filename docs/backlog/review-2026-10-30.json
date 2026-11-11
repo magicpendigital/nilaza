@@ -126,8 +126,8 @@
    "evidence": "backendClient.ts:420–452, 493–509 · useAiCouncilRoom.ts:650–670",
    "size": "M",
    "status": "partial",
-   "pr": "PR #10 + PR #14 + PR #16",
-   "note": "Chat và Council có nhãn dự phòng; hết lượt hiện lời báo thật. Thử thật 02/11: Council trả lời bằng AI, đúng tên người dẫn. Chưa có bộ đếm lượt còn lại cho Chat."
+   "pr": "PR #10 + PR #14 + PR #16 + PR #31",
+   "note": "Chat và Council có nhãn dự phòng; hết lượt hiện lời báo thật. Thử thật 02/11: Council trả lời bằng AI, đúng tên người dẫn. 11/11 (ai-unavailable-notice-2026-11-11): khi có máy chủ mà gọi lỗi, Chat và Council không còn câu mẫu — mất mạng báo kiểm tra Internet, AI bận báo thử lại sau, phiên hết hạn báo đăng nhập lại; tin nhắn được giữ; câu khủng hoảng vẫn trả lời trên máy; hết lượt không hiện Thử lại. Chưa có bộ đếm lượt còn lại cho Chat."
   },
   {
    "id": "AS-01",
@@ -621,7 +621,7 @@
    "size": "S",
    "status": "partial",
    "pr": "PR #31",
-   "note": "11/11: lỗi hiện ngay trong phòng Hội đồng, câu hỏi trả lại ô nhập ở mọi lỗi, mỗi lượt lịch sử gửi đi ≤ 800 ký tự; câu dự phòng đã có nhãn. Còn: gửi mã persona thay vì cả hồ sơ (cần sửa server)."
+   "note": "11/11: lỗi hiện ngay trong phòng Hội đồng, câu hỏi trả lại ô nhập ở mọi lỗi, mỗi lượt lịch sử gửi đi ≤ 800 ký tự; câu dự phòng đã có nhãn; mất mạng/AI bận hiện lời báo thay vì hội đồng soạn sẵn. Còn: gửi mã persona thay vì cả hồ sơ (cần sửa server)."
   },
   {
    "id": "AS-03",

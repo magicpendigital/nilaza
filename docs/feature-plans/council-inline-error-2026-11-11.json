@@ -57,7 +57,7 @@
     {
       "path": "apps/mobile/src/features/council/useAiCouncilRoom.ts",
       "reason": "Toast-only errors; generic failure leaves the question in the thread; full history texts.",
-      "sha256": "ff9515b1e86da2f796a4fd75786c0b6eba240ca59b3a6364c4c489971aada157"
+      "sha256": "3045721157f953d8832314142900a228fcb8845660a0ebaa3981e62f47ce2d69"
     },
     {
       "path": "apps/mobile/src/features/council/AiCouncilRoom.tsx",
@@ -67,7 +67,7 @@
     {
       "path": "apps/mobile/src/features/council/__tests__/useAiCouncilRoom.test.tsx",
       "reason": "Existing hook tests.",
-      "sha256": "3decae5ef213d6a7dfd797048a62b8582bdece7c9b11609a124e9134c46cfa01"
+      "sha256": "64ec10a961f17d347e5f4ad547c5bd361d20fed51b4bf451e0bfcbdc1188fd31"
     },
     {
       "path": "apps/mobile/src/features/tarot/TarotDrawStep.tsx",

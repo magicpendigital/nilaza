@@ -38,7 +38,7 @@ export type PersonaChatRoomProps = {
   onNewChat: () => void;
   onReport: () => void;
   onResumeSession: (sessionId: string) => void;
-  onRetry: () => void;
+  onRetry?: () => void;
   onSaveLastInsight: () => void;
   onSaveMessage: (message: PersonaChatMessage) => void;
   onRateMessage?: (message: PersonaChatMessage, rating: "useful" | "not_useful") => void;
@@ -227,10 +227,12 @@ export function PersonaChatRoom({
         {chatError ? (
           <View style={styles.errorPanel}>
             <Text style={styles.errorText}>{chatError}</Text>
-            <Pressable accessibilityRole="button" style={styles.retryButton} onPress={onRetry}>
-              <Ionicons name="refresh-outline" size={16} color={colors.gold} />
-              <Text style={styles.retryText}>{copy.retry}</Text>
-            </Pressable>
+            {onRetry ? (
+              <Pressable accessibilityRole="button" style={styles.retryButton} onPress={onRetry}>
+                <Ionicons name="refresh-outline" size={16} color={colors.gold} />
+                <Text style={styles.retryText}>{copy.retry}</Text>
+              </Pressable>
+            ) : null}
           </View>
         ) : null}
       </ChatSurface>

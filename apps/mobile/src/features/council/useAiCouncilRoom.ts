@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { ImageSourcePropType } from "react-native";
 
 import type { ChatParticipant } from "../../a2ui";
-import { BackendLimitError, BackendOptions, generateAiCouncilTurn, getChatSessions, getChatMessages } from "../../backendClient";
+import { BackendLimitError, BackendOptions, BackendUnavailableError, generateAiCouncilTurn, getChatSessions, getChatMessages } from "../../backendClient";
 import { oracleSafetyReply, oracleSafetySignal } from "../../../../../packages/ai-contracts/oracle-safety.mjs";
 import { localizedList, localizedText } from "../../i18n";
 import type { AccountStorage } from "../../auth/accountStorage";
@@ -767,14 +767,19 @@ export function useAiCouncilRoom({
         if (activity) onGenerationFinished?.(activity, "failed");
         return;
       }
-      const message = language === "vi"
-        ? "Hội đồng chưa trả lời được. Câu hỏi của bạn vẫn còn trong ô nhập, hãy thử lại sau một chút."
-        : "The council could not answer yet. Your question is still in the box; try again in a moment.";
+      // No canned council when the AI is unreachable: say why and give the question back (device test 11/11).
+      const reason = error instanceof BackendUnavailableError ? error.reason : "error";
+      const message = reason === "offline"
+        ? (language === "vi" ? "Đường truyền đang gián đoạn. Bạn kiểm tra kết nối Internet rồi gửi lại; câu hỏi vẫn còn trong ô nhập." : "The connection is interrupted. Check your Internet and send again; your question is still in the box.")
+        : reason === "auth"
+          ? (language === "vi" ? "Phiên đăng nhập đã hết hạn. Bạn đăng nhập lại rồi gửi lại nhé." : "Your sign-in has expired. Sign in again, then send again.")
+          : (language === "vi" ? "Hội đồng chưa trả lời được lúc này. Câu hỏi của bạn vẫn còn trong ô nhập, hãy thử lại sau ít phút." : "The council cannot answer right now. Your question is still in the box; try again in a few minutes.");
       setRoomNotice(message);
       onFeedback(message);
       onTrack("ai_council_turn_failed", {
         language,
-        backend: backendAvailable
+        backend: backendAvailable,
+        reason
       });
       if (activity) onGenerationFinished?.(activity, "failed");
     } finally {
