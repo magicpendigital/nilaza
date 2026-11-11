@@ -192,6 +192,19 @@
       "tarotAi": "HTTP 200 in 15 s, sourceKind ai, moderation passed, openrouter deepseek/deepseek-v4.1-flash, Vietnamese reading",
       "result": "PASS"
     },
-    "notVerified": "second Tarot reading of the day returning 429; chat 6th message; app behaviour on a device"
+    "notVerified": "second Tarot reading of the day returning 429; chat 6th message; app behaviour on a device",
+    "deviceTest": {
+      "date": "2026-11-11",
+      "device": "Air1_Ultra, Android 13, over adb",
+      "build": "local release APK from 8e1e1d9 pointing at etfajmrwyywokgafzxsb (publishable key only), signed with the React Native template debug key so it installed over 0.1.3 without data loss; key file removed afterwards, not committed",
+      "signIn": "Owner signed in on the phone; Today greets Magicpendigital",
+      "tarotSecondReading": "PASS: server blocked the second reading of the local day; app showed the daily limit text in place",
+      "chatNickname": "PASS: The Mystic reply opened with 'Chao Magicpendigital'",
+      "chatSixthMessage": "PASS: messages 1-5 answered, message 6 showed the daily limit text and kept the message",
+      "keyboard": "PASS: chat input sits above the keyboard (CH-12)",
+      "councilOffline": "Airplane mode: room showed the labelled local fallback ('Cau tra loi du phong - AI chua ket noi duoc'), not the CO-03 room notice",
+      "followUps": "Hide Retry when the reason is daily limit; Council fallback text capitalises 'Buoc' mid-sentence",
+      "notVerified": "Daily insight (needs a birth date); Council daily limit; astrology report"
+    }
   }
 }
