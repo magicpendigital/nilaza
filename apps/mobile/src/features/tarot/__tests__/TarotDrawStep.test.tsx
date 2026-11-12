@@ -100,3 +100,25 @@ describe("card flight", () => {
     expect(screen.queryByText("Bỏ qua hiệu ứng")).toBeNull();
   });
 });
+
+describe("four-card spread", () => {
+  const fourSlots: DrawSlot[] = [{ label: "Điểm bạn đang đứng" }, { label: "Nếu bước tới" }, { label: "Nếu giữ nguyên" }, { label: "Lời nhắc" }];
+
+  test("shows four numbered positions, names the next one and counts the cards left to turn", () => {
+    const { screen } = renderStep(fourSlots);
+    // Empty positions are decoration for screen readers, so look at them with hidden elements included.
+    ["1", "2", "3", "4"].forEach((number) => expect(screen.getByText(number, { includeHiddenElements: true })).toBeTruthy());
+    expect(screen.getAllByText("Điểm bạn đang đứng")).toHaveLength(2); // slot label and the prompt
+    expect(screen.getByRole("button", { name: "Lật cả 4 lá ngay" })).toBeTruthy();
+  });
+
+  test("a card drawn in the third slot lands there while the fourth waits", () => {
+    const { screen, rerender } = renderStep([{ label: "A", card }, { label: "B", card }, { label: "C" }, { label: "D" }]);
+    rerender({ slots: [{ label: "A", card }, { label: "B", card }, { label: "C", card: { ...card, name: "Mặt Trời" } }, { label: "D" }] });
+    expect(screen.getByRole("imagebutton", { name: /C: Mặt Trời/ })).toBeTruthy();
+    expect(screen.queryByRole("imagebutton", { name: /^D:/ })).toBeNull();
+    // One card left: "reveal all" would be the same as turning it, so the link is gone.
+    expect(screen.queryByText(/Lật cả/)).toBeNull();
+    expect(screen.getByText(/Chọn lá cho vị trí/)).toBeTruthy();
+  });
+});

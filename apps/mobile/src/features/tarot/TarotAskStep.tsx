@@ -166,8 +166,9 @@ const s = StyleSheet.create({
   chipSelected: { backgroundColor: colors.gold, borderColor: colors.gold },
   chipText: { color: "#E9E2D6", fontFamily: typography.bodyFontFamily, fontSize: 13.5 },
   chipTextSelected: { color: colors.charcoal, fontFamily: typography.bodySemiBoldFontFamily },
-  spreads: { flexDirection: "row", gap: 10, marginTop: 10 },
-  spread: { flex: 1, minWidth: 0, minHeight: 132, borderRadius: 16, borderWidth: 1, borderColor: "rgba(247, 241, 230, 0.14)", backgroundColor: "#1F1C1E", paddingHorizontal: 8, paddingVertical: 12, alignItems: "center", gap: 8 },
+  // Five spreads wrap into rows of three; every tile keeps the same width.
+  spreads: { flexDirection: "row", flexWrap: "wrap", gap: 10, marginTop: 10 },
+  spread: { flexBasis: "31%", flexGrow: 0, flexShrink: 0, minWidth: 0, minHeight: 132, borderRadius: 16, borderWidth: 1, borderColor: "rgba(247, 241, 230, 0.14)", backgroundColor: "#1F1C1E", paddingHorizontal: 8, paddingVertical: 12, alignItems: "center", gap: 8 },
   spreadSelected: { borderWidth: 1.5, borderColor: colors.gold, backgroundColor: "rgba(201, 164, 92, 0.14)" },
   glyph: { height: 46, flexDirection: "row", alignItems: "center", gap: 4 },
   glyphCard: { width: 16, height: 28, borderRadius: 3, borderWidth: 1.5, borderColor: "#8F877C" },

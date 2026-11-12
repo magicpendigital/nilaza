@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "taskId": "tarot-new-spreads-2026-11-12",
+  "ownerAgent": "mobile_ux_fixes_agent",
+  "lane": "mobile_ui_wave_g",
+  "goal": "Add the two Tarot spreads shown in the approved Artifact design next to the existing three: a three-card Love spread (You / The other person / The relationship) and a four-card Crossroads spread for a decision. The app, the shared Tarot prompt validator and its tests learn the new spread ids and positions. A forward migration widens the tarot_readings.spread check. The migration is written but not run and no Edge Function is deployed.",
+  "successCriteria": [
+    "The Ask step lists five spread tiles (1 card, 3 past/present/potential, 3 situation/challenge/advice, 3 love, 4 crossroads) with distinct titles, wrapping to two rows, and selecting one uses the gold selected style.",
+    "Choosing the Love spread gives three draw positions named Ban / Nguoi ay / Moi quan he; choosing Crossroads gives four positions; the draw screen, flight animation, result and saved reading handle both.",
+    "Four draw slots fit a 342px wide phone without overflow; a drawn card still flies to the right slot.",
+    "supabase/functions/_shared/tarot-prompt.ts accepts the two new spread ids with matching position keys and still rejects unknown spreads and wrong card counts; its Deno test covers both.",
+    "A forward migration widens the tarot_readings.spread check to five values and keeps the existing three; it is not applied anywhere.",
+    "Mobile typecheck, the full mobile Jest suite and the Deno Tarot prompt test pass."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/tarot/TarotAskStep.tsx",
+    "apps/mobile/src/features/tarot/__tests__/TarotAskStep.test.tsx",
+    "apps/mobile/src/features/tarot/__tests__/TarotDrawStep.test.tsx",
+    "supabase/functions/_shared/tarot-prompt.ts",
+    "supabase/functions/_shared/tarot-prompt.test.ts",
+    "supabase/migrations/20261112000000_tarot_extra_spreads.sql"
+  ],
+  "untouchedSurfaces": [
+    "No SQL is run and no Edge Function is deployed; both need the Owner's approval and are listed in the handoff.",
+    "Oracle and Council spread suggestions keep suggesting the two existing spreads.",
+    "Existing spread ids, labels and saved readings are unchanged; older readings still open.",
+    "Face Reading is untouched; the Owner is still reviewing its UI, UX and legal side."
+  ],
+  "impact": {
+    "entryPoint": "Explore > Tarot > Ask step (spread tiles) and Draw step (slots).",
+    "dataWrite": "A reading with a new spread stores spread = 'love-three' or 'crossroads-four' in tarot_readings once the migration is applied. No other data change.",
+    "backendContract": "ai-tarot-reading accepts two more spread ids; request shape is unchanged. Until the migration is applied and the function is deployed, the live backend rejects the new ids and the app shows its local fallback reading.",
+    "adminVisibility": "No Admin change.",
+    "privacySafety": "The Love spread has a position called the other person. The immutable Tarot boundaries already forbid claiming another person's thoughts; the spread copy frames that card as how the situation feels from there, not what they think.",
+    "observability": "No analytics or logging change.",
+    "rollback": "Revert the commit. The migration only widens a check, so rows written with the new ids would need to be removed before a rollback of the constraint; do not roll the constraint back after release.",
+    "surfacesIntentionallyUntouched": "Result layout, card guide, deck selection, Oracle/Council suggestions, Admin.",
+    "agentHandoff": "The delivery agent owns only the writeScope, validates, and does not run SQL, deploy or merge."
+  },
+  "canonicalContracts": [
+    "AGENTS.md: reflective Tarot, no certain futures, no claims about another person's thoughts.",
+    "docs/AGENT_TASK_ROUTER.md: keep tarot draw one card at a time for multi-card spreads.",
+    "Owner decision 2026-11-12: add the two spreads shown in the Artifact design."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and Tarot safety wording.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile UI route and tarot draw decision rules.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "DESIGN.md",
+      "reason": "Palette and selected-state direction.",
+      "sha256": "516629403e9d8904208a1b64e6360ab3d4ab6ed4c20d337f689033a0ab00e4a9"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, stop conditions and validation matrix applied; no workflow rule change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No dependency or external API change; Postgres drop/add constraint is standard. Only the spread id and position table of the shared validator changes; prompts, model routes, quotas and output checks are untouched."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No RLS or grant change; the migration only replaces a check constraint.",
+    "sensitiveData": "No new personal data.",
+    "secretsLogging": "No secret or log is added.",
+    "externalInput": "Spread ids are still validated against a fixed allow-list on the server.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "Migration file is added but not applied; applying it and deploying ai-tarot-reading are Owner actions.",
+    "stopCondition": "Stop if the validator would accept an unknown spread, or if a change would alter which card is drawn.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/features/tarot/TarotAskStep.tsx",
+      "apps/mobile/src/features/tarot/__tests__/TarotAskStep.test.tsx",
+      "apps/mobile/src/features/tarot/__tests__/TarotDrawStep.test.tsx",
+      "supabase/functions/_shared/tarot-prompt.ts",
+      "supabase/functions/_shared/tarot-prompt.test.ts",
+      "supabase/migrations/20261112000000_tarot_extra_spreads.sql",
+      "docs/feature-plans/tarot-new-spreads-2026-11-12.json"
+    ],
+    "note": "Branch claude/nilaza-ui-design-fixes-7caf4a, on top of commit 788ffd0."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/tarot-new-spreads-2026-11-12.json",
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent"
+  ],
+  "managerTestPath": "Explore > Tarot > Ask: five spread tiles, two rows. Pick 3 lá tình yêu and Start drawing: slots Bạn, Người ấy, Mối quan hệ. Pick 4 lá: four slots. Draw each card and check the result lists every position.",
+  "residualRisk": "New spreads only produce an AI reading after the Owner applies the migration and deploys ai-tarot-reading; before that the app shows its local fallback reading. The four position names of the Crossroads spread are my wording because the design only gives the tile caption, and need the Owner's content review.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
