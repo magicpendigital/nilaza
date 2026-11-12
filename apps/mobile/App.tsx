@@ -139,7 +139,7 @@ import { AstrologySignGuide } from "./src/features/astrology/AstrologySignGuide"
 import { GuestPreview } from "./src/features/guest/GuestPreview";
 import { dailyRhythmFor } from "./src/features/home/dailyRhythm";
 import { localizePulseSign } from "./src/features/home/localizePulseSign";
-import { colors, layout, spacing, typography } from "./src/theme";
+import { colors, layout, radius, spacing, typography } from "./src/theme";
 import { getDeckVisual, getFeatureVisual, getPersonaVisual } from "./src/visualAssets";
 import { AuthFlow } from "./src/auth/AuthFlow";
 import { AiCouncilRoom, type AiCouncilRoomProps, type AiCouncilSessionSummary, useAiCouncilRoom } from "./src/features/council";
@@ -268,7 +268,7 @@ type AstrologyStage = "world" | "hub" | "intention" | "birth" | "casting" | "rep
 type AstrologyFocus = "soul" | "career" | "love" | "shadow";
 type PersonaDetailTab = "reflections" | "chronicle";
 type TarotTopic = "love" | "career" | "self" | "decision" | "open";
-type TarotSpread = "daily-one" | "past-present-future" | "situation-challenge-advice";
+type TarotSpread = "daily-one" | "past-present-future" | "situation-challenge-advice" | "love-three" | "crossroads-four";
 type DrawnTarotCard = TarotCard & { reversed: boolean; spread: string };
 type FullscreenTarotCard = {
   card: TarotCard | DrawnTarotCard;
@@ -1473,6 +1473,8 @@ const spreads: Array<{
     example: { vi: string; en: string };
   };
   labels: { vi: string[]; en: string[] };
+  /** Wording of the tile on the Ask step when it differs from "N lá" and the position list. */
+  tile?: { title: { vi: string; en: string }; detail: { vi: string; en: string } };
 }> = [
   {
     id: "daily-one",
@@ -1539,6 +1541,61 @@ const spreads: Array<{
       }
     },
     labels: { vi: ["Tình huống", "Thử thách", "Lời nhắc"], en: ["Situation", "Challenge", "Advice"] }
+  },
+  {
+    id: "love-three",
+    vi: "Tình yêu: bạn / người ấy / mối quan hệ",
+    en: "Love: you / the other person / the relationship",
+    cards: 3,
+    detail: { vi: "Nhìn một mối quan hệ từ ba phía: bạn, người ấy và khoảng giữa hai người.", en: "Looks at a relationship from three sides: you, them and the space between." },
+    learn: {
+      bestFor: {
+        vi: "Khi bạn muốn hiểu mình đang mang điều gì vào mối quan hệ và điều gì đang diễn ra giữa hai người.",
+        en: "When you want to see what you bring into a relationship and what is happening between you two."
+      },
+      avoidWhen: {
+        vi: "Không dùng để đoán người kia nghĩ hay cảm thấy gì. Lá “Người ấy” chỉ gợi cách bạn đang cảm nhận về họ và điều bạn có thể hỏi họ.",
+        en: "Do not use it to guess what the other person thinks or feels. The “other person” card only reflects how you perceive them and what you could ask them."
+      },
+      example: {
+        vi: "Mình đang mang điều gì vào mối quan hệ này, và điều gì cần được nói rõ hơn?",
+        en: "What am I bringing into this relationship, and what needs to be said more clearly?"
+      }
+    },
+    labels: { vi: ["Bạn", "Người ấy", "Mối quan hệ"], en: ["You", "The other person", "The relationship"] },
+    tile: {
+      title: { vi: "3 lá tình yêu", en: "3 love cards" },
+      detail: { vi: "Bạn · Người ấy · Mối quan hệ", en: "You · Them · The relationship" }
+    }
+  },
+  {
+    id: "crossroads-four",
+    vi: "Ngã rẽ: bốn lá cho một quyết định",
+    en: "Crossroads: four cards for a decision",
+    cards: 4,
+    detail: { vi: "Đặt hai hướng đi cạnh nhau để cân nhắc, không để quyết định thay bạn.", en: "Sets two directions side by side to weigh, without deciding for you." },
+    learn: {
+      bestFor: {
+        vi: "Khi bạn đang đứng trước hai lựa chọn rõ ràng và muốn nhìn từng hướng đi trước khi quyết định.",
+        en: "When you face two clear options and want to look at each direction before deciding."
+      },
+      avoidWhen: {
+        vi: "Không phải câu trả lời “nên” hay “không nên”. Các lá gợi điều đáng cân nhắc, quyết định vẫn là của bạn, và các việc về sức khỏe, pháp lý, tài chính cần người có chuyên môn.",
+        en: "It is not a yes or no answer. The cards suggest what to weigh and the decision stays yours; health, legal and money questions need a qualified person."
+      },
+      example: {
+        vi: "Mình đang cân nhắc hai hướng này, mỗi hướng cho mình thấy điều gì?",
+        en: "I am weighing these two directions; what does each one show me?"
+      }
+    },
+    labels: {
+      vi: ["Điểm bạn đang đứng", "Nếu bước tới", "Nếu giữ nguyên", "Lời nhắc"],
+      en: ["Where you stand", "If you step forward", "If you hold still", "Advice"]
+    },
+    tile: {
+      title: { vi: "4 lá", en: "4 cards" },
+      detail: { vi: "Ngã rẽ: nên hay không", en: "Crossroads: whether to" }
+    }
   }
 ];
 
@@ -7569,12 +7626,13 @@ export function TarotFlow({
           : selectedFanIndex !== null && ritualDrawnCount < selectedSpread.cards
             ? language === "vi" ? "Lật lá này" : "Turn this card"
             : drawStepActionLabel;
+  // Design: arrow only on the steps that move forward; the draw button is text only.
   const floatingTarotPrimaryIcon =
-    stage === "deck"
+    stage === "deck" || stage === "topic" || stage === "spread"
       ? "arrow-forward-outline"
       : !canViewContentTier(selectedDeck.accessTier, displayedTier)
         ? "lock-closed-outline"
-        : "sparkles-outline";
+        : null;
   const handleFloatingTarotPrimary = () => {
     if (stage === "topic") { setStage("draw"); return; }
     if (stage === "spread") { setStage(keepSelectedDeck ? "draw" : "deck"); return; }
@@ -7630,9 +7688,13 @@ export function TarotFlow({
           ) : (
             <Text style={styles.subTopTitle}>Tarot</Text>
           )}
-          <Pressable hitSlop={8} accessibilityLabel={language === "vi" ? "Bắt đầu lại" : "Start over"} accessibilityRole="button" onPress={onStartOver} style={styles.editorialTopIcon}>
-            {isEditorialStage ? <Ionicons name={topBarRight} size={18} color={colors.gold} /> : <Text style={styles.backText} numberOfLines={1}>{language === "vi" ? "Mới" : "New"}</Text>}
-          </Pressable>
+          {stage === "topic" || stage === "draw" ? (
+            <View style={styles.editorialTopIcon} />
+          ) : (
+            <Pressable hitSlop={8} accessibilityLabel={language === "vi" ? "Bắt đầu lại" : "Start over"} accessibilityRole="button" onPress={onStartOver} style={styles.editorialTopIcon}>
+              {isEditorialStage ? <Ionicons name={topBarRight} size={18} color={colors.gold} /> : <Text style={styles.backText} numberOfLines={1}>{language === "vi" ? "Mới" : "New"}</Text>}
+            </Pressable>
+          )}
         </View>
       ) : stage === "cardMeaning" && activeMeaningCard ? (
         <View style={[styles.cardMeaningTopBar, styles.cardMeaningStickyTopBar]}>
@@ -7798,8 +7860,8 @@ export function TarotFlow({
             spreads={spreads.map((spread) => ({
               id: spread.id,
               cards: spread.cards,
-              title: language === "vi" ? `${spread.cards} lá` : `${spread.cards} ${spread.cards === 1 ? "card" : "cards"}`,
-              detail: spread.cards === 1 ? (language === "vi" ? "Nhanh, một lời nhắn" : "Quick, one message") : localizedList(spread.labels, language).join(" · ")
+              title: spread.tile ? localizedText(spread.tile.title, language) : language === "vi" ? `${spread.cards} lá` : `${spread.cards} ${spread.cards === 1 ? "card" : "cards"}`,
+              detail: spread.tile ? localizedText(spread.tile.detail, language) : spread.cards === 1 ? (language === "vi" ? "Nhanh, một lời nhắn" : "Quick, one message") : localizedList(spread.labels, language).join(" · ")
             }))}
             spreadId={tarotSpread}
             onSpreadChange={(spreadId) => onSpreadChange(spreadId as TarotSpread)}
@@ -8095,11 +8157,12 @@ export function TarotFlow({
             backImage={selectedDeckBackImage}
             selectedFanIndex={selectedFanIndex}
             onSelectFan={handleFanSelect}
+            onClearSelection={() => setSelectedFanIndex(null)}
             onOpenCard={(index) => { const card = ritualSelectedCards[index]; if (card) openFullscreenTarotCard(card, card.spread); }}
             busy={tarotGenerating || drawActionBusy}
             status={latestRitualCard && ritualPhase === "grounding" && !tarotGenerating ? `${latestRitualCard.spread} · ${displayTarotCardName(latestRitualCard, language)} · ${latestRitualCard.reversed ? (language === "vi" ? "Ngược" : "Reversed") : (language === "vi" ? "Xuôi" : "Upright")}` : ritualPhaseLabel}
             onDrawRest={selectedSpread.cards > 1 ? handleQuickDraw : undefined}
-            onChangeDeck={() => setStage("deck")}
+            reduceMotion={reduceRitualMotion}
           >
             {!canViewContentTier(selectedDeck.accessTier, displayedTier) ? (
               <View style={styles.errorPanel}>
@@ -8256,7 +8319,7 @@ export function TarotFlow({
           onPress={handleFloatingTarotPrimary}
         >
           <Text style={styles.tarotFloatingPrimaryButtonText}>{floatingTarotPrimaryLabel}</Text>
-          <Ionicons name={floatingTarotPrimaryIcon} size={18} color={colors.ink} />
+          {floatingTarotPrimaryIcon ? <Ionicons name={floatingTarotPrimaryIcon} size={18} color={colors.ink} /> : null}
         </Pressable>
       ) : null}
       {stage === "deckDetail" ? (
@@ -9888,14 +9951,14 @@ zodiacProfilePrompt: {
     alignItems: "center",
     alignSelf: "center",
     backgroundColor: colors.ivory,
-    borderRadius: 8,
+    borderRadius: radius.pill,
     flexDirection: "row",
     gap: spacing.sm,
     justifyContent: "center",
     marginLeft: "auto" as any,
     marginRight: "auto" as any,
     maxWidth: 480,
-    minHeight: 56,
+    minHeight: 54,
     paddingHorizontal: spacing.lg,
     marginVertical: spacing.sm,
     shadowColor: "#000000",
@@ -9907,12 +9970,10 @@ zodiacProfilePrompt: {
   },
   tarotFloatingPrimaryButtonText: {
     color: colors.ink,
-    fontSize: 14,
-    fontWeight: "800",
-    letterSpacing: 0.4,
-    lineHeight: 20,
-    textAlign: "center",
-    textTransform: "uppercase"
+    fontFamily: typography.bodySemiBoldFontFamily,
+    fontSize: 15.5,
+    lineHeight: 22,
+    textAlign: "center"
   },
   deckDetailActionDock: {
     alignSelf: "center",

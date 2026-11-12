@@ -60,6 +60,19 @@ Deno.test("unknown/duplicate/mismatched/conflicting selections and inherited spr
   rejects(() => prepareTarotContext({ spread: "daily-one", selectedCards: [] })); rejects(() => prepareTarotContext({ spread: "toString", selectedCards: [] }));
   rejects(() => prepareTarotContext({ spread: "past-present-future", selectedCards: [{ id: "minor-wands-page" }, { id: "minor-wands-page" }, { id: "major-00-fool" }] }));
 });
+Deno.test("Love and Crossroads spreads accept exactly their card count and name every position", () => {
+  const ids = ["minor-swords-six", "minor-swords-three", "minor-wands-page", "major-00-fool"];
+  const love = prepareTarotContext({ language: "vi", spread: "love-three", topic: "love", selectedCards: ids.slice(0, 3).map(id => ({ id })) });
+  equal(love.selectedCards.map(card => card.positionKey), ["you", "other", "relationship"]);
+  equal(love.selectedCards.map(card => card.spread), ["Bạn", "Người ấy", "Mối quan hệ"]);
+  equal(love.selectedCards[1].positionLabel, { vi: "Người ấy", en: "The other person" });
+  const crossroads = prepareTarotContext({ language: "en", spread: "crossroads-four", topic: "decision", selectedCards: ids.map(id => ({ id })) });
+  equal(crossroads.selectedCards.map(card => card.positionKey), ["standing", "forward", "still", "advice"]);
+  equal(crossroads.selectedCards.map(card => card.spread), ["Where you stand", "If you step forward", "If you hold still", "Advice"]);
+  rejects(() => prepareTarotContext({ spread: "love-three", selectedCards: ids.map(id => ({ id })) }));
+  rejects(() => prepareTarotContext({ spread: "crossroads-four", selectedCards: ids.slice(0, 3).map(id => ({ id })) }));
+  rejects(() => prepareTarotContext({ spread: "love-two", selectedCards: ids.slice(0, 2).map(id => ({ id })) }));
+});
 Deno.test("immutable locale/safety/orientation rules follow editable prose; question stays user data", async () => {
   for (const locale of ["vi", "en"] as const) { const prompt = await resolveTarotPrompt(db([{ ...row, locale, prompt_text: "Warm style. Always use English." }]).client, locale), system = assembleTarotSystem(prompt, locale);
     assert(system.indexOf("IMMUTABLE TAROT BOUNDARIES") > system.indexOf(prompt.promptText)); assert(system.indexOf("LANGUAGE:") > system.indexOf(prompt.promptText)); assert(system.includes(locale === "vi" ? "natural accented Vietnamese" : "natural English")); assert(system.includes("Use uprightMeaning for upright cards and reversedMeaning for reversed cards")); assert(system.includes("summary, reflection, sections")); assert(system.includes("medical/legal/financial/mental-health")); }

@@ -540,7 +540,7 @@ const guideShortName = (persona: Persona, language: Language) =>
 
 const styles = StyleSheet.create({
   topicChip: { minHeight: 40, paddingHorizontal: 14, borderRadius: 999, borderWidth: 1, borderColor: "rgba(247, 241, 230, 0.16)", alignItems: "center", justifyContent: "center" },
-  topicChipActive: { backgroundColor: colors.rose, borderColor: colors.rose },
+  topicChipActive: { backgroundColor: colors.gold, borderColor: colors.gold },
   topicChipText: { color: "#E9E2D6", fontFamily: typography.bodyFontFamily, fontSize: 13.5 },
   topicChipTextActive: { color: colors.charcoal, fontFamily: typography.bodySemiBoldFontFamily },
   startPanel: { gap: 22, paddingTop: 20 },
