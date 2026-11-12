@@ -11,7 +11,7 @@ export type AstrologyHubProps = {
   language: Language;
   now: Date;
   dateLabel: string;
-  myChart?: { big3: BigThree; story: Big3Story; onOpen: () => void; onAddBirthTime: () => void };
+  myChart?: { big3: BigThree; story: Big3Story; onOpen: () => void; onAddBirthTime: () => void; onShare?: () => void; onInvite?: () => void };
   onCreateChart: () => void;
   today?: MoonToday | null;
   mythology: { completed: number; total: number; onOpen: () => void };
@@ -60,6 +60,16 @@ export function AstrologyHub({ language, now, dateLabel, myChart, onCreateChart,
             {myChart.story.needsBirthTime ? (
               <Pressable accessibilityRole="button" onPress={myChart.onAddBirthTime} style={s.linkButton}>
                 <Text style={s.link}>{vi ? "Bổ sung giờ sinh" : "Add birth time"}</Text>
+              </Pressable>
+            ) : null}
+            {myChart.onShare ? (
+              <Pressable accessibilityRole="button" onPress={myChart.onShare} style={s.linkButton}>
+                <Text style={s.link}>{vi ? "Chia sẻ thẻ của bạn" : "Share your card"}</Text>
+              </Pressable>
+            ) : null}
+            {myChart.onInvite ? (
+              <Pressable accessibilityRole="button" onPress={myChart.onInvite} style={s.linkButton}>
+                <Text style={s.link}>{vi ? "Mời bạn so bản đồ sao" : "Invite a friend to compare"}</Text>
               </Pressable>
             ) : null}
           </View>

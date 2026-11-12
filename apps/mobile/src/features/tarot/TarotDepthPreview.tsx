@@ -63,7 +63,7 @@ export default function TarotDepthPreview() {
       tarotQuestion={question} keepSelectedDeck={keepDeck} intentionReviewed={false} onKeepSelectedDeckChange={setKeepDeck}
       tarotSpread={spread} tarotTopic={topic} generatedArtifacts={[]} selectedTarotCardId={cardId} selectedTarotGuideId={guideId}
       setSelectedTarotCardId={setCardId} setSelectedTarotGuideId={setGuideId} onBack={() => setStage("cardMeaning")}
-      onStartOver={() => setStage("topic")} onAskFollowUp={() => {}} onChatWithCard={() => {}} onCreateShareArtifact={() => {}}
+      onStartOver={() => setStage("topic")} onAskFollowUp={() => {}} onChatWithCard={() => {}} onCreateShareArtifact={() => {}} onOpenShare={() => {}}
       onDraw={result} onQuestionChange={setQuestion} onReportReading={() => {}}
       onSave={entry => setSaved(JSON.parse(JSON.stringify(entry.sourceSnapshot)))} onSpreadChange={setSpread} onTopicChange={setTopic} onWriteJournal={() => {}} />
   </View>;

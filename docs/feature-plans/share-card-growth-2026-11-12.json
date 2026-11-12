@@ -1,0 +1,227 @@
+{
+  "schemaVersion": 1,
+  "taskId": "share-card-growth-2026-11-12",
+  "ownerAgent": "growth_mobile_agent",
+  "lane": "Cross-cutting: mobile share cards, public web landing pages and growth measurement for the first Google Play candidate",
+  "goal": "Let people share a good-looking image card (today's card, a tarot reading, a Big 3 astrology card) plus an invite to compare Sun signs, each carrying a tracked link to a public Nilaza page, and measure share_tapped, share_completed, share_link_opened and signup_from_share, without sending private content, running SQL or deploying backend functions.",
+  "successCriteria": [
+    "A reusable share-card component renders a 1080x1350 image from a fixed list of public fields (card art, card name, one short message line, wordmark, site address) and is shared as an image through the system share sheet together with a tracked link.",
+    "Today's card, the tarot reading result and a new Astrology Big 3 card all use the component; none of the cards or links contain the user's question, notes, mood, birth date, birth time, birth place or name.",
+    "The tracked link carries utm_source=share, utm_medium, utm_campaign and a random short utm_content id that is not derived from any account, so the existing waitlist function stores it without a backend change.",
+    "A public web page opens from a card or reading link, shows the shared card names validated against the published tarot card list, and offers the waitlist form with the original utm values preserved.",
+    "A public web compare page opens from an invite link, accepts a birth date typed by the visitor, computes the visitor's Sun sign in the browser only, shows the owner-approved element-pair text for the two Sun signs plus the approved no-score disclaimer, and never sends the birth date anywhere.",
+    "Mobile records share_tapped and share_completed locally through the existing event recorder; the public web records share_link_opened and signup_from_share (a waitlist success whose source was a share link) through the existing public analytics function. Event properties never contain free text.",
+    "The share_completed event is documented as 'the share sheet returned', because Android does not tell the app whether a message was sent.",
+    "Mobile type check, the full mobile Jest suite, web check, web build and public content validation pass; new pure functions (link builder, Sun sign lookup, share text) have unit tests including negative cases for private fields."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/package.json",
+    "apps/mobile/src/features/share/",
+    "apps/mobile/src/features/tarot/shareText.ts",
+    "apps/mobile/src/features/tarot/__tests__/shareText.test.ts",
+    "apps/mobile/src/features/astrology/",
+    "apps/mobile/src/features/home/",
+    "package-lock.json",
+    "apps/web/src/lib/",
+    "apps/web/src/components/",
+    "apps/web/src/pages/",
+    "docs/release/share-card-growth-2026-11-12/",
+    "apps/mobile/src/features/tarot/TarotDepthPreview.tsx",
+    "scripts/share-landing.test.mjs"
+  ],
+  "untouchedSurfaces": [
+    "No SQL, migration, Supabase setting, Edge Function or deploy; the 31 or 33 migration packet and the Singapore approval chain are not changed.",
+    "No new server-side event ingestion: usage_events stays closed to client writes under the existing privilege boundary; server ingestion of mobile events is a separate Owner-approved step.",
+    "No change to the waitlist Edge Function, its Turnstile check or its consent text; the waitlist form is reused as it is.",
+    "No change to tarot card selection, AI prompts, model routes, quotas, credits or account tier policy.",
+    "The existing private astrology backup export (Share backup) and its warning stay exactly as they are; it is not a friend-sharing feature.",
+    "Admin apps, release profile, EAS and Play settings are not touched; no credential or secret is read.",
+    "No inbound deep link handler in the app: share links open the public web page, not the app."
+  ],
+  "impact": {
+    "entryPoint": "Share icon on Today's card, Share in the tarot result menu, and a new Share Big 3 / Invite to compare action in Astrology; recipients enter through a public web link on nilaza.magicpendigital.com.",
+    "dataWrite": "No server write. Local event records through the existing recorder (80-event local cap). The share image is a temporary cache file created by view capture and handed to the system share sheet. Web events go through the existing Zaraz hook when present; waitlist signups keep using the existing function and its stored UTM fields.",
+    "backendContract": "No API, schema or Edge Function change. The invite link carries only the sender's Sun sign (and Moon sign only when the birth time is exact), taken from the already calculated local chart.",
+    "adminVisibility": "No Admin change. Aggregated share-origin signups are visible through the existing waitlist UTM storage; mobile share counts stay local until server ingestion is approved.",
+    "privacySafety": "Cards use only public library content or sign names the user chooses to share. Question, notes, mood, birth data and names are excluded by construction and tested. The invite visitor's birth date is processed in the browser only. Cards that display a person's astrological signs are labeled as for self-reflection, not prediction.",
+    "observability": "Four events are defined; sharing result is only 'share sheet returned'. Blind spots: app installs from a link cannot be attributed until the app is on Play and install referrer support is added; mobile events are local only until a gated ingestion step.",
+    "rollback": "Remove the share entry points or revert the commit; the previous text share path is kept as a fallback when image capture or file sharing fails. The public pages are static and can be deleted without data effects."
+  },
+  "canonicalContracts": [
+    "AGENTS.md product guardrails: spiritual content is for entertainment and self-reflection; no deterministic prediction; no private data in share output.",
+    "packages/content/data/astrology-big3.json (Owner-approved 2026-10-31): sunHeadline and moonClause per sign are the only astrology copy used on the Big 3 card.",
+    "packages/content/data/astrology-synastry.json (Owner-approved 2026-10-31): elementPairs, intro, footer text is reused verbatim on the web compare page; no score, no prediction.",
+    "packages/content/data/tarot-cards.json is the only card id and name source for share pages.",
+    "apps/web/src/lib/analytics.ts whitelist is the contract for public events and properties.",
+    "Owner approval in chat on 2026-11-12: add react-native-view-shot, measure four events, build the Sun sign invite."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "sanitized_artifact_metadata"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa",
+      "reason": "Product guardrails, Android-first scope and Owner approval limits reviewed before share work."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Mobile, web and content routing reviewed."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Plan, impact, validation and handoff gate reviewed."
+    },
+    {
+      "path": "docs/PRODUCT_DIFFERENTIATION_GTM_REVIEW_2026-09-20.vi.md",
+      "sha256": "d0e0a0c5d67dfaa4569ddb328cf8c3df06136cb35a212ff6ccce66a0c6d9dcf7",
+      "reason": "Growth gates and the rule to share privacy-safe images without exposing private questions."
+    },
+    {
+      "path": "docs/release/GOOGLE_PLAY_ROADMAP_AND_UX_REVIEW_2026-10-23.vi.md",
+      "sha256": "2cbacccb151da25ec9126c73152361ebb65e8fe8616c6dac69b6717a7a48a860",
+      "reason": "Play scope, guest mode and AI content policy context."
+    },
+    {
+      "path": "apps/mobile/package.json",
+      "sha256": "99a98d74b78a0c46650e910aa12727371321242be7e3f2acc94a1cba2766b5bd",
+      "reason": "Dependency set reviewed: expo-sharing and react-native-svg exist; react-native-view-shot is the one addition."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "0aa46b40331b5188e137598b5339015419644716db75c009c792b6847ad0eef9",
+      "reason": "Current today-card share (text only), reading share and recordEvent reviewed."
+    },
+    {
+      "path": "apps/mobile/src/features/tarot/shareText.ts",
+      "sha256": "f187af9fcfd632bbf61d74634d03b94f3ac17084f7c04c4d547e3129b9b61a6c",
+      "reason": "Existing rule that the question and notes never leave the device."
+    },
+    {
+      "path": "apps/mobile/src/features/home/TodayCardReflection.tsx",
+      "sha256": "fc8b9c2a21b70231b884f5c06c0aba110d40da8d10db5fdae684f8f96fef74dc",
+      "reason": "Share icon and actions layout for the today card."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+      "sha256": "adf7614f55c8dab7c76ac2be6b848880fd67e59b816458c6afdc178f4883c9b3",
+      "reason": "Confirmed the only share action is a private backup export, so a separate Big 3 share is needed."
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/synastry.ts",
+      "sha256": "3d5d6cf64c05a96b156129c1c482dbb40a4a4e5a1f93177123242ee7f76b37a9",
+      "reason": "Element and sign helpers and the on-device-only rule for comparisons."
+    },
+    {
+      "path": "apps/web/src/components/WaitlistForm.astro",
+      "sha256": "6d37f936b0b2fc2504d80bc6b7229b1b19d5da1685d1dfa0a98ea8c0b82e6bf2",
+      "reason": "Confirmed utm_* values from the page URL are forwarded to the waitlist function."
+    },
+    {
+      "path": "apps/web/src/lib/analytics.ts",
+      "sha256": "1ae53c8d87d225d53bda6697d7e727fdfa60816ba97ff6d24934f023c953aa17",
+      "reason": "Public event and property whitelist that new web events must join."
+    },
+    {
+      "path": "apps/web/src/lib/site.ts",
+      "sha256": "01211284680d03cbc602a571ea6bc6fee7161f91217e392eea7481f96a3ea5be",
+      "reason": "Locales and public copy structure for new pages."
+    },
+    {
+      "path": "packages/content/data/astrology-synastry.json",
+      "sha256": "5d1a05b0f76677c6af0a9c1ca3656ac1b70c8fbe8a72b8763034788e0102b077",
+      "reason": "Owner-approved element pair text and disclaimers reused on the web compare page."
+    },
+    {
+      "path": "packages/content/data/astrology-big3.json",
+      "sha256": "896ddd45fbbf2f204bd561e458b5af99cbef95dde760213d2f5b24c252efb4da",
+      "reason": "Owner-approved Big 3 headlines used on the astrology share card."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Plan, impact map, stop conditions and no-production-authority rules were applied; the task adds no durable workflow rule."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "The card uses the approved NILAZA wordmark (EB Garamond Regular) and palette from docs/BRAND_GUIDELINES.md; no new brand asset or rule is introduced."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "react-native-view-shot is installed with 'expo install' so Expo SDK 54 chooses its compatible version; the project runs the New Architecture, which version 4 and later support according to the Expo captureRef reference and the package notes. The installed version and licence are recorded in the release notes, and a device capture check remains open."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://docs.expo.dev/versions/v54.0.0/sdk/captureRef",
+      "checkedAt": "2026-11-12",
+      "reason": "Expo SDK 54 documents react-native-view-shot captureRef as the supported way to capture a view into an image file."
+    },
+    {
+      "url": "https://omr.com/de/daily/co-star-app-viral",
+      "checkedAt": "2026-11-12",
+      "reason": "Market context: shareable screenshots of personal content drive organic growth in astrology apps; used only to justify the feature, not to set targets."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No authentication, authorization or RLS change; sharing needs no account and sends nothing to the backend.",
+    "sensitiveData": "Birth data, questions, notes, mood and names are excluded from cards and links by a fixed field list with negative tests. The invite link carries only a sign name that the user chooses to share. The web visitor's birth date stays in the browser.",
+    "secretsLogging": "No secret is read or stored. Event properties are enumerated values, never free text. The short link id is random and not derived from the account.",
+    "externalInput": "Share page query parameters (card ids, sign names, medium) are validated against fixed lists and rendered as text, never as markup; unknown values fall back to a generic page.",
+    "dependencies": "One new native dependency, react-native-view-shot, MIT licensed, installed through expo install and recorded in package-lock.json; it needs a new native build, so the Owner approves the next EAS or local build.",
+    "migrationRelease": "No database or release action; public pages ship with the next web deploy, which the existing Vercel or Cloudflare flow performs only when the Owner merges to main.",
+    "stopCondition": "Stop if image capture fails on Fabric in a device check, if any private field appears in a card or link during review, if a store or brand rule forbids showing sign names on a card, or if the type check or tests fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/App.tsx",
+      "apps/mobile/package.json",
+      "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+      "apps/mobile/src/features/astrology/AstrologyHub.tsx",
+      "apps/mobile/src/features/tarot/TarotDepthPreview.tsx",
+      "apps/mobile/src/features/tarot/shareText.ts",
+      "apps/web/src/components/WaitlistForm.astro",
+      "apps/web/src/lib/analytics.ts",
+      "package-lock.json",
+      "apps/mobile/src/features/share/ShareCardSheet.tsx",
+      "apps/mobile/src/features/share/ShareCardView.tsx",
+      "apps/mobile/src/features/share/__tests__/ShareCardSheet.test.tsx",
+      "apps/mobile/src/features/share/__tests__/shareCardContent.test.ts",
+      "apps/mobile/src/features/share/__tests__/shareLink.test.ts",
+      "apps/mobile/src/features/share/captureShareCard.ts",
+      "apps/mobile/src/features/share/shareCardContent.ts",
+      "apps/mobile/src/features/share/shareLink.ts",
+      "apps/web/src/lib/shareLanding.ts",
+      "apps/web/src/pages/[locale]/compare/index.astro",
+      "apps/web/src/pages/[locale]/share/index.astro",
+      "docs/release/share-card-growth-2026-11-12/SHARE_GROWTH_HANDOFF.vi.md",
+      "scripts/share-landing.test.mjs"
+    ],
+    "note": "The work branch starts clean from main at 033fb86; every changed or new file belongs to this task. New files live under apps/mobile/src/features/share/, apps/web/src/lib/shareLanding.ts, the two web pages, scripts/share-landing.test.mjs and the release notes."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/share-card-growth-2026-11-12.json",
+    "npm run mobile:check",
+    "npm --workspace apps/mobile test -- --runInBand",
+    "npm run validate:data",
+    "npm run web:check",
+    "npm run web:build",
+    "npm run validate:public-content",
+    "npm run mobile:release:config:check",
+    "node --test scripts/share-landing.test.mjs"
+  ],
+  "managerTestPath": "On a phone with the new build: open Today's card, tap Share and see an image card plus a link in the share sheet; finish a tarot reading and share it; in Astrology share the Big 3 card and the compare invite. Open the link on another phone: the web page shows the card names or the invite, and a birth date typed in the compare page returns the two Sun signs with the approved text and no score. Check that no question, note or birth date appears anywhere in the image or the link.",
+  "residualRisk": "Image capture on the New Architecture, cache cleanup of temporary share images and the share sheet on real Android devices are not yet verified. Android cannot report whether a message was actually sent, so share_completed only means the sheet returned. Mobile events stay local until a gated server ingestion step. Link-to-install attribution is not possible before the app is on Google Play. Sun sign dates near a sign boundary can differ by year and birth time, so the web page states that limit.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

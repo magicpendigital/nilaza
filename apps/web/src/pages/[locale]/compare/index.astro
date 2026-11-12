@@ -1,0 +1,96 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import WaitlistForm from "../../../components/WaitlistForm.astro";
+import { locales, type Locale } from "../../../lib/site";
+import { zodiac } from "../../../lib/shareLanding";
+import synastry from "../../../../../../packages/content/data/astrology-synastry.json";
+export function getStaticPaths() { return locales.map(locale => ({ params: { locale }, props: { locale } })); }
+const { locale } = Astro.props as { locale: Locale };
+const vi = locale === "vi";
+// Approved element-pair text and disclaimers are reused as published in the app; nothing here is scored or predictive.
+const data = JSON.stringify({ locale, zodiac, pairs: synastry.elementPairs, elementNames: synastry.elementNames, intro: synastry.intro, footer: synastry.footer }).replace(/</g, "\\u003c");
+const title = vi ? "Lời mời so bản đồ sao — Nilaza" : "An invite to compare star charts — Nilaza";
+const description = vi ? "Một người bạn mời bạn so hai Mặt Trời. Nhập ngày sinh ngay trên trình duyệt, không gửi đi đâu." : "A friend invited you to compare two Suns. Enter a birth date right in your browser; it is not sent anywhere.";
+---
+<BaseLayout {locale} {title} {description} waitlistTarget="#join">
+  <section class="hero"><div class="shell">
+    <p class="eyebrow">{vi ? "Lời mời so bản đồ sao" : "Star chart invite"}</p>
+    <h1 class="display">{vi ? "Hai Mặt Trời gặp nhau thế nào?" : "How do two Suns meet?"}</h1>
+    <p class="lead" data-friend>{vi ? "Nhập ngày sinh để xem cung Mặt Trời của bạn và cách hai nhịp có thể gặp nhau." : "Enter a birth date to see your Sun sign and how two rhythms may meet."}</p>
+    <form class="date-form" data-form novalidate>
+      <label><span>{vi ? "Ngày sinh của bạn" : "Your birth date"}</span><input type="date" name="birth" required min="1900-01-01" /></label>
+      <button class="button" type="submit">{vi ? "Xem kết quả" : "See the result"}</button>
+    </form>
+    <p class="privacy">{vi ? "Ngày sinh chỉ được xử lý ngay trên trình duyệt này. Nilaza không gửi đi và không lưu ngày bạn nhập." : "Your birth date is processed only in this browser. Nilaza does not send or store the date you enter."}</p>
+    <p class="status" role="status" aria-live="polite" data-status></p>
+    <div class="result" data-result hidden>
+      <div class="signs" data-signs></div>
+      <h2 class="pair-title" data-pair-title></h2>
+      <p class="pair-body" data-pair-body></p>
+      <p class="note" data-note></p>
+      <p class="note" data-footer></p>
+    </div>
+  </div></section>
+  <section class="section" id="join"><div class="shell join">
+    <div><p class="eyebrow">{vi ? "Đăng ký trước ra mắt" : "Prelaunch waitlist"}</p><h2 class="section-title">{vi ? "Xem đầy đủ bản đồ sao của bạn khi Nilaza ra mắt." : "See your full star chart when Nilaza launches."}</h2><p class="note">{vi ? "Trong ứng dụng, bản đồ sao được tính từ ngày, giờ và nơi sinh ngay trên điện thoại của bạn." : "In the app, your chart is calculated from your birth date, time and place on your own phone."}</p></div>
+    <WaitlistForm {locale} />
+  </div></section>
+  <script is:inline type="application/json" id="compare-data" set:html={data}></script>
+  <script>
+    import { trackPublicEvent } from "../../../lib/analytics";
+    import { elementPairKey, isZodiacId, readShareArrival, sunSignFromDateInput, type ZodiacId } from "../../../lib/shareLanding";
+    type Text = { vi: string; en: string };
+    type Data = {
+      locale: "vi" | "en";
+      zodiac: { id: ZodiacId; vi: string; en: string; glyph: string }[];
+      pairs: Record<string, { title: Text; body: Text }>;
+      elementNames: Record<string, Text>;
+      intro: Text;
+      footer: Text;
+    };
+    const raw = document.getElementById("compare-data")?.textContent;
+    const data = raw ? (JSON.parse(raw) as Data) : null;
+    if (data) {
+      const lang = data.locale;
+      const vi = lang === "vi";
+      const sign = (id: ZodiacId) => data.zodiac.find((item) => item.id === id)!;
+      const label = (id: ZodiacId) => `${sign(id).glyph} ${sign(id)[lang]}`;
+      const params = new URLSearchParams(location.search);
+      const friendParam = params.get("s");
+      const friend: ZodiacId | null = isZodiacId(friendParam) ? friendParam : null;
+      const friendLine = document.querySelector<HTMLElement>("[data-friend]");
+      if (friend && friendLine) friendLine.textContent = vi ? `Bạn của bạn là ${sign(friend).vi}. Nhập ngày sinh của bạn để xem hai nhịp có thể gặp nhau ra sao.` : `Your friend is ${sign(friend).en}. Enter your birth date to see how your two rhythms may meet.`;
+      const arrival = readShareArrival(location.search);
+      if (arrival.fromShare) trackPublicEvent("share_link_opened", { locale: lang, source: "share", surface: arrival.surface, medium: arrival.medium });
+
+      const form = document.querySelector<HTMLFormElement>("[data-form]")!;
+      const status = document.querySelector<HTMLElement>("[data-status]")!;
+      const result = document.querySelector<HTMLElement>("[data-result]")!;
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const mine = sunSignFromDateInput(String(new FormData(form).get("birth") ?? ""));
+        if (!mine) {
+          result.hidden = true;
+          status.textContent = vi ? "Hãy nhập một ngày sinh hợp lệ." : "Please enter a valid birth date.";
+          return;
+        }
+        status.textContent = "";
+        const signs = document.querySelector<HTMLElement>("[data-signs]")!;
+        // Text only: every value shown comes from the published tables, never from the address or the input.
+        signs.replaceChildren(...[[vi ? "Bạn" : "You", mine], ...(friend ? [[vi ? "Bạn của bạn" : "Your friend", friend]] : [])].map(([who, id]) => {
+          const row = document.createElement("p");
+          row.className = "sign-row";
+          row.textContent = `${who as string} · ${label(id as ZodiacId)}`;
+          return row;
+        }));
+        const pair = friend ? data.pairs[elementPairKey(mine, friend)] : null;
+        document.querySelector<HTMLElement>("[data-pair-title]")!.textContent = pair ? pair.title[lang] : "";
+        document.querySelector<HTMLElement>("[data-pair-body]")!.textContent = pair ? pair.body[lang] : (vi ? "Hãy nhờ bạn của bạn gửi lại lời mời để so hai cung với nhau." : "Ask your friend to send the invite again to compare the two signs.");
+        document.querySelector<HTMLElement>("[data-note]")!.textContent = (pair ? `${data.intro[lang]} ` : "") + (vi ? "Ngày gần ranh giới giữa hai cung có thể khác theo năm và giờ sinh." : "Dates near the edge between two signs can differ by year and birth time.");
+        document.querySelector<HTMLElement>("[data-footer]")!.textContent = pair ? data.footer[lang] : "";
+        result.hidden = false;
+      });
+    }
+  </script>
+</BaseLayout>
+<style>.hero{padding:90px 0 80px;background:radial-gradient(circle at 25% 20%,rgba(14,90,90,.45),transparent 32%)}.hero h1{font-size:clamp(2.6rem,9vw,6rem);margin:14px 0}.lead{max-width:620px;color:var(--moon);margin:0 0 26px}.date-form{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;max-width:620px}.date-form label{display:grid;gap:7px;flex:1 1 220px}.date-form label span{font-size:.85rem;color:var(--moon)}.date-form input{width:100%;min-height:48px;border:1px solid var(--line);border-radius:var(--radius);background:#0f0e0d;color:var(--ivory);padding:12px 14px;font-size:16px;color-scheme:dark}.date-form input:focus{border-color:var(--gold);outline:none}.date-form .button{min-height:48px}.privacy{max-width:620px;margin:14px 0 0;font-size:.85rem;color:var(--moon)}.status{min-height:1.5em;margin:8px 0 0;color:var(--gold);font-size:.9rem}.result{margin-top:34px;max-width:680px;border-top:1px solid var(--line);padding-top:26px}.sign-row{margin:0 0 6px;font:500 1.6rem/1.3 var(--display);color:var(--ivory)}.pair-title{font:500 clamp(1.6rem,4vw,2.3rem)/1.2 var(--display);color:var(--gold);margin:22px 0 10px}.pair-body{margin:0 0 14px}.note{max-width:62ch;color:var(--moon);font-size:.88rem;margin:0 0 10px}.join{display:grid;grid-template-columns:1fr 1fr;gap:80px}@media(max-width:760px){.join{grid-template-columns:1fr;gap:32px}.hero{padding:65px 0 56px}}</style>

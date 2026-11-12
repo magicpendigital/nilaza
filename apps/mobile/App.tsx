@@ -35,7 +35,6 @@ import {
   Platform,
   Pressable,
   ScrollView,
-  Share,
   StatusBar,
   StyleSheet,
   Text,
@@ -148,6 +147,9 @@ import { JournalHome } from "./src/features/journal/JournalHome";
 import { savedReadingCards } from "./src/features/journal/savedReading";
 import { cardInline, cardSubtitle, cardTitle } from "./src/features/tarot/cardName";
 import { readingShareText } from "./src/features/tarot/shareText";
+import { ShareCardSheet, type ShareEventMeta, type ShareEventName } from "./src/features/share/ShareCardSheet";
+import { readingModel, todayCardModel, type ShareCardModel, type ShareRequest } from "./src/features/share/shareCardContent";
+import { buildShareUrl, newShareId } from "./src/features/share/shareLink";
 import { homeNextStep, homeNextStepCopy } from "./src/features/home/nextStep";
 import { previousDayKey, visibleStreak } from "./src/features/home/streak";
 import { CardLibrary } from "./src/features/tarot/CardLibrary";
@@ -3235,6 +3237,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const [generationActivities, setGenerationActivities] = useState<GenerationActivity[]>([]);
   const [confirmationDialog, setConfirmationDialog] = useState<ConfirmationDialogState>(null);
   const [feedbackTarget, setFeedbackTarget] = useState<FeedbackPanelTarget | null>(null);
+  const [shareSheet, setShareSheet] = useState<{ model: ShareCardModel; url: string; primary: "image" | "link" } | null>(null);
   const screenRef = useRef(screen);
   const chatModeRef = useRef(chatMode);
   const selectedPersonaIdRef = useRef(selectedPersonaId);
@@ -4689,11 +4692,29 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     recordEvent("today_card_saved", { cardId: card.id, deckId: todayPulse.deck.id, dateKey: currentDateKey });
   };
 
+  // One entry for every share: the sheet shows the card, builds the tracked link and records share_tapped / share_completed.
+  const openShareSheet = (request: ShareRequest) => {
+    setShareSheet({
+      model: request.model,
+      primary: request.primary ?? "image",
+      url: buildShareUrl({ language, surface: request.model.surface, id: newShareId(), cardIds: request.cardIds, sunSign: request.sunSign })
+    });
+  };
+  const recordShareEvent = (name: ShareEventName, meta: ShareEventMeta) =>
+    recordEvent(name, { surface: meta.surface, action: meta.action, ...(meta.outcome ? { outcome: meta.outcome } : {}) });
+
   // Share only the card and its library meaning: never the user's question, mood or Journal text.
   const shareTodayPulseCard = () => {
     const card = todayPulse.card;
-    void Share.share({ message: `${displayTarotCardInline(card, language)} — ${displayTarotMeaning(card, language)}\n\nNilaza` }).catch(() => undefined);
-    recordEvent("today_card_shared", { cardId: card.id, dateKey: currentDateKey });
+    openShareSheet({
+      model: todayCardModel({
+        language,
+        cardName: displayTarotCardInline(card, language),
+        meaning: displayTarotMeaning(card, language),
+        image: getTarotCardImage(todayPulse.deck.id, card.id)
+      }),
+      cardIds: [card.id]
+    });
   };
 
   // Prefill Oracle only; the question is sent when the user presses send there.
@@ -5825,6 +5846,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
             onAskFollowUp={startTarotFollowup}
             onChatWithCard={startTarotCardChat}
             onCreateShareArtifact={createShareArtifact}
+            onOpenShare={openShareSheet}
             onDraw={drawCards}
             onRetryInterpretation={nilazaBackendBaseUrl && backendOptions.authToken ? () => {
               if (reading && tarotResultSource(reading.moderationStatus) === "reference") drawCards(reading.selected, reading);
@@ -5849,6 +5871,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         ) : screen === "astrology" ? (
           <AstrologyExperience key={scope.key} language={language} storage={storage} accountReady={loaded}
             onReportAnswer={setFeedbackTarget}
+            onOpenShare={openShareSheet}
             ownerPremiumPreview={isOwnerPreviewActive && displayedTier === "premium"}
             canRequestAstrologyAi={Boolean(backendOptions.authToken) && displayedTier === "premium" && !isOwnerPreviewActive}
             requestAstrologyAi={(input, correlation) => requestAstrologyAiInsight(input, backendOptions, correlation)}
@@ -6161,6 +6184,17 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
           onCancel={() => setConfirmationDialog(null)}
           onConfirm={() => confirmationDialog?.onConfirm()}
         />
+        {shareSheet ? (
+          <ShareCardSheet
+            visible
+            language={language}
+            model={shareSheet.model}
+            url={shareSheet.url}
+            primary={shareSheet.primary}
+            onClose={() => setShareSheet(null)}
+            onEvent={recordShareEvent}
+          />
+        ) : null}
 
         {screen === "chat" && chatMode === "detail" ? (
           <Pressable
@@ -7170,6 +7204,7 @@ export function TarotFlow({
   onAskFollowUp,
   onChatWithCard,
   onCreateShareArtifact,
+  onOpenShare,
   onDraw,
   onRetryInterpretation,
   onQuestionChange,
@@ -7209,6 +7244,7 @@ export function TarotFlow({
   onAskFollowUp: (personaId?: string) => void;
   onChatWithCard: (card: TarotCard | DrawnTarotCard, deck: TarotDeck, sourceReading?: ReturnType<typeof drawReading> | null) => void;
   onCreateShareArtifact: () => void;
+  onOpenShare: (request: ShareRequest) => void;
   onDraw: (selectedCards?: DrawnTarotCard[]) => void;
   onRetryInterpretation?: () => void;
   onQuestionChange: (text: string) => void;
@@ -7263,8 +7299,23 @@ export function TarotFlow({
     question: target.question,
     language
   });
+  // The share sheet shows the image card and builds the tracked link; the preview text above stays the exact text fallback.
   const shareReadingNow = () => {
-    if (reading) void Share.share({ title: "Nilaza Tarot", message: shareReadingText(reading) }).catch(() => undefined);
+    if (!reading) return;
+    onOpenShare({
+      model: readingModel({
+        language,
+        cards: reading.selected.map((card) => ({
+          position: card.spread,
+          name: displayTarotCardInline(card, language),
+          reversed: Boolean(card.reversed),
+          image: getTarotCardImage(selectedDeck.id, card.id)
+        })),
+        summary: reading.summary,
+        question: reading.question
+      }),
+      cardIds: reading.selected.map((card) => card.id)
+    });
   };
   const tarotGuideOptions = getTarotGuideOptions(selectedDeck.id);
   const recommendedTarotGuide = getRecommendedTarotGuide(selectedDeck.id);
