@@ -21,6 +21,7 @@ const vi = locale === "vi";
 </form> : <aside class="beta-notice"><p class="eyebrow">{vi ? "Đăng ký trước ra mắt" : "Prelaunch waitlist"}</p><h3>{vi ? "Kết nối đăng ký đang được hoàn thiện." : "Signup is being connected."}</h3><p>{vi ? "Nilaza chưa ra mắt công khai. Biểu mẫu hiện chưa sẵn sàng nhận email; bạn vui lòng quay lại sau." : "Nilaza has not launched publicly. The form is not ready to accept emails yet; please check back soon."}</p><a href={"/" + locale + "/help/beta-waitlist"}>{vi ? "Tìm hiểu về đăng ký trước ra mắt" : "About the prelaunch waitlist"} →</a></aside>}
 <script>
   import { trackPublicEvent } from "../lib/analytics";
+  import { readShareArrival } from "../lib/shareLanding";
   import { sendWaitlistRequest } from "../lib/waitlistRequest";
   type Turnstile = { render: (container: HTMLElement, options: Record<string, unknown>) => string; reset: (id: string) => void };
   const win = window as typeof window & { turnstile?: Turnstile };
@@ -49,6 +50,9 @@ const vi = locale === "vi";
         if (result === "accepted") {
           form.reset(); status.textContent = vi ? "Đã ghi nhận đăng ký trước ra mắt. Đây chưa phải tài khoản hoặc lời mời dùng ứng dụng; thời điểm và điều kiện trải nghiệm sẽ được thông báo sau." : "Your prelaunch signup has been recorded. This is not an account or an invitation to use the app; access timing and conditions will be announced later.";
           trackPublicEvent("waitlist_success", { locale: vi ? "vi" : "en", surface: "landing_waitlist" });
+          // A signup that began on a Nilaza share link: enumerated values only, never the email or free text.
+          const arrival = readShareArrival(location.search);
+          if (arrival.fromShare) trackPublicEvent("signup_from_share", { locale: vi ? "vi" : "en", source: "share", surface: arrival.surface, medium: arrival.medium });
         } else status.textContent = result === "challenge_failed" ? (vi ? "Xác minh chưa hợp lệ hoặc đã hết hạn. Xác minh lại rồi thử gửi; thông tin của bạn vẫn được giữ." : "Verification failed or expired. Verify again and retry; your details have been kept.") : result === "invalid_request" ? (vi ? "Kiểm tra email và sự đồng ý nhận tin rồi thử lại." : "Check your email and consent, then retry.") : (vi ? "Chưa ghi nhận được đăng ký. Thông tin vẫn được giữ; vui lòng thử lại sau." : "Your signup could not be recorded. Your details have been kept; please try again shortly.");
         sending = false; token = ""; button.disabled = true; form.removeAttribute("aria-busy"); win.turnstile?.reset(widget);
       });

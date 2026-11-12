@@ -7,6 +7,7 @@ import { bigThreeOf, moonHouseToday } from "./sky";
 import { ConsentCard, CompareView, PeopleList, PersonFields } from "./SynastryViews";
 import { compareCharts, synastryText, type RelationshipType } from "./synastry";
 import { big3Story, moonTodayFor, skyTopicIds, topicLabel, topicReading, type SkyTopicId } from "./skyContent";
+import { big3Model, singleSunSign, type ShareRequest } from "../share/shareCardContent";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   ActivityIndicator,
@@ -141,6 +142,7 @@ export function AstrologyExperience({
   requestAstrologyAi,
   onDeleteAiReport,
   onReportAnswer,
+  onOpenShare,
 }: {
   language: AstrologyLanguage;
   storage: AstrologyPersistence;
@@ -163,6 +165,8 @@ export function AstrologyExperience({
   requestAstrologyAi?: (input: AstrologyAiInvocation, correlation: AnswerCorrelation) => Promise<AstrologyAiInsightResult>;
   onDeleteAiReport?: (clientChartId: string) => Promise<void>;
   onReportAnswer?: (target: AstrologyAnswerReportTarget) => void;
+  /** Opens the app-level share sheet. Only sign names from the calculated chart are handed over, never birth data. */
+  onOpenShare?: (request: ShareRequest) => void;
 }) {
   const vi = language === "vi";
   const [stage, setStage] = useState<Stage>("home");
@@ -674,6 +678,13 @@ export function AstrologyExperience({
   const myChartReport = data.reports[0];
   const myChartBig3 = myChartReport ? bigThreeOf(myChartReport.chart) : null;
   const myChart = myChartReport && myChartBig3 ? { report: myChartReport, big3: myChartBig3 } : null;
+  // Big 3 card (image) and compare invite (link first). Both carry the Sun sign only when the chart gives exactly one.
+  const openBig3Share = (surface: "astro_big3" | "astro_invite") => {
+    if (!onOpenShare || !myChart) return;
+    const { big3 } = myChart;
+    const model = big3Model({ language, sun: big3.sun, moon: big3.moon, rising: big3.rising, timeKnown: big3.timeKnown, headline: big3Story(big3, language).headline });
+    onOpenShare({ model: { ...model, surface }, sunSign: singleSunSign(big3.sun), primary: surface === "astro_invite" ? "link" : "image" });
+  };
   // Today's Moon needs the houses, so only an exact birth time shows the block.
   const myMoonHouse = myChart?.big3.timeKnown ? moonHouseToday(myChart.report.chart, now) : null;
   const people = data.people ?? [];
@@ -847,7 +858,7 @@ export function AstrologyExperience({
                   language={language}
                   now={now}
                   dateLabel={`${vi ? "Hôm nay" : "Today"} · ${localCalendarLabel(now, data.displayZone, language)}`}
-                  myChart={myChart ? { big3: myChart.big3, story: big3Story(myChart.big3, language), onOpen: () => openSavedChart(myChart.report), onAddBirthTime: () => editBirthDetails(myChart.report, true) } : undefined}
+                  myChart={myChart ? { big3: myChart.big3, story: big3Story(myChart.big3, language), onOpen: () => openSavedChart(myChart.report), onAddBirthTime: () => editBirthDetails(myChart.report, true), ...(onOpenShare ? { onShare: () => openBig3Share("astro_big3"), onInvite: () => openBig3Share("astro_invite") } : {}) } : undefined}
                   onCreateChart={newForm}
                   today={myMoonHouse ? moonTodayFor(myMoonHouse.house, language) : null}
                   mythology={{ completed: data.library.completed.length, total: 12, onOpen: () => setStage("world") }}

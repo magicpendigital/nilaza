@@ -3,7 +3,9 @@ export const publicAnalyticsEvents = [
   "help_no_result",
   "help_article_open",
   "waitlist_cta_click",
-  "waitlist_success"
+  "waitlist_success",
+  "share_link_opened",
+  "signup_from_share"
 ] as const;
 
 export type PublicAnalyticsEvent = (typeof publicAnalyticsEvents)[number];
@@ -15,6 +17,7 @@ const eventNames = new Set<string>(publicAnalyticsEvents);
 const propertyNames = new Set([
   "article",
   "locale",
+  "medium",
   "query_length",
   "result_count",
   "result_type",

@@ -2,9 +2,17 @@ import type { Language } from "../../types";
 
 export type ShareCardLine = { position: string; name: string; reversed: boolean };
 
-function firstSentence(text: string): string {
+export function firstSentence(text: string): string {
   const match = text.trim().match(/^[\s\S]{12,220}?[.!?…](?=\s|$)/);
   return (match ? match[0] : "").trim();
+}
+
+/** One message sentence from a reading summary, or "" when it would quote the person's question. */
+export function safeReadingSentence(summary: string, question?: string | null): string {
+  const sentence = firstSentence(summary);
+  const asked = (question ?? "").trim().toLowerCase();
+  const quotesQuestion = asked.length >= 8 && sentence.toLowerCase().includes(asked.slice(0, Math.min(asked.length, 24)));
+  return quotesQuestion ? "" : sentence;
 }
 
 /**
@@ -15,12 +23,10 @@ function firstSentence(text: string): string {
 export function readingShareText(input: { cards: ShareCardLine[]; summary: string; question?: string | null; language: Language }): string {
   const vi = input.language === "vi";
   const lines = input.cards.map((card) => `${card.position} · ${card.name} · ${card.reversed ? (vi ? "Ngược" : "Reversed") : (vi ? "Xuôi" : "Upright")}`);
-  const sentence = firstSentence(input.summary);
-  const question = (input.question ?? "").trim().toLowerCase();
-  const quotesQuestion = question.length >= 8 && sentence.toLowerCase().includes(question.slice(0, Math.min(question.length, 24)));
+  const sentence = safeReadingSentence(input.summary, input.question);
   return [
     ...lines,
-    ...(sentence && !quotesQuestion ? ["", sentence] : []),
+    ...(sentence ? ["", sentence] : []),
     "",
     vi ? "Nilaza — để tự phản chiếu" : "Nilaza — for self-reflection"
   ].join("\n");
