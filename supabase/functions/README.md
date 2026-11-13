@@ -40,6 +40,7 @@ Admin-only paths are not exposed as mobile navigation routes. They are called by
 | `/admin/astrology-prompt-config` | `admin-astrology-prompt-config` | `ai.read` (GET) / `ai.manage` (POST) |
 | `/admin/ai-trace-qa-payload` | `admin-ai-trace-qa-payload` | `roles.manage` (POST, staging Owner only) |
 | `/admin/documentation` | `admin-documentation` | `ai.read` (GET) |
+| `/admin/ai-provider-probe` | `admin-ai-provider-probe` | `ai.manage` (POST; Kiểm tra khóa, never returns key values) |
 
 AI Studio operations use the reviewed migration `20260926152118_ai_studio_operations.sql`, present in the legacy QA audit. The overall migration ledger remains blocked by foreign-schema divergence: no generic db push/repair is allowed. Clean QA is awaiting the user-created project and a separately accepted bootstrap. QA payload capture additionally requires `AI_TRACE_QA_CAPTURE_ENABLED=true`, a 32-byte base64 `AI_TRACE_QA_ENCRYPTION_KEY`, `AI_TRACE_ENVIRONMENT=staging`, and a verified purge schedule. Keep capture disabled if `pg_cron` or the actual purge schedule is missing.
 
@@ -67,6 +68,7 @@ supabase functions deploy admin-model-router-config
 supabase functions deploy admin-astrology-prompt-config
 supabase functions deploy admin-ai-trace-qa-payload
 supabase functions deploy admin-documentation
+supabase functions deploy admin-ai-provider-probe
 supabase functions deploy marketing-waitlist --no-verify-jwt
 supabase functions deploy notification-register-device
 supabase functions deploy notification-preferences

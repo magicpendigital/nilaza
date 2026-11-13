@@ -4,7 +4,7 @@ if (!["uannkrywhxzrulufgqvx", "akgrokwnkfqnfjqrildi"].includes(projectRef)) {
   throw Error("Select the verified Nilaza production or staging project ref");
 }
 const functions = [
-  "admin-ai-council-config", "admin-model-router-config", "ai-astrology-report",
+  "admin-ai-council-config", "admin-model-router-config", "admin-ai-provider-probe", "ai-astrology-report",
   "ai-council", "ai-daily-insight", "ai-daily-zodiac-pulse", "ai-oracle-turn",
   "ai-persona-chat", "ai-tarot-reading", "journal-entries", "notification-dispatch",
   "notification-inbox", "notification-preferences", "notification-receipts",

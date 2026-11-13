@@ -122,7 +122,8 @@
       "/functions/v1/admin-model-router-config": { GET: "ai.read", POST: "ai.manage" },
       "/functions/v1/admin-astrology-prompt-config": { GET: "ai.read", POST: "ai.manage" },
       "/functions/v1/admin-ai-trace-qa-payload": { POST: "roles.manage" },
-      "/functions/v1/admin-documentation": { GET: "ai.read" }
+      "/functions/v1/admin-documentation": { GET: "ai.read" },
+      "/functions/v1/admin-ai-provider-probe": { POST: "ai.manage" }
     };
     const requiredCapability = endpoints[target.pathname]?.[method];
     if ((!local && base.protocol !== "https:") || !["https:", "http:"].includes(base.protocol)

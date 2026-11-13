@@ -34,6 +34,7 @@ const requiredFunctions = [
   "journal-entries",
   "admin-ai-council-config",
   "admin-model-router-config",
+  "admin-ai-provider-probe",
   "admin-astrology-prompt-config",
   "admin-ai-trace-qa-payload",
   "admin-documentation",
@@ -111,6 +112,7 @@ const forbiddenPublicEnv = [
   "EXPO_PUBLIC_OPENROUTER_API_KEY",
   "EXPO_PUBLIC_GEMINI_API_KEY",
   "EXPO_PUBLIC_ANTHROPIC_API_KEY",
+  "EXPO_PUBLIC_DEEPSEEK_API_KEY",
   "EXPO_PUBLIC_SUPABASE_SERVICE_ROLE_KEY",
   "EXPO_PUBLIC_SERVICE_ROLE_KEY"
 ];
