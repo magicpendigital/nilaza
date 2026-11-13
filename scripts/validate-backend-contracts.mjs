@@ -22,7 +22,7 @@ const contracts = [
   { gatewayPath: "/notifications/send-test", functionName: "notification-send-test" }
 ];
 
-const adminFunctions = ["admin-ai-council-config", "admin-model-router-config", "admin-astrology-prompt-config", "admin-ai-trace-qa-payload", "admin-documentation", "notification-send-test", "notification-dispatch", "notification-receipts"];
+const adminFunctions = ["admin-ai-council-config", "admin-model-router-config", "admin-astrology-prompt-config", "admin-ai-trace-qa-payload", "admin-documentation", "admin-ai-eval-run", "notification-send-test", "notification-dispatch", "notification-receipts"];
 
 function assert(condition, message) {
   if (!condition) errors.push(message);
@@ -163,6 +163,10 @@ for (const functionName of adminFunctions) {
         "serve(async (req)", "Access-Control-Allow-Origin", "@supabase/supabase-js", "supabase.auth.getUser",
         'supabase.rpc("has_admin_capability",', 'capability: "roles.manage"', 'supabase.rpc("get_ai_trace_qa_capture",',
         'AI_TRACE_QA_CAPTURE_ENABLED', 'AI_TRACE_ENVIRONMENT', 'crypto.subtle.decrypt', 'Cache-Control'
+      ] : functionName === "admin-ai-eval-run" ? [
+        "serve(async (req)", "Access-Control-Allow-Origin", "@supabase/supabase-js", "supabase.auth.getUser",
+        'supabase.rpc("has_admin_capability",', "Admin role required", 'service.rpc("start_ai_eval_run",',
+        'service.rpc("finish_ai_eval_run",', "generateWithModelRoute", "strictTraceRedaction: true"
       ] : functionName === "admin-documentation" ? [
         "serve(async req", "Access-Control-Allow-Origin", "@supabase/supabase-js", "userClient.auth.getUser",
         'userClient.rpc("has_admin_capability",', 'capability: "ai.read"', "admin_document_access_log", "ownerGuideMarkdown"

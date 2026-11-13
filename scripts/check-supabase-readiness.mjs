@@ -37,6 +37,7 @@ const requiredFunctions = [
   "admin-astrology-prompt-config",
   "admin-ai-trace-qa-payload",
   "admin-documentation",
+  "admin-ai-eval-run",
   "marketing-waitlist",
   "notification-register-device",
   "notification-preferences",

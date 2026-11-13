@@ -147,15 +147,19 @@ create or replace function nilaza_private.ai_eval_call_estimate_micro() returns 
 create or replace function nilaza_private.ai_eval_case_pass_score() returns numeric language sql immutable set search_path = '' as $$ select 7.0::numeric $$;
 create or replace function nilaza_private.ai_eval_quality_ratio() returns numeric language sql immutable set search_path = '' as $$ select 0.8::numeric $$;
 
--- True when the text holds something that looks like an email address or a phone number (9+ digits).
+-- True when the text holds something that looks like an email address or a phone number (9-15 digits; UUIDs ignored).
+-- The Edge runner (admin-ai-eval-run/runner.ts hasPersonalData) uses the same rule on model answers.
 create or replace function nilaza_private.ai_eval_text_has_personal_data(text_input text) returns boolean
 language plpgsql immutable set search_path = '' as $$
-declare candidate text;
+declare candidate text; digits integer;
 begin
   if text_input is null then return false; end if;
   if text_input ~* '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}' then return true; end if;
-  for candidate in select m[1] from regexp_matches(text_input, '(\+?[0-9][0-9 ().-]{7,}[0-9])', 'g') as m loop
-    if char_length(regexp_replace(candidate, '[^0-9]', '', 'g')) >= 9 then return true; end if;
+  for candidate in select m[1] from regexp_matches(
+      regexp_replace(text_input, '[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', ' ', 'gi'),
+      '(\+?[0-9][0-9 ().-]{7,}[0-9])', 'g') as m loop
+    digits := char_length(regexp_replace(candidate, '[^0-9]', '', 'g'));
+    if digits between 9 and 15 then return true; end if;
   end loop;
   return false;
 end;
