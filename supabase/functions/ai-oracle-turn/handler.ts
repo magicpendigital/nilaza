@@ -152,12 +152,14 @@ export const ORACLE_BUNDLE_CONTEXT_PREFIX = "Per-request context data (JSON):";
  * local time is always included. Tone is not repeated here: it already selects a fixed bundle module.
  */
 export function oracleDataBlock(input: unknown, locale: "vi" | "en", now?: Date): string {
-  const body = input && typeof input === "object" ? input as { consentFlags?: { profile?: unknown }; profile?: { nickname?: unknown; goals?: unknown } } : {};
+  const body = input && typeof input === "object" ? input as { currentScreen?: unknown; consentFlags?: { profile?: unknown }; profile?: { nickname?: unknown; goals?: unknown } } : {};
   const profileAllowed = body.consentFlags?.profile === true;
   return userDataBlock({
     language: locale,
     nickname: profileAllowed ? body.profile?.nickname : undefined,
     goals: profileAllowed ? body.profile?.goals : undefined,
+    // The bundle's context message also carried currentScreen (an enum compileOracleInput already validated); keep it.
+    extra: typeof body.currentScreen === "string" ? { currentScreen: body.currentScreen } : undefined,
     now
   });
 }
