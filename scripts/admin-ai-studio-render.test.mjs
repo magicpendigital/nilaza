@@ -87,8 +87,8 @@ test("Model Router checks readiness without publishing or rendering secret field
   assert.equal(calls[0].options.method, "GET");
   assert.equal(calls[0].capability, "ai.read");
   assert.equal(calls[0].options.body, undefined);
-  assert.match(doc.body.textContent, /Backend connected/);
-  assert.match(doc.body.textContent, /not tested/i);
+  assert.match(doc.body.textContent, /Đã kết nối máy chủ/);
+  assert.match(doc.body.textContent, /chưa gọi model/);
   assert.doesNotMatch(doc.body.textContent, /must-not-render/);
   dom.window.close();
 });
@@ -157,9 +157,9 @@ test("Astrology Admin can publish the new schema over a stale active route", asy
 
   assert.equal(calls.length, 1, JSON.stringify(calls));
   assert.match(doc.body.textContent, /astrology_report_v1/);
-  assert.match(doc.body.textContent, /Publishing this route uses astrology_ai_insight_v1/);
+  assert.match(doc.body.textContent, /Phát hành bản này sẽ dùng astrology_ai_insight_v1/);
   assert.match(doc.body.textContent, /"responseSchema": "astrology_ai_insight_v1"/);
-  assert.equal(doc.querySelector("#sidebar-version-status").textContent, "Backend active · astrology_report_v1");
+  assert.equal(doc.querySelector("#sidebar-version-status").textContent, "Đang chạy trên máy chủ · astrology_report_v1");
   doc.querySelector("#model-router-publish-config").click();
   await new Promise(resolve => dom.window.setTimeout(resolve, 0));
   assert.match(doc.querySelector("#publish-summary").textContent, /staging\.supabase\.co/);
@@ -218,7 +218,7 @@ test("failed readiness check remains retryable and does not report a connection"
   doc.querySelector('[data-detail="modelRouter"]').click();
   doc.querySelector('#model-router-check-connection').click();
   await new Promise(resolve => dom.window.setTimeout(resolve, 0));
-  assert.match(doc.body.textContent, /Check failed/);
+  assert.match(doc.body.textContent, /Không kiểm tra được/);
   assert.equal(doc.querySelector('#model-router-check-connection').disabled, false);
   dom.window.close();
 });
@@ -352,7 +352,7 @@ test("Model Router hydrates the active OpenRouter route after an Admin reload", 
   assert.equal(doc.querySelector("#provider-select").value, "openrouter");
   assert.equal(doc.querySelector("#model-select").value, "deepseek/deepseek-chat");
   assert.equal(doc.querySelector("#fallback-provider-select").value, "openai");
-  assert.match(doc.body.textContent, /Backend active route/);
+  assert.match(doc.body.textContent, /Bản active trên máy chủ/);
   dom.window.close();
 });
 
@@ -422,7 +422,7 @@ test("Model Router publish sends the canonical provider contract with a unique v
   assert.equal(captured.body.temperature, 0);
   assert.equal(captured.body.maxTokens, 1300);
   assert.match(captured.body.version, /^v1\.2\.0-admin-\d+$/);
-  assert.match(doc.querySelector("#draft-status").textContent, /Model Router config published/);
+  assert.match(doc.querySelector("#draft-status").textContent, /Đã phát hành model/);
   assert.equal(JSON.parse(dom.window.localStorage.getItem(scopedDraftKey("https://qa.supabase.co"))).tarot_reading, undefined);
   dom.window.close();
 });
@@ -450,18 +450,18 @@ test("Hidden reasoning is set per route, blocks a budget with no room for the an
   assert.equal(doc.querySelector("#reasoning-max-tokens").disabled, true);
   change("#max-output-tokens", "2000");
   change("#reasoning-mode", "high");
-  assert.match(doc.body.textContent, /Not enough room for the answer/);
+  assert.match(doc.body.textContent, /Không đủ chỗ cho câu trả lời/);
   change("#reasoning-mode", "low");
   change("#reasoning-max-tokens", "1700");
-  assert.match(doc.body.textContent, /Not enough room for the answer/);
+  assert.match(doc.body.textContent, /Không đủ chỗ cho câu trả lời/);
   doc.querySelector("#model-router-check-connection").click();
   await new Promise(resolve => dom.window.setTimeout(resolve, 0));
   doc.querySelector("#model-router-publish-config").click();
   await new Promise(resolve => dom.window.setTimeout(resolve, 0));
-  assert.match(doc.querySelector("#draft-status").textContent, /leaving 300 for the answer/);
+  assert.match(doc.querySelector("#draft-status").textContent, /chỉ còn 300 cho câu trả lời/);
   assert.equal(requests.some(request => request.options.method === "POST"), false);
   change("#reasoning-max-tokens", "512");
-  assert.doesNotMatch(doc.body.textContent, /Not enough room for the answer/);
+  assert.doesNotMatch(doc.body.textContent, /Không đủ chỗ cho câu trả lời/);
   doc.querySelector("#model-router-publish-config").click();
   await new Promise(resolve => dom.window.setTimeout(resolve, 0));
   confirmReviewed(doc);
@@ -857,10 +857,10 @@ test("Route editor and header use the unique active row, while newer experimenta
   assert.equal(doc.querySelector("#fallback-provider-select").value, "gemini");
   assert.equal(doc.querySelector("#fallback-model-select").value, "synthetic-fallback");
   assert.equal(doc.querySelector("#sidebar-version").textContent, "older-active");
-  assert.equal(doc.querySelector("#sidebar-version-status").textContent, "Backend active · schema unknown");
-  assert.match(doc.querySelector("#detail-content").textContent, /Backend active route: openai \/ synthetic-older/);
-  const experimental = [...doc.querySelectorAll("details")].find(item => item.querySelector("summary")?.textContent.includes("Experimental records"));
-  assert.match(experimental.textContent, /read only, excluded from the active baseline/);
+  assert.equal(doc.querySelector("#sidebar-version-status").textContent, "Đang chạy trên máy chủ · chưa rõ định dạng");
+  assert.match(doc.querySelector("#detail-content").textContent, /Bản active trên máy chủ: openai \/ synthetic-older/);
+  const experimental = [...doc.querySelectorAll("details")].find(item => item.querySelector("summary")?.textContent.includes("Bản thử nghiệm"));
+  assert.match(experimental.textContent, /chỉ xem, không tính là bản đang chạy/);
   assert.match(experimental.textContent, /newest-experimental · experimental · openrouter \/ synthetic-newest/);
   dom.window.close();
 });
@@ -882,7 +882,7 @@ test("Multiple active backend rows block publication and preserve browser drafts
   assert.equal(doc.querySelector("#model-router-publish-config"), null);
   assert.equal(doc.querySelector("#publish-button").disabled, true);
   assert.equal(doc.querySelector("#sidebar-version").textContent, "Nhiều phiên bản cùng chạy");
-  assert.equal(doc.querySelector("#model-state").textContent, "Ambiguous active routes");
+  assert.equal(doc.querySelector("#model-state").textContent, "Nhiều phiên bản cùng chạy");
   assert.match(doc.querySelector("#detail-content").textContent, /active-one/);
   assert.match(doc.querySelector("#detail-content").textContent, /active-two/);
   assert.match(doc.querySelector("#detail-content").textContent, /candidate/);
@@ -892,7 +892,7 @@ test("Multiple active backend rows block publication and preserve browser drafts
   doc.querySelector("#model-router-check-connection").click();
   await settle(dom);
   assert.equal(doc.querySelector("#model-select").value, "keep-browser-model");
-  assert.equal(doc.querySelector("#sidebar-version").textContent, "Route draft · active-one");
+  assert.equal(doc.querySelector("#sidebar-version").textContent, "Nháp chuỗi model · active-one");
   assert.equal(doc.querySelector("#publish-button").disabled, false);
   dom.window.close();
 });
@@ -906,9 +906,9 @@ test("Experimental-only records do not hydrate the editor or appear as the activ
   doc.querySelector('[data-detail="modelRouter"]').click();
   assert.notEqual(doc.querySelector("#model-select").value, "synthetic-candidate-only");
   assert.notEqual(doc.querySelector("#sidebar-version").textContent, "candidate-only");
-  assert.equal(doc.querySelector("#sidebar-version-status").textContent, "No active backend route loaded");
+  assert.equal(doc.querySelector("#sidebar-version-status").textContent, "Chưa tải chuỗi đang chạy trên máy chủ");
   assert.match(doc.querySelector("#detail-content").textContent, /candidate-only/);
-  assert.match(doc.querySelector("#detail-content").textContent, /excluded from the active baseline/);
+  assert.match(doc.querySelector("#detail-content").textContent, /không tính là bản đang chạy/);
   dom.window.close();
 });
 
@@ -1216,7 +1216,7 @@ test("Workflow collapses configuration health while editors retain their full he
   const doc = dom.window.document;
   assert.equal(doc.querySelector("#configuration-health").open, false);
   assert.equal(doc.querySelector("#configuration-health-summary").hidden, false);
-  assert.match(doc.querySelector("#configuration-health-summary").textContent, /No active route loaded.*execution unverified/);
+  assert.match(doc.querySelector("#configuration-health-summary").textContent, /Chưa tải bản đang chạy.*chưa kiểm chứng khi chạy/);
   doc.querySelector('[data-detail="modelRouter"]').click();
   assert.equal(doc.querySelector("#configuration-health").open, true);
   assert.equal(doc.querySelector("#configuration-health-summary").hidden, true);
@@ -1447,7 +1447,7 @@ test('v2 wrong receipt and delayed account change cannot clear or migrate drafts
  await settle(dom);const doc=dom.window.document;doc.querySelector('[data-detail="modelRouter"]').click();assert.notEqual(doc.querySelector('#model-select').value,'legacy-other-user');
  const input=doc.querySelector('#model-select');input.value='candidate';input.dispatchEvent(new dom.window.Event('change',{bubbles:true}));
  doc.querySelector('#model-router-publish-config').click();await settle(dom);confirmReviewed(doc);await settle(dom);resolve();await settle(dom);
- assert.match(doc.body.textContent,/receipt mismatch/);assert.equal(JSON.parse(dom.window.localStorage.getItem(draftKey)).tarot_reading.model,'candidate');
+ assert.match(doc.body.textContent,/Biên nhận phát hành không khớp/);assert.equal(JSON.parse(dom.window.localStorage.getItem(draftKey)).tarot_reading.model,'candidate');
  dom.window.NilazaAdminSession.userId='different-account';input.value='do-not-cross-account';input.dispatchEvent(new dom.window.Event('change',{bubbles:true}));
  assert.equal(dom.window.localStorage.getItem(scopedDraftKey('https://staging.supabase.co','different-account')),null);dom.window.close();
 });

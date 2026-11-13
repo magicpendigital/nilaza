@@ -11,7 +11,7 @@ const aiWorkflowSections = new Set(["payload", "dataMindmap", "optimization"]);
 const viRouteLabels = {
   overview: { home: "Tổng quan" },
   content: { overview: "Tình trạng nội dung", personas: "Người dẫn", decks: "Bộ bài", cards: "78 lá bài", assets: "Hình ảnh", frontend: "Văn bản trong app", documentation: "Hướng dẫn Owner" },
-  "ai-studio": { features: "Bật/tắt & hạn mức", workflow: "Luồng xử lý", prompt: "Prompt theo tính năng", "persona-studio": "Prompt người dẫn", "council-builder": "Hội đồng", "model-router": "Chuỗi model đang chạy", "trace-explorer": "Nhật ký AI", feedback: "Phản hồi người dùng", test: "Kết quả chạy thử", versions: "Tất cả prompt & phiên bản", audit: "Thao tác AI" },
+  "ai-studio": { features: "Bật/tắt & hạn mức", workflow: "Luồng xử lý", prompt: "Prompt theo tính năng", "persona-studio": "Prompt người dẫn", "council-builder": "Hội đồng", "model-router": "Model chính & dự phòng", providers: "Nhà cung cấp & chuỗi model", "trace-explorer": "Nhật ký AI", feedback: "Phản hồi người dùng", test: "Kết quả chạy thử", versions: "Tất cả prompt & phiên bản", audit: "Thao tác AI" },
   timeline: { home: "Dòng thời gian chung" },
   growth: { overview: "Tổng quan", "product-truth": "Sẵn sàng sản phẩm", "content-drafts": "Bản nháp nội dung", measurement: "Đo lường", roadmap: "Việc tiếp theo", waitlist: "Danh sách chờ", "campaign-map": "Bản đồ chiến dịch", "delivery-health": "Tình trạng gửi" }
 };
@@ -29,7 +29,8 @@ const navGroups = [
   ] },
   { label: "AI", items: [
     { id: "ai-features", label: "Tính năng AI", routes: [["ai-studio", "features"], ["ai-studio", "workflow"]] },
-    { id: "providers", label: "Nhà cung cấp & Model", routes: [["ai-studio", "model-router"], ["pending", "providers"]] },
+    // A7: the provider table and step chains replace the pending page; the 1 primary + 1 fallback editor stays as a tab.
+    { id: "providers", label: "Nhà cung cấp & Model", routes: [["ai-studio", "providers"], ["ai-studio", "model-router"]] },
     { id: "prompts", label: "Prompt & phiên bản", routes: [["ai-studio", "versions"], ["ai-studio", "prompt"], ["ai-studio", "persona-studio"], ["ai-studio", "council-builder"]] },
     { id: "evals", label: "Chạy thử & chấm điểm", routes: [["pending", "evals"], ["ai-studio", "test"]] }
   ] },
@@ -42,15 +43,6 @@ const navGroups = [
   { label: "", items: [{ id: "growth", label: "Tăng trưởng", routes: "growth" }] }
 ];
 const pendingPages = {
-  providers: {
-    label: "Nhà cung cấp", step: "A7", capability: "ai.read", title: "Nhà cung cấp & Model",
-    lines: [
-      "Thứ tự nhà cung cấp, trạng thái khóa (chỉ “Đã cấu hình / Chưa”), nút Kiểm tra khóa, tình trạng 24 giờ và cầu dao cần bảng nhà cung cấp, bảng sức khỏe và hàm kiểm tra khóa trên máy chủ.",
-      "Khóa nhà cung cấp chỉ đặt trong Supabase Secrets; Admin không có ô nhập khóa.",
-      "Đang chạy thật: mỗi tính năng có 1 model chính + 1 model dự phòng, xem và phát hành ở mục “Chuỗi model đang chạy”."
-    ],
-    next: ["ai-studio", "model-router", "Mở chuỗi model đang chạy"]
-  },
   evals: {
     label: "Chấm điểm", step: "A6", capability: "ai.read", title: "Chạy thử & chấm điểm",
     lines: [

@@ -42,7 +42,7 @@
     n("prompt_lookup", t("Đọc global prompt active", "Read active global prompt"), "prompt", 2, 0, t("Theo locale/published_at; thiếu, sai, lỗi hoặc timestamp cạnh tranh chuyển local degraded, giữ lý do.", "Select by locale/published_at; missing/invalid/unavailable or competing timestamps use local degraded mode with a reason."), [r(s("tarot-prompt.ts"), "resolveTarotPrompt")], [p("language", "Locale", "canonical_cards.language", pass)], [o("prompt", "PromptSelection", "prompt_messages.prompt", t("Prompt + provenance", "Prompt and provenance"))]),
     n("local_prompt", t("Prompt chuẩn local", "Canonical local prompt"), "prompt", 2, 1, t("Fallback pinned prompt-library; không phải bản cloud vừa publish.", "Pinned prompt-library fallback; not a newly published cloud version."), [tr[1], tr[5]], [], [o("prompt", "PromptSelection", "prompt_messages.prompt", t("Fallback + lý do", "Fallback and reason"))]),
     n("prompt_messages", t("System + user JSON", "System + user JSON"), "prompt", 3, 0, t("System thêm bounds Tarot bất biến; nghĩa lá/câu hỏi trong user JSON. Không retrieval/vector.", "System adds immutable Tarot bounds; meanings/question remain in user JSON. No retrieval/vector search."), [tr[0]], [p("context", "CanonicalTarotContext", "canonical_cards.context", pass, "personal"), p("prompt", "PromptSelection", "prompt_lookup or local_prompt", pass)], [o("exchange", "ModelExchange", "model_call.exchange", pass, "sensitive")]),
-    n("model_call", t("Safety + Model Call", "Safety + Model Call"), "model", 4, 0, t("Shared active route; input safety trước provider, primary/fallback theo lỗi được phép, output safety có thể thay bằng local fallback.", "Shared active route; input safety precedes providers, allowed errors trigger primary/fallback, and output safety can replace output with local fallback."), [tr[3]], [exchangeIn("prompt_messages.exchange")], [generationOut("parse_output.generation")], "implemented-source", true),
+    n("model_call", t("Safety + Model Call", "Safety + Model Call"), "model", 4, 0, t("Shared active route; input safety trước provider. Route không có steps: primary/fallback theo lỗi được phép như cũ. Route có steps (A7, ≤ 4 bước): đi theo thứ tự, bỏ qua nhà cung cấp tắt/thiếu khóa/không được nhận loại dữ liệu/cầu dao mở, chuyển bước khi lỗi tạm thời, 429, 402, 401/403, 404, quá ngữ cảnh, sai định dạng (1 lần), không bao giờ khi bị chặn an toàn; trong tổng thời gian và trần chi phí. Output safety có thể thay bằng local fallback.", "Shared active route; input safety precedes providers. Routes without steps: allowed errors trigger primary/fallback as before. Routes with steps (A7, up to 4): walked in order, skipping providers that are off, lack a key, may not receive the data class or have an open circuit; move on for transient, 429, 402, 401/403, 404, context length and one format failure, never after a safety block; inside the total deadline and cost cap. Output safety can replace output with local fallback."), [tr[3]], [exchangeIn("prompt_messages.exchange")], [generationOut("parse_output.generation")], "implemented-source", true),
     n("parse_output", t("Parse có fallback", "Parse with fallback"), "output", 5, 0, t("JSON bắt buộc theo hợp đồng: giới hạn độ dài, locale, section key duy nhất và cardIds thuộc lá đã chọn. Từ chối output bị cắt; lỗi dùng fallback có nhãn. Không xác nhận chất lượng ngữ nghĩa.", "Strict JSON contract validates bounds, locale, unique section keys and selected cardIds. Truncated output is rejected; errors use labelled fallback. Structural validation does not certify semantic quality."), [r(f("ai-tarot-reading"), "parseTarotOutput"), r("packages/ai-contracts/tarot-output.ts")], [p("generation", "ModelGeneration", "model_call.generation", pass, "sensitive")], [o("reading", "TarotResult", "reading_save.reading", pass, "sensitive")]),
     n("reading_save", t("Lưu reading + usage/safety", "Save reading + usage/safety"), "storage", 6, 0, t("Lưu reading kèm provenance; tách lỗi lưu bài khỏi telemetry. Finalize trace sau validation/lưu; ghi biên nhận metadata bằng service riêng. Biên nhận lỗi không làm mất bài.", "Save reading with provenance; telemetry failure is separate from reading persistence. Finalize trace after validation/save, then write a service-only metadata receipt. Receipt failure does not discard the answer."), [tr[0], r(s("answer-receipt.ts"))], [p("reading", "TarotResult", "parse_output.reading", pass, "sensitive"), p("userId", "UserId", "request_guard.userId", pass)], [o("response", "TarotResponse", "response.response", t("Reading + remoteId/status", "Reading and remoteId/status"), "sensitive")]),
     n("response", t("Trả reading + trạng thái", "Return reading + state"), "output", 7, 0, t("Trả interaction/attempt/request, phiên bản prompt/assembly/route/content, nguồn và trạng thái. Feedback chỉ category/IDs; server kiểm quyền sở hữu biên nhận. Trace cũ vẫn chưa xác minh nguồn ghi.", "Return interaction/attempt/request IDs, prompt/assembly/route/content versions, source and status. Feedback sends categories/IDs only; the server checks receipt ownership. Legacy trace writer origin remains unverified."), [tr[0], r("packages/ai-contracts/answer-provenance.ts"), r(f("ai-feedback")), r("supabase/functions/ai-feedback/handler.ts")], [p("response", "TarotResponse", "reading_save.response", pass, "sensitive")])
@@ -254,7 +254,7 @@
     }
     model.inputs.push(
       p("primaryRoute", "ProviderModelReference", "readActiveModelRoute.primaryProvider/primaryModel", t("Lần gọi primary nếu input safety cho phép", "Primary attempt when input safety permits")),
-      p("fallbackRoute", "ProviderModelReference|null", "readActiveModelRoute.fallbackProvider/fallbackModel", t("Chỉ thử fallback khi route có cấu hình và shouldFallback cho phép lỗi; không song song", "Try fallback only when configured and shouldFallback permits the error; never in parallel")),
+      p("fallbackRoute", "ProviderModelReference|null", "readActiveModelRoute.fallbackProvider/fallbackModel", t("Chỉ thử fallback khi route có cấu hình và shouldFallback cho phép lỗi; không song song. Route có steps dùng model_route_versions.steps thay cho cặp này (cột vẫn bằng 2 bước đầu)", "Try fallback only when configured and shouldFallback permits the error; never in parallel. Routes with steps use model_route_versions.steps instead (the columns still equal the first two steps)")),
       p("fallbackWhen", "string[]", "ModelRoute.fallbackWhen", t("Allowlist lỗi provider quyết định nhánh fallback", "Allowed provider errors decide the fallback branch"))
     );
     model.outputs.push(o("attempts", "ModelAttempt[]", "generation.attempts; ai_trace_spans llm.<provider>.primary/fallback", t("Metadata các lần thử; fallback có thể sau primary lỗi. ok không chứng minh schema/persistence/quality", "Attempt metadata; fallback may follow a failed primary. ok does not prove schema/persistence/quality")));
@@ -328,11 +328,11 @@
   },
   {
     "path": "supabase/functions/_shared/model-provider.ts",
-    "sha256": "18dae33e3ccbd3129b6820635350f505816ef8dfd9bfb4f9e77b2b2d8a022623"
+    "sha256": "8cdc5dc83a831984f55d355deafb2460c1f0842f1bdd434d1209c04d8bb8ecde"
   },
   {
     "path": "supabase/functions/_shared/model-router.ts",
-    "sha256": "a34eb4da0fe03fbdc10f8a3c9a55a65533182ed9f1f3fd6a9b12c0e4ed92eecb"
+    "sha256": "87de02f1978911d8ab0abc791f827b8cb3f16e18bfcc2eb3bea10ef304d89d96"
   },
   {
     "path": "supabase/functions/_shared/notification-provider.ts",
@@ -344,7 +344,7 @@
   },
   {
     "path": "supabase/functions/_shared/persona-prompt-assembler.ts",
-    "sha256": "8582816ec15a8c3ac8f702e4c5ab36b0bd2a69af4c2c55b8393014cfaa6f32e6"
+    "sha256": "e76e850c44a6d1826c1c0864f5036e8a807df8d64b487eb6364fbd2679f3a0ad"
   },
   {
     "path": "supabase/functions/_shared/prompt-composition/compose.mjs",

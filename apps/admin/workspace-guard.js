@@ -172,6 +172,9 @@
     list_prompt_versions: "ai.read",
     save_prompt_draft: "ai.manage|ai.read+content.draft",
     publish_prompt_version: "ai.manage",
+    // AI providers (A7, migration 20261113140100). The key-check recorder is service-role only and never listed here.
+    list_ai_providers: "ai.read",
+    set_ai_provider: "ai.manage",
     get_growth_waitlist_overview: "overview.read",
     // Per-item content drafts and publish (A3, migration 20261113100000); the RPCs check the same capabilities.
     // Owner decision 6: editors (content.draft) save, restore and discard drafts; only content.publish publishes.
