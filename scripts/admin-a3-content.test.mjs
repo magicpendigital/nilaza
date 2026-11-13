@@ -104,6 +104,9 @@ function fakeServer({ missing = false, row = publishedRow() } = {}) {
         return saved;
       }
       if (name === "publish_content_items") {
+        const revisions = params.p_expected_revisions;
+        if (!revisions || Object.keys(revisions).length !== params.p_keys.length || params.p_keys.some((k) => !Number.isInteger(revisions[k]) || revisions[k] < 1)) throw Object.assign(Error("Admin session unavailable"), { code: "22023" });
+        if (params.p_keys.some((k) => drafts.get(k)?.revision !== revisions[k])) throw Object.assign(Error("Admin session unavailable"), { code: "40001" });
         version += 1;
         for (const k of params.p_keys) {
           const draft = drafts.get(k);
@@ -202,7 +205,7 @@ test("owner: Lưu nháp saves one item to the server, review shows the diff and 
     type(h, "#publish-note", "Cập nhật mô tả Aristotle");
     await click(h, '[data-action="confirm-publish"]');
     const publish = h.rpcCalls().find((call) => call[0] === "publish_content_items");
-    assert.deepEqual(publish[1], { p_keys: ["persona/figure-aristotle"], p_note: "Cập nhật mô tả Aristotle", p_expected_published_version: 7 });
+    assert.deepEqual(publish[1], { p_keys: ["persona/figure-aristotle"], p_expected_revisions: { "persona/figure-aristotle": 1 }, p_note: "Cập nhật mô tả Aristotle", p_expected_published_version: 7 });
     assert.equal(publish[2], "content.publish");
     assert.match(h.doc.querySelector("#notice").textContent, /Đã phát hành 1 mục \(gói nội dung v8\)[\s\S]*aristotle/);
     assert.equal(h.doc.querySelector("[data-review-panel]"), null);
@@ -248,18 +251,103 @@ test("editor (Owner decision 6): saves drafts of live items, cannot change statu
   } finally { cleanup(); }
 });
 
-test("a stale save is refused and the edit stays on this browser", async () => {
+// Someone else saves revision 4 (new VI description) after this browser loaded revision 3 and edited the VI name.
+async function staleSaveHarness() {
   const server = fakeServer();
   server.drafts.set("persona/figure-aristotle", { kind: "persona", itemKey: "figure-aristotle", version: 1, revision: 3, status: "draft", payload: plainPersona(), updatedByEmail: "other@example.invalid", updatedAt: "2026-11-13T09:00:00Z" });
   const h = await contentAt("personas", { server });
+  assert.ok(h.doc.querySelector('[data-select="persona"][data-id="figure-aristotle"] [data-chip="draft"]'), "server draft shown on load");
+  const persona = plainPersona();
+  server.drafts.set("persona/figure-aristotle", { ...server.drafts.get("persona/figure-aristotle"), revision: 4, payload: { ...persona, description: { ...persona.description, vi: "Mô tả của người khác" } } });
+  type(h, '[data-entity="personas"][data-field="name"][data-locale="vi"]', "Tên mới");
+  await click(h, '[data-action="save"][data-id="figure-aristotle"]');
+  return h;
+}
+
+test("a stale save opens a conflict view (server draft vs my edit) and keeps the edit on this browser", async () => {
+  const h = await staleSaveHarness();
   try {
-    assert.ok(h.doc.querySelector('[data-select="persona"][data-id="figure-aristotle"] [data-chip="draft"]'), "server draft shown on load");
-    server.drafts.get("persona/figure-aristotle").revision = 4; // someone else saved meanwhile
-    type(h, '[data-entity="personas"][data-field="name"][data-locale="vi"]', "Tên mới");
-    await click(h, '[data-action="save"][data-id="figure-aristotle"]');
     assert.equal(h.rpcCalls().find((call) => call[0] === "save_content_item_draft")[1].p_expected_revision, 3);
-    assert.match(h.doc.querySelector("#notice").textContent, /Người khác vừa lưu hoặc phát hành mục này/);
+    const notice = h.doc.querySelector("#notice").textContent;
+    assert.match(notice, /Người khác vừa lưu hoặc phát hành mục này[\s\S]*Dùng bản trên máy chủ[\s\S]*Ghi đè bằng bản của tôi/);
+    assert.doesNotMatch(notice, /Đồng bộ với máy chủ/, "no longer points at a sync that cannot fix the conflict");
     assert.ok(h.doc.querySelector('[data-select="persona"][data-id="figure-aristotle"] [data-chip="unsaved"]'));
+    const panel = h.doc.querySelector("[data-conflict-panel]");
+    assert.ok(panel, "conflict view");
+    assert.match(panel.textContent, /lần lưu 4 bởi other@example\.invalid/);
+    assert.match(panel.textContent, /Trên máy chủ[\s\S]*Bản của tôi/);
+    assert.match(panel.textContent, /Tên · VI[\s\S]*Tên mới/);
+    assert.match(panel.textContent, /Mô tả · VI[\s\S]*Mô tả của người khác/);
+    assert.ok(panel.querySelector('[data-action="conflict-use-server"]') && panel.querySelector('[data-action="conflict-overwrite"]'));
+  } finally { cleanup(); }
+});
+
+test("conflict: Dùng bản trên máy chủ drops my edit for that item only", async () => {
+  const h = await staleSaveHarness();
+  try {
+    await click(h, '[data-select="persona"][data-id="figure-laozi"]');
+    type(h, '[data-entity="personas"][data-field="name"][data-locale="vi"]', "Lão Tử (sửa)");
+    await settle(h);
+    await click(h, '[data-select="persona"][data-id="figure-aristotle"]');
+    await click(h, '[data-action="conflict-use-server"][data-id="figure-aristotle"]');
+    assert.equal(h.doc.querySelector("[data-conflict-panel]"), null);
+    assert.equal(h.doc.querySelector('[data-entity="personas"][data-field="description"][data-locale="vi"]').value, "Mô tả của người khác");
+    assert.notEqual(h.doc.querySelector('[data-entity="personas"][data-field="name"][data-locale="vi"]').value, "Tên mới");
+    assert.equal(h.doc.querySelector('[data-select="persona"][data-id="figure-aristotle"] [data-chip="unsaved"]'), null);
+    assert.ok(h.doc.querySelector('[data-select="persona"][data-id="figure-laozi"] [data-chip="unsaved"]'), "the other item's edit stays");
+    assert.deepEqual(JSON.parse(h.window.localStorage.getItem(editsKey)).map((edit) => edit.id), ["figure-laozi"]);
+    // A later save of Aristotle starts from the server's revision 4 and succeeds.
+    type(h, '[data-entity="personas"][data-field="name"][data-locale="vi"]', "Tên sau khi chọn bản máy chủ");
+    await click(h, '[data-action="save"][data-id="figure-aristotle"]');
+    assert.equal(h.rpcCalls().filter((call) => call[0] === "save_content_item_draft").at(-1)[1].p_expected_revision, 4);
+    assert.equal(h.server.drafts.get("persona/figure-aristotle").revision, 5);
+  } finally { cleanup(); }
+});
+
+test("conflict: Ghi đè bằng bản của tôi rebases my edit onto the server revision and saves", async () => {
+  const h = await staleSaveHarness();
+  try {
+    await click(h, '[data-action="conflict-overwrite"][data-id="figure-aristotle"]');
+    const saves = h.rpcCalls().filter((call) => call[0] === "save_content_item_draft");
+    assert.equal(saves.length, 2);
+    assert.equal(saves[1][1].p_expected_revision, 4, "rebased onto the server's current revision");
+    assert.equal(saves[1][1].p_payload.name.vi, "Tên mới");
+    assert.equal(h.server.drafts.get("persona/figure-aristotle").revision, 5);
+    assert.equal(h.doc.querySelector("[data-conflict-panel]"), null);
+    assert.equal(h.doc.querySelector('[data-select="persona"][data-id="figure-aristotle"] [data-chip="unsaved"]'), null);
+    assert.match(h.doc.querySelector("#notice").textContent, /Đã ghi đè bằng bản của bạn \(lần lưu 5\)/);
+    // Later saves keep working (no stuck baseRevision).
+    type(h, '[data-entity="personas"][data-field="name"][data-locale="vi"]', "Tên mới hơn");
+    await click(h, '[data-action="save"][data-id="figure-aristotle"]');
+    assert.equal(h.rpcCalls().filter((call) => call[0] === "save_content_item_draft").at(-1)[1].p_expected_revision, 5);
+    assert.equal(h.server.drafts.get("persona/figure-aristotle").revision, 6);
+  } finally { cleanup(); }
+});
+
+test("publish sends the reviewed revisions; a draft saved after the review opened is refused and reloaded", async () => {
+  const server = fakeServer();
+  server.drafts.set("persona/figure-aristotle", { kind: "persona", itemKey: "figure-aristotle", version: 1, revision: 2, status: "draft", payload: { ...plainPersona(), description: { vi: "Bản đã xem", en: "Reviewed" } }, updatedByEmail: "editor@example.invalid", updatedAt: "2026-11-13T09:00:00Z" });
+  const h = await contentAt("personas", { server });
+  try {
+    await click(h, '[data-action="publish"][data-id="figure-aristotle"]');
+    assert.match(h.doc.querySelector("[data-review-panel]").textContent, /Bản đã xem/);
+    // The editor saves again while the Owner is reading the review.
+    server.drafts.set("persona/figure-aristotle", { ...server.drafts.get("persona/figure-aristotle"), revision: 3, payload: { ...plainPersona(), description: { vi: "Bản chưa xem", en: "Unreviewed" } } });
+    type(h, "#publish-note", "Phát hành bản đã xem");
+    await click(h, '[data-action="confirm-publish"]');
+    const publish = h.rpcCalls().find((call) => call[0] === "publish_content_items");
+    assert.deepEqual(publish[1].p_expected_revisions, { "persona/figure-aristotle": 2 });
+    assert.equal(server.history.size, 0, "nothing published");
+    assert.match(h.doc.querySelector("#notice").textContent, /Bản nháp vừa được sửa — mở lại để xem bản mới/);
+    assert.equal(h.doc.querySelector("[data-review-panel]"), null);
+    assert.equal(h.doc.querySelector('[data-entity="personas"][data-field="description"][data-locale="vi"]').value, "Bản chưa xem", "reloaded the newer draft");
+    // Reopening shows the newer text and publishes it with revision 3.
+    await click(h, '[data-action="publish"][data-id="figure-aristotle"]');
+    assert.match(h.doc.querySelector("[data-review-panel]").textContent, /Bản chưa xem/);
+    type(h, "#publish-note", "Phát hành bản mới đã xem");
+    await click(h, '[data-action="confirm-publish"]');
+    assert.deepEqual(h.rpcCalls().filter((call) => call[0] === "publish_content_items").at(-1)[1].p_expected_revisions, { "persona/figure-aristotle": 3 });
+    assert.match(h.doc.querySelector("#notice").textContent, /Đã phát hành 1 mục/);
   } finally { cleanup(); }
 });
 
@@ -424,6 +512,8 @@ test("RPC allowlist, manifest and migrations keep the A3 permission rules", () =
   }
   assert.match(items, /revoke all on table public\.admin_content_item_versions from public, anon, authenticated/);
   assert.match(items, /has_capability\('content\.publish'\)/);
+  assert.match(items, /p_keys text\[\], p_expected_revisions jsonb, p_note text/, "publish requires the reviewed revision of every key");
+  assert.match(items, /draft\.revision <> \(p_expected_revisions ->> key_text\)::integer then\s+raise exception 'content_item_draft_changed' using errcode = '40001'/);
   const timelineSql = read(`supabase/migrations/${MIGRATIONS.timeline}`);
   assert.match(timelineSql, /has_capability\('hub\.read'\)/);
   assert.match(timelineSql, /revoke all on function public\.get_admin_timeline\(integer, timestamptz\) from public, anon, authenticated/);

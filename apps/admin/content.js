@@ -54,7 +54,9 @@ function markUnsaved(entity, id) {
 // ---- Per-item drafts on the server (A3, D7) ----
 // mode "items": the server has migration 20261113100000; data = published bundle + every open server draft + this
 // browser's unsaved edits. mode "bundle": the older whole-bundle drafts and publish (fallback).
-const items = { mode: "unknown", missing: "", drafts: new Map(), published: null, review: null, history: null, busy: false, imageMissing: false };
+// conflicts: item key -> { entity, id, row } after a save was refused because the server draft changed (row: the
+// server's current draft, or null when it was published or discarded meanwhile).
+const items = { mode: "unknown", missing: "", drafts: new Map(), published: null, review: null, history: null, busy: false, imageMissing: false, conflicts: new Map() };
 const LOCAL_EDITS_KEY = "nilaza.admin.content.item-edits.v1";
 // Unsaved edits belong to one account on one Supabase project (same scoping as the AI Studio drafts), so another
 // account on this browser, or staging versus production, never inherits them. Without an account nothing persists.
@@ -86,6 +88,7 @@ function rememberLocalEdit(entity, id) {
 }
 function forgetLocalEdit(entity, id) {
   localEdits.delete(itemKey(entity, id));
+  items.conflicts.delete(itemKey(entity, id));
   unsavedRecords.delete(`${entity}/${id}`);
   persistLocalEdits();
   reportUnsaved();
@@ -99,7 +102,8 @@ const hasLocalEdit = (entity, id) => unsavedRecords.has(`${entity}/${id}`);
 const publishedItem = (entity, id) => items.published?.[entity]?.find((record) => record.id === id) || null;
 const liveStatus = (entity, id) => items.mode === "items" ? publishedItem(entity, id)?.status || "" : data[entity]?.find((record) => record.id === id)?.status || "";
 function itemErrorMessage(error) {
-  if (error?.code === "40001") return "Người khác vừa lưu hoặc phát hành mục này. Bấm “Đồng bộ với máy chủ” để xem bản mới; thay đổi của bạn vẫn giữ trên trình duyệt này.";
+  if (error?.conflictView) return "Người khác vừa lưu hoặc phát hành mục này. Xem so sánh ở mục đó rồi chọn “Dùng bản trên máy chủ” hoặc “Ghi đè bằng bản của tôi”; thay đổi của bạn vẫn giữ trên trình duyệt này.";
+  if (error?.code === "40001") return "Mục này vừa thay đổi trên máy chủ. Bấm “Đồng bộ với máy chủ” để tải bản mới rồi làm lại.";
   if (error?.code === "42501") return "Máy chủ từ chối: biên tập viên chỉ lưu nháp và không đổi được trạng thái đang dùng. Owner phát hành.";
   if (error?.code === "22023") return "Máy chủ từ chối dữ liệu hoặc ghi chú (ghi chú 5–500 ký tự; mục phải có nháp).";
   return `Không lưu được lên máy chủ: ${error?.message || "lỗi không rõ"}`;
@@ -150,12 +154,64 @@ async function saveItem(entity, id, { quiet = false } = {}) {
   const key = itemKey(entity, id);
   const payload = itemPayloadFor(data, entity, id);
   const expected = localEdits.get(key)?.baseRevision ?? items.drafts.get(key)?.revision ?? 0;
-  const row = await itemRpc("save_content_item_draft", { p_kind: ITEM_KINDS[entity], p_item_key: id, p_payload: payload, p_expected_revision: expected }, "content.draft");
+  let row;
+  try {
+    row = await itemRpc("save_content_item_draft", { p_kind: ITEM_KINDS[entity], p_item_key: id, p_payload: payload, p_expected_revision: expected }, "content.draft");
+  } catch (error) {
+    if (error?.code === "40001") { await openConflict(entity, id); error.conflictView = true; }
+    throw error;
+  }
+  items.conflicts.delete(key);
   items.drafts.set(key, row);
   forgetLocalEdit(entity, id);
   saveData();
   if (!quiet) notify(`Đã lưu nháp lên máy chủ (phiên bản ${row.version}, lần lưu ${row.revision}). Người dùng app chưa thấy thay đổi này.`);
   return row;
+}
+// A save was refused because the server draft moved on: keep my edit, fetch only this item's current server draft
+// (other items keep the state they were loaded with) and show both side by side until the person chooses.
+async function openConflict(entity, id) {
+  const key = itemKey(entity, id);
+  if (!localEdits.has(key)) markUnsaved(entity, id);
+  let row = null;
+  try {
+    const rows = await itemRpc("list_content_item_drafts", {}, "content.read");
+    row = (Array.isArray(rows) ? rows : []).find((draft) => `${draft.kind}/${draft.itemKey}` === key) || null;
+  } catch (_error) { row = items.drafts.get(key) || null; }
+  items.conflicts.set(key, { entity, id, row });
+  if (items.review?.key === key) items.review = null;
+}
+function conflictServerItem(conflict) {
+  const { entity, id, row } = conflict;
+  return row ? workingItemFrom(entity, row.payload, data) : publishedItem(entity, id);
+}
+// "Dùng bản trên máy chủ": drop my edit of this item only and show the server's version.
+function useServerVersion(entity, id) {
+  const key = itemKey(entity, id);
+  const conflict = items.conflicts.get(key);
+  if (!conflict) return;
+  forgetLocalEdit(entity, id);
+  if (conflict.row) items.drafts.set(key, conflict.row); else items.drafts.delete(key);
+  const server = conflictServerItem(conflict);
+  if (server) applyItemToData(data, entity, JSON.parse(JSON.stringify(server)));
+  else {
+    data[entity] = data[entity].filter((record) => record.id !== id);
+    state.selectedPersonaId = null; state.selectedDeckId = null; state.selectedCardId = null;
+  }
+  items.conflicts.delete(key);
+  saveData();
+}
+// "Ghi đè bằng bản của tôi": rebase my edit onto the server's current revision, then save it.
+async function overwriteWithMine(entity, id) {
+  const key = itemKey(entity, id);
+  const conflict = items.conflicts.get(key);
+  const edit = localEdits.get(key);
+  if (!conflict || !edit) return null;
+  edit.baseRevision = conflict.row?.revision ?? 0;
+  if (conflict.row) items.drafts.set(key, conflict.row); else items.drafts.delete(key);
+  persistLocalEdits();
+  items.conflicts.delete(key);
+  return saveItem(entity, id);
 }
 async function saveMany(entries) {
   let done = 0;
@@ -499,7 +555,7 @@ function reviewPanel(entity, id, item) {
   if (items.review?.key !== itemKey(entity, id)) return "";
   const before = publishedItem(entity, id);
   const rows = diffItem(before || {}, item);
-  const keys = publishKeysFor(entity, id);
+  const keys = items.review.keys || publishKeysFor(entity, id);
   const env = window.NilazaDescribeEnvironment?.(window.ENV)?.label || "STAGING";
   const pendingSave = hasLocalEdit(entity, id);
   const nothing = !pendingSave && !hasDraft(entity, id);
@@ -529,6 +585,24 @@ function historyPanel(entity, id) {
   }
   return `<section class="history-panel" data-history-panel aria-label="Lịch sử phiên bản"><div class="detail-header"><h3>Lịch sử phiên bản</h3><button class="button" data-action="close-history">Đóng</button></div><p class="count-note">Khôi phục tạo một nháp mới từ phiên bản cũ; lịch sử không bị xóa và app chỉ đổi khi Owner phát hành.</p>${body}</section>`;
 }
+function conflictPanel(entity, id, item) {
+  const conflict = items.conflicts.get(itemKey(entity, id));
+  if (!conflict) return "";
+  const server = conflictServerItem(conflict);
+  const rows = diffItem(server || {}, item);
+  const who = conflict.row
+    ? `Bản trên máy chủ: lần lưu ${conflict.row.revision} bởi ${conflict.row.updatedByEmail || "—"}${conflict.row.updatedAt ? `, ${new Date(conflict.row.updatedAt).toLocaleString()}` : ""}.`
+    : server ? "Nháp trên máy chủ đã được phát hành hoặc bỏ; bản trên máy chủ là bản đang dùng trong app." : "Nháp trên máy chủ đã bị bỏ; mục này không còn trên máy chủ.";
+  const table = rows.length
+    ? `<table class="diff-table"><thead><tr><th scope="col">Trường</th><th scope="col">Trên máy chủ</th><th scope="col">Bản của tôi</th></tr></thead><tbody>${rows.map((row) => `<tr><th scope="row">${escapeHtml(fieldLabels[row.field] || row.field)}${row.locale ? ` · ${escapeHtml(row.locale.toUpperCase())}` : ""}</th><td>${escapeHtml(row.before) || "<em>(trống)</em>"}</td><td>${escapeHtml(row.after) || "<em>(trống)</em>"}</td></tr>`).join("")}</tbody></table>`
+    : `<p>Bản của bạn giống bản trên máy chủ.</p>`;
+  return `<section class="review-panel" data-conflict-panel aria-label="Xung đột khi lưu nháp">
+    <h3>Người khác vừa lưu mục này</h3>
+    <p class="count-note">${escapeHtml(who)} Thay đổi của bạn chưa lưu và vẫn giữ trên trình duyệt này. Chọn một bản:</p>
+    ${table}
+    <div class="action-bar"><button class="button" data-action="conflict-use-server" data-entity="${entity}" data-id="${escapeHtml(id)}" ${items.busy ? "disabled" : ""}>Dùng bản trên máy chủ</button><button class="button primary" data-action="conflict-overwrite" data-entity="${entity}" data-id="${escapeHtml(id)}" ${permissions.canEdit && !items.busy ? "" : "disabled"}>Ghi đè bằng bản của tôi</button></div>
+  </section>`;
+}
 function itemActionBar(entity, id, item, { restore = true } = {}) {
   const key = itemKey(entity, id);
   const draft = items.drafts.get(key);
@@ -540,6 +614,7 @@ function itemActionBar(entity, id, item, { restore = true } = {}) {
     : draft ? `Nháp trên máy chủ: lần lưu ${draft.revision} bởi ${draft.updatedByEmail || "—"}, ${new Date(draft.updatedAt).toLocaleString()}.`
     : isLive ? "Đang giống bản trong app." : "Mục mới, chưa lưu lên máy chủ.";
   return `<p class="count-note" data-item-state>${escapeHtml(stateText)}${permissions.canPublish ? "" : " Chờ Owner phát hành."}</p>
+    ${conflictPanel(entity, id, item)}
     ${reviewPanel(entity, id, item)}
     <div class="action-bar">
     <button class="button" data-action="save" data-entity="${entity}" data-id="${escapeHtml(id)}" ${permissions.canEdit && !items.busy ? "" : "disabled"}>Lưu nháp</button>
@@ -682,13 +757,27 @@ Gõ ${word} để xác nhận / Type ${word} to confirm:`);
 }
 
 // Per-item actions (mode "items"). Returns true when the action was handled here.
-const ITEM_ACTIONS = new Set(["save", "publish", "confirm-publish", "close-review", "history", "close-history", "restore-version", "discard-draft", "archive", "restore", "delete", "create-persona", "create-deck", "create-asset", "drop-local-edits"]);
+const ITEM_ACTIONS = new Set(["save", "publish", "confirm-publish", "close-review", "history", "close-history", "restore-version", "discard-draft", "archive", "restore", "delete", "create-persona", "create-deck", "create-asset", "drop-local-edits", "conflict-use-server", "conflict-overwrite"]);
 async function handleItemAction(action, entity, id, button) {
   if (action === "close-review") { items.review = null; render(); return; }
+  if (action === "conflict-use-server") {
+    useServerVersion(entity, id); render();
+    notify("Đã bỏ thay đổi của bạn ở mục này; đang hiển thị bản trên máy chủ. Các mục khác giữ nguyên.");
+    return;
+  }
+  if (action === "conflict-overwrite") {
+    if (!await window.NilazaRequireCapability?.("content.draft")) throw Error("Permission denied. Verify your current access.");
+    items.busy = true; render();
+    try {
+      const row = await overwriteWithMine(entity, id);
+      if (row) notify(`Đã ghi đè bằng bản của bạn (lần lưu ${row.revision}). Người dùng app chưa thấy thay đổi này.`);
+    } finally { items.busy = false; render(); }
+    return;
+  }
   if (action === "close-history") { items.history = null; render(); return; }
   if (action === "drop-local-edits") {
     if (!window.confirm(`Bỏ ${localEdits.size} thay đổi chưa lưu trên trình duyệt này? Nháp trên máy chủ giữ nguyên.`)) return;
-    localEdits.clear(); persistLocalEdits(); rebuildFromServer(); saveData(); render();
+    localEdits.clear(); items.conflicts.clear(); persistLocalEdits(); rebuildFromServer(); saveData(); render();
     notify("Đã bỏ thay đổi chưa lưu; đang hiển thị bản trên máy chủ.");
     return;
   }
@@ -708,7 +797,10 @@ async function handleItemAction(action, entity, id, button) {
   }
   if (action === "publish") {
     if (!permissions.canPublish) throw Error("Chỉ Owner phát hành. Bạn đã lưu nháp; Owner sẽ xem lại.");
-    items.review = { key: itemKey(entity, id), note: "" }; items.history = null; render();
+    // The panel shows these drafts; publish sends the revisions shown so a draft saved meanwhile is refused (40001).
+    const keys = publishKeysFor(entity, id);
+    const revisions = Object.fromEntries(keys.map((key) => [key, items.drafts.get(key)?.revision ?? 0]));
+    items.review = { key: itemKey(entity, id), note: "", keys, revisions }; items.history = null; render();
     document.querySelector("#publish-note")?.focus();
     return;
   }
@@ -716,11 +808,24 @@ async function handleItemAction(action, entity, id, button) {
     const note = String(document.querySelector("#publish-note")?.value || items.review?.note || "").trim();
     if (note.length < 5 || note.length > 500) { notify("Ghi chú thay đổi cần 5–500 ký tự.", true); return; }
     if (!await window.NilazaRequireCapability?.("content.publish")) throw Error("Chỉ Owner phát hành.");
+    const review = items.review;
+    if (!review || review.key !== itemKey(entity, id)) return;
     items.busy = true; render();
     try {
-      if (hasLocalEdit(entity, id)) await saveItem(entity, id, { quiet: true });
-      const keys = publishKeysFor(entity, id);
-      const result = await itemRpc("publish_content_items", { p_keys: keys, p_note: note, p_expected_published_version: remoteState?.published?.version ?? null }, "content.publish");
+      const keys = [...review.keys];
+      const revisions = { ...review.revisions };
+      // The unsaved edit shown in the panel is saved first; that saved revision is the one the Owner reviewed.
+      if (hasLocalEdit(entity, id)) revisions[itemKey(entity, id)] = (await saveItem(entity, id, { quiet: true })).revision;
+      let result;
+      try {
+        result = await itemRpc("publish_content_items", { p_keys: keys, p_expected_revisions: revisions, p_note: note, p_expected_published_version: remoteState?.published?.version ?? null }, "content.publish");
+      } catch (error) {
+        if (error?.code !== "40001") throw error;
+        items.review = null;
+        try { await reloadItems(); } catch (_reloadError) { /* the notice below still tells the Owner to reopen */ }
+        notify("Bản nháp vừa được sửa — mở lại để xem bản mới", true);
+        return;
+      }
       items.review = null;
       await reloadItems();
       const synced = Array.isArray(result?.personasSynced) && result.personasSynced.length ? ` Đã cập nhật người dẫn cho chat: ${result.personasSynced.join(", ")}.` : "";

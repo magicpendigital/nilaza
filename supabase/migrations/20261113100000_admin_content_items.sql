@@ -268,9 +268,12 @@ $$;
 -- review status becomes active (persona, deck) or published (card, app copy, asset); archived stays archived.
 -- The previous bundle and the items' previous published versions become archived. Persona items are synced into
 -- public.personas. p_note: 5-500 characters (kept on each item version, the bundle event and the audit row).
--- p_expected_published_version: refuse with 40001 when the published bundle changed. Needs content.publish.
+-- p_expected_revisions (required): {"kind/item-key": draft revision} for exactly the keys in p_keys, i.e. the draft
+-- revisions the publisher reviewed; a draft saved again since then is refused with 40001, so text nobody reviewed is
+-- never published. p_expected_published_version: refuse with 40001 when the published bundle changed.
+-- Needs content.publish.
 create function public.publish_content_items(
-  p_keys text[], p_note text, p_expected_published_version bigint default null,
+  p_keys text[], p_expected_revisions jsonb, p_note text, p_expected_published_version bigint default null,
   p_bundle_key text default 'nilaza_default'
 ) returns jsonb
 language plpgsql security definer set search_path = '' as $$
@@ -297,7 +300,11 @@ begin
   if p_keys is null or cardinality(p_keys) not between 1 and 200
     or (select count(distinct k) from unnest(p_keys) k) <> cardinality(p_keys)
     or exists (select 1 from unnest(p_keys) k where k is null or k !~ '^(persona|deck|card|frontend|asset)/[A-Za-z0-9][A-Za-z0-9_.:-]{0,159}$')
-    or char_length(clean_note) not between 5 and 500 then
+    or char_length(clean_note) not between 5 and 500
+    or p_expected_revisions is null or jsonb_typeof(p_expected_revisions) <> 'object'
+    or (select count(*) from jsonb_object_keys(p_expected_revisions)) <> cardinality(p_keys)
+    or exists (select 1 from unnest(p_keys) k where not p_expected_revisions ? k)
+    or exists (select 1 from jsonb_each(p_expected_revisions) e where e.value::text !~ '^[1-9][0-9]{0,8}$') then
     raise exception 'invalid_content_publish' using errcode = '22023';
   end if;
 
@@ -317,6 +324,9 @@ begin
     select * into draft from public.admin_content_item_versions
       where bundle_key = p_bundle_key and kind = v_kind and item_key = v_key and status = 'draft' for update;
     if not found then raise exception 'content_item_not_draft' using errcode = '22023', detail = key_text; end if;
+    if draft.revision <> (p_expected_revisions ->> key_text)::integer then
+      raise exception 'content_item_draft_changed' using errcode = '40001', detail = key_text;
+    end if;
     item := draft.payload;
     if coalesce(item ->> 'status', 'draft') in ('draft', 'review') then
       item := jsonb_set(item, '{status}', to_jsonb(case when v_kind in ('persona', 'deck') then 'active' else 'published' end));
@@ -383,9 +393,9 @@ revoke all on function nilaza_private.content_item_array(text), nilaza_private.c
   from public, anon, authenticated;
 revoke all on function public.list_content_item_drafts(text), public.save_content_item_draft(text,text,jsonb,integer,text),
   public.discard_content_item_draft(text,text,integer,text), public.list_content_item_history(text,text,integer,text),
-  public.restore_content_item_version(text,text,integer,integer,text), public.publish_content_items(text[],text,bigint,text)
+  public.restore_content_item_version(text,text,integer,integer,text), public.publish_content_items(text[],jsonb,text,bigint,text)
   from public, anon, authenticated;
 grant execute on function public.list_content_item_drafts(text), public.save_content_item_draft(text,text,jsonb,integer,text),
   public.discard_content_item_draft(text,text,integer,text), public.list_content_item_history(text,text,integer,text),
-  public.restore_content_item_version(text,text,integer,integer,text), public.publish_content_items(text[],text,bigint,text)
+  public.restore_content_item_version(text,text,integer,integer,text), public.publish_content_items(text[],jsonb,text,bigint,text)
   to authenticated;
