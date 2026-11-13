@@ -187,12 +187,12 @@
     {
       "path": "apps/admin/workspace-guard.js",
       "reason": "NilazaAdminRpc allowlist and rules.",
-      "sha256": "5a044f9232dedb2679600141132c11391cd361e2bcc019accfc69e5505cfee61"
+      "sha256": "0fbe508e676b436213dde249479babb540105e95776a948ad6b66e78d58c81d8"
     },
     {
       "path": "apps/admin/shell.js",
       "reason": "Left navigation Prompt & phiên bản routes and labels.",
-      "sha256": "7097e266f6fd99ca9dda7da1ea395a06254c6e030081edb57f54b147d2fde55f"
+      "sha256": "f252511b8491384e442985e4b924b20209c3eba05504ab3bb2478862ac182000"
     }
   ],
   "skillReview": [

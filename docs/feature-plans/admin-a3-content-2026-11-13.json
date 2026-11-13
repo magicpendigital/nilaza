@@ -123,7 +123,7 @@
     {
       "path": "supabase/functions/_shared/persona-prompt-assembler.ts",
       "reason": "Chat reads personas by slug with status active and these columns.",
-      "sha256": "22de06de144c350927622610ce7c7bc492d8e357ceab6d210d9c918f9226998c"
+      "sha256": "8582816ec15a8c3ac8f702e4c5ab36b0bd2a69af4c2c55b8393014cfaa6f32e6"
     }
   ],
   "skillReview": [
