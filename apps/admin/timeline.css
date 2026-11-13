@@ -1,0 +1,12 @@
+/* Lịch sử thao tác (A3): uses the overview.css tokens. */
+.timeline-tools { display: flex; align-items: center; gap: 10px; margin: 18px 0 6px; flex-wrap: wrap; }
+.timeline-tools label { color: var(--muted); font-size: 13px; font-weight: 700; }
+.timeline-tools select { min-height: 44px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--ivory); padding: 8px 12px; font: inherit; }
+.timeline-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.timeline-row { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 14px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); overflow-wrap: anywhere; }
+.timeline-row time { color: var(--muted); font-size: 13px; }
+.timeline-row strong { display: block; }
+.timeline-row .who, .timeline-row .target { display: block; color: var(--muted); font-size: 13px; margin-top: 3px; }
+.timeline-row .note { display: block; margin-top: 6px; padding-left: 10px; border-left: 2px solid var(--gold); line-height: 1.5; }
+.timeline-more { margin-top: 12px; }
+@media (max-width: 560px) { .timeline-row { grid-template-columns: 1fr; gap: 4px; } }

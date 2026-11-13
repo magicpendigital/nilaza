@@ -55,6 +55,16 @@
       ]
     },
     {
+      "id": "timeline",
+      "label": "Action Timeline",
+      "entry": "timeline.html",
+      "description": "One read-only timeline of staff actions (content, AI settings, safety reviews, roles) from the protected get_admin_timeline RPC",
+      "routes": [
+        { "id": "home", "label": "Timeline" }
+      ],
+      "requiredCapabilities": ["hub.read"]
+    },
+    {
       "id": "growth",
       "label": "Growth Operations",
       "entry": "growth.html",

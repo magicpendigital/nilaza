@@ -64,8 +64,9 @@ test("one Vietnamese left navigation follows proposal 03/11 §5 and the top bar 
 
 test("navigation items show only when the account has the capability", async () => {
   const content = await shellAt("#/content/personas", ["hub.read", "content.read"]);
-  assert.deepEqual(navLabels(content.window.document), ["Tổng quan", "Người dẫn", "Bộ bài & 78 lá", "Văn bản trong app"]);
-  assert.deepEqual(groupLabels(content.window.document), ["Nội dung"]);
+  // A3: the shared timeline needs only hub.read, so content staff see "Lịch sử thao tác" too.
+  assert.deepEqual(navLabels(content.window.document), ["Tổng quan", "Người dẫn", "Bộ bài & 78 lá", "Văn bản trong app", "Lịch sử thao tác"]);
+  assert.deepEqual(groupLabels(content.window.document), ["Nội dung", "Vận hành"]);
   content.window.location.hash = "#/ai-studio/prompt";
   await drain(content);
   assert.equal(content.window.location.hash, "#/overview/home", "a deep link to a page without permission goes to the first permitted page");
@@ -123,11 +124,16 @@ test("every manifest route stays reachable and every navigation item resolves to
   doc.querySelector("[data-go-route]").click();
   await drain(dom);
   assert.equal(window.location.hash, "#/ai-studio/model-router");
+  // A3: "Lịch sử thao tác" opens the shared timeline page (no longer a pending page); AI actions stay a tab.
   doc.querySelector('[data-nav="audit"]').click();
   await drain(dom);
-  doc.querySelector('[data-route="timeline"]').click();
+  assert.equal(window.location.hash, "#/timeline/home");
+  assert.equal(doc.querySelector("#pending-page").hidden, true);
+  assert.equal(doc.querySelector('[data-workspace-frame="timeline"]').getAttribute("src").split("#")[0], "./timeline.html");
+  assert.match(doc.querySelector("#route-bar").textContent, /Dòng thời gian chung[\s\S]*Thao tác AI/);
+  doc.querySelector('[data-route="audit"]').click();
   await drain(dom);
-  assert.match(doc.querySelector("#pending-page").textContent, /bước A3/);
+  assert.equal(window.location.hash, "#/ai-studio/audit");
   dom.window.close();
 });
 

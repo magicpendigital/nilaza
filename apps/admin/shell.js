@@ -12,12 +12,13 @@ const viRouteLabels = {
   overview: { home: "Tổng quan" },
   content: { overview: "Tình trạng nội dung", personas: "Người dẫn", decks: "Bộ bài", cards: "78 lá bài", assets: "Hình ảnh", frontend: "Văn bản trong app", documentation: "Hướng dẫn Owner" },
   "ai-studio": { features: "Bật/tắt & hạn mức", workflow: "Luồng xử lý", prompt: "Soạn prompt", "persona-studio": "Prompt người dẫn", "council-builder": "Hội đồng", "model-router": "Chuỗi model đang chạy", "trace-explorer": "Nhật ký AI", feedback: "Phản hồi người dùng", test: "Kết quả chạy thử", versions: "Phiên bản", audit: "Thao tác AI" },
+  timeline: { home: "Dòng thời gian chung" },
   growth: { overview: "Tổng quan", "product-truth": "Sẵn sàng sản phẩm", "content-drafts": "Bản nháp nội dung", measurement: "Đo lường", roadmap: "Việc tiếp theo", waitlist: "Danh sách chờ", "campaign-map": "Bản đồ chiến dịch", "delivery-health": "Tình trạng gửi" }
 };
 // One left navigation for the whole Admin (A2; proposal 03/11 §5, approved by the Owner on 2026-11-13).
 // Every item deep-links to routes that already exist in admin-capabilities.json, so no workspace or route is
 // removed; "pending" routes are honest pages for work that still needs backend (spec 04/11 §4).
-const workspaceCapability = { overview: "hub.read", content: "content.read", "ai-studio": "ai.read", growth: "overview.read" };
+const workspaceCapability = { overview: "hub.read", content: "content.read", "ai-studio": "ai.read", timeline: "hub.read", growth: "overview.read" };
 const routeCapability = { "ai-studio/feedback": ["safety.review"] };
 const navGroups = [
   { label: "", items: [{ id: "overview", label: "Tổng quan", routes: [["overview", "home"], ["content", "overview"], ["content", "documentation"]] }] },
@@ -35,7 +36,8 @@ const navGroups = [
   { label: "Vận hành", items: [
     { id: "feedback", label: "Phản hồi người dùng", routes: [["ai-studio", "feedback"]] },
     { id: "traces", label: "Nhật ký AI", routes: [["ai-studio", "trace-explorer"]] },
-    { id: "audit", label: "Lịch sử thao tác", routes: [["ai-studio", "audit"], ["pending", "timeline"]] }
+    // A3: the shared timeline (get_admin_timeline, hub.read) replaces the pending page; AI actions stay a tab.
+    { id: "audit", label: "Lịch sử thao tác", routes: [["timeline", "home"], ["ai-studio", "audit"]] }
   ] },
   { label: "", items: [{ id: "growth", label: "Tăng trưởng", routes: "growth" }] }
 ];
@@ -56,14 +58,6 @@ const pendingPages = {
       "Admin không tạo điểm hay kết quả giả. Muốn kiểm tra một thay đổi: gửi một yêu cầu thử từ app trên môi trường staging rồi xem ở Nhật ký AI."
     ],
     next: ["ai-studio", "trace-explorer", "Mở Nhật ký AI"]
-  },
-  timeline: {
-    label: "Dòng thời gian chung", step: "A3", capability: "ai.read", title: "Lịch sử thao tác chung",
-    lines: [
-      "Một dòng thời gian gộp thao tác nội dung, AI và quyền (ai, lúc nào, môi trường, lý do; xem khác biệt; khôi phục) cần hàm dòng thời gian trên máy chủ.",
-      "Đang có: thao tác cấu hình AI (công tắc, hạn mức, model, prompt Chiêm tinh) ở mục “Thao tác AI”."
-    ],
-    next: ["ai-studio", "audit", "Xem thao tác AI"]
   }
 };
 const can = capability => window.NilazaAccess?.can(session, capability) === true;

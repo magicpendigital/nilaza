@@ -55,6 +55,7 @@
   const requiredCapabilitiesByEntry = {
     "ai-studio.html": "ai.read",
     "overview.html": "hub.read",
+    "timeline.html": "hub.read",
     "content.html": "content.read",
     "growth.html": "overview.read"
   };
@@ -166,7 +167,17 @@
     get_ai_feature_configs: "ai.read",
     save_ai_feature_config_draft: "ai.manage|ai.read+content.draft",
     publish_ai_feature_config: "ai.manage",
-    get_growth_waitlist_overview: "overview.read"
+    get_growth_waitlist_overview: "overview.read",
+    // Per-item content drafts and publish (A3, migration 20261113100000); the RPCs check the same capabilities.
+    // Owner decision 6: editors (content.draft) save, restore and discard drafts; only content.publish publishes.
+    list_content_item_drafts: "content.read",
+    list_content_item_history: "content.read",
+    save_content_item_draft: "content.draft",
+    restore_content_item_version: "content.draft",
+    discard_content_item_draft: "content.draft",
+    publish_content_items: "content.publish",
+    // Staff action timeline (A3, migration 20261113100100).
+    get_admin_timeline: "hub.read"
   };
   // A rule is one capability, or alternatives separated by "|" where each alternative needs every
   // capability joined by "+" (e.g. "ai.manage|ai.read+content.draft"). Callers must pass the exact rule.

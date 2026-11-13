@@ -154,7 +154,7 @@
     "unresolvedHighRisks": []
   },
   "workingTreeReview": {
-    "note": "Clean tree at start on claude/admin-a3-content from origin/main 570e036; this record and its preflight come before the first code edit.",
+    "note": "Clean tree at start on claude/admin-a3-content from origin/main 570e036; this record and its preflight (only the env-only installed-skills difference) came before the first code edit. Then: three migrations (PGlite 54 checks), content-items.js helpers, per-item mode in content.js with whole-bundle fallback, uploadImage in content-sync.js, timeline workspace, shell nav and RPC allowlist, tests (admin:test 226/227; the one failure is the known CRLF Growth snapshot). Not browser-verified: no hosted session in this environment.",
     "paths": []
   },
   "validationCommands": [
