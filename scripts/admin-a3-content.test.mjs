@@ -124,7 +124,7 @@ function fakeServer({ missing = false, row = publishedRow() } = {}) {
     }
   };
 }
-async function contentAt(route, { capabilities = OWNER, server = fakeServer(), upload } = {}) {
+async function contentAt(route, { capabilities = OWNER, server = fakeServer(), upload, userId = "staff-1", preseed } = {}) {
   const html = read("apps/admin/content.html").replace(/<script[^>]+src="\.\/workspace-guard\.js"><\/script>/, "").replace(/<script type="module" src="\.\/content\.js"><\/script>/, "");
   const dom = new JSDOM(html, { url: `http://localhost:4173/apps/admin/content.html#${route}`, pretendToBeVisual: true });
   openDoms.add(dom);
@@ -146,18 +146,21 @@ async function contentAt(route, { capabilities = OWNER, server = fakeServer(), u
     getPublicUrl: (objectPath) => ({ data: { publicUrl: `https://etfajmrwyywokgafzxsb.supabase.co/storage/v1/object/public/content-images/${objectPath}` } })
   };
   window.ENV = { SUPABASE_URL: "https://etfajmrwyywokgafzxsb.supabase.co", SUPABASE_ANON_KEY: "public-test-key" };
-  window.supabase = { createClient: () => ({ auth: { getSession: async () => ({ data: { session: { user: { id: "staff-1" } } }, error: null }) }, from: () => query, storage: { from: (name) => { calls.push(["bucket", name]); return bucket; } } }) };
-  window.NilazaAdminSession = { email: "staff@example.invalid", role: capabilities.includes("content.publish") ? "owner" : "editor", userId: "staff-1", capabilities };
+  window.supabase = { createClient: () => ({ auth: { getSession: async () => ({ data: { session: { user: { id: userId } } }, error: null }) }, from: () => query, storage: { from: (name) => { calls.push(["bucket", name]); return bucket; } } }) };
+  window.NilazaAdminSession = { email: "staff@example.invalid", role: capabilities.includes("content.publish") ? "owner" : "editor", userId, capabilities };
   window.NilazaAdminSessionPromise = Promise.resolve(window.NilazaAdminSession);
   window.NilazaRequireCapability = async (capability) => capabilities.includes(capability);
   window.NilazaAdminRpc = async (name, params, capability) => { calls.push([name, plain(params), capability]); return plain(await server.rpc(name, params)); };
   window.confirm = () => true;
   window.prompt = () => null;
+  preseed?.(window);
   await import(`${pathToFileURL(path.join(root, "apps/admin/content.js")).href}?a3=${Date.now()}-${Math.random()}`);
   const doc = window.document;
   for (let attempt = 0; attempt < 50 && !doc.querySelector("#workspace-content").children.length; attempt += 1) await new Promise((resolve) => window.setTimeout(resolve, 10));
   return { dom, window, doc, calls, server, rpcCalls: () => calls.filter((call) => call[0] !== "upload" && call[0] !== "bucket") };
 }
+// Unsaved edits are stored per account and Supabase project (no cross-account leak).
+const editsKey = `nilaza.admin.content.item-edits.v1:staff-1:${encodeURIComponent("https://etfajmrwyywokgafzxsb.supabase.co")}`;
 const settle = async (h) => { for (let i = 0; i < 10; i += 1) await new Promise((resolve) => h.window.setTimeout(resolve, 5)); };
 const click = async (h, selector) => { const element = h.doc.querySelector(selector); assert.ok(element, selector); element.click(); await settle(h); };
 function type(h, selector, value) {
@@ -176,14 +179,14 @@ test("owner: Lưu nháp saves one item to the server, review shows the diff and 
     type(h, '[data-entity="personas"][data-field="description"][data-locale="vi"]', "Mô tả mới cho Aristotle");
     await settle(h);
     assert.ok(h.doc.querySelector('[data-select="persona"][data-id="figure-aristotle"] [data-chip="unsaved"]'), "unsaved chip");
-    assert.equal(JSON.parse(h.window.localStorage.getItem("nilaza.admin.content.item-edits.v1")).length, 1, "AD-03: the edit survives a reload");
+    assert.equal(JSON.parse(h.window.localStorage.getItem(editsKey)).length, 1, "AD-03: the edit survives a reload");
     await click(h, '[data-action="save"][data-id="figure-aristotle"]');
     const save = h.rpcCalls().find((call) => call[0] === "save_content_item_draft");
     assert.equal(save[2], "content.draft");
     assert.equal(save[1].p_kind, "persona"); assert.equal(save[1].p_item_key, "figure-aristotle"); assert.equal(save[1].p_expected_revision, 0);
     assert.equal(save[1].p_payload.description.vi, "Mô tả mới cho Aristotle");
     assert.ok(h.doc.querySelector('[data-select="persona"][data-id="figure-aristotle"] [data-chip="draft"]'), "draft chip after save");
-    assert.equal(JSON.parse(h.window.localStorage.getItem("nilaza.admin.content.item-edits.v1")).length, 0);
+    assert.equal(JSON.parse(h.window.localStorage.getItem(editsKey)).length, 0);
     assert.equal(h.rpcCalls().filter((call) => call[0] === "publish_content_bundle").length, 0);
 
     await click(h, '[data-action="publish"][data-id="figure-aristotle"]');
@@ -257,6 +260,15 @@ test("a stale save is refused and the edit stays on this browser", async () => {
     assert.equal(h.rpcCalls().find((call) => call[0] === "save_content_item_draft")[1].p_expected_revision, 3);
     assert.match(h.doc.querySelector("#notice").textContent, /Người khác vừa lưu hoặc phát hành mục này/);
     assert.ok(h.doc.querySelector('[data-select="persona"][data-id="figure-aristotle"] [data-chip="unsaved"]'));
+  } finally { cleanup(); }
+});
+
+test("unsaved edits of one account are not loaded for another account on the same browser", async () => {
+  const edit = { entity: "personas", id: "figure-aristotle", baseRevision: 0, item: { ...plainPersona(), name: { vi: "Tên người khác", en: "Other name" } } };
+  const h = await contentAt("personas", { userId: "staff-2", preseed: (window) => { window.localStorage.setItem(editsKey, JSON.stringify([edit])); window.localStorage.setItem("nilaza.admin.content.item-edits.v1", JSON.stringify([edit])); } });
+  try {
+    assert.equal(h.doc.querySelector('[data-select="persona"][data-id="figure-aristotle"] [data-chip="unsaved"]'), null, "staff-1's edit is not applied for staff-2");
+    assert.doesNotMatch(h.doc.body.textContent, /Tên người khác/);
   } finally { cleanup(); }
 });
 

@@ -56,15 +56,25 @@ function markUnsaved(entity, id) {
 // browser's unsaved edits. mode "bundle": the older whole-bundle drafts and publish (fallback).
 const items = { mode: "unknown", missing: "", drafts: new Map(), published: null, review: null, history: null, busy: false, imageMissing: false };
 const LOCAL_EDITS_KEY = "nilaza.admin.content.item-edits.v1";
+// Unsaved edits belong to one account on one Supabase project (same scoping as the AI Studio drafts), so another
+// account on this browser, or staging versus production, never inherits them. Without an account nothing persists.
+function localEditsStorageKey() {
+  const account = session?.userId || window.NilazaAdminSession?.userId;
+  if (!account) return null;
+  const target = typeof window.NilazaAdminTransportTarget === "string" ? window.NilazaAdminTransportTarget : window.ENV?.SUPABASE_URL || "local-preview";
+  return `${LOCAL_EDITS_KEY}:${encodeURIComponent(account)}:${encodeURIComponent(target)}`;
+}
 let localEdits = new Map();
 function loadLocalEdits() {
   try {
-    const value = JSON.parse(localStorage.getItem(LOCAL_EDITS_KEY) || "[]");
+    const key = localEditsStorageKey();
+    if (!key) return new Map();
+    const value = JSON.parse(localStorage.getItem(key) || "[]");
     return new Map((Array.isArray(value) ? value : []).filter((entry) => ITEM_KINDS[entry?.entity] && entry.item?.id === entry.id).map((entry) => [itemKey(entry.entity, entry.id), entry]));
   } catch (_error) { return new Map(); }
 }
 function persistLocalEdits() {
-  try { localStorage.setItem(LOCAL_EDITS_KEY, JSON.stringify([...localEdits.values()])); } catch (_error) { /* in-memory copy still holds the edit */ }
+  try { const key = localEditsStorageKey(); if (key) localStorage.setItem(key, JSON.stringify([...localEdits.values()])); } catch (_error) { /* in-memory copy still holds the edit */ }
 }
 function rememberLocalEdit(entity, id) {
   const record = data[entity]?.find((item) => item.id === id);
