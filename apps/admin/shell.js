@@ -11,7 +11,7 @@ const aiWorkflowSections = new Set(["payload", "dataMindmap", "optimization"]);
 const viRouteLabels = {
   overview: { home: "Tổng quan" },
   content: { overview: "Tình trạng nội dung", personas: "Người dẫn", decks: "Bộ bài", cards: "78 lá bài", assets: "Hình ảnh", frontend: "Văn bản trong app", documentation: "Hướng dẫn Owner" },
-  "ai-studio": { features: "Bật/tắt & hạn mức", workflow: "Luồng xử lý", prompt: "Prompt theo tính năng", "persona-studio": "Prompt người dẫn", "council-builder": "Hội đồng", "model-router": "Chuỗi model đang chạy", "trace-explorer": "Nhật ký AI", feedback: "Phản hồi người dùng", test: "Kết quả chạy thử", versions: "Tất cả prompt & phiên bản", audit: "Thao tác AI" },
+  "ai-studio": { features: "Bật/tắt & hạn mức", workflow: "Luồng xử lý", prompt: "Prompt theo tính năng", "persona-studio": "Prompt người dẫn", "council-builder": "Hội đồng", "model-router": "Chuỗi model đang chạy", "trace-explorer": "Nhật ký AI", feedback: "Phản hồi người dùng", test: "Chạy thử & chấm điểm", versions: "Tất cả prompt & phiên bản", audit: "Thao tác AI" },
   timeline: { home: "Dòng thời gian chung" },
   growth: { overview: "Tổng quan", "product-truth": "Sẵn sàng sản phẩm", "content-drafts": "Bản nháp nội dung", measurement: "Đo lường", roadmap: "Việc tiếp theo", waitlist: "Danh sách chờ", "campaign-map": "Bản đồ chiến dịch", "delivery-health": "Tình trạng gửi" }
 };
@@ -31,7 +31,8 @@ const navGroups = [
     { id: "ai-features", label: "Tính năng AI", routes: [["ai-studio", "features"], ["ai-studio", "workflow"]] },
     { id: "providers", label: "Nhà cung cấp & Model", routes: [["ai-studio", "model-router"], ["pending", "providers"]] },
     { id: "prompts", label: "Prompt & phiên bản", routes: [["ai-studio", "versions"], ["ai-studio", "prompt"], ["ai-studio", "persona-studio"], ["ai-studio", "council-builder"]] },
-    { id: "evals", label: "Chạy thử & chấm điểm", routes: [["pending", "evals"], ["ai-studio", "test"]] }
+    // A6: the eval page (ai-evals.js on the AI Studio Test route) replaces the pending page.
+    { id: "evals", label: "Chạy thử & chấm điểm", routes: [["ai-studio", "test"]] }
   ] },
   { label: "Vận hành", items: [
     { id: "feedback", label: "Phản hồi người dùng", routes: [["ai-studio", "feedback"]] },
@@ -50,14 +51,6 @@ const pendingPages = {
       "Đang chạy thật: mỗi tính năng có 1 model chính + 1 model dự phòng, xem và phát hành ở mục “Chuỗi model đang chạy”."
     ],
     next: ["ai-studio", "model-router", "Mở chuỗi model đang chạy"]
-  },
-  evals: {
-    label: "Chấm điểm", step: "A6", capability: "ai.read", title: "Chạy thử & chấm điểm",
-    lines: [
-      "Bộ câu mẫu theo tính năng, chạy bản nháp bằng chuỗi model thật, chấm 4 tiêu chí và cổng phát hành (≥ 8/10, 0 lỗi an toàn) cần các bảng chấm thử và hàm chạy thử trên máy chủ.",
-      "Admin không tạo điểm hay kết quả giả. Muốn kiểm tra một thay đổi: gửi một yêu cầu thử từ app trên môi trường staging rồi xem ở Nhật ký AI."
-    ],
-    next: ["ai-studio", "trace-explorer", "Mở Nhật ký AI"]
   }
 };
 const can = capability => window.NilazaAccess?.can(session, capability) === true;

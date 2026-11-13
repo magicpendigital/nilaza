@@ -773,6 +773,7 @@ hydrateAiStudioDrafts();
 restoreAiStudioUiState();
 window.NilazaClearSensitiveAdminState = () => {
   window.NilazaAiFeatures?.clear();
+  window.NilazaAiEvals?.clear();
   window.NilazaFeedbackInbox?.clear();
   window.NilazaFeatureSwitches?.clear();
   clearDraftsOnScopeChange();
@@ -782,6 +783,16 @@ window.NilazaClearSensitiveAdminState = () => {
   state.traceExplorerDetail = null;
   if (state.detail === "traceExplorer") renderTraceExplorerDetail();
   else if (state.detail === "payload") renderPayloadDetail();
+};
+
+// Publish dialogs (Tính năng AI, Prompt & phiên bản) and the feedback page open "Chạy thử & chấm điểm" with a feature,
+// a draft or a sanitized case already selected.
+window.NilazaOpenEvals = (request) => {
+  window.NilazaAiEvals?.open(request);
+  state.detail = "test";
+  persistAiStudioUiState();
+  renderHeader();
+  renderDetail();
 };
 
 // Earlier builds let an operator paste a token, anon key or endpoint URL. Those inputs are gone;
@@ -1144,6 +1155,7 @@ function renderDetailPanel() {
   if (state.detail !== "switches") window.NilazaFeatureSwitches?.clear();
   if (state.detail !== "aiFeatures") window.NilazaAiFeatures?.clear();
   if (!["versions", "prompt", "personaStudio"].includes(state.detail)) window.NilazaPromptVersions?.clear();
+  if (state.detail !== "test") window.NilazaAiEvals?.clear();
   document.querySelectorAll("[data-panel]").forEach(button => button.classList.toggle("active", button.dataset.panel === (state.detail === "aiFeatures" ? "features" : state.detail === "test" || state.detail === "versions" || state.detail === "audit" || state.detail === "feedback" || state.detail === "switches" ? state.detail : "workflow")));
   updatePublishButton();
   document.querySelectorAll(".tab").forEach((tab) => {
@@ -1157,6 +1169,7 @@ function renderDetailPanel() {
   else if (detailPanel && state.detail === "feedback") detailPanel.setAttribute("aria-labelledby", "feedback-inbox-title");
   else if (detailPanel && state.detail === "switches") detailPanel.setAttribute("aria-labelledby", "feature-switches-title");
   else if (detailPanel && state.detail === "aiFeatures") detailPanel.setAttribute("aria-labelledby", "ai-features-title");
+  else if (detailPanel && state.detail === "test" && window.NilazaAiEvals) detailPanel.setAttribute("aria-labelledby", "eval-title");
   if (state.detail === "aiFeatures") $("#feature-title").textContent = "Tính năng AI";
 
   if (state.detail === "aiFeatures") {
@@ -2608,7 +2621,13 @@ function renderDataMindmapDetail() {
   `;
 }
 
+// A6: the Test route is the "Chạy thử & chấm điểm" page (ai-evals.js); the old status card stays as the fallback when the
+// module is missing.
 function renderTestDetail() {
+  if (window.NilazaAiEvals) {
+    window.NilazaAiEvals.mount($("#detail-content"));
+    return;
+  }
   const result = state.testRun || { title: "Chưa có lượt chạy thử nào với nhà cung cấp", body: "Muốn kiểm tra: gửi một yêu cầu thử từ app (đã đăng nhập) trên staging rồi xem ở Nhật ký AI. Mục này không tạo câu trả lời giả." };
   const metrics = result.metrics && typeof result.metrics === "object" ? result.metrics : null;
   $("#detail-content").innerHTML = `

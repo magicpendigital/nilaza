@@ -7,6 +7,9 @@
   // Reading needs ai.read. Saving a draft needs ai.manage, or ai.read + content.draft (editor; Owner decision 13/11,
   // migration 20261113090200); publishing and switches need ai.manage. NilazaAdminRpc and the database check again.
   // With no active version, Edge Functions keep the code defaults shown here.
+  // A6 release gate (migration 20261113110000, release-gate.js): the review dialog shows the eval gate of the draft;
+  // publishing needs a passed safety layer; when only the quality layer is missing, ai.manage may bypass it with a reason
+  // and a note (publish_ai_feature_config_bypass) and the version shows "Chưa chấm" until it is scored.
   const escape = value => String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
   const FEATURES = Object.freeze([
     { id: "persona_chat", label: "Trò chuyện với người dẫn", config: true, quota: 5, quotaNote: "đếm chung lượt với Oracle; mỗi bên chặn theo hạn mức của mình", wait: 40 },
@@ -116,7 +119,17 @@
     if (Number.isInteger(base?.costCapMicro)) payload.costCapMicro = base.costCapMicro;
     return payload;
   }
+  const gateApi = () => window.NilazaReleaseGate;
+  function gateDecision(dialog) {
+    return gateApi()?.decide(dialog?.gate, dialog?.bypass) ?? { allowed: true, mode: "ungated" };
+  }
+  function publishAllowed(dialog) {
+    const length = String(dialog?.note ?? "").trim().length;
+    return length >= 10 && length <= 500 && gateDecision(dialog).allowed;
+  }
   function errorMessage(error, action) {
+    const gateMessage = action === "publish" ? gateApi()?.errorMessage(error) : null;
+    if (gateMessage) return gateMessage;
     if (error?.code === "42501") return action === "publish" ? "Tài khoản này không có quyền ai.manage." : "Tài khoản này chưa có quyền lưu nháp trên máy chủ (cần ai.manage, hoặc ai.read + content.draft; Owner cần áp migration 20261113090200).";
     if (error?.code === "22023") return action === "publish" ? "Máy chủ không nhận: bản nháp đã thay đổi hoặc ghi chú chưa hợp lệ. Tải lại rồi xem lại." : "Máy chủ không nhận giá trị này (ngoài giới hạn cho phép).";
     return action === "publish" ? "Chưa phát hành được. Tải lại rồi thử lại." : "Chưa lưu được nháp. Tải lại rồi thử lại.";
@@ -178,7 +191,7 @@
     }
     const { activeRow, draftRow } = rowsFor(item.id);
     const message = active.messages[item.id];
-    return `<p>${activeRow ? `Đang chạy: phiên bản ${activeRow.version}${activeRow.publishedAt ? ` · phát hành ${escape(activeRow.publishedAt)}` : ""}` : "Đang chạy: mặc định trong mã (chưa phát hành cấu hình nào)."}
+    return `<p>${activeRow ? `Đang chạy: phiên bản ${activeRow.version}${activeRow.publishedAt ? ` · phát hành ${escape(activeRow.publishedAt)}` : ""} ${gateApi()?.badge(activeRow) ?? ""}` : "Đang chạy: mặc định trong mã (chưa phát hành cấu hình nào)."}
       ${draftRow ? ` · Có bản nháp phiên bản ${draftRow.version}` : ""}</p>
       ${renderValues(item, activeRow, draftRow)}
       ${canDraft() ? renderForm(item, draftRow, manage) : '<p class="muted">Bạn chỉ có quyền xem. Lưu nháp cần ai.manage hoặc ai.read + content.draft; phát hành cần ai.manage.</p>'}
@@ -193,15 +206,20 @@
       const before = describe(item, activeRow, key), after = describe(item, draftRow, key);
       return `<tr class="${before === after ? "" : "changed"}"><th scope="row">${settingLabels[key]}</th><td>${escape(before)}</td><td>${escape(after)}</td><td>${before === after ? "Giữ nguyên" : "Đổi"}</td></tr>`;
     }).join("");
-    const noteOk = dialog.note.trim().length >= 10 && dialog.note.trim().length <= 500;
+    const decision = gateDecision(dialog);
+    const gate = gateApi();
     return `<div class="modal-backdrop ai-feature-dialog-backdrop"><section class="modal ai-feature-dialog" id="ai-feature-dialog" role="dialog" aria-modal="true" aria-labelledby="ai-feature-dialog-title" tabindex="-1">
       <div class="modal-header"><div><p class="eyebrow">Xem lại trước khi phát hành</p><h2 id="ai-feature-dialog-title">${escape(item.label)}: phiên bản ${draftRow.version}</h2></div></div>
       <p class="pill" id="ai-feature-dialog-environment">Đang ghi vào: ${escape(environmentLabel())}</p>
       <p>${activeRow ? `Phiên bản nháp ${draftRow.version} thay phiên bản đang chạy ${activeRow.version}; bản cũ được lưu trữ, không bị xóa.` : `Phiên bản nháp ${draftRow.version} thay mặc định trong mã.`} Áp dụng cho người dùng ngay khi Edge Function đọc lại cấu hình.</p>
       <table class="config-table diff-table"><thead><tr><th scope="col">Thiết lập</th><th scope="col">Đang chạy</th><th scope="col">Sau khi phát hành</th><th scope="col">Thay đổi</th></tr></thead><tbody>${rows}</tbody></table>
-      <p class="muted">Chưa có cổng chạy thử & chấm điểm (bước A6); hãy thử lại trên app sau khi phát hành.</p>
+      <h3>Cổng phát hành (chạy thử & chấm điểm)</h3>
+      ${gate ? gate.renderState(dialog.gate) : '<p class="muted">Không tải được mô-đun cổng phát hành; máy chủ vẫn tự kiểm khi phát hành.</p>'}
+      ${gate && decision.mode === "bypass" ? gate.renderBypass("ai-feature", dialog.bypass) : ""}
+      ${decision.mode === "blocked" ? '<p class="helper" data-gate-blocked>Nút Phát hành bị khóa cho tới khi lớp an toàn đạt.</p>' : ""}
+      <p><button type="button" class="button ghost" data-cfg-open-evals="${item.id}">Mở Chạy thử & chấm điểm</button></p>
       <div class="config-field"><label for="ai-feature-publish-note">Ghi chú phát hành (bắt buộc, 10–500 ký tự)</label><textarea class="input" id="ai-feature-publish-note" rows="3" maxlength="500">${escape(dialog.note)}</textarea></div>
-      <div class="modal-actions"><button type="button" class="button ghost" data-cfg-dialog-cancel>Hủy</button><button type="button" class="button primary" data-cfg-publish="${item.id}" ${noteOk && !active.busy ? "" : "disabled"}>Phát hành phiên bản ${draftRow.version}</button></div>
+      <div class="modal-actions"><button type="button" class="button ghost" data-cfg-dialog-cancel>Hủy</button><button type="button" class="button primary" data-cfg-publish="${item.id}" ${publishAllowed(dialog) && !active.busy ? "" : "disabled"}>${decision.mode === "bypass" ? "Phát hành khi chưa chấm" : "Phát hành"} phiên bản ${draftRow.version}</button></div>
     </section></div>`;
   }
   function render() {
@@ -226,7 +244,7 @@
         </article>`;
       }).join("")}</div>${renderDialog()}`;
     if (active.editing) container.querySelector(`#ai-switch-reason-${active.editing}`)?.focus();
-    if (active.dialog) container.querySelector("#ai-feature-publish-note")?.focus();
+    if (active.dialog && !active.dialog.keepFocus) container.querySelector("#ai-feature-publish-note")?.focus();
   }
 
   async function load() {
@@ -290,27 +308,47 @@
   async function publish(id) {
     if (!active || active.busy || !active.dialog || active.dialog.feature !== id) return;
     const note = active.dialog.note.trim(), { draftRow } = rowsFor(id);
-    if (!draftRow || note.length < 10 || note.length > 500) { render(); return; }
+    if (!draftRow || !publishAllowed(active.dialog)) { render(); return; }
+    const decision = gateDecision(active.dialog), bypass = active.dialog.bypass || {};
     const snapshot = scope(), version = ++epoch;
     active.busy = true; active.messages[id] = "Đang phát hành…"; render();
     try {
       if (!await window.NilazaRequireCapability?.("ai.manage") || !current(snapshot, version)) return;
-      const result = await window.NilazaAdminRpc("publish_ai_feature_config", { feature_input: id, version_input: draftRow.version, note_input: note }, "ai.manage");
+      const result = decision.mode === "bypass"
+        ? await window.NilazaAdminRpc("publish_ai_feature_config_bypass", { feature_input: id, version_input: draftRow.version, note_input: note,
+          bypass_reason_input: bypass.reason, bypass_note_input: String(bypass.note || "").trim() }, "ai.manage")
+        : await window.NilazaAdminRpc("publish_ai_feature_config", { feature_input: id, version_input: draftRow.version, note_input: note }, "ai.manage");
       if (!current(snapshot, version)) return;
       if (result?.feature !== id || result.status !== "active" || result.version !== draftRow.version) throw Error("invalid_acknowledgement");
       active.configs = active.configs.map(row => row.feature !== id ? row : row.version === result.version ? { ...row, ...result } : row.status === "active" ? { ...row, status: "archived" } : row);
       active.dialog = null;
-      active.messages[id] = `Đã phát hành phiên bản ${result.version}.`;
+      active.messages[id] = result.gateStatus === "bypassed_pending"
+        ? `Đã phát hành phiên bản ${result.version} khi chưa chấm đủ — nhãn “Chưa chấm”, cần chấm lại trong 24 giờ.`
+        : `Đã phát hành phiên bản ${result.version}.`;
     } catch (error) {
       if (!current(snapshot, version)) return;
-      if (error?.missingFunction) { active.configStatus = "missing"; active.dialog = null; }
+      if (error?.missingFunction && decision.mode !== "bypass") { active.configStatus = "missing"; active.dialog = null; }
       else active.messages[id] = errorMessage(error, "publish");
     } finally { if (current(snapshot, version)) { active.busy = false; render(); } }
   }
   function openDialog(id) {
     if (!active || active.busy || forms.dirty.has(id) || !rowsFor(id).draftRow || !can("ai.manage")) return;
-    active.dialog = { feature: id, note: "" };
+    const draftId = rowsFor(id).draftRow.id;
+    active.dialog = { feature: id, note: "", bypass: { reason: "", note: "" }, gate: gateApi() ? { status: "loading" } : { status: "missing" } };
     render();
+    if (!gateApi()) return;
+    const dialog = active.dialog, snapshot = scope(), version = epoch;
+    void gateApi().load("feature_config", draftId).then(state => {
+      if (!active || active.dialog !== dialog || !current(snapshot, version)) return;
+      dialog.gate = state;
+      render();
+    });
+  }
+  function refreshDialogControls() {
+    const dialog = active?.dialog;
+    if (!dialog) return;
+    const confirm = active.container.querySelector("[data-cfg-publish]");
+    if (confirm) confirm.disabled = active.busy || !publishAllowed(dialog);
   }
   function closeDialog() {
     if (!active?.dialog) return;
@@ -345,7 +383,9 @@
         if (review) { openDialog(review.dataset.cfgReview); return; }
         if (event.target.closest("[data-cfg-dialog-cancel]")) { closeDialog(); return; }
         const publishButton = event.target.closest("[data-cfg-publish]");
-        if (publishButton) void publish(publishButton.dataset.cfgPublish);
+        if (publishButton) { void publish(publishButton.dataset.cfgPublish); return; }
+        const evals = event.target.closest("[data-cfg-open-evals]");
+        if (evals) { const target = active.dialog ? rowsFor(active.dialog.feature).draftRow : null; active.dialog = null; window.NilazaOpenEvals?.({ feature: evals.dataset.cfgOpenEvals, targetKind: "feature_config", targetId: target?.id }); }
       };
       container.onsubmit = event => {
         if (!active || active.container !== container) return;
@@ -360,11 +400,11 @@
         if (!active || active.container !== container) return;
         if (event.target.id === "ai-feature-publish-note" && active.dialog) {
           active.dialog.note = event.target.value;
-          const length = event.target.value.trim().length;
-          const confirm = container.querySelector("[data-cfg-publish]");
-          if (confirm) confirm.disabled = active.busy || length < 10 || length > 500;
+          refreshDialogControls();
           return;
         }
+        if (active.dialog && event.target.matches?.("[data-gate-note]")) { active.dialog.bypass.note = event.target.value; refreshDialogControls(); return; }
+        if (active.dialog && event.target.matches?.("[data-gate-reason]")) { active.dialog.bypass.reason = event.target.value; refreshDialogControls(); return; }
         const id = event.target.dataset?.cfgFeature, key = event.target.dataset?.cfgField;
         if (!id || !key || !CONFIG_IDS.includes(id)) return;
         const values = formFrom(id);
@@ -374,6 +414,9 @@
         container.querySelector(`[data-cfg-dirty="${id}"]`)?.removeAttribute("hidden");
         const review = container.querySelector(`[data-cfg-review="${id}"]`);
         if (review) review.disabled = true;
+      };
+      container.onchange = event => {
+        if (active?.dialog && event.target.matches?.("[data-gate-reason]")) { active.dialog.bypass.reason = event.target.value; refreshDialogControls(); }
       };
       container.onkeydown = event => { if (event.key === "Escape" && active?.dialog) { event.preventDefault(); closeDialog(); } };
       render();

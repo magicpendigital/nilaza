@@ -106,6 +106,9 @@
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mountStatus, { once: true });
   else if (document.body) mountStatus();
   window.NilazaRequireCapability = async capability => window.NilazaAccess.can(await refresh(), capability);
+  // A rule is one capability, or alternatives separated by "|" where each alternative needs every
+  // capability joined by "+" (e.g. "ai.manage|ai.read+content.draft"). Callers must pass the exact rule.
+  const satisfiesRule = (access, rule) => rule.split("|").some(option => option.split("+").every(cap => window.NilazaAccess.can(access, cap)));
   // Workspace actions reuse the signed-in Supabase session instead of asking
   // an owner to paste a bearer token into the static console. The capability
   // is refreshed immediately before each request so revocation takes effect
@@ -122,7 +125,9 @@
       "/functions/v1/admin-model-router-config": { GET: "ai.read", POST: "ai.manage" },
       "/functions/v1/admin-astrology-prompt-config": { GET: "ai.read", POST: "ai.manage" },
       "/functions/v1/admin-ai-trace-qa-payload": { POST: "roles.manage" },
-      "/functions/v1/admin-documentation": { GET: "ai.read" }
+      "/functions/v1/admin-documentation": { GET: "ai.read" },
+      // Admin A6 eval runs (the function checks the same rule with the caller's session).
+      "/functions/v1/admin-ai-eval-run": { POST: "ai.manage|ai.read+content.draft" }
     };
     const requiredCapability = endpoints[target.pathname]?.[method];
     if ((!local && base.protocol !== "https:") || !["https:", "http:"].includes(base.protocol)
@@ -134,7 +139,7 @@
     const access = await refresh();
     requireTransport();
     const accessGeneration = generation;
-    if (!access || !window.NilazaAccess.can(access, requiredCapability)) {
+    if (!access || !satisfiesRule(access, requiredCapability)) {
       throw Error("Admin permission denied");
     }
     const { data: { session } = {}, error } = await client.auth.getSession();
@@ -181,11 +186,22 @@
     discard_content_item_draft: "content.draft",
     publish_content_items: "content.publish",
     // Staff action timeline (A3, migration 20261113100100).
-    get_admin_timeline: "hub.read"
+    get_admin_timeline: "hub.read",
+    // Evals and the release gate (A6, migration 20261113110000). Editors save sets, run and score; only ai.manage
+    // publishes or bypasses the quality layer. The RPCs check the same rules.
+    list_ai_eval_sets: "ai.read",
+    save_ai_eval_set: "ai.manage|ai.read+content.draft",
+    list_ai_eval_runs: "ai.read",
+    get_ai_eval_run: "ai.read",
+    score_ai_eval_result: "ai.manage|ai.read+content.draft",
+    get_ai_eval_gate: "ai.read",
+    list_ai_release_gate_pending: "ai.read",
+    publish_ai_feature_config_bypass: "ai.manage",
+    publish_prompt_version_bypass: "ai.manage",
+    // Feedback triage (A6, migration 20261113110100).
+    review_ai_feedback_v2: "safety.review",
+    list_ai_feedback_assignees: "safety.review"
   };
-  // A rule is one capability, or alternatives separated by "|" where each alternative needs every
-  // capability joined by "+" (e.g. "ai.manage|ai.read+content.draft"). Callers must pass the exact rule.
-  const satisfiesRule = (access, rule) => rule.split("|").some(option => option.split("+").every(cap => window.NilazaAccess.can(access, cap)));
   window.NilazaAdminRpc = async (name, params = {}, capability) => {
     requireTransport();
     const requiredCapability = Object.prototype.hasOwnProperty.call(allowedAdminRpcs, name)

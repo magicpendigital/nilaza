@@ -1447,3 +1447,25 @@ body[data-studio-section="audit"] #configuration-health { display: none; }
   .pv-table tr { display: grid; border-bottom: 1px solid var(--border); }
   .pv-table th, .pv-table td { border-bottom: 0; }
 }
+
+/* Admin A6: Chạy thử & chấm điểm, release gate and "Chưa chấm" badge. */
+.pill.badge-unscored { color: #f6d58f; border-color: rgba(201, 164, 92, .7); background: rgba(201, 164, 92, .12); }
+.gate-box .pill.state-on, .eval-page .pill.state-on { color: #9be2bd; border-color: rgba(87, 196, 154, .55); }
+.gate-box .pill.state-off, .eval-page .pill.state-off { color: #f1aab4; border-color: rgba(201, 130, 141, .6); }
+.gate-bypass { border: 1px solid rgba(201, 164, 92, .55); border-radius: 12px; padding: 12px 14px; margin: 12px 0; }
+.gate-bypass legend { color: var(--gold); padding: 0 6px; }
+.radio-row { display: flex; align-items: center; gap: 8px; min-height: 44px; }
+.eval-set-list { list-style: none; padding: 0; display: grid; gap: 8px; }
+.eval-set-list li { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.eval-case { border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; margin: 12px 0; }
+.eval-case-crisis { border-color: rgba(201, 130, 141, .6); }
+.eval-ab { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+.eval-answer { border: 1px solid var(--border); border-radius: 12px; padding: 12px; }
+.eval-output { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 320px; overflow: auto; background: var(--ink); border-radius: 8px; padding: 10px; }
+.eval-case-result { margin: 16px 0; }
+.feedback-add-case { margin-top: 12px; }
+@media (max-width: 640px) {
+  .eval-runs thead { display: none; }
+  .eval-runs tr { display: grid; border-bottom: 1px solid var(--border); }
+  .eval-runs th, .eval-runs td { border-bottom: 0; }
+}
