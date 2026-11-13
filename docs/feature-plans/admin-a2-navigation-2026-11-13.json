@@ -39,7 +39,9 @@
     "scripts/admin-small-fixes.test.mjs",
     "scripts/admin-workflow-catalog.test.mjs",
     "scripts/validate-admin-contract.mjs",
-    "package.json"
+    "package.json",
+    "docs/backlog/review-2026-10-30.json",
+    "PLAN.md"
   ],
   "untouchedSurfaces": [
     "supabase/** and packages/** are not touched; migrations 20261113090000/090100 are not applied by this change; no deploy, no secret.",

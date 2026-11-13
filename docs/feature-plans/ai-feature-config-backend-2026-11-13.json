@@ -30,7 +30,8 @@
     "supabase/functions/ai-tarot-reading/index.ts",
     "supabase/functions/ai-daily-insight/index.ts",
     "supabase/functions/ai-astrology-insight/index.ts",
-    "supabase/functions/ai-council/index.ts"
+    "supabase/functions/ai-council/index.ts",
+    "docs/release/singapore-edge-functions-2026-11-09/admin-a4-rollout-2026-11-13.json"
   ],
   "untouchedSurfaces": [
     "apps/admin is not touched here; another agent builds the A4 screens against the RPCs described in the handoff.",
@@ -142,7 +143,7 @@
     "secretsLogging": "The service key is read from the Edge environment and never logged or returned; no secret is set or read by the agent.",
     "externalInput": "RPCs validate feature against a fixed list, numeric bounds, copy shape and lengths, note length; Edge reader re-validates bounds and ignores out-of-range values.",
     "dependencies": "No package added to the repo.",
-    "migrationRelease": "Owner applies both migrations on Singapore by hash, then redeploys the six AI functions; until then functions keep defaults.",
+    "migrationRelease": "Owner applies both migrations on Singapore by hash, then redeploys the six AI functions; until then functions keep defaults. Status 2026-11-13: the Owner approved in chat and Claude applied 20261113090000 and 20261113090100 to etfajmrwyywokgafzxsb (production) through supabase db query (CLI 3.1.0), then deployed the six AI functions; read-back and receipt in docs/release/singapore-edge-functions-2026-11-09/admin-a4-rollout-2026-11-13.json. Not recorded in the migration history table.",
     "stopCondition": "Stop if PGlite verification, deno check or the Deno tests fail, or if a default limit would change without an active config.",
     "unresolvedHighRisks": []
   },
