@@ -5,7 +5,7 @@ import { generateWithModelRoute } from "../_shared/model-router.ts";
 import { safetyRedirectFor } from "../_shared/crisis-safety.ts";
 import { featurePaused, featurePausedBody } from "../_shared/feature-switch.ts";
 import { sanitizeProviderMetadata } from "../_shared/model-provider.ts";
-import { assemblePersonaPromptStack } from "../_shared/persona-prompt-assembler.ts";
+import { assemblePersonaPromptStack, personaUserDataBlock } from "../_shared/persona-prompt-assembler.ts";
 import { AiRequestError, aiAuthUserOrUnavailable, guardAiJsonRequest } from "../_shared/ai-request-guard.ts";
 import { claimDailyAttempt } from "../_shared/daily-attempts.ts";
 import { accountTierPolicy } from "../_shared/account-tier-policy.ts";
@@ -138,6 +138,7 @@ serve(async (req) => {
       persona: input.persona,
       userContext: input.userContext
     });
+    const userDataBlock = personaUserDataBlock(language, input.userContext);
 
     const fallbackReply =
       language === "vi"
@@ -165,7 +166,8 @@ serve(async (req) => {
       system: promptStack.assembledSystemPrompt,
       messages: [
         ...sanitizedHistory,
-        { role: "user", content: handoffBlock ? `${handoffBlock}\n\n${text}` : text }
+        // E3 / AI-05: nickname, goals, tone and local time ride in the labelled data block, never in the system prompt.
+        { role: "user", content: [userDataBlock, handoffBlock, text].filter(Boolean).join("\n\n") }
       ],
       fallbackText: fallbackReply,
       safetyText: text
