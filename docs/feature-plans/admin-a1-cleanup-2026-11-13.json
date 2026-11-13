@@ -97,7 +97,7 @@
     {
       "path": "apps/admin/workspace-guard.js",
       "reason": "Existing signed-in session transport NilazaAdminRequest replaces pasted tokens.",
-      "sha256": "b2d83679612f92046bd4bc38b957f8875d45802a377fd3d01345b215118429b2"
+      "sha256": "03847c55b1cd42de2e11ffb48d63678dae54ede654834360c8b4eb9cf5e38771"
     },
     {
       "path": "apps/admin/env-band.js",

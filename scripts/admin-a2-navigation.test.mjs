@@ -225,7 +225,7 @@ test("Lưu nháp calls save_ai_feature_config_draft with named arguments and val
   submit(h, '[data-cfg-form="tarot_reading"]');
   await drain(h.dom);
   const save = h.calls.find((call) => call[0] === "save_ai_feature_config_draft");
-  assert.deepEqual(plain(save), ["save_ai_feature_config_draft", { feature_input: "tarot_reading", payload: { quotaDaily: 2, deadlineMs: 30000, copy: { quotaExhausted: { vi: "Hôm nay bạn đã giải bài rồi.", en: "You already had today's reading." } }, note: null } }, "ai.manage"]);
+  assert.deepEqual(plain(save), ["save_ai_feature_config_draft", { feature_input: "tarot_reading", payload: { quotaDaily: 2, deadlineMs: 30000, copy: { quotaExhausted: { vi: "Hôm nay bạn đã giải bài rồi.", en: "You already had today's reading." } }, note: null } }, "ai.manage|ai.read+content.draft"]);
   assert.match(h.card("tarot_reading").textContent, /Đã lưu nháp phiên bản 1\. Người dùng chưa thấy/);
   assert.equal(h.w.NilazaUnsaved.total(), 0);
   assert.equal(h.card("tarot_reading").querySelector("[data-cfg-review]").disabled, false);
@@ -288,6 +288,52 @@ test("an account with ai.read only sees the values but no switch, save or publis
   h.dom.window.close();
 });
 
+test("an editor (ai.read + content.draft) saves drafts but sees no publish or switch control (Owner decision 13/11)", async () => {
+  const editor = ["hub.read", "content.read", "content.draft", "ai.read"];
+  const h = featuresHarness({ capabilities: editor, configs: [
+    { feature: "tarot_reading", version: 2, status: "draft", quotaDaily: 2, deadlineMs: null, copy: {}, note: null },
+    { feature: "tarot_reading", version: 1, status: "active", quotaDaily: null, deadlineMs: null, copy: {}, publishedAt: "2026-11-12T00:00:00Z" }
+  ], rpc: async (name, params) => name === "save_ai_feature_config_draft"
+    ? { feature: params.feature_input, version: 1, status: "draft", quotaDaily: params.payload.quotaDaily, deadlineMs: params.payload.deadlineMs, copy: params.payload.copy, note: params.payload.note }
+    : undefined });
+  await drain(h.dom);
+  assert.doesNotMatch(h.c.textContent, /Bạn chỉ có quyền xem/);
+  assert.match(h.c.textContent, /Chỉ Owner bật\/tắt tính năng và phát hành/);
+  assert.ok(h.card("tarot_reading").querySelector("[data-cfg-save]"), "editor sees Lưu nháp");
+  assert.ok(h.card("tarot_reading").querySelector('[data-cfg-field="quotaDaily"]'), "editor sees the draft form");
+  assert.equal(h.c.querySelector("[data-cfg-review], [data-cfg-publish], [data-ai-switch-edit]"), null, "no publish or switch control for editors");
+  assert.equal(h.card("tarot_reading").querySelector("[data-cfg-editor-note]").textContent, "Chỉ Owner phát hành — bản nháp của bạn đã lưu, chờ Owner xem lại.");
+  assert.match(h.card("daily_insight").querySelector("[data-cfg-editor-note]").textContent, /^Chỉ Owner phát hành\. Bấm Lưu nháp/);
+  typeInto(h, "#cfg-daily_insight-quotaDaily", "4");
+  submit(h, '[data-cfg-form="daily_insight"]');
+  await drain(h.dom);
+  assert.deepEqual(plain(h.calls.find((call) => call[0] === "save_ai_feature_config_draft")), ["save_ai_feature_config_draft", { feature_input: "daily_insight", payload: { quotaDaily: 4, deadlineMs: null, copy: {}, note: null } }, "ai.manage|ai.read+content.draft"]);
+  assert.match(h.card("daily_insight").textContent, /Đã lưu nháp phiên bản 1\. Người dùng chưa thấy/);
+  assert.equal(h.card("daily_insight").querySelector("[data-cfg-editor-note]").textContent, "Chỉ Owner phát hành — bản nháp của bạn đã lưu, chờ Owner xem lại.");
+  assert.equal(h.calls.some((call) => call[2] === "ai.manage"), false, "an editor never calls an ai.manage RPC");
+  assert.equal(h.c.querySelector("#ai-feature-dialog"), null);
+  h.dom.window.close();
+
+  // A database without 20261113090200 still refuses the editor: the page says why instead of a generic error.
+  const old = featuresHarness({ capabilities: editor, configs: [], rpc: async (name) => {
+    if (name === "save_ai_feature_config_draft") throw Object.assign(Error("Admin session unavailable"), { code: "42501", missingFunction: false });
+    return undefined;
+  } });
+  await drain(old.dom);
+  typeInto(old, "#cfg-tarot_reading-quotaDaily", "2");
+  submit(old, '[data-cfg-form="tarot_reading"]');
+  await drain(old.dom);
+  assert.match(old.card("tarot_reading").textContent, /chưa có quyền lưu nháp trên máy chủ[\s\S]*20261113090200/);
+  old.dom.window.close();
+
+  // ai.read without content.draft (safety reviewer) stays read-only.
+  const reviewer = featuresHarness({ capabilities: ["ai.read", "safety.review", "content.read"], configs: [] });
+  await drain(reviewer.dom);
+  assert.match(reviewer.c.textContent, /Bạn chỉ có quyền xem/);
+  assert.equal(reviewer.c.querySelector("[data-cfg-save], [data-cfg-review], [data-cfg-field]"), null);
+  reviewer.dom.window.close();
+});
+
 test("a missing configs RPC tells the Owner which migration to apply and the switch keeps working", async () => {
   const h = featuresHarness({ rpc: async (name, params) => {
     if (name === "get_ai_feature_configs") throw Object.assign(Error("Admin session unavailable"), { code: "PGRST202", missingFunction: true });
@@ -348,10 +394,45 @@ test("the session helper marks a missing RPC so pages can explain it, and the co
   vm.runInNewContext(read("apps/admin/workspace-guard.js"), context);
   await w.NilazaAdminSessionPromise;
   await assert.rejects(w.NilazaAdminRpc("get_ai_feature_configs", {}, "ai.read"), (error) => error.missingFunction === true && error.code === "PGRST202" && !/Could not find/.test(error.message));
-  await assert.rejects(w.NilazaAdminRpc("save_ai_feature_config_draft", { feature_input: "tarot_reading", payload: {} }, "ai.manage"), (error) => error.missingFunction === false && error.code === "22023");
+  await assert.rejects(w.NilazaAdminRpc("save_ai_feature_config_draft", { feature_input: "tarot_reading", payload: {} }, "ai.manage|ai.read+content.draft"), (error) => error.missingFunction === false && error.code === "22023");
   await assert.rejects(w.NilazaAdminRpc("save_ai_feature_config_draft", {}, "ai.read"), /Untrusted/);
+  await assert.rejects(w.NilazaAdminRpc("save_ai_feature_config_draft", {}, "ai.manage"), /Untrusted/, "callers pass the exact draft rule");
   await assert.rejects(w.NilazaAdminRpc("publish_ai_feature_config", {}, "ai.read"), /Untrusted/);
+  await assert.rejects(w.NilazaAdminRpc("publish_ai_feature_config", {}, "ai.manage|ai.read+content.draft"), /Untrusted/, "publish is never widened");
   assert.ok(rpcCalls.some(([name]) => name === "save_ai_feature_config_draft"));
+});
+
+test("the session helper lets an editor save a draft but never publish, and refuses ai.read alone", async () => {
+  async function guardFor(capabilities) {
+    const rpcCalls = [];
+    const client = {
+      auth: {
+        getUser: async () => ({ data: { user: { id: "E" } } }),
+        getSession: async () => ({ data: { session: { user: { id: "E" }, access_token: "synthetic-token" } } })
+      },
+      rpc: async (name) => {
+        rpcCalls.push(name);
+        if (name === "get_admin_access") return { data: { userId: "E", roles: [capabilities.includes("content.draft") ? "editor" : "safety_reviewer"], capabilities } };
+        return { data: { feature: "tarot_reading", version: 1, status: "draft" } };
+      }
+    };
+    const w = { ENV: { SUPABASE_URL: "https://qa.supabase.co", SUPABASE_ANON_KEY: "public-test-key" }, supabase: { createClient: () => client }, addEventListener: () => {} };
+    w.top = {}; w.self = w;
+    const context = { window: w, document: { hidden: false, documentElement: { dataset: {} }, addEventListener: () => {} }, location: { pathname: "/ai-studio.html" }, URL, Headers, setTimeout, clearTimeout, fetch: async () => ({ ok: true }) };
+    vm.runInNewContext(read("apps/admin/admin-access.js"), context);
+    vm.runInNewContext(read("apps/admin/workspace-guard.js"), context);
+    await w.NilazaAdminSessionPromise;
+    return { w, rpcCalls };
+  }
+  const editor = await guardFor(["hub.read", "content.read", "content.draft", "ai.read"]);
+  const saved = await editor.w.NilazaAdminRpc("save_ai_feature_config_draft", { feature_input: "tarot_reading", payload: {} }, "ai.manage|ai.read+content.draft");
+  assert.equal(saved.status, "draft");
+  await assert.rejects(editor.w.NilazaAdminRpc("publish_ai_feature_config", { feature_input: "tarot_reading", version_input: 1, note_input: "editor tries publish" }, "ai.manage"), /permission denied/);
+  await assert.rejects(editor.w.NilazaAdminRpc("set_ai_feature_switch", {}, "ai.manage"), /permission denied/);
+  assert.equal(editor.rpcCalls.includes("publish_ai_feature_config") || editor.rpcCalls.includes("set_ai_feature_switch"), false);
+  const reviewer = await guardFor(["hub.read", "content.read", "ai.read", "safety.review"]);
+  await assert.rejects(reviewer.w.NilazaAdminRpc("save_ai_feature_config_draft", { feature_input: "tarot_reading", payload: {} }, "ai.manage|ai.read+content.draft"), /permission denied/);
+  assert.equal(reviewer.rpcCalls.includes("save_ai_feature_config_draft"), false);
 });
 
 // ---- Tổng quan ----

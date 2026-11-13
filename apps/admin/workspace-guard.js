@@ -161,12 +161,16 @@
     review_ai_feedback: "safety.review",
     get_ai_feature_switches: "ai.read",
     set_ai_feature_switch: "ai.manage",
-    // Versioned AI feature settings (A4, migration 20261113090100); the RPCs check the same capabilities.
+    // Versioned AI feature settings (A4, migrations 20261113090100 + 20261113090200); the RPCs check the same rule.
+    // Owner decision 13/11: editors (ai.read + content.draft) save drafts; only ai.manage publishes.
     get_ai_feature_configs: "ai.read",
-    save_ai_feature_config_draft: "ai.manage",
+    save_ai_feature_config_draft: "ai.manage|ai.read+content.draft",
     publish_ai_feature_config: "ai.manage",
     get_growth_waitlist_overview: "overview.read"
   };
+  // A rule is one capability, or alternatives separated by "|" where each alternative needs every
+  // capability joined by "+" (e.g. "ai.manage|ai.read+content.draft"). Callers must pass the exact rule.
+  const satisfiesRule = (access, rule) => rule.split("|").some(option => option.split("+").every(cap => window.NilazaAccess.can(access, cap)));
   window.NilazaAdminRpc = async (name, params = {}, capability) => {
     requireTransport();
     const requiredCapability = Object.prototype.hasOwnProperty.call(allowedAdminRpcs, name)
@@ -176,7 +180,7 @@
     const access = await refresh();
     requireTransport();
     const accessGeneration = generation;
-    if (!access || !window.NilazaAccess.can(access, requiredCapability)) throw Error("Admin permission denied");
+    if (!access || !satisfiesRule(access, requiredCapability)) throw Error("Admin permission denied");
     const { data, error, status } = await client.rpc(name, params);
     requireTransport();
     if (error || accessGeneration !== generation || window.NilazaAdminSession !== access) {

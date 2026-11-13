@@ -4,7 +4,8 @@
   // - versioned settings: get_ai_feature_configs / save_ai_feature_config_draft / publish_ai_feature_config
   //   (migration 20261113090100). "Lưu nháp" stores a server draft people do not see yet; "Xem lại & phát hành"
   //   shows active vs draft, the environment and needs a note of at least 10 characters.
-  // Reading needs ai.read; every change needs ai.manage, checked again by NilazaAdminRpc and by the database.
+  // Reading needs ai.read. Saving a draft needs ai.manage, or ai.read + content.draft (editor; Owner decision 13/11,
+  // migration 20261113090200); publishing and switches need ai.manage. NilazaAdminRpc and the database check again.
   // With no active version, Edge Functions keep the code defaults shown here.
   const escape = value => String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
   const FEATURES = Object.freeze([
@@ -26,6 +27,15 @@
   let forms = { owner: "", values: {}, dirty: new Set() };
 
   const can = capability => window.NilazaAdminSession?.capabilities?.includes(capability) === true;
+  // Same rule as save_ai_feature_config_draft (NilazaAdminRpc allowlist and migration 20261113090200).
+  const DRAFT_RULE = "ai.manage|ai.read+content.draft";
+  const canDraft = () => can("ai.manage") || (can("ai.read") && can("content.draft"));
+  async function requireDraft() {
+    const require = window.NilazaRequireCapability;
+    if (!require) return false;
+    if (await require("ai.manage")) return true;
+    return await require("ai.read") && await require("content.draft");
+  }
   const feature = id => FEATURES.find(item => item.id === id);
   function scope() {
     if ((window.ENV?.SUPABASE_URL || "") !== initialTransport.url || (window.ENV?.SUPABASE_ANON_KEY || "") !== initialTransport.key) invalidated = true;
@@ -107,7 +117,7 @@
     return payload;
   }
   function errorMessage(error, action) {
-    if (error?.code === "42501") return "Tài khoản này không có quyền ai.manage.";
+    if (error?.code === "42501") return action === "publish" ? "Tài khoản này không có quyền ai.manage." : "Tài khoản này chưa có quyền lưu nháp trên máy chủ (cần ai.manage, hoặc ai.read + content.draft; Owner cần áp migration 20261113090200).";
     if (error?.code === "22023") return action === "publish" ? "Máy chủ không nhận: bản nháp đã thay đổi hoặc ghi chú chưa hợp lệ. Tải lại rồi xem lại." : "Máy chủ không nhận giá trị này (ngoài giới hạn cho phép).";
     return action === "publish" ? "Chưa phát hành được. Tải lại rồi thử lại." : "Chưa lưu được nháp. Tải lại rồi thử lại.";
   }
@@ -134,7 +144,7 @@
       <tr><th scope="row">Trần chi phí mỗi lượt</th><td colspan="2">Chưa áp dụng — cần backend (bước A7).</td></tr>
       </tbody></table>`;
   }
-  function renderForm(item, draftRow) {
+  function renderForm(item, draftRow, manage) {
     const values = formFrom(item.id), id = item.id, dirty = forms.dirty.has(id);
     const input = (key, label, attrs, hint) => `<div class="config-field"><label for="cfg-${id}-${key.replace(".", "-")}">${label}</label>
       <input class="input" id="cfg-${id}-${key.replace(".", "-")}" data-cfg-feature="${id}" data-cfg-field="${key}" value="${escape(values[key])}" ${attrs}>${hint ? `<small class="helper">${hint}</small>` : ""}</div>`;
@@ -151,12 +161,13 @@
         ${COPY_KINDS.map(([kind, label]) => area(`${kind}.vi`, `${label} (tiếng Việt)`) + area(`${kind}.en`, `${label} (tiếng Anh)`)).join("")}
       </div>
       <div class="config-field"><label for="cfg-${id}-note">Ghi chú nháp (không bắt buộc)</label><input class="input" id="cfg-${id}-note" maxlength="500" data-cfg-feature="${id}" data-cfg-field="note" value="${escape(values.note)}"></div>
-      <p class="helper" data-cfg-dirty="${id}" ${dirty ? "" : "hidden"}>Còn thay đổi chưa lưu — bấm Lưu nháp trước khi phát hành.</p>
+      <p class="helper" data-cfg-dirty="${id}" ${dirty ? "" : "hidden"}>Còn thay đổi chưa lưu — bấm Lưu nháp${manage ? " trước khi phát hành" : ""}.</p>
       <div class="param-row">
         <button type="submit" class="button" data-cfg-save="${id}" ${active.busy ? "disabled" : ""}>Lưu nháp</button>
-        <button type="button" class="button primary" data-cfg-review="${id}" ${active.busy || !draftRow || dirty ? "disabled" : ""}>Xem lại & phát hành</button>
+        ${manage ? `<button type="button" class="button primary" data-cfg-review="${id}" ${active.busy || !draftRow || dirty ? "disabled" : ""}>Xem lại & phát hành</button>` : ""}
       </div>
-      ${draftRow ? "" : '<p class="helper">Chưa có bản nháp trên máy chủ. Lưu nháp trước, rồi mới phát hành.</p>'}
+      ${manage ? (draftRow ? "" : '<p class="helper">Chưa có bản nháp trên máy chủ. Lưu nháp trước, rồi mới phát hành.</p>')
+        : `<p class="helper" data-cfg-editor-note>${draftRow ? "Chỉ Owner phát hành — bản nháp của bạn đã lưu, chờ Owner xem lại." : "Chỉ Owner phát hành. Bấm Lưu nháp để gửi bản nháp cho Owner xem lại."}</p>`}
     </form>`;
   }
   function renderConfig(item, manage) {
@@ -170,7 +181,7 @@
     return `<p>${activeRow ? `Đang chạy: phiên bản ${activeRow.version}${activeRow.publishedAt ? ` · phát hành ${escape(activeRow.publishedAt)}` : ""}` : "Đang chạy: mặc định trong mã (chưa phát hành cấu hình nào)."}
       ${draftRow ? ` · Có bản nháp phiên bản ${draftRow.version}` : ""}</p>
       ${renderValues(item, activeRow, draftRow)}
-      ${manage ? renderForm(item, draftRow) : '<p class="muted">Bạn chỉ có quyền xem. Cần quyền ai.manage để lưu nháp hoặc phát hành.</p>'}
+      ${canDraft() ? renderForm(item, draftRow, manage) : '<p class="muted">Bạn chỉ có quyền xem. Lưu nháp cần ai.manage hoặc ai.read + content.draft; phát hành cần ai.manage.</p>'}
       <p class="helper" role="status" aria-live="polite" data-cfg-message="${item.id}">${escape(message || "")}</p>`;
   }
   function renderDialog() {
@@ -203,7 +214,7 @@
     const manage = can("ai.manage");
     container.innerHTML = `<div class="detail-heading"><div><p class="eyebrow">Tính năng AI</p><h2 id="ai-features-title">Bật/tắt và hạn mức từng tính năng AI</h2></div><span class="pill" role="status" aria-live="polite">${escape(active.status)}</span></div>
       <p>Tắt một tính năng khi cần dừng khẩn cấp: người dùng thấy “đang tạm nghỉ” và không mất lượt; câu trả lời an toàn khi khủng hoảng vẫn chạy. <strong>Lưu nháp</strong> lưu lên máy chủ, người dùng chưa thấy. <strong>Xem lại & phát hành</strong> áp dụng cho người dùng sau khi bạn xem thay đổi và ghi chú.</p>
-      ${manage ? "" : '<p class="muted">Bạn chỉ có quyền xem. Cần quyền ai.manage để bật/tắt, lưu nháp hoặc phát hành.</p>'}
+      ${manage ? "" : canDraft() ? '<p class="muted">Bạn được lưu nháp hạn mức và thời gian chờ. Chỉ Owner bật/tắt tính năng và phát hành.</p>' : '<p class="muted">Bạn chỉ có quyền xem. Cần quyền ai.manage để bật/tắt, lưu nháp hoặc phát hành.</p>'}
       <div class="param-row"><button type="button" class="button ghost" id="ai-features-reload" ${active.busy ? "disabled" : ""}>Tải lại</button></div>
       <div class="ai-feature-grid">${FEATURES.map(item => {
         const row = active.switchStatus === "ok" ? active.switches.get(item.id) : null;
@@ -263,8 +274,8 @@
     const snapshot = scope(), version = ++epoch;
     active.busy = true; active.messages[id] = "Đang lưu nháp…"; render();
     try {
-      if (!await window.NilazaRequireCapability?.("ai.manage") || !current(snapshot, version)) return;
-      const result = await window.NilazaAdminRpc("save_ai_feature_config_draft", { feature_input: id, payload }, "ai.manage");
+      if (!await requireDraft() || !current(snapshot, version)) return;
+      const result = await window.NilazaAdminRpc("save_ai_feature_config_draft", { feature_input: id, payload }, DRAFT_RULE);
       if (!current(snapshot, version)) return;
       if (result?.feature !== id || result.status !== "draft" || !Number.isInteger(result.version)) throw Error("invalid_acknowledgement");
       active.configs = [...active.configs.filter(row => !(row.feature === id && row.status === "draft")), result];
@@ -343,7 +354,7 @@
         if (!switchForm && !configForm) return;
         event.preventDefault();
         if (switchForm) void saveSwitch(switchForm.dataset.aiSwitchForm, switchForm.querySelector("input")?.value);
-        else if (can("ai.manage")) void saveDraft(configForm.dataset.cfgForm);
+        else if (canDraft()) void saveDraft(configForm.dataset.cfgForm);
       };
       container.oninput = event => {
         if (!active || active.container !== container) return;
