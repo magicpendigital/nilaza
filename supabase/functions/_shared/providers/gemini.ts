@@ -36,7 +36,8 @@ export async function invokeGemini(request: ModelProviderRequest, apiKey: string
     })),
     generationConfig: {
       temperature: request.temperature,
-      maxOutputTokens: request.maxOutputTokens
+      maxOutputTokens: request.maxOutputTokens,
+      ...(request.jsonMode ? { responseMimeType: "application/json" } : {})
     }
   };
   request.traceHooks?.onRequest?.({

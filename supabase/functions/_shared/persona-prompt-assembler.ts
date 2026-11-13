@@ -174,7 +174,7 @@ async function readPromptVersion(
   ownerType: "global" | "persona",
   ownerId: string | null,
   locale: string
-): Promise<PromptVersion | null> {
+): Promise<PromptVersion | null | "rejected"> {
   let query = supabase
     .from("prompt_versions")
     .select("id, version, prompt_text, locale")
@@ -187,7 +187,7 @@ async function readPromptVersion(
   const { data, error } = await query.order("created_at", { ascending: false }).limit(1);
   if (error || !Array.isArray(data) || !data[0]) return null;
   // Admin A5: a stored prompt that fails the injection guard is ignored (the code fallback is used instead).
-  if (!isUsablePromptText((data[0] as PromptVersion).prompt_text)) return null;
+  if (!isUsablePromptText((data[0] as PromptVersion).prompt_text)) return "rejected";
   return data[0] as PromptVersion;
 }
 
@@ -201,6 +201,9 @@ async function readLocalizedPromptVersion(
   const locales = Array.from(new Set([String(language || "vi"), "en", "vi"]));
   for (const locale of locales) {
     const prompt = await readPromptVersion(supabase, feature, ownerType, ownerId, locale);
+    // A5 review: a stored prompt that fails the injection guard must not be replaced by another language's row;
+    // stop here so the caller uses the code default in the requested language.
+    if (prompt === "rejected") return null;
     if (prompt?.prompt_text) return prompt;
   }
   return null;

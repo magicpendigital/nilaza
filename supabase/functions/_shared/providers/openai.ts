@@ -45,7 +45,8 @@ export async function invokeOpenAI(request: ModelProviderRequest, apiKey: string
       }))
     ],
     temperature: request.temperature,
-    max_tokens: request.maxOutputTokens
+    max_tokens: request.maxOutputTokens,
+    ...(request.jsonMode ? { response_format: { type: "json_object" } } : {})
   };
   request.traceHooks?.onRequest?.({
     url: "https://api.openai.com/v1/chat/completions",
