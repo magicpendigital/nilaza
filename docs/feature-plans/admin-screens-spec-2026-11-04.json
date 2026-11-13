@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "taskId": "admin-screens-spec-2026-11-04",
+  "ownerAgent": "admin_ai_studio_agent",
+  "lane": "Admin redesign: screen-by-screen specification (documents only)",
+  "goal": "Specify every screen of the new Admin, especially a per-feature AI configuration screen for each of the seven AI features, mapping each field to the backend table or function it reads or writes, marking what exists versus what needs new SQL or Edge Function work, and recording the Owner decisions of 2026-11-04.",
+  "successCriteria": [
+    "docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md covers Login, Overview, Guides, Deck and 78 cards, In-app copy, AI features list, seven per-feature configuration variants, Providers and models, Prompts and versions, Test runs and scoring, User feedback, AI log and Action history.",
+    "Each field names its backend source and a status label (existing, new SQL, new Edge Function, admin-only, storage, locked in code).",
+    "The rollout A0-A7 and the Owner decisions of 2026-11-04 are recorded; PLAN.md points to the spec and the design canvas."
+  ],
+  "writeScope": [
+    "docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "No Admin, mobile or backend code change.",
+    "No SQL, migration, Edge Function deploy, secret or provider setting change.",
+    "Design canvas lives outside the repository as a private artifact."
+  ],
+  "impact": {
+    "entryPoint": "Documents only; future Admin screens.",
+    "dataWrite": "No data is written or migrated; the slice only adds documents.",
+    "backendContract": "None changed; new tables and functions are proposals for later Owner-approved slices.",
+    "adminVisibility": "No runtime change.",
+    "privacySafety": "Spec narrows data sent to models: no full journal text, mood labels only within 24 hours, no birth data for reports.",
+    "observability": "No new events, traces or logs are added.",
+    "rollback": "Revert the commit; documents have no runtime effect."
+  },
+  "canonicalContracts": [
+    "Owner-approved Admin navigation (ADMIN_REDESIGN_2026-11-03 section 5); LLM fallback Phase 0; account-tier-policy.json and ai-usage-policy.json limits."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Admin and backend routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Plan and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/ADMIN_REDESIGN_2026-11-03.vi.md",
+      "reason": "Approved navigation and data gap tables this spec builds on.",
+      "sha256": "92cbe907d971bca8bfa1a38cd947493047473e823e10f9eb13f94e4d16fb77f6"
+    },
+    {
+      "path": "docs/proposals/LLM_PROVIDERS_FALLBACK_2026-11-03.vi.md",
+      "reason": "Model chain, error classes and provider order.",
+      "sha256": "af435cd85373fb6f90ad667b7a1ed195992c77932fc25241f654f3e544d8f45d"
+    },
+    {
+      "path": "docs/backlog/review-2026-10-30.json",
+      "reason": "AD-xx and AI-xx items referenced per screen.",
+      "sha256": "50e064586a544b62d3bbfe8639ba80bb084be3d39a2413d8ffbd293fbe261a3b"
+    },
+    {
+      "path": "apps/admin/feature-switches.js",
+      "reason": "Existing switch RPCs and fields.",
+      "sha256": "1d3ad4b5e179339d99b8cb3276b89c3f78c5e50c81b1841139e1d003c59597d5"
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "reason": "Route fields and defaults.",
+      "sha256": "720958613ca7c9d63404592cfc2a0c35d70514d25364335e0dcf4ed019887ac3"
+    },
+    {
+      "path": "supabase/functions/_shared/persona-prompt-assembler.ts",
+      "reason": "Persona prompt stack and user context sent today.",
+      "sha256": "22de06de144c350927622610ce7c7bc492d8e357ceab6d210d9c918f9226998c"
+    },
+    {
+      "path": "supabase/functions/_shared/tarot-prompt.ts",
+      "reason": "Tarot prompt source, immutable layer and card context.",
+      "sha256": "22de0210fe977b6cb21151758db9f0d4e1a74875f2ed0b2b5cb44e3a086d6710"
+    },
+    {
+      "path": "packages/agent-config/prompt-library.json",
+      "reason": "Canonical prompt texts.",
+      "sha256": "6e24285ae847c2ee01ff6949ef3b6fd36c5933d31376a185c32b244d97f29bd3"
+    },
+    {
+      "path": "packages/agent-config/ai-usage-policy.json",
+      "reason": "Quota groups and budget.",
+      "sha256": "a6e80a226c60abf001345ce21b97874eb484f0f769897aea8ab3bdca61d950de"
+    },
+    {
+      "path": "packages/agent-config/account-tier-policy.json",
+      "reason": "Astrology and Council limits.",
+      "sha256": "79bee268908ae19ed7a07d185060476a0e08bf8b2f91a74baff161840a5c76a0"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Documents-only slice; impact, stop conditions and validation applied without changing the skill."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No dependency added; provider facts come from the 2026-11-03 proposal and stay marked for Owner verification."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No change; spec keeps publish and ai.manage with the Owner.",
+    "sensitiveData": "No personal data handled.",
+    "secretsLogging": "Names secret variables only, never values; Admin never displays or accepts keys.",
+    "externalInput": "No new user or network input is accepted.",
+    "dependencies": "No package or dependency change.",
+    "migrationRelease": "No migration, deploy or release.",
+    "stopCondition": "Stop if any change would need SQL, a deploy or a secret.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Written in a separate worktree on branch docs/admin-screens-spec-2026-11-04.",
+    "paths": [
+      "docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md",
+      "PLAN.md"
+    ]
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/admin-screens-spec-2026-11-04.json"
+  ],
+  "managerTestPath": "Open docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md and the design canvas; each screen on the canvas has a matching section with its fields and backend status.",
+  "residualRisk": "Table and function names come from repository migrations, not from the live databases.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

@@ -280,7 +280,7 @@
   },
   {
     "path": "apps/mobile/App.tsx",
-    "sha256": "53aa9af5b4c3da1fbffe8a721e034ed618c70c4cb522fe0802a8c15feaa9376c"
+    "sha256": "50046a34bf510bc9d8498ad58129f897f1f5534dc8b23d4f071ab0f49cca6183"
   },
   {
     "path": "docs/FEATURE_PRD.md",
@@ -328,11 +328,11 @@
   },
   {
     "path": "supabase/functions/_shared/model-provider.ts",
-    "sha256": "33e9847291b73c1b28f3523c9bf979d2f1e8f2455005783e8484011be89d3fd5"
+    "sha256": "115a014bad0238c26727a04ba9b48a689c6778138b118cc90630bf7b94fa1465"
   },
   {
     "path": "supabase/functions/_shared/model-router.ts",
-    "sha256": "24790b28e5c4fc05440596f5432125cb25810461c7b96043e681519ee0ff0260"
+    "sha256": "720958613ca7c9d63404592cfc2a0c35d70514d25364335e0dcf4ed019887ac3"
   },
   {
     "path": "supabase/functions/_shared/notification-provider.ts",
@@ -344,7 +344,7 @@
   },
   {
     "path": "supabase/functions/_shared/persona-prompt-assembler.ts",
-    "sha256": "90162e5b78aac16d6b2d211b39b19a954afd68a2d1901975ee633c031ec534d5"
+    "sha256": "22de06de144c350927622610ce7c7bc492d8e357ceab6d210d9c918f9226998c"
   },
   {
     "path": "supabase/functions/_shared/prompt-composition/compose.mjs",
@@ -360,7 +360,7 @@
   },
   {
     "path": "supabase/functions/ai-astrology-report/index.ts",
-    "sha256": "ff1b2b2b82df74b833886e7119620c58212f2cb4d7e65269b86beb3d9e14a5ff"
+    "sha256": "8172b832f8e27af5c1af4580f50cc7f222d5cef7db237f325b4c7d3f78cddf16"
   },
   {
     "path": "supabase/functions/ai-council/index.ts",
@@ -368,7 +368,7 @@
   },
   {
     "path": "supabase/functions/ai-daily-insight/index.ts",
-    "sha256": "a36a2a186044d7adf28723258f9067b212e4010a5d09d8647a3e02fbff568dce"
+    "sha256": "60098ef5101ec7cf0979364217fe83e4c2dab1b91d74374248f48a5f22828c58"
   },
   {
     "path": "supabase/functions/ai-daily-zodiac-pulse/index.ts",
@@ -376,19 +376,19 @@
   },
   {
     "path": "supabase/functions/ai-oracle-turn/handler.ts",
-    "sha256": "6174435527767edc4efcf8daad71c73fc366425a608dc76247001b7ecb8092cb"
+    "sha256": "4161f11a7ecf5d592abaed0f1f14d05bf7a441ce8a30360310e4732194769d3b"
   },
   {
     "path": "supabase/functions/ai-oracle-turn/index.ts",
-    "sha256": "4d9332edfd487667742f1b5f069103df1642be2932ed75e8207ea1556e9b4799"
+    "sha256": "fba24367fadd383ef23e20acc24cf8b558c885f37062df97431ceb3b2af627aa"
   },
   {
     "path": "supabase/functions/ai-persona-chat/index.ts",
-    "sha256": "ee40918aebd6cb20ad2bff607d7731bc59a5199bb0b61052875759147d1eb1c0"
+    "sha256": "8349419190e69182484f48a27af69ec861c3c1d213fce56f6199edcee6e14183"
   },
   {
     "path": "supabase/functions/ai-tarot-reading/index.ts",
-    "sha256": "36dda307efe7410aa66c2a4cff1a5bc081379eb5eae4ed4d21804d08846cc96b"
+    "sha256": "05d72fc17fda0a9c536f7169afc3f899004e73f4482b7510b83f567863735ba3"
   },
   {
     "path": "supabase/functions/notification-dispatch/index.ts",
@@ -412,7 +412,7 @@
   },
   {
     "path": "packages/ai-contracts/tarot-output.ts",
-    "sha256": "b0cdda127c45cdded1e8d7da047a221692cad5c79a0db781d76fb458808e03b8"
+    "sha256": "564186f7c367604d4edc52a102839d3435a21770fb332086ebd752112495dd0e"
   },
   {
     "path": "packages/ai-contracts/answer-provenance.ts",

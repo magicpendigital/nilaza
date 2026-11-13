@@ -12,6 +12,8 @@ import { CrisisSupportCard } from "../safety/CrisisSupportCard";
 const oracleAvatar = require("../../../assets/runtime/brand/open-reflection-v1/logo/symbol-ivory.png");
 
 type OracleRoomProps = {
+  /** The server AI answers (signed in with a backend); otherwise the on-device router suggests a path. */
+  aiEnabled?: boolean;
   error: string;
   generating: boolean;
   input: string;
@@ -28,6 +30,7 @@ type OracleRoomProps = {
 };
 
 export function OracleRoom({
+  aiEnabled = false,
   error,
   generating,
   input,
@@ -96,13 +99,17 @@ export function OracleRoom({
         }
         style={styles.surface}
       >
-        {/* Oracle is an on-device direction chooser (Owner decision 2026-10-31): nothing is read or sent. */}
+        {/* Signed in, Oracle is an AI host (Owner 2026-11-11); without a backend it stays an on-device chooser. */}
         <View style={styles.privacyPanel}>
-          <Ionicons name="lock-closed-outline" size={16} color={colors.gold} />
+          <Ionicons name={aiEnabled ? "sparkles-outline" : "lock-closed-outline"} size={16} color={colors.gold} />
           <Text style={styles.privacyText}>
-            {language === "vi"
-              ? "Oracle đọc câu bạn kể ngay trên máy rồi gợi ý nên đi tiếp đâu. Không có AI trả lời và không gửi đi đâu."
-              : "Oracle reads what you share on your device and suggests where to go next. No AI answers and nothing is sent."}
+            {aiEnabled
+              ? language === "vi"
+                ? "Oracle là AI: lắng nghe câu bạn kể rồi gợi ý bước tiếp theo. Dùng chung lượt trò chuyện mỗi ngày với người dẫn đường."
+                : "Oracle is AI: it listens, then suggests a next step. It shares the daily conversations with guide chat."
+              : language === "vi"
+                ? "Oracle đọc câu bạn kể ngay trên máy rồi gợi ý nên đi tiếp đâu. Không có AI trả lời và không gửi đi đâu."
+                : "Oracle reads what you share on your device and suggests where to go next. No AI answers and nothing is sent."}
           </Text>
         </View>
 
@@ -172,20 +179,21 @@ function OracleActionRail({
   language: Language;
   onAction: (action: OracleActionCard) => void;
 }) {
+  // Compact one-line chips (Owner 2026-11-11): the first tool is the suggested one; the detail is the hint.
   return (
     <View style={styles.actionRail}>
-      {actions.map((action) => (
+      {actions.slice(0, 3).map((action, index) => (
         <Pressable
           key={action.id}
           accessibilityRole="button"
+          accessibilityHint={localizedText(action.detail, language)}
           accessibilityState={{ disabled: !action.enabled }}
           disabled={!action.enabled}
           onPress={() => onAction(action)}
-          style={[styles.actionCard, !action.enabled && styles.actionCardDisabled]}
+          style={({ pressed }) => [styles.actionChip, index === 0 && styles.actionChipPrimary, !action.enabled && styles.actionCardDisabled, pressed && styles.actionChipPressed]}
         >
-          <Ionicons name={action.icon as any} size={18} color={colors.gold} />
-          <Text numberOfLines={1} style={styles.actionTitle}>{localizedText(action.label, language)}</Text>
-          <Text numberOfLines={2} style={styles.actionDetail}>{localizedText(action.detail, language)}</Text>
+          <Ionicons name={action.icon as any} size={15} color={index === 0 ? colors.ink : colors.gold} />
+          <Text numberOfLines={1} style={[styles.actionTitle, index === 0 && styles.actionTitlePrimary]}>{localizedText(action.label, language)}</Text>
         </Pressable>
       ))}
     </View>
@@ -193,38 +201,44 @@ function OracleActionRail({
 }
 
 const styles = StyleSheet.create({
-  actionCard: {
-    backgroundColor: colors.panel,
-    borderColor: "rgba(201, 164, 92, 0.28)",
-    borderRadius: radius.card,
+  actionChip: {
+    alignItems: "center",
+    borderColor: "rgba(201, 164, 92, 0.45)",
+    borderRadius: 999,
     borderWidth: 1,
-    flexBasis: "48%",
-    flexGrow: 1,
-    gap: spacing.xs,
-    minHeight: 104,
-    padding: spacing.sm,
-    minWidth: 148
+    flexDirection: "row",
+    gap: 6,
+    maxWidth: "100%",
+    minHeight: 40,
+    paddingHorizontal: spacing.md,
+    paddingVertical: 8
+  },
+  actionChipPrimary: {
+    backgroundColor: colors.gold,
+    borderColor: colors.gold
+  },
+  actionChipPressed: {
+    opacity: 0.8
   },
   actionCardDisabled: {
     opacity: 0.5
   },
-  actionDetail: {
-    color: colors.moon,
-    fontFamily: typography.bodyFontFamily,
-    fontSize: 12,
-    lineHeight: 16
-  },
   actionRail: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: spacing.sm,
-    paddingHorizontal: spacing.md,
+    gap: spacing.xs,
+    paddingLeft: spacing.md + 44,
+    paddingRight: spacing.md,
     paddingVertical: spacing.xs
   },
   actionTitle: {
     color: colors.ivory,
+    flexShrink: 1,
     fontFamily: typography.bodySemiBoldFontFamily,
     fontSize: 13
+  },
+  actionTitlePrimary: {
+    color: colors.ink
   },
   composerWrap: {
     backgroundColor: colors.surface,

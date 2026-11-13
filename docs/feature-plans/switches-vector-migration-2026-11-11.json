@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "taskId": "switches-vector-migration-2026-11-11",
+  "ownerAgent": "backend_agent",
+  "lane": "SQL: AI switches for Tarot, Daily and Astrology preview; move pgvector out of public",
+  "goal": "Two small Singapore migrations from section 4b. (1) Admin emergency switches for tarot_reading, daily_insight and astrology_report (AD-10 lists Tarot and Daily missing; the 10/11 guard reads daily_insight and astrology_report but no row can be set yet). Tarot AI starts honouring its switch. (2) Security Advisor 08/11 warning extension_in_public: move the vector extension to the extensions schema.",
+  "successCriteria": [
+    "Migration 20261111090000 widens the allowed feature names, inserts the three rows (idempotent) and replaces set_ai_feature_switch with the same rules (ai.manage, reason 3-200 characters, audit log).",
+    "Migration 20261111090100 creates schema extensions if missing and moves the vector extension there; embedding columns and indexes keep working.",
+    "ai-tarot-reading answers 503 feature_paused when its switch is off, before the limit and the model; the app already shows the resting message.",
+    "Admin AI switches page lists the three new features.",
+    "Both migrations run on PGlite (PostgreSQL 17) with assertions; Tarot passes deno check; Admin checks pass."
+  ],
+  "writeScope": [
+    "supabase/migrations/20261111090000_ai_feature_switches_tarot_daily_report.sql",
+    "supabase/migrations/20261111090100_move_vector_extension.sql",
+    "supabase/functions/_shared/feature-switch.ts",
+    "supabase/functions/ai-tarot-reading/index.ts",
+    "apps/admin/feature-switches.js",
+    "apps/admin/workflow-catalog.js",
+    "docs/backlog/review-2026-10-30.json",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "No migration is applied by the agent: the Owner runs db push on Singapore after approving.",
+    "supabase/migration-ledger.json describes the old QA project and is not changed."
+  ],
+  "impact": {
+    "entryPoint": "ai_feature_switches table, set_ai_feature_switch, ai-tarot-reading, Admin AI switches page.",
+    "dataWrite": "Three switch rows (enabled) and a moved extension; no user data.",
+    "backendContract": "Tarot may now answer 503 feature_paused; the app already shows a resting message for it.",
+    "adminVisibility": "Admin can pause Tarot AI, Daily Insight and the Astrology preview with a reason; changes are audited.",
+    "privacySafety": "No personal data involved.",
+    "observability": "admin_audit_logs action ai.feature_switch.",
+    "rollback": "Switches: delete the three rows (missing row means on). Vector: alter extension vector set schema public."
+  },
+  "canonicalContracts": [
+    "supabase/migrations/20261031100000_ai_feature_switches.sql",
+    "supabase/functions/_shared/feature-switch.ts featurePaused"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "SQL and deploy need Owner approval.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Backend and Admin routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "supabase/migrations/20261031100000_ai_feature_switches.sql",
+      "reason": "Original switch table, check constraint and setter.",
+      "sha256": "36122069b8fc6473f586b506399313225739151663310dd1680948d12c1f6c60"
+    },
+    {
+      "path": "supabase/functions/_shared/feature-switch.ts",
+      "reason": "Switch reader; missing row means on.",
+      "sha256": "5887ba96354ec90753267ebb4525f54d22b8febdc8f0bc979d8da87eae36e914"
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/index.ts",
+      "reason": "Tarot has no switch check.",
+      "sha256": "05d72fc17fda0a9c536f7169afc3f899004e73f4482b7510b83f567863735ba3"
+    },
+    {
+      "path": "apps/admin/feature-switches.js",
+      "reason": "Admin list of switchable features.",
+      "sha256": "1d3ad4b5e179339d99b8cb3276b89c3f78c5e50c81b1841139e1d003c59597d5"
+    },
+    {
+      "path": "supabase/migrations/202606120002_add_missing_tables.sql",
+      "reason": "vector created in public; source_embeddings ivfflat index.",
+      "sha256": "80df182edc581e17f1fa66b91fe16537b89526abf97b889fe232c53e3032c91d"
+    },
+    {
+      "path": "supabase/migrations/20260903033047_reconcile_owner_prerequisites.sql",
+      "reason": "public.vector named only inside an already-applied DDL block.",
+      "sha256": "bfc7f7cf54ef7998abd617607f47644e698ee501da0d53a373f5d629b2a311b4"
+    },
+    {
+      "path": "docs/release/singapore-packet-v2-2026-11-04/execution-receipt-2026-11-08.json",
+      "reason": "Security Advisor warning for vector in public.",
+      "sha256": "3344f508d3df2f2ef0728db739835593c0fde43e2248c2e4e845cfd322d5b396"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "SQL left for the Owner to apply; PGlite verification recorded. Process note: the two migration files were drafted and PGlite-tested before this record was written; no other file was edited before preflight."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Every model feature needs a switch checked before quota and model work."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Verification used @electric-sql/pglite 0.3.16 with its vector extension in the session scratchpad only; nothing added to the repo."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "Switch rows readable by signed-in users only (existing policy); setter keeps security definer with empty search_path, ai.manage and audit.",
+    "sensitiveData": "No personal data in either migration.",
+    "secretsLogging": "No secret read, written or logged.",
+    "externalInput": "Setter validates the feature name against a fixed list and the reason length.",
+    "dependencies": "No package added to the repo.",
+    "migrationRelease": "Owner applies both migrations to Singapore with db push after approval; then redeploy ai-tarot-reading.",
+    "stopCondition": "Stop if the PGlite verification or deno check fails, or if Singapore shows a function body using the vector type.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Migrations drafted and verified on PGlite before this record (see skillReview); preflight then run before the Tarot, switch reader and Admin edits. Then: Tarot switch check, switch type comment, Admin labels, catalog digest, AD-10 note and PLAN.md.",
+    "paths": [
+      "PLAN.md",
+      "apps/admin/feature-switches.js",
+      "apps/admin/workflow-catalog.js",
+      "docs/backlog/review-2026-10-30.json",
+      "supabase/functions/_shared/feature-switch.ts",
+      "supabase/functions/ai-tarot-reading/index.ts",
+      "supabase/migrations/20261111090000_ai_feature_switches_tarot_daily_report.sql",
+      "supabase/migrations/20261111090100_move_vector_extension.sql"
+    ]
+  },
+  "validationCommands": [
+    "node <scratchpad>/pglite03/verify.mjs <repo> (PGlite 0.3.16 + vector): 6 rows, owner pause, non-owner refused, bad names refused, audit, idempotent; vector in extensions, column extensions.vector, nearest-neighbour and insert work",
+    "npx --yes deno@2 check supabase/functions/ai-tarot-reading/index.ts",
+    "npm run feature:preflight -- --record docs/feature-plans/switches-vector-migration-2026-11-11.json"
+  ],
+  "managerTestPath": "After db push: Admin AI switches shows 6 features; pausing Tarot makes the app show the resting message; Security Advisor no longer reports extension_in_public.",
+  "residualRisk": "PGlite is not Supabase: run the Security Advisor and a quick Tarot smoke test after applying.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

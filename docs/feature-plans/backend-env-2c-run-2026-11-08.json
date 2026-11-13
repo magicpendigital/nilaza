@@ -1,0 +1,154 @@
+{
+  "schemaVersion": 1,
+  "taskId": "backend-env-2c-run-2026-11-08",
+  "ownerAgent": "release_agent",
+  "lane": "Release: backend environment strategy and step 2c preparation",
+  "goal": "Record the Owner's 2026-11-08 agreement to run step 2c with SQL packet v2, analyse the backend environment options (keep building on legacy QA versus moving to Singapore) and recommend one, prepare the v2 database-target record and a step-by-step 2c run sheet, and remove project-template/ from the repository after the Owner moved it out. Record the Owner-run execution of 2c and its post-apply evidence.",
+  "successCriteria": [
+    "docs/release/BACKEND_ENVIRONMENT_STRATEGY_2026-11-08.vi.md compares three options with Supabase plan facts read on 2026-11-08 and recommends one.",
+    "database-target.singapore-staging.v2.json lists the 33 migrations; node scripts/database-target-gate.mjs reports BLOCKED with 0 errors and only Owner-dependent blockers (draft, ledger readback, target metadata, approval).",
+    "RUN_2C.vi.md lists the Owner's dashboard reads, CLI commands, expected outputs and stop conditions.",
+    "PLAN.md shows 2c approved on 2026-11-08 and the Owner steps before 11/11.",
+    "project-template/ is no longer tracked.",
+    "target-metadata-2026-11-08.json records the dashboard read; the gate then reports 0 errors and blocks only on sign-up being ON, the ledger readback and the approval file.",
+    "After the Owner switched sign-up off and pasted the CLI ledger readback (33 local, 0 remote), the gate reports PASS with the ledger, metadata and approval files bound by hash.",
+    "After the Owner's db push on 2026-11-08: migration list shows Local = Remote for 33 versions, the post-apply query passes 10/10, Security Advisor has 0 errors and 3 reviewed warnings; the Singapore ledger records the 33 applied versions."
+  ],
+  "writeScope": [
+    "PLAN.md",
+    "docs/release/BACKEND_ENVIRONMENT_STRATEGY_2026-11-08.vi.md",
+    "docs/release/singapore-packet-v2-2026-11-04/",
+    "project-template/",
+    ".gitignore",
+    "supabase/migration-ledgers/nilaza-singapore-prelaunch-qa.json"
+  ],
+  "untouchedSurfaces": [
+    "No SQL, deploy, secret or setting change by the agent; the Owner switched sign-up off and runs db push via CLI after the gate PASS.",
+    "release-profile.json, the Singapore ledger and the 2026-10-25 packet stay as they are until execution evidence exists.",
+    "No app, Admin or Edge Function code change."
+  ],
+  "impact": {
+    "entryPoint": "Owner reads PLAN.md and the 2c run sheet.",
+    "dataWrite": "Repository documents only; the template folder is removed after the Owner cut it out.",
+    "backendContract": "No API, Edge Function or table change.",
+    "adminVisibility": "No Admin screen or data change.",
+    "privacySafety": "Recommends one data-holding backend, fresh keys, sign-up off until Auth/SMTP, and Pro backups before real testers.",
+    "observability": "Gate output recorded in the run sheet.",
+    "rollback": "Revert the commit; nothing ran on a cloud project."
+  },
+  "canonicalContracts": [
+    "Packet v2 manifest and gate set hash 477fa3c926fa7633b9de695deb4a219b5918cf12ef34d9a8b5567a803758f2f4."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Supabase allocation decision and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Release route.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "scripts/database-target-gate.mjs",
+      "reason": "Evidence the 2c gate requires; v2 draft validated against it.",
+      "sha256": "8015a433894f538b8a60cfd41c0e930366ca914e85aee24c995ed1d310b806a4"
+    },
+    {
+      "path": "supabase/migration-ledgers/nilaza-singapore-prelaunch-qa.json",
+      "reason": "Singapore ledger re-read 2026-11-08 for 2c: empty remote history.",
+      "sha256": "5a310021ab09ed95775e202965d5da9961cb8929340c413886d7478bafdd6b84"
+    },
+    {
+      "path": "supabase/config.toml",
+      "reason": "Seed path used by db push --include-seed.",
+      "sha256": "939c1bf117f1be02fa04e0b6db691fcb3d7d7b015f9e13ef994b89763214d6a8"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Approval-hash rule and release-control reference applied as written; no skill change needed."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Supabase plan limits (auto-pause after 1 week on Free, no Free backups, Pro from 25 USD with 7-day daily backups, branching price) read from supabase.com/pricing and docs/guides/platform/backups on 2026-11-08."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://supabase.com/pricing",
+      "checkedAt": "2026-11-08",
+      "reason": "Free and Pro plan limits used in the recommendation."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/platform/backups",
+      "checkedAt": "2026-11-08",
+      "reason": "Backup availability per plan."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No change; RLS evidence comes from the 2026-11-04 Docker rehearsal.",
+    "sensitiveData": "No user data read; Supabase connector had no permission on Singapore.",
+    "secretsLogging": "Run sheet tells the Owner to type passwords locally and never share them.",
+    "externalInput": "CLI output pasted by the Owner is version lists only.",
+    "dependencies": "No package or dependency is added or upgraded.",
+    "migrationRelease": "Execution stays with the Owner after the gate passes.",
+    "stopCondition": "Stop if the project is not healthy, the ledger shows remote versions, or the dry run differs from 33 files.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Documents were drafted before this record; project-template/ was deleted by the Owner, who moved it out of the project as planned. Supabase CLI link files (supabase/.temp/) were committed by mistake in 7ed0ba7; they hold no password and are removed from the index and ignored.",
+    "paths": [
+      ".gitignore",
+      "PLAN.md",
+      "docs/release/BACKEND_ENVIRONMENT_STRATEGY_2026-11-08.vi.md",
+      "docs/release/singapore-packet-v2-2026-11-04/README.vi.md",
+      "docs/release/singapore-packet-v2-2026-11-04/RUN_2C.vi.md",
+      "docs/release/singapore-packet-v2-2026-11-04/database-target.singapore-staging.v2.json",
+      "docs/release/singapore-packet-v2-2026-11-04/execution-receipt-2026-11-08.json",
+      "docs/release/singapore-packet-v2-2026-11-04/ledger-readback-2026-11-08.json",
+      "docs/release/singapore-packet-v2-2026-11-04/owner-approval-2c-2026-11-08.json",
+      "docs/release/singapore-packet-v2-2026-11-04/post-apply-check.sql",
+      "docs/release/singapore-packet-v2-2026-11-04/target-metadata-2026-11-08.json",
+      "project-template/.github/pull_request_template.md",
+      "project-template/.gitignore",
+      "project-template/AGENTS.md",
+      "project-template/CLAUDE.md",
+      "project-template/PLAN.md",
+      "project-template/README.md",
+      "project-template/docs/APPROVALS.md",
+      "project-template/docs/HANDOFF.md",
+      "project-template/docs/PLAN_QC.md",
+      "project-template/docs/backlog/README.md",
+      "project-template/docs/backlog/review-TEMPLATE.json",
+      "project-template/docs/decisions/0001-TEMPLATE.md",
+      "project-template/docs/feature-plans/_TEMPLATE.json",
+      "project-template/scripts/check-plan.mjs",
+      "project-template/skills/ai-feature-runtime/SKILL.md",
+      "project-template/skills/plan-qc/SKILL.md",
+      "project-template/skills/release-approval/SKILL.md",
+      "supabase/migration-ledgers/nilaza-singapore-prelaunch-qa.json"
+    ]
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/backend-env-2c-run-2026-11-08.json",
+    "node scripts/database-target-gate.mjs --manifest docs/release/singapore-packet-v2-2026-11-04/database-target.singapore-staging.v2.json"
+  ],
+  "managerTestPath": "Open PLAN.md section 4 item 1, then RUN_2C.vi.md and answer step 1.",
+  "residualRisk": "Plan facts can change; the in-place Free-to-Pro upgrade is inferred from the billing page and should be confirmed in the dashboard.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

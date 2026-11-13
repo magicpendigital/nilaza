@@ -1,5 +1,7 @@
 # Nilaza — hiện trạng và bàn giao cho Agent mới (cập nhật 26/10/2026)
 
+> **03/11/2026:** tiến độ, việc còn mở và việc chờ Owner nay nằm ở [`PLAN.md`](../PLAN.md) (cập nhật mỗi PR). Mục 4, 5 và 8 dưới đây là ảnh chụp ngày 26/10 — khi khác nhau, `PLAN.md` thắng. Các mục 2, 3, 6, 7 vẫn hiệu lực.
+
 Tài liệu này là **điểm vào duy nhất** để một Agent mới (hoặc phiên mới) hiểu dự án đang ở đâu mà không phải bắt đầu lại. Đọc theo thứ tự: `CLAUDE.md` → `AGENTS.md` → tài liệu này → `docs/AGENT_TASK_ROUTER.md` → các tài liệu được chỉ ở mục 9. Nếu có mâu thuẫn, **mã nguồn và kết quả kiểm tra ngày gần nhất thắng tài liệu cũ**; mọi mục dưới đây ghi rõ cái nào *đã kiểm chứng* và cái nào *chưa*.
 
 ## 1. Mục tiêu hiện tại

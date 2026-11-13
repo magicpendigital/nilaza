@@ -1,0 +1,152 @@
+{
+  "schemaVersion": 1,
+  "taskId": "ai-daily-report-guard-2026-11-10",
+  "ownerAgent": "ai_runtime_agent",
+  "lane": "AI runtime: sign-in, daily limit and switch for ai-daily-insight and ai-astrology-report",
+  "goal": "Approved 04/11 and held from the Singapore deploy: ai-daily-insight and ai-astrology-report call a paid model without sign-in or limit. Require a verified non-anonymous sign-in before reading the body (shared guard used by Tarot), honour an emergency switch, and cap each account at 3 model attempts per local day for each function (Owner decision 10/11). The app already falls back to its local text when the call fails, so a refusal never leaves the user empty.",
+  "successCriteria": [
+    "Both functions answer 401 authentication_required without a valid signed-in token, before reading the body, prompt or model.",
+    "Both functions answer 503 feature_paused when ai_feature_switches has enabled=false for daily_insight or astrology_report (no row means on; rows need a later migration).",
+    "Both functions answer 429 daily_limit_reached once 3 attempts were recorded for that account since local midnight (UTC+7); each allowed call records one attempt event before the model call.",
+    "Limits live in packages/agent-config/account-tier-policy.json (dailyInsight.dailyLimit 3, astrologyPreview.dailyLimit 3).",
+    "Request body is bounded by the shared guard (32 KB, JSON content type).",
+    "Deno tests for the new daily-attempt helper pass; both functions pass deno check."
+  ],
+  "writeScope": [
+    "supabase/functions/ai-daily-insight/index.ts",
+    "supabase/functions/ai-astrology-report/index.ts",
+    "supabase/functions/_shared/daily-attempts.ts",
+    "supabase/functions/_shared/daily-attempts_test.ts",
+    "supabase/functions/_shared/feature-switch.ts",
+    "supabase/functions/_shared/account-tier-policy.ts",
+    "packages/agent-config/account-tier-policy.json",
+    "apps/admin/workflow-catalog.js",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "No SQL: switch rows for daily_insight and astrology_report need a later migration (until then the switch reads as on).",
+    "No app change: backendClient already falls back to local text on any error.",
+    "No deploy: the two functions stay held on Singapore until the Owner approves deploying them."
+  ],
+  "impact": {
+    "entryPoint": "ai-daily-insight and ai-astrology-report Edge Functions.",
+    "dataWrite": "One usage_events row per allowed attempt (daily_insight_attempted, astrology_report_attempted) under existing RLS.",
+    "backendContract": "Success responses unchanged; new error codes 401 authentication_required, 429 daily_limit_reached, 503 feature_paused/usage_check_unavailable.",
+    "adminVisibility": "Attempt events visible in usage data; workflow catalog digests refreshed.",
+    "privacySafety": "No model call or body read before sign-in; anonymous sessions refused.",
+    "observability": "Existing traces unchanged; attempt events give per-day counts.",
+    "rollback": "Revert the commit; functions are not deployed yet."
+  },
+  "canonicalContracts": [
+    "supabase/functions/_shared/ai-request-guard.ts guardAiJsonRequest",
+    "packages/agent-config/account-tier-policy.json"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "AI runtime route.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "supabase/functions/ai-daily-insight/index.ts",
+      "reason": "Optional auth, no limit.",
+      "sha256": "60098ef5101ec7cf0979364217fe83e4c2dab1b91d74374248f48a5f22828c58"
+    },
+    {
+      "path": "supabase/functions/ai-astrology-report/index.ts",
+      "reason": "Optional auth, no limit.",
+      "sha256": "8172b832f8e27af5c1af4580f50cc7f222d5cef7db237f325b4c7d3f78cddf16"
+    },
+    {
+      "path": "supabase/functions/_shared/ai-request-guard.ts",
+      "reason": "Shared auth-before-body guard reused.",
+      "sha256": "1fbf5ab7723ebb1d4f9ca55b099a275f53ca1fd7163c4d519054af7519532abb"
+    },
+    {
+      "path": "supabase/functions/_shared/feature-switch.ts",
+      "reason": "Switch reader; missing row means on.",
+      "sha256": "5887ba96354ec90753267ebb4525f54d22b8febdc8f0bc979d8da87eae36e914"
+    },
+    {
+      "path": "supabase/functions/_shared/account-tier-policy.ts",
+      "reason": "localDayStart and policy type.",
+      "sha256": "9a915a0e946629ee03cedb44005beefe6e7dc8d6236792206904c38bfd2dcb8f"
+    },
+    {
+      "path": "packages/agent-config/account-tier-policy.json",
+      "reason": "Home for the new limits.",
+      "sha256": "79bee268908ae19ed7a07d185060476a0e08bf8b2f91a74baff161840a5c76a0"
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "reason": "App falls back to local text when the call fails.",
+      "sha256": "91f37bd591005c6ef19fe45f3b970bc23bbaa605826e94b9ff6d31693e29021d"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before code; Owner chose the limits 10/11; deploy left to the Owner."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Rule that every model call needs sign-in, quota and a switch."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Reuses repository helpers only."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "Verified non-anonymous user required before any work; usage_events insert/select stay under existing own-row RLS.",
+    "sensitiveData": "Attempt events hold only date key and counts, no birth data or journal text.",
+    "secretsLogging": "No secret touched.",
+    "externalInput": "Body bounded and parsed by the shared guard; existing field handling unchanged.",
+    "dependencies": "No package added or upgraded.",
+    "migrationRelease": "No SQL. Deploy of both functions needs Owner approval.",
+    "stopCondition": "Stop if a guard test fails or deno check fails.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record passed preflight before the code edit (10/11). Then: guard, switch and daily limit in both functions, the daily-attempts helper and test, the two new policy limits, switch names, refreshed catalog digests and PLAN.md status. Local admin seed check reports stale before and after this change (CRLF artifact, unrelated).",
+    "paths": [
+      "apps/admin/workflow-catalog.js",
+      "packages/agent-config/account-tier-policy.json",
+      "supabase/functions/_shared/account-tier-policy.ts",
+      "supabase/functions/_shared/feature-switch.ts",
+      "supabase/functions/ai-astrology-report/index.ts",
+      "supabase/functions/ai-daily-insight/index.ts",
+      "supabase/functions/_shared/daily-attempts.ts",
+      "supabase/functions/_shared/daily-attempts_test.ts",
+      "PLAN.md"
+    ]
+  },
+  "validationCommands": [
+    "npx --yes deno@2 test supabase/functions/_shared/daily-attempts_test.ts supabase/functions/_shared/feature-switch_test.ts supabase/functions/_shared/account-tier-policy.test.ts",
+    "npx --yes deno@2 check supabase/functions/ai-daily-insight/index.ts supabase/functions/ai-astrology-report/index.ts",
+    "node scripts/validate-admin-workflow-catalog.mjs",
+    "npm run feature:preflight -- --record docs/feature-plans/ai-daily-report-guard-2026-11-10.json"
+  ],
+  "managerTestPath": "After an approved deploy: smoke test without sign-in returns 401; signed in, the 4th call of the day returns 429 and the app shows its local text.",
+  "residualRisk": "Two simultaneous requests can both pass the count and exceed the limit by one; acceptable at this cost. Switch rows need a migration before Admin can pause these two features.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

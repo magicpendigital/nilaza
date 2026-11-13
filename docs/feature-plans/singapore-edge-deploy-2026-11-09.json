@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "taskId": "singapore-edge-deploy-2026-11-09",
+  "ownerAgent": "release_agent",
+  "lane": "Release: Edge Functions and secrets for the Singapore staging target",
+  "goal": "Prepare the first Edge Function deployment to Singapore after step 2c: choose which 18 functions deploy now and which wait (unauthenticated or stub functions), check that they compile, list the secrets the Owner sets in the dashboard, and give the Owner one deploy command with stop conditions and post-deploy checks.",
+  "successCriteria": [
+    "deno check passes for the 18 wave-1 functions.",
+    "RUN_DEPLOY.vi.md lists the 18 functions, the held functions with reasons, the secrets (OPENROUTER_API_KEY new and limited, AI_TRACE_ENVIRONMENT=staging), the deploy command, checks and rollback.",
+    "No secret value appears in the repository or chat.",
+    "PLAN.md points to the run sheet.",
+    "After the Owner's deploy: 18 functions ACTIVE with verify_jwt on, the two Owner secrets present by name, calls without sign-in rejected and held functions absent (receipt deploy-receipt-2026-11-09.json).",
+    "scripts/staging-smoke.mjs lets the Owner sign in on their own machine (hidden password, nothing printed or saved), then checks the verify_jwt gateway with the project's ES256 token via user-credits and one real Tarot AI call; --skip-ai avoids model cost."
+  ],
+  "writeScope": [
+    "PLAN.md",
+    "docs/release/singapore-edge-functions-2026-11-09/",
+    "scripts/staging-smoke.mjs"
+  ],
+  "untouchedSurfaces": [
+    "No function code change; ai-daily-insight and ai-astrology-report wait for the approved auth and quota patch.",
+    "App and Admin staging keep pointing at the legacy QA project.",
+    "The agent runs no deploy and sets no secret; the Owner does both."
+  ],
+  "impact": {
+    "entryPoint": "No user reaches Singapore functions until app and Admin are retargeted.",
+    "dataWrite": "Functions write only through existing RLS-protected tables after sign-in.",
+    "backendContract": "Deploys existing Edge Function code unchanged to a new project.",
+    "adminVisibility": "Admin config functions deploy but Admin staging still targets legacy QA.",
+    "privacySafety": "New OpenRouter key with a credit limit and account-level no-training/ZDR settings; unauthenticated AI functions held back.",
+    "observability": "Traces tagged environment staging.",
+    "rollback": "Delete the functions or the secret in the dashboard; database unaffected."
+  },
+  "canonicalContracts": [
+    "supabase/config.toml verify_jwt; Supabase-provided SUPABASE_URL and project keys."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries and no provider keys in the client.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Backend route.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "supabase/config.toml",
+      "reason": "verify_jwt settings per function.",
+      "sha256": "939c1bf117f1be02fa04e0b6db691fcb3d7d7b015f9e13ef994b89763214d6a8"
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "reason": "Provider key names read by the router.",
+      "sha256": "720958613ca7c9d63404592cfc2a0c35d70514d25364335e0dcf4ed019887ac3"
+    },
+    {
+      "path": "supabase/functions/_shared/ai-trace.ts",
+      "reason": "Trace environment variable defaults.",
+      "sha256": "78f27f581fc4ec10ea0507d0c169787e89a12dbb034b4704761b93880c664221"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Approval boundary and release-control steps applied."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Rule that every model call needs sign-in, quota and a switch is why two functions are held back."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Supabase docs read 2026-11-09 (functions/auth-headers, auth/signing-keys): sources differ on verify_jwt with asymmetric keys, so the run sheet tests it and gives the --no-verify-jwt fallback."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://supabase.com/docs/guides/functions/auth-headers",
+      "checkedAt": "2026-11-09",
+      "reason": "verify_jwt behaviour with asymmetric signing keys."
+    },
+    {
+      "url": "https://supabase.com/docs/guides/auth/signing-keys",
+      "checkedAt": "2026-11-09",
+      "reason": "Project uses an ECC P-256 current key."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "Functions verify the user inside and rely on RLS; two functions without auth are held.",
+    "sensitiveData": "No user data exists on Singapore yet.",
+    "secretsLogging": "Secrets are typed by the Owner in the dashboard; only names are documented. The smoke script reads the password from a hidden prompt, never prints the access token, and signs out at the end; only the public publishable key is in the file.",
+    "externalInput": "No new input surface beyond existing functions.",
+    "dependencies": "No package or dependency is added or upgraded.",
+    "migrationRelease": "Deploy is Owner-run; no SQL.",
+    "stopCondition": "Stop on any deploy error, an unexpected function in the dashboard, or an AI function answering without sign-in.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Run sheet drafted before this record; documents only. 09/11: added a read-only, content-free Tarot rejection diagnostic SQL for the Owner and extra diagnostics in the smoke script.",
+    "paths": [
+      "PLAN.md",
+      "docs/release/singapore-edge-functions-2026-11-09/RUN_DEPLOY.vi.md",
+      "docs/release/singapore-edge-functions-2026-11-09/deploy-receipt-2026-11-09.json",
+      "scripts/staging-smoke.mjs",
+      "docs/release/singapore-edge-functions-2026-11-09/tarot-rejection-check.sql"
+    ]
+  },
+  "validationCommands": [
+    "npx --yes deno@2 check supabase/functions/profile-upsert/index.ts supabase/functions/journal-entries/index.ts supabase/functions/user-credits/index.ts supabase/functions/ai-persona-chat/index.ts supabase/functions/ai-tarot-reading/index.ts supabase/functions/ai-council/index.ts supabase/functions/ai-astrology-insight/index.ts supabase/functions/ai-feedback/index.ts supabase/functions/ai-daily-zodiac-pulse/index.ts supabase/functions/ai-oracle-turn/index.ts supabase/functions/notification-inbox/index.ts supabase/functions/notification-preferences/index.ts supabase/functions/notification-register-device/index.ts supabase/functions/account-delete/index.ts supabase/functions/admin-ai-council-config/index.ts supabase/functions/admin-model-router-config/index.ts supabase/functions/admin-astrology-prompt-config/index.ts supabase/functions/admin-documentation/index.ts",
+    "npm run feature:preflight -- --record docs/feature-plans/singapore-edge-deploy-2026-11-09.json",
+    "node --check scripts/staging-smoke.mjs"
+  ],
+  "managerTestPath": "Open RUN_DEPLOY.vi.md, set the two secrets, run the deploy command, send the output.",
+  "residualRisk": "verify_jwt acceptance of ES256 user tokens and injection of legacy key variables are verified only after deployment.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

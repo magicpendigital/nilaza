@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "taskId": "tarot-section-key-2026-11-10",
+  "ownerAgent": "ai_runtime_agent",
+  "lane": "AI runtime: Tarot output check tolerates malformed section keys",
+  "goal": "The first Tarot AI call on Singapore (09/11) was a complete JSON reply rejected with code section_key, so the user got the canned fallback. A section key is an internal identifier never shown to users, and the app already replaces a missing key with section_N. Replace a missing or malformed key with section_N on the server instead of discarding the whole answer; keep rejecting duplicate keys and every other rule.",
+  "successCriteria": [
+    "A reply whose section key is missing, not a string, or not matching the key pattern (for example accented Vietnamese or spaces) passes with key section_N (N = 1-based position).",
+    "Duplicate valid keys, unknown card IDs, wrong locale, extra fields and over-long text are still rejected.",
+    "The replacement key is built from the position only, never from model prose, so traces and receipts stay content-free.",
+    "Deno tests for tarot-output pass.",
+    "Admin workflow catalog digest for tarot-output.ts refreshed; validate-admin-workflow-catalog passes."
+  ],
+  "writeScope": [
+    "packages/ai-contracts/tarot-output.ts",
+    "supabase/functions/_shared/tarot-output.test.ts",
+    "PLAN.md",
+    "apps/admin/workflow-catalog.js"
+  ],
+  "untouchedSurfaces": [
+    "No prompt, route, quota or app change.",
+    "No deploy: ai-tarot-reading on Singapore runs the old check until the Owner approves a redeploy."
+  ],
+  "impact": {
+    "entryPoint": "ai-tarot-reading Edge Function output check.",
+    "dataWrite": "tarot_readings.interpretation may now store section keys section_N instead of falling back.",
+    "backendContract": "nilaza.tarot-output.v1 shape unchanged; only a malformed key is normalized.",
+    "adminVisibility": "Trace rejection code section_key becomes rarer; no Admin change.",
+    "privacySafety": "Normalized keys contain no model text; all safety and structure rules stay.",
+    "observability": "Existing rejection codes unchanged for every other failure.",
+    "rollback": "Revert the commit and redeploy ai-tarot-reading."
+  },
+  "canonicalContracts": [
+    "packages/ai-contracts/tarot-output.ts nilaza.tarot-output.v1"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "AI runtime route.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "packages/ai-contracts/tarot-output.ts",
+      "reason": "The section_key rule being relaxed.",
+      "sha256": "564186f7c367604d4edc52a102839d3435a21770fb332086ebd752112495dd0e"
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/index.ts",
+      "reason": "Section keys feed answer receipt sectionIds and the stored interpretation.",
+      "sha256": "05d72fc17fda0a9c536f7169afc3f899004e73f4482b7510b83f567863735ba3"
+    },
+    {
+      "path": "apps/mobile/src/features/tarot/readingPresentation.ts",
+      "reason": "App already falls back to section_N for a missing key; keys are not displayed.",
+      "sha256": "3d948573118aef9351f9e3e73d5142988213270a61fb4e48a069a93766c70e1e"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record written before the code change; deploy left to the Owner."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Trace diagnosis path (rejection code in root_output.finalization) used to find the cause."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Pure validation logic; no provider behaviour assumed beyond the recorded trace."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "Unchanged: sign-in, quota and RLS paths are not touched.",
+    "sensitiveData": "Replacement key uses only the section position.",
+    "secretsLogging": "No secret touched.",
+    "externalInput": "Model output remains untrusted; only the internal key rule is relaxed, all bounds stay.",
+    "dependencies": "No package added or upgraded.",
+    "migrationRelease": "No SQL. Redeploy of ai-tarot-reading needs Owner approval.",
+    "stopCondition": "Stop if any existing tarot-output test fails.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record passed preflight before the code edit (10/11). Then: key normalization in tarot-output.ts, a new test, the catalog digest refresh, and PLAN.md status.",
+    "paths": [
+      "packages/ai-contracts/tarot-output.ts",
+      "supabase/functions/_shared/tarot-output.test.ts",
+      "apps/admin/workflow-catalog.js",
+      "PLAN.md"
+    ]
+  },
+  "validationCommands": [
+    "npx --yes deno@2 test supabase/functions/_shared/tarot-output.test.ts",
+    "npx --yes deno@2 check supabase/functions/ai-tarot-reading/index.ts",
+    "npm run feature:preflight -- --record docs/feature-plans/tarot-section-key-2026-11-10.json"
+  ],
+  "managerTestPath": "After an approved redeploy, run node scripts/staging-smoke.mjs; line 3 should show source = ai.",
+  "residualRisk": "Other model formatting slips (for example card_ids) may still cause fallbacks; the smoke test and trace query will show them.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

@@ -1,5 +1,5 @@
 import { FeedbackPanel, type FeedbackPanelTarget } from "./src/features/feedback/FeedbackPanel";
-import { submitAiFeedback, exportAiFeedback, deleteAllAiFeedback, BackendLimitError } from "./src/backendClient";
+import { submitAiFeedback, exportAiFeedback, deleteAllAiFeedback, BackendLimitError, BackendUnavailableError } from "./src/backendClient";
 import { createAnswerAttempt, parseAnswerProvenance, type AnswerProvenance } from "../../packages/ai-contracts/answer-provenance";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { OwnerHub } from "./src/features/owner/OwnerHub";
@@ -35,7 +35,6 @@ import {
   Platform,
   Pressable,
   ScrollView,
-  Share,
   StatusBar,
   StyleSheet,
   Text,
@@ -71,6 +70,7 @@ import {
   requestAccountDeletion,
   generateDailyZodiacPulse,
   generatePersonaReply,
+  generateOracleTurn,
   generateTarotReading,
   registerNotificationDevice,
   sendNotificationTest,
@@ -148,6 +148,9 @@ import { JournalHome } from "./src/features/journal/JournalHome";
 import { savedReadingCards } from "./src/features/journal/savedReading";
 import { cardInline, cardSubtitle, cardTitle } from "./src/features/tarot/cardName";
 import { readingShareText } from "./src/features/tarot/shareText";
+import { ShareCardSheet, type ShareEventMeta, type ShareEventName } from "./src/features/share/ShareCardSheet";
+import { readingModel, todayCardModel, type ShareCardModel, type ShareRequest } from "./src/features/share/shareCardContent";
+import { buildShareUrl, newShareId } from "./src/features/share/shareLink";
 import { homeNextStep, homeNextStepCopy } from "./src/features/home/nextStep";
 import { previousDayKey, visibleStreak } from "./src/features/home/streak";
 import { CardLibrary } from "./src/features/tarot/CardLibrary";
@@ -2058,7 +2061,8 @@ const localDateKey = (date: Date) =>
   `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 const todayKey = () => localDateKey(new Date());
 // Free follows the approved usage policy; Premium keeps the earlier client value until the Owner sets one.
-const premiumDailyTarotLimit = 3;
+// Owner 2026-11-04: 1 Tarot AI reading per day for every account; the server enforces the same limit.
+const premiumDailyTarotLimit = 1;
 const dailyTarotLimitFor = (tier: AccountTier) => tier === "premium" ? premiumDailyTarotLimit : aiUsagePolicy.freeDaily.tarotOneCard;
 
 const isDateKey = (createdAt: string, dateKey: string) => {
@@ -3218,7 +3222,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const [navigationChrome, setNavigationChrome] = useState<NavigationChrome>("expanded");
   const navigationChromeRef = useRef<NavigationChrome>("expanded");
   const lastContentScrollYRef = useRef(0);
-  const compactNavigationStartRef = useRef(0);
+  const compactNavigationStartRef = useRef(-1);
   const navigationIdleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [selectedPersonaId, setSelectedPersonaId] = useState(personas[0].id);
   const [favoritePersonaIds, setFavoritePersonaIds] = useState<string[]>([]);
@@ -3274,6 +3278,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const [creatingProfile, setCreatingProfile] = useState(false);
   const [chatGenerating, setChatGenerating] = useState(false);
   const [chatError, setChatError] = useState("");
+  const [chatErrorRetryable, setChatErrorRetryable] = useState(true);
   const [lastChatPrompt, setLastChatPrompt] = useState("");
   const [tarotGenerating, setTarotGenerating] = useState(false);
   const tarotGenerationInFlight = useRef(false);
@@ -3292,6 +3297,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const [generationActivities, setGenerationActivities] = useState<GenerationActivity[]>([]);
   const [confirmationDialog, setConfirmationDialog] = useState<ConfirmationDialogState>(null);
   const [feedbackTarget, setFeedbackTarget] = useState<FeedbackPanelTarget | null>(null);
+  const [shareSheet, setShareSheet] = useState<{ model: ShareCardModel; url: string; primary: "image" | "link" } | null>(null);
   const screenRef = useRef(screen);
   const chatModeRef = useRef(chatMode);
   const selectedPersonaIdRef = useRef(selectedPersonaId);
@@ -4179,11 +4185,11 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
           goals: profile.goals,
           tone: profile.tone
         },
-        recentEntries: journalEntries.slice(0, 3).map((entry) => ({
-          title: entry.title,
-          mood: entry.mood,
-          createdAt: entry.createdAt
-        }))
+        // Owner 2026-11-04: only a mood label written in the last 24 hours, never journal text.
+        ...(() => {
+          const latest = journalEntries.find((entry) => entry.mood && Date.now() - Date.parse(entry.createdAt) <= 24 * 60 * 60 * 1000);
+          return latest?.mood ? { recentMood: latest.mood.slice(0, 32) } : {};
+        })()
       },
       () => buildDailyInsight(profile, journalEntries, language, rerollCount),
       backendOptions
@@ -4509,12 +4515,32 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       targetRoute: "chat",
       targetMode: "oracle"
     });
+    const previousTurns = oracleTurns;
     setOracleTurns((current) => [...current, userTurn].slice(-40));
+    const useAi = Boolean(nilazaBackendBaseUrl && backendOptions.authToken);
     try {
       const signal = oracleSafetySignal(text);
-      const result: OracleTurnResult = signal
-        ? { ...buildOracleFallbackResult(text, language), reply: oracleSafetyReply(language, signal), intent: "safety_redirect", actionCards: [], moderationStatus: "blocked" }
+      const localResult = (): OracleTurnResult => signal
+        ? { ...buildOracleFallbackResult(text, language), reply: oracleSafetyReply(language, signal), intent: "safety_redirect", actionCards: [], moderationStatus: "blocked", safety: signal === "self_harm_signal" ? "crisis" : "boundary" }
         : buildOracleFallbackResult(text, language);
+      // Crisis and boundary replies answer on the device, free and instant; everything else asks the AI when signed in.
+      const tone = ["balanced", "gentle", "direct", "wise", "playful", "spiritual"].includes(profile.tone) ? profile.tone : undefined;
+      const result: OracleTurnResult = signal || !useAi ? localResult() : await generateOracleTurn({
+        language,
+        userMessage: text,
+        currentScreen: "oracle",
+        profile: {
+          ...(profile.nickname?.trim() ? { nickname: profile.nickname.trim().slice(0, 80) } : {}),
+          goals: profile.goals.slice(0, 5).map((goal) => goal.slice(0, 300)),
+          ...(tone ? { tone } : {})
+        },
+        recentSafeContext: [],
+        consentFlags: { journalMemory: false, birthProfile: false, history: true, profile: true },
+        sanitizedHistory: previousTurns
+          .filter((turn) => turn.text.trim())
+          .slice(-8)
+          .map((turn) => ({ role: turn.role, text: turn.text.replace(/\s+/g, " ").trim().slice(0, 1500) }))
+      }, localResult, backendOptions);
       const oracleTurn: OracleTurn = {
         id: nowId(),
         role: "oracle",
@@ -4525,14 +4551,15 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         actionCards: result.actionCards,
         handoffContext: result.handoffContext,
         promptVersionId: result.promptVersionId,
-        ...(signal ? { safety: signal === "self_harm_signal" ? "crisis" as const : "boundary" as const } : {}),
+        ...(result.safety ? { safety: result.safety } : {}),
         moderationStatus: result.moderationStatus
       };
       setOracleTurns((current) => [...current, oracleTurn].slice(-40));
       recordEvent("oracle_turn_created", {
         intent: result.intent,
         moderationStatus: result.moderationStatus,
-        backend: false
+        backend: useAi && !signal,
+        actionCount: result.actionCards.length
       });
       if (result.moderationStatus === "blocked") {
         recordSafetyEvent({
@@ -4542,10 +4569,23 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         }, false);
       }
       finishGenerationActivity(activity, "ready");
-    } catch {
-      setOracleError(language === "vi" ? "Oracle chưa trả lời được. Hãy thử lại trong một lát." : "Oracle could not answer yet. Try again in a moment.");
+    } catch (error) {
+      // Give the question back and say why, like guide chat (ai-unavailable-notice-2026-11-11).
+      setOracleTurns((current) => current.filter((turn) => turn.id !== userTurn.id));
+      setOracleInput(text);
+      const reason = error instanceof BackendUnavailableError ? error.reason
+        : error instanceof BackendLimitError ? error.code : "error";
+      setOracleError(reason === "daily_limit_reached"
+        ? (language === "vi" ? "Bạn đã dùng hết lượt trò chuyện hôm nay (Oracle dùng chung lượt với người dẫn đường). Lượt mới mở vào đầu ngày mai." : "You have used today's conversations (Oracle shares them with guide chat). New ones open at the start of tomorrow.")
+        : reason === "feature_paused"
+          ? (language === "vi" ? "Oracle đang tạm nghỉ một chút. Hãy thử lại sau." : "Oracle is resting for a while. Please try again later.")
+          : reason === "offline"
+            ? (language === "vi" ? "Đường truyền đang gián đoạn. Bạn kiểm tra kết nối Internet rồi gửi lại; câu của bạn vẫn còn trong ô nhập." : "The connection is interrupted. Check your Internet and send again; your message is still in the box.")
+            : reason === "auth"
+              ? (language === "vi" ? "Phiên đăng nhập đã hết hạn. Bạn đăng nhập lại rồi gửi lại nhé." : "Your sign-in has expired. Sign in again, then send again.")
+              : (language === "vi" ? "Oracle chưa trả lời được lúc này. Câu của bạn vẫn còn trong ô nhập, hãy thử lại sau ít phút." : "Oracle cannot answer right now. Your message is still in the box; try again in a few minutes."));
       finishGenerationActivity(activity, "failed");
-      recordEvent("oracle_turn_failed", { backend: Boolean(nilazaBackendBaseUrl) });
+      recordEvent("oracle_turn_failed", { backend: useAi, reason });
     } finally {
       setOracleGenerating(false);
     }
@@ -4746,11 +4786,29 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     recordEvent("today_card_saved", { cardId: card.id, deckId: todayPulse.deck.id, dateKey: currentDateKey });
   };
 
+  // One entry for every share: the sheet shows the card, builds the tracked link and records share_tapped / share_completed.
+  const openShareSheet = (request: ShareRequest) => {
+    setShareSheet({
+      model: request.model,
+      primary: request.primary ?? "image",
+      url: buildShareUrl({ language, surface: request.model.surface, id: newShareId(), cardIds: request.cardIds, sunSign: request.sunSign })
+    });
+  };
+  const recordShareEvent = (name: ShareEventName, meta: ShareEventMeta) =>
+    recordEvent(name, { surface: meta.surface, action: meta.action, ...(meta.outcome ? { outcome: meta.outcome } : {}) });
+
   // Share only the card and its library meaning: never the user's question, mood or Journal text.
   const shareTodayPulseCard = () => {
     const card = todayPulse.card;
-    void Share.share({ message: `${displayTarotCardInline(card, language)} — ${displayTarotMeaning(card, language)}\n\nNilaza` }).catch(() => undefined);
-    recordEvent("today_card_shared", { cardId: card.id, dateKey: currentDateKey });
+    openShareSheet({
+      model: todayCardModel({
+        language,
+        cardName: displayTarotCardInline(card, language),
+        meaning: displayTarotMeaning(card, language),
+        image: getTarotCardImage(todayPulse.deck.id, card.id)
+      }),
+      cardIds: [card.id]
+    });
   };
 
   // Prefill Oracle only; the question is sent when the user presses send there.
@@ -5300,6 +5358,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
             userContext: {
               goals: profile.goals,
               tone: profile.tone,
+              ...(profile.nickname?.trim() ? { nickname: profile.nickname.trim().slice(0, 40) } : {}),
               handoffContext: chatHandoffContext
             }
           },
@@ -5358,12 +5417,23 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         });
         finishGenerationActivity(activity, "ready");
       } catch (error) {
-        // A guide paused from Admin is shown as resting, not as a failed answer.
+        // A guide paused from Admin is shown as resting, not as a failed answer. Limits and pauses offer no
+        // Retry; a lost connection or a busy AI says so instead of showing a canned reply (device test 11/11).
+        const unavailableReason = error instanceof BackendUnavailableError ? error.reason : undefined;
+        setChatErrorRetryable(!(error instanceof BackendLimitError));
         setChatError(error instanceof BackendLimitError && error.code === "feature_paused"
           ? (language === "vi" ? "Trò chuyện với người dẫn đường đang tạm nghỉ một chút. Hãy thử lại sau." : "Guide chat is resting for a while. Please try again later.")
-          : c.chatError);
+          : error instanceof BackendLimitError && error.code === "daily_limit_reached"
+            ? (language === "vi" ? "Bạn đã dùng hết lượt trò chuyện với người dẫn đường hôm nay. Lượt mới mở vào đầu ngày mai; tin nhắn của bạn vẫn được giữ." : "You have used today's guide messages. New ones open at the start of tomorrow; your message is kept.")
+            : unavailableReason === "offline"
+              ? (language === "vi" ? "Đường truyền đang gián đoạn. Bạn kiểm tra kết nối Internet rồi bấm Thử lại; tin nhắn của bạn vẫn được giữ." : "The connection is interrupted. Check your Internet, then tap Retry; your message is kept.")
+              : unavailableReason === "busy"
+                ? (language === "vi" ? "Người dẫn đường chưa trả lời được lúc này. Bạn thử lại sau ít phút; tin nhắn của bạn vẫn được giữ." : "The guide cannot answer right now. Try again in a few minutes; your message is kept.")
+                : unavailableReason === "auth"
+                  ? (language === "vi" ? "Phiên đăng nhập đã hết hạn. Bạn đăng nhập lại rồi thử lại nhé." : "Your sign-in has expired. Sign in again, then retry.")
+                  : c.chatError);
         finishGenerationActivity(activity, "failed");
-        recordEvent("persona_message_failed", { personaId: selectedPersonaId });
+        recordEvent("persona_message_failed", { personaId: selectedPersonaId, reason: unavailableReason ?? (error instanceof BackendLimitError ? error.code : "error") });
         recordSafetyEvent({
           feature: "chat",
           sourceId: selectedPersonaId,
@@ -5467,9 +5537,14 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         });
         completeDailyRitual("tarot_reading");
         finishGenerationActivity(activity, "ready");
-      } catch {
+      } catch (error) {
         if (!activeScope.active) return;
-        setTarotError(c.tarotError);
+        const limit = error instanceof BackendLimitError ? error.code : undefined;
+        const message = limit === "daily_limit_reached" ? c.creditLimitReached
+          : limit === "feature_paused" ? (language === "vi" ? "Diễn giải Tarot bằng AI đang tạm nghỉ một chút. Lượt của bạn vẫn còn, hãy thử lại sau." : "Tarot AI readings are resting for a while. Your turn is kept; please try again later.")
+          : c.tarotError;
+        setTarotError(message);
+        if (limit) showToast(message);
         finishGenerationActivity(activity, "failed");
         recordEvent("tarot_reading_failed", { deckId: selectedDeck.id, topic: tarotTopic, spread: tarotSpread });
         recordSafetyEvent({
@@ -5572,7 +5647,10 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const scheduleNavigationRestore = () => {
     if (navigationIdleTimerRef.current) clearTimeout(navigationIdleTimerRef.current);
     if (!navigationScrollEligible) return;
-    navigationIdleTimerRef.current = setTimeout(() => updateNavigationChrome("expanded"), 1200);
+    navigationIdleTimerRef.current = setTimeout(() => {
+      compactNavigationStartRef.current = -1;
+      updateNavigationChrome("expanded");
+    }, 1200);
   };
   const handleMainScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const nextScrollY = Math.max(0, event.nativeEvent.contentOffset.y);
@@ -5581,14 +5659,14 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     setScrollBand(scrollBandFor(nextScrollY));
     if (!navigationScrollEligible) return;
     if (navigationIdleTimerRef.current) clearTimeout(navigationIdleTimerRef.current);
+    // Labels stay visible: the bar never shrinks to icons only, and it slides away only after a long scroll down.
     if (delta > 6 && nextScrollY > 48) {
       if (navigationChromeRef.current === "expanded") {
-        compactNavigationStartRef.current = nextScrollY;
-        updateNavigationChrome("compact");
-      } else if (navigationChromeRef.current === "compact" && nextScrollY - compactNavigationStartRef.current > 64) {
-        updateNavigationChrome("hidden");
+        if (compactNavigationStartRef.current < 0) compactNavigationStartRef.current = nextScrollY;
+        else if (nextScrollY - compactNavigationStartRef.current > 160) updateNavigationChrome("hidden");
       }
     } else if (delta < -6) {
+      compactNavigationStartRef.current = -1;
       updateNavigationChrome("expanded");
     }
   };
@@ -5598,7 +5676,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   }, []);
   useEffect(() => {
     lastContentScrollYRef.current = 0;
-    compactNavigationStartRef.current = 0;
+    compactNavigationStartRef.current = -1;
     updateNavigationChrome("expanded");
   }, [chatMode, screen]);
 
@@ -5685,6 +5763,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const chatScreen = screen === "chat" ? (
     chatMode === "oracle" ? (
       <OracleRoom
+        aiEnabled={Boolean(nilazaBackendBaseUrl && backendOptions.authToken)}
         error={oracleError}
         generating={oracleGenerating}
         input={oracleInput}
@@ -5759,7 +5838,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         // The report itself goes to the server through the shared feedback panel (analysis CH-02).
         if (sourceId) setFeedbackTarget({ feature: "persona_chat", localAnswerId: sourceId, sectionIds: [], language: language === "vi" ? "vi" : "en" });
       }}
-      onRetry={retryChat}
+      onRetry={chatErrorRetryable ? retryChat : undefined}
       onSave={saveJournal}
       onSend={(text?: string) => sendMessage(text)}
       onTrack={recordEvent}
@@ -5776,6 +5855,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         ? "chat"
         : null;
   const showNavigation = screen !== "tarot" && !(screen === "chat" && (chatMode === "room" || chatMode === "council"));
+  const showOracleLauncher = showNavigation && !hasDedicatedGenerationSurface && screen !== "home" && screen !== "explore" && !(screen === "journal" && journalComposing);
   const navigation = (
     <AdaptiveNavigation
       items={tabs.map(item => ({ id: item, icon: tabIcon(item), label: tabLabel(item, language) }))}
@@ -5882,6 +5962,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
             onAskFollowUp={startTarotFollowup}
             onChatWithCard={startTarotCardChat}
             onCreateShareArtifact={createShareArtifact}
+            onOpenShare={openShareSheet}
             onDraw={drawCards}
             onRetryInterpretation={nilazaBackendBaseUrl && backendOptions.authToken ? () => {
               if (reading && tarotResultSource(reading.moderationStatus) === "reference") drawCards(reading.selected, reading);
@@ -5906,6 +5987,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         ) : screen === "astrology" ? (
           <AstrologyExperience key={scope.key} language={language} storage={storage} accountReady={loaded}
             onReportAnswer={setFeedbackTarget}
+            onOpenShare={openShareSheet}
             ownerPremiumPreview={isOwnerPreviewActive && displayedTier === "premium"}
             canRequestAstrologyAi={Boolean(backendOptions.authToken) && displayedTier === "premium" && !isOwnerPreviewActive}
             requestAstrologyAi={(input, correlation) => requestAstrologyAiInsight(input, backendOptions, correlation)}
@@ -5924,7 +6006,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
           <ScrollView
             testID="main-screen-scroll"
             style={{ flex: 1, minHeight: 0 }}
-            contentContainerStyle={[styles.screen, { paddingHorizontal: adaptiveLayout.gutter }]}
+            contentContainerStyle={[styles.screen, { paddingHorizontal: adaptiveLayout.gutter }, showOracleLauncher && styles.screenWithOracleLauncher]}
             keyboardShouldPersistTaps="handled"
             onScroll={handleMainScroll}
             onMomentumScrollEnd={scheduleNavigationRestore}
@@ -6218,6 +6300,17 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
           onCancel={() => setConfirmationDialog(null)}
           onConfirm={() => confirmationDialog?.onConfirm()}
         />
+        {shareSheet ? (
+          <ShareCardSheet
+            visible
+            language={language}
+            model={shareSheet.model}
+            url={shareSheet.url}
+            primary={shareSheet.primary}
+            onClose={() => setShareSheet(null)}
+            onEvent={recordShareEvent}
+          />
+        ) : null}
 
         {screen === "chat" && chatMode === "detail" ? (
           <Pressable
@@ -6249,8 +6342,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
           </Pressable>
         ) : null}
 
-        {/* Home has its own Ask field and the Journal composer has its own Save, so the floating launcher would only cover them. */}
-        {showNavigation && !hasDedicatedGenerationSurface && screen !== "home" && !(screen === "journal" && journalComposing) ? (
+        {/* Home has its own Ask field, Explore has an Oracle card and the Journal composer has its own Save, so the floating launcher would only repeat or cover them. */}
+        {showOracleLauncher ? (
           <Pressable
             accessibilityRole="button"
             accessibilityLabel={language === "vi" ? "Hỏi Nilaza Oracle" : "Ask Nilaza Oracle"}
@@ -6842,7 +6935,7 @@ function ChatScreen({
   onStartPersonaSession: (personaId?: string) => void;
   onToggleFavoritePersona: (personaId: string) => void;
   onReport: (summary: string, sourceId?: string) => void;
-  onRetry: () => void;
+  onRetry?: () => void;
   onSave: (entry: Omit<JournalEntry, "id" | "createdAt">) => void;
   onSend: (preset?: string) => void;
   onTrack: (name: string, metadata?: Record<string, string | number | boolean>) => void;
@@ -7227,6 +7320,7 @@ export function TarotFlow({
   onAskFollowUp,
   onChatWithCard,
   onCreateShareArtifact,
+  onOpenShare,
   onDraw,
   onRetryInterpretation,
   onQuestionChange,
@@ -7266,6 +7360,7 @@ export function TarotFlow({
   onAskFollowUp: (personaId?: string) => void;
   onChatWithCard: (card: TarotCard | DrawnTarotCard, deck: TarotDeck, sourceReading?: ReturnType<typeof drawReading> | null) => void;
   onCreateShareArtifact: () => void;
+  onOpenShare: (request: ShareRequest) => void;
   onDraw: (selectedCards?: DrawnTarotCard[]) => void;
   onRetryInterpretation?: () => void;
   onQuestionChange: (text: string) => void;
@@ -7320,8 +7415,23 @@ export function TarotFlow({
     question: target.question,
     language
   });
+  // The share sheet shows the image card and builds the tracked link; the preview text above stays the exact text fallback.
   const shareReadingNow = () => {
-    if (reading) void Share.share({ title: "Nilaza Tarot", message: shareReadingText(reading) }).catch(() => undefined);
+    if (!reading) return;
+    onOpenShare({
+      model: readingModel({
+        language,
+        cards: reading.selected.map((card) => ({
+          position: card.spread,
+          name: displayTarotCardInline(card, language),
+          reversed: Boolean(card.reversed),
+          image: getTarotCardImage(selectedDeck.id, card.id)
+        })),
+        summary: reading.summary,
+        question: reading.question
+      }),
+      cardIds: reading.selected.map((card) => card.id)
+    });
   };
   const tarotGuideOptions = getTarotGuideOptions(selectedDeck.id);
   const recommendedTarotGuide = getRecommendedTarotGuide(selectedDeck.id);
@@ -8633,7 +8743,7 @@ function ProfileScreen({
           profileReady: "Hồ sơ đã sẵn sàng",
           profileHint: "Tối ưu cách Nilaza xưng hô, gợi ý người dẫn đường, Tarot và Nhật ký.",
           displayName: "Tên hiển thị",
-          displayNameHint: "Tên này hiện trong lời chào trên trang Hôm nay. Nilaza không gửi tên này cho AI khi bạn trò chuyện.",
+          displayNameHint: "Tên này hiện trong lời chào trên trang Hôm nay và được gửi cho người dẫn đường khi bạn trò chuyện, để họ gọi bạn bằng tên. Để trống nếu bạn không muốn.",
           savedLocal: "Tự lưu trên thiết bị và đồng bộ khi có kết nối.",
           birthSection: "Hồ sơ ngày sinh",
           birthBody: "Dùng cho chiêm tinh khi bạn chủ động mở tính năng đó. Có thể để trống hoặc xóa riêng bất cứ lúc nào.",
@@ -8670,7 +8780,7 @@ function ProfileScreen({
           profileReady: "Profile is ready",
           profileHint: "Tune how Nilaza addresses you, suggests guides, tarot, and journal prompts.",
           displayName: "Display name",
-          displayNameHint: "Shown in the greeting on Today. Nilaza does not send this name to the AI when you chat.",
+          displayNameHint: "Shown in the greeting on Today and sent to your guide when you chat, so they can call you by name. Leave it empty if you prefer.",
           savedLocal: "Auto-saved on this device and synced when the backend is ready.",
           birthSection: "Birth profile",
           birthBody: "Used for astrology only when you choose to open that feature. You can leave it blank or clear it anytime.",
@@ -9198,7 +9308,7 @@ function SpreadOptionCard({
           {active ? <Ionicons name="checkmark-circle-outline" size={21} color={colors.gold} /> : null}
         </View>
         <Text style={styles.cardDescription}>{detail}</Text>
-        <Text style={styles.spreadLearnHint}>{language === "vi" ? "Chạm để xem khi nào nên chọn kiểu này." : "Tap to see when this spread fits."}</Text>
+        {active ? null : <Text style={styles.spreadLearnHint}>{language === "vi" ? "Chạm để xem khi nào nên chọn kiểu này." : "Tap to see when this spread fits."}</Text>}
         {active ? (
           <View style={styles.spreadLearnPanel}>
             <MiniGuideRow
@@ -9424,6 +9534,10 @@ zodiacProfilePrompt: {
   screen: {
     padding: 20,
     paddingBottom: 32
+  },
+  // Room for the floating Oracle launcher so it never covers the last row.
+  screenWithOracleLauncher: {
+    paddingBottom: 32 + layout.minimumTouchTarget + spacing.md
   },
   tarotShell: {
     flex: 1,
@@ -9985,7 +10099,7 @@ zodiacProfilePrompt: {
     elevation: 6,
     flexDirection: "row",
     gap: spacing.xs,
-    minHeight: 44,
+    minHeight: layout.minimumTouchTarget,
     paddingHorizontal: spacing.md,
     position: "absolute",
     right: spacing.md,

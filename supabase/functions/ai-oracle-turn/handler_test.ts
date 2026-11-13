@@ -60,7 +60,8 @@ Deno.test("Oracle crisis support handles audit phrases without context/compiler/
     equal(body.providerDispatched, false); equal(body.generationReason, "self_harm_signal");
     equal(body.promptProvenance, undefined); equal(f.safety, [{ id: userId, reason: "self_harm_signal" }]);
     assert(!JSON.stringify(f.usage).includes(userMessage), "crisis text entered audit");
-    assert(!/Tarot|Council|[0-9]{3}/.test(body.reply), "crisis support contains inappropriate handoff/phone claim");
+    // Owner decision: crisis support names 115 only; no other number and no feature handoff.
+    assert(!/Tarot|Council/.test(body.reply) && (body.reply.match(/[0-9]{3,}/g) ?? []).every((n: string) => n === "115"), "crisis support contains inappropriate handoff/phone claim");
   }
 });
 Deno.test("Oracle regulated redirect is distinct from crisis support", async () => {
@@ -123,4 +124,51 @@ Deno.test("Oracle unsupported method and preflight never authenticate", async ()
   equal((await f.handler(new Request("https://fixture.invalid", { method: "OPTIONS" }))).status, 200);
   equal((await f.handler(new Request("https://fixture.invalid", { method: "GET" }))).status, 405);
   equal(f.authCalls(), 0); equal(f.usage, []);
+});
+
+// oracle-ai-tools-2026-11-11: the model answers and picks tools once switch and attempt allow it.
+function modelFixture(answer: { text: string; moderationStatus: "passed" | "blocked" | "fallback" }, extra: Record<string, unknown> = {}) {
+  const calls: Array<{ system: string; messages: unknown[]; safetyText: string }> = [];
+  const attempts: string[] = [];
+  const f = fixture({
+    paused: async () => false,
+    claimAttempt: async (id: string) => { attempts.push(id); return "allowed"; },
+    generate: async (input: { system: string; messages: unknown[]; safetyText: string }) => { calls.push(input); return answer; },
+    ...extra
+  });
+  return { ...f, calls, attempts };
+}
+const modelAnswer = JSON.stringify({ reply: "Mình nghe bạn đang rối.", tools: [{ tool: "draw_tarot", topic: "love" }, { tool: "ask_guide", guide: "the-love-oracle" }] });
+
+Deno.test("Oracle model turn returns the AI reply with validated tool cards", async () => {
+  const f = modelFixture({ text: modelAnswer, moderationStatus: "passed" });
+  const response = await f.handler(request());
+  equal(response.status, 200); const body = await response.json();
+  equal(body.moderationStatus, "passed"); equal(body.generationStatus, "model"); equal(body.providerDispatched, true);
+  equal(body.reply, "Mình nghe bạn đang rối.");
+  equal(body.actionCards.map((card: { kind: string }) => card.kind), ["draw_tarot", "ask_guide"]);
+  equal(body.handoffContext.suggestedPersonaSlug, "the-love-oracle");
+  equal(f.attempts, [userId]); equal(f.calls.length, 1);
+  assert(f.calls[0].system.includes("oracle-tools-2026-11-11"), "tool contract missing from system prompt");
+  assert(!JSON.stringify(f.usage).includes(message), "private question entered usage log");
+});
+Deno.test("Oracle crisis message never reaches the model or uses an attempt", async () => {
+  const f = modelFixture({ text: modelAnswer, moderationStatus: "passed" });
+  const body = await (await f.handler(request({ userMessage: "Mình muốn tự tử" }))).json();
+  equal(body.intent, "safety_redirect"); equal(f.calls.length, 0); equal(f.attempts.length, 0);
+});
+Deno.test("Oracle limit, pause and usage outage stop before the model", async () => {
+  const limited = modelFixture({ text: modelAnswer, moderationStatus: "passed" }, { claimAttempt: async () => "limit_reached" });
+  const r1 = await limited.handler(request()); equal(r1.status, 429); equal((await r1.json()).error, "daily_limit_reached"); equal(limited.calls.length, 0);
+  const paused = modelFixture({ text: modelAnswer, moderationStatus: "passed" }, { paused: async () => true });
+  const r2 = await paused.handler(request()); equal(r2.status, 503); equal((await r2.json()).error, "feature_paused"); equal(paused.calls.length, 0);
+  const outage = modelFixture({ text: modelAnswer, moderationStatus: "passed" }, { claimAttempt: async () => "unavailable" });
+  const r3 = await outage.handler(request()); equal(r3.status, 503); equal((await r3.json()).error, "usage_check_unavailable"); equal(outage.calls.length, 0);
+});
+Deno.test("Oracle unusable model answer is 503, a model safety block has no tools", async () => {
+  const broken = modelFixture({ text: "", moderationStatus: "fallback" });
+  const r1 = await broken.handler(request()); equal(r1.status, 503); equal((await r1.json()).error, "oracle_unavailable");
+  const blocked = modelFixture({ text: "Safety text", moderationStatus: "blocked" });
+  const body = await (await blocked.handler(request())).json();
+  equal(body.moderationStatus, "blocked"); equal(body.actionCards, []); equal(blocked.safety.length, 1);
 });

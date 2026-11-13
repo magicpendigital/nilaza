@@ -1,0 +1,225 @@
+{
+  "schemaVersion": 1,
+  "kind": "nilaza-singapore-edge-deploy-receipt",
+  "target": {
+    "projectRef": "etfajmrwyywokgafzxsb",
+    "kind": "staging"
+  },
+  "deployedAt": "2026-11-08T17:2xZ (Owner, CLI 2.108.0, functions deploy --use-api)",
+  "sourceCommit": "9898ab4",
+  "functions": [
+    {
+      "slug": "profile-upsert",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "journal-entries",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "user-credits",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "account-delete",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "ai-persona-chat",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "ai-tarot-reading",
+      "status": "ACTIVE",
+      "version": 2,
+      "verifyJwt": true,
+      "note": "Redeployed 2026-11-10 by the Owner from commit 2fc5843 (section key fix); read back with supabase functions list: ACTIVE, verify_jwt true."
+    },
+    {
+      "slug": "ai-council",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "ai-astrology-insight",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "ai-oracle-turn",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "ai-daily-zodiac-pulse",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "ai-feedback",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "notification-inbox",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "notification-preferences",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "notification-register-device",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "admin-ai-council-config",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "admin-model-router-config",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "admin-astrology-prompt-config",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    },
+    {
+      "slug": "admin-documentation",
+      "status": "ACTIVE",
+      "version": 1,
+      "verifyJwt": true
+    }
+  ],
+  "held": [
+    "generate-today-pulse",
+    "group-chat-orchestrator",
+    "marketing-waitlist",
+    "admin-ai-trace-qa-payload",
+    "notification-dispatch",
+    "notification-receipts",
+    "notification-send-test"
+  ],
+  "secretsPresentByName": [
+    "OPENROUTER_API_KEY",
+    "AI_TRACE_ENVIRONMENT",
+    "SUPABASE_URL",
+    "SUPABASE_ANON_KEY",
+    "SUPABASE_SERVICE_ROLE_KEY",
+    "SUPABASE_DB_URL",
+    "SUPABASE_JWKS",
+    "SUPABASE_PUBLISHABLE_KEYS",
+    "SUPABASE_SECRET_KEYS"
+  ],
+  "secretsNote": "Read with supabase secrets list (names and digests only); no value was read or recorded.",
+  "probes": {
+    "date": "2026-11-09",
+    "noAuthorizationHeader": "401 UNAUTHORIZED_NO_AUTH_HEADER from the gateway for all 7 probed functions",
+    "publishableKeyOnly": "function-level 401 authentication_required for persona chat, tarot, astrology insight, user-credits, account-delete, admin router; ai-council returns 400 input validation first and requires sign-in before any data or model access (source lines 384-385)",
+    "heldFunctions": "404 for ai-daily-insight, ai-astrology-report, generate-today-pulse"
+  },
+  "notVerified": [
+    "Owner-set OpenRouter credit limit and privacy settings (account side)"
+  ],
+  "status": "PASS: deployment, signed-in gateway and a validated Tarot AI answer",
+  "signedInSmoke": {
+    "date": "2026-11-09",
+    "tool": "scripts/staging-smoke.mjs (Owner machine, account magicpendigital@gmail.com created in Auth > Users)",
+    "signIn": "OK, access token alg ES256 (kid ce471694...)",
+    "gateway": "user-credits HTTP 200 in 2049 ms: verify_jwt accepts the ES256 user token, no --no-verify-jwt change needed",
+    "tarotAi": "HTTP 200 in 6 s; OpenRouter deepseek/deepseek-v4.1-flash answered but the reply failed the Tarot output check, so the user got the safe fallback text (sourceKind fallback). Trace (tarot-rejection-check.sql, 2026-11-10): finish_reason stop, 654 output tokens, validation rejected with code section_key. Fix: tarot-section-key-2026-11-10 (malformed keys become section_N); needs an Owner-approved redeploy of ai-tarot-reading."
+  },
+  "signedInSmokeAfterFix": {
+    "date": "2026-11-10",
+    "signIn": "OK ES256",
+    "gateway": "user-credits HTTP 200 (1510 ms)",
+    "tarotAi": "HTTP 200 in 7 s, sourceKind ai, moderation passed, openrouter deepseek/deepseek-v4.1-flash, Vietnamese reading with the card displayName as specified",
+    "result": "PASS"
+  },
+  "guardedDeploy": {
+    "date": "2026-11-10",
+    "record": "docs/feature-plans/ai-daily-report-guard-2026-11-10.json",
+    "commit": "9273744",
+    "deployedBy": "Owner (npx supabase functions deploy --use-api); ai-astrology-report needed two retries after the bundler timed out fetching esm.sh supabase-js (network, not code)",
+    "readBack": "supabase functions list: ai-daily-insight v1 ACTIVE verify_jwt true; ai-astrology-report v1 ACTIVE verify_jwt true",
+    "probes": "no Authorization header: gateway 401 UNAUTHORIZED_NO_AUTH_HEADER for both; publishable key only: function-level 401 authentication_required for both (guard runs before body or model)",
+    "notVerified": "signed-in 4th call of the local day returning 429 daily_limit_reached and the app showing its local text; switch rows for daily_insight and astrology_report need a later migration"
+  },
+  "chatTarotLimitDeploy": {
+    "date": "2026-11-11",
+    "record": "docs/feature-plans/ai-chat-tarot-daily-limit-2026-11-11.json",
+    "commit": "140e44b",
+    "deployedBy": "Owner (npx supabase functions deploy --use-api)",
+    "readBack": "supabase functions list: ai-persona-chat v2 ACTIVE verify_jwt true; ai-tarot-reading v3 ACTIVE verify_jwt true",
+    "probes": "no Authorization header: gateway 401 UNAUTHORIZED_NO_AUTH_HEADER for both; publishable key only: function-level 401 authentication_required for both",
+    "notVerified": "signed in: 6th chat message and a second Tarot AI reading after a delivered one returning 429 daily_limit_reached; the app still shows local text on 429"
+  },
+  "batch20261111": {
+    "date": "2026-11-11",
+    "migrations": "20261111090000_ai_feature_switches_tarot_daily_report and 20261111090100_move_vector_extension listed on Singapore (35 migrations), applied by the Owner",
+    "redeploy": "Owner redeployed ai-persona-chat v3, ai-tarot-reading v4, ai-council v2, ai-astrology-insight v2, ai-daily-insight v2, ai-astrology-report v2 (11/11 14:44-14:46 UTC+7), read back ACTIVE with supabase functions list",
+    "signedInSmoke": {
+      "tool": "scripts/staging-smoke.mjs typed by the Owner in the Claude terminal tab",
+      "signIn": "OK ES256",
+      "gateway": "user-credits HTTP 200 (1689 ms)",
+      "tarotAi": "HTTP 200 in 15 s, sourceKind ai, moderation passed, openrouter deepseek/deepseek-v4.1-flash, Vietnamese reading",
+      "result": "PASS"
+    },
+    "notVerified": "second Tarot reading of the day returning 429; chat 6th message; app behaviour on a device",
+    "deviceTest": {
+      "date": "2026-11-11",
+      "device": "Air1_Ultra, Android 13, over adb",
+      "build": "local release APK from 8e1e1d9 pointing at etfajmrwyywokgafzxsb (publishable key only), signed with the React Native template debug key so it installed over 0.1.3 without data loss; key file removed afterwards, not committed",
+      "signIn": "Owner signed in on the phone; Today greets Magicpendigital",
+      "tarotSecondReading": "PASS: server blocked the second reading of the local day; app showed the daily limit text in place",
+      "chatNickname": "PASS: The Mystic reply opened with 'Chao Magicpendigital'",
+      "chatSixthMessage": "PASS: messages 1-5 answered, message 6 showed the daily limit text and kept the message",
+      "keyboard": "PASS: chat input sits above the keyboard (CH-12)",
+      "councilOffline": "Airplane mode: room showed the labelled local fallback ('Cau tra loi du phong - AI chua ket noi duoc'), not the CO-03 room notice",
+      "followUps": "Hide Retry when the reason is daily limit; Council fallback text capitalises 'Buoc' mid-sentence",
+      "notVerified": "Daily insight (needs a birth date); Council daily limit; astrology report"
+    }
+  },
+  "oracleAiDeploy20261112": {
+    "record": "docs/feature-plans/oracle-ai-tools-2026-11-11.json",
+    "deployedBy": "Owner (npx supabase functions deploy ai-oracle-turn --use-api): v2 from 133891b, then v3 from 1acee87",
+    "readBack": "list_edge_functions: ai-oracle-turn v3 ACTIVE verify_jwt true; no Authorization header returns 401",
+    "v2Finding": "Signed in on the phone: 503 after about 6 s. Trace read with Owner approval, technical fields only: deepseek/deepseek-v4.1-flash answered 307 chars and xiaomi/mimo-v2.6-flash 209 chars, both finish stop, neither passed the tool parser. Fixed in 1acee87 (contract before the pinned bundle, format reminder after it, tolerant parser).",
+    "deviceTest": {
+      "date": "2026-11-12",
+      "build": "local release APK from 133891b pointing at Singapore, installed over the previous test build",
+      "oracle": "PASS on v3: AI-written reply to a love question, no on-device label, two chips chosen by the model (Trai bai, Hoi mot nguoi dan); the guide chip opened The Love Oracle with the Oracle context",
+      "oracleFailureNotice": "PASS on v2: the room said Oracle cannot answer right now and kept the question in the box",
+      "chatOffline": "PASS: airplane mode, guide chat said the connection is interrupted, kept the message, offered Retry",
+      "councilOffline": "PASS: airplane mode, Council room notice asked to check the Internet, question back in the box, no canned council",
+      "notVerified": "Oracle crisis phrase on the device; Oracle and chat sharing the 5 daily attempts end to end; tool choice quality over more questions"
+    }
+  }
+}

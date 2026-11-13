@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "taskId": "ai-unavailable-notice-2026-11-11",
+  "ownerAgent": "mobile_app_agent",
+  "lane": "Mobile app: guide chat and Council say the connection or the AI is unavailable instead of a canned reply",
+  "goal": "Device test 11/11: with the phone offline, Council answered with a canned on-device reply (labelled fallback). The Owner judged this a bad experience and asked for a clear notice to check the Internet instead. When a backend is configured and the request fails, guide chat and Council show why (no connection, AI busy, sign-in expired), keep the message, and offer Retry; the on-device crisis reply still answers offline. Also hide Retry when the reason is the daily limit or a paused feature.",
+  "successCriteria": [
+    "postJson can throw BackendUnavailableError with reason offline (network failure), busy (timeout, 5xx or unreadable answer) or auth (401) instead of returning null.",
+    "generatePersonaReply and generateAiCouncilTurn use it when a backend is configured; with no backend URL the local reply stays (guest/local builds).",
+    "If the request fails and the local safety check finds a crisis or boundary signal, the on-device safety reply is still returned.",
+    "Guide chat shows an offline or busy notice, keeps the message and offers Retry; daily limit and paused notices show no Retry.",
+    "Council shows the same reasons in its room notice and gives the question back.",
+    "backendClient tests cover offline, busy and the safety exception; tsc and the app tests pass."
+  ],
+  "writeScope": [
+    "apps/mobile/src/backendClient.ts",
+    "apps/mobile/src/__tests__/backendClient.test.ts",
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
+    "apps/mobile/src/features/council/useAiCouncilRoom.ts",
+    "apps/mobile/src/features/council/__tests__/useAiCouncilRoom.test.tsx",
+    "docs/backlog/review-2026-10-30.json",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "Tarot keeps card meanings from the 78-card library when the AI is unreachable (real content, already labelled).",
+    "Daily insight, zodiac pulse and astrology report keep their current fallback; Oracle moves to AI in the oracle-ai-tools slice.",
+    "No backend change; no deploy."
+  ],
+  "impact": {
+    "entryPoint": "Send in a guide chat room and in the Council room.",
+    "dataWrite": "No new writes; the user message stays in the room or the question returns to the box.",
+    "backendContract": "Same requests; only how the app treats a failed request changes.",
+    "adminVisibility": "No Admin change; existing persona_message_failed and ai_council_turn_failed events gain a reason.",
+    "privacySafety": "Crisis and boundary replies still answer on the device without a connection.",
+    "observability": "Failure events carry reason offline, busy or auth.",
+    "rollback": "Revert the commit; ships with the next app build."
+  },
+  "canonicalContracts": [
+    "apps/mobile/src/backendClient.ts"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile route and checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "reason": "postJson turns every failure into null and callers then use the canned reply.",
+      "sha256": "91f37bd591005c6ef19fe45f3b970bc23bbaa605826e94b9ff6d31693e29021d"
+    },
+    {
+      "path": "apps/mobile/src/__tests__/backendClient.test.ts",
+      "reason": "Existing client tests to extend.",
+      "sha256": "ba964bc7f58a1bdf7e8c4e87fe0b3520dd8092021772b078589e0f82beb27e4a"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Guide chat send handler and error text.",
+      "sha256": "50046a34bf510bc9d8498ad58129f897f1f5534dc8b23d4f071ab0f49cca6183"
+    },
+    {
+      "path": "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
+      "reason": "Error panel always shows Retry.",
+      "sha256": "5fb7566697b748b03464e344fa707b2fe0a1ffca36e23eda1d62f10bed8186a7"
+    },
+    {
+      "path": "apps/mobile/src/features/council/useAiCouncilRoom.ts",
+      "reason": "Council failure branch and room notice.",
+      "sha256": "3045721157f953d8832314142900a228fcb8845660a0ebaa3981e62f47ce2d69"
+    },
+    {
+      "path": "apps/mobile/src/features/council/__tests__/useAiCouncilRoom.test.tsx",
+      "reason": "Council hook tests and backend mock.",
+      "sha256": "64ec10a961f17d347e5f4ad547c5bd361d20fed51b4bf451e0bfcbdc1188fd31"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before code; device test 11/11 in PLAN section 4e."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Repository code only; no package added (no NetInfo)."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No change to sign-in or row access.",
+    "sensitiveData": "No new data leaves the device.",
+    "secretsLogging": "No secret read, written or logged.",
+    "externalInput": "Failure reason comes from the fetch result and HTTP status only.",
+    "dependencies": "No package added or upgraded.",
+    "migrationRelease": "No SQL; ships with the next AAB.",
+    "stopCondition": "Stop if the offline crisis reply stops working or tests fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record passed preflight before the code edit (11/11). Then: BackendUnavailableError (offline, busy, auth) in postJson for chat and Council, local safety reply kept offline, chat and Council notices, Retry hidden on limit or pause, client and Council tests, CH-03 and CO-03 backlog notes, PLAN.md. tsc and 457 app tests pass.",
+    "paths": [
+      "PLAN.md",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/__tests__/backendClient.test.ts",
+      "apps/mobile/src/backendClient.ts",
+      "apps/mobile/src/features/council/__tests__/useAiCouncilRoom.test.tsx",
+      "apps/mobile/src/features/council/useAiCouncilRoom.ts",
+      "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
+      "docs/backlog/review-2026-10-30.json"
+    ]
+  },
+  "validationCommands": [
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npx --prefix apps/mobile jest",
+    "npm run feature:preflight -- --record docs/feature-plans/ai-unavailable-notice-2026-11-11.json"
+  ],
+  "managerTestPath": "On a phone, signed in, turn on airplane mode, send a guide message and a Council question: each shows 'check your Internet', the text is kept, and Retry works once the connection is back. A crisis phrase still gets the 115 reply offline.",
+  "residualRisk": "Guest or local builds without a backend keep canned replies by design; daily, zodiac and astrology fallbacks are unchanged.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

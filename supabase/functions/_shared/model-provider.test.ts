@@ -1,4 +1,4 @@
-import { ModelProviderError } from "./model-provider.ts";
+import { ModelProviderError, providerErrorDetail } from "./model-provider.ts";
 import { ActiveModelRouteError, defaultModelRoutes, generateWithModelRoute, readActiveModelRoute } from "./model-router.ts";
 import { invokeAnthropic } from "./providers/anthropic.ts";
 import { invokeGemini } from "./providers/gemini.ts";
@@ -142,7 +142,8 @@ Deno.test("OpenRouter applies the canonical Astrology AI JSON schema only to its
       return Object.hasOwn(value, "$ref") || Object.values(value).some(hasRef);
     };
     assert(!hasRef(schema), "Provider schema must inline canonical contract references");
-    assert(bodies[1].response_format === undefined && bodies[1].provider === undefined, "Other AI routes must not inherit Astrology output settings");
+    assert(bodies[1].response_format === undefined && bodies[1].provider?.require_parameters === undefined, "Other AI routes must not inherit Astrology output settings");
+    assert(bodies[1].provider?.zdr === true && bodies[1].provider?.data_collection === "deny", "LLM phase 0: every route requires ZDR and denies data collection");
   } finally {
     globalThis.fetch = originalFetch;
   }
@@ -382,5 +383,85 @@ Deno.test("absent/unavailable route retains existing local fallback compatibilit
   for (const fixture of [routeLookupFixture([]), routeLookupFixture([], { message: "private query detail" })]) {
     const route = await readActiveModelRoute(fixture.client, "oracle_router");
     assert(route === defaultModelRoutes.oracle_router, "Existing fallback behavior changed beyond active-only scope");
+  }
+});
+
+const openRouterRoute = (feature: string) => ({
+  feature, version: "test", status: "active" as const,
+  primaryProvider: "openrouter" as const, primaryModel: "primary-model",
+  fallbackProvider: "openrouter" as const, fallbackModel: "fallback-model",
+  temperature: 0.2, maxOutputTokens: 100, responseSchema: "test",
+  fallbackWhen: ["provider_timeout", "rate_limit", "provider_5xx", "malformed_response"], safetyPolicy: {}
+});
+
+Deno.test("LLM phase 0: a primary answer that fails the output check tries the fallback model once", async () => {
+  const originalFetch = globalThis.fetch;
+  const models: string[] = [];
+  globalThis.fetch = ((_url: string, init?: RequestInit) => {
+    const body = JSON.parse(String(init?.body));
+    models.push(body.model);
+    const content = body.model === "primary-model" ? "not json" : "{\"ok\":true}";
+    return Promise.resolve(new Response(JSON.stringify({ id: "x", model: body.model, choices: [{ message: { content }, finish_reason: "stop" }] }), { status: 200 }));
+  }) as typeof fetch;
+  try {
+    const accept = (text: string) => text.startsWith("{") ? undefined : "not_json";
+    const result = await generateWithModelRoute({
+      feature: "tarot_reading", system: "s", messages: [{ role: "user", content: "q" }], fallbackText: "local",
+      env: { OPENROUTER_API_KEY: "key" }, route: openRouterRoute("tarot_reading"), acceptOutput: accept
+    });
+    assert(models.join(",") === "primary-model,fallback-model", `expected two calls, got ${models}`);
+    assert(result.text === '{"ok":true}' && result.fallbackUsed === true, "fallback answer should be returned");
+    assert(result.attempts[0].ok === false && result.attempts[0].code === "malformed_response" && result.attempts[0].detail === "output_check:not_json", JSON.stringify(result.attempts[0]));
+
+    models.length = 0;
+    const last = await generateWithModelRoute({
+      feature: "tarot_reading", system: "s", messages: [{ role: "user", content: "q" }], fallbackText: "local",
+      env: { OPENROUTER_API_KEY: "key" }, route: { ...openRouterRoute("tarot_reading"), fallbackModel: "primary-model" }, acceptOutput: accept
+    });
+    assert(models.length === 2 && last.text === "not json" && last.moderationStatus === "passed", "the last candidate is returned unchanged for the feature's own check");
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+Deno.test("LLM phase 0: provider error code and message are kept without metadata; network errors are not timeouts", async () => {
+  assert(providerErrorDetail({ error: { code: 404, message: "No endpoints found matching your data policy", metadata: { flagged_input: "secret" } } }) === "404: No endpoints found matching your data policy", "detail");
+  assert(!providerErrorDetail({ error: { metadata: { flagged_input: "secret" } } }), "metadata alone is dropped");
+  assert((providerErrorDetail({ error: { message: "x".repeat(400) } }) ?? "").length === 160, "detail is bounded");
+
+  const originalFetch = globalThis.fetch;
+  let call = 0;
+  globalThis.fetch = (() => {
+    call += 1;
+    if (call === 1) return Promise.reject(new TypeError("error sending request"));
+    return Promise.resolve(new Response(JSON.stringify({ error: { code: 503, message: "Provider overloaded", metadata: { raw: "x" } } }), { status: 503 }));
+  }) as typeof fetch;
+  try {
+    const result = await generateWithModelRoute({
+      feature: "persona_chat", system: "s", messages: [{ role: "user", content: "q" }], fallbackText: "local",
+      env: { OPENROUTER_API_KEY: "key" }, route: openRouterRoute("persona_chat")
+    });
+    assert(result.text === "local", "both failed, canned text");
+    assert(result.attempts[0].code === "network_error", JSON.stringify(result.attempts[0]));
+    assert(result.attempts[1].code === "provider_5xx" && result.attempts[1].detail === "503: Provider overloaded", JSON.stringify(result.attempts[1]));
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
+Deno.test("LLM phase 0: Gemini sends the key in a header, not the URL", async () => {
+  const originalFetch = globalThis.fetch;
+  let seenUrl = "", seenKey: string | null = null;
+  globalThis.fetch = ((url: string, init?: RequestInit) => {
+    seenUrl = String(url);
+    seenKey = new Headers(init?.headers).get("x-goog-api-key");
+    return Promise.resolve(new Response(JSON.stringify({ candidates: [{ content: { parts: [{ text: "hi" }] }, finishReason: "STOP" }] }), { status: 200 }));
+  }) as typeof fetch;
+  try {
+    await invokeGemini({ ...request, provider: "gemini" }, "secret-key");
+    assert(!seenUrl.includes("secret-key") && !seenUrl.includes("?key="), "key must not be in the URL");
+    assert(seenKey === "secret-key", "key must be in the x-goog-api-key header");
+  } finally {
+    globalThis.fetch = originalFetch;
   }
 });

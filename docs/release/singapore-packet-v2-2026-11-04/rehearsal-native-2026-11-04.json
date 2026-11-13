@@ -1,0 +1,420 @@
+{
+  "schemaVersion": 1,
+  "status": "PASS",
+  "startedAt": "2026-11-04T02:56:35.497Z",
+  "runtime": "Native PostgreSQL in isolated Docker, not managed Supabase",
+  "syntheticOnly": true,
+  "sideEffectsDisabled": true,
+  "remoteSqlWrites": false,
+  "migrationSetSha256": "477fa3c926fa7633b9de695deb4a219b5918cf12ef34d9a8b5567a803758f2f4",
+  "migrations": [
+    {
+      "path": "supabase/migrations/202606120001_mvp_schema.sql",
+      "sha256": "226e20601e094426e23170814fab3346eea953bf619d78b0ded153afa37559f5"
+    },
+    {
+      "path": "supabase/migrations/202606120002_add_missing_tables.sql",
+      "sha256": "80df182edc581e17f1fa66b91fe16537b89526abf97b889fe232c53e3032c91d"
+    },
+    {
+      "path": "supabase/migrations/20260622000000_upgrade_mvp.sql",
+      "sha256": "621167d132d8b06948905ce1a6193cc0f3f3819e2fbb2649d6aea349d2f68029"
+    },
+    {
+      "path": "supabase/migrations/20260622000001_weekly_reflection_cron.sql",
+      "sha256": "90fc174f647ad1bc77d3ffd6d5ec7c3cdc4de7307197892dd75f058ef1ab5932"
+    },
+    {
+      "path": "supabase/migrations/20260626000000_ai_council_contract.sql",
+      "sha256": "152a27d7e72595490e4e516573508876a6d5922a3cc1eb97b09982d98c62c6c1"
+    },
+    {
+      "path": "supabase/migrations/20260626000001_journal_mobile_contract.sql",
+      "sha256": "c2e619b6f5505ce63d450dff3c6faf6e2a405d737422028d1ea752f7fc0cbfba"
+    },
+    {
+      "path": "supabase/migrations/20260626000002_ai_council_admin_config.sql",
+      "sha256": "8de07c0f770b1e10f5f2562d60acd7ad1ed67421690e350776aeb81b196d4d7d"
+    },
+    {
+      "path": "supabase/migrations/20260627000000_astrology_backend_contract.sql",
+      "sha256": "11361a02d30d41181aeef3b0db5b5b91298cc841ddf0f061eea3f075a3751f4c"
+    },
+    {
+      "path": "supabase/migrations/20260629020702_journal_entries_user_local_id_constraint.sql",
+      "sha256": "9ea543a2e495c2fcf0063db0da949ee7a6bcaacb1b149c537cef43037e84f7f3"
+    },
+    {
+      "path": "supabase/migrations/20260630000000_model_route_versions.sql",
+      "sha256": "14889d571f6476036a2ec8344e6bc6a539e19040e12a6e7958416141e6c7adaf"
+    },
+    {
+      "path": "supabase/migrations/20260706000000_oracle_contract.sql",
+      "sha256": "f0ac733270376b531d7bd1ba9f8c8ef5dbedeffdef75a315c01b2c172fb31b80"
+    },
+    {
+      "path": "supabase/migrations/20260710000000_notifications_contract.sql",
+      "sha256": "51d4cf28e07a1dea9df96169034acd368fba4bd9a2c81cb505c670e99c9c1cb7"
+    },
+    {
+      "path": "supabase/migrations/20260902131408_owner_capability_boundary.sql",
+      "sha256": "2f8fdac36b93d68f1a32da2d7a83b33c2b41b966589e8be9e1a85d56ace42a24"
+    },
+    {
+      "path": "supabase/migrations/20260903033047_reconcile_owner_prerequisites.sql",
+      "sha256": "bfc7f7cf54ef7998abd617607f47644e698ee501da0d53a373f5d629b2a311b4"
+    },
+    {
+      "path": "supabase/migrations/20260908000000_oracle_model_route.sql",
+      "sha256": "ae78d2be77e8b66749ba40d25dd9591b9bdf3b677e27f440fd1b31bb6844a949"
+    },
+    {
+      "path": "supabase/migrations/20260909014614_ai_trace_observability.sql",
+      "sha256": "8794f35ab9724c18e2dda617f5bc3b1031bd16af067dff70a9cf1ef321e769bc"
+    },
+    {
+      "path": "supabase/migrations/20260909020528_marketing_waitlist_and_admin_documentation.sql",
+      "sha256": "93235a9b2de2b13e8a8ab8cf92ff54a8fdedb0d9dfea3296e1c1d3a3df4777c1"
+    },
+    {
+      "path": "supabase/migrations/20260909043000_admin_document_access_log_index.sql",
+      "sha256": "2e7b9de0182e4e317a8b57f731bd398ca1c264a66d765c4363007bde29f2bf20"
+    },
+    {
+      "path": "supabase/migrations/20260913143958_marketing_consent_suppression_foundation.sql",
+      "sha256": "49f76f62e1a0e72c91b4691498f66dbe2ded843ea71ffd20785fe21200e749d9"
+    },
+    {
+      "path": "supabase/migrations/20260913184421_growth_waitlist_aggregate_read_model.sql",
+      "sha256": "bf5c3611a447137959349a9e6b959dfa1d2bf2cd70ae20a57049e1ded64b2e7a"
+    },
+    {
+      "path": "supabase/migrations/20260917172721_admin_content_sync.sql",
+      "sha256": "18b50345904d8d6074e56db3aa6400aa24392ea1d61a96e0672a2f8113833ac8"
+    },
+    {
+      "path": "supabase/migrations/20260917174042_admin_content_sync_policy_tuning.sql",
+      "sha256": "ac6ae8b06f49db4e6cc8ec464fc1ecaf67a3699500a07132433ed7ed78bdc5ab"
+    },
+    {
+      "path": "supabase/migrations/20260919202005_ai_council_rounds_v2.sql",
+      "sha256": "ad48c774864d7af19758f3364bb9224e68b7b367393e4424c0b388e08450cf62"
+    },
+    {
+      "path": "supabase/migrations/20260925155619_generation_activity_contract_forward.sql",
+      "sha256": "d6de2800385431601296fb1846cb9dc38f72d02ed6645808421fa0d77b04f7a0"
+    },
+    {
+      "path": "supabase/migrations/20260926152118_ai_studio_operations.sql",
+      "sha256": "7d17c007edf9807d4dbff19ccaa15283db6dfaaeb2e8a3acd91cd16060ad995a"
+    },
+    {
+      "path": "supabase/migrations/20261001000000_private_source_read_boundary.sql",
+      "sha256": "cf54859e0fb9f8ba9f4758cccfdb1ac0810e47d8f318b32c2111fb8cd347459b"
+    },
+    {
+      "path": "supabase/migrations/20261002000000_ai_usage_reservation.sql",
+      "sha256": "4d4fc2e57d322fa1d4c60e5e305d18653e73f6b5e8d46fba1a3084a115993424"
+    },
+    {
+      "path": "supabase/migrations/20261004183447_client_table_privilege_boundary.sql",
+      "sha256": "2e5af56a94de7f79f403d78cc99fdd3f521984d63e6ca200f3cf7b9e508f8061"
+    },
+    {
+      "path": "supabase/migrations/20261014074711_model_route_publish_contract_v2.sql",
+      "sha256": "de7bd65de8e7e7c5d979f63a230737cca2a7ab1a75e9af751bbc2083a29fa4b9"
+    },
+    {
+      "path": "supabase/migrations/20261014080754_ai_feedback_receipts_v1.sql",
+      "sha256": "c8212aa7452d7e759c37f0179af32505410efce845dfad0c7346c58f835eb69c"
+    },
+    {
+      "path": "supabase/migrations/20261025000000_account_deletion_v1.sql",
+      "sha256": "beeee40256b977066f03431a8e8c241bf55183f40fafa09d4e1ef5e9f34870c3"
+    },
+    {
+      "path": "supabase/migrations/20261031090000_ai_feedback_conversation_features.sql",
+      "sha256": "ad97adf681ce5e5e95ab8aaf92464cf7629a0c1aea4766d801cf761984593007"
+    },
+    {
+      "path": "supabase/migrations/20261031100000_ai_feature_switches.sql",
+      "sha256": "36122069b8fc6473f586b506399313225739151663310dd1680948d12c1f6c60"
+    }
+  ],
+  "packageIntegrity": [],
+  "source": {
+    "packetPath": "docs/release/singapore-packet-v2-2026-11-04/packet-manifest.json",
+    "packetSha256": "c730d78e08e826ab87b37441856b3da97f917aaae537b0e0e0793473c3922128",
+    "packetMigrationSetSha256": "9375e1fec225399d5d210cee0488e28ed30d2ccf40ab54eeb8d3ce7b3c27a0d5"
+  },
+  "image": "public.ecr.aws/supabase/postgres@sha256:f6cdd6bf9b556934e8a761d92d082488db206deeec9349c4e938a72d65677e80",
+  "fixtureBoundary": "Minimal auth.users(id) and observed auth.uid/jwt/role SQL; observed postgres public default grants; empty Realtime publication. No Auth server, Storage bytes, API or provider.",
+  "replay": [
+    {
+      "path": "supabase/migrations/202606120001_mvp_schema.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/202606120002_add_missing_tables.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20260622000000_upgrade_mvp.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20260622000001_weekly_reflection_cron.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20260626000000_ai_council_contract.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20260626000001_journal_mobile_contract.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20260626000002_ai_council_admin_config.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20260627000000_astrology_backend_contract.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20260629020702_journal_entries_user_local_id_constraint.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20260630000000_model_route_versions.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20260706000000_oracle_contract.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20260710000000_notifications_contract.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20260902131408_owner_capability_boundary.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20260903033047_reconcile_owner_prerequisites.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20260908000000_oracle_model_route.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20260909014614_ai_trace_observability.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20260909020528_marketing_waitlist_and_admin_documentation.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20260909043000_admin_document_access_log_index.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20260913143958_marketing_consent_suppression_foundation.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20260913184421_growth_waitlist_aggregate_read_model.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20260917172721_admin_content_sync.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20260917174042_admin_content_sync_policy_tuning.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20260919202005_ai_council_rounds_v2.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20260925155619_generation_activity_contract_forward.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20260926152118_ai_studio_operations.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20261001000000_private_source_read_boundary.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20261002000000_ai_usage_reservation.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20261004183447_client_table_privilege_boundary.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20261014074711_model_route_publish_contract_v2.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20261014080754_ai_feedback_receipts_v1.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20261025000000_account_deletion_v1.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20261031090000_ai_feedback_conversation_features.sql",
+      "status": "PASS"
+    },
+    {
+      "path": "supabase/migrations/20261031100000_ai_feature_switches.sql",
+      "status": "PASS"
+    }
+  ],
+  "checks": [
+    {
+      "name": "seed has 78 bilingual canonical cards",
+      "status": "PASS"
+    },
+    {
+      "name": "AI campaign remains disabled and optional cron/net unavailable",
+      "status": "PASS"
+    },
+    {
+      "name": "actors are ordinary roles without superuser or RLS bypass",
+      "status": "PASS"
+    },
+    {
+      "name": "A/B/staff SELECT isolation: user_profiles",
+      "status": "PASS"
+    },
+    {
+      "name": "A/B/staff SELECT isolation: journal_entries",
+      "status": "PASS"
+    },
+    {
+      "name": "A/B/staff SELECT isolation: tarot_readings",
+      "status": "PASS"
+    },
+    {
+      "name": "A/B/staff SELECT isolation: chat_sessions",
+      "status": "PASS"
+    },
+    {
+      "name": "A/B/staff SELECT isolation: chat_messages",
+      "status": "PASS"
+    },
+    {
+      "name": "cross-account insert, update, delete and forged chat parent denied",
+      "status": "PASS"
+    },
+    {
+      "name": "JWT owner claim cannot grant a customer live capabilities",
+      "status": "PASS"
+    },
+    {
+      "name": "editor revocation blocks reuse of identical JWT claims",
+      "status": "PASS"
+    },
+    {
+      "name": "last active owner cannot be revoked",
+      "status": "PASS"
+    },
+    {
+      "name": "raw sources hidden from customer/revoked staff; readable by owner",
+      "status": "PASS"
+    },
+    {
+      "name": "quota RPC restricted to service_role",
+      "status": "PASS"
+    },
+    {
+      "name": "no client TRUNCATE bypass on public tables",
+      "status": "PASS"
+    },
+    {
+      "name": "ordinary customer cannot TRUNCATE another account journal",
+      "status": "PASS"
+    },
+    {
+      "name": "pg_dump/pg_restore restores rows, schema, indexes, grants, RPCs and A/B isolation",
+      "status": "PASS"
+    }
+  ],
+  "grantsRlsAcceptance": "PASS",
+  "restoreAcceptance": "PASS",
+  "nativeReplay": "PASS",
+  "managedAcceptance": "BLOCKED",
+  "postgres": {
+    "version": "PostgreSQL 17.6 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit",
+    "user": "postgres",
+    "version_num": "170006"
+  },
+  "postgresMajor": 17,
+  "sqlReplay": "PASS",
+  "extensions": [
+    {
+      "extname": "pgcrypto",
+      "extversion": "1.3"
+    },
+    {
+      "extname": "plpgsql",
+      "extversion": "1.0"
+    },
+    {
+      "extname": "vector",
+      "extversion": "0.8.2"
+    }
+  ],
+  "seed": {
+    "status": "PASS",
+    "path": "supabase/seed.generated.sql",
+    "sha256": "702e581fc6ed19e53390eadf2c4fce3488f30a19db93c4fc78a2fd8c4b234cb9"
+  },
+  "restore": {
+    "status": "PASS",
+    "format": "pg_dump custom archive + explicit synthetic role bootstrap; pg_restore into independent network-none cluster with ACLs/owners",
+    "bytes": 513783,
+    "sha256": "bb7c0ec38254d3fdbd591a4426a9e7ccf18b280a3aa91bf36fea28f37d4b6d28",
+    "elapsedMs": 23604,
+    "invariantsSha256": "d0035331163578d95330ad30931067ee014018ea2ad08fdaeba1cf3e674a06ea"
+  },
+  "containers": [
+    {
+      "id": "190912e0761faa1e75447c670476284cb80db5bfe3d4c8589c33f649b0bd51dc",
+      "name": "nilaza-qa-20261005-1074eeb62e",
+      "network": "none",
+      "publishedPorts": [],
+      "bindMounts": [],
+      "image": "public.ecr.aws/supabase/postgres@sha256:f6cdd6bf9b556934e8a761d92d082488db206deeec9349c4e938a72d65677e80",
+      "readonlyRoot": true,
+      "stopped": true
+    },
+    {
+      "id": "79c558d0f1e5d3bab9403d0475c368b7090490f79c03bb8df571087fcf8f54d0",
+      "name": "nilaza-qa-20261005-c4e7dc196a",
+      "network": "none",
+      "publishedPorts": [],
+      "bindMounts": [],
+      "image": "public.ecr.aws/supabase/postgres@sha256:f6cdd6bf9b556934e8a761d92d082488db206deeec9349c4e938a72d65677e80",
+      "readonlyRoot": true,
+      "stopped": true
+    }
+  ],
+  "dockerEngineVersion": "29.8.2",
+  "adapterSha256": "da4e490f792bb2085b58756946fb15dd3cdb007e3ae3e2fb1ccdd4d47b816801",
+  "finishedAt": "2026-11-04T02:57:25.328Z",
+  "harnessSha256": "001b9e2ecb828cbdc0c03f3fb4d221eae9b5ecc5b09749b2363f38008344d7ca"
+}

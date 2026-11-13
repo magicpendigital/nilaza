@@ -67,7 +67,12 @@ for (const { functionName } of contracts) {
       assert(guard.includes("user.isAnonymous !== false") && guard.indexOf("await deps.authenticate(token)") < guard.indexOf("await readBoundedJson(req"), "Oracle shared guard must reject anonymous/unknown auth before reading input");
       assert(!source.includes("await req.json()") && !handler.includes("await req.json()"), "Oracle must not bypass bounded body parsing");
       assert(handler.indexOf("if (safetySignal)") < handler.indexOf("compileOracleInput(input)") && handler.includes("actionCards: []"), "Oracle static safety support must bypass compilation and spiritual handoffs");
-      assert(adapter.includes('from "./prompt-composition/compose.mjs"') && adapter.includes("providerEnabled: false") && !source.includes("generateWithModelRoute") && !handler.includes("generateWithModelRoute"), "Oracle candidate must use the packaged compiler without unmetered provider activation");
+      // oracle-ai-tools-2026-11-11: the model may run only from index.ts, metered by the switch and the shared daily attempt,
+      // and the handler must check both (after static safety support) before calling generate.
+      const metered = source.includes("claimDailyAttempt(") && source.includes("featurePaused(")
+        && handler.indexOf("deps.paused") > handler.indexOf("if (safetySignal)")
+        && handler.indexOf("deps.claimAttempt") > -1 && handler.indexOf("deps.claimAttempt") < handler.indexOf("deps.generate!(");
+      assert(adapter.includes('from "./prompt-composition/compose.mjs"') && !handler.includes("generateWithModelRoute") && (!source.includes("generateWithModelRoute") || metered), "Oracle must use the packaged compiler and never activate a provider without switch and quota");
       assert(fs.existsSync(path.join(root, "supabase/tests/oracle_auth_test.ts")), "Oracle must retain direct-handler authentication regression tests");
     }
     if (functionName === "ai-feedback") {

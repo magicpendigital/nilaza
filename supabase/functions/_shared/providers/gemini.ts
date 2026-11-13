@@ -24,7 +24,8 @@ export async function invokeGemini(request: ModelProviderRequest, apiKey: string
   }
 
   const startedAt = Date.now();
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(request.model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+  // LLM phase 0: the key travels in a header, never in the URL (URLs end up in logs).
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(request.model)}:generateContent`;
   const requestBody = {
     systemInstruction: {
       parts: [{ text: request.system }]
@@ -39,7 +40,7 @@ export async function invokeGemini(request: ModelProviderRequest, apiKey: string
     }
   };
   request.traceHooks?.onRequest?.({
-    url: url.split("?")[0],
+    url,
     method: "POST",
     body: requestBody
   });
@@ -47,7 +48,8 @@ export async function invokeGemini(request: ModelProviderRequest, apiKey: string
     method: "POST",
     signal: AbortSignal.timeout(providerTimeoutMs(request.feature)),
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      "x-goog-api-key": apiKey
     },
     body: JSON.stringify(requestBody)
   });

@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "taskId": "ai-chat-tarot-daily-limit-2026-11-11",
+  "ownerAgent": "ai_runtime_agent",
+  "lane": "AI runtime: server-side daily limits for persona chat and Tarot AI (AI-02)",
+  "goal": "Finish the Phase 2 AI cost guard. Persona chat and Tarot AI already require sign-in but have no server-side limit, so one account can call a paid model without bound. Apply the decisions in force: Chat+Oracle 5 per local day (Oracle does not call a model yet, so persona chat carries the whole allowance) and Tarot AI 1 per local day for every account (Owner 04/11). Like Astrology AI, only a delivered (validated) Tarot reading uses up the day; failed attempts are capped so provider failures cannot run up cost.",
+  "successCriteria": [
+    "ai-persona-chat answers 429 daily_limit_reached once 5 model attempts were recorded for that account since local midnight (UTC+7); a safety redirect and a paused switch answer before any attempt is counted.",
+    "ai-tarot-reading answers 429 daily_limit_reached when the account already has a validated AI reading today, or has made 3 attempts today (1 delivered + 2 failed allowance); each allowed call records one attempt event before the model call.",
+    "A failed count or record answers 503 usage_check_unavailable and does not call the model.",
+    "Limits live in packages/agent-config/account-tier-policy.json (personaChat.dailyLimit 5, tarotAi.dailyLimit 1, tarotAi.failedAttemptAllowance 2).",
+    "Both functions pass deno check; the shared policy and daily-attempt tests pass; the app tests that cover these calls still pass."
+  ],
+  "writeScope": [
+    "supabase/functions/ai-tarot-reading/index.ts",
+    "supabase/functions/ai-persona-chat/index.ts",
+    "supabase/functions/_shared/account-tier-policy.ts",
+    "supabase/functions/_shared/account-tier-policy.test.ts",
+    "packages/agent-config/account-tier-policy.json",
+    "apps/admin/workflow-catalog.js",
+    "docs/backlog/review-2026-10-30.json",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "No SQL and no use of the unapplied nilaza_private reservation tables (20261002000000_ai_usage_reservation.sql stays disabled).",
+    "No app change in this slice: on 429 the app already shows its local Tarot reading or local chat reply; a clear 'come back tomorrow' message and a remaining-turns badge are the next app slice.",
+    "No deploy: both functions are redeployed only after the Owner approves."
+  ],
+  "impact": {
+    "entryPoint": "ai-persona-chat and ai-tarot-reading Edge Functions.",
+    "dataWrite": "One usage_events row per allowed attempt (persona_message_attempted, tarot_reading_attempted) under existing own-row RLS; Tarot reads own tarot_readings rows to count delivered readings.",
+    "backendContract": "Success responses unchanged; new 429 daily_limit_reached and 503 usage_check_unavailable.",
+    "adminVisibility": "Attempt events visible in usage data; workflow catalog digests refreshed.",
+    "privacySafety": "Counts only; no message, question or card text in the attempt rows. Safety redirects in chat still answer when the limit is reached.",
+    "observability": "Existing traces unchanged; attempt events give per-day counts.",
+    "rollback": "Revert the commit and redeploy the previous version."
+  },
+  "canonicalContracts": [
+    "supabase/functions/_shared/daily-attempts.ts claimDailyAttempt",
+    "packages/agent-config/account-tier-policy.json"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "AI runtime route.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/index.ts",
+      "reason": "Sign-in guard, no limit; every attempt stores a reading with moderationStatus.",
+      "sha256": "05d72fc17fda0a9c536f7169afc3f899004e73f4482b7510b83f567863735ba3"
+    },
+    {
+      "path": "supabase/functions/ai-persona-chat/index.ts",
+      "reason": "Sign-in guard and switch, no limit.",
+      "sha256": "8349419190e69182484f48a27af69ec861c3c1d213fce56f6199edcee6e14183"
+    },
+    {
+      "path": "supabase/functions/_shared/daily-attempts.ts",
+      "reason": "Shared count-then-record helper reused.",
+      "sha256": "3bc88cfe87dc82dc223d3e32a54d0c2d91adebc805b837386172066195cd1816"
+    },
+    {
+      "path": "supabase/functions/_shared/account-tier-policy.ts",
+      "reason": "Policy type and localDayStart.",
+      "sha256": "9a915a0e946629ee03cedb44005beefe6e7dc8d6236792206904c38bfd2dcb8f"
+    },
+    {
+      "path": "packages/agent-config/account-tier-policy.json",
+      "reason": "Home for the new limits.",
+      "sha256": "79bee268908ae19ed7a07d185060476a0e08bf8b2f91a74baff161840a5c76a0"
+    },
+    {
+      "path": "supabase/functions/ai-astrology-insight/index.ts",
+      "reason": "Precedent: only a delivered reading uses up the day, failed attempts capped.",
+      "sha256": "4635d0a173df1cf05518eac3aa7e603ee29410645c92bea5f42a78b17ab375c5"
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "reason": "App falls back to local text on 429 for chat and Tarot.",
+      "sha256": "91f37bd591005c6ef19fe45f3b970bc23bbaa605826e94b9ff6d31693e29021d"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before code; limits from decisions already in PLAN.md section 1 and 04/11; deploy left to the Owner."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Every model call needs sign-in, quota and a switch."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Reuses repository helpers only."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "Verified non-anonymous user already required before any work; usage_events and tarot_readings reads/inserts stay under existing own-row RLS with the caller's token.",
+    "sensitiveData": "Attempt events hold only counts and limits; no chat text, question or cards.",
+    "secretsLogging": "No secret touched.",
+    "externalInput": "Body already bounded by the shared guard; no new input fields.",
+    "dependencies": "No package added or upgraded.",
+    "migrationRelease": "No SQL. Redeploy of both functions needs Owner approval.",
+    "stopCondition": "Stop if deno check or a policy/daily-attempt test fails.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record passed preflight before the code edit (11/11). Then: daily limit in ai-persona-chat (after safety redirect and switch) and ai-tarot-reading (delivered check + capped attempts, after input validation), policy limits and type, tarotDailyLimits helper and test, refreshed catalog digests, AI-02 backlog note and PLAN.md status.",
+    "paths": [
+      "PLAN.md",
+      "apps/admin/workflow-catalog.js",
+      "docs/backlog/review-2026-10-30.json",
+      "packages/agent-config/account-tier-policy.json",
+      "supabase/functions/_shared/account-tier-policy.test.ts",
+      "supabase/functions/_shared/account-tier-policy.ts",
+      "supabase/functions/ai-persona-chat/index.ts",
+      "supabase/functions/ai-tarot-reading/index.ts"
+    ]
+  },
+  "validationCommands": [
+    "npx --yes deno@2 test supabase/functions/_shared/daily-attempts_test.ts supabase/functions/_shared/account-tier-policy.test.ts",
+    "npx --yes deno@2 check supabase/functions/ai-tarot-reading/index.ts supabase/functions/ai-persona-chat/index.ts",
+    "node scripts/validate-admin-workflow-catalog.mjs",
+    "npm run feature:preflight -- --record docs/feature-plans/ai-chat-tarot-daily-limit-2026-11-11.json"
+  ],
+  "managerTestPath": "After an approved deploy: signed in, the 6th chat message of the day and a second Tarot AI reading after a delivered one return 429 and the app shows its local text.",
+  "residualRisk": "Two simultaneous requests can both pass the count and exceed the limit by one. Persona chat 5 messages per day is tight; the Owner may raise it in the policy file. Until the next app slice the user sees local text rather than a 'come back tomorrow' message.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

@@ -1,7 +1,9 @@
 import {
   ModelProviderError,
   normalizeUsage,
+  providerErrorDetail,
   providerErrorFromResponse,
+  thrownProviderError,
   PROVIDER_TIMEOUT_MS,
   providerTimeoutMs,
   readJsonResponse
@@ -53,10 +55,14 @@ function astrologyModelOutputSchema() {
   };
 }
 
-function openRouterFormat(request: ModelProviderRequest) {
+// LLM phase 0 (Owner 2026-11-04): every feature routes only to zero-data-retention endpoints that do not
+// collect data (chat, journal and birth data included). Both default models have ZDR endpoints (public list 2026-11-11).
+export const OPENROUTER_PRIVACY = { zdr: true, data_collection: "deny" } as const;
+
+export function openRouterFormat(request: ModelProviderRequest) {
   // No JSON mode for Tarot: QA 2026-11-03 showed DeepSeek taking 22 s and returning a malformed reply
   // with it on (6 s without). The rejection code in the trace now names any structure problem.
-  if (request.feature !== "astrology_report" || request.responseSchema !== "astrology_ai_insight_v1") return {};
+  if (request.feature !== "astrology_report" || request.responseSchema !== "astrology_ai_insight_v1") return { provider: { ...OPENROUTER_PRIVACY } };
   return {
     response_format: {
       type: "json_schema",
@@ -68,8 +74,7 @@ function openRouterFormat(request: ModelProviderRequest) {
     },
     provider: {
       require_parameters: true,
-      zdr: true,
-      data_collection: "deny"
+      ...OPENROUTER_PRIVACY
     }
   };
 }
@@ -150,12 +155,17 @@ export async function invokeOpenRouter(
     method: "POST",
     body: requestBody
   });
-  const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-    method: "POST",
-    signal: AbortSignal.timeout(providerTimeoutMs(request.feature)),
-    headers,
-    body: JSON.stringify(requestBody)
-  });
+  let response: Response;
+  try {
+    response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      signal: AbortSignal.timeout(providerTimeoutMs(request.feature)),
+      headers,
+      body: JSON.stringify(requestBody)
+    });
+  } catch (error) {
+    throw thrownProviderError("openrouter", error);
+  }
   const latencyMs = Date.now() - startedAt;
   const { text, json } = await readJsonResponse(response);
   const billingReceipt = readOpenRouterBillingReceipt(json, request.model, response.headers.get("x-request-id"));
@@ -178,7 +188,7 @@ export async function invokeOpenRouter(
     throw new ModelProviderError({ provider: "openrouter", code: "trace_capture_failed", message: "Provider response trace capture failed.", retryable: false, billingReceipt });
   }
   if (!response.ok) {
-    const error = providerErrorFromResponse("openrouter", response.status, "");
+    const error = providerErrorFromResponse("openrouter", response.status, "", providerErrorDetail(json));
     error.billingReceipt = billingReceipt;
     throw error;
   }

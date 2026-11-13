@@ -1,5 +1,6 @@
 import {
   BackendLimitError,
+  BackendUnavailableError,
   generatePersonaReply,
   generateOracleTurn,
   generateAiCouncilTurn,
@@ -125,16 +126,20 @@ describe("backendClient", () => {
       );
     });
 
-    it("returns fallback on backend error", async () => {
-      mockFetch.mockRejectedValueOnce(new Error("Network Error"));
-      const result = await generateOracleTurn(input, fallback, backendOptions);
-      expect(result).toEqual({
-        reply: "fallback",
-        intent: "reflect",
-        confidence: 0.5,
-        actionCards: [],
-        moderationStatus: "fallback"
-      });
+    it("says offline, busy and limit instead of a canned Oracle reply (oracle-ai-tools-2026-11-11)", async () => {
+      mockFetch.mockRejectedValueOnce(new TypeError("Network request failed"));
+      await expect(generateOracleTurn(input, fallback, backendOptions)).rejects.toEqual(new BackendUnavailableError("offline"));
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 503, json: async () => ({ error: "oracle_unavailable" }) });
+      await expect(generateOracleTurn(input, fallback, backendOptions)).rejects.toMatchObject({ reason: "busy", status: 503 });
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 429, json: async () => ({ error: "daily_limit_reached" }) });
+      await expect(generateOracleTurn(input, fallback, backendOptions)).rejects.toEqual(new BackendLimitError("daily_limit_reached", 429));
+    });
+
+    it("keeps the on-device crisis reply and the local router without a backend", async () => {
+      const safety = jest.fn().mockReturnValue({ reply: "Call 115", intent: "safety_redirect", confidence: 0.95, actionCards: [], moderationStatus: "blocked", safety: "crisis" });
+      mockFetch.mockRejectedValueOnce(new TypeError("Network request failed"));
+      await expect(generateOracleTurn(input, safety, backendOptions)).resolves.toMatchObject({ safety: "crisis" });
+      await expect(generateOracleTurn(input, fallback, { baseUrl: undefined })).resolves.toMatchObject({ moderationStatus: "fallback" });
     });
   });
 
@@ -161,11 +166,29 @@ describe("backendClient", () => {
       );
     });
 
-    it("surfaces only a paused feature; other errors keep the fallback reply", async () => {
+    it("surfaces a paused feature, and an expired sign-in as auth instead of a canned reply", async () => {
       mockFetch.mockResolvedValueOnce({ ok: false, status: 503, json: async () => ({ error: "feature_paused" }) });
       await expect(generatePersonaReply(input, fallback, backendOptions)).rejects.toMatchObject({ code: "feature_paused", status: 503 });
       mockFetch.mockResolvedValueOnce({ ok: false, status: 401, json: async () => ({ error: "authentication_required" }) });
-      await expect(generatePersonaReply(input, fallback, backendOptions)).resolves.toMatchObject({ text: "fallback" });
+      await expect(generatePersonaReply(input, fallback, backendOptions)).rejects.toEqual(new BackendUnavailableError("auth", 401));
+    });
+
+    it("surfaces the server daily limit (2026-11-11); a 503 usage check is busy", async () => {
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 429, json: async () => ({ error: "daily_limit_reached" }) });
+      await expect(generatePersonaReply(input, fallback, backendOptions)).rejects.toMatchObject({ code: "daily_limit_reached", status: 429 });
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 503, json: async () => ({ error: "usage_check_unavailable" }) });
+      await expect(generatePersonaReply(input, fallback, backendOptions)).rejects.toMatchObject({ reason: "busy", status: 503 });
+    });
+
+    it("still answers a crisis signal on the device when the AI is unreachable", async () => {
+      const safety = jest.fn().mockReturnValue({ text: "Call 115", moderationStatus: "blocked", safety: "crisis" });
+      mockFetch.mockRejectedValueOnce(new TypeError("Network request failed"));
+      await expect(generatePersonaReply(input, safety, backendOptions)).resolves.toMatchObject({ safety: "crisis" });
+    });
+
+    it("says busy when the answer cannot be read", async () => {
+      mockFetch.mockResolvedValueOnce({ ok: true, status: 200, json: async () => { throw new SyntaxError("bad json"); } });
+      await expect(generatePersonaReply(input, fallback, backendOptions)).rejects.toMatchObject({ reason: "busy" });
     });
 
     it("forwards session continuity fields without changing the backend path", async () => {
@@ -206,16 +229,14 @@ describe("backendClient", () => {
       });
     });
 
-    it("returns fallback on non-ok response", async () => {
-      mockFetch.mockResolvedValueOnce({ ok: false });
-      const result = await generatePersonaReply(input, fallback, backendOptions);
-      expect(result).toEqual({ text: "fallback", moderationStatus: "fallback" });
+    it("says busy on a non-ok response instead of a canned reply", async () => {
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 500 });
+      await expect(generatePersonaReply(input, fallback, backendOptions)).rejects.toMatchObject({ reason: "busy", status: 500 });
     });
 
-    it("returns fallback on network error", async () => {
-      mockFetch.mockRejectedValueOnce(new Error("Network Error"));
-      const result = await generatePersonaReply(input, fallback, backendOptions);
-      expect(result).toEqual({ text: "fallback", moderationStatus: "fallback" });
+    it("says offline on a network error instead of a canned reply (device test 2026-11-11)", async () => {
+      mockFetch.mockRejectedValueOnce(new TypeError("Network request failed"));
+      await expect(generatePersonaReply(input, fallback, backendOptions)).rejects.toEqual(new BackendUnavailableError("offline"));
     });
 
     it("returns null if no baseUrl", async () => {
@@ -334,26 +355,28 @@ describe("backendClient", () => {
       await expect(generateAiCouncilTurn(input, fallback, backendOptions)).rejects.toEqual(new BackendLimitError("daily_council_limit", 429));
       mockFetch.mockResolvedValueOnce({ ok: false, status: 401, json: async () => ({ error: "sign_in_required" }) });
       await expect(generateAiCouncilTurn(input, fallback, backendOptions)).rejects.toMatchObject({ code: "sign_in_required", status: 401 });
-      // Other server errors still fall back.
+      // Other server errors say busy instead of a canned council.
       mockFetch.mockResolvedValueOnce({ ok: false, status: 500, json: async () => ({}) });
-      await expect(generateAiCouncilTurn(input, fallback, backendOptions)).resolves.toMatchObject({ moderationStatus: "fallback" });
+      await expect(generateAiCouncilTurn(input, fallback, backendOptions)).rejects.toMatchObject({ reason: "busy", status: 500 });
     });
 
-    it("surfaces a feature paused from Admin, while other 503s still fall back", async () => {
+    it("surfaces a feature paused from Admin, while other 503s say busy", async () => {
       mockFetch.mockResolvedValueOnce({ ok: false, status: 503, json: async () => ({ error: "feature_paused" }) });
       await expect(generateAiCouncilTurn(input, fallback, backendOptions)).rejects.toEqual(new BackendLimitError("feature_paused", 503));
       mockFetch.mockResolvedValueOnce({ ok: false, status: 503, json: async () => ({ error: "ai_unavailable" }) });
-      await expect(generateAiCouncilTurn(input, fallback, backendOptions)).resolves.toMatchObject({ moderationStatus: "fallback" });
+      await expect(generateAiCouncilTurn(input, fallback, backendOptions)).rejects.toMatchObject({ reason: "busy", status: 503 });
     });
 
-    it("returns fallback on backend error", async () => {
-      mockFetch.mockRejectedValueOnce(new Error("Network Error"));
-      const result = await generateAiCouncilTurn(input, fallback, backendOptions);
-      expect(result).toEqual({
-        turns: [{ personaId: "figure-aristotle", text: "fallback", lens: "reason" }],
-        promptVersionId: "ai_council_system",
-        moderationStatus: "fallback"
-      });
+    it("says offline on a network error; the local safety reply still answers", async () => {
+      mockFetch.mockRejectedValueOnce(new TypeError("Network request failed"));
+      await expect(generateAiCouncilTurn(input, fallback, backendOptions)).rejects.toEqual(new BackendUnavailableError("offline"));
+      const safety = jest.fn().mockReturnValue({ turns: [], moderationStatus: "blocked", safety: "crisis", safetyText: "Call 115" });
+      mockFetch.mockRejectedValueOnce(new TypeError("Network request failed"));
+      await expect(generateAiCouncilTurn(input, safety, backendOptions)).resolves.toMatchObject({ safety: "crisis" });
+    });
+
+    it("keeps the local council when no backend is configured", async () => {
+      await expect(generateAiCouncilTurn(input, fallback, { baseUrl: undefined })).resolves.toMatchObject({ moderationStatus: "fallback" });
     });
   });
 
@@ -382,6 +405,15 @@ describe("backendClient", () => {
       mockFetch.mockRejectedValueOnce(new Error("Network Error"));
       const result = await generateTarotReading(input, fallback, backendOptions);
       expect(result).toMatchObject({ summary: "fallback", reflection: "fallback", moderationStatus: "fallback", provenance: {sourceKind:"fallback",persistenceStatus:"skipped"} });
+    });
+
+    it("surfaces the server daily limit and a paused feature; sign-in errors still fall back (2026-11-11)", async () => {
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 429, json: async () => ({ error: "daily_limit_reached" }) });
+      await expect(generateTarotReading(input, fallback, backendOptions)).rejects.toMatchObject({ code: "daily_limit_reached", status: 429 });
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 503, json: async () => ({ error: "feature_paused" }) });
+      await expect(generateTarotReading(input, fallback, backendOptions)).rejects.toMatchObject({ code: "feature_paused" });
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 401, json: async () => ({ error: "authentication_required" }) });
+      await expect(generateTarotReading(input, fallback, backendOptions)).resolves.toMatchObject({ summary: "fallback" });
     });
 
     it("keeps complete sections on a valid result and rejects malformed success bodies", async () => {

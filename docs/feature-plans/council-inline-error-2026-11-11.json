@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "taskId": "council-inline-error-2026-11-11",
+  "ownerAgent": "mobile_app_agent",
+  "lane": "Mobile app: Council errors in the room, question kept, bounded history (CO-03; TA-15 record)",
+  "goal": "CO-03: a failed or limited Council turn shows only a toast and, for a generic failure, leaves the question in the thread with no answer. Show the reason inside the room, give the question back for every failure, and bound each history turn sent to the server (persona chat already caps at 800 characters) so long councils stay under the 32 KB request limit. Canned turns are already labelled (fallback flag). Also record that TA-15 is already fixed by the Tarot draw redesign (6e0fdfd).",
+  "successCriteria": [
+    "useAiCouncilRoom exposes roomNotice; a limit, pause, sign-in or generic failure sets it, and the next send clears it.",
+    "Every failure removes the unanswered question from the thread and puts it back in the box.",
+    "AiCouncilRoom shows roomNotice as a system bubble.",
+    "Each sanitizedHistory turn text is at most 800 characters.",
+    "Hook tests cover the generic failure and the history cap; app tests and tsc pass.",
+    "Backlog TA-15 marked done with evidence TarotDrawStep tests (fan draws, drawn slot opens full screen)."
+  ],
+  "writeScope": [
+    "apps/mobile/src/features/council/useAiCouncilRoom.ts",
+    "apps/mobile/src/features/council/AiCouncilRoom.tsx",
+    "apps/mobile/src/features/council/__tests__/useAiCouncilRoom.test.tsx",
+    "docs/backlog/review-2026-10-30.json",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "Sending persona ids instead of full persona profiles needs a server change; left for a later slice.",
+    "No backend change; no deploy."
+  ],
+  "impact": {
+    "entryPoint": "Council room send in the mobile app.",
+    "dataWrite": "No new writes; the request body is smaller.",
+    "backendContract": "Same request shape; history texts shorter.",
+    "adminVisibility": "No Admin change; existing council events.",
+    "privacySafety": "Less conversation text leaves the device per request; crisis replies unchanged.",
+    "observability": "Existing ai_council_turn_failed and ai_council_turn_limited events.",
+    "rollback": "Revert the commit; ships with the next app build."
+  },
+  "canonicalContracts": [
+    "apps/mobile/src/features/council/useAiCouncilRoom.ts"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile route and checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/mobile/src/features/council/useAiCouncilRoom.ts",
+      "reason": "Toast-only errors; generic failure leaves the question in the thread; full history texts.",
+      "sha256": "3045721157f953d8832314142900a228fcb8845660a0ebaa3981e62f47ce2d69"
+    },
+    {
+      "path": "apps/mobile/src/features/council/AiCouncilRoom.tsx",
+      "reason": "Renders safetyNotice as a system bubble; place for the error.",
+      "sha256": "d544a9773d670f8b5cf7df8001d73672aade236d13156da129fc25e14c9a0466"
+    },
+    {
+      "path": "apps/mobile/src/features/council/__tests__/useAiCouncilRoom.test.tsx",
+      "reason": "Existing hook tests.",
+      "sha256": "64ec10a961f17d347e5f4ad547c5bd361d20fed51b4bf451e0bfcbdc1188fd31"
+    },
+    {
+      "path": "apps/mobile/src/features/tarot/TarotDrawStep.tsx",
+      "reason": "TA-15 evidence: fan press draws, drawn slot opens full screen.",
+      "sha256": "1404c7e0adce3dee4e5ddee9a44b3de57b0dc8ed86abd94b65ecc2de1920d1f3"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before code; backlog items CO-03 and TA-15."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Repository code only."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No change to sign-in or row access.",
+    "sensitiveData": "Sends less conversation text per request.",
+    "secretsLogging": "No secret read, written or logged.",
+    "externalInput": "No new input; error codes come from existing responses.",
+    "dependencies": "No package added or upgraded.",
+    "migrationRelease": "No SQL; ships with the next AAB.",
+    "stopCondition": "Stop if tsc or the app tests fail.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record passed preflight before the code edit (11/11). Then: roomNotice and restoreQuestion in the hook, 800-character history cap, system bubble in the room, BackendLimitError in the test mock plus two tests, TA-15 and CO-03 backlog entries, PLAN.md. 453 app tests and tsc pass.",
+    "paths": [
+      "PLAN.md",
+      "apps/mobile/src/features/council/AiCouncilRoom.tsx",
+      "apps/mobile/src/features/council/__tests__/useAiCouncilRoom.test.tsx",
+      "apps/mobile/src/features/council/useAiCouncilRoom.ts",
+      "docs/backlog/review-2026-10-30.json"
+    ]
+  },
+  "validationCommands": [
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npx --prefix apps/mobile jest src/features/council",
+    "npm run feature:preflight -- --record docs/feature-plans/council-inline-error-2026-11-11.json"
+  ],
+  "managerTestPath": "On a device: with the network off, sending a council question shows the reason in the room and the question is back in the box.",
+  "residualRisk": "Full persona profiles still travel with each request; measure the body size on a long council later.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

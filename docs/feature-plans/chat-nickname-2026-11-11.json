@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "taskId": "chat-nickname-2026-11-11",
+  "ownerAgent": "ai_runtime_agent",
+  "lane": "Persona chat: send the person's chosen name to the guide (CH-13)",
+  "goal": "Owner decision 04/11: the guide may receive the person's chosen name (nickname) in persona chat so it can address them. Send it as one bounded, sanitized line in the Allowed User Context block, and change the Profile hint that currently promises the name is never sent to AI.",
+  "successCriteria": [
+    "The app sends profile.nickname in persona chat userContext; an empty name is omitted.",
+    "The server keeps at most 40 characters on one line, drops control characters and the characters [ ] = < > { } so the name cannot open a new prompt block, and adds userName=<name> to the Allowed User Context with an instruction to use it only as a form of address.",
+    "The Profile hint says the name is shown on Today and sent to the guide in chat (vi and en).",
+    "Deno test for the sanitizer passes; persona chat passes deno check; app tests and tsc pass; backend contract validation passes."
+  ],
+  "writeScope": [
+    "supabase/functions/_shared/persona-prompt-assembler.ts",
+    "supabase/functions/_shared/persona-prompt-assembler_test.ts",
+    "supabase/functions/ai-persona-chat/index.ts",
+    "apps/mobile/src/backendClient.ts",
+    "apps/mobile/App.tsx",
+    "apps/admin/workflow-catalog.js",
+    "docs/backlog/review-2026-10-30.json",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "Council, Daily and Tarot do not receive the name in this slice.",
+    "No memory across sessions; no SQL."
+  ],
+  "impact": {
+    "entryPoint": "Persona chat send in App.tsx and the persona prompt assembler.",
+    "dataWrite": "No new stored field; the name travels in the request and the model prompt only.",
+    "backendContract": "Optional userContext.nickname added; old clients keep working.",
+    "adminVisibility": "Redacted traces keep the prompt redaction rules; catalog digests refreshed.",
+    "privacySafety": "A chosen name is personal data sent to OpenRouter ZDR endpoints (phase 0). Data safety and the privacy policy must list it; noted for the Owner.",
+    "observability": "No new events.",
+    "rollback": "Revert the commit and redeploy ai-persona-chat."
+  },
+  "canonicalContracts": [
+    "supabase/functions/_shared/persona-prompt-assembler.ts assemblePersonaPromptStack"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "AI runtime and mobile routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "supabase/functions/_shared/persona-prompt-assembler.ts",
+      "reason": "Allowed User Context carries only goals and tone.",
+      "sha256": "22de06de144c350927622610ce7c7bc492d8e357ceab6d210d9c918f9226998c"
+    },
+    {
+      "path": "supabase/functions/ai-persona-chat/index.ts",
+      "reason": "PersonaInput userContext type.",
+      "sha256": "8349419190e69182484f48a27af69ec861c3c1d213fce56f6199edcee6e14183"
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "reason": "PersonaReplyInput userContext type.",
+      "sha256": "91f37bd591005c6ef19fe45f3b970bc23bbaa605826e94b9ff6d31693e29021d"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Chat send builds userContext; Profile displayNameHint says the name is not sent.",
+      "sha256": "50046a34bf510bc9d8498ad58129f897f1f5534dc8b23d4f071ab0f49cca6183"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before code; Owner decision 04/11 recorded in PLAN.md section 1."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Context each function sends to a model is bounded and labelled."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Repository code only."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No change; persona chat already requires sign-in.",
+    "sensitiveData": "Adds the chosen name only, bounded to 40 characters; no email or account id.",
+    "secretsLogging": "No secret read, written or logged.",
+    "externalInput": "The name is user text: one line, 40 characters, block-delimiter characters removed, labelled as a form of address only (prompt-injection bound).",
+    "dependencies": "No package added or upgraded.",
+    "migrationRelease": "No SQL. ai-persona-chat redeploy needs Owner approval; app part ships with the next AAB.",
+    "stopCondition": "Stop if a test, deno check or tsc fails.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record passed preflight before the code edit (11/11). Then: sanitizeNickname and the userName line in the assembler with a test, nickname in both userContext types and the chat send, Profile hint in vi and en, catalog digests, CH-13 backlog note and PLAN.md.",
+    "paths": [
+      "PLAN.md",
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/backendClient.ts",
+      "docs/backlog/review-2026-10-30.json",
+      "supabase/functions/_shared/persona-prompt-assembler.ts",
+      "supabase/functions/_shared/persona-prompt-assembler_test.ts",
+      "supabase/functions/ai-persona-chat/index.ts"
+    ]
+  },
+  "validationCommands": [
+    "npx --yes deno@2 test --allow-env supabase/functions/_shared/persona-prompt-assembler_test.ts",
+    "npx --yes deno@2 check supabase/functions/ai-persona-chat/index.ts",
+    "npm run validate:backend",
+    "npm run feature:preflight -- --record docs/feature-plans/chat-nickname-2026-11-11.json"
+  ],
+  "managerTestPath": "With a name set in Profile, a guide reply can address the person by that name.",
+  "residualRisk": "A model may overuse the name; the instruction asks for occasional use only.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

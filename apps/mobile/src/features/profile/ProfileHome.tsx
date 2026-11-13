@@ -84,6 +84,16 @@ export function ProfileHome(props: ProfileHomeProps) {
           <Text style={s.editText}>{vi ? "Sửa" : "Edit"}</Text>
         </Pressable>
       </View>
+      {stats.every((item) => item.value === 0) ? (
+        <View style={s.firstSteps}>
+          <Text style={s.firstStepsTitle}>{vi ? "Hành trình của bạn bắt đầu từ đây" : "Your journey starts here"}</Text>
+          <Text style={s.rowDetail}>
+            {vi
+              ? "Lật lá hôm nay ở tab Hôm nay hoặc viết một dòng vào Nhật ký. Chuỗi ngày, số mục Nhật ký và lần trải bài sẽ hiện ở đây."
+              : "Turn today's card on the Today tab or write a line in your Journal. Your streak, journal entries and readings will show here."}
+          </Text>
+        </View>
+      ) : (
       <View style={s.stats}>
         {stats.map((item) => (
           <View key={item.label} style={s.stat} accessible accessibilityLabel={`${item.value} ${item.label}`}>
@@ -92,6 +102,7 @@ export function ProfileHome(props: ProfileHomeProps) {
           </View>
         ))}
       </View>
+      )}
 
       <Section title={vi ? "Cá nhân hóa" : "Personalisation"}>
         <Row icon="sparkles-outline" title={vi ? "Mục tiêu" : "Goals"} detail={props.goals} onPress={props.onPreferences} />
@@ -152,6 +163,8 @@ const s = StyleSheet.create({
   edit: { minHeight: 40, paddingHorizontal: 16, borderRadius: radius.pill, borderWidth: 1, borderColor: "rgba(247, 241, 230, 0.18)", justifyContent: "center" },
   editText: { color: "#E9E2D6", fontFamily: typography.bodySemiBoldFontFamily, fontSize: 13.5 },
   stats: { flexDirection: "row", gap: 8 },
+  firstSteps: { padding: 14, borderRadius: radius.card, backgroundColor: "#1F1C1E", gap: 4 },
+  firstStepsTitle: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 18 },
   stat: { flex: 1, minWidth: 0, padding: 12, borderRadius: radius.card, backgroundColor: "#1F1C1E", gap: 2 },
   statValue: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 26 },
   statLabel: { color: "#B8B0A4", fontFamily: typography.bodyFontFamily, fontSize: 12 },

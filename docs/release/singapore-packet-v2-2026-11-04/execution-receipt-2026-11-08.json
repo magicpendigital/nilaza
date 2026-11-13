@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "kind": "nilaza-singapore-2c-execution-receipt",
+  "target": {
+    "id": "nilaza-singapore-prelaunch-qa",
+    "kind": "staging",
+    "organizationId": "drxbmvimiekeoeesgssp",
+    "projectRef": "etfajmrwyywokgafzxsb"
+  },
+  "executedBy": "Owner, Supabase CLI 2.108.0, npx supabase db push --linked --include-seed, 2026-11-08",
+  "packetMigrationSetSha256": "9375e1fec225399d5d210cee0488e28ed30d2ccf40ab54eeb8d3ce7b3c27a0d5",
+  "gateMigrationSetSha256": "477fa3c926fa7633b9de695deb4a219b5918cf12ef34d9a8b5567a803758f2f4",
+  "seedSha256": "702e581fc6ed19e53390eadf2c4fce3488f30a19db93c4fc78a2fd8c4b234cb9",
+  "dryRun": "33 files listed, exact order match with packet-manifest.json, plus seed.generated.sql",
+  "apply": "33/33 migrations applied, seed loaded, no ERROR. Notices were idempotent skips; cron jobs skipped by design (settings off); WARNING 01007 no privileges granted for schema auth in 20261002000000 (service_role already holds them, see post-apply check). CLI could not cache its local catalog because Docker Desktop was off (local only).",
+  "readback": {
+    "checkedAt": "2026-11-08T16:55:13.662Z",
+    "method": "npx supabase migration list --linked",
+    "localEqualsRemote": true,
+    "versions": [
+      "202606120001",
+      "202606120002",
+      "20260622000000",
+      "20260622000001",
+      "20260626000000",
+      "20260626000001",
+      "20260626000002",
+      "20260627000000",
+      "20260629020702",
+      "20260630000000",
+      "20260706000000",
+      "20260710000000",
+      "20260902131408",
+      "20260903033047",
+      "20260908000000",
+      "20260909014614",
+      "20260909020528",
+      "20260909043000",
+      "20260913143958",
+      "20260913184421",
+      "20260917172721",
+      "20260917174042",
+      "20260919202005",
+      "20260925155619",
+      "20260926152118",
+      "20261001000000",
+      "20261002000000",
+      "20261004183447",
+      "20261014074711",
+      "20261014080754",
+      "20261025000000",
+      "20261031090000",
+      "20261031100000"
+    ]
+  },
+  "postApplyCheck": {
+    "query": "docs/release/singapore-packet-v2-2026-11-04/post-apply-check.sql",
+    "result": {
+      "migrations": 33,
+      "tarot_cards": 78,
+      "ai_budget": "disabled",
+      "public_tables_without_rls": "none",
+      "client_truncate": false,
+      "client_delete_fn": false,
+      "anon_private_schema": false,
+      "service_auth_usage": true,
+      "service_auth_users_select": true,
+      "auth_users": 0
+    },
+    "status": "PASS"
+  },
+  "securityAdvisor": {
+    "errors": 0,
+    "warnings": [
+      {
+        "item": "public.vector extension in public schema",
+        "decision": "accepted for now; follow-up migration to move it to the extensions schema after a local rehearsal"
+      },
+      {
+        "item": "public.get_ai_feature_switches() SECURITY DEFINER executable by authenticated",
+        "decision": "accepted by design: the function checks nilaza_private.has_capability(ai.read) first; Admin reads switches through it"
+      },
+      {
+        "item": "public.set_ai_feature_switch(text,boolean,text) SECURITY DEFINER executable by authenticated",
+        "decision": "accepted by design: requires ai.manage, a 3-200 character reason, and writes admin_audit_logs"
+      }
+    ],
+    "info": 16
+  },
+  "status": "PASS",
+  "limits": "Edge Functions, secrets, Auth/SMTP and runtime retarget are not part of 2c; new-user sign-up stays off."
+}

@@ -7,6 +7,8 @@ import { featurePaused, featurePausedBody } from "../_shared/feature-switch.ts";
 import { sanitizeProviderMetadata } from "../_shared/model-provider.ts";
 import { assemblePersonaPromptStack } from "../_shared/persona-prompt-assembler.ts";
 import { AiRequestError, aiAuthUserOrUnavailable, guardAiJsonRequest } from "../_shared/ai-request-guard.ts";
+import { claimDailyAttempt } from "../_shared/daily-attempts.ts";
+import { accountTierPolicy } from "../_shared/account-tier-policy.ts";
 
 type Language = "vi" | "en" | string;
 
@@ -37,6 +39,7 @@ type PersonaInput = {
   userContext?: {
     goals?: string[];
     tone?: string;
+    nickname?: string;
     handoffContext?: unknown;
   };
 };
@@ -115,6 +118,13 @@ serve(async (req) => {
     }
     // Emergency switch from Admin; a safety reply above still answers while chat rests.
     if (await featurePaused(supabase, "persona_chat")) return jsonResponse(featurePausedBody, 503);
+    // AI-02: Chat+Oracle 5 model attempts per local day (Oracle has no model call yet); safety replies above stay free.
+    const attempt = await claimDailyAttempt(supabase as never, {
+      userId, eventName: "persona_message_attempted", feature: "persona_chat",
+      limit: accountTierPolicy.personaChat?.dailyLimit ?? 5
+    });
+    if (attempt === "limit_reached") return jsonResponse({ error: "daily_limit_reached" }, 429);
+    if (attempt === "unavailable") return jsonResponse({ error: "usage_check_unavailable" }, 503);
 
     const sanitizedHistory = sanitizeHistory(input.sanitizedHistory, text);
     // Analysis CH-06: context brought from Tarot or Astrology rides with each turn as a labelled block.

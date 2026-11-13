@@ -125,6 +125,8 @@ export type ModelGenerationResult = {
     code?: string;
     status?: number;
     resolvedModel?: string;
+    /** Content-free: provider error code/message or "output_check:<rejection code>". */
+    detail?: string;
     billingReceipt?: OpenRouterBillingReceipt;
   }>;
   requestId?: string;
@@ -146,6 +148,8 @@ export class ModelProviderError extends Error {
   retryable: boolean;
   safetyBlocked: boolean;
   billingReceipt?: OpenRouterBillingReceipt;
+  /** Provider's short error code/message (see providerErrorDetail), or the output check's rejection code. */
+  providerDetail?: string;
 
   constructor(input: {
     provider: ModelProviderName;
@@ -185,18 +189,44 @@ export async function readJsonResponse(response: Response) {
   return { text, json };
 }
 
-export function providerErrorFromResponse(provider: ModelProviderName, status: number, bodyText: string) {
+export function providerErrorFromResponse(provider: ModelProviderName, status: number, bodyText: string, detail?: string) {
   const code =
     status === 401 || status === 403 ? "provider_auth_error" :
     status === 429 ? "rate_limit" :
     status >= 500 ? "provider_5xx" :
     "provider_error";
-  return new ModelProviderError({
+  const error = new ModelProviderError({
     provider,
     code,
     status,
     retryable: status === 429 || status >= 500,
     message: `${provider} request failed with status ${status}: ${bodyText.slice(0, 220)}`
+  });
+  if (detail) error.providerDetail = detail;
+  return error;
+}
+
+/**
+ * LLM phase 0: the provider's own short error code and message, for diagnosis. Metadata is dropped
+ * because a moderation error can echo flagged input; the result is at most 160 characters.
+ */
+export function providerErrorDetail(json: unknown): string | undefined {
+  const error = json && typeof json === "object" ? (json as { error?: unknown }).error : undefined;
+  if (!error || typeof error !== "object") return typeof error === "string" ? error.slice(0, 160) : undefined;
+  const { code, message } = error as { code?: unknown; message?: unknown };
+  const parts = [typeof code === "string" || typeof code === "number" ? String(code) : "", typeof message === "string" ? message : ""].filter(Boolean);
+  return parts.length ? parts.join(": ").replace(/\s+/g, " ").slice(0, 160) : undefined;
+}
+
+/** A thrown fetch failure: an abort by our timeout is provider_timeout, anything else is network_error. */
+export function thrownProviderError(provider: ModelProviderName, error: unknown): ModelProviderError {
+  const name = error instanceof Error ? error.name : "";
+  const timeout = name === "TimeoutError" || name === "AbortError";
+  return new ModelProviderError({
+    provider,
+    code: timeout ? "provider_timeout" : "network_error",
+    message: error instanceof Error ? error.message.slice(0, 160) : "Provider request failed.",
+    retryable: true
   });
 }
 
