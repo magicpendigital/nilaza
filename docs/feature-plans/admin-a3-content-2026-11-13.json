@@ -1,0 +1,175 @@
+{
+  "schemaVersion": 1,
+  "taskId": "admin-a3-content-2026-11-13",
+  "ownerAgent": "admin_frontend_agent",
+  "lane": "SQL + Storage + Admin: Admin redesign step A3 (D7 per-item drafts and publish, D8 content-images bucket, D10 admin timeline)",
+  "goal": "Prepare, without applying, the backend and Admin screens for step A3 of spec ADMIN_SCREENS_SPEC_2026-11-04: server-side drafts per content item (persona, deck, card, app copy, asset) with per-item publish that merges only the named items into a new published bundle (AD-01/03/06), item history and restore as a new draft (AD-07), persona publish synced into public.personas so chat reads the same source (spec 3.3), a server check that editors cannot change an item's published status (AD-15), a content-images Storage bucket for image upload (D8, AD-08) and one admin timeline RPC (D10, spec 3.15). Editors only save drafts; content.publish (Owner/admin) publishes. Without the migrations the Admin keeps the current whole-bundle behaviour and names the migration it needs.",
+  "successCriteria": [
+    "Migration 20261113100000 creates public.admin_content_item_versions (RLS on, no client grants) and security definer RPCs with empty search_path: list_content_item_drafts (content.read), save_content_item_draft (content.draft, optimistic revision, refuses an editor's status change), publish_content_items (content.publish, note 5-500 characters, merges only the named items into a new published admin_content_bundles version, archives the previous bundle and item versions, syncs persona items into public.personas, audit row), list_content_item_history (content.read) and restore_content_item_version (content.draft, copies an old version into the draft). anon has no execute.",
+    "Migration 20261113100100 creates get_admin_timeline(limit, before) (hub.read) returning actor, action, target, created_at and an allowlisted note from admin_audit_logs and admin_content_bundle_events; role changes only for roles.manage.",
+    "Migration 20261113100200 creates the public content-images bucket (png/jpeg/webp, 1 MB) with insert by content.draft and delete by content.delete through nilaza_private.has_capability; separate file for its own approval.",
+    "PGlite verification passes for the permission matrix owner/admin/editor/safety_reviewer/anon, per-item publish leaves other drafts untouched, restore creates a draft, persona sync, timeline rows; Storage policies are stubbed or stated not verified.",
+    "Admin content workspace: Luu nhap saves the item to the server, lists filter Dang dung / Nhap / Thieu ban dich, the 78-card list filters Thieu ban dich / Thieu anh / Sua chua phat hanh, Xem lai & phat hanh shows the diff against the published item and requires a note (content.publish only; editors see cho Owner phat hanh), history panel with Khoi phuc, image upload to content-images; when an RPC or the bucket is missing the page keeps whole-bundle behaviour and names the migration.",
+    "Lich su thao tac shows the timeline page wired to get_admin_timeline instead of the A2 pending page.",
+    "npm run admin:test (with new scripts/admin-a3-content.test.mjs), admin:check (known CRLF steps aside), validate-admin-contract, validate:data, validate:backend, supabase:check and feature-preflight --ci pass."
+  ],
+  "writeScope": [
+    "supabase/migrations/20261113100000_admin_content_items.sql",
+    "supabase/migrations/20261113100100_admin_timeline.sql",
+    "supabase/migrations/20261113100200_content_images_bucket.sql",
+    "apps/admin/content.js",
+    "apps/admin/content-sync.js",
+    "apps/admin/content-items.js",
+    "apps/admin/content.css",
+    "apps/admin/content.html",
+    "apps/admin/timeline.html",
+    "apps/admin/timeline.js",
+    "apps/admin/timeline.css",
+    "apps/admin/admin-capabilities.json",
+    "apps/admin/shell.js",
+    "apps/admin/workspace-guard.js",
+    "apps/admin/workflow-catalog.js",
+    "apps/admin/README.md",
+    "scripts/admin-a3-content.test.mjs",
+    "scripts/admin-a2-navigation.test.mjs",
+    "scripts/admin-content-render.test.mjs",
+    "scripts/admin-shell-state.test.mjs",
+    "scripts/validate-admin-contract.mjs",
+    "package.json"
+  ],
+  "untouchedSurfaces": [
+    "PLAN.md and docs/backlog/review-2026-10-30.json are updated by the coordinator, not here.",
+    "No migration is applied, no bucket is created and no Edge Function is deployed by the agent: the Owner approves each migration by hash.",
+    "AI Studio (app.js, ai-studio.html, ai-features.js) is not changed; the content workspace stays a separate script.",
+    "Mobile app and Edge Functions are unchanged: they keep reading the published bundle and public.personas as today; Tarot model text from the bundle is E4 (A6).",
+    "The old whole-bundle publish_content_bundle and the seed bootstrap stay available as the fallback path.",
+    "supabase/migration-ledger.json (old QA project) is not changed."
+  ],
+  "impact": {
+    "entryPoint": "Admin Noi dung pages (Nguoi dan, Bo bai, 78 la, Hinh anh, Van ban trong app) and the Lich su thao tac nav item (new timeline workspace page, hub.read).",
+    "dataWrite": "New table public.admin_content_item_versions (Admin-written content only); new published admin_content_bundles rows on per-item publish; upsert of public.personas canonical fields on persona publish; admin_audit_logs and admin_content_bundle_events rows; image objects in the content-images bucket.",
+    "backendContract": "Runtime readers keep get_published_content_bundle and public.personas; a per-item publish produces an ordinary published bundle version, so app and Edge readers see no shape change. Persona sync writes only slug, type, status, access_tier, name, short_description, transparency_note, themes, tone.",
+    "adminVisibility": "Per-item draft state, diff vs published, history with who and when, timeline of content/AI/role actions with actor email and note; buttons follow server capabilities (content.draft, content.publish) instead of role names.",
+    "privacySafety": "Content and staff actions only; no user journals, chats or birth data. Timeline returns allowlisted metadata (note, feature, version, kind, key) and staff emails only to hub.read accounts; role changes only to roles.manage. Images are public-read by design (app content) and limited to png/jpeg/webp up to 1 MB; SVG refused.",
+    "observability": "Every save, restore and publish writes admin_audit_logs (content.item.draft, content.item.restore, content.items.publish) and publish writes a bundle event; the new timeline page reads them.",
+    "rollback": "Restore an older item version and publish it, or publish an older bundle through the existing path. Dropping the new table and RPCs returns the Admin to whole-bundle behaviour automatically (fallback on PGRST202/42883/404). Bucket can be emptied and removed by the Owner."
+  },
+  "canonicalContracts": [
+    "supabase/migrations/20260917172721_admin_content_sync.sql published bundle shape (personas, decks, cards, assets, frontendContent arrays; compact cards)",
+    "supabase/migrations/20261113090100_ai_feature_configs.sql security definer, empty search_path, has_capability, audit and revoke pattern",
+    "supabase/migrations/20260902131408_owner_capability_boundary.sql capability map (content.read/draft/publish/delete, hub.read, roles.manage)",
+    "apps/admin/workspace-guard.js NilazaAdminRpc allowlist with missingFunction detection",
+    "public.personas columns from 202606120001_mvp_schema.sql read by persona-prompt-assembler.ts and ai-council"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "SQL, storage and deploy need Owner approval each time.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Admin and backend routes and their checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules and record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/admin/AGENTS.md",
+      "reason": "Additive workspaces, required capabilities, 78 card drafts, no direct production writes from the prototype.",
+      "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8"
+    },
+    {
+      "path": "docs/ADMIN_DATA_CONSOLE_ARCHITECTURE.md",
+      "reason": "Per-deck card ownership, asset upload and delete rules, publish flow.",
+      "sha256": "2e458cfc73cf5122f90db17feac1316e6eca20d31033103c65d9a3d24280eb71"
+    },
+    {
+      "path": "docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md",
+      "reason": "Sections 1, 2.1, 2.2 rows D7 D8 D10, 3.3, 3.4, 3.5, 3.15, A3 row and Owner decision 6.",
+      "sha256": "7eaf7aa64f6827ad96659b06ed7212ce667487f286ad50b717fc04d55c5c69ab"
+    },
+    {
+      "path": "supabase/migrations/20260917172721_admin_content_sync.sql",
+      "reason": "Bundle table, one-published index, events table and publish_content_bundle that per-item publish builds on.",
+      "sha256": "18b50345904d8d6074e56db3aa6400aa24392ea1d61a96e0672a2f8113833ac8"
+    },
+    {
+      "path": "supabase/migrations/20260917174042_admin_content_sync_policy_tuning.sql",
+      "reason": "Current bundle update policy.",
+      "sha256": "ac6ae8b06f49db4e6cc8ec464fc1ecaf67a3699500a07132433ed7ed78bdc5ab"
+    },
+    {
+      "path": "supabase/migrations/20261113090100_ai_feature_configs.sql",
+      "reason": "RPC pattern to copy: security definer, empty search_path, advisory lock, audit, revoke anon.",
+      "sha256": "5556bfd9ff4f2649d244cba6dbc242c3abedc97a3f8f9dc067f63959b49de04e"
+    },
+    {
+      "path": "supabase/migrations/20260902131408_owner_capability_boundary.sql",
+      "reason": "Capability map and personas draft policies.",
+      "sha256": "2f8fdac36b93d68f1a32da2d7a83b33c2b41b966589e8be9e1a85d56ace42a24"
+    },
+    {
+      "path": "supabase/migrations/202606120001_mvp_schema.sql",
+      "reason": "Real public.personas and admin_audit_logs columns and checks.",
+      "sha256": "226e20601e094426e23170814fab3346eea953bf619d78b0ded153afa37559f5"
+    },
+    {
+      "path": "supabase/functions/_shared/persona-prompt-assembler.ts",
+      "reason": "Chat reads personas by slug with status active and these columns.",
+      "sha256": "22de06de144c350927622610ce7c7bc492d8e357ceab6d210d9c918f9226998c"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before any code edit; SQL and bucket creation left to the Owner by hash; PGlite verification only."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Admin keeps the existing content.css tokens (charcoal, ivory, gold) and Vietnamese labels; no brand assets or public material change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Storage bucket columns (public, file_size_limit, allowed_mime_types) and storage.objects policies follow the shape already used by Supabase projects; supabase-js storage upload/getPublicUrl already loaded from the pinned 2.108.2 CDN script. PGlite only in the session scratchpad; nothing added to the repo."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "admin_content_item_versions has RLS on, no policies, all privileges revoked from anon and authenticated; only security definer RPCs with empty search_path read or write it, each checking nilaza_private.has_capability (content.read, content.draft, content.publish, hub.read, roles.manage). Storage insert needs content.draft, delete content.delete; no update policy.",
+    "sensitiveData": "Content copy and staff action history only. Timeline exposes staff emails and allowlisted metadata to hub.read accounts, never raw metadata.",
+    "secretsLogging": "No secret is read, set or logged; uploads use the signed-in session.",
+    "externalInput": "Kind fixed list, item key pattern, payload object with matching id and size cap, revision integer, note 5-500 characters, limit clamped 1-200; personas sync validates type, status and tier against the table checks. Upload checks type and size in the browser and the bucket enforces both again.",
+    "dependencies": "No package added.",
+    "migrationRelease": "Owner applies each of the three migrations separately by hash on Singapore; until then the Admin falls back to the current whole-bundle path and shows which migration is missing. No Edge Function redeploy is needed.",
+    "stopCondition": "Stop if PGlite verification or admin tests fail, or if publishing one item could change another item's published content.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Clean tree at start on claude/admin-a3-content from origin/main 570e036; this record and its preflight come before the first code edit.",
+    "paths": []
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/admin-a3-content-2026-11-13.json",
+    "node <scratchpad>/pglite-a3/verify.mjs <repo> (PGlite: permission matrix, per-item publish isolation, restore, persona sync, timeline, storage policy stub)",
+    "npm run admin:test",
+    "npm run admin:check",
+    "node scripts/validate-admin-contract.mjs",
+    "npm run validate:data && npm run validate:backend && npm run supabase:check",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "After the Owner applies the three migrations: as editor, change a persona's description and press Luu nhap, reload: the change is still there and the list shows Nhap; the publish button says cho Owner phat hanh. As Owner, open Xem lai & phat hanh on that persona: the diff shows only that persona, enter a note, publish: the app chat uses the new description; another editor's unpublished card edit stays a draft. Open Lich su on the persona and press Khoi phuc on the previous version: a new draft appears. Upload a PNG under 1 MB to a card. Lich su thao tac lists these actions with the note.",
+  "residualRisk": "PGlite is not Supabase: Storage policies are not executed (no storage schema) and need a manual upload check after the bucket migration; re-run the Security Advisor after applying (new security definer RPCs expected). Two people saving the same item: the second save with a stale revision is refused and asked to reload, not merged. Whole-bundle publish (fallback and seed bootstrap) still exists and would publish everything; per-item publish ignores it.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
