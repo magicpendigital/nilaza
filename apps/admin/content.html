@@ -1,26 +1,27 @@
 <!doctype html>
-<html lang="en" data-admin-authorized="false">
+<html lang="vi" data-admin-authorized="false">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Nilaza Content Operations</title>
+    <title>Nilaza · Nội dung</title>
     <script src="./config.js?v=admin-sync-v1"></script>
     <script src="./env-band.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.108.2"></script>
     <script src="./admin-access.js"></script>
+    <script src="./unsaved-changes.js"></script>
     <script src="./workspace-guard.js"></script>
     <link rel="stylesheet" href="./workspace-guard.css" />
     <link rel="stylesheet" href="./content.css" />
   </head>
   <body>
     <div class="content-app">
-      <aside class="side-rail">
-        <div class="workspace-title"><strong>Content Operations</strong><span>Shared online content</span></div>
-        <nav id="content-nav"></nav>
-        <div class="source-health"><span>Supabase content bundle</span><strong id="source-version">Loading…</strong><small>Online drafts are shared; local storage protects offline edits.</small></div>
+      <aside class="side-rail" aria-label="Điều hướng Nội dung">
+        <div class="workspace-title"><strong>Nội dung</strong><span>Dùng chung trực tuyến</span></div>
+        <nav id="content-nav" aria-label="Mục nội dung"></nav>
+        <div class="source-health"><span>Gói nội dung trên máy chủ</span><strong id="source-version">Đang tải…</strong><small>Nháp trên máy chủ dùng chung; bản lưu trong trình duyệt giữ thay đổi khi mất mạng.</small><span class="pill unsaved-count" id="unsaved-count" role="status" aria-live="polite" hidden></span></div>
       </aside>
       <main class="content-main">
-        <header class="content-header"><div><h1 id="page-title">Personas</h1><p id="page-description">Manage localized persona content and prompt profiles.</p></div><div class="header-actions" id="header-actions"></div></header>
+        <header class="content-header"><div><h1 id="page-title">Người dẫn</h1><p id="page-description">Quản lý nội dung song ngữ và prompt của người dẫn.</p></div><div class="header-actions" id="header-actions"></div></header>
         <div class="notice" id="notice" role="status" hidden></div>
         <section id="workspace-content" class="workspace-content"></section>
       </main>

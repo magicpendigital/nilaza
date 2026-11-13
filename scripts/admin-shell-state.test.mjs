@@ -1,7 +1,12 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
-import test from "node:test";
+import test, { after } from "node:test";
 import { JSDOM } from "jsdom";
+
+// shell.js keeps a session-expiry interval alive; close every window even when an assertion fails,
+// otherwise a failed test would leave the process running instead of reporting the failure.
+const openDoms = new Set();
+after(() => { for (const dom of openDoms) dom.window.close(); });
 
 test("Admin shell keeps workspace documents alive while navigating and clears them on logout", async () => {
   const manifest = JSON.parse(fs.readFileSync("apps/admin/admin-capabilities.json", "utf8"));
@@ -11,6 +16,7 @@ test("Admin shell keeps workspace documents alive while navigating and clears th
     runScripts: "dangerously",
     pretendToBeVisual: true
   });
+  openDoms.add(dom);
   const { window } = dom;
   let authListener;
   const client = {
@@ -61,6 +67,7 @@ async function createShellAt(hash) {
   const manifest = JSON.parse(fs.readFileSync("apps/admin/admin-capabilities.json", "utf8"));
   const html = fs.readFileSync("apps/admin/index.html", "utf8").replace(/<script[\s\S]*?<\/script>/g, "");
   const dom = new JSDOM(html, { url: `http://localhost:4173/apps/admin/index.html${hash}`, runScripts: "dangerously", pretendToBeVisual: true });
+  openDoms.add(dom);
   const { window } = dom;
   window.ENV = { SUPABASE_URL: "https://qa.supabase.co", SUPABASE_ANON_KEY: "public-test-key" };
   window.supabase = { createClient: () => ({ auth: {
@@ -93,7 +100,8 @@ test("Shell deep links and route changes retain reviewed feature/locale metadata
   assert.equal(frame.contentWindow.location.hash, "#prompt?feature=oracle_router&locale=en");
   assert.ok(doc.querySelector('[data-route="prompt"]').classList.contains("active"));
   window.history.back();
-  await new Promise(resolve => window.setTimeout(resolve, 30));
+  // Poll instead of a fixed 30 ms wait: history navigation is asynchronous and slow under load.
+  for (let attempt = 0; attempt < 100 && window.location.hash !== "#/ai-studio/model-router?feature=oracle_router&locale=en"; attempt += 1) await new Promise(resolve => window.setTimeout(resolve, 20));
   assert.equal(window.location.hash, "#/ai-studio/model-router?feature=oracle_router&locale=en");
   assert.equal(frame.contentWindow.location.hash, "#model-router?feature=oracle_router&locale=en");
   dom.window.close();

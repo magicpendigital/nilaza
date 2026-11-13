@@ -21,6 +21,21 @@ let contentSync;
 let remoteState;
 let legacyIdentityConflictNotice = "";
 const OUTBOX_KEY = "nilaza.admin.content.outbox.v1";
+const unsavedRecords = new Set();
+function reportUnsaved() {
+  const count = unsavedRecords.size || (loadOutbox() ? 1 : 0);
+  window.NilazaUnsaved?.set("content", count);
+  const indicator = document.querySelector("#unsaved-count");
+  if (indicator) {
+    indicator.textContent = count ? `${count} thay đổi chưa lưu` : "";
+    indicator.hidden = !count;
+  }
+  return count;
+}
+function markUnsaved(entity, id) { unsavedRecords.add(`${entity}/${id}`); reportUnsaved(); }
+window.NilazaUnsaved?.setWorkspace("content");
+// Vietnamese labels (A1); route ids stay the contract in admin-capabilities.json.
+const routeLabels = { overview: "Tổng quan", personas: "Người dẫn", decks: "Bộ bài", cards: "Thư viện lá bài", assets: "Hình ảnh", frontend: "Văn bản trong app", documentation: "Hướng dẫn Owner" };
 let state = {
   route: location.hash.slice(1) || "personas",
   locale: "vi",
@@ -117,6 +132,9 @@ async function syncFromServer({ notifyUser = true } = {}) {
     if (remoteState.payload) {
       applyRemoteBundle(remoteState.selected);
       saveData();
+      // Local edits are now replaced by (or already contained in) the server bundle.
+      unsavedRecords.clear();
+      reportUnsaved();
     } else setSyncState("online-empty");
     if (notifyUser) notify(remoteState.payload ? "Content synced from online staging." : "Online staging has no published bundle yet.");
     render();
@@ -142,6 +160,8 @@ async function persistRemote({ publish = false } = {}) {
     const draft = await contentSync.saveDraft(payload, basePublishedVersion);
     remoteState = { ...(remoteState || {}), selected: draft, ownDraft: draft };
     clearOutbox();
+    unsavedRecords.clear();
+    reportUnsaved();
     setSyncState("draft", draft);
     if (publish) {
       await contentSync.publish(draft.id, basePublishedVersion);
@@ -155,6 +175,7 @@ async function persistRemote({ publish = false } = {}) {
     render();
   } catch (error) {
     saveOutbox(payload, basePublishedVersion);
+    reportUnsaved();
     setSyncState("pending");
     notify(`Saved locally; online sync is pending: ${error.message}`, true);
     render();
@@ -183,30 +204,30 @@ function setRoute(route) {
   render();
 }
 function titleFor(route) {
-  return manifest.workspaces.find((item) => item.id === "content").routes.find((item) => item.id === route)?.label || "Content Operations";
+  return routeLabels[route] || manifest.workspaces.find((item) => item.id === "content").routes.find((item) => item.id === route)?.label || "Nội dung";
 }
 function descriptionFor(route) {
   return {
-    overview: "Review content health, repository seed, and recent admin actions.",
-    personas: "Manage localized persona content, access tier, transparency, and prompt profiles.",
-    decks: "Manage deck identity, visual direction, reading voice, and release state.",
-    cards: "Edit deck-specific card meanings, reflections, status, and artwork references.",
-    assets: "Review front-end media visually, manage storage paths, and prevent deletion while content depends on them.",
-    frontend: "Manage localized app-facing copy as reviewable content blocks.",
-    documentation: "Read the private Owner Guide through an audited, capability-protected backend endpoint."
-  }[route] || "Manager-friendly content operations.";
+    overview: "Tình trạng nội dung, bản gốc trong repo và thao tác gần đây.",
+    personas: "Nội dung song ngữ, gói truy cập, ghi chú minh bạch và prompt của từng người dẫn.",
+    decks: "Tên, phong cách hình ảnh, giọng đọc và trạng thái phát hành của bộ bài.",
+    cards: "Nghĩa lá bài riêng cho từng bộ, câu hỏi suy ngẫm, trạng thái và hình ảnh.",
+    assets: "Xem trước hình ảnh app dùng, đường dẫn lưu trữ; không xóa được khi nội dung còn dùng.",
+    frontend: "Văn bản song ngữ hiển thị trong app, duyệt theo từng khối.",
+    documentation: "Hướng dẫn riêng cho Owner; mỗi lần mở được ghi nhật ký."
+  }[route] || "Quản lý nội dung.";
 }
 function renderNav() {
   const routes = manifest.workspaces.find((item) => item.id === "content").routes;
-  $("#content-nav").innerHTML = routes.map((route) => `<button class="nav-item ${route.id === state.route ? "active" : ""}" data-route="${route.id}">${escapeHtml(route.label)}</button>`).join("");
+  $("#content-nav").innerHTML = routes.map((route) => `<button class="nav-item ${route.id === state.route ? "active" : ""}" data-route="${route.id}" ${route.id === state.route ? 'aria-current="page"' : ""}>${escapeHtml(routeLabels[route.id] || route.label)}</button>`).join("");
 }
 function renderHeader() {
   $("#page-title").textContent = titleFor(state.route);
   $("#page-description").textContent = descriptionFor(state.route);
   const create = {
-    personas: `<button class="button primary" data-action="create-persona" ${permissions.canEdit ? "" : "disabled"}>Add persona</button>`,
-    decks: `<button class="button primary" data-action="create-deck" ${permissions.canEdit ? "" : "disabled"}>Add deck + 78 cards</button>`,
-    assets: `<button class="button primary" data-action="create-asset" ${permissions.canManageAssets ? "" : "disabled"}>Create draft asset</button>`
+    personas: `<button class="button primary" data-action="create-persona" ${permissions.canEdit ? "" : "disabled"}>Thêm người dẫn</button>`,
+    decks: `<button class="button primary" data-action="create-deck" ${permissions.canEdit ? "" : "disabled"}>Thêm bộ bài + 78 lá</button>`,
+    assets: `<button class="button primary" data-action="create-asset" ${permissions.canManageAssets ? "" : "disabled"}>Thêm hình ảnh (nháp)</button>`
   }[state.route] || "";
   $("#header-actions").innerHTML = create;
 }
@@ -218,15 +239,15 @@ function renderOverview() {
     </div>
     <div class="overview-grid">
       <div class="panel"><h2>Recent admin actions</h2>${audit || "<p>No local admin changes yet.</p>"}</div>
-      <div class="panel"><h2>Content contract</h2><p>Supabase is the shared source for versioned content bundles. Local storage remains an offline cache/outbox, so another authorized Admin can review the same draft and runtime clients read only the published bundle.</p><p><strong>Role:</strong> ${escapeHtml(session.role)}<br><strong>Seed:</strong> ${escapeHtml(repositorySeed.sourceVersion)}<br><strong>Sync:</strong> ${escapeHtml(state.sync.status)}${state.sync.version ? ` · v${escapeHtml(state.sync.version)}` : ""}</p><div class="action-bar"><button class="button" data-action="sync-now">Sync online</button><button class="button primary" data-action="publish-seed" ${permissions.canPublish ? "" : "disabled"}>Publish local seed online</button><button class="button danger" data-action="reset-data" ${permissions.canEdit ? "" : "disabled"}>Reset local review data</button></div></div>
+      <div class="panel"><h2>Content contract</h2><p>Supabase is the shared source for versioned content bundles. Local storage remains an offline cache/outbox, so another authorized Admin can review the same draft and runtime clients read only the published bundle.</p><p><strong>Role:</strong> ${escapeHtml(session.role)}<br><strong>Seed:</strong> ${escapeHtml(repositorySeed.sourceVersion)}<br><strong>Sync:</strong> ${escapeHtml(state.sync.status)}${state.sync.version ? ` · v${escapeHtml(state.sync.version)}` : ""}</p><div class="action-bar"><button class="button" data-action="sync-now">Đồng bộ với máy chủ</button><button class="button primary" data-action="publish-seed" ${permissions.canPublish ? "" : "disabled"}>Xem lại & phát hành bản gốc</button><button class="button danger" data-action="reset-data" ${permissions.canEdit ? "" : "disabled"}>Đặt lại về bản gốc</button></div></div>
     </div>`;
 }
 function metric(label, value) { return `<div class="metric"><span>${label}</span><strong>${value}</strong></div>`; }
 function localeSwitch() {
-  return `<div class="locale-switch"><button class="locale-button ${state.locale === "vi" ? "active" : ""}" data-locale="vi">Vietnamese</button><button class="locale-button ${state.locale === "en" ? "active" : ""}" data-locale="en">English</button></div>`;
+  return `<div class="locale-switch"><button class="locale-button ${state.locale === "vi" ? "active" : ""}" data-locale="vi" aria-pressed="${state.locale === "vi"}">Tiếng Việt</button><button class="locale-button ${state.locale === "en" ? "active" : ""}" data-locale="en" aria-pressed="${state.locale === "en"}">English</button></div>`;
 }
 function listToolbar(placeholder, extra = "") {
-  return `<div class="list-toolbar"><input type="search" data-search placeholder="${escapeHtml(placeholder)}" value="${escapeHtml(state.search)}" />${extra}</div>`;
+  return `<div class="list-toolbar"><label class="visually-hidden" for="content-search">Tìm kiếm</label><input id="content-search" type="search" data-search placeholder="${escapeHtml(placeholder)}" value="${escapeHtml(state.search)}" />${extra}</div>`;
 }
 function recordRows(items, type, activeId, subtitle) {
   const query = state.search.trim().toLowerCase();
@@ -240,9 +261,11 @@ function field(label, value, entity, id, name, options = {}) {
   const disabled = !permissions.canEdit || options.readonly;
   const attrs = `data-bind data-entity="${entity}" data-id="${escapeHtml(id)}" data-field="${name}"${options.locale ? ` data-locale="${options.locale}"` : ""}${options.format ? ` data-format="${options.format}"` : ""}`;
   const cls = `field${options.full ? " full" : ""}`;
-  if (options.type === "textarea") return `<div class="${cls}"><label>${label}</label><textarea ${attrs} ${disabled ? "disabled" : ""}>${escapeHtml(value)}</textarea>${options.hint ? `<small>${escapeHtml(options.hint)}</small>` : ""}</div>`;
-  if (options.options) return `<div class="${cls}"><label>${label}</label><select ${attrs} ${disabled ? "disabled" : ""}>${options.options.map((option) => `<option value="${escapeHtml(option)}" ${value === option ? "selected" : ""}>${escapeHtml(option)}</option>`).join("")}</select></div>`;
-  return `<div class="${cls}"><label>${label}</label><input ${attrs} value="${escapeHtml(value)}" ${disabled ? "disabled" : ""} /></div>`;
+  const inputId = `field-${entity}-${id}-${name}${options.locale ? `-${options.locale}` : ""}`.replace(/[^A-Za-z0-9_-]/g, "_");
+  const labelTag = `<label for="${escapeHtml(inputId)}">${label}</label>`;
+  if (options.type === "textarea") return `<div class="${cls}">${labelTag}<textarea id="${escapeHtml(inputId)}" ${attrs} ${disabled ? "disabled" : ""}>${escapeHtml(value)}</textarea>${options.hint ? `<small>${escapeHtml(options.hint)}</small>` : ""}</div>`;
+  if (options.options) return `<div class="${cls}">${labelTag}<select id="${escapeHtml(inputId)}" ${attrs} ${disabled ? "disabled" : ""}>${options.options.map((option) => `<option value="${escapeHtml(option)}" ${value === option ? "selected" : ""}>${escapeHtml(option)}</option>`).join("")}</select></div>`;
+  return `<div class="${cls}">${labelTag}<input id="${escapeHtml(inputId)}" ${attrs} value="${escapeHtml(value)}" ${disabled ? "disabled" : ""} /></div>`;
 }
 function assetUrl(path) {
   const value = String(path || "").trim().replaceAll("\\", "/");
@@ -259,17 +282,17 @@ function assetPreview(item) {
   }
   return `<figure class="asset-preview">
     <img src="${escapeHtml(src)}" alt="${label}" loading="lazy" data-asset-preview />
-    <figcaption><span>Front-end preview</span><a href="${escapeHtml(src)}" target="_blank" rel="noreferrer">Open image</a></figcaption>
+    <figcaption><span>Xem trước như trên app · Front-end preview</span><a href="${escapeHtml(src)}" target="_blank" rel="noreferrer">Mở ảnh · Open image</a></figcaption>
     <div class="preview-fallback"><span>Preview unavailable</span><small>${escapeHtml(item.path)}</small></div>
   </figure>`;
 }
 function actionBar(entity, id, item, { restore = true } = {}) {
   return `<div class="action-bar">
-    <button class="button" data-action="save" data-entity="${entity}" data-id="${escapeHtml(id)}" ${permissions.canEdit ? "" : "disabled"}>Save draft</button>
-    <button class="button primary" data-action="publish" data-entity="${entity}" data-id="${escapeHtml(id)}" ${permissions.canPublish ? "" : "disabled"}>Publish</button>
-    <button class="button" data-action="archive" data-entity="${entity}" data-id="${escapeHtml(id)}" ${permissions.canEdit ? "" : "disabled"}>Archive</button>
-    ${restore ? `<button class="button" data-action="restore" data-entity="${entity}" data-id="${escapeHtml(id)}" ${permissions.canEdit ? "" : "disabled"}>Restore seed</button>` : ""}
-    <button class="button danger" data-action="delete" data-entity="${entity}" data-id="${escapeHtml(id)}" ${permissions.canDelete && ["draft", "archived"].includes(item.status) ? "" : "disabled"}>Delete permanently</button>
+    <button class="button" data-action="save" data-entity="${entity}" data-id="${escapeHtml(id)}" ${permissions.canEdit ? "" : "disabled"}>Lưu nháp</button>
+    <button class="button primary" data-action="publish" data-entity="${entity}" data-id="${escapeHtml(id)}" ${permissions.canPublish ? "" : "disabled"}>Xem lại & phát hành</button>
+    <button class="button" data-action="archive" data-entity="${entity}" data-id="${escapeHtml(id)}" ${permissions.canEdit ? "" : "disabled"}>Lưu trữ</button>
+    ${restore ? `<button class="button" data-action="restore" data-entity="${entity}" data-id="${escapeHtml(id)}" ${permissions.canEdit ? "" : "disabled"}>Khôi phục bản gốc</button>` : ""}
+    <button class="button danger" data-action="delete" data-entity="${entity}" data-id="${escapeHtml(id)}" ${permissions.canDelete && ["draft", "archived"].includes(item.status) ? "" : "disabled"}>Xóa vĩnh viễn</button>
   </div>`;
 }
 function renderPersonas() {
@@ -278,29 +301,29 @@ function renderPersonas() {
   const detail = `<div class="detail-header"><div><h2>${escapeHtml(local(item.name))}</h2><p>${escapeHtml(item.id)} · updated by ${escapeHtml(item.updatedBy)}</p></div><span class="status ${statusClass(item.status)}">${escapeHtml(item.status)}</span></div>
     ${localeSwitch()}<p class="permission-note">${permissions.canEdit ? "Editable draft. Save synchronizes to online staging when available; local outbox protects offline work." : "Read-only role. Sign in as owner or content admin to edit."}</p>
     <div class="form-grid">
-      ${field("Canonical ID", item.id, "personas", item.id, "id", { readonly:true })}${field("Slug", item.slug, "personas", item.id, "slug", { readonly:true })}
-      ${field("Status", item.status, "personas", item.id, "status", { options:["draft","review","active","archived"] })}${field("Access tier", item.accessTier, "personas", item.id, "accessTier", { options:["free","premium-preview","premium"] })}
-      ${field("Display name", local(item.name), "personas", item.id, "name", { locale:state.locale })}${field("Display role", local(item.role), "personas", item.id, "role", { locale:state.locale })}
-      ${field("Description", local(item.description), "personas", item.id, "description", { locale:state.locale, type:"textarea", full:true })}
-      ${field("Transparency note", local(item.transparency), "personas", item.id, "transparency", { locale:state.locale, type:"textarea", full:true })}
-      ${field("Persona prompt", local(item.prompt), "personas", item.id, "prompt", { locale:state.locale, type:"textarea", full:true })}
-      ${field("Suggested prompts", (item.suggestedPrompts?.[state.locale] || []).join(", "), "personas", item.id, "suggestedPrompts", { locale:state.locale, format:"list", type:"textarea", full:true })}
+      ${field("Mã định danh (ID)", item.id, "personas", item.id, "id", { readonly:true })}${field("Đường dẫn ngắn (slug)", item.slug, "personas", item.id, "slug", { readonly:true })}
+      ${field("Trạng thái", item.status, "personas", item.id, "status", { options:["draft","review","active","archived"] })}${field("Gói truy cập", item.accessTier, "personas", item.id, "accessTier", { options:["free","premium-preview","premium"] })}
+      ${field("Tên hiển thị", local(item.name), "personas", item.id, "name", { locale:state.locale })}${field("Vai trò hiển thị", local(item.role), "personas", item.id, "role", { locale:state.locale })}
+      ${field("Mô tả", local(item.description), "personas", item.id, "description", { locale:state.locale, type:"textarea", full:true })}
+      ${field("Ghi chú minh bạch", local(item.transparency), "personas", item.id, "transparency", { locale:state.locale, type:"textarea", full:true })}
+      ${field("Prompt người dẫn", local(item.prompt), "personas", item.id, "prompt", { locale:state.locale, type:"textarea", full:true })}
+      ${field("Câu gợi ý (cách nhau bằng dấu phẩy)", (item.suggestedPrompts?.[state.locale] || []).join(", "), "personas", item.id, "suggestedPrompts", { locale:state.locale, format:"list", type:"textarea", full:true })}
     </div>${actionBar("personas", item.id, item)}`;
-  return `<div class="split-view"><div class="list-panel">${listToolbar("Search personas…")}<div class="record-list">${recordRows(data.personas,"persona",item.id,(record)=>`${record.slug} · ${record.accessTier}`)}</div></div><div class="detail-panel">${detail}</div></div>`;
+  return `<div class="split-view"><div class="list-panel">${listToolbar("Tìm người dẫn…")}<div class="record-list">${recordRows(data.personas,"persona",item.id,(record)=>`${record.slug} · ${record.accessTier}`)}</div></div><div class="detail-panel">${detail}</div></div>`;
 }
 function renderDecks() {
   const item = data.decks.find((record) => record.id === state.selectedDeckId) || data.decks[0];
   if (!item) return `<div class="empty"><p>No decks. Add a deck to seed its 78 card drafts.</p></div>`;
   const detail = `<div class="detail-header"><div><h2>${escapeHtml(local(item.name))}</h2><p>${escapeHtml(item.id)} · ${countCardsForDeck(data,item.id)} card records</p></div><span class="status ${statusClass(item.status)}">${escapeHtml(item.status)}</span></div>
     ${localeSwitch()}<p class="permission-note">New decks always receive a separate 78-card draft library.</p><div class="form-grid">
-      ${field("Deck ID",item.id,"decks",item.id,"id",{readonly:true})}${field("Slug",item.slug,"decks",item.id,"slug",{readonly:true})}
-      ${field("Status",item.status,"decks",item.id,"status",{options:["draft","review","active","archived"]})}${field("Access tier",item.accessTier,"decks",item.id,"accessTier",{options:["free","premium-preview","premium"]})}
-      ${field("Deck name",local(item.name),"decks",item.id,"name",{locale:state.locale})}${field("Vibe",local(item.vibe),"decks",item.id,"vibe",{locale:state.locale})}
-      ${field("Description",local(item.description),"decks",item.id,"description",{locale:state.locale,type:"textarea",full:true})}
-      ${field("Visual direction",local(item.visualDirection),"decks",item.id,"visualDirection",{locale:state.locale,type:"textarea",full:true})}
-      ${field("Reading prompt/style",local(item.prompt),"decks",item.id,"prompt",{locale:state.locale,type:"textarea",full:true})}
+      ${field("Mã bộ bài (ID)",item.id,"decks",item.id,"id",{readonly:true})}${field("Đường dẫn ngắn (slug)",item.slug,"decks",item.id,"slug",{readonly:true})}
+      ${field("Trạng thái",item.status,"decks",item.id,"status",{options:["draft","review","active","archived"]})}${field("Gói truy cập",item.accessTier,"decks",item.id,"accessTier",{options:["free","premium-preview","premium"]})}
+      ${field("Tên bộ bài",local(item.name),"decks",item.id,"name",{locale:state.locale})}${field("Không khí",local(item.vibe),"decks",item.id,"vibe",{locale:state.locale})}
+      ${field("Mô tả",local(item.description),"decks",item.id,"description",{locale:state.locale,type:"textarea",full:true})}
+      ${field("Định hướng hình ảnh",local(item.visualDirection),"decks",item.id,"visualDirection",{locale:state.locale,type:"textarea",full:true})}
+      ${field("Giọng đọc / prompt",local(item.prompt),"decks",item.id,"prompt",{locale:state.locale,type:"textarea",full:true})}
     </div><div class="action-bar"><button class="button" data-action="open-deck-cards" data-id="${escapeHtml(item.id)}">Open 78-card library</button></div>${actionBar("decks",item.id,item)}`;
-  return `<div class="split-view"><div class="list-panel">${listToolbar("Search decks…")}<div class="record-list">${recordRows(data.decks,"deck",item.id,(record)=>`${countCardsForDeck(data,record.id)} cards · ${record.accessTier}`)}</div></div><div class="detail-panel">${detail}</div></div>`;
+  return `<div class="split-view"><div class="list-panel">${listToolbar("Tìm bộ bài…")}<div class="record-list">${recordRows(data.decks,"deck",item.id,(record)=>`${countCardsForDeck(data,record.id)} cards · ${record.accessTier}`)}</div></div><div class="detail-panel">${detail}</div></div>`;
 }
 function renderCards() {
   const deckOptions = data.decks.map((deck) => `<option value="${escapeHtml(deck.id)}" ${deck.id===state.selectedDeckId?"selected":""}>${escapeHtml(local(deck.name))}</option>`).join("");
@@ -310,24 +333,24 @@ function renderCards() {
   if (!item) return `<div class="empty"><p>This deck has no card records.</p></div>`;
   const detail = `<div class="detail-header"><div><h2>${escapeHtml(local(item.name))}</h2><p>${escapeHtml(item.baseCardId)} · ${escapeHtml(item.deckId)}</p></div><span class="status ${statusClass(item.status)}">${escapeHtml(item.status)}</span></div>
     ${localeSwitch()}<p class="permission-note">Card wording is deck-specific. Editing this card does not overwrite other decks.</p><div class="form-grid">
-      ${field("Card ID",item.id,"cards",item.id,"id",{readonly:true})}${field("Status",item.status,"cards",item.id,"status",{options:["draft","review","published","archived"]})}
-      ${field("Card name",local(item.name),"cards",item.id,"name",{locale:state.locale})}${field("Keywords",(item.keywords?.[state.locale]||[]).join(", "),"cards",item.id,"keywords",{locale:state.locale,format:"list"})}
-      ${field("Upright meaning",local(item.uprightMeaning),"cards",item.id,"uprightMeaning",{locale:state.locale,type:"textarea",full:true})}
-      ${field("Reversed meaning",local(item.reversedMeaning),"cards",item.id,"reversedMeaning",{locale:state.locale,type:"textarea",full:true})}
-      ${field("Reflection question",local(item.reflectionQuestion),"cards",item.id,"reflectionQuestion",{locale:state.locale,type:"textarea",full:true})}
-      ${field("Artwork path",item.assetPath||"","cards",item.id,"assetPath",{full:true})}
+      ${field("Mã lá (ID)",item.id,"cards",item.id,"id",{readonly:true})}${field("Trạng thái",item.status,"cards",item.id,"status",{options:["draft","review","published","archived"]})}
+      ${field("Tên lá",local(item.name),"cards",item.id,"name",{locale:state.locale})}${field("Từ khóa",(item.keywords?.[state.locale]||[]).join(", "),"cards",item.id,"keywords",{locale:state.locale,format:"list"})}
+      ${field("Nghĩa xuôi",local(item.uprightMeaning),"cards",item.id,"uprightMeaning",{locale:state.locale,type:"textarea",full:true})}
+      ${field("Nghĩa ngược",local(item.reversedMeaning),"cards",item.id,"reversedMeaning",{locale:state.locale,type:"textarea",full:true})}
+      ${field("Câu hỏi suy ngẫm",local(item.reflectionQuestion),"cards",item.id,"reflectionQuestion",{locale:state.locale,type:"textarea",full:true})}
+      ${field("Đường dẫn hình",item.assetPath||"","cards",item.id,"assetPath",{full:true})}
     </div>${actionBar("cards",item.id,item)}`;
-  return `<div class="split-view"><div class="list-panel">${listToolbar("Search cards…",`<select data-deck-filter>${deckOptions}</select>`)}<div class="record-list">${recordRows(cards,"card",item.id,(record)=>`${record.baseCardId} · ${record.arcana}`)}</div></div><div class="detail-panel">${detail}</div></div>`;
+  return `<div class="split-view"><div class="list-panel">${listToolbar("Tìm lá bài…",`<label class="visually-hidden" for="deck-filter">Bộ bài</label><select id="deck-filter" data-deck-filter>${deckOptions}</select>`)}<div class="record-list">${recordRows(cards,"card",item.id,(record)=>`${record.baseCardId} · ${record.arcana}`)}</div></div><div class="detail-panel">${detail}</div></div>`;
 }
 function renderAssets() {
   const items = data.assets.filter((item)=>!state.search||`${item.name} ${item.path} ${item.type}`.toLowerCase().includes(state.search.toLowerCase()));
-  return `${listToolbar("Search assets…")}<p class="permission-note">Assets may be deleted only when draft/archived and no content record depends on them. Image previews show the same repository media path the front end uses.</p><div class="asset-grid">${items.map((item)=>`<div class="asset-card"><div class="detail-header"><h3>${escapeHtml(item.name)}</h3><span class="status ${statusClass(item.status)}">${escapeHtml(item.status)}</span></div>${assetPreview(item)}<div class="form-grid">${field("Name",item.name,"assets",item.id,"name",{full:true})}${field("Type",item.type,"assets",item.id,"type",{options:["tarot-card","deck-back","persona","frontend","share-card"],full:true})}${field("Status",item.status,"assets",item.id,"status",{options:["draft","review","published","archived"],full:true})}${field("Storage path",item.path,"assets",item.id,"path",{full:true})}${field("Linked to",item.linkedTo||"","assets",item.id,"linkedTo",{full:true})}</div>${actionBar("assets",item.id,item,{restore:false})}</div>`).join("")||`<div class="empty"><p>No matching assets.</p></div>`}</div>`;
+  return `${listToolbar("Tìm hình ảnh…")}<p class="permission-note">Assets may be deleted only when draft/archived and no content record depends on them. Image previews show the same repository media path the front end uses.</p><div class="asset-grid">${items.map((item)=>`<div class="asset-card"><div class="detail-header"><h3>${escapeHtml(item.name)}</h3><span class="status ${statusClass(item.status)}">${escapeHtml(item.status)}</span></div>${assetPreview(item)}<div class="form-grid">${field("Tên",item.name,"assets",item.id,"name",{full:true})}${field("Loại",item.type,"assets",item.id,"type",{options:["tarot-card","deck-back","persona","frontend","share-card"],full:true})}${field("Trạng thái",item.status,"assets",item.id,"status",{options:["draft","review","published","archived"],full:true})}${field("Đường dẫn lưu trữ",item.path,"assets",item.id,"path",{full:true})}${field("Gắn với",item.linkedTo||"","assets",item.id,"linkedTo",{full:true})}</div>${actionBar("assets",item.id,item,{restore:false})}</div>`).join("")||`<div class="empty"><p>No matching assets.</p></div>`}</div>`;
 }
 function renderFrontend() {
   const item=data.frontendContent.find((record)=>record.id===state.selectedFrontendId)||data.frontendContent[0];
   if(!item)return `<div class="empty"><p>No app-facing content blocks.</p></div>`;
-  const detail=`<div class="detail-header"><div><h2>${escapeHtml(local(item.title))}</h2><p>${escapeHtml(item.placement)} · ${escapeHtml(item.id)}</p></div><span class="status ${statusClass(item.status)}">${escapeHtml(item.status)}</span></div>${localeSwitch()}<p class="permission-note">Published app content is loaded through the shared Supabase bundle; local storage is the offline fallback.</p><div class="form-grid">${field("Status",item.status,"frontendContent",item.id,"status",{options:["draft","review","published","archived"]})}${field("Placement",item.placement,"frontendContent",item.id,"placement",{readonly:true})}${field("Title",local(item.title),"frontendContent",item.id,"title",{locale:state.locale,full:true})}${field("Body",local(item.body),"frontendContent",item.id,"body",{locale:state.locale,type:"textarea",full:true})}${field("CTA label",local(item.ctaLabel),"frontendContent",item.id,"ctaLabel",{locale:state.locale,full:true})}</div>${actionBar("frontendContent",item.id,item)}`;
-  return `<div class="split-view"><div class="list-panel">${listToolbar("Search content blocks…")}<div class="record-list">${recordRows(data.frontendContent,"frontend",item.id,(record)=>record.placement)}</div></div><div class="detail-panel">${detail}</div></div>`;
+  const detail=`<div class="detail-header"><div><h2>${escapeHtml(local(item.title))}</h2><p>${escapeHtml(item.placement)} · ${escapeHtml(item.id)}</p></div><span class="status ${statusClass(item.status)}">${escapeHtml(item.status)}</span></div>${localeSwitch()}<p class="permission-note">Published app content is loaded through the shared Supabase bundle; local storage is the offline fallback.</p><div class="form-grid">${field("Trạng thái",item.status,"frontendContent",item.id,"status",{options:["draft","review","published","archived"]})}${field("Vị trí",item.placement,"frontendContent",item.id,"placement",{readonly:true})}${field("Tiêu đề",local(item.title),"frontendContent",item.id,"title",{locale:state.locale,full:true})}${field("Nội dung",local(item.body),"frontendContent",item.id,"body",{locale:state.locale,type:"textarea",full:true})}${field("Nhãn nút",local(item.ctaLabel),"frontendContent",item.id,"ctaLabel",{locale:state.locale,full:true})}</div>${actionBar("frontendContent",item.id,item)}`;
+  return `<div class="split-view"><div class="list-panel">${listToolbar("Tìm khối văn bản…")}<div class="record-list">${recordRows(data.frontendContent,"frontend",item.id,(record)=>record.placement)}</div></div><div class="detail-panel">${detail}</div></div>`;
 }
 function renderDocumentation() {
   if (state.ownerGuideStatus === "loading") return `<div class="owner-guide-state"><p>Đang tải tài liệu bảo vệ… / Loading protected documentation…</p></div>`;
@@ -359,6 +382,15 @@ function render() {
 function confirmDestructive(action, entity, id) {
   const env = window.NilazaDescribeEnvironment?.(window.ENV)?.label || "STAGING";
   const word = env.split(" ")[0];
+  if (action === "publish") {
+    const note = window.prompt(`Xem lại & phát hành ${entity}/${id}
+Đang ghi vào: ${env}
+Lưu ý: phát hành gửi cả gói nội dung hiện tại, gồm mọi thay đổi chưa phát hành khác.
+Ghi chú thay đổi (bắt buộc, ít nhất 5 ký tự):`);
+    if (typeof note !== "string" || note.trim().length < 5) return false;
+    confirmDestructive.note = note.trim();
+    return true;
+  }
   if (action === "delete") return window.confirm(`Xóa vĩnh viễn ${entity}/${id}? Không thể hoàn tác.
 Permanently delete ${entity}/${id}? This cannot be undone.`);
   if (action === "archive") return window.confirm(`Lưu trữ ${entity}/${id}? App sẽ không dùng bản ghi này nữa sau lần publish tới.
@@ -395,7 +427,7 @@ async function handleAction(button) {
     else if(action==="create-deck"){const item=createDraftDeck(data,session.email);state.selectedDeckId=item.id;state.selectedCardId=data.cards.find((card)=>card.deckId===item.id)?.id;setRoute("decks");shouldPersist=true;}
     else if(action==="create-asset"){createDraftAsset(data,session.email);render();shouldPersist=true;}
     else if(action==="save"){logAction(data,`Saved ${entity}/${id} draft`,session.email);notify("Draft saved locally; syncing online…");shouldPersist=true;}
-    else if(action==="publish"){publishEntity(data,entity,id,session.email);notify("Publishing online content bundle…");shouldPersist=true;shouldPublish=true;}
+    else if(action==="publish"){publishEntity(data,entity,id,session.email);logAction(data,`Ghi chú phát hành ${entity}/${id}: ${confirmDestructive.note || ""}`,session.email);notify("Đang phát hành gói nội dung…");shouldPersist=true;shouldPublish=true;}
     else if(action==="archive"){archiveEntity(data,entity,id,session.email);notify("Record archived locally; syncing online…");shouldPersist=true;}
     else if(action==="restore"){restoreSeedRecord(data,seedData,entity,id,session.email);notify("Repository seed restored locally; syncing online…");shouldPersist=true;}
     else if(action==="delete"){deleteEntity(data,entity,id,session.email);state.selectedPersonaId=null;state.selectedDeckId=null;state.selectedCardId=null;notify("Record deleted locally; syncing online…");shouldPersist=true;}
@@ -421,6 +453,7 @@ function stageBoundValue(target) {
   else item[fieldName]=value;
   item.updatedAt=new Date().toISOString();item.updatedBy=session.email;
   saveData();
+  markUnsaved(entity, id);
 }
 document.addEventListener("input",(event)=>{
   if(event.target.matches("[data-search]")){
@@ -436,7 +469,7 @@ document.addEventListener("change",(event)=>{
   if(!event.target.matches("[data-bind]"))return;
   const current = data[event.target.dataset.entity]?.find((record) => record.id === event.target.dataset.id);
   if(!permissions.canEdit || !current || (!permissions.canPublish && (event.target.dataset.field === "status" || current.status !== "draft")))return;
-  try{updateEntity(data,event.target.dataset.entity,event.target.dataset.id,event.target.dataset.field,event.target.value,{locale:event.target.dataset.locale,format:event.target.dataset.format,editorId:session.email});saveData("Change saved locally.");render();}catch(error){notify(error.message,true);}
+  try{updateEntity(data,event.target.dataset.entity,event.target.dataset.id,event.target.dataset.field,event.target.value,{locale:event.target.dataset.locale,format:event.target.dataset.format,editorId:session.email});saveData("Đã lưu trên trình duyệt này; bấm Lưu nháp để lưu lên máy chủ.");markUnsaved(event.target.dataset.entity,event.target.dataset.id);render();}catch(error){notify(error.message,true);}
 });
 document.addEventListener("error",(event)=>{
   if(event.target.matches?.("[data-asset-preview]"))event.target.closest(".asset-preview")?.classList.add("preview-missing");
@@ -464,5 +497,6 @@ async function init(){
   if(legacyIdentityConflictNotice)notify(legacyIdentityConflictNotice,true);
   else if(data.sourceVersion!==repositorySeed.sourceVersion)notify("Repository seed changed. Existing local review edits are preserved; reset when ready.");
   render();
+  reportUnsaved();
 }
 init().catch((error)=>{$("#workspace-content").innerHTML=`<div class="empty"><p>${escapeHtml(error.message)}</p></div>`;});

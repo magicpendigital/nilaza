@@ -1372,3 +1372,12 @@ pre {
     display: none;
   }
 }
+
+/* A1 cleanup: honest states and the publish confirmation note. */
+.publish-locked-reason { flex-basis: 100%; margin: 0; max-width: 60ch; }
+.unsaved-count { border-color: var(--gold, #c9a45c); }
+.publish-note-field { display: grid; gap: 6px; margin: 12px 0; }
+.publish-note-field textarea { min-height: 72px; }
+.not-applied .eyebrow { font-weight: 700; }
+.technical-details { margin-top: 12px; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }

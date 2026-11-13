@@ -81,3 +81,5 @@ input:focus { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(201,164,92,.
   .admin-shell { grid-template-rows: 102px 44px minmax(0,1fr); }
   .account-area { grid-column: 2; grid-row: 1; }
 }
+.unsaved-indicator { padding: 4px 10px; border: 1px solid var(--gold); border-radius: 999px; color: var(--gold); font-size: 12px; font-weight: 650; white-space: nowrap; }
+.session-expiry-notice { margin: 0; padding: 8px 16px; background: #3a2a12; color: var(--ivory); font-size: 13px; text-align: center; }

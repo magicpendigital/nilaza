@@ -7,6 +7,28 @@ const workspaceFrames = new Map();
 const $ = (selector) => document.querySelector(selector);
 const aiRouteFeatures = new Set(["oracle_router", "persona_chat", "ai_council", "tarot_reading", "daily_insight", "astrology", "face_reading", "notifications"]);
 const aiWorkflowSections = new Set(["payload", "dataMindmap", "optimization"]);
+// Vietnamese labels for the shell (A1). Route ids stay the contract in admin-capabilities.json.
+const viWorkspaceLabels = { content: "Nội dung", "ai-studio": "AI Studio", growth: "Tăng trưởng" };
+const viRouteLabels = {
+  content: { overview: "Tổng quan", personas: "Người dẫn", decks: "Bộ bài", cards: "Thư viện lá bài", assets: "Hình ảnh", frontend: "Văn bản trong app", documentation: "Hướng dẫn Owner" },
+  "ai-studio": { workflow: "Luồng xử lý", prompt: "Soạn prompt", "persona-studio": "Prompt người dẫn", "council-builder": "Hội đồng", "model-router": "Chọn model", "trace-explorer": "Nhật ký AI", feedback: "Phản hồi", test: "Chạy thử", versions: "Phiên bản", audit: "Lịch sử thao tác" },
+  growth: { overview: "Tổng quan", "product-truth": "Sẵn sàng sản phẩm", "content-drafts": "Bản nháp nội dung", measurement: "Đo lường", roadmap: "Việc tiếp theo", waitlist: "Danh sách chờ", "campaign-map": "Bản đồ chiến dịch", "delivery-health": "Tình trạng gửi" }
+};
+const workspaceLabel = item => viWorkspaceLabels[item.id] || item.label;
+const routeLabel = (workspaceId, item) => viRouteLabels[workspaceId]?.[item.id] || item.label;
+// Unsaved changes reported by each workspace frame through unsaved-changes.js.
+const unsavedByWorkspace = new Map();
+function renderUnsavedIndicator() {
+  let total = 0;
+  for (const value of unsavedByWorkspace.values()) total += value;
+  const indicator = $("#unsaved-indicator");
+  if (indicator) {
+    indicator.textContent = total ? `${total} thay đổi chưa lưu` : "";
+    indicator.hidden = !total;
+  }
+  window.NilazaUnsaved?.set("workspaces", total);
+  return total;
+}
 
 function safeAiRouteQuery(query, routeId) {
   const source = typeof query === "string" ? new URLSearchParams(query) : query;
@@ -47,6 +69,8 @@ function showDenied() {
   $("#login-screen").hidden = true;
   $("#access-screen").hidden = false;
   $("#admin-shell").hidden = true;
+  const message = $("#access-message");
+  if (message) message.textContent = sessionNoticeMessage("denied");
 }
 function showAdmin() {
   $("#login-screen").hidden = true;
@@ -60,15 +84,15 @@ function renderRoute() {
   const { workspace, route, query } = parseRoute();
   const frameHash = `${route.id}${query ? `?${query}` : ""}`;
   $("#workspace-nav").innerHTML = manifest.workspaces.map((item) => `
-    <button class="workspace-button ${item.id === workspace.id ? "active" : ""}" data-workspace="${item.id}">${item.label}</button>`).join("");
+    <button class="workspace-button ${item.id === workspace.id ? "active" : ""}" data-workspace="${item.id}" ${item.id === workspace.id ? 'aria-current="page"' : ""}>${workspaceLabel(item)}</button>`).join("");
   $("#route-bar").innerHTML = workspace.routes.map((item) => `
-    <button class="route-button ${item.id === route.id ? "active" : ""}" data-route="${item.id}">${item.label}</button>`).join("");
+    <button class="route-button ${item.id === route.id ? "active" : ""}" data-route="${item.id}" ${item.id === route.id ? 'aria-current="page"' : ""}>${routeLabel(workspace.id, item)}</button>`).join("");
   const frames = $("#workspace-frames");
   let frame = workspaceFrames.get(workspace.id);
   if (!frame) {
     frame = document.createElement("iframe");
     frame.dataset.workspaceFrame = workspace.id;
-    frame.title = `${workspace.label} workspace`;
+    frame.title = `Khu làm việc ${workspaceLabel(workspace)}`;
     frame.loading = "eager";
     frame.src = `./${workspace.entry}#${frameHash}`;
     workspaceFrames.set(workspace.id, frame);
@@ -92,6 +116,8 @@ function renderRoute() {
 function clearWorkspaceFrames() {
   for (const frame of workspaceFrames.values()) frame.remove();
   workspaceFrames.clear();
+  unsavedByWorkspace.clear();
+  renderUnsavedIndicator();
   const container = $("#workspace-frames");
   if (container) container.replaceChildren();
 }
@@ -106,8 +132,8 @@ function showConnectionNotice(user) {
     notice.style.cssText = "position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:1000;display:flex;gap:12px;align-items:center;padding:10px 14px;border-radius:8px;background:#2a2124;color:#f7f1e6;font:14px system-ui,sans-serif";
     document.body.append(notice);
   }
-  notice.replaceChildren(Object.assign(document.createElement("span"), { textContent: "Mất kết nối khi kiểm tra quyền. Bạn vẫn đang đăng nhập. / Connection lost while checking access; you are still signed in." }));
-  const retry = Object.assign(document.createElement("button"), { type: "button", textContent: "Thử lại / Retry", className: "button" });
+  notice.replaceChildren(Object.assign(document.createElement("span"), { textContent: `${sessionNoticeMessage("network")} Bạn vẫn đang đăng nhập.` }));
+  const retry = Object.assign(document.createElement("button"), { type: "button", textContent: "Thử lại", className: "button" });
   retry.addEventListener("click", () => { notice.remove(); void restoreSession(user); });
   notice.append(retry);
 }
@@ -140,12 +166,12 @@ async function init() {
       }
     });
   } else {
-    $("#login-error").textContent = "Supabase configuration is missing in config.js.";
+    $("#login-error").textContent = "Thiếu cấu hình máy chủ (config.js). Báo cho người phụ trách kỹ thuật.";
     return showLogin();
   }
 
   const response = await fetch("./admin-capabilities.json", { cache: "no-store" });
-  if (!response.ok) throw new Error("Admin capability manifest could not be loaded");
+  if (!response.ok) throw new Error("Không tải được danh sách quyền Admin. Tải lại trang.");
   manifest = await response.json();
   renderDemoAccounts();
 
@@ -157,20 +183,29 @@ async function init() {
   }
 }
 
-// Tell the common sign-in failures apart instead of always blaming the password (analysis AD-27).
+// Tell the common sign-in failures apart instead of always blaming the password (analysis AD-27, spec 3.1).
 function signInErrorMessage(error) {
   const code = String(error?.code || "").toLowerCase(), message = String(error?.message || "").toLowerCase(), status = Number(error?.status) || 0;
-  if (code === "email_not_confirmed" || message.includes("not confirmed")) return "Email chưa được xác nhận. Mở thư xác nhận rồi thử lại. / Email not confirmed yet.";
-  if (status === 429 || code.includes("rate") || message.includes("rate limit")) return "Thử quá nhiều lần. Đợi vài phút rồi thử lại. / Too many attempts; wait a few minutes.";
-  if (!status || message.includes("fetch") || message.includes("network")) return "Không kết nối được máy chủ. Kiểm tra mạng rồi thử lại. / Could not reach the server; check the connection.";
-  if (code === "invalid_credentials" || status === 400) return "Email hoặc mật khẩu chưa đúng. / Email or password is incorrect.";
-  return "Chưa đăng nhập được. Thử lại sau ít phút. / Sign-in failed; try again shortly.";
+  if (code === "email_not_confirmed" || message.includes("not confirmed")) return "Email chưa được xác nhận. Mở thư xác nhận rồi thử lại.";
+  if (status === 429 || code.includes("rate") || message.includes("rate limit")) return "Thử quá nhiều lần. Đợi vài phút rồi thử lại.";
+  if (!status || message.includes("fetch") || message.includes("network")) return "Không kết nối được máy chủ. Kiểm tra mạng rồi thử lại.";
+  if (code === "invalid_credentials" || status === 400) return "Email hoặc mật khẩu chưa đúng. Kiểm tra lại rồi thử lần nữa.";
+  return "Chưa đăng nhập được. Thử lại sau ít phút.";
 }
 window.NilazaSignInErrorMessage = signInErrorMessage;
+// The other causes in spec 3.1 (AD-12): no admin permission, network while checking access,
+// session expired, session about to expire.
+function sessionNoticeMessage(kind, minutes) {
+  if (kind === "denied") return "Tài khoản này đăng nhập được app nhưng chưa có quyền quản trị. Nhờ Owner cấp quyền hoặc dùng tài khoản khác.";
+  if (kind === "expired") return "Phiên đăng nhập đã hết hạn. Đăng nhập lại để tiếp tục.";
+  if (kind === "expiring") return `Phiên đăng nhập sắp hết hạn (còn khoảng ${Math.max(1, Math.round(Number(minutes) || 1))} phút). Lưu thay đổi rồi đăng nhập lại nếu cần.`;
+  return "Không kết nối được máy chủ. Kiểm tra mạng rồi thử lại.";
+}
+window.NilazaSessionNoticeMessage = sessionNoticeMessage;
 
 $("#login-form").addEventListener("submit", async (event) => {
   event.preventDefault();
-  $("#login-error").textContent = "Signing in...";
+  $("#login-error").textContent = "Đang đăng nhập…";
   const email = $("#login-email").value.trim();
   const password = $("#login-password").value;
   
@@ -196,8 +231,9 @@ $("#route-bar").addEventListener("click", (event) => {
   const { workspace } = parseRoute();
   setRoute(workspace.id, button.dataset.route);
 });
-$("#logout-button").addEventListener("click", async () => { 
-  session = null; 
+$("#logout-button").addEventListener("click", async () => {
+  if (renderUnsavedIndicator() && typeof window.confirm === "function" && !window.confirm("Còn thay đổi chưa lưu. Vẫn đăng xuất?")) return;
+  session = null;
   if (supabaseClient) await supabaseClient.auth.signOut();
   location.hash = "#login"; 
   showLogin(); 
@@ -230,5 +266,25 @@ window.addEventListener("focus", async () => {
   if (!supabaseClient || !session) return;
   const { data: { user } } = await supabaseClient.auth.getUser();
   if (user) await restoreSession(user);
-  else { session = null; showLogin(); }
+  else { session = null; showLogin(); $("#login-error").textContent = sessionNoticeMessage("expired"); }
 });
+window.addEventListener("message", event => {
+  const message = event.data;
+  if (event.origin !== location.origin || !message || typeof message !== "object" || message.type !== "nilaza.admin.unsaved") return;
+  const entry = [...workspaceFrames].find(([, frame]) => frame.contentWindow === event.source);
+  if (!entry) return;
+  unsavedByWorkspace.set(entry[0], Math.max(0, Math.floor(Number(message.count) || 0)));
+  renderUnsavedIndicator();
+});
+// Supabase refreshes the token by itself; this notice only appears when that refresh has not happened.
+async function checkSessionExpiry() {
+  const notice = $("#session-expiry-notice");
+  if (!supabaseClient || !session || !notice) return;
+  try {
+    const { data: { session: current } = {} } = await supabaseClient.auth.getSession();
+    const minutes = current?.expires_at ? (current.expires_at * 1000 - Date.now()) / 60000 : Infinity;
+    notice.hidden = !(minutes > 0 && minutes < 5);
+    notice.textContent = notice.hidden ? "" : sessionNoticeMessage("expiring", minutes);
+  } catch { /* the next focus check reports a real expiry */ }
+}
+window.setInterval(() => { void checkSessionExpiry(); }, 60000);

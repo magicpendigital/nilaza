@@ -39,6 +39,17 @@ function createAiStudioDom(fetchMock, adminRequestMock, storage = {}, environmen
 }
 
 
+function fillPublishNote(doc, note = "Kiểm thử A1: thay đổi đã xem lại") {
+  const field = doc.querySelector("#publish-note");
+  if (!field || doc.querySelector("#publish-note-field")?.hidden) return;
+  field.value = note;
+  field.dispatchEvent(new doc.defaultView.Event("input", { bubbles: true }));
+}
+function confirmReviewed(doc) {
+  fillPublishNote(doc);
+  doc.querySelector("#confirm-publish").click();
+}
+
 function scopedDraftKey(target = "local-preview", user = "fictional-admin") { return `nilaza.admin.aiStudio.draft.v2:${encodeURIComponent(user)}:${encodeURIComponent(target || "local-preview")}`; }
 function routeReceipt(body, overrides = {}) {
  const config = { id: "00000000-0000-4000-8000-000000000099", feature: body.feature, version: body.version, status: "active", primary_provider: body.primary.provider, primary_model: body.primary.model, fallback_provider: body.fallback?.provider ?? null, fallback_model: body.fallback?.model ?? null, temperature: body.temperature, max_output_tokens: body.maxTokens, response_schema: body.responseSchema, fallback_when: body.fallbackWhen, safety_policy: body.safetyPolicy, ...overrides };
@@ -103,7 +114,7 @@ test("Astrology AI Studio exposes the current route and keeps Test Run local", a
   const doc = dom.window.document;
   doc.querySelector('[data-feature="astrology"]').click();
   doc.querySelector('[data-detail="modelRouter"]').click();
-  doc.querySelector('[data-node="model"]').click();
+  doc.querySelector('[data-detail="modelRouter"]').click();
   assert.match(doc.body.textContent, /\/ai\/astrology-insight/);
   assert.match(doc.body.textContent, /astrology_ai_insight_v1/);
   const callsBeforePreflight = connectorCalls;
@@ -113,21 +124,6 @@ test("Astrology AI Studio exposes the current route and keeps Test Run local", a
   assert.match(doc.body.textContent, /No provider test has run from AI Studio/);
   assert.match(doc.body.textContent, /No model call, pass score, token use, cost, or latency is inferred/);
   assert.equal(connectorCalls, callsBeforePreflight);
-  dom.window.close();
-});
-
-test("Safety Gate inspector shows policy references without fake editable checkboxes", () => {
-  const dom = createAiStudioDom();
-  const doc = dom.window.document;
-  doc.querySelector('[data-feature="astrology"]').click();
-  doc.querySelector('[data-node="safety"]').click();
-  const inspector = doc.querySelector("#inspector-body");
-  assert.match(inspector.textContent, /Policy reference · read only/);
-  assert.match(inspector.textContent, /not switches in this workspace/);
-  assert.match(inspector.textContent, /Use calculated placements only/);
-  assert.equal(inspector.querySelectorAll('input[type="checkbox"]').length, 0);
-  assert.match(doc.querySelector('[data-node="safety"]').textContent, /Read only/);
-  assert.match(doc.querySelector('[data-node="context"]').textContent, /Preview/);
   dom.window.close();
 });
 
@@ -167,7 +163,7 @@ test("Astrology Admin can publish the new schema over a stale active route", asy
   doc.querySelector("#model-router-publish-config").click();
   await new Promise(resolve => dom.window.setTimeout(resolve, 0));
   assert.match(doc.querySelector("#publish-summary").textContent, /staging\.supabase\.co/);
-  doc.querySelector("#confirm-publish").click();
+  confirmReviewed(doc);
   await new Promise(resolve => dom.window.setTimeout(resolve, 0));
 
   const publishCall = calls.find(call => call.method === "POST");
@@ -231,71 +227,58 @@ test("revoked/view-only session cannot publish locally or call remote connector"
   let requests = 0;
   const dom = createAiStudioDom(async () => { requests++; return { ok: true, json: async () => ({}) }; });
   dom.window.NilazaAdminSession = { role: "safety_reviewer", capabilities: ["ai.read"] };
-  dom.window.document.querySelector("#confirm-publish").click();
+  confirmReviewed(dom.window.document);
   await new Promise(resolve => dom.window.setTimeout(resolve, 0));
   assert.equal(dom.window.document.querySelector("#draft-status").textContent, "Permission denied");
   const doc = openCouncilBuilder(dom);
-  doc.querySelector("#council-admin-endpoint").value = "https://example.functions.supabase.co/admin-ai-council-config";
-  doc.querySelector("#council-admin-endpoint").dispatchEvent(new dom.window.Event("input", { bubbles: true }));
-  doc.querySelector("#council-admin-jwt").value = "synthetic-token";
-  doc.querySelector("#council-admin-jwt").dispatchEvent(new dom.window.Event("input", { bubbles: true }));
-  doc.querySelector("#council-publish-config").click();
+  assert.equal(doc.querySelector("#council-admin-endpoint, #council-admin-jwt, #council-admin-anon-key, #council-publish-config"), null);
+  doc.querySelector("#council-load-config")?.click();
   await new Promise(resolve => dom.window.setTimeout(resolve, 0));
-  assert.equal(requests, 0);
+  assert.equal(requests, 0, "without the signed-in session transport nothing is sent");
 });
 
-test("AI Council Builder renders Supabase admin connector safely", () => {
-  const dom = createAiStudioDom();
+test("AI Council Builder renders Supabase admin connector safely", async () => {
+  const dom = createAiStudioDom(undefined, async () => ({ ok: true, json: async () => ({}) }), {}, { SUPABASE_URL: "https://qa.supabase.co" });
+  await new Promise(resolve => dom.window.setTimeout(resolve, 0));
   const doc = openCouncilBuilder(dom);
   assert.match(doc.body.textContent, /Supabase Admin Connector/);
-  assert.match(doc.body.textContent, /Review Council config · publishing unavailable/);
-  assert.ok(doc.querySelector("#council-publish-version").value.includes("admin"));
-  assert.equal(doc.querySelector("#council-publish-config").disabled, true);
-
-  const endpoint = doc.querySelector("#council-admin-endpoint");
-  const token = doc.querySelector("#council-admin-jwt");
-  endpoint.value = "https://example.functions.supabase.co/admin-ai-council-config";
-  endpoint.dispatchEvent(new dom.window.Event("input", { bubbles: true }));
-  token.value = "mock-admin-token";
-  token.dispatchEvent(new dom.window.Event("input", { bubbles: true }));
-
-  assert.equal(doc.querySelector("#council-publish-config").disabled, true);
-  assert.match(doc.querySelector("#council-publish-config").title, /loaded backend settings are not applied/);
-  assert.equal(dom.window.localStorage.getItem("nilaza.admin.aiCouncil.endpoint"), endpoint.value);
-  assert.equal(dom.window.sessionStorage.getItem("nilaza.admin.aiCouncil.jwt"), "mock-admin-token");
+  assert.match(doc.body.textContent, /Xem cấu hình Hội đồng · chưa phát hành được/);
+  assert.match(doc.body.textContent, /Chưa áp dụng — cần backend/);
+  for (const id of ["#council-admin-endpoint", "#council-admin-jwt", "#council-admin-anon-key", "#council-publish-version", "#council-publish-config"]) assert.equal(doc.querySelector(id), null, id);
+  assert.equal(doc.querySelectorAll('input[type="password"], input[type="url"]').length, 0);
+  assert.equal(doc.querySelector("#publish-button").hidden, true);
+  assert.match(doc.querySelector("#publish-locked-reason").textContent, /loaded backend settings are not applied/);
   dom.window.close();
 });
 
 test("AI Council Builder blocks seed publication even after a real config response loads", async () => {
   const calls = [];
-  const dom = createAiStudioDom(async (url, options) => {
-    calls.push({ url, method: options.method });
+  const dom = createAiStudioDom(undefined, async (url, options, capability) => {
+    calls.push({ url, method: options.method, capability });
     return {
       ok: true,
       json: async () => ({ configCount: 1, config: { version: "remote-council-v9", defaultTemplateId: "remote-template" } })
     };
-  });
+  }, {}, { SUPABASE_URL: "https://qa.supabase.co" });
   const doc = openCouncilBuilder(dom);
-
-  doc.querySelector("#council-admin-endpoint").value = "https://example.functions.supabase.co/admin-ai-council-config";
-  doc.querySelector("#council-admin-endpoint").dispatchEvent(new dom.window.Event("input", { bubbles: true }));
-  doc.querySelector("#council-admin-anon-key").value = "anon";
-  doc.querySelector("#council-admin-anon-key").dispatchEvent(new dom.window.Event("input", { bubbles: true }));
-  doc.querySelector("#council-admin-jwt").value = "admin-jwt";
-  doc.querySelector("#council-admin-jwt").dispatchEvent(new dom.window.Event("input", { bubbles: true }));
+  const councilCalls = () => calls.filter(call => call.url.endsWith("/admin-ai-council-config"));
   doc.querySelector("#council-load-config").click();
   await new Promise((resolve) => dom.window.setTimeout(resolve, 0));
-  assert.equal(calls.length, 1);
-  assert.equal(calls[0].method, "GET");
+  assert.equal(councilCalls().length, 1);
+  assert.equal(councilCalls()[0].method, "GET");
+  assert.equal(councilCalls()[0].capability, "ai.read");
+  assert.equal(calls.some(call => call.method === "POST"), false);
   assert.match(doc.body.textContent, /remote-council-v9/);
   assert.match(doc.body.textContent, /read-only review; preview editor is unchanged/);
-  assert.equal(doc.querySelector("#council-publish-config").disabled, true);
   assert.equal(doc.querySelector("#publish-button").disabled, true);
-  // A stale page or script cannot turn the disabled button back into a POST.
-  doc.querySelector("#council-publish-config").disabled = false;
-  doc.querySelector("#council-publish-config").click();
+  assert.equal(doc.querySelector("#publish-button").hidden, true);
+  // A stale script calling the old publish path still cannot POST.
+  doc.querySelector("#publish-button").hidden = false;
+  doc.querySelector("#publish-button").disabled = false;
+  doc.querySelector("#publish-button").click();
   await new Promise((resolve) => dom.window.setTimeout(resolve, 0));
-  assert.equal(calls.length, 1);
+  assert.equal(councilCalls().length, 1);
+  assert.equal(calls.some(call => call.method === "POST"), false);
   assert.match(doc.querySelector("#draft-status").textContent, /Council publishing is disabled/);
   dom.window.close();
 });
@@ -305,17 +288,13 @@ test("AI Studio reuses the signed-in session transport without pasted JWT fields
   const dom = createAiStudioDom(undefined, async (url, options, capability) => {
     captured = { url, options, capability };
     return { ok: true, statusText: "OK", json: async () => ({ status: "published", version: "session-v1", configStatus: "active" }) };
-  });
+  }, {}, { SUPABASE_URL: "https://qa.supabase.co" });
   const doc = openCouncilBuilder(dom);
-  const endpoint = doc.querySelector("#council-admin-endpoint");
-  endpoint.value = "https://example.functions.supabase.co/admin-ai-council-config";
-  endpoint.dispatchEvent(new dom.window.Event("input", { bubbles: true }));
-  assert.equal(doc.querySelector("#council-admin-jwt").closest("label").hidden, true);
-  assert.equal(doc.querySelector("#council-admin-anon-key").closest("label").hidden, true);
-  assert.equal(doc.querySelector("#council-publish-config").disabled, true);
+  assert.equal(doc.querySelector("#council-admin-endpoint"), null);
+  assert.equal(doc.querySelector("#council-admin-jwt"), null);
   doc.querySelector("#council-load-config").click();
   await new Promise(resolve => dom.window.setTimeout(resolve, 0));
-  assert.equal(captured.url, endpoint.value);
+  assert.equal(captured.url, "https://qa.supabase.co/functions/v1/admin-ai-council-config");
   assert.equal(captured.capability, "ai.read");
   assert.equal(captured.options.method, "GET");
   assert.equal(captured.options.headers.Authorization, undefined);
@@ -327,29 +306,22 @@ test("AI Studio model route drafts survive a browser reload", () => {
   const dom = createAiStudioDom();
   const doc = dom.window.document;
   doc.querySelector('[data-feature="persona_chat"]').click();
-  doc.querySelector('[data-node="model"]').click();
+  doc.querySelector('[data-detail="modelRouter"]').click();
   const provider = doc.querySelector("#provider-select");
   provider.value = "openrouter";
   provider.dispatchEvent(new dom.window.Event("change", { bubbles: true }));
-  doc.querySelector('[data-node="context"]').click();
-  const languageField = doc.querySelector('[data-field="language"]');
-  languageField.checked = false;
-  languageField.dispatchEvent(new dom.window.Event("change", { bubbles: true }));
 
   const storageKey = scopedDraftKey();
   const savedDrafts = dom.window.localStorage.getItem(storageKey);
   assert.ok(savedDrafts);
   assert.equal(JSON.parse(savedDrafts).persona_chat.provider, "openrouter");
-  assert.equal(JSON.parse(savedDrafts).persona_chat.fields.find((item) => item.id === "language").enabled, false);
   dom.window.close();
 
   const reloaded = createAiStudioDom(undefined, undefined, { [storageKey]: savedDrafts });
   const reloadedDoc = reloaded.window.document;
   reloadedDoc.querySelector('[data-feature="persona_chat"]').click();
-  reloadedDoc.querySelector('[data-node="model"]').click();
+  reloadedDoc.querySelector('[data-detail="modelRouter"]').click();
   assert.equal(reloadedDoc.querySelector("#provider-select").value, "openrouter");
-  reloadedDoc.querySelector('[data-node="context"]').click();
-  assert.equal(reloadedDoc.querySelector('[data-field="language"]').checked, false);
   reloaded.window.close();
 });
 
@@ -375,7 +347,7 @@ test("Model Router hydrates the active OpenRouter route after an Admin reload", 
   doc.querySelector('[data-feature="persona_chat"]').click();
   doc.querySelector('[data-detail="modelRouter"]').click();
   await new Promise(resolve => dom.window.setTimeout(resolve, 0));
-  doc.querySelector('[data-node="model"]').click();
+  doc.querySelector('[data-detail="modelRouter"]').click();
 
   assert.equal(doc.querySelector("#provider-select").value, "openrouter");
   assert.equal(doc.querySelector("#model-select").value, "deepseek/deepseek-chat");
@@ -388,14 +360,17 @@ test("Publish review clearly identifies the Model Call route and target project"
   const dom = createAiStudioDom(undefined, async () => ({ ok: true, json: async () => ({}) }), {}, { SUPABASE_URL: "https://staging.supabase.co" });
   const doc = dom.window.document;
   doc.querySelector('[data-feature="persona_chat"]').click();
-  doc.querySelector('[data-node="model"]').click();
+  doc.querySelector('[data-detail="modelRouter"]').click();
   doc.querySelector("#publish-button").click();
   await new Promise(resolve => dom.window.setTimeout(resolve, 0));
 
   assert.match(doc.querySelector("#publish-summary").textContent, /persona_chat · openrouter\//);
   assert.match(doc.querySelector("#publish-summary").textContent, /staging\.supabase\.co/);
+  assert.equal(doc.querySelector("#publish-button").textContent, "Xem lại & phát hành");
+  assert.match(doc.querySelector("#confirm-publish").textContent, /Phát hành route/);
+  assert.equal(doc.querySelector("#confirm-publish").disabled, true, "note required");
+  fillPublishNote(doc);
   assert.equal(doc.querySelector("#confirm-publish").disabled, false);
-  assert.match(doc.querySelector("#confirm-publish").textContent, /Publish route/);
   dom.window.close();
 });
 
@@ -407,12 +382,12 @@ test("Model Router publish sends the canonical provider contract with a unique v
     return options.method === "POST"
       ? routeReceipt(captured.body)
       : { ok: true, json: async () => ({ status: "connected", contractVersion: "model_route_publish_v2", checkedAt: "2026-09-26T00:00:00.000Z", providers: [], routes: [], history: [] }) };
-  });
+  }, {}, { SUPABASE_URL: "https://qa.supabase.co" });
   const doc = dom.window.document;
   await new Promise(resolve => dom.window.setTimeout(resolve, 0));
   doc.querySelector('[data-feature="tarot_reading"]').click();
   doc.querySelector('[data-detail="modelRouter"]').click();
-  doc.querySelector('[data-node="model"]').click();
+  doc.querySelector('[data-detail="modelRouter"]').click();
   const provider = doc.querySelector("#provider-select");
   provider.value = "openrouter";
   provider.dispatchEvent(new dom.window.Event("change", { bubbles: true }));
@@ -422,16 +397,17 @@ test("Model Router publish sends the canonical provider contract with a unique v
   const maxTokens = doc.querySelector("#max-output-tokens");
   maxTokens.value = "1300";
   maxTokens.dispatchEvent(new dom.window.Event("change", { bubbles: true }));
-  const endpoint = doc.querySelector("#model-router-admin-endpoint");
-  endpoint.value = "https://example.functions.supabase.co/admin-model-router-config";
-  endpoint.dispatchEvent(new dom.window.Event("input", { bubbles: true }));
+  // The endpoint comes from config.js; there is no editable URL field (A1).
+  const endpoint = { value: "https://qa.supabase.co/functions/v1/admin-model-router-config" };
   doc.querySelector("#model-router-check-connection").click();
   await new Promise(resolve => dom.window.setTimeout(resolve, 0));
   doc.querySelector("#model-router-publish-config").click();
   await new Promise(resolve => dom.window.setTimeout(resolve, 0));
   assert.match(doc.querySelector("#publish-summary").textContent, /tarot_reading · openrouter/);
-  assert.match(doc.querySelector("#publish-summary").textContent, /not configured/);
-  doc.querySelector("#confirm-publish").click();
+  assert.match(doc.querySelector("#publish-summary").textContent, /qa.supabase.co/);
+  assert.match(doc.querySelector("#publish-environment").textContent, /Đang ghi vào/);
+  assert.equal(doc.querySelector("#confirm-publish").disabled, true, "a change note is required before publishing");
+  confirmReviewed(doc);
   await new Promise(resolve => dom.window.setTimeout(resolve, 0));
 
   const captured = requests.find(request => request.options.method === "POST");
@@ -447,7 +423,7 @@ test("Model Router publish sends the canonical provider contract with a unique v
   assert.equal(captured.body.maxTokens, 1300);
   assert.match(captured.body.version, /^v1\.2\.0-admin-\d+$/);
   assert.match(doc.querySelector("#draft-status").textContent, /Model Router config published/);
-  assert.equal(JSON.parse(dom.window.localStorage.getItem(scopedDraftKey())).tarot_reading, undefined);
+  assert.equal(JSON.parse(dom.window.localStorage.getItem(scopedDraftKey("https://qa.supabase.co"))).tarot_reading, undefined);
   dom.window.close();
 });
 
@@ -460,7 +436,7 @@ test("Hidden reasoning is set per route, blocks a budget with no room for the an
     return options.method === "POST"
       ? routeReceipt(captured.body)
       : { ok: true, json: async () => ({ status: "connected", contractVersion: "model_route_publish_v2", checkedAt: "2026-11-02T00:00:00.000Z", providers: [], routes: [], history: [] }) };
-  });
+  }, {}, { SUPABASE_URL: "https://qa.supabase.co" });
   const doc = dom.window.document;
   const change = (selector, value) => {
     const element = doc.querySelector(selector);
@@ -470,7 +446,7 @@ test("Hidden reasoning is set per route, blocks a budget with no room for the an
   await new Promise(resolve => dom.window.setTimeout(resolve, 0));
   doc.querySelector('[data-feature="tarot_reading"]').click();
   doc.querySelector('[data-detail="modelRouter"]').click();
-  doc.querySelector('[data-node="model"]').click();
+  doc.querySelector('[data-detail="modelRouter"]').click();
   assert.equal(doc.querySelector("#reasoning-max-tokens").disabled, true);
   change("#max-output-tokens", "2000");
   change("#reasoning-mode", "high");
@@ -478,8 +454,6 @@ test("Hidden reasoning is set per route, blocks a budget with no room for the an
   change("#reasoning-mode", "low");
   change("#reasoning-max-tokens", "1700");
   assert.match(doc.body.textContent, /Not enough room for the answer/);
-  change("#model-router-admin-endpoint", "https://example.functions.supabase.co/admin-model-router-config");
-  doc.querySelector("#model-router-admin-endpoint").dispatchEvent(new dom.window.Event("input", { bubbles: true }));
   doc.querySelector("#model-router-check-connection").click();
   await new Promise(resolve => dom.window.setTimeout(resolve, 0));
   doc.querySelector("#model-router-publish-config").click();
@@ -490,7 +464,7 @@ test("Hidden reasoning is set per route, blocks a budget with no room for the an
   assert.doesNotMatch(doc.body.textContent, /Not enough room for the answer/);
   doc.querySelector("#model-router-publish-config").click();
   await new Promise(resolve => dom.window.setTimeout(resolve, 0));
-  doc.querySelector("#confirm-publish").click();
+  confirmReviewed(doc);
   await new Promise(resolve => dom.window.setTimeout(resolve, 0));
   const captured = requests.find(request => request.options.method === "POST");
   assert.ok(captured);
@@ -539,7 +513,7 @@ test("Astrology prompt editor reads active backend prompts and publishes the VI/
   await new Promise(resolve => dom.window.setTimeout(resolve, 0));
   assert.match(doc.querySelector("#publish-summary").textContent, /active-vi-v1/);
   assert.match(doc.querySelector("#publish-summary").textContent, /active-en-v1/);
-  doc.querySelector("#confirm-publish").click();
+  confirmReviewed(doc);
   await new Promise(resolve => dom.window.setTimeout(resolve, 0));
   const publish = calls.find(call => call.method === "POST");
   assert.equal(publish.capability, "ai.manage");
@@ -589,7 +563,7 @@ test("AI Studio search controls are keyboard tabs and use real model names", () 
   const doc = dom.window.document;
   doc.querySelector('[data-feature="astrology"]').click();
   doc.querySelector('[data-detail="modelRouter"]').click();
-  doc.querySelector('[data-node="model"]').click();
+  doc.querySelector('[data-detail="modelRouter"]').click();
   assert.equal(doc.querySelector("#model-select").type, "search");
   assert.equal(doc.querySelector("#fallback-model-select").type, "search");
   assert.ok(doc.querySelectorAll("#primary-model-options option").length > 0);
@@ -644,19 +618,20 @@ test("Prompt save cannot publish the previously selected Model Call route", asyn
     return connected([]);
   }, {}, { SUPABASE_URL: "https://staging.supabase.co" });
   const doc = dom.window.document;
-  doc.querySelector('[data-node="model"]').click();
+  doc.querySelector('[data-detail="modelRouter"]').click();
   doc.querySelector('[data-detail="prompt"]').click();
-  const editor = doc.querySelector("#detail-prompt");
-  editor.value = "Retain this local prompt preview.";
-  editor.dispatchEvent(new dom.window.Event("input", { bubbles: true }));
-  assert.equal(doc.querySelector("#publish-button").textContent, "Save browser draft");
+  // Tarot has no backend prompt editor yet: no local prompt box, an honest note instead (A1).
+  assert.equal(doc.querySelector("#detail-prompt, #prompt-edit"), null);
+  assert.match(doc.querySelector("#detail-content").textContent, /Chưa áp dụng — cần backend/);
+  assert.equal(doc.querySelector("#publish-button").textContent, "Lưu nháp trên trình duyệt này — chưa lên máy chủ");
   doc.querySelector("#publish-button").click();
   await settle(dom);
-  assert.equal(doc.querySelector("#confirm-publish").textContent, "Save browser draft");
-  doc.querySelector("#confirm-publish").click();
+  assert.equal(doc.querySelector("#confirm-publish").textContent, "Lưu nháp trên trình duyệt này — chưa lên máy chủ");
+  assert.equal(doc.querySelector("#publish-note-field").hidden, true);
+  confirmReviewed(doc);
   await settle(dom);
   assert.equal(calls.filter(call => call.method === "POST").length, 0);
-  assert.equal(JSON.parse(dom.window.localStorage.getItem(scopedDraftKey(dom.window.ENV?.SUPABASE_URL))).tarot_reading.prompt, editor.value);
+  assert.ok(JSON.parse(dom.window.localStorage.getItem(scopedDraftKey(dom.window.ENV?.SUPABASE_URL))).tarot_reading);
   dom.window.close();
 });
 
@@ -670,13 +645,13 @@ test("Astrology Model Router publishes only the route despite a previous Prompt 
   }, {}, { SUPABASE_URL: "https://staging.supabase.co" });
   const doc = dom.window.document;
   doc.querySelector('[data-feature="astrology"]').click();
-  doc.querySelector('[data-node="prompt"]').click();
+  doc.querySelector('[data-detail="prompt"]').click();
   await settle(dom);
   doc.querySelector('[data-detail="modelRouter"]').click();
   doc.querySelector("#model-router-publish-config").click();
   await settle(dom);
-  assert.equal(doc.querySelector("#confirm-publish").textContent, "Publish route");
-  doc.querySelector("#confirm-publish").click();
+  assert.equal(doc.querySelector("#confirm-publish").textContent, "Phát hành route");
+  confirmReviewed(doc);
   await settle(dom);
   const posts = calls.filter(call => call.method === "POST");
   assert.equal(posts.length, 1);
@@ -693,11 +668,11 @@ test("Changing the current surface invalidates an already opened publish review"
     return connected([]);
   }, {}, { SUPABASE_URL: "https://staging.supabase.co" });
   const doc = dom.window.document;
-  doc.querySelector('[data-node="model"]').click();
+  doc.querySelector('[data-detail="modelRouter"]').click();
   doc.querySelector("#publish-button").click();
   await settle(dom);
   doc.querySelector('[data-detail="prompt"]').click();
-  doc.querySelector("#confirm-publish").click();
+  confirmReviewed(doc);
   await settle(dom);
   assert.equal(calls.filter(method => method === "POST").length, 0);
   assert.match(doc.querySelector("#draft-status").textContent, /Selection changed/);
@@ -722,9 +697,9 @@ for (const action of ["Model route", "Astrology prompt pair"]) {
         const astrology = action === "Astrology prompt pair";
         if (astrology) {
           doc.querySelector('[data-feature="astrology"]').click();
-          doc.querySelector('[data-node="prompt"]').click();
+          doc.querySelector('[data-detail="prompt"]').click();
           await settle(dom);
-        } else doc.querySelector('[data-node="model"]').click();
+        } else doc.querySelector('[data-detail="modelRouter"]').click();
         let resume;
         let checks = 0;
         dom.window.NilazaRequireCapability = async capability => {
@@ -733,13 +708,14 @@ for (const action of ["Model route", "Astrology prompt pair"]) {
         };
         doc.querySelector(astrology ? "#astrology-prompt-publish" : "#model-router-publish-config").click();
         await settle(dom);
+        fillPublishNote(doc);
         assert.equal(doc.querySelector("#confirm-publish").disabled, false);
-        doc.querySelector("#confirm-publish").click();
+        confirmReviewed(doc);
         await settle(dom);
         assert.equal(typeof resume, "function", "the reviewed publication is awaiting the intended capability check");
         if (change === "selection") {
           doc.querySelector('[data-feature="oracle_router"]').click();
-          doc.querySelector('[data-node="model"]').click();
+          doc.querySelector('[data-detail="modelRouter"]').click();
         } else {
           const editor = doc.querySelector(astrology ? "#astrology-prompt-vi" : "#model-select");
           editor.value = astrology ? "Changed after review. ".repeat(12) : "changed-after-review";
@@ -768,10 +744,10 @@ test("Reviewed model route is revalidated after the transport's asynchronous per
   }, {}, { SUPABASE_URL: "https://staging.supabase.co" });
   await settle(dom);
   const doc = dom.window.document;
-  doc.querySelector('[data-node="model"]').click();
+  doc.querySelector('[data-detail="modelRouter"]').click();
   doc.querySelector("#model-router-publish-config").click();
   await settle(dom);
-  doc.querySelector("#confirm-publish").click();
+  confirmReviewed(doc);
   await settle(dom);
   assert.equal(typeof resume, "function");
   const model = doc.querySelector("#model-select");
@@ -809,7 +785,7 @@ test("QA payload clears on workflow navigation and delayed reveals cannot return
   doc.querySelector("#trace-qa-load").click();
   await settle(dom);
   assert.match(doc.body.textContent, /retained-private-qa/);
-  doc.querySelector('[data-node="context"]').click();
+  doc.querySelector('[data-detail="payload"]').click();
   doc.querySelector('[data-detail="traceExplorer"]').click();
   assert.doesNotMatch(doc.body.textContent, /retained-private-qa/);
   assert.ok(doc.querySelector("#trace-qa-load"));
@@ -817,7 +793,7 @@ test("QA payload clears on workflow navigation and delayed reveals cannot return
   doc.querySelector("#trace-qa-load").click();
   await settle(dom);
   assert.equal(typeof resume, "function");
-  doc.querySelector('[data-node="context"]').click();
+  doc.querySelector('[data-detail="payload"]').click();
   doc.querySelector('[data-detail="traceExplorer"]').click();
   resume();
   await settle(dom);
@@ -837,24 +813,17 @@ test("Publishing a model route retains unrelated prompt and context drafts throu
     routes = [{ feature: body.feature, version: body.version, status: "active", primary_provider: body.primary.provider, primary_model: body.primary.model, fallback_provider: body.fallback?.provider, fallback_model: body.fallback?.model, response_schema: body.responseSchema }];
     return routeReceipt(body);
   };
-  const dom = createAiStudioDom(undefined, request, {}, { SUPABASE_URL: "https://staging.supabase.co" });
+  const seeded = { [scopedDraftKey("https://staging.supabase.co")]: JSON.stringify({ tarot_reading: { prompt: "Keep my prompt review work.", fields: [{ id: "language", enabled: false, inject: "context_block" }] } }) };
+  const dom = createAiStudioDom(undefined, request, seeded, { SUPABASE_URL: "https://staging.supabase.co" });
   const doc = dom.window.document;
   await settle(dom);
-  doc.querySelector('[data-node="prompt"]').click();
-  const prompt = doc.querySelector("#detail-prompt");
-  prompt.value = "Keep my prompt review work.";
-  prompt.dispatchEvent(new dom.window.Event("input", { bubbles: true }));
-  doc.querySelector('[data-node="context"]').click();
-  const language = doc.querySelector('[data-field="language"]');
-  language.checked = false;
-  language.dispatchEvent(new dom.window.Event("change", { bubbles: true }));
-  doc.querySelector('[data-node="model"]').click();
+  doc.querySelector('[data-detail="modelRouter"]').click();
   const model = doc.querySelector("#model-select");
   model.value = "synthetic-new-model";
   model.dispatchEvent(new dom.window.Event("change", { bubbles: true }));
   doc.querySelector("#model-router-publish-config").click();
   await settle(dom);
-  doc.querySelector("#confirm-publish").click();
+  confirmReviewed(doc);
   await settle(dom);
   assert.equal(requests.filter(method => method === "POST").length, 1);
   const saved = dom.window.localStorage.getItem(scopedDraftKey(dom.window.ENV?.SUPABASE_URL));
@@ -866,12 +835,8 @@ test("Publishing a model route retains unrelated prompt and context drafts throu
   dom.window.close();
   const reloaded = createAiStudioDom(undefined, request, { [draftKey]: saved }, { SUPABASE_URL: "https://staging.supabase.co" });
   await settle(reloaded);
-  reloaded.window.document.querySelector('[data-node="model"]').click();
+  reloaded.window.document.querySelector('[data-detail="modelRouter"]').click();
   assert.equal(reloaded.window.document.querySelector("#model-select").value, "synthetic-new-model");
-  reloaded.window.document.querySelector('[data-node="prompt"]').click();
-  assert.equal(reloaded.window.document.querySelector("#detail-prompt").value, "Keep my prompt review work.");
-  reloaded.window.document.querySelector('[data-node="context"]').click();
-  assert.equal(reloaded.window.document.querySelector('[data-field="language"]').checked, false);
   reloaded.window.close();
 });
 
@@ -886,7 +851,7 @@ test("Route editor and header use the unique active row, while newer experimenta
   await settle(dom);
   const doc = dom.window.document;
   doc.querySelector('[data-feature="persona_chat"]').click();
-  doc.querySelector('[data-node="model"]').click();
+  doc.querySelector('[data-detail="modelRouter"]').click();
   assert.equal(doc.querySelector("#provider-select").value, "openai");
   assert.equal(doc.querySelector("#model-select").value, "synthetic-older");
   assert.equal(doc.querySelector("#fallback-provider-select").value, "gemini");
@@ -897,8 +862,6 @@ test("Route editor and header use the unique active row, while newer experimenta
   const experimental = [...doc.querySelectorAll("details")].find(item => item.querySelector("summary")?.textContent.includes("Experimental records"));
   assert.match(experimental.textContent, /read only, excluded from the active baseline/);
   assert.match(experimental.textContent, /newest-experimental · experimental · openrouter \/ synthetic-newest/);
-  doc.querySelector('[data-node="prompt"]').click();
-  assert.equal(doc.querySelector("#detail-prompt").value, "Keep this preview.");
   dom.window.close();
 });
 
@@ -914,7 +877,7 @@ test("Multiple active backend rows block publication and preserve browser drafts
   await settle(dom);
   const doc = dom.window.document;
   doc.querySelector('[data-feature="persona_chat"]').click();
-  doc.querySelector('[data-node="model"]').click();
+  doc.querySelector('[data-detail="modelRouter"]').click();
   assert.equal(doc.querySelector("#model-select"), null);
   assert.equal(doc.querySelector("#model-router-publish-config"), null);
   assert.equal(doc.querySelector("#publish-button").disabled, true);
@@ -940,7 +903,7 @@ test("Experimental-only records do not hydrate the editor or appear as the activ
   await settle(dom);
   const doc = dom.window.document;
   doc.querySelector('[data-feature="persona_chat"]').click();
-  doc.querySelector('[data-node="model"]').click();
+  doc.querySelector('[data-detail="modelRouter"]').click();
   assert.notEqual(doc.querySelector("#model-select").value, "synthetic-candidate-only");
   assert.notEqual(doc.querySelector("#sidebar-version").textContent, "candidate-only");
   assert.equal(doc.querySelector("#sidebar-version-status").textContent, "No active backend route loaded");
@@ -949,53 +912,13 @@ test("Experimental-only records do not hydrate the editor or appear as the activ
   dom.window.close();
 });
 
-test("Save draft and approved variable controls save their actual prompt buffer", () => {
-  const dom = createAiStudioDom();
-  const doc = dom.window.document;
-  doc.querySelector('[data-node="prompt"]').click();
-  doc.querySelector("#prompt-edit").value = "Saved by the explicit button.";
-  doc.querySelector("#save-prompt").click();
-  assert.equal(JSON.parse(dom.window.localStorage.getItem(scopedDraftKey(dom.window.ENV?.SUPABASE_URL))).tarot_reading.prompt, "Saved by the explicit button.");
-  doc.querySelector('[data-detail="prompt"]').click();
-  const editor = doc.querySelector("#detail-prompt");
-  editor.value = "Before replace after";
-  editor.setSelectionRange(7, 14);
-  doc.querySelector('[data-insert-var="{{language}}"]') .click();
-  assert.equal(editor.value, "Before {{language}} after");
-  assert.equal(doc.activeElement, editor);
-  const saved = dom.window.localStorage.getItem(scopedDraftKey(dom.window.ENV?.SUPABASE_URL));
-  dom.window.close();
-  const reloaded = createAiStudioDom(undefined, undefined, { [localDraftKey]: saved });
-  reloaded.window.document.querySelector('[data-detail="prompt"]').click();
-  assert.equal(reloaded.window.document.querySelector("#detail-prompt").value, "Before {{language}} after");
-  reloaded.window.close();
-});
-
-test("Mention insertion persists without another keystroke", () => {
-  const dom = createAiStudioDom();
-  const doc = dom.window.document;
-  doc.querySelector('[data-detail="prompt"]').click();
-  const editor = doc.querySelector("#detail-prompt");
-  editor.value = "Use @lang";
-  editor.setSelectionRange(editor.value.length, editor.value.length);
-  editor.dispatchEvent(new dom.window.Event("input", { bubbles: true }));
-  doc.querySelector('[data-mention-value="{{language}}"]') .click();
-  assert.equal(editor.value, "Use {{language}}");
-  const saved = dom.window.localStorage.getItem(scopedDraftKey(dom.window.ENV?.SUPABASE_URL));
-  dom.window.close();
-  const reloaded = createAiStudioDom(undefined, undefined, { [localDraftKey]: saved });
-  reloaded.window.document.querySelector('[data-detail="prompt"]').click();
-  assert.equal(reloaded.window.document.querySelector("#detail-prompt").value, "Use {{language}}");
-  reloaded.window.close();
-});
-
 test("Deferred Face Reading and Notifications cannot publish an LLM route", async () => {
   const calls = [];
   const dom = createAiStudioDom(undefined, async (url, options) => { calls.push(options.method); return connected([]); }, {}, { SUPABASE_URL: "https://staging.supabase.co" });
   const doc = dom.window.document;
   for (const featureId of ["face_reading", "notifications"]) {
     doc.querySelector(`[data-feature="${featureId}"]`).click();
-    doc.querySelector('[data-node="model"]').click();
+    doc.querySelector('[data-detail="modelRouter"]').click();
     assert.equal(doc.querySelector("#model-select"), null);
     assert.equal(doc.querySelector("#model-router-publish-config"), null);
     assert.equal(doc.querySelector("#publish-button").disabled, true);
@@ -1015,7 +938,7 @@ test("None fallback stays disabled in the editor and publishes as null", async (
   }, {}, { SUPABASE_URL: "https://staging.supabase.co" });
   await settle(dom);
   const doc = dom.window.document;
-  doc.querySelector('[data-node="model"]').click();
+  doc.querySelector('[data-detail="modelRouter"]').click();
   const fallback = doc.querySelector("#fallback-provider-select");
   fallback.value = "";
   fallback.dispatchEvent(new dom.window.Event("change", { bubbles: true }));
@@ -1023,7 +946,7 @@ test("None fallback stays disabled in the editor and publishes as null", async (
   assert.equal(doc.querySelector("#fallback-model-select").value, "");
   doc.querySelector("#model-router-publish-config").click();
   await settle(dom);
-  doc.querySelector("#confirm-publish").click();
+  confirmReviewed(doc);
   await settle(dom);
   assert.equal(posts.length, 1, doc.querySelector("#draft-status").textContent);
   assert.equal(posts[0].fallback, null);
@@ -1057,22 +980,22 @@ test("Publish review has safe initial focus, a keyboard trap, Escape and focus r
 test("Model editor is the only route form and precedes optional catalog/reference", () => {
   const dom = createAiStudioDom();
   const doc = dom.window.document;
-  doc.querySelector('[data-node="model"]').click();
+  doc.querySelector('[data-detail="modelRouter"]').click();
   assert.equal(doc.querySelectorAll("#provider-select").length, 1);
   assert.ok(doc.querySelector("#detail-content #provider-select"));
-  assert.equal(doc.querySelector("#inspector-body #provider-select"), null);
-  assert.equal(doc.querySelector("#workflow-reference").open, false);
+  assert.equal(doc.querySelector("#inspector-body"), null);
+  assert.equal(doc.querySelector("#workflow-reference"), null);
   const catalog = doc.querySelector("#detail-content .variant-grid").closest("details");
   assert.equal(catalog.open, false);
   assert.ok(doc.querySelector("#provider-select").compareDocumentPosition(catalog) & dom.window.Node.DOCUMENT_POSITION_FOLLOWING);
-  assert.ok(doc.querySelector('label[for="model-router-admin-endpoint"]'));
+  assert.equal(doc.querySelector("#model-router-admin-endpoint, #model-router-admin-jwt"), null);
   dom.window.close();
 });
 
 test("Rebuilding a route draft preserves focus on the edited control", () => {
   const dom = createAiStudioDom();
   const doc = dom.window.document;
-  doc.querySelector('[data-node="model"]').click();
+  doc.querySelector('[data-detail="modelRouter"]').click();
   for (const [id, value] of [["model-select", "fictional-model"], ["max-output-tokens", "777"]]) {
     const input = doc.getElementById(id);
     input.focus();
@@ -1207,11 +1130,11 @@ test("Deep links restore feature/section/locale and inner navigation updates the
   assert.match(dom.window.location.hash, /^#trace-explorer\?feature=oracle_router&locale=en$/);
   doc.querySelector('[data-panel="workflow"]').click();
   assert.match(dom.window.location.hash, /^#workflow\?feature=oracle_router&locale=en$/);
-  assert.equal(doc.querySelector("#workflow-reference").open, false, "legacy seven-step reference is collapsed behind the primary graph");
+  assert.equal(doc.querySelector("#workflow-reference"), null, "the legacy seven-step reference is removed");
   dom.window.close();
 });
 
-test("Workflow presents all reviewed feature graphs before separately labeled sample controls", () => {
+test("Workflow presents all reviewed feature graphs without legacy sample controls", () => {
   const dom = createAiStudioDom();
   const doc = dom.window.document;
   const catalog = dom.window.NilazaWorkflowCatalog;
@@ -1221,8 +1144,8 @@ test("Workflow presents all reviewed feature graphs before separately labeled sa
     doc.querySelector('[data-detail="payload"]').click();
     assert.equal(doc.querySelectorAll(".workflow-graph-node").length, graph.nodes.length);
     assert.equal(doc.querySelectorAll(".graph-edge").length, graph.edges.length);
-    assert.equal(doc.querySelector("#workflow-reference").open, false);
-    assert.match(doc.querySelector(".workflow-sample-payload summary").textContent, /not the runtime request/);
+    assert.equal(doc.querySelector("#workflow-reference"), null);
+    assert.equal(doc.querySelector(".workflow-sample-payload"), null);
     assert.equal(doc.querySelector("#detail-content").firstElementChild.className, "workflow-graph-layout");
     assert.doesNotMatch(doc.querySelector(".graph-legend").textContent, /Parallel|Conditional/);
   }
@@ -1330,7 +1253,7 @@ test("Missing workflow modules show an unavailable state without synthesizing an
   const doc = dom.window.document;
   assert.match(doc.querySelector("#detail-content").textContent, /Workflow graph unavailable/);
   assert.equal(doc.querySelector(".workflow-graph-node"), null);
-  assert.ok(doc.querySelector(".workflow-sample-payload"));
+  assert.equal(doc.querySelector(".workflow-sample-payload"), null);
   dom.window.close();
 });
 
@@ -1498,9 +1421,9 @@ test('v2 publication rejects stale revision receipts and retains operator draft'
   if(options.method==='POST'){post=JSON.parse(options.body);return {ok:false,status:409,json:async()=>({error:'Active route changed'})};}
   return connected([{id,feature:'tarot_reading',version:'server-v1',status:'active',primary_provider:'openai',primary_model:'synthetic',fallback_provider:null,fallback_model:null,fallback_when:[],safety_policy:{preserve:true},temperature:0,max_output_tokens:900,response_schema:'tarot_reading_v2'}]);
  },{}, {SUPABASE_URL:'https://staging.supabase.co'});
- await settle(dom); const doc=dom.window.document; doc.querySelector('[data-node="model"]').click();
+ await settle(dom); const doc=dom.window.document; doc.querySelector('[data-detail="modelRouter"]').click();
  const input=doc.querySelector('#model-select'); input.value='candidate';input.dispatchEvent(new dom.window.Event('change',{bubbles:true}));
- doc.querySelector('#model-router-publish-config').click(); await settle(dom);doc.querySelector('#confirm-publish').click();await settle(dom);
+ doc.querySelector('#model-router-publish-config').click(); await settle(dom);confirmReviewed(doc);await settle(dom);
  assert.equal(post.expectedActiveId,id);assert.equal(post.fallback,null);assert.deepEqual(post.fallbackWhen,[]);assert.deepEqual(post.safetyPolicy,{preserve:true});
  assert.match(doc.body.textContent,/Active route changed/); assert.equal(JSON.parse(dom.window.localStorage.getItem(draftKey)).tarot_reading.model,'candidate');dom.window.close();
 });
@@ -1511,9 +1434,9 @@ test('v2 retry reuses reviewed request after unknown outcome and only exact rece
   if(options.method!=='POST')return connected([]);
   const payload=JSON.parse(options.body);posts.push(payload);if(failure){failure=false;throw Error('network interrupted');}return routeReceipt(payload);
  },{}, {SUPABASE_URL:'https://staging.supabase.co'});
- await settle(dom);const doc=dom.window.document;doc.querySelector('[data-node="model"]').click();
+ await settle(dom);const doc=dom.window.document;doc.querySelector('[data-detail="modelRouter"]').click();
  const input=doc.querySelector('#model-select');input.value='reviewed';input.dispatchEvent(new dom.window.Event('change',{bubbles:true}));
- for(let attempt=0;attempt<2;attempt++){doc.querySelector('#model-router-publish-config').click();await settle(dom);doc.querySelector('#confirm-publish').click();await settle(dom);}
+ for(let attempt=0;attempt<2;attempt++){doc.querySelector('#model-router-publish-config').click();await settle(dom);confirmReviewed(doc);await settle(dom);}
  assert.equal(posts.length,2);assert.deepEqual(posts[0],posts[1]);assert.equal(JSON.parse(dom.window.localStorage.getItem(draftKey)).tarot_reading,undefined);dom.window.close();
 });
 
@@ -1521,9 +1444,9 @@ test('v2 wrong receipt and delayed account change cannot clear or migrate drafts
  let resolve;const dom=createAiStudioDom(undefined,async(url,options)=>{
   if(options.method!=='POST')return connected([]); const input=JSON.parse(options.body);await new Promise(done=>{resolve=done});return routeReceipt(input,{primary_model:'wrong'});
  },{'nilaza.admin.aiStudio.draft.v1':JSON.stringify({tarot_reading:{model:'legacy-other-user'}})},{SUPABASE_URL:'https://staging.supabase.co'});
- await settle(dom);const doc=dom.window.document;doc.querySelector('[data-node="model"]').click();assert.notEqual(doc.querySelector('#model-select').value,'legacy-other-user');
+ await settle(dom);const doc=dom.window.document;doc.querySelector('[data-detail="modelRouter"]').click();assert.notEqual(doc.querySelector('#model-select').value,'legacy-other-user');
  const input=doc.querySelector('#model-select');input.value='candidate';input.dispatchEvent(new dom.window.Event('change',{bubbles:true}));
- doc.querySelector('#model-router-publish-config').click();await settle(dom);doc.querySelector('#confirm-publish').click();await settle(dom);resolve();await settle(dom);
+ doc.querySelector('#model-router-publish-config').click();await settle(dom);confirmReviewed(doc);await settle(dom);resolve();await settle(dom);
  assert.match(doc.body.textContent,/receipt mismatch/);assert.equal(JSON.parse(dom.window.localStorage.getItem(draftKey)).tarot_reading.model,'candidate');
  dom.window.NilazaAdminSession.userId='different-account';input.value='do-not-cross-account';input.dispatchEvent(new dom.window.Event('change',{bubbles:true}));
  assert.equal(dom.window.localStorage.getItem(scopedDraftKey('https://staging.supabase.co','different-account')),null);dom.window.close();
@@ -1541,8 +1464,8 @@ test('v2 late active read keeps backend policies when browser already contains a
  const row={id:'00000000-0000-4000-8000-000000000007',feature:'tarot_reading',version:'active-policy-v1',status:'active',primary_provider:'openai',primary_model:'active',fallback_provider:null,fallback_model:null,fallback_when:[],safety_policy:{mustPreserve:true},temperature:0.4,max_output_tokens:800,response_schema:'tarot_reading_v2'};
  const draft=JSON.stringify({tarot_reading:{model:'my-local-edit',provider:'openai',fallbackProvider:'',fallbackModel:'',temperature:0.4,maxOutputTokens:800}});
  const dom=createAiStudioDom(undefined,async(url,options)=>{if(options.method==='POST'){post=JSON.parse(options.body);return routeReceipt(post);}return connected([row]);},{[draftKey]:draft},{SUPABASE_URL:'https://staging.supabase.co'});
- await settle(dom);const doc=dom.window.document;doc.querySelector('[data-node="model"]').click();assert.equal(doc.querySelector('#model-select').value,'my-local-edit');
- doc.querySelector('#model-router-publish-config').click();await settle(dom);doc.querySelector('#confirm-publish').click();await settle(dom);assert.deepEqual(post.fallbackWhen,[]);assert.deepEqual(post.safetyPolicy,{mustPreserve:true});dom.window.close();
+ await settle(dom);const doc=dom.window.document;doc.querySelector('[data-detail="modelRouter"]').click();assert.equal(doc.querySelector('#model-select').value,'my-local-edit');
+ doc.querySelector('#model-router-publish-config').click();await settle(dom);confirmReviewed(doc);await settle(dom);assert.deepEqual(post.fallbackWhen,[]);assert.deepEqual(post.safetyPolicy,{mustPreserve:true});dom.window.close();
 });
 
 test("Model Router offers only the providers the backend reports as configured", async () => {
@@ -1550,20 +1473,16 @@ test("Model Router offers only the providers the backend reports as configured",
     { provider: "openrouter", secretName: "OPENROUTER_API_KEY", configured: true },
     { provider: "openai", secretName: "OPENAI_API_KEY", configured: false },
     { provider: "gemini", secretName: "GEMINI_API_KEY", configured: true }
-  ], routes: [], history: [] }) }));
+  ], routes: [], history: [] }) }), {}, { SUPABASE_URL: "https://qa.supabase.co" });
   const doc = dom.window.document;
-  await new Promise(resolve => dom.window.setTimeout(resolve, 0));
+  // Before the load-time readiness check answers, only OpenRouter is offered.
   doc.querySelector('[data-feature="ai_council"]').click();
   doc.querySelector('[data-detail="modelRouter"]').click();
-  doc.querySelector('[data-node="model"]').click();
   const before = [...doc.querySelector("#provider-select").options].map(option => option.value);
   assert.deepEqual(before, ["openrouter"]);
-  const endpoint = doc.querySelector("#model-router-admin-endpoint");
-  endpoint.value = "https://example.functions.supabase.co/admin-model-router-config";
-  endpoint.dispatchEvent(new dom.window.Event("input", { bubbles: true }));
-  doc.querySelector("#model-router-check-connection").click();
   await new Promise(resolve => dom.window.setTimeout(resolve, 0));
-  doc.querySelector('[data-node="model"]').click();
+  await new Promise(resolve => dom.window.setTimeout(resolve, 0));
+  doc.querySelector('[data-detail="modelRouter"]').click();
   const after = [...doc.querySelector("#provider-select").options].map(option => option.value);
   assert.ok(after.includes("openrouter") && after.includes("gemini"));
   assert.ok(!after.includes("openai") && !after.includes("anthropic"));

@@ -407,8 +407,9 @@ function hasSessionAdminTransport() {
 }
 
 function adminRequest(url, init, capability) {
+  // Never fall back to an unauthenticated or hand-pasted token request.
   if (hasSessionAdminTransport()) return window.NilazaAdminRequest(url, init, capability);
-  return fetch(url, init);
+  return Promise.reject(Error("Phiên đăng nhập Admin chưa sẵn sàng / Admin session unavailable"));
 }
 
 let state = {
@@ -421,15 +422,12 @@ let state = {
   mentionEditorId: null,
   mentionQuery: "",
   testRun: null,
-  councilAdminEndpoint: localStorage.getItem("nilaza.admin.aiCouncil.endpoint") || adminFunctionEndpoint("admin-ai-council-config"),
-  councilAdminAnonKey: sessionStorage.getItem("nilaza.admin.aiCouncil.anonKey") || "",
-  councilAdminJwt: sessionStorage.getItem("nilaza.admin.aiCouncil.jwt") || "",
-  councilAdminStatus: "Not connected",
+  // Endpoints come from config.js only; the signed-in session transport attaches the token (A1, AD-21).
+  councilAdminEndpoint: adminFunctionEndpoint("admin-ai-council-config"),
+  councilAdminStatus: "Chưa tải / Not connected",
   councilAdminResult: null,
   councilAdminBusy: false,
-  modelRouterAdminEndpoint: localStorage.getItem("nilaza.admin.modelRouter.endpoint") || adminFunctionEndpoint("admin-model-router-config"),
-  modelRouterAdminAnonKey: sessionStorage.getItem("nilaza.admin.modelRouter.anonKey") || "",
-  modelRouterAdminJwt: sessionStorage.getItem("nilaza.admin.modelRouter.jwt") || "",
+  modelRouterAdminEndpoint: adminFunctionEndpoint("admin-model-router-config"),
   modelRouterAdminStatus: "Chưa kiểm tra / Not checked",
   modelRouterAdminResult: null,
   modelRouterAdminBusy: false,
@@ -474,6 +472,8 @@ let state = {
   workflowTraceReaderState: "not-loaded",
   pendingPublish: null,
   publishFocusReturn: null,
+  publishConfirmBlocked: false,
+  lastPublishNote: "",
   promptCompiler: window.NilazaPromptCompiler || null,
   promptCompilerStatus: "Loading the shared prompt compiler…",
   oraclePreviewLocale: "vi",
@@ -783,19 +783,12 @@ window.NilazaClearSensitiveAdminState = () => {
   else if (state.detail === "payload") renderPayloadDetail();
 };
 
-if (hasSessionAdminTransport()) {
-  // Do not retain a manually pasted token once the authenticated workspace
-  // transport is available. The request helper obtains a fresh session token
-  // and rechecks the capability for every call.
-  state.councilAdminJwt = "";
-  state.councilAdminAnonKey = "";
-  state.modelRouterAdminJwt = "";
-  state.modelRouterAdminAnonKey = "";
-  sessionStorage.removeItem("nilaza.admin.aiCouncil.jwt");
-  sessionStorage.removeItem("nilaza.admin.aiCouncil.anonKey");
-  sessionStorage.removeItem("nilaza.admin.modelRouter.jwt");
-  sessionStorage.removeItem("nilaza.admin.modelRouter.anonKey");
-}
+// Earlier builds let an operator paste a token, anon key or endpoint URL. Those inputs are gone;
+// drop anything they left in this browser so it is never reused.
+try {
+  for (const key of ["nilaza.admin.aiCouncil.jwt", "nilaza.admin.aiCouncil.anonKey", "nilaza.admin.modelRouter.jwt", "nilaza.admin.modelRouter.anonKey"]) sessionStorage.removeItem(key);
+  for (const key of ["nilaza.admin.aiCouncil.endpoint", "nilaza.admin.modelRouter.endpoint"]) localStorage.removeItem(key);
+} catch { /* storage may be unavailable */ }
 
 function field(id, label, risk, enabled, sample, inject = "context_block") {
   return { id, label, risk, enabled, sample, inject };
@@ -842,56 +835,6 @@ function renderFeatures() {
     .join("");
 }
 
-function renderWorkflow() {
-  $("#workflow-canvas").innerHTML = nodes
-    .map((item) => {
-      const active = item.id === state.nodeId ? "active" : "";
-      return `
-        <button class="workflow-node ${active} ${item.type}" data-node="${item.id}">
-          <span class="node-icon">${item.icon}</span>
-          <span>
-            <span class="node-title">${escapeHtml(item.label)}</span>
-            <span class="node-meta">${escapeHtml(item.detail)}</span>
-          </span>
-          <span class="node-lock" aria-label="Inspector mode: ${escapeHtml(item.badge)}" title="${escapeHtml(item.badge)}">${escapeHtml(item.badge)}</span>
-        </button>
-      `;
-    })
-    .join("") + renderOptimizationLoop();
-}
-
-function renderOptimizationLoop() {
-  return `
-    <div class="optimization-loop">
-      <div class="optimization-loop-header">
-        <div>
-          <p class="eyebrow">Planned capability · not connected</p>
-          <h3>Prompt evaluation and optimization</h3>
-        </div>
-        <span class="risk-chip medium">No live scores</span>
-      </div>
-      <div class="optimization-loop-grid">
-        <button class="optimization-step" data-detail="optimization">
-          <strong>Evaluation set</strong>
-          <span>Not configured · no score is measured.</span>
-        </button>
-        <button class="optimization-step" data-detail="optimization">
-          <strong>Prompt versions</strong>
-          <span>Astrology has backend VI + EN publishing and version history.</span>
-        </button>
-        <button class="optimization-step" data-detail="optimization">
-          <strong>Experiment router</strong>
-          <span>Not connected to controlled traffic.</span>
-        </button>
-        <button class="optimization-step" data-detail="optimization">
-          <strong>Review gate</strong>
-          <span>Human review and measured KPI gates remain to be built.</span>
-        </button>
-      </div>
-    </div>
-  `;
-}
-
 function renderHeader() {
   const current = feature();
   const hasLocalDraft = Boolean(state.aiStudioDrafts[current.id]);
@@ -899,7 +842,6 @@ function renderHeader() {
   const remoteRoute = state.modelRouterRemoteRoutes.find((route) => route.feature === modelRouteFeatureId(current.id));
   const ambiguous = hasAmbiguousModelRoutes(current);
   $("#feature-title").textContent = `${current.name} Workflow`;
-  $("#workflow-name").textContent = `${current.name} Workflow`;
   $("#sidebar-version").textContent = ambiguous ? "Multiple active versions" : hasRouteDraft ? `Route draft · ${remoteRoute?.version || current.version}` : remoteRoute?.version || current.version;
   $("#sidebar-version-label").textContent = ambiguous ? "Backend route conflict" : hasRouteDraft ? "Model route draft" : remoteRoute ? "Backend version" : "Current contract";
   $("#sidebar-version-status").textContent = ambiguous ? "Ambiguous active routes · publication blocked; browser drafts retained" : hasRouteDraft
@@ -929,93 +871,6 @@ function renderHeader() {
     healthSummary.textContent = `Configuration health · ${ambiguous ? "Active route conflict" : remoteRoute ? `Active record ${remoteRoute.version}` : "No active route loaded"} · source graph, execution unverified`;
   }
   updatePublishButton();
-}
-
-function renderInspector() {
-  const current = feature();
-  const selectedNode = node();
-  $("#inspector-title").textContent = selectedNode.label;
-
-  if (selectedNode.id === "context") {
-    $("#inspector-body").innerHTML = `
-      <div class="inspector-section">
-        <p class="helper">These controls are a browser preview. Runtime data selection is enforced by the backend feature contract; changing this preview does not change the live request.</p>
-      </div>
-      <div class="inspector-section">
-        ${current.fields.map(renderFieldToggle).join("")}
-      </div>
-      <div class="inspector-section">
-        <h3>Prompt injection mapping</h3>
-        <p class="helper">Preview mapping only. Check the backend prompt assembler and trace to see what the model actually receives.</p>
-        <div class="mapping-grid">
-          ${current.fields.filter((item) => item.enabled).map(renderContextMappingRow).join("")}
-        </div>
-      </div>
-      <div class="inspector-section">
-        <h3>Field details</h3>
-        <div class="mini-grid">
-          <div class="mini-card"><span>Enabled fields</span><strong>${enabledFields().length}</strong></div>
-          <div class="mini-card"><span>High risk enabled</span><strong>${enabledFields().filter((item) => item.risk === "high").length}</strong></div>
-        </div>
-      </div>
-    `;
-    return;
-  }
-
-  if (selectedNode.id === "safety") {
-    $("#inspector-body").innerHTML = `
-      <div class="inspector-section">
-        <p class="helper">${escapeHtml(current.safety)}</p>
-        <span class="pill">Policy reference · read only</span>
-      </div>
-      <div class="inspector-section">
-        <h3>Safety policy</h3>
-        <p class="helper">These labels describe policy boundaries; they are not switches in this workspace. Runtime enforcement and request outcomes must be verified in the backend contract and trace.</p>
-        <div class="variable-list">${safetyRules(current).map((rule) => `<span class="policy-reference">${escapeHtml(rule)}</span>`).join("")}</div>
-      </div>
-    `;
-    return;
-  }
-
-  if (selectedNode.id === "prompt") {
-    if (current.id === "oracle_router") {
-      $("#inspector-body").innerHTML = `<div class="inspector-section"><p class="helper">Oracle uses the shared Core + Feature + Locale + Tone compiler in the Prompt Composer above. The compiled candidate is not an active runtime release.</p><button class="button ghost" data-open-detail="prompt">Open shared prompt preview</button></div>`;
-      return;
-    }
-    $("#inspector-body").innerHTML = `
-      <div class="inspector-section">
-        <p class="helper">Local preview for ${escapeHtml(current.name)}. This editor does not change the active backend prompt.</p>
-        <span class="pill">Browser draft · ${escapeHtml(current.version)}</span>
-      </div>
-      <div class="inspector-section">
-        <label class="helper" for="prompt-edit">Legacy local prompt preview</label><textarea id="prompt-edit">${escapeHtml(current.prompt)}</textarea>
-        <button class="button ghost" id="save-prompt">Save draft</button>
-      </div>
-    `;
-    return;
-  }
-
-  if (selectedNode.id === "model") {
-    if (!canPublishModelRoute(current)) {
-      $("#inspector-body").innerHTML = `<div class="inspector-section"><p class="helper">${escapeHtml(modelRouteUnavailableReason(current))}</p><span class="pill">Model publication unavailable</span></div>`;
-      return;
-    }
-    $("#inspector-body").innerHTML = `<div class="inspector-section"><p class="helper">Primary, fallback and token settings are in the Model Router editor above. This reference does not contain a second route draft.</p><button class="button ghost" data-open-detail="modelRouter">Open model route editor</button></div>`;
-    return;
-  }
-
-  $("#inspector-body").innerHTML = `
-    <div class="inspector-section">
-      <p class="helper">${escapeHtml(selectedNode.detail)}. This step is locked in the prototype so admins cannot change the execution order.</p>
-      <span class="pill">Locked block</span>
-    </div>
-    <div class="inspector-section">
-      <div class="mini-grid">
-        <div class="mini-card"><span>Audit</span><strong>Required</strong></div>
-        <div class="mini-card"><span>PII</span><strong>Sanitized</strong></div>
-      </div>
-    </div>
-  `;
 }
 
 function renderModelRouteEditor(current) {
@@ -1078,34 +933,6 @@ function modelOptions(provider, selected) {
   const models = providerCatalog[provider]?.models || [];
   if (selected && !models.includes(selected)) models.push(selected);
   return models.map((model) => `<option value="${escapeHtml(model)}"></option>`).join("");
-}
-
-function renderFieldToggle(item) {
-  return `
-    <label class="field-row">
-      <input type="checkbox" data-field="${item.id}" ${item.enabled ? "checked" : ""} />
-      <span>${escapeHtml(item.label)}</span>
-      <span class="risk-chip ${item.risk}">${item.risk}</span>
-    </label>
-  `;
-}
-
-function renderContextMappingRow(item) {
-  return `
-    <div class="mapping-row">
-      <strong>${escapeHtml(item.label)}</strong>
-      <p>{{${escapeHtml(item.id)}}} -> ${escapeHtml(item.sample)}</p>
-      <select data-field-inject="${escapeHtml(item.id)}">
-        ${promptLayerOptions(item.inject)}
-      </select>
-    </div>
-  `;
-}
-
-function promptLayerOptions(selected) {
-  return Object.entries(promptLayers)
-    .map(([key, label]) => `<option value="${key}" ${key === selected ? "selected" : ""}>${escapeHtml(label)}</option>`)
-    .join("");
 }
 
 function enabledFields() {
@@ -1316,8 +1143,6 @@ function renderDetailPanel() {
   syncStudioRoute();
   if (state.detail !== "feedback") window.NilazaFeedbackInbox?.clear();
   if (state.detail !== "switches") window.NilazaFeatureSwitches?.clear();
-  const workflowReference = $("#workflow-reference");
-  if (workflowReference && !["payload", "dataMindmap"].includes(state.detail)) workflowReference.open = false;
   document.querySelectorAll("[data-panel]").forEach(button => button.classList.toggle("active", button.dataset.panel === (state.detail === "test" || state.detail === "versions" || state.detail === "audit" || state.detail === "feedback" || state.detail === "switches" ? state.detail : "workflow")));
   updatePublishButton();
   document.querySelectorAll(".tab").forEach((tab) => {
@@ -1402,14 +1227,11 @@ function renderOptimizationDetail() {
 }
 
 function councilAdminHeaders() {
-  const headers = { "Content-Type": "application/json" };
-  if (state.councilAdminJwt.trim()) headers.Authorization = `Bearer ${state.councilAdminJwt.trim().replace(/^Bearer\s+/i, "")}`;
-  if (state.councilAdminAnonKey.trim()) headers.apikey = state.councilAdminAnonKey.trim();
-  return headers;
+  return { "Content-Type": "application/json" };
 }
 
 function isCouncilAdminReady() {
-  return Boolean(state.councilAdminEndpoint.trim() && (state.councilAdminJwt.trim() || hasSessionAdminTransport()));
+  return Boolean(state.councilAdminEndpoint.trim() && hasSessionAdminTransport());
 }
 
 // The guarded backend owns ai_council_config_versions and
@@ -1545,29 +1367,63 @@ function reviewedPublishRequest(review, headers) {
   };
 }
 
+const publishButtonLabels = Object.freeze({
+  publish: "Xem lại & phát hành",
+  browserDraft: "Lưu nháp trên trình duyệt này — chưa lên máy chủ"
+});
+
+function publishLockedReason(action = publishActionForSurface()) {
+  if (action === "councilBlocked") return `Chưa phát hành được Hội đồng từ Admin. ${councilPublishBlockedReason}`;
+  if (action === "modelBlocked") return `Chưa phát hành được model cho tính năng này. ${modelRouteUnavailableReason()}`;
+  return "";
+}
+
+// Changes that have not reached the server: unpublished model route drafts and an Astrology prompt
+// draft that differs from the active pair. Reported to the shell and to the leave-page warning.
+function unsavedAiStudioChangeCount() {
+  let count = features.filter(item => hasModelRouteDraft(item)).length;
+  const draft = state.astrologyPromptDraft || {};
+  const active = state.astrologyPromptActive || {};
+  const changed = locale => typeof draft[locale] === "string"
+    && (active[locale] ? draft[locale] !== (active[locale].prompt_text || "") : draft[locale].trim() !== "");
+  if (changed("vi") || changed("en")) count += 1;
+  return count;
+}
+
+function reportAiStudioUnsaved() {
+  const count = unsavedAiStudioChangeCount();
+  window.NilazaUnsaved?.set("ai-studio", count);
+  const indicator = $("#unsaved-count");
+  if (indicator) {
+    indicator.textContent = count ? `${count} thay đổi chưa lưu` : "";
+    indicator.hidden = !count;
+  }
+  return count;
+}
+
 function updatePublishButton() {
   const button = $("#publish-button");
+  reportAiStudioUnsaved();
   if (!button) return;
   const action = publishActionForSurface();
-  button.textContent = action === "modelRoute" ? "Review model route"
-    : action === "astrologyPrompt" ? "Review VI + EN prompts"
-    : action === "councilBlocked" ? "Council publish unavailable"
-    : action === "modelBlocked" ? "Model publish unavailable" : state.detail === "prompt" && feature().id === "oracle_router" ? "Save legacy browser draft" : "Save browser draft";
-  button.disabled = action === "councilBlocked" || action === "modelBlocked";
-  button.title = action === "councilBlocked" ? councilPublishBlockedReason
-    : action === "modelBlocked" ? modelRouteUnavailableReason() : "";
+  const locked = action === "councilBlocked" || action === "modelBlocked";
+  button.textContent = action === "modelRoute" || action === "astrologyPrompt" ? publishButtonLabels.publish : publishButtonLabels.browserDraft;
+  button.hidden = locked;
+  button.disabled = locked;
+  button.title = "";
+  button.dataset.publishMeaning = locked ? "locked" : action === "browserDraft" ? "browser-draft" : "publish";
+  const reason = $("#publish-locked-reason");
+  if (reason) {
+    reason.hidden = !locked;
+    reason.textContent = locked ? publishLockedReason(action) : "";
+  }
 }
 
 function updateCouncilAdminButtonState() {
   const ready = isCouncilAdminReady() && !state.councilAdminBusy;
   const loadButton = $("#council-load-config");
-  const publishButton = $("#council-publish-config");
   const statusPill = $(".council-admin-connector .pill");
   if (loadButton) loadButton.disabled = !ready;
-  if (publishButton) {
-    publishButton.disabled = true;
-    publishButton.title = councilPublishBlockedReason;
-  }
   if (statusPill) statusPill.textContent = state.councilAdminStatus;
 }
 
@@ -1579,9 +1435,7 @@ function summarizeCouncilAdminResult(result) {
 
 async function loadCouncilAdminConfig() {
   if (!isCouncilAdminReady()) {
-    state.councilAdminStatus = hasSessionAdminTransport()
-      ? "Admin session or function endpoint is unavailable"
-      : "Endpoint and admin JWT are required before loading config";
+    state.councilAdminStatus = "Phiên đăng nhập Admin hoặc cấu hình máy chủ chưa sẵn sàng / Admin session or function endpoint is unavailable";
     renderDetail();
     return;
   }
@@ -1608,14 +1462,11 @@ async function loadCouncilAdminConfig() {
 }
 
 function modelRouterAdminHeaders() {
-  const headers = { "Content-Type": "application/json" };
-  if (state.modelRouterAdminJwt.trim()) headers.Authorization = `Bearer ${state.modelRouterAdminJwt.trim().replace(/^Bearer\s+/i, "")}`;
-  if (state.modelRouterAdminAnonKey.trim()) headers.apikey = state.modelRouterAdminAnonKey.trim();
-  return headers;
+  return { "Content-Type": "application/json" };
 }
 
 function isModelRouterAdminReady() {
-  return Boolean(state.modelRouterAdminEndpoint.trim() && (state.modelRouterAdminJwt.trim() || hasSessionAdminTransport()));
+  return Boolean(state.modelRouterAdminEndpoint.trim() && hasSessionAdminTransport());
 }
 
 function updateModelRouterAdminButtonState() {
@@ -1656,7 +1507,6 @@ async function checkModelRouterConnection() {
     applyRemoteModelRoutes(body.routes);
     if (body.contractVersion === "model_route_publish_v2" && body.routes.every(route => route.id)) state.modelRouterLoadedScope = scope;
     renderHeader();
-    renderInspector();
     state.modelRouterAdminStatus = "Đã kết nối backend / Backend connected";
   } catch {
     state.modelRouterAdminStatus = "Không thể kiểm tra. Kiểm tra phiên/quyền/kết nối rồi thử lại. / Check failed; retry.";
@@ -1683,9 +1533,7 @@ async function publishModelRouterConfig(review) {
     return;
   }
   if (!isModelRouterAdminReady()) {
-    state.modelRouterAdminStatus = hasSessionAdminTransport()
-      ? "Admin session or function endpoint is unavailable"
-      : "Endpoint and admin JWT are required before publishing";
+    state.modelRouterAdminStatus = "Phiên đăng nhập Admin hoặc cấu hình máy chủ chưa sẵn sàng / Admin session or function endpoint is unavailable";
     renderDetail();
     return;
   }
@@ -1763,31 +1611,6 @@ function renderPayloadDetail() {
   const current = feature();
   $("#detail-content").innerHTML = `
     ${renderFeatureWorkflowGraph()}
-    <details class="workflow-sample-payload"><summary>Legacy sample payload preview · not the runtime request</summary><p class="helper">Browser samples and injection choices below are separate from the reviewed graph and actual backend allowlist.</p>
-    <div class="detail-layout">
-      <div class="code-card">
-        <pre>${escapeHtml(JSON.stringify({
-          feature: current.id,
-          version: current.version,
-          provider: current.provider,
-          model: current.model,
-          fallback: { provider: current.fallbackProvider, model: current.fallbackModel },
-          context: contextPayload(),
-          promptInjectionPlan: promptInjectionPlan(),
-          safetyPolicy: current.safety,
-          outputSchema: current.schema,
-          assembledPersonaSystemPrompt: current.id === "persona_chat" ? assembledPersonaSystemPrompt() : "Available when Persona Chat is selected",
-          aiCouncilTemplate: current.id === "ai_council" ? assembledCouncilConfig() : "Available when AI Council is selected",
-          aiCouncilPublishPayload: current.id === "ai_council" ? assembledCouncilPublishPayload() : "Available when AI Council is selected"
-        }, null, 2))}</pre>
-      </div>
-      <div class="warning-card">
-        <strong>Privacy preview</strong>
-        <p>Raw private user messages and journal entries are not shown by default. Admin sees sanitized fields, hashes, IDs, and summaries unless a reviewed debug role unlocks more detail.</p>
-        <p>${enabledFields().filter((item) => item.risk === "high").length ? "High-risk context is currently enabled. Require safety approval before publish." : "No high-risk field is currently enabled for this feature."}</p>
-      </div>
-    </div>
-    </details>
   `;
 }
 
@@ -1905,6 +1728,7 @@ function renderPersonaStudioDetail() {
   }
 
   $("#detail-content").innerHTML = `
+    ${renderNotAppliedNote("Prompt người dẫn", "Các ô dưới đây chỉ để xem trước; app và AI chưa đọc chúng. Prompt người dẫn đang chạy được sửa ở Nội dung → Người dẫn.")}
     <div class="persona-studio">
       <div class="code-card">
         <p class="eyebrow">Personas</p>
@@ -2057,34 +1881,15 @@ function renderCouncilBuilderDetail() {
           <div class="connector-header">
             <div>
               <p class="eyebrow">Supabase Admin Connector</p>
-              <h3>Review Council config · publishing unavailable</h3>
-              <p>Use the guarded <code>admin-ai-council-config</code> function. A signed-in admin session is attached automatically; manual token fields are only a local-test fallback.</p>
+              <h3>Xem cấu hình Hội đồng · chưa phát hành được</h3>
+              <p>Dùng phiên đăng nhập Admin hiện tại; không cần dán khóa hay token. <span class="helper">Uses the signed-in admin session.</span></p>
             </div>
             <span class="pill">${escapeHtml(state.councilAdminStatus)}</span>
           </div>
-          <div class="connector-grid">
-            <label>
-              <span>Config version</span>
-              <input id="council-publish-version" type="text" value="${escapeHtml(state.councilPublishVersion)}" placeholder="Unique version for this publish" />
-            </label>
-            <label>
-              <span>Function endpoint</span>
-              <input id="council-admin-endpoint" type="url" value="${escapeHtml(state.councilAdminEndpoint)}" placeholder="https://PROJECT.supabase.co/functions/v1/admin-ai-council-config" />
-            </label>
-            <label ${hasSessionAdminTransport() ? "hidden" : ""}>
-              <span>Supabase anon key (optional apikey header)</span>
-              <input id="council-admin-anon-key" type="password" value="${escapeHtml(state.councilAdminAnonKey)}" placeholder="Optional for direct Supabase function calls" autocomplete="off" />
-            </label>
-            <label class="connector-token" ${hasSessionAdminTransport() ? "hidden" : ""}>
-              <span>Admin access token</span>
-              <textarea id="council-admin-jwt" rows="3" placeholder="Paste admin user's Supabase access token" autocomplete="off">${escapeHtml(state.councilAdminJwt)}</textarea>
-            </label>
-          </div>
           <div class="connector-actions">
-            <button class="button ghost" id="council-load-config" ${canUseAdminApi ? "" : "disabled"}>${state.councilAdminBusy ? "Working..." : "Load active config"}</button>
-            <button class="button primary" id="council-publish-config" disabled title="${escapeHtml(councilPublishBlockedReason)}">Council publish unavailable</button>
+            <button class="button ghost" id="council-load-config" ${canUseAdminApi ? "" : "disabled"}>${state.councilAdminBusy ? "Đang tải…" : "Tải cấu hình đang chạy (chỉ xem)"}</button>
           </div>
-          <p class="warning-card">${escapeHtml(councilPublishBlockedReason)} Load active config only displays a read-only response; it does not replace the local preview above.</p>
+          <p class="warning-card" role="note"><strong>Chưa áp dụng — cần backend.</strong> ${escapeHtml(councilPublishBlockedReason)} Load active config only displays a read-only response; it does not replace the local preview above.</p>
           <div class="connector-result">
             <p class="eyebrow">Latest remote response</p>
             <pre>${escapeHtml(summarizeCouncilAdminResult(state.councilAdminResult))}</pre>
@@ -2092,10 +1897,9 @@ function renderCouncilBuilderDetail() {
         </div>
 
         <div class="detail-layout">
-          <div class="code-card">
-            <p class="eyebrow">Backend-ready config preview</p>
+          <details class="code-card technical-details"><summary>Chi tiết kỹ thuật · cấu hình xem trước (JSON)</summary>
             <pre>${escapeHtml(JSON.stringify(config, null, 2))}</pre>
-          </div>
+          </details>
           <div class="warning-card">
             <strong>Operational rule</strong>
             <p>Each council turn should persist one user message, multiple guide messages with the same council round id, and one moderator summary when the selected template requires synthesis.</p>
@@ -2103,10 +1907,9 @@ function renderCouncilBuilderDetail() {
             <p>Publish only after testing at least one situation from each active template and confirming every guide keeps the inspired-by boundary.</p>
           </div>
         </div>
-        <div class="code-card">
-          <p class="eyebrow">Sample Supabase payload · not publishable</p>
+        <details class="code-card technical-details"><summary>Chi tiết kỹ thuật · payload mẫu, không phát hành được</summary>
           <pre>${escapeHtml(JSON.stringify(publishPayload, null, 2))}</pre>
-        </div>
+        </details>
       </div>
     </div>
   `;
@@ -2205,7 +2008,7 @@ function renderModelRouterDetail() {
       <div class="detail-layout">
         <div class="code-card">
           ${current.id === "astrology" && remoteRoute?.response_schema && remoteRoute.response_schema !== current.schema ? `<p class="warning-card">The backend still has schema ${escapeHtml(remoteRoute.response_schema)}. Publishing this route uses ${escapeHtml(current.schema)} for the new Astrology AI contract.</p>` : ""}
-          <details><summary>Backend model routing contract · JSON preview</summary>
+          <details class="technical-details"><summary>Chi tiết kỹ thuật · hợp đồng route (JSON)</summary>
           <pre>${escapeHtml(JSON.stringify({
             feature: modelRouteFeatureId(current.id),
             route: mobileGatewayPath(current.id),
@@ -2222,26 +2025,18 @@ function renderModelRouterDetail() {
         <div class="warning-card">
           <strong>How to use providers</strong>
           <p>Provider catalogs and secret presence do not measure response quality or safety. Use a synthetic staging request and review its validated trace before relying on a route.</p>
-          <button class="button ghost" data-node="model">Open Model Call block</button>
         </div>
         <div class="code-card model-router-admin-connector">
           <div class="layer-row">
             <strong>Supabase Admin Connector</strong>
             <span class="pill" role="status" aria-live="polite">${escapeHtml(state.modelRouterAdminStatus)}</span>
           </div>
-          <div class="param-row">
-            <label for="model-router-admin-endpoint">admin-model-router-config function URL:</label>
-            <input type="text" id="model-router-admin-endpoint" class="input" placeholder="https://PROJECT.supabase.co/functions/v1/admin-model-router-config" value="${escapeHtml(state.modelRouterAdminEndpoint)}" />
-          </div>
-          <div class="param-row" ${hasSessionAdminTransport() ? "hidden" : ""}>
-            <label for="model-router-admin-jwt">Admin JWT token:</label>
-            <input type="password" id="model-router-admin-jwt" class="input" placeholder="ey..." value="${escapeHtml(state.modelRouterAdminJwt)}" />
-          </div>
+          <p class="helper">Dùng phiên đăng nhập Admin hiện tại; Admin không bao giờ nhận hay hiện khóa nhà cung cấp.</p>
           <p>Kiểm tra chỉ đọc; không gọi AI hoặc phát sinh phí LLM. Có key không đồng nghĩa key hợp lệ hay còn hạn mức. / Read-only check; provider credentials and quota are not validated.</p>
           <p>API key chỉ lưu trong Supabase Dashboard → Edge Functions → Secrets: OPENAI_API_KEY, GEMINI_API_KEY, ANTHROPIC_API_KEY hoặc OPENROUTER_API_KEY. Không dán key vào chat, JWT hay cấu hình route. / Store provider keys only in backend secrets.</p>
           <button id="model-router-check-connection" class="button" ${isModelRouterAdminReady() && !state.modelRouterAdminBusy ? "" : "disabled"}>Kiểm tra kết nối / Check connection</button>
           <button id="model-router-publish-config" class="button ${isModelRouterAdminReady() ? "primary" : ""}" ${isModelRouterAdminReady() && !state.modelRouterAdminBusy ? "" : "disabled"}>
-            ${state.modelRouterAdminBusy ? "Publishing..." : "Publish Route Configuration"}
+            ${state.modelRouterAdminBusy ? "Đang phát hành…" : "Xem lại & phát hành"}
           </button>
           ${Array.isArray(state.modelRouterAdminResult?.providers) ? renderModelRouterReadiness() : state.modelRouterAdminResult ? `<pre>${escapeHtml(JSON.stringify(state.modelRouterAdminResult, null, 2))}</pre>` : ""}
         </div>
@@ -2265,12 +2060,12 @@ function renderProviderCard(name, provider, current) {
       <p class="eyebrow">${escapeHtml(provider.label)}</p>
       <h3>${escapeHtml(stateLabel)}</h3>
       <p>${escapeHtml(provider.bestFor)}</p>
-      <input type="search" class="input" data-search-provider="${escapeHtml(name)}" aria-label="Search ${escapeHtml(provider.label)} models" placeholder="Search models..." style="width: 100%; margin-bottom: 0.5rem; font-size: 0.8rem; padding: 0.25rem 0.5rem;" />
+      <label class="visually-hidden" for="search-provider-${escapeHtml(name)}">Tìm model ${escapeHtml(provider.label)}</label><input type="search" class="input" id="search-provider-${escapeHtml(name)}" data-search-provider="${escapeHtml(name)}" placeholder="Search models..." style="width: 100%; margin-bottom: 0.5rem; font-size: 0.8rem; padding: 0.25rem 0.5rem;" />
       <div class="variable-list" id="model-list-${escapeHtml(name)}" style="max-height: 200px; overflow-y: auto;">
         ${provider.models.map((model) => `<button data-set-model-provider="${escapeHtml(name)}" data-set-model="${escapeHtml(model)}">${escapeHtml(model)}</button>`).join("")}
       </div>
       <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
-        <input type="text" class="input" aria-label="Custom ${escapeHtml(provider.label)} model ID" style="flex: 1; min-width: 120px; font-size: 0.8rem; padding: 0.25rem 0.5rem;" placeholder="Custom ID" id="custom-model-${escapeHtml(name)}" />
+        <label class="visually-hidden" for="custom-model-${escapeHtml(name)}">Mã model ${escapeHtml(provider.label)} tự nhập</label><input type="text" class="input" style="flex: 1; min-width: 120px; font-size: 0.8rem; padding: 0.25rem 0.5rem;" placeholder="Custom ID" id="custom-model-${escapeHtml(name)}" />
         <button class="button" style="padding: 0.25rem 0.75rem; font-size: 0.8rem;" data-add-custom-model="${escapeHtml(name)}">Add</button>
       </div>
       ${fetchButton}
@@ -2493,32 +2288,25 @@ function renderPromptDetail() {
       <label class="helper" for="astrology-prompt-vi">System prompt · Vietnamese</label><textarea id="astrology-prompt-vi" data-astrology-prompt="vi">${escapeHtml(promptVi)}</textarea>
       <label class="helper" for="astrology-prompt-en">System prompt · English</label><textarea id="astrology-prompt-en" data-astrology-prompt="en">${escapeHtml(promptEn)}</textarea>
       <p id="astrology-prompt-draft-state" role="status">${escapeHtml(state.astrologyPromptAdminStatus)}</p>
-      <button id="astrology-prompt-publish" class="button primary" ${promptVi.trim().length < 100 || promptEn.trim().length < 100 ? "disabled" : ""}>Review and publish VI + EN pair</button>
+      <button id="astrology-prompt-publish" class="button primary" ${promptVi.trim().length < 100 || promptEn.trim().length < 100 ? "disabled" : ""}>Xem lại & phát hành cặp prompt VI + EN</button>
       <details><summary>Version history</summary>${(state.astrologyPromptHistory || []).slice(0, 20).map(item => `<p>${escapeHtml(item.locale)} · ${escapeHtml(item.version)} · ${escapeHtml(item.status)} · ${escapeHtml(item.published_at || "")}</p>`).join("") || "<p>No history loaded.</p>"}</details>`}
       </div></div>`;
     return;
   }
+  // A1: the old local prompt box saved only to this browser and never reached the AI (AI-03).
   $("#detail-content").innerHTML = `
     <div class="detail-layout single">
-      ${current.id === "oracle_router" ? renderSharedOraclePreview() + `<details><summary>Legacy browser draft · separate from the shared bundle</summary><p class="helper">This legacy draft is stored only on this browser origin, without complete project/operator namespacing. It does not sync to another computer or online Admin and is not used by the shared compiler.</p>` : ""}
-      <div class="prompt-grid">
-        <div class="code-card">
-          <p class="eyebrow">Local prompt preview · not the runtime payload</p>
-          <p class="helper">The backend assembles the active prompt, safety rules, and output guidance. This browser draft is not published to the AI endpoint.</p>
-          <p class="helper">Backend route: ${escapeHtml(remoteRoute?.version || "not loaded")} · schema ${escapeHtml(remoteRoute?.response_schema || current.schema)}</p>
-          <label class="helper" for="detail-prompt">Legacy local prompt preview</label><textarea id="detail-prompt" data-mention-editor="true" placeholder="Type @ to insert dynamic context...">${escapeHtml(current.prompt)}</textarea>
-          <p class="helper">Type @ to insert a preview variable. Runtime context is controlled by the backend contract and may not use these local mappings.</p>
-        </div>
-        <div class="code-card">
-          <p class="eyebrow">Approved variables</p>
-          <div class="variable-list">
-            ${enabledFields().map((item) => `<button data-insert-var="{{${item.id}}}">{{${item.id}}}</button>`).join("")}
-          </div>
-        </div>
-      </div>
-      ${current.id === "oracle_router" ? "</details>" : ""}
+      ${current.id === "oracle_router" ? renderSharedOraclePreview() : ""}
+      ${renderNotAppliedNote(`Prompt của ${current.name}`, "Admin chưa ghi được prompt này lên máy chủ; prompt đang chạy do backend quản lý. Sửa prompt tại đây sẽ có sau bước A5.")}
+      <details class="technical-details"><summary>Chi tiết kỹ thuật</summary>
+        <p class="helper">Backend route: ${escapeHtml(remoteRoute?.version || "not loaded")} · schema ${escapeHtml(remoteRoute?.response_schema || current.schema)}</p>
+      </details>
     </div>
   `;
+}
+
+function renderNotAppliedNote(title, detail) {
+  return `<div class="warning-card not-applied" role="note"><p class="eyebrow">Chưa áp dụng — cần backend</p><h3>${escapeHtml(title)}</h3><p>${escapeHtml(detail)}</p></div>`;
 }
 
 function renderSharedOraclePreview() {
@@ -2890,7 +2678,7 @@ async function openPublishModal() {
   if (!isPublishReviewCurrent(review)) { rejectChangedPublishReview(); return; }
   const action = review.action;
   if (action === "councilBlocked" || action === "modelBlocked") {
-    $("#draft-status").textContent = action === "councilBlocked" ? councilPublishBlockedReason : modelRouteUnavailableReason();
+    $("#draft-status").textContent = publishLockedReason(action);
     return;
   }
   const astrologyPromptPublish = action === "astrologyPrompt";
@@ -2901,7 +2689,15 @@ async function openPublishModal() {
   const payload = review.payload;
   const summary = $("#publish-summary");
   const warning = $("#publish-warning");
-  $("#modal-title").textContent = modelCallPublish ? "Publish this model route?" : astrologyPromptPublish ? "Publish Astrology prompts?" : "Save this browser draft?";
+  $("#modal-title").textContent = modelCallPublish ? "Xem lại & phát hành model route" : astrologyPromptPublish ? "Xem lại & phát hành prompt Chiêm tinh (VI + EN)" : "Lưu nháp trên trình duyệt này?";
+  const isPublish = modelCallPublish || astrologyPromptPublish;
+  const environment = window.NilazaDescribeEnvironment?.(window.ENV)?.label || "CHƯA RÕ MÔI TRƯỜNG";
+  const environmentLine = $("#publish-environment");
+  if (environmentLine) environmentLine.textContent = isPublish ? `Đang ghi vào: ${environment}` : `Không ghi lên máy chủ (${environment} giữ nguyên).`;
+  const noteField = $("#publish-note-field");
+  const note = $("#publish-note");
+  if (noteField) noteField.hidden = !isPublish;
+  if (note) note.value = "";
   let backendHost = "not configured";
   try { backendHost = new URL(window.ENV?.SUPABASE_URL || "").hostname || backendHost; } catch { /* keep safe fallback */ }
   const promptVi = astrologyPromptPublish ? payload.vi : "";
@@ -2918,17 +2714,32 @@ async function openPublishModal() {
     : astrologyPromptPublish
       ? "This replaces the active Astrology prompt in both languages in one transaction. The backend appends its safety and JSON-schema instructions. No provider call is made."
       : "This action does not publish a prompt or activate a backend version.";
+  state.publishConfirmBlocked = (modelCallPublish && !modelCallReady) || (astrologyPromptPublish && !promptReady);
   if (confirmButton) {
-    confirmButton.disabled = (modelCallPublish && !modelCallReady) || (astrologyPromptPublish && !promptReady);
-    confirmButton.textContent = modelCallPublish ? (modelCallReady ? "Publish route" : "Backend connector unavailable")
-      : astrologyPromptPublish ? (promptReady ? "Publish prompt pair" : "Load and review both prompts") : "Save browser draft";
+    confirmButton.textContent = modelCallPublish ? (modelCallReady ? "Phát hành route" : "Backend connector unavailable")
+      : astrologyPromptPublish ? (promptReady ? "Phát hành cặp prompt" : "Load and review both prompts") : publishButtonLabels.browserDraft;
   }
+  updatePublishConfirmState();
   $("#modal").hidden = false;
   state.publishFocusReturn = { element: trigger, id: trigger?.id || "" };
   $(".studio-shell").inert = true;
   $(".studio-shell").setAttribute("aria-hidden", "true");
   hideMentionMenu();
   $("#cancel-publish").focus();
+}
+
+function publishNoteRequired() {
+  return state.pendingPublish?.action === "modelRoute" || state.pendingPublish?.action === "astrologyPrompt";
+}
+
+function publishNoteValue() {
+  return String($("#publish-note")?.value || "").trim();
+}
+
+function updatePublishConfirmState() {
+  const confirmButton = $("#confirm-publish");
+  if (!confirmButton) return;
+  confirmButton.disabled = state.publishConfirmBlocked || (publishNoteRequired() && publishNoteValue().length < 5);
 }
 
 function closePublishModal() {
@@ -2949,6 +2760,13 @@ async function confirmPublish() {
     rejectChangedPublishReview();
     return;
   }
+  if (publishNoteRequired() && publishNoteValue().length < 5) {
+    updatePublishConfirmState();
+    $("#publish-note")?.focus();
+    return;
+  }
+  // The publish functions do not accept a note yet; keep it with this session's status line.
+  state.lastPublishNote = publishNoteRequired() ? publishNoteValue() : "";
   if (pending.action === "astrologyPrompt") {
     closePublishModal();
     await publishAstrologyPromptPair(pending);
@@ -2960,7 +2778,7 @@ async function confirmPublish() {
     return;
   }
   persistFeatureDraft(feature(), state.detail === "prompt" ? "prompt" : "preview");
-  $("#draft-status").textContent = "Browser draft saved; backend configuration is unchanged";
+  $("#draft-status").textContent = "Đã lưu nháp trên trình duyệt này; máy chủ chưa thay đổi / Browser draft saved; backend configuration is unchanged";
   closePublishModal();
   state.detail = "versions";
   persistAiStudioUiState();
@@ -2973,8 +2791,6 @@ function renderAll() {
   const selection = focusId && typeof focusedEditor.selectionStart === "number" ? [focusedEditor.selectionStart, focusedEditor.selectionEnd] : null;
   renderFeatures();
   renderHeader();
-  renderWorkflow();
-  renderInspector();
   renderDetail();
   if (focusId && !focusedEditor.isConnected && $("#modal").hidden) {
     const replacement = document.getElementById(focusId);
@@ -3062,9 +2878,7 @@ document.addEventListener("click", (event) => {
     state.nodeId = nodeButton.dataset.node;
     state.detail = state.nodeId === "model" ? "modelRouter" : state.nodeId === "prompt" ? "prompt" : "payload";
     persistAiStudioUiState();
-    renderWorkflow();
     renderHeader();
-    renderInspector();
     renderDetail();
     if (state.detail === "prompt" && feature().id === "astrology" && !state.astrologyPromptActive) void loadAstrologyPromptConfig();
     return;
@@ -3094,8 +2908,6 @@ document.addEventListener("click", (event) => {
     state.nodeId = state.detail === "modelRouter" ? "model" : state.detail === "prompt" ? "prompt" : state.nodeId;
     persistAiStudioUiState();
     renderHeader();
-    renderWorkflow();
-    renderInspector();
     renderDetail();
     if (state.detail === "prompt" && feature().id === "astrology" && !state.astrologyPromptActive) void loadAstrologyPromptConfig();
     return;
@@ -3164,13 +2976,6 @@ document.addEventListener("click", (event) => {
   }
 
   if (event.target.closest("#open-test")) runTest();
-  if (event.target.closest("#save-prompt")) {
-    feature().prompt = $("#prompt-edit")?.value ?? feature().prompt;
-    persistFeatureDraft(feature(), "prompt");
-    $("#draft-status").textContent = "Prompt preview saved to browser draft; backend prompt is unchanged";
-    renderHeader();
-    return;
-  }
   const variableButton = event.target.closest("[data-insert-var]");
   if (variableButton) {
     insertApprovedVariable(variableButton.dataset.insertVar);
@@ -3300,7 +3105,6 @@ document.addEventListener("change", (event) => {
     if (target) target.enabled = fieldInput.checked;
     persistFeatureDraft(feature(), "context");
     $("#draft-status").textContent = "Draft saved just now";
-    renderInspector();
     renderDetail();
   }
   const injectSelect = event.target.closest("[data-field-inject]");
@@ -3309,7 +3113,6 @@ document.addEventListener("change", (event) => {
     if (target) target.inject = injectSelect.value;
     persistFeatureDraft(feature(), "context");
     $("#draft-status").textContent = "Context prompt mapping saved";
-    renderInspector();
     renderDetail();
   }
   if (event.target.id === "provider-select") {
@@ -3390,6 +3193,7 @@ document.addEventListener("change", (event) => {
 });
 
 document.addEventListener("input", (event) => {
+  if (event.target.id === "publish-note") { updatePublishConfirmState(); return; }
   if (event.target.id === "oracle-preview-question") {
     state.oraclePreviewQuestion = event.target.value;
     invalidateOraclePreview();
@@ -3407,6 +3211,7 @@ document.addEventListener("input", (event) => {
     const draftState = $("#astrology-prompt-draft-state");
     if (draftState) draftState.textContent = "Unsaved browser draft · backend prompt is unchanged";
     $("#draft-status").textContent = "Astrology prompt browser draft saved";
+    reportAiStudioUnsaved();
     return;
   }
   if (event.target.id === "trace-query") {
@@ -3429,59 +3234,6 @@ document.addEventListener("input", (event) => {
       });
     }
     return;
-  }
-  if (event.target.id === "council-publish-version") {
-    state.councilPublishVersion = event.target.value;
-    state.councilAdminStatus = state.councilPublishVersion.trim() ? "Council publish version updated" : "Config version is required before publish";
-    updateCouncilAdminButtonState();
-    return;
-  }
-  if (event.target.id === "council-admin-endpoint") {
-    state.councilAdminEndpoint = event.target.value;
-    localStorage.setItem("nilaza.admin.aiCouncil.endpoint", state.councilAdminEndpoint);
-    state.councilAdminStatus = isCouncilAdminReady() ? "Ready to call admin config function" : "Endpoint and admin JWT are required";
-    updateCouncilAdminButtonState();
-    return;
-  }
-  if (event.target.id === "council-admin-anon-key") {
-    state.councilAdminAnonKey = event.target.value;
-    sessionStorage.setItem("nilaza.admin.aiCouncil.anonKey", state.councilAdminAnonKey);
-    state.councilAdminStatus = isCouncilAdminReady() ? "Ready to call admin config function" : "Endpoint and admin JWT are required";
-    updateCouncilAdminButtonState();
-    return;
-  }
-  if (event.target.id === "council-admin-jwt") {
-    state.councilAdminJwt = event.target.value;
-    sessionStorage.setItem("nilaza.admin.aiCouncil.jwt", state.councilAdminJwt);
-    state.councilAdminStatus = isCouncilAdminReady() ? "Ready to call admin config function" : "Endpoint and admin JWT are required";
-    updateCouncilAdminButtonState();
-    return;
-  }
-  if (event.target.id === "model-router-admin-endpoint") {
-    state.modelRouterAdminEndpoint = event.target.value;
-    localStorage.setItem("nilaza.admin.modelRouter.endpoint", state.modelRouterAdminEndpoint);
-    state.modelRouterAdminStatus = isModelRouterAdminReady() ? "Ready to call admin config function" : "Endpoint and admin JWT are required";
-    updateModelRouterAdminButtonState();
-    return;
-  }
-  if (event.target.id === "model-router-admin-jwt") {
-    state.modelRouterAdminJwt = event.target.value;
-    sessionStorage.setItem("nilaza.admin.modelRouter.jwt", state.modelRouterAdminJwt);
-    state.modelRouterAdminStatus = isModelRouterAdminReady() ? "Ready to call admin config function" : "Endpoint and admin JWT are required";
-    updateModelRouterAdminButtonState();
-    return;
-  }
-  if (event.target.id === "prompt-edit" || event.target.id === "detail-prompt") {
-    feature().prompt = event.target.value;
-    persistFeatureDraft(feature(), "prompt");
-    $("#draft-status").textContent = "Draft saved just now";
-    const info = mentionTriggerInfo(event.target);
-    if (info) {
-      showMentionMenu(event.target, info.query);
-    } else {
-      hideMentionMenu();
-    }
-    if (event.target.id === "prompt-edit") renderDetail();
   }
 });
 
@@ -3523,6 +3275,7 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+window.NilazaUnsaved?.setWorkspace("ai-studio");
 window.addEventListener("hashchange", restoreStudioRoute);
 if (Object.hasOwn(studioRouteDetails, location.hash.slice(1).split("?")[0])) restoreStudioRoute();
 else renderAll();
