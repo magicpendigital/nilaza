@@ -1381,3 +1381,46 @@ pre {
 .not-applied .eyebrow { font-weight: 700; }
 .technical-details { margin-top: 12px; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* A2: inside the shell the left navigation chooses the page; pages without a per-feature choice drop the
+   AI Studio feature list and the Workflow-only header actions. */
+html[data-workspace-mode="embedded"] body[data-studio-section="features"] .studio-shell,
+html[data-workspace-mode="embedded"] body[data-studio-section="feedback"] .studio-shell,
+html[data-workspace-mode="embedded"] body[data-studio-section="audit"] .studio-shell { grid-template-columns: minmax(0, 1fr); }
+html[data-workspace-mode="embedded"] body[data-studio-section="features"] .sidebar,
+html[data-workspace-mode="embedded"] body[data-studio-section="feedback"] .sidebar,
+html[data-workspace-mode="embedded"] body[data-studio-section="audit"] .sidebar { display: none; }
+body[data-studio-section="features"] #open-test,
+body[data-studio-section="features"] #optimize-button,
+body[data-studio-section="features"] #configuration-health,
+body[data-studio-section="feedback"] #configuration-health,
+body[data-studio-section="audit"] #configuration-health { display: none; }
+/* A4 Admin part 1: AI feature cards. */
+.ai-feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 14px; margin-top: 12px; }
+.ai-feature-card h3 { margin: 0; font-family: "EB Garamond", Georgia, serif; font-size: 22px; font-weight: 400; }
+.ai-feature-card h4 { margin: 16px 0 6px; color: var(--gold); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+.ai-feature-card .pill.state-on { color: #9be2bd; border-color: rgba(87, 196, 154, .55); }
+.ai-feature-card .pill.state-off { color: #f1aab4; border-color: rgba(201, 130, 141, .6); }
+.config-table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 13px; }
+.config-table th, .config-table td { padding: 8px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; overflow-wrap: anywhere; }
+.config-table thead th { color: var(--gold); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; }
+.config-table tbody th { font-weight: 600; width: 34%; }
+.diff-table tr.changed td { color: var(--ivory); background: rgba(201, 164, 92, .12); }
+.config-form { margin-top: 12px; }
+.config-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; }
+.config-field { display: grid; gap: 6px; margin: 8px 0; }
+.config-field label, .ai-switch-form label { font-size: 13px; font-weight: 600; }
+.config-field .input, .ai-switch-form .input { width: 100%; min-height: 44px; }
+.ai-switch-form { display: grid; gap: 8px; margin-top: 8px; }
+.ai-feature-card .button { min-height: 44px; }
+.ai-feature-dialog { max-width: 720px; }
+.ai-feature-dialog > .config-table, .ai-feature-dialog > .config-field, .ai-feature-dialog > p { margin-left: 18px; margin-right: 18px; width: auto; }
+.ai-feature-dialog > .config-table { width: calc(100% - 36px); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+/* A2: technical details (raw redacted JSON) stay collapsed by default. */
+.technical-details > summary { color: var(--gold); font-weight: 600; }
+.trace-steps { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+.trace-steps th, .trace-steps td { padding: 6px 8px; border-bottom: 1px solid var(--border); text-align: left; overflow-wrap: anywhere; }
+.ai-feature-card > .layer-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.ai-feature-card > .layer-row .pill { flex: 0 0 auto; width: auto; }
+.ai-feature-card .button:disabled, .ai-feature-dialog .button:disabled { opacity: .45; cursor: not-allowed; }

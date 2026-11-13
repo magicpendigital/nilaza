@@ -41,14 +41,14 @@ test("Admin shell keeps workspace documents alive while navigating and clears th
   const contentFrame = window.document.querySelector('[data-workspace-frame="content"]');
   assert.ok(contentFrame);
   const contentSrc = contentFrame.getAttribute("src");
-  window.document.querySelector('[data-workspace="ai-studio"]').click();
+  window.document.querySelector('[data-nav="ai-features"]').click();
   await tick();
   const studioFrame = window.document.querySelector('[data-workspace-frame="ai-studio"]');
   assert.ok(studioFrame);
   let clearedSensitiveState = 0;
   studioFrame.contentWindow.NilazaClearSensitiveAdminState = () => { clearedSensitiveState++; };
   assert.equal(window.document.querySelectorAll("[data-workspace-frame]").length, 2);
-  window.document.querySelector('[data-workspace="content"]').click();
+  window.document.querySelector('[data-nav="personas"]').click();
   await tick();
   assert.equal(window.document.querySelector('[data-workspace-frame="content"]'), contentFrame);
   assert.equal(contentFrame.getAttribute("src"), contentSrc);
@@ -90,7 +90,8 @@ test("Shell deep links and route changes retain reviewed feature/locale metadata
   const frame = doc.querySelector('[data-workspace-frame="ai-studio"]');
   assert.equal(frame.getAttribute("src"), "./ai-studio.html#prompt?feature=oracle_router&locale=en");
   assert.ok(doc.querySelector('[data-route="prompt"]').classList.contains("active"));
-  doc.querySelector('[data-route="model-router"]').click();
+  // Model routes moved under "Nhà cung cấp & Model" in the A2 navigation; the AI query stays attached.
+  doc.querySelector('[data-nav="providers"]').click();
   await new Promise(resolve => window.setTimeout(resolve, 0));
   assert.equal(window.location.hash, "#/ai-studio/model-router?feature=oracle_router&locale=en");
   assert.equal(frame.contentWindow.location.hash, "#model-router?feature=oracle_router&locale=en");
@@ -121,7 +122,7 @@ test("Shell accepts only same-origin visible AI frame route metadata", async () 
   await new Promise(resolve => window.setTimeout(resolve, 0));
   assert.equal(window.location.hash, "#/ai-studio/prompt?feature=oracle_router&locale=vi");
   assert.ok(window.document.querySelector('[data-route="prompt"]').classList.contains("active"));
-  window.document.querySelector('[data-workspace="content"]').click();
+  window.document.querySelector('[data-nav="personas"]').click();
   await new Promise(resolve => window.setTimeout(resolve, 0));
   const beforeHiddenMessage = window.location.hash;
   dispatch({ ...message, route: "trace-explorer" });
@@ -135,6 +136,6 @@ test("Shell keeps Trace as a declared route and strips non-route query fields", 
   const { window } = dom;
   const frame = window.document.querySelector('[data-workspace-frame="ai-studio"]');
   assert.equal(frame.getAttribute("src"), "./ai-studio.html#trace-explorer?feature=astrology&locale=vi");
-  assert.ok(window.document.querySelector('[data-route="trace-explorer"]').classList.contains("active"));
+  assert.ok(window.document.querySelector('[data-nav="traces"]').classList.contains("active"));
   dom.window.close();
 });

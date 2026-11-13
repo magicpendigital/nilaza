@@ -1,0 +1,207 @@
+{
+  "schemaVersion": 1,
+  "taskId": "admin-a2-navigation-2026-11-13",
+  "ownerAgent": "admin_frontend_agent",
+  "lane": "Admin A2: one Vietnamese left navigation, Tong quan page, Tinh nang AI page (A4 Admin part 1), feedback and trace labels, workflow catalog digests",
+  "goal": "Step A2 of the Admin redesign (proposal 03/11 section 5, approved by the Owner on 2026-11-13; spec 04/11 sections 1, 3.2, 3.6, 3.7 part 1, 3.13, 3.14, 4 rows A2 and A4). Admin code only: replace the workspace bar + route bar with one capability-filtered left navigation grouped as Tong quan / Noi dung / AI / Van hanh / Tang truong that deep-links to the existing Content, AI Studio and Growth routes (no route removed); add a Tong quan workspace page reading existing RPCs; add a Tinh nang AI page with one card per AI feature (switch with reason + versioned config draft/publish through the new ai_feature_configs RPCs, defaults when no config, honest message when the migration is not applied); finish Vietnamese labels in feedback, trace, versions, test and status texts and move raw trace JSON into a collapsed technical section; re-pin the hand-reviewed workflow catalog digests after checking the descriptions against fd34ad1.",
+  "successCriteria": [
+    "index.html shows one left navigation in Vietnamese with the groups and items of proposal 03/11 section 5; items only appear when the account has the capability; every item resolves to an existing manifest route or an honest 'Chua ap dung - can backend' page; no route in admin-capabilities.json or apps/admin/AGENTS.md is removed.",
+    "The top bar keeps the environment label (Dang ghi vao: ...), the unsaved-change count and the account; at phone width the navigation stacks above the page.",
+    "Tong quan shows AI feature status lights from get_ai_feature_switches, the open feedback count from get_ai_feedback_inbox and recent AI errors from search_ai_trace_runs, each only with the matching capability, and says that cost data needs backend.",
+    "Tinh nang AI shows seven feature cards: switch on/off with a reason (set_ai_feature_switch), code defaults when no active config, active + draft values, Luu nhap calling save_ai_feature_config_draft(feature_input, payload), Xem lai & phat hanh opening a dialog with the active-vs-draft diff, the environment and a required note of at least 10 characters before publish_ai_feature_config(feature_input, version_input, note_input); read-only without ai.manage; a clear Owner message when the RPC is missing while the switch keeps working.",
+    "Trace detail no longer shows raw JSON by default (collapsed Chi tiet ky thuat); feedback, trace, versions, test and audit texts are Vietnamese.",
+    "npm run admin:test passes including the new scripts/admin-a2-navigation.test.mjs; admin:check passes except the CRLF-only byte comparisons known on this Windows checkout."
+  ],
+  "writeScope": [
+    "apps/admin/index.html",
+    "apps/admin/shell.js",
+    "apps/admin/shell.css",
+    "apps/admin/overview.html",
+    "apps/admin/overview.js",
+    "apps/admin/overview.css",
+    "apps/admin/ai-features.js",
+    "apps/admin/ai-studio.html",
+    "apps/admin/app.js",
+    "apps/admin/styles.css",
+    "apps/admin/admin-capabilities.json",
+    "apps/admin/workspace-guard.js",
+    "apps/admin/feature-switches.js",
+    "apps/admin/feedback-inbox.js",
+    "apps/admin/workflow-catalog.js",
+    "apps/admin/README.md",
+    "scripts/admin-a2-navigation.test.mjs",
+    "scripts/admin-a1-cleanup.test.mjs",
+    "scripts/admin-shell-state.test.mjs",
+    "scripts/admin-ai-studio-render.test.mjs",
+    "scripts/admin-feedback.test.mjs",
+    "scripts/admin-feature-switches.test.mjs",
+    "scripts/admin-access.test.mjs",
+    "scripts/admin-small-fixes.test.mjs",
+    "scripts/admin-workflow-catalog.test.mjs",
+    "scripts/validate-admin-contract.mjs",
+    "package.json"
+  ],
+  "untouchedSurfaces": [
+    "supabase/** and packages/** are not touched; migrations 20261113090000/090100 are not applied by this change; no deploy, no secret.",
+    "Content and AI Studio keep separate entry files and scripts (apps/admin/AGENTS.md); the new Tong quan page is a separate protected workspace and the AI features page is a separate module file.",
+    "Server-side content drafts, per-item publish and the common audit timeline (A3), prompt editor (A5), evals (A6) and providers (A7) are out of scope and shown as 'Chua ap dung'.",
+    "PLAN.md is updated by the coordinator, not in this change."
+  ],
+  "impact": {
+    "entryPoint": "Admin shell index.html: new left navigation and default landing on Tong quan; deep links #/content/*, #/ai-studio/*, #/growth/* keep working; new #/overview/home and #/ai-studio/features; honest pages under #/pending/*.",
+    "dataWrite": "Only through existing audited RPCs: set_ai_feature_switch (existing) and the new save_ai_feature_config_draft / publish_ai_feature_config (ai.manage, audited in admin_audit_logs). No browser draft for feature configs; unsaved form edits are counted by unsaved-changes.js.",
+    "backendContract": "Reads get_ai_feature_switches, get_ai_feature_configs, get_ai_feedback_inbox, search_ai_trace_runs through NilazaAdminRpc; the RPC allowlist gains the three ai_feature_configs functions with their capabilities. When the configs migration is absent the page says so and keeps code defaults.",
+    "adminVisibility": "Feature cards show active vs draft vs code default, the environment and a required publish note; cost_cap and quota_group are shown as 'chua ap dung'; cost totals say 'chua co so lieu chi phi (can backend)'.",
+    "privacySafety": "No raw chat, journal or provider payload is shown by default; trace JSON (already redacted server-side) is moved behind a collapsed technical section; feedback shows categories and IDs only; all server text is escaped.",
+    "observability": "Publish and draft saves are written to admin_audit_logs by the RPCs; switch changes keep their audit entry.",
+    "rollback": "Revert the commit; Admin staging redeploys from main. No data migration to undo. Feature configs published through the new page can be replaced by publishing a new version; with no active version Edge Functions keep code defaults."
+  },
+  "canonicalContracts": [
+    "apps/admin/admin-capabilities.json routes and requiredCapabilities",
+    "apps/admin/workspace-guard.js NilazaAdminRpc allowlist",
+    "supabase/migrations/20261113090100_ai_feature_configs.sql RPC signatures and JSON shape",
+    "scripts/validate-admin-contract.mjs",
+    "scripts/validate-admin-workflow-catalog.mjs sourceDigests"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Owner approval boundaries; a push to main deploys Admin staging.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Admin lane routing and checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/admin/AGENTS.md",
+      "reason": "Protected workspaces, required routes and capabilities that the new navigation must keep reachable.",
+      "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8"
+    },
+    {
+      "path": "docs/ADMIN_DATA_CONSOLE_ARCHITECTURE.md",
+      "reason": "Access model and publishing rules.",
+      "sha256": "2e458cfc73cf5122f90db17feac1316e6eca20d31033103c65d9a3d24280eb71"
+    },
+    {
+      "path": "docs/proposals/ADMIN_REDESIGN_2026-11-03.vi.md",
+      "reason": "Section 5: navigation groups approved by the Owner on 2026-11-13.",
+      "sha256": "92cbe907d971bca8bfa1a38cd947493047473e823e10f9eb13f94e4d16fb77f6"
+    },
+    {
+      "path": "docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md",
+      "reason": "Sections 1, 3.2, 3.6, 3.7 part 1, 3.13, 3.14 and 4 rows A2/A4 define the screens and the honest labels.",
+      "sha256": "7eaf7aa64f6827ad96659b06ed7212ce667487f286ad50b717fc04d55c5c69ab"
+    },
+    {
+      "path": "supabase/migrations/20261113090100_ai_feature_configs.sql",
+      "reason": "Exact RPC names, named arguments, payload keys, limits and JSON shape used by the AI features page.",
+      "sha256": "5556bfd9ff4f2649d244cba6dbc242c3abedc97a3f8f9dc067f63959b49de04e"
+    },
+    {
+      "path": "supabase/migrations/20261113090000_ai_feature_switches_oracle_router.sql",
+      "reason": "oracle_router switch name accepted by set_ai_feature_switch.",
+      "sha256": "2ce42800e55c1a48a7ab327c1f2ff4609a35474287964705892d301505393f86"
+    },
+    {
+      "path": "apps/admin/env-band.js",
+      "reason": "NilazaDescribeEnvironment gives the 'Dang ghi vao' label for the top bar and the publish dialog.",
+      "sha256": "9aeb332e6780ae1f97647c54b8261e0a3677376df8425a4f2c3722b5228932be"
+    },
+    {
+      "path": "apps/admin/admin-access.js",
+      "reason": "Capability list used to filter the navigation.",
+      "sha256": "1e6cc7a5b9a319e317371195451f4d5cdc6265bc87aeb4aadccd71daba91b13d"
+    },
+    {
+      "path": "scripts/validate-admin-workflow-catalog.mjs",
+      "reason": "Hashing rule for the hand-reviewed sourceDigests that must be re-pinned.",
+      "sha256": "099f535a64db34110957c8d791dc00f5bd8f0ac6e3ba0039ddaddadc310d8e6d"
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "reason": "Open Reflection tokens (charcoal, ivory, gold; EB Garamond + Hanken Grotesk) for the new shell.",
+      "sha256": "bce12144fa7d6074c3213c977b0bc0187e2c9fa2d43453fab81f1145fa0129de"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record written and preflight run before any Admin edit; admin:check, admin:test and validate:data are the required Admin checks."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Admin shell reuses the brand tokens already in shell.css and the brand asset paths under apps/admin/assets/brand/v1; validate:brand is run."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Standard DOM APIs and the already pinned supabase-js 2.108.2 rpc() error shape (code PGRST202 for a missing function); no package added."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No role or RLS change. Navigation filtering is convenience only; every read/write still goes through NilazaAdminRpc, which refreshes the session and checks the capability (ai.read / ai.manage / safety.review) before the call, and the RPCs check has_capability server-side.",
+    "sensitiveData": "No personal data added. Feedback stays categories and IDs; trace JSON is already redacted server-side and now collapsed by default.",
+    "secretsLogging": "No key, token or endpoint field; no secret read. Error codes are mapped to fixed Vietnamese messages; raw server error text is not rendered.",
+    "externalInput": "All server strings are escaped before innerHTML; config payload keys are a fixed allowlist matching the RPC.",
+    "dependencies": "No new dependency.",
+    "migrationRelease": "No SQL or deploy. The configs page works without the migration (shows the Owner action). A push to main redeploys Admin staging, which only the coordinator/Owner triggers.",
+    "stopCondition": "Stop if the navigation would make a required route unreachable, or if a save/publish path could call the backend without ai.manage or without the note.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record written and preflight run before the first Admin edit (only the known ~/.codex skills-sync difference failed). Then: one capability-filtered Vietnamese left navigation in the shell with honest #/pending pages (A3/A6/A7); new Overview workspace (overview.html/js/css, hub.read); AI Studio route 'features' with the separate ai-features.js module (switch + get/save/publish ai_feature_configs, defaults, diff dialog with environment and 10-character note, read-only without ai.manage, missing-migration message); NilazaAdminRpc allowlists the three config RPCs and returns a code/missingFunction flag instead of raw server text; trace, versions, test, audit, feedback and switch texts in Vietnamese with raw trace/audit JSON collapsed under 'Chi tiet ky thuat'; workflow catalog quota/switch notes updated for fd34ad1 and ten source digests re-pinned; tests updated for the new wording/navigation and scripts/admin-a2-navigation.test.mjs added to admin:test. Remaining admin:check/admin:test failures (prompt-consumers, growth snapshot, owner guide) and validate:brand (OFL licence checksum) are CRLF working-copy comparisons on files this change does not touch.",
+    "paths": [
+      "apps/admin/README.md",
+      "apps/admin/admin-capabilities.json",
+      "apps/admin/ai-features.js",
+      "apps/admin/ai-studio.html",
+      "apps/admin/app.js",
+      "apps/admin/feature-switches.js",
+      "apps/admin/feedback-inbox.js",
+      "apps/admin/index.html",
+      "apps/admin/overview.css",
+      "apps/admin/overview.html",
+      "apps/admin/overview.js",
+      "apps/admin/shell.css",
+      "apps/admin/shell.js",
+      "apps/admin/styles.css",
+      "apps/admin/workflow-catalog.js",
+      "apps/admin/workspace-guard.js",
+      "package.json",
+      "scripts/admin-a1-cleanup.test.mjs",
+      "scripts/admin-a2-navigation.test.mjs",
+      "scripts/admin-ai-studio-render.test.mjs",
+      "scripts/admin-feature-switches.test.mjs",
+      "scripts/admin-feedback.test.mjs",
+      "scripts/admin-shell-state.test.mjs",
+      "scripts/validate-admin-contract.mjs"
+    ]
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/admin-a2-navigation-2026-11-13.json",
+    "npm run admin:test",
+    "npm run admin:check",
+    "node scripts/validate-admin-contract.mjs",
+    "npm run validate:data",
+    "npm run validate:brand",
+    "node scripts/serve-admin.mjs (browser smoke, no console errors)"
+  ],
+  "managerTestPath": "Open Admin staging and sign in. The left bar shows Tong quan, Noi dung, AI, Van hanh, Tang truong. Tong quan shows which AI features are on and the number of new feedback items. Open AI > Tinh nang AI: each feature has a card with its switch and its limits; if the server says the configuration table is missing, ask the Owner to apply migration 20261113090100. Change Tarot to 2 turns per day, press Luu nhap, then Xem lai & phat hanh: the dialog shows 1 -> 2, the environment, and refuses to publish without a note of 10 characters. Narrow the window: the menu moves above the page.",
+  "residualRisk": "Verified in jsdom and a local static browser load without sign-in only; the signed-in flow and the configs RPCs are not exercised against a real database because migration 20261113090100 is not applied anywhere. Copy texts (quota exhausted / paused) are saved but the app still shows its own messages. Feedback assignee/severity/notes (D9) and the common audit timeline (D10) remain backend work.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

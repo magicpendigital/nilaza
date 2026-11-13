@@ -51,5 +51,12 @@ assert(read("apps/admin/workspace-guard.js").includes("get_ai_trace_runs") && re
 assert(read("apps/admin/workspace-guard.js").includes('get_growth_waitlist_overview: "overview.read"'), "Growth aggregate RPC must remain allowlisted behind overview.read");
 assert(read("apps/admin/AGENTS.md").includes("Do not replace one workspace"), "Nested AGENTS.md must preserve the additive-workspace invariant");
 assert(read("apps/admin/README.md").includes("npm run admin:dev"), "Admin README must document the supported launch command");
+// A2: one left navigation built from the manifest; the Overview workspace and the AI features module stay protected.
+const overviewWorkspace = manifest.workspaces.find((item) => item.id === "overview");
+assert(overviewWorkspace?.entry === "overview.html" && overviewWorkspace.requiredCapabilities.includes("hub.read"), "Overview workspace must stay declared with hub.read");
+assert(read("apps/admin/overview.html").includes("workspace-guard.js") && read("apps/admin/overview.html").includes("overview.js"), "Overview workspace must retain its module and route guard");
+assert(aiWorkspace?.routes.some((route) => route.id === "features") && aiHtml.includes("ai-features.js"), "AI Studio must keep the AI features route and module");
+for (const [name, capability] of [["get_ai_feature_configs", "ai.read"], ["save_ai_feature_config_draft", "ai.manage"], ["publish_ai_feature_config", "ai.manage"]]) assert(read("apps/admin/workspace-guard.js").includes(`${name}: "${capability}"`), `AI feature config RPC must stay allowlisted: ${name}`);
+assert(shellJs.includes("navGroups") && shellJs.includes("routeAllowed"), "Shell must keep the single capability-filtered navigation");
 if (errors.length) { console.error("Admin capability validation failed:"); errors.forEach((error) => console.error(`- ${error}`)); process.exit(1); }
 console.log(`Admin capability contract passed: ${manifest.workspaces.length} workspaces, ${manifest.workspaces.flatMap((item)=>item.requiredCapabilities).length} capabilities.`);

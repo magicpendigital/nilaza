@@ -8,14 +8,92 @@ const $ = (selector) => document.querySelector(selector);
 const aiRouteFeatures = new Set(["oracle_router", "persona_chat", "ai_council", "tarot_reading", "daily_insight", "astrology", "face_reading", "notifications"]);
 const aiWorkflowSections = new Set(["payload", "dataMindmap", "optimization"]);
 // Vietnamese labels for the shell (A1). Route ids stay the contract in admin-capabilities.json.
-const viWorkspaceLabels = { content: "Nội dung", "ai-studio": "AI Studio", growth: "Tăng trưởng" };
 const viRouteLabels = {
-  content: { overview: "Tổng quan", personas: "Người dẫn", decks: "Bộ bài", cards: "Thư viện lá bài", assets: "Hình ảnh", frontend: "Văn bản trong app", documentation: "Hướng dẫn Owner" },
-  "ai-studio": { workflow: "Luồng xử lý", prompt: "Soạn prompt", "persona-studio": "Prompt người dẫn", "council-builder": "Hội đồng", "model-router": "Chọn model", "trace-explorer": "Nhật ký AI", feedback: "Phản hồi", test: "Chạy thử", versions: "Phiên bản", audit: "Lịch sử thao tác" },
+  overview: { home: "Tổng quan" },
+  content: { overview: "Tình trạng nội dung", personas: "Người dẫn", decks: "Bộ bài", cards: "78 lá bài", assets: "Hình ảnh", frontend: "Văn bản trong app", documentation: "Hướng dẫn Owner" },
+  "ai-studio": { features: "Bật/tắt & hạn mức", workflow: "Luồng xử lý", prompt: "Soạn prompt", "persona-studio": "Prompt người dẫn", "council-builder": "Hội đồng", "model-router": "Chuỗi model đang chạy", "trace-explorer": "Nhật ký AI", feedback: "Phản hồi người dùng", test: "Kết quả chạy thử", versions: "Phiên bản", audit: "Thao tác AI" },
   growth: { overview: "Tổng quan", "product-truth": "Sẵn sàng sản phẩm", "content-drafts": "Bản nháp nội dung", measurement: "Đo lường", roadmap: "Việc tiếp theo", waitlist: "Danh sách chờ", "campaign-map": "Bản đồ chiến dịch", "delivery-health": "Tình trạng gửi" }
 };
-const workspaceLabel = item => viWorkspaceLabels[item.id] || item.label;
-const routeLabel = (workspaceId, item) => viRouteLabels[workspaceId]?.[item.id] || item.label;
+// One left navigation for the whole Admin (A2; proposal 03/11 §5, approved by the Owner on 2026-11-13).
+// Every item deep-links to routes that already exist in admin-capabilities.json, so no workspace or route is
+// removed; "pending" routes are honest pages for work that still needs backend (spec 04/11 §4).
+const workspaceCapability = { overview: "hub.read", content: "content.read", "ai-studio": "ai.read", growth: "overview.read" };
+const routeCapability = { "ai-studio/feedback": ["safety.review"] };
+const navGroups = [
+  { label: "", items: [{ id: "overview", label: "Tổng quan", routes: [["overview", "home"], ["content", "overview"], ["content", "documentation"]] }] },
+  { label: "Nội dung", items: [
+    { id: "personas", label: "Người dẫn", routes: [["content", "personas"]] },
+    { id: "decks", label: "Bộ bài & 78 lá", routes: [["content", "decks"], ["content", "cards"], ["content", "assets"]] },
+    { id: "app-copy", label: "Văn bản trong app", routes: [["content", "frontend"]] }
+  ] },
+  { label: "AI", items: [
+    { id: "ai-features", label: "Tính năng AI", routes: [["ai-studio", "features"], ["ai-studio", "workflow"]] },
+    { id: "providers", label: "Nhà cung cấp & Model", routes: [["ai-studio", "model-router"], ["pending", "providers"]] },
+    { id: "prompts", label: "Prompt & phiên bản", routes: [["ai-studio", "prompt"], ["ai-studio", "persona-studio"], ["ai-studio", "council-builder"], ["ai-studio", "versions"]] },
+    { id: "evals", label: "Chạy thử & chấm điểm", routes: [["pending", "evals"], ["ai-studio", "test"]] }
+  ] },
+  { label: "Vận hành", items: [
+    { id: "feedback", label: "Phản hồi người dùng", routes: [["ai-studio", "feedback"]] },
+    { id: "traces", label: "Nhật ký AI", routes: [["ai-studio", "trace-explorer"]] },
+    { id: "audit", label: "Lịch sử thao tác", routes: [["ai-studio", "audit"], ["pending", "timeline"]] }
+  ] },
+  { label: "", items: [{ id: "growth", label: "Tăng trưởng", routes: "growth" }] }
+];
+const pendingPages = {
+  providers: {
+    label: "Nhà cung cấp", step: "A7", capability: "ai.read", title: "Nhà cung cấp & Model",
+    lines: [
+      "Thứ tự nhà cung cấp, trạng thái khóa (chỉ “Đã cấu hình / Chưa”), nút Kiểm tra khóa, tình trạng 24 giờ và cầu dao cần bảng nhà cung cấp, bảng sức khỏe và hàm kiểm tra khóa trên máy chủ.",
+      "Khóa nhà cung cấp chỉ đặt trong Supabase Secrets; Admin không có ô nhập khóa.",
+      "Đang chạy thật: mỗi tính năng có 1 model chính + 1 model dự phòng, xem và phát hành ở mục “Chuỗi model đang chạy”."
+    ],
+    next: ["ai-studio", "model-router", "Mở chuỗi model đang chạy"]
+  },
+  evals: {
+    label: "Chấm điểm", step: "A6", capability: "ai.read", title: "Chạy thử & chấm điểm",
+    lines: [
+      "Bộ câu mẫu theo tính năng, chạy bản nháp bằng chuỗi model thật, chấm 4 tiêu chí và cổng phát hành (≥ 8/10, 0 lỗi an toàn) cần các bảng chấm thử và hàm chạy thử trên máy chủ.",
+      "Admin không tạo điểm hay kết quả giả. Muốn kiểm tra một thay đổi: gửi một yêu cầu thử từ app trên môi trường staging rồi xem ở Nhật ký AI."
+    ],
+    next: ["ai-studio", "trace-explorer", "Mở Nhật ký AI"]
+  },
+  timeline: {
+    label: "Dòng thời gian chung", step: "A3", capability: "ai.read", title: "Lịch sử thao tác chung",
+    lines: [
+      "Một dòng thời gian gộp thao tác nội dung, AI và quyền (ai, lúc nào, môi trường, lý do; xem khác biệt; khôi phục) cần hàm dòng thời gian trên máy chủ.",
+      "Đang có: thao tác cấu hình AI (công tắc, hạn mức, model, prompt Chiêm tinh) ở mục “Thao tác AI”."
+    ],
+    next: ["ai-studio", "audit", "Xem thao tác AI"]
+  }
+};
+const can = capability => window.NilazaAccess?.can(session, capability) === true;
+function routeLabel(workspaceId, routeId) {
+  if (workspaceId === "pending") return pendingPages[routeId]?.label || routeId;
+  return viRouteLabels[workspaceId]?.[routeId] || manifest?.workspaces.find(item => item.id === workspaceId)?.routes.find(item => item.id === routeId)?.label || routeId;
+}
+function routeAllowed(workspaceId, routeId) {
+  if (!session) return false;
+  if (workspaceId === "pending") return Object.hasOwn(pendingPages, routeId) && can(pendingPages[routeId].capability);
+  const workspace = manifest?.workspaces.find(item => item.id === workspaceId);
+  if (!workspace?.routes.some(item => item.id === routeId) || !workspaceCapability[workspaceId]) return false;
+  return [workspaceCapability[workspaceId], ...(routeCapability[`${workspaceId}/${routeId}`] || [])].every(can);
+}
+function navRoutes(item) {
+  const routes = item.routes === "growth"
+    ? (manifest?.workspaces.find(workspace => workspace.id === "growth")?.routes || []).map(route => ["growth", route.id])
+    : item.routes;
+  return routes.filter(([workspaceId, routeId]) => routeAllowed(workspaceId, routeId));
+}
+// The navigation this account may use: items and groups without a permitted route are left out.
+function visibleNav() {
+  return navGroups.map(group => ({ ...group, items: group.items.map(item => ({ ...item, visibleRoutes: navRoutes(item) })).filter(item => item.visibleRoutes.length) }))
+    .filter(group => group.items.length);
+}
+function firstAllowedRoute() {
+  for (const group of visibleNav()) for (const item of group.items) return item.visibleRoutes[0];
+  return null;
+}
+window.NilazaAdminNav = Object.freeze({ groups: navGroups, pendingPages, visibleNav, routeAllowed });
 // Unsaved changes reported by each workspace frame through unsaved-changes.js.
 const unsavedByWorkspace = new Map();
 function renderUnsavedIndicator() {
@@ -45,6 +123,7 @@ function safeAiRouteQuery(query, routeId) {
 function parseRoute() {
   const [routePath, query = ""] = location.hash.replace(/^#\/?/, "").split("?");
   const [workspaceId, routeId] = routePath.split("/");
+  if (workspaceId === "pending" && Object.hasOwn(pendingPages, routeId)) return { workspace: { id: "pending", routes: [] }, route: { id: routeId }, query: "", pending: routeId };
   const workspace = manifest?.workspaces.find((item) => item.id === workspaceId) || manifest?.workspaces[0];
   const route = workspace?.routes.find((item) => item.id === routeId) || workspace?.routes[0];
   return { workspace, route, query: workspace?.id === "ai-studio" ? safeAiRouteQuery(query, route?.id) : "" };
@@ -77,22 +156,71 @@ function showAdmin() {
   $("#access-screen").hidden = true;
   $("#admin-shell").hidden = false;
   $("#account-role").textContent = `${session.email} · ${session.role}`;
+  const environment = window.NilazaDescribeEnvironment?.(window.ENV)?.label || "CHƯA RÕ MÔI TRƯỜNG";
+  $("#environment-label").textContent = `Đang ghi vào: ${environment}`;
   renderRoute();
+}
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
+}
+function renderNav(nav, activeItem) {
+  $("#workspace-nav").innerHTML = nav.map((group, index) => {
+    const items = group.items.map(item => `<button type="button" class="nav-item ${item.id === activeItem?.id ? "active" : ""}" data-nav="${item.id}" ${item.id === activeItem?.id ? 'aria-current="page"' : ""}>${escapeHtml(item.label)}</button>`).join("");
+    return group.label
+      ? `<div class="nav-group" role="group" aria-labelledby="nav-group-${index}"><p class="nav-group-label" id="nav-group-${index}">${escapeHtml(group.label)}</p>${items}</div>`
+      : `<div class="nav-group nav-group-single">${items}</div>`;
+  }).join("");
+}
+function renderPendingPage(id) {
+  const page = pendingPages[id];
+  const [workspaceId, routeId, label] = page.next;
+  $("#pending-page").innerHTML = `<div class="pending-card" role="note"><p class="eyebrow">Chưa áp dụng — cần backend (bước ${page.step})</p>
+    <h1>${escapeHtml(page.title)}</h1>${page.lines.map(line => `<p>${escapeHtml(line)}</p>`).join("")}
+    ${routeAllowed(workspaceId, routeId) ? `<button type="button" class="secondary" data-go-workspace="${workspaceId}" data-go-route="${routeId}">${escapeHtml(label)}</button>` : ""}</div>`;
 }
 function renderRoute() {
   if (!manifest || !session || !allowedRoles.has(session.role)) return;
-  const { workspace, route, query } = parseRoute();
+  const current = parseRoute();
+  const { workspace, route, query } = current;
+  if (!routeAllowed(workspace?.id, route?.id)) {
+    // A deep link to a page this account may not open goes to the first page it may open.
+    const first = firstAllowedRoute();
+    const target = first ? `#/${first[0]}/${first[1]}` : "";
+    if (target && location.hash !== target) { location.hash = target; return; }
+  }
+  const nav = visibleNav();
+  const items = nav.flatMap(group => group.items.map(item => ({ item, group })));
+  const active = items.find(({ item }) => item.visibleRoutes.some(([w, r]) => w === workspace.id && r === route.id));
+  renderNav(nav, active?.item);
+  $("#shell-breadcrumb").textContent = active ? [active.group.label, active.item.label].filter(Boolean).join(" › ") : routeLabel(workspace.id, route.id);
+  const subRoutes = active?.item.visibleRoutes || [];
+  const routeBar = $("#route-bar");
+  routeBar.hidden = subRoutes.length < 2;
+  routeBar.innerHTML = subRoutes.length < 2 ? "" : subRoutes.map(([w, r]) => {
+    const on = w === workspace.id && r === route.id;
+    return `<button type="button" class="route-button ${on ? "active" : ""}" data-route-workspace="${w}" data-route="${r}" ${on ? 'aria-current="page"' : ""}>${escapeHtml(routeLabel(w, r))}</button>`;
+  }).join("");
+  const pendingPage = $("#pending-page");
+  pendingPage.hidden = !current.pending;
+  $("#workspace-frame-wrap").hidden = Boolean(current.pending);
+  if (current.pending) {
+    renderPendingPage(current.pending);
+    for (const workspaceFrame of workspaceFrames.values()) {
+      if (!workspaceFrame.hidden) workspaceFrame.contentWindow?.NilazaClearSensitiveAdminState?.();
+      workspaceFrame.hidden = true;
+      workspaceFrame.setAttribute("aria-hidden", "true");
+      workspaceFrame.tabIndex = -1;
+    }
+    return;
+  }
+  pendingPage.replaceChildren();
   const frameHash = `${route.id}${query ? `?${query}` : ""}`;
-  $("#workspace-nav").innerHTML = manifest.workspaces.map((item) => `
-    <button class="workspace-button ${item.id === workspace.id ? "active" : ""}" data-workspace="${item.id}" ${item.id === workspace.id ? 'aria-current="page"' : ""}>${workspaceLabel(item)}</button>`).join("");
-  $("#route-bar").innerHTML = workspace.routes.map((item) => `
-    <button class="route-button ${item.id === route.id ? "active" : ""}" data-route="${item.id}" ${item.id === route.id ? 'aria-current="page"' : ""}>${routeLabel(workspace.id, item)}</button>`).join("");
   const frames = $("#workspace-frames");
   let frame = workspaceFrames.get(workspace.id);
   if (!frame) {
     frame = document.createElement("iframe");
     frame.dataset.workspaceFrame = workspace.id;
-    frame.title = `Khu làm việc ${workspaceLabel(workspace)}`;
+    frame.title = `Trang ${active?.item.label || routeLabel(workspace.id, route.id)}`;
     frame.loading = "eager";
     frame.src = `./${workspace.entry}#${frameHash}`;
     workspaceFrames.set(workspace.id, frame);
@@ -150,7 +278,7 @@ async function restoreSession(user) {
 
   if (session?.userId && session.userId !== access.userId) clearWorkspaceFrames();
   session = { ...access, signedInAt: new Date().toISOString() };
-  if (!location.hash || location.hash === "#login") setRoute("content", "personas");
+  if (!location.hash || location.hash === "#login") setRoute("overview", "home");
   else showAdmin();
 }
 
@@ -220,16 +348,21 @@ $("#login-form").addEventListener("submit", async (event) => {
 });
 $("#demo-accounts").addEventListener("click", () => {});
 $("#workspace-nav").addEventListener("click", (event) => {
-  const button = event.target.closest("[data-workspace]");
-  if (!button) return;
-  const workspace = manifest.workspaces.find((item) => item.id === button.dataset.workspace);
-  setRoute(workspace.id, workspace.routes[0].id);
+  const button = event.target.closest("[data-nav]");
+  if (!button || !session) return;
+  const item = visibleNav().flatMap(group => group.items).find(entry => entry.id === button.dataset.nav);
+  const [workspaceId, routeId] = item?.visibleRoutes[0] || [];
+  if (workspaceId) setRoute(workspaceId, routeId);
 });
 $("#route-bar").addEventListener("click", (event) => {
   const button = event.target.closest("[data-route]");
-  if (!button) return;
-  const { workspace } = parseRoute();
-  setRoute(workspace.id, button.dataset.route);
+  if (!button || !routeAllowed(button.dataset.routeWorkspace, button.dataset.route)) return;
+  setRoute(button.dataset.routeWorkspace, button.dataset.route);
+});
+$("#pending-page").addEventListener("click", (event) => {
+  const button = event.target.closest("[data-go-route]");
+  if (!button || !routeAllowed(button.dataset.goWorkspace, button.dataset.goRoute)) return;
+  setRoute(button.dataset.goWorkspace, button.dataset.goRoute);
 });
 $("#logout-button").addEventListener("click", async () => {
   if (renderUnsavedIndicator() && typeof window.confirm === "function" && !window.confirm("Còn thay đổi chưa lưu. Vẫn đăng xuất?")) return;

@@ -224,7 +224,7 @@ test("the shell top bar shows unsaved changes reported by a workspace frame", as
   const doc = window.document;
   assert.equal(doc.documentElement.lang, "vi");
   assert.match(doc.querySelector("#workspace-nav").textContent, /Nội dung/);
-  assert.match(doc.querySelector("#route-bar").textContent, /Người dẫn/);
+  assert.match(doc.querySelector("#workspace-nav").textContent, /Người dẫn/);
   const frame = doc.querySelector('[data-workspace-frame="content"]');
   const indicator = doc.querySelector("#unsaved-indicator");
   assert.equal(indicator.hidden, true);

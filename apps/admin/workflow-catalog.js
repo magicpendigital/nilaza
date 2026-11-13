@@ -58,7 +58,7 @@
     e("parse_to_save", "parse_output", "reading_save", t("Reading đã parse", "Parsed reading"), [tr[0]], ["reading", "reading"]),
     e("owner_to_save", "request_guard", "reading_save", t("Owner", "Owner"), [tr[0]], ["userId", "userId"]),
     e("save_to_response", "reading_save", "response", t("Stored / reading_error", "Stored / reading_error"), [tr[0]], ["response", "response"])
-  ], [traceNote, t("Chưa có durable quota/credit gate nối vào endpoint. Không có node thu phí giả.", "No durable quota/credit gate is wired into the endpoint. No billing node is invented.")], ["tarot_reading"]);
+  ], [traceNote, t("Công tắc tạm nghỉ và hạn mức lượt/ngày (claimDailyAttempt; mặc định 1 bài giải, hoặc cấu hình Admin đang chạy, kèm tổng thời gian chờ model) chạy trước Model Call, không vẽ thành node. Không có node thu phí giả.", "The pause switch and the daily limit (claimDailyAttempt; 1 delivered reading by default, or the active Admin config, which may also set a total model deadline) run before the Model Call and are not drawn as nodes. No billing node is invented.")], ["tarot_reading"]);
 
   const or = [r(f("ai-oracle-turn")), r("supabase/functions/ai-oracle-turn/handler.ts"), r(s("oracle-runtime.mjs")), r(s("ai-request-guard.ts")), r(s("prompt-composition/compose.mjs"))];
   const oracle = g("oracle_router", t("Oracle — candidate local", "Oracle — local candidate"), or, [
@@ -96,7 +96,7 @@
     n("session_reuse", t("Reuse session", "Reuse session"), "storage", 7, 0, t("Cập nhật timestamp, upsert membership trong session đúng phạm vi.", "Update timestamp and upsert membership in the scoped session."), [pr[0]], [p("turn", "PersonaTurn", "session_scope.turn", pass, "sensitive")], [o("turn", "PersonaTurn", "messages_save.turn", pass, "sensitive")]),
     n("session_new", t("Create session", "Create session"), "storage", 7, 1, t("Tạo session mới; thành công thì timestamp/membership upsert như reuse. Lỗi session_error bỏ qua message insert và trả response.", "Create a session; success uses the same timestamp/membership upsert as reuse. session_error skips message insertion and returns a response."), [pr[0]], [p("turn", "PersonaTurn", "session_scope.turn", pass, "sensitive")], [o("turn", "PersonaTurn", "messages_save.turn", pass, "sensitive")]),
     n("messages_save", t("Lưu user + guide messages", "Save user + guide messages"), "storage", 8, 0, t("Chỉ khi session hợp lệ: insert hai messages và usage. Safety event đã ghi trước session scope. Guide row not_reviewed; message_error khác stored; span không chứng minh save.", "Only with a valid session: insert two messages and usage. Safety was recorded before session scope. Guide row is not_reviewed; message_error differs from stored; spans do not prove save."), [pr[0]], [p("turn", "PersonaTurn", "session_reuse or session_new", pass, "sensitive")], [o("response", "PersonaResponse", "response.response", pass, "sensitive")]),
-    n("response", t("Reply + remoteSessionId", "Reply + remoteSessionId"), "output", 9, 0, t("Trả stack/model/persistence. Durable quota chưa nối.", "Return stack/model/persistence. Durable quota is not wired."), [pr[0]], [p("response", "PersonaResponse", "messages_save.response", pass, "sensitive")])
+    n("response", t("Reply + remoteSessionId", "Reply + remoteSessionId"), "output", 9, 0, t("Trả stack/model/persistence. Công tắc và hạn mức chung Chat+Oracle (5/ngày hoặc cấu hình Admin đang chạy) kiểm trước Model Call, không vẽ thành node.", "Return stack/model/persistence. The switch and the shared Chat+Oracle daily limit (5 or the active Admin config) are checked before the Model Call and are not drawn as nodes."), [pr[0]], [p("response", "PersonaResponse", "messages_save.response", pass, "sensitive")])
   ], [
     e("guard_history", "request_guard", "history", t("Input", "Input"), [pr[0]], ["input", "input"]),
     e("history_layers", "history", "prompt_layers", t("Persona/context", "Persona/context"), [pr[0]], ["input", "input"]),
@@ -133,12 +133,12 @@
     e("model_parse", "model_call", "parse_turns", t("Generation / fallback", "Generation / fallback"), [cr[0]], ["generation", "generation"]),
     e("round_session", "parse_turns", "new_session", t("Round đã parse", "Parsed round"), [cr[0]], ["round", "round"]),
     e("session_response", "new_session", "response", t("Stored / skipped / lỗi", "Stored / skipped / error"), [cr[0]], ["response", "response"])
-  ], [traceNote, t("Policy/flow/quality fields không được endpoint đọc không có node execution. Chưa durable quota/retrieval/orchestration song song.", "Policy/flow/quality fields not read by the endpoint have no execution node. Durable quota/retrieval/parallel orchestration are absent.")], ["ai_council"]);
+  ], [traceNote, t("Policy/flow/quality fields không được endpoint đọc không có node execution. Số Hội đồng/ngày và câu hỏi tiếp (policy hoặc cấu hình Admin đang chạy) kiểm trước Model Call; chưa có retrieval/orchestration song song.", "Policy/flow/quality fields not read by the endpoint have no execution node. Councils per day and follow-ups (policy or the active Admin config) are checked before the Model Call; retrieval and parallel orchestration are absent.")], ["ai_council"]);
 
   const dr = [r(f("ai-daily-insight")), r(f("ai-daily-zodiac-pulse")), r(s("model-router.ts"))];
   const daily = g("daily_insight", t("Daily Insight + Zodiac Pulse riêng", "Daily Insight + separate Zodiac Pulse"), dr, [
     n("daily_request", t("Daily Insight request", "Daily Insight request"), "trigger", 0, 0, t("req.json trước auth; profile/date/reroll/recentEntries từ caller; chưa bounded/consent gate như Oracle.", "req.json precedes auth; caller profile/date/reroll/recentEntries; no Oracle-style bounded/consent gate."), [dr[0]], [p("request", "DailyInput", "POST ai-daily-insight", pass, "sensitive")], [o("input", "DailyInput", "daily_auth.input", pass, "sensitive")]),
-    n("daily_auth", t("Auth để lưu usage", "Auth for usage persistence"), "guard", 1, 0, t("Optional getUser; auth_error vẫn generation. Không quota gate.", "Optional getUser; auth_error still permits generation. Not a quota gate."), [dr[0]], [p("input", "DailyInput", "daily_request.input", pass, "sensitive")], [o("input", "DailyInput", "hardcoded_prompt.input", pass, "sensitive")]),
+    n("daily_auth", t("Auth để lưu usage", "Auth for usage persistence"), "guard", 1, 0, t("Bắt đăng nhập; công tắc tạm nghỉ và hạn mức lượt/ngày (3 hoặc cấu hình Admin đang chạy) kiểm trước Model Call.", "Sign-in required; the pause switch and the daily attempt limit (3 or the active Admin config) are checked before the Model Call."), [dr[0]], [p("input", "DailyInput", "daily_request.input", pass, "sensitive")], [o("input", "DailyInput", "hardcoded_prompt.input", pass, "sensitive")]),
     n("hardcoded_prompt", t("System viết cứng + user JSON", "Hardcoded system + user JSON"), "prompt", 2, 0, t("Không đọc prompt_versions. Nickname/goals/tone/recentEntries trong user JSON; recentEntries không consent riêng tại endpoint.", "No prompt_versions lookup. Nickname/goals/tone/recentEntries in user JSON; no separate recentEntries consent check at the endpoint."), [dr[0]], [p("input", "DailyInput", "daily_auth.input", pass, "sensitive")], [o("exchange", "ModelExchange", "model_call.exchange", pass, "sensitive")]),
     n("model_call", t("Model Call cho body text", "Model Call for body text"), "model", 3, 0, t("Shared router trả body hoặc authored fallback. Không có parse/schema output stage riêng.", "Shared router returns body or authored fallback. No separate output parse/schema stage."), [dr[0], dr[2]], [exchangeIn("hardcoded_prompt.exchange")], [generationOut("daily_usage.generation")], "implemented-source", true),
     n("daily_usage", t("Chỉ usage/safety event", "Usage/safety events only"), "storage", 4, 0, t("Có user thì usage + safety nếu blocked. Không insert daily insight record; stored chỉ ACK usage.", "With a user, usage and blocked safety are written. No daily insight record is inserted; stored is usage ACK only."), [dr[0]], [p("generation", "ModelGeneration", "model_call.generation", pass, "sensitive")], [o("response", "DailyResponse", "daily_response.response", pass, "sensitive")]),
@@ -156,13 +156,13 @@
     e("zodiac_calculate", "zodiac_request", "zodiac_deterministic", t("Ngày/profile", "Date/profile"), [dr[1]], ["input", "input"]),
     e("zodiac_usage", "zodiac_deterministic", "zodiac_usage", t("Pulse đã tính", "Calculated pulse"), [dr[1]], ["pulse", "pulse"]),
     e("zodiac_response", "zodiac_usage", "zodiac_response", t("Pulse + ACK", "Pulse and ACK"), [dr[1]], ["response", "response"])
-  ], [traceNote, t("Hai subflow độc lập; không nối Zodiac vào LLM. Trace daily_insight không tô sáng Zodiac. Chưa durable quota và daily-card persistence.", "Two independent subflows; Zodiac is not connected to an LLM. daily_insight traces cannot highlight Zodiac. Durable quota and daily-card persistence are absent.")], ["daily_insight"]);
+  ], [traceNote, t("Hai subflow độc lập; không nối Zodiac vào LLM. Trace daily_insight không tô sáng Zodiac. Chưa lưu daily-card.", "Two independent subflows; Zodiac is not connected to an LLM. daily_insight traces cannot highlight Zodiac. Daily-card persistence is absent.")], ["daily_insight"]);
 
   const ar = [r(f("ai-astrology-insight")), r(s("astrology-ai-insight.ts")), r(s("astrology-ai-insight-contract.ts")), r(s("model-router.ts")), r("packages/astrology-core/calculator.mjs"), r("packages/agent-config/astrology-ai-insight/invocation.schema.json"), r("packages/agent-config/astrology-ai-insight/response.schema.json"), r(f("ai-astrology-report"))];
   const astrology = g("astrology", t("Astrology AI — facts đã tính", "Astrology AI — calculated facts"), ar, [
     n("chart_dependency", t("Chart deterministic từ app", "App deterministic chart"), "context", 0, 0, t("App/core tính chart; AI Insight nhận facts/contracts/revision, không tính lại hay bịa placement. Legacy calculator là đường khác.", "App/core calculates the chart; AI Insight receives facts/contracts/revision without recalculating/inventing placements. The legacy calculator is a different path."), [ar[4], ar[5]], [p("birthInput", "BirthInput", "app birth profile", t("Tính deterministic chart", "Calculate deterministic chart"), "sensitive")], [o("invocation", "AstrologyInvocation", "auth_contract.invocation", pass, "sensitive")]),
     n("auth_contract", t("Auth + invocation schema", "Auth + invocation schema"), "guard", 1, 0, t("GetUser trước body; contract/schema/question và environment gate. Body length kiểm sau full text, không streaming guard Oracle.", "GetUser precedes body; contract/schema/question and environment gate. Body length is checked after full text, not Oracle's streaming guard."), [ar[0], ar[1], ar[5]], [p("invocation", "AstrologyInvocation", "chart_dependency.invocation", pass, "sensitive")], [o("invocation", "AstrologyInvocation", "access_usage.invocation", pass, "sensitive")]),
-    n("access_usage", t("Premium + daily attempts", "Premium + daily attempts"), "gate", 2, 0, t("Subscription active/trialing chưa hết hạn; count usage từ UTC midnight. Chưa durable atomic R10 quota.", "Require unexpired active/trialing subscription; count usage since UTC midnight. Not a durable atomic R10 quota."), [ar[0]], [p("invocation", "AstrologyInvocation", "auth_contract.invocation", pass, "sensitive")], [o("invocation", "AstrologyInvocation", "active_config.invocation", pass, "sensitive")]),
+    n("access_usage", t("Premium + daily attempts", "Premium + daily attempts"), "gate", 2, 0, t("Subscription active/trialing chưa hết hạn hoặc chế độ tài khoản; đếm lượt từ đầu ngày giờ VN; hạn mức theo policy hoặc cấu hình Admin đang chạy. Chưa phải hạn mức atomic.", "Require an unexpired active/trialing subscription or the account tier policy; count attempts since the local day start (UTC+7); limit from policy or the active Admin config. Not an atomic quota."), [ar[0]], [p("invocation", "AstrologyInvocation", "auth_contract.invocation", pass, "sensitive")], [o("invocation", "AstrologyInvocation", "active_config.invocation", pass, "sensitive")]),
     n("active_config", t("Active route/prompt đúng schema", "Active route/prompt matches schema"), "prompt", 3, 0, t("Route astrology_report phải active cóID/schema đúng; global prompt active exact locale. Thiếu trả503. Raw QA capture chỉ staging Owner opt-in+encryption.", "astrology_report route requires active ID/correct schema; global prompt uses exact locale. Missing config returns503. Raw QA capture needs staging Owner opt-in+encryption."), [ar[0], ar[3]], [p("invocation", "AstrologyInvocation", "access_usage.invocation", pass, "sensitive")], [o("prepared", "AstrologyPrepared", "private_report.prepared", pass, "sensitive")]),
     n("private_report", t("Attempt + owned private report", "Attempt + owned private report"), "storage", 4, 0, t("Ghi attempted usage, report queued, đọc lại bằng reportId+userId trước provider. Write/read lỗi kết thúc; question chỉ trong memory.", "Record attempted usage, queued report, reload by reportId+userId before provider. Write/read errors end the request; question stays in memory."), [ar[0]], [p("prepared", "AstrologyPrepared", "active_config.prepared", pass, "sensitive")], [o("request", "OwnedAstrologyRequest", "selected_facts.request", pass, "sensitive")]),
     n("selected_facts", t("Chỉ allowed fact IDs", "Only allowed fact IDs"), "context", 5, 0, t("Select facts từ owned row + question memory; gửi facts/caveats/focus cần thiết, không raw birth/Journal/image retrieval.", "Select facts from the owned row and in-memory question; send required facts/caveats/focus, no raw birth/Journal/image retrieval."), [ar[0], ar[1]], [p("request", "OwnedAstrologyRequest", "private_report.request", pass, "sensitive")], [o("exchange", "ModelExchange", "model_call.exchange", pass, "sensitive")]),
@@ -280,7 +280,7 @@
   },
   {
     "path": "apps/mobile/App.tsx",
-    "sha256": "50046a34bf510bc9d8498ad58129f897f1f5534dc8b23d4f071ab0f49cca6183"
+    "sha256": "bdf2ee430d0ee8d0f959993f78eb30a15de824d284df174f1fff901d55a0a0e0"
   },
   {
     "path": "docs/FEATURE_PRD.md",
@@ -328,11 +328,11 @@
   },
   {
     "path": "supabase/functions/_shared/model-provider.ts",
-    "sha256": "115a014bad0238c26727a04ba9b48a689c6778138b118cc90630bf7b94fa1465"
+    "sha256": "18dae33e3ccbd3129b6820635350f505816ef8dfd9bfb4f9e77b2b2d8a022623"
   },
   {
     "path": "supabase/functions/_shared/model-router.ts",
-    "sha256": "720958613ca7c9d63404592cfc2a0c35d70514d25364335e0dcf4ed019887ac3"
+    "sha256": "a34eb4da0fe03fbdc10f8a3c9a55a65533182ed9f1f3fd6a9b12c0e4ed92eecb"
   },
   {
     "path": "supabase/functions/_shared/notification-provider.ts",
@@ -352,11 +352,11 @@
   },
   {
     "path": "supabase/functions/_shared/tarot-prompt.ts",
-    "sha256": "22de0210fe977b6cb21151758db9f0d4e1a74875f2ed0b2b5cb44e3a086d6710"
+    "sha256": "077ab7f38784b16b99ec66f1567d56452571cfe52033152bd36d8fbcee53add0"
   },
   {
     "path": "supabase/functions/ai-astrology-insight/index.ts",
-    "sha256": "4635d0a173df1cf05518eac3aa7e603ee29410645c92bea5f42a78b17ab375c5"
+    "sha256": "e986d3270ee9378ae28150429a808e619c5f7477bb82399299493574f471daaf"
   },
   {
     "path": "supabase/functions/ai-astrology-report/index.ts",
@@ -364,11 +364,11 @@
   },
   {
     "path": "supabase/functions/ai-council/index.ts",
-    "sha256": "db8376a5c04a230c0c3684a666e0c2b3008c8784c39b7a716e9d1b89d57da0f7"
+    "sha256": "0c136f65bea6bb44713257e7c25ea661f714466f1bc8122ec95e1edebc2c2c87"
   },
   {
     "path": "supabase/functions/ai-daily-insight/index.ts",
-    "sha256": "60098ef5101ec7cf0979364217fe83e4c2dab1b91d74374248f48a5f22828c58"
+    "sha256": "7b73f239021e1723596bf9687e1fb1b844398d8b829ee382c8ab1ffd7ff86c34"
   },
   {
     "path": "supabase/functions/ai-daily-zodiac-pulse/index.ts",
@@ -380,15 +380,15 @@
   },
   {
     "path": "supabase/functions/ai-oracle-turn/index.ts",
-    "sha256": "fba24367fadd383ef23e20acc24cf8b558c885f37062df97431ceb3b2af627aa"
+    "sha256": "63db8a1730e896597dd830e0cf93fd23128d6ae1c9cf9dfccae72948f9a16805"
   },
   {
     "path": "supabase/functions/ai-persona-chat/index.ts",
-    "sha256": "8349419190e69182484f48a27af69ec861c3c1d213fce56f6199edcee6e14183"
+    "sha256": "948f3c8c37890a8f62df5e51fcca8ed8f2e38e57bc71a8dbbb37c5885b660e86"
   },
   {
     "path": "supabase/functions/ai-tarot-reading/index.ts",
-    "sha256": "05d72fc17fda0a9c536f7169afc3f899004e73f4482b7510b83f567863735ba3"
+    "sha256": "f042ce2e0815b79d32a603ded4b5f1df3cf4f411c1979f5a8cc6396a1c5fa463"
   },
   {
     "path": "supabase/functions/notification-dispatch/index.ts",

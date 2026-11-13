@@ -1,6 +1,9 @@
 # Nilaza Admin Console — implementation state, 2026-10-03
 
-Desktop-oriented content and operations console with three protected workspaces under one shell:
+Desktop-oriented content and operations console with protected workspaces under one shell. Since step A2 (2026-11-13) the shell shows one Vietnamese left navigation (Tổng quan; Nội dung; AI; Vận hành; Tăng trưởng, proposal 03/11 §5) that deep-links to the workspace routes below; items appear only for the account's capabilities, and work that still needs backend opens an honest `#/pending/*` page. The map lives in `navGroups` in `shell.js`; `scripts/admin-a2-navigation.test.mjs` checks that every manifest route stays reachable.
+
+- **Overview** (`overview.html`): AI switch lights, open feedback count and recent AI errors from existing protected RPCs; no cost figures until a backend reader exists.
+- **AI features** (`ai-features.js`, AI Studio route `features`): per-feature switch with a reason and versioned settings (daily limit, Council follow-ups, total model wait, quota/paused copy) through `get_ai_feature_configs`, `save_ai_feature_config_draft` and `publish_ai_feature_config` (migration `20261113090100`; the page says so when it is not applied).
 
 - **Content Operations**: personas, tarot decks, deck-specific 78-card libraries, assets with visual previews, and front-end content.
 - **AI Studio**: feature workflows, prompts, persona prompt layers, AI Council Builder templates, model routing, tests, versions, and audit.

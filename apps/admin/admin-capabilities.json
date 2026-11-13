@@ -2,6 +2,16 @@
   "version": 1,
   "workspaces": [
     {
+      "id": "overview",
+      "label": "Overview",
+      "entry": "overview.html",
+      "description": "Admin home: AI feature status, new user feedback and recent AI errors from existing protected RPCs",
+      "routes": [
+        { "id": "home", "label": "Overview" }
+      ],
+      "requiredCapabilities": ["hub.read"]
+    },
+    {
       "id": "content",
       "label": "Content Operations",
       "entry": "content.html",
@@ -28,6 +38,7 @@
       "entry": "ai-studio.html",
       "description": "Workflows, prompts, personas, models, tests, and audit",
       "routes": [
+        { "id": "features", "label": "AI Features" },
         { "id": "workflow", "label": "Workflow" },
         { "id": "prompt", "label": "Prompt Composer" },
         { "id": "persona-studio", "label": "Persona Studio" },
@@ -40,7 +51,7 @@
         { "id": "audit", "label": "Audit" }
       ],
       "requiredCapabilities": [
-        "workflow.inspect", "prompt.edit", "personaPrompt.edit", "councilTemplate.configure", "model.route", "test.run", "version.publish", "audit.view"
+        "aiFeature.switch", "aiFeature.configure", "workflow.inspect", "prompt.edit", "personaPrompt.edit", "councilTemplate.configure", "model.route", "test.run", "version.publish", "audit.view"
       ]
     },
     {

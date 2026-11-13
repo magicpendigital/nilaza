@@ -30,13 +30,13 @@ test('turning a feature off needs a reason and checks the acknowledgement',async
  h.c.querySelector('[data-switch-edit="ai_council"]')?.click();
  h.c.querySelector('#switch-reason').value='Lỗi model';h.c.querySelector('[data-switch-form]').dispatchEvent(new h.w.Event('submit',{bubbles:true,cancelable:true}));await tick();
  assert.equal(JSON.stringify(h.calls[1]),JSON.stringify(['set_ai_feature_switch',{feature_input:'ai_council',enabled_input:false,reason_input:'Lỗi model'},'ai.manage']));
- assert.match(h.c.textContent,/Turned off/);h.dom.window.close();
+ assert.match(h.c.textContent,/Đã tắt/);h.dom.window.close();
  const bad=harness(async name=>name==='get_ai_feature_switches'?rows.map(row=>({...row})):{feature:'ai_council',enabled:true});await bad.load();
  bad.c.querySelector('[data-switch-edit="ai_council"]').click();bad.c.querySelector('#switch-reason').value='Lỗi model';
  bad.c.querySelector('[data-switch-form]').dispatchEvent(new bad.w.Event('submit',{bubbles:true,cancelable:true}));await tick();
- assert.match(bad.c.textContent,/Not saved/);bad.dom.window.close();
+ assert.match(bad.c.textContent,/Chưa lưu/);bad.dom.window.close();
 });
 test('an empty or failed load says features run normally without inventing states',async()=>{
- const h=harness(async()=>[]);await h.load();assert.match(h.c.textContent,/features run normally/);h.dom.window.close();
- const failed=harness(async()=>{throw Error('PRIVATE');});await failed.load();assert.match(failed.c.textContent,/Could not load/);assert.doesNotMatch(failed.c.textContent,/PRIVATE/);failed.dom.window.close();
+ const h=harness(async()=>[]);await h.load();assert.match(h.c.textContent,/đang chạy bình thường/);h.dom.window.close();
+ const failed=harness(async()=>{throw Error('PRIVATE');});await failed.load();assert.match(failed.c.textContent,/Không tải được/);assert.doesNotMatch(failed.c.textContent,/PRIVATE/);failed.dom.window.close();
 });

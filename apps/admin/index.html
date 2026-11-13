@@ -38,20 +38,26 @@
       <header class="shell-header">
         <div class="shell-brand">
           <div class="brand-mark small"><img src="./assets/brand/v1/logo/symbol-ivory.svg" alt="Nilaza"></div>
-          <div><strong>Nilaza Admin</strong><span>Khu làm việc trực tuyến</span></div>
+          <div><strong>Nilaza Admin</strong><span id="shell-breadcrumb" aria-live="polite">Tổng quan</span></div>
         </div>
-        <nav class="workspace-nav" id="workspace-nav" aria-label="Khu làm việc"></nav>
         <div class="account-area">
+          <span class="environment-label" id="environment-label" role="status"></span>
           <span class="unsaved-indicator" id="unsaved-indicator" role="status" aria-live="polite" hidden></span>
           <span id="account-role"></span>
           <button class="secondary compact" id="logout-button">Đăng xuất</button>
         </div>
       </header>
       <p class="session-expiry-notice" id="session-expiry-notice" role="alert" hidden></p>
-      <nav class="route-bar" id="route-bar" aria-label="Mục trong khu làm việc"></nav>
-      <main class="workspace-frame-wrap">
-        <div id="workspace-frames" aria-live="off"></div>
-      </main>
+      <div class="shell-body">
+        <nav class="workspace-nav" id="workspace-nav" aria-label="Điều hướng Admin"></nav>
+        <div class="shell-main">
+          <nav class="route-bar" id="route-bar" aria-label="Mục con của trang" hidden></nav>
+          <section class="pending-page" id="pending-page" aria-live="polite" hidden></section>
+          <main class="workspace-frame-wrap" id="workspace-frame-wrap">
+            <div id="workspace-frames" aria-live="off"></div>
+          </main>
+        </div>
+      </div>
     </div>
 
     <script src="./config.js?v=admin-sync-v1"></script>

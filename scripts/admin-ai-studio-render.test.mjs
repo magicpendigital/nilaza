@@ -69,7 +69,7 @@ test("AI Studio feedback navigation mounts the protected inbox with an accessibl
   dom.window.document.querySelector('[data-panel="feedback"]').click();
   const panel = dom.window.document.querySelector('#detail-content');
   assert.equal(panel.getAttribute('aria-labelledby'), 'feedback-inbox-title');
-  assert.match(panel.textContent, /AI content feedback/);
+  assert.match(panel.textContent, /Phản hồi người dùng về câu trả lời AI/);
   assert.match(dom.window.location.hash, /^#feedback/);
   dom.window.close();
 });
@@ -121,8 +121,8 @@ test("Astrology AI Studio exposes the current route and keeps Test Run local", a
 
   doc.querySelector("#open-test").click();
   await new Promise(resolve => dom.window.setTimeout(resolve, 0));
-  assert.match(doc.body.textContent, /No provider test has run from AI Studio/);
-  assert.match(doc.body.textContent, /No model call, pass score, token use, cost, or latency is inferred/);
+  assert.match(doc.body.textContent, /AI Studio chưa chạy thử với nhà cung cấp/);
+  assert.match(doc.body.textContent, /không suy ra lượt gọi model, điểm đạt, token, chi phí hay thời gian/);
   assert.equal(connectorCalls, callsBeforePreflight);
   dom.window.close();
 });
@@ -229,7 +229,7 @@ test("revoked/view-only session cannot publish locally or call remote connector"
   dom.window.NilazaAdminSession = { role: "safety_reviewer", capabilities: ["ai.read"] };
   confirmReviewed(dom.window.document);
   await new Promise(resolve => dom.window.setTimeout(resolve, 0));
-  assert.equal(dom.window.document.querySelector("#draft-status").textContent, "Permission denied");
+  assert.equal(dom.window.document.querySelector("#draft-status").textContent, "Không có quyền phát hành (cần ai.manage)");
   const doc = openCouncilBuilder(dom);
   assert.equal(doc.querySelector("#council-admin-endpoint, #council-admin-jwt, #council-admin-anon-key, #council-publish-config"), null);
   doc.querySelector("#council-load-config")?.click();
@@ -596,17 +596,17 @@ test("Trace Explorer distinguishes not loaded, empty results and protected backe
   const dom = createAiStudioDom();
   const doc = dom.window.document;
   doc.querySelector('[data-detail="traceExplorer"]').click();
-  assert.match(doc.body.textContent, /Load recent traces from the protected backend/);
-  assert.match(doc.body.textContent, /An empty result does not prove a migration is missing/);
+  assert.match(doc.body.textContent, /Bấm tải để đọc nhật ký gần đây từ máy chủ được bảo vệ/);
+  assert.match(doc.body.textContent, /Kết quả trống không có nghĩa là máy chủ thiếu bảng/);
   assert.doesNotMatch(doc.body.textContent, /Apply the migration/);
   dom.window.NilazaAdminRpc = async () => [];
   doc.querySelector("#trace-load").click();
   await settle(dom);
-  assert.match(doc.body.textContent, /0 trace\(s\) loaded/);
+  assert.match(doc.body.textContent, /0 lượt đã tải/);
   dom.window.NilazaAdminRpc = async () => { throw Error("permission or RPC schema unavailable"); };
   doc.querySelector("#trace-load").click();
   await settle(dom);
-  assert.match(doc.body.textContent, /Load failed: permission or RPC schema unavailable/);
+  assert.match(doc.body.textContent, /Không tải được nhật ký/);
   assert.doesNotMatch(doc.body.textContent, /Apply the migration/);
   dom.window.close();
 });
@@ -881,7 +881,7 @@ test("Multiple active backend rows block publication and preserve browser drafts
   assert.equal(doc.querySelector("#model-select"), null);
   assert.equal(doc.querySelector("#model-router-publish-config"), null);
   assert.equal(doc.querySelector("#publish-button").disabled, true);
-  assert.equal(doc.querySelector("#sidebar-version").textContent, "Multiple active versions");
+  assert.equal(doc.querySelector("#sidebar-version").textContent, "Nhiều phiên bản cùng chạy");
   assert.equal(doc.querySelector("#model-state").textContent, "Ambiguous active routes");
   assert.match(doc.querySelector("#detail-content").textContent, /active-one/);
   assert.match(doc.querySelector("#detail-content").textContent, /active-two/);
@@ -1407,7 +1407,7 @@ test("A changed ENV target cannot relabel the pinned transport or start a new tr
   doc.querySelector("#trace-load").click();
   await settle(dom);
   assert.equal(calls, 0);
-  assert.match(doc.querySelector("#detail-content").textContent, /Reload Admin before reading this target/);
+  assert.match(doc.querySelector("#detail-content").textContent, /Tải lại Admin trước khi đọc máy chủ này/);
   doc.querySelector('[data-detail="payload"]').click();
   assert.match(doc.querySelector(".workflow-evidence-strip").textContent, /Backend target: unknown/);
   assert.doesNotMatch(doc.querySelector(".workflow-evidence-strip").textContent, /different.supabase.co/);

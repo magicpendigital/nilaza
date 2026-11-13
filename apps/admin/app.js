@@ -445,7 +445,7 @@ let state = {
   astrologyPromptDraft: (() => { try { return JSON.parse(localStorage.getItem("nilaza.admin.astrologyPromptDraft.v1") || "{}"); } catch { return {}; } })(),
   aiAdminAuditEvents: null,
   aiAdminAuditBusy: false,
-  aiAdminAuditStatus: "Not loaded",
+  aiAdminAuditStatus: "Chưa tải",
   aiStudioDrafts: {},
   traceExplorerRuns: [],
   traceExplorerDetail: null,
@@ -453,7 +453,7 @@ let state = {
   traceExplorerFilter: "current",
   traceExplorerStatusFilter: "all",
   traceExplorerQuery: "",
-  traceExplorerStatus: "Chưa tải / Not loaded",
+  traceExplorerStatus: "Chưa tải",
   traceExplorerBusy: false,
   traceExplorerQaPayload: null,
   traceExplorerQaEpoch: 0,
@@ -499,7 +499,7 @@ const workflowTransportTarget = (() => {
   if (typeof window.NilazaAdminTransportTarget === "string") return window.NilazaAdminTransportTarget;
   try { return new URL(window.ENV?.SUPABASE_URL || "").origin; } catch { return ""; }
 })();
-const studioRouteDetails = { workflow: "payload", prompt: "prompt", "persona-studio": "personaStudio", "council-builder": "councilBuilder", "model-router": "modelRouter", "trace-explorer": "traceExplorer", test: "test", versions: "versions", audit: "audit", feedback: "feedback", switches: "switches" };
+const studioRouteDetails = { features: "aiFeatures", workflow: "payload", prompt: "prompt", "persona-studio": "personaStudio", "council-builder": "councilBuilder", "model-router": "modelRouter", "trace-explorer": "traceExplorer", test: "test", versions: "versions", audit: "audit", feedback: "feedback", switches: "switches" };
 const workflowDetailSections = ["payload", "dataMindmap", "optimization"];
 
 function studioRouteState() {
@@ -597,7 +597,7 @@ function restoreAiStudioUiState() {
     const saved = JSON.parse(sessionStorage.getItem(aiStudioUiStorageKey) || "{}");
     if (features.some((item) => item.id === saved.featureId)) state.featureId = saved.featureId;
     if (nodes.some((item) => item.id === saved.nodeId)) state.nodeId = saved.nodeId;
-    const details = ["payload", "dataMindmap", "prompt", "personaStudio", "councilBuilder", "optimization", "modelRouter", "traceExplorer", "test", "versions", "audit", "feedback", "switches"];
+    const details = ["aiFeatures", "payload", "dataMindmap", "prompt", "personaStudio", "councilBuilder", "optimization", "modelRouter", "traceExplorer", "test", "versions", "audit", "feedback", "switches"];
     if (details.includes(saved.detail)) state.detail = saved.detail;
   } catch {
     // Ignore stale or malformed local selection state.
@@ -772,6 +772,7 @@ function clearDraftsOnScopeChange() {
 hydrateAiStudioDrafts();
 restoreAiStudioUiState();
 window.NilazaClearSensitiveAdminState = () => {
+  window.NilazaAiFeatures?.clear();
   window.NilazaFeedbackInbox?.clear();
   window.NilazaFeatureSwitches?.clear();
   clearDraftsOnScopeChange();
@@ -841,9 +842,9 @@ function renderHeader() {
   const hasRouteDraft = hasModelRouteDraft(current);
   const remoteRoute = state.modelRouterRemoteRoutes.find((route) => route.feature === modelRouteFeatureId(current.id));
   const ambiguous = hasAmbiguousModelRoutes(current);
-  $("#feature-title").textContent = `${current.name} Workflow`;
-  $("#sidebar-version").textContent = ambiguous ? "Multiple active versions" : hasRouteDraft ? `Route draft · ${remoteRoute?.version || current.version}` : remoteRoute?.version || current.version;
-  $("#sidebar-version-label").textContent = ambiguous ? "Backend route conflict" : hasRouteDraft ? "Model route draft" : remoteRoute ? "Backend version" : "Current contract";
+  $("#feature-title").textContent = state.detail === "aiFeatures" ? "Tính năng AI" : `Luồng xử lý · ${current.name}`;
+  $("#sidebar-version").textContent = ambiguous ? "Nhiều phiên bản cùng chạy" : hasRouteDraft ? `Route draft · ${remoteRoute?.version || current.version}` : remoteRoute?.version || current.version;
+  $("#sidebar-version-label").textContent = ambiguous ? "Xung đột chuỗi model" : hasRouteDraft ? "Nháp chuỗi model" : remoteRoute ? "Phiên bản trên máy chủ" : "Hợp đồng trong mã";
   $("#sidebar-version-status").textContent = ambiguous ? "Ambiguous active routes · publication blocked; browser drafts retained" : hasRouteDraft
     ? "Saved browser route draft · backend route unchanged"
     : remoteRoute?.status === "active"
@@ -853,14 +854,12 @@ function renderHeader() {
   $("#risk-state").textContent = current.risk;
   $("#model-state").textContent = ambiguous ? "Ambiguous active routes" : `${current.provider} / ${current.model}`;
   $("#schema-state").textContent = current.schema.replaceAll("_", " ");
-  $("#satisfaction-state").textContent = "Not connected";
+  $("#satisfaction-state").textContent = "Chưa kết nối";
   const roleChip = $("#admin-role-chip");
   if (roleChip) roleChip.textContent = window.NilazaAdminSession?.role || "Admin";
   const target = $("#environment-status");
   if (target) {
-    let host = "not configured";
-    try { host = new URL(window.ENV?.SUPABASE_URL || "").hostname || host; } catch { /* keep safe fallback */ }
-    target.textContent = `Backend target · ${host}`;
+    target.textContent = `Đang ghi vào: ${window.NilazaDescribeEnvironment?.(window.ENV)?.label || "CHƯA RÕ MÔI TRƯỜNG"}`;
   }
   const health = $("#configuration-health");
   const healthSummary = $("#configuration-health-summary");
@@ -868,7 +867,7 @@ function renderHeader() {
     const graphView = state.detail === "payload";
     health.open = !graphView;
     healthSummary.hidden = !graphView;
-    healthSummary.textContent = `Configuration health · ${ambiguous ? "Active route conflict" : remoteRoute ? `Active record ${remoteRoute.version}` : "No active route loaded"} · source graph, execution unverified`;
+    healthSummary.textContent = `Tình trạng cấu hình · ${ambiguous ? "Active route conflict" : remoteRoute ? `Active record ${remoteRoute.version}` : "No active route loaded"} · sơ đồ từ mã nguồn, execution unverified`;
   }
   updatePublishButton();
 }
@@ -1143,7 +1142,8 @@ function renderDetailPanel() {
   syncStudioRoute();
   if (state.detail !== "feedback") window.NilazaFeedbackInbox?.clear();
   if (state.detail !== "switches") window.NilazaFeatureSwitches?.clear();
-  document.querySelectorAll("[data-panel]").forEach(button => button.classList.toggle("active", button.dataset.panel === (state.detail === "test" || state.detail === "versions" || state.detail === "audit" || state.detail === "feedback" || state.detail === "switches" ? state.detail : "workflow")));
+  if (state.detail !== "aiFeatures") window.NilazaAiFeatures?.clear();
+  document.querySelectorAll("[data-panel]").forEach(button => button.classList.toggle("active", button.dataset.panel === (state.detail === "aiFeatures" ? "features" : state.detail === "test" || state.detail === "versions" || state.detail === "audit" || state.detail === "feedback" || state.detail === "switches" ? state.detail : "workflow")));
   updatePublishButton();
   document.querySelectorAll(".tab").forEach((tab) => {
     tab.classList.toggle("active", tab.dataset.detail === state.detail);
@@ -1155,6 +1155,14 @@ function renderDetailPanel() {
   if (detailPanel && activeTab?.id) detailPanel.setAttribute("aria-labelledby", activeTab.id);
   else if (detailPanel && state.detail === "feedback") detailPanel.setAttribute("aria-labelledby", "feedback-inbox-title");
   else if (detailPanel && state.detail === "switches") detailPanel.setAttribute("aria-labelledby", "feature-switches-title");
+  else if (detailPanel && state.detail === "aiFeatures") detailPanel.setAttribute("aria-labelledby", "ai-features-title");
+  if (state.detail === "aiFeatures") $("#feature-title").textContent = "Tính năng AI";
+
+  if (state.detail === "aiFeatures") {
+    if (window.NilazaAiFeatures) window.NilazaAiFeatures.mount(detailPanel);
+    else detailPanel.innerHTML = renderNotAppliedNote("Tính năng AI", "Không tải được mô-đun Tính năng AI. Tải lại trang.");
+    return;
+  }
 
   if (state.detail === "prompt") {
     renderPromptDetail();
@@ -1277,6 +1285,8 @@ function modelRouteUnavailableReason(current = feature()) {
 }
 
 function publishActionForSurface() {
+  // The AI features page has its own Lưu nháp / Xem lại & phát hành per feature card.
+  if (state.detail === "aiFeatures") return "none";
   if (state.detail === "councilBuilder" && feature().id === "ai_council") return "councilBlocked";
   if (state.detail === "modelRouter") return canPublishModelRoute() ? "modelRoute" : "modelBlocked";
   if (state.detail === "prompt" && feature().id === "astrology") return "astrologyPrompt";
@@ -1406,6 +1416,14 @@ function updatePublishButton() {
   reportAiStudioUnsaved();
   if (!button) return;
   const action = publishActionForSurface();
+  if (action === "none") {
+    button.hidden = true;
+    button.disabled = true;
+    button.dataset.publishMeaning = "none";
+    const none = $("#publish-locked-reason");
+    if (none) { none.hidden = true; none.textContent = ""; }
+    return;
+  }
   const locked = action === "councilBlocked" || action === "modelBlocked";
   button.textContent = action === "modelRoute" || action === "astrologyPrompt" ? publishButtonLabels.publish : publishButtonLabels.browserDraft;
   button.hidden = locked;
@@ -1525,7 +1543,7 @@ async function publishModelRouterConfig(review) {
   }
   if (review?.action !== "modelRoute" || !isPublishReviewCurrent(review)) { rejectChangedPublishReview(); return; }
   if (reasoningBudgetProblem()) { closePublishModal(); $("#draft-status").textContent = reasoningBudgetProblem(); return; }
-  if (!await window.NilazaRequireCapability?.("ai.manage")) { $("#draft-status").textContent = "Permission denied"; return; }
+  if (!await window.NilazaRequireCapability?.("ai.manage")) { $("#draft-status").textContent = "Không có quyền phát hành (cần ai.manage)"; return; }
   if (!isPublishReviewCurrent(review)) { rejectChangedPublishReview(); return; }
   if (state.modelRouterLoadedScope !== modelRouteScope()) {
     state.modelRouterAdminStatus = "Check connection to load the current v2 route revision before publishing. Browser draft retained.";
@@ -1697,7 +1715,7 @@ async function applyWorkflowTrace() {
   const detail = state.traceExplorerDetail;
   const epoch = state.traceReadEpoch;
   if (!observed || !detail || !catalog?.projectTraceEvidence) { state.workflowEvidenceStatus = "Load a matching redacted trace detail first."; return; }
-  if (!await window.NilazaRequireCapability?.("ai.read")) { clearWorkflowObservation("Permission denied; no trace observation applied."); renderDetail(); return; }
+  if (!await window.NilazaRequireCapability?.("ai.read")) { clearWorkflowObservation("Không có quyền; chưa áp lượt nào vào sơ đồ."); renderDetail(); return; }
   const current = workflowCurrentScope();
   if (epoch !== state.traceReadEpoch || state.detail !== "traceExplorer" || JSON.stringify(observed) !== JSON.stringify(current) || !window.NilazaAdminSession?.capabilities?.includes("ai.read") || window.frameElement?.hidden) {
     clearWorkflowObservation("Trace scope changed while checking access; no observation applied."); renderDetail(); return;
@@ -2079,8 +2097,8 @@ function traceFeatureId() {
 
 function traceFeatureOptions() {
   const options = [
-    { value: "current", label: "Current feature (" + traceFeatureId() + ")" },
-    { value: "all", label: "All AI features" }
+    { value: "current", label: "Tính năng đang chọn (" + traceFeatureId() + ")" },
+    { value: "all", label: "Mọi tính năng AI" }
   ];
   return options.map((option) => "<option value=\"" + escapeHtml(option.value) + "\" " +
     (state.traceExplorerFilter === option.value ? "selected" : "") + ">" +
@@ -2092,9 +2110,24 @@ function isOwnerDebugEnabled() {
     && window.NilazaAdminSession.capabilities.includes("roles.manage");
 }
 
+// Raw (already redacted) JSON is technical detail: it stays inside a collapsed "Chi tiết kỹ thuật" block (AD-20).
 function traceJson(label, value) {
   return "<div class=\"code-card\"><p class=\"eyebrow\">" + escapeHtml(label) +
     "</p><pre>" + escapeHtml(JSON.stringify(value ?? {}, null, 2)) + "</pre></div>";
+}
+
+const traceStatusLabels = { completed: "Ổn", ok: "Ổn", fallback: "Ổn — dự phòng", blocked: "Chặn an toàn", error: "Lỗi", failed: "Lỗi", running: "Đang chạy" };
+function traceStatusLabel(value) {
+  return traceStatusLabels[value] || (value ? String(value) : "không rõ");
+}
+
+function traceStepRows(spans) {
+  return "<table class=\"trace-steps\"><thead><tr><th scope=\"col\">Bước</th><th scope=\"col\">Kết quả</th><th scope=\"col\">Thời gian</th></tr></thead><tbody>" +
+    spans.map((span) => {
+      const latency = Number(span?.attributes?.latencyMs);
+      return "<tr><td>" + escapeHtml(span.span_name || "bước") + "</td><td>" + escapeHtml(traceStatusLabel(span.status)) +
+        "</td><td>" + (Number.isFinite(latency) ? escapeHtml(String(Math.round(latency))) + " ms" : "—") + "</td></tr>";
+    }).join("") + "</tbody></table>";
 }
 
 function renderTraceExplorerDetail() {
@@ -2106,66 +2139,67 @@ function renderTraceExplorerDetail() {
     "<button class=\"layer-row " + (run.trace_id === state.traceExplorerSelectedId ? "active" : "") +
     "\" data-trace-id=\"" + escapeHtml(run.trace_id) +
     "\" style=\"width:100%; text-align:left; border:0; background:transparent; color:inherit; cursor:pointer;\">" +
-    "<strong>" + escapeHtml(run.feature || "unknown") + "</strong>" +
-    "<span>" + escapeHtml(run.status || "unknown") + " · " + escapeHtml(run.environment || "") + "</span>" +
+    "<strong>" + escapeHtml(run.feature || "không rõ") + "</strong>" +
+    "<span>" + escapeHtml(traceStatusLabel(run.status)) + " · " + escapeHtml(run.environment || "") + "</span>" +
     "<small>" + escapeHtml(run.trace_id || "") + " · " + escapeHtml(run.created_at || "") + "</small></button>"
-  ).join("") : "<p>No trace runs displayed.</p>";
+  ).join("") : "<p>Chưa có lượt nào để hiển thị.</p>";
   const selectedHtml = selected ? (
-    "<div class=\"code-card\"><p class=\"eyebrow\">Selected run</p><p><strong>" +
-    escapeHtml(selected.feature || "") + "</strong> · " + escapeHtml(selected.status || "") +
-    " · mode: " + escapeHtml(selected.redaction_mode || "redacted") + "</p><p>Trace ID: <code>" +
-    escapeHtml(selected.trace_id || "") + "</code></p><p>Client request ID: <code>" + escapeHtml(selected.client_request_id || "not recorded") + "</code></p></div>" +
-    traceJson("Root input (redacted)", selected.root_input) +
-    traceJson("Root output", selected.root_output) +
-    traceJson("Trace metadata", selected.metadata) +
-    `<div class="code-card"><p class="eyebrow">Workflow observation</p><p>Apply only a matching redacted detail captured under the current account, feature and backend target. Graph observation never includes provider payload text.</p><button type="button" class="button ghost" id="workflow-apply-trace" ${state.traceDetailScope?.accountId && state.traceDetailScope?.target && state.traceExplorerDetail && !state.traceDetailLoading ? "" : "disabled"}>Apply matching redacted detail to Workflow</button></div>` +
-    (spans.length ? spans.map((span) =>
-      "<details class=\"code-card\" open><summary><strong>" + escapeHtml(span.span_name || "span") +
-      "</strong> · " + escapeHtml(span.status || "") + "</summary>" +
-      traceJson("Input", span.input) + traceJson("Output", span.output) +
-      traceJson("Attributes", span.attributes) + "</details>"
-    ).join("") : "<div class=\"code-card\"><p>Load the selected trace to view its spans.</p></div>") +
-    (isOwnerDebugEnabled() ? `<div class="code-card"><p class="eyebrow">Owner QA payload</p><p>When the user opts in, the exact provider request and response are encrypted in staging. Reveal is blocked at the 24-hour expiry, and each reveal is written to the AI audit log. This proves what Nilaza sent to OpenRouter and received back, not hidden provider-side transformations.</p>${state.traceExplorerQaPayload ? `<button class="button ghost" id="trace-qa-clear">Hide payload</button><p>Expires: ${escapeHtml(state.traceExplorerQaPayload.expiresAt || "")}</p>${traceJson("Exact OpenRouter request and provider response", state.traceExplorerQaPayload.payload)}` : `<button class="button ghost" id="trace-qa-load">Reveal retained QA payload</button>`}</div>` : "")
-  ) : "<div class=\"code-card\"><p>Select a trace to inspect the model-route spans.</p></div>";
+    "<div class=\"code-card\"><p class=\"eyebrow\">Lượt đang xem</p><p><strong>" +
+    escapeHtml(selected.feature || "") + "</strong> · " + escapeHtml(traceStatusLabel(selected.status)) +
+    " · che dữ liệu: " + escapeHtml(selected.redaction_mode || "redacted") + "</p><p>Mã nhật ký: <code>" +
+    escapeHtml(selected.trace_id || "") + "</code></p><p>Mã yêu cầu từ app: <code>" + escapeHtml(selected.client_request_id || "không ghi") + "</code></p></div>" +
+    (spans.length ? "<div class=\"code-card\"><p class=\"eyebrow\">Các bước</p>" + traceStepRows(spans) + "</div>"
+      : "<div class=\"code-card\"><p>Đang tải các bước của lượt này…</p></div>") +
+    "<details class=\"technical-details code-card\"><summary>Chi tiết kỹ thuật (dữ liệu đã che)</summary>" +
+    traceJson("Đầu vào gốc (đã che)", selected.root_input) +
+    traceJson("Đầu ra gốc", selected.root_output) +
+    traceJson("Thông tin kèm theo", selected.metadata) +
+    spans.map((span) =>
+      "<div class=\"code-card\"><p><strong>" + escapeHtml(span.span_name || "bước") + "</strong> · " + escapeHtml(traceStatusLabel(span.status)) + "</p>" +
+      traceJson("Đầu vào", span.input) + traceJson("Đầu ra", span.output) + traceJson("Thuộc tính", span.attributes) + "</div>"
+    ).join("") + "</details>" +
+    `<div class="code-card"><p class="eyebrow">Đối chiếu với Luồng xử lý</p><p>Chỉ áp chi tiết đã che khớp đúng tài khoản, tính năng và máy chủ hiện tại. Sơ đồ không bao giờ hiện nội dung gửi cho nhà cung cấp.</p><button type="button" class="button ghost" id="workflow-apply-trace" ${state.traceDetailScope?.accountId && state.traceDetailScope?.target && state.traceExplorerDetail && !state.traceDetailLoading ? "" : "disabled"}>Áp chi tiết đã che vào Luồng xử lý</button></div>` +
+    (isOwnerDebugEnabled() ? `<div class="code-card"><p class="eyebrow">Dữ liệu QA của Owner</p><p>Khi người dùng đồng ý, yêu cầu và câu trả lời chính xác với nhà cung cấp được mã hóa trên staging. Không mở được sau 24 giờ; mỗi lần mở được ghi vào nhật ký AI. Đây là bằng chứng Nilaza đã gửi và nhận gì, không phải những gì nhà cung cấp tự biến đổi bên trong.</p>${state.traceExplorerQaPayload ? `<button class="button ghost" id="trace-qa-clear">Ẩn dữ liệu QA</button><p>Hết hạn: ${escapeHtml(state.traceExplorerQaPayload.expiresAt || "")}</p><details class="technical-details" open><summary>Yêu cầu gửi OpenRouter và câu trả lời</summary>${traceJson("Exact OpenRouter request and provider response", state.traceExplorerQaPayload.payload)}</details>` : `<button class="button ghost" id="trace-qa-load">Reveal retained QA payload</button>`}</div>` : "")
+  ) : "<div class=\"code-card\"><p>Chọn một lượt để xem các bước.</p></div>";
 
   $("#detail-content").innerHTML =
     "<div class=\"detail-layout single\"><div class=\"code-card\">" +
-    "<div class=\"layer-row\"><div><p class=\"eyebrow\">AI observability</p><h3>Trace Explorer</h3></div>" +
+    "<div class=\"layer-row\"><div><p class=\"eyebrow\">Theo dõi AI</p><h3>Nhật ký AI</h3></div>" +
     "<span class=\"pill\" role=\"status\" aria-live=\"polite\">" + escapeHtml(state.traceExplorerStatus) + "</span></div>" +
-    "<p>These are recorded trace statuses; writer origin is unverified under the reviewed client-writable trace policies, so they do not prove provider execution, validation, persistence or response completion. Search matches trace/request IDs or model names. Exact Astrology QA payloads require separate opt-in, staging and Owner access.</p>" +
-    "<div class=\"param-row\"><label for=\"trace-feature-filter\">Feature filter:</label>" +
+    "<p>Đây là trạng thái được ghi lại; nguồn ghi chưa được xác minh nên không chứng minh model đã chạy, đã kiểm định dạng hay đã trả lời xong. Tìm theo mã nhật ký, mã yêu cầu hoặc tên model. Dữ liệu QA chính xác của Chiêm tinh cần người dùng đồng ý, staging và quyền Owner.</p>" +
+    "<div class=\"param-row\"><label for=\"trace-feature-filter\">Tính năng:</label>" +
     "<select id=\"trace-feature-filter\" class=\"input\">" + traceFeatureOptions() + "</select>" +
-    `<label for="trace-status-filter">Status:</label><select id="trace-status-filter" class="input"><option value="all" ${state.traceExplorerStatusFilter === "all" ? "selected" : ""}>All</option><option value="completed" ${state.traceExplorerStatusFilter === "completed" ? "selected" : ""}>Completed</option><option value="fallback" ${state.traceExplorerStatusFilter === "fallback" ? "selected" : ""}>Fallback</option><option value="blocked" ${state.traceExplorerStatusFilter === "blocked" ? "selected" : ""}>Blocked</option><option value="error" ${state.traceExplorerStatusFilter === "error" ? "selected" : ""}>Error</option></select>` +
-    `<label for="trace-query">Request ID / model:</label><input id="trace-query" class="input" type="search" value="${escapeHtml(state.traceExplorerQuery)}" placeholder="Search trace ID, request ID, or model" />` +
+    `<label for="trace-status-filter">Kết quả:</label><select id="trace-status-filter" class="input"><option value="all" ${state.traceExplorerStatusFilter === "all" ? "selected" : ""}>Tất cả</option><option value="completed" ${state.traceExplorerStatusFilter === "completed" ? "selected" : ""}>Ổn</option><option value="fallback" ${state.traceExplorerStatusFilter === "fallback" ? "selected" : ""}>Ổn — dự phòng</option><option value="blocked" ${state.traceExplorerStatusFilter === "blocked" ? "selected" : ""}>Chặn an toàn</option><option value="error" ${state.traceExplorerStatusFilter === "error" ? "selected" : ""}>Lỗi</option></select>` +
+    `<label for="trace-query">Mã yêu cầu / model:</label><input id="trace-query" class="input" type="search" value="${escapeHtml(state.traceExplorerQuery)}" placeholder="Mã nhật ký, mã yêu cầu hoặc tên model" />` +
     "<button id=\"trace-load\" class=\"button primary\" " + (state.traceExplorerBusy ? "disabled" : "") + ">" +
-    (state.traceExplorerBusy ? "Loading..." : "Load recent traces") + "</button></div>" +
-    "<p class=\"muted\">" + (runs.length ? runs.length + " trace(s) loaded. Select one to inspect its spans." :
-      "Load recent traces from the protected backend. An empty result does not prove a migration is missing.") + "</p></div>" +
-    "<div class=\"detail-layout\"><div class=\"code-card\"><p class=\"eyebrow\">Recent traces</p>" +
+    (state.traceExplorerBusy ? "Đang tải…" : "Tải nhật ký gần đây") + "</button></div>" +
+    "<p class=\"muted\">" + (runs.length ? runs.length + " lượt đã tải. Chọn một lượt để xem các bước." :
+      "Bấm tải để đọc nhật ký gần đây từ máy chủ được bảo vệ. Kết quả trống không có nghĩa là máy chủ thiếu bảng.") + "</p></div>" +
+    "<div class=\"detail-layout\"><div class=\"code-card\"><p class=\"eyebrow\">Lượt gần đây</p>" +
     runRows + "</div><div>" + selectedHtml + "</div></div></div>";
 }
 
 async function loadTraceExplorer() {
   if (state.traceExplorerBusy) return;
   if (!await window.NilazaRequireCapability?.("ai.read")) {
-    state.traceExplorerStatus = "Permission denied";
+    state.traceExplorerStatus = "Không có quyền xem nhật ký (cần ai.read)";
     renderDetail();
     return;
   }
   if (typeof window.NilazaAdminRpc !== "function") {
-    state.traceExplorerStatus = "Admin trace RPC unavailable";
+    state.traceExplorerStatus = "Chưa đọc được nhật ký: phiên đăng nhập chưa sẵn sàng";
     renderDetail();
     return;
   }
   if (workflowTransportTarget && !workflowCurrentScope().target) {
-    state.traceExplorerStatus = "Backend configuration changed. Reload Admin before reading this target.";
+    state.traceExplorerStatus = "Cấu hình máy chủ đã đổi. Tải lại Admin trước khi đọc máy chủ này.";
     clearWorkflowObservation("Backend configuration changed; reload Admin before applying observations.");
     renderDetail();
     return;
   }
   state.traceExplorerBusy = true;
   state.workflowTraceReaderState = "loading";
-  state.traceExplorerStatus = "Đang tải / Loading…";
+  state.traceExplorerStatus = "Đang tải…";
   renderDetail();
   const scope = workflowCurrentScope();
   const epoch = ++state.traceReadEpoch;
@@ -2181,14 +2215,14 @@ async function loadTraceExplorer() {
     if (!workflowReadStillCurrent(scope, epoch, hash)) return;
     state.traceExplorerRuns = Array.isArray(data) ? data : [];
     state.workflowTraceReaderState = state.traceExplorerRuns.length ? "loaded" : "empty";
-    state.traceExplorerStatus = state.traceExplorerRuns.length + " trace(s) loaded";
+    state.traceExplorerStatus = state.traceExplorerRuns.length + " lượt đã tải";
     if (!state.traceExplorerRuns.some((run) => run.trace_id === state.traceExplorerSelectedId)) {
       state.traceExplorerSelectedId = state.traceExplorerRuns[0]?.trace_id ?? "";
       state.traceExplorerDetail = null;
       clearTraceQaPayload();
     }
   } catch (error) {
-    if (workflowReadStillCurrent(scope, epoch, hash)) { state.traceExplorerStatus = "Load failed: " + error.message; state.workflowTraceReaderState = "error"; }
+    if (workflowReadStillCurrent(scope, epoch, hash)) { state.traceExplorerStatus = "Không tải được nhật ký (thiếu quyền, mất mạng hoặc máy chủ chưa có hàm đọc). Thử lại."; state.workflowTraceReaderState = "error"; }
   } finally {
     if (workflowReadStillCurrent(scope, epoch, hash)) { state.traceExplorerBusy = false; renderDetail(); }
   }
@@ -2205,8 +2239,8 @@ async function loadTraceQaPayload() {
   if (!traceId || !isOwnerDebugEnabled() || !await window.NilazaRequireCapability?.("roles.manage")) return;
   if (epoch !== state.traceExplorerQaEpoch || state.detail !== "traceExplorer" || state.traceExplorerSelectedId !== traceId) return;
   const endpoint = adminFunctionEndpoint("admin-ai-trace-qa-payload");
-  if (!endpoint) { state.traceExplorerStatus = "Backend target unavailable"; renderDetail(); return; }
-  state.traceExplorerStatus = "Decrypting retained QA payload…";
+  if (!endpoint) { state.traceExplorerStatus = "Chưa có địa chỉ máy chủ"; renderDetail(); return; }
+  state.traceExplorerStatus = "Đang giải mã dữ liệu QA…";
   renderDetail();
   try {
     const response = await adminRequest(endpoint, {
@@ -2216,11 +2250,11 @@ async function loadTraceQaPayload() {
     if (!response.ok) throw Error(body.error || "QA payload unavailable");
     if (epoch === state.traceExplorerQaEpoch && state.detail === "traceExplorer" && state.traceExplorerSelectedId === traceId) {
       state.traceExplorerQaPayload = body;
-      state.traceExplorerStatus = "Owner QA payload loaded";
+      state.traceExplorerStatus = "Đã mở dữ liệu QA của Owner";
     }
   } catch (error) {
     if (epoch === state.traceExplorerQaEpoch && state.detail === "traceExplorer" && state.traceExplorerSelectedId === traceId) {
-      state.traceExplorerStatus = "QA payload unavailable: " + error.message;
+      state.traceExplorerStatus = "Không mở được dữ liệu QA (hết hạn, thiếu quyền hoặc mất mạng).";
     }
   }
   if (state.detail === "traceExplorer") renderDetail();
@@ -2230,7 +2264,7 @@ async function loadTraceDetail(traceId) {
   if (!traceId || typeof window.NilazaAdminRpc !== "function") return;
   if (workflowTransportTarget && !workflowCurrentScope(traceId).target) {
     clearWorkflowObservation("Backend configuration changed; reload Admin before applying observations.");
-    state.traceExplorerStatus = "Backend configuration changed. Reload Admin before reading this target.";
+    state.traceExplorerStatus = "Cấu hình máy chủ đã đổi. Tải lại Admin trước khi đọc máy chủ này.";
     renderDetail();
     return;
   }
@@ -2244,7 +2278,7 @@ async function loadTraceDetail(traceId) {
   state.traceDetailScope = null;
   state.traceDetailLoading = true;
   state.workflowTraceReaderState = "loading";
-  state.traceExplorerStatus = "Loading redacted trace detail…";
+  state.traceExplorerStatus = "Đang tải chi tiết đã che…";
   renderDetail();
   try {
     const data = await window.NilazaAdminRpc("get_ai_trace_detail", {
@@ -2255,7 +2289,7 @@ async function loadTraceDetail(traceId) {
       state.traceDetailScope = scope;
       state.traceDetailLoading = false;
       state.workflowTraceReaderState = "loaded";
-      state.traceExplorerStatus = "Redacted trace detail loaded; graph observation requires explicit apply.";
+      state.traceExplorerStatus = "Đã tải chi tiết đã che; muốn áp vào sơ đồ thì bấm nút áp.";
       renderDetail();
     }
   } catch (error) {
@@ -2263,7 +2297,7 @@ async function loadTraceDetail(traceId) {
       state.traceDetailLoading = false;
       state.workflowTraceReaderState = "error";
       state.traceDetailScope = null;
-      state.traceExplorerStatus = "Detail failed: " + error.message;
+      state.traceExplorerStatus = "Không tải được chi tiết lượt này. Thử lại.";
       renderDetail();
     }
   }
@@ -2335,7 +2369,7 @@ function renderSharedOraclePreview() {
 }
 
 async function loadAstrologyPromptConfig() {
-  if (!await window.NilazaRequireCapability?.("ai.read")) { state.astrologyPromptAdminStatus = "Permission denied"; renderDetail(); return; }
+  if (!await window.NilazaRequireCapability?.("ai.read")) { state.astrologyPromptAdminStatus = "Không có quyền đọc prompt (cần ai.read)"; renderDetail(); return; }
   if (state.astrologyPromptAdminBusy) return;
   const endpoint = state.astrologyPromptAdminEndpoint;
   if (!endpoint) { state.astrologyPromptAdminStatus = "Backend target unavailable"; renderDetail(); return; }
@@ -2363,7 +2397,7 @@ async function loadAstrologyPromptConfig() {
 
 async function publishAstrologyPromptPair(review) {
   if (review?.action !== "astrologyPrompt" || !isPublishReviewCurrent(review)) { rejectChangedPublishReview(); return; }
-  if (!await window.NilazaRequireCapability?.("ai.manage")) { state.astrologyPromptAdminStatus = "Permission denied"; renderDetail(); return; }
+  if (!await window.NilazaRequireCapability?.("ai.manage")) { state.astrologyPromptAdminStatus = "Không có quyền phát hành (cần ai.manage)"; renderDetail(); return; }
   if (!isPublishReviewCurrent(review)) { rejectChangedPublishReview(); return; }
   const payload = review.payload;
   const active = state.astrologyPromptActive || {};
@@ -2557,16 +2591,16 @@ function renderDataMindmapDetail() {
 }
 
 function renderTestDetail() {
-  const result = state.testRun || { title: "No provider test has run", body: "Run a local contract preflight or an authenticated staging request from the app. This panel does not fabricate model output." };
+  const result = state.testRun || { title: "Chưa có lượt chạy thử nào với nhà cung cấp", body: "Muốn kiểm tra: gửi một yêu cầu thử từ app (đã đăng nhập) trên staging rồi xem ở Nhật ký AI. Mục này không tạo câu trả lời giả." };
   const metrics = result.metrics && typeof result.metrics === "object" ? result.metrics : null;
   $("#detail-content").innerHTML = `
     <div class="detail-layout">
       <div class="test-result">
-        <p class="eyebrow">${escapeHtml(result.kind || "Test status")}</p>
+        <p class="eyebrow">${escapeHtml(result.kind || "Tình trạng chạy thử")}</p>
         <h3>${escapeHtml(result.title)}</h3>
         <p>${escapeHtml(result.body)}</p>
       </div>
-      ${metrics ? `<div class="test-result"><p class="eyebrow">Measured result</p><div class="mini-grid">${Object.entries(metrics).map(([key, value]) => `<div class="mini-card"><span>${escapeHtml(key)}</span><strong>${escapeHtml(value)}</strong></div>`).join("")}</div></div>` : "<div class=\"test-result\"><p class=\"eyebrow\">Provider call</p><p>No model call, token use, cost, or latency was recorded for this check.</p></div>"}
+      ${metrics ? `<div class="test-result"><p class="eyebrow">Kết quả đo được</p><div class="mini-grid">${Object.entries(metrics).map(([key, value]) => `<div class="mini-card"><span>${escapeHtml(key)}</span><strong>${escapeHtml(value)}</strong></div>`).join("")}</div></div>` : "<div class=\"test-result\"><p class=\"eyebrow\">Gọi nhà cung cấp</p><p>Lần kiểm tra này không gọi model, không ghi token, chi phí hay thời gian.</p></div>"}
     </div>
   `;
 }
@@ -2576,13 +2610,13 @@ function renderVersionsDetail() {
   const hasLocalDraft = hasModelRouteDraft(current);
   const route = state.modelRouterRemoteRoutes.find((item) => item.feature === modelRouteFeatureId(current.id));
   const currentVersionActive = route?.status === "active" && !hasLocalDraft;
-  const versionState = currentVersionActive ? "Active" : hasLocalDraft ? "Browser draft" : route ? route.status : "Not loaded";
-  const versionLabel = hasLocalDraft ? `Browser draft · ${current.version}` : route?.version || "No backend route loaded";
+  const versionState = currentVersionActive ? "Đang chạy" : hasLocalDraft ? "Nháp trên trình duyệt" : route ? route.status : "Chưa tải";
+  const versionLabel = hasLocalDraft ? `Nháp trên trình duyệt · ${current.version}` : route?.version || "Chưa tải chuỗi model từ máy chủ";
   const versionDescription = currentVersionActive
-    ? `Active backend route: ${route.primary_provider}/${route.primary_model}; schema ${route.response_schema}; max output ${route.max_output_tokens ?? "unknown"}.`
+    ? `Backend active route: ${route.primary_provider}/${route.primary_model} (chuỗi model đang chạy trên máy chủ); định dạng ${route.response_schema}; tối đa ${route.max_output_tokens ?? "không rõ"} token đầu ra.`
     : hasLocalDraft
-      ? "This browser draft has not been published. The active backend route remains unchanged."
-      : "No version history is available in this view. Rollback is unavailable until the backend exposes real archived versions.";
+      ? "Bản nháp này chỉ ở trình duyệt, chưa phát hành. Chuỗi model trên máy chủ giữ nguyên."
+      : "Chưa có lịch sử phiên bản ở đây. Chỉ khôi phục được khi máy chủ trả về các bản đã lưu trữ.";
   const routeHistory = (state.modelRouterHistory || []).filter((item) => item.feature === modelRouteFeatureId(current.id)).slice(0, 20);
   const promptHistory = current.id === "astrology" ? state.astrologyPromptHistory.slice(0, 20) : [];
   $("#detail-content").innerHTML = `
@@ -2592,10 +2626,10 @@ function renderVersionsDetail() {
           <div><strong>${escapeHtml(versionLabel)}</strong><br /><span>${escapeHtml(versionDescription)}</span></div>
           <span class="risk-chip ${currentVersionActive ? "low" : "medium"}">${escapeHtml(versionState)}</span>
         </div>
-        <div class="version-row"><div><strong>Astrology prompt pair</strong><br /><span>VI and EN prompts are managed in Prompt Composer as one atomic backend publication.</span></div><span>${promptHistory.length ? `${escapeHtml(String(promptHistory.filter((item) => item.status === "active").length))} active locale(s)` : "Load in Prompt Composer"}</span></div>
-        <h3>Backend route history</h3>
-        ${routeHistory.length ? routeHistory.map((item) => `<div class="version-row"><div><strong>${escapeHtml(item.version)}</strong><br /><span>${escapeHtml(item.primary_provider)}/${escapeHtml(item.primary_model)} · schema ${escapeHtml(item.response_schema)} · ${escapeHtml(item.created_at || item.published_at || "")}</span></div><span class="risk-chip medium">${escapeHtml(item.status)}</span>${item.id && window.NilazaAdminSession?.capabilities?.includes("ai.manage") ? `<button class="button ghost" data-restore-route="${escapeHtml(item.id)}">Review as new route draft</button>` : ""}</div>`).join("") : `<p>${state.modelRouterAdminResult ? "No archived route versions were returned." : "Load backend route history from Model Router first."}</p>`}
-        ${current.id === "astrology" ? `<h3>Astrology prompt history</h3>${promptHistory.length ? promptHistory.map((item) => `<div class="version-row"><div><strong>${escapeHtml(item.locale)} · ${escapeHtml(item.version)}</strong><br /><span>${escapeHtml(item.published_at || "")}</span></div><span class="risk-chip ${item.status === "active" ? "low" : "medium"}">${escapeHtml(item.status)}</span></div>`).join("") : "<p>Load Astrology backend prompts to see real prompt history.</p>"}` : ""}
+        <div class="version-row"><div><strong>Cặp prompt Chiêm tinh</strong><br /><span>Prompt VI và EN được phát hành cùng lúc ở mục Soạn prompt.</span></div><span>${promptHistory.length ? `${escapeHtml(String(promptHistory.filter((item) => item.status === "active").length))} ngôn ngữ đang chạy` : "Tải ở mục Soạn prompt"}</span></div>
+        <h3>Lịch sử chuỗi model trên máy chủ</h3>
+        ${routeHistory.length ? routeHistory.map((item) => `<div class="version-row"><div><strong>${escapeHtml(item.version)}</strong><br /><span>${escapeHtml(item.primary_provider)}/${escapeHtml(item.primary_model)} · định dạng ${escapeHtml(item.response_schema)} · ${escapeHtml(item.created_at || item.published_at || "")}</span></div><span class="risk-chip medium">${escapeHtml(item.status)}</span>${item.id && window.NilazaAdminSession?.capabilities?.includes("ai.manage") ? `<button class="button ghost" data-restore-route="${escapeHtml(item.id)}">Mở lại thành bản nháp mới</button>` : ""}</div>`).join("") : `<p>${state.modelRouterAdminResult ? "Máy chủ không trả về phiên bản đã lưu trữ nào." : "Tải lịch sử ở mục Chuỗi model đang chạy trước."}</p>`}
+        ${current.id === "astrology" ? `<h3>Lịch sử prompt Chiêm tinh</h3>${promptHistory.length ? promptHistory.map((item) => `<div class="version-row"><div><strong>${escapeHtml(item.locale)} · ${escapeHtml(item.version)}</strong><br /><span>${escapeHtml(item.published_at || "")}</span></div><span class="risk-chip ${item.status === "active" ? "low" : "medium"}">${escapeHtml(item.status)}</span></div>`).join("") : "<p>Tải prompt Chiêm tinh từ máy chủ để xem lịch sử thật.</p>"}` : ""}
       </div>
     </div>
   `;
@@ -2607,9 +2641,9 @@ function renderAuditDetail() {
   $("#detail-content").innerHTML = `
     <div class="detail-layout single">
       <div class="audit-list">
-        <div class="audit-row"><div><strong>AI configuration audit</strong><br /><span>Real route and Astrology prompt changes, plus Owner QA payload reads. Prompt text and user question are never included in audit metadata.</span></div><button id="ai-audit-load" class="button ghost" ${state.aiAdminAuditBusy ? "disabled" : ""}>${state.aiAdminAuditBusy ? "Loading…" : "Load recent audit events"}</button></div>
+        <div class="audit-row"><div><strong>Lịch sử thao tác cấu hình AI</strong><br /><span>Thay đổi thật về công tắc, hạn mức, chuỗi model, prompt Chiêm tinh và các lần Owner mở dữ liệu QA. Nhật ký không bao giờ chứa nội dung prompt hay câu hỏi của người dùng.</span></div><button id="ai-audit-load" class="button ghost" ${state.aiAdminAuditBusy ? "disabled" : ""}>${state.aiAdminAuditBusy ? "Đang tải…" : "Tải thao tác gần đây"}</button></div>
         <p role="status">${escapeHtml(state.aiAdminAuditStatus)}</p>
-        ${rows.length ? rows.map((item) => `<div class="audit-row"><div><strong>${escapeHtml(item.action || "")}</strong><br /><span>${escapeHtml(item.target_table || "")} · ${escapeHtml(item.created_at || "")} · ${escapeHtml(JSON.stringify(item.metadata || {}))}</span></div><span class="risk-chip low">Recorded</span></div>`).join("") : `<div class="audit-row"><div><strong>No audit events loaded</strong><br /><span>Load recent events from the protected backend audit log.</span></div></div>`}
+        ${rows.length ? rows.map((item) => `<div class="audit-row"><div><strong>${escapeHtml(item.action || "")}</strong><br /><span>${escapeHtml(item.target_table || "")} · ${escapeHtml(item.created_at || "")}</span><details class="technical-details"><summary>Chi tiết kỹ thuật</summary><pre>${escapeHtml(JSON.stringify(item.metadata || {}, null, 2))}</pre></details></div><span class="risk-chip low">Đã ghi</span></div>`).join("") : `<div class="audit-row"><div><strong>Chưa tải thao tác nào</strong><br /><span>Tải các thao tác gần đây từ nhật ký được bảo vệ trên máy chủ.</span></div></div>`}
       </div>
     </div>
   `;
@@ -2617,17 +2651,17 @@ function renderAuditDetail() {
 
 async function loadAiAdminAuditEvents() {
   if (!await window.NilazaRequireCapability?.("ai.read") || typeof window.NilazaAdminRpc !== "function") {
-    state.aiAdminAuditStatus = "AI audit access unavailable"; renderAuditDetail(); return;
+    state.aiAdminAuditStatus = "Không có quyền xem lịch sử thao tác AI"; renderAuditDetail(); return;
   }
   state.aiAdminAuditBusy = true;
-  state.aiAdminAuditStatus = "Loading protected audit log…";
+  state.aiAdminAuditStatus = "Đang tải nhật ký thao tác…";
   renderAuditDetail();
   try {
     const data = await window.NilazaAdminRpc("get_ai_admin_audit_events", { limit_count: 100 }, "ai.read");
     state.aiAdminAuditEvents = Array.isArray(data) ? data : [];
-    state.aiAdminAuditStatus = `${state.aiAdminAuditEvents.length} events loaded`;
+    state.aiAdminAuditStatus = `${state.aiAdminAuditEvents.length} thao tác đã tải`;
   } catch (error) {
-    state.aiAdminAuditStatus = `Audit load failed: ${error.message}`;
+    state.aiAdminAuditStatus = "Không tải được lịch sử thao tác. Thử lại.";
   } finally {
     state.aiAdminAuditBusy = false;
     renderAuditDetail();
@@ -2638,43 +2672,44 @@ function runTest() {
   const current = feature();
   if (current.id === "astrology") {
     state.testRun = {
-      kind: "Staging test required",
-      title: "No provider test has run from AI Studio",
-      body: "The Astrology test button does not execute the backend contract. Use a synthetic authenticated mobile request, then match its request ID to the full trace. No model call, pass score, token use, cost, or latency is inferred here."
+      kind: "Cần chạy thử trên staging",
+      title: "AI Studio chưa chạy thử với nhà cung cấp",
+      body: "Nút chạy thử của Chiêm tinh không gọi máy chủ. Gửi một yêu cầu thử từ app (đã đăng nhập), rồi tìm mã yêu cầu đó trong Nhật ký AI. Ở đây không suy ra lượt gọi model, điểm đạt, token, chi phí hay thời gian."
     };
     state.detail = "test";
-    $("#draft-status").textContent = "No provider call made";
+    $("#draft-status").textContent = "Không gọi nhà cung cấp";
     persistAiStudioUiState();
     renderDetail();
     return;
   }
   state.testRun = {
-    kind: "Not connected",
-    title: `${current.name}: no live provider test ran`,
-    body: "This feature does not yet have a staging test endpoint in AI Studio. Use a backend trace from an authenticated app request; no pass score, tokens, cost, or latency are inferred."
+    kind: "Chưa kết nối",
+    title: `${current.name}: chưa chạy thử với nhà cung cấp`,
+    body: "Tính năng này chưa có điểm chạy thử trên staging trong AI Studio. Dùng nhật ký của một yêu cầu thật từ app; ở đây không suy ra điểm đạt, token, chi phí hay thời gian."
   };
   state.detail = "test";
-  $("#draft-status").textContent = "No provider call made";
+  $("#draft-status").textContent = "Không gọi nhà cung cấp";
   persistAiStudioUiState();
   renderDetail();
 }
 
 function runOptimizer() {
   state.testRun = {
-    kind: "Not connected",
-    title: "Prompt optimization is not connected to measured runs",
-    body: "No variant score or satisfaction change is generated until real test runs and reviewer outcomes are connected."
+    kind: "Chưa kết nối",
+    title: "Gợi ý cải thiện prompt chưa nối với lượt chạy thử thật",
+    body: "Không tạo điểm hay mức hài lòng nào cho tới khi có chạy thử & chấm điểm thật (bước A6)."
   };
-  $("#draft-status").textContent = "Optimization is not connected to test runs";
+  $("#draft-status").textContent = "Gợi ý cải thiện chưa nối với chạy thử";
   state.detail = "optimization";
   persistAiStudioUiState();
   renderDetail();
 }
 
 async function openPublishModal() {
+  if (publishActionForSurface() === "none") return;
   const trigger = document.activeElement;
   const review = createPublishReview(publishActionForSurface());
-  if (!await window.NilazaRequireCapability?.("ai.manage")) { $("#draft-status").textContent = "Permission denied"; return; }
+  if (!await window.NilazaRequireCapability?.("ai.manage")) { $("#draft-status").textContent = "Không có quyền phát hành (cần ai.manage)"; return; }
   if (!isPublishReviewCurrent(review)) { rejectChangedPublishReview(); return; }
   const action = review.action;
   if (action === "councilBlocked" || action === "modelBlocked") {
@@ -2755,7 +2790,7 @@ function closePublishModal() {
 
 async function confirmPublish() {
   const pending = state.pendingPublish;
-  if (!await window.NilazaRequireCapability?.("ai.manage")) { closePublishModal(); $("#draft-status").textContent = "Permission denied"; return; }
+  if (!await window.NilazaRequireCapability?.("ai.manage")) { closePublishModal(); $("#draft-status").textContent = "Không có quyền phát hành (cần ai.manage)"; return; }
   if (pending !== state.pendingPublish || $("#modal").hidden || !isPublishReviewCurrent(pending)) {
     rejectChangedPublishReview();
     return;
@@ -2933,7 +2968,7 @@ document.addEventListener("click", (event) => {
   if (event.target.closest("#trace-qa-load")) { void loadTraceQaPayload(); return; }
   if (event.target.closest("#trace-qa-clear")) {
     clearTraceQaPayload();
-    state.traceExplorerStatus = "Owner QA payload hidden from this workspace";
+    state.traceExplorerStatus = "Đã ẩn dữ liệu QA";
     renderDetail();
     return;
   }
@@ -2953,6 +2988,9 @@ document.addEventListener("click", (event) => {
     }
     if (panelButton.dataset.panel === "switches") {
       state.detail = "switches"; persistAiStudioUiState(); renderDetail();
+    }
+    if (panelButton.dataset.panel === "features") {
+      state.detail = "aiFeatures"; persistAiStudioUiState(); renderAll();
     }
     if (panelButton.dataset.panel === "audit") {
       state.detail = "audit";
@@ -3276,6 +3314,11 @@ document.addEventListener("keydown", (event) => {
 });
 
 window.NilazaUnsaved?.setWorkspace("ai-studio");
+// env-band.js is deferred and runs after this script; refresh the "Đang ghi vào" label once it is available.
+document.addEventListener("DOMContentLoaded", () => {
+  const target = $("#environment-status");
+  if (target) target.textContent = `Đang ghi vào: ${window.NilazaDescribeEnvironment?.(window.ENV)?.label || "CHƯA RÕ MÔI TRƯỜNG"}`;
+}, { once: true });
 window.addEventListener("hashchange", restoreStudioRoute);
 if (Object.hasOwn(studioRouteDetails, location.hash.slice(1).split("?")[0])) restoreStudioRoute();
 else renderAll();

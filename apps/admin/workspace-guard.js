@@ -54,6 +54,7 @@
   }
   const requiredCapabilitiesByEntry = {
     "ai-studio.html": "ai.read",
+    "overview.html": "hub.read",
     "content.html": "content.read",
     "growth.html": "overview.read"
   };
@@ -160,6 +161,10 @@
     review_ai_feedback: "safety.review",
     get_ai_feature_switches: "ai.read",
     set_ai_feature_switch: "ai.manage",
+    // Versioned AI feature settings (A4, migration 20261113090100); the RPCs check the same capabilities.
+    get_ai_feature_configs: "ai.read",
+    save_ai_feature_config_draft: "ai.manage",
+    publish_ai_feature_config: "ai.manage",
     get_growth_waitlist_overview: "overview.read"
   };
   window.NilazaAdminRpc = async (name, params = {}, capability) => {
@@ -172,10 +177,15 @@
     requireTransport();
     const accessGeneration = generation;
     if (!access || !window.NilazaAccess.can(access, requiredCapability)) throw Error("Admin permission denied");
-    const { data, error } = await client.rpc(name, params);
+    const { data, error, status } = await client.rpc(name, params);
     requireTransport();
     if (error || accessGeneration !== generation || window.NilazaAdminSession !== access) {
-      throw Error("Admin session unavailable");
+      // Callers get a fixed message plus the database/PostgREST code, never the raw server text.
+      // missingFunction: the RPC is not on this database yet (migration not applied).
+      const code = typeof error?.code === "string" ? error.code.slice(0, 16) : "";
+      const missingFunction = Boolean(error) && (code === "PGRST202" || code === "42883" || status === 404
+        || /could not find the function/i.test(String(error?.message || "")));
+      throw Object.assign(Error("Admin session unavailable"), { code, missingFunction });
     }
     return data;
   };

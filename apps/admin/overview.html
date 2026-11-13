@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="vi" data-admin-authorized="false">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nilaza · Tổng quan</title>
+    <script src="./config.js?v=admin-sync-v1"></script>
+    <script src="./env-band.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.108.2"></script>
+    <script src="./admin-access.js"></script>
+    <script src="./workspace-guard.js"></script>
+    <link rel="stylesheet" href="./workspace-guard.css" />
+    <link rel="stylesheet" href="./overview.css" />
+  </head>
+  <body>
+    <main class="overview-page">
+      <header class="overview-header">
+        <div>
+          <p class="eyebrow">Sức khỏe hệ thống</p>
+          <h1>Tổng quan</h1>
+          <p class="lead">AI đang bật hay tắt, phản hồi mới và lỗi AI gần đây. Số liệu đọc trực tiếp từ máy chủ đang ghi.</p>
+        </div>
+        <button type="button" class="button" id="overview-reload">Tải lại</button>
+      </header>
+      <p class="overview-status" id="overview-status" role="status" aria-live="polite">Đang xác minh quyền…</p>
+      <section class="overview-grid" id="overview-content" aria-live="polite"></section>
+    </main>
+    <script src="./overview.js"></script>
+  </body>
+</html>
