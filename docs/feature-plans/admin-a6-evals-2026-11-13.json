@@ -22,7 +22,6 @@
     "supabase/functions/_shared/tarot-content.ts",
     "supabase/functions/_shared/tarot-content_test.ts",
     "supabase/functions/_shared/tarot-prompt.ts",
-    "supabase/functions/_shared/tarot-prompt.test.ts",
     "supabase/functions/ai-tarot-reading/index.ts",
     "supabase/functions/README.md",
     "supabase/config.toml",
@@ -41,12 +40,11 @@
     "apps/admin/workflow-catalog.js",
     "scripts/admin-a6-evals.test.mjs",
     "scripts/admin-a2-navigation.test.mjs",
-    "scripts/admin-feedback.test.mjs",
-    "scripts/admin-a5-prompts.test.mjs",
-    "scripts/admin-access.test.mjs",
-    "scripts/admin-ai-studio-render.test.mjs",
     "scripts/validate-admin-contract.mjs",
-    "package.json"
+    "package.json",
+    "apps/admin/release-gate.js",
+    "apps/admin/overview.css",
+    "scripts/admin-workflow-catalog.test.mjs"
   ],
   "untouchedSurfaces": [
     "supabase/functions/_shared/model-router.ts, model-provider.ts and providers/* belong to the parallel A7 agent; generateWithModelRoute is called as-is.",
@@ -76,38 +74,158 @@
     "sanitized_project_context"
   ],
   "sourceReview": [
-    { "path": "AGENTS.md", "reason": "SQL, deploy and secrets need Owner approval each time.", "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa" },
-    { "path": "docs/AGENT_TASK_ROUTER.md", "reason": "Backend, AI runtime and Admin routes.", "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c" },
-    { "path": "docs/PLAN_QC_PROTOCOL.md", "reason": "Preflight rules and record shape.", "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2" },
-    { "path": "apps/admin/AGENTS.md", "reason": "Admin protected architecture: keep the Test and Version routes, additive modules.", "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8" },
-    { "path": "docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md", "reason": "Sections 3.7 part 8, 3.12, 3.13, 5, 5.1, rows D6, D9, E4 and A6.", "sha256": "7eaf7aa64f6827ad96659b06ed7212ce667487f286ad50b717fc04d55c5c69ab" },
-    { "path": "docs/backlog/review-2026-10-30.json", "reason": "AI-07, AI-08, AI-12, AI-17, AD-05.", "sha256": "a372932e4d662bfea12a41f1be5384fd734ab6af7ed4a8d66987f6eb0d8f6791" },
-    { "path": "supabase/migrations/20261113090100_ai_feature_configs.sql", "reason": "publish_ai_feature_config body and gate columns.", "sha256": "5556bfd9ff4f2649d244cba6dbc242c3abedc97a3f8f9dc067f63959b49de04e" },
-    { "path": "supabase/migrations/20261113090200_ai_feature_config_editor_drafts.sql", "reason": "Editor draft rule (ai.manage or ai.read+content.draft).", "sha256": "1f58d09bec06ea9415f4447b65a508ec9f6cf82ad7f13e74985772b70844bdcb" },
-    { "path": "supabase/migrations/20261113095000_prompt_versions_admin_publish.sql", "reason": "publish_prompt_version body, prompt_version_json and audit list.", "sha256": "94ec846618ee452a759519f514630ff7526a5407b300450675341d4aa2fbd90a" },
-    { "path": "supabase/migrations/20261014080754_ai_feedback_receipts_v1.sql", "reason": "ai_feedback table and review RPC.", "sha256": "c8212aa7452d7e759c37f0179af32505410efce845dfad0c7346c58f835eb69c" },
-    { "path": "supabase/migrations/20261031090000_ai_feedback_conversation_features.sql", "reason": "Current feedback feature lists.", "sha256": "ad97adf681ce5e5e95ab8aaf92464cf7629a0c1aea4766d801cf761984593007" },
-    { "path": "supabase/migrations/20260917172721_admin_content_sync.sql", "reason": "get_published_content_bundle (security invoker, authenticated).", "sha256": "18b50345904d8d6074e56db3aa6400aa24392ea1d61a96e0672a2f8113833ac8" },
-    { "path": "supabase/functions/_shared/model-router.ts", "reason": "generateWithModelRoute inputs, result attempts and billing receipts (read only).", "sha256": "a34eb4da0fe03fbdc10f8a3c9a55a65533182ed9f1f3fd6a9b12c0e4ed92eecb" },
-    { "path": "supabase/functions/_shared/crisis-safety.ts", "reason": "Crisis check reused for crisis cases.", "sha256": "a4a2f7924f4057dc30de125ccd4f2d79b89384c7b4626933863f3b6f1de58b21" },
-    { "path": "supabase/functions/_shared/tarot-prompt.ts", "reason": "Card context built from tarot-cards.json (E4).", "sha256": "077ab7f38784b16b99ec66f1567d56452571cfe52033152bd36d8fbcee53add0" },
-    { "path": "supabase/functions/ai-tarot-reading/index.ts", "reason": "Tarot runtime (E4).", "sha256": "f042ce2e0815b79d32a603ded4b5f1df3cf4f411c1979f5a8cc6396a1c5fa463" },
-    { "path": "supabase/functions/admin-model-router-config/index.ts", "reason": "Admin Edge auth pattern.", "sha256": "52025e353e0f29a2393803d6d8e578eb7cb0a1a4bdf2401c4ff7348c02bc784e" },
-    { "path": "supabase/functions/ai-oracle-turn/handler.ts", "reason": "Oracle handler factory reused by the eval runner.", "sha256": "6c5788da0f0bb0cff37f9315ba24d520aa08ef22e0516697f47458f71525c0fc" },
-    { "path": "supabase/functions/ai-council/index.ts", "reason": "Council request and output parse mirrored by the eval adapter.", "sha256": "fccd3fb870fe79415c2eaf839eb3868c3afb2ed381caf0ff310bfff56320a3c4" },
-    { "path": "supabase/functions/_shared/persona-prompt-assembler.ts", "reason": "Persona prompt reads (draft override in the eval adapter).", "sha256": "8582816ec15a8c3ac8f702e4c5ab36b0bd2a69af4c2c55b8393014cfaa6f32e6" },
-    { "path": "apps/admin/ai-features.js", "reason": "Publish dialog to gate.", "sha256": "c5b7bea2535c178f1c7cab3e420db3e5cf68e8177d2b1ef90b71cf1dc2c0c573" },
-    { "path": "apps/admin/prompt-versions.js", "reason": "Publish dialog to gate.", "sha256": "28072fd4c29b142640f7220b67828a1b812a3fbc14ce448b89f5c0335f464842" },
-    { "path": "apps/admin/feedback-inbox.js", "reason": "Feedback triage.", "sha256": "9c4cb9e7a10560e8eeca787e468b2771a0f3859f905d08ac03e990f33b355285" },
-    { "path": "apps/admin/overview.js", "reason": "Overview reminder.", "sha256": "db0965ebb7910ad916188c36415644728c78d08ae56ebba967a5a4b5f2e35ba2" },
-    { "path": "apps/admin/shell.js", "reason": "Pending evals page and navigation.", "sha256": "f252511b8491384e442985e4b924b20209c3eba05504ab3bb2478862ac182000" },
-    { "path": "apps/admin/app.js", "reason": "AI Studio test route.", "sha256": "cd79749da56b3c6074b2b437802827da19f302fa09a7a52138d7098a0cc752c1" },
-    { "path": "apps/admin/workspace-guard.js", "reason": "RPC and Edge allowlists.", "sha256": "0fbe508e676b436213dde249479babb540105e95776a948ad6b66e78d58c81d8" },
-    { "path": "apps/admin/content-sync.js", "reason": "Published bundle compact card shape.", "sha256": "7ff2fa0e41ef4b4fc07c7f9c3f35f060b8e6121b9f0789dc9da37d39e885da73" }
+    {
+      "path": "AGENTS.md",
+      "reason": "SQL, deploy and secrets need Owner approval each time.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Backend, AI runtime and Admin routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules and record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/admin/AGENTS.md",
+      "reason": "Admin protected architecture: keep the Test and Version routes, additive modules.",
+      "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8"
+    },
+    {
+      "path": "docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md",
+      "reason": "Sections 3.7 part 8, 3.12, 3.13, 5, 5.1, rows D6, D9, E4 and A6.",
+      "sha256": "7eaf7aa64f6827ad96659b06ed7212ce667487f286ad50b717fc04d55c5c69ab"
+    },
+    {
+      "path": "docs/backlog/review-2026-10-30.json",
+      "reason": "AI-07, AI-08, AI-12, AI-17, AD-05.",
+      "sha256": "a372932e4d662bfea12a41f1be5384fd734ab6af7ed4a8d66987f6eb0d8f6791"
+    },
+    {
+      "path": "supabase/migrations/20261113090100_ai_feature_configs.sql",
+      "reason": "publish_ai_feature_config body and gate columns.",
+      "sha256": "5556bfd9ff4f2649d244cba6dbc242c3abedc97a3f8f9dc067f63959b49de04e"
+    },
+    {
+      "path": "supabase/migrations/20261113090200_ai_feature_config_editor_drafts.sql",
+      "reason": "Editor draft rule (ai.manage or ai.read+content.draft).",
+      "sha256": "1f58d09bec06ea9415f4447b65a508ec9f6cf82ad7f13e74985772b70844bdcb"
+    },
+    {
+      "path": "supabase/migrations/20261113095000_prompt_versions_admin_publish.sql",
+      "reason": "publish_prompt_version body, prompt_version_json and audit list.",
+      "sha256": "94ec846618ee452a759519f514630ff7526a5407b300450675341d4aa2fbd90a"
+    },
+    {
+      "path": "supabase/migrations/20261014080754_ai_feedback_receipts_v1.sql",
+      "reason": "ai_feedback table and review RPC.",
+      "sha256": "c8212aa7452d7e759c37f0179af32505410efce845dfad0c7346c58f835eb69c"
+    },
+    {
+      "path": "supabase/migrations/20261031090000_ai_feedback_conversation_features.sql",
+      "reason": "Current feedback feature lists.",
+      "sha256": "ad97adf681ce5e5e95ab8aaf92464cf7629a0c1aea4766d801cf761984593007"
+    },
+    {
+      "path": "supabase/migrations/20260917172721_admin_content_sync.sql",
+      "reason": "get_published_content_bundle (security invoker, authenticated).",
+      "sha256": "18b50345904d8d6074e56db3aa6400aa24392ea1d61a96e0672a2f8113833ac8"
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "reason": "generateWithModelRoute inputs, result attempts and billing receipts (read only).",
+      "sha256": "a34eb4da0fe03fbdc10f8a3c9a55a65533182ed9f1f3fd6a9b12c0e4ed92eecb"
+    },
+    {
+      "path": "supabase/functions/_shared/crisis-safety.ts",
+      "reason": "Crisis check reused for crisis cases.",
+      "sha256": "a4a2f7924f4057dc30de125ccd4f2d79b89384c7b4626933863f3b6f1de58b21"
+    },
+    {
+      "path": "supabase/functions/_shared/tarot-prompt.ts",
+      "reason": "Card context built from tarot-cards.json (E4).",
+      "sha256": "b010d4c3475e5463d149f1a567b1a8f5931af22d063e67b71959be0caee0da53"
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/index.ts",
+      "reason": "Tarot runtime (E4).",
+      "sha256": "970272d16521c6f4f5988a9896ad97067e93af972d8004db26307d3667477b91"
+    },
+    {
+      "path": "supabase/functions/admin-model-router-config/index.ts",
+      "reason": "Admin Edge auth pattern.",
+      "sha256": "52025e353e0f29a2393803d6d8e578eb7cb0a1a4bdf2401c4ff7348c02bc784e"
+    },
+    {
+      "path": "supabase/functions/ai-oracle-turn/handler.ts",
+      "reason": "Oracle handler factory reused by the eval runner.",
+      "sha256": "6c5788da0f0bb0cff37f9315ba24d520aa08ef22e0516697f47458f71525c0fc"
+    },
+    {
+      "path": "supabase/functions/ai-council/index.ts",
+      "reason": "Council request and output parse mirrored by the eval adapter.",
+      "sha256": "fccd3fb870fe79415c2eaf839eb3868c3afb2ed381caf0ff310bfff56320a3c4"
+    },
+    {
+      "path": "supabase/functions/_shared/persona-prompt-assembler.ts",
+      "reason": "Persona prompt reads (draft override in the eval adapter).",
+      "sha256": "8582816ec15a8c3ac8f702e4c5ab36b0bd2a69af4c2c55b8393014cfaa6f32e6"
+    },
+    {
+      "path": "apps/admin/ai-features.js",
+      "reason": "Publish dialog to gate.",
+      "sha256": "7c6393f2a257463f942dc37b806c461accc486537a2ea2fb02d08e2930ef1c3e"
+    },
+    {
+      "path": "apps/admin/prompt-versions.js",
+      "reason": "Publish dialog to gate.",
+      "sha256": "e6913cafbf89608dc4af032d9077412976c0e8f8fef8e71b16cd94224a1a8614"
+    },
+    {
+      "path": "apps/admin/feedback-inbox.js",
+      "reason": "Feedback triage.",
+      "sha256": "fdcf45534a071e65f6f63a4f0a5accfe6ec96012f899226b362ede2e8ae870e9"
+    },
+    {
+      "path": "apps/admin/overview.js",
+      "reason": "Overview reminder.",
+      "sha256": "776a138556b12746978d8644146bd0ed675c7143a833d4a34c6bf4b731ab5ec6"
+    },
+    {
+      "path": "apps/admin/shell.js",
+      "reason": "Pending evals page and navigation.",
+      "sha256": "9e75f0fa55f0591eedc41ee4da718c2a7ea645c408f8e2210a2a1ca59ce277e4"
+    },
+    {
+      "path": "apps/admin/app.js",
+      "reason": "AI Studio test route.",
+      "sha256": "c72091397d64dab25173022993030a67baed7eceed468084b81ada6ad511cd98"
+    },
+    {
+      "path": "apps/admin/workspace-guard.js",
+      "reason": "RPC and Edge allowlists.",
+      "sha256": "725903a43cce4bf761bf72b5d3b5c0749365141c765d28bc4bb38add82cbb794"
+    },
+    {
+      "path": "apps/admin/content-sync.js",
+      "reason": "Published bundle compact card shape.",
+      "sha256": "7ff2fa0e41ef4b4fc07c7f9c3f35f060b8e6121b9f0789dc9da37d39e885da73"
+    }
   ],
   "skillReview": [
-    { "name": "nilaza-plan-qc", "decision": "verified-current", "evidence": "Record and preflight before the first edit; migrations and deploys left to the Owner by hash; PGlite and local tests only." },
-    { "name": "nilaza-ai-runtime", "decision": "verified-current", "evidence": "Evals call the real route through generateWithModelRoute; crisis replies stay in code and never reach a model; a safety block never falls through; only synthetic case text is sent; Admin fields have runtime consumers." }
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before the first edit; migrations and deploys left to the Owner by hash; PGlite and local tests only."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Evals call the real route through generateWithModelRoute; crisis replies stay in code and never reach a model; a safety block never falls through; only synthetic case text is sent; Admin fields have runtime consumers."
+    }
   ],
   "dependencyReview": {
     "usesVolatileExternalKnowledge": false,
@@ -125,13 +243,13 @@
     "unresolvedHighRisks": []
   },
   "workingTreeReview": {
-    "note": "Clean tree at start (origin/main 392160b, branch claude/admin-a6-evals). This record is written and preflighted before the first code edit.",
+    "note": "Clean tree at start (origin/main 392160b, branch claude/admin-a6-evals); this record and the preflight passed (only the environment-only 'Installed project skills differ' message) and were committed (a9d2769) before the first code edit. Edited afterwards within writeScope: migrations 20261113110000 and 20261113110100 (PGlite full replay of all 45 migrations, 77 checks), Edge function admin-ai-eval-run with runner and Deno tests, Tarot E4 (tarot-content.ts, tarot-prompt.ts, ai-tarot-reading), function registration (config.toml, README, readiness and backend-contract scripts), Admin modules ai-evals.js and release-gate.js plus wiring in ai-features.js, prompt-versions.js, feedback-inbox.js, overview.js/.css, shell.js, app.js, ai-studio.html, workspace-guard.js, styles.css, workflow-catalog digests, and jsdom tests. sourceReview hashes of the files this task edited were refreshed after the edits: supabase/functions/_shared/tarot-prompt.ts, supabase/functions/ai-tarot-reading/index.ts, apps/admin/ai-features.js, apps/admin/prompt-versions.js, apps/admin/feedback-inbox.js, apps/admin/overview.js, apps/admin/shell.js, apps/admin/app.js, apps/admin/workspace-guard.js.",
     "paths": []
   },
   "validationCommands": [
     "npm run feature:preflight -- --record docs/feature-plans/admin-a6-evals-2026-11-13.json",
     "node <scratchpad>/pglite-a6/verify.mjs <repo>",
-    "npx --yes deno@2 test --allow-env --allow-read supabase/functions/admin-ai-eval-run supabase/functions/_shared/tarot-content_test.ts supabase/functions/_shared/tarot-prompt.test.ts",
+    "npx --yes deno@2 test --allow-env --allow-read supabase/functions/admin-ai-eval-run supabase/functions/_shared/tarot-content_test.ts supabase/functions/_shared/tarot-prompt.test.ts (and all 214 tests under supabase/functions)",
     "npx --yes deno@2 check supabase/functions/admin-ai-eval-run/index.ts supabase/functions/ai-tarot-reading/index.ts",
     "npm run admin:test && node scripts/validate-admin-contract.mjs && node scripts/validate-admin-workflow-catalog.mjs",
     "npm run validate:backend && npm run supabase:check",
