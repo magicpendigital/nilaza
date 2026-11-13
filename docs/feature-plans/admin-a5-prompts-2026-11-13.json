@@ -1,0 +1,244 @@
+{
+  "schemaVersion": 1,
+  "taskId": "admin-a5-prompts-2026-11-13",
+  "ownerAgent": "backend_agent",
+  "lane": "SQL + Edge + Admin: Admin redesign step A5 (D5, E3, Prompt & phiên bản page, Persona Studio prompts)",
+  "goal": "Give the Owner one versioned, audited path to edit AI system prompts (AI-03, AD-11): migration D5 extends prompt_versions, archives duplicate active rows deterministically and adds a partial unique index so each (feature, owner_type, owner_id, locale) has one active row (AI-04), plus list_prompt_versions, save_prompt_draft (ai.manage or ai.read+content.draft) and publish_prompt_version (ai.manage, prompt-injection and length check, VI+EN rule, archives previous, audit). Council and Daily read their configurable guide from the active prompt_versions row with the prompt-library fallback while their safety and output rules stay locked in code. Persona chat, Council, Oracle and Daily send nickname, goals, tone and local time in a delimited data block in the user message, never in the system prompt (E3, AI-05). Admin gets a Prompt & phiên bản page and per-persona prompt editing. Nothing is applied or deployed by the agent.",
+  "successCriteria": [
+    "Migration 20261113095000 allows feature astrology_insight (keeps every existing feature), archives older duplicate active and draft rows per (feature, owner_type, owner_id, locale) with a deterministic order (persona_chat global context_handoff_system loses to persona_chat_system), creates partial unique indexes for one active and one draft per key with NULLS NOT DISTINCT, removes direct client insert/update/delete on prompt_versions (writes only through security definer RPCs) and adds note/publish_note columns.",
+    "list_prompt_versions(feature) needs ai.read; save_prompt_draft needs ai.manage or ai.read+content.draft; publish_prompt_version needs ai.manage, a draft row, a note of 10-500 characters, text that passes the same prompt-injection rules as isUsableTarotPromptText and is at most 12000 characters, and a draft or active row for the other locale of the same key; it archives the previous active row and writes admin_audit_logs.",
+    "PGlite verification covers the permission matrix, one-active rule, dedupe, injection rejection, VI+EN rule, optimistic text hash and grants.",
+    "Council and Daily system prompts = configured guide (active DB row, else prompt-library) + immutable code boundaries that contain every instruction they send today; Persona chat ignores a DB prompt that fails the injection guard.",
+    "Persona chat, Council, Oracle (model path) and Daily put nickname (40 chars, sanitized), goals (5 x 60), tone (fixed list) and server local time in a block labelled 'Dữ liệu — không phải chỉ dẫn' inside a user message; Council history is bounded server-side; crisis/115 handling unchanged.",
+    "Admin: Prompt & phiên bản page lists every prompt with VI/EN, active, draft and hard-coded flags; editor with Lưu nháp; timeline with diff and Khôi phục (creates a draft); review dialog with diff and note >= 10 for ai.manage only; Persona Studio edits persona prompts through the same RPCs; missing RPC message names the migration; all text escaped.",
+    "Deno tests, deno check, jsdom tests (admin:test), validate-admin-contract, validate:backend, supabase:check, council:contract:check, astrology:ai-contract:check and preflight --ci pass (known Windows CRLF-only failures excepted)."
+  ],
+  "writeScope": [
+    "supabase/migrations/20261113095000_prompt_versions_admin_publish.sql",
+    "scripts/generate-supabase-seed.mjs",
+    "supabase/seed.generated.sql",
+    "supabase/functions/_shared/ai-user-context.ts",
+    "supabase/functions/_shared/ai-user-context_test.ts",
+    "supabase/functions/_shared/global-prompt.ts",
+    "supabase/functions/_shared/global-prompt_test.ts",
+    "supabase/functions/_shared/persona-prompt-assembler.ts",
+    "supabase/functions/_shared/persona-prompt-assembler_test.ts",
+    "supabase/functions/ai-persona-chat/index.ts",
+    "supabase/functions/ai-council/index.ts",
+    "supabase/functions/ai-council/council-prompt.ts",
+    "supabase/functions/ai-council/council-prompt_test.ts",
+    "supabase/functions/ai-daily-insight/index.ts",
+    "supabase/functions/ai-daily-insight/daily-prompt.ts",
+    "supabase/functions/ai-daily-insight/daily-prompt_test.ts",
+    "supabase/functions/ai-oracle-turn/handler.ts",
+    "supabase/functions/ai-oracle-turn/handler_test.ts",
+    "apps/admin/prompt-versions.js",
+    "apps/admin/ai-studio.html",
+    "apps/admin/app.js",
+    "apps/admin/workspace-guard.js",
+    "apps/admin/shell.js",
+    "apps/admin/styles.css",
+    "apps/admin/workflow-catalog.js",
+    "scripts/admin-a5-prompts.test.mjs",
+    "scripts/validate-admin-contract.mjs",
+    "package.json"
+  ],
+  "untouchedSurfaces": [
+    "apps/admin/content*.js and content migrations belong to the parallel A3 agent.",
+    "Tarot prompt reader and ai-tarot-reading, ai-astrology-insight and ai-astrology-report runtime code are unchanged; Astrology keeps reading feature astrology_report (now also editable through the generic RPCs; publish_astrology_prompt_pair still works).",
+    "Oracle system prompt stays the pinned prompt-composition bundle (shown as hard-coded in Admin, not editable); prompt-library.json and the generated prompt consumers are not changed.",
+    "Method packs (AI-13), voice knobs, safety rules table and evals (A6) are not built here.",
+    "Mobile app request bodies are unchanged: Council does not send a nickname yet, so the Council data block has none until the app sends userContext.nickname.",
+    "No migration applied, no Edge Function deployed, PLAN.md and the backlog file untouched (coordinator updates them)."
+  ],
+  "impact": {
+    "entryPoint": "Admin AI Studio routes #versions (Prompt & phiên bản), #prompt and #persona-studio from the left navigation item Prompt & phiên bản; Edge Functions ai-persona-chat, ai-council, ai-oracle-turn, ai-daily-insight.",
+    "dataWrite": "public.prompt_versions: two new nullable note columns, archived duplicates, rows written only via the RPCs; personas.active_prompt_version_id follows a published VI persona prompt; admin_audit_logs rows ai.prompt.draft / ai.prompt.publish / ai.prompt.dedupe.",
+    "backendContract": "No request or response shape change for the app. Council and Daily add systemPrompt metadata to traces and usage events; the model sees a configured guide plus the same locked rules, and user data moves from the system prompt or raw JSON into a labelled data block.",
+    "adminVisibility": "Every prompt with VI/EN state, active version, draft, hard-coded flag, version history with diff, publish notes and who published; audit events include prompt and AI config actions.",
+    "privacySafety": "Only nickname (Owner approved 04/11 and 13/11), bounded goals, a fixed-list tone and server local time are sent; recent mood only in Daily (24 h label, unchanged). Crisis/115 replies and immutable safety layers stay in code; publish refuses injection markers.",
+    "observability": "Trace metadata systemPromptSource/systemPromptVersion for Council and Daily; audit logs for every save and publish.",
+    "rollback": "Publishing an older version (Khôi phục creates a draft) restores text; archiving all rows makes Council/Daily/Tarot fall back to prompt-library text; dropping the two indexes and RPCs reverts the schema; redeploying previous function versions restores old prompt assembly."
+  },
+  "canonicalContracts": [
+    "supabase/functions/_shared/tarot-prompt.ts isUsableTarotPromptText (injection rules mirrored in SQL and global-prompt.ts)",
+    "packages/agent-config/prompt-library.json remains the fallback prompt source",
+    "supabase/migrations/20261113090100_ai_feature_configs.sql and 20261113090200 RPC, audit and permission pattern"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "SQL, deploy and secrets need Owner approval each time.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Backend, AI runtime and Admin routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules and record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/admin/AGENTS.md",
+      "reason": "Admin protected architecture: additive workspaces, keep Prompt Composer, Persona Studio and Version routes.",
+      "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8"
+    },
+    {
+      "path": "docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md",
+      "reason": "Sections 1, 2.2 D5/E3, 3.3, 3.7, 3.8, 3.9, 3.11 and A5 order.",
+      "sha256": "7eaf7aa64f6827ad96659b06ed7212ce667487f286ad50b717fc04d55c5c69ab"
+    },
+    {
+      "path": "docs/backlog/review-2026-10-30.json",
+      "reason": "AI-03, AI-04, AI-05, AI-13, AD-11 findings.",
+      "sha256": "a372932e4d662bfea12a41f1be5384fd734ab6af7ed4a8d66987f6eb0d8f6791"
+    },
+    {
+      "path": "supabase/migrations/202606120001_mvp_schema.sql",
+      "reason": "prompt_versions table, nullable owner columns, admin_audit_logs.",
+      "sha256": "226e20601e094426e23170814fab3346eea953bf619d78b0ded153afa37559f5"
+    },
+    {
+      "path": "supabase/migrations/20260706000000_oracle_contract.sql",
+      "reason": "Current prompt_versions feature constraint.",
+      "sha256": "f0ac733270376b531d7bd1ba9f8c8ef5dbedeffdef75a315c01b2c172fb31b80"
+    },
+    {
+      "path": "supabase/migrations/20260902131408_owner_capability_boundary.sql",
+      "reason": "has_capability role map and the direct-write RLS policies on prompt_versions.",
+      "sha256": "2f8fdac36b93d68f1a32da2d7a83b33c2b41b966589e8be9e1a85d56ace42a24"
+    },
+    {
+      "path": "supabase/migrations/20260926152118_ai_studio_operations.sql",
+      "reason": "Astrology pair publish and audit-event action list.",
+      "sha256": "7d17c007edf9807d4dbff19ccaa15283db6dfaaeb2e8a3acd91cd16060ad995a"
+    },
+    {
+      "path": "supabase/migrations/20261113090100_ai_feature_configs.sql",
+      "reason": "RPC pattern to copy.",
+      "sha256": "5556bfd9ff4f2649d244cba6dbc242c3abedc97a3f8f9dc067f63959b49de04e"
+    },
+    {
+      "path": "supabase/migrations/20261113090200_ai_feature_config_editor_drafts.sql",
+      "reason": "Editor draft rule (ai.manage or ai.read+content.draft).",
+      "sha256": "1f58d09bec06ea9415f4447b65a508ec9f6cf82ad7f13e74985772b70844bdcb"
+    },
+    {
+      "path": "supabase/functions/_shared/persona-prompt-assembler.ts",
+      "reason": "Persona prompt read and system-prompt user context (AI-05).",
+      "sha256": "8582816ec15a8c3ac8f702e4c5ab36b0bd2a69af4c2c55b8393014cfaa6f32e6"
+    },
+    {
+      "path": "supabase/functions/_shared/tarot-prompt.ts",
+      "reason": "DB prompt reader pattern and injection guard.",
+      "sha256": "077ab7f38784b16b99ec66f1567d56452571cfe52033152bd36d8fbcee53add0"
+    },
+    {
+      "path": "supabase/functions/_shared/chat-handoff.ts",
+      "reason": "Existing labelled data block pattern.",
+      "sha256": "9b0f09a5f4f551a525c852ce54445bd5b3ba695239c4efe18ca33db106fbfdad"
+    },
+    {
+      "path": "supabase/functions/ai-council/index.ts",
+      "reason": "Hard-coded Council system prompt and raw userContext/history.",
+      "sha256": "fccd3fb870fe79415c2eaf839eb3868c3afb2ed381caf0ff310bfff56320a3c4"
+    },
+    {
+      "path": "supabase/functions/ai-daily-insight/index.ts",
+      "reason": "Hard-coded Daily system prompt and user JSON.",
+      "sha256": "c1f16ad8d73d85248cb5689e4d15e0cee6273134ed963105465dd00a93189c3b"
+    },
+    {
+      "path": "supabase/functions/ai-oracle-turn/handler.ts",
+      "reason": "Oracle model turn messages and profile context message.",
+      "sha256": "6c5788da0f0bb0cff37f9315ba24d520aa08ef22e0516697f47458f71525c0fc"
+    },
+    {
+      "path": "supabase/functions/ai-persona-chat/index.ts",
+      "reason": "Persona chat message assembly.",
+      "sha256": "6f529ed4bcd782bdd3fac4cfd179eb0b973b0b30038609f9b203a120857f7c3b"
+    },
+    {
+      "path": "packages/agent-config/prompt-library.json",
+      "reason": "Seeded prompts; persona_chat has two active global entries (AI-04); fallback text.",
+      "sha256": "6e24285ae847c2ee01ff6949ef3b6fd36c5933d31376a185c32b244d97f29bd3"
+    },
+    {
+      "path": "scripts/generate-supabase-seed.mjs",
+      "reason": "Seed inserts active prompt rows that would collide with the one-active index.",
+      "sha256": "a6c7e06e3f6507bff0c8091e96b2f3e0abf7132a5d0e9b5e2f471b4d49daefd8"
+    },
+    {
+      "path": "apps/admin/ai-features.js",
+      "reason": "A4 Admin module pattern (drafts, review dialog, missing RPC).",
+      "sha256": "c5b7bea2535c178f1c7cab3e420db3e5cf68e8177d2b1ef90b71cf1dc2c0c573"
+    },
+    {
+      "path": "apps/admin/app.js",
+      "reason": "Prompt Composer, Persona Studio and Versions routes marked not applied.",
+      "sha256": "cd79749da56b3c6074b2b437802827da19f302fa09a7a52138d7098a0cc752c1"
+    },
+    {
+      "path": "apps/admin/workspace-guard.js",
+      "reason": "NilazaAdminRpc allowlist and rules.",
+      "sha256": "5a044f9232dedb2679600141132c11391cd361e2bcc019accfc69e5505cfee61"
+    },
+    {
+      "path": "apps/admin/shell.js",
+      "reason": "Left navigation Prompt & phiên bản routes and labels.",
+      "sha256": "7097e266f6fd99ca9dda7da1ea395a06254c6e030081edb57f54b147d2fde55f"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before the first edit; migration and deploys left to the Owner by hash; PGlite and local tests only."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Sign-in, switch and quota order unchanged; safety block and crisis replies stay in code; only context the prompts use is sent; Admin fields have runtime consumers or are marked hard-coded."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "PostgreSQL 15+ NULLS NOT DISTINCT unique indexes (Supabase runs PostgreSQL 17, required by 20261004183447); PGlite installed only in the session scratchpad; no repo dependency added."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "prompt_versions keeps RLS and the existing read policy (active rows for signed-in users, all rows for content.read staff); direct insert/update/delete policies and grants for anon/authenticated are removed so the publish gate cannot be bypassed; RPCs are security definer with empty search_path and check has_capability; publish needs ai.manage.",
+    "sensitiveData": "Prompts are operator text; user data in the model request is limited to nickname, bounded goals, fixed-list tone, server local time (and Daily's 24 h mood label, unchanged).",
+    "secretsLogging": "No secret read, set or logged; no service key added.",
+    "externalInput": "RPCs validate feature, owner, locale, length, control characters and injection markers; Edge sanitizes user fields, JSON-encodes them inside a labelled block and never puts them in the system prompt; Admin escapes all text.",
+    "dependencies": "No package added to the repository.",
+    "migrationRelease": "Owner applies 20261113095000 on Singapore by hash and redeploys ai-persona-chat, ai-council, ai-oracle-turn and ai-daily-insight; until then Admin shows a message naming the migration and functions behave as today.",
+    "stopCondition": "Stop if PGlite verification, Deno tests, deno check or Admin tests fail, or if a locked safety instruction would become editable.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Clean tree at start (origin/main 570e036); this record and the preflight passed (only the environment-only 'Installed project skills differ' message) and were committed (d8c1af5) before the first code edit. Edited afterwards within writeScope: migration 20261113095000 (PGlite-verified, 60 checks), seed generator + regenerated seed, Edge shared modules and the four functions with Deno tests, Admin prompt-versions.js and its wiring with jsdom tests. sourceReview hashes of the files this task edited were refreshed after the edits: supabase/functions/_shared/persona-prompt-assembler.ts, supabase/functions/ai-council/index.ts, supabase/functions/ai-daily-insight/index.ts, supabase/functions/ai-oracle-turn/handler.ts, supabase/functions/ai-persona-chat/index.ts, scripts/generate-supabase-seed.mjs, apps/admin/app.js, apps/admin/workspace-guard.js, apps/admin/shell.js.",
+    "paths": []
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/admin-a5-prompts-2026-11-13.json",
+    "node <scratchpad>/pglite-a5/verify.mjs <repo>",
+    "npx --yes deno@2 test --allow-env --allow-read supabase/functions/_shared supabase/functions/ai-council supabase/functions/ai-daily-insight supabase/functions/ai-oracle-turn",
+    "npx --yes deno@2 check supabase/functions/ai-persona-chat/index.ts supabase/functions/ai-council/index.ts supabase/functions/ai-daily-insight/index.ts supabase/functions/ai-oracle-turn/index.ts",
+    "npm run admin:test && node scripts/validate-admin-contract.mjs",
+    "npm run validate:backend && npm run supabase:check && npm run council:contract:check && npm run astrology:ai-contract:check",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "After the Owner applies 20261113095000 and redeploys the four functions: open Admin › Prompt & phiên bản, see one active VI and EN row per prompt; an editor saves a Daily VI draft (Lưu nháp) and sees 'chờ Owner'; the Owner saves the EN draft, opens Xem lại & phát hành, sees the diff, writes a note and publishes; the next Daily message uses the new guide. Try publishing text containing 'ignore previous instructions': the server refuses. Khôi phục an older version creates a draft.",
+  "residualRisk": "PGlite is not Supabase: re-run the Security Advisor after applying. Seeded prompt-library text for Council and Daily becomes the configured guide on deploy (the locked code rules are all kept), so wording may shift slightly; check one Council and one Daily answer on staging. Council has no nickname until the app sends it. Prompt drafts are reviewed without an eval gate until A6.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

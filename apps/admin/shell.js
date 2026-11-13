@@ -11,7 +11,7 @@ const aiWorkflowSections = new Set(["payload", "dataMindmap", "optimization"]);
 const viRouteLabels = {
   overview: { home: "Tổng quan" },
   content: { overview: "Tình trạng nội dung", personas: "Người dẫn", decks: "Bộ bài", cards: "78 lá bài", assets: "Hình ảnh", frontend: "Văn bản trong app", documentation: "Hướng dẫn Owner" },
-  "ai-studio": { features: "Bật/tắt & hạn mức", workflow: "Luồng xử lý", prompt: "Soạn prompt", "persona-studio": "Prompt người dẫn", "council-builder": "Hội đồng", "model-router": "Chuỗi model đang chạy", "trace-explorer": "Nhật ký AI", feedback: "Phản hồi người dùng", test: "Kết quả chạy thử", versions: "Phiên bản", audit: "Thao tác AI" },
+  "ai-studio": { features: "Bật/tắt & hạn mức", workflow: "Luồng xử lý", prompt: "Prompt theo tính năng", "persona-studio": "Prompt người dẫn", "council-builder": "Hội đồng", "model-router": "Chuỗi model đang chạy", "trace-explorer": "Nhật ký AI", feedback: "Phản hồi người dùng", test: "Kết quả chạy thử", versions: "Tất cả prompt & phiên bản", audit: "Thao tác AI" },
   timeline: { home: "Dòng thời gian chung" },
   growth: { overview: "Tổng quan", "product-truth": "Sẵn sàng sản phẩm", "content-drafts": "Bản nháp nội dung", measurement: "Đo lường", roadmap: "Việc tiếp theo", waitlist: "Danh sách chờ", "campaign-map": "Bản đồ chiến dịch", "delivery-health": "Tình trạng gửi" }
 };
@@ -30,7 +30,7 @@ const navGroups = [
   { label: "AI", items: [
     { id: "ai-features", label: "Tính năng AI", routes: [["ai-studio", "features"], ["ai-studio", "workflow"]] },
     { id: "providers", label: "Nhà cung cấp & Model", routes: [["ai-studio", "model-router"], ["pending", "providers"]] },
-    { id: "prompts", label: "Prompt & phiên bản", routes: [["ai-studio", "prompt"], ["ai-studio", "persona-studio"], ["ai-studio", "council-builder"], ["ai-studio", "versions"]] },
+    { id: "prompts", label: "Prompt & phiên bản", routes: [["ai-studio", "versions"], ["ai-studio", "prompt"], ["ai-studio", "persona-studio"], ["ai-studio", "council-builder"]] },
     { id: "evals", label: "Chạy thử & chấm điểm", routes: [["pending", "evals"], ["ai-studio", "test"]] }
   ] },
   { label: "Vận hành", items: [

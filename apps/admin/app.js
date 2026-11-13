@@ -1143,6 +1143,7 @@ function renderDetailPanel() {
   if (state.detail !== "feedback") window.NilazaFeedbackInbox?.clear();
   if (state.detail !== "switches") window.NilazaFeatureSwitches?.clear();
   if (state.detail !== "aiFeatures") window.NilazaAiFeatures?.clear();
+  if (!["versions", "prompt", "personaStudio"].includes(state.detail)) window.NilazaPromptVersions?.clear();
   document.querySelectorAll("[data-panel]").forEach(button => button.classList.toggle("active", button.dataset.panel === (state.detail === "aiFeatures" ? "features" : state.detail === "test" || state.detail === "versions" || state.detail === "audit" || state.detail === "feedback" || state.detail === "switches" ? state.detail : "workflow")));
   updatePublishButton();
   document.querySelectorAll(".tab").forEach((tab) => {
@@ -1746,7 +1747,9 @@ function renderPersonaStudioDetail() {
   }
 
   $("#detail-content").innerHTML = `
-    ${renderNotAppliedNote("Prompt người dẫn", "Các ô dưới đây chỉ để xem trước; app và AI chưa đọc chúng. Prompt người dẫn đang chạy được sửa ở Nội dung → Người dẫn.")}
+    <div id="prompt-versions-persona"></div>
+    <h3>Minh họa cách ghép prompt (chỉ xem trước)</h3>
+    <p class="helper">Các ô dưới đây là bản minh họa trong trình duyệt, AI không đọc chúng. Prompt thật của từng người dẫn là bảng ở trên; gói phương pháp vẫn nằm trong mã (AI-13).</p>
     <div class="persona-studio">
       <div class="code-card">
         <p class="eyebrow">Personas</p>
@@ -1792,6 +1795,7 @@ function renderPersonaStudioDetail() {
       </div>
     </div>
   `;
+  mountPromptVersions("#prompt-versions-persona", { mode: "persona" });
 }
 
 function renderCouncilBuilderDetail() {
@@ -2327,16 +2331,30 @@ function renderPromptDetail() {
       </div></div>`;
     return;
   }
-  // A1: the old local prompt box saved only to this browser and never reached the AI (AI-03).
+  // A5: the real prompt of this feature is edited through the audited prompt_versions RPCs (prompt-versions.js).
+  const promptFeature = promptVersionFeature(current.id);
   $("#detail-content").innerHTML = `
     <div class="detail-layout single">
       ${current.id === "oracle_router" ? renderSharedOraclePreview() : ""}
-      ${renderNotAppliedNote(`Prompt của ${current.name}`, "Admin chưa ghi được prompt này lên máy chủ; prompt đang chạy do backend quản lý. Sửa prompt tại đây sẽ có sau bước A5.")}
+      ${promptFeature ? '<div id="prompt-versions-feature"></div>' : renderNotAppliedNote(`Prompt của ${current.name}`, "Tính năng này chưa có prompt hệ thống lưu trên máy chủ.")}
       <details class="technical-details"><summary>Chi tiết kỹ thuật</summary>
         <p class="helper">Backend route: ${escapeHtml(remoteRoute?.version || "not loaded")} · schema ${escapeHtml(remoteRoute?.response_schema || current.schema)}</p>
       </details>
     </div>
   `;
+  if (promptFeature) mountPromptVersions("#prompt-versions-feature", { mode: "feature", feature: promptFeature });
+}
+
+// AI Studio feature id -> prompt_versions feature (Astrology keeps its own pair editor above).
+function promptVersionFeature(featureId) {
+  return ({ persona_chat: "persona_chat", tarot_reading: "tarot_reading", daily_insight: "daily_insight", ai_council: "ai_council", oracle_router: "oracle_router" })[featureId] || "";
+}
+
+function mountPromptVersions(selector, options) {
+  const container = document.querySelector(selector);
+  if (!container) return;
+  if (window.NilazaPromptVersions) window.NilazaPromptVersions.mount(container, options);
+  else container.innerHTML = renderNotAppliedNote("Prompt & phiên bản", "Không tải được mô-đun Prompt & phiên bản. Tải lại trang.");
 }
 
 function renderNotAppliedNote(title, detail) {
@@ -2621,6 +2639,8 @@ function renderVersionsDetail() {
   const promptHistory = current.id === "astrology" ? state.astrologyPromptHistory.slice(0, 20) : [];
   $("#detail-content").innerHTML = `
     <div class="detail-layout single">
+      <div id="prompt-versions-all"></div>
+      <h3>Chuỗi model và prompt Chiêm tinh</h3>
       <div class="version-list">
         <div class="version-row active">
           <div><strong>${escapeHtml(versionLabel)}</strong><br /><span>${escapeHtml(versionDescription)}</span></div>
@@ -2633,6 +2653,7 @@ function renderVersionsDetail() {
       </div>
     </div>
   `;
+  mountPromptVersions("#prompt-versions-all", { mode: "all" });
 }
 
 function renderAuditDetail() {

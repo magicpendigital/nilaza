@@ -5,6 +5,7 @@ import {
 } from "../_shared/oracle-runtime.mjs";
 import { ORACLE_TOOL_CONTRACT_VERSION, oracleActionsFromTools, oracleToolInstructions, oracleToolReminder, parseOracleToolOutput, type OracleHandoff } from "../_shared/oracle-tools.ts";
 import { featurePausedBody } from "../_shared/feature-switch.ts";
+import { userDataBlock } from "../_shared/ai-user-context.ts";
 
 export const oracleCorsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -113,7 +114,7 @@ export function createOracleRuntimeHandler(deps: OracleHandlerDependencies) {
       const intent = oracleIntent(question) as OracleIntent;
       const promptVersionId = `${compiled.preview.provenance.bundleId}@${compiled.preview.provenance.bundleVersion}`;
       const handoffContext = handoff(question);
-      if (deps.generate) return await modelTurn(deps, { userId, locale, question, compiled, promptVersionId, handoffContext });
+      if (deps.generate) return await modelTurn(deps, { userId, locale, question, compiled, promptVersionId, handoffContext, dataBlock: oracleDataBlock(input, locale) });
       const persistenceStatus = await recordUsage(deps, userId, {
         intent, language: locale, promptVersionId,
         promptBundleSha256: compiled.preview.provenance.bundleSha256,
@@ -142,6 +143,33 @@ export function createOracleRuntimeHandler(deps: OracleHandlerDependencies) {
   };
 }
 
+/** Prefix of the profile message built by the pinned prompt-composition bundle (compose.mjs contextMessage). */
+export const ORACLE_BUNDLE_CONTEXT_PREFIX = "Per-request context data (JSON):";
+
+/**
+ * E3 / AI-05 (Admin A5): the labelled data block for the model turn. Nickname (40 characters) and goals (5 x 60) are
+ * included only when the request allows profile context (consentFlags.profile), as the bundle requires; the server
+ * local time is always included. Tone is not repeated here: it already selects a fixed bundle module.
+ */
+export function oracleDataBlock(input: unknown, locale: "vi" | "en", now?: Date): string {
+  const body = input && typeof input === "object" ? input as { currentScreen?: unknown; consentFlags?: { profile?: unknown }; profile?: { nickname?: unknown; goals?: unknown } } : {};
+  const profileAllowed = body.consentFlags?.profile === true;
+  return userDataBlock({
+    language: locale,
+    nickname: profileAllowed ? body.profile?.nickname : undefined,
+    goals: profileAllowed ? body.profile?.goals : undefined,
+    // The bundle's context message also carried currentScreen (an enum compileOracleInput already validated); keep it.
+    extra: typeof body.currentScreen === "string" ? { currentScreen: body.currentScreen } : undefined,
+    now
+  });
+}
+
+/** The bundle's raw profile JSON message is replaced by the bounded data block; history and question stay in order. */
+export function oracleModelMessages(messages: Array<{ role: string; content: string }>, dataBlock: string) {
+  const rest = messages.filter((message, index) => !(index === 0 && message.role === "user" && message.content.startsWith(ORACLE_BUNDLE_CONTEXT_PREFIX)));
+  return [{ role: "user", content: dataBlock }, ...rest.map(message => ({ role: message.role, content: message.content }))];
+}
+
 /**
  * The model answers and picks up to two tools (oracle-ai-tools-2026-11-11). The switch and one shared
  * Chat+Oracle attempt are checked before any model call; an unusable answer from both models is 503.
@@ -149,7 +177,7 @@ export function createOracleRuntimeHandler(deps: OracleHandlerDependencies) {
 async function modelTurn(deps: OracleHandlerDependencies, turn: {
   userId: string; locale: "vi" | "en"; question: string;
   compiled: { preview: { system: string; messages: Array<{ role: string; content: string }> } };
-  promptVersionId: string; handoffContext: OracleHandoff;
+  promptVersionId: string; handoffContext: OracleHandoff; dataBlock: string;
 }): Promise<Response> {
   if (deps.paused && await deps.paused()) return json(featurePausedBody, 503);
   const attempt = deps.claimAttempt ? await deps.claimAttempt(turn.userId) : "unavailable";
@@ -160,7 +188,7 @@ async function modelTurn(deps: OracleHandlerDependencies, turn: {
     userId: turn.userId,
     // Live trace 2026-11-12: with the contract only after the bundle both models ignored it; it now comes first and the format last.
     system: [oracleToolInstructions(turn.locale), turn.compiled.preview.system, oracleToolReminder(turn.locale)].join("\n\n"),
-    messages: turn.compiled.preview.messages.map(message => ({ role: message.role, content: message.content })),
+    messages: oracleModelMessages(turn.compiled.preview.messages, turn.dataBlock),
     safetyText: turn.question,
     acceptOutput: (text, finishReason) => finishReason === "length" ? "incomplete" : parseOracleToolOutput(text).reason
   });

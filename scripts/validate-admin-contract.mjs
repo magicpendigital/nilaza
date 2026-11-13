@@ -57,6 +57,8 @@ assert(overviewWorkspace?.entry === "overview.html" && overviewWorkspace.require
 assert(read("apps/admin/overview.html").includes("workspace-guard.js") && read("apps/admin/overview.html").includes("overview.js"), "Overview workspace must retain its module and route guard");
 assert(aiWorkspace?.routes.some((route) => route.id === "features") && aiHtml.includes("ai-features.js"), "AI Studio must keep the AI features route and module");
 for (const [name, capability] of [["get_ai_feature_configs", "ai.read"], ["save_ai_feature_config_draft", "ai.manage|ai.read+content.draft"], ["publish_ai_feature_config", "ai.manage"], ["set_ai_feature_switch", "ai.manage"]]) assert(read("apps/admin/workspace-guard.js").includes(`${name}: "${capability}"`), `AI feature config RPC must stay allowlisted: ${name}`);
+assert(aiHtml.includes("prompt-versions.js") && read("apps/admin/prompt-versions.js").includes("NilazaPromptVersions"), "AI Studio must keep the Prompt & phiên bản module (A5)");
+for (const [name, capability] of [["list_prompt_versions", "ai.read"], ["save_prompt_draft", "ai.manage|ai.read+content.draft"], ["publish_prompt_version", "ai.manage"]]) assert(read("apps/admin/workspace-guard.js").includes(`${name}: "${capability}"`), `Prompt version RPC must stay allowlisted: ${name}`);
 assert(shellJs.includes("navGroups") && shellJs.includes("routeAllowed"), "Shell must keep the single capability-filtered navigation");
 if (errors.length) { console.error("Admin capability validation failed:"); errors.forEach((error) => console.error(`- ${error}`)); process.exit(1); }
 console.log(`Admin capability contract passed: ${manifest.workspaces.length} workspaces, ${manifest.workspaces.flatMap((item)=>item.requiredCapabilities).length} capabilities.`);

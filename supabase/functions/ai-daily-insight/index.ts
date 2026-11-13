@@ -1,13 +1,16 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.7.1";
 import { generateWithModelRoute } from "../_shared/model-router.ts";
-import { compactLines, sanitizeProviderMetadata } from "../_shared/model-provider.ts";
+import { sanitizeProviderMetadata } from "../_shared/model-provider.ts";
 import { AiRequestError, aiAuthUserOrUnavailable, guardAiJsonRequest } from "../_shared/ai-request-guard.ts";
 import { featurePaused } from "../_shared/feature-switch.ts";
 import { claimDailyAttempt } from "../_shared/daily-attempts.ts";
 import { accountTierPolicy } from "../_shared/account-tier-policy.ts";
 import { configuredDailyLimit, readActiveFeatureConfig } from "../_shared/feature-config.ts";
 import { recentMoodFor } from "../_shared/daily-mood.ts";
+import { sanitizeNickname, userDataValues } from "../_shared/ai-user-context.ts";
+import { globalPromptMetadata, resolveGlobalPrompt } from "../_shared/global-prompt.ts";
+import { assembleDailySystem, dailyUserMessage } from "./daily-prompt.ts";
 
 type DailyInsightInput = {
   language?: "vi" | "en" | string;
@@ -74,7 +77,8 @@ serve(async (req) => {
     const language = input.language ?? "vi";
     const dateKey = input.dateKey ?? new Date().toISOString().slice(0, 10);
     const rerollCount = input.rerollCount ?? 0;
-    const nickname = input.profile?.nickname?.trim();
+    // CH-13: one bounded line (40 characters), also used in the fallback text shown to the person.
+    const nickname = sanitizeNickname(input.profile?.nickname);
     const recentMood = recentMoodFor(input);
 
     const title = language === "vi" ? "Nhịp soi chiếu hôm nay" : "Today's reflective pulse";
@@ -88,6 +92,11 @@ serve(async (req) => {
         : "What small action would help me see more clearly today?";
 
     let persistenceStatus = "skipped";
+    // Admin A5: configured guide from prompt_versions (daily_insight) with the prompt-library fallback, then locked rules.
+    const systemPrompt = await resolveGlobalPrompt(supabase, "daily_insight", language);
+    const systemPromptMetadata = globalPromptMetadata(systemPrompt);
+    const promptRerollCount = Number.isInteger(rerollCount) ? rerollCount : 0;
+    const contextSent = userDataValues({ language, nickname, goals: input.profile?.goals, tone: input.profile?.tone }).values;
     const generation = await generateWithModelRoute({
       feature: "daily_insight",
       deadlineMs: featureConfig?.deadlineMs,
@@ -98,29 +107,19 @@ serve(async (req) => {
         metadata: {
           dateKey,
           rerollCount,
-          goalCount: input.profile?.goals?.length ?? 0,
+          goalCount: Array.isArray(contextSent.goals) ? contextSent.goals.length : 0,
+          nicknameSent: "nickname" in contextSent,
           moodSent: Boolean(recentMood),
-          promptVersionId: "daily_insight_system"
+          promptVersionId: "daily_insight_system",
+          ...systemPromptMetadata
         }
       },
-      system: compactLines([
-        "You generate Nilaza daily insight copy.",
-        "Keep it warm, concise, reflective, and safe.",
-        "Do not make deterministic predictions or give medical, legal, financial, or mental-health advice.",
-        "Return only the daily insight body text."
-      ]),
+      system: assembleDailySystem(systemPrompt),
       messages: [
         {
           role: "user",
-          content: JSON.stringify({
-            language,
-            dateKey,
-            rerollCount,
-            nickname: nickname ?? null,
-            goals: input.profile?.goals ?? [],
-            tone: input.profile?.tone ?? null,
-            recentMood: recentMood ?? null
-          })
+          // E3 / AI-05: every user value sits in the labelled data block, bounded and JSON-encoded.
+          content: dailyUserMessage({ language, dateKey, rerollCount: promptRerollCount, profile: { nickname, goals: input.profile?.goals, tone: input.profile?.tone }, recentMood })
         }
       ],
       fallbackText
@@ -148,6 +147,7 @@ serve(async (req) => {
             tone: input.profile?.tone ?? null,
             moodSent: Boolean(recentMood),
             promptVersionId: "daily_insight_system",
+            ...systemPromptMetadata,
             model: sanitizeProviderMetadata(generation)
           }
         });
