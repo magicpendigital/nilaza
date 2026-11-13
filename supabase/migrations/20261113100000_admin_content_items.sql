@@ -142,24 +142,30 @@ declare
   v_slug text := item ->> 'slug';
   v_type text := case when item ->> 'type' in ('historical_figure','book_inspired_guide','archetype') then item ->> 'type' end;
   v_status text := case item ->> 'status' when 'active' then 'active' when 'archived' then 'archived' else 'draft' end;
-  v_tier text := case when item ->> 'accessTier' in ('free','premium-preview','premium') then item ->> 'accessTier' else 'free' end;
-  v_name jsonb := case when jsonb_typeof(item -> 'name') = 'object' then item -> 'name' else '{}'::jsonb end;
+  v_tier text := case when item ->> 'accessTier' in ('free','premium-preview','premium') then item ->> 'accessTier' end;
+  -- A field the item does not carry (or carries in an unusable form) is null here and leaves the existing
+  -- public.personas value alone, so a partial payload cannot blank the name or text chat reads.
+  v_name jsonb := case when jsonb_typeof(item -> 'name') = 'object' then item -> 'name' end;
   v_description jsonb := case when jsonb_typeof(item -> 'description') = 'object' then item -> 'description'
-    when jsonb_typeof(item -> 'shortDescription') = 'object' then item -> 'shortDescription' else '{}'::jsonb end;
+    when jsonb_typeof(item -> 'shortDescription') = 'object' then item -> 'shortDescription' end;
   v_transparency jsonb := case when jsonb_typeof(item -> 'transparency') = 'object' then item -> 'transparency'
-    when jsonb_typeof(item -> 'transparencyNote') = 'object' then item -> 'transparencyNote' else '{}'::jsonb end;
+    when jsonb_typeof(item -> 'transparencyNote') = 'object' then item -> 'transparencyNote' end;
   v_themes text[] := case when jsonb_typeof(item -> 'themes') = 'array'
-    then array(select jsonb_array_elements_text(item -> 'themes')) else '{}'::text[] end;
+    then array(select jsonb_array_elements_text(item -> 'themes')) end;
   v_tone text[] := case when jsonb_typeof(item -> 'tone') = 'array'
-    then array(select jsonb_array_elements_text(item -> 'tone')) else '{}'::text[] end;
+    then array(select jsonb_array_elements_text(item -> 'tone')) end;
 begin
   if v_slug is null or v_slug !~ '^[a-z0-9][a-z0-9-]{0,79}$' then return null; end if;
   insert into public.personas(slug, type, status, access_tier, name, short_description, transparency_note, themes, tone, updated_at)
-    values (v_slug, coalesce(v_type, 'archetype'), v_status, v_tier, v_name, v_description, v_transparency, v_themes, v_tone, now())
+    values (v_slug, coalesce(v_type, 'archetype'), v_status, coalesce(v_tier, 'free'), coalesce(v_name, '{}'::jsonb),
+      coalesce(v_description, '{}'::jsonb), coalesce(v_transparency, '{}'::jsonb), coalesce(v_themes, '{}'::text[]),
+      coalesce(v_tone, '{}'::text[]), now())
     on conflict (slug) do update set
-      type = coalesce(v_type, public.personas.type), status = excluded.status, access_tier = excluded.access_tier,
-      name = excluded.name, short_description = excluded.short_description, transparency_note = excluded.transparency_note,
-      themes = excluded.themes, tone = excluded.tone, updated_at = now();
+      type = coalesce(v_type, public.personas.type), status = excluded.status,
+      access_tier = coalesce(v_tier, public.personas.access_tier), name = coalesce(v_name, public.personas.name),
+      short_description = coalesce(v_description, public.personas.short_description),
+      transparency_note = coalesce(v_transparency, public.personas.transparency_note),
+      themes = coalesce(v_themes, public.personas.themes), tone = coalesce(v_tone, public.personas.tone), updated_at = now();
   return v_slug;
 end;
 $$;
@@ -280,6 +286,7 @@ declare
   v_array text;
   draft public.admin_content_item_versions;
   item jsonb;
+  live_item jsonb;
   position_index integer;
   draft_ids uuid[] := '{}';
   published jsonb := '[]'::jsonb;
@@ -313,6 +320,19 @@ begin
     item := draft.payload;
     if coalesce(item ->> 'status', 'draft') in ('draft', 'review') then
       item := jsonb_set(item, '{status}', to_jsonb(case when v_kind in ('persona', 'deck') then 'active' else 'published' end));
+    end if;
+    if v_kind = 'persona' and item ->> 'slug' is not null then
+      -- A persona's slug is its row in public.personas (chat, Council): it may not change, and a persona may not
+      -- take the slug of another persona, so one item's publish can never overwrite a different persona.
+      select e.value into live_item from jsonb_array_elements(current_bundle.payload -> 'personas') e(value)
+        where e.value ->> 'id' = v_key limit 1;
+      if exists (select 1 from jsonb_array_elements(new_payload -> 'personas') e(value)
+            where e.value ->> 'id' <> v_key and e.value ->> 'slug' = item ->> 'slug')
+        or (live_item ->> 'slug' is not null and live_item ->> 'slug' <> item ->> 'slug')
+        or (live_item is null and exists (select 1 from public.personas p where p.slug = item ->> 'slug')) then
+        raise exception 'invalid_persona_slug' using errcode = '22023', detail = key_text;
+      end if;
+      live_item := null;
     end if;
     select (e.ordinality - 1)::integer into position_index
       from jsonb_array_elements(new_payload -> v_array) with ordinality e(value, ordinality)
