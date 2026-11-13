@@ -1424,3 +1424,26 @@ body[data-studio-section="audit"] #configuration-health { display: none; }
 .ai-feature-card > .layer-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
 .ai-feature-card > .layer-row .pill { flex: 0 0 auto; width: auto; }
 .ai-feature-card .button:disabled, .ai-feature-dialog .button:disabled { opacity: .45; cursor: not-allowed; }
+/* A5: Prompt & phiên bản (prompt-versions.js). */
+.pv-page .param-row { align-items: center; flex-wrap: wrap; gap: 8px; }
+.pv-page select.input { width: auto; min-height: 44px; }
+.pv-table td .button { min-height: 44px; }
+.pv-editor { margin-top: 16px; }
+.pv-editor h3 { margin: 0 0 6px; font-family: "EB Garamond", Georgia, serif; font-size: 22px; font-weight: 400; }
+.pv-editor h4 { margin: 16px 0 6px; color: var(--gold); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+.pv-editor .button, .pv-dialog .button { min-height: 44px; }
+.pv-text { min-height: 180px; font-family: inherit; line-height: 1.5; resize: vertical; }
+.pv-problem:not(:empty) { color: #f1aab4; }
+.pv-timeline { list-style: none; padding: 0; margin: 0; }
+.pv-timeline .version-row { flex-wrap: wrap; gap: 8px; }
+.pv-diff { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 360px; overflow: auto; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; }
+.pv-diff .pv-add { color: #9be2bd; background: rgba(87, 196, 154, .12); }
+.pv-diff .pv-del { color: #f1aab4; background: rgba(201, 130, 141, .14); text-decoration: line-through; }
+.pv-dialog { max-width: 860px; max-height: 90vh; overflow: auto; }
+.pv-dialog > .pv-dialog-locale, .pv-dialog > .warning-card { margin: 0 18px; }
+.pv-dialog .button:disabled, .pv-editor .button:disabled { opacity: .45; cursor: not-allowed; }
+@media (max-width: 640px) {
+  .pv-table thead { display: none; }
+  .pv-table tr { display: grid; border-bottom: 1px solid var(--border); }
+  .pv-table th, .pv-table td { border-bottom: 0; }
+}

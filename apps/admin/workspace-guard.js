@@ -166,6 +166,10 @@
     get_ai_feature_configs: "ai.read",
     save_ai_feature_config_draft: "ai.manage|ai.read+content.draft",
     publish_ai_feature_config: "ai.manage",
+    // Prompt versions (A5, migration 20261113095000); the RPCs check the same rules. Editors save drafts, ai.manage publishes.
+    list_prompt_versions: "ai.read",
+    save_prompt_draft: "ai.manage|ai.read+content.draft",
+    publish_prompt_version: "ai.manage",
     get_growth_waitlist_overview: "overview.read"
   };
   // A rule is one capability, or alternatives separated by "|" where each alternative needs every
