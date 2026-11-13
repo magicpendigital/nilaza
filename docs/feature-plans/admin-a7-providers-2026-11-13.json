@@ -90,23 +90,23 @@
     { "path": "supabase/migrations/20260902131408_owner_capability_boundary.sql", "reason": "has_capability role map.", "sha256": "2f8fdac36b93d68f1a32da2d7a83b33c2b41b966589e8be9e1a85d56ace42a24" },
     { "path": "supabase/migrations/20260909014614_ai_trace_observability.sql", "reason": "Trace span table used for 24 h provider counts.", "sha256": "8794f35ab9724c18e2dda617f5bc3b1031bd16af067dff70a9cf1ef321e769bc" },
     { "path": "supabase/migrations/20261113090100_ai_feature_configs.sql", "reason": "RPC pattern; deadline_ms and cost_cap_micro.", "sha256": "5556bfd9ff4f2649d244cba6dbc242c3abedc97a3f8f9dc067f63959b49de04e" },
-    { "path": "supabase/functions/_shared/model-router.ts", "reason": "Router to extend with step walking.", "sha256": "a34eb4da0fe03fbdc10f8a3c9a55a65533182ed9f1f3fd6a9b12c0e4ed92eecb" },
-    { "path": "supabase/functions/_shared/model-provider.ts", "reason": "Provider names, timeouts, error mapping.", "sha256": "18dae33e3ccbd3129b6820635350f505816ef8dfd9bfb4f9e77b2b2d8a022623" },
+    { "path": "supabase/functions/_shared/model-router.ts", "reason": "Router to extend with step walking.", "sha256": "87de02f1978911d8ab0abc791f827b8cb3f16e18bfcc2eb3bea10ef304d89d96" },
+    { "path": "supabase/functions/_shared/model-provider.ts", "reason": "Provider names, timeouts, error mapping.", "sha256": "8cdc5dc83a831984f55d355deafb2460c1f0842f1bdd434d1209c04d8bb8ecde" },
     { "path": "supabase/functions/_shared/feature-config.ts", "reason": "Cached REST reader pattern; cost cap source.", "sha256": "eb71e736b91910caed56ebd69c968bd6387ce554430f9efd2b1a0b07e6af8fbc" },
-    { "path": "supabase/functions/_shared/providers/openrouter.ts", "reason": "ZDR flags and format handling.", "sha256": "79a4e31060736690bb866813ac8db32ff6fd2c6d108a8ad4c4f17e7ab531ae97" },
-    { "path": "supabase/functions/_shared/providers/openai.ts", "reason": "OpenAI-compatible adapter for DeepSeek.", "sha256": "926a3dcac179172cb77408274b0489825f3fa38900d0c71a5a214a41a2cfbf0e" },
-    { "path": "supabase/functions/_shared/providers/gemini.ts", "reason": "Header key, JSON mode.", "sha256": "ef17a5f9301014f11ccf5bc070b0d40cc380b41fde9102b4009aab440f40cc4b" },
+    { "path": "supabase/functions/_shared/providers/openrouter.ts", "reason": "ZDR flags and format handling.", "sha256": "a2eda068e14abc1b4731e1aa3aaed7c9c49dd1b49c90b46317960165eb7e46d7" },
+    { "path": "supabase/functions/_shared/providers/openai.ts", "reason": "OpenAI-compatible adapter for DeepSeek.", "sha256": "098e335d463543a01a01234877b32804062308d4f13483d07008693bc1403668" },
+    { "path": "supabase/functions/_shared/providers/gemini.ts", "reason": "Header key, JSON mode.", "sha256": "c76f8dbd61a792282216f8d6cec418af83ae0db06ab96127abc2ec1583db7445" },
     { "path": "supabase/functions/_shared/providers/anthropic.ts", "reason": "Anthropic adapter.", "sha256": "03d84f671c15efb15782d2fcfe03c89551626d57d42c222c205ef4a7e1cf4211" },
-    { "path": "supabase/functions/_shared/persona-prompt-assembler.ts", "reason": "A5 review finding: VI guard failure falls through to EN.", "sha256": "8582816ec15a8c3ac8f702e4c5ab36b0bd2a69af4c2c55b8393014cfaa6f32e6" },
-    { "path": "supabase/functions/admin-model-router-config/index.ts", "reason": "GET/POST route config function.", "sha256": "52025e353e0f29a2393803d6d8e578eb7cb0a1a4bdf2401c4ff7348c02bc784e" },
-    { "path": "supabase/functions/admin-model-router-config/contract.ts", "reason": "Publish payload contract.", "sha256": "996082a907241e06d4fff433121412293834f451ab0b15447d3390da1be605de" },
-    { "path": "supabase/functions/admin-model-router-config/readiness.ts", "reason": "Secret presence report.", "sha256": "6407973326f4fc61ed1654a3d04209e3b80e82fc9a0834b3ee1323ab2e34980e" },
-    { "path": "apps/admin/app.js", "reason": "Model Router page, provider catalogue and publish review.", "sha256": "cd79749da56b3c6074b2b437802827da19f302fa09a7a52138d7098a0cc752c1" },
-    { "path": "apps/admin/shell.js", "reason": "Left navigation and the A2 pending providers page.", "sha256": "f252511b8491384e442985e4b924b20209c3eba05504ab3bb2478862ac182000" },
-    { "path": "apps/admin/workspace-guard.js", "reason": "NilazaAdminRpc and function allowlists.", "sha256": "0fbe508e676b436213dde249479babb540105e95776a948ad6b66e78d58c81d8" },
+    { "path": "supabase/functions/_shared/persona-prompt-assembler.ts", "reason": "A5 review finding: VI guard failure falls through to EN.", "sha256": "e76e850c44a6d1826c1c0864f5036e8a807df8d64b487eb6364fbd2679f3a0ad" },
+    { "path": "supabase/functions/admin-model-router-config/index.ts", "reason": "GET/POST route config function.", "sha256": "839017fe8a3f7547c1ca836a76b1915442340adcb7b502d0fe2bef4eb9892bb5" },
+    { "path": "supabase/functions/admin-model-router-config/contract.ts", "reason": "Publish payload contract.", "sha256": "4d721d2f384b4456a5ed1fc83e9191593e7c0aecf568e5e07b635d2e04919cbf" },
+    { "path": "supabase/functions/admin-model-router-config/readiness.ts", "reason": "Secret presence report.", "sha256": "7f922a7d356a762f56cd7436b3ecbf9ceebd1983821db8e97f7a22e26b9a40b2" },
+    { "path": "apps/admin/app.js", "reason": "Model Router page, provider catalogue and publish review.", "sha256": "8453cfe2a425aea8bd61900b07c4c4393ef3a1922fa29cf4531dee599ffea24a" },
+    { "path": "apps/admin/shell.js", "reason": "Left navigation and the A2 pending providers page.", "sha256": "ff75c1a5e2de3c809ba5d4df8e436d016c4d07e39704f983de92a95b0afea47b" },
+    { "path": "apps/admin/workspace-guard.js", "reason": "NilazaAdminRpc and function allowlists.", "sha256": "d8fdc6d014f1dcb44f19315db90ec0c62c0e671eddfec45e9ff78ab301da6133" },
     { "path": "apps/admin/ai-features.js", "reason": "A4 module pattern (drafts, review dialog, missing RPC).", "sha256": "c5b7bea2535c178f1c7cab3e420db3e5cf68e8177d2b1ef90b71cf1dc2c0c573" },
-    { "path": "apps/admin/admin-capabilities.json", "reason": "AI Studio route list.", "sha256": "b16a71a5d0ea50081e9c723b1f63acbe7722e0c38d1f79c82e299bfa15037df6" },
-    { "path": "scripts/validate-backend-contracts.mjs", "reason": "Admin function registration checks.", "sha256": "f3ab7061575b9dd66eac1edad17a33558d11ee188744d3006ef075f3e4188c43" }
+    { "path": "apps/admin/admin-capabilities.json", "reason": "AI Studio route list.", "sha256": "3e0a888fe3c4082f4b0cfd7d294b716c77f1c71800fbc5daa2830f288f739d57" },
+    { "path": "scripts/validate-backend-contracts.mjs", "reason": "Admin function registration checks.", "sha256": "8754e799016f85ec6264d77fcb5909f57fe786c4fc9fc545be5481438777cb35" }
   ],
   "skillReview": [
     {
@@ -144,7 +144,7 @@
     "unresolvedHighRisks": []
   },
   "workingTreeReview": {
-    "note": "Clean tree at start (origin/main 392160b); this record and its preflight come before the first code edit.",
+    "note": "Clean tree at start (origin/main 392160b); this record and its preflight (only the environment-only 'Installed project skills differ' message) were committed (af11cd9) before the first code edit. Edited afterwards within writeScope: migrations 20261113140000 (LF SHA-256 711efca637009938f181460bc7b5e8a68acb8888e93ca5e61634f29e59f99c97) and 20261113140100 (eaf2e10c9547a05fa14881d6d27423e7b24383134ed558e51cc4478724314223), PGlite-verified (59 checks); shared router, provider adapters, provider registry and DeepSeek adapter with Deno tests; admin-model-router-config contract/index/readiness and the new admin-ai-provider-probe with Deno tests; Admin model-providers.js and its wiring with jsdom tests; Model Router page translated. sourceReview hashes of the files this task edited were refreshed after the edits: model-router.ts, model-provider.ts, providers/openrouter.ts, providers/openai.ts, providers/gemini.ts, persona-prompt-assembler.ts, admin-model-router-config index/contract/readiness, apps/admin/app.js, shell.js, workspace-guard.js, admin-capabilities.json, scripts/validate-backend-contracts.mjs. providers/anthropic.ts and apps/admin/generated/ were not changed.",
     "paths": []
   },
   "validationCommands": [
