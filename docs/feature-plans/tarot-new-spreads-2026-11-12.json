@@ -19,7 +19,8 @@
     "apps/mobile/src/features/tarot/__tests__/TarotDrawStep.test.tsx",
     "supabase/functions/_shared/tarot-prompt.ts",
     "supabase/functions/_shared/tarot-prompt.test.ts",
-    "supabase/migrations/20261112000000_tarot_extra_spreads.sql"
+    "supabase/migrations/20261112000000_tarot_extra_spreads.sql",
+    "docs/HANDOFF_CURRENT_STATE.vi.md"
   ],
   "untouchedSurfaces": [
     "No SQL is run and no Edge Function is deployed; both need the Owner's approval and are listed in the handoff.",
@@ -87,7 +88,7 @@
     "secretsLogging": "No secret or log is added.",
     "externalInput": "Spread ids are still validated against a fixed allow-list on the server.",
     "dependencies": "No dependency change.",
-    "migrationRelease": "Migration file is added but not applied; applying it and deploying ai-tarot-reading are Owner actions. Owner approved deploying ai-tarot-reading on 2026-11-12 (target: prelaunch QA project etfajmrwyywokgafzxsb, which already has 36 migrations and 18 functions; ai-tarot-reading is at version 4). The migration is NOT yet approved. Rollout order: 1) Owner approves and applies 20261112000000_tarot_extra_spreads.sql; 2) deploy ai-tarot-reading with the validator that knows love-three and crossroads-four; 3) release the app. Deploying the function before the migration is safe for the three existing spreads, but a reading with a new spread would fail on insert until the migration is applied.",
+    "migrationRelease": "Migration file is added but not applied; applying it and deploying ai-tarot-reading are Owner actions. Owner approved deploying ai-tarot-reading on 2026-11-12 (target: project etfajmrwyywokgafzxsb, which the Owner declared to be production on 2026-11-12 and the CLI labels production; it has 36 migrations and 18 functions, and ai-tarot-reading is now at version 5 with the new spread ids). The migration is NOT yet approved. Rollout order: 1) migration 20261112000000_tarot_extra_spreads.sql (done 2026-11-13); 2) ai-tarot-reading version 5 with the validator that knows love-three and crossroads-four (done); 3) a real reading with each new spread, then release the app (pending). Deploying the function before the migration is safe for the three existing spreads, but a reading with a new spread would fail on insert until the migration is applied.",
     "stopCondition": "Stop if the validator would accept an unknown spread, or if a change would alter which card is drawn.",
     "unresolvedHighRisks": []
   },
@@ -100,6 +101,7 @@
       "supabase/functions/_shared/tarot-prompt.ts",
       "supabase/functions/_shared/tarot-prompt.test.ts",
       "supabase/migrations/20261112000000_tarot_extra_spreads.sql",
+      "docs/HANDOFF_CURRENT_STATE.vi.md",
       "docs/feature-plans/tarot-new-spreads-2026-11-12.json"
     ],
     "note": "Branch claude/nilaza-ui-design-fixes-7caf4a, on top of commit 788ffd0."
@@ -110,7 +112,7 @@
     "npm --prefix apps/mobile test -- --silent"
   ],
   "managerTestPath": "Explore > Tarot > Ask: five spread tiles, two rows. Pick 3 lá tình yêu and Start drawing: slots Bạn, Người ấy, Mối quan hệ. Pick 4 lá: four slots. Draw each card and check the result lists every position.",
-  "residualRisk": "New spreads only produce an AI reading after the Owner applies the migration and deploys ai-tarot-reading; before that the app shows its local fallback reading. Status 2026-11-12: deploy approved by the Owner but not yet executed (the agent's deploy command was blocked by the permission classifier); migration approval still pending; skills:sync done on 2026-11-12 with the Owner's choice of the repository copy of nilaza-plan-qc as canonical (the previous installed copy, edited 2026-11-04 with a PLAN.md session workflow that does not exist in this repository, was backed up outside the repo first); the preflight now passes. The four position names of the Crossroads spread are my wording because the design only gives the tile caption, and need the Owner's content review.",
+  "residualRisk": "New spreads only produce an AI reading after the Owner applies the migration and deploys ai-tarot-reading; before that the app shows its local fallback reading. Status 2026-11-12: ai-tarot-reading version 5 is live with love-three and crossroads-four (read back from the project); the migration was applied by the Owner on 2026-11-13 through supabase db query (CLI 3.1.0, one transaction) and a read-only query confirmed tarot_readings_spread_check now allows all five spread ids, with the three existing rows unchanged; it is not recorded in the Supabase migration history table; migration approval still pending; skills:sync done on 2026-11-12 with the Owner's choice of the repository copy of nilaza-plan-qc as canonical (the previous installed copy, edited 2026-11-04 with a PLAN.md session workflow that does not exist in this repository, was backed up outside the repo first); the preflight now passes. The four position names of the Crossroads spread are my wording because the design only gives the tile caption, and need the Owner's content review.",
   "externalActions": {
     "databaseWrite": false,
     "productionRelease": false
