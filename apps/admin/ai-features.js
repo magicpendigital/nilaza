@@ -8,8 +8,8 @@
   // With no active version, Edge Functions keep the code defaults shown here.
   const escape = value => String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
   const FEATURES = Object.freeze([
-    { id: "persona_chat", label: "Trò chuyện với người dẫn", config: true, quota: 5, quotaNote: "dùng chung 5 lượt mỗi ngày với Oracle", wait: 40 },
-    { id: "oracle_router", label: "Oracle", config: true, quota: 5, quotaNote: "dùng chung 5 lượt mỗi ngày với Trò chuyện", wait: 40, switchNote: "Oracle cũng tạm nghỉ khi công tắc Trò chuyện với người dẫn tắt." },
+    { id: "persona_chat", label: "Trò chuyện với người dẫn", config: true, quota: 5, quotaNote: "đếm chung lượt với Oracle; mỗi bên chặn theo hạn mức của mình", wait: 40 },
+    { id: "oracle_router", label: "Oracle", config: true, quota: 5, quotaNote: "đếm chung lượt với Trò chuyện; mỗi bên chặn theo hạn mức của mình", wait: 40, switchNote: "Oracle cũng tạm nghỉ khi công tắc Trò chuyện với người dẫn tắt." },
     { id: "tarot_reading", label: "Giải bài Tarot", config: true, quota: 1, wait: 40 },
     { id: "daily_insight", label: "Thông điệp hằng ngày", config: true, quota: 3, wait: 40 },
     { id: "astrology_insight", label: "Đọc sâu Chiêm tinh", config: true, quota: 1, wait: 60 },

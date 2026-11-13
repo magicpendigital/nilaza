@@ -165,7 +165,7 @@ test("AI features show one card per feature with code defaults when no configura
   for (const [id, title] of [["persona_chat", "Trò chuyện với người dẫn"], ["oracle_router", "Oracle"], ["tarot_reading", "Giải bài Tarot"], ["daily_insight", "Thông điệp hằng ngày"], ["astrology_insight", "Đọc sâu Chiêm tinh"], ["ai_council", "Hội đồng"], ["astrology_report", "Astrology report — đang gỡ, chỉ theo dõi"]]) {
     assert.equal(h.card(id).querySelector("h3").textContent, title);
   }
-  assert.match(h.card("persona_chat").textContent, /Mặc định: 5 lượt\/ngày \(dùng chung 5 lượt mỗi ngày với Oracle\)/);
+  assert.match(h.card("persona_chat").textContent, /Mặc định: 5 lượt\/ngày \(đếm chung lượt với Oracle; mỗi bên chặn theo hạn mức của mình\)/);
   assert.match(h.card("oracle_router").textContent, /Mặc định: 5 lượt\/ngày/);
   assert.match(h.card("tarot_reading").textContent, /Mặc định: 1 lượt\/ngày/);
   assert.match(h.card("daily_insight").textContent, /Mặc định: 3 lượt\/ngày/);
