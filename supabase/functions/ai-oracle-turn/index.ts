@@ -7,6 +7,7 @@ import { sanitizeProviderMetadata } from "../_shared/model-provider.ts";
 import { featurePaused } from "../_shared/feature-switch.ts";
 import { claimDailyAttempt } from "../_shared/daily-attempts.ts";
 import { accountTierPolicy } from "../_shared/account-tier-policy.ts";
+import { configuredDailyLimit, readActiveFeatureConfig } from "../_shared/feature-config.ts";
 
 // Access-Control-Allow-Origin is defined once in handler.ts with OPTIONS handling.
 export { oracleCorsHeaders };
@@ -36,15 +37,18 @@ export function createOracleHandler(runtime: {
         return !error;
       },
       // oracle-ai-tools-2026-11-11: Oracle shares the guide chat switch and its 5 daily attempts (Owner: Chat+Oracle 5/day).
+      // Admin A4: Oracle also has its own switch (oracle_router); its active ai_feature_configs row may set the limit
+      // applied to the shared Chat+Oracle counter and a total model deadline.
       ...(supabase ? {
-        paused: () => featurePaused(supabase, "persona_chat"),
-        claimAttempt: (userId: string) => claimDailyAttempt(supabase as never, {
+        paused: async () => await featurePaused(supabase, "persona_chat") || await featurePaused(supabase, "oracle_router"),
+        claimAttempt: async (userId: string) => claimDailyAttempt(supabase as never, {
           userId, eventName: "persona_message_attempted", feature: "oracle_router",
-          limit: accountTierPolicy.personaChat?.dailyLimit ?? 5
+          limit: configuredDailyLimit(await readActiveFeatureConfig("oracle_router"), accountTierPolicy.personaChat?.dailyLimit ?? 5)
         }),
         generate: async (input: { userId: string; system: string; messages: Array<{ role: string; content: string }>; safetyText: string; acceptOutput: (text: string, finishReason?: string) => string | undefined }) => {
           const generation = await generateWithModelRoute({
             feature: "oracle_router",
+            deadlineMs: (await readActiveFeatureConfig("oracle_router"))?.deadlineMs,
             supabase,
             traceContext: { userId: input.userId, request: req, metadata: { promptContract: "oracle-tools-2026-11-11" } },
             system: input.system,

@@ -1,6 +1,6 @@
-// tarot_reading, daily_insight and astrology_report get their rows from migration 20261111090000;
-// until it is applied they have no row and read as on.
-export type SwitchedFeature = "ai_council" | "persona_chat" | "astrology_insight" | "tarot_reading" | "daily_insight" | "astrology_report";
+// tarot_reading, daily_insight and astrology_report get their rows from migration 20261111090000 and
+// oracle_router from 20261113090000; until applied they have no row and read as on.
+export type SwitchedFeature = "ai_council" | "persona_chat" | "astrology_insight" | "tarot_reading" | "daily_insight" | "astrology_report" | "oracle_router";
 
 type SwitchReader = {
   from: (table: string) => {

@@ -19,6 +19,7 @@ import { answerCorsHeaders, readAnswerCorrelation } from "../_shared/answer-prov
 import { answerProvenanceSchema, isIncompleteAnswerFinishReason, type AnswerProvenance } from "../../../packages/ai-contracts/answer-provenance.ts";
 import { writeAnswerReceipt } from "../_shared/answer-receipt.ts";
 import { accountTierPolicy, localDayStart, policyGrantsPremium } from "../_shared/account-tier-policy.ts";
+import { configuredDailyLimit, readActiveFeatureConfig } from "../_shared/feature-config.ts";
 import { featurePaused } from "../_shared/feature-switch.ts";
 
 /** Failed attempts allowed on top of the daily limit before the day is closed. */
@@ -208,7 +209,9 @@ serve(async (req) => {
     // A paid entitlement or the shared account tier switch (closed test: every signed-in account).
     if (!entitled && !policyGrantsPremium({ created_at: userCreatedAt })) return safeFailure(403, "premium_required", "Astrology AI is available with Premium.");
 
-    const dailyAttemptLimit = accountTierPolicy.astrologyAi.dailyLimit;
+    // Admin A4: the active ai_feature_configs row may set delivered readings per day and a total model deadline.
+    const featureConfig = await readActiveFeatureConfig("astrology_insight");
+    const dailyAttemptLimit = configuredDailyLimit(featureConfig, accountTierPolicy.astrologyAi.dailyLimit);
     const dayStart = localDayStart();
     const { count, error: usageReadError } = await supabase.from("usage_events")
       .select("id", { count: "exact", head: true })
@@ -350,6 +353,7 @@ serve(async (req) => {
     const qaProviderExchange: Array<{ request?: unknown; response?: unknown; providerUrl?: string; status?: number; requestId?: string }> = [];
     const generation = await generateWithModelRoute({
       feature: "astrology_report",
+      deadlineMs: featureConfig?.deadlineMs,
       route,
       supabase,
       strictTraceRedaction: true,

@@ -12,6 +12,7 @@ import { writeAnswerReceipt } from "../_shared/answer-receipt.ts";
 import { claimDailyAttempt } from "../_shared/daily-attempts.ts";
 import { featurePaused, featurePausedBody } from "../_shared/feature-switch.ts";
 import { localDayStart, tarotDailyLimits } from "../_shared/account-tier-policy.ts";
+import { configuredDailyLimit, readActiveFeatureConfig } from "../_shared/feature-config.ts";
 
 type LocalizedText = {
   vi?: string;
@@ -85,7 +86,11 @@ serve(async (req) => {
     // Emergency switch from Admin (AD-10), checked before the limit and any model work.
     if (await featurePaused(supabase as never, "tarot_reading")) return jsonResponse(featurePausedBody, 503);
     // AI-02 (Owner 2026-11-04): one delivered AI reading per local day; failed attempts capped. Checked before any model work.
-    const tarotLimits = tarotDailyLimits();
+    // Admin A4: the active ai_feature_configs row may set the delivered readings per day; the failed-attempt allowance stays.
+    const featureConfig = await readActiveFeatureConfig("tarot_reading");
+    const policyTarot = tarotDailyLimits();
+    const deliveredLimit = configuredDailyLimit(featureConfig, policyTarot.delivered);
+    const tarotLimits = { delivered: deliveredLimit, attempts: deliveredLimit + (policyTarot.attempts - policyTarot.delivered) };
     const { count: deliveredToday, error: deliveredError } = await supabase.from("tarot_readings")
       .select("id", { count: "exact", head: true })
       .eq("user_id", userId)
@@ -120,6 +125,7 @@ serve(async (req) => {
     let remoteId: string | undefined;
     const generation = await generateWithModelRoute({
       feature: "tarot_reading",
+      deadlineMs: featureConfig?.deadlineMs,
       supabase,
       strictTraceRedaction: true,
       deferTraceFlush: true,

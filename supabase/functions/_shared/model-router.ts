@@ -5,8 +5,11 @@ import {
   ModelProviderName,
   ModelProviderRequest,
   ModelRoute,
+  MIN_ATTEMPT_MS,
+  attemptTimeoutMs,
   routeReasoning,
-  thrownProviderError
+  thrownProviderError,
+  validFeatureDeadlineMs
 } from "./model-provider.ts";
 import { AiTraceContext, AiTraceSpan, createAiTrace, traceGenerationInput } from "./ai-trace.ts";
 import { oracleSafetySignal } from "../../../packages/ai-contracts/oracle-safety.mjs";
@@ -233,6 +236,11 @@ export async function generateWithModelRoute(input: {
   acceptOutput?: (text: string, finishReason?: string) => string | undefined;
   /** The person's current message; when set, only it is checked with the shared safety policy, not the whole history. */
   safetyText?: string;
+  /**
+   * Admin A4: total wait for all model attempts (ai_feature_configs.deadline_ms, 5-140 s). Unset or out of range
+   * keeps today's behaviour: each attempt waits providerTimeoutMs(feature) (40 s, 60 s for astrology_report).
+   */
+  deadlineMs?: number | null;
   supabase?: SupabaseLike | null;
   env?: EnvLike;
   strictTraceRedaction?: boolean;
@@ -355,10 +363,18 @@ export async function generateWithModelRoute(input: {
       ? { provider: route.fallbackProvider, model: route.fallbackModel, fallbackUsed: true }
       : null
   ].filter((candidate): candidate is { provider: ModelProviderName; model: string; fallbackUsed: boolean } => Boolean(candidate));
+  const deadlineMs = validFeatureDeadlineMs(input.deadlineMs);
+  const attemptsStartedAt = Date.now();
 
   for (const candidate of candidates) {
     let providerSpan: AiTraceSpan | undefined;
     try {
+      const timeoutMs = deadlineMs === undefined
+        ? undefined
+        : attemptTimeoutMs(deadlineMs, Date.now() - attemptsStartedAt, candidates.indexOf(candidate), candidates.length);
+      if (timeoutMs !== undefined && timeoutMs < MIN_ATTEMPT_MS) {
+        throw new ModelProviderError({ provider: candidate.provider, code: "provider_timeout", message: "Feature deadline reached before this attempt.", retryable: true });
+      }
       providerSpan = trace.startSpan({
         name: `llm.${candidate.provider}.${candidate.fallbackUsed ? "fallback" : "primary"}`,
         type: "generation",
@@ -391,6 +407,7 @@ export async function generateWithModelRoute(input: {
         maxOutputTokens: route.maxOutputTokens,
         responseSchema: route.responseSchema,
         ...(reasoning ? { reasoning } : {}),
+        ...(timeoutMs !== undefined ? { timeoutMs } : {}),
         traceHooks: {
           onRequest: (payload) => providerSpan?.captureWireRequest(payload),
           onResponse: (payload) => providerSpan?.captureWireResponse(payload)

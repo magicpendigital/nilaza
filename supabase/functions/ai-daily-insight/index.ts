@@ -6,6 +6,7 @@ import { AiRequestError, aiAuthUserOrUnavailable, guardAiJsonRequest } from "../
 import { featurePaused } from "../_shared/feature-switch.ts";
 import { claimDailyAttempt } from "../_shared/daily-attempts.ts";
 import { accountTierPolicy } from "../_shared/account-tier-policy.ts";
+import { configuredDailyLimit, readActiveFeatureConfig } from "../_shared/feature-config.ts";
 import { recentMoodFor } from "../_shared/daily-mood.ts";
 
 type DailyInsightInput = {
@@ -61,9 +62,11 @@ serve(async (req) => {
     });
     if (!supabase) return jsonResponse({ error: "ai_unavailable" }, 503);
     if (await featurePaused(supabase as never, "daily_insight")) return jsonResponse({ error: "feature_paused" }, 503);
+    // Admin A4: the active ai_feature_configs row may set another limit and a total model deadline.
+    const featureConfig = await readActiveFeatureConfig("daily_insight");
     const attempt = await claimDailyAttempt(supabase as never, {
       userId, eventName: "daily_insight_attempted", feature: "daily_insight",
-      limit: accountTierPolicy.dailyInsight?.dailyLimit ?? 3
+      limit: configuredDailyLimit(featureConfig, accountTierPolicy.dailyInsight?.dailyLimit ?? 3)
     });
     if (attempt === "limit_reached") return jsonResponse({ error: "daily_limit_reached" }, 429);
     if (attempt === "unavailable") return jsonResponse({ error: "usage_check_unavailable" }, 503);
@@ -87,6 +90,7 @@ serve(async (req) => {
     let persistenceStatus = "skipped";
     const generation = await generateWithModelRoute({
       feature: "daily_insight",
+      deadlineMs: featureConfig?.deadlineMs,
       supabase,
       traceContext: {
         userId,

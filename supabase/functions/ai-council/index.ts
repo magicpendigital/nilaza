@@ -3,7 +3,8 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.7.1";
 import { generateWithModelRoute } from "../_shared/model-router.ts";
 import { compactLines, safeJsonParse, sanitizeProviderMetadata } from "../_shared/model-provider.ts";
 import { councilContract } from "../_shared/council-contract.ts";
-import { councilAllowance, localDayStart } from "../_shared/account-tier-policy.ts";
+import { accountTierPolicy, councilAllowance, localDayStart } from "../_shared/account-tier-policy.ts";
+import { configuredDailyLimit, readActiveFeatureConfig } from "../_shared/feature-config.ts";
 import { safetyRedirectFor } from "../_shared/crisis-safety.ts";
 import { featurePaused, featurePausedBody } from "../_shared/feature-switch.ts";
 
@@ -398,14 +399,22 @@ serve(async (req) => {
     // Emergency switch from Admin; a safety reply above still answers while Council rests.
     if (await featurePaused(supabase, "ai_council")) return jsonResponse(featurePausedBody, 503);
     const isOpening = (input.sanitizedHistory ?? []).length === 0;
+    // Admin A4: the active ai_feature_configs row may set councils per day (quota_daily) and follow-ups per council.
+    const featureConfig = await readActiveFeatureConfig("ai_council");
+    const councilDefaults = accountTierPolicy.council ?? { dailyCouncils: 1, followUpsPerCouncil: 4 };
+    const councilLimits = {
+      dailyCouncils: configuredDailyLimit(featureConfig, councilDefaults.dailyCouncils),
+      followUpsPerCouncil: featureConfig?.followUps ?? councilDefaults.followUpsPerCouncil
+    };
+    // Read one event more than the day's total allowance so a configured limit above 50 events is still enforced (default 5).
     const { data: todaysEvents, error: usageReadError } = await supabase.from("usage_events")
       .select("metadata")
       .eq("user_id", userId)
       .eq("event_name", "ai_council_turn_generated")
       .gte("created_at", localDayStart().toISOString())
-      .limit(50);
+      .limit(Math.max(50, councilLimits.dailyCouncils * (1 + councilLimits.followUpsPerCouncil) + 1));
     if (usageReadError || !todaysEvents) return jsonResponse({ error: "usage_check_unavailable", message: "Usage could not be checked. Try again shortly." }, 503);
-    const allowance = councilAllowance(todaysEvents as Array<{ metadata?: { opening?: boolean } | null }>, isOpening);
+    const allowance = councilAllowance(todaysEvents as Array<{ metadata?: { opening?: boolean } | null }>, isOpening, { ...accountTierPolicy, council: councilLimits });
     if (allowance.allowed === false) return jsonResponse({ error: allowance.reason, message: "You have reached today's AI Council limit. Please return tomorrow." }, 429);
 
     const runtimePersonas = await runtimePersonasFromTemplate(supabase, selectedPersonas, runtimeConfig.template.rosterSlugs);
@@ -414,6 +423,7 @@ serve(async (req) => {
     const fallbackTurns = selectedRuntimePersonas.map((persona, index) => buildTurn(persona, userMessage, language, index, selectedRuntimePersonas[index - 1]));
     const generation = await generateWithModelRoute({
       feature: "ai_council",
+      deadlineMs: featureConfig?.deadlineMs,
       supabase,
       traceContext: {
         userId,

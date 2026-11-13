@@ -35,7 +35,7 @@ export async function invokeAnthropic(request: ModelProviderRequest, apiKey: str
   });
   const response = await fetch("https://api.anthropic.com/v1/messages", {
     method: "POST",
-    signal: AbortSignal.timeout(providerTimeoutMs(request.feature)),
+    signal: AbortSignal.timeout(providerTimeoutMs(request.feature, request.timeoutMs)),
     headers: {
       "x-api-key": apiKey,
       "anthropic-version": "2023-06-01",

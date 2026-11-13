@@ -159,7 +159,7 @@ export async function invokeOpenRouter(
   try {
     response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
       method: "POST",
-      signal: AbortSignal.timeout(providerTimeoutMs(request.feature)),
+      signal: AbortSignal.timeout(providerTimeoutMs(request.feature, request.timeoutMs)),
       headers,
       body: JSON.stringify(requestBody)
     });

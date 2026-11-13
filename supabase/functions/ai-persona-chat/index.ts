@@ -9,6 +9,7 @@ import { assemblePersonaPromptStack } from "../_shared/persona-prompt-assembler.
 import { AiRequestError, aiAuthUserOrUnavailable, guardAiJsonRequest } from "../_shared/ai-request-guard.ts";
 import { claimDailyAttempt } from "../_shared/daily-attempts.ts";
 import { accountTierPolicy } from "../_shared/account-tier-policy.ts";
+import { configuredDailyLimit, readActiveFeatureConfig } from "../_shared/feature-config.ts";
 
 type Language = "vi" | "en" | string;
 
@@ -118,10 +119,12 @@ serve(async (req) => {
     }
     // Emergency switch from Admin; a safety reply above still answers while chat rests.
     if (await featurePaused(supabase, "persona_chat")) return jsonResponse(featurePausedBody, 503);
-    // AI-02: Chat+Oracle 5 model attempts per local day (Oracle has no model call yet); safety replies above stay free.
+    // AI-02: Chat+Oracle 5 model attempts per local day (shared counter); safety replies above stay free.
+    // Admin A4: the active ai_feature_configs row may set another limit and a total model deadline.
+    const featureConfig = await readActiveFeatureConfig("persona_chat");
     const attempt = await claimDailyAttempt(supabase as never, {
       userId, eventName: "persona_message_attempted", feature: "persona_chat",
-      limit: accountTierPolicy.personaChat?.dailyLimit ?? 5
+      limit: configuredDailyLimit(featureConfig, accountTierPolicy.personaChat?.dailyLimit ?? 5)
     });
     if (attempt === "limit_reached") return jsonResponse({ error: "daily_limit_reached" }, 429);
     if (attempt === "unavailable") return jsonResponse({ error: "usage_check_unavailable" }, 503);
@@ -143,6 +146,7 @@ serve(async (req) => {
     const promptVersionId = promptStack.promptVersionId;
     const generation = await generateWithModelRoute({
       feature: "persona_chat",
+      deadlineMs: featureConfig?.deadlineMs,
       supabase,
       traceContext: {
         userId,

@@ -54,7 +54,7 @@ export async function invokeOpenAI(request: ModelProviderRequest, apiKey: string
   });
   const response = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
-    signal: AbortSignal.timeout(providerTimeoutMs(request.feature)),
+    signal: AbortSignal.timeout(providerTimeoutMs(request.feature, request.timeoutMs)),
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json"

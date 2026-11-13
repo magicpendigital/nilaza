@@ -28,8 +28,31 @@ export const PROVIDER_TIMEOUT_MS = 40_000;
  * Astrology AI reasons over a strict schema and needs longer (Owner 2026-11-03: 60 s per model). Two
  * attempts stay under the 150 s Supabase Edge Function idle limit; longer waits need streaming.
  */
-export function providerTimeoutMs(feature: string) {
+export function providerTimeoutMs(feature: string, attemptTimeoutMs?: number) {
+  if (typeof attemptTimeoutMs === "number" && Number.isFinite(attemptTimeoutMs) && attemptTimeoutMs > 0) return Math.floor(attemptTimeoutMs);
   return feature === "astrology_report" ? 60_000 : PROVIDER_TIMEOUT_MS;
+}
+
+/** Admin A4 (ai_feature_configs.deadline_ms): total wait for all model attempts of one request, 5-140 s. */
+export const FEATURE_DEADLINE_MIN_MS = 5_000;
+export const FEATURE_DEADLINE_MAX_MS = 140_000;
+/** An attempt with less time than this left is not started; it is recorded as provider_timeout. */
+export const MIN_ATTEMPT_MS = 1_000;
+
+export function validFeatureDeadlineMs(value: unknown): number | undefined {
+  return typeof value === "number" && Number.isInteger(value) && value >= FEATURE_DEADLINE_MIN_MS && value <= FEATURE_DEADLINE_MAX_MS
+    ? value
+    : undefined;
+}
+
+/**
+ * Time for attempt `index` of `count` under a total deadline: earlier attempts get at most an equal share so the
+ * fallback model still has time; the last attempt gets whatever is left. The sum never exceeds the deadline.
+ */
+export function attemptTimeoutMs(deadlineMs: number, elapsedMs: number, index: number, count: number): number {
+  const remaining = Math.max(0, deadlineMs - Math.max(0, elapsedMs));
+  if (index >= count - 1) return remaining;
+  return Math.min(remaining, Math.floor(deadlineMs / Math.max(1, count)));
 }
 
 export const REASONING_MODES = ["off", "minimal", "low", "medium", "high"] as const;
@@ -60,6 +83,8 @@ export type ModelProviderRequest = {
   responseSchema?: string;
   /** OpenRouter only for now; other providers ignore it. */
   reasoning?: ReasoningSetting;
+  /** Abort this attempt after this many ms instead of the feature default (set by the router under a total deadline). */
+  timeoutMs?: number;
   metadata?: Record<string, unknown>;
   traceHooks?: {
     onRequest?: (payload: { url: string; method: "POST"; body: unknown }) => void;
