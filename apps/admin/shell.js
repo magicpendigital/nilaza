@@ -186,7 +186,8 @@ function renderRoute() {
     // A deep link to a page this account may not open goes to the first page it may open.
     const first = firstAllowedRoute();
     const target = first ? `#/${first[0]}/${first[1]}` : "";
-    if (target && location.hash !== target) { location.hash = target; return; }
+    // replace(), not an assignment: the denied address must not stay in history, or Back would bounce here again.
+    if (target && location.hash !== target) { location.replace(target); return; }
   }
   const nav = visibleNav();
   const items = nav.flatMap(group => group.items.map(item => ({ item, group })));
