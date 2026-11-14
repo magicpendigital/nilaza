@@ -3,6 +3,7 @@
 // User-provided context (nickname, goals, tone) and server local time travel in the data block of the user message.
 import { compactLines } from "../_shared/model-provider.ts";
 import { DATA_BLOCK_RULE, userDataBlock, type UserDataPolicy } from "../_shared/ai-user-context.ts";
+import { blockEnabled, blockLimit, type ContextPolicy } from "../_shared/context-config.ts";
 import type { GlobalPrompt } from "../_shared/global-prompt.ts";
 import { isUsablePromptText } from "../_shared/global-prompt.ts";
 
@@ -55,6 +56,13 @@ export function boundCouncilHistory(history: unknown, limits: { turns?: number; 
     turns.push(personaId ? { role, text, personaId } : { role, text });
   }
   return turns.slice(-maxTurns);
+}
+
+/** The history block of a context policy (ai_context_configs): off sends no turns, otherwise the policy's limits. */
+export function councilHistoryFor(history: unknown, policy: ContextPolicy): CouncilHistoryTurn[] {
+  return blockEnabled(policy, "history")
+    ? boundCouncilHistory(history, { turns: blockLimit(policy, "history", "turns"), chars: blockLimit(policy, "history", "chars") })
+    : [];
 }
 
 /** The single user message: data block first, then the Council request JSON (without userContext). */

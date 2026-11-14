@@ -33,7 +33,8 @@ create unique index ai_context_configs_one_draft on public.ai_context_configs(fe
 alter table public.ai_context_configs enable row level security;
 -- No policies: clients never read or write the table directly; Admin goes through the RPCs below and
 -- Edge Functions read active rows with the service key.
-revoke all on table public.ai_context_configs from public, anon, authenticated;
+-- service_role is revoked too: Supabase's default privileges grant it ALL on new tables, and Edge Functions only read.
+revoke all on table public.ai_context_configs from public, anon, authenticated, service_role;
 grant select on table public.ai_context_configs to service_role;
 comment on table public.ai_context_configs is 'Versioned data-block switches and limits per AI feature (draft/active/archived, one active per feature). Read by Edge Functions with the service key; written only by save_ai_context_config_draft and publish_ai_context_config (audited). Can only send less than today.';
 

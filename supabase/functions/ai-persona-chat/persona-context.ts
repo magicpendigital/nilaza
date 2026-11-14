@@ -30,12 +30,16 @@ export function sanitizeHistory(
   return history
     .slice(-turns)
     .map((turn) => {
-      const content = typeof turn?.text === "string" ? turn.text.replace(/\s+/g, " ").trim().slice(0, chars) : "";
+      const normalized = typeof turn?.text === "string" ? turn.text.replace(/\s+/g, " ").trim() : "";
+      const content = normalized.slice(0, chars);
       const role = turn?.role === "guide" ? "assistant" as const : "user" as const;
-      return content ? { role, content } : null;
+      // Whether this turn repeats the message is judged at today's 800-character cut, not at a shortened one: with
+      // a lower limit the app's copy of the current message would otherwise survive as a truncated duplicate.
+      return content ? { role, content, repeatsMessage: role === "user" && normalized.slice(0, PERSONA_HISTORY_CHARS) === currentText } : null;
     })
-    .filter((turn): turn is ModelMessage => Boolean(turn))
-    .filter((turn, index, turns) => !(index === turns.length - 1 && turn.role === "user" && turn.content === currentText));
+    .filter((turn): turn is ModelMessage & { repeatsMessage: boolean } => Boolean(turn))
+    .filter((turn, index, turns) => !(index === turns.length - 1 && turn.role === "user" && (turn.content === currentText || turn.repeatsMessage)))
+    .map(({ role, content }) => ({ role, content }));
 }
 
 export function personaModelMessages(input: {

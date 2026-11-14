@@ -17,9 +17,9 @@ import {
 import { featureDataClass } from "./provider-registry.ts";
 import { userDataValues } from "./ai-user-context.ts";
 import { handoffContextBlock } from "./chat-handoff.ts";
-import { personaModelMessages } from "../ai-persona-chat/persona-context.ts";
+import { personaModelMessages, sanitizeHistory } from "../ai-persona-chat/persona-context.ts";
 import { dailyUserMessage } from "../ai-daily-insight/daily-prompt.ts";
-import { boundCouncilHistory, councilUserMessage } from "../ai-council/council-prompt.ts";
+import { boundCouncilHistory, councilHistoryFor, councilUserMessage } from "../ai-council/council-prompt.ts";
 
 function assertEquals(actual: unknown, expected: unknown, label = "") {
   const a = JSON.stringify(actual), e = JSON.stringify(expected);
@@ -63,9 +63,8 @@ function dailyContent(c: any, policy?: ContextPolicy) {
 }
 // deno-lint-ignore no-explicit-any
 function councilResult(c: any, policy?: ContextPolicy) {
-  const history = policy && policy.blocks.history?.enabled === false
-    ? []
-    : boundCouncilHistory(c.history, policy ? { turns: policy.blocks.history?.limits.turns, chars: policy.blocks.history?.limits.chars } : {});
+  // The same helper ai-council/index.ts calls, so the golden cases cover the real wiring.
+  const history = policy ? councilHistoryFor(c.history, policy) : boundCouncilHistory(c.history);
   const content = councilUserMessage({
     language: c.language, userContext: c.userContext ?? undefined, now,
     dataPolicy: policy ? userDataPolicy(policy) : undefined,
@@ -246,4 +245,16 @@ Deno.test("reader: any failure means today's behaviour", async () => {
   resetContextConfigCache();
   assertEquals(parseContextConfigRow({ feature: "persona_chat", version: 1, blocks: [] }), undefined, "blocks must be an object");
   assertEquals(parseContextConfigRow({ feature: "oracle_router", version: 1, blocks: {} }), undefined, "read-only features are never configurable");
+});
+
+Deno.test("persona: a shortened history limit still drops the app's copy of the current message", () => {
+  const text = "Tôi muốn hỏi một câu khá dài về công việc. ".repeat(6).trim(); // about 250 characters
+  const history = [{ role: "guide", text: "Chào bạn" }, { role: "user", text: text }];
+  assertEquals(sanitizeHistory(history, text), [{ role: "assistant", content: "Chào bạn" }], "today: repeated message dropped");
+  assertEquals(sanitizeHistory(history, text, { turns: 8, chars: 100 }), [{ role: "assistant", content: "Chào bạn" }], "limit 100: still dropped, no truncated duplicate");
+  const other = [{ role: "user", text }];
+  assertEquals(sanitizeHistory(other, "một câu khác", { turns: 8, chars: 100 }), [{ role: "user", content: text.slice(0, 100) }], "a different earlier turn is kept, shortened");
+  // Above today's 800 characters the old code never matched either; that stays the same.
+  const huge = "x".repeat(900);
+  assertEquals(sanitizeHistory([{ role: "user", text: huge }], huge).length, 1, "over 800: kept as before");
 });

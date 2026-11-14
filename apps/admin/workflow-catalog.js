@@ -368,7 +368,7 @@
   },
   {
     "path": "supabase/functions/ai-council/index.ts",
-    "sha256": "16ea723e254c9b246696f260761aa00151287a6e7d2e0539a70c34f24aac3403"
+    "sha256": "a5801ab92f199972dae11ad1b04f919f510f9be3f58367b85358609d947877b7"
   },
   {
     "path": "supabase/functions/ai-daily-insight/index.ts",

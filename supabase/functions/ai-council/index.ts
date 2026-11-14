@@ -9,8 +9,8 @@ import { safetyRedirectFor } from "../_shared/crisis-safety.ts";
 import { featurePaused, featurePausedBody } from "../_shared/feature-switch.ts";
 import { globalPromptMetadata, resolveGlobalPrompt } from "../_shared/global-prompt.ts";
 import { userDataValues } from "../_shared/ai-user-context.ts";
-import { assembleCouncilSystem, boundCouncilHistory, councilUserMessage } from "./council-prompt.ts";
-import { blockEnabled, blockLimit, contextPolicyFor, contextPolicyMetadata, userDataPolicy } from "../_shared/context-config.ts";
+import { assembleCouncilSystem, councilHistoryFor, councilUserMessage } from "./council-prompt.ts";
+import { contextPolicyFor, contextPolicyMetadata, userDataPolicy } from "../_shared/context-config.ts";
 
 type Language = "vi" | "en" | string;
 
@@ -435,9 +435,7 @@ serve(async (req) => {
     const contextPolicy = await contextPolicyFor("ai_council");
     const dataPolicy = userDataPolicy(contextPolicy);
     // AI-05: user context goes in the data block, history is bounded on the server.
-    const sanitizedHistory = blockEnabled(contextPolicy, "history")
-      ? boundCouncilHistory(input.sanitizedHistory, { turns: blockLimit(contextPolicy, "history", "turns"), chars: blockLimit(contextPolicy, "history", "chars") })
-      : [];
+    const sanitizedHistory = councilHistoryFor(input.sanitizedHistory, contextPolicy);
     const contextSent = userDataValues({ language, nickname: input.userContext?.nickname, goals: input.userContext?.goals, tone: input.userContext?.tone, policy: dataPolicy }).values;
     const generation = await generateWithModelRoute({
       feature: "ai_council",
