@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 1,
+  "taskId": "eval-budget-astrology-2026-11-14",
+  "ownerAgent": "backend_agent",
+  "lane": "SQL + Edge + Admin: A6 follow-up (monthly 1 USD eval budget, Astrology eval adapter so Astrology can pass the release gate)",
+  "goal": "Owner decision 14/11: the AI eval budget becomes 1 USD per calendar month (Asia/Ho_Chi_Minh), counting only runs started in the current month, with the same reservation, advisory lock and stale-run expiry as A6. Astrology insight gets an eval adapter: a new migration seeds fixed synthetic charts (calculated by packages/astrology-core from invented inputs, facts only, no birth data), extends ai_eval_case_input to accept {question, chartKey, theme} for astrology_insight, lets start_ai_eval_run accept Astrology sets (charts attached to each case) and seeds a 'Bộ mẫu có sẵn' Astrology set with 2 crisis and 5 normal cases. admin-ai-eval-run runs Astrology draft and active versions through the real astrology_report model route with the same request and response contract as ai-astrology-insight. Nothing is applied or deployed by the agent.",
+  "successCriteria": [
+    "New migration 20261114090000_ai_eval_monthly_budget_astrology.sql (applied migrations untouched) sets ai_eval_budget_cap_micro to 1 000 000 micro-USD, adds nilaza_private.ai_eval_month_start, makes ai_eval_budget count only runs started since the start of the current Asia/Ho_Chi_Minh month and return monthStart, resetsAt, period and timeZone; reservation, advisory lock and 15-minute stale-run expiry are unchanged.",
+    "ai_eval_case_input accepts astrology_insight cases {question (<= 500), chartKey (one of the seeded synthetic charts, default eval_chart_a), theme (one of the six focus themes, default open_reflection)} and still refuses personal data and unknown keys; every other feature branch is byte-for-byte the A6 logic.",
+    "start_ai_eval_run no longer refuses astrology_insight; Astrology case rows carry the synthetic chart facts; a run still needs a crisis case and a normal case; the budget check refuses (NZE03) instead of clamping a reservation.",
+    "A 'Bộ mẫu có sẵn' Astrology eval set (2 crisis VI/EN, 5 normal) is seeded only when missing, and every seeded case input passes ai_eval_case_input.",
+    "admin-ai-eval-run: astrology.ts builds a nilaza.astrology.ai-insight.invoke.v1 invocation from the synthetic chart, validates it with validateAstrologyAiInvocation, requires an active astrology_report route with the astrology_ai_insight_v1 schema and an active prompt (draft override for prompt runs), calls generateWithModelRoute with the same system prompt (shared module) and user message as ai-astrology-insight, and checks the answer with makeAstrologyAiResponseEnvelope + validateAstrologyAiResponse; crisis cases never reach a model.",
+    "Admin: Chạy thử & chấm điểm shows 'Ngân sách tháng này: còn X / 1 USD, đặt lại ngày 1', the exhausted message names the monthly reset, Astrology cases get chart and theme pickers, and the release gate no longer says Astrology has no adapter.",
+    "Deno tests (adapter + existing), deno check, admin:test, validate-admin-contract, validate-admin-workflow-catalog, validate:backend, supabase:check, astrology:ai-contract:check and a PGlite replay of all migrations (monthly rollover, Astrology seed valid, Astrology run start accepted, A6 checks) pass; preflight --ci passes (Windows CRLF-only failures excepted)."
+  ],
+  "writeScope": [
+    "supabase/migrations/20261114090000_ai_eval_monthly_budget_astrology.sql",
+    "supabase/functions/admin-ai-eval-run/index.ts",
+    "supabase/functions/admin-ai-eval-run/runner.ts",
+    "supabase/functions/admin-ai-eval-run/runner_test.ts",
+    "supabase/functions/admin-ai-eval-run/astrology.ts",
+    "supabase/functions/admin-ai-eval-run/astrology_test.ts",
+    "supabase/functions/_shared/astrology-system-prompt.ts",
+    "supabase/functions/ai-astrology-insight/index.ts",
+    "apps/admin/ai-evals.js",
+    "apps/admin/release-gate.js",
+    "apps/admin/workflow-catalog.js",
+    "scripts/admin-a6-evals.test.mjs",
+    "scripts/admin-workflow-catalog.test.mjs",
+    "PLAN.md",
+    "docs/backlog/review-2026-10-30.json"
+  ],
+  "untouchedSurfaces": [
+    "Applied migrations (including 20261113110000) are not edited; the changed functions are redefined in the new migration.",
+    "publish_astrology_prompt_pair stays ungated in this step (recommendation recorded for a later step).",
+    "supabase/functions/_shared/model-router.ts, providers and the astrology contract modules are used as-is.",
+    "ai-astrology-insight behaviour is unchanged: only asModelJson and systemPrompt move to a shared module with identical text.",
+    "Mobile app, Tarot, Oracle, Council, Daily and persona chat runtime are unchanged.",
+    "Nothing applied, deployed or pushed."
+  ],
+  "impact": {
+    "entryPoint": "Admin › Chạy thử & chấm điểm (budget pill, Astrology set editor and run), publish dialogs in Tính năng AI and Prompt & phiên bản (gate text); Edge Function admin-ai-eval-run (POST).",
+    "dataWrite": "No new table or column. New migration redefines four private/public functions, adds two private helper functions and seeds one Astrology eval set (only when missing).",
+    "backendContract": "list_ai_eval_sets / list_ai_eval_runs budget object gains monthStart, resetsAt, period, timeZone; capMicro becomes 1000000. start_ai_eval_run accepts astrology_insight. Error codes unchanged.",
+    "adminVisibility": "Monthly remaining budget with reset date; Astrology runs, results and gate status like other features.",
+    "privacySafety": "Astrology eval charts are calculated from invented dates and a city-centre place and contain only chart facts (no date, time, place or coordinates); case questions refuse email/phone and are checked by the runtime focus rules; crisis cases are answered in code without a model call; strict trace redaction.",
+    "observability": "Eval model calls trace through generateWithModelRoute with feature astrology_report, metadata evalRunId/evalCaseId/evalVariant and adminEval true.",
+    "rollback": "Re-create ai_eval_budget_cap_micro, ai_eval_budget, ai_eval_case_input and start_ai_eval_run from 20261113110000 (one create or replace each); delete the seeded Astrology set; redeploy the previous admin-ai-eval-run."
+  },
+  "canonicalContracts": [
+    "supabase/functions/_shared/astrology-ai-insight.ts (validateAstrologyAiInvocation, toAstrologyAiRequest, selectAstrologyAiFacts, makeAstrologyAiResponseEnvelope, validateAstrologyAiResponse)",
+    "supabase/functions/_shared/astrology-ai-insight-contract.ts (ASTROLOGY_AI_CONTRACT)",
+    "supabase/functions/ai-astrology-insight/index.ts (route, prompt and generation contract mirrored by the adapter)",
+    "apps/mobile/src/features/astrology/astrologyAiInsight.ts buildAstrologyAiInvocation (fact projection copied for the synthetic charts)",
+    "supabase/migrations/20261113110000_ai_eval_release_gate.sql (budget, case input and run start bodies copied)"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "SQL, deploy and secrets need Owner approval each time.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Backend, AI runtime and Admin routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules and record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/admin/AGENTS.md",
+      "reason": "Admin protected architecture.",
+      "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8"
+    },
+    {
+      "path": "supabase/migrations/20261113110000_ai_eval_release_gate.sql",
+      "reason": "Budget, case input, run start, finish and seed bodies to redefine (applied, not edited).",
+      "sha256": "5221e865557186cddfbb96bd6ca5fcce02441d2ca494187c3d48983e44520000"
+    },
+    {
+      "path": "supabase/functions/admin-ai-eval-run/runner.ts",
+      "reason": "Runner plan, prompt override and per-feature adapters.",
+      "sha256": "430d1cf19c2cdf1337adc4d213874a330a39e78218521db669b71215d5f708c4"
+    },
+    {
+      "path": "supabase/functions/admin-ai-eval-run/index.ts",
+      "reason": "Edge entry and generate wrapper.",
+      "sha256": "b04a7cc194f5f15dab907ebe4e61b8b46327bc806e3e9951afe4a3559fcfc888"
+    },
+    {
+      "path": "supabase/functions/ai-astrology-insight/index.ts",
+      "reason": "Astrology route, prompt read, system prompt and response checks mirrored by the adapter.",
+      "sha256": "e986d3270ee9378ae28150429a808e619c5f7477bb82399299493574f471daaf"
+    },
+    {
+      "path": "supabase/functions/_shared/astrology-ai-insight.ts",
+      "reason": "Invocation validation and response envelope.",
+      "sha256": "26bb18c88c9287168bda279a9218fd6bdc50f97ee5f43aa90b2fc857cca2b5f6"
+    },
+    {
+      "path": "supabase/functions/_shared/astrology-ai-insight-contract.ts",
+      "reason": "Invocation and response schema names.",
+      "sha256": "1f92e788cb4027d2c1b2d76b29a690a68160e10f8a0634b20a380b91435d9eda"
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "reason": "readActiveModelRoute and generateWithModelRoute inputs (read only).",
+      "sha256": "87de02f1978911d8ab0abc791f827b8cb3f16e18bfcc2eb3bea10ef304d89d96"
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/astrologyAiInsight.ts",
+      "reason": "Fact projection copied for the synthetic eval charts.",
+      "sha256": "9d217a3b5decde2219c3dc22a7d5fa7a5c75058786e79486e30a35bfdc5b9e41"
+    },
+    {
+      "path": "apps/admin/ai-evals.js",
+      "reason": "Budget pill, Astrology unsupported note, case editor.",
+      "sha256": "842810c54e98920ad1429b26b9f3ab7d81c2fbf132056014b3dcce9b9e47d213"
+    },
+    {
+      "path": "apps/admin/release-gate.js",
+      "reason": "Astrology no-adapter note.",
+      "sha256": "5bf2b8ad7861d50fa178be1c94ed516902b443062a9ff10c770ad1ac92628f6a"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before the first edit; new migration only; PGlite and local tests; Owner applies and deploys by hash."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Astrology evals use the real astrology_report route through generateWithModelRoute with the runtime's own system prompt, user message and response validation; crisis cases never reach a model; only synthetic chart facts are sent."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "PostgreSQL date_trunc / at time zone already used in earlier migrations; PGlite only in the session scratchpad; no dependency added."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No new table or grant to clients; new private helpers are revoked from public, anon and authenticated; start_ai_eval_run stays service_role only and the Edge Function keeps its own capability check.",
+    "sensitiveData": "Synthetic charts come from invented inputs and carry only chart facts; questions are synthetic and refuse email, phone and date/time/place patterns.",
+    "secretsLogging": "No secret read or logged; the function logs no case or answer text.",
+    "externalInput": "chartKey and theme are enum-checked in SQL; the adapter re-validates the whole invocation with the runtime validator before any model call.",
+    "dependencies": "No package added.",
+    "migrationRelease": "Owner applies 20261114090000 after 20261113110000 by hash, then redeploys admin-ai-eval-run (ai-astrology-insight redeploy optional: same behaviour, shared module).",
+    "stopCondition": "Stop if PGlite, Deno tests, deno check or Admin tests fail, or if a crisis case could reach a model.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Clean tree at start (origin/main cb32621, branch claude/eval-budget-astrology).",
+    "paths": []
+  },
+  "validationCommands": [
+    "node scripts/feature-preflight.mjs --record docs/feature-plans/eval-budget-astrology-2026-11-14.json",
+    "node <scratchpad>/eba/verify.mjs <repo>",
+    "npx --yes deno@2 test --allow-env --allow-read supabase/functions",
+    "npx --yes deno@2 check supabase/functions/admin-ai-eval-run/index.ts supabase/functions/ai-astrology-insight/index.ts",
+    "npm run admin:test && node scripts/validate-admin-contract.mjs && node scripts/validate-admin-workflow-catalog.mjs",
+    "npm run validate:backend && npm run supabase:check && npm run astrology:ai-contract:check",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "After the Owner applies 20261114090000 and redeploys admin-ai-eval-run: open Admin › Chạy thử & chấm điểm, the pill shows 'Ngân sách tháng này: còn … / 1 USD, đặt lại ngày 1'; choose Đọc sâu Chiêm tinh, open 'Bộ mẫu có sẵn' (2 crisis, 5 normal cases with sample charts), save an astrology_report prompt draft or an Astrology feature draft, run the set; the safety layer passes when the model answers match the Astrology contract; the publish dialog then allows publishing.",
+  "residualRisk": "PGlite is not Supabase. Astrology runs need an active astrology_report route with the astrology_ai_insight_v1 schema (set in Admin), like the real function; without it every normal case fails with route_not_ready. publish_astrology_prompt_pair stays ungated. 1 USD per month allows about 5 starter-set feature runs by reservation; unused reservation is released when a run finishes.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
