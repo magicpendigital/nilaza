@@ -40,6 +40,10 @@ verify_jwt = true
 [functions.admin-ai-eval-run]
 verify_jwt = true
 
+# Thành viên & quyền (14/11): Owner invites an admin by email (roles.manage, checked again inside the function).
+[functions.admin-team-invite]
+verify_jwt = true
+
 [functions.ai-astrology-insight]
 verify_jwt = true
 # Paths to self-signed certificate pair.

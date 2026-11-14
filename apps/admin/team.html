@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="vi" data-admin-authorized="false">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nilaza · Thành viên & quyền</title>
+    <script src="./config.js?v=admin-sync-v1"></script>
+    <script src="./env-band.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.108.2"></script>
+    <script src="./admin-access.js"></script>
+    <script src="./workspace-guard.js"></script>
+    <link rel="stylesheet" href="./workspace-guard.css" />
+    <link rel="stylesheet" href="./overview.css" />
+    <link rel="stylesheet" href="./team.css" />
+  </head>
+  <body>
+    <main class="overview-page team-page">
+      <header class="overview-header">
+        <div>
+          <p class="eyebrow">Vận hành</p>
+          <h1>Thành viên & quyền</h1>
+          <p class="lead">Ai đang có quyền vào Admin và được làm gì. Chỉ Owner thấy trang này. Mọi lần mời, đổi vai trò hay thu hồi đều cần xác nhận và được ghi vào Lịch sử thao tác.</p>
+        </div>
+        <div class="team-header-actions">
+          <button type="button" class="button primary" id="team-invite" disabled>Mời thành viên</button>
+          <button type="button" class="button" id="team-reload">Tải lại</button>
+        </div>
+      </header>
+      <p class="overview-status" id="team-status" role="status" aria-live="polite">Đang xác minh quyền…</p>
+      <section id="team-content" aria-live="polite"></section>
+    </main>
+    <script src="./team.js"></script>
+  </body>
+</html>

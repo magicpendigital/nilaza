@@ -56,6 +56,7 @@
     "ai-studio.html": "ai.read",
     "overview.html": "hub.read",
     "timeline.html": "hub.read",
+    "team.html": "roles.manage",
     "content.html": "content.read",
     "growth.html": "overview.read"
   };
@@ -128,7 +129,9 @@
       "/functions/v1/admin-documentation": { GET: "ai.read" },
       // Admin A6 eval runs (the function checks the same rule with the caller's session).
       "/functions/v1/admin-ai-eval-run": { POST: "ai.manage|ai.read+content.draft" },
-      "/functions/v1/admin-ai-provider-probe": { POST: "ai.manage" }
+      "/functions/v1/admin-ai-provider-probe": { POST: "ai.manage" },
+      // Thành viên & quyền (14/11): the function checks roles.manage with the caller's session before inviting.
+      "/functions/v1/admin-team-invite": { POST: "roles.manage" }
     };
     const requiredCapability = endpoints[target.pathname]?.[method];
     if ((!local && base.protocol !== "https:") || !["https:", "http:"].includes(base.protocol)
@@ -204,7 +207,13 @@
     publish_prompt_version_bypass: "ai.manage",
     // Feedback triage (A6, migration 20261113110100).
     review_ai_feedback_v2: "safety.review",
-    list_ai_feedback_assignees: "safety.review"
+    list_ai_feedback_assignees: "safety.review",
+    // Thành viên & quyền (14/11, migration 20261114090000). Owner only; the RPCs refuse self changes and the last owner.
+    // The invite RPCs are service-role only and never listed here.
+    list_admin_team: "roles.manage",
+    get_admin_role_matrix: "roles.manage",
+    set_admin_member_role: "roles.manage",
+    revoke_admin_member: "roles.manage"
   };
   window.NilazaAdminRpc = async (name, params = {}, capability) => {
     requireTransport();
