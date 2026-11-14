@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 1,
+  "taskId": "ai-context-config-2026-11-14",
+  "ownerAgent": "backend_agent",
+  "lane": "SQL + Edge + Admin: per-feature AI context data blocks (n8n-style node graph), Owner request 14/11",
+  "goal": "Let Admin see, for every AI feature, which data reaches the model as a chain of nodes (input, data blocks, prompt layers, model route, output checks, answer) and, for persona_chat, daily_insight and ai_council, switch each personal data block off or lower its limit through Draft -> Review -> Publish. A new versioned table ai_context_configs with draft/publish RPCs, a shared Edge helper that reads the active row with a short cache and falls back to today's behaviour, and an Admin page 'Dữ liệu gửi cho AI'. Caps equal today's values, so a config can only send less data; crisis screening, consent, the data-block separation, the no-journal-text rule and the provider data-class rule stay enforced in Edge code. Oracle, Tarot and both Astrology features are shown read-only. Nothing is applied or deployed by the agent.",
+  "successCriteria": [
+    "docs/proposals/AI_CONTEXT_CONFIG_2026-11-14.vi.md lists every field that reaches the model for all seven features with source, data class, consent gate, current limits and code location, and records the design and Owner decisions.",
+    "Migration 20261114090000 adds public.ai_context_configs (one active and one draft row per feature, RLS on, no client grants, service_role select) and get_ai_context_configs (ai.read), save_ai_context_config_draft (ai.manage or ai.read + content.draft) and publish_ai_context_config (ai.manage, note 10-500), all security definer with search_path '', advisory lock, audit rows and 22023 for unknown blocks, wrong types or out-of-range limits.",
+    "packages/agent-config/ai-context-blocks.json is the one block spec; the SQL mirror and the Admin copy are checked equal by tests.",
+    "With no table, no active row, an empty blocks object or every block on at its cap, ai-persona-chat, ai-daily-insight and ai-council send byte-identical model messages to cb32621 (golden fixtures captured before the edit).",
+    "Hard rules hold whatever the config says: crisis screening and safetyText use the full message before context is built; locked fields cannot be switched off; limits are clamped to today's caps; no journal text block exists; the request data class is never below the feature floor and rises with enabled blocks; user values never enter the system prompt.",
+    "Admin page 'Dữ liệu gửi cho AI' (#context) shows the node graph per feature in Vietnamese, toggles and limits for configurable blocks, locks with reasons, read-only graphs for the other four features, Lưu nháp and Xem lại & phát hành with diff and note, the unsaved-changes guard and RPCs registered in NilazaAdminRpc.",
+    "PGlite replay of the migration, Deno tests, jsdom Admin tests, validate:backend, supabase:check, validate-admin-workflow-catalog, validate-admin-contract and preflight --ci pass (known Windows CRLF-only failures excepted)."
+  ],
+  "writeScope": [
+    "docs/proposals/AI_CONTEXT_CONFIG_2026-11-14.vi.md",
+    "PLAN.md",
+    "supabase/migrations/20261114090000_ai_context_configs.sql",
+    "packages/agent-config/ai-context-blocks.json",
+    "supabase/functions/_shared/context-config.ts",
+    "supabase/functions/_shared/context-config_test.ts",
+    "supabase/functions/_shared/testdata/",
+    "supabase/functions/_shared/ai-user-context.ts",
+    "supabase/functions/_shared/chat-handoff.ts",
+    "supabase/functions/_shared/persona-prompt-assembler.ts",
+    "supabase/functions/ai-persona-chat/index.ts",
+    "supabase/functions/ai-persona-chat/persona-context.ts",
+    "supabase/functions/ai-daily-insight/index.ts",
+    "supabase/functions/ai-daily-insight/daily-prompt.ts",
+    "supabase/functions/ai-council/index.ts",
+    "supabase/functions/ai-council/council-prompt.ts",
+    "apps/admin/context-config.js",
+    "apps/admin/ai-studio.html",
+    "apps/admin/app.js",
+    "apps/admin/shell.js",
+    "apps/admin/styles.css",
+    "apps/admin/admin-capabilities.json",
+    "apps/admin/workspace-guard.js",
+    "apps/admin/workflow-catalog.js",
+    "apps/admin/generated/",
+    "scripts/admin-context-config.test.mjs",
+    "scripts/admin-ai-studio-render.test.mjs",
+    "scripts/admin-a2-navigation.test.mjs",
+    "scripts/admin-shell-state.test.mjs",
+    "scripts/admin-access.test.mjs",
+    "scripts/validate-admin-contract.mjs",
+    "scripts/validate-backend-contracts.mjs",
+    "scripts/check-supabase-readiness.mjs",
+    "package.json"
+  ],
+  "untouchedSurfaces": [
+    "Applied migrations (including A4 20261113090100/090200 and A6 20261113110000) are not edited; ai_feature_configs and its RPCs keep their shape.",
+    "Oracle, Tarot, Astrology insight and Astrology report functions are not edited; their graphs are read-only.",
+    "Mobile app, request bodies, response shapes and canned fallback texts are unchanged.",
+    "Model router, provider registry, crisis-safety and prompt layers are unchanged; dataClass is an existing optional router input.",
+    "No migration applied, no Edge Function deployed, no secret read or set."
+  ],
+  "impact": {
+    "entryPoint": "Admin AI Studio route #context 'Dữ liệu gửi cho AI' in the Tính năng AI group; Edge Functions ai-persona-chat, ai-daily-insight and ai-council through the shared context-config helper.",
+    "dataWrite": "New table ai_context_configs (draft/active/archived rows of block switches and limits); admin_audit_logs rows ai.context_config.draft and ai.context_config.publish. No user data stored.",
+    "backendContract": "Three new RPCs; app request and response shapes unchanged; model messages unchanged when no config is active; trace metadata gains contextConfigVersion only when a config is active.",
+    "adminVisibility": "Per-feature node graph with data class and limit on every data node, lock reasons, draft/active versions, diff before publish and audit history.",
+    "privacySafety": "Configs can only remove data or lower limits within today's caps; crisis screening, consent, data-block separation, no journal text and the provider data-class floor are enforced in Edge code and cannot be configured.",
+    "observability": "contextConfigVersion and the existing nicknameSent/goalCount/historyTurns/moodSent trace fields show what was sent; audit rows record who published which version.",
+    "rollback": "Publish a version with every block on (or the defaults) to restore today's messages; the helper ignores a missing table and errors; redeploying the previous function versions removes the reader."
+  },
+  "canonicalContracts": [
+    "packages/agent-config/ai-context-blocks.json block spec (new)",
+    "supabase/migrations/20261113090100_ai_feature_configs.sql RPC, audit and permission pattern",
+    "supabase/functions/_shared/ai-user-context.ts data block shape (unchanged by default)"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    { "path": "AGENTS.md", "reason": "SQL, deploy and secrets need Owner approval each time.", "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa" },
+    { "path": "docs/AGENT_TASK_ROUTER.md", "reason": "Backend, AI runtime and Admin routes.", "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c" },
+    { "path": "docs/PLAN_QC_PROTOCOL.md", "reason": "Preflight rules and record shape.", "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2" },
+    { "path": "apps/admin/AGENTS.md", "reason": "Admin protected architecture: additive routes and modules.", "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8" },
+    { "path": "docs/proposals/AI_CONTEXT_CONFIG_2026-11-14.vi.md", "reason": "Inventory and design written for this task.", "sha256": "b5ef350d0a8bd19bb8c78a9e5dfcd5d35da594f3e1e34da8c1f928999156db83" },
+    { "path": "supabase/migrations/20261113090100_ai_feature_configs.sql", "reason": "Versioned config table and draft/publish RPC pattern.", "sha256": "5556bfd9ff4f2649d244cba6dbc242c3abedc97a3f8f9dc067f63959b49de04e" },
+    { "path": "supabase/migrations/20261113110000_ai_eval_release_gate.sql", "reason": "A6 gate target kinds and gated publish pattern.", "sha256": "5221e865557186cddfbb96bd6ca5fcce02441d2ca494187c3d48983e44520000" },
+    { "path": "supabase/functions/_shared/feature-config.ts", "reason": "Cached REST reader pattern.", "sha256": "eb71e736b91910caed56ebd69c968bd6387ce554430f9efd2b1a0b07e6af8fbc" },
+    { "path": "supabase/functions/_shared/ai-user-context.ts", "reason": "Data block builder and bounds.", "sha256": "ac6f80d4f48672f9557071feafa3f5f68866d9918a1d6e7418928e00d0643f5d" },
+    { "path": "supabase/functions/_shared/chat-handoff.ts", "reason": "Handoff block bounds.", "sha256": "9b0f09a5f4f551a525c852ce54445bd5b3ba695239c4efe18ca33db106fbfdad" },
+    { "path": "supabase/functions/ai-council/council-prompt.ts", "reason": "Council history bound and user message.", "sha256": "635afe914ce9738d6df3bcf79d9f3ab7832d71defaad1aa105a06e5d24b153dd" },
+    { "path": "supabase/functions/ai-daily-insight/daily-prompt.ts", "reason": "Daily user message.", "sha256": "1e2658a2e811db651dbe6923e23cf0d4158bfc06cb2900a9d60ecd543a23e89d" },
+    { "path": "supabase/functions/ai-persona-chat/index.ts", "reason": "Chat history, data block and handoff wiring.", "sha256": "6f529ed4bcd782bdd3fac4cfd179eb0b973b0b30038609f9b203a120857f7c3b" },
+    { "path": "supabase/functions/ai-daily-insight/index.ts", "reason": "Daily wiring and trace metadata.", "sha256": "c1f16ad8d73d85248cb5689e4d15e0cee6273134ed963105465dd00a93189c3b" },
+    { "path": "supabase/functions/ai-council/index.ts", "reason": "Council wiring and safety order.", "sha256": "fccd3fb870fe79415c2eaf839eb3868c3afb2ed381caf0ff310bfff56320a3c4" },
+    { "path": "supabase/functions/_shared/provider-registry.ts", "reason": "Feature data class floors and ranks.", "sha256": "574262c7b21c1a41efffdc02de396c659451558d7480d62120e6259581f5e1b4" },
+    { "path": "supabase/functions/_shared/model-router.ts", "reason": "dataClass and safetyText inputs.", "sha256": "87de02f1978911d8ab0abc791f827b8cb3f16e18bfcc2eb3bea10ef304d89d96" },
+    { "path": "supabase/functions/_shared/oracle-runtime.mjs", "reason": "Oracle consent flags and limits (inventory only).", "sha256": "2cb113ce48f9d4d2241fc08d30f1fce01970beef409a38a68741da980f8555a8" },
+    { "path": "supabase/functions/ai-astrology-report/index.ts", "reason": "Full chart sent to the model (inventory and risk only).", "sha256": "8172b832f8e27af5c1af4580f50cc7f222d5cef7db237f325b4c7d3f78cddf16" },
+    { "path": "apps/admin/ai-features.js", "reason": "A4 module pattern (drafts, review dialog, missing RPC).", "sha256": "22e4ac03cbc81be3ac997fa118aea9054739d5e9f03adba0da34dc0388183e49" },
+    { "path": "apps/admin/workspace-guard.js", "reason": "NilazaAdminRpc allowlist.", "sha256": "1bba77c9e968cbe6dd2484246f3e8e516c4751804e8059156a0d1675bffd935c" },
+    { "path": "apps/admin/app.js", "reason": "AI Studio routing and module mounting.", "sha256": "2ba0372d51114c919871c5d89eb1f5d88cd4ad79edfd101aaaf6db736d44753e" },
+    { "path": "apps/admin/shell.js", "reason": "Left navigation labels and groups.", "sha256": "ef033c8484d3b0008cf037c6d041e4c02abb3903da838eeb7ab877132706d8d7" },
+    { "path": "apps/admin/admin-capabilities.json", "reason": "AI Studio route list.", "sha256": "3e0a888fe3c4082f4b0cfd7d294b716c77f1c71800fbc5daa2830f288f739d57" }
+  ],
+  "skillReview": [
+    { "name": "nilaza-plan-qc", "decision": "verified-current", "evidence": "Record and preflight before the first code edit; migration and deploys left to the Owner by hash; PGlite, Deno and jsdom tests only; PLAN.md updated in the same branch." },
+    { "name": "nilaza-ai-runtime", "decision": "verified-current", "evidence": "Every Admin field has a runtime consumer in the three Edge Functions; crisis screening runs before context building; user data stays in the data block; provider data class respected; default parity proven against golden fixtures." }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Only repository code and migrations are used; PGlite is installed in the session scratchpad, not in the repository."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "ai_context_configs has RLS on, no policies and no grants to anon/authenticated; reads through get_ai_context_configs (ai.read); drafts through save_ai_context_config_draft (ai.manage or ai.read + content.draft); publish through publish_ai_context_config (ai.manage only); all security definer with search_path '' and audit rows; Edge reads with the service role.",
+    "sensitiveData": "The table stores switches and numbers only, never user data. Configs can only reduce what is sent; caps equal today's limits and Edge clamps again.",
+    "secretsLogging": "No secret read or logged; the helper uses the existing service key env read pattern and never returns it.",
+    "externalInput": "SQL rejects unknown blocks and fields, wrong types and out-of-range integers (22023); Edge ignores unknown keys and clamps numbers; Admin escapes every value.",
+    "dependencies": "No package added to the repository.",
+    "migrationRelease": "Owner applies 20261114090000 by hash and redeploys ai-persona-chat, ai-daily-insight and ai-council; until then Admin names the missing migration and functions behave exactly as today.",
+    "stopCondition": "Stop if default parity fails, if any config can raise a limit above today's cap or switch off crisis screening, or if any test or check fails for a non-CRLF reason.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Clean tree at start (origin/main cb32621) apart from the proposal doc written for this task before the record.",
+    "paths": ["docs/proposals/AI_CONTEXT_CONFIG_2026-11-14.vi.md"]
+  },
+  "validationCommands": [
+    "node scripts/feature-preflight.mjs --record docs/feature-plans/ai-context-config-2026-11-14.json",
+    "node <scratchpad>/pglite-context/verify.mjs <repo>",
+    "npx --yes deno@2 test --allow-env --allow-read supabase/functions",
+    "npm run admin:test && node scripts/validate-admin-contract.mjs && node scripts/validate-admin-workflow-catalog.mjs",
+    "npm run validate:backend && npm run supabase:check",
+    "npm run prompt:consumers:check && npm run council:contract:check",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "After the Owner applies the migration and redeploys the three functions: open Admin › Tính năng AI › Dữ liệu gửi cho AI, pick Trò chuyện, switch off 'Tên gọi', press Lưu nháp, then Xem lại & phát hành with a note; the diff shows Tên gọi Bật → Tắt. Within a minute send a chat on staging and see nicknameSent false and contextConfigVersion in Nhật ký AI.",
+  "residualRisk": "PGlite is not Supabase: re-run the Security Advisor after applying. A function instance may use the previous config for up to 60 s after publishing. Oracle, Tarot and Astrology are read-only in this round; Astrology report still sends birth date, time and coordinates (Owner decision).",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
