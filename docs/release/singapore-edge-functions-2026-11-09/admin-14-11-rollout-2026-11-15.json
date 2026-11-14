@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "title": "14/11 work: three migrations applied, six functions deployed, migration history recorded",
+  "date": "2026-11-15",
+  "target": {
+    "projectRef": "etfajmrwyywokgafzxsb",
+    "label": "production (Owner decision 2026-11-12)"
+  },
+  "ownerApproval": "Owner approved in chat ('Duyệt cả ba'): (1) apply the three migrations named by SHA-256 in PLAN.md section 4 items 7-9, (2) deploy the listed functions, (3) push to main (auto-deploys Admin staging).",
+  "records": [
+    "docs/feature-plans/admin-team-roles-2026-11-14.json",
+    "docs/feature-plans/eval-budget-astrology-2026-11-14.json",
+    "docs/feature-plans/ai-context-config-2026-11-14.json",
+    "docs/feature-plans/ux-reviews-astrology-council-2026-11-14.json"
+  ],
+  "sourceCommit": "e117594",
+  "migrations": {
+    "method": "npx supabase@3.1.0 db query --yes --remote=etfajmrwyywokgafzxsb -f <file>, one file at a time in this order, stop on error (run by Claude); every file returned no error. History recorded with migration repair --status applied for the same three versions.",
+    "files": [
+      { "file": "supabase/migrations/20261114090000_admin_team_roles.sql", "sha256": "9ff9b5a8b66c79cedb44a3c8c3b6e11939852208a76b2005b1ecc689fba10ac3" },
+      { "file": "supabase/migrations/20261114090100_ai_eval_monthly_budget_astrology.sql", "sha256": "0ef009784f2d39ddfb2b00db1134c1b4263ee734abf823c44cb27d3776bf240f" },
+      { "file": "supabase/migrations/20261114090200_ai_context_configs.sql", "sha256": "1397550c177ca7cd1cbdacac1a8063b6288ce607e8d12ecca60ba4e7de971dc9" }
+    ]
+  },
+  "functions": {
+    "method": "npx supabase@3.1.0 functions deploy <names> --project-ref etfajmrwyywokgafzxsb --use-api --yes",
+    "deployed": ["admin-team-invite", "admin-ai-eval-run", "ai-persona-chat", "ai-daily-insight", "ai-council", "ai-astrology-insight"]
+  },
+  "postApplyChecks": {
+    "readOnlySql": {
+      "rlsEnabled": { "public.admin_role_assignments": true, "public.ai_context_configs": true },
+      "anonSelectAiContextConfigs": false,
+      "authenticatedSelectAiContextConfigs": false,
+      "serviceRoleInsertAiContextConfigs": false,
+      "anonExecuteListAdminTeam": false,
+      "aiContextConfigsRows": 0,
+      "evalBudgetCapIsOneUsd": true,
+      "astrologyEvalSets": 1,
+      "adminRoleAssignments": { "owner": 1 },
+      "newFunctionsPresent": ["nilaza_private.roles_have_capability", "nilaza_private.ai_eval_budget_cap_micro", "public.list_admin_team", "public.get_admin_role_matrix", "public.set_admin_member_role", "public.revoke_admin_member"]
+    },
+    "securityAdvisor": "0 ERROR. New WARN entries are the same accepted pattern as earlier admin RPCs (SECURITY DEFINER callable by authenticated; each function checks the capability itself). New INFO: ai_context_configs and nilaza_private.admin_team_invite_days have RLS with no policy (closed by design).",
+    "functionsActive": "All six ACTIVE with verify_jwt=true (admin-team-invite v1; others redeployed).",
+    "unauthenticatedPost": { "admin-team-invite": 401, "admin-ai-eval-run": 401, "ai-persona-chat": 401, "ai-daily-insight": 401, "ai-council": 401, "ai-astrology-insight": 401 },
+    "migrationList": "remote matches local through 20261114090200"
+  },
+  "notVerified": [
+    "Signed-in calls to the redeployed AI functions",
+    "Sending a real invite email (needs ADMIN_INVITE_REDIRECT_URL secret, set by the Owner)",
+    "Admin pages in a real browser on staging"
+  ],
+  "ownerActionsRemaining": [
+    "Set secret ADMIN_INVITE_REDIRECT_URL (https, to Admin recovery.html) and add it to Supabase Auth Redirect URLs",
+    "Confirm Supabase Auth 'Confirm email' is on"
+  ],
+  "rollback": "Functions: redeploy the previous commit cb32621. Migrations are additive (new tables, functions, one eval set, budget cap); disable by not publishing context configs and not inviting members; no destructive change to existing data."
+}
