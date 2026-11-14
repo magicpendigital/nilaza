@@ -112,13 +112,13 @@ test("every manifest route stays reachable and every navigation item resolves to
   assert.equal(window.location.hash, "#/ai-studio/test");
   assert.equal(doc.querySelector("#pending-page").hidden, true);
   assert.ok(!Object.hasOwn(window.NilazaAdminNav.pendingPages, "evals"), "the A2 pending page for evals is gone");
+  // A7: "Nhà cung cấp & Model" opens the provider and chain page (no longer pending); the primary/fallback editor is a tab.
   doc.querySelector('[data-nav="providers"]').click();
   await drain(dom);
-  doc.querySelector('[data-route="providers"]').click();
-  await drain(dom);
-  assert.match(doc.querySelector("#pending-page").textContent, /bước A7/);
-  assert.doesNotMatch(doc.querySelector("#pending-page").textContent, /<input|password/i);
-  doc.querySelector("[data-go-route]").click();
+  assert.equal(window.location.hash, "#/ai-studio/providers");
+  assert.equal(doc.querySelector("#pending-page").hidden, true);
+  assert.equal(Object.hasOwn(window.NilazaAdminNav.pendingPages, "providers"), false);
+  doc.querySelector('[data-route="model-router"]').click();
   await drain(dom);
   assert.equal(window.location.hash, "#/ai-studio/model-router");
   // A3: "Lịch sử thao tác" opens the shared timeline page (no longer a pending page); AI actions stay a tab.

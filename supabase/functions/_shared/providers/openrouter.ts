@@ -62,7 +62,12 @@ export const OPENROUTER_PRIVACY = { zdr: true, data_collection: "deny" } as cons
 export function openRouterFormat(request: ModelProviderRequest) {
   // No JSON mode for Tarot: QA 2026-11-03 showed DeepSeek taking 22 s and returning a malformed reply
   // with it on (6 s without). The rejection code in the trace now names any structure problem.
-  if (request.feature !== "astrology_report" || request.responseSchema !== "astrology_ai_insight_v1") return { provider: { ...OPENROUTER_PRIVACY } };
+  if (request.feature !== "astrology_report" || request.responseSchema !== "astrology_ai_insight_v1") {
+    // A7: a step chain may turn JSON mode on per step; ZDR/deny stays on for every feature.
+    return request.jsonMode
+      ? { response_format: { type: "json_object" }, provider: { ...OPENROUTER_PRIVACY } }
+      : { provider: { ...OPENROUTER_PRIVACY } };
+  }
   return {
     response_format: {
       type: "json_schema",

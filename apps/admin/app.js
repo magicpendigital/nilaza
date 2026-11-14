@@ -428,7 +428,7 @@ let state = {
   councilAdminResult: null,
   councilAdminBusy: false,
   modelRouterAdminEndpoint: adminFunctionEndpoint("admin-model-router-config"),
-  modelRouterAdminStatus: "Chưa kiểm tra / Not checked",
+  modelRouterAdminStatus: "Chưa kiểm tra",
   modelRouterAdminResult: null,
   modelRouterAdminBusy: false,
   modelRouterLoadedScope: null,
@@ -499,7 +499,7 @@ const workflowTransportTarget = (() => {
   if (typeof window.NilazaAdminTransportTarget === "string") return window.NilazaAdminTransportTarget;
   try { return new URL(window.ENV?.SUPABASE_URL || "").origin; } catch { return ""; }
 })();
-const studioRouteDetails = { features: "aiFeatures", workflow: "payload", prompt: "prompt", "persona-studio": "personaStudio", "council-builder": "councilBuilder", "model-router": "modelRouter", "trace-explorer": "traceExplorer", test: "test", versions: "versions", audit: "audit", feedback: "feedback", switches: "switches" };
+const studioRouteDetails = { features: "aiFeatures", providers: "providers", workflow: "payload", prompt: "prompt", "persona-studio": "personaStudio", "council-builder": "councilBuilder", "model-router": "modelRouter", "trace-explorer": "traceExplorer", test: "test", versions: "versions", audit: "audit", feedback: "feedback", switches: "switches" };
 const workflowDetailSections = ["payload", "dataMindmap", "optimization"];
 
 function studioRouteState() {
@@ -597,7 +597,7 @@ function restoreAiStudioUiState() {
     const saved = JSON.parse(sessionStorage.getItem(aiStudioUiStorageKey) || "{}");
     if (features.some((item) => item.id === saved.featureId)) state.featureId = saved.featureId;
     if (nodes.some((item) => item.id === saved.nodeId)) state.nodeId = saved.nodeId;
-    const details = ["aiFeatures", "payload", "dataMindmap", "prompt", "personaStudio", "councilBuilder", "optimization", "modelRouter", "traceExplorer", "test", "versions", "audit", "feedback", "switches"];
+    const details = ["aiFeatures", "providers", "payload", "dataMindmap", "prompt", "personaStudio", "councilBuilder", "optimization", "modelRouter", "traceExplorer", "test", "versions", "audit", "feedback", "switches"];
     if (details.includes(saved.detail)) state.detail = saved.detail;
   } catch {
     // Ignore stale or malformed local selection state.
@@ -713,7 +713,8 @@ function applyRemoteModelRoutes(routes) {
     temperature: route.temperature,
     max_output_tokens: route.max_output_tokens,
     fallback_when: route.fallback_when,
-    safety_policy: route.safety_policy
+    safety_policy: route.safety_policy,
+    steps: Array.isArray(route.steps) && route.steps.length ? route.steps : null
   }));
   const activeRoutes = eligibleRoutes.filter(route => route.status === "active");
   const activeCounts = new Map();
@@ -774,6 +775,7 @@ restoreAiStudioUiState();
 window.NilazaClearSensitiveAdminState = () => {
   window.NilazaAiFeatures?.clear();
   window.NilazaAiEvals?.clear();
+  window.NilazaModelProviders?.clear();
   window.NilazaFeedbackInbox?.clear();
   window.NilazaFeatureSwitches?.clear();
   clearDraftsOnScopeChange();
@@ -853,17 +855,17 @@ function renderHeader() {
   const hasRouteDraft = hasModelRouteDraft(current);
   const remoteRoute = state.modelRouterRemoteRoutes.find((route) => route.feature === modelRouteFeatureId(current.id));
   const ambiguous = hasAmbiguousModelRoutes(current);
-  $("#feature-title").textContent = state.detail === "aiFeatures" ? "Tính năng AI" : `Luồng xử lý · ${current.name}`;
-  $("#sidebar-version").textContent = ambiguous ? "Nhiều phiên bản cùng chạy" : hasRouteDraft ? `Route draft · ${remoteRoute?.version || current.version}` : remoteRoute?.version || current.version;
+  $("#feature-title").textContent = state.detail === "aiFeatures" ? "Tính năng AI" : state.detail === "providers" ? "Nhà cung cấp & Model" : `Luồng xử lý · ${current.name}`;
+  $("#sidebar-version").textContent = ambiguous ? "Nhiều phiên bản cùng chạy" : hasRouteDraft ? `Nháp chuỗi model · ${remoteRoute?.version || current.version}` : remoteRoute?.version || current.version;
   $("#sidebar-version-label").textContent = ambiguous ? "Xung đột chuỗi model" : hasRouteDraft ? "Nháp chuỗi model" : remoteRoute ? "Phiên bản trên máy chủ" : "Hợp đồng trong mã";
-  $("#sidebar-version-status").textContent = ambiguous ? "Ambiguous active routes · publication blocked; browser drafts retained" : hasRouteDraft
-    ? "Saved browser route draft · backend route unchanged"
+  $("#sidebar-version-status").textContent = ambiguous ? "Nhiều phiên bản cùng chạy · chặn phát hành; nháp trên trình duyệt được giữ" : hasRouteDraft
+    ? "Nháp chuỗi model trên trình duyệt · máy chủ chưa đổi"
     : remoteRoute?.status === "active"
-      ? `Backend active · ${remoteRoute.response_schema || "schema unknown"}`
-      : hasLocalDraft ? "Saved preview draft · no backend route loaded" : "No active backend route loaded";
+      ? `Đang chạy trên máy chủ · ${remoteRoute.response_schema || "chưa rõ định dạng"}`
+      : hasLocalDraft ? "Nháp xem trước đã lưu · chưa tải chuỗi trên máy chủ" : "Chưa tải chuỗi đang chạy trên máy chủ";
   $("#safety-state").textContent = current.safety;
   $("#risk-state").textContent = current.risk;
-  $("#model-state").textContent = ambiguous ? "Ambiguous active routes" : `${current.provider} / ${current.model}`;
+  $("#model-state").textContent = ambiguous ? "Nhiều phiên bản cùng chạy" : `${current.provider} / ${current.model}`;
   $("#schema-state").textContent = current.schema.replaceAll("_", " ");
   $("#satisfaction-state").textContent = "Chưa kết nối";
   const roleChip = $("#admin-role-chip");
@@ -878,7 +880,7 @@ function renderHeader() {
     const graphView = state.detail === "payload";
     health.open = !graphView;
     healthSummary.hidden = !graphView;
-    healthSummary.textContent = `Tình trạng cấu hình · ${ambiguous ? "Active route conflict" : remoteRoute ? `Active record ${remoteRoute.version}` : "No active route loaded"} · sơ đồ từ mã nguồn, execution unverified`;
+    healthSummary.textContent = `Tình trạng cấu hình · ${ambiguous ? "Xung đột phiên bản đang chạy" : remoteRoute ? `Bản đang chạy ${remoteRoute.version}` : "Chưa tải bản đang chạy"} · sơ đồ từ mã nguồn, chưa kiểm chứng khi chạy`;
   }
   updatePublishButton();
 }
@@ -891,34 +893,34 @@ function renderModelRouteEditor(current) {
     const reasoning = routeReasoningSetting(current);
     return `<div class="model-route-form">
       <div class="inspector-section">
-        <p class="helper">Model route changes are saved as a browser draft until published to the backend. Mobile still calls Nilaza backend only.</p>
+        <p class="helper">Thay đổi được giữ làm nháp trên trình duyệt cho tới khi phát hành lên máy chủ. App vẫn chỉ gọi máy chủ Nilaza. Muốn chuỗi 3–4 bước hoặc nhà cung cấp trực tiếp, dùng trang “Nhà cung cấp & chuỗi model”.</p>
       </div>
       <div class="inspector-section">
-        <label class="helper" for="provider-select">Primary provider</label>
+        <label class="helper" for="provider-select">Nhà cung cấp chính</label>
         <select id="provider-select">${providerOptions(current.provider)}</select>
-        <label class="helper" for="model-select">Primary model · search by name or ID</label>
-        <input id="model-select" class="input" type="search" list="primary-model-options" autocomplete="off" value="${escapeHtml(current.model)}" placeholder="Search models…" />
+        <label class="helper" for="model-select">Model chính · tìm theo tên hoặc mã</label>
+        <input id="model-select" class="input" type="search" list="primary-model-options" autocomplete="off" value="${escapeHtml(current.model)}" placeholder="Tìm model…" />
         <datalist id="primary-model-options">${modelOptions(current.provider, current.model)}</datalist>
       </div>
       <div class="inspector-section">
-        <label class="helper" for="fallback-provider-select">Fallback provider</label>
+        <label class="helper" for="fallback-provider-select">Nhà cung cấp dự phòng</label>
         <select id="fallback-provider-select">${providerOptions(current.fallbackProvider, true)}</select>
-        <label class="helper" for="fallback-model-select">Fallback model · search by name or ID</label>
-        <input id="fallback-model-select" class="input" type="search" list="fallback-model-options" autocomplete="off" value="${escapeHtml(current.fallbackModel)}" placeholder="Search models…" ${current.fallbackProvider ? "" : "disabled"} />
+        <label class="helper" for="fallback-model-select">Model dự phòng · tìm theo tên hoặc mã</label>
+        <input id="fallback-model-select" class="input" type="search" list="fallback-model-options" autocomplete="off" value="${escapeHtml(current.fallbackModel)}" placeholder="Tìm model…" ${current.fallbackProvider ? "" : "disabled"} />
         <datalist id="fallback-model-options">${modelOptions(current.fallbackProvider, current.fallbackModel)}</datalist>
       </div>
       <div class="inspector-section route-limits">
-        <div><label class="helper" for="model-temperature">Temperature</label><input id="model-temperature" class="input" type="number" min="0" max="2" step="0.05" value="${escapeHtml(temperature)}" /></div>
-        <div><label class="helper" for="max-output-tokens">Maximum output tokens</label><input id="max-output-tokens" class="input" type="number" min="64" max="8192" step="1" value="${escapeHtml(maxOutputTokens)}" /></div>
-        <div><label class="helper" for="reasoning-mode">Hidden reasoning</label><select id="reasoning-mode"><option value="" ${reasoning ? "" : "selected"}>Model default</option>${reasoningModes.map(([mode, label]) => `<option value="${mode}" ${reasoning?.mode === mode ? "selected" : ""}>${label}</option>`).join("")}</select></div>
-        <div><label class="helper" for="reasoning-max-tokens">Reasoning token cap (optional)</label><input id="reasoning-max-tokens" class="input" type="number" min="64" max="8192" step="1" placeholder="Use the level" value="${escapeHtml(reasoning?.maxTokens ?? "")}" ${reasoning && reasoning.mode !== "off" ? "" : "disabled"} /></div>
-        <p class="helper">OpenRouter only. Reasoning tokens count toward the maximum output tokens; Off answers fastest and cheapest.</p>
-        ${reasoningBudgetProblem(current) ? `<div class="warning-card" role="alert"><strong>Not enough room for the answer</strong><p class="helper">${escapeHtml(reasoningBudgetProblem(current))}</p></div>` : ""}
+        <div><label class="helper" for="model-temperature">Nhiệt độ</label><input id="model-temperature" class="input" type="number" min="0" max="2" step="0.05" value="${escapeHtml(temperature)}" /></div>
+        <div><label class="helper" for="max-output-tokens">Số token trả lời tối đa</label><input id="max-output-tokens" class="input" type="number" min="64" max="8192" step="1" value="${escapeHtml(maxOutputTokens)}" /></div>
+        <div><label class="helper" for="reasoning-mode">Suy luận ẩn</label><select id="reasoning-mode"><option value="" ${reasoning ? "" : "selected"}>Mặc định của model</option>${reasoningModes.map(([mode, label]) => `<option value="${mode}" ${reasoning?.mode === mode ? "selected" : ""}>${label}</option>`).join("")}</select></div>
+        <div><label class="helper" for="reasoning-max-tokens">Giới hạn token suy luận (không bắt buộc)</label><input id="reasoning-max-tokens" class="input" type="number" min="64" max="8192" step="1" placeholder="Theo mức đã chọn" value="${escapeHtml(reasoning?.maxTokens ?? "")}" ${reasoning && reasoning.mode !== "off" ? "" : "disabled"} /></div>
+        <p class="helper">Chỉ áp dụng với OpenRouter. Token suy luận tính vào số token trả lời tối đa; Tắt là nhanh và rẻ nhất.</p>
+        ${reasoningBudgetProblem(current) ? `<div class="warning-card" role="alert"><strong>Không đủ chỗ cho câu trả lời</strong><p class="helper">${escapeHtml(reasoningBudgetProblem(current))}</p></div>` : ""}
         <div class="mini-grid">
-          <div class="mini-card"><span>Route source</span><strong>${draft ? "Browser draft" : effectiveRoute?.status === "active" ? "Backend active" : "Not loaded"}</strong></div>
-          <div class="mini-card"><span>Response schema</span><strong>${escapeHtml(effectiveRoute?.response_schema || current.schema)}</strong></div>
-          <div class="mini-card"><span>Primary</span><strong>${escapeHtml(current.provider)}</strong></div>
-          <div class="mini-card"><span>Fallback</span><strong>${escapeHtml(current.fallbackProvider)}</strong></div>
+          <div class="mini-card"><span>Nguồn cấu hình</span><strong>${draft ? "Nháp trên trình duyệt" : effectiveRoute?.status === "active" ? "Đang chạy trên máy chủ" : "Chưa tải"}</strong></div>
+          <div class="mini-card"><span>Định dạng trả lời</span><strong>${escapeHtml(effectiveRoute?.response_schema || current.schema)}</strong></div>
+          <div class="mini-card"><span>Chính</span><strong>${escapeHtml(current.provider)}</strong></div>
+          <div class="mini-card"><span>Dự phòng</span><strong>${escapeHtml(current.fallbackProvider)}</strong></div>
         </div>
       </div>
     </div>`;
@@ -933,7 +935,7 @@ function providerAvailable(provider) {
 }
 
 function providerOptions(selected, includeNone = false) {
-  return (includeNone ? `<option value="" ${!selected ? "selected" : ""}>None · no fallback</option>` : "") + Object.keys(providerCatalog)
+  return (includeNone ? `<option value="" ${!selected ? "selected" : ""}>Không dùng dự phòng</option>` : "") + Object.keys(providerCatalog)
     .filter((provider) => provider !== "expo" && (providerAvailable(provider) || provider === selected))
     .map((provider) => `<option value="${escapeHtml(provider)}" ${provider === selected ? "selected" : ""}>${escapeHtml(providerCatalog[provider].label)}${providerAvailable(provider) ? "" : " · chưa có khóa ở backend"}</option>`)
     .join("");
@@ -1154,6 +1156,7 @@ function renderDetailPanel() {
   if (state.detail !== "feedback") window.NilazaFeedbackInbox?.clear();
   if (state.detail !== "switches") window.NilazaFeatureSwitches?.clear();
   if (state.detail !== "aiFeatures") window.NilazaAiFeatures?.clear();
+  if (state.detail !== "providers") window.NilazaModelProviders?.clear();
   if (!["versions", "prompt", "personaStudio"].includes(state.detail)) window.NilazaPromptVersions?.clear();
   if (state.detail !== "test") window.NilazaAiEvals?.clear();
   document.querySelectorAll("[data-panel]").forEach(button => button.classList.toggle("active", button.dataset.panel === (state.detail === "aiFeatures" ? "features" : state.detail === "test" || state.detail === "versions" || state.detail === "audit" || state.detail === "feedback" || state.detail === "switches" ? state.detail : "workflow")));
@@ -1170,7 +1173,16 @@ function renderDetailPanel() {
   else if (detailPanel && state.detail === "switches") detailPanel.setAttribute("aria-labelledby", "feature-switches-title");
   else if (detailPanel && state.detail === "aiFeatures") detailPanel.setAttribute("aria-labelledby", "ai-features-title");
   else if (detailPanel && state.detail === "test" && window.NilazaAiEvals) detailPanel.setAttribute("aria-labelledby", "eval-title");
+  else if (detailPanel && state.detail === "providers") detailPanel.setAttribute("aria-labelledby", "model-providers-title");
   if (state.detail === "aiFeatures") $("#feature-title").textContent = "Tính năng AI";
+  if (state.detail === "providers") $("#feature-title").textContent = "Nhà cung cấp & Model";
+
+  // A7: provider table and per-feature model chains (apps/admin/model-providers.js).
+  if (state.detail === "providers") {
+    if (window.NilazaModelProviders) window.NilazaModelProviders.mount(detailPanel);
+    else detailPanel.innerHTML = renderNotAppliedNote("Nhà cung cấp & Model", "Không tải được mô-đun Nhà cung cấp & Model. Tải lại trang.");
+    return;
+  }
 
   if (state.detail === "aiFeatures") {
     if (window.NilazaAiFeatures) window.NilazaAiFeatures.mount(detailPanel);
@@ -1261,13 +1273,20 @@ function isCouncilAdminReady() {
 const councilPublishBlockedReason = "Council publishing is disabled: loaded backend settings are not applied to this preview editor, and atomic publication with version conflict checks is not verified.";
 
 function canPublishModelRoute(current = feature()) {
-  return !hasAmbiguousModelRoutes(current) && !["notifications", "face_reading"].includes(current.id) && current.status !== "Disabled";
+  return !hasAmbiguousModelRoutes(current) && !activeModelRouteChain(current) && !["notifications", "face_reading"].includes(current.id) && current.status !== "Disabled";
+}
+
+// A7: when the running route has an explicit step chain, this 1 primary + 1 fallback editor would publish without the
+// chain and silently drop steps 3-4 and the per-step settings. The chain is edited on "Nhà cung cấp & Model" instead.
+function activeModelRouteChain(current = feature()) {
+  const route = state.modelRouterRemoteRoutes.find(item => item.feature === modelRouteFeatureId(current.id));
+  return Array.isArray(route?.steps) && route.steps.length ? route.steps : null;
 }
 
 // Owner decision 2026-11-02: hidden reasoning is set per route and stored in safetyPolicy.reasoning
 // {mode, maxTokens}. Reasoning tokens count toward the output limit (OpenRouter takes about 10/20/50/80%
 // of it for minimal/low/medium/high), so publishing is blocked when too little is left for the answer.
-const reasoningModes = [["off", "Off"], ["minimal", "Minimal"], ["low", "Low"], ["medium", "Medium"], ["high", "High"]];
+const reasoningModes = [["off", "Tắt"], ["minimal", "Rất ít"], ["low", "Ít"], ["medium", "Vừa"], ["high", "Nhiều"]];
 const reasoningEffortShare = { minimal: 0.1, low: 0.2, medium: 0.5, high: 0.8 };
 const minimumAnswerTokens = 512;
 
@@ -1283,7 +1302,7 @@ function reasoningBudgetProblem(current = feature()) {
   const budget = Number(setting.maxTokens) || Math.round(maxOutput * reasoningEffortShare[setting.mode]);
   const left = maxOutput - budget;
   return left < minimumAnswerTokens
-    ? `Hidden reasoning can use about ${budget} of ${maxOutput} output tokens, leaving ${left} for the answer. Raise the maximum output tokens or lower the reasoning level or cap so at least ${minimumAnswerTokens} remain.`
+    ? `Suy luận ẩn có thể dùng khoảng ${budget} trên ${maxOutput} token trả lời, chỉ còn ${left} cho câu trả lời. Tăng số token trả lời tối đa hoặc giảm mức/giới hạn suy luận để còn ít nhất ${minimumAnswerTokens}.`
     : "";
 }
 
@@ -1292,15 +1311,17 @@ function hasAmbiguousModelRoutes(current = feature()) {
 }
 
 function modelRouteUnavailableReason(current = feature()) {
-  if (hasAmbiguousModelRoutes(current)) return "Multiple active route records exist for this feature. No baseline was selected and publication is blocked. Resolve the records on the reviewed backend, then check connection again. Existing browser drafts are retained.";
+  if (hasAmbiguousModelRoutes(current)) return "Tính năng này có nhiều bản cùng đang chạy trên máy chủ. Admin không tự chọn bản nào và chặn phát hành. Hãy xử lý các bản đó trên máy chủ rồi Kiểm tra kết nối lại. Nháp trên trình duyệt vẫn được giữ.";
+  const chain = activeModelRouteChain(current);
+  if (chain) return `Tính năng này đang chạy chuỗi ${chain.length} bước. Sửa và phát hành ở trang “Nhà cung cấp & chuỗi model” để không làm mất các bước.`;
   return current.id === "notifications"
-    ? "Notifications use Expo Push and the in-app inbox. They do not call an LLM and have no model route here."
-    : "Face Reading is deferred and disabled. Model routing and publication are unavailable until its consent, deletion, and safety flow is approved.";
+    ? "Thông báo dùng Expo Push và hộp thư trong app. Không gọi AI nên không có model ở đây."
+    : "Đọc khuôn mặt đang hoãn và tắt. Chưa chọn hay phát hành model cho tới khi luồng đồng ý, xóa dữ liệu và an toàn được duyệt.";
 }
 
 function publishActionForSurface() {
   // The AI features page has its own Lưu nháp / Xem lại & phát hành per feature card.
-  if (state.detail === "aiFeatures") return "none";
+  if (state.detail === "aiFeatures" || state.detail === "providers") return "none";
   if (state.detail === "councilBuilder" && feature().id === "ai_council") return "councilBlocked";
   if (state.detail === "modelRouter") return canPublishModelRoute() ? "modelRoute" : "modelBlocked";
   if (state.detail === "prompt" && feature().id === "astrology") return "astrologyPrompt";
@@ -1517,7 +1538,7 @@ async function checkModelRouterConnection() {
   state.modelRouterAdminBusy = true;
   state.modelRouterLoadedScope = null;
   state.modelRouterAdminResult = null;
-  state.modelRouterAdminStatus = "Đang kiểm tra / Checking…";
+  state.modelRouterAdminStatus = "Đang kiểm tra…";
   renderDetail();
   const endpoint = state.modelRouterAdminEndpoint.trim();
   const scope = modelRouteScope();
@@ -1532,16 +1553,16 @@ async function checkModelRouterConnection() {
     state.modelRouterAdminResult = {
       projectHost: body.projectHost, checkedAt: body.checkedAt, contractVersion: body.contractVersion,
       providers: body.providers.map(item => ({ provider: item.provider, secretName: item.secretName, configured: item.configured === true, verification: "not_tested" })),
-      routes: body.routes.map(item => ({ id: item.id, feature: item.feature, version: item.version, status: item.status, primary_provider: item.primary_provider, primary_model: item.primary_model, fallback_provider: item.fallback_provider, fallback_model: item.fallback_model, response_schema: item.response_schema, temperature: item.temperature, max_output_tokens: item.max_output_tokens, fallback_when: item.fallback_when, safety_policy: item.safety_policy })),
+      routes: body.routes.map(item => ({ id: item.id, feature: item.feature, version: item.version, status: item.status, primary_provider: item.primary_provider, primary_model: item.primary_model, fallback_provider: item.fallback_provider, fallback_model: item.fallback_model, response_schema: item.response_schema, temperature: item.temperature, max_output_tokens: item.max_output_tokens, fallback_when: item.fallback_when, safety_policy: item.safety_policy, steps: Array.isArray(item.steps) && item.steps.length ? item.steps : null })),
       history: (Array.isArray(body.history) ? body.history : []).map(item => ({ id: item.id, feature: item.feature, version: item.version, status: item.status, primary_provider: item.primary_provider, primary_model: item.primary_model, fallback_provider: item.fallback_provider, fallback_model: item.fallback_model, response_schema: item.response_schema, temperature: item.temperature, max_output_tokens: item.max_output_tokens, fallback_when: item.fallback_when, safety_policy: item.safety_policy, published_at: item.published_at, created_at: item.created_at }))
     };
     state.modelRouterHistory = state.modelRouterAdminResult.history;
     applyRemoteModelRoutes(body.routes);
     if (body.contractVersion === "model_route_publish_v2" && body.routes.every(route => route.id)) state.modelRouterLoadedScope = scope;
     renderHeader();
-    state.modelRouterAdminStatus = "Đã kết nối backend / Backend connected";
+    state.modelRouterAdminStatus = "Đã kết nối máy chủ";
   } catch {
-    state.modelRouterAdminStatus = "Không thể kiểm tra. Kiểm tra phiên/quyền/kết nối rồi thử lại. / Check failed; retry.";
+    state.modelRouterAdminStatus = "Không kiểm tra được. Kiểm tra phiên đăng nhập, quyền hoặc kết nối rồi thử lại.";
   } finally {
     clearTimeout(timeout);
     state.modelRouterAdminBusy = false;
@@ -1552,7 +1573,7 @@ async function checkModelRouterConnection() {
 async function publishModelRouterConfig(review) {
   if (state.modelRouterAdminBusy) return;
   if (state.detail !== "modelRouter" || !canPublishModelRoute()) {
-    $("#draft-status").textContent = canPublishModelRoute() ? "Open Model Router and review this route before publishing" : modelRouteUnavailableReason();
+    $("#draft-status").textContent = canPublishModelRoute() ? "Mở mục Model chính & dự phòng và xem lại trước khi phát hành" : modelRouteUnavailableReason();
     return;
   }
   if (review?.action !== "modelRoute" || !isPublishReviewCurrent(review)) { rejectChangedPublishReview(); return; }
@@ -1560,24 +1581,24 @@ async function publishModelRouterConfig(review) {
   if (!await window.NilazaRequireCapability?.("ai.manage")) { $("#draft-status").textContent = "Không có quyền phát hành (cần ai.manage)"; return; }
   if (!isPublishReviewCurrent(review)) { rejectChangedPublishReview(); return; }
   if (state.modelRouterLoadedScope !== modelRouteScope()) {
-    state.modelRouterAdminStatus = "Check connection to load the current v2 route revision before publishing. Browser draft retained.";
+    state.modelRouterAdminStatus = "Bấm Kiểm tra kết nối để tải bản đang chạy trước khi phát hành. Nháp trên trình duyệt vẫn được giữ.";
     renderDetail();
     return;
   }
   if (!isModelRouterAdminReady()) {
-    state.modelRouterAdminStatus = "Phiên đăng nhập Admin hoặc cấu hình máy chủ chưa sẵn sàng / Admin session or function endpoint is unavailable";
+    state.modelRouterAdminStatus = "Phiên đăng nhập Admin hoặc cấu hình máy chủ chưa sẵn sàng";
     renderDetail();
     return;
   }
   state.modelRouterAdminBusy = true;
-  state.modelRouterAdminStatus = "Publishing model route config to Supabase...";
+  state.modelRouterAdminStatus = "Đang phát hành lên máy chủ…";
   renderDetail();
   
   const current = feature();
   const payload = review.payload;
   const primaryProvider = payload.primary.provider;
   if (!providerCatalog[primaryProvider] || !["openai", "openrouter", "gemini", "anthropic"].includes(primaryProvider)) {
-    state.modelRouterAdminStatus = "Primary provider is not supported by the backend";
+    state.modelRouterAdminStatus = "Máy chủ chưa hỗ trợ nhà cung cấp chính này";
     state.modelRouterAdminBusy = false;
     renderDetail();
     return;
@@ -1597,7 +1618,7 @@ async function publishModelRouterConfig(review) {
         || (config.fallback_provider ?? null) !== (payload.fallback?.provider ?? null) || (config.fallback_model ?? null) !== (payload.fallback?.model ?? null)
         || Number(config.temperature) !== payload.temperature || config.max_output_tokens !== payload.maxTokens
         || config.response_schema !== payload.responseSchema || JSON.stringify(config.fallback_when) !== JSON.stringify(payload.fallbackWhen)
-        || stableRouteJson(config.safety_policy) !== stableRouteJson(payload.safetyPolicy)) throw Error("Publication receipt mismatch; browser draft retained. Reload to verify the backend revision.");
+        || stableRouteJson(config.safety_policy) !== stableRouteJson(payload.safetyPolicy)) throw Error("Biên nhận phát hành không khớp; nháp trên trình duyệt được giữ. Tải lại để kiểm tra bản trên máy chủ.");
       const unchanged = isPublishReviewCurrent(review);
       if (unchanged && config.status === "active") {
         current.version = body.version || payload.version;
@@ -1611,24 +1632,24 @@ async function publishModelRouterConfig(review) {
         clearPublishedModelRouteDraft(current);
       }
       state.modelRoutePendingPublication = null;
-      state.modelRouterAdminStatus = `Published ${body.version} as ${config.status}; receipt verified. Runtime use is not yet verified.`;
-      $("#draft-status").textContent = unchanged && config.status === "active" ? "Model Router config published; receipt verified; runtime unverified" : "Reviewed model route stored; newer browser edits retained";
+      state.modelRouterAdminStatus = `Đã phát hành ${body.version} (${config.status}); biên nhận khớp. Chưa kiểm chứng khi chạy thật.`;
+      $("#draft-status").textContent = unchanged && config.status === "active" ? "Đã phát hành model; biên nhận khớp; chưa kiểm chứng khi chạy" : "Đã lưu bản đã xem lại; các sửa mới hơn trên trình duyệt được giữ";
       state.modelRouterLoadedScope = null;
     } else {
       if (response.status === 409) {
         state.modelRoutePendingPublication = null;
         state.modelRouterLoadedScope = null;
       }
-      state.modelRouterAdminStatus = `Publish failed: ${body.error || response.statusText}`;
+      state.modelRouterAdminStatus = `Chưa phát hành được: ${response.status === 409 ? "bản đang chạy vừa thay đổi, tải lại rồi xem lại" : response.status === 403 ? "cần quyền ai.manage" : "máy chủ từ chối"}`;
     }
   } catch (error) {
     state.modelRouterAdminResult = { error: error.message };
-    state.modelRouterAdminStatus = `Publish failed: ${error.message}`;
+    state.modelRouterAdminStatus = `Chưa phát hành được: ${error.message}`;
   } finally {
     state.modelRouterAdminBusy = false;
     renderDetail();
   }
-  if (state.modelRouterAdminStatus.startsWith("Published ")) await checkModelRouterConnection();
+  if (state.modelRouterAdminStatus.startsWith("Đã phát hành ")) await checkModelRouterConnection();
 }
 
 async function publishCouncilAdminConfig() {
@@ -2000,13 +2021,13 @@ function renderModelRouterReadiness() {
   if (!Array.isArray(result?.providers)) return "";
   const routeFeature = modelRouteFeatureId(feature().id);
   const routes = (Array.isArray(result.routes) ? result.routes : []).filter(row => row.feature === routeFeature);
-  return `<section aria-label="Backend readiness">
-    <p><strong>Project thực / Actual project:</strong> ${escapeHtml(result.projectHost || "Unknown")}</p>
-    <p>Kiểm tra lúc / Checked at: ${escapeHtml(result.checkedAt || "")}</p>
-    ${result.providers.map(item => `<p><strong>${escapeHtml(item.provider)}</strong>: ${item.configured ? "Đã có key ở backend / Key configured" : "Chưa có key / Key missing"} — <code>${escapeHtml(item.secretName)}</code></p>`).join("")}
-    <p>Key presence is checked; model call and quota are not tested.</p>
-    <h4>Route trên backend cho tính năng đang xem / Backend routes</h4>
-    ${routes.length ? routes.map(row => `<p>${escapeHtml(row.version)} (${escapeHtml(row.status)}): ${escapeHtml(row.primary_provider)} / ${escapeHtml(row.primary_model)} → ${escapeHtml(row.fallback_provider || "none")} / ${escapeHtml(row.fallback_model || "none")}</p>`).join("") : "<p>Không có bản route được lưu cho tính năng này. Runtime có thể dùng cấu hình mặc định trong code; danh mục mẫu phía trên không chứng minh route thực. / No stored route for this feature.</p>"}
+  return `<section aria-label="Tình trạng máy chủ">
+    <p><strong>Dự án thật:</strong> ${escapeHtml(result.projectHost || "Chưa rõ")}</p>
+    <p>Kiểm tra lúc: ${escapeHtml(result.checkedAt || "")}</p>
+    ${result.providers.map(item => `<p><strong>${escapeHtml(item.provider)}</strong>: ${item.configured ? "Đã có khóa ở máy chủ" : "Chưa có khóa"} — <code>${escapeHtml(item.secretName)}</code></p>`).join("")}
+    <p>Chỉ kiểm có khóa hay không; chưa gọi model, chưa kiểm hạn mức. Kiểm tra khóa thật ở trang “Nhà cung cấp & chuỗi model”.</p>
+    <h4>Bản trên máy chủ của tính năng đang xem</h4>
+    ${routes.length ? routes.map(row => `<p>${escapeHtml(row.version)} (${escapeHtml(row.status)}): ${escapeHtml(row.primary_provider)} / ${escapeHtml(row.primary_model)} → ${escapeHtml(row.fallback_provider || "không")} / ${escapeHtml(row.fallback_model || "không")}${Array.isArray(row.steps) && row.steps.length ? ` · chuỗi ${row.steps.length} bước` : ""}</p>`).join("") : "<p>Chưa có bản nào được lưu cho tính năng này. Khi chạy có thể dùng cấu hình mặc định trong mã; danh mục mẫu phía trên không chứng minh bản đang chạy.</p>"}
   </section>`;
 }
 
@@ -2014,35 +2035,37 @@ function renderModelRouteReferences(current) {
   const featureId = modelRouteFeatureId(current.id);
   const conflicts = state.modelRouterAmbiguousRoutes.filter(route => route.feature === featureId);
   const experimental = state.modelRouterExperimentalRoutes.filter(route => route.feature === featureId);
+  const chain = activeModelRouteChain(current);
   const row = route => `<p>${escapeHtml(route.version)} · ${escapeHtml(route.status)} · ${escapeHtml(route.primary_provider)} / ${escapeHtml(route.primary_model)}</p>`;
-  return `${conflicts.length ? `<section class="warning-card" aria-label="Conflicting active route records"><strong>Conflicting active records · read only</strong>${conflicts.map(row).join("")}</section>` : ""}${experimental.length ? `<details><summary>Experimental records · read only, excluded from the active baseline (${experimental.length})</summary><p>These candidates are stored backend records. They are not selected or loaded into this editor. Runtime behavior requires deployment and trace verification.</p>${experimental.map(row).join("")}</details>` : ""}`;
+  return `${chain ? `<section class="code-card" aria-label="Chuỗi đang chạy"><strong>Chuỗi đang chạy · chỉ xem</strong><ol>${chain.map(step => `<li>${escapeHtml(step.provider)} · ${escapeHtml(step.model)} · chờ ${escapeHtml(Math.round(Number(step.timeout_ms) / 1000))} giây</li>`).join("")}</ol></section>` : ""}${conflicts.length ? `<section class="warning-card" aria-label="Các bản đang chạy xung đột"><strong>Các bản cùng đang chạy · chỉ xem</strong>${conflicts.map(row).join("")}</section>` : ""}${experimental.length ? `<details><summary>Bản thử nghiệm · chỉ xem, không tính là bản đang chạy (${experimental.length})</summary><p>Đây là các bản lưu trên máy chủ. Chúng không được chọn hay nạp vào trình sửa này. Muốn biết khi chạy thật cần deploy và xem Nhật ký AI.</p>${experimental.map(row).join("")}</details>` : ""}`;
 }
 
 function renderModelRouterDetail() {
   const current = feature();
   if (!canPublishModelRoute(current)) {
-    $("#detail-content").innerHTML = `<div class="detail-layout single"><div class="code-card"><p class="eyebrow">Model publication unavailable</p><h3>${hasAmbiguousModelRoutes(current) ? "Resolve the active route conflict" : "No configurable LLM model route"}</h3><p>${escapeHtml(modelRouteUnavailableReason(current))}</p>${hasAmbiguousModelRoutes(current) ? `<button id="model-router-check-connection" class="button" ${isModelRouterAdminReady() && !state.modelRouterAdminBusy ? "" : "disabled"}>${state.modelRouterAdminBusy ? "Checking…" : "Check connection again"}</button>` : ""}</div>${renderModelRouteReferences(current)}</div>`;
+    const chain = activeModelRouteChain(current);
+    $("#detail-content").innerHTML = `<div class="detail-layout single"><div class="code-card"><p class="eyebrow">Chưa phát hành model ở đây được</p><h3>${hasAmbiguousModelRoutes(current) ? "Cần xử lý các bản cùng đang chạy" : chain ? "Tính năng này dùng chuỗi nhiều bước" : "Tính năng này không có model AI để chọn"}</h3><p>${escapeHtml(modelRouteUnavailableReason(current))}</p>${hasAmbiguousModelRoutes(current) ? `<button id="model-router-check-connection" class="button" ${isModelRouterAdminReady() && !state.modelRouterAdminBusy ? "" : "disabled"}>${state.modelRouterAdminBusy ? "Đang kiểm tra…" : "Kiểm tra kết nối lại"}</button>` : ""}${chain ? '<p><a class="button" href="#providers">Mở Nhà cung cấp & chuỗi model</a></p>' : ""}</div>${renderModelRouteReferences(current)}</div>`;
     return;
   }
   const remoteRoute = state.modelRouterRemoteRoutes.find((route) => route.feature === modelRouteFeatureId(current.id));
   const hasLocalDraft = hasModelRouteDraft(current);
   $("#detail-content").innerHTML = `
     <div class="detail-layout single">
-      <div class="code-card"><p class="eyebrow">Model route editor · ${hasLocalDraft ? "browser draft" : remoteRoute ? `backend ${escapeHtml(remoteRoute.status)}` : "backend not loaded"}</p><h3>Primary, fallback and limits</h3>${renderModelRouteEditor(current)}</div>
+      <div class="code-card"><p class="eyebrow">Model chính & dự phòng · ${hasLocalDraft ? "nháp trên trình duyệt" : remoteRoute ? `máy chủ: ${escapeHtml(remoteRoute.status)}` : "chưa tải từ máy chủ"}</p><h3>Model chính, dự phòng và giới hạn</h3>${renderModelRouteEditor(current)}</div>
       ${renderModelRouteReferences(current)}
-      <details><summary>Model catalog · available choices, not health or quality evidence</summary>
+      <details><summary>Danh mục model · để chọn, không phải bằng chứng về sức khỏe hay chất lượng</summary>
       <div class="variant-grid">
         ${Object.entries(providerCatalog).filter(([name]) => name !== "expo" && providerAvailable(name)).map(([name, provider]) => renderProviderCard(name, provider, current)).join("")}
       </div>
-      <p>Danh mục phía trên giúp tìm model; trạng thái provider bên dưới chỉ xác nhận secret có mặt. Backend target hiện ở đầu trang và không thể đổi trong phiên này.</p>
+      <p>Danh mục phía trên giúp tìm model; tình trạng nhà cung cấp bên dưới chỉ xác nhận có khóa. Máy chủ đích hiện ở đầu trang và không đổi được trong phiên này.</p>
       </details>
-      <div class="status-strip" aria-label="Route source">
-        <strong>Configuration source:</strong>
-        ${hasLocalDraft ? "Local route draft is active in this browser; it is not published yet." : remoteRoute ? `Backend ${escapeHtml(remoteRoute.status)} route: ${escapeHtml(remoteRoute.primary_provider)} / ${escapeHtml(remoteRoute.primary_model)}${remoteRoute.fallback_provider ? ` → ${escapeHtml(remoteRoute.fallback_provider)} / ${escapeHtml(remoteRoute.fallback_model || "")}` : " · no fallback"}` : "No backend route loaded yet."}
+      <div class="status-strip" aria-label="Nguồn cấu hình">
+        <strong>Nguồn cấu hình:</strong>
+        ${hasLocalDraft ? "Đang có nháp trên trình duyệt này; chưa phát hành." : remoteRoute ? `Bản ${escapeHtml(remoteRoute.status)} trên máy chủ: ${escapeHtml(remoteRoute.primary_provider)} / ${escapeHtml(remoteRoute.primary_model)}${remoteRoute.fallback_provider ? ` → ${escapeHtml(remoteRoute.fallback_provider)} / ${escapeHtml(remoteRoute.fallback_model || "")}` : " · không dự phòng"}` : "Chưa tải bản nào từ máy chủ."}
       </div>
       <div class="detail-layout">
         <div class="code-card">
-          ${current.id === "astrology" && remoteRoute?.response_schema && remoteRoute.response_schema !== current.schema ? `<p class="warning-card">The backend still has schema ${escapeHtml(remoteRoute.response_schema)}. Publishing this route uses ${escapeHtml(current.schema)} for the new Astrology AI contract.</p>` : ""}
+          ${current.id === "astrology" && remoteRoute?.response_schema && remoteRoute.response_schema !== current.schema ? `<p class="warning-card">Máy chủ vẫn dùng định dạng ${escapeHtml(remoteRoute.response_schema)}. Phát hành bản này sẽ dùng ${escapeHtml(current.schema)} cho hợp đồng Chiêm tinh AI mới.</p>` : ""}
           <details class="technical-details"><summary>Chi tiết kỹ thuật · hợp đồng route (JSON)</summary>
           <pre>${escapeHtml(JSON.stringify({
             feature: modelRouteFeatureId(current.id),
@@ -2058,18 +2081,18 @@ function renderModelRouterDetail() {
           }, null, 2))}</pre></details>
         </div>
         <div class="warning-card">
-          <strong>How to use providers</strong>
-          <p>Provider catalogs and secret presence do not measure response quality or safety. Use a synthetic staging request and review its validated trace before relying on a route.</p>
+          <strong>Dùng nhà cung cấp thế nào</strong>
+          <p>Danh mục và việc có khóa không đo chất lượng hay độ an toàn của câu trả lời. Gửi một yêu cầu thử trên staging rồi xem Nhật ký AI trước khi tin vào một cấu hình.</p>
         </div>
         <div class="code-card model-router-admin-connector">
           <div class="layer-row">
-            <strong>Supabase Admin Connector</strong>
+            <strong>Kết nối máy chủ Admin</strong>
             <span class="pill" role="status" aria-live="polite">${escapeHtml(state.modelRouterAdminStatus)}</span>
           </div>
           <p class="helper">Dùng phiên đăng nhập Admin hiện tại; Admin không bao giờ nhận hay hiện khóa nhà cung cấp.</p>
-          <p>Kiểm tra chỉ đọc; không gọi AI hoặc phát sinh phí LLM. Có key không đồng nghĩa key hợp lệ hay còn hạn mức. / Read-only check; provider credentials and quota are not validated.</p>
-          <p>API key chỉ lưu trong Supabase Dashboard → Edge Functions → Secrets: OPENAI_API_KEY, GEMINI_API_KEY, ANTHROPIC_API_KEY hoặc OPENROUTER_API_KEY. Không dán key vào chat, JWT hay cấu hình route. / Store provider keys only in backend secrets.</p>
-          <button id="model-router-check-connection" class="button" ${isModelRouterAdminReady() && !state.modelRouterAdminBusy ? "" : "disabled"}>Kiểm tra kết nối / Check connection</button>
+          <p>Kiểm tra chỉ đọc; không gọi AI, không phát sinh phí. Có khóa không có nghĩa khóa còn hiệu lực hay còn hạn mức — dùng Kiểm tra khóa ở trang “Nhà cung cấp & chuỗi model”.</p>
+          <p>Khóa chỉ lưu trong Supabase Dashboard → Edge Functions → Secrets: OPENAI_API_KEY, GEMINI_API_KEY, ANTHROPIC_API_KEY, DEEPSEEK_API_KEY hoặc OPENROUTER_API_KEY. Không dán khóa vào chat, JWT hay cấu hình model.</p>
+          <button id="model-router-check-connection" class="button" ${isModelRouterAdminReady() && !state.modelRouterAdminBusy ? "" : "disabled"}>Kiểm tra kết nối</button>
           <button id="model-router-publish-config" class="button ${isModelRouterAdminReady() ? "primary" : ""}" ${isModelRouterAdminReady() && !state.modelRouterAdminBusy ? "" : "disabled"}>
             ${state.modelRouterAdminBusy ? "Đang phát hành…" : "Xem lại & phát hành"}
           </button>
@@ -2083,25 +2106,24 @@ function renderModelRouterDetail() {
 function renderProviderCard(name, provider, current) {
   const isPrimary = current.provider === name;
   const isFallback = current.fallbackProvider === name;
-  const stateLabel = isPrimary ? "Selected primary" : isFallback ? "Selected fallback" : "Catalog entry · not health checked";
+  const stateLabel = isPrimary ? "Đang chọn làm chính" : isFallback ? "Đang chọn làm dự phòng" : "Trong danh mục · chưa kiểm tình trạng";
 
   let fetchButton = "";
   if (name === "openrouter") {
-    fetchButton = `<button class="button text-button" data-fetch-models="${escapeHtml(name)}" style="padding: 0; font-size: 0.8rem; margin-top: 0.5rem;">Fetch models from API</button>`;
+    fetchButton = `<button class="button text-button" data-fetch-models="${escapeHtml(name)}" style="padding: 0; font-size: 0.8rem; margin-top: 0.5rem;">Tải danh sách model từ OpenRouter</button>`;
   }
 
   return `
     <div class="variant-card ${isPrimary ? "winner" : ""}">
       <p class="eyebrow">${escapeHtml(provider.label)}</p>
       <h3>${escapeHtml(stateLabel)}</h3>
-      <p>${escapeHtml(provider.bestFor)}</p>
-      <label class="visually-hidden" for="search-provider-${escapeHtml(name)}">Tìm model ${escapeHtml(provider.label)}</label><input type="search" class="input" id="search-provider-${escapeHtml(name)}" data-search-provider="${escapeHtml(name)}" placeholder="Search models..." style="width: 100%; margin-bottom: 0.5rem; font-size: 0.8rem; padding: 0.25rem 0.5rem;" />
+      <label class="visually-hidden" for="search-provider-${escapeHtml(name)}">Tìm model ${escapeHtml(provider.label)}</label><input type="search" class="input" id="search-provider-${escapeHtml(name)}" data-search-provider="${escapeHtml(name)}" placeholder="Tìm model…" style="width: 100%; margin-bottom: 0.5rem; font-size: 0.8rem; padding: 0.25rem 0.5rem;" />
       <div class="variable-list" id="model-list-${escapeHtml(name)}" style="max-height: 200px; overflow-y: auto;">
         ${provider.models.map((model) => `<button data-set-model-provider="${escapeHtml(name)}" data-set-model="${escapeHtml(model)}">${escapeHtml(model)}</button>`).join("")}
       </div>
       <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
-        <label class="visually-hidden" for="custom-model-${escapeHtml(name)}">Mã model ${escapeHtml(provider.label)} tự nhập</label><input type="text" class="input" style="flex: 1; min-width: 120px; font-size: 0.8rem; padding: 0.25rem 0.5rem;" placeholder="Custom ID" id="custom-model-${escapeHtml(name)}" />
-        <button class="button" style="padding: 0.25rem 0.75rem; font-size: 0.8rem;" data-add-custom-model="${escapeHtml(name)}">Add</button>
+        <label class="visually-hidden" for="custom-model-${escapeHtml(name)}">Mã model ${escapeHtml(provider.label)} tự nhập</label><input type="text" class="input" style="flex: 1; min-width: 120px; font-size: 0.8rem; padding: 0.25rem 0.5rem;" placeholder="Mã model tự nhập" id="custom-model-${escapeHtml(name)}" />
+        <button class="button" style="padding: 0.25rem 0.75rem; font-size: 0.8rem;" data-add-custom-model="${escapeHtml(name)}">Thêm</button>
       </div>
       ${fetchButton}
     </div>

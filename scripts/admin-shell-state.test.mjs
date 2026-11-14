@@ -93,8 +93,8 @@ test("Shell deep links and route changes retain reviewed feature/locale metadata
   // Model routes moved under "Nhà cung cấp & Model" in the A2 navigation; the AI query stays attached.
   doc.querySelector('[data-nav="providers"]').click();
   await new Promise(resolve => window.setTimeout(resolve, 0));
-  assert.equal(window.location.hash, "#/ai-studio/model-router?feature=oracle_router&locale=en");
-  assert.equal(frame.contentWindow.location.hash, "#model-router?feature=oracle_router&locale=en");
+  assert.equal(window.location.hash, "#/ai-studio/providers?feature=oracle_router&locale=en");
+  assert.equal(frame.contentWindow.location.hash, "#providers?feature=oracle_router&locale=en");
   window.location.hash = "#/ai-studio/prompt?feature=oracle_router&locale=en";
   await new Promise(resolve => window.setTimeout(resolve, 0));
   assert.equal(doc.querySelector('[data-workspace-frame="ai-studio"]'), frame);
@@ -102,9 +102,9 @@ test("Shell deep links and route changes retain reviewed feature/locale metadata
   assert.ok(doc.querySelector('[data-route="prompt"]').classList.contains("active"));
   window.history.back();
   // Poll instead of a fixed 30 ms wait: history navigation is asynchronous and slow under load.
-  for (let attempt = 0; attempt < 100 && window.location.hash !== "#/ai-studio/model-router?feature=oracle_router&locale=en"; attempt += 1) await new Promise(resolve => window.setTimeout(resolve, 20));
-  assert.equal(window.location.hash, "#/ai-studio/model-router?feature=oracle_router&locale=en");
-  assert.equal(frame.contentWindow.location.hash, "#model-router?feature=oracle_router&locale=en");
+  for (let attempt = 0; attempt < 100 && window.location.hash !== "#/ai-studio/providers?feature=oracle_router&locale=en"; attempt += 1) await new Promise(resolve => window.setTimeout(resolve, 20));
+  assert.equal(window.location.hash, "#/ai-studio/providers?feature=oracle_router&locale=en");
+  assert.equal(frame.contentWindow.location.hash, "#providers?feature=oracle_router&locale=en");
   dom.window.close();
 });
 

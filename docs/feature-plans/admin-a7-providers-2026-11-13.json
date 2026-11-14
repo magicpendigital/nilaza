@@ -1,0 +1,165 @@
+{
+  "schemaVersion": 1,
+  "taskId": "admin-a7-providers-2026-11-13",
+  "ownerAgent": "backend_agent",
+  "lane": "SQL + Edge + Admin: Admin redesign step A7 (D3, D4, E1/E5 step chain router, provider probe, Nhà cung cấp & Model page)",
+  "goal": "Let the Owner run each AI feature on an ordered chain of up to 4 model steps across OpenRouter and direct providers (Owner order 04/11: OpenRouter, then Anthropic, Gemini paid key, OpenAI, DeepSeek), with provider switches, data-class limits, a Postgres circuit breaker, a total deadline and a per-turn cost cap (0.02 USD default), and see provider health and key status in Admin without ever handling a key. D3 adds steps and total_deadline_ms to model_route_versions (backward compatible: no steps means today's primary + fallback); D4 adds ai_providers and ai_provider_health with list/set/record RPCs; the shared router walks steps and records step spans; a new admin-ai-provider-probe function checks keys cheaply. Also fixes the A5 low finding: a stored VI persona prompt that fails the injection guard falls back to the VI code default, not the EN row. Nothing is applied or deployed by the agent.",
+  "successCriteria": [
+    "Migration D3 adds model_route_versions.steps jsonb (1-4 steps of provider, model, timeout_ms, max_tokens, temperature, json_mode, reasoning), total_deadline_ms (5-140 s) and publish_note, extends the provider checks with deepseek, and publish_model_route_config accepts optional steps, total_deadline_ms and note while a v2 payload without them behaves exactly as before; steps must agree with the primary/fallback columns.",
+    "Migration D4 adds ai_providers (seeded openrouter 1 enabled sensitive, anthropic 2, gemini 3, openai 4, deepseek 5 public only; direct providers disabled) and ai_provider_health with RLS on and no client table access; list_ai_providers needs ai.read and returns configured yes/no, health and 24 h trace counts, never secret values; set_ai_provider needs ai.manage and audits; record_ai_provider_probe is service role only.",
+    "Shared router: a route without steps behaves as today (same candidates, fallback rules and timeouts). With steps it walks them in order, skips disabled providers, missing secrets, providers below the feature data class and open circuits, moves on for transient, 429, 402, 401/403, 404 model, context length and one format failure, never after a safety block, respects the total deadline and the cost cap, sends OpenRouter ZDR/deny on every feature, and records step index, provider, error class, HTTP status, cost and outcome (ok / ok_fallback / canned / safety_block).",
+    "admin-ai-provider-probe (ai.manage) reports configured yes/no per provider from env presence and classifies a minimal call as ok / bad_key / no_credit / unreachable, writes ai_provider_health and an audit row through the service role, and never returns or logs secret values.",
+    "Admin: Nhà cung cấp & Model page with the provider table (order, on/off, configured, data class, 24 h health, circuit), Kiểm tra khóa for ai.manage, no key input; per-feature step chain editor (max 4 rows, catalogue-only models, per-step timeout, total deadline at most 140 s) with Lưu nháp and Xem lại & phát hành (diff + note) for ai.manage; missing RPC messages name the migration; text escaped; the Model Router page is in Vietnamese.",
+    "PGlite verification, Deno tests and deno check of every AI function, jsdom admin tests, validate-admin-contract, validate:backend, supabase:check, validate-admin-workflow-catalog and preflight --ci pass (known Windows CRLF-only failure excepted)."
+  ],
+  "writeScope": [
+    "supabase/migrations/20261113140000_model_route_steps.sql",
+    "supabase/migrations/20261113140100_ai_providers.sql",
+    "supabase/functions/_shared/model-router.ts",
+    "supabase/functions/_shared/model-provider.ts",
+    "supabase/functions/_shared/provider-registry.ts",
+    "supabase/functions/_shared/provider-registry_test.ts",
+    "supabase/functions/_shared/model-router-steps_test.ts",
+    "supabase/functions/_shared/providers/deepseek.ts",
+    "supabase/functions/_shared/providers/openrouter.ts",
+    "supabase/functions/_shared/providers/openai.ts",
+    "supabase/functions/_shared/providers/gemini.ts",
+    "supabase/functions/_shared/providers/anthropic.ts",
+    "supabase/functions/_shared/persona-prompt-assembler.ts",
+    "supabase/functions/_shared/persona-prompt-assembler_test.ts",
+    "supabase/functions/admin-model-router-config/",
+    "supabase/functions/admin-ai-provider-probe/",
+    "supabase/functions/README.md",
+    "supabase/tests/model_router_readiness_test.ts",
+    "apps/admin/model-providers.js",
+    "apps/admin/ai-studio.html",
+    "apps/admin/app.js",
+    "apps/admin/shell.js",
+    "apps/admin/styles.css",
+    "apps/admin/admin-capabilities.json",
+    "apps/admin/workspace-guard.js",
+    "apps/admin/workflow-catalog.js",
+    "apps/admin/generated/",
+    "scripts/admin-a7-providers.test.mjs",
+    "scripts/admin-ai-studio-render.test.mjs",
+    "scripts/admin-a2-navigation.test.mjs",
+    "scripts/admin-a1-cleanup.test.mjs",
+    "scripts/admin-shell-state.test.mjs",
+    "scripts/admin-access.test.mjs",
+    "scripts/admin-workflow-catalog.test.mjs",
+    "scripts/validate-admin-contract.mjs",
+    "scripts/validate-backend-contracts.mjs",
+    "scripts/check-supabase-readiness.mjs",
+    "scripts/probe-edge-auth.mjs",
+    "package.json"
+  ],
+  "untouchedSurfaces": [
+    "ai-tarot-reading/index.ts content-source logic, ai_feedback, eval tables, admin-ai-eval-run and publish gate migrations belong to the parallel A6 agent; no AI function index.ts is edited (they get the new router through the shared module).",
+    "Mobile app, request bodies and canned fallback texts are unchanged.",
+    "Default routes in model-router.ts and packages/agent-config/model-routing.json are unchanged; no new provider key is set or read.",
+    "Prompts, quotas, switches and the A4 feature config table are unchanged (cost_cap_micro and deadline_ms are now read by the router).",
+    "No migration applied, no Edge Function deployed, PLAN.md and the backlog file untouched (coordinator updates them)."
+  ],
+  "impact": {
+    "entryPoint": "Admin left navigation Nhà cung cấp & Model: new AI Studio route providers (provider table and per-feature step chains) and the existing Model Router route; Edge Functions admin-model-router-config and the new admin-ai-provider-probe; every AI function through the shared router.",
+    "dataWrite": "model_route_versions gains nullable steps, total_deadline_ms and publish_note; new ai_providers (5 seeded rows) and ai_provider_health (probe and runtime circuit state); admin_audit_logs rows ai.provider.update and ai.provider.probe; route publish audit includes step count.",
+    "backendContract": "model_route_publish_v2 stays the contract; steps, totalDeadlineMs and note are optional additions. Router reads the new columns when present and falls back to the legacy select when the migration is missing. App request and response shapes are unchanged.",
+    "adminVisibility": "Provider order, on/off, configured yes/no (from the last probe or runtime report), allowed data class, 24 h attempts and errors from traces, circuit open until; chain editor shows each step and the total deadline; trace spans carry step index, error class and outcome.",
+    "privacySafety": "No key input anywhere; probe and list never return secret values; direct providers disabled until the Owner enables them; DeepSeek direct only for public data; providers below a feature's data class are skipped; OpenRouter keeps ZDR + data_collection deny on every feature; a safety block never falls through to another model.",
+    "observability": "Root span output outcome and skipped steps; generation span attributes stepIndex, errorClass, httpStatus, costMicro; ai_provider_health failures and opened_until; probe audit rows.",
+    "rollback": "Publishing a route without steps restores primary + fallback behaviour; disabling a provider removes it from chains at once (15 s cache); the router ignores missing tables and columns; redeploying the previous function versions restores the old router."
+  },
+  "canonicalContracts": [
+    "supabase/functions/admin-model-router-config/contract.ts model_route_publish_v2 (optional steps added)",
+    "supabase/functions/_shared/model-provider.ts provider names, timeouts and error mapping",
+    "supabase/migrations/20261113090100_ai_feature_configs.sql RPC, audit and permission pattern"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    { "path": "AGENTS.md", "reason": "SQL, deploy and secrets need Owner approval each time.", "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa" },
+    { "path": "docs/AGENT_TASK_ROUTER.md", "reason": "Backend, AI runtime and Admin routes.", "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c" },
+    { "path": "docs/PLAN_QC_PROTOCOL.md", "reason": "Preflight rules and record shape.", "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2" },
+    { "path": "apps/admin/AGENTS.md", "reason": "Admin protected architecture: additive workspaces and routes.", "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8" },
+    { "path": "docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md", "reason": "Sections 3.7 part 2, 3.10, 2.2 D3 D4 E1 E5 and A7 order.", "sha256": "7eaf7aa64f6827ad96659b06ed7212ce667487f286ad50b717fc04d55c5c69ab" },
+    { "path": "docs/proposals/LLM_PROVIDERS_FALLBACK_2026-11-03.vi.md", "reason": "Error classes, circuit breaker, provider privacy table and phases.", "sha256": "af435cd85373fb6f90ad667b7a1ed195992c77932fc25241f654f3e544d8f45d" },
+    { "path": "docs/backlog/review-2026-10-30.json", "reason": "AI-06, AI-11, AI-14 findings.", "sha256": "a372932e4d662bfea12a41f1be5384fd734ab6af7ed4a8d66987f6eb0d8f6791" },
+    { "path": "supabase/migrations/20260630000000_model_route_versions.sql", "reason": "Table shape and provider check constraints.", "sha256": "14889d571f6476036a2ec8344e6bc6a539e19040e12a6e7958416141e6c7adaf" },
+    { "path": "supabase/migrations/20261014074711_model_route_publish_contract_v2.sql", "reason": "Current publish RPC to extend compatibly.", "sha256": "de7bd65de8e7e7c5d979f63a230737cca2a7ab1a75e9af751bbc2083a29fa4b9" },
+    { "path": "supabase/migrations/20260902131408_owner_capability_boundary.sql", "reason": "has_capability role map.", "sha256": "2f8fdac36b93d68f1a32da2d7a83b33c2b41b966589e8be9e1a85d56ace42a24" },
+    { "path": "supabase/migrations/20260909014614_ai_trace_observability.sql", "reason": "Trace span table used for 24 h provider counts.", "sha256": "8794f35ab9724c18e2dda617f5bc3b1031bd16af067dff70a9cf1ef321e769bc" },
+    { "path": "supabase/migrations/20261113090100_ai_feature_configs.sql", "reason": "RPC pattern; deadline_ms and cost_cap_micro.", "sha256": "5556bfd9ff4f2649d244cba6dbc242c3abedc97a3f8f9dc067f63959b49de04e" },
+    { "path": "supabase/functions/_shared/model-router.ts", "reason": "Router to extend with step walking.", "sha256": "87de02f1978911d8ab0abc791f827b8cb3f16e18bfcc2eb3bea10ef304d89d96" },
+    { "path": "supabase/functions/_shared/model-provider.ts", "reason": "Provider names, timeouts, error mapping.", "sha256": "8cdc5dc83a831984f55d355deafb2460c1f0842f1bdd434d1209c04d8bb8ecde" },
+    { "path": "supabase/functions/_shared/feature-config.ts", "reason": "Cached REST reader pattern; cost cap source.", "sha256": "eb71e736b91910caed56ebd69c968bd6387ce554430f9efd2b1a0b07e6af8fbc" },
+    { "path": "supabase/functions/_shared/providers/openrouter.ts", "reason": "ZDR flags and format handling.", "sha256": "a2eda068e14abc1b4731e1aa3aaed7c9c49dd1b49c90b46317960165eb7e46d7" },
+    { "path": "supabase/functions/_shared/providers/openai.ts", "reason": "OpenAI-compatible adapter for DeepSeek.", "sha256": "098e335d463543a01a01234877b32804062308d4f13483d07008693bc1403668" },
+    { "path": "supabase/functions/_shared/providers/gemini.ts", "reason": "Header key, JSON mode.", "sha256": "c76f8dbd61a792282216f8d6cec418af83ae0db06ab96127abc2ec1583db7445" },
+    { "path": "supabase/functions/_shared/providers/anthropic.ts", "reason": "Anthropic adapter.", "sha256": "03d84f671c15efb15782d2fcfe03c89551626d57d42c222c205ef4a7e1cf4211" },
+    { "path": "supabase/functions/_shared/persona-prompt-assembler.ts", "reason": "A5 review finding: VI guard failure falls through to EN.", "sha256": "e76e850c44a6d1826c1c0864f5036e8a807df8d64b487eb6364fbd2679f3a0ad" },
+    { "path": "supabase/functions/admin-model-router-config/index.ts", "reason": "GET/POST route config function.", "sha256": "839017fe8a3f7547c1ca836a76b1915442340adcb7b502d0fe2bef4eb9892bb5" },
+    { "path": "supabase/functions/admin-model-router-config/contract.ts", "reason": "Publish payload contract.", "sha256": "4d721d2f384b4456a5ed1fc83e9191593e7c0aecf568e5e07b635d2e04919cbf" },
+    { "path": "supabase/functions/admin-model-router-config/readiness.ts", "reason": "Secret presence report.", "sha256": "7f922a7d356a762f56cd7436b3ecbf9ceebd1983821db8e97f7a22e26b9a40b2" },
+    { "path": "apps/admin/app.js", "reason": "Model Router page, provider catalogue and publish review.", "sha256": "8453cfe2a425aea8bd61900b07c4c4393ef3a1922fa29cf4531dee599ffea24a" },
+    { "path": "apps/admin/shell.js", "reason": "Left navigation and the A2 pending providers page.", "sha256": "ff75c1a5e2de3c809ba5d4df8e436d016c4d07e39704f983de92a95b0afea47b" },
+    { "path": "apps/admin/workspace-guard.js", "reason": "NilazaAdminRpc and function allowlists.", "sha256": "d8fdc6d014f1dcb44f19315db90ec0c62c0e671eddfec45e9ff78ab301da6133" },
+    { "path": "apps/admin/ai-features.js", "reason": "A4 module pattern (drafts, review dialog, missing RPC).", "sha256": "c5b7bea2535c178f1c7cab3e420db3e5cf68e8177d2b1ef90b71cf1dc2c0c573" },
+    { "path": "apps/admin/admin-capabilities.json", "reason": "AI Studio route list.", "sha256": "3e0a888fe3c4082f4b0cfd7d294b716c77f1c71800fbc5daa2830f288f739d57" },
+    { "path": "scripts/validate-backend-contracts.mjs", "reason": "Admin function registration checks.", "sha256": "8754e799016f85ec6264d77fcb5909f57fe786c4fc9fc545be5481438777cb35" }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before the first edit; migrations and deploys left to the Owner by hash; PGlite, Deno and jsdom tests only."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Safety block never falls through; output check stays inside the router; total attempts stay under the 150 s Edge limit (deadline at most 140 s); ZDR/deny on every OpenRouter call; every Admin field has a runtime consumer."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Provider endpoints (OpenRouter /api/v1/key and chat completions, Anthropic /v1/models and /v1/messages, Gemini models list and generateContent with x-goog-api-key, OpenAI /v1/models and chat completions, DeepSeek OpenAI-compatible /chat/completions) and their billing error shapes come from the provider docs cited in docs/proposals/LLM_PROVIDERS_FALLBACK_2026-11-03.vi.md (accessed 2026-11-03); not re-verified live in this session, so the probe classification and the model catalogue are marked unverified until the Owner runs Kiểm tra khóa on staging. PGlite only in the session scratchpad; no repository dependency added."
+  },
+  "externalSourceReview": [
+    { "url": "https://openrouter.ai/docs/api-reference/limits", "reason": "GET /api/v1/key with Bearer key returns limit, limit_remaining, usage; used by the probe without a paid call.", "checkedAt": "2026-11-13" },
+    { "url": "https://openrouter.ai/docs/api-reference/errors", "reason": "402 insufficient credits, 401 invalid key, 403 guardrail/budget, 429 rate limit, 502/503 upstream.", "checkedAt": "2026-11-13" },
+    { "url": "https://platform.claude.com/docs/en/api/errors", "reason": "Anthropic 401 authentication, 402 billing_error, 403 permission, 404 not_found, 429 rate limit, 529 overloaded.", "checkedAt": "2026-11-13" },
+    { "url": "https://platform.claude.com/docs/en/api/models/list", "reason": "GET /v1/models lists models without a paid call (probe model choice).", "checkedAt": "2026-11-13" },
+    { "url": "https://api-docs.deepseek.com/quick_start/error_codes", "reason": "DeepSeek base https://api.deepseek.com, POST /chat/completions, models deepseek-flash and deepseek-v4-pro; 401 bad key, 402 insufficient balance, 429 rate limit.", "checkedAt": "2026-11-13" },
+    { "url": "https://aistudio.google.com/docs/api-errors", "reason": "Gemini 400 failed_precondition (billing disabled), 402 payment_required, 403 permission_denied, 429 quota/rate, 503 unavailable; models list endpoint.", "checkedAt": "2026-11-13" },
+    { "url": "https://developers.openai.com/api/docs/guides/error-codes", "reason": "OpenAI 401 invalid key; 429 credit_balance_exhausted / spend limit codes vs plain rate limit (no 402).", "checkedAt": "2026-11-13" }
+  ],
+  "securityReview": {
+    "authzRls": "ai_providers and ai_provider_health have RLS on and no grants to anon/authenticated; reads only through list_ai_providers (ai.read), writes through set_ai_provider (ai.manage, audited) and record_ai_provider_probe (service_role only); publish_model_route_config keeps ai.manage; admin-ai-provider-probe checks ai.manage with the caller's session before using the service role.",
+    "sensitiveData": "No user data in the new tables; traces keep their existing redaction; data class rules prevent sending sensitive feature data to providers not allowed for it.",
+    "secretsLogging": "Secret values are never read into responses, logs, traces or the database: presence is checked with Deno.env.get(name) truthiness; the probe sends the key only in the provider's auth header and stores only the result class and HTTP status.",
+    "externalInput": "RPCs and the Edge contract validate provider names, model text, step count and numeric bounds; Admin escapes every value; the chain editor offers catalogue models only.",
+    "dependencies": "No package added to the repository.",
+    "migrationRelease": "Owner applies 20261113140000 then 20261113140100 by hash and deploys admin-model-router-config, admin-ai-provider-probe and every AI function using the shared router; until then Admin names the missing migration and functions behave as today.",
+    "stopCondition": "Stop if PGlite, Deno tests, deno check or Admin tests fail, if a no-steps route changes behaviour, or if any path could return or log a key value.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Clean tree at start (origin/main 392160b); this record and its preflight (only the environment-only 'Installed project skills differ' message) were committed (af11cd9) before the first code edit. Edited afterwards within writeScope: migrations 20261113140000 (LF SHA-256 d7c59aa1013839b49bb1fe5325503eefb6272f2c96423f79f5c1470e4e44edea) and 20261113140100 (eaf2e10c9547a05fa14881d6d27423e7b24383134ed558e51cc4478724314223), PGlite-verified (59 checks); shared router, provider adapters, provider registry and DeepSeek adapter with Deno tests; admin-model-router-config contract/index/readiness and the new admin-ai-provider-probe with Deno tests; Admin model-providers.js and its wiring with jsdom tests; Model Router page translated. sourceReview hashes of the files this task edited were refreshed after the edits: model-router.ts, model-provider.ts, providers/openrouter.ts, providers/openai.ts, providers/gemini.ts, persona-prompt-assembler.ts, admin-model-router-config index/contract/readiness, apps/admin/app.js, shell.js, workspace-guard.js, admin-capabilities.json, scripts/validate-backend-contracts.mjs. providers/anthropic.ts and apps/admin/generated/ were not changed.",
+    "paths": []
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/admin-a7-providers-2026-11-13.json",
+    "node <scratchpad>/pglite-a7/verify.mjs <repo>",
+    "npx --yes deno@2 test --allow-env --allow-read supabase/functions/_shared supabase/functions/admin-ai-provider-probe supabase/functions/admin-model-router-config",
+    "npx --yes deno@2 check supabase/functions/ai-*/index.ts supabase/functions/admin-model-router-config/index.ts supabase/functions/admin-ai-provider-probe/index.ts",
+    "npm run admin:test && node scripts/validate-admin-contract.mjs && node scripts/validate-admin-workflow-catalog.mjs",
+    "npm run validate:backend && npm run supabase:check",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "After the Owner applies both migrations and deploys the functions: open Admin › Nhà cung cấp & Model, see OpenRouter first and on, the four direct providers off and 'Chưa cấu hình'; press Kiểm tra khóa and see OpenRouter 'Ổn'. Open the Tarot chain card, add Anthropic as step 3, save a draft (Lưu nháp), then Xem lại & phát hành with a note; the diff lists the new step. Send one Tarot request on staging and see one generation span with step 1 and outcome ok in Nhật ký AI.",
+  "residualRisk": "Probe classification and direct provider adapters are not verified against live providers; the model catalogue and default prices are reference values. PGlite is not Supabase: re-run the Security Advisor after applying. The circuit breaker uses a 15 s cache per instance, so a few requests may still try a provider just after its circuit opens.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

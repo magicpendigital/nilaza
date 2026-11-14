@@ -4,7 +4,7 @@ import { providerReadiness } from "../functions/admin-model-router-config/readin
 Deno.test("readiness only reports fixed secret names and booleans, never values", () => {
   const read: string[] = [];
   const result = providerReadiness(name => { read.push(name); return name === "OPENAI_API_KEY" ? "synthetic-secret-do-not-return" : undefined; });
-  assertEquals(read, ["OPENAI_API_KEY", "GEMINI_API_KEY", "ANTHROPIC_API_KEY", "OPENROUTER_API_KEY"]);
+  assertEquals(read, ["OPENAI_API_KEY", "GEMINI_API_KEY", "ANTHROPIC_API_KEY", "OPENROUTER_API_KEY", "DEEPSEEK_API_KEY"]);
   assertEquals(result[0].configured, true);
   assertEquals(result[1].configured, false);
   assertEquals(JSON.stringify(result).includes("synthetic-secret"), false);
