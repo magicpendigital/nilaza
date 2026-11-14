@@ -22,6 +22,7 @@ for (const file of [".env", ".env.local", "apps/mobile/.env", "apps/mobile/.env.
 
 const requiredFunctions = [
   "ai-feedback",
+  "share-events",
   "ai-oracle-turn",
   "ai-persona-chat",
   "ai-council",

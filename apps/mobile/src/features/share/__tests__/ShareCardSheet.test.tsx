@@ -11,10 +11,14 @@ const mockCaptureRef = jest.fn();
 const mockReleaseCapture = jest.fn();
 const mockIsAvailable = jest.fn();
 const mockShareAsync = jest.fn();
+const mockSetString = jest.fn();
 
 jest.mock("react-native-view-shot", () => ({
   captureRef: (...args: unknown[]) => mockCaptureRef(...args),
   releaseCapture: (...args: unknown[]) => mockReleaseCapture(...args)
+}));
+jest.mock("expo-clipboard", () => ({
+  setStringAsync: (...args: unknown[]) => mockSetString(...args)
 }));
 jest.mock("expo-sharing", () => ({
   isAvailableAsync: () => mockIsAvailable(),
@@ -36,6 +40,7 @@ beforeEach(() => {
   mockIsAvailable.mockResolvedValue(true);
   mockCaptureRef.mockResolvedValue("file:///cache/card.png");
   mockShareAsync.mockResolvedValue(undefined);
+  mockSetString.mockResolvedValue(true);
   jest.spyOn(Share, "share").mockResolvedValue({ action: "sharedAction" } as never);
 });
 
@@ -87,4 +92,31 @@ it("closes from the close button", () => {
   const { screen, onClose } = setup();
   fireEvent.press(screen.getByText("Đóng"));
   expect(onClose).toHaveBeenCalled();
+});
+
+it("copies the tracked link before the share sheet opens and tells the person to paste it", async () => {
+  const order: string[] = [];
+  mockSetString.mockImplementation(async () => { order.push("copy"); return true; });
+  mockShareAsync.mockImplementation(async () => { order.push("share"); });
+  const { screen } = setup();
+  fireEvent.press(screen.getByText("Chia sẻ ảnh"));
+  await waitFor(() => expect(screen.getByText(/Đã sao chép link/)).toBeTruthy());
+  expect(mockSetString).toHaveBeenCalledWith(url);
+  expect(order).toEqual(["copy", "share"]);
+});
+
+it("still shares the image when the clipboard fails, without claiming the link was copied", async () => {
+  mockSetString.mockRejectedValue(new Error("clipboard denied"));
+  const { screen, onEvent } = setup();
+  fireEvent.press(screen.getByText("Chia sẻ ảnh"));
+  await waitFor(() => expect(mockShareAsync).toHaveBeenCalled());
+  await waitFor(() => expect(onEvent).toHaveBeenCalledWith("share_completed", { surface: "today_card", action: "image", outcome: "returned" }));
+  expect(screen.queryByText(/Đã sao chép link/)).toBeNull();
+});
+
+it("does not touch the clipboard when only the link text is shared", async () => {
+  const { screen } = setup();
+  fireEvent.press(screen.getByText("Gửi kèm link"));
+  await waitFor(() => expect(Share.share).toHaveBeenCalled());
+  expect(mockSetString).not.toHaveBeenCalled();
 });

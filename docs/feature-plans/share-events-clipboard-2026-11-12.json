@@ -1,0 +1,220 @@
+{
+  "schemaVersion": 1,
+  "taskId": "share-events-clipboard-2026-11-12",
+  "ownerAgent": "growth_mobile_agent",
+  "lane": "Cross-cutting: mobile share sheet, one Edge Function and a device test build",
+  "goal": "Let the share sheet copy the tracked link before sharing the image so one flow carries image and link, send share_tapped and share_completed to the server through a new authenticated Edge Function that writes the existing usage_events table, and build a native Android test APK for the connected phone, without applying SQL, deploying anything or changing signing keys.",
+  "successCriteria": [
+    "Share image copies the tracked link to the clipboard first (best effort: a clipboard failure never blocks the image share) and the sheet tells the person to paste it; the link button still shares text with the link.",
+    "A new Edge Function share-events accepts only an authenticated, non-anonymous caller, reads bounded JSON, accepts at most 10 events per request with exactly the enumerated fields (name, surface, action, outcome), rejects extra keys and free text, and inserts rows into the existing usage_events table with feature 'share' and no private content.",
+    "A per-user limit of 100 share events per 24 hours returns 429; invalid input returns 400; missing or anonymous auth returns 401; the handler has Deno tests for each path including negative cases.",
+    "The mobile app sends each share event to the server only when it has a signed-in session and a backend URL, never blocks the share on the request, and swallows failures; the local event record stays as before.",
+    "No SQL migration is added: the function uses existing columns and the service role path other AI functions already use; the migration packet and its hash are unchanged.",
+    "validate:backend, supabase:check, the mobile type check and the full mobile Jest suite pass; the function is registered in the contract validator, the readiness list and the function README.",
+    "A local release APK built from this source for the connected phone points at the Singapore project with the publishable key only, installs over the existing app without wiping data, and is checked on the device; nothing is deployed to Supabase by this task."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/package.json",
+    "apps/mobile/src/backendClient.ts",
+    "apps/mobile/src/features/share/",
+    "package-lock.json",
+    "supabase/functions/share-events/",
+    "supabase/functions/README.md",
+    "scripts/validate-backend-contracts.mjs",
+    "scripts/check-supabase-readiness.mjs",
+    "docs/release/share-events-2026-11-12/",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "No SQL, migration, Supabase setting or Edge Function deploy; the Owner deploys share-events himself with the printed command after reviewing the receipt.",
+    "No change to the migration packet, its hash, the ledger or release-profile targets.",
+    "No signing key creation or export; the local debug-key signing used for earlier test APKs is reused only on this machine and the key file is not committed.",
+    "No change to AI functions, quotas, feature switches, account tier policy or the waitlist function.",
+    "Web pages and public analytics events from the previous share task are unchanged.",
+    "No secret is read: only the Singapore project URL and publishable key, which ship inside the app by design, are used for the test build."
+  ],
+  "impact": {
+    "entryPoint": "Share sheet opened from Today's card, the tarot reading share and the Astrology Big 3 or invite buttons; the build task starts from the Owner's adb-connected phone.",
+    "dataWrite": "Clipboard (the tracked link, written only when the person taps Share image). Server: rows in the existing usage_events table with event_name share_tapped or share_completed, feature share and metadata surface, action and outcome only. Rows are removed by the existing account deletion.",
+    "backendContract": "New POST /share-events (gateway path /share/events) with verify_jwt on, body {events:[{name,surface,action,outcome?}]} up to 10, answers 202 {accepted:n}. No change to other contracts.",
+    "adminVisibility": "No Admin change. Counts are readable by the Owner from usage_events through existing Supabase access; no raw private content exists in these rows.",
+    "privacySafety": "Events carry enumerated values only, never the question, notes, mood, birth data, names, card ids or the link. Anonymous callers are rejected. The data-safety form should list app interactions collected for analytics, linked to the account and deleted with the account.",
+    "observability": "Server rows give real share counts per surface once the function is deployed; share_completed still means the share sheet returned, not that a message was sent. Rate-limit and validation failures return distinct codes.",
+    "rollback": "Not deploying the function leaves the app working: the client swallows failures. Removing the function or reverting the commit stops collection; existing rows can be deleted by feature share. The clipboard step can be removed without other effects."
+  },
+  "canonicalContracts": [
+    "supabase/functions/share-events/handler.ts is the single source for accepted event fields; the mobile client builds events from the same enumerations and a test asserts they match.",
+    "supabase/functions/_shared/ai-request-guard.ts is the shared authentication and bounded JSON guard.",
+    "usage_events table definition in supabase/migrations/202606120001_mvp_schema.sql.",
+    "Owner decision in chat on 2026-11-12: build the next native build, approve the server step for share events, add clipboard copy, use the installed nilaza-plan-qc workflow."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "sanitized_artifact_metadata"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa",
+      "reason": "Product guardrails and Owner approval limits reviewed."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Mobile, backend and Edge Function routing reviewed."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Plan, impact, validation and handoff gate reviewed."
+    },
+    {
+      "path": "PLAN.md",
+      "sha256": "f3589824771c955d5b133cc6376f942564897594be37ce4bfaa146d25fc1629a",
+      "reason": "Singapore state: 18 Edge Functions live, usage_events written by service role, the Owner deploys functions himself, last on-device test recipe."
+    },
+    {
+      "path": "docs/feature-plans/share-card-growth-2026-11-12.json",
+      "sha256": "1fb241125430bb85b3d88bc8440447b402b908da6bd67e1061163ba74caa2563",
+      "reason": "Previous share record: its four events, local-only recording and the Android image-plus-link limit this task closes."
+    },
+    {
+      "path": "docs/release/share-card-growth-2026-11-12/SHARE_GROWTH_HANDOFF.vi.md",
+      "sha256": "9a0bbb576babfe05080ec4a67e1af64b7a1af34a07ce77bd72b2a5159a3b2888",
+      "reason": "Handoff listing the open Owner decisions this task acts on."
+    },
+    {
+      "path": "apps/mobile/package.json",
+      "sha256": "da731c0db06f0ef6c2168147b23fef31595bb858fca2480ab9d49bc439d4572c",
+      "reason": "Dependency set reviewed; expo-clipboard is the one addition."
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "sha256": "e4713c314c8dc140b1749cf1b708e19401df6271e6fa570c5a72573a3d51f4d1",
+      "reason": "recordShareEvent wiring and backendOptions available for the server call."
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "sha256": "b412c4a446544598698a6f9025c1fbca0f05d31482c2b1b743f14f8555690b33",
+      "reason": "Gateway path map, auth headers and the feedback request pattern the new call follows."
+    },
+    {
+      "path": "apps/mobile/src/features/share/ShareCardSheet.tsx",
+      "sha256": "3e1fc530f921283fdcc6090f24304483738f4716ce9fa0b30a62de992d62dd5e",
+      "reason": "Current two-button share sheet to extend with link copy."
+    },
+    {
+      "path": "apps/mobile/src/features/share/captureShareCard.ts",
+      "sha256": "37990771072c697d02b7d73e6933716f4aaa08b17abd2f1ac06493429710a10d",
+      "reason": "Capture and share helpers that gain a clipboard step."
+    },
+    {
+      "path": "supabase/functions/ai-feedback/handler.ts",
+      "sha256": "76a4bb3c3f7e4e5662fe1b4a6ddd9aa70f8d3750f5d5db226da394b78cdcd9e1",
+      "reason": "Authenticated handler pattern with bounded JSON and a tested store seam."
+    },
+    {
+      "path": "supabase/functions/ai-feedback/index.ts",
+      "sha256": "0099accdad5e74b3038a76dee8467c81deeb6a8ede6b72bcb59f5009fa3fbf88",
+      "reason": "How index.ts wires auth with the anon key and the shared handler."
+    },
+    {
+      "path": "supabase/functions/_shared/ai-request-guard.ts",
+      "sha256": "1fbf5ab7723ebb1d4f9ca55b099a275f53ca1fd7163c4d519054af7519532abb",
+      "reason": "Shared guard: auth before body, bounded JSON, anonymous users rejected."
+    },
+    {
+      "path": "scripts/validate-backend-contracts.mjs",
+      "sha256": "a53969230a8ca5a5ae0de3b06198fc593be74c0409e0a9f32f0568e45e859c49",
+      "reason": "Registration and static assertions every function must satisfy."
+    },
+    {
+      "path": "scripts/check-supabase-readiness.mjs",
+      "sha256": "187f334a7561f2ccce2bfe299b5b5984f0d904bf31727313d2d3c15fc1a2e824",
+      "reason": "Required function list for the readiness check."
+    },
+    {
+      "path": "supabase/migrations/202606120001_mvp_schema.sql",
+      "sha256": "226e20601e094426e23170814fab3346eea953bf619d78b0ded153afa37559f5",
+      "reason": "usage_events columns confirmed: event_name, feature, metadata, user_id."
+    },
+    {
+      "path": "supabase/migrations/20261025000000_account_deletion_v1.sql",
+      "sha256": "beeee40256b977066f03431a8e8c241bf55183f40fafa09d4e1ef5e9f34870c3",
+      "reason": "Account deletion already deletes usage_events rows by user."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Followed the installed skill workflow (lane, Whole-App Impact Brief, preflight before edits, handoff). The repository copy is a different, newer revision; no skill source is changed by this task."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Only sheet copy text and one status line change; brand assets and palette are untouched."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "expo-clipboard is installed with expo install so Expo SDK 54 picks its compatible version; setStringAsync is the documented write call. The Edge Function uses only the pinned supabase-js import and std server already used by ai-feedback."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://docs.expo.dev/versions/v54.0.0/sdk/clipboard/",
+      "checkedAt": "2026-11-12",
+      "reason": "expo-clipboard setStringAsync writes text to the system clipboard on Android and iOS; Android 13 and later shows its own copy confirmation."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "verify_jwt stays on and the handler authenticates before reading the body through the shared guard; anonymous users are rejected. Rows are written with the service role keyed to the verified user id, never a client-supplied id; usage_events keeps its row policies and the revoked client privileges.",
+    "sensitiveData": "Event fields are enumerated; extra keys are rejected, so no free text or identifiers can be stored. The clipboard holds only the tracked public link.",
+    "secretsLogging": "No secret is read or logged. The test build embeds only the publishable key and project URL. The service role key is used only inside the function through the platform environment.",
+    "externalInput": "Request body is bounded JSON with a strict allow-list; unknown names, surfaces, actions and outcomes return 400. The limit of 100 events per 24 hours bounds abuse and table growth.",
+    "dependencies": "One new native module, expo-clipboard, from the Expo SDK 54 set; it needs the native rebuild this task performs.",
+    "migrationRelease": "No migration. The function is source only until the Owner deploys it; the APK is a local test build for one phone and is not a store artifact.",
+    "stopCondition": "Stop if installing over the existing app would require uninstalling it (data loss), if the build needs a secret, if any private value appears in a stored row, or if a type check, test or contract validator fails.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "PLAN.md",
+      "apps/mobile/App.tsx",
+      "apps/mobile/package.json",
+      "apps/mobile/src/backendClient.ts",
+      "apps/mobile/src/features/share/ShareCardSheet.tsx",
+      "apps/mobile/src/features/share/ShareCardView.tsx",
+      "apps/mobile/src/features/share/__tests__/ShareCardSheet.test.tsx",
+      "apps/mobile/src/features/share/__tests__/shareEvents.test.ts",
+      "apps/mobile/src/features/share/captureShareCard.ts",
+      "apps/mobile/src/features/share/shareEvents.ts",
+      "docs/release/share-events-2026-11-12/SHARE_EVENTS_HANDOFF.vi.md",
+      "package-lock.json",
+      "scripts/check-supabase-readiness.mjs",
+      "scripts/validate-backend-contracts.mjs",
+      "supabase/functions/README.md",
+      "supabase/functions/share-events/handler.ts",
+      "supabase/functions/share-events/handler_test.ts",
+      "supabase/functions/share-events/index.ts"
+    ],
+    "note": "Uncommitted work of this task on top of origin/main 3800efa: share-sheet clipboard copy, the share-events Edge Function and its client, validators, tests, release notes and PLAN.md. Nothing is deployed and no SQL was run."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/share-events-clipboard-2026-11-12.json",
+    "npm run mobile:check",
+    "npm --workspace apps/mobile test -- --runInBand",
+    "npx --yes deno@2 test supabase/functions/share-events",
+    "npm run validate:backend",
+    "npm run supabase:check",
+    "npm run supabase:migration-ledger:check",
+    "npm run mobile:release:config:check"
+  ],
+  "managerTestPath": "On the phone: Home, open today's card, tap Share, tap Share image: the sheet says the link was copied, the Android share sheet opens, pick a chat app and paste: the tracked link appears. Tap Send link: a text with the link opens. After the Owner deploys share-events, tap both buttons while signed in and see rows with feature share in usage_events for the account, holding only surface, action and outcome.",
+  "residualRisk": "Image capture on the New Architecture and the Android share sheet are verified only if the phone test passes; the function is untested against a live project until the Owner deploys it; the clipboard overwrite replaces whatever the person had copied; share_completed means the sheet returned, not that a message was sent.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

@@ -6,6 +6,7 @@ const errors = [];
 
 const contracts = [
   { gatewayPath: "/ai/feedback", functionName: "ai-feedback" },
+  { gatewayPath: "/share/events", functionName: "share-events" },
   { gatewayPath: "/ai/oracle-turn", functionName: "ai-oracle-turn" },
   { gatewayPath: "/ai/persona-chat", functionName: "ai-persona-chat" },
   { gatewayPath: "/ai/ai-council", functionName: "ai-council" },
@@ -79,6 +80,14 @@ for (const { functionName } of contracts) {
       const handler = read("supabase/functions/ai-feedback/handler.ts");
       assert(source.includes("createFeedbackHandler") && source.includes("supabase.auth.getUser"), "Feedback must use the authenticated handler");
       assert(handler.includes("await guardAiJsonRequest") && handler.includes("parseFeedbackSubmission") && handler.includes("parseFeedbackReceipt") && handler.includes("parseFeedbackExport"), "Feedback must guard input and validate all acknowledgements");
+    }
+    if (functionName === "share-events") {
+      const handler = read("supabase/functions/share-events/handler.ts");
+      assert(source.includes("createShareEventsHandler") && source.includes("caller.auth.getUser("), "Share events must verify the caller before storing");
+      assert(handler.includes("await guardAiJsonRequest") && handler.indexOf("guardAiJsonRequest") < handler.indexOf("parseShareEvents(input)"), "Share events must authenticate and bound JSON before parsing events");
+      assert(handler.includes("user_id: userId") && !/user_id:\s*(input|event)/.test(handler), "Share events must write the verified user id, never one from the request");
+      assert(source.includes('"usage_events"') && handler.includes('feature: "share"'), "Share events must write enumerated rows to usage_events with feature share");
+      assert(handler.includes("onlyKeys(") && handler.includes("DAILY_EVENT_LIMIT"), "Share events must reject extra keys and keep its daily limit");
     }
     assert(source.includes("Access-Control-Allow-Origin"), `${functionName} must include CORS headers`);
     if (["ai-persona-chat", "ai-council", "ai-tarot-reading", "ai-daily-insight", "ai-daily-zodiac-pulse", "ai-astrology-report", "ai-astrology-insight", "profile-upsert", "journal-entries", "notification-register-device", "notification-preferences", "notification-inbox", "notification-send-test"].includes(functionName)) {

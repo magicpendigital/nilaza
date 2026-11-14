@@ -1,5 +1,6 @@
 import type { RefObject } from "react";
 import { Share, type View } from "react-native";
+import * as Clipboard from "expo-clipboard";
 import * as Sharing from "expo-sharing";
 import { captureRef, releaseCapture } from "react-native-view-shot";
 import { SHARE_IMAGE_HEIGHT, SHARE_IMAGE_WIDTH } from "./ShareCardView";
@@ -9,6 +10,19 @@ import { SHARE_IMAGE_HEIGHT, SHARE_IMAGE_WIDTH } from "./ShareCardView";
  * a message was actually sent, so this is never counted as a delivered share.
  */
 export type ShareOutcome = "returned" | "unavailable" | "failed";
+
+/**
+ * Android cannot send an image and a link in one share, so the tracked link is copied first and the person pastes it.
+ * Best effort: a clipboard failure never blocks the share. Returns whether the link was copied.
+ */
+export async function copyShareLink(url: string): Promise<boolean> {
+  try {
+    await Clipboard.setStringAsync(url);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 /** Captures the card as a 1080x1350 PNG and hands it to the system share sheet. Never throws. */
 export async function shareCardImage(card: RefObject<View | null>, dialogTitle: string): Promise<ShareOutcome> {
