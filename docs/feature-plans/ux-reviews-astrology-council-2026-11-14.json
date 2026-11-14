@@ -25,7 +25,9 @@
     "observability": "No change: documents only.",
     "rollback": "No change: documents only."
   },
-  "canonicalContracts": [],
+  "canonicalContracts": [
+    "docs/proposals/ADMIN_REDESIGN_2026-11-03.vi.md section 5 navigation (target Admin flow for astrology)"
+  ],
   "allowedDataClasses": [
     "sanitized_project_context"
   ],
@@ -44,6 +46,21 @@
       "path": "docs/PLAN_QC_PROTOCOL.md",
       "reason": "Preflight rules and record shape.",
       "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "supabase/functions/ai-council/index.ts",
+      "reason": "Council server flow reviewed for findings U1 and U4.",
+      "sha256": "fccd3fb870fe79415c2eaf839eb3868c3afb2ed381caf0ff310bfff56320a3c4"
+    },
+    {
+      "path": "supabase/functions/ai-astrology-insight/index.ts",
+      "reason": "Astrology Deep read gating, route and prompt checks.",
+      "sha256": "ff803fe6198867e7ca38277743eae2450b2fd7850e00d4667c9df95c122cfa66"
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/BirthFields.tsx",
+      "reason": "Birth time composition (finding K6).",
+      "sha256": "1800af4c5d7676ea7cabb52b4884c1555708c73a465e9ba95e7dcbd11ced1b0b"
     }
   ],
   "skillReview": [
@@ -92,8 +109,9 @@
     "node scripts/feature-preflight.mjs --ci --base origin/main"
   ],
   "managerTestPath": "Open the two proposal documents and read the Owner summary and decision sections.",
-  "residualRisk": [
-    "Findings come from code reading, not device testing; each document lists what is verified and what is inferred."
-  ],
-  "externalActions": []
+  "residualRisk": "Findings come from code reading, not device testing; each document lists what is verified and what is inferred. One astrology blocker claim (missing route and prompt pair) was disproved by a read-only production query on 14/11.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
 }
