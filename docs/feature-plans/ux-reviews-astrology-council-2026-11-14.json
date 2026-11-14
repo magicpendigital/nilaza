@@ -50,7 +50,7 @@
     {
       "path": "supabase/functions/ai-council/index.ts",
       "reason": "Council server flow reviewed for findings U1 and U4.",
-      "sha256": "fccd3fb870fe79415c2eaf839eb3868c3afb2ed381caf0ff310bfff56320a3c4"
+      "sha256": "a5801ab92f199972dae11ad1b04f919f510f9be3f58367b85358609d947877b7"
     },
     {
       "path": "supabase/functions/ai-astrology-insight/index.ts",

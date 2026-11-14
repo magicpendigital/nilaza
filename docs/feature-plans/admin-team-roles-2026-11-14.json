@@ -61,30 +61,126 @@
     "sanitized_project_context"
   ],
   "sourceReview": [
-    { "path": "AGENTS.md", "reason": "SQL, deploy, secrets and account creation need Owner approval each time.", "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa" },
-    { "path": "docs/AGENT_TASK_ROUTER.md", "reason": "Admin and backend routes and validation commands.", "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c" },
-    { "path": "docs/PLAN_QC_PROTOCOL.md", "reason": "Preflight rules and record shape.", "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2" },
-    { "path": "apps/admin/AGENTS.md", "reason": "Additive workspaces; keep role enforcement.", "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8" },
-    { "path": "docs/proposals/ADMIN_REDESIGN_2026-11-03.vi.md", "reason": "Section 5 navigation groups (no explicit members entry).", "sha256": "92cbe907d971bca8bfa1a38cd947493047473e823e10f9eb13f94e4d16fb77f6" },
-    { "path": "docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md", "reason": "Section 3.15 pairs the permission table (roles.manage) with Lịch sử thao tác.", "sha256": "7eaf7aa64f6827ad96659b06ed7212ce667487f286ad50b717fc04d55c5c69ab" },
-    { "path": "supabase/migrations/202606120001_mvp_schema.sql", "reason": "admin_role_assignments and admin_audit_logs shapes.", "sha256": "226e20601e094426e23170814fab3346eea953bf619d78b0ded153afa37559f5" },
-    { "path": "supabase/migrations/20260902131408_owner_capability_boundary.sql", "reason": "has_capability map, get_admin_access, role guard and audit triggers, roles.manage owner-only.", "sha256": "2f8fdac36b93d68f1a32da2d7a83b33c2b41b966589e8be9e1a85d56ace42a24" },
-    { "path": "supabase/migrations/20261113100100_admin_timeline.sql", "reason": "role.* rows shown only to roles.manage; details.role.", "sha256": "fd7d0353c0c9bc06e57f8ce7fe7307804ee85d5e58f00f91acf934c5de83f3c4" },
-    { "path": "supabase/migrations/20261113140100_ai_providers.sql", "reason": "Latest RPC, service-role-only and audit pattern.", "sha256": "eaf2e10c9547a05fa14881d6d27423e7b24383134ed558e51cc4478724314223" },
-    { "path": "supabase/functions/admin-ai-provider-probe/index.ts", "reason": "Caller capability check then service client pattern.", "sha256": "62381e3d2875adfd9ef1f2e51a32b2238bf8cf196de8012a287a5af919426a6c" },
-    { "path": "apps/admin/shell.js", "reason": "navGroups, workspaceCapability, routeAllowed.", "sha256": "a73190857a9849d60727db3ad9b8ac8b3c857d3fea50fc6eaa5f875b91cad48c" },
-    { "path": "apps/admin/workspace-guard.js", "reason": "Entry capability map, RPC and function allowlists.", "sha256": "f5eb1c3e33473bc6056e6eb53dd150209352762c4e708ca3642425c3655229db" },
-    { "path": "apps/admin/admin-access.js", "reason": "Role and capability sets parsed from get_admin_access.", "sha256": "1e6cc7a5b9a319e317371195451f4d5cdc6265bc87aeb4aadccd71daba91b13d" },
-    { "path": "apps/admin/admin-capabilities.json", "reason": "Workspace manifest to extend additively.", "sha256": "e5b7254d20b63b66836113edb4fcc6b7eafd38488eddd5ad6fb4e0d97aa42f3c" },
-    { "path": "apps/admin/timeline.js", "reason": "Action labels for the new role.* audit rows.", "sha256": "7ddcd9671b4e2f84cdb58c01c776f0081efe0b11f0106a3c0b47dc5106c4c086" },
-    { "path": "apps/admin/timeline.html", "reason": "Small standalone workspace page pattern.", "sha256": "75847e2ea72e72ef9f75aa507ab5965f966d085fbb81a84fa825fd12906011be" },
-    { "path": "apps/admin/recovery-core.js", "reason": "Only type=recovery links accepted; invite links need type=invite.", "sha256": "c689e6bedfeb49e877a28009e22652c1610962208fd57d8cf9b65476bd7948a7" },
-    { "path": "scripts/validate-backend-contracts.mjs", "reason": "Admin function registration tokens.", "sha256": "50a0b305de9ab9d675cbbebd86de72ab89fe414044453ead2a2d8c194da59564" },
-    { "path": "scripts/validate-admin-contract.mjs", "reason": "Admin contract checks to extend.", "sha256": "5d5379296ed06ebb1ebc4756eb8f3eb89b259e13a335d910ea4ef07a5147b596" },
-    { "path": "supabase/config.toml", "reason": "Per-function verify_jwt entries.", "sha256": "bdab42a724a8b7c2e20f520bfbefed738bdaf093188a34a96f8cbaa6770ad726" },
-    { "path": "supabase/functions/README.md", "reason": "Admin function table and deploy inventory.", "sha256": "7e40ea623289fbeccf644c5257b475bc11c55361007f7921f689952dc313a75c" },
-    { "path": "scripts/admin-a2-navigation.test.mjs", "reason": "Asserts the exact navigation labels.", "sha256": "0a6d391da952d348bfe2f72819ed225578b4f2cf2a397df38b053090a84cbbe3" },
-    { "path": "package.json", "reason": "admin:test file list.", "sha256": "d4946f009b6288b5f7b7747abb464a042155fbfda2ab14cc2d40fb95953bf266" }
+    {
+      "path": "AGENTS.md",
+      "reason": "SQL, deploy, secrets and account creation need Owner approval each time.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Admin and backend routes and validation commands.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules and record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/admin/AGENTS.md",
+      "reason": "Additive workspaces; keep role enforcement.",
+      "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8"
+    },
+    {
+      "path": "docs/proposals/ADMIN_REDESIGN_2026-11-03.vi.md",
+      "reason": "Section 5 navigation groups (no explicit members entry).",
+      "sha256": "92cbe907d971bca8bfa1a38cd947493047473e823e10f9eb13f94e4d16fb77f6"
+    },
+    {
+      "path": "docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md",
+      "reason": "Section 3.15 pairs the permission table (roles.manage) with Lịch sử thao tác.",
+      "sha256": "7eaf7aa64f6827ad96659b06ed7212ce667487f286ad50b717fc04d55c5c69ab"
+    },
+    {
+      "path": "supabase/migrations/202606120001_mvp_schema.sql",
+      "reason": "admin_role_assignments and admin_audit_logs shapes.",
+      "sha256": "226e20601e094426e23170814fab3346eea953bf619d78b0ded153afa37559f5"
+    },
+    {
+      "path": "supabase/migrations/20260902131408_owner_capability_boundary.sql",
+      "reason": "has_capability map, get_admin_access, role guard and audit triggers, roles.manage owner-only.",
+      "sha256": "2f8fdac36b93d68f1a32da2d7a83b33c2b41b966589e8be9e1a85d56ace42a24"
+    },
+    {
+      "path": "supabase/migrations/20261113100100_admin_timeline.sql",
+      "reason": "role.* rows shown only to roles.manage; details.role.",
+      "sha256": "fd7d0353c0c9bc06e57f8ce7fe7307804ee85d5e58f00f91acf934c5de83f3c4"
+    },
+    {
+      "path": "supabase/migrations/20261113140100_ai_providers.sql",
+      "reason": "Latest RPC, service-role-only and audit pattern.",
+      "sha256": "eaf2e10c9547a05fa14881d6d27423e7b24383134ed558e51cc4478724314223"
+    },
+    {
+      "path": "supabase/functions/admin-ai-provider-probe/index.ts",
+      "reason": "Caller capability check then service client pattern.",
+      "sha256": "62381e3d2875adfd9ef1f2e51a32b2238bf8cf196de8012a287a5af919426a6c"
+    },
+    {
+      "path": "apps/admin/shell.js",
+      "reason": "navGroups, workspaceCapability, routeAllowed.",
+      "sha256": "b617dcb7f615b6277d18d08fa77297aa4dddf1988df80b7b69ef2db7315250ae"
+    },
+    {
+      "path": "apps/admin/workspace-guard.js",
+      "reason": "Entry capability map, RPC and function allowlists.",
+      "sha256": "f6eea26f8e29c3bd5e35eafa63d927a3f8d5d6e3f8c91174447198be3bb08539"
+    },
+    {
+      "path": "apps/admin/admin-access.js",
+      "reason": "Role and capability sets parsed from get_admin_access.",
+      "sha256": "1e6cc7a5b9a319e317371195451f4d5cdc6265bc87aeb4aadccd71daba91b13d"
+    },
+    {
+      "path": "apps/admin/admin-capabilities.json",
+      "reason": "Workspace manifest to extend additively.",
+      "sha256": "2790689afdbc5d0bc863ec6e7e1156fec308f37793d030635f703424d387ac74"
+    },
+    {
+      "path": "apps/admin/timeline.js",
+      "reason": "Action labels for the new role.* audit rows.",
+      "sha256": "7ddcd9671b4e2f84cdb58c01c776f0081efe0b11f0106a3c0b47dc5106c4c086"
+    },
+    {
+      "path": "apps/admin/timeline.html",
+      "reason": "Small standalone workspace page pattern.",
+      "sha256": "75847e2ea72e72ef9f75aa507ab5965f966d085fbb81a84fa825fd12906011be"
+    },
+    {
+      "path": "apps/admin/recovery-core.js",
+      "reason": "Only type=recovery links accepted; invite links need type=invite.",
+      "sha256": "c689e6bedfeb49e877a28009e22652c1610962208fd57d8cf9b65476bd7948a7"
+    },
+    {
+      "path": "scripts/validate-backend-contracts.mjs",
+      "reason": "Admin function registration tokens.",
+      "sha256": "50a0b305de9ab9d675cbbebd86de72ab89fe414044453ead2a2d8c194da59564"
+    },
+    {
+      "path": "scripts/validate-admin-contract.mjs",
+      "reason": "Admin contract checks to extend.",
+      "sha256": "5d5379296ed06ebb1ebc4756eb8f3eb89b259e13a335d910ea4ef07a5147b596"
+    },
+    {
+      "path": "supabase/config.toml",
+      "reason": "Per-function verify_jwt entries.",
+      "sha256": "bdab42a724a8b7c2e20f520bfbefed738bdaf093188a34a96f8cbaa6770ad726"
+    },
+    {
+      "path": "supabase/functions/README.md",
+      "reason": "Admin function table and deploy inventory.",
+      "sha256": "7e40ea623289fbeccf644c5257b475bc11c55361007f7921f689952dc313a75c"
+    },
+    {
+      "path": "scripts/admin-a2-navigation.test.mjs",
+      "reason": "Asserts the exact navigation labels.",
+      "sha256": "0a6d391da952d348bfe2f72819ed225578b4f2cf2a397df38b053090a84cbbe3"
+    },
+    {
+      "path": "package.json",
+      "reason": "admin:test file list.",
+      "sha256": "88a80aaeb3e973003dac51e2934cca52a729db9842c9249a670e3a3b1e39730c"
+    }
   ],
   "skillReview": [
     {
@@ -98,9 +194,21 @@
     "evidence": "auth.admin.inviteUserByEmail(email, { redirectTo, data }) from @supabase/supabase-js (the functions pin esm.sh @supabase/supabase-js@2.7.1, whose GoTrueAdminApi already has it) returns { data: { user }, error } and must only run on a server with the service role; redirectTo must match the Auth Redirect URLs list. Checked against the current Supabase docs and auth-js source on 2026-11-14. No repository dependency added; PGlite only in the session scratchpad."
   },
   "externalSourceReview": [
-    { "url": "https://supabase.com/docs/reference/javascript/auth-admin-inviteuserbyemail", "reason": "Method exists: sends an invite link to an email address; params email and options.", "checkedAt": "2026-11-14" },
-    { "url": "https://raw.githubusercontent.com/supabase/auth-js/master/src/GoTrueAdminApi.ts", "reason": "Signature inviteUserByEmail(email, { data?, redirectTo? }) -> UserResponse; auth errors resolve as { data: { user: null }, error }; admin methods are server only with the service_role key.", "checkedAt": "2026-11-14" },
-    { "url": "https://supabase.com/docs/guides/auth/redirect-urls", "reason": "redirectTo should match the Redirect URLs list; Site URL is the default when no redirectTo is given.", "checkedAt": "2026-11-14" }
+    {
+      "url": "https://supabase.com/docs/reference/javascript/auth-admin-inviteuserbyemail",
+      "reason": "Method exists: sends an invite link to an email address; params email and options.",
+      "checkedAt": "2026-11-14"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/supabase/auth-js/master/src/GoTrueAdminApi.ts",
+      "reason": "Signature inviteUserByEmail(email, { data?, redirectTo? }) -> UserResponse; auth errors resolve as { data: { user: null }, error }; admin methods are server only with the service_role key.",
+      "checkedAt": "2026-11-14"
+    },
+    {
+      "url": "https://supabase.com/docs/guides/auth/redirect-urls",
+      "reason": "redirectTo should match the Redirect URLs list; Site URL is the default when no redirectTo is given.",
+      "checkedAt": "2026-11-14"
+    }
   ],
   "securityReview": {
     "authzRls": "All member RPCs are security definer with search_path '' and check auth.uid() plus has_capability('roles.manage') (owner only); invite begin/finish are granted to service_role only and re-check from admin_role_assignments that the actor is an active owner; everything is revoked from public and anon. The new private table has no client grants. has_capability keeps its signature, invoker rights and answers, now reading the single map.",

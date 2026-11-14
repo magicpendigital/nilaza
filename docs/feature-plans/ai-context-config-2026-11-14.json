@@ -74,34 +74,138 @@
     "sanitized_project_context"
   ],
   "sourceReview": [
-    { "path": "AGENTS.md", "reason": "SQL, deploy and secrets need Owner approval each time.", "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa" },
-    { "path": "docs/AGENT_TASK_ROUTER.md", "reason": "Backend, AI runtime and Admin routes.", "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c" },
-    { "path": "docs/PLAN_QC_PROTOCOL.md", "reason": "Preflight rules and record shape.", "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2" },
-    { "path": "apps/admin/AGENTS.md", "reason": "Admin protected architecture: additive routes and modules.", "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8" },
-    { "path": "docs/proposals/AI_CONTEXT_CONFIG_2026-11-14.vi.md", "reason": "Inventory and design written for this task.", "sha256": "58bbd2b1bb08cac2445b8ba8df637bd72ad31aa7a95c7d86aa2285145f24bb4d" },
-    { "path": "supabase/migrations/20261113090100_ai_feature_configs.sql", "reason": "Versioned config table and draft/publish RPC pattern.", "sha256": "5556bfd9ff4f2649d244cba6dbc242c3abedc97a3f8f9dc067f63959b49de04e" },
-    { "path": "supabase/migrations/20261113110000_ai_eval_release_gate.sql", "reason": "A6 gate target kinds and gated publish pattern.", "sha256": "5221e865557186cddfbb96bd6ca5fcce02441d2ca494187c3d48983e44520000" },
-    { "path": "supabase/functions/_shared/feature-config.ts", "reason": "Cached REST reader pattern.", "sha256": "eb71e736b91910caed56ebd69c968bd6387ce554430f9efd2b1a0b07e6af8fbc" },
-    { "path": "supabase/functions/_shared/ai-user-context.ts", "reason": "Data block builder and bounds.", "sha256": "0a18c35faa1ac16410679e9dc7b716a5b8c5fff3eb2ee734ccd9fb831919842c" },
-    { "path": "supabase/functions/_shared/chat-handoff.ts", "reason": "Handoff block bounds.", "sha256": "79adfd151c6518a4b2618426dfda99e04c7e0ee40a967ffc5358c2df9ff26927" },
-    { "path": "supabase/functions/ai-council/council-prompt.ts", "reason": "Council history bound and user message.", "sha256": "0854f4a70c6f417bc4bd34df44c5a2b725b131e45cde8061702696fe0d4f33eb" },
-    { "path": "supabase/functions/ai-daily-insight/daily-prompt.ts", "reason": "Daily user message.", "sha256": "25176ecb244a621196ef0f304878eedb5b46205be74267e1fb3076015873ee21" },
-    { "path": "supabase/functions/ai-persona-chat/index.ts", "reason": "Chat history, data block and handoff wiring.", "sha256": "d57101a6298288b3af795ce7db5461236babd67b427bf651be00f91a895ddf55" },
-    { "path": "supabase/functions/ai-daily-insight/index.ts", "reason": "Daily wiring and trace metadata.", "sha256": "178061f80041b4516ae7813d2d7e04815bc09feb5ea319230ebff5aa849a91cd" },
-    { "path": "supabase/functions/ai-council/index.ts", "reason": "Council wiring and safety order.", "sha256": "a5801ab92f199972dae11ad1b04f919f510f9be3f58367b85358609d947877b7" },
-    { "path": "supabase/functions/_shared/provider-registry.ts", "reason": "Feature data class floors and ranks.", "sha256": "574262c7b21c1a41efffdc02de396c659451558d7480d62120e6259581f5e1b4" },
-    { "path": "supabase/functions/_shared/model-router.ts", "reason": "dataClass and safetyText inputs.", "sha256": "87de02f1978911d8ab0abc791f827b8cb3f16e18bfcc2eb3bea10ef304d89d96" },
-    { "path": "supabase/functions/_shared/oracle-runtime.mjs", "reason": "Oracle consent flags and limits (inventory only).", "sha256": "2cb113ce48f9d4d2241fc08d30f1fce01970beef409a38a68741da980f8555a8" },
-    { "path": "supabase/functions/ai-astrology-report/index.ts", "reason": "Full chart sent to the model (inventory and risk only).", "sha256": "8172b832f8e27af5c1af4580f50cc7f222d5cef7db237f325b4c7d3f78cddf16" },
-    { "path": "apps/admin/ai-features.js", "reason": "A4 module pattern (drafts, review dialog, missing RPC).", "sha256": "22e4ac03cbc81be3ac997fa118aea9054739d5e9f03adba0da34dc0388183e49" },
-    { "path": "apps/admin/workspace-guard.js", "reason": "NilazaAdminRpc allowlist.", "sha256": "79fd52d790b363a2f061b389b1fc08fab3a61b4380cdc2db446fb73578af4505" },
-    { "path": "apps/admin/app.js", "reason": "AI Studio routing and module mounting.", "sha256": "afa556e98f5f11854381b873d57d9cf607fb2328c50c3251edc2cffbb24314cf" },
-    { "path": "apps/admin/shell.js", "reason": "Left navigation labels and groups.", "sha256": "dc68a5f90c1d1cf1703ea3220e194f7578b5e7e417939bc72c72d25492eb9c72" },
-    { "path": "apps/admin/admin-capabilities.json", "reason": "AI Studio route list.", "sha256": "66687b3c15229a497b084481f66b40a12675e88efea5c82f0cd8050d1fae7f02" }
+    {
+      "path": "AGENTS.md",
+      "reason": "SQL, deploy and secrets need Owner approval each time.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Backend, AI runtime and Admin routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules and record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/admin/AGENTS.md",
+      "reason": "Admin protected architecture: additive routes and modules.",
+      "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8"
+    },
+    {
+      "path": "docs/proposals/AI_CONTEXT_CONFIG_2026-11-14.vi.md",
+      "reason": "Inventory and design written for this task.",
+      "sha256": "58bbd2b1bb08cac2445b8ba8df637bd72ad31aa7a95c7d86aa2285145f24bb4d"
+    },
+    {
+      "path": "supabase/migrations/20261113090100_ai_feature_configs.sql",
+      "reason": "Versioned config table and draft/publish RPC pattern.",
+      "sha256": "5556bfd9ff4f2649d244cba6dbc242c3abedc97a3f8f9dc067f63959b49de04e"
+    },
+    {
+      "path": "supabase/migrations/20261113110000_ai_eval_release_gate.sql",
+      "reason": "A6 gate target kinds and gated publish pattern.",
+      "sha256": "5221e865557186cddfbb96bd6ca5fcce02441d2ca494187c3d48983e44520000"
+    },
+    {
+      "path": "supabase/functions/_shared/feature-config.ts",
+      "reason": "Cached REST reader pattern.",
+      "sha256": "eb71e736b91910caed56ebd69c968bd6387ce554430f9efd2b1a0b07e6af8fbc"
+    },
+    {
+      "path": "supabase/functions/_shared/ai-user-context.ts",
+      "reason": "Data block builder and bounds.",
+      "sha256": "0a18c35faa1ac16410679e9dc7b716a5b8c5fff3eb2ee734ccd9fb831919842c"
+    },
+    {
+      "path": "supabase/functions/_shared/chat-handoff.ts",
+      "reason": "Handoff block bounds.",
+      "sha256": "79adfd151c6518a4b2618426dfda99e04c7e0ee40a967ffc5358c2df9ff26927"
+    },
+    {
+      "path": "supabase/functions/ai-council/council-prompt.ts",
+      "reason": "Council history bound and user message.",
+      "sha256": "0854f4a70c6f417bc4bd34df44c5a2b725b131e45cde8061702696fe0d4f33eb"
+    },
+    {
+      "path": "supabase/functions/ai-daily-insight/daily-prompt.ts",
+      "reason": "Daily user message.",
+      "sha256": "25176ecb244a621196ef0f304878eedb5b46205be74267e1fb3076015873ee21"
+    },
+    {
+      "path": "supabase/functions/ai-persona-chat/index.ts",
+      "reason": "Chat history, data block and handoff wiring.",
+      "sha256": "d57101a6298288b3af795ce7db5461236babd67b427bf651be00f91a895ddf55"
+    },
+    {
+      "path": "supabase/functions/ai-daily-insight/index.ts",
+      "reason": "Daily wiring and trace metadata.",
+      "sha256": "178061f80041b4516ae7813d2d7e04815bc09feb5ea319230ebff5aa849a91cd"
+    },
+    {
+      "path": "supabase/functions/ai-council/index.ts",
+      "reason": "Council wiring and safety order.",
+      "sha256": "a5801ab92f199972dae11ad1b04f919f510f9be3f58367b85358609d947877b7"
+    },
+    {
+      "path": "supabase/functions/_shared/provider-registry.ts",
+      "reason": "Feature data class floors and ranks.",
+      "sha256": "574262c7b21c1a41efffdc02de396c659451558d7480d62120e6259581f5e1b4"
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "reason": "dataClass and safetyText inputs.",
+      "sha256": "87de02f1978911d8ab0abc791f827b8cb3f16e18bfcc2eb3bea10ef304d89d96"
+    },
+    {
+      "path": "supabase/functions/_shared/oracle-runtime.mjs",
+      "reason": "Oracle consent flags and limits (inventory only).",
+      "sha256": "2cb113ce48f9d4d2241fc08d30f1fce01970beef409a38a68741da980f8555a8"
+    },
+    {
+      "path": "supabase/functions/ai-astrology-report/index.ts",
+      "reason": "Full chart sent to the model (inventory and risk only).",
+      "sha256": "8172b832f8e27af5c1af4580f50cc7f222d5cef7db237f325b4c7d3f78cddf16"
+    },
+    {
+      "path": "apps/admin/ai-features.js",
+      "reason": "A4 module pattern (drafts, review dialog, missing RPC).",
+      "sha256": "22e4ac03cbc81be3ac997fa118aea9054739d5e9f03adba0da34dc0388183e49"
+    },
+    {
+      "path": "apps/admin/workspace-guard.js",
+      "reason": "NilazaAdminRpc allowlist.",
+      "sha256": "f6eea26f8e29c3bd5e35eafa63d927a3f8d5d6e3f8c91174447198be3bb08539"
+    },
+    {
+      "path": "apps/admin/app.js",
+      "reason": "AI Studio routing and module mounting.",
+      "sha256": "afa556e98f5f11854381b873d57d9cf607fb2328c50c3251edc2cffbb24314cf"
+    },
+    {
+      "path": "apps/admin/shell.js",
+      "reason": "Left navigation labels and groups.",
+      "sha256": "b617dcb7f615b6277d18d08fa77297aa4dddf1988df80b7b69ef2db7315250ae"
+    },
+    {
+      "path": "apps/admin/admin-capabilities.json",
+      "reason": "AI Studio route list.",
+      "sha256": "2790689afdbc5d0bc863ec6e7e1156fec308f37793d030635f703424d387ac74"
+    }
   ],
   "skillReview": [
-    { "name": "nilaza-plan-qc", "decision": "verified-current", "evidence": "Record and preflight before the first code edit; migration and deploys left to the Owner by hash; PGlite, Deno and jsdom tests only; PLAN.md updated in the same branch." },
-    { "name": "nilaza-ai-runtime", "decision": "verified-current", "evidence": "Every Admin field has a runtime consumer in the three Edge Functions; crisis screening runs before context building; user data stays in the data block; provider data class respected; default parity proven against golden fixtures." }
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before the first code edit; migration and deploys left to the Owner by hash; PGlite, Deno and jsdom tests only; PLAN.md updated in the same branch."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Every Admin field has a runtime consumer in the three Edge Functions; crisis screening runs before context building; user data stays in the data block; provider data class respected; default parity proven against golden fixtures."
+    }
   ],
   "dependencyReview": {
     "usesVolatileExternalKnowledge": false,
