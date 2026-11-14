@@ -1469,3 +1469,37 @@ body[data-studio-section="audit"] #configuration-health { display: none; }
   .eval-runs tr { display: grid; border-bottom: 1px solid var(--border); }
   .eval-runs th, .eval-runs td { border-bottom: 0; }
 }
+
+/* Dữ liệu gửi cho AI (context-config.js): pipeline graph, block cards, locks. */
+.ctx-picker { flex-wrap: wrap; gap: 8px; }
+.ctx-graph-scroll { overflow-x: auto; max-width: 100%; margin: 12px 0; border: 1px solid var(--border); border-radius: 12px; background: var(--panel-soft); -webkit-overflow-scrolling: touch; }
+.ctx-graph { display: block; }
+.ctx-col-head { fill: var(--muted); font-size: 12px; font-weight: 600; letter-spacing: .02em; }
+.ctx-edge { fill: none; stroke: var(--teal); stroke-width: 1.5; opacity: .75; }
+.ctx-edge-off { stroke: var(--faint); stroke-dasharray: 5 5; opacity: .6; }
+.ctx-node rect { fill: var(--panel); stroke: var(--border-strong); stroke-width: 1.2; }
+.ctx-node-on rect { stroke: var(--teal-bright); }
+.ctx-node-off rect { stroke: var(--faint); stroke-dasharray: 4 4; fill: transparent; }
+.ctx-node-locked rect, .ctx-node-readonly rect { stroke: var(--gold); }
+.ctx-node-link rect { stroke: var(--teal); }
+.ctx-node[data-ctx-node] { cursor: pointer; }
+.ctx-node-label { fill: var(--ivory); font-size: 13px; font-weight: 600; }
+.ctx-node-sub { fill: var(--muted); font-size: 11px; }
+.ctx-node-off .ctx-node-label, .ctx-node-off .ctx-node-sub { fill: var(--faint); }
+.ctx-lock rect, .ctx-lock-icon rect { fill: var(--gold); }
+.ctx-lock path, .ctx-lock-icon path { fill: none; stroke: var(--gold); stroke-width: 1.4; }
+.ctx-lock-icon { vertical-align: -1px; }
+.ctx-blocks { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin: 12px 0; }
+.ctx-block { border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; min-width: 0; }
+.ctx-block > .layer-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.ctx-block > .layer-row .pill { flex: 0 0 auto; width: auto; }
+.ctx-block h4 { margin: 0; }
+.ctx-block p { overflow-wrap: anywhere; }
+.ctx-block-locked { border-color: rgba(201, 164, 92, .55); }
+.ctx-block-off { border-style: dashed; opacity: .8; }
+.ctx-toggle { display: flex; align-items: center; gap: 8px; min-height: 44px; font-weight: 600; }
+.ctx-toggle input { width: 20px; height: 20px; }
+@media (max-width: 640px) {
+  .ctx-blocks { grid-template-columns: minmax(0, 1fr); }
+  .ctx-picker .button { flex: 1 1 100%; }
+}

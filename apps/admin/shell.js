@@ -11,7 +11,7 @@ const aiWorkflowSections = new Set(["payload", "dataMindmap", "optimization"]);
 const viRouteLabels = {
   overview: { home: "Tổng quan" },
   content: { overview: "Tình trạng nội dung", personas: "Người dẫn", decks: "Bộ bài", cards: "78 lá bài", assets: "Hình ảnh", frontend: "Văn bản trong app", documentation: "Hướng dẫn Owner" },
-  "ai-studio": { features: "Bật/tắt & hạn mức", workflow: "Luồng xử lý", prompt: "Prompt theo tính năng", "persona-studio": "Prompt người dẫn", "council-builder": "Hội đồng", "model-router": "Model chính & dự phòng", providers: "Nhà cung cấp & chuỗi model", "trace-explorer": "Nhật ký AI", feedback: "Phản hồi người dùng", test: "Chạy thử & chấm điểm", versions: "Tất cả prompt & phiên bản", audit: "Thao tác AI" },
+  "ai-studio": { features: "Bật/tắt & hạn mức", context: "Dữ liệu gửi cho AI", workflow: "Luồng xử lý", prompt: "Prompt theo tính năng", "persona-studio": "Prompt người dẫn", "council-builder": "Hội đồng", "model-router": "Model chính & dự phòng", providers: "Nhà cung cấp & chuỗi model", "trace-explorer": "Nhật ký AI", feedback: "Phản hồi người dùng", test: "Chạy thử & chấm điểm", versions: "Tất cả prompt & phiên bản", audit: "Thao tác AI" },
   timeline: { home: "Dòng thời gian chung" },
   team: { members: "Thành viên & quyền" },
   growth: { overview: "Tổng quan", "product-truth": "Sẵn sàng sản phẩm", "content-drafts": "Bản nháp nội dung", measurement: "Đo lường", roadmap: "Việc tiếp theo", waitlist: "Danh sách chờ", "campaign-map": "Bản đồ chiến dịch", "delivery-health": "Tình trạng gửi" }
@@ -29,7 +29,8 @@ const navGroups = [
     { id: "app-copy", label: "Văn bản trong app", routes: [["content", "frontend"]] }
   ] },
   { label: "AI", items: [
-    { id: "ai-features", label: "Tính năng AI", routes: [["ai-studio", "features"], ["ai-studio", "workflow"]] },
+    // Owner request 14/11: data blocks sent to the model per feature (context-config.js) sit next to switches and limits.
+    { id: "ai-features", label: "Tính năng AI", routes: [["ai-studio", "features"], ["ai-studio", "context"], ["ai-studio", "workflow"]] },
     // A7: the provider table and step chains replace the pending page; the 1 primary + 1 fallback editor stays as a tab.
     { id: "providers", label: "Nhà cung cấp & Model", routes: [["ai-studio", "providers"], ["ai-studio", "model-router"]] },
     { id: "prompts", label: "Prompt & phiên bản", routes: [["ai-studio", "versions"], ["ai-studio", "prompt"], ["ai-studio", "persona-studio"], ["ai-studio", "council-builder"]] },

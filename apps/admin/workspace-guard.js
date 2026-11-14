@@ -128,7 +128,7 @@
       "/functions/v1/admin-ai-trace-qa-payload": { POST: "roles.manage" },
       "/functions/v1/admin-documentation": { GET: "ai.read" },
       // Admin A6 eval runs (the function checks the same rule with the caller's session).
-      "/functions/v1/admin-ai-eval-run": { POST: "ai.manage|ai.read+content.draft" },
+      "/functions/v1/admin-ai-eval-run": { POST: "ai.manage|ai.read+content.draft" },
       "/functions/v1/admin-ai-provider-probe": { POST: "ai.manage" },
       // Thành viên & quyền (14/11): the function checks roles.manage with the caller's session before inviting.
       "/functions/v1/admin-team-invite": { POST: "roles.manage" }
@@ -183,6 +183,11 @@
     // AI providers (A7, migration 20261113140100). The key-check recorder is service-role only and never listed here.
     list_ai_providers: "ai.read",
     set_ai_provider: "ai.manage",
+    // Data blocks sent to the model per feature (Owner request 14/11, migration 20261114090200); the RPCs check the
+    // same rules. Editors save drafts, ai.manage publishes. A config can only send less than the code defaults.
+    get_ai_context_configs: "ai.read",
+    save_ai_context_config_draft: "ai.manage|ai.read+content.draft",
+    publish_ai_context_config: "ai.manage",
     get_growth_waitlist_overview: "overview.read",
     // Per-item content drafts and publish (A3, migration 20261113100000); the RPCs check the same capabilities.
     // Owner decision 6: editors (content.draft) save, restore and discard drafts; only content.publish publishes.

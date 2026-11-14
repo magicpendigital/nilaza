@@ -2,7 +2,8 @@
 // locked rules that hold every instruction the function sent before A5 (safety, transparency, JSON contract).
 // User-provided context (nickname, goals, tone) and server local time travel in the data block of the user message.
 import { compactLines } from "../_shared/model-provider.ts";
-import { DATA_BLOCK_RULE, userDataBlock } from "../_shared/ai-user-context.ts";
+import { DATA_BLOCK_RULE, userDataBlock, type UserDataPolicy } from "../_shared/ai-user-context.ts";
+import { blockEnabled, blockLimit, type ContextPolicy } from "../_shared/context-config.ts";
 import type { GlobalPrompt } from "../_shared/global-prompt.ts";
 import { isUsablePromptText } from "../_shared/global-prompt.ts";
 
@@ -31,20 +32,37 @@ export function assembleCouncilSystem(prompt: GlobalPrompt): string {
 export const COUNCIL_HISTORY_TURNS = 12;
 export const COUNCIL_HISTORY_CHARS = 800;
 
-/** Server-side bound for Council history (AI-05): last 12 turns, 800 characters each, known roles only. */
+const capped = (value: number | undefined, max: number, min: number) =>
+  typeof value === "number" && Number.isFinite(value) ? Math.max(min, Math.min(max, Math.trunc(value))) : max;
+
+/**
+ * Server-side bound for Council history (AI-05): last 12 turns, 800 characters each, known roles only. Admin
+ * (ai_context_configs) may lower both numbers or send no history (turns 0); never above 12 / 800. The pre-scan of
+ * the last 48 items stays fixed so empty turns are skipped the same way as before.
+ */
 export type CouncilHistoryTurn = { role: "user" | "guide"; text: string; personaId?: string };
-export function boundCouncilHistory(history: unknown): CouncilHistoryTurn[] {
+export function boundCouncilHistory(history: unknown, limits: { turns?: number; chars?: number } = {}): CouncilHistoryTurn[] {
   if (!Array.isArray(history)) return [];
+  const maxTurns = capped(limits.turns, COUNCIL_HISTORY_TURNS, 0);
+  const maxChars = capped(limits.chars, COUNCIL_HISTORY_CHARS, 1);
+  if (maxTurns === 0) return [];
   const turns: CouncilHistoryTurn[] = [];
   for (const turn of history.slice(-COUNCIL_HISTORY_TURNS * 4)) {
     const value = turn && typeof turn === "object" ? turn as Record<string, unknown> : {};
-    const text = typeof value.text === "string" ? value.text.replace(/\s+/g, " ").trim().slice(0, COUNCIL_HISTORY_CHARS) : "";
+    const text = typeof value.text === "string" ? value.text.replace(/\s+/g, " ").trim().slice(0, maxChars) : "";
     if (!text) continue;
     const role = value.role === "guide" ? "guide" as const : "user" as const;
     const personaId = typeof value.personaId === "string" && /^[a-zA-Z0-9_.:-]{1,80}$/.test(value.personaId) ? value.personaId : undefined;
     turns.push(personaId ? { role, text, personaId } : { role, text });
   }
-  return turns.slice(-COUNCIL_HISTORY_TURNS);
+  return turns.slice(-maxTurns);
+}
+
+/** The history block of a context policy (ai_context_configs): off sends no turns, otherwise the policy's limits. */
+export function councilHistoryFor(history: unknown, policy: ContextPolicy): CouncilHistoryTurn[] {
+  return blockEnabled(policy, "history")
+    ? boundCouncilHistory(history, { turns: blockLimit(policy, "history", "turns"), chars: blockLimit(policy, "history", "chars") })
+    : [];
 }
 
 /** The single user message: data block first, then the Council request JSON (without userContext). */
@@ -53,6 +71,7 @@ export function councilUserMessage(input: {
   userContext?: { goals?: unknown; tone?: unknown; nickname?: unknown };
   request: Record<string, unknown>;
   now?: Date;
+  dataPolicy?: UserDataPolicy;
 }): string {
-  return `${userDataBlock({ language: input.language, nickname: input.userContext?.nickname, goals: input.userContext?.goals, tone: input.userContext?.tone, now: input.now })}\n\n${JSON.stringify(input.request)}`;
+  return `${userDataBlock({ language: input.language, nickname: input.userContext?.nickname, goals: input.userContext?.goals, tone: input.userContext?.tone, now: input.now, policy: input.dataPolicy })}\n\n${JSON.stringify(input.request)}`;
 }

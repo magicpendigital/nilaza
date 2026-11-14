@@ -1,0 +1,223 @@
+{
+  "version": 1,
+  "description": "Data blocks each AI feature may send to the model (Owner request 14/11, docs/proposals/AI_CONTEXT_CONFIG_2026-11-14.vi.md). Every limit max equals today's code value, so a published config can only send less. Mirrored in supabase/migrations/20261114090200_ai_context_configs.sql (nilaza_private.ai_context_block_spec) and apps/admin/context-config.js; tests keep the three equal.",
+  "features": {
+    "persona_chat": {
+      "label": "Trò chuyện với người dẫn",
+      "function": "ai-persona-chat",
+      "configurable": true,
+      "floorDataClass": "sensitive",
+      "blocks": {
+        "nickname": {
+          "label": "Tên gọi",
+          "dataClass": "personal",
+          "description": "Tên người dùng tự đặt (tối đa 40 ký tự), chỉ để người dẫn xưng hô.",
+          "whenOff": "Không gửi tên gọi.",
+          "limits": {}
+        },
+        "goals": {
+          "label": "Mục tiêu",
+          "dataClass": "personal",
+          "description": "Các mục tiêu người dùng chọn trong hồ sơ.",
+          "whenOff": "Không gửi mục tiêu.",
+          "limits": {
+            "maxItems": { "label": "Số mục tối đa", "min": 1, "max": 5 },
+            "maxChars": { "label": "Ký tự mỗi mục", "min": 10, "max": 60 }
+          }
+        },
+        "tone": {
+          "label": "Giọng trò chuyện",
+          "dataClass": "personal",
+          "description": "Giọng người dùng chọn (dịu dàng, thẳng thắn…), chỉ từ danh sách cố định.",
+          "whenOff": "Gửi giọng mặc định \"gentle\" thay cho lựa chọn của người dùng.",
+          "limits": {}
+        },
+        "localDateTime": {
+          "label": "Giờ địa phương",
+          "dataClass": "public",
+          "description": "Ngày giờ hiện tại theo múi giờ Việt Nam, do máy chủ tạo.",
+          "whenOff": "Không gửi giờ.",
+          "limits": {}
+        },
+        "history": {
+          "label": "Lịch sử trò chuyện",
+          "dataClass": "sensitive",
+          "description": "Các lượt gần nhất trong phòng chat này, để người dẫn nhớ mạch câu chuyện.",
+          "whenOff": "Mỗi câu nhắn được trả lời như câu đầu tiên.",
+          "limits": {
+            "turns": { "label": "Số lượt", "min": 1, "max": 8 },
+            "chars": { "label": "Ký tự mỗi lượt", "min": 100, "max": 800 }
+          }
+        },
+        "handoff": {
+          "label": "Ngữ cảnh mang theo",
+          "dataClass": "sensitive",
+          "description": "Khi người dùng bấm hỏi tiếp từ Tarot hoặc Chiêm tinh: câu hỏi khi đó, các lá, tóm tắt bài đọc, vị trí chính. Không bao giờ có ngày hay nơi sinh.",
+          "whenOff": "Người dẫn không thấy bài đọc người dùng mang theo.",
+          "limits": {
+            "questionChars": { "label": "Ký tự câu hỏi khi đó", "min": 50, "max": 300 },
+            "summaryChars": { "label": "Ký tự tóm tắt", "min": 100, "max": 600 }
+          }
+        }
+      },
+      "locked": [
+        { "id": "message", "label": "Câu nhắn hiện tại", "dataClass": "sensitive", "reason": "Model cần câu nhắn để trả lời; lọc khủng hoảng chạy trên câu này trước mọi bước khác." },
+        { "id": "language", "label": "Ngôn ngữ", "dataClass": "public", "reason": "Cần để trả lời đúng tiếng Việt hay tiếng Anh." },
+        { "id": "persona", "label": "Hồ sơ người dẫn", "dataClass": "public", "reason": "Sửa ở trang Prompt & phiên bản và trang Người dẫn." }
+      ]
+    },
+    "daily_insight": {
+      "label": "Thông điệp hằng ngày",
+      "function": "ai-daily-insight",
+      "configurable": true,
+      "floorDataClass": "sensitive",
+      "blocks": {
+        "nickname": {
+          "label": "Tên gọi",
+          "dataClass": "personal",
+          "description": "Tên người dùng tự đặt (tối đa 40 ký tự).",
+          "whenOff": "Không gửi cho model; câu dự phòng trên máy vẫn gọi tên.",
+          "limits": {}
+        },
+        "goals": {
+          "label": "Mục tiêu",
+          "dataClass": "personal",
+          "description": "Các mục tiêu người dùng chọn trong hồ sơ.",
+          "whenOff": "Không gửi mục tiêu.",
+          "limits": {
+            "maxItems": { "label": "Số mục tối đa", "min": 1, "max": 5 },
+            "maxChars": { "label": "Ký tự mỗi mục", "min": 10, "max": 60 }
+          }
+        },
+        "tone": {
+          "label": "Giọng",
+          "dataClass": "personal",
+          "description": "Giọng người dùng chọn, chỉ từ danh sách cố định.",
+          "whenOff": "Không gửi giọng.",
+          "limits": {}
+        },
+        "recentMood": {
+          "label": "Tâm trạng 24 giờ",
+          "dataClass": "sensitive",
+          "description": "Chỉ nhãn tâm trạng (tối đa 32 ký tự) của mục nhật ký mới nhất trong 24 giờ. Không bao giờ có tiêu đề hay nội dung nhật ký.",
+          "whenOff": "Không gửi tâm trạng.",
+          "limits": {}
+        },
+        "localDateTime": {
+          "label": "Giờ địa phương",
+          "dataClass": "public",
+          "description": "Ngày giờ hiện tại theo múi giờ Việt Nam, do máy chủ tạo.",
+          "whenOff": "Không gửi giờ.",
+          "limits": {}
+        }
+      },
+      "locked": [
+        { "id": "language", "label": "Ngôn ngữ", "dataClass": "public", "reason": "Cần để viết đúng tiếng Việt hay tiếng Anh." },
+        { "id": "dateKey", "label": "Ngày và lần đổi", "dataClass": "public", "reason": "Cần để mỗi ngày và mỗi lần đổi ra một thông điệp khác; không phải dữ liệu cá nhân." },
+        { "id": "journal", "label": "Nội dung nhật ký", "dataClass": "sensitive", "reason": "Không bao giờ gửi. Không có cách bật." }
+      ]
+    },
+    "ai_council": {
+      "label": "Hội đồng",
+      "function": "ai-council",
+      "configurable": true,
+      "floorDataClass": "sensitive",
+      "blocks": {
+        "nickname": {
+          "label": "Tên gọi",
+          "dataClass": "personal",
+          "description": "Tên người dùng tự đặt (tối đa 40 ký tự), chỉ để xưng hô.",
+          "whenOff": "Không gửi tên gọi.",
+          "limits": {}
+        },
+        "goals": {
+          "label": "Mục tiêu",
+          "dataClass": "personal",
+          "description": "Các mục tiêu người dùng chọn.",
+          "whenOff": "Không gửi mục tiêu.",
+          "limits": {
+            "maxItems": { "label": "Số mục tối đa", "min": 1, "max": 5 },
+            "maxChars": { "label": "Ký tự mỗi mục", "min": 10, "max": 60 }
+          }
+        },
+        "tone": {
+          "label": "Giọng",
+          "dataClass": "personal",
+          "description": "Giọng người dùng chọn, chỉ từ danh sách cố định.",
+          "whenOff": "Không gửi giọng.",
+          "limits": {}
+        },
+        "localDateTime": {
+          "label": "Giờ địa phương",
+          "dataClass": "public",
+          "description": "Ngày giờ hiện tại theo múi giờ Việt Nam, do máy chủ tạo.",
+          "whenOff": "Không gửi giờ.",
+          "limits": {}
+        },
+        "history": {
+          "label": "Lịch sử hội đồng",
+          "dataClass": "sensitive",
+          "description": "Các lượt gần nhất của buổi hội đồng này (câu hỏi và lời người dẫn).",
+          "whenOff": "Câu hỏi tiếp được trả lời như câu mở đầu.",
+          "limits": {
+            "turns": { "label": "Số lượt", "min": 1, "max": 12 },
+            "chars": { "label": "Ký tự mỗi lượt", "min": 100, "max": 800 }
+          }
+        }
+      },
+      "locked": [
+        { "id": "message", "label": "Câu hỏi", "dataClass": "sensitive", "reason": "Model cần câu hỏi để trả lời; lọc khủng hoảng chạy trên câu này trước mọi bước khác." },
+        { "id": "language", "label": "Ngôn ngữ", "dataClass": "public", "reason": "Cần để trả lời đúng tiếng Việt hay tiếng Anh." },
+        { "id": "personas", "label": "Người dẫn và mẫu hội đồng", "dataClass": "public", "reason": "Sửa ở trang Hội đồng." }
+      ]
+    },
+    "oracle_router": {
+      "label": "Oracle",
+      "function": "ai-oracle-turn",
+      "configurable": false,
+      "floorDataClass": "sensitive",
+      "fields": [
+        { "id": "question", "label": "Câu hỏi", "dataClass": "sensitive", "consent": "—", "limit": "3000 ký tự" },
+        { "id": "history", "label": "Lịch sử", "dataClass": "sensitive", "consent": "Cờ đồng ý lịch sử", "limit": "8 tin × 1500 ký tự; quá 8 tin thì từ chối" },
+        { "id": "profile", "label": "Tên gọi, mục tiêu, giọng", "dataClass": "personal", "consent": "Cờ đồng ý hồ sơ", "limit": "40; 5 × 60; 3 giọng" },
+        { "id": "screen", "label": "Màn hình hiện tại", "dataClass": "public", "consent": "—", "limit": "Danh sách cố định" },
+        { "id": "journal", "label": "Nhật ký", "dataClass": "sensitive", "consent": "Cờ đồng ý nhật ký", "limit": "Không bao giờ gửi" }
+      ]
+    },
+    "tarot_reading": {
+      "label": "Giải bài Tarot",
+      "function": "ai-tarot-reading",
+      "configurable": false,
+      "floorDataClass": "personal",
+      "fields": [
+        { "id": "question", "label": "Câu hỏi", "dataClass": "personal", "consent": "—", "limit": "4096 ký tự" },
+        { "id": "topic", "label": "Chủ đề", "dataClass": "personal", "consent": "—", "limit": "80 ký tự" },
+        { "id": "cards", "label": "Kiểu trải bài, lá, chiều, vị trí", "dataClass": "public", "consent": "—", "limit": "78 lá chuẩn" },
+        { "id": "meanings", "label": "Nghĩa lá và phong cách bộ bài", "dataClass": "public", "consent": "—", "limit": "Gói nội dung đã phát hành" }
+      ]
+    },
+    "astrology_insight": {
+      "label": "Đọc sâu Chiêm tinh",
+      "function": "ai-astrology-insight",
+      "configurable": false,
+      "floorDataClass": "sensitive",
+      "fields": [
+        { "id": "facts", "label": "Dữ kiện đã chọn từ báo cáo", "dataClass": "sensitive", "consent": "Đồng ý dữ liệu sinh khi tạo báo cáo", "limit": "30 dữ kiện; 12 vị trí; 45 góc chiếu; 12 nhà" },
+        { "id": "question", "label": "Câu hỏi", "dataClass": "personal", "consent": "—", "limit": "500 ký tự" },
+        { "id": "focus", "label": "Chế độ và chủ đề", "dataClass": "public", "consent": "—", "limit": "Danh sách cố định" }
+      ]
+    },
+    "astrology_report": {
+      "label": "Báo cáo chiêm tinh",
+      "function": "ai-astrology-report",
+      "configurable": false,
+      "floorDataClass": "sensitive",
+      "fields": [
+        { "id": "birth", "label": "Ngày, giờ, múi giờ sinh", "dataClass": "sensitive", "consent": "Đồng ý dữ liệu sinh", "limit": "Gửi nguyên — cần Owner quyết" },
+        { "id": "place", "label": "Nơi sinh và tọa độ", "dataClass": "sensitive", "consent": "Đồng ý dữ liệu sinh", "limit": "Gửi nguyên — cần Owner quyết" },
+        { "id": "chart", "label": "Vị trí hành tinh, nhà, góc chiếu", "dataClass": "sensitive", "consent": "Đồng ý dữ liệu sinh", "limit": "Toàn bộ lá số" },
+        { "id": "focus", "label": "Trọng tâm và lưu ý", "dataClass": "public", "consent": "—", "limit": "Danh sách cố định" }
+      ]
+    }
+  }
+}

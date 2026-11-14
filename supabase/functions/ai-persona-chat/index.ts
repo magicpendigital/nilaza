@@ -1,11 +1,12 @@
-import { handoffContextBlock } from "../_shared/chat-handoff.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.7.1";
 import { generateWithModelRoute } from "../_shared/model-router.ts";
 import { safetyRedirectFor } from "../_shared/crisis-safety.ts";
 import { featurePaused, featurePausedBody } from "../_shared/feature-switch.ts";
 import { sanitizeProviderMetadata } from "../_shared/model-provider.ts";
-import { assemblePersonaPromptStack, personaUserDataBlock } from "../_shared/persona-prompt-assembler.ts";
+import { assemblePersonaPromptStack } from "../_shared/persona-prompt-assembler.ts";
+import { contextPolicyFor, contextPolicyMetadata } from "../_shared/context-config.ts";
+import { personaModelMessages } from "./persona-context.ts";
 import { AiRequestError, aiAuthUserOrUnavailable, guardAiJsonRequest } from "../_shared/ai-request-guard.ts";
 import { claimDailyAttempt } from "../_shared/daily-attempts.ts";
 import { accountTierPolicy } from "../_shared/account-tier-policy.ts";
@@ -64,19 +65,6 @@ function jsonResponse(body: Record<string, unknown>, status = 200) {
 
 const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
-function sanitizeHistory(history: PersonaInput["sanitizedHistory"], currentText: string) {
-  if (!Array.isArray(history)) return [] as Array<{ role: "user" | "assistant"; content: string }>;
-  return history
-    .slice(-8)
-    .map((turn) => {
-      const content = typeof turn?.text === "string" ? turn.text.replace(/\s+/g, " ").trim().slice(0, 800) : "";
-      const role = turn?.role === "guide" ? "assistant" as const : "user" as const;
-      return content ? { role, content } : null;
-    })
-    .filter((turn): turn is { role: "user" | "assistant"; content: string } => Boolean(turn))
-    .filter((turn, index, turns) => !(index === turns.length - 1 && turn.role === "user" && turn.content === currentText));
-}
-
 serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
   if (req.method !== "POST") return jsonResponse({ error: "Method not allowed" }, 405);
@@ -129,16 +117,22 @@ serve(async (req) => {
     if (attempt === "limit_reached") return jsonResponse({ error: "daily_limit_reached" }, 429);
     if (attempt === "unavailable") return jsonResponse({ error: "usage_check_unavailable" }, 503);
 
-    const sanitizedHistory = sanitizeHistory(input.sanitizedHistory, text);
-    // Analysis CH-06: context brought from Tarot or Astrology rides with each turn as a labelled block.
-    const handoffBlock = handoffContextBlock(input.userContext?.handoffContext, language === "vi" ? "vi" : "en");
+    // Owner request 14/11: Admin may switch data blocks off or shorten them (ai_context_configs); defaults = today.
+    // Crisis screening above already ran on the full message and never depends on this config.
+    const contextPolicy = await contextPolicyFor("persona_chat");
+    const modelMessages = personaModelMessages({
+      language,
+      text,
+      history: input.sanitizedHistory,
+      userContext: input.userContext,
+      policy: contextPolicy
+    });
     const promptStack = await assemblePersonaPromptStack({
       supabase,
       language,
       persona: input.persona,
       userContext: input.userContext
     });
-    const userDataBlock = personaUserDataBlock(language, input.userContext);
 
     const fallbackReply =
       language === "vi"
@@ -148,6 +142,8 @@ serve(async (req) => {
     const generation = await generateWithModelRoute({
       feature: "persona_chat",
       deadlineMs: featureConfig?.deadlineMs,
+      // Never below the feature floor; rises with the enabled blocks' data class.
+      dataClass: contextPolicy.dataClass,
       supabase,
       traceContext: {
         userId,
@@ -160,15 +156,13 @@ serve(async (req) => {
           methodPackId: promptStack.methodPackId,
           methodPackVersion: promptStack.methodPackVersion,
           clientRequestId: input.clientRequestId ?? null,
-          sessionContinuation: Boolean(input.sessionId && uuidPattern.test(input.sessionId))
+          sessionContinuation: Boolean(input.sessionId && uuidPattern.test(input.sessionId)),
+          ...contextPolicyMetadata(contextPolicy)
         }
       },
       system: promptStack.assembledSystemPrompt,
-      messages: [
-        ...sanitizedHistory,
-        // E3 / AI-05: nickname, goals, tone and local time ride in the labelled data block, never in the system prompt.
-        { role: "user", content: [userDataBlock, handoffBlock, text].filter(Boolean).join("\n\n") }
-      ],
+      // E3 / AI-05: history, then one user message: data block, handoff block, the message (persona-context.ts).
+      messages: modelMessages,
       fallbackText: fallbackReply,
       safetyText: text
     });
