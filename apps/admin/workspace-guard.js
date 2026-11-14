@@ -127,7 +127,7 @@
       "/functions/v1/admin-ai-trace-qa-payload": { POST: "roles.manage" },
       "/functions/v1/admin-documentation": { GET: "ai.read" },
       // Admin A6 eval runs (the function checks the same rule with the caller's session).
-      "/functions/v1/admin-ai-eval-run": { POST: "ai.manage|ai.read+content.draft" },
+      "/functions/v1/admin-ai-eval-run": { POST: "ai.manage|ai.read+content.draft" },
       "/functions/v1/admin-ai-provider-probe": { POST: "ai.manage" }
     };
     const requiredCapability = endpoints[target.pathname]?.[method];
