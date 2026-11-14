@@ -32,6 +32,14 @@ test('no password update without verified recovery; reject normal login links', 
   for (const fragment of ['', '#type=recovery', valid.replace('recovery', 'signup'), '#error=expired']) await assert.rejects(h.recovery.accept(fragment), /link/);
   assert.equal(h.calls.length, 0);
 });
+test('invite links from Thành viên & quyền are accepted like recovery links (14/11)', async () => {
+  const h = harness();
+  await h.recovery.accept(valid.replace('recovery', 'invite'));
+  await h.recovery.update('synthetic-password', 'synthetic-password');
+  assert.deepEqual(h.calls, [['update'], ['signOut']]);
+  await assert.rejects(harness().recovery.accept('#type=invite&error=expired&access_token=a&refresh_token=b'), /link/);
+  assert.match(readFileSync('apps/admin/recovery.js', 'utf8'), /inviteTitle: "Đặt mật khẩu cho tài khoản Admin"/);
+});
 test('invalid server session and user are rejected', async () => {
   const h = harness();
   h.auth.getUser = async () => ({ data: { user: null }, error: {} });

@@ -23,8 +23,14 @@
     "safety.review": "Duyệt sự kiện an toàn",
     "role.insert": "Cấp quyền",
     "role.update": "Đổi quyền",
-    "role.delete": "Gỡ quyền"
+    "role.delete": "Gỡ quyền",
+    // Thành viên & quyền (14/11)
+    "role.set": "Đổi vai trò thành viên",
+    "role.revoke": "Thu hồi quyền thành viên",
+    "role.invite": "Mời / thêm thành viên"
   };
+  const roleLabels = { owner: "Owner", admin: "Quản trị", editor: "Biên tập viên", safety_reviewer: "Kiểm duyệt an toàn" };
+  const roleText = value => String(value).split(",").map(role => roleLabels[role.trim()] || role.trim()).join(", ");
   const kindLabels = { persona: "Người dẫn", deck: "Bộ bài", card: "Lá bài", frontend: "Văn bản trong app", asset: "Hình ảnh" };
   const groupOf = action => action.startsWith("content.") ? "content" : action.startsWith("ai.") ? "ai" : "safety";
   let state = fresh();
@@ -41,7 +47,8 @@
     if (d.kind && d.key) parts.push(`${kindLabels[d.kind] || d.kind} ${d.key}`);
     if (Array.isArray(d.items)) parts.push(d.items.length <= 3 ? d.items.map(itemText).join(", ") : `${d.items.length} mục`);
     if (d.feature) parts.push(`Tính năng ${d.feature}`);
-    if (d.role) parts.push(`Vai trò ${d.role}`);
+    if (d.role) parts.push(`Vai trò ${roleText(d.role)}`);
+    if (Array.isArray(d.previousRoles) && d.previousRoles.length) parts.push(`trước đó ${roleText(d.previousRoles.join(","))}`);
     if (d.version !== undefined) parts.push(`phiên bản ${d.version}`);
     if (d.bundleVersion !== undefined) parts.push(`gói v${d.bundleVersion}`);
     if (d.restoredFromVersion !== undefined) parts.push(`từ phiên bản ${d.restoredFromVersion}`);
@@ -64,7 +71,7 @@
     container.innerHTML = `<ol class="timeline-list">${rows.map(row => {
       const when = new Date(row.createdAt);
       const target = targetText(row);
-      return `<li class="timeline-row" data-timeline-row data-action="${escape(row.action)}"><time datetime="${escape(row.createdAt)}">${escape(Number.isFinite(when.getTime()) ? when.toLocaleString("vi-VN") : row.createdAt)}</time><div><strong>${escape(actionLabels[row.action] || row.action)}</strong><span class="who">${escape(row.actorEmail || "Tài khoản đã xóa")}</span>${target ? `<span class="target">${escape(target)}</span>` : ""}${row.note ? `<span class="note">${escape(row.note)}</span>` : ""}</div></li>`;
+      return `<li class="timeline-row" data-timeline-row data-action="${escape(row.action)}"><time datetime="${escape(row.createdAt)}">${escape(Number.isFinite(when.getTime()) ? when.toLocaleString("vi-VN") : row.createdAt)}</time><div><strong>${escape(actionLabels[row.action] || row.action)}</strong><span class="who">${escape(row.actorEmail || (row.actorId ? "Tài khoản đã xóa" : "Hệ thống"))}</span>${target ? `<span class="target">${escape(target)}</span>` : ""}${row.note ? `<span class="note">${escape(row.note)}</span>` : ""}</div></li>`;
     }).join("")}</ol>${state.more ? `<button type="button" class="button timeline-more" data-timeline-more ${state.status === "loading" ? "disabled" : ""}>Xem cũ hơn</button>` : ""}`;
   }
   async function load({ append = false } = {}) {

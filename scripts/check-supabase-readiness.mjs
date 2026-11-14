@@ -39,6 +39,7 @@ const requiredFunctions = [
   "admin-ai-trace-qa-payload",
   "admin-documentation",
   "admin-ai-eval-run",
+  "admin-team-invite",
   "marketing-waitlist",
   "notification-register-device",
   "notification-preferences",

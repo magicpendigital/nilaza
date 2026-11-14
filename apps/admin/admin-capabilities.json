@@ -66,6 +66,16 @@
       "requiredCapabilities": ["hub.read"]
     },
     {
+      "id": "team",
+      "label": "Team & Roles",
+      "entry": "team.html",
+      "description": "Owner-only list of staff accounts with role, status and last sign-in; invite by email, change role or revoke access with confirmation, and a can / cannot list per role from the protected get_admin_role_matrix RPC",
+      "routes": [
+        { "id": "members", "label": "Members" }
+      ],
+      "requiredCapabilities": ["roles.manage"]
+    },
+    {
       "id": "growth",
       "label": "Growth Operations",
       "entry": "growth.html",

@@ -48,7 +48,7 @@ test("one Vietnamese left navigation follows proposal 03/11 §5 and the top bar 
   const dom = await shellAt("#/overview/home");
   const doc = dom.window.document;
   assert.deepEqual(groupLabels(doc), ["Nội dung", "AI", "Vận hành"]);
-  assert.deepEqual(navLabels(doc), ["Tổng quan", "Người dẫn", "Bộ bài & 78 lá", "Văn bản trong app", "Tính năng AI", "Nhà cung cấp & Model", "Prompt & phiên bản", "Chạy thử & chấm điểm", "Phản hồi người dùng", "Nhật ký AI", "Lịch sử thao tác", "Tăng trưởng"]);
+  assert.deepEqual(navLabels(doc), ["Tổng quan", "Người dẫn", "Bộ bài & 78 lá", "Văn bản trong app", "Tính năng AI", "Nhà cung cấp & Model", "Prompt & phiên bản", "Chạy thử & chấm điểm", "Phản hồi người dùng", "Nhật ký AI", "Lịch sử thao tác", "Thành viên & quyền", "Tăng trưởng"]);
   assert.equal(doc.querySelector("#workspace-nav").getAttribute("aria-label"), "Điều hướng Admin");
   assert.equal(doc.querySelector('[data-nav="overview"]').getAttribute("aria-current"), "page");
   assert.equal(doc.querySelector("#environment-label").textContent, "Đang ghi vào: STAGING · Singapore");
@@ -78,7 +78,14 @@ test("navigation items show only when the account has the capability", async () 
   assert.ok(labels.includes("Tính năng AI") && labels.includes("Nhật ký AI"));
   assert.ok(!labels.includes("Phản hồi người dùng"), "feedback also needs safety.review");
   assert.ok(!labels.includes("Người dẫn") && !labels.includes("Tăng trưởng"));
+  // 14/11: "Thành viên & quyền" needs roles.manage (Owner only).
+  assert.ok(!labels.includes("Thành viên & quyền"));
   aiOnly.window.close();
+  const admin = await shellAt("#/team/members", ["hub.read", "content.read", "content.draft", "content.publish", "ai.read", "ai.manage", "overview.read", "notifications.dispatch", "safety.review"]);
+  assert.ok(!navLabels(admin.window.document).includes("Thành viên & quyền"), "admin role has no roles.manage");
+  assert.equal(admin.window.location.hash, "#/overview/home", "a deep link to the members page without roles.manage goes away");
+  assert.equal(admin.window.document.querySelector('[data-workspace-frame="team"]'), null);
+  admin.window.close();
 });
 
 test("every manifest route stays reachable and every navigation item resolves to a working page", async () => {
@@ -131,6 +138,12 @@ test("every manifest route stays reachable and every navigation item resolves to
   doc.querySelector('[data-route="audit"]').click();
   await drain(dom);
   assert.equal(window.location.hash, "#/ai-studio/audit");
+  // 14/11: "Thành viên & quyền" opens team.html (roles.manage).
+  doc.querySelector('[data-nav="team"]').click();
+  await drain(dom);
+  assert.equal(window.location.hash, "#/team/members");
+  assert.equal(doc.querySelector('[data-workspace-frame="team"]').getAttribute("src").split("#")[0], "./team.html");
+  assert.equal(doc.querySelector("#shell-breadcrumb").textContent.includes("Thành viên & quyền"), true);
   dom.window.close();
 });
 

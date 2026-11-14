@@ -18,7 +18,7 @@
       async accept(fragment) {
         ready = false;
         const params = new URLSearchParams(fragment.replace(/^#/, ""));
-        if (params.get("type") !== "recovery" || params.has("error") || !params.get("access_token") || !params.get("refresh_token")) throw new Error("link");
+        if (!["recovery", "invite"].includes(params.get("type")) || params.has("error") || !params.get("access_token") || !params.get("refresh_token")) throw new Error("link");
         const { data, error } = await client.auth.setSession({ access_token: params.get("access_token"), refresh_token: params.get("refresh_token") });
         if (error || !data.session) throw new Error("link");
         const verified = await client.auth.getUser();

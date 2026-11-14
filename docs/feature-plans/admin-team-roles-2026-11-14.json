@@ -27,6 +27,8 @@
     "apps/admin/admin-capabilities.json",
     "apps/admin/timeline.js",
     "apps/admin/recovery-core.js",
+    "apps/admin/recovery.js",
+    "scripts/admin-recovery.test.mjs",
     "apps/admin/README.md",
     "scripts/admin-team-roles.test.mjs",
     "scripts/admin-a2-navigation.test.mjs",
@@ -44,7 +46,7 @@
   "impact": {
     "entryPoint": "Admin left navigation Vận hành › Thành viên & quyền (new workspace team.html, route members, roles.manage); Edge Function admin-team-invite; recovery.html for the invite link landing page.",
     "dataWrite": "admin_role_assignments rows (insert or status change) through definer RPCs; admin_audit_logs rows role.set, role.revoke, role.invite (plus the existing trigger rows role.insert / role.update); new private table nilaza_private.admin_team_invite_days (actor, Vietnam day, count); Supabase Auth creates the invited auth.users row.",
-    "backendContract": "RPCs list_admin_team(), set_admin_member_role(uuid, text, boolean), revoke_admin_member(uuid), get_admin_role_matrix() for authenticated callers with roles.manage; admin_team_invite_begin(uuid, text, text, boolean, boolean) and admin_team_invite_finish(uuid, uuid, text, boolean) for service_role only; POST /functions/v1/admin-team-invite {email, role, confirmOwner} -> {status: assigned | already_member | invited | unchanged, role, userId?, invitesToday, inviteDailyCap}.",
+    "backendContract": "RPCs list_admin_team(), set_admin_member_role(uuid, text, boolean), revoke_admin_member(uuid), get_admin_role_matrix() for authenticated callers with roles.manage; admin_team_invite_begin(uuid, text, text, boolean, boolean) and admin_team_invite_finish(uuid, uuid, text, boolean) for service_role only; POST /functions/v1/admin-team-invite {email, role, confirmOwner} -> {status: assigned | already_member | invited, role, userId, roles?, invitesToday?, inviteDailyCap?} or {error: invalid_request | invalid_email | invalid_role | owner_confirm_required | not_authorized | self_change | last_owner | member_not_found | invite_limit | invite_not_configured | migration_missing | invite_failed}.",
     "adminVisibility": "Owner sees every member's email, roles, status, created / invited / last sign-in dates and today's invite count; role changes appear in Lịch sử thao tác (role.* rows are already limited to roles.manage). Other roles do not see the page or its RPCs.",
     "privacySafety": "Only staff accounts (rows in admin_role_assignments) are listed; no tokens, password hashes, user metadata or app data; the invite link is never returned or logged; the email is not written to audit rows or function logs; capabilities stay live (no JWT cache) so a revoke takes effect on the next request.",
     "observability": "Audit rows role.set / role.revoke / role.invite with actor, target, role, previous roles and invited yes/no; the function returns fixed error codes; Supabase Auth logs the invite email delivery.",
@@ -70,19 +72,19 @@
     { "path": "supabase/migrations/20261113100100_admin_timeline.sql", "reason": "role.* rows shown only to roles.manage; details.role.", "sha256": "fd7d0353c0c9bc06e57f8ce7fe7307804ee85d5e58f00f91acf934c5de83f3c4" },
     { "path": "supabase/migrations/20261113140100_ai_providers.sql", "reason": "Latest RPC, service-role-only and audit pattern.", "sha256": "eaf2e10c9547a05fa14881d6d27423e7b24383134ed558e51cc4478724314223" },
     { "path": "supabase/functions/admin-ai-provider-probe/index.ts", "reason": "Caller capability check then service client pattern.", "sha256": "62381e3d2875adfd9ef1f2e51a32b2238bf8cf196de8012a287a5af919426a6c" },
-    { "path": "apps/admin/shell.js", "reason": "navGroups, workspaceCapability, routeAllowed.", "sha256": "ef033c8484d3b0008cf037c6d041e4c02abb3903da838eeb7ab877132706d8d7" },
-    { "path": "apps/admin/workspace-guard.js", "reason": "Entry capability map, RPC and function allowlists.", "sha256": "1bba77c9e968cbe6dd2484246f3e8e516c4751804e8059156a0d1675bffd935c" },
+    { "path": "apps/admin/shell.js", "reason": "navGroups, workspaceCapability, routeAllowed.", "sha256": "a73190857a9849d60727db3ad9b8ac8b3c857d3fea50fc6eaa5f875b91cad48c" },
+    { "path": "apps/admin/workspace-guard.js", "reason": "Entry capability map, RPC and function allowlists.", "sha256": "f5eb1c3e33473bc6056e6eb53dd150209352762c4e708ca3642425c3655229db" },
     { "path": "apps/admin/admin-access.js", "reason": "Role and capability sets parsed from get_admin_access.", "sha256": "1e6cc7a5b9a319e317371195451f4d5cdc6265bc87aeb4aadccd71daba91b13d" },
-    { "path": "apps/admin/admin-capabilities.json", "reason": "Workspace manifest to extend additively.", "sha256": "3e0a888fe3c4082f4b0cfd7d294b716c77f1c71800fbc5daa2830f288f739d57" },
-    { "path": "apps/admin/timeline.js", "reason": "Action labels for the new role.* audit rows.", "sha256": "8710ff0d212082da30488a25eeae058bfe530145c9b09ed3ac8fa7f9173e20e2" },
+    { "path": "apps/admin/admin-capabilities.json", "reason": "Workspace manifest to extend additively.", "sha256": "e5b7254d20b63b66836113edb4fcc6b7eafd38488eddd5ad6fb4e0d97aa42f3c" },
+    { "path": "apps/admin/timeline.js", "reason": "Action labels for the new role.* audit rows.", "sha256": "7ddcd9671b4e2f84cdb58c01c776f0081efe0b11f0106a3c0b47dc5106c4c086" },
     { "path": "apps/admin/timeline.html", "reason": "Small standalone workspace page pattern.", "sha256": "75847e2ea72e72ef9f75aa507ab5965f966d085fbb81a84fa825fd12906011be" },
-    { "path": "apps/admin/recovery-core.js", "reason": "Only type=recovery links accepted; invite links need type=invite.", "sha256": "3b542f4a524868a30c4ed758cb6ff75bc6a4d039c286ba7b427843906a02e570" },
-    { "path": "scripts/validate-backend-contracts.mjs", "reason": "Admin function registration tokens.", "sha256": "07e729b7aabdc1965bb81e88fa63b4df56e381dceb897fbed98740a8c71c9c16" },
+    { "path": "apps/admin/recovery-core.js", "reason": "Only type=recovery links accepted; invite links need type=invite.", "sha256": "c689e6bedfeb49e877a28009e22652c1610962208fd57d8cf9b65476bd7948a7" },
+    { "path": "scripts/validate-backend-contracts.mjs", "reason": "Admin function registration tokens.", "sha256": "50a0b305de9ab9d675cbbebd86de72ab89fe414044453ead2a2d8c194da59564" },
     { "path": "scripts/validate-admin-contract.mjs", "reason": "Admin contract checks to extend.", "sha256": "5d5379296ed06ebb1ebc4756eb8f3eb89b259e13a335d910ea4ef07a5147b596" },
-    { "path": "supabase/config.toml", "reason": "Per-function verify_jwt entries.", "sha256": "477dcb3167bd9fcff60d5c4a4edd43ea634284fe4897dbc01ae885d49bf3aeea" },
-    { "path": "supabase/functions/README.md", "reason": "Admin function table and deploy inventory.", "sha256": "4708abff58b1d0db7f4d56610b625084755dc35f18e44ab5d33b503e1664db0e" },
-    { "path": "scripts/admin-a2-navigation.test.mjs", "reason": "Asserts the exact navigation labels.", "sha256": "afd559a1779faf849cd56e61f609a049565d87f433f6aacb97ec61b3135d576a" },
-    { "path": "package.json", "reason": "admin:test file list.", "sha256": "e3c69b90b8f74f150ec70d36ffca3cb173ee90428590dc8b02344c40e675dd04" }
+    { "path": "supabase/config.toml", "reason": "Per-function verify_jwt entries.", "sha256": "bdab42a724a8b7c2e20f520bfbefed738bdaf093188a34a96f8cbaa6770ad726" },
+    { "path": "supabase/functions/README.md", "reason": "Admin function table and deploy inventory.", "sha256": "7e40ea623289fbeccf644c5257b475bc11c55361007f7921f689952dc313a75c" },
+    { "path": "scripts/admin-a2-navigation.test.mjs", "reason": "Asserts the exact navigation labels.", "sha256": "0a6d391da952d348bfe2f72819ed225578b4f2cf2a397df38b053090a84cbbe3" },
+    { "path": "package.json", "reason": "admin:test file list.", "sha256": "d4946f009b6288b5f7b7747abb464a042155fbfda2ab14cc2d40fb95953bf266" }
   ],
   "skillReview": [
     {
@@ -111,7 +113,7 @@
     "unresolvedHighRisks": []
   },
   "workingTreeReview": {
-    "note": "Clean tree at start (origin/main cb32621) on local branch claude/admin-team-roles; this record is written and its preflight run before the first code edit.",
+    "note": "Clean tree at start (origin/main cb32621) on local branch claude/admin-team-roles; this record was written and its --record preflight run before the first code edit (commit 90896d9). The implementation commit adds the files in writeScope; recovery.js and admin-recovery.test.mjs were added to writeScope when invite links were routed to recovery.html. sourceReview hashes are refreshed (LF) to the final tree.",
     "paths": []
   },
   "validationCommands": [
@@ -124,7 +126,7 @@
     "node scripts/feature-preflight.mjs --ci --base origin/main"
   ],
   "managerTestPath": "After the Owner applies the migration, sets ADMIN_INVITE_REDIRECT_URL to the Admin recovery page (also listed in Auth Redirect URLs) and deploys admin-team-invite: open Admin › Vận hành › Thành viên & quyền, see yourself marked (bạn) with no change buttons; press Mời thành viên, type a test email, pick Biên tập viên and read the can / cannot list, pick Owner and see the extra warning and confirmation box; invite as Biên tập viên; the new member appears as Đã mời, chưa đăng nhập; open the email, set a password on the recovery page, sign in and see only the editor pages; as Owner change the role, then revoke it, confirming each; see each step in Lịch sử thao tác.",
-  "residualRisk": "PGlite is not Supabase: auth.users is stubbed (email, invited_at, last_sign_in_at...) and the real Auth invite email, redirect and rate limits are not exercised; re-run the Security Advisor after applying. Trigger audit rows written during a service-role invite have no actor (the explicit role.invite row names the Owner). An existing but never-confirmed account is assigned the role without a new email. The admin role keeps ai.manage and content.publish (Owner decision).",
+  "residualRisk": "PGlite is not Supabase: auth.users is stubbed (email, invited_at, last_sign_in_at...) and the real Auth invite email, redirect and rate limits are not exercised; re-run the Security Advisor after applying. Trigger audit rows written during a service-role invite have no actor (the explicit role.invite row names the Owner). An existing but never-confirmed account is assigned the role without a new email. If the Auth invite call fails after the daily counter was taken, that slot is not refunded (conservative). The Admin page loads supabase-js from the CDN without SRI, like the other Admin pages. The admin role keeps ai.manage and content.publish (Owner decision).",
   "externalActions": {
     "databaseWrite": false,
     "productionRelease": false

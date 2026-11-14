@@ -42,8 +42,11 @@ Admin-only paths are not exposed as mobile navigation routes. They are called by
 | `/admin/documentation` | `admin-documentation` | `ai.read` (GET) |
 | `/admin/ai-eval-run` | `admin-ai-eval-run` | `ai.manage`, or `ai.read` + `content.draft` (POST; Admin A6, needs migration `20261113110000_ai_eval_release_gate.sql`) |
 | `/admin/ai-provider-probe` | `admin-ai-provider-probe` | `ai.manage` (POST; Kiểm tra khóa, never returns key values) |
+| `/admin/team-invite` | `admin-team-invite` | `roles.manage` (POST; Thành viên & quyền, needs migration `20261114090000_admin_team_roles.sql`) |
 
 AI Studio operations use the reviewed migration `20260926152118_ai_studio_operations.sql`, present in the legacy QA audit. The overall migration ledger remains blocked by foreign-schema divergence: no generic db push/repair is allowed. Clean QA is awaiting the user-created project and a separately accepted bootstrap. QA payload capture additionally requires `AI_TRACE_QA_CAPTURE_ENABLED=true`, a 32-byte base64 `AI_TRACE_QA_ENCRYPTION_KEY`, `AI_TRACE_ENVIRONMENT=staging`, and a verified purge schedule. Keep capture disabled if `pg_cron` or the actual purge schedule is missing.
+
+`admin-team-invite` (Thành viên & quyền, 14/11) checks `roles.manage` with the caller's own session, then uses the service role only for `admin_team_invite_begin` / `admin_team_invite_finish` (service-role-only RPCs that re-check the Owner, refuse self changes and enforce a per-Owner daily cap of 10 email invites) and `auth.admin.inviteUserByEmail`. An email that already has an account gets the role at once and no email. Sending invites needs the function secret `ADMIN_INVITE_REDIRECT_URL` (https URL of the Admin `recovery.html` for that environment, for example `https://<admin-host>/recovery.html`); the same URL must be listed in Supabase Auth → URL Configuration → Redirect URLs. Without it the function answers `invite_not_configured` and only existing accounts can be added. The function never returns or logs the invite link or any key. Listing, role changes and revocation go through the `roles.manage` RPCs `list_admin_team`, `get_admin_role_matrix`, `set_admin_member_role` and `revoke_admin_member`, each audited in `admin_audit_logs`.
 
 The public marketing site calls `marketing-waitlist` without a JWT. That function validates the origin, consent, input, honeypot, and optional Turnstile token before writing through a server-only service role. The underlying `marketing_waitlist` table grants no access to `anon` or `authenticated`.
 
@@ -71,6 +74,7 @@ supabase functions deploy admin-ai-trace-qa-payload
 supabase functions deploy admin-documentation
 supabase functions deploy admin-ai-eval-run
 supabase functions deploy admin-ai-provider-probe
+supabase functions deploy admin-team-invite
 supabase functions deploy marketing-waitlist --no-verify-jwt
 supabase functions deploy notification-register-device
 supabase functions deploy notification-preferences
