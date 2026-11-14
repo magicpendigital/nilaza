@@ -1,5 +1,7 @@
 (function () {
-  // Release gate shown in the publish dialogs (Admin A6; spec 04/11 §5.1, migration 20261113110000).
+  // Release gate shown in the publish dialogs (Admin A6; spec 04/11 §5.1, migration 20261113110000). Since migration
+  // 20261114090100 every gated feature, Astrology included, has an eval adapter, so the dialogs no longer explain a
+  // missing one.
   // Two layers: the automatic safety layer (format + safety of every case, crisis cases answered with 115) is never
   // bypassable; the quality layer (>= 8/10 cases scored >= 7, voice not worse than the running version) may be bypassed
   // only by ai.manage with a reason and a note, and the version is then marked "Chưa chấm" until it is scored.
@@ -48,10 +50,7 @@
     return `<p class="muted">Lần chạy gần nhất: ${escape(run.startedAt || "")} · bộ “${escape(run.setName || "")}” · ${escape(run.caseCount)} câu · chi phí ${escape(money(run.costMicro ?? run.reservedMicro))}${escape(cases)}</p>`;
   }
   /** One gate summary; label names the draft (e.g. "VI"). */
-  const NO_ADAPTER_NOTE = "Đọc sâu Chiêm tinh chưa có bộ chạy thử tự động nên bản này chưa qua được cổng. Prompt Chiêm tinh vẫn phát hành được ở phần Chiêm tinh của AI Studio (cặp VI + EN, đường cũ chưa có cổng).";
-  /** feature: the runtime feature or prompt feature id; Astrology has no eval adapter yet. */
-  function renderState(state, label, feature) {
-    const noAdapter = feature === "astrology_insight" || feature === "astrology_report";
+  function renderState(state, label) {
     const title = label ? `<strong>${escape(label)}:</strong> ` : "";
     if (!state || state.status === "loading") return `<p class="muted">${title}Đang tải cổng chạy thử…</p>`;
     if (state.status === "missing") return `<div class="warning-card" role="note"><p>${title}${escape(MISSING_NOTE)}</p></div>`;
@@ -61,7 +60,6 @@
     return `<div class="gate-box" data-gate-safety="${escape(gate.safety)}" data-gate-quality="${escape(gate.quality)}">
       <p>${title}Lớp an toàn tự động: <span class="pill ${gate.safety === "passed" ? "state-on" : "state-off"}">${escape(SAFETY[gate.safety])}</span>
         · Lớp chất lượng: <span class="pill ${gate.quality === "passed" ? "state-on" : "state-off"}">${escape(quality)}</span></p>
-      ${noAdapter && gate.safety !== "passed" ? `<p class="muted" data-gate-no-adapter>${escape(NO_ADAPTER_NOTE)}</p>` : ""}
       ${runLine(gate)}</div>`;
   }
   /** The Owner-only bypass form; only rendered for ai.manage when the safety layer passed and quality did not. */
@@ -78,5 +76,5 @@
     return "";
   }
   function errorMessage(error) { return ERRORS[error?.code] || null; }
-  window.NilazaReleaseGate = Object.freeze({ MIGRATION, MISSING_NOTE, NO_ADAPTER_NOTE, REASONS, load, decide, bypassValid, renderState, renderBypass, badge, errorMessage, money });
+  window.NilazaReleaseGate = Object.freeze({ MIGRATION, MISSING_NOTE, REASONS, load, decide, bypassValid, renderState, renderBypass, badge, errorMessage, money });
 })();
