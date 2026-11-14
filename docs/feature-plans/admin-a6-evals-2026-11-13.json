@@ -177,12 +177,12 @@
     {
       "path": "apps/admin/ai-features.js",
       "reason": "Publish dialog to gate.",
-      "sha256": "7c6393f2a257463f942dc37b806c461accc486537a2ea2fb02d08e2930ef1c3e"
+      "sha256": "22e4ac03cbc81be3ac997fa118aea9054739d5e9f03adba0da34dc0388183e49"
     },
     {
       "path": "apps/admin/prompt-versions.js",
       "reason": "Publish dialog to gate.",
-      "sha256": "e6913cafbf89608dc4af032d9077412976c0e8f8fef8e71b16cd94224a1a8614"
+      "sha256": "b407958144c35e50540065c43db2eda253941c71ade52beab34d7960ec3b9962"
     },
     {
       "path": "apps/admin/feedback-inbox.js",
@@ -243,7 +243,7 @@
     "unresolvedHighRisks": []
   },
   "workingTreeReview": {
-    "note": "Clean tree at start (origin/main 392160b, branch claude/admin-a6-evals); this record and the preflight passed (only the environment-only 'Installed project skills differ' message) and were committed (a9d2769) before the first code edit. Edited afterwards within writeScope: migrations 20261113110000 and 20261113110100 (PGlite full replay of all 45 migrations, 78 checks), Edge function admin-ai-eval-run with runner and Deno tests, Tarot E4 (tarot-content.ts, tarot-prompt.ts, ai-tarot-reading), function registration (config.toml, README, readiness and backend-contract scripts), Admin modules ai-evals.js and release-gate.js plus wiring in ai-features.js, prompt-versions.js, feedback-inbox.js, overview.js/.css, shell.js, app.js, ai-studio.html, workspace-guard.js, styles.css, workflow-catalog digests, and jsdom tests. sourceReview hashes of the files this task edited were refreshed after the edits: supabase/functions/_shared/tarot-prompt.ts, supabase/functions/ai-tarot-reading/index.ts, apps/admin/ai-features.js, apps/admin/prompt-versions.js, apps/admin/feedback-inbox.js, apps/admin/overview.js, apps/admin/shell.js, apps/admin/app.js, apps/admin/workspace-guard.js.",
+    "note": "Clean tree at start (origin/main 392160b, branch claude/admin-a6-evals); this record and the preflight passed (only the environment-only 'Installed project skills differ' message) and were committed (a9d2769) before the first code edit. Edited afterwards within writeScope: migrations 20261113110000 and 20261113110100 (PGlite full replay of all 45 migrations, 78 checks), Edge function admin-ai-eval-run with runner and Deno tests, Tarot E4 (tarot-content.ts, tarot-prompt.ts, ai-tarot-reading), function registration (config.toml, README, readiness and backend-contract scripts), Admin modules ai-evals.js and release-gate.js plus wiring in ai-features.js, prompt-versions.js, feedback-inbox.js, overview.js/.css, shell.js, app.js, ai-studio.html, workspace-guard.js, styles.css, workflow-catalog digests, and jsdom tests. sourceReview hashes of the files this task edited were refreshed after the edits: supabase/functions/_shared/tarot-prompt.ts, supabase/functions/ai-tarot-reading/index.ts, apps/admin/ai-features.js, apps/admin/prompt-versions.js, apps/admin/feedback-inbox.js, apps/admin/overview.js, apps/admin/shell.js, apps/admin/app.js, apps/admin/workspace-guard.js. Review fixes (same write scope): migration 20261113110000 seeds one starter eval set per supported feature (2 crisis + 5 normal cases) so the first publish is possible, and start_ai_eval_run / finish_ai_eval_run need at least one normal case for the safety layer to pass; tarot-content.ts drops bundle text with prompt-injection markers; release-gate.js says Astrology has no eval adapter; admin-ai-eval-run maps eval_set_needs_normal_case.",
     "paths": []
   },
   "validationCommands": [

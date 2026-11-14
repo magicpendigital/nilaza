@@ -490,3 +490,14 @@ test("AI Studio wires the eval module on the Test route, the nav has no pending 
   assert.ok(guard.includes('"/functions/v1/admin-ai-eval-run": { POST: "ai.manage|ai.read+content.draft" }'));
   assert.match(guard, /if \(!access \|\| !satisfiesRule\(access, requiredCapability\)\) \{\s*throw Error\("Admin permission denied"\);/);
 });
+
+test("release gate explains that Astrology has no eval adapter yet (and says nothing for other features)", () => {
+  const h = baseWindow("https://admin.example/ai-studio", ["ai.read"]);
+  h.w.eval(read("apps/admin/release-gate.js"));
+  const gate = h.w.NilazaReleaseGate;
+  const state = { status: "ok", gate: { safety: "not_run", quality: "not_run" } };
+  assert.match(gate.renderState(state, "", "astrology_insight"), /data-gate-no-adapter/);
+  assert.match(gate.renderState(state, "VI", "astrology_report"), /AI Studio/);
+  assert.doesNotMatch(gate.renderState(state, "", "tarot_reading"), /data-gate-no-adapter/);
+  assert.doesNotMatch(gate.renderState({ status: "ok", gate: { safety: "passed", quality: "passed" } }, "", "astrology_insight"), /data-gate-no-adapter/);
+});

@@ -214,7 +214,7 @@
       <p>${activeRow ? `Phiên bản nháp ${draftRow.version} thay phiên bản đang chạy ${activeRow.version}; bản cũ được lưu trữ, không bị xóa.` : `Phiên bản nháp ${draftRow.version} thay mặc định trong mã.`} Áp dụng cho người dùng ngay khi Edge Function đọc lại cấu hình.</p>
       <table class="config-table diff-table"><thead><tr><th scope="col">Thiết lập</th><th scope="col">Đang chạy</th><th scope="col">Sau khi phát hành</th><th scope="col">Thay đổi</th></tr></thead><tbody>${rows}</tbody></table>
       <h3>Cổng phát hành (chạy thử & chấm điểm)</h3>
-      ${gate ? gate.renderState(dialog.gate) : '<p class="muted">Không tải được mô-đun cổng phát hành; máy chủ vẫn tự kiểm khi phát hành.</p>'}
+      ${gate ? gate.renderState(dialog.gate, "", item.id) : '<p class="muted">Không tải được mô-đun cổng phát hành; máy chủ vẫn tự kiểm khi phát hành.</p>'}
       ${gate && decision.mode === "bypass" ? gate.renderBypass("ai-feature", dialog.bypass) : ""}
       ${decision.mode === "blocked" ? '<p class="helper" data-gate-blocked>Nút Phát hành bị khóa cho tới khi lớp an toàn đạt.</p>' : ""}
       <p><button type="button" class="button ghost" data-cfg-open-evals="${item.id}">Mở Chạy thử & chấm điểm</button></p>

@@ -31,12 +31,13 @@
     "42501": "Tài khoản này không có quyền (cần ai.manage, hoặc ai.read + content.draft).",
     "22023": "Máy chủ không nhận dữ liệu này (kiểm tra nhãn 3–120 ký tự, số lá đúng kiểu trải, mã lá, mã người dẫn).",
     "40001": "Bộ câu vừa được người khác sửa. Tải lại rồi sửa tiếp.",
-    NZE04: "Bộ câu cần ít nhất một câu khủng hoảng (đúng ngôn ngữ của bản nháp khi chạy thử prompt).",
+    NZE04: "Bộ câu cần ít nhất một câu khủng hoảng và một câu thường (đúng ngôn ngữ của bản nháp khi chạy thử prompt).",
     NZE05: "Máy chủ từ chối: có nội dung giống email hoặc số điện thoại. Xóa dữ liệu cá nhân rồi lưu lại."
   };
   const RUN_ERRORS = {
     eval_budget_exhausted: "Hết ngân sách chạy thử (10 USD tổng). Không chạy thêm được cho tới khi Owner nâng ngân sách bằng migration.",
     eval_set_needs_crisis_case: "Bộ câu chưa có câu khủng hoảng cho ngôn ngữ của bản nháp này.",
+    eval_set_needs_normal_case: "Bộ câu chưa có câu thường cho ngôn ngữ của bản nháp này; chỉ có câu khủng hoảng thì chưa kiểm được câu trả lời nào của bản nháp.",
     eval_run_refused: "Máy chủ từ chối lượt chạy: bản này không còn là nháp, đang có một lượt chạy khác, hoặc tính năng chưa có bộ chạy thử.",
     invalid_eval_run: "Bộ câu và bản nháp không cùng tính năng.",
     "Admin role required": "Tài khoản này không có quyền chạy thử."

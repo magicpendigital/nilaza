@@ -352,7 +352,7 @@
   },
   {
     "path": "supabase/functions/_shared/tarot-content.ts",
-    "sha256": "b2471642f1e88232e85d0be20e431b730be83e28c8f0f3892d7cfae5da911a42"
+    "sha256": "89ada11b0c1fa8a8442c22615cbca83f6b3277d984a21065042f8a7f3e19672e"
   },
   {
     "path": "supabase/functions/_shared/tarot-prompt.ts",

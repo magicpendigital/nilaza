@@ -263,7 +263,7 @@
         const draft = rows[locale].draft, running = rows[locale].active;
         return `<div class="pv-dialog-locale"><h3>${escape(name)}: ${escape(running ? `${running.version} → ${draft.version}` : `bản mới ${draft.version}`)}</h3>
           ${renderDiff(running?.promptText || "", draft.promptText, `Thay đổi ${name} (${draft.promptText.length} ký tự; mã kiểm tra ${String(draft.textSha256 || "").slice(0, 12)})`)}
-          ${gate ? gate.renderState(dialog.gates?.[locale], `Cổng phát hành ${locale.toUpperCase()}`) : ""}</div>`;
+          ${gate ? gate.renderState(dialog.gates?.[locale], `Cổng phát hành ${locale.toUpperCase()}`, item.feature) : ""}</div>`;
       }).join("")}
       ${gate && needsBypass && !blocked ? gate.renderBypass("pv", dialog.bypass) : ""}
       ${blocked ? '<p class="helper" data-gate-blocked>Nút Phát hành bị khóa cho tới khi lớp an toàn của mọi bản nháp đạt (mỗi ngôn ngữ chạy thử riêng).</p>' : ""}

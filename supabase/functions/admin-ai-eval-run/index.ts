@@ -67,7 +67,9 @@ serve(async (req) => {
     actor_input: userData.user.id, set_id_input: setId, target_kind_input: targetKind, target_id_input: targetId
   });
   if (startError || !started) {
-    const [status, error] = startErrors[startError?.code ?? ""] ?? [503, "eval_start_unavailable"];
+    const [status, mapped] = startErrors[startError?.code ?? ""] ?? [503, "eval_start_unavailable"];
+    // NZE04 covers both "no crisis case" and "no normal case" (a run of crisis cases alone checks no model answer).
+    const error = startError?.code === "NZE04" && /normal_case/.test(String(startError?.message ?? "")) ? "eval_set_needs_normal_case" : mapped;
     return jsonResponse({ error, code: startError?.code ?? null }, status);
   }
   const plan = started as EvalPlan & { runId: string };

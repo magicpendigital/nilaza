@@ -25,10 +25,19 @@ export type PublishedTarotContent = {
 
 type RecordValue = Record<string, unknown>;
 const record = (value: unknown): RecordValue | null => value !== null && typeof value === "object" && !Array.isArray(value) ? value as RecordValue : null;
+// Bundle text is operator-authored but still reaches the model as data: a field with chat-template markers or
+// "ignore/override ... safety|system|instructions" phrasing (the screen of isUsableTarotPromptText) is dropped and the
+// canonical text is used for that field.
+const INJECTION_MARKERS = [
+  /<\|[^>]+\|>|\[\/?INST\]|\[\/?(?:SYSTEM|ASSISTANT|USER)\]/i,
+  /(?:ignore|override|bypass|disable)\s+(?:all\s+)?(?:safety|system|previous|guardrails|instructions)/i,
+  /bỏ qua\s+(?:mọi\s+)?(?:an toàn|hệ thống|chỉ dẫn|ranh giới)/i
+];
 function text(value: unknown, limit: number): string | undefined {
   if (typeof value !== "string") return undefined;
   const clean = value.trim();
   if (!clean || clean.length > limit || /[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(clean)) return undefined;
+  if (INJECTION_MARKERS.some(pattern => pattern.test(clean))) return undefined;
   return clean;
 }
 function localized(value: unknown, limit: number): Localized | undefined {
