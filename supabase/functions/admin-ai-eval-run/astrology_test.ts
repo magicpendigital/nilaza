@@ -1,4 +1,4 @@
-// Astrology eval adapter (migration 20261114090000): the seeded synthetic charts and cases pass the runtime invocation
+// Astrology eval adapter (migration 20261114090100): the seeded synthetic charts and cases pass the runtime invocation
 // check, the run mirrors ai-astrology-insight (route, prompt, system prompt, user message, response check) and crisis
 // cases never reach a model.
 import { astrologyCrisisResult, astrologyEvalInvocation, runAstrologyCase } from "./astrology.ts";
@@ -9,7 +9,7 @@ import { systemPrompt } from "../_shared/astrology-system-prompt.ts";
 function assert(value: unknown, message = "assertion failed") { if (!value) throw new Error(message); }
 function equal(a: unknown, b: unknown) { assert(JSON.stringify(a) === JSON.stringify(b), `mismatch ${JSON.stringify(a)} !== ${JSON.stringify(b)}`); }
 
-const migration = Deno.readTextFileSync(new URL("../../migrations/20261114090000_ai_eval_monthly_budget_astrology.sql", import.meta.url));
+const migration = Deno.readTextFileSync(new URL("../../migrations/20261114090100_ai_eval_monthly_budget_astrology.sql", import.meta.url));
 const chartsLiteral = migration.split("-- BEGIN astrology eval charts")[1]?.split("-- END astrology eval charts")[0] ?? "";
 const CHARTS = JSON.parse(chartsLiteral.split("$charts$")[1]) as Record<string, Record<string, unknown>>;
 const SEED = [...migration.matchAll(/jsonb_build_array\('(crisis|normal)','(vi|en)','([^']*)', jsonb_build_object\('question','([^']*)','chartKey','([^']*)','theme','([^']*)'\)\)/g)]

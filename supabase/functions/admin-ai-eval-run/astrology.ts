@@ -1,4 +1,4 @@
-// Astrology eval adapter (eval feature astrology_insight, prompt feature astrology_report; migration 20261114090000).
+// Astrology eval adapter (eval feature astrology_insight, prompt feature astrology_report; migration 20261114090100).
 // Mirrors ai-astrology-insight for one case: the case's fixed synthetic chart (attached by start_ai_eval_run) and question
 // become the same invocation the app sends; the invocation goes through validateAstrologyAiInvocation; the route must be
 // the active astrology_report route with the astrology_ai_insight_v1 schema; the prompt is the active global

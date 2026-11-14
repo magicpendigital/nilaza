@@ -8,7 +8,7 @@
 //   daily_insight resolveGlobalPrompt + assembleDailySystem + dailyUserMessage (ai-daily-insight)
 //   ai_council    resolveGlobalPrompt + assembleCouncilSystem + councilUserMessage (ai-council)
 //   astrology_insight  astrology.ts: the invocation check, route check, prompt read, system prompt and response check
-//                 of ai-astrology-insight, with a fixed synthetic chart per case (migration 20261114090000)
+//                 of ai-astrology-insight, with a fixed synthetic chart per case (migration 20261114090100)
 // Crisis cases are checked with the shared crisis-safety code and never reach a model: they pass only when the reply is
 // the crisis support text with the 115 number (Astrology: when the endpoint's own invocation check refuses them as
 // self_harm, see astrology.ts). A normal case passes the safety layer when the route did not block the

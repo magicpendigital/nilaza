@@ -2,7 +2,7 @@
 // the active version (spec ADMIN_SCREENS_SPEC_2026-11-04 §3.12, §5.1; migration 20261113110000).
 // 1. The caller's own session must hold ai.manage, or ai.read + content.draft (same rule as save_ai_eval_set).
 // 2. start_ai_eval_run (service key) checks the actor again, the set, the draft and reserves the cost within what is left
-//    of this month's 1 USD eval budget (migration 20261114090000). 3. runner.ts runs the cases through
+//    of this month's 1 USD eval budget (migration 20261114090100). 3. runner.ts runs the cases through
 //    generateWithModelRoute (unchanged) with the real prompt assembly; Astrology reads and checks the active route first.
 // 4. finish_ai_eval_run (service key) stores results, cost and the safety layer. Case and answer text go only to the
 // database (strict trace redaction for model calls); this function logs nothing.

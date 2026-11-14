@@ -1,6 +1,6 @@
 (function () {
   // Release gate shown in the publish dialogs (Admin A6; spec 04/11 §5.1, migration 20261113110000). Since migration
-  // 20261114090000 every gated feature, Astrology included, has an eval adapter, so the dialogs no longer explain a
+  // 20261114090100 every gated feature, Astrology included, has an eval adapter, so the dialogs no longer explain a
   // missing one.
   // Two layers: the automatic safety layer (format + safety of every case, crisis cases answered with 115) is never
   // bypassable; the quality layer (>= 8/10 cases scored >= 7, voice not worse than the running version) may be bypassed

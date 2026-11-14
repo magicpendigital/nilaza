@@ -5,11 +5,11 @@
   // - Chạy thử: the Edge Function admin-ai-eval-run runs a set against one draft (feature config or prompt version) and
   //   the active version with the real model route; the cost estimate (0.02 USD per model call) and what is left of
   //   this month's 1 USD eval budget (Asia/Ho_Chi_Minh, resets on the 1st) are shown first.
-  // - Đọc sâu Chiêm tinh (migration 20261114090000): each case names one of three fixed synthetic charts (chartKey) and
+  // - Đọc sâu Chiêm tinh (migration 20261114090100): each case names one of three fixed synthetic charts (chartKey) and
   //   a theme; a crisis case passes when the endpoint's own check refuses it before any model call.
   // - Lịch sử & chấm điểm: list_ai_eval_runs / get_ai_eval_run (ai.read); blind A/B scoring with score_ai_eval_result
   //   (variant, model and per-result cost stay hidden until every result is scored).
-  // Migrations 20261113110000_ai_eval_release_gate.sql and 20261114090000; nothing here invents results or scores.
+  // Migrations 20261113110000_ai_eval_release_gate.sql and 20261114090100; nothing here invents results or scores.
   const escape = value => String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
   const MIGRATION = "20261113110000";
   const MIGRATION_NOTE = `Máy chủ chưa có bảng chạy thử — cần Owner áp migration ${MIGRATION}_ai_eval_release_gate.sql. Chưa lưu được bộ câu hay chạy thử.`;
@@ -23,7 +23,7 @@
     { id: "oracle_router", label: "Oracle", promptFeature: null, text: "Câu hỏi gửi Oracle" },
     { id: "astrology_insight", label: "Đọc sâu Chiêm tinh", promptFeature: "astrology_report", text: "Câu hỏi (tối đa 500 ký tự; không ghi ngày, giờ, nơi sinh)" }
   ]);
-  // Fixed synthetic charts of migration 20261114090000 (calculated from invented dates and times; nobody's birth data).
+  // Fixed synthetic charts of migration 20261114090100 (calculated from invented dates and times; nobody's birth data).
   const ASTRO_CHARTS = Object.freeze([["eval_chart_a", "Lá số mẫu A"], ["eval_chart_b", "Lá số mẫu B"], ["eval_chart_c", "Lá số mẫu C"]]);
   const ASTRO_THEMES = Object.freeze([["open_reflection", "Chiêm nghiệm chung"], ["identity", "Bản thân"], ["relationships", "Các mối quan hệ"],
     ["work", "Công việc"], ["decision", "Quyết định"], ["patterns", "Khuôn mẫu lặp lại"]]);
@@ -219,7 +219,7 @@
         <div class="config-field"><label for="${id("kind")}">Loại</label><select class="input" id="${id("kind")}" data-case-index="${index}" data-case-field="kind"><option value="normal" ${item.kind === "normal" ? "selected" : ""}>Câu thường</option><option value="crisis" ${item.kind === "crisis" ? "selected" : ""}>${featureId === "astrology_insight" ? "Câu khủng hoảng (phải bị chặn, không gọi model)" : "Câu khủng hoảng (phải trả thẻ 115)"}</option></select></div>
         <div class="config-field"><label for="${id("locale")}">Ngôn ngữ</label><select class="input" id="${id("locale")}" data-case-index="${index}" data-case-field="locale"><option value="vi" ${item.locale === "vi" ? "selected" : ""}>Tiếng Việt</option><option value="en" ${item.locale === "en" ? "selected" : ""}>Tiếng Anh</option></select></div>
       </div>
-      <div class="config-field"><label for="${id("text")}">${escape(info.text)}</label><textarea class="input" rows="2" maxlength="1000" id="${id("text")}" data-case-index="${index}" data-case-field="text">${escape(item.text)}</textarea></div>
+      <div class="config-field"><label for="${id("text")}">${escape(info.text)}</label><textarea class="input" rows="2" maxlength="${featureId === "astrology_insight" ? 500 : 1000}" id="${id("text")}" data-case-index="${index}" data-case-field="text">${escape(item.text)}</textarea></div>
       <div class="config-grid">${extra}${field("expectation", "Kỳ vọng (không bắt buộc)", item.expectation, 'maxlength="500"')}</div>
       <button type="button" class="button ghost" data-eval-remove-case="${index}" ${active.editor.cases.length <= 1 ? "disabled" : ""}>Bỏ câu này</button>
     </fieldset>`;

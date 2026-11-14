@@ -5,7 +5,7 @@
   "lane": "SQL + Edge + Admin: A6 follow-up (monthly 1 USD eval budget, Astrology eval adapter so Astrology can pass the release gate)",
   "goal": "Owner decision 14/11: the AI eval budget becomes 1 USD per calendar month (Asia/Ho_Chi_Minh), counting only runs started in the current month, with the same reservation, advisory lock and stale-run expiry as A6. Astrology insight gets an eval adapter: a new migration seeds fixed synthetic charts (calculated by packages/astrology-core from invented inputs, facts only, no birth data), extends ai_eval_case_input to accept {question, chartKey, theme} for astrology_insight, lets start_ai_eval_run accept Astrology sets (charts attached to each case) and seeds a 'Bộ mẫu có sẵn' Astrology set with 2 crisis and 5 normal cases. admin-ai-eval-run runs Astrology draft and active versions through the real astrology_report model route with the same request and response contract as ai-astrology-insight. Nothing is applied or deployed by the agent.",
   "successCriteria": [
-    "New migration 20261114090000_ai_eval_monthly_budget_astrology.sql (applied migrations untouched) sets ai_eval_budget_cap_micro to 1 000 000 micro-USD, adds nilaza_private.ai_eval_month_start, makes ai_eval_budget count only runs started since the start of the current Asia/Ho_Chi_Minh month and return monthStart, resetsAt, period and timeZone; reservation, advisory lock and 15-minute stale-run expiry are unchanged.",
+    "New migration 20261114090100_ai_eval_monthly_budget_astrology.sql (applied migrations untouched) sets ai_eval_budget_cap_micro to 1 000 000 micro-USD, adds nilaza_private.ai_eval_month_start, makes ai_eval_budget count only runs started since the start of the current Asia/Ho_Chi_Minh month and return monthStart, resetsAt, period and timeZone; reservation, advisory lock and 15-minute stale-run expiry are unchanged.",
     "ai_eval_case_input accepts astrology_insight cases {question (<= 500), chartKey (one of the seeded synthetic charts, default eval_chart_a), theme (one of the six focus themes, default open_reflection)} and still refuses personal data and unknown keys; every other feature branch is byte-for-byte the A6 logic.",
     "start_ai_eval_run no longer refuses astrology_insight; Astrology case rows carry the synthetic chart facts; a run still needs a crisis case and a normal case; the budget check refuses (NZE03) instead of clamping a reservation.",
     "A 'Bộ mẫu có sẵn' Astrology eval set (2 crisis VI/EN, 5 normal) is seeded only when missing, and every seeded case input passes ai_eval_case_input.",
@@ -14,7 +14,7 @@
     "Deno tests (adapter + existing), deno check, admin:test, validate-admin-contract, validate-admin-workflow-catalog, validate:backend, supabase:check, astrology:ai-contract:check and a PGlite replay of all migrations (monthly rollover, Astrology seed valid, Astrology run start accepted, A6 checks) pass; preflight --ci passes (Windows CRLF-only failures excepted)."
   ],
   "writeScope": [
-    "supabase/migrations/20261114090000_ai_eval_monthly_budget_astrology.sql",
+    "supabase/migrations/20261114090100_ai_eval_monthly_budget_astrology.sql",
     "supabase/functions/admin-ai-eval-run/index.ts",
     "supabase/functions/admin-ai-eval-run/runner.ts",
     "supabase/functions/admin-ai-eval-run/runner_test.ts",
@@ -86,12 +86,12 @@
     {
       "path": "supabase/functions/admin-ai-eval-run/runner.ts",
       "reason": "Runner plan, prompt override and per-feature adapters (now with astrology_insight).",
-      "sha256": "88b0a65b4d021766d39fe7aac1c8e958830868d87fecd5b7696769bfd4b6f6b9"
+      "sha256": "2bdd664f0cceb84b0131289ec717a102ccca6d39146b42f2de87acc6ce823def"
     },
     {
       "path": "supabase/functions/admin-ai-eval-run/index.ts",
       "reason": "Edge entry, generate wrapper and route reader for Astrology.",
-      "sha256": "8eb0705fc46b265dba5ce39fdeb1709a11720b51b918c047bc69bb0210f3df83"
+      "sha256": "4c62ab670b1c0961480195daa7bb61ac26c2fe654eb00cf22c3d9af2c7660d64"
     },
     {
       "path": "supabase/functions/ai-astrology-insight/index.ts",
@@ -121,12 +121,12 @@
     {
       "path": "apps/admin/ai-evals.js",
       "reason": "Monthly budget pill, Astrology chart/theme case editor and note.",
-      "sha256": "7bcbb2b0c2e77cd680b980cdba3c20d5e1269f0dfd118ada91901e6db3a76e95"
+      "sha256": "209264111358b993065d696f520cf4fcc8927bb109d881ea32ab050fa30fb9ee"
     },
     {
       "path": "apps/admin/release-gate.js",
       "reason": "Astrology no-adapter note removed.",
-      "sha256": "b583ca5a86e612b71f701458b42edbbc893b37005c743986429efa7ab9d418a8"
+      "sha256": "900685cd94953db2c58bda1972452b6e66e6a473d1eda040e1c2377262d57a54"
     }
   ],
   "skillReview": [
@@ -152,7 +152,7 @@
     "secretsLogging": "No secret read or logged; the function logs no case or answer text.",
     "externalInput": "chartKey and theme are enum-checked in SQL; the adapter re-validates the whole invocation with the runtime validator before any model call.",
     "dependencies": "No package added.",
-    "migrationRelease": "Owner applies 20261114090000 after 20261113110000 by hash, then redeploys admin-ai-eval-run (ai-astrology-insight redeploy optional: same behaviour, shared module).",
+    "migrationRelease": "Owner applies 20261114090100 after 20261113110000 by hash, then redeploys admin-ai-eval-run (ai-astrology-insight redeploy optional: same behaviour, shared module).",
     "stopCondition": "Stop if PGlite, Deno tests, deno check or Admin tests fail, or if a crisis case could reach a model.",
     "unresolvedHighRisks": []
   },
@@ -169,7 +169,7 @@
     "npm run validate:backend && npm run supabase:check && npm run astrology:ai-contract:check",
     "node scripts/feature-preflight.mjs --ci --base origin/main"
   ],
-  "managerTestPath": "After the Owner applies 20261114090000 and redeploys admin-ai-eval-run: open Admin › Chạy thử & chấm điểm, the pill shows 'Ngân sách tháng này: còn … / 1 USD, đặt lại ngày 1'; choose Đọc sâu Chiêm tinh, open 'Bộ mẫu có sẵn' (2 crisis, 5 normal cases with sample charts), save an astrology_report prompt draft or an Astrology feature draft, run the set; the safety layer passes when the model answers match the Astrology contract; the publish dialog then allows publishing.",
+  "managerTestPath": "After the Owner applies 20261114090100 and redeploys admin-ai-eval-run: open Admin › Chạy thử & chấm điểm, the pill shows 'Ngân sách tháng này: còn … / 1 USD, đặt lại ngày 1'; choose Đọc sâu Chiêm tinh, open 'Bộ mẫu có sẵn' (2 crisis, 5 normal cases with sample charts), save an astrology_report prompt draft or an Astrology feature draft, run the set; the safety layer passes when the model answers match the Astrology contract; the publish dialog then allows publishing.",
   "residualRisk": "PGlite is not Supabase; no real model call was made. Astrology runs need an active astrology_report route with the astrology_ai_insight_v1 schema (set in Admin), like the real function; without it every normal case fails with astrology:route_not_ready. Astrology crisis cases pass on the endpoint's own pre-model refusal (blocked topic self_harm); the app's Astrology crisis message has no 115 number, unlike the Tarot/Chat support card — recommend aligning it. publish_astrology_prompt_pair stays ungated (recommend gating both VI and EN drafts in a later migration). 1 USD per month allows by reservation about 5 starter-set feature runs, 8 VI or 12 EN prompt runs; unused reservation is released when a run finishes. Runs still running at a month boundary keep their reservation counted in the new month until they finish or expire. scripts/ai-answer-endpoints.test.mjs has two Tarot failures that also occur on origin/main cb32621 (not caused by this change).",
   "externalActions": {
     "databaseWrite": false,
