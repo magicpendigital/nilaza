@@ -135,7 +135,11 @@ async function loadRegistry(deps: Dependencies): Promise<ProviderRegistry | null
       doFetch(new URL("rest/v1/ai_provider_health?select=provider,configured,failures,opened_until", target.url), { method: "GET", redirect: "error", signal: controller.signal, headers })
     ]);
     if (!providers.ok) return null;
-    return parseProviderRows(await providers.json(), health.ok ? await health.json() : []);
+    const registry = parseProviderRows(await providers.json(), health.ok ? await health.json() : []);
+    // A provider row that is missing or unusable must not remove that provider from every chain (OpenRouter would
+    // then leave "no provider"): such a provider keeps its seeded default. Only an explicit row changes a switch.
+    if (registry) for (const [provider, policy] of defaultProviderRegistry()) if (!registry.has(provider)) registry.set(provider, policy);
+    return registry;
   } catch {
     return null;
   } finally {
@@ -214,7 +218,8 @@ export const REFERENCE_PRICES_MICRO_PER_TOKEN: Record<string, [number, number]> 
   "openai:gpt-4o-mini": [0.15, 0.6],
   "openai:gpt-4.1-mini": [0.4, 1.6],
   "gemini:gemini-2.5-flash": [0.3, 2.5],
-  "gemini:gemini-2.5-flash-lite": [0.1, 0.4]
+  "gemini:gemini-2.5-flash-lite": [0.1, 0.4],
+  "gemini:gemini-2.5-pro": [1.25, 10]
 };
 export function referencePrice(provider: ModelProviderName, model: string): [number, number] | undefined {
   return REFERENCE_PRICES_MICRO_PER_TOKEN[`${provider}:${model}`];

@@ -11,7 +11,8 @@ alter table public.model_route_versions
   add column if not exists publish_note text;
 
 -- One step: {provider, model, timeout_ms, max_tokens, temperature, json_mode, reasoning}. reasoning is null or
--- {mode: off|minimal|low|medium|high, maxTokens?: 64-8192}. Unknown keys are refused.
+-- {mode: off|minimal|low|medium|high, maxTokens?: 64-8192}. Unknown keys are refused; every other key is required
+-- (is distinct from, so a missing key is refused instead of evaluating to NULL and passing).
 create or replace function nilaza_private.model_route_steps_valid(steps_input jsonb) returns boolean
 language plpgsql immutable set search_path = '' as $$
 declare
@@ -27,18 +28,18 @@ begin
       if k not in ('provider','model','timeout_ms','max_tokens','temperature','json_mode','reasoning') then return false; end if;
     end loop;
     if coalesce(step->>'provider', '') not in ('openai','openrouter','gemini','anthropic','deepseek') then return false; end if;
-    if jsonb_typeof(step->'model') <> 'string' or length(btrim(step->>'model')) not between 1 and 160
+    if jsonb_typeof(step->'model') is distinct from 'string' or length(btrim(step->>'model')) not between 1 and 160
       or step->>'model' <> btrim(step->>'model') or step->>'model' ~ '[[:cntrl:][:space:]]' then return false; end if;
-    if jsonb_typeof(step->'timeout_ms') <> 'number' then return false; end if;
+    if jsonb_typeof(step->'timeout_ms') is distinct from 'number' then return false; end if;
     n := (step->>'timeout_ms')::numeric;
     if n <> trunc(n) or n < 1000 or n > 140000 then return false; end if;
-    if jsonb_typeof(step->'max_tokens') <> 'number' then return false; end if;
+    if jsonb_typeof(step->'max_tokens') is distinct from 'number' then return false; end if;
     n := (step->>'max_tokens')::numeric;
     if n <> trunc(n) or n < 64 or n > 8192 then return false; end if;
-    if jsonb_typeof(step->'temperature') <> 'number' then return false; end if;
+    if jsonb_typeof(step->'temperature') is distinct from 'number' then return false; end if;
     n := (step->>'temperature')::numeric;
     if n < 0 or n > 2 then return false; end if;
-    if jsonb_typeof(step->'json_mode') <> 'boolean' then return false; end if;
+    if jsonb_typeof(step->'json_mode') is distinct from 'boolean' then return false; end if;
     if step ? 'reasoning' and jsonb_typeof(step->'reasoning') <> 'null' then
       if jsonb_typeof(step->'reasoning') <> 'object'
         or coalesce(step->'reasoning'->>'mode', '') not in ('off','minimal','low','medium','high') then return false; end if;

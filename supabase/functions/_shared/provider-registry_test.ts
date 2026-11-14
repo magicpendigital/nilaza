@@ -84,3 +84,16 @@ Deno.test("A7: secret presence never exposes the value", () => {
   assert(secretPresent("bad name", (key) => values[key]) === false, "only well-formed names are looked up");
   assert(typeof secretPresent("OPENROUTER_API_KEY", (key) => values[key]) === "boolean", "boolean only");
 });
+
+Deno.test("A7 review: a provider with no usable row keeps its seeded default instead of vanishing from chains", async () => {
+  resetProviderRegistryCache();
+  const rows = [{ provider: "anthropic", priority: 2, enabled: true, secret_name: "ANTHROPIC_API_KEY", allowed_data_class: "personal" },
+    { provider: "openrouter", priority: 1, enabled: true, secret_name: "OPENROUTER_API_KEY", allowed_data_class: "bogus_class" }];
+  const fetch = ((url: URL) => Promise.resolve(new Response(JSON.stringify(url.pathname.endsWith("ai_providers") ? rows : [])))) as unknown as typeof globalThis.fetch;
+  const { registry, fromTables } = await readProviderRegistry({ env: supabaseEnv, fetch });
+  assert(fromTables && registry.get("anthropic")!.enabled, "explicit row applies");
+  const or = registry.get("openrouter")!;
+  assert(or.enabled && or.allowedDataClass === "sensitive", "malformed OpenRouter row falls back to the seeded default (on, sensitive)");
+  assert(!registry.get("deepseek")!.enabled && registry.get("deepseek")!.allowedDataClass === "public", "absent provider keeps its default (off, public)");
+  resetProviderRegistryCache();
+});

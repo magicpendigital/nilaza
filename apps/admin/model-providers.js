@@ -296,6 +296,7 @@
     const manage = can("ai.manage");
     container.innerHTML = `<div class="detail-heading"><div><p class="eyebrow">Nhà cung cấp & Model</p><h2 id="model-providers-title">Nhà cung cấp AI và chuỗi model từng tính năng</h2></div><span class="pill" role="status" aria-live="polite">${escape(active.status)}</span></div>
       <p>Mỗi tính năng chạy theo chuỗi tối đa ${MAX_STEPS} bước: bước 1 lỗi tạm thời, hết lượt, hết tiền, sai khóa, quá dài hoặc sai định dạng (1 lần) thì chuyển bước kế. <strong>Bị chặn vì an toàn thì không chuyển bước.</strong> Bước bị bỏ qua khi nhà cung cấp tắt, chưa có khóa, không được nhận loại dữ liệu của tính năng hoặc cầu dao đang mở.</p>
+      <p class="helper">Bật/tắt, loại dữ liệu và cầu dao chỉ áp dụng cho tính năng đã có chuỗi nhiều bước. Tính năng chưa có chuỗi vẫn chạy 1 model chính + 1 dự phòng qua OpenRouter như cũ, kể cả khi OpenRouter ở đây đang tắt. Cột Thứ tự chỉ để tham khảo; thứ tự thật là thứ tự các bước trong chuỗi.</p>
       <p class="helper">Khóa nhà cung cấp chỉ đặt trong Supabase › Edge Functions › Secrets. Admin không có ô nhập khóa và không bao giờ hiện giá trị khóa.</p>
       <div class="param-row"><button type="button" class="button ghost" id="model-providers-reload" ${active.busy ? "disabled" : ""}>Tải lại</button>
         ${manage ? `<button type="button" class="button" id="model-providers-probe" ${active.busy ? "disabled" : ""}>Kiểm tra khóa</button>` : ""}</div>
