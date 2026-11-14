@@ -9,7 +9,8 @@
 -- invited by the admin-team-invite Edge Function with the service role; invite_begin / invite_finish are service-role
 -- only and re-check from admin_role_assignments that the actor is an active owner. Error codes the Admin maps to text:
 -- 42501 not authorized, 22023 invalid input, NZT01 self change, NZT02 last owner, NZT03 owner needs confirmation,
--- NZT04 member not found, NZT05 daily invite limit. Nothing is applied by this file on its own.
+-- NZT04 member not found, NZT05 daily invite limit, NZT06 existing account whose email was never confirmed.
+-- Nothing is applied by this file on its own.
 begin;
 
 -- 1. The single role -> capability map -------------------------------------------------------------------------
@@ -96,6 +97,10 @@ begin
   end if;
   if target_input = actor_input then raise exception 'admin_team_self_change' using errcode = 'NZT01'; end if;
   perform pg_advisory_xact_lock(820260902);
+  -- The caller checked the actor before waiting for the lock; an owner demoted in the meantime must not act any more.
+  if not nilaza_private.roles_have_capability(nilaza_private.roles_of(actor_input), 'roles.manage') then
+    raise exception 'Not authorized' using errcode = '42501';
+  end if;
   if not exists (select 1 from auth.users u where u.id = target_input) then
     raise exception 'admin_member_not_found' using errcode = 'NZT04';
   end if;
@@ -212,6 +217,9 @@ begin
   if target_user_id is null then raise exception 'admin_member_not_found' using errcode = 'NZT04'; end if;
   if target_user_id = actor then raise exception 'admin_team_self_change' using errcode = 'NZT01'; end if;
   perform pg_advisory_xact_lock(820260902);
+  if not nilaza_private.has_capability('roles.manage') then
+    raise exception 'Not authorized' using errcode = '42501';
+  end if;
   if not exists (select 1 from public.admin_role_assignments a where a.user_id = target_user_id) then
     raise exception 'admin_member_not_found' using errcode = 'NZT04';
   end if;
@@ -248,6 +256,7 @@ returns jsonb language plpgsql security definer set search_path = '' as $$
 declare
   v_email text := lower(btrim(coalesce(email_input, '')));
   v_user uuid;
+  v_verified boolean;
   v_roles text[];
   v_result jsonb;
   v_count integer;
@@ -263,13 +272,17 @@ begin
   if role_input = 'owner' and confirm_owner is not true then
     raise exception 'admin_team_owner_confirm_required' using errcode = 'NZT03';
   end if;
-  select u.id into v_user from auth.users u where lower(u.email) = v_email order by u.created_at limit 1;
+  select u.id, (u.email_confirmed_at is not null or u.invited_at is not null) into v_user, v_verified
+    from auth.users u where lower(u.email) = v_email order by u.created_at limit 1;
   if v_user is not null then
     if v_user = actor_input then raise exception 'admin_team_self_change' using errcode = 'NZT01'; end if;
     v_roles := nilaza_private.roles_of(v_user);
     if cardinality(v_roles) > 0 then
       return jsonb_build_object('status', 'already_member', 'userId', v_user, 'roles', to_jsonb(v_roles));
     end if;
+    -- Never hand a role to an account that someone may have registered with an address they do not own: the email
+    -- must be confirmed, or the account was created by an Admin invite (only the mailbox owner can open that link).
+    if v_verified is not true then raise exception 'admin_team_email_unconfirmed' using errcode = 'NZT06'; end if;
     v_result := nilaza_private.admin_team_apply_role(actor_input, v_user, role_input);
     insert into public.admin_audit_logs(admin_user_id, action, target_table, target_id, metadata)
       values (actor_input, 'role.invite', 'auth.users', v_user, jsonb_build_object('role', role_input,

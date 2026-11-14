@@ -58,6 +58,7 @@ export function mapRpcError(code: unknown): { status: number; error: string; mig
     case "NZT03": return { status: 400, error: "owner_confirm_required" };
     case "NZT04": return { status: 404, error: "member_not_found" };
     case "NZT05": return { status: 429, error: "invite_limit" };
+    case "NZT06": return { status: 409, error: "email_unconfirmed" };
     case "PGRST202":
     case "42883": return { status: 503, error: "migration_missing", migration: TEAM_MIGRATION };
     default: return { status: 500, error: "invite_failed" };

@@ -39,13 +39,14 @@
     owner_confirm_required: "Cần đánh dấu xác nhận trước khi giao vai trò Owner.",
     member_not_found: "Không tìm thấy thành viên này. Tải lại danh sách rồi thử lại.",
     invite_limit: "Hôm nay bạn đã gửi đủ số lời mời cho phép. Thử lại vào ngày mai.",
+    email_unconfirmed: "Email này đã đăng ký tài khoản Nilaza nhưng chưa được xác nhận, nên chưa thể cấp quyền Admin (chưa chắc người đăng ký là chủ hộp thư). Nhờ họ xác nhận email trong app trước, rồi mời lại.",
     invite_not_configured: "Máy chủ chưa cấu hình trang nhận lời mời (biến ADMIN_INVITE_REDIRECT_URL). Cần Owner cài đặt trước khi gửi email mời. Tài khoản đã có sẵn vẫn thêm được.",
     invite_failed: "Chưa gửi được lời mời. Thử lại sau ít phút.",
     migration_missing: `Máy chủ chưa có các hàm quản lý thành viên. Cần Owner áp dụng migration ${MIGRATION}.`,
     function_missing: `Máy chủ chưa có hàm ${FUNCTION_NAME}. Cần Owner deploy hàm này trước khi mời qua email.`
   };
   const submitLabels = { invite: "Gửi lời mời", role: "Xác nhận đổi vai trò", revoke: "Thu hồi quyền" };
-  const codeToError = { "42501": "not_authorized", "22023": "invalid_request", NZT01: "self_change", NZT02: "last_owner", NZT03: "owner_confirm_required", NZT04: "member_not_found", NZT05: "invite_limit" };
+  const codeToError = { "42501": "not_authorized", "22023": "invalid_request", NZT01: "self_change", NZT02: "last_owner", NZT03: "owner_confirm_required", NZT04: "member_not_found", NZT05: "invite_limit", NZT06: "email_unconfirmed" };
   let state = fresh();
   let epoch = 0;
   function fresh() { return { status: "idle", members: [], matrix: null, invitesToday: 0, inviteDailyCap: 0, missing: false, dialog: null, notice: null }; }

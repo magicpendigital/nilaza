@@ -46,6 +46,7 @@ Deno.test("team invite: database codes map to fixed answers without server text"
   equal(mapRpcError("NZT03").error, "owner_confirm_required", "NZT03");
   equal(mapRpcError("NZT04").status, 404, "NZT04");
   equal(mapRpcError("NZT05"), { status: 429, error: "invite_limit" }, "NZT05");
+  equal(mapRpcError("NZT06"), { status: 409, error: "email_unconfirmed" }, "NZT06");
   equal(mapRpcError("PGRST202"), { status: 503, error: "migration_missing", migration: TEAM_MIGRATION }, "missing function");
   equal(mapRpcError(undefined), { status: 500, error: "invite_failed" }, "unknown");
   equal(mapRpcError({ message: "secret detail" }), { status: 500, error: "invite_failed" }, "non-string code");

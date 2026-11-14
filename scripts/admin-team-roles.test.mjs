@@ -147,6 +147,7 @@ test("invite results for existing accounts, and Vietnamese errors for every refu
   const cases = [
     [{ status: 429, body: { error: "invite_limit" } }, /đủ số lời mời/],
     [{ status: 409, body: { error: "self_change" } }, /chính mình/],
+    [{ status: 409, body: { error: "email_unconfirmed" } }, /chưa được xác nhận/],
     [{ status: 400, body: { error: "invalid_email" } }, /Email chưa đúng/],
     [{ status: 503, body: { error: "invite_not_configured", env: "ADMIN_INVITE_REDIRECT_URL" } }, /ADMIN_INVITE_REDIRECT_URL/],
     [{ status: 503, body: { error: "migration_missing", migration: "20261114090000_admin_team_roles.sql" } }, /20261114090000_admin_team_roles\.sql/],
