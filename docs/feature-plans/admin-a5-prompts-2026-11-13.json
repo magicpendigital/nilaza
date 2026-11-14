@@ -97,7 +97,7 @@
     {
       "path": "docs/backlog/review-2026-10-30.json",
       "reason": "AI-03, AI-04, AI-05, AI-13, AD-11 findings.",
-      "sha256": "a372932e4d662bfea12a41f1be5384fd734ab6af7ed4a8d66987f6eb0d8f6791"
+      "sha256": "1f8a1d4531366efc018673550292e67fcdd9647e9b168f0ff0052ea0d43f8d98"
     },
     {
       "path": "supabase/migrations/202606120001_mvp_schema.sql",
@@ -132,12 +132,12 @@
     {
       "path": "supabase/functions/_shared/persona-prompt-assembler.ts",
       "reason": "Persona prompt read and system-prompt user context (AI-05).",
-      "sha256": "8582816ec15a8c3ac8f702e4c5ab36b0bd2a69af4c2c55b8393014cfaa6f32e6"
+      "sha256": "e76e850c44a6d1826c1c0864f5036e8a807df8d64b487eb6364fbd2679f3a0ad"
     },
     {
       "path": "supabase/functions/_shared/tarot-prompt.ts",
       "reason": "DB prompt reader pattern and injection guard.",
-      "sha256": "077ab7f38784b16b99ec66f1567d56452571cfe52033152bd36d8fbcee53add0"
+      "sha256": "b010d4c3475e5463d149f1a567b1a8f5931af22d063e67b71959be0caee0da53"
     },
     {
       "path": "supabase/functions/_shared/chat-handoff.ts",
@@ -177,22 +177,22 @@
     {
       "path": "apps/admin/ai-features.js",
       "reason": "A4 Admin module pattern (drafts, review dialog, missing RPC).",
-      "sha256": "c5b7bea2535c178f1c7cab3e420db3e5cf68e8177d2b1ef90b71cf1dc2c0c573"
+      "sha256": "22e4ac03cbc81be3ac997fa118aea9054739d5e9f03adba0da34dc0388183e49"
     },
     {
       "path": "apps/admin/app.js",
       "reason": "Prompt Composer, Persona Studio and Versions routes marked not applied.",
-      "sha256": "cd79749da56b3c6074b2b437802827da19f302fa09a7a52138d7098a0cc752c1"
+      "sha256": "2ba0372d51114c919871c5d89eb1f5d88cd4ad79edfd101aaaf6db736d44753e"
     },
     {
       "path": "apps/admin/workspace-guard.js",
       "reason": "NilazaAdminRpc allowlist and rules.",
-      "sha256": "0fbe508e676b436213dde249479babb540105e95776a948ad6b66e78d58c81d8"
+      "sha256": "1bba77c9e968cbe6dd2484246f3e8e516c4751804e8059156a0d1675bffd935c"
     },
     {
       "path": "apps/admin/shell.js",
       "reason": "Left navigation Prompt & phiên bản routes and labels.",
-      "sha256": "f252511b8491384e442985e4b924b20209c3eba05504ab3bb2478862ac182000"
+      "sha256": "ef033c8484d3b0008cf037c6d041e4c02abb3903da838eeb7ab877132706d8d7"
     }
   ],
   "skillReview": [

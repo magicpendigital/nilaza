@@ -77,7 +77,7 @@
     {
       "path": "apps/admin/admin-capabilities.json",
       "reason": "Route list that must survive the cleanup.",
-      "sha256": "f9298aa064bbce997210e7603240e152209a5fc60623f74095de8d399beea0d2"
+      "sha256": "3e0a888fe3c4082f4b0cfd7d294b716c77f1c71800fbc5daa2830f288f739d57"
     },
     {
       "path": "docs/ADMIN_DATA_CONSOLE_ARCHITECTURE.md",
@@ -97,7 +97,7 @@
     {
       "path": "apps/admin/workspace-guard.js",
       "reason": "Existing signed-in session transport NilazaAdminRequest replaces pasted tokens.",
-      "sha256": "03847c55b1cd42de2e11ffb48d63678dae54ede654834360c8b4eb9cf5e38771"
+      "sha256": "1bba77c9e968cbe6dd2484246f3e8e516c4751804e8059156a0d1675bffd935c"
     },
     {
       "path": "apps/admin/env-band.js",

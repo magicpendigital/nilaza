@@ -866,9 +866,9 @@
    "proposal": "Màn \"Thay đổi chờ publish\" chọn từng mục, xem khác biệt VI/EN, \"Publish N thay đổi\".",
    "evidence": "content.js:376 → 139–147",
    "size": "M–L",
-   "status": "open",
+   "status": "partial",
    "pr": null,
-   "note": null
+   "note": "14/11 (nhánh claude/admin-redesign-deployment-bd6129): A3 phát hành từng mục nội dung, chỉ các bản đã xem (mã xong; chờ áp migration 20261113100000 và deploy)."
   },
   {
    "id": "AD-02",
@@ -892,9 +892,9 @@
    "proposal": "Tự lưu nháp online; hỏi \"Giữ bản nào?\" khi có cả hai; chỉ báo \"Đã lưu lúc…\".",
    "evidence": "content.js:401, 422–430",
    "size": "M",
-   "status": "open",
+   "status": "partial",
    "pr": null,
-   "note": null
+   "note": "14/11 (nhánh claude/admin-redesign-deployment-bd6129): A3 nháp nội dung lưu trên máy chủ, tách khỏi bản đã phát hành, có màn giải quyết xung đột (chờ áp migration)."
   },
   {
    "id": "AD-04",
@@ -931,9 +931,9 @@
    "proposal": "Đóng mọi nháp khi publish; chỉ chọn nháp mới hơn bản published; test tích hợp.",
    "evidence": "content-sync.js:125–140 · admin_content_sync.sql:191–205",
    "size": "S–M",
-   "status": "open",
+   "status": "partial",
    "pr": null,
-   "note": null
+   "note": "14/11 (nhánh claude/admin-redesign-deployment-bd6129): A3 nháp và bản phát hành tách riêng theo từng mục (chờ áp migration)."
   },
   {
    "id": "AD-07",
@@ -957,9 +957,9 @@
    "proposal": "Upload vào Supabase Storage, kiểm loại/kích thước, hiện nơi đang dùng.",
    "evidence": "content.js:247–264, 324",
    "size": "M–L",
-   "status": "open",
+   "status": "partial",
    "pr": null,
-   "note": null
+   "note": "14/11 (nhánh claude/admin-redesign-deployment-bd6129): A3 upload ảnh vào Supabase Storage, kiểm loại/kích thước (chờ áp migration 20261113100200)."
   },
   {
    "id": "AD-09",
@@ -972,7 +972,7 @@
    "size": "S",
    "status": "partial",
    "pr": null,
-   "note": "13/11 (nhánh claude/admin-redesign-deployment-bd6129): cảnh báo trước khi rời trang + đếm thay đổi chưa lưu ở mọi workspace; nút ghi rõ \"Lưu nháp trên trình duyệt này — chưa lên máy chủ\". Nháp prompt lên máy chủ: A5."
+   "note": "13/11 (nhánh claude/admin-redesign-deployment-bd6129): cảnh báo trước khi rời trang + đếm thay đổi chưa lưu ở mọi workspace; nút ghi rõ \"Lưu nháp trên trình duyệt này — chưa lên máy chủ\". Nháp prompt lên máy chủ: A5. 14/11: A5 nháp prompt và phiên bản lên máy chủ (chờ áp migration 20261113095000)."
   },
   {
    "id": "AD-10",

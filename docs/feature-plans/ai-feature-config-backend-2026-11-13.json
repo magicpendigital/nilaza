@@ -97,12 +97,12 @@
     {
       "path": "supabase/functions/_shared/model-provider.ts",
       "reason": "Hard-coded 40 s / 60 s provider timeout.",
-      "sha256": "18dae33e3ccbd3129b6820635350f505816ef8dfd9bfb4f9e77b2b2d8a022623"
+      "sha256": "8cdc5dc83a831984f55d355deafb2460c1f0842f1bdd434d1209c04d8bb8ecde"
     },
     {
       "path": "supabase/functions/_shared/model-router.ts",
       "reason": "Primary then fallback attempt loop where a deadline applies.",
-      "sha256": "a34eb4da0fe03fbdc10f8a3c9a55a65533182ed9f1f3fd6a9b12c0e4ed92eecb"
+      "sha256": "87de02f1978911d8ab0abc791f827b8cb3f16e18bfcc2eb3bea10ef304d89d96"
     },
     {
       "path": "supabase/functions/_shared/daily-attempts.ts",

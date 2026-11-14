@@ -78,35 +78,151 @@
     "sanitized_project_context"
   ],
   "sourceReview": [
-    { "path": "AGENTS.md", "reason": "SQL, deploy and secrets need Owner approval each time.", "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa" },
-    { "path": "docs/AGENT_TASK_ROUTER.md", "reason": "Backend, AI runtime and Admin routes.", "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c" },
-    { "path": "docs/PLAN_QC_PROTOCOL.md", "reason": "Preflight rules and record shape.", "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2" },
-    { "path": "apps/admin/AGENTS.md", "reason": "Admin protected architecture: additive workspaces and routes.", "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8" },
-    { "path": "docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md", "reason": "Sections 3.7 part 2, 3.10, 2.2 D3 D4 E1 E5 and A7 order.", "sha256": "7eaf7aa64f6827ad96659b06ed7212ce667487f286ad50b717fc04d55c5c69ab" },
-    { "path": "docs/proposals/LLM_PROVIDERS_FALLBACK_2026-11-03.vi.md", "reason": "Error classes, circuit breaker, provider privacy table and phases.", "sha256": "af435cd85373fb6f90ad667b7a1ed195992c77932fc25241f654f3e544d8f45d" },
-    { "path": "docs/backlog/review-2026-10-30.json", "reason": "AI-06, AI-11, AI-14 findings.", "sha256": "a372932e4d662bfea12a41f1be5384fd734ab6af7ed4a8d66987f6eb0d8f6791" },
-    { "path": "supabase/migrations/20260630000000_model_route_versions.sql", "reason": "Table shape and provider check constraints.", "sha256": "14889d571f6476036a2ec8344e6bc6a539e19040e12a6e7958416141e6c7adaf" },
-    { "path": "supabase/migrations/20261014074711_model_route_publish_contract_v2.sql", "reason": "Current publish RPC to extend compatibly.", "sha256": "de7bd65de8e7e7c5d979f63a230737cca2a7ab1a75e9af751bbc2083a29fa4b9" },
-    { "path": "supabase/migrations/20260902131408_owner_capability_boundary.sql", "reason": "has_capability role map.", "sha256": "2f8fdac36b93d68f1a32da2d7a83b33c2b41b966589e8be9e1a85d56ace42a24" },
-    { "path": "supabase/migrations/20260909014614_ai_trace_observability.sql", "reason": "Trace span table used for 24 h provider counts.", "sha256": "8794f35ab9724c18e2dda617f5bc3b1031bd16af067dff70a9cf1ef321e769bc" },
-    { "path": "supabase/migrations/20261113090100_ai_feature_configs.sql", "reason": "RPC pattern; deadline_ms and cost_cap_micro.", "sha256": "5556bfd9ff4f2649d244cba6dbc242c3abedc97a3f8f9dc067f63959b49de04e" },
-    { "path": "supabase/functions/_shared/model-router.ts", "reason": "Router to extend with step walking.", "sha256": "87de02f1978911d8ab0abc791f827b8cb3f16e18bfcc2eb3bea10ef304d89d96" },
-    { "path": "supabase/functions/_shared/model-provider.ts", "reason": "Provider names, timeouts, error mapping.", "sha256": "8cdc5dc83a831984f55d355deafb2460c1f0842f1bdd434d1209c04d8bb8ecde" },
-    { "path": "supabase/functions/_shared/feature-config.ts", "reason": "Cached REST reader pattern; cost cap source.", "sha256": "eb71e736b91910caed56ebd69c968bd6387ce554430f9efd2b1a0b07e6af8fbc" },
-    { "path": "supabase/functions/_shared/providers/openrouter.ts", "reason": "ZDR flags and format handling.", "sha256": "a2eda068e14abc1b4731e1aa3aaed7c9c49dd1b49c90b46317960165eb7e46d7" },
-    { "path": "supabase/functions/_shared/providers/openai.ts", "reason": "OpenAI-compatible adapter for DeepSeek.", "sha256": "098e335d463543a01a01234877b32804062308d4f13483d07008693bc1403668" },
-    { "path": "supabase/functions/_shared/providers/gemini.ts", "reason": "Header key, JSON mode.", "sha256": "c76f8dbd61a792282216f8d6cec418af83ae0db06ab96127abc2ec1583db7445" },
-    { "path": "supabase/functions/_shared/providers/anthropic.ts", "reason": "Anthropic adapter.", "sha256": "03d84f671c15efb15782d2fcfe03c89551626d57d42c222c205ef4a7e1cf4211" },
-    { "path": "supabase/functions/_shared/persona-prompt-assembler.ts", "reason": "A5 review finding: VI guard failure falls through to EN.", "sha256": "e76e850c44a6d1826c1c0864f5036e8a807df8d64b487eb6364fbd2679f3a0ad" },
-    { "path": "supabase/functions/admin-model-router-config/index.ts", "reason": "GET/POST route config function.", "sha256": "839017fe8a3f7547c1ca836a76b1915442340adcb7b502d0fe2bef4eb9892bb5" },
-    { "path": "supabase/functions/admin-model-router-config/contract.ts", "reason": "Publish payload contract.", "sha256": "4d721d2f384b4456a5ed1fc83e9191593e7c0aecf568e5e07b635d2e04919cbf" },
-    { "path": "supabase/functions/admin-model-router-config/readiness.ts", "reason": "Secret presence report.", "sha256": "7f922a7d356a762f56cd7436b3ecbf9ceebd1983821db8e97f7a22e26b9a40b2" },
-    { "path": "apps/admin/app.js", "reason": "Model Router page, provider catalogue and publish review.", "sha256": "8453cfe2a425aea8bd61900b07c4c4393ef3a1922fa29cf4531dee599ffea24a" },
-    { "path": "apps/admin/shell.js", "reason": "Left navigation and the A2 pending providers page.", "sha256": "ff75c1a5e2de3c809ba5d4df8e436d016c4d07e39704f983de92a95b0afea47b" },
-    { "path": "apps/admin/workspace-guard.js", "reason": "NilazaAdminRpc and function allowlists.", "sha256": "d8fdc6d014f1dcb44f19315db90ec0c62c0e671eddfec45e9ff78ab301da6133" },
-    { "path": "apps/admin/ai-features.js", "reason": "A4 module pattern (drafts, review dialog, missing RPC).", "sha256": "c5b7bea2535c178f1c7cab3e420db3e5cf68e8177d2b1ef90b71cf1dc2c0c573" },
-    { "path": "apps/admin/admin-capabilities.json", "reason": "AI Studio route list.", "sha256": "3e0a888fe3c4082f4b0cfd7d294b716c77f1c71800fbc5daa2830f288f739d57" },
-    { "path": "scripts/validate-backend-contracts.mjs", "reason": "Admin function registration checks.", "sha256": "8754e799016f85ec6264d77fcb5909f57fe786c4fc9fc545be5481438777cb35" }
+    {
+      "path": "AGENTS.md",
+      "reason": "SQL, deploy and secrets need Owner approval each time.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Backend, AI runtime and Admin routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules and record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/admin/AGENTS.md",
+      "reason": "Admin protected architecture: additive workspaces and routes.",
+      "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8"
+    },
+    {
+      "path": "docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md",
+      "reason": "Sections 3.7 part 2, 3.10, 2.2 D3 D4 E1 E5 and A7 order.",
+      "sha256": "7eaf7aa64f6827ad96659b06ed7212ce667487f286ad50b717fc04d55c5c69ab"
+    },
+    {
+      "path": "docs/proposals/LLM_PROVIDERS_FALLBACK_2026-11-03.vi.md",
+      "reason": "Error classes, circuit breaker, provider privacy table and phases.",
+      "sha256": "af435cd85373fb6f90ad667b7a1ed195992c77932fc25241f654f3e544d8f45d"
+    },
+    {
+      "path": "docs/backlog/review-2026-10-30.json",
+      "reason": "AI-06, AI-11, AI-14 findings.",
+      "sha256": "1f8a1d4531366efc018673550292e67fcdd9647e9b168f0ff0052ea0d43f8d98"
+    },
+    {
+      "path": "supabase/migrations/20260630000000_model_route_versions.sql",
+      "reason": "Table shape and provider check constraints.",
+      "sha256": "14889d571f6476036a2ec8344e6bc6a539e19040e12a6e7958416141e6c7adaf"
+    },
+    {
+      "path": "supabase/migrations/20261014074711_model_route_publish_contract_v2.sql",
+      "reason": "Current publish RPC to extend compatibly.",
+      "sha256": "de7bd65de8e7e7c5d979f63a230737cca2a7ab1a75e9af751bbc2083a29fa4b9"
+    },
+    {
+      "path": "supabase/migrations/20260902131408_owner_capability_boundary.sql",
+      "reason": "has_capability role map.",
+      "sha256": "2f8fdac36b93d68f1a32da2d7a83b33c2b41b966589e8be9e1a85d56ace42a24"
+    },
+    {
+      "path": "supabase/migrations/20260909014614_ai_trace_observability.sql",
+      "reason": "Trace span table used for 24 h provider counts.",
+      "sha256": "8794f35ab9724c18e2dda617f5bc3b1031bd16af067dff70a9cf1ef321e769bc"
+    },
+    {
+      "path": "supabase/migrations/20261113090100_ai_feature_configs.sql",
+      "reason": "RPC pattern; deadline_ms and cost_cap_micro.",
+      "sha256": "5556bfd9ff4f2649d244cba6dbc242c3abedc97a3f8f9dc067f63959b49de04e"
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "reason": "Router to extend with step walking.",
+      "sha256": "87de02f1978911d8ab0abc791f827b8cb3f16e18bfcc2eb3bea10ef304d89d96"
+    },
+    {
+      "path": "supabase/functions/_shared/model-provider.ts",
+      "reason": "Provider names, timeouts, error mapping.",
+      "sha256": "8cdc5dc83a831984f55d355deafb2460c1f0842f1bdd434d1209c04d8bb8ecde"
+    },
+    {
+      "path": "supabase/functions/_shared/feature-config.ts",
+      "reason": "Cached REST reader pattern; cost cap source.",
+      "sha256": "eb71e736b91910caed56ebd69c968bd6387ce554430f9efd2b1a0b07e6af8fbc"
+    },
+    {
+      "path": "supabase/functions/_shared/providers/openrouter.ts",
+      "reason": "ZDR flags and format handling.",
+      "sha256": "a2eda068e14abc1b4731e1aa3aaed7c9c49dd1b49c90b46317960165eb7e46d7"
+    },
+    {
+      "path": "supabase/functions/_shared/providers/openai.ts",
+      "reason": "OpenAI-compatible adapter for DeepSeek.",
+      "sha256": "098e335d463543a01a01234877b32804062308d4f13483d07008693bc1403668"
+    },
+    {
+      "path": "supabase/functions/_shared/providers/gemini.ts",
+      "reason": "Header key, JSON mode.",
+      "sha256": "c76f8dbd61a792282216f8d6cec418af83ae0db06ab96127abc2ec1583db7445"
+    },
+    {
+      "path": "supabase/functions/_shared/providers/anthropic.ts",
+      "reason": "Anthropic adapter.",
+      "sha256": "03d84f671c15efb15782d2fcfe03c89551626d57d42c222c205ef4a7e1cf4211"
+    },
+    {
+      "path": "supabase/functions/_shared/persona-prompt-assembler.ts",
+      "reason": "A5 review finding: VI guard failure falls through to EN.",
+      "sha256": "e76e850c44a6d1826c1c0864f5036e8a807df8d64b487eb6364fbd2679f3a0ad"
+    },
+    {
+      "path": "supabase/functions/admin-model-router-config/index.ts",
+      "reason": "GET/POST route config function.",
+      "sha256": "839017fe8a3f7547c1ca836a76b1915442340adcb7b502d0fe2bef4eb9892bb5"
+    },
+    {
+      "path": "supabase/functions/admin-model-router-config/contract.ts",
+      "reason": "Publish payload contract.",
+      "sha256": "4d721d2f384b4456a5ed1fc83e9191593e7c0aecf568e5e07b635d2e04919cbf"
+    },
+    {
+      "path": "supabase/functions/admin-model-router-config/readiness.ts",
+      "reason": "Secret presence report.",
+      "sha256": "7f922a7d356a762f56cd7436b3ecbf9ceebd1983821db8e97f7a22e26b9a40b2"
+    },
+    {
+      "path": "apps/admin/app.js",
+      "reason": "Model Router page, provider catalogue and publish review.",
+      "sha256": "2ba0372d51114c919871c5d89eb1f5d88cd4ad79edfd101aaaf6db736d44753e"
+    },
+    {
+      "path": "apps/admin/shell.js",
+      "reason": "Left navigation and the A2 pending providers page.",
+      "sha256": "ef033c8484d3b0008cf037c6d041e4c02abb3903da838eeb7ab877132706d8d7"
+    },
+    {
+      "path": "apps/admin/workspace-guard.js",
+      "reason": "NilazaAdminRpc and function allowlists.",
+      "sha256": "1bba77c9e968cbe6dd2484246f3e8e516c4751804e8059156a0d1675bffd935c"
+    },
+    {
+      "path": "apps/admin/ai-features.js",
+      "reason": "A4 module pattern (drafts, review dialog, missing RPC).",
+      "sha256": "22e4ac03cbc81be3ac997fa118aea9054739d5e9f03adba0da34dc0388183e49"
+    },
+    {
+      "path": "apps/admin/admin-capabilities.json",
+      "reason": "AI Studio route list.",
+      "sha256": "3e0a888fe3c4082f4b0cfd7d294b716c77f1c71800fbc5daa2830f288f739d57"
+    },
+    {
+      "path": "scripts/validate-backend-contracts.mjs",
+      "reason": "Admin function registration checks.",
+      "sha256": "07e729b7aabdc1965bb81e88fa63b4df56e381dceb897fbed98740a8c71c9c16"
+    }
   ],
   "skillReview": [
     {
@@ -125,13 +241,41 @@
     "evidence": "Provider endpoints (OpenRouter /api/v1/key and chat completions, Anthropic /v1/models and /v1/messages, Gemini models list and generateContent with x-goog-api-key, OpenAI /v1/models and chat completions, DeepSeek OpenAI-compatible /chat/completions) and their billing error shapes come from the provider docs cited in docs/proposals/LLM_PROVIDERS_FALLBACK_2026-11-03.vi.md (accessed 2026-11-03); not re-verified live in this session, so the probe classification and the model catalogue are marked unverified until the Owner runs Kiểm tra khóa on staging. PGlite only in the session scratchpad; no repository dependency added."
   },
   "externalSourceReview": [
-    { "url": "https://openrouter.ai/docs/api-reference/limits", "reason": "GET /api/v1/key with Bearer key returns limit, limit_remaining, usage; used by the probe without a paid call.", "checkedAt": "2026-11-13" },
-    { "url": "https://openrouter.ai/docs/api-reference/errors", "reason": "402 insufficient credits, 401 invalid key, 403 guardrail/budget, 429 rate limit, 502/503 upstream.", "checkedAt": "2026-11-13" },
-    { "url": "https://platform.claude.com/docs/en/api/errors", "reason": "Anthropic 401 authentication, 402 billing_error, 403 permission, 404 not_found, 429 rate limit, 529 overloaded.", "checkedAt": "2026-11-13" },
-    { "url": "https://platform.claude.com/docs/en/api/models/list", "reason": "GET /v1/models lists models without a paid call (probe model choice).", "checkedAt": "2026-11-13" },
-    { "url": "https://api-docs.deepseek.com/quick_start/error_codes", "reason": "DeepSeek base https://api.deepseek.com, POST /chat/completions, models deepseek-flash and deepseek-v4-pro; 401 bad key, 402 insufficient balance, 429 rate limit.", "checkedAt": "2026-11-13" },
-    { "url": "https://aistudio.google.com/docs/api-errors", "reason": "Gemini 400 failed_precondition (billing disabled), 402 payment_required, 403 permission_denied, 429 quota/rate, 503 unavailable; models list endpoint.", "checkedAt": "2026-11-13" },
-    { "url": "https://developers.openai.com/api/docs/guides/error-codes", "reason": "OpenAI 401 invalid key; 429 credit_balance_exhausted / spend limit codes vs plain rate limit (no 402).", "checkedAt": "2026-11-13" }
+    {
+      "url": "https://openrouter.ai/docs/api-reference/limits",
+      "reason": "GET /api/v1/key with Bearer key returns limit, limit_remaining, usage; used by the probe without a paid call.",
+      "checkedAt": "2026-11-13"
+    },
+    {
+      "url": "https://openrouter.ai/docs/api-reference/errors",
+      "reason": "402 insufficient credits, 401 invalid key, 403 guardrail/budget, 429 rate limit, 502/503 upstream.",
+      "checkedAt": "2026-11-13"
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/api/errors",
+      "reason": "Anthropic 401 authentication, 402 billing_error, 403 permission, 404 not_found, 429 rate limit, 529 overloaded.",
+      "checkedAt": "2026-11-13"
+    },
+    {
+      "url": "https://platform.claude.com/docs/en/api/models/list",
+      "reason": "GET /v1/models lists models without a paid call (probe model choice).",
+      "checkedAt": "2026-11-13"
+    },
+    {
+      "url": "https://api-docs.deepseek.com/quick_start/error_codes",
+      "reason": "DeepSeek base https://api.deepseek.com, POST /chat/completions, models deepseek-flash and deepseek-v4-pro; 401 bad key, 402 insufficient balance, 429 rate limit.",
+      "checkedAt": "2026-11-13"
+    },
+    {
+      "url": "https://aistudio.google.com/docs/api-errors",
+      "reason": "Gemini 400 failed_precondition (billing disabled), 402 payment_required, 403 permission_denied, 429 quota/rate, 503 unavailable; models list endpoint.",
+      "checkedAt": "2026-11-13"
+    },
+    {
+      "url": "https://developers.openai.com/api/docs/guides/error-codes",
+      "reason": "OpenAI 401 invalid key; 429 credit_balance_exhausted / spend limit codes vs plain rate limit (no 402).",
+      "checkedAt": "2026-11-13"
+    }
   ],
   "securityReview": {
     "authzRls": "ai_providers and ai_provider_health have RLS on and no grants to anon/authenticated; reads only through list_ai_providers (ai.read), writes through set_ai_provider (ai.manage, audited) and record_ai_provider_probe (service_role only); publish_model_route_config keeps ai.manage; admin-ai-provider-probe checks ai.manage with the caller's session before using the service role.",

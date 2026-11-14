@@ -102,7 +102,7 @@
     {
       "path": "docs/backlog/review-2026-10-30.json",
       "reason": "AI-07, AI-08, AI-12, AI-17, AD-05.",
-      "sha256": "a372932e4d662bfea12a41f1be5384fd734ab6af7ed4a8d66987f6eb0d8f6791"
+      "sha256": "1f8a1d4531366efc018673550292e67fcdd9647e9b168f0ff0052ea0d43f8d98"
     },
     {
       "path": "supabase/migrations/20261113090100_ai_feature_configs.sql",
@@ -137,7 +137,7 @@
     {
       "path": "supabase/functions/_shared/model-router.ts",
       "reason": "generateWithModelRoute inputs, result attempts and billing receipts (read only).",
-      "sha256": "a34eb4da0fe03fbdc10f8a3c9a55a65533182ed9f1f3fd6a9b12c0e4ed92eecb"
+      "sha256": "87de02f1978911d8ab0abc791f827b8cb3f16e18bfcc2eb3bea10ef304d89d96"
     },
     {
       "path": "supabase/functions/_shared/crisis-safety.ts",
@@ -157,7 +157,7 @@
     {
       "path": "supabase/functions/admin-model-router-config/index.ts",
       "reason": "Admin Edge auth pattern.",
-      "sha256": "52025e353e0f29a2393803d6d8e578eb7cb0a1a4bdf2401c4ff7348c02bc784e"
+      "sha256": "839017fe8a3f7547c1ca836a76b1915442340adcb7b502d0fe2bef4eb9892bb5"
     },
     {
       "path": "supabase/functions/ai-oracle-turn/handler.ts",
@@ -172,7 +172,7 @@
     {
       "path": "supabase/functions/_shared/persona-prompt-assembler.ts",
       "reason": "Persona prompt reads (draft override in the eval adapter).",
-      "sha256": "8582816ec15a8c3ac8f702e4c5ab36b0bd2a69af4c2c55b8393014cfaa6f32e6"
+      "sha256": "e76e850c44a6d1826c1c0864f5036e8a807df8d64b487eb6364fbd2679f3a0ad"
     },
     {
       "path": "apps/admin/ai-features.js",
@@ -197,17 +197,17 @@
     {
       "path": "apps/admin/shell.js",
       "reason": "Pending evals page and navigation.",
-      "sha256": "9e75f0fa55f0591eedc41ee4da718c2a7ea645c408f8e2210a2a1ca59ce277e4"
+      "sha256": "ef033c8484d3b0008cf037c6d041e4c02abb3903da838eeb7ab877132706d8d7"
     },
     {
       "path": "apps/admin/app.js",
       "reason": "AI Studio test route.",
-      "sha256": "c72091397d64dab25173022993030a67baed7eceed468084b81ada6ad511cd98"
+      "sha256": "2ba0372d51114c919871c5d89eb1f5d88cd4ad79edfd101aaaf6db736d44753e"
     },
     {
       "path": "apps/admin/workspace-guard.js",
       "reason": "RPC and Edge allowlists.",
-      "sha256": "725903a43cce4bf761bf72b5d3b5c0749365141c765d28bc4bb38add82cbb794"
+      "sha256": "1bba77c9e968cbe6dd2484246f3e8e516c4751804e8059156a0d1675bffd935c"
     },
     {
       "path": "apps/admin/content-sync.js",
