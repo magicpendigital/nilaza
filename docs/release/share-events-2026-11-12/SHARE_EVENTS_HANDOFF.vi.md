@@ -4,7 +4,7 @@ Trạng thái: **code và test xong; hàm `share-events` CHƯA deploy lên Singa
 
 ## 1. Đã làm gì
 
-1. **Sao chép link (clipboard):** bấm **Chia sẻ ảnh** thì link theo dõi được sao chép sẵn rồi mới mở bảng chia sẻ; app báo "Đã sao chép link. Hãy dán vào tin nhắn cùng với ảnh." Nếu clipboard lỗi, ảnh vẫn được chia sẻ. Nút **Gửi kèm link** vẫn gửi đoạn chữ + link như trước. Thêm thư viện `expo-clipboard` ~8.0.8 (bộ Expo SDK 54).
+1. **Sao chép lời nhắn kèm link (clipboard):** bấm **Chia sẻ ảnh** thì đoạn lời nhắn kèm link theo dõi (cùng đoạn chữ của nút **Gửi kèm link**, ví dụ "Lá bài hôm nay của mình trên Nilaza. Rút lá của bạn nhé. … link") được sao chép sẵn rồi mới mở bảng chia sẻ; app báo "Đã sao chép lời nhắn kèm link. Hãy dán vào tin nhắn cùng với ảnh." (13/11 ban đầu chỉ sao chép link; 14/11 đổi theo yêu cầu Owner để ảnh đi kèm được chữ) Nếu clipboard lỗi, ảnh vẫn được chia sẻ. Nút **Gửi kèm link** vẫn gửi đoạn chữ + link như trước. Thêm thư viện `expo-clipboard` ~8.0.8 (bộ Expo SDK 54).
 2. **Hàm Edge Function mới `share-events`:** nhận `share_tapped` và `share_completed` từ app, ghi vào bảng **`usage_events` đã có sẵn** (`feature = 'share'`, `metadata` chỉ có `surface`, `action`, `outcome`).
    - Bắt buộc đăng nhập, người dùng ẩn danh bị từ chối **trước khi đọc nội dung**.
    - `user_id` lấy từ token đã xác thực, **không** nhận từ nội dung gửi lên.
@@ -60,7 +60,7 @@ Sự kiện chỉ chứa giá trị liệt kê sẵn: không câu hỏi, ghi ch�
 - Dựng được bản release arm64 (versionCode 4, versionName 0.1.3), trỏ tới project Singapore, chỉ dùng khóa công khai. Lần dựng đầu lỗi vì đường dẫn quá dài (giới hạn 250 ký tự của CMake), lần hai vì máy chỉ còn khoảng 73 MB RAM trống, lần ba thành công sau khi giảm số luồng.
 - Cài đè bằng `adb install -r`: **Success**, không gỡ app cũ, dữ liệu giữ nguyên; app mở được, không có sự cố mới trong nhật ký crash.
 - Lá bài hôm nay → nút chia sẻ: màn hình chia sẻ mở đúng, thẻ chỉ có nội dung công khai của lá bài.
-- **Chia sẻ ảnh:** ảnh chụp được trên kiến trúc mới (Fabric), bảng chia sẻ của Android hiện đúng thẻ; thông báo "Đã sao chép link. Hãy dán vào tin nhắn cùng với ảnh." hiện ra. Không gửi cho ai.
+- **Chia sẻ ảnh:** ảnh chụp được trên kiến trúc mới (Fabric), bảng chia sẻ của Android hiện đúng thẻ; thông báo sao chép hiện ra (bản 13/11 chỉ sao chép link). Không gửi cho ai.
 - **Link đã sao chép** (dán thử vào ô nhập của app, không gửi): có mã lá bài công khai và `utm_source=share`, `utm_medium=card`, `utm_campaign=today_card`, `utm_content=<mã ngẫu nhiên>`. Không có tên, câu hỏi hay ngày sinh.
 
 **Lỗi tìm thấy khi thử và đã sửa trong mã:**
@@ -75,3 +75,10 @@ Sau khi sửa, thử lại trên máy: thẻ bố cục sạch; **Gửi kèm lin
 - Chia sẻ từ bài đọc Tarot; Thiên văn (Big 3 và lời mời so bản đồ sao): tài khoản thử chưa có ngày sinh.
 - Hành vi trên Android 13 (máy thử không báo phiên bản đã kiểm).
 - Sự kiện lên máy chủ: chỉ kiểm được sau khi deploy `share-events` (mục 3).
+
+## 8. Cập nhật 14/11/2026: sao chép lời nhắn kèm link
+
+- **Làm gì:** nút **Chia sẻ ảnh** sao chép cả lời nhắn lẫn link (thay vì chỉ link). Người dùng dán một lần ra cả chữ và link bên cạnh ảnh. Android không cho thư viện hiện tại gửi ảnh và chữ trong một lần chia sẻ, nên đây là cách chắc chắn trên mọi ứng dụng. Không thêm thư viện, không đổi hàm máy chủ.
+- **Đã kiểm chứng:** tsc sạch; Jest nhóm chia sẻ 30/30 (test mới kiểm tra nội dung sao chép đúng bằng lời nhắn có chứa link, và ảnh vẫn chia sẻ khi clipboard lỗi).
+- **CHƯA kiểm chứng trên điện thoại:** bản APK trên máy vẫn là bản sao chép chỉ link (dựng 13/11). Thư mục dựng tạm đã gỡ, nên dựng lại bản mới cần dựng native từ đầu (hàng giờ trên máy 8 GB RAM). Nội dung sao chép dùng chính hàm tạo lời nhắn của nút **Gửi kèm link**, đã thử được trên máy ngày 13/11.
+- **Phương án 2 (đã làm 14/11, Owner duyệt thêm thư viện):** xem [bàn giao riêng](../share-image-text-2026-11-14/SHARE_IMAGE_TEXT_HANDOFF.vi.md). Ảnh và lời nhắn nay gửi trong một lần chia sẻ qua `react-native-share`; sao chép clipboard vẫn giữ làm dự phòng. Lời nhắn cũng được viết lại theo giọng người chia sẻ.

@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { Modal, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import { colors, layout } from "../../theme";
 import type { Language } from "../../types";
-import { copyShareLink, shareCardImage, shareLinkText, type ShareOutcome } from "./captureShareCard";
+import { copyShareText, shareCardImage, shareLinkText, type ShareOutcome } from "./captureShareCard";
 import type { ShareCardModel } from "./shareCardContent";
 import { shareLinkMessage } from "./shareLink";
 import { ShareCardView } from "./ShareCardView";
@@ -41,7 +41,7 @@ export function ShareCardSheet({ visible, language, model, url, primary = "image
         : outcome === "unavailable"
           ? vi ? "Thiết bị này chưa hỗ trợ chia sẻ ảnh. Hãy dùng nút gửi link." : "Image sharing is not available here. Use the link button."
           : copied
-            ? vi ? "Đã sao chép link. Hãy dán vào tin nhắn cùng với ảnh." : "Link copied. Paste it into your message with the image."
+            ? vi ? "Đã sao chép lời nhắn kèm link. Nếu ứng dụng bạn chọn không hiện lời nhắn cùng ảnh, hãy dán vào tin nhắn." : "Message and link copied. If the app you chose does not show the message with the image, paste it into your message."
             : ""
     );
   };
@@ -51,9 +51,10 @@ export function ShareCardSheet({ visible, language, model, url, primary = "image
     setBusy(true);
     setStatus("");
     onEvent("share_tapped", { surface: model.surface, action: "image" });
-    // The link is copied before the share sheet opens, so the person can paste it next to the image.
-    const copied = await copyShareLink(url);
-    finish("image", await shareCardImage(cardRef, vi ? "Chia sẻ thẻ Nilaza" : "Share your Nilaza card"), copied);
+    // The message travels with the image. It is also copied first, because some apps (Facebook, Messenger) drop the text of an image share.
+    const message = shareLinkMessage(language, model.surface, url, model);
+    const copied = await copyShareText(message);
+    finish("image", await shareCardImage(cardRef, vi ? "Chia sẻ thẻ Nilaza" : "Share your Nilaza card", message), copied);
   };
 
   const shareLink = async () => {
@@ -61,7 +62,7 @@ export function ShareCardSheet({ visible, language, model, url, primary = "image
     setBusy(true);
     setStatus("");
     onEvent("share_tapped", { surface: model.surface, action: "link" });
-    finish("link", await shareLinkText(shareLinkMessage(language, model.surface, url), "Nilaza"));
+    finish("link", await shareLinkText(shareLinkMessage(language, model.surface, url, model), "Nilaza"));
   };
 
   const imageButton = { label: vi ? "Chia sẻ ảnh" : "Share image", onPress: shareImage };
@@ -83,8 +84,8 @@ export function ShareCardSheet({ visible, language, model, url, primary = "image
           </Text>
           <Text style={styles.privacy}>
             {vi
-              ? "Khi chia sẻ ảnh, link của bạn sẽ được sao chép sẵn để dán vào tin nhắn."
-              : "When you share the image, your link is copied so you can paste it into the message."}
+              ? "Ảnh được gửi kèm lời nhắn và link của bạn. Nếu ứng dụng nhận không hiện lời nhắn, lời nhắn đã được sao chép sẵn để bạn dán."
+              : "The image goes with a message and your link. If the receiving app does not show the message, it is already copied so you can paste it."}
           </Text>
           <Pressable accessibilityRole="button" accessibilityState={{ disabled: busy }} disabled={busy} onPress={first.onPress} style={[styles.primary, busy && styles.disabled]}>
             <Text style={styles.primaryText}>{first.label}</Text>

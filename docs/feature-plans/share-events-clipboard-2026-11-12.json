@@ -5,7 +5,7 @@
   "lane": "Cross-cutting: mobile share sheet, one Edge Function and a device test build",
   "goal": "Let the share sheet copy the tracked link before sharing the image so one flow carries image and link, send share_tapped and share_completed to the server through a new authenticated Edge Function that writes the existing usage_events table, and build a native Android test APK for the connected phone, without applying SQL, deploying anything or changing signing keys.",
   "successCriteria": [
-    "Share image copies the tracked link to the clipboard first (best effort: a clipboard failure never blocks the image share) and the sheet tells the person to paste it; the link button still shares text with the link.",
+    "Share image copies the message with the tracked link to the clipboard first (best effort: a clipboard failure never blocks the image share) and the sheet tells the person to paste it; the link button still shares text with the link.",
     "A new Edge Function share-events accepts only an authenticated, non-anonymous caller, reads bounded JSON, accepts at most 10 events per request with exactly the enumerated fields (name, surface, action, outcome), rejects extra keys and free text, and inserts rows into the existing usage_events table with feature 'share' and no private content.",
     "A per-user limit of 100 share events per 24 hours returns 429; invalid input returns 400; missing or anonymous auth returns 401; the handler has Deno tests for each path including negative cases.",
     "The mobile app sends each share event to the server only when it has a signed-in session and a backend URL, never blocks the share on the request, and swallows failures; the local event record stays as before.",
@@ -71,7 +71,7 @@
     },
     {
       "path": "PLAN.md",
-      "sha256": "f3589824771c955d5b133cc6376f942564897594be37ce4bfaa146d25fc1629a",
+      "sha256": "141c8badd28d54bed1c203fa9445fe3966d23562da499da32c08b629b7ba709d",
       "reason": "Singapore state: 18 Edge Functions live, usage_events written by service role, the Owner deploys functions himself, last on-device test recipe."
     },
     {
@@ -101,12 +101,12 @@
     },
     {
       "path": "apps/mobile/src/features/share/ShareCardSheet.tsx",
-      "sha256": "3e1fc530f921283fdcc6090f24304483738f4716ce9fa0b30a62de992d62dd5e",
+      "sha256": "6b68c5e826188e8d8f9d89e99e6e0e76c7e74adb8501d47aeca6c761b1bc1805",
       "reason": "Current two-button share sheet to extend with link copy."
     },
     {
       "path": "apps/mobile/src/features/share/captureShareCard.ts",
-      "sha256": "37990771072c697d02b7d73e6933716f4aaa08b17abd2f1ac06493429710a10d",
+      "sha256": "4342ecaab6216b460ccb0d0aad640be4a4acb82959dd6097efa448f41ad955be",
       "reason": "Capture and share helpers that gain a clipboard step."
     },
     {
@@ -181,23 +181,10 @@
   "workingTreeReview": {
     "paths": [
       "PLAN.md",
-      "apps/mobile/App.tsx",
-      "apps/mobile/package.json",
-      "apps/mobile/src/backendClient.ts",
       "apps/mobile/src/features/share/ShareCardSheet.tsx",
-      "apps/mobile/src/features/share/ShareCardView.tsx",
       "apps/mobile/src/features/share/__tests__/ShareCardSheet.test.tsx",
-      "apps/mobile/src/features/share/__tests__/shareEvents.test.ts",
       "apps/mobile/src/features/share/captureShareCard.ts",
-      "apps/mobile/src/features/share/shareEvents.ts",
-      "docs/release/share-events-2026-11-12/SHARE_EVENTS_HANDOFF.vi.md",
-      "package-lock.json",
-      "scripts/check-supabase-readiness.mjs",
-      "scripts/validate-backend-contracts.mjs",
-      "supabase/functions/README.md",
-      "supabase/functions/share-events/handler.ts",
-      "supabase/functions/share-events/handler_test.ts",
-      "supabase/functions/share-events/index.ts"
+      "docs/release/share-events-2026-11-12/SHARE_EVENTS_HANDOFF.vi.md"
     ],
     "note": "Uncommitted work of this task on top of origin/main 3800efa: share-sheet clipboard copy, the share-events Edge Function and its client, validators, tests, release notes and PLAN.md. Nothing is deployed and no SQL was run."
   },

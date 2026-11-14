@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "taskId": "share-image-text-2026-11-14",
+  "ownerAgent": "growth_mobile_agent",
+  "lane": "Mobile share sheet: native image-plus-text share, personal share copy, and a device test build",
+  "goal": "Let Share image hand the card image and a personal, curiosity-led message to the Android share sheet together through the react-native-share library the Owner approved, keep the clipboard copy as a fallback for apps that drop the text, rewrite the share message so it speaks as the person sharing and uses only public card or sign names, and install a new build on the connected phone to test it, without deploying anything, running SQL or changing signing keys.",
+  "successCriteria": [
+    "Share image passes the captured 1080x1350 PNG and the message with the tracked link to the Android share sheet in one share through react-native-share; if the library fails or is unavailable the existing expo-sharing image share still runs, and neither path ever throws into the screen.",
+    "Cancelling the system share sheet is not reported as a failure and never shows an error message.",
+    "The message is written in the first person from the sharer, creates curiosity, and carries no system-style disclaimer; it may include only a public card name or a calculated Sun sign name and the tracked link; it never includes the question, notes, mood, birth data or the person's name; Vietnamese text keeps accents and an English version exists for every surface.",
+    "The clipboard copy stays as a best-effort fallback and the sheet says so honestly (text is included for apps that accept it; paste for apps that do not); a clipboard failure never blocks the share.",
+    "Link share (Send link / Send invite) keeps working with the new message; share_tapped and share_completed events and their enumerated values are unchanged and still match the server function.",
+    "Type check, the share Jest suite and the full mobile Jest suite pass; new and updated tests cover the new message per surface and language, the privacy rule, the library path, the fallback path and the cancel case.",
+    "A local release APK built from this source installs over the existing app on the connected phone without wiping data, and the share flows are tried on the device; what could not be tried is listed as not verified."
+  ],
+  "writeScope": [
+    "apps/mobile/package.json",
+    "package-lock.json",
+    "apps/mobile/android/",
+    "apps/mobile/src/features/share/",
+    "apps/mobile/App.tsx",
+    "docs/release/share-events-2026-11-12/",
+    "docs/release/share-image-text-2026-11-14/",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "No SQL, migration, Supabase setting or Edge Function deploy. share-events stays source only until the Owner deploys it.",
+    "No change to the Edge Function, the event enumerations or any backend contract.",
+    "No change to the tracked link format, the website, Cloudflare or per-card link previews (Owner actions, tracked separately).",
+    "No signing key creation or export; the local debug-key signing used for earlier test APKs is reused only on this machine and the key file is not committed.",
+    "No change to AI functions, quotas, feature switches or account policy.",
+    "No secret is read: only the Singapore project URL and publishable key, which ship inside the app by design, are used for the test build.",
+    "The wording printed on the card image (including its reflection note) is not changed by this task; it is raised to the Owner as a question."
+  ],
+  "impact": {
+    "entryPoint": "Share sheet opened from Today's card, the tarot reading share and the Astrology Big 3 or invite buttons; the build task starts from the Owner's adb-connected phone.",
+    "dataWrite": "Clipboard (message with the tracked link, only when the person taps Share image). The temporary PNG is written to the app cache by the existing capture and released afterwards. No server or storage write is added.",
+    "backendContract": "None. The existing local share events and the share-events client call are unchanged.",
+    "adminVisibility": "No Admin change.",
+    "privacySafety": "The message adds only a public card name or a calculated Sun sign name that already appears on the card and in the link. The question, notes, mood, birth data and names stay out. Which receiving app shows the text is decided by that app, not by Nilaza.",
+    "observability": "share_completed still means the system share sheet returned; it does not prove a message was sent. No new event.",
+    "rollback": "Revert the commit to return to the expo-sharing image share and the previous message. The new native module only needs the next native build to disappear."
+  },
+  "canonicalContracts": [
+    "apps/mobile/src/features/share/shareLink.ts is the single source for the share message and the tracked link.",
+    "apps/mobile/src/features/share/shareCardContent.ts holds the public values a card and message may use.",
+    "supabase/functions/share-events/handler.ts is unchanged and still matches the app's event enumerations (existing test).",
+    "Owner decisions in chat on 2026-11-14: approve adding a library so the image can be shared with text, rewrite the share text to be personal and curiosity-led, install the latest build and test on the phone."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "sanitized_artifact_metadata"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa",
+      "reason": "Product guardrails and Owner approval limits reviewed."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Mobile routing reviewed."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Plan, impact, validation and handoff gate reviewed."
+    },
+    {
+      "path": "PLAN.md",
+      "sha256": "623655472929ded89ec6274d62923ae4a80206003f6d0a90ac75796864bd3b07",
+      "reason": "Current state, the Owner's open decisions and the last on-device test recipe."
+    },
+    {
+      "path": "docs/feature-plans/share-events-clipboard-2026-11-12.json",
+      "sha256": "43328bc5a3501c38b0ab649c125c615e3b796d7ebdb7520d0e681a3f763c6082",
+      "reason": "Previous record: clipboard copy and server events this task builds on."
+    },
+    {
+      "path": "docs/release/share-events-2026-11-12/SHARE_EVENTS_HANDOFF.vi.md",
+      "sha256": "75e921efa409f1751c1e398dc87bf36ef37260a12fd04a15fe9090d2e5144789",
+      "reason": "Handoff that names image-plus-text sharing as the option the Owner has now approved."
+    },
+    {
+      "path": "apps/mobile/package.json",
+      "sha256": "894a0f83d967364ee86c592e61b2276c44bee7d10197b5981b67051328e4d624",
+      "reason": "Dependency set reviewed; react-native-share is the one addition."
+    },
+    {
+      "path": "apps/mobile/android/app/src/main/AndroidManifest.xml",
+      "sha256": "df8b37267d7afb3496b3a118a16e8a5507b47e73cf7772034b25cb313715896d",
+      "reason": "Committed bare Android project: autolinking applies and the manifest is checked for what the library needs."
+    },
+    {
+      "path": "apps/mobile/src/features/share/ShareCardSheet.tsx",
+      "sha256": "90d531245918ed47664169eac76ec5a015f6d2476a762c1a67fddf7ae24f0ed8",
+      "reason": "Share sheet whose image button gains the native image-plus-text share."
+    },
+    {
+      "path": "apps/mobile/src/features/share/captureShareCard.ts",
+      "sha256": "8ae15019cc287ca815b4b944d80356135fe80894b04d27a730089cafbf15e0f8",
+      "reason": "Capture and share helpers that gain the library path with the expo-sharing fallback."
+    },
+    {
+      "path": "apps/mobile/src/features/share/shareLink.ts",
+      "sha256": "f55fa20dcfdfc1db2712a4f35c21ad333ba8dbd853819c8496ec8d4d82d562a3",
+      "reason": "shareLinkMessage is rewritten here."
+    },
+    {
+      "path": "apps/mobile/src/features/share/shareCardContent.ts",
+      "sha256": "0fd515b805f3528e3a2656a84d9b95d58d06ffe4c5936f8a9e2fd38c7e32862f",
+      "reason": "Card models; they gain the public names the message may use."
+    },
+    {
+      "path": "apps/mobile/src/features/share/__tests__/shareLink.test.ts",
+      "sha256": "fb124c2058a8700a72eec7c991f4362a19bbcfba16f8740adcd8483509dc1949",
+      "reason": "Message tests to update."
+    },
+    {
+      "path": "apps/mobile/src/features/share/__tests__/ShareCardSheet.test.tsx",
+      "sha256": "29e1738c641b138fe8f040db186adcaee5225975ae63c05ce47f0cc1559d9c11",
+      "reason": "Sheet tests to update for the library path."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Followed the installed skill workflow (lane, Whole-App Impact Brief, preflight before the dependency install and edits, handoff). The repository copy is a different, newer revision; no skill source is changed by this task."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Only message copy and one sheet status line change; brand assets and palette are untouched. The message avoids system-style phrasing per the Owner's request."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "react-native-share 12.3.1 (MIT, published 2026-05-04 per the npm registry) declares a codegen config, so it supports the New Architecture used by this app (Expo SDK 54, React Native 0.81.5, newArchEnabled). The repo has a committed bare android project, so autolinking applies; the library's Android source and manifest are read after install, before it is used, to confirm the file provider and the url, type and message behavior. The existing react-native-view-shot 4.0.3, expo-sharing and expo-clipboard stay as the capture, fallback and clipboard paths."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://www.npmjs.com/package/react-native-share",
+      "checkedAt": "2026-11-14",
+      "reason": "Version 12.3.1, MIT licence, publish date, README install and API notes (Share.open with url, type, message, failOnCancel; Android receiving apps decide whether to show the text)."
+    },
+    {
+      "url": "https://github.com/react-native-share/react-native-share",
+      "checkedAt": "2026-11-14",
+      "reason": "Source repository: codegen config for the New Architecture and the Android implementation to read after install."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No authorization, RLS or backend change.",
+    "sensitiveData": "The message may contain a public card name or a calculated Sun sign name plus the tracked link, never the question, notes, mood, birth data or names. A test asserts this for every surface.",
+    "secretsLogging": "No secret is read or logged. The test build embeds only the publishable key and project URL.",
+    "externalInput": "Message pieces come from the app's own card library and calculated chart, are length-limited, and are not user free text. The share target is chosen by the person in the system chooser.",
+    "dependencies": "One new native module, react-native-share, MIT, actively published, New Architecture ready. It adds a file provider for the shared image; its manifest and source are reviewed after install and any permission it adds is recorded. It needs the native rebuild this task performs.",
+    "migrationRelease": "No migration. The APK is a local test build for one phone and is not a store artifact.",
+    "stopCondition": "Stop if installing over the existing app would require uninstalling it (data loss), if the library adds a dangerous permission or an exported component we cannot justify, if the build needs a secret, or if a type check or test fails.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "PLAN.md",
+      "apps/mobile/package.json",
+      "apps/mobile/src/features/share/ShareCardSheet.tsx",
+      "apps/mobile/src/features/share/__tests__/ShareCardSheet.test.tsx",
+      "apps/mobile/src/features/share/__tests__/shareCardContent.test.ts",
+      "apps/mobile/src/features/share/__tests__/shareLink.test.ts",
+      "apps/mobile/src/features/share/captureShareCard.ts",
+      "apps/mobile/src/features/share/shareCardContent.ts",
+      "apps/mobile/src/features/share/shareLink.ts",
+      "docs/release/share-events-2026-11-12/SHARE_EVENTS_HANDOFF.vi.md",
+      "docs/release/share-image-text-2026-11-14/SHARE_IMAGE_TEXT_HANDOFF.vi.md",
+      "package-lock.json"
+    ],
+    "note": "Uncommitted work already in the tree from the previous task (clipboard copy of the message with the link, tests, handoff and PLAN.md notes) plus this task's edits."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/share-image-text-2026-11-14.json",
+    "npm run mobile:check",
+    "npm --workspace apps/mobile test -- --runInBand",
+    "npm run mobile:release:config:check"
+  ],
+  "managerTestPath": "On the phone: Home, open today's card, tap Share, tap Share image: the Android share sheet opens with the card image; pick a chat app (do not send) and see whether the message with the link appears next to the image; if the app drops the text, paste from the clipboard. Tap Send link: the new personal message with the link opens. Astrology: open the Sun sign invite and read the message.",
+  "residualRisk": "Whether the text appears depends on the receiving app (Facebook and Messenger commonly drop it, Zalo is unverified), so the clipboard fallback stays; pasting after an app already used the text can duplicate it. The Owner's wording preference is applied by judgment and may need another pass after real use. Astrology surfaces and Android 13 may not be testable on the phone.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
