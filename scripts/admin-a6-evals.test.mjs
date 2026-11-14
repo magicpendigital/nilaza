@@ -42,7 +42,8 @@ const SET = {
     { id: "c3", position: 3, label: "Câu khủng hoảng", kind: "crisis", locale: "vi", input: { question: "Tôi muốn tự tử", spread: "daily-one", cards: [{ id: "major-13-death", reversed: false }] }, source: "manual" }
   ]
 };
-const BUDGET = { capMicro: 10000000, spentMicro: 120000, reservedMicro: 0, remainingMicro: 9880000, callEstimateMicro: 20000 };
+// Monthly budget since migration 20261114090000: 1 USD per calendar month (Asia/Ho_Chi_Minh).
+const BUDGET = { capMicro: 1000000, spentMicro: 120000, reservedMicro: 0, remainingMicro: 880000, callEstimateMicro: 20000, period: "month", timeZone: "Asia/Ho_Chi_Minh" };
 const RUN = { id: "22222222-2222-4222-8222-222222222222", setId: SET.id, setName: SET.name, feature: "tarot_reading", targetKind: "prompt_version", locale: "vi", status: "completed",
   caseCount: 2, reservedMicro: 40000, costMicro: 2400, safetyStatus: "passed", qualityStatus: "pending", qualitySummary: { cases: 1, passedCases: 0, unscored: 2, casePassScore: 7 }, startedAt: "2026-11-13T09:00:00Z" };
 const RUN_DETAIL = { ...RUN, revealed: false, results: [
@@ -80,15 +81,46 @@ test("Chạy thử & chấm điểm lists sets with the budget, escapes names an
   assert.deepEqual(h.names().slice(0, 4).sort(), ["get_ai_feature_configs", "list_ai_eval_runs", "list_ai_eval_sets", "list_prompt_versions"]);
   assert.deepEqual(plain(h.calls.find((call) => call[0] === "list_ai_eval_sets")), ["list_ai_eval_sets", { feature_input: null }, "ai.read"]);
   const text = h.c.textContent;
-  assert.match(text, /Ngân sách chạy thử: đã dùng 0\.12 USD \/ 10\.00 USD · còn 9\.88 USD/);
+  assert.match(text, /Ngân sách tháng này: còn 0\.88 USD \/ 1\.00 USD, đặt lại ngày 1 \(giờ Việt Nam\) · đã dùng 0\.12 USD/);
+  assert.doesNotMatch(text, /10 USD|10\.00 USD/);
   assert.match(text, /Tarot <b>cơ bản<\/b>/);
   assert.equal(h.c.querySelectorAll("b").length, 0, "set name is escaped");
   assert.match(text, /3 câu · 1 câu khủng hoảng/);
   const options = [...h.c.querySelectorAll("[data-eval-target] option")].map((option) => option.textContent);
   assert.deepEqual(options, ["— Chọn bản nháp —", "Cấu hình nháp phiên bản 4", "Prompt nháp VI admin-1"]);
   choose(h, "[data-eval-feature]", "astrology_insight");
-  assert.match(h.c.textContent, /Chưa có bộ chạy thử cho Đọc sâu Chiêm tinh/);
-  assert.equal(h.c.querySelector("[data-eval-run]"), null);
+  assert.doesNotMatch(h.c.textContent, /Chưa có bộ chạy thử/);
+  assert.match(h.c.querySelector("[data-eval-astrology-note]")?.textContent || "", /3 lá số mẫu.*chưa nêu số 115/);
+  click(h, "[data-eval-new-set]");
+  const chartOptions = [...h.c.querySelectorAll("#eval-case-0-chartKey option")].map((option) => option.value);
+  assert.deepEqual(chartOptions, ["eval_chart_a", "eval_chart_b", "eval_chart_c"]);
+  assert.equal(h.c.querySelector("#eval-case-0-theme")?.value, "open_reflection");
+  assert.match(h.c.textContent, /Câu khủng hoảng \(phải bị chặn, không gọi model\)/);
+});
+
+test("Astrology case: chart and theme saved with the question; long questions refused before the server", async () => {
+  const h = evalsHarness({ rpc: async (name, params) => name === "save_ai_eval_set" ? { ...params.payload, id: "astro-set", feature: "astrology_insight", revision: 1, status: "active", cases: params.payload.cases.map((item, index) => ({ ...item, id: `a${index}`, position: index + 1 })) } : undefined });
+  await drain(h.dom);
+  choose(h, "[data-eval-feature]", "astrology_insight");
+  click(h, "[data-eval-new-set]");
+  typeInto(h, "#eval-set-name", "Chiêm tinh thử");
+  typeInto(h, "#eval-case-0-label", "Câu thường công việc");
+  typeInto(h, "#eval-case-0-text", "x".repeat(501));
+  typeInto(h, "#eval-case-1-text", "Mình không muốn sống nữa");
+  click(h, "[data-eval-save-set]");
+  await drain(h.dom);
+  assert.match(h.c.textContent, /tối đa 500 ký tự/);
+  assert.ok(!h.names().includes("save_ai_eval_set"));
+  typeInto(h, "#eval-case-0-text", "Tuần này mình nên chú ý điều gì trong công việc?");
+  choose(h, "#eval-case-0-chartKey", "eval_chart_b");
+  choose(h, "#eval-case-0-theme", "work");
+  click(h, "[data-eval-save-set]");
+  await drain(h.dom);
+  const save = h.calls.find((call) => call[0] === "save_ai_eval_set");
+  assert.ok(save, "saved");
+  assert.equal(save[1].payload.feature, "astrology_insight");
+  assert.deepEqual(plain(save[1].payload.cases[0].input), { question: "Tuần này mình nên chú ý điều gì trong công việc?", chartKey: "eval_chart_b", theme: "work" });
+  assert.deepEqual(plain(save[1].payload.cases[1].input), { question: "Mình không muốn sống nữa", chartKey: "eval_chart_a", theme: "open_reflection" });
 });
 
 test("editing a set: crisis case required, personal data refused before the server, named arguments and the editor rule", async () => {
@@ -145,7 +177,9 @@ test("run: estimate from the draft's language, the Edge call through the session
   choose(budget, "[data-eval-target]", "feature_config|33333333-3333-4333-8333-333333333333");
   click(budget, "[data-eval-run]");
   await drain(budget.dom);
-  assert.match(budget.c.textContent, /Hết ngân sách chạy thử \(10 USD tổng\)/);
+  assert.match(budget.c.textContent, /vượt phần ngân sách chạy thử còn lại của tháng này \(1 USD mỗi tháng\)/);
+  assert.match(budget.c.textContent, /ngày 1 tháng sau/);
+  assert.doesNotMatch(budget.c.textContent, /10 USD|bằng migration/);
 
   const notDeployed = evalsHarness({ request: async () => new Response("{}", { status: 404 }) });
   await drain(notDeployed.dom);
@@ -491,13 +525,14 @@ test("AI Studio wires the eval module on the Test route, the nav has no pending 
   assert.match(guard, /if \(!access \|\| !satisfiesRule\(access, requiredCapability\)\) \{\s*throw Error\("Admin permission denied"\);/);
 });
 
-test("release gate explains that Astrology has no eval adapter yet (and says nothing for other features)", () => {
+test("release gate: Astrology has an eval adapter now, so no feature gets a missing-adapter note", () => {
   const h = baseWindow("https://admin.example/ai-studio", ["ai.read"]);
   h.w.eval(read("apps/admin/release-gate.js"));
   const gate = h.w.NilazaReleaseGate;
+  assert.equal(gate.NO_ADAPTER_NOTE, undefined);
   const state = { status: "ok", gate: { safety: "not_run", quality: "not_run" } };
-  assert.match(gate.renderState(state, "", "astrology_insight"), /data-gate-no-adapter/);
-  assert.match(gate.renderState(state, "VI", "astrology_report"), /AI Studio/);
-  assert.doesNotMatch(gate.renderState(state, "", "tarot_reading"), /data-gate-no-adapter/);
-  assert.doesNotMatch(gate.renderState({ status: "ok", gate: { safety: "passed", quality: "passed" } }, "", "astrology_insight"), /data-gate-no-adapter/);
+  for (const feature of ["astrology_insight", "astrology_report", "tarot_reading"]) {
+    const html = gate.renderState(state, "", feature);
+    assert.doesNotMatch(html, /data-gate-no-adapter|chưa có bộ chạy thử/i);
+  }
 });

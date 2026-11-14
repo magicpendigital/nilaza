@@ -1,13 +1,15 @@
 // Admin A6: POST {setId, targetKind: "feature_config" | "prompt_version", targetId} runs an eval set against a draft and
 // the active version (spec ADMIN_SCREENS_SPEC_2026-11-04 §3.12, §5.1; migration 20261113110000).
 // 1. The caller's own session must hold ai.manage, or ai.read + content.draft (same rule as save_ai_eval_set).
-// 2. start_ai_eval_run (service key) checks the actor again, the set, the draft and reserves the cost within the 10 USD
-//    eval budget. 3. runner.ts runs the cases through generateWithModelRoute (unchanged) with the real prompt assembly.
+// 2. start_ai_eval_run (service key) checks the actor again, the set, the draft and reserves the cost within what is left
+//    of this month's 1 USD eval budget (migration 20261114090000). 3. runner.ts runs the cases through
+//    generateWithModelRoute (unchanged) with the real prompt assembly; Astrology reads and checks the active route first.
 // 4. finish_ai_eval_run (service key) stores results, cost and the safety layer. Case and answer text go only to the
 // database (strict trace redaction for model calls); this function logs nothing.
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.7.1";
-import { generateWithModelRoute } from "../_shared/model-router.ts";
+import { generateWithModelRoute, readActiveModelRoute } from "../_shared/model-router.ts";
+import type { ModelRoute } from "../_shared/model-provider.ts";
 import { readPublishedTarotContent } from "../_shared/tarot-content.ts";
 import { runEvalPlan, SUPPORTED_EVAL_FEATURES, type EvalPlan, type GenerateInput } from "./runner.ts";
 
@@ -80,6 +82,7 @@ serve(async (req) => {
       supabase,
       actorId: userData.user.id,
       tarotContent: plan.feature === "tarot_reading" ? await readPublishedTarotContent(supabase) : null,
+      readRoute: (feature: string) => readActiveModelRoute(supabase, feature),
       stopAt: startedAt + RUN_TIME_LIMIT_MS,
       concurrency: 4,
       generate: async (request: GenerateInput) => await generateWithModelRoute({
@@ -89,6 +92,7 @@ serve(async (req) => {
         fallbackText: request.fallbackText,
         ...(request.safetyText !== undefined ? { safetyText: request.safetyText } : {}),
         ...(request.acceptOutput ? { acceptOutput: request.acceptOutput } : {}),
+        ...(request.route ? { route: request.route as ModelRoute } : {}),
         deadlineMs: request.deadlineMs,
         supabase: request.supabase,
         strictTraceRedaction: true,

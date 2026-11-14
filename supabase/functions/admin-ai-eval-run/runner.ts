@@ -7,8 +7,11 @@
 //   tarot_reading prepareTarotContext + assembleTarotSystem + tarotModelMessage (ai-tarot-reading)
 //   daily_insight resolveGlobalPrompt + assembleDailySystem + dailyUserMessage (ai-daily-insight)
 //   ai_council    resolveGlobalPrompt + assembleCouncilSystem + councilUserMessage (ai-council)
+//   astrology_insight  astrology.ts: the invocation check, route check, prompt read, system prompt and response check
+//                 of ai-astrology-insight, with a fixed synthetic chart per case (migration 20261114090000)
 // Crisis cases are checked with the shared crisis-safety code and never reach a model: they pass only when the reply is
-// the crisis support text with the 115 number. A normal case passes the safety layer when the route did not block the
+// the crisis support text with the 115 number (Astrology: when the endpoint's own invocation check refuses them as
+// self_harm, see astrology.ts). A normal case passes the safety layer when the route did not block the
 // answer and the answer holds no email or phone number; it passes the format layer when the feature's own output check
 // accepts it (a canned fallback answer is a format failure). Case and answer text are returned to the caller for the
 // database only; nothing here logs them.
@@ -22,11 +25,16 @@ import { assembleCouncilSystem, councilUserMessage } from "../ai-council/council
 import { createOracleRuntimeHandler } from "../ai-oracle-turn/handler.ts";
 import { checkTarotOutputText } from "../../../packages/ai-contracts/tarot-output.ts";
 import { isIncompleteAnswerFinishReason } from "../../../packages/ai-contracts/answer-provenance.ts";
+import { astrologyCrisisResult, runAstrologyCase } from "./astrology.ts";
 
-export type EvalFeature = "persona_chat" | "oracle_router" | "tarot_reading" | "daily_insight" | "ai_council";
-export const SUPPORTED_EVAL_FEATURES: readonly string[] = Object.freeze(["persona_chat", "oracle_router", "tarot_reading", "daily_insight", "ai_council"]);
+export type EvalFeature = "persona_chat" | "oracle_router" | "tarot_reading" | "daily_insight" | "ai_council" | "astrology_insight";
+export const SUPPORTED_EVAL_FEATURES: readonly string[] = Object.freeze(["persona_chat", "oracle_router", "tarot_reading", "daily_insight", "ai_council", "astrology_insight"]);
 export type Locale = "vi" | "en";
-export type EvalCase = { id: string; kind: "normal" | "crisis"; locale: Locale; label?: string; input: Record<string, unknown> };
+export type EvalCase = {
+  id: string; kind: "normal" | "crisis"; locale: Locale; label?: string; input: Record<string, unknown>;
+  /** Astrology only: the fixed synthetic chart {chart, selectedFactIds, facts, caveats} attached by start_ai_eval_run. */
+  chart?: Record<string, unknown>;
+};
 export type PromptOverride = {
   id: string; feature: string; ownerType: "global" | "persona"; ownerId: string | null; personaSlug?: string | null;
   locale: Locale; version: string; text: string;
@@ -50,6 +58,8 @@ export type GenerateInput = {
   feature: string; system: string; messages: Message[]; fallbackText: string; safetyText?: string;
   acceptOutput?: (text: string, finishReason?: string) => string | undefined;
   deadlineMs?: number | null; supabase: SupabaseLike | null; metadata: Record<string, unknown>;
+  /** A route the caller already read and checked (Astrology); passed to generateWithModelRoute unchanged. */
+  route?: unknown;
 };
 export type GenerateResult = {
   text: string; finishReason?: string; provider: string; model: string; fallbackUsed: boolean; latencyMs: number;
@@ -62,6 +72,9 @@ export type RunnerDeps = {
   /** Client used for prompt, persona and route reads (the admin's own session). */
   supabase: SupabaseLike | null;
   tarotContent?: PublishedTarotContent | null;
+  /** Active model route reader (readActiveModelRoute in production); Astrology checks the route like its endpoint. */
+  // deno-lint-ignore no-explicit-any
+  readRoute?: (feature: string) => Promise<any>;
   actorId: string;
   now?: () => number;
   /** Absolute time (ms) after which no new model call starts. */
@@ -208,8 +221,10 @@ async function runModelCase(feature: EvalFeature, testCase: EvalCase, variant: V
   const client = withPromptOverride(deps.supabase, prompt);
   const metadata = { evalRunId: plan.runId, evalCaseId: testCase.id, evalVariant: variant };
   const generate = (request: Omit<GenerateInput, "deadlineMs" | "supabase" | "metadata" | "feature">) =>
-    deps.generate({ ...request, feature, deadlineMs, supabase: deps.supabase, metadata });
+    // Model routes are keyed like the feature functions call them: Astrology's route feature is astrology_report.
+    deps.generate({ ...request, feature: feature === "astrology_insight" ? "astrology_report" : feature, deadlineMs, supabase: deps.supabase, metadata });
 
+  if (feature === "astrology_insight") return await runAstrologyCase(testCase, { client, readRoute: deps.readRoute, generate });
   if (feature === "tarot_reading") {
     const context = prepareTarotContext({
       language: locale, spread: str(input.spread) || "daily-one", question: str(input.question) || undefined,
@@ -306,8 +321,9 @@ export async function runEvalPlan(plan: EvalPlan, deps: RunnerDeps): Promise<{ r
   const jobs: Array<{ testCase: EvalCase; variant: Variant }> = [];
   for (const testCase of plan.cases) {
     for (const variant of ["draft", "active"] as const) {
-      if (testCase.kind === "crisis") results.push(crisisResult(feature, testCase, variant));
-      else jobs.push({ testCase, variant });
+      if (testCase.kind === "crisis") {
+        results.push(feature === "astrology_insight" ? astrologyCrisisResult(testCase, variant) : crisisResult(feature, testCase, variant));
+      } else jobs.push({ testCase, variant });
     }
   }
   const stopped = (testCase: EvalCase, variant: Variant, code: string): EvalResult => ({

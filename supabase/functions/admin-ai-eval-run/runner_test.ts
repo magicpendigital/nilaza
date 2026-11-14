@@ -168,6 +168,6 @@ Deno.test("budget and time: no model call beyond the reservation or after the ti
   const late = await runEvalPlan(plan("daily_insight", cases), { supabase: null, actorId: "a", stopAt: Date.now() + 5000, generate: async () => { calls++; return generation("Ổn"); } });
   equal(calls, 0); equal(late.errorCode, "time_limit"); equal(late.results.length, 6);
   let failed = false;
-  try { await runEvalPlan(plan("astrology_insight", cases), { supabase: null, actorId: "a", stopAt: Date.now() + 60000, generate: async () => generation("x") }); } catch { failed = true; }
-  assert(failed, "astrology has no adapter");
+  try { await runEvalPlan(plan("unknown_feature", cases), { supabase: null, actorId: "a", stopAt: Date.now() + 60000, generate: async () => generation("x") }); } catch { failed = true; }
+  assert(failed, "a feature without an eval adapter is refused");
 });

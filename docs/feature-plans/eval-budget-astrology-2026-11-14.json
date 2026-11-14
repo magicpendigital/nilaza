@@ -85,18 +85,18 @@
     },
     {
       "path": "supabase/functions/admin-ai-eval-run/runner.ts",
-      "reason": "Runner plan, prompt override and per-feature adapters.",
-      "sha256": "430d1cf19c2cdf1337adc4d213874a330a39e78218521db669b71215d5f708c4"
+      "reason": "Runner plan, prompt override and per-feature adapters (now with astrology_insight).",
+      "sha256": "88b0a65b4d021766d39fe7aac1c8e958830868d87fecd5b7696769bfd4b6f6b9"
     },
     {
       "path": "supabase/functions/admin-ai-eval-run/index.ts",
-      "reason": "Edge entry and generate wrapper.",
-      "sha256": "b04a7cc194f5f15dab907ebe4e61b8b46327bc806e3e9951afe4a3559fcfc888"
+      "reason": "Edge entry, generate wrapper and route reader for Astrology.",
+      "sha256": "8eb0705fc46b265dba5ce39fdeb1709a11720b51b918c047bc69bb0210f3df83"
     },
     {
       "path": "supabase/functions/ai-astrology-insight/index.ts",
-      "reason": "Astrology route, prompt read, system prompt and response checks mirrored by the adapter.",
-      "sha256": "e986d3270ee9378ae28150429a808e619c5f7477bb82399299493574f471daaf"
+      "reason": "Astrology route, prompt read, system prompt and response checks mirrored by the adapter (system prompt moved to _shared/astrology-system-prompt.ts).",
+      "sha256": "ff803fe6198867e7ca38277743eae2450b2fd7850e00d4667c9df95c122cfa66"
     },
     {
       "path": "supabase/functions/_shared/astrology-ai-insight.ts",
@@ -120,13 +120,13 @@
     },
     {
       "path": "apps/admin/ai-evals.js",
-      "reason": "Budget pill, Astrology unsupported note, case editor.",
-      "sha256": "842810c54e98920ad1429b26b9f3ab7d81c2fbf132056014b3dcce9b9e47d213"
+      "reason": "Monthly budget pill, Astrology chart/theme case editor and note.",
+      "sha256": "7bcbb2b0c2e77cd680b980cdba3c20d5e1269f0dfd118ada91901e6db3a76e95"
     },
     {
       "path": "apps/admin/release-gate.js",
-      "reason": "Astrology no-adapter note.",
-      "sha256": "5bf2b8ad7861d50fa178be1c94ed516902b443062a9ff10c770ad1ac92628f6a"
+      "reason": "Astrology no-adapter note removed.",
+      "sha256": "b583ca5a86e612b71f701458b42edbbc893b37005c743986429efa7ab9d418a8"
     }
   ],
   "skillReview": [
@@ -157,7 +157,7 @@
     "unresolvedHighRisks": []
   },
   "workingTreeReview": {
-    "note": "Clean tree at start (origin/main cb32621, branch claude/eval-budget-astrology).",
+    "note": "Clean tree at start (origin/main cb32621, branch claude/eval-budget-astrology). Hashes of the five edited sources were refreshed after the edits; the reviewed base versions are those of cb32621. ai-features.js and prompt-versions.js still pass a third argument to renderState, which release-gate.js now ignores (no behaviour change, left untouched).",
     "paths": []
   },
   "validationCommands": [
@@ -170,7 +170,7 @@
     "node scripts/feature-preflight.mjs --ci --base origin/main"
   ],
   "managerTestPath": "After the Owner applies 20261114090000 and redeploys admin-ai-eval-run: open Admin › Chạy thử & chấm điểm, the pill shows 'Ngân sách tháng này: còn … / 1 USD, đặt lại ngày 1'; choose Đọc sâu Chiêm tinh, open 'Bộ mẫu có sẵn' (2 crisis, 5 normal cases with sample charts), save an astrology_report prompt draft or an Astrology feature draft, run the set; the safety layer passes when the model answers match the Astrology contract; the publish dialog then allows publishing.",
-  "residualRisk": "PGlite is not Supabase. Astrology runs need an active astrology_report route with the astrology_ai_insight_v1 schema (set in Admin), like the real function; without it every normal case fails with route_not_ready. publish_astrology_prompt_pair stays ungated. 1 USD per month allows about 5 starter-set feature runs by reservation; unused reservation is released when a run finishes.",
+  "residualRisk": "PGlite is not Supabase; no real model call was made. Astrology runs need an active astrology_report route with the astrology_ai_insight_v1 schema (set in Admin), like the real function; without it every normal case fails with astrology:route_not_ready. Astrology crisis cases pass on the endpoint's own pre-model refusal (blocked topic self_harm); the app's Astrology crisis message has no 115 number, unlike the Tarot/Chat support card — recommend aligning it. publish_astrology_prompt_pair stays ungated (recommend gating both VI and EN drafts in a later migration). 1 USD per month allows by reservation about 5 starter-set feature runs, 8 VI or 12 EN prompt runs; unused reservation is released when a run finishes. Runs still running at a month boundary keep their reservation counted in the new month until they finish or expire. scripts/ai-answer-endpoints.test.mjs has two Tarot failures that also occur on origin/main cb32621 (not caused by this change).",
   "externalActions": {
     "databaseWrite": false,
     "productionRelease": false
