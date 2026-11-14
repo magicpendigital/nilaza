@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "title": "Admin A3–A7: nine migrations applied, nine functions deployed, migration history repaired",
+  "date": "2026-11-14",
+  "target": {
+    "projectRef": "etfajmrwyywokgafzxsb",
+    "label": "production (Owner decision 2026-11-12)"
+  },
+  "ownerApproval": "Owner approved in chat on 2026-11-14 ('Approve all three'): (1) apply the nine migrations named by SHA-256 in PLAN.md section 4 item 6, (2) deploy the listed functions, (3) one migration repair.",
+  "records": [
+    "docs/feature-plans/ai-config-editor-drafts-2026-11-13.json",
+    "docs/feature-plans/admin-a3-content-2026-11-13.json",
+    "docs/feature-plans/admin-a5-prompts-2026-11-13.json",
+    "docs/feature-plans/admin-a6-evals-2026-11-13.json",
+    "docs/feature-plans/admin-a7-providers-2026-11-13.json"
+  ],
+  "sourceCommit": "1ab5d4b",
+  "migrations": {
+    "method": "npx supabase@3.1.0 db query --yes --remote=etfajmrwyywokgafzxsb -f <file>, one file at a time in this order, stop on error (run by Claude); every file exited 0",
+    "files": [
+      { "file": "supabase/migrations/20261113090200_ai_feature_config_editor_drafts.sql", "sha256": "1f58d09bec06ea9415f4447b65a508ec9f6cf82ad7f13e74985772b70844bdcb" },
+      { "file": "supabase/migrations/20261113095000_prompt_versions_admin_publish.sql", "sha256": "94ec846618ee452a759519f514630ff7526a5407b300450675341d4aa2fbd90a" },
+      { "file": "supabase/migrations/20261113100000_admin_content_items.sql", "sha256": "90577a3e3952a6c6798002116e4a0582d840abd0a9040071fb44a2faa3c32fee" },
+      { "file": "supabase/migrations/20261113100100_admin_timeline.sql", "sha256": "fd7d0353c0c9bc06e57f8ce7fe7307804ee85d5e58f00f91acf934c5de83f3c4" },
+      { "file": "supabase/migrations/20261113100200_content_images_bucket.sql", "sha256": "7a549351bb6ad54a715acd96ae494b74ab6b42b11ef944b87c34c7d27e3766f4" },
+      { "file": "supabase/migrations/20261113110000_ai_eval_release_gate.sql", "sha256": "5221e865557186cddfbb96bd6ca5fcce02441d2ca494187c3d48983e44520000" },
+      { "file": "supabase/migrations/20261113110100_ai_feedback_triage.sql", "sha256": "192def7457dcd2dd29bad4364194306e2f11d329509f47c476afd6bed9d4f228" },
+      { "file": "supabase/migrations/20261113140000_model_route_steps.sql", "sha256": "d7c59aa1013839b49bb1fe5325503eefb6272f2c96423f79f5c1470e4e44edea" },
+      { "file": "supabase/migrations/20261113140100_ai_providers.sql", "sha256": "eaf2e10c9547a05fa14881d6d27423e7b24383134ed558e51cc4478724314223" }
+    ]
+  },
+  "postApplyChecks": {
+    "readOnlyQuery": "New tables (admin_content_item_versions, ai_eval_sets/cases/runs/results, ai_providers, ai_provider_health) have RLS on and are not selectable by anon or authenticated. Five 'Bộ mẫu có sẵn' eval sets exist (persona_chat, oracle_router, tarot_reading, daily_insight, ai_council). ai_providers: openrouter enabled (sensitive); anthropic, gemini, openai disabled (personal); deepseek disabled (public). Bucket content-images: public read, 1 MB, png/jpeg/webp. model_route_versions has a steps column. No new public function is executable by anon; every new SECURITY DEFINER function sets search_path.",
+    "securityAdvisor": "0 errors. Warnings: authenticated can execute the new SECURITY DEFINER RPCs (expected: each checks a capability), leaked-password protection. INFO rls_enabled_no_policy for the new tables (intended: access only through RPCs)."
+  },
+  "functions": {
+    "method": "npx supabase@3.1.0 functions deploy <9 names> --project-ref etfajmrwyywokgafzxsb --use-api --yes (run by Claude)",
+    "readBack": {
+      "ai-persona-chat": 5,
+      "ai-oracle-turn": 5,
+      "ai-tarot-reading": 7,
+      "ai-daily-insight": 4,
+      "ai-astrology-insight": 4,
+      "ai-council": 4,
+      "admin-model-router-config": 2,
+      "admin-ai-eval-run": 1,
+      "admin-ai-provider-probe": 1
+    },
+    "status": "all ACTIVE, verify_jwt true",
+    "unauthenticatedCall": "POST without a session returned 401 for all nine"
+  },
+  "migrationHistory": "npx supabase@3.1.0 migration repair --status applied --remote=etfajmrwyywokgafzxsb --yes for 20261112000000, 20261113090000, 20261113090100 and the nine files above. migration list afterwards: local and remote match through 20261113140100.",
+  "notVerified": [
+    "A signed-in call to each function after this deploy (needs the Owner's test account: scripts/staging-smoke.mjs).",
+    "Admin pages with a real login: publishing content items, uploading an image, running an eval, the provider key check.",
+    "Real eval cost and latency; real provider error shapes.",
+    "Which Supabase project hosted Admin staging calls (Vercel variable NILAZA_QA_SUPABASE_URL, not read)."
+  ]
+}
