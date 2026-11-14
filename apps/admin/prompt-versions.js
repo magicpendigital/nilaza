@@ -9,6 +9,8 @@
   // content.draft = editor; Owner decision 13/11), publish_prompt_version (ai.manage). The server checks the same
   // rules again: injection markers, at most 12000 characters, the other language must exist, note length.
   // Edge Functions always add their locked safety and output rules after this text.
+  // A6 release gate (migration 20261113110000, release-gate.js): each VI/EN draft needs its own passed safety layer;
+  // a quality bypass (ai.manage, reason + note) uses publish_prompt_version_bypass and marks the version "Chưa chấm".
   const escape = value => String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
   const MIGRATION = "20261113095000";
   const MIGRATION_NOTE = `Máy chủ chưa có các hàm sửa prompt — cần Owner áp migration ${MIGRATION}_prompt_versions_admin_publish.sql. Prompt đang chạy không bị ảnh hưởng.`;
@@ -35,6 +37,20 @@
   };
   const initialTransport = { target: window.NilazaAdminTransportTarget || "", url: window.ENV?.SUPABASE_URL || "", key: window.ENV?.SUPABASE_ANON_KEY || "" };
   let invalidated = false, active = null, epoch = 0;
+  const gateApi = () => window.NilazaReleaseGate;
+  // Eval sets are per runtime feature; Astrology prompts are stored as astrology_report and read by Đọc sâu.
+  const evalFeature = feature => feature === "astrology_report" ? "astrology_insight" : feature;
+  function gateDecisions(dialog, drafts) {
+    return drafts.map(([locale]) => gateApi()?.decide(dialog.gates?.[locale], dialog.bypass) ?? { allowed: true, mode: "ungated" });
+  }
+  function publishAllowed(dialog, drafts) {
+    const length = String(dialog?.note ?? "").trim().length;
+    return length >= 10 && length <= 500 && gateDecisions(dialog, drafts).every(decision => decision.allowed);
+  }
+  function dialogDrafts(dialog) {
+    const rows = rowsFor(dialog.key);
+    return LOCALES.filter(([locale]) => rows[locale].draft);
+  }
   let cache = { owner: "", status: "idle", versions: [], personas: [] };
   // Unsaved edits survive re-rendering and leaving the page for the same account and backend.
   let forms = { owner: "", values: {}, dirty: new Set() };
@@ -164,7 +180,8 @@
   function localeCell(rows, locale) {
     const { active: running, draft } = rows[locale];
     if (!running && !draft) return '<span class="risk-chip high">Thiếu</span>';
-    return `${running ? `<span class="risk-chip low">Đang chạy</span> <small>${escape(running.version)}</small>` : '<span class="risk-chip medium">Chưa chạy</span>'}${draft ? ` <span class="pill">Nháp ${escape(draft.version)}</span>` : ""}`;
+    const badge = running ? gateApi()?.badge(running) || "" : "";
+    return `${running ? `<span class="risk-chip low">Đang chạy</span> <small>${escape(running.version)}</small>${badge ? ` ${badge}` : ""}` : '<span class="risk-chip medium">Chưa chạy</span>'}${draft ? ` <span class="pill">Nháp ${escape(draft.version)}</span>` : ""}`;
   }
   function renderTable(list) {
     if (!list.length) return '<p class="muted">Không có prompt nào khớp bộ lọc.</p>';
@@ -236,7 +253,8 @@
     const rows = rowsFor(dialog.key);
     const drafts = LOCALES.filter(([locale]) => rows[locale].draft);
     if (!item || !drafts.length) return "";
-    const noteOk = dialog.note.trim().length >= 10 && dialog.note.trim().length <= 500;
+    const decisions = gateDecisions(dialog, drafts), gate = gateApi();
+    const needsBypass = decisions.some(decision => decision.mode === "bypass"), blocked = decisions.some(decision => decision.mode === "blocked");
     const missingPair = LOCALES.some(([locale]) => !rows[locale].draft && !rows[locale].active);
     return `<div class="modal-backdrop ai-feature-dialog-backdrop"><section class="modal ai-feature-dialog pv-dialog" id="pv-dialog" role="dialog" aria-modal="true" aria-labelledby="pv-dialog-title" tabindex="-1">
       <div class="modal-header"><div><p class="eyebrow">Xem lại trước khi phát hành</p><h2 id="pv-dialog-title">${escape(item.label)}</h2></div></div>
@@ -244,13 +262,17 @@
       ${drafts.map(([locale, name]) => {
         const draft = rows[locale].draft, running = rows[locale].active;
         return `<div class="pv-dialog-locale"><h3>${escape(name)}: ${escape(running ? `${running.version} → ${draft.version}` : `bản mới ${draft.version}`)}</h3>
-          ${renderDiff(running?.promptText || "", draft.promptText, `Thay đổi ${name} (${draft.promptText.length} ký tự; mã kiểm tra ${String(draft.textSha256 || "").slice(0, 12)})`)}</div>`;
+          ${renderDiff(running?.promptText || "", draft.promptText, `Thay đổi ${name} (${draft.promptText.length} ký tự; mã kiểm tra ${String(draft.textSha256 || "").slice(0, 12)})`)}
+          ${gate ? gate.renderState(dialog.gates?.[locale], `Cổng phát hành ${locale.toUpperCase()}`, item.feature) : ""}</div>`;
       }).join("")}
+      ${gate && needsBypass && !blocked ? gate.renderBypass("pv", dialog.bypass) : ""}
+      ${blocked ? '<p class="helper" data-gate-blocked>Nút Phát hành bị khóa cho tới khi lớp an toàn của mọi bản nháp đạt (mỗi ngôn ngữ chạy thử riêng).</p>' : ""}
+      <p><button type="button" class="button ghost" data-pv-open-evals>Mở Chạy thử & chấm điểm</button></p>
       <p>Bản đang chạy được lưu trữ, không bị xóa. Người dùng thấy bản mới ở lượt gọi AI kế tiếp.</p>
-      <p class="muted">Máy chủ kiểm lại: câu giống lệnh chèn, độ dài tối đa 12.000 ký tự và phải có đủ tiếng Việt + tiếng Anh. Chưa có chạy thử & chấm điểm (bước A6); hãy thử trên app staging sau khi phát hành.</p>
+      <p class="muted">Máy chủ kiểm lại: câu giống lệnh chèn, độ dài tối đa 12.000 ký tự, đủ tiếng Việt + tiếng Anh và cổng chạy thử của từng bản nháp.</p>
       ${missingPair ? '<p class="warning-card" role="note">Còn thiếu một ngôn ngữ: lưu nháp ngôn ngữ còn lại trước, máy chủ sẽ từ chối nếu thiếu.</p>' : ""}
       <div class="config-field"><label for="pv-publish-note">Ghi chú phát hành (bắt buộc, 10–500 ký tự)</label><textarea class="input" id="pv-publish-note" rows="3" maxlength="500">${escape(dialog.note)}</textarea></div>
-      <div class="modal-actions"><button type="button" class="button ghost" data-pv-dialog-cancel>Hủy</button><button type="button" class="button primary" data-pv-publish ${noteOk && !active.busy ? "" : "disabled"}>Phát hành ${drafts.map(([locale]) => locale.toUpperCase()).join(" + ")}</button></div>
+      <div class="modal-actions"><button type="button" class="button ghost" data-pv-dialog-cancel>Hủy</button><button type="button" class="button primary" data-pv-publish ${publishAllowed(dialog, drafts) && !active.busy ? "" : "disabled"}>${needsBypass ? "Phát hành khi chưa chấm" : "Phát hành"} ${drafts.map(([locale]) => locale.toUpperCase()).join(" + ")}</button></div>
     </section></div>`;
   }
   function render() {
@@ -275,7 +297,7 @@
       <div class="param-row"><button type="button" class="button ghost" data-pv-reload ${active.busy ? "disabled" : ""}>Tải lại</button>
         ${active.mode === "all" ? `<label for="pv-filter">Lọc</label><select class="input" id="pv-filter" data-pv-filter>${FILTERS.map(([id, label]) => `<option value="${id}" ${active.filter === id ? "selected" : ""}>${escape(label)}</option>`).join("")}</select>` : ""}</div>
       ${body}</section>${renderDialog()}`;
-    if (active.dialog) container.querySelector("#pv-publish-note")?.focus();
+    if (active.dialog && !(focusId && document.getElementById(focusId)?.closest("#pv-dialog"))) container.querySelector("#pv-publish-note")?.focus();
     else if (focusId) {
       const element = document.getElementById(focusId);
       element?.focus();
@@ -376,25 +398,30 @@
   async function publish() {
     if (!active || active.busy || !active.dialog || !can("ai.manage")) return;
     const { key } = active.dialog, note = active.dialog.note.trim(), rows = rowsFor(key);
-    const drafts = LOCALES.map(([locale]) => rows[locale].draft).filter(Boolean);
-    if (!drafts.length || note.length < 10 || note.length > 500) { render(); return; }
+    const draftLocales = dialogDrafts(active.dialog);
+    const drafts = draftLocales.map(([locale]) => rows[locale].draft);
+    if (!drafts.length || !publishAllowed(active.dialog, draftLocales)) { render(); return; }
+    const decisions = gateDecisions(active.dialog, draftLocales), bypass = active.dialog.bypass || {};
     const snapshot = scope(), version = ++epoch;
     active.busy = true; message("Đang phát hành…"); render();
     const done = [];
     try {
       if (!await window.NilazaRequireCapability?.("ai.manage") || !current(snapshot, version)) return;
-      for (const draft of drafts) {
-        const result = await window.NilazaAdminRpc("publish_prompt_version", { prompt_version_id_input: draft.id, note_input: note, expected_sha256_input: draft.textSha256 || null }, "ai.manage");
+      for (const [index, draft] of drafts.entries()) {
+        const result = decisions[index].mode === "bypass"
+          ? await window.NilazaAdminRpc("publish_prompt_version_bypass", { prompt_version_id_input: draft.id, note_input: note, expected_sha256_input: draft.textSha256 || null,
+            bypass_reason_input: bypass.reason, bypass_note_input: String(bypass.note || "").trim() }, "ai.manage")
+          : await window.NilazaAdminRpc("publish_prompt_version", { prompt_version_id_input: draft.id, note_input: note, expected_sha256_input: draft.textSha256 || null }, "ai.manage");
         if (!current(snapshot, version)) return;
         if (result?.id !== draft.id || result.status !== "active") throw Error("invalid_acknowledgement");
-        done.push(`${draft.locale.toUpperCase()} ${draft.version}`);
+        done.push(`${draft.locale.toUpperCase()} ${draft.version}${result.gateStatus === "bypassed_pending" ? " (Chưa chấm — cần chấm lại trong 24 giờ)" : ""}`);
       }
       active.dialog = null;
       message(`Đã phát hành ${done.join(", ")}.`);
     } catch (error) {
       if (!current(snapshot, version)) return;
-      if (error?.missingFunction) { cache.status = "missing"; active.dialog = null; }
-      else message(`${done.length ? `Đã phát hành ${done.join(", ")}; phần còn lại: ` : ""}${ERRORS[error?.code] || "Chưa phát hành được. Tải lại rồi thử lại."}`);
+      if (error?.missingFunction && !decisions.some(decision => decision.mode === "bypass")) { cache.status = "missing"; active.dialog = null; }
+      else message(`${done.length ? `Đã phát hành ${done.join(", ")}; phần còn lại: ` : ""}${gateApi()?.errorMessage(error) || ERRORS[error?.code] || "Chưa phát hành được. Tải lại rồi thử lại."}`);
       if (done.length) active.dialog = null;
     } finally { if (current(snapshot, version)) { active.busy = false; if (done.length) await refreshAfterWrite(); else render(); } }
   }
@@ -402,8 +429,26 @@
     if (!active || active.busy || !active.selected || forms.dirty.has(active.selected) || !can("ai.manage")) return;
     const rows = rowsFor(active.selected);
     if (!LOCALES.some(([locale]) => rows[locale].draft)) return;
-    active.dialog = { key: active.selected, note: "" };
+    const dialog = { key: active.selected, note: "", bypass: { reason: "", note: "" }, gates: {} };
+    for (const [locale] of LOCALES) if (rows[locale].draft) dialog.gates[locale] = gateApi() ? { status: "loading" } : { status: "missing" };
+    active.dialog = dialog;
     render();
+    if (!gateApi()) return;
+    const snapshot = scope(), version = epoch;
+    for (const [locale] of LOCALES) {
+      if (!rows[locale].draft) continue;
+      void gateApi().load("prompt_version", rows[locale].draft.id).then(state => {
+        if (!active || active.dialog !== dialog || !current(snapshot, version)) return;
+        dialog.gates[locale] = state;
+        render();
+      });
+    }
+  }
+  function refreshDialogControls() {
+    const dialog = active?.dialog;
+    if (!dialog) return;
+    const confirm = active.container.querySelector("[data-pv-publish]");
+    if (confirm) confirm.disabled = active.busy || !publishAllowed(dialog, dialogDrafts(dialog));
   }
   function closeDialog() {
     if (!active?.dialog) return;
@@ -446,7 +491,13 @@
         if (restoreButton) { void restore(restoreButton.dataset.pvRestore); return; }
         if (event.target.closest("[data-pv-review]")) { openDialog(); return; }
         if (event.target.closest("[data-pv-dialog-cancel]")) { closeDialog(); return; }
-        if (event.target.closest("[data-pv-publish]")) void publish();
+        if (event.target.closest("[data-pv-publish]")) { void publish(); return; }
+        if (event.target.closest("[data-pv-open-evals]") && active.dialog) {
+          const { feature } = parseKey(active.dialog.key), rows = rowsFor(active.dialog.key);
+          const draft = LOCALES.map(([locale]) => rows[locale].draft).find(Boolean);
+          active.dialog = null;
+          window.NilazaOpenEvals?.({ feature: evalFeature(feature), targetKind: "prompt_version", targetId: draft?.id });
+        }
       };
       container.onsubmit = event => {
         const form = event.target.closest("[data-pv-form]");
@@ -456,16 +507,17 @@
       };
       container.onchange = event => {
         if (event.target.matches?.("[data-pv-filter]") && active) { active.filter = event.target.value; render(); }
+        if (active?.dialog && event.target.matches?.("[data-gate-reason]")) { active.dialog.bypass.reason = event.target.value; refreshDialogControls(); }
       };
       container.oninput = event => {
         if (!active || active.container !== container) return;
         if (event.target.id === "pv-publish-note" && active.dialog) {
           active.dialog.note = event.target.value;
-          const length = event.target.value.trim().length;
-          const confirm = container.querySelector("[data-pv-publish]");
-          if (confirm) confirm.disabled = active.busy || length < 10 || length > 500;
+          refreshDialogControls();
           return;
         }
+        if (active.dialog && event.target.matches?.("[data-gate-note]")) { active.dialog.bypass.note = event.target.value; refreshDialogControls(); return; }
+        if (active.dialog && event.target.matches?.("[data-gate-reason]")) { active.dialog.bypass.reason = event.target.value; refreshDialogControls(); return; }
         const form = event.target.closest("[data-pv-form]");
         if (!form) return;
         const key = form.dataset.pvForm, values = formFor(key), locale = event.target.dataset?.pvLocale;

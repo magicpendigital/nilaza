@@ -106,15 +106,12 @@ test("every manifest route stays reachable and every navigation item resolves to
     assert.equal(frame.getAttribute("src").split("#")[0], `./${workspace.entry}`);
     assert.equal(doc.querySelector("#pending-page").hidden, true);
   }
-  // Sub-pages of one item appear as tabs; the honest pages name their step.
+  // A6: Chạy thử & chấm điểm opens the AI Studio Test route (ai-evals.js) instead of the pending page.
   doc.querySelector('[data-nav="evals"]').click();
   await drain(dom);
-  assert.equal(window.location.hash, "#/pending/evals");
-  assert.match(doc.querySelector("#pending-page").textContent, /bước A6/);
-  assert.match(doc.querySelector("#route-bar").textContent, /Kết quả chạy thử/);
-  doc.querySelector('[data-route="test"]').click();
-  await drain(dom);
   assert.equal(window.location.hash, "#/ai-studio/test");
+  assert.equal(doc.querySelector("#pending-page").hidden, true);
+  assert.ok(!Object.hasOwn(window.NilazaAdminNav.pendingPages, "evals"), "the A2 pending page for evals is gone");
   doc.querySelector('[data-nav="providers"]').click();
   await drain(dom);
   doc.querySelector('[data-route="providers"]').click();
@@ -465,7 +462,8 @@ async function overviewHarness({ capabilities = ["hub.read", "ai.read", "safety.
 
 test("Tổng quan shows AI switch lights, new feedback and recent AI errors from existing RPCs, and no invented cost", async () => {
   const h = await overviewHarness();
-  assert.deepEqual(h.calls.map((call) => [call[0], call[2]]).sort(), [["get_ai_feature_switches", "ai.read"], ["get_ai_feedback_inbox", "safety.review"], ["search_ai_trace_runs", "ai.read"]]);
+  assert.deepEqual(h.calls.map((call) => [call[0], call[2]]).sort(), [["get_ai_feature_switches", "ai.read"], ["get_ai_feedback_inbox", "safety.review"], ["list_ai_release_gate_pending", "ai.read"], ["search_ai_trace_runs", "ai.read"]]);
+  assert.doesNotMatch(h.doc.querySelector("#overview-content").textContent, /Chưa chấm/, "no reminder when nothing waits for scoring");
   assert.deepEqual(plain(h.calls.find((call) => call[0] === "get_ai_feedback_inbox")[1]), { limit_count: 100, status_filter: "open", feature_filter: null });
   assert.equal(h.calls.find((call) => call[0] === "search_ai_trace_runs")[1].status_filter, "error");
   const text = h.doc.querySelector("#overview-content").textContent;

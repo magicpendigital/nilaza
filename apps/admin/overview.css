@@ -30,4 +30,8 @@ h2 { margin: 0 0 10px; font: 400 22px/1.2 "EB Garamond", Georgia, serif; }
 .button:disabled { opacity: .5; cursor: wait; }
 .button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 .not-applied { border-color: rgba(201, 164, 92, .45); }
+/* Admin A6: reminder for versions published without scoring ("Chưa chấm"). */
+.reminder { border-color: rgba(201, 164, 92, .7); }
+.pill.badge-unscored { display: inline-block; padding: 2px 10px; border-radius: 999px; border: 1px solid rgba(201, 164, 92, .7); color: #f6d58f; font-size: .8em; }
+.error-list li.overdue { color: #f1aab4; }
 @media (max-width: 560px) { .overview-page { padding: 16px; } .overview-header { flex-direction: column; } }

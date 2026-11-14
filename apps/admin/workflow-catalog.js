@@ -38,7 +38,7 @@
   const tr = [r(f("ai-tarot-reading")), r(s("tarot-prompt.ts")), r(s("ai-request-guard.ts")), r(s("model-router.ts")), r("packages/content/data/tarot-cards.json"), r("packages/agent-config/prompt-library.json")];
   const tarot = g("tarot_reading", t("Diễn giải Tarot", "Tarot interpretation"), tr, [
     n("request_guard", t("Auth + bounded JSON", "Auth + bounded JSON"), "guard", 0, 0, t("Auth trước body có giới hạn. App đã chọn lá; LLM không rút lá.", "Authenticate before bounded body reading. The app selected cards; the LLM does not draw them."), [tr[0], tr[2]], [p("request", "TarotInput", "POST ai-tarot-reading", pass, "personal")], [o("input", "TarotInput", "canonical_cards.input", pass, "personal"), o("userId", "UserId", "reading_save.userId", t("Owner đã xác thực", "Verified owner"))]),
-    n("canonical_cards", t("Đối chiếu lá bài chuẩn", "Canonical card enrichment"), "context", 1, 0, t("Kiểm spread/count, ID duy nhất và orientation; lấy nghĩa/vị trí chuẩn. Sai input kết thúc 400.", "Check spread/count, unique IDs and orientations; enrich canonical meanings/positions. Invalid input ends with 400."), [r(s("tarot-prompt.ts"), "prepareTarotContext"), tr[4]], [p("input", "TarotInput", "request_guard.input", pass, "personal")], [o("context", "CanonicalTarotContext", "prompt_messages.context", t("Lá chuẩn + câu hỏi", "Canonical cards and question"), "personal"), o("language", "Locale", "prompt_lookup.language", t("EN hoặc VI mặc định", "EN or default VI"))]),
+    n("canonical_cards", t("Đối chiếu lá bài chuẩn", "Canonical card enrichment"), "context", 1, 0, t("Kiểm spread/count, ID duy nhất và orientation theo 78 lá chuẩn; nghĩa lá và phong cách bộ bài lấy từ gói nội dung đã phát hành (get_published_content_bundle) khi hợp lệ, không thì từ tarot-cards.json (E4). Sai input kết thúc 400.", "Check spread/count, unique IDs and orientations against the 78 canonical cards; card meanings and the deck reading style come from the published content bundle (get_published_content_bundle) when valid, else from tarot-cards.json (E4). Invalid input ends with 400."), [r(s("tarot-prompt.ts"), "prepareTarotContext"), r(s("tarot-content.ts"), "readPublishedTarotContent"), tr[4]], [p("input", "TarotInput", "request_guard.input", pass, "personal")], [o("context", "CanonicalTarotContext", "prompt_messages.context", t("Lá chuẩn + câu hỏi", "Canonical cards and question"), "personal"), o("language", "Locale", "prompt_lookup.language", t("EN hoặc VI mặc định", "EN or default VI"))]),
     n("prompt_lookup", t("Đọc global prompt active", "Read active global prompt"), "prompt", 2, 0, t("Theo locale/published_at; thiếu, sai, lỗi hoặc timestamp cạnh tranh chuyển local degraded, giữ lý do.", "Select by locale/published_at; missing/invalid/unavailable or competing timestamps use local degraded mode with a reason."), [r(s("tarot-prompt.ts"), "resolveTarotPrompt")], [p("language", "Locale", "canonical_cards.language", pass)], [o("prompt", "PromptSelection", "prompt_messages.prompt", t("Prompt + provenance", "Prompt and provenance"))]),
     n("local_prompt", t("Prompt chuẩn local", "Canonical local prompt"), "prompt", 2, 1, t("Fallback pinned prompt-library; không phải bản cloud vừa publish.", "Pinned prompt-library fallback; not a newly published cloud version."), [tr[1], tr[5]], [], [o("prompt", "PromptSelection", "prompt_messages.prompt", t("Fallback + lý do", "Fallback and reason"))]),
     n("prompt_messages", t("System + user JSON", "System + user JSON"), "prompt", 3, 0, t("System thêm bounds Tarot bất biến; nghĩa lá/câu hỏi trong user JSON. Không retrieval/vector.", "System adds immutable Tarot bounds; meanings/question remain in user JSON. No retrieval/vector search."), [tr[0]], [p("context", "CanonicalTarotContext", "canonical_cards.context", pass, "personal"), p("prompt", "PromptSelection", "prompt_lookup or local_prompt", pass)], [o("exchange", "ModelExchange", "model_call.exchange", pass, "sensitive")]),
@@ -351,8 +351,12 @@
     "sha256": "0f9a08609a0861fb37dd81ce0fd6969a938c8adab2cc7284b9ef4fd8e742b215"
   },
   {
+    "path": "supabase/functions/_shared/tarot-content.ts",
+    "sha256": "89ada11b0c1fa8a8442c22615cbca83f6b3277d984a21065042f8a7f3e19672e"
+  },
+  {
     "path": "supabase/functions/_shared/tarot-prompt.ts",
-    "sha256": "077ab7f38784b16b99ec66f1567d56452571cfe52033152bd36d8fbcee53add0"
+    "sha256": "b010d4c3475e5463d149f1a567b1a8f5931af22d063e67b71959be0caee0da53"
   },
   {
     "path": "supabase/functions/ai-astrology-insight/index.ts",
@@ -388,7 +392,7 @@
   },
   {
     "path": "supabase/functions/ai-tarot-reading/index.ts",
-    "sha256": "f042ce2e0815b79d32a603ded4b5f1df3cf4f411c1979f5a8cc6396a1c5fa463"
+    "sha256": "970272d16521c6f4f5988a9896ad97067e93af972d8004db26307d3667477b91"
   },
   {
     "path": "supabase/functions/notification-dispatch/index.ts",

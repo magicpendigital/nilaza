@@ -25,7 +25,7 @@ test("reviewed catalog is fresh, typed and distinct across all eight features", 
   assert.equal(result.nodes, 73);
   assert.equal(result.edges, 69);
   assert.equal(result.ports, 205);
-  assert.equal(result.sourceDigests, 39);
+  assert.equal(result.sourceDigests, 40);
   assert.deepEqual(catalog.features.map((feature) => feature.id), FEATURE_IDS);
 });
 

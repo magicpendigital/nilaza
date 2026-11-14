@@ -2,6 +2,8 @@
   // Tổng quan (A2; spec 04/11 §3.2). Reads only existing protected RPCs through the signed-in session helper:
   // AI switches (ai.read), open feedback (safety.review) and recent AI errors (ai.read). Each block shows only
   // when the account has that capability. Costs need a backend reader that does not exist yet.
+  // A6 (spec §5.1): versions published with a quality-gate bypass show as "Chưa chấm" until they are scored, with the
+  // 24-hour deadline (list_ai_release_gate_pending, ai.read, migration 20261113110000).
   const escape = value => String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
   const features = [
     ["persona_chat", "Trò chuyện với người dẫn"],
@@ -19,7 +21,7 @@
   let busy = false;
   let state = fresh();
   function fresh() {
-    return { loaded: false, account: "", switches: { status: "idle", rows: [] }, feedback: { status: "idle", count: 0, capped: false }, errors: { status: "idle", day: 0, rows: [] } };
+    return { loaded: false, account: "", switches: { status: "idle", rows: [] }, feedback: { status: "idle", count: 0, capped: false }, errors: { status: "idle", day: 0, rows: [] }, unscored: { status: "idle", rows: [] } };
   }
   function goButton(hash, label) {
     return `<button type="button" class="button link" data-go="${escape(hash)}">${escape(label)}</button>`;
@@ -59,10 +61,24 @@
     }
     return `<article class="overview-card"><h2>Lỗi AI gần đây</h2>${body}${goButton("#/ai-studio/trace-explorer", "Mở Nhật ký AI")}</article>`;
   }
+  const REASONS = { restore_passed_version: "Khôi phục bản đã đạt", urgent_safety_fix: "Sửa khẩn cấp an toàn" };
+  function renderUnscored() {
+    const block = state.unscored;
+    if (block.status === "denied") return "";
+    // Shown only when something waits for scoring, or when the server cannot answer yet.
+    if (block.status === "ok" && !block.rows.length) return "";
+    let body = `<p class="muted">${block.status === "loading" ? "Đang tải…" : block.status === "missing" ? "Máy chủ chưa có cổng chạy thử (migration 20261113110000)." : block.status === "error" ? "Không tải được danh sách chờ chấm." : "Chưa tải."}</p>`;
+    if (block.status === "ok") {
+      body = `<p>${block.rows.length} bản đang chạy được phát hành khi chưa chấm đủ. Cần chấm lại trong 24 giờ.</p>
+        <ul class="error-list">${block.rows.map(row => `<li class="${row.overdue ? "overdue" : ""}">${escape(featureLabel(row.feature === "astrology_report" ? "astrology_insight" : row.feature))} · ${row.targetKind === "prompt_version" ? `prompt ${escape(String(row.locale || "").toUpperCase())} ${escape(row.version)}` : `cấu hình phiên bản ${escape(row.version)}`}
+          · ${escape(REASONS[row.reason] || "")} · ${row.overdue ? "<strong>Quá hạn</strong>" : "hạn"} ${escape(row.dueAt || "")}</li>`).join("")}</ul>`;
+    }
+    return `<article class="overview-card wide reminder"><h2><span class="pill badge-unscored">Chưa chấm</span> Bản phát hành chờ chấm điểm</h2>${body}${goButton("#/ai-studio/test", "Mở Chạy thử & chấm điểm")}</article>`;
+  }
   function render() {
     const container = document.getElementById("overview-content");
     if (!container) return;
-    const blocks = [renderSwitches(), renderFeedback(), renderErrors(),
+    const blocks = [renderUnscored(), renderSwitches(), renderFeedback(), renderErrors(),
       '<article class="overview-card not-applied"><h2>Chi phí AI</h2><p class="muted">Chưa có số liệu chi phí (cần backend). Chi phí hôm nay và 14 ngày sẽ hiện sau khi máy chủ có hàm đọc ngân sách.</p></article>'];
     container.innerHTML = blocks.join("");
     const reload = document.getElementById("overview-reload");
@@ -90,6 +106,16 @@
     status("Đang tải…");
     const current = () => version === epoch && window.NilazaAdminSession?.userId === account;
     const pending = Promise.all([
+      (async () => {
+        if (!can("ai.read")) { next.unscored.status = "denied"; return; }
+        next.unscored.status = "loading";
+        try {
+          const data = await window.NilazaAdminRpc("list_ai_release_gate_pending", {}, "ai.read");
+          if (!Array.isArray(data)) throw Error("invalid_response");
+          next.unscored.rows = data.filter(row => row && typeof row === "object" && typeof row.feature === "string");
+          next.unscored.status = "ok";
+        } catch (error) { next.unscored.status = error?.missingFunction ? "missing" : "error"; }
+      })(),
       read(next, "switches", "ai.read", async () => {
         const data = await window.NilazaAdminRpc("get_ai_feature_switches", {}, "ai.read");
         if (!Array.isArray(data)) throw Error("invalid_response");

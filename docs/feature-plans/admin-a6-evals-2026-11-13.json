@@ -1,0 +1,264 @@
+{
+  "schemaVersion": 1,
+  "taskId": "admin-a6-evals-2026-11-13",
+  "ownerAgent": "backend_agent",
+  "lane": "SQL + Edge + Admin: Admin redesign step A6 (D6 evals + release gate, D9 feedback triage, E4 Tarot content, Chạy thử & chấm điểm page)",
+  "goal": "Give the Owner a measured release gate for AI changes (AI-07, spec 3.12 and 5.1): migration D6 adds eval sets, cases (synthetic inputs, no personal data, a crisis case required), runs (draft vs active, cost, 10 USD eval budget) and per-case results with blind A/B manual scoring; publish_ai_feature_config and publish_prompt_version refuse a draft whose latest eval run did not pass the automatic safety layer (never bypassable) and, for the quality layer (>= 8/10 cases, voice not worse than active), accept only an ai.manage bypass with reason restore_passed_version or urgent_safety_fix plus a note, marking the version 'Chưa chấm' with a 24 h re-score reminder. A prepared Edge Function admin-ai-eval-run runs a set against the draft and the active configuration through the real model route. Migration D9 adds assignee, severity and internal note to user feedback. E4: Tarot reads card meanings and the deck reading style from the published content bundle, falling back to tarot-cards.json (AD-05). Nothing is applied or deployed by the agent.",
+  "successCriteria": [
+    "Migration 20261113110000 creates ai_eval_sets, ai_eval_cases, ai_eval_runs and ai_eval_results (RLS on, no client table grants), RPCs list_ai_eval_sets / get_ai_eval_run / list_ai_eval_runs / get_ai_eval_gate / list_ai_release_gate_pending (ai.read), save_ai_eval_set and score_ai_eval_result (ai.manage or ai.read+content.draft), start_ai_eval_run and finish_ai_eval_run (service_role only, called by the Edge Function after its own capability check); case inputs refuse email or phone patterns and per-feature unknown keys; a run needs at least one crisis case; the eval budget is 10 USD in total with reservation before any model call.",
+    "publish_ai_feature_config and publish_prompt_version keep their signatures (create or replace in the new migration; 090000/090100/090200/095000 untouched) and refuse with NZE01 unless the latest completed run for that exact draft content (digest) passed the safety layer (every draft result format+safety pass, crisis cases answered with the 115 support text); the quality layer passes with >= 8/10 non-crisis cases scored >= 7 and draft voice >= active voice, or when the draft content equals a version that previously published with gate passed; otherwise only publish_*_bypass (ai.manage, reason restore_passed_version | urgent_safety_fix, note >= 10) publishes, setting gate_status bypassed_pending, gate_rescore_due_at = now + 24 h and an audit row ai.release_gate.bypass; scoring the run later sets bypassed_scored.",
+    "Migration 20261113110100 adds assignee_id, severity (safety/quality/technical) and internal_note to nilaza_private.ai_feedback, allows daily_insight feedback, and adds review_ai_feedback_v2 and list_ai_feedback_assignees (safety.review) without exposing user email or text.",
+    "Edge Function admin-ai-eval-run (prepared, verify_jwt true, registered like the other admin functions) checks ai.manage or ai.read+content.draft with the signed-in session, starts the run with the service key, runs each case against draft and active using generateWithModelRoute as-is and the real prompt assembly (persona chat, Oracle, Tarot, Daily, Council), checks crisis cases with crisis-safety.ts without calling a model, stops at the reserved budget, records results and cost, and never logs case text.",
+    "ai-tarot-reading builds card meanings and deck readingStyle from get_published_content_bundle when it holds valid data for the chosen deck, otherwise from tarot-cards.json; the response shape and deterministic card ids are unchanged; trace metadata names the card context source.",
+    "Admin: Chạy thử & chấm điểm page (sets/cases editor, run with cost estimate and budget, results table, blind A/B scoring); gate status in the publish dialogs of Tính năng AI and Prompt & phiên bản (publish disabled until the safety layer passed; Owner-only bypass form); 'Chưa chấm' badges and an Overview reminder; Feedback page with assignee, severity, internal note, Mở Nhật ký AI, Thêm vào bộ câu mẫu (sanitized, editor confirms) and Đã xong; missing-RPC messages name the migration; all text escaped.",
+    "PGlite replay of every migration plus the new ones covers the permission matrix, gate refusals, bypass rules, restore rule and budget cap; Deno tests and deno check pass for the eval function and the Tarot content fallback; admin:test (with scripts/admin-a6-evals.test.mjs), validate-admin-contract, validate:backend, supabase:check, validate-admin-workflow-catalog and preflight --ci pass (known Windows CRLF-only failures excepted)."
+  ],
+  "writeScope": [
+    "supabase/migrations/20261113110000_ai_eval_release_gate.sql",
+    "supabase/migrations/20261113110100_ai_feedback_triage.sql",
+    "supabase/functions/admin-ai-eval-run/index.ts",
+    "supabase/functions/admin-ai-eval-run/runner.ts",
+    "supabase/functions/admin-ai-eval-run/runner_test.ts",
+    "supabase/functions/_shared/tarot-content.ts",
+    "supabase/functions/_shared/tarot-content_test.ts",
+    "supabase/functions/_shared/tarot-prompt.ts",
+    "supabase/functions/ai-tarot-reading/index.ts",
+    "supabase/functions/README.md",
+    "supabase/config.toml",
+    "scripts/check-supabase-readiness.mjs",
+    "scripts/validate-backend-contracts.mjs",
+    "apps/admin/ai-evals.js",
+    "apps/admin/ai-studio.html",
+    "apps/admin/app.js",
+    "apps/admin/shell.js",
+    "apps/admin/ai-features.js",
+    "apps/admin/prompt-versions.js",
+    "apps/admin/feedback-inbox.js",
+    "apps/admin/overview.js",
+    "apps/admin/workspace-guard.js",
+    "apps/admin/styles.css",
+    "apps/admin/workflow-catalog.js",
+    "scripts/admin-a6-evals.test.mjs",
+    "scripts/admin-a2-navigation.test.mjs",
+    "scripts/validate-admin-contract.mjs",
+    "package.json",
+    "apps/admin/release-gate.js",
+    "apps/admin/overview.css",
+    "scripts/admin-workflow-catalog.test.mjs"
+  ],
+  "untouchedSurfaces": [
+    "supabase/functions/_shared/model-router.ts, model-provider.ts and providers/* belong to the parallel A7 agent; generateWithModelRoute is called as-is.",
+    "Applied migrations 20261113090000/090100/090200 and the prepared 20261113095000 are not edited; the gate replaces the two publish functions in the new migration.",
+    "publish_astrology_prompt_pair (AI Studio Astrology prompt pair) and the model route publish path are not gated in this step (residual risk).",
+    "Astrology insight has no eval adapter yet: runs for astrology_insight / astrology_report targets are refused, so the gate blocks publishing those targets through the new RPCs until an adapter exists.",
+    "Mobile app, persona chat, Council, Oracle, Daily and Astrology runtime code are unchanged; Tarot and Daily still do not show the 115 card themselves (the eval crisis check uses the shared crisis-safety code).",
+    "PLAN.md and docs/backlog/review-2026-10-30.json are not edited (coordinator updates them); nothing applied, deployed or pushed."
+  ],
+  "impact": {
+    "entryPoint": "Admin left navigation Chạy thử & chấm điểm (ai-studio test route, replaces the A2 pending page); publish dialogs in Tính năng AI and Prompt & phiên bản; Phản hồi người dùng; Tổng quan reminder. Edge Function admin-ai-eval-run (POST). ai-tarot-reading (unchanged route).",
+    "dataWrite": "New tables public.ai_eval_sets, ai_eval_cases, ai_eval_runs, ai_eval_results; new nullable gate columns on ai_feature_configs and prompt_versions; nilaza_private.ai_feedback gains assignee_id, severity, internal_note; audit rows ai.eval.* and ai.release_gate.bypass.",
+    "backendContract": "publish_ai_feature_config / publish_prompt_version keep their arguments but now refuse ungated drafts (NZE01 safety, NZE02 quality); new bypass RPCs; review_ai_feedback_v2. Tarot response shape unchanged; card text may come from the published content bundle.",
+    "adminVisibility": "Eval sets, run history with cost and budget, blind scores, gate status per draft, 'Chưa chấm' badges, overdue re-score reminder, feedback triage fields.",
+    "privacySafety": "Eval inputs are synthetic and refused when they look like an email or phone number; 'Thêm vào bộ câu mẫu' copies only text the editor types or pastes, after stripping emails, phone numbers and capitalised names, with an explicit confirmation; feedback still has no user text; crisis cases never reach a model; eval traces use strict redaction.",
+    "observability": "Every eval model call goes through generateWithModelRoute traces (feature name, strict redaction, metadata evalRunId); run cost from OpenRouter receipts, unknown cost counted at the 0.02 USD estimate.",
+    "rollback": "Re-create the previous publish functions from 090100/095000 (one create or replace) to remove the gate; drop the eval tables; Tarot falls back to tarot-cards.json whenever the bundle is missing or invalid, and redeploying the previous ai-tarot-reading restores the old behaviour."
+  },
+  "canonicalContracts": [
+    "supabase/functions/_shared/model-router.ts generateWithModelRoute (called as-is)",
+    "supabase/functions/_shared/crisis-safety.ts safetyRedirectFor and packages/ai-contracts/oracle-safety.mjs (crisis and 115 text)",
+    "packages/ai-contracts/tarot-output.ts checkTarotOutputText (Tarot format check)",
+    "supabase/migrations/20261113090100_ai_feature_configs.sql and 20261113095000_prompt_versions_admin_publish.sql publish bodies (copied with the gate added)",
+    "apps/admin/content-sync.js compact bundle shape (decks[].readingStyle, baseCards, cards[] overrides)"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "SQL, deploy and secrets need Owner approval each time.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Backend, AI runtime and Admin routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules and record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/admin/AGENTS.md",
+      "reason": "Admin protected architecture: keep the Test and Version routes, additive modules.",
+      "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8"
+    },
+    {
+      "path": "docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md",
+      "reason": "Sections 3.7 part 8, 3.12, 3.13, 5, 5.1, rows D6, D9, E4 and A6.",
+      "sha256": "7eaf7aa64f6827ad96659b06ed7212ce667487f286ad50b717fc04d55c5c69ab"
+    },
+    {
+      "path": "docs/backlog/review-2026-10-30.json",
+      "reason": "AI-07, AI-08, AI-12, AI-17, AD-05.",
+      "sha256": "a372932e4d662bfea12a41f1be5384fd734ab6af7ed4a8d66987f6eb0d8f6791"
+    },
+    {
+      "path": "supabase/migrations/20261113090100_ai_feature_configs.sql",
+      "reason": "publish_ai_feature_config body and gate columns.",
+      "sha256": "5556bfd9ff4f2649d244cba6dbc242c3abedc97a3f8f9dc067f63959b49de04e"
+    },
+    {
+      "path": "supabase/migrations/20261113090200_ai_feature_config_editor_drafts.sql",
+      "reason": "Editor draft rule (ai.manage or ai.read+content.draft).",
+      "sha256": "1f58d09bec06ea9415f4447b65a508ec9f6cf82ad7f13e74985772b70844bdcb"
+    },
+    {
+      "path": "supabase/migrations/20261113095000_prompt_versions_admin_publish.sql",
+      "reason": "publish_prompt_version body, prompt_version_json and audit list.",
+      "sha256": "94ec846618ee452a759519f514630ff7526a5407b300450675341d4aa2fbd90a"
+    },
+    {
+      "path": "supabase/migrations/20261014080754_ai_feedback_receipts_v1.sql",
+      "reason": "ai_feedback table and review RPC.",
+      "sha256": "c8212aa7452d7e759c37f0179af32505410efce845dfad0c7346c58f835eb69c"
+    },
+    {
+      "path": "supabase/migrations/20261031090000_ai_feedback_conversation_features.sql",
+      "reason": "Current feedback feature lists.",
+      "sha256": "ad97adf681ce5e5e95ab8aaf92464cf7629a0c1aea4766d801cf761984593007"
+    },
+    {
+      "path": "supabase/migrations/20260917172721_admin_content_sync.sql",
+      "reason": "get_published_content_bundle (security invoker, authenticated).",
+      "sha256": "18b50345904d8d6074e56db3aa6400aa24392ea1d61a96e0672a2f8113833ac8"
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "reason": "generateWithModelRoute inputs, result attempts and billing receipts (read only).",
+      "sha256": "a34eb4da0fe03fbdc10f8a3c9a55a65533182ed9f1f3fd6a9b12c0e4ed92eecb"
+    },
+    {
+      "path": "supabase/functions/_shared/crisis-safety.ts",
+      "reason": "Crisis check reused for crisis cases.",
+      "sha256": "a4a2f7924f4057dc30de125ccd4f2d79b89384c7b4626933863f3b6f1de58b21"
+    },
+    {
+      "path": "supabase/functions/_shared/tarot-prompt.ts",
+      "reason": "Card context built from tarot-cards.json (E4).",
+      "sha256": "b010d4c3475e5463d149f1a567b1a8f5931af22d063e67b71959be0caee0da53"
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/index.ts",
+      "reason": "Tarot runtime (E4).",
+      "sha256": "970272d16521c6f4f5988a9896ad97067e93af972d8004db26307d3667477b91"
+    },
+    {
+      "path": "supabase/functions/admin-model-router-config/index.ts",
+      "reason": "Admin Edge auth pattern.",
+      "sha256": "52025e353e0f29a2393803d6d8e578eb7cb0a1a4bdf2401c4ff7348c02bc784e"
+    },
+    {
+      "path": "supabase/functions/ai-oracle-turn/handler.ts",
+      "reason": "Oracle handler factory reused by the eval runner.",
+      "sha256": "6c5788da0f0bb0cff37f9315ba24d520aa08ef22e0516697f47458f71525c0fc"
+    },
+    {
+      "path": "supabase/functions/ai-council/index.ts",
+      "reason": "Council request and output parse mirrored by the eval adapter.",
+      "sha256": "fccd3fb870fe79415c2eaf839eb3868c3afb2ed381caf0ff310bfff56320a3c4"
+    },
+    {
+      "path": "supabase/functions/_shared/persona-prompt-assembler.ts",
+      "reason": "Persona prompt reads (draft override in the eval adapter).",
+      "sha256": "8582816ec15a8c3ac8f702e4c5ab36b0bd2a69af4c2c55b8393014cfaa6f32e6"
+    },
+    {
+      "path": "apps/admin/ai-features.js",
+      "reason": "Publish dialog to gate.",
+      "sha256": "22e4ac03cbc81be3ac997fa118aea9054739d5e9f03adba0da34dc0388183e49"
+    },
+    {
+      "path": "apps/admin/prompt-versions.js",
+      "reason": "Publish dialog to gate.",
+      "sha256": "b407958144c35e50540065c43db2eda253941c71ade52beab34d7960ec3b9962"
+    },
+    {
+      "path": "apps/admin/feedback-inbox.js",
+      "reason": "Feedback triage.",
+      "sha256": "fdcf45534a071e65f6f63a4f0a5accfe6ec96012f899226b362ede2e8ae870e9"
+    },
+    {
+      "path": "apps/admin/overview.js",
+      "reason": "Overview reminder.",
+      "sha256": "776a138556b12746978d8644146bd0ed675c7143a833d4a34c6bf4b731ab5ec6"
+    },
+    {
+      "path": "apps/admin/shell.js",
+      "reason": "Pending evals page and navigation.",
+      "sha256": "9e75f0fa55f0591eedc41ee4da718c2a7ea645c408f8e2210a2a1ca59ce277e4"
+    },
+    {
+      "path": "apps/admin/app.js",
+      "reason": "AI Studio test route.",
+      "sha256": "c72091397d64dab25173022993030a67baed7eceed468084b81ada6ad511cd98"
+    },
+    {
+      "path": "apps/admin/workspace-guard.js",
+      "reason": "RPC and Edge allowlists.",
+      "sha256": "725903a43cce4bf761bf72b5d3b5c0749365141c765d28bc4bb38add82cbb794"
+    },
+    {
+      "path": "apps/admin/content-sync.js",
+      "reason": "Published bundle compact card shape.",
+      "sha256": "7ff2fa0e41ef4b4fc07c7f9c3f35f060b8e6121b9f0789dc9da37d39e885da73"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before the first edit; migrations and deploys left to the Owner by hash; PGlite and local tests only."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Evals call the real route through generateWithModelRoute; crisis replies stay in code and never reach a model; a safety block never falls through; only synthetic case text is sent; Admin fields have runtime consumers."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "PostgreSQL 17 (Supabase) features already used by earlier migrations; PGlite only in the session scratchpad; no repository dependency added."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "Eval tables have RLS with no client policies and no client grants; Admin reads and writes only through security definer RPCs with empty search_path that check has_capability; run start and finish are service_role only and the Edge Function checks the caller's capability with the caller's own session first; publish keeps ai.manage and adds the gate; bypass needs ai.manage.",
+    "sensitiveData": "Case inputs are synthetic; emails and phone numbers are refused by the database and stripped in Admin; feedback stays metadata-only plus staff-written note and severity; no user email is shown for assignees.",
+    "secretsLogging": "No secret read or logged; the Edge Function uses the service key already provided to functions and never logs case or output text.",
+    "externalInput": "RPCs validate feature, keys, lengths, enums, control characters; Admin escapes all text; Tarot bundle values are length-checked and fall back per field.",
+    "dependencies": "No package added.",
+    "migrationRelease": "Owner applies 20261113110000 and 20261113110100 after 20261113095000 by hash, then deploys admin-ai-eval-run and ai-tarot-reading. Until then Admin names the missing migration and publishing works as before.",
+    "stopCondition": "Stop if PGlite, Deno tests, deno check or Admin tests fail, or if the safety layer could be skipped.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Clean tree at start (origin/main 392160b, branch claude/admin-a6-evals); this record and the preflight passed (only the environment-only 'Installed project skills differ' message) and were committed (a9d2769) before the first code edit. Edited afterwards within writeScope: migrations 20261113110000 and 20261113110100 (PGlite full replay of all 45 migrations, 78 checks), Edge function admin-ai-eval-run with runner and Deno tests, Tarot E4 (tarot-content.ts, tarot-prompt.ts, ai-tarot-reading), function registration (config.toml, README, readiness and backend-contract scripts), Admin modules ai-evals.js and release-gate.js plus wiring in ai-features.js, prompt-versions.js, feedback-inbox.js, overview.js/.css, shell.js, app.js, ai-studio.html, workspace-guard.js, styles.css, workflow-catalog digests, and jsdom tests. sourceReview hashes of the files this task edited were refreshed after the edits: supabase/functions/_shared/tarot-prompt.ts, supabase/functions/ai-tarot-reading/index.ts, apps/admin/ai-features.js, apps/admin/prompt-versions.js, apps/admin/feedback-inbox.js, apps/admin/overview.js, apps/admin/shell.js, apps/admin/app.js, apps/admin/workspace-guard.js. Review fixes (same write scope): migration 20261113110000 seeds one starter eval set per supported feature (2 crisis + 5 normal cases) so the first publish is possible, and start_ai_eval_run / finish_ai_eval_run need at least one normal case for the safety layer to pass; tarot-content.ts drops bundle text with prompt-injection markers; release-gate.js says Astrology has no eval adapter; admin-ai-eval-run maps eval_set_needs_normal_case.",
+    "paths": []
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/admin-a6-evals-2026-11-13.json",
+    "node <scratchpad>/pglite-a6/verify.mjs <repo>",
+    "npx --yes deno@2 test --allow-env --allow-read supabase/functions/admin-ai-eval-run supabase/functions/_shared/tarot-content_test.ts supabase/functions/_shared/tarot-prompt.test.ts (and all 214 tests under supabase/functions)",
+    "npx --yes deno@2 check supabase/functions/admin-ai-eval-run/index.ts supabase/functions/ai-tarot-reading/index.ts",
+    "npm run admin:test && node scripts/validate-admin-contract.mjs && node scripts/validate-admin-workflow-catalog.mjs",
+    "npm run validate:backend && npm run supabase:check",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "After the Owner applies the two migrations and deploys admin-ai-eval-run: open Admin › Chạy thử & chấm điểm, create a Tarot set with 10 normal cases and 1 crisis case, save a Tarot prompt draft, run the set (cost shown), score A/B blindly; open Prompt & phiên bản › Xem lại & phát hành: publish is enabled only after the safety layer passed; with fewer than 8/10 passing only the Owner sees the bypass form; a bypassed version shows 'Chưa chấm' and Tổng quan reminds until it is scored.",
+  "residualRisk": "PGlite is not Supabase: re-run the Security Advisor after applying. Eval runs cost real model money (capped at 10 USD in total). Astrology has no eval adapter, so Astrology configs and astrology_report prompt versions cannot pass the gate through the new RPCs; publish_astrology_prompt_pair stays ungated. Tarot and Daily screens do not show the 115 card; the eval crisis check uses the shared crisis-safety detector. Quality thresholds (case pass >= 7/10 average) are provisional until the editorial team sets the numbers in brackets.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
