@@ -39,6 +39,7 @@
       "description": "Workflows, prompts, personas, models, tests, and audit",
       "routes": [
         { "id": "features", "label": "AI Features" },
+        { "id": "context", "label": "AI Context Data" },
         { "id": "workflow", "label": "Workflow" },
         { "id": "prompt", "label": "Prompt Composer" },
         { "id": "persona-studio", "label": "Persona Studio" },

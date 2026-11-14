@@ -27,14 +27,20 @@ export function sanitizeNickname(value: unknown): string | undefined {
   return cleanLine(value, MAX_NICKNAME_CHARS);
 }
 
-/** At most 5 goals of at most 60 characters each; empty and duplicate goals are dropped. */
-export function boundedGoals(value: unknown): string[] {
+/**
+ * At most 5 goals of at most 60 characters each; empty and duplicate goals are dropped. A context config may lower
+ * both numbers (context-config.ts); they are clamped here again so nothing can raise them above today's caps.
+ */
+export function boundedGoals(value: unknown, maxItems = MAX_GOALS, maxChars = MAX_GOAL_CHARS): string[] {
   if (!Array.isArray(value)) return [];
+  const items = Number.isFinite(maxItems) ? Math.max(0, Math.min(MAX_GOALS, Math.trunc(maxItems))) : MAX_GOALS;
+  const chars = Number.isFinite(maxChars) ? Math.max(1, Math.min(MAX_GOAL_CHARS, Math.trunc(maxChars))) : MAX_GOAL_CHARS;
   const goals: string[] = [];
+  if (!items) return goals;
   for (const item of value) {
-    const goal = cleanLine(item, MAX_GOAL_CHARS);
+    const goal = cleanLine(item, chars);
     if (goal && !goals.includes(goal)) goals.push(goal);
-    if (goals.length === MAX_GOALS) break;
+    if (goals.length === items) break;
   }
   return goals;
 }
@@ -52,6 +58,19 @@ export function localDateTime(now = new Date(), offsetMinutes = accountTierPolic
   return `${local.toISOString().slice(0, 16).replace("T", " ")} (UTC${offset})`;
 }
 
+/**
+ * Which values to include (Owner request 14/11, ai_context_configs via context-config.ts). An absent field keeps
+ * today's behaviour; false leaves the value out. It can only remove or shorten values: language is always sent and
+ * nothing can be added.
+ */
+export type UserDataPolicy = {
+  nickname?: boolean;
+  goals?: { enabled: boolean; maxItems: number; maxChars: number };
+  tone?: boolean;
+  localDateTime?: boolean;
+  recentMood?: boolean;
+};
+
 export type UserDataInput = {
   language: string;
   nickname?: unknown;
@@ -62,21 +81,28 @@ export type UserDataInput = {
   /** Server-made values only (e.g. Daily dateKey); never free user text. */
   extra?: Record<string, string | number | boolean | null>;
   now?: Date;
+  policy?: UserDataPolicy;
 };
+
+/** Names a policy controls; extra values can never fill them in after a block is switched off. */
+const POLICY_KEYS = new Set(["language", "localDateTime", "nickname", "goals", "tone", "recentMood"]);
 
 /** The cleaned values the block will contain (also used for trace metadata). */
 export function userDataValues(input: UserDataInput) {
   const language: DataLanguage = input.language === "en" ? "en" : "vi";
-  const values: Record<string, unknown> = { language, localDateTime: localDateTime(input.now) };
-  const nickname = sanitizeNickname(input.nickname);
+  const policy = input.policy ?? {};
+  // Same key order as before ai_context_configs, so the default block is byte-identical.
+  const values: Record<string, unknown> = { language };
+  if (policy.localDateTime !== false) values.localDateTime = localDateTime(input.now);
+  const nickname = policy.nickname === false ? undefined : sanitizeNickname(input.nickname);
   if (nickname) values.nickname = nickname;
-  const goals = boundedGoals(input.goals);
+  const goals = policy.goals?.enabled === false ? [] : boundedGoals(input.goals, policy.goals?.maxItems, policy.goals?.maxChars);
   if (goals.length) values.goals = goals;
-  const tone = allowedTone(input.tone);
+  const tone = policy.tone === false ? undefined : allowedTone(input.tone);
   if (tone) values.tone = tone;
-  if (input.recentMood) values.recentMood = cleanLine(input.recentMood, 32);
+  if (input.recentMood && policy.recentMood !== false) values.recentMood = cleanLine(input.recentMood, 32);
   for (const [key, value] of Object.entries(input.extra ?? {})) {
-    if (/^[a-zA-Z][a-zA-Z0-9]{0,31}$/.test(key) && !(key in values)) values[key] = typeof value === "string" ? cleanLine(value, 80) ?? null : value;
+    if (/^[a-zA-Z][a-zA-Z0-9]{0,31}$/.test(key) && !POLICY_KEYS.has(key) && !(key in values)) values[key] = typeof value === "string" ? cleanLine(value, 80) ?? null : value;
   }
   return { language, values };
 }

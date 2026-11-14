@@ -10,6 +10,7 @@ import { featurePaused, featurePausedBody } from "../_shared/feature-switch.ts";
 import { globalPromptMetadata, resolveGlobalPrompt } from "../_shared/global-prompt.ts";
 import { userDataValues } from "../_shared/ai-user-context.ts";
 import { assembleCouncilSystem, boundCouncilHistory, councilUserMessage } from "./council-prompt.ts";
+import { blockEnabled, blockLimit, contextPolicyFor, contextPolicyMetadata, userDataPolicy } from "../_shared/context-config.ts";
 
 type Language = "vi" | "en" | string;
 
@@ -429,12 +430,20 @@ serve(async (req) => {
     // Admin A5: configured guide from prompt_versions (ai_council) with the prompt-library fallback, then locked rules.
     const systemPrompt = await resolveGlobalPrompt(supabase, "ai_council", language);
     const systemPromptMetadata = globalPromptMetadata(systemPrompt);
+    // Owner request 14/11: Admin may switch data blocks off or shorten them (ai_context_configs); defaults = today.
+    // Crisis screening above already ran on the full question; the allowance still counts the app's history.
+    const contextPolicy = await contextPolicyFor("ai_council");
+    const dataPolicy = userDataPolicy(contextPolicy);
     // AI-05: user context goes in the data block, history is bounded on the server.
-    const sanitizedHistory = boundCouncilHistory(input.sanitizedHistory);
-    const contextSent = userDataValues({ language, nickname: input.userContext?.nickname, goals: input.userContext?.goals, tone: input.userContext?.tone }).values;
+    const sanitizedHistory = blockEnabled(contextPolicy, "history")
+      ? boundCouncilHistory(input.sanitizedHistory, { turns: blockLimit(contextPolicy, "history", "turns"), chars: blockLimit(contextPolicy, "history", "chars") })
+      : [];
+    const contextSent = userDataValues({ language, nickname: input.userContext?.nickname, goals: input.userContext?.goals, tone: input.userContext?.tone, policy: dataPolicy }).values;
     const generation = await generateWithModelRoute({
       feature: "ai_council",
       deadlineMs: featureConfig?.deadlineMs,
+      // Never below the feature floor; rises with the enabled blocks' data class.
+      dataClass: contextPolicy.dataClass,
       supabase,
       traceContext: {
         userId,
@@ -452,7 +461,8 @@ serve(async (req) => {
           ...systemPromptMetadata,
           nicknameSent: "nickname" in contextSent,
           goalCount: Array.isArray(contextSent.goals) ? contextSent.goals.length : 0,
-          historyTurns: sanitizedHistory.length
+          historyTurns: sanitizedHistory.length,
+          ...contextPolicyMetadata(contextPolicy)
         }
       },
       system: assembleCouncilSystem(systemPrompt),
@@ -462,6 +472,7 @@ serve(async (req) => {
           content: councilUserMessage({
             language,
             userContext: input.userContext,
+            dataPolicy,
             request: {
               language,
               userMessage,

@@ -1,4 +1,4 @@
-import { allowedTone, DATA_BLOCK_RULE, sanitizeNickname, userDataBlock } from "./ai-user-context.ts";
+import { allowedTone, DATA_BLOCK_RULE, sanitizeNickname, userDataBlock, type UserDataPolicy } from "./ai-user-context.ts";
 import { isUsablePromptText } from "./global-prompt.ts";
 
 export { sanitizeNickname };
@@ -224,14 +224,22 @@ async function readPersonaRow(supabase: SupabaseLike, persona: PersonaPayload | 
 /**
  * E3 / AI-05: the person's nickname (CH-13, Owner 04/11), goals and tone go in this labelled data block at the start
  * of the user message, never in the system prompt. Tone keeps the previous default "gentle" when absent or unknown.
+ * When Admin switches the tone block off (ai_context_configs), "gentle" is sent instead of the person's choice.
  */
-export function personaUserDataBlock(language: Language, userContext?: { goals?: unknown; tone?: unknown; nickname?: unknown }, now?: Date): string {
+export function personaUserDataBlock(
+  language: Language,
+  userContext?: { goals?: unknown; tone?: unknown; nickname?: unknown },
+  now?: Date,
+  policy?: UserDataPolicy
+): string {
+  const toneOff = policy?.tone === false;
   return userDataBlock({
     language: String(language || "vi"),
     nickname: userContext?.nickname,
     goals: userContext?.goals,
-    tone: allowedTone(userContext?.tone) ?? "gentle",
-    now
+    tone: (toneOff ? undefined : allowedTone(userContext?.tone)) ?? "gentle",
+    now,
+    policy: policy ? { ...policy, tone: true } : undefined
   });
 }
 

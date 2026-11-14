@@ -2,7 +2,7 @@
 // locked rules that hold every instruction the function sent before A5. Nickname, goals, tone, the 24-hour mood label
 // (Owner 04/11) and server local time travel in the data block of the user message, never in the system prompt.
 import { compactLines } from "../_shared/model-provider.ts";
-import { DATA_BLOCK_RULE, userDataBlock } from "../_shared/ai-user-context.ts";
+import { DATA_BLOCK_RULE, userDataBlock, type UserDataPolicy } from "../_shared/ai-user-context.ts";
 import type { GlobalPrompt } from "../_shared/global-prompt.ts";
 import { isUsablePromptText } from "../_shared/global-prompt.ts";
 
@@ -32,6 +32,8 @@ export function dailyUserMessage(input: {
   profile?: { nickname?: unknown; goals?: unknown; tone?: unknown };
   recentMood?: string;
   now?: Date;
+  /** Admin switches (ai_context_configs); absent = today's message. dateKey and rerollCount are always sent. */
+  dataPolicy?: UserDataPolicy;
 }): string {
   return userDataBlock({
     language: input.language,
@@ -40,6 +42,7 @@ export function dailyUserMessage(input: {
     tone: input.profile?.tone,
     recentMood: input.recentMood,
     extra: { dateKey: input.dateKey, rerollCount: input.rerollCount },
-    now: input.now
+    now: input.now,
+    policy: input.dataPolicy
   });
 }

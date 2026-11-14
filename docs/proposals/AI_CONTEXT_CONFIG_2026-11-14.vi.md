@@ -270,7 +270,7 @@ Trang mới **"Dữ liệu gửi cho AI"**: route `#context`, nằm trong nhóm 
 
 ## Phần 3 — Phạm vi đợt này
 
-- Migration `20261114090000_ai_context_configs.sql`: bảng, ba RPC, đặc tả SQL. **Chưa áp**, Owner áp theo mã băm.
+- Migration `20261114090200_ai_context_configs.sql`: bảng, ba RPC, đặc tả SQL. **Chưa áp**, Owner áp theo mã băm.
 - `_shared/context-config.ts`: đọc, cache, kẹp, loại dữ liệu. Tệp đặc tả `packages/agent-config/ai-context-blocks.json`.
 - Nối vào `ai-persona-chat`, `ai-daily-insight` và `ai-council` (**cần deploy lại ba hàm này**). Các hàm khác không đổi.
 - Trang Admin `context-config.js` và các bài kiểm tra.

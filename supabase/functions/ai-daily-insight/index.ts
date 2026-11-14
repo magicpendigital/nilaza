@@ -11,6 +11,7 @@ import { recentMoodFor } from "../_shared/daily-mood.ts";
 import { sanitizeNickname, userDataValues } from "../_shared/ai-user-context.ts";
 import { globalPromptMetadata, resolveGlobalPrompt } from "../_shared/global-prompt.ts";
 import { assembleDailySystem, dailyUserMessage } from "./daily-prompt.ts";
+import { blockEnabled, contextPolicyFor, contextPolicyMetadata, userDataPolicy } from "../_shared/context-config.ts";
 
 type DailyInsightInput = {
   language?: "vi" | "en" | string;
@@ -96,10 +97,17 @@ serve(async (req) => {
     const systemPrompt = await resolveGlobalPrompt(supabase, "daily_insight", language);
     const systemPromptMetadata = globalPromptMetadata(systemPrompt);
     const promptRerollCount = Number.isInteger(rerollCount) ? rerollCount : 0;
-    const contextSent = userDataValues({ language, nickname, goals: input.profile?.goals, tone: input.profile?.tone }).values;
+    // Owner request 14/11: Admin may switch data blocks off or shorten goals (ai_context_configs); defaults = today.
+    // The fallback text above still greets by nickname on the device; it is never sent to the model.
+    const contextPolicy = await contextPolicyFor("daily_insight");
+    const dataPolicy = userDataPolicy(contextPolicy);
+    const moodToSend = blockEnabled(contextPolicy, "recentMood") ? recentMood : undefined;
+    const contextSent = userDataValues({ language, nickname, goals: input.profile?.goals, tone: input.profile?.tone, policy: dataPolicy }).values;
     const generation = await generateWithModelRoute({
       feature: "daily_insight",
       deadlineMs: featureConfig?.deadlineMs,
+      // Never below the feature floor; rises with the enabled blocks' data class.
+      dataClass: contextPolicy.dataClass,
       supabase,
       traceContext: {
         userId,
@@ -109,9 +117,10 @@ serve(async (req) => {
           rerollCount,
           goalCount: Array.isArray(contextSent.goals) ? contextSent.goals.length : 0,
           nicknameSent: "nickname" in contextSent,
-          moodSent: Boolean(recentMood),
+          moodSent: Boolean(moodToSend),
           promptVersionId: "daily_insight_system",
-          ...systemPromptMetadata
+          ...systemPromptMetadata,
+          ...contextPolicyMetadata(contextPolicy)
         }
       },
       system: assembleDailySystem(systemPrompt),
@@ -119,7 +128,7 @@ serve(async (req) => {
         {
           role: "user",
           // E3 / AI-05: every user value sits in the labelled data block, bounded and JSON-encoded.
-          content: dailyUserMessage({ language, dateKey, rerollCount: promptRerollCount, profile: { nickname, goals: input.profile?.goals, tone: input.profile?.tone }, recentMood })
+          content: dailyUserMessage({ language, dateKey, rerollCount: promptRerollCount, profile: { nickname, goals: input.profile?.goals, tone: input.profile?.tone }, recentMood: moodToSend, dataPolicy })
         }
       ],
       fallbackText
@@ -145,7 +154,7 @@ serve(async (req) => {
             rerollCount,
             goals: input.profile?.goals ?? [],
             tone: input.profile?.tone ?? null,
-            moodSent: Boolean(recentMood),
+            moodSent: Boolean(moodToSend),
             promptVersionId: "daily_insight_system",
             ...systemPromptMetadata,
             model: sanitizeProviderMetadata(generation)
