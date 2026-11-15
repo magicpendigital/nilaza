@@ -10,6 +10,7 @@ description: Plan and quality-control Nilaza project tasks before implementation
 1. `git fetch` and work from the latest `origin/main`; a stale checkout once sat 84 commits behind GitHub.
 2. Read `PLAN.md` first: goal, Owner decisions, open work with review IDs, approvals waiting. Open `docs/HANDOFF_CURRENT_STATE.vi.md`, `AGENTS.md`, `docs/AGENT_TASK_ROUTER.md` or `docs/PLAN_QC_PROTOCOL.md` only for what the task needs.
 3. Finish every PR or session by updating `PLAN.md` in the same PR: status, PR number, "last updated". When a review item closes, update its `status`, `pr` and `note` in `docs/backlog/review-2026-10-30.json`.
+4. When a feature is done, close the loop under the Delivery rule in "Owner approval boundary": report to the Owner, ask once for approval to commit, merge and push to `main`, then deliver and clean up. Finished work must not stay only on a side branch.
 
 ## Workflow
 
@@ -43,7 +44,11 @@ Cross-cutting work (auth, notifications, async jobs, payments, admin operations,
 
 ## Owner approval boundary
 
-Ask the Owner for each one, one decision at a time (object, hash or target, risk, undo): running SQL or migrations, deploying Edge Functions, setting or reading secrets, changing Supabase/Vercel/GitHub/EAS/Play settings, creating or deleting accounts, store release, deleting Owner data. Never type passwords or keys for the Owner and never read `.env` values. An approval binds the exact hash it named: when a SQL packet, seed or artifact changes, the approval lapses and must be asked again. Every push to `main` deploys Admin staging; open PRs from `codex/android-release-unblock-2026-10-19` and do not merge without the Owner.
+Ask the Owner for each one, one decision at a time (object, hash or target, risk, undo): running SQL or migrations, deploying Edge Functions, setting or reading secrets, changing Supabase/Vercel/GitHub/EAS/Play settings, creating or deleting accounts, store release, deleting Owner data. Never type passwords or keys for the Owner and never read `.env` values. An approval binds the exact hash it named: when a SQL packet, seed or artifact changes, the approval lapses and must be asked again. Every push to `main` deploys Admin staging, so never merge or push to `main` without the Owner's approval for that feature (see Delivery rule below).
+
+### Delivery rule (Owner decision 2026-11-15)
+
+`main` is the single source of truth: no long-lived side branches, parallel local copies or leftover worktrees. When one feature is finished (checks run, handoff written, `PLAN.md` updated), report to the Owner in Vietnamese with verified and not-verified items and ask once to commit, merge and push to `main`. With that approval do all three together: short-lived branch cut from the latest `origin/main`, pull request into `main`, merge only on green CI, then delete the short-lived branch and temporary worktree and confirm local `main` equals `origin/main`. CI fixes on that same pull request need no new approval; the approval covers that feature only and never covers SQL, Edge Function deploys, secrets, platform settings, accounts or store release. Do not push unfinished work.
 
 ## Required checks
 

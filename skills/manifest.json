@@ -3,7 +3,7 @@
   "skills": [
     {
       "name": "nilaza-plan-qc",
-      "version": "1.6.0",
+      "version": "1.7.0",
       "files": [
         {
           "path": "agents/openai.yaml",
@@ -22,8 +22,8 @@
         },
         {
           "path": "SKILL.md",
-          "sha256": "fd61dfef1056107b5375df53a906db4394ba35f54d45eec061a02383822b62db",
-          "previousInstalledSha256": "1e4d2bc7a93a2a140690c7237537de582972db30088309996ab6462a79a53623"
+          "sha256": "894c6f880816c2a65737daeea9adc26db246ac6cdb41a37c74ef564a5ee14782",
+          "previousInstalledSha256": "fd61dfef1056107b5375df53a906db4394ba35f54d45eec061a02383822b62db"
         },
         {
           "path": "references/release-control.md",
