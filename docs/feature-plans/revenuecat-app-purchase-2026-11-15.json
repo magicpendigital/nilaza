@@ -41,13 +41,15 @@
     "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
     "apps/mobile/src/features/astrology/__tests__/AiDeepRead.test.tsx",
     "apps/mobile/src/__tests__/userFacingCopy.test.ts",
-    "docs/MOBILE_EAS_TESTING.md"
+    "docs/MOBILE_EAS_TESTING.md",
+    "PLAN.md",
+    "apps/admin/workflow-catalog.js"
   ],
   "untouchedSurfaces": [
     "packages/agent-config/account-tier-policy.json keeps premiumOnSale false and mode unchanged; EXPO_PUBLIC_BILLING_TEST only shows the paywall and never changes the tier.",
     "supabase/ is untouched: no SQL, no RLS change, no Edge Function change or deploy; the server stays the authority for Astrology AI.",
     "No EAS build, no store release, no versionCode or versionName change; no key value is written to the repository and no .env file is read.",
-    "PLAN.md is updated by the lead agent; legal pages, Data safety and account deletion are lot 3."
+    "PLAN.md is updated by the lead agent in the same PR; only the App.tsx source digest in apps/admin/workflow-catalog.js is refreshed (no Admin behaviour change); legal pages, Data safety and account deletion are lot 3."
   ],
   "impact": {
     "entryPoint": "Profile > Premium section (PaywallPanel), Premium buttons in the Astrology deep read and AI guide, account tier in App.tsx.",
@@ -100,7 +102,7 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Account tier, Profile Premium section and price hypothesis shown to non-owners.",
-      "sha256": "e5eec8491a5c499f5c685c80556c0ca0ab7159857cce06663fa04a8b5a8b3c2b"
+      "sha256": "9a2cb7e0430b49f92207eaeda1efb7ea15f09115d74c40086b4ec3bd4f0eeb13"
     },
     {
       "path": "apps/mobile/src/features/astrology/AiDeepRead.tsx",
@@ -115,7 +117,7 @@
     {
       "path": "apps/mobile/app.json",
       "reason": "Android permissions list; versions must not change.",
-      "sha256": "ee986734a6536ff4c309d56fbd68c3e8f40ec4a96eee2d8a0e62476d76446f24"
+      "sha256": "2985950ca2cf3feac49a781587425fb109c9be2544f8b581855acc7c7c781700"
     },
     {
       "path": "apps/mobile/android/app/src/main/AndroidManifest.xml",
@@ -206,7 +208,9 @@
       "apps/mobile/src/features/owner/accountTierPolicy.ts",
       "apps/mobile/src/runtimeConfig.ts",
       "docs/MOBILE_EAS_TESTING.md",
-      "package-lock.json"
+      "package-lock.json",
+      "apps/admin/workflow-catalog.js",
+      "PLAN.md"
     ]
   },
   "validationCommands": [
