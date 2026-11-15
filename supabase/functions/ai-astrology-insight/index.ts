@@ -17,7 +17,8 @@ import {
 import { answerCorsHeaders, readAnswerCorrelation } from "../_shared/answer-provenance.ts";
 import { answerProvenanceSchema, isIncompleteAnswerFinishReason, type AnswerProvenance } from "../../../packages/ai-contracts/answer-provenance.ts";
 import { writeAnswerReceipt } from "../_shared/answer-receipt.ts";
-import { accountTierPolicy, localDayStart, policyGrantsPremium } from "../_shared/account-tier-policy.ts";
+import { accountTierPolicy, localDayStart } from "../_shared/account-tier-policy.ts";
+import { PREMIUM_ENTITLEMENTS, resolveServerTier } from "../_shared/premium-entitlement.ts";
 import { configuredDailyLimit, readActiveFeatureConfig } from "../_shared/feature-config.ts";
 import { featurePaused } from "../_shared/feature-switch.ts";
 
@@ -171,19 +172,17 @@ serve(async (req) => {
   invocation.userFocus.sanitizedQuestion = normalizedQuestion;
 
   try {
+    // Billing lot 1 (2026-11-15): the shared premium entitlement written by the RevenueCat webhook, plus
+    // the contract's older Astrology-only entitlement. Status and period end are judged by the shared helper.
+    const acceptedEntitlements = [...new Set([...PREMIUM_ENTITLEMENTS, ASTROLOGY_AI_CONTRACT.entitlement.requiredEntitlement])];
     const { data: subscriptions, error: subscriptionError } = await supabase
       .from("subscriptions")
       .select("entitlement,status,current_period_end")
       .eq("user_id", userId)
-      .eq("entitlement", ASTROLOGY_AI_CONTRACT.entitlement.requiredEntitlement)
-      .in("status", ["active", "trialing"]);
+      .in("entitlement", acceptedEntitlements);
     if (subscriptionError) return safeFailure(503, "access_check_unavailable", "Premium access could not be checked. Try again shortly.");
-    const nowMs = Date.now();
-    const entitled = (subscriptions ?? []).some((subscription: any) =>
-      !subscription.current_period_end || Date.parse(subscription.current_period_end) > nowMs
-    );
     // A paid entitlement or the shared account tier switch (closed test: every signed-in account).
-    if (!entitled && !policyGrantsPremium({ created_at: userCreatedAt })) return safeFailure(403, "premium_required", "Astrology AI is available with Premium.");
+    if (resolveServerTier({ subscriptions, user: { created_at: userCreatedAt } }) !== "premium") return safeFailure(403, "premium_required", "Astrology AI is available with Premium.");
 
     // Admin A4: the active ai_feature_configs row may set delivered readings per day and a total model deadline.
     const featureConfig = await readActiveFeatureConfig("astrology_insight");
