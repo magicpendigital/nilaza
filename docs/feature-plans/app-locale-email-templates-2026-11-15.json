@@ -34,10 +34,11 @@
     "supabase/templates/auth/invite.html",
     "supabase/templates/auth/recovery.html",
     "supabase/templates/auth/password_changed_notification.html",
-    "supabase/templates/auth/manifest.json"
+    "supabase/templates/auth/manifest.json",
+    "apps/admin/workflow-catalog.js"
   ],
   "untouchedSurfaces": [
-    "Admin code, Edge Functions and migrations are unchanged; admin-team-invite sends no locale so invites stay Vietnamese.",
+    "Admin behaviour, Edge Functions and migrations are unchanged (only the App.tsx source digest in apps/admin/workflow-catalog.js is refreshed); admin-team-invite sends no locale so invites stay Vietnamese.",
     "Other email templates (magic link, email change, MFA and so on) are unchanged and not enabled.",
     "Content data and seed files are unchanged."
   ],
