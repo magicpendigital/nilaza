@@ -950,6 +950,13 @@ export async function getDailyInsight(dateKey: string, input: BackendOptions = {
     .eq("date_key", dateKey).order("created_at", { ascending: false }).limit(1).maybeSingle(), options);
 }
 
+/** The signed-in user's own billing rows (select-own RLS); only the fields the entitlement rule reads. */
+export async function getOwnSubscriptions(input: BackendOptions = {}) {
+  const { sb, options } = personalClient(input);
+  return (await readPersonal<Array<{ entitlement: string | null; status: string | null; current_period_end: string | null }>>(
+    sb.from("subscriptions").select("entitlement,status,current_period_end").eq("user_id", options.userId!), options)) ?? [];
+}
+
 export async function getAdminRole(userId: string, input: BackendOptions = {}): Promise<string | null> {
   const { sb, options } = personalClient(input);
   if (userId !== options.userId) throw new Error("Account mismatch");

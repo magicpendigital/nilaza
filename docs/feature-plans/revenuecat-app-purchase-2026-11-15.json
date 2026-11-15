@@ -1,0 +1,225 @@
+{
+  "schemaVersion": 1,
+  "taskId": "revenuecat-app-purchase-2026-11-15",
+  "ownerAgent": "mobile_agent",
+  "lane": "Billing lot 2: the Android app buys and restores Premium through Google Play (RevenueCat SDK)",
+  "goal": "Let a signed-in Android user buy or restore the one Premium plan (monthly or annual) through Google Play Billing via the react-native-purchases SDK, with the RevenueCat app user id equal to the Supabase user id so the lot 1 webhook can write public.subscriptions. The app shows store prices only (no hard-coded VND), a dynamic annual saving, an honest paywall (plan, total charged, period, auto-renew, how to cancel, restore, terms and privacy) and merges CustomerInfo with the user's own subscriptions row using the same rule as the server. premiumOnSale stays false: the paywall is visible to ordinary users only when Premium is on sale, or in a build with EXPO_PUBLIC_BILLING_TEST=true for closed-test purchase trials.",
+  "successCriteria": [
+    "react-native-purchases 10.16.0 is a dependency of apps/mobile only (10.x per the SDK 11.0.0 note that Expo apps should stay on 10.x; it ships Play Billing Library 8.3.0); com.android.vending.BILLING is declared in both app.json and the committed AndroidManifest.xml; versionCode and versionName are unchanged.",
+    "runtimeConfig exposes the public SDK key EXPO_PUBLIC_REVENUECAT_ANDROID_KEY and the build flag EXPO_PUBLIC_BILLING_TEST (off by default); with no key, on web, in Expo Go or without the native module, billing reports unavailable and the app runs normally.",
+    "billingClient configures once, logs in with the Supabase user id before any purchase, never purchases when signed out, treats a user cancel as no error, and maps network, store, already-owned and pending errors to friendly Vietnamese/English messages without technical detail.",
+    "usePremium merges an active CustomerInfo premium entitlement with the user's own subscriptions rows (premium or legacy premium_astrology_ai; same status and period rule as supabase/functions/_shared/premium-entitlement.ts), polls the row for about 30 seconds after a purchase, keeps the last known value offline and fails closed with no data.",
+    "PaywallPanel renders loading, unavailable, plan choice, purchasing, pending, error and already-Premium states with store priceString, a dynamic annual saving shown only when cheaper, Manage plan (Google Play subscriptions), Restore purchases, terms and privacy links, accessibility labels and 44 pt touch targets; no user-facing text names the vendor.",
+    "resolveAccountTier accepts entitled; App.tsx uses usePremium for the account tier; the Premium buttons in AiDeepRead and AstrologyExperience open the Premium section; ordinary users no longer see the 99.000/799.000 VND hypothesis.",
+    "tsc, the full mobile jest suite, mobile:release:config:check, validate:governance and this preflight pass."
+  ],
+  "writeScope": [
+    "apps/mobile/package.json",
+    "package-lock.json",
+    "apps/mobile/app.json",
+    "apps/mobile/android/app/src/main/AndroidManifest.xml",
+    "apps/mobile/src/runtimeConfig.ts",
+    "apps/mobile/src/backendClient.ts",
+    "apps/mobile/src/features/billing/billingClient.ts",
+    "apps/mobile/src/features/billing/premiumEntitlement.ts",
+    "apps/mobile/src/features/billing/annualSavings.ts",
+    "apps/mobile/src/features/billing/paywallAccess.ts",
+    "apps/mobile/src/features/billing/usePremium.ts",
+    "apps/mobile/src/features/billing/PaywallPanel.tsx",
+    "apps/mobile/src/features/billing/__fakes__/fakePurchases.ts",
+    "apps/mobile/src/features/billing/purchasesModule.native.ts",
+    "apps/mobile/src/features/billing/purchasesModule.ts",
+    "apps/mobile/src/features/billing/__tests__/billingClient.test.ts",
+    "apps/mobile/src/features/billing/__tests__/premiumEntitlement.test.ts",
+    "apps/mobile/src/features/billing/__tests__/annualSavings.test.ts",
+    "apps/mobile/src/features/billing/__tests__/usePremium.test.tsx",
+    "apps/mobile/src/features/billing/__tests__/PaywallPanel.test.tsx",
+    "apps/mobile/src/features/owner/accountTierPolicy.ts",
+    "apps/mobile/src/features/owner/__tests__/accountTierPolicy.test.ts",
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/astrology/AiDeepRead.tsx",
+    "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+    "apps/mobile/src/features/astrology/__tests__/AiDeepRead.test.tsx",
+    "apps/mobile/src/__tests__/userFacingCopy.test.ts",
+    "docs/MOBILE_EAS_TESTING.md"
+  ],
+  "untouchedSurfaces": [
+    "packages/agent-config/account-tier-policy.json keeps premiumOnSale false and mode unchanged; EXPO_PUBLIC_BILLING_TEST only shows the paywall and never changes the tier.",
+    "supabase/ is untouched: no SQL, no RLS change, no Edge Function change or deploy; the server stays the authority for Astrology AI.",
+    "No EAS build, no store release, no versionCode or versionName change; no key value is written to the repository and no .env file is read.",
+    "PLAN.md is updated by the lead agent; legal pages, Data safety and account deletion are lot 3."
+  ],
+  "impact": {
+    "entryPoint": "Profile > Premium section (PaywallPanel), Premium buttons in the Astrology deep read and AI guide, account tier in App.tsx.",
+    "dataWrite": "No database write by the app. Google Play and RevenueCat record purchases; the lot 1 webhook writes public.subscriptions after an approved deploy. The app only reads its own subscriptions rows under the existing RLS.",
+    "backendContract": "New read of public.subscriptions (entitlement, status, current_period_end) for the signed-in user; no Edge Function contract change.",
+    "adminVisibility": "No Admin change.",
+    "privacySafety": "Only the Supabase user id is sent to the billing SDK as the app user id; no email, birth data or content. Payment details stay with Google Play.",
+    "observability": "No new logging; SDK log level stays default and errors are mapped to codes without technical text on screen.",
+    "rollback": "Revert the commit and rebuild the native app; with no SDK key in the build, billing is already inert."
+  },
+  "canonicalContracts": [
+    "supabase/functions/_shared/premium-entitlement.ts isPremiumEntitled (mirrored in apps/mobile/src/features/billing/premiumEntitlement.ts)",
+    "RevenueCat entitlement premium, default offering packages $rc_monthly and $rc_annual",
+    "apps/mobile/src/features/owner/accountTierPolicy.ts resolveAccountTier"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Delivery rule and Owner approval boundaries (no release, no secrets).",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile route and validation commands.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "supabase/functions/_shared/premium-entitlement.ts",
+      "reason": "Server entitlement rule the client mirrors exactly.",
+      "sha256": "6ce20a6a7ec4cd881bbc90c93390d435dd9c4b3ebf2c07932b2ff74e0a62530e"
+    },
+    {
+      "path": "apps/mobile/src/features/owner/accountTierPolicy.ts",
+      "reason": "Client tier policy gains an entitled input.",
+      "sha256": "4f2a154dee0317e8b0bf51b8dd98ed75e54f54f17bedb95eec749707f08b8a2f"
+    },
+    {
+      "path": "apps/mobile/src/runtimeConfig.ts",
+      "reason": "Home of public build-time variables.",
+      "sha256": "8cbbaa867a41d1631664c5c2e15eab9ba0f5ccc2ee59f1311fe308b64ca8cfaf"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Account tier, Profile Premium section and price hypothesis shown to non-owners.",
+      "sha256": "e5eec8491a5c499f5c685c80556c0ca0ab7159857cce06663fa04a8b5a8b3c2b"
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/AiDeepRead.tsx",
+      "reason": "Premium button only showed a hint.",
+      "sha256": "7ad2d3885d30b587fe2db194a818a7b1140ed4b3aed7f7cc7870ffb4d8e61c70"
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+      "reason": "Signed-in non-entitled AI request shows a dead-end message.",
+      "sha256": "b029bc712b78baf285e9c44328c6b8db47434d6993253d7d9fd1755932887214"
+    },
+    {
+      "path": "apps/mobile/app.json",
+      "reason": "Android permissions list; versions must not change.",
+      "sha256": "ee986734a6536ff4c309d56fbd68c3e8f40ec4a96eee2d8a0e62476d76446f24"
+    },
+    {
+      "path": "apps/mobile/android/app/src/main/AndroidManifest.xml",
+      "reason": "Committed native manifest must carry the BILLING permission too.",
+      "sha256": "997b10cf140c70e8a7a08b797c6bead9169bccbcf1bf5e8ccb4cffd39c6d8412"
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "reason": "Own-row Supabase reads under RLS (personalClient/readPersonal).",
+      "sha256": "a06b84edeb18d10771bacd0a594270ae83f7c174ab73d32ad42c15c6ede8f22e"
+    },
+    {
+      "path": "apps/mobile/src/__tests__/userFacingCopy.test.ts",
+      "reason": "Bans the vendor name in screen text.",
+      "sha256": "5dc0d518819b66926bfcd217c56389fecd2e8f6e8d40f8504f49a293abf9d4b6"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before code; Owner decisions of 15/11 applied (one plan, store prices, premiumOnSale false); release, secrets and settings left to the Owner."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Billing SDK install, Expo support, error codes and Play Billing Library version change often; checked against current vendor docs, the 11.0.0 release note and the published package metadata on 2026-11-15."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://www.revenuecat.com/docs/getting-started/installation/expo",
+      "reason": "Expo install needs a development build (expo-dev-client); Expo Go runs a mock preview mode, so real purchases need a native build.",
+      "checkedAt": "2026-11-15"
+    },
+    {
+      "url": "https://github.com/RevenueCat/react-native-purchases/releases/tag/11.0.0",
+      "reason": "11.x needs RN 0.80, Kotlin 2.1, Play Billing 9.1 and says Expo apps should stay on 10.x for now; 10.16.0 chosen.",
+      "checkedAt": "2026-11-15"
+    },
+    {
+      "url": "https://repo1.maven.org/maven2/com/revenuecat/purchases/purchases/10.30.0/purchases-10.30.0.pom",
+      "reason": "10.16.0 ships purchases-android 10.30.0 with Google Play Billing Library 8.3.0.",
+      "checkedAt": "2026-11-15"
+    },
+    {
+      "url": "https://www.revenuecat.com/docs/customers/identifying-customers",
+      "reason": "logIn with the backend user id before purchase so the webhook app_user_id is the Supabase user id; logOut on sign-out.",
+      "checkedAt": "2026-11-15"
+    }
+  ],
+  "securityReview": {
+    "authzRls": "The app reads only its own public.subscriptions rows with the user's token under the existing select-own RLS; it never writes them. Purchase requires a signed-in Supabase account and a completed SDK logIn with that id.",
+    "sensitiveData": "Only the Supabase user id goes to the SDK; card and payment data stay with Google Play.",
+    "secretsLogging": "EXPO_PUBLIC_REVENUECAT_ANDROID_KEY is the public SDK key, set per EAS environment by the Owner, never committed; no secret is placed in an EXPO_PUBLIC variable and no key value is logged.",
+    "externalInput": "Offering, price strings and CustomerInfo come from the store SDK and are shown as text only; subscription rows are validated by the shared rule and fail closed.",
+    "dependencies": "Adds react-native-purchases 10.16.0 (MIT, RevenueCat) to apps/mobile: the vendor SDK for Google Play Billing chosen by the Owner in the billing plan; it pulls @revenuecat/purchases-typescript-internal and purchases-js-hybrid-mappings 19.17.0 (plus @revenuecat/purchases-js 1.73.1 transitively, used only by the SDK's browser mode, which Nilaza never loads) and the native purchases-android 10.30.0 with Play Billing 8.3.0.",
+    "migrationRelease": "No SQL and no deploy. A native rebuild (EAS) and the Owner's SDK key are needed before any purchase can be tried; that build and any release need Owner approval.",
+    "stopCondition": "Stop if tsc or a mobile test fails, if the BILLING permission cannot be declared, or if the SDK cannot be imported safely on web and in tests.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record and preflight came first; these are the Lot 2 edits, all inside writeScope. sourceReview hashes refreshed after editing.",
+    "paths": [
+      "apps/mobile/App.tsx",
+      "apps/mobile/android/app/src/main/AndroidManifest.xml",
+      "apps/mobile/app.json",
+      "apps/mobile/package.json",
+      "apps/mobile/src/__tests__/userFacingCopy.test.ts",
+      "apps/mobile/src/backendClient.ts",
+      "apps/mobile/src/features/astrology/AiDeepRead.tsx",
+      "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+      "apps/mobile/src/features/astrology/__tests__/AiDeepRead.test.tsx",
+      "apps/mobile/src/features/billing/PaywallPanel.tsx",
+      "apps/mobile/src/features/billing/__fakes__/fakePurchases.ts",
+      "apps/mobile/src/features/billing/__tests__/PaywallPanel.test.tsx",
+      "apps/mobile/src/features/billing/__tests__/annualSavings.test.ts",
+      "apps/mobile/src/features/billing/__tests__/billingClient.test.ts",
+      "apps/mobile/src/features/billing/__tests__/premiumEntitlement.test.ts",
+      "apps/mobile/src/features/billing/__tests__/usePremium.test.tsx",
+      "apps/mobile/src/features/billing/annualSavings.ts",
+      "apps/mobile/src/features/billing/billingClient.ts",
+      "apps/mobile/src/features/billing/paywallAccess.ts",
+      "apps/mobile/src/features/billing/premiumEntitlement.ts",
+      "apps/mobile/src/features/billing/purchasesModule.native.ts",
+      "apps/mobile/src/features/billing/purchasesModule.ts",
+      "apps/mobile/src/features/billing/usePremium.ts",
+      "apps/mobile/src/features/owner/__tests__/accountTierPolicy.test.ts",
+      "apps/mobile/src/features/owner/accountTierPolicy.ts",
+      "apps/mobile/src/runtimeConfig.ts",
+      "docs/MOBILE_EAS_TESTING.md",
+      "package-lock.json"
+    ]
+  },
+  "validationCommands": [
+    "npx tsc --noEmit -p apps/mobile",
+    "npm --workspace apps/mobile test -- --runInBand",
+    "npm run mobile:release:config:check",
+    "npm run validate:governance",
+    "npm run feature:preflight -- --record docs/feature-plans/revenuecat-app-purchase-2026-11-15.json"
+  ],
+  "managerTestPath": "In a closed-test build with EXPO_PUBLIC_BILLING_TEST=true and the SDK key: sign in, open Profile > Premium, see the monthly and annual store prices, buy one as a license tester, see 'activating' then Premium; reinstall, sign in and tap Restore purchases.",
+  "residualRisk": "Nothing has been tried on a device or against Google Play yet. The webhook (lot 1) is not deployed, so after a purchase the app unlocks from CustomerInfo but the server keeps refusing Astrology AI until the row exists. Payment through Vietnamese carriers or wallets is unverified.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

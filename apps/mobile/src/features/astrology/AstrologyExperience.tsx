@@ -1,6 +1,6 @@
 import { AstrologyHub } from "./AstrologyHub";
 import { AiDeepRead } from "./AiDeepRead";
-import { premiumOnSale } from "../owner/accountTierPolicy";
+import { paywallEnabled } from "../billing/paywallAccess";
 import { crisisSupportCopy } from "../safety/CrisisSupportCard";
 import { BirthDateFields, BirthTimeFields } from "./BirthFields";
 import { Big3Summary, BigThreeCards, ChartRowLink, SkyTabs, TopicPanel, chartHeaderLine } from "./ChartOverviewParts";
@@ -146,6 +146,7 @@ export function AstrologyExperience({
   onOpenShare,
   aiSignInRequired = false,
   onRequestSignIn,
+  onOpenPremium,
 }: {
   language: AstrologyLanguage;
   storage: AstrologyPersistence;
@@ -173,6 +174,8 @@ export function AstrologyExperience({
   /** No account token: the AI buttons lead to sign-in instead of a dead lock (UX review K4/U1, 2026-11-15). */
   aiSignInRequired?: boolean;
   onRequestSignIn?: () => void;
+  /** Opens the Premium section of Me; used only while the Premium purchase screen may be shown. */
+  onOpenPremium?: () => void;
 }) {
   const vi = language === "vi";
   const [stage, setStage] = useState<Stage>("home");
@@ -592,6 +595,12 @@ export function AstrologyExperience({
       if (aiSignInOffered) {
         setAiStatus("locked");
         onRequestSignIn?.();
+        return;
+      }
+      if (!aiSignInRequired && paywallEnabled && onOpenPremium) {
+        // A signed-in account without Premium goes to the plans instead of a dead end.
+        setAiStatus("locked");
+        onOpenPremium();
         return;
       }
       if (!aiSignInRequired) {
@@ -1385,7 +1394,8 @@ export function AstrologyExperience({
                     <AiDeepRead
                       language={language}
                       available={canRequestAstrologyAi && !ownerPremiumPreview}
-                      premiumOnSale={premiumOnSale}
+                      premiumOnSale={paywallEnabled}
+                      onOpenPremium={onOpenPremium}
                       signInRequired={aiSignInOffered}
                       onSignIn={onRequestSignIn}
                       crisis={aiCrisis}

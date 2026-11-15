@@ -83,6 +83,7 @@ import {
   getSafetyEvents,
   getDailyInsight,
   getAdminAccess,
+  getOwnSubscriptions,
   getPublishedContent,
   requestAstrologyAiInsight,
   sendShareEvents
@@ -241,6 +242,9 @@ import {
   type OwnerTierPreview,
 } from "./src/features/owner/tierPreview";
 import { premiumOnSale, resolveAccountTier } from "./src/features/owner/accountTierPolicy";
+import { PaywallPanel } from "./src/features/billing/PaywallPanel";
+import { paywallEnabled } from "./src/features/billing/paywallAccess";
+import { usePremium, type PremiumState } from "./src/features/billing/usePremium";
 import { drawRandomCards } from "./src/features/tarot/randomDraw";
 
 type ImageRequireContext = {
@@ -3113,11 +3117,19 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const c = getCopy(language);
   const selectedPersona = personasById[selectedPersonaId] ?? personas[0];
   const selectedDeck = findTarotDeckById(decksById, selectedDeckId) ?? decks[0];
-  // No subscription resolver yet: the closed-test policy decides the display tier.
-  // Server endpoints keep their own entitlement checks.
+  // Premium comes from the account's own subscription row (or an active store purchase on this
+  // device while the row catches up). Server endpoints keep their own entitlement checks.
+  // Section the Profile screen opens on (set when a locked feature sends the user to Premium).
+  const [profileEntrySection, setProfileEntrySection] = useState<"premium" | undefined>(undefined);
+  const premium = usePremium({
+    userId: authState.status === "signed_in" ? scope.userId : undefined,
+    readSubscriptions: () => getOwnSubscriptions(backendOptions),
+    billingEnabled: paywallEnabled
+  });
   const accountTier = resolveAccountTier({
     signedIn: authState.status === "signed_in",
-    accountCreatedAt: authState.status === "signed_in" ? authState.user.createdAt : undefined
+    accountCreatedAt: authState.status === "signed_in" ? authState.user.createdAt : undefined,
+    entitled: premium.entitled
   });
   const displayedTier = resolveDisplayedTier({ accountTier, isOwner, preview: ownerTierPreview });
   const isOwnerPreviewActive = isOwnerTierPreviewActive({ isOwner, preview: ownerTierPreview });
@@ -4058,8 +4070,13 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const navigate = (next: Screen, journalEntryId?: string) => {
     setShowAdmin(false);
     if (next === "journal") setJournalEntryToOpen(journalEntryId ?? null);
+    setProfileEntrySection(undefined);
     setScreen(next);
     recordEvent("screen_opened", { screen: next });
+  };
+  const openPremium = () => {
+    navigate("profile");
+    setProfileEntrySection("premium");
   };
   const currentTabOrHome = (): Tab => tabs.includes(screen as Tab) ? screen as Tab : "home";
 
@@ -5741,6 +5758,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
             ownerPremiumPreview={isOwnerPreviewActive && displayedTier === "premium"}
             canRequestAstrologyAi={Boolean(backendOptions.authToken) && displayedTier === "premium" && !isOwnerPreviewActive}
             aiSignInRequired={!backendOptions.authToken}
+            onOpenPremium={paywallEnabled ? openPremium : undefined}
             onRequestSignIn={isSupabaseAuthConfigured ? () => { setAuthView("sign-in"); signOutLocally(); } : undefined}
             requestAstrologyAi={(input, correlation) => requestAstrologyAiInsight(input, backendOptions, correlation)}
             onDeleteAiReport={backendOptions.authToken ? (chartId) => deleteAstrologyAiReportForChart(backendOptions, chartId) : undefined}
@@ -5889,6 +5907,11 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
 
             {screen === "profile" && !(showAdmin && isAdmin) && (
               <ProfileScreen
+                key={profileEntrySection ?? "profile"}
+                initialSection={profileEntrySection}
+                premium={premium}
+                premiumUserId={authState.status === "signed_in" ? scope.userId : undefined}
+                onSignIn={isSupabaseAuthConfigured ? () => { setAuthView("sign-in"); signOutLocally(); } : undefined}
                 c={c}
                 signLabel={zodiacPulse.hasBirthDate ? zodiacPulse.sign : undefined}
                 memberSince={authState.status === "signed_in" && authState.user.createdAt
@@ -8425,7 +8448,11 @@ function ProfileScreen({
   onMarkBirthTimeUnknown,
   onMarkNotificationRead,
   onSignOut,
-  onToggleNotificationPreference
+  onToggleNotificationPreference,
+  initialSection,
+  premium,
+  premiumUserId,
+  onSignIn
 }: {
   c: Copy;
   birthDate: string;
@@ -8475,10 +8502,15 @@ function ProfileScreen({
   dailyReminder: DailyReminder;
   onDailyReminderChange: (next: DailyReminder) => void;
   onDeleteAccount: () => Promise<string | null>;
+  /** Opens a section directly, e.g. Premium from a locked feature. */
+  initialSection?: "premium";
+  premium: PremiumState;
+  premiumUserId: string | undefined;
+  onSignIn?: () => void;
 }) {
   const currentTone = tones.find((tone) => tone.id === profile.tone);
   const annualPriceMath = getAnnualPriceHypothesisMath();
-  const [profileSection, setProfileSection] = useState<"overview" | "identity" | "birth" | "preferences" | "privacy" | "notifications" | "premium" | "account" | "deleteAccount">("overview");
+  const [profileSection, setProfileSection] = useState<"overview" | "identity" | "birth" | "preferences" | "privacy" | "notifications" | "premium" | "account" | "deleteAccount">(initialSection ?? "overview");
   const hasBirthProfile = Boolean(birthDate || birthTime || birthPlace || birthTimeUnknown);
   const birthTimeLabel = birthTimeUnknown || !birthTime ? c.unknownBirthTime : birthTime;
   const selectedGoals = goals.filter((goal) => profile.goals.includes(goal.id));
@@ -8504,7 +8536,7 @@ function ProfileScreen({
           preferences: "Cá nhân hóa",
           goalsHint: "Chọn các chủ đề bạn muốn Nilaza ưu tiên.",
           toneHint: "Chọn nhịp trả lời phù hợp với tâm trạng hiện tại.",
-          subscription: premiumOnSale ? "Gói Premium & lượt dùng" : "Lượt dùng hôm nay",
+          subscription: paywallEnabled ? "Gói Premium & lượt dùng" : "Lượt dùng hôm nay",
           privacySection: "Riêng tư & dữ liệu",
           privacyBody: onlineSyncAvailable
             ? "Dữ liệu có bản lưu trên thiết bị. Hồ sơ và các lịch sử được hỗ trợ có thể đồng bộ với tài khoản; từng mục Nhật ký cho biết đã đồng bộ hay còn lưu trên máy. Bản đồ chiêm tinh được tính trên thiết bị; chỉ gửi dữ kiện và câu hỏi cho AI Chiêm tinh sau khi bạn đồng ý. Đăng xuất không xóa tài khoản trên máy chủ."
@@ -8541,7 +8573,7 @@ function ProfileScreen({
           preferences: "Personalization",
           goalsHint: "Choose what you want Nilaza to prioritize.",
           toneHint: "Choose the response style that fits your current mood.",
-          subscription: premiumOnSale ? "Premium & credits" : "Today's usage",
+          subscription: paywallEnabled ? "Premium & usage" : "Today's usage",
           privacySection: "Privacy & data",
           privacyBody: onlineSyncAvailable
             ? "Data has an on-device copy. Supported profile and history data can sync with your account; each journal entry shows whether it is synced or saved locally. Charts are calculated on device; Astrology AI receives facts and your question only after consent. Signing out does not delete your server account."
@@ -8831,11 +8863,10 @@ function ProfileScreen({
         <View style={styles.profileSectionHeader}>
           <View style={styles.profileHeaderCopy}>
             <Text style={styles.profileSectionEyebrow}>{profileLabels.subscription}</Text>
-            {premiumOnSale ? <Text style={styles.premiumTitle}>+ {c.premium}</Text> : null}
+            {paywallEnabled ? <Text style={styles.premiumTitle}>+ {c.premium}</Text> : null}
           </View>
-          {premiumOnSale ? <StatusChip label={c.premiumPreview} tone="warn" /> : null}
         </View>
-        {premiumOnSale ? <Text style={styles.cardDescription}>{c.freeExperience}</Text> : null}
+        {paywallEnabled ? <Text style={styles.cardDescription}>{c.freeExperience}</Text> : null}
         <Text style={styles.disclaimer}>{c.freeCreditsReset}</Text>
         {isOwner ? (
           <View style={styles.ownerTierPreviewCard}>
@@ -8917,7 +8948,7 @@ function ProfileScreen({
               </View>
             ))}
           </View>
-        ) : !premiumOnSale ? null : (
+        ) : paywallEnabled || !premiumOnSale ? null : (
           <View style={styles.premiumUnavailable}>
             <Text style={styles.premiumUnavailableTitle}>
               {language === "vi" ? "Premium chưa mở bán" : "Premium is not available yet"}
@@ -8929,6 +8960,9 @@ function ProfileScreen({
             </Text>
           </View>
         )}
+        {paywallEnabled ? (
+          <PaywallPanel language={language} userId={premiumUserId} premium={premium} onSignIn={onSignIn} />
+        ) : null}
       </View>
 
       <View style={[styles.profileSection, profileSection !== "account" && styles.hidden]}>

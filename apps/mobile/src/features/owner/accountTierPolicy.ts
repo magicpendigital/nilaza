@@ -2,7 +2,7 @@ import sharedPolicy from "../../../../../packages/agent-config/account-tier-poli
 import type { AccountTier } from "./tierPreview";
 
 /**
- * How the client derives the account tier until a subscription resolver exists.
+ * How the client derives the account tier: a paid entitlement (features/billing) or this policy.
  * - all_premium: every signed-in account is Premium (closed test, Owner decision 2026-10-30).
  * - new_account_trial: Premium for `trialHours` after the account was created, then Free.
  * - free: everyone is Free.
@@ -31,9 +31,14 @@ export function resolveAccountTier(input: {
   signedIn: boolean;
   accountCreatedAt?: string;
   now?: Date;
+  /** A paid Premium entitlement (store purchase or the account's subscriptions row). */
+  entitled?: boolean;
 }): AccountTier {
   const policy = input.policy ?? accountTierPolicy;
-  if (!input.signedIn || policy.mode === "free") return "free";
+  if (!input.signedIn) return "free";
+  // A paid plan wins over the policy switch; the server still re-checks before any AI call.
+  if (input.entitled === true) return "premium";
+  if (policy.mode === "free") return "free";
   if (policy.mode === "all_premium") return "premium";
   const createdMs = input.accountCreatedAt ? Date.parse(input.accountCreatedAt) : Number.NaN;
   // Unknown creation time fails closed so a trial never becomes permanent.
