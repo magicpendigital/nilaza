@@ -70,6 +70,9 @@ import {
   generatePersonaReply,
   generateOracleTurn,
   generateTarotReading,
+  requestTarotClarifier,
+  requestTarotDraw,
+  TarotLimitError,
   registerNotificationDevice,
   sendNotificationTest,
   syncJournalMutation,
@@ -242,6 +245,7 @@ import {
 } from "./src/features/owner/tierPreview";
 import { premiumOnSale, resolveAccountTier } from "./src/features/owner/accountTierPolicy";
 import { drawRandomCards } from "./src/features/tarot/randomDraw";
+import { dailyCardIndex, mapServerCards, tarotLimitMessage, tarotLockedNote, utc7DateKey, type TarotClarifier, type TarotServerDraw } from "./src/features/tarot/serverDraw";
 
 type ImageRequireContext = {
   (path: string): ImageSourcePropType;
@@ -2531,9 +2535,13 @@ export function buildTarotReadingResult(
   spread: TarotSpread,
   question: string,
   selected: DrawnTarotCard[],
-  interpretation: { summary: string; reflection: string; provenance?: AnswerProvenance; sections?: unknown; promptVersionId?: string; moderationStatus?: "passed" | "blocked" | "fallback" },
+  interpretation: { summary: string; reflection: string; provenance?: AnswerProvenance; sections?: unknown; promptVersionId?: string; moderationStatus?: "passed" | "blocked" | "fallback";
+    drawId?: string; replayed?: boolean; nextDrawAt?: string; clarifier?: TarotClarifier },
   language: Language = "vi"
 ) {
+  // P1-A: a server draw keeps its id (one event, one answer); a replayed answer keeps its original provenance.
+  const provenanceLocale = interpretation.drawId && (interpretation.provenance?.locale === "vi" || interpretation.provenance?.locale === "en")
+    ? interpretation.provenance.locale : language === "en" ? "en" : "vi";
   const spreadOption = spreads.find((item) => item.id === spread) ?? spreads[1];
   const positions = selected.map((card, index) => {
     const position = spreadOption.labels.en[index] ?? card.spread;
@@ -2556,7 +2564,11 @@ export function buildTarotReadingResult(
   });
 
   return {
-    id: nowId(),
+    id: interpretation.drawId ?? nowId(),
+    drawId: interpretation.drawId,
+    replayed: interpretation.replayed === true,
+    nextDrawAt: interpretation.nextDrawAt,
+    clarifier: interpretation.clarifier,
     deck,
     topic,
     spread,
@@ -2576,7 +2588,7 @@ export function buildTarotReadingResult(
     sections: interpretation.moderationStatus === "blocked" ? [] : normalizeTarotSections(interpretation.sections, language),
     language,
     contentVersion: "tarot-reading-presentation-v1",
-    provenance: parseAnswerProvenance(interpretation.provenance, { feature: "tarot_reading", locale: language === "en" ? "en" : "vi" }),
+    provenance: parseAnswerProvenance(interpretation.provenance, { feature: "tarot_reading", locale: provenanceLocale }),
     promptVersionId: interpretation.promptVersionId,
     moderationStatus: interpretation.moderationStatus ?? "fallback",
     createdAt: new Date().toISOString()
@@ -2674,11 +2686,11 @@ function stableIndex(seed: string, max: number) {
   return hash % max;
 }
 
-function buildTodayPulse(profile: Profile, entries: JournalEntry[], dailyInsight: DailyInsight, language: Language, deck: TarotDeck) {
+function buildTodayPulse(profile: Profile, entries: JournalEntry[], dailyInsight: DailyInsight, language: Language, deck: TarotDeck,
+  cardSeed: { userId?: string | null; dateKey: string } = { dateKey: utc7DateKey() }) {
   const primaryGoal = profile.goals[0] ?? "self";
-  // Keep today's card stable for the whole day: saving to the Journal must not swap it.
-  const seed = `${dailyInsight.dateKey}:${primaryGoal}:${profile.tone}`;
-  const card = cards[stableIndex(seed, cards.length)] ?? cards[0];
+  // P1-A (A7): one card per account and Vietnam day. Saving to the Journal or changing goal or tone must not swap it.
+  const card = cards[dailyCardIndex(cardSeed.userId, cardSeed.dateKey, cards.length)] ?? cards[0];
   const latestMood = entries.find((entry) => entry.mood)?.mood;
   const moodText = latestMood ? moodLabel(latestMood, language).toLowerCase() : (language === "vi" ? "chưa đặt tên" : "unnamed");
   const goalPhrase = language === "vi" ? getGoalPhraseVi(primaryGoal) : getGoalPhraseEn(primaryGoal);
@@ -3086,6 +3098,9 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const [tarotGenerating, setTarotGenerating] = useState(false);
   const tarotGenerationInFlight = useRef(false);
   const [tarotError, setTarotError] = useState("");
+  // P1-A: the server draw waiting to be interpreted, and the clarifier request in flight.
+  const serverTarotDrawRef = useRef<{ draw: TarotServerDraw; cards: DrawnTarotCard[] } | null>(null);
+  const [tarotClarifierBusy, setTarotClarifierBusy] = useState(false);
   const [astrologyStage, setAstrologyStage] = useState<AstrologyStage>("hub");
   const [astrologyReturnScreen, setAstrologyReturnScreen] = useState<Tab>("home");
   const [astrologyFocus, setAstrologyFocus] = useState<AstrologyFocus>("soul");
@@ -3146,9 +3161,11 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const effectiveDailyInsight = useDailyInsight(
     dailyInsight, profile, journalEntries, language, currentDateKey, buildDailyInsight
   );
+  // P1-A (A7): today's Home card is fixed by account and Vietnam day; profile edits no longer swap it.
+  const todayCardDateKey = utc7DateKey(currentTime);
   const todayPulse = useMemo(
-    () => buildTodayPulse(profile, journalEntries, effectiveDailyInsight, language, selectedDeck),
-    [effectiveDailyInsight, journalEntries, language, profile, selectedDeck]
+    () => buildTodayPulse(profile, journalEntries, effectiveDailyInsight, language, selectedDeck, { userId: scope.userId, dateKey: todayCardDateKey }),
+    [effectiveDailyInsight, journalEntries, language, profile, selectedDeck, scope.userId, todayCardDateKey]
   );
   const localZodiacPulse = useMemo(
     () => buildDailyZodiacPulse(birthDate, birthTime, birthTimeUnknown, birthPlace, effectiveDailyInsight, language, profile, journalEntries, astrologyReport),
@@ -5210,6 +5227,62 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     }
   };
 
+  // P1-A "one event, one answer": a signed-in account gets its cards from the server, once per spread, topic and
+  // Vietnam day; the same request later returns the same cards and the stored answer. Guests keep the local draw.
+  // "Thử lại" is offered only after an AI failure and reuses the same server draw (same cards, same drawId).
+  const tarotServerMode = Boolean(nilazaBackendBaseUrl && backendOptions.authToken);
+  const tarotLimitText = (error: unknown) => {
+    if (error instanceof TarotLimitError) return tarotLimitMessage(language === "en" ? "en" : "vi", error.code === "tarot_reading_locked" ? error.reason ?? "deleted" : error.reason, error.nextDrawAt);
+    if (error instanceof BackendLimitError && error.code === "feature_paused") return language === "vi" ? "Diễn giải Tarot bằng AI đang tạm nghỉ một chút. Lượt của bạn vẫn còn, hãy thử lại sau." : "Tarot AI readings are resting for a while. Your turn is kept; please try again later.";
+    if (error instanceof BackendLimitError && error.code === "daily_limit_reached") return c.creditLimitReached;
+    return undefined;
+  };
+  const requestServerTarotDraw = async (): Promise<{ cards: DrawnTarotCard[]; completed: boolean } | null> => {
+    if (!tarotServerMode || tarotGenerationInFlight.current) return null;
+    if (isOwnerPreviewActive || !canViewContentTier(selectedDeck.accessTier, displayedTier)) { drawCards(); return null; }
+    const activeScope = scope;
+    setTarotError("");
+    try {
+      const draw = await requestTarotDraw({ language: language === "en" ? "en" : "vi", deck: selectedDeck, topic: tarotTopic, spread: tarotSpread, question: tarotQuestion }, backendOptions);
+      if (!activeScope.active) return null;
+      const spreadOption = spreads.find((item) => item.id === tarotSpread) ?? spreads[1];
+      const mapped = draw.spread === tarotSpread && draw.cards.length === spreadOption.cards
+        ? mapServerCards(draw.cards, cards, localizedList(spreadOption.labels, language)) : null;
+      if (!mapped) throw new BackendUnavailableError("busy");
+      serverTarotDrawRef.current = { draw, cards: mapped };
+      if (draw.replayed) recordEvent("tarot_draw_replayed", { deckId: selectedDeck.id, topic: tarotTopic, spread: tarotSpread });
+      return { cards: mapped, completed: draw.status === "completed" };
+    } catch (error) {
+      if (!activeScope.active) return null;
+      const message = tarotLimitText(error) ?? (error instanceof BackendUnavailableError && error.reason === "offline"
+        ? (language === "vi" ? "Chưa kết nối được để rút lá. Hãy kiểm tra mạng rồi thử lại." : "Could not connect to draw the cards. Check your connection and try again.")
+        : c.tarotError);
+      setTarotError(message);
+      if (error instanceof BackendLimitError) showToast(message);
+      recordEvent("tarot_draw_failed", { deckId: selectedDeck.id, topic: tarotTopic, spread: tarotSpread, reason: error instanceof BackendLimitError ? error.code : error instanceof BackendUnavailableError ? error.reason : "error" });
+      return null;
+    }
+  };
+  // P1-A: one clarifying card per reading, drawn by the server with its library meaning (no AI); asked again, the same card.
+  const requestReadingClarifier = async () => {
+    const target = reading;
+    if (!target?.drawId || target.clarifier || tarotClarifierBusy) return;
+    const activeScope = scope;
+    setTarotClarifierBusy(true);
+    setTarotError("");
+    try {
+      const clarifier = await requestTarotClarifier(target.drawId, backendOptions);
+      if (!activeScope.active) return;
+      setReading((current) => current && current.drawId === target.drawId ? { ...current, clarifier } : current);
+      recordEvent("tarot_clarifier_drawn", { deckId: target.deck.id, spread: target.spread });
+    } catch (error) {
+      if (!activeScope.active) return;
+      setTarotError(tarotLimitText(error) ?? (language === "vi" ? "Chưa rút được lá làm rõ. Hãy thử lại sau một chút." : "The clarifying card could not be drawn yet. Please try again shortly."));
+    } finally {
+      if (activeScope.active) setTarotClarifierBusy(false);
+    }
+  };
+
   const drawCards = (preselectedCards?: DrawnTarotCard[], retryReading?: ReturnType<typeof drawReading>) => {
     if (tarotGenerating || tarotGenerationInFlight.current) return;
     if (isOwnerPreviewActive) {
@@ -5227,7 +5300,16 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       showToast(c.upgradePreview);
       return;
     }
-    if (creditBalance <= 0 && !retryReading) {
+    // P1-A: a signed-in account interprets only its server draw (the server keeps the allowance); a retry keeps the same drawId.
+    const serverDraw = tarotServerMode && !retryReading ? serverTarotDrawRef.current : null;
+    const serverCardsMatch = Boolean(serverDraw && (!preselectedCards?.length || (preselectedCards.length === serverDraw.cards.length
+      && preselectedCards.every((card, index) => card.id === serverDraw.cards[index].id && card.reversed === serverDraw.cards[index].reversed))));
+    const drawId = !tarotServerMode ? undefined : retryReading ? retryReading.drawId : serverCardsMatch ? serverDraw?.draw.drawId : undefined;
+    if (tarotServerMode && !drawId) {
+      setTarotError(c.tarotError);
+      return;
+    }
+    if (!tarotServerMode && creditBalance <= 0 && !retryReading) {
       setTarotError(c.creditLimitReached);
       recordEvent("tarot_credit_limit_preview", { dateKey: currentDateKey, limit: dailyTarotCreditLimit });
       showToast(c.creditLimitReached);
@@ -5247,9 +5329,11 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     setTimeout(async () => {
       if (!activeScope.active) return;
       try {
-        const selectedCards = preselectedCards?.length
-          ? preselectedCards
-          : selectTarotCards(tarotSpread, language);
+        const selectedCards = serverDraw && serverCardsMatch
+          ? serverDraw.cards
+          : preselectedCards?.length
+            ? preselectedCards
+            : selectTarotCards(tarotSpread, language);
         const interpretation = await generateTarotReading(
           {
             language,
@@ -5257,7 +5341,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
             topic: tarotTopic,
             spread: tarotSpread,
             question: tarotQuestion,
-            selectedCards
+            selectedCards,
+            ...(drawId ? { drawId } : {})
           },
           () => buildLocalTarotInterpretation(selectedDeck, tarotTopic, tarotSpread, tarotQuestion, language, selectedCards),
           backendOptions,
@@ -5269,7 +5354,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         setReading(nextReading);
         if (!retryReading) setTarotStageHistory((currentHistory) => [...currentHistory, tarotStage].slice(-16));
         setTarotStage("result");
-        recordEvent(retryReading ? "tarot_interpretation_retried" : "tarot_reading_drawn", {
+        // A replayed answer is the same event: it is not a new reading for today's local count.
+        recordEvent(retryReading ? "tarot_interpretation_retried" : interpretation.replayed ? "tarot_reading_replayed" : "tarot_reading_drawn", {
           deckId: selectedDeck.id,
           topic: tarotTopic,
           spread: tarotSpread,
@@ -5281,9 +5367,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       } catch (error) {
         if (!activeScope.active) return;
         const limit = error instanceof BackendLimitError ? error.code : undefined;
-        const message = limit === "daily_limit_reached" ? c.creditLimitReached
-          : limit === "feature_paused" ? (language === "vi" ? "Diễn giải Tarot bằng AI đang tạm nghỉ một chút. Lượt của bạn vẫn còn, hãy thử lại sau." : "Tarot AI readings are resting for a while. Your turn is kept; please try again later.")
-          : c.tarotError;
+        const message = tarotLimitText(error) ?? c.tarotError;
         setTarotError(message);
         if (limit) showToast(message);
         finishGenerationActivity(activity, "failed");
@@ -5705,8 +5789,11 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
             onCreateShareArtifact={createShareArtifact}
             onOpenShare={openShareSheet}
             onDraw={drawCards}
-            onRetryInterpretation={nilazaBackendBaseUrl && backendOptions.authToken ? () => {
-              if (reading && tarotResultSource(reading.moderationStatus) === "reference") drawCards(reading.selected, reading);
+            onServerDraw={tarotServerMode ? requestServerTarotDraw : undefined}
+            onRequestClarifier={tarotServerMode ? () => { void requestReadingClarifier(); } : undefined}
+            clarifierBusy={tarotClarifierBusy}
+            onRetryInterpretation={tarotServerMode && reading?.drawId ? () => {
+              if (reading?.drawId && tarotResultSource(reading.moderationStatus) === "reference") drawCards(reading.selected, reading);
             } : undefined}
             onQuestionChange={(text) => setTarotQuestion(text)}
             keepSelectedDeck={tarotKeepSelectedDeck}
@@ -7065,6 +7152,9 @@ export function TarotFlow({
   onCreateShareArtifact,
   onOpenShare,
   onDraw,
+  onServerDraw,
+  onRequestClarifier,
+  clarifierBusy = false,
   onRetryInterpretation,
   onQuestionChange,
   onReportReading,
@@ -7105,6 +7195,10 @@ export function TarotFlow({
   onCreateShareArtifact: () => void;
   onOpenShare: (request: ShareRequest) => void;
   onDraw: (selectedCards?: DrawnTarotCard[]) => void;
+  /** P1-A, signed in: the server draws the cards (null when it could not; the parent shows why). */
+  onServerDraw?: () => Promise<{ cards: DrawnTarotCard[]; completed: boolean } | null>;
+  onRequestClarifier?: () => void;
+  clarifierBusy?: boolean;
   onRetryInterpretation?: () => void;
   onQuestionChange: (text: string) => void;
   onReportReading: (summary: string, sourceId?: string) => void;
@@ -7191,7 +7285,10 @@ export function TarotFlow({
       ? "Chọn bộ bài đồng điệu nhất với hành trình hiện tại của bạn."
       : "Select the deck that resonates with your current journey.";
   const selectedTopicLabel = localizedText(topics.find((topic) => topic.id === tarotTopic), language, tarotTopic);
-  const drawPrompt = tarotCreditBalance <= 0
+  // P1-A: for an account the server keeps the allowance (and replays today's reading), so no local count is shown.
+  const drawPrompt = onServerDraw
+    ? (language === "vi" ? "Chạm một lá trong quạt bài" : "Tap a card in the fan")
+    : tarotCreditBalance <= 0
     ? (language === "vi" ? "Hôm nay bạn đã dùng hết lượt Tarot" : "You have used today's Tarot readings")
     : language === "vi"
       ? `Chạm một lá trong quạt bài · hôm nay còn ${tarotCreditBalance} lượt`
@@ -7201,6 +7298,9 @@ export function TarotFlow({
   const [ritualPhase, setRitualPhase] = useState<RitualDrawPhase>("grounding");
   const [ritualDrawnCount, setRitualDrawnCount] = useState(0);
   const [ritualSelectedCards, setRitualSelectedCards] = useState<DrawnTarotCard[]>([]);
+  // P1-A: a server draw in flight; a newer request or leaving the draw step makes an older answer stale.
+  const [serverDrawPending, setServerDrawPending] = useState(false);
+  const serverDrawRequest = useRef(0);
   const [fullscreenTarotCard, setFullscreenTarotCard] = useState<FullscreenTarotCard | null>(null);
   const [selectedFanIndex, setSelectedFanIndex] = useState<number | null>(null);
   const [cardMeaningReturnStage, setCardMeaningReturnStage] = useState<TarotStage>("deckDetail");
@@ -7208,9 +7308,10 @@ export function TarotFlow({
   const [showTarotBackToTop, setShowTarotBackToTop] = useState(false);
   const visibleRitualCards = ritualSelectedCards.slice(0, ritualDrawnCount);
   const latestRitualCard = visibleRitualCards[visibleRitualCards.length - 1];
-  const drawActionBusy = stage === "draw" && ritualPhase !== "grounding" && !tarotGenerating;
+  const drawActionBusy = stage === "draw" && (ritualPhase !== "grounding" || serverDrawPending) && !tarotGenerating;
   const ritualPhaseLabel = (() => {
     if (tarotGenerating || ritualPhase === "reveal") return c.generatingReading;
+    if (serverDrawPending) return language === "vi" ? "Đang rút lá cho bạn..." : "Drawing your cards...";
     if (ritualPhase === "pause_and_breathe") return language === "vi" ? "Dừng một nhịp và thở..." : "Pause and breathe...";
     if (ritualPhase.startsWith("draw_card")) return language === "vi" ? "Lá bài đang tìm vị trí..." : "A card is finding its place...";
     return latestRitualCard
@@ -7292,6 +7393,8 @@ export function TarotFlow({
     if (stage !== "draw") {
       clearRitualTimers();
       if (stage === "cardMeaning") return;
+      serverDrawRequest.current += 1;
+      setServerDrawPending(false);
       setRitualPhase("grounding");
       setRitualDrawnCount(0);
       setRitualSelectedCards([]);
@@ -7311,33 +7414,36 @@ export function TarotFlow({
     tarotScrollRef.current?.scrollTo({ y: 0, animated: !reduceRitualMotion });
   };
 
-  const handleDraw = () => {
-    if (tarotGenerating || ritualPhase !== "grounding") return;
-    if (ritualDrawnCount === selectedSpread.cards && ritualSelectedCards.length === selectedSpread.cards) {
-      setRitualPhase("reveal");
-      onDraw(ritualSelectedCards);
-      return;
-    }
-    // Check the allowance before the first card, not after the whole ritual.
-    if (!canViewContentTier(selectedDeck.accessTier, displayedTier) || (ritualDrawnCount === 0 && tarotCreditBalance <= 0)) {
-      onDraw();
-      return;
-    }
-    clearRitualTimers();
-    const nextCount = Math.min(ritualDrawnCount + 1, selectedSpread.cards);
-    const nextSelectedCards = ritualSelectedCards.length === selectedSpread.cards
-      ? ritualSelectedCards
-      : selectTarotCards(tarotSpread, language);
-    setRitualSelectedCards(nextSelectedCards);
+  // P1-A, signed in: the first tap asks the server for the cards (one draw per spread, topic and Vietnam day);
+  // a draw already interpreted today goes straight to its stored answer. The server keeps the allowance.
+  const withServerCards = (next: () => void) => {
+    if (!onServerDraw || ritualSelectedCards.length === selectedSpread.cards) return false;
+    if (serverDrawPending) return true;
+    const request = ++serverDrawRequest.current;
+    setServerDrawPending(true);
+    void onServerDraw().then((result) => {
+      if (request !== serverDrawRequest.current) return;
+      setServerDrawPending(false);
+      if (!result) return;
+      setRitualSelectedCards(result.cards);
+      if (result.completed) {
+        setRitualDrawnCount(result.cards.length);
+        setRitualPhase("reveal");
+        onDraw(result.cards);
+        return;
+      }
+      next();
+    });
+    return true;
+  };
+  const revealRitualCard = (nextCount: number) => {
     animateRitualCard(nextCount);
-
     if (nextCount >= selectedSpread.cards) {
       ritualTimers.current.push(setTimeout(() => {
         setRitualPhase("grounding");
       }, 800));
       return;
     }
-
     ritualTimers.current.push(setTimeout(() => {
       setRitualPhase("pause_and_breathe");
     }, 420));
@@ -7345,26 +7451,52 @@ export function TarotFlow({
       setRitualPhase("grounding");
     }, 1350));
   };
+  const revealRemainingCards = (from: number) => {
+    setRitualPhase("pause_and_breathe");
+    for (let index = from; index < selectedSpread.cards; index += 1) {
+      ritualTimers.current.push(setTimeout(() => {
+        animateRitualCard(index + 1);
+      }, 220 + (index - from) * 520));
+    }
+    ritualTimers.current.push(setTimeout(() => {
+      setRitualPhase("grounding");
+    }, 620 + (selectedSpread.cards - from) * 520));
+  };
+
+  const handleDraw = () => {
+    if (tarotGenerating || serverDrawPending || ritualPhase !== "grounding") return;
+    if (ritualDrawnCount === selectedSpread.cards && ritualSelectedCards.length === selectedSpread.cards) {
+      setRitualPhase("reveal");
+      onDraw(ritualSelectedCards);
+      return;
+    }
+    // Check the allowance before the first card, not after the whole ritual (the server checks it for an account).
+    if (!canViewContentTier(selectedDeck.accessTier, displayedTier) || (ritualDrawnCount === 0 && !onServerDraw && tarotCreditBalance <= 0)) {
+      onDraw();
+      return;
+    }
+    clearRitualTimers();
+    if (withServerCards(() => revealRitualCard(1))) return;
+    const nextCount = Math.min(ritualDrawnCount + 1, selectedSpread.cards);
+    const nextSelectedCards = ritualSelectedCards.length === selectedSpread.cards
+      ? ritualSelectedCards
+      : selectTarotCards(tarotSpread, language);
+    setRitualSelectedCards(nextSelectedCards);
+    revealRitualCard(nextCount);
+  };
 
   // Reveals every card not yet drawn; the allowance is checked only before the first card.
   const handleQuickDraw = () => {
-    if (tarotGenerating || ritualPhase !== "grounding" || ritualDrawnCount >= selectedSpread.cards) return;
-    if (!canViewContentTier(selectedDeck.accessTier, displayedTier) || (ritualDrawnCount === 0 && tarotCreditBalance <= 0)) {
+    if (tarotGenerating || serverDrawPending || ritualPhase !== "grounding" || ritualDrawnCount >= selectedSpread.cards) return;
+    if (!canViewContentTier(selectedDeck.accessTier, displayedTier) || (ritualDrawnCount === 0 && !onServerDraw && tarotCreditBalance <= 0)) {
       onDraw();
       return;
     }
     clearRitualTimers();
     setSelectedFanIndex(null);
-    setRitualPhase("pause_and_breathe");
+    if (withServerCards(() => revealRemainingCards(0))) return;
     if (ritualSelectedCards.length !== selectedSpread.cards) setRitualSelectedCards(selectTarotCards(tarotSpread, language));
-    for (let index = ritualDrawnCount; index < selectedSpread.cards; index += 1) {
-      ritualTimers.current.push(setTimeout(() => {
-        animateRitualCard(index + 1);
-      }, 220 + (index - ritualDrawnCount) * 520));
-    }
-    ritualTimers.current.push(setTimeout(() => {
-      setRitualPhase("grounding");
-    }, 620 + (selectedSpread.cards - ritualDrawnCount) * 520));
+    revealRemainingCards(ritualDrawnCount);
   };
   // Tapping a fanned card raises it; tapping it again (or the main button) turns it over.
   const handleFanSelect = (index: number) => {
@@ -7403,7 +7535,9 @@ export function TarotFlow({
       ? c.upgrade
       : tarotGenerating || ritualPhase === "reveal"
         ? c.generatingReading
-        : drawActionBusy
+        : serverDrawPending
+          ? language === "vi" ? "Đang rút lá..." : "Drawing..."
+          : drawActionBusy
           ? language === "vi" ? "Dừng một nhịp" : "Pause a breath"
           : ritualDrawnCount === 0
             ? language === "vi" ? "Rút lá đầu tiên" : "Draw first card"
@@ -8011,6 +8145,26 @@ export function TarotFlow({
             onWriteJournal={onWriteJournal}
           >
             {reading.language && reading.language !== language ? <Text style={styles.muted}>{language === "vi" ? "Đang giữ nguyên ngôn ngữ của bài đọc đã lưu." : "Showing the original language of this saved reading."}</Text> : null}
+            {reading.drawId && reading.replayed ? (
+              <Text accessibilityLiveRegion="polite" style={styles.muted}>{tarotLockedNote(language === "en" ? "en" : "vi", reading.nextDrawAt)}</Text>
+            ) : null}
+            {reading.clarifier ? (
+              <View style={styles.tarotClarifierPanel}>
+                <Text style={styles.muted}>{language === "vi" ? "Lá làm rõ" : "Clarifying card"}</Text>
+                <Text style={styles.editorialOutlineButtonText}>
+                  {`${localizedText(reading.clarifier.name, language)} · ${reading.clarifier.reversed ? (language === "vi" ? "Ngược" : "Reversed") : (language === "vi" ? "Xuôi" : "Upright")}`}
+                </Text>
+                <Text style={styles.muted}>{localizedText(reading.clarifier.meaning, language)}</Text>
+                <Text style={styles.muted}>{localizedText(reading.clarifier.reflectionQuestion, language)}</Text>
+              </View>
+            ) : reading.drawId && reading.moderationStatus === "passed" && onRequestClarifier ? (
+              <Pressable accessibilityRole="button" disabled={clarifierBusy} accessibilityState={{ disabled: clarifierBusy, busy: clarifierBusy }}
+                onPress={onRequestClarifier} style={[styles.editorialOutlineButton, clarifierBusy && styles.disabledAction]}>
+                <Text style={styles.editorialOutlineButtonText}>{clarifierBusy
+                  ? (language === "vi" ? "Đang rút lá làm rõ..." : "Drawing a clarifying card...")
+                  : (language === "vi" ? "Rút một lá làm rõ" : "Draw one clarifying card")}</Text>
+              </Pressable>
+            ) : null}
             {tarotResultSource(reading.moderationStatus) === "reference" && onRetryInterpretation ? (
               <Pressable accessibilityRole="button" disabled={tarotGenerating} accessibilityState={{ disabled: tarotGenerating }}
                 onPress={onRetryInterpretation} style={[styles.editorialOutlineButton, tarotGenerating && styles.disabledAction]}>
@@ -10020,6 +10174,16 @@ zodiacProfilePrompt: {
     borderColor: "rgba(201, 130, 141, 0.38)",
     borderRadius: 8,
     borderWidth: 1,
+    marginTop: spacing.md,
+    padding: spacing.md
+  },
+  // P1-A clarifying card: a quiet gold panel (library meaning, not an AI answer).
+  tarotClarifierPanel: {
+    backgroundColor: "rgba(201, 164, 92, 0.08)",
+    borderColor: "rgba(201, 164, 92, 0.48)",
+    borderRadius: 8,
+    borderWidth: 1,
+    gap: spacing.xs,
     marginTop: spacing.md,
     padding: spacing.md
   },
