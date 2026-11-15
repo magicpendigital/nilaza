@@ -48,17 +48,17 @@
     },
     {
       "path": "CLAUDE.md",
-      "sha256": "26251af86a3e849a3258acb6c71b7978b2f55ab2207519fbd7e26bc5869b31c2",
+      "sha256": "00a8d2d42739623ccb6227ee81cde9c7023f766e3574d1d6ce6215a65a038182",
       "reason": "Old line about PRs from the codex branch and not merging replaced by the Owner's delivery rule."
     },
     {
       "path": "docs/HANDOFF_CURRENT_STATE.vi.md",
-      "sha256": "a1c000d3893547ff63ff6996ecbc81e7dc54667934b1c29196fd5ee29e0b6b3a",
+      "sha256": "58f91ee7ae9f93d3f8f93d819bf954f5d210cc86476f85278606423d20ec9c5c",
       "reason": "Environment note on the codex PR branch updated to the new rule."
     },
     {
       "path": "PLAN.md",
-      "sha256": "905f4e8757450bd24b073cc26f9d4570cf8753790de270a635d98be0969a9701",
+      "sha256": "16d878c60943ff75b3f5bdd55f5396c90e856d304cb2a71e21f49259f57f4931",
       "reason": "Update rule 5 and the share status (PR 35 merged) recorded."
     },
     {
