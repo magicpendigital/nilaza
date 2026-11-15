@@ -141,7 +141,7 @@
     {
       "path": "apps/mobile/src/backendClient.ts",
       "reason": "generateTarotReading, postJson limit handling, provenance parsing with correlation.",
-      "sha256": "83479c07fac72d0e945b9862b8127449719efddbf242b7f284d1d296bb767dda"
+      "sha256": "66ee6a4e26700ee6839d327237910c62f38177fe629e96e234f71fcad793eb03"
     },
     {
       "path": "apps/mobile/src/features/tarot/randomDraw.ts",
@@ -151,7 +151,7 @@
     {
       "path": "scripts/ai-answer-endpoints.test.mjs",
       "reason": "Node vm harness runs the real Tarot index.ts; must follow the draw then interpret contract.",
-      "sha256": "cbdc2d2a14f5eb5972742e8c413466dfd412bea0ed71d7caf4015b4dc01d0cfc"
+      "sha256": "551c8469163f1aaa6c7b0a3e06ed9454c5ae8377ad90375e6dc52efac7249d35"
     },
     {
       "path": "scripts/staging-smoke.mjs",
@@ -161,7 +161,7 @@
     {
       "path": "scripts/validate-backend-contracts.mjs",
       "reason": "Strings the Tarot entrypoint must keep.",
-      "sha256": "9447211a70fa2bf91a4f946285e9cff0c0b4c0a9bf9a8d8dc7758d90079677a3"
+      "sha256": "adc8fd180a4d217e3f7dc9394ba57f78f5542860f12269f735424720b457a990"
     },
     {
       "path": "scripts/check-supabase-readiness.mjs",
@@ -171,7 +171,7 @@
     {
       "path": "apps/admin/workflow-catalog.js",
       "reason": "Pins LF hashes of the Tarot entrypoint and tarot-prompt.ts; stale source fails admin:check.",
-      "sha256": "ba7fb3285d1102cada42a41bd0cc17179d187aecfea819801920d05c52ed2282"
+      "sha256": "9756c780a3657f9bcaac2064bf6f4186fdf50505bb210b2815efd1d8695b2f95"
     },
     {
       "path": "docs/feature-plans/owner-only-publish-2026-11-15.json",

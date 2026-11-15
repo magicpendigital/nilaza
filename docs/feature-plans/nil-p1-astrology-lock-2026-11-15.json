@@ -114,12 +114,12 @@
     {
       "path": "apps/mobile/src/backendClient.ts",
       "reason": "Astrology section: requestAstrologyAiInsight, hard deletes, getAstrologyReports (shared file with Tarot agent).",
-      "sha256": "df5eab55bfee2d5570453bc76829cf60da0887f73f62925435dfb0ec48226e84"
+      "sha256": "66ee6a4e26700ee6839d327237910c62f38177fe629e96e234f71fcad793eb03"
     },
     {
       "path": "scripts/ai-answer-endpoints.test.mjs",
       "reason": "Shared Tarot/Astrology endpoint harness; astrology cases follow the new RPC flow.",
-      "sha256": "ed4e85b31d61beb1177a25d0550835bd2e9480108ad9304ff144cba9a57cf465"
+      "sha256": "551c8469163f1aaa6c7b0a3e06ed9454c5ae8377ad90375e6dc52efac7249d35"
     },
     {
       "path": "scripts/validate-backend-contracts.mjs",
