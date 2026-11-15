@@ -1,6 +1,6 @@
 # Mẫu email tài khoản Nilaza — phân tích và bản soạn (15/11/2026)
 
-Trạng thái: **đề xuất chờ Owner duyệt nội dung**. Chưa áp lên Supabase. Các tệp HTML hiện có ở `supabase/templates/auth/` (song ngữ, ngắn) sẽ được viết lại theo bản duyệt.
+Trạng thái: **Owner duyệt nội dung tiếng Việt 15/11; đã áp 3 mẫu** (đăng ký, quên mật khẩu, mời thành viên) lên Supabase Singapore. Mỗi mẫu có bản tiếng Anh đầy đủ khi tài khoản có `locale = en`, còn lại tiếng Việt; không còn dòng tiếng Anh ở cuối. Không in tên người dùng trong thư (người khác có thể đăng ký bằng email của bạn và gõ tên tùy ý). Mẫu báo đổi mật khẩu đã soạn, chưa bật. Tệp nguồn: `supabase/templates/auth/`.
 
 Người gửi: `Nilaza <no-reply@auth.nilaza.magicpendigital.com>` (Resend, đã xác minh 15/11).
 

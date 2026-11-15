@@ -6,9 +6,37 @@ import {
   localizedText,
   localizedList,
   defaultLanguage,
-  fallbackLanguage
+  fallbackLanguage,
+  detectDeviceLanguage,
+  languageFromDeviceLocales
 } from "../i18n";
+import { getLocales } from "expo-localization";
 import { Language } from "../types";
+
+jest.mock("expo-localization", () => ({ getLocales: jest.fn(() => [{ languageCode: "vi" }]) }));
+
+describe("device language", () => {
+  it("uses Vietnamese for Vietnamese phones and English for every other language", () => {
+    expect(languageFromDeviceLocales([{ languageCode: "vi" }])).toBe("vi");
+    expect(languageFromDeviceLocales([{ languageCode: "en" }])).toBe("en");
+    expect(languageFromDeviceLocales([{ languageCode: "zh" }])).toBe("en");
+    expect(languageFromDeviceLocales([{ languageCode: "fr" }, { languageCode: "vi" }])).toBe("en");
+    expect(languageFromDeviceLocales([{ languageCode: "VI" }])).toBe("vi");
+  });
+
+  it("keeps the Vietnamese default when the phone language cannot be read", () => {
+    expect(languageFromDeviceLocales([])).toBe("vi");
+    expect(languageFromDeviceLocales(undefined)).toBe("vi");
+    expect(languageFromDeviceLocales([{ languageCode: null }])).toBe("vi");
+    (getLocales as jest.Mock).mockImplementationOnce(() => { throw new Error("unavailable"); });
+    expect(detectDeviceLanguage()).toBe("vi");
+  });
+
+  it("reads the phone language through expo-localization", () => {
+    (getLocales as jest.Mock).mockReturnValueOnce([{ languageCode: "ja" }]);
+    expect(detectDeviceLanguage()).toBe("en");
+  });
+});
 
 describe("i18n", () => {
   describe("normalizeLanguage", () => {
