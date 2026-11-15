@@ -13,7 +13,8 @@ type Props = { model: ShareCardModel; width: number };
 export const ShareCardView = forwardRef<View, Props>(function ShareCardView({ model, width }, ref) {
   const u = (value: number) => (value * width) / 360;
   const count = model.images.length;
-  const imageWidth = count <= 1 ? u(150) : u(96);
+  // Sized so the image, title and up to three message lines always fit between the wordmark and the footer.
+  const imageWidth = count <= 1 ? u(112) : u(88);
   const imageHeight = imageWidth * 1.72;
   return (
     <View
@@ -69,7 +70,7 @@ export const ShareCardView = forwardRef<View, Props>(function ShareCardView({ mo
 const styles = StyleSheet.create({
   card: { backgroundColor: colors.charcoal, borderWidth: 1, borderColor: "rgba(201, 164, 92, 0.45)", overflow: "hidden" },
   wordmark: { color: colors.gold, fontFamily: "EBGaramond_400Regular", textAlign: "center" },
-  middle: { flex: 1, alignItems: "center", justifyContent: "center" },
+  middle: { flex: 1, minHeight: 0, alignItems: "center", justifyContent: "center", overflow: "hidden" },
   eyebrow: { color: colors.moon, fontFamily: "HankenGrotesk_500Medium", textAlign: "center" },
   imageRow: { flexDirection: "row", alignItems: "center", justifyContent: "center" },
   reversed: { transform: [{ rotate: "180deg" }] },

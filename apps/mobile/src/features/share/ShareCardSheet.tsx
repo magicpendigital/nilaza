@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { Modal, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import { colors, layout } from "../../theme";
 import type { Language } from "../../types";
-import { shareCardImage, shareLinkText, type ShareOutcome } from "./captureShareCard";
+import { copyShareText, shareCardImage, shareLinkText, type ShareOutcome } from "./captureShareCard";
 import type { ShareCardModel } from "./shareCardContent";
 import { shareLinkMessage } from "./shareLink";
 import { ShareCardView } from "./ShareCardView";
@@ -27,18 +27,22 @@ export function ShareCardSheet({ visible, language, model, url, primary = "image
   const cardRef = useRef<View>(null);
   const { width } = useWindowDimensions();
   const [status, setStatus] = useState("");
+  const [statusIsError, setStatusIsError] = useState(false);
   const [busy, setBusy] = useState(false);
   const cardWidth = Math.max(240, Math.min(360, width - 48));
 
-  const finish = (action: "image" | "link", outcome: ShareOutcome) => {
+  const finish = (action: "image" | "link", outcome: ShareOutcome, copied = false) => {
     onEvent("share_completed", { surface: model.surface, action, outcome });
     setBusy(false);
+    setStatusIsError(outcome !== "returned");
     setStatus(
       outcome === "failed"
         ? vi ? "Chưa chia sẻ được. Bạn thử lại hoặc dùng nút gửi link." : "Could not share. Try again or use the link button."
         : outcome === "unavailable"
           ? vi ? "Thiết bị này chưa hỗ trợ chia sẻ ảnh. Hãy dùng nút gửi link." : "Image sharing is not available here. Use the link button."
-          : ""
+          : copied
+            ? vi ? "Đã sao chép lời nhắn kèm link. Nếu ứng dụng bạn chọn không hiện lời nhắn cùng ảnh, hãy dán vào tin nhắn." : "Message and link copied. If the app you chose does not show the message with the image, paste it into your message."
+            : ""
     );
   };
 
@@ -47,7 +51,10 @@ export function ShareCardSheet({ visible, language, model, url, primary = "image
     setBusy(true);
     setStatus("");
     onEvent("share_tapped", { surface: model.surface, action: "image" });
-    finish("image", await shareCardImage(cardRef, vi ? "Chia sẻ thẻ Nilaza" : "Share your Nilaza card"));
+    // The message travels with the image. It is also copied first, because some apps (Facebook, Messenger) drop the text of an image share.
+    const message = shareLinkMessage(language, model.surface, url, model);
+    const copied = await copyShareText(message);
+    finish("image", await shareCardImage(cardRef, vi ? "Chia sẻ thẻ Nilaza" : "Share your Nilaza card", message), copied);
   };
 
   const shareLink = async () => {
@@ -55,7 +62,7 @@ export function ShareCardSheet({ visible, language, model, url, primary = "image
     setBusy(true);
     setStatus("");
     onEvent("share_tapped", { surface: model.surface, action: "link" });
-    finish("link", await shareLinkText(shareLinkMessage(language, model.surface, url), "Nilaza"));
+    finish("link", await shareLinkText(shareLinkMessage(language, model.surface, url, model), "Nilaza"));
   };
 
   const imageButton = { label: vi ? "Chia sẻ ảnh" : "Share image", onPress: shareImage };
@@ -75,13 +82,18 @@ export function ShareCardSheet({ visible, language, model, url, primary = "image
               ? "Thẻ chỉ có nội dung công khai của thư viện. Câu hỏi, ghi chú, tâm trạng và thông tin sinh của bạn không được gửi đi."
               : "The card only has public library content. Your question, notes, mood and birth details are not sent."}
           </Text>
+          <Text style={styles.privacy}>
+            {vi
+              ? "Ảnh được gửi kèm lời nhắn và link của bạn. Nếu ứng dụng nhận không hiện lời nhắn, lời nhắn đã được sao chép sẵn để bạn dán."
+              : "The image goes with a message and your link. If the receiving app does not show the message, it is already copied so you can paste it."}
+          </Text>
           <Pressable accessibilityRole="button" accessibilityState={{ disabled: busy }} disabled={busy} onPress={first.onPress} style={[styles.primary, busy && styles.disabled]}>
             <Text style={styles.primaryText}>{first.label}</Text>
           </Pressable>
           <Pressable accessibilityRole="button" accessibilityState={{ disabled: busy }} disabled={busy} onPress={second.onPress} style={[styles.secondary, busy && styles.disabled]}>
             <Text style={styles.secondaryText}>{second.label}</Text>
           </Pressable>
-          {status ? <Text accessibilityLiveRegion="polite" style={styles.status}>{status}</Text> : null}
+          {status ? <Text accessibilityLiveRegion="polite" style={[styles.status, statusIsError ? null : styles.statusOk]}>{status}</Text> : null}
           <Pressable accessibilityRole="button" onPress={onClose} style={styles.close}>
             <Text style={styles.closeText}>{vi ? "Đóng" : "Close"}</Text>
           </Pressable>
@@ -102,6 +114,7 @@ const styles = StyleSheet.create({
   secondary: { minHeight: layout.minimumTouchTarget, alignSelf: "stretch", borderRadius: 8, borderWidth: 1, borderColor: colors.gold, alignItems: "center", justifyContent: "center" },
   secondaryText: { color: colors.gold, fontFamily: "HankenGrotesk_600SemiBold", fontSize: 16 },
   disabled: { opacity: 0.6 },
+  statusOk: { color: colors.moon },
   status: { color: colors.rose, fontFamily: "HankenGrotesk_400Regular", fontSize: 13, textAlign: "center" },
   close: { minHeight: layout.minimumTouchTarget, alignItems: "center", justifyContent: "center" },
   closeText: { color: colors.moon, fontFamily: "HankenGrotesk_500Medium", fontSize: 15 }

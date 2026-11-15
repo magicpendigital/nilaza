@@ -51,11 +51,58 @@ it("creates 8-character ids that depend only on the random source", () => {
   expect(newShareId()).toMatch(/^[a-z0-9]{8}$/);
 });
 
-it("writes a short message with the link and the reflection note, per language", () => {
-  const vi = shareLinkMessage("vi", "astro_invite", "https://x.test/a");
-  const en = shareLinkMessage("en", "today_card", "https://x.test/b");
-  expect(vi).toContain("https://x.test/a");
-  expect(vi).toContain("Để tự phản chiếu");
-  expect(en).toContain("https://x.test/b");
-  expect(en).toContain("For self-reflection");
+const surfaces = ["today_card", "tarot_reading", "astro_big3", "astro_invite"] as const;
+const link = "https://x.test/a";
+
+it("writes a first-person message with the link on its own line for every surface and language", () => {
+  for (const surface of surfaces) {
+    for (const language of ["vi", "en"] as const) {
+      const text = shareLinkMessage(language, surface, link, { cardNames: ["The Star"], signName: "Leo" });
+      const lines = text.split("\n");
+      expect(lines[lines.length - 1]).toBe(link);
+      expect(lines.slice(0, -1).join(" ").length).toBeGreaterThan(30);
+    }
+  }
+});
+
+it("has no system-style disclaimer and ends the lead with an open question or invitation", () => {
+  for (const surface of surfaces) {
+    for (const language of ["vi", "en"] as const) {
+      const text = shareLinkMessage(language, surface, link, { cardNames: ["The Star", "The Sun"], signName: "Leo" });
+      expect(text).not.toMatch(/phản chiếu|dự đoán|self-reflection|prediction/i);
+      expect(text.split("\n")[0]).toMatch(/[?.]$/);
+    }
+  }
+  expect(shareLinkMessage("vi", "today_card", link, { cardNames: ["Ngôi Sao"] })).toMatch(/Bạn rút thử xem lá của bạn là gì\?/);
+});
+
+it("uses the public card name for the card of the day and falls back without one", () => {
+  expect(shareLinkMessage("vi", "today_card", link, { cardNames: ["Ngôi Sao"] })).toContain("lá Ngôi Sao");
+  expect(shareLinkMessage("en", "today_card", link, { cardNames: ["The Star"] })).toContain("The Star");
+  const plain = shareLinkMessage("vi", "today_card", link);
+  expect(plain).toContain(link);
+  expect(plain).not.toContain("undefined");
+});
+
+it("lists up to three card names for a reading and clips long names", () => {
+  const vi = shareLinkMessage("vi", "tarot_reading", link, { cardNames: ["Quá Khứ", "Hiện Tại", "Tương Lai", "Lá Thứ Tư"] });
+  expect(vi).toContain("Quá Khứ, Hiện Tại và Tương Lai");
+  expect(vi).not.toContain("Lá Thứ Tư");
+  expect(shareLinkMessage("en", "tarot_reading", link, { cardNames: ["A", "B"] })).toContain("A and B");
+  const long = shareLinkMessage("en", "today_card", link, { cardNames: ["x".repeat(200)] });
+  expect(long).toContain("x".repeat(40));
+  expect(long).not.toContain("x".repeat(41));
+});
+
+it("mentions the Sun sign only when one is given and never invents other details", () => {
+  expect(shareLinkMessage("vi", "astro_invite", link, { signName: "Sư Tử" })).toContain("Mặt Trời của mình ở Sư Tử");
+  expect(shareLinkMessage("vi", "astro_invite", link)).not.toContain("Mặt Trời");
+  expect(shareLinkMessage("en", "astro_big3", link, { signName: "Leo" })).toContain("My Sun is in Leo");
+  expect(shareLinkMessage("en", "astro_big3", link)).not.toContain("undefined");
+});
+
+it("carries nothing but the lead and the link, so no question, note or birth detail can be added", () => {
+  const text = shareLinkMessage("vi", "tarot_reading", link, { cardNames: ["Ngôi Sao"], question: "Tôi có nên nghỉ việc không?", notes: "bí mật", birthDate: "1990-01-01" } as never);
+  expect(text.split("\n")).toHaveLength(2);
+  expect(text).not.toMatch(/nghỉ việc|bí mật|1990/);
 });

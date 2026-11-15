@@ -52,16 +52,59 @@ export function buildShareUrl(input: ShareLinkInput): string {
 /** Plain readable address printed on the card image; it carries no tracking. */
 export const SHARE_DISPLAY_ADDRESS = "nilaza.magicpendigital.com";
 
-/** Text sent with the tracked link. It never includes the question, notes, mood, birth data or names. */
-export function shareLinkMessage(language: Language, surface: ShareSurface, url: string): string {
+/** Public values a share message may mention. They come from the card library or the calculated chart, never from what the person typed. */
+export type ShareMessageDetail = { cardNames?: string[]; signName?: string };
+
+const cleanName = (name: string) => name.replace(/\s+/g, " ").trim().slice(0, 40);
+
+function joinNames(names: string[], vi: boolean): string {
+  if (names.length <= 1) return names[0] ?? "";
+  const last = names[names.length - 1];
+  return `${names.slice(0, -1).join(", ")} ${vi ? "và" : "and"} ${last}`;
+}
+
+/**
+ * Text sent with the tracked link. It speaks as the person sharing, leaves a question open for the reader, and carries no
+ * system-style disclaimer. It never includes the question, notes, mood, birth data or names: only a public card name or a
+ * calculated Sun sign name may appear, and only when the caller passes one.
+ */
+export function shareLinkMessage(language: Language, surface: ShareSurface, url: string, detail: ShareMessageDetail = {}): string {
   const vi = language === "vi";
-  const lead = surface === "astro_invite"
-    ? vi ? "Mình mời bạn so bản đồ sao của hai đứa trên Nilaza nhé." : "I would love to compare our star charts on Nilaza."
-    : surface === "astro_big3"
-      ? vi ? "Đây là bản đồ sao của mình trên Nilaza. Bạn thử xem của bạn nhé." : "This is my star chart on Nilaza. Try yours."
-      : surface === "tarot_reading"
-        ? vi ? "Mình vừa rút bài trên Nilaza. Rút thử với mình nhé." : "I just drew cards on Nilaza. Try it with me."
-        : vi ? "Lá bài hôm nay của mình trên Nilaza. Rút lá của bạn nhé." : "My card of the day on Nilaza. Draw yours.";
-  const note = vi ? "Để tự phản chiếu, không phải dự đoán." : "For self-reflection, not prediction.";
-  return `${lead}\n${note}\n${url}`;
+  const names = (detail.cardNames ?? []).map(cleanName).filter(Boolean).slice(0, maxCards);
+  const sign = detail.signName ? cleanName(detail.signName) : "";
+  let lead: string;
+  if (surface === "astro_invite") {
+    lead = vi
+      ? `${sign ? `Mặt Trời của mình ở ${sign}, còn bạn? ` : ""}Mình tò mò bản đồ sao của hai đứa mình hợp nhau ở điểm nào. Vào so với mình nhé.`
+      : `${sign ? `My Sun is in ${sign}. What about yours? ` : ""}I am curious where our star charts line up. Come compare with me.`;
+  } else if (surface === "astro_big3") {
+    lead = sign
+      ? vi
+        ? `Mặt Trời của mình ở ${sign}. Bạn đoán xem Mặt Trăng và cung mọc của mình ở đâu? Xem bản đồ sao của bạn đi.`
+        : `My Sun is in ${sign}. Guess where my Moon and Rising are? Go see your own chart.`
+      : vi
+        ? "Mình vừa xem bản đồ sao của mình và có vài điều làm mình bất ngờ. Bạn xem của bạn đi?"
+        : "I just looked at my star chart and a few things surprised me. Want to see yours?";
+  } else if (surface === "tarot_reading") {
+    lead = names.length === 1
+      ? vi
+        ? `Mình vừa rút lá ${names[0]}, và có một câu trong lời giải làm mình phải dừng lại. Bạn rút thử xem?`
+        : `I just drew ${names[0]} and one line in the reading made me stop. Want to draw yours?`
+      : names.length > 1
+        ? vi
+          ? `Mình vừa trải ${joinNames(names, true)}, và có một lá làm mình phải dừng lại. Bạn thử trải xem bạn ra những lá nào?`
+          : `I just laid out ${joinNames(names, false)}, and one card made me stop. Try a spread and see which cards you get.`
+        : vi
+          ? "Mình vừa trải một vòng bài, và có một lá làm mình phải dừng lại. Bạn thử trải xem bạn ra những lá nào?"
+          : "I just did a card spread and one card made me stop. Try one and see which cards you get.";
+  } else {
+    lead = names.length
+      ? vi
+        ? `Hôm nay mình rút được lá ${names[0]}. Đọc xong mình ngồi nghĩ mất một lúc. Bạn rút thử xem lá của bạn là gì?`
+        : `I pulled ${names[0]} today and it made me stop and think. Pull yours and see what it says?`
+      : vi
+        ? "Hôm nay mình vừa rút một lá bài và ngồi nghĩ mất một lúc. Bạn rút thử xem lá của bạn là gì?"
+        : "I pulled a card today and it made me stop and think. Pull yours and see what it says?";
+  }
+  return `${lead}\n${url}`;
 }

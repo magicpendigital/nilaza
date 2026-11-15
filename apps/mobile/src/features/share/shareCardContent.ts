@@ -21,6 +21,10 @@ export type ShareCardModel = {
   message: string;
   note: string;
   footer: string;
+  /** Public tarot card names that may appear in the share message (at most three). Never the question or notes. */
+  cardNames?: string[];
+  /** Calculated Sun sign name that may appear in the share message, only when the chart gives exactly one. */
+  signName?: string;
 };
 
 /** What a screen hands to the share sheet: the card and only the public values the link may carry. */
@@ -45,7 +49,8 @@ export function todayCardModel(input: { language: Language; cardName: string; me
     rows: [],
     message: clip(firstSentence(input.meaning) || input.meaning.trim(), 150),
     note: noteText(input.language),
-    footer: SHARE_DISPLAY_ADDRESS
+    footer: SHARE_DISPLAY_ADDRESS,
+    cardNames: [input.cardName]
   };
 }
 
@@ -63,7 +68,8 @@ export function readingModel(input: { language: Language; cards: ShareReadingCar
     rows: [],
     message: clip(safeReadingSentence(input.summary, input.question), 150),
     note: noteText(input.language),
-    footer: SHARE_DISPLAY_ADDRESS
+    footer: SHARE_DISPLAY_ADDRESS,
+    cardNames: cards.map((card) => card.name)
   };
 }
 
@@ -93,7 +99,8 @@ export function big3Model(input: ShareBig3Input): ShareCardModel {
     rows,
     message: "",
     note: noteText(input.language),
-    footer: SHARE_DISPLAY_ADDRESS
+    footer: SHARE_DISPLAY_ADDRESS,
+    ...(input.sun.length === 1 ? { signName: localizeAstrologySign(input.sun[0], lang) } : {})
   };
 }
 

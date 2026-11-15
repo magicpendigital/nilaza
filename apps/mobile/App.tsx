@@ -86,7 +86,8 @@ import {
   getDailyInsight,
   getAdminAccess,
   getPublishedContent,
-  requestAstrologyAiInsight
+  requestAstrologyAiInsight,
+  sendShareEvents
 } from "./src/backendClient";
 import {
   ActionTile,
@@ -151,6 +152,7 @@ import { readingShareText } from "./src/features/tarot/shareText";
 import { ShareCardSheet, type ShareEventMeta, type ShareEventName } from "./src/features/share/ShareCardSheet";
 import { readingModel, todayCardModel, type ShareCardModel, type ShareRequest } from "./src/features/share/shareCardContent";
 import { buildShareUrl, newShareId } from "./src/features/share/shareLink";
+import { toShareEventPayload } from "./src/features/share/shareEvents";
 import { homeNextStep, homeNextStepCopy } from "./src/features/home/nextStep";
 import { previousDayKey, visibleStreak } from "./src/features/home/streak";
 import { CardLibrary } from "./src/features/tarot/CardLibrary";
@@ -4794,8 +4796,12 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       url: buildShareUrl({ language, surface: request.model.surface, id: newShareId(), cardIds: request.cardIds, sunSign: request.sunSign })
     });
   };
-  const recordShareEvent = (name: ShareEventName, meta: ShareEventMeta) =>
+  const recordShareEvent = (name: ShareEventName, meta: ShareEventMeta) => {
     recordEvent(name, { surface: meta.surface, action: meta.action, ...(meta.outcome ? { outcome: meta.outcome } : {}) });
+    // Server count: enumerated values only, signed-in sessions only, never delays or blocks the share.
+    const payload = toShareEventPayload(name, meta);
+    if (payload) void sendShareEvents([payload], backendOptions);
+  };
 
   // Share only the card and its library meaning: never the user's question, mood or Journal text.
   const shareTodayPulseCard = () => {

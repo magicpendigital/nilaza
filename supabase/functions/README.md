@@ -16,6 +16,7 @@ The mobile client maps API-style paths to Supabase function names:
 
 | Mobile path | Function |
 | --- | --- |
+| `/share/events` | `share-events` |
 | `/ai/oracle-turn` | `ai-oracle-turn` |
 | `/ai/persona-chat` | `ai-persona-chat` |
 | `/ai/ai-council` | `ai-council` |

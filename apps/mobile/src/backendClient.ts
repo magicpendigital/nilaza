@@ -4,6 +4,7 @@ import { validAstrologyAiResponse } from "./features/astrology/astrologyAiValida
 import { AI_FEEDBACK_SCHEMA, parseFeedbackSubmission, parseFeedbackReceipt, parseFeedbackExport, type FeedbackSubmission, type FeedbackReceipt, type FeedbackExport } from "../../../packages/ai-contracts/feedback";
 import { createClient } from "@supabase/supabase-js";
 import type { AccountScope } from "./auth/accountScope";
+import type { ShareEventPayload } from "./features/share/shareEvents";
 import type { JournalAck, JournalMutation } from "./features/journal/journalRepository";
 import { parseAdminAccess } from "./features/owner/access";
 import type { AstrologyRawChart } from "./features/astrology/contracts";
@@ -380,6 +381,7 @@ function generationOptions(options: BackendOptions, patienceMs: number): Backend
 const supabaseFunctionPathMap: Record<string, string> = {
   "/account/delete": "/account-delete",
   "/ai/feedback": "/ai-feedback",
+  "/share/events": "/share-events",
   "/ai/oracle-turn": "/ai-oracle-turn",
   "/ai/persona-chat": "/ai-persona-chat",
   "/ai/ai-council": "/ai-council",
@@ -531,6 +533,29 @@ export async function requestAccountDeletion(backendOptions: BackendOptions): Pr
 
 export class FeedbackRequestError extends Error {
   constructor(readonly code: string, readonly status?: number) { super(code); this.name = "FeedbackRequestError"; }
+}
+
+/**
+ * Sends share measurements (enumerated values only) to the server. Best effort: it needs a signed-in session, never
+ * throws and never delays the share, so the app behaves the same when the function is not deployed yet.
+ */
+export async function sendShareEvents(events: ShareEventPayload[], backendOptions: BackendOptions): Promise<boolean> {
+  const options = currentOptions(backendOptions);
+  if (!events.length || !options.baseUrl || !options.authToken || options.session?.active === false) return false;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 8000);
+  try {
+    const response = await fetch(resolveBackendPath(options.baseUrl, "/share/events"), {
+      method: "POST", signal: controller.signal,
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${options.authToken}`, ...(options.apiKey ? { apikey: options.apiKey } : {}) },
+      body: JSON.stringify({ events })
+    });
+    return response.status === 202;
+  } catch {
+    return false;
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 async function feedbackRequest(payload: unknown, backendOptions: BackendOptions): Promise<unknown> {

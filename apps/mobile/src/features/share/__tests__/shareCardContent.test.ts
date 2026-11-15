@@ -67,3 +67,21 @@ it("returns a Sun sign for links only when the chart gives exactly one", () => {
   expect(singleSunSign(["leo", "virgo"])).toBeNull();
   expect(singleSunSign([])).toBeNull();
 });
+
+it("exposes only public names for the share message: card names for cards, one calculated Sun sign for charts", () => {
+  const today = todayCardModel({ language: "vi", cardName: "Ngôi Sao", meaning: "Hy vọng.", image });
+  expect(today.cardNames).toEqual(["Ngôi Sao"]);
+  const reading = readingModel({
+    language: "vi",
+    cards: [
+      { position: "Quá khứ", name: "Ngôi Sao", reversed: false, image },
+      { position: "Hiện tại", name: "Mặt Trăng", reversed: true, image }
+    ],
+    summary: "Một bước nhỏ.",
+    question: "Tôi có nên nghỉ việc không?"
+  });
+  expect(reading.cardNames).toEqual(["Ngôi Sao", "Mặt Trăng"]);
+  expect(JSON.stringify(reading.cardNames)).not.toContain("nghỉ việc");
+  expect(big3Model({ language: "en", sun: ["leo"], moon: [], timeKnown: false }).signName).toBe("Leo");
+  expect(big3Model({ language: "en", sun: ["leo", "virgo"], moon: [], timeKnown: false }).signName).toBeUndefined();
+});
