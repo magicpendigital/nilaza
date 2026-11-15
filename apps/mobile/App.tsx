@@ -4999,8 +4999,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     recordEvent("birth_profile_cleared");
     showToast(backendOptions.authToken
       ? language === "vi"
-        ? "Đã xóa hồ sơ ngày sinh và các bài đọc AI Chiêm tinh đã đồng bộ"
-        : "Birth profile and synced Astrology AI reports deleted"
+        ? "Đã xóa hồ sơ ngày sinh trên máy và ẩn các bài đọc AI Chiêm tinh đã đồng bộ"
+        : "Birth profile deleted on this device and synced Astrology AI reports hidden"
       : c.birthProfileCleared);
   };
 

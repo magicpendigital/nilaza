@@ -136,7 +136,7 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "drawCards, TarotFlow ritual (local selectTarotCards, credit check, reset effect), retry button, start-over, buildTodayPulse seed and reveal key.",
-      "sha256": "86e422cc4a12933bff324f72828054d4f743cbbd073577b52ccb77adc24c12be"
+      "sha256": "0a87d1a6f83d53cd164393dfefaad6ef111d550d13547d07d86c46ebf21214eb"
     },
     {
       "path": "apps/mobile/src/backendClient.ts",
@@ -171,7 +171,7 @@
     {
       "path": "apps/admin/workflow-catalog.js",
       "reason": "Pins LF hashes of the Tarot entrypoint and tarot-prompt.ts; stale source fails admin:check.",
-      "sha256": "40ed6d9c96ae8146b14c1b353ea00b942ecd063f0e925917cb5604dd3ecbe3d9"
+      "sha256": "ee2fa72e4098fa493d11ec131c5b7eaa0a8f979eaa88abda538d9a7cadd06260"
     },
     {
       "path": "docs/feature-plans/owner-only-publish-2026-11-15.json",
