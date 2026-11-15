@@ -68,12 +68,12 @@
     {
       "path": "supabase/functions/_shared/provider-registry.ts",
       "reason": "Reference price table (C1) and its exports kept",
-      "sha256": "574262c7b21c1a41efffdc02de396c659451558d7480d62120e6259581f5e1b4"
+      "sha256": "c0beee6601c1026a674bc01ec6eac96edb6b9895c433d273de5582a6de54d28f"
     },
     {
       "path": "supabase/functions/_shared/model-router.ts",
       "reason": "Every generation span, cost cap projection and stepCost (C2)",
-      "sha256": "87de02f1978911d8ab0abc791f827b8cb3f16e18bfcc2eb3bea10ef304d89d96"
+      "sha256": "63c599d57a08343d5d20c8bbb857bc0e8f291568dea6d1fb54d44711d9a76c5c"
     },
     {
       "path": "supabase/functions/_shared/ai-trace.ts",
@@ -108,22 +108,22 @@
     {
       "path": "apps/admin/overview.js",
       "reason": "Overview page: replaces the old no-cost-data card (C4)",
-      "sha256": "776a138556b12746978d8644146bd0ed675c7143a833d4a34c6bf4b731ab5ec6"
+      "sha256": "c15edfa634ecf0ba3c131112b46d0d3af77f8f24846904664b971e47571ced8a"
     },
     {
       "path": "apps/admin/workspace-guard.js",
       "reason": "Admin RPC allowlist",
-      "sha256": "f6eea26f8e29c3bd5e35eafa63d927a3f8d5d6e3f8c91174447198be3bb08539"
+      "sha256": "3f9defedf308753a9929be0cc4aa58695176b5ffcec7f515185853cef37fb711"
     },
     {
       "path": "apps/admin/workflow-catalog.js",
       "reason": "Holds the LF sha256 of model-router.ts",
-      "sha256": "dbb10aaf490b12346c5866adce7fa77cad83cbe3051719c8b47c8fd87900b369"
+      "sha256": "18910a2dbbd91ad165b99e8b92a78a80b39383ff79b37af068efe550d567d419"
     },
     {
       "path": "scripts/admin-a2-navigation.test.mjs",
       "reason": "Overview harness asserts RPC list and the old cost line",
-      "sha256": "0a6d391da952d348bfe2f72819ed225578b4f2cf2a397df38b053090a84cbbe3"
+      "sha256": "1fd5c5e619d93f53dadad6b16f575ae865024ffa1c1f91f92a5b035e69e6ace5"
     },
     {
       "path": "docs/feature-plans/owner-only-publish-2026-11-15.json",
