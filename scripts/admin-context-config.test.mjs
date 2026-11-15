@@ -204,7 +204,7 @@ test("context config: an editor can save a draft but has no publish button; read
 test("context config: read-only features show the fields table and no inputs", async () => {
   const h = harness();
   await drain(h.dom);
-  for (const id of ["oracle_router", "tarot_reading", "astrology_insight", "astrology_report"]) {
+  for (const id of ["oracle_router", "tarot_reading", "astrology_insight"]) {
     click(h, `[data-ctx-feature="${id}"]`);
     assert.match(h.c.textContent, /Chỉ xem\./);
     assert.equal(h.c.querySelector("[data-ctx-form], [data-ctx-enabled], [data-ctx-save]"), null, `${id} has no controls`);
@@ -212,7 +212,7 @@ test("context config: read-only features show the fields table and no inputs", a
     assert.equal(rows.length, SPEC.features[id].fields.length);
     assert.ok(h.c.querySelectorAll(".ctx-node-readonly .ctx-lock").length === SPEC.features[id].fields.length);
   }
-  assert.match(h.c.textContent, /gửi nguyên ngày, giờ và nơi sinh/);
+  assert.equal(h.c.querySelector('[data-ctx-feature="astrology_report"]'), null, "legacy ai-astrology-report entry is gone");
 });
 
 test("context config: a missing migration says so and keeps today's behaviour; server errors are Vietnamese", async () => {

@@ -13,7 +13,7 @@ jest.mock("../MythologyWorld", () => {
   const ReactLocal = require("react");
   const { Pressable, Text, View } = require("react-native");
   return {
-    MythologyWorld: ({ onBack, onSaveChart, onSubmitAiQuestion, aiErrorMessage, aiAnswer, onSaveAiAnswer, onRetryAiQuestion, onReportAiAnswer }: {
+    MythologyWorld: ({ onBack, onSaveChart, onSubmitAiQuestion, aiErrorMessage, aiAnswer, onSaveAiAnswer, onRetryAiQuestion, onReportAiAnswer, initialTab, aiUnlockLabel, aiCrisis }: {
       onBack?: () => void;
       onSaveChart?: () => void;
       onSubmitAiQuestion?: (question: string) => void;
@@ -22,11 +22,17 @@ jest.mock("../MythologyWorld", () => {
       onSaveAiAnswer?: () => void;
       onRetryAiQuestion?: () => void;
       onReportAiAnswer?: () => void;
+      initialTab?: string;
+      aiUnlockLabel?: string;
+      aiCrisis?: boolean;
     }) =>
       ReactLocal.createElement(
         View,
         null,
         ReactLocal.createElement(Text, null, "Bản đồ tương tác đã sẵn sàng"),
+        ReactLocal.createElement(Text, { testID: "entry-tab" }, initialTab ?? "none"),
+        aiUnlockLabel ? ReactLocal.createElement(Text, { testID: "unlock-label" }, aiUnlockLabel) : null,
+        aiCrisis ? ReactLocal.createElement(Text, { testID: "ai-crisis" }, "crisis") : null,
         ReactLocal.createElement(
           Pressable,
           { onPress: onSaveChart },
@@ -82,6 +88,7 @@ async function fillForm(
     ).toBe(false),
   );
   fireEvent.press(screen.getByText("Tạo lá số của bạn"));
+  await waitFor(() => expect(screen.getByLabelText("Ngày")).toBeTruthy());
   const [year, month, day] = date.split("-");
   fireEvent.changeText(screen.getByLabelText("Ngày"), day);
   fireEvent.changeText(screen.getByLabelText("Tháng"), month);
@@ -418,4 +425,68 @@ test("method, time zone and backup sit in one settings group on the hub (analysi
   fireEvent.press(screen.getByText("Cài đặt & dữ liệu"));
   expect(screen.getByText("Múi giờ hiển thị")).toBeTruthy();
   expect(screen.getByText("Sao lưu & riêng tư")).toBeTruthy();
+});
+
+async function failAiWith(code: string) {
+  const m = memory();
+  const requestAstrologyAi = jest.fn(async () => { throw Object.assign(new Error(code), { code }); });
+  const screen = render(<AstrologyExperience language="vi" storage={m.storage} onBack={() => {}} canRequestAstrologyAi
+    requestAstrologyAi={requestAstrologyAi as never} />);
+  await fillForm(screen, "2000-01-01", "12:00", "Hanoi");
+  fireEvent.press(screen.getByText("Tạo bản đồ"));
+  await openWheel(screen);
+  await waitFor(() => expect(screen.getByText("Bản đồ tương tác đã sẵn sàng")).toBeTruthy());
+  fireEvent.press(screen.getByText("Gửi câu hỏi thử"));
+  fireEvent.press(screen.getByText("Đồng ý và gửi một câu hỏi"));
+  await waitFor(() => expect(screen.getByTestId("ai-error")).toBeTruthy());
+  return screen;
+}
+
+test("a crisis answer carries the 115 support copy and the crisis flag (UX review K5/U2)", async () => {
+  const screen = await failAiWith("crisis_support");
+  expect(screen.getByTestId("ai-error").props.children).toMatch(/gọi 115/);
+  expect(screen.getByTestId("ai-crisis")).toBeTruthy();
+});
+
+test("maintenance says the turn was not used (UX review U4)", async () => {
+  const screen = await failAiWith("route_not_ready");
+  expect(screen.getByTestId("ai-error").props.children).toBe("Đọc sâu đang bảo trì, lượt của bạn chưa bị trừ. Hãy thử lại sau.");
+  expect(screen.queryByTestId("ai-crisis")).toBeNull();
+});
+
+test("a guest is sent to sign-in from the deep read and the wheel, with no Premium wording (UX review K4/U1)", async () => {
+  const m = memory(), onRequestSignIn = jest.fn(), requestAstrologyAi = jest.fn();
+  const screen = render(<AstrologyExperience language="vi" storage={m.storage} onBack={() => {}} canRequestAstrologyAi={false}
+    aiSignInRequired onRequestSignIn={onRequestSignIn} requestAstrologyAi={requestAstrologyAi as never} />);
+  await fillForm(screen, "2000-01-01", "12:00", "Hanoi");
+  fireEvent.press(screen.getByText("Tạo bản đồ"));
+  await waitFor(() => expect(screen.getByText("Đăng nhập để dùng · 1 lượt/ngày")).toBeTruthy());
+  expect(screen.queryByText(/Sắp ra mắt/)).toBeNull();
+  fireEvent.press(screen.getByText("Đăng nhập để dùng · 1 lượt/ngày"));
+  expect(onRequestSignIn).toHaveBeenCalledTimes(1);
+  await openWheel(screen);
+  await waitFor(() => expect(screen.getByText("Bản đồ tương tác đã sẵn sàng")).toBeTruthy());
+  expect(screen.getByTestId("unlock-label").props.children).toBe("Đăng nhập để dùng · 1 lượt/ngày");
+  fireEvent.press(screen.getByText("Gửi câu hỏi thử"));
+  expect(onRequestSignIn).toHaveBeenCalledTimes(2);
+  expect(screen.queryByText("Đồng ý và gửi một câu hỏi")).toBeNull();
+  expect(requestAstrologyAi).not.toHaveBeenCalled();
+});
+
+test("\"Đọc đầy đủ\" opens the chart on the AI guide tab; the wheel row opens the story (UX review K7/U6)", async () => {
+  const m = memory();
+  const requestAstrologyAi = jest.fn(async (input: AstrologyAiInvocation, correlation: AnswerCorrelation) => answerFor(input, correlation));
+  const screen = render(<AstrologyExperience language="vi" storage={m.storage} onBack={() => {}} canRequestAstrologyAi
+    requestAstrologyAi={requestAstrologyAi} />);
+  await fillForm(screen, "2000-01-01", "12:00", "Hanoi");
+  fireEvent.press(screen.getByText("Tạo bản đồ"));
+  await openWheel(screen);
+  await waitFor(() => expect(screen.getByTestId("entry-tab").props.children).toBe("story"));
+  fireEvent.press(screen.getByText("Gửi câu hỏi thử"));
+  fireEvent.press(screen.getByText("Đồng ý và gửi một câu hỏi"));
+  await waitFor(() => expect(screen.getByText(responseFixture.headline)).toBeTruthy());
+  fireEvent.press(screen.getByText("Trở về Astrology"));
+  await waitFor(() => expect(screen.getByText("Đọc đầy đủ")).toBeTruthy());
+  fireEvent.press(screen.getByText("Đọc đầy đủ"));
+  await waitFor(() => expect(screen.getByTestId("entry-tab").props.children).toBe("guide"));
 });

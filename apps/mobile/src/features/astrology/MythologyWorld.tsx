@@ -59,6 +59,9 @@ export function MythologyWorld({
   aiAnswerSaved,
   onSaveAiAnswer,
   onReportAiAnswer,
+  initialTab,
+  aiUnlockLabel,
+  aiCrisis,
 }: {
   language: AstrologyLanguage;
   ownerPremiumPreview?: boolean;
@@ -82,6 +85,9 @@ export function MythologyWorld({
   aiAnswerSaved?: boolean;
   onSaveAiAnswer?: () => void;
   onReportAiAnswer?: () => void;
+  initialTab?: "story" | "guide";
+  aiUnlockLabel?: string;
+  aiCrisis?: boolean;
 }) {
   const vi = language === "vi";
   const [selected, setSelected] = useState(
@@ -217,6 +223,9 @@ export function MythologyWorld({
         aiAnswerSaved={aiAnswerSaved}
         onSaveAiAnswer={onSaveAiAnswer}
         onReportAiAnswer={onReportAiAnswer}
+        initialTab={initialTab}
+        aiUnlockLabel={aiUnlockLabel}
+        aiCrisis={aiCrisis}
         onSaveChart={onSaveChart}
         saved={saved}
         saving={chartSaving}

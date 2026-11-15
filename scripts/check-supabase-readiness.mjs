@@ -29,7 +29,6 @@ const requiredFunctions = [
   "ai-tarot-reading",
   "ai-daily-insight",
   "ai-daily-zodiac-pulse",
-  "ai-astrology-report",
   "ai-astrology-insight",
   "profile-upsert",
   "journal-entries",

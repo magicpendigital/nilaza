@@ -13,7 +13,6 @@ const contracts = [
   { gatewayPath: "/ai/tarot-reading", functionName: "ai-tarot-reading" },
   { gatewayPath: "/ai/daily-insight", functionName: "ai-daily-insight" },
   { gatewayPath: "/ai/daily-zodiac-pulse", functionName: "ai-daily-zodiac-pulse" },
-  { gatewayPath: "/ai/astrology-report", functionName: "ai-astrology-report" },
   { gatewayPath: "/ai/astrology-insight", functionName: "ai-astrology-insight" },
   { gatewayPath: "/profile/upsert", functionName: "profile-upsert" },
   { gatewayPath: "/journal/entries", functionName: "journal-entries" },
@@ -90,11 +89,11 @@ for (const { functionName } of contracts) {
       assert(handler.includes("onlyKeys(") && handler.includes("DAILY_EVENT_LIMIT"), "Share events must reject extra keys and keep its daily limit");
     }
     assert(source.includes("Access-Control-Allow-Origin"), `${functionName} must include CORS headers`);
-    if (["ai-persona-chat", "ai-council", "ai-tarot-reading", "ai-daily-insight", "ai-daily-zodiac-pulse", "ai-astrology-report", "ai-astrology-insight", "profile-upsert", "journal-entries", "notification-register-device", "notification-preferences", "notification-inbox", "notification-send-test"].includes(functionName)) {
+    if (["ai-persona-chat", "ai-council", "ai-tarot-reading", "ai-daily-insight", "ai-daily-zodiac-pulse", "ai-astrology-insight", "profile-upsert", "journal-entries", "notification-register-device", "notification-preferences", "notification-inbox", "notification-send-test"].includes(functionName)) {
       assert(source.includes("@supabase/supabase-js"), `${functionName} must use supabase-js for DB-backed sync`);
       assert(source.includes("supabase.auth.getUser"), `${functionName} must verify the user from the JWT before DB writes`);
     }
-    if (["ai-persona-chat", "ai-council", "ai-tarot-reading", "ai-daily-insight", "ai-daily-zodiac-pulse", "ai-astrology-report"].includes(functionName)) {
+    if (["ai-persona-chat", "ai-council", "ai-tarot-reading", "ai-daily-insight", "ai-daily-zodiac-pulse"].includes(functionName)) {
       assert(source.includes("usage_events"), `${functionName} must write usage_events when DB-backed`);
       assert(source.includes("persistenceStatus"), `${functionName} must return persistenceStatus for staging diagnostics`);
     }
@@ -120,11 +119,6 @@ for (const { functionName } of contracts) {
         "personaSkillPromptVersionId"
       ]) {
         assert(source.includes(required), `ai-persona-chat must preserve prompt assembler metadata: ${required}`);
-      }
-    }
-    if (functionName === "ai-astrology-report") {
-      for (const required of ["astronomy-engine@2.1.19", "providerVersion", "calculationVersion", "astrology_reports", "birth_profiles", "caveats"]) {
-        assert(source.includes(required), `ai-astrology-report function must preserve ${required}`);
       }
     }
     if (functionName.startsWith("notification-")) {

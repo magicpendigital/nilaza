@@ -1,6 +1,7 @@
 import { AstrologyHub } from "./AstrologyHub";
 import { AiDeepRead } from "./AiDeepRead";
 import { premiumOnSale } from "../owner/accountTierPolicy";
+import { crisisSupportCopy } from "../safety/CrisisSupportCard";
 import { BirthDateFields, BirthTimeFields } from "./BirthFields";
 import { Big3Summary, BigThreeCards, ChartRowLink, SkyTabs, TopicPanel, chartHeaderLine } from "./ChartOverviewParts";
 import { bigThreeOf, moonHouseToday } from "./sky";
@@ -100,12 +101,12 @@ const signGlyphs: Record<string, string> = {
 };
 const errors: Record<string, [string, string]> = {
   invalid_date: [
-    "Ngày sinh không hợp lệ. Dùng YYYY-MM-DD.",
-    "Invalid date. Use YYYY-MM-DD.",
+    "Ngày sinh chưa đúng. Hãy kiểm tra ô Ngày, Tháng và Năm (4 chữ số).",
+    "The birth date is not valid. Check the Day, Month and Year (4 digits) boxes.",
   ],
   invalid_time: [
-    "Giờ sinh không hợp lệ. Dùng HH:mm, hệ 24 giờ.",
-    "Invalid time. Use 24-hour HH:mm.",
+    "Giờ sinh chưa đúng. Nhập giờ từ 0 đến 23 và phút từ 0 đến 59, hoặc chọn không rõ giờ.",
+    "The birth time is not valid. Enter an hour from 0 to 23 and a minute from 0 to 59, or choose unknown time.",
   ],
   nonexistent_local_time: [
     "Giờ này không tồn tại tại nơi sinh do đổi giờ mùa hè. Hãy kiểm tra lại giấy tờ hoặc chọn không rõ giờ.",
@@ -143,6 +144,8 @@ export function AstrologyExperience({
   onDeleteAiReport,
   onReportAnswer,
   onOpenShare,
+  aiSignInRequired = false,
+  onRequestSignIn,
 }: {
   language: AstrologyLanguage;
   storage: AstrologyPersistence;
@@ -167,6 +170,9 @@ export function AstrologyExperience({
   onReportAnswer?: (target: AstrologyAnswerReportTarget) => void;
   /** Opens the app-level share sheet. Only sign names from the calculated chart are handed over, never birth data. */
   onOpenShare?: (request: ShareRequest) => void;
+  /** No account token: the AI buttons lead to sign-in instead of a dead lock (UX review K4/U1, 2026-11-15). */
+  aiSignInRequired?: boolean;
+  onRequestSignIn?: () => void;
 }) {
   const vi = language === "vi";
   const [stage, setStage] = useState<Stage>("home");
@@ -223,6 +229,11 @@ export function AstrologyExperience({
   const [aiAnswer, setAiAnswer] = useState<AstrologyAiGuideAnswer | undefined>();
   const [aiSnapshot, setAiSnapshot] = useState<SavedAstrologyAiInsight | undefined>();
   const [aiErrorMessage, setAiErrorMessage] = useState("");
+  const [aiCrisis, setAiCrisis] = useState(false);
+  // "Đọc đầy đủ" opens the chart on the guide tab; the chart row opens the story (UX review K7/U6).
+  const [chartEntryTab, setChartEntryTab] = useState<"story" | "guide">("story");
+  const aiSignInOffered = aiSignInRequired && Boolean(onRequestSignIn);
+  const aiSignInLabel = vi ? "Đăng nhập để dùng · 1 lượt/ngày" : "Sign in to use · 1 a day";
   const [showAiConsent, setShowAiConsent] = useState(false);
   const [qaTraceConsentAccepted, setQaTraceConsentAccepted] = useState(false);
   const [pendingAiQuestion, setPendingAiQuestion] = useState("");
@@ -563,6 +574,7 @@ export function AstrologyExperience({
     setAiStatus(saved ? "success" : "ready");
     setAiAnswer(saved ? toAstrologyAiGuideAnswer(saved.response, saved.context.caveats, saved.provenance) : undefined);
     setAiErrorMessage("");
+    setAiCrisis(false);
     setPendingAiQuestion("");
     setShowAiConsent(false);
   }, [report?.id]);
@@ -570,12 +582,25 @@ export function AstrologyExperience({
     if (ownerPremiumPreview) return;
     if (!retry) aiInteractionId.current = undefined;
     if (!canRequestAstrologyAi || !requestAstrologyAi) {
-      // Keep the guide in its locked state until entitlement is available.
-      // A free or signed-out user should see the access boundary before any
-      // consent dialog or backend error appears.
+      // No consent dialog or backend call without entitlement. A visitor without an account goes to
+      // the existing sign-in screen; a signed-in account that is not entitled is told so instead of
+      // a silent lock (UX review K4/U1, 2026-11-15).
       setPendingAiQuestion(question.trim());
       setAiErrorMessage("");
+      setAiCrisis(false);
       setShowAiConsent(false);
+      if (aiSignInOffered) {
+        setAiStatus("locked");
+        onRequestSignIn?.();
+        return;
+      }
+      if (!aiSignInRequired) {
+        setAiStatus("error");
+        setAiErrorMessage(vi
+          ? "Người dẫn đường AI chưa mở cho tài khoản này. Nilaza sẽ báo bạn khi tính năng sẵn sàng."
+          : "The AI guide is not open for this account yet. Nilaza will let you know when it is ready.");
+        return;
+      }
       setAiStatus("locked");
       return;
     }
@@ -583,6 +608,7 @@ export function AstrologyExperience({
     setPendingAiFactIds([...preferredFactIds]);
     setQaTraceConsentAccepted(false);
     setAiErrorMessage("");
+    setAiCrisis(false);
     setShowAiConsent(true);
   };
   const runAiQuestion = async () => {
@@ -594,6 +620,7 @@ export function AstrologyExperience({
     if (!activeReport || !question || !requestAstrologyAi || !canRequestAstrologyAi || ownerPremiumPreview) {
       setShowAiConsent(false);
       setAiStatus("error");
+      setAiCrisis(false);
       setAiErrorMessage(vi
         ? "Chưa thể gửi yêu cầu này. Hãy đăng nhập và thử lại."
         : "This request could not be sent. Sign in and try again.");
@@ -607,6 +634,7 @@ export function AstrologyExperience({
     setShowAiConsent(false);
     setAiStatus("loading");
     setAiErrorMessage("");
+    setAiCrisis(false);
     try {
       const invocation = buildAstrologyAiInvocation({
         savedChart: activeReport,
@@ -640,13 +668,16 @@ export function AstrologyExperience({
         premium_required: ["Người dẫn đường AI chưa mở cho tài khoản này. Nilaza sẽ báo bạn khi tính năng sẵn sàng.", "The AI guide is not open for this account yet. Nilaza will let you know when it is ready."],
         daily_limit_reached: ["Bạn đã dùng hết lượt AI Chiêm tinh hôm nay. Hãy thử lại vào ngày mai.", "You have reached today's Astrology AI limit. Please try again tomorrow."],
         feature_paused: ["Đọc sâu với AI đang tạm nghỉ một chút. Lượt của bạn vẫn còn, hãy thử lại sau.", "Deep read with AI is resting for a while. Your turn is kept; please try again later."],
-        route_not_ready: ["Người dẫn đường đang được bảo trì. Câu hỏi của bạn vẫn còn để thử lại sau.", "The guide is under maintenance. Your question is kept so you can try again later."],
-        prompt_not_ready: ["Người dẫn đường đang được bảo trì. Câu hỏi của bạn vẫn còn để thử lại sau.", "The guide is under maintenance. Your question is kept so you can try again later."],
+        // ai-astrology-insight returns these before any usage or report row is written (UX review U4).
+        route_not_ready: ["Đọc sâu đang bảo trì, lượt của bạn chưa bị trừ. Hãy thử lại sau.", "Deep read is under maintenance; your turn has not been used. Please try again later."],
+        prompt_not_ready: ["Đọc sâu đang bảo trì, lượt của bạn chưa bị trừ. Hãy thử lại sau.", "Deep read is under maintenance; your turn has not been used. Please try again later."],
         chart_facts_unavailable: ["AI cần giờ sinh chính xác để dùng các dữ kiện của bản đồ này.", "The AI guide needs an exact birth time to use this chart's facts."],
-        crisis_support: ["Bạn xứng đáng được hỗ trợ ngay lúc này. Hãy liên hệ dịch vụ khẩn cấp tại địa phương hoặc một người bạn tin cậy ngay.", "You deserve immediate support. Contact local emergency services or someone you trust now."],
+        // Canonical crisis copy with 115 (UX review K5/U2); the screens also show the CrisisSupportCard.
+        crisis_support: [crisisSupportCopy("vi").body, crisisSupportCopy("en").body],
         professional_advice_blocked: ["AI Chiêm tinh không thể thay thế tư vấn y tế, pháp lý hoặc tài chính. Hãy trao đổi với chuyên gia phù hợp.", "Astrology AI cannot replace medical, legal, or financial guidance. Please speak with a qualified professional."],
       };
       const pair = localized[code ?? ""];
+      setAiCrisis(code === "crisis_support");
       setAiErrorMessage(pair ? pair[vi ? 0 : 1] : (vi
         ? "Người dẫn đường chưa thể hoàn tất. Câu hỏi vẫn còn để bạn thử lại."
         : "The guide could not complete the request. Your question is still here to retry."));
@@ -669,6 +700,7 @@ export function AstrologyExperience({
     setAiAnswer(r.aiInsight ? toAstrologyAiGuideAnswer(r.aiInsight.response, r.aiInsight.context.caveats, r.aiInsight.provenance) : undefined);
     setAiStatus(r.aiInsight ? "success" : "ready");
     setAiErrorMessage("");
+    setAiCrisis(false);
     setPendingAiQuestion("");
     setShowAiConsent(false);
     setStage("report");
@@ -805,6 +837,9 @@ export function AstrologyExperience({
             aiErrorMessage={aiErrorMessage}
             aiAnswerSaved={Boolean(report && aiSnapshot && data.reports.find(item => item.id === report.id)?.aiInsight?.response.requestId === aiSnapshot.response.requestId)}
             onSaveAiAnswer={aiSnapshot ? () => void saveReport(true) : undefined}
+            initialTab={chartEntryTab}
+            aiUnlockLabel={aiSignInOffered ? aiSignInLabel : undefined}
+            aiCrisis={aiCrisis}
             onReportAiAnswer={aiSnapshot && onReportAnswer ? () => onReportAnswer({
               feature: "astrology_insight", localAnswerId: aiSnapshot.response.requestId, provenance: aiSnapshot.provenance,
               sectionIds: astrologyAnswerSectionIds(aiSnapshot.response), language: aiSnapshot.response.language,
@@ -1345,19 +1380,22 @@ export function AstrologyExperience({
                       icon="planet-outline"
                       title={vi ? "Bánh xe lá số & dữ liệu" : "Chart wheel & data"}
                       detail={vi ? "Độ, nhà, góc hợp, cách tính" : "Degrees, houses, aspects, method"}
-                      onPress={() => setStage("chart")}
+                      onPress={() => { setChartEntryTab("story"); setStage("chart"); }}
                     />
                     <AiDeepRead
                       language={language}
                       available={canRequestAstrologyAi && !ownerPremiumPreview}
                       premiumOnSale={premiumOnSale}
+                      signInRequired={aiSignInOffered}
+                      onSignIn={onRequestSignIn}
+                      crisis={aiCrisis}
                       status={panelAiStatus}
                       answer={aiAnswer}
                       error={aiErrorMessage}
                       onWrite={() => beginAiQuestion(vi
                         ? "Hãy đọc sâu lá số của mình: điều gì nổi bật nhất, các phần nối với nhau thế nào, và mình có thể tự hỏi gì?"
                         : "Give me a deep read of my chart: what stands out, how the parts connect, and what could I ask myself?")}
-                      onOpenFull={() => setStage("chart")}
+                      onOpenFull={() => { setChartEntryTab("guide"); setStage("chart"); }}
                     />
                     {presentation.facts
                       .filter((f) =>
