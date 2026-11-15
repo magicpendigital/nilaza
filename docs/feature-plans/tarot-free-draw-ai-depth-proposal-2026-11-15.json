@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "taskId": "tarot-free-draw-ai-depth-proposal-2026-11-15",
+  "ownerAgent": "design_agent",
+  "lane": "Docs only: Tarot v2 proposal for Owner approval (free draw, paid AI deep reading, ritual UX, spreads, interpretation library)",
+  "goal": "Owner request 15/11: analyse why the Tarot draw is blocked after one reading, propose a free draw with chargeable AI deep analysis, a ritual draw experience, a spread review and an interpretation library. Proposal document and one PLAN.md line only; no app, backend or Admin code changes.",
+  "successCriteria": [
+    "docs/proposals/TAROT_FREE_DRAW_AI_DEPTH_2026-11-15.vi.md lists verified findings with file:line evidence, the proposed flow and Nil rule, the layered interpretation library, ritual stages, the spread review with reading-guide context for the LLM, nine Owner decisions and a phased scope.",
+    "PLAN.md records the proposal and that it waits for Owner decisions.",
+    "Nothing in the app, Edge Functions, migrations or Admin changes."
+  ],
+  "writeScope": [
+    "docs/proposals/TAROT_FREE_DRAW_AI_DEPTH_2026-11-15.vi.md",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "All app, Admin, Edge Function and migration code is unchanged by this record."
+  ],
+  "impact": {
+    "entryPoint": "No change: documents only.",
+    "dataWrite": "No change: documents only.",
+    "backendContract": "No change: documents only.",
+    "adminVisibility": "No change: documents only.",
+    "privacySafety": "No change: documents only.",
+    "observability": "No change: documents only.",
+    "rollback": "No change: documents only."
+  },
+  "canonicalContracts": [
+    "AGENTS.md: reflective Tarot, no certain futures, no claims about another person's thoughts.",
+    "Owner decisions 2026-11-04 and 2026-11-11: one Tarot AI reading per day for every account, counted server side."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "SQL, deploy, secrets and account creation need Owner approval each time; Tarot safety wording.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile and Tarot routes and validation commands.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules and record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Draw, allowance and AI coupling (drawCards, handleDraw, creditBalance).",
+      "sha256": "9a2cb7e0430b49f92207eaeda1efb7ea15f09115d74c40086b4ec3bd4f0eeb13"
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "reason": "generateTarotReading and local fallback.",
+      "sha256": "a06b84edeb18d10771bacd0a594270ae83f7c174ab73d32ad42c15c6ede8f22e"
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/index.ts",
+      "reason": "Server delivered-reading limit; no deck tier check.",
+      "sha256": "970272d16521c6f4f5988a9896ad97067e93af972d8004db26307d3667477b91"
+    },
+    {
+      "path": "supabase/functions/_shared/tarot-prompt.ts",
+      "reason": "Spread positions and system prompt without spread reading guidance.",
+      "sha256": "b010d4c3475e5463d149f1a567b1a8f5931af22d063e67b71959be0caee0da53"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before the push; no SQL, deploy, secret or setting change; documents only."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No library, API or vendor claim is made; every finding comes from reading this repository."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No change: documents only.",
+    "sensitiveData": "No personal data in the documents.",
+    "secretsLogging": "No secrets read or written.",
+    "externalInput": "No change: documents only.",
+    "dependencies": "No package added.",
+    "migrationRelease": "No migration or deploy; the proposal lists the later packages that would need Owner approval for SQL and Edge Function deploys.",
+    "stopCondition": "Stop if a document would contain a secret, personal data or an instruction to run SQL or deploy without Owner approval.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [],
+    "note": "Documents only."
+  },
+  "validationCommands": [
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Open the proposal, read section 1 and the nine decisions in section 8, then the Artifact rows 6 and 7.",
+  "residualRisk": "Findings come from code reading, not device testing; the document lists what is verified and what is inferred. The Nil unit and the same-question rule were not found in the repository and are listed as Owner questions.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
