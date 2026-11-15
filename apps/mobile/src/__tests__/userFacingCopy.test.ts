@@ -12,6 +12,8 @@ const screenSources = [
   "src/features/astrology/AstrologyChartStory.tsx",
   "src/features/astrology/AstrologyAiGuidePanel.tsx",
   "src/features/billing/PaywallPanel.tsx",
+  "src/features/billing/DeleteAccountBillingNotice.tsx",
+  "src/features/profile/DeleteAccountPanel.tsx",
 ];
 
 const bannedPhrases = [

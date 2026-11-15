@@ -5,13 +5,19 @@ locale: en
 slug: account-notifications
 category: Account
 order: 6
-updatedAt: 2026-09-20
+updatedAt: 2026-11-16
 status: beta
 ---
 
 ## Account and recovery
 
 Online authentication and password-recovery flows are being tested for the production pilot. If a recovery link expires, request a new one rather than sharing a code or token with anyone else.
+
+## Premium and your account
+
+Premium is linked to the Nilaza account you were signed in with when you bought it. Sign in to the same account on a new phone and choose **Restore purchases** to use it again. The plan is managed and cancelled in **Google Play → Payments & subscriptions → Subscriptions**.
+
+Deleting your Nilaza account **does not cancel** the Google Play subscription. Cancel the plan first, then see [Delete your account and data](/en/account-deletion).
 
 ## In-app inbox
 

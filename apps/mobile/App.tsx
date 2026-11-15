@@ -248,6 +248,7 @@ import { premiumOnSale, resolveAccountTier } from "./src/features/owner/accountT
 import { PaywallPanel } from "./src/features/billing/PaywallPanel";
 import { paywallEnabled } from "./src/features/billing/paywallAccess";
 import { usePremium, type PremiumState } from "./src/features/billing/usePremium";
+import { DeleteAccountBillingNotice } from "./src/features/billing/DeleteAccountBillingNotice";
 import { drawRandomCards } from "./src/features/tarot/randomDraw";
 import { dailyCardIndex, mapServerCards, tarotLimitMessage, tarotLockedNote, utc7DateKey, type TarotClarifier, type TarotServerDraw } from "./src/features/tarot/serverDraw";
 
@@ -8802,7 +8803,7 @@ function ProfileScreen({
         <SubflowTopBar title={detailTitles[profileSection]} onLeft={() => setProfileSection("overview")} />
       )}
 
-      {profileSection === "deleteAccount" ? <DeleteAccountPanel language={language} onDelete={onDeleteAccount} /> : null}
+      {profileSection === "deleteAccount" ? <DeleteAccountPanel language={language} onDelete={onDeleteAccount} notice={<DeleteAccountBillingNotice language={language} premiumActive={premium.entitled} />} /> : null}
 
       <View style={[styles.profileSection, profileSection !== "identity" && styles.hidden]}>
         <View style={styles.profileSectionHeader}>

@@ -183,6 +183,8 @@ for (const functionName of requiredWebhookFunctions) {
   add(hasServe && noCors ? "pass" : "fail", `function:${functionName}`, "Webhook entrypoint has serve handler and no CORS");
 }
 add(envStatus("REVENUECAT_WEBHOOK_AUTH") ? "pass" : "warn", "env:REVENUECAT_WEBHOOK_AUTH", "Webhook shared secret present locally (value never printed; production value lives in Supabase secrets)");
+// Billing lot 3: account-delete removes the billing customer only when this secret key is set (skipped otherwise).
+add(envStatus("REVENUECAT_API_KEY") ? "pass" : "warn", "env:REVENUECAT_API_KEY", "RevenueCat secret API key for account-delete present locally (value never printed; production value lives in Supabase secrets)");
 
 if (fileExists("supabase/seed.generated.sql")) {
   const seedSql = read("supabase/seed.generated.sql");
