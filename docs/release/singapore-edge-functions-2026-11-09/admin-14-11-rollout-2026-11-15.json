@@ -199,5 +199,14 @@
       "Admin sign-in on admin.nilaza.magicpendigital.com against Singapore (Owner account) after the redeploy.",
       "App language detection on a real phone (needs the next Android build)."
     ]
+  },
+  "followUp2026-11-16": {
+    "issue": "Admin forgot-password showed a generic error. Auth logs on 15/11 at 17:34Z and 17:37Z: POST /recover returned 500 with SMTP error 535 Authentication credentials invalid. SMTP host, port, user and sender were correct; Resend showed key nilaza-auth-smtp with no activity, so no auth email had ever been sent from Singapore.",
+    "fix": "Owner created a new Resend sending key and pasted it into Supabase Singapore SMTP Password (agent did not handle the value), then deleted the old nilaza-auth-smtp key in Resend.",
+    "verified": "Auth logs 15/11 17:59Z: POST /recover from admin.nilaza.magicpendigital.com/recovery.html returned 200 with no error; Owner reported it works.",
+    "notVerified": [
+      "Sign-up confirmation email from the app with the new key.",
+      "Gmail placement (inbox vs spam) and rendering of the applied templates."
+    ]
   }
 }
