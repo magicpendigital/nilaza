@@ -21,7 +21,8 @@
     "apps/mobile/App.tsx",
     "docs/release/share-events-2026-11-12/",
     "docs/release/share-image-text-2026-11-14/",
-    "PLAN.md"
+    "PLAN.md",
+    "apps/admin/workflow-catalog.js"
   ],
   "untouchedSurfaces": [
     "No SQL, migration, Supabase setting or Edge Function deploy. share-events stays source only until the Owner deploys it.",
@@ -163,7 +164,7 @@
   },
   "workingTreeReview": {
     "paths": [],
-    "note": "All edits of this task were committed (f149e78) and origin/main was merged before this refresh, so no uncommitted paths remain; hashes in sourceReview were refreshed after the merge."
+    "note": "All edits of this task were committed (f149e78) and origin/main was merged before this refresh, so no uncommitted paths remain; hashes in sourceReview were refreshed after the merge. apps/admin/workflow-catalog.js is in scope only for one source digest (apps/mobile/App.tsx), refreshed because the earlier share-events commit changed App.tsx; no catalog text changed."
   },
   "validationCommands": [
     "npm run feature:preflight -- --record docs/feature-plans/share-image-text-2026-11-14.json",
