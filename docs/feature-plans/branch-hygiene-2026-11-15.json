@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "taskId": "branch-hygiene-2026-11-15",
+  "ownerAgent": "repo_hygiene_agent",
+  "lane": "docs_branch_hygiene",
+  "goal": "Branch review 15/11/2026: fast-forward main to origin/main, delete 22 merged local branches/worktrees and the merged remote branch codex/android-release-unblock-2026-10-19, and record in PLAN, CLAUDE.md and the handoff that main is the single source and that branch name is only a Vercel build-skip name. Unmerged work (share-events, RevenueCat) is listed, not touched.",
+  "successCriteria": [
+    "PLAN.md lists which branches are unmerged and why.",
+    "CLAUDE.md and the handoff state that main holds all app, backend, Admin and docs data.",
+    "Only main and branches with open work remain on GitHub."
+  ],
+  "writeScope": [
+    "PLAN.md",
+    "CLAUDE.md",
+    "docs/HANDOFF_CURRENT_STATE.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "App code, backend, migrations, Edge Functions and Vercel settings are unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Agent and Owner reading PLAN.md, CLAUDE.md and the handoff at session start.",
+    "dataWrite": "No data is written or migrated.",
+    "backendContract": "No backend request or response changes.",
+    "canonicalContract": "CLAUDE.md branch rules: main is the single source; work branch then PR in small batches.",
+    "adminVisibility": "Admin is not touched by this change.",
+    "privacySafety": "No change to what data is collected or sent.",
+    "observability": "No analytics or logging change.",
+    "rollback": "Revert the commit; deleted branches were fully merged and can be recreated from their SHA in the PR history.",
+    "surfacesIntentionallyUntouched": "Vercel Ignored Build Step and Root Directory.",
+    "agentHandoff": "The delivery agent owns only the writeScope, opens a PR and does not merge without Owner approval."
+  },
+  "canonicalContracts": [
+    "CLAUDE.md: Nhánh và Vercel — main là nguồn duy nhất, PR theo lô nhỏ, không merge khi Owner chưa bảo."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Docs route for this change.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "CLAUDE.md",
+      "reason": "Branch and Vercel rules being recorded.",
+      "sha256": "488cb5ecc11411db6e1d37a20c93e2f34d12ceee51dd85d273635456076ee985"
+    },
+    {
+      "path": "PLAN.md",
+      "reason": "Board that lists the unmerged branches.",
+      "sha256": "04eefcd1651c0c9c22345727ba9d80d1a24c656e07141580f7e8edc69cdf3c66"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief and stop conditions applied; no workflow rule change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Documentation only; no dependency."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change.",
+    "sensitiveData": "No personal data is handled.",
+    "secretsLogging": "No credentials, tokens or logs are added.",
+    "externalInput": "No new input is accepted.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration and no deploy.",
+    "stopCondition": "Stop before merging without Owner approval.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "CLAUDE.md",
+      "PLAN.md",
+      "docs/HANDOFF_CURRENT_STATE.vi.md",
+      "docs/feature-plans/branch-hygiene-2026-11-15.json"
+    ],
+    "note": "Fresh branch from origin/main with the uncommitted 12/11 doc edits re-applied."
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/branch-hygiene-2026-11-15.json"
+  ],
+  "managerTestPath": "Open PLAN.md and read the Nhánh line under the title; run git branch -a and see only main and the branches it names.",
+  "residualRisk": "Unmerged branches claude/nilaza-uiux-marketing-strategy-20887c and claude/revenuecat-billing-lo1 still wait for Owner decisions.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

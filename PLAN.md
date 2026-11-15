@@ -2,6 +2,7 @@
 
 > **Cập nhật lần cuối: 15/11/2026** — 3 việc ngày 14/11 **đã áp migration và deploy lên Singapore 15/11** (Owner duyệt; mục 4 ý 7–9, [biên nhận](docs/release/singapore-edge-functions-2026-11-09/admin-14-11-rollout-2026-11-15.json)); Owner còn phải đặt `ADMIN_INVITE_REDIRECT_URL` trước khi gửi lời mời: ngân sách chạy thử 1 USD/tháng + bộ chạy thử Chiêm tinh, trang **Dữ liệu gửi cho AI**, trang **Thành viên & quyền**; 2 đề xuất UI/UX Chiêm tinh và Hội đồng chờ Owner quyết. Admin A1–A7 đã áp và deploy lên Singapore 14/11 (mục 4 ý 6). Chia sẻ: thẻ ảnh kèm lời nhắn + link, sự kiện chia sẻ (hàm `share-events` chờ Owner deploy) — xem mục Chia sẻ để lan truyền.
 > Đây là **tệp đầu tiên** Owner và mọi Agent đọc khi bắt đầu phiên mới. Nó trả lời: *đang ở đâu, còn gì, chờ ai*. Lý do, quy trình và bẫy môi trường nằm ở [`docs/HANDOFF_CURRENT_STATE.vi.md`](docs/HANDOFF_CURRENT_STATE.vi.md); chi tiết từng việc nằm ở `docs/feature-plans/*.json`.
+> **Nhánh (rà soát 15/11/2026):** GitHub chỉ còn `main` và `claude/admin-redesign-deployment-bd6129` (đã gộp, phiên Admin còn mở). 22 nhánh/worktree cục bộ đã gộp đã xóa. **Chưa gộp, giữ lại:** `claude/nilaza-uiux-marketing-strategy-20887c` (2 commit sự kiện chia sẻ `share-events`, chưa đẩy lên GitHub; cần PR + Owner duyệt deploy hàm) · `claude/revenuecat-billing-lo1` (6 tệp RevenueCat chưa commit, chờ Owner).
 
 ## Quy tắc cập nhật (bắt buộc với Agent)
 
@@ -44,6 +45,7 @@ Bảng rà soát 30/10: **107 mục — 50 xong, 24 làm một phần, 33 chưa 
 - ✅ (nhánh này) Nút 👍/👎/Lưu và nút Báo cáo mới trên từng tin nhắn persona, nút Council đạt 48px (mục 0.2 roadmap).
 - ✅ (nhánh này) Tôi: tài khoản mới thấy lời mời thay vì 0/0/0 (U-F); gợi ý "Chạm để xem" ở kiểu trải chỉ hiện khi thẻ đóng (U-G).
 - ✅ 11/11 TA-15 (đã sửa từ lần làm lại màn rút bài) · 🟡 CO-03 lỗi Council hiện trong phòng, trả câu hỏi về ô nhập, lịch sử gửi đi ≤ 800 ký tự ([hồ sơ](docs/feature-plans/council-inline-error-2026-11-11.json)); còn gửi mã persona thay vì cả hồ sơ (cần sửa server).
+- ✅ 12/11 (đã gộp vào `main`, **chưa kiểm trên máy thật**): Tarot thêm kiểu trải Love (3 lá) và Crossroads (4 lá) ([hồ sơ](docs/feature-plans/tarot-new-spreads-2026-11-12.json); migration `20261112000000_tarot_extra_spreads.sql` **chờ Owner áp lên Singapore**) · thẻ chia sẻ, link theo dõi, lời mời so sánh cung Mặt Trời + trang web `/share`, `/compare` ([hồ sơ](docs/feature-plans/share-card-growth-2026-11-12.json), [bàn giao](docs/release/share-card-growth-2026-11-12/SHARE_GROWTH_HANDOFF.vi.md)); cần `npm install` để cài `react-native-view-shot` trước khi chạy `mobile:check`.
 - ⬜ CH-12 bàn phím che ô nhập (cần máy Android thật) · HO-07 nối "lá hôm nay" với Tarot (cần quyết định thiết kế) · JO-08 xuất Nhật ký dạng văn bản (sau Play).
 - 🟡 TA-06 đổi biểu tượng "Bắt đầu lại" · HO-04 · JO-06/07/09 · CH-14/15 · N-04 · PR-04 (chi tiết trong backlog).
 - ⬜ Chữ lớn 150–200% (`maxFontSizeMultiplier`), ảo hóa danh sách dài (U-B, U-C), thang tiêu đề/placeholder/thumbnail (U-D/E/H) — Gói B.
