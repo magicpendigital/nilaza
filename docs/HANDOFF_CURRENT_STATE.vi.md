@@ -13,7 +13,7 @@ Tài liệu này là **điểm vào duy nhất** để một Agent mới (hoặc
 | # | Quyết định |
 |---|---|
 | 1 | Tài khoản Google Play **cá nhân, tạo sau 13/11/2023** ⇒ closed test bắt buộc: ≥12 người thử liên tục ≥14 ngày trước khi xin production |
-| 2 | Bản đầu **miễn phí**, chưa bán Premium |
+| 2 | ~~Bản đầu **miễn phí**, chưa bán Premium~~ — **Owner đổi 15/11/2026: bán Premium ngay từ bản Play đầu tiên** (một gói, tháng/năm, hạn mức tính bằng điểm "Nil"; xem [chiến lược Nil](NIL_PRICING_STRATEGY_2026-11-15.vi.md)). Ngân sách chấp nhận mất cho Free khi thử: **1 USD/ngày**. Chấp nhận một số người dùng muốn "đổi vận" sẽ rời bỏ. Chưa có SKU/RevenueCat/Nil chạy thật — xem PLAN.md |
 | 3 | AI qua **OpenRouter**; model do Owner cấu hình trong trang Admin; khóa chỉ ở backend |
 | 4 | **Council và Astrology AI nằm trong bản Play đầu** (có công tắc tắt trong Admin nếu chưa đạt chất lượng/an toàn) |
 | 5 | **18+**; khi chưa đăng nhập xem được nội dung tĩnh; tính năng chạy model AI yêu cầu đăng nhập |
