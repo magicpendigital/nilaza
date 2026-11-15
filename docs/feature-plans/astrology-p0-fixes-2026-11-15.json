@@ -1,0 +1,135 @@
+{
+  "schemaVersion": 1,
+  "taskId": "astrology-p0-fixes-2026-11-15",
+  "ownerAgent": "Claude Code (subagent, worktree agent-a2fde50f752f85d40)",
+  "lane": "mobile astrology UX fixes + legacy astrology report client removal",
+  "goal": "Fix the urgent Astrology bugs from the 14/11 UX review (K4-K8, U1-U4, U6) and retire the client and admin path to the legacy ai-astrology-report function, per the Owner decision of 2026-11-15.",
+  "successCriteria": [
+    "A visitor without a sign-in token sees a sign-in call to action (Đăng nhập để dùng · 1 lượt/ngày) that opens the existing sign-in screen, and no Premium or coming-soon wording while premium is not on sale.",
+    "The Astrology crisis reply reuses the canonical crisis copy and card that name 115.",
+    "Birth time entry accepts 0-23 hours as 24-hour input, keeps the morning/afternoon toggle consistent, rejects hour above 23 or minute above 59 with an inline message, and unit tests cover 0, 11, 12, 13, 23, morning plus 15, and minutes 60 and 75.",
+    "The Đọc đầy đủ button on the report opens the chart on the guide tab instead of the story tab.",
+    "route_not_ready and prompt_not_ready show a maintenance message saying the turn was not used, which the Edge Function guarantees by returning before any usage write.",
+    "No mobile, admin or validator code still calls or lists ai-astrology-report as an active route; validators and tests pass."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/backendClient.ts",
+    "apps/mobile/src/__tests__/backendClient.test.ts",
+    "apps/mobile/src/features/astrology/",
+    "apps/mobile/src/features/safety/CrisisSupportCard.tsx",
+    "apps/admin/context-config.js",
+    "apps/admin/workflow-catalog.js",
+    "packages/agent-config/ai-context-blocks.json",
+    "scripts/admin-workflow-catalog.test.mjs",
+    "scripts/admin-context-config.test.mjs",
+    "scripts/validate-backend-contracts.mjs",
+    "scripts/check-supabase-readiness.mjs",
+    "scripts/probe-edge-auth.mjs",
+    "supabase/functions/ai-astrology-report/",
+    "supabase/functions/README.md",
+    "docs/backlog/review-2026-10-30.json"
+  ],
+  "untouchedSurfaces": [
+    "Council, Oracle, Tarot and persona chat screens and their Edge Functions are not changed.",
+    "Admin roles, admin migrations and any SQL migration file are not changed.",
+    "The ai-astrology-insight Edge Function and the astrology AI database switch are not changed.",
+    "No deployed function, database, secret or cloud setting is changed; the Owner or lead deletes the deployed ai-astrology-report function separately."
+  ],
+  "impact": {
+    "entryPoint": "Astrology report page (AiDeepRead), chart guide panel (AstrologyChartStory via MythologyWorld), birth time fields on the Astrology form, and the App root that passes sign-in navigation into AstrologyExperience.",
+    "dataWrite": "No new data writes. The removed client path used to call ai-astrology-report, which wrote astrology_reports; after this change the mobile app no longer calls it.",
+    "backendContract": "Mobile route map loses /ai/astrology-report; ai-astrology-insight contract is unchanged. Admin context config and workflow catalog stop listing the legacy function.",
+    "adminVisibility": "Admin AI context page and workflow catalog no longer show the legacy ai-astrology-report entry; astrology_report traces from ai-astrology-insight stay visible.",
+    "privacySafety": "Crisis reply now shows the canonical 115 card. Birth data handling is unchanged; validation only rejects impossible times locally.",
+    "observability": "No change to trace fields; the legacy function stops producing traces once the lead deletes it.",
+    "rollback": "Revert the single commit; the deployed legacy function is deleted separately by the lead and can be redeployed from git history if needed."
+  },
+  "canonicalContracts": [
+    "packages/agent-config/account-tier-policy.json premiumOnSale and astrologyAi.dailyLimit drive the copy for sign-in and premium wording.",
+    "apps/mobile/src/features/safety/CrisisSupportCard.tsx is the canonical crisis copy with 115.",
+    "supabase/functions/ai-astrology-insight/index.ts returns route_not_ready and prompt_not_ready before usage_events and astrology_reports writes."
+  ],
+  "allowedDataClasses": [
+    "public_content",
+    "synthetic_test_data"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Core agent rules for scope, approvals and validation.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Routes mobile, admin and AI runtime tasks to the right checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Plan and QC protocol for non-trivial changes.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/ASTROLOGY_UX_REVIEW_2026-11-14.vi.md",
+      "reason": "Source of the K4-K8 and U1-U6 findings and the AS-01/AS-04 notes.",
+      "sha256": "a26d1d28b2dd66b2d0eccf5a2c09403200ec7c9d660e76a36fb820a2c5b03fa9"
+    },
+    {
+      "path": "supabase/functions/ai-astrology-insight/index.ts",
+      "reason": "Confirms crisis, route_not_ready and prompt_not_ready return before any usage write, so the not-charged copy is true.",
+      "sha256": "ff803fe6198867e7ca38277743eae2450b2fd7850e00d4667c9df95c122cfa66"
+    },
+    {
+      "path": "packages/agent-config/account-tier-policy.json",
+      "reason": "premiumOnSale false and astrology AI daily limit 1 decide the sign-in and premium copy.",
+      "sha256": "79bee268908ae19ed7a07d185060476a0e08bf8b2f91a74baff161840a5c76a0"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Followed the impact map, write scope, validation list and manager handoff rules for this mobile and admin change."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Astrology AI error codes, crisis handling and the retired legacy route were checked against ai-astrology-insight and the admin context config."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No new dependency or external API; changes are local React Native components, tests and repository validators."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No change to RLS or Edge Function authorization; sign-in CTA only navigates to the existing sign-in screen.",
+    "sensitiveData": "Birth date and time stay on the existing path; no new logging of birth data or AI text.",
+    "secretsLogging": "No secrets read or written; .env not read.",
+    "externalInput": "Birth time digits are range-checked (hour 0-23, minute 0-59) before composing the HH:mm string.",
+    "dependencies": "No package changes; deno.lock restored if a check touches it.",
+    "migrationRelease": "No migration, deploy or release. The lead deletes the deployed legacy function separately with Owner approval.",
+    "stopCondition": "Stop if removing ai-astrology-report breaks a validator that cannot be updated cleanly; then keep the folder and report.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [],
+    "note": "Worktree started clean at origin/main 1552e14."
+  },
+  "validationCommands": [
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "npm run validate:data",
+    "npm run admin:test",
+    "npm run astrology:ai-contract:check",
+    "npm run validate:backend",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "On a phone build: open Chiêm tinh while signed out or as guest and tap the deep-read button (should open sign-in); enter 15:30 as hour 15 minute 30 (should keep Chiều and 15:30); enter minute 75 (inline error); after a deep read, tap Đọc đầy đủ (chart opens on the guide tab).",
+  "residualRisk": "Device behaviour is not verified in this change; only unit tests and validators run. The deployed legacy function stays live until the lead deletes it with Owner approval. The repository folder supabase/functions/ai-astrology-report/ was deleted (its only file was index.ts; no other function imported it); deno.lock still lists astronomy-engine and was left unchanged. Older astrology_report traces and the SQL migration comment still name the legacy function. Local tsc and the ShareCardSheet suite fail only because react-native-view-shot is missing from the shared node_modules (not part of this change).",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

@@ -7,7 +7,6 @@ import type { AccountScope } from "./auth/accountScope";
 import type { ShareEventPayload } from "./features/share/shareEvents";
 import type { JournalAck, JournalMutation } from "./features/journal/journalRepository";
 import { parseAdminAccess } from "./features/owner/access";
-import type { AstrologyRawChart } from "./features/astrology/contracts";
 import type { AstrologyAiInvocation, AstrologyAiInsightResponse, AstrologyAiInsightResult } from "./features/astrology/astrologyAiInsight";
 import {
   ChatHandoffContext,
@@ -297,52 +296,6 @@ export type TarotInterpretationResult = {
   moderationStatus: "passed" | "blocked" | "fallback";
 };
 
-export type AstrologyReportInput = {
-  language: Language;
-  focus: "personality" | "love" | "career" | "inner_lesson";
-  birthProfile: {
-    birthDate: string;
-    birthTime?: string;
-    birthTimeKnown: boolean;
-    birthPlace?: string;
-    latitude?: number;
-    longitude?: number;
-    timezone?: string;
-    utcOffsetMinutes?: number;
-    geocodeProvider?: string;
-    geocodePlaceId?: string;
-    consentVersion?: string;
-  };
-};
-
-export type AstrologyReportResult = {
-  remoteId?: string;
-  chart: AstrologyRawChart;
-  interpretation: {
-    summary: string;
-    sections?: Array<{
-      key: string;
-      title: {
-        vi?: string;
-        en: string;
-      };
-      body: {
-        vi?: string;
-        en: string;
-      };
-    }>;
-    promptVersionId?: string;
-    moderationStatus: "passed" | "blocked" | "fallback";
-  };
-  caveats: Array<Record<string, unknown>>;
-  provider: string;
-  providerVersion?: string;
-  calculationVersion: string;
-  promptVersionId?: string;
-  moderationStatus: "passed" | "blocked" | "fallback";
-  persistenceStatus?: string;
-};
-
 export type BackendOptions = {
   apiKey?: string;
   authToken?: string;
@@ -388,7 +341,6 @@ const supabaseFunctionPathMap: Record<string, string> = {
   "/ai/tarot-reading": "/ai-tarot-reading",
   "/ai/daily-insight": "/ai-daily-insight",
   "/ai/daily-zodiac-pulse": "/ai-daily-zodiac-pulse",
-  "/ai/astrology-report": "/ai-astrology-report",
   "/ai/astrology-insight": "/ai-astrology-insight",
   "/profile/upsert": "/profile-upsert",
   "/journal/entries": "/journal-entries",
@@ -689,15 +641,6 @@ export async function generateDailyZodiacPulse(
   options: BackendOptions = {}
 ): Promise<DailyZodiacPulseResult> {
   const backendResult = await postJson<DailyZodiacPulseInput, DailyZodiacPulseResult>("/ai/daily-zodiac-pulse", input, generationOptions(options, generationTimeoutMs.zodiac));
-  return backendResult ?? fallback();
-}
-
-export async function generateAstrologyReport(
-  input: AstrologyReportInput,
-  fallback: () => AstrologyReportResult,
-  options: BackendOptions = {}
-): Promise<AstrologyReportResult> {
-  const backendResult = await postJson<AstrologyReportInput, AstrologyReportResult>("/ai/astrology-report", input, generationOptions(options, generationTimeoutMs.astrology));
   return backendResult ?? fallback();
 }
 

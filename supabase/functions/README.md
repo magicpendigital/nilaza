@@ -23,7 +23,6 @@ The mobile client maps API-style paths to Supabase function names:
 | `/ai/tarot-reading` | `ai-tarot-reading` |
 | `/ai/daily-insight` | `ai-daily-insight` |
 | `/ai/daily-zodiac-pulse` | `ai-daily-zodiac-pulse` |
-| `/ai/astrology-report` | `ai-astrology-report` |
 | `/ai/astrology-insight` | `ai-astrology-insight` |
 | `/profile/upsert` | `profile-upsert` |
 | `/journal/entries` | `journal-entries` |
@@ -64,7 +63,6 @@ supabase functions deploy ai-council
 supabase functions deploy ai-tarot-reading
 supabase functions deploy ai-daily-insight
 supabase functions deploy ai-daily-zodiac-pulse
-supabase functions deploy ai-astrology-report
 supabase functions deploy ai-astrology-insight
 supabase functions deploy profile-upsert
 supabase functions deploy journal-entries
@@ -132,7 +130,7 @@ AI functions persist staging data when possible:
 - `ai-tarot-reading`: stores `tarot_readings` with selected card JSON, generated interpretation, and usage event.
 - `ai-daily-insight`: stores a `usage_events` row for daily insight generation.
 - `ai-daily-zodiac-pulse`: returns a daily Sun-sign reflection cue with explicit caveats, never invents Moon/Rising/aspects, and stores a `usage_events` row for staging diagnostics.
-- `ai-astrology-report`: calculates tropical planetary placements and aspects with the open-source `astronomy-engine@2.1.19`, stores `birth_profiles` enrichment plus `astrology_reports`, and returns provider/calculation metadata. Rising and houses use an MVP approximation when exact birth time and coordinates are present; the response includes caveats so AI interpretation and UI do not overstate certainty.
+- `ai-astrology-report` (retired 2026-11-15, Owner decision): the legacy server-side chart report was removed from the app and this repository. Charts are calculated on the device by `packages/astrology-core`; AI reads go through `ai-astrology-insight`. The deployed copy is deleted separately with Owner approval.
 - `ai-astrology-insight`: authenticated AI interpretation for the device-calculated canonical chart. It requires explicit fact-sharing consent, a server-verified `premium_astrology_ai` entitlement, an active `astrology_ai_insight_v1` route, and an active locale prompt. Raw birth details, coordinates, Journal, and chat history are excluded. The question is not stored in the report or ordinary usage metadata. The trace root remains open through parse, contract validation, report persistence, and response status. A sanitized report is stored under the authenticated user so they can revisit or delete it. A separate raw capture can only be requested by an opted-in Owner QA build, is encrypted in staging, and remains unreadable after 24 hours; its server gate is off by default.
 
 AI provider calls use the model router when the corresponding Supabase Function secret is present (the Staging QA Oracle route currently uses `OPENROUTER_API_KEY` and `openrouter/free`). Provider metadata is sanitized before telemetry is stored; a safe local fallback remains for provider timeout, rate limit, missing key, or malformed output. Persona chat prompt selection/assembly is wired for active Supabase prompt rows, with payload fallback when staging seed data is not available.

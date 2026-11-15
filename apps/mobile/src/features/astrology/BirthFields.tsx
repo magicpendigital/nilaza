@@ -12,10 +12,19 @@ export function composeBirthDate(day: string, month: string, year: string) {
   return day && month && year.length === 4 ? `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}` : "";
 }
 
-// 12-hour parts → "HH:mm" (24-hour) as the chart calculator expects.
+// Hour box → "HH:mm" (24-hour) as the chart calculator expects (UX review K6/U3, 2026-11-15).
+// 0 and 13-23 are already 24-hour and win over the Sáng/Chiều toggle; 1-12 follow the toggle
+// (12 Sáng = 00, 12 Chiều = 12). Hour above 23 or minute above 59 gives "" so the form cannot submit.
+export function birthTimeIssue(hour: string, minute: string): "hour" | "minute" | null {
+  if (hour && Number(hour) > 23) return "hour";
+  if (minute && Number(minute) > 59) return "minute";
+  return null;
+}
+
 export function composeBirthTime(hour: string, minute: string, afternoon: boolean) {
-  if (!hour) return "";
-  const h = Number(hour) % 12 + (afternoon ? 12 : 0);
+  if (!hour || birthTimeIssue(hour, minute)) return "";
+  const n = Number(hour);
+  const h = n === 0 || n > 12 ? n : n % 12 + (afternoon ? 12 : 0);
   return `${String(h).padStart(2, "0")}:${(minute || "0").padStart(2, "0")}`;
 }
 
@@ -23,17 +32,35 @@ export function splitBirthTime(value: string) {
   const match = value.match(/^(\d{1,2}):(\d{2})$/);
   if (!match) return { hour: "", minute: "", afternoon: false };
   const h = Number(match[1]);
-  return { hour: String(h % 12 === 0 ? 12 : h % 12), minute: match[2], afternoon: h >= 12 };
+  return { hour: String(h === 0 ? 0 : h % 12 === 0 ? 12 : h % 12), minute: match[2], afternoon: h >= 12 };
+}
+
+// Typing 0 or 13-23 moves the toggle to match; tapping the toggle on a 24-hour value turns it
+// back into the 12-hour hour it means (15 → Sáng gives 3, 0 → Chiều gives 12).
+export function followBirthHour(hour: string, afternoon: boolean) {
+  const n = Number(hour);
+  if (!hour || n > 23) return afternoon;
+  if (n === 0) return false;
+  if (n > 12) return true;
+  return afternoon;
+}
+
+export function toggleBirthHour(hour: string, afternoon: boolean) {
+  const n = Number(hour);
+  if (!hour || n > 23) return hour;
+  if (!afternoon && n > 12) return String(n - 12);
+  if (afternoon && n === 0) return "12";
+  return hour;
 }
 
 // Analysis AS-04 (Owner 2026-11-02): the device's own date and time picker fills the boxes on
 // Android and iOS; typing still works, and the web keeps the boxes only.
 const nativePicker = Platform.OS === "android" || Platform.OS === "ios";
 
-function PickerButton({ label, onPress }: { label: string; onPress: () => void }) {
+function PickerButton({ label, onPress, icon = "calendar-outline" }: { label: string; onPress: () => void; icon?: "calendar-outline" | "time-outline" | "checkmark" }) {
   return (
     <Pressable accessibilityRole="button" onPress={onPress} style={s.pickerButton}>
-      <Ionicons name="calendar-outline" size={18} color={colors.gold} />
+      <Ionicons name={icon} size={18} color={colors.gold} />
       <Text style={s.pickerText}>{label}</Text>
     </Pressable>
   );
@@ -48,7 +75,7 @@ function DevicePicker({ mode, value, onPick, onClose, doneLabel }: { mode: "date
     <View>
       <DateTimePicker value={value} mode={mode} is24Hour display={Platform.OS === "ios" ? "spinner" : "default"}
         maximumDate={mode === "date" ? new Date() : undefined} onChange={onChange} />
-      {Platform.OS === "ios" ? <PickerButton label={doneLabel} onPress={onClose} /> : null}
+      {Platform.OS === "ios" ? <PickerButton label={doneLabel} onPress={onClose} icon="checkmark" /> : null}
     </View>
   );
 }
@@ -98,26 +125,32 @@ export function BirthTimeFields({ language, value, onChange }: { language: Langu
   const [picking, setPicking] = useState(false);
   const update = (h: string, m: string, pm: boolean) => { setHour(h); setMinute(m); setAfternoon(pm); onChange(composeBirthTime(h, m, pm)); };
   const current = composeBirthTime(hour, minute, afternoon);
+  const issue = birthTimeIssue(hour, minute);
   const pickTime = (date: Date) => {
-    const h = date.getHours();
-    update(String(h % 12 === 0 ? 12 : h % 12), String(date.getMinutes()).padStart(2, "0"), h >= 12);
+    const picked = splitBirthTime(`${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`);
+    update(picked.hour, picked.minute, picked.afternoon);
   };
   return (
     <View>
     <View style={s.row}>
-      <Box label={vi ? "Giờ" : "Hour"} value={hour} max={2} width={72} onChange={(h) => update(h, minute, afternoon)} />
+      <Box label={vi ? "Giờ" : "Hour"} value={hour} max={2} width={72} onChange={(h) => update(h, minute, followBirthHour(h, afternoon))} />
       <Text style={s.colon}>:</Text>
       <Box label={vi ? "Phút" : "Minute"} value={minute} max={2} width={72} onChange={(m) => update(hour, m, afternoon)} />
       <View style={s.ampm} accessibilityRole="radiogroup">
         {[false, true].map((pm) => (
-          <Pressable key={String(pm)} accessibilityRole="radio" accessibilityState={{ selected: afternoon === pm }} onPress={() => update(hour, minute, pm)}
+          <Pressable key={String(pm)} accessibilityRole="radio" accessibilityState={{ selected: afternoon === pm }} onPress={() => update(toggleBirthHour(hour, pm), minute, pm)}
             style={[s.ampmOption, afternoon === pm && s.ampmSelected]}>
             <Text style={[s.ampmText, afternoon === pm && s.ampmTextSelected]}>{pm ? (vi ? "Chiều" : "PM") : vi ? "Sáng" : "AM"}</Text>
           </Pressable>
         ))}
       </View>
     </View>
-      {nativePicker ? <PickerButton label={vi ? "Chọn giờ trên đồng hồ" : "Pick on a clock"} onPress={() => setPicking(true)} /> : null}
+      {issue ? (
+        <Text accessibilityRole="alert" style={s.issue}>
+          {issue === "hour" ? (vi ? "Giờ chỉ từ 0 đến 23." : "Hour must be from 0 to 23.") : vi ? "Phút chỉ từ 0 đến 59." : "Minute must be from 0 to 59."}
+        </Text>
+      ) : null}
+      {nativePicker ? <PickerButton label={vi ? "Chọn giờ trên đồng hồ" : "Pick on a clock"} icon="time-outline" onPress={() => setPicking(true)} /> : null}
       {nativePicker && picking ? (
         <DevicePicker mode="time" value={current ? new Date(`2000-01-01T${current}:00`) : new Date(2000, 0, 1, 8, 0)} doneLabel={vi ? "Xong" : "Done"}
           onClose={() => setPicking(false)} onPick={pickTime} />
@@ -132,6 +165,7 @@ const s = StyleSheet.create({
   boxLabel: { color: "#B8B0A4", fontFamily: typography.bodyFontFamily, fontSize: 12, marginBottom: 4 },
   box: { minHeight: layout.minimumTouchTarget + 4, borderRadius: radius.card, borderWidth: 1, borderColor: "rgba(201, 164, 92, 0.45)", backgroundColor: "#1F1C1E", color: colors.ivory, fontFamily: typography.bodyFontFamily, fontSize: 18, textAlign: "center" },
   colon: { color: colors.ivory, fontSize: 20, paddingBottom: 12 },
+  issue: { color: "#E7B7BE", fontFamily: typography.bodyFontFamily, fontSize: 13, marginTop: 8 },
   pickerButton: { flexDirection: "row", alignItems: "center", alignSelf: "flex-start", gap: 8, minHeight: layout.minimumTouchTarget, marginTop: 10, paddingHorizontal: 14, borderRadius: radius.pill, borderWidth: 1, borderColor: "rgba(201, 164, 92, 0.45)" },
   pickerText: { color: colors.gold, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 14 },
   ampm: { flexDirection: "row", padding: 4, borderRadius: radius.pill, backgroundColor: "#1F1C1E", marginLeft: 4 },

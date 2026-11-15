@@ -53,8 +53,10 @@ async function renderStory(
   return screen;
 }
 
+// initialTab "guide" opens the sheet full already (UX review K7/U6), so the peek button is absent.
 function openStory(screen: Awaited<ReturnType<typeof renderStory>>) {
-  fireEvent.press(screen.getByRole("button", { name: /Mở câu chuyện:/ }));
+  const peek = screen.queryByRole("button", { name: /Mở câu chuyện:/ });
+  if (peek) fireEvent.press(peek);
 }
 
 describe("AstrologyChartStory", () => {
@@ -84,7 +86,7 @@ describe("AstrologyChartStory", () => {
 
     await waitFor(() =>
       expect(
-        screen.getByText("NGƯỜI DẪN ĐƯỜNG AI · PREMIUM"),
+        screen.getByText("NGƯỜI DẪN ĐƯỜNG AI"),
       ).toBeTruthy(),
     );
     expect(

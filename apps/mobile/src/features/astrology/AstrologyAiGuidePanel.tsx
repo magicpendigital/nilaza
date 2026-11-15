@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import { colors, layout, radius, spacing, typography } from "../../theme";
 import { ReadingDetails } from "../../a2ui/ReadingDetails";
+import { premiumOnSale as policyPremiumOnSale } from "../owner/accountTierPolicy";
+import { CrisisSupportCard } from "../safety/CrisisSupportCard";
 import type { AnswerProvenance } from "../../../../../packages/ai-contracts/answer-provenance";
 
 export type AstrologyAiGuideStatus =
@@ -63,6 +65,10 @@ export type AstrologyAiGuidePanelProps = {
   trustLine?: string;
   unlockLabel?: string;
   premiumNote?: string;
+  /** Premium wording is shown only while Premium is on sale (UX review K4/U1, 2026-11-15). */
+  premiumOnSale?: boolean;
+  /** The request was stopped for crisis support: show the canonical 115 card and no retry (UX review K5/U2). */
+  crisis?: boolean;
   disabled?: boolean;
   showHandle?: boolean;
   testID?: string;
@@ -118,6 +124,8 @@ export function AstrologyAiGuidePanel({
   trustLine,
   unlockLabel,
   premiumNote,
+  premiumOnSale = policyPremiumOnSale,
+  crisis = false,
   disabled = false,
   showHandle = true,
   testID,
@@ -145,7 +153,7 @@ export function AstrologyAiGuidePanel({
 
   const copy = vi
     ? {
-        kicker: "NGƯỜI DẪN ĐƯỜNG AI · PREMIUM",
+        kicker: premiumOnSale ? "NGƯỜI DẪN ĐƯỜNG AI · PREMIUM" : "NGƯỜI DẪN ĐƯỜNG AI",
         lockedTitle: "Nối các điểm trong bản đồ của bạn",
         readyTitle: "Bạn muốn hiểu điều gì về mình?",
         intro:
@@ -156,7 +164,9 @@ export function AstrologyAiGuidePanel({
         placeholder: "Bạn muốn hiểu điều gì về mình?",
         send: "Gửi câu hỏi cho Người dẫn đường AI",
         unlock: "Mở khóa Người dẫn đường AI",
-        premiumNote: "Premium · Một câu hỏi mỗi lượt, dựa trên dữ kiện liên quan trong bản đồ",
+        premiumNote: premiumOnSale
+          ? "Premium · Một câu hỏi mỗi lượt, dựa trên dữ kiện liên quan trong bản đồ"
+          : "Một câu hỏi mỗi lượt, dựa trên dữ kiện liên quan trong bản đồ",
         continueFree: "Tiếp tục đọc bản đồ miễn phí",
         loading: "Đang nối các dữ kiện trong bản đồ của bạn…",
         errorTitle: "Người dẫn đường chưa thể trả lời",
@@ -171,7 +181,7 @@ export function AstrologyAiGuidePanel({
         collapse: "Thu gọn Người dẫn đường AI",
       }
     : {
-        kicker: "AI GUIDE · PREMIUM",
+        kicker: premiumOnSale ? "AI GUIDE · PREMIUM" : "AI GUIDE",
         lockedTitle: "Connect the points in your chart",
         readyTitle: "What would you like to understand about yourself?",
         intro:
@@ -182,7 +192,9 @@ export function AstrologyAiGuidePanel({
         placeholder: "What would you like to understand about yourself?",
         send: "Send question to the AI guide",
         unlock: "Unlock the AI guide",
-        premiumNote: "Premium · One question per turn, based on relevant facts from your chart",
+        premiumNote: premiumOnSale
+          ? "Premium · One question per turn, based on relevant facts from your chart"
+          : "One question per turn, based on relevant facts from your chart",
         continueFree: "Continue reading the chart for free",
         loading: "Connecting the facts in your chart…",
         errorTitle: "Your guide could not answer yet",
@@ -279,7 +291,9 @@ export function AstrologyAiGuidePanel({
           </View>
         ) : null}
 
-        {status === "error" ? (
+        {status === "error" && crisis ? <CrisisSupportCard language={language} /> : null}
+
+        {status === "error" && !crisis ? (
           <View accessibilityLiveRegion="assertive" style={styles.errorCard}>
             <Ionicons name="sparkles-outline" size={22} color={colors.teal} />
             <View style={styles.stateCopy}>

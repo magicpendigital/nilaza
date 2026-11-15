@@ -206,18 +206,6 @@
         { "id": "question", "label": "Câu hỏi", "dataClass": "personal", "consent": "—", "limit": "500 ký tự" },
         { "id": "focus", "label": "Chế độ và chủ đề", "dataClass": "public", "consent": "—", "limit": "Danh sách cố định" }
       ]
-    },
-    "astrology_report": {
-      "label": "Báo cáo chiêm tinh",
-      "function": "ai-astrology-report",
-      "configurable": false,
-      "floorDataClass": "sensitive",
-      "fields": [
-        { "id": "birth", "label": "Ngày, giờ, múi giờ sinh", "dataClass": "sensitive", "consent": "Đồng ý dữ liệu sinh", "limit": "Gửi nguyên — cần Owner quyết" },
-        { "id": "place", "label": "Nơi sinh và tọa độ", "dataClass": "sensitive", "consent": "Đồng ý dữ liệu sinh", "limit": "Gửi nguyên — cần Owner quyết" },
-        { "id": "chart", "label": "Vị trí hành tinh, nhà, góc chiếu", "dataClass": "sensitive", "consent": "Đồng ý dữ liệu sinh", "limit": "Toàn bộ lá số" },
-        { "id": "focus", "label": "Trọng tâm và lưu ý", "dataClass": "public", "consent": "—", "limit": "Danh sách cố định" }
-      ]
     }
   }
 }

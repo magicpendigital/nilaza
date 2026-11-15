@@ -1470,7 +1470,11 @@ function updatePublishButton() {
     if (none) { none.hidden = true; none.textContent = ""; }
     return;
   }
-  const locked = action === "councilBlocked" || action === "modelBlocked";
+  // Owner decision 15/11: ai.manage (publishing AI settings) is owner only. A session that loaded its capability list and
+  // lacks it sees no Phát hành button here; the click path and the server refuse as well.
+  const ownerOnly = (action === "modelRoute" || action === "astrologyPrompt")
+    && Array.isArray(window.NilazaAdminSession?.capabilities) && !window.NilazaAdminSession.capabilities.includes("ai.manage");
+  const locked = ownerOnly || action === "councilBlocked" || action === "modelBlocked";
   button.textContent = action === "modelRoute" || action === "astrologyPrompt" ? publishButtonLabels.publish : publishButtonLabels.browserDraft;
   button.hidden = locked;
   button.disabled = locked;
@@ -1479,7 +1483,7 @@ function updatePublishButton() {
   const reason = $("#publish-locked-reason");
   if (reason) {
     reason.hidden = !locked;
-    reason.textContent = locked ? publishLockedReason(action) : "";
+    reason.textContent = locked ? (ownerOnly ? "Chỉ Owner phát hành cài đặt AI. Bạn vẫn xem và soạn nháp ở các mục khác." : publishLockedReason(action)) : "";
   }
 }
 

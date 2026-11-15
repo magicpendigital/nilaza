@@ -24,6 +24,10 @@ test("server multi-role capabilities use canonical roles, unknown contracts fail
   for (const data of [{ userId: "B", roles: ["owner"], capabilities: [] }, { userId: "A", roles: ["content_admin"], capabilities: [] }, { userId: "A", roles: [], capabilities: ["hub.read"] }]) assert.throws(() => window.NilazaAccess.parse(data, user));
   assert.equal(permissionsFor("editor").canEdit, true);
   assert.equal(permissionsFor("editor").canPublish, false);
+  // Owner decision 15/11 (20261115090000): only owner publishes; admin keeps drafting.
+  assert.equal(permissionsFor("admin").canPublish, false);
+  assert.equal(permissionsFor("admin").canEdit, true);
+  assert.equal(permissionsFor("owner").canPublish, true);
   assert.equal(permissionsFor("safety_reviewer").canEdit, false);
 });
 test("fresh access failure or revocation cannot reuse old authority", async () => {

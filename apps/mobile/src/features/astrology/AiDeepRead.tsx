@@ -3,6 +3,7 @@ import { ActivityIndicator, Pressable, StyleSheet, Text, View } from "react-nati
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors, radius, typography } from "../../theme";
 import type { Language } from "../../types";
+import { CrisisSupportCard } from "../safety/CrisisSupportCard";
 
 // While the deep read is written (up to about two minutes, Owner 2026-11-03) the card names the stage
 // the request is most likely in. Stages follow elapsed time, not live progress, and say so.
@@ -28,12 +29,16 @@ function useElapsedSeconds(active: boolean) {
   return elapsed;
 }
 
-// Đọc sâu với AI on the chart overview (Owner decisions 2026-10-31): free accounts see what the AI adds
-// and "Có trong Premium" (Sắp ra mắt while nothing is sold); Premium writes one deep read per local day.
-export function AiDeepRead({ language, available, premiumOnSale, status, answer, error, onWrite, onOpenFull }: {
+// Đọc sâu với AI on the chart overview (Owner decisions 2026-10-31): entitled accounts write one deep
+// read per local day. UX review K4/U1 (2026-11-15): a visitor without an account gets a sign-in button;
+// Premium wording appears only while Premium is on sale, never "Sắp ra mắt".
+export function AiDeepRead({ language, available, premiumOnSale, signInRequired = false, onSignIn, crisis = false, status, answer, error, onWrite, onOpenFull }: {
   language: Language;
   available: boolean;
   premiumOnSale: boolean;
+  signInRequired?: boolean;
+  onSignIn?: () => void;
+  crisis?: boolean;
   status: "ready" | "loading" | "success" | "error" | "locked";
   answer?: { title: string; paragraphs: string[] };
   error?: string;
@@ -41,7 +46,7 @@ export function AiDeepRead({ language, available, premiumOnSale, status, answer,
   onOpenFull: () => void;
 }) {
   const vi = language === "vi";
-  const [soon, setSoon] = useState(false);
+  const [premiumHint, setPremiumHint] = useState(false);
   const elapsed = useElapsedSeconds(status === "loading");
   const stage = deepReadStage(elapsed);
   return (
@@ -70,10 +75,16 @@ export function AiDeepRead({ language, available, premiumOnSale, status, answer,
               {status === "loading" ? <ActivityIndicator color={colors.charcoal} /> : null}
               <Text style={s.primaryText}>{status === "loading" ? (vi ? "Đang viết…" : "Writing…") : vi ? "Viết bài đọc sâu · 1 lượt/ngày" : "Write a deep read · 1 a day"}</Text>
             </Pressable>
-          ) : (
-            <Pressable accessibilityRole="button" onPress={() => setSoon(true)} style={s.secondary}>
+          ) : signInRequired && onSignIn ? (
+            <Pressable accessibilityRole="button" onPress={onSignIn} style={s.primary}>
+              <Text style={s.primaryText}>{vi ? "Đăng nhập để dùng · 1 lượt/ngày" : "Sign in to use · 1 a day"}</Text>
+            </Pressable>
+          ) : premiumOnSale ? (
+            <Pressable accessibilityRole="button" onPress={() => setPremiumHint(true)} style={s.secondary}>
               <Text style={s.secondaryText}>{vi ? "Có trong Premium" : "Included in Premium"}</Text>
             </Pressable>
+          ) : (
+            <Text style={s.note}>{vi ? "Bài đọc sâu chưa mở cho tài khoản này." : "Deep read is not open for this account yet."}</Text>
           )}
           {status === "loading" ? (
             <View accessibilityLiveRegion="polite" style={s.stages}>
@@ -90,8 +101,9 @@ export function AiDeepRead({ language, available, premiumOnSale, status, answer,
               <Text style={s.note}>{vi ? "Thường mất 1–2 phút. Các bước tính theo thời gian chờ, không phải tiến độ thật." : "Usually 1–2 minutes. Steps follow the wait time, not live progress."}</Text>
             </View>
           ) : null}
-          {soon && !available ? <Text style={s.note}>{premiumOnSale ? (vi ? "Mở mục Tôi để xem gói Premium." : "Open Me to see Premium.") : vi ? "Sắp ra mắt." : "Coming soon."}</Text> : null}
-          {status === "error" && error ? <Text accessibilityRole="alert" style={s.error}>{error}</Text> : null}
+          {premiumHint && premiumOnSale && !available ? <Text style={s.note}>{vi ? "Mở mục Tôi để xem gói Premium." : "Open Me to see Premium."}</Text> : null}
+          {status === "error" && crisis ? <CrisisSupportCard language={language} /> : null}
+          {status === "error" && !crisis && error ? <Text accessibilityRole="alert" style={s.error}>{error}</Text> : null}
         </>
       )}
       <Text style={s.note}>{vi ? "Diễn giải biểu tượng để tự phản chiếu, không phải dự đoán." : "Symbolic interpretation for self-reflection, not prediction."}</Text>
