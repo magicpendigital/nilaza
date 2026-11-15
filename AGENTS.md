@@ -224,6 +224,15 @@ The product owner is non-technical and will coordinate implementation with AI ag
 - Keep user-facing seed content bilingual with `vi` and `en` fields, using standard accented UTF-8 Vietnamese in the JSON files. Do not use unaccented ASCII or rely on dynamic restoration scripts (such as `restoreVietnameseDiacritics`), which are legacy and error-prone.
 - After meaningful changes, update this file only if the high-level direction changes.
 
+## Delivery rule — Owner decision 2026-11-15
+
+`main` on `github.com/magicpendigital/nilaza` is the single source of truth. Work must land there, not in long-lived side branches, parallel local copies or leftover worktrees, so there is one version to control.
+
+- When one feature is finished (checks run, handoff written, `PLAN.md` updated), report to the Owner in Vietnamese with what is verified and what is not, then **ask once for approval to commit, merge and push to `main`**.
+- With that approval, do all three steps together: short-lived branch cut from the latest `origin/main`, pull request into `main`, merge only when CI is green, then delete the short-lived branch and any temporary worktree and confirm local `main` equals `origin/main`. Fixing CI failures on that same pull request needs no new approval.
+- Without the Owner's approval, do not merge or push. An approval covers that feature only. Do not push unfinished work.
+- Every push to `main` deploys Admin staging; say so in the report. This approval does not cover anything that needs its own approval: SQL or migrations, Edge Function deploys, secrets, Supabase/Vercel/GitHub/EAS/Play settings, accounts, store release.
+
 ## Definition Of Done
 
 A feature is ready when:
@@ -235,6 +244,7 @@ A feature is ready when:
 - AI prompts are versioned or easy to update.
 - Sensitive flows include privacy and safety controls.
 - A non-technical manager can test the happy path.
+- It is reported to the Owner and, once approved, committed, merged and pushed to `main` under the Delivery rule above, so no finished work lives only on a side branch.
 
 
 ## Release evidence workflow - 2026-10-04

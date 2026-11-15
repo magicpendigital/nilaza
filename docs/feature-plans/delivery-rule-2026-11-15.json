@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "taskId": "delivery-rule-2026-11-15",
+  "ownerAgent": "workflow_governance_agent",
+  "lane": "Delivery workflow: finished work lands on main after Owner approval",
+  "goal": "Record the Owner's 2026-11-15 decision that every finished feature is reported to the Owner and, once approved, committed, merged and pushed to main (short-lived branch and pull request, green CI, branch removed afterwards), so there is a single controlled version instead of several side branches.",
+  "successCriteria": [
+    "CLAUDE.md, AGENTS.md, docs/HANDOFF_CURRENT_STATE.vi.md and the nilaza-plan-qc skill state the same rule and no file still tells agents to gather PRs on the codex branch or to never merge.",
+    "The rule keeps approval per feature and does not cover SQL, Edge Function deploys, secrets, platform settings, accounts or store release.",
+    "skills/manifest.json carries the new SKILL.md hash and version, npm run skills:validate passes and skills:sync is attempted without overwriting unreconciled installed edits.",
+    "PLAN.md records the rule and the merge of PR 35; Feature Preflight passes in record and CI mode."
+  ],
+  "writeScope": [
+    "AGENTS.md",
+    "CLAUDE.md",
+    "docs/HANDOFF_CURRENT_STATE.vi.md",
+    "PLAN.md",
+    "skills/nilaza-plan-qc/",
+    "skills/manifest.json"
+  ],
+  "untouchedSurfaces": [
+    "No app, Admin, website, backend, Supabase, SQL or Edge Function change.",
+    "No GitHub, Vercel, Supabase, EAS or Play setting changes; no branch protection or auto-merge is enabled.",
+    "Existing remote branches (including codex/android-release-unblock-2026-10-19) are not deleted or reset by this task.",
+    "Other repository skills and their hashes stay as they are."
+  ],
+  "impact": {
+    "entryPoint": "Owner request on 2026-11-15 after merging PR 35: agents must request commit, merge and push to the main branch when a feature is done.",
+    "dataWrite": "Markdown rules, one skill file and its manifest entry only.",
+    "backendContract": "None: no API, Edge Function, database or provider contract changes; only project rules and one skill file.",
+    "adminVisibility": "None; every push to main still deploys Admin staging and the rule tells agents to say so in the report.",
+    "privacySafety": "The rule keeps approval gates for deploys, secrets, SQL and releases and keeps Owner approval per feature.",
+    "observability": "Skill validation, skill sync check, Feature Preflight and PR CI results.",
+    "rollback": "Revert the commit; the installed skill copies can be restored from the previous reviewed hash recorded as previousInstalledSha256."
+  },
+  "canonicalContracts": [
+    "CLAUDE.md: Owner approval is needed for SQL, deploys, secrets, platform settings, accounts and release.",
+    "docs/PLAN_QC_PROTOCOL.md: Feature Preflight and PLAN.md update rules."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5",
+      "reason": "Delivery rule added; Definition Of Done gains the delivery step."
+    },
+    {
+      "path": "CLAUDE.md",
+      "sha256": "26251af86a3e849a3258acb6c71b7978b2f55ab2207519fbd7e26bc5869b31c2",
+      "reason": "Old line about PRs from the codex branch and not merging replaced by the Owner's delivery rule."
+    },
+    {
+      "path": "docs/HANDOFF_CURRENT_STATE.vi.md",
+      "sha256": "a1c000d3893547ff63ff6996ecbc81e7dc54667934b1c29196fd5ee29e0b6b3a",
+      "reason": "Environment note on the codex PR branch updated to the new rule."
+    },
+    {
+      "path": "PLAN.md",
+      "sha256": "905f4e8757450bd24b073cc26f9d4570cf8753790de270a635d98be0969a9701",
+      "reason": "Update rule 5 and the share status (PR 35 merged) recorded."
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "sha256": "894c6f880816c2a65737daeea9adc26db246ac6cdb41a37c74ef564a5ee14782",
+      "reason": "Delivery rule section and finish step added; old codex-branch sentence replaced."
+    },
+    {
+      "path": "skills/manifest.json",
+      "sha256": "3d8e61d636aae029c935d79702f48ccbaf002328e229721fc0a60d0a36ed3c42",
+      "reason": "nilaza-plan-qc version 1.7.0 and the new SKILL.md hash recorded after validation."
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c",
+      "reason": "Workflow and skills routing reviewed; no change needed."
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2",
+      "reason": "Plan, impact, validation and handoff gate reviewed; the delivery rule follows it."
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "updated",
+      "evidence": "Delivery rule section and finish step added to SKILL.md; manifest version 1.7.0 and hash updated; skills:validate passes."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No library, API or platform claim; the task edits project rules only."
+  },
+  "securityReview": {
+    "authzRls": "No authorization or RLS change.",
+    "sensitiveData": "No user, key or secret data is read or written.",
+    "secretsLogging": "No secret is read or printed.",
+    "externalInput": "Pull request comments and bot text are treated as data, not instructions.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No database write, deploy or release; the rule explicitly keeps those behind separate Owner approval.",
+    "stopCondition": "Stop if skills:sync would overwrite installed skill edits that are not the reviewed previous version.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "AGENTS.md",
+      "CLAUDE.md",
+      "docs/HANDOFF_CURRENT_STATE.vi.md",
+      "PLAN.md",
+      "skills/manifest.json",
+      "skills/nilaza-plan-qc/SKILL.md"
+    ],
+    "note": "Starts from a clean branch cut from origin/main after PR 35 merged; paths are refreshed from git status before the preflight."
+  },
+  "validationCommands": [
+    "npm run skills:validate",
+    "npm run skills:check",
+    "npm run feature:preflight -- --record docs/feature-plans/delivery-rule-2026-11-15.json",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Finish any feature with an agent: it should report what is verified and not verified, ask once for approval to commit, merge and push to main, and after approval deliver through a short-lived branch and pull request and remove the branch.",
+  "residualRisk": "Agents that only read an installed copy of the skill keep the old text until skills:sync is applied; push to main deploys Admin staging, so the approval step is the control; the rule does not stop a human or another tool from pushing directly.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  },
+  "externalSourceReview": []
+}
