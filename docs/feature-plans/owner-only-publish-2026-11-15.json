@@ -15,6 +15,8 @@
     "supabase/migrations/20261115090000_owner_only_publish.sql",
     "apps/admin/team.js",
     "apps/admin/content-model.mjs",
+    "apps/admin/app.js",
+    "scripts/admin-ai-studio-render.test.mjs",
     "scripts/admin-team-roles.test.mjs",
     "scripts/admin-access.test.mjs"
   ],
@@ -153,7 +155,7 @@
     "node scripts/feature-preflight.mjs --ci --base origin/main"
   ],
   "managerTestPath": "After the Owner applies the migration: open Admin › Vận hành › Thành viên & quyền, press Mời thành viên, pick Quản trị and see Phát hành nội dung and Đổi và phát hành cài đặt AI under Không được làm; sign in with a Quản trị test account, open AI Studio › Tính năng AI and Prompt: Lưu nháp works, Phát hành and the on/off switches are not offered (note 'Chỉ Owner phát hành'); open Nội dung: drafts save, Phát hành is not offered; as Owner, publish the draft.",
-  "residualRisk": "Admins can no longer press the AI feature emergency switches, change providers, run the provider key check, or save model-route drafts (that save path never had an editor draft rule); only owner accounts can, so the Owner must be reachable in an incident. An admin's notification-send-test no longer writes its client audit row (the notification still sends). The admin documentation text inside the admin-documentation Edge Function still says Owner/Admin in places; it is not a permission and is left for a later doc pass. PGlite is not Supabase: auth is stubbed; re-run the Security Advisor after applying.",
+  "residualRisk": "Review 15/11: the legacy AI Studio model route and Astrology prompt Phát hành button is now hidden for sessions without ai.manage (app.js updatePublishButton). Also lost by admin and not publishing: council config draft save (admin-ai-council-config POST needs ai.manage), tarot_cards and source chunk/embedding edits (content.publish, no draft path), client audit insert. Admins can no longer press the AI feature emergency switches, change providers, run the provider key check, or save model-route drafts (that save path never had an editor draft rule); only owner accounts can, so the Owner must be reachable in an incident. An admin's notification-send-test no longer writes its client audit row (the notification still sends). The admin documentation text inside the admin-documentation Edge Function still says Owner/Admin in places; it is not a permission and is left for a later doc pass. PGlite is not Supabase: auth is stubbed; re-run the Security Advisor after applying.",
   "externalActions": {
     "databaseWrite": false,
     "productionRelease": false
