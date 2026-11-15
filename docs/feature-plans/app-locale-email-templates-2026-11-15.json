@@ -20,17 +20,21 @@
     "apps/mobile/src/__tests__/i18n.test.ts",
     "apps/mobile/src/auth/AuthFlow.tsx",
     "apps/mobile/src/auth/supabaseAuth.ts",
-    "apps/mobile/src/auth/__tests__",
     "apps/mobile/App.tsx",
     "apps/mobile/jest.setup.js",
     "apps/mobile/src/__mocks__",
-    "supabase/templates/auth",
     "scripts/validate-auth-email-templates.mjs",
     "docs/proposals/APP_LOCALE_AUTO_DETECT_2026-11-15.vi.md",
     "docs/proposals/AUTH_EMAIL_TEMPLATES_2026-11-15.vi.md",
     "docs/release/singapore-edge-functions-2026-11-09/admin-14-11-rollout-2026-11-15.json",
     "PLAN.md",
-    "apps/mobile/app.json"
+    "apps/mobile/app.json",
+    "apps/mobile/src/auth/__tests__/supabaseAuth.test.ts",
+    "supabase/templates/auth/confirmation.html",
+    "supabase/templates/auth/invite.html",
+    "supabase/templates/auth/recovery.html",
+    "supabase/templates/auth/password_changed_notification.html",
+    "supabase/templates/auth/manifest.json"
   ],
   "untouchedSurfaces": [
     "Admin code, Edge Functions and migrations are unchanged; admin-team-invite sends no locale so invites stay Vietnamese.",
@@ -82,7 +86,7 @@
     {
       "path": "docs/proposals/APP_LOCALE_AUTO_DETECT_2026-11-15.vi.md",
       "reason": "Approved plan for this feature.",
-      "sha256": "91d96f5db270a9914a9ff945bc90c5386e316155230b0e8e57cf57c1b7d5be47"
+      "sha256": "50ae080ad75a6ab4c96da2cafabc11a34faad1d88ee32c76427daddc51480b2e"
     }
   ],
   "skillReview": [
