@@ -74,7 +74,7 @@
     },
     {
       "path": "docs/feature-plans/share-events-clipboard-2026-11-12.json",
-      "sha256": "43328bc5a3501c38b0ab649c125c615e3b796d7ebdb7520d0e681a3f763c6082",
+      "sha256": "b41a35a5690d9b709fbd7b080bd7a126ccfe6ed89360848614bba4bf8e26a1e3",
       "reason": "Previous record: clipboard copy and server events this task builds on."
     },
     {
@@ -162,10 +162,8 @@
     "unresolvedHighRisks": []
   },
   "workingTreeReview": {
-    "paths": [
-      "PLAN.md"
-    ],
-    "note": "Uncommitted work already in the tree from the previous task (clipboard copy of the message with the link, tests, handoff and PLAN.md notes) plus this task's edits."
+    "paths": [],
+    "note": "All edits of this task were committed (f149e78) and origin/main was merged before this refresh, so no uncommitted paths remain; hashes in sourceReview were refreshed after the merge."
   },
   "validationCommands": [
     "npm run feature:preflight -- --record docs/feature-plans/share-image-text-2026-11-14.json",

@@ -71,7 +71,7 @@
     },
     {
       "path": "PLAN.md",
-      "sha256": "141c8badd28d54bed1c203fa9445fe3966d23562da499da32c08b629b7ba709d",
+      "sha256": "9408dd752440bb7093312c81208052f25efd1e598a90aa8fa3040a76b6890026",
       "reason": "Singapore state: 18 Edge Functions live, usage_events written by service role, the Owner deploys functions himself, last on-device test recipe."
     },
     {
@@ -86,7 +86,7 @@
     },
     {
       "path": "apps/mobile/package.json",
-      "sha256": "da731c0db06f0ef6c2168147b23fef31595bb858fca2480ab9d49bc439d4572c",
+      "sha256": "894a0f83d967364ee86c592e61b2276c44bee7d10197b5981b67051328e4d624",
       "reason": "Dependency set reviewed; expo-clipboard is the one addition."
     },
     {
@@ -101,12 +101,12 @@
     },
     {
       "path": "apps/mobile/src/features/share/ShareCardSheet.tsx",
-      "sha256": "6b68c5e826188e8d8f9d89e99e6e0e76c7e74adb8501d47aeca6c761b1bc1805",
+      "sha256": "90d531245918ed47664169eac76ec5a015f6d2476a762c1a67fddf7ae24f0ed8",
       "reason": "Current two-button share sheet to extend with link copy."
     },
     {
       "path": "apps/mobile/src/features/share/captureShareCard.ts",
-      "sha256": "4342ecaab6216b460ccb0d0aad640be4a4acb82959dd6097efa448f41ad955be",
+      "sha256": "8ae15019cc287ca815b4b944d80356135fe80894b04d27a730089cafbf15e0f8",
       "reason": "Capture and share helpers that gain a clipboard step."
     },
     {
@@ -126,12 +126,12 @@
     },
     {
       "path": "scripts/validate-backend-contracts.mjs",
-      "sha256": "a53969230a8ca5a5ae0de3b06198fc593be74c0409e0a9f32f0568e45e859c49",
+      "sha256": "1a4ec9a6fb13feeb288d486f9a1a180d9754cc697fdadb8efcb3fdb3d002db02",
       "reason": "Registration and static assertions every function must satisfy."
     },
     {
       "path": "scripts/check-supabase-readiness.mjs",
-      "sha256": "187f334a7561f2ccce2bfe299b5b5984f0d904bf31727313d2d3c15fc1a2e824",
+      "sha256": "78c388cb090500d28a9cb40e352e2399c1c50decc303b8d3035b3ede4d3402c8",
       "reason": "Required function list for the readiness check."
     },
     {
