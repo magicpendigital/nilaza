@@ -31,11 +31,13 @@ function useElapsedSeconds(active: boolean) {
 
 // Đọc sâu với AI on the chart overview (Owner decisions 2026-10-31): entitled accounts write one deep
 // read per local day. UX review K4/U1 (2026-11-15): a visitor without an account gets a sign-in button;
-// Premium wording appears only while Premium is on sale, never "Sắp ra mắt".
-export function AiDeepRead({ language, available, premiumOnSale, signInRequired = false, onSignIn, crisis = false, status, answer, error, onWrite, onOpenFull }: {
+// Premium wording appears only while Premium is on sale, never "Sắp ra mắt". With onOpenPremium the
+// Premium button opens the Premium section of Me instead of only showing a hint.
+export function AiDeepRead({ language, available, premiumOnSale, signInRequired = false, onSignIn, onOpenPremium, crisis = false, status, answer, error, onWrite, onOpenFull }: {
   language: Language;
   available: boolean;
   premiumOnSale: boolean;
+  onOpenPremium?: () => void;
   signInRequired?: boolean;
   onSignIn?: () => void;
   crisis?: boolean;
@@ -80,7 +82,7 @@ export function AiDeepRead({ language, available, premiumOnSale, signInRequired 
               <Text style={s.primaryText}>{vi ? "Đăng nhập để dùng · 1 lượt/ngày" : "Sign in to use · 1 a day"}</Text>
             </Pressable>
           ) : premiumOnSale ? (
-            <Pressable accessibilityRole="button" onPress={() => setPremiumHint(true)} style={s.secondary}>
+            <Pressable accessibilityRole="button" onPress={() => (onOpenPremium ? onOpenPremium() : setPremiumHint(true))} style={s.secondary}>
               <Text style={s.secondaryText}>{vi ? "Có trong Premium" : "Included in Premium"}</Text>
             </Pressable>
           ) : (

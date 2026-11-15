@@ -43,3 +43,17 @@ test("a crisis answer shows the 115 support card instead of a plain error (UX re
   expect(screen.getByText("Gọi 115")).toBeTruthy();
   expect(screen.getByText(/hãy gọi 115/)).toBeTruthy();
 });
+
+test("while Premium is offered the Premium button opens the Premium section", () => {
+  const onOpenPremium = jest.fn();
+  const screen = render(<AiDeepRead {...base} premiumOnSale available={false} status="locked" onOpenPremium={onOpenPremium} />);
+  fireEvent.press(screen.getByText("Có trong Premium"));
+  expect(onOpenPremium).toHaveBeenCalledTimes(1);
+  expect(screen.queryByText("Mở mục Tôi để xem gói Premium.")).toBeNull();
+});
+
+test("without a Premium destination the button still explains where to go", () => {
+  const screen = render(<AiDeepRead {...base} premiumOnSale available={false} status="locked" />);
+  fireEvent.press(screen.getByText("Có trong Premium"));
+  expect(screen.getByText("Mở mục Tôi để xem gói Premium.")).toBeTruthy();
+});

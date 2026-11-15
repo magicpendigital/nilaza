@@ -10,6 +10,8 @@ declare const process: {
     EXPO_PUBLIC_NILAZA_GUEST_ENTRY?: string;
     EXPO_PUBLIC_NILAZA_ONLINE_REQUIRED?: string;
     EXPO_PUBLIC_AI_TRACE_QA_CAPTURE?: string;
+    EXPO_PUBLIC_REVENUECAT_ANDROID_KEY?: string;
+    EXPO_PUBLIC_BILLING_TEST?: string;
   };
 };
 
@@ -86,3 +88,17 @@ export const guestEntryEnabled = enabledByDefault(
 /** QA-only opt-in. The backend separately enforces staging and owner capability. */
 export const astrologyQaTraceCaptureEnabled = typeof process !== "undefined"
   && process.env.EXPO_PUBLIC_AI_TRACE_QA_CAPTURE?.trim().toLowerCase() === "true";
+
+/**
+ * Public Android SDK key of the in-app purchase service (a client key, never a secret). Set per EAS
+ * environment by the Owner; empty means purchases are unavailable and the app runs normally.
+ */
+export const billingAndroidPublicKey =
+  typeof process !== "undefined" ? process.env.EXPO_PUBLIC_REVENUECAT_ANDROID_KEY?.trim() || undefined : undefined;
+
+/**
+ * Closed-test build flag: shows the Premium purchase screen while Premium is not on sale so license
+ * testers can try a purchase. Off by default; it never changes the account tier.
+ */
+export const billingTestEnabled = typeof process !== "undefined"
+  && process.env.EXPO_PUBLIC_BILLING_TEST?.trim().toLowerCase() === "true";
