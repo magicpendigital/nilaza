@@ -18,7 +18,8 @@
     "apps/admin/app.js",
     "scripts/admin-ai-studio-render.test.mjs",
     "scripts/admin-team-roles.test.mjs",
-    "scripts/admin-access.test.mjs"
+    "scripts/admin-access.test.mjs",
+    "docs/release/singapore-edge-functions-2026-11-09/admin-14-11-rollout-2026-11-15.json"
   ],
   "untouchedSurfaces": [
     "Already-applied migrations (20260902131408, 20261114090000 and the AI / content RPC migrations) are not edited; every admin_role_assignments row stays as it is, so nobody's role changes, only what the admin role may do.",
