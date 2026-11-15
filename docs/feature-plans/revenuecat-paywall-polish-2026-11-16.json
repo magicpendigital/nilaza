@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "taskId": "revenuecat-paywall-polish-2026-11-16",
+  "ownerAgent": "mobile_agent",
+  "lane": "Billing lot 2b: approved Premium screen design and honest 'For Premium' labels on locked decks and guides",
+  "goal": "Restyle PaywallPanel to the approved Premium design (Garamond hero with a small constellation, three benefits, two radio plan cards with a short saving chip, gold buy button, renewal and cancel note, Restore purchases and Manage plan, Terms and Privacy, a 'Still free' block, and the state cards) using the app theme tokens, without changing purchase, restore or identify logic and with store prices only. Replace 'Sắp ra mắt' / 'Coming soon' on locked Premium decks and guides with a 'Dành cho Premium' label and a plain explanation; show a 'Xem gói Premium' button that opens Profile > Premium only while the paywall is shown (premiumOnSale or EXPO_PUBLIC_BILLING_TEST).",
+  "successCriteria": [
+    "PaywallPanel matches the approved layout for plans, loading, signed-out, purchasing, pending, error, unavailable, active, ending and restore results; prices come only from the store; the source still contains no fixed price, credit wording or vendor name.",
+    "Purchase, restore, identify and offer loading behave exactly as before (existing PaywallPanel tests still pass, adjusted only for new visual wording).",
+    "All interactive controls have accessibilityRole and accessibilityLabel and at least 44 pt touch targets; text wraps on narrow phones.",
+    "Locked Premium decks and guides show 'Dành cho Premium' with the approved explanation in Vietnamese and English; 'Sắp ra mắt' no longer appears for decks or guides.",
+    "A 'Xem gói Premium' button appears on the lock notice only when the paywall is enabled and opens the Profile Premium section; without the paywall only the label and explanation show; both branches are tested.",
+    "tsc, the mobile jest suite, validate:governance, the admin workflow catalog check and this preflight pass."
+  ],
+  "writeScope": [
+    "apps/mobile/src/features/billing/PaywallPanel.tsx",
+    "apps/mobile/src/features/billing/PremiumLockNotice.tsx",
+    "apps/mobile/src/features/billing/__tests__/PaywallPanel.test.tsx",
+    "apps/mobile/src/features/billing/__tests__/PremiumLockNotice.test.tsx",
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/chat/ChatHub.tsx",
+    "apps/mobile/src/features/chat/__tests__/ChatHub.test.tsx",
+    "apps/mobile/src/features/tarot/TarotAskStep.tsx",
+    "apps/mobile/src/__tests__/userFacingCopy.test.ts",
+    "apps/admin/workflow-catalog.js",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "packages/agent-config/account-tier-policy.json keeps premiumOnSale false; paywallAccess.ts, usePremium.ts and billingClient.ts logic are unchanged.",
+    "supabase/, apps/web and Admin behaviour are untouched; only the App.tsx source digest in apps/admin/workflow-catalog.js is refreshed.",
+    "Lot 3 files (account deletion, legal pages, DeleteAccountBillingNotice) are not edited; App.tsx edits stay limited to the locked deck and guide copy and wiring.",
+    "No EAS build, release, secret, SQL or deploy; no .env file is read."
+  ],
+  "impact": {
+    "entryPoint": "Profile > Premium (PaywallPanel); Tarot deck list, deck detail and draw step for Premium decks; guide list and guide detail for Premium guides.",
+    "dataWrite": "None. Visual and copy change only; no new storage, events or network calls.",
+    "backendContract": "No backend contract change; the paywall still reads offers and customer info through the existing billing client.",
+    "adminVisibility": "No Admin change apart from the App.tsx source digest in the workflow catalog.",
+    "privacySafety": "No new data is read or sent. Labels promise nothing beyond what the account tier already enforces.",
+    "observability": "Existing premium_deck_preview event is kept; no new logging.",
+    "rollback": "Revert the commit; the previous paywall layout and labels return."
+  },
+  "canonicalContracts": [
+    "apps/mobile/src/features/billing/paywallAccess.ts paywallEnabled (premiumOnSale or EXPO_PUBLIC_BILLING_TEST)",
+    "apps/mobile/src/features/billing/usePremium.ts PremiumState (no past_due status yet)",
+    "apps/mobile/App.tsx openPremium and profileEntrySection"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Delivery rule and Owner approval boundaries (no release, no secrets).",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile route and validation commands.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/mobile/src/features/billing/PaywallPanel.tsx",
+      "reason": "Purchase screen restyled to the approved design; logic must stay identical.",
+      "sha256": "919e4f18e885f0b32155102e6397113d5098493583737b53f2d3e11b222cc17d"
+    },
+    {
+      "path": "apps/mobile/src/features/billing/usePremium.ts",
+      "reason": "Checked for a past_due status and period end: not present, so the payment-problem card is not built.",
+      "sha256": "21895dbf1ab7b5250ed3572bbb73bad9c3a89fddad984eb51a4d4c7084e615fa"
+    },
+    {
+      "path": "apps/mobile/src/features/billing/paywallAccess.ts",
+      "reason": "Condition for showing the 'Xem gói Premium' button.",
+      "sha256": "6bfbd1777274a5c89ef43969c6f0cf7b1144e1a96bcdef32d11933b62a539218"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Locked deck and guide copy, lock panels and openPremium wiring.",
+      "sha256": "b8723c29d31c143755311d5d15afca3b61cd0f84ed37e4037a9dc4fbed6bdbad"
+    },
+    {
+      "path": "apps/mobile/src/features/chat/ChatHub.tsx",
+      "reason": "Guide grid shows 'Sắp ra mắt' for Premium guides.",
+      "sha256": "c5ce6cbc041ca2c402ae2bbaa85458a4bedd4f999fcf451ed34b0658bb5acdec"
+    },
+    {
+      "path": "apps/mobile/src/features/tarot/TarotAskStep.tsx",
+      "reason": "Selected deck row shows 'Sắp ra mắt' for a Premium deck.",
+      "sha256": "e7a31ece207b7c7c00f6c81883ebb20d97830ed66c057a12af0d9ef365e6b0a4"
+    },
+    {
+      "path": "apps/mobile/src/theme.ts",
+      "reason": "Colour, radius and font tokens used for the design.",
+      "sha256": "04b45e16c5f4092d0a61765de0c00c641f2cdfc6582ad723eafbd0cc78334662"
+    },
+    {
+      "path": "apps/mobile/src/__tests__/userFacingCopy.test.ts",
+      "reason": "Bans the vendor name and fixed prices in screen text.",
+      "sha256": "5dc0d518819b66926bfcd217c56389fecd2e8f6e8d40f8504f49a293abf9d4b6"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before code; approved design and Owner copy decision applied; no release, secrets, settings or tier policy change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No new dependency; react-native-svg and Ionicons already ship with the app; no vendor API change."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization change; the account tier still decides what is locked and the server still enforces Premium AI.",
+    "sensitiveData": "No personal data is read, shown or sent by the new UI.",
+    "secretsLogging": "No secret, key or .env value is read or written; no new logging.",
+    "externalInput": "Store price strings are rendered as plain text exactly as before.",
+    "dependencies": "No dependency added or upgraded.",
+    "migrationRelease": "No SQL, deploy or release; a native build is needed only to see it on a device.",
+    "stopCondition": "Stop if tsc or a mobile test fails, or if keeping the purchase logic unchanged would require editing usePremium or billingClient.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record and preflight came first; the lot 2b edits are listed here and stay inside writeScope.",
+    "paths": [
+      "PLAN.md",
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/features/billing/PaywallPanel.tsx",
+      "apps/mobile/src/features/billing/PremiumLockNotice.tsx",
+      "apps/mobile/src/features/billing/__tests__/PaywallPanel.test.tsx",
+      "apps/mobile/src/features/billing/__tests__/PremiumLockNotice.test.tsx",
+      "apps/mobile/src/features/chat/ChatHub.tsx",
+      "apps/mobile/src/features/chat/__tests__/ChatHub.test.tsx",
+      "apps/mobile/src/features/tarot/TarotAskStep.tsx"
+    ]
+  },
+  "validationCommands": [
+    "npx tsc --noEmit -p apps/mobile",
+    "npm --workspace apps/mobile test -- --maxWorkers=3",
+    "npm run validate:governance",
+    "node scripts/validate-admin-workflow-catalog.mjs",
+    "npm run feature:preflight -- --record docs/feature-plans/revenuecat-paywall-polish-2026-11-16.json"
+  ],
+  "managerTestPath": "In a closed-test build with EXPO_PUBLIC_BILLING_TEST=true: open Profile > Premium and compare with the approved design; open a Premium deck and a Premium guide and check the 'Dành cho Premium' label, the explanation and the 'Xem gói Premium' button. In a normal build the same places show the label and explanation without a button.",
+  "residualRisk": "Not yet seen on a real device or narrow phone; the per-month equivalent line and the payment-problem (past_due) card from the mockup are not built because the app has no formatted price helper or past_due data yet.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
