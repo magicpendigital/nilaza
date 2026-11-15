@@ -54,7 +54,7 @@
     {
       "path": "AGENTS.md",
       "reason": "SQL, deploy and secrets need Owner approval.",
-      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
     },
     {
       "path": "docs/AGENT_TASK_ROUTER.md",
