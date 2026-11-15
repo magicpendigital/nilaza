@@ -113,5 +113,64 @@
       "Invite email end to end",
       "Admin staging still points at the old QA project"
     ]
+  },
+  "followUp2026-11-15b": {
+    "ownerApproval": "Owner chat 15/11: '1. Đồng ý duyệt gộp vào main. 2. Đồng ý chuyển sang domain chính thức ... 4. Đồng ý.' (item 4 = delete deployed ai-astrology-report after merge)",
+    "merge": {
+      "pr": 38,
+      "mergeCommit": "f3ca06e83bfc5a8ed18ae8131e37e10504eb5b26",
+      "ci": "5/5 passing before merge"
+    },
+    "functionDeleted": {
+      "name": "ai-astrology-report",
+      "command": "npx supabase@3.1.0 functions delete ai-astrology-report --remote=etfajmrwyywokgafzxsb --yes",
+      "result": "Deleted Edge Function.",
+      "readBack": "list_edge_functions no longer lists ai-astrology-report"
+    },
+    "emailDomain": {
+      "resendDomain": "auth.nilaza.magicpendigital.com",
+      "region": "ap-northeast-1",
+      "tracking": "open and click tracking off",
+      "receiving": "not enabled (no MX)",
+      "dnsRecordsCloudflare": [
+        {
+          "type": "TXT",
+          "name": "resend._domainkey.auth.nilaza",
+          "value": "DKIM public key from Resend"
+        },
+        {
+          "type": "CNAME",
+          "name": "send.auth.nilaza",
+          "target": "send.forge.rmta.net",
+          "proxy": "DNS only"
+        },
+        {
+          "type": "CNAME",
+          "name": "rsend.auth.nilaza",
+          "target": "rsend-apne1.forge.rmta.net",
+          "proxy": "DNS only"
+        }
+      ],
+      "publicDnsCheck": "all three resolved via cloudflare-dns.com DoH",
+      "resendStatus": "Verified (DKIM, SPF records Verified)",
+      "apiKey": "existing key nilaza-auth-smtp re-scoped from auth-qa to auth.nilaza domain; key value unchanged and never read by the agent",
+      "supabaseSender": "no-reply@auth.nilaza.magicpendigital.com (saved; 'Successfully updated settings')"
+    },
+    "signups": {
+      "allowNewUsersToSignUp": true,
+      "confirmEmail": true,
+      "readBack": "both switches on after page reload"
+    },
+    "notVerified": [
+      "A real email arriving in an inbox (sign-up confirmation, password reset)",
+      "Admin as role admin seeing publish and AI switch controls disabled in the browser"
+    ],
+    "ownerOnlyMigration": {
+      "ownerApproval": "Owner chat 15/11 item 3 'Đồng ý', clarified: 'Chỉ Owner giữ quyền tắt AI khẩn cấp.'",
+      "file": "supabase/migrations/20261115090000_owner_only_publish.sql",
+      "sha256": "a645540632c79f342d76d9fdd3199d27abf808f39ee1537b8f328e5eb689cd0a",
+      "method": "npx supabase@3.1.0 db query --yes --remote=etfajmrwyywokgafzxsb -f <file>; migration repair --status applied 20261115090000",
+      "readBack": "pg_get_functiondef(nilaza_private.roles_have_capability): ai.manage and content.publish map to owner only; comment names 20261115090000"
+    }
   }
 }
