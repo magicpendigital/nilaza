@@ -158,7 +158,7 @@
     e("zodiac_response", "zodiac_usage", "zodiac_response", t("Pulse + ACK", "Pulse and ACK"), [dr[1]], ["response", "response"])
   ], [traceNote, t("Hai subflow độc lập; không nối Zodiac vào LLM. Trace daily_insight không tô sáng Zodiac. Chưa lưu daily-card.", "Two independent subflows; Zodiac is not connected to an LLM. daily_insight traces cannot highlight Zodiac. Daily-card persistence is absent.")], ["daily_insight"]);
 
-  const ar = [r(f("ai-astrology-insight")), r(s("astrology-ai-insight.ts")), r(s("astrology-ai-insight-contract.ts")), r(s("model-router.ts")), r("packages/astrology-core/calculator.mjs"), r("packages/agent-config/astrology-ai-insight/invocation.schema.json"), r("packages/agent-config/astrology-ai-insight/response.schema.json")];
+  const ar = [r(f("ai-astrology-insight")), r("supabase/functions/ai-astrology-insight/handler.ts"), r(s("astrology-lock.ts")), r(s("astrology-ai-insight.ts")), r(s("astrology-ai-insight-contract.ts")), r(s("model-router.ts")), r("packages/astrology-core/calculator.mjs"), r("packages/agent-config/astrology-ai-insight/invocation.schema.json"), r("packages/agent-config/astrology-ai-insight/response.schema.json")];
   const astrology = g("astrology", t("Astrology AI — facts đã tính", "Astrology AI — calculated facts"), ar, [
     n("chart_dependency", t("Chart deterministic từ app", "App deterministic chart"), "context", 0, 0, t("App/core tính chart; AI Insight nhận facts/contracts/revision, không tính lại hay bịa placement.", "App/core calculates the chart; AI Insight receives facts/contracts/revision without recalculating/inventing placements."), [ar[4], ar[5]], [p("birthInput", "BirthInput", "app birth profile", t("Tính deterministic chart", "Calculate deterministic chart"), "sensitive")], [o("invocation", "AstrologyInvocation", "auth_contract.invocation", pass, "sensitive")]),
     n("auth_contract", t("Auth + invocation schema", "Auth + invocation schema"), "guard", 1, 0, t("GetUser trước body; contract/schema/question và environment gate. Body length kiểm sau full text, không streaming guard Oracle.", "GetUser precedes body; contract/schema/question and environment gate. Body length is checked after full text, not Oracle's streaming guard."), [ar[0], ar[1], ar[5]], [p("invocation", "AstrologyInvocation", "chart_dependency.invocation", pass, "sensitive")], [o("invocation", "AstrologyInvocation", "access_usage.invocation", pass, "sensitive")]),
@@ -323,6 +323,10 @@
     "sha256": "1f92e788cb4027d2c1b2d76b29a690a68160e10f8a0634b20a380b91435d9eda"
   },
   {
+    "path": "supabase/functions/_shared/astrology-lock.ts",
+    "sha256": "7173a2c2fe5aa4841c64dea77f4c981e104b4ce800adc3559e069ec46a94d59d"
+  },
+  {
     "path": "supabase/functions/_shared/astrology-ai-insight.ts",
     "sha256": "26bb18c88c9287168bda279a9218fd6bdc50f97ee5f43aa90b2fc857cca2b5f6"
   },
@@ -359,8 +363,12 @@
     "sha256": "cf17623b7e499906d7cdc2493fbcdc87cd56116a1ce1108e1f722e0104d45c38"
   },
   {
+    "path": "supabase/functions/ai-astrology-insight/handler.ts",
+    "sha256": "40bab25ff3be496a10c829ce27536cfdcb5ae79d66f866d8df2b835f9d149908"
+  },
+  {
     "path": "supabase/functions/ai-astrology-insight/index.ts",
-    "sha256": "ff803fe6198867e7ca38277743eae2450b2fd7850e00d4667c9df95c122cfa66"
+    "sha256": "23a5851267a3e11ed6d693ed063ba61c097263567ca62ef8c85dbf9208cfaa6c"
   },
   {
     "path": "supabase/functions/ai-council/index.ts",

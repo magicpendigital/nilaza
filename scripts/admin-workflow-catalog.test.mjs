@@ -26,7 +26,8 @@ test("reviewed catalog is fresh, typed and distinct across all eight features", 
   assert.equal(result.edges, 69);
   assert.equal(result.ports, 205);
   // P1-A pins the Tarot draw/handler/store modules (39 + 3).
-  assert.equal(result.sourceDigests, 42);
+  // P1-B pins the Astrology handler and lock modules and refreshes index.ts (42 + 3).
+  assert.equal(result.sourceDigests, 45);
   assert.deepEqual(catalog.features.map((feature) => feature.id), FEATURE_IDS);
 });
 
