@@ -117,7 +117,7 @@ export async function signInWithSupabaseEmail(email: string, password: string): 
   return { authState: sessionToAuthState(await adoptSession(data.session, attempt)) };
 }
 
-export async function signUpWithSupabaseEmail(name: string, email: string, password: string): Promise<SupabaseAuthResult | null> {
+export async function signUpWithSupabaseEmail(name: string, email: string, password: string, locale?: EmailLocale): Promise<SupabaseAuthResult | null> {
   if (!supabaseClient) return null;
   const attempt = ++authAttempt;
   const { data, error } = await withAuthTimeout(isolatedAuthClient().auth.signUp({
@@ -128,7 +128,9 @@ export async function signUpWithSupabaseEmail(name: string, email: string, passw
       data: {
         name: name.trim(),
         // Sign-up is only reachable after the 18+ confirmation in AuthFlow.
-        adult_confirmed_at: new Date().toISOString()
+        adult_confirmed_at: new Date().toISOString(),
+        // Auth email templates read this to pick English; anything else gets Vietnamese.
+        ...(locale ? { locale } : {})
       }
     }
   }));
@@ -139,6 +141,23 @@ export async function signUpWithSupabaseEmail(name: string, email: string, passw
   return {
     pendingEmailConfirmation: true
   };
+}
+
+export type EmailLocale = "vi" | "en";
+
+export function emailLocaleFor(language: string): EmailLocale {
+  return language === "en" ? "en" : "vi";
+}
+
+// Keep later auth emails (password reset, resend) in the language chosen in Settings.
+export async function updateSupabaseUserLocale(locale: EmailLocale): Promise<boolean> {
+  if (!supabaseClient) return false;
+  const { data } = await withAuthTimeout(supabaseClient.auth.getSession());
+  if (!data.session) return false;
+  if (data.session.user.user_metadata?.locale === locale) return true;
+  const { error } = await withAuthTimeout(supabaseClient.auth.updateUser({ data: { locale } }));
+  if (error) throw error;
+  return true;
 }
 
 let nextSignupResendAt = 0;

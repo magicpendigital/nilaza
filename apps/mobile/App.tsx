@@ -114,7 +114,7 @@ import {
   TopBar,
   FadeInView
 } from "./src/a2ui";
-import { formatLocalDate, formatLocalDateTime, localizedList, localizedText, normalizeLanguage, relativeDayLabel } from "./src/i18n";
+import { detectDeviceLanguage, formatLocalDate, formatLocalDateTime, localizedList, localizedText, normalizeLanguage, relativeDayLabel } from "./src/i18n";
 import { guestEntryEnabled, isSupabaseAuthConfigured, nilazaAdminUrl, nilazaBackendBaseUrl, nilazaHelpUrlFor, nilazaLegalUrlFor, onlineModeRequired, onlineRuntimeReady, responsiveShellEnabled, supabaseAnonKey, supabaseUrl } from "./src/runtimeConfig";
 import { useAdaptiveLayout } from "./src/responsive";
 import { AdaptiveScaffold, ResponsiveGrid, OverflowChipRail } from "./src/a2ui/layout";
@@ -180,7 +180,7 @@ import appConfig from "./app.json";
 import { normalizeOracleText, oracleIntent, oracleSafetyReply, oracleSafetySignal } from "../../packages/ai-contracts/oracle-safety.mjs";
 import { PersonaChatRoom } from "./src/features/persona";
 import { createEmailAuthState, displayNameFromEmail } from "./src/auth/localAuth";
-import { resendSupabaseSignupConfirmation, resetSupabasePasswordForEmail, signInWithSupabaseEmail, signUpWithSupabaseEmail } from "./src/auth/supabaseAuth";
+import { emailLocaleFor, resendSupabaseSignupConfirmation, resetSupabasePasswordForEmail, signInWithSupabaseEmail, signUpWithSupabaseEmail, updateSupabaseUserLocale } from "./src/auth/supabaseAuth";
 import {
   AuthView,
   AiCouncilConfig,
@@ -3007,7 +3007,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   });
   const fontsReady = useFontReadiness(fontsLoaded, fontError);
   const [profile, setProfile] = useState<Profile>(() => ({
-    ...defaultProfile, nickname: authState.status === "signed_in" ? authState.user.name : defaultProfile.nickname
+    // A saved profile replaces this on load, so only a fresh install follows the phone language.
+    ...defaultProfile, language: detectDeviceLanguage(), nickname: authState.status === "signed_in" ? authState.user.name : defaultProfile.nickname
   }));
   const [authView, setAuthView] = useState<AuthView>("welcome");
   const [guestPreview, setGuestPreview] = useState(false);
@@ -3528,6 +3529,14 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   useEffect(() => {
     if (loaded) void saveJson("nilaza.profile", profile);
   }, [loaded, profile]);
+
+  // Auth emails follow the app language: keep the account's locale in step when a
+  // signed-in person changes language in Settings. Failures keep the old language.
+  const signedInUserId = authState.status === "signed_in" ? authState.user.id : "";
+  useEffect(() => {
+    if (!loaded || !isSupabaseAuthConfigured || !signedInUserId) return;
+    void updateSupabaseUserLocale(emailLocaleFor(language)).catch(() => undefined);
+  }, [loaded, language, signedInUserId]);
 
   useEffect(() => {
     if (!loaded) return;
@@ -4592,7 +4601,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const signUpLocally = async (name: string, email: string, password: string) => {
     if (isSupabaseAuthConfigured) {
       try {
-        const result = await signUpWithSupabaseEmail(name, email, password);
+        const result = await signUpWithSupabaseEmail(name, email, password, emailLocaleFor(language));
         if (result) {
           if (!result.authState && result.pendingEmailConfirmation) {
             recordEvent("supabase_signup_confirmation_requested", {

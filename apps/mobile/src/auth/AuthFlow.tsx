@@ -591,6 +591,10 @@ export function AuthFlow({
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      {!forgotPassword && !pendingConfirmationEmail ? (
+        // Same menu as the welcome screen, so people can switch before signing up or in.
+        <LanguageMenu language={language} onChange={onLanguageChange} />
+      ) : null}
       <KeyboardAvoidingView style={styles.flex} behavior={Platform.OS === "ios" ? "padding" : "height"}>
         <ScrollView
           keyboardShouldPersistTaps="handled"

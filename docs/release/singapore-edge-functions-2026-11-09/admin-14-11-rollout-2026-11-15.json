@@ -187,5 +187,17 @@
       "A real invite email opening the new domain."
     ],
     "localeProposal": "docs/proposals/APP_LOCALE_AUTO_DETECT_2026-11-15.vi.md (research only, nothing applied)."
+  },
+  "followUp2026-11-15d": {
+    "ownerApproval": "Owner 15/11: \"Tôi thấy nội dung email tiếng Việt ok, hãy áp dụng. Đồng ý đổi site URL, hãy triển khai đổi giúp tôi. Đồng ý chuyển Admin staging sang project Singapore. Commit, merge và push.\"",
+    "siteUrl": "Supabase Singapore Auth Site URL changed from http://localhost:3000 to https://nilaza.magicpendigital.com (public site returned 200); read back after reload. Redirect URLs unchanged (4).",
+    "adminStagingBackend": "Vercel project nilaza-admin-staging env NILAZA_QA_SUPABASE_URL set to https://etfajmrwyywokgafzxsb.supabase.co and NILAZA_QA_SUPABASE_PUBLISHABLE_KEY set to the Singapore publishable (public) key; takes effect on the deploy triggered by the merge to main.",
+    "emailTemplates": "Templates confirmation, recovery and invite pasted into Supabase Singapore Authentication > Emails (subject + body, English branch on user_metadata.locale, Vietnamese default); each read back after reload. password_changed_notification prepared in repo, not enabled. Link expiry MAILER_OTP_EXP = 3600 s matches the 1-hour wording.",
+    "appLocale": "App reads the phone language on a fresh install (vi -> Vietnamese, any other -> English), shows the language menu on sign-up and sign-in, sends locale at sign-up and updates it when a signed-in person changes language. Needs a new Android build.",
+    "notVerified": [
+      "Real inbox delivery and templated subject rendering in Gmail.",
+      "Admin sign-in on admin.nilaza.magicpendigital.com against Singapore (Owner account) after the redeploy.",
+      "App language detection on a real phone (needs the next Android build)."
+    ]
   }
 }

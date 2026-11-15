@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 1,
+  "taskId": "app-locale-email-templates-2026-11-15",
+  "ownerAgent": "mobile_agent",
+  "lane": "Mobile auth language + Supabase auth email templates (cross-cutting: auth)",
+  "goal": "Show the welcome, sign-up and sign-in screens in the phone language on first launch (Vietnamese phones get Vietnamese, every other language gets English), let people switch language on those screens, send the language as user_metadata.locale at sign-up and update it when a signed-in person changes language in Settings, and send auth emails in that language (Vietnamese when locale is missing). Also records Owner-approved 15/11 operations: Site URL, Admin staging switched to Singapore, email templates applied.",
+  "successCriteria": [
+    "detectDeviceLanguage maps vi -> vi, en and any other language -> en, unreadable -> vi; unit tests cover it.",
+    "A new install with no saved profile starts in the device language; a saved profile keeps its language.",
+    "The language menu is visible on the welcome, sign-up and sign-in views.",
+    "signUp sends options.data.locale equal to the language shown when the button is pressed; tests cover it.",
+    "Changing language in Settings while signed in calls auth.updateUser with data.locale.",
+    "Templates confirmation, recovery, invite and password_changed_notification have one English branch on user_metadata.locale and a Vietnamese default; validate-auth-email-templates passes.",
+    "PLAN.md and the rollout receipt record the Site URL, Admin staging switch and template application."
+  ],
+  "writeScope": [
+    "apps/mobile/package.json",
+    "package-lock.json",
+    "apps/mobile/src/i18n.ts",
+    "apps/mobile/src/__tests__/i18n.test.ts",
+    "apps/mobile/src/auth/AuthFlow.tsx",
+    "apps/mobile/src/auth/supabaseAuth.ts",
+    "apps/mobile/src/auth/__tests__",
+    "apps/mobile/App.tsx",
+    "apps/mobile/jest.setup.js",
+    "apps/mobile/src/__mocks__",
+    "supabase/templates/auth",
+    "scripts/validate-auth-email-templates.mjs",
+    "docs/proposals/APP_LOCALE_AUTO_DETECT_2026-11-15.vi.md",
+    "docs/proposals/AUTH_EMAIL_TEMPLATES_2026-11-15.vi.md",
+    "docs/release/singapore-edge-functions-2026-11-09/admin-14-11-rollout-2026-11-15.json",
+    "PLAN.md",
+    "apps/mobile/app.json"
+  ],
+  "untouchedSurfaces": [
+    "Admin code, Edge Functions and migrations are unchanged; admin-team-invite sends no locale so invites stay Vietnamese.",
+    "Other email templates (magic link, email change, MFA and so on) are unchanged and not enabled.",
+    "Content data and seed files are unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Welcome, sign-up and sign-in screens show a language menu; first launch picks the phone language.",
+    "dataWrite": "No new storage key; language stays in nilaza.profile. Supabase user_metadata gains locale (vi or en).",
+    "backendContract": "signUp options.data adds locale; auth.updateUser data.locale on Settings change; email templates read .Data.locale only in one comparison.",
+    "adminVisibility": "No Admin change; Admin staging now reads the Singapore project (Vercel env), recorded in the receipt.",
+    "privacySafety": "Only the two-letter app language is sent; no region, time zone or device data. Templates never print user metadata.",
+    "observability": "No new events; failures to update locale are silent and leave the previous language in place.",
+    "rollback": "Revert the app commit; templates fall back to Vietnamese when locale is missing; dashboard templates can be restored from git history."
+  },
+  "canonicalContracts": [
+    "apps/mobile/src/i18n.ts owns language options and device mapping",
+    "supabase/templates/auth/manifest.json owns live subjects and the locale expression"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Owner approval boundary for settings, SQL and deploys.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile and backend lanes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Record shape and checks.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/mobile/src/storage.ts",
+      "reason": "Profile persistence under nilaza.profile.",
+      "sha256": "4883834b3210293ce75a17e01b2541aa8630b80a7235690064d127cde6cc57f2"
+    },
+    {
+      "path": "supabase/functions/admin-team-invite/index.ts",
+      "reason": "Invites send no locale, so the invite template falls back to Vietnamese.",
+      "sha256": "c5c2305f5d232ac71d381ebbc86bf3c5e13033ae86888918c9a3ad5b1a616ffc"
+    },
+    {
+      "path": "docs/proposals/APP_LOCALE_AUTO_DETECT_2026-11-15.vi.md",
+      "reason": "Approved plan for this feature.",
+      "sha256": "91d96f5db270a9914a9ff945bc90c5386e316155230b0e8e57cf57c1b7d5be47"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record before app edits; template edits made earlier this session are listed in workingTreeReview; Owner approved applying templates, Site URL and the Admin switch on 15/11."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Adds expo-localization via npx expo install (version chosen by Expo for SDK 54). getLocales() is synchronous and returns languageCode; confirmed from the installed package type definitions. Supabase email templates expose .Data (user_metadata) to subject and body, confirmed in the dashboard template variable list and the Supabase docs on 2026-11-15. npx expo install also added the default \"expo-localization\" config plugin entry (no options) to app.json; i18n loads the module lazily so text-only modules and their tests do not load the native module."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://docs.expo.dev/versions/latest/sdk/localization/",
+      "reason": "getLocales() returns the ordered device locales with languageCode.",
+      "checkedAt": "2026-11-15"
+    },
+    {
+      "url": "https://supabase.com/docs/guides/local-development/customizing-email-templates",
+      "reason": "Data contains auth.users.user_metadata and can personalize templates.",
+      "checkedAt": "2026-11-15"
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No RLS or role change; updateUser only edits the signed-in user's own metadata.",
+    "sensitiveData": "No journal, birth or chat data; only the app language code.",
+    "secretsLogging": "Only the publishable Singapore key was placed in Vercel env; no secret values read or logged.",
+    "externalInput": "user_metadata.locale is user controlled, so templates only compare it and never print it.",
+    "dependencies": "One Expo first-party package, expo-localization, installed with npx expo install.",
+    "migrationRelease": "No migration; a new Android build is needed before users see the app change.",
+    "stopCondition": "Stop if templates would print user metadata or if expo-localization needs config plugin options beyond the default entry npx expo install adds to app.json.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Email templates, manifest and validator were edited and applied to Supabase before this record, on Owner instruction to apply the approved content; recorded here per protocol.",
+    "paths": [
+      "supabase/templates/auth/confirmation.html",
+      "supabase/templates/auth/recovery.html",
+      "supabase/templates/auth/invite.html",
+      "supabase/templates/auth/password_changed_notification.html",
+      "supabase/templates/auth/manifest.json",
+      "scripts/validate-auth-email-templates.mjs"
+    ]
+  },
+  "validationCommands": [
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "node scripts/validate-auth-email-templates.mjs",
+    "npm run validate:data",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Install the next Android test build on a phone set to English: welcome screen is English; switch to Tiếng Việt on Sign up, register, and the confirmation email is Vietnamese.",
+  "residualRisk": "Device behaviour and real inbox delivery are not verified until the next Android build and a real sign-up.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "brandVersion": "open-reflection-v1",
-  "localeStrategy": "bilingual-vi-en-smtp",
-  "activationStatus": "prepared-not-applied",
+  "localeStrategy": "user-metadata-locale-vi-default",
+  "activationStatus": "applied-partial",
   "pilotActions": [
     "confirmation",
     "recovery"
@@ -20,7 +20,9 @@
       "allowedVariables": [
         "ConfirmationURL"
       ],
-      "evidenceStatus": "prepared-not-live-tested"
+      "evidenceStatus": "applied-not-inbox-tested",
+      "localeBranch": true,
+      "liveSubject": "{{ if eq (printf \"%v\" .Data.locale) \"en\" }}Confirm your email to start with Nilaza{{ else }}Xác nhận email để bắt đầu với Nilaza{{ end }}"
     },
     {
       "id": "recovery",
@@ -32,19 +34,23 @@
       "allowedVariables": [
         "ConfirmationURL"
       ],
-      "evidenceStatus": "prepared-not-live-tested"
+      "evidenceStatus": "applied-not-inbox-tested",
+      "localeBranch": true,
+      "liveSubject": "{{ if eq (printf \"%v\" .Data.locale) \"en\" }}Reset your Nilaza password{{ else }}Đặt lại mật khẩu Nilaza{{ end }}"
     },
     {
       "id": "invite",
       "category": "authentication",
-      "subject": "Lời mời Nilaza / Nilaza invitation",
+      "subject": "Lời mời quản trị Nilaza / Nilaza admin invitation",
       "htmlFile": "supabase/templates/auth/invite.html",
       "subjectKey": "mailer_subjects_invite",
       "contentKey": "mailer_templates_invite_content",
       "allowedVariables": [
         "ConfirmationURL"
       ],
-      "evidenceStatus": "prepared-not-live-tested"
+      "evidenceStatus": "applied-not-inbox-tested",
+      "localeBranch": true,
+      "liveSubject": "{{ if eq (printf \"%v\" .Data.locale) \"en\" }}You are invited to the Nilaza admin team{{ else }}Bạn được mời tham gia quản trị Nilaza{{ end }}"
     },
     {
       "id": "magic_link",
@@ -90,7 +96,9 @@
       "subjectKey": "mailer_subjects_password_changed_notification",
       "contentKey": "mailer_templates_password_changed_notification_content",
       "allowedVariables": [],
-      "evidenceStatus": "prepared-not-live-tested"
+      "evidenceStatus": "prepared-not-enabled",
+      "localeBranch": true,
+      "liveSubject": "{{ if eq (printf \"%v\" .Data.locale) \"en\" }}Your Nilaza password was just changed{{ else }}Mật khẩu Nilaza của bạn vừa được đổi{{ end }}"
     },
     {
       "id": "email_changed_notification",
@@ -152,5 +160,12 @@
       "allowedVariables": [],
       "evidenceStatus": "prepared-not-live-tested"
     }
-  ]
+  ],
+  "localeExpression": "{{ if eq (printf \"%v\" .Data.locale) \"en\" }}",
+  "appliedTemplates": [
+    "confirmation",
+    "recovery",
+    "invite"
+  ],
+  "ownerContentApproval": "Owner 15/11/2026: Vietnamese content approved; English is a translation of it."
 }

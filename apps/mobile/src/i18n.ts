@@ -15,6 +15,25 @@ export function normalizeLanguage(language?: string): Language {
   return languageOptions.some((item) => item.code === language) ? (language as Language) : defaultLanguage;
 }
 
+// First launch follows the phone: Vietnamese phones get Vietnamese, every other
+// phone language gets English (Owner decision 15/11/2026). If the device
+// locale cannot be read, keep the Vietnamese default.
+export function languageFromDeviceLocales(locales: Array<{ languageCode?: string | null }> | undefined): Language {
+  const code = locales?.find((item) => typeof item?.languageCode === "string" && item.languageCode)?.languageCode?.toLowerCase();
+  if (!code) return defaultLanguage;
+  return code === "vi" ? "vi" : "en";
+}
+
+export function detectDeviceLanguage(): Language {
+  try {
+    // Loaded lazily so modules that only format text never pull in the native module.
+    const { getLocales } = require("expo-localization") as typeof import("expo-localization");
+    return languageFromDeviceLocales(getLocales());
+  } catch {
+    return defaultLanguage;
+  }
+}
+
 function languageFallbacks(language: Language): Language[] {
   return language === fallbackLanguage ? [fallbackLanguage] : [language, fallbackLanguage];
 }
