@@ -30,6 +30,11 @@ enabled = false
 [functions.marketing-waitlist]
 verify_jwt = false
 
+# Billing lot 1 (15/11): called by RevenueCat servers, which cannot send a Supabase JWT. The function
+# itself refuses every request whose Authorization header does not match REVENUECAT_WEBHOOK_AUTH.
+[functions.revenuecat-webhook]
+verify_jwt = false
+
 [functions.account-delete]
 verify_jwt = true
 

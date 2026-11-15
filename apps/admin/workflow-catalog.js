@@ -360,7 +360,7 @@
   },
   {
     "path": "supabase/functions/ai-astrology-insight/index.ts",
-    "sha256": "ff803fe6198867e7ca38277743eae2450b2fd7850e00d4667c9df95c122cfa66"
+    "sha256": "015ae7bebf22b95e5b90a82e1eccc775eb5bc505e2d9a1eb66d9c5e185a1b68b"
   },
   {
     "path": "supabase/functions/ai-council/index.ts",
