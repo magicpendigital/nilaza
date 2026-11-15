@@ -22,7 +22,15 @@ const tarotOutput={summary:'An invitation to explore a small possibility.',refle
 function harness(feature, options={}) {
  const calls=[],writes=[],finalizations=[],generations=[],receipts=[];let handler,storedReport;
  const route={id:'00000000-0000-4000-8000-000000000004',feature:feature==='tarot'?'tarot_reading':'astrology_report',version:'synthetic-route-v2',status:'active',primaryProvider:'openai',primaryModel:'synthetic-model',responseSchema:feature==='tarot'?'tarot_reading_v2':'astrology_ai_insight_v1',temperature:0.7,maxOutputTokens:2000,fallbackWhen:[],safetyPolicy:{}};
- const supabase={auth:{getUser:async()=>({data:{user:options.unauthorized?null:{id:user,is_anonymous:false}},error:null})},rpc:async(name,args)=>{calls.push({kind:'rpc',name,args});return {data:null,error:null};},from(table){
+ const supabase={auth:{getUser:async()=>({data:{user:options.unauthorized?null:{id:user,is_anonymous:false}},error:null})},rpc:async(name,args)=>{calls.push({kind:'rpc',name,args});
+  // Nil P1-B: synthetic astrology_claim_report. A completed row for the same lock key replays; otherwise claim a queued row.
+  if(name==='astrology_claim_report'){
+   if(options.claimOutcome)return {data:{outcome:options.claimOutcome},error:null};
+   if(storedReport&&storedReport.lock_key===args.p_lock_key&&storedReport.status==='completed')return {data:{outcome:'replay',report_id:storedReport.id},error:null};
+   storedReport={id:reportId,user_id:user,...clone(args.p_report),status:'queued',lock_key:args.p_lock_key,input_hash:args.p_input_hash};
+   return {data:{outcome:'claimed',report_id:reportId,attempts:1,delivered:0},error:null};
+  }
+  return {data:null,error:null};},from(table){
   let action='select',value,filters=[],selection;
   const chain={select(columns){selection=columns;return chain},insert(input){action='insert';value=input;return chain},update(input){action='update';value=input;return chain},eq(...input){filters.push(input);return chain},is(){return chain},in(){return chain},gte(){return chain},order(){return chain},limit(){return chain},single(){return execute()},maybeSingle(){return execute()},then(resolve,reject){return execute().then(resolve,reject)}};
   async function execute(){
@@ -47,7 +55,7 @@ function harness(feature, options={}) {
  const generated={text:JSON.stringify(feature==='tarot'?tarotOutput:fixture('valid-response')),provider:'openai',model:'synthetic-model',routeVersionId:route.id,routeVersion:route.version,requestId:'provider_synthetic',traceId:'trace_synthetic',moderationStatus:'passed',attempts:[],usage:{},latencyMs:1,fallbackUsed:false,...options.generation};
  if(feature==='astrology' && !options.generation?.text){const response=fixture('valid-response');generated.text=JSON.stringify(Object.fromEntries(['headline','synthesis','evidenceFactIds','patterns','tensions','focusSections','reflectionQuestions','suggestedFollowUps'].map(key=>[key,response[key]])));}
  const router={readActiveModelRoute:async()=>route,generateWithModelRoute:async input=>{generations.push(input);calls.push({kind:'provider'});return {...generated,finalizeTrace:async value=>{calls.push({kind:'finalize'});finalizations.push(clone(value));}}}};
- const env={SUPABASE_URL:'https://synthetic.invalid',SUPABASE_ANON_KEY:'synthetic-public',AI_TRACE_ENVIRONMENT:'staging'};
+ const env={SUPABASE_URL:'https://synthetic.invalid',SUPABASE_ANON_KEY:'synthetic-public',AI_TRACE_ENVIRONMENT:'staging',...(feature==='astrology'?{SUPABASE_SERVICE_ROLE_KEY:'synthetic-service'}:{})};
  const cache=new Map();
  function load(filename){
   filename=path.resolve(filename);if(cache.has(filename))return cache.get(filename).exports;
@@ -159,4 +167,19 @@ test('Astrology persists answer provenance alongside, outside the strict interpr
  assert.equal('provenance' in saved.interpretation,false);assert.equal('answerProvenance' in saved.interpretation,false);
  const provenance=saved.input_summary.answerProvenance;assert.ok(provenance);for(const key of ['interactionId','attemptId','clientRequestId','routeVersionId','routeVersion','promptVersionId','promptVersion','promptAssemblyVersion','remoteId','calculationVersion','chartContractVersion','reportRevision'])assert.equal(provenance[key],body.provenance[key]);
  assert.equal(provenance.answerReceiptId,undefined,'receipt is produced after report persistence; linked receipt remains a separate authoritative record');
+});
+
+test('Astrology same chart and topic replays the stored reading without a provider call or a new row',async()=>{
+ const h=harness('astrology');const first=await h.request();assert.equal(first.status,200,JSON.stringify(first.body));assert.equal(first.body.replay.replayed,false);
+ const second=await h.request({correlation:{attemptId:'attempt_second'}});assert.equal(second.status,200,JSON.stringify(second.body));
+ assert.equal(second.body.replay.replayed,true);assert.equal(h.generations.length,1,'one model call for both requests');
+ assert.deepEqual(second.body.report.synthesis,first.body.report.synthesis);assert.equal(second.body.provenance.attemptId,'attempt_second');assert.equal(second.body.provenance.remoteId,reportId);
+ assert.deepEqual(second.body.replayContext.selectedFactIds,first.body.report.evidenceFactIds.length?second.body.replayContext.selectedFactIds:[]);
+ const claims=h.calls.filter(x=>x.kind==='rpc'&&x.name==='astrology_claim_report');assert.equal(claims.length,2);assert.equal(claims[0].args.p_lock_key,claims[1].args.p_lock_key);assert.equal(claims[0].args.p_user_id,user);
+ assert.equal(h.writes.filter(x=>x.table==='astrology_reports'&&x.value.status==='completed').length,1);
+});
+
+test('Astrology in-progress and limit outcomes stop before the provider',async()=>{
+ const busy=harness('astrology',{claimOutcome:'in_progress'});const b=await busy.request();assert.equal(b.status,409);assert.equal(b.body.error.code,'report_in_progress');assert.equal(busy.generations.length,0);
+ const full=harness('astrology',{claimOutcome:'limit_reached'});const l=await full.request();assert.equal(l.status,429);assert.equal(l.body.error.code,'daily_limit_reached');assert.equal(full.generations.length,0);
 });
