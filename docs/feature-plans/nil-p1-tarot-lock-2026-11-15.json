@@ -171,7 +171,7 @@
     {
       "path": "apps/admin/workflow-catalog.js",
       "reason": "Pins LF hashes of the Tarot entrypoint and tarot-prompt.ts; stale source fails admin:check.",
-      "sha256": "8d6bb20edb7f48650f2350c259e0952cfa8a8843ccc59ab015787d633ba9fa0b"
+      "sha256": "ba7fb3285d1102cada42a41bd0cc17179d187aecfea819801920d05c52ed2282"
     },
     {
       "path": "docs/feature-plans/owner-only-publish-2026-11-15.json",
