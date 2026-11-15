@@ -172,5 +172,20 @@
       "method": "npx supabase@3.1.0 db query --yes --remote=etfajmrwyywokgafzxsb -f <file>; migration repair --status applied 20261115090000",
       "readBack": "pg_get_functiondef(nilaza_private.roles_have_capability): ai.manage and content.publish map to owner only; comment names 20261115090000"
     }
+  },
+  "followUp2026-11-15c": {
+    "ownerApproval": "Owner 15/11: \"Tiến hành gắn admin.nilaza.magicpendigital.com cho trang quản trị.\"",
+    "adminDomain": {
+      "vercel": "Domain admin.nilaza.magicpendigital.com added to project nilaza-admin-staging (Production); Vercel reports verified.",
+      "cloudflare": "CNAME admin.nilaza -> Vercel target recommended by Vercel, DNS only (not proxied).",
+      "https": "GET https://admin.nilaza.magicpendigital.com/recovery.html returned 200 after the certificate was issued.",
+      "supabaseRedirectUrls": "Added https://admin.nilaza.magicpendigital.com/recovery.html to Auth Redirect URLs; dashboard shows 4 URLs, old nilaza-admin-staging.vercel.app URL kept.",
+      "inviteRedirectSecret": "ADMIN_INVITE_REDIRECT_URL set to https://admin.nilaza.magicpendigital.com/recovery.html with supabase@3.1.0 secrets set --remote=etfajmrwyywokgafzxsb; confirmed by name in secrets list (value not read back)."
+    },
+    "notVerified": [
+      "Admin sign-in on the new domain: Admin staging still points to the old QA Supabase project, so sign-in there uses QA accounts.",
+      "A real invite email opening the new domain."
+    ],
+    "localeProposal": "docs/proposals/APP_LOCALE_AUTO_DETECT_2026-11-15.vi.md (research only, nothing applied)."
   }
 }
