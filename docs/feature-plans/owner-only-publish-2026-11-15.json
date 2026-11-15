@@ -1,0 +1,161 @@
+{
+  "schemaVersion": 1,
+  "taskId": "owner-only-publish-2026-11-15",
+  "ownerAgent": "backend_agent",
+  "lane": "SQL + Admin: only the owner role publishes AI configuration and content (Owner decision 15/11)",
+  "goal": "Owner decision 15/11 \"Chỉ Owner được phát hành cấu hình AI và nội dung\": the capabilities ai.manage and content.publish move from roles owner+admin to owner only, in the single role-to-capability map nilaza_private.roles_have_capability. Every policy, RPC and Edge Function that checks these capabilities (has_capability, has_admin_capability, is_admin, get_admin_access) follows automatically, and get_admin_role_matrix shows the change on the Thành viên & quyền page. The admin role keeps reading and every draft path (content.draft, ai.read + content.draft for AI feature config, prompts, context configs, eval sets and runs), so admins work like editors on AI settings and content plus their other rights (overview, notifications, safety review). Nothing is applied or deployed by the agent.",
+  "successCriteria": [
+    "New migration supabase/migrations/20261115090000_owner_only_publish.sql replaces nilaza_private.roles_have_capability (create or replace, same signature, sql immutable, search_path '') so that content.publish and ai.manage answer true only for roles containing owner; every other capability answers exactly as before; it re-runs cleanly and touches no rows.",
+    "No applied migration is edited; no other live function or policy hard-codes owner+admin for publishing (checked: all publish paths call has_capability / has_admin_capability / is_admin, which read the map; the remaining role lists are eval runs, evaluation quota audience and safety triage, which are not publishing).",
+    "PGlite: for all 16 combinations of the four roles, has_capability and get_admin_access are identical before and after except ai.manage / content.publish for combinations with admin but without owner; admin alone answers false for both and is_admin() false; owner true; editor and safety_reviewer unchanged; get_admin_role_matrix lists admin without the two capabilities; editor-style draft rule (ai.read + content.draft) still true for admin.",
+    "Admin client stays in step: the Thành viên & quyền summary for Quản trị no longer promises publishing; the content role fallback table (used only when a session has no capability list) no longer lets admin publish; publish buttons already follow get_admin_access capabilities, so admins see draft actions and the existing 'Chỉ Owner phát hành' notes.",
+    "admin:test (known CRLF Growth snapshot failure excepted), validate:backend, supabase:check, validate-admin-contract and preflight --ci pass."
+  ],
+  "writeScope": [
+    "supabase/migrations/20261115090000_owner_only_publish.sql",
+    "apps/admin/team.js",
+    "apps/admin/content-model.mjs",
+    "scripts/admin-team-roles.test.mjs",
+    "scripts/admin-access.test.mjs"
+  ],
+  "untouchedSurfaces": [
+    "Already-applied migrations (20260902131408, 20261114090000 and the AI / content RPC migrations) are not edited; every admin_role_assignments row stays as it is, so nobody's role changes, only what the admin role may do.",
+    "Draft paths are unchanged: save_ai_feature_config_draft, save_prompt_draft, save_ai_context_config_draft, save_ai_eval_set, eval runs and scoring, content item drafts keep ai.manage OR ai.read + content.draft, which admin still holds.",
+    "Edge Functions are not changed or redeployed: they already ask has_admin_capability at request time, so the new answer applies without a deploy.",
+    "Mobile app, Growth, notifications, safety review, overview and roles.manage (already owner only) are unchanged. PLAN.md gets one line in section 4."
+  ],
+  "impact": {
+    "entryPoint": "Every Admin publish action: content publish (publish_content_items, active rows in personas / tarot_decks / persona_sources / prompt_versions, tarot_cards and source rows), AI feature config / prompt / context config publish and bypass, AI feature switches, providers, model routes (Edge admin-model-router-config, admin-ai-council-config, admin-astrology-prompt-config POST, admin-ai-provider-probe), plus the role matrix on Thành viên & quyền.",
+    "dataWrite": "None by the migration itself (function body only). After it is applied, accounts with role admin (and not owner) are refused with 42501 / 403 on the publish paths listed above.",
+    "backendContract": "nilaza_private.roles_have_capability(text[], text) map: content.publish and ai.manage -> owner only. has_capability, has_admin_capability, is_admin, get_admin_access and get_admin_role_matrix keep their signatures and read the new map.",
+    "adminVisibility": "Quản trị accounts see the AI Studio and content pages in read + draft mode (the pages already show 'Chỉ Owner phát hành' notes when ai.manage / content.publish is missing); the Thành viên & quyền can / cannot list shows Phát hành nội dung and Đổi và phát hành cài đặt AI under Không được làm for Quản trị.",
+    "privacySafety": "Narrows rights only; no data read or exposed. Personal-data policies were already decoupled from is_admin (20260902131408).",
+    "observability": "Refusals return the existing 42501 / 403 errors; the role matrix shows the map; no new audit action. Side effect: an admin's notification-send-test no longer writes its client-side audit row (that insert policy requires ai.manage); the test notification itself still sends.",
+    "rollback": "Re-run the roles_have_capability body from 20261114090000 (owner+admin for both capabilities) with create or replace; no data to restore."
+  },
+  "canonicalContracts": [
+    "nilaza_private.roles_have_capability(text[], text): the single role-to-capability map (20261114090000, replaced by 20261115090000)",
+    "nilaza_private.has_capability / public.is_admin (= has_capability('ai.manage')) in 20260902131408_owner_capability_boundary.sql",
+    "Owner decision 13/11 (20261113090200): editors save drafts with ai.read + content.draft; only ai.manage publishes"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "SQL and deploy need Owner approval each time; agent prepares and verifies only.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Admin and backend routes and validation commands.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules and record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "supabase/migrations/20261114090000_admin_team_roles.sql",
+      "reason": "Current single map roles_have_capability, its grants, has_capability and get_admin_role_matrix.",
+      "sha256": "9ff9b5a8b66c79cedb44a3c8c3b6e11939852208a76b2005b1ecc689fba10ac3"
+    },
+    {
+      "path": "supabase/migrations/20260902131408_owner_capability_boundary.sql",
+      "reason": "is_admin() = ai.manage; content.publish policies on draft tables, tarot_cards and source rows; audit insert policy needs ai.manage.",
+      "sha256": "2f8fdac36b93d68f1a32da2d7a83b33c2b41b966589e8be9e1a85d56ace42a24"
+    },
+    {
+      "path": "supabase/migrations/20261113090200_ai_feature_config_editor_drafts.sql",
+      "reason": "Owner decision 13/11: draft rule ai.manage OR ai.read + content.draft; publish ai.manage only.",
+      "sha256": "1f58d09bec06ea9415f4447b65a508ec9f6cf82ad7f13e74985772b70844bdcb"
+    },
+    {
+      "path": "supabase/migrations/20261113140000_model_route_steps.sql",
+      "reason": "Model route save (draft or active) needs ai.manage; no editor draft path, so admin loses model-route drafts too.",
+      "sha256": "d7c59aa1013839b49bb1fe5325503eefb6272f2c96423f79f5c1470e4e44edea"
+    },
+    {
+      "path": "supabase/functions/notification-send-test/index.ts",
+      "reason": "Client-side audit insert depends on the ai.manage insert policy (side effect for admin).",
+      "sha256": "11c62ebd86bddb4b413761050b7e6d6891777d356b3d6d3ee0882e3732106d6a"
+    },
+    {
+      "path": "apps/admin/team.js",
+      "reason": "Role summary text for Quản trị promises publishing.",
+      "sha256": "0f1ef0c9829ffd1b8bc719672086c4252175c4dd11d43b83c88cbd32e0087b7c"
+    },
+    {
+      "path": "apps/admin/content-model.mjs",
+      "reason": "rolePermissions fallback lets admin publish when a session has no capability list.",
+      "sha256": "723e7a045ad5b5bddfc258cd359dc3e73cb06a54525a6b4b93483cde9e990b42"
+    },
+    {
+      "path": "apps/admin/workspace-guard.js",
+      "reason": "RPC and function rules are capability based (no role list); unchanged.",
+      "sha256": "f6eea26f8e29c3bd5e35eafa63d927a3f8d5d6e3f8c91174447198be3bb08539"
+    },
+    {
+      "path": "apps/admin/admin-access.js",
+      "reason": "Capabilities come from get_admin_access; unchanged.",
+      "sha256": "1e6cc7a5b9a319e317371195451f4d5cdc6265bc87aeb4aadccd71daba91b13d"
+    },
+    {
+      "path": "apps/admin/admin-capabilities.json",
+      "reason": "Workspace manifest has no role map; unchanged.",
+      "sha256": "2790689afdbc5d0bc863ec6e7e1156fec308f37793d030635f703424d387ac74"
+    },
+    {
+      "path": "scripts/admin-team-roles.test.mjs",
+      "reason": "jsdom matrix mock and wiring checks to extend with the new map and a PGlite check.",
+      "sha256": "fb0941f8a1ef6865ca3216f76aa1aa9804f7e63e5172d3263f53ccf60dd2eed4"
+    },
+    {
+      "path": "scripts/admin-access.test.mjs",
+      "reason": "Role fallback assertions.",
+      "sha256": "2702850e37f19e861d38c032370afa1fdcdc46ab60927e5e552e900b3893f688"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before the first edit; migration left to the Owner by hash; PGlite and jsdom tests only; no deploy because Edge Functions read the capability at request time."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Plain PostgreSQL create or replace of an SQL function; no package added. PGlite 0.3.16 from the session scratchpad is loaded only when NILAZA_PGLITE_MODULE points to it."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "Narrows two capabilities to owner; every policy / RPC / Edge check reads the map live (no JWT cache), so the change applies on the next request. roles_have_capability keeps immutable, empty search_path and its grants (re-stated: revoked from public and anon, execute to authenticated and service_role).",
+    "sensitiveData": "No data read, moved or exposed; the function only answers true/false for a role list.",
+    "secretsLogging": "No secrets, env values or logs involved.",
+    "externalInput": "Inputs are the caller's own active roles and a capability name; unknown capabilities still answer false and null roles false.",
+    "dependencies": "None added to the repository.",
+    "migrationRelease": "Owner applies 20261115090000_owner_only_publish.sql by its LF SHA-256 after review; no Edge deploy is needed. Before applying, the Owner should confirm that no admin-role account is expected to press the AI emergency switches or publish (only owner accounts will).",
+    "stopCondition": "Stop if PGlite shows any capability other than ai.manage / content.publish changing, if admin loses a draft path that editors have, or if any test fails.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Clean tree at start (origin/main 1552e14) on worktree branch worktree-agent-a172bbb2259adcf16; this record was written and its --record preflight run before the first code edit. sourceReview hashes of edited files are refreshed (LF) to the final tree.",
+    "paths": []
+  },
+  "validationCommands": [
+    "node scripts/feature-preflight.mjs --record docs/feature-plans/owner-only-publish-2026-11-15.json",
+    "NILAZA_PGLITE_MODULE=<scratchpad>/pglite-team/node_modules/@electric-sql/pglite/dist/index.js node --test scripts/admin-team-roles.test.mjs",
+    "npm run admin:test",
+    "npm run validate:backend && npm run supabase:check",
+    "node scripts/validate-admin-contract.mjs",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "After the Owner applies the migration: open Admin › Vận hành › Thành viên & quyền, press Mời thành viên, pick Quản trị and see Phát hành nội dung and Đổi và phát hành cài đặt AI under Không được làm; sign in with a Quản trị test account, open AI Studio › Tính năng AI and Prompt: Lưu nháp works, Phát hành and the on/off switches are not offered (note 'Chỉ Owner phát hành'); open Nội dung: drafts save, Phát hành is not offered; as Owner, publish the draft.",
+  "residualRisk": "Admins can no longer press the AI feature emergency switches, change providers, run the provider key check, or save model-route drafts (that save path never had an editor draft rule); only owner accounts can, so the Owner must be reachable in an incident. An admin's notification-send-test no longer writes its client audit row (the notification still sends). The admin documentation text inside the admin-documentation Edge Function still says Owner/Admin in places; it is not a permission and is left for a later doc pass. PGlite is not Supabase: auth is stubbed; re-run the Security Advisor after applying.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
