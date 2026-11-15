@@ -17,12 +17,17 @@ const fixture=name=>JSON.parse(fs.readFileSync(path.join(root,'packages/agent-co
 const clone=x=>JSON.parse(JSON.stringify(x));
 const astrologyInvocation=()=>{const input=fixture("valid-invocation"), context=fixture("valid-request");for(const key of ["chart","selectedFactIds","facts","caveats"])input[key]=context[key];return input;};
 const correlation={interactionId:'interaction_synthetic',attemptId:'attempt_synthetic',clientRequestId:'request_synthetic'};
-const tarotInput={language:'en',deck:{id:'moon-garden',slug:'moon-garden'},spread:'daily-one',topic:'self',question:'What might I reflect on today?',selectedCards:[{id:'major-00-fool',reversed:false}]};
+// P1-A: the server drew and stored this draw (tarot_draw_claim); the app sends only its drawId to be interpreted.
+const tarotInput={action:'interpret',drawId:readingId};
+const tarotDraw=()=>({id:readingId,user_id:user,deck_id:'00000000-0000-4000-8000-000000000006',deck_ref:{id:'moon-garden',slug:'moon-garden'},topic:'self',spread:'daily-one',question:'What might I reflect on today?',selected_cards:[{id:'major-00-fool',positionKey:'daily',reversed:false}],interpretation:{},language:'en',status:'queued',lock_key:'a'.repeat(64),lock_date:'2026-11-15',interpreted_at:null,clarifier:null,deleted_at:null,created_at:'2026-11-15T05:00:00.000Z'});
 const tarotOutput={summary:'An invitation to explore a small possibility.',reflection:'What small possibility could you test?',sections:[{key:'card',title:{en:'The Fool'},body:{en:'Consider one small reversible step.'},cardIds:['major-00-fool']}]};
 function harness(feature, options={}) {
- const calls=[],writes=[],finalizations=[],generations=[],receipts=[];let handler,storedReport;
+ const calls=[],writes=[],finalizations=[],generations=[],receipts=[];let handler,storedReport;const storedDraw={...tarotDraw(),...options.storedDraw};
  const route={id:'00000000-0000-4000-8000-000000000004',feature:feature==='tarot'?'tarot_reading':'astrology_report',version:'synthetic-route-v2',status:'active',primaryProvider:'openai',primaryModel:'synthetic-model',responseSchema:feature==='tarot'?'tarot_reading_v2':'astrology_ai_insight_v1',temperature:0.7,maxOutputTokens:2000,fallbackWhen:[],safetyPolicy:{}};
- const supabase={auth:{getUser:async()=>({data:{user:options.unauthorized?null:{id:user,is_anonymous:false}},error:null})},rpc:async(name,args)=>{calls.push({kind:'rpc',name,args});return {data:null,error:null};},from(table){
+ const supabase={auth:{getUser:async()=>({data:{user:options.unauthorized?null:{id:user,is_anonymous:false}},error:null})},rpc:async(name,args)=>{calls.push({kind:'rpc',name,args});
+  if(name==='tarot_draw_claim')return {data:{status:'created',reading:{...tarotDraw(),selected_cards:clone(args.p_cards),topic:args.p_topic,spread:args.p_spread,question:args.p_question,language:args.p_language,lock_key:args.p_lock_key,lock_date:args.p_lock_date}},error:null};
+  if(name==='tarot_interpret_claim')return {data:{status:'claimed',attemptNumber:1,reading:storedDraw},error:null};
+  return {data:null,error:null};},from(table){
   let action='select',value,filters=[],selection;
   const chain={select(columns){selection=columns;return chain},insert(input){action='insert';value=input;return chain},update(input){action='update';value=input;return chain},eq(...input){filters.push(input);return chain},is(){return chain},in(){return chain},gte(){return chain},order(){return chain},limit(){return chain},single(){return execute()},maybeSingle(){return execute()},then(resolve,reject){return execute().then(resolve,reject)}};
   async function execute(){
@@ -32,7 +37,11 @@ function harness(feature, options={}) {
    if(table==='prompt_versions')return feature==='tarot'?{data:[],error:null}:{data:{id:'00000000-0000-4000-8000-000000000005',version:'synthetic-prompt-v2',prompt_text:'Use the validated chart facts for symbolic reflection only.',locale:'en',status:'active'},error:null};
    if(table==='subscriptions')return {data:[{entitlement:'premium',status:'active',current_period_end:null}],error:null};
    if(table==='tarot_decks')return {data:{id:'00000000-0000-4000-8000-000000000006'},error:null};
-   if(table==='tarot_readings')return options.persistError?{data:null,error:{code:'test_persist_failure'}}:{data:{id:readingId},error:null};
+   if(table==='tarot_readings'){
+    if(action==='select')return {data:storedDraw,error:null};
+    if(value?.status==='completed' && options.persistError)return {data:null,error:{code:'test_persist_failure'}};
+    return {data:{id:readingId},error:null};
+   }
    if(table==='usage_events'){if(action==='select')return {data:[],count:0,error:null};if(options.usageThrows)throw Error('synthetic usage transport failure');return {data:null,error:null};}
    if(table==='astrology_reports'){
     if(action==='insert'){storedReport={id:reportId,user_id:user,...clone(value)};return {data:storedReport,error:null};}
@@ -47,7 +56,7 @@ function harness(feature, options={}) {
  const generated={text:JSON.stringify(feature==='tarot'?tarotOutput:fixture('valid-response')),provider:'openai',model:'synthetic-model',routeVersionId:route.id,routeVersion:route.version,requestId:'provider_synthetic',traceId:'trace_synthetic',moderationStatus:'passed',attempts:[],usage:{},latencyMs:1,fallbackUsed:false,...options.generation};
  if(feature==='astrology' && !options.generation?.text){const response=fixture('valid-response');generated.text=JSON.stringify(Object.fromEntries(['headline','synthesis','evidenceFactIds','patterns','tensions','focusSections','reflectionQuestions','suggestedFollowUps'].map(key=>[key,response[key]])));}
  const router={readActiveModelRoute:async()=>route,generateWithModelRoute:async input=>{generations.push(input);calls.push({kind:'provider'});return {...generated,finalizeTrace:async value=>{calls.push({kind:'finalize'});finalizations.push(clone(value));}}}};
- const env={SUPABASE_URL:'https://synthetic.invalid',SUPABASE_ANON_KEY:'synthetic-public',AI_TRACE_ENVIRONMENT:'staging'};
+ const env={SUPABASE_URL:'https://synthetic.invalid',SUPABASE_ANON_KEY:'synthetic-public',SUPABASE_SERVICE_ROLE_KEY:'synthetic-service',AI_TRACE_ENVIRONMENT:'staging'};
  const cache=new Map();
  function load(filename){
   filename=path.resolve(filename);if(cache.has(filename))return cache.get(filename).exports;
@@ -83,8 +92,9 @@ function harness(feature, options={}) {
 test('Tarot real endpoint authenticates, validates, preserves local prompt provenance, persists then finalizes',async()=>{
  const h=harness('tarot');const {status,body}=await h.request();assert.equal(status,200);assert.equal(body.moderationStatus,'passed');assert.equal(body.provenance.attemptId,correlation.attemptId);assert.equal(body.provenance.remoteId,readingId);assert.equal(body.provenance.persistenceStatus,'stored');assert.match(body.provenance.promptVersionId,/^local:/);
  const provenance=h.load(path.join(root,'packages/ai-contracts/answer-provenance.ts'));assert.ok(provenance.parseAnswerProvenance(body.provenance,{correlation}),'real locally resolved prompt must be accepted by the client contract');
- const stored=h.writes.find(x=>x.table==='tarot_readings').value;assert.equal(stored.user_id,user);assert.deepEqual(stored.interpretation.sections,body.sections);assert.equal(stored.interpretation.provenance.attemptId,body.provenance.attemptId);
- assert.equal(h.finalizations.length,1);assert.equal(h.finalizations[0].status,'ok');assert.ok(h.calls.findIndex(x=>x.kind==='finalize')>h.calls.findIndex(x=>x.table==='tarot_readings' && x.action==='insert'));
+ const saved=h.writes.find(x=>x.table==='tarot_readings' && x.value.status==='completed');assert.ok(saved);const stored=saved.value;assert.deepEqual(saved.filters.slice(0,2),[['id',readingId],['user_id',user]]);assert.equal(saved.filters[2][0],'claim_token');assert.deepEqual(stored.interpretation.sections,body.sections);assert.equal(stored.interpretation.provenance.attemptId,body.provenance.attemptId);assert.equal(stored.content_version,body.provenance.contentVersion);assert.equal(stored.route_version,body.provenance.routeVersion);assert.equal(stored.prompt_version_key,body.provenance.promptVersionId);
+ const claim=h.calls.find(x=>x.kind==='rpc' && x.name==='tarot_interpret_claim');assert.equal(claim.args.p_user_id,user);assert.equal(claim.args.p_reading_id,readingId);assert.equal(h.writes.some(x=>x.table==='tarot_readings' && x.action==='insert'),false,'the function never inserts readings directly');
+ assert.equal(h.finalizations.length,1);assert.equal(h.finalizations[0].status,'ok');assert.ok(h.calls.findIndex(x=>x.kind==='finalize')>h.calls.findIndex(x=>x.table==='tarot_readings' && x.action==='update'));
 });
 
 test('Tarot malformed model output becomes rejected fallback and a validation error trace',async()=>{
@@ -92,7 +102,9 @@ test('Tarot malformed model output becomes rejected fallback and a validation er
 });
 
 test('Tarot failed persistence is visible in response and trace; blocked output never exposes AI sections',async()=>{
- const failed=harness('tarot',{persistError:true});const result=await failed.request();assert.equal(result.body.provenance.persistenceStatus,'failed');assert.equal(result.body.remoteId,undefined);assert.equal(failed.finalizations[0].output.stage,'persist');assert.equal(failed.finalizations[0].status,'error');
+ // P1-A: an answer that could not be saved is not shown (one event, one answer); the claim is freed for a retry.
+ const failed=harness('tarot',{persistError:true});const result=await failed.request();assert.equal(result.status,503);assert.equal(result.body.error,'reading_not_saved');assert.equal(result.body.retryable,true);assert.equal(result.body.summary,undefined);assert.equal(failed.finalizations[0].output.stage,'persist');assert.equal(failed.finalizations[0].output.persistenceStatus,'failed');assert.equal(failed.finalizations[0].status,'error');
+ assert.ok(failed.writes.some(x=>x.table==='tarot_readings' && x.action==='update' && x.value.claim_token===null && !('status' in x.value)),'claim released');
  const blocked=harness('tarot',{generation:{moderationStatus:'blocked'}});const b=await blocked.request();assert.equal(b.body.provenance.sourceKind,'blocked');assert.deepEqual(b.body.sections,[]);assert.equal(blocked.finalizations[0].status,'blocked');
 });
 
@@ -119,7 +131,7 @@ test('Astrology authentication and request correlation fail before provider or r
 });
 
 test('Tarot uses canonical card facts instead of user-provided meanings at the actual provider boundary',async()=>{
- const input=clone(tarotInput);input.selectedCards[0].name={en:'Injected card'};input.selectedCards[0].uprightMeaning={en:'Injected command'};input.selectedCards[0].positionKey='spoof';
+ const input={...clone(tarotInput),selectedCards:[{id:'major-00-fool',reversed:false,name:{en:'Injected card'},uprightMeaning:{en:'Injected command'},positionKey:'spoof'}]};
  const h=harness('tarot');assert.equal((await h.request({input})).status,200);const context=JSON.parse(h.generations[0].messages[0].content);assert.equal(context.selectedCards[0].name.en,'The Fool');assert.notEqual(context.selectedCards[0].uprightMeaning.en,'Injected command');assert.equal(context.selectedCards[0].positionKey,'daily');
 });
 
@@ -159,4 +171,23 @@ test('Astrology persists answer provenance alongside, outside the strict interpr
  assert.equal('provenance' in saved.interpretation,false);assert.equal('answerProvenance' in saved.interpretation,false);
  const provenance=saved.input_summary.answerProvenance;assert.ok(provenance);for(const key of ['interactionId','attemptId','clientRequestId','routeVersionId','routeVersion','promptVersionId','promptVersion','promptAssemblyVersion','remoteId','calculationVersion','chartContractVersion','reportRevision'])assert.equal(provenance[key],body.provenance[key]);
  assert.equal(provenance.answerReceiptId,undefined,'receipt is produced after report persistence; linked receipt remains a separate authoritative record');
+});
+
+test('Tarot P1-A: cards that differ from the stored draw and pre-draw requests never reach the provider',async()=>{
+ const forged=harness('tarot');const f=await forged.request({input:{...clone(tarotInput),selectedCards:[{id:'major-01-magician',reversed:false}]}});assert.equal(f.status,409);assert.equal(f.body.error,'draw_mismatch');assert.equal(forged.generations.length,0);assert.equal(forged.calls.some(x=>x.name==='tarot_interpret_claim'),false);
+ const legacy=harness('tarot');const l=await legacy.request({input:{language:'en',spread:'daily-one',selectedCards:[{id:'major-00-fool'}]}});assert.equal(l.status,400);assert.equal(l.body.error,'draw_required');assert.equal(legacy.generations.length,0);
+});
+
+test('Tarot P1-A: a stored answer is replayed with no provider call, claim or usage',async()=>{
+ const interpretation={summary:'Stored summary.',reflection:'Stored reflection?',sections:[],moderationStatus:'passed',provenance:{persistenceStatus:'stored',remoteId:readingId}};
+ const h=harness('tarot',{storedDraw:{interpretation,status:'completed',interpreted_at:'2026-11-15T05:01:00.000Z'}});const {status,body}=await h.request();
+ assert.equal(status,200);assert.equal(body.replayed,true);assert.equal(body.summary,'Stored summary.');assert.equal(body.drawId,readingId);
+ assert.equal(h.generations.length,0);assert.equal(h.calls.some(x=>x.kind==='rpc' && x.name==='tarot_interpret_claim'),false);assert.equal(h.writes.length,0);
+});
+
+test('Tarot P1-A: the draw is made on the server and stored only through the service-role claim',async()=>{
+ const h=harness('tarot');const {status,body}=await h.request({input:{action:'draw',language:'en',deck:{id:'moon-garden',slug:'moon-garden'},spread:'past-present-future',topic:'love',question:'What helps me listen?',selectedCards:[{id:'major-00-fool'},{id:'major-01-magician'},{id:'major-02-high-priestess'}]}});
+ assert.equal(status,200);assert.equal(body.status,'queued');assert.equal(body.cards.length,3);assert.deepEqual(body.cards.map(c=>c.positionKey),['past','present','potential']);
+ const claim=h.calls.find(x=>x.kind==='rpc' && x.name==='tarot_draw_claim');assert.ok(claim);assert.equal(claim.args.p_user_id,user);assert.match(claim.args.p_lock_key,/^[0-9a-f]{64}$/);assert.deepEqual(clone(claim.args.p_cards),body.cards);assert.deepEqual(clone(claim.args.p_deck_ref),{id:'moon-garden',slug:'moon-garden'});
+ assert.equal(claim.args.p_draw_cap,1,'free accounts keep one draw a day (min of the soft cap and delivered readings)');assert.equal(h.generations.length,0);assert.equal(h.writes.length,0);
 });

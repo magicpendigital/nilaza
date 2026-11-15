@@ -1,0 +1,251 @@
+{
+  "schemaVersion": 1,
+  "taskId": "nil-p1-tarot-lock-2026-11-15",
+  "ownerAgent": "backend_agent",
+  "lane": "Backend + mobile + SQL: Tarot result lock (P1-A, one event one answer)",
+  "goal": "Tarot cards are issued by the server with a CSPRNG and a reading is locked per account, spread, topic and Vietnam day (UTC+7). The same lock key on the same day returns the stored cards and interpretation without a model call or AI quota; the interpretation is immutable once written; claims are atomic so two concurrent requests make one model call; an AI failure does not burn the lock or the delivered allowance (attempts stay capped at 3 per day); clients can only read their own non-deleted readings. Home's daily card is seeded by account and Vietnam date. Nothing is applied or deployed by the agent.",
+  "successCriteria": [
+    "New migration supabase/migrations/20261115100000_tarot_reading_lock.sql (idempotent): lock columns, unique lock_key, immutability trigger, select-only own-row RLS without deleted rows, client writes revoked, service_role RPCs tarot_draw_claim and tarot_interpret_claim under a per-user advisory lock; re-running it is safe; rollback written below.",
+    "ai-tarot-reading: action draw issues cards with crypto.getRandomValues (rejection sampling, no Math.random) and returns drawId + cards; action interpret uses only the stored draw, rejects mismatching client cards (409 draw_mismatch) and requests without drawId (400 draw_required); completed readings replay with 0 provider calls; fallback releases the claim (retry with the same drawId); blocked keeps the safety event and 115 behaviour; action clarify adds at most one CSPRNG library card per reading; action delete soft-deletes.",
+    "Lock key = sha256(tarot-lock-v1|user|spread|topicKey|UTC+7 date) with topicKey from the fixed catalogue love|career|self|decision|open; a new draw is refused (429 daily_limit_reached) once today's draws reach min(soft cap 3, delivered limit) or the delivered or attempt limit is reached, so Free never gets more than today (1 draw and 1 AI reading per day by default).",
+    "Mobile: signed-in users get server cards (no local card on server failure), the locked state shows the stored reading with a gentle note and Journal / clarifier alternatives, retry only for AI fallback with the same drawId, guests keep the local draw; Home daily card seed = account + UTC+7 date (profile goal/tone no longer change it); the flip stays remembered for the device day as before.",
+    "Deno, PGlite, node harness, jest, tsc, validate:backend, supabase:check, migration-ledger:check, admin:check/test and preflight --ci pass locally."
+  ],
+  "writeScope": [
+    "supabase/migrations/20261115100000_tarot_reading_lock.sql",
+    "supabase/functions/ai-tarot-reading/",
+    "supabase/functions/_shared/daily-attempts.ts",
+    "supabase/functions/_shared/tarot-prompt.ts",
+    "supabase/functions/_shared/tarot-prompt.test.ts",
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/tarot/",
+    "apps/mobile/src/backendClient.ts",
+    "apps/mobile/src/__tests__/backendClient.test.ts",
+    "scripts/tarot-reading-lock-sql.test.mjs",
+    "scripts/ai-answer-endpoints.test.mjs",
+    "scripts/staging-smoke.mjs",
+    "apps/admin/workflow-catalog.js",
+    "scripts/admin-workflow-catalog.test.mjs",
+    "docs/release/nil-p1-tarot-lock-2026-11-15/"
+  ],
+  "untouchedSurfaces": [
+    "Applied migrations are not edited; existing tarot_readings rows keep their content (lock_key null = legacy, still immutable once interpreted).",
+    "Astrology, Council, persona chat, provider registry, model router, trace and Admin pages are unchanged; apps/admin/workflow-catalog.js only gains pinned LF hashes for the Tarot function files (index, handler, draw, store, tarot-prompt) and scripts/admin-workflow-catalog.test.mjs its digest count (39 to 42), forced by admin:check.",
+    "account-tier-policy.json and account-tier-policy.ts are unchanged (1 delivered, 3 attempts per day); feature config dailyLimit from Admin still applies.",
+    "Journal storage is unchanged (journal_entries keep their own snapshot); no Nil wallet, paid reroll, 'Trò chuyện về lá này' or temperature change. PLAN.md is left to the coordinator."
+  ],
+  "impact": {
+    "entryPoint": "Tarot flow: topic, ask, draw (first tap asks the server for cards when signed in), result (locked note, Journal, clarifier, retry only on AI fallback); Home daily card.",
+    "dataWrite": "tarot_readings gains lock columns; a row is created at draw time (status queued) by the service role, finalized once (completed, interpreted_at) and may later get one clarifier and a soft delete; usage_events tarot_reading_attempted is written inside the claim RPC. Clients lose insert/update/delete on tarot_readings and see only own non-deleted rows.",
+    "backendContract": "POST ai-tarot-reading with action draw | interpret | clarify | delete; interpret requires drawId; old builds that post selectedCards without drawId get 400 draw_required and fall back to local reference text. RPCs public.tarot_draw_claim and public.tarot_interpret_claim execute only for service_role.",
+    "adminVisibility": "No Admin change; traces keep the same metadata plus drawId-free lock fields (spread, topic). workflow-catalog hashes refreshed.",
+    "privacySafety": "Question text is stored as before; the lock key is a hash, not the question. Crisis (blocked) responses keep the safety event and the 115 card. Soft-deleted readings stay stored (they count for lock and quota) and are hidden from the client; full erasure stays with account deletion (cascade).",
+    "observability": "Existing trace finalization, usage event tarot_reading_generated and answer receipt are kept; 409 reading_in_progress and draw_mismatch are new error codes; replays return replayed:true with no trace.",
+    "rollback": "Redeploy the previous ai-tarot-reading (git 3a624c7) and run: drop function if exists public.tarot_draw_claim(uuid, text, date, timestamptz, text, text, text, text, uuid, jsonb, jsonb, integer, integer, integer); drop function if exists public.tarot_interpret_claim(uuid, uuid, uuid, timestamptz, integer, integer, integer); drop trigger if exists guard_tarot_reading_update on public.tarot_readings; drop function if exists nilaza_private.guard_tarot_reading_update(); drop policy if exists \"users read own tarot readings\" on public.tarot_readings; create policy \"users manage own tarot readings\" on public.tarot_readings for all to authenticated using (user_id = auth.uid()) with check (user_id = auth.uid()); grant select, insert, update, delete on public.tarot_readings to authenticated. New columns and the unique constraint can stay (nullable, ignored by the old code)."
+  },
+  "canonicalContracts": [
+    "packages/agent-config/account-tier-policy.json tarotAi (dailyLimit 1, failedAttemptAllowance 2) via tarotDailyLimits()",
+    "supabase/functions/_shared/tarot-prompt.ts prepareTarotContext: canonical cards per spread",
+    "packages/ai-contracts/answer-provenance.ts and tarot-output.ts",
+    "TAROT_LOCK_POLICY in supabase/functions/_shared/daily-attempts.ts (soft cap 3, 1 clarifier, 180 s stale claim)"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "SQL, deploy and settings need Owner approval each time; agent prepares and verifies locally only.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Backend, mobile and AI routes and their validation commands.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules and record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/NIL_PRICING_STRATEGY_2026-11-15.vi.md",
+      "reason": "P1-A context: locked Tarot result first, Nil wallet and paid rerolls later (not in this task).",
+      "sha256": "28f7ba99545459ad013472ee69fed0e09bfc3335c9986b3572b227f7fc2ad1ba"
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/index.ts",
+      "reason": "Current single-shot flow: app-chosen cards, user-JWT inserts into tarot_readings, delivered and attempt limits, receipt enrichment update.",
+      "sha256": "5d8c822d4fa25508db81f1ebc950679f225aa4c6aae60059ad4624c35507df17"
+    },
+    {
+      "path": "supabase/functions/_shared/tarot-prompt.ts",
+      "reason": "spreadPositions and prepareTarotContext validate canonical card ids per spread; reused to build the model context from the stored draw.",
+      "sha256": "cf17623b7e499906d7cdc2493fbcdc87cd56116a1ce1108e1f722e0104d45c38"
+    },
+    {
+      "path": "supabase/functions/_shared/tarot-content.ts",
+      "reason": "Published card text for the clarifier library meaning.",
+      "sha256": "89ada11b0c1fa8a8442c22615cbca83f6b3277d984a21065042f8a7f3e19672e"
+    },
+    {
+      "path": "supabase/functions/_shared/daily-attempts.ts",
+      "reason": "claimDailyAttempt is count-then-insert (not atomic); Tarot moves its attempt claim into SQL under an advisory lock.",
+      "sha256": "0f41781476c3a241de51e0e3b40a17f4935751c0d084668077e6646ea405aaa5"
+    },
+    {
+      "path": "supabase/functions/_shared/account-tier-policy.ts",
+      "reason": "localDayStart (UTC+7) and tarotDailyLimits (1 delivered, 3 attempts) stay the source of the limits; not edited.",
+      "sha256": "9a915a0e946629ee03cedb44005beefe6e7dc8d6236792206904c38bfd2dcb8f"
+    },
+    {
+      "path": "supabase/functions/_shared/ai-request-guard.ts",
+      "reason": "Body size, JSON and auth guard reused unchanged.",
+      "sha256": "1fbf5ab7723ebb1d4f9ca55b099a275f53ca1fd7163c4d519054af7519532abb"
+    },
+    {
+      "path": "supabase/functions/share-events/index.ts",
+      "reason": "Pattern: caller client for getUser plus a service-role client, logic in a DI-tested handler.",
+      "sha256": "089c78663ba68b14e8454279a0a4f833008a08880d206f30e0b0ac1480f4f236"
+    },
+    {
+      "path": "supabase/migrations/202606120001_mvp_schema.sql",
+      "reason": "tarot_readings columns, FOR ALL own-row policy, status check.",
+      "sha256": "226e20601e094426e23170814fab3346eea953bf619d78b0ded153afa37559f5"
+    },
+    {
+      "path": "supabase/migrations/20261112000000_tarot_extra_spreads.sql",
+      "reason": "Current spread check (5 spreads).",
+      "sha256": "173576af8363d72e4fbcf9fa401384d0b8043eeaf7b470b93b0c3b6feac89814"
+    },
+    {
+      "path": "supabase/migrations/20260902131408_owner_capability_boundary.sql",
+      "reason": "Own-row policies moved to authenticated with is_admin removed.",
+      "sha256": "2f8fdac36b93d68f1a32da2d7a83b33c2b41b966589e8be9e1a85d56ace42a24"
+    },
+    {
+      "path": "supabase/migrations/20261002000000_ai_usage_reservation.sql",
+      "reason": "Reads tarot_readings status='completed' and grants select to service_role; unaffected by the new columns.",
+      "sha256": "4d4fc2e57d322fa1d4c60e5e305d18653e73f6b5e8d46fba1a3084a115993424"
+    },
+    {
+      "path": "supabase/migrations/20261004183447_client_table_privilege_boundary.sql",
+      "reason": "Fixed public-table inventory: the change adds columns only, no new table.",
+      "sha256": "2e5af56a94de7f79f403d78cc99fdd3f521984d63e6ca200f3cf7b9e508f8061"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "drawCards, TarotFlow ritual (local selectTarotCards, credit check, reset effect), retry button, start-over, buildTodayPulse seed and reveal key.",
+      "sha256": "86e422cc4a12933bff324f72828054d4f743cbbd073577b52ccb77adc24c12be"
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "reason": "generateTarotReading, postJson limit handling, provenance parsing with correlation.",
+      "sha256": "83479c07fac72d0e945b9862b8127449719efddbf242b7f284d1d296bb767dda"
+    },
+    {
+      "path": "apps/mobile/src/features/tarot/randomDraw.ts",
+      "reason": "Local Math.random draw kept for guests only.",
+      "sha256": "d38814eca6f7da1b2db3b36c109339ea26d2a69eaf257a8518ea1ee8f9378d51"
+    },
+    {
+      "path": "scripts/ai-answer-endpoints.test.mjs",
+      "reason": "Node vm harness runs the real Tarot index.ts; must follow the draw then interpret contract.",
+      "sha256": "cbdc2d2a14f5eb5972742e8c413466dfd412bea0ed71d7caf4015b4dc01d0cfc"
+    },
+    {
+      "path": "scripts/staging-smoke.mjs",
+      "reason": "Staging smoke posts a Tarot reading with app-chosen cards; must follow the new contract.",
+      "sha256": "f0a6e5bd7873350a6916fc6c3b1b6661cdd2b3d50d941394f3261d94d8fc5dde"
+    },
+    {
+      "path": "scripts/validate-backend-contracts.mjs",
+      "reason": "Strings the Tarot entrypoint must keep.",
+      "sha256": "9447211a70fa2bf91a4f946285e9cff0c0b4c0a9bf9a8d8dc7758d90079677a3"
+    },
+    {
+      "path": "scripts/check-supabase-readiness.mjs",
+      "reason": "Entrypoint needs serve(async (req) => and CORS.",
+      "sha256": "e10ddea6a2092571a5508dbc303b039eb5ca81771c3dc502749658bb06487682"
+    },
+    {
+      "path": "apps/admin/workflow-catalog.js",
+      "reason": "Pins LF hashes of the Tarot entrypoint and tarot-prompt.ts; stale source fails admin:check.",
+      "sha256": "ba7fb3285d1102cada42a41bd0cc17179d187aecfea819801920d05c52ed2282"
+    },
+    {
+      "path": "docs/feature-plans/owner-only-publish-2026-11-15.json",
+      "reason": "Record template.",
+      "sha256": "8e026418f9fdfca0e0d9abe93e4b838bbc2c4805d75c4b148b642f6d8fba7611"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and --record preflight before the first edit; migration and deploy left to the Owner by hash; PGlite, Deno, node harness and jest only."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Every model call stays behind sign-in, the feature switch and the daily limits; replay never calls the provider; fallback text stays labelled; blocked never falls through; no change to routes or prompts."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Web Crypto getRandomValues and SubtleCrypto SHA-256 (already used in tarot-prompt.ts), PostgreSQL advisory locks and triggers; no package added. PGlite from the session scratchpad is loaded only when NILAZA_PGLITE_MODULE points to it."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "Clients keep only SELECT of own rows with deleted_at null; INSERT/UPDATE/DELETE revoked from anon and authenticated; RPCs are security invoker with empty search_path, revoked from public/anon/authenticated and granted to service_role; the Edge Function authenticates the user with getUser before using the service-role client and always filters by that user id.",
+    "sensitiveData": "Question text and cards as before; lock key is a SHA-256 hash; no new personal data; soft-deleted rows retained (documented).",
+    "secretsLogging": "Uses the platform-injected SUPABASE_SERVICE_ROLE_KEY inside the Edge Function only; no new secret, no key value read or logged; tests use synthetic placeholders.",
+    "externalInput": "Topic is normalized to a fixed catalogue; spread validated; question bounded (4096) as before; client cards are only compared to the stored draw and never used as model input; drawId must be a UUID owned by the caller.",
+    "dependencies": "None added to the repository.",
+    "migrationRelease": "Owner applies 20261115100000_tarot_reading_lock.sql by its LF SHA-256, then deploys ai-tarot-reading, then ships the app. Old app builds lose AI Tarot (local reference text) once the function is deployed.",
+    "stopCondition": "Stop if any test shows a second model call for one lock key, a client able to write tarot_readings, an interpretation changing after it is written, or Free receiving more AI readings than today.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "The record and its --record preflight ran on a clean tree (3a624c7) before the first code edit. These paths are the finished P1-A change (server Tarot lock, migration, mobile wiring, tests and handoff); sourceReview hashes refreshed to the final working tree.",
+    "paths": [
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/__tests__/backendClient.test.ts",
+      "apps/mobile/src/backendClient.ts",
+      "scripts/admin-workflow-catalog.test.mjs",
+      "scripts/ai-answer-endpoints.test.mjs",
+      "scripts/staging-smoke.mjs",
+      "supabase/functions/_shared/daily-attempts.ts",
+      "supabase/functions/_shared/tarot-prompt.test.ts",
+      "supabase/functions/_shared/tarot-prompt.ts",
+      "supabase/functions/ai-tarot-reading/index.ts",
+      "apps/mobile/src/features/tarot/__tests__/serverDraw.test.ts",
+      "apps/mobile/src/features/tarot/serverDraw.ts",
+      "scripts/tarot-reading-lock-sql.test.mjs",
+      "supabase/functions/ai-tarot-reading/draw.ts",
+      "supabase/functions/ai-tarot-reading/draw_test.ts",
+      "supabase/functions/ai-tarot-reading/handler.ts",
+      "supabase/functions/ai-tarot-reading/handler_test.ts",
+      "supabase/functions/ai-tarot-reading/store.ts",
+      "supabase/migrations/20261115100000_tarot_reading_lock.sql",
+      "docs/release/nil-p1-tarot-lock-2026-11-15/HANDOFF.vi.md"
+    ]
+  },
+  "validationCommands": [
+    "node scripts/feature-preflight.mjs --record docs/feature-plans/nil-p1-tarot-lock-2026-11-15.json",
+    "npx --yes deno@2 test supabase/functions/ai-tarot-reading supabase/functions/_shared/daily-attempts_test.ts supabase/functions/_shared/tarot-prompt.test.ts",
+    "NILAZA_PGLITE_MODULE=<scratchpad>/pglite/node_modules/@electric-sql/pglite/dist/index.js node --test scripts/tarot-reading-lock-sql.test.mjs",
+    "npm run ai-operations:test",
+    "npm run validate:backend && npm run supabase:check && npm run supabase:migration-ledger:check",
+    "npm run admin:check && npm run admin:test",
+    "npm --prefix apps/mobile test -- --silent && npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "node scripts/feature-preflight.mjs --ci --base claude/nil-p0-p1-2026-11-15"
+  ],
+  "managerTestPath": "Sau khi Owner áp migration và deploy ai-tarot-reading, trên máy Android đã đăng nhập: mở Tarot, chọn chủ đề Tình cảm, trải 1 lá, đặt câu hỏi, rút lá và đọc kết quả; thoát ra, mở lại Tarot, chọn lại Tình cảm (câu hỏi khác cũng được) và rút: app hiện đúng lá và lời diễn giải cũ kèm lời nhắc nhẹ nhàng, không gọi AI lần nữa; thử chủ đề khác trong cùng ngày: app báo đã dùng lượt hôm nay; bấm Rút một lá làm rõ một lần, lần sau nút không còn; Trang chủ: lá bài hôm nay giữ nguyên khi đổi mục tiêu hay giọng điệu trong hồ sơ; sau 0:00 giờ Việt Nam rút lại được.",
+  "residualRisk": "Free stays at 1 draw per day by default, so 'different topic = new draw' only applies when Admin raises the delivered limit (soft cap 3). Old app builds lose AI Tarot after deploy (local reference text). A false-positive safety block holds that topic for the day (question is fixed at draw). Soft-deleted readings stay stored until account deletion. Guests still use the local draw and can start over. The clarifier is not added to the Journal snapshot, and the app has no delete button yet (the server action delete exists, untested on a device). Mobile tsc and the ShareCardSheet jest suite fail only because react-native-view-shot and expo-clipboard are missing from the shared local node_modules (pre-existing, unrelated). Devices outside UTC+7 see the Home card change at Vietnam midnight only after the app notices a new local day. PGlite is not Supabase: auth is stubbed; re-run the Security Advisor after applying. scripts/rehearse-nilaza-database.mjs inserts tarot_readings as the user and will need an update when a future rehearsal packet includes this migration.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

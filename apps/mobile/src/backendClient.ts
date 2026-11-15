@@ -8,6 +8,7 @@ import type { ShareEventPayload } from "./features/share/shareEvents";
 import type { JournalAck, JournalMutation } from "./features/journal/journalRepository";
 import { parseAdminAccess } from "./features/owner/access";
 import type { AstrologyAiInvocation, AstrologyAiInsightResponse, AstrologyAiInsightResult } from "./features/astrology/astrologyAiInsight";
+import { parseTarotClarifier, parseTarotServerDraw, type TarotClarifier, type TarotServerDraw } from "./features/tarot/serverDraw";
 import {
   ChatHandoffContext,
   DailyInsight,
@@ -258,6 +259,8 @@ export type OracleTurnResult = {
 };
 
 export type TarotInterpretationInput = {
+  /** P1-A: set for a signed-in account; the server interprets only this stored draw (selectedCards must match it). */
+  drawId?: string;
   language: Language;
   deck: Pick<TarotDeck, "id" | "slug" | "name" | "readingStyle" | "accessTier">;
   topic: string;
@@ -277,7 +280,21 @@ export type TarotInterpretationInput = {
   >;
 };
 
+/** P1-A: what the app sends to open (or reopen) today's server draw for one topic and spread. */
+export type TarotDrawInput = {
+  language: Language;
+  deck: Pick<TarotDeck, "id" | "slug">;
+  topic: string;
+  spread: string;
+  question: string;
+};
+
 export type TarotInterpretationResult = {
+  /** P1-A server draw: the stored draw this answer belongs to; a replayed answer was read back, not generated again. */
+  drawId?: string;
+  replayed?: boolean;
+  nextDrawAt?: string;
+  clarifier?: TarotClarifier;
   provenance?: AnswerProvenance;
   summary: string;
   reflection: string;
@@ -391,6 +408,11 @@ async function getJson<TResult>(path: string, options: BackendOptions): Promise<
 /** A server answer the user must see (sign in first, or today's allowance is used). */
 export class BackendLimitError extends Error {
   constructor(readonly code: string, readonly status: number) { super(code); this.name = "BackendLimitError"; }
+}
+
+/** P1-A: Tarot did not open a new draw or answer today (daily_limit_reached or tarot_reading_locked) and when it opens again. */
+export class TarotLimitError extends BackendLimitError {
+  constructor(code: string, status: number, readonly reason?: string, readonly nextDrawAt?: string) { super(code, status); this.name = "TarotLimitError"; }
 }
 
 /**
@@ -606,21 +628,124 @@ export async function generateOracleTurn(
   }
 }
 
+type TarotResponse = { status: number; body: Record<string, unknown> };
+
+/** One POST to ai-tarot-reading that keeps the status and body (P1-A needs reason, nextDrawAt and retry hints). */
+async function postTarot(input: unknown, backendOptions: BackendOptions, patienceMs: number, correlation?: AnswerCorrelation): Promise<TarotResponse | null> {
+  const options = currentOptions(backendOptions);
+  if (!options.baseUrl) return null;
+  const controller = new AbortController();
+  const cancel = () => controller.abort();
+  options.session?.controller.signal.addEventListener("abort", cancel);
+  let timedOut = false;
+  const timeout = setTimeout(() => { timedOut = true; controller.abort(); }, Math.max(options.timeoutMs ?? 0, patienceMs));
+  try {
+    const headers: Record<string, string> = { "Content-Type": "application/json", ...(correlation ? answerCorrelationHeaders(correlation) : {}) };
+    if (options.apiKey) headers.apikey = options.apiKey;
+    if (options.authToken) headers.Authorization = `Bearer ${options.authToken}`;
+    const response = await fetch(resolveBackendPath(options.baseUrl, "/ai/tarot-reading"), { method: "POST", headers, body: JSON.stringify(input), signal: controller.signal });
+    if (options.session?.active === false) return null;
+    const body = await response.json().catch(() => undefined) as unknown;
+    return { status: response.status, body: body && typeof body === "object" && !Array.isArray(body) ? body as Record<string, unknown> : {} };
+  } catch {
+    if (options.session?.active === false || options.session?.controller.signal.aborted) return null;
+    throw new BackendUnavailableError(timedOut ? "busy" : "offline");
+  } finally {
+    options.session?.controller.signal.removeEventListener("abort", cancel);
+    clearTimeout(timeout);
+  }
+}
+
+/** Limits, pauses and locks the user must see; null for anything else (the caller decides). */
+function tarotLimitFrom(result: TarotResponse): BackendLimitError | null {
+  const code = typeof result.body.error === "string" ? result.body.error : "";
+  const reason = typeof result.body.reason === "string" ? result.body.reason : undefined;
+  const nextDrawAt = typeof result.body.nextDrawAt === "string" ? result.body.nextDrawAt : undefined;
+  if (code === "feature_paused") return new BackendLimitError(code, result.status);
+  if (code === "daily_limit_reached" || code === "tarot_reading_locked") return new TarotLimitError(code, result.status, code === "tarot_reading_locked" ? reason ?? "deleted" : reason, nextDrawAt);
+  return null;
+}
+
+/**
+ * P1-A: opens today's server draw for this account, spread and topic, or returns the one already made (same cards,
+ * and its stored answer when there is one). Throws TarotLimitError / BackendLimitError for limits and pauses and
+ * BackendUnavailableError when the server cannot be reached; it never draws cards on the device.
+ */
+export async function requestTarotDraw(input: TarotDrawInput, options: BackendOptions): Promise<TarotServerDraw> {
+  const result = await postTarot({ action: "draw", language: input.language, deck: { id: input.deck.id, slug: input.deck.slug }, topic: input.topic, spread: input.spread, question: input.question }, options, 20000);
+  if (!result) throw new BackendUnavailableError("auth");
+  const limit = tarotLimitFrom(result);
+  if (limit) throw limit;
+  if (result.status === 401) throw new BackendUnavailableError("auth", 401);
+  const draw = result.status === 200 ? parseTarotServerDraw(result.body) : null;
+  if (!draw) throw new BackendUnavailableError("busy", result.status);
+  return draw;
+}
+
+/** P1-A: the one clarifying card of a reading (server draw + library meaning, no AI); the same card on every call. */
+export async function requestTarotClarifier(drawId: string, options: BackendOptions): Promise<TarotClarifier> {
+  const result = await postTarot({ action: "clarify", drawId }, options, 15000);
+  if (!result) throw new BackendUnavailableError("auth");
+  const limit = tarotLimitFrom(result);
+  if (limit) throw limit;
+  const clarifier = result.status === 200 ? parseTarotClarifier(result.body.clarifier) : null;
+  if (!clarifier) throw new BackendUnavailableError(result.status === 401 ? "auth" : "busy", result.status);
+  return clarifier;
+}
+
+const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+/** P1-A interpret: only the stored draw; a busy draw (another device) is asked again briefly, then answered from storage. */
+async function interpretServerDraw(input: TarotInterpretationInput & { drawId: string }, options: BackendOptions, correlation: AnswerCorrelation): Promise<TarotInterpretationResult | null> {
+  const body = { action: "interpret", drawId: input.drawId, language: input.language, selectedCards: input.selectedCards.map(card => ({ id: card.id, reversed: card.reversed })) };
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    let result: TarotResponse | null;
+    try {
+      result = await postTarot(body, options, generationTimeoutMs.tarot, correlation);
+    } catch {
+      return null;
+    }
+    if (!result) return null;
+    const limit = tarotLimitFrom(result);
+    if (limit) throw limit;
+    if (result.status === 409 && result.body.error === "reading_in_progress" && attempt < 2) {
+      const seconds = Number(result.body.retryAfterSeconds);
+      await wait(Math.min(Math.max(Number.isFinite(seconds) ? seconds : 5, 1), 10) * 1000);
+      continue;
+    }
+    return result.status === 200 ? result.body as unknown as TarotInterpretationResult : null;
+  }
+  return null;
+}
+
 export async function generateTarotReading(
   input: TarotInterpretationInput,
   fallback: () => TarotInterpretationResult,
   options: BackendOptions = {},
   correlation: AnswerCorrelation = createAnswerAttempt("tarot_reading", input.language === "en" ? "en" : "vi")
 ): Promise<TarotInterpretationResult> {
-  const remote = await postJson<TarotInterpretationInput, TarotInterpretationResult>("/ai/tarot-reading", input, generationOptions(options, generationTimeoutMs.tarot), correlation, "limits");
-  const provenance = remote?.provenance ? parseAnswerProvenance(remote.provenance, { feature: "tarot_reading", locale: input.language === "en" ? "en" : "vi", correlation }) : undefined;
-  const parsed = remote?.moderationStatus === "passed" ? validateTarotOutput({ summary: remote.summary, reflection: remote.reflection, sections: remote.sections }, input.language === "en" ? "en" : "vi", input.selectedCards.map(card => card.id)) : undefined;
-  if (parsed && (!remote?.provenance || provenance?.sourceKind === "ai")) return { ...remote!, ...parsed, provenance };
+  const remote = input.drawId
+    ? await interpretServerDraw(input as TarotInterpretationInput & { drawId: string }, options, correlation)
+    : await postJson<TarotInterpretationInput, TarotInterpretationResult>("/ai/tarot-reading", input, generationOptions(options, generationTimeoutMs.tarot), correlation, "limits");
+  // A server draw keeps the language it was drawn in; a replayed answer was written by an earlier attempt, so its
+  // provenance keeps that attempt's IDs.
+  const replayed = Boolean(input.drawId && remote?.replayed === true && remote.drawId === input.drawId);
+  const remoteLanguage = (remote as { language?: unknown } | null)?.language;
+  const locale: "vi" | "en" = input.drawId && (remoteLanguage === "vi" || remoteLanguage === "en") ? remoteLanguage : input.language === "en" ? "en" : "vi";
+  const provenance = remote?.provenance ? parseAnswerProvenance(remote.provenance, { feature: "tarot_reading", locale, ...(replayed ? {} : { correlation }) }) : undefined;
+  // The stored draw's cards are what the answer may name (the app shows the same cards).
+  const storedCards = (remote as { cards?: unknown } | null)?.cards;
+  const cardIds = input.drawId && Array.isArray(storedCards) && storedCards.every(card => typeof (card as { id?: unknown })?.id === "string")
+    ? storedCards.map(card => (card as { id: string }).id) : input.selectedCards.map(card => card.id);
+  const parsed = remote?.moderationStatus === "passed" ? validateTarotOutput({ summary: remote.summary, reflection: remote.reflection, sections: remote.sections }, locale, cardIds) : undefined;
+  const server = input.drawId ? { drawId: input.drawId, replayed, ...(typeof remote?.nextDrawAt === "string" ? { nextDrawAt: remote.nextDrawAt } : {}),
+    ...(remote?.clarifier ? (() => { const clarifier = parseTarotClarifier(remote.clarifier); return clarifier ? { clarifier } : {}; })() : {}) } : {};
+  if (parsed && (!remote?.provenance || provenance?.sourceKind === "ai")) return { ...remote!, ...parsed, provenance, ...server };
   if (remote && ["blocked", "fallback"].includes(remote.moderationStatus) && typeof remote.summary === "string" && remote.summary.trim() && remote.summary.length <= 8000
     && typeof remote.reflection === "string" && remote.reflection.trim() && remote.reflection.length <= 1500
-    && (!remote.provenance || provenance && provenance.sourceKind === remote.moderationStatus)) return { ...remote, sections: [], provenance };
+    && (!remote.provenance || provenance && provenance.sourceKind === remote.moderationStatus)) return { ...remote, sections: [], provenance, ...server };
   const local = fallback();
-  return { ...local, moderationStatus: "fallback", provenance: {
+  return { ...local, ...(input.drawId ? { drawId: input.drawId, replayed: false } : {}), moderationStatus: "fallback", provenance: {
     schemaVersion: answerProvenanceSchema, feature: "tarot_reading", ...correlation, locale: input.language === "en" ? "en" : "vi",
     sourceKind: "fallback", generatedAt: new Date().toISOString(), validationStatus: remote ? "rejected" : "not_applicable", persistenceStatus: "skipped",
   } };

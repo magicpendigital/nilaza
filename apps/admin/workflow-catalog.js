@@ -37,14 +37,14 @@
 
   const tr = [r(f("ai-tarot-reading")), r(s("tarot-prompt.ts")), r(s("ai-request-guard.ts")), r(s("model-router.ts")), r("packages/content/data/tarot-cards.json"), r("packages/agent-config/prompt-library.json")];
   const tarot = g("tarot_reading", t("Diễn giải Tarot", "Tarot interpretation"), tr, [
-    n("request_guard", t("Auth + bounded JSON", "Auth + bounded JSON"), "guard", 0, 0, t("Auth trước body có giới hạn. App đã chọn lá; LLM không rút lá.", "Authenticate before bounded body reading. The app selected cards; the LLM does not draw them."), [tr[0], tr[2]], [p("request", "TarotInput", "POST ai-tarot-reading", pass, "personal")], [o("input", "TarotInput", "canonical_cards.input", pass, "personal"), o("userId", "UserId", "reading_save.userId", t("Owner đã xác thực", "Verified owner"))]),
+    n("request_guard", t("Auth + bounded JSON", "Auth + bounded JSON"), "guard", 0, 0, t("Auth trước body có giới hạn. Máy chủ rút lá bằng CSPRNG và khoá theo (tài khoản, kiểu trải, chủ đề, ngày UTC+7); app chỉ gửi drawId để diễn giải, lá khác bản đã lưu bị từ chối. Bài đã lưu được trả lại không gọi mô hình. LLM không rút lá.", "Authenticate before bounded body reading. The server draws cards with a CSPRNG and locks them per (account, spread, topic, UTC+7 day); the app sends only a drawId to interpret and cards that differ from the stored draw are refused. A stored reading is replayed without a model call. The LLM does not draw cards."), [tr[0], r("supabase/functions/ai-tarot-reading/handler.ts", "createTarotHandler"), r("supabase/functions/ai-tarot-reading/draw.ts", "drawServerCards"), tr[2]], [p("request", "TarotInput", "POST ai-tarot-reading", pass, "personal")], [o("input", "TarotInput", "canonical_cards.input", pass, "personal"), o("userId", "UserId", "reading_save.userId", t("Owner đã xác thực", "Verified owner"))]),
     n("canonical_cards", t("Đối chiếu lá bài chuẩn", "Canonical card enrichment"), "context", 1, 0, t("Kiểm spread/count, ID duy nhất và orientation theo 78 lá chuẩn; nghĩa lá và phong cách bộ bài lấy từ gói nội dung đã phát hành (get_published_content_bundle) khi hợp lệ, không thì từ tarot-cards.json (E4). Sai input kết thúc 400.", "Check spread/count, unique IDs and orientations against the 78 canonical cards; card meanings and the deck reading style come from the published content bundle (get_published_content_bundle) when valid, else from tarot-cards.json (E4). Invalid input ends with 400."), [r(s("tarot-prompt.ts"), "prepareTarotContext"), r(s("tarot-content.ts"), "readPublishedTarotContent"), tr[4]], [p("input", "TarotInput", "request_guard.input", pass, "personal")], [o("context", "CanonicalTarotContext", "prompt_messages.context", t("Lá chuẩn + câu hỏi", "Canonical cards and question"), "personal"), o("language", "Locale", "prompt_lookup.language", t("EN hoặc VI mặc định", "EN or default VI"))]),
     n("prompt_lookup", t("Đọc global prompt active", "Read active global prompt"), "prompt", 2, 0, t("Theo locale/published_at; thiếu, sai, lỗi hoặc timestamp cạnh tranh chuyển local degraded, giữ lý do.", "Select by locale/published_at; missing/invalid/unavailable or competing timestamps use local degraded mode with a reason."), [r(s("tarot-prompt.ts"), "resolveTarotPrompt")], [p("language", "Locale", "canonical_cards.language", pass)], [o("prompt", "PromptSelection", "prompt_messages.prompt", t("Prompt + provenance", "Prompt and provenance"))]),
     n("local_prompt", t("Prompt chuẩn local", "Canonical local prompt"), "prompt", 2, 1, t("Fallback pinned prompt-library; không phải bản cloud vừa publish.", "Pinned prompt-library fallback; not a newly published cloud version."), [tr[1], tr[5]], [], [o("prompt", "PromptSelection", "prompt_messages.prompt", t("Fallback + lý do", "Fallback and reason"))]),
     n("prompt_messages", t("System + user JSON", "System + user JSON"), "prompt", 3, 0, t("System thêm bounds Tarot bất biến; nghĩa lá/câu hỏi trong user JSON. Không retrieval/vector.", "System adds immutable Tarot bounds; meanings/question remain in user JSON. No retrieval/vector search."), [tr[0]], [p("context", "CanonicalTarotContext", "canonical_cards.context", pass, "personal"), p("prompt", "PromptSelection", "prompt_lookup or local_prompt", pass)], [o("exchange", "ModelExchange", "model_call.exchange", pass, "sensitive")]),
     n("model_call", t("Safety + Model Call", "Safety + Model Call"), "model", 4, 0, t("Shared active route; input safety trước provider. Route không có steps: primary/fallback theo lỗi được phép như cũ. Route có steps (A7, ≤ 4 bước): đi theo thứ tự, bỏ qua nhà cung cấp tắt/thiếu khóa/không được nhận loại dữ liệu/cầu dao mở, chuyển bước khi lỗi tạm thời, 429, 402, 401/403, 404, quá ngữ cảnh, sai định dạng (1 lần), không bao giờ khi bị chặn an toàn; trong tổng thời gian và trần chi phí. Output safety có thể thay bằng local fallback.", "Shared active route; input safety precedes providers. Routes without steps: allowed errors trigger primary/fallback as before. Routes with steps (A7, up to 4): walked in order, skipping providers that are off, lack a key, may not receive the data class or have an open circuit; move on for transient, 429, 402, 401/403, 404, context length and one format failure, never after a safety block; inside the total deadline and cost cap. Output safety can replace output with local fallback."), [tr[3]], [exchangeIn("prompt_messages.exchange")], [generationOut("parse_output.generation")], "implemented-source", true),
     n("parse_output", t("Parse có fallback", "Parse with fallback"), "output", 5, 0, t("JSON bắt buộc theo hợp đồng: giới hạn độ dài, locale, section key duy nhất và cardIds thuộc lá đã chọn. Từ chối output bị cắt; lỗi dùng fallback có nhãn. Không xác nhận chất lượng ngữ nghĩa.", "Strict JSON contract validates bounds, locale, unique section keys and selected cardIds. Truncated output is rejected; errors use labelled fallback. Structural validation does not certify semantic quality."), [r(f("ai-tarot-reading"), "parseTarotOutput"), r("packages/ai-contracts/tarot-output.ts")], [p("generation", "ModelGeneration", "model_call.generation", pass, "sensitive")], [o("reading", "TarotResult", "reading_save.reading", pass, "sensitive")]),
-    n("reading_save", t("Lưu reading + usage/safety", "Save reading + usage/safety"), "storage", 6, 0, t("Lưu reading kèm provenance; tách lỗi lưu bài khỏi telemetry. Finalize trace sau validation/lưu; ghi biên nhận metadata bằng service riêng. Biên nhận lỗi không làm mất bài.", "Save reading with provenance; telemetry failure is separate from reading persistence. Finalize trace after validation/save, then write a service-only metadata receipt. Receipt failure does not discard the answer."), [tr[0], r(s("answer-receipt.ts"))], [p("reading", "TarotResult", "parse_output.reading", pass, "sensitive"), p("userId", "UserId", "request_guard.userId", pass)], [o("response", "TarotResponse", "response.response", t("Reading + remoteId/status", "Reading and remoteId/status"), "sensitive")]),
+    n("reading_save", t("Lưu reading + usage/safety", "Save reading + usage/safety"), "storage", 6, 0, t("Ghi diễn giải vào đúng lượt rút đang giữ quyền (claim) kèm provenance và phiên bản prompt/route/nội dung; trigger cấm sửa diễn giải đã ghi. Lưu lỗi thì trả 503 có thể thử lại (không hiện bài chưa lưu) và nhả quyền giữ; câu trả lời dự phòng không tốn lượt. Finalize trace sau validation/lưu; biên nhận lỗi không làm mất bài.", "Write the interpretation into the claimed draw with provenance and prompt/route/content versions; a trigger forbids changing a written interpretation. A save failure returns a retryable 503 (no unsaved answer is shown) and releases the claim; a fallback answer does not use up the day. Finalize trace after validation/save; receipt failure does not discard the answer."), [tr[0], r("supabase/functions/ai-tarot-reading/handler.ts", "createTarotHandler"), r("supabase/functions/ai-tarot-reading/store.ts", "createSupabaseTarotStore"), r(s("answer-receipt.ts"))], [p("reading", "TarotResult", "parse_output.reading", pass, "sensitive"), p("userId", "UserId", "request_guard.userId", pass)], [o("response", "TarotResponse", "response.response", t("Reading + remoteId/status", "Reading and remoteId/status"), "sensitive")]),
     n("response", t("Trả reading + trạng thái", "Return reading + state"), "output", 7, 0, t("Trả interaction/attempt/request, phiên bản prompt/assembly/route/content, nguồn và trạng thái. Feedback chỉ category/IDs; server kiểm quyền sở hữu biên nhận. Trace cũ vẫn chưa xác minh nguồn ghi.", "Return interaction/attempt/request IDs, prompt/assembly/route/content versions, source and status. Feedback sends categories/IDs only; the server checks receipt ownership. Legacy trace writer origin remains unverified."), [tr[0], r("packages/ai-contracts/answer-provenance.ts"), r(f("ai-feedback")), r("supabase/functions/ai-feedback/handler.ts")], [p("response", "TarotResponse", "reading_save.response", pass, "sensitive")])
   ], [
     e("request_cards", "request_guard", "canonical_cards", t("Payload bounded", "Bounded payload"), [tr[0]], ["input", "input"]),
@@ -280,7 +280,7 @@
   },
   {
     "path": "apps/mobile/App.tsx",
-    "sha256": "ceaef322106a531c25f92df3551790960cfa38ad79312263e637909713bcdea0"
+    "sha256": "86e422cc4a12933bff324f72828054d4f743cbbd073577b52ccb77adc24c12be"
   },
   {
     "path": "docs/FEATURE_PRD.md",
@@ -356,7 +356,7 @@
   },
   {
     "path": "supabase/functions/_shared/tarot-prompt.ts",
-    "sha256": "b010d4c3475e5463d149f1a567b1a8f5931af22d063e67b71959be0caee0da53"
+    "sha256": "cf17623b7e499906d7cdc2493fbcdc87cd56116a1ce1108e1f722e0104d45c38"
   },
   {
     "path": "supabase/functions/ai-astrology-insight/index.ts",
@@ -387,8 +387,20 @@
     "sha256": "d57101a6298288b3af795ce7db5461236babd67b427bf651be00f91a895ddf55"
   },
   {
+    "path": "supabase/functions/ai-tarot-reading/draw.ts",
+    "sha256": "82a5e91a377a382842a967d1af13d7cfa7bd4656312043db916b4f084e601abd"
+  },
+  {
+    "path": "supabase/functions/ai-tarot-reading/handler.ts",
+    "sha256": "569ca7d9a925b920e4361d548c69e72d1c7d4120746dce6f41ccc3d138620d98"
+  },
+  {
     "path": "supabase/functions/ai-tarot-reading/index.ts",
-    "sha256": "970272d16521c6f4f5988a9896ad97067e93af972d8004db26307d3667477b91"
+    "sha256": "5d8c822d4fa25508db81f1ebc950679f225aa4c6aae60059ad4624c35507df17"
+  },
+  {
+    "path": "supabase/functions/ai-tarot-reading/store.ts",
+    "sha256": "27eb368fbe1e3bb19978ea2d7e900b8a2e2c301b0a45599a7058c9f7e84600f9"
   },
   {
     "path": "supabase/functions/notification-dispatch/index.ts",
