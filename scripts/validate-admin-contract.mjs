@@ -49,6 +49,8 @@ for (const token of ["council-admin-jwt","council-admin-anon-key","council-admin
 for (const page of fs.readdirSync(path.join(root, "apps/admin")).filter((file) => file.endsWith(".html"))) assert(/<html lang="vi"/.test(read(`apps/admin/${page}`)), `Admin page must default to Vietnamese: ${page}`);
 assert(read("apps/admin/workspace-guard.js").includes("get_ai_trace_runs") && read("apps/admin/workspace-guard.js").includes("get_ai_trace_detail"), "AI trace RPCs must remain allowlisted behind ai.read");
 assert(read("apps/admin/workspace-guard.js").includes('get_growth_waitlist_overview: "overview.read"'), "Growth aggregate RPC must remain allowlisted behind overview.read");
+// P1-C: AI cost by feature is an aggregate RPC behind ai.read; the Overview card reads it and never shows a user id.
+assert(read("apps/admin/workspace-guard.js").includes('get_ai_cost_summary: "ai.read"') && read("apps/admin/overview.js").includes("get_ai_cost_summary"), "AI cost summary RPC must stay allowlisted behind ai.read and read by Tổng quan");
 assert(read("apps/admin/AGENTS.md").includes("Do not replace one workspace"), "Nested AGENTS.md must preserve the additive-workspace invariant");
 assert(read("apps/admin/README.md").includes("npm run admin:dev"), "Admin README must document the supported launch command");
 // A2: one left navigation built from the manifest; the Overview workspace and the AI features module stay protected.

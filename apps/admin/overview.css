@@ -35,3 +35,14 @@ h2 { margin: 0 0 10px; font: 400 22px/1.2 "EB Garamond", Georgia, serif; }
 .pill.badge-unscored { display: inline-block; padding: 2px 10px; border-radius: 999px; border: 1px solid rgba(201, 164, 92, .7); color: #f6d58f; font-size: .8em; }
 .error-list li.overdue { color: #f1aab4; }
 @media (max-width: 560px) { .overview-page { padding: 16px; } .overview-header { flex-direction: column; } }
+/* P1-C: AI cost by feature (get_ai_cost_summary). */
+.cost-periods { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.button.period.active { border-color: var(--gold); color: var(--gold); }
+.cost-table-wrap { overflow-x: auto; max-width: 100%; }
+.cost-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.cost-table th, .cost-table td { padding: 8px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; overflow-wrap: normal; }
+.cost-table thead th { color: var(--muted); font-weight: 700; }
+.cost-budget { margin: 10px 0 0; padding-left: 18px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+.pill.badge-estimate, .pill.badge-unverified { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: .8em; }
+.pill.badge-estimate { border: 1px solid rgba(201, 164, 92, .7); color: #f6d58f; }
+.pill.badge-unverified { border: 1px solid rgba(201, 130, 141, .7); color: #f1aab4; }
