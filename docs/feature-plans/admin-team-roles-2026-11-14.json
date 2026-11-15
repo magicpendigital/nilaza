@@ -1,0 +1,242 @@
+{
+  "schemaVersion": 1,
+  "taskId": "admin-team-roles-2026-11-14",
+  "ownerAgent": "backend_agent",
+  "lane": "SQL + Edge + Admin: Thành viên & quyền (Owner invites or adds admin accounts and picks a role with a plain list of what it allows)",
+  "goal": "Owner request 14/11: an Owner account can invite or add other admin accounts and, while doing so, see the admin type and the permissions that come with it. Adds an Admin page Thành viên & quyền (roles.manage) with the member list, a Mời thành viên dialog whose can / cannot list is generated from one server-side role-to-capability map, change-role and revoke with confirmation; a migration that makes has_capability read that single map and adds list / set / revoke / matrix RPCs plus service-role-only invite RPCs with a per-owner daily cap and audit rows; and an Edge Function admin-team-invite that checks roles.manage with the caller's session, then invites a new email with the service role (or only assigns the role to an existing account). The role map itself is unchanged. Nothing is applied or deployed by the agent; the Owner's own owner row is never touched.",
+  "successCriteria": [
+    "Migration 20261114090000_admin_team_roles.sql moves the role-to-capability CASE map into nilaza_private.roles_have_capability(roles, capability) and redefines nilaza_private.has_capability(capability) to call it with current_roles(), so every existing policy and RPC keeps the exact same answers; the capability list lives in nilaza_private.admin_capability_list() and get_admin_access uses it.",
+    "list_admin_team (roles.manage) returns each member with email, active roles, every assignment with status and date, account created / invited / confirmed / last sign-in times, isMe, and today's invite count and daily cap; never a token, password hash or metadata.",
+    "set_admin_member_role and revoke_admin_member (roles.manage) refuse self changes (NZT01), refuse removing or demoting the last active owner (NZT02), require confirm_owner=true to grant owner (NZT03), only touch existing members (NZT04), keep exactly one active role per member after a change, and write role.set / role.revoke audit rows naming the actor, target user, role and previous roles.",
+    "get_admin_role_matrix (roles.manage) returns every role with the capabilities nilaza_private.roles_have_capability grants it, so the Admin can / cannot list cannot drift from the database.",
+    "admin_team_invite_begin / admin_team_invite_finish are service_role only, re-check that the actor is an active owner from the database, validate email and role, never change the actor's own roles, return already_member for an account that already has an active role, count only invites that send an email against a per-owner cap of 10 per Vietnam day (NZT05), refuse an existing account whose email was never confirmed unless an Admin invite created it (NZT06), and audit role.invite.",
+    "Edge Function admin-team-invite (POST, verify_jwt true) checks roles.manage with the caller's session, validates email and role, calls the begin RPC, invites with auth.admin.inviteUserByEmail only when the account does not exist and ADMIN_INVITE_REDIRECT_URL is a valid https URL, assigns the role with the finish RPC, and never returns or logs the invite link, token, email or secrets.",
+    "Admin: Thành viên & quyền in the Vận hành group (next to Lịch sử thao tác, spec 04/11 §3.15 pairs the permission table with Audit), Vietnamese text, escaped values, missing RPC names the migration and missing function names the deploy; recovery.html also accepts invite links so an invited person can set a password.",
+    "PGlite verification of the migration, Deno tests for the pure invite parts, jsdom admin tests in admin:test, validate-admin-contract, validate:backend, supabase:check and preflight --ci pass (known Windows CRLF-only failure excepted)."
+  ],
+  "writeScope": [
+    "supabase/migrations/20261114090000_admin_team_roles.sql",
+    "supabase/functions/admin-team-invite/",
+    "supabase/functions/README.md",
+    "supabase/config.toml",
+    "apps/admin/team.html",
+    "apps/admin/team.js",
+    "apps/admin/team.css",
+    "apps/admin/shell.js",
+    "apps/admin/workspace-guard.js",
+    "apps/admin/admin-capabilities.json",
+    "apps/admin/timeline.js",
+    "apps/admin/recovery-core.js",
+    "apps/admin/recovery.js",
+    "scripts/admin-recovery.test.mjs",
+    "apps/admin/README.md",
+    "scripts/admin-team-roles.test.mjs",
+    "scripts/admin-a2-navigation.test.mjs",
+    "scripts/validate-admin-contract.mjs",
+    "scripts/validate-backend-contracts.mjs",
+    "scripts/check-supabase-readiness.mjs",
+    "package.json"
+  ],
+  "untouchedSurfaces": [
+    "The role map (which role gets which capability) is unchanged: admin keeps ai.manage and content.publish; changing it is an Owner decision.",
+    "The Owner's own owner assignment and every existing admin_role_assignments row are not modified by the migration; the guard and audit triggers from 20260902131408 stay in place.",
+    "Mobile app, AI functions, content workspace, AI Studio modules and the Growth workspace are unchanged.",
+    "No account is created, no migration applied, no function deployed, no secret or Auth setting changed; PLAN.md and the backlog file are left to the coordinator."
+  ],
+  "impact": {
+    "entryPoint": "Admin left navigation Vận hành › Thành viên & quyền (new workspace team.html, route members, roles.manage); Edge Function admin-team-invite; recovery.html for the invite link landing page.",
+    "dataWrite": "admin_role_assignments rows (insert or status change) through definer RPCs; admin_audit_logs rows role.set, role.revoke, role.invite (plus the existing trigger rows role.insert / role.update); new private table nilaza_private.admin_team_invite_days (actor, Vietnam day, count); Supabase Auth creates the invited auth.users row.",
+    "backendContract": "RPCs list_admin_team(), set_admin_member_role(uuid, text, boolean), revoke_admin_member(uuid), get_admin_role_matrix() for authenticated callers with roles.manage; admin_team_invite_begin(uuid, text, text, boolean, boolean) and admin_team_invite_finish(uuid, uuid, text, boolean) for service_role only; POST /functions/v1/admin-team-invite {email, role, confirmOwner} -> {status: assigned | already_member | invited, role, userId, roles?, invitesToday?, inviteDailyCap?} or {error: invalid_request | invalid_email | invalid_role | owner_confirm_required | not_authorized | self_change | last_owner | member_not_found | invite_limit | invite_not_configured | migration_missing | invite_failed}.",
+    "adminVisibility": "Owner sees every member's email, roles, status, created / invited / last sign-in dates and today's invite count; role changes appear in Lịch sử thao tác (role.* rows are already limited to roles.manage). Other roles do not see the page or its RPCs.",
+    "privacySafety": "Only staff accounts (rows in admin_role_assignments) are listed; no tokens, password hashes, user metadata or app data; the invite link is never returned or logged; the email is not written to audit rows or function logs; capabilities stay live (no JWT cache) so a revoke takes effect on the next request.",
+    "observability": "Audit rows role.set / role.revoke / role.invite with actor, target, role, previous roles and invited yes/no; the function returns fixed error codes; Supabase Auth logs the invite email delivery.",
+    "rollback": "Revoking a member restores the previous access level; the migration only redefines has_capability with the same answers, so re-running the old CASE body restores it; the page and function are additive and can be removed from the navigation; without the migration the page names the migration and without the function deploy the dialog names the function."
+  },
+  "canonicalContracts": [
+    "nilaza_private.roles_have_capability(text[], text) in 20261114090000_admin_team_roles.sql: the single role-to-capability map used by has_capability, get_admin_access and get_admin_role_matrix",
+    "supabase/migrations/20260902131408_owner_capability_boundary.sql guard_role_change / audit_role_change triggers (last owner, role.* audit)",
+    "supabase/functions/admin-team-invite/invite.ts request validation and error mapping"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "SQL, deploy, secrets and account creation need Owner approval each time.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Admin and backend routes and validation commands.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules and record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/admin/AGENTS.md",
+      "reason": "Additive workspaces; keep role enforcement.",
+      "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8"
+    },
+    {
+      "path": "docs/proposals/ADMIN_REDESIGN_2026-11-03.vi.md",
+      "reason": "Section 5 navigation groups (no explicit members entry).",
+      "sha256": "92cbe907d971bca8bfa1a38cd947493047473e823e10f9eb13f94e4d16fb77f6"
+    },
+    {
+      "path": "docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md",
+      "reason": "Section 3.15 pairs the permission table (roles.manage) with Lịch sử thao tác.",
+      "sha256": "7eaf7aa64f6827ad96659b06ed7212ce667487f286ad50b717fc04d55c5c69ab"
+    },
+    {
+      "path": "supabase/migrations/202606120001_mvp_schema.sql",
+      "reason": "admin_role_assignments and admin_audit_logs shapes.",
+      "sha256": "226e20601e094426e23170814fab3346eea953bf619d78b0ded153afa37559f5"
+    },
+    {
+      "path": "supabase/migrations/20260902131408_owner_capability_boundary.sql",
+      "reason": "has_capability map, get_admin_access, role guard and audit triggers, roles.manage owner-only.",
+      "sha256": "2f8fdac36b93d68f1a32da2d7a83b33c2b41b966589e8be9e1a85d56ace42a24"
+    },
+    {
+      "path": "supabase/migrations/20261113100100_admin_timeline.sql",
+      "reason": "role.* rows shown only to roles.manage; details.role.",
+      "sha256": "fd7d0353c0c9bc06e57f8ce7fe7307804ee85d5e58f00f91acf934c5de83f3c4"
+    },
+    {
+      "path": "supabase/migrations/20261113140100_ai_providers.sql",
+      "reason": "Latest RPC, service-role-only and audit pattern.",
+      "sha256": "eaf2e10c9547a05fa14881d6d27423e7b24383134ed558e51cc4478724314223"
+    },
+    {
+      "path": "supabase/functions/admin-ai-provider-probe/index.ts",
+      "reason": "Caller capability check then service client pattern.",
+      "sha256": "62381e3d2875adfd9ef1f2e51a32b2238bf8cf196de8012a287a5af919426a6c"
+    },
+    {
+      "path": "apps/admin/shell.js",
+      "reason": "navGroups, workspaceCapability, routeAllowed.",
+      "sha256": "b617dcb7f615b6277d18d08fa77297aa4dddf1988df80b7b69ef2db7315250ae"
+    },
+    {
+      "path": "apps/admin/workspace-guard.js",
+      "reason": "Entry capability map, RPC and function allowlists.",
+      "sha256": "f6eea26f8e29c3bd5e35eafa63d927a3f8d5d6e3f8c91174447198be3bb08539"
+    },
+    {
+      "path": "apps/admin/admin-access.js",
+      "reason": "Role and capability sets parsed from get_admin_access.",
+      "sha256": "1e6cc7a5b9a319e317371195451f4d5cdc6265bc87aeb4aadccd71daba91b13d"
+    },
+    {
+      "path": "apps/admin/admin-capabilities.json",
+      "reason": "Workspace manifest to extend additively.",
+      "sha256": "2790689afdbc5d0bc863ec6e7e1156fec308f37793d030635f703424d387ac74"
+    },
+    {
+      "path": "apps/admin/timeline.js",
+      "reason": "Action labels for the new role.* audit rows.",
+      "sha256": "7ddcd9671b4e2f84cdb58c01c776f0081efe0b11f0106a3c0b47dc5106c4c086"
+    },
+    {
+      "path": "apps/admin/timeline.html",
+      "reason": "Small standalone workspace page pattern.",
+      "sha256": "75847e2ea72e72ef9f75aa507ab5965f966d085fbb81a84fa825fd12906011be"
+    },
+    {
+      "path": "apps/admin/recovery-core.js",
+      "reason": "Only type=recovery links accepted; invite links need type=invite.",
+      "sha256": "c689e6bedfeb49e877a28009e22652c1610962208fd57d8cf9b65476bd7948a7"
+    },
+    {
+      "path": "scripts/validate-backend-contracts.mjs",
+      "reason": "Admin function registration tokens.",
+      "sha256": "50a0b305de9ab9d675cbbebd86de72ab89fe414044453ead2a2d8c194da59564"
+    },
+    {
+      "path": "scripts/validate-admin-contract.mjs",
+      "reason": "Admin contract checks to extend.",
+      "sha256": "5d5379296ed06ebb1ebc4756eb8f3eb89b259e13a335d910ea4ef07a5147b596"
+    },
+    {
+      "path": "supabase/config.toml",
+      "reason": "Per-function verify_jwt entries.",
+      "sha256": "bdab42a724a8b7c2e20f520bfbefed738bdaf093188a34a96f8cbaa6770ad726"
+    },
+    {
+      "path": "supabase/functions/README.md",
+      "reason": "Admin function table and deploy inventory.",
+      "sha256": "7e40ea623289fbeccf644c5257b475bc11c55361007f7921f689952dc313a75c"
+    },
+    {
+      "path": "scripts/admin-a2-navigation.test.mjs",
+      "reason": "Asserts the exact navigation labels.",
+      "sha256": "0a6d391da952d348bfe2f72819ed225578b4f2cf2a397df38b053090a84cbbe3"
+    },
+    {
+      "path": "package.json",
+      "reason": "admin:test file list.",
+      "sha256": "88a80aaeb3e973003dac51e2934cca52a729db9842c9249a670e3a3b1e39730c"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before the first edit; migration and deploy left to the Owner by hash; account creation (an invite) is an Owner action on staging; PGlite, Deno and jsdom tests only."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "auth.admin.inviteUserByEmail(email, { redirectTo, data }) from @supabase/supabase-js (the functions pin esm.sh @supabase/supabase-js@2.7.1, whose GoTrueAdminApi already has it) returns { data: { user }, error } and must only run on a server with the service role; redirectTo must match the Auth Redirect URLs list. Checked against the current Supabase docs and auth-js source on 2026-11-14. No repository dependency added; PGlite only in the session scratchpad."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://supabase.com/docs/reference/javascript/auth-admin-inviteuserbyemail",
+      "reason": "Method exists: sends an invite link to an email address; params email and options.",
+      "checkedAt": "2026-11-14"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/supabase/auth-js/master/src/GoTrueAdminApi.ts",
+      "reason": "Signature inviteUserByEmail(email, { data?, redirectTo? }) -> UserResponse; auth errors resolve as { data: { user: null }, error }; admin methods are server only with the service_role key.",
+      "checkedAt": "2026-11-14"
+    },
+    {
+      "url": "https://supabase.com/docs/guides/auth/redirect-urls",
+      "reason": "redirectTo should match the Redirect URLs list; Site URL is the default when no redirectTo is given.",
+      "checkedAt": "2026-11-14"
+    }
+  ],
+  "securityReview": {
+    "authzRls": "All member RPCs are security definer with search_path '' and check auth.uid() plus has_capability('roles.manage') (owner only); invite begin/finish are granted to service_role only and re-check from admin_role_assignments that the actor is an active owner; everything is revoked from public and anon. The new private table has no client grants. has_capability keeps its signature, invoker rights and answers, now reading the single map.",
+    "sensitiveData": "Only staff accounts are listed, with email and auth timestamps for the Owner; no tokens, password hashes, user metadata or app content. Audit rows carry user ids and roles, not emails.",
+    "secretsLogging": "The function never logs or returns the service key, the invite link, the email or Auth error text; the redirect URL comes from the ADMIN_INVITE_REDIRECT_URL env var whose value is not read by the agent.",
+    "externalInput": "Email trimmed, lowercased and checked (length 3-254, one @, a dot in the domain, no spaces or control characters) in both the function and SQL; role from a fixed list; owner needs an explicit confirmation flag; Admin escapes every value.",
+    "dependencies": "No package added; the function reuses the esm.sh supabase-js and std versions already pinned by other admin functions.",
+    "migrationRelease": "Owner applies 20261114090000_admin_team_roles.sql by hash, adds the Admin recovery URL to Auth Redirect URLs, sets ADMIN_INVITE_REDIRECT_URL and deploys admin-team-invite; until then the page names what is missing. Re-running has_capability's change is idempotent (create or replace).",
+    "stopCondition": "Stop if PGlite shows any capability answer differs from the old map, if any path lets a caller change their own roles or remove the last owner, if the function could return or log the invite link or a secret, or if any test fails.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Clean tree at start (origin/main cb32621) on local branch claude/admin-team-roles; this record was written and its --record preflight run before the first code edit (commit 90896d9). The implementation commit adds the files in writeScope; recovery.js and admin-recovery.test.mjs were added to writeScope when invite links were routed to recovery.html. sourceReview hashes are refreshed (LF) to the final tree.",
+    "paths": []
+  },
+  "validationCommands": [
+    "node scripts/feature-preflight.mjs --record docs/feature-plans/admin-team-roles-2026-11-14.json",
+    "node <scratchpad>/pglite-team/verify.mjs <repo>",
+    "npx --yes deno@2 test --allow-env --allow-read supabase/functions",
+    "npx --yes deno@2 check supabase/functions/admin-team-invite/index.ts",
+    "npm run admin:test && npm run admin:check",
+    "npm run validate:backend && npm run supabase:check",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "After the Owner applies the migration, sets ADMIN_INVITE_REDIRECT_URL to the Admin recovery page (also listed in Auth Redirect URLs) and deploys admin-team-invite: open Admin › Vận hành › Thành viên & quyền, see yourself marked (bạn) with no change buttons; press Mời thành viên, type a test email, pick Biên tập viên and read the can / cannot list, pick Owner and see the extra warning and confirmation box; invite as Biên tập viên; the new member appears as Đã mời, chưa đăng nhập; open the email, set a password on the recovery page, sign in and see only the editor pages; as Owner change the role, then revoke it, confirming each; see each step in Lịch sử thao tác.",
+  "residualRisk": "PGlite is not Supabase: auth.users is stubbed (email, invited_at, last_sign_in_at...) and the real Auth invite email, redirect and rate limits are not exercised; re-run the Security Advisor after applying. Trigger audit rows written during a service-role invite have no actor (the explicit role.invite row names the Owner). An existing account is assigned the role without a new email only when its email is confirmed or it was created by an Admin invite (NZT06 otherwise); if the project has Auth email confirmation switched off, Auth marks every sign-up confirmed, so the Owner should keep Confirm email on and invite only addresses they trust. Every role write re-checks the actor after taking the lock, so an owner demoted by a concurrent change cannot finish an in-flight one. If the Auth invite call fails after the daily counter was taken, that slot is not refunded (conservative). The Admin page loads supabase-js from the CDN without SRI, like the other Admin pages. The admin role keeps ai.manage and content.publish (Owner decision).",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

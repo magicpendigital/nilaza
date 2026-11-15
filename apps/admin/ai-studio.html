@@ -1,71 +1,73 @@
 <!doctype html>
-<html lang="en" data-admin-authorized="false">
+<html lang="vi" data-admin-authorized="false">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Nilaza AI Configuration Studio</title>
+    <title>Nilaza AI Studio</title>
     <script src="./config.js?v=admin-sync-v1"></script>
     <script src="./env-band.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.108.2"></script>
     <script src="./admin-access.js"></script>
+    <script src="./unsaved-changes.js"></script>
     <script src="./workspace-guard.js"></script>
     <link rel="stylesheet" href="./workspace-guard.css" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <div class="studio-shell">
-      <aside class="sidebar" aria-label="AI Studio navigation">
-        <div class="brand"><img class="studio-brand" src="./assets/brand/v1/logo/horizontal-ivory.svg" alt="Nilaza"><div class="brand-subtitle">Configuration Studio</div></div>
-        <div class="nav-section"><p>Features</p><div id="feature-list" class="nav-list"></div></div>
+      <aside class="sidebar" aria-label="Điều hướng AI Studio">
+        <div class="brand"><img class="studio-brand" src="./assets/brand/v1/logo/horizontal-ivory.svg" alt="Nilaza"><div class="brand-subtitle">Cấu hình AI</div></div>
+        <div class="nav-section"><p>Tính năng</p><div id="feature-list" class="nav-list"></div></div>
         <div class="nav-section studio-nav">
           <p>Studio</p>
-          <button class="nav-button secondary active" data-panel="workflow"><span class="nav-icon">W</span>Workflow</button>
-          <button class="nav-button secondary" data-panel="test"><span class="nav-icon">T</span>Test runs</button>
-          <button class="nav-button secondary" data-panel="versions"><span class="nav-icon">V</span>Versions</button>
-          <button class="nav-button secondary" data-panel="audit"><span class="nav-icon">A</span>Audit log</button>
-          <button class="nav-button secondary" data-panel="feedback"><span class="nav-icon">F</span>Feedback Inbox</button>
-          <button class="nav-button secondary" data-panel="switches"><span class="nav-icon">S</span>Công tắc AI</button>
+          <button class="nav-button secondary" data-panel="features"><span class="nav-icon" aria-hidden="true">F</span>Tính năng AI</button>
+          <button class="nav-button secondary active" data-panel="workflow"><span class="nav-icon" aria-hidden="true">W</span>Luồng xử lý</button>
+          <button class="nav-button secondary" data-panel="test"><span class="nav-icon" aria-hidden="true">T</span>Chạy thử</button>
+          <button class="nav-button secondary" data-panel="versions"><span class="nav-icon" aria-hidden="true">V</span>Phiên bản</button>
+          <button class="nav-button secondary" data-panel="audit"><span class="nav-icon" aria-hidden="true">A</span>Lịch sử thao tác</button>
+          <button class="nav-button secondary" data-panel="feedback"><span class="nav-icon" aria-hidden="true">F</span>Phản hồi người dùng</button>
+          <button class="nav-button secondary" data-panel="switches"><span class="nav-icon" aria-hidden="true">S</span>Công tắc AI</button>
         </div>
-        <div class="active-version"><span id="sidebar-version-label">Current contract</span><strong id="sidebar-version">Loading…</strong><small id="sidebar-version-status">Backend route not loaded</small></div>
+        <div class="active-version"><span id="sidebar-version-label">Current contract</span><strong id="sidebar-version">Đang tải…</strong><small id="sidebar-version-status">Backend route not loaded</small></div>
       </aside>
       <main class="main">
         <header class="topbar">
-          <div class="title-group"><div class="crumb">AI Configuration Studio</div><h1 id="feature-title">Tarot Reading Workflow</h1></div>
+          <div class="title-group"><div class="crumb">AI Studio</div><h1 id="feature-title">Đang tải…</h1></div>
           <div class="topbar-actions">
-            <span class="role-chip" id="admin-role-chip">Admin</span><span class="sync-dot" aria-hidden="true"></span><span id="draft-status" role="status" aria-live="polite">No local changes</span>
-            <span class="pill" id="environment-status" aria-label="Backend target">Backend target: loading…</span>
-            <button class="button ghost" id="open-test">Test Run</button><button class="button ghost" id="optimize-button">Optimize Prompt</button>
-            <button class="button primary" id="publish-button">Publish</button>
+            <span class="role-chip" id="admin-role-chip">Admin</span><span class="sync-dot" aria-hidden="true"></span><span id="draft-status" role="status" aria-live="polite">Chưa có thay đổi</span>
+            <span class="pill unsaved-count" id="unsaved-count" role="status" aria-live="polite" hidden></span>
+            <span class="pill" id="environment-status" aria-label="Máy chủ đang dùng">Backend target: loading…</span>
+            <button class="button ghost" id="open-test">Chạy thử (Test Run)</button><button class="button ghost" id="optimize-button">Gợi ý cải thiện prompt</button>
+            <button class="button primary" id="publish-button">Lưu nháp trên trình duyệt này — chưa lên máy chủ</button>
+            <p class="helper publish-locked-reason" id="publish-locked-reason" role="note" hidden></p>
           </div>
         </header>
-        <details class="configuration-health" id="configuration-health"><summary id="configuration-health-summary">Configuration health · source graph; execution unverified</summary><section class="status-strip" aria-label="Configuration health">
-          <div><span class="status-label">Workflow</span><strong>Read only</strong></div><div><span class="status-label">Safety</span><strong id="safety-state">Strict</strong></div>
-          <div><span class="status-label">Context risk</span><strong id="risk-state">Medium</strong></div><div><span class="status-label">Model</span><strong id="model-state">GPT-4o</strong></div>
-          <div><span class="status-label">Output</span><strong id="schema-state">Schema v3</strong></div><div><span class="status-label">Quality telemetry</span><strong id="satisfaction-state">Not connected</strong></div>
+        <details class="configuration-health" id="configuration-health"><summary id="configuration-health-summary">Tình trạng cấu hình</summary><section class="status-strip" aria-label="Tình trạng cấu hình">
+          <div><span class="status-label">Luồng xử lý</span><strong>Chỉ xem</strong></div><div><span class="status-label">An toàn</span><strong id="safety-state">Strict</strong></div>
+          <div><span class="status-label">Rủi ro ngữ cảnh</span><strong id="risk-state">Medium</strong></div><div><span class="status-label">Model</span><strong id="model-state">GPT-4o</strong></div>
+          <div><span class="status-label">Đầu ra</span><strong id="schema-state">Schema v3</strong></div><div><span class="status-label">Đo chất lượng</span><strong id="satisfaction-state">Not connected</strong></div>
         </section></details>
         <section class="bottom-panel" id="detail-panel">
-          <div class="tabs" role="tablist" aria-label="AI Studio details">
-            <button id="detail-tab-payload" class="tab active" role="tab" aria-selected="true" aria-controls="detail-content" tabindex="0" data-detail="payload">Workflow graph</button><button id="detail-tab-dataMindmap" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="dataMindmap">Sample data mindmap</button><button id="detail-tab-prompt" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="prompt">Prompt composer</button>
-            <button id="detail-tab-personaStudio" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="personaStudio">Persona Prompt Studio</button><button id="detail-tab-councilBuilder" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="councilBuilder">Council Builder</button><button id="detail-tab-optimization" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="optimization">Optimization loop</button><button id="detail-tab-modelRouter" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="modelRouter">Model router</button><button id="detail-tab-traceExplorer" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="traceExplorer">Trace Explorer</button>
-            <button id="detail-tab-test" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="test">Test output</button><button id="detail-tab-versions" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="versions">Versions</button><button id="detail-tab-audit" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="audit">Audit</button>
+          <div class="tabs" role="tablist" aria-label="Chi tiết AI Studio">
+            <button id="detail-tab-payload" class="tab active" role="tab" aria-selected="true" aria-controls="detail-content" tabindex="0" data-detail="payload">Sơ đồ luồng</button><button id="detail-tab-dataMindmap" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="dataMindmap">Sơ đồ dữ liệu mẫu</button><button id="detail-tab-prompt" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="prompt">Soạn prompt</button>
+            <button id="detail-tab-personaStudio" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="personaStudio">Prompt người dẫn</button><button id="detail-tab-councilBuilder" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="councilBuilder">Hội đồng (Council Builder)</button><button id="detail-tab-optimization" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="optimization">Vòng cải thiện</button><button id="detail-tab-modelRouter" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="modelRouter">Chọn model</button><button id="detail-tab-traceExplorer" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="traceExplorer">Nhật ký AI (Trace Explorer)</button>
+            <button id="detail-tab-test" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="test">Kết quả chạy thử</button><button id="detail-tab-versions" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="versions">Phiên bản</button><button id="detail-tab-audit" class="tab" role="tab" aria-selected="false" aria-controls="detail-content" tabindex="-1" data-detail="audit">Lịch sử thao tác</button>
           </div><div id="detail-content" role="tabpanel" tabindex="0" aria-labelledby="detail-tab-payload"></div>
         </section>
-        <details class="workflow-reference" id="workflow-reference"><summary>Legacy sample controls · seven-step reference</summary><div class="workspace">
-          <section class="canvas-panel">
-            <div class="panel-heading"><div><p class="eyebrow">Locked workflow</p><h2 id="workflow-name">Tarot Reading Workflow</h2></div><span class="lock-chip">Workflow locked</span></div>
-            <div id="workflow-canvas" class="workflow-canvas" aria-label="AI workflow blocks"></div>
-            <div class="canvas-footer"><div class="legend"><span><i class="legend-lock"></i>Locked</span><span><i class="legend-edit"></i>Editable</span><span><i class="legend-warn"></i>Warning</span></div></div>
-          </section>
-          <aside class="inspector"><div class="inspector-header"><div><p class="eyebrow">Inspector</p><h2 id="inspector-title">Context Fields</h2></div><button class="text-button" id="reset-feature">Reset selection</button></div><div id="inspector-body"></div></aside>
-        </div></details>
       </main>
     </div>
-    <div class="modal-backdrop" id="modal" hidden><section class="modal" id="publish-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="publish-summary publish-warning" tabindex="-1"><div class="modal-header"><div><p class="eyebrow">Configuration change</p><h2 id="modal-title">Review before publishing</h2></div><button class="icon-button" id="close-modal" aria-label="Close">×</button></div><p id="publish-summary"></p><div class="warning-card" id="publish-warning">Publishing affects the backend project shown above. This preview does not call the provider.</div><div class="modal-actions"><button class="button ghost" id="cancel-publish">Cancel</button><button class="button primary" id="confirm-publish">Publish route</button></div></section></div>
+    <div class="modal-backdrop" id="modal" hidden><section class="modal" id="publish-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="publish-summary publish-environment publish-warning" tabindex="-1"><div class="modal-header"><div><p class="eyebrow">Thay đổi cấu hình</p><h2 id="modal-title">Xem lại trước khi phát hành</h2></div><button class="icon-button" id="close-modal" aria-label="Đóng">×</button></div><p id="publish-summary"></p><p class="pill" id="publish-environment"></p><div class="warning-card" id="publish-warning">Phát hành ảnh hưởng tới máy chủ ghi ở trên. Bản xem trước này không gọi nhà cung cấp AI.</div><div class="publish-note-field" id="publish-note-field" hidden><label class="helper" for="publish-note">Ghi chú thay đổi (bắt buộc, ít nhất 5 ký tự)</label><textarea id="publish-note" rows="3" maxlength="500"></textarea></div><div class="modal-actions"><button class="button ghost" id="cancel-publish">Hủy</button><button class="button primary" id="confirm-publish">Phát hành route</button></div></section></div>
     <div class="mention-menu" id="mention-menu" hidden></div>
     <script src="./workflow-catalog.js"></script>
     <script src="./workflow-view.js"></script>
     <script src="./feedback-inbox.js"></script>
     <script src="./feature-switches.js"></script>
+    <script src="./ai-features.js"></script>
+    <script src="./prompt-versions.js"></script>
+    <script src="./release-gate.js"></script>
+    <script src="./ai-evals.js"></script>
+    <script src="./model-providers.js"></script>
+    <script src="./context-config.js"></script>
     <script src="./app.js"></script>
   </body>
 </html>

@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "taskId": "admin-a1-cleanup-2026-11-13",
+  "ownerAgent": "admin_frontend_agent",
+  "lane": "Admin A1: remove legacy and fake controls, no pasted tokens, one meaning per button, unsaved-change warning, Vietnamese labels, split sign-in errors",
+  "goal": "Step A1 of the Admin redesign (proposal 03/11 section 6, spec 04/11 section 4). Admin code only: remove the Legacy sample controls and the local prompt preview that saves nowhere, remove every field where an operator pastes a JWT, anon key or endpoint URL (calls use the signed-in session helper NilazaAdminRequest), give each primary button one meaning (Xem lai & phat hanh with a confirmation summary where a backend publish exists, an honest browser-draft label otherwise, hidden with a reason where publish is locked), warn before leaving with unsaved changes, set lang=vi and translate visible labels, split sign-in errors by cause, label every input.",
+  "successCriteria": [
+    "ai-studio.html has no Legacy sample controls section and app.js renders no local prompt preview textarea that only saves to the browser.",
+    "No Admin page or rendered AI Studio panel contains an input for a JWT, anon key, access token or function endpoint URL; Council Builder and Model Router call admin functions only through NilazaAdminRequest.",
+    "The AI Studio primary button reads Xem lai & phat hanh only where a backend publish exists, says Luu nhap tren trinh duyet nay - chua len may chu for browser drafts, and is hidden with a visible reason where publish is locked; the confirmation dialog shows what changes, the environment from env-band.js and requires a note.",
+    "Every workspace with editable state registers a beforeunload warning while changes are unsaved, and the shell top bar shows N thay doi chua luu.",
+    "All Admin HTML pages declare lang=vi; main visible labels are Vietnamese; bilingual VI/EN content fields remain.",
+    "Sign-in errors distinguish wrong password, network, missing admin permission and expiring session.",
+    "npm run admin:check, npm run admin:test and npm run validate:data pass; new node tests cover the above."
+  ],
+  "writeScope": [
+    "apps/admin/ai-studio.html",
+    "apps/admin/app.js",
+    "apps/admin/styles.css",
+    "apps/admin/content.html",
+    "apps/admin/content.js",
+    "apps/admin/content.css",
+    "apps/admin/index.html",
+    "apps/admin/shell.js",
+    "apps/admin/shell.css",
+    "apps/admin/unsaved-changes.js",
+    "scripts/admin-a1-cleanup.test.mjs",
+    "scripts/admin-ai-studio-render.test.mjs",
+    "scripts/validate-admin-contract.mjs",
+    "package.json",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "supabase/** and packages/** are not touched (another agent is editing them); no migration, deploy or secret change.",
+    "workspace-guard.js session transport and RPC allowlist are reused unchanged.",
+    "Navigation restructure (A2), server-side drafts and per-item publish (A3) are out of scope.",
+    "admin-capabilities.json routes and required capabilities stay as they are."
+  ],
+  "impact": {
+    "entryPoint": "Admin shell index.html (login, top bar), AI Studio ai-studio.html, Content content.html, Growth growth.html, Recovery recovery.html.",
+    "dataWrite": "No new data writes. Browser draft storage keys for AI Studio stay; stored pasted tokens/endpoint overrides in sessionStorage/localStorage are no longer read and are cleared.",
+    "backendContract": "Unchanged. admin-model-router-config, admin-ai-council-config and admin-astrology-prompt-config are called only through the existing signed-in session transport with the same payloads.",
+    "adminVisibility": "Fake/legacy controls removed or replaced with an honest 'chua ap dung - can backend' note; buttons say what they really do; unsaved-change count visible.",
+    "privacySafety": "Removing token and endpoint fields removes a path to send the owner's bearer token to an arbitrary URL; no provider keys are shown or accepted.",
+    "observability": "No change to audit logging; publishes still go through the audited Edge Functions.",
+    "rollback": "Revert the PR; Admin staging redeploys from main. No data migration to undo."
+  },
+  "canonicalContracts": [
+    "apps/admin/admin-capabilities.json routes and requiredCapabilities",
+    "apps/admin/workspace-guard.js NilazaAdminRequest / NilazaAdminRpc",
+    "scripts/validate-admin-contract.mjs"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Owner approval boundaries; Admin push to main deploys staging.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Admin lane routing and checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/admin/AGENTS.md",
+      "reason": "Protected workspaces and required routes/capabilities must remain.",
+      "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8"
+    },
+    {
+      "path": "apps/admin/admin-capabilities.json",
+      "reason": "Route list that must survive the cleanup.",
+      "sha256": "3e0a888fe3c4082f4b0cfd7d294b716c77f1c71800fbc5daa2830f288f739d57"
+    },
+    {
+      "path": "docs/ADMIN_DATA_CONSOLE_ARCHITECTURE.md",
+      "reason": "Access model and workspace rules.",
+      "sha256": "2e458cfc73cf5122f90db17feac1316e6eca20d31033103c65d9a3d24280eb71"
+    },
+    {
+      "path": "docs/proposals/ADMIN_REDESIGN_2026-11-03.vi.md",
+      "reason": "Section 2 lists the A1 defects with line references; section 5 the approved principles.",
+      "sha256": "92cbe907d971bca8bfa1a38cd947493047473e823e10f9eb13f94e4d16fb77f6"
+    },
+    {
+      "path": "docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md",
+      "reason": "Sections 1, 3.1 and 4 row A1 define button meanings, login errors and labels.",
+      "sha256": "7eaf7aa64f6827ad96659b06ed7212ce667487f286ad50b717fc04d55c5c69ab"
+    },
+    {
+      "path": "apps/admin/workspace-guard.js",
+      "reason": "Existing signed-in session transport NilazaAdminRequest replaces pasted tokens.",
+      "sha256": "1bba77c9e968cbe6dd2484246f3e8e516c4751804e8059156a0d1675bffd935c"
+    },
+    {
+      "path": "apps/admin/env-band.js",
+      "reason": "NilazaDescribeEnvironment provides the environment label for the publish confirmation.",
+      "sha256": "9aeb332e6780ae1f97647c54b8261e0a3677376df8425a4f2c3722b5228932be"
+    },
+    {
+      "path": "apps/admin/admin-access.js",
+      "reason": "Access load marks transient vs permission errors for the sign-in messages.",
+      "sha256": "1e6cc7a5b9a319e317371195451f4d5cdc6265bc87aeb4aadccd71daba91b13d"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record written and preflight run before any Admin code edit; Admin checks admin:check and admin:test listed as required."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses only standard DOM APIs (beforeunload, details, ARIA tab roles) and existing jsdom tests; no package added."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No change to roles or RLS; every admin function call keeps the capability check in NilazaAdminRequest.",
+    "sensitiveData": "No personal data handled; trace and feedback views unchanged.",
+    "secretsLogging": "Removes JWT/anon key/endpoint input fields and stops reading them from browser storage; nothing new is logged.",
+    "externalInput": "Endpoints are derived from config.js only; the session transport already rejects untrusted origins.",
+    "dependencies": "No new dependency.",
+    "migrationRelease": "No SQL or deploy. A push to main redeploys Admin staging, which only the Owner/manager triggers.",
+    "stopCondition": "Stop if removing a control would delete a required route or capability, or if a test shows a publish path calling the backend without review.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record written and preflight run before any Admin edit (only the environment skills-sync drift in ~/.codex/skills failed; every record check passed). Then: Legacy sample controls, local prompt box and sample payload removed; JWT/anon key/endpoint fields removed (session transport only); publish button meanings and confirmation note; unsaved-changes guard and shell indicator; Vietnamese lang/labels; sign-in/session messages; labelled inputs; tests updated and a new A1 test file added to admin:test.",
+    "paths": [
+      "apps/admin/ai-studio.html",
+      "apps/admin/app.js",
+      "apps/admin/content.css",
+      "apps/admin/content.html",
+      "apps/admin/content.js",
+      "apps/admin/index.html",
+      "apps/admin/shell.css",
+      "apps/admin/shell.js",
+      "apps/admin/styles.css",
+      "apps/admin/unsaved-changes.js",
+      "package.json",
+      "scripts/admin-a1-cleanup.test.mjs",
+      "scripts/admin-ai-studio-render.test.mjs",
+      "scripts/validate-admin-contract.mjs"
+    ]
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/admin-a1-cleanup-2026-11-13.json",
+    "npm run admin:check",
+    "npm run admin:test",
+    "npm run validate:data",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Open Admin staging, sign in with a wrong password (message says mat khau chua dung), then sign in. In AI Studio open Model Router: no token or URL boxes; button says Xem lai & phat hanh and the dialog shows the environment and asks for a note. Open Prompt for Tarot: button says Luu nhap tren trinh duyet nay. Change a field and try to close the tab: the browser warns.",
+  "residualRisk": "Deep AI Studio texts (trace, versions, workflow inspector) stay partly English because many tests assert them; follow-up in A2. The publish note is required in the dialog but the existing Edge Functions do not store it yet (Content keeps it in its local audit log). Content publish still sends the whole bundle (AD-01, A3). Verified in jsdom only; not yet clicked through on Admin staging.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

@@ -2,7 +2,8 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.7.1";
 import { generateWithModelRoute } from "../_shared/model-router.ts";
 import { sanitizeProviderMetadata } from "../_shared/model-provider.ts";
-import { assembleTarotSystem, tarotContentVersion, prepareTarotContext, resolveTarotPrompt, tarotPromptMetadata, tarotPromptTraceMetadata } from "../_shared/tarot-prompt.ts";
+import { assembleTarotSystem, tarotContentVersion, prepareTarotContext, resolveTarotPrompt, tarotModelMessage, tarotPromptMetadata, tarotPromptTraceMetadata } from "../_shared/tarot-prompt.ts";
+import { readPublishedTarotContent } from "../_shared/tarot-content.ts";
 import { AiRequestError, aiAuthUserOrUnavailable, guardAiJsonRequest } from "../_shared/ai-request-guard.ts";
 
 import { answerCorsHeaders, readAnswerCorrelation } from "../_shared/answer-provenance.ts";
@@ -12,6 +13,7 @@ import { writeAnswerReceipt } from "../_shared/answer-receipt.ts";
 import { claimDailyAttempt } from "../_shared/daily-attempts.ts";
 import { featurePaused, featurePausedBody } from "../_shared/feature-switch.ts";
 import { localDayStart, tarotDailyLimits } from "../_shared/account-tier-policy.ts";
+import { configuredDailyLimit, readActiveFeatureConfig } from "../_shared/feature-config.ts";
 
 type LocalizedText = {
   vi?: string;
@@ -80,12 +82,19 @@ serve(async (req) => {
       }
     });
     if (!supabase) return jsonResponse({ error: "ai_unavailable" }, 503);
+    // E4 (Admin A6, AD-05): card text and the deck reading style from the published content bundle when it is valid,
+    // otherwise tarot-cards.json. The card IDs, order and orientation still come only from the app's deterministic draw.
+    const publishedContent = await readPublishedTarotContent(supabase);
     let input;
-    try { input = prepareTarotContext(requestInput); } catch { throw new AiRequestError(400, "invalid_tarot_input"); }
+    try { input = prepareTarotContext(requestInput, publishedContent); } catch { throw new AiRequestError(400, "invalid_tarot_input"); }
     // Emergency switch from Admin (AD-10), checked before the limit and any model work.
     if (await featurePaused(supabase as never, "tarot_reading")) return jsonResponse(featurePausedBody, 503);
     // AI-02 (Owner 2026-11-04): one delivered AI reading per local day; failed attempts capped. Checked before any model work.
-    const tarotLimits = tarotDailyLimits();
+    // Admin A4: the active ai_feature_configs row may set the delivered readings per day; the failed-attempt allowance stays.
+    const featureConfig = await readActiveFeatureConfig("tarot_reading");
+    const policyTarot = tarotDailyLimits();
+    const deliveredLimit = configuredDailyLimit(featureConfig, policyTarot.delivered);
+    const tarotLimits = { delivered: deliveredLimit, attempts: deliveredLimit + (policyTarot.attempts - policyTarot.delivered) };
     const { count: deliveredToday, error: deliveredError } = await supabase.from("tarot_readings")
       .select("id", { count: "exact", head: true })
       .eq("user_id", userId)
@@ -112,14 +121,15 @@ serve(async (req) => {
       (language === "vi" ? "Điều gì trong mình đang xin được lắng nghe kỹ hơn?" : "What part of me is asking to be heard more carefully?");
 
     const prompt = await resolveTarotPrompt(supabase, language);
-    const promptMetadata = tarotPromptMetadata(prompt);
+    const promptMetadata = tarotPromptMetadata(prompt, input.cardContextSource);
     const promptVersionId = prompt.promptVersionId;
-    const contentVersion = await tarotContentVersion();
+    const contentVersion = publishedContent?.version ?? await tarotContentVersion();
 
     let persistenceStatus = "skipped";
     let remoteId: string | undefined;
     const generation = await generateWithModelRoute({
       feature: "tarot_reading",
+      deadlineMs: featureConfig?.deadlineMs,
       supabase,
       strictTraceRedaction: true,
       deferTraceFlush: true,
@@ -136,6 +146,8 @@ serve(async (req) => {
           cardCount: cards.length,
           language,
           promptVersionId,
+          cardContextSource: input.cardContextSource,
+          deckReadingStyleSent: Boolean(input.deck && "readingStyle" in input.deck),
           ...tarotPromptTraceMetadata(prompt)
         }
       },
@@ -143,14 +155,7 @@ serve(async (req) => {
       messages: [
         {
           role: "user",
-          content: JSON.stringify({
-            language,
-            deck: input.deck ?? null,
-            topic: input.topic ?? "open",
-            spread: input.spread ?? "daily-one",
-            question: input.question ?? null,
-            selectedCards: cards
-          })
+          content: tarotModelMessage(input)
         }
       ],
       fallbackText: JSON.stringify({ summary, reflection }),

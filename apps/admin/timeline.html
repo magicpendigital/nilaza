@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="vi" data-admin-authorized="false">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nilaza · Lịch sử thao tác</title>
+    <script src="./config.js?v=admin-sync-v1"></script>
+    <script src="./env-band.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.108.2"></script>
+    <script src="./admin-access.js"></script>
+    <script src="./workspace-guard.js"></script>
+    <link rel="stylesheet" href="./workspace-guard.css" />
+    <link rel="stylesheet" href="./overview.css" />
+    <link rel="stylesheet" href="./timeline.css" />
+  </head>
+  <body>
+    <main class="overview-page timeline-page">
+      <header class="overview-header">
+        <div>
+          <p class="eyebrow">Vận hành</p>
+          <h1>Lịch sử thao tác</h1>
+          <p class="lead">Ai đã làm gì, lúc nào và vì sao: nội dung, cài đặt AI, duyệt an toàn. Chỉ đọc; khôi phục một mục nội dung ở nút “Lịch sử” của mục đó.</p>
+        </div>
+        <button type="button" class="button" id="timeline-reload">Tải lại</button>
+      </header>
+      <div class="timeline-tools">
+        <label for="timeline-filter">Loại thao tác</label>
+        <select id="timeline-filter">
+          <option value="all">Tất cả</option>
+          <option value="content">Nội dung</option>
+          <option value="ai">Cài đặt AI</option>
+          <option value="safety">An toàn & quyền</option>
+        </select>
+      </div>
+      <p class="overview-status" id="timeline-status" role="status" aria-live="polite">Đang xác minh quyền…</p>
+      <section id="timeline-content" aria-live="polite"></section>
+    </main>
+    <script src="./timeline.js"></script>
+  </body>
+</html>

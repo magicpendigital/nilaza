@@ -1,12 +1,17 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.7.1";
 import { generateWithModelRoute } from "../_shared/model-router.ts";
-import { compactLines, sanitizeProviderMetadata } from "../_shared/model-provider.ts";
+import { sanitizeProviderMetadata } from "../_shared/model-provider.ts";
 import { AiRequestError, aiAuthUserOrUnavailable, guardAiJsonRequest } from "../_shared/ai-request-guard.ts";
 import { featurePaused } from "../_shared/feature-switch.ts";
 import { claimDailyAttempt } from "../_shared/daily-attempts.ts";
 import { accountTierPolicy } from "../_shared/account-tier-policy.ts";
+import { configuredDailyLimit, readActiveFeatureConfig } from "../_shared/feature-config.ts";
 import { recentMoodFor } from "../_shared/daily-mood.ts";
+import { sanitizeNickname, userDataValues } from "../_shared/ai-user-context.ts";
+import { globalPromptMetadata, resolveGlobalPrompt } from "../_shared/global-prompt.ts";
+import { assembleDailySystem, dailyUserMessage } from "./daily-prompt.ts";
+import { blockEnabled, contextPolicyFor, contextPolicyMetadata, userDataPolicy } from "../_shared/context-config.ts";
 
 type DailyInsightInput = {
   language?: "vi" | "en" | string;
@@ -61,9 +66,11 @@ serve(async (req) => {
     });
     if (!supabase) return jsonResponse({ error: "ai_unavailable" }, 503);
     if (await featurePaused(supabase as never, "daily_insight")) return jsonResponse({ error: "feature_paused" }, 503);
+    // Admin A4: the active ai_feature_configs row may set another limit and a total model deadline.
+    const featureConfig = await readActiveFeatureConfig("daily_insight");
     const attempt = await claimDailyAttempt(supabase as never, {
       userId, eventName: "daily_insight_attempted", feature: "daily_insight",
-      limit: accountTierPolicy.dailyInsight?.dailyLimit ?? 3
+      limit: configuredDailyLimit(featureConfig, accountTierPolicy.dailyInsight?.dailyLimit ?? 3)
     });
     if (attempt === "limit_reached") return jsonResponse({ error: "daily_limit_reached" }, 429);
     if (attempt === "unavailable") return jsonResponse({ error: "usage_check_unavailable" }, 503);
@@ -71,7 +78,8 @@ serve(async (req) => {
     const language = input.language ?? "vi";
     const dateKey = input.dateKey ?? new Date().toISOString().slice(0, 10);
     const rerollCount = input.rerollCount ?? 0;
-    const nickname = input.profile?.nickname?.trim();
+    // CH-13: one bounded line (40 characters), also used in the fallback text shown to the person.
+    const nickname = sanitizeNickname(input.profile?.nickname);
     const recentMood = recentMoodFor(input);
 
     const title = language === "vi" ? "Nhịp soi chiếu hôm nay" : "Today's reflective pulse";
@@ -85,8 +93,21 @@ serve(async (req) => {
         : "What small action would help me see more clearly today?";
 
     let persistenceStatus = "skipped";
+    // Admin A5: configured guide from prompt_versions (daily_insight) with the prompt-library fallback, then locked rules.
+    const systemPrompt = await resolveGlobalPrompt(supabase, "daily_insight", language);
+    const systemPromptMetadata = globalPromptMetadata(systemPrompt);
+    const promptRerollCount = Number.isInteger(rerollCount) ? rerollCount : 0;
+    // Owner request 14/11: Admin may switch data blocks off or shorten goals (ai_context_configs); defaults = today.
+    // The fallback text above still greets by nickname on the device; it is never sent to the model.
+    const contextPolicy = await contextPolicyFor("daily_insight");
+    const dataPolicy = userDataPolicy(contextPolicy);
+    const moodToSend = blockEnabled(contextPolicy, "recentMood") ? recentMood : undefined;
+    const contextSent = userDataValues({ language, nickname, goals: input.profile?.goals, tone: input.profile?.tone, policy: dataPolicy }).values;
     const generation = await generateWithModelRoute({
       feature: "daily_insight",
+      deadlineMs: featureConfig?.deadlineMs,
+      // Never below the feature floor; rises with the enabled blocks' data class.
+      dataClass: contextPolicy.dataClass,
       supabase,
       traceContext: {
         userId,
@@ -94,29 +115,20 @@ serve(async (req) => {
         metadata: {
           dateKey,
           rerollCount,
-          goalCount: input.profile?.goals?.length ?? 0,
-          moodSent: Boolean(recentMood),
-          promptVersionId: "daily_insight_system"
+          goalCount: Array.isArray(contextSent.goals) ? contextSent.goals.length : 0,
+          nicknameSent: "nickname" in contextSent,
+          moodSent: Boolean(moodToSend),
+          promptVersionId: "daily_insight_system",
+          ...systemPromptMetadata,
+          ...contextPolicyMetadata(contextPolicy)
         }
       },
-      system: compactLines([
-        "You generate Nilaza daily insight copy.",
-        "Keep it warm, concise, reflective, and safe.",
-        "Do not make deterministic predictions or give medical, legal, financial, or mental-health advice.",
-        "Return only the daily insight body text."
-      ]),
+      system: assembleDailySystem(systemPrompt),
       messages: [
         {
           role: "user",
-          content: JSON.stringify({
-            language,
-            dateKey,
-            rerollCount,
-            nickname: nickname ?? null,
-            goals: input.profile?.goals ?? [],
-            tone: input.profile?.tone ?? null,
-            recentMood: recentMood ?? null
-          })
+          // E3 / AI-05: every user value sits in the labelled data block, bounded and JSON-encoded.
+          content: dailyUserMessage({ language, dateKey, rerollCount: promptRerollCount, profile: { nickname, goals: input.profile?.goals, tone: input.profile?.tone }, recentMood: moodToSend, dataPolicy })
         }
       ],
       fallbackText
@@ -142,8 +154,9 @@ serve(async (req) => {
             rerollCount,
             goals: input.profile?.goals ?? [],
             tone: input.profile?.tone ?? null,
-            moodSent: Boolean(recentMood),
+            moodSent: Boolean(moodToSend),
             promptVersionId: "daily_insight_system",
+            ...systemPromptMetadata,
             model: sanitizeProviderMetadata(generation)
           }
         });

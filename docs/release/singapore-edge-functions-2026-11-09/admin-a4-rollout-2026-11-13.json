@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "title": "Admin A4: AI feature configs — migrations applied and six AI functions redeployed",
+  "date": "2026-11-13",
+  "target": {
+    "projectRef": "etfajmrwyywokgafzxsb",
+    "label": "production (Owner decision 2026-11-12)"
+  },
+  "ownerApproval": "Owner approved in chat on 2026-11-13: (1) apply the two migrations named by SHA-256 in PLAN.md section 4.5, (2) redeploy the six AI functions.",
+  "record": "docs/feature-plans/ai-feature-config-backend-2026-11-13.json",
+  "sourceCommit": "724ac79",
+  "migrations": [
+    {
+      "file": "supabase/migrations/20261113090000_ai_feature_switches_oracle_router.sql",
+      "sha256": "2ce42800e55c1a48a7ab327c1f2ff4609a35474287964705892d301505393f86",
+      "method": "npx supabase@3.1.0 db query --yes --remote=etfajmrwyywokgafzxsb -f <file> (run by Claude)"
+    },
+    {
+      "file": "supabase/migrations/20261113090100_ai_feature_configs.sql",
+      "sha256": "5556bfd9ff4f2649d244cba6dbc242c3abedc97a3f8f9dc067f63959b49de04e",
+      "method": "npx supabase@3.1.0 db query --yes --remote=etfajmrwyywokgafzxsb -f <file> (run by Claude)"
+    }
+  ],
+  "migrationHistoryNote": "db query does not write supabase_migrations.schema_migrations (same as 20261112000000 on 2026-11-13). History still ends at 20261111090100; 20261112000000, 20261113090000 and 20261113090100 need one Owner-approved `migration repair --status applied` before any future db push.",
+  "postApplyChecks": {
+    "readOnlyQuery": "ai_feature_switches has 7 rows, all enabled, check constraint includes oracle_router; ai_feature_configs exists, RLS on, 0 rows; get/save/publish RPCs and set_ai_feature_switch executable by authenticated, not anon; table not selectable by anon or authenticated.",
+    "securityAdvisor": "0 errors. Warnings: authenticated can execute SECURITY DEFINER get_ai_feature_configs / save / publish (expected: functions check ai.read / ai.manage), plus the existing switch functions and leaked-password protection; INFO rls_enabled_no_policy for ai_feature_configs (intended: access only through RPCs)."
+  },
+  "functions": {
+    "method": "npx supabase@3.1.0 functions deploy <6 names> --project-ref etfajmrwyywokgafzxsb --use-api --yes (run by Claude)",
+    "readBack": {
+      "ai-persona-chat": 4,
+      "ai-oracle-turn": 4,
+      "ai-tarot-reading": 6,
+      "ai-daily-insight": 3,
+      "ai-astrology-insight": 3,
+      "ai-council": 3
+    },
+    "status": "all ACTIVE, verify_jwt true",
+    "unauthenticatedCall": "POST without a session returned 401 for all six",
+    "alsoShipped": "Code already on main and waiting for deploy is now live in these functions: nickname sent to persona chat (CH-13), Daily sends only mood labels from the last 24 hours, LLM fallback phase 0 (ZDR, retry on bad format)."
+  },
+  "notVerified": [
+    "A signed-in call to each function after this deploy (needs the Owner's test account: scripts/staging-smoke.mjs).",
+    "Publishing a config from Admin and seeing a changed limit on the phone.",
+    "Which project hosted Admin staging calls depends on the Vercel variable NILAZA_QA_SUPABASE_URL (not read). PLAN.md says it is still the old QA project; if so, the new AI features page there shows the 'migration not applied' message."
+  ]
+}

@@ -1,11 +1,16 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.7.1";
 import { generateWithModelRoute } from "../_shared/model-router.ts";
-import { compactLines, safeJsonParse, sanitizeProviderMetadata } from "../_shared/model-provider.ts";
+import { safeJsonParse, sanitizeProviderMetadata } from "../_shared/model-provider.ts";
 import { councilContract } from "../_shared/council-contract.ts";
-import { councilAllowance, localDayStart } from "../_shared/account-tier-policy.ts";
+import { accountTierPolicy, councilAllowance, localDayStart } from "../_shared/account-tier-policy.ts";
+import { configuredDailyLimit, readActiveFeatureConfig } from "../_shared/feature-config.ts";
 import { safetyRedirectFor } from "../_shared/crisis-safety.ts";
 import { featurePaused, featurePausedBody } from "../_shared/feature-switch.ts";
+import { globalPromptMetadata, resolveGlobalPrompt } from "../_shared/global-prompt.ts";
+import { userDataValues } from "../_shared/ai-user-context.ts";
+import { assembleCouncilSystem, councilHistoryFor, councilUserMessage } from "./council-prompt.ts";
+import { contextPolicyFor, contextPolicyMetadata, userDataPolicy } from "../_shared/context-config.ts";
 
 type Language = "vi" | "en" | string;
 
@@ -46,6 +51,8 @@ type CouncilInput = {
   userContext?: {
     goals?: string[];
     tone?: string;
+    /** CH-13 (Owner 04/11, 13/11): the chosen name; sent by newer app builds only. */
+    nickname?: string;
   };
   sanitizedHistory?: Array<{
     role: "user" | "guide";
@@ -398,22 +405,43 @@ serve(async (req) => {
     // Emergency switch from Admin; a safety reply above still answers while Council rests.
     if (await featurePaused(supabase, "ai_council")) return jsonResponse(featurePausedBody, 503);
     const isOpening = (input.sanitizedHistory ?? []).length === 0;
+    // Admin A4: the active ai_feature_configs row may set councils per day (quota_daily) and follow-ups per council.
+    const featureConfig = await readActiveFeatureConfig("ai_council");
+    const councilDefaults = accountTierPolicy.council ?? { dailyCouncils: 1, followUpsPerCouncil: 4 };
+    const councilLimits = {
+      dailyCouncils: configuredDailyLimit(featureConfig, councilDefaults.dailyCouncils),
+      followUpsPerCouncil: featureConfig?.followUps ?? councilDefaults.followUpsPerCouncil
+    };
+    // Read one event more than the day's total allowance so a configured limit above 50 events is still enforced (default 5).
     const { data: todaysEvents, error: usageReadError } = await supabase.from("usage_events")
       .select("metadata")
       .eq("user_id", userId)
       .eq("event_name", "ai_council_turn_generated")
       .gte("created_at", localDayStart().toISOString())
-      .limit(50);
+      .limit(Math.max(50, councilLimits.dailyCouncils * (1 + councilLimits.followUpsPerCouncil) + 1));
     if (usageReadError || !todaysEvents) return jsonResponse({ error: "usage_check_unavailable", message: "Usage could not be checked. Try again shortly." }, 503);
-    const allowance = councilAllowance(todaysEvents as Array<{ metadata?: { opening?: boolean } | null }>, isOpening);
+    const allowance = councilAllowance(todaysEvents as Array<{ metadata?: { opening?: boolean } | null }>, isOpening, { ...accountTierPolicy, council: councilLimits });
     if (allowance.allowed === false) return jsonResponse({ error: allowance.reason, message: "You have reached today's AI Council limit. Please return tomorrow." }, 429);
 
     const runtimePersonas = await runtimePersonasFromTemplate(supabase, selectedPersonas, runtimeConfig.template.rosterSlugs);
     const maxGuides = Math.max(2, Math.min(runtimeConfig.template.maxGuidesPerTurn ?? runtimePersonas.length, 4));
     const selectedRuntimePersonas = runtimePersonas.slice(0, maxGuides);
     const fallbackTurns = selectedRuntimePersonas.map((persona, index) => buildTurn(persona, userMessage, language, index, selectedRuntimePersonas[index - 1]));
+    // Admin A5: configured guide from prompt_versions (ai_council) with the prompt-library fallback, then locked rules.
+    const systemPrompt = await resolveGlobalPrompt(supabase, "ai_council", language);
+    const systemPromptMetadata = globalPromptMetadata(systemPrompt);
+    // Owner request 14/11: Admin may switch data blocks off or shorten them (ai_context_configs); defaults = today.
+    // Crisis screening above already ran on the full question; the allowance still counts the app's history.
+    const contextPolicy = await contextPolicyFor("ai_council");
+    const dataPolicy = userDataPolicy(contextPolicy);
+    // AI-05: user context goes in the data block, history is bounded on the server.
+    const sanitizedHistory = councilHistoryFor(input.sanitizedHistory, contextPolicy);
+    const contextSent = userDataValues({ language, nickname: input.userContext?.nickname, goals: input.userContext?.goals, tone: input.userContext?.tone, policy: dataPolicy }).values;
     const generation = await generateWithModelRoute({
       feature: "ai_council",
+      deadlineMs: featureConfig?.deadlineMs,
+      // Never below the feature floor; rises with the enabled blocks' data class.
+      dataClass: contextPolicy.dataClass,
       supabase,
       traceContext: {
         userId,
@@ -427,33 +455,34 @@ serve(async (req) => {
           templateId: runtimeConfig.template.id ?? null,
           guideCount: selectedRuntimePersonas.length,
           meetingMode: runtimeConfig.template.meetingMode ?? null,
-          synthesisMode: runtimeConfig.template.synthesisMode ?? null
+          synthesisMode: runtimeConfig.template.synthesisMode ?? null,
+          ...systemPromptMetadata,
+          nicknameSent: "nickname" in contextSent,
+          goalCount: Array.isArray(contextSent.goals) ? contextSent.goals.length : 0,
+          historyTurns: sanitizedHistory.length,
+          ...contextPolicyMetadata(contextPolicy)
         }
       },
-      system: compactLines([
-        "You orchestrate a Nilaza AI Council.",
-        "Use only selected guides and sanitized context. Do not use raw private chat, journal history, birth profile, or uploaded images.",
-        "Preserve inspired-by transparency. Do not make certain predictions or provide medical, legal, financial, or mental-health advice.",
-        "Return JSON only with keys: turns, suggestedFollowUps, transcriptSummary, synthesis.",
-        "turns must be an ordered array of {personaId,text,lens,kind,replyToPersonaId} using only the provided persona IDs.",
-        "The first guide opens the discussion; every later guide must build on or respectfully challenge one earlier guide via replyToPersonaId. Do not invent private facts or claims about what a guide said.",
-        "synthesis must be an object with consensus (string), tensions (string[]), assumptions (string[]), nextStep (string), and reflectionQuestion (string). Keep each item concise and grounded in the supplied question."
-      ]),
+      system: assembleCouncilSystem(systemPrompt),
       messages: [
         {
           role: "user",
-          content: JSON.stringify({
+          content: councilUserMessage({
             language,
-            userMessage,
-            userContext: input.userContext ?? {},
-            selectedPersonas: selectedRuntimePersonas.map((persona) => ({
-              id: persona.id,
-              slug: persona.slug,
-              name: localize(persona.name, language, "Guide"),
-              displayRole: localize(persona.displayRole, language, "")
-            })),
-            sanitizedHistory: input.sanitizedHistory ?? [],
-            template: runtimeConfig.template
+            userContext: input.userContext,
+            dataPolicy,
+            request: {
+              language,
+              userMessage,
+              selectedPersonas: selectedRuntimePersonas.map((persona) => ({
+                id: persona.id,
+                slug: persona.slug,
+                name: localize(persona.name, language, "Guide"),
+                displayRole: localize(persona.displayRole, language, "")
+              })),
+              sanitizedHistory,
+              template: runtimeConfig.template
+            }
           })
         }
       ],
@@ -565,7 +594,8 @@ serve(async (req) => {
               synthesisMode: runtimeConfig.template.synthesisMode ?? null,
               persistence: messageError ? "message_error" : "stored",
               model: sanitizeProviderMetadata(generation),
-              modelOutputParsed: parsedCouncil.parsed
+              modelOutputParsed: parsedCouncil.parsed,
+              ...systemPromptMetadata
             }
           });
           persistenceStatus = messageError ? "message_error" : "stored";

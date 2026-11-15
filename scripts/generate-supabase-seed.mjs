@@ -171,15 +171,28 @@ for (const card of cards) {
   );
 }
 
+// Admin A5 (migration 20261113095000, review AI-04): one active row per (feature, owner, locale). The first active
+// library entry of a feature is the runtime prompt; a later active entry of the same feature (context_handoff_system
+// shares persona_chat) is stored archived. Before an active row is inserted, the previous active row of the same
+// prompt is archived, so re-seeding restores the canonical text without breaking the unique index.
+const seededActiveFeatures = new Set();
 lines.push("", "-- Prompt versions");
 for (const prompt of prompts) {
   const feature = normalizePromptFeature(prompt.feature);
+  const firstActive = prompt.status === "active" && !seededActiveFeatures.has(feature);
+  if (firstActive) seededActiveFeatures.add(feature);
+  const seedStatus = prompt.status === "active" && !firstActive ? "archived" : (prompt.status ?? "draft");
   for (const locale of ["vi", "en"]) {
     const promptText = prompt.prompt?.[locale];
     if (!promptText) continue;
     lines.push(
       `delete from public.prompt_versions where feature = ${sqlString(feature)} and owner_type = 'global' and owner_id is null and version = ${sqlString(prompt.version)} and locale = ${sqlString(locale)};`
     );
+    if (seedStatus === "active") {
+      lines.push(
+        `update public.prompt_versions set status = 'archived', updated_at = now() where feature = ${sqlString(feature)} and owner_type = 'global' and owner_id is null and locale = ${sqlString(locale)} and status = 'active';`
+      );
+    }
     lines.push(
       `insert into public.prompt_versions (feature, owner_type, owner_id, version, status, locale, prompt_text, safety_notes, published_at, updated_at) values (` +
         [
@@ -187,11 +200,11 @@ for (const prompt of prompts) {
           sqlString("global"),
           "null",
           sqlString(prompt.version),
-          sqlString(prompt.status ?? "draft"),
+          sqlString(seedStatus),
           sqlString(locale),
           sqlString(promptText),
           sqlString(`reviewers: ${(prompt.approvalRequired ?? []).join(", ")}`),
-          prompt.status === "active" ? "now()" : "null",
+          seedStatus === "active" ? "now()" : "null",
           "now()"
         ].join(", ") +
         `);`
@@ -205,6 +218,9 @@ for (const persona of allPersonas) {
     const promptText = personaSkillPrompt(persona, locale);
     lines.push(
       `delete from public.prompt_versions where feature = 'persona_chat' and owner_type = 'persona' and owner_id = (select id from public.personas where slug = ${sqlString(persona.slug)}) and version = ${sqlString(personaSkillVersion)} and locale = ${sqlString(locale)};`
+    );
+    lines.push(
+      `update public.prompt_versions set status = 'archived', updated_at = now() where feature = 'persona_chat' and owner_type = 'persona' and owner_id = (select id from public.personas where slug = ${sqlString(persona.slug)}) and locale = ${sqlString(locale)} and status = 'active';`
     );
     lines.push(
       `insert into public.prompt_versions (feature, owner_type, owner_id, version, status, locale, prompt_text, safety_notes, published_at, updated_at) values (` +

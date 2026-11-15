@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 1,
+  "taskId": "ai-feature-config-backend-2026-11-13",
+  "ownerAgent": "backend_agent",
+  "lane": "SQL + Edge: Admin redesign step A4 backend (D1, D2, minimal D3, E2)",
+  "goal": "Prepare, without applying, the backend for Admin step A4 (spec ADMIN_SCREENS_SPEC_2026-11-04 section 4): an emergency switch row for oracle_router (D1); a versioned public.ai_feature_configs table with draft/active/archived rows and three audited RPCs (D2); a per-feature total model deadline taken from the active config instead of the hard-coded 40 s / 60 s (minimal D3); and a shared Edge reader that lets the active config override the existing daily limits of Chat, Oracle, Tarot, Daily, Astrology deep read and Council (E2). With no table, no active row or a read error, every function behaves exactly as today.",
+  "successCriteria": [
+    "Migration 20261113090000 adds oracle_router to the allowed switch features on top of 20261111090000, seeds an enabled row idempotently and keeps set_ai_feature_switch rules (ai.manage, reason 3-200 characters, audit log).",
+    "Migration 20261113090100 creates public.ai_feature_configs with one active row per feature (partial unique index), RLS on and no client grants, plus get_ai_feature_configs (ai.read), save_ai_feature_config_draft (ai.manage) and publish_ai_feature_config (ai.manage, note of 10+ characters, archives the previous active row, audit log); functions are security definer with an empty search_path and not executable by anon.",
+    "supabase/functions/_shared/feature-config.ts reads active rows with the service key over REST with a short timeout and a 60 s in-memory cache, and returns null (defaults) when the table is missing, empty or unreadable.",
+    "Persona chat, Oracle, Tarot, Daily Insight, Astrology deep read and Council use quota_daily (and Council follow_ups) from the active config when present; otherwise the current numbers 5, 5, 1, 3, 1 and 1+4.",
+    "The model router accepts an optional total deadline: without it each attempt keeps 40 s (60 s for astrology_report); with it the attempts share the deadline and never exceed it.",
+    "Deno tests for the reader and the deadline pass; deno check passes for every touched function; the migrations run on PGlite with assertions; validate:backend, supabase:check, supabase:migration-ledger:check and prompt:consumers:check stay as before."
+  ],
+  "writeScope": [
+    "supabase/migrations/20261113090000_ai_feature_switches_oracle_router.sql",
+    "supabase/migrations/20261113090100_ai_feature_configs.sql",
+    "supabase/functions/_shared/feature-config.ts",
+    "supabase/functions/_shared/feature-config_test.ts",
+    "supabase/functions/_shared/feature-switch.ts",
+    "supabase/functions/_shared/model-provider.ts",
+    "supabase/functions/_shared/model-router.ts",
+    "supabase/functions/_shared/model-reasoning.test.ts",
+    "supabase/functions/_shared/providers/anthropic.ts",
+    "supabase/functions/_shared/providers/gemini.ts",
+    "supabase/functions/_shared/providers/openai.ts",
+    "supabase/functions/_shared/providers/openrouter.ts",
+    "supabase/functions/ai-persona-chat/index.ts",
+    "supabase/functions/ai-oracle-turn/index.ts",
+    "supabase/functions/ai-tarot-reading/index.ts",
+    "supabase/functions/ai-daily-insight/index.ts",
+    "supabase/functions/ai-astrology-insight/index.ts",
+    "supabase/functions/ai-council/index.ts",
+    "docs/release/singapore-edge-functions-2026-11-09/admin-a4-rollout-2026-11-13.json"
+  ],
+  "untouchedSurfaces": [
+    "apps/admin is not touched here; another agent builds the A4 screens against the RPCs described in the handoff.",
+    "No migration is applied and no Edge Function is deployed by the agent: the Owner approves each by hash.",
+    "supabase/migration-ledger.json describes the old QA project and is not changed.",
+    "ai-astrology-report (being retired into deep read) keeps its policy limit and is not a configurable feature.",
+    "No context_vars, voice_knobs or safety columns (A5) and no eval tables (A6); copy and cost_cap_micro are stored but not yet read by any function.",
+    "Mobile app, request bodies and response shapes are unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Admin AI feature screens (A4) call get_ai_feature_configs, save_ai_feature_config_draft and publish_ai_feature_config; six AI Edge Functions read the active row before their limit check.",
+    "dataWrite": "New table public.ai_feature_configs (Admin-written configuration only, no user data) and one switch row oracle_router; admin_audit_logs rows for draft saves and publishes.",
+    "backendContract": "No request or response shape changes. A published config can change the daily limit (still 429 daily_limit_reached) and shorten or lengthen the total model wait within 5-140 s.",
+    "adminVisibility": "Admin sees all versions per feature with status, values, gate status and who published; every save and publish is audited with action ai.feature_config.draft / ai.feature_config.publish.",
+    "privacySafety": "No personal data stored or sent; the reader uses the service key only server-side and selects configuration columns only.",
+    "observability": "admin_audit_logs; usage_events metadata keeps the applied limit per attempt as today.",
+    "rollback": "Publishing an older version or archiving all rows returns functions to code defaults within 60 s (cache); dropping the table also falls back to defaults. Switch row: delete oracle_router (missing row means on)."
+  },
+  "canonicalContracts": [
+    "supabase/migrations/20261031100000_ai_feature_switches.sql capability check and audit pattern",
+    "supabase/functions/_shared/feature-config.ts readActiveFeatureConfig returns null for defaults",
+    "packages/agent-config/account-tier-policy.json remains the default limit source"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "SQL, deploy and secrets need Owner approval each time.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Backend and AI runtime routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules and record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md",
+      "reason": "Rows D1, D2, D3, E2; screens 3.7 parts 1-2; 3.8 limits; A4 order; Owner decisions and gate columns (5.1).",
+      "sha256": "7eaf7aa64f6827ad96659b06ed7212ce667487f286ad50b717fc04d55c5c69ab"
+    },
+    {
+      "path": "supabase/migrations/20261031100000_ai_feature_switches.sql",
+      "reason": "Capability check, revoke/grant and audit pattern to copy.",
+      "sha256": "36122069b8fc6473f586b506399313225739151663310dd1680948d12c1f6c60"
+    },
+    {
+      "path": "supabase/migrations/20261111090000_ai_feature_switches_tarot_daily_report.sql",
+      "reason": "Current switch constraint and setter that D1 extends.",
+      "sha256": "be1e2179af254ec95922e69ab660ab67d629a3fcceb00622772dcdc825859c0c"
+    },
+    {
+      "path": "supabase/functions/_shared/feature-switch.ts",
+      "reason": "Missing row means on; feature type list.",
+      "sha256": "e23398e3c398c135711a9ac848905506f6311e6f9bfad66e5db92d279079a932"
+    },
+    {
+      "path": "supabase/functions/_shared/model-provider.ts",
+      "reason": "Hard-coded 40 s / 60 s provider timeout.",
+      "sha256": "8cdc5dc83a831984f55d355deafb2460c1f0842f1bdd434d1209c04d8bb8ecde"
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "reason": "Primary then fallback attempt loop where a deadline applies.",
+      "sha256": "87de02f1978911d8ab0abc791f827b8cb3f16e18bfcc2eb3bea10ef304d89d96"
+    },
+    {
+      "path": "supabase/functions/_shared/daily-attempts.ts",
+      "reason": "Actual quota mechanism (usage_events per local day), limit passed by caller.",
+      "sha256": "3bc88cfe87dc82dc223d3e32a54d0c2d91adebc805b837386172066195cd1816"
+    },
+    {
+      "path": "supabase/functions/_shared/account-tier-policy.ts",
+      "reason": "Tarot and Council limit helpers and defaults.",
+      "sha256": "9a915a0e946629ee03cedb44005beefe6e7dc8d6236792206904c38bfd2dcb8f"
+    },
+    {
+      "path": "packages/agent-config/account-tier-policy.json",
+      "reason": "Current daily numbers that stay the defaults.",
+      "sha256": "79bee268908ae19ed7a07d185060476a0e08bf8b2f91a74baff161840a5c76a0"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before any code edit; SQL and deploy left to the Owner by hash; PGlite verification only."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Every model call keeps sign-in, switch and quota; total attempts stay under the 150 s Edge limit (deadline capped at 140 s); safety block never falls through."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "SQL verification uses @electric-sql/pglite installed in the session scratchpad only; nothing added to the repo. PostgREST filter syntax already used by answer-receipt.ts."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "ai_feature_configs has RLS on with no policies and all privileges revoked from anon and authenticated; only security definer RPCs with empty search_path read or write it, checking ai.read or ai.manage via nilaza_private.has_capability. Edge reads with the service key server-side.",
+    "sensitiveData": "Configuration only (numbers, short copy, notes); no personal data.",
+    "secretsLogging": "The service key is read from the Edge environment and never logged or returned; no secret is set or read by the agent.",
+    "externalInput": "RPCs validate feature against a fixed list, numeric bounds, copy shape and lengths, note length; Edge reader re-validates bounds and ignores out-of-range values.",
+    "dependencies": "No package added to the repo.",
+    "migrationRelease": "Owner applies both migrations on Singapore by hash, then redeploys the six AI functions; until then functions keep defaults. Status 2026-11-13: the Owner approved in chat and Claude applied 20261113090000 and 20261113090100 to etfajmrwyywokgafzxsb (production) through supabase db query (CLI 3.1.0), then deployed the six AI functions; read-back and receipt in docs/release/singapore-edge-functions-2026-11-09/admin-a4-rollout-2026-11-13.json. Not recorded in the migration history table.",
+    "stopCondition": "Stop if PGlite verification, deno check or the Deno tests fail, or if a default limit would change without an active config.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Clean tree at start (3800efa); record and preflight passed before the first code edit. Then: the two migrations (PGlite-verified, 41 checks), D3 deadline in model-provider/model-router/providers, the feature-config reader and tests, and the six function wirings. apps/admin changes in the same worktree belong to the concurrent A1 agent and are outside this writeScope.",
+    "paths": [
+      "supabase/functions/_shared/feature-config.ts",
+      "supabase/functions/_shared/feature-config_test.ts",
+      "supabase/functions/_shared/feature-switch.ts",
+      "supabase/functions/_shared/model-provider.ts",
+      "supabase/functions/_shared/model-reasoning.test.ts",
+      "supabase/functions/_shared/model-router.ts",
+      "supabase/functions/_shared/providers/anthropic.ts",
+      "supabase/functions/_shared/providers/gemini.ts",
+      "supabase/functions/_shared/providers/openai.ts",
+      "supabase/functions/_shared/providers/openrouter.ts",
+      "supabase/functions/ai-astrology-insight/index.ts",
+      "supabase/functions/ai-council/index.ts",
+      "supabase/functions/ai-daily-insight/index.ts",
+      "supabase/functions/ai-oracle-turn/index.ts",
+      "supabase/functions/ai-persona-chat/index.ts",
+      "supabase/functions/ai-tarot-reading/index.ts",
+      "supabase/migrations/20261113090000_ai_feature_switches_oracle_router.sql",
+      "supabase/migrations/20261113090100_ai_feature_configs.sql"
+    ]
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/ai-feature-config-backend-2026-11-13.json",
+    "npx --yes deno@2 test supabase/functions/_shared/feature-config_test.ts supabase/functions/_shared/model-reasoning.test.ts supabase/functions/_shared/feature-switch_test.ts",
+    "npx --yes deno@2 check on ai-persona-chat, ai-oracle-turn, ai-tarot-reading, ai-daily-insight, ai-astrology-insight, ai-council index.ts",
+    "node <scratchpad>/pglite-a4/verify.mjs <repo> (PGlite 0.3.16, service_role BYPASSRLS like Supabase): 41 checks - 7 switch rows, oracle_router setter + audit, RPC permission denied without capability (42501) for get/save/publish and direct table access, 15 draft validation refusals, single draft and single active per feature, publish archives previous, audit rows, anon has no execute, service_role reads active rows",
+    "npm run validate:backend && npm run supabase:check && npm run supabase:migration-ledger:check && npm run prompt:consumers:check"
+  ],
+  "managerTestPath": "After the Owner applies both migrations and redeploys the six functions: Admin AI switches lists 7 features; with no published config every limit stays as today (Chat 5, Tarot 1, Daily 3, Astrology 1, Council 1+4); publishing a Daily config with quota 4 lets the 4th Daily request through within a minute; publishing an older version restores the previous numbers.",
+  "residualRisk": "PGlite is not Supabase: re-run the Security Advisor after applying (two new security definer RPCs expected and accepted like the switch RPCs). Shared Chat+Oracle counter: each function applies its own feature's quota_daily against the same counter. copy and cost_cap_micro have no consumer yet and must show as not applied in Admin.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

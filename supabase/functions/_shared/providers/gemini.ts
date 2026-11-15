@@ -36,7 +36,8 @@ export async function invokeGemini(request: ModelProviderRequest, apiKey: string
     })),
     generationConfig: {
       temperature: request.temperature,
-      maxOutputTokens: request.maxOutputTokens
+      maxOutputTokens: request.maxOutputTokens,
+      ...(request.jsonMode ? { responseMimeType: "application/json" } : {})
     }
   };
   request.traceHooks?.onRequest?.({
@@ -46,7 +47,7 @@ export async function invokeGemini(request: ModelProviderRequest, apiKey: string
   });
   const response = await fetch(url, {
     method: "POST",
-    signal: AbortSignal.timeout(providerTimeoutMs(request.feature)),
+    signal: AbortSignal.timeout(providerTimeoutMs(request.feature, request.timeoutMs)),
     headers: {
       "Content-Type": "application/json",
       "x-goog-api-key": apiKey

@@ -2,6 +2,16 @@
   "version": 1,
   "workspaces": [
     {
+      "id": "overview",
+      "label": "Overview",
+      "entry": "overview.html",
+      "description": "Admin home: AI feature status, new user feedback and recent AI errors from existing protected RPCs",
+      "routes": [
+        { "id": "home", "label": "Overview" }
+      ],
+      "requiredCapabilities": ["hub.read"]
+    },
+    {
       "id": "content",
       "label": "Content Operations",
       "entry": "content.html",
@@ -28,11 +38,14 @@
       "entry": "ai-studio.html",
       "description": "Workflows, prompts, personas, models, tests, and audit",
       "routes": [
+        { "id": "features", "label": "AI Features" },
+        { "id": "context", "label": "AI Context Data" },
         { "id": "workflow", "label": "Workflow" },
         { "id": "prompt", "label": "Prompt Composer" },
         { "id": "persona-studio", "label": "Persona Studio" },
         { "id": "council-builder", "label": "Council Builder" },
         { "id": "model-router", "label": "Model Router" },
+        { "id": "providers", "label": "Providers & Model Chains" },
         { "id": "trace-explorer", "label": "Trace Explorer" },
         { "id": "feedback", "label": "Feedback Inbox" },
         { "id": "test", "label": "Test Runs" },
@@ -40,8 +53,28 @@
         { "id": "audit", "label": "Audit" }
       ],
       "requiredCapabilities": [
-        "workflow.inspect", "prompt.edit", "personaPrompt.edit", "councilTemplate.configure", "model.route", "test.run", "version.publish", "audit.view"
+        "aiFeature.switch", "aiFeature.configure", "workflow.inspect", "prompt.edit", "personaPrompt.edit", "councilTemplate.configure", "model.route", "test.run", "version.publish", "audit.view"
       ]
+    },
+    {
+      "id": "timeline",
+      "label": "Action Timeline",
+      "entry": "timeline.html",
+      "description": "One read-only timeline of staff actions (content, AI settings, safety reviews, roles) from the protected get_admin_timeline RPC",
+      "routes": [
+        { "id": "home", "label": "Timeline" }
+      ],
+      "requiredCapabilities": ["hub.read"]
+    },
+    {
+      "id": "team",
+      "label": "Team & Roles",
+      "entry": "team.html",
+      "description": "Owner-only list of staff accounts with role, status and last sign-in; invite by email, change role or revoke access with confirmation, and a can / cannot list per role from the protected get_admin_role_matrix RPC",
+      "routes": [
+        { "id": "members", "label": "Members" }
+      ],
+      "requiredCapabilities": ["roles.manage"]
     },
     {
       "id": "growth",

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -12,15 +12,15 @@
       <div class="login-panel">
         <div class="brand-mark"><img src="./assets/brand/v1/logo/symbol-ivory.svg" alt="Nilaza"></div>
         <p class="brand-name"><img src="./assets/brand/v1/logo/wordmark-ivory.svg" width="160" alt="Nilaza"></p>
-        <h1>Admin workspace</h1>
-        <p class="login-copy">Manage app content and AI configuration in one protected shared online workspace.</p>
+        <h1>Trang quản trị</h1>
+        <p class="login-copy">Quản lý nội dung app và cấu hình AI trong một khu làm việc trực tuyến có bảo vệ.</p>
         <form id="login-form">
-          <label>Email<input id="login-email" type="email" autocomplete="username" required /></label>
-          <label>Password<input id="login-password" type="password" autocomplete="current-password" required /></label>
-          <button type="submit" class="primary">Sign in</button>
+          <label for="login-email">Email<input id="login-email" type="email" autocomplete="username" required /></label>
+          <label for="login-password">Mật khẩu<input id="login-password" type="password" autocomplete="current-password" required /></label>
+          <button type="submit" class="primary">Đăng nhập</button>
         </form>
-        <a class="secondary recovery-back" href="./recovery.html">Quên mật khẩu? / Forgot password?</a>
-        <p class="form-error" id="login-error" aria-live="polite"></p>
+        <a class="secondary recovery-back" href="./recovery.html">Quên mật khẩu?</a>
+        <p class="form-error" id="login-error" role="alert" aria-live="polite"></p>
         <div class="demo-accounts" id="demo-accounts"></div>
       </div>
     </section>
@@ -28,9 +28,9 @@
     <section class="access-screen" id="access-screen" hidden>
       <div class="login-panel">
         <div class="brand-mark"><img src="./assets/brand/v1/logo/symbol-ivory.svg" alt="Nilaza"></div>
-        <h1>Admin access required</h1>
-        <p>This account can use the mobile app but cannot open admin datasets or release controls.</p>
-        <button class="secondary" id="try-another-account">Use another account</button>
+        <h1>Chưa có quyền quản trị</h1>
+        <p>Tài khoản này đăng nhập được app nhưng chưa có quyền quản trị. Nhờ Owner cấp quyền hoặc dùng tài khoản khác.</p>
+        <button class="secondary" id="try-another-account">Dùng tài khoản khác</button>
       </div>
     </section>
 
@@ -38,24 +38,33 @@
       <header class="shell-header">
         <div class="shell-brand">
           <div class="brand-mark small"><img src="./assets/brand/v1/logo/symbol-ivory.svg" alt="Nilaza"></div>
-          <div><strong>Nilaza Admin</strong><span>Shared online workspace</span></div>
+          <div><strong>Nilaza Admin</strong><span id="shell-breadcrumb" aria-live="polite">Tổng quan</span></div>
         </div>
-        <nav class="workspace-nav" id="workspace-nav" aria-label="Admin workspaces"></nav>
         <div class="account-area">
+          <span class="environment-label" id="environment-label" role="status"></span>
+          <span class="unsaved-indicator" id="unsaved-indicator" role="status" aria-live="polite" hidden></span>
           <span id="account-role"></span>
-          <button class="secondary compact" id="logout-button">Log out</button>
+          <button class="secondary compact" id="logout-button">Đăng xuất</button>
         </div>
       </header>
-      <div class="route-bar" id="route-bar" aria-label="Workspace sections"></div>
-      <main class="workspace-frame-wrap">
-        <div id="workspace-frames" aria-live="off"></div>
-      </main>
+      <p class="session-expiry-notice" id="session-expiry-notice" role="alert" hidden></p>
+      <div class="shell-body">
+        <nav class="workspace-nav" id="workspace-nav" aria-label="Điều hướng Admin"></nav>
+        <div class="shell-main">
+          <nav class="route-bar" id="route-bar" aria-label="Mục con của trang" hidden></nav>
+          <section class="pending-page" id="pending-page" aria-live="polite" hidden></section>
+          <main class="workspace-frame-wrap" id="workspace-frame-wrap">
+            <div id="workspace-frames" aria-live="off"></div>
+          </main>
+        </div>
+      </div>
     </div>
 
     <script src="./config.js?v=admin-sync-v1"></script>
     <script src="./env-band.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.108.2"></script>
     <script src="./admin-access.js"></script>
+    <script src="./unsaved-changes.js"></script>
     <script src="./shell.js"></script>
   </body>
 </html>

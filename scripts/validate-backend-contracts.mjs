@@ -23,7 +23,7 @@ const contracts = [
   { gatewayPath: "/notifications/send-test", functionName: "notification-send-test" }
 ];
 
-const adminFunctions = ["admin-ai-council-config", "admin-model-router-config", "admin-astrology-prompt-config", "admin-ai-trace-qa-payload", "admin-documentation", "notification-send-test", "notification-dispatch", "notification-receipts"];
+const adminFunctions = ["admin-ai-council-config", "admin-model-router-config", "admin-ai-provider-probe", "admin-astrology-prompt-config", "admin-ai-trace-qa-payload", "admin-documentation", "admin-ai-eval-run", "admin-team-invite", "notification-send-test", "notification-dispatch", "notification-receipts"];
 
 function assert(condition, message) {
   if (!condition) errors.push(message);
@@ -164,6 +164,13 @@ for (const functionName of adminFunctions) {
       : functionName === "admin-model-router-config" ? [
         "serve(async (req)", "Access-Control-Allow-Origin", "@supabase/supabase-js", "supabase.auth.getUser",
         'supabase.rpc("has_admin_capability",', "Admin role required", "model_route_versions"
+      ] : functionName === "admin-ai-provider-probe" ? [
+        "serve(async (req)", "Access-Control-Allow-Origin", "@supabase/supabase-js", "supabase.auth.getUser",
+        'supabase.rpc("has_admin_capability",', 'capability: "ai.manage"', "Admin role required", 'service.rpc("record_ai_provider_probe",'
+      ] : functionName === "admin-team-invite" ? [
+        "serve(async (req)", "Access-Control-Allow-Origin", "@supabase/supabase-js", "supabase.auth.getUser",
+        'supabase.rpc("has_admin_capability",', 'capability: "roles.manage"', "Admin role required",
+        'service.rpc("admin_team_invite_begin",', 'service.rpc("admin_team_invite_finish",', "inviteUserByEmail", "REDIRECT_ENV"
       ] : functionName === "admin-astrology-prompt-config" ? [
         "serve(async (req)", "Access-Control-Allow-Origin", "@supabase/supabase-js", "supabase.auth.getUser",
         'supabase.rpc("has_admin_capability",', 'req.method === "GET" ? "ai.read" : "ai.manage"',
@@ -172,6 +179,10 @@ for (const functionName of adminFunctions) {
         "serve(async (req)", "Access-Control-Allow-Origin", "@supabase/supabase-js", "supabase.auth.getUser",
         'supabase.rpc("has_admin_capability",', 'capability: "roles.manage"', 'supabase.rpc("get_ai_trace_qa_capture",',
         'AI_TRACE_QA_CAPTURE_ENABLED', 'AI_TRACE_ENVIRONMENT', 'crypto.subtle.decrypt', 'Cache-Control'
+      ] : functionName === "admin-ai-eval-run" ? [
+        "serve(async (req)", "Access-Control-Allow-Origin", "@supabase/supabase-js", "supabase.auth.getUser",
+        'supabase.rpc("has_admin_capability",', "Admin role required", 'service.rpc("start_ai_eval_run",',
+        'service.rpc("finish_ai_eval_run",', "generateWithModelRoute", "strictTraceRedaction: true"
       ] : functionName === "admin-documentation" ? [
         "serve(async req", "Access-Control-Allow-Origin", "@supabase/supabase-js", "userClient.auth.getUser",
         'userClient.rpc("has_admin_capability",', 'capability: "ai.read"', "admin_document_access_log", "ownerGuideMarkdown"
@@ -340,6 +351,7 @@ for (const forbidden of ["w.email", "w.email_hash", "w.utm", "token_hash"]) {
 const supabaseConfig = read("supabase/config.toml").replaceAll("\r\n", "\n");
 assert(supabaseConfig.includes("[functions.marketing-waitlist]\nverify_jwt = false"), "marketing-waitlist must be explicitly public in config.toml");
 assert(supabaseConfig.includes("[functions.admin-documentation]\nverify_jwt = true"), "admin-documentation must require JWT verification in config.toml");
+assert(supabaseConfig.includes("[functions.admin-team-invite]\nverify_jwt = true"), "admin-team-invite must require JWT verification in config.toml");
 const modelRouterSource = read("supabase/functions/_shared/model-router.ts");
 assert(modelRouterSource.includes("createAiTrace") && modelRouterSource.includes("traceContext") && modelRouterSource.includes("traceHooks"), "Model router must emit AI trace context and provider hooks");
 for (const provider of ["openai", "anthropic", "gemini", "openrouter"]) {

@@ -69,7 +69,7 @@
     },
     {
       "path": "PLAN.md",
-      "sha256": "623655472929ded89ec6274d62923ae4a80206003f6d0a90ac75796864bd3b07",
+      "sha256": "9408dd752440bb7093312c81208052f25efd1e598a90aa8fa3040a76b6890026",
       "reason": "Current state, the Owner's open decisions and the last on-device test recipe."
     },
     {
@@ -163,18 +163,7 @@
   },
   "workingTreeReview": {
     "paths": [
-      "PLAN.md",
-      "apps/mobile/package.json",
-      "apps/mobile/src/features/share/ShareCardSheet.tsx",
-      "apps/mobile/src/features/share/__tests__/ShareCardSheet.test.tsx",
-      "apps/mobile/src/features/share/__tests__/shareCardContent.test.ts",
-      "apps/mobile/src/features/share/__tests__/shareLink.test.ts",
-      "apps/mobile/src/features/share/captureShareCard.ts",
-      "apps/mobile/src/features/share/shareCardContent.ts",
-      "apps/mobile/src/features/share/shareLink.ts",
-      "docs/release/share-events-2026-11-12/SHARE_EVENTS_HANDOFF.vi.md",
-      "docs/release/share-image-text-2026-11-14/SHARE_IMAGE_TEXT_HANDOFF.vi.md",
-      "package-lock.json"
+      "PLAN.md"
     ],
     "note": "Uncommitted work already in the tree from the previous task (clipboard copy of the message with the link, tests, handoff and PLAN.md notes) plus this task's edits."
   },

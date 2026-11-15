@@ -5,16 +5,40 @@ import {
   ModelProviderName,
   ModelProviderRequest,
   ModelRoute,
+  ModelRouteStep,
+  MAX_ROUTE_STEPS,
+  MIN_ATTEMPT_MS,
+  MODEL_PROVIDER_NAMES,
+  PROVIDER_SECRET_NAMES,
+  FEATURE_DEADLINE_MAX_MS,
+  REASONING_MODES,
+  ReasoningMode,
+  attemptTimeoutMs,
+  classifyProviderError,
+  resultOutcome,
   routeReasoning,
-  thrownProviderError
+  thrownProviderError,
+  validFeatureDeadlineMs
 } from "./model-provider.ts";
 import { AiTraceContext, AiTraceSpan, createAiTrace, traceGenerationInput } from "./ai-trace.ts";
 import { oracleSafetySignal } from "../../../packages/ai-contracts/oracle-safety.mjs";
 import { invokeAnthropic } from "./providers/anthropic.ts";
+import { invokeDeepSeek } from "./providers/deepseek.ts";
 import { invokeGemini } from "./providers/gemini.ts";
 import { invokeOpenAI } from "./providers/openai.ts";
 import { invokeOpenRouter } from "./providers/openrouter.ts";
 import { readOpenRouterBillingReceipt } from "./providers/openrouter-billing.ts";
+import { ConfiguredFeature, readActiveFeatureConfig } from "./feature-config.ts";
+import {
+  DATA_CLASS_RANK,
+  DataClass,
+  ProviderRegistry,
+  featureDataClass,
+  readProviderRegistry,
+  referencePrice,
+  reportProviderOutcome,
+  secretPresent
+} from "./provider-registry.ts";
 
 type EnvLike = {
   get?: (key: string) => string | undefined;
@@ -129,9 +153,43 @@ function envGet(env: EnvLike | undefined, key: string) {
   return typeof Deno !== "undefined" ? Deno.env.get(key) : undefined;
 }
 
+/**
+ * A7 (D3): model_route_versions.steps to the runtime shape. Anything outside the database bounds makes the whole chain
+ * unusable (undefined), so the route falls back to its primary/fallback columns, which the publish RPC keeps equal to
+ * the first two steps.
+ */
+export function parseRouteSteps(value: unknown): ModelRouteStep[] | undefined {
+  if (!Array.isArray(value) || value.length < 1 || value.length > MAX_ROUTE_STEPS) return undefined;
+  const steps: ModelRouteStep[] = [];
+  const int = (input: unknown, min: number, max: number) => typeof input === "number" && Number.isInteger(input) && input >= min && input <= max;
+  for (const raw of value) {
+    if (!raw || typeof raw !== "object") return undefined;
+    const step = raw as Record<string, unknown>;
+    if (!MODEL_PROVIDER_NAMES.includes(step.provider as ModelProviderName)) return undefined;
+    if (typeof step.model !== "string" || !step.model.trim() || step.model.length > 160) return undefined;
+    if (!int(step.timeout_ms, 1_000, FEATURE_DEADLINE_MAX_MS) || !int(step.max_tokens, 64, 8192)) return undefined;
+    if (typeof step.temperature !== "number" || step.temperature < 0 || step.temperature > 2 || typeof step.json_mode !== "boolean") return undefined;
+    let reasoning: ModelRouteStep["reasoning"] = null;
+    if (step.reasoning && typeof step.reasoning === "object") {
+      const r = step.reasoning as { mode?: unknown; maxTokens?: unknown };
+      if (!REASONING_MODES.includes(r.mode as ReasoningMode)) return undefined;
+      reasoning = { mode: r.mode as ReasoningMode, ...(int(r.maxTokens, 64, 8192) && r.mode !== "off" ? { maxTokens: r.maxTokens as number } : {}) };
+    }
+    steps.push({
+      provider: step.provider as ModelProviderName, model: step.model.trim(), timeoutMs: step.timeout_ms as number,
+      maxTokens: step.max_tokens as number, temperature: step.temperature, jsonMode: step.json_mode, reasoning
+    });
+  }
+  return steps;
+}
+
 function rowToRoute(row: any, fallback: ModelRoute): ModelRoute {
   if (!row) return fallback;
+  const steps = parseRouteSteps(row.steps);
+  const totalDeadlineMs = validFeatureDeadlineMs(row.total_deadline_ms);
   return {
+    ...(steps ? { steps } : {}),
+    ...(totalDeadlineMs !== undefined ? { totalDeadlineMs } : {}),
     id: row.id,
     feature: row.feature,
     version: row.version,
@@ -158,15 +216,19 @@ export class ActiveModelRouteError extends Error {
 export async function readActiveModelRoute(supabase: SupabaseLike | null | undefined, feature: string): Promise<ModelRoute> {
   const fallback = defaultModelRoutes[feature] ?? defaultModelRoutes.persona_chat;
   if (!supabase) return fallback;
+  const legacyColumns = "id, feature, version, status, primary_provider, primary_model, fallback_provider, fallback_model, temperature, max_output_tokens, response_schema, fallback_when, safety_policy";
+  const lookup = (columns: string) => supabase
+    .from("model_route_versions")
+    .select(columns)
+    .eq("feature", feature)
+    .eq("status", "active")
+    .order("published_at", { ascending: false, nullsFirst: false })
+    .order("id", { ascending: true })
+    .limit(2);
   try {
-    const { data, error } = await supabase
-      .from("model_route_versions")
-      .select("id, feature, version, status, primary_provider, primary_model, fallback_provider, fallback_model, temperature, max_output_tokens, response_schema, fallback_when, safety_policy")
-      .eq("feature", feature)
-      .eq("status", "active")
-      .order("published_at", { ascending: false, nullsFirst: false })
-      .order("id", { ascending: true })
-      .limit(2);
+    // A7 (D3): read the chain columns; before migration 20261113140000 they do not exist, so read the legacy columns.
+    let { data, error } = await lookup(`${legacyColumns}, steps, total_deadline_ms`);
+    if (error) ({ data, error } = await lookup(legacyColumns));
     // Ordinary traffic must not silently prefer a competing active revision.
     // Experimental traffic requires a separately reviewed explicit policy.
     if (!error && Array.isArray(data) && data.length > 1) throw new ActiveModelRouteError("ambiguous_active_model_route");
@@ -193,15 +255,13 @@ function detectSafetyIssue(text: string) {
 }
 
 function providerSecret(provider: ModelProviderName, env?: EnvLike) {
-  if (provider === "openai") return envGet(env, "OPENAI_API_KEY") ?? "";
-  if (provider === "openrouter") return envGet(env, "OPENROUTER_API_KEY") ?? "";
-  if (provider === "gemini") return envGet(env, "GEMINI_API_KEY") ?? "";
-  return envGet(env, "ANTHROPIC_API_KEY") ?? "";
+  return envGet(env, PROVIDER_SECRET_NAMES[provider] ?? PROVIDER_SECRET_NAMES.anthropic) ?? "";
 }
 
 async function invokeProvider(request: ModelProviderRequest, env?: EnvLike) {
   const apiKey = providerSecret(request.provider, env);
   if (request.provider === "openai") return await invokeOpenAI(request, apiKey);
+  if (request.provider === "deepseek") return await invokeDeepSeek(request, apiKey);
   if (request.provider === "openrouter") {
     return await invokeOpenRouter(request, apiKey, {
       siteUrl: envGet(env, "NILAZA_SITE_URL"),
@@ -233,6 +293,20 @@ export async function generateWithModelRoute(input: {
   acceptOutput?: (text: string, finishReason?: string) => string | undefined;
   /** The person's current message; when set, only it is checked with the shared safety policy, not the whole history. */
   safetyText?: string;
+  /**
+   * Admin A4: total wait for all model attempts (ai_feature_configs.deadline_ms, 5-140 s). Unset or out of range
+   * keeps today's behaviour: each attempt waits providerTimeoutMs(feature) (40 s, 60 s for astrology_report).
+   */
+  deadlineMs?: number | null;
+  /**
+   * Admin A7: per-turn cost cap in micro-USD for step chains. Undefined reads ai_feature_configs.cost_cap_micro;
+   * when that is unset too, 20 000 (0.02 USD, Owner 04/11) applies. Routes without steps ignore it (today's behaviour).
+   */
+  costCapMicro?: number | null;
+  /** Tests and tools: provider switches/circuits to use instead of reading ai_providers. */
+  providerRegistry?: ProviderRegistry | null;
+  /** Override of the feature's data class (FEATURE_DATA_CLASS). */
+  dataClass?: DataClass;
   supabase?: SupabaseLike | null;
   env?: EnvLike;
   strictTraceRedaction?: boolean;
@@ -273,6 +347,8 @@ export async function generateWithModelRoute(input: {
       });
   const trace = traceSetup.trace;
   const rootSpan = traceSetup.rootSpan;
+  // A7 (E5): step chain summary for the root span (skipped steps, spent cost, cap, deadline). Unset for legacy routes.
+  let chainSummary: Record<string, unknown> | undefined;
   const finish = async (result: ModelGenerationResult, status?: "ok" | "blocked" | "fallback" | "error") => {
     const defaultStatus = status ?? (result.moderationStatus === "blocked" ? "blocked" : result.moderationStatus === "fallback" ? "fallback" : "ok");
     const rootOutput = {
@@ -283,6 +359,8 @@ export async function generateWithModelRoute(input: {
       attemptCount: result.attempts.length,
       moderationStatus: result.moderationStatus,
       safetyReason: result.safetyReason ?? null,
+      outcome: resultOutcome(result),
+      ...(chainSummary ? { chain: chainSummary } : {}),
       traceVersion: "v1"
     };
     if (input.deferTraceFlush) {
@@ -348,6 +426,9 @@ export async function generateWithModelRoute(input: {
   }
 
   const attempts: ModelGenerationResult["attempts"] = [];
+  if (route.steps?.length) {
+    return await runStepChain();
+  }
   const reasoning = routeReasoning(route.safetyPolicy);
   const candidates = [
     { provider: route.primaryProvider, model: route.primaryModel, fallbackUsed: false },
@@ -355,10 +436,18 @@ export async function generateWithModelRoute(input: {
       ? { provider: route.fallbackProvider, model: route.fallbackModel, fallbackUsed: true }
       : null
   ].filter((candidate): candidate is { provider: ModelProviderName; model: string; fallbackUsed: boolean } => Boolean(candidate));
+  const deadlineMs = validFeatureDeadlineMs(input.deadlineMs);
+  const attemptsStartedAt = Date.now();
 
   for (const candidate of candidates) {
     let providerSpan: AiTraceSpan | undefined;
     try {
+      const timeoutMs = deadlineMs === undefined
+        ? undefined
+        : attemptTimeoutMs(deadlineMs, Date.now() - attemptsStartedAt, candidates.indexOf(candidate), candidates.length);
+      if (timeoutMs !== undefined && timeoutMs < MIN_ATTEMPT_MS) {
+        throw new ModelProviderError({ provider: candidate.provider, code: "provider_timeout", message: "Feature deadline reached before this attempt.", retryable: true });
+      }
       providerSpan = trace.startSpan({
         name: `llm.${candidate.provider}.${candidate.fallbackUsed ? "fallback" : "primary"}`,
         type: "generation",
@@ -391,6 +480,7 @@ export async function generateWithModelRoute(input: {
         maxOutputTokens: route.maxOutputTokens,
         responseSchema: route.responseSchema,
         ...(reasoning ? { reasoning } : {}),
+        ...(timeoutMs !== undefined ? { timeoutMs } : {}),
         traceHooks: {
           onRequest: (payload) => providerSpan?.captureWireRequest(payload),
           onResponse: (payload) => providerSpan?.captureWireResponse(payload)
@@ -527,4 +617,181 @@ export async function generateWithModelRoute(input: {
     usage: {},
     moderationStatus: "fallback"
   }, "fallback");
+
+  /**
+   * Admin A7 (E1/E5): walk route.steps in order. A step is skipped when its provider is switched off, has no secret,
+   * may not receive this feature's data class, has an open circuit, or would push the turn over the cost cap. A failed
+   * step moves on for transient, 429, 402, 401/403, 404, context length and (once per request) an unusable format;
+   * a safety block never moves on. The whole chain stays inside one total deadline (at most 140 s).
+   */
+  async function runStepChain() {
+    const steps = route.steps ?? [];
+    const getEnv = (key: string) => envGet(generationEnv, key);
+    const deps = { env: { get: getEnv } };
+    const registry = input.providerRegistry ?? (await readProviderRegistry(deps)).registry;
+    const dataClass = input.dataClass ?? featureDataClass(input.feature);
+    let costCapMicro: number | undefined = typeof input.costCapMicro === "number" && input.costCapMicro > 0 ? input.costCapMicro : undefined;
+    if (input.costCapMicro === undefined) {
+      const configFeature = (input.feature === "astrology_report" ? "astrology_insight" : input.feature) as ConfiguredFeature;
+      costCapMicro = (await readActiveFeatureConfig(configFeature, deps).catch(() => null))?.costCapMicro;
+    }
+    costCapMicro ??= DEFAULT_COST_CAP_MICRO;
+    const deadlines = [route.totalDeadlineMs, validFeatureDeadlineMs(input.deadlineMs)].filter((value): value is number => typeof value === "number");
+    const totalDeadlineMs = deadlines.length
+      ? Math.min(...deadlines)
+      : Math.min(FEATURE_DEADLINE_MAX_MS, steps.reduce((sum, step) => sum + step.timeoutMs, 0));
+    const startedAt = Date.now();
+    const skipped: Array<{ stepIndex: number; provider: string; reason: string }> = [];
+    let spentMicro = 0;
+    let formatRetryUsed = false;
+    let lastError: { code: string; errorClass: string } | undefined;
+    const report = (provider: ModelProviderName, value: Parameters<typeof reportProviderOutcome>[1]) =>
+      reportProviderOutcome(provider, value, deps).catch(() => false);
+    const summary = () => {
+      chainSummary = { stepCount: steps.length, skipped, spentMicro, costCapMicro, totalDeadlineMs, dataClass, lastErrorClass: lastError?.errorClass ?? null };
+    };
+    const canned = async (latencyMs = 0) => {
+      summary();
+      return await finish({
+        text: input.fallbackText, provider: "local_fallback", model: "safe_mock", routeVersionId: route.id, routeVersion: route.version,
+        fallbackUsed: true, attempts, latencyMs, usage: {}, moderationStatus: "fallback", outcome: "canned"
+      }, "fallback");
+    };
+    const safetyBlock = async (reason: string, latencyMs = 0, usage = {}) => {
+      summary();
+      return await finish({
+        text: input.fallbackText, provider: "local_fallback", model: "safety_fallback", routeVersionId: route.id, routeVersion: route.version,
+        fallbackUsed: true, attempts, latencyMs, usage, moderationStatus: "blocked", safetyReason: reason, outcome: "safety_block"
+      }, "blocked");
+    };
+
+    for (const [stepIndex, step] of steps.entries()) {
+      const policy = registry.get(step.provider);
+      const skipReason = !policy || !policy.enabled ? "disabled"
+        : !secretPresent(policy.secretName, getEnv) ? "missing_secret"
+        : DATA_CLASS_RANK[policy.allowedDataClass] < DATA_CLASS_RANK[dataClass] ? "data_class"
+        : policy.openedUntil !== null && policy.openedUntil > Date.now() ? "circuit_open"
+        : undefined;
+      if (skipReason) {
+        skipped.push({ stepIndex, provider: step.provider, reason: skipReason });
+        if (skipReason === "missing_secret" && policy?.configured !== false) await report(step.provider, { result: "not_configured" });
+        continue;
+      }
+      const remaining = totalDeadlineMs - (Date.now() - startedAt);
+      if (remaining < MIN_ATTEMPT_MS) {
+        skipped.push({ stepIndex, provider: step.provider, reason: "deadline" });
+        lastError = { code: "provider_timeout", errorClass: "transient" };
+        break;
+      }
+      const price = referencePrice(step.provider, step.model);
+      const inputChars = input.system.length + input.messages.reduce((sum, message) => sum + message.content.length, 0);
+      const projectedMicro = price ? Math.ceil(Math.ceil(inputChars / 3) * price[0] + step.maxTokens * price[1]) : 0;
+      if (spentMicro >= costCapMicro || spentMicro + projectedMicro > costCapMicro) {
+        skipped.push({ stepIndex, provider: step.provider, reason: "cost_cap" });
+        continue;
+      }
+      const timeoutMs = Math.min(step.timeoutMs, remaining);
+      const fallbackStep = stepIndex > 0;
+      const reasoning = step.reasoning ?? undefined;
+      let providerSpan: AiTraceSpan | undefined;
+      const stepCost = (receiptUsd: number | null | undefined, usage?: { inputTokens?: number; outputTokens?: number }) => {
+        if (typeof receiptUsd === "number" && Number.isFinite(receiptUsd)) return Math.round(receiptUsd * 1_000_000);
+        return price && usage ? Math.ceil((usage.inputTokens ?? 0) * price[0] + (usage.outputTokens ?? 0) * price[1]) : 0;
+      };
+      try {
+        providerSpan = trace.startSpan({
+          name: `llm.${step.provider}.${fallbackStep ? "fallback" : "primary"}`,
+          type: "generation",
+          parentSpanId: rootSpan.spanId,
+          input: {
+            feature: input.feature, provider: step.provider, model: step.model, system: input.system, messages: input.messages,
+            temperature: step.temperature, maxOutputTokens: step.maxTokens, responseSchema: route.responseSchema,
+            reasoning: reasoning ?? null, jsonMode: step.jsonMode, timeoutMs
+          },
+          attributes: { provider: step.provider, model: step.model, fallbackUsed: fallbackStep, routeVersion: route.version, stepIndex }
+        });
+        const response = await invokeProvider({
+          feature: input.feature, provider: step.provider, model: step.model, system: input.system, messages: input.messages,
+          temperature: step.temperature, maxOutputTokens: step.maxTokens, responseSchema: route.responseSchema,
+          ...(reasoning ? { reasoning } : {}), timeoutMs, jsonMode: step.jsonMode,
+          traceHooks: {
+            onRequest: (payload) => providerSpan?.captureWireRequest(payload),
+            onResponse: (payload) => providerSpan?.captureWireResponse(payload)
+          },
+          ...(input.qaTraceHooks ? { qaTraceHooks: input.qaTraceHooks } : {})
+        }, generationEnv);
+        const costMicro = stepCost(response.billingReceipt?.costUsd, response.usage);
+        spentMicro += costMicro;
+        attempts.push({ provider: step.provider, model: step.model, resolvedModel: response.model, ok: true, ...(response.billingReceipt ? { billingReceipt: response.billingReceipt } : {}) });
+        if (policy && (policy.failures > 0 || policy.openedUntil !== null)) await report(step.provider, { result: "ok" });
+        const providerSafety = ["content_filter", "refusal", "SAFETY", "PROHIBITED_CONTENT"].includes(String(response.finishReason ?? ""));
+        const outputSafety = providerSafety ? "provider_safety_block" : detectSafetyIssue(response.text);
+        providerSpan.update({
+          output: { text: response.text, provider: response.provider, model: response.model, requestId: response.requestId ?? null, usage: response.usage, finishReason: response.finishReason ?? null },
+          attributes: {
+            requestId: response.requestId ?? null, latencyMs: response.latencyMs, inputTokens: response.usage.inputTokens ?? null,
+            outputTokens: response.usage.outputTokens ?? null, totalTokens: response.usage.totalTokens ?? null, finishReason: response.finishReason ?? null,
+            costMicro, httpStatus: 200, errorClass: outputSafety ? "safety" : null, outcome: outputSafety ? "safety_block" : "ok",
+            ...(response.billingReceipt ? {
+              generation_id: response.billingReceipt.generationId ?? null, billing_status: response.billingReceipt.status,
+              billing_source: response.billingReceipt.source, charged_usd: response.billingReceipt.costUsd,
+              upstream_inference_cost_usd: response.billingReceipt.upstreamInferenceCostUsd, resolved_model: response.billingReceipt.model
+            } : {})
+          }
+        });
+        if (outputSafety) {
+          providerSpan.end("blocked", { blocked: true, safetyReason: outputSafety });
+          return await safetyBlock(outputSafety, response.latencyMs, response.usage);
+        }
+        providerSpan.end("ok");
+        const hasNext = stepIndex < steps.length - 1;
+        const rejection = hasNext && !formatRetryUsed ? input.acceptOutput?.(response.text, response.finishReason) : undefined;
+        if (rejection) {
+          formatRetryUsed = true;
+          attempts[attempts.length - 1] = { ...attempts[attempts.length - 1], ok: false, code: "malformed_response", detail: `output_check:${String(rejection).slice(0, 40)}` };
+          providerSpan.update({ attributes: { errorClass: "format", outcome: "rejected_format" } });
+          lastError = { code: "malformed_response", errorClass: "format" };
+          continue;
+        }
+        summary();
+        return await finish({
+          text: response.text, finishReason: response.finishReason, provider: response.provider, model: response.model,
+          routeVersionId: route.id, routeVersion: route.version, fallbackUsed: fallbackStep, attempts, requestId: response.requestId,
+          latencyMs: response.latencyMs, usage: response.usage, moderationStatus: "passed", outcome: fallbackStep ? "ok_fallback" : "ok"
+        }, "ok");
+      } catch (error) {
+        const providerError = error instanceof ModelProviderError ? error : thrownProviderError(step.provider, error);
+        const billingReceipt = step.provider === "openrouter" ? providerError.billingReceipt ?? readOpenRouterBillingReceipt(null, step.model) : undefined;
+        const costMicro = stepCost(billingReceipt?.costUsd);
+        spentMicro += costMicro;
+        const { errorClass, moveOn } = classifyProviderError(providerError);
+        attempts.push({
+          provider: step.provider, model: step.model, ok: false, code: providerError.code, status: providerError.status,
+          ...(providerError.providerDetail ? { detail: providerError.providerDetail } : {}),
+          ...(billingReceipt ? { resolvedModel: billingReceipt.model, billingReceipt } : {})
+        });
+        providerSpan?.update({
+          attributes: {
+            errorClass, httpStatus: providerError.status ?? null, costMicro, outcome: errorClass === "safety" ? "safety_block" : "error",
+            ...(billingReceipt ? { generation_id: billingReceipt.generationId ?? null, billing_status: billingReceipt.status, charged_usd: billingReceipt.costUsd } : {})
+          },
+          output: { errorCode: providerError.code, status: providerError.status ?? null, providerDetail: providerError.providerDetail ?? null, retryable: providerError.retryable, safetyBlocked: providerError.safetyBlocked }
+        }).end(providerError.safetyBlocked ? "blocked" : "error");
+        if (["transient", "rate_limit", "payment", "auth", "config"].includes(errorClass)) {
+          await report(step.provider, { result: "failure", errorClass: errorClass as "transient", ...(providerError.status ? { httpStatus: providerError.status } : {}) });
+        }
+        if (errorClass === "safety") return await safetyBlock(providerError.code);
+        lastError = { code: providerError.code, errorClass };
+        if (!moveOn) break;
+        if (errorClass === "format") {
+          if (formatRetryUsed) break;
+          formatRetryUsed = true;
+        }
+      }
+    }
+    return await canned();
+  }
 }
+
+/** Owner 04/11: a fallback step may cost more than the first, but one turn stays under 0.02 USD unless configured. */
+export const DEFAULT_COST_CAP_MICRO = 20_000;

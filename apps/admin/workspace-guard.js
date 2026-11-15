@@ -54,6 +54,9 @@
   }
   const requiredCapabilitiesByEntry = {
     "ai-studio.html": "ai.read",
+    "overview.html": "hub.read",
+    "timeline.html": "hub.read",
+    "team.html": "roles.manage",
     "content.html": "content.read",
     "growth.html": "overview.read"
   };
@@ -104,6 +107,9 @@
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", mountStatus, { once: true });
   else if (document.body) mountStatus();
   window.NilazaRequireCapability = async capability => window.NilazaAccess.can(await refresh(), capability);
+  // A rule is one capability, or alternatives separated by "|" where each alternative needs every
+  // capability joined by "+" (e.g. "ai.manage|ai.read+content.draft"). Callers must pass the exact rule.
+  const satisfiesRule = (access, rule) => rule.split("|").some(option => option.split("+").every(cap => window.NilazaAccess.can(access, cap)));
   // Workspace actions reuse the signed-in Supabase session instead of asking
   // an owner to paste a bearer token into the static console. The capability
   // is refreshed immediately before each request so revocation takes effect
@@ -120,7 +126,12 @@
       "/functions/v1/admin-model-router-config": { GET: "ai.read", POST: "ai.manage" },
       "/functions/v1/admin-astrology-prompt-config": { GET: "ai.read", POST: "ai.manage" },
       "/functions/v1/admin-ai-trace-qa-payload": { POST: "roles.manage" },
-      "/functions/v1/admin-documentation": { GET: "ai.read" }
+      "/functions/v1/admin-documentation": { GET: "ai.read" },
+      // Admin A6 eval runs (the function checks the same rule with the caller's session).
+      "/functions/v1/admin-ai-eval-run": { POST: "ai.manage|ai.read+content.draft" },
+      "/functions/v1/admin-ai-provider-probe": { POST: "ai.manage" },
+      // Thành viên & quyền (14/11): the function checks roles.manage with the caller's session before inviting.
+      "/functions/v1/admin-team-invite": { POST: "roles.manage" }
     };
     const requiredCapability = endpoints[target.pathname]?.[method];
     if ((!local && base.protocol !== "https:") || !["https:", "http:"].includes(base.protocol)
@@ -132,7 +143,7 @@
     const access = await refresh();
     requireTransport();
     const accessGeneration = generation;
-    if (!access || !window.NilazaAccess.can(access, requiredCapability)) {
+    if (!access || !satisfiesRule(access, requiredCapability)) {
       throw Error("Admin permission denied");
     }
     const { data: { session } = {}, error } = await client.auth.getSession();
@@ -160,7 +171,54 @@
     review_ai_feedback: "safety.review",
     get_ai_feature_switches: "ai.read",
     set_ai_feature_switch: "ai.manage",
-    get_growth_waitlist_overview: "overview.read"
+    // Versioned AI feature settings (A4, migrations 20261113090100 + 20261113090200); the RPCs check the same rule.
+    // Owner decision 13/11: editors (ai.read + content.draft) save drafts; only ai.manage publishes.
+    get_ai_feature_configs: "ai.read",
+    save_ai_feature_config_draft: "ai.manage|ai.read+content.draft",
+    publish_ai_feature_config: "ai.manage",
+    // Prompt versions (A5, migration 20261113095000); the RPCs check the same rules. Editors save drafts, ai.manage publishes.
+    list_prompt_versions: "ai.read",
+    save_prompt_draft: "ai.manage|ai.read+content.draft",
+    publish_prompt_version: "ai.manage",
+    // AI providers (A7, migration 20261113140100). The key-check recorder is service-role only and never listed here.
+    list_ai_providers: "ai.read",
+    set_ai_provider: "ai.manage",
+    // Data blocks sent to the model per feature (Owner request 14/11, migration 20261114090200); the RPCs check the
+    // same rules. Editors save drafts, ai.manage publishes. A config can only send less than the code defaults.
+    get_ai_context_configs: "ai.read",
+    save_ai_context_config_draft: "ai.manage|ai.read+content.draft",
+    publish_ai_context_config: "ai.manage",
+    get_growth_waitlist_overview: "overview.read",
+    // Per-item content drafts and publish (A3, migration 20261113100000); the RPCs check the same capabilities.
+    // Owner decision 6: editors (content.draft) save, restore and discard drafts; only content.publish publishes.
+    list_content_item_drafts: "content.read",
+    list_content_item_history: "content.read",
+    save_content_item_draft: "content.draft",
+    restore_content_item_version: "content.draft",
+    discard_content_item_draft: "content.draft",
+    publish_content_items: "content.publish",
+    // Staff action timeline (A3, migration 20261113100100).
+    get_admin_timeline: "hub.read",
+    // Evals and the release gate (A6, migration 20261113110000). Editors save sets, run and score; only ai.manage
+    // publishes or bypasses the quality layer. The RPCs check the same rules.
+    list_ai_eval_sets: "ai.read",
+    save_ai_eval_set: "ai.manage|ai.read+content.draft",
+    list_ai_eval_runs: "ai.read",
+    get_ai_eval_run: "ai.read",
+    score_ai_eval_result: "ai.manage|ai.read+content.draft",
+    get_ai_eval_gate: "ai.read",
+    list_ai_release_gate_pending: "ai.read",
+    publish_ai_feature_config_bypass: "ai.manage",
+    publish_prompt_version_bypass: "ai.manage",
+    // Feedback triage (A6, migration 20261113110100).
+    review_ai_feedback_v2: "safety.review",
+    list_ai_feedback_assignees: "safety.review",
+    // Thành viên & quyền (14/11, migration 20261114090000). Owner only; the RPCs refuse self changes and the last owner.
+    // The invite RPCs are service-role only and never listed here.
+    list_admin_team: "roles.manage",
+    get_admin_role_matrix: "roles.manage",
+    set_admin_member_role: "roles.manage",
+    revoke_admin_member: "roles.manage"
   };
   window.NilazaAdminRpc = async (name, params = {}, capability) => {
     requireTransport();
@@ -171,11 +229,16 @@
     const access = await refresh();
     requireTransport();
     const accessGeneration = generation;
-    if (!access || !window.NilazaAccess.can(access, requiredCapability)) throw Error("Admin permission denied");
-    const { data, error } = await client.rpc(name, params);
+    if (!access || !satisfiesRule(access, requiredCapability)) throw Error("Admin permission denied");
+    const { data, error, status } = await client.rpc(name, params);
     requireTransport();
     if (error || accessGeneration !== generation || window.NilazaAdminSession !== access) {
-      throw Error("Admin session unavailable");
+      // Callers get a fixed message plus the database/PostgREST code, never the raw server text.
+      // missingFunction: the RPC is not on this database yet (migration not applied).
+      const code = typeof error?.code === "string" ? error.code.slice(0, 16) : "";
+      const missingFunction = Boolean(error) && (code === "PGRST202" || code === "42883" || status === 404
+        || /could not find the function/i.test(String(error?.message || "")));
+      throw Object.assign(Error("Admin session unavailable"), { code, missingFunction });
     }
     return data;
   };

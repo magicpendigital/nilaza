@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "taskId": "ai-config-editor-drafts-2026-11-13",
+  "ownerAgent": "backend_agent",
+  "lane": "SQL + Admin: editors save AI feature config drafts, only ai.manage publishes (Owner decision 2026-11-13)",
+  "goal": "Apply the Owner decision of 2026-11-13 (spec ADMIN_SCREENS_SPEC_2026-11-04 section 5 row 6): an editor (ai.read and content.draft) may save an AI feature configuration draft; only an account with ai.manage may publish it. The database function, the Admin RPC allowlist and the Tinh nang AI page say the same thing, and publish keeps exactly its current check.",
+  "successCriteria": [
+    "New migration 20261113090200 replaces public.save_ai_feature_config_draft (same signature, same validation, advisory lock, audit row, security definer, empty search_path, revoke/grant) so it is allowed for ai.manage OR (ai.read AND content.draft); publish_ai_feature_config is not touched and stays ai.manage only.",
+    "Migrations 20261113090000 and 20261113090100 and supabase/functions/** are unchanged.",
+    "PGlite verification applies 090000, 090100 and 090200 in order: an editor saves a draft but publish is refused with 42501; an account with ai.read only (safety_reviewer) cannot save (42501); every earlier check still passes.",
+    "NilazaAdminRpc allowlists save_ai_feature_config_draft behind the expression ai.manage OR (ai.read AND content.draft); publish_ai_feature_config and set_ai_feature_switch stay ai.manage.",
+    "Tinh nang AI page: the draft form and Luu nhap show for ai.manage or ai.read+content.draft; Xem lai & phat hanh shows only with ai.manage; editors see that only the Owner publishes and their draft waits for review; switches stay ai.manage.",
+    "admin:test, validate-admin-contract, validate:backend, supabase:check and feature-preflight --ci pass (known Windows CRLF-only failure excepted)."
+  ],
+  "writeScope": [
+    "supabase/migrations/20261113090200_ai_feature_config_editor_drafts.sql",
+    "apps/admin/ai-features.js",
+    "apps/admin/workspace-guard.js",
+    "scripts/admin-a2-navigation.test.mjs",
+    "scripts/validate-admin-contract.mjs",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "supabase/migrations/20261113090000_* and 20261113090100_* are approved by hash and are not edited.",
+    "supabase/functions/** (Edge readers only read active rows; drafts never reach users).",
+    "publish_ai_feature_config, set_ai_feature_switch and nilaza_private.has_capability keep their checks; no role gains ai.manage.",
+    "No migration is applied by the agent; the Owner applies 20261113090200 by hash.",
+    "Mobile app and Edge request/response shapes are unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Admin Tinh nang AI page, Luu nhap button, NilazaAdminRpc save_ai_feature_config_draft.",
+    "dataWrite": "Editors can now create or overwrite the single draft row per feature in public.ai_feature_configs; every save is audited as ai.feature_config.draft with the editor's user id. Active rows are untouched until an ai.manage account publishes.",
+    "backendContract": "Same RPC signature and response; only the permission rule of save_ai_feature_config_draft widens to ai.read + content.draft.",
+    "adminVisibility": "Editors see the form and Luu nhap plus the message that only the Owner publishes; Owner/admin see Xem lai & phat hanh as before.",
+    "privacySafety": "Configuration only, no personal data. A draft has no effect on users until published by ai.manage.",
+    "observability": "admin_audit_logs action ai.feature_config.draft with admin_user_id of the editor.",
+    "rollback": "Re-run the save_ai_feature_config_draft definition from 20261113090100 (ai.manage only) or apply a follow-up migration with it; the client gate can stay since the database is authoritative."
+  },
+  "canonicalContracts": [
+    "supabase/migrations/20260902131408_owner_capability_boundary.sql nilaza_private.has_capability role map",
+    "supabase/migrations/20261113090100_ai_feature_configs.sql save_ai_feature_config_draft validation, lock and audit",
+    "apps/admin/workspace-guard.js allowedAdminRpcs"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "SQL and deploy need Owner approval each time.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Backend and Admin routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules and record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/ADMIN_SCREENS_SPEC_2026-11-04.vi.md",
+      "reason": "Section 5 row 6: editors have content.read, content.draft, ai.read; content.publish and ai.manage Owner-only.",
+      "sha256": "7eaf7aa64f6827ad96659b06ed7212ce667487f286ad50b717fc04d55c5c69ab"
+    },
+    {
+      "path": "supabase/migrations/20260902131408_owner_capability_boundary.sql",
+      "reason": "has_capability role map: content.draft owner/admin/editor; ai.read owner/admin/editor/safety_reviewer; ai.manage owner/admin.",
+      "sha256": "2f8fdac36b93d68f1a32da2d7a83b33c2b41b966589e8be9e1a85d56ace42a24"
+    },
+    {
+      "path": "supabase/migrations/20261113090100_ai_feature_configs.sql",
+      "reason": "save_ai_feature_config_draft body, grants and revokes copied unchanged except the permission line.",
+      "sha256": "5556bfd9ff4f2649d244cba6dbc242c3abedc97a3f8f9dc067f63959b49de04e"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before any code edit; migration left to the Owner by hash; PGlite verification only."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "No Edge or runtime change: drafts are never read by Edge Functions, only active rows."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "SQL verification uses @electric-sql/pglite installed in the session scratchpad only; nothing added to the repo."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "Only the permission line of save_ai_feature_config_draft changes, to ai.manage OR (ai.read AND content.draft) via nilaza_private.has_capability; publish stays ai.manage; table RLS and grants unchanged; function stays security definer with empty search_path, revoked from public/anon and granted to authenticated only.",
+    "sensitiveData": "Configuration only; no personal data.",
+    "secretsLogging": "No secret is read or set.",
+    "externalInput": "Validation copied byte-for-byte from 20261113090100 (feature list, allowed keys, numeric bounds, copy shape, quotaGroup pattern, note length).",
+    "dependencies": "No package added to the repo.",
+    "migrationRelease": "Owner applies 20261113090200 after 090000 and 090100 by hash. Until then editors see the form but the database refuses (42501) with a clear message.",
+    "stopCondition": "Stop if PGlite shows an editor can publish, a safety reviewer can save, or any earlier check fails.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Clean tree at start (724ac79); record and preflight passed (only the known env-only skills-install difference) before the first code edit. Then: migration 20261113090200 (PGlite 68/68 with 090000, 090100, 090200 applied in order), the draft rule in workspace-guard.js and ai-features.js, tests and PLAN.md. The two Admin files were reviewed at 48afd5e2 (ai-features.js) and b2d83679 (workspace-guard.js) before editing.",
+    "paths": [
+      "PLAN.md",
+      "apps/admin/ai-features.js",
+      "apps/admin/workspace-guard.js",
+      "scripts/admin-a2-navigation.test.mjs",
+      "scripts/validate-admin-contract.mjs",
+      "supabase/migrations/20261113090200_ai_feature_config_editor_drafts.sql"
+    ]
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/ai-config-editor-drafts-2026-11-13.json",
+    "node <scratchpad>/pglite-a4/verify.mjs <repo> (applies 090000, 090100, 090200; editor save ok, editor publish 42501, ai.read-only save 42501)",
+    "npm run admin:test",
+    "node scripts/validate-admin-contract.mjs",
+    "npm run validate:backend && npm run supabase:check",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "After the Owner applies 20261113090200: sign in as an editor, open Tinh nang AI, change Tarot to 2 turns and press Luu nhap; the card shows the draft and the note that only the Owner publishes, with no publish button. Sign in as the Owner: the draft is there and Xem lai & phat hanh works as before.",
+  "residualRisk": "has_capability still gives ai.manage to the admin role as well as owner (spec says Owner-only); this change does not alter that. Editor and Owner share one draft per feature: a later save overwrites the earlier draft, and the audit log keeps who saved what.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

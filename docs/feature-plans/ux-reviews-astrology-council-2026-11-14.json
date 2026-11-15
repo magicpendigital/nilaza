@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "taskId": "ux-reviews-astrology-council-2026-11-14",
+  "ownerAgent": "design_agent",
+  "lane": "Docs only: Astrology and Council UX/UI reviews and proposals for Owner approval",
+  "goal": "Owner request 14/11: analyse Astrology app UX plus its Admin flow, and Council app UX toward multiple user-created councils next to Nilaza presets. Proposal documents only; no app, backend or Admin code changes.",
+  "successCriteria": [
+    "docs/proposals/ASTROLOGY_UX_REVIEW_2026-11-14.vi.md lists launch blockers, ranked UX findings with file:line evidence, Admin flow target and Owner decisions.",
+    "docs/proposals/COUNCIL_UX_MULTI_2026-11-14.vi.md lists ranked UX findings, a multi-council MVP design, phases and Owner decisions.",
+    "Coordinator review corrections recorded in PLAN.md (astrology route and VI/EN prompt pair verified active on production 14/11)."
+  ],
+  "writeScope": [
+    "docs/proposals/ASTROLOGY_UX_REVIEW_2026-11-14.vi.md",
+    "docs/proposals/COUNCIL_UX_MULTI_2026-11-14.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "All app, Admin, Edge Function and migration code is unchanged by this record."
+  ],
+  "impact": {
+    "entryPoint": "No change: documents only.",
+    "dataWrite": "No change: documents only.",
+    "backendContract": "No change: documents only.",
+    "adminVisibility": "No change: documents only.",
+    "privacySafety": "No change: documents only.",
+    "observability": "No change: documents only.",
+    "rollback": "No change: documents only."
+  },
+  "canonicalContracts": [
+    "docs/proposals/ADMIN_REDESIGN_2026-11-03.vi.md section 5 navigation (target Admin flow for astrology)"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "SQL, deploy, secrets and account creation need Owner approval each time.",
+      "sha256": "ef155477ca5997a4e7fc2aa2d4ea0a2099190812de5b095d9e16eefda37b9daa"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Admin and backend routes and validation commands.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules and record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "supabase/functions/ai-council/index.ts",
+      "reason": "Council server flow reviewed for findings U1 and U4.",
+      "sha256": "a5801ab92f199972dae11ad1b04f919f510f9be3f58367b85358609d947877b7"
+    },
+    {
+      "path": "supabase/functions/ai-astrology-insight/index.ts",
+      "reason": "Astrology Deep read gating, route and prompt checks.",
+      "sha256": "ff803fe6198867e7ca38277743eae2450b2fd7850e00d4667c9df95c122cfa66"
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/BirthFields.tsx",
+      "reason": "Birth time composition (finding K6).",
+      "sha256": "1800af4c5d7676ea7cabb52b4884c1555708c73a465e9ba95e7dcbd11ced1b0b"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before the first edit; migration and deploy left to the Owner by hash; account creation (an invite) is an Owner action on staging; PGlite, Deno and jsdom tests only."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "auth.admin.inviteUserByEmail(email, { redirectTo, data }) from @supabase/supabase-js (the functions pin esm.sh @supabase/supabase-js@2.7.1, whose GoTrueAdminApi already has it) returns { data: { user }, error } and must only run on a server with the service role; redirectTo must match the Auth Redirect URLs list. Checked against the current Supabase docs and auth-js source on 2026-11-14. No repository dependency added; PGlite only in the session scratchpad."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://supabase.com/docs/reference/javascript/auth-admin-inviteuserbyemail",
+      "reason": "Method exists: sends an invite link to an email address; params email and options.",
+      "checkedAt": "2026-11-14"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/supabase/auth-js/master/src/GoTrueAdminApi.ts",
+      "reason": "Signature inviteUserByEmail(email, { data?, redirectTo? }) -> UserResponse; auth errors resolve as { data: { user: null }, error }; admin methods are server only with the service_role key.",
+      "checkedAt": "2026-11-14"
+    },
+    {
+      "url": "https://supabase.com/docs/guides/auth/redirect-urls",
+      "reason": "redirectTo should match the Redirect URLs list; Site URL is the default when no redirectTo is given.",
+      "checkedAt": "2026-11-14"
+    }
+  ],
+  "securityReview": {
+    "authzRls": "All member RPCs are security definer with search_path '' and check auth.uid() plus has_capability('roles.manage') (owner only); invite begin/finish are granted to service_role only and re-check from admin_role_assignments that the actor is an active owner; everything is revoked from public and anon. The new private table has no client grants. has_capability keeps its signature, invoker rights and answers, now reading the single map.",
+    "sensitiveData": "Only staff accounts are listed, with email and auth timestamps for the Owner; no tokens, password hashes, user metadata or app content. Audit rows carry user ids and roles, not emails.",
+    "secretsLogging": "The function never logs or returns the service key, the invite link, the email or Auth error text; the redirect URL comes from the ADMIN_INVITE_REDIRECT_URL env var whose value is not read by the agent.",
+    "externalInput": "Email trimmed, lowercased and checked (length 3-254, one @, a dot in the domain, no spaces or control characters) in both the function and SQL; role from a fixed list; owner needs an explicit confirmation flag; Admin escapes every value.",
+    "dependencies": "No package added; the function reuses the esm.sh supabase-js and std versions already pinned by other admin functions.",
+    "migrationRelease": "Owner applies 20261114090000_admin_team_roles.sql by hash, adds the Admin recovery URL to Auth Redirect URLs, sets ADMIN_INVITE_REDIRECT_URL and deploys admin-team-invite; until then the page names what is missing. Re-running has_capability's change is idempotent (create or replace).",
+    "stopCondition": "Stop if PGlite shows any capability answer differs from the old map, if any path lets a caller change their own roles or remove the last owner, if the function could return or log the invite link or a secret, or if any test fails.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [],
+    "note": "Documents written by review subagents on their own branches and merged by the coordinator."
+  },
+  "validationCommands": [
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Open the two proposal documents and read the Owner summary and decision sections.",
+  "residualRisk": "Findings come from code reading, not device testing; each document lists what is verified and what is inferred. One astrology blocker claim (missing route and prompt pair) was disproved by a read-only production query on 14/11.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

@@ -1,6 +1,8 @@
 import { buildInitialData, migrateLegacyDeckIdentity } from "./content-model.mjs";
 
 const BUNDLE_KEY = "nilaza_default";
+// Public image bucket for Admin uploads (A3, D8; migration 20261113100200_content_images_bucket.sql).
+export const IMAGE_BUCKET = "content-images";
 const REQUIRED_ARRAYS = ["personas", "decks", "cards", "assets", "frontendContent"];
 const CARD_CONTENT_FIELDS = ["name", "keywords", "intro", "personalityPortrait", "uprightMeaning", "reversedMeaning", "reflectionQuestion"];
 
@@ -11,32 +13,35 @@ function validPayload(payload) {
     && REQUIRED_ARRAYS.every((key) => Array.isArray(payload[key])));
 }
 
+// One deck card in the compact bundle form: unchanged content fields are omitted and edits are kept as overrides
+// against the base card. Shared by the whole-bundle payload and the per-item drafts (A3).
+export function compactCard(card, base) {
+  const overrides = card.overrides && typeof card.overrides === "object" && !Array.isArray(card.overrides)
+    ? clone(card.overrides)
+    : {};
+  for (const field of CARD_CONTENT_FIELDS) {
+    // Compact cards omit unchanged content fields. Preserve existing
+    // overrides and skip omitted fields when normalizing a second time.
+    if (!Object.prototype.hasOwnProperty.call(card, field)) continue;
+    if (JSON.stringify(card[field]) !== JSON.stringify(base?.[field])) overrides[field] = clone(card[field]);
+    else delete overrides[field];
+  }
+  return {
+    id: card.id,
+    baseCardId: card.baseCardId || card.id,
+    deckId: card.deckId,
+    status: card.status,
+    assetPath: card.assetPath || "",
+    updatedAt: card.updatedAt,
+    updatedBy: card.updatedBy,
+    ...(Object.keys(overrides).length ? { overrides } : {})
+  };
+}
+
 export function toBundlePayload(data) {
   const baseCards = clone(data.baseCards || []);
   const baseById = new Map(baseCards.map((card) => [card.id, card]));
-  const cards = (data.cards || []).map((card) => {
-    const base = baseById.get(card.baseCardId || card.id);
-    const overrides = card.overrides && typeof card.overrides === "object" && !Array.isArray(card.overrides)
-      ? clone(card.overrides)
-      : {};
-    for (const field of CARD_CONTENT_FIELDS) {
-      // Compact cards omit unchanged content fields. Preserve existing
-      // overrides and skip omitted fields when normalizing a second time.
-      if (!Object.prototype.hasOwnProperty.call(card, field)) continue;
-      if (JSON.stringify(card[field]) !== JSON.stringify(base?.[field])) overrides[field] = clone(card[field]);
-      else delete overrides[field];
-    }
-    return {
-      id: card.id,
-      baseCardId: card.baseCardId || card.id,
-      deckId: card.deckId,
-      status: card.status,
-      assetPath: card.assetPath || "",
-      updatedAt: card.updatedAt,
-      updatedBy: card.updatedBy,
-      ...(Object.keys(overrides).length ? { overrides } : {})
-    };
-  });
+  const cards = (data.cards || []).map((card) => compactCard(card, baseById.get(card.baseCardId || card.id)));
   return {
     schemaVersion: 4,
     sourceVersion: data.sourceVersion || "admin",
@@ -159,6 +164,21 @@ export async function createContentSync() {
         .single();
       if (error || !row) throw new Error(readableError(error));
       return row;
+    },
+    // Uploads one image with the signed-in session (never a pasted key). The bucket and its policies check the
+    // type, the 1 MB limit and content.draft again. Returns the public URL the app can load.
+    async uploadImage(objectPath, file) {
+      const bucket = client.storage.from(IMAGE_BUCKET);
+      const { data, error } = await bucket.upload(objectPath, file, { contentType: file.type, upsert: false, cacheControl: "31536000" });
+      if (error || !data?.path) {
+        const message = String(error?.message || "");
+        const status = String(error?.statusCode ?? error?.status ?? "");
+        throw Object.assign(new Error(readableError(error)), {
+          missingBucket: /bucket not found/i.test(message) || (status === "404" && /bucket/i.test(message)),
+          denied: status === "403" || /row-level security|unauthorized/i.test(message)
+        });
+      }
+      return bucket.getPublicUrl(data.path).data.publicUrl;
     },
     async publish(bundleId, expectedPublishedVersion) {
       const { data, error } = await client.rpc("publish_content_bundle", {

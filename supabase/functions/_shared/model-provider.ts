@@ -1,4 +1,26 @@
-export type ModelProviderName = "openai" | "openrouter" | "gemini" | "anthropic";
+export type ModelProviderName = "openai" | "openrouter" | "gemini" | "anthropic" | "deepseek";
+
+/** Admin A7 (D4): the Supabase secret NAME per provider. Only presence is ever checked; the value goes to the adapter. */
+export const PROVIDER_SECRET_NAMES: Record<ModelProviderName, string> = {
+  openrouter: "OPENROUTER_API_KEY",
+  anthropic: "ANTHROPIC_API_KEY",
+  gemini: "GEMINI_API_KEY",
+  openai: "OPENAI_API_KEY",
+  deepseek: "DEEPSEEK_API_KEY"
+};
+export const MODEL_PROVIDER_NAMES = Object.keys(PROVIDER_SECRET_NAMES) as ModelProviderName[];
+
+/** Admin A7 (D3): one step of a route chain (model_route_versions.steps, at most 4). */
+export type ModelRouteStep = {
+  provider: ModelProviderName;
+  model: string;
+  timeoutMs: number;
+  maxTokens: number;
+  temperature: number;
+  jsonMode: boolean;
+  reasoning?: ReasoningSetting | null;
+};
+export const MAX_ROUTE_STEPS = 4;
 
 export type ModelMessage = {
   role: "user" | "assistant";
@@ -19,6 +41,10 @@ export type ModelRoute = {
   responseSchema: string;
   fallbackWhen: string[];
   safetyPolicy: Record<string, unknown>;
+  /** A7: an explicit chain. Absent means today's primary + optional fallback behaviour. */
+  steps?: ModelRouteStep[];
+  /** A7: total wait for the whole chain, 5-140 s. */
+  totalDeadlineMs?: number;
 };
 
 /** A provider that has not answered after this long is aborted, so the route can fall back (analysis AI-14). */
@@ -28,8 +54,31 @@ export const PROVIDER_TIMEOUT_MS = 40_000;
  * Astrology AI reasons over a strict schema and needs longer (Owner 2026-11-03: 60 s per model). Two
  * attempts stay under the 150 s Supabase Edge Function idle limit; longer waits need streaming.
  */
-export function providerTimeoutMs(feature: string) {
+export function providerTimeoutMs(feature: string, attemptTimeoutMs?: number) {
+  if (typeof attemptTimeoutMs === "number" && Number.isFinite(attemptTimeoutMs) && attemptTimeoutMs > 0) return Math.floor(attemptTimeoutMs);
   return feature === "astrology_report" ? 60_000 : PROVIDER_TIMEOUT_MS;
+}
+
+/** Admin A4 (ai_feature_configs.deadline_ms): total wait for all model attempts of one request, 5-140 s. */
+export const FEATURE_DEADLINE_MIN_MS = 5_000;
+export const FEATURE_DEADLINE_MAX_MS = 140_000;
+/** An attempt with less time than this left is not started; it is recorded as provider_timeout. */
+export const MIN_ATTEMPT_MS = 1_000;
+
+export function validFeatureDeadlineMs(value: unknown): number | undefined {
+  return typeof value === "number" && Number.isInteger(value) && value >= FEATURE_DEADLINE_MIN_MS && value <= FEATURE_DEADLINE_MAX_MS
+    ? value
+    : undefined;
+}
+
+/**
+ * Time for attempt `index` of `count` under a total deadline: earlier attempts get at most an equal share so the
+ * fallback model still has time; the last attempt gets whatever is left. The sum never exceeds the deadline.
+ */
+export function attemptTimeoutMs(deadlineMs: number, elapsedMs: number, index: number, count: number): number {
+  const remaining = Math.max(0, deadlineMs - Math.max(0, elapsedMs));
+  if (index >= count - 1) return remaining;
+  return Math.min(remaining, Math.floor(deadlineMs / Math.max(1, count)));
 }
 
 export const REASONING_MODES = ["off", "minimal", "low", "medium", "high"] as const;
@@ -60,6 +109,10 @@ export type ModelProviderRequest = {
   responseSchema?: string;
   /** OpenRouter only for now; other providers ignore it. */
   reasoning?: ReasoningSetting;
+  /** Abort this attempt after this many ms instead of the feature default (set by the router under a total deadline). */
+  timeoutMs?: number;
+  /** A7 step chains: ask for a JSON object where the provider supports it. */
+  jsonMode?: boolean;
   metadata?: Record<string, unknown>;
   traceHooks?: {
     onRequest?: (payload: { url: string; method: "POST"; body: unknown }) => void;
@@ -134,12 +187,23 @@ export type ModelGenerationResult = {
   usage: ModelUsage;
   moderationStatus: "passed" | "blocked" | "fallback";
   safetyReason?: string;
+  /** E5: ok (first step answered), ok_fallback (a later step answered), canned (prepared text), safety_block. */
+  outcome?: ModelOutcome;
   traceId?: string;
   traceSpanId?: string;
   tracePersisted?: boolean;
   traceExported?: boolean;
   traceUrl?: string;
 };
+
+export type ModelOutcome = "ok" | "ok_fallback" | "canned" | "safety_block";
+
+export function resultOutcome(result: Pick<ModelGenerationResult, "moderationStatus" | "fallbackUsed" | "outcome">): ModelOutcome {
+  if (result.outcome) return result.outcome;
+  if (result.moderationStatus === "blocked") return "safety_block";
+  if (result.moderationStatus === "fallback") return "canned";
+  return result.fallbackUsed ? "ok_fallback" : "ok";
+}
 
 export class ModelProviderError extends Error {
   provider: ModelProviderName;
@@ -169,6 +233,29 @@ export class ModelProviderError extends Error {
     this.safetyBlocked = input.safetyBlocked ?? false;
     this.billingReceipt = input.billingReceipt;
   }
+}
+
+/**
+ * A7 (E1): why a step failed, and whether the chain may move to the next step. A safety block never moves;
+ * a format failure moves once per request (the router tracks "once"); anything unrecognised stops at canned text.
+ */
+export type ProviderErrorClass = "safety" | "transient" | "rate_limit" | "payment" | "auth" | "config" | "context_length" | "format" | "trace" | "other";
+export function classifyProviderError(error: ModelProviderError): { errorClass: ProviderErrorClass; moveOn: boolean } {
+  if (error.safetyBlocked) return { errorClass: "safety", moveOn: false };
+  if (error.code === "trace_capture_failed") return { errorClass: "trace", moveOn: false };
+  if (error.code === "missing_api_key") return { errorClass: "config", moveOn: true };
+  if (error.code === "malformed_response") return { errorClass: "format", moveOn: true };
+  if (["provider_timeout", "network_error", "provider_5xx"].includes(error.code) || (error.status ?? 0) >= 500) return { errorClass: "transient", moveOn: true };
+  if (error.status === 402) return { errorClass: "payment", moveOn: true };
+  if (error.status === 429 || error.code === "rate_limit") return { errorClass: "rate_limit", moveOn: true };
+  if (error.status === 401 || error.status === 403 || error.code === "provider_auth_error") return { errorClass: "auth", moveOn: true };
+  if (error.status === 404) return { errorClass: "config", moveOn: true };
+  const text = `${error.providerDetail ?? ""} ${error.message}`.toLowerCase();
+  if ((error.status === 400 || error.status === 413 || error.status === 422)
+    && /context|too long|too many tokens|maximum.{0,24}tokens|token limit|request_too_large/.test(text)) {
+    return { errorClass: "context_length", moveOn: true };
+  }
+  return { errorClass: "other", moveOn: false };
 }
 
 export function compactLines(lines: Array<string | undefined | null | false>) {

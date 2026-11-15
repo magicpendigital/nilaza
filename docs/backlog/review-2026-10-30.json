@@ -866,9 +866,9 @@
    "proposal": "Màn \"Thay đổi chờ publish\" chọn từng mục, xem khác biệt VI/EN, \"Publish N thay đổi\".",
    "evidence": "content.js:376 → 139–147",
    "size": "M–L",
-   "status": "open",
+   "status": "partial",
    "pr": null,
-   "note": null
+   "note": "14/11 (nhánh claude/admin-redesign-deployment-bd6129): A3 phát hành từng mục nội dung, chỉ các bản đã xem (đã áp migration 14/11)."
   },
   {
    "id": "AD-02",
@@ -892,9 +892,9 @@
    "proposal": "Tự lưu nháp online; hỏi \"Giữ bản nào?\" khi có cả hai; chỉ báo \"Đã lưu lúc…\".",
    "evidence": "content.js:401, 422–430",
    "size": "M",
-   "status": "open",
+   "status": "partial",
    "pr": null,
-   "note": null
+   "note": "14/11 (nhánh claude/admin-redesign-deployment-bd6129): A3 nháp nội dung lưu trên máy chủ, tách khỏi bản đã phát hành, có màn giải quyết xung đột (đã áp migration 14/11)."
   },
   {
    "id": "AD-04",
@@ -931,9 +931,9 @@
    "proposal": "Đóng mọi nháp khi publish; chỉ chọn nháp mới hơn bản published; test tích hợp.",
    "evidence": "content-sync.js:125–140 · admin_content_sync.sql:191–205",
    "size": "S–M",
-   "status": "open",
+   "status": "partial",
    "pr": null,
-   "note": null
+   "note": "14/11 (nhánh claude/admin-redesign-deployment-bd6129): A3 nháp và bản phát hành tách riêng theo từng mục (đã áp migration 14/11)."
   },
   {
    "id": "AD-07",
@@ -957,9 +957,9 @@
    "proposal": "Upload vào Supabase Storage, kiểm loại/kích thước, hiện nơi đang dùng.",
    "evidence": "content.js:247–264, 324",
    "size": "M–L",
-   "status": "open",
+   "status": "partial",
    "pr": null,
-   "note": null
+   "note": "14/11 (nhánh claude/admin-redesign-deployment-bd6129): A3 upload ảnh vào Supabase Storage, kiểm loại/kích thước (đã áp migration 14/11)."
   },
   {
    "id": "AD-09",
@@ -970,9 +970,9 @@
    "proposal": "Đợi phiên đăng nhập rồi mới tính khóa; \"Nháp đã lưu lúc…\"; cảnh báo trước khi rời trang.",
    "evidence": "app.js:489–494, 629–633, 758–771 · shell.js:85",
    "size": "S",
-   "status": "open",
+   "status": "partial",
    "pr": null,
-   "note": null
+   "note": "13/11 (nhánh claude/admin-redesign-deployment-bd6129): cảnh báo trước khi rời trang + đếm thay đổi chưa lưu ở mọi workspace; nút ghi rõ \"Lưu nháp trên trình duyệt này — chưa lên máy chủ\". Nháp prompt lên máy chủ: A5. 14/11: A5 nháp prompt và phiên bản lên máy chủ (đã áp migration 14/11)."
   },
   {
    "id": "AD-10",
@@ -985,7 +985,7 @@
    "size": "M",
    "status": "partial",
    "pr": "PR #14",
-   "note": "Mục Công tắc AI trong AI Studio (Council, Chat, Đọc sâu Chiêm tinh), bắt buộc lý do, ghi nhật ký; áp lên Singapore 08/11. 11/11: migration 20261111090000 thêm Tarot AI, Daily, Lá số tóm tắt (chạy thử PGlite), Tarot AI đọc công tắc — chờ Owner áp + deploy."
+   "note": "Mục Công tắc AI trong AI Studio (Council, Chat, Đọc sâu Chiêm tinh), bắt buộc lý do, ghi nhật ký; áp lên Singapore 08/11. 11/11: migration 20261111090000 thêm Tarot AI, Daily, Lá số tóm tắt (chạy thử PGlite), Tarot AI đọc công tắc — chờ Owner áp + deploy. 13/11: migration 20261113090000 thêm công tắc Oracle; trang Tính năng AI mới hiện đủ 7 công tắc + hạn mức/thời gian chờ theo tính năng (migration 20261113090100, chưa áp)."
   },
   {
    "id": "AD-11",
@@ -1061,9 +1061,9 @@
    "proposal": "Một chỉ báo lưu duy nhất; lỗi chỉ tắt khi bấm; hai cột VI | EN; huy hiệu \"Thiếu EN\"; thống nhất trạng thái.",
    "evidence": "content.js:163–170, 225–227, 412",
    "size": "S–M",
-   "status": "open",
+   "status": "partial",
    "pr": null,
-   "note": null
+   "note": "13/11: một nghĩa cho mỗi nút — \"Xem lại & phát hành\" (có hộp xác nhận, môi trường, ghi chú bắt buộc) chỉ ở chỗ phát hành thật; chỗ khác ghi rõ nháp trình duyệt hoặc ẩn nút kèm lý do. Ghi chú chưa lưu lên máy chủ."
   },
   {
    "id": "AD-19",
@@ -1100,9 +1100,9 @@
    "proposal": "Tiếng Việt mặc định; ẩn chi tiết kỹ thuật; endpoint suy từ cấu hình, không cho sửa.",
    "evidence": "index.html:2 · app.js:2183–2191",
    "size": "M",
-   "status": "open",
+   "status": "partial",
    "pr": null,
-   "note": null
+   "note": "13/11: lang=vi mọi trang, bỏ mọi ô JWT/anon key/URL endpoint (endpoint lấy từ config.js), chi tiết kỹ thuật thu gọn. Còn vài chữ tiếng Anh sâu trong Model Router/Council Builder."
   },
   {
    "id": "AD-22",
@@ -1139,9 +1139,9 @@
    "proposal": "Gộp thành 1 tầng (chọn tính năng + 5 tab); render hướng dẫn và đối chiếu với giao diện.",
    "evidence": "ai-studio.html:21–51 · content.js:332–336",
    "size": "M",
-   "status": "open",
+   "status": "partial",
    "pr": null,
-   "note": null
+   "note": "13/11: một thanh trái tiếng Việt theo mục 5 đề xuất 03/11 (Owner duyệt 13/11), lọc theo quyền, trang Tổng quan; các mục chưa có backend ghi \"Chưa áp dụng\"."
   },
   {
    "id": "AD-26 · AD-27",

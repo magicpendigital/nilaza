@@ -45,7 +45,8 @@ export async function invokeOpenAI(request: ModelProviderRequest, apiKey: string
       }))
     ],
     temperature: request.temperature,
-    max_tokens: request.maxOutputTokens
+    max_tokens: request.maxOutputTokens,
+    ...(request.jsonMode ? { response_format: { type: "json_object" } } : {})
   };
   request.traceHooks?.onRequest?.({
     url: "https://api.openai.com/v1/chat/completions",
@@ -54,7 +55,7 @@ export async function invokeOpenAI(request: ModelProviderRequest, apiKey: string
   });
   const response = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
-    signal: AbortSignal.timeout(providerTimeoutMs(request.feature)),
+    signal: AbortSignal.timeout(providerTimeoutMs(request.feature, request.timeoutMs)),
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json"

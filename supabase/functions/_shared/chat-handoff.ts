@@ -13,14 +13,24 @@ const record = (value: unknown): Record_ | null =>
 const orientationLabel = (value: unknown, vi: boolean) =>
   value === "reversed" ? (vi ? "ngược" : "reversed") : value === "upright" ? (vi ? "xuôi" : "upright") : "";
 
-export function handoffContextBlock(value: unknown, language: "vi" | "en"): string | null {
+export const HANDOFF_QUESTION_CHARS = 300;
+export const HANDOFF_SUMMARY_CHARS = 600;
+
+/** Admin (ai_context_configs) may shorten the question and summaries; never beyond today's 300 / 600 characters. */
+export type HandoffLimits = { questionChars?: number; summaryChars?: number };
+const capped = (value: number | undefined, cap: number) =>
+  typeof value === "number" && Number.isFinite(value) ? Math.max(1, Math.min(cap, Math.trunc(value))) : cap;
+
+export function handoffContextBlock(value: unknown, language: "vi" | "en", limits: HandoffLimits = {}): string | null {
   const context = record(value);
   if (!context) return null;
   const vi = language === "vi";
+  const questionChars = capped(limits.questionChars, HANDOFF_QUESTION_CHARS);
+  const summaryChars = capped(limits.summaryChars, HANDOFF_SUMMARY_CHARS);
   const lines: string[] = [];
   const source = text(context.sourceLabel, 80);
   if (source) lines.push(`${vi ? "Nguồn" : "Source"}: ${source}`);
-  const question = text(context.userQuestion, 300);
+  const question = text(context.userQuestion, questionChars);
   if (question) lines.push(`${vi ? "Câu hỏi khi đó" : "Question then"}: ${question}`);
 
   const tarot = record(context.tarot);
@@ -40,7 +50,7 @@ export function handoffContextBlock(value: unknown, language: "vi" | "en"): stri
       return [position, name, orientation].filter(Boolean).join(" · ");
     }).filter(Boolean);
     if (cardLines.length) lines.push(`${vi ? "Các lá" : "Cards"}: ${cardLines.join("; ")}`);
-    const synthesis = text(tarot.synthesis, 600);
+    const synthesis = text(tarot.synthesis, summaryChars);
     if (synthesis) lines.push(`${vi ? "Tóm tắt bài đọc" : "Reading summary"}: ${synthesis}`);
   }
 
@@ -53,7 +63,7 @@ export function handoffContextBlock(value: unknown, language: "vi" | "en"): stri
     if (focus) lines.push(`${vi ? "Trọng tâm" : "Focus"}: ${focus}`);
   }
 
-  const summary = text(context.safeSummary, 600);
+  const summary = text(context.safeSummary, summaryChars);
   if (summary && !tarot) lines.push(`${vi ? "Tóm tắt" : "Summary"}: ${summary}`);
   if (!lines.length) return null;
   return [
