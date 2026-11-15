@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "taskId": "auth-email-domain-records-2026-11-15",
+  "ownerAgent": "backend_agent",
+  "lane": "Records only: email sending domain switch, owner-only migration applied, auth email content proposal",
+  "goal": "Record the Owner-approved 15/11 operations (Resend domain auth.nilaza.magicpendigital.com verified, Supabase sender switched, sign-ups re-enabled, ai-astrology-report deleted, migration 20261115090000 applied) in the rollout receipt and PLAN.md, and add a proposal for Vietnamese auth email content. No code, SQL or template file changes.",
+  "successCriteria": [
+    "Receipt followUp2026-11-15b lists approval text, commands, read-back results and what is not verified.",
+    "PLAN.md items 10, 11, 12 and the header match the receipt.",
+    "Proposal docs/proposals/AUTH_EMAIL_TEMPLATES_2026-11-15.vi.md lists the sending situations found in code and draft content; nothing is applied to Supabase."
+  ],
+  "writeScope": [
+    "docs/release/singapore-edge-functions-2026-11-09/admin-14-11-rollout-2026-11-15.json",
+    "docs/proposals/AUTH_EMAIL_TEMPLATES_2026-11-15.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "supabase/templates/auth/*.html and manifest.json are unchanged until the Owner approves the content.",
+    "App, Admin, Edge Functions and migrations are unchanged."
+  ],
+  "impact": {
+    "entryPoint": "No user or admin entry point changes; documents only.",
+    "dataWrite": "No local, seed or database data is written.",
+    "backendContract": "No API, Edge Function or provider contract changes.",
+    "adminVisibility": "No Admin page or metric changes; documents only.",
+    "privacySafety": "Receipt names no keys or personal data; the Resend key value was never read.",
+    "observability": "No events, counters or logs change; documents only.",
+    "rollback": "Revert the commit; no runtime state to restore."
+  },
+  "canonicalContracts": [
+    "docs/release/singapore-edge-functions-2026-11-09/admin-14-11-rollout-2026-11-15.json is the rollout receipt for 14/11-15/11 Singapore changes"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Owner approval boundary for settings, SQL and deploys.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Records and docs lane.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "supabase/templates/auth/manifest.json",
+      "reason": "Existing prepared templates and variables.",
+      "sha256": "f3fd0cfffbe7bfe45a7d1383c90dde95b98ce9dbd8ce608b3371430c805c3401"
+    },
+    {
+      "path": "apps/mobile/src/auth/supabaseAuth.ts",
+      "reason": "Sign-up metadata (name only, no locale), resend and recovery calls.",
+      "sha256": "961d0c1c9aa6efaef860325a63982eac441c3a688d3180ec1493a72879b4fc2a"
+    },
+    {
+      "path": "supabase/functions/admin-team-invite/index.ts",
+      "reason": "Invite email uses the Supabase invite template.",
+      "sha256": "c5c2305f5d232ac71d381ebbc86bf3c5e13033ae86888918c9a3ad5b1a616ffc"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Records-only PR; PLAN.md updated in the same PR."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No packages or code."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No change in this PR; the migration was applied with Owner approval and is only recorded here.",
+    "sensitiveData": "No personal data or birth data; receipt holds only public domain names and command text.",
+    "secretsLogging": "No secret values recorded; the Resend key was never read.",
+    "externalInput": "No user or external input is processed; documents only.",
+    "dependencies": "No package, lockfile or dependency is added or changed.",
+    "migrationRelease": "No migration or release in this PR; records only.",
+    "stopCondition": "Stop if any secret value or personal data would be written to the repo.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Receipt, PLAN.md and proposal were written before this record (records-only change); recorded here per protocol.",
+    "paths": [
+      "docs/release/singapore-edge-functions-2026-11-09/admin-14-11-rollout-2026-11-15.json",
+      "docs/proposals/AUTH_EMAIL_TEMPLATES_2026-11-15.vi.md"
+    ]
+  },
+  "validationCommands": [
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Read PLAN.md section 4 items 11-12 and the proposal file.",
+  "residualRisk": "Real email delivery not yet observed in an inbox.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
