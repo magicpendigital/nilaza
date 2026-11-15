@@ -3,7 +3,8 @@ export const STORAGE_KEY = "nilaza.admin.content.v4";
 export const rolePermissions = {
   owner: { canView: true, canEdit: true, canPublish: true, canDelete: true, canManageAssets: true },
   content_admin: { canView: true, canEdit: true, canPublish: true, canDelete: false, canManageAssets: true },
-  admin: { canView: true, canEdit: true, canPublish: true, canDelete: false, canManageAssets: true },
+  // Owner decision 15/11 (migration 20261115090000): only owner publishes; admin drafts like editor.
+  admin: { canView: true, canEdit: true, canPublish: false, canDelete: false, canManageAssets: true },
   editor: { canView: true, canEdit: true, canPublish: false, canDelete: false, canManageAssets: false },
   safety_reviewer: { canView: true, canEdit: false, canPublish: false, canDelete: false, canManageAssets: false },
   reviewer: { canView: true, canEdit: false, canPublish: false, canDelete: false, canManageAssets: false },

@@ -11,8 +11,8 @@
   const escape = value => String(value ?? "").replace(/[&<>"']/g, char => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char]));
   const roleLabels = { owner: "Owner", admin: "Quản trị", editor: "Biên tập viên", safety_reviewer: "Kiểm duyệt an toàn" };
   const roleSummaries = {
-    owner: "Toàn quyền, kể cả mời người khác và đổi quyền của họ.",
-    admin: "Vận hành hằng ngày: phát hành nội dung và cài đặt AI, xem số liệu. Không quản lý thành viên.",
+    owner: "Toàn quyền: duy nhất được phát hành nội dung và cài đặt AI, mời người khác và đổi quyền của họ.",
+    admin: "Vận hành hằng ngày: soạn nháp nội dung và cài đặt AI, xem số liệu, gửi thông báo, duyệt an toàn. Không phát hành, không quản lý thành viên.",
     editor: "Soạn và lưu nháp nội dung, xem cài đặt AI. Không tự phát hành.",
     safety_reviewer: "Duyệt phản hồi và sự kiện an toàn, xem nội dung. Không sửa nội dung."
   };
@@ -23,7 +23,7 @@
     "content.publish": "Phát hành nội dung tới người dùng",
     "content.delete": "Xóa bản nháp nội dung",
     "ai.read": "Xem cài đặt AI, nhật ký AI và kết quả đánh giá",
-    "ai.manage": "Đổi và phát hành cài đặt AI: prompt, chuỗi model, nhà cung cấp",
+    "ai.manage": "Phát hành và đổi cài đặt AI đang chạy: prompt, chuỗi model, nhà cung cấp, công tắc tính năng",
     "roles.manage": "Mời thành viên, đổi quyền và thu hồi quyền của người khác",
     "overview.read": "Xem số liệu tổng quan và tăng trưởng",
     "notifications.dispatch": "Gửi thông báo tới người dùng",

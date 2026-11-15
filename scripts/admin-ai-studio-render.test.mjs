@@ -1488,3 +1488,20 @@ test("Model Router offers only the providers the backend reports as configured",
   assert.ok(!after.includes("openai") && !after.includes("anthropic"));
   dom.window.close();
 });
+
+test("Owner decision 15/11: admin (ai.read, no ai.manage) sees no Phát hành button on the model route editor; owner does", () => {
+  for (const [capabilities, hidden] of [[["ai.read", "content.draft"], true], [["ai.read", "ai.manage"], false]]) {
+    const dom = createAiStudioDom();
+    dom.window.NilazaAdminSession = { userId: "fictional-admin", role: hidden ? "admin" : "owner", capabilities };
+    const doc = dom.window.document;
+    doc.querySelector('[data-feature="oracle_router"]').click();
+    doc.querySelector('[data-detail="modelRouter"]').click();
+    const button = doc.querySelector("#publish-button");
+    assert.equal(button.hidden, hidden, capabilities.join());
+    if (hidden) {
+      assert.equal(button.disabled, true);
+      assert.match(doc.querySelector("#publish-locked-reason").textContent, /Chỉ Owner phát hành/);
+    } else assert.equal(button.dataset.publishMeaning, "publish");
+    dom.window.close();
+  }
+});
