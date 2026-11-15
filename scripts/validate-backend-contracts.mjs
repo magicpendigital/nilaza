@@ -346,6 +346,40 @@ const supabaseConfig = read("supabase/config.toml").replaceAll("\r\n", "\n");
 assert(supabaseConfig.includes("[functions.marketing-waitlist]\nverify_jwt = false"), "marketing-waitlist must be explicitly public in config.toml");
 assert(supabaseConfig.includes("[functions.admin-documentation]\nverify_jwt = true"), "admin-documentation must require JWT verification in config.toml");
 assert(supabaseConfig.includes("[functions.admin-team-invite]\nverify_jwt = true"), "admin-team-invite must require JWT verification in config.toml");
+
+// Billing lot 1 (2026-11-15): RevenueCat webhook is public at the gateway but guarded by a shared secret.
+assert(supabaseConfig.includes("[functions.revenuecat-webhook]\nverify_jwt = false"), "revenuecat-webhook must be explicitly public in config.toml (RevenueCat sends no JWT)");
+const revenuecatEntrypoint = read("supabase/functions/revenuecat-webhook/index.ts");
+const revenuecatHandler = read("supabase/functions/revenuecat-webhook/handler.ts");
+assert(revenuecatEntrypoint.includes('import { createRevenueCatWebhookHandler } from "./handler.ts"') && revenuecatEntrypoint.includes("serve(async req => await handler(req))"), "revenuecat-webhook must wire the tested handler");
+for (const required of ["REVENUECAT_WEBHOOK_AUTH", "SUPABASE_SERVICE_ROLE_KEY"]) {
+  assert(revenuecatEntrypoint.includes(required), `revenuecat-webhook entrypoint missing ${required}`);
+}
+for (const required of ["secretMatches", "MIN_SECRET_LENGTH", "MAX_BODY_BYTES", "nilaza_apply_revenuecat_event", "PREMIUM_ENTITLEMENT", "\"Cache-Control\": \"no-store\"", "transfer_not_applied", "test_event"]) {
+  assert(revenuecatHandler.includes(required), `revenuecat-webhook handler missing ${required}`);
+}
+assert(revenuecatHandler.indexOf("await secretMatches(req.headers") > 0 && revenuecatHandler.indexOf("await secretMatches(req.headers") < revenuecatHandler.indexOf("await readBoundedText(req)"), "revenuecat-webhook must check the secret before reading the body");
+assert(!revenuecatHandler.includes("await req.json()") && !revenuecatEntrypoint.includes("Access-Control-Allow-Origin"), "revenuecat-webhook must use bounded parsing and expose no CORS");
+assert(fs.existsSync(path.join(root, "supabase/functions/revenuecat-webhook/handler_test.ts")), "revenuecat-webhook must keep its handler tests");
+const revenuecatMigration = read("supabase/migrations/20261115090000_revenuecat_entitlements.sql");
+for (const required of [
+  "nilaza_private.revenuecat_webhook_events",
+  "force row level security",
+  "revoke all on table nilaza_private.revenuecat_webhook_events from public, anon, authenticated",
+  "public.nilaza_apply_revenuecat_event",
+  "set search_path = public, nilaza_private, pg_temp",
+  "from public, anon, authenticated",
+  "to service_role",
+  "'duplicate'",
+  "'stale'",
+  "'unknown_user'",
+  "on conflict (user_id, provider) do update"
+]) {
+  assert(revenuecatMigration.includes(required), `RevenueCat entitlement migration missing ${required}`);
+}
+assert(!/create\s+table\s+(if\s+not\s+exists\s+)?public\./i.test(revenuecatMigration) && !/(drop|create|alter)\s+policy/i.test(revenuecatMigration), "RevenueCat migration must not add public tables or change RLS policies");
+const astrologyInsightSource = read("supabase/functions/ai-astrology-insight/index.ts");
+assert(astrologyInsightSource.includes("resolveServerTier(") && astrologyInsightSource.includes("PREMIUM_ENTITLEMENTS"), "ai-astrology-insight must judge Premium through _shared/premium-entitlement.ts");
 const modelRouterSource = read("supabase/functions/_shared/model-router.ts");
 assert(modelRouterSource.includes("createAiTrace") && modelRouterSource.includes("traceContext") && modelRouterSource.includes("traceHooks"), "Model router must emit AI trace context and provider hooks");
 for (const provider of ["openai", "anthropic", "gemini", "openrouter"]) {

@@ -70,7 +70,8 @@ const requiredMigrations = [
   "20260909020528_marketing_waitlist_and_admin_documentation.sql",
   "20260913143958_marketing_consent_suppression_foundation.sql",
   "20260913184421_growth_waitlist_aggregate_read_model.sql",
-  "20260926152118_ai_studio_operations.sql"
+  "20260926152118_ai_studio_operations.sql",
+  "20261115090000_revenuecat_entitlements.sql"
 ];
 
 const requiredSeedTokens = [
@@ -165,6 +166,23 @@ for (const functionName of requiredFunctions) {
   const hasCors = source.includes("Access-Control-Allow-Origin") || (waitlistFactory && read("supabase/functions/marketing-waitlist/handler.ts").includes("Access-Control-Allow-Origin"));
   add(hasServe && hasCors ? "pass" : "fail", `function:${functionName}`, "Entrypoint has serve handler and CORS");
 }
+
+// Server-to-server webhooks are called by a provider, never by a browser, so they must NOT expose CORS.
+const requiredWebhookFunctions = ["revenuecat-webhook"];
+for (const functionName of requiredWebhookFunctions) {
+  const functionPath = `supabase/functions/${functionName}/index.ts`;
+  const handlerPath = `supabase/functions/${functionName}/handler.ts`;
+  if (!fileExists(functionPath) || !fileExists(handlerPath)) {
+    add("fail", `function:${functionName}`, "Missing webhook entrypoint or handler");
+    continue;
+  }
+  const source = read(functionPath);
+  const handler = read(handlerPath);
+  const hasServe = /serve\(async\s+(?:\(req\)|req)\s*=>/.test(source);
+  const noCors = !source.includes("Access-Control-Allow-Origin") && !handler.includes("Access-Control-Allow-Origin");
+  add(hasServe && noCors ? "pass" : "fail", `function:${functionName}`, "Webhook entrypoint has serve handler and no CORS");
+}
+add(envStatus("REVENUECAT_WEBHOOK_AUTH") ? "pass" : "warn", "env:REVENUECAT_WEBHOOK_AUTH", "Webhook shared secret present locally (value never printed; production value lives in Supabase secrets)");
 
 if (fileExists("supabase/seed.generated.sql")) {
   const seedSql = read("supabase/seed.generated.sql");
