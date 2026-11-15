@@ -804,6 +804,8 @@ export async function requestAstrologyAiInsight(
     const body = await response.json().catch(() => null) as {
       report?: AstrologyAiInsightResponse;
       provenance?: AnswerProvenance;
+      replay?: { replayed?: boolean };
+      replayContext?: { selectedFactIds?: unknown; facts?: unknown; caveats?: unknown };
       error?: { code?: string; message?: string };
     } | null;
     if (!response.ok) {
@@ -815,12 +817,16 @@ export async function requestAstrologyAiInsight(
     }
     if (!body?.report) throw new AstrologyAiRequestError("invalid_server_response", "The Astrology AI response was incomplete.", 502);
     if (options.session && !isAccountScopeActive(options.session)) throw new AstrologyAiRequestError("authentication_required", "Account session ended.", 401);
-    const context = { chart: input.chart, selectedFactIds: input.selectedFactIds, facts: input.facts, caveats: input.caveats };
+    // Nil P1-B: a replayed reading is checked against the facts it was written from (same chart, stored selection).
+    const replayed = body.replay?.replayed === true;
+    const context = replayed
+      ? { chart: input.chart, selectedFactIds: body.replayContext?.selectedFactIds, facts: body.replayContext?.facts, caveats: body.replayContext?.caveats } as NonNullable<AstrologyAiInsightResult["context"]>
+      : { chart: input.chart, selectedFactIds: input.selectedFactIds, facts: input.facts, caveats: input.caveats };
     const provenance = body.provenance ? parseAnswerProvenance(body.provenance, { feature: "astrology_insight", locale: input.language === "en" ? "en" : "vi", correlation }) : undefined;
     if (!validAstrologyAiResponse(body.report, context, { requestId: input.requestId, language: input.language }) || body.provenance && (!provenance || provenance.sourceKind !== "ai")) {
       throw new AstrologyAiRequestError("invalid_server_response", "The Astrology AI response could not be validated.", 502);
     }
-    return { report: body.report, provenance };
+    return { report: body.report, provenance, replayed, context };
   } catch (error) {
     if (error instanceof AstrologyAiRequestError) throw error;
     if (controller.signal.aborted) throw new AstrologyAiRequestError("request_timeout", "The Astrology AI request timed out.", 408);
@@ -831,25 +837,22 @@ export async function requestAstrologyAiInsight(
   }
 }
 
+// --- Astrology (Nil P1-B, 15/11/2026) ---------------------------------------------------------------
+// Readings are locked: the app may only read its own rows. "Delete" hides them through the
+// astrology_soft_delete_reports RPC (migration 20261115110000); the server keeps the row so the same
+// chart and topic still return the same reading and still count toward the daily limit.
 export async function deleteAstrologyAiReportForChart(input: BackendOptions, clientChartId: string) {
   const { sb, options } = personalClient(input);
-  await readPersonal(
-    sb.from("astrology_reports").delete().eq("user_id", options.userId!)
-      .contains("input_summary", { contractId: "nilaza.astrology.ai-insight", clientChartId }).select("id"),
-    options
-  );
+  await readPersonal(sb.rpc("astrology_soft_delete_reports", { p_client_chart_id: clientChartId }), options);
 }
 
 export async function deleteAstrologyAiReports(input: BackendOptions) {
   const options = currentOptions(input);
   if (!options.authToken || !options.userId) return;
   const { sb, options: scopedOptions } = personalClient(options);
-  await readPersonal(
-    sb.from("astrology_reports").delete().eq("user_id", scopedOptions.userId!)
-      .contains("input_summary", { contractId: "nilaza.astrology.ai-insight" }).select("id"),
-    scopedOptions
-  );
+  await readPersonal(sb.rpc("astrology_soft_delete_reports", { p_client_chart_id: null }), scopedOptions);
 }
+// --- end Astrology -----------------------------------------------------------------------------------
 
 export async function syncUserProfile(
   input: ProfileSyncInput,

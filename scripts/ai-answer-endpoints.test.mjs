@@ -27,6 +27,13 @@ function harness(feature, options={}) {
  const supabase={auth:{getUser:async()=>({data:{user:options.unauthorized?null:{id:user,is_anonymous:false}},error:null})},rpc:async(name,args)=>{calls.push({kind:'rpc',name,args});
   if(name==='tarot_draw_claim')return {data:{status:'created',reading:{...tarotDraw(),selected_cards:clone(args.p_cards),topic:args.p_topic,spread:args.p_spread,question:args.p_question,language:args.p_language,lock_key:args.p_lock_key,lock_date:args.p_lock_date}},error:null};
   if(name==='tarot_interpret_claim')return {data:{status:'claimed',attemptNumber:1,reading:storedDraw},error:null};
+  // Nil P1-B: synthetic astrology_claim_report. A completed row for the same lock key replays; otherwise claim a queued row.
+  if(name==='astrology_claim_report'){
+   if(options.claimOutcome)return {data:{outcome:options.claimOutcome},error:null};
+   if(storedReport&&storedReport.lock_key===args.p_lock_key&&storedReport.status==='completed')return {data:{outcome:'replay',report_id:storedReport.id},error:null};
+   storedReport={id:reportId,user_id:user,...clone(args.p_report),status:'queued',lock_key:args.p_lock_key,input_hash:args.p_input_hash};
+   return {data:{outcome:'claimed',report_id:reportId,attempts:1,delivered:0},error:null};
+  }
   return {data:null,error:null};},from(table){
   let action='select',value,filters=[],selection;
   const chain={select(columns){selection=columns;return chain},insert(input){action='insert';value=input;return chain},update(input){action='update';value=input;return chain},eq(...input){filters.push(input);return chain},is(){return chain},in(){return chain},gte(){return chain},order(){return chain},limit(){return chain},single(){return execute()},maybeSingle(){return execute()},then(resolve,reject){return execute().then(resolve,reject)}};
@@ -190,4 +197,19 @@ test('Tarot P1-A: the draw is made on the server and stored only through the ser
  assert.equal(status,200);assert.equal(body.status,'queued');assert.equal(body.cards.length,3);assert.deepEqual(body.cards.map(c=>c.positionKey),['past','present','potential']);
  const claim=h.calls.find(x=>x.kind==='rpc' && x.name==='tarot_draw_claim');assert.ok(claim);assert.equal(claim.args.p_user_id,user);assert.match(claim.args.p_lock_key,/^[0-9a-f]{64}$/);assert.deepEqual(clone(claim.args.p_cards),body.cards);assert.deepEqual(clone(claim.args.p_deck_ref),{id:'moon-garden',slug:'moon-garden'});
  assert.equal(claim.args.p_draw_cap,1,'free accounts keep one draw a day (min of the soft cap and delivered readings)');assert.equal(h.generations.length,0);assert.equal(h.writes.length,0);
+});
+
+test('Astrology same chart and topic replays the stored reading without a provider call or a new row',async()=>{
+ const h=harness('astrology');const first=await h.request();assert.equal(first.status,200,JSON.stringify(first.body));assert.equal(first.body.replay.replayed,false);
+ const second=await h.request({correlation:{attemptId:'attempt_second'}});assert.equal(second.status,200,JSON.stringify(second.body));
+ assert.equal(second.body.replay.replayed,true);assert.equal(h.generations.length,1,'one model call for both requests');
+ assert.deepEqual(second.body.report.synthesis,first.body.report.synthesis);assert.equal(second.body.provenance.attemptId,'attempt_second');assert.equal(second.body.provenance.remoteId,reportId);
+ assert.deepEqual(second.body.replayContext.selectedFactIds,first.body.report.evidenceFactIds.length?second.body.replayContext.selectedFactIds:[]);
+ const claims=h.calls.filter(x=>x.kind==='rpc'&&x.name==='astrology_claim_report');assert.equal(claims.length,2);assert.equal(claims[0].args.p_lock_key,claims[1].args.p_lock_key);assert.equal(claims[0].args.p_user_id,user);
+ assert.equal(h.writes.filter(x=>x.table==='astrology_reports'&&x.value.status==='completed').length,1);
+});
+
+test('Astrology in-progress and limit outcomes stop before the provider',async()=>{
+ const busy=harness('astrology',{claimOutcome:'in_progress'});const b=await busy.request();assert.equal(b.status,409);assert.equal(b.body.error.code,'report_in_progress');assert.equal(busy.generations.length,0);
+ const full=harness('astrology',{claimOutcome:'limit_reached'});const l=await full.request();assert.equal(l.status,429);assert.equal(l.body.error.code,'daily_limit_reached');assert.equal(full.generations.length,0);
 });

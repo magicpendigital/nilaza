@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "taskId": "nil-p1-astrology-lock-2026-11-15",
+  "ownerAgent": "backend_agent",
+  "lane": "backend/AI + mobile: lock and replay Astrology AI results, server-only writes on astrology_reports, local birth-profile edit lock (Nil pricing P1-B)",
+  "goal": "Nil pricing P1-B (docs/NIL_PRICING_STRATEGY_2026-11-15.vi.md sections 7-8): one Astrology AI result per (user, server-computed chart identity hash, topic from a fixed catalog, language, calculation version, prompt version). The same key replays the stored copy without a model call and without using a turn; a new topic generates under the existing daily limit. Results are immutable (trigger), only server code writes astrology_reports (claim RPC with advisory lock and unique index, service role), the app can only read its own rows and soft-delete through an RPC, and the user's own birth profile can be edited at most 2 times in the first 7 days (local, since the birth profile lives only on the device). Nothing is applied or deployed by the agent.",
+  "successCriteria": [
+    "New migration supabase/migrations/20261115110000_astrology_lock.sql (idempotent): columns lock_key, focus_topic, prompt_version, route_version, completed_at, deleted_at; partial unique index (user_id, lock_key) for non-failed rows; immutability trigger (identity columns never change, failed rows final, completed rows change only by soft delete and a one-time answer receipt link); authenticated keeps SELECT only on its own visible rows, anon nothing; service-role-only RPC public.astrology_claim_report with a per-user advisory lock that returns replay / in_progress / limit_reached / claimed and writes the attempted usage event atomically; authenticated RPC public.astrology_soft_delete_reports scoped to auth.uid().",
+    "ai-astrology-insight: handler factory (handler.ts) wired by index.ts; the server computes input_hash from a canonical chart identity (sorted placements plus contract and calculation versions) and ignores any client hash; topic comes from a fixed catalog (overview, identity, relationships, work, family, money, wellbeing, study, decision, patterns, general); replay returns the stored interpretation with only transport fields (requestId, reportRevision) rewritten plus the stored fact context; crisis and regulated-advice checks still return before any database write; route/prompt not ready still return before any write; AI failure marks the row failed so the key and the turn are not burned.",
+    "Deno tests: replay makes 0 provider calls, concurrent same-key requests make 1 model call, a different topic generates separately, a fake client hash is ignored, AI failure does not burn a turn, crisis returns crisis_support without a model call.",
+    "PGlite tests: unique key, immutability trigger, RLS and grants for authenticated / anon / service_role, soft delete still counts toward key and quota, migration re-runs cleanly.",
+    "Mobile: backendClient astrology section uses the soft-delete RPC instead of hard delete and accepts the replay context; AstrologyExperience shows a gentle replay notice; persistence keeps an optional local birthProfileLock (2 edits within 7 days, constants commented for a future Admin setting, salted hashes only, adding an exact birth time to the same date and place and re-entry after clearing birth data are free) enforced when the user saves a new own chart and before an AI question on an unsaved chart (calculation stays unlimited), blocking further changes with the agreed message; jest and tsc pass.",
+    "npm run validate:backend, supabase:check, supabase:migration-ledger:check, ai-operations:test, astrology:ai-contract:check pass (real results recorded) and preflight --ci against claude/nil-p0-p1-2026-11-15 is clean."
+  ],
+  "writeScope": [
+    "supabase/migrations/20261115110000_astrology_lock.sql",
+    "supabase/functions/ai-astrology-insight/",
+    "supabase/functions/_shared/astrology-ai-insight.ts",
+    "supabase/functions/_shared/astrology-lock.ts",
+    "apps/mobile/src/features/astrology/",
+    "apps/mobile/src/backendClient.ts",
+    "scripts/ai-answer-endpoints.test.mjs",
+    "scripts/validate-backend-contracts.mjs",
+    "scripts/astrology-lock-sql.test.mjs",
+    "docs/release/nil-p1-astrology-lock-2026-11-15/HANDOFF.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "Applied migrations are not edited (20260627000000 keeps its original grant text; the new migration revokes).",
+    "apps/mobile/App.tsx (Tarot agent owns it): the clear-birth-profile toast and wiring stay; exact proposals go to the report.",
+    "apps/mobile/src/backendClient.ts Tarot sections, PLAN.md, provider-registry, model-router, ai-trace, Admin: unchanged.",
+    "Nil wallet, Daily Insight rerollCount, temperature, server-side chart engine: proposals only. packages/astrology-core is not changed.",
+    "Friends' charts keep the local cap of 20 (proposal only: Free about 2, Premium about 10). On-device chart calculation and viewing saved charts stay unlimited and never call AI."
+  ],
+  "impact": {
+    "entryPoint": "Astrology > Đọc sâu với AI (ask a question) and the saved-chart delete / clear-birth-profile actions; the birth form for the user's own chart.",
+    "dataWrite": "public.astrology_reports gains columns and a trigger; rows are written only by the service role through the Edge Function and the claim RPC; client delete becomes soft delete (status deleted + deleted_at, content kept, still counts toward key and quota). usage_events attempted rows are written inside the claim RPC. AsyncStorage nilaza.astrology.v2 gains an optional birthProfileLock (salt, current hash, revision list with hashes and timestamps).",
+    "backendContract": "POST ai-astrology-insight keeps its request schema; the response adds replay {replayed, topic} and replayContext {chart, selectedFactIds, facts, caveats} on a replay; new 409 report_in_progress while the same question is being answered. New RPCs public.astrology_claim_report (service_role only) and public.astrology_soft_delete_reports (authenticated, own rows). The function now needs SUPABASE_SERVICE_ROLE_KEY (already present in Edge env for other functions).",
+    "adminVisibility": "No Admin change. usage_events keeps astrology_ai_insight_attempted (now only for real generations; replays write no attempt) and output_rejected telemetry; rows carry prompt_version, route_version, calculation_version, focus_topic for later Admin views.",
+    "privacySafety": "Only selected chart facts and the current question reach the model, as before. The question text is never stored; only its topic. Crisis (115) and regulated-advice blocks are unchanged and happen before any write. Soft delete keeps the reading on the server until account deletion (cascade) - Owner decision recorded as a risk. Local lock stores salted hashes only; clearing birth data rotates the salt.",
+    "observability": "Claim outcome (replay / in_progress / limit_reached / claimed) is visible through the HTTP status and the attempted usage event; traces are unchanged for real generations; replay makes no trace.",
+    "rollback": "Redeploy the previous ai-astrology-insight build, then run the rollback SQL in the handoff (drop the two RPCs, trigger and trigger function, unique index, restore grant select, insert, update, delete to authenticated and the 'users manage own astrology reports' FOR ALL own-row policy). Added columns are nullable and can stay."
+  },
+  "canonicalContracts": [
+    "packages/agent-config/astrology-ai-insight/{contract.json,request.schema.json,response.schema.json} (unchanged)",
+    "supabase/functions/_shared/astrology-ai-insight.ts validateAstrologyAiInvocation / validateAstrologyAiResponse",
+    "packages/ai-contracts/answer-provenance.ts parseAnswerProvenance",
+    "packages/agent-config/account-tier-policy.json astrologyAi.dailyLimit and ai-astrology-insight FAILED_ATTEMPT_ALLOWANCE"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_test_fixtures"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "SQL and deploy need Owner approval each time; agent prepares and verifies only.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Backend/AI and mobile routes and validation commands.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules and record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/NIL_PRICING_STRATEGY_2026-11-15.vi.md",
+      "reason": "Sections 7-8: lock key, replay costs nothing, 2 edits in 7 days, remove client write rights, delete = mark deleted and still counted.",
+      "sha256": "28f7ba99545459ad013472ee69fed0e09bfc3335c9986b3572b227f7fc2ad1ba"
+    },
+    {
+      "path": "supabase/migrations/20260627000000_astrology_backend_contract.sql",
+      "reason": "astrology_reports columns, grant to authenticated and FOR ALL own-row policy that this task narrows.",
+      "sha256": "11361a02d30d41181aeef3b0db5b5b91298cc841ddf0f061eea3f075a3751f4c"
+    },
+    {
+      "path": "supabase/migrations/20261004183447_client_table_privilege_boundary.sql",
+      "reason": "Public table inventory guard; no new public table is added.",
+      "sha256": "2e5af56a94de7f79f403d78cc99fdd3f521984d63e6ca200f3cf7b9e508f8061"
+    },
+    {
+      "path": "supabase/tests/owner_capability_boundary.sql",
+      "reason": "Policies on astrology_reports must not reference is_admin.",
+      "sha256": "2ef41c14c60eea163665d3141d27423a62796d7a5330baa25369d9f641bcdf51"
+    },
+    {
+      "path": "supabase/functions/ai-astrology-insight/index.ts",
+      "reason": "Current flow (auth, switch, crisis, quota, route, prompt, write, generate, receipt) to preserve while adding replay and RPC claim.",
+      "sha256": "23a5851267a3e11ed6d693ed063ba61c097263567ca62ef8c85dbf9208cfaa6c"
+    },
+    {
+      "path": "supabase/functions/_shared/astrology-ai-insight.ts",
+      "reason": "Invocation and response validation, blocked topics, existing hashAstrologyAiInput.",
+      "sha256": "26bb18c88c9287168bda279a9218fd6bdc50f97ee5f43aa90b2fc857cca2b5f6"
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/persistence.ts",
+      "reason": "Local AstrologyData shape and validation; the birth profile is local only.",
+      "sha256": "126a43f4ecd0933f3f3b9b08591995250f43576aa16f0c77303a2afb5b49159e"
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+      "reason": "compute(), runAiQuestion error copy, saved chart flow.",
+      "sha256": "25566f3757ca700b9f169f8234fac0d5ff50ebe740f9e942d35f99c8569420c2"
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/astrologyAiInsight.ts",
+      "reason": "Invocation builder: placements are all eligible bodies, aspects and houses depend on the selection.",
+      "sha256": "e7a86be248d89aadd5f402fd3ff6d797dc53694852ff4c9620e5185ab76a07a4"
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "reason": "Astrology section: requestAstrologyAiInsight, hard deletes, getAstrologyReports (shared file with Tarot agent).",
+      "sha256": "df5eab55bfee2d5570453bc76829cf60da0887f73f62925435dfb0ec48226e84"
+    },
+    {
+      "path": "scripts/ai-answer-endpoints.test.mjs",
+      "reason": "Shared Tarot/Astrology endpoint harness; astrology cases follow the new RPC flow.",
+      "sha256": "ed4e85b31d61beb1177a25d0550835bd2e9480108ad9304ff144cba9a57cf465"
+    },
+    {
+      "path": "scripts/validate-backend-contracts.mjs",
+      "reason": "Astrology function string checks read index.ts; extended to handler.ts.",
+      "sha256": "adc8fd180a4d217e3f7dc9394ba57f78f5542860f12269f735424720b457a990"
+    },
+    {
+      "path": "packages/agent-config/account-tier-policy.json",
+      "reason": "Astrology AI daily limit 1.",
+      "sha256": "79bee268908ae19ed7a07d185060476a0e08bf8b2f91a74baff161840a5c76a0"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and --record preflight before the first edit; migration and deploy left to the Owner by hash; PGlite, Deno and jest only."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Every model call stays behind sign-in, switch and quota; safety block never falls through; replay sends nothing to a provider; context sent to the model unchanged."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Plain PostgreSQL (advisory locks, partial unique index, triggers, grants) and existing supabase-js 2.7.1 rpc; no package added. A small pure-JS SHA-256 is written in the mobile feature folder. PGlite 0.3.16 from the session scratchpad is loaded only when NILAZA_PGLITE_MODULE points to it."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "authenticated: SELECT own rows with deleted_at null only; INSERT/UPDATE/DELETE revoked; anon: all revoked. astrology_claim_report: execute revoked from public/anon/authenticated, granted to service_role (it takes a user id, so it must never be client-callable). astrology_soft_delete_reports: security definer, search_path '', scoped to auth.uid(), only flips completed rows to deleted. No policy uses is_admin.",
+    "sensitiveData": "Question text is not stored (topic only). input_hash is a hash of chart placements already stored in chart_data for the same row. Local lock hashes are salted per install and the salt rotates when birth data is cleared.",
+    "secretsLogging": "The function reads SUPABASE_SERVICE_ROLE_KEY from Edge env as other functions already do; the agent never reads or prints key values. No new logs with user content.",
+    "externalInput": "Client-sent hash fields are ignored; topic is derived from the validated focus and question into a fixed catalog; the RPC re-validates hex formats, topic catalog and limits.",
+    "dependencies": "No package or remote import added; only existing supabase-js 2.7.1, std 0.168.0 and Ajv imports are reused.",
+    "migrationRelease": "Owner applies 20261115110000_astrology_lock.sql by its LF SHA-256 and then deploys ai-astrology-insight right after (between the two steps the old function cannot write reports and answers 503 without using a turn). Old app builds that hard-delete get a permission error on clear-birth-profile until updated.",
+    "stopCondition": "Stop if crisis/115 handling changes, if any test shows a replay calling a provider, if a client role can write astrology_reports, or if any check fails.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Clean worktree D:/nilaza_clean_staging/nil-astro on branch claude/nil-p1-astro-2026-11-15 (cut from claude/nil-p0-p1-2026-11-15, HEAD 3a624c7); this record was written and its --record preflight run before the first code edit. sourceReview hashes of edited files are refreshed (LF) to the final tree.",
+    "paths": []
+  },
+  "validationCommands": [
+    "node scripts/feature-preflight.mjs --record docs/feature-plans/nil-p1-astrology-lock-2026-11-15.json",
+    "npx --yes deno@2 test supabase/functions/ai-astrology-insight",
+    "NILAZA_PGLITE_MODULE=<scratchpad>/pglite/node_modules/@electric-sql/pglite/dist/index.js node --test scripts/astrology-lock-sql.test.mjs",
+    "npm run ai-operations:test",
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "npm run validate:backend && npm run supabase:check && npm run supabase:migration-ledger:check && npm run astrology:ai-contract:check",
+    "node scripts/feature-preflight.mjs --ci --base claude/nil-p0-p1-2026-11-15"
+  ],
+  "managerTestPath": "After the Owner applies the migration and deploys ai-astrology-insight: open Chiêm tinh, ask the AI a question about love; ask again with different words about love: the same reading comes back with the note that it is kept for consistency and no turn is used; ask about work: a new reading (uses the day's turn if available). Delete the saved reading, ask about love again: the reading returns. In the birth form, change your own birth time twice: allowed; the third time shows 'Hồ sơ sinh đã được khoá để kết quả luôn nhất quán...'.",
+  "residualRisk": "Soft delete keeps reading content on the server until account deletion; the App.tsx toast after clearing the birth profile still says the synced readings were deleted (Owner decision + App.tsx proposal). The local birth-profile lock can be bypassed by reinstalling the app or clearing app data; server keying by input_hash and the daily limit still protect AI cost. Topic classification is keyword based: a reworded question in the same topic gets the stored reading, and an unclassified question falls into 'general'. A new prompt version allows a new reading per topic. The server cannot verify chart facts without its own chart engine (proposal). Deploy order matters (migration, then function).",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
