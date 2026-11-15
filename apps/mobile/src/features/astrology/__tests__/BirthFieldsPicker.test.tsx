@@ -26,3 +26,28 @@ test("the device clock fills hour, minute and morning or afternoon", () => {
   expect(onChange).toHaveBeenLastCalledWith("20:05");
   expect(screen.getByLabelText("Giờ").props.value).toBe("8");
 });
+
+test("typing 15 with Sáng selected switches to Chiều and saves 15:30 (UX review K6)", () => {
+  const onChange = jest.fn();
+  const screen = render(<BirthTimeFields language="vi" value="" onChange={onChange} />);
+  fireEvent.changeText(screen.getByLabelText("Phút"), "30");
+  fireEvent.changeText(screen.getByLabelText("Giờ"), "15");
+  expect(onChange).toHaveBeenLastCalledWith("15:30");
+  expect(screen.getByRole("radio", { name: "Chiều" }).props.accessibilityState).toEqual({ selected: true });
+  fireEvent.press(screen.getByRole("radio", { name: "Sáng" }));
+  expect(onChange).toHaveBeenLastCalledWith("03:30");
+  expect(screen.getByLabelText("Giờ").props.value).toBe("3");
+});
+
+test("an impossible minute or hour shows an inline message and clears the time", () => {
+  const onChange = jest.fn();
+  const screen = render(<BirthTimeFields language="vi" value="" onChange={onChange} />);
+  fireEvent.changeText(screen.getByLabelText("Giờ"), "9");
+  fireEvent.changeText(screen.getByLabelText("Phút"), "75");
+  expect(onChange).toHaveBeenLastCalledWith("");
+  expect(screen.getByText("Phút chỉ từ 0 đến 59.")).toBeTruthy();
+  fireEvent.changeText(screen.getByLabelText("Phút"), "10");
+  fireEvent.changeText(screen.getByLabelText("Giờ"), "25");
+  expect(onChange).toHaveBeenLastCalledWith("");
+  expect(screen.getByText("Giờ chỉ từ 0 đến 23.")).toBeTruthy();
+});

@@ -7,7 +7,8 @@
   // - only the blocks in SPEC exist; locked inputs (the message, language, persona) show a lock and a reason;
   // - every limit max equals today's code value, so a config can only send less than today;
   // - crisis screening, the separate data block and the provider data-class floor never read this config.
-  // Configurable now: persona_chat, daily_insight, ai_council. The other four features are shown read-only.
+  // Configurable now: persona_chat, daily_insight, ai_council. The other three features are shown read-only
+  // (the legacy ai-astrology-report entry was removed with the function, Owner decision 2026-11-15).
   // Reading needs ai.read. Saving a draft needs ai.manage, or ai.read + content.draft (editor); publishing needs
   // ai.manage. NilazaAdminRpc and the database check again.
   // SPEC is a copy of packages/agent-config/ai-context-blocks.json; scripts/admin-context-config.test.mjs keeps them equal.
@@ -385,48 +386,12 @@
             "limit": "Danh sách cố định"
           }
         ]
-      },
-      "astrology_report": {
-        "label": "Báo cáo chiêm tinh",
-        "function": "ai-astrology-report",
-        "configurable": false,
-        "floorDataClass": "sensitive",
-        "fields": [
-          {
-            "id": "birth",
-            "label": "Ngày, giờ, múi giờ sinh",
-            "dataClass": "sensitive",
-            "consent": "Đồng ý dữ liệu sinh",
-            "limit": "Gửi nguyên — cần Owner quyết"
-          },
-          {
-            "id": "place",
-            "label": "Nơi sinh và tọa độ",
-            "dataClass": "sensitive",
-            "consent": "Đồng ý dữ liệu sinh",
-            "limit": "Gửi nguyên — cần Owner quyết"
-          },
-          {
-            "id": "chart",
-            "label": "Vị trí hành tinh, nhà, góc chiếu",
-            "dataClass": "sensitive",
-            "consent": "Đồng ý dữ liệu sinh",
-            "limit": "Toàn bộ lá số"
-          },
-          {
-            "id": "focus",
-            "label": "Trọng tâm và lưu ý",
-            "dataClass": "public",
-            "consent": "—",
-            "limit": "Danh sách cố định"
-          }
-        ]
       }
     }
   } /* @end */);
   const CLASS_LABELS = Object.freeze({ public: "Công khai", personal: "Cá nhân", sensitive: "Nhạy cảm" });
   const CLASS_RANK = Object.freeze({ public: 0, personal: 1, sensitive: 2 });
-  const FEATURE_ORDER = Object.freeze(["persona_chat", "daily_insight", "ai_council", "oracle_router", "tarot_reading", "astrology_insight", "astrology_report"]);
+  const FEATURE_ORDER = Object.freeze(["persona_chat", "daily_insight", "ai_council", "oracle_router", "tarot_reading", "astrology_insight"]);
   const CONFIG_IDS = FEATURE_ORDER.filter(id => SPEC.features[id]?.configurable === true);
   const MIGRATION_NOTE = "Máy chủ chưa có bảng cấu hình dữ liệu — cần Owner áp migration 20261114090200. Các tính năng AI vẫn gửi dữ liệu như hôm nay.";
   const DEPLOY_NOTE = "Thay đổi chỉ có tác dụng khi ai-persona-chat, ai-daily-insight và ai-council đã được deploy bản biết đọc cấu hình này (cần Owner duyệt deploy). Bản cũ bỏ qua cấu hình và gửi như hôm nay.";
@@ -668,7 +633,7 @@
   }
   function renderReadOnly(id) {
     const spec = featureSpec(id);
-    return `<div class="warning-card" role="note"><p><strong>Chỉ xem.</strong> Tính năng này chưa chỉnh được ở đây; sơ đồ cho thấy dữ liệu đang gửi hôm nay.${id === "astrology_report" ? " Báo cáo chiêm tinh gửi nguyên ngày, giờ và nơi sinh — cần Owner quyết có giữ hay không." : ""}</p></div>
+    return `<div class="warning-card" role="note"><p><strong>Chỉ xem.</strong> Tính năng này chưa chỉnh được ở đây; sơ đồ cho thấy dữ liệu đang gửi hôm nay.</p></div>
       ${renderGraph(id, {})}
       <table class="config-table"><caption class="visually-hidden">Dữ liệu ${escape(spec.label)} gửi cho model</caption>
         <thead><tr><th scope="col">Dữ liệu</th><th scope="col">Mức</th><th scope="col">Cần đồng ý</th><th scope="col">Giới hạn</th></tr></thead>

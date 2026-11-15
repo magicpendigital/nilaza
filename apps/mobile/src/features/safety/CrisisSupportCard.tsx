@@ -3,23 +3,33 @@ import { Linking, Pressable, StyleSheet, Text, View } from "react-native";
 import { colors, radius, typography } from "../../theme";
 import type { Language } from "../../types";
 
-// Support card under a crisis safety reply in chat and Council. Owner decision 2026-10-31: 115 is the
-// only number shown until other Vietnamese hotlines are verified.
-export function CrisisSupportCard({ language }: { language: Language }) {
+// Canonical crisis copy, shared by the card and by screens that also need it as text (Astrology,
+// UX review K5/U2 2026-11-15). Owner decision 2026-10-31: 115 is the only number shown until other
+// Vietnamese hotlines are verified.
+export function crisisSupportCopy(language: Language) {
   const vi = language === "vi";
+  return {
+    title: vi ? "Bạn không phải ở một mình" : "You do not have to be alone",
+    body: vi
+      ? "Nếu bạn đang không an toàn, hãy gọi 115 (cấp cứu) hoặc nhờ một người bạn tin cậy ở cạnh bạn ngay bây giờ."
+      : "If you are not safe, call 115 (emergency, Vietnam) or ask someone you trust to be with you now.",
+    call: vi ? "Gọi 115" : "Call 115",
+    note: vi ? "Lượt này không tính vào lượt hôm nay của bạn." : "This does not count toward today's turns."
+  };
+}
+
+// Support card under a crisis safety reply in chat, Council, Oracle and Astrology.
+export function CrisisSupportCard({ language }: { language: Language }) {
+  const copy = crisisSupportCopy(language);
   return (
     <View accessibilityRole="summary" style={s.card}>
-      <Text style={s.title}>{vi ? "Bạn không phải ở một mình" : "You do not have to be alone"}</Text>
-      <Text style={s.body}>
-        {vi
-          ? "Nếu bạn đang không an toàn, hãy gọi 115 (cấp cứu) hoặc nhờ một người bạn tin cậy ở cạnh bạn ngay bây giờ."
-          : "If you are not safe, call 115 (emergency, Vietnam) or ask someone you trust to be with you now."}
-      </Text>
+      <Text style={s.title}>{copy.title}</Text>
+      <Text style={s.body}>{copy.body}</Text>
       <Pressable accessibilityRole="button" onPress={() => { void Linking.openURL("tel:115").catch(() => undefined); }} style={s.button}>
         <Ionicons name="call-outline" size={18} color={colors.charcoal} />
-        <Text style={s.buttonText}>{vi ? "Gọi 115" : "Call 115"}</Text>
+        <Text style={s.buttonText}>{copy.call}</Text>
       </Pressable>
-      <Text style={s.note}>{vi ? "Lượt này không tính vào lượt hôm nay của bạn." : "This does not count toward today's turns."}</Text>
+      <Text style={s.note}>{copy.note}</Text>
     </View>
   );
 }

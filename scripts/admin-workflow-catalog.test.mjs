@@ -25,7 +25,7 @@ test("reviewed catalog is fresh, typed and distinct across all eight features", 
   assert.equal(result.nodes, 73);
   assert.equal(result.edges, 69);
   assert.equal(result.ports, 205);
-  assert.equal(result.sourceDigests, 40);
+  assert.equal(result.sourceDigests, 39);
   assert.deepEqual(catalog.features.map((feature) => feature.id), FEATURE_IDS);
 });
 
@@ -262,5 +262,5 @@ test("Astrology shared legacy trace alias observes only common provider call, ne
   assert.equal(result.status, "observed");
   assert.equal(result.nodes.model_call.status, "ok");
   for (const id of ["auth_contract", "active_config", "private_report", "strict_output", "report_complete", "response"]) assert.equal(result.nodes[id].status, "not-observed");
-  assert.match(getGraph("astrology").caveats.map((item) => item.en).join("\n"), /Legacy ai-astrology-report.*Both trace as astrology_report/);
+  assert.match(getGraph("astrology").caveats.map((item) => item.en).join("\n"), /Legacy ai-astrology-report was retired.*Both trace as astrology_report/);
 });

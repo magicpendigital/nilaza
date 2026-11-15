@@ -7,7 +7,6 @@ import {
   generateTarotReading,
   generateDailyInsight,
   generateDailyZodiacPulse,
-  generateAstrologyReport,
   registerNotificationDevice,
   sendNotificationTest,
   syncUserProfile,
@@ -21,7 +20,6 @@ import {
   OracleTurnInput,
   AiCouncilInput,
   TarotInterpretationInput,
-  AstrologyReportInput,
   ProfileSyncInput,
   JournalSyncInput,
   NotificationRegisterInput,
@@ -532,92 +530,6 @@ describe("backendClient", () => {
       mockFetch.mockRejectedValueOnce(new Error("Network Error"));
       const result = await generateDailyZodiacPulse(input, fallback, backendOptions);
       expect(result).toEqual(expect.objectContaining({ id: "fallback", source: "local" }));
-    });
-  });
-
-  describe("generateAstrologyReport", () => {
-    const input: AstrologyReportInput = {
-      language: "en",
-      focus: "personality",
-      birthProfile: {
-        birthDate: "2000-01-01",
-        birthTime: "12:00",
-        birthTimeKnown: true,
-        birthPlace: "Hanoi",
-        latitude: 21.0285,
-        longitude: 105.8542,
-        timezone: "Asia/Bangkok",
-        utcOffsetMinutes: 420
-      }
-    };
-    const fallback = jest.fn().mockReturnValue({
-      chart: {},
-      interpretation: { summary: "fallback", moderationStatus: "fallback" },
-      caveats: [],
-      provider: "local_fallback",
-      calculationVersion: "test",
-      moderationStatus: "fallback"
-    });
-
-    it("posts to the astrology report endpoint and returns parsed json on success", async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({
-          chart: { provider: "astronomy-engine" },
-          interpretation: { summary: "success", moderationStatus: "passed" },
-          caveats: [],
-          provider: "astronomy-engine",
-          calculationVersion: "nilaza-astronomy-engine-mvp-v1",
-          moderationStatus: "passed"
-        })
-      });
-
-      const result = await generateAstrologyReport(input, fallback, backendOptions);
-      expect(result).toEqual({
-        chart: { provider: "astronomy-engine" },
-        interpretation: { summary: "success", moderationStatus: "passed" },
-        caveats: [],
-        provider: "astronomy-engine",
-        calculationVersion: "nilaza-astronomy-engine-mvp-v1",
-        moderationStatus: "passed"
-      });
-      expect(mockFetch).toHaveBeenCalledWith(
-        "https://api.example.com/ai/astrology-report",
-        expect.objectContaining({ method: "POST" })
-      );
-    });
-
-    it("maps astrology API path to the Supabase Edge Function name", async () => {
-      mockFetch.mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({
-          chart: {},
-          interpretation: { summary: "success", moderationStatus: "passed" },
-          caveats: [],
-          provider: "astronomy-engine",
-          calculationVersion: "nilaza-astronomy-engine-mvp-v1",
-          moderationStatus: "passed"
-        })
-      });
-
-      await generateAstrologyReport(input, fallback, { baseUrl: "https://project.supabase.co/functions/v1", timeoutMs: 1000 });
-      expect(mockFetch).toHaveBeenCalledWith(
-        "https://project.supabase.co/functions/v1/ai-astrology-report",
-        expect.objectContaining({ method: "POST" })
-      );
-    });
-
-    it("returns fallback on error", async () => {
-      mockFetch.mockRejectedValueOnce(new Error("Network Error"));
-      const result = await generateAstrologyReport(input, fallback, backendOptions);
-      expect(result).toEqual({
-        chart: {},
-        interpretation: { summary: "fallback", moderationStatus: "fallback" },
-        caveats: [],
-        provider: "local_fallback",
-        calculationVersion: "test",
-        moderationStatus: "fallback"
-      });
     });
   });
 

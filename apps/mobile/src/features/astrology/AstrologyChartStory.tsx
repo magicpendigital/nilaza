@@ -82,6 +82,10 @@ export type AstrologyChartStoryProps = {
   onReportAiAnswer?: () => void;
   ownerPremiumPreview?: boolean;
   onRequestAiUnlock?: (pendingQuestion?: string, preferredFactIds?: readonly string[]) => void;
+  /** Overrides the locked guide's unlock button, e.g. "Đăng nhập để dùng · 1 lượt/ngày" for a visitor without an account. */
+  aiUnlockLabel?: string;
+  /** The last guide request was stopped for crisis support: show the canonical 115 card instead of a retry. */
+  aiCrisis?: boolean;
 };
 
 const supportedLanguage = (language: AstrologyLanguage): "vi" | "en" =>
@@ -239,6 +243,8 @@ export function AstrologyChartStory({
   ownerPremiumPreview = false,
   onRequestAiUnlock,
   initialTab = "story",
+  aiUnlockLabel,
+  aiCrisis = false,
 }: AstrologyChartStoryProps) {
   const vi = language === "vi";
   const panelLanguage = supportedLanguage(language);
@@ -258,7 +264,8 @@ export function AstrologyChartStory({
     initialSelectionId,
   );
   const [tab, setTab] = useState<StoryTab>(initialTab);
-  const [level, setLevel] = useState<SheetLevel>("peek");
+  // "Đọc đầy đủ" opens the guide tab with the sheet raised so the saved answer is readable (UX review K7/U6).
+  const [level, setLevel] = useState<SheetLevel>(initialTab === "story" ? "peek" : "full");
   const [immersive, setImmersive] = useState(false);
   const [question, setQuestion] = useState("");
   const [aiPreviewNotice, setAiPreviewNotice] = useState(false);
@@ -1002,6 +1009,7 @@ export function AstrologyChartStory({
                 evidence={aiEvidence}
                 answer={aiAnswer}
                 errorMessage={aiErrorMessage}
+                crisis={aiCrisis}
                 language={panelLanguage}
                 onCollapse={() => snapTo("peek")}
                 onContinueFree={() => {
@@ -1031,8 +1039,8 @@ export function AstrologyChartStory({
                   onRequestAiUnlock
                     ? undefined
                     : vi
-                      ? "Premium đang được hoàn thiện · chưa có giao dịch"
-                      : "Premium is in development · no transaction occurs"
+                      ? "Tính năng đang hoàn thiện · chưa có giao dịch"
+                      : "Feature in development · no transaction occurs"
                 }
                 question={question}
                 showHandle={false}
@@ -1047,7 +1055,7 @@ export function AstrologyChartStory({
                 }
                 unlockLabel={
                   onRequestAiUnlock
-                    ? undefined
+                    ? aiUnlockLabel
                     : vi
                       ? "Xem trạng thái phát triển AI"
                       : "View AI development status"

@@ -140,7 +140,7 @@
    "size": "M",
    "status": "done",
    "pr": "PR #10 + PR #11 + PR #18",
-   "note": "Server theo chính sách gói tài khoản, 1 lượt/ngày theo giờ Việt Nam; từ PR #18 chỉ bài đọc thành công mới tính lượt, lỗi tối đa thêm 2 lần/ngày (đã deploy 02/11)."
+   "note": "Server theo chính sách gói tài khoản, 1 lượt/ngày theo giờ Việt Nam; từ PR #18 chỉ bài đọc thành công mới tính lượt, lỗi tối đa thêm 2 lần/ngày (đã deploy 02/11). 15/11 (rà soát UX K4/U1, nhánh astrology-p0): khách chưa đăng nhập thấy \"Đăng nhập để dùng · 1 lượt/ngày\" và được đưa tới màn đăng nhập sẵn có; tài khoản đã đăng nhập mà chưa được mở thấy lời báo thay vì nút im lặng; không còn chữ Premium hay \"Sắp ra mắt\" khi Premium chưa bán. Chưa thử trên điện thoại."
   },
   {
    "id": "CO-01",
@@ -647,7 +647,7 @@
    "size": "M",
    "status": "done",
    "pr": "PR #20",
-   "note": "Nút Chọn trên lịch / Chọn giờ trên đồng hồ mở bộ chọn của máy (Android, iOS) và điền vào ô; vẫn gõ được. Cần bản build Android mới để thấy trên điện thoại."
+   "note": "Nút Chọn trên lịch / Chọn giờ trên đồng hồ mở bộ chọn của máy (Android, iOS) và điền vào ô; vẫn gõ được. Cần bản build Android mới để thấy trên điện thoại. 15/11 (rà soát UX K6/U3, nhánh astrology-p0): ô Giờ nhận 0–23, gõ 13–23 tự chuyển sang Chiều, 0 sang Sáng; giờ trên 23 hoặc phút trên 59 hiện lời nhắc ngay dưới ô và không tạo được bản đồ. Dòng UTC vẫn hiện trên form (chưa ẩn vào Chi tiết kỹ thuật)."
   },
   {
    "id": "AS-05",

@@ -60,12 +60,10 @@ import oracleActionsData from "../../packages/agent-config/oracle-actions.json";
 import safetyRules from "../../packages/agent-config/safety-rules.json";
 import aiUsagePolicy from "../../packages/agent-config/ai-usage-policy.json";
 import {
-  AstrologyReportResult,
   BackendOptions,
   OracleTurnResult,
   deleteAstrologyAiReportForChart,
   deleteAstrologyAiReports,
-  generateAstrologyReport,
   generateDailyInsight,
   requestAccountDeletion,
   generateDailyZodiacPulse,
@@ -2607,203 +2605,6 @@ function getApproximateSunSign(birthDate: string): string | undefined {
   ), "Capricorn");
 }
 
-function buildLocalAstrologyReport(
-  focus: AstrologyFocus,
-  language: Language,
-  birthDate: string,
-  birthTime: string,
-  birthTimeUnknown: boolean,
-  birthPlace: string
-): AstrologyReport {
-  const sunSign = getApproximateSunSign(birthDate);
-  const focusOption = astrologyFocusOptions.find((item) => item.id === focus) ?? astrologyFocusOptions[0];
-  const focusTitle = localizedText(focusOption.title, language);
-  const place = birthPlace.trim() || (language === "vi" ? "nơi sinh chưa nhập" : "unknown birthplace");
-  const limitation = language === "vi"
-    ? "Đây là preview local: Nilaza chỉ ước lượng cung Mặt Trời từ ngày sinh. Moon, Rising, house và aspect cần backend astrology calculator trước khi xem là report cá nhân đầy đủ."
-    : "This is a local preview: Nilaza only estimates the Sun sign from the birth date. Moon, Rising, houses, and aspects need the backend astrology calculator before this becomes a complete personal report.";
-  const focusBodies: Record<AstrologyFocus, { vi: string; en: string }> = {
-    soul: {
-      vi: "Hãy dùng bản đồ này như một gương soi nhẹ: điều quan trọng không phải nhãn cung, mà là câu hỏi nào đang giúp bạn hiểu mình rõ hơn.",
-      en: "Use this chart as a gentle mirror: the important part is not the label, but the question that helps you understand yourself more clearly."
-    },
-    career: {
-      vi: "Với sự nghiệp, preview này gợi ý nhìn vào nhịp hành động và cách bạn ra quyết định. Phần vocation sâu hơn cần placement đã tính toán.",
-      en: "For career, this preview points to action rhythm and decision style. Deeper vocation analysis needs calculated placements."
-    },
-    love: {
-      vi: "Trong tình yêu, hãy đọc preview như lời mời quan sát nhu cầu, ranh giới và kiểu kết nối bạn đang tìm kiếm.",
-      en: "In love, read this preview as an invitation to notice needs, boundaries, and the kind of connection you are seeking."
-    },
-    shadow: {
-      vi: "Với tầng sâu nội tâm, preview này nên mở câu hỏi phản chiếu, không kết luận tính cách hay tương lai của bạn.",
-      en: "For inner work, this preview should open reflective questions, not conclude your character or fate."
-    }
-  };
-
-  return {
-    id: nowId(),
-    focus,
-    birthDate: birthDate.trim() || undefined,
-    birthTime: birthTimeUnknown ? undefined : birthTime.trim() || undefined,
-    birthPlace: birthPlace.trim() || undefined,
-    birthTimeKnown: !birthTimeUnknown && Boolean(birthTime.trim()),
-    calculationStatus: "partial_local",
-    sunSign,
-    sections: [
-      {
-        key: "sun",
-        title: sunSign ? `Sun in ${sunSign}` : (language === "vi" ? "Cần ngày sinh" : "Birth date needed"),
-        body: sunSign
-          ? (language === "vi"
-              ? `Nilaza ước lượng cung Mặt Trời của bạn là ${sunSign}. Hãy xem đây là điểm bắt đầu biểu tượng cho chủ đề ${focusTitle.toLowerCase()}, không phải kết luận cố định.`
-              : `Nilaza estimates your Sun sign as ${sunSign}. Treat this as a symbolic starting point for ${focusTitle.toLowerCase()}, not a fixed conclusion.`)
-          : (language === "vi" ? "Nhập ngày sinh dạng YYYY-MM-DD để tạo preview chính xác hơn." : "Enter a YYYY-MM-DD birth date to make the preview more specific."),
-        icon: "sunny-outline"
-      },
-      {
-        key: "focus",
-        title: focusTitle,
-        body: localizedText(focusBodies[focus], language),
-        icon: focusOption.icon
-      },
-      {
-        key: "limits",
-        title: language === "vi" ? "Độ chính xác hiện tại" : "Current accuracy",
-        body: `${limitation} ${language === "vi" ? "Nơi sinh:" : "Birthplace:"} ${place}.`,
-        icon: "shield-checkmark-outline"
-      }
-    ],
-    createdAt: new Date().toISOString()
-  };
-}
-
-function mapAstrologyFocusForBackend(focus: AstrologyFocus): "personality" | "love" | "career" | "inner_lesson" {
-  if (focus === "career" || focus === "love") return focus;
-  return focus === "shadow" ? "inner_lesson" : "personality";
-}
-
-function astrologySectionIcon(key: string): keyof typeof Ionicons.glyphMap {
-  if (key.includes("three") || key.includes("placement")) return "planet-outline";
-  if (key.includes("caveat") || key.includes("limit")) return "shield-checkmark-outline";
-  if (key.includes("love")) return "heart-outline";
-  if (key.includes("career")) return "briefcase-outline";
-  return "sparkles-outline";
-}
-
-function localizedBackendLabel(value: unknown, language: Language, fallback = "") {
-  if (!value || typeof value !== "object") return fallback;
-  const localized = value as { vi?: unknown; en?: unknown };
-  const locale = language === "vi" ? "vi" : "en";
-  const direct = localized[locale];
-  const english = localized.en;
-  const vietnamese = localized.vi;
-  return typeof direct === "string"
-    ? direct
-    : typeof english === "string"
-      ? english
-      : typeof vietnamese === "string"
-        ? vietnamese
-        : fallback;
-}
-
-function signLabelFromPlacement(item: unknown, language: Language) {
-  if (!item || typeof item !== "object") return undefined;
-  const sign = (item as { sign?: { label?: unknown } }).sign;
-  return localizedBackendLabel(sign?.label, language) || undefined;
-}
-
-function buildFallbackAstrologyBackendResult(localReport: AstrologyReport): AstrologyReportResult {
-  return {
-    chart: {
-      source: "local_fallback",
-      placements: localReport.sunSign
-        ? [{ key: "sun", sign: { label: { en: localReport.sunSign, vi: localReport.sunSign } } }]
-        : []
-    },
-    interpretation: {
-      summary: localReport.sections.map((section) => `${section.title}: ${section.body}`).join("\n\n"),
-      sections: localReport.sections.map((section) => ({
-        key: section.key,
-        title: { en: section.title, vi: section.title },
-        body: { en: section.body, vi: section.body }
-      })),
-      promptVersionId: "local_astrology_preview",
-      moderationStatus: "fallback"
-    },
-    caveats: [],
-    provider: "local_fallback",
-    calculationVersion: "local-sun-sign-preview-v1",
-    promptVersionId: "local_astrology_preview",
-    moderationStatus: "fallback",
-    persistenceStatus: "local_fallback"
-  };
-}
-
-function reportFromAstrologyBackendResult(
-  result: AstrologyReportResult,
-  fallbackReport: AstrologyReport,
-  focus: AstrologyFocus,
-  language: Language,
-  birthDate: string,
-  birthTime: string,
-  birthTimeUnknown: boolean,
-  birthPlace: string
-): AstrologyReport {
-  if (result.provider === "local_fallback") return { ...fallbackReport, chart: result.chart };
-
-  const chart = result.chart as {
-    placements?: unknown[];
-    angles?: unknown[];
-  };
-  const sun = chart.placements?.find((item) => (item as { key?: unknown })?.key === "sun");
-  const moon = chart.placements?.find((item) => (item as { key?: unknown })?.key === "moon");
-  const rising = chart.angles?.find((item) => (item as { key?: unknown })?.key === "rising");
-  const backendSections = result.interpretation.sections?.map((section) => ({
-    key: section.key,
-    title: localizedBackendLabel(section.title, language, section.key),
-    body: localizedBackendLabel(section.body, language),
-    icon: astrologySectionIcon(section.key)
-  })) ?? [];
-  const caveatSection = result.caveats.length
-    ? {
-        key: "backend_caveats",
-        title: language === "vi" ? "Giới hạn tính toán" : "Calculation limits",
-        body: result.caveats.map((caveat) => localizedBackendLabel((caveat as { message?: unknown }).message, language, String((caveat as { code?: unknown }).code ?? ""))).filter(Boolean).join("\n"),
-        icon: "shield-checkmark-outline" as keyof typeof Ionicons.glyphMap
-      }
-    : null;
-
-  return {
-    id: result.remoteId ?? nowId(),
-    focus,
-    birthDate: birthDate.trim() || undefined,
-    birthTime: birthTimeUnknown ? undefined : birthTime.trim() || undefined,
-    birthPlace: birthPlace.trim() || undefined,
-    birthTimeKnown: !birthTimeUnknown && Boolean(birthTime.trim()),
-    calculationStatus: "backend_ready",
-    chart: result.chart,
-    provider: result.provider,
-    calculationVersion: result.calculationVersion,
-    caveats: result.caveats,
-    sunSign: signLabelFromPlacement(sun, language) ?? fallbackReport.sunSign,
-    moonSign: signLabelFromPlacement(moon, language),
-    risingSign: signLabelFromPlacement(rising, language),
-    sections: [
-      ...(backendSections.length
-        ? backendSections
-        : [{
-            key: "summary",
-            title: language === "vi" ? "Bài đọc chiêm tinh" : "Astrology reading",
-            body: result.interpretation.summary,
-            icon: "sparkles-outline" as keyof typeof Ionicons.glyphMap
-          }]),
-      ...(caveatSection ? [caveatSection] : [])
-    ],
-    createdAt: new Date().toISOString()
-  };
-}
-
 function getGoalPhraseVi(goalId: string): string {
   switch (goalId) {
     case "love": return "tình yêu";
@@ -4359,72 +4160,6 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     }
     setTarotStageHistory((currentHistory) => currentHistory.slice(0, -1));
     setTarotStage(previousStage);
-  };
-
-  const generateAstrologyPreview = async (focusOverride: AstrologyFocus = astrologyFocus) => {
-    if (!birthDate.trim()) {
-      setAstrologyError(language === "vi" ? "Hãy nhập ngày sinh dạng YYYY-MM-DD để tạo preview." : "Enter a YYYY-MM-DD birth date to create a preview.");
-      setAstrologyStage("birth");
-      return;
-    }
-    setAstrologyGenerating(true);
-    setAstrologyError("");
-    setAstrologyStage("casting");
-    const activity = beginGenerationActivity({
-      feature: "astrology_report",
-      title: { vi: "Bản xem chiêm tinh đang được chuẩn bị", en: "Your astrology preview is being prepared" },
-      detail: { vi: "Bạn có thể tiếp tục khám phá", en: "You can keep exploring" },
-      targetRoute: "astrology"
-    });
-    recordEvent("astrology_preview_requested", { focus: focusOverride, hasBirthPlace: Boolean(birthPlace.trim()), birthTimeKnown: !birthTimeUnknown && Boolean(birthTime.trim()) });
-    try {
-      const localReport = buildLocalAstrologyReport(focusOverride, language, birthDate, birthTime, birthTimeUnknown, birthPlace);
-      const backendResult = await generateAstrologyReport(
-      {
-        language,
-        focus: mapAstrologyFocusForBackend(focusOverride),
-        birthProfile: {
-          birthDate: birthDate.trim(),
-          birthTime: birthTimeUnknown ? undefined : birthTime.trim() || undefined,
-          birthTimeKnown: !birthTimeUnknown && Boolean(birthTime.trim()),
-          birthPlace: birthPlace.trim() || undefined,
-          consentVersion: "astrology_birth_data_v1"
-        }
-      },
-      () => buildFallbackAstrologyBackendResult(localReport),
-      backendOptions
-      );
-      const nextReport = reportFromAstrologyBackendResult(backendResult, localReport, focusOverride, language, birthDate, birthTime, birthTimeUnknown, birthPlace);
-      setAstrologyReport(nextReport);
-      setAstrologyStage("report");
-      recordEvent("astrology_preview_generated", {
-      focus: focusOverride,
-      status: nextReport.calculationStatus,
-      provider: nextReport.provider ?? "local_fallback",
-      backend: nextReport.calculationStatus === "backend_ready"
-      });
-      if (nextReport.calculationStatus === "backend_ready") {
-        enqueueInAppNotification({
-        type: "astrology_report_ready",
-        title: { vi: "Bài đọc chiêm tinh đã sẵn sàng", en: "Astrology report is ready" },
-        body: { vi: "Mở app để xem bài đọc. Thông báo không chứa dữ liệu sinh hay nội dung riêng tư.", en: "Open the app to view the report. Push never includes birth data or private details." },
-        sourceType: "astrology",
-        sourceId: nextReport.id,
-        targetRoute: "astrology"
-        });
-        showToast(language === "vi" ? "Đã tạo astrology report từ backend." : "Backend astrology report created.");
-      } else if (nilazaBackendBaseUrl) {
-        showToast(language === "vi" ? "Backend chưa phản hồi, Nilaza dùng preview local." : "Backend did not respond, so Nilaza used the local preview.");
-      }
-      finishGenerationActivity(activity, "ready");
-    } catch {
-      setAstrologyError(language === "vi" ? "Chưa thể tạo bản xem chiêm tinh. Hãy thử lại sau ít phút." : "Your astrology preview could not be created yet. Please try again shortly.");
-      setAstrologyStage("birth");
-      finishGenerationActivity(activity, "failed");
-      recordEvent("astrology_preview_failed", { focus: focusOverride });
-    } finally {
-      setAstrologyGenerating(false);
-    }
   };
 
   const saveAstrologyPreview = () => {
@@ -5996,6 +5731,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
             onOpenShare={openShareSheet}
             ownerPremiumPreview={isOwnerPreviewActive && displayedTier === "premium"}
             canRequestAstrologyAi={Boolean(backendOptions.authToken) && displayedTier === "premium" && !isOwnerPreviewActive}
+            aiSignInRequired={!backendOptions.authToken}
+            onRequestSignIn={isSupabaseAuthConfigured ? () => { setAuthView("sign-in"); signOutLocally(); } : undefined}
             requestAstrologyAi={(input, correlation) => requestAstrologyAiInsight(input, backendOptions, correlation)}
             onDeleteAiReport={backendOptions.authToken ? (chartId) => deleteAstrologyAiReportForChart(backendOptions, chartId) : undefined}
             onDiscuss={(report) => {
