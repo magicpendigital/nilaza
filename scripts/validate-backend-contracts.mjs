@@ -374,7 +374,16 @@ for (const required of ["secretMatches", "MIN_SECRET_LENGTH", "MAX_BODY_BYTES", 
 assert(revenuecatHandler.indexOf("await secretMatches(req.headers") > 0 && revenuecatHandler.indexOf("await secretMatches(req.headers") < revenuecatHandler.indexOf("await readBoundedText(req)"), "revenuecat-webhook must check the secret before reading the body");
 assert(!revenuecatHandler.includes("await req.json()") && !revenuecatEntrypoint.includes("Access-Control-Allow-Origin"), "revenuecat-webhook must use bounded parsing and expose no CORS");
 assert(fs.existsSync(path.join(root, "supabase/functions/revenuecat-webhook/handler_test.ts")), "revenuecat-webhook must keep its handler tests");
-const revenuecatMigration = read("supabase/migrations/20261115090000_revenuecat_entitlements.sql");
+// Two migrations with one version prefix break the migration history table (found 2026-11-16).
+{
+  const seen = new Map();
+  for (const name of fs.readdirSync(path.join(root, "supabase/migrations")).filter((file) => file.endsWith(".sql"))) {
+    const version = name.split("_")[0];
+    assert(!seen.has(version), `duplicate migration version ${version}: ${seen.get(version)} and ${name}`);
+    seen.set(version, name);
+  }
+}
+const revenuecatMigration = read("supabase/migrations/20261116090000_revenuecat_entitlements.sql");
 for (const required of [
   "nilaza_private.revenuecat_webhook_events",
   "force row level security",

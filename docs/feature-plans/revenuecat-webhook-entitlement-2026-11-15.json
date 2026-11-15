@@ -5,13 +5,13 @@
   "lane": "Billing lot 1: RevenueCat webhook writes the premium entitlement; server reads one shared helper",
   "goal": "Prepare the server side of selling Premium on Google Play through RevenueCat (Owner decision: sell in the first Play build, one entitlement named premium). A new service-only Edge Function receives RevenueCat webhooks, checks a shared secret in the Authorization header, and applies each event once and in order to public.subscriptions through one service-only database function. A shared helper decides whether a subscriptions row grants Premium, and ai-astrology-insight uses it while still honouring old premium_astrology_ai rows. Nothing is applied to a database or deployed in this lot.",
   "successCriteria": [
-    "Migration 20261115090000 adds nilaza_private.revenuecat_webhook_events (RLS on and forced, no client access), nullable provider_event_at, product_id and environment columns on public.subscriptions, and public.nilaza_apply_revenuecat_event executable only by service_role; it returns applied, duplicate, stale or unknown_user and keeps the existing subscriptions RLS.",
+    "Migration 20261116090000 adds nilaza_private.revenuecat_webhook_events (RLS on and forced, no client access), nullable provider_event_at, product_id and environment columns on public.subscriptions, and public.nilaza_apply_revenuecat_event executable only by service_role; it returns applied, duplicate, stale or unknown_user and keeps the existing subscriptions RLS.",
     "revenuecat-webhook accepts POST only, compares the Authorization header with REVENUECAT_WEBHOOK_AUTH in constant time, caps the body at 64 KB, ignores TEST, anonymous and non-premium events with 200, maps lifecycle events to a status and period end, answers 401/400/405/413/5xx with an error code only and Cache-Control no-store.",
     "supabase/functions/_shared/premium-entitlement.ts exposes isPremiumEntitled and resolveServerTier; ai-astrology-insight reads premium and premium_astrology_ai rows through it and still fails closed when the read fails.",
     "Deno tests for the webhook handler and the helper pass; deno check passes for both functions; backend contract, Supabase readiness, migration ledger, governance and this preflight pass."
   ],
   "writeScope": [
-    "supabase/migrations/20261115090000_revenuecat_entitlements.sql",
+    "supabase/migrations/20261116090000_revenuecat_entitlements.sql",
     "supabase/tests/revenuecat_entitlements.sql",
     "supabase/functions/revenuecat-webhook/index.ts",
     "supabase/functions/revenuecat-webhook/handler.ts",
@@ -26,7 +26,7 @@
     "apps/admin/workflow-catalog.js"
   ],
   "untouchedSurfaces": [
-    "No SQL is run and no migration is applied: the Owner applies 20261115090000 to Singapore only after approving it.",
+    "No SQL is run and no migration is applied: the Owner applies 20261116090000 to Singapore only after approving it.",
     "No Edge Function is deployed and no secret is set; REVENUECAT_WEBHOOK_AUTH is set by the Owner.",
     "apps/mobile is untouched (SDK, purchase and restore are lot 2); PLAN.md is updated by the lead agent.",
     "The RevenueCat REST API is not called in this lot; reconciling against GET /subscribers needs an Owner key and comes later.",
@@ -146,7 +146,7 @@
     "secretsLogging": "REVENUECAT_WEBHOOK_AUTH is read from the function environment only, compared by SHA-256 digests in constant time, never logged or echoed; the agent does not read or set it.",
     "externalInput": "Public endpoint without JWT: shared secret first, POST only, 64 KB body cap, strict JSON parse, UUID-only user id, entitlement and status chosen from fixed lists, timestamps validated.",
     "dependencies": "No package added; existing std serve and supabase-js imports reused.",
-    "migrationRelease": "Owner approves and applies 20261115090000 to Singapore, deploys revenuecat-webhook with --no-verify-jwt and redeploys ai-astrology-insight, then sets the secret and the RevenueCat webhook URL.",
+    "migrationRelease": "Owner approves and applies 20261116090000 to Singapore, deploys revenuecat-webhook with --no-verify-jwt and redeploys ai-astrology-insight, then sets the secret and the RevenueCat webhook URL.",
     "stopCondition": "Stop if a Deno test, deno check or any listed validator fails, or if the migration would need a new public table or a change to existing RLS.",
     "unresolvedHighRisks": []
   },
@@ -164,7 +164,7 @@
       "supabase/functions/revenuecat-webhook/handler.ts",
       "supabase/functions/revenuecat-webhook/handler_test.ts",
       "supabase/functions/revenuecat-webhook/index.ts",
-      "supabase/migrations/20261115090000_revenuecat_entitlements.sql",
+      "supabase/migrations/20261116090000_revenuecat_entitlements.sql",
       "supabase/tests/revenuecat_entitlements.sql"
     ]
   },
