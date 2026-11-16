@@ -19,6 +19,7 @@
     "supabase/functions/_shared/ai-request-guard.ts",
     "supabase/functions/ai-tarot-reading/",
     "supabase/config.toml",
+    "supabase/functions/README.md",
     "scripts/validate-backend-contracts.mjs",
     "scripts/check-supabase-readiness.mjs",
     "scripts/ai-answer-endpoints.test.mjs",
