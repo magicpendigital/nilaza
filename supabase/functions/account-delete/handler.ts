@@ -19,6 +19,9 @@ export type DeletionDeps = {
   rpc: (name: string, args: Record<string, unknown>) => Promise<RpcResult>;
   getEmail: (userId: string) => Promise<string | null>;
   deleteUser: (userId: string) => Promise<{ error?: { status?: number } | null }>;
+  // Billing lot 3: deletes the subscription-management customer; true when it is gone (2xx or 404).
+  // Absent when billing is not configured, and the step is then skipped.
+  deleteBillingCustomer?: (userId: string) => Promise<boolean>;
 };
 
 const json = (body: unknown, status = 200) =>
@@ -69,6 +72,14 @@ export function createAccountDeleteHandler(depsFor: (req: Request) => DeletionDe
       try { purge = await deps!.rpc("nilaza_account_delete_purge", { p_user: userId, p_subject_hash: subjectHash, p_email_hash: emailHash }); }
       catch { return await fail("purge_failed"); }
       if (purge.error) return await fail(purge.error.message === "staff_blocked" ? "staff_blocked" : "purge_failed");
+
+      // After the purge (staff accounts are refused by then) and before the auth user is removed, so a
+      // failure leaves the account in place and a retry runs this step again. Fail closed like the others.
+      if (deps!.deleteBillingCustomer) {
+        let billingGone = false;
+        try { billingGone = await deps!.deleteBillingCustomer(userId); } catch { billingGone = false; }
+        if (!billingGone) return await fail("billing_delete_failed");
+      }
 
       let removed: { error?: { status?: number } | null };
       try { removed = await deps!.deleteUser(userId); } catch { return await fail("auth_delete_failed"); }

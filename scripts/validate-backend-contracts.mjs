@@ -383,6 +383,18 @@ assert(fs.existsSync(path.join(root, "supabase/functions/revenuecat-webhook/hand
     seen.set(version, name);
   }
 }
+// Billing lot 3 (2026-11-16): account deletion removes the RevenueCat customer, after the purge and
+// before the auth user, fail-closed, with the secret key read from the function environment only.
+const accountDeleteEntrypoint = read("supabase/functions/account-delete/index.ts");
+const accountDeleteHandler = read("supabase/functions/account-delete/handler.ts");
+const accountDeleteBilling = read("supabase/functions/account-delete/billing.ts");
+assert(accountDeleteEntrypoint.includes('Deno.env.get("REVENUECAT_API_KEY")') && accountDeleteEntrypoint.includes("createRevenueCatCustomerDeleter"), "account-delete must build the billing delete from REVENUECAT_API_KEY");
+assert(accountDeleteBilling.includes('"https://api.revenuecat.com/v1"') && accountDeleteBilling.includes('method: "DELETE"') && accountDeleteBilling.includes("AbortController") && !accountDeleteBilling.includes("console."), "account-delete billing call must be a bounded DELETE to RevenueCat v1 without logging");
+const purgeAt = accountDeleteHandler.indexOf("nilaza_account_delete_purge\", {");
+const billingAt = accountDeleteHandler.indexOf("deps!.deleteBillingCustomer(userId)");
+const authDeleteAt = accountDeleteHandler.indexOf("deps!.deleteUser(userId)");
+assert(purgeAt > 0 && billingAt > purgeAt && authDeleteAt > billingAt && accountDeleteHandler.includes('fail("billing_delete_failed")'), "account-delete must delete the billing customer after the purge and before the auth user, failing closed");
+assert(fs.existsSync(path.join(root, "supabase/functions/account-delete/billing_test.ts")), "account-delete must keep its billing tests");
 const revenuecatMigration = read("supabase/migrations/20261116090000_revenuecat_entitlements.sql");
 for (const required of [
   "nilaza_private.revenuecat_webhook_events",
