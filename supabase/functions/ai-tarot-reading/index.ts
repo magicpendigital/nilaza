@@ -41,6 +41,7 @@ const handler = createTarotHandler(req => {
     },
     store: createSupabaseTarotStore(admin as unknown as ServiceClient, supabase as unknown as ServiceClient),
     readContent: () => readPublishedTarotContent(supabase),
+    guestSecret: () => Deno.env.get("TAROT_GUEST_DRAW_SECRET"),
     featurePaused: () => featurePaused(supabase as never, "tarot_reading"),
     readFeatureConfig: () => readActiveFeatureConfig("tarot_reading"),
     resolvePrompt: language => resolveTarotPrompt(supabase, language),

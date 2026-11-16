@@ -1,3 +1,4 @@
+import { deriveGuestCards } from "../_shared/tarot-guest-seed.ts";
 import { assert, assertEquals, assertNotEquals } from "https://deno.land/std@0.168.0/testing/asserts.ts";
 import { createTarotHandler, type TarotDeps, type TarotGenerateInput, type TarotGeneration } from "./handler.ts";
 import { TarotStoreError, type DrawClaim, type InterpretClaim, type TarotReadingRow, type TarotStore } from "./store.ts";
@@ -124,7 +125,7 @@ const goodAnswer = (cardIds: string[]) => JSON.stringify({
   sections: [{ key: "card", title: { en: "Card", vi: "Lá bài" }, body: { en: "Notice one small, reversible step.", vi: "Hãy để ý một bước nhỏ." }, cardIds }]
 });
 
-function setup(options: { now?: string; random?: RandomFill; paused?: boolean; quotaDaily?: number; user?: string | null; premiumOnSale?: boolean; tier?: "premium" | "free" | "error" } = {}) {
+function setup(options: { now?: string; random?: RandomFill; paused?: boolean; quotaDaily?: number; user?: string | null; premiumOnSale?: boolean; tier?: "premium" | "free" | "error"; guestSecret?: string } = {}) {
   let now = new Date(options.now ?? NOON_VN);
   const clock = () => now;
   const memory = memoryStore(clock);
@@ -160,6 +161,7 @@ function setup(options: { now?: string; random?: RandomFill; paused?: boolean; q
       return result;
     },
     writeReceipt: async input => { receipts.push(input); return { receiptId: "00000000-0000-4000-8000-0000000000aa" }; },
+    guestSecret: () => options.guestSecret,
     readTier: async () => { tierReads += 1; if (options.tier === "error") throw new Error("tier_unavailable"); return options.tier ?? "free"; }
   });
   const handler = createTarotHandler(() => deps(), {
@@ -517,3 +519,71 @@ Deno.test("paused AI, missing auth and malformed requests stop before any store 
   assertEquals((await late.interpret(drawn.drawId)).body.error, "feature_paused");
   assertEquals(late.generations.length, 0);
 });
+
+const GUEST_SECRET = "synthetic-test-secret-only-0123456789abcdef";
+const GUEST_DEVICE = "8d2b6f1e-5c3a-4e7b-9a10-2f4c6d8e0a13";
+
+Deno.test("guest cards: the account's new draw keeps the cards the signed-out guest saw, and only the AI analysis is left", async () => {
+  const t = setup({ guestSecret: GUEST_SECRET });
+  const seen = await deriveGuestCards(GUEST_SECRET, GUEST_DEVICE, "past-present-future", "love", "2026-11-15");
+  const result = await t.draw({ spread: "past-present-future", topic: "love", guestDeviceId: GUEST_DEVICE });
+  assertEquals(result.status, 200);
+  assertEquals(result.body.guestAdopted, true);
+  assertEquals(result.body.cards, seen);
+  assertEquals(result.body.status, "queued");
+  assertEquals(t.generations.length, 0, "adopting the cards never calls the model");
+  // The stored draw is the guest's cards; asking again returns it and is no longer an adoption.
+  assertEquals(t.rows.get(result.body.drawId)!.selected_cards, seen);
+  const again = await t.draw({ spread: "past-present-future", topic: "love", guestDeviceId: GUEST_DEVICE });
+  assertEquals(again.body.drawId, result.body.drawId);
+  assertEquals(again.body.guestAdopted, false);
+  // The AI analysis then runs on exactly those cards.
+  const analysed = await t.interpret(result.body.drawId);
+  assertEquals(analysed.status, 200);
+  assertEquals(t.generations.length, 1);
+  assertEquals(JSON.parse(t.generations[0].messages[0].content).selectedCards.map((card: { id: string }) => card.id), seen.map(card => card.id));
+});
+
+Deno.test("guest cards: without the secret, with a bad id or for an existing event the account draw is the normal CSPRNG draw", async () => {
+  // Secret not set (or too short): the device id is ignored, not an error.
+  for (const guestSecret of [undefined, "short"]) {
+    const t = setup({ guestSecret, random: constantRandom(7) });
+    const result = await t.draw({ spread: "daily-one", topic: "open", guestDeviceId: GUEST_DEVICE });
+    assertEquals(result.status, 200);
+    assertEquals(result.body.guestAdopted, false);
+    assertEquals(t.rows.size, 1);
+  }
+  // A malformed device id is refused before any store work.
+  const bad = setup({ guestSecret: GUEST_SECRET });
+  for (const id of ["nope", 5, {}]) {
+    const result = await bad.draw({ topic: "open", guestDeviceId: id });
+    assertEquals(result.status, 400);
+    assertEquals(result.body.error, "invalid_guest_device_id");
+  }
+  assertEquals(bad.rows.size, 0);
+  // An event the account already drew keeps its own cards: a guest id cannot replace them.
+  const t = setup({ guestSecret: GUEST_SECRET });
+  const first = await t.draw({ spread: "daily-one", topic: "open" });
+  const adopt = await t.draw({ spread: "daily-one", topic: "open", guestDeviceId: GUEST_DEVICE });
+  assertEquals(adopt.body.drawId, first.body.drawId);
+  assertEquals(adopt.body.cards, first.body.cards);
+  assertEquals(adopt.body.guestAdopted, false);
+  // A null id is the same as none.
+  assertEquals((await setup({ guestSecret: GUEST_SECRET }).draw({ topic: "open", guestDeviceId: null })).body.guestAdopted, false);
+});
+
+Deno.test("guest cards: the soft cap and the premium deck check still apply to an adopting draw", async () => {
+  const capped = setup({ guestSecret: GUEST_SECRET });
+  await capped.draw({ topic: "love" });
+  await capped.draw({ topic: "career" });
+  await capped.draw({ topic: "self" });
+  const fourth = await capped.draw({ topic: "decision", guestDeviceId: GUEST_DEVICE });
+  assertEquals(fourth.status, 429);
+  assertEquals(fourth.body.reason, "draw_cap");
+  const premium = setup({ guestSecret: GUEST_SECRET, premiumOnSale: true, tier: "free" });
+  assertEquals((await premium.draw({ deck: { id: "golden-thread" }, guestDeviceId: GUEST_DEVICE })).status, 403);
+});
+
+function constantRandom(value: number): (target: Uint32Array) => void {
+  return target => { target.fill(value); };
+}

@@ -11,6 +11,7 @@ const contracts = [
   { gatewayPath: "/ai/persona-chat", functionName: "ai-persona-chat" },
   { gatewayPath: "/ai/ai-council", functionName: "ai-council" },
   { gatewayPath: "/ai/tarot-reading", functionName: "ai-tarot-reading" },
+  { gatewayPath: "/tarot/guest-draw", functionName: "tarot-guest-draw" },
   { gatewayPath: "/ai/daily-insight", functionName: "ai-daily-insight" },
   { gatewayPath: "/ai/daily-zodiac-pulse", functionName: "ai-daily-zodiac-pulse" },
   { gatewayPath: "/ai/astrology-insight", functionName: "ai-astrology-insight" },

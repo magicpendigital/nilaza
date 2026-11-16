@@ -71,6 +71,7 @@ import {
   generatePersonaReply,
   generateOracleTurn,
   generateTarotReading,
+  requestGuestTarotDraw,
   requestTarotClarifier,
   requestTarotDraw,
   TarotLimitError,
@@ -129,6 +130,8 @@ import { TarotArtworkButton } from "./src/features/tarot/TarotArtworkButton";
 import { ReadingDetails } from "./src/a2ui/ReadingDetails";
 import { normalizeTarotSections, tarotSnapshotMeaning, tarotResultSource, tarotSourceLabel } from "./src/features/tarot/readingPresentation";
 import { TarotDeepAnalysis } from "./src/features/tarot/TarotDeepAnalysis";
+import { GuestCarryCard } from "./src/features/tarot/GuestCarryCard";
+import { clearGuestDraw, loadGuestDraw, loadOrCreateGuestDeviceId, saveGuestDraw, type StoredGuestDraw } from "./src/features/tarot/guestDraw";
 import { getTarotLearningSections, tarotQuestionExamples } from "./src/features/tarot/learning";
 import { getTarotCardGuide } from "./src/features/tarot/cardGuide";
 import { TarotCardGuide } from "./src/features/tarot/TarotCardGuide";
@@ -2888,7 +2891,7 @@ export default function App() {
 }
 
 /** Guest preview before sign-in: the default deck's 78 cards with meanings and the 12 sign guides. */
-function GuestPreviewScreen({ language, onCreateAccount, onSignIn, onExit }: { language: Language; onCreateAccount: () => void; onSignIn: () => void; onExit: () => void }) {
+function GuestPreviewScreen({ language, onCreateAccount, onSignIn, onExit, onDrawGuestCard }: { language: Language; onCreateAccount: () => void; onSignIn: () => void; onExit: () => void; onDrawGuestCard?: () => Promise<{ cardId: string; reversed: boolean } | null> }) {
   const deck = decks[0];
   const renderCard = (cardId: string, open: (id: string) => void) => {
     const index = Math.max(0, cards.findIndex((item) => item.id === cardId));
@@ -2933,6 +2936,7 @@ function GuestPreviewScreen({ language, onCreateAccount, onSignIn, onExit }: { l
         onCreateAccount={onCreateAccount}
         onSignIn={onSignIn}
         onExit={onExit}
+        onDrawGuestCard={onDrawGuestCard}
       />
     </ScreenShell>
   );
@@ -3109,6 +3113,10 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const [tarotError, setTarotError] = useState("");
   // P1-A: the server draw waiting to be interpreted, and the clarifier request in flight.
   const serverTarotDrawRef = useRef<{ draw: TarotServerDraw; cards: DrawnTarotCard[] } | null>(null);
+  // Tarot v2 pack 1: the card drawn while signed out (same Vietnam day), offered on Home after sign-in.
+  const [guestCarry, setGuestCarry] = useState<StoredGuestDraw | null>(null);
+  const [guestCarryRun, setGuestCarryRun] = useState<StoredGuestDraw | null>(null);
+  const [guestCarryBusy, setGuestCarryBusy] = useState(false);
   const [tarotClarifierBusy, setTarotClarifierBusy] = useState(false);
   const [astrologyStage, setAstrologyStage] = useState<AstrologyStage>("hub");
   const [astrologyReturnScreen, setAstrologyReturnScreen] = useState<Tab>("home");
@@ -5435,6 +5443,64 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     }, 700);
   };
 
+  // Pack 1: a signed-out guest asks the server for this device's card of the day; it is stored so sign-in can keep it.
+  // A failure here makes the preview fall back to a local card (nothing is stored then).
+  const drawGuestCard = async (): Promise<{ cardId: string; reversed: boolean } | null> => {
+    const deviceId = await loadOrCreateGuestDeviceId();
+    const draw = await requestGuestTarotDraw({ deviceId, spread: "daily-one", topic: "open" }, backendOptions);
+    await saveGuestDraw(deviceId, draw);
+    const first = draw.cards[0];
+    return first ? { cardId: first.id, reversed: first.reversed } : null;
+  };
+  useEffect(() => {
+    if (authState.status !== "signed_in") return;
+    let live = true;
+    void loadGuestDraw().then((stored) => { if (live) setGuestCarry(stored); });
+    return () => { live = false; };
+  }, [authState.status]);
+  const openGuestCarry = () => {
+    if (!guestCarry || guestCarryBusy || !tarotServerMode) return;
+    setTarotReturnScreen(currentTabOrHome());
+    resetTarotSession();
+    setScreen("tarot");
+    setTarotTopic(guestCarry.topic as TarotTopic);
+    setTarotSpread(guestCarry.spread as TarotSpread);
+    setTarotQuestion("");
+    setGuestCarryBusy(true);
+    setGuestCarryRun(guestCarry); // runs below once the topic and spread above are committed
+  };
+  useEffect(() => {
+    if (!guestCarryRun) return;
+    const run = guestCarryRun;
+    setGuestCarryRun(null);
+    const activeScope = scope;
+    void (async () => {
+      try {
+        const draw = await requestTarotDraw({ language: language === "en" ? "en" : "vi", deck: selectedDeck, topic: run.topic, spread: run.spread, question: "", guestDeviceId: run.deviceId }, backendOptions);
+        if (!activeScope.active) return;
+        const spreadOption = spreads.find((item) => item.id === run.spread) ?? spreads[1];
+        const mapped = draw.spread === run.spread && draw.cards.length === spreadOption.cards
+          ? mapServerCards(draw.cards, cards, localizedList(spreadOption.labels, language)) : null;
+        if (!mapped) throw new BackendUnavailableError("busy");
+        serverTarotDrawRef.current = { draw, cards: mapped };
+        await clearGuestDraw();
+        setGuestCarry(null);
+        recordEvent("tarot_guest_draw_continued", { adopted: draw.guestAdopted, spread: run.spread, topic: run.topic });
+        if (!draw.guestAdopted && !draw.replayed) {
+          showToast(language === "vi" ? "Lá bài được rút lại để lưu vào tài khoản của bạn." : "The card was drawn again to be saved to your account.");
+        }
+        drawCards(mapped);
+      } catch (error) {
+        if (!activeScope.active) return;
+        const message = tarotLimitText(error) ?? c.tarotError;
+        setTarotError(message);
+        showToast(message);
+      } finally {
+        if (activeScope.active) setGuestCarryBusy(false);
+      }
+    })();
+  }, [guestCarryRun]);
+
   const createShareArtifact = () => {
     if (!reading) {
       showToast(language === "vi" ? "Hãy hoàn tất một lượt trải bài trước." : "Complete a reading first.");
@@ -5607,7 +5673,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   if (authState.status === "signed_out") {
     if (guestPreview) {
       const leavePreview = (view: AuthView) => { setGuestPreview(false); setAuthView(view); };
-      return <GuestPreviewScreen language={language} onCreateAccount={() => leavePreview("sign-up")} onSignIn={() => leavePreview("sign-in")} onExit={() => leavePreview("welcome")} />;
+      return <GuestPreviewScreen language={language} onCreateAccount={() => leavePreview("sign-up")} onSignIn={() => leavePreview("sign-in")} onExit={() => leavePreview("welcome")} onDrawGuestCard={nilazaBackendBaseUrl ? drawGuestCard : undefined} />;
     }
     return (
       <>
@@ -5925,6 +5991,9 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                 unreadNotificationCount={unreadNotificationCount}
                 councilPersonas={councilRoomProps.personas}
                 councilSession={latestCouncilSession}
+                guestCarry={guestCarry}
+                guestCarryBusy={guestCarryBusy}
+                onOpenGuestCarry={openGuestCarry}
                 onAiCouncil={openAiCouncilRoom}
                 onAsk={openOracleWithQuestion}
                 onAskDeeperToday={() => startTarotCardChat(todayPulse.card, selectedDeck)}
@@ -6345,6 +6414,9 @@ function HomeScreen({
   zodiacPulse,
   councilPersonas,
   councilSession,
+  guestCarry,
+  guestCarryBusy,
+  onOpenGuestCarry,
   onAiCouncil,
   onAsk,
   onAskDeeperToday,
@@ -6378,6 +6450,10 @@ function HomeScreen({
   zodiacPulse: ReturnType<typeof buildDailyZodiacPulse>;
   councilPersonas: Persona[];
   councilSession?: AiCouncilSessionSummary;
+  /** Tarot v2 pack 1: the card drawn before sign-in, offered until it is opened or the day ends. */
+  guestCarry?: StoredGuestDraw | null;
+  guestCarryBusy?: boolean;
+  onOpenGuestCarry?: () => void;
   onAiCouncil: () => void;
   onAsk: (text: string) => void;
   onAskDeeperToday: () => void;
@@ -6414,7 +6490,15 @@ function HomeScreen({
     onJournal={onJournal} onNotifications={onNotifications} unread={unreadNotificationCount}
     latest={homeLatestEntry(journalEntries, currentTime, language)} deckCover={getDeckThumbnailImage(selectedDeck.id)}
     onOpenRecent={onOpenRecent} onWritePrompt={onWritePrompt}
-    continuation={councilSession ? <HomeCouncilCard language={language} personas={councilPersonas} session={councilSession} onPress={onAiCouncil} /> : undefined}
+    continuation={councilSession || guestCarry ? <>
+      {guestCarry && guestCarry.cards[0] && onOpenGuestCarry ? (() => {
+        const first = guestCarry.cards[0];
+        const guestCard = cards.find((item) => item.id === first.id);
+        return guestCard ? <GuestCarryCard language={language} cardName={displayTarotCardName(guestCard, language)} image={getTarotCardImage(selectedDeck.id, guestCard.id)}
+          reversed={first.reversed} busy={Boolean(guestCarryBusy)} onPress={onOpenGuestCarry} /> : null;
+      })() : null}
+      {councilSession ? <HomeCouncilCard language={language} personas={councilPersonas} session={councilSession} onPress={onAiCouncil} /> : null}
+    </> : undefined}
     preRevealHint={todayPulse.wisdomLine}
     nextStep={nextStep}
     reflection={<TodayCardReflection language={language} cardImage={getTarotCardImage(selectedDeck.id, card.id)} cardName={displayTarotCardName(card, language)}

@@ -21,6 +21,7 @@ The mobile client maps API-style paths to Supabase function names:
 | `/ai/persona-chat` | `ai-persona-chat` |
 | `/ai/ai-council` | `ai-council` |
 | `/ai/tarot-reading` | `ai-tarot-reading` |
+| `/tarot/guest-draw` | `tarot-guest-draw` |
 | `/ai/daily-insight` | `ai-daily-insight` |
 | `/ai/daily-zodiac-pulse` | `ai-daily-zodiac-pulse` |
 | `/ai/astrology-insight` | `ai-astrology-insight` |
@@ -61,6 +62,7 @@ supabase functions deploy ai-oracle-turn
 supabase functions deploy ai-persona-chat
 supabase functions deploy ai-council
 supabase functions deploy ai-tarot-reading
+supabase functions deploy tarot-guest-draw
 supabase functions deploy ai-daily-insight
 supabase functions deploy ai-daily-zodiac-pulse
 supabase functions deploy ai-astrology-insight
@@ -129,6 +131,7 @@ AI functions persist staging data when possible:
 - `ai-persona-chat`: assembles the active persona chat system prompt plus the selected persona skill prompt, then creates a `persona_chat` session, user message, guide message, selected persona link, prompt stack metadata, and usage event.
 - `ai-council`: creates an `ai_council` session, selected guide roster, one user round, multiple guide messages sharing `council_round_id`, and usage event. The `ai_council_rounds_v2` output keeps ordered turns, turn kind, and reply-to-guide metadata while remaining backward-readable for v1 rows. The request includes `councilTemplate` metadata (`id`, `meetingMode`, `synthesisMode`, `maxGuidesPerTurn`, guide roles, and output contract). When Supabase JWT/DB are available, the function first reads the active `ai_council_config_versions` row and matching `ai_council_template_versions` row; if found, that published Admin config overrides the mobile payload for runtime guide count, guide roster order, meeting mode, synthesis mode, output contract, and persisted audit metadata. If config lookup is unavailable, it falls back to the mobile payload.
 - `ai-tarot-reading`: stores `tarot_readings` with selected card JSON, generated interpretation, and usage event.
+- `tarot-guest-draw` (Tarot v2 pack 1): public (`verify_jwt = false`), no database and no model. It returns the cards of one signed-out device, spread, topic and Vietnam day, derived from the `TAROT_GUEST_DRAW_SECRET` Edge secret that the Owner sets, so the same event always gets the same cards and `ai-tarot-reading` can keep them after sign-in (`guestDeviceId` on `draw`). Without the secret it answers 503 `guest_draw_unavailable` and the app shows a local preview card.
 - `ai-daily-insight`: stores a `usage_events` row for daily insight generation.
 - `ai-daily-zodiac-pulse`: returns a daily Sun-sign reflection cue with explicit caveats, never invents Moon/Rising/aspects, and stores a `usage_events` row for staging diagnostics.
 - `ai-astrology-report` (retired 2026-11-15, Owner decision): the legacy server-side chart report was removed from the app and this repository. Charts are calculated on the device by `packages/astrology-core`; AI reads go through `ai-astrology-insight`. The deployed copy is deleted separately with Owner approval.

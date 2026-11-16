@@ -8,7 +8,7 @@ import type { ShareEventPayload } from "./features/share/shareEvents";
 import type { JournalAck, JournalMutation } from "./features/journal/journalRepository";
 import { parseAdminAccess } from "./features/owner/access";
 import type { AstrologyAiInvocation, AstrologyAiInsightResponse, AstrologyAiInsightResult } from "./features/astrology/astrologyAiInsight";
-import { parseTarotClarifier, parseTarotServerDraw, type TarotClarifier, type TarotServerDraw } from "./features/tarot/serverDraw";
+import { parseTarotClarifier, parseTarotGuestDraw, parseTarotServerDraw, type TarotClarifier, type TarotGuestDraw, type TarotServerDraw } from "./features/tarot/serverDraw";
 import {
   ChatHandoffContext,
   DailyInsight,
@@ -287,6 +287,8 @@ export type TarotDrawInput = {
   topic: string;
   spread: string;
   question: string;
+  /** Pack 1: the random install id of the signed-out preview; a NEW draw then keeps the cards that device saw. */
+  guestDeviceId?: string;
 };
 
 export type TarotInterpretationResult = {
@@ -356,6 +358,7 @@ const supabaseFunctionPathMap: Record<string, string> = {
   "/ai/persona-chat": "/ai-persona-chat",
   "/ai/ai-council": "/ai-council",
   "/ai/tarot-reading": "/ai-tarot-reading",
+  "/tarot/guest-draw": "/tarot-guest-draw",
   "/ai/daily-insight": "/ai-daily-insight",
   "/ai/daily-zodiac-pulse": "/ai-daily-zodiac-pulse",
   "/ai/astrology-insight": "/ai-astrology-insight",
@@ -672,7 +675,7 @@ function tarotLimitFrom(result: TarotResponse): BackendLimitError | null {
  * BackendUnavailableError when the server cannot be reached; it never draws cards on the device.
  */
 export async function requestTarotDraw(input: TarotDrawInput, options: BackendOptions): Promise<TarotServerDraw> {
-  const result = await postTarot({ action: "draw", language: input.language, deck: { id: input.deck.id, slug: input.deck.slug }, topic: input.topic, spread: input.spread, question: input.question }, options, 20000);
+  const result = await postTarot({ action: "draw", language: input.language, deck: { id: input.deck.id, slug: input.deck.slug }, topic: input.topic, spread: input.spread, question: input.question, ...(input.guestDeviceId ? { guestDeviceId: input.guestDeviceId } : {}) }, options, 20000);
   if (!result) throw new BackendUnavailableError("auth");
   const limit = tarotLimitFrom(result);
   if (limit) throw limit;
@@ -680,6 +683,35 @@ export async function requestTarotDraw(input: TarotDrawInput, options: BackendOp
   const draw = result.status === 200 ? parseTarotServerDraw(result.body) : null;
   if (!draw) throw new BackendUnavailableError("busy", result.status);
   return draw;
+}
+
+/**
+ * Pack 1: a signed-out guest asks the public tarot-guest-draw function for the cards of one device, spread, topic and Vietnam day.
+ * The same device always gets the same cards (asking again is not a redraw) and the app cannot choose them. It sends no account and
+ * no question, only the random install id, the spread and the topic. Throws BackendUnavailableError when the server cannot answer
+ * (offline, busy, or the secret not set): the caller then shows a local preview card instead.
+ */
+export async function requestGuestTarotDraw(input: { deviceId: string; spread: string; topic: string }, options: BackendOptions): Promise<TarotGuestDraw> {
+  const current = currentOptions(options);
+  if (!current.baseUrl || current.session?.active === false) throw new BackendUnavailableError("offline");
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 12000);
+  try {
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    if (current.apiKey) headers.apikey = current.apiKey;
+    const response = await fetch(resolveBackendPath(current.baseUrl, "/tarot/guest-draw"), {
+      method: "POST", headers, body: JSON.stringify({ deviceId: input.deviceId, spread: input.spread, topic: input.topic }), signal: controller.signal
+    });
+    const body = await response.json().catch(() => undefined) as unknown;
+    const draw = response.status === 200 ? parseTarotGuestDraw(body) : null;
+    if (!draw) throw new BackendUnavailableError("busy", response.status);
+    return draw;
+  } catch (error) {
+    if (error instanceof BackendUnavailableError) throw error;
+    throw new BackendUnavailableError(controller.signal.aborted ? "busy" : "offline");
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 /** P1-A: the one clarifying card of a reading (server draw + library meaning, no AI); the same card on every call. */

@@ -170,14 +170,14 @@ Khớp với cấu hình "Dữ liệu gửi cho AI" (14/11) — hai khối này 
 
 ## 8. Quyết định cần Owner (mỗi câu có khuyến nghị)
 
-**Owner trả lời 16/11:** Q1 đồng ý tách trần số trải bài khỏi hạn mức AI; Q2 như bảng dưới (đổi so với đề xuất); Q3–Q8 theo đề xuất; Q9 gộp vào đợt áp migration và deploy P1-A. Kết quả Gói 0: [bàn giao](../release/tarot-v2-pack0-2026-11-16/HANDOFF.vi.md).
+**Owner trả lời 16/11:** Q1 đồng ý tách trần số trải bài khỏi hạn mức AI; Q2 như bảng dưới (đổi so với đề xuất); Q3–Q8 theo đề xuất; Q9 gộp vào đợt áp migration và deploy P1-A. Kết quả Gói 0: [bàn giao](../release/tarot-v2-pack0-2026-11-16/HANDOFF.vi.md). Kết quả Gói 1 (giữ lá khách sau đăng nhập): [bàn giao](../release/tarot-v2-pack1-2026-11-16/HANDOFF.vi.md).
 
 **Đã trả lời trong repo (không cần hỏi lại):** quy luật cùng chủ đề = cùng bài trong ngày; không bán rút lại; Nil chỉ từ gói, không bán lẻ ở v1; không số Nil cụ thể; Premium bán từ bản Play đầu (`NIL_PRICING_STRATEGY` mục 13).
 
 | # | Câu hỏi | Khuyến nghị |
 |---|---|---|
 | Q1 | **Trần số trải bài/ngày không còn bị kẹp bởi hạn mức AI** (giữ trần mềm 3, theo kiểu trải + chủ đề)? Hiện Free chỉ có 1 trải/ngày dù rút không tốn model. Khóa theo chủ đề vẫn chặn rút lại để "đổi vận". | **Có.** Đổi `drawCap` thành trần mềm riêng; cần deploy lại `ai-tarot-reading` |
-| Q2 | Khách chưa đăng nhập | **Owner 16/11:** khách xem và rút bài, không xem được ý nghĩa bài đọc, phải đăng nhập để xem, nhằm khuyến khích đăng ký. Đã làm: tab "Rút bài" trong màn Xem thử. |
+| Q2 | Khách chưa đăng nhập | **Owner 16/11:** khách xem và rút bài, không xem được ý nghĩa bài đọc, phải đăng nhập để xem, nhằm khuyến khích đăng ký. Đã làm: tab "Rút bài" trong màn Xem thử. **Gói 1 (Owner chọn cách A, 16/11):** lá khách rút do máy chủ cấp bằng công thức cố định và được giữ lại sau khi đăng nhập cùng ngày ([bàn giao](../release/tarot-v2-pack1-2026-11-16/HANDOFF.vi.md)). |
 | Q3 | Celtic 10 lá: mức "sâu" hay mức riêng? Rút miễn phí? | Rút miễn phí; mức AI "sâu"; quyết bảng giá ở P2 |
 | Q4 | Khóa bộ Premium chỉ bật khi `premiumOnSale=true`; thêm kiểm bậc bộ ở máy chủ? | Có |
 | Q5 | Lá hôm nay: người dùng tự chọn một lá trong quạt rồi cố định cả ngày, hay giữ lá seed theo tài khoản + ngày (P1-A)? Nếu seed cố định, nghi thức chỉ là cách lật. | Giữ seed P1-A và nói thật "lá của bạn đã sẵn sàng" (không giả vờ chọn) |

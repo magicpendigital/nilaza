@@ -82,7 +82,7 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Locked deck and guide copy, lock panels and openPremium wiring.",
-      "sha256": "f2d77a9ca2e4aaa84a34b236bcec5901165ccabb5d50cdcd477f0916e9317da4"
+      "sha256": "7ad492644fbc160332dbda83b6be92f8c0d77b012982521bf6896d23e672072d"
     },
     {
       "path": "apps/mobile/src/features/chat/ChatHub.tsx",
