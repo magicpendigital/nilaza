@@ -44,3 +44,30 @@ test("the dock invites to create an account or sign in", () => {
   expect(props.onCreateAccount).toHaveBeenCalled();
   expect(props.onSignIn).toHaveBeenCalled();
 });
+
+test("a guest draws a card and sees its picture and name but not the meaning, and is asked to sign in (Tarot v2 pack 0, Q2)", () => {
+  const { props, screen } = renderPreview({ random: sequence([0.99, 0.2]) });
+  fireEvent.press(screen.getByText("Rút bài"));
+  expect(screen.queryByText("Chàng Khờ")).toBeNull();
+  fireEvent.press(screen.getByText("Rút một lá"));
+  // 0.99 of 2 cards picks the last card, 0.2 < 0.5 makes it reversed.
+  expect(screen.getByText("Át Cốc")).toBeTruthy();
+  expect(screen.getByText("Ace of Cups · Ngược")).toBeTruthy();
+  expect(screen.getByLabelText("Át Cốc. Lá ngược")).toBeTruthy();
+  // The meaning of the reading is not shown; the card library meaning is not opened from here either.
+  expect(screen.queryByText(/^Ý nghĩa (major|cups)-/)).toBeNull();
+  expect(screen.getByText("Ý nghĩa của bài đọc dành cho tài khoản")).toBeTruthy();
+  fireEvent.press(screen.getByText("Đăng nhập để xem ý nghĩa"));
+  expect(props.onSignIn).toHaveBeenCalledTimes(1);
+  fireEvent.press(screen.getAllByText("Tạo tài khoản")[0]);
+  expect(props.onCreateAccount).toHaveBeenCalled();
+  // Drawing again is allowed and never leaves the preview.
+  fireEvent.press(screen.getByText("Rút lại"));
+  expect(screen.getByText(/Ace of Cups|The Fool/)).toBeTruthy();
+  expect(props.onExit).not.toHaveBeenCalled();
+});
+
+function sequence(values: number[]) {
+  let index = 0;
+  return () => values[Math.min(index++, values.length - 1)];
+}

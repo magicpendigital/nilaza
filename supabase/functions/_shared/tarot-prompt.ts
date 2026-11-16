@@ -77,7 +77,7 @@ export async function resolveTarotPrompt(supabase: { from: (table: string) => an
 const spreadPositions = {
   "daily-one": [{ key: "daily", label: { vi: "Thông điệp hôm nay", en: "Today's message" } }],
   "past-present-future": [{ key: "past", label: { vi: "Quá khứ", en: "Past" } }, { key: "present", label: { vi: "Hiện tại", en: "Present" } }, { key: "potential", label: { vi: "Tiềm năng", en: "Potential" } }],
-  "situation-challenge-advice": [{ key: "situation", label: { vi: "Tình huống", en: "Situation" } }, { key: "challenge", label: { vi: "Thử thách", en: "Challenge" } }, { key: "advice", label: { vi: "Gợi mở", en: "Reflection" } }],
+  "situation-challenge-advice": [{ key: "situation", label: { vi: "Tình huống", en: "Situation" } }, { key: "challenge", label: { vi: "Thử thách", en: "Challenge" } }, { key: "advice", label: { vi: "Lời nhắc", en: "Advice" } }],
   // Owner decision 2026-11-12: the Love and Crossroads spreads from the approved design. The "other person"
   // card reflects how the question feels from that side; the immutable boundaries still forbid claiming their thoughts.
   "love-three": [{ key: "you", label: { vi: "Bạn", en: "You" } }, { key: "other", label: { vi: "Người ấy", en: "The other person" } }, { key: "relationship", label: { vi: "Mối quan hệ", en: "The relationship" } }],

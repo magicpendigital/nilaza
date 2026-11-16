@@ -31,3 +31,13 @@ export function tarotSnapshotMeaning(card: TarotCard & { reversed?: boolean }, s
 export function tarotResultSource(moderationStatus: string | undefined): "ai" | "reference" | "blocked" {
   return moderationStatus === "passed" ? "ai" : moderationStatus === "blocked" ? "blocked" : "reference";
 }
+
+/** The source line under the summary. A server draw not yet analysed is Nilaza's own reference reading, not an AI failure. */
+export function tarotSourceLabel(input: { source: "ai" | "reference" | "blocked"; hasDrawId: boolean; cardCount: number; language: string }): string {
+  const vi = input.language === "vi";
+  if (input.source === "ai") return vi ? `Diễn giải AI theo ${input.cardCount} lá và câu hỏi của bạn · không phải dự đoán chắc chắn` : `AI interpretation of your ${input.cardCount} cards and question · not a certain prediction`;
+  if (input.source === "blocked") return vi ? "Phản hồi an toàn" : "Safety response";
+  return input.hasDrawId
+    ? (vi ? "Bài đọc có sẵn của Nilaza · chưa có phân tích AI · không phải dự đoán chắc chắn" : "Nilaza's reference reading · no AI analysis yet · not a certain prediction")
+    : (vi ? "Ý nghĩa có sẵn · AI chưa hoàn tất" : "Reference meanings · AI not completed");
+}

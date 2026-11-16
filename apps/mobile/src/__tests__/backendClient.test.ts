@@ -486,6 +486,9 @@ describe("backendClient", () => {
       await expect(requestTarotDraw(drawInput, signedIn)).rejects.toMatchObject({ code: "tarot_reading_locked", reason: "deleted" });
       mockFetch.mockResolvedValueOnce({ ok: false, status: 503, json: async () => ({ error: "feature_paused" }) });
       await expect(requestTarotDraw(drawInput, signedIn)).rejects.toMatchObject({ code: "feature_paused" });
+      // Tarot v2 pack 0: a Premium deck for an account without Premium (only once Premium is on sale) is a limit the app can word.
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 403, json: async () => ({ error: "premium_required", reason: "premium_deck" }) });
+      await expect(requestTarotDraw(drawInput, signedIn)).rejects.toMatchObject({ code: "premium_required", status: 403 });
     });
 
     it("refuses a malformed draw and says offline instead of drawing cards on the device", async () => {

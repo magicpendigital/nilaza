@@ -24,6 +24,7 @@ import { scrollBandFor, type ScrollBand } from "./src/scrollThresholds";
 
 void SplashScreen.preventAutoHideAsync().catch(() => undefined);
 import {
+  Alert,
   Animated,
   BackHandler,
   Image,
@@ -126,7 +127,8 @@ import { AdaptiveNavigation, type NavigationChrome } from "./src/a2ui/AdaptiveNa
 import { playTarotRevealHaptic } from "./src/features/tarot/interactions";
 import { TarotArtworkButton } from "./src/features/tarot/TarotArtworkButton";
 import { ReadingDetails } from "./src/a2ui/ReadingDetails";
-import { normalizeTarotSections, tarotSnapshotMeaning, tarotResultSource } from "./src/features/tarot/readingPresentation";
+import { normalizeTarotSections, tarotSnapshotMeaning, tarotResultSource, tarotSourceLabel } from "./src/features/tarot/readingPresentation";
+import { TarotDeepAnalysis } from "./src/features/tarot/TarotDeepAnalysis";
 import { getTarotLearningSections, tarotQuestionExamples } from "./src/features/tarot/learning";
 import { getTarotCardGuide } from "./src/features/tarot/cardGuide";
 import { TarotCardGuide } from "./src/features/tarot/TarotCardGuide";
@@ -5263,6 +5265,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     if (error instanceof TarotLimitError) return tarotLimitMessage(language === "en" ? "en" : "vi", error.code === "tarot_reading_locked" ? error.reason ?? "deleted" : error.reason, error.nextDrawAt);
     if (error instanceof BackendLimitError && error.code === "feature_paused") return language === "vi" ? "Diễn giải Tarot bằng AI đang tạm nghỉ một chút. Lượt của bạn vẫn còn, hãy thử lại sau." : "Tarot AI readings are resting for a while. Your turn is kept; please try again later.";
     if (error instanceof BackendLimitError && error.code === "daily_limit_reached") return c.creditLimitReached;
+    // Tarot v2 pack 0: the server refuses a Premium deck for an account without Premium (only once Premium is on sale).
+    if (error instanceof BackendLimitError && error.code === "premium_required") return c.premiumDeckPreview;
     return undefined;
   };
   const requestServerTarotDraw = async (): Promise<{ cards: DrawnTarotCard[]; completed: boolean } | null> => {
@@ -5337,6 +5341,20 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       setTarotError(c.tarotError);
       return;
     }
+    // Tarot v2 pack 0 (Owner 2026-11-16): drawing is free. A fresh server draw shows its cards with the reference reading
+    // and no model call; the AI runs only when the person asks for "Phân tích chuyên sâu" (a retry of this same draw) or
+    // when the server already holds the answer (a completed draw is replayed below, free).
+    if (tarotServerMode && !retryReading && serverDraw && serverCardsMatch && serverDraw.draw.status !== "completed") {
+      const local = buildLocalTarotInterpretation(selectedDeck, tarotTopic, tarotSpread, tarotQuestion, language, serverDraw.cards);
+      const generated = buildTarotReadingResult(selectedDeck, tarotTopic, tarotSpread, tarotQuestion, serverDraw.cards,
+        { ...local, moderationStatus: "fallback", drawId: serverDraw.draw.drawId, replayed: serverDraw.draw.replayed, nextDrawAt: serverDraw.draw.nextDrawAt }, language);
+      setReading(generated);
+      setTarotStageHistory((currentHistory) => [...currentHistory, tarotStage].slice(-16));
+      setTarotStage("result");
+      recordEvent("tarot_draw_shown", { deckId: selectedDeck.id, topic: tarotTopic, spread: tarotSpread, replayed: serverDraw.draw.replayed });
+      completeDailyRitual("tarot_reading");
+      return;
+    }
     if (!tarotServerMode && creditBalance <= 0 && !retryReading) {
       setTarotError(c.creditLimitReached);
       recordEvent("tarot_credit_limit_preview", { dateKey: currentDateKey, limit: dailyTarotCreditLimit });
@@ -5383,7 +5401,10 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         if (!retryReading) setTarotStageHistory((currentHistory) => [...currentHistory, tarotStage].slice(-16));
         setTarotStage("result");
         // A replayed answer is the same event: it is not a new reading for today's local count.
-        recordEvent(retryReading ? "tarot_interpretation_retried" : interpretation.replayed ? "tarot_reading_replayed" : "tarot_reading_drawn", {
+        // An AI answer delivered now (also through "Phân tích chuyên sâu") is the one AI reading of the day for the local hint;
+        // a replayed answer is the same event and counts for nothing new.
+        const deliveredNow = interpretation.moderationStatus === "passed" && !interpretation.replayed;
+        recordEvent(retryReading ? (deliveredNow ? "tarot_reading_drawn" : "tarot_interpretation_retried") : interpretation.replayed ? "tarot_reading_replayed" : "tarot_reading_drawn", {
           deckId: selectedDeck.id,
           topic: tarotTopic,
           spread: tarotSpread,
@@ -5823,7 +5844,19 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
             onRequestClarifier={tarotServerMode ? () => { void requestReadingClarifier(); } : undefined}
             clarifierBusy={tarotClarifierBusy}
             onRetryInterpretation={tarotServerMode && reading?.drawId ? () => {
-              if (reading?.drawId && tarotResultSource(reading.moderationStatus) === "reference") drawCards(reading.selected, reading);
+              const target = reading;
+              if (!target?.drawId || tarotResultSource(target.moderationStatus) !== "reference") return;
+              // Tarot v2 pack 0: the AI runs only after the person confirms; it reads the question and the cards, nothing else.
+              Alert.alert(
+                language === "vi" ? "Phân tích chuyên sâu bằng AI?" : "Deep analysis with AI?",
+                language === "vi"
+                  ? "AI sẽ đọc câu hỏi của bạn cùng các lá đã rút. Chỉ câu hỏi và các lá được gửi đi, không gửi ngày sinh hay Nhật ký. Lượt chỉ tính khi AI trả bài; lỗi thì không mất."
+                  : "The AI will read your question and the cards you drew. Only the question and the cards are sent, never birth data or your Journal. It only counts when the AI delivers; a failure costs nothing.",
+                [
+                  { text: language === "vi" ? "Để sau" : "Not now", style: "cancel" },
+                  { text: language === "vi" ? "Phân tích" : "Analyse", onPress: () => drawCards(target.selected, target) }
+                ]
+              );
             } : undefined}
             onQuestionChange={(text) => setTarotQuestion(text)}
             keepSelectedDeck={tarotKeepSelectedDeck}
@@ -8173,11 +8206,7 @@ export function TarotFlow({
               };
             })}
             summary={reading.summary}
-            sourceLabel={tarotResultSource(reading.moderationStatus) === "ai"
-              ? (language === "vi" ? `Diễn giải AI theo ${reading.selected.length} lá và câu hỏi của bạn · không phải dự đoán chắc chắn` : `AI interpretation of your ${reading.selected.length} cards and question · not a certain prediction`)
-              : tarotResultSource(reading.moderationStatus) === "blocked"
-                ? (language === "vi" ? "Phản hồi an toàn" : "Safety response")
-                : (language === "vi" ? "Ý nghĩa có sẵn · AI chưa hoàn tất" : "Reference meanings · AI not completed")}
+            sourceLabel={tarotSourceLabel({ source: tarotResultSource(reading.moderationStatus), hasDrawId: Boolean(reading.drawId), cardCount: reading.selected.length, language })}
             extraSections={reading.sections
               .filter((section) => !section.cardIds?.length)
               .map((section, index) => ({ id: `${section.key}-${index}`, title: localizedText(section.title, language), body: localizedText(section.body, language) }))
@@ -8207,10 +8236,7 @@ export function TarotFlow({
               </Pressable>
             ) : null}
             {tarotResultSource(reading.moderationStatus) === "reference" && onRetryInterpretation ? (
-              <Pressable accessibilityRole="button" disabled={tarotGenerating} accessibilityState={{ disabled: tarotGenerating }}
-                onPress={onRetryInterpretation} style={[styles.editorialOutlineButton, tarotGenerating && styles.disabledAction]}>
-                <Text style={styles.editorialOutlineButtonText}>{tarotGenerating ? c.generatingReading : language === "vi" ? "Thử diễn giải AI với các lá này" : "Retry AI with these cards"}</Text>
-              </Pressable>
+              <TarotDeepAnalysis language={language} busy={tarotGenerating} busyLabel={c.generatingReading} onPress={onRetryInterpretation} />
             ) : null}
             {tarotError ? <Text accessibilityLiveRegion="polite" style={styles.errorText}>{tarotError}</Text> : null}
           </TarotResultView>

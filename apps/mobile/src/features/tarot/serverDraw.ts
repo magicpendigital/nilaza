@@ -126,6 +126,12 @@ export function tarotLimitMessage(language: "vi" | "en", reason: string | undefi
       ? `Trải bài cho chủ đề này hôm nay đã được cất đi. Bạn có thể mở trải bài mới cho chủ đề này vào ${at}.`
       : `Today's reading on this topic was put away. You can open a new reading on this topic at ${at}.`;
   }
+  if (reason === "delivered") {
+    // Tarot v2 pack 0: the AI allowance, not the draw. The cards and the reference reading stay with the person.
+    return language === "vi"
+      ? `Hôm nay bạn đã dùng hết lượt phân tích bằng AI. Các lá và bài đọc có sẵn vẫn ở đây; lượt mới mở vào ${at}.`
+      : `You have used today's AI analysis. Your cards and the reference reading stay here; it opens again at ${at}.`;
+  }
   if (reason === "attempts") {
     return language === "vi"
       ? `Hôm nay Nilaza chưa diễn giải được sau vài lần thử. Các lá của bạn vẫn được giữ; bạn có thể thử lại vào ${at}.`

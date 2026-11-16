@@ -7,6 +7,7 @@ import { aiAuthUserOrUnavailable } from "../_shared/ai-request-guard.ts";
 import { writeAnswerReceipt } from "../_shared/answer-receipt.ts";
 import { featurePaused } from "../_shared/feature-switch.ts";
 import { readActiveFeatureConfig } from "../_shared/feature-config.ts";
+import { PREMIUM_ENTITLEMENTS, resolveServerTier } from "../_shared/premium-entitlement.ts";
 import { createTarotHandler } from "./handler.ts";
 import { createSupabaseTarotStore, type ServiceClient } from "./store.ts";
 
@@ -23,10 +24,20 @@ const handler = createTarotHandler(req => {
     auth: { persistSession: false, autoRefreshToken: false }
   });
   const admin = createClient(url, serviceKey, { auth: { persistSession: false, autoRefreshToken: false } });
+  let userCreatedAt: string | null = null;
   return {
     authenticate: async token => {
       const { data, error } = await supabase.auth.getUser(token);
+      userCreatedAt = data?.user?.created_at ?? null;
       return aiAuthUserOrUnavailable(data?.user, error);
+    },
+    // Tarot v2 pack 0 (Q4): read only when a Premium deck is drawn while Premium is on sale. A paid entitlement or the
+    // shared tier switch grants Premium; an unreadable subscription row refuses the draw instead of granting it.
+    readTier: async userId => {
+      const { data, error } = await (supabase as unknown as { from(table: string): { select(columns: string): { eq(column: string, value: string): { in(column: string, values: readonly string[]): PromiseLike<{ data: unknown; error: unknown }> } } } })
+        .from("subscriptions").select("entitlement,status,current_period_end").eq("user_id", userId).in("entitlement", PREMIUM_ENTITLEMENTS);
+      if (error) throw new Error("tier_unavailable");
+      return resolveServerTier({ subscriptions: Array.isArray(data) ? data : [], user: { created_at: userCreatedAt } });
     },
     store: createSupabaseTarotStore(admin as unknown as ServiceClient, supabase as unknown as ServiceClient),
     readContent: () => readPublishedTarotContent(supabase),
