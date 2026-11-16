@@ -391,7 +391,7 @@ for (const required of [
   assert(revenuecatMigration.includes(required), `RevenueCat entitlement migration missing ${required}`);
 }
 assert(!/create\s+table\s+(if\s+not\s+exists\s+)?public\./i.test(revenuecatMigration) && !/(drop|create|alter)\s+policy/i.test(revenuecatMigration), "RevenueCat migration must not add public tables or change RLS policies");
-const astrologyInsightSource = read("supabase/functions/ai-astrology-insight/index.ts");
+const astrologyInsightSource = read("supabase/functions/ai-astrology-insight/handler.ts");
 assert(astrologyInsightSource.includes("resolveServerTier(") && astrologyInsightSource.includes("PREMIUM_ENTITLEMENTS"), "ai-astrology-insight must judge Premium through _shared/premium-entitlement.ts");
 const modelRouterSource = read("supabase/functions/_shared/model-router.ts");
 assert(modelRouterSource.includes("createAiTrace") && modelRouterSource.includes("traceContext") && modelRouterSource.includes("traceHooks"), "Model router must emit AI trace context and provider hooks");
