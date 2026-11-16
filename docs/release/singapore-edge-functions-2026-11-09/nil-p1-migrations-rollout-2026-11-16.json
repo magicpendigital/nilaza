@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "title": "Nil P1: three migrations applied to Singapore, migration history recorded (functions NOT yet deployed)",
+  "date": "2026-11-16",
+  "target": {
+    "projectRef": "etfajmrwyywokgafzxsb",
+    "label": "production (CLI reports: project Nilaza, production)"
+  },
+  "ownerApproval": "Owner approved in chat ('Duyệt áp SQL') after PR #48 merged into main (commit eca5669): apply the three migrations named by SHA-256 in PLAN.md section 4 item 13.",
+  "records": [
+    "docs/feature-plans/nil-p1-tarot-lock-2026-11-15.json",
+    "docs/feature-plans/nil-p1-astrology-lock-2026-11-15.json",
+    "docs/feature-plans/nil-p1-cost-measure-2026-11-15.json"
+  ],
+  "sourceCommit": "eca5669",
+  "migrations": {
+    "method": "npx supabase@3.1.0 db query --yes --remote=etfajmrwyywokgafzxsb -f <file>, one file at a time in this order, stop on error (run by Claude); each returned no error. History recorded with migration repair --status applied --remote=... --yes for the same three versions.",
+    "files": [
+      { "file": "supabase/migrations/20261115100000_tarot_reading_lock.sql", "sha256": "e193323e6b96cb2e085ab3f785b8033d221a2fe2cf6a5e90e50a02cfee0740ba" },
+      { "file": "supabase/migrations/20261115110000_astrology_lock.sql", "sha256": "90bdbf600f2fd3522ec4a2d166aa31543ed897169acde7603c25b9f61cffd11c" },
+      { "file": "supabase/migrations/20261115120000_ai_cost_by_feature_view.sql", "sha256": "1525e18937ca9e65e07794ef606e5c165eeea5f46ad39b3ec01e1f6df449f4cd" }
+    ]
+  },
+  "preApplyChecks": {
+    "migrationHistoryLatestBefore": "20261115090000",
+    "tarotReadingsRows": 6,
+    "astrologyReportsRows": 0,
+    "note": "Migrations are additive (new nullable columns, unique key, functions, trigger); legacy rows keep lock_key null."
+  },
+  "postApplyChecks": {
+    "readOnlySql": {
+      "tarotNewColumns": 5,
+      "astrologyNewColumns": 4,
+      "functions": ["astrology_soft_delete_reports", "get_ai_cost_summary", "tarot_draw_claim", "tarot_interpret_claim"],
+      "rlsEnabled": { "tarot_readings": true, "astrology_reports": true },
+      "policies": { "tarot_readings": "users read own tarot readings (select only)", "astrology_reports": "users read own astrology reports (select only)" },
+      "authenticatedWritePrivileges": { "tarot_readings": "none (insert/update/delete all false)", "astrology_reports": "none (insert/delete false)" },
+      "anonSelectTarotReadings": false,
+      "guardTriggerPresent": true,
+      "tarotClaimFunctionsExecutableBy": "service_role only (anon and authenticated false)",
+      "costSummaryAndSoftDeleteExecutableBy": "authenticated and service_role, not anon (cost summary checks ai.read inside the function)",
+      "tarotReadingsRowsAfter": 6
+    },
+    "migrationListAfter": "includes 20261115100000, 20261115110000, 20261115120000"
+  },
+  "notVerified": [
+    "get_ai_cost_summary denial for a non-privileged signed-in caller on the live database (tested only on PGlite; the read-only SQL role cannot switch role)",
+    "Any call through a deployed function (ai-tarot-reading and ai-astrology-insight are NOT yet redeployed)",
+    "Admin 'Chi phí AI' card in a real browser"
+  ],
+  "importantWhileFunctionsNotDeployed": "The deployed (old) ai-tarot-reading inserts tarot_readings with the user's rights through the client path and the new migration removed those write rights; deploy ai-tarot-reading and ai-astrology-insight next, then release the new app. Until then Tarot AI and Astrology AI saves from the current app/functions can fail."
+}
