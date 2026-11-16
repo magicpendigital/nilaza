@@ -3,7 +3,7 @@
   "taskId": "tarot-free-draw-ai-depth-proposal-2026-11-15",
   "ownerAgent": "design_agent",
   "lane": "Docs only: Tarot v2 proposal for Owner approval (free draw, paid AI deep reading, ritual UX, spreads, interpretation library)",
-  "goal": "Owner request 15/11: analyse why the Tarot draw is blocked after one reading, propose a free draw with chargeable AI deep analysis, a ritual draw experience, a spread review and an interpretation library. Proposal document and one PLAN.md line only; no app, backend or Admin code changes.",
+  "goal": "Owner request 15/11: analyse why the Tarot draw is blocked after one reading, propose a free draw with chargeable AI deep analysis, a ritual draw experience, a spread review and an interpretation library. Rewritten 16/11 to match the Owner-approved Nil strategy and the Tarot lock merged in PR #48. Proposal document and one PLAN.md line only; no app, backend or Admin code changes.",
   "successCriteria": [
     "docs/proposals/TAROT_FREE_DRAW_AI_DEPTH_2026-11-15.vi.md lists verified findings with file:line evidence, the proposed flow and Nil rule, the layered interpretation library, ritual stages, the spread review with reading-guide context for the LLM, nine Owner decisions and a phased scope.",
     "PLAN.md records the proposal and that it waits for Owner decisions.",
@@ -27,7 +27,8 @@
   },
   "canonicalContracts": [
     "AGENTS.md: reflective Tarot, no certain futures, no claims about another person's thoughts.",
-    "Owner decisions 2026-11-04 and 2026-11-11: one Tarot AI reading per day for every account, counted server side."
+    "Owner decisions 2026-11-04 and 2026-11-11: one Tarot AI reading per day for every account, counted server side.",
+    "docs/NIL_PRICING_STRATEGY_2026-11-15.vi.md section 13: Nil only from plans, no raw Nil numbers shown, Tarot 24h topic lock, no paid re-draw."
   ],
   "allowedDataClasses": [
     "sanitized_project_context"
@@ -51,22 +52,37 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Draw, allowance and AI coupling (drawCards, handleDraw, creditBalance).",
-      "sha256": "9a2cb7e0430b49f92207eaeda1efb7ea15f09115d74c40086b4ec3bd4f0eeb13"
+      "sha256": "51e65dc077e00b303afff8615188eb91991c4a932303ed2a5d24582b25e6cedf"
     },
     {
       "path": "apps/mobile/src/backendClient.ts",
       "reason": "generateTarotReading and local fallback.",
-      "sha256": "a06b84edeb18d10771bacd0a594270ae83f7c174ab73d32ad42c15c6ede8f22e"
+      "sha256": "6dfce3c38a02b00eeed92bc4a16699e41fa6220cb16c618a920a2023702d3719"
     },
     {
       "path": "supabase/functions/ai-tarot-reading/index.ts",
       "reason": "Server delivered-reading limit; no deck tier check.",
-      "sha256": "970272d16521c6f4f5988a9896ad97067e93af972d8004db26307d3667477b91"
+      "sha256": "5d8c822d4fa25508db81f1ebc950679f225aa4c6aae60059ad4624c35507df17"
     },
     {
       "path": "supabase/functions/_shared/tarot-prompt.ts",
       "reason": "Spread positions and system prompt without spread reading guidance.",
-      "sha256": "b010d4c3475e5463d149f1a567b1a8f5931af22d063e67b71959be0caee0da53"
+      "sha256": "cf17623b7e499906d7cdc2493fbcdc87cd56116a1ce1108e1f722e0104d45c38"
+    },
+    {
+      "path": "docs/NIL_PRICING_STRATEGY_2026-11-15.vi.md",
+      "reason": "Owner decisions on Nil and the Tarot lock (section 13) that this proposal must keep.",
+      "sha256": "28f7ba99545459ad013472ee69fed0e09bfc3335c9986b3572b227f7fc2ad1ba"
+    },
+    {
+      "path": "docs/release/nil-p1-tarot-lock-2026-11-15/HANDOFF.vi.md",
+      "reason": "P1-A lock behaviour, draw cap and known risks.",
+      "sha256": "c3fc053081c7c9f23ed44542a439d74bd41fcc43ddb0bb28b181d235be16fa2c"
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/handler.ts",
+      "reason": "draw/interpret/clarify actions and drawCap = min(soft cap, delivered limit).",
+      "sha256": "569ca7d9a925b920e4361d548c69e72d1c7d4120746dce6f41ccc3d138620d98"
     }
   ],
   "skillReview": [
@@ -99,7 +115,7 @@
     "node scripts/feature-preflight.mjs --ci --base origin/main"
   ],
   "managerTestPath": "Open the proposal, read section 1 and the nine decisions in section 8, then the Artifact rows 6 and 7.",
-  "residualRisk": "Findings come from code reading, not device testing; the document lists what is verified and what is inferred. The Nil unit and the same-question rule were not found in the repository and are listed as Owner questions.",
+  "residualRisk": "Findings come from code reading, not device testing; the document lists what is verified and what is inferred. The Nil P1-A migration and function are merged but not applied or deployed, so the proposal builds on unverified server behaviour.",
   "externalActions": {
     "databaseWrite": false,
     "productionRelease": false

@@ -1,41 +1,43 @@
-# Tarot: rút bài miễn phí, AI phân tích trả phí — phân tích và đề xuất (15/11/2026)
+# Tarot: rút bài miễn phí, AI phân tích trả phí — phân tích và đề xuất (bản 2, 16/11/2026)
 
 > **Loại tài liệu:** đề xuất, **chưa sửa app**. Viết cho Owner; chi tiết kỹ thuật ở mục 9.
-> **Căn cứ:** đọc mã trên `origin/main` (`e73e765`). **Chưa chạy app, chưa truy vấn Singapore, chưa thử trên máy thật.** Mỗi phát hiện ghi *đã kiểm chứng trong mã* hoặc *suy luận*.
-> **Hình dung bằng thiết kế:** canvas Artifact "Nilaza — Thiết kế lại Tarot & Astrology", hàng **6 (Tarot v2)** và hàng **7 (Hội đồng, Chiêm tinh)**. Đọc xong thiết kế và chốt các quyết định ở mục 8 rồi mới viết mã.
+> **Bản 2 (16/11):** viết lại sau khi đọc dữ liệu mới trên `origin/main` (`eca5669`): [chiến lược Nil](../NIL_PRICING_STRATEGY_2026-11-15.vi.md) và Nil P0+P1 (PR #48, [bàn giao khóa Tarot](../release/nil-p1-tarot-lock-2026-11-15/HANDOFF.vi.md)). Bản 1 (15/11) giả định **sai** rằng quy luật "cùng một câu hỏi" và đơn vị Nil chưa có trong repo; mục 8 liệt kê những gì đã sửa.
+> **Căn cứ:** đọc mã trên `origin/main`. **Chưa chạy app, chưa truy vấn Singapore, chưa thử trên máy thật.** Mỗi phát hiện ghi *đã kiểm chứng trong mã* hoặc *suy luận*.
+> **Hình dung bằng thiết kế:** canvas Artifact "Nilaza — Thiết kế lại Tarot & Astrology", hàng **6 (Tarot v2)** và hàng **7 (Hội đồng, Chiêm tinh)**.
 
 ---
 
 ## 1. Tóm tắt
 
-1. **Lỗi gốc (đã kiểm chứng):** *rút bài* và *gọi AI* đang là **một hành động**. Vì AI tốn tiền nên hạn mức AI (1 lượt/ngày) bị đặt **trước lá bài đầu tiên**. Hệ quả: sau một lần rút, người dùng không rút được nữa, kể cả bộ bài miễn phí, kể cả khi bài đọc chỉ là bản soạn sẵn.
-2. **Kiểm quyền bộ bài thì đúng hướng** (bộ Premium cần tài khoản Premium) nhưng nó đứng cùng chỗ với hạn mức, nên nút rút đổi thành "Nâng cấp" và cả hai bị trộn thành một thông báo chặn.
-3. **Đề xuất:** tách hai lớp.
-   - **Lớp miễn phí, chạy trên máy:** hỏi → chọn bộ bài → nghi thức rút → xem từng lá và bài đọc soạn sẵn của Nilaza. Không giới hạn, không cần mạng.
-   - **Lớp AI trả phí:** một nút "Phân tích chuyên sâu" ở cuối kết quả. Bấm nút mới hỏi xác nhận, gọi máy chủ và **chỉ trừ Nil khi AI trả bài đạt**.
-4. **Muốn người dùng bấm nút AI thì lớp miễn phí phải hay.** Hiện bản soạn sẵn quá mỏng (mục 3). Cần một **kho diễn giải ghép từ nhiều lớp** (lá × chủ đề × vị trí × kiểu trải × tổ hợp), khoảng **800 đơn vị nội dung**, thay vì cố viết hàng nghìn ô.
-5. **Màn rút bài:** làm thành nghi thức (thở → xào → chọn → lá phóng to giữa màn hình → chạm để mở), có phát sáng, bụi sao, âm thanh, rung; luôn có "Bỏ qua nghi thức" và tắt hiệu ứng. Các giai đoạn là một máy trạng thái có lời dẫn bằng chữ, để sau này gắn giọng nói trực tiếp của LLM mà không đổi giao diện.
-6. **Kiểu trải bài:** 5 kiểu hiện có đều hợp lý, không trùng, không phi thực tế. Thiếu 3 kiểu phổ biến: *Suy nghĩ/Cảm xúc/Hành động*, *Công việc 4 lá*, *Thập tự Celtic 10 lá*. **Cách đọc mỗi kiểu khác nhau nhưng prompt hiện không nói** — cần đưa "hướng dẫn đọc theo kiểu trải" làm ngữ cảnh cho LLM.
+1. **Quy luật và Nil đã có trong repo, nên thiết kế giữ nguyên chúng:**
+   - **Khóa Tarot (Owner chốt 15/11):** một trải bài được khóa theo *tài khoản + kiểu trải + chủ đề + ngày giờ Việt Nam*. Rút lại cùng kiểu trải và chủ đề trong ngày thì thấy đúng các lá và lời diễn giải cũ, **0 Nil, không gọi AI**. Chủ đề khác là trải bài mới. Có **1 lá làm rõ** mỗi trải bài. **Không bán rút lại.**
+   - **Nil (Owner chốt 15/11):** năng lượng cấp theo gói, **không bán lẻ ở v1**. Người dùng thấy **thanh năng lượng** và mức **nhẹ / vừa / sâu**, **không có bảng giá, không có số Nil cụ thể**. Ví Nil thật (P2) và Admin Nil Studio (P3) **chưa được duyệt**; bản hiện tại thực thi bằng hạn mức lượt AI mỗi ngày.
+2. **Lỗi gốc còn trên `main`:** máy chủ đã rút lá và diễn giải bằng **hai hành động riêng** (`draw`, `interpret`), nhưng app gọi cả hai trong một lần bấm, và **số trải bài tối đa mỗi ngày = min(3, hạn mức AI giao đạt)**. Gói Free có 1 lượt AI nên chỉ được **1 trải bài mỗi ngày**: hết lượt AI là hết luôn việc rút, kể cả bộ miễn phí (`handler.ts:78–87`). Rút lá không tốn model, nên chi phí không phải lý do để chặn.
+3. **Đề xuất:** giữ nguyên khóa, tách hai lớp.
+   - **Lớp miễn phí (0 Nil):** hỏi → chọn bộ bài → nghi thức → lá do máy chủ rút (khóa theo ngày) → **bài đọc Nilaza soạn sẵn** hiện ngay.
+   - **Lớp AI:** nút "Phân tích chuyên sâu" ở cuối kết quả = hành động `interpret` đã có. Bấm, xác nhận mới gọi AI. Chỉ tính năng lượng khi bài đạt; lỗi thì không mất và thử lại được.
+   - **Thay đổi nhỏ nhất ở máy chủ:** trần số trải bài mỗi ngày không còn bị kẹp bởi hạn mức AI (giữ trần mềm 3). Cần Owner xác nhận (mục 8, Q1).
+4. **Muốn người dùng bấm nút AI thì lớp miễn phí phải hay.** Bản soạn sẵn hiện rất mỏng (mục 3). Cần **kho diễn giải ghép 5 lớp**, khoảng **800 đơn vị** nội dung.
+5. **Nghi thức rút bài** (thở → xào → chọn → lá phóng to giữa màn hình → chạm để mở, có viền sáng, bụi sao, âm thanh) vẫn làm được với lá do máy chủ rút: lá được cấp khi bắt đầu, nghi thức là cách lật ra, và app nói rõ lá do hệ thống rút ngẫu nhiên (đúng nguyên tắc "trung thực về ngẫu nhiên" của chiến lược Nil).
+6. **Kiểu trải bài:** 5 kiểu hiện có hợp lý, không trùng, không phi thực tế. Nên thêm 3 kiểu; mỗi kiểu có **cách đọc khác nhau** mà prompt hiện chưa nói, cần đưa vào ngữ cảnh cho LLM.
 
 ---
 
-## 2. Luồng hiện tại (đã kiểm chứng trong mã)
+## 2. Hiện trạng trên `main` (đã kiểm chứng trong mã)
+
+**Đã có sau Nil P1-A (đã vào `main`, chưa áp SQL, chưa deploy):** máy chủ rút lá bằng CSPRNG; khóa `(tài khoản, kiểu trải, chủ đề, ngày UTC+7)` với phát lại không gọi model; lời diễn giải bất biến; lá làm rõ; lá hôm nay seed theo tài khoản + ngày; khách vẫn rút lá trên máy; client không ghi trực tiếp `tarot_readings`.
 
 | # | Phát hiện | Bằng chứng |
 |---|---|---|
-| C1 | Một nút làm cả rút lẫn gọi AI: `drawCards` chọn lá rồi gọi `generateTarotReading`; lỗi hoặc ngoại tuyến thì dùng bản soạn sẵn. | `apps/mobile/App.tsx:5239–5330`, `src/backendClient.ts:609–627` |
-| C2 | Số "lượt còn lại" = giới hạn − số lần ghi `tarot_reading_drawn` hôm nay. Mọi tài khoản giới hạn 1/ngày. Khi bằng 0, cả `handleDraw` và `handleQuickDraw` dừng **trước lá đầu tiên**, `drawCards` hiện "đã dùng hết lượt". | `App.tsx:2069–2070`, `3152–3156`, `7354`, `7384`, `5256–5261`; `packages/agent-config/ai-usage-policy.json` |
-| C3 | Sự kiện `tarot_reading_drawn` cũng được ghi khi bài đọc là bản **soạn sẵn** (AI lỗi/ngoại tuyến). Nghĩa là bản miễn phí cũng "ăn" lượt. | `App.tsx:5290–5300` |
-| C4 | Kiểm bộ bài dùng `canViewContentTier`: bộ `free` luôn qua, bộ `premium-preview` cần tài khoản Premium. Màn chọn bộ đã chặn bộ Premium trên tài khoản Free. Đây là logic đúng, chỉ bị trộn với C2. | `src/features/owner/tierPreview.ts:27`, `App.tsx:7748–7752` |
-| C5 | Nút chính đổi thành "Nâng cấp" (biểu tượng khóa) khi bộ bị khóa. | `App.tsx:7433–7460` |
-| C6 | Máy chủ đã đếm đúng theo **bài AI giao đạt** (`moderationStatus = passed`) và cho thử lại tối đa 3 lần/ngày khi AI lỗi. Cơ sở trừ Nil có sẵn phía máy chủ. | `supabase/functions/ai-tarot-reading/index.ts:84–101` |
-| C7 | Máy chủ **không kiểm bậc của bộ bài** (chỉ nhận mã bộ). Khi bán Premium cần thêm. | `ai-tarot-reading/index.ts`, `_shared/tarot-prompt.ts:87–120` |
-| C8 | Nhãn vị trí app và máy chủ lệch: vị trí 3 của "Tình huống/Thử thách/Lời nhắc" là *Lời nhắc / Advice* ở app nhưng *Gợi mở / Reflection* ở máy chủ; "Tiềm năng" en là *Future* ở app, *Potential* ở máy chủ. | `App.tsx:1511–1530` so với `_shared/tarot-prompt.ts:77–86` |
-| C9 | Khách (chưa đăng nhập): máy chủ bắt đăng nhập nên khách rơi vào bản soạn sẵn. **Chưa kiểm** cách app đếm lượt cho khách. | suy luận |
+| C1 | Trần số trải bài/ngày bị **kẹp bởi hạn mức AI**: `drawCap = min(dailySpreadSoftCap=3, delivered)`. Free `delivered = 1` ⇒ 1 trải bài/ngày; trải thứ hai nhận `429 daily_limit_reached` dù không tốn model. | `supabase/functions/ai-tarot-reading/handler.ts:78–87, 138–140`; `_shared/daily-attempts.ts:21` |
+| C2 | Server đã tách `draw` và `interpret`, nhưng app vẫn nối chúng trong một lần bấm: `requestServerTarotDraw` rồi `drawCards`→`generateTarotReading`. Người dùng không có bước "xem bài đọc miễn phí trước". | `apps/mobile/App.tsx:5266–5290, 5330–5345`; `src/backendClient.ts:698–728` |
+| C3 | Chế độ khách/ngoại tuyến vẫn dùng số "lượt còn lại" = giới hạn − số lần ghi `tarot_reading_drawn`, và chặn **trước lá đầu tiên** (kể cả bộ miễn phí). | `App.tsx:7506, 7523, 5338`; `src/features/…` đếm ở `App.tsx:3167–3171` |
+| C4 | Kiểm bậc bộ bài **chỉ ở client** (`canViewContentTier`); máy chủ nhận mã bộ mà không kiểm bậc. Cần thêm khi bán Premium. | `src/features/owner/tierPreview.ts:27`; `ai-tarot-reading/*.ts` không có `accessTier` |
+| C5 | Bản soạn sẵn mỏng (mục 3); lá làm rõ đã có nghĩa từ thư viện (không AI) — dùng lại làm "van xả". | `App.tsx` `buildLocalTarotInterpretation`; HANDOFF P1-A |
+| C6 | Nhãn vị trí app và máy chủ lệch ("Lời nhắc"/"Gợi mở"; en "Future"/"Potential"). | `App.tsx` `spreads`, `_shared/tarot-prompt.ts:77–86` |
+| C7 | Chưa có ví Nil, bảng giá theo tính năng, thanh năng lượng (P2–P4 chưa duyệt). Hiện chỉ có hạn mức lượt/ngày, và `PaywallPanel.test.tsx` còn cấm chữ "Nil" trong màn mua. | `docs/NIL_PRICING_STRATEGY_2026-11-15.vi.md` mục 0, 12, 13 |
 
-**Không tìm thấy trong repo:** quy luật "rút và hỏi cùng một câu hỏi" mà Owner nhắc, và đơn vị **Nil**. Hiện chỉ có bộ đếm "lượt/ngày"; `PaywallPanel.test.tsx` còn cấm chữ "credit/Nil" trong màn mua. → Owner nhắc lại quy luật (mục 8, Q1–Q2). Thiết kế giữ nguyên mọi quy luật hiện có và chỉ đổi *chỗ tính*.
-
----
+**Rủi ro đã ghi trong bàn giao P1-A:** gói Free chỉ có tác dụng "khác chủ đề thì rút mới" khi Admin nâng hạn mức AI — đây chính là C1.
 
 ## 3. Bản soạn sẵn hiện tại mỏng thế nào
 
@@ -49,8 +51,8 @@
 ## 4. Luồng đề xuất
 
 ```
-Hỏi → Chọn bộ bài → Nghi thức rút → Bài đọc Nilaza (miễn phí, máy)
-                                         └─ [Phân tích chuyên sâu AI] → xác nhận → máy chủ → trừ Nil khi đạt
+Hỏi → Chọn bộ bài → Nghi thức → [máy chủ rút lá, khóa theo ngày] → Bài đọc Nilaza (miễn phí)
+                                                        └─ [Phân tích chuyên sâu] → xác nhận → interpret → tính năng lượng khi bài đạt
 ```
 
 ### 4.1 Ai làm được gì
@@ -58,28 +60,25 @@ Hỏi → Chọn bộ bài → Nghi thức rút → Bài đọc Nilaza (miễn p
 | Hành động | Khách | Free đã đăng nhập | Premium |
 |---|---|---|---|
 | Xem thư viện, học từng lá | ✓ | ✓ | ✓ |
-| Rút bài **bộ miễn phí** | ✓ không giới hạn | ✓ không giới hạn | ✓ |
+| Rút bài bộ **miễn phí** (0 năng lượng) | ✓ rút trên máy, không khóa | ✓ máy chủ rút, khóa theo ngày, tối đa 3 trải/ngày (Q1) | ✓ |
 | Xem bộ Premium (tranh, câu chuyện) | ✓ | ✓ | ✓ |
-| Rút bài **bộ Premium** | ✗ (nút "Mở Premium") | ✗ (nút "Mở Premium") | ✓ |
-| Bài đọc Nilaza (soạn sẵn) | ✓ | ✓ | ✓ |
-| Phân tích chuyên sâu AI, Hỏi tiếp | Đăng nhập | 1 Nil/ngày | 1 Nil/ngày (Owner chốt 04/11; đổi sau khi bán Premium) |
+| Rút bài bộ **Premium** | ✗ | ✗ khi đã bán Premium | ✓ |
+| Rút lại cùng kiểu trải + chủ đề trong ngày | thấy lại đúng bài (đăng nhập) | thấy lại đúng bài, 0 năng lượng | như Free |
+| Bài đọc Nilaza soạn sẵn, lá làm rõ (1 lá) | ✓ / không có lá làm rõ | ✓ | ✓ |
+| Phân tích chuyên sâu AI, Hỏi tiếp | cần đăng nhập | theo hạn mức gói | theo hạn mức gói |
 
-*Closed test:* mọi tài khoản đăng nhập là Premium (`all_premium`), nên cột "Free đã đăng nhập" chỉ có hiệu lực sau khi bán Premium. Khóa bộ Premium chỉ hiện khi `premiumOnSale = true`; trước đó vẫn là "Sắp có" như hiện nay.
+*Closed test:* mọi tài khoản đăng nhập là Premium (`all_premium`); khóa bộ Premium chỉ hiện khi `premiumOnSale = true`, trước đó bộ Premium ghi "Sắp có".
 
-### 4.2 Quy tắc tính Nil
-- **Chỉ tính khi bấm "Phân tích chuyên sâu" và xác nhận.** Rút bài, xem lá, đọc bài đọc Nilaza, lưu: miễn phí.
-- **Chỉ trừ khi AI trả bài đạt** (đúng cách máy chủ đang đếm). Lỗi, hết giờ, bị chặn an toàn: không trừ, giữ bài đọc, cho thử lại.
-- **Mở lại bài đã phân tích: miễn phí** (kết quả lưu cùng bài đọc trong Nhật ký). Phân tích lại *cùng câu hỏi, cùng các lá* không trừ lần hai — *giả định của tôi, chờ Owner xác nhận ở Q2*.
-- Hết Nil: nút AI chuyển thành "Hết lượt hôm nay · lượt mới lúc 00:00"; mọi thứ miễn phí vẫn dùng được.
-- Khách bấm nút AI: giữ nguyên bài đọc, đăng nhập xong quay lại đúng chỗ.
+### 4.2 Quy tắc năng lượng (đúng quyết định Owner 15/11)
+- **Chỉ "Phân tích chuyên sâu" mới tốn năng lượng.** Rút bài, xem lại bài đã khóa, đọc bài Nilaza, lá làm rõ, lưu: miễn phí.
+- **Hiển thị:** chip mức **Sâu** và thanh năng lượng tại điểm dùng; cảnh báo 50% / 20% / 0% và ngày nhả tiếp theo. **Không in số Nil.** Thiết kế bản 1 có chữ "1 Nil" và "Còn 1 Nil hôm nay" — đã bỏ.
+- **Tính khi bài đạt**; lỗi, hết giờ, bị chặn an toàn thì không tính, giữ bài, cho thử lại (tối đa 3 lần/ngày như P1-A).
+- **Mở lại bài đã phân tích: miễn phí** (diễn giải bất biến, phát lại không gọi model).
+- **Hết năng lượng:** nút AI nói rõ khi nào nhả tiếp; mọi thứ miễn phí vẫn dùng. Chưa bán Premium thì không có nút Premium.
+- **Trước khi có ví (P2):** "năng lượng" hiển thị dựa trên hạn mức lượt AI/ngày hiện có; giao diện dựng sẵn để đổi nguồn số liệu sang ví khi P2 được duyệt.
+- **Khách bấm nút AI:** giữ nguyên bài đọc, đăng nhập xong quay lại đúng chỗ.
 
-### 4.3 "Nil" nên là gì
-| Phương án | Nội dung | Khuyến nghị |
-|---|---|---|
-| **A. Nil = tên gọi của hạn mức AI hằng ngày** | Không có ví. 1 phân tích Tarot = 1 Nil, mỗi ngày làm mới. Dùng lại bộ đếm hiện có. | **Chọn cho closed test và bản Play đầu.** Làm được ngay, đúng "luật đã chốt". |
-| **B. Nil = ví tiền tệ thật** | Số dư, gói nạp, sổ cái, RevenueCat consumable, hoàn tiền, đối soát. | Làm sau, khi đã có dữ liệu dùng thật. Thiết kế màn hình đã chừa chỗ (chip "Còn N Nil"). |
-
-### 4.4 Cho AI giá trị gì mà bản miễn phí không có
+### 4.3 Cho AI giá trị gì mà bản miễn phí không có
 | Bản miễn phí (Nilaza soạn sẵn) | Phân tích chuyên sâu (AI) |
 |---|---|
 | Nghĩa từng lá đúng chủ đề, đúng vị trí | Đọc **chính câu chữ của bạn**, trả lời thẳng câu hỏi |
@@ -88,8 +87,6 @@ Hỏi → Chọn bộ bài → Nghi thức rút → Bài đọc Nilaza (miễn p
 | Giống nhau với mọi người rút cùng bộ lá | Giọng người dẫn, **Hỏi tiếp**, lưu vào dòng thời gian Nhật ký |
 
 Ranh giới an toàn không đổi: không khẳng định tương lai, không nói người khác nghĩ gì, không chẩn đoán.
-
----
 
 ## 5. Kho diễn giải (ghép lớp)
 
@@ -116,14 +113,14 @@ Ranh giới an toàn không đổi: không khẳng định tương lai, không n
 |---|---|---|
 | Chuẩn bị | câu hỏi hiện rõ; "Hít vào 4 · giữ 2 · thở ra 6"; nút "Tôi sẵn sàng" và "Bỏ qua nghi thức" | vòng thở co giãn; rung rất nhẹ theo nhịp |
 | Xào | giữ ngón tay lên bộ bài khoảng 3 giây (hoặc chạm "Xào giúp tôi") | các lá xáo; âm giấy |
-| Chọn | quạt bài úp, vuốt để xoay, chạm một lá | lá được chọn nhấc lên |
+| Chọn | quạt bài úp, vuốt để xoay, chạm một lá. Lá thật do máy chủ rút ngẫu nhiên khi bắt đầu; chạm chọn là nghi thức và app nói rõ điều này | lá được chọn nhấc lên |
 | Phóng to | lá úp ở **giữa màn hình**, nền tối dần, mọi nút khác ẩn; "Hít một hơi. Nhắm mắt nếu bạn muốn. Chạm vào lá bài khi sẵn sàng." | quầng sáng vàng thở chậm |
 | Lộ diện | lật 3D; lá ngược xoay 180°; hiện vị trí, tên gốc + tên Việt, từ khóa, **một câu nghĩa soạn sẵn** | viền phát sáng, bụi sao bay lên; chuông nhẹ + tiếng giấy; rung vừa |
 | Lá tiếp | lá bay vào khay trải bài phía trên; nhắc vị trí kế | — |
 | Gom bài | các lá hiện thành hàng: "Đã đủ 3 lá. Hít một hơi rồi xem chúng nói gì với nhau." | chuyển sang bài đọc |
 
 **Nguyên tắc:** (1) luôn có *Bỏ qua nghi thức* và mặc định "Nghi thức nhanh" trong Cài đặt; (2) tôn trọng tắt chuyển động của hệ điều hành: lật thành chuyển mờ, không hạt; (3) âm thanh hỏi một lần "Bật âm thanh nghi thức?", có nút tắt trên màn hình; (4) mọi cử chỉ có nút thay thế, TalkBack đọc tên lá khi lật; (5) mục tiêu 60 fps trên máy tầm trung — hạt dùng `react-native-reanimated` (đã có) với ≤ 24 phần tử, không thêm thư viện đồ họa nặng.
-**Lá hôm nay:** cùng nghi thức bản ngắn (thở 5 giây). Hiện lá hôm nay chọn theo ngày, người dùng chỉ "mở" nên cảm giác bị an bài. Đề xuất: **tự chọn một lá trong quạt 7 lá, chọn rồi cố định cả ngày** (lưu cùng khóa `today-card:<ngày>`). Quyết định Q6.
+**Lá hôm nay:** cùng nghi thức bản ngắn (thở 5 giây). Lá hôm nay đã cố định theo tài khoản + ngày Việt Nam (P1-A), nên nghi thức chỉ là cách lật; không giả vờ cho chọn (Q5).
 **Giọng nói trực tiếp (sau này):** mỗi giai đoạn có dòng lời dẫn bằng chữ và sự kiện (`ritual.stage`, `card.revealed`) để phiên giọng nói đọc theo; luôn có phụ đề. Cần đồng ý micro, riêng tư và chi phí: thuộc lớp AI trả phí; chưa làm trong đợt này.
 **Âm thanh cần module native mới** (`expo-audio`; app chưa có) nên phải dựng bản dev-client/AAB mới; tệp âm thanh ≤ 150 KB, nguồn bản quyền sạch. Rung đã có (`expo-haptics`).
 
@@ -143,7 +140,7 @@ Phổ biến: 1 lá, 3 lá (nhiều biến thể), Thập tự Celtic, Tình yê
 | Ngã rẽ | 4 | Thực tế, đủ cho hai hướng | Giữ |
 | **Suy nghĩ / Cảm xúc / Hành động** | 3 | Thiếu — dành cho "Bản thân/Chữa lành"; thay "Tâm–Thân–Linh" để khỏi dính y tế | **Thêm** |
 | **Công việc** | 4 | Thiếu kiểu riêng cho một chủ đề phổ biến: Hiện tại / Điểm mạnh / Điều đang cản / Bước tiếp | **Thêm** |
-| **Thập tự Celtic** | 10 | Kiểu "kinh điển" người dùng rành tìm; hợp nhất với AI | **Thêm** — mục "Đào sâu"; rút miễn phí, AI tốn 2 Nil *(Q5)* |
+| **Thập tự Celtic** | 10 | Kiểu "kinh điển" người dùng rành tìm; hợp nhất với AI | **Thêm** — mục "Đào sâu"; rút miễn phí, AI ở mức “sâu” *(Q3)* |
 | Có/Không | 1 | Rất phổ biến nhưng ép thành đoán định, trái nguyên tắc không khẳng định | **Không thêm**; Ngã rẽ đã trả lời nhu cầu "nên hay không" |
 | Móng ngựa 7, Tuần 7 lá | 7 | Trùng Celtic / dễ thành dự đoán | **Không thêm** lúc này |
 
@@ -172,17 +169,21 @@ Khớp với cấu hình "Dữ liệu gửi cho AI" (14/11) — hai khối này 
 
 ## 8. Quyết định cần Owner (mỗi câu có khuyến nghị)
 
+**Đã trả lời trong repo (không cần hỏi lại):** quy luật cùng chủ đề = cùng bài trong ngày; không bán rút lại; Nil chỉ từ gói, không bán lẻ ở v1; không số Nil cụ thể; Premium bán từ bản Play đầu (`NIL_PRICING_STRATEGY` mục 13).
+
 | # | Câu hỏi | Khuyến nghị |
 |---|---|---|
-| Q1 | Quy luật "rút và hỏi cùng một câu hỏi" cụ thể là gì? (không tìm thấy trong repo) | Owner nhắc lại một đoạn ngắn; tôi giữ nguyên |
-| Q2 | Phân tích AI lại cùng câu hỏi + cùng các lá: trừ lần hai không? | Không trừ; mở lại bài đã phân tích miễn phí |
-| Q3 | Nil: phương án A (tên hạn mức) hay B (ví)? | **A** trước |
-| Q4 | Khóa bộ Premium chỉ bật khi `premiumOnSale=true`? | Có |
-| Q5 | Celtic: AI tốn 1 hay 2 Nil? Có để rút miễn phí? | Rút miễn phí, AI 2 Nil |
-| Q6 | Lá hôm nay: tự chọn 1 trong 7 lá rồi cố định cả ngày? | Có |
-| Q7 | Âm thanh nghi thức: hỏi một lần rồi nhớ? | Có |
-| Q8 | Thêm 3 kiểu trải (Suy nghĩ/Cảm xúc/Hành động, Công việc 4 lá, Celtic)? | Có; Celtic làm ở đợt sau |
-| Q9 | Kho diễn giải: ai duyệt nội dung (Owner hay người biên tập)? | Owner duyệt mẫu từng lớp rồi giao biên tập |
+| Q1 | **Trần số trải bài/ngày không còn bị kẹp bởi hạn mức AI** (giữ trần mềm 3, theo kiểu trải + chủ đề)? Hiện Free chỉ có 1 trải/ngày dù rút không tốn model. Khóa theo chủ đề vẫn chặn rút lại để "đổi vận". | **Có.** Đổi `drawCap` thành trần mềm riêng; cần deploy lại `ai-tarot-reading` |
+| Q2 | Bài đọc soạn sẵn cho khách chưa đăng nhập: vẫn rút trên máy, không khóa (như P1-A)? | Giữ như P1-A |
+| Q3 | Celtic 10 lá: mức "sâu" hay mức riêng? Rút miễn phí? | Rút miễn phí; mức AI "sâu"; quyết bảng giá ở P2 |
+| Q4 | Khóa bộ Premium chỉ bật khi `premiumOnSale=true`; thêm kiểm bậc bộ ở máy chủ? | Có |
+| Q5 | Lá hôm nay: người dùng tự chọn một lá trong quạt rồi cố định cả ngày, hay giữ lá seed theo tài khoản + ngày (P1-A)? Nếu seed cố định, nghi thức chỉ là cách lật. | Giữ seed P1-A và nói thật "lá của bạn đã sẵn sàng" (không giả vờ chọn) |
+| Q6 | Âm thanh nghi thức: hỏi một lần rồi nhớ? | Có |
+| Q7 | Thêm 3 kiểu trải (Suy nghĩ/Cảm xúc/Hành động, Công việc 4 lá, Celtic)? | Có; Celtic đợt sau |
+| Q8 | Ai duyệt nội dung kho diễn giải (Owner hay biên tập)? | Owner duyệt mẫu từng lớp rồi giao biên tập |
+| Q9 | Thứ tự phát hành: Gói 0 dựa trên mã P1-A **chưa áp SQL, chưa deploy**. Duyệt áp migration `20261115100000` và deploy `ai-tarot-reading` trước, hay gộp Gói 0 vào cùng đợt? | Gộp: Q1 chỉ đổi một dòng ở hàm sắp deploy |
+
+**Đã sửa so với bản 1:** bỏ giả định "Nil = tên hạn mức" (Owner đã chốt Nil là năng lượng theo gói); bỏ "rút không giới hạn, chạy ngoại tuyến" cho tài khoản đăng nhập (lá do máy chủ rút, cần mạng); bỏ số "1 Nil" khỏi giao diện; quy luật "cùng một câu hỏi" lấy từ khóa P1-A.
 
 ---
 
@@ -190,13 +191,14 @@ Khớp với cấu hình "Dữ liệu gửi cho AI" (14/11) — hai khối này 
 
 | Gói | Việc | Chạm vào | Cần Owner duyệt riêng |
 |---|---|---|---|
-| **0 Sửa luồng** | Tách rút khỏi AI; bộ đếm chỉ tính bài AI giao đạt; nút "Phân tích chuyên sâu" + tờ xác nhận; khóa bộ Premium chỉ ở nút rút; sửa lệch nhãn C8 | `App.tsx`, `src/features/tarot/*`, `tarot-prompt.ts` (nhãn), test | không (không đổi máy chủ nếu chưa thêm kiểm bậc bộ bài) |
+| **0 Tách rút khỏi AI** | App: sau khi máy chủ rút lá, hiện bài đọc soạn sẵn rồi mới có nút AI (gọi `interpret` khi bấm + xác nhận); bỏ chặn "hết lượt" trước lá đầu cho chế độ máy chủ; thông báo hết lượt chỉ ở nút AI. Máy chủ: `drawCap` thành trần mềm riêng (Q1); kiểm bậc bộ bài (Q4). Sửa lệch nhãn C6. | `apps/mobile/App.tsx`, `src/features/tarot/*`, `handler.ts`, `tarot-prompt.ts` | **deploy Edge Function** (cùng đợt P1-A); không SQL mới |
 | **1 Bài đọc soạn sẵn v1** | L1 thiếu + L2 + khung L4 cho 5 kiểu; trình dựng bài đọc; tiếng Việt trước | `packages/content`, `src/features/tarot/readingComposer.ts` | duyệt mẫu nội dung |
-| **2 Nghi thức** | máy trạng thái, phóng to, lật 3D, quầng sáng, hạt, khay; bản "nhanh"; Lá hôm nay | `TarotDrawStep`, `TarotCardFlight`, Home | không; âm thanh cần AAB mới |
-| **3 Ngữ cảnh AI** | `spreadGuide` + `cardFacts` phía máy chủ; thêm vào cấu hình dữ liệu Admin | `supabase/functions/_shared/tarot-prompt.ts` | **deploy Edge Function** |
+| **2 Nghi thức** | máy trạng thái, phóng to, lật 3D, quầng sáng, hạt, khay; bản nhanh; lá hôm nay | `TarotDrawStep`, `TarotCardFlight`, Home | không; âm thanh cần AAB mới |
+| **3 Ngữ cảnh AI** | `spreadGuide` + `cardFacts` phía máy chủ; thêm vào cấu hình dữ liệu Admin | `_shared/tarot-prompt.ts` | **deploy Edge Function** |
 | **4 Kiểu trải mới** | thêm 3 kiểu, chọn theo mục đích; kho L2–L4 cho kiểu mới | App, hàm, migration nới ràng buộc `spread` | **SQL + deploy** |
-| **5 Kiểm tra** | thử trên máy thật Android, TalkBack, chữ lớn, giảm chuyển động | — | Owner thử |
+| **5 Kiểm tra** | thử máy thật Android, TalkBack, chữ lớn, giảm chuyển động | — | Owner thử |
+| *Sau này (P2–P4 Nil)* | thanh năng lượng lấy số từ ví, chip nhẹ/vừa/sâu theo bảng giá Admin | theo chiến lược Nil | **chưa duyệt** |
 
-Mỗi gói: hồ sơ `docs/feature-plans/*.json` + `npm run feature:preflight` trước khi sửa, cập nhật `PLAN.md` cuối PR. Khi gộp vào `main`, **mỗi push `main` tự deploy Admin staging**.
+Mỗi gói: hồ sơ `docs/feature-plans/*.json` + `npm run feature:preflight` trước khi sửa, cập nhật `PLAN.md` cuối PR. Merge vào `main` tự deploy Admin staging.
 
-*Chưa kiểm chứng:* hiệu năng hạt và lật 3D trên máy yếu; cách đếm lượt của khách (C9); prompt Tarot trong cơ sở dữ liệu; mọi giả thuyết chuyển đổi (nội dung miễn phí tốt làm tăng bấm nút AI) — cần đo sau khi ra.
+*Chưa kiểm chứng:* hiệu năng hạt và lật 3D trên máy yếu; cách đếm lượt của khách; prompt Tarot trong cơ sở dữ liệu; hành vi thật của P1-A trên Supabase (chưa áp, chưa deploy); mọi giả thuyết chuyển đổi (nội dung miễn phí tốt làm tăng bấm nút AI).
