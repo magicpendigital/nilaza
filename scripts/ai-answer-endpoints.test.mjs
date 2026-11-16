@@ -196,7 +196,7 @@ test('Tarot P1-A: the draw is made on the server and stored only through the ser
  const h=harness('tarot');const {status,body}=await h.request({input:{action:'draw',language:'en',deck:{id:'moon-garden',slug:'moon-garden'},spread:'past-present-future',topic:'love',question:'What helps me listen?',selectedCards:[{id:'major-00-fool'},{id:'major-01-magician'},{id:'major-02-high-priestess'}]}});
  assert.equal(status,200);assert.equal(body.status,'queued');assert.equal(body.cards.length,3);assert.deepEqual(body.cards.map(c=>c.positionKey),['past','present','potential']);
  const claim=h.calls.find(x=>x.kind==='rpc' && x.name==='tarot_draw_claim');assert.ok(claim);assert.equal(claim.args.p_user_id,user);assert.match(claim.args.p_lock_key,/^[0-9a-f]{64}$/);assert.deepEqual(clone(claim.args.p_cards),body.cards);assert.deepEqual(clone(claim.args.p_deck_ref),{id:'moon-garden',slug:'moon-garden'});
- assert.equal(claim.args.p_draw_cap,1,'free accounts keep one draw a day (min of the soft cap and delivered readings)');assert.equal(h.generations.length,0);assert.equal(h.writes.length,0);
+ assert.equal(claim.args.p_draw_cap,3,'Tarot v2 pack 0: the draw cap is the soft cap alone, not the AI allowance');assert.equal(claim.args.p_delivered_limit,1,'the AI allowance still travels with the claim for interpret');assert.equal(h.generations.length,0);assert.equal(h.writes.length,0);
 });
 
 test('Astrology same chart and topic replays the stored reading without a provider call or a new row',async()=>{

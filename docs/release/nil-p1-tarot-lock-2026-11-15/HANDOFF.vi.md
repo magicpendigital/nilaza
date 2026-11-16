@@ -14,8 +14,9 @@ Chưa áp lên Supabase nào, chưa deploy, chưa push.
 - **Lá làm rõ.** Nút "Rút một lá làm rõ" cho thêm tối đa 1 lá mỗi trải bài.
   - Máy chủ rút lá này và đi kèm nghĩa có sẵn trong thư viện, không gọi AI.
   - Rút rồi thì không đổi được.
-- **Giới hạn mỗi ngày.** Tối đa 3 trải bài mỗi ngày, nhưng không vượt hạn mức AI của gói.
-  - Gói Free mặc định 1 trải bài và 1 lời diễn giải AI mỗi ngày, như hiện nay.
+- **Giới hạn mỗi ngày (đã đổi 16/11, Tarot v2 Gói 0, Owner trả lời Q1).** Rút lá không tốn model nên không còn bị hạn mức AI chặn.
+  - Tối đa **3 trải bài mỗi ngày** (kiểu trải + chủ đề khác nhau), mọi gói. Trải bài thứ tư nhận 429 `draw_cap`.
+  - Hạn mức **diễn giải AI** vẫn riêng: gói Free mặc định 1 lời diễn giải AI mỗi ngày (và 2 lần thử lỗi), chỉ chặn ở bước `interpret` (429 `delivered` hoặc `attempts`).
   - Hết lượt thì app báo bằng giọng nhẹ nhàng, không nhắc chuỗi ngày (streak).
 - **Lá bài hôm nay ở Trang chủ** cố định theo tài khoản và ngày Việt Nam. Đổi mục tiêu hay giọng điệu trong hồ sơ không làm đổi lá.
 - **Không đổi:**
@@ -26,7 +27,7 @@ Chưa áp lên Supabase nào, chưa deploy, chưa push.
 ## Migration cần Owner duyệt
 
 - Tệp: `supabase/migrations/20261115100000_tarot_reading_lock.sql`.
-- SHA-256 (LF): `e193323e6b96cb2e085ab3f785b8033d221a2fe2cf6a5e90e50a02cfee0740ba`. Tệp đổi thì phải duyệt lại.
+- SHA-256 (LF): `becfef9ca74e458fa331dbef2ae611ce74655c7c6bcd7f56b0b19070ee192747`. Tệp đổi thì phải duyệt lại.
 - Nội dung:
   - thêm cột khoá vào `tarot_readings`;
   - khoá `lock_key` là duy nhất;
@@ -56,7 +57,7 @@ Làm sau bước 1–2, trên bản app thử có mã này, với tài khoản �
 
 ## Rủi ro đã biết
 
-- **Chủ đề khác trong ngày.** Với gói Free, "khác chủ đề thì được rút mới" chỉ có tác dụng khi Admin nâng hạn mức AI của gói.
+- **Chủ đề khác trong ngày.** Từ 16/11 gói Free rút được chủ đề khác (tối đa 3 trải/ngày) mà không cần nâng hạn mức AI; chỉ diễn giải AI mới bị hạn mức.
 - **Chặn nhầm.** Nếu bộ lọc an toàn chặn nhầm, chủ đề đó bị giữ đến hết ngày, vì câu hỏi đã cố định lúc rút.
 - **Bài đã xoá** chỉ bị ẩn khỏi app (xoá mềm): vẫn được lưu và vẫn tính lượt, cho đến khi xoá tài khoản. App chưa có nút xoá trải bài.
 - **Lá làm rõ** chưa được lưu vào Nhật ký. Nhật ký vẫn lưu trải bài như cũ.

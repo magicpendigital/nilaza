@@ -71,13 +71,23 @@ describe("serverDraw", () => {
     expect(mapServerCards([{ id: "invented", positionKey: "past", reversed: false }], catalog, [])).toBeNull();
   });
 
+  it("says the AI allowance, not the draw, is used up, and keeps the cards and the reference reading (Tarot v2 pack 0)", () => {
+    const vi = tarotLimitMessage("vi", "delivered", "2026-11-16T17:00:00.000Z");
+    expect(vi).toContain("lượt phân tích bằng AI");
+    expect(vi).toContain("bài đọc có sẵn vẫn ở đây");
+    expect(vi).toContain("0:00 ngày 17/11");
+    expect(vi).not.toContain("mở đủ trải bài");
+    expect(tarotLimitMessage("vi", "draw_cap")).toContain("mở đủ trải bài");
+    expect(tarotLimitMessage("en", "delivered")).toContain("AI analysis");
+  });
+
   it("speaks gently about the lock and the opening time in Vietnam time", () => {
     expect(formatTarotUnlockTime("2026-11-16T17:00:00.000Z", "vi")).toBe("0:00 ngày 17/11 (giờ Việt Nam)");
     expect(formatTarotUnlockTime(undefined, "vi")).toBe("đầu ngày mai (giờ Việt Nam)");
     const note = tarotLockedNote("vi", "2026-11-16T17:00:00.000Z");
     expect(note).toContain("Lá bài này vẫn còn điều muốn nói");
     expect(note).toContain("0:00 ngày 17/11");
-    for (const text of [note, tarotLimitMessage("vi", "draw_cap"), tarotLimitMessage("vi", "deleted"), tarotLimitMessage("vi", "attempts"), tarotLockedNote("en")]) {
+    for (const text of [note, tarotLimitMessage("vi", "draw_cap"), tarotLimitMessage("vi", "deleted"), tarotLimitMessage("vi", "attempts"), tarotLimitMessage("vi", "delivered"), tarotLimitMessage("en", "delivered"), tarotLockedNote("en")]) {
       expect(text).not.toMatch(/streak|chuỗi|mất|lose|lost/i);
     }
   });

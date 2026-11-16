@@ -1,0 +1,258 @@
+{
+  "schemaVersion": 1,
+  "taskId": "tarot-free-draw-gate-2026-11-16",
+  "ownerAgent": "backend_agent",
+  "lane": "Backend + mobile + SQL (edits the still-unapplied P1-A migration): Tarot v2 Pack 0, free draw and AI deep reading on demand",
+  "goal": "Owner answers 16/11 to Q1-Q9 of docs/proposals/TAROT_FREE_DRAW_AI_DEPTH_2026-11-15.vi.md. The Tarot draw stops being limited by the daily AI allowance: the server draw cap becomes the soft cap alone (3 spreads or topics a day), and tarot_draw_claim no longer applies the delivered or attempt limits, which stay on tarot_interpret_claim. A signed-in account sees its server-drawn cards with a reference reading (existing library meanings, labelled) and asks the AI only through a confirmed Phan tich chuyen sau button, which is the existing interpret action; a replayed answer opens free. When Premium is on sale the server refuses a Premium deck for an account without Premium. The signed-out preview can draw one card and see its picture and name but not the meaning; the meaning asks for sign-in. The advice position label matches between app and server. Same-topic lock, one clarifier, no paid re-draw and no raw Nil number are unchanged. Nothing is applied or deployed by the agent.",
+  "successCriteria": [
+    "handler.ts: drawCap is TAROT_LOCK_POLICY.dailySpreadSoftCap only; deliveredLimit and attemptLimit still reach interpretClaim; a Free account whose delivered AI reading is used can still draw a different topic or spread up to the soft cap; the same lock key still returns the stored draw; the fourth distinct draw of the day gets 429 daily_limit_reached reason draw_cap.",
+    "20261115100000_tarot_reading_lock.sql (not applied anywhere): tarot_draw_claim keeps its signature and the draw-cap check but no longer returns the delivered or attempts limit reasons; tarot_interpret_claim is unchanged; the PGlite test covers both; the Owner handoff SHA-256 is refreshed.",
+    "When account-tier-policy premiumOnSale is true, a draw for a deck whose tier is not free returns 403 premium_required for an account without Premium (resolveServerTier) and works with Premium; when it is false nothing changes.",
+    "tarot-prompt.ts: the situation-challenge-advice third position label is Loi nhac / Advice like the app, tests updated.",
+    "App, signed in: after the draw ritual the result shows the stored cards with the reference reading and no model call; Phan tich chuyen sau asks for confirmation, then calls interpret with the same drawId; a stored answer opens without a new confirmation; the daily AI hint uses AI deliveries, not draws; no allowance check runs before the first card in server mode.",
+    "App, signed out: the preview offers one card draw; the card picture, name and orientation show; the meaning, summary and reflection do not and a sign-in or sign-up button takes their place; the preview never calls the server.",
+    "Deno (tarot tests), PGlite, endpoint harness, mobile Jest and tsc for touched files pass, or the exact gap is reported."
+  ],
+  "writeScope": [
+    "supabase/migrations/20261115100000_tarot_reading_lock.sql",
+    "supabase/functions/ai-tarot-reading/",
+    "supabase/functions/_shared/account-tier-policy.ts",
+    "supabase/functions/_shared/tarot-deck-tier.ts",
+    "supabase/functions/_shared/tarot-prompt.ts",
+    "supabase/functions/_shared/tarot-prompt.test.ts",
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/tarot/",
+    "apps/mobile/src/features/guest/",
+    "apps/mobile/src/backendClient.ts",
+    "apps/mobile/src/__tests__/backendClient.test.ts",
+    "apps/mobile/src/brand/copy.ts",
+    "scripts/tarot-reading-lock-sql.test.mjs",
+    "scripts/ai-answer-endpoints.test.mjs",
+    "scripts/staging-smoke.mjs",
+    "apps/admin/workflow-catalog.js",
+    "scripts/admin-workflow-catalog.test.mjs",
+    "docs/release/nil-p1-tarot-lock-2026-11-15/",
+    "docs/release/tarot-v2-pack0-2026-11-16/",
+    "docs/proposals/TAROT_FREE_DRAW_AI_DEPTH_2026-11-15.vi.md",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "No migration that is applied anywhere is edited: 20261115100000 is merged but not applied or deployed (PLAN section 4 item 13). If the Owner has applied it by the time this merges, the change becomes a new forward migration instead.",
+    "Astrology, Council, persona chat, model router, prompts, routes, Admin pages and the card library content are unchanged; workflow-catalog.js only gets refreshed pinned hashes and its test the digest count if admin:check demands it.",
+    "The same-topic lock key, the clarifier, soft delete, immutability trigger, RLS and grants are unchanged.",
+    "Ritual animation, sound, the interpretation library and new spreads are later packs.",
+    "Account tier policy json values (mode, premiumOnSale, limits) are unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Tarot flow for signed-in accounts (draw then result) and the signed-out preview (new draw card).",
+    "dataWrite": "A draw still writes one tarot_readings row at draw time (service role). Fewer draws are refused. usage_events tarot_reading_attempted is still written only by tarot_interpret_claim. The app records tarot_draw_shown for a free draw and keeps tarot_reading_drawn for an AI delivery.",
+    "backendContract": "ai-tarot-reading draw may now return 403 premium_required (only when Premium is on sale) and no longer 429 reason delivered or attempts; interpret is unchanged. Old app builds keep working against the same actions.",
+    "adminVisibility": "None; the dailyLimit in the Admin feature config still limits delivered AI readings and no longer limits draws.",
+    "privacySafety": "The signed-out preview draw is local and sends nothing. The confirmation names what is sent (question and cards) and never birth data or Journal.",
+    "observability": "New client event tarot_draw_shown; no server logging change.",
+    "rollback": "Revert the commit. Because the migration edit is unapplied, rollback is a git revert; if it is applied later, the previous behaviour returns by redeploying the previous function and function body.",
+    "surfacesIntentionallyUntouched": "Interpretation library, ritual, spreads, Admin, Astrology, Council.",
+    "agentHandoff": "The delivery agent owns only the writeScope, runs the validation commands, commits to the working branch and does not run SQL, deploy or merge."
+  },
+  "canonicalContracts": [
+    "packages/agent-config/account-tier-policy.json tarotAi (dailyLimit 1, failedAttemptAllowance 2) via tarotDailyLimits()",
+    "supabase/functions/_shared/tarot-prompt.ts prepareTarotContext: canonical cards per spread",
+    "packages/ai-contracts/answer-provenance.ts and tarot-output.ts",
+    "TAROT_LOCK_POLICY in supabase/functions/_shared/daily-attempts.ts (soft cap 3, 1 clarifier, 180 s stale claim)",
+    "docs/proposals/TAROT_FREE_DRAW_AI_DEPTH_2026-11-15.vi.md section 8: Owner answers Q1-Q9 (16/11)."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "SQL, deploy, secrets and account creation need Owner approval each time; Tarot safety wording.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile, Tarot and backend routes and validation commands.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules and record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/NIL_PRICING_STRATEGY_2026-11-15.vi.md",
+      "reason": "Owner decisions 15/11: Nil from plans only, no raw Nil numbers, Tarot 24h topic lock, no paid re-draw.",
+      "sha256": "28f7ba99545459ad013472ee69fed0e09bfc3335c9986b3572b227f7fc2ad1ba"
+    },
+    {
+      "path": "docs/proposals/TAROT_FREE_DRAW_AI_DEPTH_2026-11-15.vi.md",
+      "reason": "Owner answers 16/11 to Q1-Q9 that this pack implements.",
+      "sha256": "c7a5c7fbc9844e8b8d711c945e819219f3f61af3ecb142b25b05f4c9c89226fa"
+    },
+    {
+      "path": "docs/release/nil-p1-tarot-lock-2026-11-15/HANDOFF.vi.md",
+      "reason": "P1-A behaviour, hash of the unapplied migration, rollout order.",
+      "sha256": "6ce4f1932161998cc94ea2e48bffa0de3c490008dce08e82c7b406cb1529da4f"
+    },
+    {
+      "path": "supabase/migrations/20261115100000_tarot_reading_lock.sql",
+      "reason": "Unapplied P1-A migration: tarot_draw_claim checks the delivered and attempt limits at draw time.",
+      "sha256": "becfef9ca74e458fa331dbef2ae611ce74655c7c6bcd7f56b0b19070ee192747"
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/handler.ts",
+      "reason": "draw/interpret/clarify; drawCap = min(soft cap, delivered).",
+      "sha256": "2e580e6d5c1631771a2959039271fdf4d48568c2a75feed3f8eaaa32ae7a55e3"
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/store.ts",
+      "reason": "drawClaim contract and limit reasons.",
+      "sha256": "27eb368fbe1e3bb19978ea2d7e900b8a2e2c301b0a45599a7058c9f7e84600f9"
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/index.ts",
+      "reason": "Dependency wiring for the handler.",
+      "sha256": "508e54e0003b0e77be22c17b30acf12ee281addc7eada355f52dcdc37dfb4967"
+    },
+    {
+      "path": "supabase/functions/_shared/daily-attempts.ts",
+      "reason": "TAROT_LOCK_POLICY soft cap.",
+      "sha256": "0f41781476c3a241de51e0e3b40a17f4935751c0d084668077e6646ea405aaa5"
+    },
+    {
+      "path": "supabase/functions/_shared/account-tier-policy.ts",
+      "reason": "Tier policy type and tarotDailyLimits.",
+      "sha256": "e5fd84cb1f61167d955b185ff3454916c73e1835ca3f86a9ad569d87d95c0246"
+    },
+    {
+      "path": "supabase/functions/_shared/premium-entitlement.ts",
+      "reason": "resolveServerTier for the deck tier check.",
+      "sha256": "6ce20a6a7ec4cd881bbc90c93390d435dd9c4b3ebf2c07932b2ff74e0a62530e"
+    },
+    {
+      "path": "supabase/functions/_shared/tarot-prompt.ts",
+      "reason": "Spread position labels (advice label differs from the app).",
+      "sha256": "acef7e9b0c04cd18fc5311b2132768ab6c495b8f2a44be0208806a92ae89b628"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "drawCards, requestServerTarotDraw, ritual reveal and result stage.",
+      "sha256": "7f360497e3b5eb9a320c9406ecd067998cf97f144c98233d34e0b641c136b155"
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "reason": "generateTarotReading, interpretServerDraw, draw request.",
+      "sha256": "0e5ecc6b01eddef85d4f965eab35a5ee4e8a28a3b57d9f09f50925ce81da9fb7"
+    },
+    {
+      "path": "apps/mobile/src/features/tarot/readingPresentation.ts",
+      "reason": "tarotResultSource reference/ai/blocked.",
+      "sha256": "c46b3bab98226028225383bb5b7e0ca4e84bb95124a80e27614c1cd05169330b"
+    },
+    {
+      "path": "apps/mobile/src/features/guest/GuestPreview.tsx",
+      "reason": "Signed-out preview where the guest draw is added.",
+      "sha256": "f1974c6e753cb6d79a3c870b72d11b2b1f31f05fa2e30eb1358b35f3f2e45f01"
+    },
+    {
+      "path": "scripts/tarot-reading-lock-sql.test.mjs",
+      "reason": "PGlite test of the claim RPCs and limits.",
+      "sha256": "c50a1e1d755d4b5f4b0d3afd1b49ccd2d175d134446bd3ff9bf60cd020efed8c"
+    },
+    {
+      "path": "scripts/ai-answer-endpoints.test.mjs",
+      "reason": "Endpoint harness for ai-tarot-reading.",
+      "sha256": "d1f112b4d486de28dab7ef4b119ff8732ff9e9a6162421c67713421b7a17de0e"
+    },
+    {
+      "path": "supabase/functions/_shared/tarot-deck-tier.ts",
+      "reason": "New server-side deck tier list used by the Premium deck check.",
+      "sha256": "241e6943d2000560657c1f47c86051ab91654818140973b81c21b7a91774c6e0"
+    },
+    {
+      "path": "apps/mobile/src/features/tarot/TarotDeepAnalysis.tsx",
+      "reason": "New AI button shown under the free reference reading.",
+      "sha256": "ceb38f6761f0cda2f2e5a16e85b7bd60364f55973a5eece2c1ae563d75745f4f"
+    },
+    {
+      "path": "docs/release/tarot-v2-pack0-2026-11-16/HANDOFF.vi.md",
+      "reason": "Owner handoff for this pack.",
+      "sha256": "bfa90d0820cdaa4d136ee065ee0232023bdd42d67e4464c1a01cffd5e2ff2851"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and --record preflight before the first edit; migration and deploy left to the Owner by hash; PGlite, Deno, node harness and jest only."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Every model call stays behind sign-in, the feature switch and the daily limits; replay never calls the provider; fallback text stays labelled; blocked never falls through; no change to routes or prompts."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Existing Web Crypto, PostgreSQL and React Native Alert APIs only; no package added. The Deno tests run with a temporary import map to jsr:@std/assert in the session scratchpad because deno.land is blocked by the session network policy; no repository file changes for that."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No grant or RLS change. tarot_draw_claim stays security invoker, granted to service_role only; removing its delivered and attempts checks does not widen any client right because clients cannot call it.",
+    "sensitiveData": "No new personal data. The signed-out preview draw is local random and stores nothing.",
+    "secretsLogging": "Uses the platform-injected SUPABASE_SERVICE_ROLE_KEY inside the Edge Function only; no new secret, no key value read or logged; tests use synthetic placeholders.",
+    "externalInput": "The deck tier comes from a static server-side list of deck ids, never from the client; the deck id is validated by prepareTarotContext as before.",
+    "dependencies": "None added to the repository.",
+    "migrationRelease": "Owner applies 20261115100000_tarot_reading_lock.sql by its LF SHA-256, then deploys ai-tarot-reading, then ships the app. Old app builds lose AI Tarot (local reference text) once the function is deployed.",
+    "stopCondition": "Stop if a draw could be created without sign-in, if interpret could run without its limits, if the Premium check trusts a client-sent tier, or if the signed-out preview could reach the server.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "PLAN.md",
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/__tests__/backendClient.test.ts",
+      "apps/mobile/src/backendClient.ts",
+      "apps/mobile/src/features/guest/GuestPreview.tsx",
+      "apps/mobile/src/features/guest/__tests__/GuestPreview.test.tsx",
+      "apps/mobile/src/features/tarot/TarotDeepAnalysis.tsx",
+      "apps/mobile/src/features/tarot/TarotDepthPreview.tsx",
+      "apps/mobile/src/features/tarot/__tests__/deepAnalysis.test.tsx",
+      "apps/mobile/src/features/tarot/__tests__/serverDraw.test.ts",
+      "apps/mobile/src/features/tarot/readingPresentation.ts",
+      "apps/mobile/src/features/tarot/serverDraw.ts",
+      "docs/proposals/TAROT_FREE_DRAW_AI_DEPTH_2026-11-15.vi.md",
+      "docs/release/nil-p1-tarot-lock-2026-11-15/HANDOFF.vi.md",
+      "docs/release/tarot-v2-pack0-2026-11-16/HANDOFF.vi.md",
+      "scripts/ai-answer-endpoints.test.mjs",
+      "scripts/tarot-reading-lock-sql.test.mjs",
+      "supabase/functions/_shared/account-tier-policy.ts",
+      "supabase/functions/_shared/tarot-deck-tier.ts",
+      "supabase/functions/_shared/tarot-prompt.ts",
+      "supabase/functions/ai-tarot-reading/handler.ts",
+      "supabase/functions/ai-tarot-reading/handler_test.ts",
+      "supabase/functions/ai-tarot-reading/index.ts",
+      "supabase/migrations/20261115100000_tarot_reading_lock.sql"
+    ],
+    "note": "The record and its --record preflight ran on a clean tree (docs only, 0c-3 commits ahead of origin/main) before the first code edit. These paths are the finished Tarot v2 pack 0 change; sourceReview hashes refreshed to the final working tree."
+  },
+  "validationCommands": [
+    "node scripts/feature-preflight.mjs --record docs/feature-plans/tarot-free-draw-gate-2026-11-16.json",
+    "DENO_CERT=/root/.ccr/ca-bundle.crt npx --yes deno@2 test --import-map=<scratchpad>/deno-import-map.json --allow-env --allow-read --allow-net --no-check supabase/functions/ai-tarot-reading supabase/functions/_shared/tarot-prompt.test.ts",
+    "NILAZA_PGLITE_MODULE=<scratchpad>/pglite/node_modules/@electric-sql/pglite/dist/index.js node --test scripts/tarot-reading-lock-sql.test.mjs",
+    "npm run ai-operations:test",
+    "npm run validate:backend && npm run supabase:check && npm run supabase:migration-ledger:check",
+    "npm run admin:check && npm run admin:test",
+    "npm --prefix apps/mobile test -- --silent",
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Sau khi Owner áp migration và deploy ai-tarot-reading, trên Android đã đăng nhập gói Free: rút trải bài Tình cảm 1 lá, xem bài đọc không bấm AI; thoát ra rút chủ đề Công việc cùng ngày (phải rút được, không hỏi AI); bấm Phân tích chuyên sâu, xác nhận, nhận bài AI; mở lại cùng chủ đề thấy đúng bài AI không hỏi lại; chưa đăng nhập: rút một lá, thấy hình và tên, không thấy ý nghĩa, có nút đăng nhập.",
+  "residualRisk": "The server behaviour is tested only with PGlite and fakes, not on Supabase. A signed-out draw is local, so the cards differ after sign-in (the server draws the official draw); an anonymous-auth upgrade is not an easy fix because guardAiJsonRequest rejects anonymous users and the Supabase setting needs the Owner. The clarifier still needs an interpreted reading. Free can now fill the soft cap of 3 draws a day without any AI cost. The local AI hint is a device-side estimate; the server stays authoritative. The drawCards path in App.tsx and its confirmation dialog have no automated test because Jest cannot load App.tsx (require.context); the extracted button, source label and guest draw are tested.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

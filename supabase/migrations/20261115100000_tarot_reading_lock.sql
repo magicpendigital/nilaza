@@ -147,8 +147,11 @@ grant select on table public.tarot_readings to authenticated;
 grant select, insert, update, delete on table public.tarot_readings to service_role;
 grant select, insert on table public.usage_events to service_role;
 
--- Draw claim: returns the existing row for this lock key, refuses a new draw over today's limits, or inserts the
+-- Draw claim: returns the existing row for this lock key, refuses a new draw over today's draw cap, or inserts the
 -- server-drawn cards. p_cards come from the Edge Function's CSPRNG; they are ignored when the key already exists.
+-- Tarot v2 pack 0 (Owner 2026-11-16): a draw costs no model call, so only the draw cap limits it. The delivered and
+-- attempt limits belong to tarot_interpret_claim; p_delivered_limit and p_attempt_limit stay in the signature (and are
+-- still validated) so callers and the rollback line do not change, but this function no longer applies them.
 create or replace function public.tarot_draw_claim(
   p_user_id uuid, p_lock_key text, p_lock_date date, p_day_start timestamptz, p_topic text, p_spread text,
   p_question text, p_language text, p_deck_id uuid, p_deck_ref jsonb, p_cards jsonb, p_draw_cap integer,
@@ -159,8 +162,6 @@ declare
   existing public.tarot_readings;
   created public.tarot_readings;
   draws integer;
-  delivered integer;
-  attempts integer;
 begin
   if p_user_id is null or p_lock_key is null or p_lock_key !~ '^[0-9a-f]{64}$' or p_lock_date is null or p_day_start is null
      or p_topic is null or p_spread is null or (p_deck_ref is not null and jsonb_typeof(p_deck_ref) <> 'object') or p_cards is null or jsonb_typeof(p_cards) <> 'array'
@@ -179,16 +180,6 @@ begin
   select count(*) into draws from public.tarot_readings where user_id = p_user_id and lock_date = p_lock_date;
   if draws >= p_draw_cap then
     return jsonb_build_object('status', 'limit', 'reason', 'draw_cap');
-  end if;
-  select count(*) into delivered from public.tarot_readings
-    where user_id = p_user_id and interpretation->>'moderationStatus' = 'passed' and created_at >= p_day_start;
-  if delivered >= p_delivered_limit then
-    return jsonb_build_object('status', 'limit', 'reason', 'delivered');
-  end if;
-  select count(*) into attempts from public.usage_events
-    where user_id = p_user_id and event_name = 'tarot_reading_attempted' and created_at >= p_day_start;
-  if attempts >= p_attempt_limit then
-    return jsonb_build_object('status', 'limit', 'reason', 'attempts');
   end if;
   insert into public.tarot_readings(user_id, deck_id, deck_ref, topic, spread, question, selected_cards, interpretation,
     language, status, lock_key, lock_date, draw_source)

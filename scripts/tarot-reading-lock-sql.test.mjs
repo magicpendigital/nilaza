@@ -257,9 +257,10 @@ test("PGlite: Tarot result lock migration (unique key, trigger, RLS, soft delete
       assert.ok(sameKey.rows[0].r.reading.deleted_at, "the soft-deleted reading still holds its lock key");
       const claim = await interpretClaim(db, alice, aliceReading.id);
       assert.equal(claim.rows[0].r.status, "deleted");
-      // Alice delivered 1 passed reading today (now deleted): a new topic is refused with the default limits.
+      // Tarot v2 pack 0 (Owner 2026-11-16): Alice's delivered AI reading no longer blocks a draw; the draw cap does.
       const newTopic = await drawClaim(db, alice, lockKey(2), { topic: "career", drawCap: 3 });
-      assert.deepEqual(newTopic.rows[0].r, { status: "limit", reason: "delivered" });
+      assert.equal(newTopic.rows[0].r.status, "created", "a used AI allowance does not block a new topic");
+      assert.deepEqual((await drawClaim(db, alice, lockKey(3), { topic: "self", drawCap: 1 })).rows[0].r, { status: "limit", reason: "draw_cap" });
     });
 
     await t.test("draw cap counts every draw of the day; a new Vietnam day starts empty", async () => {
@@ -271,7 +272,7 @@ test("PGlite: Tarot result lock migration (unique key, trigger, RLS, soft delete
       assert.deepEqual((await drawClaim(db, carol, lockKey(32), { ...limits, topic: "self" })).rows[0].r, { status: "limit", reason: "draw_cap" });
       const tomorrow = await drawClaim(db, carol, lockKey(33), { ...limits, topic: "self", lockDate: "2026-11-16", dayStart: nextDayStart });
       assert.equal(tomorrow.rows[0].r.status, "created");
-      // Attempts limit: three failed attempts refuse a new draw and a further claim.
+      // Attempts limit: three failed attempts refuse a further interpretation claim (a draw is not limited by them).
       const dave = randomUUID();
       await db.query("insert into auth.users(id) values ($1)", [dave]);
       const draw = (await drawClaim(db, dave, lockKey(40))).rows[0].r.reading;
@@ -281,7 +282,8 @@ test("PGlite: Tarot result lock migration (unique key, trigger, RLS, soft delete
         await as(db, "service_role", null, "update public.tarot_readings set claim_token = null, claimed_at = null where id = $1", [draw.id]);
       }
       assert.deepEqual((await interpretClaim(db, dave, draw.id)).rows[0].r, { status: "limit", reason: "attempts" });
-      assert.deepEqual((await drawClaim(db, dave, lockKey(41), { topic: "career", delivered: 5, drawCap: 5 })).rows[0].r, { status: "limit", reason: "attempts" });
+      // Failed AI attempts stop interpretation, not drawing (Tarot v2 pack 0): a new topic still draws.
+      assert.equal((await drawClaim(db, dave, lockKey(41), { topic: "career", delivered: 5, drawCap: 5 })).rows[0].r.status, "created");
       const lockOnly = await drawClaim(db, dave, lockKey(40));
       assert.equal(lockOnly.rows[0].r.status, "existing", "the existing draw is still returned after the limits");
     });

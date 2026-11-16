@@ -661,7 +661,7 @@ function tarotLimitFrom(result: TarotResponse): BackendLimitError | null {
   const code = typeof result.body.error === "string" ? result.body.error : "";
   const reason = typeof result.body.reason === "string" ? result.body.reason : undefined;
   const nextDrawAt = typeof result.body.nextDrawAt === "string" ? result.body.nextDrawAt : undefined;
-  if (code === "feature_paused") return new BackendLimitError(code, result.status);
+  if (code === "feature_paused" || code === "premium_required") return new BackendLimitError(code, result.status);
   if (code === "daily_limit_reached" || code === "tarot_reading_locked") return new TarotLimitError(code, result.status, code === "tarot_reading_locked" ? reason ?? "deleted" : reason, nextDrawAt);
   return null;
 }

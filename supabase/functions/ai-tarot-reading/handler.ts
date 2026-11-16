@@ -1,6 +1,8 @@
 // P1-A "Khoá kết quả Tarot — một sự kiện, một câu trả lời" (2026-11-15).
 // draw: the server draws the cards (CSPRNG) once per (account, spread, topic, Vietnam day) and returns the same draw for
 //       the same event; a different topic or spread is a new draw, at most TAROT_LOCK_POLICY.dailySpreadSoftCap a day.
+//       Tarot v2 pack 0 (Owner 2026-11-16): a draw is free and is limited only by that cap, not by the AI allowance; when
+//       Premium is on sale a Premium deck also needs a Premium account (403 premium_required).
 // interpret: interprets only the stored draw; a written answer is replayed with no model call and no quota. A failed
 //       model answer frees the claim so "Thử lại" interprets the same draw again (failed attempts capped per day).
 // clarify: one extra server-drawn card with its library meaning (no model), written once.
@@ -18,7 +20,8 @@ import { answerProvenanceSchema, isIncompleteAnswerFinishReason, type AnswerProv
 import { checkTarotOutputText, tarotOutputSchema } from "../../../packages/ai-contracts/tarot-output.ts";
 import { TAROT_LOCK_POLICY } from "../_shared/daily-attempts.ts";
 import { featurePausedBody } from "../_shared/feature-switch.ts";
-import { tarotDailyLimits } from "../_shared/account-tier-policy.ts";
+import { accountTierPolicy, tarotDailyLimits } from "../_shared/account-tier-policy.ts";
+import { tarotDeckTier } from "../_shared/tarot-deck-tier.ts";
 import { configuredDailyLimit, type ActiveFeatureConfig } from "../_shared/feature-config.ts";
 import { drawClarifierCard, drawServerCards, normalizeTopicKey, sameDraw, tarotLockKey, vietnamDay, type RandomFill } from "./draw.ts";
 import { TarotStoreError, type TarotReadingRow, type TarotStore } from "./store.ts";
@@ -42,8 +45,10 @@ export type TarotDeps = {
   contentVersion: (content: PublishedTarotContent | null) => Promise<string>;
   generate: (input: TarotGenerateInput) => Promise<TarotGeneration>;
   writeReceipt: (input: Record<string, unknown>) => Promise<{ receiptId: string } | null>;
+  /** Server tier of the signed-in account (paid entitlement or the shared tier switch); only read for a Premium deck. */
+  readTier?: (userId: string) => Promise<"premium" | "free">;
 };
-export type TarotHandlerOptions = { now?: () => Date; random?: RandomFill; claimToken?: () => string };
+export type TarotHandlerOptions = { now?: () => Date; random?: RandomFill; claimToken?: () => string; premiumOnSale?: () => boolean };
 
 export const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -83,7 +88,9 @@ async function dailyLimits(deps: TarotDeps) {
   const delivered = configuredDailyLimit(featureConfig, policy.delivered);
   return {
     featureConfig, delivered, attempts: delivered + (policy.attempts - policy.delivered),
-    drawCap: Math.min(TAROT_LOCK_POLICY.dailySpreadSoftCap, delivered)
+    // Tarot v2 pack 0 (Owner 2026-11-16): drawing costs no model call, so the AI allowance (delivered, attempts) no longer
+    // limits it; the same-topic lock and this soft cap do. The AI limits still apply in interpret.
+    drawCap: TAROT_LOCK_POLICY.dailySpreadSoftCap
   };
 }
 
@@ -111,6 +118,7 @@ const lockedBody = (reason: string, nextDrawAt: string, drawId?: string) =>
 export function createTarotHandler(configure: (req: Request) => TarotDeps | null, options: TarotHandlerOptions = {}) {
   const now = options.now ?? (() => new Date());
   const newClaimToken = options.claimToken ?? (() => crypto.randomUUID());
+  const premiumOnSale = options.premiumOnSale ?? (() => accountTierPolicy.premiumOnSale === true);
 
   async function draw(deps: TarotDeps, userId: string, input: Record<string, unknown>) {
     const topic = normalizeTopicKey(input.topic);
@@ -124,6 +132,11 @@ export function createTarotHandler(configure: (req: Request) => TarotDeps | null
     } catch { throw new AiRequestError(400, "invalid_tarot_input"); }
     // Emergency switch from Admin (AD-10): no new draw while Tarot AI rests, so no draw waits without its answer.
     if (await deps.featurePaused()) return json(featurePausedBody, 503);
+    // Premium deck (Q4, Owner 2026-11-16): only once Premium is on sale; the tier is read on the server and fails closed.
+    if (premiumOnSale() && tarotDeckTier(context.deck?.id ?? context.deck?.slug) !== "free") {
+      const tier = deps.readTier ? await deps.readTier(userId) : "free";
+      if (tier !== "premium") return json({ error: "premium_required", reason: "premium_deck" }, 403);
+    }
     const day = vietnamDay(now());
     const nextDrawAt = day.nextDayStart.toISOString();
     const lockKey = await tarotLockKey(userId, spread, topic, day.dateKey);
