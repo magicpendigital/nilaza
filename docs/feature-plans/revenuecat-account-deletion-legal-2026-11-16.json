@@ -103,7 +103,7 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "ProfileScreen renders DeleteAccountPanel and already receives the premium state.",
-      "sha256": "f1dc8b38722f37d2c09a70cd5b778f1905d66e305bb216c0db6d65439a2988c7"
+      "sha256": "b324aa2c8133c0a488df6998c966e063aeda0f11ebd385b5a041f6b406080e58"
     },
     {
       "path": "apps/web/src/content/legal/vi/account-deletion.md",
