@@ -53,7 +53,9 @@ for (const { functionName } of contracts) {
   const indexPath = path.join(root, "supabase", "functions", functionName, "index.ts");
   assert(fs.existsSync(indexPath), `Missing Supabase Edge Function ${functionName}/index.ts`);
   if (fs.existsSync(indexPath)) {
-    const source = fs.readFileSync(indexPath, "utf8");
+    // Nil P1-B: ai-astrology-insight keeps its request handling in handler.ts; check both files together.
+    const source = fs.readFileSync(indexPath, "utf8") + (functionName === "ai-astrology-insight"
+      ? "\n" + read("supabase/functions/ai-astrology-insight/handler.ts") : "");
     const oracleFactory = functionName === "ai-oracle-turn"
       && source.includes("export function createOracleHandler(")
       && source.includes("serve(createOracleHandler())");
@@ -101,7 +103,7 @@ for (const { functionName } of contracts) {
       const authPosition = source.indexOf("supabase.auth.getUser(");
       const bodyPosition = source.indexOf("await req.text()");
       assert(authPosition >= 0 && bodyPosition > authPosition, "ai-astrology-insight must authenticate before reading private request data");
-      for (const required of ["ASTROLOGY_AI_CONTRACT.entitlement.requiredEntitlement", "usage_events", "astrology_reports", "strictTraceRedaction: true", "ASTROLOGY_AI_CONTRACT.responseSchema.name", "prompt_not_ready", "selectedFactIds", "user_id: userId", "runtime_environment_not_configured", "AI_TRACE_ENVIRONMENT", "FAILED_ATTEMPT_ALLOWANCE", "deliveredCount >= dailyAttemptLimit"]) {
+      for (const required of ["ASTROLOGY_AI_CONTRACT.entitlement.requiredEntitlement", "usage_events", "astrology_reports", "strictTraceRedaction: true", "ASTROLOGY_AI_CONTRACT.responseSchema.name", "prompt_not_ready", "selectedFactIds", "user_id: userId", "runtime_environment_not_configured", "AI_TRACE_ENVIRONMENT", "FAILED_ATTEMPT_ALLOWANCE", "astrology_claim_report", "p_daily_limit: dailyAttemptLimit", "astrologyLockKey(", "report_in_progress"]) {
         assert(source.includes(required), `ai-astrology-insight must preserve ${required}`);
       }
     }
@@ -251,6 +253,17 @@ for (const required of [
 ]) {
   assert(astrologyMigration.includes(required), `Astrology backend migration missing ${required}`);
 }
+// Nil P1-B: the lock migration narrows those grants: the app only reads its own rows; the server claims a key.
+const astrologyLockMigration = read("supabase/migrations/20261115110000_astrology_lock.sql");
+for (const required of [
+  "revoke insert, update, delete on table public.astrology_reports from public, anon, authenticated",
+  "create unique index if not exists astrology_reports_user_lock_key_uidx",
+  "create trigger astrology_reports_guard before update on public.astrology_reports",
+  "public.astrology_claim_report(",
+  "public.astrology_soft_delete_reports("
+]) {
+  assert(astrologyLockMigration.includes(required), `Astrology lock migration missing ${required}`);
+}
 
 const notificationMigration = read("supabase/migrations/20260710000000_notifications_contract.sql");
 for (const required of [
@@ -378,7 +391,7 @@ for (const required of [
   assert(revenuecatMigration.includes(required), `RevenueCat entitlement migration missing ${required}`);
 }
 assert(!/create\s+table\s+(if\s+not\s+exists\s+)?public\./i.test(revenuecatMigration) && !/(drop|create|alter)\s+policy/i.test(revenuecatMigration), "RevenueCat migration must not add public tables or change RLS policies");
-const astrologyInsightSource = read("supabase/functions/ai-astrology-insight/index.ts");
+const astrologyInsightSource = read("supabase/functions/ai-astrology-insight/handler.ts");
 assert(astrologyInsightSource.includes("resolveServerTier(") && astrologyInsightSource.includes("PREMIUM_ENTITLEMENTS"), "ai-astrology-insight must judge Premium through _shared/premium-entitlement.ts");
 const modelRouterSource = read("supabase/functions/_shared/model-router.ts");
 assert(modelRouterSource.includes("createAiTrace") && modelRouterSource.includes("traceContext") && modelRouterSource.includes("traceHooks"), "Model router must emit AI trace context and provider hooks");

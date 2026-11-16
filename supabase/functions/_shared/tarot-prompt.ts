@@ -83,6 +83,22 @@ const spreadPositions = {
   "love-three": [{ key: "you", label: { vi: "Bạn", en: "You" } }, { key: "other", label: { vi: "Người ấy", en: "The other person" } }, { key: "relationship", label: { vi: "Mối quan hệ", en: "The relationship" } }],
   "crossroads-four": [{ key: "standing", label: { vi: "Điểm bạn đang đứng", en: "Where you stand" } }, { key: "forward", label: { vi: "Nếu bước tới", en: "If you step forward" } }, { key: "still", label: { vi: "Nếu giữ nguyên", en: "If you hold still" } }, { key: "advice", label: { vi: "Lời nhắc", en: "Advice" } }]
 };
+/** P1-A server draw: the position keys of a spread in order, or null for an unknown spread. */
+export function tarotSpreadPositionKeys(spread: string): string[] | null {
+  return Object.hasOwn(spreadPositions, spread) ? spreadPositions[spread as keyof typeof spreadPositions].map(position => position.key) : null;
+}
+/** P1-A server draw: the 78 canonical card IDs in tarot-cards.json order. */
+export function canonicalTarotCardIds(): string[] {
+  return canonicalCards.map(card => card.id);
+}
+/** P1-A clarifier: the library text of one card in its drawn orientation (published bundle, else tarot-cards.json). No model. */
+export function tarotLibraryCard(content: PublishedTarotContent | null | undefined, deckKey: string | undefined, cardId: string, reversed: boolean) {
+  const source = cardById.get(cardId);
+  if (!source) throw new Error("Invalid Tarot card");
+  const text = publishedCardText(content, deckKey, source.id, source);
+  return { id: source.id, reversed, orientation: reversed ? "reversed" as const : "upright" as const, name: { ...text.name },
+    meaning: { ...(reversed ? text.reversedMeaning : text.uprightMeaning) }, reflectionQuestion: { ...text.reflectionQuestion } };
+}
 /**
  * Validates the app's request (canonical card IDs, spread, orientation) and builds the card context for the model.
  * E4: with a published content bundle the card text and the deck reading style come from it (per field, falling back to

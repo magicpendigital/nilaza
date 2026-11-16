@@ -30,10 +30,14 @@ import { invokeOpenRouter } from "./providers/openrouter.ts";
 import { readOpenRouterBillingReceipt } from "./providers/openrouter-billing.ts";
 import { ConfiguredFeature, readActiveFeatureConfig } from "./feature-config.ts";
 import {
+  CallCost,
+  CostSource,
   DATA_CLASS_RANK,
   DataClass,
   ProviderRegistry,
+  callCost,
   featureDataClass,
+  projectCallCostMicro,
   readProviderRegistry,
   referencePrice,
   reportProviderOutcome,
@@ -349,6 +353,32 @@ export async function generateWithModelRoute(input: {
   const rootSpan = traceSetup.rootSpan;
   // A7 (E5): step chain summary for the root span (skipped steps, spent cost, cap, deadline). Unset for legacy routes.
   let chainSummary: Record<string, unknown> | undefined;
+  // P1-C: cost of every model call of this turn (success or failure). Span keys are snake_case so the trace redaction
+  // keeps them (numbers, booleans and *_source strings survive "redacted" mode).
+  const costTally = { totalMicro: 0, calls: 0, source: null as CostSource | null };
+  const recordCallCost = (
+    provider: ModelProviderName,
+    model: string,
+    receipt?: { costUsd?: number | null; inputTokens?: number | null; outputTokens?: number | null } | null,
+    usage?: { inputTokens?: number; outputTokens?: number }
+  ): { cost: CallCost; attributes: Record<string, unknown> } => {
+    const inputTokens = usage?.inputTokens ?? receipt?.inputTokens ?? null;
+    const outputTokens = usage?.outputTokens ?? receipt?.outputTokens ?? null;
+    const cost = callCost({ provider, model, receiptUsd: receipt?.costUsd ?? null, inputTokens, outputTokens });
+    costTally.calls += 1;
+    costTally.totalMicro += cost.costMicro ?? 0;
+    if (costTally.source === null || COST_SOURCE_RANK[cost.costSource] > COST_SOURCE_RANK[costTally.source]) costTally.source = cost.costSource;
+    return {
+      cost,
+      attributes: {
+        cost_micro: cost.costMicro,
+        cost_source: cost.costSource,
+        price_verified: cost.priceVerified,
+        input_tokens: inputTokens,
+        output_tokens: outputTokens
+      }
+    };
+  };
   const finish = async (result: ModelGenerationResult, status?: "ok" | "blocked" | "fallback" | "error") => {
     const defaultStatus = status ?? (result.moderationStatus === "blocked" ? "blocked" : result.moderationStatus === "fallback" ? "fallback" : "ok");
     const rootOutput = {
@@ -361,6 +391,10 @@ export async function generateWithModelRoute(input: {
       safetyReason: result.safetyReason ?? null,
       outcome: resultOutcome(result),
       ...(chainSummary ? { chain: chainSummary } : {}),
+      // P1-C: turn total. No model call (e.g. prompt safety block) = 0 calls, 0 micro-USD, cost_source null.
+      cost_micro_total: costTally.totalMicro,
+      cost_source: costTally.source,
+      cost_call_count: costTally.calls,
       traceVersion: "v1"
     };
     if (input.deferTraceFlush) {
@@ -488,6 +522,7 @@ export async function generateWithModelRoute(input: {
         ...(input.qaTraceHooks ? { qaTraceHooks: input.qaTraceHooks } : {})
       }, generationEnv);
       attempts.push({ provider: candidate.provider, model: candidate.model, resolvedModel: response.model, ok: true, ...(response.billingReceipt ? { billingReceipt: response.billingReceipt } : {}) });
+      const legacyCost = recordCallCost(candidate.provider, candidate.model, response.billingReceipt, response.usage);
       providerSpan.update({
         output: {
           text: response.text,
@@ -514,7 +549,8 @@ export async function generateWithModelRoute(input: {
             cached_input_tokens: response.billingReceipt.cachedInputTokens ?? null,
             cache_write_tokens: response.billingReceipt.cacheWriteTokens ?? null,
             reasoning_tokens: response.billingReceipt.reasoningTokens ?? null
-          } : {})
+          } : {}),
+          ...legacyCost.attributes
         }
       }).end("ok");
       const outputSafety = detectSafetyIssue(response.text);
@@ -571,15 +607,20 @@ export async function generateWithModelRoute(input: {
         ...(providerError.providerDetail ? { detail: providerError.providerDetail } : {}),
         ...(billingReceipt ? { resolvedModel: billingReceipt.model, billingReceipt } : {})
       });
+      // A call that never started (deadline reached before this attempt) has no span and no cost.
+      const failedCost = providerSpan ? recordCallCost(candidate.provider, candidate.model, billingReceipt) : undefined;
       providerSpan?.update({
-        ...(billingReceipt ? { attributes: {
-          generation_id: billingReceipt.generationId ?? null,
-          billing_status: billingReceipt.status,
-          billing_source: billingReceipt.source,
-          charged_usd: billingReceipt.costUsd,
-          upstream_inference_cost_usd: billingReceipt.upstreamInferenceCostUsd,
-          resolved_model: billingReceipt.model
-        } } : {}),
+        attributes: {
+          ...(billingReceipt ? {
+            generation_id: billingReceipt.generationId ?? null,
+            billing_status: billingReceipt.status,
+            billing_source: billingReceipt.source,
+            charged_usd: billingReceipt.costUsd,
+            upstream_inference_cost_usd: billingReceipt.upstreamInferenceCostUsd,
+            resolved_model: billingReceipt.model
+          } : {}),
+          ...failedCost?.attributes
+        },
         output: {
           errorCode: providerError.code,
           status: providerError.status ?? null,
@@ -685,7 +726,7 @@ export async function generateWithModelRoute(input: {
       }
       const price = referencePrice(step.provider, step.model);
       const inputChars = input.system.length + input.messages.reduce((sum, message) => sum + message.content.length, 0);
-      const projectedMicro = price ? Math.ceil(Math.ceil(inputChars / 3) * price[0] + step.maxTokens * price[1]) : 0;
+      const projectedMicro = projectCallCostMicro(price, inputChars, step.maxTokens);
       if (spentMicro >= costCapMicro || spentMicro + projectedMicro > costCapMicro) {
         skipped.push({ stepIndex, provider: step.provider, reason: "cost_cap" });
         continue;
@@ -694,10 +735,6 @@ export async function generateWithModelRoute(input: {
       const fallbackStep = stepIndex > 0;
       const reasoning = step.reasoning ?? undefined;
       let providerSpan: AiTraceSpan | undefined;
-      const stepCost = (receiptUsd: number | null | undefined, usage?: { inputTokens?: number; outputTokens?: number }) => {
-        if (typeof receiptUsd === "number" && Number.isFinite(receiptUsd)) return Math.round(receiptUsd * 1_000_000);
-        return price && usage ? Math.ceil((usage.inputTokens ?? 0) * price[0] + (usage.outputTokens ?? 0) * price[1]) : 0;
-      };
       try {
         providerSpan = trace.startSpan({
           name: `llm.${step.provider}.${fallbackStep ? "fallback" : "primary"}`,
@@ -720,7 +757,9 @@ export async function generateWithModelRoute(input: {
           },
           ...(input.qaTraceHooks ? { qaTraceHooks: input.qaTraceHooks } : {})
         }, generationEnv);
-        const costMicro = stepCost(response.billingReceipt?.costUsd, response.usage);
+        const okCost = recordCallCost(step.provider, step.model, response.billingReceipt, response.usage);
+        // Unknown cost counts as 0 for the cap, as before.
+        const costMicro = okCost.cost.costMicro ?? 0;
         spentMicro += costMicro;
         attempts.push({ provider: step.provider, model: step.model, resolvedModel: response.model, ok: true, ...(response.billingReceipt ? { billingReceipt: response.billingReceipt } : {}) });
         if (policy && (policy.failures > 0 || policy.openedUntil !== null)) await report(step.provider, { result: "ok" });
@@ -736,7 +775,8 @@ export async function generateWithModelRoute(input: {
               generation_id: response.billingReceipt.generationId ?? null, billing_status: response.billingReceipt.status,
               billing_source: response.billingReceipt.source, charged_usd: response.billingReceipt.costUsd,
               upstream_inference_cost_usd: response.billingReceipt.upstreamInferenceCostUsd, resolved_model: response.billingReceipt.model
-            } : {})
+            } : {}),
+            ...okCost.attributes
           }
         });
         if (outputSafety) {
@@ -762,7 +802,8 @@ export async function generateWithModelRoute(input: {
       } catch (error) {
         const providerError = error instanceof ModelProviderError ? error : thrownProviderError(step.provider, error);
         const billingReceipt = step.provider === "openrouter" ? providerError.billingReceipt ?? readOpenRouterBillingReceipt(null, step.model) : undefined;
-        const costMicro = stepCost(billingReceipt?.costUsd);
+        const failedCost = providerSpan ? recordCallCost(step.provider, step.model, billingReceipt) : undefined;
+        const costMicro = failedCost?.cost.costMicro ?? 0;
         spentMicro += costMicro;
         const { errorClass, moveOn } = classifyProviderError(providerError);
         attempts.push({
@@ -773,7 +814,8 @@ export async function generateWithModelRoute(input: {
         providerSpan?.update({
           attributes: {
             errorClass, httpStatus: providerError.status ?? null, costMicro, outcome: errorClass === "safety" ? "safety_block" : "error",
-            ...(billingReceipt ? { generation_id: billingReceipt.generationId ?? null, billing_status: billingReceipt.status, charged_usd: billingReceipt.costUsd } : {})
+            ...(billingReceipt ? { generation_id: billingReceipt.generationId ?? null, billing_status: billingReceipt.status, charged_usd: billingReceipt.costUsd } : {}),
+            ...failedCost?.attributes
           },
           output: { errorCode: providerError.code, status: providerError.status ?? null, providerDetail: providerError.providerDetail ?? null, retryable: providerError.retryable, safetyBlocked: providerError.safetyBlocked }
         }).end(providerError.safetyBlocked ? "blocked" : "error");
@@ -795,3 +837,6 @@ export async function generateWithModelRoute(input: {
 
 /** Owner 04/11: a fallback step may cost more than the first, but one turn stays under 0.02 USD unless configured. */
 export const DEFAULT_COST_CAP_MICRO = 20_000;
+
+/** P1-C: the turn's cost_source is the least certain of its calls. */
+const COST_SOURCE_RANK: Record<CostSource, number> = { reported: 0, estimated: 1, unknown: 2 };

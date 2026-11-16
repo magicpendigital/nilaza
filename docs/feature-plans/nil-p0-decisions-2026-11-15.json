@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "taskId": "nil-p0-decisions-2026-11-15",
+  "ownerAgent": "documentation_agent",
+  "lane": "Docs only: Owner decisions for the Nil pricing strategy (P0), reconciliation of the 'free first build' decision",
+  "goal": "Record the Owner decisions of 15/11/2026 (sell Premium in the first Play build, accept some churn, 1 USD/day Free pilot budget, Nil only from plans, energy bar + light/medium/deep chip, Tarot 24h topic lock) in the repo: add the Nil strategy report, mark the 23/10 'free first build' decision as superseded in HANDOFF and the Play roadmap, and add the Nil P0/P1 line to PLAN.md. No code, SQL, function or setting changes.",
+  "successCriteria": [
+    "docs/NIL_PRICING_STRATEGY_2026-11-15.vi.md exists with the approval status, the Owner answers and the verified / unverified labelling.",
+    "HANDOFF decision 2 and the Play roadmap row 2 no longer say the first build is free and point to the Nil document.",
+    "PLAN.md section 1 and section 4 carry the decision and the P0/P1 status, and PLAN.md stays at or under 200 lines.",
+    "No file outside docs/ and PLAN.md changes; npm run feature:preflight passes."
+  ],
+  "writeScope": [
+    "PLAN.md",
+    "docs/NIL_PRICING_STRATEGY_2026-11-15.vi.md",
+    "docs/HANDOFF_CURRENT_STATE.vi.md",
+    "docs/release/GOOGLE_PLAY_ROADMAP_AND_UX_REVIEW_2026-10-23.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "No app, Admin, Edge Function, SQL migration, package, skill or CI file is changed.",
+    "No Supabase, Vercel, GitHub, EAS, Play or RevenueCat setting is changed; no budget value is changed (the 1 USD/day figure is recorded as a decision only)."
+  ],
+  "impact": {
+    "entryPoint": "Documentation read first by the Owner and every Agent (PLAN.md, HANDOFF, roadmap, Nil strategy).",
+    "dataWrite": "None; documentation text only.",
+    "backendContract": "None; the report only describes a future Nil wallet and price contract that is not implemented here.",
+    "adminVisibility": "None in this change.",
+    "privacySafety": "No personal data; figures are labelled as assumptions to be measured.",
+    "observability": "Not applicable; the report defines the KPIs and guardrails to measure in later phases.",
+    "rollback": "Revert the commit; documents only."
+  },
+  "canonicalContracts": [
+    "PLAN.md rules: at most 200 lines, only verified facts, update in the same PR",
+    "CLAUDE.md: Owner approval per feature before merging to main",
+    "docs/NILAZA_PRICING_AI_QUALITY_STRATEGY_2026-09-25.vi.md: earlier single-plan pricing document that the Nil report builds on"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Owner approval rules and the agent boundaries for SQL, deploy and settings.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Docs route and validation commands.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules and record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/NIL_PRICING_STRATEGY_2026-11-15.vi.md",
+      "reason": "The strategy report these decisions belong to.",
+      "sha256": "28f7ba99545459ad013472ee69fed0e09bfc3335c9986b3572b227f7fc2ad1ba"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record written and preflight run before commit; documentation-only change; no SQL, deploy or setting touched."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Documentation only; no package or external API is used by this change."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization, RLS or policy is changed; documentation only.",
+    "sensitiveData": "No personal data, keys or environment values are read or written.",
+    "secretsLogging": "No secrets or logs involved; .env is not read.",
+    "externalInput": "No runtime input; the report quotes public policy sources by link only.",
+    "dependencies": "No package or dependency is added or changed by this documentation change.",
+    "migrationRelease": "No migration and no release; any later SQL or deploy needs separate Owner approval.",
+    "stopCondition": "Stop if a change would touch code, SQL, Edge Functions or any external setting.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Worktree nil-int cut from origin/main f50f0e1; only the four documentation files above are changed.",
+    "paths": [
+      "PLAN.md",
+      "docs/NIL_PRICING_STRATEGY_2026-11-15.vi.md",
+      "docs/HANDOFF_CURRENT_STATE.vi.md",
+      "docs/release/GOOGLE_PLAY_ROADMAP_AND_UX_REVIEW_2026-10-23.vi.md"
+    ]
+  },
+  "validationCommands": [
+    "node scripts/feature-preflight.mjs --record docs/feature-plans/nil-p0-decisions-2026-11-15.json",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Open docs/NIL_PRICING_STRATEGY_2026-11-15.vi.md and read the header and section 13; open PLAN.md section 1 and item 13 of section 4 and confirm they match the answers you gave on 15/11.",
+  "residualRisk": "The 1 USD/day Free budget is interpreted as a Free-pilot AI cost cap separate from the QA budgets; the Owner may correct that reading. All Nil / Dong figures remain assumptions until measured in the later phases.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

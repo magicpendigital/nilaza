@@ -5,6 +5,9 @@ import {
   generateOracleTurn,
   generateAiCouncilTurn,
   generateTarotReading,
+  requestTarotClarifier,
+  requestTarotDraw,
+  TarotLimitError,
   generateDailyInsight,
   generateDailyZodiacPulse,
   registerNotificationDevice,
@@ -446,6 +449,103 @@ describe("backendClient", () => {
       } finally {
         jest.useRealTimers();
       }
+    });
+  });
+
+  describe("P1-A server-drawn Tarot (nil-p1-tarot-lock-2026-11-15)", () => {
+    const signedIn = { ...backendOptions, authToken: "fake-test-token" };
+    const drawId = "11111111-2222-4333-8444-555555555555";
+    const serverCards = [{ id: "major-00-the-fool", positionKey: "today", reversed: true }];
+    const drawInput = { language: "vi" as const, deck: { id: "deck-1", slug: "nilaza-classic" }, topic: "love", spread: "daily-one", question: "Hôm nay?" };
+    const input: TarotInterpretationInput = {
+      language: "vi",
+      deck: { id: "deck-1", slug: "nilaza-classic", name: "Deck", readingStyle: "style", accessTier: "free" },
+      topic: "love", spread: "daily-one", question: "Hôm nay?",
+      selectedCards: [{ id: "major-00-the-fool", reversed: true } as TarotInterpretationInput["selectedCards"][number]],
+      drawId
+    };
+    const fallback = jest.fn().mockReturnValue({ summary: "fallback", reflection: "fallback", moderationStatus: "fallback" });
+    const sections = [{ key: "today", title: { vi: "Hôm nay", en: "Today" }, body: { vi: "Chi tiết", en: "Detail" }, cardIds: ["major-00-the-fool"] }];
+    const original = { interactionId: "interaction_old", attemptId: "attempt_old", clientRequestId: "request_old" };
+    const storedProvenance = { schemaVersion: "nilaza.answer-provenance.v1", feature: "tarot_reading", ...original, locale: "vi", sourceKind: "ai",
+      generatedAt: "2026-11-15T03:00:00.000Z", validationStatus: "validated", persistenceStatus: "stored", remoteId: drawId };
+
+    it("asks the server to draw and never sends cards; limits and locks carry the reason and opening time", async () => {
+      mockFetch.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ drawId, status: "queued", replayed: false, spread: "daily-one", topic: "love",
+        lockDate: "2026-11-16", nextDrawAt: "2026-11-16T17:00:00.000Z", cards: serverCards }) });
+      await expect(requestTarotDraw(drawInput, signedIn)).resolves.toMatchObject({ drawId, cards: serverCards, nextDrawAt: "2026-11-16T17:00:00.000Z" });
+      const body = JSON.parse(String((mockFetch.mock.calls[0][1] as RequestInit).body));
+      expect(body).toEqual({ action: "draw", language: "vi", deck: { id: "deck-1", slug: "nilaza-classic" }, topic: "love", spread: "daily-one", question: "Hôm nay?" });
+      expect(body.selectedCards).toBeUndefined();
+
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 429, json: async () => ({ error: "daily_limit_reached", reason: "draw_cap", nextDrawAt: "2026-11-16T17:00:00.000Z" }) });
+      const limit = await requestTarotDraw(drawInput, signedIn).catch(error => error);
+      expect(limit).toBeInstanceOf(TarotLimitError);
+      expect(limit).toMatchObject({ code: "daily_limit_reached", reason: "draw_cap", nextDrawAt: "2026-11-16T17:00:00.000Z" });
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 409, json: async () => ({ error: "tarot_reading_locked", reason: "deleted", nextDrawAt: "2026-11-16T17:00:00.000Z" }) });
+      await expect(requestTarotDraw(drawInput, signedIn)).rejects.toMatchObject({ code: "tarot_reading_locked", reason: "deleted" });
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 503, json: async () => ({ error: "feature_paused" }) });
+      await expect(requestTarotDraw(drawInput, signedIn)).rejects.toMatchObject({ code: "feature_paused" });
+    });
+
+    it("refuses a malformed draw and says offline instead of drawing cards on the device", async () => {
+      mockFetch.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ drawId, status: "queued", spread: "daily-one", topic: "love",
+        cards: [serverCards[0], serverCards[0]] }) });
+      await expect(requestTarotDraw(drawInput, signedIn)).rejects.toMatchObject({ reason: "busy" });
+      mockFetch.mockRejectedValueOnce(new TypeError("Network request failed"));
+      await expect(requestTarotDraw(drawInput, signedIn)).rejects.toEqual(new BackendUnavailableError("offline"));
+    });
+
+    it("guests never reach the server draw", async () => {
+      const session = { active: true, userId: undefined, accessToken: undefined, controller: new AbortController() };
+      await expect(requestTarotDraw(drawInput, { ...backendOptions, session } as never)).rejects.toMatchObject({ reason: "auth" });
+      expect(mockFetch).not.toHaveBeenCalled();
+    });
+
+    it("interprets only the drawId and keeps a replayed answer with its original provenance", async () => {
+      mockFetch.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ summary: "Đã lưu", reflection: "Câu hỏi?", sections, moderationStatus: "passed",
+        provenance: storedProvenance, persistenceStatus: "stored", remoteId: drawId, drawId, replayed: true, status: "completed", language: "vi",
+        nextDrawAt: "2026-11-16T17:00:00.000Z", cards: serverCards }) });
+      const result = await generateTarotReading(input, fallback, signedIn);
+      expect(result).toMatchObject({ summary: "Đã lưu", moderationStatus: "passed", drawId, replayed: true, nextDrawAt: "2026-11-16T17:00:00.000Z",
+        provenance: { sourceKind: "ai", attemptId: "attempt_old" } });
+      const body = JSON.parse(String((mockFetch.mock.calls[0][1] as RequestInit).body));
+      expect(body).toEqual({ action: "interpret", drawId, language: "vi", selectedCards: [{ id: "major-00-the-fool", reversed: true }] });
+      expect(fallback).not.toHaveBeenCalled();
+    });
+
+    it("waits once when another device is interpreting the same draw, then shows the stored answer", async () => {
+      jest.useFakeTimers();
+      try {
+        mockFetch.mockResolvedValueOnce({ ok: false, status: 409, json: async () => ({ error: "reading_in_progress", drawId, retryAfterSeconds: 1 }) });
+        mockFetch.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ summary: "Đã lưu", reflection: "Câu hỏi?", sections, moderationStatus: "passed",
+          provenance: storedProvenance, drawId, replayed: true, language: "vi", cards: serverCards }) });
+        const pending = generateTarotReading(input, fallback, signedIn);
+        await jest.advanceTimersByTimeAsync(1000);
+        await expect(pending).resolves.toMatchObject({ replayed: true, drawId });
+        expect(mockFetch).toHaveBeenCalledTimes(2);
+      } finally {
+        jest.useRealTimers();
+      }
+    });
+
+    it("an AI failure keeps the same drawId on the labelled fallback; limits still surface", async () => {
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 503, json: async () => ({ error: "reading_not_saved", drawId, retryable: true }) });
+      await expect(generateTarotReading(input, fallback, signedIn)).resolves.toMatchObject({ summary: "fallback", drawId, replayed: false,
+        provenance: { sourceKind: "fallback" } });
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 429, json: async () => ({ error: "daily_limit_reached", reason: "attempts", nextDrawAt: "2026-11-16T17:00:00.000Z" }) });
+      await expect(generateTarotReading(input, fallback, signedIn)).rejects.toMatchObject({ code: "daily_limit_reached", reason: "attempts" });
+    });
+
+    it("the clarifier is one server card with its library meaning", async () => {
+      const clarifier = { cardId: "major-01-the-magician", reversed: false, orientation: "upright", positionKey: "clarifier", source: "server_csprng",
+        name: { vi: "Nhà Ảo Thuật", en: "The Magician" }, meaning: { vi: "Ý nghĩa", en: "Meaning" }, reflectionQuestion: { vi: "Hỏi?", en: "Ask?" },
+        contentVersion: "v1", drawnAt: "2026-11-16T03:00:00.000Z" };
+      mockFetch.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ drawId, clarifier, replayed: false }) });
+      await expect(requestTarotClarifier(drawId, signedIn)).resolves.toMatchObject({ cardId: "major-01-the-magician", reversed: false, name: { vi: "Nhà Ảo Thuật" } });
+      expect(JSON.parse(String((mockFetch.mock.calls[0][1] as RequestInit).body))).toEqual({ action: "clarify", drawId });
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 409, json: async () => ({ error: "reading_not_ready", drawId }) });
+      await expect(requestTarotClarifier(drawId, signedIn)).rejects.toMatchObject({ reason: "busy", status: 409 });
     });
   });
 
