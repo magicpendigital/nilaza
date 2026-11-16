@@ -74,7 +74,7 @@
     {
       "path": "supabase/functions/ai-astrology-insight/index.ts",
       "reason": "Only server reader of subscriptions; hard-coded premium_astrology_ai with active/trialing.",
-      "sha256": "015ae7bebf22b95e5b90a82e1eccc775eb5bc505e2d9a1eb66d9c5e185a1b68b"
+      "sha256": "23a5851267a3e11ed6d693ed063ba61c097263567ca62ef8c85dbf9208cfaa6c"
     },
     {
       "path": "supabase/functions/_shared/account-tier-policy.ts",
