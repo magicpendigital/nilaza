@@ -136,12 +136,12 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "drawCards, TarotFlow ritual (local selectTarotCards, credit check, reset effect), retry button, start-over, buildTodayPulse seed and reveal key.",
-      "sha256": "0a87d1a6f83d53cd164393dfefaad6ef111d550d13547d07d86c46ebf21214eb"
+      "sha256": "51e65dc077e00b303afff8615188eb91991c4a932303ed2a5d24582b25e6cedf"
     },
     {
       "path": "apps/mobile/src/backendClient.ts",
       "reason": "generateTarotReading, postJson limit handling, provenance parsing with correlation.",
-      "sha256": "66ee6a4e26700ee6839d327237910c62f38177fe629e96e234f71fcad793eb03"
+      "sha256": "6dfce3c38a02b00eeed92bc4a16699e41fa6220cb16c618a920a2023702d3719"
     },
     {
       "path": "apps/mobile/src/features/tarot/randomDraw.ts",
@@ -161,17 +161,17 @@
     {
       "path": "scripts/validate-backend-contracts.mjs",
       "reason": "Strings the Tarot entrypoint must keep.",
-      "sha256": "adc8fd180a4d217e3f7dc9394ba57f78f5542860f12269f735424720b457a990"
+      "sha256": "404406ac01507449c7403b4008905ffe15ceba77017f07bf2615ad292cdf7c7e"
     },
     {
       "path": "scripts/check-supabase-readiness.mjs",
       "reason": "Entrypoint needs serve(async (req) => and CORS.",
-      "sha256": "e10ddea6a2092571a5508dbc303b039eb5ca81771c3dc502749658bb06487682"
+      "sha256": "c0366fa306daa16a334c6ca70074a10f07fff128b58786c15bb24aea9e85fd00"
     },
     {
       "path": "apps/admin/workflow-catalog.js",
       "reason": "Pins LF hashes of the Tarot entrypoint and tarot-prompt.ts; stale source fails admin:check.",
-      "sha256": "ee2fa72e4098fa493d11ec131c5b7eaa0a8f979eaa88abda538d9a7cadd06260"
+      "sha256": "edf1736f61756c73a52789d26c50ed083bc5f1eae9c3adfbdcc891973b7c6ccd"
     },
     {
       "path": "docs/feature-plans/owner-only-publish-2026-11-15.json",

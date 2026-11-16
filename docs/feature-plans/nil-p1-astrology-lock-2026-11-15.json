@@ -104,7 +104,7 @@
     {
       "path": "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
       "reason": "compute(), runAiQuestion error copy, saved chart flow.",
-      "sha256": "25566f3757ca700b9f169f8234fac0d5ff50ebe740f9e942d35f99c8569420c2"
+      "sha256": "13d19ed88f245d802b664d6cc969495edbd47708ffb68a9b9d3dc285c969d025"
     },
     {
       "path": "apps/mobile/src/features/astrology/astrologyAiInsight.ts",
@@ -114,7 +114,7 @@
     {
       "path": "apps/mobile/src/backendClient.ts",
       "reason": "Astrology section: requestAstrologyAiInsight, hard deletes, getAstrologyReports (shared file with Tarot agent).",
-      "sha256": "66ee6a4e26700ee6839d327237910c62f38177fe629e96e234f71fcad793eb03"
+      "sha256": "6dfce3c38a02b00eeed92bc4a16699e41fa6220cb16c618a920a2023702d3719"
     },
     {
       "path": "scripts/ai-answer-endpoints.test.mjs",
@@ -124,7 +124,7 @@
     {
       "path": "scripts/validate-backend-contracts.mjs",
       "reason": "Astrology function string checks read index.ts; extended to handler.ts.",
-      "sha256": "adc8fd180a4d217e3f7dc9394ba57f78f5542860f12269f735424720b457a990"
+      "sha256": "404406ac01507449c7403b4008905ffe15ceba77017f07bf2615ad292cdf7c7e"
     },
     {
       "path": "packages/agent-config/account-tier-policy.json",

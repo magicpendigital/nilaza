@@ -118,7 +118,7 @@
     {
       "path": "apps/admin/workflow-catalog.js",
       "reason": "Holds the LF sha256 of model-router.ts",
-      "sha256": "ee2fa72e4098fa493d11ec131c5b7eaa0a8f979eaa88abda538d9a7cadd06260"
+      "sha256": "edf1736f61756c73a52789d26c50ed083bc5f1eae9c3adfbdcc891973b7c6ccd"
     },
     {
       "path": "scripts/admin-a2-navigation.test.mjs",
