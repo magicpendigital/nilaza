@@ -11,6 +11,7 @@
     "Deno tests for the webhook handler and the helper pass; deno check passes for both functions; backend contract, Supabase readiness, migration ledger, governance and this preflight pass."
   ],
   "writeScope": [
+    "supabase/migrations/20261115090000_revenuecat_entitlements.sql",
     "supabase/migrations/20261116090000_revenuecat_entitlements.sql",
     "supabase/tests/revenuecat_entitlements.sql",
     "supabase/functions/revenuecat-webhook/index.ts",
@@ -164,6 +165,7 @@
       "supabase/functions/revenuecat-webhook/handler.ts",
       "supabase/functions/revenuecat-webhook/handler_test.ts",
       "supabase/functions/revenuecat-webhook/index.ts",
+      "supabase/migrations/20261115090000_revenuecat_entitlements.sql",
       "supabase/migrations/20261116090000_revenuecat_entitlements.sql",
       "supabase/tests/revenuecat_entitlements.sql"
     ]
