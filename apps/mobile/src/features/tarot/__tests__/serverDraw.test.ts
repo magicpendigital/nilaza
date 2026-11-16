@@ -3,6 +3,7 @@ import {
   formatTarotUnlockTime,
   mapServerCards,
   parseTarotClarifier,
+  parseTarotGuestDraw,
   parseTarotServerDraw,
   tarotLimitMessage,
   tarotLockedNote,
@@ -89,6 +90,24 @@ describe("serverDraw", () => {
     expect(note).toContain("0:00 ngày 17/11");
     for (const text of [note, tarotLimitMessage("vi", "draw_cap"), tarotLimitMessage("vi", "deleted"), tarotLimitMessage("vi", "attempts"), tarotLimitMessage("vi", "delivered"), tarotLimitMessage("en", "delivered"), tarotLockedNote("en")]) {
       expect(text).not.toMatch(/streak|chuỗi|mất|lose|lost/i);
+    }
+  });
+
+  it("pack 1: reads whether the account kept the cards the guest saw, false unless the server says true", () => {
+    expect(parseTarotServerDraw(draw)?.guestAdopted).toBe(false);
+    expect(parseTarotServerDraw({ ...draw, guestAdopted: true })?.guestAdopted).toBe(true);
+    expect(parseTarotServerDraw({ ...draw, guestAdopted: "yes" })?.guestAdopted).toBe(false);
+  });
+
+  it("pack 1: validates a guest draw (cards only, no draw id) and refuses anything else", () => {
+    const guest = { status: "guest_draw", spread: "daily-one", topic: "open", lockDate: "2026-11-16", nextDrawAt: "2026-11-16T17:00:00.000Z",
+      cards: [{ id: "major-00-the-fool", positionKey: "daily", reversed: true }] };
+    expect(parseTarotGuestDraw(guest)).toEqual({ spread: "daily-one", topic: "open", lockDate: "2026-11-16", nextDrawAt: "2026-11-16T17:00:00.000Z", cards: guest.cards });
+    expect(parseTarotGuestDraw({ ...guest, nextDrawAt: "soon" })).not.toHaveProperty("nextDrawAt");
+    for (const bad of [null, [], { ...guest, status: "queued" }, { ...guest, lockDate: "16/11" }, { ...guest, cards: [] },
+      { ...guest, cards: [{ id: "a", positionKey: "p", reversed: "no" }] },
+      { ...guest, cards: [{ id: "a", positionKey: "p", reversed: false }, { id: "a", positionKey: "q", reversed: true }] }]) {
+      expect(parseTarotGuestDraw(bad)).toBeNull();
     }
   });
 });

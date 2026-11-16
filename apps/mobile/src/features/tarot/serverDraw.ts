@@ -16,6 +16,8 @@ export type TarotServerDraw = {
   drawId: string;
   status: "queued" | "completed";
   replayed: boolean;
+  /** Pack 1: this new draw kept the cards the signed-out guest saw (the server derived them from the same device id). */
+  guestAdopted: boolean;
   spread: string;
   topic: string;
   lockDate?: string;
@@ -81,11 +83,29 @@ export function parseTarotServerDraw(value: unknown): TarotServerDraw | null {
   const clarifier = item.clarifier === undefined ? undefined : parseTarotClarifier(item.clarifier);
   if (clarifier === null) return null;
   return {
-    drawId: item.drawId, status: item.status, replayed: item.replayed === true, spread: item.spread, topic: item.topic, cards,
+    drawId: item.drawId, status: item.status, replayed: item.replayed === true, guestAdopted: item.guestAdopted === true, spread: item.spread, topic: item.topic, cards,
     ...(typeof item.lockDate === "string" && /^\d{4}-\d{2}-\d{2}$/.test(item.lockDate) ? { lockDate: item.lockDate } : {}),
     ...(isoTime(item.nextDrawAt) ? { nextDrawAt: item.nextDrawAt } : {}),
     ...(clarifier ? { clarifier } : {})
   };
+}
+
+/** A guest draw from tarot-guest-draw (pack 1): the cards of one device, spread, topic and Vietnam day; no draw id, no reading. */
+export type TarotGuestDraw = { spread: string; topic: string; lockDate: string; nextDrawAt?: string; cards: TarotServerCard[] };
+
+export function parseTarotGuestDraw(value: unknown): TarotGuestDraw | null {
+  const item = record(value);
+  if (!item || item.status !== "guest_draw" || !shortString(item.spread, 40) || !shortString(item.topic, 40)) return null;
+  if (typeof item.lockDate !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(item.lockDate)) return null;
+  if (!Array.isArray(item.cards) || item.cards.length < 1 || item.cards.length > 10) return null;
+  const cards: TarotServerCard[] = [];
+  for (const raw of item.cards) {
+    const card = record(raw);
+    if (!card || !shortString(card.id, 80) || !shortString(card.positionKey, 40) || typeof card.reversed !== "boolean") return null;
+    cards.push({ id: card.id, positionKey: card.positionKey, reversed: card.reversed });
+  }
+  if (new Set(cards.map(card => card.id)).size !== cards.length) return null;
+  return { spread: item.spread, topic: item.topic, lockDate: item.lockDate, cards, ...(isoTime(item.nextDrawAt) ? { nextDrawAt: item.nextDrawAt } : {}) };
 }
 
 /** The server cards as app cards, in the server's order, with the spread's position labels; null when any card is unknown. */
