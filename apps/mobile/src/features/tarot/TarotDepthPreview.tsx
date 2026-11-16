@@ -28,7 +28,7 @@ export default function TarotDepthPreview() {
   const result = () => {
     const chosen = ["major-00-fool", "minor-cups-two", "minor-pentacles-eight"].map((id, index) => ({
       ...(cardsData as TarotCard[]).find(item => item.id === id)!, reversed: false,
-      spread: (language === "vi" ? ["Tình huống", "Thử thách", "Gợi mở"] : ["Situation", "Challenge", "Reflection"])[index],
+      spread: (language === "vi" ? ["Tình huống", "Thử thách", "Lời nhắc"] : ["Situation", "Challenge", "Advice"])[index],
     }));
     setSpread("situation-challenge-advice");
     const output = buildTarotReadingResult(deck, "self", "situation-challenge-advice", question, chosen, {

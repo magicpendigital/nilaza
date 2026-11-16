@@ -39,8 +39,8 @@ function memoryStore(clock: () => Date) {
         return { status: "existing", reading: visible(existing) };
       }
       if ([...rows.values()].filter(row => row.user_id === input.userId && row.lock_date === input.lockDate).length >= input.drawCap) return { status: "limit", reason: "draw_cap" };
-      if (delivered(input.userId, input.dayStart) >= input.deliveredLimit) return { status: "limit", reason: "delivered" };
-      if (attemptCount(input.userId, input.dayStart) >= input.attemptLimit) return { status: "limit", reason: "attempts" };
+      // Tarot v2 pack 0 (Owner 2026-11-16): like the SQL, a draw applies only the draw cap; delivered and attempt limits
+      // belong to interpretClaim.
       sequence += 1;
       const id = `00000000-0000-4000-8000-${String(sequence).padStart(12, "0")}`;
       const row = {
@@ -124,7 +124,7 @@ const goodAnswer = (cardIds: string[]) => JSON.stringify({
   sections: [{ key: "card", title: { en: "Card", vi: "Lá bài" }, body: { en: "Notice one small, reversible step.", vi: "Hãy để ý một bước nhỏ." }, cardIds }]
 });
 
-function setup(options: { now?: string; random?: RandomFill; paused?: boolean; quotaDaily?: number; user?: string | null } = {}) {
+function setup(options: { now?: string; random?: RandomFill; paused?: boolean; quotaDaily?: number; user?: string | null; premiumOnSale?: boolean; tier?: "premium" | "free" | "error" } = {}) {
   let now = new Date(options.now ?? NOON_VN);
   const clock = () => now;
   const memory = memoryStore(clock);
@@ -136,6 +136,7 @@ function setup(options: { now?: string; random?: RandomFill; paused?: boolean; q
   let paused = options.paused ?? false;
   let user = options.user === undefined ? USER : options.user;
   let tokenSequence = 0;
+  let tierReads = 0;
   const deps = (): TarotDeps => ({
     authenticate: async () => user ? { id: user, isAnonymous: false } : null,
     store: memory.store,
@@ -158,10 +159,11 @@ function setup(options: { now?: string; random?: RandomFill; paused?: boolean; q
       };
       return result;
     },
-    writeReceipt: async input => { receipts.push(input); return { receiptId: "00000000-0000-4000-8000-0000000000aa" }; }
+    writeReceipt: async input => { receipts.push(input); return { receiptId: "00000000-0000-4000-8000-0000000000aa" }; },
+    readTier: async () => { tierReads += 1; if (options.tier === "error") throw new Error("tier_unavailable"); return options.tier ?? "free"; }
   });
   const handler = createTarotHandler(() => deps(), {
-    now: clock, random: options.random, claimToken: () => `00000000-0000-4000-9000-${String(++tokenSequence).padStart(12, "0")}`
+    now: clock, random: options.random, premiumOnSale: () => options.premiumOnSale === true, claimToken: () => `00000000-0000-4000-9000-${String(++tokenSequence).padStart(12, "0")}`
   });
   const call = async (body: Record<string, unknown>) => {
     const response = await handler(new Request("https://x.test/ai-tarot-reading", {
@@ -172,7 +174,7 @@ function setup(options: { now?: string; random?: RandomFill; paused?: boolean; q
   const draw = (extra: Record<string, unknown> = {}) => call({ action: "draw", language: "en", deck, spread: "daily-one", topic: "self", question: "What should I notice?", ...extra });
   const interpret = (drawId: string, extra: Record<string, unknown> = {}) => call({ action: "interpret", drawId, ...extra });
   return {
-    ...memory, generations, finalizations, receipts, call, draw, interpret,
+    ...memory, generations, finalizations, receipts, call, draw, interpret, tierReads: () => tierReads,
     reply: (...values: Reply[]) => { replies.push(...values); },
     hold: () => { let release!: () => void; gate = new Promise(resolve => { release = resolve; }); return () => { gate = null; release(); }; },
     setNow: (value: string) => { now = new Date(value); },
@@ -303,30 +305,64 @@ Deno.test("draw: a rephrased question with the same topic gets the old draw and 
   assertEquals(t.generations.length, 1);
 });
 
-Deno.test("draw: a different topic or spread is a new draw, within the soft cap and the delivered readings", async () => {
-  // Free policy: 1 delivered reading a day, so no second draw that day (no more than before P1-A).
+Deno.test("draw: a different topic or spread is a new draw within the soft cap, whatever the AI allowance (Tarot v2 pack 0)", async () => {
+  // Free policy: 1 delivered AI reading a day. The AI allowance no longer limits drawing (Owner 2026-11-16, Q1).
   const free = setup();
   const first = await free.draw({ topic: "love" });
   await free.interpret(first.body.drawId);
+  assertEquals(free.generations.length, 1);
   const otherTopic = await free.draw({ topic: "career" });
-  assertEquals(otherTopic.status, 429);
-  assertEquals(otherTopic.body.error, "daily_limit_reached");
-  assertEquals(otherTopic.body.reason, "draw_cap");
-  assertEquals(otherTopic.body.nextDrawAt, "2026-11-15T17:00:00.000Z");
-  // With more readings configured, a new topic/spread is a new draw, capped at 3 a day.
-  const t = setup({ quotaDaily: 5 });
-  const love = await t.draw({ topic: "love" });
-  const career = await t.draw({ topic: "career" });
-  const spread = await t.draw({ topic: "love", spread: "past-present-future" });
-  assertEquals(new Set([love.body.drawId, career.body.drawId, spread.body.drawId]).size, 3);
+  assertEquals(otherTopic.status, 200, "a draw costs no model call, so the used AI reading does not block it");
+  assertEquals(otherTopic.body.status, "queued");
+  assertEquals(free.generations.length, 1, "a draw never calls the model");
+  // The AI allowance still stops the second interpretation: delivered limit applies in interpret, not in draw.
+  const second = await free.interpret(otherTopic.body.drawId);
+  assertEquals(second.status, 429);
+  assertEquals(second.body.reason, "delivered");
+  assertEquals(free.generations.length, 1);
+  // The soft cap of 3 draws a day is the only draw limit: love, career and a third, then 429 draw_cap.
+  const spread = await free.draw({ topic: "love", spread: "past-present-future" });
+  assertEquals(spread.status, 200);
   assertEquals(spread.body.cards.length, 3);
-  const fourth = await t.draw({ topic: "decision" });
+  const fourth = await free.draw({ topic: "decision" });
   assertEquals(fourth.status, 429);
+  assertEquals(fourth.body.error, "daily_limit_reached");
   assertEquals(fourth.body.reason, "draw_cap");
-  // The same event still answers within the cap.
-  assertEquals((await t.draw({ topic: "career" })).body.drawId, career.body.drawId);
+  assertEquals(fourth.body.nextDrawAt, "2026-11-15T17:00:00.000Z");
+  // The same event still answers within the cap, including after the cap is reached.
+  assertEquals((await free.draw({ topic: "career" })).body.drawId, otherTopic.body.drawId);
+  assertEquals((await free.draw({ topic: "love" })).body.drawId, first.body.drawId);
   // Unknown topic text is refused, not turned into a fresh key.
-  assertEquals((await t.draw({ topic: "my secret question" })).status, 400);
+  assertEquals((await free.draw({ topic: "my secret question" })).status, 400);
+  // A configured higher AI quota changes nothing about drawing.
+  const t = setup({ quotaDaily: 5 });
+  const ids = [(await t.draw({ topic: "love" })).body.drawId, (await t.draw({ topic: "career" })).body.drawId, (await t.draw({ topic: "love", spread: "past-present-future" })).body.drawId];
+  assertEquals(new Set(ids).size, 3);
+  assertEquals((await t.draw({ topic: "decision" })).body.reason, "draw_cap");
+});
+
+Deno.test("draw: a Premium deck needs a Premium account only while Premium is on sale; the tier is read on the server", async () => {
+  const premiumDeck = { id: "golden-thread" };
+  // Not on sale (closed test, today): every deck draws and the tier is not even read.
+  const notOnSale = setup({ tier: "free" });
+  assertEquals((await notOnSale.draw({ deck: premiumDeck })).status, 200);
+  assertEquals(notOnSale.tierReads(), 0);
+  // On sale, Free account: the Premium deck is refused before any store work, a free deck still draws.
+  const onSale = setup({ premiumOnSale: true, tier: "free" });
+  const refused = await onSale.draw({ deck: premiumDeck });
+  assertEquals(refused.status, 403);
+  assertEquals(refused.body.error, "premium_required");
+  assertEquals(onSale.rows.size, 0);
+  assertEquals((await onSale.draw({ deck: { id: "rose-mirror" } })).status, 200);
+  // The slug is checked too, not only the id.
+  assertEquals((await onSale.draw({ deck: { slug: "star-seeker" } })).status, 403);
+  // On sale, Premium account: it draws.
+  const premium = setup({ premiumOnSale: true, tier: "premium" });
+  assertEquals((await premium.draw({ deck: premiumDeck })).status, 200);
+  // On sale and the tier cannot be read: fail closed with a service error, never a free pass.
+  const broken = setup({ premiumOnSale: true, tier: "error" });
+  assertEquals((await broken.draw({ deck: premiumDeck })).status, 503);
+  assertEquals(broken.rows.size, 0);
 });
 
 Deno.test("draw: crossing 0h UTC+7 gives a new key and a new draw", async () => {

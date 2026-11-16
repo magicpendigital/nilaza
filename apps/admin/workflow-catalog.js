@@ -280,7 +280,7 @@
   },
   {
     "path": "apps/mobile/App.tsx",
-    "sha256": "b324aa2c8133c0a488df6998c966e063aeda0f11ebd385b5a041f6b406080e58"
+    "sha256": "57114eff9e9e92fa2c792a3f8079b273ee626ca81e906a8665c4883aff525821"
   },
   {
     "path": "docs/FEATURE_PRD.md",
@@ -360,7 +360,7 @@
   },
   {
     "path": "supabase/functions/_shared/tarot-prompt.ts",
-    "sha256": "cf17623b7e499906d7cdc2493fbcdc87cd56116a1ce1108e1f722e0104d45c38"
+    "sha256": "acef7e9b0c04cd18fc5311b2132768ab6c495b8f2a44be0208806a92ae89b628"
   },
   {
     "path": "supabase/functions/ai-astrology-insight/handler.ts",
@@ -400,11 +400,11 @@
   },
   {
     "path": "supabase/functions/ai-tarot-reading/handler.ts",
-    "sha256": "569ca7d9a925b920e4361d548c69e72d1c7d4120746dce6f41ccc3d138620d98"
+    "sha256": "2e580e6d5c1631771a2959039271fdf4d48568c2a75feed3f8eaaa32ae7a55e3"
   },
   {
     "path": "supabase/functions/ai-tarot-reading/index.ts",
-    "sha256": "5d8c822d4fa25508db81f1ebc950679f225aa4c6aae60059ad4624c35507df17"
+    "sha256": "508e54e0003b0e77be22c17b30acf12ee281addc7eada355f52dcdc37dfb4967"
   },
   {
     "path": "supabase/functions/ai-tarot-reading/store.ts",

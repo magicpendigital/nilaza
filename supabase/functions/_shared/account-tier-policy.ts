@@ -5,6 +5,8 @@ export type PolicyMode = "all_premium" | "new_account_trial" | "free";
 export type TierPolicy = {
   mode: PolicyMode;
   trialHours: number;
+  /** False while nothing is sold: no deck is locked to Premium. Same flag as the app's premiumOnSale. */
+  premiumOnSale?: boolean;
   astrologyAi: { dailyLimit: number; dayOffsetMinutes: number };
   council?: { dailyCouncils: number; followUpsPerCouncil: number };
   dailyInsight?: { dailyLimit: number };
