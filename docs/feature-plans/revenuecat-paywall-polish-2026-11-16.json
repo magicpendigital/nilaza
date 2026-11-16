@@ -82,7 +82,7 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Locked deck and guide copy, lock panels and openPremium wiring.",
-      "sha256": "b8723c29d31c143755311d5d15afca3b61cd0f84ed37e4037a9dc4fbed6bdbad"
+      "sha256": "14bd77237146b6e8b30d283eb15fdcfb692bde486bb03c870a1c24514cd3eac5"
     },
     {
       "path": "apps/mobile/src/features/chat/ChatHub.tsx",
@@ -102,7 +102,7 @@
     {
       "path": "apps/mobile/src/__tests__/userFacingCopy.test.ts",
       "reason": "Bans the vendor name and fixed prices in screen text.",
-      "sha256": "5dc0d518819b66926bfcd217c56389fecd2e8f6e8d40f8504f49a293abf9d4b6"
+      "sha256": "96d323ae09a65bd570a365fd20c65cb3e4335242cd9c2850fd31488a0a3a67f8"
     }
   ],
   "skillReview": [
