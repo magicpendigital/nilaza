@@ -5,13 +5,19 @@ locale: vi
 slug: account-notifications
 category: Tài khoản
 order: 6
-updatedAt: 2026-09-20
+updatedAt: 2026-11-16
 status: beta
 ---
 
 ## Tài khoản và khôi phục
 
 Các luồng xác thực online và khôi phục mật khẩu đang được kiểm thử cho đợt production pilot. Nếu liên kết khôi phục đã hết hạn, hãy yêu cầu liên kết mới thay vì chia sẻ mã hoặc token với người khác.
+
+## Gói Premium và tài khoản
+
+Gói Premium gắn với tài khoản Nilaza bạn đăng nhập khi mua. Đăng nhập cùng tài khoản trên máy mới rồi chọn **Khôi phục giao dịch mua** để dùng lại gói. Gói được quản lý và hủy trong **Google Play → Thanh toán và gói đăng ký → Gói đăng ký**.
+
+Xóa tài khoản Nilaza **không tự hủy** gói đăng ký trên Google Play. Hãy hủy gói trước, rồi xem [Xóa tài khoản và dữ liệu](/vi/account-deletion).
 
 ## Hộp thư trong ứng dụng
 

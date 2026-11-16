@@ -2,6 +2,7 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.7.1";
 import { aiAuthUserOrUnavailable } from "../_shared/ai-request-guard.ts";
 import { createAccountDeleteHandler } from "./handler.ts";
+import { createRevenueCatCustomerDeleter } from "./billing.ts";
 
 // Deploy with verify_jwt = true (see supabase/config.toml). The service-role key stays inside this
 // function; the signed-in person only proves who they are with their own access token.
@@ -13,7 +14,10 @@ const handler = createAccountDeleteHandler(req => {
   const options = { auth: { persistSession: false, autoRefreshToken: false } };
   const userClient = createClient(url, anonKey, { ...options, global: { headers: { Authorization: req.headers.get("Authorization") ?? "" } } });
   const admin = createClient(url, serviceKey, options);
+  // RevenueCat secret API key (server only). Empty means billing is not switched on: the step is skipped.
+  const deleteBillingCustomer = createRevenueCatCustomerDeleter(Deno.env.get("REVENUECAT_API_KEY"));
   return {
+    ...(deleteBillingCustomer ? { deleteBillingCustomer } : {}),
     authenticate: async token => {
       const { data, error } = await userClient.auth.getUser(token);
       return aiAuthUserOrUnavailable(data?.user, error);

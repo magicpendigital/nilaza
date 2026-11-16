@@ -1,6 +1,6 @@
 {
   "schema_version": "nilaza.public-help-corpus.v1",
-  "content_updated_at": "2026-10-11",
+  "content_updated_at": "2026-11-16",
   "audience": "public",
   "allowed_source_roots": [
     "apps/web/src/content/help",
@@ -30,11 +30,11 @@
     "unknown_answer": "Say that the public guides do not contain the answer and link to the closest relevant guide."
   },
   "locale_counts": {
-    "en": 11,
-    "vi": 11
+    "en": 12,
+    "vi": 12
   },
-  "document_count": 22,
-  "chunk_count": 62,
+  "document_count": 24,
+  "chunk_count": 86,
   "documents": [
     {
       "document_id": "help:en:account-notifications",
@@ -42,11 +42,11 @@
       "locale": "en",
       "slug": "account-notifications",
       "title": "Account, recovery, and notifications",
-      "updated_at": "2026-09-20",
+      "updated_at": "2026-11-16",
       "public_url_path": "/en/help/account-notifications",
       "source_path": "apps/web/src/content/help/en/account-notifications.md",
-      "checksum_sha256": "dd399a268e3f6cfd9a2f4ec7adef2ff8afdf1611b9fdce66d72e519f48e5a1f6",
-      "chunk_count": 3
+      "checksum_sha256": "e690f8737b6c2e168d7bf642dd28a6b0c64f6ffc2bec758a8b3009b3d54be04e",
+      "chunk_count": 4
     },
     {
       "document_id": "help:en:astrology-premium",
@@ -54,11 +54,11 @@
       "locale": "en",
       "slug": "astrology-premium",
       "title": "Astrology, the zodiac library, and Premium",
-      "updated_at": "2026-10-11",
+      "updated_at": "2026-11-16",
       "public_url_path": "/en/help/astrology-premium",
       "source_path": "apps/web/src/content/help/en/astrology-premium.md",
-      "checksum_sha256": "b3d2c85cfb2d7904d25576d28844f1fe055aa1d86cb12f54c730b3ed2a050ee3",
-      "chunk_count": 3
+      "checksum_sha256": "68dd27c08e7107cc82c75d5536221d4ca9a958a9bc3c8893532b7411f3da8e76",
+      "chunk_count": 4
     },
     {
       "document_id": "help:en:beta-waitlist",
@@ -138,11 +138,11 @@
       "locale": "vi",
       "slug": "account-notifications",
       "title": "Tài khoản, khôi phục và thông báo",
-      "updated_at": "2026-09-20",
+      "updated_at": "2026-11-16",
       "public_url_path": "/vi/help/account-notifications",
       "source_path": "apps/web/src/content/help/vi/account-notifications.md",
-      "checksum_sha256": "17d4d85a054e9fc893dd60c2998e05f03d1e76213604a5b863fc3b4872c8b4ac",
-      "chunk_count": 3
+      "checksum_sha256": "b900f1a814b8eef3602c89c7a72d9f6145b8cabdd389a546f41d9ef317f1540b",
+      "chunk_count": 4
     },
     {
       "document_id": "help:vi:astrology-premium",
@@ -150,11 +150,11 @@
       "locale": "vi",
       "slug": "astrology-premium",
       "title": "Chiêm tinh, thư viện 12 cung và Premium",
-      "updated_at": "2026-10-11",
+      "updated_at": "2026-11-16",
       "public_url_path": "/vi/help/astrology-premium",
       "source_path": "apps/web/src/content/help/vi/astrology-premium.md",
-      "checksum_sha256": "69206a608ca40cae700b657536043a1687c0df55aa6e1de84bd544f2ce20f40e",
-      "chunk_count": 3
+      "checksum_sha256": "6d90bb994fad5f56a1b4d19bc51de630c2937acbe115a429ec9923170ab24490",
+      "chunk_count": 4
     },
     {
       "document_id": "help:vi:beta-waitlist",
@@ -229,16 +229,28 @@
       "chunk_count": 2
     },
     {
+      "document_id": "legal:en:account-deletion",
+      "kind": "legal",
+      "locale": "en",
+      "slug": "account-deletion",
+      "title": "Delete your account and data",
+      "updated_at": "2026-11-16",
+      "public_url_path": "/en/account-deletion",
+      "source_path": "apps/web/src/content/legal/en/account-deletion.md",
+      "checksum_sha256": "e3912d15e9cd4653fc0f51943d48e553481f63de83b25c18102e3a431a4def38",
+      "chunk_count": 5
+    },
+    {
       "document_id": "legal:en:privacy",
       "kind": "legal",
       "locale": "en",
       "slug": "privacy",
       "title": "Privacy",
-      "updated_at": "2026-10-11",
+      "updated_at": "2026-11-16",
       "public_url_path": "/en/privacy",
       "source_path": "apps/web/src/content/legal/en/privacy.md",
-      "checksum_sha256": "658bd57ed12432746ee297bbc9202dd76759df95892c242a71c62447a38d71f6",
-      "chunk_count": 3
+      "checksum_sha256": "d49dddff30ef4ddb22abc2fb78feee0de4b80c19ba3c2db0f50a43d9a528398b",
+      "chunk_count": 5
     },
     {
       "document_id": "legal:en:safety",
@@ -258,11 +270,23 @@
       "locale": "en",
       "slug": "terms",
       "title": "Terms of use",
-      "updated_at": "2026-09-10",
+      "updated_at": "2026-11-16",
       "public_url_path": "/en/terms",
       "source_path": "apps/web/src/content/legal/en/terms.md",
-      "checksum_sha256": "4d14aa1ecef57bf066acd6601af8bf3499f2b19cfbdf390a6f98d68aecb6ae6f",
-      "chunk_count": 3
+      "checksum_sha256": "23316867e1d83cab51f3117e4129424a178f07b161fbe4deebb20248526a3754",
+      "chunk_count": 6
+    },
+    {
+      "document_id": "legal:vi:account-deletion",
+      "kind": "legal",
+      "locale": "vi",
+      "slug": "account-deletion",
+      "title": "Xóa tài khoản và dữ liệu",
+      "updated_at": "2026-11-16",
+      "public_url_path": "/vi/account-deletion",
+      "source_path": "apps/web/src/content/legal/vi/account-deletion.md",
+      "checksum_sha256": "ad5750360649845a626a31ada731775e6b07b131af634733333d712116a89aaa",
+      "chunk_count": 5
     },
     {
       "document_id": "legal:vi:privacy",
@@ -270,11 +294,11 @@
       "locale": "vi",
       "slug": "privacy",
       "title": "Quyền riêng tư",
-      "updated_at": "2026-10-11",
+      "updated_at": "2026-11-16",
       "public_url_path": "/vi/privacy",
       "source_path": "apps/web/src/content/legal/vi/privacy.md",
-      "checksum_sha256": "3bc7d42ca5c43e4672c8cbe5d10cc0b10e920d29d9af77c5b5bd82fcfb69fee6",
-      "chunk_count": 3
+      "checksum_sha256": "afa8a45e54357eb10449e4cb1dcf8132f87a158a2612886aad232187bd9d594b",
+      "chunk_count": 5
     },
     {
       "document_id": "legal:vi:safety",
@@ -294,11 +318,11 @@
       "locale": "vi",
       "slug": "terms",
       "title": "Điều khoản sử dụng",
-      "updated_at": "2026-09-10",
+      "updated_at": "2026-11-16",
       "public_url_path": "/vi/terms",
       "source_path": "apps/web/src/content/legal/vi/terms.md",
-      "checksum_sha256": "f72272ab9fb1e24bc2673d4ad87e155be18b78e6950a1368ab43b546dfcb42e8",
-      "chunk_count": 3
+      "checksum_sha256": "196718ec4c26e156cf2f934a9b2133386975c1c0b36138e14b32246d919e5e75",
+      "chunk_count": 6
     }
   ]
 }

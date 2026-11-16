@@ -1,0 +1,237 @@
+{
+  "schemaVersion": 1,
+  "taskId": "revenuecat-account-deletion-legal-2026-11-16",
+  "ownerAgent": "backend_agent",
+  "lane": "Billing lot 3: account deletion removes the billing customer, the delete screen explains Google Play cancellation, legal/help pages and the Play Data safety worksheet describe paid Premium",
+  "goal": "Close the account-deletion and disclosure gaps left by billing lots 1 and 2. account-delete also deletes the RevenueCat customer (REST API v1 DELETE /subscribers/{app_user_id}) when the server key is configured, fails closed and retryable when that call fails, and skips the step when billing is not configured. The in-app Delete account screen says plainly that deleting the account does not cancel a Google Play subscription and links to the Play subscriptions page. Terms, Privacy, Account deletion and the Premium help pages describe the real paid plan (monthly or yearly through Google Play, auto-renew, cancel in Google Play, refunds under Google Play policy, Premium tied to the Nilaza account, billing processor and subscription-management provider). A Vietnamese worksheet lists what the Owner must declare in Play Console Data safety and the store listing.",
+  "successCriteria": [
+    "account-delete calls deleteBillingCustomer after nilaza_account_delete_purge and before auth.admin.deleteUser; with no REVENUECAT_API_KEY the step is skipped and deletion completes; a 2xx or 404 counts as done; a non-2xx answer, network error or 8 second timeout records billing_delete_failed and answers 502 deletion_incomplete retry true without deleting the auth user; neither the key nor the user id appears in any response or log.",
+    "Deno tests cover configured, unconfigured, 404, 500, timeout, thrown error, order and no key leak; the REST call itself is unit-tested with an injected fetch (URL encoding, Bearer header, DELETE method, abort).",
+    "DeleteAccountBillingNotice shows a short neutral line for everyone and a stronger warning for an active Premium account, both pointing to Google Play > Payments & subscriptions > Subscriptions, with a link button that opens playSubscriptionsUrl imported from PaywallPanel; no screen text names the vendor; DeleteAccountPanel renders it below the explanation through an optional notice prop; App.tsx changes one line.",
+    "Terms, Privacy, Account deletion (vi/en) and the astrology-premium and account-notifications help pages (vi/en) describe the paid plan truthfully, without fixed prices or promises Nilaza does not control; dates updated; validate:public-content and the help corpus check pass after regenerating the corpus.",
+    "docs/release/PLAY_DATA_SAFETY_BILLING_2026-11-16.vi.md lists Data safety entries, store listing subscription text, the Play subscriptions policy checklist and what is not verified.",
+    "deno test, validate:backend, supabase:check, mobile tsc and jest, validate:governance, admin workflow catalog and this preflight pass."
+  ],
+  "writeScope": [
+    "supabase/functions/account-delete/handler.ts",
+    "supabase/functions/account-delete/handler_test.ts",
+    "supabase/functions/account-delete/index.ts",
+    "supabase/functions/account-delete/billing.ts",
+    "supabase/functions/account-delete/billing_test.ts",
+    "supabase/functions/README.md",
+    "scripts/validate-backend-contracts.mjs",
+    "scripts/check-supabase-readiness.mjs",
+    "apps/admin/workflow-catalog.js",
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/billing/DeleteAccountBillingNotice.tsx",
+    "apps/mobile/src/features/billing/__tests__/DeleteAccountBillingNotice.test.tsx",
+    "apps/mobile/src/features/profile/DeleteAccountPanel.tsx",
+    "apps/mobile/src/__tests__/userFacingCopy.test.ts",
+    "apps/web/src/content/legal/vi/terms.md",
+    "apps/web/src/content/legal/en/terms.md",
+    "apps/web/src/content/legal/vi/privacy.md",
+    "apps/web/src/content/legal/en/privacy.md",
+    "apps/web/src/content/legal/vi/account-deletion.md",
+    "apps/web/src/content/legal/en/account-deletion.md",
+    "apps/web/src/content/help/vi/astrology-premium.md",
+    "apps/web/src/content/help/en/astrology-premium.md",
+    "apps/web/src/content/help/vi/account-notifications.md",
+    "apps/web/src/content/help/en/account-notifications.md",
+    "packages/content/generated/public-help-corpus/corpus.jsonl",
+    "packages/content/generated/public-help-corpus/manifest.json",
+    "docs/release/PLAY_DATA_SAFETY_BILLING_2026-11-16.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "No SQL and no migration change: the billing step lives in the Edge Function only; nilaza_account_delete_finish already accepts any coarse error code.",
+    "No Edge Function deploy and no secret is set or read; REVENUECAT_API_KEY (RevenueCat secret API key) is set by the Owner when account-delete is deployed.",
+    "apps/mobile/src/features/billing/PaywallPanel.tsx is not edited (another agent owns it); only its exported playSubscriptionsUrl is imported.",
+    "packages/agent-config/account-tier-policy.json, PLAN.md and the RevenueCat webhook are not edited; no EAS build or store release."
+  ],
+  "impact": {
+    "entryPoint": "Me > Account > Delete account screen; account-delete Edge Function; public Terms, Privacy, Account deletion and Help pages.",
+    "dataWrite": "After an approved deploy with the key: one DELETE request to RevenueCat per deletion, which permanently removes that customer's purchase history at RevenueCat. No database schema change; the existing finish RPC records billing_delete_failed as a coarse error code.",
+    "backendContract": "account-delete keeps its request and response shapes; a billing failure uses the existing 502 deletion_incomplete retry true answer.",
+    "adminVisibility": "No Admin behaviour change; the App.tsx digest in the Admin workflow catalog is refreshed.",
+    "privacySafety": "Deleting the account now also erases the billing customer record at the subscription-management provider. The delete screen and policy pages state that a Google Play subscription must be cancelled in Google Play. No payment card data is handled by Nilaza.",
+    "observability": "The function logs nothing new; the failure is visible only as the coarse finish error code billing_delete_failed.",
+    "rollback": "Revert the commit; with no REVENUECAT_API_KEY in the function environment the step is already inert."
+  },
+  "canonicalContracts": [
+    "supabase/functions/account-delete/handler.ts createAccountDeleteHandler and DeletionDeps",
+    "RevenueCat REST API v1 DELETE https://api.revenuecat.com/v1/subscribers/{app_user_id}",
+    "apps/mobile/src/features/billing/PaywallPanel.tsx playSubscriptionsUrl"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "SQL, deploy, secrets and release need Owner approval.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Backend, mobile and public content routes and checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "supabase/functions/account-delete/handler.ts",
+      "reason": "Deletion order, fail-closed steps and coarse finish codes.",
+      "sha256": "2419a79cc4299757d3a92780eff57c3a88e27eb08a8d92354c3ebbd679c1279c"
+    },
+    {
+      "path": "supabase/functions/account-delete/index.ts",
+      "reason": "Dependencies are built from the function environment.",
+      "sha256": "4ca5b7e5a64d3debebd4329a6d5134364b94dc07375254e87acb10d44fe2e258"
+    },
+    {
+      "path": "apps/mobile/src/features/profile/DeleteAccountPanel.tsx",
+      "reason": "Delete account screen that hosts the notice.",
+      "sha256": "45174f45ac8926cc21524eee6ee73d159d5b13c69666733561fa73d972203cdb"
+    },
+    {
+      "path": "apps/mobile/src/features/billing/PaywallPanel.tsx",
+      "reason": "Read only: playSubscriptionsUrl and the paywall wording on renewal and cancellation.",
+      "sha256": "eb793777ae5aec251b7f4208787352067fc6a5001ed4c6da709a274dd06a10da"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "ProfileScreen renders DeleteAccountPanel and already receives the premium state.",
+      "sha256": "b324aa2c8133c0a488df6998c966e063aeda0f11ebd385b5a041f6b406080e58"
+    },
+    {
+      "path": "apps/web/src/content/legal/vi/account-deletion.md",
+      "reason": "Public deletion page listed in Play Console.",
+      "sha256": "ad5750360649845a626a31ada731775e6b07b131af634733333d712116a89aaa"
+    },
+    {
+      "path": "apps/web/src/content/legal/vi/terms.md",
+      "reason": "Terms say Premium is still in beta; no paid plan terms.",
+      "sha256": "196718ec4c26e156cf2f934a9b2133386975c1c0b36138e14b32246d919e5e75"
+    },
+    {
+      "path": "apps/web/src/content/legal/vi/privacy.md",
+      "reason": "Privacy page lists no billing processor.",
+      "sha256": "afa8a45e54357eb10449e4cb1dcf8132f87a158a2612886aad232187bd9d594b"
+    },
+    {
+      "path": "apps/web/src/content/help/vi/astrology-premium.md",
+      "reason": "Help says payment is not yet a commitment.",
+      "sha256": "6d90bb994fad5f56a1b4d19bc51de630c2937acbe115a429ec9923170ab24490"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before edits; deploy, the RevenueCat secret and Play Console declarations left to the Owner; verified versus unverified stated in the hand-off."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Public legal and help copy kept plain and calm (Open Reflection voice), no spiritual outcome promises; validate:public-content run."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "RevenueCat customer deletion endpoint, response codes and the fact that deleting a customer does not cancel store subscriptions, plus Google Play subscription and Data safety rules, were checked against current vendor documentation on 2026-11-16. No package is added."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://www.revenuecat.com/docs/api-v1/customers",
+      "reason": "DELETE /v1/subscribers/{app_user_id} permanently deletes a customer, deletion is queued asynchronously, 200 returns {app_user_id, deleted: true}, 404 when the customer does not exist (treat 404 after 200 as gone). Bearer authentication; the v1 API overview reserves sensitive actions for a secret API key used from a server.",
+      "checkedAt": "2026-11-16"
+    },
+    {
+      "url": "https://www.revenuecat.com/docs/dashboard-and-metrics/customer-history/manage-users",
+      "reason": "Deleting a user does not cancel mobile store subscriptions and removes all purchase history (sandbox and production); Google Play subscriptions can be cancelled first through the API. Page body read through search excerpts on 2026-11-16 because a direct fetch returned 404.",
+      "checkedAt": "2026-11-16"
+    },
+    {
+      "url": "https://www.revenuecat.com/blog/engineering/app-store-account-deletion",
+      "reason": "Deleting a customer does not change the Apple or Google subscription; a still-active subscriber who keeps using the app is re-created as an anonymous customer.",
+      "checkedAt": "2026-11-16"
+    },
+    {
+      "url": "https://support.google.com/googleplay/android-developer/answer/10787469",
+      "reason": "Play Data safety form: data types such as User IDs and Purchase history, sharing with service providers, encryption in transit, deletion requests.",
+      "checkedAt": "2026-11-16"
+    },
+    {
+      "url": "https://support.google.com/googleplay/android-developer/answer/9900533",
+      "reason": "Play Subscriptions policy: disclose cost and billing frequency without understating the price, auto-renewal, how to cancel, an easy online cancel method in the app (link to the Play subscription center); cancelled subscriptions usually run to the end of the period without refund, local law may differ.",
+      "checkedAt": "2026-11-16"
+    },
+    {
+      "url": "https://support.google.com/googleplay/android-developer/answer/140504",
+      "reason": "Create and manage subscriptions: offer terms, benefit text without prices or trials, renewal until cancelled, account hold removes access.",
+      "checkedAt": "2026-11-16"
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No RLS or grant change. The billing delete runs inside the authenticated account-delete function for the user id taken from the verified token only, after the database purge and before the auth user is removed.",
+    "sensitiveData": "Only the Supabase user id is sent to RevenueCat (already its app user id). No payment data is handled.",
+    "secretsLogging": "REVENUECAT_API_KEY is read from the function environment only, sent only in the Authorization header to api.revenuecat.com, never logged, echoed or stored; tests assert it never appears in responses or finish codes. The agent does not read or set it.",
+    "externalInput": "The RevenueCat answer is reduced to ok (2xx or 404) or failure; its body is not read. An 8 second AbortController timeout bounds the call.",
+    "dependencies": "No package added; global fetch and AbortController only.",
+    "migrationRelease": "No SQL. The Owner deploys account-delete and sets REVENUECAT_API_KEY (secret key) after approval; until then the step is skipped.",
+    "stopCondition": "Stop if a Deno test, a validator or the mobile suite fails, or if the billing step would need a schema change.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record written and preflight passed before the first edit (2026-11-16); paths list every file changed or added by Lo 3 and sourceReview digests were refreshed after the edits.",
+    "paths": [
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/__tests__/userFacingCopy.test.ts",
+      "apps/mobile/src/features/profile/DeleteAccountPanel.tsx",
+      "apps/web/src/content/help/en/account-notifications.md",
+      "apps/web/src/content/help/en/astrology-premium.md",
+      "apps/web/src/content/help/vi/account-notifications.md",
+      "apps/web/src/content/help/vi/astrology-premium.md",
+      "apps/web/src/content/legal/en/account-deletion.md",
+      "apps/web/src/content/legal/en/privacy.md",
+      "apps/web/src/content/legal/en/terms.md",
+      "apps/web/src/content/legal/vi/account-deletion.md",
+      "apps/web/src/content/legal/vi/privacy.md",
+      "apps/web/src/content/legal/vi/terms.md",
+      "packages/content/generated/public-help-corpus/corpus.jsonl",
+      "packages/content/generated/public-help-corpus/manifest.json",
+      "scripts/check-supabase-readiness.mjs",
+      "scripts/validate-backend-contracts.mjs",
+      "supabase/functions/README.md",
+      "supabase/functions/account-delete/handler.ts",
+      "supabase/functions/account-delete/handler_test.ts",
+      "supabase/functions/account-delete/index.ts",
+      "apps/mobile/src/features/billing/DeleteAccountBillingNotice.tsx",
+      "apps/mobile/src/features/billing/__tests__/DeleteAccountBillingNotice.test.tsx",
+      "docs/release/PLAY_DATA_SAFETY_BILLING_2026-11-16.vi.md",
+      "supabase/functions/account-delete/billing.ts",
+      "supabase/functions/account-delete/billing_test.ts"
+    ]
+  },
+  "validationCommands": [
+    "npx --yes deno@2 test --allow-env --allow-net supabase/functions/account-delete",
+    "npx --yes deno@2 check supabase/functions/account-delete/index.ts",
+    "npm run validate:backend",
+    "npm run supabase:check",
+    "npx tsc --noEmit -p apps/mobile",
+    "npm --workspace apps/mobile test",
+    "npm run validate:public-content",
+    "npm run validate:governance",
+    "node scripts/validate-admin-workflow-catalog.mjs",
+    "npm run feature:preflight -- --record docs/feature-plans/revenuecat-account-deletion-legal-2026-11-16.json"
+  ],
+  "managerTestPath": "After the Owner deploys account-delete with REVENUECAT_API_KEY: a license tester buys Premium in a closed-test build, opens Me > Account > Delete account, sees the Google Play cancellation notice and the Manage subscription link, deletes the account; the customer disappears from the RevenueCat dashboard and the Google Play subscription remains until cancelled in Google Play.",
+  "residualRisk": "Deleting the RevenueCat customer does not cancel the Google Play subscription; the person must cancel it themselves (stated on screen and in the policy pages). If they keep paying and later sign in with a new account, a restore can attach the purchase to the new account. RevenueCat deletion is queued asynchronously, so a 200 is a request, not proof of completion. Legal text has not been reviewed by a lawyer.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

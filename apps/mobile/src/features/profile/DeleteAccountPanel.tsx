@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { colors, radius, typography } from "../../theme";
 import type { Language } from "../../types";
@@ -7,7 +7,12 @@ import type { Language } from "../../types";
 // sends the machine token. Hidden until the account-delete function and its SQL are deployed.
 export const deletePhrase = { vi: "XÓA", en: "DELETE" };
 
-export function DeleteAccountPanel({ language, onDelete }: { language: Language; onDelete: () => Promise<string | null> }) {
+export function DeleteAccountPanel({ language, onDelete, notice }: {
+  language: Language;
+  onDelete: () => Promise<string | null>;
+  /** Optional extra explanation shown under the main text (e.g. the Google Play subscription notice). */
+  notice?: ReactNode;
+}) {
   const vi = language === "vi";
   const phrase = vi ? deletePhrase.vi : deletePhrase.en;
   const [typed, setTyped] = useState("");
@@ -22,6 +27,7 @@ export function DeleteAccountPanel({ language, onDelete }: { language: Language;
           ? "Tài khoản và dữ liệu đã đồng bộ (hồ sơ, Nhật ký, trò chuyện, lá số đã lưu) sẽ bị xóa vĩnh viễn và không khôi phục được. Dữ liệu trên thiết bị này cũng được dọn sạch."
           : "Your account and synced data (profile, Journal, chats, saved charts) will be permanently deleted and cannot be restored. Data on this device is cleared too."}
       </Text>
+      {notice}
       <Text style={s.label}>{vi ? `Gõ ${phrase} để xác nhận` : `Type ${phrase} to confirm`}</Text>
       <TextInput value={typed} onChangeText={setTyped} autoCapitalize="characters" accessibilityLabel={vi ? `Gõ ${phrase} để xác nhận` : `Type ${phrase} to confirm`} style={s.input} />
       {error ? <Text accessibilityRole="alert" style={s.error}>{error}</Text> : null}

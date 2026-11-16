@@ -3,7 +3,7 @@ title: "Quyền riêng tư"
 description: "Chúng tôi chỉ hứa những kiểm soát dữ liệu đã được kiểm chứng trong phiên bản bạn đang dùng."
 locale: vi
 slug: privacy
-updatedAt: 2026-10-11
+updatedAt: 2026-11-16
 ---
 
 ## Thông tin bạn chủ động cung cấp
@@ -20,6 +20,15 @@ Khi biểu mẫu sẵn sàng và bạn chủ động đồng ý, Nilaza lưu ema
 
 Email dùng cho thông tin ra mắt và cơ hội trải nghiệm sớm theo consent của bạn. Việc gửi xác nhận/cập nhật là bước riêng; không tự đăng ký marketing từ tài khoản ứng dụng. Khi chiến dịch hoạt động, email cập nhật sẽ có cách hủy nhận tin và các trạng thái hủy/bounce/complaint được giữ. Raw email và nội dung biểu mẫu không được đưa vào sự kiện analytics.
 
+## Mua gói Premium
+
+- **Thanh toán:** do Google Play xử lý. Nilaza không nhận và không lưu số thẻ hay thông tin thanh toán của bạn.
+- **Nhà cung cấp quản lý đăng ký:** Nilaza dùng **RevenueCat** (RevenueCat, Inc.) để xác nhận giao dịch với Google Play và theo dõi trạng thái gói. Khi bạn mua hoặc khôi phục, ứng dụng gửi cho RevenueCat mã người dùng Nilaza (một mã ngẫu nhiên, không phải email hay tên). RevenueCat nhận từ Google Play và lưu lịch sử mua của mã đó: gói đã mua, thời điểm mua, kỳ hạn, trạng thái gia hạn hoặc hủy, kèm thông tin kỹ thuật cần để giao dịch hoạt động. RevenueCat xử lý dữ liệu này thay cho Nilaza.
+- **Trên máy chủ Nilaza:** chúng tôi lưu trạng thái gói của tài khoản (có Premium hay không, trạng thái, ngày hết kỳ, mã sản phẩm, môi trường thử nghiệm hay thật) để mở các tính năng Premium. Chúng tôi không lưu giá, email hay thông tin thanh toán trong bản ghi này.
+- **Mã hóa khi truyền:** dữ liệu giữa ứng dụng, Google Play, RevenueCat và máy chủ Nilaza đi qua kết nối HTTPS.
+
 ## Xóa tài khoản
+
+Khi bạn xóa tài khoản, Nilaza xóa trạng thái gói trên máy chủ và yêu cầu RevenueCat xóa hồ sơ khách hàng cùng lịch sử mua gắn với mã người dùng của bạn. Google Play vẫn giữ hồ sơ giao dịch theo chính sách của Google, và **gói đăng ký không tự hủy**: hãy hủy trong Google Play.
 
 Cách xóa tài khoản và dữ liệu nào bị xóa: xem [Xóa tài khoản và dữ liệu](/vi/account-deletion).
