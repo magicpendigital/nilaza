@@ -1,6 +1,6 @@
 import promptLibrary from "../../../packages/agent-config/prompt-library.json" with { type: "json" };
 import canonicalCards from "../../../packages/content/data/tarot-cards.json" with { type: "json" };
-import { assembleTarotSystem, isUsableTarotPromptText, normalizeTarotLanguage, prepareTarotContext, resolveTarotPrompt, tarotPromptMetadata, tarotPromptTraceMetadata } from "./tarot-prompt.ts";
+import { assembleTarotSystem, canonicalTarotCardIds, isUsableTarotPromptText, normalizeTarotLanguage, prepareTarotContext, resolveTarotPrompt, tarotLibraryCard, tarotPromptMetadata, tarotPromptTraceMetadata, tarotSpreadPositionKeys } from "./tarot-prompt.ts";
 function assert(value: unknown, message = "assertion failed") { if (!value) throw new Error(message); }
 function equal(a: unknown, b: unknown) { assert(JSON.stringify(a) === JSON.stringify(b), `mismatch ${JSON.stringify(a)}`); }
 function rejects(fn: () => unknown) { let threw = false; try { fn(); } catch { threw = true; } assert(threw, "invalid input accepted"); }
@@ -88,4 +88,23 @@ Deno.test("each card carries its first-mention label, original name first (Owner
   equal(vi.selectedCards.map(card => card.displayName), ["Six of Swords (Sáu Kiếm)", "Three of Swords (Ba Kiếm)", "Page of Wands (Tiểu Đồng Gậy)"]);
   const en = prepareTarotContext({ ...spread(), language: "en" });
   equal(en.selectedCards[0].displayName, "Six of Swords");
+});
+
+Deno.test("P1-A server draw helpers: spread positions, the 78 canonical IDs and the clarifier library text", () => {
+  equal(tarotSpreadPositionKeys("past-present-future"), ["past", "present", "potential"]);
+  equal(tarotSpreadPositionKeys("daily-one"), ["daily"]);
+  equal(tarotSpreadPositionKeys("toString"), null);
+  equal(tarotSpreadPositionKeys("unknown"), null);
+  const ids = canonicalTarotCardIds();
+  equal(ids, canonicalCards.map(card => card.id));
+  ids.pop();
+  assert(canonicalTarotCardIds().length === 78, "callers get a fresh copy");
+  const source = canonicalCards.find(card => card.id === "minor-swords-six")!;
+  const reversed = tarotLibraryCard(null, undefined, "minor-swords-six", true);
+  equal(reversed.orientation, "reversed");
+  equal(reversed.meaning, source.reversedMeaning);
+  equal(reversed.name, source.name);
+  const upright = tarotLibraryCard(null, undefined, "minor-swords-six", false);
+  equal(upright.meaning, source.uprightMeaning);
+  rejects(() => tarotLibraryCard(null, undefined, "invented-card", false));
 });

@@ -17,6 +17,17 @@ type AttemptStore = {
 export type DailyAttemptResult = "allowed" | "limit_reached" | "unavailable";
 
 /**
+ * P1-A Tarot result lock (2026-11-15): one event (account, spread, topic, Vietnam day) has one draw and one answer.
+ * - dailySpreadSoftCap: at most this many different spreads/topics may be drawn per account per Vietnam day, and never
+ *   more than the delivered AI readings allowed that day, so switching topic cannot become an endless redraw.
+ * - clarifiersPerReading: one server-drawn clarifier card per reading (library meaning, no model).
+ * - claimStaleSeconds: an interpretation claim older than this may be taken over; it is longer than the 150 s Edge
+ *   Function limit, so a live model call is never interpreted twice.
+ * Delivered readings and failed attempts per day still come from account-tier-policy (tarotDailyLimits).
+ */
+export const TAROT_LOCK_POLICY = Object.freeze({ dailySpreadSoftCap: 3, clarifiersPerReading: 1, claimStaleSeconds: 180 });
+
+/**
  * Counts this account's attempts for one feature since local midnight and, when under the limit,
  * records one more before any model work (Owner decision 2026-11-10: 3 per day for Daily Insight and
  * the legacy Astrology preview). A failed count or insert refuses the call, so cost stays bounded.

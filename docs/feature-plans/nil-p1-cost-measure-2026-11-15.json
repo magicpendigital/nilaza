@@ -1,0 +1,185 @@
+{
+  "schemaVersion": 1,
+  "taskId": "nil-p1-cost-measure-2026-11-15",
+  "ownerAgent": "backend_agent",
+  "lane": "Backend AI router + SQL + Admin overview: measure real AI cost per feature (P1-C)",
+  "goal": "Measure the real AI cost of every model call per feature so the future Nil price list can be calibrated: a dated, sourced reference price book with verified/unverified flags for every default and fallback model; cost, tokens and cost_source (reported|estimated|unknown) on every generation span, success or failure; a read-only aggregate RPC (UTC+7 day, feature, model; p50/p95/p99; error/fallback/estimated rates; per-user-day distribution without user ids) for ai.read and service_role; and a 'Chi phí AI' block on Admin Tổng quan. Routing, fallback order and budget values do not change. Nothing is applied or deployed by the agent.",
+  "successCriteria": [
+    "provider-registry.ts: REFERENCE_PRICE_BOOK lists every model of the default routes and fallback chains (OpenRouter deepseek/deepseek-v4.1-flash, xiaomi/mimo-v2.6-flash and the Admin catalogue) with input/output micro-USD per token, source, checkedOn and verified; REFERENCE_PRICES_MICRO_PER_TOKEN and referencePrice keep their signatures; unverified prices are conservative and flagged.",
+    "model-router.ts: every generation span (legacy primary/fallback success, error, output safety block, format rejection; step chain success and error) records cost_micro, cost_source, price_verified, input_tokens, output_tokens; the root output records the total; routing and the 0.02 USD cap logic are unchanged and any change in when the cap triggers is documented.",
+    "Migration 20261115120000_ai_cost_by_feature_view.sql is idempotent, closed to anon/authenticated, exposes get_ai_cost_summary(days_back) only to ai.read or service_role, returns no user_id and no prompt/answer content.",
+    "Admin Tổng quan shows a 'Chi phí AI' table per feature for 7/14/30 days with 'ước tính' labels, 'chưa có lượt nào' when empty, the current budget (read only) and the line 'Giả định pilot Free: 1 USD/ngày (quyết định 15/11, chưa cấu hình)'.",
+    "Deno tests (prices, estimated/unknown, fallback/blocked traces), PGlite tests (percentiles, permissions, no raw user_id, re-run), admin:test (known CRLF Growth failure excepted after confirming on base), admin:check, validate-admin-contract, validate:backend, supabase:check, migration-ledger:check pass."
+  ],
+  "writeScope": [
+    "supabase/functions/_shared/provider-registry.ts",
+    "supabase/functions/_shared/model-router.ts",
+    "supabase/functions/_shared/model-router-cost_test.ts",
+    "supabase/migrations/20261115120000_ai_cost_by_feature_view.sql",
+    "apps/admin/overview.js",
+    "apps/admin/overview.css",
+    "apps/admin/overview.html",
+    "apps/admin/workspace-guard.js",
+    "apps/admin/workflow-catalog.js",
+    "scripts/admin-a2-navigation.test.mjs",
+    "scripts/admin-ai-cost.test.mjs",
+    "scripts/validate-admin-contract.mjs",
+    "package.json",
+    "docs/release/nil-p1-cost-measure-2026-11-15/HANDOFF.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "Routes, fallback order, provider switches, budget values (ai-usage-policy.json, ai_budget_campaigns) and the 0.02 USD cap constant are not changed.",
+    "Nil wallet, Nil price list, Daily/Tarot/Astrology functions (ai-tarot-reading, ai-astrology-insight, daily-attempts.ts), apps/mobile and PLAN.md are not touched.",
+    "Already-applied migrations are not edited; the trace tables keep their schema; no Edge Function or Admin deploy, no SQL applied."
+  ],
+  "impact": {
+    "entryPoint": "Admin › Tổng quan, card 'Chi phí AI' (7/14/30 ngày) for accounts with ai.read; backend: every Edge Function that calls generateWithModelRoute (persona chat, oracle, council, daily, tarot, astrology) writes richer spans after redeploy.",
+    "dataWrite": "No new table. Extra numeric/short enum attributes on existing ai_trace_spans rows and root_output of ai_trace_runs; the migration creates one view and one RPC, no rows.",
+    "backendContract": "public.get_ai_cost_summary(days_back integer default 7) returns jsonb; nilaza_private.ai_cost_calls view; provider-registry adds referencePriceInfo / callCost / projectCallCostMicro next to the unchanged referencePrice.",
+    "adminVisibility": "Aggregates only: counts, token sums, USD totals and percentiles per feature/model/day, estimated/unknown shares; budget shown read only; unverified prices flagged.",
+    "privacySafety": "Only technical span columns are read (tokens, cost, provider, model, status); no prompt or answer text; per-user distribution returns percentiles only and is hidden below 5 user-days; no user_id leaves the database.",
+    "observability": "cost_source shows how trustworthy each number is (reported from the OpenRouter receipt, estimated from tokens x reference price, unknown).",
+    "rollback": "drop function if exists public.get_ai_cost_summary(integer); drop view if exists nilaza_private.ai_cost_calls; revert the router/registry commit and redeploy the AI functions; Admin falls back to the 'Máy chủ chưa có hàm' note."
+  },
+  "canonicalContracts": [
+    "supabase/functions/_shared/model-router.ts generateWithModelRoute: the single model-call path and trace writer",
+    "supabase/functions/_shared/provider-registry.ts referencePrice: the single reference price source",
+    "public.ai_trace_runs / public.ai_trace_spans (20260909014614) as the cost data source; ai.read capability via nilaza_private.has_capability"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Core agent rules",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Task routing",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight protocol",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "supabase/functions/_shared/provider-registry.ts",
+      "reason": "Reference price table (C1) and its exports kept",
+      "sha256": "c0beee6601c1026a674bc01ec6eac96edb6b9895c433d273de5582a6de54d28f"
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "reason": "Every generation span, cost cap projection and stepCost (C2)",
+      "sha256": "63c599d57a08343d5d20c8bbb857bc0e8f291568dea6d1fb54d44711d9a76c5c"
+    },
+    {
+      "path": "supabase/functions/_shared/ai-trace.ts",
+      "reason": "Redaction keeps numbers and snake_case *_source/_model strings only; spans persisted with caller JWT",
+      "sha256": "78f27f581fc4ec10ea0507d0c169787e89a12dbb034b4704761b93880c664221"
+    },
+    {
+      "path": "supabase/functions/_shared/providers/openrouter-billing.ts",
+      "reason": "Receipt usage.cost -> reported cost",
+      "sha256": "66a15323520b44ce969fd47be83d817802faab2a4a3a86b9dd4276a456abe6a4"
+    },
+    {
+      "path": "supabase/functions/_shared/model-router-steps_test.ts",
+      "reason": "Fake fetch/trace pattern reused for the new Deno test",
+      "sha256": "427d27588f405e41028734c31f425bb7a7c1be7c2adddf6b8558cc6e48533058"
+    },
+    {
+      "path": "supabase/migrations/20260909014614_ai_trace_observability.sql",
+      "reason": "ai_trace_runs / ai_trace_spans columns, RLS and ai.read RPC pattern",
+      "sha256": "8794f35ab9724c18e2dda617f5bc3b1031bd16af067dff70a9cf1ef321e769bc"
+    },
+    {
+      "path": "supabase/migrations/20261002000000_ai_usage_reservation.sql",
+      "reason": "Campaign budget table (not applied; read only via to_regclass guard)",
+      "sha256": "4d4fc2e57d322fa1d4c60e5e305d18653e73f6b5e8d46fba1a3084a115993424"
+    },
+    {
+      "path": "packages/agent-config/ai-usage-policy.json",
+      "reason": "Current qaBudget values shown read-only in Admin",
+      "sha256": "a6e80a226c60abf001345ce21b97874eb484f0f769897aea8ab3bdca61d950de"
+    },
+    {
+      "path": "apps/admin/overview.js",
+      "reason": "Overview page: replaces the old no-cost-data card (C4)",
+      "sha256": "c15edfa634ecf0ba3c131112b46d0d3af77f8f24846904664b971e47571ced8a"
+    },
+    {
+      "path": "apps/admin/workspace-guard.js",
+      "reason": "Admin RPC allowlist",
+      "sha256": "3f9defedf308753a9929be0cc4aa58695176b5ffcec7f515185853cef37fb711"
+    },
+    {
+      "path": "apps/admin/workflow-catalog.js",
+      "reason": "Holds the LF sha256 of model-router.ts",
+      "sha256": "ee2fa72e4098fa493d11ec131c5b7eaa0a8f979eaa88abda538d9a7cadd06260"
+    },
+    {
+      "path": "scripts/admin-a2-navigation.test.mjs",
+      "reason": "Overview harness asserts RPC list and the old cost line",
+      "sha256": "1fd5c5e619d93f53dadad6b16f575ae865024ffa1c1f91f92a5b035e69e6ace5"
+    },
+    {
+      "path": "docs/feature-plans/owner-only-publish-2026-11-15.json",
+      "reason": "Record template",
+      "sha256": "8e026418f9fdfca0e0d9abe93e4b838bbc2c4805d75c4b148b642f6d8fba7611"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and --record preflight before the first edit; migration and deploys left to the Owner by hash; PGlite, Deno and jsdom tests only."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Router change is observability only: no route, fallback, prompt, safety or quota behavior change; traces stay redacted (numbers and snake_case enum strings)."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Model prices are volatile: taken from the public OpenRouter models API on 2026-11-15 and stored with source and date; no package added; PGlite loaded from the session scratchpad via NILAZA_PGLITE_MODULE."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://openrouter.ai/api/v1/models",
+      "reason": "Public list prices (prompt/completion USD per token) for the OpenRouter models in the default routes and Admin catalogue",
+      "checkedAt": "2026-11-15"
+    }
+  ],
+  "securityReview": {
+    "authzRls": "New RPC is security definer with empty search_path, checks service_role JWT claim or auth.uid() + has_capability('ai.read'); revoked from public/anon, execute granted to authenticated and service_role. The view is revoked from anon/authenticated and only selectable by service_role.",
+    "sensitiveData": "No user_id, prompt or answer text in the view or RPC output; per-user-day aggregates return only percentiles with a minimum group size of 5.",
+    "secretsLogging": "No secrets or env values read; trace attributes are numbers and short enums.",
+    "externalInput": "days_back is clamped to 1..90; attribute values are cast defensively (non-numeric -> null).",
+    "dependencies": "No dependency added to the repository.",
+    "migrationRelease": "Owner applies 20261115120000 by its LF SHA-256 and redeploys the AI Edge Functions and Admin; until then Admin shows that the server function is missing.",
+    "stopCondition": "Stop if measuring cost would require changing routes, budgets, or exposing user ids or content.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Clean tree at start (worktree branch claude/nil-p1-cost-2026-11-15 at 3a624c7); this record and its --record preflight come before the first code edit.",
+    "paths": []
+  },
+  "validationCommands": [
+    "node scripts/feature-preflight.mjs --record docs/feature-plans/nil-p1-cost-measure-2026-11-15.json",
+    "npx --yes deno@2 test supabase/functions/_shared",
+    "NILAZA_PGLITE_MODULE=<scratchpad>/pglite/dist/index.js node --test scripts/admin-ai-cost.test.mjs",
+    "npm run admin:test && npm run admin:check && node scripts/validate-admin-contract.mjs",
+    "npm run validate:backend && npm run supabase:check && npm run supabase:migration-ledger:check",
+    "node scripts/feature-preflight.mjs --ci --base claude/nil-p0-p1-2026-11-15"
+  ],
+  "managerTestPath": "After the Owner applies the migration and redeploys the AI functions and Admin: use the app (chat, Tarot, Daily) a few times, open Admin › Tổng quan, card 'Chi phí AI': each feature shows lượt, tổng USD, trung vị/p95 mỗi lượt; press 14 or 30 ngày; rows marked 'ước tính' come from token x reference price; the budget and 'Giả định pilot Free: 1 USD/ngày' lines are visible.",
+  "residualRisk": "Reference prices for OpenRouter models are the cheapest listed endpoint price on 15/11 and may differ from the endpoint OpenRouter actually routes to; the receipt (reported) wins when present. Direct DeepSeek prices are unverified and conservative. Old spans before redeploy only have charged_usd. Replay calls make no model call so they record no cost.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

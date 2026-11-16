@@ -189,6 +189,8 @@
     save_ai_context_config_draft: "ai.manage|ai.read+content.draft",
     publish_ai_context_config: "ai.manage",
     get_growth_waitlist_overview: "overview.read",
+    // AI cost by feature (P1-C, migration 20261115120000); aggregates only, the RPC checks ai.read itself.
+    get_ai_cost_summary: "ai.read",
     // Per-item content drafts and publish (A3, migration 20261113100000); the RPCs check the same capabilities.
     // Owner decision 6: editors (content.draft) save, restore and discard drafts; only content.publish publishes.
     list_content_item_drafts: "content.read",
