@@ -28,7 +28,8 @@ export function aiAuthUserOrUnavailable(user: unknown, error: unknown) {
   return { id: value.id, isAnonymous: typeof value.is_anonymous === "boolean" ? value.is_anonymous : undefined };
 }
 
-async function readBoundedJson(req: Request, now: () => number): Promise<Record<string, unknown>> {
+/** Reads a size and time bounded JSON object body. Exported for the public guest draw, which has no user to authenticate. */
+export async function readBoundedJson(req: Request, now: () => number): Promise<Record<string, unknown>> {
   const mediaType = req.headers.get("Content-Type")?.split(";")[0].trim().toLowerCase();
   if (mediaType !== "application/json") throw new AiRequestError(415, "json_content_type_required");
   const declared = req.headers.get("Content-Length");

@@ -9,10 +9,13 @@ import { drawRandomCards, type RandomSource } from "../tarot/randomDraw";
 // Xem thử không cần tài khoản (analysis N-01, Owner decision 2026-10-31): static content only, the
 // 78-card library with meanings and the 12 sign guides. Nothing here calls AI or stores data.
 // Tarot v2 pack 0 (Owner 2026-11-16, Q2): a guest can also draw a card here and see its picture, name and orientation,
-// but not the meaning of the reading; the meaning asks for an account. The draw is local, sends nothing and is not saved.
+// but not the meaning of the reading; the meaning asks for an account.
+// Pack 1 (Owner 2026-11-16, option A): the card is issued by the server for this device and day (onDrawGuestCard), so after
+// sign-in the account keeps the same card and only the AI analysis is left. Offline or without the server secret the card is a
+// local preview that is not kept, and the screen says so.
 type Tab = "cards" | "draw" | "signs";
 
-export function GuestPreview({ language, deckName, cards, renderCard, signs, renderSign, onCreateAccount, onSignIn, onExit, random }: {
+export function GuestPreview({ language, deckName, cards, renderCard, signs, renderSign, onCreateAccount, onSignIn, onExit, onDrawGuestCard, random }: {
   language: Language;
   deckName: string;
   cards: LibraryCard[];
@@ -22,14 +25,17 @@ export function GuestPreview({ language, deckName, cards, renderCard, signs, ren
   onCreateAccount: () => void;
   onSignIn: () => void;
   onExit: () => void;
-  /** Test seam for the guest draw. */
+  /** Asks the server for this device's card of the day (and stores it); null or a throw means "use the local preview". */
+  onDrawGuestCard?: () => Promise<{ cardId: string; reversed: boolean } | null>;
+  /** Test seam for the local preview draw. */
   random?: RandomSource;
 }) {
   const vi = language === "vi";
   const [tab, setTab] = useState<Tab>("cards");
   const [cardId, setCardId] = useState<string | null>(null);
   const [signId, setSignId] = useState<string | null>(null);
-  const [drawn, setDrawn] = useState<{ card: LibraryCard; reversed: boolean } | null>(null);
+  const [drawn, setDrawn] = useState<{ card: LibraryCard; reversed: boolean; kept: boolean } | null>(null);
+  const [drawing, setDrawing] = useState(false);
   const scrollRef = useRef<ScrollView | null>(null);
   const detailOpen = Boolean(tab === "cards" ? cardId : signId);
   const back = () => {
@@ -49,9 +55,21 @@ export function GuestPreview({ language, deckName, cards, renderCard, signs, ren
   }, []);
   useEffect(() => { scrollRef.current?.scrollTo?.({ y: 0, animated: false }); }, [tab, cardId, signId]);
   const openCard = (id: string) => setCardId(id);
-  const drawOne = () => {
-    const pick = drawRandomCards(1, cards.length, { random })[0];
-    if (pick) setDrawn({ card: cards[pick.index], reversed: pick.reversed });
+  const drawOne = async () => {
+    if (drawing) return;
+    setDrawing(true);
+    try {
+      let issued: { cardId: string; reversed: boolean } | null = null;
+      if (onDrawGuestCard) {
+        try { issued = await onDrawGuestCard(); } catch { issued = null; }
+      }
+      const known = issued ? cards.find((card) => card.id === issued!.cardId) : undefined;
+      if (known && issued) { setDrawn({ card: known, reversed: issued.reversed, kept: true }); return; }
+      const pick = drawRandomCards(1, cards.length, { random })[0];
+      if (pick) setDrawn({ card: cards[pick.index], reversed: pick.reversed, kept: false });
+    } finally {
+      setDrawing(false);
+    }
   };
 
   return (
@@ -85,6 +103,11 @@ export function GuestPreview({ language, deckName, cards, renderCard, signs, ren
                   accessibilityLabel={`${drawn.card.name}. ${drawn.reversed ? (vi ? "Lá ngược" : "Reversed") : (vi ? "Lá xuôi" : "Upright")}`} />
                 <Text style={s.drawName}>{drawn.card.name}</Text>
                 <Text style={s.drawSub}>{[drawn.card.sub, drawn.reversed ? (vi ? "Ngược" : "Reversed") : (vi ? "Xuôi" : "Upright")].filter(Boolean).join(" · ")}</Text>
+                <Text style={s.drawNote}>{drawn.kept
+                  ? (vi ? "Lá này đã được giữ cho bạn hôm nay. Đăng nhập trong hôm nay để mở bài đọc đúng lá này."
+                    : "This card is kept for you today. Sign in today to open the reading of this very card.")
+                  : (vi ? "Chưa kết nối được máy chủ nên đây chỉ là lá xem thử. Khi đăng nhập, lá bài sẽ được rút lại."
+                    : "The server could not be reached, so this is only a preview card. When you sign in, the card is drawn again.")}</Text>
                 <View style={s.lockPanel}>
                   <Ionicons name="lock-closed-outline" size={20} color={colors.gold} accessible={false} />
                   <Text style={s.lockTitle}>{vi ? "Ý nghĩa của bài đọc dành cho tài khoản" : "The meaning of the reading is for accounts"}</Text>
@@ -102,9 +125,13 @@ export function GuestPreview({ language, deckName, cards, renderCard, signs, ren
                 </View>
               </View>
             ) : null}
-            <Pressable accessibilityRole="button" onPress={drawOne} style={[s.drawButton, drawn && s.drawButtonQuiet]}>
-              <Text style={[s.drawButtonText, drawn && s.drawButtonTextQuiet]}>{drawn ? (vi ? "Rút lại" : "Draw again") : (vi ? "Rút một lá" : "Draw a card")}</Text>
-            </Pressable>
+            {drawn?.kept ? (
+              <Text style={s.drawNote}>{vi ? "Mỗi chủ đề một lá mỗi ngày. Ngày mai bạn rút lá mới." : "One card per topic each day. Tomorrow you draw a new one."}</Text>
+            ) : (
+              <Pressable accessibilityRole="button" accessibilityState={{ busy: drawing, disabled: drawing }} disabled={drawing} onPress={() => { void drawOne(); }} style={[s.drawButton, drawn && s.drawButtonQuiet, drawing && s.drawBusy]}>
+                <Text style={[s.drawButtonText, drawn && s.drawButtonTextQuiet]}>{drawing ? (vi ? "Đang rút..." : "Drawing...") : drawn ? (vi ? "Rút lại" : "Draw again") : (vi ? "Rút một lá" : "Draw a card")}</Text>
+              </Pressable>
+            )}
           </View>
         ) : tab === "cards"
           ? cardId ? renderCard(cardId, openCard) : <CardLibrary language={language} deckName={deckName} cards={cards} onOpen={openCard} onPreview={openCard} />
@@ -164,6 +191,8 @@ const s = StyleSheet.create({
   lockBody: { color: "#E9E2D6", fontFamily: typography.bodyFontFamily, fontSize: 14, lineHeight: 21 },
   drawButton: { minHeight: 52, borderRadius: radius.pill, backgroundColor: colors.ivory, alignItems: "center", justifyContent: "center", marginTop: 8 },
   drawButtonQuiet: { backgroundColor: "transparent", borderWidth: 1, borderColor: "rgba(247, 241, 230, 0.25)" },
+  drawNote: { color: "#B8B0A4", fontFamily: typography.bodyFontFamily, fontSize: 13.5, lineHeight: 20, textAlign: "center" },
+  drawBusy: { opacity: 0.6 },
   drawButtonText: { color: colors.charcoal, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 15.5 },
   drawButtonTextQuiet: { color: colors.ivory },
   signGrid: { flexDirection: "row", flexWrap: "wrap", gap: 10, paddingTop: 8 },

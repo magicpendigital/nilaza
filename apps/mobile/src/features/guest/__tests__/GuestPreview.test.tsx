@@ -1,4 +1,4 @@
-import { fireEvent, render } from "@testing-library/react-native";
+import { act, fireEvent, render, waitFor } from "@testing-library/react-native";
 import { Text } from "react-native";
 import { GuestPreview } from "../GuestPreview";
 
@@ -71,3 +71,34 @@ function sequence(values: number[]) {
   let index = 0;
   return () => values[Math.min(index++, values.length - 1)];
 }
+
+test("pack 1: a card issued by the server is kept for sign-in, cannot be redrawn today, and the meaning stays locked", async () => {
+  const onDrawGuestCard = jest.fn().mockResolvedValue({ cardId: "cups-01", reversed: false });
+  const { props, screen } = renderPreview({ onDrawGuestCard });
+  fireEvent.press(screen.getByText("Rút bài"));
+  await act(async () => { fireEvent.press(screen.getByText("Rút một lá")); });
+  await waitFor(() => expect(screen.getByText("Át Cốc")).toBeTruthy());
+  expect(onDrawGuestCard).toHaveBeenCalledTimes(1);
+  expect(screen.getByText("Ace of Cups · Xuôi")).toBeTruthy();
+  expect(screen.getByText(/Lá này đã được giữ cho bạn hôm nay/)).toBeTruthy();
+  expect(screen.getByText(/Mỗi chủ đề một lá mỗi ngày/)).toBeTruthy();
+  expect(screen.queryByText("Rút lại")).toBeNull();
+  expect(screen.queryByText(/^Ý nghĩa (major|cups)-/)).toBeNull();
+  fireEvent.press(screen.getByText("Đăng nhập để xem ý nghĩa"));
+  expect(props.onSignIn).toHaveBeenCalledTimes(1);
+});
+
+test("pack 1: when the server cannot give a card the preview is local, says so honestly and can be redrawn", async () => {
+  const onDrawGuestCard = jest.fn().mockRejectedValue(new Error("offline"));
+  const { screen } = renderPreview({ onDrawGuestCard, random: sequence([0.1, 0.9]) });
+  fireEvent.press(screen.getByText("Rút bài"));
+  await act(async () => { fireEvent.press(screen.getByText("Rút một lá")); });
+  await waitFor(() => expect(screen.getByText("Chàng Khờ")).toBeTruthy());
+  expect(screen.getByText(/chỉ là lá xem thử/)).toBeTruthy();
+  expect(screen.getByText("Rút lại")).toBeTruthy();
+  // A server answer for a card the library does not know also falls back instead of showing nothing.
+  const unknown = renderPreview({ onDrawGuestCard: jest.fn().mockResolvedValue({ cardId: "not-a-card", reversed: true }), random: sequence([0.1, 0.9]) });
+  fireEvent.press(unknown.screen.getByText("Rút bài"));
+  await act(async () => { fireEvent.press(unknown.screen.getByText("Rút một lá")); });
+  await waitFor(() => expect(unknown.screen.getByText(/chỉ là lá xem thử/)).toBeTruthy());
+});

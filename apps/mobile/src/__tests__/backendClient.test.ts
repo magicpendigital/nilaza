@@ -6,6 +6,7 @@ import {
   generateAiCouncilTurn,
   generateTarotReading,
   requestTarotClarifier,
+  requestGuestTarotDraw,
   requestTarotDraw,
   TarotLimitError,
   generateDailyInsight,
@@ -489,6 +490,45 @@ describe("backendClient", () => {
       // Tarot v2 pack 0: a Premium deck for an account without Premium (only once Premium is on sale) is a limit the app can word.
       mockFetch.mockResolvedValueOnce({ ok: false, status: 403, json: async () => ({ error: "premium_required", reason: "premium_deck" }) });
       await expect(requestTarotDraw(drawInput, signedIn)).rejects.toMatchObject({ code: "premium_required", status: 403 });
+    });
+
+    it("pack 1: a guest asks the public function with only the install id, spread and topic, and never sends an account or a question", async () => {
+      const guestCards = [{ id: "major-00-the-fool", positionKey: "daily", reversed: true }];
+      mockFetch.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ status: "guest_draw", spread: "daily-one", topic: "open", lockDate: "2026-11-16",
+        nextDrawAt: "2026-11-16T17:00:00.000Z", cards: guestCards }) });
+      const guestOptions = { baseUrl: "https://abc.supabase.co/functions/v1", apiKey: "anon-key-for-tests", authToken: "must-not-be-sent", timeoutMs: 1000 };
+      const deviceId = "8d2b6f1e-5c3a-4e7b-9a10-2f4c6d8e0a13";
+      await expect(requestGuestTarotDraw({ deviceId, spread: "daily-one", topic: "open" }, guestOptions)).resolves.toEqual({
+        spread: "daily-one", topic: "open", lockDate: "2026-11-16", nextDrawAt: "2026-11-16T17:00:00.000Z", cards: guestCards });
+      const [url, init] = mockFetch.mock.calls[0] as [string, RequestInit];
+      expect(url).toBe("https://abc.supabase.co/functions/v1/tarot-guest-draw");
+      expect(JSON.parse(String(init.body))).toEqual({ deviceId, spread: "daily-one", topic: "open" });
+      const headers = init.headers as Record<string, string>;
+      expect(headers.apikey).toBe("anon-key-for-tests");
+      expect(headers.Authorization).toBeUndefined();
+    });
+
+    it("pack 1: a guest draw that the server cannot give (secret not set, busy, malformed, offline) is a BackendUnavailableError, never local cards", async () => {
+      const guestInput = { deviceId: "8d2b6f1e-5c3a-4e7b-9a10-2f4c6d8e0a13", spread: "daily-one", topic: "open" };
+      mockFetch.mockResolvedValueOnce({ ok: false, status: 503, json: async () => ({ error: "guest_draw_unavailable" }) });
+      await expect(requestGuestTarotDraw(guestInput, backendOptions)).rejects.toBeInstanceOf(BackendUnavailableError);
+      mockFetch.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ status: "guest_draw", spread: "daily-one", topic: "open", lockDate: "2026-11-16",
+        cards: [{ id: "a", positionKey: "daily", reversed: false }, { id: "a", positionKey: "x", reversed: false }] }) });
+      await expect(requestGuestTarotDraw(guestInput, backendOptions)).rejects.toBeInstanceOf(BackendUnavailableError);
+      mockFetch.mockRejectedValueOnce(new Error("network"));
+      await expect(requestGuestTarotDraw(guestInput, backendOptions)).rejects.toMatchObject({ reason: "offline" });
+      await expect(requestGuestTarotDraw(guestInput, { timeoutMs: 1000 })).rejects.toMatchObject({ reason: "offline" });
+    });
+
+    it("pack 1: after sign-in the draw sends the install id and reads whether the guest's cards were kept", async () => {
+      mockFetch.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ drawId, status: "queued", replayed: false, guestAdopted: true, spread: "daily-one", topic: "love",
+        lockDate: "2026-11-16", nextDrawAt: "2026-11-16T17:00:00.000Z", cards: serverCards }) });
+      const deviceId = "8d2b6f1e-5c3a-4e7b-9a10-2f4c6d8e0a13";
+      await expect(requestTarotDraw({ ...drawInput, guestDeviceId: deviceId }, signedIn)).resolves.toMatchObject({ drawId, guestAdopted: true });
+      expect(JSON.parse(String((mockFetch.mock.calls[0][1] as RequestInit).body))).toMatchObject({ action: "draw", guestDeviceId: deviceId });
+      mockFetch.mockResolvedValueOnce({ ok: true, status: 200, json: async () => ({ drawId, status: "queued", replayed: false, spread: "daily-one", topic: "love", cards: serverCards }) });
+      await expect(requestTarotDraw(drawInput, signedIn)).resolves.toMatchObject({ guestAdopted: false });
+      expect(JSON.parse(String((mockFetch.mock.calls[1][1] as RequestInit).body))).not.toHaveProperty("guestDeviceId");
     });
 
     it("refuses a malformed draw and says offline instead of drawing cards on the device", async () => {

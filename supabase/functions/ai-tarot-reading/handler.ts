@@ -1,6 +1,8 @@
 // P1-A "Khoá kết quả Tarot — một sự kiện, một câu trả lời" (2026-11-15).
 // draw: the server draws the cards (CSPRNG) once per (account, spread, topic, Vietnam day) and returns the same draw for
 //       the same event; a different topic or spread is a new draw, at most TAROT_LOCK_POLICY.dailySpreadSoftCap a day.
+//       Tarot v2 pack 1 (Owner 2026-11-16, option A): an optional guestDeviceId makes a NEW draw use the cards the signed-out
+//       guest saw (derived from the server secret, never chosen by the client), so sign-in keeps them; guestAdopted says so.
 //       Tarot v2 pack 0 (Owner 2026-11-16): a draw is free and is limited only by that cap, not by the AI allowance; when
 //       Premium is on sale a Premium deck also needs a Premium account (403 premium_required).
 // interpret: interprets only the stored draw; a written answer is replayed with no model call and no quota. A failed
@@ -22,6 +24,7 @@ import { TAROT_LOCK_POLICY } from "../_shared/daily-attempts.ts";
 import { featurePausedBody } from "../_shared/feature-switch.ts";
 import { accountTierPolicy, tarotDailyLimits } from "../_shared/account-tier-policy.ts";
 import { tarotDeckTier } from "../_shared/tarot-deck-tier.ts";
+import { deriveGuestCards, isGuestDeviceId, usableGuestSecret } from "../_shared/tarot-guest-seed.ts";
 import { configuredDailyLimit, type ActiveFeatureConfig } from "../_shared/feature-config.ts";
 import { drawClarifierCard, drawServerCards, normalizeTopicKey, sameDraw, tarotLockKey, vietnamDay, type RandomFill } from "./draw.ts";
 import { TarotStoreError, type TarotReadingRow, type TarotStore } from "./store.ts";
@@ -47,6 +50,8 @@ export type TarotDeps = {
   writeReceipt: (input: Record<string, unknown>) => Promise<{ receiptId: string } | null>;
   /** Server tier of the signed-in account (paid entitlement or the shared tier switch); only read for a Premium deck. */
   readTier?: (userId: string) => Promise<"premium" | "free">;
+  /** TAROT_GUEST_DRAW_SECRET (pack 1). Unset or short: a guest device id is ignored and the draw uses the CSPRNG. */
+  guestSecret?: () => string | undefined;
 };
 export type TarotHandlerOptions = { now?: () => Date; random?: RandomFill; claimToken?: () => string; premiumOnSale?: () => boolean };
 
@@ -103,10 +108,10 @@ function replayBody(row: TarotReadingRow, nextDrawAt: string) {
   };
 }
 
-function drawBody(row: TarotReadingRow, replayed: boolean, nextDrawAt: string) {
+function drawBody(row: TarotReadingRow, replayed: boolean, nextDrawAt: string, guestAdopted = false) {
   const completed = isCompleted(row);
   return {
-    drawId: row.id, status: completed ? "completed" : "queued", replayed, spread: row.spread, topic: row.topic,
+    drawId: row.id, status: completed ? "completed" : "queued", replayed, guestAdopted, spread: row.spread, topic: row.topic,
     question: row.question, language: row.language, lockDate: row.lock_date, nextDrawAt, cards: cardsOf(row),
     ...(completed ? { reading: replayBody(row, nextDrawAt) } : {}), ...(row.clarifier ? { clarifier: row.clarifier } : {})
   };
@@ -124,11 +129,19 @@ export function createTarotHandler(configure: (req: Request) => TarotDeps | null
     const topic = normalizeTopicKey(input.topic);
     const spread = input.spread === undefined ? "daily-one" : input.spread;
     if (!topic || typeof spread !== "string") throw new AiRequestError(400, "invalid_tarot_input");
+    // Pack 1: a device id from the signed-out preview, when the secret is set, makes a new draw use the cards that device saw.
+    const guestDeviceId = input.guestDeviceId;
+    if (guestDeviceId !== undefined && guestDeviceId !== null && !isGuestDeviceId(guestDeviceId)) throw new AiRequestError(400, "invalid_guest_device_id");
+    const guestSecret = guestDeviceId ? usableGuestSecret(deps.guestSecret?.()) : undefined;
     let context;
+    let adoptedCards = false;
     try {
       // Validates spread, language, deck identifiers and question with the same rules as an interpretation.
+      const guestCards = guestSecret && typeof guestDeviceId === "string" && typeof spread === "string"
+        ? await deriveGuestCards(guestSecret, guestDeviceId, spread, topic, vietnamDay(now()).dateKey) : null;
+      adoptedCards = guestCards !== null;
       context = prepareTarotContext({ language: input.language, deck: input.deck, topic, spread, question: input.question,
-        selectedCards: drawServerCards(spread, options.random) }, null);
+        selectedCards: guestCards ?? drawServerCards(spread, options.random) }, null);
     } catch { throw new AiRequestError(400, "invalid_tarot_input"); }
     // Emergency switch from Admin (AD-10): no new draw while Tarot AI rests, so no draw waits without its answer.
     if (await deps.featurePaused()) return json(featurePausedBody, 503);
@@ -152,7 +165,8 @@ export function createTarotHandler(configure: (req: Request) => TarotDeps | null
     });
     if (claim.status === "limit") return json({ error: "daily_limit_reached", reason: claim.reason, nextDrawAt }, 429);
     if (claim.reading.deleted_at) return json(lockedBody("deleted", nextDrawAt), 409);
-    return json(drawBody(claim.reading, claim.status === "existing", nextDrawAt));
+    // Only a brand-new draw can adopt the guest's cards; an existing lock key keeps the draw it already has.
+    return json(drawBody(claim.reading, claim.status === "existing", nextDrawAt, claim.status === "created" && adoptedCards));
   }
 
   async function interpret(deps: TarotDeps, userId: string, input: Record<string, unknown>, req: Request, trace: { finalize?: TarotGeneration["finalizeTrace"] }) {

@@ -27,6 +27,7 @@ const requiredFunctions = [
   "ai-persona-chat",
   "ai-council",
   "ai-tarot-reading",
+  "tarot-guest-draw",
   "ai-daily-insight",
   "ai-daily-zodiac-pulse",
   "ai-astrology-insight",

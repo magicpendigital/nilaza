@@ -1,0 +1,240 @@
+{
+  "schemaVersion": 1,
+  "taskId": "tarot-guest-server-draw-2026-11-16",
+  "ownerAgent": "backend_agent",
+  "lane": "Backend + mobile (no SQL): Tarot v2 pack 1, the guest draw is issued by the server and kept after sign-in (Owner chose option A, 16/11)",
+  "goal": "Owner chose option A on 16/11. A guest who draws a card in the signed-out preview gets cards issued by a new public Edge Function tarot-guest-draw: cards are derived on the server from an HMAC of a server secret, a random per-install device id, the spread, the topic and the Vietnam day, so the same inputs always return the same cards (a stateless lock) and the client cannot choose them. After sign-in the app sends the same device id to ai-tarot-reading draw; for a new draw the server derives the same cards and creates the locked reading from them, so the account keeps the cards the guest saw and only the AI analysis is still to run. The guest still cannot see the meaning. If the secret is not set, the function is offline or the day has changed, the guest draw falls back to a local random draw labelled as a preview and the account gets a normal CSPRNG draw. No SQL, no model call, no database write in the guest function. Nothing is deployed or configured by the agent; the Owner sets the secret and approves the deploys.",
+  "successCriteria": [
+    "_shared/tarot-guest-seed.ts: deterministic HMAC-SHA256 stream; same secret, device id, spread, topic and Vietnam day give the same distinct cards and orientations; changing any one of them gives a different draw; a different secret gives a different draw; the stream is bounded and never falls back to Math.random.",
+    "supabase/functions/tarot-guest-draw: POST only with CORS and no-store, bounded JSON, device id must be a UUID, spread and topic validated like ai-tarot-reading, 503 guest_draw_unavailable when TAROT_GUEST_DRAW_SECRET is not set, no database and no model, response has cards, positionKeys, lockDate and nextDrawAt; config.toml sets verify_jwt = false for it; the backend contract and readiness checks list it.",
+    "ai-tarot-reading draw accepts an optional guestDeviceId (UUID): for a new draw with a secret set it derives the cards the guest saw (guestAdopted true), otherwise it draws with the CSPRNG (guestAdopted false); an existing lock key returns the stored draw unchanged; the soft cap, premium deck check, lock key and clarifier behave as before; interpret is unchanged.",
+    "App, signed out: the preview draw asks the new function with a device id stored on the device, shows the picture and name only, and says the card is kept for sign-in; offline or secret missing falls back to the local draw with an honest preview note and nothing stored.",
+    "App, after sign-in: a stored guest draw of the same Vietnam day appears on Home as a card; opening it asks the server draw with the device id, shows the cards with the reference reading and the AI button, then clears the stored guest draw; a different day or a failed adoption shows the normal flow.",
+    "Deno, PGlite not needed (no SQL), endpoint harness, admin check, mobile Jest and tsc for touched files pass, or the exact gap is reported."
+  ],
+  "writeScope": [
+    "supabase/functions/tarot-guest-draw/",
+    "supabase/functions/_shared/tarot-guest-seed.ts",
+    "supabase/functions/_shared/tarot-guest-seed.test.ts",
+    "supabase/functions/_shared/ai-request-guard.ts",
+    "supabase/functions/ai-tarot-reading/",
+    "supabase/config.toml",
+    "scripts/validate-backend-contracts.mjs",
+    "scripts/check-supabase-readiness.mjs",
+    "scripts/ai-answer-endpoints.test.mjs",
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/backendClient.ts",
+    "apps/mobile/src/__tests__/backendClient.test.ts",
+    "apps/mobile/src/features/guest/",
+    "apps/mobile/src/features/tarot/",
+    "apps/mobile/src/features/home/",
+    "apps/mobile/src/brand/copy.ts",
+    "apps/admin/workflow-catalog.js",
+    "scripts/admin-workflow-catalog.test.mjs",
+    "docs/release/tarot-v2-pack1-2026-11-16/",
+    "docs/release/tarot-v2-pack0-2026-11-16/",
+    "docs/proposals/TAROT_FREE_DRAW_AI_DEPTH_2026-11-15.vi.md",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "No migration and no SQL: the guest function is stateless and the adoption reuses tarot_draw_claim as it is after 20261116100000.",
+    "Astrology, Council, persona chat, model router, prompts, routes, Admin pages and the card library content are unchanged; workflow-catalog.js only gets refreshed pinned hashes.",
+    "The same-topic lock key, soft cap of 3, clarifier, premium deck check, interpret, immutability trigger, RLS and grants are unchanged.",
+    "Ritual animation, sound, the interpretation library and new spreads are later packs.",
+    "ai-request-guard.ts keeps rejecting anonymous users for every authenticated action; only readBoundedJson is exported."
+  ],
+  "impact": {
+    "entryPoint": "Signed-out preview (Rút bài tab) and, after sign-in, a Home card that continues the guest draw into the Tarot result.",
+    "dataWrite": "Device: a random install id and the last guest draw (cards, spread, topic, Vietnam date) in local storage, removed when adopted or a day old. Server: the guest function writes nothing; an adopted draw writes the usual tarot_readings row through tarot_draw_claim.",
+    "backendContract": "New POST /functions/v1/tarot-guest-draw (public, verify_jwt false). ai-tarot-reading draw gains optional guestDeviceId and returns guestAdopted. Old app builds ignore both.",
+    "adminVisibility": "No Admin change; the guest function is not listed in Admin and the dailyLimit of the Admin feature config does not apply to it.",
+    "privacySafety": "A random install id is sent to the server with the spread and topic; no account, question text or personal data. It is a device or other identifier for Play Data safety and the privacy policy: the Owner and the legal review must decide the wording before release. The cards for one device, spread, topic and day are fixed, so a guest cannot redraw for a different result without a new install id.",
+    "observability": "No logging of device ids; no new events.",
+    "rollback": "Revert the commit. Removing the function or the secret makes the guest draw fall back to the local preview and the account draw to the CSPRNG; nothing else breaks.",
+    "surfacesIntentionallyUntouched": "SQL, Admin, Astrology, Council, interpretation library, ritual.",
+    "agentHandoff": "The delivery agent owns only the writeScope, validates, and does not set the secret, deploy, run SQL or merge."
+  },
+  "canonicalContracts": [
+    "packages/agent-config/account-tier-policy.json tarotAi (dailyLimit 1, failedAttemptAllowance 2) via tarotDailyLimits()",
+    "supabase/functions/_shared/tarot-prompt.ts prepareTarotContext: canonical cards per spread",
+    "packages/ai-contracts/answer-provenance.ts and tarot-output.ts",
+    "TAROT_LOCK_POLICY in supabase/functions/_shared/daily-attempts.ts (soft cap 3, 1 clarifier, 180 s stale claim)",
+    "docs/proposals/TAROT_FREE_DRAW_AI_DEPTH_2026-11-15.vi.md section 8: Owner answers Q1-Q9 (16/11)."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "SQL, deploy, secrets need Owner approval each time; Tarot safety wording.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile, Tarot and backend routes and validation commands.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules and record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/TAROT_FREE_DRAW_AI_DEPTH_2026-11-15.vi.md",
+      "reason": "Owner answers Q1-Q9 and the guest rule (Q2) this pack completes.",
+      "sha256": "73625dee42dda7a43509a15e069e56ee69bb4c2557a749db63baf1ead6b822e8"
+    },
+    {
+      "path": "docs/release/tarot-v2-pack0-2026-11-16/HANDOFF.vi.md",
+      "reason": "Pack 0 handoff: the guest draw is local and the cards change after sign-in.",
+      "sha256": "301d60cbdd4d65f15e6eefc77692481ce7d17d51631754dabca7b1a8c32afc6c"
+    },
+    {
+      "path": "docs/NIL_PRICING_STRATEGY_2026-11-15.vi.md",
+      "reason": "Tarot lock and no raw Nil numbers.",
+      "sha256": "28f7ba99545459ad013472ee69fed0e09bfc3335c9986b3572b227f7fc2ad1ba"
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/handler.ts",
+      "reason": "draw action: CSPRNG draw, lock, soft cap, deck tier.",
+      "sha256": "f0ea9717f4ef9841473a9463b005c5349847f263dee99fa80cfe4a4a26c727e6"
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/draw.ts",
+      "reason": "drawServerCards, RandomFill seam, vietnamDay, lock key.",
+      "sha256": "82a5e91a377a382842a967d1af13d7cfa7bd4656312043db916b4f084e601abd"
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/index.ts",
+      "reason": "Dependency wiring for the handler.",
+      "sha256": "4ee9436504fc49f569c349200d3da5c6c6d5f62bd1ea5740594e35dc4f39e67c"
+    },
+    {
+      "path": "supabase/functions/_shared/ai-request-guard.ts",
+      "reason": "readBoundedJson and the anonymous-user rejection.",
+      "sha256": "1a7c3ac984f0ba13c4fcca9934bb72e0743c2d614be3b439511fb3467d242be8"
+    },
+    {
+      "path": "supabase/functions/_shared/tarot-prompt.ts",
+      "reason": "Spread position keys used by the draw.",
+      "sha256": "acef7e9b0c04cd18fc5311b2132768ab6c495b8f2a44be0208806a92ae89b628"
+    },
+    {
+      "path": "supabase/config.toml",
+      "reason": "verify_jwt settings of public functions.",
+      "sha256": "195e165b4902c1a889b354faa27f9a3a77467cc2f9c082ed7819c665fb74a88c"
+    },
+    {
+      "path": "scripts/validate-backend-contracts.mjs",
+      "reason": "Gateway contract list and CORS check.",
+      "sha256": "070f6369f035f0a0a72dd89a246a7b2032ad5043bf715d3eff610027d1a97ec9"
+    },
+    {
+      "path": "scripts/check-supabase-readiness.mjs",
+      "reason": "Required function list.",
+      "sha256": "4367a81c11a6d54834de4b5e70469481507def9cecf0922b69ac9a9c4363be5f"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Guest preview screen, server draw request, Home continuation slot.",
+      "sha256": "1bed3fbd43f0b81bc4255a76c7af24b2ddf303f395c459c31de88de5e9b331c6"
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "reason": "postTarot, requestTarotDraw, supabaseFunctionPathMap.",
+      "sha256": "87cfabe8bda904306193d622f06ff60efcfb7cb9263734db9ef18d1b788cedae"
+    },
+    {
+      "path": "apps/mobile/src/features/guest/GuestPreview.tsx",
+      "reason": "Guest draw tab built in pack 0.",
+      "sha256": "f73e33f16afd7d89f764aa62edc559bcf18bcfe3ac30a73ce5e1656212c09c7e"
+    },
+    {
+      "path": "apps/mobile/src/features/tarot/serverDraw.ts",
+      "reason": "Server draw parsing and the Vietnam date key.",
+      "sha256": "d104f003f59a0678d2fa70db4ef623825bbc4bc0b38c1472219e910ec5c8c489"
+    },
+    {
+      "path": "apps/mobile/src/storage.ts",
+      "reason": "Local JSON storage helpers.",
+      "sha256": "4883834b3210293ce75a17e01b2541aa8630b80a7235690064d127cde6cc57f2"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and --record preflight before the first edit; migration and deploy left to the Owner by hash; PGlite, Deno, node harness and jest only."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Every model call stays behind sign-in, the feature switch and the daily limits; replay never calls the provider; fallback text stays labelled; blocked never falls through; no change to routes or prompts."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Web Crypto HMAC (SubtleCrypto.importKey and sign) is already used in this repository for SHA-256 and runs in the Deno Edge runtime and in React Native test code unchanged; no package added. The Deno tests use the same temporary jsr:@std/assert import map in the session scratchpad as pack 0."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "The new function is public by design (verify_jwt false) and can only compute and return cards: no database, no model, no user data. ai-tarot-reading keeps authenticating the user before the draw; the guest device id only changes how the cards are chosen for a brand-new lock key.",
+    "sensitiveData": "Only a random install id, the spread and the topic reach the guest function; the question is never sent to it.",
+    "secretsLogging": "TAROT_GUEST_DRAW_SECRET is read from the Edge environment only, never logged, returned or committed; the Owner sets it. Tests use a synthetic secret.",
+    "externalInput": "Device id must be a UUID; spread and topic are validated against the fixed catalogues; the body is size and time bounded; unknown fields are ignored.",
+    "dependencies": "None added to the repository.",
+    "migrationRelease": "Owner applies 20261115100000_tarot_reading_lock.sql by its LF SHA-256, then deploys ai-tarot-reading, then ships the app. Old app builds lose AI Tarot (local reference text) once the function is deployed.",
+    "stopCondition": "Stop if the guest function could write to a table, call a model, accept cards from the client, or if the secret could appear in a response, log or test fixture.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [
+      "PLAN.md",
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/__tests__/backendClient.test.ts",
+      "apps/mobile/src/backendClient.ts",
+      "apps/mobile/src/features/guest/GuestPreview.tsx",
+      "apps/mobile/src/features/guest/__tests__/GuestPreview.test.tsx",
+      "apps/mobile/src/features/tarot/GuestCarryCard.tsx",
+      "apps/mobile/src/features/tarot/__tests__/guestCarryCard.test.tsx",
+      "apps/mobile/src/features/tarot/__tests__/guestDraw.test.ts",
+      "apps/mobile/src/features/tarot/__tests__/serverDraw.test.ts",
+      "apps/mobile/src/features/tarot/guestDraw.ts",
+      "apps/mobile/src/features/tarot/serverDraw.ts",
+      "docs/proposals/TAROT_FREE_DRAW_AI_DEPTH_2026-11-15.vi.md",
+      "docs/release/tarot-v2-pack1-2026-11-16/HANDOFF.vi.md",
+      "scripts/check-supabase-readiness.mjs",
+      "scripts/validate-backend-contracts.mjs",
+      "supabase/config.toml",
+      "supabase/functions/README.md",
+      "supabase/functions/_shared/ai-request-guard.ts",
+      "supabase/functions/_shared/tarot-guest-seed.test.ts",
+      "supabase/functions/_shared/tarot-guest-seed.ts",
+      "supabase/functions/ai-tarot-reading/handler.ts",
+      "supabase/functions/ai-tarot-reading/handler_test.ts",
+      "supabase/functions/ai-tarot-reading/index.ts",
+      "supabase/functions/tarot-guest-draw/handler.ts",
+      "supabase/functions/tarot-guest-draw/handler_test.ts",
+      "supabase/functions/tarot-guest-draw/index.ts"
+    ],
+    "note": "Record and --record preflight ran on a clean tree before the first code edit; paths and hashes refreshed after the code was written."
+  },
+  "validationCommands": [
+    "node scripts/feature-preflight.mjs --record docs/feature-plans/tarot-guest-server-draw-2026-11-16.json",
+    "DENO_CERT=/root/.ccr/ca-bundle.crt npx --yes deno@2 test --import-map=<scratchpad>/deno-import-map.json --allow-env --allow-read --allow-net --no-check supabase/functions/ai-tarot-reading supabase/functions/tarot-guest-draw supabase/functions/_shared/tarot-guest-seed.test.ts supabase/functions/_shared/tarot-prompt.test.ts",
+    "npm run ai-operations:test",
+    "npm run validate:backend && npm run supabase:check && npm run supabase:migration-ledger:check",
+    "npm run admin:check && npm run admin:test",
+    "npm --prefix apps/mobile test -- --silent",
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Sau khi Owner đặt TAROT_GUEST_DRAW_SECRET, deploy tarot-guest-draw và ai-tarot-reading, và cài app mới: đăng xuất, vào Xem thử, tab Rút bài, rút một lá, ghi nhớ lá; thoát và rút lại: phải ra đúng lá đó; đăng nhập: Trang chủ có thẻ 'Lá bạn đã rút'; mở thẻ: thấy đúng lá đó cùng bài đọc có sẵn và nút Phân tích chuyên sâu; bấm phân tích: nhận bài AI trên đúng lá đó.",
+  "residualRisk": "Stateless, so the function cannot rate limit: a script can ask for many random install ids and pick one it likes before adopting it (it costs nothing and the guest preview already allowed redraws). A per-IP counter table is the next step if this is abused. The lock for a guest is per install id: clearing app data or reinstalling gives new cards. Cards adopt only on the same Vietnam day. The server behaviour is tested with fakes, not on Supabase. The App.tsx adoption path has no automated test because Jest cannot load App.tsx; its pure helpers do.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
