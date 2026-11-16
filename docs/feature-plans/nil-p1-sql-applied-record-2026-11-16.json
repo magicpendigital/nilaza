@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "taskId": "nil-p1-sql-applied-record-2026-11-16",
+  "ownerAgent": "backend_agent",
+  "lane": "Records only: Nil P1 migrations applied to Singapore by the agent with Owner approval",
+  "goal": "Record that the Owner approved applying the three Nil P1 migrations and that they were applied to Singapore on 16/11 (history recorded, read-back checked), in a rollout receipt and PLAN.md. No code, SQL file or setting changes in this PR.",
+  "successCriteria": [
+    "Receipt lists the three files with SHA-256, the method, the read-back checks and what was not verified.",
+    "PLAN.md item 13 says the migrations are applied and the functions are not yet deployed."
+  ],
+  "writeScope": [
+    "docs/release/singapore-edge-functions-2026-11-09/nil-p1-migrations-rollout-2026-11-16.json",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "App, Admin, Edge Functions and migration files are unchanged."
+  ],
+  "impact": {
+    "entryPoint": "No user or admin entry point changes; documents only.",
+    "dataWrite": "No local or seed data is written by this PR; the three migrations were applied to the database earlier with Owner approval and are only recorded here.",
+    "backendContract": "No API, Edge Function or provider contract changes.",
+    "adminVisibility": "No Admin page or metric changes; documents only.",
+    "privacySafety": "Receipt names no keys or personal data; the secret value was never read back.",
+    "observability": "No events, counters or logs change; documents only.",
+    "rollback": "Revert the commit for the documents; the database change itself is rolled back only with the rollback block at the top of each migration, which needs separate Owner approval."
+  },
+  "canonicalContracts": [
+    "docs/release/nil-p1-tarot-lock-2026-11-15/HANDOFF.vi.md, docs/release/nil-p1-astrology-lock-2026-11-15/HANDOFF.vi.md and docs/release/nil-p1-cost-measure-2026-11-15/HANDOFF.vi.md define the migrations and rollback blocks"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Owner approval boundary for SQL and deploys.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Records and docs lane.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/release/nil-p1-tarot-lock-2026-11-15/HANDOFF.vi.md",
+      "reason": "Migration order, hash and rollback.",
+      "sha256": "c3fc053081c7c9f23ed44542a439d74bd41fcc43ddb0bb28b181d235be16fa2c"
+    },
+    {
+      "path": "supabase/migrations/20261115100000_tarot_reading_lock.sql",
+      "reason": "Applied file; hash recorded in the receipt.",
+      "sha256": "e193323e6b96cb2e085ab3f785b8033d221a2fe2cf6a5e90e50a02cfee0740ba"
+    },
+    {
+      "path": "supabase/migrations/20261115110000_astrology_lock.sql",
+      "reason": "Applied file; hash recorded in the receipt.",
+      "sha256": "90bdbf600f2fd3522ec4a2d166aa31543ed897169acde7603c25b9f61cffd11c"
+    },
+    {
+      "path": "supabase/migrations/20261115120000_ai_cost_by_feature_view.sql",
+      "reason": "Applied file; hash recorded in the receipt.",
+      "sha256": "1525e18937ca9e65e07794ef606e5c165eeea5f46ad39b3ec01e1f6df449f4cd"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Records-only PR; PLAN.md updated in the same PR."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change in this PR; it records read-back of RLS and privileges after the already-applied migrations.",
+    "sensitiveData": "No personal data; receipt holds only schema names, counts and hashes.",
+    "secretsLogging": "No secret values were read or recorded.",
+    "externalInput": "No user or external input is processed; documents only.",
+    "dependencies": "No package, lockfile or dependency is added or changed.",
+    "migrationRelease": "Migrations were applied before this PR with Owner approval; this PR only records them. Functions are not deployed and the app is not released.",
+    "stopCondition": "Stop if any secret value or personal data would be written to the repo.",
+    "unresolvedHighRisks": []
+  },
+  "validationCommands": [
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Read PLAN.md item 13 and the receipt; run the read-only SQL listed in the receipt on Singapore.",
+  "residualRisk": "Old deployed functions and the old app cannot write tarot_readings/astrology_reports any more until the functions are deployed and the new app is released; cost summary denial for a non-privileged user is verified only on PGlite.",
+  "externalActions": {
+    "databaseWrite": true,
+    "productionRelease": false
+  },
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Records only; no dependency or external API claims."
+  },
+  "externalSourceReview": []
+}
