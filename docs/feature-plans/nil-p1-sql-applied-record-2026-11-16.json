@@ -90,7 +90,7 @@
   "managerTestPath": "Read PLAN.md item 13 and the receipt; run the read-only SQL listed in the receipt on Singapore.",
   "residualRisk": "Old deployed functions and the old app cannot write tarot_readings/astrology_reports any more until the functions are deployed and the new app is released; cost summary denial for a non-privileged user is verified only on PGlite.",
   "externalActions": {
-    "databaseWrite": true,
+    "databaseWrite": false,
     "productionRelease": false
   },
   "dependencyReview": {
