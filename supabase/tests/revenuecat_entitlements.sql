@@ -1,4 +1,4 @@
--- Synthetic integration test for 20261115090000_revenuecat_entitlements.sql.
+-- Synthetic integration test for 20261116090000_revenuecat_entitlements.sql.
 -- Run only on an isolated staging or local database after the migration, never production.
 -- All fixtures and mutations are rolled back. Not yet executed (2026-11-15): written with the migration.
 begin;
