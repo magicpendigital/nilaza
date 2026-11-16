@@ -1,4 +1,5 @@
-// P1-A Tarot result lock: runs supabase/migrations/20261115100000_tarot_reading_lock.sql (twice) on PGlite over a
+// P1-A Tarot result lock: runs supabase/migrations/20261115100000_tarot_reading_lock.sql (twice, as applied on production)
+// and then the forward migration 20261116100000_tarot_draw_claim_free_draw.sql (twice, Tarot v2 pack 0) on PGlite over a
 // minimal copy of the tarot_readings / usage_events schema and checks the unique lock key, the immutability trigger,
 // RLS for anon / authenticated / service_role, soft delete counting, the draw cap and the interpretation claim.
 // Runs when @electric-sql/pglite resolves or NILAZA_PGLITE_MODULE names its dist/index.js; otherwise it is skipped.
@@ -9,6 +10,8 @@ import { pathToFileURL } from "node:url";
 import test from "node:test";
 
 const migration = fs.readFileSync("supabase/migrations/20261115100000_tarot_reading_lock.sql", "utf8").replaceAll("\r\n", "\n");
+// Tarot v2 pack 0 (Owner 2026-11-16): the applied migration is not edited; this forward file replaces tarot_draw_claim only.
+const freeDrawMigration = fs.readFileSync("supabase/migrations/20261116100000_tarot_draw_claim_free_draw.sql", "utf8").replaceAll("\r\n", "\n");
 
 async function loadPglite() {
   const target = process.env.NILAZA_PGLITE_MODULE;
@@ -69,6 +72,8 @@ async function setup(PGlite) {
   await db.exec(baseSchema);
   await db.exec(migration);
   await db.exec(migration); // re-run must be a no-op
+  await db.exec(freeDrawMigration);
+  await db.exec(freeDrawMigration); // re-run must be a no-op
   return db;
 }
 
@@ -293,6 +298,43 @@ test("PGlite: Tarot result lock migration (unique key, trigger, RLS, soft delete
       const left = await db.query("select count(*)::int n from public.tarot_readings where user_id = $1", [bob]);
       assert.equal(left.rows[0].n, 0);
     });
+  } finally {
+    await db.close();
+  }
+});
+
+test("PGlite: the forward migration changes only the draw claim, on top of the migration already applied on production", async () => {
+  const PGlite = await loadPglite();
+  if (!PGlite) return;
+  const db = await PGlite.create();
+  try {
+    await db.exec(baseSchema);
+    await db.exec(migration); // production state before Tarot v2 pack 0
+    const alice = randomUUID();
+    await db.query("insert into auth.users(id) values ($1)", [alice]);
+    const first = (await drawClaim(db, alice, lockKey(100), { topic: "love" })).rows[0].r.reading;
+    // Alice's AI reading is delivered (passed).
+    const token = randomUUID();
+    assert.equal((await interpretClaim(db, alice, first.id, token)).rows[0].r.status, "claimed");
+    assert.equal((await finalize(db, first.id, token)).affected, 1);
+    // Before: a draw for another topic is refused by the AI allowance, the behaviour pack 0 removes.
+    assert.deepEqual((await drawClaim(db, alice, lockKey(101), { topic: "career" })).rows[0].r, { status: "limit", reason: "delivered" });
+    const signature = await db.query("select pg_get_function_identity_arguments(p.oid) a from pg_proc p where p.proname = 'tarot_draw_claim'");
+    await db.exec(freeDrawMigration);
+    await db.exec(freeDrawMigration);
+    // After: same signature (one function, no overload), the draw is limited only by the draw cap.
+    const after = await db.query("select pg_get_function_identity_arguments(p.oid) a from pg_proc p where p.proname = 'tarot_draw_claim'");
+    assert.deepEqual(after.rows, signature.rows);
+    assert.equal((await drawClaim(db, alice, lockKey(101), { topic: "career" })).rows[0].r.status, "created");
+    assert.deepEqual((await drawClaim(db, alice, lockKey(102), { topic: "self", drawCap: 2 })).rows[0].r, { status: "limit", reason: "draw_cap" });
+    // The AI allowance still stops a second interpretation, in interpret and not in draw.
+    const second = (await drawClaim(db, alice, lockKey(101), { topic: "career" })).rows[0].r.reading;
+    assert.deepEqual((await interpretClaim(db, alice, second.id)).rows[0].r, { status: "limit", reason: "delivered" });
+    // Grants are unchanged: only service_role may run the claim.
+    const anon = await as(db, "anon", null, "select public.tarot_draw_claim(gen_random_uuid(), repeat('0', 64), '2026-11-15', now(), 'love', 'daily-one', 'Q', 'vi', null, null, '[]'::jsonb, 3, 1, 3)");
+    assert.ok(anon.error, "anon cannot run the draw claim");
+    const authenticated = await as(db, "authenticated", alice, "select public.tarot_draw_claim(gen_random_uuid(), repeat('0', 64), '2026-11-15', now(), 'love', 'daily-one', 'Q', 'vi', null, null, '[]'::jsonb, 3, 1, 3)");
+    assert.ok(authenticated.error, "authenticated cannot run the draw claim");
   } finally {
     await db.close();
   }

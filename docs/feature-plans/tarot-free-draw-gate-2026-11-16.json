@@ -2,11 +2,11 @@
   "schemaVersion": 1,
   "taskId": "tarot-free-draw-gate-2026-11-16",
   "ownerAgent": "backend_agent",
-  "lane": "Backend + mobile + SQL (edits the still-unapplied P1-A migration): Tarot v2 Pack 0, free draw and AI deep reading on demand",
-  "goal": "Owner answers 16/11 to Q1-Q9 of docs/proposals/TAROT_FREE_DRAW_AI_DEPTH_2026-11-15.vi.md. The Tarot draw stops being limited by the daily AI allowance: the server draw cap becomes the soft cap alone (3 spreads or topics a day), and tarot_draw_claim no longer applies the delivered or attempt limits, which stay on tarot_interpret_claim. A signed-in account sees its server-drawn cards with a reference reading (existing library meanings, labelled) and asks the AI only through a confirmed Phan tich chuyen sau button, which is the existing interpret action; a replayed answer opens free. When Premium is on sale the server refuses a Premium deck for an account without Premium. The signed-out preview can draw one card and see its picture and name but not the meaning; the meaning asks for sign-in. The advice position label matches between app and server. Same-topic lock, one clarifier, no paid re-draw and no raw Nil number are unchanged. Nothing is applied or deployed by the agent.",
+  "lane": "Backend + mobile + SQL (one new forward migration; the applied P1-A migration is not edited): Tarot v2 pack 0, free draw and AI deep reading on demand",
+  "goal": "Owner answers 16/11 to Q1-Q9 of docs/proposals/TAROT_FREE_DRAW_AI_DEPTH_2026-11-15.vi.md. The Tarot draw stops being limited by the daily AI allowance: the server draw cap becomes the soft cap alone (3 spreads or topics a day), and a new forward migration replaces the body of tarot_draw_claim so it no longer applies the delivered or attempt limits, which stay on tarot_interpret_claim (the P1-A migration is already applied on production and is not edited). A signed-in account sees its server-drawn cards with a reference reading (existing library meanings, labelled) and asks the AI only through a confirmed Phan tich chuyen sau button, which is the existing interpret action; a replayed answer opens free. When Premium is on sale the server refuses a Premium deck for an account without Premium. The signed-out preview can draw one card and see its picture and name but not the meaning; the meaning asks for sign-in. The advice position label matches between app and server. Same-topic lock, one clarifier, no paid re-draw and no raw Nil number are unchanged. Nothing is applied or deployed by the agent.",
   "successCriteria": [
     "handler.ts: drawCap is TAROT_LOCK_POLICY.dailySpreadSoftCap only; deliveredLimit and attemptLimit still reach interpretClaim; a Free account whose delivered AI reading is used can still draw a different topic or spread up to the soft cap; the same lock key still returns the stored draw; the fourth distinct draw of the day gets 429 daily_limit_reached reason draw_cap.",
-    "20261115100000_tarot_reading_lock.sql (not applied anywhere): tarot_draw_claim keeps its signature and the draw-cap check but no longer returns the delivered or attempts limit reasons; tarot_interpret_claim is unchanged; the PGlite test covers both; the Owner handoff SHA-256 is refreshed.",
+    "New migration 20261116100000_tarot_draw_claim_free_draw.sql (idempotent create or replace; not applied by the agent): tarot_draw_claim keeps its signature, grants and draw-cap check but no longer returns the delivered or attempts reasons; tarot_interpret_claim and the applied 20261115100000 file are unchanged (SHA-256 e193323e...); the PGlite test covers the production state before and after, and a re-run; the Owner handoff records the new SHA-256 and the order apply-then-deploy.",
     "When account-tier-policy premiumOnSale is true, a draw for a deck whose tier is not free returns 403 premium_required for an account without Premium (resolveServerTier) and works with Premium; when it is false nothing changes.",
     "tarot-prompt.ts: the situation-challenge-advice third position label is Loi nhac / Advice like the app, tests updated.",
     "App, signed in: after the draw ritual the result shows the stored cards with the reference reading and no model call; Phan tich chuyen sau asks for confirmation, then calls interpret with the same drawId; a stored answer opens without a new confirmation; the daily AI hint uses AI deliveries, not draws; no allowance check runs before the first card in server mode.",
@@ -14,7 +14,7 @@
     "Deno (tarot tests), PGlite, endpoint harness, mobile Jest and tsc for touched files pass, or the exact gap is reported."
   ],
   "writeScope": [
-    "supabase/migrations/20261115100000_tarot_reading_lock.sql",
+    "supabase/migrations/20261116100000_tarot_draw_claim_free_draw.sql",
     "supabase/functions/ai-tarot-reading/",
     "supabase/functions/_shared/account-tier-policy.ts",
     "supabase/functions/_shared/tarot-deck-tier.ts",
@@ -37,7 +37,7 @@
     "PLAN.md"
   ],
   "untouchedSurfaces": [
-    "No migration that is applied anywhere is edited: 20261115100000 is merged but not applied or deployed (PLAN section 4 item 13). If the Owner has applied it by the time this merges, the change becomes a new forward migration instead.",
+    "The applied migration 20261115100000_tarot_reading_lock.sql (SHA-256 e193323e6b96cb2e085ab3f785b8033d221a2fe2cf6a5e90e50a02cfee0740ba, applied to Singapore 16/11) is not edited; the change is a new forward migration.",
     "Astrology, Council, persona chat, model router, prompts, routes, Admin pages and the card library content are unchanged; workflow-catalog.js only gets refreshed pinned hashes and its test the digest count if admin:check demands it.",
     "The same-topic lock key, the clarifier, soft delete, immutability trigger, RLS and grants are unchanged.",
     "Ritual animation, sound, the interpretation library and new spreads are later packs.",
@@ -45,12 +45,12 @@
   ],
   "impact": {
     "entryPoint": "Tarot flow for signed-in accounts (draw then result) and the signed-out preview (new draw card).",
-    "dataWrite": "A draw still writes one tarot_readings row at draw time (service role). Fewer draws are refused. usage_events tarot_reading_attempted is still written only by tarot_interpret_claim. The app records tarot_draw_shown for a free draw and keeps tarot_reading_drawn for an AI delivery.",
+    "dataWrite": "A draw still writes one tarot_readings row at draw time (service role). Fewer draws are refused. usage_events tarot_reading_attempted is still written only by tarot_interpret_claim. The app records tarot_draw_shown for a free draw and keeps tarot_reading_drawn for an AI delivery. One function body is replaced by the new migration; no table, column or grant changes.",
     "backendContract": "ai-tarot-reading draw may now return 403 premium_required (only when Premium is on sale) and no longer 429 reason delivered or attempts; interpret is unchanged. Old app builds keep working against the same actions.",
     "adminVisibility": "None; the dailyLimit in the Admin feature config still limits delivered AI readings and no longer limits draws.",
     "privacySafety": "The signed-out preview draw is local and sends nothing. The confirmation names what is sent (question and cards) and never birth data or Journal.",
     "observability": "New client event tarot_draw_shown; no server logging change.",
-    "rollback": "Revert the commit. Because the migration edit is unapplied, rollback is a git revert; if it is applied later, the previous behaviour returns by redeploying the previous function and function body.",
+    "rollback": "Revert the commit before the migration is applied. After it is applied, re-run the create or replace of tarot_draw_claim from 20261115100000 and redeploy the previous ai-tarot-reading (Owner approval each).",
     "surfacesIntentionallyUntouched": "Interpretation library, ritual, spreads, Admin, Astrology, Council.",
     "agentHandoff": "The delivery agent owns only the writeScope, runs the validation commands, commits to the working branch and does not run SQL, deploy or merge."
   },
@@ -93,12 +93,12 @@
     {
       "path": "docs/release/nil-p1-tarot-lock-2026-11-15/HANDOFF.vi.md",
       "reason": "P1-A behaviour, hash of the unapplied migration, rollout order.",
-      "sha256": "6ce4f1932161998cc94ea2e48bffa0de3c490008dce08e82c7b406cb1529da4f"
+      "sha256": "5baba0e153ad8ab62c4587bef57dd06f1bae9356f290b62d2b1f36c2e8589c40"
     },
     {
       "path": "supabase/migrations/20261115100000_tarot_reading_lock.sql",
-      "reason": "Unapplied P1-A migration: tarot_draw_claim checks the delivered and attempt limits at draw time.",
-      "sha256": "becfef9ca74e458fa331dbef2ae611ce74655c7c6bcd7f56b0b19070ee192747"
+      "reason": "Applied to Singapore 16/11 (SHA-256 e193323e...); tarot_draw_claim body there checks the delivered and attempt limits at draw time. Not edited.",
+      "sha256": "e193323e6b96cb2e085ab3f785b8033d221a2fe2cf6a5e90e50a02cfee0740ba"
     },
     {
       "path": "supabase/functions/ai-tarot-reading/handler.ts",
@@ -158,7 +158,7 @@
     {
       "path": "scripts/tarot-reading-lock-sql.test.mjs",
       "reason": "PGlite test of the claim RPCs and limits.",
-      "sha256": "c50a1e1d755d4b5f4b0d3afd1b49ccd2d175d134446bd3ff9bf60cd020efed8c"
+      "sha256": "e5e7109afdcf3c0a47b29f9241ff84e7be3a606aa2a4a54cb4353ade14a989c4"
     },
     {
       "path": "scripts/ai-answer-endpoints.test.mjs",
@@ -178,7 +178,17 @@
     {
       "path": "docs/release/tarot-v2-pack0-2026-11-16/HANDOFF.vi.md",
       "reason": "Owner handoff for this pack.",
-      "sha256": "bfa90d0820cdaa4d136ee065ee0232023bdd42d67e4464c1a01cffd5e2ff2851"
+      "sha256": "301d60cbdd4d65f15e6eefc77692481ce7d17d51631754dabca7b1a8c32afc6c"
+    },
+    {
+      "path": "supabase/migrations/20261116100000_tarot_draw_claim_free_draw.sql",
+      "reason": "New forward migration that replaces only the tarot_draw_claim body.",
+      "sha256": "6b37fdac84e012eb0e3c1f60dc204ae2052b9528dbfab176b38519bdf76bfb8d"
+    },
+    {
+      "path": "docs/release/singapore-edge-functions-2026-11-09/nil-p1-migrations-rollout-2026-11-16.json",
+      "reason": "Receipt that the P1-A migration and function are applied and deployed on Singapore.",
+      "sha256": "f5ad58dc3a3d8ea671944d5988fe1f6ddddb2473223f4744076c13b1607a73e5"
     }
   ],
   "skillReview": [
@@ -234,7 +244,7 @@
       "supabase/functions/ai-tarot-reading/handler.ts",
       "supabase/functions/ai-tarot-reading/handler_test.ts",
       "supabase/functions/ai-tarot-reading/index.ts",
-      "supabase/migrations/20261115100000_tarot_reading_lock.sql"
+      "supabase/migrations/20261116100000_tarot_draw_claim_free_draw.sql"
     ],
     "note": "The record and its --record preflight ran on a clean tree (docs only, 0c-3 commits ahead of origin/main) before the first code edit. These paths are the finished Tarot v2 pack 0 change; sourceReview hashes refreshed to the final working tree."
   },
