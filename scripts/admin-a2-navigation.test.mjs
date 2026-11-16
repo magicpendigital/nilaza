@@ -475,7 +475,7 @@ async function overviewHarness({ capabilities = ["hub.read", "ai.read", "safety.
 
 test("Tổng quan shows AI switch lights, new feedback and recent AI errors from existing RPCs, and no invented cost", async () => {
   const h = await overviewHarness();
-  assert.deepEqual(h.calls.map((call) => [call[0], call[2]]).sort(), [["get_ai_feature_switches", "ai.read"], ["get_ai_feedback_inbox", "safety.review"], ["list_ai_release_gate_pending", "ai.read"], ["search_ai_trace_runs", "ai.read"]]);
+  assert.deepEqual(h.calls.map((call) => [call[0], call[2]]).sort(), [["get_ai_cost_summary", "ai.read"], ["get_ai_feature_switches", "ai.read"], ["get_ai_feedback_inbox", "safety.review"], ["list_ai_release_gate_pending", "ai.read"], ["search_ai_trace_runs", "ai.read"]]);
   assert.doesNotMatch(h.doc.querySelector("#overview-content").textContent, /Chưa chấm/, "no reminder when nothing waits for scoring");
   assert.deepEqual(plain(h.calls.find((call) => call[0] === "get_ai_feedback_inbox")[1]), { limit_count: 100, status_filter: "open", feature_filter: null });
   assert.equal(h.calls.find((call) => call[0] === "search_ai_trace_runs")[1].status_filter, "error");
@@ -485,20 +485,62 @@ test("Tổng quan shows AI switch lights, new feedback and recent AI errors from
   assert.match(text, /Oracle\s*Chưa có công tắc trên máy chủ này/);
   assert.match(text, /Phản hồi mới\s*3/);
   assert.match(text, /Lỗi AI gần đây\s*1/, "only errors from the last 24 hours are counted");
-  assert.match(text, /Chưa có số liệu chi phí \(cần backend\)/);
+  assert.doesNotMatch(text, /Chưa có số liệu chi phí/, "the placeholder line is gone (P1-C)");
+  assert.match(text, /Chi phí AI\s*7 ngày/);
+  assert.match(text, /Không tải được số liệu chi phí/, "an invalid answer is not shown as numbers");
   assert.equal(h.doc.querySelectorAll(".light.off").length, 1);
   h.dom.window.close();
 
   const contentOnly = await overviewHarness({ capabilities: ["hub.read", "content.read"] });
   assert.equal(contentOnly.calls.length, 0);
-  assert.doesNotMatch(contentOnly.doc.querySelector("#overview-content").textContent, /Phản hồi mới|Tính năng AI|Lỗi AI/);
-  assert.match(contentOnly.doc.querySelector("#overview-content").textContent, /Chưa có số liệu chi phí/);
+  assert.doesNotMatch(contentOnly.doc.querySelector("#overview-content").textContent, /Phản hồi mới|Tính năng AI|Lỗi AI|Chi phí AI/);
   contentOnly.dom.window.close();
 
   const failing = await overviewHarness({ rpc: async (name) => { if (name === "get_ai_feedback_inbox") throw Error("PRIVATE"); return undefined; } });
   assert.match(failing.doc.querySelector("#overview-content").textContent, /Không tải được phản hồi/);
   assert.doesNotMatch(failing.doc.body.textContent, /PRIVATE/);
   failing.dom.window.close();
+});
+
+test("Tổng quan Chi phí AI: table by feature, estimate and unverified labels, budget display, periods and empty state", async () => {
+  const summary = (days) => ({ daysBack: days, fromDay: "2026-11-09", toDay: "2026-11-15", timezone: "Asia/Ho_Chi_Minh",
+    totals: { calls: 12, turns: 10, costMicro: 7000 }, eval: { calls: 2, costMicro: 900 },
+    features: [
+      { feature: "tarot_reading", calls: 10, turns: 10, costMicro: 5500, turnCostP50: 550, turnCostP95: 955, turnCostP99: 991, failedCalls: 0, fallbackCalls: 0, estimatedCalls: 3, unknownCalls: 0, unverifiedPriceCalls: 0 },
+      { feature: "persona_chat", calls: 2, turns: 1, costMicro: 1500, turnCostP50: 1500, turnCostP95: 1500, turnCostP99: 1500, failedCalls: 1, fallbackCalls: 1, estimatedCalls: 0, unknownCalls: 1, unverifiedPriceCalls: 1 }
+    ],
+    perUserDay: { userDays: 3, hidden: true, minUserDays: 5 },
+    budget: { campaigns: null, defaultTurnCapMicro: 20000 } });
+  const h = await overviewHarness({ rpc: async (name, args) => (name === "get_ai_cost_summary" ? summary(args.days_back) : undefined) });
+  const content = () => h.doc.querySelector("#overview-content").textContent;
+  assert.deepEqual(plain(h.calls.find((call) => call[0] === "get_ai_cost_summary")[1]), { days_back: 7 });
+  const rows = [...h.doc.querySelectorAll(".cost-table tbody tr")].map((row) => [...row.children].map((cell) => cell.textContent.replace(/\s+/g, " ").trim()).join(" | "));
+  assert.equal(rows.length, 2);
+  assert.match(rows[0], /^Giải bài Tarot \| 10 \| 10 \| 0,0055 USD \| 0,00055 USD \/ 0,000955 USD \/ 0,000991 USD \| 0% \/ 0% \|/);
+  assert.match(rows[0], /ước tính 3 lần ước tính/);
+  assert.match(rows[1], /^Trò chuyện với người dẫn \| 1 \| 2 \|.*\| 50% \/ 50% \|/);
+  assert.match(rows[1], /1 lần chưa rõ giá/);
+  assert.match(rows[1], /giá chưa xác minh 1 lần/);
+  assert.match(content(), /Giả định pilot Free: 1 USD\/ngày \(quyết định 15\/11, chưa cấu hình\)/);
+  assert.match(content(), /g1-2026-10-02: 5,00 USD\/ngày, 50,00 USD\/14 ngày — chưa kích hoạt/);
+  assert.match(content(), /Trần mỗi lượt trong bộ định tuyến: 0,02 USD/);
+  assert.match(content(), /cần ít nhất 5 người-ngày/);
+  assert.match(content(), /Chạy thử của Admin \(không tính ở trên\): 2 lần/);
+  assert.doesNotMatch(content(), /userId|user_id/);
+  h.doc.querySelector('[data-cost-days="30"]').click();
+  await drain(h.dom);
+  assert.deepEqual(plain(h.calls.filter((call) => call[0] === "get_ai_cost_summary").at(-1)[1]), { days_back: 30 });
+  assert.equal(h.doc.querySelector('[data-cost-days="30"]').getAttribute("aria-pressed"), "true");
+  assert.equal(h.calls.filter((call) => call[0] === "get_ai_feature_switches").length, 1, "only the cost block reloads");
+  h.dom.window.close();
+
+  const empty = await overviewHarness({ rpc: async (name) => (name === "get_ai_cost_summary" ? { ...summary(7), features: [], totals: { calls: 0, turns: 0, costMicro: 0 } } : undefined) });
+  assert.match(empty.doc.querySelector("#overview-content").textContent, /Chưa có lượt nào trong khoảng này/);
+  empty.dom.window.close();
+
+  const missing = await overviewHarness({ rpc: async (name) => { if (name === "get_ai_cost_summary") throw Object.assign(Error("missing"), { missingFunction: true }); return undefined; } });
+  assert.match(missing.doc.querySelector("#overview-content").textContent, /migration 20261115120000 chưa áp/);
+  missing.dom.window.close();
 });
 
 test("trace detail keeps raw JSON collapsed under Chi tiết kỹ thuật and feedback labels are Vietnamese", () => {

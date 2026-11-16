@@ -416,6 +416,67 @@ test("an old account AI result cannot appear or be saved after storage changes",
   expect(old.storage.saveJsonOrThrow).not.toHaveBeenCalled();
 });
 
+test("Nil P1-B: a locked birth profile refuses a different own chart on save and before AI, but still calculates it", async () => {
+  const m = memory();
+  const requestAstrologyAi = jest.fn(async (input: AstrologyAiInvocation, correlation: AnswerCorrelation) => answerFor(input, correlation));
+  const screen = render(<AstrologyExperience language="vi" storage={m.storage} onBack={() => {}} canRequestAstrologyAi requestAstrologyAi={requestAstrologyAi} />);
+  await fillForm(screen, "2000-01-01", "12:00", "Hanoi");
+  fireEvent.press(screen.getByText("Tạo bản đồ"));
+  await openWheel(screen);
+  fireEvent.press(screen.getByText("Lưu bản đồ trên thiết bị"));
+  await waitFor(() => expect(m.read().reports).toHaveLength(1));
+  const lock = m.read().birthProfileLock!;
+  expect(lock.revisions).toHaveLength(0);
+  expect(JSON.stringify(lock)).not.toContain("2000-01-01");
+  // Simulate a profile whose correction window has closed.
+  (m.storage.loadJson as jest.Mock).mockResolvedValueOnce({ ...m.read(), birthProfileLock: { ...lock, createdAt: "2026-01-01T00:00:00.000Z" } });
+  screen.unmount();
+  const again = render(<AstrologyExperience language="vi" storage={m.storage} onBack={() => {}} canRequestAstrologyAi requestAstrologyAi={requestAstrologyAi} />);
+  await waitFor(() => expect(again.getByText("Tạo lá số mới")).toBeTruthy());
+  fireEvent.press(again.getByText("Tạo lá số mới"));
+  await waitFor(() => expect(again.getByLabelText("Ngày")).toBeTruthy());
+  fireEvent.changeText(again.getByLabelText("Ngày"), "02");
+  fireEvent.changeText(again.getByLabelText("Tháng"), "01");
+  fireEvent.changeText(again.getByLabelText("Năm"), "2000");
+  fireEvent.changeText(again.getByLabelText("Giờ"), "12");
+  fireEvent.changeText(again.getByLabelText("Phút"), "00");
+  fireEvent.press(again.getByRole("radio", { name: "Chiều" }));
+  fireEvent.changeText(again.getByLabelText("Nơi sinh"), "Hanoi");
+  fireEvent.press(again.getAllByText(/^Hanoi ·/)[0]);
+  fireEvent.press(again.getByText("Đây đúng là nơi sinh của tôi"));
+  fireEvent.press(again.getByText("Xem bầu trời của mình"));
+  await waitFor(() => expect(again.getByText("Tạo bản đồ")).toBeTruthy());
+  fireEvent.press(again.getByText("Tạo bản đồ"));
+  await openWheel(again);
+  expect(again.getByText("Bản đồ tương tác đã sẵn sàng")).toBeTruthy();
+  fireEvent.press(again.getByText("Gửi câu hỏi thử"));
+  fireEvent.press(again.getByText("Đồng ý và gửi một câu hỏi"));
+  await waitFor(() => expect(again.getByTestId("ai-error").props.children).toBe("Hồ sơ sinh đã được khoá để kết quả luôn nhất quán. Nếu bạn nhập nhầm, hãy liên hệ hỗ trợ"));
+  expect(requestAstrologyAi).not.toHaveBeenCalled();
+  const writes = (m.storage.saveJsonOrThrow as jest.Mock).mock.calls.length;
+  fireEvent.press(again.getByText("Lưu bản đồ trên thiết bị"));
+  // The AI panel message plus the page message from the refused save.
+  await waitFor(() => expect(again.getAllByText("Hồ sơ sinh đã được khoá để kết quả luôn nhất quán. Nếu bạn nhập nhầm, hãy liên hệ hỗ trợ")).toHaveLength(2));
+  expect((m.storage.saveJsonOrThrow as jest.Mock).mock.calls.length).toBe(writes);
+  expect(m.read().reports).toHaveLength(1);
+}, 60000); // Two full chart flows; slower than the 15 s default on CI-sized machines.
+
+test("Nil P1-B: a replayed reading is shown with a gentle note that no turn was used", async () => {
+  const m = memory();
+  const requestAstrologyAi = jest.fn(async (input: AstrologyAiInvocation, correlation: AnswerCorrelation) => {
+    const fresh = answerFor(input, correlation);
+    return { ...fresh, replayed: true, context: { chart: input.chart, selectedFactIds: input.selectedFactIds, facts: input.facts, caveats: input.caveats } };
+  });
+  const screen = render(<AstrologyExperience language="vi" storage={m.storage} onBack={() => {}} canRequestAstrologyAi requestAstrologyAi={requestAstrologyAi} />);
+  await fillForm(screen, "2000-01-01", "12:00", "Hanoi");
+  fireEvent.press(screen.getByText("Tạo bản đồ"));
+  await openWheel(screen);
+  fireEvent.press(screen.getByText("Gửi câu hỏi thử"));
+  fireEvent.press(screen.getByText("Đồng ý và gửi một câu hỏi"));
+  await waitFor(() => expect(screen.getByText("Nilaza giữ nguyên diễn giải trước cho chủ đề này để kết quả luôn nhất quán — không tốn thêm lượt.")).toBeTruthy());
+  expect(screen.getByText(responseFixture.headline)).toBeTruthy();
+});
+
 test("method, time zone and backup sit in one settings group on the hub (analysis AS-05)", async () => {
   const { storage } = memory();
   const screen = render(<AstrologyExperience language="vi" storage={storage} onBack={() => {}} />);
