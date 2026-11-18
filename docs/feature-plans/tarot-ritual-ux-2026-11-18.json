@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 1,
+  "taskId": "tarot-ritual-ux-2026-11-18",
+  "ownerAgent": "mobile_experience_agent",
+  "lane": "Mobile: Tarot ritual pacing, spread layout, responsive card size, 4-card share (Owner feedback 17/11 on the Singapore preview APK)",
+  "goal": "Fix four things the Owner found while testing the Tarot draw on the Android preview build. (1) A 4-card spread produces a share image and link with only 3 cards. (2) Cards flip too fast, so the draw does not feel like a calm ritual focused on the question. (3) Content under the card fan (the extra links and any status) is hard to discover without scrolling. (4) Card size is fixed regardless of screen and card count: a single card is small and leaves empty space below it. Make card and slot size responsive to the measured width and card count.",
+  "successCriteria": [
+    "readingModel, buildShareUrl and shareLinkMessage keep up to 4 cards (the largest spread today); ShareCardView lays out 4 cards without clipping at the 4:5 card size; unit tests cover 1, 3 and 4 cards.",
+    "The website share landing accepts up to 4 card ids in code and stays backward compatible with older 1-3 card links; the website itself is NOT deployed here (separate Owner approval).",
+    "Flight timing lives in named constants: a longer face-down hold, a slower flip (about 1.5 s), a longer name hold (about 2 s) and a pause between cards; reduced-motion users and the skip control still work; no timer leaks on unmount.",
+    "Under the fan the status and error appear above it and the fan, spin controls and the draw links fit above the sticky button on a typical 360x800 phone, checked with adb screenshots.",
+    "Slot and flight card width come from one responsive helper (area width and card count): 1 card about 55-60% of the width capped at 220 px, 3 cards about 28%, 4 cards about 22%; no empty gap under a single card; unit tests cover the helper.",
+    "npm test, lint and typecheck for apps/mobile pass; a new preview APK built with the Singapore env is installed on the connected phone for the Owner to review."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/share/shareCardContent.ts",
+    "apps/mobile/src/features/share/shareLink.ts",
+    "apps/mobile/src/features/share/ShareCardView.tsx",
+    "apps/mobile/src/features/share/__tests__/shareCardContent.test.ts",
+    "apps/mobile/src/features/share/__tests__/shareLink.test.ts",
+    "apps/mobile/src/features/share/__tests__/ShareCardSheet.test.tsx",
+    "apps/mobile/src/features/tarot/TarotCardFlight.tsx",
+    "apps/mobile/src/features/tarot/TarotDrawStep.tsx",
+    "apps/mobile/src/features/tarot/TarotDeckFan.tsx",
+    "apps/mobile/src/features/tarot/ritualLayout.ts",
+    "apps/mobile/src/features/tarot/__tests__/TarotDrawStep.test.tsx",
+    "apps/mobile/src/features/tarot/__tests__/ritualLayout.test.ts",
+    "apps/web/src/lib/shareLanding.ts",
+    "reports/",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "No website deploy (apps/web code change only; the Owner runs the deploy).",
+    "No SQL, no Edge Function deploy, no secret read or written, no Supabase/Vercel/EAS/Play setting change (the preview build uses the EAS variables already set).",
+    "Tarot draw logic, server-drawn cards, quota and Nil rules are unchanged; only presentation, timing and share content change.",
+    "Admin app is not touched."
+  ],
+  "impact": {
+    "entryPoint": "Mobile Tarot draw step (ritual flight, deck fan, slots) and the share sheet for tarot_reading.",
+    "dataWrite": "No new data written; the share link carries public card ids only, now up to 4 instead of 3.",
+    "backendContract": "No change to ai-tarot-reading or the share events contract.",
+    "adminVisibility": "None; share analytics events keep the same shape.",
+    "privacySafety": "Share card and link still carry only public card names and ids; question, notes and birth data are not added.",
+    "observability": "Existing share and tarot events unchanged.",
+    "rollback": "Revert the commit; older 3-card links keep working."
+  },
+  "canonicalContracts": [
+    "apps/mobile/src/features/share/shareCardContent.ts",
+    "apps/mobile/src/features/share/shareLink.ts"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile route and checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/mobile/src/features/share/shareCardContent.ts",
+      "reason": "readingModel slices to 3 cards.",
+      "sha256": "bd0e7adac6a4f0fa0f4feb3a746e8f8e440e0aebd186ccd05dff62df93eddb67"
+    },
+    {
+      "path": "apps/mobile/src/features/share/shareLink.ts",
+      "reason": "maxCards = 3 in link and message.",
+      "sha256": "0497ce1384bb214eaba26cf1482c0b66f8795fce2bdd5e39b659bfb685a792a4"
+    },
+    {
+      "path": "apps/mobile/src/features/tarot/TarotCardFlight.tsx",
+      "reason": "Flight timing and big card width.",
+      "sha256": "ee9e14b33bc0678f7d2df9e1b18ad49ffc78b0d2cf9280f54470ff0e3f5e7d37"
+    },
+    {
+      "path": "apps/mobile/src/features/tarot/TarotDrawStep.tsx",
+      "reason": "Slot sizes and layout order under the fan.",
+      "sha256": "039d009347fd6b9eb2f98b2f59874a4b7d588c03c8feae188df8e98dfa7a3190"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before edits; claims limited to what was run and seen on the device."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Calm ritual pacing and card presentation follow the Open Reflection tone; no brand asset or copy master changes."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "No AI prompt, route, quota or context change; the draw and interpretation contract are untouched."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Repository code only; no package added or upgraded."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No access change; no backend call added.",
+    "sensitiveData": "Share content stays limited to public card names and ids.",
+    "secretsLogging": "No secret read, written or logged.",
+    "externalInput": "Share landing still validates each card id against the existing id pattern and a hard cap of 4.",
+    "dependencies": "No package added or upgraded.",
+    "migrationRelease": "No SQL; the website deploy and any store release are separate Owner steps.",
+    "stopCondition": "Stop if tests or typecheck fail, or if the layout cannot fit on a 360x800 screen without hiding the primary action.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record passed preflight before the edit (18/11). Then: share keeps four cards, calmer ritual flight, controls above the fan, responsive slot size (ritualLayout.ts), report and PLAN.md. Jest tarot+share 108 passed; tsc clean.",
+    "paths": [
+      "PLAN.md",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/features/share/ShareCardView.tsx",
+      "apps/mobile/src/features/share/__tests__/shareCardContent.test.ts",
+      "apps/mobile/src/features/share/__tests__/shareLink.test.ts",
+      "apps/mobile/src/features/share/shareCardContent.ts",
+      "apps/mobile/src/features/share/shareLink.ts",
+      "apps/mobile/src/features/tarot/TarotCardFlight.tsx",
+      "apps/mobile/src/features/tarot/TarotDeckFan.tsx",
+      "apps/mobile/src/features/tarot/TarotDrawStep.tsx",
+      "apps/mobile/src/features/tarot/__tests__/TarotDrawStep.test.tsx",
+      "apps/mobile/src/features/tarot/__tests__/ritualLayout.test.ts",
+      "apps/mobile/src/features/tarot/ritualLayout.ts",
+      "apps/web/src/lib/shareLanding.ts",
+      "reports/2026-11-17-android-preview-singapore.md",
+      "reports/2026-11-18-tarot-ritual-ux.md",
+      "reports/README.md"
+    ]
+  },
+  "validationCommands": [
+    "npm --prefix apps/mobile test",
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm run feature:preflight -- --record docs/feature-plans/tarot-ritual-ux-2026-11-18.json"
+  ],
+  "managerTestPath": "Install the new preview APK, draw 1, 3 and 4 cards: the flip is slower and calm, the share image and link show every card, the card sizes fit the screen and the links under the fan are visible without scrolling.",
+  "residualRisk": "Pacing and layout are judged by feel and screen size: only the connected phone is tested, other screen sizes are checked through the sizing helper and unit tests, not on real devices. The website landing change needs the Owner's own deploy to take effect for 4-card links.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

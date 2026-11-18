@@ -13,9 +13,9 @@ it("builds a card link with only public card ids, the surface and a random id", 
   expect(parsed.searchParams.get("utm_content")).toBe("abc12345");
 });
 
-it("drops malformed card ids and keeps at most three", () => {
-  const url = buildShareUrl({ language: "en", surface: "tarot_reading", id: "abc12345", cardIds: ["ok-one", "BAD ID", "<script>", "ok-two", "ok-three", "ok-four"] });
-  expect(parse(url).searchParams.get("c")).toBe("ok-one,ok-two,ok-three");
+it("drops malformed card ids and keeps at most four", () => {
+  const url = buildShareUrl({ language: "en", surface: "tarot_reading", id: "abc12345", cardIds: ["ok-one", "BAD ID", "<script>", "ok-two", "ok-three", "ok-four", "ok-five"] });
+  expect(parse(url).searchParams.get("c")).toBe("ok-one,ok-two,ok-three,ok-four");
 });
 
 it("omits the card parameter when no valid card remains", () => {
@@ -84,10 +84,10 @@ it("uses the public card name for the card of the day and falls back without one
   expect(plain).not.toContain("undefined");
 });
 
-it("lists up to three card names for a reading and clips long names", () => {
-  const vi = shareLinkMessage("vi", "tarot_reading", link, { cardNames: ["Quá Khứ", "Hiện Tại", "Tương Lai", "Lá Thứ Tư"] });
-  expect(vi).toContain("Quá Khứ, Hiện Tại và Tương Lai");
-  expect(vi).not.toContain("Lá Thứ Tư");
+it("lists up to four card names for a reading and clips long names", () => {
+  const vi = shareLinkMessage("vi", "tarot_reading", link, { cardNames: ["Quá Khứ", "Hiện Tại", "Tương Lai", "Lời Khuyên", "Lá Thứ Năm"] });
+  expect(vi).toContain("Quá Khứ, Hiện Tại, Tương Lai và Lời Khuyên");
+  expect(vi).not.toContain("Lá Thứ Năm");
   expect(shareLinkMessage("en", "tarot_reading", link, { cardNames: ["A", "B"] })).toContain("A and B");
   const long = shareLinkMessage("en", "today_card", link, { cardNames: ["x".repeat(200)] });
   expect(long).toContain("x".repeat(40));
