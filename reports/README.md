@@ -6,5 +6,5 @@ Mỗi báo cáo gồm: nguyên nhân/mục tiêu · đã làm gì · **đã ki�
 
 | Ngày | Báo cáo | Tóm tắt | Trạng thái |
 |---|---|---|---|
-| 18/11/2026 | [Tarot nghi thức](2026-11-18-tarot-ritual-ux.md) | Ảnh chia sẻ giữ 4 lá, lật bài chậm và tĩnh tâm, nội dung dưới quạt bài lên trên, kích thước lá theo màn hình | Mã xong, chờ Owner thử APK rồi duyệt gộp `main` |
+| 18/11/2026 | [Tarot nghi thức](2026-11-18-tarot-ritual-ux.md) | Ảnh chia sẻ giữ 4 lá, lật bài chậm và tĩnh tâm, nội dung dưới quạt bài lên trên, kích thước lá theo màn hình | Đã gộp `main` (PR #54) và triển khai lại trang web; chờ Owner thử nhịp lật trên APK |
 | 17/11/2026 | [APK preview về Singapore](2026-11-17-android-preview-singapore.md) | Đặt lại biến EAS preview về Singapore, dựng lại APK, cài điện thoại; đăng nhập và đăng ký chạy | Đã xong và kiểm trên điện thoại thật |
