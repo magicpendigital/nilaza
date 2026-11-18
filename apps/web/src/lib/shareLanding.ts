@@ -57,13 +57,13 @@ export function elementPairKey(a: ZodiacId, b: ZodiacId): string {
 
 const cardIdPattern = /^[a-z0-9][a-z0-9-]{1,40}$/;
 
-/** Card ids from the ?c= parameter that are well formed and present in the published list; at most three. */
+/** Card ids from the ?c= parameter that are well formed and present in the published list; at most four (the largest spread). Older links carry one to three. */
 export function parseCardIds(param: string | null, known: ReadonlySet<string>): string[] {
   if (!param) return [];
   const result: string[] = [];
   for (const id of param.split(",")) {
     if (cardIdPattern.test(id) && known.has(id) && !result.includes(id)) result.push(id);
-    if (result.length === 3) break;
+    if (result.length === 4) break;
   }
   return result;
 }
