@@ -31,6 +31,12 @@ EAS build `8c241d42-8a48-4903-91c0-e00463128259` (preview, Singapore): https://e
 
 APK đã tải về và cài lên điện thoại Android đang kết nối (18/11, `adb install` báo Success, gói `app.nilaza.mobile` bản 0.1.3). Chưa kiểm nhịp lật bài trên máy: chờ Owner cảm nhận.
 
+## Cập nhật sau khi gộp `main` (18/11)
+- PR [#54](https://github.com/magicpendigital/nilaza/pull/54) đã merge vào `main` (`feefc71`) sau khi CI xanh.
+- ✅ **Đã triển khai lại trang web** (Owner duyệt 18/11): build từ `main` (48 trang, kiểm tương thích Safari/iOS 15 đạt), `wrangler pages deploy` lên Cloudflare Pages `nilaza-web-staging` (deploy `bae83d2c`). Đọc lại trang đang chạy: `shareLanding` giờ cho tối đa 4 mã lá, nên link chia sẻ 4 lá hiện đủ 4 lá; trang `/vi/account-deletion/` trả 200.
+- ✅ **Tài khoản thử:** Owner dặn giữ `tuyentrinh9193@gmail.com` và `magicpendigital@gmail.com` (chủ), xóa các tài khoản thử khác. Đọc lại bảng người dùng trên Singapore: **chỉ có đúng 2 tài khoản này**, nên không có gì để xóa và không xóa gì.
+- ⛔ **Drive:** kết nối Google Drive đã bật trong tài khoản, nhưng phiên làm việc này vẫn chỉ nạp được một công cụ Drive (`list_file_revisions`). Cần mở phiên mới để công cụ tạo/tải tệp được nạp rồi tải lại ghi chú khôi phục.
+
 ## Chờ Owner
 1. Thử APK rồi cho ý kiến về nhịp lật (có thể chỉnh số ở `FLIGHT_STAGES`).
 2. ✅ Owner đã duyệt commit → merge → push vào `main` (18/11).
