@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { Image, ImageSourcePropType, LayoutChangeEvent, Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, ImageSourcePropType, LayoutAnimation, LayoutChangeEvent, Pressable, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors, layout, radius, typography } from "../../theme";
 import type { Language } from "../../types";
 import { FAN_CARD_W, TarotDeckFan, type TarotDeckFanHandle } from "./TarotDeckFan";
 import { TarotCardFlight, type CardFlight } from "./TarotCardFlight";
+import { CARD_ASPECT, slotSizing } from "./ritualLayout";
 
 export type DrawSlot = { label: string; card?: { name: string; image: ImageSourcePropType; reversed: boolean } };
 
@@ -24,6 +25,8 @@ export type TarotDrawStepProps = {
   onDrawRest?: () => void;
   /** Reduced-motion preference: no spin momentum and no card flight. */
   reduceMotion?: boolean;
+  /** Tells the owner when a card's flight starts and ends, so its draw button can wait for the ritual. */
+  onFlightChange?: (active: boolean) => void;
   /** Set false to show drawn cards without the flight (tests, quick paths). */
   animate?: boolean;
   deckSize?: number;
@@ -33,9 +36,8 @@ export type TarotDrawStepProps = {
 };
 
 type Rect = { x: number; y: number; width: number; height: number };
-const CARD_ASPECT = 148 / 86;
 
-export function TarotDrawStep({ language, question, slots, backImage, selectedFanIndex, onSelectFan, onClearSelection, onOpenCard, busy, status, onDrawRest, reduceMotion = false, animate = true, deckSize = 78, fanStart, children }: TarotDrawStepProps) {
+export function TarotDrawStep({ language, question, slots, backImage, selectedFanIndex, onSelectFan, onClearSelection, onOpenCard, busy, status, onDrawRest, reduceMotion = false, onFlightChange, animate = true, deckSize = 78, fanStart, children }: TarotDrawStepProps) {
   const vi = language === "vi";
   const filled = slots.filter((slot) => slot.card).length;
   // A drawn card shows in its slot only once its flight has landed.
@@ -58,6 +60,9 @@ export function TarotDrawStep({ language, question, slots, backImage, selectedFa
   const nextLabel = done ? "" : shown[nextIndex].label;
   const remaining = shown.filter((slot) => !slot.card).length;
   const busyNow = busy || flight !== null;
+  const { width: windowWidth, height: viewportHeight } = useWindowDimensions();
+  // Slots are sized from the screen and the number of cards, not a fixed width.
+  const sizing = slotSizing({ areaWidth: area?.width ?? windowWidth - 40, viewportHeight, count: slots.length, done });
 
   useEffect(() => {
     if (filled < landed) { setLanded(filled); return; }
@@ -84,11 +89,28 @@ export function TarotDrawStep({ language, question, slots, backImage, selectedFa
       back: backImage,
       face: drawn.image,
       reversed: drawn.reversed,
+      intro: {
+        position: slot.label,
+        hint: vi ? "Giữ câu hỏi của bạn trong tâm trí" : "Hold your question in mind",
+        question: question.trim() || undefined
+      },
       caption: { position: slot.label, name: drawn.name, orientation: drawn.reversed ? (vi ? "Ngược" : "Reversed") : (vi ? "Xuôi" : "Upright") }
     });
-  }, [filled, landed, flight, slots, animate, reduceMotion, area, backImage, vi]);
+  }, [filled, landed, flight, slots, animate, reduceMotion, area, backImage, vi, question]);
+
+  // When the last card settles, the deck goes away and a single card grows; ease that change instead of jumping.
+  const easeLayout = () => {
+    if (animate && !reduceMotion) LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  };
+
+  const flightActive = flight !== null;
+  useEffect(() => {
+    onFlightChange?.(flightActive);
+  }, [flightActive, onFlightChange]);
+  useEffect(() => () => onFlightChange?.(false), [onFlightChange]);
 
   const land = () => {
+    if (landed + 1 >= slots.length) easeLayout();
     setFlight(null);
     setLanded((current) => Math.min(current + 1, slots.length));
   };
@@ -120,12 +142,12 @@ export function TarotDrawStep({ language, question, slots, backImage, selectedFa
         </View>
       ) : null}
 
-      <View style={s.slots} testID="draw-slots" onLayout={(event) => { rowRect.current = event.nativeEvent.layout; }}>
+      <View style={[s.slots, { gap: sizing.gap }]} testID="draw-slots" onLayout={(event) => { rowRect.current = event.nativeEvent.layout; }}>
         {shown.map((slot, index) => {
           const isNext = index === nextIndex;
           const card = slot.card;
           return (
-            <View key={`${slot.label}-${index}`} testID={`draw-slot-${index}`} style={s.slot} onLayout={(event) => { cellRects.current[index] = event.nativeEvent.layout; }}>
+            <View key={`${slot.label}-${index}`} testID={`draw-slot-${index}`} style={[s.slot, { width: sizing.width }]} onLayout={(event) => { cellRects.current[index] = event.nativeEvent.layout; }}>
               {card ? (
                 <Pressable accessibilityRole="imagebutton" accessibilityLabel={`${slot.label}: ${card.name}. ${vi ? "Xem hình lá bài toàn màn hình" : "View full-screen card artwork"}`}
                   onPress={() => onOpenCard(index)} style={s.slotCard}>
@@ -149,8 +171,30 @@ export function TarotDrawStep({ language, question, slots, backImage, selectedFa
       </Text>
       {status ? <Text style={s.status}>{status}</Text> : null}
 
+      {/* Notices and errors sit right under the prompt so they are seen, not hidden below the deck. */}
+      {children}
+
       {!done ? (
         <>
+          {/* One compact row of controls above the deck, so they are seen without scrolling: spin left, pick for me, reveal the rest, spin right. */}
+          <View style={s.controls}>
+            <Pressable accessibilityRole="button" accessibilityLabel={vi ? "Xoay bộ bài sang trái" : "Spin the deck left"} accessibilityHint={vi ? "Hoặc vuốt ngang trên bộ bài" : "Or swipe sideways on the deck"} onPress={() => fanRef.current?.rotateBy(-3)} style={s.spinButton}>
+              <Ionicons name="chevron-back-outline" size={22} color="#B8B0A4" />
+            </Pressable>
+            <View style={s.controlsCentre}>
+              <Pressable accessibilityRole="button" disabled={busyNow} onPress={pickRandom} style={s.link}>
+                <Text style={s.linkMuted}>{vi ? "Rút ngẫu nhiên" : "Random pick"}</Text>
+              </Pressable>
+              {onDrawRest && remaining > 1 ? (
+                <Pressable accessibilityRole="button" disabled={busyNow} onPress={revealRest} style={s.link}>
+                  <Text style={s.linkText}>{vi ? `Lật cả ${remaining} lá ngay` : `Reveal all ${remaining} now`}</Text>
+                </Pressable>
+              ) : null}
+            </View>
+            <Pressable accessibilityRole="button" accessibilityLabel={vi ? "Xoay bộ bài sang phải" : "Spin the deck right"} accessibilityHint={vi ? "Hoặc vuốt ngang trên bộ bài" : "Or swipe sideways on the deck"} onPress={() => fanRef.current?.rotateBy(3)} style={s.spinButton}>
+              <Ionicons name="chevron-forward-outline" size={22} color="#B8B0A4" />
+            </Pressable>
+          </View>
           <View testID="draw-fan" style={s.fanWrap} onLayout={(event) => { fanRect.current = event.nativeEvent.layout; }}>
             <TarotDeckFan
               ref={fanRef}
@@ -166,31 +210,7 @@ export function TarotDrawStep({ language, question, slots, backImage, selectedFa
               onSpin={onClearSelection}
             />
           </View>
-          <View style={s.spinRow}>
-            <Pressable accessibilityRole="button" accessibilityLabel={vi ? "Xoay bộ bài sang trái" : "Spin the deck left"} onPress={() => fanRef.current?.rotateBy(-3)} style={s.spinButton}>
-              <Ionicons name="chevron-back-outline" size={20} color="#B8B0A4" />
-            </Pressable>
-            <Text style={s.spinHint}>{vi ? "Vuốt ngang để xoay bộ bài" : "Swipe sideways to spin the deck"}</Text>
-            <Pressable accessibilityRole="button" accessibilityLabel={vi ? "Xoay bộ bài sang phải" : "Spin the deck right"} onPress={() => fanRef.current?.rotateBy(3)} style={s.spinButton}>
-              <Ionicons name="chevron-forward-outline" size={20} color="#B8B0A4" />
-            </Pressable>
-          </View>
         </>
-      ) : null}
-
-      {children}
-
-      {!done ? (
-        <View style={s.links}>
-          <Pressable accessibilityRole="button" disabled={busyNow} onPress={pickRandom} style={s.link}>
-            <Text style={s.linkMuted}>{vi ? "Rút ngẫu nhiên" : "Random pick"}</Text>
-          </Pressable>
-          {onDrawRest && remaining > 1 ? (
-            <Pressable accessibilityRole="button" disabled={busyNow} onPress={revealRest} style={s.link}>
-              <Text style={s.linkText}>{vi ? `Lật cả ${remaining} lá ngay` : `Reveal all ${remaining} now`}</Text>
-            </Pressable>
-          ) : <View />}
-        </View>
       ) : null}
 
       {flight && area ? <TarotCardFlight flight={flight} area={area} skipLabel={vi ? "Bỏ qua hiệu ứng" : "Skip animation"} onDone={land} /> : null}
@@ -203,8 +223,8 @@ const s = StyleSheet.create({
   question: { flexDirection: "row", gap: 10, alignItems: "flex-start", padding: 14, borderRadius: 14, backgroundColor: "#1F1C1E" },
   questionIcon: { marginTop: 2 },
   questionText: { flex: 1, color: colors.ivory, fontFamily: typography.bodyFontFamily, fontSize: 14, lineHeight: 20 },
-  slots: { flexDirection: "row", justifyContent: "center", gap: 12, marginTop: 18 },
-  slot: { flex: 1, maxWidth: 96, alignItems: "center", gap: 8 },
+  slots: { flexDirection: "row", justifyContent: "center", marginTop: 12 },
+  slot: { alignItems: "center", gap: 8 },
   slotCard: { width: "100%", aspectRatio: 86 / 148, borderRadius: radius.card, overflow: "hidden" },
   slotImage: { width: "100%", height: "100%" },
   reversed: { transform: [{ rotate: "180deg" }] },
@@ -215,15 +235,14 @@ const s = StyleSheet.create({
   slotLabel: { color: "#B8B0A4", fontFamily: typography.bodyFontFamily, fontSize: 12.5, textAlign: "center" },
   slotLabelNext: { color: colors.gold, fontFamily: typography.bodySemiBoldFontFamily },
   slotLabelDone: { color: colors.ivory, fontFamily: typography.bodySemiBoldFontFamily },
-  prompt: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 22, lineHeight: 29, textAlign: "center", marginTop: 24, marginHorizontal: 12 },
+  prompt: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 20, lineHeight: 26, textAlign: "center", marginTop: 14, marginHorizontal: 12 },
   promptEm: { color: colors.gold, fontStyle: "italic" },
   status: { color: "#B8B0A4", fontFamily: typography.bodyFontFamily, fontSize: 13, textAlign: "center", marginTop: 8 },
-  fanWrap: { marginTop: 18 },
-  spinRow: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 6 },
+  fanWrap: { marginTop: 0 },
+  controls: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", marginTop: 6 },
+  controlsCentre: { flex: 1, flexDirection: "row", flexWrap: "wrap", alignItems: "center", justifyContent: "center", columnGap: 2 },
   spinButton: { width: layout.minimumTouchTarget, height: layout.minimumTouchTarget, alignItems: "center", justifyContent: "center" },
-  spinHint: { color: "#8F877C", fontFamily: typography.bodyFontFamily, fontSize: 12.5 },
-  links: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginTop: 4 },
-  link: { minHeight: layout.minimumTouchTarget, justifyContent: "center", paddingHorizontal: 8 },
+  link: { minHeight: layout.minimumTouchTarget, justifyContent: "center", paddingHorizontal: 6 },
   linkText: { color: colors.gold, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 13.5 },
   linkMuted: { color: "#B8B0A4", fontFamily: typography.bodyFontFamily, fontSize: 13.5 }
 });

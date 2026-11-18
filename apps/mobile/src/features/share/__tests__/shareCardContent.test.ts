@@ -33,6 +33,18 @@ it("prints card names and positions for a reading and marks reversed cards", () 
   expect(model.message).toBe("A gentle shift is possible when you slow down.");
 });
 
+it("keeps all four cards of the largest spread and no more", () => {
+  const card = (n: number) => ({ position: `P${n}`, name: `Card ${n}`, reversed: n % 2 === 0, image });
+  const four = readingModel({ language: "en", cards: [1, 2, 3, 4].map(card), summary: "Hold steady." });
+  expect(four.images).toHaveLength(4);
+  expect(four.lines).toHaveLength(4);
+  expect(four.title).toBe("4 cards");
+  expect(four.cardNames).toEqual(["Card 1", "Card 2", "Card 3", "Card 4"]);
+  const five = readingModel({ language: "vi", cards: [1, 2, 3, 4, 5].map(card), summary: "Hold steady." });
+  expect(five.images).toHaveLength(4);
+  expect(five.title).toBe("4 lá bài");
+});
+
 it("keeps the question, notes and mood out of the reading card even when the input carries them", () => {
   const privateInput = {
     language: "en" as const,

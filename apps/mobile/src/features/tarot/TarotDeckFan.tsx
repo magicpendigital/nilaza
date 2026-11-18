@@ -9,8 +9,8 @@ import type { Language } from "../../types";
 
 export const FAN_CARD_W = 68;
 export const FAN_CARD_H = 118;
-export const FAN_HEIGHT = 230;
-const FAN_TOP = 50;
+export const FAN_HEIGHT = 212;
+const FAN_TOP = 34;
 const FAN_ORIGIN_Y = FAN_CARD_H * 3.2; // transformOrigin is 50% 320% of the card
 const FAN_STEP_DEG = 9;
 const FAN_HALF_WINDOW = 4.6; // cards further from the centre than this are not drawn

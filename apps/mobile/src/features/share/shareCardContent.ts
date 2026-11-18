@@ -2,7 +2,7 @@ import type { ImageSourcePropType } from "react-native";
 import type { Language } from "../../types";
 import { localizeAstrologySign, type AstrologySignId } from "../astrology/contracts";
 import { firstSentence, safeReadingSentence } from "../tarot/shareText";
-import { SHARE_DISPLAY_ADDRESS, type ShareSurface } from "./shareLink";
+import { MAX_SHARE_CARDS, SHARE_DISPLAY_ADDRESS, type ShareSurface } from "./shareLink";
 
 export type ShareCardImage = { source: ImageSourcePropType; reversed: boolean };
 export type ShareCardRow = { glyph: string; label: string; value: string };
@@ -21,7 +21,7 @@ export type ShareCardModel = {
   message: string;
   note: string;
   footer: string;
-  /** Public tarot card names that may appear in the share message (at most three). Never the question or notes. */
+  /** Public tarot card names that may appear in the share message (at most four). Never the question or notes. */
   cardNames?: string[];
   /** Calculated Sun sign name that may appear in the share message, only when the chart gives exactly one. */
   signName?: string;
@@ -58,7 +58,7 @@ export type ShareReadingCard = { position: string; name: string; reversed: boole
 
 export function readingModel(input: { language: Language; cards: ShareReadingCard[]; summary: string; question?: string | null }): ShareCardModel {
   const vi = input.language === "vi";
-  const cards = input.cards.slice(0, 3);
+  const cards = input.cards.slice(0, MAX_SHARE_CARDS);
   return {
     surface: "tarot_reading",
     eyebrow: vi ? "Trải bài của mình" : "My reading",

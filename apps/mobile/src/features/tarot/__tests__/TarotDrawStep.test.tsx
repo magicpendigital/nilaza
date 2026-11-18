@@ -1,6 +1,7 @@
 import React from "react";
 import { act, fireEvent, render } from "@testing-library/react-native";
 import { TarotDrawStep, type DrawSlot } from "../TarotDrawStep";
+import { FLIGHT_TOTAL_MS } from "../ritualLayout";
 
 const card = { name: "Tình Nhân", image: { uri: "lovers" }, reversed: true };
 const threeSlots: DrawSlot[] = [{ label: "Bạn", card }, { label: "Người ấy" }, { label: "Mối quan hệ" }];
@@ -81,7 +82,8 @@ describe("card flight", () => {
   const layoutEvent = (width: number, height: number, x = 0, y = 0) => ({ nativeEvent: { layout: { x, y, width, height } } });
 
   test("a newly drawn card flies before it lands in its slot, and tapping the scrim skips it", () => {
-    const { screen, rerender } = renderStep(threeSlots, { animate: true });
+    const onFlightChange = jest.fn();
+    const { screen, rerender } = renderStep(threeSlots, { animate: true, onFlightChange });
     fireEvent(screen.getByTestId("draw-root"), "layout", layoutEvent(342, 700));
     fireEvent(screen.getByTestId("draw-slots"), "layout", layoutEvent(342, 190, 0, 90));
     threeSlots.forEach((_, index) => fireEvent(screen.getByTestId(`draw-slot-${index}`), "layout", layoutEvent(96, 190, index * 108, 0)));
@@ -94,8 +96,12 @@ describe("card flight", () => {
     expect(screen.queryByRole("imagebutton", { name: /Người ấy: Nữ Tư Tế/ })).toBeNull();
     // The drawn card has left the deck.
     expect(screen.queryByRole("button", { name: "Lá thứ 3 trong bộ bài" })).toBeNull();
+    // While it waits face down the person is asked to hold the question in mind, and the owner is told a flight is running.
+    expect(screen.getByText("Giữ câu hỏi của bạn trong tâm trí")).toBeTruthy();
+    expect(onFlightChange).toHaveBeenLastCalledWith(true);
 
-    act(() => { jest.advanceTimersByTime(6000); });
+    act(() => { jest.advanceTimersByTime(FLIGHT_TOTAL_MS + 500); });
+    expect(onFlightChange).toHaveBeenLastCalledWith(false);
     expect(screen.getByRole("imagebutton", { name: /Người ấy: Nữ Tư Tế/ })).toBeTruthy();
     expect(screen.queryByText("Bỏ qua hiệu ứng")).toBeNull();
   });
@@ -121,4 +127,28 @@ describe("four-card spread", () => {
     expect(screen.queryByText(/Lật cả/)).toBeNull();
     expect(screen.getByText(/Chọn lá cho vị trí/)).toBeTruthy();
   });
+});
+
+test("notices and errors show above the deck, not hidden below it", () => {
+  const { screen } = renderStep(threeSlots, { children: <></> });
+  screen.rerender(
+    <TarotDrawStep language="vi" question="Câu hỏi" slots={threeSlots} backImage={{ uri: "back" }} selectedFanIndex={null} busy={false} animate={false} fanStart={0}
+      onSelectFan={jest.fn()} onOpenCard={jest.fn()}>
+      <></>
+      {React.createElement(require("react-native").Text, null, "thong-bao-loi")}
+    </TarotDrawStep>
+  );
+  const tree = JSON.stringify(screen.toJSON());
+  expect(tree.indexOf("thong-bao-loi")).toBeGreaterThan(-1);
+  expect(tree.indexOf("thong-bao-loi")).toBeLessThan(tree.indexOf('"draw-fan"'));
+});
+
+test("slot width follows the number of cards and a single drawn card is larger than an empty slot", () => {
+  const { StyleSheet } = require("react-native");
+  const widthOf = (screen: ReturnType<typeof render>, index: number) => StyleSheet.flatten(screen.getByTestId(`draw-slot-${index}`).props.style).width as number;
+  const empty = renderStep([{ label: "Thông điệp" }]);
+  const drawn = renderStep([{ label: "Thông điệp", card }]);
+  expect(widthOf(drawn.screen, 0)).toBeGreaterThan(widthOf(empty.screen, 0));
+  const four = renderStep([{ label: "A" }, { label: "B" }, { label: "C" }, { label: "D" }]);
+  expect(widthOf(four.screen, 0) * 4).toBeLessThan(400);
 });

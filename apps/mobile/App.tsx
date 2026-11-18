@@ -189,6 +189,7 @@ import appConfig from "./app.json";
 import { normalizeOracleText, oracleIntent, oracleSafetyReply, oracleSafetySignal } from "../../packages/ai-contracts/oracle-safety.mjs";
 import { PersonaChatRoom } from "./src/features/persona";
 import { createEmailAuthState, displayNameFromEmail } from "./src/auth/localAuth";
+import { loadDeviceLanguagePreference, saveDeviceLanguagePreference } from "./src/languagePreference";
 import { emailLocaleFor, resendSupabaseSignupConfirmation, resetSupabasePasswordForEmail, signInWithSupabaseEmail, signUpWithSupabaseEmail, updateSupabaseUserLocale } from "./src/auth/supabaseAuth";
 import {
   AuthView,
@@ -3375,7 +3376,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         const [savedProfile, savedBirthProfile, savedOracleMemoryConsent, savedArtifacts, savedPrompts,
           savedSelectedDeckId, savedRevealedTodayPulseKey, savedFavoritePersonaIds, savedNotificationPreferences,
           savedDevicePushRegistration, savedInAppNotifications, savedGenerationActivities, savedMessages, savedOracle, savedJournal,
-          savedInsight, savedUsage, savedSafety, savedHiddenIds, savedJournalState] = await Promise.all([
+          savedInsight, savedUsage, savedSafety, savedHiddenIds, savedJournalState, savedDeviceLanguage] = await Promise.all([
           loadJson<Profile | null>("nilaza.profile", null),
           loadJson<BirthProfileDraft | null>(birthProfileStorageKey, null),
           loadJson<OracleMemoryConsent>("nilaza.oracleMemoryConsent", { journalMemory: false, birthProfile: false }),
@@ -3395,7 +3396,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
           loadJson<UsageEvent[]>("nilaza.events", []),
           loadJson<SafetyEvent[]>("nilaza.safetyEvents", []),
           loadJson<string[]>("nilaza.hiddenJournalIds", []),
-          loadJson<unknown>(journalStateKey, null)
+          loadJson<unknown>(journalStateKey, null),
+          loadDeviceLanguagePreference()
         ]);
         if (active && scope.active) setLocalHydrated(true);
         // Recover an existing cloud profile by its verified owner, not by guessing
@@ -3403,13 +3405,17 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         // Cloud profile hydration is an enhancement over the namespaced local
         // cache. A first-login RLS/network failure must not strand the user on
         // the local-data error screen or cause any local value to be replaced.
+        // Signed-out screens and brand-new accounts have no saved profile: use the
+        // language last picked on this device (e.g. on the sign-up screen) before
+        // falling back to the phone language.
+        const fallbackProfile = savedDeviceLanguage ? { ...profile, language: savedDeviceLanguage } : profile;
         const remoteSnapshot = !savedProfile && scope.accessToken && supabaseUrl
           ? await getProfileSnapshot(backendOptions).catch(() => null) : null;
         const remoteProfile = remoteSnapshot
-          ? (() => { try { return mapProfileSnapshot(remoteSnapshot, profile); } catch { return null; } })()
+          ? (() => { try { return mapProfileSnapshot(remoteSnapshot, fallbackProfile); } catch { return null; } })()
           : null;
         if (!active || !scope.active) return;
-        const restoredProfile = savedProfile ?? remoteProfile?.profile ?? profile;
+        const restoredProfile = savedProfile ?? remoteProfile?.profile ?? fallbackProfile;
         const restoredBirth = savedBirthProfile ?? remoteProfile?.birth ?? defaultBirthProfile;
         setProfile({ ...restoredProfile, goals: migrateGoals(restoredProfile.goals ?? []), language: normalizeLanguage(restoredProfile.language) });
         setBirthDate(restoredBirth.birthDate ?? "");
@@ -3570,6 +3576,11 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   useEffect(() => {
     if (loaded) void saveJson("nilaza.profile", profile);
   }, [loaded, profile]);
+
+  // One app language across signed-out screens and accounts on this device.
+  useEffect(() => {
+    if (loaded) void saveDeviceLanguagePreference(language);
+  }, [loaded, language]);
 
   // Auth emails follow the app language: keep the account's locale in step when a
   // signed-in person changes language in Settings. Failures keep the old language.
@@ -7458,6 +7469,8 @@ export function TarotFlow({
   // P1-A: a server draw in flight; a newer request or leaving the draw step makes an older answer stale.
   const [serverDrawPending, setServerDrawPending] = useState(false);
   const serverDrawRequest = useRef(0);
+  // A card's slow flight (face down, turn, name, land) is playing; the draw button waits for it to finish.
+  const [ritualFlightActive, setRitualFlightActive] = useState(false);
   const [fullscreenTarotCard, setFullscreenTarotCard] = useState<FullscreenTarotCard | null>(null);
   const [selectedFanIndex, setSelectedFanIndex] = useState<number | null>(null);
   const [cardMeaningReturnStage, setCardMeaningReturnStage] = useState<TarotStage>("deckDetail");
@@ -7465,10 +7478,11 @@ export function TarotFlow({
   const [showTarotBackToTop, setShowTarotBackToTop] = useState(false);
   const visibleRitualCards = ritualSelectedCards.slice(0, ritualDrawnCount);
   const latestRitualCard = visibleRitualCards[visibleRitualCards.length - 1];
-  const drawActionBusy = stage === "draw" && (ritualPhase !== "grounding" || serverDrawPending) && !tarotGenerating;
+  const drawActionBusy = stage === "draw" && (ritualPhase !== "grounding" || serverDrawPending || ritualFlightActive) && !tarotGenerating;
   const ritualPhaseLabel = (() => {
     if (tarotGenerating || ritualPhase === "reveal") return c.generatingReading;
     if (serverDrawPending) return language === "vi" ? "Đang rút lá cho bạn..." : "Drawing your cards...";
+    if (ritualFlightActive) return language === "vi" ? "Giữ câu hỏi trong tâm trí..." : "Hold your question in mind...";
     if (ritualPhase === "pause_and_breathe") return language === "vi" ? "Dừng một nhịp và thở..." : "Pause and breathe...";
     if (ritualPhase.startsWith("draw_card")) return language === "vi" ? "Lá bài đang tìm vị trí..." : "A card is finding its place...";
     return latestRitualCard
@@ -8248,9 +8262,10 @@ export function TarotFlow({
             onClearSelection={() => setSelectedFanIndex(null)}
             onOpenCard={(index) => { const card = ritualSelectedCards[index]; if (card) openFullscreenTarotCard(card, card.spread); }}
             busy={tarotGenerating || drawActionBusy}
-            status={latestRitualCard && ritualPhase === "grounding" && !tarotGenerating ? `${latestRitualCard.spread} · ${displayTarotCardName(latestRitualCard, language)} · ${latestRitualCard.reversed ? (language === "vi" ? "Ngược" : "Reversed") : (language === "vi" ? "Xuôi" : "Upright")}` : ritualPhaseLabel}
+            status={latestRitualCard && ritualPhase === "grounding" && !ritualFlightActive && !tarotGenerating ? `${latestRitualCard.spread} · ${displayTarotCardName(latestRitualCard, language)} · ${latestRitualCard.reversed ? (language === "vi" ? "Ngược" : "Reversed") : (language === "vi" ? "Xuôi" : "Upright")}` : ritualPhaseLabel}
             onDrawRest={selectedSpread.cards > 1 ? handleQuickDraw : undefined}
             reduceMotion={reduceRitualMotion}
+            onFlightChange={setRitualFlightActive}
           >
             {!canViewContentTier(selectedDeck.accessTier, displayedTier) ? (
               <PremiumLockNotice testID="draw-premium-lock" language={language} kind="deck" onOpenPremium={onOpenPremium} />
