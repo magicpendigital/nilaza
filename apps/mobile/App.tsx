@@ -189,6 +189,7 @@ import appConfig from "./app.json";
 import { normalizeOracleText, oracleIntent, oracleSafetyReply, oracleSafetySignal } from "../../packages/ai-contracts/oracle-safety.mjs";
 import { PersonaChatRoom } from "./src/features/persona";
 import { createEmailAuthState, displayNameFromEmail } from "./src/auth/localAuth";
+import { loadDeviceLanguagePreference, saveDeviceLanguagePreference } from "./src/languagePreference";
 import { emailLocaleFor, resendSupabaseSignupConfirmation, resetSupabasePasswordForEmail, signInWithSupabaseEmail, signUpWithSupabaseEmail, updateSupabaseUserLocale } from "./src/auth/supabaseAuth";
 import {
   AuthView,
@@ -3374,7 +3375,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         const [savedProfile, savedBirthProfile, savedOracleMemoryConsent, savedArtifacts, savedPrompts,
           savedSelectedDeckId, savedRevealedTodayPulseKey, savedFavoritePersonaIds, savedNotificationPreferences,
           savedDevicePushRegistration, savedInAppNotifications, savedGenerationActivities, savedMessages, savedOracle, savedJournal,
-          savedInsight, savedUsage, savedSafety, savedHiddenIds, savedJournalState] = await Promise.all([
+          savedInsight, savedUsage, savedSafety, savedHiddenIds, savedJournalState, savedDeviceLanguage] = await Promise.all([
           loadJson<Profile | null>("nilaza.profile", null),
           loadJson<BirthProfileDraft | null>(birthProfileStorageKey, null),
           loadJson<OracleMemoryConsent>("nilaza.oracleMemoryConsent", { journalMemory: false, birthProfile: false }),
@@ -3394,7 +3395,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
           loadJson<UsageEvent[]>("nilaza.events", []),
           loadJson<SafetyEvent[]>("nilaza.safetyEvents", []),
           loadJson<string[]>("nilaza.hiddenJournalIds", []),
-          loadJson<unknown>(journalStateKey, null)
+          loadJson<unknown>(journalStateKey, null),
+          loadDeviceLanguagePreference()
         ]);
         if (active && scope.active) setLocalHydrated(true);
         // Recover an existing cloud profile by its verified owner, not by guessing
@@ -3402,13 +3404,17 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         // Cloud profile hydration is an enhancement over the namespaced local
         // cache. A first-login RLS/network failure must not strand the user on
         // the local-data error screen or cause any local value to be replaced.
+        // Signed-out screens and brand-new accounts have no saved profile: use the
+        // language last picked on this device (e.g. on the sign-up screen) before
+        // falling back to the phone language.
+        const fallbackProfile = savedDeviceLanguage ? { ...profile, language: savedDeviceLanguage } : profile;
         const remoteSnapshot = !savedProfile && scope.accessToken && supabaseUrl
           ? await getProfileSnapshot(backendOptions).catch(() => null) : null;
         const remoteProfile = remoteSnapshot
-          ? (() => { try { return mapProfileSnapshot(remoteSnapshot, profile); } catch { return null; } })()
+          ? (() => { try { return mapProfileSnapshot(remoteSnapshot, fallbackProfile); } catch { return null; } })()
           : null;
         if (!active || !scope.active) return;
-        const restoredProfile = savedProfile ?? remoteProfile?.profile ?? profile;
+        const restoredProfile = savedProfile ?? remoteProfile?.profile ?? fallbackProfile;
         const restoredBirth = savedBirthProfile ?? remoteProfile?.birth ?? defaultBirthProfile;
         setProfile({ ...restoredProfile, goals: migrateGoals(restoredProfile.goals ?? []), language: normalizeLanguage(restoredProfile.language) });
         setBirthDate(restoredBirth.birthDate ?? "");
@@ -3569,6 +3575,11 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   useEffect(() => {
     if (loaded) void saveJson("nilaza.profile", profile);
   }, [loaded, profile]);
+
+  // One app language across signed-out screens and accounts on this device.
+  useEffect(() => {
+    if (loaded) void saveDeviceLanguagePreference(language);
+  }, [loaded, language]);
 
   // Auth emails follow the app language: keep the account's locale in step when a
   // signed-in person changes language in Settings. Failures keep the old language.
