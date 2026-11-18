@@ -7451,6 +7451,8 @@ export function TarotFlow({
   // P1-A: a server draw in flight; a newer request or leaving the draw step makes an older answer stale.
   const [serverDrawPending, setServerDrawPending] = useState(false);
   const serverDrawRequest = useRef(0);
+  // A card's slow flight (face down, turn, name, land) is playing; the draw button waits for it to finish.
+  const [ritualFlightActive, setRitualFlightActive] = useState(false);
   const [fullscreenTarotCard, setFullscreenTarotCard] = useState<FullscreenTarotCard | null>(null);
   const [selectedFanIndex, setSelectedFanIndex] = useState<number | null>(null);
   const [cardMeaningReturnStage, setCardMeaningReturnStage] = useState<TarotStage>("deckDetail");
@@ -7458,10 +7460,11 @@ export function TarotFlow({
   const [showTarotBackToTop, setShowTarotBackToTop] = useState(false);
   const visibleRitualCards = ritualSelectedCards.slice(0, ritualDrawnCount);
   const latestRitualCard = visibleRitualCards[visibleRitualCards.length - 1];
-  const drawActionBusy = stage === "draw" && (ritualPhase !== "grounding" || serverDrawPending) && !tarotGenerating;
+  const drawActionBusy = stage === "draw" && (ritualPhase !== "grounding" || serverDrawPending || ritualFlightActive) && !tarotGenerating;
   const ritualPhaseLabel = (() => {
     if (tarotGenerating || ritualPhase === "reveal") return c.generatingReading;
     if (serverDrawPending) return language === "vi" ? "Đang rút lá cho bạn..." : "Drawing your cards...";
+    if (ritualFlightActive) return language === "vi" ? "Giữ câu hỏi trong tâm trí..." : "Hold your question in mind...";
     if (ritualPhase === "pause_and_breathe") return language === "vi" ? "Dừng một nhịp và thở..." : "Pause and breathe...";
     if (ritualPhase.startsWith("draw_card")) return language === "vi" ? "Lá bài đang tìm vị trí..." : "A card is finding its place...";
     return latestRitualCard
@@ -8238,9 +8241,10 @@ export function TarotFlow({
             onClearSelection={() => setSelectedFanIndex(null)}
             onOpenCard={(index) => { const card = ritualSelectedCards[index]; if (card) openFullscreenTarotCard(card, card.spread); }}
             busy={tarotGenerating || drawActionBusy}
-            status={latestRitualCard && ritualPhase === "grounding" && !tarotGenerating ? `${latestRitualCard.spread} · ${displayTarotCardName(latestRitualCard, language)} · ${latestRitualCard.reversed ? (language === "vi" ? "Ngược" : "Reversed") : (language === "vi" ? "Xuôi" : "Upright")}` : ritualPhaseLabel}
+            status={latestRitualCard && ritualPhase === "grounding" && !ritualFlightActive && !tarotGenerating ? `${latestRitualCard.spread} · ${displayTarotCardName(latestRitualCard, language)} · ${latestRitualCard.reversed ? (language === "vi" ? "Ngược" : "Reversed") : (language === "vi" ? "Xuôi" : "Upright")}` : ritualPhaseLabel}
             onDrawRest={selectedSpread.cards > 1 ? handleQuickDraw : undefined}
             reduceMotion={reduceRitualMotion}
+            onFlightChange={setRitualFlightActive}
           >
             {!canViewContentTier(selectedDeck.accessTier, displayedTier) ? (
               <View style={styles.errorPanel}>

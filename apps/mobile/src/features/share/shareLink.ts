@@ -9,7 +9,8 @@ export type ShareMedium = "card" | "invite";
 
 const idAlphabet = "abcdefghijklmnopqrstuvwxyz0123456789";
 const cardIdPattern = /^[a-z0-9][a-z0-9-]{1,40}$/;
-const maxCards = 3;
+/** The largest spread in the app has four cards; a share keeps all of them. */
+export const MAX_SHARE_CARDS = 4;
 
 /** Random id for one share. It is not derived from the account, device or content, so it counts shares without identifying anyone. */
 export function newShareId(random: () => number = Math.random): string {
@@ -22,7 +23,7 @@ export type ShareLinkInput = {
   language: Language;
   surface: ShareSurface;
   id: string;
-  /** Public tarot card ids shown on the card (at most three). */
+  /** Public tarot card ids shown on the card (at most four). */
   cardIds?: string[];
   /** The sender's Sun sign, only when the chart gives a single sign. */
   sunSign?: AstrologySignId | null;
@@ -39,7 +40,7 @@ export function buildShareUrl(input: ShareLinkInput): string {
   if (isAstro) {
     if (input.sunSign && (astrologySignIds as readonly string[]).includes(input.sunSign)) params.set("s", input.sunSign);
   } else {
-    const cards = (input.cardIds ?? []).filter((id) => cardIdPattern.test(id)).slice(0, maxCards);
+    const cards = (input.cardIds ?? []).filter((id) => cardIdPattern.test(id)).slice(0, MAX_SHARE_CARDS);
     if (cards.length) params.set("c", cards.join(","));
   }
   params.set("utm_source", "share");
@@ -70,7 +71,7 @@ function joinNames(names: string[], vi: boolean): string {
  */
 export function shareLinkMessage(language: Language, surface: ShareSurface, url: string, detail: ShareMessageDetail = {}): string {
   const vi = language === "vi";
-  const names = (detail.cardNames ?? []).map(cleanName).filter(Boolean).slice(0, maxCards);
+  const names = (detail.cardNames ?? []).map(cleanName).filter(Boolean).slice(0, MAX_SHARE_CARDS);
   const sign = detail.signName ? cleanName(detail.signName) : "";
   let lead: string;
   if (surface === "astro_invite") {

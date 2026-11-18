@@ -14,8 +14,10 @@ export const ShareCardView = forwardRef<View, Props>(function ShareCardView({ mo
   const u = (value: number) => (value * width) / 360;
   const count = model.images.length;
   // Sized so the image, title and up to three message lines always fit between the wordmark and the footer.
-  const imageWidth = count <= 1 ? u(112) : u(88);
+  // One card is shown large, two or three at a medium size, and four (the largest spread) smaller so all of them fit the 312-wide row.
+  const imageWidth = count <= 1 ? u(112) : count <= 3 ? u(88) : u(64);
   const imageHeight = imageWidth * 1.72;
+  const compact = count >= 4;
   return (
     <View
       ref={ref}
@@ -27,7 +29,7 @@ export const ShareCardView = forwardRef<View, Props>(function ShareCardView({ mo
       <View style={styles.middle}>
         <Text style={[styles.eyebrow, { fontSize: u(11), letterSpacing: u(2) }]}>{model.eyebrow.toUpperCase()}</Text>
         {count ? (
-          <View style={[styles.imageRow, { gap: u(10), marginVertical: u(14) }]}>
+          <View style={[styles.imageRow, { gap: u(compact ? 8 : 10), marginVertical: u(compact ? 10 : 14) }]}>
             {model.images.map((image, index) => (
               <Image
                 key={index}
@@ -51,7 +53,7 @@ export const ShareCardView = forwardRef<View, Props>(function ShareCardView({ mo
           </View>
         ) : null}
         {model.lines.length ? (
-          <View style={{ marginTop: u(10), gap: u(3) }}>
+          <View style={{ marginTop: u(compact ? 6 : 10), gap: u(compact ? 2 : 3) }}>
             {model.lines.map((line) => (
               <Text key={line} style={[styles.line, { fontSize: u(11.5) }]}>{line}</Text>
             ))}
