@@ -1,0 +1,102 @@
+{
+  "schemaVersion": 1,
+  "taskId": "auth-language-carry-2026-11-18",
+  "ownerAgent": "mobile_agent",
+  "lane": "Mobile: one app language across signed-out screens and the new account",
+  "goal": "The language a person picks on the welcome, sign-up or sign-in screens is remembered on the device and carried into their account after sign-in, so the app and the account email locale stop falling back to the phone language.",
+  "successCriteria": [
+    "A language picked while signed out survives an app restart.",
+    "After the first sign-in of a new account the app keeps the language picked before sign-in, not the phone language, so the account email locale is not overwritten with the phone language.",
+    "Accounts with a saved local or cloud profile keep their own language.",
+    "Any language change (auth screens or Settings) updates the device-wide last language."
+  ],
+  "writeScope": [
+    "apps/mobile/src/languagePreference.ts",
+    "apps/mobile/src/__tests__/languagePreference.test.ts",
+    "apps/mobile/App.tsx",
+    "apps/admin/workflow-catalog.js",
+    "docs/proposals/APP_LOCALE_AUTO_DETECT_2026-11-15.vi.md",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "Supabase email templates, Edge Functions, migrations and Admin pages are unchanged.",
+    "Account-scoped storage keeps its per-account isolation; only the language code is stored device-wide."
+  ],
+  "impact": {
+    "entryPoint": "Welcome, sign-up, sign-in and Settings language menus; first screen after sign-in.",
+    "dataWrite": "One new device-wide AsyncStorage key holding only 'vi' or 'en' (or another supported code); account profile storage unchanged.",
+    "backendContract": "No API change; the existing user_metadata.locale sync now receives the language picked before sign-in instead of the phone language.",
+    "adminVisibility": "No Admin change; Admin workflow catalog digest for App.tsx is refreshed.",
+    "privacySafety": "The stored value is a language code only, not personal data; no account data crosses accounts.",
+    "observability": "No new events; Supabase auth logs show PUT /user when the locale changes.",
+    "rollback": "Revert the commit; the extra key is ignored and the app falls back to the phone language as before."
+  },
+  "canonicalContracts": [
+    "apps/mobile/src/i18n.ts detectDeviceLanguage stays the first-run fallback",
+    "apps/mobile/src/auth/supabaseAuth.ts updateSupabaseUserLocale stays the only email-locale writer"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Owner approval boundary.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile lane checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/APP_LOCALE_AUTO_DETECT_2026-11-15.vi.md",
+      "reason": "Owner decisions on device language and email locale this fix completes.",
+      "sha256": "1f2fe09a4fb4df2e80a73a4c057c4a48db8e722223d6df40d98facf160223db7"
+    },
+    {
+      "path": "apps/mobile/src/auth/accountStorage.ts",
+      "reason": "Signed-out scope has no storage prefix, so its profile (and language) is never saved: root cause.",
+      "sha256": "330a0213be9886821b4efe38983116adb9941188153de192edfae0d0c9797cd2"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before edits; PLAN.md updated in the same PR."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change.",
+    "sensitiveData": "Only a language code is stored outside account scope; no journal, birth or identity data.",
+    "secretsLogging": "No secrets read or logged.",
+    "externalInput": "Stored value is validated with normalizeLanguage before use.",
+    "dependencies": "No package or lockfile change.",
+    "migrationRelease": "No migration; needs a new Android build to reach phones (Owner action).",
+    "stopCondition": "Stop if any account-scoped data would need to be shared across accounts.",
+    "unresolvedHighRisks": []
+  },
+  "validationCommands": [
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "npm run admin:check",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Phone set to English, fresh install: choose Tiếng Việt on the welcome or sign-up screen, close and reopen the app (still Vietnamese), sign up (Vietnamese email), confirm, sign in (app stays Vietnamese), then use Forgot password (Vietnamese email).",
+  "residualRisk": "Device behaviour not verified until a new Android build is tested; an account already switched to English by the old build keeps 'en' until the person changes language once.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  },
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses the already-installed AsyncStorage package; no new API claims."
+  },
+  "externalSourceReview": []
+}
