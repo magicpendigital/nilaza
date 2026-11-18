@@ -1,6 +1,6 @@
 # Tự nhận diện ngôn ngữ và gửi email theo ngôn ngữ đăng ký — phương án (15/11/2026)
 
-Trạng thái: **Owner duyệt 15/11, đã làm trong app** (chờ bản build Android mới để kiểm trên máy thật); mẫu email đã áp lên Supabase.
+Trạng thái: **Owner duyệt 15/11, đã làm trong app** (chờ bản build Android mới để kiểm trên máy thật); mẫu email đã áp lên Supabase. **18/11:** sửa lỗi Owner gặp khi thử 17/11 — ngôn ngữ chọn khi chưa đăng nhập giờ được lưu trên máy và theo vào tài khoản mới (trước đó tài khoản mới lấy lại ngôn ngữ máy và ghi đè ngôn ngữ email); chờ bản build Android mới.
 
 **Owner quyết 15/11:** ngôn ngữ máy khác Tiếng Việt → **English**; đổi ngôn ngữ trong Cài đặt thì email về sau **đổi theo**. Người đã dùng app giữ ngôn ngữ đã lưu (hồ sơ trên máy có sẵn ngôn ngữ, nên không cần thêm dấu “đã tự chọn”). Tiêu đề thư cũng rẽ nhánh theo ngôn ngữ (Supabase cho dùng biến trong tiêu đề).
 
