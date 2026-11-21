@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "taskId": "tarot-result-copy-2026-11-21",
+  "ownerAgent": "mobile_agent",
+  "lane": "Mobile: Tarot and astrology result-screen copy (value report batch A, Owner approved 21/11)",
+  "goal": "The free Tarot reading reads as a real reading tied to the person's question instead of apologetic meta-text, and the deep-analysis invitation and confirmation describe what the person receives before what is sent. The astrology deep-read invitation states its outcome.",
+  "successCriteria": [
+    "The free Tarot summary opens with the person's question or topic, names the spread's overall energy (major arcana, dominant suit, reversals) and walks each card in its position with its keywords; it never says the AI has not completed, that the reading is the same for anyone, or that no reading was written for this question.",
+    "The source line under a server-drawn reading reads as Nilaza's own reading based on traditional card meanings, still not a certain prediction; the local-fallback line after an AI failure stays honest about the AI not completing.",
+    "The deep-analysis panel lists what the analysis contains, uses a filled primary button, and keeps 'only counts when the analysis is delivered'.",
+    "The confirmation dialog leads with the value, then states that only the question and cards are sent.",
+    "The per-card accordion kicker no longer says 'no reading written for this question'.",
+    "The astrology deep-read blurb names what the person receives."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/tarot/localReading.ts",
+    "apps/mobile/src/features/tarot/__tests__/localReading.test.ts",
+    "apps/mobile/src/features/tarot/TarotDeepAnalysis.tsx",
+    "apps/mobile/src/features/tarot/readingPresentation.ts",
+    "apps/mobile/src/features/tarot/TarotResultView.tsx",
+    "apps/mobile/src/features/tarot/__tests__/deepAnalysis.test.tsx",
+    "apps/mobile/src/features/tarot/__tests__/TarotResultView.test.tsx",
+    "apps/mobile/src/features/astrology/AiDeepRead.tsx",
+    "apps/mobile/src/features/astrology/__tests__/AiDeepRead.test.tsx",
+    "apps/admin/workflow-catalog.js",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "Edge Functions, prompts (the 'concise' instruction is batch C), migrations, quotas and model routes are unchanged.",
+    "The 78 card meanings in packages/content/data/tarot-cards.json are unchanged here; their rewrite goes through the Tarot content QC gate as batch A part 2.",
+    "Guest flow, clarifier, lock rules and Nil behaviour are unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Tarot result screen after a server draw or local fallback; Tarot deep-analysis confirmation; Astrology deep-read card.",
+    "dataWrite": "The free summary text saved with a reading changes wording only; reading shape and storage keys are unchanged.",
+    "backendContract": "No API change; the same drawId retry path runs the AI after confirmation.",
+    "adminVisibility": "No Admin change; the Admin workflow catalog digest for App.tsx is refreshed.",
+    "privacySafety": "Copy stays reflective: no certain predictions, no mind-reading of another person; the privacy statement stays in the confirmation dialog.",
+    "observability": "No new events; the existing feedback report still lists the summary section.",
+    "rollback": "Revert the commit; saved readings keep whichever summary text they were created with."
+  },
+  "canonicalContracts": [
+    "apps/mobile/src/features/tarot/readingPresentation.ts tarotSourceLabel stays the only source-line writer",
+    "packages/content/data/tarot-cards.json stays the only card-meaning source"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Owner approval boundary.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile lane checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/TAROT_ASTRO_VALUE_REPORT_2026-11-21.vi.md",
+      "reason": "Owner-approved batch A scope and copy direction.",
+      "sha256": "19ff0af024e8ebbce4a6bcef13ec5c95cdcd74a8330db18af4d353d03b05dfe0"
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "reason": "Voice and reflective-safety rules for user-facing copy.",
+      "sha256": "bce12144fa7d6074c3213c977b0bc0187e2c9fa2d43453fab81f1145fa0129de"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "buildLocalTarotInterpretation and the deep-analysis confirmation dialog.",
+      "sha256": "8ced0ec15d6164453b1e9d478633adbe9bf8b5e3f28759a1bd4b7e70ee226c0b"
+    },
+    {
+      "path": "apps/mobile/src/features/tarot/TarotDeepAnalysis.tsx",
+      "reason": "Current invitation copy and button style.",
+      "sha256": "76a1129b74f04523c095d84ce552006ca07f75e082b18a976bf99d1338852f89"
+    },
+    {
+      "path": "apps/mobile/src/features/tarot/readingPresentation.ts",
+      "reason": "Source line wording.",
+      "sha256": "56d341d21b7e64aafee4af5469fd447f34c78096ef0694369caad7313036d5df"
+    },
+    {
+      "path": "apps/mobile/src/features/tarot/TarotResultView.tsx",
+      "reason": "Accordion kicker wording and layout order.",
+      "sha256": "508a1cf05aa347389b4da0f236991d633f615194162924f6d4e2628da506a237"
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/AiDeepRead.tsx",
+      "reason": "Astrology deep-read invitation copy.",
+      "sha256": "28c67b019389446950b2e72d53df26d1058e37fbe5feac1d52f2abdc933578ff"
+    },
+    {
+      "path": "packages/content/data/tarot-cards.json",
+      "reason": "Card fields (arcana, suit, keywords) the composer reads.",
+      "sha256": "dadfbeb7b9bc11d27d95534897f55b76ed3914d7b1657febf2c26a90f3560dfd"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before edits; PLAN.md updated in the same PR."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Copy follows the reflective, non-predictive voice; colors come from the theme tokens."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change; copy and local text composition only.",
+    "sensitiveData": "The composer reads only the question already on screen and the drawn cards; nothing new is sent or stored.",
+    "secretsLogging": "No secrets read or logged.",
+    "externalInput": "The question is shown as plain text in a Text node; no HTML or markup rendering.",
+    "dependencies": "No package or lockfile change in this PR.",
+    "migrationRelease": "No migration or deploy; needs a new Android build to reach phones (Owner action).",
+    "stopCondition": "Stop if the new copy would need to promise output the current AI prompt does not produce.",
+    "unresolvedHighRisks": []
+  },
+  "validationCommands": [
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "npm run validate:data",
+    "npm run admin:check",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Sign in, open Tarot, choose Love, type a question, draw 3 cards: the summary starts with your question, says which energy dominates and walks each card by position, with no 'AI chưa hoàn tất'. Tap the deep-analysis button: the dialog says what you get first, then what is sent. Open Astrology: the deep-read card says what the read contains.",
+  "residualRisk": "Card meanings stay short and hedged until batch A part 2; device rendering of the longer summary is not verified until a new Android build is tested.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  },
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing React Native components and repository content only."
+  },
+  "externalSourceReview": []
+}

@@ -91,7 +91,7 @@ export function TarotResultView({ language, question, cards, summary, sourceLabe
                 <View style={s.accordionBody}>
                   <Text style={s.bodyKicker}>
                     {card.bodySource === "library"
-                      ? (vi ? "Nghĩa chung của lá · chưa có diễn giải riêng cho câu hỏi này" : "General card meaning · no reading written for this question")
+                      ? (vi ? "Ý nghĩa truyền thống của lá" : "Traditional meaning of the card")
                       : (vi ? `Vì sao lá này ở vị trí ${card.position}` : `Why this card sits in ${card.position}`)}
                   </Text>
                   <Text style={s.body}>{card.body}</Text>

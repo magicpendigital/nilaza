@@ -6,7 +6,7 @@ const base = { language: "vi" as const, premiumOnSale: false, onWrite: jest.fn()
 
 test("while Premium is not on sale a locked account sees a plain note, never \"Sắp ra mắt\" (UX review K4)", () => {
   const screen = render(<AiDeepRead {...base} available={false} status="locked" />);
-  expect(screen.getByText(/Một bài đọc riêng nối Mặt Trời/)).toBeTruthy();
+  expect(screen.getByText(/bài đọc riêng nối Mặt Trời/)).toBeTruthy();
   expect(screen.getByText("Bài đọc sâu chưa mở cho tài khoản này.")).toBeTruthy();
   expect(screen.queryByText("Có trong Premium")).toBeNull();
   expect(screen.queryByText(/Sắp ra mắt/)).toBeNull();

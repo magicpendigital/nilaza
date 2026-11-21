@@ -8,8 +8,10 @@ describe("deep analysis button", () => {
     const onPress = jest.fn();
     const screen = render(<TarotDeepAnalysis language="vi" busy={false} busyLabel="Đang diễn giải..." onPress={onPress} />);
     expect(screen.queryByText(/\bNil\b/)).toBeNull();
-    expect(screen.getByText(/Chỉ tính lượt khi AI trả bài/)).toBeTruthy();
-    fireEvent.press(screen.getByText("Phân tích chuyên sâu bằng AI"));
+    expect(screen.getByText(/Chỉ tính lượt khi bài đọc được trả về/)).toBeTruthy();
+    expect(screen.getByText(/Đọc chính câu hỏi bạn vừa viết/)).toBeTruthy();
+    expect(screen.queryByText(/giống nhau với ai/)).toBeNull();
+    fireEvent.press(screen.getByText("Đọc chuyên sâu cho câu hỏi này"));
     expect(onPress).toHaveBeenCalledTimes(1);
   });
 
@@ -19,7 +21,7 @@ describe("deep analysis button", () => {
     fireEvent.press(busy.getByText("Đang diễn giải..."));
     expect(onPress).not.toHaveBeenCalled();
     const en = render(<TarotDeepAnalysis language="en" busy={false} busyLabel="Working..." onPress={onPress} />);
-    expect(en.getByText("Deep analysis with AI")).toBeTruthy();
+    expect(en.getByText("Deep reading for this question")).toBeTruthy();
   });
 });
 
@@ -27,8 +29,9 @@ describe("reading source line", () => {
   it("calls a server draw without an answer Nilaza's reference reading, not an AI failure", () => {
     expect(tarotResultSource("fallback")).toBe("reference");
     const vi = tarotSourceLabel({ source: "reference", hasDrawId: true, cardCount: 3, language: "vi" });
-    expect(vi).toContain("Bài đọc có sẵn của Nilaza");
-    expect(vi).toContain("chưa có phân tích AI");
+    expect(vi).toContain("Bài đọc Nilaza");
+    expect(vi).toContain("ý nghĩa truyền thống");
+    expect(vi).not.toContain("chưa có phân tích AI");
     expect(vi).not.toContain("AI chưa hoàn tất");
     expect(tarotSourceLabel({ source: "reference", hasDrawId: false, cardCount: 3, language: "vi" })).toContain("AI chưa hoàn tất");
     expect(tarotSourceLabel({ source: "ai", hasDrawId: true, cardCount: 3, language: "vi" })).toContain("3 lá");
