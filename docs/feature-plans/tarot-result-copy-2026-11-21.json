@@ -76,27 +76,27 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "buildLocalTarotInterpretation and the deep-analysis confirmation dialog.",
-      "sha256": "84e315c7506f14e527027ecce92cb3f9a416f768ba6143c2e38fde8667ac4cf9"
+      "sha256": "8ced0ec15d6164453b1e9d478633adbe9bf8b5e3f28759a1bd4b7e70ee226c0b"
     },
     {
       "path": "apps/mobile/src/features/tarot/TarotDeepAnalysis.tsx",
       "reason": "Current invitation copy and button style.",
-      "sha256": "ceb38f6761f0cda2f2e5a16e85b7bd60364f55973a5eece2c1ae563d75745f4f"
+      "sha256": "76a1129b74f04523c095d84ce552006ca07f75e082b18a976bf99d1338852f89"
     },
     {
       "path": "apps/mobile/src/features/tarot/readingPresentation.ts",
       "reason": "Source line wording.",
-      "sha256": "c46b3bab98226028225383bb5b7e0ca4e84bb95124a80e27614c1cd05169330b"
+      "sha256": "56d341d21b7e64aafee4af5469fd447f34c78096ef0694369caad7313036d5df"
     },
     {
       "path": "apps/mobile/src/features/tarot/TarotResultView.tsx",
       "reason": "Accordion kicker wording and layout order.",
-      "sha256": "256da35ea98e397acbd624a5b766916cad38ab6b43602f17c327952819581e46"
+      "sha256": "508a1cf05aa347389b4da0f236991d633f615194162924f6d4e2628da506a237"
     },
     {
       "path": "apps/mobile/src/features/astrology/AiDeepRead.tsx",
       "reason": "Astrology deep-read invitation copy.",
-      "sha256": "7ad2d3885d30b587fe2db194a818a7b1140ed4b3aed7f7cc7870ffb4d8e61c70"
+      "sha256": "28c67b019389446950b2e72d53df26d1058e37fbe5feac1d52f2abdc933578ff"
     },
     {
       "path": "packages/content/data/tarot-cards.json",
