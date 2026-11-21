@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 1,
+  "taskId": "tarot-reading-layers-2026-11-21",
+  "ownerAgent": "mobile_agent",
+  "lane": "Mobile + content: Nilaza reading v1 five-layer library (value report batch B, Owner approved 21/11)",
+  "goal": "The free Tarot reading is composed from a five-layer library (card meaning by topic, position voice, card combinations, spread guide, small step and journal question) instead of one keyword sentence per card, so a free reading of one question reads differently from another, offline and without an AI call.",
+  "successCriteria": [
+    "A bundled data file packages/content/data/tarot-reading-layers.json holds position roles for all five spreads, position voice (upright and reversed), combination rules, a reading guide per spread, a small step and journal question per topic and dominant energy, and reversed-per-topic meanings for six sample cards, all in Vietnamese and English.",
+    "The summary names the question or topic, the overall energy, any element tension or harmony, court cards, aces or repeated numbers, and how to read this spread; it never predicts a certain outcome or reads another person's mind.",
+    "Each card body opens with its position voice and then the card meaning for the chosen topic (upright from the Owner-approved card guide; reversed from the sample when present, otherwise the general reversed meaning).",
+    "The reading carries one 'small step in the next 24 hours' section and a journal question chosen by topic and dominant energy.",
+    "validate:data checks the new file for VI/EN completeness, valid card ids and spread roles matching the app spreads.",
+    "Readings saved before this change still display as before."
+  ],
+  "writeScope": [
+    "packages/content/data/tarot-reading-layers.json",
+    "apps/mobile/src/features/tarot/localReading.ts",
+    "apps/mobile/src/features/tarot/__tests__/localReading.test.ts",
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/backendClient.ts",
+    "scripts/validate-data.mjs",
+    "apps/admin/workflow-catalog.js",
+    "PLAN.md",
+    "apps/mobile/src/features/tarot/TarotDeepAnalysis.tsx",
+    "apps/mobile/src/features/tarot/__tests__/deepAnalysis.test.tsx"
+  ],
+  "untouchedSurfaces": [
+    "Edge Functions, prompts, model routes, quotas and migrations are unchanged (AI-side use of the library is batch C).",
+    "The 78 card meanings in tarot-cards.json and the Owner-approved tarot-card-guide.json are read, not edited.",
+    "Admin content publishing of the layers is not added yet; the file ships bundled in the app.",
+    "Guest flow, paywall, Nil and lock rules are unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Tarot result screen after a free draw (server draw without AI, or local fallback when the AI fails).",
+    "dataWrite": "New readings save a longer summary, per-card interpretation text and one extra section; the reading shape and storage keys stay the same.",
+    "backendContract": "No API change; the server draw and AI retry paths are unchanged.",
+    "adminVisibility": "No Admin screen change; the workflow catalog digest for App.tsx is refreshed.",
+    "privacySafety": "All text is local and reflective: no certain predictions, no mind-reading of the other person, no healing or ritual claims; nothing new is sent off the device.",
+    "observability": "No new events; the existing feedback report still lists the summary and sections.",
+    "rollback": "Revert the commit; saved readings keep the text they were created with."
+  },
+  "canonicalContracts": [
+    "packages/content/data/tarot-cards.json stays the only card-meaning source; the layers file only frames it",
+    "packages/content/data/tarot-card-guide.json stays the upright per-topic meaning source",
+    "apps/mobile/src/features/tarot/localReading.ts is the only composer of the free reading text"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Owner approval boundary.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile and content lane checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/TAROT_ASTRO_VALUE_REPORT_2026-11-21.vi.md",
+      "reason": "Owner-approved batch B scope and the per-layer sample approval gate.",
+      "sha256": "19ff0af024e8ebbce4a6bcef13ec5c95cdcd74a8330db18af4d353d03b05dfe0"
+    },
+    {
+      "path": "docs/proposals/TAROT_FREE_DRAW_AI_DEPTH_2026-11-15.vi.md",
+      "reason": "Layer definitions L1-L5 and how each spread is read.",
+      "sha256": "73625dee42dda7a43509a15e069e56ee69bb4c2557a749db63baf1ead6b822e8"
+    },
+    {
+      "path": "docs/CONTENT_SAFETY_STYLE_GUIDE.md",
+      "reason": "Reflective safety wording rules for all new copy.",
+      "sha256": "33ec073a7fe94045ee7aeb40bad2ca90b6ab6b0010569131c730380dfb23ceec"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Spread definitions, buildLocalTarotInterpretation and buildTarotReadingResult.",
+      "sha256": "5458df4f5044819da31378a376d49af9c756299c6352e21156b4e31e16d44976"
+    },
+    {
+      "path": "apps/mobile/src/features/tarot/localReading.ts",
+      "reason": "Current composer to extend.",
+      "sha256": "fb753f0e8070c28d797503c1e673a853d1132f3a34ae1b8c6f8a4c661178bc07"
+    },
+    {
+      "path": "packages/content/data/tarot-card-guide.json",
+      "reason": "Upright meaning per topic (layer 1).",
+      "sha256": "5f5b1a5ee9383212fdb87502268d99337c1ec045b6af66f5448d830f93b3813e"
+    },
+    {
+      "path": "packages/content/data/tarot-cards.json",
+      "reason": "Card ids, arcana, suit, element, number and reversed meanings.",
+      "sha256": "dadfbeb7b9bc11d27d95534897f55b76ed3914d7b1657febf2c26a90f3560dfd"
+    },
+    {
+      "path": "packages/content/data/tarot-reading-layers.json",
+      "reason": "New layer library drafted before this record (see workingTreeReview).",
+      "sha256": "ee4e8bfe9a89b92138b11c92c0a9de81cc10b1bf981e900338bbeb0c3ae95c6f"
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "reason": "TarotInterpretationResult carries the local per-card bodies through the AI fallback path.",
+      "sha256": "eefd0b5b095622caba06af62d8e68ea9e4dfa30511b4b6130fd9c2ea6fda121f"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before code edits; PLAN.md updated in the same PR."
+    },
+    {
+      "name": "nilaza-tarot-content-qc",
+      "decision": "verified-current",
+      "evidence": "VI/EN parity, approved card names, reflective safety; Owner approved the revised samples on 22/11; data status owner-approved-samples."
+    },
+    {
+      "name": "nilaza-tarot-deck-production",
+      "decision": "verified-current",
+      "evidence": "No deck, artwork or card-id change; the new tarot- data file references the 78 canonical ids only."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change; local text composition from bundled data only.",
+    "sensitiveData": "The composer reads only the question already on screen and the drawn cards; nothing new is sent or stored remotely.",
+    "secretsLogging": "No secrets read or logged.",
+    "externalInput": "The question is rendered as plain text in a Text node; no markup rendering.",
+    "dependencies": "No package or lockfile change in this PR.",
+    "migrationRelease": "No migration or deploy; needs a new Android build to reach phones (Owner action).",
+    "stopCondition": "Stop if any layer text would need a certain prediction or a claim about another person's thoughts to read naturally.",
+    "unresolvedHighRisks": []
+  },
+  "validationCommands": [
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "npm run validate:data",
+    "npm run admin:check",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Open Tarot, choose Love, type a question, draw Past-Present-Future: the summary names your question, the overall energy and how to read the three cards; each card opens with what its position means; below there is 'One small step in the next 24 hours' and a journal question. Repeat with Career and with Situation-Challenge-Advice: the wording changes with topic and spread.",
+  "residualRisk": "Reversed meanings per topic exist for only six sample cards until the Owner approves the samples; device rendering of the longer reading is not verified until a new Android build is tested.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  },
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing React Native code and repository content only."
+  },
+  "externalSourceReview": [],
+  "workingTreeReview": {
+    "paths": [
+      "PLAN.md",
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/backendClient.ts",
+      "apps/mobile/src/features/tarot/__tests__/localReading.test.ts",
+      "apps/mobile/src/features/tarot/localReading.ts",
+      "packages/content/data/tarot-reading-layers.json",
+      "scripts/validate-data.mjs",
+      "apps/mobile/src/features/tarot/TarotDeepAnalysis.tsx",
+      "apps/mobile/src/features/tarot/__tests__/deepAnalysis.test.tsx"
+    ],
+    "note": "Batch B edits, revised after the Owner feedback of 21/11 (card-named readings, no disclaimers, card-specific deep-reading invitation), are complete and staged for Owner review; the layer data file was drafted before the first record (process slip noted in the handoff)."
+  }
+}
