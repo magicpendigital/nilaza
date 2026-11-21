@@ -155,7 +155,7 @@ import { ChatHub } from "./src/features/chat/ChatHub";
 import { JournalHome } from "./src/features/journal/JournalHome";
 import { savedReadingCards } from "./src/features/journal/savedReading";
 import { cardInline, cardSubtitle, cardTitle } from "./src/features/tarot/cardName";
-import { composeLocalTarotSummary } from "./src/features/tarot/localReading";
+import { composeLocalReading, deepReadingHook } from "./src/features/tarot/localReading";
 import { readingShareText } from "./src/features/tarot/shareText";
 import { ShareCardSheet, type ShareEventMeta, type ShareEventName } from "./src/features/share/ShareCardSheet";
 import { readingModel, todayCardModel, type ShareCardModel, type ShareRequest } from "./src/features/share/shareCardContent";
@@ -2466,15 +2466,26 @@ function buildLocalTarotInterpretation(
   language: Language,
   selected: DrawnTarotCard[]
 ) {
-  // Value report batch A (Owner 2026-11-21): a real reading of this question from the cards' traditional meanings.
+  // Value report batches A and B (Owner 2026-11-21): a real reading of this question, composed locally from the
+  // five-layer library (card meaning by topic, position voice, combinations, spread guide, small step and journal question).
   void deck;
-  void spread;
   const topicLabel = localizedText(topics.find((item) => item.id === topic), language, topic);
-  const summary = composeLocalTarotSummary(selected, question, topicLabel, language);
+  const spreadOption = spreads.find((item) => item.id === spread) ?? spreads[1];
+  const reading = composeLocalReading({
+    cards: selected,
+    positions: selected.map((_, index) => ({ vi: spreadOption.labels.vi[index], en: spreadOption.labels.en[index] })),
+    spread: spreadOption.id,
+    topic,
+    topicLabel,
+    question,
+    language
+  });
 
   return {
-    summary,
-    reflection: buildTarotReflectionPrompt(selected[0], topic, language),
+    summary: reading.summary,
+    reflection: reading.reflection || buildTarotReflectionPrompt(selected[0], topic, language),
+    sections: reading.sections,
+    cardInterpretations: reading.cardInterpretations,
     moderationStatus: "fallback" as const
   };
 }
@@ -2546,7 +2557,7 @@ export function buildTarotReadingResult(
   question: string,
   selected: DrawnTarotCard[],
   interpretation: { summary: string; reflection: string; provenance?: AnswerProvenance; sections?: unknown; promptVersionId?: string; moderationStatus?: "passed" | "blocked" | "fallback";
-    drawId?: string; replayed?: boolean; nextDrawAt?: string; clarifier?: TarotClarifier },
+    drawId?: string; replayed?: boolean; nextDrawAt?: string; clarifier?: TarotClarifier; cardInterpretations?: Array<{ vi: string; en: string }> },
   language: Language = "vi"
 ) {
   // P1-A: a server draw keeps its id (one event, one answer); a replayed answer keeps its original provenance.
@@ -2567,8 +2578,8 @@ export function buildTarotReadingResult(
       orientation: card.reversed ? "reversed" as const : "upright" as const,
       spread: card.spread,
       interpretation: {
-        en: displayTarotMeaning(card, "en"),
-        vi: displayTarotMeaning(card, "vi")
+        en: interpretation.cardInterpretations?.[index]?.en || displayTarotMeaning(card, "en"),
+        vi: interpretation.cardInterpretations?.[index]?.vi || displayTarotMeaning(card, "vi")
       }
     };
   });
@@ -8333,7 +8344,8 @@ export function TarotFlow({
               </Pressable>
             ) : null}
             {tarotResultSource(reading.moderationStatus) === "reference" && onRetryInterpretation ? (
-              <TarotDeepAnalysis language={language} busy={tarotGenerating} busyLabel={c.generatingReading} onPress={onRetryInterpretation} />
+              <TarotDeepAnalysis language={language} busy={tarotGenerating} busyLabel={c.generatingReading} onPress={onRetryInterpretation}
+                hook={deepReadingHook(reading.selected, reading.spread, language)} />
             ) : null}
             {tarotError ? <Text accessibilityLiveRegion="polite" style={styles.errorText}>{tarotError}</Text> : null}
           </TarotResultView>

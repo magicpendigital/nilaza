@@ -15,6 +15,11 @@ describe("deep analysis button", () => {
     expect(onPress).toHaveBeenCalledTimes(1);
   });
 
+  it("shows the card-specific hook when given one", () => {
+    const screen = render(<TarotDeepAnalysis language="vi" busy={false} busyLabel="…" onPress={jest.fn()} hook="Giữa Tòa Tháp và Bốn Tiền là phần riêng của câu hỏi này." />);
+    expect(screen.getByText("Giữa Tòa Tháp và Bốn Tiền là phần riêng của câu hỏi này.")).toBeTruthy();
+  });
+
   it("is disabled and says so while the AI is working, and speaks English", () => {
     const onPress = jest.fn();
     const busy = render(<TarotDeepAnalysis language="vi" busy busyLabel="Đang diễn giải..." onPress={onPress} />);

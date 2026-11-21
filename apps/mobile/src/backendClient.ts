@@ -150,6 +150,8 @@ export type PersonaReplyInput = {
 
 export type PersonaReplyResult = {
   text: string;
+  /** Batch B local reading: per-card body (position voice + topic meaning) in both languages. */
+  cardInterpretations?: Array<{ vi: string; en: string }>;
   promptVersionId?: string;
   moderationStatus: "passed" | "blocked" | "fallback";
   /** Set when the shared safety policy answered instead of the model; "crisis" shows the 115 card. */

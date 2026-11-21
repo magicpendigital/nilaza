@@ -1,0 +1,542 @@
+{
+  "version": "2026-11-21-b2",
+  "status": "owner-approved-samples",
+  "scope": {
+    "vi": "Bài đọc Nilaza v1 (Lô B, báo cáo giá trị 21/11): kho diễn giải ghép 5 lớp cho bài đọc miễn phí, không gọi AI. Ưu tiên 3 chủ đề Tình yêu, Công việc, Bản thân. Lớp 1 chiều xuôi lấy từ tarot-card-guide.json (Owner duyệt 30/10); chiều ngược theo chủ đề mới có 6 lá mẫu, các lá khác dùng nghĩa ngược chung cho đến khi Owner duyệt mẫu.",
+    "en": "Nilaza reading v1 (batch B, value report 21/11): a five-layer library for the free reading, no AI call. Priority topics Love, Career, Self. Layer 1 upright comes from tarot-card-guide.json (Owner approved 30/10); reversed per topic has 6 sample cards, other cards use the general reversed meaning until the Owner approves the sample."
+  },
+  "positionRoles": {
+    "daily-one": [
+      "message"
+    ],
+    "past-present-future": [
+      "past",
+      "present",
+      "potential"
+    ],
+    "situation-challenge-advice": [
+      "situation",
+      "challenge",
+      "advice"
+    ],
+    "love-three": [
+      "you",
+      "other",
+      "relationship"
+    ],
+    "crossroads-four": [
+      "stand",
+      "forward",
+      "hold",
+      "lens"
+    ]
+  },
+  "roles": {
+    "message": {
+      "upright": {
+        "vi": "Hôm nay lá của bạn xoay quanh {kw}.",
+        "en": "Today your card turns on {kw}."
+      },
+      "reversed": {
+        "vi": "Hôm nay {kw} có thể đang bị dồn vào trong, chưa được bạn cho phép lên tiếng.",
+        "en": "Today {kw} may be pushed inward, not yet allowed to speak."
+      }
+    },
+    "past": {
+      "upright": {
+        "vi": "Nền đưa bạn tới đây là {kw}.",
+        "en": "The ground that brought you here is {kw}."
+      },
+      "reversed": {
+        "vi": "{kw} từ trước có thể vẫn chưa thật sự khép lại.",
+        "en": "{kw} from before may not be fully closed yet."
+      }
+    },
+    "present": {
+      "upright": {
+        "vi": "Điều đang có mặt rõ nhất lúc này là {kw}.",
+        "en": "What is most present right now is {kw}."
+      },
+      "reversed": {
+        "vi": "{kw} đang có mặt nhưng bị kìm lại, chưa được nhìn thẳng.",
+        "en": "{kw} is present but held back, not yet faced."
+      }
+    },
+    "potential": {
+      "upright": {
+        "vi": "Nếu giữ nhịp hiện tại, điều đang mở ra là {kw}.",
+        "en": "If the current pace holds, what is opening up is {kw}."
+      },
+      "reversed": {
+        "vi": "{kw} vẫn có thể mở ra, nhưng đang chậm lại; bạn còn chỗ để xoay hướng.",
+        "en": "{kw} can still open up, but it is slowing; you still have room to steer."
+      }
+    },
+    "situation": {
+      "upright": {
+        "vi": "Khung cảnh bạn đang đứng được tô bằng {kw}.",
+        "en": "The scene you stand in is coloured by {kw}."
+      },
+      "reversed": {
+        "vi": "Trong khung cảnh này, {kw} là phần bạn có thể chưa muốn nhìn kỹ.",
+        "en": "In this scene, {kw} is the part you may not want to look at closely yet."
+      }
+    },
+    "challenge": {
+      "upright": {
+        "vi": "Chỗ đang tạo ma sát là {kw}.",
+        "en": "The friction sits in {kw}."
+      },
+      "reversed": {
+        "vi": "Ma sát quanh {kw} nằm ở bên trong bạn nhiều hơn bên ngoài.",
+        "en": "The friction around {kw} sits more inside you than outside."
+      }
+    },
+    "advice": {
+      "upright": {
+        "vi": "Hướng đáng thử: dựa vào {kw}.",
+        "en": "A way worth trying: lean on {kw}."
+      },
+      "reversed": {
+        "vi": "Với {kw}, lúc này làm nhẹ đi có thể giúp hơn làm thêm.",
+        "en": "With {kw}, easing off may help more than adding more right now."
+      }
+    },
+    "you": {
+      "upright": {
+        "vi": "Bạn đang có mặt trong mối quan hệ với {kw}.",
+        "en": "You are showing up in the relationship with {kw}."
+      },
+      "reversed": {
+        "vi": "{kw} là nhu cầu của bạn đang bị giấu đi.",
+        "en": "{kw} is a need of yours being kept hidden."
+      }
+    },
+    "other": {
+      "upright": {
+        "vi": "Người ấy đang hiện lên trong mắt bạn với {kw}.",
+        "en": "The other person appears to you through {kw}."
+      },
+      "reversed": {
+        "vi": "Trong mắt bạn, {kw} ở người ấy đang bị che khuất một phần.",
+        "en": "To you, {kw} in the other person is partly hidden."
+      }
+    },
+    "relationship": {
+      "upright": {
+        "vi": "Khoảng giữa hai người đang xoay quanh {kw}.",
+        "en": "The space between you turns on {kw}."
+      },
+      "reversed": {
+        "vi": "Khoảng giữa hai người có {kw} chưa được nói ra thành lời.",
+        "en": "Between you, {kw} has not yet been put into words."
+      }
+    },
+    "stand": {
+      "upright": {
+        "vi": "Bạn đang đứng trước ngã rẽ với {kw}.",
+        "en": "You stand at the crossroads with {kw}."
+      },
+      "reversed": {
+        "vi": "{kw} đang chững lại; có thể bạn đã mệt vì cân nhắc quá lâu.",
+        "en": "{kw} has stalled; you may be tired from weighing too long."
+      }
+    },
+    "forward": {
+      "upright": {
+        "vi": "Nếu bước tới, điều có thể đi cùng bạn là {kw}.",
+        "en": "If you step forward, what may come with you is {kw}."
+      },
+      "reversed": {
+        "vi": "Nếu bước tới, {kw} là điều cần chuẩn bị trước.",
+        "en": "If you step forward, {kw} is what needs preparing first."
+      }
+    },
+    "hold": {
+      "upright": {
+        "vi": "Nếu giữ nguyên, điều có thể đi cùng bạn là {kw}.",
+        "en": "If you hold still, what may come with you is {kw}."
+      },
+      "reversed": {
+        "vi": "Giữ nguyên có một cái giá thầm lặng: {kw} bị gác lại.",
+        "en": "Holding still has a quiet cost: {kw} is set aside."
+      }
+    },
+    "lens": {
+      "upright": {
+        "vi": "Lăng kính để nhìn cả hai hướng là {kw}.",
+        "en": "The lens for both directions is {kw}."
+      },
+      "reversed": {
+        "vi": "{kw} nhắc rằng có thể bạn chưa cần quyết ngay hôm nay.",
+        "en": "{kw} is a reminder that you may not need to decide today."
+      }
+    }
+  },
+  "threads": {
+    "daily-one": {
+      "vi": "{card1} mang tới hôm nay chủ đề {kw1}.",
+      "en": "{card1} brings today's theme of {kw1}."
+    },
+    "past-present-future": {
+      "vi": "các lá kể một câu chuyện đi từ {kw1} ({card1}), qua {kw2} ({card2}), tới {kw3} ({card3}).",
+      "en": "the cards tell a story moving from {kw1} ({card1}), through {kw2} ({card2}), toward {kw3} ({card3})."
+    },
+    "situation-challenge-advice": {
+      "vi": "bạn đang ở giữa {kw1} ({card1}); điều tạo ma sát là {kw2} ({card2}); còn hướng đáng thử là {kw3} ({card3}).",
+      "en": "you are in the middle of {kw1} ({card1}); the friction is {kw2} ({card2}); and the way worth trying is {kw3} ({card3})."
+    },
+    "love-three": {
+      "vi": "bạn đang mang vào mối quan hệ {kw1} ({card1}), người ấy hiện lên trong mắt bạn với {kw2} ({card2}), còn khoảng giữa hai người xoay quanh {kw3} ({card3}).",
+      "en": "you bring {kw1} ({card1}) into the relationship, the other person appears to you through {kw2} ({card2}), and the space between you turns on {kw3} ({card3})."
+    },
+    "crossroads-four": {
+      "vi": "bạn đang đứng ở {kw1} ({card1}); bước tới gắn với {kw2} ({card2}), giữ nguyên gắn với {kw3} ({card3}); và {card4} mời bạn nhìn cả hai qua {kw4}.",
+      "en": "you stand in {kw1} ({card1}); stepping forward is tied to {kw2} ({card2}), holding still to {kw3} ({card3}); and {card4} invites you to see both through {kw4}."
+    }
+  },
+  "reversedMark": {
+    "vi": "{kw} đang bị kìm lại",
+    "en": "{kw} held back"
+  },
+  "focus": {
+    "past-present-future": {
+      "cards": [
+        0,
+        2
+      ],
+      "text": {
+        "vi": "Điều đáng chú ý nhất: từ {kwA} tới {kwB} là một quãng chuyển khá rõ. Điều gì trong bạn đã, hoặc cần, thay đổi để đi hết quãng đó?",
+        "en": "What stands out most: from {kwA} to {kwB} is a clear shift. What in you has changed, or needs to, to make that journey?"
+      }
+    },
+    "situation-challenge-advice": {
+      "cards": [
+        1,
+        2
+      ],
+      "text": {
+        "vi": "Điều đáng chú ý nhất: ma sát nằm ở {kwA}, còn hướng gợi ra lại là {kwB}. Hai điều này nghe như ngược nhau, nhưng thường chính {kwB} là cách đi qua {kwA}.",
+        "en": "What stands out most: the friction sits in {kwA}, while the suggested way is {kwB}. They sound opposed, but {kwB} is often how you move through {kwA}."
+      }
+    },
+    "love-three": {
+      "cards": [
+        0,
+        1
+      ],
+      "text": {
+        "vi": "Điều đáng chú ý nhất: bạn mang {kwA}, còn phía người ấy hiện lên với {kwB}. Chỗ hai điều này gặp nhau, hoặc lệch nhau, có thể là điều câu hỏi của bạn đang thật sự chạm tới.",
+        "en": "What stands out most: you bring {kwA}, while the other side appears as {kwB}. Where these meet, or miss each other, may be what your question is really touching."
+      }
+    },
+    "crossroads-four": {
+      "cards": [
+        1,
+        2
+      ],
+      "text": {
+        "vi": "Điều đáng chú ý nhất: bước tới mang màu {kwA}, giữ nguyên mang màu {kwB}. Khi đọc hai từ này, bạn thấy mình nghiêng về bên nào? Cảm giác đó cũng là một dữ kiện đáng để ý.",
+        "en": "What stands out most: stepping forward carries {kwA}, holding still carries {kwB}. Reading those two words, which way do you lean? That feeling is worth noticing too."
+      }
+    }
+  },
+  "deepHook": {
+    "vi": "Giữa {cardA} và {cardB} là phần riêng của câu hỏi này. Bài đọc chuyên sâu sẽ đọc kỹ chỗ đó: vì sao hai lá cùng xuất hiện, chúng nói gì với hoàn cảnh của bạn, và nên bắt đầu từ đâu.",
+    "en": "Between {cardA} and {cardB} lies what is particular to this question. The deep reading looks closely at that: why these two cards appear together, what they say about your situation, and where to begin."
+  },
+  "combinations": {
+    "majorsMajority": {
+      "vi": "phần lớn các lá thuộc Major Arcana, gợi ý đây là một giai đoạn có sức nặng hơn chuyện thường ngày.",
+      "en": "most cards are Major Arcana, which suggests a period that weighs more than everyday matters."
+    },
+    "suit": {
+      "cups": {
+        "vi": "nhiều lá Cups cho thấy chuyện này nằm ở cảm xúc và sự kết nối nhiều hơn là chuyện đúng sai.",
+        "en": "several Cups suggest this is more about feelings and connection than about right or wrong."
+      },
+      "wands": {
+        "vi": "nhiều lá Wands cho thấy một thôi thúc muốn hành động, muốn bắt đầu điều gì đó.",
+        "en": "several Wands point to an urge to act and to start something."
+      },
+      "swords": {
+        "vi": "nhiều lá Swords cho thấy suy nghĩ, những điều chưa nói ra và nhu cầu nhìn rõ đang chiếm chỗ lớn.",
+        "en": "several Swords point to thoughts, things left unsaid and a need for clarity."
+      },
+      "pentacles": {
+        "vi": "nhiều lá Pentacles cho thấy chuyện này gắn với những điều cụ thể: thời gian, tiền bạc, sức lực.",
+        "en": "several Pentacles tie this to concrete things: time, money and energy."
+      }
+    },
+    "mixed": {
+      "vi": "các lá trải ra nhiều hướng, như có vài lực cùng kéo bạn một lúc.",
+      "en": "the cards spread in several directions, as if a few forces are pulling at once."
+    },
+    "single": {
+      "vi": "lá bạn rút hôm nay là một gợi ý để soi lại chính mình.",
+      "en": "the card you drew today is a prompt to look at yourself."
+    },
+    "reversedMajority": {
+      "vi": "Nhiều lá ngược cho thấy năng lượng đang quay vào bên trong hoặc bị chặn lại.",
+      "en": "Several reversed cards show energy turning inward or held back."
+    },
+    "elementTension": {
+      "fire-water": {
+        "vi": "Lửa và Nước cùng xuất hiện: điều bạn muốn làm và điều bạn đang cảm có thể kéo ngược nhau.",
+        "en": "Fire and Water appear together: what you want to do and what you feel may pull against each other."
+      },
+      "air-earth": {
+        "vi": "Khí và Đất cùng xuất hiện: điều bạn nghĩ ra và điều thực tế cho phép có thể chưa khớp.",
+        "en": "Air and Earth appear together: what you think through and what is practical may not match yet."
+      }
+    },
+    "elementHarmony": {
+      "fire-air": {
+        "vi": "Lửa và Khí đi cùng nhau: ý tưởng và động lực đang tiếp sức cho nhau.",
+        "en": "Fire and Air go together: ideas and drive are feeding each other."
+      },
+      "water-earth": {
+        "vi": "Nước và Đất đi cùng nhau: cảm xúc có chỗ dựa vào điều cụ thể.",
+        "en": "Water and Earth go together: feelings have something concrete to rest on."
+      }
+    },
+    "courtsMany": {
+      "vi": "Có nhiều lá Cung đình: chuyện này xoay quanh con người, cách mỗi người đang thể hiện mình.",
+      "en": "Several court cards: this turns on people and how each is showing up."
+    },
+    "acesMany": {
+      "vi": "Có nhiều lá Át: nhiều điểm khởi đầu cùng lúc; chọn một hạt giống để chăm trước.",
+      "en": "Several Aces: many beginnings at once; pick one seed to tend first."
+    },
+    "repeatedNumber": {
+      "vi": "Số {number} lặp lại giữa các lá, như một chủ đề muốn được bạn để ý.",
+      "en": "The number {number} repeats across the cards, like a theme asking for your attention."
+    }
+  },
+  "stepTitle": {
+    "vi": "Một việc nhỏ trong 24 giờ",
+    "en": "One small step in the next 24 hours"
+  },
+  "steps": {
+    "love": {
+      "major": {
+        "vi": "Viết ra một điều bạn thật sự cần trong mối quan hệ này, bằng một câu, rồi đọc to nó cho chính mình nghe.",
+        "en": "Write down, in one sentence, one thing you truly need in this relationship, then read it aloud to yourself."
+      },
+      "cups": {
+        "vi": "Nói hoặc nhắn một câu thật lòng về cảm xúc của bạn, không kèm câu hỏi người kia phải trả lời ngay.",
+        "en": "Say or send one honest sentence about how you feel, without a question they must answer right away."
+      },
+      "wands": {
+        "vi": "Rủ người ấy làm một việc nhỏ cùng nhau trong tuần này, rồi để ý bạn thấy thế nào khi đề nghị.",
+        "en": "Suggest one small thing to do together this week, and notice how it feels to ask."
+      },
+      "swords": {
+        "vi": "Viết ra điều bạn chưa nói, rồi chọn một câu trong đó bạn sẵn sàng nói ra một cách bình tĩnh.",
+        "en": "Write down what you have not said, then choose one sentence of it you are ready to say calmly."
+      },
+      "pentacles": {
+        "vi": "Để ý một việc cụ thể người ấy làm cho bạn, hoặc bạn làm cho người ấy, trong hôm nay.",
+        "en": "Notice one concrete thing they do for you, or you do for them, today."
+      }
+    },
+    "career": {
+      "major": {
+        "vi": "Viết ra một quyết định công việc bạn đang trì hoãn, và một dữ kiện bạn còn thiếu để quyết.",
+        "en": "Write down one work decision you are putting off, and one fact you still need to make it."
+      },
+      "cups": {
+        "vi": "Cảm ơn hoặc hỏi han một người cùng làm trong hôm nay, thật lòng và ngắn gọn.",
+        "en": "Thank or check in with one colleague today, briefly and sincerely."
+      },
+      "wands": {
+        "vi": "Chọn một việc bạn hào hứng nhất và dành 25 phút cho nó trước khi mở hộp thư.",
+        "en": "Pick the task you are most excited about and give it 25 minutes before opening your inbox."
+      },
+      "swords": {
+        "vi": "Viết lại vấn đề đang vướng thành một câu hỏi rõ, rồi gửi cho đúng một người có thể trả lời.",
+        "en": "Rewrite the problem you are stuck on as one clear question, and send it to one person who can answer."
+      },
+      "pentacles": {
+        "vi": "Ghi lại thời gian bạn thật sự dùng cho việc quan trọng nhất hôm nay.",
+        "en": "Track how much time you actually spend on today's most important task."
+      }
+    },
+    "self": {
+      "major": {
+        "vi": "Dành mười phút ở một mình, không điện thoại, và viết ra điều đang thay đổi trong bạn.",
+        "en": "Take ten minutes alone, without your phone, and write down what is changing in you."
+      },
+      "cups": {
+        "vi": "Gọi tên cảm xúc mạnh nhất hôm nay bằng một từ, và cho phép nó có mặt mà không cần sửa.",
+        "en": "Name today's strongest feeling in one word, and let it be there without fixing it."
+      },
+      "wands": {
+        "vi": "Làm một việc nhỏ chỉ vì bạn thích, trong khoảng mười lăm phút.",
+        "en": "Do one small thing just because you enjoy it, for about fifteen minutes."
+      },
+      "swords": {
+        "vi": "Viết ra một suy nghĩ đang lặp lại, rồi viết một câu trả lời tử tế hơn cho nó.",
+        "en": "Write down one thought that keeps looping, then write a kinder reply to it."
+      },
+      "pentacles": {
+        "vi": "Chăm cơ thể một việc cụ thể: uống đủ nước, đi bộ ngắn, hoặc ngủ sớm hơn mười lăm phút.",
+        "en": "Care for your body in one concrete way: enough water, a short walk, or bed fifteen minutes earlier."
+      }
+    }
+  },
+  "journal": {
+    "love": {
+      "major": {
+        "vi": "Mối quan hệ này đang dạy bạn điều gì về chính mình?",
+        "en": "What is this relationship teaching you about yourself?"
+      },
+      "cups": {
+        "vi": "Bạn cảm thấy được lắng nghe nhất vào lúc nào, và điều gì làm nên khoảnh khắc đó?",
+        "en": "When do you feel most heard, and what makes that moment?"
+      },
+      "wands": {
+        "vi": "Điều gì khiến bạn muốn chủ động hơn, và điều gì đang giữ bạn lại?",
+        "en": "What makes you want to take the lead, and what is holding you back?"
+      },
+      "swords": {
+        "vi": "Nếu được nói thật mà không sợ bị hiểu lầm, bạn sẽ nói gì?",
+        "en": "If you could speak honestly without fear of being misread, what would you say?"
+      },
+      "pentacles": {
+        "vi": "Sự quan tâm bằng hành động nào khiến bạn thấy an toàn?",
+        "en": "Which acts of care make you feel safe?"
+      }
+    },
+    "career": {
+      "major": {
+        "vi": "Nếu nhìn lại năm nay, bạn muốn mình đã chọn điều gì trong công việc?",
+        "en": "Looking back on this year, what would you want to have chosen at work?"
+      },
+      "cups": {
+        "vi": "Công việc hiện tại nuôi dưỡng phần nào trong bạn, và bỏ đói phần nào?",
+        "en": "Which part of you does your work feed, and which part does it starve?"
+      },
+      "wands": {
+        "vi": "Việc nào làm bạn quên giờ, và bạn có thể làm nó nhiều hơn một chút không?",
+        "en": "Which task makes you lose track of time, and could you do a little more of it?"
+      },
+      "swords": {
+        "vi": "Quyết định nào sẽ dễ hơn nếu bạn có thêm đúng một thông tin?",
+        "en": "Which decision would be easier with just one more piece of information?"
+      },
+      "pentacles": {
+        "vi": "Bạn đang đầu tư thời gian và sức lực vào đâu, và nó có khớp với điều bạn coi trọng?",
+        "en": "Where are you investing your time and energy, and does it match what you value?"
+      }
+    },
+    "self": {
+      "major": {
+        "vi": "Phiên bản nào của bạn đang muốn lớn lên lúc này?",
+        "en": "Which version of you is trying to grow right now?"
+      },
+      "cups": {
+        "vi": "Cảm xúc nào bạn hay đẩy đi, và nó có thể đang muốn nói gì?",
+        "en": "Which feeling do you tend to push away, and what might it be trying to say?"
+      },
+      "wands": {
+        "vi": "Điều gì làm bạn thấy mình sống động nhất trong tuần qua?",
+        "en": "What made you feel most alive this past week?"
+      },
+      "swords": {
+        "vi": "Câu chuyện nào bạn hay kể về bản thân, và nó còn đúng không?",
+        "en": "What story do you often tell about yourself, and is it still true?"
+      },
+      "pentacles": {
+        "vi": "Thói quen nhỏ nào đang âm thầm giữ bạn vững?",
+        "en": "Which small habit is quietly keeping you steady?"
+      }
+    }
+  },
+  "reversedTopics": {
+    "major-00-fool": {
+      "love": {
+        "vi": "Bạn có thể đang muốn lao vào điều mới, hoặc đang ngại bắt đầu vì sợ tổn thương. Thử chậm lại đủ để hỏi: mình đang tò mò thật, hay đang chạy trốn điều gì?",
+        "en": "You may want to rush into something new, or hesitate to begin for fear of being hurt. Slow down enough to ask: am I truly curious, or running from something?"
+      },
+      "career": {
+        "vi": "Một hướng mới hấp dẫn nhưng có thể bạn đang bỏ qua phần chuẩn bị. Viết ra điều tối thiểu cần có trước khi bước, để thử nghiệm không thành liều lĩnh.",
+        "en": "A new direction is tempting, but you may be skipping the preparation. Write down the minimum you need before stepping in, so a trial does not become a gamble."
+      },
+      "self": {
+        "vi": "Nỗi sợ làm sai có thể đang giữ bạn ở chỗ quen thuộc. Cho mình một lần thử nhỏ, nơi vấp một chút cũng không sao.",
+        "en": "Fear of getting it wrong may be keeping you somewhere familiar. Give yourself one small try where stumbling a little is fine."
+      }
+    },
+    "major-16-tower": {
+      "love": {
+        "vi": "Có thể bạn đang né một điều cần nói ra vì sợ nó làm mọi thứ đổ vỡ. Bắt đầu từ điều bạn biết chắc, nói nhẹ nhàng, thay vì chờ nó tự bung ra.",
+        "en": "You may be avoiding something that needs saying for fear it will break everything. Start from what you know for sure and say it gently, rather than waiting for it to burst out."
+      },
+      "career": {
+        "vi": "Một kế hoạch đang lung lay nhưng bạn có thể đang cố giữ nguyên. Xem phần nền nào vẫn vững, và sửa một chỗ trước khi phải sửa tất cả.",
+        "en": "A plan is shaking but you may be trying to hold it as it is. See which foundations still hold, and fix one place before you have to fix everything."
+      },
+      "self": {
+        "vi": "Bạn có thể đang sống trong nỗi lo rằng mọi thứ sẽ sụp. Ghi lại dữ kiện thật, tách khỏi điều bạn đang sợ, rồi xem cái nào lớn hơn.",
+        "en": "You may be living with the worry that everything will collapse. Write down the real facts apart from what you fear, and see which is bigger."
+      }
+    },
+    "minor-cups-two": {
+      "love": {
+        "vi": "Nhu cầu của hai người có thể chưa gặp nhau. Bạn có thể nói rõ điều mình muốn, rồi để người kia trả lời theo cách của họ, không ép sự đáp lại.",
+        "en": "Your needs may not be meeting yet. You can say clearly what you want, then let them answer in their own way, without forcing a response."
+      },
+      "career": {
+        "vi": "Một mối hợp tác có thể đang lệch: một bên cho nhiều hơn. Nói ra điều bạn cần để công bằng hơn, bằng một đề nghị cụ thể.",
+        "en": "A partnership may be uneven, with one side giving more. Say what you need for it to feel fairer, as one concrete request."
+      },
+      "self": {
+        "vi": "Bạn có thể đang dễ dãi với người khác mà khắt khe với mình. Thử đáp lại bản thân hôm nay như cách bạn vẫn đáp lại một người bạn.",
+        "en": "You may be easy on others and hard on yourself. Try answering yourself today the way you would answer a friend."
+      }
+    },
+    "minor-swords-three": {
+      "love": {
+        "vi": "Một nỗi đau có thể vẫn còn đó dù bạn đã cố cho qua. Không cần tha thứ hay quên ngay; chỉ cần thừa nhận nó còn đau.",
+        "en": "A hurt may still be there even though you tried to move past it. You do not need to forgive or forget yet; it is enough to admit it still hurts."
+      },
+      "career": {
+        "vi": "Một thất vọng ở công việc có thể chưa được nói ra. Chọn một người bạn tin để kể, hoặc viết nó ra, trước khi rút bài học.",
+        "en": "A disappointment at work may still be unspoken. Tell one person you trust, or write it down, before drawing a lesson from it."
+      },
+      "self": {
+        "vi": "Bạn có thể đang tự trách mình về một chuyện đã qua. Hãy nói với mình một câu dịu dàng như khi an ủi người khác.",
+        "en": "You may be blaming yourself for something in the past. Say one gentle sentence to yourself, as you would to comfort someone else."
+      }
+    },
+    "minor-wands-eight": {
+      "love": {
+        "vi": "Tin nhắn có thể đang chậm lại, hoặc chồng chéo và dễ hiểu lầm. Hỏi lại một điều cho rõ thay vì đoán ý.",
+        "en": "Messages may be slowing down, or crossing and easy to misread. Ask one thing again to be clear rather than guessing."
+      },
+      "career": {
+        "vi": "Việc có thể đang bị chậm vì thông tin chưa thống nhất. Dừng một nhịp để xác nhận ai làm gì, trước khi tăng tốc.",
+        "en": "Work may be slowing because information is not aligned. Pause to confirm who does what before speeding up."
+      },
+      "self": {
+        "vi": "Bạn có thể đang ôm quá nhiều việc cùng lúc. Chọn một việc để làm xong, và cho phép những việc còn lại chờ.",
+        "en": "You may be juggling too much at once. Choose one thing to finish, and let the rest wait."
+      }
+    },
+    "minor-pentacles-four": {
+      "love": {
+        "vi": "Bạn có thể đang sẵn sàng nới tay, hoặc đang sợ mất cảm giác an toàn. Chọn một giới hạn rõ, thay vì phải giữ chặt hay buông hết.",
+        "en": "You may be ready to loosen your grip, or afraid of losing your sense of safety. Choose one clear limit instead of holding everything or letting go of it all."
+      },
+      "career": {
+        "vi": "Cách bạn giữ nguồn lực có thể cần xem lại: quá chặt hoặc quá lỏng. Viết ra một khoản thời gian hay tiền bạc bạn muốn sắp xếp lại.",
+        "en": "How you hold your resources may need a look: too tight or too loose. Write down one block of time or money you want to rearrange."
+      },
+      "self": {
+        "vi": "Bạn có thể đang buông dần một nỗi lo về sự thiếu. Hãy xem điều gì thật sự cần bảo vệ, và điều gì có thể thả ra.",
+        "en": "You may be letting go of a worry about not having enough. See what truly needs protecting, and what you can release."
+      }
+    }
+  }
+}

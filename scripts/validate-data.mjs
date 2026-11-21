@@ -357,6 +357,53 @@ for (const [cardId, guide] of Object.entries(cardGuide.cards)) {
   }
   for (const key of guide.noteKeys ?? []) assertLocalized(cardGuide.sharedNotes?.[key], `${cardId}.guide.noteKeys.${key}`);
 }
+// Value report batch B (2026-11-21): the five-layer free reading library. Every text is accented VI + EN, roles cover the
+// app's spreads, reversed-topic entries use canonical ids, and no text uses a forbidden certainty or healing claim.
+const readingLayers = readJson("packages/content/data/tarot-reading-layers.json");
+const layerThemes = ["major", "wands", "cups", "swords", "pentacles"];
+const layerTopics = ["love", "career", "self"];
+const spreadCardCounts = { "daily-one": 1, "past-present-future": 3, "situation-challenge-advice": 3, "love-three": 3, "crossroads-four": 4 };
+const layerForbidden = /(chắc chắn sẽ|định mệnh|vận mệnh|chữa lành|trị liệu|tiên tri|bùa|giải hạn|will definitely|destiny|guaranteed)/i;
+const checkLayerText = (value, label) => {
+  assertLocalized(value, `reading-layers.${label}`);
+  assert(vietnameseDiacriticPattern.test(value?.vi ?? ""), `reading-layers.${label}.vi must use accented Vietnamese`);
+  assert(!layerForbidden.test(`${value?.vi ?? ""} ${value?.en ?? ""}`), `reading-layers.${label} uses forbidden certainty or healing wording`);
+};
+for (const [spreadId, count] of Object.entries(spreadCardCounts)) {
+  const roles = readingLayers.positionRoles?.[spreadId];
+  assert(Array.isArray(roles) && roles.length === count, `reading-layers.positionRoles.${spreadId} must list ${count} roles`);
+  for (const role of roles ?? []) for (const side of ["upright", "reversed"]) {
+    checkLayerText(readingLayers.roles?.[role]?.[side], `roles.${role}.${side}`);
+    assert((readingLayers.roles?.[role]?.[side]?.vi ?? "").includes("{kw}") && (readingLayers.roles?.[role]?.[side]?.en ?? "").includes("{kw}"), `reading-layers.roles.${role}.${side} must name the card keywords ({kw})`);
+  }
+  const thread = readingLayers.threads?.[spreadId];
+  checkLayerText(thread, `threads.${spreadId}`);
+  for (let index = 1; index <= count; index += 1) for (const lang of ["vi", "en"]) assert((thread?.[lang] ?? "").includes(`{card${index}}`), `reading-layers.threads.${spreadId}.${lang} must name card ${index}`);
+  const focus = readingLayers.focus?.[spreadId];
+  if (count >= 2) {
+    checkLayerText(focus?.text, `focus.${spreadId}`);
+    assert(Array.isArray(focus?.cards) && focus.cards.length === 2 && focus.cards.every((index) => Number.isInteger(index) && index >= 0 && index < count), `reading-layers.focus.${spreadId}.cards must pick two positions`);
+  }
+}
+checkLayerText(readingLayers.reversedMark, "reversedMark");
+checkLayerText(readingLayers.deepHook, "deepHook");
+const layerCombos = readingLayers.combinations ?? {};
+for (const key of ["majorsMajority", "mixed", "single", "reversedMajority", "courtsMany", "acesMany", "repeatedNumber"]) checkLayerText(layerCombos[key], `combinations.${key}`);
+for (const suit of ["wands", "cups", "swords", "pentacles"]) checkLayerText(layerCombos.suit?.[suit], `combinations.suit.${suit}`);
+for (const pair of ["fire-water", "air-earth"]) checkLayerText(layerCombos.elementTension?.[pair], `combinations.elementTension.${pair}`);
+for (const pair of ["fire-air", "water-earth"]) checkLayerText(layerCombos.elementHarmony?.[pair], `combinations.elementHarmony.${pair}`);
+checkLayerText(readingLayers.stepTitle, "stepTitle");
+for (const topic of layerTopics) for (const theme of layerThemes) {
+  checkLayerText(readingLayers.steps?.[topic]?.[theme], `steps.${topic}.${theme}`);
+  checkLayerText(readingLayers.journal?.[topic]?.[theme], `journal.${topic}.${theme}`);
+}
+for (const [cardId, entry] of Object.entries(readingLayers.reversedTopics ?? {})) {
+  assert(cards.some((card) => card.id === cardId), `reading-layers.reversedTopics.${cardId} is not a canonical card id`);
+  for (const topic of Object.keys(entry)) {
+    assert(layerTopics.includes(topic), `reading-layers.reversedTopics.${cardId}.${topic} is not a supported topic`);
+    checkLayerText(entry[topic], `reversedTopics.${cardId}.${topic}`);
+  }
+}
 // Owner-approved astrology sky content (2026-10-31): Big 3 fragments, Moon-in-house texts and topic placements for all 12 signs.
 const zodiacSignIds = ["aries", "taurus", "gemini", "cancer", "leo", "virgo", "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces"];
 const assertViText = (value, label) => {
