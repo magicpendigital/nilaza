@@ -38,6 +38,6 @@ export function tarotSourceLabel(input: { source: "ai" | "reference" | "blocked"
   if (input.source === "ai") return vi ? `Diễn giải AI theo ${input.cardCount} lá và câu hỏi của bạn · không phải dự đoán chắc chắn` : `AI interpretation of your ${input.cardCount} cards and question · not a certain prediction`;
   if (input.source === "blocked") return vi ? "Phản hồi an toàn" : "Safety response";
   return input.hasDrawId
-    ? (vi ? "Bài đọc có sẵn của Nilaza · chưa có phân tích AI · không phải dự đoán chắc chắn" : "Nilaza's reference reading · no AI analysis yet · not a certain prediction")
+    ? (vi ? "Bài đọc Nilaza · theo ý nghĩa truyền thống của các lá · không phải dự đoán chắc chắn" : "Nilaza reading · from the cards' traditional meanings · not a certain prediction")
     : (vi ? "Ý nghĩa có sẵn · AI chưa hoàn tất" : "Reference meanings · AI not completed");
 }

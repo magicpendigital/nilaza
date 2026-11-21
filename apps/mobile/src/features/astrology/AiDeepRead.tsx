@@ -69,8 +69,8 @@ export function AiDeepRead({ language, available, premiumOnSale, signInRequired 
         <>
           <Text style={s.body}>
             {vi
-              ? "Một bài đọc riêng nối Mặt Trời, Mặt Trăng, Cung mọc và các góc hợp trong lá số của bạn, kèm câu hỏi để tự soi chiếu."
-              : "A personal read that links your Sun, Moon, Rising and aspects, with questions for self-reflection."}
+              ? "Hiểu vì sao bạn vừa thế này vừa thế kia: bài đọc riêng nối Mặt Trời, Mặt Trăng, Cung mọc và các góc hợp trong lá số của bạn thành một bức tranh, kèm câu hỏi để tự soi chiếu."
+              : "See why you can be one way and another at once: a personal read that ties your Sun, Moon, Rising and aspects into one picture, with questions for self-reflection."}
           </Text>
           {available ? (
             <Pressable accessibilityRole="button" accessibilityState={{ disabled: status === "loading" }} disabled={status === "loading"} onPress={onWrite} style={s.primary}>
