@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "taskId": "tarot-value-report-2026-11-21",
+  "ownerAgent": "product_agent",
+  "lane": "Documents: product analysis of the Tarot and birth chart result screens",
+  "goal": "Save the Owner-approved value report for Tarot and astrology readings (current state, user research, three-tier proposal, action plan) and record the Owner's five decisions in PLAN.md.",
+  "successCriteria": [
+    "The report is in docs/proposals with sources and a verified / not-verified section.",
+    "PLAN.md records Owner decisions Q1-Q5 of 21/11 and that batch A starts next."
+  ],
+  "writeScope": [
+    "docs/proposals/TAROT_ASTRO_VALUE_REPORT_2026-11-21.vi.md",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "No app, Admin, Edge Function, migration or content data change in this PR."
+  ],
+  "impact": {
+    "entryPoint": "No app entry point; the report lives in docs/proposals.",
+    "dataWrite": "No data written anywhere; documentation only.",
+    "backendContract": "No API or Edge Function contract change.",
+    "adminVisibility": "None; merging to main redeploys Admin staging with no Admin change.",
+    "privacySafety": "No user data; public sources only, accessed 21/11/2026.",
+    "observability": "No events or metrics added; the report proposes a funnel for later batches.",
+    "rollback": "Revert the commit; nothing else depends on it."
+  },
+  "canonicalContracts": [
+    "docs/NIL_PRICING_STRATEGY_2026-11-15.vi.md stays the canonical Nil pricing source; the report only proposes on top of it"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Owner approval boundary.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Lane routing and checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/NIL_PRICING_STRATEGY_2026-11-15.vi.md",
+      "reason": "Nil decisions and AI cost assumptions the report builds on.",
+      "sha256": "28f7ba99545459ad013472ee69fed0e09bfc3335c9986b3572b227f7fc2ad1ba"
+    },
+    {
+      "path": "docs/proposals/TAROT_FREE_DRAW_AI_DEPTH_2026-11-15.vi.md",
+      "reason": "Tarot v2 design and content-library plan the report extends.",
+      "sha256": "73625dee42dda7a43509a15e069e56ee69bb4c2557a749db63baf1ead6b822e8"
+    },
+    {
+      "path": "apps/mobile/src/features/tarot/TarotDeepAnalysis.tsx",
+      "reason": "Current AI invitation copy quoted in the report.",
+      "sha256": "ceb38f6761f0cda2f2e5a16e85b7bd60364f55973a5eece2c1ae563d75745f4f"
+    },
+    {
+      "path": "packages/content/data/tarot-cards.json",
+      "reason": "Card meaning length and tone quoted in the report.",
+      "sha256": "dadfbeb7b9bc11d27d95534897f55b76ed3914d7b1657febf2c26a90f3560dfd"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Docs-only record; PLAN.md updated in the same PR."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change; documentation only.",
+    "sensitiveData": "No user, journal or birth data; only public sources and repository code are quoted.",
+    "secretsLogging": "No secrets read or logged.",
+    "externalInput": "Public web sources cited with confidence notes; none executed.",
+    "dependencies": "No package or lockfile change in this PR.",
+    "migrationRelease": "No migration, deploy or release; merge only redeploys Admin staging unchanged.",
+    "stopCondition": "Stop if the report would need user data.",
+    "unresolvedHighRisks": []
+  },
+  "validationCommands": [
+    "npm run validate:governance",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Open docs/proposals/TAROT_ASTRO_VALUE_REPORT_2026-11-21.vi.md on GitHub and check section 8 matches the five decisions.",
+  "residualRisk": "Market figures are public estimates with stated confidence; no Nilaza user data exists yet.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  },
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "Market, pricing and policy claims cite public sources accessed 21/11/2026 in the report's source list."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://support.google.com/googleplay/android-developer/answer/9900533",
+      "reason": "Google Play subscription disclosure rules and one-time benefits sold as one-time products.",
+      "checkedAt": "2026-11-21"
+    },
+    {
+      "url": "https://www.revenuecat.com/blog/growth/subscription-app-trends-benchmarks-2026",
+      "reason": "Paywall conversion and Play billing-failure cancellation benchmarks.",
+      "checkedAt": "2026-11-21"
+    }
+  ]
+}

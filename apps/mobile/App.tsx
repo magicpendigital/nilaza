@@ -155,6 +155,7 @@ import { ChatHub } from "./src/features/chat/ChatHub";
 import { JournalHome } from "./src/features/journal/JournalHome";
 import { savedReadingCards } from "./src/features/journal/savedReading";
 import { cardInline, cardSubtitle, cardTitle } from "./src/features/tarot/cardName";
+import { composeLocalTarotSummary } from "./src/features/tarot/localReading";
 import { readingShareText } from "./src/features/tarot/shareText";
 import { ShareCardSheet, type ShareEventMeta, type ShareEventName } from "./src/features/share/ShareCardSheet";
 import { readingModel, todayCardModel, type ShareCardModel, type ShareRequest } from "./src/features/share/shareCardContent";
@@ -2465,14 +2466,11 @@ function buildLocalTarotInterpretation(
   language: Language,
   selected: DrawnTarotCard[]
 ) {
-  const spreadOption = spreads.find((item) => item.id === spread) ?? spreads[1];
+  // Value report batch A (Owner 2026-11-21): a real reading of this question from the cards' traditional meanings.
+  void deck;
+  void spread;
   const topicLabel = localizedText(topics.find((item) => item.id === topic), language, topic);
-  const spreadLabel = localizedText(spreadOption, language, spreadOption.id);
-  const cardNames = selected.map((card) => displayTarotCardInline(card, language)).join(", ");
-  const summary =
-    language === "vi"
-      ? `${question.trim() ? `Bạn đang khám phá câu hỏi: “${question.trim()}”. ` : `Bạn đang phản chiếu về ${topicLabel.toLowerCase()}. `}Trải ${spreadLabel.toLowerCase()} với ${localizedText(deck.name, "vi")} gồm ${cardNames}. Đây là ý nghĩa có sẵn để bạn tự đối chiếu với câu hỏi; diễn giải AI chưa hoàn tất. Hãy chọn một chi tiết khiến bạn chú ý và viết điều nó gợi ra, thay vì xem lá bài là kết luận về tương lai.`
-      : `${question.trim() ? `You are exploring: “${question.trim()}”. ` : `You are reflecting on ${topicLabel.toLowerCase()}. `}Your ${spreadLabel.toLowerCase()} spread with ${localizedText(deck.name, "en")} contains ${cardNames}. These are reference meanings to compare with your question; AI interpretation has not completed. Choose one detail that catches your attention and write what it brings up rather than treating it as a verdict about the future.`;
+  const summary = composeLocalTarotSummary(selected, question, topicLabel, language);
 
   return {
     summary,
@@ -5925,13 +5923,13 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
               if (!target?.drawId || tarotResultSource(target.moderationStatus) !== "reference") return;
               // Tarot v2 pack 0: the AI runs only after the person confirms; it reads the question and the cards, nothing else.
               Alert.alert(
-                language === "vi" ? "Phân tích chuyên sâu bằng AI?" : "Deep analysis with AI?",
+                language === "vi" ? "Đọc chuyên sâu cho câu hỏi này?" : "A deep reading for this question?",
                 language === "vi"
-                  ? "AI sẽ đọc câu hỏi của bạn cùng các lá đã rút. Chỉ câu hỏi và các lá được gửi đi, không gửi ngày sinh hay Nhật ký. Lượt chỉ tính khi AI trả bài; lỗi thì không mất."
-                  : "The AI will read your question and the cards you drew. Only the question and the cards are sent, never birth data or your Journal. It only counts when the AI delivers; a failure costs nothing.",
+                  ? "Bạn sẽ nhận một bài đọc viết riêng cho câu hỏi này: từng lá ở đúng vị trí của nó, một hướng nên cân nhắc và một câu hỏi để viết.\n\nChỉ câu hỏi và các lá được gửi đi, không gửi ngày sinh hay Nhật ký. Lượt chỉ tính khi bài đọc được trả về; lỗi thì không mất."
+                  : "You will get a reading written for this question: each card in its position, a direction to consider and a question to write about.\n\nOnly the question and the cards are sent, never birth data or your Journal. It only counts when the reading is delivered; a failure costs nothing.",
                 [
                   { text: language === "vi" ? "Để sau" : "Not now", style: "cancel" },
-                  { text: language === "vi" ? "Phân tích" : "Analyse", onPress: () => drawCards(target.selected, target) }
+                  { text: language === "vi" ? "Đọc ngay" : "Read now", onPress: () => drawCards(target.selected, target) }
                 ]
               );
             } : undefined}
