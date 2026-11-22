@@ -393,10 +393,14 @@ for (const suit of ["wands", "cups", "swords", "pentacles"]) checkLayerText(laye
 for (const pair of ["fire-water", "air-earth"]) checkLayerText(layerCombos.elementTension?.[pair], `combinations.elementTension.${pair}`);
 for (const pair of ["fire-air", "water-earth"]) checkLayerText(layerCombos.elementHarmony?.[pair], `combinations.elementHarmony.${pair}`);
 checkLayerText(readingLayers.stepTitle, "stepTitle");
-for (const topic of layerTopics) for (const theme of layerThemes) {
+// Batch B completion (2026-11-22): Decision and Open questions have their own small steps and journal questions.
+for (const topic of [...layerTopics, "decision", "open"]) for (const theme of layerThemes) {
   checkLayerText(readingLayers.steps?.[topic]?.[theme], `steps.${topic}.${theme}`);
   checkLayerText(readingLayers.journal?.[topic]?.[theme], `journal.${topic}.${theme}`);
 }
+// Every canonical card has a reversed meaning for each topic, and the Vietnamese text never shows English suit or arcana names.
+for (const card of cards) for (const topic of layerTopics) assert(readingLayers.reversedTopics?.[card.id]?.[topic], `reading-layers.reversedTopics.${card.id}.${topic} is missing`);
+assert(!/(Cups|Wands|Swords|Pentacles|Arcana)/.test(JSON.stringify(readingLayers, (key, value) => (key === "en" ? undefined : value))), "reading-layers Vietnamese text must use Vietnamese suit and arcana names");
 for (const [cardId, entry] of Object.entries(readingLayers.reversedTopics ?? {})) {
   assert(cards.some((card) => card.id === cardId), `reading-layers.reversedTopics.${cardId} is not a canonical card id`);
   for (const topic of Object.keys(entry)) {
