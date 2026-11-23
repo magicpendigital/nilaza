@@ -24,7 +24,8 @@ test("reviewed catalog is fresh, typed and distinct across all eight features", 
   assert.equal(result.features, 8);
   assert.equal(result.nodes, 73);
   assert.equal(result.edges, 69);
-  assert.equal(result.ports, 205);
+  // Batch C1 (22/11) adds the Tarot readingGuide output and prompt input ports (205 + 2).
+  assert.equal(result.ports, 207);
   // P1-A pins the Tarot draw/handler/store modules (39 + 3).
   // P1-B pins the Astrology handler and lock modules and refreshes index.ts (42 + 2).
   assert.equal(result.sourceDigests, 44);

@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 1,
+  "taskId": "tarot-ai-reading-guide-2026-11-22",
+  "ownerAgent": "backend_agent",
+  "lane": "Backend/AI: Tarot AI reading context (value report batch C part 1, Owner approved 21/11)",
+  "goal": "Give the Tarot AI the context it needs to read the spread as one story that answers the question: a spread guide (what each position asks, how positions relate, the focus pair), computed card facts (Major count, reversed count, suits, elements, repeated numbers, court cards, aces) and the approved per-topic meaning of each drawn card; and tell the model to answer the user's real need directly within the existing safety boundaries.",
+  "successCriteria": [
+    "tarotModelMessage includes readingGuide {spreadGuide, cardFacts, topicMeanings} built deterministically on the server from bundled content for all five spreads.",
+    "cardFacts are computed from canonical card data, never from the model; topicMeanings use tarot-card-guide.json for upright and tarot-reading-layers.json reversedTopics for reversed cards, only for love, career and self, and never for the other-person position (those texts address the user).",
+    "The immutable boundaries tell the model how to use readingGuide, to answer the question first, to name the need beneath it, to give a clear leaning with conditions instead of a prediction, and for the other person to suggest a question instead of guessing their thoughts; certainty, crisis and professional-advice boundaries are unchanged.",
+    "The prompt assembly version is bumped so traces show which assembly answered.",
+    "Admin workflow page lists readingGuide as data sent to the model.",
+    "Deno tests cover each spread, facts counting, topic meanings per orientation and the message shape; output contract, quotas, routes and storage are unchanged."
+  ],
+  "writeScope": [
+    "supabase/functions/_shared/tarot-reading-guide.ts",
+    "supabase/functions/_shared/tarot-reading-guide_test.ts",
+    "supabase/functions/_shared/tarot-prompt.ts",
+    "supabase/functions/_shared/tarot-prompt.test.ts",
+    "supabase/functions/_shared/tarot-content_test.ts",
+    "apps/admin/workflow-catalog.js",
+    "scripts/admin-workflow-catalog.test.mjs",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "Model routes, providers, quotas, switches, prompt_versions rows and migrations are unchanged.",
+    "Output schema tarot_reading_output_v3 and the app are unchanged; mobile needs no new build for this part.",
+    "Reading length and the free/premium split (lời nhắn riêng, auto-run, model by plan) are later parts of batch C and need an Owner product decision."
+  ],
+  "impact": {
+    "entryPoint": "Tarot result screen > Đọc chuyên sâu (existing AI reading), and Admin AI evals for tarot_reading.",
+    "dataWrite": "No new storage; the stored interpretation keeps its shape. promptAssemblyVersion in provenance changes to v6.",
+    "backendContract": "Same request and response; the model user message gains readingGuide. Needs an Owner-approved deploy of ai-tarot-reading (and admin-ai-eval-run) to take effect.",
+    "adminVisibility": "Workflow page lists readingGuide; traces keep the assembly version.",
+    "privacySafety": "readingGuide is derived from the drawn cards, spread and topic only; no history, journal, birth data or new personal data is sent. The other-person boundary is strengthened.",
+    "observability": "Assembly version v6 in provenance and trace metadata.",
+    "rollback": "Revert and redeploy; stored readings are immutable and unaffected."
+  },
+  "canonicalContracts": [
+    "packages/content/data/tarot-cards.json stays the card-meaning source",
+    "supabase/functions/_shared/tarot-prompt.ts tarotModelMessage stays the single builder of the Tarot model message for runtime and Admin evals",
+    "packages/ai-contracts/tarot-output.ts output contract is unchanged"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Owner approval boundary.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Backend/AI lane checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/TAROT_ASTRO_VALUE_REPORT_2026-11-21.vi.md",
+      "reason": "Owner-approved batch C scope (spreadGuide, cardFacts) and writing boundaries.",
+      "sha256": "19ff0af024e8ebbce4a6bcef13ec5c95cdcd74a8330db18af4d353d03b05dfe0"
+    },
+    {
+      "path": "docs/proposals/TAROT_FREE_DRAW_AI_DEPTH_2026-11-15.vi.md",
+      "reason": "spreadGuide and cardFacts shape (section on AI context).",
+      "sha256": "73625dee42dda7a43509a15e069e56ee69bb4c2557a749db63baf1ead6b822e8"
+    },
+    {
+      "path": "docs/proposals/LLM_PROVIDERS_FALLBACK_2026-11-03.vi.md",
+      "reason": "Router and fallback behaviour stay unchanged.",
+      "sha256": "af435cd85373fb6f90ad667b7a1ed195992c77932fc25241f654f3e544d8f45d"
+    },
+    {
+      "path": "supabase/functions/_shared/tarot-prompt.ts",
+      "reason": "Prompt assembly and model message to extend.",
+      "sha256": "42572eadba66265c51e3780c974152609cd5a7402f4a37f8321898eff9719d80"
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/handler.ts",
+      "reason": "Runtime caller of the message (unchanged).",
+      "sha256": "f0ea9717f4ef9841473a9463b005c5349847f263dee99fa80cfe4a4a26c727e6"
+    },
+    {
+      "path": "supabase/functions/admin-ai-eval-run/runner.ts",
+      "reason": "Admin eval builds the same message (unchanged).",
+      "sha256": "2bdd664f0cceb84b0131289ec717a102ccca6d39146b42f2de87acc6ce823def"
+    },
+    {
+      "path": "apps/admin/workflow-catalog.js",
+      "reason": "Admin data-flow page that lists what Tarot sends to the model.",
+      "sha256": "093ee55d9de194b230b8bf33821eeac43b19c613f042bd91b2ad701ae60c214d"
+    },
+    {
+      "path": "packages/content/data/tarot-cards.json",
+      "reason": "Card arcana, suit, rank, element, number.",
+      "sha256": "dadfbeb7b9bc11d27d95534897f55b76ed3914d7b1657febf2c26a90f3560dfd"
+    },
+    {
+      "path": "packages/content/data/tarot-card-guide.json",
+      "reason": "Upright per-topic meanings.",
+      "sha256": "5f5b1a5ee9383212fdb87502268d99337c1ec045b6af66f5448d830f93b3813e"
+    },
+    {
+      "path": "packages/content/data/tarot-reading-layers.json",
+      "reason": "Reversed per-topic meanings and focus pairs.",
+      "sha256": "a22481a542fa848ef1d047750bb8ab8865cc1f69122ef992fc7a0c70e1abf916"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before edits; PLAN.md updated in the same PR."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Only context the prompt uses is added; same switch, quota and sign-in; Admin data-flow page updated; deploy left to the Owner."
+    },
+    {
+      "name": "nilaza-tarot-content-qc",
+      "decision": "verified-current",
+      "evidence": "Reuses approved card-guide and reversed-topic texts; no new user-facing copy."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No auth, RLS or quota change.",
+    "sensitiveData": "The question was already sent; readingGuide adds only content derived from the drawn cards.",
+    "secretsLogging": "No secrets read or logged; traces keep strict redaction.",
+    "externalInput": "The question stays data inside JSON; readingGuide is server-built from bundled files, not from the client.",
+    "dependencies": "No package or lockfile change.",
+    "migrationRelease": "No migration. Takes effect only after the Owner approves deploying ai-tarot-reading and admin-ai-eval-run.",
+    "stopCondition": "Stop if the guide would need user history, birth data or another person's thoughts, or if the output contract must change.",
+    "unresolvedHighRisks": []
+  },
+  "validationCommands": [
+    "npx --yes deno@2 test supabase/functions/_shared/tarot-reading-guide_test.ts supabase/functions/_shared/tarot-prompt.test.ts supabase/functions/_shared/tarot-content_test.ts supabase/functions/ai-tarot-reading",
+    "npm run validate:backend",
+    "npm run admin:check",
+    "npm run admin:test",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "After deploy: draw Yêu đương (love-three) with one reversed card and press Đọc chuyên sâu. The reading opens with an answer to the question, links the You and The other person cards, does not claim what the other person thinks, and suggests a question to ask them.",
+  "residualRisk": "Answer quality is not verified until a deployed QA run or the batch C blind test; the cheap model may ignore parts of the guide.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  },
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing Deno code and repository content only."
+  },
+  "externalSourceReview": [],
+  "workingTreeReview": {
+    "paths": [
+      "PLAN.md",
+      "apps/admin/workflow-catalog.js",
+      "scripts/admin-workflow-catalog.test.mjs",
+      "supabase/functions/_shared/tarot-content_test.ts",
+      "supabase/functions/_shared/tarot-prompt.ts",
+      "supabase/functions/_shared/tarot-reading-guide.ts",
+      "supabase/functions/_shared/tarot-reading-guide_test.ts"
+    ],
+    "note": "Owner asked on 22/11 to continue batch C. These are this task's edits after the preflight passed: the reading-guide module and tests, the prompt wiring and v6 assembly, the Admin data-flow ports and digest. The repo-root PaywallPanel.test.tsx is untracked, not part of this task, and left alone."
+  }
+}
