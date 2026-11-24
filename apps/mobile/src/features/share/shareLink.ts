@@ -4,7 +4,8 @@ import { astrologySignIds, type AstrologySignId } from "../astrology/contracts";
 // Public origin of the Nilaza website. Share links open a public page here; they never open the app.
 export const SHARE_ORIGIN = "https://nilaza.magicpendigital.com";
 
-export type ShareSurface = "today_card" | "tarot_reading" | "astro_big3" | "astro_invite";
+// "numerology_map" is local-only for now: it is not in the server allow-list (shareEvents.ts), so no server share event is sent for it.
+export type ShareSurface = "today_card" | "tarot_reading" | "astro_big3" | "astro_invite" | "numerology_map";
 export type ShareMedium = "card" | "invite";
 
 const idAlphabet = "abcdefghijklmnopqrstuvwxyz0123456789";
@@ -86,6 +87,10 @@ export function shareLinkMessage(language: Language, surface: ShareSurface, url:
       : vi
         ? "Mình vừa xem bản đồ sao của mình và có vài điều làm mình bất ngờ. Bạn xem của bạn đi?"
         : "I just looked at my star chart and a few things surprised me. Want to see yours?";
+  } else if (surface === "numerology_map") {
+    lead = vi
+      ? "Mình vừa xem bản đồ số của mình và có một nét làm mình phải gật gù. Bạn thử xem bản đồ số của bạn đi?"
+      : "I just looked at my number map and one thing made me nod. Want to see yours?";
   } else if (surface === "tarot_reading") {
     lead = names.length === 1
       ? vi

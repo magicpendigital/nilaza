@@ -1,4 +1,4 @@
-import { big3Model, readingModel, singleSunSign, todayCardModel } from "../shareCardContent";
+import { big3Model, numerologyModel, readingModel, singleSunSign, todayCardModel } from "../shareCardContent";
 
 const image = { uri: "card" };
 const everyText = (model: ReturnType<typeof todayCardModel>) =>
@@ -96,4 +96,15 @@ it("exposes only public names for the share message: card names for cards, one c
   expect(JSON.stringify(reading.cardNames)).not.toContain("nghỉ việc");
   expect(big3Model({ language: "en", sun: ["leo"], moon: [], timeKnown: false }).signName).toBe("Leo");
   expect(big3Model({ language: "en", sun: ["leo", "virgo"], moon: [], timeKnown: false }).signName).toBeUndefined();
+});
+
+test("the number-map card shows numbers only and keeps the reflection note", () => {
+  const model = numerologyModel({ language: "vi", lifePath: "11/2", birthday: "6", expression: "8", lifePathTitle: "Người lắng nghe" });
+  expect(model.surface).toBe("numerology_map");
+  expect(model.rows.map((row) => row.value)).toEqual(["11/2", "6", "8"]);
+  expect(model.title).toBe("Người lắng nghe");
+  expect(model.note).toContain("không phải dự đoán");
+  expect(model.cardNames).toBeUndefined();
+  expect(model.signName).toBeUndefined();
+  expect(numerologyModel({ language: "en", lifePath: "7", birthday: "3" }).rows).toHaveLength(2);
 });

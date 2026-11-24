@@ -106,3 +106,14 @@ it("carries nothing but the lead and the link, so no question, note or birth det
   expect(text.split("\n")).toHaveLength(2);
   expect(text).not.toMatch(/nghỉ việc|bí mật|1990/);
 });
+
+test("a number-map link carries no number, name or date, and no server share event exists for it", () => {
+  const url = buildShareUrl({ language: "vi", surface: "numerology_map", id: "abc12345" });
+  const parsed = parse(url);
+  expect(parsed.pathname).toBe("/vi/share");
+  expect([...parsed.searchParams.keys()].sort()).toEqual(["utm_campaign", "utm_content", "utm_medium", "utm_source"]);
+  expect(parsed.searchParams.get("utm_campaign")).toBe("numerology_map");
+  const message = shareLinkMessage("vi", "numerology_map", url);
+  expect(message).toContain("bản đồ số");
+  expect(message).not.toMatch(/\d{1,2}\/\d/);
+});
