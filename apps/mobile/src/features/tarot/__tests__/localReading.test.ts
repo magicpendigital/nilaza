@@ -19,7 +19,7 @@ describe("local Tarot reading (five layers)", () => {
     });
     expect(reading.summary.startsWith("Với câu hỏi “Mình có nên nhắn lại cho bạn ấy không?”, bạn đang mang vào mối quan hệ đáp lại (Hai Cốc)")).toBe(true);
     expect(reading.summary).toContain("đau lòng đang bị kìm lại (Ba Kiếm)");
-    expect(reading.summary).toContain("Nhiều lá Cups");
+    expect(reading.summary).toContain("Nhiều lá Cốc");
     expect(reading.summary).toContain("Điều đáng chú ý nhất: bạn mang đáp lại, còn phía người ấy hiện lên với đau lòng đang bị kìm lại.");
     expect(reading.sections).toEqual([{ key: "small_step", title: layers.stepTitle, body: layers.steps.love.cups }]);
     expect(reading.reflection).toBe(layers.journal.love.cups.vi);
@@ -44,9 +44,11 @@ describe("local Tarot reading (five layers)", () => {
       spread: "love-three", topic: "love", topicLabel: "Tình yêu", question: "", language: "vi"
     });
     expect(reading.cardInterpretations[0].vi).toContain(layers.reversedTopics["major-00-fool"].love.vi);
-    expect(reading.cardInterpretations[1].vi).toContain(byId.get("major-01-magician")!.intro.vi);
+    expect(reading.cardInterpretations[1].vi).toContain(byId.get("major-01-magician")!.intro.vi.split("The Magician").join(byId.get("major-01-magician")!.name.vi));
     expect(reading.summary).toContain("Nhiều lá ngược");
-    expect(reading.summary).toContain("Major Arcana");
+    expect(reading.summary).toContain("Ẩn chính");
+    expect(reading.cardInterpretations[1].vi).not.toContain("The Magician");
+    expect(reading.cardInterpretations[1].vi).toContain(byId.get("major-01-magician")!.name.vi);
   });
 
   it("names element tension and repeated numbers, and handles one card in English", () => {
@@ -63,7 +65,28 @@ describe("local Tarot reading (five layers)", () => {
     });
     expect(one.summary).toBe("On open, The Star brings today's theme of hope.");
     expect(one.cardInterpretations[0].en.startsWith("Today your card turns on hope and faith.")).toBe(true);
-    expect(one.reflection).toBe(layers.journal.self.major.en);
+    expect(one.reflection).toBe(layers.journal.open.major.en);
+  });
+
+  it("gives Decision and Open questions their own small step and journal question", () => {
+    const cardsDrawn = [draw("minor-swords-two"), draw("minor-swords-seven", true), draw("minor-cups-four")];
+    const decision = composeLocalReading({ cards: cardsDrawn, spread: "past-present-future", topic: "decision", topicLabel: "Quyết định", question: "", language: "vi" });
+    expect(decision.sections[0].body).toEqual(layers.steps.decision.swords);
+    expect(decision.reflection).toBe(layers.journal.decision.swords.vi);
+    const open = composeLocalReading({ cards: cardsDrawn, spread: "past-present-future", topic: "open", topicLabel: "Mở", question: "", language: "vi" });
+    expect(open.sections[0].body).toEqual(layers.steps.open.swords);
+    expect(open.reflection).toBe(layers.journal.open.swords.vi);
+  });
+
+  it("has a reversed meaning for every card and topic, without English names in Vietnamese", () => {
+    for (const card of cards as RawCard[]) {
+      for (const topic of ["love", "career", "self"] as const) {
+        const reading = composeLocalReading({ cards: [draw(card.id, true)], spread: "daily-one", topic, topicLabel: topic, question: "", language: "vi" });
+        expect(reading.cardInterpretations[0].vi).toContain(layers.reversedTopics[card.id as keyof typeof layers.reversedTopics][topic].vi);
+        for (const word of banned) expect(reading.cardInterpretations[0].vi).not.toContain(word);
+        expect(reading.cardInterpretations[0].vi).not.toContain(card.name.en);
+      }
+    }
   });
 
   it("names the two cards in the deep-reading invitation", () => {

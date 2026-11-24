@@ -11,6 +11,7 @@ import type { Language } from "../../types";
 type Text = { vi: string; en: string };
 type Suit = "wands" | "cups" | "swords" | "pentacles";
 type GuideTopic = "love" | "career" | "self";
+type StepTopic = GuideTopic | "decision" | "open";
 type Theme = "major" | Suit;
 
 export type LocalReadingCard = {
@@ -59,8 +60,8 @@ type Layers = {
     repeatedNumber: Text;
   };
   stepTitle: Text;
-  steps: Record<GuideTopic, Record<Theme, Text>>;
-  journal: Record<GuideTopic, Record<Theme, Text>>;
+  steps: Record<StepTopic, Record<Theme, Text>>;
+  journal: Record<StepTopic, Record<Theme, Text>>;
   reversedTopics: Record<string, Partial<Record<GuideTopic, Text>>>;
 };
 
@@ -74,8 +75,8 @@ const courtRanks = new Set(["page", "knight", "queen", "king"]);
 const pick = (text: Text | undefined, vi: boolean) => (text ? (vi ? text.vi : text.en) : "");
 const isSuit = (value: unknown): value is Suit => typeof value === "string" && (suits as string[]).includes(value);
 const guideTopic = (topic: string): GuideTopic | null => (topic === "love" || topic === "career" || topic === "self" ? topic : null);
-// Decision and open questions take the self-reflection steps until their own L5 set is written.
-const stepTopic = (topic: string): GuideTopic => guideTopic(topic) ?? "self";
+// Small step and journal question: each topic has its own set; an unknown topic reads as an open question.
+const stepTopic = (topic: string): StepTopic => (topic === "decision" ? "decision" : guideTopic(topic) ?? "open");
 
 function capitalize(text: string): string {
   return text ? text.charAt(0).toUpperCase() + text.slice(1) : text;
@@ -83,6 +84,12 @@ function capitalize(text: string): string {
 
 function fill(template: string, values: Record<string, string>): string {
   return template.replace(/\{(\w+)\}/g, (match, key: string) => (key in values ? values[key] : match));
+}
+
+/** Card intros were written with the English card name; a Vietnamese reading shows the approved Vietnamese name instead. */
+function localizeCardName(text: string, card: LocalReadingCard, vi: boolean): string {
+  if (!vi || !card.name.en || !card.name.vi) return text;
+  return text.split(card.name.en).join(card.name.vi);
 }
 
 /** The card's name in the reading language (approved Vietnamese name in Vietnamese). */
@@ -194,13 +201,13 @@ function focusSentence(cards: LocalReadingCard[], spread: string, vi: boolean): 
 /** L1: the card's meaning for this topic and orientation; general meaning when no topic text exists yet. */
 function cardMeaning(card: LocalReadingCard, topic: string, role: string | undefined, vi: boolean): string {
   // The other person's position reads the card's own portrait, which is not written to "you".
-  if (role === "other") return pick(card.intro as Text | undefined, vi) || "";
+  if (role === "other") return localizeCardName(pick(card.intro as Text | undefined, vi) || "", card, vi);
   const key = guideTopic(topic);
   const general = (card.reversed ? card.reversedMeaning : card.uprightMeaning) ?? {};
   const fallback = (vi ? general.vi : general.en) || general.en || general.vi || "";
-  if (!key || !card.id) return fallback;
+  if (!key || !card.id) return localizeCardName(fallback, card, vi);
   const text = card.reversed ? library.reversedTopics[card.id]?.[key] : guideCards[card.id]?.topics?.[key];
-  return pick(text, vi) || fallback;
+  return localizeCardName(pick(text, vi) || fallback, card, vi);
 }
 
 /** L2: the position voice built on the card's own keywords, e.g. "The friction sits in revelation and collapse." */

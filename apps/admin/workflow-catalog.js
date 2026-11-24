@@ -240,8 +240,11 @@
   tarotPrompt.inputs.push(p("selectedCards", "CanonicalTarotCard[]", "canonical_cards.selectedCards", t("Giữ đúng nghĩa theo orientation; LLM không thêm/đổi/rút lá", "Use meanings for the given orientation; the LLM cannot add/change/draw cards"), "personal"));
   const requestCardsEdge = tarot.edges.find((item) => item.id === "request_cards");
   for (const name of ["selectedCards", "spread", "question", "language", "deck", "topic"]) requestCardsEdge.mappings.push({ from: name, to: name, usage: tarotCards.inputs.find((port) => port.name === name).usage });
+  // Batch C1 (22/11): server-built reading guide, derived from the drawn cards and bundled content only.
+  tarotCards.outputs.push(o("readingGuide", "TarotReadingGuide", "prompt_messages.readingGuide", t("Máy chủ tự dựng từ lá đã rút: spreadGuide (mỗi vị trí hỏi gì, quan hệ giữa các vị trí, hai lá đáng chú ý nhất), cardFacts (đếm lá Ẩn chính, lá ngược, bộ, nguyên tố, số lặp, lá cung đình, lá Át), topicMeanings (nghĩa theo chủ đề Tình cảm/Công việc/Bản thân của từng lá theo chiều đã rút). Không có lịch sử, nhật ký hay ngày sinh", "Built by the server from the drawn cards: spreadGuide (what each position asks, how positions relate, the two cards that matter most), cardFacts (counts of Major Arcana, reversed cards, suits, elements, repeated numbers, court cards, aces), topicMeanings (each card's love/career/self meaning in its drawn orientation). No history, journal or birth data")));
+  tarotPrompt.inputs.push(p("readingGuide", "TarotReadingGuide", "canonical_cards.readingGuide", t("Giúp AI đọc các lá thành một câu chuyện và trả lời thẳng câu hỏi; không đổi lá hay nghĩa lá", "Helps the model read the cards as one story and answer the question directly; never changes cards or meanings")));
   const cardsPromptEdge = tarot.edges.find((item) => item.id === "cards_to_prompt");
-  for (const name of ["selectedCards", "spread", "question", "language", "deck", "topic"]) cardsPromptEdge.mappings.push({ from: name, to: name, usage: tarotPrompt.inputs.find((port) => port.name === name).usage });
+  for (const name of ["selectedCards", "spread", "question", "language", "deck", "topic", "readingGuide"]) cardsPromptEdge.mappings.push({ from: name, to: name, usage: tarotPrompt.inputs.find((port) => port.name === name).usage });
   for (const [feature, composerId, edgeId] of [[tarot, "prompt_messages", "prompt_to_model"], [persona, "system_stack", "system_model"], [council, "roster", "roster_model"], [daily, "hardcoded_prompt", "daily_model"], [astrology, "selected_facts", "facts_model"]]) {
     const composer = fieldNode(feature, composerId), model = fieldNode(feature, "model_call"), link = feature.edges.find((item) => item.id === edgeId);
     for (const [name, type, usage] of [
@@ -280,7 +283,7 @@
   },
   {
     "path": "apps/mobile/App.tsx",
-    "sha256": "282cbefc9de07aefa16cc84b284a1c2013b54eb921df93b3d9b2f4798a814f1d"
+    "sha256": "c85881fe6861e6fcde07564b937c0ee84bff905303a932542715b5aa8c41155e"
   },
   {
     "path": "docs/FEATURE_PRD.md",
@@ -360,7 +363,7 @@
   },
   {
     "path": "supabase/functions/_shared/tarot-prompt.ts",
-    "sha256": "acef7e9b0c04cd18fc5311b2132768ab6c495b8f2a44be0208806a92ae89b628"
+    "sha256": "42572eadba66265c51e3780c974152609cd5a7402f4a37f8321898eff9719d80"
   },
   {
     "path": "supabase/functions/ai-astrology-insight/handler.ts",

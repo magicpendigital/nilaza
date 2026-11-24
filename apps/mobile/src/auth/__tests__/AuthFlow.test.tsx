@@ -2,7 +2,7 @@ import { fireEvent, render } from "@testing-library/react-native";
 import { act, useState } from "react";
 import { AccessibilityInfo, Linking } from "react-native";
 
-import { AuthFlow } from "../AuthFlow";
+import { AuthFlow, socialProvidersForPlatform } from "../AuthFlow";
 import type { SignUpOutcome } from "../AuthFlow";
 import { AuthView, Language } from "../../types";
 
@@ -425,4 +425,11 @@ describe("AuthFlow", () => {
     fireEvent.press(screen.getByText("Privacy Policy"));
     expect(openURL).toHaveBeenCalledWith("https://nilaza.magicpendigital.com/en/privacy/");
   });
+});
+
+test("Lô 1: Android keeps Google only, iOS keeps Apple only", () => {
+  const list = [{ id: "apple" }, { id: "google" }];
+  expect(socialProvidersForPlatform(list, "android").map((p) => p.id)).toEqual(["google"]);
+  expect(socialProvidersForPlatform(list, "ios").map((p) => p.id)).toEqual(["apple"]);
+  expect(socialProvidersForPlatform(list, "web").map((p) => p.id)).toEqual(["apple", "google"]);
 });

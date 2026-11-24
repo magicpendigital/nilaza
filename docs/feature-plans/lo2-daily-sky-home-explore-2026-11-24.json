@@ -1,0 +1,188 @@
+{
+  "schemaVersion": 1,
+  "taskId": "lo2-daily-sky-home-explore-2026-11-24",
+  "ownerAgent": "mobile_agent",
+  "lane": "Mobile + content: Lô 2 of the Bầu trời hôm nay / Bản đồ số / Tôi là ai plan (Today's sky screen, Home sky card, Explore v2 sky block, engine-based Moon phase, 'Nghiêng về / Nhẹ tay với' labels)",
+  "goal": "Do Lô 2 from docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md section 6 and 8: one engine-based Moon source (sign now, decan, illumination, phase moments, sign change time) used by Home, the Astrology hub and a new 'Bầu trời hôm nay' screen; a draft daily-sky content store keyed by Moon sign x decan with 'Nghiêng về / Nhẹ tay với' columns, three topics, a journal question, Moon-Sun relation lines and phase notes; Explore gets a sky block; old 'Nên thử / Nên tránh' labels, 'Trăng non' and the money wording of house 2 are replaced.",
+  "successCriteria": [
+    "moonPhase.ts no longer uses a mean synodic month: illumination comes from astronomy-engine and the four main phases are named only on the local calendar day that holds the exact moment (Trăng mới, not Trăng non; no 'rằm' label).",
+    "dailySky module passes the section 6.5 cases that run in the device zone: 24/11/2026 Taurus to Gemini at 18:09 (UTC+7), Full Moon 24/11/2026 21:54, 29/01/2027 00:21 Libra to Scorpio, 03/12/2026 local date, 12/12/2026 23:05, 29/02/2024 10:09, 01/03/2028 04:41, year change 7-day strip, at most one sign change per day.",
+    "The 'Bầu trời hôm nay' screen shows the Moon sign now, decan tone, illumination, phase line, sign change time today, source line naming the data used, two 'Nghiêng về' and two 'Nhẹ tay với' items, three topics (Tình cảm / Công việc / Bản thân), a journal question, a 7-day strip and 'Về cách tính'; it works offline and as a guest.",
+    "Personalisation: exact birth time uses the Whole Sign house text labelled 'Theo lá số của bạn'; a single Sun sign uses the Moon-Sun relation (7 kinds); a Sun boundary birth date (two possible Sun signs) shows Moon-only content and a one-line notice.",
+    "Home sky card and Explore sky block read the same engine data and open the new screen.",
+    "astrology-moon-houses.json labels read 'Nghiêng về / Nhẹ tay với'; house 2 no longer mentions money; sky.test.ts updated.",
+    "validate:data checks astrology-daily-sky.json keys, accented Vietnamese and a banned-phrase list (hãy, đừng, phải, nên, sẽ, chắc chắn, may mắn, xui, ngày xấu/tốt, hợp/kỵ, vận, định mệnh, tiền, đầu tư, hôn nhân, sức khỏe...).",
+    "tsc, the mobile jest suite, astrology-core tests and validate:data pass."
+  ],
+  "writeScope": [
+    "packages/astrology-core/sky.mjs",
+    "packages/astrology-core/sky.d.mts",
+    "packages/astrology-core/test/sky.test.mjs",
+    "packages/content/data/astrology-daily-sky.json",
+    "packages/content/data/astrology-moon-houses.json",
+    "packages/content/data/astrology-topic-placements.json",
+    "scripts/validate-data.mjs",
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/home/moonPhase.ts",
+    "apps/mobile/src/features/home/HomeExperience.tsx",
+    "apps/mobile/src/features/home/__tests__/moonPhase.test.ts",
+    "apps/mobile/src/features/home/__tests__/HomeExperience.test.tsx",
+    "apps/mobile/src/features/explore/ExploreHome.tsx",
+    "apps/mobile/src/features/explore/__tests__/ExploreLibrary.test.tsx",
+    "apps/mobile/src/features/astrology/localDay.ts",
+    "apps/mobile/src/features/home/MoonGlyph.tsx",
+    "apps/mobile/src/features/astrology/dailySky.ts",
+    "apps/mobile/src/features/astrology/dailySkyContent.ts",
+    "apps/mobile/src/features/astrology/DailySkyScreen.tsx",
+    "apps/mobile/src/features/astrology/sky.ts",
+    "apps/mobile/src/features/astrology/skyContent.ts",
+    "apps/mobile/src/features/astrology/AstrologyHub.tsx",
+    "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+    "apps/mobile/src/features/astrology/__tests__/sky.test.ts",
+    "apps/mobile/src/features/astrology/__tests__/dailySky.test.ts",
+    "apps/mobile/src/features/astrology/__tests__/DailySkyScreen.test.tsx",
+    "apps/mobile/src/features/astrology/__tests__/AstrologyExperience.test.tsx",
+    "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md",
+    "PLAN.md",
+    "apps/admin/workflow-catalog.js"
+  ],
+  "untouchedSurfaces": [
+    "No numerology (Lô 3), no 'Tôi là ai' (Lô 4), no AI call or prompt (Lô 5).",
+    "Not built in this lot (spec section 6.4): new/full Moon by sign, Mercury retrograde, eclipses, void of course, daily Moon aspects.",
+    "Chart calculation (calculateChart, house system) unchanged; Whole Sign houses kept.",
+    "No backend, SQL, Edge Function, Admin or store setting change; no package added."
+  ],
+  "impact": {
+    "entryPoint": "Home sky card -> Bầu trời hôm nay; Explore sky block -> same screen; Astrology hub tile -> same screen; Back returns to the astrology hub or the caller.",
+    "dataWrite": "None. The screen reads the saved chart already on the device; no new storage key.",
+    "backendContract": "None changed; all calculation runs on the device with astronomy-engine already bundled through astrology-core.",
+    "adminVisibility": "No Admin screen or metric; content is a static JSON in packages/content.",
+    "privacySafety": "Birth data stays on the device; no data sent. Content follows the banned-phrase list (no commands, no fortune telling, no money/health/marriage).",
+    "observability": "Reuses the existing astrology_opened event with stage 'sky'; no new analytics field.",
+    "rollback": "Revert the commit; content file and new screen are additive."
+  },
+  "canonicalContracts": [
+    "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile and content routes, checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md",
+      "reason": "Lô 2 spec: section 6 display rules, content model, banned phrases, test cases 6.5.",
+      "sha256": "90e5c64e5d52d63e9af513e0f56521259548af5297f54b082a13aeb9e93d187c"
+    },
+    {
+      "path": "apps/mobile/src/features/home/moonPhase.ts",
+      "reason": "Mean-cycle phase to replace.",
+      "sha256": "9e7aa26e4eca5c06ba68a0fe0bcce7b1e04e2e4cbc59ef21a6709a6a2b62cbc9"
+    },
+    {
+      "path": "apps/mobile/src/features/home/HomeExperience.tsx",
+      "reason": "Home sky tile.",
+      "sha256": "30bfd6c2e5b3f5693f502f1131d245dad0358e1ce8c3522638734eb70235b0ab"
+    },
+    {
+      "path": "apps/mobile/src/features/explore/ExploreHome.tsx",
+      "reason": "Explore blocks.",
+      "sha256": "e0d0e991f80ea963365f70d3483448a99d7f8ded6b7e84144ba5a7f5afefa648"
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/AstrologyHub.tsx",
+      "reason": "Hub Moon calendar tile and today block.",
+      "sha256": "2b65a9d344100d1ec943f55de16376d9cacc764432e724a1f2a00999d7e55908"
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/skyContent.ts",
+      "reason": "Moon-in-house text reader.",
+      "sha256": "0525208ba91c6f52dd4752e5b9296443df0c65688221790b2c1cb0fc1a5ec7ba"
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/sky.ts",
+      "reason": "moonSignAt and signOptionsOf.",
+      "sha256": "bc8682ee236c9e55352dc4a93f7c0eea90cf8c1cc000bd5b0bf85b701ef2bd79"
+    },
+    {
+      "path": "packages/content/data/astrology-moon-houses.json",
+      "reason": "Labels and house 2 wording.",
+      "sha256": "54c056fca24f01c60d93d7bc9a4456d337151489078df5807743d427ffe0cb44"
+    },
+    {
+      "path": "packages/astrology-core/calculator.mjs",
+      "reason": "Engine frame (true ecliptic of date, CivilAstroTime) to reuse.",
+      "sha256": "3adb482e0adaf91b36ea29285ffa5325c0ed63ed0b1050cef7a28ef17aee459b"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Astrology routing and Home/Explore props.",
+      "sha256": "43f2fab4913415e059f2fd3783b8f9bcd23b1927e84624fc6c0809bf17eee6ec"
+    },
+    {
+      "path": "scripts/validate-data.mjs",
+      "reason": "Sky content checks.",
+      "sha256": "aacc1dfac1d508a0c4baa75072857ee194d07b73b0b62caf33e1fdc7349a0497"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before code edits; verified vs not verified in handoff."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Not needed: no AI call, prompt, route or Edge Function in this lot."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "astronomy-engine 2.1.19 already pinned in packages/astrology-core; expected times come from the repository spec (section 6.5, computed with the same engine and cross-checked with DE421)."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No access change.",
+    "sensitiveData": "Birth chart read locally only; nothing new stored or sent.",
+    "secretsLogging": "No secret read, written or logged; .env not read.",
+    "externalInput": "Device clock only.",
+    "dependencies": "No package added or upgraded.",
+    "migrationRelease": "No SQL, no deploy, no store change.",
+    "stopCondition": "Stop if engine results disagree with spec section 6.5 by more than one minute, or tsc/jest cannot pass inside the write scope.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "CI fix on PR #64: Admin workflow catalog source digest for apps/mobile/App.tsx refreshed after the Lô 2 navigation change (Face Reading card untouched).",
+    "paths": [
+      "apps/admin/workflow-catalog.js"
+    ]
+  },
+  "validationCommands": [
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "node --test packages/astrology-core/test/sky.test.mjs",
+    "npm run validate:data",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "On an Android phone: Hôm nay shows the 'Bầu trời hôm nay' card with the Moon sign and percent lit; tap it to open the screen; check the 7-day strip and 'Về cách tính'; Khám phá shows the same sky block; turn on airplane mode and the screen still works.",
+  "residualRisk": "Daily-sky content is AI-drafted (status draft) and has no human expert reviewer yet; device layout, large text and TalkBack not verified until tested on a phone.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

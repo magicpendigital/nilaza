@@ -95,7 +95,6 @@ import {
 } from "./src/backendClient";
 import {
   ActionTile,
-  CalendarDatePicker,
   ChatSessionSummary,
   Chip,
   ChoiceTile,
@@ -181,6 +180,7 @@ function personaTagline(persona: Persona, language: Language) {
 
 const learnedTarotCardsKey = "nilaza.learnedTarotCards.v1";
 import { ProfileHome } from "./src/features/profile/ProfileHome";
+import { BirthDateFields } from "./src/features/astrology/BirthFields";
 import { DeleteAccountPanel } from "./src/features/profile/DeleteAccountPanel";
 
 // Flip after the Owner approves deploying account-delete and its SQL (Google Play account deletion).
@@ -283,7 +283,7 @@ type TarotStage = "intro" | "learn" | "topic" | "spread" | "deck" | "deckDetail"
 const tarotStages: TarotStage[] = ["intro", "learn", "topic", "spread", "deck", "deckDetail", "library", "cardMeaning", "draw", "result", "share"];
 const isTarotStage = (value: unknown): value is TarotStage => typeof value === "string" && tarotStages.includes(value as TarotStage);
 type RitualDrawPhase = "grounding" | "draw_card_1" | "pause_and_breathe" | "draw_card_2" | "draw_card_3" | "reveal";
-type AstrologyStage = "world" | "hub" | "intention" | "birth" | "casting" | "report";
+type AstrologyStage = "world" | "hub" | "sky" | "intention" | "birth" | "casting" | "report";
 type AstrologyFocus = "soul" | "career" | "love" | "shadow";
 type PersonaDetailTab = "reflections" | "chronicle";
 type TarotTopic = "love" | "career" | "self" | "decision" | "open";
@@ -1257,7 +1257,7 @@ const copy = {
     seeking: "Hôm nay bạn đang tìm điều gì?",
     tone: "Bạn muốn người dẫn đường trò chuyện theo giọng nào?",
     birth: "Thông tin sinh tùy chọn",
-    birthDate: "Ngày sinh YYYY-MM-DD",
+    birthDate: "Ngày sinh (dương lịch)",
     birthTime: "Giờ sinh HH:mm",
     birthPlace: "Nơi sinh",
     skipBirth: "Có thể bỏ qua và cập nhật sau.",
@@ -1360,7 +1360,7 @@ const copy = {
     seeking: "What are you seeking today?",
     tone: "How should your guide answer?",
     birth: "Optional birth profile",
-    birthDate: "Birth date YYYY-MM-DD",
+    birthDate: "Birth date (Gregorian)",
     birthTime: "Birth time HH:mm",
     birthPlace: "Birth place",
     skipBirth: "You can skip and update this later.",
@@ -5963,6 +5963,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
           />
         ) : screen === "astrology" ? (
           <AstrologyExperience key={scope.key} language={language} storage={storage} accountReady={loaded}
+            initialStage={astrologyStage === "sky" ? "sky" : undefined}
+            onWriteJournal={(prompt) => { setJournalPrompt(prompt); setJournalEntryToOpen(null); navigate("journal"); }}
             onReportAnswer={setFeedbackTarget}
             onOpenShare={openShareSheet}
             ownerPremiumPreview={isOwnerPreviewActive && displayedTier === "premium"}
@@ -6030,6 +6032,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                 onShareTodayCard={shareTodayPulseCard}
                 onWritePrompt={(prompt) => { setJournalPrompt(prompt); setJournalEntryToOpen(null); navigate("journal"); }}
                 onAstrology={() => startAstrology("hub")}
+                onSky={() => startAstrology("sky")}
               />
             )}
 
@@ -6040,6 +6043,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                 onTarot={() => startTarot("topic")}
                 onLibrary={() => startTarot("library")}
                 onAstrology={() => startAstrology("hub")}
+                onSky={() => startAstrology("sky")}
                 onAllDecks={() => startTarot("deck")}
                 decks={[
                   { id: "rose-mirror", mood: language === "vi" ? "Tình yêu" : "Love" },
@@ -6441,6 +6445,7 @@ function HomeScreen({
   onAsk,
   onAskDeeperToday,
   onAstrology,
+  onSky,
   onGoalSuggestion,
   onJournal,
   onOpenRecent,
@@ -6478,6 +6483,7 @@ function HomeScreen({
   onAsk: (text: string) => void;
   onAskDeeperToday: () => void;
   onAstrology: () => void;
+  onSky: () => void;
   onGoalSuggestion: (topic: TarotTopic) => void;
   onJournal: () => void;
   onOpenRecent: (id: string) => void;
@@ -6505,7 +6511,7 @@ function HomeScreen({
     ? { ...homeNextStepCopy(nextStepId, language), onPress: nextStepId === "write" ? () => onWritePrompt(todayQuestion) : onOpenReminder }
     : undefined;
   return <HomeExperience cardBack={getDeckBackImage(selectedDeck.id)} language={language} greeting={homeGreetingLabel(currentTime, language, profile.nickname)} now={currentTime}
-    revealed={todayPulseRevealed} streak={visibleStreak(profile.currentStreak, profile.lastActivityDate, currentDateKey)} onReveal={onRevealTodayCard} onAsk={onAsk} onAstrology={onAstrology} onGoalSuggestion={onGoalSuggestion}
+    revealed={todayPulseRevealed} streak={visibleStreak(profile.currentStreak, profile.lastActivityDate, currentDateKey)} onReveal={onRevealTodayCard} onAsk={onAsk} onAstrology={onAstrology} onSky={onSky} onGoalSuggestion={onGoalSuggestion}
     primaryGoal={profile.goals[0]} zodiac={{ hasBirthDate: zodiacPulse.hasBirthDate, sign: zodiacPulse.sign ?? "", signId: zodiacPulse.signId, line: zodiacPulse.reflection }}
     onJournal={onJournal} onNotifications={onNotifications} unread={unreadNotificationCount}
     latest={homeLatestEntry(journalEntries, currentTime, language)} deckCover={getDeckThumbnailImage(selectedDeck.id)}
@@ -8934,6 +8940,7 @@ function ProfileScreen({
           onNotifications={() => setProfileSection("notifications")}
           onPrivacy={() => setProfileSection("privacy")}
           onUsage={() => setProfileSection("premium")}
+          plan={paywallEnabled ? (premium.entitled ? "Premium" : language === "vi" ? "Gói miễn phí" : "Free plan") : undefined}
           onAccount={() => setProfileSection("account")}
           onHelp={() => { void Linking.openURL(nilazaHelpUrlFor(language)).catch(() => undefined); }}
           onLegal={() => { void Linking.openURL(nilazaLegalUrlFor("terms", language)).catch(() => undefined); }}
@@ -8991,12 +8998,7 @@ function ProfileScreen({
           <StatusChip label={hasBirthProfile ? profileLabels.birthYes : profileLabels.birthEmpty} tone={hasBirthProfile ? "good" : "warn"} />
         </View>
         <Text style={styles.profileSectionBody}>{profileLabels.birthBody}</Text>
-        <CalendarDatePicker
-          language={language}
-          value={birthDate}
-          onChange={setBirthDate}
-          placeholder={language === "vi" ? "Chọn ngày sinh" : "Select birth date"}
-        />
+        <BirthDateFields language={language} value={birthDate} onChange={setBirthDate} label={c.birthDate} />
         <View style={styles.profileTwoColumn}>
           <TextInput value={birthTime} onChangeText={setBirthTime} placeholder={c.birthTime} placeholderTextColor={colors.moon} style={[styles.input, styles.profileHalfInput]} />
           <Pressable accessibilityRole="button" style={[styles.profileOptionButton, birthTimeUnknown && styles.profileOptionButtonActive]} onPress={onMarkBirthTimeUnknown}>

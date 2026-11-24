@@ -393,10 +393,14 @@ for (const suit of ["wands", "cups", "swords", "pentacles"]) checkLayerText(laye
 for (const pair of ["fire-water", "air-earth"]) checkLayerText(layerCombos.elementTension?.[pair], `combinations.elementTension.${pair}`);
 for (const pair of ["fire-air", "water-earth"]) checkLayerText(layerCombos.elementHarmony?.[pair], `combinations.elementHarmony.${pair}`);
 checkLayerText(readingLayers.stepTitle, "stepTitle");
-for (const topic of layerTopics) for (const theme of layerThemes) {
+// Batch B completion (2026-11-22): Decision and Open questions have their own small steps and journal questions.
+for (const topic of [...layerTopics, "decision", "open"]) for (const theme of layerThemes) {
   checkLayerText(readingLayers.steps?.[topic]?.[theme], `steps.${topic}.${theme}`);
   checkLayerText(readingLayers.journal?.[topic]?.[theme], `journal.${topic}.${theme}`);
 }
+// Every canonical card has a reversed meaning for each topic, and the Vietnamese text never shows English suit or arcana names.
+for (const card of cards) for (const topic of layerTopics) assert(readingLayers.reversedTopics?.[card.id]?.[topic], `reading-layers.reversedTopics.${card.id}.${topic} is missing`);
+assert(!/(Cups|Wands|Swords|Pentacles|Arcana)/.test(JSON.stringify(readingLayers, (key, value) => (key === "en" ? undefined : value))), "reading-layers Vietnamese text must use Vietnamese suit and arcana names");
 for (const [cardId, entry] of Object.entries(readingLayers.reversedTopics ?? {})) {
   assert(cards.some((card) => card.id === cardId), `reading-layers.reversedTopics.${cardId} is not a canonical card id`);
   for (const topic of Object.keys(entry)) {
@@ -430,6 +434,65 @@ for (let house = 1; house <= 12; house += 1) {
   assertPair(entry?.do, `astrology-moon-houses.${house}.do`);
   assertPair(entry?.avoid, `astrology-moon-houses.${house}.avoid`);
 }
+// Lô 2 "Bầu trời hôm nay" (spec ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23 section 6.2): 12 Moon signs x 3 decans,
+// 7 Moon-Sun relations, 4 phase notes and the screen templates; accented VI + EN with matching placeholders, and the
+// banned phrase list (section 6.4) on the daily sky and Moon-house texts.
+const dailySky = readJson("packages/content/data/astrology-daily-sky.json");
+const placeholdersOf = (text) => [...String(text ?? "").matchAll(/\{(\w+)\}/g)].map((match) => match[1]).sort().join(",");
+const assertSkyText = (value, label) => {
+  assertViText(value, label);
+  assert(placeholdersOf(value?.vi) === placeholdersOf(value?.en), label + " must use the same {placeholders} in vi and en");
+};
+assert(["draft", "approved"].includes(dailySky.status), "astrology-daily-sky.status must be draft or approved");
+assert(dailySky.status !== "approved" || Boolean(dailySky.reviewedBy), "astrology-daily-sky.json approved content needs reviewedBy");
+for (const key of ["lean", "ease"]) assertSkyText(dailySky.labels?.[key], "astrology-daily-sky.labels." + key);
+for (const key of ["love", "work", "self"]) assertSkyText(dailySky.labels?.topics?.[key], "astrology-daily-sky.labels.topics." + key);
+assert(Object.keys(dailySky.moonSign ?? {}).length === 12, "astrology-daily-sky.json must cover exactly 12 Moon signs");
+for (const sign of zodiacSignIds) {
+  const entry = dailySky.moonSign?.[sign];
+  const label = "astrology-daily-sky.moonSign." + sign;
+  for (const decan of ["early", "mid", "late"]) assertSkyText(entry?.tone?.[decan], label + ".tone." + decan);
+  assertSkyText(entry?.body, label + ".body");
+  for (const list of ["lean", "ease"]) {
+    assert(Array.isArray(entry?.[list]) && entry[list].length === 4, label + "." + list + " must have 4 items");
+    (entry?.[list] ?? []).forEach((item, index) => {
+      assert(typeof item?.id === "string" && item.id.length > 0, label + "." + list + "[" + index + "].id is required");
+      assertSkyText(item, label + "." + list + "[" + index + "]");
+    });
+    assert(new Set((entry?.[list] ?? []).map((item) => item.id)).size === (entry?.[list] ?? []).length, label + "." + list + " ids must be unique");
+  }
+  for (const topic of ["love", "work", "self"]) assertSkyText(entry?.topics?.[topic], label + ".topics." + topic);
+  assertSkyText(entry?.journal, label + ".journal");
+}
+const relationKinds = ["conjunction", "semisextile", "sextile", "square", "trine", "quincunx", "opposition"];
+assert(Object.keys(dailySky.relation ?? {}).length === relationKinds.length, "astrology-daily-sky.json must have exactly 7 Moon-Sun relations");
+for (const kind of relationKinds) {
+  assertSkyText(dailySky.relation?.[kind]?.label, "astrology-daily-sky.relation." + kind + ".label");
+  assertSkyText(dailySky.relation?.[kind]?.body, "astrology-daily-sky.relation." + kind + ".body");
+}
+for (const kind of ["new", "first_quarter", "full", "last_quarter"]) {
+  assertSkyText(dailySky.phaseNote?.[kind], "astrology-daily-sky.phaseNote." + kind);
+  assert(placeholdersOf(dailySky.phaseNote?.[kind]?.vi) === "time", "astrology-daily-sky.phaseNote." + kind + " must show {time}");
+}
+for (const key of ["source", "sourceMoonOnly", "sourceChosen", "sourceHouse", "houseLabel", "relationLabel", "ingressFuture", "ingressPast", "boundary", "noChart", "noBirthTime", "weekNote", "howTitle"]) assertSkyText(dailySky.templates?.[key], "astrology-daily-sky.templates." + key);
+assert(Array.isArray(dailySky.templates?.how) && dailySky.templates.how.length >= 3, "astrology-daily-sky.templates.how must explain the method");
+(dailySky.templates?.how ?? []).forEach((line, index) => assertSkyText(line, "astrology-daily-sky.templates.how[" + index + "]"));
+const bannedSkyPhrases = {
+  vi: ["hãy", "đừng", "phải", "nên", "sẽ", "chắc chắn", "may mắn", "xui", "ngày xấu", "ngày tốt", "kỵ", "khắc", "vận", "định mệnh", "tiền", "giàu", "nghèo", "lương", "đầu tư", "hôn nhân", "ly hôn", "chia tay", "mang thai", "con cái", "sức khỏe", "bệnh", "tuổi thọ", "nghiệp", "kiếp trước", "hợp để", "Trăng khiến", "rằm"],
+  en: ["should", "must", "will", "lucky", "unlucky", "money", "invest", "health", "marriage", "divorce", "destiny", "fate", "karma", "never", "don't", "avoid"]
+};
+const bannedSkyPatterns = Object.fromEntries(Object.entries(bannedSkyPhrases).map(([language, words]) => [language, words.map((word) => [word, new RegExp("(^|[^\\p{L}])" + word + "(?=$|[^\\p{L}])", "iu")])]));
+const scanSkyText = (node, path, fileLabel) => {
+  if (node && typeof node === "object") {
+    for (const [key, value] of Object.entries(node)) {
+      if (typeof value === "string" && (key === "vi" || key === "en")) {
+        for (const [word, pattern] of bannedSkyPatterns[key]) assert(!pattern.test(value), fileLabel + path + "." + key + " uses the banned phrase \"" + word + "\"");
+      } else scanSkyText(value, path + "." + key, fileLabel);
+    }
+  }
+};
+scanSkyText(dailySky, "", "astrology-daily-sky");
+scanSkyText(skyMoonHouses, "", "astrology-moon-houses");
 const skyTopics = readJson("packages/content/data/astrology-topic-placements.json");
 for (const key of ["reminder", "birthTimeNote", "needsBirthTime"]) assertViText(skyTopics[key], `astrology-topic-placements.${key}`);
 for (const [topicId, topic] of Object.entries(skyTopics.topics)) {

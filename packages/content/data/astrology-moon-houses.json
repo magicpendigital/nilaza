@@ -9,12 +9,12 @@
   },
   "labels": {
     "do": {
-      "vi": "Nên thử",
-      "en": "Try"
+      "vi": "Nghiêng về",
+      "en": "Lean toward"
     },
     "avoid": {
-      "vi": "Nên tránh",
-      "en": "Avoid"
+      "vi": "Nhẹ tay với",
+      "en": "Go easy on"
     }
   },
   "houses": {
@@ -50,8 +50,8 @@
     },
     "2": {
       "title": {
-        "vi": "Mặt Trăng đi qua nhà tiền bạc và giá trị của bạn",
-        "en": "The Moon is moving through your house of money and values"
+        "vi": "Mặt Trăng đi qua nhà của giá trị và cảm giác đủ đầy",
+        "en": "The Moon is moving through your house of values and feeling secure"
       },
       "body": {
         "vi": "Bạn có thể để ý nhiều hơn đến cảm giác an toàn và những điều mình quý. Thử nhìn xem điều gì thật sự khiến bạn thấy đủ đầy.",
@@ -144,7 +144,7 @@
         "en": "The Moon is moving through your house of joy and romance"
       },
       "body": {
-        "vi": "Những ngày này có thể hợp để làm điều mình thích chỉ vì nó vui. Trái tim có thể mở hơn, với người khác và với chính bạn.",
+        "vi": "Những ngày này có thể là dịp làm điều mình thích chỉ vì nó vui. Trái tim có thể mở hơn, với người khác và với chính bạn.",
         "en": "These days may suit doing something just because it is fun. Your heart may feel more open, toward others and toward yourself."
       },
       "do": [
@@ -235,7 +235,7 @@
       },
       "body": {
         "vi": "Cảm xúc có thể đi sâu hơn, chạm tới lòng tin, sự gắn bó hay điều bạn khó buông. Bạn không cần mở hết lòng cùng một lúc.",
-        "en": "Feelings may run deeper, touching on trust, closeness or what is hard to let go. You don't need to open up all at once."
+        "en": "Feelings may run deeper, touching on trust, closeness or what is hard to let go. There is no need to open up all at once."
       },
       "do": [
         {
@@ -294,7 +294,7 @@
         "en": "The Moon is moving through your house of work and reputation"
       },
       "body": {
-        "vi": "Bạn có thể để ý nhiều hơn đến việc mình làm và cách người khác nhìn mình. Hãy ghi nhận cả những nỗ lực chưa ai thấy.",
+        "vi": "Bạn có thể để ý nhiều hơn đến việc mình làm và cách người khác nhìn mình. Những nỗ lực chưa ai thấy cũng đáng được ghi nhận.",
         "en": "You may pay more attention to your work and how others see you. Remember to recognize the efforts no one has noticed yet."
       },
       "do": [
@@ -354,7 +354,7 @@
         "en": "The Moon is moving through your house of rest and inner life"
       },
       "body": {
-        "vi": "Bạn có thể thấy cần yên tĩnh và ít gặp gỡ hơn. Những ngày này có thể hợp để chậm lại và lắng nghe mình.",
+        "vi": "Bạn có thể thấy cần yên tĩnh và ít gặp gỡ hơn. Những ngày này có thể là dịp chậm lại và lắng nghe mình.",
         "en": "You may feel a need for quiet and fewer get-togethers. These days can be a good time to slow down and listen inward."
       },
       "do": [

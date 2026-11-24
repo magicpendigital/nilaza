@@ -30,6 +30,16 @@ test("Explore follows the design and keeps face reading as coming soon", () => {
   expect(screen.queryByText(/hợp nhau/)).toBeNull();
 });
 
+test("Explore shows today's sky when it can open it", () => {
+  const onSky = jest.fn();
+  const base = { onTarot: jest.fn(), onLibrary: jest.fn(), onAstrology: jest.fn(), onAllDecks: jest.fn(), onAllGuides: jest.fn(), decks: [], guides: [] };
+  const screen = render(<ExploreHome language="vi" deckCount={8} {...base} onSky={onSky} now={new Date("2026-11-23T12:00:00+07:00")} />);
+  expect(screen.getByText("Bầu trời hôm nay")).toBeTruthy();
+  fireEvent.press(screen.getByText("Trăng ở Kim Ngưu"));
+  expect(onSky).toHaveBeenCalledTimes(1);
+  expect(render(<ExploreHome language="vi" deckCount={8} {...base} />).queryByText("Bầu trời hôm nay")).toBeNull();
+});
+
 test("the library counts learned cards and filters by group", () => {
   const cards: LibraryCard[] = [
     { id: "major-06", group: "major", name: "Tình Nhân", sub: "VI · The Lovers", image, learned: true },

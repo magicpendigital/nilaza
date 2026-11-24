@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "taskId": "tarot-reading-layers-complete-2026-11-22",
+  "ownerAgent": "mobile_agent",
+  "lane": "Mobile + content: Nilaza reading v1 five-layer library (value report batch B, Owner approved 21/11)",
+  "goal": "Finish value report batch B: every card has topic-specific reversed meanings, the Decision and Open topics get their own small steps and journal questions, and the Vietnamese reading no longer shows English card or suit names.",
+  "successCriteria": [
+    "reversedTopics in packages/content/data/tarot-reading-layers.json covers all 78 canonical cards for love, career and self, in Vietnamese and English, each naming a likely inner pattern softly and one concrete action.",
+    "steps and journal cover the decision and open topics for all five energies; decision and open readings use them instead of borrowing the self set.",
+    "Vietnamese combination sentences use the approved Vietnamese names (Ẩn chính, Gậy, Cốc, Kiếm, Tiền) and the Vietnamese reading replaces an English card name inside card intros with the approved Vietnamese name.",
+    "validate:data requires all 78 cards × 3 topics and the five step topics; no forbidden certainty, healing or mind-reading wording.",
+    "Readings saved before this change still display as before."
+  ],
+  "writeScope": [
+    "packages/content/data/tarot-reading-layers.json",
+    "apps/mobile/src/features/tarot/localReading.ts",
+    "apps/mobile/src/features/tarot/__tests__/localReading.test.ts",
+    "scripts/validate-data.mjs",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "Edge Functions, prompts, model routes, quotas and migrations are unchanged.",
+    "tarot-cards.json and tarot-card-guide.json are read, not edited (rewriting the 78 card texts stays Lô A part 2).",
+    "Admin, guest flow, paywall, Nil and lock rules are unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Tarot result screen after a free draw (server draw without AI, or local fallback when the AI fails).",
+    "dataWrite": "New readings save the richer text; reading shape and storage keys are unchanged.",
+    "backendContract": "No API change; the server draw and AI retry paths are unchanged.",
+    "adminVisibility": "No Admin screen change.",
+    "privacySafety": "All text is local and reflective: no certain predictions, no mind-reading of the other person, no healing or ritual claims; nothing new is sent off the device.",
+    "observability": "No new events; the existing feedback report still lists the summary and sections.",
+    "rollback": "Revert the commit; saved readings keep the text they were created with."
+  },
+  "canonicalContracts": [
+    "packages/content/data/tarot-cards.json stays the only card-meaning source; the layers file only frames it",
+    "packages/content/data/tarot-card-guide.json stays the upright per-topic meaning source",
+    "apps/mobile/src/features/tarot/localReading.ts is the only composer of the free reading text"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Owner approval boundary.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile and content lane checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/TAROT_ASTRO_VALUE_REPORT_2026-11-21.vi.md",
+      "reason": "Owner-approved batch B scope and the per-layer sample approval gate.",
+      "sha256": "19ff0af024e8ebbce4a6bcef13ec5c95cdcd74a8330db18af4d353d03b05dfe0"
+    },
+    {
+      "path": "docs/proposals/TAROT_FREE_DRAW_AI_DEPTH_2026-11-15.vi.md",
+      "reason": "Layer definitions L1-L5 and how each spread is read.",
+      "sha256": "73625dee42dda7a43509a15e069e56ee69bb4c2557a749db63baf1ead6b822e8"
+    },
+    {
+      "path": "docs/CONTENT_SAFETY_STYLE_GUIDE.md",
+      "reason": "Reflective safety wording rules for all new copy.",
+      "sha256": "33ec073a7fe94045ee7aeb40bad2ca90b6ab6b0010569131c730380dfb23ceec"
+    },
+    {
+      "path": "apps/mobile/src/features/tarot/localReading.ts",
+      "reason": "Current composer to extend.",
+      "sha256": "5c4c15ecc06859f6bc8e09ea5c84387c290c2a68f2efc9d36c2f86b0c5fd92d9"
+    },
+    {
+      "path": "packages/content/data/tarot-card-guide.json",
+      "reason": "Upright meaning per topic (layer 1).",
+      "sha256": "5f5b1a5ee9383212fdb87502268d99337c1ec045b6af66f5448d830f93b3813e"
+    },
+    {
+      "path": "packages/content/data/tarot-cards.json",
+      "reason": "Card ids, arcana, suit, element, number and reversed meanings.",
+      "sha256": "dadfbeb7b9bc11d27d95534897f55b76ed3914d7b1657febf2c26a90f3560dfd"
+    },
+    {
+      "path": "packages/content/data/tarot-reading-layers.json",
+      "reason": "New layer library drafted before this record (see workingTreeReview).",
+      "sha256": "a22481a542fa848ef1d047750bb8ab8865cc1f69122ef992fc7a0c70e1abf916"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before code edits; PLAN.md updated in the same PR."
+    },
+    {
+      "name": "nilaza-tarot-content-qc",
+      "decision": "verified-current",
+      "evidence": "VI/EN parity, approved Vietnamese card and suit names, reflective safety reviewed for all new reversed-topic and step texts."
+    },
+    {
+      "name": "nilaza-tarot-deck-production",
+      "decision": "verified-current",
+      "evidence": "No deck, artwork or card-id change; reversedTopics keys are the 78 canonical ids only."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change; local text composition from bundled data only.",
+    "sensitiveData": "The composer reads only the question already on screen and the drawn cards; nothing new is sent or stored remotely.",
+    "secretsLogging": "No secrets read or logged.",
+    "externalInput": "The question is rendered as plain text in a Text node; no markup rendering.",
+    "dependencies": "No package or lockfile change in this PR.",
+    "migrationRelease": "No migration or deploy; needs a new Android build to reach phones (Owner action).",
+    "stopCondition": "Stop if any layer text would need a certain prediction or a claim about another person's thoughts to read naturally.",
+    "unresolvedHighRisks": []
+  },
+  "validationCommands": [
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "npm run validate:data",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Open Tarot, choose Decision, draw three cards with one reversed: the small step and journal question speak about choosing, not self-care; the reversed card shows a meaning tied to the topic. In Vietnamese no card or suit name appears in English.",
+  "residualRisk": "Content is written by agents and reviewed in-session, not by an independent native bilingual reviewer; device rendering not verified until a new Android build is tested.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  },
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing React Native code and repository content only."
+  },
+  "externalSourceReview": [],
+  "workingTreeReview": {
+    "paths": [
+      "PLAN.md",
+      "apps/mobile/src/features/tarot/__tests__/localReading.test.ts",
+      "apps/mobile/src/features/tarot/localReading.ts",
+      "packages/content/data/tarot-reading-layers.json",
+      "scripts/validate-data.mjs"
+    ],
+    "note": "Owner asked on 22/11 to finish Lô B. These are this task's edits: 72 more cards' topic reversed meanings, Decision/Open steps and journal, VI suit and card names, validator and tests. The repo-root PaywallPanel.test.tsx is untracked, not part of this task, and left alone."
+  }
+}
