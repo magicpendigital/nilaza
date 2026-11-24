@@ -1,4 +1,5 @@
 import { AstrologyHub } from "./AstrologyHub";
+import { DailySkyScreen } from "./DailySkyScreen";
 import { AiDeepRead } from "./AiDeepRead";
 import { paywallEnabled } from "../billing/paywallAccess";
 import { crisisSupportCopy } from "../safety/CrisisSupportCard";
@@ -76,7 +77,7 @@ import {
 import { birthProfileLockedMessage, evaluateBirthProfileChange } from "./birthProfileLock";
 
 type Place =(typeof placeData.places)[number];
-type Stage = "home" | "form" | "confirm" | "report" | "world" | "chart" | "people" | "consent" | "compare";
+type Stage = "home" | "sky" | "form" | "confirm" | "report" | "world" | "chart" | "people" | "consent" | "compare";
 const fold = (s: string) =>
   s
     .normalize("NFD")
@@ -149,6 +150,8 @@ export function AstrologyExperience({
   aiSignInRequired = false,
   onRequestSignIn,
   onOpenPremium,
+  initialStage,
+  onWriteJournal,
 }: {
   language: AstrologyLanguage;
   storage: AstrologyPersistence;
@@ -178,9 +181,14 @@ export function AstrologyExperience({
   onRequestSignIn?: () => void;
   /** Opens the Premium section of Me; used only while the Premium purchase screen may be shown. */
   onOpenPremium?: () => void;
+  /** "sky" opens "Bầu trời hôm nay" directly (from Home or Explore); Back then leaves Astrology. */
+  initialStage?: "sky";
+  /** Opens Journal with the day's question prefilled. */
+  onWriteJournal?: (prompt: string) => void;
 }) {
   const vi = language === "vi";
-  const [stage, setStage] = useState<Stage>("home");
+  const [stage, setStage] = useState<Stage>(initialStage ?? "home");
+  const enteredOnSky = useRef(initialStage === "sky");
   const [data, setData] = useState<AstrologyData>(freshAstrologyData),
     [loaded, setLoaded] = useState(false),
     [busy, setBusy] = useState(false);
@@ -282,7 +290,7 @@ export function AstrologyExperience({
     setAiAnswer(undefined);
     setAiStatus("ready");
     setShowAiConsent(false);
-    setStage("home");
+    setStage(enteredOnSky.current ? "sky" : "home");
     if (!accountReady) return () => { live.current = false; accountGeneration.current++; };
     storage
       .loadJson<unknown>(astrologyStorageKey, freshAstrologyData())
@@ -826,7 +834,7 @@ export function AstrologyExperience({
     generation.current++;
     setError("");
     setNotice("");
-    if (stage === "home") onBack();
+    if (stage === "home" || (stage === "sky" && enteredOnSky.current)) onBack();
     else if (stage === "chart") setStage(report ? "report" : "home");
     else if (stage === "confirm") setStage("form");
     else if (stage === "compare" || stage === "consent" || (stage === "form" && formFor === "person")) {
@@ -927,9 +935,21 @@ export function AstrologyExperience({
                 {vi ? "Đang mở dữ liệu trên thiết bị…" : "Opening device data…"}
               </Text>
             )}
+            {stage === "sky" && (
+              <DailySkyScreen
+                language={language}
+                now={now}
+                chart={myChart?.report.chart ?? null}
+                ready={loaded}
+                onAddBirthDate={newForm}
+                {...(myChart ? { onAddBirthTime: () => editBirthDetails(myChart.report, true) } : {})}
+                {...(onWriteJournal ? { onWriteJournal } : {})}
+              />
+            )}
             {stage === "home" && (
               <>
                 <AstrologyHub
+                  onSky={() => setStage("sky")}
                   language={language}
                   now={now}
                   dateLabel={`${vi ? "Hôm nay" : "Today"} · ${localCalendarLabel(now, data.displayZone, language)}`}

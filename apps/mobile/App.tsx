@@ -288,7 +288,7 @@ type TarotStage = "intro" | "learn" | "topic" | "spread" | "deck" | "deckDetail"
 const tarotStages: TarotStage[] = ["intro", "learn", "topic", "spread", "deck", "deckDetail", "library", "cardMeaning", "draw", "result", "share"];
 const isTarotStage = (value: unknown): value is TarotStage => typeof value === "string" && tarotStages.includes(value as TarotStage);
 type RitualDrawPhase = "grounding" | "draw_card_1" | "pause_and_breathe" | "draw_card_2" | "draw_card_3" | "reveal";
-type AstrologyStage = "world" | "hub" | "intention" | "birth" | "casting" | "report";
+type AstrologyStage = "world" | "hub" | "sky" | "intention" | "birth" | "casting" | "report";
 type AstrologyFocus = "soul" | "career" | "love" | "shadow";
 type PersonaDetailTab = "reflections" | "chronicle";
 type TarotTopic = "love" | "career" | "self" | "decision" | "open";
@@ -5967,6 +5967,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
           />
         ) : screen === "astrology" ? (
           <AstrologyExperience key={scope.key} language={language} storage={storage} accountReady={loaded}
+            initialStage={astrologyStage === "sky" ? "sky" : undefined}
+            onWriteJournal={(prompt) => { setJournalPrompt(prompt); setJournalEntryToOpen(null); navigate("journal"); }}
             onReportAnswer={setFeedbackTarget}
             onOpenShare={openShareSheet}
             ownerPremiumPreview={isOwnerPreviewActive && displayedTier === "premium"}
@@ -6034,6 +6036,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                 onShareTodayCard={shareTodayPulseCard}
                 onWritePrompt={(prompt) => { setJournalPrompt(prompt); setJournalEntryToOpen(null); navigate("journal"); }}
                 onAstrology={() => startAstrology("hub")}
+                onSky={() => startAstrology("sky")}
               />
             )}
 
@@ -6044,6 +6047,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                 onTarot={() => startTarot("topic")}
                 onLibrary={() => startTarot("library")}
                 onAstrology={() => startAstrology("hub")}
+                onSky={() => startAstrology("sky")}
                 onAllDecks={() => startTarot("deck")}
                 decks={[
                   { id: "rose-mirror", mood: language === "vi" ? "Tình yêu" : "Love" },
@@ -6444,6 +6448,7 @@ function HomeScreen({
   onAsk,
   onAskDeeperToday,
   onAstrology,
+  onSky,
   onGoalSuggestion,
   onJournal,
   onOpenRecent,
@@ -6481,6 +6486,7 @@ function HomeScreen({
   onAsk: (text: string) => void;
   onAskDeeperToday: () => void;
   onAstrology: () => void;
+  onSky: () => void;
   onGoalSuggestion: (topic: TarotTopic) => void;
   onJournal: () => void;
   onOpenRecent: (id: string) => void;
@@ -6508,7 +6514,7 @@ function HomeScreen({
     ? { ...homeNextStepCopy(nextStepId, language), onPress: nextStepId === "write" ? () => onWritePrompt(todayQuestion) : onOpenReminder }
     : undefined;
   return <HomeExperience cardBack={getDeckBackImage(selectedDeck.id)} language={language} greeting={homeGreetingLabel(currentTime, language, profile.nickname)} now={currentTime}
-    revealed={todayPulseRevealed} streak={visibleStreak(profile.currentStreak, profile.lastActivityDate, currentDateKey)} onReveal={onRevealTodayCard} onAsk={onAsk} onAstrology={onAstrology} onGoalSuggestion={onGoalSuggestion}
+    revealed={todayPulseRevealed} streak={visibleStreak(profile.currentStreak, profile.lastActivityDate, currentDateKey)} onReveal={onRevealTodayCard} onAsk={onAsk} onAstrology={onAstrology} onSky={onSky} onGoalSuggestion={onGoalSuggestion}
     primaryGoal={profile.goals[0]} zodiac={{ hasBirthDate: zodiacPulse.hasBirthDate, sign: zodiacPulse.sign ?? "", signId: zodiacPulse.signId, line: zodiacPulse.reflection }}
     onJournal={onJournal} onNotifications={onNotifications} unread={unreadNotificationCount}
     latest={homeLatestEntry(journalEntries, currentTime, language)} deckCover={getDeckThumbnailImage(selectedDeck.id)}

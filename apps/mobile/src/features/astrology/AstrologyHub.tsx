@@ -2,7 +2,9 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors, layout, radius, typography } from "../../theme";
 import type { Language } from "../../types";
-import { moonPhaseFor, moonPhaseLabel, nextMoonEvent } from "../home/moonPhase";
+import { moonPhaseLabel, nextMoonEvent } from "../home/moonPhase";
+import { localizeAstrologySign } from "./contracts";
+import { skyGlanceAt } from "./dailySky";
 import { signList } from "./ChartOverviewParts";
 import type { BigThree } from "./sky";
 import type { Big3Story, MoonToday } from "./skyContent";
@@ -18,15 +20,19 @@ export type AstrologyHubProps = {
   compare: { count: number; onOpen: () => void };
   saved: { count: number; open: boolean; onToggle: () => void };
   disabled?: boolean;
+  /** Opens "Bầu trời hôm nay". */
+  onSky?: () => void;
 };
 
-export function AstrologyHub({ language, now, dateLabel, myChart, onCreateChart, today, mythology, compare, saved, disabled }: AstrologyHubProps) {
+export function AstrologyHub({ language, now, dateLabel, myChart, onCreateChart, today, mythology, compare, saved, disabled, onSky }: AstrologyHubProps) {
   const vi = language === "vi";
   const event = nextMoonEvent(now);
-  const phase = moonPhaseLabel(moonPhaseFor(now).id, language);
+  const glance = skyGlanceAt(now);
+  const phase = moonPhaseLabel(glance.phase.id, language);
+  const moonSign = localizeAstrologySign(glance.sign, language);
   const moonLine = event.days === 0
-    ? vi ? (event.kind === "full" ? "Trăng tròn hôm nay" : "Trăng non hôm nay") : event.kind === "full" ? "Full moon today" : "New moon today"
-    : vi ? `${event.kind === "full" ? "Trăng tròn" : "Trăng non"} sau ${event.days} ngày` : `${event.kind === "full" ? "Full moon" : "New moon"} in ${event.days} ${event.days === 1 ? "day" : "days"}`;
+    ? vi ? (event.kind === "full" ? "Trăng tròn hôm nay" : "Trăng mới hôm nay") : event.kind === "full" ? "Full moon today" : "New moon today"
+    : vi ? `${event.kind === "full" ? "Trăng tròn" : "Trăng mới"} sau ${event.days} ngày` : `${event.kind === "full" ? "Full moon" : "New moon"} in ${event.days} ${event.days === 1 ? "day" : "days"}`;
   const rows = myChart
     ? [
         { glyph: "☉", label: vi ? "Mặt Trời" : "Sun", sign: signList(myChart.big3.sun, language) },
@@ -109,11 +115,11 @@ export function AstrologyHub({ language, now, dateLabel, myChart, onCreateChart,
           <Text style={s.tileTitle}>{vi ? "12 cung & thần thoại" : "12 signs & myths"}</Text>
           <Text style={s.tileMeta}>{vi ? `${mythology.completed}/${mythology.total} chương đã đọc` : `${mythology.completed}/${mythology.total} chapters read`}</Text>
         </Pressable>
-        <View style={s.tile} accessible accessibilityLabel={`${vi ? "Lịch trăng" : "Moon calendar"}: ${phase.name}. ${moonLine}`}>
+        <Pressable accessibilityRole="button" accessibilityLabel={`${vi ? "Bầu trời hôm nay" : "Today's sky"}: ${vi ? "Trăng ở" : "Moon in"} ${moonSign}, ${phase.name}. ${moonLine}`} onPress={onSky} disabled={!onSky} style={s.tile}>
           <Ionicons name="moon-outline" size={20} color={colors.gold} />
-          <Text style={s.tileTitle}>{vi ? "Lịch trăng" : "Moon calendar"}</Text>
-          <Text style={s.tileMeta}>{phase.name} · {moonLine}</Text>
-        </View>
+          <Text style={s.tileTitle}>{vi ? "Bầu trời hôm nay" : "Today's sky"}</Text>
+          <Text style={s.tileMeta}>{vi ? `Trăng ở ${moonSign}` : `Moon in ${moonSign}`} · {phase.name} · {moonLine}</Text>
+        </Pressable>
       </View>
       <Pressable accessibilityRole="button" onPress={compare.onOpen} style={s.savedRow}>
         <Ionicons name="people-outline" size={20} color={colors.gold} />
