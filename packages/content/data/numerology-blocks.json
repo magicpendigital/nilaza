@@ -1,0 +1,205 @@
+{
+  "version": "2026-11-24-draft1",
+  "review": {
+    "status": "draft",
+    "reviewer": null,
+    "reviewedAt": null,
+    "note": "AI-drafted for the Owner to read. Not reviewed by a human expert. Do not release publicly until a reviewer is named and status becomes approved (docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md section 4)."
+  },
+  "kinds": {
+    "lifePath": {
+      "title": { "vi": "Số chủ đạo", "en": "Life path" },
+      "frame": {
+        "vi": "Số chủ đạo nói về nhịp chung bạn thường mang qua nhiều việc khác nhau. Đây là cách đọc theo hệ chữ-số kiểu Pythagoras, để bạn tự soi, không phải kết luận về con người bạn.",
+        "en": "The life path number is about the rhythm you tend to carry across very different things. It is a Pythagorean-style number reading to reflect on, not a verdict on who you are."
+      }
+    },
+    "birthday": {
+      "title": { "vi": "Số ngày sinh", "en": "Birthday number" },
+      "frame": {
+        "vi": "Số ngày sinh lấy từ ngày trong tháng. Đây là một nét nhỏ, nghiêng về cách bạn thể hiện mình trong chuyện thường ngày.",
+        "en": "The birthday number comes from the day of the month. It is a small touch, leaning toward how you show up in everyday things."
+      }
+    },
+    "expression": {
+      "title": { "vi": "Số biểu đạt", "en": "Expression" },
+      "frame": {
+        "vi": "Số biểu đạt tính từ mọi chữ trong họ tên bạn đã nhập. Nó nói về cách bạn có thể đưa khả năng của mình ra bên ngoài.",
+        "en": "The expression number comes from every letter of the name you entered. It is about how you may bring your abilities out into the world."
+      }
+    },
+    "soulUrge": {
+      "title": { "vi": "Số linh hồn", "en": "Soul urge" },
+      "frame": {
+        "vi": "Số linh hồn tính từ các nguyên âm trong tên. Nó nghiêng về điều bên trong mà bạn thường tìm kiếm.",
+        "en": "The soul urge number comes from the vowels in the name. It leans toward what you tend to look for inside."
+      }
+    },
+    "personality": {
+      "title": { "vi": "Số nhân cách", "en": "Personality" },
+      "frame": {
+        "vi": "Số nhân cách tính từ các phụ âm trong tên. Nó nghiêng về ấn tượng người khác thường nhận được lúc mới gặp bạn.",
+        "en": "The personality number comes from the consonants in the name. It leans toward the impression others tend to get when they first meet you."
+      }
+    }
+  },
+  "numbers": {
+    "1": {
+      "title": { "vi": "Người mở đường", "en": "The one who starts" },
+      "leans": {
+        "vi": "Bạn có thể nghiêng về việc tự bắt đầu thay vì chờ người khác. Khi một việc còn mơ hồ, bạn thường thấy dễ chịu hơn nếu tự quyết bước đầu tiên.",
+        "en": "You may lean toward starting things yourself instead of waiting for someone else. When something is still vague, you often feel better deciding the first step on your own."
+      },
+      "light": { "vi": "Dám thử trước và kéo người khác cùng chuyển động.", "en": "Willing to try first and to get others moving with you." },
+      "trap": { "vi": "Có thể quen tự gánh một mình, hoặc đi nhanh đến mức bỏ quên người đi cùng.", "en": "You may get used to carrying things alone, or move so fast that you leave your companions behind." },
+      "question": { "vi": "Gần đây có việc nào bạn muốn bắt đầu nhưng đang chờ ai đó cho phép không?", "en": "Is there something you want to start lately but are waiting for someone's permission?" }
+    },
+    "2": {
+      "title": { "vi": "Người lắng nghe", "en": "The listener" },
+      "leans": {
+        "vi": "Bạn có thể nghiêng về sự tinh tế với người xung quanh và với không khí của một căn phòng. Bạn thường để ý điều chưa ai nói ra trước khi nhận ra điều mình cần.",
+        "en": "You may lean toward a fine sense of the people around you and the mood of a room. You often notice what nobody has said before you notice what you need."
+      },
+      "light": { "vi": "Biết nối người với người và làm cuộc trò chuyện dịu lại.", "en": "Good at connecting people and softening a conversation." },
+      "trap": { "vi": "Có thể nhường quá nhiều, hoặc ngại nói điều mình muốn vì sợ làm lệch sự êm.", "en": "You may give way too often, or hesitate to say what you want for fear of upsetting the calm." },
+      "question": { "vi": "Điều gì bạn đang giữ trong lòng chỉ để mọi chuyện được yên?", "en": "What are you keeping inside just so things stay peaceful?" }
+    },
+    "3": {
+      "title": { "vi": "Người kể chuyện", "en": "The storyteller" },
+      "leans": {
+        "vi": "Bạn có thể nghiêng về việc biểu đạt: nói, viết, vẽ hay đùa để biến điều đang nghĩ thành thứ người khác nhìn thấy được. Niềm vui của bạn thường đến khi có ai đó cùng cười hoặc cùng ngạc nhiên.",
+        "en": "You may lean toward expression: speaking, writing, drawing or joking to turn what you think into something others can see. Your joy often arrives when someone laughs or wonders along with you."
+      },
+      "light": { "vi": "Mang lại sự nhẹ nhõm và ý tưởng mới cho người xung quanh.", "en": "Brings lightness and fresh ideas to the people around you." },
+      "trap": { "vi": "Có thể trải sức ra nhiều hướng rồi bỏ dở, hoặc giấu điều nghiêm túc sau lời đùa.", "en": "You may spread yourself across many directions and drop them, or hide something serious behind a joke." },
+      "question": { "vi": "Điều gì bạn đang muốn nói thật mà chưa tìm được cách?", "en": "What do you want to say honestly but have not found a way to yet?" }
+    },
+    "4": {
+      "title": { "vi": "Người dựng nền", "en": "The builder" },
+      "leans": {
+        "vi": "Bạn có thể nghiêng về sự vững chãi: chia việc thành từng bước, làm đều và muốn thấy nền móng chắc trước khi đi tiếp. Bạn thường thấy yên tâm khi mọi thứ có trật tự.",
+        "en": "You may lean toward steadiness: breaking work into steps, working evenly and wanting solid ground before moving on. You often feel at ease when things are in order."
+      },
+      "light": { "vi": "Đáng tin và biến ý tưởng thành thứ chạm vào được.", "en": "Dependable, and able to turn ideas into something you can touch." },
+      "trap": { "vi": "Có thể cứng lại khi kế hoạch đổi, hoặc quên cho mình nghỉ vì mải làm cho đúng.", "en": "You may stiffen when plans change, or forget to rest because you are busy getting it right." },
+      "question": { "vi": "Có quy tắc nào bạn đặt ra cho mình mà giờ không còn phục vụ bạn?", "en": "Is there a rule you set for yourself that no longer serves you?" }
+    },
+    "5": {
+      "title": { "vi": "Người chuyển động", "en": "The mover" },
+      "leans": {
+        "vi": "Bạn có thể nghiêng về sự thay đổi và trải nghiệm: thử cái mới, gặp người mới, đổi cách làm khi cách cũ đã chán. Sự tự do thường quan trọng với bạn hơn vẻ ổn định.",
+        "en": "You may lean toward change and experience: trying new things, meeting new people, changing your method when the old one gets dull. Freedom often matters more to you than looking settled."
+      },
+      "light": { "vi": "Thích nghi nhanh và dám bước ra khỏi lối quen.", "en": "Adapts quickly and is willing to step off the familiar path." },
+      "trap": { "vi": "Có thể khó ở yên đủ lâu để một việc chín, hoặc đổi hướng khi vừa chạm vào phần khó.", "en": "You may find it hard to stay long enough for something to ripen, or change direction just as you reach the hard part." },
+      "question": { "vi": "Điều gì bạn đang muốn thử nhưng chưa dám rời khỏi thói quen để làm?", "en": "What do you want to try but have not dared to leave your routine for?" }
+    },
+    "6": {
+      "title": { "vi": "Người chăm chút", "en": "The nurturer" },
+      "leans": {
+        "vi": "Bạn có thể nghiêng về việc quan tâm và chịu trách nhiệm với những người và nơi gần mình. Bạn thường để ý cái đẹp, sự hài hòa và điều gì đó đang cần được chăm.",
+        "en": "You may lean toward caring and taking responsibility for the people and places close to you. You often notice beauty, harmony and whatever is asking for care."
+      },
+      "light": { "vi": "Ấm áp, đáng nhờ cậy, biết tạo cảm giác thuộc về.", "en": "Warm, reliable, and good at creating a sense of belonging." },
+      "trap": { "vi": "Có thể ôm việc của người khác vào mình, hoặc mong được đáp lại mà không nói ra.", "en": "You may take on other people's burdens, or hope for something in return without saying so." },
+      "question": { "vi": "Bạn đang chăm cho ai nhiều hơn chăm cho chính mình?", "en": "Who are you looking after more than you look after yourself?" }
+    },
+    "7": {
+      "title": { "vi": "Người tìm hiểu", "en": "The seeker" },
+      "leans": {
+        "vi": "Bạn có thể nghiêng về việc đi sâu: đặt câu hỏi, đọc, quan sát và cần thời gian riêng để nghĩ cho thấu. Bạn thường muốn hiểu vì sao trước khi tin.",
+        "en": "You may lean toward going deep: asking questions, reading, observing and needing time alone to think things through. You often want to understand why before you trust."
+      },
+      "light": { "vi": "Có chiều sâu, óc phân tích và ở một mình mà không thấy trống.", "en": "Depth, an analytical mind, and the ability to be alone without feeling empty." },
+      "trap": { "vi": "Có thể thu mình khi mệt, hoặc nghi ngờ quá lâu nên chậm bắt tay vào làm.", "en": "You may withdraw when tired, or doubt for so long that you are slow to begin." },
+      "question": { "vi": "Điều gì bạn đã hiểu rõ trong đầu nhưng chưa thử ngoài đời?", "en": "What do you already understand in your head but have not tried in real life?" }
+    },
+    "8": {
+      "title": { "vi": "Người điều phối", "en": "The organizer" },
+      "leans": {
+        "vi": "Bạn có thể nghiêng về việc nhìn toàn cục: sắp xếp nguồn lực, đặt mục tiêu và muốn thấy việc có kết quả cụ thể. Bạn thường thấy thoải mái khi được cầm trách nhiệm.",
+        "en": "You may lean toward seeing the whole picture: arranging resources, setting goals and wanting to see concrete results. You often feel comfortable holding responsibility."
+      },
+      "light": { "vi": "Quyết đoán, bền sức và biết biến kế hoạch thành kết quả.", "en": "Decisive, enduring, and able to turn a plan into a result." },
+      "trap": { "vi": "Có thể đo giá trị bản thân bằng thành quả, hoặc điều khiển nhiều hơn mức người khác cần.", "en": "You may measure your worth by results, or steer more than others need." },
+      "question": { "vi": "Nếu không có gì để chứng minh, hôm nay bạn muốn làm gì?", "en": "If you had nothing to prove, what would you want to do today?" }
+    },
+    "9": {
+      "title": { "vi": "Người nhìn rộng", "en": "The wide-lens one" },
+      "leans": {
+        "vi": "Bạn có thể nghiêng về cái nhìn rộng và lòng cảm thông: quan tâm đến điều lớn hơn bản thân, dễ đặt mình vào chỗ người khác. Bạn thường muốn việc mình làm có ý nghĩa với nhiều người.",
+        "en": "You may lean toward a wide view and compassion: caring about something larger than yourself and easily putting yourself in another's place. You often want your work to matter to many people."
+      },
+      "light": { "vi": "Bao dung, nhiều cảm hứng và biết buông khi cần.", "en": "Generous, inspiring, and able to let go when needed." },
+      "trap": { "vi": "Có thể khó buông điều đã qua, hoặc cho đi nhiều đến mức quên điều mình cần.", "en": "You may struggle to let go of what has passed, or give so much that you forget what you need." },
+      "question": { "vi": "Điều gì đã đến lúc bạn cho phép mình khép lại?", "en": "What is it time to allow yourself to close?" }
+    }
+  },
+  "masters": {
+    "11": {
+      "vi": "11 giữ lại vì là số bậc thầy, số gốc đi kèm là 2 (11/2). Đây là một sắc thái của số 2: nét lắng nghe đi cùng độ nhạy cao hơn với ý tưởng và cảm hứng, và đôi khi kèm cảm giác căng khi quá nhạy.",
+      "en": "11 is kept because it is a master number, with 2 as its root (11/2). It is a shade of the number 2: the listening quality comes with a higher sensitivity to ideas and inspiration, and sometimes a tension when you feel too much."
+    },
+    "22": {
+      "vi": "22 giữ lại vì là số bậc thầy, số gốc đi kèm là 4 (22/4). Đây là một sắc thái của số 4: nét vững chãi đi cùng tầm nhìn lớn hơn, muốn dựng thứ bền với nhiều người, và đôi khi kèm áp lực phải làm cho trọn.",
+      "en": "22 is kept because it is a master number, with 4 as its root (22/4). It is a shade of the number 4: steadiness comes with a larger vision, wanting to build something lasting with many people, and sometimes a pressure to get it perfect."
+    }
+  },
+  "digits": {
+    "note": {
+      "vi": "Nhiều người sinh cùng thời cũng có những chữ số này, nên đây là một cách nhìn chung chứ không phải điều riêng của bạn.",
+      "en": "Many people born around the same time share these digits, so this is a shared way of looking rather than something unique to you."
+    },
+    "1": { "vi": "Số 1 nói về tiếng nói riêng và sự chủ động.", "en": "The digit 1 speaks of your own voice and taking initiative." },
+    "2": { "vi": "Số 2 nói về sự cảm nhận và độ nhạy với người khác.", "en": "The digit 2 speaks of feeling and sensitivity to others." },
+    "3": { "vi": "Số 3 nói về biểu đạt và trí tưởng tượng.", "en": "The digit 3 speaks of expression and imagination." },
+    "4": { "vi": "Số 4 nói về sự thực tế và làm việc đều đặn.", "en": "The digit 4 speaks of practicality and steady work." },
+    "5": { "vi": "Số 5 nói về sự cân bằng và khả năng thích nghi.", "en": "The digit 5 speaks of balance and adaptability." },
+    "6": { "vi": "Số 6 nói về sự chăm sóc và trách nhiệm.", "en": "The digit 6 speaks of care and responsibility." },
+    "7": { "vi": "Số 7 nói về sự tìm hiểu và chiều sâu.", "en": "The digit 7 speaks of inquiry and depth." },
+    "8": { "vi": "Số 8 nói về sự tổ chức và sức bền.", "en": "The digit 8 speaks of organization and endurance." },
+    "9": { "vi": "Số 9 nói về cái nhìn rộng và lòng cảm thông.", "en": "The digit 9 speaks of a wide view and compassion." }
+  },
+  "arrows": {
+    "emptyNote": {
+      "vi": "Những đường còn trống chỉ là chỗ ngày sinh không có chữ số nào, không phải điểm yếu.",
+      "en": "Lines left empty are only places where the birth date has no digit, not a weakness."
+    },
+    "labelNote": {
+      "vi": "Tên các đường là nhãn gợi ý, không có chuẩn thống nhất giữa các nguồn.",
+      "en": "The names of the lines are working labels; sources do not agree on a standard."
+    },
+    "1-2-3": {
+      "label": { "vi": "Kế hoạch", "en": "Planning" },
+      "text": { "vi": "Cả ba số 1, 2, 3 đều có mặt. Điều này có thể gợi một thói quen nghĩ trước khi làm, và đôi khi nghĩ lâu hơn cần thiết.", "en": "All of 1, 2 and 3 are present. This may suggest a habit of thinking before acting, and sometimes thinking longer than needed." }
+    },
+    "4-5-6": {
+      "label": { "vi": "Ý chí", "en": "Willpower" },
+      "text": { "vi": "Cả ba số 4, 5, 6 đều có mặt. Điều này có thể gợi sự bền bỉ khi đã chọn một hướng, và đôi khi khó đổi ý.", "en": "All of 4, 5 and 6 are present. This may suggest persistence once a direction is chosen, and sometimes difficulty changing your mind." }
+    },
+    "7-8-9": {
+      "label": { "vi": "Hành động", "en": "Action" },
+      "text": { "vi": "Cả ba số 7, 8, 9 đều có mặt. Điều này có thể gợi sự sẵn sàng bắt tay vào việc, và đôi khi quên dừng lại hỏi vì sao.", "en": "All of 7, 8 and 9 are present. This may suggest readiness to get on with things, and sometimes forgetting to pause and ask why." }
+    },
+    "1-4-7": {
+      "label": { "vi": "Thực tế", "en": "Practical" },
+      "text": { "vi": "Cả ba số 1, 4, 7 đều có mặt. Điều này có thể gợi cách nhìn chân thực vào những gì đang có, và đôi khi hơi khô với chuyện cảm xúc.", "en": "All of 1, 4 and 7 are present. This may suggest a grounded look at what is there, and sometimes a dry approach to feelings." }
+    },
+    "2-5-8": {
+      "label": { "vi": "Cân bằng cảm xúc", "en": "Emotional balance" },
+      "text": { "vi": "Cả ba số 2, 5, 8 đều có mặt. Điều này có thể gợi khả năng giữ bình tĩnh khi xung quanh xáo động, và đôi khi giữ cảm xúc lâu trong lòng.", "en": "All of 2, 5 and 8 are present. This may suggest an ability to stay calm when things around you stir, and sometimes holding feelings inside for long." }
+    },
+    "3-6-9": {
+      "label": { "vi": "Trí tuệ", "en": "Intellect" },
+      "text": { "vi": "Cả ba số 3, 6, 9 đều có mặt. Điều này có thể gợi sự ham hiểu biết và trí nhớ tốt, và đôi khi nghĩ nhiều hơn làm.", "en": "All of 3, 6 and 9 are present. This may suggest curiosity and a good memory, and sometimes thinking more than doing." }
+    },
+    "1-5-9": {
+      "label": { "vi": "Quyết tâm", "en": "Determination" },
+      "text": { "vi": "Cả ba số 1, 5, 9 đều có mặt. Điều này có thể gợi sự kiên định theo đuổi điều mình tin, và đôi khi cứng đầu.", "en": "All of 1, 5 and 9 are present. This may suggest steadfastness in pursuing what you believe in, and sometimes stubbornness." }
+    },
+    "3-5-7": {
+      "label": { "vi": "Nhạy bén", "en": "Perceptiveness" },
+      "text": { "vi": "Cả ba số 3, 5, 7 đều có mặt. Điều này có thể gợi sự nhạy với điều chưa nói ra, và đôi khi lo nghĩ vì nhận ra quá nhiều.", "en": "All of 3, 5 and 7 are present. This may suggest a feel for the unspoken, and sometimes worry from noticing too much." }
+    }
+  }
+}

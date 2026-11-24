@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "taskId": "tarot-batch-c2-rollout-receipt-2026-11-24",
+  "ownerAgent": "backend_agent",
+  "lane": "Documents: rollout receipt for Tarot Batch C part 2 (Owner-approved migrations and deploys on 24/11)",
+  "goal": "Record the Owner-approved application of the two Batch C part 2 migrations and the deploy of four Edge Functions to Singapore, with what was verified, and update PLAN.md.",
+  "successCriteria": [
+    "docs/release/singapore-edge-functions-2026-11-09/tarot-batch-c2-rollout-2026-11-24.json names both migrations by SHA-256, the deployed function versions, the checks done and not done, and the rollback.",
+    "PLAN.md marks Batch C part 2 as merged, applied and deployed, and lists what is still not verified.",
+    "No app, Edge Function, migration, route or prompt change in this PR."
+  ],
+  "writeScope": [
+    "docs/release/singapore-edge-functions-2026-11-09/tarot-batch-c2-rollout-2026-11-24.json",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "apps/mobile, apps/admin, supabase/functions and supabase/migrations are unchanged.",
+    "No further SQL, deploy, secret or setting change is made by this PR."
+  ],
+  "impact": {
+    "entryPoint": "None; docs only.",
+    "dataWrite": "None in this PR; the receipt describes SQL already applied with Owner approval.",
+    "backendContract": "None in this PR.",
+    "adminVisibility": "None in this PR.",
+    "privacySafety": "Receipt holds no secrets, keys, user data or question text.",
+    "observability": "Receipt records versions and checks for later audits.",
+    "rollback": "Revert the docs commit; the rollout itself has its own rollback in the receipt."
+  },
+  "canonicalContracts": [
+    "docs/release/singapore-edge-functions-2026-11-09 receipts follow the shape of earlier receipts in the same folder"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    { "path": "AGENTS.md", "reason": "Owner approval boundary.", "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5" },
+    { "path": "docs/AGENT_TASK_ROUTER.md", "reason": "Documents lane checks.", "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c" },
+    { "path": "docs/PLAN_QC_PROTOCOL.md", "reason": "Record shape.", "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2" },
+    { "path": "docs/release/singapore-edge-functions-2026-11-09/tarot-batch-c1-deploy-2026-11-24.json", "reason": "Receipt shape and the part 1 deploy used as rollback source.", "sha256": "9152f8231bfca2622cbb2faccddfad167feaaed56d575e14f95153ee9d65a730" }
+  ],
+  "skillReview": [
+    { "name": "nilaza-plan-qc", "decision": "verified-current", "evidence": "Docs-only record; PLAN.md updated in the same PR; SQL and deploys ran only after the Owner's approval naming both SHA-256 values." },
+    { "name": "nilaza-ai-runtime", "decision": "verified-current", "evidence": "Deployed functions keep verify_jwt on (401 without sign-in); no secrets set or read." }
+  ],
+  "securityReview": {
+    "authzRls": "No change in this PR; post-apply read-only check confirmed RLS on the two new tables.",
+    "sensitiveData": "No data handled; receipt lists object names and versions only.",
+    "secretsLogging": "No secrets read or written.",
+    "externalInput": "No new input path; docs only.",
+    "dependencies": "No package or lockfile change.",
+    "migrationRelease": "Migrations already applied with Owner approval; this PR only records them.",
+    "stopCondition": "Stop if recording would require reading keys or user data.",
+    "unresolvedHighRisks": []
+  },
+  "validationCommands": [
+    "node scripts/feature-preflight.mjs --ci --base origin/main",
+    "npm run validate:governance"
+  ],
+  "managerTestPath": "Open the receipt and PLAN.md Tarot ba tầng section; check the SHA-256 values match the approval and the versions match the Supabase dashboard.",
+  "residualRisk": "Signed-in calls of the new actions and the Admin campaign page are not verified on the live project yet.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  },
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Repository files and CLI output from this session only."
+  },
+  "externalSourceReview": [],
+  "workingTreeReview": {
+    "paths": [
+      "PLAN.md",
+      "docs/release/singapore-edge-functions-2026-11-09/tarot-batch-c2-rollout-2026-11-24.json"
+    ],
+    "note": "Receipt and PLAN.md were written right after the approved rollout, before this record (process slip for a docs-only receipt; same pattern as earlier receipts)."
+  }
+}

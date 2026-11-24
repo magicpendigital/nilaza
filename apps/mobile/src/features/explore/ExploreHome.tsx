@@ -11,7 +11,7 @@ import { moonPhaseLabel } from "../home/moonPhase";
 export type ExploreDeckTile = { mood: string; deckName: string; image: ImageSourcePropType; onPress: () => void };
 export type ExploreGuideRow = { key: string; title: string; detail: string; thumbnails: ImageSourcePropType[]; onPress: () => void };
 
-export function ExploreHome({ language, deckCount, onTarot, onLibrary, onAstrology, onSky, onAllDecks, decks, guides, onAllGuides, now }: {
+export function ExploreHome({ language, deckCount, onTarot, onLibrary, onAstrology, onSky, onNumerology, onAllDecks, decks, guides, onAllGuides, now }: {
   language: Language;
   deckCount: number;
   onTarot: () => void;
@@ -20,6 +20,7 @@ export function ExploreHome({ language, deckCount, onTarot, onLibrary, onAstrolo
   /** Opens "Bầu trời hôm nay"; the block is hidden without it. */
   onSky?: () => void;
   now?: Date;
+  onNumerology: () => void;
   onAllDecks: () => void;
   decks: ExploreDeckTile[];
   guides: ExploreGuideRow[];
@@ -62,6 +63,15 @@ export function ExploreHome({ language, deckCount, onTarot, onLibrary, onAstrolo
           <Text style={s.cardBody}>{vi ? "Big 3, 12 cung & thần thoại và so lá số với một người." : "Big 3, 12 signs & myths and comparing charts with someone."}</Text>
         </View>
         <Ionicons name="planet-outline" size={34} color={colors.gold} />
+      </Pressable>
+
+      <Pressable accessibilityRole="button" onPress={onNumerology} style={s.astro}>
+        <View style={s.flex}>
+          <Text style={s.kicker}>{vi ? "Bản đồ số" : "Number map"}</Text>
+          <Text style={s.cardTitle}>{vi ? "Những con số của bạn" : "Your numbers"}</Text>
+          <Text style={s.cardBody}>{vi ? "Số chủ đạo, ngày sinh và biểu đồ ngày sinh. Tính ngay trên máy." : "Life path, birthday and birth-date chart. Calculated on your device."}</Text>
+        </View>
+        <Ionicons name="keypad-outline" size={34} color={colors.gold} />
       </Pressable>
 
       <View style={s.section}>
