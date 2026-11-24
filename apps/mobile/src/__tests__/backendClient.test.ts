@@ -667,6 +667,17 @@ describe("backendClient", () => {
       expect(JSON.parse(String((mockFetch.mock.calls[1][1] as RequestInit).body))).toEqual({
         events: [{ name: "tarot_note_feedback", metadata: { campaignId: "6f1c2a40-1b2c-4d5e-8f90-a1b2c3d4e5f6", variant: "B", value: "yes" } }]
       });
+      mockFetch.mockResolvedValueOnce(ok({}, 202));
+      sendProductEvent("tarot_report_opened", { campaignId: "6f1c2a40-1b2c-4d5e-8f90-a1b2c3d4e5f6", variant: "A", question: "x" }, signedIn);
+      await Promise.resolve();
+      expect(JSON.parse(String((mockFetch.mock.calls[2][1] as RequestInit).body))).toEqual({
+        events: [{ name: "tarot_report_opened", metadata: { campaignId: "6f1c2a40-1b2c-4d5e-8f90-a1b2c3d4e5f6", variant: "A" } }]
+      });
+      mockFetch.mockResolvedValueOnce(ok({}, 202));
+      sendProductEvent("tarot_followup_started", { slug: "the-mystic", campaignId: "6f1c2a40-1b2c-4d5e-8f90-a1b2c3d4e5f6", variant: "C" }, signedIn);
+      await Promise.resolve();
+      expect(JSON.parse(String((mockFetch.mock.calls[3][1] as RequestInit).body)).events[0].metadata)
+        .toEqual({ campaignId: "6f1c2a40-1b2c-4d5e-8f90-a1b2c3d4e5f6", variant: "C", slug: "the-mystic" });
       mockFetch.mockClear();
       sendProductEvent("tarot_note_feedback", { campaignId: "not-a-uuid", variant: "B" }, signedIn);
       expect(mockFetch).not.toHaveBeenCalled();

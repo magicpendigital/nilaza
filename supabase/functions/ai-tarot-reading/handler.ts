@@ -382,6 +382,14 @@ export function createTarotHandler(configure: (req: Request) => TarotDeps | null
     return json({ drawId: row.id, deleted: true });
   }
 
+  // Per-isolate guard: a draw whose note was already safety-blocked answers "blocked" again without a new model call,
+  // attempt or safety event (the first block is already on file for review).
+  const blockedNoteDraws = new Set<string>();
+  const rememberBlockedNote = (drawId: string) => {
+    if (blockedNoteDraws.size >= 500) blockedNoteDraws.clear();
+    blockedNoteDraws.add(drawId);
+  };
+
   /** Batch C: the stored note exactly as written; no model call, no quota. */
   function noteReplay(row: TarotReadingRow, nextNoteAt: string) {
     const stored = (row.note ?? {}) as Record<string, unknown>;
@@ -404,9 +412,13 @@ export function createTarotHandler(configure: (req: Request) => TarotDeps | null
     // A crisis question never reaches a model and never falls through to another one; the app shows the 115 card.
     const redirect = safetyRedirectFor(row.question ?? "", language);
     if (redirect) {
-      await deps.store.recordSafetyEvent({ user_id: userId, feature: "tarot", reason: redirect.signal, summary: "tarot_note blocked before model", status: "open" });
+      if (!blockedNoteDraws.has(row.id)) {
+        rememberBlockedNote(row.id);
+        await deps.store.recordSafetyEvent({ user_id: userId, feature: "tarot", reason: redirect.signal, summary: "tarot_note blocked before model", status: "open" });
+      }
       return json({ drawId: row.id, note: null, moderationStatus: "blocked", safety: { crisis: redirect.safety === "crisis" }, nextNoteAt });
     }
+    if (blockedNoteDraws.has(row.id)) return json({ drawId: row.id, note: null, moderationStatus: "blocked", safety: { crisis: false }, nextNoteAt });
     if (await deps.noteFeaturePaused()) return json(featurePausedBody, 503);
     const correlation = readAnswerCorrelation(req, "tarot_reading", language);
     const claimToken = newClaimToken();
@@ -443,8 +455,11 @@ export function createTarotHandler(configure: (req: Request) => TarotDeps | null
       if (generation.moderationStatus === "blocked") {
         await deps.store.noteRelease(userId, row.id, claimToken);
         settled = true;
-        await deps.store.recordSafetyEvent({ user_id: userId, feature: "tarot", reason: "blocked_topic",
-          summary: `tarot_note blocked: ${generation.safetyReason ?? "safety_filter"}`, status: "open" });
+        if (!blockedNoteDraws.has(row.id)) {
+          rememberBlockedNote(row.id);
+          await deps.store.recordSafetyEvent({ user_id: userId, feature: "tarot", reason: "blocked_topic",
+            summary: `tarot_note blocked: ${generation.safetyReason ?? "safety_filter"}`, status: "open" });
+        }
         await trace.finalize?.({ status: "blocked", output: { stage: "response", persistenceStatus: "skipped", usageRecorded: false } });
         return json({ drawId: row.id, note: null, moderationStatus: "blocked", safety: { crisis: false }, nextNoteAt });
       }
@@ -455,7 +470,7 @@ export function createTarotHandler(configure: (req: Request) => TarotDeps | null
         settled = true;
         await trace.finalize?.({ status: "error", output: { stage: check ? "validation" : "response", persistenceStatus: "skipped", usageRecorded: false,
           ...(check?.reason ? { rejection: { code: check.reason } } : {}) } });
-        return json({ error: "note_unavailable", drawId: row.id, attemptCounted: false, retryable: true }, 503);
+        return json({ error: "note_unavailable", drawId: row.id, attemptCounted: true, retryable: true }, 503);
       }
       const provenance = {
         feature: "tarot_note", ...correlation, locale: language, sourceKind: "ai", generatedAt: now().toISOString(), validationStatus: "validated",
@@ -478,7 +493,7 @@ export function createTarotHandler(configure: (req: Request) => TarotDeps | null
         }
         await deps.store.noteRelease(userId, row.id, claimToken);
         await trace.finalize?.({ status: "error", output: { stage: "persist", persistenceStatus: "failed", usageRecorded: false } });
-        return json({ error: "note_unavailable", drawId: row.id, attemptCounted: false, retryable: true }, 503);
+        return json({ error: "note_unavailable", drawId: row.id, attemptCounted: true, retryable: true }, 503);
       }
       const usageRecorded = await deps.store.recordUsage({ user_id: userId, event_name: "tarot_note_generated", feature: "tarot_note",
         metadata: { drawId: row.id, spread: context.spread, cardCount: context.selectedCards.length, promptVersion: TAROT_NOTE_PROMPT_VERSION, model,

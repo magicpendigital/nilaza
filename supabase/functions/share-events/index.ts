@@ -19,7 +19,12 @@ const handler = createShareEventsHandler(req => {
       if (error) throw new Error("count_failed");
       return count ?? 0;
     },
-    insert: async rows => await admin.from("usage_events").insert(rows)
+    insert: async rows => await admin.from("usage_events").insert(rows),
+    campaignRow: async campaignId => {
+      const { data, error } = await admin.from("model_campaigns").select("status, ended_at, updated_at").eq("id", campaignId).maybeSingle();
+      if (error) throw new Error("campaign_lookup_failed");
+      return data ?? null;
+    }
   };
 });
 // CORS Access-Control-Allow-Origin is provided by the shared tested handler.

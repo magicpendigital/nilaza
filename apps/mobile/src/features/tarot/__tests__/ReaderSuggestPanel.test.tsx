@@ -91,6 +91,19 @@ describe("useReaderSuggestion", () => {
     expect(onAutoSelect).toHaveBeenLastCalledWith("the-star-weaver");
   });
 
+  it("tags the shown event with the campaign of the AI answer, also when the AI agrees with the rules", async () => {
+    const exp = { campaignId: "6f1c2a40-1b2c-4d5e-8f90-a1b2c3d4e5f6", variant: "B" };
+    const onShown = jest.fn();
+    const requestAi = jest.fn(async () => ({ slug: "the-star-weaver", confidence: 0.8, intent: "dreams", source: "llm" as const, experiment: exp }));
+    renderHook(() => useReaderSuggestion({ reading: { ...vague, id: "r-vague-exp", drawId: "draw-exp" }, guides, language: "vi", aiEnabled: true, requestAi, onAutoSelect: jest.fn(), onShown }));
+    await waitFor(() => expect(onShown).toHaveBeenCalledWith({ slug: "the-star-weaver", topic: null, source: "ai", experiment: exp }));
+    const same = jest.fn();
+    const agree = jest.fn(async (): Promise<never> => ({ slug: "the-mystic", confidence: 0.5, intent: null, source: "llm", experiment: exp }) as never);
+    renderHook(() => useReaderSuggestion({ reading: { ...vague, id: "r-vague-exp2", drawId: "draw-exp2" }, guides, language: "vi", aiEnabled: true, requestAi: agree, onAutoSelect: jest.fn(), onShown: same }));
+    await waitFor(() => expect(same).toHaveBeenCalledTimes(1));
+    expect(same.mock.calls[0][0].experiment).toEqual(exp);
+  });
+
   it("does not swap after the person chose a reader", async () => {
     const onAutoSelect = jest.fn();
     let resolve: (value: unknown) => void = () => undefined;

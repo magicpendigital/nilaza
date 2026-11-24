@@ -777,7 +777,8 @@ export type ProductEventName =
   | "reader_suggestion_accepted"
   | "reader_mismatch_nudge_shown"
   | "reader_mismatch_switched"
-  | "tarot_followup_started";
+  | "tarot_followup_started"
+  | "tarot_report_opened";
 
 export type ProductEventPayload = {
   name: ProductEventName;

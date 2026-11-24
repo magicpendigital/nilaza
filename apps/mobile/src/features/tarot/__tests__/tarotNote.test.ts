@@ -23,9 +23,11 @@ describe("parseTarotNoteResponse", () => {
     expect(parseTarotNoteResponse(200, { note: null, moderationStatus: "blocked", safety: { crisis: true }, nextNoteAt: "x" })).toEqual({ kind: "crisis" });
     expect(parseTarotNoteResponse(429, { error: "daily_limit_reached", reason: "note_daily", nextNoteAt: "2026-11-24T17:00:00.000Z" }))
       .toEqual({ kind: "used_today", nextNoteAt: "2026-11-24T17:00:00.000Z" });
-    expect(parseTarotNoteResponse(429, { error: "daily_limit_reached", reason: "note_attempts", nextNoteAt: "y" }).kind).toBe("used_today");
+    expect(parseTarotNoteResponse(429, { error: "daily_limit_reached", reason: "note_attempts", nextNoteAt: "y" })).toEqual({ kind: "attempts_today", nextNoteAt: "y" });
     expect(parseTarotNoteResponse(409, { error: "note_in_progress", retryAfterSeconds: 5 })).toEqual({ kind: "in_progress", retryAfterSeconds: 5 });
-    expect(parseTarotNoteResponse(503, { error: "note_unavailable", drawId: "draw-1", attemptCounted: false, retryable: true })).toEqual({ kind: "unavailable", reason: "busy" });
+    expect(parseTarotNoteResponse(503, { error: "note_unavailable", drawId: "draw-1", attemptCounted: true, retryable: true }))
+      .toEqual({ kind: "unavailable", reason: "busy", attemptCounted: true });
+    expect(parseTarotNoteResponse(503, { error: "note_unavailable", drawId: "draw-1", retryable: true })).toEqual({ kind: "unavailable", reason: "busy" });
   });
 
   it("maps limit, in progress, auth, crisis, blocked and empty answers", () => {
@@ -34,7 +36,9 @@ describe("parseTarotNoteResponse", () => {
     expect(parseTarotNoteResponse(401, {})).toEqual({ kind: "unavailable", reason: "auth" });
     expect(parseTarotNoteResponse(500, {})).toEqual({ kind: "unavailable", reason: "busy" });
     expect(parseTarotNoteResponse(200, { safety: { crisis: true }, note: { text: "x" } })).toEqual({ kind: "crisis" });
-    expect(parseTarotNoteResponse(200, { note: { text: "x" }, moderationStatus: "blocked" }).kind).toBe("unavailable");
+    // A model safety block (handler: note null, moderationStatus blocked, safety.crisis false) is final, not a retry.
+    expect(parseTarotNoteResponse(200, { drawId: "d", note: null, moderationStatus: "blocked", safety: { crisis: false }, nextNoteAt: "x" })).toEqual({ kind: "blocked" });
+    expect(parseTarotNoteResponse(200, { note: { text: "x" }, moderationStatus: "blocked" })).toEqual({ kind: "blocked" });
     expect(parseTarotNoteResponse(200, { note: { text: "  " } }).kind).toBe("unavailable");
   });
 });

@@ -123,6 +123,9 @@ function memoryStore(clock: () => Date) {
       if (row.deleted_at) return { status: "deleted" };
       if (row.note_created_at) return { status: "completed", reading: visible(row) };
       if (row.note_claim_token && row.note_claimed_at && row.note_claimed_at > clock().getTime() - input.staleSeconds * 1000) return { status: "in_progress" };
+      const otherFreshClaim = [...rows.values()].some(item => item.id !== row.id && item.user_id === input.userId && !item.deleted_at && !item.note_created_at
+        && item.note_claim_token && item.note_claimed_at && item.note_claimed_at > clock().getTime() - input.staleSeconds * 1000);
+      if (otherFreshClaim) return { status: "in_progress" };
       const deliveredNotes = [...rows.values()].filter(item => item.user_id === input.userId && item.note_created_at && item.note_created_at >= input.dayStart).length;
       if (deliveredNotes >= input.deliveredLimit) return { status: "limit", reason: "note_daily" };
       const count = noteAttempts.filter(item => item.userId === input.userId && item.at >= Date.parse(input.dayStart)).length;
@@ -680,7 +683,7 @@ Deno.test("note: a model or format failure is 503 note_unavailable, never canned
   const bad = await t.note(drawn.drawId);
   assertEquals(bad.status, 503);
   assertEquals(bad.body.error, "note_unavailable");
-  assertEquals(bad.body.attemptCounted, false);
+  assertEquals(bad.body.attemptCounted, true, "a claim attempt row was recorded");
   assertEquals((await t.note(drawn.drawId)).status, 503);
   const ok = await t.note(drawn.drawId);
   assertEquals(ok.status, 200);
@@ -716,6 +719,13 @@ Deno.test("note: a crisis question gets no note and no model call; a model safet
   assertEquals(blocked.body.moderationStatus, "blocked");
   assertEquals(blocked.body.note, null);
   assertEquals(u.generations.length, 1);
+  assertEquals(u.safety.length, 1);
+  // The same draw again: still blocked, no new model call, attempt or duplicate safety event.
+  const again = await u.note(other.drawId);
+  assertEquals([again.status, again.body.moderationStatus, again.body.safety], [200, "blocked", { crisis: false }]);
+  assertEquals(u.generations.length, 1);
+  assertEquals(u.safety.length, 1);
+  assertEquals(u.noteAttempts.length, 1);
 });
 
 Deno.test("note: in progress is 409, a paused switch is 503, another account's draw is 404", async () => {
@@ -737,6 +747,23 @@ Deno.test("note: in progress is 409, a paused switch is 503, another account's d
   const { body: pausedDraw } = await p.draw();
   assertEquals((await p.note(pausedDraw.drawId)).status, 503);
   assertEquals(p.generations.length, 0);
+});
+
+Deno.test("note: a fresh claim on one draw makes a second draw of the same account answer 409 note_in_progress", async () => {
+  const t = setup();
+  const { body: first } = await t.draw();
+  const { body: second } = await t.draw({ topic: "love" });
+  const release = t.hold();
+  t.reply({ text: noteAnswer() });
+  const pending = t.note(first.drawId);
+  await new Promise(resolve => setTimeout(resolve, 5));
+  const other = await t.note(second.drawId);
+  assertEquals([other.status, other.body.error, other.body.retryAfterSeconds], [409, "note_in_progress", 5]);
+  assertEquals(t.generations.length, 1);
+  release();
+  assertEquals((await pending).status, 200);
+  const after = await t.note(second.drawId);
+  assertEquals([after.status, after.body.reason], [429, "note_daily"]);
 });
 
 Deno.test("suggest_reader: the decision model picks a candidate from the stored draw; no user data is sent", async () => {

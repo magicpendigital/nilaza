@@ -55,6 +55,25 @@ describe("TarotFreeNote box", () => {
     expect(offline.getByText(/You are offline/)).toBeTruthy();
   });
 
+  it("a safety block and three failed tries are calm, final states without a retry button", () => {
+    const blocked = render(<TarotFreeNote language="vi" state={{ kind: "blocked" }} onRetry={jest.fn()} />);
+    expect(blocked.getByText("Nilaza không viết lời nhắn cho câu hỏi này. Bài đọc ở trên vẫn đầy đủ.")).toBeTruthy();
+    expect(blocked.queryByRole("button")).toBeNull();
+    expect(blocked.queryByText("Thử lại")).toBeNull();
+    const attempts = render(<TarotFreeNote language="vi" state={{ kind: "attempts_today" }} onRetry={jest.fn()} />);
+    expect(attempts.getByText("Hôm nay Nilaza chưa viết được lời nhắn sau vài lần thử. Bạn thử lại vào ngày mai nhé.")).toBeTruthy();
+    expect(attempts.queryByRole("button")).toBeNull();
+    const en = render(<TarotFreeNote language="en" state={{ kind: "blocked" }} onRetry={jest.fn()} />);
+    expect(en.getByText(/does not write a note for this question/)).toBeTruthy();
+  });
+
+  it("a saved reading shows a small button that asks for the note", () => {
+    const onReveal = jest.fn();
+    const screen = render(<TarotFreeNote language="vi" state={{ kind: "saved" }} onRetry={jest.fn()} onReveal={onReveal} />);
+    fireEvent.press(screen.getByRole("button", { name: "Xem lời nhắn" }));
+    expect(onReveal).toHaveBeenCalled();
+  });
+
   it("a crisis answer shows the 115 card and no note", () => {
     const screen = render(<TarotFreeNote language="vi" state={{ kind: "crisis" }} onRetry={jest.fn()} />);
     expect(screen.getAllByText(/115/).length).toBeGreaterThan(0);
@@ -75,6 +94,26 @@ describe("useTarotFreeNote", () => {
     first.unmount();
     const second = renderHook(() => useTarotFreeNote({ drawId: "d1", signedIn: true, request }));
     expect(second.result.current.state?.kind).toBe("note");
+    expect(request).toHaveBeenCalledTimes(1);
+  });
+
+  it("an opened saved reading (auto false) asks nothing until the person taps reveal", async () => {
+    const request = jest.fn(async () => okOutcome);
+    const hook = renderHook(() => useTarotFreeNote({ drawId: "d5", signedIn: true, request, auto: false }));
+    expect(hook.result.current.state).toEqual({ kind: "saved" });
+    expect(request).not.toHaveBeenCalled();
+    act(() => hook.result.current.reveal());
+    await waitFor(() => expect(hook.result.current.state?.kind).toBe("note"));
+    expect(request).toHaveBeenCalledTimes(1);
+  });
+
+  it("a blocked answer is cached and never retried", async () => {
+    const request = jest.fn(async (): Promise<TarotNoteOutcome> => ({ kind: "blocked" }));
+    const hook = renderHook(() => useTarotFreeNote({ drawId: "d6", signedIn: true, request }));
+    await waitFor(() => expect(hook.result.current.state).toEqual({ kind: "blocked" }));
+    hook.unmount();
+    const again = renderHook(() => useTarotFreeNote({ drawId: "d6", signedIn: true, request }));
+    expect(again.result.current.state).toEqual({ kind: "blocked" });
     expect(request).toHaveBeenCalledTimes(1);
   });
 

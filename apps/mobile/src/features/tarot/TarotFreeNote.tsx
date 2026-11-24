@@ -13,6 +13,10 @@ export type TarotNoteViewState =
   | { kind: "note"; note: TarotNote; experiment: TarotNoteExperiment }
   | { kind: "guest" }
   | { kind: "used_today" }
+  | { kind: "attempts_today" }
+  | { kind: "blocked" }
+  /** An opened saved reading: nothing is requested until the person taps "Xem lời nhắn". */
+  | { kind: "saved" }
   | { kind: "crisis" }
   | { kind: "error"; reason: "offline" | "busy" | "auth" };
 
@@ -32,6 +36,8 @@ function toView(outcome: TarotNoteOutcome): TarotNoteViewState {
   switch (outcome.kind) {
     case "note": return { kind: "note", note: outcome.note, experiment: outcome.experiment };
     case "used_today": return { kind: "used_today" };
+    case "attempts_today": return { kind: "attempts_today" };
+    case "blocked": return { kind: "blocked" };
     case "crisis": return { kind: "crisis" };
     case "unavailable": return { kind: "error", reason: outcome.reason };
     default: return { kind: "error", reason: "busy" };
@@ -39,19 +45,22 @@ function toView(outcome: TarotNoteOutcome): TarotNoteViewState {
 }
 
 /**
- * Asks once after the reveal for a signed-in server draw. Guests get the sign-in invite; a local draw without a
- * drawId shows nothing (null). Errors are not cached, so "Thử lại" asks again.
+ * Asks once after the reveal of a draw made in this session (auto = true) for a signed-in server draw. A saved reading
+ * that is only opened again (auto = false) asks nothing until `reveal()` (the "Xem lời nhắn" button). Guests get the
+ * sign-in invite; a local draw without a drawId shows nothing (null). Errors are not cached, so "Thử lại" asks again.
  */
-export function useTarotFreeNote({ drawId, signedIn, request }: {
+export function useTarotFreeNote({ drawId, signedIn, request, auto = true }: {
   drawId?: string;
   signedIn: boolean;
   request: (drawId: string) => Promise<TarotNoteOutcome>;
-}): { state: TarotNoteViewState | null; retry: () => void } {
+  auto?: boolean;
+}): { state: TarotNoteViewState | null; retry: () => void; reveal: () => void } {
+  const [revealed, setRevealed] = useState<string | null>(null);
   const [state, setState] = useState<TarotNoteViewState | null>(() => {
     if (!signedIn) return { kind: "guest" };
     if (!drawId) return null;
     const cached = settled.get(drawId);
-    return cached ? toView(cached) : { kind: "writing" };
+    return cached ? toView(cached) : auto ? { kind: "writing" } : { kind: "saved" };
   });
   const [attempt, setAttempt] = useState(0);
   const requestRef = useRef(request);
@@ -62,6 +71,7 @@ export function useTarotFreeNote({ drawId, signedIn, request }: {
     if (!drawId) { setState(null); return; }
     const cached = settled.get(drawId);
     if (cached) { setState(toView(cached)); return; }
+    if (!auto && revealed !== drawId) { setState({ kind: "saved" }); return; }
     let alive = true;
     setState({ kind: "writing" });
     let pending = inFlight.get(drawId);
@@ -75,10 +85,11 @@ export function useTarotFreeNote({ drawId, signedIn, request }: {
       if (alive) setState(toView(outcome));
     });
     return () => { alive = false; };
-  }, [drawId, signedIn, attempt]);
+  }, [drawId, signedIn, attempt, auto, revealed]);
 
   const retry = useCallback(() => setAttempt((value) => value + 1), []);
-  return { state, retry };
+  const reveal = useCallback(() => setRevealed(drawId ?? null), [drawId]);
+  return { state, retry, reveal };
 }
 
 export type TarotFreeNoteProps = {
@@ -86,11 +97,12 @@ export type TarotFreeNoteProps = {
   state: TarotNoteViewState;
   reduceMotion?: boolean;
   onRetry: () => void;
+  onReveal?: () => void;
   onSignIn?: () => void;
   onFeedback?: (value: TarotNoteFeedback) => void;
 };
 
-export function TarotFreeNote({ language, state, reduceMotion = false, onRetry, onSignIn, onFeedback }: TarotFreeNoteProps) {
+export function TarotFreeNote({ language, state, reduceMotion = false, onRetry, onReveal, onSignIn, onFeedback }: TarotFreeNoteProps) {
   const vi = language === "vi";
   const [feedback, setFeedback] = useState<TarotNoteFeedback | null>(null);
 
@@ -149,6 +161,24 @@ export function TarotFreeNote({ language, state, reduceMotion = false, onRetry, 
         <Text style={s.paragraph}>{vi
           ? "Lời nhắn mới có lại vào ngày mai. Bài đọc Nilaza ở trên vẫn đầy đủ cho trải bài này."
           : "A new note comes back tomorrow. Nilaza's reading above is still complete for this spread."}</Text>
+      ) : null}
+
+      {state.kind === "attempts_today" ? (
+        <Text accessibilityLiveRegion="polite" style={s.paragraph}>{vi
+          ? "Hôm nay Nilaza chưa viết được lời nhắn sau vài lần thử. Bạn thử lại vào ngày mai nhé."
+          : "Nilaza could not write the note after a few tries today. Please try again tomorrow."}</Text>
+      ) : null}
+
+      {state.kind === "blocked" ? (
+        <Text accessibilityLiveRegion="polite" style={s.paragraph}>{vi
+          ? "Nilaza không viết lời nhắn cho câu hỏi này. Bài đọc ở trên vẫn đầy đủ."
+          : "Nilaza does not write a note for this question. The reading above is still complete."}</Text>
+      ) : null}
+
+      {state.kind === "saved" ? (
+        <Pressable accessibilityRole="button" onPress={onReveal} style={s.secondary}>
+          <Text style={s.secondaryText}>{vi ? "Xem lời nhắn" : "Show note"}</Text>
+        </Pressable>
       ) : null}
 
       {state.kind === "error" ? (

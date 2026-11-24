@@ -53,7 +53,7 @@ export function useReaderSuggestion({ reading, guides, language, aiEnabled, requ
   aiEnabled: boolean;
   requestAi?: (drawId: string, candidates: string[]) => Promise<ReaderAiSuggestion | null>;
   onAutoSelect: (slug: string) => void;
-  onShown?: (event: { slug: string; topic: string | null; source: ReaderSuggestSource }) => void;
+  onShown?: (event: { slug: string; topic: string | null; source: ReaderSuggestSource; experiment?: TarotNoteExperiment }) => void;
 }): { suggestion: ReaderSuggestion | null; source: ReaderSuggestSource; experiment: TarotNoteExperiment; markUserChoice: () => void } {
   const readingId = reading?.id ?? "";
   const drawId = reading?.drawId;
@@ -89,16 +89,16 @@ export function useReaderSuggestion({ reading, guides, language, aiEnabled, requ
       autoSelected.add(readingId);
       callbacks.current.onAutoSelect(rules.primary);
     }
-    const logShown = (slug: string, source: ReaderSuggestSource) => {
+    const logShown = (slug: string, source: ReaderSuggestSource, experiment?: TarotNoteExperiment) => {
       if (shownLogged.has(readingId)) return;
       shownLogged.add(readingId);
-      callbacks.current.onShown?.({ slug, topic: rules.matchedTopic, source });
+      callbacks.current.onShown?.({ slug, topic: rules.matchedTopic, source, experiment });
     };
     const ask = callbacks.current.requestAi;
     const wantsAi = firstVisit && rules.lowConfidence && aiEnabled && Boolean(drawId) && Boolean(ask) && !(drawId && aiAnswers.has(drawId));
     if (!wantsAi || !drawId || !ask) {
       const cached = drawId ? aiAnswers.get(drawId) : null;
-      logShown(cached?.slug ?? rules.primary, cached ? "ai" : "rules");
+      logShown(cached?.slug ?? rules.primary, cached ? "ai" : "rules", cached?.experiment ?? undefined);
       return () => { alive = false; };
     }
     void ask(drawId, guidesRef.current.map((guide) => guide.slug)).catch(() => null).then((answer) => {
@@ -107,9 +107,10 @@ export function useReaderSuggestion({ reading, guides, language, aiEnabled, requ
       if (usable && alive && !userChose.has(readingId)) {
         setAiAnswer(usable);
         callbacks.current.onAutoSelect(usable.slug);
-        logShown(usable.slug, "ai");
+        logShown(usable.slug, "ai", usable.experiment ?? undefined);
       } else {
-        logShown(rules.primary, "rules");
+        // The AI may have answered with the rule pick: its campaign tag still belongs to this event.
+        logShown(rules.primary, "rules", answer?.experiment ?? undefined);
       }
     });
     return () => { alive = false; };

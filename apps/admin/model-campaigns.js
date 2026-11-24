@@ -180,7 +180,8 @@
     return `<div class="table-scroll"><table class="config-table campaign-metrics" data-campaign-metrics="${escape(campaign.id)}">
       <caption>Số liệu theo bản: ${escape(campaign.name)} (cần ít nhất ${MIN_CALLS} lượt gọi mỗi bản mới đánh giá)</caption>
       <thead><tr><th scope="col">Bản</th><th scope="col">Lượt gọi</th><th scope="col">Chi phí TB / lượt</th><th scope="col">P95 thời gian</th><th scope="col">Lỗi định dạng</th><th scope="col">Chuyển model</th><th scope="col">Văn bản dự phòng</th><th scope="col">Lỗi</th><th scope="col">Ghi chú "đúng"</th><th scope="col">Gợi ý người đọc được nhận</th><th scope="col">Cảnh báo</th></tr></thead>
-      <tbody>${body}</tbody></table></div>`;
+      <tbody>${body}</tbody></table></div>
+      <p class="muted">Số liệu từ app là tham khảo</p>`;
   }
   function renderCampaign(campaign, manage) {
     const status = campaign.status;

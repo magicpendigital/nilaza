@@ -8,9 +8,14 @@ export type TarotNote = { text: string; need: string; askThem: string };
 export type TarotNoteOutcome =
   | { kind: "note"; note: TarotNote; noteStatus?: string; model?: string; experiment: TarotNoteExperiment; nextNoteAt?: string }
   | { kind: "used_today"; nextNoteAt?: string }
+  /** Three failed tries today (429 reason note_attempts): not "used", not retryable until tomorrow. */
+  | { kind: "attempts_today"; nextNoteAt?: string }
+  /** A model safety block (not a crisis): calm, final for this draw, no retry. */
+  | { kind: "blocked" }
   | { kind: "crisis" }
   | { kind: "in_progress"; retryAfterSeconds: number }
-  | { kind: "unavailable"; reason: "offline" | "busy" | "auth" };
+  /** attemptCounted: the server recorded a claim attempt for this failure (503 note_unavailable). */
+  | { kind: "unavailable"; reason: "offline" | "busy" | "auth"; attemptCounted?: boolean };
 
 const text = (value: unknown) => (typeof value === "string" ? value.trim() : "");
 
@@ -33,19 +38,25 @@ export function parseExperiment(value: unknown): TarotNoteExperiment {
 export function parseTarotNoteResponse(status: number, body: Record<string, unknown>): TarotNoteOutcome {
   const error = text(body.error);
   if (status === 429 && error === "daily_limit_reached") {
-    return { kind: "used_today", nextNoteAt: text(body.nextNoteAt) || undefined };
+    const nextNoteAt = text(body.nextNoteAt) || undefined;
+    return text(body.reason) === "note_attempts" ? { kind: "attempts_today", nextNoteAt } : { kind: "used_today", nextNoteAt };
   }
   if (status === 409 && error === "note_in_progress") {
     const seconds = Number(body.retryAfterSeconds);
     return { kind: "in_progress", retryAfterSeconds: Math.min(Math.max(Number.isFinite(seconds) ? seconds : 5, 1), 10) };
   }
   if (status === 401) return { kind: "unavailable", reason: "auth" };
-  if (status !== 200) return { kind: "unavailable", reason: "busy" };
+  if (status !== 200) {
+    return typeof body.attemptCounted === "boolean"
+      ? { kind: "unavailable", reason: "busy", attemptCounted: body.attemptCounted }
+      : { kind: "unavailable", reason: "busy" };
+  }
   const safety = body.safety && typeof body.safety === "object" ? body.safety as Record<string, unknown> : null;
   if (safety?.crisis === true) return { kind: "crisis" };
+  if (body.moderationStatus === "blocked") return { kind: "blocked" };
   const note = body.note && typeof body.note === "object" && !Array.isArray(body.note) ? body.note as Record<string, unknown> : null;
   const noteText = text(note?.text);
-  if (!note || !noteText || body.moderationStatus === "blocked") return { kind: "unavailable", reason: "busy" };
+  if (!note || !noteText) return { kind: "unavailable", reason: "busy" };
   return {
     kind: "note",
     note: { text: noteText, need: text(note.need), askThem: text(note.askThem) },

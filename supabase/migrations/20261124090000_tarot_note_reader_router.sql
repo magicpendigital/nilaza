@@ -424,6 +424,13 @@ begin
   if target.note_claim_token is not null and target.note_claimed_at > now() - make_interval(secs => p_stale_seconds) then
     return jsonb_build_object('status', 'in_progress');
   end if;
+  -- A fresh, unexpired note claim on another reading of the same account blocks this claim too, so two draws cannot be
+  -- written in parallel against a limit counted only on delivered notes (same stale window as above).
+  if exists (select 1 from public.tarot_readings
+    where user_id = p_user_id and id <> p_reading_id and deleted_at is null and note_created_at is null
+      and note_claim_token is not null and note_claimed_at > now() - make_interval(secs => p_stale_seconds)) then
+    return jsonb_build_object('status', 'in_progress');
+  end if;
   select count(*) into delivered from public.tarot_readings
     where user_id = p_user_id and note_created_at >= p_day_start;
   if delivered >= p_delivered_limit then

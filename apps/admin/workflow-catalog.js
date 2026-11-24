@@ -352,7 +352,7 @@
   },
   {
     "path": "apps/mobile/App.tsx",
-    "sha256": "5f835a6b4829afeae9eac12db9379b6cc0233c3bfa71f354c6280abf1b6c25fc"
+    "sha256": "ba2944d6a953a553967b29320f4a96fa93a8c17638d0c8cc31d9dfd3b8e86b78"
   },
   {
     "path": "docs/FEATURE_PRD.md",
@@ -472,7 +472,7 @@
   },
   {
     "path": "supabase/functions/ai-tarot-reading/handler.ts",
-    "sha256": "98220d9e814c5821f1a6527c1992a30ea4afb58d224ae5064b315b3737f60d06"
+    "sha256": "eb9d33b8c69f57a74018136b616ad27231569a41a502353eb55411477b276f75"
   },
   {
     "path": "supabase/functions/ai-tarot-reading/index.ts",

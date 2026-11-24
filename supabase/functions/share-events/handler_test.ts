@@ -1,24 +1,34 @@
 import { assertEquals } from "https://deno.land/std@0.168.0/testing/asserts.ts";
 import {
-  createShareEventsHandler, DAILY_EVENT_LIMIT, MAX_EVENTS_PER_REQUEST, parseShareEvents, PRODUCT_EVENT_NAMES, type UsageEventRow
+  createShareEventsHandler, DAILY_EVENT_LIMIT, MAX_EVENTS_PER_REQUEST, parseShareEvents, PRODUCT_EVENT_NAMES, type CampaignRow, type UsageEventRow
 } from "./handler.ts";
 
 const USER = "11111111-1111-4111-8111-111111111111";
 
-function setup(options: { user?: { id: string; isAnonymous?: boolean } | null; recent?: number; insertError?: boolean; configured?: boolean } = {}) {
+const LIVE_CAMPAIGN = "6f1c2a40-1b2c-4d5e-8f90-a1b2c3d4e5f6";
+
+function setup(options: { campaigns?: Record<string, CampaignRow | "error">; user?: { id: string; isAnonymous?: boolean } | null; recent?: number; insertError?: boolean; configured?: boolean } = {}) {
   const inserted: UsageEventRow[][] = [];
   const counted: { userId: string; sinceIso: string }[] = [];
+  const lookups: string[] = [];
+  const campaigns = options.campaigns ?? { [LIVE_CAMPAIGN]: { status: "running" } };
   const handler = createShareEventsHandler(() => options.configured === false ? null : {
     authenticate: async () => options.user === undefined ? { id: USER, isAnonymous: false } : options.user,
     countRecent: async (userId, sinceIso) => { counted.push({ userId, sinceIso }); return options.recent ?? 0; },
-    insert: async rows => { inserted.push(rows); return { error: options.insertError ? { message: "db down" } : null }; }
+    insert: async rows => { inserted.push(rows); return { error: options.insertError ? { message: "db down" } : null }; },
+    campaignRow: async id => {
+      lookups.push(id);
+      const row = campaigns[id];
+      if (row === "error") throw new Error("db down");
+      return row ?? null;
+    }
   }, () => Date.UTC(2026, 10, 12, 12, 0, 0));
   const call = (body: unknown, init: { headers?: Record<string, string> } = {}) => handler(new Request("https://x.test/share-events", {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: "Bearer token-abc", ...init.headers },
     body: typeof body === "string" ? body : JSON.stringify(body)
   }));
-  return { call, inserted, counted };
+  return { call, inserted, counted, lookups };
 }
 
 const tap = { name: "share_tapped", surface: "today_card", action: "image" };
@@ -182,4 +192,39 @@ Deno.test("product signals share the daily limit and still need a signed-in call
   assertEquals((await setup({ recent: DAILY_EVENT_LIMIT }).call({ events: [event] })).status, 429);
   assertEquals((await setup({ user: null }).call({ events: [event] })).status, 401);
   assertEquals((await setup({ user: { id: USER, isAnonymous: true } }).call({ events: [event] })).status, 401);
+});
+
+Deno.test("drops the campaign tag but keeps the event unless the campaign is running or stopped within 30 days", async () => {
+  const day = 24 * 60 * 60 * 1000, now = Date.UTC(2026, 10, 12, 12, 0, 0);
+  const ids = [1, 2, 3, 4, 5, 6].map(n => `6f1c2a40-1b2c-4d5e-8f90-a1b2c3d4e5f${n}`);
+  const [running, endedRecent, endedOld, pausedRecent, draft, broken] = ids;
+  const campaigns: Record<string, CampaignRow | "error"> = {
+    [running]: { status: "running" },
+    [endedRecent]: { status: "ended", ended_at: new Date(now - 5 * day).toISOString() },
+    [endedOld]: { status: "ended", ended_at: new Date(now - 40 * day).toISOString() },
+    [pausedRecent]: { status: "paused", updated_at: new Date(now - 2 * day).toISOString() },
+    [draft]: { status: "draft" },
+    [broken]: "error"
+  };
+  const { call, inserted } = setup({ campaigns });
+  const event = (campaignId: string) => ({ name: "tarot_note_feedback", metadata: { campaignId, variant: "A", value: "yes" } });
+  const res = await call({ events: [running, endedRecent, endedOld, pausedRecent, draft, broken, "6f1c2a40-1b2c-4d5e-8f90-a1b2c3d4e599"].map(event) });
+  assertEquals(res.status, 202);
+  assertEquals(inserted[0].map(row => row.metadata), [
+    { campaignId: running, variant: "A", value: "yes" },
+    { campaignId: endedRecent, variant: "A", value: "yes" },
+    { value: "yes" }, // ended 40 days ago
+    { campaignId: pausedRecent, variant: "A", value: "yes" },
+    { value: "yes" }, // draft
+    { value: "yes" }, // lookup error
+    { value: "yes" } // unknown campaign
+  ]);
+});
+
+Deno.test("looks a campaign up once per request burst and caches the answer for a minute", async () => {
+  const { call, lookups } = setup();
+  const body = { events: [{ name: "tarot_note_feedback", metadata: { campaignId: LIVE_CAMPAIGN, variant: "B", value: "no" } }] };
+  await call(body);
+  await call(body);
+  assertEquals(lookups, [LIVE_CAMPAIGN]);
 });

@@ -38,7 +38,24 @@ type Store = {
   /** Share and product-signal rows already stored for this user since the given ISO time. */
   countRecent: (userId: string, sinceIso: string) => Promise<number>;
   insert: (rows: UsageEventRow[]) => Promise<{ error?: { message?: string } | null }>;
+  /** One service-role lookup of a campaign row; null when it does not exist. Errors may throw. */
+  campaignRow: (campaignId: string) => Promise<CampaignRow | null>;
 };
+
+export type CampaignRow = { status: string; ended_at?: string | null; updated_at?: string | null };
+
+export const CAMPAIGN_TAG_GRACE_MS = 30 * 24 * 60 * 60 * 1000;
+const CAMPAIGN_CACHE_MS = 60_000;
+const CAMPAIGN_CACHE_MAX = 200;
+
+/** A client-sent tag counts only for a running campaign, or a paused/ended one that stopped within the last 30 days. */
+export function campaignTagAllowed(row: CampaignRow | null, nowMs: number): boolean {
+  if (!row) return false;
+  if (row.status === "running") return true;
+  if (row.status !== "paused" && row.status !== "ended") return false;
+  const since = Date.parse(row.ended_at ?? row.updated_at ?? "");
+  return Number.isFinite(since) && nowMs - since <= CAMPAIGN_TAG_GRACE_MS;
+}
 
 export type UsageEventRow = {
   user_id: string;
@@ -115,6 +132,20 @@ export function parseShareEvents(input: Record<string, unknown>): ParsedEvent[] 
 }
 
 export function createShareEventsHandler(storeFor: (req: Request) => Store | null, now: () => number = () => Date.now()) {
+  // Per-isolate cache: campaign id -> allowed, so a burst of events costs at most one lookup per campaign a minute.
+  const tagCache = new Map<string, { allowed: boolean; until: number }>();
+  async function tagAllowed(store: Store, campaignId: string): Promise<boolean> {
+    const cached = tagCache.get(campaignId);
+    if (cached && cached.until > now()) return cached.allowed;
+    try {
+      const allowed = campaignTagAllowed(await store.campaignRow(campaignId), now());
+      if (tagCache.size >= CAMPAIGN_CACHE_MAX) tagCache.clear();
+      tagCache.set(campaignId, { allowed, until: now() + CAMPAIGN_CACHE_MS });
+      return allowed;
+    } catch {
+      return false; // any lookup error drops the tag (the event itself is kept); not cached
+    }
+  }
   return async (req: Request): Promise<Response> => {
     if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
     if (req.method !== "POST") return json({ error: "method_not_allowed" }, 405);
@@ -128,6 +159,12 @@ export function createShareEventsHandler(storeFor: (req: Request) => Store | nul
       const since = new Date(now() - 24 * 60 * 60 * 1000).toISOString();
       const recent = await store!.countRecent(userId, since);
       if (recent + events.length > DAILY_EVENT_LIMIT) return json({ error: "share_events_rate_limited" }, 429);
+
+      // The client may only tag events with a campaign that exists and is live (or just stopped); otherwise the tag is dropped.
+      for (const event of events) {
+        if (!isProductEvent(event) || !event.metadata.campaignId) continue;
+        if (!await tagAllowed(store!, event.metadata.campaignId)) { delete event.metadata.campaignId; delete event.metadata.variant; }
+      }
 
       // The user id comes from the verified token, never from the request body.
       const rows: UsageEventRow[] = events.map((event) => isProductEvent(event)
