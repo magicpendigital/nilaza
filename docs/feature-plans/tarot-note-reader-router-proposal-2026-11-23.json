@@ -20,7 +20,7 @@
   ],
   "impact": {
     "entryPoint": "None yet; the proposal covers the Tarot result screen, the follow-up reader picker and the Admin model page.",
-    "dataWrite": "None.",
+    "dataWrite": "No data is written anywhere; docs only.",
     "backendContract": "None; proposed tarot_note and reader_router routes and campaign tables need later Owner-approved migrations.",
     "adminVisibility": "None yet; proposed campaign page shows counts only, never question text.",
     "privacySafety": "Proposal keeps rule-based suggestion on device; the AI stage sends the question like the existing reading and needs sign-in, quota and switch.",
@@ -38,6 +38,11 @@
       "path": "AGENTS.md",
       "reason": "Owner approval boundary.",
       "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Documents lane checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
     },
     {
       "path": "docs/PLAN_QC_PROTOCOL.md",
@@ -83,10 +88,10 @@
     }
   ],
   "securityReview": {
-    "authzRls": "No change.",
+    "authzRls": "No auth, RLS or quota change in this PR.",
     "sensitiveData": "No data handled; proposal sends no new personal data beyond the question already sent.",
     "secretsLogging": "No secrets read; blind test method B keeps the key on the Owner's machine.",
-    "externalInput": "No change.",
+    "externalInput": "No new input path; docs only.",
     "dependencies": "No package or lockfile change.",
     "migrationRelease": "No migration; proposed migrations need separate Owner approval.",
     "stopCondition": "Stop if the proposal would require reading keys or user data.",
