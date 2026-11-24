@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "taskId": "model-campaigns-2026-11-24",
+  "ownerAgent": "backend_agent",
+  "lane": "Backend/AI + Admin: model campaigns (A/B of model routes per feature), proposal TAROT_NOTE_READER_ROUTER_CAMPAIGNS section 3",
+  "goal": "Let Admin run a campaign that splits users of one AI feature between 2-4 model routes by a stable per-user hash, read per-variant counts (calls, cost, latency, format failures, fallbacks, product signals) and publish the winning route through the existing route publish function.",
+  "successCriteria": [
+    "Migration adds model_campaigns and model_campaign_variants with RLS on, no client grants, at most one running campaign per feature, and admin RPCs (save draft, start, pause, end, pick winner, list, metrics) that are security definer with a fixed search_path, check ai.read or ai.manage and write admin_audit_logs.",
+    "Traffic must total 100 across 2-4 variants and each variant route passes nilaza_private.model_route_steps_valid; pick winner publishes through nilaza_private.publish_model_route_config and ends the campaign.",
+    "runtime_model_campaign_for_feature is callable by the service role only; the metrics RPC returns counts and rates only, never user ids or text.",
+    "_shared/model-campaign.ts resolveCampaignRoute returns a validated route plus {campaignId, variant} or null on any error, honours status, dates and audience, caches per isolate for 60 s, and exports a pure pickVariant; Deno tests cover the split and edge cases.",
+    "share-events accepts seven product events with a strict metadata allowlist, keeps sign-in first and the daily limit, and has tests.",
+    "admin-model-campaigns Edge Function (GET list with metrics, POST actions) follows admin-model-router-config and has Deno tests.",
+    "Admin page Model và chiến dịch shows one card per feature with the active route, a campaign editor, a metrics table with chưa đủ dữ liệu under 100 calls, and confirm dialogs for Bắt đầu, Tạm dừng, Kết thúc, Chọn bản thắng; registered in navigation, capabilities and the request allowlist."
+  ],
+  "writeScope": [
+    "supabase/migrations/20261124090100_model_campaigns.sql",
+    "supabase/functions/_shared/model-campaign.ts",
+    "supabase/functions/_shared/model-campaign_test.ts",
+    "supabase/functions/_shared/ai-trace.ts",
+    "supabase/functions/_shared/ai-trace.test.ts",
+    "supabase/functions/share-events/",
+    "supabase/functions/admin-model-campaigns/",
+    "supabase/functions/README.md",
+    "apps/admin/model-campaigns.js",
+    "apps/admin/app.js",
+    "apps/admin/shell.js",
+    "apps/admin/ai-studio.html",
+    "apps/admin/admin-capabilities.json",
+    "apps/admin/workspace-guard.js",
+    "apps/admin/styles.css",
+    "apps/admin/workflow-catalog.js",
+    "scripts/admin-model-campaigns.test.mjs",
+    "scripts/admin-a2-navigation.test.mjs",
+    "scripts/validate-backend-contracts.mjs",
+    "scripts/validate-admin-contract.mjs",
+    "scripts/check-supabase-readiness.mjs",
+    "scripts/supabase-model-campaigns.test.mjs",
+    "package.json"
+  ],
+  "untouchedSurfaces": [
+    "supabase/functions/_shared/model-router.ts, ai-tarot-reading, admin-model-router-config and the route editor page are owned by a parallel task and are not edited.",
+    "The mobile app is unchanged; product events are sent by later app work.",
+    "PLAN.md is updated by the lead agent, not in this task."
+  ],
+  "impact": {
+    "entryPoint": "Admin > AI Studio > Model và chiến dịch (new route campaigns). No user-facing entry point.",
+    "dataWrite": "New tables model_campaigns and model_campaign_variants written only through admin RPCs; product events go to usage_events with feature product_signal; trace runs gain campaignId and variant metadata keys once the runtime is wired.",
+    "backendContract": "New Edge Function admin-model-campaigns; share-events accepts more event names; runtime helper resolveCampaignRoute for the lead to wire into feature functions. Needs Owner-approved migration and deploys.",
+    "adminVisibility": "Campaign list, status, per-variant metrics, audit log rows for every action.",
+    "privacySafety": "Metrics are aggregates; no user id, question or answer text leaves the database. Bucketing hashes the user id in memory only.",
+    "observability": "Every campaign call is tagged in ai_trace_runs.metadata; audit actions ai.model_campaign.*.",
+    "rollback": "Pause or end the campaign: runtime falls back to the active route. Function and migration can be reverted; tables are additive."
+  },
+  "canonicalContracts": [
+    "nilaza_private.publish_model_route_config stays the only route publish path",
+    "nilaza_private.model_route_steps_valid stays the step validator in SQL; parseRouteSteps in _shared/model-router.ts at runtime",
+    "share-events SHARE_* lists stay unchanged for the mobile contract test"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    { "path": "AGENTS.md", "reason": "Owner approval boundary.", "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5" },
+    { "path": "docs/AGENT_TASK_ROUTER.md", "reason": "Backend/AI and Admin lane checks.", "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c" },
+    { "path": "docs/PLAN_QC_PROTOCOL.md", "reason": "Record shape.", "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2" },
+    { "path": "docs/proposals/TAROT_NOTE_READER_ROUTER_CAMPAIGNS_2026-11-23.vi.md", "reason": "Campaign scope, metrics and stop rules (section 3).", "sha256": "4249d8e90fc8bba351a5973be969f62cf9a1b32a74b94fa93e38dea9005ef9a4" },
+    { "path": "supabase/migrations/20261113140000_model_route_steps.sql", "reason": "Step validator and publish function reused by pick winner.", "sha256": "d7c59aa1013839b49bb1fe5325503eefb6272f2c96423f79f5c1470e4e44edea" },
+    { "path": "supabase/functions/admin-model-router-config/contract.ts", "reason": "Route publish payload shape mirrored by the campaign function.", "sha256": "4d721d2f384b4456a5ed1fc83e9191593e7c0aecf568e5e07b635d2e04919cbf" },
+    { "path": "supabase/functions/share-events/handler.ts", "reason": "Event allowlist and rate rules to extend.", "sha256": "8d95d40fb15cad4380188888a20eb49a4527e1fa636cee4bdf7be790bbe349c0" },
+    { "path": "supabase/functions/_shared/ai-trace.ts", "reason": "Trace metadata redaction; campaignId and variant must survive.", "sha256": "1a251f9d6ce09b12d87313e1af353d90a9d69f495908e14b564765cc48c96fdc" }
+  ],
+  "skillReview": [
+    { "name": "nilaza-plan-qc", "decision": "verified-current", "evidence": "Record and preflight before edits; lead agent updates PLAN.md." },
+    { "name": "nilaza-ai-runtime", "decision": "verified-current", "evidence": "Campaign routes are validated by the router validator, errors fall back to the active route, traces carry campaign tags, deploys left to the Owner." }
+  ],
+  "securityReview": {
+    "authzRls": "Tables have RLS on and no client grants; admin RPCs check ai.read or ai.manage; runtime read function granted to service_role only and checks the JWT role claim.",
+    "sensitiveData": "Metrics return counts and rates only; no user ids, questions or answers.",
+    "secretsLogging": "No secrets read or logged; .env not read.",
+    "externalInput": "Admin JSON is validated in the Edge Function and again in SQL; product event metadata uses a strict key and value allowlist.",
+    "dependencies": "No package or lockfile change.",
+    "migrationRelease": "New migration 20261124090100 is not applied; applying it and deploying functions needs Owner approval.",
+    "stopCondition": "Stop if the campaign would need user text, a change to the route publish function or the router file.",
+    "unresolvedHighRisks": []
+  },
+  "validationCommands": [
+    "npx --yes deno@2 test supabase/functions/_shared/model-campaign_test.ts supabase/functions/admin-model-campaigns supabase/functions/share-events",
+    "npm run validate:backend",
+    "npm run supabase:check",
+    "npm run supabase:migration-ledger:check",
+    "npm run admin:check",
+    "npm run admin:test",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "After the migration and deploys: Admin > Model và chiến dịch, create a tarot_reading campaign with two variants 50/50, press Bắt đầu, run readings from two accounts, then see calls per variant; under 100 calls the table says chưa đủ dữ liệu.",
+  "residualRisk": "SQL is checked statically only (no local Postgres); runtime wiring into feature functions is left to the lead; stop rules are shown as warnings, not enforced automatically.",
+  "externalActions": { "databaseWrite": false, "productionRelease": false },
+  "dependencyReview": { "usesVolatileExternalKnowledge": false, "evidence": "Uses existing Deno, SQL and Admin code in the repository only." },
+  "externalSourceReview": [],
+  "workingTreeReview": {
+    "paths": [],
+    "note": "Clean worktree cut from origin/main b5ea7a0 before any edit. The repo-root PaywallPanel.test.tsx in the main checkout is untracked, not part of this task, and left alone."
+  }
+}

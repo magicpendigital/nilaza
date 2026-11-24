@@ -3,7 +3,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.7.1";
 import { aiAuthUserOrUnavailable } from "../_shared/ai-request-guard.ts";
 import { createShareEventsHandler } from "./handler.ts";
 
-// Writes enumerated share measurements to the existing usage_events table with the service role, for the verified user only.
+// Writes enumerated share measurements and product signals to the existing usage_events table with the service role, for the verified user only.
 const handler = createShareEventsHandler(req => {
   const url = Deno.env.get("SUPABASE_URL"), anonKey = Deno.env.get("SUPABASE_ANON_KEY"), serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
   if (!url || !anonKey || !serviceKey) return null;
@@ -15,7 +15,7 @@ const handler = createShareEventsHandler(req => {
       return aiAuthUserOrUnavailable(data?.user, error);
     },
     countRecent: async (userId, sinceIso) => {
-      const { count, error } = await admin.from("usage_events").select("id", { count: "exact", head: true }).eq("user_id", userId).eq("feature", "share").gte("created_at", sinceIso);
+      const { count, error } = await admin.from("usage_events").select("id", { count: "exact", head: true }).eq("user_id", userId).in("feature", ["share", "product_signal"]).gte("created_at", sinceIso);
       if (error) throw new Error("count_failed");
       return count ?? 0;
     },

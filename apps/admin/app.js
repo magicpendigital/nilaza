@@ -552,7 +552,7 @@ const workflowTransportTarget = (() => {
   if (typeof window.NilazaAdminTransportTarget === "string") return window.NilazaAdminTransportTarget;
   try { return new URL(window.ENV?.SUPABASE_URL || "").origin; } catch { return ""; }
 })();
-const studioRouteDetails = { features: "aiFeatures", context: "contextConfig", providers: "providers", workflow: "payload", prompt: "prompt", "persona-studio": "personaStudio", "council-builder": "councilBuilder", "model-router": "modelRouter", "trace-explorer": "traceExplorer", test: "test", versions: "versions", audit: "audit", feedback: "feedback", switches: "switches" };
+const studioRouteDetails = { features: "aiFeatures", context: "contextConfig", providers: "providers", campaigns: "modelCampaigns", workflow: "payload", prompt: "prompt", "persona-studio": "personaStudio", "council-builder": "councilBuilder", "model-router": "modelRouter", "trace-explorer": "traceExplorer", test: "test", versions: "versions", audit: "audit", feedback: "feedback", switches: "switches" };
 const workflowDetailSections = ["payload", "dataMindmap", "optimization"];
 
 function studioRouteState() {
@@ -650,7 +650,7 @@ function restoreAiStudioUiState() {
     const saved = JSON.parse(sessionStorage.getItem(aiStudioUiStorageKey) || "{}");
     if (features.some((item) => item.id === saved.featureId)) state.featureId = saved.featureId;
     if (nodes.some((item) => item.id === saved.nodeId)) state.nodeId = saved.nodeId;
-    const details = ["aiFeatures", "contextConfig", "providers", "payload", "dataMindmap", "prompt", "personaStudio", "councilBuilder", "optimization", "modelRouter", "traceExplorer", "test", "versions", "audit", "feedback", "switches"];
+    const details = ["aiFeatures", "contextConfig", "providers", "modelCampaigns", "payload", "dataMindmap", "prompt", "personaStudio", "councilBuilder", "optimization", "modelRouter", "traceExplorer", "test", "versions", "audit", "feedback", "switches"];
     if (details.includes(saved.detail)) state.detail = saved.detail;
   } catch {
     // Ignore stale or malformed local selection state.
@@ -829,6 +829,7 @@ window.NilazaClearSensitiveAdminState = () => {
   window.NilazaAiFeatures?.clear();
   window.NilazaAiEvals?.clear();
   window.NilazaModelProviders?.clear();
+  window.NilazaModelCampaigns?.clear();
   window.NilazaContextConfig?.clear();
   window.NilazaFeedbackInbox?.clear();
   window.NilazaFeatureSwitches?.clear();
@@ -909,7 +910,7 @@ function renderHeader() {
   const hasRouteDraft = hasModelRouteDraft(current);
   const remoteRoute = state.modelRouterRemoteRoutes.find((route) => route.feature === modelRouteFeatureId(current.id));
   const ambiguous = hasAmbiguousModelRoutes(current);
-  $("#feature-title").textContent = state.detail === "aiFeatures" ? "Tính năng AI" : state.detail === "contextConfig" ? "Dữ liệu gửi cho AI" : state.detail === "providers" ? "Nhà cung cấp & Model" : `Luồng xử lý · ${current.name}`;
+  $("#feature-title").textContent = state.detail === "aiFeatures" ? "Tính năng AI" : state.detail === "contextConfig" ? "Dữ liệu gửi cho AI" : state.detail === "providers" ? "Nhà cung cấp & Model" : state.detail === "modelCampaigns" ? "Model và chiến dịch" : `Luồng xử lý · ${current.name}`;
   $("#sidebar-version").textContent = ambiguous ? "Nhiều phiên bản cùng chạy" : hasRouteDraft ? `Nháp chuỗi model · ${remoteRoute?.version || current.version}` : remoteRoute?.version || current.version;
   $("#sidebar-version-label").textContent = ambiguous ? "Xung đột chuỗi model" : hasRouteDraft ? "Nháp chuỗi model" : remoteRoute ? "Phiên bản trên máy chủ" : "Hợp đồng trong mã";
   $("#sidebar-version-status").textContent = ambiguous ? "Nhiều phiên bản cùng chạy · chặn phát hành; nháp trên trình duyệt được giữ" : hasRouteDraft
@@ -1211,6 +1212,7 @@ function renderDetailPanel() {
   if (state.detail !== "switches") window.NilazaFeatureSwitches?.clear();
   if (state.detail !== "aiFeatures") window.NilazaAiFeatures?.clear();
   if (state.detail !== "providers") window.NilazaModelProviders?.clear();
+  if (state.detail !== "modelCampaigns") window.NilazaModelCampaigns?.clear();
   if (state.detail !== "contextConfig") window.NilazaContextConfig?.clear();
   if (!["versions", "prompt", "personaStudio"].includes(state.detail)) window.NilazaPromptVersions?.clear();
   if (state.detail !== "test") window.NilazaAiEvals?.clear();
@@ -1229,15 +1231,24 @@ function renderDetailPanel() {
   else if (detailPanel && state.detail === "aiFeatures") detailPanel.setAttribute("aria-labelledby", "ai-features-title");
   else if (detailPanel && state.detail === "test" && window.NilazaAiEvals) detailPanel.setAttribute("aria-labelledby", "eval-title");
   else if (detailPanel && state.detail === "providers") detailPanel.setAttribute("aria-labelledby", "model-providers-title");
+  else if (detailPanel && state.detail === "modelCampaigns") detailPanel.setAttribute("aria-labelledby", "model-campaigns-title");
   else if (detailPanel && state.detail === "contextConfig") detailPanel.setAttribute("aria-labelledby", "context-config-title");
   if (state.detail === "aiFeatures") $("#feature-title").textContent = "Tính năng AI";
   if (state.detail === "providers") $("#feature-title").textContent = "Nhà cung cấp & Model";
+  if (state.detail === "modelCampaigns") $("#feature-title").textContent = "Model và chiến dịch";
   if (state.detail === "contextConfig") $("#feature-title").textContent = "Dữ liệu gửi cho AI";
 
   // Owner request 14/11: data blocks each AI feature sends to the model (apps/admin/context-config.js).
   if (state.detail === "contextConfig") {
     if (window.NilazaContextConfig) window.NilazaContextConfig.mount(detailPanel);
     else detailPanel.innerHTML = renderNotAppliedNote("Dữ liệu gửi cho AI", "Không tải được mô-đun Dữ liệu gửi cho AI. Tải lại trang.");
+    return;
+  }
+
+  // 24/11: running model chains and model campaigns per feature (apps/admin/model-campaigns.js).
+  if (state.detail === "modelCampaigns") {
+    if (window.NilazaModelCampaigns) window.NilazaModelCampaigns.mount(detailPanel);
+    else detailPanel.innerHTML = renderNotAppliedNote("Model và chiến dịch", "Không tải được mô-đun Model và chiến dịch. Tải lại trang.");
     return;
   }
 
@@ -1385,7 +1396,7 @@ function modelRouteUnavailableReason(current = feature()) {
 
 function publishActionForSurface() {
   // The AI features page has its own Lưu nháp / Xem lại & phát hành per feature card.
-  if (state.detail === "aiFeatures" || state.detail === "contextConfig" || state.detail === "providers") return "none";
+  if (state.detail === "aiFeatures" || state.detail === "contextConfig" || state.detail === "providers" || state.detail === "modelCampaigns") return "none";
   if (state.detail === "councilBuilder" && feature().id === "ai_council") return "councilBlocked";
   if (state.detail === "modelRouter") return canPublishModelRoute() ? "modelRoute" : "modelBlocked";
   if (state.detail === "prompt" && feature().id === "astrology") return "astrologyPrompt";

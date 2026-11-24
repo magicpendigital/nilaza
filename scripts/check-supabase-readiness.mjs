@@ -35,6 +35,7 @@ const requiredFunctions = [
   "journal-entries",
   "admin-ai-council-config",
   "admin-model-router-config",
+  "admin-model-campaigns",
   "admin-ai-provider-probe",
   "admin-astrology-prompt-config",
   "admin-ai-trace-qa-payload",

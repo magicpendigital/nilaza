@@ -1503,3 +1503,16 @@ body[data-studio-section="audit"] #configuration-health { display: none; }
   .ctx-blocks { grid-template-columns: minmax(0, 1fr); }
   .ctx-picker .button { flex: 1 1 100%; }
 }
+
+/* Model và chiến dịch (model-campaigns.js, 24/11): metrics tables scroll sideways; every control is at least 44 px. */
+.campaign-block { border-top: 1px solid var(--line, #d9d9d9); padding-top: 12px; margin-top: 12px; }
+.campaign-block h4 { margin: 0; }
+.campaign-actions { flex-wrap: wrap; gap: 8px; }
+.campaign-actions .button, .campaign-editor .button, #model-campaigns-reload { min-height: 44px; }
+.campaign-editor { margin-bottom: 16px; }
+.campaign-editor .check-row, #campaign-dialog .check-row { display: flex; align-items: center; gap: 8px; min-height: 44px; }
+.campaign-editor .check-row input, #campaign-dialog .check-row input { width: 20px; height: 20px; }
+.campaign-editor .code-input { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 13px; }
+[data-campaign-card] .table-scroll { overflow-x: auto; max-width: 100%; }
+.campaign-metrics caption { text-align: left; font-weight: 600; padding: 6px 0; }
+.campaign-metrics td, .campaign-metrics th { white-space: nowrap; }

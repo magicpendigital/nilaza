@@ -1,6 +1,6 @@
 import { assertEquals } from "https://deno.land/std@0.168.0/testing/asserts.ts";
 import {
-  createShareEventsHandler, DAILY_EVENT_LIMIT, MAX_EVENTS_PER_REQUEST, parseShareEvents, type UsageEventRow
+  createShareEventsHandler, DAILY_EVENT_LIMIT, MAX_EVENTS_PER_REQUEST, parseShareEvents, PRODUCT_EVENT_NAMES, type UsageEventRow
 } from "./handler.ts";
 
 const USER = "11111111-1111-4111-8111-111111111111";
@@ -115,4 +115,62 @@ Deno.test("parseShareEvents keeps the optional outcome only on completed events"
     { name: "share_tapped", surface: "today_card", action: "image" },
     { name: "share_completed", surface: "astro_invite", action: "link", outcome: "returned" }
   ]);
+});
+
+const CAMPAIGN = "6f1c2a40-1b2c-4d5e-8f90-a1b2c3d4e5f6";
+
+Deno.test("stores product signals with feature product_signal and the allowlisted metadata", async () => {
+  const { call, inserted } = setup();
+  const res = await call({ events: [
+    { name: "tarot_note_feedback", metadata: { campaignId: CAMPAIGN, variant: "B", value: "yes", topic: "love" } },
+    { name: "reader_suggestion_accepted", metadata: { slug: "linh", recommendedSlug: "an-nhien", source: "tarot_result" } },
+    { name: "tarot_report_opened" },
+    tap
+  ] });
+  assertEquals(res.status, 202);
+  assertEquals(inserted[0], [
+    { user_id: USER, event_name: "tarot_note_feedback", feature: "product_signal", metadata: { campaignId: CAMPAIGN, variant: "B", value: "yes", topic: "love" } },
+    { user_id: USER, event_name: "reader_suggestion_accepted", feature: "product_signal", metadata: { slug: "linh", recommendedSlug: "an-nhien", source: "tarot_result" } },
+    { user_id: USER, event_name: "tarot_report_opened", feature: "product_signal", metadata: {} },
+    { user_id: USER, event_name: "share_tapped", feature: "share", metadata: { surface: "today_card", action: "image" } }
+  ]);
+});
+
+Deno.test("accepts every product event name", async () => {
+  for (const name of PRODUCT_EVENT_NAMES) {
+    const metadata = name === "tarot_note_feedback" ? { value: "no" } : { source: "tarot_result" };
+    assertEquals((await setup().call({ events: [{ name, metadata }] })).status, 202, name);
+  }
+});
+
+Deno.test("rejects product metadata outside the allowlist", async () => {
+  const bodies = [
+    { name: "tarot_note_feedback", metadata: { campaignId: CAMPAIGN, variant: "B" } },
+    { name: "tarot_note_feedback", metadata: { value: "maybe" } },
+    { name: "tarot_report_opened", metadata: { value: "yes" } },
+    { name: "tarot_report_opened", metadata: { campaignId: CAMPAIGN } },
+    { name: "tarot_report_opened", metadata: { variant: "A" } },
+    { name: "tarot_report_opened", metadata: { campaignId: "not-a-uuid", variant: "A" } },
+    { name: "tarot_report_opened", metadata: { campaignId: CAMPAIGN, variant: "E" } },
+    { name: "tarot_report_opened", metadata: { question: "will he call me" } },
+    { name: "tarot_report_opened", metadata: { topic: "Love with spaces" } },
+    { name: "tarot_report_opened", metadata: { slug: "x".repeat(49) } },
+    { name: "tarot_report_opened", metadata: { source: 12 } },
+    { name: "tarot_report_opened", metadata: [] },
+    { name: "tarot_report_opened", surface: "today_card" },
+    { name: "tarot_report_opened", user_id: USER }
+  ];
+  for (const event of bodies) {
+    const { call, inserted } = setup();
+    const res = await call({ events: [event] });
+    assertEquals(res.status, 400, JSON.stringify(event));
+    assertEquals(inserted.length, 0);
+  }
+});
+
+Deno.test("product signals share the daily limit and still need a signed-in caller", async () => {
+  const event = { name: "tarot_followup_started", metadata: { source: "tarot_result" } };
+  assertEquals((await setup({ recent: DAILY_EVENT_LIMIT }).call({ events: [event] })).status, 429);
+  assertEquals((await setup({ user: null }).call({ events: [event] })).status, 401);
+  assertEquals((await setup({ user: { id: USER, isAnonymous: true } }).call({ events: [event] })).status, 401);
 });
