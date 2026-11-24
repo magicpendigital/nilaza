@@ -67,8 +67,8 @@
     { "path": "docs/proposals/TAROT_NOTE_READER_ROUTER_CAMPAIGNS_2026-11-23.vi.md", "reason": "Campaign scope, metrics and stop rules (section 3).", "sha256": "4249d8e90fc8bba351a5973be969f62cf9a1b32a74b94fa93e38dea9005ef9a4" },
     { "path": "supabase/migrations/20261113140000_model_route_steps.sql", "reason": "Step validator and publish function reused by pick winner.", "sha256": "d7c59aa1013839b49bb1fe5325503eefb6272f2c96423f79f5c1470e4e44edea" },
     { "path": "supabase/functions/admin-model-router-config/contract.ts", "reason": "Route publish payload shape mirrored by the campaign function.", "sha256": "4d721d2f384b4456a5ed1fc83e9191593e7c0aecf568e5e07b635d2e04919cbf" },
-    { "path": "supabase/functions/share-events/handler.ts", "reason": "Event allowlist and rate rules to extend.", "sha256": "c4ede52f8de710450e19f848aafbdaedaa51ce8769bc2fa3c942d5b8dd04e3a9" },
-    { "path": "supabase/functions/_shared/ai-trace.ts", "reason": "Trace metadata redaction; campaignId and variant must survive.", "sha256": "78f27f581fc4ec10ea0507d0c169787e89a12dbb034b4704761b93880c664221" }
+    { "path": "supabase/functions/share-events/handler.ts", "reason": "Event allowlist and rate rules to extend.", "sha256": "8d95d40fb15cad4380188888a20eb49a4527e1fa636cee4bdf7be790bbe349c0" },
+    { "path": "supabase/functions/_shared/ai-trace.ts", "reason": "Trace metadata redaction; campaignId and variant must survive.", "sha256": "1a251f9d6ce09b12d87313e1af353d90a9d69f495908e14b564765cc48c96fdc" }
   ],
   "skillReview": [
     { "name": "nilaza-plan-qc", "decision": "verified-current", "evidence": "Record and preflight before edits; lead agent updates PLAN.md." },
