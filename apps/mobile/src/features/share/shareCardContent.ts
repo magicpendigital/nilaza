@@ -104,6 +104,36 @@ export function big3Model(input: ShareBig3Input): ShareCardModel {
   };
 }
 
+export type ShareNumerologyInput = {
+  language: Language;
+  /** Labels such as "11/2". Numbers only: the birth name and birth date never reach the card. */
+  lifePath: string;
+  birthday: string;
+  expression?: string;
+  /** Short title of the life-path block, e.g. "Người lắng nghe". */
+  lifePathTitle?: string;
+};
+
+export function numerologyModel(input: ShareNumerologyInput): ShareCardModel {
+  const vi = input.language === "vi";
+  const rows: ShareCardRow[] = [
+    { glyph: "✦", label: vi ? "Số chủ đạo" : "Life path", value: input.lifePath },
+    { glyph: "✧", label: vi ? "Số ngày sinh" : "Birthday", value: input.birthday },
+    ...(input.expression ? [{ glyph: "✺", label: vi ? "Số biểu đạt" : "Expression", value: input.expression }] : [])
+  ];
+  return {
+    surface: "numerology_map",
+    eyebrow: vi ? "Bản đồ số của mình" : "My number map",
+    title: input.lifePathTitle ? clip(input.lifePathTitle, 60) : vi ? "Những con số của mình" : "My numbers",
+    images: [],
+    lines: [],
+    rows,
+    message: "",
+    note: noteText(input.language),
+    footer: SHARE_DISPLAY_ADDRESS
+  };
+}
+
 /** The Sun sign to send with an invite or Big 3 link, or null when the chart does not give exactly one. */
 export function singleSunSign(sun: AstrologySignId[]): AstrologySignId | null {
   return sun.length === 1 ? sun[0] : null;

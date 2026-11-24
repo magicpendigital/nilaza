@@ -170,6 +170,7 @@ import { homeNextStep, homeNextStepCopy } from "./src/features/home/nextStep";
 import { previousDayKey, visibleStreak } from "./src/features/home/streak";
 import { CardLibrary } from "./src/features/tarot/CardLibrary";
 import { ExploreHome } from "./src/features/explore/ExploreHome";
+import { NumerologyScreen } from "./src/features/numerology/NumerologyScreen";
 import personaShortNamesData from "../../packages/content/data/persona-short-names.json";
 
 // Owner-approved short names and one-line taglines for guide grids (2026-10-31); full names stay on detail screens.
@@ -278,7 +279,7 @@ type ImageRequire = {
 declare const require: ImageRequire;
 
 type Tab = "home" | "explore" | "chat" | "journal" | "profile";
-type Screen = Tab | "tarot" | "astrology" | "inbox";
+type Screen = Tab | "tarot" | "astrology" | "numerology" | "inbox";
 type AdminView = "dashboard" | "prompts" | "content" | "localization" | "jobs" | "notifications" | "safety";
 type ChatMode = "oracle" | "list" | "detail" | "room" | "council" | "councilHub";
 type PersonalSyncArea = "chat" | "journal";
@@ -4206,6 +4207,10 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       return true;
     }
     if (screen === "astrology") return false;
+    if (screen === "numerology") {
+      navigate("explore");
+      return true;
+    }
     if (screen === "tarot") {
       handleTarotBack();
       return true;
@@ -5988,6 +5993,12 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
             }}
             initialBirth={{date:birthDate,time:birthTime,place:birthPlace,unknown:birthTimeUnknown}}
             onBack={() => navigate("explore")} />
+        ) : screen === "numerology" ? (
+          <ScrollView style={{ flex: 1, minHeight: 0 }} contentContainerStyle={[styles.screen, { paddingHorizontal: adaptiveLayout.gutter }]} keyboardShouldPersistTaps="handled">
+            <NumerologyScreen key={scope.key} language={language} storage={scope.userId ? storage : undefined}
+              initialBirthDate={birthDate} onBirthDateChange={setBirthDate} onOpenShare={openShareSheet}
+              onEvent={(name, metadata) => recordEvent(name, metadata)} onBack={() => navigate("explore")} />
+          </ScrollView>
         ) : (
           <ScrollView
             testID="main-screen-scroll"
@@ -6048,6 +6059,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                 onLibrary={() => startTarot("library")}
                 onAstrology={() => startAstrology("hub")}
                 onSky={() => startAstrology("sky")}
+                onNumerology={() => navigate("numerology")}
                 onAllDecks={() => startTarot("deck")}
                 decks={[
                   { id: "rose-mirror", mood: language === "vi" ? "Tình yêu" : "Love" },
