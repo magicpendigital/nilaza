@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "taskId": "tarot-note-reader-router-proposal-2026-11-23",
+  "ownerAgent": "backend_agent",
+  "lane": "Documents: proposal for the rest of Tarot value report batch C (Owner request 23/11)",
+  "goal": "Write the proposal for the free personal note, intent-based reader suggestion, Admin per-feature model routes with test campaigns, and the 20-question Vietnamese blind test, so the Owner can approve design, migrations, deploys and the blind-test method before any code changes.",
+  "successCriteria": [
+    "docs/proposals/TAROT_NOTE_READER_ROUTER_CAMPAIGNS_2026-11-23.vi.md describes the note display and states, the two-stage reader suggestion with the confirmed root cause (deck-only), the Admin campaign design with the migrations it needs, and the 20 blind-test questions with two run methods.",
+    "PLAN.md records the Owner decisions of 23/11, links the proposal and lists what waits on the Owner.",
+    "No app, Edge Function, migration, route or prompt change."
+  ],
+  "writeScope": [
+    "docs/proposals/TAROT_NOTE_READER_ROUTER_CAMPAIGNS_2026-11-23.vi.md",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "apps/mobile, apps/admin, supabase/functions and supabase/migrations are unchanged.",
+    "Model routes, prompts, quotas and switches on any live project are unchanged."
+  ],
+  "impact": {
+    "entryPoint": "None yet; the proposal covers the Tarot result screen, the follow-up reader picker and the Admin model page.",
+    "dataWrite": "No data is written anywhere; docs only.",
+    "backendContract": "None; proposed tarot_note and reader_router routes and campaign tables need later Owner-approved migrations.",
+    "adminVisibility": "None yet; proposed campaign page shows counts only, never question text.",
+    "privacySafety": "Proposal keeps rule-based suggestion on device; the AI stage sends the question like the existing reading and needs sign-in, quota and switch.",
+    "observability": "Proposed usage_events for suggestion acceptance; not implemented.",
+    "rollback": "Revert the docs commit."
+  },
+  "canonicalContracts": [
+    "supabase/functions/admin-model-router-config/contract.ts stays the source of allowed route features"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Owner approval boundary.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Documents lane checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/TAROT_ASTRO_VALUE_REPORT_2026-11-21.vi.md",
+      "reason": "Owner-approved batch C scope and Q1-Q3 decisions.",
+      "sha256": "19ff0af024e8ebbce4a6bcef13ec5c95cdcd74a8330db18af4d353d03b05dfe0"
+    },
+    {
+      "path": "supabase/functions/admin-model-router-config/contract.ts",
+      "reason": "Current allowed route features (no tarot_note or reader_router).",
+      "sha256": "4d721d2f384b4456a5ed1fc83e9191593e7c0aecf568e5e07b635d2e04919cbf"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "getRecommendedTarotGuide keys the suggestion by deck only.",
+      "sha256": "5458df4f5044819da31378a376d49af9c756299c6352e21156b4e31e16d44976"
+    },
+    {
+      "path": "packages/content/data/personas-archetypes.json",
+      "reason": "Reader themes used by the proposed scoring.",
+      "sha256": "8dc12fdcf91b5e7ad889adc6d66742945e0c4e7d4a10375f95dee24e6bf06e9e"
+    },
+    {
+      "path": "supabase/functions/admin-ai-eval-run/runner.ts",
+      "reason": "Eval runner compares draft vs active config only; blind test method A needs a route override.",
+      "sha256": "2bdd664f0cceb84b0131289ec717a102ccca6d39146b42f2de87acc6ce823def"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Docs-only record; PLAN.md updated in the same PR."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Proposal keeps sign-in, quota, switch, fallback labelling and crisis 115 rules; deploys and migrations left to the Owner."
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No auth, RLS or quota change in this PR.",
+    "sensitiveData": "No data handled; proposal sends no new personal data beyond the question already sent.",
+    "secretsLogging": "No secrets read; blind test method B keeps the key on the Owner's machine.",
+    "externalInput": "No new input path; docs only.",
+    "dependencies": "No package or lockfile change.",
+    "migrationRelease": "No migration; proposed migrations need separate Owner approval.",
+    "stopCondition": "Stop if the proposal would require reading keys or user data.",
+    "unresolvedHighRisks": []
+  },
+  "validationCommands": [
+    "node scripts/feature-preflight.mjs --ci --base origin/main",
+    "npm run validate:governance"
+  ],
+  "managerTestPath": "Open the proposal doc and the design canvas row 10; check the note, reader suggestion, states and Admin campaign screens match the decisions.",
+  "residualRisk": "Design and proposal only; nothing built or verified on a device.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  },
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Repository code and docs only."
+  },
+  "externalSourceReview": [],
+  "workingTreeReview": {
+    "paths": [
+      "PLAN.md",
+      "docs/proposals/TAROT_NOTE_READER_ROUTER_CAMPAIGNS_2026-11-23.vi.md"
+    ],
+    "note": "Proposal and PLAN.md were written before this record (process slip: docs-only work was not recognised as needing a record until CI failed). The repo-root PaywallPanel.test.tsx is untracked and not part of this task."
+  }
+}
