@@ -13,6 +13,12 @@
   const MAX_STEPS = 4, MAX_DEADLINE_S = 140;
   const PROVIDER_LABELS = Object.freeze({ openrouter: "OpenRouter", anthropic: "Anthropic", gemini: "Google Gemini (khóa trả phí)", openai: "OpenAI", deepseek: "DeepSeek (trực tiếp)" });
   const PROVIDER_IDS = Object.keys(PROVIDER_LABELS);
+  // Batch C (2026-11-24): decision APIs return one choice from a list, no text. Valid only as steps of "Gợi ý người đọc"
+  // (reader_router); the Edge contract and the database refuse them elsewhere. API shapes are from the docs only.
+  const DECISION_LABELS = Object.freeze({ openrouter_decisions: "OpenRouter Decisions (chỉ chọn)", openai_decisions: "OpenAI Decisions (chỉ chọn)", gemini_decisions: "Gemini Decision (chỉ chọn, khóa trả phí)" });
+  const DECISION_IDS = Object.keys(DECISION_LABELS);
+  const DECISION_NOTE = "API quyết định: chỉ trả về một lựa chọn, không có văn bản. Chỉ dùng cho Gợi ý người đọc. Gửi đi: câu hỏi, chủ đề, kiểu trải bài, tên lá bài và mô tả các người đọc được phép; không gửi mã tài khoản, biệt danh, lịch sử, nhật ký hay ngày sinh. Chính sách dữ liệu của jev (typesafe/jev-1.14, bản alpha) chưa được kiểm chứng.";
+  const stepLabel = provider => PROVIDER_LABELS[provider] || DECISION_LABELS[provider] || provider;
   // Model catalogue (code, reviewed 13/11). Only these models can be chosen; a model already in use outside the list
   // stays visible but cannot be picked again. Direct-provider names are not yet checked against a live account.
   const CATALOGUE = Object.freeze({
@@ -20,7 +26,10 @@
     anthropic: ["claude-haiku-4-5", "claude-sonnet-4-5"],
     gemini: ["gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-2.5-pro"],
     openai: ["gpt-4o-mini", "gpt-4.1-mini"],
-    deepseek: ["deepseek-flash", "deepseek-v4-pro"]
+    deepseek: ["deepseek-flash", "deepseek-v4-pro"],
+    openrouter_decisions: ["typesafe/jev-1.14"],
+    openai_decisions: ["gpt-6-luna"],
+    gemini_decisions: ["gemini-decision-1"]
   });
   const DATA_CLASS = Object.freeze({ public: "Công khai", personal: "Cá nhân", sensitive: "Nhạy cảm" });
   const RANK = { public: 0, personal: 1, sensitive: 2 };
@@ -30,7 +39,9 @@
     { id: "tarot_reading", label: "Giải bài Tarot", dataClass: "personal", schema: "tarot_reading_output_v3", wait: 40 },
     { id: "daily_insight", label: "Thông điệp hằng ngày", dataClass: "sensitive", schema: "daily_insight_v1", wait: 40 },
     { id: "astrology_report", label: "Đọc sâu Chiêm tinh", dataClass: "sensitive", schema: "astrology_ai_insight_v1", wait: 60 },
-    { id: "ai_council", label: "Hội đồng", dataClass: "sensitive", schema: "ai_council_rounds_v2", wait: 40 }
+    { id: "ai_council", label: "Hội đồng", dataClass: "sensitive", schema: "ai_council_rounds_v2", wait: 40 },
+    { id: "tarot_note", label: "Ghi chú riêng Tarot", dataClass: "personal", schema: "tarot_note_output_v1", wait: 20 },
+    { id: "reader_router", label: "Gợi ý người đọc", dataClass: "personal", schema: "reader_router_choice_v1", wait: 3, decisions: true }
   ]);
   const REASONING = [["", "Mặc định của model"], ["off", "Tắt"], ["minimal", "Rất ít"], ["low", "Ít"], ["medium", "Vừa"], ["high", "Nhiều"]];
   const PROBE_LABELS = { ok: "Ổn", bad_key: "Sai khóa", no_credit: "Hết tiền", unreachable: "Không gọi được", not_configured: "Chưa cấu hình" };
@@ -108,6 +119,7 @@
   function providerRow(provider) { return (active?.providers || []).find(row => row.provider === provider) || null; }
   /** Why a provider would be skipped for this feature, or "" when it can run. */
   function stepWarning(provider, item) {
+    if (DECISION_IDS.includes(provider)) return "";
     if (active?.providerStatus !== "ok") return "";
     const row = providerRow(provider);
     if (!row) return "chưa có trong bảng nhà cung cấp";
@@ -132,7 +144,8 @@
     };
     const steps = chain.steps.map((step, index) => {
       const label = `Bước ${index + 1}`;
-      if (!PROVIDER_IDS.includes(step.provider)) throw Error(`${label}: chọn nhà cung cấp.`);
+      if (DECISION_IDS.includes(step.provider) && !item.decisions) throw Error(`${label}: API quyết định chỉ dùng cho Gợi ý người đọc.`);
+      if (!PROVIDER_IDS.includes(step.provider) && !DECISION_IDS.includes(step.provider)) throw Error(`${label}: chọn nhà cung cấp.`);
       if (!CATALOGUE[step.provider].includes(step.model) && !(chain.source === "active" && step.model === stepsFromRoute(routesFor(id).activeRoute, item)[index]?.model)) {
         throw Error(`${label}: chọn model trong danh mục.`);
       }
@@ -145,6 +158,7 @@
         jsonMode: step.jsonMode === true, reasoning
       };
     });
+    if (!steps.some(step => !DECISION_IDS.includes(step.provider))) throw Error("Chuỗi cần ít nhất 1 bước model trò chuyện (không phải API quyết định).");
     const deadline = String(chain.deadlineS ?? "").trim() ? number(chain.deadlineS, 5, MAX_DEADLINE_S, "Tổng thời gian tối đa (giây)") * 1000 : null;
     if (deadline !== null && steps.some(step => step.timeoutMs > deadline)) throw Error("Mỗi bước phải chờ ít hơn hoặc bằng tổng thời gian tối đa.");
     if (deadline === null && steps.reduce((sum, step) => sum + step.timeoutMs, 0) > MAX_DEADLINE_S * 1000) {
@@ -154,18 +168,19 @@
   }
   function routePayload(id, status, built, note) {
     const item = feature(id), { activeRoute } = routesFor(id);
+    const chat = built.steps.find(step => !DECISION_IDS.includes(step.provider)) || built.steps[0];
     return {
       contractVersion: "model_route_publish_v2", publishRequestId: requestId(), expectedActiveId: activeRoute?.id || null,
       feature: id, version: `${id}-chain-${new Date().toISOString().replace(/[-:TZ.]/g, "").slice(0, 14)}-${Math.random().toString(36).slice(2, 6)}`,
       status, steps: built.steps, totalDeadlineMs: built.totalDeadlineMs, note: note || null,
-      temperature: built.steps[0].temperature, maxTokens: built.steps[0].maxTokens,
+      temperature: chat.temperature, maxTokens: chat.maxTokens,
       responseSchema: activeRoute?.response_schema || item.schema,
       // Not edited here: keep what the running route has.
       fallbackWhen: Array.isArray(activeRoute?.fallback_when) ? activeRoute.fallback_when : DEFAULT_FALLBACK_WHEN,
       safetyPolicy: activeRoute?.safety_policy && typeof activeRoute.safety_policy === "object" ? activeRoute.safety_policy : {}
     };
   }
-  const stepText = step => step ? `${PROVIDER_LABELS[step.provider] || step.provider} · ${step.model} · chờ ${Math.round(step.timeoutMs / 1000)} giây · ${step.maxTokens} token · nhiệt độ ${step.temperature}${step.jsonMode ? " · JSON" : ""}${step.reasoning ? ` · suy luận ${step.reasoning.mode}${step.reasoning.maxTokens ? ` (${step.reasoning.maxTokens})` : ""}` : ""}` : "—";
+  const stepText = step => step ? `${stepLabel(step.provider)} · ${step.model} · chờ ${Math.round(step.timeoutMs / 1000)} giây · ${step.maxTokens} token · nhiệt độ ${step.temperature}${step.jsonMode ? " · JSON" : ""}${step.reasoning ? ` · suy luận ${step.reasoning.mode}${step.reasoning.maxTokens ? ` (${step.reasoning.maxTokens})` : ""}` : ""}` : "—";
   function activeSteps(id) {
     const item = feature(id), route = routesFor(id).activeRoute;
     return stepsFromRoute(route, item).map(step => ({ provider: step.provider, model: step.model, timeoutMs: Number(step.timeoutS) * 1000, maxTokens: Number(step.maxTokens),
@@ -223,7 +238,7 @@
         const models = CATALOGUE[step.provider] || [];
         const outside = step.model && !models.includes(step.model);
         return `<tr><th scope="row">${index + 1}${warning ? `<br><small class="helper warning-text">Sẽ bị bỏ qua: ${escape(warning)}</small>` : ""}</th>
-          <td><label class="visually-hidden" for="chain-${id}-${index}-provider">Nhà cung cấp bước ${index + 1}</label><select class="input" ${field("provider")}>${PROVIDER_IDS.map(provider => `<option value="${provider}" ${provider === step.provider ? "selected" : ""}>${escape(PROVIDER_LABELS[provider])}</option>`).join("")}</select></td>
+          <td><label class="visually-hidden" for="chain-${id}-${index}-provider">Nhà cung cấp bước ${index + 1}</label><select class="input" ${field("provider")}>${[...PROVIDER_IDS, ...(item.decisions ? DECISION_IDS : [])].map(provider => `<option value="${provider}" ${provider === step.provider ? "selected" : ""}>${escape(stepLabel(provider))}</option>`).join("")}</select>${DECISION_IDS.includes(step.provider) ? '<br><small class="helper">API quyết định: chỉ trả về một lựa chọn, không có văn bản.</small>' : ""}</td>
           <td><label class="visually-hidden" for="chain-${id}-${index}-model">Model bước ${index + 1}</label><select class="input" ${field("model")}>${outside ? `<option value="${escape(step.model)}" selected>${escape(step.model)} (đang dùng, ngoài danh mục)</option>` : ""}${models.map(model => `<option value="${escape(model)}" ${model === step.model ? "selected" : ""}>${escape(model)}</option>`).join("")}</select></td>
           <td><label class="visually-hidden" for="chain-${id}-${index}-timeoutS">Chờ tối đa bước ${index + 1}</label><input class="input" type="number" min="1" max="140" ${field("timeoutS", `value="${escape(step.timeoutS)}"`)}></td>
           <td><label class="visually-hidden" for="chain-${id}-${index}-maxTokens">Token trả lời bước ${index + 1}</label><input class="input" type="number" min="64" max="8192" ${field("maxTokens", `value="${escape(step.maxTokens)}"`)}></td>
@@ -243,6 +258,7 @@
     return `<p>${activeRoute ? `Đang chạy: ${escape(activeRoute.version)}${Array.isArray(activeRoute.steps) && activeRoute.steps.length ? ` · ${activeRoute.steps.length} bước` : " · 1 model chính + dự phòng (chưa có chuỗi)"}` : "Đang chạy: mặc định trong mã."}
       ${draftRoute ? ` · Có bản nháp ${escape(draftRoute.version)}${draftRoute.created_at ? ` (${escape(time(draftRoute.created_at))})` : ""}` : ""}</p>
       ${renderStepRows(id, editable)}
+      ${item.decisions ? `<p class="helper" data-decision-note="${id}">${escape(DECISION_NOTE)} Toàn bộ gợi ý dừng sau 4 giây (áp trong mã); quá hạn thì app dùng gợi ý theo luật.</p>` : ""}
       <form class="config-form" data-chain-form="${id}" novalidate>
         <div class="config-grid">
           <div class="config-field"><label for="chain-${id}-deadline">Tổng thời gian tối đa (giây, ≤ 140)</label><input class="input" type="number" min="5" max="140" id="chain-${id}-deadline" data-chain-feature="${id}" data-chain-field="deadlineS" value="${escape(chain.deadlineS)}" ${editable ? "" : "disabled"}><small class="helper">Để trống = cộng thời gian chờ các bước (tối đa 140 giây). Nếu “Tính năng AI” đặt thời gian chờ, dùng số nhỏ hơn.</small></div>

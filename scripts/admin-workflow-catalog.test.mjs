@@ -18,17 +18,20 @@ const onlyUnobserved = (value) => {
   assert.ok(Object.values(value.edges).every((edge) => edge === "not-observed"));
 };
 
-test("reviewed catalog is fresh, typed and distinct across all eight features", () => {
+test("reviewed catalog is fresh, typed and distinct across all ten features", () => {
   const result = validateWorkflowCatalog(catalog);
   assert.equal(result.status, "pass", result.errors.join("\n"));
-  assert.equal(result.features, 8);
-  assert.equal(result.nodes, 73);
-  assert.equal(result.edges, 69);
+  // Batch C (24/11) adds the private Tarot note (8 nodes, 7 edges) and the reader suggestion (7 nodes, 7 edges).
+  assert.equal(result.features, 10);
+  assert.equal(result.nodes, 88);
+  assert.equal(result.edges, 83);
   // Batch C1 (22/11) adds the Tarot readingGuide output and prompt input ports (205 + 2).
-  assert.equal(result.ports, 207);
+  // Batch C (24/11): + 30 ports for the two new flows.
+  assert.equal(result.ports, 237);
   // P1-A pins the Tarot draw/handler/store modules (39 + 3).
   // P1-B pins the Astrology handler and lock modules and refreshes index.ts (42 + 2).
-  assert.equal(result.sourceDigests, 44);
+  // Batch C (24/11) pins tarot-note-prompt, reader-router, providers/decisions and personas-archetypes (44 + 4).
+  assert.equal(result.sourceDigests, 48);
   assert.deepEqual(catalog.features.map((feature) => feature.id), FEATURE_IDS);
 });
 

@@ -176,15 +176,18 @@ test("Astrology Admin can publish the new schema over a stale active route", asy
 
 test("every default route uses DeepSeek v4.1 Flash with the Xiaomi MiMo fallback on OpenRouter", () => {
   // Owner decision 2026-11-02.
+  // Batch C (2026-11-24): reader_router has one chat step (the decision step is not a primary/fallback pair).
   const routes = JSON.parse(read("packages/agent-config/model-routing.json"));
   for (const route of routes) {
     assert.deepEqual([route.primaryProvider, route.primaryModel, route.fallbackProvider, route.fallbackModel],
-      ["openrouter", "deepseek/deepseek-v4.1-flash", "openrouter", "xiaomi/mimo-v2.6-flash"], route.feature);
+      route.feature === "reader_router"
+        ? ["openrouter", "deepseek/deepseek-v4.1-flash", undefined, undefined]
+        : ["openrouter", "deepseek/deepseek-v4.1-flash", "openrouter", "xiaomi/mimo-v2.6-flash"], route.feature);
   }
   const runtime = read("supabase/functions/_shared/model-router.ts");
   assert.doesNotMatch(runtime, /primaryProvider: "(openai|anthropic|gemini)"/);
   assert.equal(runtime.split('primaryModel: "deepseek/deepseek-v4.1-flash"').length - 1, routes.length);
-  assert.equal(runtime.split('fallbackModel: "xiaomi/mimo-v2.6-flash"').length - 1, routes.length);
+  assert.equal(runtime.split('fallbackModel: "xiaomi/mimo-v2.6-flash"').length - 1, routes.filter(route => route.fallbackModel).length);
 });
 
 test("Trace Explorer uses the guarded read-only RPC and renders redacted trace fields", async () => {
@@ -474,9 +477,10 @@ test("Hidden reasoning is set per route, blocks a budget with no room for the an
 });
 
 test("default routes use 2000 output tokens with light reasoning only for Council and Astrology", () => {
-  // Owner decision 2026-11-02.
+  // Owner decision 2026-11-02. Batch C (2026-11-24): the short private note (700) and the reader choice (200) are smaller.
+  const shortRoutes = { tarot_note: 700, reader_router: 200 };
   for (const route of JSON.parse(read("packages/agent-config/model-routing.json"))) {
-    assert.equal(route.maxOutputTokens, 2000, route.feature);
+    assert.equal(route.maxOutputTokens, shortRoutes[route.feature] ?? 2000, route.feature);
     assert.deepEqual(route.safetyPolicy.reasoning, ["ai_council", "astrology_report"].includes(route.feature) ? { mode: "low", maxTokens: 512 } : { mode: "off" }, route.feature);
   }
 });
@@ -1138,7 +1142,7 @@ test("Workflow presents all reviewed feature graphs without legacy sample contro
   const dom = createAiStudioDom();
   const doc = dom.window.document;
   const catalog = dom.window.NilazaWorkflowCatalog;
-  assert.equal(catalog.catalog.features.length, 8);
+  assert.equal(catalog.catalog.features.length, 10);
   for (const graph of catalog.catalog.features) {
     doc.querySelector(`[data-feature="${graph.id}"]`).click();
     doc.querySelector('[data-detail="payload"]').click();

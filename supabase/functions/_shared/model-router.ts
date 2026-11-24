@@ -4,6 +4,11 @@ import {
   ModelProviderError,
   ModelProviderName,
   ModelProviderRequest,
+  DECISION_ROUTE_FEATURES,
+  isChatProvider,
+  isChatStep,
+  isDecisionProvider,
+  RouteProviderName,
   ModelRoute,
   ModelRouteStep,
   MAX_ROUTE_STEPS,
@@ -146,6 +151,45 @@ export const defaultModelRoutes: Record<string, ModelRoute> = {
     responseSchema: "astrology_report_v1",
     fallbackWhen: ["missing_api_key", "provider_timeout", "rate_limit", "provider_5xx", "malformed_response"],
     safetyPolicy: { interpretCalculatedPlacementsOnly: true, requireCalculationCaveats: true, reasoning: { mode: "low", maxTokens: 512 } }
+  },
+  // Batch C (2026-11-24): the free daily private note under the Tarot summary. Short JSON {text, need, askThem}.
+  tarot_note: {
+    feature: "tarot_note",
+    version: "2026-11-24-tarot-note-v1",
+    status: "active",
+    primaryProvider: "openrouter",
+    primaryModel: "deepseek/deepseek-v4.1-flash",
+    fallbackProvider: "openrouter",
+    fallbackModel: "xiaomi/mimo-v2.6-flash",
+    temperature: 0.7,
+    maxOutputTokens: 700,
+    responseSchema: "tarot_note_output_v1",
+    fallbackWhen: ["missing_api_key", "provider_timeout", "rate_limit", "provider_5xx", "malformed_response"],
+    safetyPolicy: { allowSpiritualReflection: true, blockDeterministicPredictions: true, reasoning: { mode: "off" } },
+    steps: [
+      { provider: "openrouter", model: "deepseek/deepseek-v4.1-flash", timeoutMs: 20_000, maxTokens: 700, temperature: 0.7, jsonMode: true, reasoning: { mode: "off" } },
+      { provider: "openrouter", model: "xiaomi/mimo-v2.6-flash", timeoutMs: 20_000, maxTokens: 700, temperature: 0.7, jsonMode: true, reasoning: { mode: "off" } }
+    ],
+    totalDeadlineMs: 40_000
+  },
+  // Batch C (2026-11-24): AI tier of the reader suggestion. A decision model picks one slug (no text); a cheap chat model
+  // answering JSON is the fallback. The 4 s budget is enforced in reader-router.ts (the table minimum deadline is 5 s).
+  // The primary/fallback pair describes the chat step so a router that ignores steps never calls a decision API.
+  reader_router: {
+    feature: "reader_router",
+    version: "2026-11-24-reader-router-v1",
+    status: "active",
+    primaryProvider: "openrouter",
+    primaryModel: "deepseek/deepseek-v4.1-flash",
+    temperature: 0.2,
+    maxOutputTokens: 200,
+    responseSchema: "reader_router_choice_v1",
+    fallbackWhen: ["missing_api_key", "provider_timeout", "rate_limit", "provider_5xx", "malformed_response"],
+    safetyPolicy: { decisionOnly: true, reasoning: { mode: "off" } },
+    steps: [
+      { provider: "openrouter_decisions", model: "typesafe/jev-1.14", timeoutMs: 3_000, maxTokens: 64, temperature: 0, jsonMode: false, reasoning: null },
+      { provider: "openrouter", model: "deepseek/deepseek-v4.1-flash", timeoutMs: 3_000, maxTokens: 200, temperature: 0.2, jsonMode: true, reasoning: { mode: "off" } }
+    ]
   }
 };
 
@@ -162,14 +206,15 @@ function envGet(env: EnvLike | undefined, key: string) {
  * unusable (undefined), so the route falls back to its primary/fallback columns, which the publish RPC keeps equal to
  * the first two steps.
  */
-export function parseRouteSteps(value: unknown): ModelRouteStep[] | undefined {
+export function parseRouteSteps(value: unknown, options: { allowDecision?: boolean } = {}): ModelRouteStep[] | undefined {
   if (!Array.isArray(value) || value.length < 1 || value.length > MAX_ROUTE_STEPS) return undefined;
   const steps: ModelRouteStep[] = [];
   const int = (input: unknown, min: number, max: number) => typeof input === "number" && Number.isInteger(input) && input >= min && input <= max;
   for (const raw of value) {
     if (!raw || typeof raw !== "object") return undefined;
     const step = raw as Record<string, unknown>;
-    if (!MODEL_PROVIDER_NAMES.includes(step.provider as ModelProviderName)) return undefined;
+    // Batch C: a decision provider is valid only in a reader_router chain (the table check and publish RPC agree).
+    if (!MODEL_PROVIDER_NAMES.includes(step.provider as ModelProviderName) && !(options.allowDecision && isDecisionProvider(step.provider))) return undefined;
     if (typeof step.model !== "string" || !step.model.trim() || step.model.length > 160) return undefined;
     if (!int(step.timeout_ms, 1_000, FEATURE_DEADLINE_MAX_MS) || !int(step.max_tokens, 64, 8192)) return undefined;
     if (typeof step.temperature !== "number" || step.temperature < 0 || step.temperature > 2 || typeof step.json_mode !== "boolean") return undefined;
@@ -180,7 +225,7 @@ export function parseRouteSteps(value: unknown): ModelRouteStep[] | undefined {
       reasoning = { mode: r.mode as ReasoningMode, ...(int(r.maxTokens, 64, 8192) && r.mode !== "off" ? { maxTokens: r.maxTokens as number } : {}) };
     }
     steps.push({
-      provider: step.provider as ModelProviderName, model: step.model.trim(), timeoutMs: step.timeout_ms as number,
+      provider: step.provider as RouteProviderName, model: step.model.trim(), timeoutMs: step.timeout_ms as number,
       maxTokens: step.max_tokens as number, temperature: step.temperature, jsonMode: step.json_mode, reasoning
     });
   }
@@ -189,8 +234,18 @@ export function parseRouteSteps(value: unknown): ModelRouteStep[] | undefined {
 
 function rowToRoute(row: any, fallback: ModelRoute): ModelRoute {
   if (!row) return fallback;
-  const steps = parseRouteSteps(row.steps);
+  const steps = parseRouteSteps(row.steps, { allowDecision: (DECISION_ROUTE_FEATURES as readonly string[]).includes(row.feature) });
   const totalDeadlineMs = validFeatureDeadlineMs(row.total_deadline_ms);
+  // Batch C: the legacy primary/fallback pair is chat-only. When a reader_router row starts with a decision step, the
+  // pair is taken from its chat steps; without usable steps the code default applies.
+  let primary = { provider: row.primary_provider, model: row.primary_model };
+  let secondary = row.fallback_provider ? { provider: row.fallback_provider, model: row.fallback_model } : undefined;
+  if (!isChatProvider(primary.provider) || (secondary && !isChatProvider(secondary.provider))) {
+    const chat = (steps ?? []).filter(isChatStep);
+    if (!steps || !chat.length) return fallback;
+    primary = { provider: chat[0].provider, model: chat[0].model };
+    secondary = chat[1] ? { provider: chat[1].provider, model: chat[1].model } : undefined;
+  }
   return {
     ...(steps ? { steps } : {}),
     ...(totalDeadlineMs !== undefined ? { totalDeadlineMs } : {}),
@@ -198,10 +253,10 @@ function rowToRoute(row: any, fallback: ModelRoute): ModelRoute {
     feature: row.feature,
     version: row.version,
     status: row.status,
-    primaryProvider: row.primary_provider,
-    primaryModel: row.primary_model,
-    fallbackProvider: row.fallback_provider ?? undefined,
-    fallbackModel: row.fallback_model ?? undefined,
+    primaryProvider: primary.provider,
+    primaryModel: primary.model,
+    fallbackProvider: secondary?.provider ?? undefined,
+    fallbackModel: secondary?.model ?? undefined,
     temperature: Number(row.temperature ?? fallback.temperature),
     maxOutputTokens: Number(row.max_output_tokens ?? fallback.maxOutputTokens),
     responseSchema: row.response_schema ?? fallback.responseSchema,
@@ -707,6 +762,11 @@ export async function generateWithModelRoute(input: {
     };
 
     for (const [stepIndex, step] of steps.entries()) {
+      // Batch C: decision steps return a choice, not text; only reader-router.ts calls them.
+      if (!isChatStep(step)) {
+        skipped.push({ stepIndex, provider: step.provider, reason: "decision_provider" });
+        continue;
+      }
       const policy = registry.get(step.provider);
       const skipReason = !policy || !policy.enabled ? "disabled"
         : !secretPresent(policy.secretName, getEnv) ? "missing_secret"
@@ -833,6 +893,18 @@ export async function generateWithModelRoute(input: {
     }
     return await canned();
   }
+}
+
+/**
+ * Batch C (2026-11-24): the route a feature runs for this user. Model campaigns (A/B variants per user) plug in here;
+ * until they exist every user gets the active route and no experiment.
+ */
+export async function resolveFeatureRoute(
+  supabase: SupabaseLike | null | undefined,
+  feature: string,
+  _userId: string
+): Promise<{ route: ModelRoute; experiment: { campaignId: string; variant: string } | null }> {
+  return { route: await readActiveModelRoute(supabase, feature), experiment: null };
 }
 
 /** Owner 04/11: a fallback step may cost more than the first, but one turn stays under 0.02 USD unless configured. */

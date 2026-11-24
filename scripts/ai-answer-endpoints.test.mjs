@@ -75,7 +75,7 @@ function harness(feature, options={}) {
   }};
   const module={exports:{}};cache.set(filename,module);
   const source=fs.readFileSync(filename,'utf8');
-  const compiled=ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS,esModuleInterop:true},fileName:filename});
+  const compiled=ts.transpileModule(source,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS,esModuleInterop:true},fileName:filename.replace(/[.]mjs$/,'.js')}); // .mjs would stay ESM (handler imports crisis-safety -> oracle-safety.mjs)
   const requireLocal=id=>{
    if(id==='https://deno.land/std@0.168.0/http/server.ts')return {serve:callback=>{handler=callback}};
    if(id==='https://esm.sh/@supabase/supabase-js@2.7.1')return {createClient:()=>supabase};

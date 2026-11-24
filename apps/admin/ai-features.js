@@ -18,7 +18,12 @@
     { id: "daily_insight", label: "Thông điệp hằng ngày", config: true, quota: 3, wait: 40 },
     { id: "astrology_insight", label: "Đọc sâu Chiêm tinh", config: true, quota: 1, wait: 60 },
     { id: "ai_council", label: "Hội đồng", config: true, quota: 1, followUps: 4, wait: 40 },
-    { id: "astrology_report", label: "Astrology report — đang gỡ, chỉ theo dõi", config: false }
+    { id: "astrology_report", label: "Astrology report — đang gỡ, chỉ theo dõi", config: false },
+    // Batch C (2026-11-24): limits are fixed in code (migration 20261124090000 adds the switches only).
+    { id: "tarot_note", label: "Ghi chú riêng Tarot", config: false, switchNote: "Cũng tạm nghỉ khi công tắc Giải bài Tarot tắt.",
+      configNote: "Hạn mức cố định trong mã: 1 ghi chú mỗi ngày (giờ Việt Nam), tính riêng với bài giải; lỗi không tốn lượt, tối đa 3 lần thử/ngày." },
+    { id: "reader_router", label: "Gợi ý người đọc (tầng AI)", config: false,
+      configNote: "Hạn mức cố định trong mã: 20 lần/ngày, dừng sau 4 giây; khi tắt hoặc lỗi, app dùng gợi ý theo luật." }
   ]);
   const CONFIG_IDS = FEATURES.filter(item => item.config).map(item => item.id);
   const MIGRATION_NOTE = "Máy chủ chưa có bảng cấu hình — cần Owner áp migration 20261113090100. Công tắc bật/tắt vẫn dùng được.";
@@ -184,7 +189,7 @@
     </form>`;
   }
   function renderConfig(item, manage) {
-    if (!item.config) return '<p class="muted">Đang gỡ: không có cấu hình hạn mức ở đây. Chỉ theo dõi công tắc.</p>';
+    if (!item.config) return `<p class="muted">${escape(item.configNote || "Đang gỡ: không có cấu hình hạn mức ở đây. Chỉ theo dõi công tắc.")}</p>`;
     if (active.configStatus === "loading" || active.configStatus === "idle") return '<p class="muted">Đang tải cấu hình…</p>';
     if (active.configStatus === "missing" || active.configStatus === "error") {
       return `<div class="warning-card" role="note"><p>${active.configStatus === "missing" ? MIGRATION_NOTE : "Không tải được cấu hình. Bấm Tải lại."}</p></div>${renderValues(item, null, null)}`;

@@ -18,7 +18,11 @@ export const FEATURE_DATA_CLASS: Record<string, DataClass> = {
   ai_council: "sensitive",
   daily_insight: "sensitive",
   astrology_report: "sensitive",
-  tarot_reading: "personal"
+  tarot_reading: "personal",
+  // Batch C (2026-11-24): the private note sends the same question and cards as the reading; the reader suggestion
+  // sends the question, topic and card names only.
+  tarot_note: "personal",
+  reader_router: "personal"
 };
 export function featureDataClass(feature: string): DataClass {
   return FEATURE_DATA_CLASS[feature] ?? "sensitive";

@@ -2,7 +2,11 @@
 export const MODEL_ROUTE_PUBLISH_CONTRACT = "model_route_publish_v2";
 // Admin A7 (D3): deepseek added; migration 20261113140000 extends the SQL checks the same way.
 const providers = new Set(["openai", "openrouter", "gemini", "anthropic", "deepseek"]);
-const features = new Set(["oracle_router", "persona_chat", "ai_council", "tarot_reading", "daily_insight", "astrology_report"]);
+// Batch C (2026-11-24): tarot_note and reader_router; migration 20261124090000 extends the SQL checks the same way.
+const features = new Set(["oracle_router", "persona_chat", "ai_council", "tarot_reading", "daily_insight", "astrology_report", "tarot_note", "reader_router"]);
+// Decision APIs return one choice and no text: valid only as steps of a reader_router chain, never as primary/fallback.
+export const DECISION_PROVIDERS = new Set(["openrouter_decisions", "openai_decisions", "gemini_decisions"]);
+export const DECISION_FEATURES = new Set(["reader_router"]);
 const reasons = new Set(["missing_api_key", "provider_timeout", "rate_limit", "provider_5xx", "malformed_response"]);
 const reasoningModes = new Set(["off", "minimal", "low", "medium", "high"]);
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -14,18 +18,19 @@ function requireText(value: unknown, name: string, max: number) {
   if (typeof value !== "string" || !value.trim() || value.length > max) throw Error(`Invalid ${name}`);
   return value.trim();
 }
-function model(value: unknown) {
+function model(value: unknown, allowDecision = false) {
   if (!object(value)) throw Error("Invalid provider/model pair");
   const provider = requireText(value.provider, "provider", 30).toLowerCase();
-  if (!providers.has(provider)) throw Error("Unsupported provider");
+  if (DECISION_PROVIDERS.has(provider) && !allowDecision) throw Error("Decision providers are only allowed for reader_router");
+  if (!providers.has(provider) && !DECISION_PROVIDERS.has(provider)) throw Error("Unsupported provider");
   return { provider, model: requireText(value.model, "model", 160) };
 }
 /** A7: one chain step from Admin (camelCase) to the stored shape (snake_case). */
-function routeStep(value: unknown) {
+function routeStep(value: unknown, allowDecision: boolean) {
   if (!object(value)) throw Error("Invalid route step");
   const known = new Set(["provider", "model", "timeoutMs", "maxTokens", "temperature", "jsonMode", "reasoning"]);
   if (Object.keys(value).some((key) => !known.has(key))) throw Error("Invalid route step");
-  const pair = model(value);
+  const pair = model(value, allowDecision);
   if (/\s/.test(pair.model)) throw Error("Invalid model");
   if (!intIn(value.timeoutMs, 1_000, MAX_TOTAL_DEADLINE_MS)) throw Error("Invalid step timeout");
   if (!intIn(value.maxTokens, 64, 8192)) throw Error("Invalid step output token limit");
@@ -49,9 +54,12 @@ export function modelRouteRpcPayload(input: unknown) {
   // A7: with steps, the legacy columns are derived from the first two steps so older routers still run them.
   const steps = input.steps === undefined || input.steps === null ? null : input.steps;
   if (steps !== null && (!Array.isArray(steps) || steps.length < 1 || steps.length > MAX_ROUTE_STEPS)) throw Error("A route has 1 to 4 steps");
-  const storedSteps = steps ? steps.map(routeStep) : null;
-  const temperature = storedSteps ? storedSteps[0].temperature : input.temperature;
-  const maxTokens = storedSteps ? storedSteps[0].max_tokens : input.maxTokens;
+  const storedSteps = steps ? steps.map((value: unknown) => routeStep(value, DECISION_FEATURES.has(input.feature))) : null;
+  // Batch C: the legacy columns are chat-only and describe the first two chat steps (decision steps are skipped).
+  const chatSteps = storedSteps ? storedSteps.filter((step: { provider: string }) => !DECISION_PROVIDERS.has(step.provider)) : null;
+  if (chatSteps && chatSteps.length === 0) throw Error("A route needs at least one chat step");
+  const temperature = chatSteps ? chatSteps[0].temperature : input.temperature;
+  const maxTokens = chatSteps ? chatSteps[0].max_tokens : input.maxTokens;
   if (!Number.isFinite(temperature) || temperature < 0 || temperature > 2) throw Error("Invalid temperature");
   if (!Number.isInteger(maxTokens) || maxTokens < 64 || maxTokens > 8192) throw Error("Invalid output token limit");
   if (!Array.isArray(input.fallbackWhen) || input.fallbackWhen.length > reasons.size || input.fallbackWhen.some((reason: unknown) => !reasons.has(String(reason))) || new Set(input.fallbackWhen).size !== input.fallbackWhen.length) throw Error("Invalid fallback policy");
@@ -69,9 +77,9 @@ export function modelRouteRpcPayload(input: unknown) {
     expected_active_id: input.expectedActiveId,
     feature: input.feature,
     version: requireText(input.version, "version", 96), status: input.status,
-    primary: storedSteps ? { provider: storedSteps[0].provider, model: storedSteps[0].model } : model(input.primary),
-    fallback: storedSteps
-      ? (storedSteps[1] ? { provider: storedSteps[1].provider, model: storedSteps[1].model } : null)
+    primary: chatSteps ? { provider: chatSteps[0].provider, model: chatSteps[0].model } : model(input.primary),
+    fallback: chatSteps
+      ? (chatSteps[1] ? { provider: chatSteps[1].provider, model: chatSteps[1].model } : null)
       : input.fallback === null ? null : model(input.fallback),
     temperature, max_output_tokens: maxTokens,
     response_schema: requireText(input.responseSchema, "response schema", 96),
