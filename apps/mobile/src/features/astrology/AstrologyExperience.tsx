@@ -151,6 +151,7 @@ export function AstrologyExperience({
   onRequestSignIn,
   onOpenPremium,
   initialStage,
+  initialChartId,
   onWriteJournal,
 }: {
   language: AstrologyLanguage;
@@ -183,6 +184,8 @@ export function AstrologyExperience({
   onOpenPremium?: () => void;
   /** "sky" opens "Bầu trời hôm nay" directly (from Home or Explore); Back then leaves Astrology. */
   initialStage?: "sky";
+  /** Tôi là ai > Báo cáo đã lưu > Xem: open this saved chart once the store is read. */
+  initialChartId?: string;
   /** Opens Journal with the day's question prefilled. */
   onWriteJournal?: (prompt: string) => void;
 }) {
@@ -308,6 +311,8 @@ export function AstrologyExperience({
         setData(value);
         setZoneDraft(value.displayZone);
         setLoaded(true);
+        const requested = initialChartId ? value.reports.find((item) => item.id === initialChartId) : undefined;
+        if (requested) openSavedChart(requested);
       })
       .catch(() => {
         if (live.current && account === accountGeneration.current)

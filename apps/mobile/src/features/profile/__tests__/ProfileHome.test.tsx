@@ -47,6 +47,14 @@ test("the profile follows the design and hides account deletion until it is avai
   expect(props.onLegal).toHaveBeenCalled();
 });
 
+test("the name card opens Tôi là ai only when the screen provides it", () => {
+  expect(renderProfile().screen.queryByText("Tôi là ai ›")).toBeNull();
+  const onWhoAmI = jest.fn();
+  const { screen } = renderProfile({ onWhoAmI });
+  fireEvent.press(screen.getByLabelText("Linh, mở Tôi là ai"));
+  expect(onWhoAmI).toHaveBeenCalled();
+});
+
 test("choosing a reminder time turns the reminder on", () => {
   const { props, screen } = renderProfile();
   fireEvent.press(screen.getByText("Nhắc lá bài hôm nay"));
