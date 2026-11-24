@@ -25,7 +25,7 @@
     "apps/mobile/src/features/numerology/__tests__/NumerologyScreen.test.tsx",
     "packages/content/data/numerology-blocks.json",
     "apps/mobile/src/features/explore/ExploreHome.tsx",
-    "apps/mobile/src/features/explore/__tests__/ExploreHome.test.tsx",
+    "apps/mobile/src/features/explore/__tests__/ExploreLibrary.test.tsx",
     "apps/mobile/src/features/share/shareLink.ts",
     "apps/mobile/src/features/share/shareCardContent.ts",
     "apps/mobile/src/features/share/__tests__/shareLink.test.ts",
@@ -74,7 +74,7 @@
     {
       "path": "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md",
       "reason": "Section 3 rules, section 4 content bans, section 8 Lô 3 scope.",
-      "sha256": "ef56bb65ac888f9df81db598ffa0152e840062e09c8749d5b15f7cb1e6becb57"
+      "sha256": "90e5c64e5d52d63e9af513e0f56521259548af5297f54b082a13aeb9e93d187c"
     },
     {
       "path": "docs/proposals/data/numerology-golden-2026-11-23.json",
@@ -99,7 +99,7 @@
     {
       "path": "apps/mobile/src/features/explore/ExploreHome.tsx",
       "reason": "Entry tile for the new screen.",
-      "sha256": "c42683903f608e966b302292602d619ce35dd7cb3b353bbe3c0e356b463cba5a"
+      "sha256": "9d4e631a48a4f28896dad45e53f95f4afa5c26fa5dd2a555b8034c1ca11da6b4"
     },
     {
       "path": "apps/mobile/src/features/astrology/BirthFields.tsx",
@@ -109,7 +109,7 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Screen routing and share sheet.",
-      "sha256": "6780d3141df03066b2ff48f94705faee17d6d7ff8db3bd05c0263bf67c69fa3d"
+      "sha256": "fef2c902ef589bbb1c93619f23f03d3941f60bf7b0fb2b794c1bdb971d0025c3"
     },
     {
       "path": "apps/web/src/lib/shareLanding.ts",
@@ -140,8 +140,12 @@
     "unresolvedHighRisks": []
   },
   "workingTreeReview": {
-    "note": "Record passed preflight before any code edit (24/11/2026, worktree clean at origin/main b5ea7a0). Then: calc.ts and golden tests, content store and tests, NumerologyScreen with name stored on device, numerology_map share surface (app only), Explore tile, Android Back, PLAN.md section 7 and the share landing review. sourceReview hashes refreshed to the edited files after review.",
+    "note": "Record passed preflight before any code edit (24/11/2026, worktree clean at origin/main b5ea7a0). Then: calc.ts and golden tests, content store and tests, NumerologyScreen with name stored on device, numerology_map share surface (app only), Explore tile, Android Back, PLAN.md section 7 and the share landing review. sourceReview hashes refreshed after rebase onto origin/main 5a5042e (24/11/2026).",
     "paths": [
+      "PLAN.md",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/features/explore/ExploreHome.tsx",
+      "apps/mobile/src/features/explore/__tests__/ExploreLibrary.test.tsx",
       "apps/mobile/src/features/numerology/NumerologyScreen.tsx",
       "apps/mobile/src/features/numerology/__tests__/NumerologyScreen.test.tsx",
       "apps/mobile/src/features/numerology/__tests__/calc.test.ts",
@@ -149,16 +153,12 @@
       "apps/mobile/src/features/numerology/calc.ts",
       "apps/mobile/src/features/numerology/content.ts",
       "apps/mobile/src/features/numerology/store.ts",
-      "docs/proposals/SHARE_LANDING_REVIEW_2026-11-24.vi.md",
-      "packages/content/data/numerology-blocks.json",
-      "PLAN.md",
-      "apps/mobile/App.tsx",
-      "apps/mobile/src/features/explore/ExploreHome.tsx",
-      "apps/mobile/src/features/explore/__tests__/ExploreLibrary.test.tsx",
       "apps/mobile/src/features/share/__tests__/shareCardContent.test.ts",
       "apps/mobile/src/features/share/__tests__/shareLink.test.ts",
       "apps/mobile/src/features/share/shareCardContent.ts",
-      "apps/mobile/src/features/share/shareLink.ts"
+      "apps/mobile/src/features/share/shareLink.ts",
+      "docs/proposals/SHARE_LANDING_REVIEW_2026-11-24.vi.md",
+      "packages/content/data/numerology-blocks.json"
     ]
   },
   "validationCommands": [
