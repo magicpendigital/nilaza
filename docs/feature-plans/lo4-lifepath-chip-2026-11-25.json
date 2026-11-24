@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "taskId": "lo4-lifepath-chip-2026-11-25",
+  "ownerAgent": "mobile_agent",
+  "lane": "Mobile: Lô 4 follow-up, life-path chip on Tôi là ai from the Lô 3 calculation",
+  "goal": "Show the life-path number chip (e.g. 11/2, 22/4, 6) on the Tôi là ai identity card, computed on the device with the Lô 3 pure function lifePathNumber from the profile birth date (YYYY-MM-DD). Hidden when there is no birth date or it does not parse. The numerology clause in 'Bạn trong một câu' stays out because numerology-blocks.json is still draft (spec section 7 requires approved templates).",
+  "successCriteria": [
+    "A valid profile birth date shows the life-path chip with the Lô 3 label (masters as 11/2 and 22/4, 33 reduced per D1).",
+    "No birth date or an unparseable one shows no life-path chip (no fake number).",
+    "The chip appears even when no chart is saved; the 'Lập lá số' invite still shows when sign chips are missing.",
+    "'Bạn trong một câu' is unchanged (Sun + Moon only) while numerology content is not approved.",
+    "tsc, mobile jest suite, mobile:check and validate:data pass."
+  ],
+  "writeScope": [
+    "apps/mobile/src/features/profile/whoAmIModel.ts",
+    "apps/mobile/src/features/profile/WhoAmI.tsx",
+    "apps/mobile/src/features/profile/__tests__/whoAmIModel.test.ts",
+    "apps/mobile/src/features/profile/__tests__/WhoAmI.test.tsx",
+    "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "Numerology calculation and content (calc.ts, numerology-blocks.json) unchanged.",
+    "No numerology clause in 'Bạn trong một câu' until a named reviewer approves numerology-blocks.json.",
+    "App.tsx, storage, backend, Admin unchanged; the birth name is not read."
+  ],
+  "impact": {
+    "entryPoint": "Tôi tab name card -> Tôi là ai identity card (existing).",
+    "dataWrite": "None. Reads the profile birth date already passed to WhoAmI.",
+    "backendContract": "None changed; no request is made.",
+    "adminVisibility": "No Admin field or metric; mobile UI only.",
+    "privacySafety": "Computed on the device from the birth date only; no name, no network, no storage.",
+    "observability": "No new events.",
+    "rollback": "Revert the commit."
+  },
+  "canonicalContracts": [
+    "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md",
+    "apps/mobile/src/features/numerology/calc.ts"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile route and checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md",
+      "reason": "Section 7 identity card chips and approved-template rule.",
+      "sha256": "b2fc1d230327284704fd82baaa6a01afc1c2728197af453a5eb504de45379e02"
+    },
+    {
+      "path": "apps/mobile/src/features/numerology/calc.ts",
+      "reason": "parseBirthDate and lifePathNumber (D1-D2).",
+      "sha256": "b6aed2b4f3b11de2bfd5d950359181524340b5237d15290ab6fa355364e3f205"
+    },
+    {
+      "path": "apps/mobile/src/features/numerology/content.ts",
+      "reason": "numerologyContentReviewed gate.",
+      "sha256": "9de50cb77715c40a2a20358d52a9236f82bb7616db99e530d5a71f93526b1a15"
+    },
+    {
+      "path": "packages/content/data/numerology-blocks.json",
+      "reason": "Review status draft.",
+      "sha256": "fed8cde14226e7bc12c7281881f6ddda4c29515cbbecbd801ee76938f8e4d3b5"
+    },
+    {
+      "path": "apps/mobile/src/features/profile/whoAmIModel.ts",
+      "reason": "identityChips life-path slot.",
+      "sha256": "40bd1ee580177b6d89c23980c39bf54c48d842eb489ffbc1a8ecb28fe5694ced"
+    },
+    {
+      "path": "apps/mobile/src/features/profile/WhoAmI.tsx",
+      "reason": "Identity card rendering.",
+      "sha256": "d35a3df9d676153cf999276d07c3f83b14299fb6e51d672ef500f310e3ac8db0"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "WhoAmI receives the profile birth date.",
+      "sha256": "69456a45c6004dfded8d3fe1f392a018b3392d3dd02f8d2c0250c660c0e77c9c"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before code edits; verified vs not verified in handoff."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Repository code only."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No access change.",
+    "sensitiveData": "Birth date used on the device only, as the Lô 3 screen does.",
+    "secretsLogging": "No secret read, written or logged; .env not read.",
+    "externalInput": "Birth date validated by parseBirthDate; invalid dates show no chip.",
+    "dependencies": "No package added or upgraded.",
+    "migrationRelease": "No SQL, no deploy, no store change.",
+    "stopCondition": "Stop if tsc or the mobile test suite fails and cannot be fixed inside the write scope.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Edits made after the record and preflight (25/11/2026), all inside writeScope; source hashes refreshed to the edited files.",
+    "paths": [
+      "apps/mobile/src/features/profile/whoAmIModel.ts",
+      "apps/mobile/src/features/profile/WhoAmI.tsx",
+      "apps/mobile/src/features/profile/__tests__/whoAmIModel.test.ts",
+      "apps/mobile/src/features/profile/__tests__/WhoAmI.test.tsx",
+      "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md",
+      "PLAN.md"
+    ]
+  },
+  "validationCommands": [
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "npm run mobile:check",
+    "npm run validate:data",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "On an Android phone with a birth date in the profile: Tôi tab, tap your name; see the life-path chip (keypad icon, e.g. 11/2) next to the sign chips; remove the birth date and see the chip disappear.",
+  "residualRisk": "Device rendering not verified until tested on a phone. Numerology clause waits for content approval.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

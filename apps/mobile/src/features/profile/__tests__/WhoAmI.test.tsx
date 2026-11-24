@@ -51,6 +51,8 @@ test("identity card, chips, the one line and the recorded counts", () => {
   expect(screen.getByLabelText("Mặt Trời Song Ngư")).toBeTruthy();
   expect(screen.getByLabelText("Mặt Trăng Cự Giải")).toBeTruthy();
   expect(screen.getByLabelText("Cung Mọc Sư Tử")).toBeTruthy();
+  expect(screen.getByLabelText("Số chủ đạo 11/2")).toBeTruthy();
+  expect(screen.queryByText("Lập lá số")).toBeNull();
   expect(screen.getByText("Người mơ mộng biết cách che chở.")).toBeTruthy();
   expect(screen.getByLabelText("5 mục Nhật ký")).toBeTruthy();
   expect(screen.getByLabelText("2 lần trải bài đã lưu")).toBeTruthy();
@@ -70,6 +72,7 @@ test("below 5 journal entries a hint replaces the counts", () => {
 test("without a saved chart there are no chips and no one line, only an invite", () => {
   const { props, screen } = renderWhoAmI({ savedCharts: { status: "ready", charts: [] }, birthDate: "", birthTime: "", birthPlace: "", syncsWithAccount: false });
   expect(screen.queryByLabelText(/Mặt Trời/)).toBeNull();
+  expect(screen.queryByLabelText(/Số chủ đạo/)).toBeNull();
   expect(screen.queryByText("Bạn trong một câu")).toBeNull();
   expect(screen.getByText("Chưa có ngày sinh")).toBeTruthy();
   expect(screen.getByText("Chưa có báo cáo nào được lưu trên máy.")).toBeTruthy();
@@ -77,6 +80,13 @@ test("without a saved chart there are no chips and no one line, only an invite",
   expect(screen.getByText(/lá số đã lưu nằm trên máy này/)).toBeTruthy();
   fireEvent.press(screen.getByText("Lập lá số"));
   expect(props.onMakeChart).toHaveBeenCalled();
+});
+
+test("with a birth date but no saved chart the life-path chip shows next to the chart invite", () => {
+  const { screen } = renderWhoAmI({ savedCharts: { status: "ready", charts: [] } });
+  expect(screen.getByLabelText("Số chủ đạo 11/2")).toBeTruthy();
+  expect(screen.queryByLabelText(/Mặt Trời/)).toBeNull();
+  expect(screen.getByText("Lập lá số")).toBeTruthy();
 });
 
 test("saved charts open and delete through callbacks; data rows call their actions", () => {

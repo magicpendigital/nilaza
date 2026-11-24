@@ -1,4 +1,4 @@
-import { certainSigns, consecutiveJournalWeeks, displayBirthDate, identityChips, oneSentence, recordedSummary, RECORDED_THRESHOLD } from "../whoAmIModel";
+import { certainSigns, consecutiveJournalWeeks, displayBirthDate, identityChips, lifePathLabel, oneSentence, recordedSummary, RECORDED_THRESHOLD } from "../whoAmIModel";
 
 const chart = (birthTimeKnown: boolean, moon: string[] = ["cancer"]) => ({
   placements: birthTimeKnown ? [{ body: "sun", sign: "pisces" }, { body: "moon", sign: moon[0] }] : [],
@@ -17,7 +17,15 @@ test("only certain signs become chips; Rising needs an exact time; no chart mean
   expect(identityChips({}, "vi")).toEqual([]);
 });
 
-test("the life-path chip appears only when Lô 3 supplies a value", () => {
+test("the life-path label comes from the Lô 3 calculation and only from a real date", () => {
+  expect(lifePathLabel("2000-03-15")).toBe("11/2");
+  expect(lifePathLabel("1990-01-01")).toBe("3");
+  expect(lifePathLabel("")).toBeUndefined();
+  expect(lifePathLabel("15/03/2000")).toBeUndefined();
+  expect(lifePathLabel("2001-02-29")).toBeUndefined();
+});
+
+test("the life-path chip appears only when a value is given", () => {
   expect(identityChips({ sun: "aries" }, "vi").map((chip) => chip.key)).toEqual(["sun"]);
   expect(identityChips({ sun: "aries" }, "vi", "11/2").at(-1)).toEqual({ key: "lifePath", label: "11/2", accessibilityLabel: "Số chủ đạo 11/2" });
 });
