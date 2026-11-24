@@ -9,7 +9,10 @@
     astrology_insight: "Đọc sâu Chiêm tinh",
     tarot_reading: "Giải bài Tarot",
     daily_insight: "Thông điệp hằng ngày",
-    astrology_report: "Astrology report — đang gỡ, chỉ theo dõi"
+    astrology_report: "Astrology report — đang gỡ, chỉ theo dõi",
+    // Batch C (2026-11-24, migration 20261124090000).
+    tarot_note: "Ghi chú riêng Tarot",
+    reader_router: "Gợi ý người đọc (tầng AI)"
   };
   const initialTransport = { target: window.NilazaAdminTransportTarget || "", url: window.ENV?.SUPABASE_URL || "", key: window.ENV?.SUPABASE_ANON_KEY || "" };
   let invalidated = false, active = null, epoch = 0;

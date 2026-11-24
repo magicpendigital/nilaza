@@ -1,7 +1,9 @@
 import { deriveGuestCards } from "../_shared/tarot-guest-seed.ts";
 import { assert, assertEquals, assertNotEquals } from "https://deno.land/std@0.168.0/testing/asserts.ts";
 import { createTarotHandler, type TarotDeps, type TarotGenerateInput, type TarotGeneration } from "./handler.ts";
-import { TarotStoreError, type DrawClaim, type InterpretClaim, type TarotReadingRow, type TarotStore } from "./store.ts";
+import { TarotStoreError, type DrawClaim, type InterpretClaim, type NoteClaim, type TarotReadingRow, type TarotStore } from "./store.ts";
+import { defaultModelRoutes } from "../_shared/model-router.ts";
+import type { DecisionRequest, DecisionResult } from "../_shared/providers/decisions.ts";
 import type { RandomFill } from "./draw.ts";
 import { canonicalTarotCardIds } from "../_shared/tarot-prompt.ts";
 import type { ActiveFeatureConfig } from "../_shared/feature-config.ts";
@@ -17,7 +19,8 @@ const deck = { id: "moon-garden", slug: "moon-garden" };
  * Each method runs to completion synchronously, as the per-user advisory lock serialises the RPCs in Postgres.
  */
 function memoryStore(clock: () => Date) {
-  const rows = new Map<string, TarotReadingRow & { claim_token: string | null; claimed_at: number | null }>();
+  const rows = new Map<string, TarotReadingRow & { claim_token: string | null; claimed_at: number | null; note_claim_token?: string | null; note_claimed_at?: number | null }>();
+  const noteAttempts: Array<{ userId: string; at: number }> = [];
   const attempts: Array<{ userId: string; at: number; drawId: string }> = [];
   const usage: Record<string, unknown>[] = [];
   const safety: Record<string, unknown>[] = [];
@@ -25,7 +28,7 @@ function memoryStore(clock: () => Date) {
   let failFinalize = false;
   let sequence = 0;
   const visible = (row: TarotReadingRow & { claim_token?: unknown; claimed_at?: unknown }) => {
-    const { claim_token: _token, claimed_at: _claimed, ...rest } = row;
+    const { claim_token: _token, claimed_at: _claimed, note_claim_token: _noteToken, note_claimed_at: _noteClaimed, ...rest } = row as typeof row & { note_claim_token?: unknown; note_claimed_at?: unknown };
     return structuredClone(rest) as TarotReadingRow;
   };
   const delivered = (userId: string, dayStart: string) => [...rows.values()].filter(row => row.user_id === userId
@@ -112,11 +115,43 @@ function memoryStore(clock: () => Date) {
       Object.assign(row, { deleted_at: deletedAt, status: "deleted" });
       return true;
     },
+    // Batch C: semantics of tarot_note_claim (migration 20261124090000): 1 delivered note per Vietnam day, 3 attempts.
+    async noteClaim(input): Promise<NoteClaim> {
+      calls.push("noteClaim");
+      const row = rows.get(input.id);
+      if (!row || row.user_id !== input.userId || row.lock_key === null) return { status: "not_found" };
+      if (row.deleted_at) return { status: "deleted" };
+      if (row.note_created_at) return { status: "completed", reading: visible(row) };
+      if (row.note_claim_token && row.note_claimed_at && row.note_claimed_at > clock().getTime() - input.staleSeconds * 1000) return { status: "in_progress" };
+      const otherFreshClaim = [...rows.values()].some(item => item.id !== row.id && item.user_id === input.userId && !item.deleted_at && !item.note_created_at
+        && item.note_claim_token && item.note_claimed_at && item.note_claimed_at > clock().getTime() - input.staleSeconds * 1000);
+      if (otherFreshClaim) return { status: "in_progress" };
+      const deliveredNotes = [...rows.values()].filter(item => item.user_id === input.userId && item.note_created_at && item.note_created_at >= input.dayStart).length;
+      if (deliveredNotes >= input.deliveredLimit) return { status: "limit", reason: "note_daily" };
+      const count = noteAttempts.filter(item => item.userId === input.userId && item.at >= Date.parse(input.dayStart)).length;
+      if (count >= input.attemptLimit) return { status: "limit", reason: "note_attempts" };
+      noteAttempts.push({ userId: input.userId, at: clock().getTime() });
+      row.note_claim_token = input.claimToken;
+      row.note_claimed_at = clock().getTime();
+      return { status: "claimed", attemptNumber: count + 1, reading: visible(row) };
+    },
+    async noteFinalize(input) {
+      calls.push("noteFinalize");
+      const row = rows.get(input.id);
+      if (!row || row.user_id !== input.userId || row.note_claim_token !== input.claimToken || row.note_created_at || row.deleted_at) return false;
+      Object.assign(row, { note: structuredClone(input.note), note_created_at: input.createdAt, note_claim_token: null, note_claimed_at: null });
+      return true;
+    },
+    async noteRelease(userId, id, claimToken) {
+      calls.push("noteRelease");
+      const row = rows.get(id);
+      if (row && row.user_id === userId && row.note_claim_token === claimToken && !row.note_created_at) Object.assign(row, { note_claim_token: null, note_claimed_at: null });
+    },
     async deckIdForSlug() { return null; },
     async recordSafetyEvent(row) { safety.push(row); },
     async recordUsage(row) { usage.push(row); return true; }
   };
-  return { store, rows, attempts, usage, safety, calls, failFinalize: (value: boolean) => { failFinalize = value; } };
+  return { store, rows, attempts, noteAttempts, usage, safety, calls, failFinalize: (value: boolean) => { failFinalize = value; } };
 }
 
 type Reply = { status?: "passed" | "fallback" | "blocked"; text?: string };
@@ -125,7 +160,11 @@ const goodAnswer = (cardIds: string[]) => JSON.stringify({
   sections: [{ key: "card", title: { en: "Card", vi: "Lá bài" }, body: { en: "Notice one small, reversible step.", vi: "Hãy để ý một bước nhỏ." }, cardIds }]
 });
 
-function setup(options: { now?: string; random?: RandomFill; paused?: boolean; quotaDaily?: number; user?: string | null; premiumOnSale?: boolean; tier?: "premium" | "free" | "error"; guestSecret?: string } = {}) {
+function setup(options: { now?: string; random?: RandomFill; paused?: boolean; quotaDaily?: number; user?: string | null; premiumOnSale?: boolean; tier?: "premium" | "free" | "error"; guestSecret?: string;
+  notePaused?: boolean; readerPaused?: boolean; readerQuota?: "allowed" | "limit_reached" | "unavailable"; decide?: (request: DecisionRequest) => Promise<DecisionResult>;
+  experiment?: { campaignId: string; variant: string } } = {}) {
+  const decisions: DecisionRequest[] = [];
+  const routeCalls: Array<{ feature: string; locale: string | null }> = [];
   let now = new Date(options.now ?? NOON_VN);
   const clock = () => now;
   const memory = memoryStore(clock);
@@ -151,7 +190,8 @@ function setup(options: { now?: string; random?: RandomFill; paused?: boolean; q
       generations.push(input);
       if (gate) await gate;
       const reply = replies.shift() ?? {};
-      const cardIds = JSON.parse(input.messages[0].content).selectedCards.map((card: { id: string }) => card.id);
+      // The reader suggestion sends plain text, not the Tarot JSON message.
+      const cardIds = input.feature === "reader_router" ? [] : JSON.parse(input.messages[0].content).selectedCards.map((card: { id: string }) => card.id);
       const result: TarotGeneration = {
         text: reply.text ?? (reply.status === "fallback" ? input.fallbackText : goodAnswer(cardIds)), provider: "openai", model: "synthetic",
         routeVersion: "route-test", routeVersionId: "route-test-id", fallbackUsed: reply.status === "fallback", attempts: [], latencyMs: 1, usage: {},
@@ -162,6 +202,18 @@ function setup(options: { now?: string; random?: RandomFill; paused?: boolean; q
     },
     writeReceipt: async input => { receipts.push(input); return { receiptId: "00000000-0000-4000-8000-0000000000aa" }; },
     guestSecret: () => options.guestSecret,
+    noteFeaturePaused: async () => options.notePaused === true,
+    readerRouterPaused: async () => options.readerPaused === true,
+    claimReaderAttempt: async () => options.readerQuota ?? "allowed",
+    resolveRoute: async (feature, _userId, routeOptions) => {
+      routeCalls.push({ feature, locale: routeOptions?.locale ?? null });
+      return { route: defaultModelRoutes[feature], experiment: options.experiment ?? null };
+    },
+    decide: async request => {
+      decisions.push(request);
+      if (options.decide) return await options.decide(request);
+      return { provider: request.provider, model: request.model, choice: Object.keys(request.options)[0], confidence: 0.7, probabilities: {}, latencyMs: 3, costUsd: null };
+    },
     readTier: async () => { tierReads += 1; if (options.tier === "error") throw new Error("tier_unavailable"); return options.tier ?? "free"; }
   });
   const handler = createTarotHandler(() => deps(), {
@@ -176,7 +228,8 @@ function setup(options: { now?: string; random?: RandomFill; paused?: boolean; q
   const draw = (extra: Record<string, unknown> = {}) => call({ action: "draw", language: "en", deck, spread: "daily-one", topic: "self", question: "What should I notice?", ...extra });
   const interpret = (drawId: string, extra: Record<string, unknown> = {}) => call({ action: "interpret", drawId, ...extra });
   return {
-    ...memory, generations, finalizations, receipts, call, draw, interpret, tierReads: () => tierReads,
+    ...memory, generations, finalizations, receipts, call, draw, interpret, decisions, routeCalls, tierReads: () => tierReads,
+    note: (drawId: string) => call({ action: "note", drawId }),
     reply: (...values: Reply[]) => { replies.push(...values); },
     hold: () => { let release!: () => void; gate = new Promise(resolve => { release = resolve; }); return () => { gate = null; release(); }; },
     setNow: (value: string) => { now = new Date(value); },
@@ -587,3 +640,206 @@ Deno.test("guest cards: the soft cap and the premium deck check still apply to a
 function constantRandom(value: number): (target: Uint32Array) => void {
   return target => { target.fill(value); };
 }
+
+// Batch C (2026-11-24): the free daily private note and the reader suggestion.
+const noteAnswer = (askThem: string | null = null) => JSON.stringify({ text: Array.from({ length: 170 }, (_, i) => `word${i}`).join(" "), need: "to feel heard", askThem });
+
+Deno.test("note: one delivered note a Vietnam day, replayed free, separate from interpret", async () => {
+  const t = setup();
+  const { body: drawn } = await t.draw();
+  t.reply({ text: noteAnswer("What do you need from me this week?") });
+  const first = await t.note(drawn.drawId);
+  assertEquals(first.status, 200);
+  assertEquals(first.body.noteStatus, "created");
+  assertEquals(first.body.moderationStatus, "passed");
+  assertEquals(first.body.note.need, "to feel heard");
+  assertEquals(first.body.note.askThem, "What do you need from me this week?");
+  assertEquals(first.body.experiment, null);
+  assertEquals(first.body.nextNoteAt, "2026-11-15T17:00:00.000Z");
+  assertEquals(t.generations[0].feature, "tarot_note");
+  assertEquals(t.generations[0].route?.feature, "tarot_note");
+  assertEquals(t.generations[0].acceptOutput("not json"), "not_json", "the note is validated inside the router");
+  assertEquals(t.attempts.length, 0, "the note does not use an interpret attempt");
+  const replay = await t.note(drawn.drawId);
+  assertEquals(replay.body.noteStatus, "replayed");
+  assertEquals(replay.body.note, first.body.note);
+  assertEquals(t.generations.length, 1, "a replay calls no model");
+  // A second draw the same day: the note allowance is used up; interpret is still available.
+  const { body: second } = await t.draw({ topic: "love" });
+  const limited = await t.note(second.drawId);
+  assertEquals(limited.status, 429);
+  assertEquals(limited.body, { error: "daily_limit_reached", reason: "note_daily", nextNoteAt: "2026-11-15T17:00:00.000Z" });
+  assertEquals((await t.interpret(second.drawId)).status, 200);
+  // The next Vietnam day has a new note.
+  t.setNow("2026-11-15T17:30:00.000Z");
+  t.reply({ text: noteAnswer() });
+  assertEquals((await t.note(second.drawId)).body.noteStatus, "created");
+});
+
+Deno.test("note: a model or format failure is 503 note_unavailable, never canned text, and does not use the note", async () => {
+  const t = setup();
+  const { body: drawn } = await t.draw();
+  t.reply({ text: "not json" }, { status: "fallback", text: "" }, { text: noteAnswer() });
+  const bad = await t.note(drawn.drawId);
+  assertEquals(bad.status, 503);
+  assertEquals(bad.body.error, "note_unavailable");
+  assertEquals(bad.body.attemptCounted, true, "a claim attempt row was recorded");
+  assertEquals((await t.note(drawn.drawId)).status, 503);
+  const ok = await t.note(drawn.drawId);
+  assertEquals(ok.status, 200);
+  assertEquals(ok.body.noteStatus, "created");
+  assert(t.calls.filter(call => call === "noteRelease").length >= 2);
+});
+
+Deno.test("note: failed attempts stop at 3 a day", async () => {
+  const t = setup();
+  const { body: drawn } = await t.draw();
+  t.reply({ text: "x" }, { text: "x" }, { text: "x" });
+  for (let i = 0; i < 3; i++) assertEquals((await t.note(drawn.drawId)).status, 503);
+  const limited = await t.note(drawn.drawId);
+  assertEquals(limited.status, 429);
+  assertEquals(limited.body.reason, "note_attempts");
+  assertEquals(t.generations.length, 3);
+});
+
+Deno.test("note: a crisis question gets no note and no model call; a model safety block does not fall through", async () => {
+  const t = setup();
+  const { body: drawn } = await t.draw({ question: "I want to die, should I keep going?" });
+  const crisis = await t.note(drawn.drawId);
+  assertEquals(crisis.status, 200);
+  assertEquals(crisis.body.note, null);
+  assertEquals(crisis.body.moderationStatus, "blocked");
+  assertEquals(crisis.body.safety, { crisis: true });
+  assertEquals(t.generations.length, 0);
+  assertEquals(t.noteAttempts.length, 0);
+  const u = setup();
+  const { body: other } = await u.draw();
+  u.reply({ status: "blocked", text: "" });
+  const blocked = await u.note(other.drawId);
+  assertEquals(blocked.body.moderationStatus, "blocked");
+  assertEquals(blocked.body.note, null);
+  assertEquals(u.generations.length, 1);
+  assertEquals(u.safety.length, 1);
+  // The same draw again: still blocked, no new model call, attempt or duplicate safety event.
+  const again = await u.note(other.drawId);
+  assertEquals([again.status, again.body.moderationStatus, again.body.safety], [200, "blocked", { crisis: false }]);
+  assertEquals(u.generations.length, 1);
+  assertEquals(u.safety.length, 1);
+  assertEquals(u.noteAttempts.length, 1);
+});
+
+Deno.test("note: in progress is 409, a paused switch is 503, another account's draw is 404", async () => {
+  const t = setup();
+  const { body: drawn } = await t.draw();
+  const release = t.hold();
+  t.reply({ text: noteAnswer() });
+  const pending = t.note(drawn.drawId);
+  await new Promise(resolve => setTimeout(resolve, 5));
+  const busy = await t.note(drawn.drawId);
+  assertEquals(busy.status, 409);
+  assertEquals(busy.body.error, "note_in_progress");
+  assertEquals(busy.body.retryAfterSeconds, 5);
+  release();
+  assertEquals((await pending).status, 200);
+  t.setUser(OTHER);
+  assertEquals((await t.note(drawn.drawId)).status, 404);
+  const p = setup({ notePaused: true });
+  const { body: pausedDraw } = await p.draw();
+  assertEquals((await p.note(pausedDraw.drawId)).status, 503);
+  assertEquals(p.generations.length, 0);
+});
+
+Deno.test("note: a fresh claim on one draw makes a second draw of the same account answer 409 note_in_progress", async () => {
+  const t = setup();
+  const { body: first } = await t.draw();
+  const { body: second } = await t.draw({ topic: "love" });
+  const release = t.hold();
+  t.reply({ text: noteAnswer() });
+  const pending = t.note(first.drawId);
+  await new Promise(resolve => setTimeout(resolve, 5));
+  const other = await t.note(second.drawId);
+  assertEquals([other.status, other.body.error, other.body.retryAfterSeconds], [409, "note_in_progress", 5]);
+  assertEquals(t.generations.length, 1);
+  release();
+  assertEquals((await pending).status, 200);
+  const after = await t.note(second.drawId);
+  assertEquals([after.status, after.body.reason], [429, "note_daily"]);
+});
+
+Deno.test("suggest_reader: the decision model picks a candidate from the stored draw; no user data is sent", async () => {
+  const t = setup();
+  const { body: drawn } = await t.draw({ question: "Should I change jobs?" });
+  const result = await t.call({ action: "suggest_reader", drawId: drawn.drawId, candidates: ["the-clear-strategist", "the-love-oracle"] });
+  assertEquals(result.status, 200);
+  assertEquals(result.body.slug, "the-clear-strategist");
+  assertEquals(result.body.source, "decision_model");
+  assertEquals(result.body.experiment, null);
+  const sent = JSON.stringify(t.decisions[0]);
+  assert(sent.includes("Should I change jobs?"));
+  assert(!sent.includes(USER), "no user id reaches a decision provider");
+  assertEquals(t.generations.length, 0);
+  const usage = t.usage.find(row => row.event_name === "reader_router_suggested")!;
+  assert(!JSON.stringify(usage).includes("change jobs"), "telemetry has no question text");
+});
+
+Deno.test("suggest_reader: decision failure falls to the chat step; total failure is slug null with source none", async () => {
+  const fail = async (request: DecisionRequest): Promise<DecisionResult> => { throw Object.assign(new Error("x"), { code: "provider_timeout", provider: request.provider }); };
+  const t = setup({ decide: fail });
+  const { body: drawn } = await t.draw();
+  t.reply({ text: '{"slug":"the-love-oracle","intent":"self_reflection","confidence":0.55}' });
+  const llm = await t.call({ action: "suggest_reader", drawId: drawn.drawId, candidates: ["the-love-oracle", "the-mystic"] });
+  assertEquals([llm.body.slug, llm.body.source, llm.body.intent], ["the-love-oracle", "llm", "self_reflection"]);
+  assertEquals(t.generations[0].feature, "reader_router");
+  assertEquals(t.generations[0].route?.steps?.length, 1);
+  t.reply({ text: '{"slug":"the-astrologer","intent":null,"confidence":0.9}' });
+  const none = await t.call({ action: "suggest_reader", drawId: drawn.drawId, candidates: ["the-love-oracle", "the-mystic"] });
+  assertEquals(none.status, 200);
+  assertEquals([none.body.slug, none.body.source], [null, "none"]);
+});
+
+Deno.test("suggest_reader: candidates outside the allowlist are 400; quota, pause and crisis stop before any provider", async () => {
+  const t = setup();
+  const { body: drawn } = await t.draw();
+  assertEquals((await t.call({ action: "suggest_reader", drawId: drawn.drawId, candidates: ["premium-secret"] })).status, 400);
+  assertEquals((await t.call({ action: "suggest_reader", drawId: drawn.drawId, candidates: [] })).status, 400);
+  const q = setup({ readerQuota: "limit_reached" });
+  const { body: qd } = await q.draw();
+  const limited = await q.call({ action: "suggest_reader", drawId: qd.drawId, candidates: ["the-mystic"] });
+  assertEquals(limited.status, 429);
+  assertEquals(limited.body.reason, "reader_router_daily");
+  const p = setup({ readerPaused: true });
+  const { body: pd } = await p.draw();
+  assertEquals((await p.call({ action: "suggest_reader", drawId: pd.drawId, candidates: ["the-mystic"] })).status, 503);
+  const c = setup();
+  const { body: cd } = await c.draw({ question: "I want to kill myself" });
+  const crisis = await c.call({ action: "suggest_reader", drawId: cd.drawId, candidates: ["the-mystic"] });
+  assertEquals([crisis.status, crisis.body.slug, crisis.body.source], [200, null, "none"]);
+  assertEquals(crisis.body.safety, { crisis: true });
+  for (const run of [q, p, c]) assertEquals(run.decisions.length + run.generations.length, 0);
+});
+
+Deno.test("campaigns: note, suggest_reader and interpret tag traces with flat campaignId/variant and return experiment", async () => {
+  const experiment = { campaignId: "6f1c2a40-1b2c-4d5e-8f90-a1b2c3d4e5f6", variant: "B" };
+  const t = setup({ experiment });
+  const { body: drawn } = await t.draw();
+  t.reply({ text: noteAnswer() });
+  const note = await t.note(drawn.drawId);
+  assertEquals(note.body.experiment, experiment);
+  assertEquals([t.generations[0].traceContext.metadata.campaignId, t.generations[0].traceContext.metadata.variant], [experiment.campaignId, "B"]);
+  assertEquals("experiment" in t.generations[0].traceContext.metadata, false, "no nested object (the trace would redact it)");
+  assertEquals((t.usage.find(row => row.event_name === "tarot_note_generated")!.metadata as Record<string, unknown>).variant, "B");
+  const interpreted = await t.interpret(drawn.drawId);
+  assertEquals(interpreted.status, 200);
+  assertEquals(interpreted.body.experiment, experiment);
+  assertEquals(t.generations[1].feature, "tarot_reading");
+  assertEquals(t.generations[1].route?.feature, "tarot_reading", "interpret runs the resolved (campaign) route");
+  assertEquals(t.generations[1].traceContext.metadata.campaignId, experiment.campaignId);
+  const suggestion = await t.call({ action: "suggest_reader", drawId: drawn.drawId, candidates: ["the-mystic", "the-love-oracle"] });
+  assertEquals(suggestion.body.experiment, experiment);
+  assertEquals((t.usage.find(row => row.event_name === "reader_router_suggested")!.metadata as Record<string, unknown>).campaignId, experiment.campaignId);
+  assertEquals(t.routeCalls.map(call => call.feature), ["tarot_note", "tarot_reading", "reader_router"]);
+  assertEquals(t.routeCalls.every(call => call.locale === "en"), true, "the draw language is the campaign locale");
+  // Replays answer from storage without a route lookup.
+  assertEquals((await t.note(drawn.drawId)).body.experiment, experiment);
+  assertEquals(t.routeCalls.length, 3);
+});

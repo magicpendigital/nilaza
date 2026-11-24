@@ -7,6 +7,8 @@ export type TarotReadingRow = {
   question: string | null; selected_cards: DrawnCard[]; interpretation: Record<string, unknown>; language: string; status: string;
   lock_key: string | null; lock_date: string | null; interpreted_at: string | null; clarifier: Record<string, unknown> | null;
   deleted_at: string | null; created_at: string;
+  /** Batch C (2026-11-24): the free daily private note, written once (immutable after note_created_at). */
+  note?: Record<string, unknown> | null; note_created_at?: string | null;
 };
 export type LimitReason = "draw_cap" | "delivered" | "attempts";
 export type DrawClaim =
@@ -16,6 +18,12 @@ export type InterpretClaim =
   | { status: "claimed"; attemptNumber: number; reading: TarotReadingRow }
   | { status: "completed"; reading: TarotReadingRow }
   | { status: "limit"; reason: LimitReason }
+  | { status: "in_progress" | "not_found" | "deleted" };
+export type NoteLimitReason = "note_daily" | "note_attempts";
+export type NoteClaim =
+  | { status: "claimed"; attemptNumber: number; reading: TarotReadingRow }
+  | { status: "completed"; reading: TarotReadingRow }
+  | { status: "limit"; reason: NoteLimitReason }
   | { status: "in_progress" | "not_found" | "deleted" };
 export type FinalizeInput = {
   userId: string; id: string; claimToken: string; interpretation: Record<string, unknown>; interpretedAt: string;
@@ -38,6 +46,12 @@ export interface TarotStore {
   /** Adds the answer receipt id to a written interpretation (the only change the trigger allows). */
   linkReceipt(userId: string, id: string, interpretation: Record<string, unknown>): Promise<void>;
   setClarifier(userId: string, id: string, clarifier: Record<string, unknown>): Promise<boolean>;
+  /** Batch C: claims the note of one draw (1 delivered note per Vietnam day, failed attempts capped; tarot_note_claim). */
+  noteClaim(input: { userId: string; id: string; claimToken: string; dayStart: string; deliveredLimit: number; attemptLimit: number; staleSeconds: number }): Promise<NoteClaim>;
+  /** Writes the note once; false when this claim no longer holds the row or a note already exists. */
+  noteFinalize(input: { userId: string; id: string; claimToken: string; note: Record<string, unknown>; createdAt: string }): Promise<boolean>;
+  /** Frees the note claim after a failure: the note was not delivered, so it is not used up. */
+  noteRelease(userId: string, id: string, claimToken: string): Promise<void>;
   softDelete(userId: string, id: string, deletedAt: string): Promise<boolean>;
   deckIdForSlug(slug: string): Promise<string | null>;
   recordSafetyEvent(row: Record<string, unknown>): Promise<void>;
@@ -58,7 +72,7 @@ export type ServiceClient = {
   rpc(name: string, args: Record<string, unknown>): PromiseLike<{ data: unknown; error: unknown }>;
 };
 
-const READING_COLUMNS = "id,user_id,deck_id,deck_ref,topic,spread,question,selected_cards,interpretation,language,status,lock_key,lock_date,interpreted_at,clarifier,deleted_at,created_at";
+const READING_COLUMNS = "id,user_id,deck_id,deck_ref,topic,spread,question,selected_cards,interpretation,language,status,lock_key,lock_date,interpreted_at,clarifier,deleted_at,created_at,note,note_created_at";
 const record = (value: unknown): Record<string, unknown> | null =>
   value !== null && typeof value === "object" && !Array.isArray(value) ? value as Record<string, unknown> : null;
 
@@ -126,6 +140,35 @@ export function createSupabaseTarotStore(admin: ServiceClient, caller: ServiceCl
         // Preserve the verified link when this reading is reopened on another device.
         await admin.from("tarot_readings").update({ interpretation }).eq("id", id).eq("user_id", userId);
       } catch { /* Receipt enrichment cannot discard the already saved answer. */ }
+    },
+    async noteClaim(input) {
+      const { data, error } = await admin.rpc("tarot_note_claim", {
+        p_user_id: input.userId, p_reading_id: input.id, p_claim_token: input.claimToken, p_day_start: input.dayStart,
+        p_delivered_limit: input.deliveredLimit, p_attempt_limit: input.attemptLimit, p_stale_seconds: input.staleSeconds
+      });
+      const result = record(data);
+      if (error || !result) throw new TarotStoreError("note_claim");
+      switch (result.status) {
+        case "claimed": return { status: "claimed", attemptNumber: Number(result.attemptNumber) || 1, reading: readingFrom(result.reading, "note_claim") };
+        case "completed": return { status: "completed", reading: readingFrom(result.reading, "note_claim") };
+        case "limit": return { status: "limit", reason: result.reason === "note_attempts" ? "note_attempts" : "note_daily" };
+        case "in_progress": case "not_found": case "deleted": return { status: result.status };
+        default: throw new TarotStoreError("note_claim");
+      }
+    },
+    async noteFinalize(input) {
+      const { data, error } = await admin.from("tarot_readings").update({
+        note: input.note, note_created_at: input.createdAt, note_claim_token: null, note_claimed_at: null
+      }).eq("id", input.id).eq("user_id", input.userId).eq("note_claim_token", input.claimToken).is("note_created_at", null).is("deleted_at", null)
+        .select("id").maybeSingle();
+      if (error) throw new TarotStoreError("note_finalize");
+      return Boolean(record(data)?.id);
+    },
+    async noteRelease(userId, id, claimToken) {
+      try {
+        await admin.from("tarot_readings").update({ note_claim_token: null, note_claimed_at: null })
+          .eq("id", id).eq("user_id", userId).eq("note_claim_token", claimToken).is("note_created_at", null);
+      } catch { /* A stale note claim is taken over after TAROT_LOCK_POLICY.claimStaleSeconds anyway. */ }
     },
     async setClarifier(userId, id, clarifier) {
       const { data, error } = await admin.from("tarot_readings").update({ clarifier })
