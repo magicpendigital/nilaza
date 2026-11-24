@@ -43,7 +43,8 @@
     "apps/mobile/src/features/astrology/__tests__/DailySkyScreen.test.tsx",
     "apps/mobile/src/features/astrology/__tests__/AstrologyExperience.test.tsx",
     "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md",
-    "PLAN.md"
+    "PLAN.md",
+    "apps/admin/workflow-catalog.js"
   ],
   "untouchedSurfaces": [
     "No numerology (Lô 3), no 'Tôi là ai' (Lô 4), no AI call or prompt (Lô 5).",
@@ -166,35 +167,9 @@
     "unresolvedHighRisks": []
   },
   "workingTreeReview": {
-    "note": "Record written before any code edit (24/11/2026). During the work two helper files were added to writeScope before they were created: localDay.ts (local calendar day and clock formatting) and MoonGlyph.tsx (Moon disc moved out of HomeExperience to share with the sky screen and Explore).",
+    "note": "CI fix on PR #64: Admin workflow catalog source digest for apps/mobile/App.tsx refreshed after the Lô 2 navigation change (Face Reading card untouched).",
     "paths": [
-      "PLAN.md",
-      "apps/mobile/App.tsx",
-      "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
-      "apps/mobile/src/features/astrology/AstrologyHub.tsx",
-      "apps/mobile/src/features/astrology/DailySkyScreen.tsx",
-      "apps/mobile/src/features/astrology/__tests__/AstrologyExperience.test.tsx",
-      "apps/mobile/src/features/astrology/__tests__/DailySkyScreen.test.tsx",
-      "apps/mobile/src/features/astrology/__tests__/dailySky.test.ts",
-      "apps/mobile/src/features/astrology/__tests__/sky.test.ts",
-      "apps/mobile/src/features/astrology/dailySky.ts",
-      "apps/mobile/src/features/astrology/dailySkyContent.ts",
-      "apps/mobile/src/features/astrology/localDay.ts",
-      "apps/mobile/src/features/explore/ExploreHome.tsx",
-      "apps/mobile/src/features/explore/__tests__/ExploreLibrary.test.tsx",
-      "apps/mobile/src/features/home/HomeExperience.tsx",
-      "apps/mobile/src/features/home/MoonGlyph.tsx",
-      "apps/mobile/src/features/home/__tests__/HomeExperience.test.tsx",
-      "apps/mobile/src/features/home/__tests__/moonPhase.test.ts",
-      "apps/mobile/src/features/home/moonPhase.ts",
-      "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md",
-      "packages/astrology-core/sky.d.mts",
-      "packages/astrology-core/sky.mjs",
-      "packages/astrology-core/test/sky.test.mjs",
-      "packages/content/data/astrology-daily-sky.json",
-      "packages/content/data/astrology-moon-houses.json",
-      "packages/content/data/astrology-topic-placements.json",
-      "scripts/validate-data.mjs"
+      "apps/admin/workflow-catalog.js"
     ]
   },
   "validationCommands": [
