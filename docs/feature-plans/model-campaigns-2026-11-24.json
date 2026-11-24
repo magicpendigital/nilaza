@@ -61,18 +61,58 @@
     "sanitized_project_context"
   ],
   "sourceReview": [
-    { "path": "AGENTS.md", "reason": "Owner approval boundary.", "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5" },
-    { "path": "docs/AGENT_TASK_ROUTER.md", "reason": "Backend/AI and Admin lane checks.", "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c" },
-    { "path": "docs/PLAN_QC_PROTOCOL.md", "reason": "Record shape.", "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2" },
-    { "path": "docs/proposals/TAROT_NOTE_READER_ROUTER_CAMPAIGNS_2026-11-23.vi.md", "reason": "Campaign scope, metrics and stop rules (section 3).", "sha256": "4249d8e90fc8bba351a5973be969f62cf9a1b32a74b94fa93e38dea9005ef9a4" },
-    { "path": "supabase/migrations/20261113140000_model_route_steps.sql", "reason": "Step validator and publish function reused by pick winner.", "sha256": "d7c59aa1013839b49bb1fe5325503eefb6272f2c96423f79f5c1470e4e44edea" },
-    { "path": "supabase/functions/admin-model-router-config/contract.ts", "reason": "Route publish payload shape mirrored by the campaign function.", "sha256": "3f3beff9c7f3a879f9dad85182af1a779b311ab3ccf91e85e23908144b79edcb" },
-    { "path": "supabase/functions/share-events/handler.ts", "reason": "Event allowlist and rate rules to extend.", "sha256": "234f743dab1d054ca5bdb9e49967728dd5eeb730521c4090234bbfa128aa7eec" },
-    { "path": "supabase/functions/_shared/ai-trace.ts", "reason": "Trace metadata redaction; campaignId and variant must survive.", "sha256": "1a251f9d6ce09b12d87313e1af353d90a9d69f495908e14b564765cc48c96fdc" }
+    {
+      "path": "AGENTS.md",
+      "reason": "Owner approval boundary.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Backend/AI and Admin lane checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Record shape.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/TAROT_NOTE_READER_ROUTER_CAMPAIGNS_2026-11-23.vi.md",
+      "reason": "Campaign scope, metrics and stop rules (section 3).",
+      "sha256": "4249d8e90fc8bba351a5973be969f62cf9a1b32a74b94fa93e38dea9005ef9a4"
+    },
+    {
+      "path": "supabase/migrations/20261113140000_model_route_steps.sql",
+      "reason": "Step validator and publish function reused by pick winner.",
+      "sha256": "d7c59aa1013839b49bb1fe5325503eefb6272f2c96423f79f5c1470e4e44edea"
+    },
+    {
+      "path": "supabase/functions/admin-model-router-config/contract.ts",
+      "reason": "Route publish payload shape mirrored by the campaign function.",
+      "sha256": "3f3beff9c7f3a879f9dad85182af1a779b311ab3ccf91e85e23908144b79edcb"
+    },
+    {
+      "path": "supabase/functions/share-events/handler.ts",
+      "reason": "Event allowlist and rate rules to extend.",
+      "sha256": "234f743dab1d054ca5bdb9e49967728dd5eeb730521c4090234bbfa128aa7eec"
+    },
+    {
+      "path": "supabase/functions/_shared/ai-trace.ts",
+      "reason": "Trace metadata redaction; campaignId and variant must survive.",
+      "sha256": "1a251f9d6ce09b12d87313e1af353d90a9d69f495908e14b564765cc48c96fdc"
+    }
   ],
   "skillReview": [
-    { "name": "nilaza-plan-qc", "decision": "verified-current", "evidence": "Record and preflight before edits; lead agent updates PLAN.md." },
-    { "name": "nilaza-ai-runtime", "decision": "verified-current", "evidence": "Campaign routes are validated by the router validator, errors fall back to the active route, traces carry campaign tags, deploys left to the Owner." }
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before edits; lead agent updates PLAN.md."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Campaign routes are validated by the router validator, errors fall back to the active route, traces carry campaign tags, deploys left to the Owner."
+    }
   ],
   "securityReview": {
     "authzRls": "Tables have RLS on and no client grants; admin RPCs check ai.read or ai.manage; runtime read function granted to service_role only and checks the JWT role claim.",
@@ -95,8 +135,14 @@
   ],
   "managerTestPath": "After the migration and deploys: Admin > Model và chiến dịch, create a tarot_reading campaign with two variants 50/50, press Bắt đầu, run readings from two accounts, then see calls per variant; under 100 calls the table says chưa đủ dữ liệu.",
   "residualRisk": "SQL is checked statically only (no local Postgres); runtime wiring into feature functions is left to the lead; stop rules are shown as warnings, not enforced automatically.",
-  "externalActions": { "databaseWrite": false, "productionRelease": false },
-  "dependencyReview": { "usesVolatileExternalKnowledge": false, "evidence": "Uses existing Deno, SQL and Admin code in the repository only." },
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  },
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses existing Deno, SQL and Admin code in the repository only."
+  },
   "externalSourceReview": [],
   "workingTreeReview": {
     "paths": [],
