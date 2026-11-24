@@ -215,6 +215,75 @@
     n("phase_three_gate", t("Chưa có backend execution", "No execution backend"), "gate", 1, 0, t("Consent/upload/image safety/vision/deletion là yêu cầu PRD chưa làm ở flow này. Không có ai-face-reading endpoint hoặc trace đã review.", "Consent/upload/image safety/vision/deletion are unimplemented PRD requirements in this flow. No reviewed ai-face-reading endpoint/trace exists."), [fr[1]], [], [], "deferred")
   ], [e("deferred_only", "disabled_preview", "phase_three_gate", t("Scope Phase3, không execution", "Phase3 scope, not execution"), fr, null, t("Card disabled; không phải executable path.", "Disabled card; not an executable path."))], [t("Không node provider hoặc kết quả giả; chỉ yêu cầu Phase3. Ngoài nghiệm thu MVP hiện tại.", "No provider node or fabricated result; Phase3 requirements only. Outside current MVP acceptance.")], [], "deferred");
 
+  // Batch C (2026-11-24): the free daily private note and the AI tier of the reader suggestion. Both read the stored
+  // draw only; neither sends the account id, nickname, history, Journal or birth data to a provider.
+  const hr = r("supabase/functions/ai-tarot-reading/handler.ts");
+  const nr2 = [r(f("ai-tarot-reading")), hr, r("supabase/functions/ai-tarot-reading/store.ts", "noteClaim"), r(s("tarot-note-prompt.ts")), r(s("model-router.ts"))];
+  const tarotNote = g("tarot_note", t("Ghi chú riêng Tarot — 1 lần/ngày", "Private Tarot note — once a day"), nr2, [
+    n("request_guard", t("Đăng nhập + drawId + công tắc", "Sign-in + drawId + switch"), "guard", 0, 0, t("Cần đăng nhập; app chỉ gửi drawId. Nghỉ khi công tắc Giải bài Tarot hoặc Ghi chú riêng Tarot tắt (503).", "Sign-in required; the app sends only drawId. Paused when the Tarot reading or private note switch is off (503)."), [nr2[0], nr2[1]],
+      [p("request", "TarotNoteRequest", "POST ai-tarot-reading {action: note, drawId}", t("Chỉ drawId của lượt rút đã lưu", "Only the drawId of a stored draw"), "metadata")],
+      [o("drawId", "uuid", "note_claim.drawId", t("Lượt rút của chính tài khoản", "The account's own draw"), "metadata")]),
+    n("note_claim", t("Giữ lượt ghi chú (RPC)", "Note claim (RPC)"), "gate", 1, 0, t("tarot_note_claim (service role): 1 ghi chú đã giao mỗi ngày giờ Việt Nam, tính riêng với bài giải; lỗi không tốn lượt nhưng tối đa 3 lần thử/ngày; đã có ghi chú thì trả lại miễn phí.", "tarot_note_claim (service role): 1 delivered note per Vietnam day, counted apart from the reading; a failure does not use it but attempts stop at 3 a day; an existing note is replayed for free."), [nr2[2]],
+      [p("drawId", "uuid", "request_guard.drawId", t("Khóa theo tài khoản", "Locked per account"), "metadata")],
+      [o("draw", "StoredTarotDraw", "safety_branch.draw", t("Câu hỏi, chủ đề, kiểu trải bài, lá đã rút", "Question, topic, spread, drawn cards"), "personal")]),
+    n("safety_branch", t("Nhánh an toàn", "Safety branch"), "branch", 2, 0, t("Câu hỏi khủng hoảng hoặc ngoài phạm vi: không gọi model, trả hướng dẫn hỗ trợ (115) và ghi safety event.", "Crisis or out-of-scope question: no model call; returns support guidance (115) and records a safety event."), [nr2[1]],
+      [p("draw", "StoredTarotDraw", "note_claim.draw", t("Kiểm câu hỏi trước khi gọi model", "Question checked before any model call"), "personal")],
+      [o("draw", "StoredTarotDraw", "note_prompt.draw", t("Chỉ khi an toàn", "Only when safe"), "personal"), o("redirect", "SafetyRedirect", "safety_reply.redirect", t("Khủng hoảng / ngoài phạm vi", "Crisis / out of scope"), "metadata")]),
+    n("safety_reply", t("Trả hỗ trợ, không ghi chú", "Support reply, no note"), "output", 2, 1, t("note: null, moderationStatus blocked; không tốn lượt.", "note: null, moderationStatus blocked; does not use the note."), [nr2[1]],
+      [p("redirect", "SafetyRedirect", "safety_branch.redirect", t("Cờ khủng hoảng", "Crisis flag"), "metadata")]),
+    n("note_prompt", t("Prompt ghi chú ngắn", "Short note prompt"), "prompt", 3, 0, t("System cố định trong mã (VI/EN) + JSON người dùng: câu hỏi, chủ đề, kiểu trải bài, tên và vị trí lá. Không có biệt danh, lịch sử, Nhật ký, ngày sinh.", "Code-pinned system (VI/EN) + user JSON: question, topic, spread, card names and positions. No nickname, history, Journal or birth data."), [nr2[3]],
+      [p("draw", "StoredTarotDraw", "safety_branch.draw", t("Dữ liệu lượt rút", "Draw data"), "personal")],
+      [o("exchange", "ModelExchange", "model_call.exchange", t("System + câu hỏi và lá bài", "System + question and cards"), "personal")]),
+    n("model_call", t("Model ghi chú", "Note model"), "model", 4, 0, t("Route tarot_note: OpenRouter DeepSeek v4.1 Flash, dự phòng MiMo v2.6 Flash, JSON, 700 token, 20 giây/bước. Kiểm định dạng {text, need, askThem} ngay trong router để lỗi định dạng chuyển model dự phòng; bị chặn vì an toàn thì không chuyển.", "tarot_note route: OpenRouter DeepSeek v4.1 Flash, MiMo v2.6 Flash fallback, JSON, 700 tokens, 20 s per step. The {text, need, askThem} check runs inside the router so a format failure tries the fallback; a safety block never falls through."), [nr2[4], nr2[3]],
+      [p("exchange", "ModelExchange", "note_prompt.exchange", t("Không gửi mã tài khoản", "No account id sent"), "personal")],
+      [o("generation", "ModelGeneration", "note_save.generation", t("Ghi chú đã kiểm hoặc lỗi", "Checked note or failure"), "personal")]),
+    n("note_save", t("Lưu một lần + usage", "Write once + usage"), "storage", 5, 0, t("noteFinalize ghi note + note_created_at một lần (trigger cấm sửa); usage tarot_note_generated không có nội dung câu hỏi. Lỗi model: nhả lượt, 503 note_unavailable, không có chữ soạn sẵn.", "noteFinalize writes note + note_created_at once (the trigger forbids edits); usage tarot_note_generated holds no question text. Model failure: claim released, 503 note_unavailable, never canned text."), [nr2[2], nr2[1]],
+      [p("generation", "ModelGeneration", "model_call.generation", t("Ghi chú đã qua kiểm", "Checked note"), "personal")],
+      [o("response", "TarotNoteResponse", "response.response", t("Ghi chú + nextNoteAt", "Note + nextNoteAt"), "personal")]),
+    n("response", t("Trả ghi chú", "Return the note"), "output", 6, 0, t("noteStatus created/replayed; 429 daily_limit_reached kèm nextNoteAt; 409 khi đang tạo.", "noteStatus created/replayed; 429 daily_limit_reached with nextNoteAt; 409 while in progress."), [nr2[1]],
+      [p("response", "TarotNoteResponse", "note_save.response", t("Trả cho app", "Returned to the app"), "personal")])
+  ], [
+    e("guard_claim", "request_guard", "note_claim", t("drawId", "drawId"), [nr2[1]], ["drawId", "drawId"]),
+    e("claim_safety", "note_claim", "safety_branch", t("Lượt rút đã giữ", "Claimed draw"), [nr2[2]], ["draw", "draw"], t("Đã giữ lượt; chưa có ghi chú hôm nay.", "Claimed; no note yet today.")),
+    e("safety_prompt", "safety_branch", "note_prompt", t("An toàn", "Safe"), [nr2[1]], ["draw", "draw"]),
+    e("safety_redirect", "safety_branch", "safety_reply", t("Khủng hoảng / ngoài phạm vi", "Crisis / out of scope"), [nr2[1]], ["redirect", "redirect"], t("Câu hỏi bị chặn trước model.", "Question blocked before the model.")),
+    e("prompt_model", "note_prompt", "model_call", t("System + JSON", "System + JSON"), [nr2[1]], ["exchange", "exchange"]),
+    e("model_save", "model_call", "note_save", t("Đạt / lỗi / bị chặn", "Passed / failed / blocked"), [nr2[1]], ["generation", "generation"]),
+    e("save_response", "note_save", "response", t("Đã lưu", "Stored"), [nr2[1]], ["response", "response"])
+  ], [t("Chưa nối ai trace riêng cho ghi chú; số liệu chỉ ở usage_events. Migration 20261124090000 cần Owner áp trước khi chạy.", "No dedicated AI trace for the note yet; numbers live in usage_events only. Migration 20261124090000 must be applied by the Owner first.")]);
+
+  const rr = [r(f("ai-tarot-reading")), hr, r(s("reader-router.ts")), r(s("providers/decisions.ts")), r("packages/content/data/personas-archetypes.json")];
+  const readerRouter = g("reader_router", t("Gợi ý người đọc — tầng AI", "Reader suggestion — AI tier"), rr, [
+    n("request_guard", t("Đăng nhập + ứng viên + hạn mức", "Sign-in + candidates + quota"), "guard", 0, 0, t("Cần đăng nhập; drawId + 1–7 slug người đọc miễn phí trong danh sách cho phép (khác: 400). Công tắc reader_router; 20 lần/ngày.", "Sign-in required; drawId + 1–7 free reader slugs from the allowlist (otherwise 400). reader_router switch; 20 a day."), [rr[0], rr[1]],
+      [p("request", "ReaderSuggestRequest", "POST ai-tarot-reading {action: suggest_reader, drawId, candidates}", t("drawId và slug ứng viên", "drawId and candidate slugs"), "metadata")],
+      [o("draw", "StoredTarotDraw", "reader_state.draw", t("Lượt rút đã lưu", "Stored draw"), "personal")]),
+    n("reader_state", t("Trạng thái gửi đi (tối thiểu)", "Outgoing state (minimal)"), "context", 1, 0, t("Chỉ câu hỏi, chủ đề, kiểu trải bài, tên lá (tiếng Anh) và mô tả người đọc ứng viên. Không mã tài khoản, biệt danh, lịch sử, Nhật ký hay ngày sinh. Câu hỏi khủng hoảng: dừng, slug null.", "Only question, topic, spread, card names (English) and candidate reader descriptions. No account id, nickname, history, Journal or birth data. Crisis question: stop, slug null."), [rr[2], rr[4]],
+      [p("draw", "StoredTarotDraw", "request_guard.draw", t("Dữ liệu lượt rút", "Draw data"), "personal")],
+      [o("state", "ReaderState", "decision_call.state", t("Câu hỏi + lá + ứng viên", "Question + cards + candidates"), "personal"), o("fallbackState", "ReaderState", "chat_fallback.state", t("Cùng dữ liệu cho bước chat", "Same data for the chat step"), "personal")]),
+    n("decision_call", t("API quyết định (jev)", "Decision API (jev)"), "model", 2, 0, t("Bước 1: OpenRouter Decisions typesafe/jev-1.14, 3 giây; chỉ trả một lựa chọn, không có văn bản. Hình dạng API theo tài liệu, chưa gọi thật; chính sách dữ liệu của jev chưa được kiểm chứng.", "Step 1: OpenRouter Decisions typesafe/jev-1.14, 3 s; returns one choice, no text. API shape from the docs, not yet called live; jev's data policy is unverified."), [rr[3], rr[2]],
+      [p("state", "ReaderState", "reader_state.state", t("Gửi tới nhà cung cấp quyết định", "Sent to the decision provider"), "personal")],
+      [o("choice", "ReaderChoice", "choice_check.choice", t("slug + độ tin cậy", "slug + confidence"), "metadata")]),
+    n("chat_fallback", t("Model chat dự phòng", "Chat fallback"), "model", 2, 1, t("Bước 2 khi bước 1 lỗi: OpenRouter DeepSeek v4.1 Flash, JSON {slug, intent, confidence}, 3 giây.", "Step 2 when step 1 fails: OpenRouter DeepSeek v4.1 Flash, JSON {slug, intent, confidence}, 3 s."), [rr[2]],
+      [p("state", "ReaderState", "reader_state.fallbackState", t("Cùng dữ liệu tối thiểu", "Same minimal data"), "personal")],
+      [o("choice", "ReaderChoice", "choice_check.fallbackChoice", t("slug + ý định", "slug + intent"), "metadata")]),
+    n("choice_check", t("Kiểm lựa chọn + 4 giây", "Choice check + 4 s"), "branch", 3, 0, t("slug phải nằm trong danh sách ứng viên; tổng ngân sách 4 giây (áp trong mã). Sai, hết giờ hoặc lỗi: slug null, source none — app dùng gợi ý theo luật.", "The slug must be one of the candidates; total budget 4 s (enforced in code). Wrong, late or failed: slug null, source none — the app keeps its rule-based suggestion."), [rr[2]],
+      [p("choice", "ReaderChoice", "decision_call.choice", t("Lựa chọn bước 1", "Step 1 choice"), "metadata"), p("fallbackChoice", "ReaderChoice", "chat_fallback.choice", t("Lựa chọn bước 2", "Step 2 choice"), "metadata")],
+      [o("suggestion", "ReaderSuggestion", "usage_log.suggestion", t("slug/null + nguồn", "slug/null + source"), "metadata")]),
+    n("usage_log", t("Ghi usage", "Usage record"), "storage", 4, 0, t("usage reader_router_suggested: nguồn, model, slug, độ trễ; không có nội dung câu hỏi.", "usage reader_router_suggested: source, model, slug, latency; no question text."), [rr[1]],
+      [p("suggestion", "ReaderSuggestion", "choice_check.suggestion", t("Kết quả", "Result"), "metadata")],
+      [o("response", "ReaderSuggestion", "response.response", t("Trả cho app", "Returned to the app"), "metadata")]),
+    n("response", t("Trả gợi ý", "Return suggestion"), "output", 5, 0, t("{slug, confidence, intent, source}; 429 reader_router_daily; 503 khi tạm nghỉ.", "{slug, confidence, intent, source}; 429 reader_router_daily; 503 when paused."), [rr[1]],
+      [p("response", "ReaderSuggestion", "usage_log.response", t("Gợi ý", "Suggestion"), "metadata")])
+  ], [
+    e("guard_state", "request_guard", "reader_state", t("Lượt rút", "Draw"), [rr[1]], ["draw", "draw"]),
+    e("state_decision", "reader_state", "decision_call", t("Trạng thái tối thiểu", "Minimal state"), [rr[2]], ["state", "state"]),
+    e("state_chat", "reader_state", "chat_fallback", t("Khi bước 1 lỗi", "When step 1 fails"), [rr[2]], ["fallbackState", "state"], t("Bước quyết định lỗi hoặc hết giờ.", "Decision step failed or timed out.")),
+    e("decision_check", "decision_call", "choice_check", t("Lựa chọn", "Choice"), [rr[2]], ["choice", "choice"]),
+    e("chat_check", "chat_fallback", "choice_check", t("Lựa chọn dự phòng", "Fallback choice"), [rr[2]], ["choice", "fallbackChoice"]),
+    e("check_usage", "choice_check", "usage_log", t("Gợi ý hoặc null", "Suggestion or null"), [rr[1]], ["suggestion", "suggestion"]),
+    e("usage_response", "usage_log", "response", t("Trả về", "Return"), [rr[1]], ["response", "response"])
+  ], [t("Chi phí API quyết định chỉ ghi trong usage metadata, chưa có trong bảng giá hay ai trace. Khóa OPENAI_API_KEY / GEMINI_API_KEY cần Owner đặt nếu dùng hai nhà cung cấp đó.", "Decision API cost is only in usage metadata, not in the price book or AI traces. OPENAI_API_KEY / GEMINI_API_KEY must be set by the Owner to use those providers.")]);
+
   // Field-level ports supplement aggregates; these names describe data use only,
   // never expose example private values or turn the graph into an executor.
   const fieldNode = (feature, id) => feature.nodes.find((item) => item.id === id);
@@ -274,8 +343,8 @@
     o("messages", "ModelMessage[]", "compiled.preview.messages; no provider dispatch", t("Chỉ context được cho phép và current question; không có Model Call", "Only permitted context and current question; no Model Call"), "sensitive")
   );
   const catalog = {
-    schemaVersion: 1, version: "nilaza-admin-workflow-source-v1", reviewedAt: "2026-10-16",
-    features: [oracle, persona, council, tarot, daily, notifications, astrology, face],
+    schemaVersion: 1, version: "nilaza-admin-workflow-source-v1", reviewedAt: "2026-11-24",
+    features: [oracle, persona, council, tarot, daily, notifications, astrology, face, tarotNote, readerRouter],
     sourceDigests: [
   {
     "path": "supabase/migrations/20260909014614_ai_trace_observability.sql",
@@ -283,7 +352,7 @@
   },
   {
     "path": "apps/mobile/App.tsx",
-    "sha256": "5458df4f5044819da31378a376d49af9c756299c6352e21156b4e31e16d44976"
+    "sha256": "ecd399da78a192900a103bcae6dc5a95ec7123a6f49fccf5f4bc4c8787da3d18"
   },
   {
     "path": "docs/FEATURE_PRD.md",
@@ -335,11 +404,11 @@
   },
   {
     "path": "supabase/functions/_shared/model-provider.ts",
-    "sha256": "8cdc5dc83a831984f55d355deafb2460c1f0842f1bdd434d1209c04d8bb8ecde"
+    "sha256": "40cc4404b7865faf63435b039e5b1e86b3922962ec55bd2dec649a5cfb15c22f"
   },
   {
     "path": "supabase/functions/_shared/model-router.ts",
-    "sha256": "63c599d57a08343d5d20c8bbb857bc0e8f291568dea6d1fb54d44711d9a76c5c"
+    "sha256": "3d638cb32acbcf251ed7c01f152646a3fce2cd3bb03474c1fb1f00d60cdd699d"
   },
   {
     "path": "supabase/functions/_shared/notification-provider.ts",
@@ -403,15 +472,15 @@
   },
   {
     "path": "supabase/functions/ai-tarot-reading/handler.ts",
-    "sha256": "f0ea9717f4ef9841473a9463b005c5349847f263dee99fa80cfe4a4a26c727e6"
+    "sha256": "54e58553edb153107fa5bda75f10a490bfcf649c2ba8ca396086ce8bbc1dff82"
   },
   {
     "path": "supabase/functions/ai-tarot-reading/index.ts",
-    "sha256": "4ee9436504fc49f569c349200d3da5c6c6d5f62bd1ea5740594e35dc4f39e67c"
+    "sha256": "2ea04d78c1fe70afe35b8c84f40191b05a2ed91f922a76fd394dbff2af7a738e"
   },
   {
     "path": "supabase/functions/ai-tarot-reading/store.ts",
-    "sha256": "27eb368fbe1e3bb19978ea2d7e900b8a2e2c301b0a45599a7058c9f7e84600f9"
+    "sha256": "67402a934c6bc406d392a5917e86f3964f44a2406cd1dd3684b2811b8054d391"
   },
   {
     "path": "supabase/functions/notification-dispatch/index.ts",
@@ -452,6 +521,22 @@
   {
     "path": "supabase/functions/ai-feedback/handler.ts",
     "sha256": "76a4bb3c3f7e4e5662fe1b4a6ddd9aa70f8d3750f5d5db226da394b78cdcd9e1"
+  },
+  {
+    "path": "supabase/functions/_shared/tarot-note-prompt.ts",
+    "sha256": "dbc1e65625887629d9be95a9d657736b2ab0058e14405e919cb78623037aae6a"
+  },
+  {
+    "path": "supabase/functions/_shared/reader-router.ts",
+    "sha256": "f2831ee724126991cb28bdacd55ec8f5c87deb81aba552509f142a1293307291"
+  },
+  {
+    "path": "supabase/functions/_shared/providers/decisions.ts",
+    "sha256": "0979ea6db0bb25eb89af171c4d44a2a947a93cd71131408e487a5d5e91bb538a"
+  },
+  {
+    "path": "packages/content/data/personas-archetypes.json",
+    "sha256": "8dc12fdcf91b5e7ad889adc6d66742945e0c4e7d4a10375f95dee24e6bf06e9e"
   }
 ]
   };

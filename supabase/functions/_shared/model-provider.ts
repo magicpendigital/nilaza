@@ -10,9 +10,31 @@ export const PROVIDER_SECRET_NAMES: Record<ModelProviderName, string> = {
 };
 export const MODEL_PROVIDER_NAMES = Object.keys(PROVIDER_SECRET_NAMES) as ModelProviderName[];
 
+/**
+ * Batch C (2026-11-24): decision APIs return one choice from a fixed list (no text). They are valid only in the
+ * reader_router chain; the router never sends chat traffic to them.
+ */
+export type DecisionProviderName = "openrouter_decisions" | "openai_decisions" | "gemini_decisions";
+export const DECISION_PROVIDER_SECRET_NAMES: Record<DecisionProviderName, string> = {
+  openrouter_decisions: "OPENROUTER_API_KEY",
+  openai_decisions: "OPENAI_API_KEY",
+  gemini_decisions: "GEMINI_API_KEY"
+};
+export const DECISION_PROVIDER_NAMES = Object.keys(DECISION_PROVIDER_SECRET_NAMES) as DecisionProviderName[];
+/** The only route feature whose steps may use a decision provider. */
+export const DECISION_ROUTE_FEATURES = ["reader_router"] as const;
+export type RouteProviderName = ModelProviderName | DecisionProviderName;
+export function isDecisionProvider(value: unknown): value is DecisionProviderName {
+  return DECISION_PROVIDER_NAMES.includes(value as DecisionProviderName);
+}
+export function isChatProvider(value: unknown): value is ModelProviderName {
+  return MODEL_PROVIDER_NAMES.includes(value as ModelProviderName);
+}
+
 /** Admin A7 (D3): one step of a route chain (model_route_versions.steps, at most 4). */
 export type ModelRouteStep = {
-  provider: ModelProviderName;
+  /** A decision provider appears only in reader_router chains (see DECISION_ROUTE_FEATURES). */
+  provider: RouteProviderName;
   model: string;
   timeoutMs: number;
   maxTokens: number;
@@ -20,6 +42,10 @@ export type ModelRouteStep = {
   jsonMode: boolean;
   reasoning?: ReasoningSetting | null;
 };
+export type ChatRouteStep = ModelRouteStep & { provider: ModelProviderName };
+export function isChatStep(step: ModelRouteStep): step is ChatRouteStep {
+  return isChatProvider(step.provider);
+}
 export const MAX_ROUTE_STEPS = 4;
 
 export type ModelMessage = {

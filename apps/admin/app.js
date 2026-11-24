@@ -217,6 +217,59 @@ const features = [
     ],
     prompt:
       "Create a symbolic archetype reading from user-provided intention and approved image summary only. Do not infer identity, protected traits, attractiveness, health, intelligence, criminality, or trustworthiness."
+  },
+  // Batch C (2026-11-24): code defaults mirror packages/agent-config/model-routing.json.
+  {
+    id: "tarot_note",
+    name: "Tarot Private Note",
+    icon: "G",
+    version: "2026-11-24-tarot-note-v1",
+    status: "Active",
+    risk: "Medium",
+    provider: "openrouter",
+    model: "deepseek/deepseek-v4.1-flash",
+    fallbackProvider: "openrouter",
+    fallbackModel: "xiaomi/mimo-v2.6-flash",
+    schema: "tarot_note_output_v1",
+    safety: "Strict reflection gate",
+    description: "One private note a day about a stored draw, written in the chosen reader's voice. The app sends only drawId.",
+    fields: [
+      field("language", "Language", "low", true, "vi"),
+      field("latestMessage", "Tarot question", "medium", true, "from the stored draw"),
+      field("selectedCards", "Selected tarot cards", "low", true, "from the stored draw"),
+      field("readerPersona", "Reader persona", "low", true, "allowlisted reader"),
+      field("userName", "User name", "medium", false, "not sent"),
+      field("journalHistory", "Journal history", "high", false, "not sent"),
+      field("birthDate", "Birth date", "high", false, "not sent")
+    ],
+    prompt:
+      "Write a short private reflection note about the stored draw in the reader's voice. Use {{tarot.cards}}, {{tarot.spread}} and {{user.question}}. No certain futures or professional advice."
+  },
+  {
+    id: "reader_router",
+    name: "Reader Suggestion",
+    icon: "R",
+    version: "2026-11-24-reader-router-v1",
+    status: "Active",
+    risk: "Medium",
+    provider: "openrouter",
+    model: "deepseek/deepseek-v4.1-flash",
+    fallbackProvider: "",
+    fallbackModel: "",
+    schema: "reader_router_choice_v1",
+    safety: "Choice only, rule-based fallback",
+    description: "Picks one reader from the allowed candidates within 4 seconds; decision APIs return a choice only, no text.",
+    fields: [
+      field("latestMessage", "Tarot question", "medium", true, "from the stored draw"),
+      field("selectedCards", "Selected tarot cards", "low", true, "card names"),
+      field("topic", "Topic", "low", true, "from the stored draw"),
+      field("candidates", "Candidate readers", "low", true, "1-7 allowlisted slugs"),
+      field("userId", "User id", "high", false, "not sent"),
+      field("userName", "User name", "medium", false, "not sent"),
+      field("birthDate", "Birth date", "high", false, "not sent")
+    ],
+    prompt:
+      "Choose exactly one reader slug from the candidates for this question and cards. Return only the slug."
   }
 ];
 
