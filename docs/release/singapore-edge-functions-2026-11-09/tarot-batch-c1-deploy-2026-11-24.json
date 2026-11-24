@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "title": "Tarot Batch C part 1: ai-tarot-reading and admin-ai-eval-run deployed",
+  "date": "2026-11-24",
+  "target": {
+    "projectRef": "etfajmrwyywokgafzxsb",
+    "label": "production (Owner decision 2026-11-12)"
+  },
+  "ownerApproval": "Owner approved in chat on 2026-11-24 ('Đồng ý deploy ai-tarot-reading và admin-ai-eval-run').",
+  "records": [
+    "docs/feature-plans/tarot-ai-reading-guide-2026-11-22.json"
+  ],
+  "sourceCommit": "b5ea7a0",
+  "sourceNote": "main had moved from the PR 61 merge (f4df5c1) to b5ea7a0 (PRs 62 docs and 63 app); git diff f4df5c1 b5ea7a0 -- supabase/functions is empty, so the deployed code equals Batch C part 1.",
+  "migrations": [],
+  "functions": {
+    "method": "npx --yes supabase@3.1.0 functions deploy ai-tarot-reading admin-ai-eval-run --project-ref etfajmrwyywokgafzxsb --use-api --yes (run by Claude)",
+    "deployed": [
+      { "name": "ai-tarot-reading", "version": 14, "verifyJwt": true },
+      { "name": "admin-ai-eval-run", "version": 8, "verifyJwt": true }
+    ]
+  },
+  "verification": {
+    "done": [
+      "functions list shows both functions ACTIVE at the versions above",
+      "unauthenticated POST to each function returns 401"
+    ],
+    "notDone": [
+      "answer quality of the v6 prompt with readingGuide on a real or blind-test run",
+      "Admin eval run against the deployed function"
+    ]
+  },
+  "rollback": "Redeploy both functions from the commit before PR 61 (769dcb4, merge of PR 60) with the same command."
+}

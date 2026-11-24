@@ -38,6 +38,7 @@ Admin-only paths are not exposed as mobile navigation routes. They are called by
 | --- | --- | --- |
 | `/admin/ai-council-config` | `admin-ai-council-config` | `ai.read` (GET) / `ai.manage` (POST) |
 | `/admin/model-router-config` | `admin-model-router-config` | `ai.read` (GET) / `ai.manage` (POST) |
+| `/admin/model-campaigns` | `admin-model-campaigns` | `ai.read` (GET) / `ai.manage` (POST; Model và chiến dịch, needs migration `20261124090100_model_campaigns.sql`) |
 | `/admin/astrology-prompt-config` | `admin-astrology-prompt-config` | `ai.read` (GET) / `ai.manage` (POST) |
 | `/admin/ai-trace-qa-payload` | `admin-ai-trace-qa-payload` | `roles.manage` (POST, staging Owner only) |
 | `/admin/documentation` | `admin-documentation` | `ai.read` (GET) |
@@ -70,6 +71,7 @@ supabase functions deploy profile-upsert
 supabase functions deploy journal-entries
 supabase functions deploy admin-ai-council-config
 supabase functions deploy admin-model-router-config
+supabase functions deploy admin-model-campaigns
 supabase functions deploy admin-astrology-prompt-config
 supabase functions deploy admin-ai-trace-qa-payload
 supabase functions deploy admin-documentation

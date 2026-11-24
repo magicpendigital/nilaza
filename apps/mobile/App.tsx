@@ -155,6 +155,12 @@ import { JournalHome } from "./src/features/journal/JournalHome";
 import { savedReadingCards } from "./src/features/journal/savedReading";
 import { cardInline, cardSubtitle, cardTitle } from "./src/features/tarot/cardName";
 import { composeLocalReading, deepReadingHook } from "./src/features/tarot/localReading";
+import { requestTarotNote, requestTarotReaderSuggestion, sendProductEvent, type ProductEventName } from "./src/backendClient";
+import { ReaderSuggestPanel, useReaderSuggestion, type ReaderOption, type ReaderSuggestReading } from "./src/features/tarot/ReaderSuggestPanel";
+import { markReaderMismatchShown, ReaderMismatchSheet, readerMismatchAlreadyShown } from "./src/features/tarot/ReaderMismatchSheet";
+import { TarotFreeNote, useTarotFreeNote } from "./src/features/tarot/TarotFreeNote";
+import { isReaderMismatch, readerDomainPhrase, readerTopicPhrase, TAROT_GUIDE_DECK_DEFAULTS } from "./src/features/tarot/readerSuggest";
+import type { ReaderAiSuggestion, TarotNoteExperiment, TarotNoteOutcome } from "./src/features/tarot/tarotNote";
 import { readingShareText } from "./src/features/tarot/shareText";
 import { ShareCardSheet, type ShareEventMeta, type ShareEventName } from "./src/features/share/ShareCardSheet";
 import { readingModel, todayCardModel, type ShareCardModel, type ShareRequest } from "./src/features/share/shareCardContent";
@@ -715,14 +721,8 @@ const personaEditorialOverrides: Record<
   }
 };
 
-const tarotGuideDeckDefaults: Record<string, string> = {
-  "moon-garden": "inner-child-healer",
-  "rose-mirror": "the-love-oracle",
-  "golden-thread": "the-clear-strategist",
-  "star-seeker": "the-star-weaver",
-  "stellar-mosaic": "the-clear-strategist",
-  "astral-pop-atelier": "the-shadow-mirror"
-};
+// Batch C: the deck default is now only a tie-breaker inside suggestTarotReader (question + cards lead).
+const tarotGuideDeckDefaults = TAROT_GUIDE_DECK_DEFAULTS;
 
 const tarotGuideDeckReasons: Record<string, Record<string, LocalizedText>> = {
   "moon-garden": {
@@ -4492,11 +4492,14 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     }
   };
 
-  const startTarotFollowup = (personaId?: string) => {
+  const startTarotFollowup = (personaId?: string, opener?: string, experiment?: TarotNoteExperiment) => {
     if (!reading) return;
     const mystic = (personaId ? personasById[personaId] : undefined) ?? getRecommendedTarotGuide(reading.deck.id) ?? selectedPersona;
     const context = buildTarotHandoffContext(reading, language);
     openChat("room", mystic.id, context);
+    // Batch C: a suggested opener replaces the generic hand-off text as the first message draft (still editable).
+    if (opener) setChatInput(opener);
+    sendProductEvent("tarot_followup_started", { slug: mystic.slug, campaignId: experiment?.campaignId, variant: experiment?.variant }, backendOptions);
     recordEvent("tarot_followup_chat_opened", { readingId: reading.id, personaId: mystic.id, deckId: reading.deck.id });
   };
 
@@ -5919,6 +5922,10 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
             onBack={handleTarotBack}
             onStartOver={requestTarotStartOver}
             onAskFollowUp={startTarotFollowup}
+            noteMode={tarotServerMode ? "signedIn" : nilazaBackendBaseUrl ? "guest" : "off"}
+            onRequestNote={(drawId) => requestTarotNote(drawId, backendOptions)}
+            onRequestReaderSuggestion={(drawId, candidates) => requestTarotReaderSuggestion(drawId, candidates, backendOptions)}
+            onProductEvent={(name, metadata) => sendProductEvent(name, metadata, backendOptions)}
             onChatWithCard={startTarotCardChat}
             onCreateShareArtifact={createShareArtifact}
             onOpenShare={openShareSheet}
@@ -7324,6 +7331,10 @@ export function TarotFlow({
   onBack,
   onStartOver,
   onAskFollowUp,
+  noteMode = "off",
+  onRequestNote,
+  onRequestReaderSuggestion,
+  onProductEvent,
   onChatWithCard,
   onCreateShareArtifact,
   onOpenShare,
@@ -7366,7 +7377,12 @@ export function TarotFlow({
   learnedCardIds: string[];
   onCardLearned: (cardId: string) => void;
   onStartOver: () => void;
-  onAskFollowUp: (personaId?: string) => void;
+  onAskFollowUp: (personaId?: string, opener?: string, experiment?: TarotNoteExperiment) => void;
+  /** Batch C free note: "signedIn" asks the server, "guest" shows the sign-in invite, "off" (local mode) hides it. */
+  noteMode?: "signedIn" | "guest" | "off";
+  onRequestNote?: (drawId: string) => Promise<TarotNoteOutcome>;
+  onRequestReaderSuggestion?: (drawId: string, candidates: string[]) => Promise<ReaderAiSuggestion | null>;
+  onProductEvent?: (name: ProductEventName, metadata: Record<string, string | undefined | null>) => void;
   onChatWithCard: (card: TarotCard | DrawnTarotCard, deck: TarotDeck, sourceReading?: ReturnType<typeof drawReading> | null) => void;
   onCreateShareArtifact: () => void;
   onOpenShare: (request: ShareRequest) => void;
@@ -7452,6 +7468,79 @@ export function TarotFlow({
     tarotGuideOptions.find((persona) => persona.id === selectedTarotGuideId) ??
     recommendedTarotGuide;
   const selectedTarotGuideReason = getTarotGuideReason(selectedDeck.id, selectedTarotGuide, language);
+  // Batch C: suggest the reader from the question and the drawn cards; the deck only breaks ties.
+  const readerSuggestReading = useMemo<ReaderSuggestReading | null>(() => reading ? {
+    id: reading.id,
+    drawId: reading.drawId,
+    topic: reading.topic ?? tarotTopic,
+    question: reading.question ?? "",
+    deckId: reading.deck.id,
+    cards: reading.selected.map((card, index) => ({
+      cardId: card.id,
+      orientation: card.reversed ? "reversed" as const : "upright" as const,
+      positionKey: reading.cards[index]?.positionKey ?? String(index),
+      suit: card.suit,
+      arcana: card.arcana,
+      name: card.name
+    }))
+  } : null, [reading]);
+  const readerSuggest = useReaderSuggestion({
+    reading: readerSuggestReading,
+    guides: tarotGuideOptions.map((persona) => ({ slug: persona.slug, themes: persona.themes, name: persona.name })),
+    language,
+    aiEnabled: noteMode === "signedIn",
+    requestAi: onRequestReaderSuggestion,
+    onAutoSelect: (slug) => {
+      const persona = tarotGuideOptions.find((option) => option.slug === slug);
+      if (persona) setSelectedTarotGuideId(persona.id);
+    },
+    onShown: ({ slug, topic, source, experiment }) => onProductEvent?.("reader_suggestion_shown", {
+      slug, topic: topic ?? "none", source, campaignId: experiment?.campaignId, variant: experiment?.variant
+    })
+  });
+  const readerOptions: ReaderOption[] = tarotGuideOptions.map((persona) => ({
+    slug: persona.slug,
+    name: localizedText(persona.name, language),
+    role: personaRoleLabel(persona, language),
+    image: getPersonaThumbnail(persona),
+    accentColor: persona.portrait.colors[1]
+  }));
+  const [readerMismatch, setReaderMismatch] = useState<{ slug: string; opener?: string } | null>(null);
+  const askTarotReader = (slug: string, opener?: string) => {
+    const persona = tarotGuideOptions.find((option) => option.slug === slug) ?? selectedTarotGuide;
+    const suggestion = readerSuggest.suggestion;
+    if (reading && suggestion && persona.slug !== suggestion.primary && isReaderMismatch(persona.themes, suggestion.matchedTopic)
+      && !readerMismatchAlreadyShown(reading.id)) {
+      markReaderMismatchShown(reading.id);
+      setReaderMismatch({ slug: persona.slug, opener });
+      onProductEvent?.("reader_mismatch_nudge_shown", {
+        slug: persona.slug, recommendedSlug: suggestion.primary, topic: suggestion.matchedTopic ?? "none",
+        campaignId: readerSuggest.experiment?.campaignId, variant: readerSuggest.experiment?.variant
+      });
+      return;
+    }
+    if (suggestion && persona.slug === suggestion.primary) {
+      onProductEvent?.("reader_suggestion_accepted", {
+        slug: persona.slug,
+        source: readerSuggest.source,
+        campaignId: readerSuggest.experiment?.campaignId,
+        variant: readerSuggest.experiment?.variant
+      });
+    }
+    onAskFollowUp(persona.id, opener, readerSuggest.experiment ?? undefined);
+  };
+  const readerMismatchChosen = readerMismatch ? tarotGuideOptions.find((option) => option.slug === readerMismatch.slug) : undefined;
+  const readerMismatchSuggested = readerSuggest.suggestion ? tarotGuideOptions.find((option) => option.slug === readerSuggest.suggestion?.primary) : undefined;
+  // Decided once per draw, when it first appears: a later "Phân tích chuyên sâu" swaps the reading object but not the draw.
+  const noteAutoRef = useRef<{ drawId?: string; auto: boolean }>({ auto: true });
+  if (reading?.drawId !== noteAutoRef.current.drawId) noteAutoRef.current = { drawId: reading?.drawId, auto: !reading?.replayed };
+  const tarotNote = useTarotFreeNote({
+    drawId: noteMode === "signedIn" ? reading?.drawId : undefined,
+    signedIn: noteMode !== "guest",
+    // A reading opened again (the server replays today's draw) shows nothing until the person taps "Xem lời nhắn".
+    auto: noteAutoRef.current.auto,
+    request: (drawId) => onRequestNote ? onRequestNote(drawId) : Promise.resolve({ kind: "unavailable", reason: "busy" } as const)
+  });
   const editorialDecks = decks;
   const isEditorialStage = stage === "learn" || stage === "topic" || stage === "spread" || stage === "deck" || stage === "deckDetail" || stage === "library" || stage === "draw" || stage === "result";
   const topicGridItems = topics.filter((topic) => topic.id !== "open");
@@ -8320,6 +8409,19 @@ export function TarotFlow({
             reflection={reading.reflection}
             onWriteJournal={onWriteJournal}
           >
+            {tarotNote.state ? (
+              <TarotFreeNote
+                language={language}
+                state={tarotNote.state}
+                reduceMotion={reduceRitualMotion}
+                onRetry={tarotNote.retry}
+                onReveal={tarotNote.reveal}
+                onFeedback={(value) => {
+                  const experiment = tarotNote.state?.kind === "note" ? tarotNote.state.experiment : null;
+                  onProductEvent?.("tarot_note_feedback", { value, campaignId: experiment?.campaignId, variant: experiment?.variant });
+                }}
+              />
+            ) : null}
             {reading.language && reading.language !== language ? <Text style={styles.muted}>{language === "vi" ? "Đang giữ nguyên ngôn ngữ của bài đọc đã lưu." : "Showing the original language of this saved reading."}</Text> : null}
             {reading.drawId && reading.replayed ? (
               <Text accessibilityLiveRegion="polite" style={styles.muted}>{tarotLockedNote(language === "en" ? "en" : "vi", reading.nextDrawAt)}</Text>
@@ -8342,13 +8444,31 @@ export function TarotFlow({
               </Pressable>
             ) : null}
             {tarotResultSource(reading.moderationStatus) === "reference" && onRetryInterpretation ? (
-              <TarotDeepAnalysis language={language} busy={tarotGenerating} busyLabel={c.generatingReading} onPress={onRetryInterpretation}
+              <TarotDeepAnalysis language={language} busy={tarotGenerating} busyLabel={c.generatingReading} onPress={() => {
+                  const experiment = tarotNote.state?.kind === "note" ? tarotNote.state.experiment : null;
+                  onProductEvent?.("tarot_report_opened", { campaignId: experiment?.campaignId, variant: experiment?.variant });
+                  onRetryInterpretation();
+                }}
                 hook={deepReadingHook(reading.selected, reading.spread, language)} />
             ) : null}
             {tarotError ? <Text accessibilityLiveRegion="polite" style={styles.errorText}>{tarotError}</Text> : null}
           </TarotResultView>
         )}
-        {stage === "result" && reading ? (
+        {stage === "result" && reading && readerSuggest.suggestion ? (
+          <ReaderSuggestPanel
+            language={language}
+            suggestion={readerSuggest.suggestion}
+            readers={readerOptions}
+            selectedSlug={selectedTarotGuide.slug}
+            onSelect={(slug) => {
+              const persona = tarotGuideOptions.find((option) => option.slug === slug);
+              if (!persona) return;
+              readerSuggest.markUserChoice();
+              setSelectedTarotGuideId(persona.id);
+            }}
+            onAsk={askTarotReader}
+          />
+        ) : stage === "result" && reading ? (
           <TarotGuideSelector
             deck={selectedDeck}
             language={language}
@@ -8424,11 +8544,38 @@ export function TarotFlow({
           <Ionicons name="arrow-up-outline" size={18} color={colors.ink} />
         </Pressable>
       ) : null}
+      {readerMismatchChosen && readerMismatchSuggested && readerSuggest.suggestion?.matchedTopic ? (
+        <ReaderMismatchSheet
+          visible
+          language={language}
+          chosenName={localizedText(readerMismatchChosen.name, language)}
+          chosenDomain={readerDomainPhrase(readerMismatchChosen.slug, readerMismatchChosen.themes, language)}
+          topicPhrase={readerTopicPhrase(readerSuggest.suggestion.matchedTopic, language)}
+          suggestedName={localizedText(readerMismatchSuggested.name, language)}
+          onKeep={() => {
+            const opener = readerMismatch?.opener;
+            setReaderMismatch(null);
+            onAskFollowUp(readerMismatchChosen.id, opener, readerSuggest.experiment ?? undefined);
+          }}
+          onDismiss={() => setReaderMismatch(null)}
+          onSwitch={() => {
+            const opener = readerMismatch?.opener;
+            setReaderMismatch(null);
+            onProductEvent?.("reader_mismatch_switched", {
+              slug: readerMismatchChosen.slug, recommendedSlug: readerMismatchSuggested.slug,
+              campaignId: readerSuggest.experiment?.campaignId, variant: readerSuggest.experiment?.variant
+            });
+            readerSuggest.markUserChoice();
+            setSelectedTarotGuideId(readerMismatchSuggested.id);
+            onAskFollowUp(readerMismatchSuggested.id, opener, readerSuggest.experiment ?? undefined);
+          }}
+        />
+      ) : null}
       {stage === "result" && reading ? (
         <TarotResultDock
           language={language}
           onSave={saveTarotReading}
-          onAskFurther={() => onAskFollowUp(selectedTarotGuide.id)}
+          onAskFurther={() => askTarotReader(selectedTarotGuide.slug)}
           onShare={onCreateShareArtifact}
           onReport={() => onReportReading(reading.summary, reading.id)}
         />

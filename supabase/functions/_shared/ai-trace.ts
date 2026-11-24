@@ -74,7 +74,7 @@ type TraceFlushResult = {
 const SENSITIVE_KEY = /(^|_)(content|text|prompt|message|question|system|output|input|summary|journal|note|body|context|history|reply|transcript|birth|location|email|phone|token|secret|key)(_|$)/i;
 const SAFE_VALUE_KEY = /(^|_)(id|slug|feature|provider|model|role|language|locale|count|index|version|status|temperature|max(output)?tokens|finish(reason)?|latency(ms)?|request(id)?|moderation(status)?|fallback(used)?|code|type|name|intent|focus|spread|deck|tone|source|schema|allowed|enabled|consent|confidence|length|chars|duration|environment|release)(_|$)/i;
 // Explicit camel-case contract metadata. Do not broaden the keyword regex to admit prompt prose.
-const ANSWER_METADATA_KEYS = new Set(["interactionId", "attemptId", "clientRequestId", "promptVersionId", "promptVersion", "promptDatabaseVersionId", "routeVersionId", "routeVersion", "calculationVersion", "chartContractVersion", "responseSchema", "contentVersion", "validationStatus", "persistenceStatus", "sourceKind"]);
+const ANSWER_METADATA_KEYS = new Set(["interactionId", "attemptId", "clientRequestId", "promptVersionId", "promptVersion", "promptDatabaseVersionId", "routeVersionId", "routeVersion", "calculationVersion", "chartContractVersion", "responseSchema", "contentVersion", "validationStatus", "persistenceStatus", "sourceKind", "campaignId", "variant"]);
 function answerMetadataValue(value: string, key: string) {
   return ANSWER_METADATA_KEYS.has(key) && (/^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}$/.test(value)
     || key === "promptVersionId" && value.length <= 128 && /^local:[A-Za-z0-9_.:-]+@[A-Za-z0-9_.:-]+$/.test(value));

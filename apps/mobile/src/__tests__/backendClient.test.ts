@@ -6,6 +6,9 @@ import {
   generateAiCouncilTurn,
   generateTarotReading,
   requestTarotClarifier,
+  requestTarotNote,
+  requestTarotReaderSuggestion,
+  sendProductEvent,
   requestGuestTarotDraw,
   requestTarotDraw,
   TarotLimitError,
@@ -589,6 +592,100 @@ describe("backendClient", () => {
       expect(JSON.parse(String((mockFetch.mock.calls[0][1] as RequestInit).body))).toEqual({ action: "clarify", drawId });
       mockFetch.mockResolvedValueOnce({ ok: false, status: 409, json: async () => ({ error: "reading_not_ready", drawId }) });
       await expect(requestTarotClarifier(drawId, signedIn)).rejects.toMatchObject({ reason: "busy", status: 409 });
+    });
+  });
+
+  describe("batch C: personal note, reader suggestion and product events", () => {
+    const signedIn = { ...backendOptions, authToken: "fake-test-token" };
+    const drawId = "11111111-2222-4333-8444-555555555555";
+    const ok = (body: unknown, status = 200) => ({ ok: status < 300, status, json: async () => body });
+
+    it("asks for the note with only the draw id and maps the answer", async () => {
+      mockFetch.mockResolvedValueOnce(ok({ note: { text: "Đoạn một. Đoạn hai.", need: "Bạn cần được nghe.", askThem: "Bạn thấy sao?" }, noteStatus: "stored",
+        moderationStatus: "passed", model: "m", experiment: { campaignId: "c1", variant: "b" }, nextNoteAt: "2026-11-25T17:00:00.000Z" }));
+      await expect(requestTarotNote(drawId, signedIn)).resolves.toMatchObject({ kind: "note", note: { need: "Bạn cần được nghe." }, experiment: { campaignId: "c1", variant: "b" } });
+      expect(JSON.parse(String((mockFetch.mock.calls[0][1] as RequestInit).body))).toEqual({ action: "note", drawId });
+    });
+
+    it("maps the daily limit, crisis, unavailable and missing sign-in without inventing text", async () => {
+      mockFetch.mockResolvedValueOnce(ok({ error: "daily_limit_reached", reason: "note_daily", nextNoteAt: "2026-11-25T17:00:00.000Z" }, 429));
+      await expect(requestTarotNote(drawId, signedIn)).resolves.toEqual({ kind: "used_today", nextNoteAt: "2026-11-25T17:00:00.000Z" });
+      mockFetch.mockResolvedValueOnce(ok({ note: null, moderationStatus: "blocked", safety: { crisis: true } }));
+      await expect(requestTarotNote(drawId, signedIn)).resolves.toEqual({ kind: "crisis" });
+      mockFetch.mockResolvedValueOnce(ok({ error: "note_unavailable" }, 503));
+      await expect(requestTarotNote(drawId, signedIn)).resolves.toEqual({ kind: "unavailable", reason: "busy" });
+      mockFetch.mockRejectedValueOnce(new TypeError("Network request failed"));
+      await expect(requestTarotNote(drawId, signedIn)).resolves.toEqual({ kind: "unavailable", reason: "offline" });
+      await expect(requestTarotNote(drawId, backendOptions)).resolves.toEqual({ kind: "unavailable", reason: "auth" });
+    });
+
+    it("retries a note in progress at most three times", async () => {
+      jest.useFakeTimers();
+      try {
+        mockFetch.mockResolvedValue(ok({ error: "note_in_progress", retryAfterSeconds: 1 }, 409));
+        const pending = requestTarotNote(drawId, signedIn);
+        await jest.advanceTimersByTimeAsync(5000);
+        await expect(pending).resolves.toEqual({ kind: "unavailable", reason: "busy" });
+        expect(mockFetch).toHaveBeenCalledTimes(3);
+      } finally {
+        jest.useRealTimers();
+        mockFetch.mockReset();
+      }
+    });
+
+    it("uses the AI reader only when the slug is a candidate", async () => {
+      const candidates = ["the-love-oracle", "the-clear-strategist"];
+      mockFetch.mockResolvedValueOnce(ok({ slug: "the-love-oracle", confidence: 0.8, intent: "love", source: "llm", model: "m", experiment: null }));
+      await expect(requestTarotReaderSuggestion(drawId, candidates, signedIn)).resolves.toMatchObject({ slug: "the-love-oracle", source: "llm" });
+      expect(JSON.parse(String((mockFetch.mock.calls[0][1] as RequestInit).body))).toEqual({ action: "suggest_reader", drawId, candidates });
+      mockFetch.mockResolvedValueOnce(ok({ slug: "someone-else", confidence: 0.9, intent: null, source: "llm" }));
+      await expect(requestTarotReaderSuggestion(drawId, candidates, signedIn)).resolves.toBeNull();
+      mockFetch.mockResolvedValueOnce(ok({ slug: null, confidence: 0, intent: null, source: "none" }));
+      await expect(requestTarotReaderSuggestion(drawId, candidates, signedIn)).resolves.toBeNull();
+      mockFetch.mockRejectedValueOnce(new TypeError("Network request failed"));
+      await expect(requestTarotReaderSuggestion(drawId, candidates, signedIn)).resolves.toBeNull();
+      // The handler refuses more than 7 or repeated candidates (400), so the client dedupes and caps the list.
+      mockFetch.mockClear();
+      mockFetch.mockResolvedValueOnce(ok({ slug: null, confidence: null, intent: null, source: "none", model: null, experiment: null }));
+      const many = ["a", "b", "a", "c", "d", "e", "f", "g", "h"];
+      await requestTarotReaderSuggestion(drawId, many, signedIn);
+      expect(JSON.parse(String((mockFetch.mock.calls[0][1] as RequestInit).body)).candidates).toEqual(["a", "b", "c", "d", "e", "f", "g"]);
+    });
+
+    it("sends product events with enumerated values only and never throws", async () => {
+      mockFetch.mockResolvedValueOnce(ok({}, 202));
+      sendProductEvent("reader_suggestion_shown", { slug: "the-love-oracle", topic: "love", source: "rule", question: "Người ấy có thật lòng?" }, signedIn);
+      await Promise.resolve();
+      const body = JSON.parse(String((mockFetch.mock.calls[0][1] as RequestInit).body));
+      expect(String(mockFetch.mock.calls[0][0])).toMatch(/share-events|share\/events/);
+      // The share-events product-event shape: {name, metadata}; a key outside the allowlist (question) is dropped.
+      expect(body).toEqual({ events: [{ name: "reader_suggestion_shown", metadata: { slug: "the-love-oracle", topic: "love", source: "rule" } }] });
+      mockFetch.mockResolvedValueOnce(ok({}, 202));
+      sendProductEvent("tarot_note_feedback", { value: "yes", campaignId: "6f1c2a40-1b2c-4d5e-8f90-a1b2c3d4e5f6", variant: "B", question: "will-he-call" }, signedIn);
+      await Promise.resolve();
+      // The same payload is asserted as accepted by supabase/functions/share-events/handler_test.ts.
+      expect(JSON.parse(String((mockFetch.mock.calls[1][1] as RequestInit).body))).toEqual({
+        events: [{ name: "tarot_note_feedback", metadata: { campaignId: "6f1c2a40-1b2c-4d5e-8f90-a1b2c3d4e5f6", variant: "B", value: "yes" } }]
+      });
+      mockFetch.mockResolvedValueOnce(ok({}, 202));
+      sendProductEvent("tarot_report_opened", { campaignId: "6f1c2a40-1b2c-4d5e-8f90-a1b2c3d4e5f6", variant: "A", question: "x" }, signedIn);
+      await Promise.resolve();
+      expect(JSON.parse(String((mockFetch.mock.calls[2][1] as RequestInit).body))).toEqual({
+        events: [{ name: "tarot_report_opened", metadata: { campaignId: "6f1c2a40-1b2c-4d5e-8f90-a1b2c3d4e5f6", variant: "A" } }]
+      });
+      mockFetch.mockResolvedValueOnce(ok({}, 202));
+      sendProductEvent("tarot_followup_started", { slug: "the-mystic", campaignId: "6f1c2a40-1b2c-4d5e-8f90-a1b2c3d4e5f6", variant: "C" }, signedIn);
+      await Promise.resolve();
+      expect(JSON.parse(String((mockFetch.mock.calls[3][1] as RequestInit).body)).events[0].metadata)
+        .toEqual({ campaignId: "6f1c2a40-1b2c-4d5e-8f90-a1b2c3d4e5f6", variant: "C", slug: "the-mystic" });
+      mockFetch.mockClear();
+      sendProductEvent("tarot_note_feedback", { campaignId: "not-a-uuid", variant: "B" }, signedIn);
+      expect(mockFetch).not.toHaveBeenCalled();
+      mockFetch.mockRejectedValueOnce(new Error("down"));
+      expect(() => sendProductEvent("tarot_followup_started", { slug: "the-mystic" }, signedIn)).not.toThrow();
+      mockFetch.mockClear();
+      sendProductEvent("tarot_followup_started", { slug: "the-mystic" }, backendOptions);
+      expect(mockFetch).not.toHaveBeenCalled();
     });
   });
 

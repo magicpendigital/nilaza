@@ -9,6 +9,11 @@
 //       model answer frees the claim so "Thử lại" interprets the same draw again (failed attempts capped per day).
 // clarify: one extra server-drawn card with its library meaning (no model), written once.
 // delete: soft delete; the row still holds the lock and counts for the day.
+// note (batch C, 2026-11-24): the free daily private note under the summary, from the stored draw only. One delivered note
+//       per account per Vietnam day (separate from interpret), replayed free; a failure returns 503 note_unavailable and
+//       does not use the note (failed attempts capped). A crisis question gets no note and never reaches a model.
+// suggest_reader (batch C): the AI tier of the reader suggestion. Picks one of the app's candidate readers from the stored
+//       question, topic, spread and cards (no user data), under a 4 s budget; any failure is slug null, source "none".
 import type { ModelGenerationResult } from "../_shared/model-provider.ts";
 import { sanitizeProviderMetadata } from "../_shared/model-provider.ts";
 import {
@@ -28,12 +33,20 @@ import { deriveGuestCards, isGuestDeviceId, usableGuestSecret } from "../_shared
 import { configuredDailyLimit, type ActiveFeatureConfig } from "../_shared/feature-config.ts";
 import { drawClarifierCard, drawServerCards, normalizeTopicKey, sameDraw, tarotLockKey, vietnamDay, type RandomFill } from "./draw.ts";
 import { TarotStoreError, type TarotReadingRow, type TarotStore } from "./store.ts";
+import type { ModelRoute } from "../_shared/model-provider.ts";
+import { safetyRedirectFor } from "../_shared/crisis-safety.ts";
+import type { DailyAttemptResult } from "../_shared/daily-attempts.ts";
+import { assembleTarotNoteSystem, checkTarotNoteText, TAROT_NOTE_PROMPT_VERSION, tarotNoteOutputSchema } from "../_shared/tarot-note-prompt.ts";
+import { READER_ROUTER_BUDGET_MS, readerCandidates, readerRouterOutputSchema, suggestReader } from "../_shared/reader-router.ts";
+import type { DecisionRequest, DecisionResult } from "../_shared/providers/decisions.ts";
 
 // Structural copy of model-router's ModelTraceFinalization (this module stays free of remote imports for tests).
 export type TarotTraceFinalization = { status: "ok" | "blocked" | "fallback" | "error"; output: Record<string, unknown> };
 export type TarotGeneration = ModelGenerationResult & { finalizeTrace?: (input: TarotTraceFinalization) => Promise<void> };
 export type TarotGenerateInput = {
-  feature: "tarot_reading"; deadlineMs?: number; strictTraceRedaction: boolean; deferTraceFlush: boolean;
+  feature: "tarot_reading" | "tarot_note" | "reader_router"; deadlineMs?: number; strictTraceRedaction: boolean; deferTraceFlush: boolean;
+  /** Batch C: the route resolved for this user (resolveFeatureRoute); absent means the router reads the active route. */
+  route?: ModelRoute;
   traceContext: { userId: string; request: Request; clientRequestId?: string; metadata: Record<string, unknown> };
   system: string; messages: Array<{ role: "user"; content: string }>; fallbackText: string;
   acceptOutput: (text: string, finishReason?: string) => string | undefined;
@@ -52,6 +65,20 @@ export type TarotDeps = {
   readTier?: (userId: string) => Promise<"premium" | "free">;
   /** TAROT_GUEST_DRAW_SECRET (pack 1). Unset or short: a guest device id is ignored and the draw uses the CSPRNG. */
   guestSecret?: () => string | undefined;
+  /** Batch C: true when the private note rests (the tarot_reading or the tarot_note switch is off). Absent: note unavailable. */
+  noteFeaturePaused?: () => Promise<boolean>;
+  /** Batch C: true when the reader_router switch is off. */
+  readerRouterPaused?: () => Promise<boolean>;
+  /** Batch C: counts one reader suggestion for today (usage_events reader_router_attempted, 20 a Vietnam day). */
+  claimReaderAttempt?: (userId: string) => Promise<DailyAttemptResult>;
+  /**
+   * Batch C: resolveFeatureRoute: the active route, swapped for the user's variant when a model campaign runs
+   * (experiment {campaignId, variant}); no campaign or a campaign error is the active route with experiment null.
+   */
+  resolveRoute?: (feature: "tarot_reading" | "tarot_note" | "reader_router", userId: string, options?: { locale?: string | null }) =>
+    Promise<{ route: ModelRoute; experiment: { campaignId: string; variant: string } | null }>;
+  /** Batch C: one decision API call (providers/decisions.ts invokeDecision). */
+  decide?: (request: DecisionRequest) => Promise<DecisionResult>;
 };
 export type TarotHandlerOptions = { now?: () => Date; random?: RandomFill; claimToken?: () => string; premiumOnSale?: () => boolean };
 
@@ -60,6 +87,11 @@ export const corsHeaders = {
   "Access-Control-Allow-Headers": answerCorsHeaders
 };
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/** Campaign tags as flat metadata keys: ai-trace keeps campaignId and variant only at the top level (a nested object is redacted). */
+function experimentKeys(experiment: { campaignId: string; variant: string } | null | undefined): Record<string, string> {
+  return experiment ? { campaignId: experiment.campaignId, variant: experiment.variant } : {};
+}
 
 function json(body: Record<string, unknown>, status = 200) {
   return new Response(JSON.stringify(body), { headers: { ...corsHeaders, "Content-Type": "application/json" }, status });
@@ -213,8 +245,13 @@ export function createTarotHandler(configure: (req: Request) => TarotDeps | null
       const promptMetadata = tarotPromptMetadata(prompt, context.cardContextSource);
       const promptVersionId = prompt.promptVersionId;
       const contentVersion = await deps.contentVersion(publishedContent);
+      // Batch C: a running tarot_reading campaign may give this user a variant route (absent dep: the router reads the
+      // active route itself, as before). An active-route read error still fails the request like the router would.
+      const resolved = deps.resolveRoute ? await deps.resolveRoute("tarot_reading", userId, { locale: language }) : null;
+      const experiment = resolved?.experiment ?? null;
       const generation = await deps.generate({
         feature: "tarot_reading",
+        ...(resolved ? { route: resolved.route } : {}),
         deadlineMs: limits.featureConfig?.deadlineMs,
         strictTraceRedaction: true,
         deferTraceFlush: true,
@@ -224,7 +261,7 @@ export function createTarotHandler(configure: (req: Request) => TarotDeps | null
             ...correlation, responseSchema: tarotOutputSchema, contentVersion, deckSlug: context.deck?.slug ?? null, spread: context.spread,
             cardCount: cards.length, language, promptVersionId, cardContextSource: context.cardContextSource,
             deckReadingStyleSent: Boolean(context.deck && "readingStyle" in context.deck), drawId: row.id,
-            attemptNumber: claim.attemptNumber, ...tarotPromptTraceMetadata(prompt)
+            attemptNumber: claim.attemptNumber, ...tarotPromptTraceMetadata(prompt), ...experimentKeys(experiment)
           }
         },
         system: assembleTarotSystem(prompt, language),
@@ -262,7 +299,7 @@ export function createTarotHandler(configure: (req: Request) => TarotDeps | null
         const receipt = await deps.writeReceipt({ ...provenance, userId, sectionIds: ["summary", "reflection"] });
         if (receipt) provenance.answerReceiptId = receipt.receiptId;
         return json({ summary: parsed.summary, reflection: parsed.reflection, sections: [], ...promptMetadata, moderationStatus, provenance, model,
-          persistenceStatus: "skipped", status: "queued", replayed: false, retryable: true, ...base });
+          persistenceStatus: "skipped", status: "queued", replayed: false, retryable: true, experiment, ...base });
       }
 
       if (generation.moderationStatus === "blocked") {
@@ -297,7 +334,8 @@ export function createTarotHandler(configure: (req: Request) => TarotDeps | null
       provenance.remoteId = row.id;
       const usageRecorded = await deps.store.recordUsage({
         user_id: userId, event_name: "tarot_reading_generated", feature: "tarot_reading",
-        metadata: { deckSlug: context.deck?.slug ?? null, spread: context.spread, cardCount: cards.length, persistence: "stored", drawId: row.id, ...promptMetadata, model }
+        metadata: { deckSlug: context.deck?.slug ?? null, spread: context.spread, cardCount: cards.length, persistence: "stored", drawId: row.id, ...promptMetadata, model,
+          ...experimentKeys(experiment) }
       });
       await trace.finalize?.({ status: moderationStatus === "passed" ? "ok" : moderationStatus, output: { stage: "response",
         validationStatus: provenance.validationStatus, persistenceStatus: "stored", usageRecorded, ...rejection } });
@@ -307,7 +345,7 @@ export function createTarotHandler(configure: (req: Request) => TarotDeps | null
         await deps.store.linkReceipt(userId, row.id, { ...interpretation, provenance: { ...interpretation.provenance, answerReceiptId: receipt.receiptId } });
       }
       return json({ summary: parsed.summary, reflection: parsed.reflection, sections: parsed.sections, ...promptMetadata, moderationStatus, provenance, model,
-        persistenceStatus: "stored", remoteId: row.id, status: "completed", replayed: false, ...base });
+        persistenceStatus: "stored", remoteId: row.id, status: "completed", replayed: false, experiment, ...base });
     } finally {
       if (!settled) await deps.store.releaseClaim(userId, row.id, claimToken);
     }
@@ -344,6 +382,177 @@ export function createTarotHandler(configure: (req: Request) => TarotDeps | null
     return json({ drawId: row.id, deleted: true });
   }
 
+  // Per-isolate guard: a draw whose note was already safety-blocked answers "blocked" again without a new model call,
+  // attempt or safety event (the first block is already on file for review).
+  const blockedNoteDraws = new Set<string>();
+  const rememberBlockedNote = (drawId: string) => {
+    if (blockedNoteDraws.size >= 500) blockedNoteDraws.clear();
+    blockedNoteDraws.add(drawId);
+  };
+
+  /** Batch C: the stored note exactly as written; no model call, no quota. */
+  function noteReplay(row: TarotReadingRow, nextNoteAt: string) {
+    const stored = (row.note ?? {}) as Record<string, unknown>;
+    return json({
+      drawId: row.id, note: stored.note ?? null, noteStatus: "replayed", moderationStatus: "passed", provenance: stored.provenance ?? null,
+      model: stored.model ?? null, experiment: stored.experiment ?? null, nextNoteAt
+    });
+  }
+
+  async function note(deps: TarotDeps, userId: string, input: Record<string, unknown>, req: Request, trace: { finalize?: TarotGeneration["finalizeTrace"] }) {
+    const drawId = drawIdOf(input);
+    const day = vietnamDay(now());
+    const nextNoteAt = day.nextDayStart.toISOString();
+    if (!deps.noteFeaturePaused || !deps.resolveRoute) return json({ error: "ai_unavailable" }, 503);
+    const row = await deps.store.read(userId, drawId);
+    if (!row || row.lock_key === null) return json({ error: "draw_not_found" }, 404);
+    if (row.deleted_at) return json(lockedBody("deleted", nextNoteAt, row.id), 409);
+    if (row.note_created_at && row.note) return noteReplay(row, nextNoteAt);
+    const language = row.language === "en" ? "en" : "vi";
+    // A crisis question never reaches a model and never falls through to another one; the app shows the 115 card.
+    const redirect = safetyRedirectFor(row.question ?? "", language);
+    if (redirect) {
+      if (!blockedNoteDraws.has(row.id)) {
+        rememberBlockedNote(row.id);
+        await deps.store.recordSafetyEvent({ user_id: userId, feature: "tarot", reason: redirect.signal, summary: "tarot_note blocked before model", status: "open" });
+      }
+      return json({ drawId: row.id, note: null, moderationStatus: "blocked", safety: { crisis: redirect.safety === "crisis" }, nextNoteAt });
+    }
+    if (blockedNoteDraws.has(row.id)) return json({ drawId: row.id, note: null, moderationStatus: "blocked", safety: { crisis: false }, nextNoteAt });
+    if (await deps.noteFeaturePaused()) return json(featurePausedBody, 503);
+    const correlation = readAnswerCorrelation(req, "tarot_reading", language);
+    const claimToken = newClaimToken();
+    const claim = await deps.store.noteClaim({
+      userId, id: row.id, claimToken, dayStart: day.dayStart.toISOString(), deliveredLimit: 1, attemptLimit: 3,
+      staleSeconds: TAROT_LOCK_POLICY.claimStaleSeconds
+    });
+    if (claim.status === "not_found") return json({ error: "draw_not_found" }, 404);
+    if (claim.status === "deleted") return json(lockedBody("deleted", nextNoteAt, row.id), 409);
+    if (claim.status === "completed") return noteReplay(claim.reading, nextNoteAt);
+    if (claim.status === "limit") return json({ error: "daily_limit_reached", reason: claim.reason, nextNoteAt }, 429);
+    if (claim.status !== "claimed") return json({ error: "note_in_progress", drawId: row.id, retryAfterSeconds: 5 }, 409);
+
+    let settled = false;
+    try {
+      const { route, experiment } = await deps.resolveRoute("tarot_note", userId, { locale: language });
+      const context = prepareTarotContext({ language, deck: row.deck_ref, topic: row.topic, spread: row.spread, question: row.question,
+        selectedCards: row.selected_cards }, await deps.readContent());
+      const generation = await deps.generate({
+        feature: "tarot_note", route, strictTraceRedaction: true, deferTraceFlush: true,
+        traceContext: {
+          userId, request: req, clientRequestId: correlation.clientRequestId,
+          metadata: { ...correlation, feature: "tarot_note", responseSchema: tarotNoteOutputSchema, spread: context.spread, cardCount: context.selectedCards.length,
+            language, promptVersion: TAROT_NOTE_PROMPT_VERSION, drawId: row.id, attemptNumber: claim.attemptNumber, ...experimentKeys(experiment) }
+        },
+        system: assembleTarotNoteSystem(language),
+        messages: [{ role: "user", content: tarotModelMessage(context) }],
+        // No canned note: an empty fallback never passes checkTarotNoteText, so a failure is 503 note_unavailable.
+        fallbackText: "",
+        acceptOutput: (text, finishReason) => isIncompleteAnswerFinishReason(finishReason) ? "incomplete" : checkTarotNoteText(text).reason
+      });
+      trace.finalize = generation.finalizeTrace;
+      const model = sanitizeProviderMetadata(generation);
+      if (generation.moderationStatus === "blocked") {
+        await deps.store.noteRelease(userId, row.id, claimToken);
+        settled = true;
+        if (!blockedNoteDraws.has(row.id)) {
+          rememberBlockedNote(row.id);
+          await deps.store.recordSafetyEvent({ user_id: userId, feature: "tarot", reason: "blocked_topic",
+            summary: `tarot_note blocked: ${generation.safetyReason ?? "safety_filter"}`, status: "open" });
+        }
+        await trace.finalize?.({ status: "blocked", output: { stage: "response", persistenceStatus: "skipped", usageRecorded: false } });
+        return json({ drawId: row.id, note: null, moderationStatus: "blocked", safety: { crisis: false }, nextNoteAt });
+      }
+      const check = generation.moderationStatus === "passed" && !isIncompleteAnswerFinishReason(generation.finishReason)
+        ? checkTarotNoteText(generation.text) : undefined;
+      if (!check?.note) {
+        await deps.store.noteRelease(userId, row.id, claimToken);
+        settled = true;
+        await trace.finalize?.({ status: "error", output: { stage: check ? "validation" : "response", persistenceStatus: "skipped", usageRecorded: false,
+          ...(check?.reason ? { rejection: { code: check.reason } } : {}) } });
+        return json({ error: "note_unavailable", drawId: row.id, attemptCounted: true, retryable: true }, 503);
+      }
+      const provenance = {
+        feature: "tarot_note", ...correlation, locale: language, sourceKind: "ai", generatedAt: now().toISOString(), validationStatus: "validated",
+        promptVersion: TAROT_NOTE_PROMPT_VERSION, routeVersionId: generation.routeVersionId ?? null, routeVersion: generation.routeVersion,
+        traceId: generation.traceId ?? null, providerRequestId: generation.requestId ?? null, responseSchema: tarotNoteOutputSchema
+      };
+      let written = false;
+      try {
+        written = await deps.store.noteFinalize({ userId, id: row.id, claimToken, createdAt: now().toISOString(),
+          note: { note: check.note, provenance, model, experiment } });
+      } catch (error) {
+        if (!(error instanceof TarotStoreError)) throw error;
+      }
+      settled = true;
+      if (!written) {
+        const current = await deps.store.read(userId, row.id).catch(() => null);
+        if (current?.note_created_at && current.note && !current.deleted_at) {
+          await trace.finalize?.({ status: "error", output: { stage: "persist", persistenceStatus: "superseded", usageRecorded: false } });
+          return noteReplay(current, nextNoteAt);
+        }
+        await deps.store.noteRelease(userId, row.id, claimToken);
+        await trace.finalize?.({ status: "error", output: { stage: "persist", persistenceStatus: "failed", usageRecorded: false } });
+        return json({ error: "note_unavailable", drawId: row.id, attemptCounted: true, retryable: true }, 503);
+      }
+      const usageRecorded = await deps.store.recordUsage({ user_id: userId, event_name: "tarot_note_generated", feature: "tarot_note",
+        metadata: { drawId: row.id, spread: context.spread, cardCount: context.selectedCards.length, promptVersion: TAROT_NOTE_PROMPT_VERSION, model,
+          ...experimentKeys(experiment) } });
+      await trace.finalize?.({ status: "ok", output: { stage: "response", validationStatus: "validated", persistenceStatus: "stored", usageRecorded } });
+      return json({ drawId: row.id, note: check.note, noteStatus: "created", moderationStatus: "passed", provenance, model, experiment, nextNoteAt });
+    } finally {
+      if (!settled) await deps.store.noteRelease(userId, row.id, claimToken);
+    }
+  }
+
+  async function suggestReaderAction(deps: TarotDeps, userId: string, input: Record<string, unknown>, req: Request) {
+    const drawId = drawIdOf(input);
+    const candidates = readerCandidates(input.candidates);
+    if (!candidates) throw new AiRequestError(400, "invalid_candidates");
+    if (!deps.readerRouterPaused || !deps.claimReaderAttempt || !deps.resolveRoute || !deps.decide) return json({ error: "ai_unavailable" }, 503);
+    const nextAt = vietnamDay(now()).nextDayStart.toISOString();
+    const row = await deps.store.read(userId, drawId);
+    if (!row || row.lock_key === null) return json({ error: "draw_not_found" }, 404);
+    if (row.deleted_at) return json(lockedBody("deleted", nextAt, row.id), 409);
+    const language = row.language === "en" ? "en" : "vi";
+    const none = { slug: null, confidence: null, intent: null, source: "none", model: null, experiment: null };
+    // A crisis question is never routed to a reader; the app shows its safety card.
+    const redirect = safetyRedirectFor(row.question ?? "", language);
+    if (redirect) return json({ ...none, safety: { crisis: redirect.safety === "crisis" } });
+    if (await deps.readerRouterPaused()) return json(featurePausedBody, 503);
+    const allowed = await deps.claimReaderAttempt(userId);
+    if (allowed === "limit_reached") return json({ error: "daily_limit_reached", reason: "reader_router_daily", nextAt }, 429);
+    if (allowed !== "allowed") return json({ error: "usage_check_unavailable" }, 503);
+    const { route, experiment } = await deps.resolveRoute("reader_router", userId, { locale: language });
+    let context;
+    try {
+      context = prepareTarotContext({ language: "en", deck: row.deck_ref, topic: row.topic, spread: row.spread, question: row.question,
+        selectedCards: row.selected_cards }, null);
+    } catch { return json({ ...none, experiment }); }
+    const correlation = readAnswerCorrelation(req, "tarot_reading", language);
+    const result = await suggestReader({
+      route, candidates, budgetMs: READER_ROUTER_BUDGET_MS,
+      state: { question: row.question, topic: row.topic, spread: row.spread,
+        cards: context.selectedCards.map(card => ({ name: localize(card.name, "en", card.id), positionKey: card.positionKey, reversed: card.reversed === true })) }
+    }, {
+      decide: deps.decide,
+      generate: async step => await deps.generate({
+        feature: "reader_router", route: step.route, deadlineMs: Math.max(5_000, step.deadlineMs), strictTraceRedaction: true, deferTraceFlush: false,
+        traceContext: { userId, request: req, clientRequestId: correlation.clientRequestId,
+          metadata: { ...correlation, feature: "reader_router", responseSchema: readerRouterOutputSchema, drawId: row.id, candidateCount: candidates.length,
+            ...experimentKeys(experiment) } },
+        system: step.system, messages: step.messages, fallbackText: "", acceptOutput: step.acceptOutput
+      })
+    }).catch(() => null);
+    const suggestion = result ?? { ...none, attempts: [] };
+    // Content-free telemetry: no question text, only the outcome.
+    await deps.store.recordUsage({ user_id: userId, event_name: "reader_router_suggested", feature: "reader_router",
+      metadata: { drawId: row.id, source: suggestion.source, slug: suggestion.slug, candidateCount: candidates.length,
+        attempts: suggestion.attempts, routeVersion: route.version, ...experimentKeys(experiment) } });
+    return json({ slug: suggestion.slug, confidence: suggestion.confidence, intent: suggestion.intent, source: suggestion.source,
+      model: suggestion.model, experiment });
+  }
+
   return async (req: Request): Promise<Response> => {
     if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
     if (req.method !== "POST") return json({ error: "Method not allowed" }, 405);
@@ -360,6 +569,8 @@ export function createTarotHandler(configure: (req: Request) => TarotDeps | null
       if (action === "interpret") return await interpret(deps, userId, input, req, trace);
       if (action === "clarify") return await clarify(deps, userId, input);
       if (action === "delete") return await remove(deps, userId, input);
+      if (action === "note") return await note(deps, userId, input, req, trace);
+      if (action === "suggest_reader") return await suggestReaderAction(deps, userId, input, req);
       // Builds before P1-A sent their own cards without a draw; the server no longer interprets client-chosen cards.
       throw new AiRequestError(400, action === undefined ? "draw_required" : "invalid_tarot_action");
     } catch (error) {

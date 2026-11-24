@@ -1,6 +1,9 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.7.1";
-import { generateWithModelRoute } from "../_shared/model-router.ts";
+import { generateWithModelRoute, resolveFeatureRoute } from "../_shared/model-router.ts";
+import { claimDailyAttempt } from "../_shared/daily-attempts.ts";
+import { invokeDecision } from "../_shared/providers/decisions.ts";
+import { READER_ROUTER_DAILY_LIMIT } from "../_shared/reader-router.ts";
 import { resolveTarotPrompt, tarotContentVersion } from "../_shared/tarot-prompt.ts";
 import { readPublishedTarotContent } from "../_shared/tarot-content.ts";
 import { aiAuthUserOrUnavailable } from "../_shared/ai-request-guard.ts";
@@ -47,6 +50,18 @@ const handler = createTarotHandler(req => {
     resolvePrompt: language => resolveTarotPrompt(supabase, language),
     contentVersion: async content => content?.version ?? await tarotContentVersion(),
     generate: input => generateWithModelRoute({ ...input, supabase }),
+    // Batch C (2026-11-24): the private note rests when Tarot AI or the note switch is off.
+    noteFeaturePaused: async () => await featurePaused(supabase as never, "tarot_reading") || await featurePaused(supabase as never, "tarot_note"),
+    readerRouterPaused: () => featurePaused(supabase as never, "reader_router"),
+    claimReaderAttempt: userId => claimDailyAttempt(supabase as never, { userId, eventName: "reader_router_attempted", feature: "reader_router", limit: READER_ROUTER_DAILY_LIMIT }),
+    // The active route is read with the caller's client (as the router always did); a running model campaign is read
+    // with the service-role client, the only caller runtime_model_campaign_for_feature accepts.
+    resolveRoute: (feature, userId, options) => resolveFeatureRoute(supabase, feature, userId, {
+      campaignClient: admin as unknown as { rpc: (name: string, params?: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }> },
+      locale: options?.locale ?? null
+    }),
+    // Only the decision request (question, topic, spread, card names, candidate descriptions) leaves the function.
+    decide: request => invokeDecision(request, Deno.env),
     writeReceipt: input => writeAnswerReceipt(input as never)
   };
 });

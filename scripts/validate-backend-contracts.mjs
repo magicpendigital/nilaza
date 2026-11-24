@@ -23,7 +23,7 @@ const contracts = [
   { gatewayPath: "/notifications/send-test", functionName: "notification-send-test" }
 ];
 
-const adminFunctions = ["admin-ai-council-config", "admin-model-router-config", "admin-ai-provider-probe", "admin-astrology-prompt-config", "admin-ai-trace-qa-payload", "admin-documentation", "admin-ai-eval-run", "admin-team-invite", "notification-send-test", "notification-dispatch", "notification-receipts"];
+const adminFunctions = ["admin-ai-council-config", "admin-model-router-config", "admin-model-campaigns", "admin-ai-provider-probe", "admin-astrology-prompt-config", "admin-ai-trace-qa-payload", "admin-documentation", "admin-ai-eval-run", "admin-team-invite", "notification-send-test", "notification-dispatch", "notification-receipts"];
 
 function assert(condition, message) {
   if (!condition) errors.push(message);
@@ -161,6 +161,11 @@ for (const functionName of adminFunctions) {
       : functionName === "admin-model-router-config" ? [
         "serve(async (req)", "Access-Control-Allow-Origin", "@supabase/supabase-js", "supabase.auth.getUser",
         'supabase.rpc("has_admin_capability",', "Admin role required", "model_route_versions"
+      ] : functionName === "admin-model-campaigns" ? [
+        // Model campaigns (2026-11-24): the signed-in admin's own session; the SQL RPCs re-check the capability.
+        "serve(async (req)", "Access-Control-Allow-Origin", "@supabase/supabase-js", "supabase.auth.getUser",
+        'supabase.rpc("has_admin_capability",', 'req.method === "GET" ? "ai.read" : "ai.manage"', "Admin role required",
+        "createModelCampaignsHandler"
       ] : functionName === "admin-ai-provider-probe" ? [
         "serve(async (req)", "Access-Control-Allow-Origin", "@supabase/supabase-js", "supabase.auth.getUser",
         'supabase.rpc("has_admin_capability",', 'capability: "ai.manage"', "Admin role required", 'service.rpc("record_ai_provider_probe",'

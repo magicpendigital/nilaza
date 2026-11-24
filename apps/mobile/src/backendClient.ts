@@ -9,6 +9,7 @@ import type { JournalAck, JournalMutation } from "./features/journal/journalRepo
 import { parseAdminAccess } from "./features/owner/access";
 import type { AstrologyAiInvocation, AstrologyAiInsightResponse, AstrologyAiInsightResult } from "./features/astrology/astrologyAiInsight";
 import { parseTarotClarifier, parseTarotGuestDraw, parseTarotServerDraw, type TarotClarifier, type TarotGuestDraw, type TarotServerDraw } from "./features/tarot/serverDraw";
+import { MAX_NOTE_ATTEMPTS, parseReaderSuggestion, parseTarotNoteResponse, type ReaderAiSuggestion, type TarotNoteOutcome } from "./features/tarot/tarotNote";
 import {
   ChatHandoffContext,
   DailyInsight,
@@ -728,6 +729,97 @@ export async function requestTarotClarifier(drawId: string, options: BackendOpti
 }
 
 const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+/**
+ * Batch C: the free daily personal note for one server draw ({action:"note", drawId}). A note already being written
+ * (409 note_in_progress) is asked again after retryAfterSeconds, at most three attempts. Never throws and never
+ * returns canned text: anything unusable is "unavailable" (offline, busy or auth) and the box shows its error state.
+ */
+export async function requestTarotNote(drawId: string, options: BackendOptions): Promise<TarotNoteOutcome> {
+  const current = currentOptions(options);
+  if (!current.baseUrl || !current.authToken) return { kind: "unavailable", reason: "auth" };
+  for (let attempt = 1; attempt <= MAX_NOTE_ATTEMPTS; attempt += 1) {
+    let result: TarotResponse | null;
+    try {
+      result = await postTarot({ action: "note", drawId }, options, 30000);
+    } catch (error) {
+      return { kind: "unavailable", reason: error instanceof BackendUnavailableError ? error.reason : "busy" };
+    }
+    if (!result) return { kind: "unavailable", reason: "auth" };
+    const outcome = parseTarotNoteResponse(result.status, result.body);
+    if (outcome.kind !== "in_progress") return outcome;
+    if (attempt === MAX_NOTE_ATTEMPTS) break;
+    await wait(outcome.retryAfterSeconds * 1000);
+  }
+  return { kind: "unavailable", reason: "busy" };
+}
+
+/**
+ * Batch C optional AI tier of the reader suggestion ({action:"suggest_reader", drawId, candidates}). Waits at most
+ * 4 seconds; returns null on any error, timeout or a slug outside the candidates, so the rule result stays.
+ */
+export async function requestTarotReaderSuggestion(drawId: string, candidates: string[], options: BackendOptions): Promise<ReaderAiSuggestion | null> {
+  const current = currentOptions(options);
+  // The handler refuses (400 invalid_candidates) an empty list, more than 7 or a repeated slug.
+  const unique = [...new Set(candidates)].slice(0, 7);
+  if (!current.baseUrl || !current.authToken || !unique.length) return null;
+  try {
+    const result = await postTarot({ action: "suggest_reader", drawId, candidates: unique }, { ...options, timeoutMs: 0 }, 4000);
+    return result ? parseReaderSuggestion(result.status, result.body, unique) : null;
+  } catch {
+    return null;
+  }
+}
+
+export type ProductEventName =
+  | "tarot_note_feedback"
+  | "reader_suggestion_shown"
+  | "reader_suggestion_accepted"
+  | "reader_mismatch_nudge_shown"
+  | "reader_mismatch_switched"
+  | "tarot_followup_started"
+  | "tarot_report_opened";
+
+export type ProductEventPayload = {
+  name: ProductEventName;
+  metadata: Partial<Record<"campaignId" | "variant" | "value" | "slug" | "recommendedSlug" | "topic" | "source", string>>;
+};
+
+// Mirrors supabase/functions/share-events/handler.ts parseProductEvent (the server contract): any other key or value
+// would make the server refuse the whole request, so it is dropped here instead.
+const PRODUCT_UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+const PRODUCT_SLUG = /^[a-z0-9][a-z0-9_-]{0,47}$/;
+const PRODUCT_SLUG_KEYS = ["slug", "recommendedSlug", "topic", "source"] as const;
+
+/** Pure: the share-events product event {name, metadata} with only the allowed keys and values. */
+export function buildProductEvent(name: ProductEventName, metadata: Record<string, string | undefined | null>): ProductEventPayload {
+  const clean: ProductEventPayload["metadata"] = {};
+  // A campaign tag is a pair (uuid + variant A-D) or nothing.
+  if (typeof metadata.campaignId === "string" && PRODUCT_UUID.test(metadata.campaignId)
+    && typeof metadata.variant === "string" && ["A", "B", "C", "D"].includes(metadata.variant)) {
+    clean.campaignId = metadata.campaignId;
+    clean.variant = metadata.variant;
+  }
+  if (name === "tarot_note_feedback" && (metadata.value === "yes" || metadata.value === "no")) clean.value = metadata.value;
+  for (const key of PRODUCT_SLUG_KEYS) {
+    const value = metadata[key];
+    if (typeof value === "string" && PRODUCT_SLUG.test(value)) clean[key] = value;
+  }
+  return { name, metadata: clean };
+}
+
+/**
+ * Batch C product measurement through the share-events function: {events:[{name, metadata}]} with short enumerated
+ * values only (slugs, topics, sources, campaign ids), never question or note text. Fire-and-forget: it needs a signed-in
+ * session and never throws. A note feedback without its yes/no value is not sent (the server would refuse it).
+ */
+export function sendProductEvent(name: ProductEventName, metadata: Record<string, string | undefined | null>, backendOptions: BackendOptions): void {
+  const options = currentOptions(backendOptions);
+  if (!options.baseUrl || !options.authToken || options.session?.active === false) return;
+  const event = buildProductEvent(name, metadata);
+  if (name === "tarot_note_feedback" && !event.metadata.value) return;
+  void sendShareEvents([event as unknown as ShareEventPayload], backendOptions).catch(() => false);
+}
 
 /** P1-A interpret: only the stored draw; a busy draw (another device) is asked again briefly, then answered from storage. */
 async function interpretServerDraw(input: TarotInterpretationInput & { drawId: string }, options: BackendOptions, correlation: AnswerCorrelation): Promise<TarotInterpretationResult | null> {

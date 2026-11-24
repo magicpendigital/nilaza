@@ -73,7 +73,8 @@ Deno.test("P1-C: every model of the default routes and fallback chains has a dat
   for (const route of Object.values(defaultModelRoutes)) {
     models.add(`${route.primaryProvider}:${route.primaryModel}`);
     if (route.fallbackProvider && route.fallbackModel) models.add(`${route.fallbackProvider}:${route.fallbackModel}`);
-    for (const s of route.steps ?? []) models.add(`${s.provider}:${s.model}`);
+    // Batch C: decision APIs bill per call (usage.cost in the response), not per token, so they are not in the book.
+    for (const s of route.steps ?? []) if (!s.provider.endsWith("_decisions")) models.add(`${s.provider}:${s.model}`);
   }
   assert(models.size >= 2, "default routes found");
   for (const key of models) {
