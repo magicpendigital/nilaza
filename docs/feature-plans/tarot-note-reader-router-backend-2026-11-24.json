@@ -85,7 +85,7 @@
     { "path": "docs/AGENT_TASK_ROUTER.md", "reason": "Backend/AI lane checks.", "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c" },
     { "path": "docs/PLAN_QC_PROTOCOL.md", "reason": "Record shape and preflight.", "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2" },
     { "path": "docs/proposals/TAROT_NOTE_READER_ROUTER_CAMPAIGNS_2026-11-23.vi.md", "reason": "Design of the note, reader suggestion and routes (quota follows the lead's brief: separate from interpret).", "sha256": "4249d8e90fc8bba351a5973be969f62cf9a1b32a74b94fa93e38dea9005ef9a4" },
-    { "path": "supabase/functions/ai-tarot-reading/handler.ts", "reason": "Actions to extend.", "sha256": "98220d9e814c5821f1a6527c1992a30ea4afb58d224ae5064b315b3737f60d06" },
+    { "path": "supabase/functions/ai-tarot-reading/handler.ts", "reason": "Actions to extend.", "sha256": "eb9d33b8c69f57a74018136b616ad27231569a41a502353eb55411477b276f75" },
     { "path": "supabase/functions/ai-tarot-reading/store.ts", "reason": "Store and claim RPC wiring.", "sha256": "67402a934c6bc406d392a5917e86f3964f44a2406cd1dd3684b2811b8054d391" },
     { "path": "supabase/functions/_shared/model-router.ts", "reason": "Route reading, step chain and acceptOutput.", "sha256": "01ca101d275f5e7995e990083096b2d023dfdd37c5b5bedbb1ec8b6864475179" },
     { "path": "supabase/functions/_shared/model-provider.ts", "reason": "Provider names and route types.", "sha256": "40cc4404b7865faf63435b039e5b1e86b3922962ec55bd2dec649a5cfb15c22f" },
@@ -93,7 +93,7 @@
     { "path": "supabase/migrations/20261113140000_model_route_steps.sql", "reason": "Step validator and publish RPC to recreate.", "sha256": "d7c59aa1013839b49bb1fe5325503eefb6272f2c96423f79f5c1470e4e44edea" },
     { "path": "supabase/functions/admin-model-router-config/contract.ts", "reason": "Admin route contract.", "sha256": "3f3beff9c7f3a879f9dad85182af1a779b311ab3ccf91e85e23908144b79edcb" },
     { "path": "apps/admin/model-providers.js", "reason": "Route editor provider list.", "sha256": "465650a9cb0d4ca360913224782a2ab00d1ad2bf93a8148470dd7c82dbf14706" },
-    { "path": "apps/admin/workflow-catalog.js", "reason": "Admin data-flow page.", "sha256": "5a9aa66eacf39c01e916124e8704f4fc9cc32b9746eb72714f0ce947c5305b54" },
+    { "path": "apps/admin/workflow-catalog.js", "reason": "Admin data-flow page.", "sha256": "c19ba594337740496b9a6f58baca8628030935565b8fa9b38852539aefdea171" },
     { "path": "packages/content/data/personas-archetypes.json", "reason": "Reader allowlist (active, free).", "sha256": "8dc12fdcf91b5e7ad889adc6d66742945e0c4e7d4a10375f95dee24e6bf06e9e" }
   ],
   "skillReview": [
