@@ -194,6 +194,18 @@ function validStoredInput(report: Pick<SavedChart, "input" | "chart">) {
     return false;
   }
 }
+// Tôi là ai > Báo cáo đã lưu: same local effect as the Chiêm tinh delete (the chart and its notes go).
+// The caller deletes any synced AI report first. Invalid stored data is never overwritten.
+export async function removeSavedChart(storage: AstrologyPersistence, chartId: string) {
+  const data = await storage.loadJson<unknown>(astrologyStorageKey, freshAstrologyData());
+  if (!validAstrologyData(data)) throw new Error("Invalid stored astrology data");
+  if (!data.reports.some((chart) => chart.id === chartId)) return;
+  await storage.saveJsonOrThrow(astrologyStorageKey, {
+    ...data,
+    reports: data.reports.filter((chart) => chart.id !== chartId),
+    notes: data.notes.filter((note) => note.id !== chartId),
+  });
+}
 export async function clearAstrologyBirthData(storage: AstrologyPersistence) {
   const data = await storage.loadJson<unknown>(
     astrologyStorageKey,

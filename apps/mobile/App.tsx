@@ -187,6 +187,8 @@ function personaTagline(persona: Persona, language: Language) {
 
 const learnedTarotCardsKey = "nilaza.learnedTarotCards.v1";
 import { ProfileHome } from "./src/features/profile/ProfileHome";
+import { WhoAmI } from "./src/features/profile/WhoAmI";
+import { useSavedCharts } from "./src/features/profile/useSavedCharts";
 import { BirthDateFields } from "./src/features/astrology/BirthFields";
 import { DeleteAccountPanel } from "./src/features/profile/DeleteAccountPanel";
 
@@ -245,7 +247,7 @@ import { createJournalDraftStore, journalDraftStorageKey, type JournalDraftStore
 import { buildLocalExport } from "./src/features/privacy/localExport";
 import { cleanupExportFiles, deliverExport } from "./src/features/privacy/deliverExport";
 import { AstrologyExperience } from "./src/features/astrology/AstrologyExperience";
-import { clearAstrologyBirthData } from "./src/features/astrology/persistence";
+import { clearAstrologyBirthData, removeSavedChart, type AstrologyPersistence, type SavedChart } from "./src/features/astrology/persistence";
 import { buildSafeAstrologyContext } from "./src/features/astrology/handoff";
 import { mapDailyInsight, mapJournalRows, mapPersonaMessages, mapProfileSnapshot, mergeById } from "./src/auth/personalData";
 import { buildDevicePushRegistration, requestNotificationPermission, subscribeToNotificationResponses } from "./src/notifications";
@@ -3130,6 +3132,10 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const [guestCarryBusy, setGuestCarryBusy] = useState(false);
   const [tarotClarifierBusy, setTarotClarifierBusy] = useState(false);
   const [astrologyStage, setAstrologyStage] = useState<AstrologyStage>("hub");
+  // Tôi là ai > Báo cáo đã lưu > Xem opens this chart in Chiêm tinh; cleared when Chiêm tinh is left.
+  const [astrologyChartToOpen, setAstrologyChartToOpen] = useState<string | undefined>(undefined);
+  // Bumped after a saved chart changes outside Chiêm tinh so Tôi là ai reads the store again.
+  const [savedChartsRevision, setSavedChartsRevision] = useState(0);
   const [astrologyReturnScreen, setAstrologyReturnScreen] = useState<Tab>("home");
   const [astrologyFocus, setAstrologyFocus] = useState<AstrologyFocus>("soul");
   const [astrologyReport, setAstrologyReport] = useState<AstrologyReport | null>(null);
@@ -4169,9 +4175,13 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     setAstrologyReturnScreen(currentTabOrHome());
     setScreen("astrology");
     setAstrologyStage(stage);
+    setAstrologyChartToOpen(undefined);
     setAstrologyError("");
     recordEvent("astrology_opened", { stage });
   };
+  useEffect(() => {
+    if (screen !== "astrology") setAstrologyChartToOpen(undefined);
+  }, [screen]);
 
   const startQuickTarot = () => {
     setTarotReturnScreen(currentTabOrHome());
@@ -5062,12 +5072,28 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     setBirthTime("");
     setBirthTimeUnknown(false);
     setBirthPlace("");
+    setSavedChartsRevision((value) => value + 1);
     recordEvent("birth_profile_cleared");
     showToast(backendOptions.authToken
       ? language === "vi"
         ? "Đã xóa hồ sơ ngày sinh trên máy và ẩn các bài đọc AI Chiêm tinh đã đồng bộ"
         : "Birth profile deleted on this device and synced Astrology AI reports hidden"
       : c.birthProfileCleared);
+  };
+
+  const deleteSavedChartFromProfile = async (chartId: string) => {
+    try {
+      // Same order as the Chiêm tinh delete: the synced AI report first, then the chart on this device.
+      if (backendOptions.authToken) await deleteAstrologyAiReportForChart(backendOptions, chartId);
+      await removeSavedChart(storage, chartId);
+    } catch {
+      showToast(language === "vi"
+        ? "Chưa xóa được lá số; bản trên thiết bị vẫn được giữ để bạn thử lại."
+        : "The chart could not be deleted; the device copy remains so you can retry.");
+      return;
+    }
+    setSavedChartsRevision((value) => value + 1);
+    showToast(language === "vi" ? "Đã xóa lá số khỏi thiết bị" : "Chart deleted from this device");
   };
 
   const exportLocalData = async () => {
@@ -5976,6 +6002,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         ) : screen === "astrology" ? (
           <AstrologyExperience key={scope.key} language={language} storage={storage} accountReady={loaded}
             initialStage={astrologyStage === "sky" ? "sky" : undefined}
+            initialChartId={astrologyChartToOpen}
             onWriteJournal={(prompt) => { setJournalPrompt(prompt); setJournalEntryToOpen(null); navigate("journal"); }}
             onReportAnswer={setFeedbackTarget}
             onOpenShare={openShareSheet}
@@ -6154,6 +6181,21 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                   ? new Date(authState.user.createdAt).toLocaleDateString(language === "vi" ? "vi-VN" : "en-GB", { day: "2-digit", month: "2-digit", year: "numeric" })
                   : undefined}
                 readingsCount={journalEntries.filter((entry) => entry.sourceType === "tarot").length}
+                storage={storage}
+                journalEntries={journalEntries}
+                savedChartsRevision={savedChartsRevision}
+                onOpenSavedChart={(chart) => { startAstrology("hub"); setAstrologyChartToOpen(chart.id); }}
+                onMakeChart={() => startAstrology("hub")}
+                onWriteJournal={() => { setJournalEntryToOpen(null); navigate("journal"); }}
+                onDeleteSavedChart={(chart) => requestConfirmation({
+                  title: language === "vi" ? "Xóa lá số này?" : "Delete this chart?",
+                  body: language === "vi"
+                    ? "Lá số và ghi chú đi kèm sẽ bị xóa khỏi thiết bị này. Nếu có bài đọc AI đã đồng bộ, bài đó cũng bị xóa khỏi tài khoản. Thông tin ngày sinh vẫn được giữ."
+                    : "The chart and its notes will be removed from this device. A synced AI reading for it is also deleted from your account. Your birth details stay.",
+                  confirmLabel: language === "vi" ? "Xóa lá số" : "Delete chart",
+                  tone: "danger",
+                  onConfirm: () => confirmDestructiveAction(() => { void deleteSavedChartFromProfile(chart.id); })
+                })}
                 dailyReminder={dailyReminder}
                 onDailyReminderChange={(next) => { void changeDailyReminder(next); }}
                 onDeleteAccount={async () => {
@@ -8866,6 +8908,13 @@ function JournalScreen({
 function ProfileScreen({
   c,
   signLabel,
+  storage,
+  journalEntries,
+  savedChartsRevision,
+  onOpenSavedChart,
+  onDeleteSavedChart,
+  onMakeChart,
+  onWriteJournal,
   memberSince,
   readingsCount,
   dailyReminder,
@@ -8967,13 +9016,25 @@ function ProfileScreen({
   onDeleteAccount: () => Promise<string | null>;
   /** Opens a section directly, e.g. Premium from a locked feature. */
   initialSection?: "premium";
+  /** Tôi là ai (Lô 4): saved charts are read from this account's device store. */
+  storage: AstrologyPersistence;
+  journalEntries: JournalEntry[];
+  savedChartsRevision: number;
+  onOpenSavedChart: (chart: SavedChart) => void;
+  onDeleteSavedChart: (chart: SavedChart) => void;
+  onMakeChart: () => void;
+  onWriteJournal: () => void;
   premium: PremiumState;
   premiumUserId: string | undefined;
   onSignIn?: () => void;
 }) {
   const currentTone = tones.find((tone) => tone.id === profile.tone);
   const annualPriceMath = getAnnualPriceHypothesisMath();
-  const [profileSection, setProfileSection] = useState<"overview" | "identity" | "birth" | "preferences" | "privacy" | "notifications" | "premium" | "account" | "deleteAccount">(initialSection ?? "overview");
+  const [profileSection, setProfileSection] = useState<"overview" | "whoAmI" | "identity" | "birth" | "preferences" | "privacy" | "notifications" | "premium" | "account" | "deleteAccount">(initialSection ?? "overview");
+  const savedCharts = useSavedCharts(storage, profileSection === "whoAmI", savedChartsRevision);
+  // Sections opened from Tôi là ai go back to it; everything else goes back to the Tôi overview.
+  const [openedFromWhoAmI, setOpenedFromWhoAmI] = useState(false);
+  const openFromWhoAmI = (section: "birth" | "identity") => { setOpenedFromWhoAmI(true); setProfileSection(section); };
   const hasBirthProfile = Boolean(birthDate || birthTime || birthPlace || birthTimeUnknown);
   const birthTimeLabel = birthTimeUnknown || !birthTime ? c.unknownBirthTime : birthTime;
   const selectedGoals = goals.filter((goal) => profile.goals.includes(goal.id));
@@ -9068,6 +9129,7 @@ function ProfileScreen({
     });
   };
   const detailTitles = {
+    whoAmI: language === "vi" ? "Tôi là ai" : "Who am I",
     identity: language === "vi" ? "Danh tính & ngôn ngữ" : "Identity & language",
     birth: profileLabels.birthSection,
     preferences: profileLabels.preferences,
@@ -9094,6 +9156,7 @@ function ProfileScreen({
           reminder={dailyReminder}
           onReminderChange={onDailyReminderChange}
           onEdit={() => setProfileSection("identity")}
+          onWhoAmI={() => setProfileSection("whoAmI")}
           onPreferences={() => setProfileSection("preferences")}
           onBirth={() => setProfileSection("birth")}
           onNotifications={() => setProfileSection("notifications")}
@@ -9109,8 +9172,34 @@ function ProfileScreen({
           version={appConfig.expo.version}
         />
       ) : (
-        <SubflowTopBar title={detailTitles[profileSection]} onLeft={() => setProfileSection("overview")} />
+        <SubflowTopBar title={detailTitles[profileSection]} onLeft={() => {
+          const back = openedFromWhoAmI && profileSection !== "whoAmI" ? "whoAmI" : "overview";
+          setOpenedFromWhoAmI(false);
+          setProfileSection(back);
+        }} />
       )}
+
+      {profileSection === "whoAmI" ? (
+        <WhoAmI
+          language={language}
+          name={profile.nickname}
+          birthDate={birthDate}
+          birthTime={birthTime}
+          birthTimeUnknown={birthTimeUnknown}
+          birthPlace={birthPlace}
+          savedCharts={savedCharts}
+          journalEntries={journalEntries}
+          syncsWithAccount={onlineSyncAvailable}
+          onOpenChart={onOpenSavedChart}
+          onDeleteChart={onDeleteSavedChart}
+          onMakeChart={onMakeChart}
+          onWriteJournal={onWriteJournal}
+          onEditBirth={() => openFromWhoAmI("birth")}
+          onEditName={() => openFromWhoAmI("identity")}
+          onExport={onExportData}
+          onClearBirth={onClearBirthProfile}
+        />
+      ) : null}
 
       {profileSection === "deleteAccount" ? <DeleteAccountPanel language={language} onDelete={onDeleteAccount} notice={<DeleteAccountBillingNotice language={language} premiumActive={premium.entitled} />} /> : null}
 

@@ -19,6 +19,8 @@ export type ProfileHomeProps = {
   reminder: DailyReminder;
   onReminderChange: (next: DailyReminder) => void;
   onEdit: () => void;
+  /** Lô 4: the name card opens "Tôi là ai". */
+  onWhoAmI?: () => void;
   onPreferences: () => void;
   onBirth: () => void;
   onNotifications: () => void;
@@ -77,11 +79,16 @@ export function ProfileHome(props: ProfileHomeProps) {
     <View style={s.root}>
       <Text style={s.title} accessibilityRole="header">{vi ? "Tôi" : "Me"}</Text>
       <View style={s.identity}>
-        <View style={s.avatar}><Text style={s.avatarText}>{props.name.slice(0, 1).toUpperCase()}</Text></View>
-        <View style={s.flex}>
-          <Text style={s.name}>{props.name}</Text>
-          {subtitle ? <Text style={s.rowDetail}>{subtitle}</Text> : null}
-        </View>
+        <Pressable accessibilityRole={props.onWhoAmI ? "button" : undefined} disabled={!props.onWhoAmI} onPress={props.onWhoAmI}
+          accessibilityLabel={props.onWhoAmI ? (vi ? `${props.name}, mở Tôi là ai` : `${props.name}, open Who am I`) : undefined}
+          style={s.identityCard}>
+          <View style={s.avatar}><Text style={s.avatarText}>{props.name.slice(0, 1).toUpperCase()}</Text></View>
+          <View style={s.flex}>
+            <Text style={s.name}>{props.name}</Text>
+            {subtitle ? <Text style={s.rowDetail}>{subtitle}</Text> : null}
+            {props.onWhoAmI ? <Text style={s.whoAmI}>{vi ? "Tôi là ai ›" : "Who am I ›"}</Text> : null}
+          </View>
+        </Pressable>
         <Pressable accessibilityRole="button" accessibilityLabel={vi ? "Sửa tên và ngôn ngữ" : "Edit name and language"} onPress={props.onEdit} style={s.edit}>
           <Text style={s.editText}>{vi ? "Sửa" : "Edit"}</Text>
         </Pressable>
@@ -161,6 +168,8 @@ const s = StyleSheet.create({
   flex: { flex: 1, minWidth: 0 },
   title: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 36, lineHeight: 40 },
   identity: { flexDirection: "row", alignItems: "center", gap: 14 },
+  identityCard: { flex: 1, minWidth: 0, minHeight: layout.minimumTouchTarget, flexDirection: "row", alignItems: "center", gap: 14 },
+  whoAmI: { color: colors.gold, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 12.5, marginTop: 4 },
   avatar: { width: 56, height: 56, borderRadius: 28, backgroundColor: "rgba(201, 164, 92, 0.18)", alignItems: "center", justifyContent: "center" },
   avatarText: { color: colors.gold, fontFamily: typography.headlineRegularFontFamily, fontSize: 26 },
   name: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 24 },

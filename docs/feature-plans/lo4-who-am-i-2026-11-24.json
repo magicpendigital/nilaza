@@ -1,0 +1,168 @@
+{
+  "schemaVersion": 1,
+  "taskId": "lo4-who-am-i-2026-11-24",
+  "ownerAgent": "mobile_agent",
+  "lane": "Mobile: Lô 4 of the Bầu trời hôm nay / Bản đồ số / Tôi là ai plan (Tôi là ai screen inside Profile)",
+  "goal": "Do Lô 4 from docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md section 7 and 8: a 'Tôi là ai' section opened by tapping the name card on the Tôi tab, with an identity card (name, birth date/time/place when present, Sun/Moon/Rising chips from the saved own chart, hidden when unknown or ambiguous, numerology chip slot left for Lô 3), 'Bạn trong một câu' composed only from the Owner-approved astrology-big3 templates with the source of each clause, 'Nilaza đã ghi lại' showing counts only from 5 journal entries (hint below 5), saved reports (saved charts on this device) with Xem and Xóa (confirm first), 'Dữ liệu của tôi' (edit birth details and name, export, delete birth details) with an honest on-device / account-sync statement, and 'Hai hệ cùng nhìn bạn' marked 'Sắp có'.",
+  "successCriteria": [
+    "Tapping the name card on the Tôi tab opens 'Tôi là ai'; Back returns to the Tôi tab.",
+    "Chips show only signs that are certain (one possible sign); Rising only with an exact birth time; no chip and an invite to make a chart when no chart is saved.",
+    "'Bạn trong một câu' uses sunHeadline + moonClause from astrology-big3.json (status approved), lists where each clause comes from, and is hidden unless Sun and Moon are both certain.",
+    "'Nilaza đã ghi lại' shows journal entries, saved readings and consecutive weeks with a journal entry only when there are 5 or more journal entries; below 5 it shows the 'Viết thêm vài mục…' hint with how many are left.",
+    "Consecutive-week count is a pure tested function (Monday-start local weeks, current or previous week may start the run, gaps break it).",
+    "Saved charts list shows each chart with Xem (opens that chart in Chiêm tinh) and Xóa (confirmation dialog, then removes it on this device and asks the account to delete its synced AI report when signed in, the same as the Chiêm tinh delete).",
+    "'Dữ liệu của tôi' rows open the birth and identity sections, export and delete birth details through the existing confirmation dialogs; the text tells the truth about sync (profile and birth details sync with the account when signed in; saved charts stay on this device).",
+    "No new data is sent anywhere; works offline and for guests.",
+    "tsc, mobile jest suite, mobile:check and validate:data pass."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/profile/ProfileHome.tsx",
+    "apps/mobile/src/features/profile/WhoAmI.tsx",
+    "apps/mobile/src/features/profile/whoAmIModel.ts",
+    "apps/mobile/src/features/profile/useSavedCharts.ts",
+    "apps/mobile/src/features/profile/__tests__/ProfileHome.test.tsx",
+    "apps/mobile/src/features/profile/__tests__/WhoAmI.test.tsx",
+    "apps/mobile/src/features/profile/__tests__/whoAmIModel.test.ts",
+    "apps/mobile/src/features/astrology/persistence.ts",
+    "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+    "apps/mobile/src/features/astrology/__tests__/persistenceRemoveChart.test.ts",
+    "apps/admin/workflow-catalog.js",
+    "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "No numerology calculation, no birth-name field, no life-path chip value (Lô 3); the identity card accepts an optional life-path label for Lô 3 to fill.",
+    "Profile row 'Ngày sinh & lá số' keeps its label until the name field exists (Lô 3).",
+    "No face-reading report storage exists in the app, so the saved-reports list covers saved charts only.",
+    "'Hai hệ cùng nhìn bạn' is a 'Sắp có' label only, no AI call.",
+    "No backend, SQL, Edge Function, Admin, prompt or store setting change; existing deleteAstrologyAiReportForChart client call is reused unchanged."
+  ],
+  "impact": {
+    "entryPoint": "Tôi tab name card -> 'Tôi là ai' profile section; Xem on a saved chart -> Chiêm tinh opened on that chart; Back returns to the Tôi tab overview.",
+    "dataWrite": "Reads nilaza.astrology.v2 (saved charts) and journal entries already in memory. Xóa removes one chart and its notes from nilaza.astrology.v2, like the Chiêm tinh delete. No new storage key.",
+    "backendContract": "None changed. When signed in, Xóa calls the existing deleteAstrologyAiReportForChart before removing the local chart (same order as Chiêm tinh).",
+    "adminVisibility": "No Admin field or metric; mobile UI only.",
+    "privacySafety": "Birth data stays where it is today. The screen states that profile and birth details sync with the account when signed in, and that charts are saved on this device. Delete actions ask for confirmation.",
+    "observability": "No new analytics events.",
+    "rollback": "Revert the commit; no data migration."
+  },
+  "canonicalContracts": [
+    "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md",
+    "packages/content/data/astrology-big3.json"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile route and checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md",
+      "reason": "Lô 4 spec (section 7), privacy (section 5), lots (section 8).",
+      "sha256": "13233c67113122461459e95432bce133eaf70f8b71ccee39e8ad7f2e7b2ac05e"
+    },
+    {
+      "path": "packages/content/data/astrology-big3.json",
+      "reason": "Approved Sun/Moon templates for 'Bạn trong một câu'.",
+      "sha256": "896ddd45fbbf2f204bd561e458b5af99cbef95dde760213d2f5b24c252efb4da"
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/skyContent.ts",
+      "reason": "Existing big3Story template use.",
+      "sha256": "0525208ba91c6f52dd4752e5b9296443df0c65688221790b2c1cb0fc1a5ec7ba"
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/sky.ts",
+      "reason": "bigThreeOf and certain-sign rules.",
+      "sha256": "bc8682ee236c9e55352dc4a93f7c0eea90cf8c1cc000bd5b0bf85b701ef2bd79"
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/persistence.ts",
+      "reason": "Saved chart storage and validation.",
+      "sha256": "387bc3c3bb99d5fbc0804197dc480974da6c3291383e5ec02dd8f66e6de304ce"
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+      "reason": "Saved chart open/delete behaviour to mirror; initial chart to open.",
+      "sha256": "ac696b8474561797430ae9a75331db222a50c885d73252b8ec1e12a3bf34bc9c"
+    },
+    {
+      "path": "apps/mobile/src/features/profile/ProfileHome.tsx",
+      "reason": "Name card entry point.",
+      "sha256": "9e39650251f3b48ebb373edb00c33d85dfadc5f0d2f91fb6dc3b8757b6d52bfe"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "ProfileScreen sections, confirmation dialogs, astrology navigation, profile sync.",
+      "sha256": "69456a45c6004dfded8d3fe1f392a018b3392d3dd02f8d2c0250c660c0e77c9c"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before code edits; verified vs not verified in handoff."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Repository code and approved repository content only."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No access change.",
+    "sensitiveData": "Birth details and journal counts are shown on the device only; no new transport. Deleting a chart reuses the existing authenticated delete call.",
+    "secretsLogging": "No secret read, written or logged; .env not read.",
+    "externalInput": "Stored data is validated with validAstrologyData before use; invalid data is not overwritten.",
+    "dependencies": "No package added or upgraded.",
+    "migrationRelease": "No SQL, no deploy, no store change.",
+    "stopCondition": "Stop if tsc or the mobile test suite fails and cannot be fixed inside the write scope.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Lô 4 edits made after the record and preflight (24/11/2026), all inside writeScope; source hashes refreshed to the edited files. The Admin workflow catalog digest for apps/mobile/App.tsx was refreshed because App.tsx changed (Face Reading card untouched). Rebased onto origin/main after Lô 3 (PR #67) merged; PLAN.md, proposal and catalog digest re-merged and hashes refreshed (25/11/2026).",
+    "paths": [
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/features/profile/ProfileHome.tsx",
+      "apps/mobile/src/features/profile/WhoAmI.tsx",
+      "apps/mobile/src/features/profile/whoAmIModel.ts",
+      "apps/mobile/src/features/profile/useSavedCharts.ts",
+      "apps/mobile/src/features/profile/__tests__/ProfileHome.test.tsx",
+      "apps/mobile/src/features/profile/__tests__/WhoAmI.test.tsx",
+      "apps/mobile/src/features/profile/__tests__/whoAmIModel.test.ts",
+      "apps/mobile/src/features/astrology/persistence.ts",
+      "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+      "apps/mobile/src/features/astrology/__tests__/persistenceRemoveChart.test.ts",
+      "apps/admin/workflow-catalog.js",
+      "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md",
+      "PLAN.md"
+    ]
+  },
+  "validationCommands": [
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "npm run mobile:check",
+    "npm run validate:data",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "On an Android phone: Tôi tab, tap your name; see Tôi là ai with your birth details; with a saved chart see the ☉ ☽ ↑ chips and 'Bạn trong một câu'; with fewer than 5 journal entries see the 'Viết thêm vài mục' hint; tap Xem on a saved chart to open it; tap Xóa and cancel; open 'Dữ liệu của tôi' rows.",
+  "residualRisk": "Device behaviour (Back, TalkBack, large text) not verified until tested on a phone. Numerology chip and clause wait for Lô 3.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
