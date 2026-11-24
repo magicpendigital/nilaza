@@ -300,8 +300,9 @@ $$;
 -- payload: {campaign_id, variant, note (10-500), expected_active_id (uuid|null), publish_request_id?, version?,
 -- response_schema?}. Publishes the variant route as the active route through publish_model_route_config, which
 -- checks ai.manage, compare-and-swaps on expected_active_id and writes its own audit row; then ends the campaign.
--- response_schema, fallback_when and safety_policy are kept from the active route; with no active route the caller
--- must give response_schema.
+-- response_schema, fallback_when and safety_policy are kept from the active route; with no active route the caller's
+-- response_schema or the feature default (tarot_note_output_v1, reader_router_choice_v1) is used. primary, fallback,
+-- temperature and max_output_tokens come from the chat steps only: a reader_router chain may start with a decision step.
 create or replace function public.admin_pick_model_campaign_winner(payload jsonb) returns jsonb
 language plpgsql security definer set search_path = '' as $$
 declare
@@ -314,6 +315,7 @@ declare
   request_id uuid;
   route_version text;
   steps jsonb;
+  chat_steps jsonb;
   config jsonb;
   published jsonb;
 begin
@@ -346,6 +348,12 @@ begin
   select * into active from public.model_route_versions r where r.feature = campaign.feature and r.status = 'active'
     order by r.published_at desc nulls last limit 1;
   steps := chosen.route->'steps';
+  select coalesce(jsonb_agg(e.step order by e.ord), '[]'::jsonb) into chat_steps
+    from jsonb_array_elements(steps) with ordinality as e(step, ord)
+    where e.step->>'provider' not in ('openrouter_decisions','openai_decisions','gemini_decisions');
+  if jsonb_array_length(chat_steps) = 0 then
+    raise exception 'The winning route needs a chat step' using errcode = '22023';
+  end if;
   route_version := coalesce(nullif(btrim(payload->>'version'), ''),
     'campaign-' || left(campaign.id::text, 8) || '-' || chosen.key);
   config := jsonb_build_object(
@@ -355,12 +363,13 @@ begin
     'feature', campaign.feature,
     'version', route_version,
     'status', 'active',
-    'primary', jsonb_build_object('provider', steps->0->>'provider', 'model', steps->0->>'model'),
-    'fallback', case when jsonb_array_length(steps) > 1
-      then jsonb_build_object('provider', steps->1->>'provider', 'model', steps->1->>'model') else 'null'::jsonb end,
-    'temperature', steps->0->'temperature',
-    'max_output_tokens', steps->0->'max_tokens',
-    'response_schema', coalesce(nullif(btrim(payload->>'response_schema'), ''), active.response_schema),
+    'primary', jsonb_build_object('provider', chat_steps->0->>'provider', 'model', chat_steps->0->>'model'),
+    'fallback', case when jsonb_array_length(chat_steps) > 1
+      then jsonb_build_object('provider', chat_steps->1->>'provider', 'model', chat_steps->1->>'model') else 'null'::jsonb end,
+    'temperature', chat_steps->0->'temperature',
+    'max_output_tokens', chat_steps->0->'max_tokens',
+    'response_schema', coalesce(nullif(btrim(payload->>'response_schema'), ''), active.response_schema,
+      case campaign.feature when 'tarot_note' then 'tarot_note_output_v1' when 'reader_router' then 'reader_router_choice_v1' end),
     'fallback_when', coalesce(to_jsonb(active.fallback_when),
       '["provider_timeout","rate_limit","provider_5xx","malformed_response"]'::jsonb),
     'safety_policy', coalesce(active.safety_policy, '{}'::jsonb),

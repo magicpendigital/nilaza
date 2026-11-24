@@ -9,8 +9,8 @@
  * The caller tags the trace with experiment.campaignId and experiment.variant in the trace metadata (keys allowed by
  * _shared/ai-trace.ts) so admin_get_model_campaign_metrics can group runs by variant.
  */
-import { parseRouteSteps } from "./model-router.ts";
-import { ModelRoute, ModelRouteStep, validFeatureDeadlineMs } from "./model-provider.ts";
+import { parseRouteSteps } from "./model-route-steps.ts";
+import { DECISION_ROUTE_FEATURES, ModelRoute, ModelRouteStep, isChatStep, validFeatureDeadlineMs } from "./model-provider.ts";
 
 export const CAMPAIGN_FEATURES = [
   "oracle_router", "persona_chat", "ai_council", "tarot_reading", "daily_insight", "astrology_report", "tarot_note", "reader_router"
@@ -70,13 +70,18 @@ export function pickVariant(variants: CampaignVariantInput[], bucket: number): C
   return null;
 }
 
-/** Snake_case variant route from the database to the runtime shape, validated by the router's own parser. */
-export function parseCampaignRoute(value: unknown): CampaignRoute | null {
+/**
+ * Snake_case variant route from the database to the runtime shape, validated by the router's own parser. Decision
+ * providers are accepted only for the features whose active route may hold them (reader_router), and a chain needs at
+ * least one chat step, as the route publish function requires.
+ */
+export function parseCampaignRoute(value: unknown, feature?: string): CampaignRoute | null {
   if (!value || typeof value !== "object" || Array.isArray(value)) return null;
   const route = value as Record<string, unknown>;
   if (Object.keys(route).some((key) => key !== "steps" && key !== "total_deadline_ms")) return null;
-  const steps = parseRouteSteps(route.steps);
-  if (!steps) return null;
+  const allowDecision = typeof feature === "string" && (DECISION_ROUTE_FEATURES as readonly string[]).includes(feature);
+  const steps = parseRouteSteps(route.steps, { allowDecision });
+  if (!steps || !steps.some(isChatStep)) return null;
   let totalDeadlineMs: number | undefined;
   if (route.total_deadline_ms !== undefined && route.total_deadline_ms !== null) {
     totalDeadlineMs = validFeatureDeadlineMs(route.total_deadline_ms);
@@ -148,7 +153,7 @@ export async function resolveCampaignRoute(
     const variants = campaign.variants as Array<Record<string, unknown>>;
     const variant = pickVariant(variants.map((item) => ({ key: String(item?.key ?? ""), trafficPercent: Number(item?.trafficPercent) })), stableBucket(campaign.id, userId));
     if (!variant) return null;
-    const route = parseCampaignRoute(variants.find((item) => item?.key === variant)?.route);
+    const route = parseCampaignRoute(variants.find((item) => item?.key === variant)?.route, feature);
     if (!route) return null;
     return { route, experiment: { campaignId: campaign.id, variant } };
   } catch {
@@ -158,11 +163,12 @@ export async function resolveCampaignRoute(
 
 /**
  * The active route with the campaign chain applied: steps, deadline and the legacy primary/fallback fields follow the
- * variant so an older reader of the route sees the same first two models. Everything else (schema, safety policy,
- * fallback rules) stays from the active route.
+ * variant so an older reader of the route sees the same first two models. The legacy pair is chat-only (as in
+ * rowToRoute and the publish function), so a decision step never becomes the primary. Everything else (schema, safety
+ * policy, fallback rules, id and version) stays from the active route.
  */
 export function applyCampaignRoute(base: ModelRoute, override: CampaignRoute): ModelRoute {
-  const [first, second] = override.steps;
+  const [first, second] = override.steps.filter(isChatStep);
   const { totalDeadlineMs: _drop, ...rest } = base;
   return {
     ...rest,

@@ -644,6 +644,12 @@ describe("backendClient", () => {
       await expect(requestTarotReaderSuggestion(drawId, candidates, signedIn)).resolves.toBeNull();
       mockFetch.mockRejectedValueOnce(new TypeError("Network request failed"));
       await expect(requestTarotReaderSuggestion(drawId, candidates, signedIn)).resolves.toBeNull();
+      // The handler refuses more than 7 or repeated candidates (400), so the client dedupes and caps the list.
+      mockFetch.mockClear();
+      mockFetch.mockResolvedValueOnce(ok({ slug: null, confidence: null, intent: null, source: "none", model: null, experiment: null }));
+      const many = ["a", "b", "a", "c", "d", "e", "f", "g", "h"];
+      await requestTarotReaderSuggestion(drawId, many, signedIn);
+      expect(JSON.parse(String((mockFetch.mock.calls[0][1] as RequestInit).body)).candidates).toEqual(["a", "b", "c", "d", "e", "f", "g"]);
     });
 
     it("sends product events with enumerated values only and never throws", async () => {
@@ -652,7 +658,18 @@ describe("backendClient", () => {
       await Promise.resolve();
       const body = JSON.parse(String((mockFetch.mock.calls[0][1] as RequestInit).body));
       expect(String(mockFetch.mock.calls[0][0])).toMatch(/share-events|share\/events/);
-      expect(body).toEqual({ events: [{ name: "reader_suggestion_shown", slug: "the-love-oracle", topic: "love", source: "rule" }] });
+      // The share-events product-event shape: {name, metadata}; a key outside the allowlist (question) is dropped.
+      expect(body).toEqual({ events: [{ name: "reader_suggestion_shown", metadata: { slug: "the-love-oracle", topic: "love", source: "rule" } }] });
+      mockFetch.mockResolvedValueOnce(ok({}, 202));
+      sendProductEvent("tarot_note_feedback", { value: "yes", campaignId: "6f1c2a40-1b2c-4d5e-8f90-a1b2c3d4e5f6", variant: "B", question: "will-he-call" }, signedIn);
+      await Promise.resolve();
+      // The same payload is asserted as accepted by supabase/functions/share-events/handler_test.ts.
+      expect(JSON.parse(String((mockFetch.mock.calls[1][1] as RequestInit).body))).toEqual({
+        events: [{ name: "tarot_note_feedback", metadata: { campaignId: "6f1c2a40-1b2c-4d5e-8f90-a1b2c3d4e5f6", variant: "B", value: "yes" } }]
+      });
+      mockFetch.mockClear();
+      sendProductEvent("tarot_note_feedback", { campaignId: "not-a-uuid", variant: "B" }, signedIn);
+      expect(mockFetch).not.toHaveBeenCalled();
       mockFetch.mockRejectedValueOnce(new Error("down"));
       expect(() => sendProductEvent("tarot_followup_started", { slug: "the-mystic" }, signedIn)).not.toThrow();
       mockFetch.mockClear();

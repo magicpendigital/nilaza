@@ -62,7 +62,7 @@ function harness(feature, options={}) {
  }};
  const generated={text:JSON.stringify(feature==='tarot'?tarotOutput:fixture('valid-response')),provider:'openai',model:'synthetic-model',routeVersionId:route.id,routeVersion:route.version,requestId:'provider_synthetic',traceId:'trace_synthetic',moderationStatus:'passed',attempts:[],usage:{},latencyMs:1,fallbackUsed:false,...options.generation};
  if(feature==='astrology' && !options.generation?.text){const response=fixture('valid-response');generated.text=JSON.stringify(Object.fromEntries(['headline','synthesis','evidenceFactIds','patterns','tensions','focusSections','reflectionQuestions','suggestedFollowUps'].map(key=>[key,response[key]])));}
- const router={readActiveModelRoute:async()=>route,generateWithModelRoute:async input=>{generations.push(input);calls.push({kind:'provider'});return {...generated,finalizeTrace:async value=>{calls.push({kind:'finalize'});finalizations.push(clone(value));}}}};
+ const router={readActiveModelRoute:async()=>route,resolveFeatureRoute:async()=>({route,experiment:null}),generateWithModelRoute:async input=>{generations.push(input);calls.push({kind:'provider'});return {...generated,finalizeTrace:async value=>{calls.push({kind:'finalize'});finalizations.push(clone(value));}}}};
  const env={SUPABASE_URL:'https://synthetic.invalid',SUPABASE_ANON_KEY:'synthetic-public',SUPABASE_SERVICE_ROLE_KEY:'synthetic-service',AI_TRACE_ENVIRONMENT:'staging'};
  const cache=new Map();
  function load(filename){

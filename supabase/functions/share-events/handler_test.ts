@@ -136,6 +136,15 @@ Deno.test("stores product signals with feature product_signal and the allowliste
   ]);
 });
 
+Deno.test("accepts the exact payloads the mobile sendProductEvent builds (apps/mobile backendClient.test.ts)", async () => {
+  const { call, inserted } = setup();
+  const res = await call({ events: [{ name: "reader_suggestion_shown", metadata: { slug: "the-love-oracle", topic: "love", source: "rule" } }] });
+  assertEquals(res.status, 202);
+  const feedback = await call({ events: [{ name: "tarot_note_feedback", metadata: { campaignId: CAMPAIGN, variant: "B", value: "yes" } }] });
+  assertEquals(feedback.status, 202);
+  assertEquals(inserted.map(rows => rows[0].event_name), ["reader_suggestion_shown", "tarot_note_feedback"]);
+});
+
 Deno.test("accepts every product event name", async () => {
   for (const name of PRODUCT_EVENT_NAMES) {
     const metadata = name === "tarot_note_feedback" ? { value: "no" } : { source: "tarot_result" };

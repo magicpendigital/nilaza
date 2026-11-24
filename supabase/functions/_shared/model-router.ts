@@ -34,6 +34,8 @@ import { invokeOpenAI } from "./providers/openai.ts";
 import { invokeOpenRouter } from "./providers/openrouter.ts";
 import { readOpenRouterBillingReceipt } from "./providers/openrouter-billing.ts";
 import { ConfiguredFeature, readActiveFeatureConfig } from "./feature-config.ts";
+import { parseRouteSteps } from "./model-route-steps.ts";
+import { applyCampaignRoute, resolveCampaignRoute, type CampaignExperiment } from "./model-campaign.ts";
 import {
   CallCost,
   CostSource,
@@ -201,36 +203,7 @@ function envGet(env: EnvLike | undefined, key: string) {
   return typeof Deno !== "undefined" ? Deno.env.get(key) : undefined;
 }
 
-/**
- * A7 (D3): model_route_versions.steps to the runtime shape. Anything outside the database bounds makes the whole chain
- * unusable (undefined), so the route falls back to its primary/fallback columns, which the publish RPC keeps equal to
- * the first two steps.
- */
-export function parseRouteSteps(value: unknown, options: { allowDecision?: boolean } = {}): ModelRouteStep[] | undefined {
-  if (!Array.isArray(value) || value.length < 1 || value.length > MAX_ROUTE_STEPS) return undefined;
-  const steps: ModelRouteStep[] = [];
-  const int = (input: unknown, min: number, max: number) => typeof input === "number" && Number.isInteger(input) && input >= min && input <= max;
-  for (const raw of value) {
-    if (!raw || typeof raw !== "object") return undefined;
-    const step = raw as Record<string, unknown>;
-    // Batch C: a decision provider is valid only in a reader_router chain (the table check and publish RPC agree).
-    if (!MODEL_PROVIDER_NAMES.includes(step.provider as ModelProviderName) && !(options.allowDecision && isDecisionProvider(step.provider))) return undefined;
-    if (typeof step.model !== "string" || !step.model.trim() || step.model.length > 160) return undefined;
-    if (!int(step.timeout_ms, 1_000, FEATURE_DEADLINE_MAX_MS) || !int(step.max_tokens, 64, 8192)) return undefined;
-    if (typeof step.temperature !== "number" || step.temperature < 0 || step.temperature > 2 || typeof step.json_mode !== "boolean") return undefined;
-    let reasoning: ModelRouteStep["reasoning"] = null;
-    if (step.reasoning && typeof step.reasoning === "object") {
-      const r = step.reasoning as { mode?: unknown; maxTokens?: unknown };
-      if (!REASONING_MODES.includes(r.mode as ReasoningMode)) return undefined;
-      reasoning = { mode: r.mode as ReasoningMode, ...(int(r.maxTokens, 64, 8192) && r.mode !== "off" ? { maxTokens: r.maxTokens as number } : {}) };
-    }
-    steps.push({
-      provider: step.provider as RouteProviderName, model: step.model.trim(), timeoutMs: step.timeout_ms as number,
-      maxTokens: step.max_tokens as number, temperature: step.temperature, jsonMode: step.json_mode, reasoning
-    });
-  }
-  return steps;
-}
+export { parseRouteSteps };
 
 function rowToRoute(row: any, fallback: ModelRoute): ModelRoute {
   if (!row) return fallback;
@@ -896,15 +869,37 @@ export async function generateWithModelRoute(input: {
 }
 
 /**
- * Batch C (2026-11-24): the route a feature runs for this user. Model campaigns (A/B variants per user) plug in here;
- * until they exist every user gets the active route and no experiment.
+ * Batch C (2026-11-24): the route a feature runs for this user. The active route is read as before (an ambiguous or
+ * invalid active route still throws); then a running model campaign of the feature, read with the service-role client,
+ * may swap the step chain for the user's variant. No campaign, no service client or any campaign error keeps the active
+ * route and experiment null.
  */
 export async function resolveFeatureRoute(
   supabase: SupabaseLike | null | undefined,
   feature: string,
-  _userId: string
-): Promise<{ route: ModelRoute; experiment: { campaignId: string; variant: string } | null }> {
-  return { route: await readActiveModelRoute(supabase, feature), experiment: null };
+  userId: string,
+  options: {
+    campaignClient?: Parameters<typeof resolveCampaignRoute>[0];
+    locale?: string | null;
+    now?: Date;
+    resolveCampaign?: typeof resolveCampaignRoute;
+  } = {}
+): Promise<{ route: ModelRoute; experiment: CampaignExperiment | null }> {
+  const route = await readActiveModelRoute(supabase, feature);
+  if (!options.campaignClient) return { route, experiment: null };
+  try {
+    const resolve = options.resolveCampaign ?? resolveCampaignRoute;
+    const campaign = await resolve(options.campaignClient, feature, userId, options.now ?? new Date(), { locale: options.locale ?? null, signedIn: true });
+    if (!campaign) return { route, experiment: null };
+    return { route: applyCampaignRoute(route, campaign.route), experiment: { ...campaign.experiment } };
+  } catch {
+    return { route, experiment: null };
+  }
+}
+
+/** Flat trace/usage metadata keys for a campaign run (ai-trace keeps campaignId and variant as top-level keys only). */
+export function experimentTraceMetadata(experiment: { campaignId: string; variant: string } | null | undefined): Record<string, string> {
+  return experiment ? { campaignId: experiment.campaignId, variant: experiment.variant } : {};
 }
 
 /** Owner 04/11: a fallback step may cost more than the first, but one turn stays under 0.02 USD unless configured. */

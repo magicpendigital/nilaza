@@ -19,6 +19,9 @@
     { id: "astrology_report", label: "Đọc sâu Chiêm tinh" },
     { id: "ai_council", label: "Hội đồng" }
   ]);
+  // Batch C: the output contract a winner is published with when the feature has no active route yet (the server
+  // would otherwise refuse it). Mirrors defaultModelRoutes in supabase/functions/_shared/model-router.ts.
+  const DEFAULT_RESPONSE_SCHEMA = Object.freeze({ tarot_note: "tarot_note_output_v1", reader_router: "reader_router_choice_v1" });
   const PROVIDERS = ["openrouter", "anthropic", "gemini", "openai", "deepseek"];
   const KEYS = ["A", "B", "C", "D"];
   const STATUS = Object.freeze({ draft: "Nháp", running: "Đang chạy", paused: "Tạm dừng", ended: "Đã kết thúc" });
@@ -357,7 +360,8 @@
     if (!campaign) return;
     if (dialog.action === "pick_winner") {
       const route = activeRoute(campaign.feature);
-      await post({ action: "pick_winner", campaignId: campaign.id, variant: dialog.variant, note: dialog.note.trim(), expectedActiveId: route?.id ?? null, publishRequestId: dialog.publishRequestId },
+      const schema = !route && DEFAULT_RESPONSE_SCHEMA[campaign.feature] ? { responseSchema: DEFAULT_RESPONSE_SCHEMA[campaign.feature] } : {};
+      await post({ action: "pick_winner", campaignId: campaign.id, variant: dialog.variant, note: dialog.note.trim(), expectedActiveId: route?.id ?? null, publishRequestId: dialog.publishRequestId, ...schema },
         `Đã phát hành bản ${dialog.variant} làm chuỗi đang chạy của ${featureLabel(campaign.feature)}; chiến dịch đã kết thúc.`);
       return;
     }

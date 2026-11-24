@@ -118,6 +118,31 @@ test("pick winner needs a variant and a 10-500 character note and sends the acti
   assert.match(body.publishRequestId, /^[0-9a-f-]{36}$/);
 });
 
+test("pick winner for a feature with no active route sends the feature's default response schema", async () => {
+  const noteCampaign = { ...running(), feature: "tarot_note" };
+  const h = harness({ campaigns: [noteCampaign] });
+  await drain(h.dom);
+  click(h, '[data-campaign-action="pick_winner"]');
+  const radio = h.c.querySelector('[data-dialog-variant="B"]');
+  radio.checked = true; radio.dispatchEvent(new h.w.Event("change", { bubbles: true }));
+  setValue(h, "#campaign-dialog-note", "B rẻ hơn một nửa, lỗi định dạng thấp");
+  click(h, "[data-dialog-confirm]");
+  await drain(h.dom);
+  const body = h.posts()[0].body;
+  assert.equal(body.expectedActiveId, null);
+  assert.equal(body.responseSchema, "tarot_note_output_v1");
+  // With an active route the server keeps that route's schema, so none is sent (previous test).
+  const tarot = harness();
+  await drain(tarot.dom);
+  click(tarot, '[data-campaign-action="pick_winner"]');
+  const b = tarot.c.querySelector('[data-dialog-variant="B"]');
+  b.checked = true; b.dispatchEvent(new tarot.w.Event("change", { bubbles: true }));
+  setValue(tarot, "#campaign-dialog-note", "B rẻ hơn một nửa, lỗi định dạng thấp");
+  click(tarot, "[data-dialog-confirm]");
+  await drain(tarot.dom);
+  assert.equal("responseSchema" in tarot.posts()[0].body, false);
+});
+
 test("a conflict shows a Vietnamese message and keeps the dialog", async () => {
   const h = harness({ post: () => ({ ok: false, status: 409, json: async () => ({ error: "Conflict", code: "conflict" }) }) });
   await drain(h.dom);

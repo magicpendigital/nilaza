@@ -71,8 +71,12 @@ export type TarotDeps = {
   readerRouterPaused?: () => Promise<boolean>;
   /** Batch C: counts one reader suggestion for today (usage_events reader_router_attempted, 20 a Vietnam day). */
   claimReaderAttempt?: (userId: string) => Promise<DailyAttemptResult>;
-  /** Batch C: resolveFeatureRoute (model campaigns plug in there; none yet, so experiment is null). */
-  resolveRoute?: (feature: "tarot_note" | "reader_router", userId: string) => Promise<{ route: ModelRoute; experiment: { campaignId: string; variant: string } | null }>;
+  /**
+   * Batch C: resolveFeatureRoute: the active route, swapped for the user's variant when a model campaign runs
+   * (experiment {campaignId, variant}); no campaign or a campaign error is the active route with experiment null.
+   */
+  resolveRoute?: (feature: "tarot_reading" | "tarot_note" | "reader_router", userId: string, options?: { locale?: string | null }) =>
+    Promise<{ route: ModelRoute; experiment: { campaignId: string; variant: string } | null }>;
   /** Batch C: one decision API call (providers/decisions.ts invokeDecision). */
   decide?: (request: DecisionRequest) => Promise<DecisionResult>;
 };
@@ -83,6 +87,11 @@ export const corsHeaders = {
   "Access-Control-Allow-Headers": answerCorsHeaders
 };
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/** Campaign tags as flat metadata keys: ai-trace keeps campaignId and variant only at the top level (a nested object is redacted). */
+function experimentKeys(experiment: { campaignId: string; variant: string } | null | undefined): Record<string, string> {
+  return experiment ? { campaignId: experiment.campaignId, variant: experiment.variant } : {};
+}
 
 function json(body: Record<string, unknown>, status = 200) {
   return new Response(JSON.stringify(body), { headers: { ...corsHeaders, "Content-Type": "application/json" }, status });
@@ -236,8 +245,13 @@ export function createTarotHandler(configure: (req: Request) => TarotDeps | null
       const promptMetadata = tarotPromptMetadata(prompt, context.cardContextSource);
       const promptVersionId = prompt.promptVersionId;
       const contentVersion = await deps.contentVersion(publishedContent);
+      // Batch C: a running tarot_reading campaign may give this user a variant route (absent dep: the router reads the
+      // active route itself, as before). An active-route read error still fails the request like the router would.
+      const resolved = deps.resolveRoute ? await deps.resolveRoute("tarot_reading", userId, { locale: language }) : null;
+      const experiment = resolved?.experiment ?? null;
       const generation = await deps.generate({
         feature: "tarot_reading",
+        ...(resolved ? { route: resolved.route } : {}),
         deadlineMs: limits.featureConfig?.deadlineMs,
         strictTraceRedaction: true,
         deferTraceFlush: true,
@@ -247,7 +261,7 @@ export function createTarotHandler(configure: (req: Request) => TarotDeps | null
             ...correlation, responseSchema: tarotOutputSchema, contentVersion, deckSlug: context.deck?.slug ?? null, spread: context.spread,
             cardCount: cards.length, language, promptVersionId, cardContextSource: context.cardContextSource,
             deckReadingStyleSent: Boolean(context.deck && "readingStyle" in context.deck), drawId: row.id,
-            attemptNumber: claim.attemptNumber, ...tarotPromptTraceMetadata(prompt)
+            attemptNumber: claim.attemptNumber, ...tarotPromptTraceMetadata(prompt), ...experimentKeys(experiment)
           }
         },
         system: assembleTarotSystem(prompt, language),
@@ -285,7 +299,7 @@ export function createTarotHandler(configure: (req: Request) => TarotDeps | null
         const receipt = await deps.writeReceipt({ ...provenance, userId, sectionIds: ["summary", "reflection"] });
         if (receipt) provenance.answerReceiptId = receipt.receiptId;
         return json({ summary: parsed.summary, reflection: parsed.reflection, sections: [], ...promptMetadata, moderationStatus, provenance, model,
-          persistenceStatus: "skipped", status: "queued", replayed: false, retryable: true, ...base });
+          persistenceStatus: "skipped", status: "queued", replayed: false, retryable: true, experiment, ...base });
       }
 
       if (generation.moderationStatus === "blocked") {
@@ -320,7 +334,8 @@ export function createTarotHandler(configure: (req: Request) => TarotDeps | null
       provenance.remoteId = row.id;
       const usageRecorded = await deps.store.recordUsage({
         user_id: userId, event_name: "tarot_reading_generated", feature: "tarot_reading",
-        metadata: { deckSlug: context.deck?.slug ?? null, spread: context.spread, cardCount: cards.length, persistence: "stored", drawId: row.id, ...promptMetadata, model }
+        metadata: { deckSlug: context.deck?.slug ?? null, spread: context.spread, cardCount: cards.length, persistence: "stored", drawId: row.id, ...promptMetadata, model,
+          ...experimentKeys(experiment) }
       });
       await trace.finalize?.({ status: moderationStatus === "passed" ? "ok" : moderationStatus, output: { stage: "response",
         validationStatus: provenance.validationStatus, persistenceStatus: "stored", usageRecorded, ...rejection } });
@@ -330,7 +345,7 @@ export function createTarotHandler(configure: (req: Request) => TarotDeps | null
         await deps.store.linkReceipt(userId, row.id, { ...interpretation, provenance: { ...interpretation.provenance, answerReceiptId: receipt.receiptId } });
       }
       return json({ summary: parsed.summary, reflection: parsed.reflection, sections: parsed.sections, ...promptMetadata, moderationStatus, provenance, model,
-        persistenceStatus: "stored", remoteId: row.id, status: "completed", replayed: false, ...base });
+        persistenceStatus: "stored", remoteId: row.id, status: "completed", replayed: false, experiment, ...base });
     } finally {
       if (!settled) await deps.store.releaseClaim(userId, row.id, claimToken);
     }
@@ -407,7 +422,7 @@ export function createTarotHandler(configure: (req: Request) => TarotDeps | null
 
     let settled = false;
     try {
-      const { route, experiment } = await deps.resolveRoute("tarot_note", userId);
+      const { route, experiment } = await deps.resolveRoute("tarot_note", userId, { locale: language });
       const context = prepareTarotContext({ language, deck: row.deck_ref, topic: row.topic, spread: row.spread, question: row.question,
         selectedCards: row.selected_cards }, await deps.readContent());
       const generation = await deps.generate({
@@ -415,7 +430,7 @@ export function createTarotHandler(configure: (req: Request) => TarotDeps | null
         traceContext: {
           userId, request: req, clientRequestId: correlation.clientRequestId,
           metadata: { ...correlation, feature: "tarot_note", responseSchema: tarotNoteOutputSchema, spread: context.spread, cardCount: context.selectedCards.length,
-            language, promptVersion: TAROT_NOTE_PROMPT_VERSION, drawId: row.id, attemptNumber: claim.attemptNumber, experiment }
+            language, promptVersion: TAROT_NOTE_PROMPT_VERSION, drawId: row.id, attemptNumber: claim.attemptNumber, ...experimentKeys(experiment) }
         },
         system: assembleTarotNoteSystem(language),
         messages: [{ role: "user", content: tarotModelMessage(context) }],
@@ -466,7 +481,8 @@ export function createTarotHandler(configure: (req: Request) => TarotDeps | null
         return json({ error: "note_unavailable", drawId: row.id, attemptCounted: false, retryable: true }, 503);
       }
       const usageRecorded = await deps.store.recordUsage({ user_id: userId, event_name: "tarot_note_generated", feature: "tarot_note",
-        metadata: { drawId: row.id, spread: context.spread, cardCount: context.selectedCards.length, promptVersion: TAROT_NOTE_PROMPT_VERSION, model } });
+        metadata: { drawId: row.id, spread: context.spread, cardCount: context.selectedCards.length, promptVersion: TAROT_NOTE_PROMPT_VERSION, model,
+          ...experimentKeys(experiment) } });
       await trace.finalize?.({ status: "ok", output: { stage: "response", validationStatus: "validated", persistenceStatus: "stored", usageRecorded } });
       return json({ drawId: row.id, note: check.note, noteStatus: "created", moderationStatus: "passed", provenance, model, experiment, nextNoteAt });
     } finally {
@@ -492,7 +508,7 @@ export function createTarotHandler(configure: (req: Request) => TarotDeps | null
     const allowed = await deps.claimReaderAttempt(userId);
     if (allowed === "limit_reached") return json({ error: "daily_limit_reached", reason: "reader_router_daily", nextAt }, 429);
     if (allowed !== "allowed") return json({ error: "usage_check_unavailable" }, 503);
-    const { route, experiment } = await deps.resolveRoute("reader_router", userId);
+    const { route, experiment } = await deps.resolveRoute("reader_router", userId, { locale: language });
     let context;
     try {
       context = prepareTarotContext({ language: "en", deck: row.deck_ref, topic: row.topic, spread: row.spread, question: row.question,
@@ -508,7 +524,8 @@ export function createTarotHandler(configure: (req: Request) => TarotDeps | null
       generate: async step => await deps.generate({
         feature: "reader_router", route: step.route, deadlineMs: Math.max(5_000, step.deadlineMs), strictTraceRedaction: true, deferTraceFlush: false,
         traceContext: { userId, request: req, clientRequestId: correlation.clientRequestId,
-          metadata: { ...correlation, feature: "reader_router", responseSchema: readerRouterOutputSchema, drawId: row.id, candidateCount: candidates.length, experiment } },
+          metadata: { ...correlation, feature: "reader_router", responseSchema: readerRouterOutputSchema, drawId: row.id, candidateCount: candidates.length,
+            ...experimentKeys(experiment) } },
         system: step.system, messages: step.messages, fallbackText: "", acceptOutput: step.acceptOutput
       })
     }).catch(() => null);
@@ -516,7 +533,7 @@ export function createTarotHandler(configure: (req: Request) => TarotDeps | null
     // Content-free telemetry: no question text, only the outcome.
     await deps.store.recordUsage({ user_id: userId, event_name: "reader_router_suggested", feature: "reader_router",
       metadata: { drawId: row.id, source: suggestion.source, slug: suggestion.slug, candidateCount: candidates.length,
-        attempts: suggestion.attempts, routeVersion: route.version } });
+        attempts: suggestion.attempts, routeVersion: route.version, ...experimentKeys(experiment) } });
     return json({ slug: suggestion.slug, confidence: suggestion.confidence, intent: suggestion.intent, source: suggestion.source,
       model: suggestion.model, experiment });
   }

@@ -54,7 +54,12 @@ const handler = createTarotHandler(req => {
     noteFeaturePaused: async () => await featurePaused(supabase as never, "tarot_reading") || await featurePaused(supabase as never, "tarot_note"),
     readerRouterPaused: () => featurePaused(supabase as never, "reader_router"),
     claimReaderAttempt: userId => claimDailyAttempt(supabase as never, { userId, eventName: "reader_router_attempted", feature: "reader_router", limit: READER_ROUTER_DAILY_LIMIT }),
-    resolveRoute: (feature, userId) => resolveFeatureRoute(supabase, feature, userId),
+    // The active route is read with the caller's client (as the router always did); a running model campaign is read
+    // with the service-role client, the only caller runtime_model_campaign_for_feature accepts.
+    resolveRoute: (feature, userId, options) => resolveFeatureRoute(supabase, feature, userId, {
+      campaignClient: admin as unknown as { rpc: (name: string, params?: Record<string, unknown>) => Promise<{ data: unknown; error: unknown }> },
+      locale: options?.locale ?? null
+    }),
     // Only the decision request (question, topic, spread, card names, candidate descriptions) leaves the function.
     decide: request => invokeDecision(request, Deno.env),
     writeReceipt: input => writeAnswerReceipt(input as never)

@@ -158,8 +158,10 @@ const goodAnswer = (cardIds: string[]) => JSON.stringify({
 });
 
 function setup(options: { now?: string; random?: RandomFill; paused?: boolean; quotaDaily?: number; user?: string | null; premiumOnSale?: boolean; tier?: "premium" | "free" | "error"; guestSecret?: string;
-  notePaused?: boolean; readerPaused?: boolean; readerQuota?: "allowed" | "limit_reached" | "unavailable"; decide?: (request: DecisionRequest) => Promise<DecisionResult> } = {}) {
+  notePaused?: boolean; readerPaused?: boolean; readerQuota?: "allowed" | "limit_reached" | "unavailable"; decide?: (request: DecisionRequest) => Promise<DecisionResult>;
+  experiment?: { campaignId: string; variant: string } } = {}) {
   const decisions: DecisionRequest[] = [];
+  const routeCalls: Array<{ feature: string; locale: string | null }> = [];
   let now = new Date(options.now ?? NOON_VN);
   const clock = () => now;
   const memory = memoryStore(clock);
@@ -200,7 +202,10 @@ function setup(options: { now?: string; random?: RandomFill; paused?: boolean; q
     noteFeaturePaused: async () => options.notePaused === true,
     readerRouterPaused: async () => options.readerPaused === true,
     claimReaderAttempt: async () => options.readerQuota ?? "allowed",
-    resolveRoute: async feature => ({ route: defaultModelRoutes[feature], experiment: null }),
+    resolveRoute: async (feature, _userId, routeOptions) => {
+      routeCalls.push({ feature, locale: routeOptions?.locale ?? null });
+      return { route: defaultModelRoutes[feature], experiment: options.experiment ?? null };
+    },
     decide: async request => {
       decisions.push(request);
       if (options.decide) return await options.decide(request);
@@ -220,7 +225,7 @@ function setup(options: { now?: string; random?: RandomFill; paused?: boolean; q
   const draw = (extra: Record<string, unknown> = {}) => call({ action: "draw", language: "en", deck, spread: "daily-one", topic: "self", question: "What should I notice?", ...extra });
   const interpret = (drawId: string, extra: Record<string, unknown> = {}) => call({ action: "interpret", drawId, ...extra });
   return {
-    ...memory, generations, finalizations, receipts, call, draw, interpret, decisions, tierReads: () => tierReads,
+    ...memory, generations, finalizations, receipts, call, draw, interpret, decisions, routeCalls, tierReads: () => tierReads,
     note: (drawId: string) => call({ action: "note", drawId }),
     reply: (...values: Reply[]) => { replies.push(...values); },
     hold: () => { let release!: () => void; gate = new Promise(resolve => { release = resolve; }); return () => { gate = null; release(); }; },
@@ -784,4 +789,30 @@ Deno.test("suggest_reader: candidates outside the allowlist are 400; quota, paus
   assertEquals([crisis.status, crisis.body.slug, crisis.body.source], [200, null, "none"]);
   assertEquals(crisis.body.safety, { crisis: true });
   for (const run of [q, p, c]) assertEquals(run.decisions.length + run.generations.length, 0);
+});
+
+Deno.test("campaigns: note, suggest_reader and interpret tag traces with flat campaignId/variant and return experiment", async () => {
+  const experiment = { campaignId: "6f1c2a40-1b2c-4d5e-8f90-a1b2c3d4e5f6", variant: "B" };
+  const t = setup({ experiment });
+  const { body: drawn } = await t.draw();
+  t.reply({ text: noteAnswer() });
+  const note = await t.note(drawn.drawId);
+  assertEquals(note.body.experiment, experiment);
+  assertEquals([t.generations[0].traceContext.metadata.campaignId, t.generations[0].traceContext.metadata.variant], [experiment.campaignId, "B"]);
+  assertEquals("experiment" in t.generations[0].traceContext.metadata, false, "no nested object (the trace would redact it)");
+  assertEquals((t.usage.find(row => row.event_name === "tarot_note_generated")!.metadata as Record<string, unknown>).variant, "B");
+  const interpreted = await t.interpret(drawn.drawId);
+  assertEquals(interpreted.status, 200);
+  assertEquals(interpreted.body.experiment, experiment);
+  assertEquals(t.generations[1].feature, "tarot_reading");
+  assertEquals(t.generations[1].route?.feature, "tarot_reading", "interpret runs the resolved (campaign) route");
+  assertEquals(t.generations[1].traceContext.metadata.campaignId, experiment.campaignId);
+  const suggestion = await t.call({ action: "suggest_reader", drawId: drawn.drawId, candidates: ["the-mystic", "the-love-oracle"] });
+  assertEquals(suggestion.body.experiment, experiment);
+  assertEquals((t.usage.find(row => row.event_name === "reader_router_suggested")!.metadata as Record<string, unknown>).campaignId, experiment.campaignId);
+  assertEquals(t.routeCalls.map(call => call.feature), ["tarot_note", "tarot_reading", "reader_router"]);
+  assertEquals(t.routeCalls.every(call => call.locale === "en"), true, "the draw language is the campaign locale");
+  // Replays answer from storage without a route lookup.
+  assertEquals((await t.note(drawn.drawId)).body.experiment, experiment);
+  assertEquals(t.routeCalls.length, 3);
 });

@@ -42,6 +42,17 @@ test("pick winner publishes only through the existing route publish function", (
   assert.doesNotMatch(sql, /insert into public\.model_route_versions|update public\.model_route_versions/, "no direct route writes");
 });
 
+test("pick winner: legacy pair from chat steps only and a default schema for features with no active route", () => {
+  const body = byName("public.admin_pick_model_campaign_winner");
+  assert.match(body, /where e\.step->>'provider' not in \('openrouter_decisions','openai_decisions','gemini_decisions'\)/);
+  assert.match(body, /'primary', jsonb_build_object\('provider', chat_steps->0->>'provider', 'model', chat_steps->0->>'model'\)/);
+  assert.match(body, /chat_steps->1->>'provider'/);
+  assert.match(body, /'max_output_tokens', chat_steps->0->'max_tokens'/);
+  assert.doesNotMatch(body, /[^_]steps->0/, "no legacy field reads the raw first step");
+  assert.match(body, /when 'tarot_note' then 'tarot_note_output_v1' when 'reader_router' then 'reader_router_choice_v1'/);
+  assert.match(body, /The winning route needs a chat step/);
+});
+
 test("traffic, variants and the single running campaign are enforced", () => {
   assert.match(sql, /create unique index if not exists model_campaigns_one_running_per_feature\s+on public\.model_campaigns\(feature\) where status = 'running'/);
   assert.match(byName("public.admin_save_model_campaign_draft"), /traffic_total <> 100/);

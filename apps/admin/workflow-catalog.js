@@ -352,7 +352,7 @@
   },
   {
     "path": "apps/mobile/App.tsx",
-    "sha256": "ecd399da78a192900a103bcae6dc5a95ec7123a6f49fccf5f4bc4c8787da3d18"
+    "sha256": "5f835a6b4829afeae9eac12db9379b6cc0233c3bfa71f354c6280abf1b6c25fc"
   },
   {
     "path": "docs/FEATURE_PRD.md",
@@ -408,7 +408,7 @@
   },
   {
     "path": "supabase/functions/_shared/model-router.ts",
-    "sha256": "3d638cb32acbcf251ed7c01f152646a3fce2cd3bb03474c1fb1f00d60cdd699d"
+    "sha256": "01ca101d275f5e7995e990083096b2d023dfdd37c5b5bedbb1ec8b6864475179"
   },
   {
     "path": "supabase/functions/_shared/notification-provider.ts",
@@ -472,11 +472,11 @@
   },
   {
     "path": "supabase/functions/ai-tarot-reading/handler.ts",
-    "sha256": "54e58553edb153107fa5bda75f10a490bfcf649c2ba8ca396086ce8bbc1dff82"
+    "sha256": "98220d9e814c5821f1a6527c1992a30ea4afb58d224ae5064b315b3737f60d06"
   },
   {
     "path": "supabase/functions/ai-tarot-reading/index.ts",
-    "sha256": "2ea04d78c1fe70afe35b8c84f40191b05a2ed91f922a76fd394dbff2af7a738e"
+    "sha256": "6fb84138cd806b64830509ccc94e817a8e0d2fbb4466638d547bad7359cbd3ac"
   },
   {
     "path": "supabase/functions/ai-tarot-reading/store.ts",

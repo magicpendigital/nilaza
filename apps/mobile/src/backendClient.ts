@@ -760,10 +760,12 @@ export async function requestTarotNote(drawId: string, options: BackendOptions):
  */
 export async function requestTarotReaderSuggestion(drawId: string, candidates: string[], options: BackendOptions): Promise<ReaderAiSuggestion | null> {
   const current = currentOptions(options);
-  if (!current.baseUrl || !current.authToken || !candidates.length) return null;
+  // The handler refuses (400 invalid_candidates) an empty list, more than 7 or a repeated slug.
+  const unique = [...new Set(candidates)].slice(0, 7);
+  if (!current.baseUrl || !current.authToken || !unique.length) return null;
   try {
-    const result = await postTarot({ action: "suggest_reader", drawId, candidates }, { ...options, timeoutMs: 0 }, 4000);
-    return result ? parseReaderSuggestion(result.status, result.body, candidates) : null;
+    const result = await postTarot({ action: "suggest_reader", drawId, candidates: unique }, { ...options, timeoutMs: 0 }, 4000);
+    return result ? parseReaderSuggestion(result.status, result.body, unique) : null;
   } catch {
     return null;
   }
@@ -777,19 +779,45 @@ export type ProductEventName =
   | "reader_mismatch_switched"
   | "tarot_followup_started";
 
+export type ProductEventPayload = {
+  name: ProductEventName;
+  metadata: Partial<Record<"campaignId" | "variant" | "value" | "slug" | "recommendedSlug" | "topic" | "source", string>>;
+};
+
+// Mirrors supabase/functions/share-events/handler.ts parseProductEvent (the server contract): any other key or value
+// would make the server refuse the whole request, so it is dropped here instead.
+const PRODUCT_UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+const PRODUCT_SLUG = /^[a-z0-9][a-z0-9_-]{0,47}$/;
+const PRODUCT_SLUG_KEYS = ["slug", "recommendedSlug", "topic", "source"] as const;
+
+/** Pure: the share-events product event {name, metadata} with only the allowed keys and values. */
+export function buildProductEvent(name: ProductEventName, metadata: Record<string, string | undefined | null>): ProductEventPayload {
+  const clean: ProductEventPayload["metadata"] = {};
+  // A campaign tag is a pair (uuid + variant A-D) or nothing.
+  if (typeof metadata.campaignId === "string" && PRODUCT_UUID.test(metadata.campaignId)
+    && typeof metadata.variant === "string" && ["A", "B", "C", "D"].includes(metadata.variant)) {
+    clean.campaignId = metadata.campaignId;
+    clean.variant = metadata.variant;
+  }
+  if (name === "tarot_note_feedback" && (metadata.value === "yes" || metadata.value === "no")) clean.value = metadata.value;
+  for (const key of PRODUCT_SLUG_KEYS) {
+    const value = metadata[key];
+    if (typeof value === "string" && PRODUCT_SLUG.test(value)) clean[key] = value;
+  }
+  return { name, metadata: clean };
+}
+
 /**
- * Batch C product measurement through the share-events function: {events:[{name, ...metadata}]} with short enumerated
+ * Batch C product measurement through the share-events function: {events:[{name, metadata}]} with short enumerated
  * values only (slugs, topics, sources, campaign ids), never question or note text. Fire-and-forget: it needs a signed-in
- * session, never throws, and is ignored until the server allow-list accepts these names.
+ * session and never throws. A note feedback without its yes/no value is not sent (the server would refuse it).
  */
 export function sendProductEvent(name: ProductEventName, metadata: Record<string, string | undefined | null>, backendOptions: BackendOptions): void {
   const options = currentOptions(backendOptions);
   if (!options.baseUrl || !options.authToken || options.session?.active === false) return;
-  const clean: Record<string, string> = {};
-  for (const [key, value] of Object.entries(metadata)) {
-    if (typeof value === "string" && /^[A-Za-z0-9_.:-]{1,64}$/.test(value)) clean[key] = value;
-  }
-  void sendShareEvents([{ name, ...clean } as unknown as ShareEventPayload], backendOptions).catch(() => false);
+  const event = buildProductEvent(name, metadata);
+  if (name === "tarot_note_feedback" && !event.metadata.value) return;
+  void sendShareEvents([event as unknown as ShareEventPayload], backendOptions).catch(() => false);
 }
 
 /** P1-A interpret: only the stored draw; a busy draw (another device) is asked again briefly, then answered from storage. */

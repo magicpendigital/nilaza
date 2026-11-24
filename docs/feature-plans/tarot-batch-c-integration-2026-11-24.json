@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 1,
+  "taskId": "tarot-batch-c-integration-2026-11-24",
+  "ownerAgent": "backend_agent",
+  "lane": "Cross-cutting integration of Batch C: backend (Tarot note, reader router), model campaigns, mobile Tarot note and reader suggestion, Admin campaigns page",
+  "goal": "Merge the four Batch C branches and close the contracts between them: campaigns wired into resolveFeatureRoute, one product-event contract between the app and share-events, the note allowance separate from the interpret allowance, mobile parsers matching the real ai-tarot-reading answers, and pick-winner working for features without an active route.",
+  "successCriteria": [
+    "resolveFeatureRoute reads the active route, then applies a running campaign (service-role client) and returns experiment {campaignId, variant}; no campaign or any campaign error keeps the active route with experiment null; Deno tests cover all three cases and there is no circular import.",
+    "The tarot note, suggest_reader and interpret paths put campaignId and variant as flat trace metadata keys and return experiment in the answer.",
+    "Mobile sendProductEvent sends exactly the share-events shape {events:[{name, metadata}]} with only allowed keys and values; one real payload is accepted by the server parser and asserted on both sides.",
+    "The note allowance (1 delivered a Vietnam day, failed attempts not counted) is separate from the interpret allowance; verified by handler tests.",
+    "tarotNote.ts parsers read the real handler answers (status codes, noteStatus created/replayed, nextNoteAt, safety.crisis, moderationStatus, model object, experiment) with one test per contract.",
+    "Pick winner supplies the feature's default response schema when the feature has no active route (tarot_note_output_v1, reader_router_choice_v1) in the Admin page and in SQL, and a reader_router winner whose first step is a decision provider publishes its chat steps as primary and fallback."
+  ],
+  "writeScope": [
+    "supabase/functions/_shared/model-router.ts",
+    "supabase/functions/_shared/model-route-steps.ts",
+    "supabase/functions/_shared/model-campaign.ts",
+    "supabase/functions/_shared/model-campaign_test.ts",
+    "supabase/functions/_shared/model-router-campaign_test.ts",
+    "supabase/functions/ai-tarot-reading/",
+    "supabase/functions/admin-model-campaigns/",
+    "supabase/functions/share-events/",
+    "supabase/migrations/20261124090100_model_campaigns.sql",
+    "apps/admin/model-campaigns.js",
+    "apps/admin/workflow-catalog.js",
+    "scripts/admin-model-campaigns.test.mjs",
+    "scripts/supabase-model-campaigns.test.mjs",
+    "scripts/ai-answer-endpoints.test.mjs",
+    "apps/mobile/src/backendClient.ts",
+    "apps/mobile/src/__tests__/backendClient.test.ts",
+    "apps/mobile/src/features/tarot/",
+    "apps/mobile/App.tsx",
+    "package.json"
+  ],
+  "untouchedSurfaces": [
+    "PLAN.md is updated by the lead agent.",
+    "Route publish function, prompt library, other AI features' Edge Functions and the mobile UI layout are not changed.",
+    "No migration is applied, no function deployed, no secret read."
+  ],
+  "impact": {
+    "entryPoint": "No new entry point. Tarot result screen (note box, reader suggestion) and Admin > Model và chiến dịch behave as merged.",
+    "dataWrite": "No new table. Trace metadata gains flat campaignId/variant keys; product_signal usage_events rows now actually arrive from the app.",
+    "backendContract": "ai-tarot-reading answers gain experiment on interpret; share-events contract unchanged (the app is aligned to it); campaigns migration pick-winner gains a default response schema and chat-step primary.",
+    "adminVisibility": "Campaign metrics can group runs by variant once the runtime tags traces.",
+    "privacySafety": "Product events carry only enumerated keys and slug or uuid values; question text cannot pass the client filter or the server allowlist.",
+    "observability": "Campaign tags in ai_trace_runs.metadata for tarot_reading, tarot_note and reader_router.",
+    "rollback": "End the campaign: runtime uses the active route. Code changes revert with the PR; migrations are unapplied."
+  },
+  "canonicalContracts": [
+    "share-events parseShareEvents/parseProductEvent is the product-event contract; the app follows it",
+    "parseRouteSteps (moved to _shared/model-route-steps.ts, re-exported by model-router.ts) stays the runtime step validator",
+    "nilaza_private.publish_model_route_config stays the only route publish path"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    { "path": "AGENTS.md", "reason": "Owner approval boundary.", "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5" },
+    { "path": "docs/AGENT_TASK_ROUTER.md", "reason": "Backend/AI, Admin and mobile lane checks.", "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c" },
+    { "path": "docs/PLAN_QC_PROTOCOL.md", "reason": "Record shape and preflight.", "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2" },
+    { "path": "supabase/functions/_shared/model-campaign.ts", "reason": "Campaign resolver to wire into the router.", "sha256": "34e35015fbd61a4eb63fb6468a5e8146d6d81b07327f3590f561ca85a9d004c6" },
+    { "path": "supabase/functions/_shared/model-router.ts", "reason": "resolveFeatureRoute placeholder.", "sha256": "3d638cb32acbcf251ed7c01f152646a3fce2cd3bb03474c1fb1f00d60cdd699d" },
+    { "path": "supabase/functions/ai-tarot-reading/handler.ts", "reason": "Note, suggest_reader and interpret answers and trace metadata.", "sha256": "54e58553edb153107fa5bda75f10a490bfcf649c2ba8ca396086ce8bbc1dff82" },
+    { "path": "supabase/functions/share-events/handler.ts", "reason": "Product-event allowlist.", "sha256": "8d95d40fb15cad4380188888a20eb49a4527e1fa636cee4bdf7be790bbe349c0" },
+    { "path": "apps/mobile/src/backendClient.ts", "reason": "requestTarotNote, requestTarotReaderSuggestion, sendProductEvent.", "sha256": "ee23f531cd7851be5bbc2bade89972f6611824a249ad8855813e4999d8263132" },
+    { "path": "apps/mobile/src/features/tarot/tarotNote.ts", "reason": "Client parsers of the note and suggestion answers.", "sha256": "16ba5f9741726d70447a2f396c6c6443194e4f3a2cd4de116b2856294744ed18" },
+    { "path": "supabase/functions/admin-model-campaigns/contract.ts", "reason": "Pick-winner payload.", "sha256": "0f15da00dd5fc611230ed7a3c0fc994dfd3955d612e19ca749e85a5d03cd6c79" },
+    { "path": "supabase/migrations/20261124090100_model_campaigns.sql", "reason": "Pick-winner publish config.", "sha256": "12d40fa58efe0d3b8d940a580fb5b77f4a63503f1d987276ce295fa90361b841" },
+    { "path": "supabase/migrations/20261124090000_tarot_note_reader_router.sql", "reason": "Note claim (separate allowance) and reader_router publish rules.", "sha256": "0e4521a9e1ea8e8c94c3268016b98d0ac7b9d795a676378037183a9c5cc8e4cb" }
+  ],
+  "skillReview": [
+    { "name": "nilaza-plan-qc", "decision": "verified-current", "evidence": "Record and preflight before integration edits; PLAN.md left to the lead." },
+    { "name": "nilaza-ai-runtime", "decision": "verified-current", "evidence": "Campaign errors fall back to the active route, a route read error still surfaces, traces carry flat campaign tags, no deploy." }
+  ],
+  "securityReview": {
+    "authzRls": "Campaign RPC stays service-role only; the service client is created inside the Edge Function from its own env and only used for that RPC and the existing store.",
+    "sensitiveData": "Product events: client and server both drop or refuse any key outside the allowlist, so question text cannot be sent.",
+    "secretsLogging": "No secret read or logged; .env not read.",
+    "externalInput": "Server allowlist unchanged; client filter added.",
+    "dependencies": "No package or lockfile change.",
+    "migrationRelease": "Migration 20261124090100 edited before it is applied anywhere; applying needs Owner approval.",
+    "stopCondition": "Stop if wiring campaigns would need a client-side route choice or user text in events.",
+    "unresolvedHighRisks": []
+  },
+  "validationCommands": [
+    "npx --yes deno@2 test -A --no-lock supabase/functions/ai-tarot-reading supabase/functions/_shared supabase/functions/admin-model-router-config supabase/functions/admin-model-campaigns supabase/functions/share-events",
+    "npm run validate:backend",
+    "npm run admin:check",
+    "npm run admin:test",
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "After the Owner applies both migrations and deploys ai-tarot-reading, share-events and admin-model-campaigns on staging: start a tarot_note campaign 50/50, open the Tarot note from two accounts, then see calls per variant in Admin; tap the note feedback and see product signals counted.",
+  "residualRisk": "No staging E2E; SQL checked statically and on PGlite only where the repo harness allows. Decision-provider calls still have no trace span or token cost.",
+  "externalActions": { "databaseWrite": false, "productionRelease": false },
+  "dependencyReview": { "usesVolatileExternalKnowledge": false, "evidence": "Repository code only." },
+  "externalSourceReview": [],
+  "workingTreeReview": {
+    "paths": [],
+    "note": "Worktree at the merge of the four Batch C branches onto origin/main b5ea7a0, clean before integration edits."
+  }
+}

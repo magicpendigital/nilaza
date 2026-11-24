@@ -14,6 +14,13 @@ export type TarotNoteOutcome =
 
 const text = (value: unknown) => (typeof value === "string" ? value.trim() : "");
 
+/** The handler returns model as sanitized provider metadata ({provider, model, ...}) or null; only the model name is kept. */
+export function modelName(value: unknown): string | undefined {
+  if (typeof value === "string") return text(value) || undefined;
+  if (!value || typeof value !== "object" || Array.isArray(value)) return undefined;
+  return text((value as Record<string, unknown>).model) || undefined;
+}
+
 export function parseExperiment(value: unknown): TarotNoteExperiment {
   if (!value || typeof value !== "object" || Array.isArray(value)) return null;
   const record = value as Record<string, unknown>;
@@ -43,7 +50,7 @@ export function parseTarotNoteResponse(status: number, body: Record<string, unkn
     kind: "note",
     note: { text: noteText, need: text(note.need), askThem: text(note.askThem) },
     noteStatus: text(body.noteStatus) || undefined,
-    model: text(body.model) || undefined,
+    model: modelName(body.model),
     experiment: parseExperiment(body.experiment),
     nextNoteAt: text(body.nextNoteAt) || undefined
   };
