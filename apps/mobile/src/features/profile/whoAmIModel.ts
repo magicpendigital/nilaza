@@ -2,6 +2,7 @@ import type { CandidateChart } from "../../../../../packages/astrology-core/calc
 import big3Data from "../../../../../packages/content/data/astrology-big3.json";
 import { localizeAstrologySign, type AstrologySignId } from "../astrology/contracts";
 import { bigThreeOf } from "../astrology/sky";
+import { lifePathNumber, parseBirthDate } from "../numerology/calc";
 import type { JournalEntry, Language } from "../../types";
 
 // "Tôi là ai" (Lô 4, docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md section 7).
@@ -41,9 +42,15 @@ export function identityChips(signs: CertainSigns, language: Language, lifePath?
     const label = localizeAstrologySign(sign, language);
     return [{ key, label, accessibilityLabel: `${name} ${label}` }];
   });
-  // Lô 3 fills this with the calculated life-path number such as "11/2"; until then the chip stays hidden.
+  // Life-path label from lifePathLabel (Lô 3 calculation); hidden when there is no valid birth date.
   if (lifePath) chips.push({ key: "lifePath", label: lifePath, accessibilityLabel: `${vi ? "Số chủ đạo" : "Life path"} ${lifePath}` });
   return chips;
+}
+
+/** Life-path label ("6", "11/2", "22/4") from a YYYY-MM-DD birth date, by the Lô 3 rules; undefined when it does not parse. */
+export function lifePathLabel(birthDate: string): string | undefined {
+  const parts = parseBirthDate(birthDate);
+  return parts ? lifePathNumber(parts).label : undefined;
 }
 
 export type OneSentence = { sentence: string; sources: string[] };
