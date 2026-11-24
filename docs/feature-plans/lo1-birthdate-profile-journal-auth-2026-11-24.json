@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "taskId": "lo1-birthdate-profile-journal-auth-2026-11-24",
+  "ownerAgent": "mobile_agent",
+  "lane": "Mobile: Lô 1 of the Bầu trời hôm nay / Bản đồ số / Tôi là ai plan (shared birth-date input, Profile rows, Journal filter label, sign-in buttons per platform)",
+  "goal": "Do Lô 1 from docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md section 8: one shared 3-box birth-date component with per-box error messages and calendar validity (leap years, month lengths, day 0, future dates) used by onboarding, the chart and Profile; replace the 'Ngày sinh YYYY-MM-DD' label; Profile 'Tôi' gets 'Gói của bạn' and 'Năng lượng hôm nay' rows; Journal filter 'Chiêm tinh' becomes 'Bản đồ'; sign-in shows Google on Android and Apple on iOS only.",
+  "successCriteria": [
+    "birthDateIssue rejects 29/02/1900, 29/02/2001, 31/04/2000, day 0, month 0/13 and future dates; accepts 29/02/2000, 29/02/2004 and the golden-set birth date 2000-03-15.",
+    "An invalid date shows an inline message next to the boxes and gives the parent an empty value so nothing can be saved.",
+    "Profile birth section uses BirthDateFields instead of the raw CalendarDatePicker; the 'YYYY-MM-DD' label text is gone from App.tsx.",
+    "ProfileHome shows 'Năng lượng hôm nay' (opens usage) and, when the paywall is on, 'Gói của bạn' with Premium or free status.",
+    "Journal filter label reads 'Bản đồ' / 'Maps'; filter logic unchanged.",
+    "socialProvidersForPlatform returns google only on Android, apple only on iOS.",
+    "tsc, mobile jest suite and validate:data pass."
+  ],
+  "writeScope": [
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/astrology/BirthFields.tsx",
+    "apps/mobile/src/features/astrology/__tests__/BirthFieldsPicker.test.tsx",
+    "apps/mobile/src/features/astrology/__tests__/BirthDateValidity.test.tsx",
+    "apps/mobile/src/features/profile/ProfileHome.tsx",
+    "apps/mobile/src/features/profile/__tests__/ProfileHome.test.tsx",
+    "apps/mobile/src/features/journal/JournalHome.tsx",
+    "apps/mobile/src/features/journal/__tests__/JournalHome.test.tsx",
+    "apps/mobile/src/auth/AuthFlow.tsx",
+    "apps/mobile/src/auth/__tests__/AuthFlow.test.tsx",
+    "PLAN.md",
+    "apps/mobile/src/features/onboarding/GoalsScreen.tsx"
+  ],
+  "untouchedSurfaces": [
+    "No numerology calculation (Lô 3), no name field, no 'Tôi là ai' screen (later lots).",
+    "Stored birth date format stays YYYY-MM-DD; no data migration.",
+    "Social sign-in stays switched off (signsIn false); only which button would show changes.",
+    "No backend, SQL, Edge Function, Admin or store setting change."
+  ],
+  "impact": {
+    "entryPoint": "Onboarding goals step, Chart (Lá số) birth form, Profile > Ngày sinh, Profile home rows, Journal filters, sign-in screen.",
+    "dataWrite": "Same local birthDate string as before; invalid dates are no longer passed up.",
+    "backendContract": "None changed.",
+    "adminVisibility": "No Admin screen or metric changes; mobile UI only.",
+    "privacySafety": "Birth date stays on device as before; no new data sent.",
+    "observability": "No new analytics.",
+    "rollback": "Revert the commit."
+  },
+  "canonicalContracts": [
+    "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md",
+    "docs/proposals/data/numerology-golden-2026-11-23.json"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile route and checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md",
+      "reason": "Lô 1 scope and date-validity cases (section 3 item 11, section 8).",
+      "sha256": "ef56bb65ac888f9df81db598ffa0152e840062e09c8749d5b15f7cb1e6becb57"
+    },
+    {
+      "path": "docs/proposals/data/numerology-golden-2026-11-23.json",
+      "reason": "Golden birth dates, version masters11_22_only.",
+      "sha256": "8b10508f78ccdcc5919124a64e522b8bbaf66930186db903f288eb23eefa3559"
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/BirthFields.tsx",
+      "reason": "Existing 3-box date component.",
+      "sha256": "65163aa9d7f3365956906b531e18b801e327ee524d6524bff1cb26e2aa973e76"
+    },
+    {
+      "path": "apps/mobile/src/features/profile/ProfileHome.tsx",
+      "reason": "Profile rows.",
+      "sha256": "db2ced15e67cd5b5e9aeba0418d0df0d05e711e0ac1f842b8d8d4220efa6ff25"
+    },
+    {
+      "path": "apps/mobile/src/features/journal/JournalHome.tsx",
+      "reason": "Journal filters.",
+      "sha256": "03d7ed2e1e2e9022c0f85104517f0671c12ff404a692b1b12e5da70f53bdd9da"
+    },
+    {
+      "path": "apps/mobile/src/auth/AuthFlow.tsx",
+      "reason": "Social provider list.",
+      "sha256": "70a359fd7659d8a66ad0ca5efb1bdf7e126ef8c1c4001fb06a9389f4dc690d5b"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Birth label, Profile birth section, ProfileHome props.",
+      "sha256": "ecd399da78a192900a103bcae6dc5a95ec7123a6f49fccf5f4bc4c8787da3d18"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before code edits; verified vs not verified in handoff."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Repository code and Gregorian calendar rules only."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No access change.",
+    "sensitiveData": "Birth date handling unchanged in storage and transport.",
+    "secretsLogging": "No secret read, written or logged; .env not read.",
+    "externalInput": "User-typed digits only, validated locally.",
+    "dependencies": "No package added or upgraded.",
+    "migrationRelease": "No SQL, no deploy, no store change.",
+    "stopCondition": "Stop if tsc or the mobile test suite fails and cannot be fixed inside the write scope.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record passed preflight before any code edit (24/11/2026). Then: birthDateIssue/validBirthDate and per-box messages in BirthFields.tsx; Profile birth section uses BirthDateFields (CalendarDatePicker import removed, label 'Ngày sinh (dương lịch)'); GoalsScreen hides the duplicate label (label={false}, added to writeScope after exploration); ProfileHome 'Gói của bạn' (only while paywall on) and 'Năng lượng hôm nay'; Journal filter 'Bản đồ'; AuthFlow socialProvidersForPlatform; tests incl. golden birth dates; PLAN.md section 7. tsc, 671 jest tests and validate:data pass. sourceReview hashes refreshed to the edited files after review.",
+    "paths": [
+      "PLAN.md",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/auth/AuthFlow.tsx",
+      "apps/mobile/src/auth/__tests__/AuthFlow.test.tsx",
+      "apps/mobile/src/features/astrology/BirthFields.tsx",
+      "apps/mobile/src/features/astrology/__tests__/BirthDateValidity.test.tsx",
+      "apps/mobile/src/features/journal/JournalHome.tsx",
+      "apps/mobile/src/features/onboarding/GoalsScreen.tsx",
+      "apps/mobile/src/features/profile/ProfileHome.tsx",
+      "apps/mobile/src/features/profile/__tests__/ProfileHome.test.tsx"
+    ]
+  },
+  "validationCommands": [
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "npm run validate:data",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "On an Android phone: onboarding birth date, type 30 / 2 / 1999 and see the message; Tôi tab shows 'Năng lượng hôm nay'; Nhật ký filter shows 'Bản đồ'; sign-in screen shows no Apple button.",
+  "residualRisk": "Device behaviour (keyboard, TalkBack, large text) not verified until tested on a phone.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

@@ -82,3 +82,14 @@ test("a new account sees an invitation instead of zero counters", () => {
   expect(started.screen.getByLabelText("1 mục Nhật ký")).toBeTruthy();
   expect(started.screen.queryByText("Hành trình của bạn bắt đầu từ đây")).toBeNull();
 });
+
+test("Lô 1: the plan row shows only with a plan, and today's energy opens usage", () => {
+  const { props, screen } = renderProfile();
+  expect(screen.queryByText("Gói của bạn")).toBeNull();
+  fireEvent.press(screen.getByText("Năng lượng hôm nay"));
+  expect(props.onUsage).toHaveBeenCalledTimes(1);
+  const withPlan = renderProfile({ plan: "Premium" });
+  expect(withPlan.screen.getByText("Gói của bạn")).toBeTruthy();
+  fireEvent.press(withPlan.screen.getByText("Premium"));
+  expect(withPlan.props.onUsage).toHaveBeenCalledTimes(1);
+});

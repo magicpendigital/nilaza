@@ -95,7 +95,6 @@ import {
 } from "./src/backendClient";
 import {
   ActionTile,
-  CalendarDatePicker,
   ChatSessionSummary,
   Chip,
   ChoiceTile,
@@ -181,6 +180,7 @@ function personaTagline(persona: Persona, language: Language) {
 
 const learnedTarotCardsKey = "nilaza.learnedTarotCards.v1";
 import { ProfileHome } from "./src/features/profile/ProfileHome";
+import { BirthDateFields } from "./src/features/astrology/BirthFields";
 import { DeleteAccountPanel } from "./src/features/profile/DeleteAccountPanel";
 
 // Flip after the Owner approves deploying account-delete and its SQL (Google Play account deletion).
@@ -1256,7 +1256,7 @@ const copy = {
     seeking: "Hôm nay bạn đang tìm điều gì?",
     tone: "Bạn muốn người dẫn đường trò chuyện theo giọng nào?",
     birth: "Thông tin sinh tùy chọn",
-    birthDate: "Ngày sinh YYYY-MM-DD",
+    birthDate: "Ngày sinh (dương lịch)",
     birthTime: "Giờ sinh HH:mm",
     birthPlace: "Nơi sinh",
     skipBirth: "Có thể bỏ qua và cập nhật sau.",
@@ -1359,7 +1359,7 @@ const copy = {
     seeking: "What are you seeking today?",
     tone: "How should your guide answer?",
     birth: "Optional birth profile",
-    birthDate: "Birth date YYYY-MM-DD",
+    birthDate: "Birth date (Gregorian)",
     birthTime: "Birth time HH:mm",
     birthPlace: "Birth place",
     skipBirth: "You can skip and update this later.",
@@ -8926,6 +8926,7 @@ function ProfileScreen({
           onNotifications={() => setProfileSection("notifications")}
           onPrivacy={() => setProfileSection("privacy")}
           onUsage={() => setProfileSection("premium")}
+          plan={paywallEnabled ? (premium.entitled ? "Premium" : language === "vi" ? "Gói miễn phí" : "Free plan") : undefined}
           onAccount={() => setProfileSection("account")}
           onHelp={() => { void Linking.openURL(nilazaHelpUrlFor(language)).catch(() => undefined); }}
           onLegal={() => { void Linking.openURL(nilazaLegalUrlFor("terms", language)).catch(() => undefined); }}
@@ -8983,12 +8984,7 @@ function ProfileScreen({
           <StatusChip label={hasBirthProfile ? profileLabels.birthYes : profileLabels.birthEmpty} tone={hasBirthProfile ? "good" : "warn"} />
         </View>
         <Text style={styles.profileSectionBody}>{profileLabels.birthBody}</Text>
-        <CalendarDatePicker
-          language={language}
-          value={birthDate}
-          onChange={setBirthDate}
-          placeholder={language === "vi" ? "Chọn ngày sinh" : "Select birth date"}
-        />
+        <BirthDateFields language={language} value={birthDate} onChange={setBirthDate} label={c.birthDate} />
         <View style={styles.profileTwoColumn}>
           <TextInput value={birthTime} onChangeText={setBirthTime} placeholder={c.birthTime} placeholderTextColor={colors.moon} style={[styles.input, styles.profileHalfInput]} />
           <Pressable accessibilityRole="button" style={[styles.profileOptionButton, birthTimeUnknown && styles.profileOptionButtonActive]} onPress={onMarkBirthTimeUnknown}>

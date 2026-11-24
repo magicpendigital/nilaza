@@ -98,7 +98,8 @@ export function JournalHome({ language, now, entries, moodLabel, sourceLabel, bo
     { id: "cards", label: vi ? "Lá bài" : "Cards" },
     { id: "notes", label: vi ? "Ghi chú" : "Notes" },
     { id: "chat", label: vi ? "Trò chuyện" : "Chat" },
-    { id: "astrology", label: vi ? "Chiêm tinh" : "Astrology" }
+    // Lô 1: "Bản đồ" covers the chart, today's sky and numbers saved to the Journal.
+    { id: "astrology", label: vi ? "Bản đồ" : "Maps" }
   ];
 
   return (

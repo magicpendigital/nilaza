@@ -24,6 +24,8 @@ export type ProfileHomeProps = {
   onNotifications: () => void;
   onPrivacy: () => void;
   onUsage: () => void;
+  /** "Gói của bạn" row (Lô 1): plan status such as Premium or free; shown only while the paywall is on. */
+  plan?: string;
   onAccount: () => void;
   onHelp: () => void;
   onLegal: () => void;
@@ -138,7 +140,9 @@ export function ProfileHome(props: ProfileHomeProps) {
       </Section>
 
       <Section title={vi ? "Tài khoản" : "Account"}>
-        <Row icon="pulse-outline" title={vi ? "Lượt dùng hôm nay" : "Today's usage"} onPress={props.onUsage} />
+        {props.plan ? <Row icon="diamond-outline" title={vi ? "Gói của bạn" : "Your plan"} detail={props.plan} onPress={props.onUsage} /> : null}
+        <Row icon="flash-outline" title={vi ? "Năng lượng hôm nay" : "Today's energy"}
+          detail={vi ? "Lượt dùng AI còn lại trong ngày" : "AI uses left today"} onPress={props.onUsage} />
         <Row icon="help-circle-outline" title={vi ? "Trợ giúp" : "Help"} onPress={props.onHelp} />
         <Row icon="document-text-outline" title={vi ? "Điều khoản & Quyền riêng tư" : "Terms & Privacy"} onPress={props.onLegal} />
         {props.onAdmin ? <Row icon="construct-outline" title={vi ? "Trung tâm quản trị" : "Admin centre"} onPress={props.onAdmin} /> : null}
