@@ -31,7 +31,8 @@
     "apps/mobile/src/features/share/__tests__/shareLink.test.ts",
     "apps/mobile/src/features/share/__tests__/shareCardContent.test.ts",
     "docs/proposals/SHARE_LANDING_REVIEW_2026-11-24.vi.md",
-    "PLAN.md"
+    "PLAN.md",
+    "apps/admin/workflow-catalog.js"
   ],
   "untouchedSurfaces": [
     "No Edge Function, SQL, secret, Supabase/Vercel/EAS/Play setting change; share-events server allow-list and its deploy are untouched.",
@@ -143,6 +144,7 @@
     "note": "Record passed preflight before any code edit (24/11/2026, worktree clean at origin/main b5ea7a0). Then: calc.ts and golden tests, content store and tests, NumerologyScreen with name stored on device, numerology_map share surface (app only), Explore tile, Android Back, PLAN.md section 7 and the share landing review. sourceReview hashes refreshed after rebase onto origin/main 5a5042e (24/11/2026).",
     "paths": [
       "PLAN.md",
+      "apps/admin/workflow-catalog.js",
       "apps/mobile/App.tsx",
       "apps/mobile/src/features/explore/ExploreHome.tsx",
       "apps/mobile/src/features/explore/__tests__/ExploreLibrary.test.tsx",
@@ -158,7 +160,8 @@
       "apps/mobile/src/features/share/shareCardContent.ts",
       "apps/mobile/src/features/share/shareLink.ts",
       "docs/proposals/SHARE_LANDING_REVIEW_2026-11-24.vi.md",
-      "packages/content/data/numerology-blocks.json"
+      "packages/content/data/numerology-blocks.json",
+      "apps/admin/workflow-catalog.js"
     ]
   },
   "validationCommands": [
