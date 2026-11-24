@@ -12,6 +12,15 @@ Deno.test("answer version allowlist survives redaction without admitting prose i
   assert(!JSON.stringify(result).includes("private"), "no private prose survives");
 });
 
+Deno.test("model campaign tags survive redaction so metrics can group runs by variant", () => {
+  const input = { campaignId: "6f1c2a40-1b2c-4d5e-8f90-a1b2c3d4e5f6", variant: "B", question: "private question" };
+  const result = redactTraceValue(input, "redacted") as Record<string, unknown>;
+  assert(result.campaignId === input.campaignId && result.variant === "B", "campaign tags preserved");
+  const prose = redactTraceValue({ variant: "a long private sentence with spaces" }, "redacted") as Record<string, unknown>;
+  assert(typeof prose.variant !== "string", "variant prose is redacted");
+  assert(!JSON.stringify(result).includes("private"), "no private prose survives");
+});
+
 Deno.test("AI trace redacts prompt content while preserving routing metadata", () => {
   const redacted = redactTraceValue({
     provider: "openai",

@@ -319,7 +319,7 @@
   },
   {
     "path": "supabase/functions/_shared/ai-trace.ts",
-    "sha256": "78f27f581fc4ec10ea0507d0c169787e89a12dbb034b4704761b93880c664221"
+    "sha256": "1a251f9d6ce09b12d87313e1af353d90a9d69f495908e14b564765cc48c96fdc"
   },
   {
     "path": "supabase/functions/_shared/astrology-ai-insight-contract.ts",

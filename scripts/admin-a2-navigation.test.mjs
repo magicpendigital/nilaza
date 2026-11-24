@@ -48,7 +48,7 @@ test("one Vietnamese left navigation follows proposal 03/11 §5 and the top bar 
   const dom = await shellAt("#/overview/home");
   const doc = dom.window.document;
   assert.deepEqual(groupLabels(doc), ["Nội dung", "AI", "Vận hành"]);
-  assert.deepEqual(navLabels(doc), ["Tổng quan", "Người dẫn", "Bộ bài & 78 lá", "Văn bản trong app", "Tính năng AI", "Nhà cung cấp & Model", "Prompt & phiên bản", "Chạy thử & chấm điểm", "Phản hồi người dùng", "Nhật ký AI", "Lịch sử thao tác", "Thành viên & quyền", "Tăng trưởng"]);
+  assert.deepEqual(navLabels(doc), ["Tổng quan", "Người dẫn", "Bộ bài & 78 lá", "Văn bản trong app", "Tính năng AI", "Nhà cung cấp & Model", "Model và chiến dịch", "Prompt & phiên bản", "Chạy thử & chấm điểm", "Phản hồi người dùng", "Nhật ký AI", "Lịch sử thao tác", "Thành viên & quyền", "Tăng trưởng"]);
   assert.equal(doc.querySelector("#workspace-nav").getAttribute("aria-label"), "Điều hướng Admin");
   assert.equal(doc.querySelector('[data-nav="overview"]').getAttribute("aria-current"), "page");
   assert.equal(doc.querySelector("#environment-label").textContent, "Đang ghi vào: STAGING · Singapore");

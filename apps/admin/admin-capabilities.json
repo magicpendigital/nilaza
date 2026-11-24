@@ -46,6 +46,7 @@
         { "id": "council-builder", "label": "Council Builder" },
         { "id": "model-router", "label": "Model Router" },
         { "id": "providers", "label": "Providers & Model Chains" },
+        { "id": "campaigns", "label": "Model Campaigns" },
         { "id": "trace-explorer", "label": "Trace Explorer" },
         { "id": "feedback", "label": "Feedback Inbox" },
         { "id": "test", "label": "Test Runs" },
