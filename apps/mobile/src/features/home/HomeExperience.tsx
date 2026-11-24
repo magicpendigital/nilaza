@@ -2,14 +2,16 @@ import type { ReactNode } from "react";
 import { useState } from "react";
 import { Image, ImageSourcePropType, Modal, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Svg, { Circle, Path } from "react-native-svg";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Brand } from "../../a2ui/Brand";
 import { brandCopy, notificationLabel } from "../../brand/copy";
 import { getFeatureVisual, type FeatureVisualId } from "../../visualAssets";
 import { colors, radius, typography } from "../../theme";
 import type { Language } from "../../types";
-import { moonLitPath, moonPhaseFor, moonPhaseLabel, type MoonPhase } from "./moonPhase";
+import { moonPhaseLabel } from "./moonPhase";
+import { MoonGlyph } from "./MoonGlyph";
+import { localizeAstrologySign } from "../astrology/contracts";
+import { skyGlanceAt } from "../astrology/dailySky";
 
 export type HomeTarotTopic = "love" | "career" | "self";
 export type HomeZodiac = { hasBirthDate: boolean; sign: string; signId?: string; line: string };
@@ -27,7 +29,7 @@ type TopicCopy = {
 const topicCopy: Record<HomeTarotTopic, TopicCopy> = {
   love: {
     topic: "love",
-    vi: ["Tình yêu", "Trải bài tình yêu", "Một câu hỏi về mối quan hệ"],
+    vi: ["Tình cảm", "Trải bài tình yêu", "Một câu hỏi về mối quan hệ"],
     en: ["Love", "Love reading", "One question about a relationship"],
     askVi: ["Người ấy có nghĩ về mình?", "Có nên nhắn lại không?", "Mình cần gì trong một mối quan hệ?"],
     askEn: ["Are they thinking of me?", "Should I text back?", "What do I need in a relationship?"],
@@ -37,7 +39,7 @@ const topicCopy: Record<HomeTarotTopic, TopicCopy> = {
   },
   career: {
     topic: "career",
-    vi: ["Sự nghiệp", "Trải bài sự nghiệp", "Một câu hỏi về công việc"],
+    vi: ["Công việc", "Trải bài sự nghiệp", "Một câu hỏi về công việc"],
     en: ["Career", "Career reading", "One question about work"],
     askVi: ["Có nên đổi việc không?", "Vì sao mình mất động lực?", "Bước tiếp theo của mình là gì?"],
     askEn: ["Should I change jobs?", "Why have I lost motivation?", "What is my next step?"],
@@ -86,24 +88,15 @@ export function homeSubtitle(now: Date, language: Language) {
   return copy.subtitleEvening;
 }
 
-function MoonGlyph({ phase, size = 34 }: { phase: MoonPhase; size?: number }) {
-  const c = size / 2, r = size / 2 - 2;
-  const lit = moonLitPath(phase, c, r);
-  return <View importantForAccessibility="no-hide-descendants" accessibilityElementsHidden>
-    <Svg width={size} height={size}>
-      <Circle cx={c} cy={c} r={r} fill={colors.surfaceHigh} stroke={colors.border} strokeWidth={1} />
-      {lit ? <Path d={lit} fill="#E9DFC9" /> : null}
-    </Svg>
-  </View>;
-}
-
 function signVisual(signId?: string): ImageSourcePropType {
   return (signId && getFeatureVisual(`astrology-${signId}-v2` as FeatureVisualId)) || getFeatureVisual("astrology-sanctuary");
 }
 
-export function HomeExperience({ language, greeting, now, revealed, streak, onReveal, onAsk, onAstrology, onGoalSuggestion, onWritePrompt, primaryGoal, zodiac, onJournal, onOpenRecent, onNotifications, unread, reflection, reflectionActions, preRevealHint, cardBack, deckCover, latest, continuation, nextStep }: {
+export function HomeExperience({ language, greeting, now, revealed, streak, onReveal, onAsk, onAstrology, onSky, onGoalSuggestion, onWritePrompt, primaryGoal, zodiac, onJournal, onOpenRecent, onNotifications, unread, reflection, reflectionActions, preRevealHint, cardBack, deckCover, latest, continuation, nextStep }: {
   language: Language; greeting: string; now: Date; revealed: boolean; streak: number; onReveal: () => void;
-  onAsk: (text: string) => void; onAstrology: () => void; onGoalSuggestion: (topic: HomeTarotTopic) => void; onWritePrompt: (prompt: string) => void;
+  onAsk: (text: string) => void; onAstrology: () => void;
+  /** Opens "Bầu trời hôm nay"; without it the sky tile opens Astrology. */
+  onSky?: () => void; onGoalSuggestion: (topic: HomeTarotTopic) => void; onWritePrompt: (prompt: string) => void;
   primaryGoal?: string; zodiac: HomeZodiac;
   onJournal: () => void; onOpenRecent?: (id: string) => void; onNotifications: () => void; unread: number;
   reflection: ReactNode; reflectionActions?: ReactNode; preRevealHint?: string; cardBack: ImageSourcePropType; deckCover?: ImageSourcePropType;
@@ -117,8 +110,12 @@ export function HomeExperience({ language, greeting, now, revealed, streak, onRe
   const [topic, setTopic] = useState<HomeTarotTopic>(() => topicForGoal(primaryGoal));
   const copy = brandCopy(language);
   const drawLabel = { vi: "Chạm để mở lá bài hôm nay", en: "Tap to reveal today's card", "zh-Hans": "轻触揭开今日卡牌", ja: "タップして今日のカードをめくる", ko: "탭하여 오늘의 카드 공개" }[language];
-  const phase = moonPhaseFor(now);
-  const moon = moonPhaseLabel(phase.id, language);
+  const sky = skyGlanceAt(now);
+  const moon = moonPhaseLabel(sky.phase.id, language);
+  const vi = language === "vi";
+  const skySign = localizeAstrologySign(sky.sign, language);
+  const skyLine = `${moon.name} · ${Math.round(sky.illumination * 100)}% ${vi ? "sáng" : "lit"}`;
+  const skyTitle = vi ? `Trăng ở ${skySign}` : `Moon in ${skySign}`;
   const dateLabel = now.toLocaleDateString(language === "vi" ? "vi-VN" : language, { weekday: "long", day: "numeric", month: "numeric" });
   const goal = homeTopicSuggestion(topic, language);
   const filledDots = Math.max(0, Math.min(7, streak));
@@ -166,12 +163,13 @@ export function HomeExperience({ language, greeting, now, revealed, streak, onRe
     </Pressable> : null}
 
     <View style={s.tileRow}>
-      <View style={s.tile} accessible accessibilityLabel={`${copy.skyToday}: ${moon.name}. ${moon.hint}`}>
-        <MoonGlyph phase={phase} />
+      <Pressable accessibilityRole="button" accessibilityLabel={`${copy.skyToday}: ${skyTitle}. ${skyLine}`} onPress={onSky ?? onAstrology} style={s.tile}>
+        <MoonGlyph phase={sky} />
         <Text style={s.tileKicker}>{copy.skyToday}</Text>
-        <Text style={s.tileTitle}>{moon.name}</Text>
-        <Text style={s.tileBody}>{moon.hint}</Text>
-      </View>
+        <Text style={s.tileTitle}>{skyTitle}</Text>
+        <Text style={s.tileBody}>{skyLine}</Text>
+        <Text style={s.link}>{`${vi ? "Xem bầu trời" : "See the sky"} →`}</Text>
+      </Pressable>
       <Pressable accessibilityRole="button" onPress={onAstrology} style={[s.tile, s.mediaTile]}>
         <Image source={signVisual(zodiac.hasBirthDate ? zodiac.signId : undefined)} style={s.signImage} resizeMode="cover" accessible={false} />
         <View style={s.mediaCopy}>

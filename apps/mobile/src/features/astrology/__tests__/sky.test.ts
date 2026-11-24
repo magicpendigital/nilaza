@@ -1,5 +1,6 @@
 import { signs } from "../../../../../../packages/astrology-core/calculator.mjs";
 import { nextMoonEvent } from "../../home/moonPhase";
+import { fixedZone } from "../localDay";
 import { bigThreeOf, moonHouseToday, moonSignAt } from "../sky";
 import { big3Story, moonTodayFor, topicReading } from "../skyContent";
 
@@ -26,11 +27,11 @@ test("today's Moon lands in the Whole Sign house of its sign", () => {
 });
 
 test("next full or new moon is counted in whole days", () => {
-  // First quarter 18 Jan to full moon 25 Jan 2024 is 7.6 days.
-  expect(nextMoonEvent(new Date("2024-01-18T03:53:00Z"))).toEqual({ kind: "full", days: 8 });
-  expect(nextMoonEvent(new Date("2024-02-02T23:18:00Z"))).toEqual({ kind: "new", days: 7 });
+  // Counted in local calendar days: 18 Jan to the full moon on 25 Jan 2024 is 7.
+  expect(nextMoonEvent(new Date("2024-01-18T03:53:00Z"), fixedZone(0))).toMatchObject({ kind: "full", days: 7 });
+  expect(nextMoonEvent(new Date("2024-02-02T23:18:00Z"), fixedZone(0))).toMatchObject({ kind: "new", days: 7 });
   // On the full moon itself the next event is today.
-  expect(nextMoonEvent(new Date("2024-01-25T17:54:00Z"))).toEqual({ kind: "full", days: 0 });
+  expect(nextMoonEvent(new Date("2024-01-25T17:54:00Z"), fixedZone(0))).toMatchObject({ kind: "full", days: 0 });
 });
 
 test("Big 3 story joins the approved fragments and invites a birth time when it is missing", () => {
@@ -48,7 +49,7 @@ test("Big 3 story joins the approved fragments and invites a birth time when it 
 
 test("Moon-in-house text uses the renamed house 6", () => {
   expect(moonTodayFor(6, "vi").title).toBe("Mặt Trăng đi qua nhà nhịp sống hằng ngày của bạn");
-  expect(moonTodayFor(1, "vi").labels).toEqual({ do: "Nên thử", avoid: "Nên tránh" });
+  expect(moonTodayFor(1, "vi").labels).toEqual({ do: "Nghiêng về", avoid: "Nhẹ tay với" });
 });
 
 test("topic tabs read two placements and fall back to the invite without a birth time", () => {

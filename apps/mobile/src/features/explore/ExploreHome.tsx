@@ -2,23 +2,33 @@ import { Image, type ImageSourcePropType, Pressable, StyleSheet, Text, View } fr
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors, layout, radius, typography } from "../../theme";
 import type { Language } from "../../types";
+import { localizeAstrologySign } from "../astrology/contracts";
+import { skyGlanceAt } from "../astrology/dailySky";
+import { MoonGlyph } from "../home/MoonGlyph";
+import { moonPhaseLabel } from "../home/moonPhase";
 
 // Khám phá (design canvas Explore, 2026-10-31): Tarot, Astrology, decks by mood, guides, face reading soon.
 export type ExploreDeckTile = { mood: string; deckName: string; image: ImageSourcePropType; onPress: () => void };
 export type ExploreGuideRow = { key: string; title: string; detail: string; thumbnails: ImageSourcePropType[]; onPress: () => void };
 
-export function ExploreHome({ language, deckCount, onTarot, onLibrary, onAstrology, onAllDecks, decks, guides, onAllGuides }: {
+export function ExploreHome({ language, deckCount, onTarot, onLibrary, onAstrology, onSky, onAllDecks, decks, guides, onAllGuides, now }: {
   language: Language;
   deckCount: number;
   onTarot: () => void;
   onLibrary: () => void;
   onAstrology: () => void;
+  /** Opens "Bầu trời hôm nay"; the block is hidden without it. */
+  onSky?: () => void;
+  now?: Date;
   onAllDecks: () => void;
   decks: ExploreDeckTile[];
   guides: ExploreGuideRow[];
   onAllGuides: () => void;
 }) {
   const vi = language === "vi";
+  const sky = onSky ? skyGlanceAt(now ?? new Date()) : null;
+  const skySign = sky ? localizeAstrologySign(sky.sign, language) : "";
+  const skyLine = sky ? `${moonPhaseLabel(sky.phase.id, language).name} · ${Math.round(sky.illumination * 100)}% ${vi ? "sáng" : "lit"}` : "";
   return (
     <View style={s.root}>
       <Text style={s.title} accessibilityRole="header">{vi ? "Khám phá" : "Explore"}</Text>
@@ -33,11 +43,23 @@ export function ExploreHome({ language, deckCount, onTarot, onLibrary, onAstrolo
         </View>
       </View>
 
+      {sky && onSky ? (
+        <Pressable accessibilityRole="button" accessibilityLabel={`${vi ? "Bầu trời hôm nay" : "Today's sky"}: ${vi ? "Trăng ở" : "Moon in"} ${skySign}. ${skyLine}`} onPress={onSky} style={s.astro}>
+          <MoonGlyph phase={sky} size={44} />
+          <View style={s.flex}>
+            <Text style={s.kicker}>{vi ? "Bầu trời hôm nay" : "Today's sky"}</Text>
+            <Text style={s.cardTitle}>{vi ? `Trăng ở ${skySign}` : `Moon in ${skySign}`}</Text>
+            <Text style={s.cardBody}>{skyLine}</Text>
+          </View>
+          <Ionicons name="chevron-forward" size={18} color="#B8B0A4" />
+        </Pressable>
+      ) : null}
+
       <Pressable accessibilityRole="button" onPress={onAstrology} style={s.astro}>
         <View style={s.flex}>
           <Text style={s.kicker}>{vi ? "Chiêm tinh" : "Astrology"}</Text>
           <Text style={s.cardTitle}>{vi ? "Bầu trời của bạn" : "Your sky"}</Text>
-          <Text style={s.cardBody}>{vi ? "Big 3, Mặt Trăng hôm nay và so lá số với một người." : "Big 3, today's Moon and comparing charts with someone."}</Text>
+          <Text style={s.cardBody}>{vi ? "Big 3, 12 cung & thần thoại và so lá số với một người." : "Big 3, 12 signs & myths and comparing charts with someone."}</Text>
         </View>
         <Ionicons name="planet-outline" size={34} color={colors.gold} />
       </Pressable>
