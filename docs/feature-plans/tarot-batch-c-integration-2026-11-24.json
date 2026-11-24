@@ -33,7 +33,9 @@
     "apps/mobile/App.tsx",
     "package.json",
     "supabase/migrations/20261124090000_tarot_note_reader_router.sql",
-    "scripts/tarot-note-claim-sql.test.mjs"
+    "scripts/tarot-note-claim-sql.test.mjs",
+    "PLAN.md",
+    "docs/release/singapore-edge-functions-2026-11-09/tarot-batch-c1-deploy-2026-11-24.json"
   ],
   "untouchedSurfaces": [
     "PLAN.md is updated by the lead agent.",
@@ -58,22 +60,78 @@
     "sanitized_project_context"
   ],
   "sourceReview": [
-    { "path": "AGENTS.md", "reason": "Owner approval boundary.", "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5" },
-    { "path": "docs/AGENT_TASK_ROUTER.md", "reason": "Backend/AI, Admin and mobile lane checks.", "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c" },
-    { "path": "docs/PLAN_QC_PROTOCOL.md", "reason": "Record shape and preflight.", "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2" },
-    { "path": "supabase/functions/_shared/model-campaign.ts", "reason": "Campaign resolver to wire into the router.", "sha256": "769dd37749f40ea02f8e711242949acbbae9568bea0f23ac6a6fd81ab91bcf74" },
-    { "path": "supabase/functions/_shared/model-router.ts", "reason": "resolveFeatureRoute placeholder.", "sha256": "01ca101d275f5e7995e990083096b2d023dfdd37c5b5bedbb1ec8b6864475179" },
-    { "path": "supabase/functions/ai-tarot-reading/handler.ts", "reason": "Note, suggest_reader and interpret answers and trace metadata.", "sha256": "eb9d33b8c69f57a74018136b616ad27231569a41a502353eb55411477b276f75" },
-    { "path": "supabase/functions/share-events/handler.ts", "reason": "Product-event allowlist.", "sha256": "234f743dab1d054ca5bdb9e49967728dd5eeb730521c4090234bbfa128aa7eec" },
-    { "path": "apps/mobile/src/backendClient.ts", "reason": "requestTarotNote, requestTarotReaderSuggestion, sendProductEvent.", "sha256": "6072d29e223ba61f38ce96c255c463b2e16c663aaf6217ac12570b9f2f6cfd33" },
-    { "path": "apps/mobile/src/features/tarot/tarotNote.ts", "reason": "Client parsers of the note and suggestion answers.", "sha256": "b5614aa946da6130dd17eb71f197c11fe5b23631e8b9190b1b4304e80d8f77e5" },
-    { "path": "supabase/functions/admin-model-campaigns/contract.ts", "reason": "Pick-winner payload.", "sha256": "0f15da00dd5fc611230ed7a3c0fc994dfd3955d612e19ca749e85a5d03cd6c79" },
-    { "path": "supabase/migrations/20261124090100_model_campaigns.sql", "reason": "Pick-winner publish config.", "sha256": "4f361a42c76a4697391acb3409bd6783113062fef0d55c95a730741eb60b39d7" },
-    { "path": "supabase/migrations/20261124090000_tarot_note_reader_router.sql", "reason": "Note claim (separate allowance) and reader_router publish rules.", "sha256": "e4faf8f23d4030d761ff67beb67dfb448cd5ac8bde9f14cb6d9fb7d832e34c9f" }
+    {
+      "path": "AGENTS.md",
+      "reason": "Owner approval boundary.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Backend/AI, Admin and mobile lane checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Record shape and preflight.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "supabase/functions/_shared/model-campaign.ts",
+      "reason": "Campaign resolver to wire into the router.",
+      "sha256": "769dd37749f40ea02f8e711242949acbbae9568bea0f23ac6a6fd81ab91bcf74"
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "reason": "resolveFeatureRoute placeholder.",
+      "sha256": "01ca101d275f5e7995e990083096b2d023dfdd37c5b5bedbb1ec8b6864475179"
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/handler.ts",
+      "reason": "Note, suggest_reader and interpret answers and trace metadata.",
+      "sha256": "eb9d33b8c69f57a74018136b616ad27231569a41a502353eb55411477b276f75"
+    },
+    {
+      "path": "supabase/functions/share-events/handler.ts",
+      "reason": "Product-event allowlist.",
+      "sha256": "234f743dab1d054ca5bdb9e49967728dd5eeb730521c4090234bbfa128aa7eec"
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "reason": "requestTarotNote, requestTarotReaderSuggestion, sendProductEvent.",
+      "sha256": "6072d29e223ba61f38ce96c255c463b2e16c663aaf6217ac12570b9f2f6cfd33"
+    },
+    {
+      "path": "apps/mobile/src/features/tarot/tarotNote.ts",
+      "reason": "Client parsers of the note and suggestion answers.",
+      "sha256": "b5614aa946da6130dd17eb71f197c11fe5b23631e8b9190b1b4304e80d8f77e5"
+    },
+    {
+      "path": "supabase/functions/admin-model-campaigns/contract.ts",
+      "reason": "Pick-winner payload.",
+      "sha256": "0f15da00dd5fc611230ed7a3c0fc994dfd3955d612e19ca749e85a5d03cd6c79"
+    },
+    {
+      "path": "supabase/migrations/20261124090100_model_campaigns.sql",
+      "reason": "Pick-winner publish config.",
+      "sha256": "4f361a42c76a4697391acb3409bd6783113062fef0d55c95a730741eb60b39d7"
+    },
+    {
+      "path": "supabase/migrations/20261124090000_tarot_note_reader_router.sql",
+      "reason": "Note claim (separate allowance) and reader_router publish rules.",
+      "sha256": "e4faf8f23d4030d761ff67beb67dfb448cd5ac8bde9f14cb6d9fb7d832e34c9f"
+    }
   ],
   "skillReview": [
-    { "name": "nilaza-plan-qc", "decision": "verified-current", "evidence": "Record and preflight before integration edits; PLAN.md left to the lead." },
-    { "name": "nilaza-ai-runtime", "decision": "verified-current", "evidence": "Campaign errors fall back to the active route, a route read error still surfaces, traces carry flat campaign tags, no deploy." }
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before integration edits; PLAN.md left to the lead."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Campaign errors fall back to the active route, a route read error still surfaces, traces carry flat campaign tags, no deploy."
+    }
   ],
   "securityReview": {
     "authzRls": "Campaign RPC stays service-role only; the service client is created inside the Edge Function from its own env and only used for that RPC and the existing store.",
@@ -96,8 +154,14 @@
   ],
   "managerTestPath": "After the Owner applies both migrations and deploys ai-tarot-reading, share-events and admin-model-campaigns on staging: start a tarot_note campaign 50/50, open the Tarot note from two accounts, then see calls per variant in Admin; tap the note feedback and see product signals counted.",
   "residualRisk": "No staging E2E; SQL checked statically and on PGlite only where the repo harness allows. Decision-provider calls still have no trace span or token cost.",
-  "externalActions": { "databaseWrite": false, "productionRelease": false },
-  "dependencyReview": { "usesVolatileExternalKnowledge": false, "evidence": "Repository code only." },
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  },
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Repository code only."
+  },
   "externalSourceReview": [],
   "workingTreeReview": {
     "paths": [],
