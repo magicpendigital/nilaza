@@ -66,7 +66,7 @@
     { "path": "docs/PLAN_QC_PROTOCOL.md", "reason": "Record shape.", "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2" },
     { "path": "docs/proposals/TAROT_NOTE_READER_ROUTER_CAMPAIGNS_2026-11-23.vi.md", "reason": "Campaign scope, metrics and stop rules (section 3).", "sha256": "4249d8e90fc8bba351a5973be969f62cf9a1b32a74b94fa93e38dea9005ef9a4" },
     { "path": "supabase/migrations/20261113140000_model_route_steps.sql", "reason": "Step validator and publish function reused by pick winner.", "sha256": "d7c59aa1013839b49bb1fe5325503eefb6272f2c96423f79f5c1470e4e44edea" },
-    { "path": "supabase/functions/admin-model-router-config/contract.ts", "reason": "Route publish payload shape mirrored by the campaign function.", "sha256": "4d721d2f384b4456a5ed1fc83e9191593e7c0aecf568e5e07b635d2e04919cbf" },
+    { "path": "supabase/functions/admin-model-router-config/contract.ts", "reason": "Route publish payload shape mirrored by the campaign function.", "sha256": "3f3beff9c7f3a879f9dad85182af1a779b311ab3ccf91e85e23908144b79edcb" },
     { "path": "supabase/functions/share-events/handler.ts", "reason": "Event allowlist and rate rules to extend.", "sha256": "8d95d40fb15cad4380188888a20eb49a4527e1fa636cee4bdf7be790bbe349c0" },
     { "path": "supabase/functions/_shared/ai-trace.ts", "reason": "Trace metadata redaction; campaignId and variant must survive.", "sha256": "1a251f9d6ce09b12d87313e1af353d90a9d69f495908e14b564765cc48c96fdc" }
   ],

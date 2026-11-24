@@ -61,7 +61,7 @@
     {
       "path": "supabase/functions/_shared/model-router.ts",
       "reason": "Route shape (steps of provider and model) and default routes per feature.",
-      "sha256": "63c599d57a08343d5d20c8bbb857bc0e8f291568dea6d1fb54d44711d9a76c5c"
+      "sha256": "01ca101d275f5e7995e990083096b2d023dfdd37c5b5bedbb1ec8b6864475179"
     }
   ],
   "skillReview": [
