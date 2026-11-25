@@ -1,6 +1,7 @@
 import blocks from "../../../../../packages/content/data/numerology-blocks.json";
 import type { Language } from "../../types";
 import type { ArrowId, NumerologyNumber } from "./calc";
+import type { CompatRelation } from "./compat";
 
 type Text = { vi: string; en: string };
 const pick = (text: Text, language: Language) => (language === "vi" ? text.vi : text.en);
@@ -35,6 +36,59 @@ export const digitNote = (language: Language) => pick(blocks.digits.note, langua
 export const arrowLabel = (id: ArrowId, language: Language) => pick(blocks.arrows[id].label, language);
 export const arrowText = (id: ArrowId, language: Language) => pick(blocks.arrows[id].text, language);
 export const arrowNotes = (language: Language) => ({ empty: pick(blocks.arrows.emptyNote, language), label: pick(blocks.arrows.labelNote, language) });
+
+// Lô 5 keys (layer 3 "Nhịp thời gian", layer 4 "Hợp số", the "Lời nhắn riêng" card). Typed by hand so this module
+// does not depend on JSON type inference for keys that are added in the same batch.
+type Digits = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9";
+type TimeBlocks = {
+  personalYear: { frame: Text } & Record<Digits, { title: Text; leans: Text; question: Text }>;
+  personalMonth: { frame: Text } & Record<Digits, Text>;
+  personalDay: { frame: Text } & Record<Digits, Text>;
+  pinnacles: { frame: Text; stages: Record<"1" | "2" | "3" | "4", Text>; numbers: Record<Digits | "11" | "22", Text> };
+  challenges: { frame: Text } & Record<"0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8", Text>;
+  relationship: {
+    frame: Text;
+    numbers: Record<Digits, Text>;
+    pairs: Record<CompatRelation, { common: Text; tension: Text }>;
+    privacyNote: Text;
+  };
+  privateMessage: { title: Text; soon: Text; body: Text; sends: Text };
+};
+const time = blocks as unknown as TimeBlocks;
+const digitKey = (n: number) => String(n) as Digits;
+
+export const personalYearFrame = (language: Language) => pick(time.personalYear.frame, language);
+export function personalYearBlock(year: number, language: Language) {
+  const block = time.personalYear[digitKey(year)];
+  return { title: pick(block.title, language), leans: pick(block.leans, language), question: pick(block.question, language) };
+}
+export const personalMonthFrame = (language: Language) => pick(time.personalMonth.frame, language);
+export const personalMonthLine = (month: number, language: Language) => pick(time.personalMonth[digitKey(month)], language);
+export const personalDayFrame = (language: Language) => pick(time.personalDay.frame, language);
+export const personalDayLine = (day: number, language: Language) => pick(time.personalDay[digitKey(day)], language);
+
+export const pinnacleFrame = (language: Language) => pick(time.pinnacles.frame, language);
+export const pinnacleStageLine = (stage: 1 | 2 | 3 | 4, language: Language) => pick(time.pinnacles.stages[String(stage) as "1"], language);
+/** 11 and 22 have their own pinnacle line (the shade of 2 and 4). */
+export const pinnacleNumberLine = (number: NumerologyNumber, language: Language) =>
+  pick(time.pinnacles.numbers[String(number.value) as Digits | "11" | "22"], language);
+
+export const challengeFrame = (language: Language) => pick(time.challenges.frame, language);
+export const challengeLine = (value: number, language: Language) => pick(time.challenges[String(value) as "0"], language);
+
+export const relationshipFrame = (language: Language) => pick(time.relationship.frame, language);
+/** Relationship line for a number; 11 and 22 read as their root. */
+export const relationshipLine = (number: NumerologyNumber, language: Language) => pick(time.relationship.numbers[digitKey(number.root)], language);
+export function relationshipPair(relation: CompatRelation, language: Language) {
+  const pair = time.relationship.pairs[relation];
+  return { common: pick(pair.common, language), tension: pick(pair.tension, language) };
+}
+export const relationshipPrivacyNote = (language: Language) => pick(time.relationship.privacyNote, language);
+
+export function privateMessageCard(language: Language) {
+  const card = time.privateMessage;
+  return { title: pick(card.title, language), soon: pick(card.soon, language), body: pick(card.body, language), sends: pick(card.sends, language) };
+}
 
 /** Every string in the store, for the banned-word test. */
 export const allNumerologyText = (): string[] => {

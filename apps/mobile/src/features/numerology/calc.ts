@@ -156,3 +156,87 @@ export function buildNumerologyMap(birthDate: string, name = ""): NumerologyMap 
   if (!birth) return null;
   return { birth, lifePath: lifePathNumber(birth), birthday: birthdayNumber(birth), name: nameNumbers(name), grid: birthGrid(birth) };
 }
+
+// ---------------------------------------------------------------------------------------------------------------
+// Lô 5, lớp 3 "Nhịp thời gian": personal cycles, pinnacles and challenges (proposal section 3, rules 6-8).
+// Every rule below is checked against docs/proposals/data/numerology-golden-2026-11-23.json (masters11_22_only and
+// personalCycles) in __tests__/cycles.test.ts.
+
+export type CalendarDay = { year: number; month: number; day: number };
+
+/** Today's date on the device, read in local time so the personal year changes at local midnight on 1 January. */
+export function localToday(now: Date = new Date()): CalendarDay {
+  return { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
+}
+
+export type PersonalCycles = { year: number; month: number; day: number };
+
+/**
+ * Rule 6. Personal year = birth day + birth month + current calendar year, reduced to ONE digit (no 11/22);
+ * personal month = personal year + calendar month; personal day = personal month + calendar day.
+ * The year changes on 1 January, not on the birthday.
+ */
+export function personalCycles(birth: BirthParts, today: CalendarDay): PersonalCycles {
+  const single = (n: number) => reduceNumber(n, false);
+  const year = single(single(birth.day) + single(birth.month) + single(today.year));
+  const month = single(year + today.month);
+  const day = single(month + today.day);
+  return { year, month, day };
+}
+
+export type Pinnacle = {
+  stage: 1 | 2 | 3 | 4;
+  number: NumerologyNumber;
+  /** Approximate completed ages, inclusive. `to` is null for the last stage. */
+  fromAge: number;
+  toAge: number | null;
+};
+
+/**
+ * Rule 7. The parts are reduced keeping 11/22 (D2); P1 = month + day, P2 = day + year, P3 = P1 + P2 (the reduced
+ * P1 and P2), P4 = month + year, each reduced keeping 11 and 22 (D1, no 33). Ages come from the life path ROOT:
+ * P1 from 0 to 36 - root, P2 and P3 nine years each, P4 to the end. Matches all 28 golden cases.
+ */
+export function pinnacles(birth: BirthParts): Pinnacle[] {
+  const month = reduceNumber(birth.month);
+  const day = reduceNumber(birth.day);
+  const year = reduceNumber(birth.year);
+  const p1 = reduceNumber(month + day);
+  const p2 = reduceNumber(day + year);
+  const p3 = reduceNumber(p1 + p2);
+  const p4 = reduceNumber(month + year);
+  const firstEnd = 36 - lifePathNumber(birth).root;
+  return [
+    { stage: 1, number: numberFrom(p1), fromAge: 0, toAge: firstEnd },
+    { stage: 2, number: numberFrom(p2), fromAge: firstEnd + 1, toAge: firstEnd + 9 },
+    { stage: 3, number: numberFrom(p3), fromAge: firstEnd + 10, toAge: firstEnd + 18 },
+    { stage: 4, number: numberFrom(p4), fromAge: firstEnd + 19, toAge: null }
+  ];
+}
+
+/**
+ * Rule 8. The parts are reduced to ONE digit (11 → 2, 22 → 4); C1 = |month − day|, C2 = |day − year|,
+ * C3 = |C1 − C2|, C4 = |month − year|. 0 is a valid challenge.
+ */
+export function challenges(birth: BirthParts): [number, number, number, number] {
+  const single = (n: number) => reduceNumber(n, false);
+  const month = single(birth.month);
+  const day = single(birth.day);
+  const year = single(birth.year);
+  const c1 = Math.abs(month - day);
+  const c2 = Math.abs(day - year);
+  return [c1, c2, Math.abs(c1 - c2), Math.abs(month - year)];
+}
+
+/** Completed years on `today` (the birthday itself counts as the new age). */
+export function completedAge(birth: BirthParts, today: CalendarDay): number {
+  const beforeBirthday = today.month < birth.month || (today.month === birth.month && today.day < birth.day);
+  return Math.max(0, today.year - birth.year - (beforeBirthday ? 1 : 0));
+}
+
+/** Index 0-3 of the pinnacle stage that holds the completed age on `today`. */
+export function currentPinnacleIndex(birth: BirthParts, today: CalendarDay): number {
+  const age = completedAge(birth, today);
+  const index = pinnacles(birth).findIndex((stage) => stage.toAge === null || age <= stage.toAge);
+  return index < 0 ? 3 : index;
+}
