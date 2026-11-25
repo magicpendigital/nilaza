@@ -40,7 +40,10 @@
     "scripts/validate-backend-contracts.mjs",
     "package.json",
     "docs/contracts/persona-chat-streaming.md",
-    "apps/admin/workflow-catalog.js"
+    "apps/admin/workflow-catalog.js",
+    "packages/content/data/knowledge-briefs/",
+    "docs/proposals/CHAT_KNOWLEDGE_CHARACTERS_2026-11-24.vi.md",
+    "docs/proposals/data/book-brief-sample-binh-phap-ton-tu.vi.md"
   ],
   "untouchedSurfaces": [
     "Mobile app (ChatHub.tsx, PersonaChatRoom, backendClient.ts): the app agent implements the SSE client from docs/contracts/persona-chat-streaming.md.",
