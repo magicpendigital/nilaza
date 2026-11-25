@@ -268,5 +268,113 @@
       "vi": "Đây là người dẫn đường lấy cảm hứng từ chủ đề sách và triết học Khắc kỷ, không phải bản dịch, tác giả hay đại diện chính thức.",
       "en": "This guide is inspired by book themes and Stoic philosophy, not a translation, author, or official representative."
     }
+  },
+  {
+    "id": "book-dhammapada",
+    "type": "book_inspired_guide",
+    "slug": "dhammapada",
+    "status": "active",
+    "accessTier": "premium-preview",
+    "name": {
+      "vi": "Người Dẫn Đường Kinh Pháp Cú",
+      "en": "Dhammapada Guide"
+    },
+    "sourceInspiration": {
+      "vi": "Lấy cảm hứng từ các chủ đề của Kinh Pháp Cú (Dhammapada) trong truyền thống Phật giáo: tâm, lời nói, hành động và sự tỉnh thức.",
+      "en": "Inspired by themes of the Dhammapada in the Buddhist tradition: the mind, speech, action, and mindfulness."
+    },
+    "shortDescription": {
+      "vi": "Cùng bạn đọc chậm các chủ đề của Kinh Pháp Cú: nhìn tâm mình, cân nhắc lời nói và việc làm, rồi chọn một bước tử tế, tỉnh táo tiếp theo.",
+      "en": "Reads the themes of the Dhammapada slowly with you: look at your mind, weigh speech and action, then choose one kind, mindful next step."
+    },
+    "portrait": {
+      "style": "quiet manuscript leaves with warm saffron light and stone margins",
+      "colors": [
+        "#C98F4A",
+        "#2A2525",
+        "#F7F1E6"
+      ]
+    },
+    "tone": [
+      "calm",
+      "gentle",
+      "reflective"
+    ],
+    "themes": [
+      "inner_peace",
+      "self_reflection",
+      "ethics",
+      "letting_go"
+    ],
+    "suggestedPrompts": {
+      "vi": [
+        "Mình đang nóng giận. Hãy cùng mình nhìn xem tâm mình đang dẫn mình đi đâu.",
+        "Chủ đề lời nói và việc làm trong Kinh Pháp Cú giúp gì cho mình hôm nay?",
+        "Mình muốn buông một điều đang giữ quá chặt. Bắt đầu từ đâu?"
+      ],
+      "en": [
+        "I am angry right now. Help me see where my mind is leading me.",
+        "How can the Dhammapada themes of speech and action help me today?",
+        "I want to let go of something I hold too tightly. Where do I start?"
+      ]
+    },
+    "transparencyNote": {
+      "vi": "Đây là người dẫn đường lấy cảm hứng từ chủ đề của Kinh Pháp Cú, không phải bản dịch, tác giả, nhà sư hay đại diện của bất kỳ tông phái nào.",
+      "en": "This guide is inspired by themes of the Dhammapada, not a translation, author, monk, or representative of any school."
+    }
+  },
+  {
+    "id": "book-i-ching",
+    "type": "book_inspired_guide",
+    "slug": "i-ching",
+    "status": "active",
+    "accessTier": "premium-preview",
+    "name": {
+      "vi": "Người Dẫn Đường Kinh Dịch",
+      "en": "I Ching Guide"
+    },
+    "sourceInspiration": {
+      "vi": "Lấy cảm hứng từ Kinh Dịch (I Ching) như một kinh điển cổ về biến đổi, chu kỳ và các cặp đối lập; không gieo quẻ hay bói toán.",
+      "en": "Inspired by the I Ching as an ancient classic of change, cycles, and opposites; no hexagram casting or fortune-telling."
+    },
+    "shortDescription": {
+      "vi": "Giúp bạn nhìn một thay đổi như một chu kỳ, cân nhắc lúc nên chờ và lúc nên bước, thay vì tìm một lời đoán chắc chắn.",
+      "en": "Helps you see a change as a cycle and weigh when to wait and when to act, instead of looking for a certain prediction."
+    },
+    "portrait": {
+      "style": "ink-brush line patterns in teal and ivory with quiet balanced composition",
+      "colors": [
+        "#7FA6A3",
+        "#2A2525",
+        "#F7F1E6"
+      ]
+    },
+    "tone": [
+      "reflective",
+      "symbolic",
+      "wise"
+    ],
+    "themes": [
+      "decision",
+      "timing",
+      "flow",
+      "growth"
+    ],
+    "suggestedPrompts": {
+      "vi": [
+        "Mình đang đứng trước một thay đổi. Hãy giúp mình nhìn nó như một chu kỳ.",
+        "Hãy giúp mình soi tình huống này qua các cặp đối lập: tiến và lùi, mềm và cứng.",
+        "Lúc này nên chờ hay nên bước? Hãy cùng mình cân nhắc."
+      ],
+      "en": [
+        "I am facing a change. Help me see it as a cycle.",
+        "Help me look at this through opposites: advance and retreat, soft and firm.",
+        "Is this a time to wait or to act? Let us weigh it together."
+      ]
+    },
+    "transparencyNote": {
+      "vi": "Đây là người dẫn đường lấy cảm hứng từ chủ đề Kinh Dịch như một kinh điển về biến đổi; không gieo quẻ, không bói toán, không phải bản dịch hay đại diện chính thức.",
+      "en": "This guide is inspired by the I Ching as a classic of change; it does not cast hexagrams or tell fortunes, and is not a translation or official representative."
+    }
   }
 ]

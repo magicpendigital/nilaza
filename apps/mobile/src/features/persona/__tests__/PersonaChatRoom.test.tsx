@@ -22,13 +22,23 @@ jest.mock("react-native", () => {
   };
 });
 
+const mountedTrees: renderer.ReactTestRenderer[] = [];
+
 function renderTree(element: React.ReactElement) {
   let tree: renderer.ReactTestRenderer;
   act(() => {
     tree = renderer.create(element);
   });
+  mountedTrees.push(tree!);
   return tree!;
 }
+
+// The thinking counter runs an interval while a reply is pending; unmount so no timer outlives a test.
+afterEach(() => {
+  act(() => {
+    mountedTrees.splice(0).forEach((tree) => tree.unmount());
+  });
+});
 
 function textContent(node: any): string {
   if (node == null) return "";
@@ -94,6 +104,14 @@ describe("PersonaChatRoom", () => {
     });
 
     expect(props.onSend).toHaveBeenCalledWith("I need perspective");
+  });
+
+  it("opens with the persona's own line and falls back to the generic one", () => {
+    const own = renderTree(<PersonaChatRoom {...baseProps()} openingLine="Hello. Tell me what you are weighing." />);
+    expectText(own, "Hello. Tell me what you are weighing.");
+    expect(textContent(own.toJSON())).not.toContain("I am here.");
+    const fallback = renderTree(<PersonaChatRoom {...baseProps()} />);
+    expectText(fallback, "I am here.");
   });
 
   it("renders an active thread and routes guide save actions", () => {
@@ -185,5 +203,108 @@ describe("PersonaChatRoom", () => {
     expectText(tree, "Call 115");
     const ordinary = renderTree(<PersonaChatRoom {...baseProps()} messages={[{ id: "m3", role: "guide" as const, text: "Notice the pause." }]} />);
     expect(textContent(ordinary.toJSON())).not.toContain("Call 115");
+  });
+  it("shows the reply growing while it streams, without announcing each piece", () => {
+    const tree = renderTree(<PersonaChatRoom {...baseProps()} chatGenerating messages={[{ id: "m1", role: "user" as const, text: "Tell me" }]}
+      streamingReply={{ personaId: "p", text: "The first part of", status: "streaming", modelTier: "deep_knowledge" }} />);
+    expectText(tree, "The first part of");
+    expect(textContent(tree.toJSON())).not.toContain("Your guide is listening...");
+    expect(tree.root.findAll((node) => typeof node.type === "string" && node.props.accessibilityLiveRegion === "polite")).toHaveLength(0);
+  });
+
+  it("counts silent seconds after 10 s while a reasoning guide thinks", () => {
+    jest.useFakeTimers();
+    try {
+      const tree = renderTree(<PersonaChatRoom {...baseProps()} chatGenerating language="vi" messages={[{ id: "m1", role: "user" as const, text: "Hỏi" }]} />);
+      act(() => { jest.advanceTimersByTime(5000); });
+      expect(textContent(tree.toJSON())).not.toContain("Đang suy nghĩ");
+      act(() => { jest.advanceTimersByTime(7000); });
+      expectText(tree, "Đang suy nghĩ kỹ · 12 giây");
+      expect(textContent(tree.toJSON())).not.toContain("vài phút");
+      act(() => { jest.advanceTimersByTime(20000); });
+      expectText(tree, "Đang suy nghĩ kỹ · 32 giây. Câu trả lời sâu có thể cần vài phút");
+      // The ticking seconds never sit inside the polite live region, so TalkBack does not read every tick.
+      const live = tree.root.findAll((node) => typeof node.type === "string" && node.props.accessibilityLiveRegion === "polite");
+      live.forEach((node) => expect(textContent(node)).not.toContain("giây"));
+    } finally {
+      jest.useRealTimers();
+    }
+  });
+
+  it("renders a long Markdown answer without raw marks and without turning bullets italic", () => {
+    const text = "## Ý chính\n- một\n* hai ý dài\n**đậm** và *nghiêng*\n> trích dẫn";
+    const tree = renderTree(<PersonaChatRoom {...baseProps()} messages={[{ id: "m1", role: "guide" as const, text }]} />);
+    const all = textContent(tree.toJSON());
+    expect(all).toContain("Ý chính");
+    expect(all).not.toContain("##");
+    expect(all).toMatch(/•\s+một/);
+    expect(all).toMatch(/•\s+hai ý dài/);
+    expect(all).not.toContain("**");
+    const italic = tree.root.findAll((node) => node.type === "Text" && node.props.style?.fontStyle === "italic").map((node) => textContent(node));
+    expect(italic).toEqual(expect.arrayContaining(["nghiêng", "trích dẫn"]));
+    italic.forEach((value) => expect(value).not.toContain("hai ý dài"));
+  });
+
+  it("stops following new text once the reader scrolls up and offers a way back", () => {
+    const props = { ...baseProps(), chatGenerating: true, messages: [{ id: "m1", role: "user" as const, text: "Tell me" }] };
+    const reply = (text: string) => ({ personaId: "p", text, status: "streaming" as const, modelTier: "deep_knowledge" as const });
+    const tree = renderTree(<PersonaChatRoom {...props} streamingReply={reply("First part")} />);
+    const scroll = () => tree.root.find((node) => node.props.testID === "chat-message-scroll");
+    const awayFromBottom = { nativeEvent: { contentOffset: { y: 0 }, contentSize: { height: 2000 }, layoutMeasurement: { height: 600 } } };
+    expect(textContent(tree.toJSON())).not.toContain("Show newest");
+    act(() => {
+      scroll().props.onScrollBeginDrag(awayFromBottom);
+      scroll().props.onScroll(awayFromBottom);
+      scroll().props.onScrollEndDrag(awayFromBottom);
+    });
+    act(() => { tree.update(<PersonaChatRoom {...props} streamingReply={reply("First part and more")} />); });
+    act(() => { scroll().props.onContentSizeChange(400, 2200); });
+    expectText(tree, "Show newest");
+    const chip = tree.root.find((node) => typeof node.type === "string" && node.props.accessibilityLabel === "Show the newest part of the chat");
+    act(() => { chip.props.onPress(); });
+    expect(textContent(tree.toJSON())).not.toContain("Show newest");
+  });
+
+  it("names the book a book guide is inspired by in the header and the honesty note", () => {
+    const tree = renderTree(<PersonaChatRoom {...baseProps()} language="vi" personaName="Người dẫn Kinh Dịch" personaInspiration="sách Kinh Dịch" />);
+    expectText(tree, "sách Kinh Dịch");
+    expectText(tree, "Không phải tác giả, cuốn sách");
+  });
+
+  it("keeps interrupted partial text marked as not saved, next to Retry", () => {
+    const props = { ...baseProps(), chatError: "The reply was cut off.", messages: [{ id: "m1", role: "user" as const, text: "Tell me" }] };
+    const tree = renderTree(<PersonaChatRoom {...props} streamingReply={{ personaId: "p", text: "Half an answer", status: "interrupted" }} />);
+    expectText(tree, "Half an answer");
+    const metas = tree.root.findAll((node) => typeof node.props.meta === "string").map((node) => node.props.meta);
+    expect(metas).toContain("Reply interrupted and not saved.");
+    expectText(tree, "Retry");
+  });
+
+  it("announces only a guide reply that arrives while the room is open", () => {
+    const props = { ...baseProps(), messages: [{ id: "m1", role: "user" as const, text: "Tell me" }, { id: "m2", role: "guide" as const, text: "Old reply." }] };
+    const tree = renderTree(<PersonaChatRoom {...props} />);
+    expect(tree.root.findAll((node) => typeof node.type === "string" && node.props.accessibilityLiveRegion === "polite")).toHaveLength(0);
+    act(() => {
+      tree.update(<PersonaChatRoom {...props} messages={[...props.messages, { id: "m3", role: "user" as const, text: "More" }, { id: "m4", role: "guide" as const, text: "Final reply." }]} />);
+    });
+    const live = tree.root.findAll((node) => typeof node.type === "string" && node.props.accessibilityLiveRegion === "polite");
+    expect(live).toHaveLength(1);
+    expect(textContent(live[0])).toContain("Final reply.");
+  });
+
+  it("offers Đào sâu only under the latest finished knowledge-tier reply and sends it through onSend", () => {
+    const deep = { id: "m2", role: "guide" as const, text: "A knowledge answer.", uiMetadata: { modelTier: "deep_knowledge" } };
+    const props = { ...baseProps(), language: "vi" as const, messages: [{ id: "m1", role: "user" as const, text: "Hỏi" }, deep] };
+    const tree = renderTree(<PersonaChatRoom {...props} />);
+    const chip = tree.root.findAll((node) => typeof node.type === "string" && node.props.accessibilityRole === "button" && node.props.accessibilityLabel === "Đào sâu");
+    expect(chip).toHaveLength(1);
+    act(() => { chip[0].props.onPress(); });
+    expect(props.onSend).toHaveBeenCalledWith(expect.stringContaining("đào sâu"));
+
+    const hasChip = (element: React.ReactElement) => textContent(renderTree(element).toJSON()).includes("Đào sâu");
+    expect(hasChip(<PersonaChatRoom {...props} chatGenerating />)).toBe(false);
+    expect(hasChip(<PersonaChatRoom {...props} messages={[deep, { id: "m3", role: "user" as const, text: "Thêm" }]} />)).toBe(false);
+    expect(hasChip(<PersonaChatRoom {...props} messages={[{ ...deep, uiMetadata: { modelTier: "standard" } }]} />)).toBe(false);
+    expect(hasChip(<PersonaChatRoom {...props} messages={[{ ...deep, uiMetadata: { modelTier: "deep_knowledge", fallback: true } }]} />)).toBe(false);
   });
 });

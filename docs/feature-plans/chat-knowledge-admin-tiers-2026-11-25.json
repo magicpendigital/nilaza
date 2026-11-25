@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "taskId": "chat-knowledge-admin-tiers-2026-11-25",
+  "ownerAgent": "admin_agent (Admin engineer)",
+  "lane": "Admin: Trò chuyện với tri thức, Lô 2 Admin page for persona model tiers (Hạng model người dẫn) plus the workflow-catalog text for persona chat and the stale persona count in the content-sync test",
+  "goal": "The Owner can view the active persona model tier config, edit a draft (tiers: label, own models or the active route, primary and fallback model, reasoning, output ceiling, total wait, per-message budget, history, answer style; plus the wall clock setting), see client-side validation with the same rules as the SQL validator, see a diff against the active version, and publish with a 10-500 character note (Owner only). Each of the 19 personas from the Admin content seed is assigned to one tier. A missing migration shows a clear 'chưa áp migration' state.",
+  "successCriteria": [
+    "AI Studio has a route #model-tiers (nav item 'Hạng model người dẫn' in the AI group) that calls get_ai_persona_model_tiers with ai.read and shows the active version or the code defaults.",
+    "The draft form covers every field the SQL validator accepts; the client validator returns the same error codes as nilaza_private.ai_persona_model_tiers_errors for the test fixtures, and Lưu nháp is refused before any RPC when it finds a problem.",
+    "Total wait shows the effective wait (Free plan 150 s wall clock => 135 s; 300 s needs a paid plan and wallClockMs 400000); per-message budget shows micro-USD as USD.",
+    "The persona table lists all personas from apps/admin/generated/content-seed.json with a tier select; personas without a mapping show the default tier.",
+    "Xem lại & phát hành shows a diff table against the active version, needs a 10-500 character note and calls publish_ai_persona_model_tiers with the draft version; only ai.manage sees it, editors see an explanation.",
+    "When the RPCs are missing the page says the migration 20261125090000 is not applied and the runtime uses code defaults; no crash.",
+    "The persona chat node in workflow-catalog.js mentions the knowledge brief layer, model tiers and streaming; admin:check passes with refreshed digests for the files changed here only.",
+    "scripts/admin-content-sync.test.mjs derives the persona count from the seed instead of 17; admin:test passes."
+  ],
+  "writeScope": [
+    "apps/admin/persona-model-tiers.js",
+    "apps/admin/ai-studio.html",
+    "apps/admin/app.js",
+    "apps/admin/shell.js",
+    "apps/admin/admin-capabilities.json",
+    "apps/admin/workspace-guard.js",
+    "apps/admin/workflow-catalog.js",
+    "apps/admin/styles.css",
+    "scripts/admin-persona-model-tiers.test.mjs",
+    "scripts/admin-content-sync.test.mjs",
+    "package.json",
+    "scripts/admin-a2-navigation.test.mjs"
+  ],
+  "untouchedSurfaces": [
+    "Mobile app (apps/mobile/**, App.tsx) belongs to the app agent; the App.tsx digest line in workflow-catalog.js is refreshed by the lead agent.",
+    "supabase/** (migration 20261125090000, persona-model-tiers.ts, ai-persona-chat) is read only.",
+    "packages/agent-config/persona-model-tiers.json is read only (the Admin copies the spec and a test keeps them equal).",
+    "Daily quotas stay on the existing 'Bật/tắt & hạn mức' page; this page links to it and does not change quota logic.",
+    "PLAN.md is updated by the lead agent.",
+    "No SQL applied, no function deployed, no secret read or set, .env not read."
+  ],
+  "impact": {
+    "entryPoint": "Admin -> AI -> 'Hạng model người dẫn' (ai-studio.html#model-tiers).",
+    "dataWrite": "Through save_ai_persona_model_tiers_draft (ai.manage or ai.read+content.draft) and publish_ai_persona_model_tiers (ai.manage); both audited by the database. Nothing is written by the browser outside these RPCs; unsaved form edits stay in memory only.",
+    "backendContract": "Uses the three RPCs of migration 20261125090000 as written; config payload {tiers, personaTiers, platform} in the shape of packages/agent-config/persona-model-tiers.json.",
+    "adminVisibility": "New page with active version, draft, diff, persona map and effective wait; audit rows appear on the existing timeline.",
+    "privacySafety": "No user data: only model ids, numbers and persona content ids. Crisis screening and quotas never read this config.",
+    "observability": "Status line on the page; publish result shows the new version; database audit log ai.persona_model_tiers.draft/publish.",
+    "rollback": "Remove the nav item and script tag; the RPCs stay unused and the runtime keeps the code defaults. A published config is rolled back by publishing the previous config again as a new version."
+  },
+  "canonicalContracts": [
+    "packages/agent-config/persona-model-tiers.json is the single source of tier keys, output styles, bounds and platform wall clock values; apps/admin/persona-model-tiers.js keeps a copy and scripts/admin-persona-model-tiers.test.mjs checks they are equal and that the SQL spec literal matches",
+    "supabase/migrations/20261125090000_persona_model_tiers.sql nilaza_private.ai_persona_model_tiers_errors is the authoritative validator; the Admin validator mirrors its error codes",
+    "apps/admin/generated/content-seed.json is the persona list the Admin shows"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Owner approval boundary.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Admin lane checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Record shape and preflight.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/admin/AGENTS.md",
+      "reason": "Admin workspaces must stay additive; required checks.",
+      "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8"
+    },
+    {
+      "path": "docs/proposals/CHAT_KNOWLEDGE_CHARACTERS_2026-11-24.vi.md",
+      "reason": "Section 6: tiers in Admin, one tier per persona.",
+      "sha256": "cf3e8d958a6c8c5ae444c154a4b5435623761bab8762345891ea341eae76165b"
+    },
+    {
+      "path": "supabase/migrations/20261125090000_persona_model_tiers.sql",
+      "reason": "RPC names, permissions, validator codes, note rules.",
+      "sha256": "d2f78a08d0a8755d69559f74956749e0eaef410a0cfa94039ff0ed09835ac640"
+    },
+    {
+      "path": "packages/agent-config/persona-model-tiers.json",
+      "reason": "Defaults, bounds, platform wall clock.",
+      "sha256": "ce153d845db72854ddd824e8afe45a1e5a362ed07d817bbdfe74cf9f0dc390ff"
+    },
+    {
+      "path": "apps/admin/context-config.js",
+      "reason": "Draft/publish RPC page pattern to copy (scope checks, missing migration, dialog).",
+      "sha256": "b045a2edd2bd31e7047c83d56a6a6e4b5005bea1c1926c6c060000118c8f9286"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before edits; admin-runtime-parity: draft vs published vs runtime-verified states kept separate, no sample defaults shown as live, verified/unverified listed in handoff."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Model change publish stays ai.manage (Owner) and audited; effective wait shown with the platform cap; quotas and crisis screening untouched."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Supabase wall clock values come from packages/agent-config/persona-model-tiers.json (checked by the backend agent 25/11/2026); no package added."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "Page reads with ai.read, saves with ai.manage or ai.read+content.draft, publishes with ai.manage; workspace-guard maps the same rules and the RPCs check again in the database.",
+    "sensitiveData": "Config holds model ids, numbers and persona content ids only; no user data, no secrets.",
+    "secretsLogging": "No keys handled; provider keys stay server side.",
+    "externalInput": "All server text is escaped before rendering; model ids and labels validated with the SQL patterns before saving.",
+    "dependencies": "No package added or upgraded; JSDOM tests reuse the existing devDependency.",
+    "migrationRelease": "Migration 20261125090000 is not applied; the page shows a not-applied state until the Owner applies it. Admin staging deploys on push to main.",
+    "stopCondition": "Stop if the client validator cannot match the SQL rules or the RPC contract has a bug that blocks saving; report instead of editing supabase/**.",
+    "unresolvedHighRisks": []
+  },
+  "validationCommands": [
+    "npm run admin:check",
+    "npm run admin:test",
+    "node --test scripts/persona-model-tiers.test.mjs",
+    "npm run validate:governance"
+  ],
+  "managerTestPath": "Admin -> AI -> Hạng model người dẫn. Before the migration: a yellow note says migration 20261125090000 is not applied and the code defaults run. After the Owner applies it: change 'Tri thức sâu' total wait to 200 s (the page shows effective 135 s on Free), set I Ching to Thường, Lưu nháp, Xem lại & phát hành, read the diff, write a note, publish; reload shows version 1 active.",
+  "residualRisk": "Live RPC behaviour untested until the migration is applied; the browser look is checked in JSDOM tests only unless someone opens the page. The runtime effect of a published config needs the deployed ai-persona-chat with the tier reader.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  },
+  "workingTreeReview": {
+    "note": "Record written before any Admin edit (25/11/2026). package.json and apps/admin/workflow-catalog.js already carry edits from the backend and app agents in this worktree (oracle:guides and knowledge-brief scripts; five backend digests and the App.tsx digest). This task only adds one admin:test entry to package.json and edits the persona chat node text plus the digests of files it changes in workflow-catalog.js; the App.tsx digest is left to the lead agent. After implementation (25/11/2026): the Admin page, its wiring, the new test, the nav-label test (one new AI nav item) and the persona-count fix are this task's own reviewed edits; admin:test passes except the App.tsx digest that the lead refreshes.",
+    "paths": [
+      "apps/admin/workflow-catalog.js",
+      "package.json",
+      "apps/admin/admin-capabilities.json",
+      "apps/admin/ai-studio.html",
+      "apps/admin/app.js",
+      "apps/admin/persona-model-tiers.js",
+      "apps/admin/shell.js",
+      "apps/admin/workspace-guard.js",
+      "scripts/admin-a2-navigation.test.mjs",
+      "scripts/admin-content-sync.test.mjs",
+      "scripts/admin-persona-model-tiers.test.mjs"
+    ]
+  }
+}

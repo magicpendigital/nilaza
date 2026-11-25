@@ -1,0 +1,25 @@
+{
+  "version": "2026-11-25",
+  "scope": "One short English reason per persona slug, shown to the Oracle model when it may suggest a guide. The slug list must match the persona data exactly: scripts/generate-oracle-guides.mjs --check fails otherwise.",
+  "reasons": {
+    "the-mystic": "Tarot and intuition",
+    "the-love-oracle": "love, boundaries and self-respect",
+    "inner-child-healer": "hurt feelings and self-care",
+    "the-shadow-mirror": "avoided feelings and patterns",
+    "the-clear-strategist": "decisions and consequences",
+    "the-star-weaver": "dreams, identity and direction",
+    "the-astrologer": "timing and the sky",
+    "communication-mentor": "what to say and how",
+    "calm-living-mentor": "calm and daily balance",
+    "strategic-thinker": "weighing which battle is worth fighting",
+    "harmony-guide": "softening, simplicity and letting go",
+    "stoic-journal": "writing through a hard day",
+    "dhammapada": "the mind, speech and action",
+    "i-ching": "change, cycles and timing",
+    "aristotle": "reason and practical virtue",
+    "confucius": "respect, family and hard conversations",
+    "laozi": "slowing down and letting go",
+    "marcus-aurelius": "calm under pressure",
+    "sun-tzu": "timing, position and avoiding wasted battles"
+  }
+}

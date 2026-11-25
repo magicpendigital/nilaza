@@ -1,6 +1,7 @@
 // Oracle tool contract (oracle-ai-tools-2026-11-11). The model writes a short reply and may pick up to two
 // tools from the enabled catalog; the server validates every tool and parameter before the app sees it.
 import catalog from "../../../packages/agent-config/oracle-actions.json" with { type: "json" };
+import { ORACLE_GUIDES } from "./oracle-guides.generated.ts";
 
 export type OracleToolKind = "reflect_here" | "draw_tarot" | "ask_guide" | "open_council" | "cast_astrology" | "save_journal";
 export type OracleLocale = "vi" | "en";
@@ -34,21 +35,8 @@ export const ORACLE_MAX_TOOLS = 2;
 export const ORACLE_MAX_REPLY_CHARS = 700;
 export const ORACLE_TOOL_CONTRACT_VERSION = "oracle-tools-2026-11-11";
 
-/** Guides the model may suggest, with a short reason to pick each one. */
-export const ORACLE_GUIDES: Record<string, string> = {
-  "the-mystic": "Tarot and intuition",
-  "the-love-oracle": "love, boundaries and self-respect",
-  "inner-child-healer": "hurt feelings and self-care",
-  "the-shadow-mirror": "avoided feelings and patterns",
-  "the-clear-strategist": "decisions and consequences",
-  "the-star-weaver": "dreams, identity and direction",
-  "the-astrologer": "timing and the sky",
-  "communication-mentor": "what to say and how",
-  "calm-living-mentor": "calm and daily balance",
-  "aristotle": "reason and practical virtue",
-  "laozi": "slowing down and letting go",
-  "marcus-aurelius": "calm under pressure"
-};
+/** Guides the model may suggest: generated from the persona data (npm run oracle:guides:generate). */
+export { ORACLE_GUIDES };
 export const ORACLE_COUNCIL_TEMPLATES = ["love_confusion", "career_fog", "overthinking", "big_decision"] as const;
 export const ORACLE_TAROT_TOPICS = ["love", "career", "self", "decision"] as const;
 export const ORACLE_ASTROLOGY_FOCUS = ["love", "career", "soul"] as const;

@@ -161,6 +161,8 @@ export type PersonaReplyResult = {
   methodPackId?: string;
   methodPackVersion?: string;
   persistenceStatus?: "stored" | "session_error" | "message_error" | "auth_error" | "skipped";
+  /** Additive (persona chat tiers 2026-11-25): "standard", "deep_knowledge" or "premium" with its localized label. */
+  modelTier?: { key: string; label?: string };
 };
 
 export type AiCouncilInput = {
@@ -338,7 +340,8 @@ const generationTimeoutMs = {
   council: 90000,
   daily: 45000,
   oracle: 60000,
-  persona: 60000,
+  // Persona chat tiers (2026-11-25): the server may wait up to 135-140 s for a JSON reply (knowledge guides).
+  persona: 150000,
   tarot: 75000,
   zodiac: 45000
 } as const;
@@ -605,6 +608,327 @@ function localSafetyReplyOrThrow<T extends { safety?: unknown }>(error: unknown,
     if (local.safety) return local;
   }
   throw error;
+}
+
+/* ------------------------------------------------------------------------------------------------
+ * Persona chat streaming (docs/contracts/persona-chat-streaming.md, 2026-11-25).
+ * Transport: expo/fetch (Expo SDK 52+), whose response.body is a ReadableStream on Android and iOS;
+ * React Native's built-in fetch buffers the whole body, so it cannot show text progressively.
+ * ---------------------------------------------------------------------------------------------- */
+
+export type SseEvent = { event: string; data: string };
+
+/**
+ * Incremental Server-Sent Events parser (WHATWG event-stream rules). Chunks may split anywhere, including
+ * between "\r" and "\n"; lines starting with ":" are comments (heartbeats); several data lines join with "\n".
+ */
+export function createSseParser(onEvent: (event: SseEvent) => void, onComment?: (text: string) => void) {
+  let buffer = "";
+  let eventName = "";
+  let dataLines: string[] = [];
+  let hasData = false;
+
+  const dispatch = () => {
+    if (hasData) onEvent({ event: eventName || "message", data: dataLines.join("\n") });
+    eventName = "";
+    dataLines = [];
+    hasData = false;
+  };
+
+  const processLine = (line: string) => {
+    if (line === "") { dispatch(); return; }
+    if (line.startsWith(":")) { onComment?.(line.slice(1).trim()); return; }
+    const colon = line.indexOf(":");
+    const field = colon === -1 ? line : line.slice(0, colon);
+    let value = colon === -1 ? "" : line.slice(colon + 1);
+    if (value.startsWith(" ")) value = value.slice(1);
+    if (field === "event") eventName = value;
+    else if (field === "data") { dataLines.push(value); hasData = true; }
+    // "id" and "retry" are not used by this contract.
+  };
+
+  const drain = (final: boolean) => {
+    let start = 0;
+    for (let index = 0; index < buffer.length; index += 1) {
+      const char = buffer[index];
+      if (char !== "\n" && char !== "\r") continue;
+      // A trailing "\r" may be the first half of "\r\n": wait for the next chunk unless the stream ended.
+      if (char === "\r" && index === buffer.length - 1 && !final) break;
+      processLine(buffer.slice(start, index));
+      if (char === "\r" && buffer[index + 1] === "\n") index += 1;
+      start = index + 1;
+    }
+    buffer = buffer.slice(start);
+  };
+
+  return {
+    push(chunk: string) {
+      if (!chunk) return;
+      buffer += chunk;
+      drain(false);
+    },
+    /** End of stream: a last line without a blank line after it is not dispatched (per the spec). */
+    end() {
+      drain(true);
+      buffer = "";
+      eventName = "";
+      dataLines = [];
+      hasData = false;
+    }
+  };
+}
+
+export type PersonaStreamMeta = {
+  modelTier?: string;
+  modelTierLabel?: string;
+  outputStyle?: string;
+  deadlineMs?: number;
+  clientRequestId?: string;
+};
+
+export type PersonaStreamHandlers = {
+  onMeta?: (meta: PersonaStreamMeta) => void;
+  /** Called with the whole text built from deltas so far (a preview; done.text replaces it). */
+  onDelta?: (accumulatedText: string) => void;
+  /** Abort when the room or app goes away; the server still finishes and saves the turn (contract rule 5). */
+  signal?: AbortSignal;
+};
+
+/**
+ * The stream stopped after some text was shown ("stream_interrupted" / "connection_lost" / "timeout"), or the
+ * caller aborted ("aborted"). partialText is what the user already saw; the turn is not stored on the server.
+ */
+export class PersonaStreamError extends Error {
+  constructor(
+    readonly code: "stream_interrupted" | "internal_error" | "connection_lost" | "timeout" | "aborted",
+    readonly retryable: boolean,
+    readonly partialText: string,
+    readonly persistenceStatus?: string
+  ) {
+    super(code);
+    this.name = "PersonaStreamError";
+  }
+}
+
+type StreamChunk = { done: boolean; value?: Uint8Array };
+type StreamReader = { read(): Promise<StreamChunk>; cancel?(reason?: unknown): unknown };
+type StreamResponse = {
+  ok: boolean;
+  status: number;
+  headers?: { get(name: string): string | null } | null;
+  body?: { getReader?: () => StreamReader } | null;
+  json(): Promise<unknown>;
+};
+export type StreamFetch = (url: string, init: { method: string; headers: Record<string, string>; body: string; signal: AbortSignal }) => Promise<StreamResponse>;
+type TextDecoderLike = { decode(input?: Uint8Array, options?: { stream?: boolean }): string };
+type PersonaStreamOutcome = { kind: "done"; result: PersonaReplyResult } | { kind: "error"; code: string; retryable: boolean; persistenceStatus?: string };
+type TextDecoderCtor = new (label?: string) => TextDecoderLike;
+
+/** Silence (no delta, no ": ping") this long after the first byte means the stream is dead (contract section 4). */
+export const PERSONA_STREAM_IDLE_MS = 30000;
+/** Total wait before meta arrives; afterwards meta.deadlineMs + margin (the server cap is 135 s on Free, 300 s later). */
+export const PERSONA_STREAM_PRE_META_MS = 150000;
+export const PERSONA_STREAM_DEADLINE_MARGIN_MS = 15000;
+
+function loadStreamingFetch(): StreamFetch | null {
+  try {
+    // Lazy so tests and non-native renderers without the ExpoFetchModule fall back to the JSON call.
+    const mod = require("expo/fetch") as { fetch?: unknown };
+    return typeof mod?.fetch === "function" ? (mod.fetch as StreamFetch) : null;
+  } catch {
+    return null;
+  }
+}
+
+function readOrAbort(reader: StreamReader, signal: AbortSignal): Promise<StreamChunk> {
+  if (signal.aborted) return Promise.reject(new Error("aborted"));
+  return new Promise((resolve, reject) => {
+    const onAbort = () => {
+      try { Promise.resolve(reader.cancel?.()).catch(() => undefined); } catch { /* already closed */ }
+      reject(new Error("aborted"));
+    };
+    signal.addEventListener("abort", onAbort);
+    reader.read().then(
+      (chunk) => { signal.removeEventListener("abort", onAbort); resolve(chunk); },
+      (error) => { signal.removeEventListener("abort", onAbort); reject(error); }
+    );
+  });
+}
+
+function parseJsonObject(data: string): Record<string, unknown> | null {
+  try {
+    const value = JSON.parse(data);
+    return value && typeof value === "object" && !Array.isArray(value) ? value as Record<string, unknown> : null;
+  } catch {
+    return null;
+  }
+}
+
+const USE_JSON_PATH = Symbol("use-json-path");
+
+/**
+ * Persona reply with progressive text. Falls back to generatePersonaReply (the JSON call) when the streaming
+ * transport is missing, the server answers JSON (not yet deployed), or the stream breaks before any text.
+ * Once text has been shown a failure throws PersonaStreamError with the partial text instead.
+ */
+export async function streamPersonaReply(
+  input: PersonaReplyInput,
+  fallback: () => PersonaReplyResult,
+  handlers: PersonaStreamHandlers = {},
+  backendOptions: BackendOptions = {},
+  deps: { streamFetch?: StreamFetch | null; TextDecoder?: TextDecoderCtor | null } = {}
+): Promise<PersonaReplyResult> {
+  const options = currentOptions(backendOptions);
+  const streamFetch = deps.streamFetch !== undefined ? deps.streamFetch : loadStreamingFetch();
+  const Decoder = deps.TextDecoder !== undefined ? deps.TextDecoder : (globalThis as { TextDecoder?: TextDecoderCtor }).TextDecoder;
+  if (!options.baseUrl || !streamFetch || typeof Decoder !== "function") return generatePersonaReply(input, fallback, backendOptions);
+
+  const controller = new AbortController();
+  let stopReason: "user" | "deadline" | "idle" | null = null;
+  const stop = (reason: "user" | "deadline" | "idle") => {
+    if (!stopReason) stopReason = reason;
+    controller.abort();
+  };
+  // Read through a function: timers and listeners change it, so TypeScript must not narrow it.
+  const stoppedBy = (): "user" | "deadline" | "idle" | null => stopReason;
+  const onUserAbort = () => stop("user");
+  options.session?.controller.signal.addEventListener("abort", onUserAbort);
+  handlers.signal?.addEventListener("abort", onUserAbort);
+  if (handlers.signal?.aborted || options.session?.controller.signal.aborted) stop("user");
+  let deadlineTimer: ReturnType<typeof setTimeout> | undefined = setTimeout(() => stop("deadline"), PERSONA_STREAM_PRE_META_MS);
+  let idleTimer: ReturnType<typeof setTimeout> | undefined;
+  const touch = () => {
+    if (idleTimer) clearTimeout(idleTimer);
+    idleTimer = setTimeout(() => stop("idle"), PERSONA_STREAM_IDLE_MS);
+  };
+  let partial = "";
+  let sawDelta = false;
+
+  const run = async (): Promise<PersonaReplyResult | typeof USE_JSON_PATH> => {
+    const headers: Record<string, string> = { "Content-Type": "application/json", Accept: "text/event-stream" };
+    if (options.apiKey) headers.apikey = options.apiKey;
+    if (options.authToken) headers.Authorization = `Bearer ${options.authToken}`;
+    let response: StreamResponse;
+    try {
+      response = await streamFetch(resolveBackendPath(options.baseUrl!, "/ai/persona-chat"), {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ ...input, stream: true }),
+        signal: controller.signal
+      });
+    } catch {
+      if (stoppedBy() === "user") throw new PersonaStreamError("aborted", false, "");
+      if (stoppedBy() === "deadline") throw new BackendUnavailableError("busy");
+      return USE_JSON_PATH;
+    }
+    if (stoppedBy() === "user" || options.session?.active === false) throw new PersonaStreamError("aborted", false, "");
+
+    const contentType = response.headers?.get?.("content-type") ?? "";
+    if (!contentType.toLowerCase().includes("text/event-stream")) {
+      // Errors before the model call stay JSON (contract section 2); an older deploy answers JSON on success too.
+      if ([401, 429, 503].includes(response.status)) {
+        const body = (await response.json().catch(() => ({}))) as { error?: unknown };
+        const code = typeof body.error === "string" ? body.error : String(response.status);
+        if (code === "feature_paused" || code === "daily_limit_reached") throw new BackendLimitError(code, response.status);
+        throw new BackendUnavailableError(response.status === 401 ? "auth" : "busy", response.status);
+      }
+      if (!response.ok) throw new BackendUnavailableError("busy", response.status);
+      const result = await response.json().catch(() => null) as PersonaReplyResult | null;
+      if (!result || typeof result.text !== "string") throw new BackendUnavailableError("busy", 502);
+      return result;
+    }
+
+    const reader = response.body?.getReader?.();
+    if (!reader) return USE_JSON_PATH;
+    const decoder = new Decoder("utf-8");
+    let outcome: PersonaStreamOutcome | null = null;
+    const parser = createSseParser((event) => {
+      if (outcome) return;
+      const data = parseJsonObject(event.data);
+      if (event.event === "meta" && data) {
+        const deadlineMs = typeof data.deadlineMs === "number" && Number.isFinite(data.deadlineMs) && data.deadlineMs > 0 ? data.deadlineMs : undefined;
+        if (deadlineMs) {
+          if (deadlineTimer) clearTimeout(deadlineTimer);
+          deadlineTimer = setTimeout(() => stop("deadline"), deadlineMs + PERSONA_STREAM_DEADLINE_MARGIN_MS);
+        }
+        handlers.onMeta?.({
+          modelTier: typeof data.modelTier === "string" ? data.modelTier : undefined,
+          modelTierLabel: typeof data.modelTierLabel === "string" ? data.modelTierLabel : undefined,
+          outputStyle: typeof data.outputStyle === "string" ? data.outputStyle : undefined,
+          deadlineMs,
+          clientRequestId: typeof data.clientRequestId === "string" ? data.clientRequestId : undefined
+        });
+      } else if (event.event === "delta" && data) {
+        if (typeof data.text === "string" && data.text.length > 0) {
+          partial += data.text;
+          sawDelta = true;
+          handlers.onDelta?.(partial);
+        }
+      } else if (event.event === "done") {
+        outcome = data && typeof data.text === "string"
+          ? { kind: "done", result: data as unknown as PersonaReplyResult }
+          : { kind: "error", code: "internal_error", retryable: true };
+      } else if (event.event === "error") {
+        outcome = {
+          kind: "error",
+          code: typeof data?.code === "string" ? data.code : "internal_error",
+          retryable: data?.retryable !== false,
+          persistenceStatus: typeof data?.persistenceStatus === "string" ? data.persistenceStatus : undefined
+        };
+      }
+    });
+
+    try {
+      while (!outcome) {
+        const chunk = await readOrAbort(reader, controller.signal);
+        if (chunk.done) {
+          parser.push(decoder.decode());
+          parser.end();
+          break;
+        }
+        touch();
+        if (chunk.value) parser.push(decoder.decode(chunk.value, { stream: true }));
+      }
+    } catch {
+      if (stoppedBy() === "user") throw new PersonaStreamError("aborted", false, partial);
+      if (stoppedBy() === "deadline") {
+        if (sawDelta) throw new PersonaStreamError("timeout", true, partial);
+        throw new BackendUnavailableError("busy");
+      }
+      if (sawDelta) throw new PersonaStreamError("connection_lost", true, partial);
+      return USE_JSON_PATH;
+    }
+    // TypeScript cannot see the assignment inside the parser callback.
+    const finalOutcome = outcome as PersonaStreamOutcome | null;
+    if (finalOutcome?.kind === "done") {
+      try { Promise.resolve(reader.cancel?.()).catch(() => undefined); } catch { /* closed */ }
+      return finalOutcome.result;
+    }
+    if (finalOutcome?.kind === "error") {
+      if (!sawDelta) throw new BackendUnavailableError("busy", 502);
+      throw new PersonaStreamError(finalOutcome.code === "stream_interrupted" ? "stream_interrupted" : "internal_error", finalOutcome.retryable, partial, finalOutcome.persistenceStatus);
+    }
+    // Closed without done or error: internal_error, retryable (contract section 3).
+    if (sawDelta) throw new PersonaStreamError("connection_lost", true, partial);
+    return USE_JSON_PATH;
+  };
+
+  let outcome: PersonaReplyResult | typeof USE_JSON_PATH;
+  try {
+    outcome = await run();
+  } catch (error) {
+    return localSafetyReplyOrThrow(error, fallback);
+  } finally {
+    if (deadlineTimer) clearTimeout(deadlineTimer);
+    if (idleTimer) clearTimeout(idleTimer);
+    deadlineTimer = undefined;
+    idleTimer = undefined;
+    options.session?.controller.signal.removeEventListener("abort", onUserAbort);
+    handlers.signal?.removeEventListener("abort", onUserAbort);
+  }
+  if (outcome !== USE_JSON_PATH) return outcome;
+  if (handlers.signal?.aborted) throw new PersonaStreamError("aborted", false, "");
+  return generatePersonaReply(input, fallback, backendOptions);
 }
 
 export async function generateAiCouncilTurn(

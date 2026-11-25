@@ -68,7 +68,8 @@ import {
   generateDailyInsight,
   requestAccountDeletion,
   generateDailyZodiacPulse,
-  generatePersonaReply,
+  PersonaStreamError,
+  streamPersonaReply,
   generateOracleTurn,
   generateTarotReading,
   requestGuestTarotDraw,
@@ -146,7 +147,7 @@ import { GuestPreview } from "./src/features/guest/GuestPreview";
 import { dailyRhythmFor } from "./src/features/home/dailyRhythm";
 import { localizePulseSign } from "./src/features/home/localizePulseSign";
 import { colors, layout, radius, spacing, typography } from "./src/theme";
-import { getDeckVisual, getFeatureVisual, getPersonaVisual } from "./src/visualAssets";
+import { getDeckVisual, getFeatureVisual, getPersonaVisual, personaPlaceholderArtTint } from "./src/visualAssets";
 import { AuthFlow } from "./src/auth/AuthFlow";
 import { AiCouncilRoom, type AiCouncilRoomProps, type AiCouncilSessionSummary, useAiCouncilRoom } from "./src/features/council";
 import { OracleRoom } from "./src/features/oracle";
@@ -172,9 +173,27 @@ import { CardLibrary } from "./src/features/tarot/CardLibrary";
 import { ExploreHome } from "./src/features/explore/ExploreHome";
 import { NumerologyScreen } from "./src/features/numerology/NumerologyScreen";
 import personaShortNamesData from "../../packages/content/data/persona-short-names.json";
+import knowledgeBriefIndex from "../../packages/content/data/knowledge-briefs/index.json";
 
 // Owner-approved short names and one-line taglines for guide grids (2026-10-31); full names stay on detail screens.
-const personaShortNames = personaShortNamesData.personas as Record<string, { short: { vi: string; en: string }; tagline: { vi: string; en: string } }>;
+const personaShortNames = personaShortNamesData.personas as Record<string, { short: { vi: string; en: string }; tagline: { vi: string; en: string }; opener?: { vi: string; en: string } }>;
+// First line of a persona chat room; undefined means the room falls back to its generic line.
+function personaOpener(persona: Persona, language: Language) {
+  const opener = personaShortNames[persona.id]?.opener;
+  return opener ? (language === "vi" ? opener.vi : opener.en) : undefined;
+}
+// Text starting "Tinh thần:" / "In spirit:" is a labelled paraphrase, never shown in quotation marks as a verbatim line.
+function asGuideQuote(text: string) {
+  return /^(Tinh thần|In spirit):/.test(text) ? text : `“${text}”`;
+}
+// Familiar book title of a book guide that has a knowledge brief (e.g. "Binh pháp Tôn Tử"); cards and the detail page name the book by it.
+const personaBookTitles = new Map(
+  (knowledgeBriefIndex as Array<{ personaId: string; titleVi: string; titleEn: string }>).map((entry) => [entry.personaId, { vi: entry.titleVi, en: entry.titleEn }])
+);
+function personaBookTitle(persona: Persona, language: Language) {
+  const title = persona.type === "book_inspired_guide" ? personaBookTitles.get(persona.id) : undefined;
+  return title ? (language === "vi" ? title.vi : title.en) : undefined;
+}
 function personaShortName(persona: Persona, language: Language) {
   const entry = personaShortNames[persona.id];
   return entry ? (language === "vi" ? entry.short.vi : entry.short.en) : localizedText(persona.name, language);
@@ -197,7 +216,7 @@ const accountDeleteLive = false;
 import { applyDailyReminder, dailyReminderKey, defaultDailyReminder, normalizeDailyReminder, type DailyReminder } from "./src/features/profile/dailyReminder";
 import appConfig from "./app.json";
 import { normalizeOracleText, oracleIntent, oracleSafetyReply, oracleSafetySignal } from "../../packages/ai-contracts/oracle-safety.mjs";
-import { PersonaChatRoom } from "./src/features/persona";
+import { PersonaChatRoom, buildPersonaHistory, createThrottledText, type PersonaStreamingReply } from "./src/features/persona";
 import { createEmailAuthState, displayNameFromEmail } from "./src/auth/localAuth";
 import { loadDeviceLanguagePreference, saveDeviceLanguagePreference } from "./src/languagePreference";
 import { emailLocaleFor, resendSupabaseSignupConfirmation, resetSupabasePasswordForEmail, signInWithSupabaseEmail, signUpWithSupabaseEmail, updateSupabaseUserLocale } from "./src/auth/supabaseAuth";
@@ -704,8 +723,8 @@ const personaEditorialOverrides: Record<
       en: ["Natural Flow", "Inner Peace", "Paradoxical Thinking", "Effortless Action"]
     },
     reflectionQuote: {
-      vi: "Tự nhiên không vội vàng, nhưng mọi điều vẫn hoàn tất.",
-      en: "Nature does not hurry, yet everything is accomplished."
+      vi: "Tinh thần: đừng gồng ép; điều thuận theo nhịp tự nhiên rồi sẽ tìm được đường hoàn tất.",
+      en: "In spirit: do not force it; what moves with natural rhythm finds its way to completion."
     },
     reflectionSummary: {
       vi: "Hãy chờ một giọng nói điềm tĩnh, chiêm nghiệm và đôi khi hơi huyền nhiệm, luôn kéo bạn quay về bên trong thay vì tìm câu trả lời từ bên ngoài.",
@@ -3119,6 +3138,9 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   const [chatGenerating, setChatGenerating] = useState(false);
   const [chatError, setChatError] = useState("");
   const [chatErrorRetryable, setChatErrorRetryable] = useState(true);
+  // Persona chat streaming (2026-11-25): the reply growing on screen, or partial text kept after an interruption.
+  const [personaStreamingReply, setPersonaStreamingReply] = useState<PersonaStreamingReply | null>(null);
+  const personaStreamAbortRef = useRef<AbortController | null>(null);
   const [lastChatPrompt, setLastChatPrompt] = useState("");
   const [tarotGenerating, setTarotGenerating] = useState(false);
   const tarotGenerationInFlight = useRef(false);
@@ -5130,6 +5152,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     startPersonaSession(selectedPersonaId);
     setChatInput("");
     setChatHandoffContext(undefined);
+    // An interrupted partial reply belongs to the old thread; a reply still streaming finishes normally.
+    setPersonaStreamingReply((current) => (current?.status === "interrupted" ? null : current));
     recordEvent("persona_chat_reset", { personaId: selectedPersonaId });
     showToast(language === "vi" ? "Đã bắt đầu phiên chat mới" : "Started a fresh chat");
   };
@@ -5141,6 +5165,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     }));
     setChatInput("");
     setChatHandoffContext(undefined);
+    setPersonaStreamingReply((current) => (current?.status === "interrupted" ? null : current));
     recordEvent("persona_chat_resumed", { personaId: selectedPersonaId });
   };
 
@@ -5154,15 +5179,12 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     const text = (preset ?? chatInput).trim();
     if (!text || chatGenerating) return;
     const clientRequestId = nowId();
-    const sanitizedHistory = currentMessages
-      .slice(-8)
-      .map((message) => ({
-        role: message.role,
-        text: message.text.replace(/\s+/g, " ").trim().slice(0, 800)
-      }))
-      .filter((message) => message.text.length > 0);
+    // 8 x 800 as before; 12 x 2,500 after a knowledge-tier reply (persona chat streaming contract section 1).
+    const sanitizedHistory = buildPersonaHistory(currentMessages);
     setChatGenerating(true);
     setChatError("");
+    // A new turn replaces any interrupted partial reply still on screen.
+    setPersonaStreamingReply(null);
     setLastChatPrompt(text);
     const userMessage: ChatMessage = {
       id: nowId(),
@@ -5195,8 +5217,16 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       sessionId: activePersonaSessionId
     });
     setTimeout(async () => {
+      const streamPersonaId = selectedPersonaId;
+      let streamTier: string | undefined;
+      const streamAbort = new AbortController();
+      personaStreamAbortRef.current = streamAbort;
+      // About 12 screen updates per second at most while text streams in.
+      const streamedText = createThrottledText((streamed) => {
+        setPersonaStreamingReply({ personaId: streamPersonaId, text: streamed, status: "streaming", modelTier: streamTier });
+      }, 80);
       try {
-        const reply = await generatePersonaReply(
+        const reply = await streamPersonaReply(
           {
             language,
             persona: selectedPersona,
@@ -5220,8 +5250,17 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
               moderationStatus: containsRiskyRequest(text) ? "blocked" : "fallback"
             };
           },
+          {
+            onMeta: (meta) => { streamTier = meta.modelTier; },
+            onDelta: (accumulated) => streamedText.push(accumulated),
+            signal: streamAbort.signal
+          },
           backendOptions
         );
+        // done.text is authoritative: drop the streamed preview and show the final reply.
+        streamedText.cancel();
+        setPersonaStreamingReply(null);
+        const replyTier = reply.modelTier?.key ?? streamTier;
         const guideMessage: ChatMessage = {
           id: nowId(),
           personaId: selectedPersonaId,
@@ -5235,6 +5274,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
             // A canned reply (AI unavailable) is labelled in the room.
             ...(reply.moderationStatus === "fallback" ? { fallback: true } : {}),
             ...(reply.safety === "crisis" ? { safety: "crisis" } : {}),
+            // Shows "Đào sâu" under a knowledge-tier reply and widens the memory sent next time.
+            ...(replyTier ? { modelTier: replyTier } : {}),
             ...(chatHandoffContext
               ? {
                 handoffSourceType: chatHandoffContext.sourceType,
@@ -5266,6 +5307,25 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         });
         finishGenerationActivity(activity, "ready");
       } catch (error) {
+        streamedText.cancel();
+        if (error instanceof PersonaStreamError && error.code === "aborted") {
+          // The user left (app closed or signed out); the server still saves the turn, so nothing to show here.
+          setPersonaStreamingReply(null);
+          finishGenerationActivity(activity, "failed");
+          return;
+        }
+        if (error instanceof PersonaStreamError && error.partialText) {
+          // Keep what was already shown, marked as interrupted; the server did not save this turn (contract rule 2).
+          setPersonaStreamingReply({ personaId: streamPersonaId, text: error.partialText, status: "interrupted", modelTier: streamTier });
+          setChatErrorRetryable(error.retryable);
+          setChatError(language === "vi"
+            ? "Câu trả lời bị ngắt giữa chừng và chưa được lưu. Bấm Thử lại để hỏi lại; tin nhắn của bạn vẫn được giữ."
+            : "The reply was cut off and was not saved. Tap Retry to ask again; your message is kept.");
+          finishGenerationActivity(activity, "failed");
+          recordEvent("persona_message_failed", { personaId: streamPersonaId, reason: error.code });
+          return;
+        }
+        setPersonaStreamingReply(null);
         // A guide paused from Admin is shown as resting, not as a failed answer. Limits and pauses offer no
         // Retry; a lost connection or a busy AI says so instead of showing a canned reply (device test 11/11).
         const unavailableReason = error instanceof BackendUnavailableError ? error.reason : undefined;
@@ -5290,6 +5350,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
           summary: summarizeForSafety(`persona=${selectedPersonaId}; promptLength=${text.length}; risky=${containsRiskyRequest(text)}`)
         }, false);
       } finally {
+        if (personaStreamAbortRef.current === streamAbort) personaStreamAbortRef.current = null;
         setChatGenerating(false);
       }
     }, 650);
@@ -5667,6 +5728,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   useEffect(() => () => {
     if (navigationIdleTimerRef.current) clearTimeout(navigationIdleTimerRef.current);
   }, []);
+  // Stop reading a persona stream when the app shell goes away; the server still finishes and saves the turn.
+  useEffect(() => () => personaStreamAbortRef.current?.abort(), []);
   useEffect(() => {
     lastContentScrollYRef.current = 0;
     compactNavigationStartRef.current = -1;
@@ -5789,6 +5852,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       chatError={chatError}
       chatGenerating={chatGenerating}
       chatInput={chatInput}
+      personaStreamingReply={personaStreamingReply?.personaId === selectedPersonaId ? personaStreamingReply : null}
       councilRoomProps={isOwnerPreviewActive
         ? {
             ...councilRoomProps,
@@ -6700,7 +6764,7 @@ function personaMatchesChatCategory(persona: Persona, category: ChatCategory) {
 function personaRoleLabel(persona: Persona, language: Language) {
   if (persona.displayRole) return localizedText(persona.displayRole, language);
   if (persona.type === "book_inspired_guide") {
-    return language === "vi" ? "Guide theo chủ đề sách" : "Book-inspired guide";
+    return language === "vi" ? "Người dẫn theo chủ đề sách" : "Book-inspired guide";
   }
   return localizedText(persona.sourceInspiration, language, persona.type);
 }
@@ -6715,6 +6779,9 @@ function personaConversationLens(persona: Persona, language: Language) {
 function personaSearchText(persona: Persona, language: Language) {
   return [
     localizedText(persona.name, language),
+    personaShortName(persona, language),
+    personaBookTitle(persona, "vi") ?? "",
+    personaBookTitle(persona, "en") ?? "",
     localizedText(persona.displayRole ?? persona.sourceInspiration, language, ""),
     localizedText(persona.shortDescription, language),
     ...persona.tone,
@@ -6942,6 +7009,7 @@ function ChatScreen({
   chatError,
   chatGenerating,
   chatInput,
+  personaStreamingReply,
   councilRoomProps,
   favoritePersonaIds,
   handoffContext,
@@ -6977,6 +7045,7 @@ function ChatScreen({
   chatError: string;
   chatGenerating: boolean;
   chatInput: string;
+  personaStreamingReply?: PersonaStreamingReply | null;
   councilRoomProps: Omit<AiCouncilRoomProps, "onBack" | "onOpenGuideChat">;
   favoritePersonaIds: string[];
   handoffContext?: ChatHandoffContext;
@@ -7062,10 +7131,12 @@ function ChatScreen({
         councilThumbnails={councilRoomProps.personas.map((persona) => getPersonaThumbnail(persona))}
         guides={personas.map((persona) => ({
           id: persona.id,
-          name: personaShortName(persona, language),
+          name: personaBookTitle(persona, language) ?? personaShortName(persona, language),
           tagline: personaTagline(persona, language),
           thumbnail: getPersonaThumbnail(persona),
-          comingSoon: !canViewContentTier(persona.accessTier, displayedTier)
+          comingSoon: !canViewContentTier(persona.accessTier, displayedTier),
+          kind: persona.type === "book_inspired_guide" ? "book" : "guide",
+          artTint: personaPlaceholderArtTint(persona)
         }))}
         matches={(id, category, query) => {
           const persona = personasById[id];
@@ -7123,7 +7194,13 @@ function ChatScreen({
     const fallbackPersonaSections = buildPersonaFallbackSections(selectedPersona, language);
     const editorialOverride = personaEditorialOverrides[selectedPersona.slug];
     const heroTitle = localizedText(editorialOverride?.heroTitle, language, personaName).replace(/\s+Guide$/i, "");
-    const heroSubtitle = localizedText(editorialOverride?.heroSubtitle, language, role).toUpperCase();
+    const detailBookTitle = personaBookTitle(selectedPersona, language);
+    const heroSubtitle = localizedText(
+      editorialOverride?.heroSubtitle,
+      language,
+      detailBookTitle ? (language === "vi" ? `Từ sách ${detailBookTitle}` : `From the book ${detailBookTitle}`) : role
+    ).toUpperCase();
+    const coverTint = personaPlaceholderArtTint(selectedPersona);
     const domainLabels = localizedList(editorialOverride?.domainLabels, language);
     const domainKeys = Array.from(new Set([...selectedPersona.themes, ...selectedPersona.tone]));
     const domainItems = domainKeys.slice(0, 4).map((key, index) => ({
@@ -7177,7 +7254,7 @@ function ChatScreen({
     return (
       <View style={styles.editorialPersonaScreen}>
         <View style={styles.editorialPersonaTopBar}>
-          <Pressable accessibilityRole="button" style={styles.editorialRoundIcon} onPress={() => setMode("list")}>
+          <Pressable accessibilityLabel={language === "vi" ? "Quay lại" : "Back"} accessibilityRole="button" style={styles.editorialRoundIcon} onPress={() => setMode("list")}>
             <Ionicons name="arrow-back-outline" size={22} color={colors.gold} />
           </Pressable>
           <View style={[styles.editorialPersonaHeaderTitleWrap, showCompactTitle && styles.editorialPersonaHeaderTitleWrapVisible]}>
@@ -7185,7 +7262,9 @@ function ChatScreen({
           </View>
           <View style={styles.editorialPersonaActionRow}>
             <Pressable
-              accessibilityLabel={personaFavorite ? "Remove favorite guide" : "Save favorite guide"}
+              accessibilityLabel={language === "vi"
+                ? personaFavorite ? "Bỏ lưu người dẫn yêu thích" : "Lưu người dẫn yêu thích"
+                : personaFavorite ? "Remove favorite guide" : "Save favorite guide"}
               accessibilityRole="button"
               accessibilityState={{ selected: personaFavorite }}
               style={[styles.editorialRoundIcon, personaFavorite && styles.editorialRoundIconActive]}
@@ -7199,6 +7278,7 @@ function ChatScreen({
         <View style={styles.editorialPersonaHero}>
           <View style={styles.editorialPersonaAura} />
           <Image source={personaCover} style={styles.editorialPersonaImage} resizeMode="cover" />
+          {coverTint ? <View style={[styles.editorialPersonaHeroShade, { backgroundColor: coverTint, opacity: 0.32 }]} /> : null}
           <View style={styles.editorialPersonaHeroShade} />
           <View style={[styles.editorialPersonaTitleWrap, showCompactTitle && styles.editorialPersonaTitleWrapHidden]}>
             <Text style={styles.editorialPersonaTitle}>{heroTitle}</Text>
@@ -7206,14 +7286,14 @@ function ChatScreen({
           </View>
         </View>
 
-        <View style={styles.editorialPersonaTabs}>
-          <Pressable style={styles.editorialPersonaTab} onPress={() => setDetailTab("reflections")}>
+        <View accessibilityRole="tablist" style={styles.editorialPersonaTabs}>
+          <Pressable accessibilityRole="tab" accessibilityState={{ selected: detailTab === "reflections" }} hitSlop={8} style={styles.editorialPersonaTab} onPress={() => setDetailTab("reflections")}>
             <Text style={[styles.editorialPersonaTabText, detailTab === "reflections" && styles.editorialPersonaTabTextActive]}>
               {language === "vi" ? "Suy niệm" : "Reflections"}
             </Text>
             <View style={[styles.editorialPersonaTabLine, detailTab === "reflections" && styles.editorialPersonaTabLineActive]} />
           </Pressable>
-          <Pressable style={styles.editorialPersonaTab} onPress={() => setDetailTab("chronicle")}>
+          <Pressable accessibilityRole="tab" accessibilityState={{ selected: detailTab === "chronicle" }} hitSlop={8} style={styles.editorialPersonaTab} onPress={() => setDetailTab("chronicle")}>
             <Text style={[styles.editorialPersonaTabText, detailTab === "chronicle" && styles.editorialPersonaTabTextActive]}>
               {language === "vi" ? "Biên niên" : "Chronicle"}
             </Text>
@@ -7238,16 +7318,16 @@ function ChatScreen({
             <View style={styles.editorialPersonaQuoteCard}>
               <Ionicons name="chatbox-ellipses-outline" size={42} color="rgba(201, 164, 92, 0.12)" style={styles.editorialPersonaQuoteMark} />
               <Text style={styles.editorialPersonaCardLabel}>{language === "vi" ? "Một lời từ người dẫn đường" : "A Word from the Guide"}</Text>
-              <Text style={styles.editorialPersonaQuoteText}>“{reflectionQuote}”</Text>
+              <Text style={styles.editorialPersonaQuoteText}>{asGuideQuote(reflectionQuote)}</Text>
               <Text style={styles.editorialPersonaQuoteBody}>{reflectionSummary}</Text>
             </View>
 
             <View style={styles.editorialPersonaSection}>
-              <Text style={styles.editorialPersonaSectionLabel}>{language === "vi" ? "Dấu vết gần đây" : "Recent Insights"}</Text>
+              <Text style={styles.editorialPersonaSectionLabel}>{language === "vi" ? "Chủ đề gợi ý" : "Suggested topics"}</Text>
               <View style={styles.editorialPersonaInsightStack}>
                 {recentInsights.map((item) => (
                   <View key={item} style={styles.editorialPersonaInsightCard}>
-                    <Text style={styles.editorialPersonaInsightText}>“{item}”</Text>
+                    <Text style={styles.editorialPersonaInsightText}>{item}</Text>
                   </View>
                 ))}
               </View>
@@ -7282,7 +7362,7 @@ function ChatScreen({
 
             <View style={styles.editorialPersonaClosingQuote}>
               <Ionicons name="book-outline" size={28} color="rgba(201, 164, 92, 0.22)" />
-              <Text style={styles.editorialPersonaClosingQuoteText}>“{chronicleQuote}”</Text>
+              <Text style={styles.editorialPersonaClosingQuoteText}>{chronicleQuote}</Text>
             </View>
           </View>
         )}
@@ -7347,11 +7427,17 @@ function ChatScreen({
         onFeedback(language === "vi" ? "Cảm ơn bạn đã phản hồi." : "Thanks for the feedback.");
       }}
       onSend={onSend}
+      openingLine={personaOpener(selectedPersona, language)}
+      personaInspiration={(() => {
+        const title = personaBookTitle(selectedPersona, language);
+        return title ? (language === "vi" ? `sách ${title}` : `the book ${title}`) : undefined;
+      })()}
       personaName={personaName}
       personaPrompts={personaPrompts}
       personaThumbnail={personaThumbnail}
       personaTransparency={personaTransparency}
       sessionSummaries={personaSessionSummaries}
+      streamingReply={personaStreamingReply}
     />
   );
 }

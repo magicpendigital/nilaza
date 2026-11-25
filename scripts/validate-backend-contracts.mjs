@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { knowledgeBriefCheckErrors } from "./build-knowledge-briefs.mjs";
 
 const root = process.cwd();
 const errors = [];
@@ -453,6 +454,9 @@ for (const { gatewayPath, functionName } of contracts) {
 for (const functionName of adminFunctions) assert(functionsReadme.includes(functionName), `Supabase functions README missing ${functionName}`);
 assert(functionsReadme.includes("Authorization: Bearer"), "Supabase functions README must document JWT Authorization header");
 assert(functionsReadme.includes("apikey"), "Supabase functions README must document Supabase apikey header");
+
+// Knowledge briefs (Owner 25/11/2026): the generated Edge Function module must match packages/content/data/knowledge-briefs.
+for (const error of knowledgeBriefCheckErrors()) errors.push(error);
 
 if (errors.length) {
   console.error("Backend contract validation failed:");

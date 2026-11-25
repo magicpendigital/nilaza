@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "description": "Model tiers for persona chat (Owner decision 25/11/2026, docs/proposals/CHAT_KNOWLEDGE_CHARACTERS_2026-11-24.vi.md section 6). Code defaults and bounds; Admin may publish a replacement in public.ai_persona_model_tiers (migration 20261125090000). The SQL validator nilaza_private.ai_persona_model_tiers_errors mirrors these bounds; scripts/persona-model-tiers.test.mjs keeps them equal. The standard tier has no override: it uses the active persona_chat route and ai_feature_configs exactly as before tiers existed.",
+  "tierKeys": ["standard", "deep_knowledge", "premium"],
+  "defaultTier": "standard",
+  "outputStyles": ["concise", "knowledge"],
+  "bounds": {
+    "maxOutputTokens": { "min": 256, "max": 16000 },
+    "timeoutMs": { "min": 5000, "max": 300000 },
+    "primaryShare": { "min": 0.3, "max": 0.9 },
+    "costCapMicro": { "min": 1000, "max": 200000 },
+    "temperature": { "min": 0, "max": 1.5 },
+    "reasoningMaxTokens": { "min": 64, "max": 8000 },
+    "historyTurns": { "min": 0, "max": 12 },
+    "historyChars": { "min": 100, "max": 2500 },
+    "maxSteps": 4
+  },
+  "platform": {
+    "description": "Supabase Edge Functions, https://supabase.com/docs/guides/functions/limits (checked 25/11/2026): wall clock 150 s on Free, 400 s on paid plans; a request that sends no response within 150 s gets 504. The project is on Free, so a 300 s tier wait is capped to wallClockMs - safetyMarginMs until the plan changes and wallClockMs is published as 400000.",
+    "wallClockMsAllowed": [150000, 400000],
+    "wallClockMs": 150000,
+    "safetyMarginMs": 15000,
+    "nonStreamMaxMs": 140000
+  },
+  "tiers": {
+    "standard": {
+      "label": { "vi": "Thường", "en": "Standard" },
+      "useActiveRoute": true,
+      "outputStyle": "concise"
+    },
+    "deep_knowledge": {
+      "label": { "vi": "Tri thức sâu", "en": "Deep knowledge" },
+      "useActiveRoute": false,
+      "steps": [
+        { "provider": "openrouter", "model": "deepseek/deepseek-v4.1-flash" },
+        { "provider": "openrouter", "model": "xiaomi/mimo-v2.6-flash" }
+      ],
+      "temperature": 0.6,
+      "reasoning": { "mode": "medium", "maxTokens": 4000 },
+      "maxOutputTokens": 8000,
+      "timeoutMs": 300000,
+      "primaryShare": 0.65,
+      "costCapMicro": 30000,
+      "history": { "turns": 12, "chars": 2500 },
+      "outputStyle": "knowledge"
+    }
+  },
+  "personaTiers": {
+    "book-strategic-thinker": "deep_knowledge",
+    "book-harmony-guide": "deep_knowledge",
+    "book-stoic-journal": "deep_knowledge",
+    "book-dhammapada": "deep_knowledge",
+    "book-i-ching": "deep_knowledge"
+  }
+}

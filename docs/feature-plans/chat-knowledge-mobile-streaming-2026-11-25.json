@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 1,
+  "taskId": "chat-knowledge-mobile-streaming-2026-11-25",
+  "ownerAgent": "mobile_engineer",
+  "lane": "Mobile: Trò chuyện với tri thức, Lô 2 app side (persona chat streaming client, growing reply bubble, Đào sâu chip)",
+  "goal": "The persona chat room asks ai-persona-chat for a streamed reply (stream:true, text/event-stream) through expo/fetch, shows the guide's answer growing as delta events arrive, shows a light thinking state with elapsed seconds while a reasoning model is silent, replaces the bubble with done.text, keeps interrupted partial text visibly incomplete with Thử lại, offers a Đào sâu / Go deeper chip after a deep_knowledge answer, and falls back to the existing JSON call when streaming is unavailable or breaks before any text arrives.",
+  "successCriteria": [
+    "The SSE parser handles meta/delta/done/error events, ': ping' comments, multi-line data, LF/CRLF/CR line ends and chunk boundaries split anywhere (including inside a CRLF and inside a multi-byte character via TextDecoder stream mode).",
+    "streamPersonaReply sends stream:true and Accept: text/event-stream, reads response.body.getReader(), uses meta.deadlineMs + margin as the total wait (150 s before meta), and a 30 s idle timer that every byte (including pings) resets.",
+    "If the transport is unavailable, the server answers plain JSON (old deploy), or the stream fails before the first delta for a transport reason, the reply comes from the same JSON path as today; JSON errors (401/413/429/503) map to the same BackendLimitError / BackendUnavailableError as generatePersonaReply.",
+    "done.text replaces the streamed preview (moderation may have replaced it); a crisis done without meta works.",
+    "error stream_interrupted (or a broken connection after text) keeps the partial text in the room marked incomplete and not saved, with Thử lại; retry does not duplicate the user's message.",
+    "Re-renders during streaming are batched (about 80 ms); only the final guide message sits in a polite live region, the growing bubble and the elapsed-seconds counter do not.",
+    "A Đào sâu / Go deeper chip appears only under the latest completed guide reply whose model tier is deep_knowledge and sends a follow-up through the normal send path.",
+    "For a persona whose last reply was deep_knowledge the app sends up to 12 turns x 2,500 characters of history, dropping the oldest turns to stay well under the 96 KB body limit; other personas keep 8 x 800.",
+    "tsc, mobile jest and validate:data pass."
+  ],
+  "writeScope": [
+    "apps/mobile/src/backendClient.ts",
+    "apps/mobile/src/features/persona/personaStream.ts",
+    "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
+    "apps/mobile/src/features/persona/index.ts",
+    "apps/mobile/src/features/persona/__tests__/PersonaChatRoom.test.tsx",
+    "apps/mobile/src/features/persona/__tests__/personaStream.test.ts",
+    "apps/mobile/src/__tests__/personaChatStream.test.ts",
+    "apps/mobile/App.tsx"
+  ],
+  "untouchedSurfaces": [
+    "apps/admin/** (including the App.tsx digest in apps/admin/workflow-catalog.js, refreshed by the lead agent) is not edited.",
+    "supabase/** is not edited; docs/contracts/persona-chat-streaming.md is the fixed contract.",
+    "Oracle, Council, Tarot and other AI calls keep their JSON transport.",
+    "No dependency is added: expo/fetch ships inside the installed expo package (54.0.35).",
+    "PLAN.md is updated by the lead agent.",
+    "No deploy, no SQL, no secret, .env not read; no git commit/push."
+  ],
+  "impact": {
+    "entryPoint": "Trò chuyện > a guide's room > send a message (typed, quick reply, Thử lại, or the new Đào sâu chip).",
+    "dataWrite": "Local chat messages gain uiMetadata.modelTier on completed guide replies; interrupted partial text is held only in screen state and never written to local or remote history. Server writes are unchanged (contract: stream_interrupted turns are not stored).",
+    "backendContract": "POST /ai-persona-chat with stream:true and Accept: text/event-stream per docs/contracts/persona-chat-streaming.md; the JSON path is unchanged and is the fallback. Non-stream client patience rises from 60 s to 150 s to match the server cap of 135-140 s.",
+    "adminVisibility": "No Admin change; server traces already carry stream and streamOutcome.",
+    "privacySafety": "Same request body as today plus stream:true; deep-tier history is longer (the user's own recent turns only, as the server already allows). done.text is authoritative so a reply blocked mid-stream by the output check is replaced by the safe text; crisis done shows the 115 card as before.",
+    "observability": "persona_message_sent keeps its fields; no new analytics.",
+    "rollback": "Revert the commit; the app returns to the JSON call. If streaming misbehaves on devices before a revert, the fallback still answers through JSON when the stream breaks before text."
+  },
+  "canonicalContracts": [
+    "docs/contracts/persona-chat-streaming.md (SSE events, deadlines, client rules)"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile and AI lane checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/contracts/persona-chat-streaming.md",
+      "reason": "Authoritative SSE contract for the client.",
+      "sha256": "cb6dea88e9d86b26fa81b158a1fffe0fe6c568a9918bf566bca86d6d87cb5936"
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "reason": "Existing JSON persona call, error mapping and timeouts.",
+      "sha256": "7ca40416ff90e0e1339f1282b60cd76262211c76260b8940baaaa699b00c852a"
+    },
+    {
+      "path": "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
+      "reason": "Room UI receiving the streamed bubble.",
+      "sha256": "0db0fec03f0f785c5603519355e3d641459a1a024584f6b92b6ecf9e9e6c2cb0"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "sendMessage orchestration and retry.",
+      "sha256": "0320a58696dd65bf73dc1fea6c6dc96d00a3c01aef96e1a065fde38956f14e0c"
+    },
+    {
+      "path": "apps/mobile/src/a2ui/chat.tsx",
+      "reason": "ChatThinkingIndicator already sits in a polite live region; elapsed seconds must stay outside it.",
+      "sha256": "884cf9ff7ed6ce98af6d401188ede1116715061d030bcdd8db1a897e5d985a96"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, validation matrix and stop conditions applied; no workflow rule change."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Client follows the persona chat contract; no prompt, route or provider change on the app side."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": true,
+    "evidence": "expo/fetch is part of the installed expo package 54.0.35 (node_modules/expo/fetch.js; src/winter/fetch/fetch.ts forwards init.signal to request.cancel(); FetchResponse.body is a ReadableStream; src/winter/runtime.native.ts installs a global TextDecoder). No new package."
+  },
+  "externalSourceReview": [
+    {
+      "url": "https://docs.expo.dev/versions/v54.0.0/sdk/expo/",
+      "reason": "expo/fetch provides a WinterCG-compliant Fetch API on web and mobile with a streaming example using Accept: text/event-stream and resp.body.getReader() (the URL now serves the latest reference; behaviour confirmed against the installed 54.0.35 source).",
+      "checkedAt": "2026-11-25"
+    },
+    {
+      "url": "https://expo.dev/changelog/2024-11-12-sdk-52",
+      "reason": "SDK 52 introduced expo/fetch as a drop-in WinterCG-compliant fetch that supports download streaming, aimed at AI streaming APIs.",
+      "checkedAt": "2026-11-25"
+    }
+  ],
+  "securityReview": {
+    "authzRls": "No authorization change; same apikey and Bearer headers as the JSON call.",
+    "sensitiveData": "Only the user's own recent persona-room turns are sent, as today; deep tier sends longer turns within the server's documented bounds.",
+    "secretsLogging": "No credentials or logs added; streamed text is not logged.",
+    "externalInput": "SSE payloads are parsed defensively (bad JSON ignored, unknown events ignored, done must carry text); model text renders through the existing inert Markdown subset.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "Needs the ai-persona-chat deploy (Owner approval) before streaming is live; until then the server answers JSON and the app uses it unchanged.",
+    "stopCondition": "Stop and report if a dependency install would be required or if the contract has to change.",
+    "unresolvedHighRisks": []
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/chat-knowledge-mobile-streaming-2026-11-25.json",
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "npm run validate:data"
+  ],
+  "managerTestPath": "After ai-persona-chat is deployed: open Trò chuyện, open Kinh Dịch or another book guide, ask a question; the dots and 'Người dẫn đang lắng nghe…' appear, after 10 s the seconds count shows, then the answer grows on screen and settles; tap Đào sâu under it and get a longer follow-up. Turn on airplane mode mid-answer: the partial text stays marked as interrupted and Thử lại asks again.",
+  "residualRisk": "Real streaming through the Supabase gateway on an Android phone is unverified until ai-persona-chat is deployed and tested on a device; if the gateway buffers, the reply still arrives at the end in one piece. A transport failure after the server accepted the turn but before any text falls back to the JSON call, which the server counts as a second turn (contract section 3 rule 5).",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/backendClient.ts",
+      "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
+      "apps/mobile/src/features/persona/index.ts",
+      "apps/mobile/src/features/persona/personaStream.ts",
+      "apps/mobile/src/features/persona/__tests__/PersonaChatRoom.test.tsx",
+      "apps/mobile/src/features/persona/__tests__/personaStream.test.ts",
+      "apps/mobile/src/__tests__/personaChatStream.test.ts"
+    ],
+    "note": "App.tsx, PersonaChatRoom.tsx and its test already carried uncommitted Lô 0 edits (per-persona opening line, detail-page quote labels) from chat-knowledge-lo0-quick-fixes-2026-11-25 in this shared worktree; every other listed path, and the streaming additions on top of those three, are this task's own uncommitted edits, reviewed after tsc, mobile jest and validate:data passed."
+  }
+}

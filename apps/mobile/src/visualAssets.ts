@@ -137,6 +137,15 @@ const personaVisuals: Record<string, Record<PersonaVisualRole, ImageSourcePropTy
     thumbnail: require("../assets/runtime/personas/thumbnails/stoic-journal-v2.jpg"),
     cover: require("../assets/runtime/personas/covers/stoic-journal-v2.jpg")
   },
+  // Placeholder art: dhammapada and i-ching reuse the stoic-journal and harmony-guide images until new art is approved.
+  dhammapada: {
+    thumbnail: require("../assets/runtime/personas/thumbnails/dhammapada-v2.jpg"),
+    cover: require("../assets/runtime/personas/covers/dhammapada-v2.jpg")
+  },
+  "i-ching": {
+    thumbnail: require("../assets/runtime/personas/thumbnails/i-ching-v2.jpg"),
+    cover: require("../assets/runtime/personas/covers/i-ching-v2.jpg")
+  },
   "the-mystic": {
     thumbnail: require("../assets/runtime/personas/thumbnails/the-mystic-v2.jpg"),
     cover: require("../assets/runtime/personas/covers/the-mystic-v2.jpg")
@@ -173,6 +182,13 @@ export function getFeatureVisual(id: FeatureVisualId) {
 
 export function getDeckVisual(deckId: string, role: DeckVisualRole = "cover") {
   return deckVisuals[canonicalTarotDeckId(deckId)]?.[role] ?? deckVisuals["moon-garden"][role];
+}
+
+/** Personas whose art is still borrowed from another guide; screens tint it with the persona's own portrait colour. */
+const placeholderPersonaArtSlugs = new Set(["dhammapada", "i-ching"]);
+
+export function personaPlaceholderArtTint(persona: Persona) {
+  return placeholderPersonaArtSlugs.has(persona.slug) ? persona.portrait?.colors?.[0] : undefined;
 }
 
 export function getPersonaVisual(persona: Persona, role: PersonaVisualRole = "thumbnail") {

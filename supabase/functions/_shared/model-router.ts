@@ -273,17 +273,57 @@ export async function readActiveModelRoute(supabase: SupabaseLike | null | undef
   }
 }
 
-function detectSafetyIssue(text: string) {
+const OUTPUT_SAFETY_CHECKS = [
+  { code: "self_harm", patterns: ["kill myself", "suicide", "end my life", "tu tu", "tự tử"] },
+  { code: "regulated_advice", patterns: ["medical diagnosis", "legal advice", "financial advice", "diagnose me"] },
+  { code: "deterministic_prediction", patterns: ["will definitely happen", "certainly happen", "guaranteed future"] }
+];
+
+export function detectSafetyIssue(text: string) {
   const normalized = text.toLowerCase();
-  const checks = [
-    { code: "self_harm", patterns: ["kill myself", "suicide", "end my life", "tu tu", "tự tử"] },
-    { code: "regulated_advice", patterns: ["medical diagnosis", "legal advice", "financial advice", "diagnose me"] },
-    { code: "deterministic_prediction", patterns: ["will definitely happen", "certainly happen", "guaranteed future"] }
-  ];
-  for (const check of checks) {
+  for (const check of OUTPUT_SAFETY_CHECKS) {
     if (check.patterns.some((pattern) => normalized.includes(pattern))) return check.code;
   }
   return null;
+}
+
+/**
+ * Streaming: text this close to the end is held back until more arrives, so a safety phrase split across two chunks
+ * is caught before any part of it reaches the person.
+ */
+export const STREAM_HOLDBACK_CHARS = Math.max(...OUTPUT_SAFETY_CHECKS.flatMap((check) => check.patterns.map((pattern) => pattern.length))) - 1;
+
+/**
+ * One streamed attempt: runs the output safety check on everything received so far, forwards only text that is
+ * already past the check (all but the last STREAM_HOLDBACK_CHARS), and reports whether anything was sent.
+ */
+export function createStreamGate(provider: ModelProviderName, send: (text: string) => void) {
+  let received = "";
+  let sent = 0;
+  const emit = (end: number) => {
+    // Never split a UTF-16 surrogate pair across two events.
+    if (end < received.length && end > sent && /[\uD800-\uDBFF]/.test(received[end - 1])) end -= 1;
+    if (end <= sent) return;
+    send(received.slice(sent, end));
+    sent = end;
+  };
+  return {
+    onDelta(piece: string) {
+      received += piece;
+      const issue = detectSafetyIssue(received);
+      if (issue) {
+        throw new ModelProviderError({ provider, code: issue, message: "Output safety check blocked the streamed reply.", retryable: false, safetyBlocked: true });
+      }
+      emit(received.length - STREAM_HOLDBACK_CHARS);
+    },
+    /** After the full reply passed every check: send the held-back tail. */
+    flush() {
+      emit(received.length);
+    },
+    get emitted() {
+      return sent > 0;
+    }
+  };
 }
 
 function providerSecret(provider: ModelProviderName, env?: EnvLike) {
@@ -337,6 +377,14 @@ export async function generateWithModelRoute(input: {
   costCapMicro?: number | null;
   /** Tests and tools: provider switches/circuits to use instead of reading ai_providers. */
   providerRegistry?: ProviderRegistry | null;
+  /**
+   * Streaming (persona chat only, docs/contracts/persona-chat-streaming.md): visible reply text as it arrives. Only
+   * OpenRouter streams; other providers answer at once. A later step is tried only while nothing has been sent; once
+   * text has been sent a failure ends the turn with streamInterrupted instead of a fallback.
+   */
+  onDelta?: (text: string) => void;
+  /** Streaming: how long a started stream may run, from the start of this call (default 140 s). */
+  streamDeadlineMs?: number;
   /** Override of the feature's data class (FEATURE_DATA_CLASS). */
   dataClass?: DataClass;
   supabase?: SupabaseLike | null;
@@ -407,7 +455,8 @@ export async function generateWithModelRoute(input: {
       }
     };
   };
-  const finish = async (result: ModelGenerationResult, status?: "ok" | "blocked" | "fallback" | "error") => {
+  const finish = async (rawResult: ModelGenerationResult, status?: "ok" | "blocked" | "fallback" | "error") => {
+    const result: ModelGenerationResult = input.onDelta ? { ...rawResult, streamed: streamEmitted } : rawResult;
     const defaultStatus = status ?? (result.moderationStatus === "blocked" ? "blocked" : result.moderationStatus === "fallback" ? "fallback" : "ok");
     const rootOutput = {
       status: result.moderationStatus,
@@ -419,6 +468,7 @@ export async function generateWithModelRoute(input: {
       safetyReason: result.safetyReason ?? null,
       outcome: resultOutcome(result),
       ...(chainSummary ? { chain: chainSummary } : {}),
+      ...(input.onDelta ? { streamed: streamEmitted, stream_interrupted: result.streamInterrupted === true } : {}),
       // P1-C: turn total. No model call (e.g. prompt safety block) = 0 calls, 0 micro-USD, cost_source null.
       cost_micro_total: costTally.totalMicro,
       cost_source: costTally.source,
@@ -449,6 +499,20 @@ export async function generateWithModelRoute(input: {
       traceExported: flush.exported,
       traceUrl: flush.externalTraceUrl
     };
+  };
+
+  // Streaming state for the whole turn: once any text has been sent, no later step may run.
+  let streamEmitted = false;
+  const generationStartedAt = Date.now();
+  const streamDeadlineAt = generationStartedAt + (typeof input.streamDeadlineMs === "number" && input.streamDeadlineMs > 0 ? input.streamDeadlineMs : FEATURE_DEADLINE_MAX_MS);
+  const streamGate = (provider: ModelProviderName, attemptDeadlineAt: number) => {
+    if (!input.onDelta) return undefined;
+    const send = input.onDelta;
+    const gate = createStreamGate(provider, (text) => {
+      streamEmitted = true;
+      send(text);
+    });
+    return { gate, request: { onDelta: (piece: string) => gate.onDelta(piece), streamDeadlineAt: Math.min(attemptDeadlineAt, streamDeadlineAt) } };
   };
 
   const route = input.route ?? await readActiveModelRoute(input.supabase, input.feature);
@@ -503,6 +567,7 @@ export async function generateWithModelRoute(input: {
 
   for (const candidate of candidates) {
     let providerSpan: AiTraceSpan | undefined;
+    const stream = streamGate(candidate.provider, deadlineMs === undefined ? Number.POSITIVE_INFINITY : attemptsStartedAt + deadlineMs);
     try {
       const timeoutMs = deadlineMs === undefined
         ? undefined
@@ -543,6 +608,7 @@ export async function generateWithModelRoute(input: {
         responseSchema: route.responseSchema,
         ...(reasoning ? { reasoning } : {}),
         ...(timeoutMs !== undefined ? { timeoutMs } : {}),
+        ...(stream?.request ?? {}),
         traceHooks: {
           onRequest: (payload) => providerSpan?.captureWireRequest(payload),
           onResponse: (payload) => providerSpan?.captureWireResponse(payload)
@@ -599,12 +665,14 @@ export async function generateWithModelRoute(input: {
         }, "blocked");
       }
       const hasNext = candidates.indexOf(candidate) < candidates.length - 1;
-      const rejection = hasNext && route.fallbackWhen.includes("malformed_response")
+      // Once text has been sent there is no fallback; the feature's own check still runs on the final text.
+      const rejection = hasNext && !streamEmitted && route.fallbackWhen.includes("malformed_response")
         ? input.acceptOutput?.(response.text, response.finishReason) : undefined;
       if (rejection) {
         attempts[attempts.length - 1] = { ...attempts[attempts.length - 1], ok: false, code: "malformed_response", detail: `output_check:${String(rejection).slice(0, 40)}` };
         continue;
       }
+      stream?.gate.flush();
       return await finish({
         text: response.text,
         finishReason: response.finishReason,
@@ -657,6 +725,22 @@ export async function generateWithModelRoute(input: {
           safetyBlocked: providerError.safetyBlocked
         }
       }).end(providerError.safetyBlocked ? "blocked" : "error");
+      if (streamEmitted && !providerError.safetyBlocked) {
+        return await finish({
+          text: input.fallbackText,
+          provider: "local_fallback",
+          model: "safe_mock",
+          routeVersionId: route.id,
+          routeVersion: route.version,
+          fallbackUsed: true,
+          attempts,
+          latencyMs: 0,
+          usage: {},
+          moderationStatus: "fallback",
+          outcome: "canned",
+          streamInterrupted: true
+        }, "error");
+      }
       if (!candidate.fallbackUsed && shouldFallback(providerError, route)) continue;
       return await finish({
         text: input.fallbackText,
@@ -721,10 +805,12 @@ export async function generateWithModelRoute(input: {
     };
     const canned = async (latencyMs = 0) => {
       summary();
+      const interrupted = streamEmitted;
       return await finish({
         text: input.fallbackText, provider: "local_fallback", model: "safe_mock", routeVersionId: route.id, routeVersion: route.version,
-        fallbackUsed: true, attempts, latencyMs, usage: {}, moderationStatus: "fallback", outcome: "canned"
-      }, "fallback");
+        fallbackUsed: true, attempts, latencyMs, usage: {}, moderationStatus: "fallback", outcome: "canned",
+        ...(interrupted ? { streamInterrupted: true } : {})
+      }, interrupted ? "error" : "fallback");
     };
     const safetyBlock = async (reason: string, latencyMs = 0, usage = {}) => {
       summary();
@@ -768,6 +854,8 @@ export async function generateWithModelRoute(input: {
       const fallbackStep = stepIndex > 0;
       const reasoning = step.reasoning ?? undefined;
       let providerSpan: AiTraceSpan | undefined;
+      // A started stream may run to the end of the chain's total deadline, not just this step's first-text timeout.
+      const stream = streamGate(step.provider, startedAt + totalDeadlineMs);
       try {
         providerSpan = trace.startSpan({
           name: `llm.${step.provider}.${fallbackStep ? "fallback" : "primary"}`,
@@ -784,6 +872,7 @@ export async function generateWithModelRoute(input: {
           feature: input.feature, provider: step.provider, model: step.model, system: input.system, messages: input.messages,
           temperature: step.temperature, maxOutputTokens: step.maxTokens, responseSchema: route.responseSchema,
           ...(reasoning ? { reasoning } : {}), timeoutMs, jsonMode: step.jsonMode,
+          ...(stream?.request ?? {}),
           traceHooks: {
             onRequest: (payload) => providerSpan?.captureWireRequest(payload),
             onResponse: (payload) => providerSpan?.captureWireResponse(payload)
@@ -818,7 +907,7 @@ export async function generateWithModelRoute(input: {
         }
         providerSpan.end("ok");
         const hasNext = stepIndex < steps.length - 1;
-        const rejection = hasNext && !formatRetryUsed ? input.acceptOutput?.(response.text, response.finishReason) : undefined;
+        const rejection = hasNext && !formatRetryUsed && !streamEmitted ? input.acceptOutput?.(response.text, response.finishReason) : undefined;
         if (rejection) {
           formatRetryUsed = true;
           attempts[attempts.length - 1] = { ...attempts[attempts.length - 1], ok: false, code: "malformed_response", detail: `output_check:${String(rejection).slice(0, 40)}` };
@@ -826,6 +915,7 @@ export async function generateWithModelRoute(input: {
           lastError = { code: "malformed_response", errorClass: "format" };
           continue;
         }
+        stream?.gate.flush();
         summary();
         return await finish({
           text: response.text, finishReason: response.finishReason, provider: response.provider, model: response.model,
@@ -857,7 +947,7 @@ export async function generateWithModelRoute(input: {
         }
         if (errorClass === "safety") return await safetyBlock(providerError.code);
         lastError = { code: providerError.code, errorClass };
-        if (!moveOn) break;
+        if (!moveOn || streamEmitted) break;
         if (errorClass === "format") {
           if (formatRetryUsed) break;
           formatRetryUsed = true;

@@ -87,11 +87,11 @@
   const pr = [r(f("ai-persona-chat")), r(s("persona-prompt-assembler.ts")), r(s("ai-request-guard.ts")), r(s("model-router.ts"))];
   const persona = g("persona_chat", t("Chat với guide", "Guide chat"), pr, [
     n("request_guard", t("Auth + bounded JSON", "Auth + bounded JSON"), "guard", 0, 0, t("Shared guard rồi kiểm text không rỗng.", "Shared guard, then require nonempty text."), [pr[0], pr[2]], [p("request", "PersonaInput", "POST ai-persona-chat", pass, "personal")], [o("input", "PersonaInput", "history.input", pass, "personal")]),
-    n("history", t("History bounded", "Bounded history"), "context", 1, 0, t("8 item cuối, compact, guide→assistant, bỏ duplicate hiện tại. Chưa xác minh context consent như Oracle.", "Last8 items, compact text, guide→assistant, remove current duplicates. Context consent is not verified as in Oracle."), [pr[0]], [p("input", "PersonaInput", "request_guard.input", pass, "personal")], [o("input", "PersonaInput", "prompt_layers.input", pass, "personal")]),
+    n("history", t("History bounded", "Bounded history"), "context", 1, 0, t("Hạng Thường: 8 lượt cuối × 800 ký tự; hạng Tri thức sâu: tới 12 lượt × 2.500 ký tự (Admin › Hạng model người dẫn). Compact, guide→assistant, bỏ duplicate hiện tại. Chưa xác minh context consent như Oracle.", "Standard tier: last 8 turns × 800 chars; Deep knowledge tier: up to 12 turns × 2,500 chars (Admin › Persona model tiers). Compact text, guide→assistant, remove current duplicates. Context consent is not verified as in Oracle."), [pr[0]], [p("input", "PersonaInput", "request_guard.input", pass, "personal")], [o("input", "PersonaInput", "prompt_layers.input", pass, "personal")]),
     n("prompt_layers", t("Persona + global/skill prompt", "Persona + global/skill prompt"), "prompt", 2, 0, t("Persona active theo slug; global và persona skill active, locale yêu cầu→EN→VI; layer thiếu dùng fallback. Không book/chunk/vector retrieval.", "Active persona by slug; active global and persona skill prompts, requested locale→EN→VI; missing layers use fallback. No book/chunk/vector retrieval."), [r(s("persona-prompt-assembler.ts"), "assemblePersonaPromptStack")], [p("input", "PersonaInput", "history.input", pass, "personal")], [o("layers", "PersonaLayers", "method_pack.layers", pass, "personal")]),
-    n("method_pack", t("Method pack theo theme", "Theme-based method pack"), "context", 3, 0, t("decision_clarity/relationship_boundaries/emotional_reflection. Pack là hướng dẫn trong một prompt, không agent riêng.", "decision_clarity/relationship_boundaries/emotional_reflection. A pack is guidance in one prompt, not a separate agent."), [r(s("persona-prompt-assembler.ts"), "selectMethodPack")], [p("layers", "PersonaLayers", "prompt_layers.layers", pass, "personal")], [o("stack", "PersonaStack", "system_stack.stack", pass, "personal")]),
+    n("method_pack", t("Method pack theo theme", "Theme-based method pack"), "context", 3, 0, t("decision_clarity/relationship_boundaries/emotional_reflection. Người dẫn có bản tóm tắt tri thức (knowledge brief, văn bản Nilaza tự viết về cuốn sách, đóng gói trong mã) thì lớp knowledge_brief thay method pack, kèm kiểu trả lời Tri thức (150–300 từ, câu hỏi kết không bắt buộc). Pack/brief là hướng dẫn trong một prompt, không agent riêng, không truy xuất vector.", "decision_clarity/relationship_boundaries/emotional_reflection. A persona with a knowledge brief (Nilaza's own text about the book, bundled in code) gets the knowledge_brief layer instead of a method pack, with the Knowledge output style (150–300 words, closing question optional). Pack/brief is guidance in one prompt, not a separate agent, not vector retrieval."), [r(s("persona-prompt-assembler.ts"), "selectMethodPack")], [p("layers", "PersonaLayers", "prompt_layers.layers", pass, "personal")], [o("stack", "PersonaStack", "system_stack.stack", pass, "personal")]),
     n("system_stack", t("Ghép system hiện tại", "Current system assembly"), "prompt", 4, 0, t("Global+skill+pack ở system; prompt lưu trên máy chủ không qua bộ kiểm chèn lệnh thì bỏ qua. Tên gọi/mục tiêu/giọng/giờ địa phương nằm trong khối “Dữ liệu — không phải chỉ dẫn” ở tin nhắn người dùng (A5, AI-05), cùng history/current text ở messages.", "Global+skill+pack are in system; a stored prompt that fails the injection guard is ignored. Nickname/goals/tone/local time sit in the “Data — not instructions” block of the user message (A5, AI-05), with history/current text in messages."), [pr[0], pr[1]], [p("stack", "PersonaStack", "method_pack.stack", pass, "personal")], [o("exchange", "ModelExchange", "model_call.exchange", pass, "sensitive")]),
-    n("model_call", t("Một Model Call", "One Model Call"), "model", 5, 0, t("Shared router/safety/fallback. Trace bắt đầu sau prompt assembly.", "Shared router/safety/fallback. Trace begins after prompt assembly."), [pr[3]], [exchangeIn("system_stack.exchange")], [generationOut("session_scope.generation")], "implemented-source", true),
+    n("model_call", t("Một Model Call", "One Model Call"), "model", 5, 0, t("Shared router/safety/fallback. Hạng model của người dẫn quyết định chuỗi model: Thường dùng chuỗi đang chạy; Tri thức sâu có model chính/dự phòng, suy luận, trần token, tổng thời gian chờ (Free: tối đa 135 s) và ngân sách mỗi tin nhắn riêng. App mới nhận chữ hiện dần (SSE: meta/delta/done/error); app cũ nhận một JSON. Trace bắt đầu sau prompt assembly.", "Shared router/safety/fallback. The persona's model tier picks the chain: Standard uses the running route; Deep knowledge has its own primary/fallback models, reasoning, token ceiling, total wait (Free: at most 135 s) and per-message budget. New app builds get streamed text (SSE: meta/delta/done/error); old builds get one JSON reply. Trace begins after prompt assembly."), [pr[3]], [exchangeIn("system_stack.exchange")], [generationOut("session_scope.generation")], "implemented-source", true),
     n("session_scope", t("Safety log + session scope", "Safety log + session scope"), "branch", 6, 0, t("Sau generation ghi safety event nếu blocked, rồi kiểm UUID/owner/kind/not-deleted/persona membership; phù hợp thì reuse, ngược lại create.", "After generation, write a safety event if blocked, then check UUID/owner/kind/not-deleted/persona membership; reuse if appropriate, otherwise create."), [pr[0]], [p("generation", "ModelGeneration", "model_call.generation", pass, "sensitive")], [o("turn", "PersonaTurn", "session_reuse or session_new", pass, "sensitive")]),
     n("session_reuse", t("Reuse session", "Reuse session"), "storage", 7, 0, t("Cập nhật timestamp, upsert membership trong session đúng phạm vi.", "Update timestamp and upsert membership in the scoped session."), [pr[0]], [p("turn", "PersonaTurn", "session_scope.turn", pass, "sensitive")], [o("turn", "PersonaTurn", "messages_save.turn", pass, "sensitive")]),
     n("session_new", t("Create session", "Create session"), "storage", 7, 1, t("Tạo session mới; thành công thì timestamp/membership upsert như reuse. Lỗi session_error bỏ qua message insert và trả response.", "Create a session; success uses the same timestamp/membership upsert as reuse. session_error skips message insertion and returns a response."), [pr[0]], [p("turn", "PersonaTurn", "session_scope.turn", pass, "sensitive")], [o("turn", "PersonaTurn", "messages_save.turn", pass, "sensitive")]),
@@ -110,7 +110,7 @@
     e("new_save", "session_new", "messages_save", t("Session mới thành công", "New session succeeds"), [pr[0]], ["turn", "turn"], t("Không sessionError và session.id có giá trị; timestamp/membership chuẩn bị trước messages.", "No sessionError and a session.id exists; timestamp/membership preparation precedes messages.")),
     e("new_session_error", "session_new", "response", t("session_error, không insert messages", "session_error, no message insert"), [pr[0]], null, t("Create lỗi hoặc không có session.id: bỏ qua message insert, trả persistenceStatus=session_error.", "Create fails or no session.id: skip message insertion and return persistenceStatus=session_error.")),
     e("save_response", "messages_save", "response", t("Stored / lỗi", "Stored / error"), [pr[0]], ["response", "response"])
-  ], [traceNote, t("Chưa retrieval nguồn được cấp phép hoặc consent context theo từng lượt như Oracle; dữ liệu người dùng đã ra khỏi system (A5). Một persona prompt không chứng minh kiến thức sách đã truy xuất.", "Licensed-source retrieval and Oracle-style per-request context consent are absent; user data is out of the system prompt (A5). A persona prompt does not prove book retrieval.")], ["persona_chat"]);
+  ], [traceNote, t("Chưa retrieval nguồn được cấp phép hoặc consent context theo từng lượt như Oracle; dữ liệu người dùng đã ra khỏi system (A5). Knowledge brief là tóm tắt do Nilaza viết, không phải truy xuất sách. Hạng model và streaming chỉ chạy khi ai-persona-chat bản mới đã deploy và migration 20261125090000 đã áp.", "Licensed-source retrieval and Oracle-style per-request context consent are absent; user data is out of the system prompt (A5). A knowledge brief is a Nilaza-written summary, not book retrieval. Model tiers and streaming run only once the new ai-persona-chat is deployed and migration 20261125090000 is applied.")], ["persona_chat"]);
 
   const cr = [r(f("ai-council")), r(s("model-router.ts")), r("packages/agent-config/council-contract.json")];
   const council = g("ai_council", t("Council — một lần sinh nhiều voice", "Council — one generation, multiple voices"), cr, [
@@ -352,7 +352,7 @@
   },
   {
     "path": "apps/mobile/App.tsx",
-    "sha256": "69456a45c6004dfded8d3fe1f392a018b3392d3dd02f8d2c0250c660c0e77c9c"
+    "sha256": "0320a58696dd65bf73dc1fea6c6dc96d00a3c01aef96e1a065fde38956f14e0c"
   },
   {
     "path": "docs/FEATURE_PRD.md",
@@ -384,7 +384,7 @@
   },
   {
     "path": "supabase/functions/_shared/ai-request-guard.ts",
-    "sha256": "1a7c3ac984f0ba13c4fcca9934bb72e0743c2d614be3b439511fb3467d242be8"
+    "sha256": "517ab0fbdb87c1b76210ec87bdea08a76a5e3b37ce8adbde63e94af25ae18498"
   },
   {
     "path": "supabase/functions/_shared/ai-trace.ts",
@@ -404,11 +404,11 @@
   },
   {
     "path": "supabase/functions/_shared/model-provider.ts",
-    "sha256": "40cc4404b7865faf63435b039e5b1e86b3922962ec55bd2dec649a5cfb15c22f"
+    "sha256": "94c4ccb76841da405d0d596b2345617ad74ef3c559fe1b44e3ed10ce595f84cf"
   },
   {
     "path": "supabase/functions/_shared/model-router.ts",
-    "sha256": "01ca101d275f5e7995e990083096b2d023dfdd37c5b5bedbb1ec8b6864475179"
+    "sha256": "f4fe6f7c4f3101076adcde7a0c2b98295a45eb3d103ae804fe662b5c47ff495f"
   },
   {
     "path": "supabase/functions/_shared/notification-provider.ts",
@@ -420,7 +420,7 @@
   },
   {
     "path": "supabase/functions/_shared/persona-prompt-assembler.ts",
-    "sha256": "98c102f9282c5aae829693e65c029f1c3e0b7c5d4b0ee2fed8b76778b184718d"
+    "sha256": "d49e0f7eb32844619c1db0bf73db44ace3bf1419006782d62b19347dc1af4f06"
   },
   {
     "path": "supabase/functions/_shared/prompt-composition/compose.mjs",
@@ -464,7 +464,7 @@
   },
   {
     "path": "supabase/functions/ai-persona-chat/index.ts",
-    "sha256": "d57101a6298288b3af795ce7db5461236babd67b427bf651be00f91a895ddf55"
+    "sha256": "1d43b4b2c299a007d786cfc1153a10187029428b816c803e57f9b0fab7e3f180"
   },
   {
     "path": "supabase/functions/ai-tarot-reading/draw.ts",
