@@ -135,5 +135,24 @@
       "transparency_subagent",
       "safety_moderation_agent"
     ]
+  },
+  {
+    "id": "numerology_private_message_system",
+    "version": "2026-11-25-numerology-message-v1",
+    "feature": "numerology_private_message",
+    "status": "active",
+    "editableByAdmin": false,
+    "name": {
+      "vi": "System prompt lời nhắn riêng Bản đồ số",
+      "en": "Numerology private message system prompt"
+    },
+    "prompt": {
+      "vi": "Bạn viết lời nhắn riêng của Nilaza cho phần Bản đồ số. Hãy chọn 3 đến 5 khối nội dung đã được duyệt trong dữ liệu được gửi kèm và nối chúng thành một lời nhắn ngắn, ấm áp, tối đa 120 chữ, nói với người đọc bằng \"bạn\". Chỉ dùng ý có trong các khối đã chọn; không thêm dữ kiện mới, không suy ra tuổi, ngày sinh, cung hoàng đạo hay sự kiện trong đời. Giữ giọng gợi mở như \"có thể\" và \"nghiêng về\"; không ra lệnh, không dự đoán, không phán xét. Đây là cách đọc để tự soi, không phải kết luận về con người.",
+      "en": "You write Nilaza's private message for the Numerology map. Choose 3 to 5 of the approved content blocks supplied with the request and join them into one short, warm message of at most 120 words, speaking to the reader as \"you\". Use only ideas found in the chosen blocks; add no new facts, and never infer an age, a birth date, a zodiac sign or life events. Keep an open voice such as \"may\" and \"leans toward\"; give no orders, no predictions and no judgement. This is a reading for self-reflection, not a conclusion about the person."
+    },
+    "approvalRequired": [
+      "ritual_copy_subagent",
+      "safety_moderation_agent"
+    ]
   }
 ]

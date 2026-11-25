@@ -41,7 +41,7 @@ test("a guest with a date and no name sees life path 11/2 and the grid, with no 
   expect(screen.getByTestId("numerology-grid").props.accessibilityLabel).toContain("1 ×1");
   expect(screen.getByTestId("arrow-1-2-3")).toBeTruthy();
   expect(JSON.stringify(screen.getByTestId("arrows-empty-note").props.children)).toContain("7-8-9");
-  expect(screen.getByTestId("numerology-draft-note")).toBeTruthy();
+  expect(screen.queryByTestId("numerology-draft-note")).toBeNull();
   expect(onEvent).toHaveBeenCalledWith("numerology_computed", { hasName: false });
 });
 
@@ -214,6 +214,51 @@ describe("Lô 5: Nhịp thời gian, Hợp số, Lời nhắn riêng", () => {
     expect(within(screen.getByTestId("private-message-card")).getByText("Lời nhắn riêng")).toBeTruthy();
     expect(screen.getByTestId("private-message-soon").props.children).toBe("Sắp có");
     expect(fetchMock).not.toHaveBeenCalled();
+    expect(screen.queryByTestId("private-message-action")).toBeNull();
     (globalThis as { fetch: unknown }).fetch = original;
+  });
+
+  test("Lời nhắn riêng asks for consent first and sends numbers and block ids only", async () => {
+    const request = jest.fn(async () => ({ kind: "message" as const, message: "Một lời nhắn ngắn cho hôm nay.", blockIds: ["numbers.3"] }));
+    const screen = render(<NumerologyScreen language="vi" initialBirthDate="2000-03-15" onRequestPrivateMessage={request} onBack={jest.fn()} />);
+    fireEvent.changeText(screen.getByLabelText("Họ tên khai sinh"), "Nguyễn Văn An");
+    await act(async () => { fireEvent.press(screen.getByText("Xem bản đồ số của mình")); });
+    expect(screen.queryByTestId("private-message-soon")).toBeNull();
+    fireEvent.press(screen.getByTestId("private-message-action"));
+    expect(within(screen.getByTestId("private-message-consent")).getByText(/ở lại trên điện thoại này/)).toBeTruthy();
+    expect(request).not.toHaveBeenCalled();
+    fireEvent.press(screen.getByTestId("private-message-cancel"));
+    expect(screen.queryByTestId("private-message-consent")).toBeNull();
+    expect(request).not.toHaveBeenCalled();
+    fireEvent.press(screen.getByTestId("private-message-action"));
+    await act(async () => { fireEvent.press(screen.getByTestId("private-message-send")); });
+    expect(request).toHaveBeenCalledTimes(1);
+    const sent = JSON.stringify((request.mock.calls[0] as unknown[])[0]);
+    expect(sent).not.toMatch(/Nguy|NGUY|Văn|VAN|"An"|2000|03-15|15\/03/);
+    expect(Object.keys((request.mock.calls[0] as unknown[])[0] as object)).toEqual(["version", "feature", "language", "numbers", "blockIds"]);
+    expect(within(screen.getByTestId("private-message-result")).getByText("Một lời nhắn ngắn cho hôm nay.")).toBeTruthy();
+    expect(screen.queryByTestId("private-message-action")).toBeNull();
+  });
+
+  test("Lời nhắn riêng goes back to 'Sắp có' while paused and shows retry after a failure", async () => {
+    const request = jest.fn()
+      .mockResolvedValueOnce({ kind: "unavailable", reason: "busy" })
+      .mockResolvedValueOnce({ kind: "premium_required" });
+    const screen = render(<NumerologyScreen language="vi" initialBirthDate="2000-03-15" onRequestPrivateMessage={request} onBack={jest.fn()} />);
+    await act(async () => { fireEvent.press(screen.getByText("Xem bản đồ số của mình")); });
+    fireEvent.press(screen.getByTestId("private-message-action"));
+    await act(async () => { fireEvent.press(screen.getByTestId("private-message-send")); });
+    expect(screen.getByTestId("private-message-error")).toBeTruthy();
+    await act(async () => { fireEvent.press(screen.getByTestId("private-message-retry")); });
+    expect(screen.getByTestId("private-message-note").props.children).toBe("Lời nhắn riêng nằm trong gói Premium.");
+    expect(screen.queryByTestId("private-message-action")).toBeNull();
+
+    const paused = jest.fn(async () => ({ kind: "soon" as const }));
+    const other = render(<NumerologyScreen language="en" initialBirthDate="2000-03-15" onRequestPrivateMessage={paused} onBack={jest.fn()} />);
+    await act(async () => { fireEvent.press(other.getByText("See my number map")); });
+    fireEvent.press(other.getByTestId("private-message-action"));
+    await act(async () => { fireEvent.press(other.getByTestId("private-message-send")); });
+    expect(other.getByTestId("private-message-soon").props.children).toBe("Coming soon");
+    expect(other.queryByTestId("private-message-action")).toBeNull();
   });
 });

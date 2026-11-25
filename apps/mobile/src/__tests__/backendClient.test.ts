@@ -7,6 +7,7 @@ import {
   generateTarotReading,
   requestTarotClarifier,
   requestTarotNote,
+  requestNumerologyMessage,
   requestTarotReaderSuggestion,
   sendProductEvent,
   requestGuestTarotDraw,
@@ -713,6 +714,47 @@ describe("backendClient", () => {
       mockFetch.mockRejectedValueOnce(new Error("Network Error"));
       const result = await generateDailyInsight(input, fallback, backendOptions);
       expect(result).toEqual({ id: "fallback", dateKey: "2023-01-01", theme: "fallback" });
+    });
+  });
+
+  describe("requestNumerologyMessage", () => {
+    const signedIn = { baseUrl: "https://project.supabase.co/functions/v1", timeoutMs: 1000, authToken: "fake-test-token" };
+    const ok = (body: unknown, status = 200) => ({ ok: status < 300, status, json: async () => body });
+    const payload = {
+      version: 1 as const, feature: "numerology_private_message" as const, language: "vi" as const,
+      numbers: { lifePath: "7", birthday: "3", personalYear: "1", personalMonth: "2", pinnacle: { stage: 1 as const, number: "5" }, challenge: "2" },
+      blockIds: ["numbers.7", "numbers.3", "personalYear.1"]
+    };
+
+    it("posts only the payload to ai-numerology-message and maps the message", async () => {
+      mockFetch.mockResolvedValueOnce(ok({ message: "  Lời nhắn.  ", blockIds: ["numbers.7", "numbers.3", "personalYear.1"], nextMessageAt: "2026-11-25T17:00:00.000Z" }));
+      await expect(requestNumerologyMessage(payload, signedIn)).resolves.toEqual({
+        kind: "message", message: "Lời nhắn.", blockIds: ["numbers.7", "numbers.3", "personalYear.1"], nextMessageAt: "2026-11-25T17:00:00.000Z"
+      });
+      expect(String(mockFetch.mock.calls[0][0])).toBe("https://project.supabase.co/functions/v1/ai-numerology-message");
+      expect(JSON.parse(String((mockFetch.mock.calls[0][1] as RequestInit).body))).toEqual(payload);
+    });
+
+    it("maps pauses, Premium, limits, blocks and failures without inventing text", async () => {
+      const cases: Array<[unknown, number, unknown]> = [
+        [{ error: "feature_paused" }, 503, { kind: "soon" }],
+        [{ error: "content_not_approved" }, 503, { kind: "soon" }],
+        [{ error: "premium_required" }, 403, { kind: "premium_required" }],
+        [{ error: "daily_limit_reached", reason: "delivered", nextMessageAt: "2026-11-25T17:00:00.000Z" }, 429, { kind: "daily_limit", nextMessageAt: "2026-11-25T17:00:00.000Z" }],
+        [{ error: "message_unavailable", moderationStatus: "blocked", retryable: false }, 503, { kind: "blocked" }],
+        [{ error: "message_unavailable", retryable: true }, 503, { kind: "unavailable", reason: "busy" }],
+        [{ error: "invalid_jwt" }, 401, { kind: "unavailable", reason: "auth" }],
+        [{ message: "   ", blockIds: [] }, 200, { kind: "unavailable", reason: "busy" }]
+      ];
+      for (const [body, status, expected] of cases) {
+        mockFetch.mockResolvedValueOnce(ok(body, status));
+        await expect(requestNumerologyMessage(payload, signedIn)).resolves.toEqual(expected);
+      }
+      mockFetch.mockRejectedValueOnce(new TypeError("Network request failed"));
+      await expect(requestNumerologyMessage(payload, signedIn)).resolves.toEqual({ kind: "unavailable", reason: "offline" });
+      mockFetch.mockClear();
+      await expect(requestNumerologyMessage(payload, backendOptions)).resolves.toEqual({ kind: "unavailable", reason: "auth" });
+      expect(mockFetch).not.toHaveBeenCalled();
     });
   });
 

@@ -478,7 +478,8 @@ test("Hidden reasoning is set per route, blocks a budget with no room for the an
 
 test("default routes use 2000 output tokens with light reasoning only for Council and Astrology", () => {
   // Owner decision 2026-11-02. Batch C (2026-11-24): the short private note (700) and the reader choice (200) are smaller.
-  const shortRoutes = { tarot_note: 700, reader_router: 200 };
+  // 2026-11-25: the Numerology private message (600).
+  const shortRoutes = { tarot_note: 700, reader_router: 200, numerology_private_message: 600 };
   for (const route of JSON.parse(read("packages/agent-config/model-routing.json"))) {
     assert.equal(route.maxOutputTokens, shortRoutes[route.feature] ?? 2000, route.feature);
     assert.deepEqual(route.safetyPolicy.reasoning, ["ai_council", "astrology_report"].includes(route.feature) ? { mode: "low", maxTokens: 512 } : { mode: "off" }, route.feature);
@@ -1142,7 +1143,7 @@ test("Workflow presents all reviewed feature graphs without legacy sample contro
   const dom = createAiStudioDom();
   const doc = dom.window.document;
   const catalog = dom.window.NilazaWorkflowCatalog;
-  assert.equal(catalog.catalog.features.length, 10);
+  assert.equal(catalog.catalog.features.length, 11); // 2026-11-25: + Numerology private message.
   for (const graph of catalog.catalog.features) {
     doc.querySelector(`[data-feature="${graph.id}"]`).click();
     doc.querySelector('[data-detail="payload"]').click();

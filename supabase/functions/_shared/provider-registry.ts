@@ -22,7 +22,9 @@ export const FEATURE_DATA_CLASS: Record<string, DataClass> = {
   // Batch C (2026-11-24): the private note sends the same question and cards as the reading; the reader suggestion
   // sends the question, topic and card names only.
   tarot_note: "personal",
-  reader_router: "personal"
+  reader_router: "personal",
+  // 2026-11-25: computed numerology numbers and approved block ids only (no name, no birth date); kept sensitive.
+  numerology_private_message: "sensitive"
 };
 export function featureDataClass(feature: string): DataClass {
   return FEATURE_DATA_CLASS[feature] ?? "sensitive";

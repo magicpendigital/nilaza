@@ -1,7 +1,8 @@
-// Lô 5: the request body a future "Lời nhắn riêng" AI call would send (proposal section 5).
+// Lô 5: the request body of the "Lời nhắn riêng" AI call (proposal section 5).
 //
-// NOTHING CALLS THIS AT RUNTIME YET. The backend (Edge Function, prompt, model route, quota, Nil price, consent box)
-// needs separate Owner approvals; see docs/proposals/NUMEROLOGY_AI_PRIVATE_MESSAGE_BACKEND_2026-11-25.vi.md.
+// 2026-11-25 (B1-B8): NumerologyScreen builds it only after the consent box ("Gửi") on a signed-in account and posts it
+// to ai-numerology-message (backendClient.requestNumerologyMessage). The server switch is seeded off and the function
+// refuses while the content review is a draft; see docs/proposals/NUMEROLOGY_AI_PRIVATE_MESSAGE_BACKEND_2026-11-25.vi.md.
 //
 // Privacy contract: the payload holds computed number labels, content block ids, the language and a version only.
 // It never holds the name, the normalized name, the birth date, the birth year, the age or the letter totals.

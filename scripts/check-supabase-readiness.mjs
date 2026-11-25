@@ -27,6 +27,7 @@ const requiredFunctions = [
   "ai-persona-chat",
   "ai-council",
   "ai-tarot-reading",
+  "ai-numerology-message",
   "tarot-guest-draw",
   "ai-daily-insight",
   "ai-daily-zodiac-pulse",
@@ -73,7 +74,8 @@ const requiredMigrations = [
   "20260913143958_marketing_consent_suppression_foundation.sql",
   "20260913184421_growth_waitlist_aggregate_read_model.sql",
   "20260926152118_ai_studio_operations.sql",
-  "20261116090000_revenuecat_entitlements.sql"
+  "20261116090000_revenuecat_entitlements.sql",
+  "20261125090000_numerology_private_message.sql"
 ];
 
 const requiredSeedTokens = [

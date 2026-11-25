@@ -57,3 +57,28 @@ export async function claimDailyAttempt(
     return "unavailable";
   }
 }
+
+/**
+ * Numerology private message (Owner 2026-11-25): one delivered message per account per Vietnam day, plus a capped number
+ * of failed attempts. A delivered message today ("delivered") refuses first; otherwise the attempt is claimed as in
+ * claimDailyAttempt (attemptLimit = delivered + failed allowance). A failed count or insert refuses the call.
+ */
+export async function claimDeliveredAttempt(
+  supabase: AttemptStore,
+  input: { userId: string; feature: string; deliveredEvent: string; attemptEvent: string; deliveredLimit: number; attemptLimit: number; now?: Date }
+): Promise<{ result: DailyAttemptResult; reason?: "delivered" | "attempts" }> {
+  const now = input.now ?? new Date();
+  try {
+    const { count, error } = await supabase.from("usage_events")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", input.userId)
+      .eq("event_name", input.deliveredEvent)
+      .gte("created_at", localDayStart(now).toISOString());
+    if (error || count === null) return { result: "unavailable" };
+    if (count >= input.deliveredLimit) return { result: "limit_reached", reason: "delivered" };
+  } catch {
+    return { result: "unavailable" };
+  }
+  const result = await claimDailyAttempt(supabase, { userId: input.userId, eventName: input.attemptEvent, feature: input.feature, limit: input.attemptLimit, now });
+  return result === "limit_reached" ? { result, reason: "attempts" } : { result };
+}

@@ -3,7 +3,7 @@ title: "Privacy"
 description: "We only promise data controls verified in the version you are using."
 locale: en
 slug: privacy
-updatedAt: 2026-11-16
+updatedAt: 2026-11-25
 ---
 
 ## Information you choose to provide
@@ -19,6 +19,15 @@ Do not enter information you do not want processed. Nilaza does not request AI-p
 When the form is ready and you actively consent, Nilaza stores your email, language, interest, campaign information in UTM parameters and the consent time/version to record a prelaunch signup request. Data is processed through the Supabase backend; the browser cannot read the email list. Only a successful recorded response confirms the request was saved; a connection-unavailable notice does not collect email.
 
 Email is used for launch news and early access opportunities according to your consent. Confirmation/update delivery is a separate step; app accounts are not automatically added to marketing. Once campaigns are active, update emails will include an unsubscribe method and unsubscribe/bounce/complaint states are preserved. Raw emails and form content are not included in analytics events.
+
+## Numerology private message (when the feature is switched on)
+
+This section applies only once Nilaza switches on the "Private message" feature for Premium accounts. Until then, the app sends nothing for this feature.
+
+- **You choose to send:** the app sends only after you tap "Send" in the explanation box.
+- **Data sent:** the Numerology numbers computed on your phone (for example your life path, personal year and month), the codes of the content blocks and the language. Your name, birth date, birth year and age are **not** sent.
+- **Processing:** Nilaza's server joins the text of prepared content blocks and asks an AI model (through the provider OpenRouter) to write one short message. Your account ID is not sent to the model provider.
+- **Storage:** Nilaza does **not** store the message, the numbers or the block codes. The server records only the day's attempts and technical details (time, language, number of blocks, model used) to keep the limit of one message a day and to monitor service quality.
 
 ## Buying Premium
 

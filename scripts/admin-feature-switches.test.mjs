@@ -40,3 +40,7 @@ test('an empty or failed load says features run normally without inventing state
  const h=harness(async()=>[]);await h.load();assert.match(h.c.textContent,/đang chạy bình thường/);h.dom.window.close();
  const failed=harness(async()=>{throw Error('PRIVATE');});await failed.load();assert.match(failed.c.textContent,/Không tải được/);assert.doesNotMatch(failed.c.textContent,/PRIVATE/);failed.dom.window.close();
 });
+test('the Numerology private message switch (2026-11-25, seeded off) is listed with its own label',async()=>{
+ const h=harness(async()=>[{feature:'numerology_private_message',enabled:false,reason:'Off until the Owner approves the content and turns it on',updatedAt:'2026-11-25T00:00:00Z'}]);await h.load();
+ assert.match(h.c.textContent,/Lời nhắn riêng Thần số học/);assert.match(h.c.textContent,/Đang tắt/);assert.doesNotMatch(h.c.textContent,/numerology_private_message/);h.dom.window.close();
+});

@@ -1,0 +1,299 @@
+{
+  "schemaVersion": 1,
+  "taskId": "numerology-private-message-backend-2026-11-25",
+  "ownerAgent": "backend_ai_agent",
+  "lane": "Backend/AI + mobile: Bản đồ số AI “Lời nhắn riêng” (Owner approved package B1-B8 on 25/11/2026)",
+  "goal": "Build the code for the Owner-approved B1-B8 package of docs/proposals/NUMEROLOGY_AI_PRIVATE_MESSAGE_BACKEND_2026-11-25.vi.md: prompt numerology_private_message_system (vi+en), model route numerology_private_message (cheap non-reasoning model + 1 fallback, OpenRouter zdr / data_collection deny), feature switch default OFF with a strict fail-closed check, Premium quota 1 delivered message per Vietnam day with 2 failed-attempt allowance, a migration file that widens allowlists and seeds config rows only (not applied), the Edge Function ai-numerology-message (auth, switch, content-approval gate, Premium, quota before reading the body; strict body whitelist; server-side block text; output check inside the router so fallback can run), the mobile consent box and call wired to the “Lời nhắn riêng” card, Admin catalog entries, and Data safety / privacy wording drafts. The raw birth date is never sent (Owner allowed it only if it improved accuracy; research in the proposal shows it does not). Nothing is applied, deployed or switched on.",
+  "successCriteria": [
+    "Request body accepted by the function is exactly the aiPayload.ts shape; any unknown key (name, birth date, etc.) is rejected with 400 and tests prove it.",
+    "Function order: auth -> strict switch (missing row or error = off) -> content approval gate -> Premium -> quota claim -> bounded body read; tests show the body is not read when the switch is off or quota is used up.",
+    "Function returns 503 content_not_approved while numerology-blocks.json review.status is not approved with a named reviewer.",
+    "Model output is checked inside generateWithModelRoute (JSON {message, blockIds}, <=120 words, blockIds subset of sent ids, banned words) so the fallback model is tried; on failure no canned text is shown as AI.",
+    "Migration only widens CHECK constraints / RPC allowlists and inserts route, switch (enabled=false) and prompt rows; no new table, no user data stored; a static SQL test asserts this.",
+    "Mobile: consent box states only numbers and content codes are sent and a turn counts only when delivered; feature_paused or content_not_approved keeps the card in “Sắp có”.",
+    "All checks listed in validationCommands pass."
+  ],
+  "writeScope": [
+    "packages/agent-config/prompt-library.json",
+    "packages/agent-config/model-routing.json",
+    "packages/agent-config/account-tier-policy.json",
+    "supabase/functions/_shared/global-prompt.ts",
+    "supabase/functions/_shared/global-prompt_test.ts",
+    "supabase/functions/_shared/model-router.ts",
+    "supabase/functions/_shared/model-router_test.ts",
+    "supabase/functions/_shared/model-reasoning.test.ts",
+    "supabase/functions/_shared/model-router-cost_test.ts",
+    "supabase/functions/_shared/provider-registry.ts",
+    "supabase/functions/_shared/feature-switch.ts",
+    "supabase/functions/_shared/feature-switch_test.ts",
+    "supabase/functions/_shared/account-tier-policy.ts",
+    "supabase/functions/_shared/daily-attempts.ts",
+    "supabase/functions/_shared/ai-request-guard.ts",
+    "supabase/functions/_shared/ai-request-guard_test.ts",
+    "supabase/functions/_shared/numerology-message-prompt.ts",
+    "supabase/functions/_shared/numerology-message-prompt_test.ts",
+    "supabase/functions/_shared/numerology-blocks.ts",
+    "supabase/functions/_shared/numerology-blocks_test.ts",
+    "supabase/functions/ai-numerology-message/index.ts",
+    "supabase/functions/ai-numerology-message/handler.ts",
+    "supabase/functions/ai-numerology-message/handler_test.ts",
+    "supabase/functions/admin-model-router-config/contract.ts",
+    "supabase/functions/admin-model-router-config/contract_test.ts",
+    "supabase/migrations/20261125090000_numerology_private_message.sql",
+    "supabase/seed.generated.sql",
+    "supabase/config.toml",
+    "scripts/check-supabase-readiness.mjs",
+    "scripts/validate-backend-contracts.mjs",
+    "scripts/validate-data.mjs",
+    "scripts/numerology-message-sql.test.mjs",
+    "package.json",
+    "scripts/admin-ai-studio-render.test.mjs",
+    "scripts/admin-feature-switches.test.mjs",
+    "scripts/admin-a2-navigation.test.mjs",
+    "scripts/validate-admin-workflow-catalog.mjs",
+    "scripts/admin-workflow-catalog.test.mjs",
+    "apps/admin/feature-switches.js",
+    "apps/admin/ai-features.js",
+    "apps/admin/model-providers.js",
+    "apps/admin/overview.js",
+    "apps/admin/app.js",
+    "apps/admin/workflow-catalog.js",
+    "apps/mobile/src/backendClient.ts",
+    "apps/mobile/src/__tests__/backendClient.test.ts",
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/numerology/NumerologyCompat.tsx",
+    "apps/mobile/src/features/numerology/NumerologyScreen.tsx",
+    "apps/mobile/src/features/numerology/content.ts",
+    "apps/mobile/src/features/numerology/aiPayload.ts",
+    "apps/mobile/src/features/numerology/__tests__/NumerologyScreen.test.tsx",
+    "apps/mobile/src/features/numerology/__tests__/aiPayload.test.ts",
+    "apps/mobile/src/features/numerology/__tests__/content.test.ts",
+    "apps/mobile/src/features/numerology/__tests__/NumerologyCompat.test.tsx",
+    "apps/mobile/src/features/owner/accountTierPolicy.ts",
+    "packages/content/data/numerology-blocks.json",
+    "docs/release/PLAY_DATA_SAFETY_BILLING_2026-11-16.vi.md",
+    "apps/web/src/content/legal/vi/privacy.md",
+    "apps/web/src/content/legal/en/privacy.md",
+    "docs/proposals/NUMEROLOGY_AI_PRIVATE_MESSAGE_BACKEND_2026-11-25.vi.md",
+    "PLAN.md",
+    "supabase/functions/README.md",
+    "packages/content/generated/public-help-corpus/manifest.json",
+    "packages/content/generated/public-help-corpus/corpus.jsonl"
+  ],
+  "untouchedSurfaces": [
+    "No SQL applied, no Edge Function deployed, no secret set or read, no switch enabled, no Play Console change: each is a separate Owner approval by hash.",
+    "No energy/credit deduction (none exists; Owner decided 15/11 to show no Nil number): consent text speaks of the daily quota only.",
+    "Prompt is not Admin-editable in this batch (prompt_feature_editable unchanged); feature not added to model campaigns.",
+    "numerology-blocks.json review status stays draft: approval needs a named human reviewer (B1)."
+  ],
+  "impact": {
+    "entryPoint": "Khám phá -> Bản đồ số -> result -> “Lời nhắn riêng” card: button opens a consent box, then shows the message or stays “Sắp có” when the server says the feature is off.",
+    "dataWrite": "No new table. usage_events rows numerology_message_attempted / numerology_message_generated (no content); traces redacted strictly. Migration seeds config rows only.",
+    "backendContract": "New Edge Function ai-numerology-message and gateway path /ai/numerology-message; shared ai-request-guard gains an additive auth-only export.",
+    "adminVisibility": "Feature switch row, AI feature card, route editor entry, overview and workflow catalog graph for numerology_private_message.",
+    "privacySafety": "Only computed numbers and block ids leave the phone; raw birth date and names are rejected server-side; sensitive data class routes only; Data safety and privacy text drafted for Owner review.",
+    "observability": "Router traces with cost, usage events, safety events on blocked output.",
+    "rollback": "Switch stays off; revert the commit; migration includes rollback SQL comment removing seeded rows and restoring allowlists."
+  },
+  "canonicalContracts": [
+    "docs/proposals/NUMEROLOGY_AI_PRIVATE_MESSAGE_BACKEND_2026-11-25.vi.md",
+    "apps/mobile/src/features/numerology/aiPayload.ts",
+    "packages/agent-config/model-routing.json",
+    "packages/agent-config/prompt-library.json",
+    "packages/agent-config/account-tier-policy.json"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Backend/AI route and checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/NUMEROLOGY_AI_PRIVATE_MESSAGE_BACKEND_2026-11-25.vi.md",
+      "reason": "Owner-approved B1-B8 package and birth-date decision.",
+      "sha256": "6a3666928b90908233cbe248bf592e30724ce6598b9da9e3983738b085cec13f"
+    },
+    {
+      "path": "apps/mobile/src/features/numerology/aiPayload.ts",
+      "reason": "Fixed request body contract.",
+      "sha256": "19e9b146159cd30c617250c16f875dfcc2e03ef9fc0c20887ab9f3af9760f082"
+    },
+    {
+      "path": "supabase/functions/ai-daily-insight/index.ts",
+      "reason": "Template: auth, switch, quota, prompt, router.",
+      "sha256": "178061f80041b4516ae7813d2d7e04815bc09feb5ea319230ebff5aa849a91cd"
+    },
+    {
+      "path": "supabase/functions/ai-tarot-reading/handler.ts",
+      "reason": "Template: acceptOutput fallback, claim release, traces.",
+      "sha256": "eb9d33b8c69f57a74018136b616ad27231569a41a502353eb55411477b276f75"
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "reason": "Route defaults.",
+      "sha256": "3af11dbab7c2824a89a3d53d724eaa0db42dede06e86c0ae89d8892064566fa6"
+    },
+    {
+      "path": "supabase/functions/_shared/feature-switch.ts",
+      "reason": "Switch semantics (fails open today).",
+      "sha256": "45b6f6c4a320b9cf1fa95091e346418860b6bc47406822288eb8f16a53569731"
+    },
+    {
+      "path": "supabase/functions/_shared/ai-request-guard.ts",
+      "reason": "Body read order.",
+      "sha256": "1377bbbbf0ceb0b67e7a4ac293910a16a08b62bd91ea22046ccf2053ef78d96b"
+    },
+    {
+      "path": "supabase/functions/_shared/daily-attempts.ts",
+      "reason": "Vietnam-day attempt counting.",
+      "sha256": "1f9473c14d8b165750f0a12f06466f7a2517127c00a5f7b4e10dd265fbccef7d"
+    },
+    {
+      "path": "supabase/migrations/20261124090000_tarot_note_reader_router.sql",
+      "reason": "Latest CHECK/RPC allowlist definitions to widen.",
+      "sha256": "e4faf8f23d4030d761ff67beb67dfb448cd5ac8bde9f14cb6d9fb7d832e34c9f"
+    },
+    {
+      "path": "packages/content/data/numerology-blocks.json",
+      "reason": "Draft content; review gate.",
+      "sha256": "918d9cea12a8c34a18edd969c0a45f2b76507bf6c77206a5c929ba243f3d84a8"
+    },
+    {
+      "path": "apps/admin/workflow-catalog.js",
+      "reason": "Feature graphs and digests.",
+      "sha256": "51a615befd96c689e3289f3ae0298302336bf3be3803f1fbe701f48cf51872a9"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before code edits; delivery rule followed."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Sign-in, quota and switch on every model call; output validated inside the router; sensitive route with zdr/data_collection deny; only used context sent."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Public privacy page and in-app consent copy only: plain accented Vietnamese and English, no command tone, checked with validate:brand and validate:public-content."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Reuses repository router, providers and price book; no new package or provider."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "verify_jwt plus in-handler auth; Premium checked server-side from subscriptions; no RLS change.",
+    "sensitiveData": "Body whitelist rejects names and birth dates; second person's data never sent; strict trace redaction.",
+    "secretsLogging": "No secret read or written; .env not read; request body not logged.",
+    "externalInput": "Bounded JSON read after gates; every number validated against allowed values; block ids validated against grammar and numbers.",
+    "dependencies": "No package added.",
+    "migrationRelease": "Migration file written and statically tested only; applying it, deploying the function and enabling the switch are separate Owner approvals by hash.",
+    "stopCondition": "Stop if the shared ai-request-guard change cannot stay additive or if any existing AI function test breaks.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record written and preflight passed before code edits (25/11/2026, branch cut from origin/main f172561). Implementation then edited only write-scope paths; README and the generated public help corpus were added to scope for validate:backend and validate:public-content.",
+    "paths": [
+      "PLAN.md",
+      "apps/admin/ai-features.js",
+      "apps/admin/app.js",
+      "apps/admin/feature-switches.js",
+      "apps/admin/model-providers.js",
+      "apps/admin/overview.js",
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/__tests__/backendClient.test.ts",
+      "apps/mobile/src/backendClient.ts",
+      "apps/mobile/src/features/numerology/NumerologyCompat.tsx",
+      "apps/mobile/src/features/numerology/NumerologyScreen.tsx",
+      "apps/mobile/src/features/numerology/__tests__/NumerologyScreen.test.tsx",
+      "apps/mobile/src/features/numerology/__tests__/content.test.ts",
+      "apps/mobile/src/features/numerology/aiPayload.ts",
+      "apps/mobile/src/features/numerology/content.ts",
+      "apps/web/src/content/legal/en/privacy.md",
+      "apps/web/src/content/legal/vi/privacy.md",
+      "docs/proposals/NUMEROLOGY_AI_PRIVATE_MESSAGE_BACKEND_2026-11-25.vi.md",
+      "docs/release/PLAY_DATA_SAFETY_BILLING_2026-11-16.vi.md",
+      "package.json",
+      "packages/agent-config/account-tier-policy.json",
+      "packages/agent-config/model-routing.json",
+      "packages/agent-config/prompt-library.json",
+      "packages/content/data/numerology-blocks.json",
+      "packages/content/generated/public-help-corpus/corpus.jsonl",
+      "packages/content/generated/public-help-corpus/manifest.json",
+      "scripts/admin-a2-navigation.test.mjs",
+      "scripts/admin-ai-studio-render.test.mjs",
+      "scripts/admin-feature-switches.test.mjs",
+      "scripts/admin-workflow-catalog.test.mjs",
+      "scripts/check-supabase-readiness.mjs",
+      "scripts/validate-admin-workflow-catalog.mjs",
+      "scripts/validate-backend-contracts.mjs",
+      "scripts/validate-data.mjs",
+      "supabase/config.toml",
+      "supabase/functions/README.md",
+      "supabase/functions/_shared/account-tier-policy.ts",
+      "supabase/functions/_shared/ai-request-guard.ts",
+      "supabase/functions/_shared/ai-request-guard_test.ts",
+      "supabase/functions/_shared/daily-attempts.ts",
+      "supabase/functions/_shared/feature-switch.ts",
+      "supabase/functions/_shared/feature-switch_test.ts",
+      "supabase/functions/_shared/global-prompt.ts",
+      "supabase/functions/_shared/global-prompt_test.ts",
+      "supabase/functions/_shared/model-reasoning.test.ts",
+      "supabase/functions/_shared/model-router.ts",
+      "supabase/functions/_shared/provider-registry.ts",
+      "supabase/functions/admin-model-router-config/contract.ts",
+      "supabase/functions/admin-model-router-config/contract_test.ts",
+      "supabase/seed.generated.sql",
+      "scripts/numerology-message-sql.test.mjs",
+      "supabase/functions/_shared/numerology-blocks.ts",
+      "supabase/functions/_shared/numerology-blocks_test.ts",
+      "supabase/functions/_shared/numerology-message-prompt.ts",
+      "supabase/functions/_shared/numerology-message-prompt_test.ts",
+      "supabase/functions/ai-numerology-message/handler.ts",
+      "supabase/functions/ai-numerology-message/handler_test.ts",
+      "supabase/functions/ai-numerology-message/index.ts",
+      "supabase/migrations/20261125090000_numerology_private_message.sql"
+    ]
+  },
+  "validationCommands": [
+    "npx --yes deno@2 test supabase/functions/ai-numerology-message supabase/functions/_shared",
+    "npm run validate:data",
+    "npm run validate:backend",
+    "npm run supabase:check",
+    "npm run supabase:migration-ledger:check",
+    "npm run admin:check",
+    "npm run admin:test",
+    "npm run prompt:consumers:check",
+    "npm run ai-operations:test",
+    "npm run mobile:check",
+    "npm --prefix apps/mobile test -- --silent",
+    "npm run validate:public-content",
+    "npm run validate:governance",
+    "npm run validate:brand"
+  ],
+  "managerTestPath": "Sau khi Owner duyệt SQL + deploy + bật công tắc cho tài khoản thử: Khám phá -> Bản đồ số -> nhập ngày sinh -> thẻ “Lời nhắn riêng” -> đọc hộp xác nhận -> nhận lời nhắn; lần hai trong ngày báo đã dùng lượt; khi công tắc tắt thẻ vẫn là “Sắp có”.",
+  "residualRisk": "Feature cannot run until content is approved by a named human reviewer; per-message cost not measured; not tested on a phone or against a deployed function.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
