@@ -284,6 +284,52 @@
     e("usage_response", "usage_log", "response", t("Trả về", "Return"), [rr[1]], ["response", "response"])
   ], [t("Chi phí API quyết định chỉ ghi trong usage metadata, chưa có trong bảng giá hay ai trace. Khóa OPENAI_API_KEY / GEMINI_API_KEY cần Owner đặt nếu dùng hai nhà cung cấp đó.", "Decision API cost is only in usage metadata, not in the price book or AI traces. OPENAI_API_KEY / GEMINI_API_KEY must be set by the Owner to use those providers.")]);
 
+  // 2026-11-25 (B1-B8): Numerology "Lời nhắn riêng". Premium, signed-in, one delivered message a Vietnam day (3 attempts).
+  // The app sends computed numbers and block ids only; the name and birth date never leave the phone. Switch seeded off.
+  const nm = [r(f("ai-numerology-message")), r("supabase/functions/ai-numerology-message/handler.ts", "createNumerologyMessageHandler"),
+    r(s("feature-switch.ts"), "featureEnabledStrict"), r(s("daily-attempts.ts"), "claimDeliveredAttempt"), r(s("numerology-blocks.ts"), "resolveNumerologyBlocks"),
+    r(s("numerology-message-prompt.ts"), "checkNumerologyMessageText"), r(s("model-router.ts")), r("packages/content/data/numerology-blocks.json")];
+  const numerologyMessage = g("numerology_private_message", t("Lời nhắn riêng Thần số học — Premium, 1 lần/ngày", "Numerology private message — Premium, once a day"), nm, [
+    n("request_guard", t("Đăng nhập (không ẩn danh)", "Sign-in (not anonymous)"), "guard", 0, 0, t("Cần tài khoản đã đăng nhập, không ẩn danh (401). Thân yêu cầu chưa được đọc ở bước này.", "A signed-in, non-anonymous account is required (401). The body is not read yet."), [nm[0], nm[1]],
+      [p("request", "NumerologyMessageRequest", "POST ai-numerology-message", t("Chỉ con số đã tính + mã khối nội dung, sau hộp đồng ý trên app", "Computed numbers + content block ids only, after the in-app consent box"), "personal")],
+      [o("userId", "UserId", "access_gate.userId", t("Tài khoản đã xác thực", "Verified account"))]),
+    n("access_gate", t("Công tắc + duyệt nội dung + Premium", "Switch + content review + Premium"), "gate", 1, 0, t("Đọc công tắc kiểu nghiêm (thiếu dòng hoặc lỗi = tắt): 503 feature_paused. Nội dung numerology-blocks chưa duyệt (review khác approved hoặc chưa có người duyệt): 503 content_not_approved. Không phải Premium: 403 premium_required. Không tốn lượt.", "Strict switch read (missing row or error = off): 503 feature_paused. Numerology blocks not approved (review not approved or no reviewer): 503 content_not_approved. Not Premium: 403 premium_required. No attempt is used."), [nm[1], nm[2], nm[4]],
+      [p("userId", "UserId", "request_guard.userId", t("Tài khoản", "Account"))],
+      [o("userId", "UserId", "attempt_claim.userId", t("Chỉ khi được phép", "Only when allowed"))]),
+    n("attempt_claim", t("Giữ lượt trong ngày", "Daily attempt claim"), "gate", 2, 0, t("usage_events numerology_message_attempted bằng JWT của chính người dùng: 1 lời nhắn đã giao + tối đa 3 lần thử mỗi ngày giờ Việt Nam; hết lượt: 429 daily_limit_reached kèm nextMessageAt.", "usage_events numerology_message_attempted with the caller's own JWT: 1 delivered message + at most 3 attempts per Vietnam day; otherwise 429 daily_limit_reached with nextMessageAt."), [nm[3]],
+      [p("userId", "UserId", "access_gate.userId", t("Tài khoản", "Account"))],
+      [o("userId", "UserId", "block_resolve.userId", t("Đã ghi một lần thử", "One attempt recorded"))]),
+    n("block_resolve", t("Kiểm yêu cầu + lấy khối nội dung", "Request check + block lookup"), "context", 3, 0, t("Đọc thân có giới hạn rồi kiểm hợp đồng chặt: version 1, chỉ khóa cho phép, con số đúng dạng, tối đa 16 mã khối không lặp (sai: 400, lần thử đã tính). Chữ của từng khối lấy từ numerology-blocks.json theo ngôn ngữ; không có họ tên, ngày sinh hay tuổi.", "Bounded body read, then a strict contract: version 1, allowed keys only, well-formed numbers, at most 16 distinct block ids (otherwise 400, attempt counted). Each block's text comes from numerology-blocks.json in the chosen language; no name, birth date or age."), [nm[1], nm[4], nm[7]],
+      [p("userId", "UserId", "attempt_claim.userId", t("Tài khoản", "Account"))],
+      [o("blocks", "ResolvedBlock[]", "message_prompt.blocks", t("Con số + chữ của các khối đã gửi", "Numbers + text of the sent blocks"), "personal")]),
+    n("message_prompt", t("Prompt lời nhắn", "Message prompt"), "prompt", 4, 0, t("Hướng dẫn trong prompt-library (numerology_private_message_system, chưa sửa được ở Admin) + luật khóa trong mã. Dữ liệu người dùng là một khối JSON ghi rõ không phải chỉ dẫn.", "Guide from prompt-library (numerology_private_message_system, not Admin-editable yet) + code-locked rules. User data is one JSON block labelled as not instructions."), [nm[5], r("packages/agent-config/prompt-library.json")],
+      [p("blocks", "ResolvedBlock[]", "block_resolve.blocks", t("Khối đã duyệt", "Approved blocks"), "personal")],
+      [o("exchange", "ModelExchange", "model_call.exchange", t("System + JSON dữ liệu", "System + data JSON"), "personal")]),
+    n("model_call", t("Model lời nhắn", "Message model"), "model", 5, 0, t("Route numerology_private_message: OpenRouter DeepSeek v4.1 Flash, dự phòng MiMo v2.6 Flash, JSON, 600 token, 20 giây/bước, tổng 40 giây. Không thuộc chiến dịch model. Kiểm đầu ra chạy trong router để lỗi định dạng thử model dự phòng.", "numerology_private_message route: OpenRouter DeepSeek v4.1 Flash, MiMo v2.6 Flash fallback, JSON, 600 tokens, 20 s per step, 40 s total. Not part of model campaigns. The output check runs inside the router so a format failure tries the fallback."), [nm[6], nm[1]],
+      [p("exchange", "ModelExchange", "message_prompt.exchange", t("Không gửi mã tài khoản", "No account id sent"), "personal")],
+      [o("generation", "ModelGeneration", "output_check.generation", t("Văn bản + metadata", "Text + metadata"), "personal")]),
+    n("output_check", t("Kiểm lời nhắn", "Message check"), "branch", 6, 0, t("JSON {message, blockIds}: 3–5 mã trong số đã gửi, 20–140 từ, không từ cấm (tiền, bệnh, định mệnh, hợp, sẽ…). Không đạt: 503 message_unavailable, không có chữ soạn sẵn. Bị chặn an toàn: ghi safety event, không thử lại.", "JSON {message, blockIds}: 3–5 ids from those sent, 20–140 words, no banned words (money, illness, destiny, compatible, will…). Failure: 503 message_unavailable, never canned text. Safety block: safety event, no retry."), [nm[5], nm[1]],
+      [p("generation", "ModelGeneration", "model_call.generation", t("Đầu ra model", "Model output"), "personal")],
+      [o("message", "NumerologyMessage", "usage_log.message", t("Lời nhắn đã kiểm", "Checked message"), "personal"), o("blocked", "SafetyBlock", "safety_event.blocked", t("Bị chặn an toàn", "Safety block"))]),
+    n("safety_event", t("Ghi safety event", "Safety event"), "storage", 6, 1, t("safety_events (feature chat, blocked_topic) với tóm tắt không có nội dung; 503 retryable false.", "safety_events (feature chat, blocked_topic) with a content-free summary; 503 retryable false."), [nm[1]],
+      [p("blocked", "SafetyBlock", "output_check.blocked", t("Lý do chặn", "Block reason"))]),
+    n("usage_log", t("Ghi usage, không lưu lời nhắn", "Usage record, message not stored"), "storage", 7, 0, t("usage numerology_message_generated: phiên bản prompt, ngôn ngữ, số khối, model. Không lưu lời nhắn, con số hay mã khối; không có bảng lưu lời nhắn.", "usage numerology_message_generated: prompt version, language, block count, model. No message, numbers or block ids are stored; there is no message table."), [nm[1]],
+      [p("message", "NumerologyMessage", "output_check.message", t("Chỉ đếm", "Counts only"), "personal")],
+      [o("response", "NumerologyMessageResponse", "response.response", t("Lời nhắn + nextMessageAt", "Message + nextMessageAt"), "personal")]),
+    n("response", t("Trả lời nhắn", "Return the message"), "output", 8, 0, t("{message, blockIds, language, model, nextMessageAt}; app hiện một lần, không lưu.", "{message, blockIds, language, model, nextMessageAt}; the app shows it once and keeps nothing."), [nm[1]],
+      [p("response", "NumerologyMessageResponse", "usage_log.response", t("Trả cho app", "Returned to the app"), "personal")])
+  ], [
+    e("guard_access", "request_guard", "access_gate", t("Tài khoản", "Account"), [nm[1]], ["userId", "userId"]),
+    e("access_claim", "access_gate", "attempt_claim", t("Được phép", "Allowed"), [nm[1]], ["userId", "userId"], t("Công tắc bật, nội dung đã duyệt, Premium.", "Switch on, content approved, Premium.")),
+    e("claim_blocks", "attempt_claim", "block_resolve", t("Đã giữ lượt", "Attempt claimed"), [nm[3]], ["userId", "userId"]),
+    e("blocks_prompt", "block_resolve", "message_prompt", t("Khối đã duyệt", "Approved blocks"), [nm[4]], ["blocks", "blocks"]),
+    e("prompt_model", "message_prompt", "model_call", t("System + JSON", "System + JSON"), [nm[1]], ["exchange", "exchange"]),
+    e("model_check", "model_call", "output_check", t("Đầu ra", "Output"), [nm[1]], ["generation", "generation"]),
+    e("check_safety", "output_check", "safety_event", t("Bị chặn", "Blocked"), [nm[1]], ["blocked", "blocked"], t("moderationStatus blocked.", "moderationStatus blocked.")),
+    e("check_usage", "output_check", "usage_log", t("Đạt", "Passed"), [nm[1]], ["message", "message"]),
+    e("usage_response", "usage_log", "response", t("Trả về", "Return"), [nm[1]], ["response", "response"])
+  ], [t("Công tắc numerology_private_message tắt sẵn; migration 20261125090000 và việc deploy ai-numerology-message cần Owner duyệt. Nội dung numerology-blocks còn bản nháp nên hàm trả content_not_approved. Trace ghi theo feature numerology_private_message nhưng chưa gắn vào sơ đồ này.", "The numerology_private_message switch is seeded off; migration 20261125090000 and deploying ai-numerology-message need Owner approval. The numerology blocks are still a draft, so the function answers content_not_approved. Traces are written under numerology_private_message but are not bound to this graph.")]);
+
   // Field-level ports supplement aggregates; these names describe data use only,
   // never expose example private values or turn the graph into an executor.
   const fieldNode = (feature, id) => feature.nodes.find((item) => item.id === id);
@@ -343,8 +389,8 @@
     o("messages", "ModelMessage[]", "compiled.preview.messages; no provider dispatch", t("Chỉ context được cho phép và current question; không có Model Call", "Only permitted context and current question; no Model Call"), "sensitive")
   );
   const catalog = {
-    schemaVersion: 1, version: "nilaza-admin-workflow-source-v1", reviewedAt: "2026-11-24",
-    features: [oracle, persona, council, tarot, daily, notifications, astrology, face, tarotNote, readerRouter],
+    schemaVersion: 1, version: "nilaza-admin-workflow-source-v1", reviewedAt: "2026-11-25",
+    features: [oracle, persona, council, tarot, daily, notifications, astrology, face, tarotNote, readerRouter, numerologyMessage],
     sourceDigests: [
   {
     "path": "supabase/migrations/20260909014614_ai_trace_observability.sql",
@@ -352,7 +398,7 @@
   },
   {
     "path": "apps/mobile/App.tsx",
-    "sha256": "69456a45c6004dfded8d3fe1f392a018b3392d3dd02f8d2c0250c660c0e77c9c"
+    "sha256": "4d357a4ca360766bae171f9f7ba3d494d827e8ffa4bc05c02db5182feb92d001"
   },
   {
     "path": "docs/FEATURE_PRD.md",
@@ -372,7 +418,7 @@
   },
   {
     "path": "packages/agent-config/prompt-library.json",
-    "sha256": "6e24285ae847c2ee01ff6949ef3b6fd36c5933d31376a185c32b244d97f29bd3"
+    "sha256": "eb64e7ae297c122c119dc24f879217e986f80463a25c4113cf263e5885e5daa6"
   },
   {
     "path": "packages/astrology-core/calculator.mjs",
@@ -384,7 +430,7 @@
   },
   {
     "path": "supabase/functions/_shared/ai-request-guard.ts",
-    "sha256": "1a7c3ac984f0ba13c4fcca9934bb72e0743c2d614be3b439511fb3467d242be8"
+    "sha256": "1377bbbbf0ceb0b67e7a4ac293910a16a08b62bd91ea22046ccf2053ef78d96b"
   },
   {
     "path": "supabase/functions/_shared/ai-trace.ts",
@@ -408,7 +454,7 @@
   },
   {
     "path": "supabase/functions/_shared/model-router.ts",
-    "sha256": "01ca101d275f5e7995e990083096b2d023dfdd37c5b5bedbb1ec8b6864475179"
+    "sha256": "3af11dbab7c2824a89a3d53d724eaa0db42dede06e86c0ae89d8892064566fa6"
   },
   {
     "path": "supabase/functions/_shared/notification-provider.ts",
@@ -537,6 +583,34 @@
   {
     "path": "packages/content/data/personas-archetypes.json",
     "sha256": "8dc12fdcf91b5e7ad889adc6d66742945e0c4e7d4a10375f95dee24e6bf06e9e"
+  },
+  {
+    "path": "supabase/functions/ai-numerology-message/index.ts",
+    "sha256": "e66d9d11438aa696d30af4b0ec4f022ecb6f53961f2d4fec517f9b118c1fcf5a"
+  },
+  {
+    "path": "supabase/functions/ai-numerology-message/handler.ts",
+    "sha256": "6f27c82c6a8545618fc7ca5558ff873617b1d47d8bf76a48084ab209e3ddeb52"
+  },
+  {
+    "path": "supabase/functions/_shared/feature-switch.ts",
+    "sha256": "45b6f6c4a320b9cf1fa95091e346418860b6bc47406822288eb8f16a53569731"
+  },
+  {
+    "path": "supabase/functions/_shared/daily-attempts.ts",
+    "sha256": "1f9473c14d8b165750f0a12f06466f7a2517127c00a5f7b4e10dd265fbccef7d"
+  },
+  {
+    "path": "supabase/functions/_shared/numerology-blocks.ts",
+    "sha256": "afa58748e822b7b27a0fa94d639f154324f696bf5d70008c07ed2973ce71b059"
+  },
+  {
+    "path": "supabase/functions/_shared/numerology-message-prompt.ts",
+    "sha256": "7363accc84bd37c274bbfc0bbb3f2be7541c8b455b42f97b40be487160abfe6b"
+  },
+  {
+    "path": "packages/content/data/numerology-blocks.json",
+    "sha256": "918d9cea12a8c34a18edd969c0a45f2b76507bf6c77206a5c929ba243f3d84a8"
   }
 ]
   };

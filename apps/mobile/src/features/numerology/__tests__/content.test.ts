@@ -44,10 +44,11 @@ test("digits and all eight arrows have text; Vietnamese keeps its accents", () =
   expect(blocks.arrows["1-2-3"].label.vi).toBe("Kế hoạch");
 });
 
-test("the store is a draft until a named human reviewer approves it", () => {
-  expect(blocks.review.status).toBe("draft");
-  expect(blocks.review.reviewer).toBeNull();
-  expect(numerologyContentReviewed).toBe(false);
+test("the store is approved by a named reviewer (Owner, 25/11/2026)", () => {
+  expect(blocks.review.status).toBe("approved");
+  expect(blocks.review.reviewer).toBe("Owner");
+  expect(blocks.review.reviewedAt).toBe("2026-11-25");
+  expect(numerologyContentReviewed).toBe(true);
 });
 
 test("Lô 5 keys: personal cycles, pinnacles, challenges, relationship and the private-message card exist in both languages", () => {
@@ -76,7 +77,13 @@ test("Lô 5 keys: personal cycles, pinnacles, challenges, relationship and the p
     const card = content.privateMessageCard(language);
     expect(card.title.length).toBeGreaterThan(3);
     expect(card.soon.length).toBeGreaterThan(3);
+    // 2026-11-25: every private-message line exists in both languages and is reached by the banned-word walk.
+    for (const [key, value] of Object.entries(card)) {
+      expect([key, value.length > 1]).toEqual([key, true]);
+      expect(texts).toContain(value);
+    }
   }
+  expect(content.privateMessageCard("vi").consentBody).toContain("Họ tên và ngày sinh của bạn ở lại trên điện thoại này");
   expect(content.privateMessageCard("vi").soon).toBe("Sắp có");
   // The walk used by the banned-word test reaches the new keys.
   expect(texts).toContain(content.relationshipPair("same", "vi").common);

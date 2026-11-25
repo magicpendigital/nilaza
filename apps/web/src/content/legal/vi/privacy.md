@@ -3,7 +3,7 @@ title: "Quyền riêng tư"
 description: "Chúng tôi chỉ hứa những kiểm soát dữ liệu đã được kiểm chứng trong phiên bản bạn đang dùng."
 locale: vi
 slug: privacy
-updatedAt: 2026-11-16
+updatedAt: 2026-11-25
 ---
 
 ## Thông tin bạn chủ động cung cấp
@@ -19,6 +19,15 @@ Không nhập thông tin mà bạn không muốn xử lý. Nilaza không yêu c�
 Khi biểu mẫu sẵn sàng và bạn chủ động đồng ý, Nilaza lưu email, ngôn ngữ, điều bạn quan tâm, thông tin chiến dịch trong các tham số UTM và thời điểm/phiên bản consent để ghi nhận yêu cầu đăng ký trước ra mắt. Dữ liệu được xử lý qua backend Supabase; trình duyệt không có quyền đọc danh sách email. Chỉ trạng thái ghi nhận thành công xác nhận yêu cầu đã lưu; thông báo kết nối chưa sẵn sàng không thu email.
 
 Email dùng cho thông tin ra mắt và cơ hội trải nghiệm sớm theo consent của bạn. Việc gửi xác nhận/cập nhật là bước riêng; không tự đăng ký marketing từ tài khoản ứng dụng. Khi chiến dịch hoạt động, email cập nhật sẽ có cách hủy nhận tin và các trạng thái hủy/bounce/complaint được giữ. Raw email và nội dung biểu mẫu không được đưa vào sự kiện analytics.
+
+## Lời nhắn riêng Thần số học (khi tính năng được bật)
+
+Mục này chỉ áp dụng khi Nilaza bật tính năng "Lời nhắn riêng" cho tài khoản Premium. Trước khi bật, ứng dụng không gửi gì cho tính năng này.
+
+- **Bạn chủ động gửi:** ứng dụng chỉ gửi sau khi bạn bấm "Gửi" trong hộp giải thích.
+- **Dữ liệu được gửi:** các con số Thần số học đã tính trên điện thoại (ví dụ số chủ đạo, năm và tháng cá nhân), mã các khối nội dung và ngôn ngữ. **Không** gửi họ tên, ngày sinh, năm sinh hay tuổi của bạn.
+- **Xử lý:** máy chủ Nilaza ghép chữ của các khối nội dung đã soạn sẵn rồi nhờ một mô hình AI (qua nhà cung cấp OpenRouter) viết thành một lời nhắn ngắn. Mã tài khoản của bạn không được gửi cho nhà cung cấp mô hình.
+- **Lưu trữ:** Nilaza **không lưu** lời nhắn, các con số hay mã khối. Máy chủ chỉ ghi số lần thử trong ngày và thông tin kỹ thuật (thời điểm, ngôn ngữ, số khối, model đã dùng) để giới hạn một lời nhắn mỗi ngày và theo dõi chất lượng dịch vụ.
 
 ## Mua gói Premium
 
