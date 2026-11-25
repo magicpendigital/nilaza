@@ -67,7 +67,7 @@
     {
       "path": "apps/mobile/src/features/billing/PaywallPanel.tsx",
       "reason": "Purchase screen restyled to the approved design; logic must stay identical.",
-      "sha256": "919e4f18e885f0b32155102e6397113d5098493583737b53f2d3e11b222cc17d"
+      "sha256": "219bb4fdfb2575e1ce4137ace3adff8ad338b8ff5fc6802bfc461c2c9d4b3b1a"
     },
     {
       "path": "apps/mobile/src/features/billing/usePremium.ts",

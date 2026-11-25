@@ -3,7 +3,7 @@ import { readFileSync } from "fs";
 import { join } from "path";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import { createBillingClient, type BillingClient } from "../billingClient";
-import { PaywallPanel, playSubscriptionsUrl } from "../PaywallPanel";
+import { PaywallPanel, paywallBenefits, paywallComingSoon, playSubscriptionsUrl } from "../PaywallPanel";
 import type { PremiumState } from "../usePremium";
 import { customerInfo, fakePurchases, offering, pkg } from "../__fakes__/fakePurchases";
 
@@ -69,6 +69,34 @@ test("plans show the store prices, renewal, cancel path and a computed saving", 
   expect(screen.queryByText(/40%/)).toBeNull();
   fireEvent.press(screen.getByText("Quyền riêng tư"));
   expect(openUrl).toHaveBeenCalledWith(expect.stringContaining("privacy"));
+});
+
+test("benefits only list what the code gives; planned features sit under Sắp có", async () => {
+  const { client } = storeClient();
+  const screen = render(<PaywallPanel language="vi" userId="user-1" premium={premiumState(client)} />);
+  await waitFor(() => expect(screen.getByTestId("paywall-plans")).toBeTruthy());
+  expect(screen.queryByText(/Nhiều lượt rút Tarot/)).toBeNull();
+  expect(paywallBenefits.map((b) => b.vi).join(" ")).not.toMatch(/lượt rút|more tarot/i);
+  expect(paywallBenefits.map((b) => b.en).join(" ")).not.toMatch(/more tarot draws/i);
+  expect(screen.getByText("Đọc sâu lá số với Chiêm tinh AI")).toBeTruthy();
+  expect(screen.getByTestId("paywall-coming-soon")).toBeTruthy();
+  expect(screen.getByText("Sắp có")).toBeTruthy();
+  expect(paywallComingSoon.length).toBeGreaterThanOrEqual(3);
+  for (const item of paywallComingSoon) {
+    expect(screen.getByText(item.vi)).toBeTruthy();
+    expect(screen.getByLabelText(`Sắp có: ${item.vi}`)).toBeTruthy();
+    // Planned items are never in the benefit list and never pressable.
+    expect(paywallBenefits.some((b) => b.vi === item.vi)).toBe(false);
+  }
+  expect(screen.getByText("Hai hệ cùng nhìn bạn: chiêm tinh và bản đồ số")).toBeTruthy();
+});
+
+test("coming-soon group is labelled in English too", async () => {
+  const { client } = storeClient();
+  const screen = render(<PaywallPanel language="en" userId="user-1" premium={premiumState(client)} />);
+  await waitFor(() => expect(screen.getByTestId("paywall-plans")).toBeTruthy());
+  expect(screen.getByText("Coming soon")).toBeTruthy();
+  expect(screen.getAllByLabelText(/^Coming soon: /)).toHaveLength(3);
 });
 
 test("no saving label when the yearly plan is not cheaper", async () => {
@@ -172,4 +200,8 @@ test("the purchase screen never hard-codes a price, credits or the vendor name",
   expect(source).not.toMatch(/99[.,]?000|799[.,]?000|99k|799k/i);
   expect(source).not.toMatch(/credit|Nil\b|không giới hạn|unlimited/i);
   expect(source).not.toMatch(/RevenueCat/i);
+  expect(source).not.toMatch(/\d[\d.,]*\s?(đ|₫|vnd|usd|\$)/i);
+  for (const item of [...paywallBenefits, ...paywallComingSoon]) {
+    expect(`${item.vi} ${item.en}`).not.toMatch(/\d|hãy|đừng|phải|nên|sẽ/i);
+  }
 });

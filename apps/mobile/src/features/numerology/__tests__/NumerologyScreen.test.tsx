@@ -134,3 +134,86 @@ test("the screen makes no network request", async () => {
   expect(fetchMock).not.toHaveBeenCalled();
   (globalThis as { fetch: unknown }).fetch = original;
 });
+
+describe("Lô 5: Nhịp thời gian, Hợp số, Lời nhắn riêng", () => {
+  afterEach(() => jest.useRealTimers());
+
+  test("Nhịp thời gian shows the personal year, month, day, four pinnacle stages and four challenges for 15/03/2000", () => {
+    jest.useFakeTimers({ now: new Date(2026, 10, 23, 12) });
+    const screen = render(<NumerologyScreen language="vi" initialBirthDate="2000-03-15" onBack={jest.fn()} />);
+    fireEvent.press(screen.getByText("Xem bản đồ số của mình"));
+    expect(screen.getByTestId("numerology-time")).toBeTruthy();
+    expect(screen.getByText("Năm cá nhân 1 · 2026")).toBeTruthy();
+    expect(screen.getByText("Tháng cá nhân 3")).toBeTruthy();
+    expect(JSON.stringify(screen.getByTestId("personal-day").props.children)).toContain("Ngày cá nhân 8");
+    expect(screen.getByText("Giai đoạn 1 · khoảng tuổi 0–34 · số 9")).toBeTruthy();
+    expect(screen.getByText("Giai đoạn 2 · khoảng tuổi 35–43 · số 8")).toBeTruthy();
+    expect(screen.getByText("Giai đoạn 3 · khoảng tuổi 44–52 · số 8")).toBeTruthy();
+    expect(screen.getByText("Giai đoạn 4 · khoảng tuổi 53 trở đi · số 5")).toBeTruthy();
+    expect(within(screen.getByTestId("pinnacle-1")).getByTestId("pinnacle-current")).toBeTruthy();
+    expect(screen.getAllByTestId("pinnacle-current")).toHaveLength(1);
+    expect(screen.getByText("Thử thách 1 · số 3")).toBeTruthy();
+    expect(screen.getByText("Thử thách 4 · số 1")).toBeTruthy();
+  });
+
+  test("Hợp số compares without a score or percentage, and the other person's data stays out of storage and events", async () => {
+    const storage = memoryStorage();
+    const onEvent = jest.fn();
+    const onOpenShare = jest.fn();
+    const screen = render(<NumerologyScreen language="vi" storage={storage} initialBirthDate="2000-03-15" onEvent={onEvent} onOpenShare={onOpenShare} onBack={jest.fn()} />);
+    fireEvent.changeText(screen.getByLabelText("Họ tên khai sinh"), "Phạm Gia Linh");
+    fireEvent.press(screen.getByText("Xem bản đồ số của mình"));
+    expect(screen.getByTestId("compat-privacy")).toBeTruthy();
+    enter(screen, "29", "2", "1996");
+    fireEvent.changeText(screen.getByLabelText("Họ tên khai sinh người kia"), "Đỗ Ngọc Duy");
+    fireEvent.press(screen.getByText("So hai bản đồ"));
+    const results = screen.getByTestId("compat-results");
+    expect(screen.getByTestId("compat-lifePath")).toBeTruthy();
+    expect(screen.getByTestId("compat-soulUrge")).toBeTruthy();
+    expect(screen.getByTestId("compat-expression")).toBeTruthy();
+    expect(within(results).getAllByText("Điểm chung").length).toBe(3);
+    expect(within(results).getAllByText("Còn căng").length).toBe(3);
+    for (const pattern of [/%/, /\d+\s*\/\s*(10|100)\b/, /điểm số|xếp hạng|score|rank/i, /(^|[^\p{L}])(hợp|khắc)([^\p{L}]|$)/iu]) {
+      expect(within(results).queryAllByText(pattern)).toHaveLength(0);
+    }
+    expect(onEvent).toHaveBeenCalledWith("numerology_compat_compared");
+    fireEvent.press(screen.getByText("Chia sẻ thẻ"));
+    await act(async () => {});
+
+    const secrets = ["1996", "29/02", "02-29", "Đỗ", "Ngọc", "Duy", "DUY", "NGOC"];
+    const stored = JSON.stringify(storage.saveJson.mock.calls);
+    const events = JSON.stringify(onEvent.mock.calls);
+    const shared = JSON.stringify(onOpenShare.mock.calls);
+    for (const secret of secrets) {
+      expect(stored).not.toContain(secret);
+      expect(events).not.toContain(secret);
+      expect(shared).not.toContain(secret);
+    }
+    const compared = onEvent.mock.calls.filter(([name]) => name === "numerology_compat_compared");
+    expect(compared).toEqual([["numerology_compat_compared"]]);
+  });
+
+  test("going back to the form drops the other person's date", () => {
+    const screen = render(<NumerologyScreen language="vi" initialBirthDate="2000-03-15" onBack={jest.fn()} />);
+    fireEvent.press(screen.getByText("Xem bản đồ số của mình"));
+    enter(screen, "15", "9", "1992");
+    fireEvent.press(screen.getByText("So hai bản đồ"));
+    expect(screen.getByTestId("compat-results")).toBeTruthy();
+    fireEvent.press(screen.getByLabelText("Quay lại"));
+    fireEvent.press(screen.getByText("Xem bản đồ số của mình"));
+    expect(screen.queryByTestId("compat-results")).toBeNull();
+    expect(screen.getByLabelText("Năm").props.value).toBe("");
+  });
+
+  test("Lời nhắn riêng is a 'Sắp có' card and makes no request", async () => {
+    const fetchMock = jest.fn(() => { throw new Error("network"); });
+    const original = globalThis.fetch;
+    (globalThis as { fetch: unknown }).fetch = fetchMock;
+    const screen = render(<NumerologyScreen language="vi" initialBirthDate="2000-03-15" onBack={jest.fn()} />);
+    await act(async () => { fireEvent.press(screen.getByText("Xem bản đồ số của mình")); });
+    expect(within(screen.getByTestId("private-message-card")).getByText("Lời nhắn riêng")).toBeTruthy();
+    expect(screen.getByTestId("private-message-soon").props.children).toBe("Sắp có");
+    expect(fetchMock).not.toHaveBeenCalled();
+    (globalThis as { fetch: unknown }).fetch = original;
+  });
+});

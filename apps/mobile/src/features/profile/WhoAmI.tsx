@@ -5,7 +5,7 @@ import { colors, layout, radius, typography } from "../../theme";
 import type { JournalEntry, Language } from "../../types";
 import type { SavedChart } from "../astrology/persistence";
 import type { SavedChartsState } from "./useSavedCharts";
-import { certainSigns, displayBirthDate, identityChips, oneSentence, recordedSummary, type IdentityChip } from "./whoAmIModel";
+import { certainSigns, displayBirthDate, identityChips, lifePathLabel, oneSentence, recordedSummary, type IdentityChip } from "./whoAmIModel";
 
 // "Tôi là ai" (Lô 4). Opened from the name card on the Tôi tab. Reads only what is already saved;
 // the one-line summary is joined from Owner-approved templates, never written by AI.
@@ -20,8 +20,6 @@ export type WhoAmIProps = {
   journalEntries: Array<Pick<JournalEntry, "createdAt" | "sourceType">>;
   /** True when profile and birth details also sync with a signed-in account. */
   syncsWithAccount: boolean;
-  /** Life-path label such as "11/2", filled by Lô 3 (Bản đồ số). Hidden while undefined. */
-  lifePath?: string;
   now?: Date;
   onOpenChart: (chart: SavedChart) => void;
   onDeleteChart: (chart: SavedChart) => void;
@@ -77,7 +75,7 @@ export function WhoAmI(props: WhoAmIProps) {
   const now = props.now ?? new Date();
   const ownChart = props.savedCharts.charts[0];
   const signs = certainSigns(ownChart?.chart);
-  const chips = identityChips(signs, language, props.lifePath);
+  const chips = identityChips(signs, language, lifePathLabel(props.birthDate));
   const summary = oneSentence(signs, language);
   const recorded = recordedSummary(props.journalEntries, now);
   const name = props.name.trim() || (vi ? "Bạn" : "You");
@@ -111,7 +109,8 @@ export function WhoAmI(props: WhoAmIProps) {
               </View>
             ))}
           </View>
-        ) : props.savedCharts.status === "ready" ? (
+        ) : null}
+        {!ownChart && props.savedCharts.status === "ready" ? (
           <View style={s.invite}>
             <Text style={s.detail}>
               {vi ? "Lưu lá số của bạn để thấy cung Mặt Trời, Mặt Trăng và Cung Mọc ở đây." : "Save your chart to see your Sun, Moon and Rising signs here."}
