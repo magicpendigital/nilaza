@@ -177,8 +177,8 @@ test("AI features show one card per feature with code defaults when no configura
   const h = featuresHarness({ configs: [] });
   await drain(h.dom);
   assert.deepEqual(h.calls.map((call) => [call[0], call[2]]), [["get_ai_feature_switches", "ai.read"], ["get_ai_feature_configs", "ai.read"]]);
-  assert.deepEqual([...h.c.querySelectorAll("[data-feature-card]")].map((card) => card.dataset.featureCard), ["persona_chat", "oracle_router", "tarot_reading", "daily_insight", "astrology_insight", "ai_council", "astrology_report", "tarot_note", "reader_router"]);
-  for (const [id, title] of [["persona_chat", "Trò chuyện với người dẫn"], ["oracle_router", "Oracle"], ["tarot_reading", "Giải bài Tarot"], ["daily_insight", "Thông điệp hằng ngày"], ["astrology_insight", "Đọc sâu Chiêm tinh"], ["ai_council", "Hội đồng"], ["astrology_report", "Astrology report — đang gỡ, chỉ theo dõi"], ["tarot_note", "Ghi chú riêng Tarot"], ["reader_router", "Gợi ý người đọc (tầng AI)"]]) {
+  assert.deepEqual([...h.c.querySelectorAll("[data-feature-card]")].map((card) => card.dataset.featureCard), ["persona_chat", "oracle_router", "tarot_reading", "daily_insight", "astrology_insight", "ai_council", "astrology_report", "tarot_note", "reader_router", "numerology_private_message"]);
+  for (const [id, title] of [["persona_chat", "Trò chuyện với người dẫn"], ["oracle_router", "Oracle"], ["tarot_reading", "Giải bài Tarot"], ["daily_insight", "Thông điệp hằng ngày"], ["astrology_insight", "Đọc sâu Chiêm tinh"], ["ai_council", "Hội đồng"], ["astrology_report", "Astrology report — đang gỡ, chỉ theo dõi"], ["tarot_note", "Ghi chú riêng Tarot"], ["reader_router", "Gợi ý người đọc (tầng AI)"], ["numerology_private_message", "Lời nhắn riêng Thần số học"]]) {
     assert.equal(h.card(id).querySelector("h3").textContent, title);
   }
   assert.match(h.card("persona_chat").textContent, /Mặc định: 5 lượt\/ngày \(đếm chung lượt với Oracle; mỗi bên chặn theo hạn mức của mình\)/);

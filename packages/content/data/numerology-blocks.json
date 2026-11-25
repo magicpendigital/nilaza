@@ -1,10 +1,10 @@
 {
-  "version": "2026-11-25-draft2",
+  "version": "2026-11-25-approved1",
   "review": {
-    "status": "draft",
-    "reviewer": null,
-    "reviewedAt": null,
-    "note": "AI-drafted for the Owner to read. Not reviewed by a human expert. Do not release publicly until a reviewer is named and status becomes approved (docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md section 4)."
+    "status": "approved",
+    "reviewer": "Owner",
+    "reviewedAt": "2026-11-25",
+    "note": "AI-drafted, then read and approved by the Owner on 25/11/2026 for the app and the private-message AI. Not reviewed by an external numerology expert. Any later edit needs a new Owner review."
   },
   "kinds": {
     "lifePath": {
@@ -341,6 +341,18 @@
       "title": { "vi": "Lời nhắn riêng", "en": "A private note" },
       "soon": { "vi": "Sắp có", "en": "Coming soon" },
       "body": { "vi": "AI chỉ ghép các khối nội dung đã được duyệt thành một lời nhắn ngắn, nói về những con số của bạn.", "en": "AI only joins approved content blocks into a short note about your numbers." },
-      "sends": { "vi": "Chỉ các con số đã tính và mã khối nội dung được gửi đi. Họ tên và ngày sinh của bạn ở lại trên điện thoại này.", "en": "Only the computed numbers and content block codes are sent. Your name and birth date are not sent at any point." }
+      "sends": { "vi": "Chỉ các con số đã tính và mã khối nội dung được gửi đi. Họ tên và ngày sinh của bạn ở lại trên điện thoại này.", "en": "Only the computed numbers and content block codes are sent. Your name and birth date are not sent at any point." },
+      "action": { "vi": "Nhận lời nhắn hôm nay", "en": "Get today's note" },
+      "consentTitle": { "vi": "Trước khi gửi", "en": "Before sending" },
+      "consentBody": { "vi": "Chỉ các con số đã tính và mã khối nội dung được gửi đi. Họ tên và ngày sinh của bạn ở lại trên điện thoại này. Lượt hôm nay chỉ được tính khi lời nhắn đến tay bạn.", "en": "Only the computed numbers and content block codes are sent. Your name and birth date stay on this phone. Today's turn counts only when the note reaches you." },
+      "consentConfirm": { "vi": "Gửi", "en": "Send" },
+      "consentCancel": { "vi": "Để sau", "en": "Not now" },
+      "loading": { "vi": "Đang ghép lời nhắn...", "en": "Putting your note together..." },
+      "resultTitle": { "vi": "Lời nhắn hôm nay", "en": "Today's note" },
+      "premiumNote": { "vi": "Lời nhắn riêng nằm trong gói Premium.", "en": "The private note is part of Premium." },
+      "dailyLimit": { "vi": "Hôm nay đã hết lượt nhận lời nhắn. Ngày mai có thể có một lời nhắn mới.", "en": "Today's turns for a note are used. A new one can arrive tomorrow." },
+      "unavailable": { "vi": "Chưa ghép được lời nhắn lúc này. Bạn có thể thử lại sau một chút.", "en": "The note could not be put together right now. You can try again in a moment." },
+      "retry": { "vi": "Thử lại", "en": "Try again" },
+      "blocked": { "vi": "Hôm nay Nilaza chưa ghép được một lời nhắn đủ nhẹ nhàng để gửi. Ngày mai bạn có thể nhận lời nhắn mới.", "en": "Today Nilaza could not put together a note gentle enough to send. A new one can arrive tomorrow." }
     }
 }

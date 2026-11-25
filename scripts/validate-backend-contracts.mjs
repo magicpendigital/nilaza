@@ -12,6 +12,7 @@ const contracts = [
   { gatewayPath: "/ai/persona-chat", functionName: "ai-persona-chat" },
   { gatewayPath: "/ai/ai-council", functionName: "ai-council" },
   { gatewayPath: "/ai/tarot-reading", functionName: "ai-tarot-reading" },
+  { gatewayPath: "/ai/numerology-message", functionName: "ai-numerology-message" },
   { gatewayPath: "/tarot/guest-draw", functionName: "tarot-guest-draw" },
   { gatewayPath: "/ai/daily-insight", functionName: "ai-daily-insight" },
   { gatewayPath: "/ai/daily-zodiac-pulse", functionName: "ai-daily-zodiac-pulse" },
@@ -83,6 +84,21 @@ for (const { functionName } of contracts) {
       const handler = read("supabase/functions/ai-feedback/handler.ts");
       assert(source.includes("createFeedbackHandler") && source.includes("supabase.auth.getUser"), "Feedback must use the authenticated handler");
       assert(handler.includes("await guardAiJsonRequest") && handler.includes("parseFeedbackSubmission") && handler.includes("parseFeedbackReceipt") && handler.includes("parseFeedbackExport"), "Feedback must guard input and validate all acknowledgements");
+    }
+    if (functionName === "ai-numerology-message") {
+      // 2026-11-25: sign-in, strict switch, content gate, Premium and quota all run before the body is read; the server
+      // resolves approved block text itself and stores no message text.
+      const handler = read("supabase/functions/ai-numerology-message/handler.ts");
+      assert(source.includes("@supabase/supabase-js") && source.includes("supabase.auth.getUser(token)") && source.includes("aiAuthUserOrUnavailable(data?.user, error)"), "Numerology message must verify the caller from the JWT");
+      assert(source.includes("featureEnabledStrict(") && !source.includes("featurePaused("), "Numerology message must read its switch strictly (off unless enabled = true)");
+      assert(source.includes("claimDeliveredAttempt(") && source.includes("PREMIUM_ENTITLEMENTS") && source.includes("resolveServerTier("), "Numerology message must claim its daily quota and judge Premium on the server");
+      assert(!source.includes("SUPABASE_SERVICE_ROLE_KEY") && !source.includes("campaignClient"), "Numerology message must use only the caller's client and no model campaign");
+      const order = ["authenticateAiRequest(", "deps.featureEnabled()", "contentApproved()", "deps.readTier(", "deps.claimAttempt(", "readBoundedJson(", "checkNumerologyRequest(", "resolveNumerologyBlocks(", "deps.generate("];
+      const positions = order.map((token) => handler.indexOf(token));
+      assert(positions.every((position, index) => position >= 0 && (index === 0 || position > positions[index - 1])), "Numerology message must check sign-in, switch, content, Premium and quota before reading the body, then validate before generating");
+      assert(handler.includes('fallbackText: ""') && handler.includes("acceptOutput:") && handler.includes("strictTraceRedaction: true"), "Numerology message must not return canned text and must check the answer inside the router");
+      assert(handler.includes("content_not_approved") && handler.includes("premium_required") && handler.includes("persistenceStatus"), "Numerology message must keep its refusal codes and persistenceStatus");
+      assert(!handler.includes("await req.json()") && !source.includes("await req.json()"), "Numerology message must not bypass bounded body parsing");
     }
     if (functionName === "share-events") {
       const handler = read("supabase/functions/share-events/handler.ts");

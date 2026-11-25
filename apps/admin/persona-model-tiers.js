@@ -3,7 +3,7 @@
   // Each chat persona runs on one tier ("Thường", "Tri thức sâu", optional "Cao cấp"). A tier either keeps the active
   // persona_chat route or has its own primary/fallback models, reasoning, output ceiling, total wait, per-message budget,
   // history size and answer style. Lưu nháp → Xem lại & phát hành through get_ai_persona_model_tiers /
-  // save_ai_persona_model_tiers_draft / publish_ai_persona_model_tiers (migration 20261125090000).
+  // save_ai_persona_model_tiers_draft / publish_ai_persona_model_tiers (migration 20261125100000).
   // Rules:
   // - validate() returns the same codes as nilaza_private.ai_persona_model_tiers_errors, so the Owner sees a problem
   //   before the server refuses it (the server only returns a code, never the list);
@@ -58,7 +58,7 @@
       "book-i-ching": "deep_knowledge"
     }
   });
-  const MIGRATION = "20261125090000_persona_model_tiers.sql";
+  const MIGRATION = "20261125100000_persona_model_tiers.sql";
   const MIGRATION_NOTE = `Máy chủ chưa áp migration ${MIGRATION} nên chưa lưu hay phát hành được. Trò chuyện vẫn chạy theo mặc định trong mã (bảng dưới đây).`;
   const DEPLOY_NOTE = "Cấu hình chỉ có tác dụng khi ai-persona-chat đã được deploy bản biết đọc hạng model (cần Owner duyệt deploy). Bản cũ bỏ qua cấu hình này.";
   const DRAFT_RULE = "ai.manage|ai.read+content.draft";
@@ -84,7 +84,7 @@
     return value >= range.min && value <= range.max;
   }
 
-  // Mirror of nilaza_private.ai_persona_model_tiers_errors (migration 20261125090000): same checks, same codes.
+  // Mirror of nilaza_private.ai_persona_model_tiers_errors (migration 20261125100000): same checks, same codes.
   function validate(config) {
     if (!isObject(config)) return ["config_not_object"];
     const errors = [];

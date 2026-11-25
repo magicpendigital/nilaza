@@ -52,8 +52,13 @@ type TimeBlocks = {
     pairs: Record<CompatRelation, { common: Text; tension: Text }>;
     privacyNote: Text;
   };
-  privateMessage: { title: Text; soon: Text; body: Text; sends: Text };
+  privateMessage: Record<PrivateMessageKey, Text>;
 };
+// 2026-11-25: the card strings of the private message (action, consent, result and refusal lines).
+const PRIVATE_MESSAGE_KEYS = ["title", "soon", "body", "sends", "action", "consentTitle", "consentBody", "consentConfirm", "consentCancel",
+  "loading", "resultTitle", "premiumNote", "dailyLimit", "unavailable", "retry", "blocked"] as const;
+type PrivateMessageKey = typeof PRIVATE_MESSAGE_KEYS[number];
+export type PrivateMessageCopy = Record<PrivateMessageKey, string>;
 const time = blocks as unknown as TimeBlocks;
 const digitKey = (n: number) => String(n) as Digits;
 
@@ -85,9 +90,9 @@ export function relationshipPair(relation: CompatRelation, language: Language) {
 }
 export const relationshipPrivacyNote = (language: Language) => pick(time.relationship.privacyNote, language);
 
-export function privateMessageCard(language: Language) {
+export function privateMessageCard(language: Language): PrivateMessageCopy {
   const card = time.privateMessage;
-  return { title: pick(card.title, language), soon: pick(card.soon, language), body: pick(card.body, language), sends: pick(card.sends, language) };
+  return Object.fromEntries(PRIVATE_MESSAGE_KEYS.map((key) => [key, pick(card[key], language)])) as PrivateMessageCopy;
 }
 
 /** Every string in the store, for the banned-word test. */

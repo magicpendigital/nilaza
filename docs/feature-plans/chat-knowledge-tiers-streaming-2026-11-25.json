@@ -33,7 +33,7 @@
     "supabase/functions/_shared/providers/openrouter.ts",
     "supabase/functions/_shared/ai-request-guard.ts",
     "supabase/functions/_shared/ai-request-guard_test.ts",
-    "supabase/migrations/20261125090000_persona_model_tiers.sql",
+    "supabase/migrations/20261125100000_persona_model_tiers.sql",
     "packages/agent-config/persona-model-tiers.json",
     "scripts/build-knowledge-briefs.mjs",
     "scripts/persona-model-tiers.test.mjs",
@@ -111,7 +111,7 @@
     {
       "path": "supabase/functions/_shared/model-router.ts",
       "reason": "Legacy and step-chain paths, safety checks, cost tally.",
-      "sha256": "f4fe6f7c4f3101076adcde7a0c2b98295a45eb3d103ae804fe662b5c47ff495f"
+      "sha256": "6df41b89af38cf2622aed394a02e3c8b401af2e720ee68964aab04785c790140"
     },
     {
       "path": "supabase/functions/_shared/model-provider.ts",
@@ -136,12 +136,12 @@
     {
       "path": "supabase/functions/_shared/ai-request-guard.ts",
       "reason": "Body size limit.",
-      "sha256": "517ab0fbdb87c1b76210ec87bdea08a76a5e3b37ce8adbde63e94af25ae18498"
+      "sha256": "cf1204cae48dac9cfc718dd93f5b4d2a93efffefef03b12fae0f73f680dae056"
     },
     {
       "path": "packages/agent-config/model-routing.json",
       "reason": "persona_chat route defaults.",
-      "sha256": "d476309a08295ec3772924c04ded178f1922327270d5062ac6e430876d56be16"
+      "sha256": "085d7b241a1eb5597c6a0cc18c46b9d46fc478dee5ddd8ae4ca79b90ec4ec217"
     },
     {
       "path": "supabase/migrations/20261114090200_ai_context_configs.sql",
@@ -151,12 +151,12 @@
     {
       "path": "scripts/validate-backend-contracts.mjs",
       "reason": "Backend contract checks to extend.",
-      "sha256": "f802dd7a9a5bda498d4b1bc6b7f09aeb4377eb02a95fdb146843267c983afabf"
+      "sha256": "008374176955fe4d880c11258501bc3e46fae955a9d95c91b9e698de560b239f"
     },
     {
       "path": "package.json",
       "reason": "npm scripts for the brief generator.",
-      "sha256": "f550ec8cd7a1b2ce258c6ff9245655dfd9b34c573a149aa99025f18ba08e93a7"
+      "sha256": "f16067b078dcc62ad1ad5d4aef88ddd7e7db2ddc2eaa8f22ed5e017031274a1c"
     }
   ],
   "skillReview": [
@@ -193,7 +193,7 @@
     "secretsLogging": "Only the presence/value path of OPENROUTER_API_KEY already used by the provider; no new secret; .env not read; stream events carry no keys or prompts.",
     "externalInput": "stream flag is a strict boolean; tier config from the database is clamped field by field and unknown keys ignored; persona id/slug from the client only selects a tier (bounded by the tier cost cap and the unchanged daily quota); brief text is repo-controlled and generated, never from requests.",
     "dependencies": "No package added or upgraded; Deno std and supabase-js imports unchanged.",
-    "migrationRelease": "Migration 20261125090000 is written, not applied; ai-persona-chat deploy needs Owner approval; without the migration the function reads no row and uses code defaults.",
+    "migrationRelease": "Migration 20261125100000 is written, not applied; ai-persona-chat deploy needs Owner approval; without the migration the function reads no row and uses code defaults.",
     "stopCondition": "Stop if the standard path stops being byte-identical in prompt or route, if safety checks can be skipped in stream mode, or if Deno tests fail and cannot be fixed inside the write scope.",
     "unresolvedHighRisks": []
   },
@@ -208,14 +208,14 @@
     "node scripts/feature-preflight.mjs --ci --base origin/main",
     "npm run admin:check"
   ],
-  "managerTestPath": "After the Owner applies migration 20261125090000 and deploys ai-persona-chat: an old app build chatting with Aristotle gets the same short reply as before. A new build chatting with Chiến Lược Gia Cổ Điển sees text appear progressively, a longer answer (about 150-300 words) that may not end with a question, and the reply is saved in history. Turning the network off mid-answer shows an error, not a half answer saved as final.",
+  "managerTestPath": "After the Owner applies migration 20261125100000 and deploys ai-persona-chat: an old app build chatting with Aristotle gets the same short reply as before. A new build chatting with Chiến Lược Gia Cổ Điển sees text appear progressively, a longer answer (about 150-300 words) that may not end with a question, and the reply is saved in history. Turning the network off mid-answer shows an error, not a half answer saved as final.",
   "residualRisk": "Streaming through the Supabase gateway and the mobile fetch stack is not verified on a device or deployed function. 300 s is only reachable on a paid Supabase plan; on Free the deep tier waits at most 135 s. Whether the runtime keeps running persistence after the client disconnects mid-stream is not verified. Admin UI for tiers is not built. Deep-tier quality and cost need a blind eval before release.",
   "externalActions": {
     "databaseWrite": false,
     "productionRelease": false
   },
   "workingTreeReview": {
-    "note": "Record written before any code edit (25/11/2026), refreshed after implementation the same day. The listed paths are this task's own edits (backend/AI agent): tiers, SSE streaming, knowledge brief bundle, Lô 0 method pack fix, migration 20261125090000 (written, not applied), tests and the streaming contract. package.json also carries the app agent's oracle:guides scripts. docs/proposals/CHAT_KNOWLEDGE_CHARACTERS_2026-11-24.vi.md and docs/proposals/data/book-brief-sample-binh-phap-ton-tu.vi.md were already untracked from the lead agent and are not in writeScope. apps/admin/workflow-catalog.js: this task only refreshes the five source digests of the files it changed (ai-request-guard.ts, model-provider.ts, model-router.ts, persona-prompt-assembler.ts, ai-persona-chat/index.ts); the App.tsx digest in the same file is the app agent's.",
+    "note": "Record written before any code edit (25/11/2026), refreshed after implementation the same day. The listed paths are this task's own edits (backend/AI agent): tiers, SSE streaming, knowledge brief bundle, Lô 0 method pack fix, migration 20261125100000 (written, not applied), tests and the streaming contract. package.json also carries the app agent's oracle:guides scripts. docs/proposals/CHAT_KNOWLEDGE_CHARACTERS_2026-11-24.vi.md and docs/proposals/data/book-brief-sample-binh-phap-ton-tu.vi.md were already untracked from the lead agent and are not in writeScope. apps/admin/workflow-catalog.js: this task only refreshes the five source digests of the files it changed (ai-request-guard.ts, model-provider.ts, model-router.ts, persona-prompt-assembler.ts, ai-persona-chat/index.ts); the App.tsx digest in the same file is the app agent's.",
     "paths": [
       "apps/admin/workflow-catalog.js",
       "docs/contracts/persona-chat-streaming.md",
@@ -240,7 +240,7 @@
       "supabase/functions/ai-persona-chat/persona-context_test.ts",
       "supabase/functions/ai-persona-chat/stream.ts",
       "supabase/functions/ai-persona-chat/stream_test.ts",
-      "supabase/migrations/20261125090000_persona_model_tiers.sql"
+      "supabase/migrations/20261125100000_persona_model_tiers.sql"
     ]
   }
 }

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "description": "Model tiers for persona chat (Owner decision 25/11/2026, docs/proposals/CHAT_KNOWLEDGE_CHARACTERS_2026-11-24.vi.md section 6). Code defaults and bounds; Admin may publish a replacement in public.ai_persona_model_tiers (migration 20261125090000). The SQL validator nilaza_private.ai_persona_model_tiers_errors mirrors these bounds; scripts/persona-model-tiers.test.mjs keeps them equal. The standard tier has no override: it uses the active persona_chat route and ai_feature_configs exactly as before tiers existed.",
+  "description": "Model tiers for persona chat (Owner decision 25/11/2026, docs/proposals/CHAT_KNOWLEDGE_CHARACTERS_2026-11-24.vi.md section 6). Code defaults and bounds; Admin may publish a replacement in public.ai_persona_model_tiers (migration 20261125100000). The SQL validator nilaza_private.ai_persona_model_tiers_errors mirrors these bounds; scripts/persona-model-tiers.test.mjs keeps them equal. The standard tier has no override: it uses the active persona_chat route and ai_feature_configs exactly as before tiers existed.",
   "tierKeys": ["standard", "deep_knowledge", "premium"],
   "defaultTier": "standard",
   "outputStyles": ["concise", "knowledge"],

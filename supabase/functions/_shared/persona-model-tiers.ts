@@ -1,6 +1,6 @@
 // Owner decision 25/11/2026 (docs/proposals/CHAT_KNOWLEDGE_CHARACTERS_2026-11-24.vi.md section 6): each persona chats on
 // one model tier. Code defaults and bounds live in packages/agent-config/persona-model-tiers.json; Admin may publish a
-// replacement in public.ai_persona_model_tiers (migration 20261125090000), read here with the service key over REST and
+// replacement in public.ai_persona_model_tiers (migration 20261125100000), read here with the service key over REST and
 // cached for a minute per function instance, like feature-config.ts and context-config.ts.
 //
 // Rules kept here, whatever a row says:

@@ -73,7 +73,7 @@
     {
       "path": "apps/mobile/src/backendClient.ts",
       "reason": "Existing JSON persona call, error mapping and timeouts.",
-      "sha256": "7ca40416ff90e0e1339f1282b60cd76262211c76260b8940baaaa699b00c852a"
+      "sha256": "006b49559530a8514bf3dfce837bb8a8ef9578968a0b62ced21c9bcf469f90c9"
     },
     {
       "path": "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
@@ -83,7 +83,7 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "sendMessage orchestration and retry.",
-      "sha256": "0320a58696dd65bf73dc1fea6c6dc96d00a3c01aef96e1a065fde38956f14e0c"
+      "sha256": "ec1c19cc2718f10e58c294411c45ecc2c25b1bd419f008c749e19aae1e255da3"
     },
     {
       "path": "apps/mobile/src/a2ui/chat.tsx",

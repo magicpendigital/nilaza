@@ -1,4 +1,4 @@
-import { AiRequestError, aiAuthUserOrUnavailable, aiRequestByteLimit, guardAiJsonRequest, MAX_AI_REQUEST_BYTES, MAX_AI_REQUEST_BYTES_CEILING } from "./ai-request-guard.ts";
+import { AiRequestError, aiAuthUserOrUnavailable, aiRequestByteLimit, authenticateAiRequest, guardAiJsonRequest, MAX_AI_REQUEST_BYTES, MAX_AI_REQUEST_BYTES_CEILING } from "./ai-request-guard.ts";
 
 const account = "c96f8b28-dd85-4662-946e-014095b0d11a";
 const validUser = { id: account, isAnonymous: false };
@@ -77,6 +77,24 @@ Deno.test("invalid anonymous and unknown identity reject before body; auth excep
     await guardAiJsonRequest(request(), { configured: true, authenticate: () => { throw new Error("PRIVATE AUTH DETAIL"); } });
     throw new Error("accepted");
   } catch (error) { assert(error instanceof AiRequestError && error.status === 503 && error.message === "authentication_unavailable", "auth exception leaked"); }
+});
+Deno.test("authenticateAiRequest verifies the account and never reads the body (numerology switch and quota run first)", async () => {
+  let body = 0;
+  const result = await authenticateAiRequest(unreadRequest(new Headers({ Authorization: "Bearer valid" }), () => body++), {
+    configured: true, authenticate: async () => validUser
+  });
+  assert(result.userId === account && body === 0, "auth-only step read the body or lost the account");
+  for (const [deps, status] of [
+    [{ configured: false, authenticate: async () => validUser }, 503],
+    [{ configured: true, authenticate: async () => ({ ...validUser, isAnonymous: true }) }, 401],
+    [{ configured: true, authenticate: () => { throw new Error("PRIVATE"); } }, 503]
+  ] as const) {
+    try {
+      await authenticateAiRequest(unreadRequest(new Headers({ Authorization: "Bearer valid" }), () => body++), deps as never);
+      throw new Error("accepted");
+    } catch (error) { assert(error instanceof AiRequestError && error.status === status, `expected ${status}`); }
+  }
+  assert(body === 0, "a rejected auth-only step read the body");
 });
 Deno.test("requires JSON object content type and valid JSON UTF8", async () => {
   await rejected(request("{}", { "Content-Type": "text/plain" }), 415, "json_content_type_required");

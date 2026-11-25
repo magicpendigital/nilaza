@@ -95,7 +95,7 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Hub guide mapping, persona detail page and room props.",
-      "sha256": "0320a58696dd65bf73dc1fea6c6dc96d00a3c01aef96e1a065fde38956f14e0c"
+      "sha256": "ec1c19cc2718f10e58c294411c45ecc2c25b1bd419f008c749e19aae1e255da3"
     },
     {
       "path": "packages/content/data/knowledge-briefs/index.json",

@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import React, { useRef, useState } from "react";
+import { ActivityIndicator, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors, typography } from "../../theme";
 import type { Language } from "../../types";
@@ -8,6 +8,7 @@ import { buildNumerologyMap, type NumerologyMap } from "./calc";
 import { compareNumerology, type CompatRow } from "./compat";
 import { kindTitle, privateMessageCard, relationshipFrame, relationshipLine, relationshipPair, relationshipPrivacyNote } from "./content";
 import { cleanName, nameMaxLength } from "./store";
+import type { NumerologyMessageOutcome } from "../../backendClient";
 
 // Lô 5, lớp 4 "Hợp số" and the "Lời nhắn riêng · Sắp có" card.
 //
@@ -120,17 +121,92 @@ export function NumerologyCompat({ map, language, onCompared }: Props) {
   );
 }
 
-/** "Lời nhắn riêng": a visible "Sắp có" card. No AI call is made from the app yet. */
-export function PrivateMessageSoon({ language }: { language: Language }) {
+type MessageState =
+  | { kind: "idle" } | { kind: "consent" } | { kind: "loading" }
+  | { kind: "message"; message: string } | { kind: "soon" } | { kind: "premium" } | { kind: "limit" } | { kind: "blocked" } | { kind: "unavailable" };
+
+/**
+ * "Lời nhắn riêng". Without onRequestMessage (a guest, or no backend) it is the "Sắp có" card and makes no request.
+ * With it (a signed-in account), the button opens a consent box first; only after "Gửi" does the screen send the
+ * computed numbers and block ids. While the server switch is off or the content is not approved the answer is "soon"
+ * and the card goes back to "Sắp có". The message is shown once and kept nowhere.
+ */
+export function PrivateMessageSoon({ language, onRequestMessage }: { language: Language; onRequestMessage?: () => Promise<NumerologyMessageOutcome> }) {
   const text = privateMessageCard(language);
+  const [state, setState] = useState<MessageState>({ kind: "idle" });
+  const busy = useRef(false);
+  const live = Boolean(onRequestMessage) && state.kind !== "soon";
+
+  const send = async () => {
+    if (!onRequestMessage || busy.current) return;
+    busy.current = true;
+    setState({ kind: "loading" });
+    let outcome: NumerologyMessageOutcome;
+    try { outcome = await onRequestMessage(); } catch { outcome = { kind: "unavailable", reason: "busy" }; }
+    busy.current = false;
+    if (outcome.kind === "message") setState({ kind: "message", message: outcome.message });
+    else if (outcome.kind === "soon") setState({ kind: "soon" });
+    else if (outcome.kind === "premium_required") setState({ kind: "premium" });
+    else if (outcome.kind === "daily_limit") setState({ kind: "limit" });
+    else if (outcome.kind === "blocked") setState({ kind: "blocked" });
+    else setState({ kind: "unavailable" });
+  };
+
+  const note = state.kind === "premium" ? text.premiumNote : state.kind === "limit" ? text.dailyLimit : state.kind === "blocked" ? text.blocked : null;
   return (
-    <View testID="private-message-card" accessible accessibilityLabel={`${text.title}, ${text.soon}. ${text.body} ${text.sends}`} style={s.soonCard}>
-      <View style={s.soonHead}>
+    <View testID="private-message-card" style={s.soonCard}>
+      <View style={s.soonHead} accessible accessibilityLabel={live ? text.title : `${text.title}, ${text.soon}`}>
         <Text style={s.soonTitle}>{text.title}</Text>
-        <Text testID="private-message-soon" style={s.soonBadge}>{text.soon}</Text>
+        {live ? null : <Text testID="private-message-soon" style={s.soonBadge}>{text.soon}</Text>}
       </View>
-      <Text style={s.panelBody}>{text.body}</Text>
-      <Text style={s.hint}>{text.sends}</Text>
+      {state.kind === "message" ? (
+        <View testID="private-message-result" style={s.panel}>
+          <Text style={s.panelKicker}>{text.resultTitle}</Text>
+          <Text selectable style={s.panelBody}>{state.message}</Text>
+        </View>
+      ) : (
+        <>
+          <Text style={s.panelBody}>{text.body}</Text>
+          <Text style={s.hint}>{text.sends}</Text>
+        </>
+      )}
+      {live && state.kind === "idle" ? (
+        <Pressable testID="private-message-action" accessibilityRole="button" onPress={() => setState({ kind: "consent" })} style={s.primary}>
+          <Text style={s.primaryText}>{text.action}</Text>
+        </Pressable>
+      ) : null}
+      {live && state.kind === "consent" ? (
+        <View testID="private-message-consent" style={s.privacy}>
+          <Ionicons name="lock-closed-outline" size={16} color={teal} style={s.privacyIcon} />
+          <View style={[s.flex, s.stack]}>
+            <Text style={s.label}>{text.consentTitle}</Text>
+            <Text style={s.privacyText}>{text.consentBody}</Text>
+            <View style={s.pairRow}>
+              <Pressable testID="private-message-cancel" accessibilityRole="button" onPress={() => setState({ kind: "idle" })} style={[s.secondary, s.flex]}>
+                <Text style={s.secondaryText}>{text.consentCancel}</Text>
+              </Pressable>
+              <Pressable testID="private-message-send" accessibilityRole="button" onPress={() => void send()} style={[s.primary, s.flex]}>
+                <Text style={s.primaryText}>{text.consentConfirm}</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      ) : null}
+      {state.kind === "loading" ? (
+        <View testID="private-message-loading" style={s.loadingRow} accessibilityLiveRegion="polite">
+          <ActivityIndicator color={teal} />
+          <Text style={s.hint}>{text.loading}</Text>
+        </View>
+      ) : null}
+      {note ? <Text testID="private-message-note" style={s.panelBody} accessibilityLiveRegion="polite">{note}</Text> : null}
+      {state.kind === "unavailable" ? (
+        <View testID="private-message-error" style={s.stack}>
+          <Text style={s.panelBody} accessibilityLiveRegion="polite">{text.unavailable}</Text>
+          <Pressable testID="private-message-retry" accessibilityRole="button" onPress={() => void send()} style={s.secondary}>
+            <Text style={s.secondaryText}>{text.retry}</Text>
+          </Pressable>
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -164,6 +240,9 @@ const s = StyleSheet.create({
   proWatch: { backgroundColor: "rgba(217, 160, 102, 0.12)" },
   proTitle: { fontFamily: typography.bodySemiBoldFontFamily, fontSize: 12, letterSpacing: 0.6 },
   proText: { color: colors.ivory, fontFamily: typography.bodyFontFamily, fontSize: 13.5, lineHeight: 20 },
+  secondary: { minHeight: 48, borderRadius: 24, borderWidth: 1, borderColor: "rgba(247, 241, 230, 0.3)", alignItems: "center", justifyContent: "center", paddingHorizontal: 16 },
+  secondaryText: { color: colors.ivory, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 15, textAlign: "center" },
+  loadingRow: { flexDirection: "row", alignItems: "center", gap: 10 },
   soonCard: { marginTop: 12, padding: 16, borderRadius: 16, borderWidth: 1, borderStyle: "dashed", borderColor: "rgba(201, 164, 92, 0.5)", gap: 8 },
   soonHead: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 8 },
   soonTitle: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 22, lineHeight: 27, flexShrink: 1 },

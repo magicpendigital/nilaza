@@ -223,5 +223,31 @@
         "mode": "off"
       }
     }
+  },
+  {
+    "feature": "numerology_private_message",
+    "version": "2026-11-25-numerology-message-v1",
+    "status": "active",
+    "primaryProvider": "openrouter",
+    "primaryModel": "deepseek/deepseek-v4.1-flash",
+    "fallbackProvider": "openrouter",
+    "fallbackModel": "xiaomi/mimo-v2.6-flash",
+    "temperature": 0.6,
+    "maxOutputTokens": 600,
+    "responseSchema": "numerology_private_message_v1",
+    "fallbackWhen": [
+      "missing_api_key",
+      "provider_timeout",
+      "rate_limit",
+      "provider_5xx",
+      "malformed_response"
+    ],
+    "safetyPolicy": {
+      "approvedBlocksOnly": true,
+      "blockDeterministicPredictions": true,
+      "reasoning": {
+        "mode": "off"
+      }
+    }
   }
 ]

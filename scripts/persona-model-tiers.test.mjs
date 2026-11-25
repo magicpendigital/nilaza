@@ -1,12 +1,12 @@
 // Persona chat model tiers (Owner 25/11/2026): the code defaults in packages/agent-config/persona-model-tiers.json, the
-// SQL validator spec in migration 20261125090000 and the Edge Function lists must agree.
+// SQL validator spec in migration 20261125100000 and the Edge Function lists must agree.
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
 
 const read = (file) => fs.readFileSync(file, "utf8");
 const SPEC = JSON.parse(read("packages/agent-config/persona-model-tiers.json"));
-const MIGRATION = read("supabase/migrations/20261125090000_persona_model_tiers.sql");
+const MIGRATION = read("supabase/migrations/20261125100000_persona_model_tiers.sql");
 const PROVIDER = read("supabase/functions/_shared/model-provider.ts");
 
 function sqlSpec() {

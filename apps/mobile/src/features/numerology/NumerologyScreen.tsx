@@ -5,11 +5,13 @@ import { colors, radius, typography } from "../../theme";
 import type { Language } from "../../types";
 import { BirthDateFields } from "../astrology/BirthFields";
 import { numerologyModel, type ShareRequest } from "../share/shareCardContent";
-import { buildNumerologyMap, gridLayout, reduceNumber, type ArrowId, type NumerologyMap, type NumerologyNumber } from "./calc";
+import { buildNumerologyMap, gridLayout, localToday, reduceNumber, type ArrowId, type NumerologyMap, type NumerologyNumber } from "./calc";
 import { arrowLabel, arrowNotes, arrowText, digitLine, digitNote, kindFrame, kindTitle, numberBlock, numerologyContentReviewed, type NumerologyKind } from "./content";
 import { cleanName, loadSavedName, nameMaxLength, saveName, type NumerologyStorage } from "./store";
 import { NumerologyCompat, PrivateMessageSoon } from "./NumerologyCompat";
 import { NumerologyTime } from "./NumerologyTime";
+import { buildPrivateMessagePayload, type PrivateMessagePayload } from "./aiPayload";
+import type { NumerologyMessageOutcome } from "../../backendClient";
 
 // Layout follows the Design canvas screens "Bản đồ số, nhập thông tin" (NumInput) and "Bản đồ số" (NumMap),
 // sections "Bạn" and "Biểu đồ ngày sinh"; Lô 5 adds "Nhịp thời gian", "Hợp số" and the "Lời nhắn riêng · Sắp có" card.
@@ -32,13 +34,15 @@ type Props = {
   onBirthDateChange?: (value: string) => void;
   onOpenShare?: (request: ShareRequest) => void;
   onEvent?: (name: string, metadata?: Record<string, string | number | boolean>) => void;
+  /** Signed-in accounts only: sends the private-message payload (numbers and block ids, never the name or birth date). */
+  onRequestPrivateMessage?: (payload: PrivateMessagePayload) => Promise<NumerologyMessageOutcome>;
   onBack: () => void;
 };
 
 // Characters that are neither letters nor spaces: digits and symbols are skipped by the calculation, so say so.
 const oddNameChars = /[0-9_@#$%^&*()+=<>/\\|~`!?;:,"[\]{}]/;
 
-export function NumerologyScreen({ language, storage, initialBirthDate, onBirthDateChange, onOpenShare, onEvent, onBack }: Props) {
+export function NumerologyScreen({ language, storage, initialBirthDate, onBirthDateChange, onOpenShare, onEvent, onRequestPrivateMessage, onBack }: Props) {
   const vi = language === "vi";
   const [birthDate, setBirthDate] = useState(initialBirthDate);
   const [name, setName] = useState("");
@@ -101,7 +105,7 @@ export function NumerologyScreen({ language, storage, initialBirthDate, onBirthD
       {map ? (
         <Result map={map} name={shownName} language={language} onShare={share} onAddName={() => setMap(null)}
           // No metadata: the other person's date, name and numbers never reach an event.
-          onCompared={() => onEvent?.("numerology_compat_compared")} />
+          onCompared={() => onEvent?.("numerology_compat_compared")} onRequestPrivateMessage={onRequestPrivateMessage} />
       ) : (
         <Input
           language={language}
@@ -235,7 +239,8 @@ function howLines(map: NumerologyMap, vi: boolean) {
   return lines;
 }
 
-function Result({ map, name, language, onShare, onAddName, onCompared }: { map: NumerologyMap; name: string; language: Language; onShare?: () => void; onAddName: () => void; onCompared?: () => void }) {
+function Result({ map, name, language, onShare, onAddName, onCompared, onRequestPrivateMessage }: { map: NumerologyMap; name: string; language: Language; onShare?: () => void; onAddName: () => void; onCompared?: () => void;
+  onRequestPrivateMessage?: Props["onRequestPrivateMessage"] }) {
   const vi = language === "vi";
   const [picked, setPicked] = useState<NumerologyKind | null>(null);
   const present = Object.keys(map.grid.counts).map(Number).sort((a, b) => a - b);
@@ -338,7 +343,8 @@ function Result({ map, name, language, onShare, onAddName, onCompared }: { map: 
 
       <NumerologyTime map={map} language={language} />
       <NumerologyCompat map={map} language={language} onCompared={onCompared} />
-      <PrivateMessageSoon language={language} />
+      <PrivateMessageSoon language={language} onRequestMessage={onRequestPrivateMessage
+        ? () => onRequestPrivateMessage(buildPrivateMessagePayload(map, localToday(), language)) : undefined} />
 
       <View style={s.section}>
         {onShare ? (

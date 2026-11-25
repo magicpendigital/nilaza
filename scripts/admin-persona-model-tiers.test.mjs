@@ -1,6 +1,6 @@
 // Hạng model người dẫn (Owner decision 25/11/2026, docs/proposals/CHAT_KNOWLEDGE_CHARACTERS_2026-11-24.vi.md section 6):
 // tier editor, persona -> tier map, Lưu nháp / Xem lại & phát hành through get_ai_persona_model_tiers /
-// save_ai_persona_model_tiers_draft / publish_ai_persona_model_tiers (migration 20261125090000). The Admin spec copy, the
+// save_ai_persona_model_tiers_draft / publish_ai_persona_model_tiers (migration 20261125100000). The Admin spec copy, the
 // JSON defaults and the SQL spec must match, and the client validator returns the SQL validator's codes.
 import assert from "node:assert/strict";
 import fs from "node:fs";
@@ -13,7 +13,7 @@ after(() => { for (const dom of openDoms) dom.window.close(); });
 const tick = (dom) => new Promise((resolve) => dom.window.setTimeout(resolve, 0));
 const drain = async (dom) => { for (let i = 0; i < 12; i += 1) await tick(dom); };
 const JSON_SPEC = JSON.parse(read("packages/agent-config/persona-model-tiers.json"));
-const MIGRATION = read("supabase/migrations/20261125090000_persona_model_tiers.sql");
+const MIGRATION = read("supabase/migrations/20261125100000_persona_model_tiers.sql");
 const SEED = JSON.parse(read("apps/admin/generated/content-seed.json"));
 const clone = (value) => JSON.parse(JSON.stringify(value));
 const defaults = () => ({ tiers: clone(JSON_SPEC.tiers), personaTiers: clone(JSON_SPEC.personaTiers), platform: { wallClockMs: 150000 } });
@@ -286,7 +286,7 @@ test("model tiers: a missing migration says so and keeps the defaults visible; s
   await drain(missing.dom);
   const note = $(missing, "[data-pmt-missing]");
   assert.match(note.textContent, /Chưa áp migration/);
-  assert.match(note.textContent, /20261125090000/);
+  assert.match(note.textContent, /20261125100000/);
   assert.equal(missing.c.querySelector("[data-pmt-save]"), null);
   assert.equal(missing.c.querySelectorAll("[data-pmt-persona-row]").length, 19);
 

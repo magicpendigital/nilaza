@@ -270,6 +270,32 @@ const features = [
     ],
     prompt:
       "Choose exactly one reader slug from the candidates for this question and cards. Return only the slug."
+  },
+  // 2026-11-25 (B1-B8): code defaults mirror packages/agent-config/model-routing.json; switch seeded off.
+  {
+    id: "numerology_private_message",
+    name: "Numerology Private Message",
+    icon: "N",
+    version: "2026-11-25-numerology-message-v1",
+    status: "Active",
+    risk: "Medium",
+    provider: "openrouter",
+    model: "deepseek/deepseek-v4.1-flash",
+    fallbackProvider: "openrouter",
+    fallbackModel: "xiaomi/mimo-v2.6-flash",
+    schema: "numerology_private_message_v1",
+    safety: "Approved blocks only, strict output check",
+    description: "Premium, once a day: joins 3-5 approved Numerology blocks into one short message. The app sends computed numbers and block ids only.",
+    fields: [
+      field("language", "Language", "low", true, "vi"),
+      field("numbers", "Computed numbers", "medium", true, "life path, birthday, cycles"),
+      field("blockIds", "Content block ids", "low", true, "up to 16"),
+      field("userName", "User name", "medium", false, "not sent"),
+      field("birthDate", "Birth date", "high", false, "not sent"),
+      field("journalHistory", "Journal history", "high", false, "not sent")
+    ],
+    prompt:
+      "Join 3 to 5 of the sent Numerology blocks into one gentle reflective message. Use only the block text; no predictions, money, health or relationship verdicts."
   }
 ];
 
@@ -1249,7 +1275,7 @@ function renderDetailPanel() {
     return;
   }
 
-  // 25/11: model tier per chat persona (apps/admin/persona-model-tiers.js, migration 20261125090000).
+  // 25/11: model tier per chat persona (apps/admin/persona-model-tiers.js, migration 20261125100000).
   if (state.detail === "personaModelTiers") {
     if (window.NilazaPersonaModelTiers) window.NilazaPersonaModelTiers.mount(detailPanel);
     else detailPanel.innerHTML = renderNotAppliedNote("Hạng model người dẫn", "Không tải được mô-đun Hạng model người dẫn. Tải lại trang.");
