@@ -8,9 +8,12 @@ import { numerologyModel, type ShareRequest } from "../share/shareCardContent";
 import { buildNumerologyMap, gridLayout, reduceNumber, type ArrowId, type NumerologyMap, type NumerologyNumber } from "./calc";
 import { arrowLabel, arrowNotes, arrowText, digitLine, digitNote, kindFrame, kindTitle, numberBlock, numerologyContentReviewed, type NumerologyKind } from "./content";
 import { cleanName, loadSavedName, nameMaxLength, saveName, type NumerologyStorage } from "./store";
+import { NumerologyCompat, PrivateMessageSoon } from "./NumerologyCompat";
+import { NumerologyTime } from "./NumerologyTime";
 
 // Layout follows the Design canvas screens "Bản đồ số, nhập thông tin" (NumInput) and "Bản đồ số" (NumMap),
-// sections "Bạn" and "Biểu đồ ngày sinh" only. "Năm", "Hợp số", the AI report and "Hỏi Nilaza" belong to later batches.
+// sections "Bạn" and "Biểu đồ ngày sinh"; Lô 5 adds "Nhịp thời gian", "Hợp số" and the "Lời nhắn riêng · Sắp có" card.
+// The AI report and "Hỏi Nilaza" belong to later batches.
 
 const teal = "#9FD3CF";
 const amber = "#E3B583";
@@ -96,7 +99,9 @@ export function NumerologyScreen({ language, storage, initialBirthDate, onBirthD
         </Text>
       ) : null}
       {map ? (
-        <Result map={map} name={shownName} language={language} onShare={share} onAddName={() => setMap(null)} />
+        <Result map={map} name={shownName} language={language} onShare={share} onAddName={() => setMap(null)}
+          // No metadata: the other person's date, name and numbers never reach an event.
+          onCompared={() => onEvent?.("numerology_compat_compared")} />
       ) : (
         <Input
           language={language}
@@ -230,7 +235,7 @@ function howLines(map: NumerologyMap, vi: boolean) {
   return lines;
 }
 
-function Result({ map, name, language, onShare, onAddName }: { map: NumerologyMap; name: string; language: Language; onShare?: () => void; onAddName: () => void }) {
+function Result({ map, name, language, onShare, onAddName, onCompared }: { map: NumerologyMap; name: string; language: Language; onShare?: () => void; onAddName: () => void; onCompared?: () => void }) {
   const vi = language === "vi";
   const [picked, setPicked] = useState<NumerologyKind | null>(null);
   const present = Object.keys(map.grid.counts).map(Number).sort((a, b) => a - b);
@@ -330,6 +335,10 @@ function Result({ map, name, language, onShare, onAddName }: { map: NumerologyMa
       {map.grid.full.map((id) => <ArrowCard key={id} id={id} language={language} />)}
       {map.grid.empty.length ? <Text testID="arrows-empty-note" style={s.hint}>{`${notes.empty} ${vi ? "Ở bạn, các đường trống là" : "For you, the empty lines are"} ${map.grid.empty.join(", ")}.`}</Text> : null}
       <Text style={s.hint}>{notes.label}</Text>
+
+      <NumerologyTime map={map} language={language} />
+      <NumerologyCompat map={map} language={language} onCompared={onCompared} />
+      <PrivateMessageSoon language={language} />
 
       <View style={s.section}>
         {onShare ? (

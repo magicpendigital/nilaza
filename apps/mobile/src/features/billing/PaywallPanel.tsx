@@ -13,16 +13,27 @@ const ANDROID_PACKAGE = "app.nilaza.mobile";
 export const playSubscriptionsUrl = `https://play.google.com/store/account/subscriptions?package=${ANDROID_PACKAGE}`;
 
 // Benefits in the app's own words, without fixed counts or open-ended AI promises (Owner 15/11).
+// Lô 6 (25/11/2026): each line is backed by code today. Astrology AI: ai-astrology-insight/handler.ts needs a paid
+// entitlement or the tier switch. Premium decks and guides: App.tsx locks "premium-preview" decks and personas for a
+// free displayed tier. "More Tarot draws" was removed: Tarot AI is 1 per day for every account (account-tier-policy.json).
 export const paywallBenefits = [
   { vi: "Đọc sâu lá số với Chiêm tinh AI", en: "Deep chart reads with Astrology AI" },
   { vi: "Các bộ bài và người dẫn đường dành cho Premium", en: "Premium decks and guides" },
-  { vi: "Nhiều lượt rút Tarot hơn mỗi ngày", en: "More Tarot draws each day" },
+];
+
+// Planned, not built, and not part of what a purchase gives today. Shown muted under a "Sắp có" label.
+export const paywallComingSoon = [
+  { vi: "Bản đồ số AI: Lời nhắn riêng, từ các con số đã tính", en: "Numerology AI: a personal note, from your computed numbers" },
+  { vi: "Bản đồ số AI: Báo cáo tổng hợp", en: "Numerology AI: a combined report" },
+  { vi: "Hai hệ cùng nhìn bạn: chiêm tinh và bản đồ số", en: "Two systems, one view: astrology and numerology together" },
 ];
 
 const copy = {
   vi: {
     title: "Nilaza Premium",
     intro: "Một gói Premium, trả theo tháng hoặc theo năm.",
+    comingSoon: "Sắp có",
+    comingSoonNote: "Chưa có trong gói hiện tại.",
     monthly: "Hằng tháng",
     annual: "Hằng năm",
     perMonth: "/ tháng",
@@ -64,6 +75,8 @@ const copy = {
   en: {
     title: "Nilaza Premium",
     intro: "One Premium plan, paid monthly or yearly.",
+    comingSoon: "Coming soon",
+    comingSoonNote: "Not part of the plan yet.",
     monthly: "Monthly",
     annual: "Yearly",
     perMonth: "/ month",
@@ -315,6 +328,21 @@ export function PaywallPanel({ language, userId, premium, onSignIn, openUrl = (u
           <Text style={s.benefit}>{language === "vi" ? item.vi : item.en}</Text>
         </View>
       ))}
+      <View testID="paywall-coming-soon" style={s.soon}>
+        <View style={s.soonHead}>
+          <Text style={s.soonPill}>{t.comingSoon}</Text>
+          <Text style={s.soonNote}>{t.comingSoonNote}</Text>
+        </View>
+        {paywallComingSoon.map((item) => {
+          const label = language === "vi" ? item.vi : item.en;
+          return (
+            <View key={item.en} accessible accessibilityLabel={`${t.comingSoon}: ${label}`} style={s.inline}>
+              <Ionicons name="time-outline" size={16} color={colors.moon} />
+              <Text style={s.soonItem}>{label}</Text>
+            </View>
+          );
+        })}
+      </View>
       <View accessibilityRole="radiogroup" style={s.options}>
         {options.map((item) => {
           const isSelected = selected?.plan === item.plan;
@@ -369,6 +397,11 @@ const s = StyleSheet.create({
   title: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 21, lineHeight: 26 },
   body: { color: "#E9E2D6", fontFamily: typography.bodyFontFamily, fontSize: 14.5, lineHeight: 21 },
   benefit: { flex: 1, color: "#E9E2D6", fontFamily: typography.bodyFontFamily, fontSize: 14, lineHeight: 20 },
+  soon: { gap: 8, padding: 12, borderRadius: radius.card, borderWidth: 1, borderColor: "rgba(247, 241, 230, 0.12)", opacity: 0.85 },
+  soonHead: { flexDirection: "row", alignItems: "center", gap: 8, flexWrap: "wrap" },
+  soonPill: { color: colors.charcoal, backgroundColor: colors.moon, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 12, lineHeight: 16, paddingHorizontal: 10, paddingVertical: 2, borderRadius: radius.pill, overflow: "hidden" },
+  soonNote: { color: "#A8A096", fontFamily: typography.bodyFontFamily, fontSize: 12.5, lineHeight: 18 },
+  soonItem: { flex: 1, color: "#A8A096", fontFamily: typography.bodyFontFamily, fontSize: 13.5, lineHeight: 19 },
   inline: { flexDirection: "row", alignItems: "center", gap: 8 },
   options: { gap: 10 },
   option: { minHeight: 56, flexDirection: "row", alignItems: "center", gap: 12, paddingHorizontal: 14, paddingVertical: 10, borderRadius: radius.card, borderWidth: 1, borderColor: "rgba(247, 241, 230, 0.2)" },

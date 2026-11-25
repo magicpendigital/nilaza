@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 1,
+  "taskId": "lo5-numerology-time-compat-2026-11-25",
+  "ownerAgent": "mobile_agent",
+  "lane": "Mobile + content: Lô 5 of the Bầu trời hôm nay / Bản đồ số / Tôi là ai plan (Nhịp thời gian, Hợp số, AI 'Lời nhắn riêng' privacy contract)",
+  "goal": "Do the app-side part of Lô 5 from docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md sections 3, 4, 5 and 8: (1) Nhịp thời gian on the Bản đồ số result: personal year, month and day (year changes on 1 January, no masters), the four pinnacles with approximate age ranges and the current one, and the four challenges (0 allowed, no past-life wording); (2) Hợp số: compare the person's life path, soul urge and expression with a second person's, describing common ground and tension only (no score, no %, no 'hợp/khắc'), with the second person's birth date and name kept in memory only (never saved, sent, shared or logged); (3) AI 'Lời nhắn riêng' as a 'Sắp có' card plus a pure, tested payload builder that contains only computed numbers and content block ids, never a name or a birth date. The backend part (Edge Function, prompt, quota, SQL) is written up as a proposal for separate Owner approvals and is not coded or deployed. The 'tách rút lá khỏi AI diễn giải' item is already on main (PR #46, Gói 0); it only waits for the Owner to apply migration 20261116100000 and deploy ai-tarot-reading, so it is reported, not re-implemented.",
+  "successCriteria": [
+    "calc.ts gains personalCycles(birth, today), pinnacles(birth) with age ranges, challenges(birth) and currentPinnacle(birth, today); every case of the masters11_22_only golden variant and the personalCycles golden cases matches 100%.",
+    "Personal year changes on 1 January (local device date) and never keeps 11/22; pinnacles keep 11/22 by D1 (no 33); challenges reduce parts to one digit and allow 0.",
+    "Bản đồ số result shows a 'Nhịp thời gian' section (year, month, light day line, pinnacle stages with approximate ages and the current stage marked, challenges) from numerology-blocks.json.",
+    "Hợp số section: the second person's birth date (and optional name) are held in component state only; no storage key, no share card, no analytics metadata, no network request contains them; leaving the screen clears them.",
+    "Hợp số text has no score, percentage, ranking or 'hợp/khắc' wording; it lists common ground and tension per compared number.",
+    "The AI payload builder output contains only number labels, block ids, language and a version; a test proves the name, normalized name and birth date never appear in its serialized form.",
+    "'Lời nhắn riêng' shows a 'Sắp có' label and states what would be sent; no AI call is made.",
+    "New content keys are bilingual with accented Vietnamese, marked draft with the existing review block, and pass the banned-word scan in tests and validate:data.",
+    "tsc, mobile jest suite, mobile:check and validate:data pass."
+  ],
+  "writeScope": [
+    "apps/mobile/src/features/numerology/calc.ts",
+    "apps/mobile/src/features/numerology/compat.ts",
+    "apps/mobile/src/features/numerology/aiPayload.ts",
+    "apps/mobile/src/features/numerology/content.ts",
+    "apps/mobile/src/features/numerology/NumerologyScreen.tsx",
+    "apps/mobile/src/features/numerology/NumerologyTime.tsx",
+    "apps/mobile/src/features/numerology/NumerologyCompat.tsx",
+    "apps/mobile/src/features/numerology/__tests__/calc.test.ts",
+    "apps/mobile/src/features/numerology/__tests__/cycles.test.ts",
+    "apps/mobile/src/features/numerology/__tests__/compat.test.ts",
+    "apps/mobile/src/features/numerology/__tests__/aiPayload.test.ts",
+    "apps/mobile/src/features/numerology/__tests__/content.test.ts",
+    "apps/mobile/src/features/numerology/__tests__/NumerologyScreen.test.tsx",
+    "packages/content/data/numerology-blocks.json",
+    "scripts/validate-data.mjs",
+    "docs/proposals/NUMEROLOGY_AI_PRIVATE_MESSAGE_BACKEND_2026-11-25.vi.md",
+    "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "No Edge Function, prompt, model route, quota, feature switch, SQL or migration is added or changed; the AI backend is a written proposal only.",
+    "Tarot draw/interpret separation: no code change (already on main via PR #46); its migration and deploy stay Owner actions.",
+    "apps/mobile/App.tsx is not changed (the numerology screen already receives what it needs).",
+    "share-events allowlist, share landing page and Who Am I chips are not changed.",
+    "No new storage key: the second person's data is never stored."
+  ],
+  "impact": {
+    "entryPoint": "Khám phá -> Bản đồ số -> result screen: new sections 'Nhịp thời gian', 'Hợp số' and the 'Lời nhắn riêng · Sắp có' card below the existing layers 1-2. Back behaviour unchanged.",
+    "dataWrite": "None new. The person's own name stays under nilaza.numerology.v1 as before; the second person's date and name live only in React state.",
+    "backendContract": "None. aiPayload.ts defines the future request body shape (numbers + block ids) for the proposal; nothing calls it at runtime.",
+    "adminVisibility": "No Admin field or metric.",
+    "privacySafety": "Second person's birth data is another person's data: memory only, not sent, not logged, not in share cards; the proposal lists the Data safety wording the Owner must confirm before any release that sends numbers to AI.",
+    "observability": "Optional events numerology_time_viewed / numerology_compat_compared carry no date, no name and no number.",
+    "rollback": "Revert the commit; no data migration."
+  },
+  "canonicalContracts": [
+    "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md",
+    "docs/proposals/data/numerology-golden-2026-11-23.json",
+    "packages/content/data/numerology-blocks.json"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile route and checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md",
+      "reason": "Rules 6-10 (cycles, pinnacles, challenges, compatibility), content rules, privacy and AI (section 5), lots (section 8).",
+      "sha256": "0d552703c0a7817b842d8a1f44f65e4103a54669212071d7ac1b86d1e8d48d1f"
+    },
+    {
+      "path": "docs/proposals/data/numerology-golden-2026-11-23.json",
+      "reason": "Golden cases for pinnacles, challenges, ages and personal cycles.",
+      "sha256": "8b10508f78ccdcc5919124a64e522b8bbaf66930186db903f288eb23eefa3559"
+    },
+    {
+      "path": "packages/content/data/numerology-blocks.json",
+      "reason": "Existing draft content and review block to extend.",
+      "sha256": "d689430140530ffbda4c4de80b6c6abc13c5ceb44dcc87e48e4d37ebcd0ec461"
+    },
+    {
+      "path": "apps/mobile/src/features/numerology/calc.ts",
+      "reason": "Pure calculation module to extend.",
+      "sha256": "8965d234a138e9ce4f09ca1933d28b97343142615cf4e07b16aa891caf730bbc"
+    },
+    {
+      "path": "apps/mobile/src/features/numerology/content.ts",
+      "reason": "Content accessors and banned-word text walk.",
+      "sha256": "1d205a9ed282d2dc2e4d5c90865da22d70c7aa9e5d272dddbe407b0fda86902a"
+    },
+    {
+      "path": "apps/mobile/src/features/numerology/NumerologyScreen.tsx",
+      "reason": "Result screen to extend.",
+      "sha256": "84b3c4e2573d8b7dd583292f09c6da0f70ddf5ea74da5d431da6520025638176"
+    },
+    {
+      "path": "scripts/validate-data.mjs",
+      "reason": "Content validation of numerology-blocks.json.",
+      "sha256": "35effd3b2a4ce403d05548d70ce8addccf19d14fdfa9501349215a390ebcd051"
+    },
+    {
+      "path": "PLAN.md",
+      "reason": "Section 7 status of the lots.",
+      "sha256": "bdea172ab3258db1d4102e2c8bc9230fe8471f1fdee8aae0e7f0e0ecf019d7eb"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before code edits; verified vs not verified in handoff."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "AI part limited to a privacy payload contract and a proposal; every model call (sign-in, quota, switch, route, prompt) left for separate Owner approval as the skill requires."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Numerology rules come from the repository proposal already reviewed by the Owner on 24/11/2026; no library or API change."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No access change.",
+    "sensitiveData": "Second person's birth date and name are held only in component state; tests check they are not passed to storage, share or events. AI payload builder tested to exclude name and birth date.",
+    "secretsLogging": "No secret read, written or logged; .env not read.",
+    "externalInput": "Dates go through parseBirthDate (rejects impossible dates); names through normalizeName.",
+    "dependencies": "No package added or upgraded.",
+    "migrationRelease": "No SQL, no deploy, no store change. Content stays draft and the screen keeps the 'bản thử chờ người duyệt' note.",
+    "stopCondition": "Stop if a golden case does not match or tsc / the mobile test suite fails and cannot be fixed inside the write scope.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record written and preflight passed on a clean tree at origin/main 35c8f88 before any edit (25/11/2026); paths below were then edited inside this record's write scope (the branch also carries the sibling Lô 6 record's files).",
+    "paths": [
+      "PLAN.md",
+      "apps/mobile/src/features/numerology/NumerologyScreen.tsx",
+      "apps/mobile/src/features/numerology/__tests__/NumerologyScreen.test.tsx",
+      "apps/mobile/src/features/numerology/__tests__/content.test.ts",
+      "apps/mobile/src/features/numerology/calc.ts",
+      "apps/mobile/src/features/numerology/content.ts",
+      "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md",
+      "packages/content/data/numerology-blocks.json",
+      "scripts/validate-data.mjs",
+      "apps/mobile/src/features/numerology/NumerologyCompat.tsx",
+      "apps/mobile/src/features/numerology/NumerologyTime.tsx",
+      "apps/mobile/src/features/numerology/__tests__/aiPayload.test.ts",
+      "apps/mobile/src/features/numerology/__tests__/compat.test.ts",
+      "apps/mobile/src/features/numerology/__tests__/cycles.test.ts",
+      "apps/mobile/src/features/numerology/aiPayload.ts",
+      "apps/mobile/src/features/numerology/compat.ts",
+      "docs/proposals/NUMEROLOGY_AI_PRIVATE_MESSAGE_BACKEND_2026-11-25.vi.md"
+    ]
+  },
+  "validationCommands": [
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "npm run mobile:check",
+    "npm run validate:data"
+  ],
+  "managerTestPath": "Khám phá -> Bản đồ số -> nhập ngày sinh 15/03/2000 -> xem 'Nhịp thời gian' (năm cá nhân, các giai đoạn đỉnh cao 0–34, 35–43, 44–52, 53+) -> 'Hợp số': nhập ngày sinh người kia -> đọc điểm chung / còn căng, không có điểm số -> rời màn rồi quay lại: ngày người kia đã mất -> thẻ 'Lời nhắn riêng · Sắp có'.",
+  "residualRisk": "Content is AI-drafted and unreviewed by a human expert; must not ship publicly before a reviewer is named. Not tested on a phone (large text, TalkBack).",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

@@ -1,5 +1,6 @@
 import blocks from "../../../../../../packages/content/data/numerology-blocks.json";
 import { arrowLines, numberFrom } from "../calc";
+import * as content from "../content";
 import { allNumerologyText, arrowLabel, arrowText, digitLine, numberBlock, numerologyContentReviewed } from "../content";
 
 // Words the proposal (section 4) bans from numerology content, Vietnamese and English.
@@ -47,4 +48,40 @@ test("the store is a draft until a named human reviewer approves it", () => {
   expect(blocks.review.status).toBe("draft");
   expect(blocks.review.reviewer).toBeNull();
   expect(numerologyContentReviewed).toBe(false);
+});
+
+test("Lô 5 keys: personal cycles, pinnacles, challenges, relationship and the private-message card exist in both languages", () => {
+  const texts = allNumerologyText();
+  for (const language of ["vi", "en"] as const) {
+    for (let n = 1; n <= 9; n += 1) {
+      const year = content.personalYearBlock(n, language);
+      expect(year.title.length).toBeGreaterThan(3);
+      expect(year.leans.length).toBeGreaterThan(8);
+      expect(year.question.endsWith("?")).toBe(true);
+      expect(content.personalMonthLine(n, language).length).toBeGreaterThan(8);
+      expect(content.personalDayLine(n, language).length).toBeGreaterThan(8);
+      expect(content.relationshipLine(numberFrom(n), language).length).toBeGreaterThan(8);
+    }
+    for (const value of [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 22]) expect(content.pinnacleNumberLine(numberFrom(value), language).length).toBeGreaterThan(8);
+    for (const stage of [1, 2, 3, 4] as const) expect(content.pinnacleStageLine(stage, language).length).toBeGreaterThan(8);
+    for (let c = 0; c <= 8; c += 1) expect(content.challengeLine(c, language).length).toBeGreaterThan(8);
+    for (const relation of ["same", "sameParity", "differentParity"] as const) {
+      const pair = content.relationshipPair(relation, language);
+      expect(pair.common.length).toBeGreaterThan(8);
+      expect(pair.tension.length).toBeGreaterThan(8);
+    }
+    for (const frame of [content.personalYearFrame, content.personalMonthFrame, content.personalDayFrame, content.pinnacleFrame, content.challengeFrame, content.relationshipFrame, content.relationshipPrivacyNote]) {
+      expect(frame(language).length).toBeGreaterThan(8);
+    }
+    const card = content.privateMessageCard(language);
+    expect(card.title.length).toBeGreaterThan(3);
+    expect(card.soon.length).toBeGreaterThan(3);
+  }
+  expect(content.privateMessageCard("vi").soon).toBe("Sắp có");
+  // The walk used by the banned-word test reaches the new keys.
+  expect(texts).toContain(content.relationshipPair("same", "vi").common);
+  expect(texts).toContain(content.challengeLine(0, "en"));
+  // No past-life wording for challenges, and Vietnamese keeps its accents.
+  expect(content.challengeLine(0, "vi")).toMatch(/[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/);
+  expect(texts.join(" ")).not.toMatch(/kiếp trước|past life/i);
 });
