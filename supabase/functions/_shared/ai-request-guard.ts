@@ -87,7 +87,12 @@ export async function readBoundedJson(req: Request, now: () => number): Promise<
   }
 }
 
-export async function guardAiJsonRequest(req: Request, deps: Dependencies) {
+/**
+ * Verified sign-in only, with no body read (numerology_private_message, 2026-11-25): a function that must check its
+ * switch and quota before touching the request body calls this, then readBoundedJson. guardAiJsonRequest is the two
+ * steps together and behaves exactly as before.
+ */
+export async function authenticateAiRequest(req: Request, deps: Omit<Dependencies, "bodyClock">) {
   if (!deps.configured) throw new AiRequestError(503, "ai_unavailable");
   const authorization = req.headers.get("Authorization") ?? "";
   if (authorization.length > 16391) throw new AiRequestError(401, "authentication_required");
@@ -100,7 +105,12 @@ export async function guardAiJsonRequest(req: Request, deps: Dependencies) {
       user.id === "00000000-0000-0000-0000-000000000000" || user.isAnonymous !== false) {
     throw new AiRequestError(401, "authentication_required");
   }
+  return { userId: user.id };
+}
+
+export async function guardAiJsonRequest(req: Request, deps: Dependencies) {
+  const { userId } = await authenticateAiRequest(req, deps);
   // No body read/parse, prompt lookup or provider work before verified auth.
   const input = await readBoundedJson(req, deps.bodyClock ?? (() => performance.now()));
-  return { userId: user.id, input };
+  return { userId, input };
 }

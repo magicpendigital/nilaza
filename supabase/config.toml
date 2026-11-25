@@ -56,6 +56,11 @@ verify_jwt = true
 
 [functions.ai-astrology-insight]
 verify_jwt = true
+
+# Numerology private message (25/11): signed-in Premium accounts only; the function checks the JWT again, refuses anonymous
+# accounts and stays off (switch seeded enabled = false) until the Owner turns it on.
+[functions.ai-numerology-message]
+verify_jwt = true
 # Paths to self-signed certificate pair.
 # cert_path = "../certs/my-cert.pem"
 # key_path = "../certs/my-key.pem"

@@ -10,6 +10,7 @@ import { parseAdminAccess } from "./features/owner/access";
 import type { AstrologyAiInvocation, AstrologyAiInsightResponse, AstrologyAiInsightResult } from "./features/astrology/astrologyAiInsight";
 import { parseTarotClarifier, parseTarotGuestDraw, parseTarotServerDraw, type TarotClarifier, type TarotGuestDraw, type TarotServerDraw } from "./features/tarot/serverDraw";
 import { MAX_NOTE_ATTEMPTS, parseReaderSuggestion, parseTarotNoteResponse, type ReaderAiSuggestion, type TarotNoteOutcome } from "./features/tarot/tarotNote";
+import type { PrivateMessagePayload } from "./features/numerology/aiPayload";
 import {
   ChatHandoffContext,
   DailyInsight,
@@ -361,6 +362,7 @@ const supabaseFunctionPathMap: Record<string, string> = {
   "/ai/persona-chat": "/ai-persona-chat",
   "/ai/ai-council": "/ai-council",
   "/ai/tarot-reading": "/ai-tarot-reading",
+  "/ai/numerology-message": "/ai-numerology-message",
   "/tarot/guest-draw": "/tarot-guest-draw",
   "/ai/daily-insight": "/ai-daily-insight",
   "/ai/daily-zodiac-pulse": "/ai-daily-zodiac-pulse",
@@ -637,7 +639,12 @@ export async function generateOracleTurn(
 type TarotResponse = { status: number; body: Record<string, unknown> };
 
 /** One POST to ai-tarot-reading that keeps the status and body (P1-A needs reason, nextDrawAt and retry hints). */
-async function postTarot(input: unknown, backendOptions: BackendOptions, patienceMs: number, correlation?: AnswerCorrelation): Promise<TarotResponse | null> {
+function postTarot(input: unknown, backendOptions: BackendOptions, patienceMs: number, correlation?: AnswerCorrelation): Promise<TarotResponse | null> {
+  return postKeepingStatus("/ai/tarot-reading", input, backendOptions, patienceMs, correlation);
+}
+
+/** One POST that keeps the status and body; null when signed out or cancelled, BackendUnavailableError when unreachable. */
+async function postKeepingStatus(path: string, input: unknown, backendOptions: BackendOptions, patienceMs: number, correlation?: AnswerCorrelation): Promise<TarotResponse | null> {
   const options = currentOptions(backendOptions);
   if (!options.baseUrl) return null;
   const controller = new AbortController();
@@ -649,7 +656,7 @@ async function postTarot(input: unknown, backendOptions: BackendOptions, patienc
     const headers: Record<string, string> = { "Content-Type": "application/json", ...(correlation ? answerCorrelationHeaders(correlation) : {}) };
     if (options.apiKey) headers.apikey = options.apiKey;
     if (options.authToken) headers.Authorization = `Bearer ${options.authToken}`;
-    const response = await fetch(resolveBackendPath(options.baseUrl, "/ai/tarot-reading"), { method: "POST", headers, body: JSON.stringify(input), signal: controller.signal });
+    const response = await fetch(resolveBackendPath(options.baseUrl, path), { method: "POST", headers, body: JSON.stringify(input), signal: controller.signal });
     if (options.session?.active === false) return null;
     const body = await response.json().catch(() => undefined) as unknown;
     return { status: response.status, body: body && typeof body === "object" && !Array.isArray(body) ? body as Record<string, unknown> : {} };
@@ -752,6 +759,49 @@ export async function requestTarotNote(drawId: string, options: BackendOptions):
     await wait(outcome.retryAfterSeconds * 1000);
   }
   return { kind: "unavailable", reason: "busy" };
+}
+
+/** What the Numerology "Lời nhắn riêng" card shows after one request (2026-11-25, B1-B8). */
+export type NumerologyMessageOutcome =
+  | { kind: "message"; message: string; blockIds: string[]; nextMessageAt?: string }
+  /** feature_paused or content_not_approved: the card stays "Sắp có" and shows no button. */
+  | { kind: "soon" }
+  | { kind: "premium_required" }
+  /** Today's message was delivered, or the three attempts are used. */
+  | { kind: "daily_limit"; nextMessageAt?: string }
+  /** A model safety block: calm, no retry today. */
+  | { kind: "blocked" }
+  | { kind: "unavailable"; reason: "offline" | "busy" | "auth" };
+
+/** Maps one ai-numerology-message answer. Never invents message text. */
+export function parseNumerologyMessageResponse(status: number, body: Record<string, unknown>): NumerologyMessageOutcome {
+  const error = typeof body.error === "string" ? body.error : "";
+  const nextMessageAt = typeof body.nextMessageAt === "string" && body.nextMessageAt ? body.nextMessageAt : undefined;
+  if (error === "feature_paused" || error === "content_not_approved") return { kind: "soon" };
+  if (status === 403 && error === "premium_required") return { kind: "premium_required" };
+  if (status === 429 && error === "daily_limit_reached") return { kind: "daily_limit", nextMessageAt };
+  if (status === 401) return { kind: "unavailable", reason: "auth" };
+  if (body.moderationStatus === "blocked") return { kind: "blocked" };
+  if (status !== 200) return { kind: "unavailable", reason: "busy" };
+  const message = typeof body.message === "string" ? body.message.trim() : "";
+  const blockIds = Array.isArray(body.blockIds) ? body.blockIds.filter((id): id is string => typeof id === "string") : [];
+  if (!message) return { kind: "unavailable", reason: "busy" };
+  return { kind: "message", message, blockIds, nextMessageAt };
+}
+
+/**
+ * 2026-11-25 (B1-B8): asks ai-numerology-message for today's private message. The payload holds computed numbers and
+ * block ids only (aiPayload.ts). Signed-in accounts only; never throws and never returns canned text.
+ */
+export async function requestNumerologyMessage(payload: PrivateMessagePayload, options: BackendOptions): Promise<NumerologyMessageOutcome> {
+  const current = currentOptions(options);
+  if (!current.baseUrl || !current.authToken) return { kind: "unavailable", reason: "auth" };
+  try {
+    const result = await postKeepingStatus("/ai/numerology-message", payload, options, 45000);
+    return result ? parseNumerologyMessageResponse(result.status, result.body) : { kind: "unavailable", reason: "auth" };
+  } catch (error) {
+    return { kind: "unavailable", reason: error instanceof BackendUnavailableError ? error.reason : "busy" };
+  }
 }
 
 /**

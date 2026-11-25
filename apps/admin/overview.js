@@ -16,7 +16,8 @@
     ["ai_council", "Hội đồng"],
     ["astrology_report", "Astrology report — đang gỡ"],
     ["tarot_note", "Ghi chú riêng Tarot"],
-    ["reader_router", "Gợi ý người đọc (tầng AI)"]
+    ["reader_router", "Gợi ý người đọc (tầng AI)"],
+    ["numerology_private_message", "Lời nhắn riêng Thần số học"]
   ];
   const featureLabel = id => features.find(([key]) => key === id)?.[1] || "Tính năng khác";
   const can = capability => window.NilazaAdminSession?.capabilities?.includes(capability) === true;

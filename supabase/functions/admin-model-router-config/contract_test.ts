@@ -60,3 +60,10 @@ Deno.test("Batch C contract: decision steps only for reader_router; primary/fall
   const note = modelRouteRpcPayload({ ...legacy, feature: "tarot_note", responseSchema: "tarot_note_output_v1", maxTokens: 700 });
   assert(note.feature === "tarot_note", "tarot_note accepted");
 });
+
+Deno.test("2026-11-25 contract: numerology_private_message routes publish like any chat feature, without decision steps", () => {
+  const chat = step("openrouter", "deepseek/deepseek-v4.1-flash", { timeoutMs: 20000, maxTokens: 600, temperature: 0.6, jsonMode: true });
+  const numerology = { ...legacy, feature: "numerology_private_message", responseSchema: "numerology_private_message_v1", maxTokens: 600, temperature: 0.6 };
+  assert(modelRouteRpcPayload(numerology).feature === "numerology_private_message", "numerology_private_message accepted");
+  throws(() => modelRouteRpcPayload({ ...numerology, steps: [step("openrouter_decisions", "typesafe/jev-1.14"), chat], note: "Ghi chú hợp lệ" }), /only allowed for reader_router/, "decision step on numerology");
+});

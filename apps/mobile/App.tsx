@@ -155,7 +155,7 @@ import { JournalHome } from "./src/features/journal/JournalHome";
 import { savedReadingCards } from "./src/features/journal/savedReading";
 import { cardInline, cardSubtitle, cardTitle } from "./src/features/tarot/cardName";
 import { composeLocalReading, deepReadingHook } from "./src/features/tarot/localReading";
-import { requestTarotNote, requestTarotReaderSuggestion, sendProductEvent, type ProductEventName } from "./src/backendClient";
+import { requestNumerologyMessage, requestTarotNote, requestTarotReaderSuggestion, sendProductEvent, type ProductEventName } from "./src/backendClient";
 import { ReaderSuggestPanel, useReaderSuggestion, type ReaderOption, type ReaderSuggestReading } from "./src/features/tarot/ReaderSuggestPanel";
 import { markReaderMismatchShown, ReaderMismatchSheet, readerMismatchAlreadyShown } from "./src/features/tarot/ReaderMismatchSheet";
 import { TarotFreeNote, useTarotFreeNote } from "./src/features/tarot/TarotFreeNote";
@@ -6027,7 +6027,9 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
           <ScrollView style={{ flex: 1, minHeight: 0 }} contentContainerStyle={[styles.screen, { paddingHorizontal: adaptiveLayout.gutter }]} keyboardShouldPersistTaps="handled">
             <NumerologyScreen key={scope.key} language={language} storage={scope.userId ? storage : undefined}
               initialBirthDate={birthDate} onBirthDateChange={setBirthDate} onOpenShare={openShareSheet}
-              onEvent={(name, metadata) => recordEvent(name, metadata)} onBack={() => navigate("explore")} />
+              onEvent={(name, metadata) => recordEvent(name, metadata)}
+              onRequestPrivateMessage={tarotServerMode ? (payload) => requestNumerologyMessage(payload, backendOptions) : undefined}
+              onBack={() => navigate("explore")} />
           </ScrollView>
         ) : (
           <ScrollView

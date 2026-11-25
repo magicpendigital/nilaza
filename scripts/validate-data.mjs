@@ -515,7 +515,8 @@ for (const digit of ["0", ...nbDigits.slice(0, 8)]) assertNumText(numerologyBloc
 assertNumText(numerologyBlocks.relationship?.frame, "relationship.frame");
 assertNumText(numerologyBlocks.relationship?.privacyNote, "relationship.privacyNote");
 for (const pair of ["same", "sameParity", "differentParity"]) for (const field of ["common", "tension"]) assertNumText(numerologyBlocks.relationship?.pairs?.[pair]?.[field], "relationship.pairs." + pair + "." + field);
-for (const field of ["title", "soon", "body", "sends"]) assertNumText(numerologyBlocks.privateMessage?.[field], "privateMessage." + field);
+for (const field of ["title", "soon", "body", "sends", "action", "consentTitle", "consentBody", "consentConfirm", "consentCancel", "loading",
+  "resultTitle", "premiumNote", "dailyLimit", "unavailable", "retry", "blocked"]) assertNumText(numerologyBlocks.privateMessage?.[field], "privateMessage." + field);
 for (const key of ["personalYear", "personalMonth", "personalDay", "pinnacles", "challenges", "relationship", "privateMessage"]) scanSkyText(numerologyBlocks[key], "." + key, "numerology-blocks");
 const skyTopics = readJson("packages/content/data/astrology-topic-placements.json");
 for (const key of ["reminder", "birthTimeNote", "needsBirthTime"]) assertViText(skyTopics[key], `astrology-topic-placements.${key}`);

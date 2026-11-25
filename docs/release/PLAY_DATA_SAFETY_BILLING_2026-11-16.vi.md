@@ -53,6 +53,18 @@ RevenueCat cũng ghi: chỉ cần khai "chia sẻ" khi bật tích hợp gửi d
   - Nhật ký kỹ thuật thông báo thanh toán: mã sự kiện, loại, thời gian, mã người dùng ngẫu nhiên. Thời hạn lưu: **[CẦN OWNER QUYẾT]**.
   - Bản ghi giao dịch do Google Play giữ.
 
+### 2.4. Lời nhắn riêng Thần số học (thêm 25/11/2026, chỉ áp dụng khi bật tính năng)
+
+Chỉ cần khai phần này **khi Owner bật** công tắc `numerology_private_message` trong bản phát hành. Lúc viết, công tắc được tạo ở trạng thái **tắt** (migration `20261125090000`, chưa áp) và nội dung Thần số học còn bản nháp, nên hàm trả "Sắp có" và không gọi AI.
+
+| Nhóm (Play) | Loại dữ liệu | Thu thập | Chia sẻ | Bắt buộc? | Mục đích | Ghi chú |
+|---|---|---|---|---|---|---|
+| Hoạt động trong ứng dụng (App activity) | Nội dung khác do người dùng tạo (Other user-generated content) hoặc Hành động trong ứng dụng (App interactions), Owner chọn | **Có**, chỉ khi người dùng bấm "Gửi" | **Không** (nhà cung cấp mô hình AI qua OpenRouter xử lý thay mặt Nilaza, như các tính năng AI đã khai) | Không bắt buộc: người dùng chủ động gửi | Chức năng ứng dụng (App functionality) | Chỉ gửi các con số đã tính, mã khối nội dung và ngôn ngữ. **Không** gửi họ tên, ngày sinh, năm sinh hay tuổi. Lời nhắn **không** được lưu; máy chủ chỉ ghi số lần thử, thời điểm, ngôn ngữ, số khối và model (usage_events). Xử lý tạm thời (ephemeral) cho phần nội dung. |
+
+- Ngày sinh **không** rời điện thoại cho tính năng này, nên mục "ngày sinh" đã khai trước **không** đổi vì lời nhắn riêng.
+- Mã hóa khi truyền: HTTPS như các tính năng AI khác. Xóa tài khoản xóa các dòng usage_events như hiện có.
+- **Owner quyết** khi bật: chọn loại dữ liệu Play phù hợp nhất (gợi ý trên) và cập nhật trang quyền riêng tư (đã có mục "Lời nhắn riêng Thần số học (khi tính năng được bật)" ở bản vi/en).
+
 ## 3. Trang cửa hàng: đoạn mô tả gói đăng ký (nháp để Owner sửa)
 
 Chính sách của Google yêu cầu nói rõ: giá, chu kỳ thanh toán, việc tự gia hạn, cách hủy, và quyền lợi khi trả phí so với miễn phí. **Giá thật lấy từ Play Console**; không ghi số tiền cứng nếu chưa chốt.

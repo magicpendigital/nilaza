@@ -25,6 +25,7 @@ The mobile client maps API-style paths to Supabase function names:
 | `/ai/daily-insight` | `ai-daily-insight` |
 | `/ai/daily-zodiac-pulse` | `ai-daily-zodiac-pulse` |
 | `/ai/astrology-insight` | `ai-astrology-insight` |
+| `/ai/numerology-message` | `ai-numerology-message` |
 | `/profile/upsert` | `profile-upsert` |
 | `/journal/entries` | `journal-entries` |
 | `/notifications/register-device` | `notification-register-device` |
@@ -135,6 +136,7 @@ AI functions persist staging data when possible:
 - `ai-tarot-reading`: stores `tarot_readings` with selected card JSON, generated interpretation, and usage event.
 - `tarot-guest-draw` (Tarot v2 pack 1): public (`verify_jwt = false`), no database and no model. It returns the cards of one signed-out device, spread, topic and Vietnam day, derived from the `TAROT_GUEST_DRAW_SECRET` Edge secret that the Owner sets, so the same event always gets the same cards and `ai-tarot-reading` can keep them after sign-in (`guestDeviceId` on `draw`). Without the secret it answers 503 `guest_draw_unavailable` and the app shows a local preview card.
 - `ai-daily-insight`: stores a `usage_events` row for daily insight generation.
+- `ai-numerology-message` (Bản đồ số “Lời nhắn riêng”, 25/11/2026): signed-in Premium only, behind the `numerology_private_message` switch (missing row = off) and the approved-content gate. Switch, content, Premium and the daily quota (1 delivered message per Vietnam day, 2 failed attempts) are checked before the body is read; the body is limited to computed numbers and content block ids, and any other key (name, birth date) is rejected. It stores only `usage_events` rows, no message text.
 - `ai-daily-zodiac-pulse`: returns a daily Sun-sign reflection cue with explicit caveats, never invents Moon/Rising/aspects, and stores a `usage_events` row for staging diagnostics.
 - `ai-astrology-report` (retired 2026-11-15, Owner decision): the legacy server-side chart report was removed from the app and this repository. Charts are calculated on the device by `packages/astrology-core`; AI reads go through `ai-astrology-insight`. The deployed copy is deleted separately with Owner approval.
 - `ai-astrology-insight`: authenticated AI interpretation for the device-calculated canonical chart. It requires explicit fact-sharing consent, a server-verified Premium entitlement (`premium`, or the older `premium_astrology_ai`, judged by `_shared/premium-entitlement.ts`) or the account tier policy, an active `astrology_ai_insight_v1` route, and an active locale prompt. Raw birth details, coordinates, Journal, and chat history are excluded. The question is not stored in the report or ordinary usage metadata. The trace root remains open through parse, contract validation, report persistence, and response status. A sanitized report is stored under the authenticated user so they can revisit or delete it. A separate raw capture can only be requested by an opted-in Owner QA build, is encrypted in staging, and remains unreadable after 24 hours; its server gate is off by default.
