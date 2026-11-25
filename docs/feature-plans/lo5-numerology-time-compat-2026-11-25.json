@@ -78,7 +78,7 @@
     {
       "path": "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md",
       "reason": "Rules 6-10 (cycles, pinnacles, challenges, compatibility), content rules, privacy and AI (section 5), lots (section 8).",
-      "sha256": "0d552703c0a7817b842d8a1f44f65e4103a54669212071d7ac1b86d1e8d48d1f"
+      "sha256": "f91941131ccd1ca1f91282564c1f6ae25adff5f192d051a7346ec98a3d20ca75"
     },
     {
       "path": "docs/proposals/data/numerology-golden-2026-11-23.json",
@@ -113,7 +113,7 @@
     {
       "path": "PLAN.md",
       "reason": "Section 7 status of the lots.",
-      "sha256": "bdea172ab3258db1d4102e2c8bc9230fe8471f1fdee8aae0e7f0e0ecf019d7eb"
+      "sha256": "4a54c211ae1397b8a35148560cb266f548adc0c978c50c05d34e56c306d7543a"
     }
   ],
   "skillReview": [
