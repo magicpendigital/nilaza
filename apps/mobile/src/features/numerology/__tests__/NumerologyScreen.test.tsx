@@ -2,6 +2,7 @@ import React from "react";
 import { act, fireEvent, render, waitFor, within } from "@testing-library/react-native";
 import { NumerologyScreen } from "../NumerologyScreen";
 import { numerologyStorageKey } from "../store";
+import { numerologyContentReviewed, numerologyExtraReviewed } from "../content";
 
 jest.mock("@react-native-community/datetimepicker", () => ({ __esModule: true, default: () => null }));
 
@@ -41,7 +42,8 @@ test("a guest with a date and no name sees life path 11/2 and the grid, with no 
   expect(screen.getByTestId("numerology-grid").props.accessibilityLabel).toContain("1 ×1");
   expect(screen.getByTestId("arrow-1-2-3")).toBeTruthy();
   expect(JSON.stringify(screen.getByTestId("arrows-empty-note").props.children)).toContain("7-8-9");
-  expect(screen.queryByTestId("numerology-draft-note")).toBeNull();
+  // The draft banner stays until both the approved store and the 26/11 extra copy are approved.
+  expect(Boolean(screen.queryByTestId("numerology-draft-note"))).toBe(!(numerologyContentReviewed && numerologyExtraReviewed));
   expect(onEvent).toHaveBeenCalledWith("numerology_computed", { hasName: false });
 });
 
@@ -108,6 +110,29 @@ test("tapping a number tile opens its reading, and a grid cell opens its own lin
   expect(screen.getByText("Ô số 7 · trống")).toBeTruthy();
 });
 
+test("a repeated digit shows once with a count marker, never as '999', and its reading opens by default", () => {
+  const screen = render(<NumerologyScreen language="vi" initialBirthDate="1999-09-19" onBack={jest.fn()} />);
+  fireEvent.press(screen.getByText("Xem bản đồ số của mình"));
+  const grid = screen.getByTestId("numerology-grid");
+  expect(within(grid).queryByText("999")).toBeNull();
+  expect(within(grid).queryByText("99999")).toBeNull();
+  expect(within(grid).queryByText("11")).toBeNull();
+  expect(screen.getByTestId("cell-count-9").props.children).toBe("×5");
+  expect(screen.getByTestId("cell-count-1").props.children).toBe("×2");
+  expect(screen.queryByTestId("cell-count-5")).toBeNull();
+  expect(screen.getByTestId("chart-summary")).toBeTruthy();
+  expect(screen.getByTestId("digit-reading")).toBeTruthy();
+  expect(screen.getByTestId("digit-reading-many")).toBeTruthy();
+});
+
+test("the result shows no 'only on this phone' notices", () => {
+  const screen = render(<NumerologyScreen language="vi" initialBirthDate="2000-03-15" onBack={jest.fn()} />);
+  fireEvent.press(screen.getByText("Xem bản đồ số của mình"));
+  enter(screen, "15", "9", "1992");
+  fireEvent.press(screen.getByText("So hai bản đồ"));
+  for (const pattern of [/máy này/i, /trên máy/i, /chỉ lưu/i]) expect(screen.queryAllByText(pattern)).toHaveLength(0);
+});
+
 test("the how-it-is-worked-out steps show the master number and its root", () => {
   const screen = render(<NumerologyScreen language="vi" initialBirthDate="2000-03-15" onBack={jest.fn()} />);
   fireEvent.press(screen.getByText("Xem bản đồ số của mình"));
@@ -163,9 +188,8 @@ describe("Lô 5: Nhịp thời gian, Hợp số, Lời nhắn riêng", () => {
     const screen = render(<NumerologyScreen language="vi" storage={storage} initialBirthDate="2000-03-15" onEvent={onEvent} onOpenShare={onOpenShare} onBack={jest.fn()} />);
     fireEvent.changeText(screen.getByLabelText("Họ tên khai sinh"), "Phạm Gia Linh");
     fireEvent.press(screen.getByText("Xem bản đồ số của mình"));
-    expect(screen.getByTestId("compat-privacy")).toBeTruthy();
     enter(screen, "29", "2", "1996");
-    fireEvent.changeText(screen.getByLabelText("Họ tên khai sinh người kia"), "Đỗ Ngọc Duy");
+    fireEvent.changeText(screen.getByLabelText("Họ tên khai sinh người ấy"), "Đỗ Ngọc Duy");
     fireEvent.press(screen.getByText("So hai bản đồ"));
     const results = screen.getByTestId("compat-results");
     expect(screen.getByTestId("compat-lifePath")).toBeTruthy();
@@ -173,6 +197,9 @@ describe("Lô 5: Nhịp thời gian, Hợp số, Lời nhắn riêng", () => {
     expect(screen.getByTestId("compat-expression")).toBeTruthy();
     expect(within(results).getAllByText("Điểm chung").length).toBe(3);
     expect(within(results).getAllByText("Còn căng").length).toBe(3);
+    expect(screen.getByTestId("compat-duo")).toBeTruthy();
+    expect(within(results).getAllByText("Điều mỗi người cần").length).toBe(3);
+    expect(within(results).getAllByText("Câu hỏi cho hai người").length).toBe(3);
     for (const pattern of [/%/, /\d+\s*\/\s*(10|100)\b/, /điểm số|xếp hạng|score|rank/i, /(^|[^\p{L}])(hợp|khắc)([^\p{L}]|$)/iu]) {
       expect(within(results).queryAllByText(pattern)).toHaveLength(0);
     }
