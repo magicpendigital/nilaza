@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "title": "Numerology private message (B5, B6): one migration applied, one function deployed, migration history repaired",
+  "date": "2026-11-26",
+  "target": {
+    "projectRef": "etfajmrwyywokgafzxsb",
+    "label": "production (Owner decision 2026-11-12)"
+  },
+  "ownerApproval": "Owner approved in chat on 2026-11-26: '1. Duyệt áp SQL 20261125090000 (hash 0b382247…54fbf3) lên Singapore 2. Duyệt deploy hàm ai-numerology-message.'",
+  "records": [
+    "docs/feature-plans/numerology-private-message-backend-2026-11-25.json"
+  ],
+  "sourceCommit": "741ef1d",
+  "sourceNote": "origin/main after PR 72 (B package) and PR 71; the migration file is unchanged since PR 72 and its SHA-256 matched the approved hash before it was applied.",
+  "preApplyChecks": [
+    "remote migration list: 20261125090000 not applied; 20261125100000 (persona model tiers, PR 71) already applied and touches none of the objects in 20261125090000",
+    "20261125090000 references no object from the unapplied 20261116090000 / 20261116100000"
+  ],
+  "migrations": {
+    "method": "npx --yes supabase@3.1.0 db query --yes --remote=etfajmrwyywokgafzxsb -f <file> (run by Claude), exit 0. Then npx supabase@3.1.0 migration repair --status applied 20261125090000 --remote=etfajmrwyywokgafzxsb --yes.",
+    "files": [
+      { "file": "supabase/migrations/20261125090000_numerology_private_message.sql", "sha256": "0b382247985f4443f431cf9eddc67f80f6d1e7e09697322e30ea8907f654fbf3" }
+    ]
+  },
+  "postApplyChecks": {
+    "readOnlyQuery": "supabase db query --read-only: ai_feature_switches row numerology_private_message has enabled=false; the feature CHECK constraints of model_route_versions, ai_feature_switches and prompt_versions include numerology_private_message; nilaza_private.publish_model_route_config and public.set_ai_feature_switch accept it; supabase_migrations.schema_migrations has row 20261125090000.",
+    "securityAdvisor": "not run"
+  },
+  "functions": {
+    "method": "npx --yes supabase@3.1.0 functions deploy ai-numerology-message --remote=etfajmrwyywokgafzxsb --use-api --yes (run by Claude)",
+    "deployed": [
+      { "name": "ai-numerology-message", "version": 1, "verifyJwt": true }
+    ]
+  },
+  "verification": {
+    "done": [
+      "migration exited 0 and the read-only check above passed",
+      "functions list shows ai-numerology-message ACTIVE, version 1, verify_jwt true",
+      "unauthenticated POST returns 401"
+    ],
+    "notDone": [
+      "signed-in call: the switch is off, so a signed-in call returns 503 feature_paused by design; a real message needs the switch on for a test account and the new Android build",
+      "live model call and cost per message",
+      "admin-model-router-config was not redeployed (not in this approval): the live Admin model-route page does not list numerology_private_message yet; the function uses the code-default route until then",
+      "Supabase security advisor after this rollout"
+    ]
+  },
+  "rollback": "Function: delete ai-numerology-message (it did not exist before) or leave the switch off. SQL: config only and additive (wider allowlists, one switch row set to off); leaving the switch off stops all use without dropping anything."
+}
