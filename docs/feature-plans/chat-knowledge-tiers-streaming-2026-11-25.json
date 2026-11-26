@@ -43,7 +43,8 @@
     "apps/admin/workflow-catalog.js",
     "packages/content/data/knowledge-briefs/",
     "docs/proposals/CHAT_KNOWLEDGE_CHARACTERS_2026-11-24.vi.md",
-    "docs/proposals/data/book-brief-sample-binh-phap-ton-tu.vi.md"
+    "docs/proposals/data/book-brief-sample-binh-phap-ton-tu.vi.md",
+    "docs/release/chat-knowledge-2026-11-25/"
   ],
   "untouchedSurfaces": [
     "Mobile app (ChatHub.tsx, PersonaChatRoom, backendClient.ts): the app agent implements the SSE client from docs/contracts/persona-chat-streaming.md.",
