@@ -116,11 +116,10 @@ export function openRouterReasoning(request: ModelProviderRequest) {
   return requiresDirectResponse(request) ? { effort: "none" } : undefined;
 }
 
-export async function invokeOpenRouter(
-  request: ModelProviderRequest,
-  apiKey: string,
-  attribution?: { siteUrl?: string; appTitle?: string }
-): Promise<ModelProviderResponse> {
+const OPENROUTER_CHAT_URL = "https://openrouter.ai/api/v1/chat/completions";
+type OpenRouterAttribution = { siteUrl?: string; appTitle?: string };
+
+function openRouterRequest(request: ModelProviderRequest, apiKey: string, attribution: OpenRouterAttribution | undefined, stream: boolean) {
   if (!apiKey) {
     throw new ModelProviderError({
       provider: "openrouter",
@@ -129,8 +128,6 @@ export async function invokeOpenRouter(
       retryable: true
     });
   }
-
-  const startedAt = Date.now();
   const headers: Record<string, string> = {
     Authorization: `Bearer ${apiKey}`,
     "Content-Type": "application/json"
@@ -148,21 +145,25 @@ export async function invokeOpenRouter(
     temperature: request.temperature,
     max_tokens: request.maxOutputTokens,
     ...openRouterFormat(request),
-    ...(reasoning ? { reasoning } : {})
+    ...(reasoning ? { reasoning } : {}),
+    ...(stream ? { stream: true } : {})
   };
-  request.traceHooks?.onRequest?.({
-    url: "https://openrouter.ai/api/v1/chat/completions",
-    method: "POST",
-    body: requestBody
-  });
-  request.qaTraceHooks?.onRequest?.({
-    url: "https://openrouter.ai/api/v1/chat/completions",
-    method: "POST",
-    body: requestBody
-  });
+  request.traceHooks?.onRequest?.({ url: OPENROUTER_CHAT_URL, method: "POST", body: requestBody });
+  request.qaTraceHooks?.onRequest?.({ url: OPENROUTER_CHAT_URL, method: "POST", body: requestBody });
+  return { headers, requestBody };
+}
+
+export async function invokeOpenRouter(
+  request: ModelProviderRequest,
+  apiKey: string,
+  attribution?: OpenRouterAttribution
+): Promise<ModelProviderResponse> {
+  if (request.onDelta) return invokeOpenRouterStream(request, apiKey, attribution);
+  const { headers, requestBody } = openRouterRequest(request, apiKey, attribution, false);
+  const startedAt = Date.now();
   let response: Response;
   try {
-    response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+    response = await fetch(OPENROUTER_CHAT_URL, {
       method: "POST",
       signal: AbortSignal.timeout(providerTimeoutMs(request.feature, request.timeoutMs)),
       headers,
@@ -234,4 +235,193 @@ export async function invokeOpenRouter(
     finishReason: choice?.finish_reason,
     billingReceipt
   };
+}
+
+function streamTimeoutError(message: string) {
+  return new DOMException(message, "TimeoutError");
+}
+
+type StreamChunk = {
+  id?: unknown;
+  model?: unknown;
+  provider?: unknown;
+  usage?: unknown;
+  error?: unknown;
+  choices?: Array<{ delta?: { content?: unknown }; finish_reason?: unknown }>;
+};
+
+/**
+ * Persona chat streaming (docs/contracts/persona-chat-streaming.md). The same request as invokeOpenRouter plus
+ * `stream: true`; OpenRouter sends SSE `data:` chunks, `:` comment lines while it works, and `data: [DONE]` at the end
+ * (https://openrouter.ai/docs/api-reference/streaming, checked 25/11/2026). Visible text goes to request.onDelta as it
+ * arrives; reasoning text (delta.reasoning) is never forwarded. A mid-stream failure is a chunk with a top-level
+ * `error` on HTTP 200. Aborting the request stops OpenRouter billing for the rest of the generation.
+ *
+ * Timing: the attempt timeout (providerTimeoutMs) bounds the wait for the first visible text; after that the stream
+ * may run until request.streamDeadlineAt (the tier deadline), so a long knowledge answer is not cut at the attempt cap.
+ */
+export async function invokeOpenRouterStream(
+  request: ModelProviderRequest,
+  apiKey: string,
+  attribution?: OpenRouterAttribution
+): Promise<ModelProviderResponse> {
+  const { headers, requestBody } = openRouterRequest(request, apiKey, attribution, true);
+  const startedAt = Date.now();
+  const controller = new AbortController();
+  const firstTextMs = providerTimeoutMs(request.feature, request.timeoutMs);
+  let timer: ReturnType<typeof setTimeout> | undefined = setTimeout(
+    () => controller.abort(streamTimeoutError("No visible text before the attempt timeout.")),
+    firstTextMs
+  );
+  const switchToStreamDeadline = () => {
+    if (timer !== undefined) clearTimeout(timer);
+    const remaining = Math.max(1, (request.streamDeadlineAt ?? startedAt + firstTextMs) - Date.now());
+    timer = setTimeout(() => controller.abort(streamTimeoutError("Stream deadline reached.")), remaining);
+  };
+
+  let finished = false;
+  let id: unknown;
+  let model: unknown;
+  let upstreamProvider: unknown;
+  let usage: Record<string, unknown> | undefined;
+  let finishReason: string | undefined;
+  let text = "";
+  let firstTextAt: number | undefined;
+  let httpRequestId: string | null = null;
+  const receipt = () => readOpenRouterBillingReceipt({ id, model, provider: upstreamProvider, usage }, request.model, httpRequestId);
+
+  const handleData = (data: string) => {
+    if (data === "[DONE]") return true;
+    let chunk: StreamChunk;
+    try {
+      chunk = JSON.parse(data);
+    } catch {
+      return false; // A non-JSON line is skipped; the final text check catches an empty stream.
+    }
+    if (typeof chunk?.id === "string") id = chunk.id;
+    if (typeof chunk?.model === "string") model = chunk.model;
+    if (typeof chunk?.provider === "string") upstreamProvider = chunk.provider;
+    if (chunk?.usage && typeof chunk.usage === "object") usage = chunk.usage as Record<string, unknown>;
+    if (chunk?.error) {
+      const error = new ModelProviderError({
+        provider: "openrouter",
+        code: "provider_stream_error",
+        message: "OpenRouter reported an error during the stream.",
+        retryable: true,
+        billingReceipt: receipt()
+      });
+      error.providerDetail = providerErrorDetail({ error: chunk.error });
+      throw error;
+    }
+    const choice = chunk?.choices?.[0];
+    if (typeof choice?.finish_reason === "string") finishReason = choice.finish_reason;
+    const piece = typeof choice?.delta?.content === "string" ? choice.delta.content : "";
+    if (!piece) return false;
+    text += piece;
+    if (firstTextAt === undefined) {
+      // Leading whitespace is not visible text: keep the first-text timer until real text arrives.
+      if (!text.trim()) return false;
+      firstTextAt = Date.now();
+      switchToStreamDeadline();
+      request.onDelta?.(text.replace(/^\s+/, ""));
+      return false;
+    }
+    request.onDelta?.(piece);
+    return false;
+  };
+
+  try {
+    let response: Response;
+    try {
+      response = await fetch(OPENROUTER_CHAT_URL, {
+        method: "POST",
+        signal: controller.signal,
+        headers,
+        body: JSON.stringify(requestBody)
+      });
+    } catch (error) {
+      throw thrownProviderError("openrouter", controller.signal.reason ?? error);
+    }
+    httpRequestId = response.headers.get("x-request-id");
+    if (!response.ok || !response.body) {
+      const { text: errorText, json } = await readJsonResponse(response);
+      const billingReceipt = readOpenRouterBillingReceipt(json, request.model, httpRequestId);
+      request.traceHooks?.onResponse?.({ status: response.status, body: json ?? { text: errorText.slice(0, 500) }, latencyMs: Date.now() - startedAt, requestId: billingReceipt.requestId });
+      request.qaTraceHooks?.onResponse?.({ status: response.status, body: json ?? errorText, latencyMs: Date.now() - startedAt, requestId: billingReceipt.requestId });
+      const error = providerErrorFromResponse("openrouter", response.ok ? 502 : response.status, "", providerErrorDetail(json));
+      error.billingReceipt = billingReceipt;
+      throw error;
+    }
+
+    const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
+    let buffer = "";
+    let sawDone = false;
+    while (!sawDone) {
+      let result: ReadableStreamReadResult<string>;
+      try {
+        result = await reader.read();
+      } catch (error) {
+        throw thrownProviderError("openrouter", controller.signal.reason ?? error);
+      }
+      if (result.done) break;
+      buffer += result.value;
+      let newline = buffer.indexOf("\n");
+      while (newline >= 0 && !sawDone) {
+        const line = buffer.slice(0, newline).replace(/\r$/, "");
+        buffer = buffer.slice(newline + 1);
+        if (line.startsWith("data:")) sawDone = handleData(line.slice(5).trim());
+        newline = buffer.indexOf("\n");
+      }
+    }
+    if (!sawDone && buffer.startsWith("data:")) handleData(buffer.slice(5).trim());
+    // Release the connection; the generation has finished (or the server closed the stream).
+    reader.cancel().catch(() => undefined);
+
+    const latencyMs = Date.now() - startedAt;
+    const billingReceipt = receipt();
+    const json = { id, model, provider: upstreamProvider, usage, choices: [{ message: { content: text }, finish_reason: finishReason }] };
+    try {
+      request.traceHooks?.onResponse?.({ status: response.status, body: json, latencyMs, requestId: billingReceipt.requestId });
+      request.qaTraceHooks?.onResponse?.({ status: response.status, body: json, latencyMs, requestId: billingReceipt.requestId });
+    } catch {
+      throw new ModelProviderError({ provider: "openrouter", code: "trace_capture_failed", message: "Provider response trace capture failed.", retryable: false, billingReceipt });
+    }
+    const outputText = text.trim();
+    if (!outputText) {
+      throw new ModelProviderError({
+        provider: "openrouter",
+        code: "malformed_response",
+        message: "OpenRouter stream did not contain message content.",
+        retryable: true,
+        billingReceipt
+      });
+    }
+    finished = true;
+    return {
+      text: outputText,
+      provider: "openrouter",
+      model: billingReceipt.model,
+      requestId: billingReceipt.requestId,
+      latencyMs,
+      usage: normalizeUsage({
+        inputTokens: usage?.prompt_tokens,
+        outputTokens: usage?.completion_tokens,
+        totalTokens: usage?.total_tokens
+      }),
+      finishReason,
+      billingReceipt,
+      firstTextMs: firstTextAt === undefined ? undefined : firstTextAt - startedAt
+    };
+  } catch (error) {
+    if (error instanceof ModelProviderError) {
+      error.billingReceipt ??= receipt();
+      throw error;
+    }
+    // onDelta threw (the router's mid-stream safety check, for example) or another runtime error.
+    throw error;
+  } finally {
+    if (timer !== undefined) clearTimeout(timer);
+    // Stop the generation (and its billing) whenever we leave early: timeout, error, or the caller's onDelta threw.
+    if (!finished) controller.abort(new DOMException("Stream closed early.", "AbortError"));
+  }
 }

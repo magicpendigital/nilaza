@@ -1,0 +1,165 @@
+{
+  "schemaVersion": 1,
+  "taskId": "chat-knowledge-ui-polish-2026-11-25",
+  "ownerAgent": "mobile_ui_engineer",
+  "lane": "Mobile: Trò chuyện với tri thức, UI/UX polish of the screens touched by Lô 0 and Lô 2 (hub cards, persona detail, persona chat room)",
+  "goal": "Make the new knowledge-book content readable and recognisable without changing any backend contract: long streamed answers render headings and bullet lists sensibly, the room stops pulling the reader to the bottom while they scroll up to read, the thinking counter sits outside the announced status, book cards say which book they are and are marked as books, the two borrowed placeholder images are told apart, and TalkBack labels and touch targets on these screens are complete.",
+  "successCriteria": [
+    "Model text with Markdown headings (#, ##, ###), bullets (-, *, +) and horizontal rules renders as bold lines, '•' bullets and blank separators instead of raw symbols; '*' bullets no longer turn whole paragraphs italic; bold, italic and inline code still work and links stay inert.",
+    "While a reply streams, the room follows the growing text only while the reader is at the bottom; once they drag up, it stops scrolling and offers a 'Xem phần mới nhất' chip; sending a message always returns to the bottom.",
+    "The elapsed-seconds counter shows as bubble meta text (not inside the polite live region) and after 30 s adds a short note that a deep answer can take up to about two minutes.",
+    "Hub cards of book personas carry a book badge and an accessibility label starting with 'Sách'; a book with a knowledge brief shows its familiar title (for example 'Binh pháp Tôn Tử') as the card name; chips reach the 48 px touch target.",
+    "Personas whose art is a borrowed placeholder (Kinh Pháp Cú, Kinh Dịch) get a tint from their own portrait colour on the hub card and detail cover, so the duplicated images are visually distinct, with the book title and badge as non-colour cues.",
+    "The persona detail page back button, tabs and favourite button have Vietnamese/English labels, roles and states; a book's hero subtitle names the book; the role label no longer mixes 'Guide' into Vietnamese.",
+    "The chat room header and transparency line for a book say 'lấy cảm hứng từ sách <title>' instead of repeating the guide name.",
+    "The guide bubble footer (rating, save, report) wraps instead of overflowing at large text sizes.",
+    "tsc, mobile jest, validate:data, admin:check and validate:visual-assets pass."
+  ],
+  "writeScope": [
+    "apps/mobile/src/a2ui/chat.tsx",
+    "apps/mobile/src/a2ui/__tests__/index.test.tsx",
+    "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
+    "apps/mobile/src/features/persona/__tests__/PersonaChatRoom.test.tsx",
+    "apps/mobile/src/features/chat/ChatHub.tsx",
+    "apps/mobile/src/features/chat/__tests__/ChatHub.test.tsx",
+    "apps/mobile/src/visualAssets.ts",
+    "apps/mobile/App.tsx",
+    "apps/admin/workflow-catalog.js"
+  ],
+  "untouchedSurfaces": [
+    "supabase/** and docs/contracts/** are not edited; the streaming contract and JSON fallback are unchanged.",
+    "Persona content data (packages/content/data/*.json, including Owner-approved short names) is read, not edited; book titles come from the existing knowledge-briefs/index.json.",
+    "Entitlement and premium gating (canViewContentTier, 'Sắp ra mắt' on premium-preview cards) are left to the separate entitlement investigation.",
+    "No new art, no dependency, no deploy, no SQL, no secret; .env not read; no git commit or push.",
+    "Lô 3 redesign (Sách/Tác giả card types, two entry points) is not started; listed as recommendations only.",
+    "Plan records: chat-knowledge-mobile-streaming-2026-11-25.json only gets its sourceReview hashes refreshed for files this task edits, so its preflight stays current."
+  ],
+  "impact": {
+    "entryPoint": "Trò chuyện hub grid and Sách chip; a guide's detail page; a guide's chat room while a long answer streams or after it lands.",
+    "dataWrite": "None. Presentation only; no local or remote data shape changes.",
+    "backendContract": "Unchanged. The room still receives the same streamingReply and messages props; one optional presentation prop (inspiration label) is added.",
+    "adminVisibility": "Only the App.tsx digest in apps/admin/workflow-catalog.js is refreshed so the workflow catalog check keeps passing.",
+    "privacySafety": "No new data is shown or sent. Model text is still rendered as inert text; the Markdown subset only restyles lines. Placeholder art stays flagged for real art before release.",
+    "observability": "No analytics change.",
+    "rollback": "Revert the commit; the screens return to the previous rendering with no data migration."
+  },
+  "canonicalContracts": [
+    "docs/BRAND_GUIDELINES.md (48 px touch target, colour not the only signal, support large text and wrapping)",
+    "docs/proposals/CHAT_KNOWLEDGE_CHARACTERS_2026-11-24.vi.md sections 3 and 5 (book card named by its familiar title; long answers with Đào sâu)"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile lane checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "reason": "Touch target, contrast, colour-not-only-signal and large-text rules; persona art must be the right portrait.",
+      "sha256": "bce12144fa7d6074c3213c977b0bc0187e2c9fa2d43453fab81f1145fa0129de"
+    },
+    {
+      "path": "docs/proposals/CHAT_KNOWLEDGE_CHARACTERS_2026-11-24.vi.md",
+      "reason": "Book card naming (section 3) and long-answer flow (section 5).",
+      "sha256": "cf3e8d958a6c8c5ae444c154a4b5435623761bab8762345891ea341eae76165b"
+    },
+    {
+      "path": "apps/mobile/src/a2ui/chat.tsx",
+      "reason": "Shared bubble, Markdown subset, thinking indicator and scroll surface.",
+      "sha256": "884cf9ff7ed6ce98af6d401188ede1116715061d030bcdd8db1a897e5d985a96"
+    },
+    {
+      "path": "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
+      "reason": "Streaming bubble, auto-scroll, thinking counter and Đào sâu chip.",
+      "sha256": "0db0fec03f0f785c5603519355e3d641459a1a024584f6b92b6ecf9e9e6c2cb0"
+    },
+    {
+      "path": "apps/mobile/src/features/chat/ChatHub.tsx",
+      "reason": "Hub grid cards and the Sách chip.",
+      "sha256": "849d0ded1cab50fd08f16b0a0a4f6f47f2236fe938f9edd0c172553c01a00acf"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Hub guide mapping, persona detail page and room props.",
+      "sha256": "ec1c19cc2718f10e58c294411c45ecc2c25b1bd419f008c749e19aae1e255da3"
+    },
+    {
+      "path": "packages/content/data/knowledge-briefs/index.json",
+      "reason": "Source of the familiar Vietnamese and English book titles per persona.",
+      "sha256": "1e5d9743cdab13aa6f6a2b98675ff0cda40a210397f9a6c4a58a24bfa33dc64b"
+    },
+    {
+      "path": "apps/mobile/src/visualAssets.ts",
+      "reason": "Placeholder art mapping for dhammapada and i-ching.",
+      "sha256": "78a6251059c4a1588a9dfd7efe4dc2830025efc02b49ddb9d12dcd34e7ce8f9f"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, validation matrix and stop conditions applied; no workflow rule change."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Brand guidelines read for touch target, colour, large text and persona art rules; no brand asset or guideline change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses only React Native core ScrollView/Text/View props already used in the app (onScroll, onScrollBeginDrag, onScrollEndDrag, onContentSizeChange, accessibility props). No package change."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization or entitlement change.",
+    "sensitiveData": "No new personal data is shown, stored or sent.",
+    "secretsLogging": "No logging or credentials added.",
+    "externalInput": "Model text stays inert: the Markdown subset only maps line prefixes to styled Text; no links, images or HTML become active.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration; ships with the next app build together with the Lô 0/2 work.",
+    "stopCondition": "Stop and report if a fix would need a backend contract change, new art, a dependency, or a change to entitlement logic.",
+    "unresolvedHighRisks": []
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/chat-knowledge-ui-polish-2026-11-25.json",
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "npm run validate:data",
+    "npm run admin:check",
+    "npm run validate:visual-assets"
+  ],
+  "managerTestPath": "Open Trò chuyện, tap Sách: each book card has a small book badge, the three classics read Binh pháp Tôn Tử, Đạo Đức Kinh and Suy tưởng, and Kinh Pháp Cú and Kinh Dịch no longer look identical to Suy tưởng and Đạo Đức Kinh. Open a book: the subtitle names the book. Ask a question: after 10 s the bubble shows the seconds, after 30 s a note about waiting up to two minutes; while the answer grows, drag up to read it from the start: the screen stays put and a 'Xem phần mới nhất' chip appears. Turn on the largest font: chips and bubble buttons wrap instead of being cut.",
+  "residualRisk": "Scroll-follow behaviour and large-font wrapping are verified only in unit tests, not on an Android phone. The tint is a stop-gap: Kinh Pháp Cú and Kinh Dịch still use other books' art and need their own portraits before release (brand rule: the right portrait for each guide).",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  },
+  "workingTreeReview": {
+    "paths": [
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/a2ui/chat.tsx",
+      "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
+      "apps/mobile/src/features/persona/__tests__/PersonaChatRoom.test.tsx",
+      "apps/mobile/src/features/chat/ChatHub.tsx",
+      "apps/mobile/src/features/chat/__tests__/ChatHub.test.tsx",
+      "apps/mobile/src/visualAssets.ts",
+      "apps/admin/workflow-catalog.js"
+    ],
+    "note": "These paths already carry uncommitted Lô 0 / Lô 2 edits from chat-knowledge-lo0-quick-fixes, chat-knowledge-mobile-streaming and chat-knowledge-admin-tiers in this shared worktree; this task adds presentation-only edits on top and does not revert them."
+  }
+}

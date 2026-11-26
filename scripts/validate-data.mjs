@@ -1,5 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
+import { execFileSync } from "node:child_process";
 
 const root = process.cwd();
 const readJson = (relativePath) => {
@@ -578,7 +579,21 @@ for (const [id, entry] of Object.entries(personaShortNames.personas)) {
   assertLocalized(entry.short, `persona-short-names.${id}.short`);
   assertLocalized(entry.tagline, `persona-short-names.${id}.tagline`);
   assert(entry.short.vi.length <= 24 && entry.tagline.vi.length <= 40, `persona-short-names.${id} must stay short enough for the grid`);
+  // Chat knowledge Lô 0: each persona opens its chat room with its own line.
+  assertLocalized(entry.opener, `persona-short-names.${id}.opener`);
+  assert(entry.opener.vi.length <= 240 && entry.opener.en.length <= 240, `persona-short-names.${id}.opener must stay under 240 characters`);
 }
+// Quotes attributed to a figure or a book must be labelled paraphrases, never presented as verbatim lines.
+for (const section of personaDetailContent) {
+  const owner = allPersonas.find((persona) => persona.id === section.ownerId);
+  if (!owner || owner.type === "archetype_guide") continue;
+  for (const block of section.blocks ?? []) {
+    if (block.kind !== "quote") continue;
+    assert(/^Tinh thần:/.test(block.quote?.vi ?? "") && /^In spirit:/.test(block.quote?.en ?? ""), `${section.id} quote must be a labelled paraphrase (Tinh thần: / In spirit:)`);
+  }
+}
+// Oracle may only suggest guides from the generated list; it must match the persona data.
+execFileSync(process.execPath, [path.join(root, "scripts", "generate-oracle-guides.mjs"), "--check"], { stdio: "inherit" });
 for (const designSet of tarotCardDesigns) {
   assert(decks.some((deck) => deck.id === designSet.deckId), `${designSet.deckId} design set does not match a deck`);
   assertLocalized(designSet.style, `${designSet.deckId}.style`);

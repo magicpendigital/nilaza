@@ -1,0 +1,175 @@
+{
+  "schemaVersion": 1,
+  "taskId": "chat-knowledge-lo0-quick-fixes-2026-11-25",
+  "ownerAgent": "app_content_engineer",
+  "lane": "chat_knowledge_characters_lo0",
+  "goal": "Lô 0 of the Chat knowledge proposal (2026-11-24): remove unsourced quotations from persona detail pages, relabel the fake-activity section, add the Books filter chip and more than one book among featured cards, give each persona its own opening line, derive the Oracle guide list from persona data with a drift check, and add two book personas (Kinh Pháp Cú, Kinh Dịch).",
+  "successCriteria": [
+    "No persona detail text is presented in quotation marks as a verbatim line of a figure or book unless widely attested; paraphrases are labelled as the spirit of the guide.",
+    "The section formerly named Dấu vết gần đây is labelled as suggested topics in Vietnamese and English.",
+    "The Chat hub shows a Sách / Books chip and the eight featured cards include more than one book.",
+    "The persona chat room opens with a per-persona opening line and falls back to the previous generic text.",
+    "Oracle lists all personas as guides from a generated file and validate:data fails if that file drifts from persona data.",
+    "book-dhammapada and book-i-ching exist in every registry where book personas appear, with passing data, visual-asset, admin and mobile checks."
+  ],
+  "writeScope": [
+    "packages/content/data/persona-detail-content.json",
+    "packages/content/data/personas-books.json",
+    "packages/content/data/persona-short-names.json",
+    "packages/content/data/oracle-guide-reasons.json",
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/visualAssets.ts",
+    "apps/mobile/src/features/chat/ChatHub.tsx",
+    "apps/mobile/src/features/chat/__tests__/ChatHub.test.tsx",
+    "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
+    "apps/mobile/src/features/persona/__tests__/PersonaChatRoom.test.tsx",
+    "apps/mobile/src/__tests__/personaContent.test.ts",
+    "apps/mobile/assets/runtime/personas/thumbnails/dhammapada-v2.jpg",
+    "apps/mobile/assets/runtime/personas/covers/dhammapada-v2.jpg",
+    "apps/mobile/assets/runtime/personas/thumbnails/i-ching-v2.jpg",
+    "apps/mobile/assets/runtime/personas/covers/i-ching-v2.jpg",
+    "assets/personas/thumbnails/dhammapada-v2.jpg",
+    "assets/personas/covers/dhammapada-v2.jpg",
+    "assets/personas/thumbnails/i-ching-v2.jpg",
+    "assets/personas/covers/i-ching-v2.jpg",
+    "supabase/functions/_shared/oracle-tools.ts",
+    "supabase/functions/_shared/oracle-tools_test.ts",
+    "supabase/functions/_shared/oracle-guides.generated.ts",
+    "supabase/seed.generated.sql",
+    "apps/admin/generated/content-seed.json",
+    "scripts/generate-oracle-guides.mjs",
+    "scripts/validate-data.mjs",
+    "apps/admin/workflow-catalog.js",
+    "package.json",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "ai-persona-chat, the prompt assembler, the model router, packages/agent-config, migrations and the knowledge-briefs content folder are owned by other agents and are not edited.",
+    "No Edge Function is deployed and no SQL is run; regenerated seed files are only written locally."
+  ],
+  "impact": {
+    "entryPoint": "Trò chuyện hub (filter chips, featured cards), persona detail page labels, persona chat room opening bubble, Oracle guide suggestions.",
+    "dataWrite": "Static content JSON and generated seed files change; no remote database write is performed by this change.",
+    "backendContract": "Oracle ask_guide now accepts the five missing guide slugs plus the two new books; the response shape is unchanged. Deploy of ai-oracle-turn is left to the Owner.",
+    "canonicalContract": "Proposal CHAT_KNOWLEDGE_CHARACTERS_2026-11-24 sections 2, 3 and 9 (Lô 0); persona-short-names.json covers exactly every persona.",
+    "adminVisibility": "Admin seed (apps/admin/generated/content-seed.json) is regenerated so the two new personas appear in Admin lists after the next Admin deploy.",
+    "privacySafety": "Respectful, non-sectarian copy for Pháp Cú; Kinh Dịch is framed as a classic of change, not fortune-telling; transparency notes say the guide is not the book, author or any tradition.",
+    "observability": "No analytics change.",
+    "rollback": "Revert the commit; the seed SQL is not applied remotely until the Owner approves it."
+  },
+  "canonicalContracts": [
+    "Proposal docs/proposals/CHAT_KNOWLEDGE_CHARACTERS_2026-11-24.vi.md sections 2, 3, 9; scripts/validate-data.mjs persona rules."
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context",
+    "synthetic_mobile_test_scenarios"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Guardrails and approval boundaries.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Content and AI routes.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Impact brief and validation matrix.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/CHAT_KNOWLEDGE_CHARACTERS_2026-11-24.vi.md",
+      "reason": "Scope of Lô 0.",
+      "sha256": "cf3e8d958a6c8c5ae444c154a4b5435623761bab8762345891ea341eae76165b"
+    },
+    {
+      "path": "supabase/functions/_shared/oracle-tools.ts",
+      "reason": "Hardcoded Oracle guide list.",
+      "sha256": "c5891c728c5f1f71daec0d590e45f6c8c270762c5ead0fe4da2b03f641b998eb"
+    },
+    {
+      "path": "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
+      "reason": "Source of the generic opening line.",
+      "sha256": "0db0fec03f0f785c5603519355e3d641459a1a024584f6b92b6ecf9e9e6c2cb0"
+    },
+    {
+      "path": "scripts/validate-mobile-runtime-assets.mjs",
+      "reason": "Persona visual manifest rules for new personas.",
+      "sha256": "f34daf6d23ac97f379c906f9193da63be16f030e806641260b927b5d851d2f3c"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief, validation matrix and stop conditions applied; no workflow rule change."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Uses repository data and existing generators only; no new dependency."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No authorization or RLS change.",
+    "sensitiveData": "No personal data is handled.",
+    "secretsLogging": "No credentials or logs are added.",
+    "externalInput": "Oracle guide slugs are validated against a fixed generated list before the app sees them.",
+    "dependencies": "No dependency change.",
+    "migrationRelease": "No migration; seed apply and the ai-oracle-turn deploy wait for Owner approval.",
+    "stopCondition": "Stop before applying seed SQL or deploying any function without Owner approval.",
+    "unresolvedHighRisks": []
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/chat-knowledge-lo0-quick-fixes-2026-11-25.json",
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "npm run validate:data",
+    "npm run validate:visual-assets",
+    "npm run admin:check",
+    "npx --yes deno@2 test supabase/functions/_shared/oracle-tools_test.ts"
+  ],
+  "managerTestPath": "Open Trò chuyện, tap the Sách chip and see the five-plus-two books; open a guide room and read its own opening line; open a detail page and see Chủ đề gợi ý instead of Dấu vết gần đây.",
+  "residualRisk": "The two new books reuse existing book artwork as placeholders until new art is made; on-device look is unverified.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  },
+  "workingTreeReview": {
+    "paths": [
+      "PLAN.md",
+      "apps/admin/generated/content-seed.json",
+      "apps/admin/workflow-catalog.js",
+      "apps/mobile/App.tsx",
+      "apps/mobile/src/features/chat/ChatHub.tsx",
+      "apps/mobile/src/features/chat/__tests__/ChatHub.test.tsx",
+      "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
+      "apps/mobile/src/features/persona/__tests__/PersonaChatRoom.test.tsx",
+      "apps/mobile/src/visualAssets.ts",
+      "package.json",
+      "packages/content/data/persona-detail-content.json",
+      "packages/content/data/persona-short-names.json",
+      "packages/content/data/personas-books.json",
+      "scripts/validate-data.mjs",
+      "supabase/functions/_shared/oracle-tools.ts",
+      "supabase/functions/_shared/oracle-tools_test.ts",
+      "supabase/seed.generated.sql",
+      "apps/mobile/assets/runtime/personas/covers/dhammapada-v2.jpg",
+      "apps/mobile/assets/runtime/personas/covers/i-ching-v2.jpg",
+      "apps/mobile/assets/runtime/personas/thumbnails/dhammapada-v2.jpg",
+      "apps/mobile/assets/runtime/personas/thumbnails/i-ching-v2.jpg",
+      "apps/mobile/src/__tests__/personaContent.test.ts",
+      "assets/personas/covers/dhammapada-v2.jpg",
+      "assets/personas/covers/i-ching-v2.jpg",
+      "assets/personas/thumbnails/dhammapada-v2.jpg",
+      "assets/personas/thumbnails/i-ching-v2.jpg",
+      "packages/content/data/oracle-guide-reasons.json",
+      "scripts/generate-oracle-guides.mjs",
+      "supabase/functions/_shared/oracle-guides.generated.ts"
+    ],
+    "note": "All listed paths are this task's own uncommitted edits in a dedicated worktree; generated files were rebuilt with the repository generators and image files are placeholder copies of existing approved book art."
+  }
+}

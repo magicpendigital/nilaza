@@ -1,5 +1,5 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { ReactNode, RefObject, useEffect, useRef, useState } from "react";
+import { Fragment, ReactNode, RefObject, useEffect, useRef, useState } from "react";
 import {
   Image,
   Animated,
@@ -13,7 +13,7 @@ import {
   ViewStyle,
   StyleProp
 } from "react-native";
-import type { ImageSourcePropType, TextStyle } from "react-native";
+import type { ImageSourcePropType, NativeScrollEvent, NativeSyntheticEvent, TextStyle } from "react-native";
 
 import { colors, layout, radius, spacing, typography } from "../theme";
 import { useMotionPreference } from "./useMotionPreference";
@@ -47,11 +47,18 @@ export type ChatHeaderMenuAction = {
   disabled?: boolean;
 };
 
+type ChatScrollHandler = (event: NativeSyntheticEvent<NativeScrollEvent>) => void;
+
 export function ChatSurface({
   children,
   composer,
   contentContainerStyle,
   header,
+  onContentSizeChange,
+  onMomentumScrollEnd,
+  onScroll,
+  onScrollBeginDrag,
+  onScrollEndDrag,
   scrollRef,
   style
 }: {
@@ -59,6 +66,12 @@ export function ChatSurface({
   composer?: ReactNode;
   contentContainerStyle?: StyleProp<ViewStyle>;
   header?: ReactNode;
+  /** Optional scroll hooks so a room can follow a growing reply only while the reader stays at the bottom. */
+  onContentSizeChange?: (width: number, height: number) => void;
+  onMomentumScrollEnd?: ChatScrollHandler;
+  onScroll?: ChatScrollHandler;
+  onScrollBeginDrag?: ChatScrollHandler;
+  onScrollEndDrag?: ChatScrollHandler;
   scrollRef?: RefObject<ScrollView | null>;
   style?: ViewStyle;
 }) {
@@ -71,6 +84,12 @@ export function ChatSurface({
         ref={scrollRef}
         contentContainerStyle={[chatStyles.messages, contentContainerStyle]}
         keyboardShouldPersistTaps="handled"
+        onContentSizeChange={onContentSizeChange}
+        onMomentumScrollEnd={onMomentumScrollEnd}
+        onScroll={onScroll}
+        onScrollBeginDrag={onScrollBeginDrag}
+        onScrollEndDrag={onScrollEndDrag}
+        scrollEventThrottle={onScroll ? 64 : undefined}
         showsVerticalScrollIndicator={false}
       >
         {children}
@@ -390,24 +409,50 @@ export function ChatMessageBubble({
 
 /**
  * Small, dependency-free Markdown subset for model responses. It deliberately
- * supports only safe presentation marks (bold, italic, inline code) and
- * leaves links inert; chat text must never become executable UI.
+ * supports only safe presentation marks and leaves links inert; chat text must
+ * never become executable UI. Line marks: headings (#..######) become a bold
+ * line, bullets (-, *, +) become "•", "> " quotes become italic, horizontal
+ * rules become a blank line. Inline marks: **bold**, *italic*, `code`; marks
+ * never span lines, so an unclosed mark while a reply streams stays plain text.
  */
+function renderInlineMarkdown(line: string, keyPrefix: string): ReactNode[] {
+  return line.split(/(\*\*[^*\n]+\*\*|`[^`\n]+`|\*[^*\s][^*\n]*\*)/g).map((part, index) => {
+    const key = `${keyPrefix}-${index}`;
+    if (part.length > 4 && part.startsWith("**") && part.endsWith("**")) {
+      return <Text key={key} style={chatStyles.markdownBold}>{part.slice(2, -2)}</Text>;
+    }
+    if (part.length > 2 && part.startsWith("`") && part.endsWith("`")) {
+      return <Text key={key} style={chatStyles.markdownCode}>{part.slice(1, -1)}</Text>;
+    }
+    if (part.length > 2 && part.startsWith("*") && part.endsWith("*")) {
+      return <Text key={key} style={chatStyles.markdownItalic}>{part.slice(1, -1)}</Text>;
+    }
+    return part;
+  });
+}
+
 function MarkdownMessageText({ text, style }: { text: string; style: StyleProp<TextStyle> }) {
-  const parts = text.split(/(\*\*[^*]+\*\*|`[^`]+`|\*[^*]+\*)/g);
+  const lines = text.replace(/\r\n?/g, "\n").split("\n");
   return (
     <Text style={style}>
-      {parts.map((part, index) => {
-        if (part.startsWith("**") && part.endsWith("**")) {
-          return <Text key={index} style={chatStyles.markdownBold}>{part.slice(2, -2)}</Text>;
+      {lines.map((line, index) => {
+        const key = `l${index}`;
+        const breakBefore = index > 0 ? "\n" : "";
+        if (/^\s{0,3}([-*_])(?:\s*\1){2,}\s*$/.test(line)) return <Fragment key={key}>{breakBefore}</Fragment>;
+        const heading = /^\s{0,3}#{1,6}\s+(.+?)(?:\s+#+)?\s*$/.exec(line);
+        if (heading) {
+          return <Fragment key={key}>{breakBefore}<Text style={chatStyles.markdownBold}>{renderInlineMarkdown(heading[1], key)}</Text></Fragment>;
         }
-        if (part.startsWith("`") && part.endsWith("`")) {
-          return <Text key={index} style={chatStyles.markdownCode}>{part.slice(1, -1)}</Text>;
+        const bullet = /^(\s*)[-*+]\s+(.*)$/.exec(line);
+        if (bullet) {
+          const indent = "  ".repeat(Math.min(3, Math.floor(bullet[1].length / 2)));
+          return <Fragment key={key}>{breakBefore}{`${indent}• `}{renderInlineMarkdown(bullet[2], key)}</Fragment>;
         }
-        if (part.startsWith("*") && part.endsWith("*")) {
-          return <Text key={index} style={chatStyles.markdownItalic}>{part.slice(1, -1)}</Text>;
+        const quote = /^\s{0,3}>\s?(.*)$/.exec(line);
+        if (quote) {
+          return <Fragment key={key}>{breakBefore}<Text style={chatStyles.markdownItalic}>{renderInlineMarkdown(quote[1], key)}</Text></Fragment>;
         }
-        return part;
+        return <Fragment key={key}>{breakBefore}{renderInlineMarkdown(line, key)}</Fragment>;
       })}
     </Text>
   );
@@ -976,12 +1021,14 @@ const chatStyles = StyleSheet.create({
   bubbleFooter: {
     alignItems: "center",
     flexDirection: "row",
+    flexWrap: "wrap",
     gap: spacing.sm,
     justifyContent: "space-between",
     marginTop: spacing.sm
   },
   bubbleMeta: {
     color: colors.moon,
+    flexShrink: 1,
     fontFamily: typography.bodyFontFamily,
     fontSize: 11
   },

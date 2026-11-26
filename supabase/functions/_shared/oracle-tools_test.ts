@@ -1,4 +1,7 @@
-import { ORACLE_MAX_REPLY_CHARS, oracleActionsFromTools, oracleToolInstructions, oracleToolReminder, parseOracleToolOutput, type OracleHandoff } from "./oracle-tools.ts";
+import figures from "../../../packages/content/data/personas-figures.json" with { type: "json" };
+import books from "../../../packages/content/data/personas-books.json" with { type: "json" };
+import archetypes from "../../../packages/content/data/personas-archetypes.json" with { type: "json" };
+import { ORACLE_GUIDES, ORACLE_MAX_REPLY_CHARS, oracleActionsFromTools, oracleToolInstructions, oracleToolReminder, parseOracleToolOutput, type OracleHandoff } from "./oracle-tools.ts";
 
 function equal(a: unknown, b: unknown) { if (JSON.stringify(a) !== JSON.stringify(b)) throw new Error(`mismatch: ${JSON.stringify(a)} != ${JSON.stringify(b)}`); }
 function assert(value: unknown, reason: string) { if (!value) throw new Error(reason); }
@@ -77,4 +80,15 @@ Deno.test("tool parameters refine the handoff and build catalog cards", () => {
 Deno.test("instructions name the reply language and the JSON contract", () => {
   assert(oracleToolInstructions("vi").includes("Vietnamese"), "vi language missing");
   assert(oracleToolInstructions("en").includes("\"tools\""), "contract missing");
+});
+
+Deno.test("Oracle can suggest every active persona, including the previously missing guides", () => {
+  const slugs = [...figures, ...books, ...archetypes].filter((persona: { status: string }) => persona.status === "active").map((persona: { slug: string }) => persona.slug);
+  equal(Object.keys(ORACLE_GUIDES).sort(), [...slugs].sort());
+  for (const slug of ["confucius", "sun-tzu", "strategic-thinker", "harmony-guide", "stoic-journal", "dhammapada", "i-ching"]) {
+    assert(slug in ORACLE_GUIDES, `${slug} missing from Oracle guides`);
+  }
+  const output = parseOracleToolOutput(JSON.stringify({ reply: "Ok.", tools: [{ tool: "ask_guide", guide: "i-ching" }] }));
+  equal(output.output!.tools, [{ tool: "ask_guide", guide: "i-ching" }]);
+  assert(oracleToolInstructions("en").includes("dhammapada"), "instructions must list the new guides");
 });
