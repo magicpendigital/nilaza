@@ -5,14 +5,15 @@ import { colors, typography } from "../../theme";
 import type { Language } from "../../types";
 import { BirthDateFields } from "../astrology/BirthFields";
 import { buildNumerologyMap, type NumerologyMap } from "./calc";
-import { compareNumerology, type CompatRow } from "./compat";
-import { kindTitle, privateMessageCard, relationshipFrame, relationshipLine, relationshipPair, relationshipPrivacyNote } from "./content";
+import { compareNumerology, type CompatRelation, type CompatRow } from "./compat";
+import { fill, kindTitle, privateMessageCard, relationBadge, relationQuestion, relationshipExtra, relationshipFrame, relationshipLine, relationshipNeed, relationshipPair } from "./content";
 import { cleanName, nameMaxLength } from "./store";
 import type { NumerologyMessageOutcome } from "../../backendClient";
 
 // Lô 5, lớp 4 "Hợp số" and the "Lời nhắn riêng · Sắp có" card.
 //
-// PRIVACY: the other person's birth date and name are another person's data. They live ONLY in this component's
+// PRIVACY: the other person's birth date and name are another person's data. (The on-screen "only on this phone"
+// notice was removed at the Owner's request on 26/11/2026; the behaviour described here is unchanged and tested.) They live ONLY in this component's
 // state: never passed to storage, an event, a share card, a link or a request. Leaving the result (or the screen)
 // unmounts this component and drops them. The event below carries no metadata at all.
 
@@ -38,76 +39,43 @@ export function NumerologyCompat({ map, language, onCompared }: Props) {
     setRows(compareNumerology(map, other));
     onCompared?.();
   };
-  const youLabel = vi ? "Bạn" : "You";
-  const otherLabel = vi ? "Người kia" : "The other person";
 
   return (
     <View testID="numerology-compat" style={s.stack}>
       <View style={s.section}>
         <Text style={s.kicker}>{vi ? "HỢP SỐ" : "TWO MAPS"}</Text>
-        <Text accessibilityRole="header" style={s.h2}>{vi ? "Hợp số" : "Two maps side by side"}</Text>
+        <Text accessibilityRole="header" style={s.h2}>{vi ? "Bạn và người ấy" : "You and someone close"}</Text>
         <Text style={s.hint}>{relationshipFrame(language)}</Text>
       </View>
 
       <View style={s.panel}>
-        <BirthDateFields language={language} value={otherDate} onChange={(value) => { setOtherDate(value); setRows(null); }} label={vi ? "Ngày sinh người kia (dương lịch)" : "The other person's birth date (Gregorian)"} />
+        <BirthDateFields language={language} value={otherDate} onChange={(value) => { setOtherDate(value); setRows(null); }} label={vi ? "Ngày sinh người ấy (dương lịch)" : "Their birth date (Gregorian)"} />
         <View style={s.labelRow}>
-          <Text style={s.label}>{vi ? "Họ tên khai sinh người kia" : "The other person's birth name"}</Text>
+          <Text style={s.label}>{vi ? "Họ tên khai sinh người ấy" : "Their birth name"}</Text>
           <Text style={s.optional}>{vi ? "Không bắt buộc" : "Optional"}</Text>
         </View>
         <TextInput
-          accessibilityLabel={vi ? "Họ tên khai sinh người kia" : "The other person's birth name"}
+          accessibilityLabel={vi ? "Họ tên khai sinh người ấy" : "Their birth name"}
           value={otherName}
           onChangeText={(value) => { setOtherName(cleanName(value)); setRows(null); }}
           maxLength={nameMaxLength}
           autoCapitalize="words"
           autoCorrect={false}
           autoComplete="off"
-          placeholder={vi ? "Để trống thì chỉ so số chủ đạo" : "Leave empty to compare the life path only"}
+          placeholder={vi ? "Thêm tên để so cả số linh hồn và biểu đạt" : "Add a name to compare soul urge and expression too"}
           placeholderTextColor="#6E675F"
           style={s.input}
         />
-        <View style={s.privacy}>
-          <Ionicons name="lock-closed-outline" size={18} color={teal} style={s.privacyIcon} />
-          <Text testID="compat-privacy" style={s.privacyText}>{relationshipPrivacyNote(language)}</Text>
-        </View>
         <Pressable accessibilityRole="button" accessibilityState={{ disabled: !ready }} disabled={!ready} onPress={compare} style={[s.primary, !ready && s.disabled]}>
           <Text style={s.primaryText}>{vi ? "So hai bản đồ" : "Compare the two maps"}</Text>
         </Pressable>
-        {!ready ? <Text style={[s.hint, s.center]}>{vi ? "Cần ngày sinh đúng của người kia để so." : "Enter the other person's valid birth date to compare."}</Text> : null}
+        {!ready ? <Text style={[s.hint, s.center]}>{vi ? "Cần ngày sinh đúng của người ấy để so." : "Enter their valid birth date to compare."}</Text> : null}
       </View>
 
       {rows ? (
         <View testID="compat-results" style={s.stack}>
-          {rows.map((row) => {
-            const pair = relationshipPair(row.relation, language);
-            const title = kindTitle(row.kind, language);
-            return (
-              <View key={row.kind} testID={`compat-${row.kind}`} style={s.panel}>
-                <Text style={s.panelKicker}>{title}</Text>
-                <View style={s.pairRow}>
-                  <View style={s.flex} accessible accessibilityLabel={`${youLabel}: ${title} ${row.a.label}`}>
-                    <Text style={s.who}>{youLabel}</Text>
-                    <Text style={s.number}>{row.a.label}</Text>
-                  </View>
-                  <View style={s.flex} accessible accessibilityLabel={`${otherLabel}: ${title} ${row.b.label}`}>
-                    <Text style={s.who}>{otherLabel}</Text>
-                    <Text style={s.number}>{row.b.label}</Text>
-                  </View>
-                </View>
-                <Text style={s.panelBody}><Text style={s.bold}>{`${youLabel} (${row.a.label}): `}</Text>{relationshipLine(row.a, language)}</Text>
-                <Text style={s.panelBody}><Text style={s.bold}>{`${otherLabel} (${row.b.label}): `}</Text>{relationshipLine(row.b, language)}</Text>
-                <View style={s.pro}>
-                  <Text style={[s.proTitle, { color: teal }]}>{vi ? "Điểm chung" : "Common ground"}</Text>
-                  <Text style={s.proText}>{pair.common}</Text>
-                </View>
-                <View style={[s.pro, s.proWatch]}>
-                  <Text style={[s.proTitle, { color: amber }]}>{vi ? "Còn căng" : "Still tense"}</Text>
-                  <Text style={s.proText}>{pair.tension}</Text>
-                </View>
-              </View>
-            );
-          })}
+          <Duo rows={rows} language={language} />
+          {rows.map((row) => <CompatCard key={row.kind} row={row} language={language} />)}
           {!(map.name && rows.length > 1) ? (
             <Text style={s.hint}>
               {vi
@@ -117,6 +85,90 @@ export function NumerologyCompat({ map, language, onCompared }: Props) {
           ) : null}
         </View>
       ) : null}
+    </View>
+  );
+}
+
+const relationOrder: CompatRelation[] = ["same", "sameParity", "differentParity"];
+const relationColor: Record<CompatRelation, string> = { same: colors.gold, sameParity: teal, differentParity: rose };
+
+/** Two circles (you, them) joined by the life-path relation, and a one-line count of the compared pairs. */
+function Duo({ rows, language }: { rows: CompatRow[]; language: Language }) {
+  const copy = relationshipExtra(language);
+  const row = rows[0];
+  const items = relationOrder
+    .map((relation) => ({ relation, count: rows.filter((r) => r.relation === relation).length }))
+    .filter((x) => x.count > 0)
+    .map(({ relation, count }) => fill(copy.summaryItem, { count, badge: relationBadge(relation, language).toLocaleLowerCase(language) }))
+    .join(", ");
+  const tone = relationColor[row.relation];
+  return (
+    <View testID="compat-duo" style={s.duo}>
+      <Text style={[s.who, s.center]}>{kindTitle("lifePath", language)}</Text>
+      <View style={s.duoRow}>
+        <Person label={copy.you} number={row.a.label} accent={colors.gold} />
+        <View style={s.duoLink}>
+          <View style={[s.duoLine, { backgroundColor: tone }]} />
+          <Text testID="compat-duo-badge" style={[s.badge, { borderColor: tone, color: tone }]}>{relationBadge(row.relation, language)}</Text>
+          <View style={[s.duoLine, { backgroundColor: tone }]} />
+        </View>
+        <Person label={copy.other} number={row.b.label} accent={rose} />
+      </View>
+      <Text style={[s.panelBody, s.center]}>{fill(copy.summary, { total: rows.length, items })}</Text>
+    </View>
+  );
+}
+
+function Person({ label, number, accent }: { label: string; number: string; accent: string }) {
+  return (
+    <View style={s.person} accessible accessibilityLabel={`${label}: ${number}`}>
+      <View style={[s.circle, { borderColor: accent }]}>
+        <Text style={[s.circleNumber, number.length > 2 && s.circleNumberSmall]}>{number}</Text>
+      </View>
+      <Text style={s.who}>{label}</Text>
+    </View>
+  );
+}
+
+function CompatCard({ row, language }: { row: CompatRow; language: Language }) {
+  const vi = language === "vi";
+  const copy = relationshipExtra(language);
+  const pair = relationshipPair(row.relation, language);
+  const title = kindTitle(row.kind, language);
+  const tone = relationColor[row.relation];
+  return (
+    <View testID={`compat-${row.kind}`} style={[s.panel, s.cardAccent, { borderLeftColor: tone }]}>
+      <View style={s.cardHead}>
+        <Text style={s.cardTitle}>{title}</Text>
+        <Text style={[s.badge, { borderColor: tone, color: tone }]}>{relationBadge(row.relation, language)}</Text>
+      </View>
+      <View style={s.pairRow}>
+        <View style={s.flex} accessible accessibilityLabel={`${copy.you}: ${title} ${row.a.label}`}>
+          <Text style={s.who}>{copy.you}</Text>
+          <Text style={s.number}>{row.a.label}</Text>
+        </View>
+        <View style={s.flex} accessible accessibilityLabel={`${copy.other}: ${title} ${row.b.label}`}>
+          <Text style={s.who}>{copy.other}</Text>
+          <Text style={s.number}>{row.b.label}</Text>
+        </View>
+      </View>
+      <Text style={s.panelBody}><Text style={s.bold}>{`${copy.you} (${row.a.label}): `}</Text>{relationshipLine(row.a, language)}</Text>
+      <Text style={s.panelBody}><Text style={s.bold}>{`${copy.other} (${row.b.label}): `}</Text>{relationshipLine(row.b, language)}</Text>
+      <View style={s.needs}>
+        <Text style={s.needsTitle}>{copy.needsTitle}</Text>
+        <Text style={s.proText}>{relationshipNeed(row.a, language)}</Text>
+        {row.a.root !== row.b.root ? <Text style={s.proText}>{relationshipNeed(row.b, language)}</Text> : null}
+      </View>
+      <View style={s.pro}>
+        <Text style={[s.proTitle, { color: teal }]}>{vi ? "Điểm chung" : "Common ground"}</Text>
+        <Text style={s.proText}>{pair.common}</Text>
+      </View>
+      <View style={[s.pro, s.proWatch]}>
+        <Text style={[s.proTitle, { color: amber }]}>{vi ? "Còn căng" : "Still tense"}</Text>
+        <Text style={s.proText}>{pair.tension}</Text>
+      </View>
+      <Text style={s.who}>{copy.questionTitle}</Text>
+      <Text style={s.question}>{relationQuestion(row.relation, language)}</Text>
     </View>
   );
 }
@@ -243,6 +295,21 @@ const s = StyleSheet.create({
   secondary: { minHeight: 48, borderRadius: 24, borderWidth: 1, borderColor: "rgba(247, 241, 230, 0.3)", alignItems: "center", justifyContent: "center", paddingHorizontal: 16 },
   secondaryText: { color: colors.ivory, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 15, textAlign: "center" },
   loadingRow: { flexDirection: "row", alignItems: "center", gap: 10 },
+  question: { color: colors.gold, fontFamily: typography.bodyItalicFontFamily, fontSize: 14.5, lineHeight: 21 },
+  cardAccent: { borderLeftWidth: 3 },
+  cardHead: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 8 },
+  cardTitle: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 20, lineHeight: 25, flexShrink: 1 },
+  badge: { fontFamily: typography.bodySemiBoldFontFamily, fontSize: 12, paddingHorizontal: 10, paddingVertical: 3, borderRadius: 12, borderWidth: 1, overflow: "hidden", textAlign: "center" },
+  needs: { padding: 12, borderRadius: 12, backgroundColor: "rgba(231, 183, 190, 0.1)", gap: 6 },
+  needsTitle: { color: rose, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 12, letterSpacing: 0.6 },
+  duo: { padding: 18, borderRadius: 20, backgroundColor: card, gap: 12 },
+  duoRow: { flexDirection: "row", alignItems: "center" },
+  duoLink: { flex: 1, minWidth: 0, flexDirection: "row", alignItems: "center", marginBottom: 22 },
+  duoLine: { flex: 1, height: 1, opacity: 0.6 },
+  person: { alignItems: "center", gap: 6 },
+  circle: { width: 84, height: 84, borderRadius: 42, borderWidth: 2, alignItems: "center", justifyContent: "center", backgroundColor: "rgba(201, 164, 92, 0.08)" },
+  circleNumber: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 36, lineHeight: 42 },
+  circleNumberSmall: { fontSize: 24, lineHeight: 30 },
   soonCard: { marginTop: 12, padding: 16, borderRadius: 16, borderWidth: 1, borderStyle: "dashed", borderColor: "rgba(201, 164, 92, 0.5)", gap: 8 },
   soonHead: { flexDirection: "row", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 8 },
   soonTitle: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 22, lineHeight: 27, flexShrink: 1 },

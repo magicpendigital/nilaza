@@ -1,0 +1,247 @@
+{
+  "version": 1,
+  "review": {
+    "status": "approved",
+    "reviewer": "Owner",
+    "reviewedAt": "2026-11-27",
+    "note": "Richer chart and Hợp số copy added 26/11/2026 after the Owner's phone test. AI-drafted; the Owner read and approved it on 27/11/2026. Any later edit needs a new Owner review. Not used by any Edge Function."
+  },
+  "chart": {
+    "presentCount": {
+      "vi": "Ngày sinh của bạn có {n} trên 9 con số.",
+      "en": "Your birth date holds {n} of the 9 digits."
+    },
+    "strongest": {
+      "vi": "Nổi bật nhất là số {digit}, xuất hiện {count} lần.",
+      "en": "The strongest is {digit}, which appears {count} times."
+    },
+    "noRepeat": {
+      "vi": "Không có số nào lặp lại: mỗi số có mặt đúng một lần.",
+      "en": "No digit repeats: each one appears exactly once."
+    },
+    "row": {
+      "vi": "Hàng đậm nhất là hàng {label} ({digits}).",
+      "en": "The fullest row is {label} ({digits})."
+    },
+    "repeatHint": {
+      "vi": "Dấu ×2, ×3 cho biết số đó xuất hiện mấy lần. Số lặp nhiều lần thường được đọc là nét đó rõ hơn, cả mặt sáng lẫn chỗ dễ vấp.",
+      "en": "The ×2 or ×3 mark shows how many times a digit appears. A repeated digit is usually read as a stronger trait, both its light side and its stumbling side."
+    },
+    "emptyHint": {
+      "vi": "Ô trống chỉ là chỗ ngày sinh vắng chữ số đó, chẳng nói lên điểm yếu nào. Chạm vào ô trống để đọc cách nhìn nó.",
+      "en": "An empty cell only means the birth date lacks that digit; it points to no weakness. Tap an empty cell to read how to look at it."
+    },
+    "times": {
+      "vi": "{count} lần",
+      "en": "{count} times"
+    }
+  },
+  "digits": {
+    "1": {
+      "title": { "vi": "Tiếng nói riêng", "en": "Your own voice" },
+      "present": {
+        "vi": "Số 1 có mặt gợi một tiếng nói riêng: bạn thường biết mình muốn gì và dám nói ra. Khi cần, bạn có thể tự đứng lên bắt đầu.",
+        "en": "A 1 suggests a voice of your own: you often know what you want and dare to say it. When it counts, you can step up and start."
+      },
+      "many": {
+        "vi": "Số 1 lặp lại nhiều lần thường được đọc là cái tôi rõ nét: bạn có thể rất quyết đoán, nhưng cũng dễ khó nghe người khác khi đã tin vào ý mình.",
+        "en": "A repeated 1 is usually read as a clear sense of self: you can be very decisive, and also find it hard to hear others once you trust your own view."
+      },
+      "absent": {
+        "vi": "Vắng số 1 không có nghĩa bạn thiếu chủ kiến. Có thể bạn quen nghĩ đến người khác trước khi nói điều mình muốn; nói ra sớm hơn một chút là đủ.",
+        "en": "No 1 does not mean you lack a view of your own. You may be used to thinking of others before saying what you want; saying it a little sooner is enough."
+      }
+    },
+    "2": {
+      "title": { "vi": "Cảm nhận", "en": "Feeling" },
+      "present": {
+        "vi": "Số 2 có mặt gợi độ nhạy với người khác: bạn thường đọc được không khí và để ý những cảm xúc chưa ai nói ra.",
+        "en": "A 2 suggests sensitivity to others: you often read the room and notice feelings nobody has put into words yet."
+      },
+      "many": {
+        "vi": "Số 2 lặp lại nhiều lần thường được đọc là trực giác mạnh, nhưng tâm trạng của người xung quanh cũng dễ thấm vào bạn. Một khoảng lặng riêng mỗi ngày có thể giúp bạn trở về với mình.",
+        "en": "A repeated 2 is usually read as strong intuition, though the moods around you may also soak into you. A quiet moment of your own each day can bring you back to yourself."
+      },
+      "absent": {
+        "vi": "Vắng số 2 không có nghĩa bạn vô tâm. Có thể bạn cần lời nói rõ ràng hơn để hiểu người khác đang cảm thấy gì; hỏi thẳng là một cách tốt.",
+        "en": "No 2 does not mean you are unfeeling. You may need clearer words to understand how others feel; asking directly is a good way in."
+      }
+    },
+    "3": {
+      "title": { "vi": "Biểu đạt", "en": "Expression" },
+      "present": {
+        "vi": "Số 3 có mặt gợi trí tưởng tượng và nhu cầu nói ra, viết ra, làm ra điều mình nghĩ.",
+        "en": "A 3 suggests imagination and a need to say, write or make what you are thinking."
+      },
+      "many": {
+        "vi": "Số 3 lặp lại nhiều lần thường được đọc là đầu óc nhiều ý tưởng và nói chuyện có duyên; chỗ dễ vấp là ý chạy nhanh hơn việc, hoặc nghĩ quá nhiều về một chuyện.",
+        "en": "A repeated 3 is usually read as a mind full of ideas and an easy way with words; the stumbling side is ideas running ahead of the work, or thinking too much about one thing."
+      },
+      "absent": {
+        "vi": "Vắng số 3 không có nghĩa bạn kém sáng tạo. Có thể bạn cần một chỗ an toàn hơn để bày tỏ ý mình; viết vài dòng mỗi ngày là một lối mở nhẹ nhàng.",
+        "en": "No 3 does not mean you lack creativity. You may need a safer place to show your ideas; writing a few lines a day is a gentle way in."
+      }
+    },
+    "4": {
+      "title": { "vi": "Thực tế", "en": "Practicality" },
+      "present": {
+        "vi": "Số 4 có mặt gợi sự thực tế: bạn thường thích làm từng bước, có trật tự và có kết quả nhìn thấy được.",
+        "en": "A 4 suggests practicality: you often like to work step by step, in order, with results you can see."
+      },
+      "many": {
+        "vi": "Số 4 lặp lại nhiều lần thường được đọc là rất chăm và bền bỉ, nhưng cũng dễ cứng nhắc hoặc khó nghỉ khi việc chưa xong.",
+        "en": "A repeated 4 is usually read as very hard-working and steady, and also prone to rigidity or to not resting while work is unfinished."
+      },
+      "absent": {
+        "vi": "Vắng số 4 không có nghĩa bạn thiếu kỷ luật. Có thể bạn làm theo cảm hứng nhiều hơn theo lịch; một thói quen nhỏ lặp lại đều đặn có thể giữ nhịp cho bạn.",
+        "en": "No 4 does not mean you lack discipline. You may work more by inspiration than by schedule; one small habit repeated steadily can keep your rhythm."
+      }
+    },
+    "5": {
+      "title": { "vi": "Cân bằng", "en": "Balance" },
+      "present": {
+        "vi": "Số 5 nằm giữa lưới. Có mặt, nó gợi khả năng thích nghi và giữ cân bằng giữa nghĩ, cảm và làm.",
+        "en": "The 5 sits in the middle of the grid. When present, it suggests adaptability and balance between thinking, feeling and doing."
+      },
+      "many": {
+        "vi": "Số 5 lặp lại nhiều lần thường được đọc là ưa tự do, thích điều mới và nhiều năng lượng; chỗ dễ vấp là khó ngồi yên với một việc lâu.",
+        "en": "A repeated 5 is usually read as a love of freedom and novelty and plenty of energy; the stumbling side is finding it hard to stay with one thing for long."
+      },
+      "absent": {
+        "vi": "Vắng số 5 không có nghĩa bạn thiếu linh hoạt. Có thể bạn cần lý do rõ ràng trước khi đổi hướng; thử những điều mới thật nhỏ là một cách nới dần.",
+        "en": "No 5 does not mean you lack flexibility. You may need a clear reason before changing course; trying very small new things is a way to loosen up gradually."
+      }
+    },
+    "6": {
+      "title": { "vi": "Chăm sóc", "en": "Care" },
+      "present": {
+        "vi": "Số 6 có mặt gợi sự chăm sóc và tinh thần trách nhiệm với gia đình, với những người thân quen.",
+        "en": "A 6 suggests care and a sense of responsibility toward home and the people close to you."
+      },
+      "many": {
+        "vi": "Số 6 lặp lại nhiều lần thường được đọc là lo cho người khác rất nhiều, đôi khi đến mức quên mình hoặc muốn mọi thứ thật chu toàn.",
+        "en": "A repeated 6 is usually read as caring for others a great deal, sometimes to the point of forgetting yourself or wanting everything just right."
+      },
+      "absent": {
+        "vi": "Vắng số 6 không có nghĩa bạn thiếu quan tâm. Có thể bạn thể hiện sự quan tâm bằng việc làm hơn lời nói; nói ra điều mình trân trọng cũng là một cách chăm sóc.",
+        "en": "No 6 does not mean you care less. You may show care through actions more than words; saying what you value is a form of care too."
+      }
+    },
+    "7": {
+      "title": { "vi": "Chiều sâu", "en": "Depth" },
+      "present": {
+        "vi": "Số 7 có mặt gợi nhu cầu tìm hiểu đến tận gốc và học từ chính trải nghiệm của mình.",
+        "en": "A 7 suggests a need to get to the root of things and to learn from your own experience."
+      },
+      "many": {
+        "vi": "Số 7 lặp lại nhiều lần thường được đọc là học nhiều qua những lần vấp và cần nhiều khoảng riêng để nghĩ; chỗ dễ vấp là giữ mọi chuyện trong lòng.",
+        "en": "A repeated 7 is usually read as learning a lot through stumbles and needing plenty of room to think; the stumbling side is keeping everything inside."
+      },
+      "absent": {
+        "vi": "Vắng số 7 không có nghĩa bạn hời hợt. Có thể bạn học nhanh hơn từ người khác so với tự mày mò; ngẫm lại một việc vừa qua có thể giúp bạn thấy thêm điều mới.",
+        "en": "No 7 does not mean you are shallow. You may learn faster from others than by working things out alone; looking back on something that just happened can show you more."
+      }
+    },
+    "8": {
+      "title": { "vi": "Tổ chức", "en": "Organization" },
+      "present": {
+        "vi": "Số 8 có mặt gợi khả năng sắp xếp, để ý chi tiết và theo việc đến cùng.",
+        "en": "An 8 suggests a knack for organizing, noticing detail and following things through."
+      },
+      "many": {
+        "vi": "Số 8 lặp lại nhiều lần thường được đọc là sức bền lớn và ý muốn tự lập; chỗ dễ vấp là khó mở lời nhờ ai giúp.",
+        "en": "A repeated 8 is usually read as great endurance and a wish to be self-reliant; the stumbling side is finding it hard to ask anyone for help."
+      },
+      "absent": {
+        "vi": "Vắng số 8 không có nghĩa bạn bừa bộn. Có thể bạn để ý bức tranh lớn hơn là chi tiết; một danh sách việc ngắn có thể đỡ cho bạn phần đó.",
+        "en": "No 8 does not mean you are disorganized. You may notice the big picture more than the details; a short to-do list can carry that part for you."
+      }
+    },
+    "9": {
+      "title": { "vi": "Cái nhìn rộng", "en": "A wide view" },
+      "present": {
+        "vi": "Số 9 có mặt gợi cái nhìn rộng, lòng cảm thông và mong muốn làm điều có ý nghĩa với nhiều người. Vì nhiều năm sinh có sẵn số 9 (như 19xx), nét này thường được đọc nhẹ tay hơn.",
+        "en": "A 9 suggests a wide view, compassion and a wish to do something that matters to many people. Since many birth years already carry a 9 (such as 19xx), this trait is usually read lightly."
+      },
+      "many": {
+        "vi": "Số 9 lặp lại nhiều lần thường được đọc là lý tưởng cao, nhiều cảm xúc và hay nghĩ cho người khác; chỗ dễ vấp là đặt kỳ vọng quá cao vào mình và mọi người.",
+        "en": "A repeated 9 is usually read as high ideals, deep feeling and thinking of others often; the stumbling side is expecting too much of yourself and everyone around you."
+      },
+      "absent": {
+        "vi": "Vắng số 9 không có nghĩa bạn thiếu lòng tốt. Có thể bạn tập trung vào những việc gần và cụ thể; thỉnh thoảng nhìn xa hơn một chút có thể mở thêm hướng cho bạn.",
+        "en": "No 9 does not mean you lack kindness. You may focus on things that are close and concrete; looking a little further now and then can open new directions."
+      }
+    }
+  },
+  "relationship": {
+    "you": { "vi": "Bạn", "en": "You" },
+    "other": { "vi": "Người ấy", "en": "The other person" },
+    "badges": {
+      "same": { "vi": "Cùng số", "en": "Same number" },
+      "sameParity": { "vi": "Cùng nhịp", "en": "Same tempo" },
+      "differentParity": { "vi": "Bổ sung nhau", "en": "Complementary" }
+    },
+    "summary": {
+      "vi": "So {total} cặp số: {items}.",
+      "en": "{total} pairs compared: {items}."
+    },
+    "summaryItem": {
+      "vi": "{count} cặp {badge}",
+      "en": "{count} {badge}"
+    },
+    "needsTitle": { "vi": "Điều mỗi người cần", "en": "What each one needs" },
+    "questionTitle": { "vi": "Câu hỏi cho hai người", "en": "A question for the two of you" },
+    "needs": {
+      "1": {
+        "vi": "Người mang số 1 thường cần được tin để tự quyết phần việc của mình, và cần người kia nói thẳng khi mình đi quá nhanh.",
+        "en": "A 1 often needs to be trusted to decide their own part, and needs the other person to speak plainly when they move too fast."
+      },
+      "2": {
+        "vi": "Người mang số 2 thường cần được hỏi ý và được lắng nghe, nhất là những điều họ ngại nói ra trước.",
+        "en": "A 2 often needs to be asked and listened to, especially about things they hesitate to bring up first."
+      },
+      "3": {
+        "vi": "Người mang số 3 thường cần được đáp lời và cùng cười, và cần người kia kiên nhẫn khi họ nói vòng trước khi vào chuyện chính.",
+        "en": "A 3 often needs a response and a shared laugh, and needs patience when they talk around a topic before getting to it."
+      },
+      "4": {
+        "vi": "Người mang số 4 thường cần sự rõ ràng và giữ lời, và cần được báo trước khi kế hoạch thay đổi.",
+        "en": "A 4 often needs clarity and kept promises, and needs a heads-up before plans change."
+      },
+      "5": {
+        "vi": "Người mang số 5 thường cần khoảng tự do và những điều mới, và cần người kia hiểu rằng muốn đổi khác chưa hẳn là thiếu gắn bó.",
+        "en": "A 5 often needs room and new things, and needs the other person to see that wanting change is not the same as lacking commitment."
+      },
+      "6": {
+        "vi": "Người mang số 6 thường cần được ghi nhận những gì họ âm thầm lo, và cần được nhắc rằng họ cũng đáng được chăm lại.",
+        "en": "A 6 often needs what they quietly take care of to be noticed, and to be reminded that they deserve care in return."
+      },
+      "7": {
+        "vi": "Người mang số 7 thường cần khoảng riêng để nghĩ, và cần người kia hiểu sự im lặng của họ chưa hẳn là xa cách.",
+        "en": "A 7 often needs space to think, and needs the other person to see that their silence is not distance."
+      },
+      "8": {
+        "vi": "Người mang số 8 thường cần được tôn trọng cách làm việc, và cần người kia nói rõ khi giọng của họ nghe như ra lệnh.",
+        "en": "An 8 often needs their way of working respected, and needs to be told clearly when their tone sounds like an order."
+      },
+      "9": {
+        "vi": "Người mang số 9 thường cần được nhìn thấy những gì họ cho đi, và cần người kia nhắc họ nghỉ trước khi cạn sức.",
+        "en": "A 9 often needs what they give to be seen, and needs the other person to remind them to rest before they run dry."
+      }
+    },
+    "questions": {
+      "same": {
+        "vi": "Chỗ dễ vấp chung của hai người là gì, và ai có thể nhắc ai khi cả hai cùng sa vào đó?",
+        "en": "What stumbling place do you share, and who can remind whom when you both slip into it?"
+      },
+      "sameParity": {
+        "vi": "Có điều gì cả hai cùng hay bỏ qua mà một người thứ ba có thể nhìn ra?",
+        "en": "What do you both tend to overlook that a third person might notice?"
+      },
+      "differentParity": {
+        "vi": "Khi nhịp hai người lệch nhau, mỗi người có thể nhường nửa bước ở đâu?",
+        "en": "When your tempos drift apart, where could each of you give half a step?"
+      }
+    }
+  }
+}

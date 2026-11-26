@@ -519,6 +519,22 @@ for (const pair of ["same", "sameParity", "differentParity"]) for (const field o
 for (const field of ["title", "soon", "body", "sends", "action", "consentTitle", "consentBody", "consentConfirm", "consentCancel", "loading",
   "resultTitle", "premiumNote", "dailyLimit", "unavailable", "retry", "blocked"]) assertNumText(numerologyBlocks.privateMessage?.[field], "privateMessage." + field);
 for (const key of ["personalYear", "personalMonth", "personalDay", "pinnacles", "challenges", "relationship", "privateMessage"]) scanSkyText(numerologyBlocks[key], "." + key, "numerology-blocks");
+// 2026-11-26: richer chart and Hợp số copy, kept apart from the approved store, with its own review block.
+const numerologyExtra = readJson("packages/content/data/numerology-reading-extra.json");
+const assertExtraText = (value, label) => assertViText(value, "numerology-reading-extra." + label);
+assert(["draft", "approved"].includes(numerologyExtra.review?.status), "numerology-reading-extra.review.status must be draft or approved");
+assert(numerologyExtra.review?.status !== "approved" || Boolean(numerologyExtra.review?.reviewer), "numerology-reading-extra approved without a reviewer");
+for (const key of ["presentCount", "strongest", "noRepeat", "row", "repeatHint", "emptyHint", "times"]) assertExtraText(numerologyExtra.chart?.[key], "chart." + key);
+for (const digit of nbDigits) {
+  for (const field of ["title", "present", "many", "absent"]) assertExtraText(numerologyExtra.digits?.[digit]?.[field], "digits." + digit + "." + field);
+  assertExtraText(numerologyExtra.relationship?.needs?.[digit], "relationship.needs." + digit);
+}
+for (const key of ["you", "other", "needsTitle", "questionTitle", "summary", "summaryItem"]) assertExtraText(numerologyExtra.relationship?.[key], "relationship." + key);
+for (const relation of ["same", "sameParity", "differentParity"]) {
+  assertExtraText(numerologyExtra.relationship?.badges?.[relation], "relationship.badges." + relation);
+  assertExtraText(numerologyExtra.relationship?.questions?.[relation], "relationship.questions." + relation);
+}
+for (const key of ["chart", "digits", "relationship"]) scanSkyText(numerologyExtra[key], "." + key, "numerology-reading-extra");
 const skyTopics = readJson("packages/content/data/astrology-topic-placements.json");
 for (const key of ["reminder", "birthTimeNote", "needsBirthTime"]) assertViText(skyTopics[key], `astrology-topic-placements.${key}`);
 for (const [topicId, topic] of Object.entries(skyTopics.topics)) {

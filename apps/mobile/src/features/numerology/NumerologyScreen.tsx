@@ -6,7 +6,7 @@ import type { Language } from "../../types";
 import { BirthDateFields } from "../astrology/BirthFields";
 import { numerologyModel, type ShareRequest } from "../share/shareCardContent";
 import { buildNumerologyMap, gridLayout, localToday, reduceNumber, type ArrowId, type NumerologyMap, type NumerologyNumber } from "./calc";
-import { arrowLabel, arrowNotes, arrowText, digitLine, digitNote, kindFrame, kindTitle, numberBlock, numerologyContentReviewed, type NumerologyKind } from "./content";
+import { arrowLabel, arrowNotes, arrowText, chartCopy, digitReading, fill, kindFrame, kindTitle, numberBlock, numerologyContentReviewed, numerologyExtraReviewed, type NumerologyKind } from "./content";
 import { cleanName, loadSavedName, nameMaxLength, saveName, type NumerologyStorage } from "./store";
 import { NumerologyCompat, PrivateMessageSoon } from "./NumerologyCompat";
 import { NumerologyTime } from "./NumerologyTime";
@@ -97,7 +97,7 @@ export function NumerologyScreen({ language, storage, initialBirthDate, onBirthD
           <View style={s.iconButton} />
         )}
       </View>
-      {!numerologyContentReviewed ? (
+      {!(numerologyContentReviewed && numerologyExtraReviewed) ? (
         <Text testID="numerology-draft-note" style={s.draft}>
           {vi ? "Bản thử: phần diễn giải đang chờ người duyệt chuyên môn. Hãy đọc như một gợi ý để tự soi." : "Test version: the readings are waiting for an expert reviewer. Read them as prompts for reflection."}
         </Text>
@@ -112,7 +112,6 @@ export function NumerologyScreen({ language, storage, initialBirthDate, onBirthD
           birthDate={birthDate}
           birthPrefilled={Boolean(initialBirthDate)}
           name={name}
-          guest={!storage}
           onBirthDate={changeBirth}
           onName={(value) => { nameTouched.current = true; setName(cleanName(value)); }}
           onCompute={compute}
@@ -135,8 +134,8 @@ function shareRequest(map: NumerologyMap, language: Language): ShareRequest {
   };
 }
 
-function Input({ language, birthDate, birthPrefilled, name, guest, onBirthDate, onName, onCompute }: {
-  language: Language; birthDate: string; birthPrefilled: boolean; name: string; guest: boolean;
+function Input({ language, birthDate, birthPrefilled, name, onBirthDate, onName, onCompute }: {
+  language: Language; birthDate: string; birthPrefilled: boolean; name: string;
   onBirthDate: (value: string) => void; onName: (value: string) => void; onCompute: (withName: boolean) => void;
 }) {
   const vi = language === "vi";
@@ -145,7 +144,7 @@ function Input({ language, birthDate, birthPrefilled, name, guest, onBirthDate, 
   return (
     <View style={s.stack}>
       <View style={s.stackSm}>
-        <Text accessibilityRole="header" style={s.h1}>{vi ? "Con số của bạn, tính ngay trên máy" : "Your numbers, worked out on your phone"}</Text>
+        <Text accessibilityRole="header" style={s.h1}>{vi ? "Bản đồ số của bạn" : "Your number map"}</Text>
         <Text style={s.lead}>
           {vi ? "Chỉ cần ngày sinh là có kết quả. Thêm họ tên khai sinh để có thêm các số từ tên." : "A birth date is enough. Add your birth name to get the numbers from your name too."}
         </Text>
@@ -180,15 +179,6 @@ function Input({ language, birthDate, birthPrefilled, name, guest, onBirthDate, 
             ? "Dùng tên trên giấy khai sinh. Tên thường gọi sẽ cho kết quả khác. Dấu tiếng Việt (ă â ê ô ơ ư đ) được xử lý tự động."
             : "Use the name on your birth certificate. A nickname gives different numbers. Vietnamese accents are handled automatically."}
         </Text>
-        <View style={s.privacy}>
-          <Ionicons name="lock-closed-outline" size={18} color={teal} style={s.privacyIcon} />
-          <Text style={s.privacyText}>
-            {vi
-              ? "Họ tên chỉ lưu trên máy này, không gửi đi và không nằm trong thẻ chia sẻ. Muốn xóa, hãy xóa ô tên rồi bấm xem bản đồ."
-              : "The name is saved on this device only, never sent and never on a share card. To remove it, clear the box and open the map."}
-          </Text>
-        </View>
-        {guest ? <Text style={[s.hint, s.gapTop]}>{vi ? "Bạn chưa đăng nhập nên họ tên chỉ giữ trong lúc mở màn này. Các số vẫn tính được trên máy." : "You are not signed in, so the name is kept only while this screen is open. The numbers still work on your phone."}</Text> : null}
       </View>
       <View>
         <Pressable accessibilityRole="button" accessibilityState={{ disabled: !ready }} disabled={!ready} onPress={() => onCompute(true)} style={[s.primary, !ready && s.disabled]}>
@@ -206,8 +196,8 @@ function Input({ language, birthDate, birthPrefilled, name, guest, onBirthDate, 
         {how ? (
           <Text testID="numerology-how" style={[s.hint, s.explain]}>
             {vi
-              ? "Cách đọc kiểu Pythagoras: chữ cái có giá trị từ 1 đến 9 (A=1 … I=9, J=1 … R=9, S=1 … Z=8). Các số được cộng rồi rút về một chữ số, trừ 11 và 22 được giữ lại. Chữ Y là nguyên âm khi từ không có A, E, I, O, U. Mọi phép tính chạy trên máy này."
-              : "A Pythagorean-style reading: letters carry values from 1 to 9 (A=1 … I=9, J=1 … R=9, S=1 … Z=8). Numbers are added and reduced to one digit, except 11 and 22 which are kept. Y is a vowel only in a word with no A, E, I, O or U. Everything is calculated on this device."}
+              ? "Cách đọc kiểu Pythagoras: chữ cái có giá trị từ 1 đến 9 (A=1 … I=9, J=1 … R=9, S=1 … Z=8). Các số được cộng rồi rút về một chữ số, trừ 11 và 22 được giữ lại. Chữ Y là nguyên âm khi từ không có A, E, I, O, U."
+              : "A Pythagorean-style reading: letters carry values from 1 to 9 (A=1 … I=9, J=1 … R=9, S=1 … Z=8). Numbers are added and reduced to one digit, except 11 and 22 which are kept. Y is a vowel only in a word with no A, E, I, O or U."}
           </Text>
         ) : null}
       </View>
@@ -244,7 +234,8 @@ function Result({ map, name, language, onShare, onAddName, onCompared, onRequest
   const vi = language === "vi";
   const [picked, setPicked] = useState<NumerologyKind | null>(null);
   const present = Object.keys(map.grid.counts).map(Number).sort((a, b) => a - b);
-  const [digit, setDigit] = useState<number | null>(present[0] ?? null);
+  // Open on the most repeated digit (the lowest one on a tie), so a "×3" cell is read first.
+  const [digit, setDigit] = useState<number | null>(present.reduce<number | null>((best, d) => (best === null || map.grid.counts[d] > map.grid.counts[best] ? d : best), null));
   const notes = arrowNotes(language);
   const lifeBlock = numberBlock(map.lifePath, language);
   const { day, month, year } = map.birth;
@@ -323,20 +314,11 @@ function Result({ map, name, language, onShare, onAddName, onCompared, onRequest
         <Text style={s.kicker}>{vi ? "BIỂU ĐỒ NGÀY SINH" : "BIRTH-DATE CHART"}</Text>
         <Text accessibilityRole="header" style={s.h2}>{vi ? "Những con số có mặt trong ngày sinh của bạn" : "The numbers present in your birth date"}</Text>
       </View>
+      <ChartSummary counts={map.grid.counts} language={language} />
       <Grid counts={map.grid.counts} language={language} selected={digit} onSelect={setDigit} />
       <Text style={[s.hint, s.center]}>{vi ? "Chạm một ô để đọc. Số 0 trong ngày sinh không có ô riêng." : "Tap a cell to read it. A 0 in the birth date has no cell of its own."}</Text>
-      {digit ? (
-        <View testID="digit-reading" style={s.panel}>
-          <Text style={s.panelKicker}>{`${vi ? "Ô số" : "Cell"} ${digit} · ${map.grid.counts[digit] ? (vi ? "có mặt" : "present") : vi ? "trống" : "empty"}`}</Text>
-          <Text style={s.panelBody}>{map.grid.counts[digit] ? digitLine(digit, language) : digitNote(language)}</Text>
-        </View>
-      ) : null}
-      {hasEmptyCells ? (
-        <View style={s.panel}>
-          <Text style={s.panelKicker}>{vi ? "Ô trống không phải thiếu sót" : "An empty cell is not a shortfall"}</Text>
-          <Text style={s.panelBody}>{digitNote(language)}</Text>
-        </View>
-      ) : null}
+      {digit ? <DigitReading digit={digit} count={map.grid.counts[digit] ?? 0} language={language} /> : null}
+      {hasEmptyCells ? <Text style={s.hint}>{chartCopy("emptyHint", language)}</Text> : null}
       {map.grid.full.map((id) => <ArrowCard key={id} id={id} language={language} />)}
       {map.grid.empty.length ? <Text testID="arrows-empty-note" style={s.hint}>{`${notes.empty} ${vi ? "Ở bạn, các đường trống là" : "For you, the empty lines are"} ${map.grid.empty.join(", ")}.`}</Text> : null}
       <Text style={s.hint}>{notes.label}</Text>
@@ -355,8 +337,8 @@ function Result({ map, name, language, onShare, onAddName, onCompared, onRequest
         <Text style={[s.hint, s.gapTop]}>{`${vi ? "Câu hỏi để viết: " : "A question to write on: "}${lifeBlock.question}`}</Text>
         <Text style={[s.footer, s.gapTop]}>
           {vi
-            ? "Thần số học là một khung truyền thống để tự phản chiếu, không phải khoa học và không dự đoán tương lai. Thẻ chia sẻ chỉ có các con số, không có họ tên hay ngày sinh. Họ tên chỉ lưu trên máy này."
-            : "Numerology is a traditional frame for self-reflection, not science and not a forecast. The share card has the numbers only, no name or birth date. The name is saved on this device only."}
+            ? "Thần số học là một khung truyền thống để tự phản chiếu, không phải khoa học và không dự đoán tương lai."
+            : "Numerology is a traditional frame for self-reflection, not science and not a forecast."}
         </Text>
       </View>
     </View>
@@ -403,7 +385,45 @@ function ArrowCard({ id, language }: { id: ArrowId; language: Language }) {
   );
 }
 
-// Top row 3-6-9, middle 2-5-8, bottom 1-4-7. A digit that is absent is dashed and dim; a repeated digit shows how many times.
+function DigitReading({ digit, count, language }: { digit: number; count: number; language: Language }) {
+  const vi = language === "vi";
+  const reading = digitReading(digit, count, language);
+  const state = count === 0 ? (vi ? "trống" : "empty") : count === 1 ? (vi ? "có mặt" : "present") : `${vi ? "có mặt" : "present"} ${fill(chartCopy("times", language), { count })}`;
+  return (
+    <View testID="digit-reading" style={s.panel}>
+      <Text style={s.panelKicker}>{`${vi ? "Ô số" : "Cell"} ${digit} · ${state}`}</Text>
+      <Text style={s.readingTitle}>{reading.title}</Text>
+      <Text style={s.panelBody}>{reading.body}</Text>
+      {reading.many ? <Text testID="digit-reading-many" style={[s.panelBody, s.manyNote]}>{reading.many}</Text> : null}
+    </View>
+  );
+}
+
+function ChartSummary({ counts, language }: { counts: Record<number, number>; language: Language }) {
+  const vi = language === "vi";
+  const present = gridLayout.flat().filter((d) => (counts[d] ?? 0) > 0);
+  const max = Math.max(0, ...present.map((d) => counts[d]));
+  const strongest = present.filter((d) => counts[d] === max).sort((a, b) => a - b);
+  const rows = gridLayout.map((row) => ({ row, total: row.reduce((sum, d) => sum + (counts[d] ?? 0), 0) }));
+  const top = Math.max(...rows.map((r) => r.total));
+  const topRows = rows.filter((r) => r.total === top);
+  const lines = [fill(chartCopy("presentCount", language), { n: present.length })];
+  if (max > 1) lines.push(fill(chartCopy("strongest", language), { digit: strongest.join(vi ? " và " : " and "), count: max }));
+  else if (present.length) lines.push(chartCopy("noRepeat", language));
+  if (top > 0 && topRows.length === 1) {
+    const id = [...topRows[0].row].sort((a, b) => a - b).join("-") as ArrowId;
+    lines.push(fill(chartCopy("row", language), { label: arrowLabel(id, language), digits: topRows[0].row.join(" · ") }));
+  }
+  return (
+    <View testID="chart-summary" style={s.summary}>
+      {lines.map((line) => <Text key={line} style={s.summaryLine}>{line}</Text>)}
+      {max > 1 ? <Text style={s.hint}>{chartCopy("repeatHint", language)}</Text> : null}
+    </View>
+  );
+}
+
+// Top row 3-6-9, middle 2-5-8, bottom 1-4-7. A digit that is absent is dashed and dim. A repeated digit is written
+// once with a "×3" marker: writing it three times ("999") read as a different number on the Owner's phone test.
 function Grid({ counts, language, selected, onSelect }: { counts: Record<number, number>; language: Language; selected: number | null; onSelect: (digit: number) => void }) {
   const vi = language === "vi";
   const label = gridLayout.flat().map((digit) => (counts[digit] ? `${digit} ×${counts[digit]}` : `${digit} ${vi ? "trống" : "empty"}`)).join(", ");
@@ -422,7 +442,8 @@ function Grid({ counts, language, selected, onSelect }: { counts: Record<number,
                 onPress={() => onSelect(digit)}
                 style={[s.cell, count > 0 ? s.cellOn : s.cellOff, selected === digit && s.cellPicked]}
               >
-                <Text style={[s.cellDigit, count === 0 && s.cellDim]}>{count > 0 ? String(digit).repeat(count) : digit}</Text>
+                <Text style={[s.cellDigit, count === 0 && s.cellDim]}>{digit}</Text>
+                {count > 1 ? <Text testID={`cell-count-${digit}`} style={s.cellCount}>{`×${count}`}</Text> : null}
               </Pressable>
             );
           })}
@@ -452,9 +473,6 @@ const s = StyleSheet.create({
   input: { minHeight: 54, borderRadius: 14, borderWidth: 1, borderColor: "rgba(247, 241, 230, 0.16)", paddingHorizontal: 16, color: colors.ivory, fontFamily: typography.bodyFontFamily, fontSize: 17, backgroundColor: card },
   hint: { color: muted, fontFamily: typography.bodyFontFamily, fontSize: 12.5, lineHeight: 19 },
   warn: { color: amber },
-  privacy: { marginTop: 12, padding: 12, borderRadius: 12, backgroundColor: "rgba(159, 211, 207, 0.1)", flexDirection: "row", gap: 10, alignItems: "flex-start" },
-  privacyIcon: { marginTop: 1 },
-  privacyText: { flex: 1, color: body, fontFamily: typography.bodyFontFamily, fontSize: 12.5, lineHeight: 19 },
   primary: { minHeight: 54, borderRadius: 27, backgroundColor: colors.gold, alignItems: "center", justifyContent: "center", paddingHorizontal: 18 },
   primaryText: { color: colors.charcoal, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 16 },
   disabled: { opacity: 0.45 },
@@ -506,5 +524,9 @@ const s = StyleSheet.create({
   cellPicked: { borderWidth: 2 },
   cellDigit: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 30 },
   cellDim: { color: muted },
+  cellCount: { position: "absolute", top: 6, right: 8, color: colors.charcoal, backgroundColor: colors.gold, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 11.5, paddingHorizontal: 6, paddingVertical: 1, borderRadius: 8, overflow: "hidden" },
+  manyNote: { paddingLeft: 12, borderLeftWidth: 2, borderLeftColor: colors.gold },
+  summary: { padding: 16, borderRadius: 16, borderWidth: 1, borderColor: "rgba(159, 211, 207, 0.25)", gap: 6 },
+  summaryLine: { color: body, fontFamily: typography.bodyFontFamily, fontSize: 14.5, lineHeight: 22 },
   footer: { color: muted, fontFamily: typography.bodyFontFamily, fontSize: 12, lineHeight: 19, textAlign: "center" }
 });
