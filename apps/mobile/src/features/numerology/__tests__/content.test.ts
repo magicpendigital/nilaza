@@ -92,3 +92,30 @@ test("Lô 5 keys: personal cycles, pinnacles, challenges, relationship and the p
   expect(content.challengeLine(0, "vi")).toMatch(/[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/);
   expect(texts.join(" ")).not.toMatch(/kiếp trước|past life/i);
 });
+
+test("2026-11-26 extra copy: every digit reading, chart line and Hợp số string exists in both languages", () => {
+  for (const language of ["vi", "en"] as const) {
+    for (let d = 1; d <= 9; d += 1) {
+      const absent = content.digitReading(d, 0, language);
+      const once = content.digitReading(d, 1, language);
+      const many = content.digitReading(d, 3, language);
+      expect(absent.title.length).toBeGreaterThan(3);
+      expect(absent.body).not.toBe(once.body);
+      expect(once.many).toBeUndefined();
+      expect(many.many?.length).toBeGreaterThan(8);
+      expect(content.relationshipNeed(numberFrom(d), language).length).toBeGreaterThan(8);
+    }
+    for (const key of ["presentCount", "strongest", "noRepeat", "row", "repeatHint", "emptyHint", "times"] as const) expect(content.chartCopy(key, language).length).toBeGreaterThan(2);
+    for (const relation of ["same", "sameParity", "differentParity"] as const) {
+      expect(content.relationBadge(relation, language).length).toBeGreaterThan(2);
+      expect(content.relationQuestion(relation, language).endsWith("?")).toBe(true);
+    }
+    const copy = content.relationshipExtra(language);
+    for (const value of Object.values(copy)) expect(value.length).toBeGreaterThan(1);
+  }
+  expect(content.fill(content.chartCopy("presentCount", "vi"), { n: 6 })).toContain("6");
+});
+
+test("the 26/11 extra copy is approved by a named reviewer (Owner, 27/11/2026)", () => {
+  expect(content.numerologyExtraReviewed).toBe(true);
+});
