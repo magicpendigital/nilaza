@@ -189,6 +189,9 @@
     get_ai_context_configs: "ai.read",
     save_ai_context_config_draft: "ai.manage|ai.read+content.draft",
     publish_ai_context_config: "ai.manage",
+    get_ai_persona_model_tiers: "ai.read",
+    save_ai_persona_model_tiers_draft: "ai.manage|ai.read+content.draft",
+    publish_ai_persona_model_tiers: "ai.manage",
     get_growth_waitlist_overview: "overview.read",
     // AI cost by feature (P1-C, migration 20261115120000); aggregates only, the RPC checks ai.read itself.
     get_ai_cost_summary: "ai.read",

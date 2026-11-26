@@ -9,7 +9,8 @@ const seed = JSON.parse(fs.readFileSync(new URL("../apps/admin/generated/content
 test("content sync keeps the full Admin shape while compacting deck cards", () => {
   const data = buildInitialData(seed);
   const payload = toBundlePayload(data);
-  assert.equal(payload.personas.length, 17);
+  assert.equal(payload.personas.length, seed.personas.length);
+  assert.ok(seed.personas.length >= 19, "the Admin seed lists every chat persona");
   assert.equal(payload.decks.length, seed.decks.length);
   assert.equal(payload.baseCards.length, 78);
   assert.equal(payload.cards.length, seed.decks.length * 78);

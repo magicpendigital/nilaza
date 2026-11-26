@@ -82,12 +82,12 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Locked deck and guide copy, lock panels and openPremium wiring.",
-      "sha256": "bf6a21910a00d3d09d1d21ed856ec7d335f02f9d5dc1d7851407685bcedaeb07"
+      "sha256": "769fc0fcaf1b1e89224fd6bcb84a9c96c9672ef308f0921105900f73210922e9"
     },
     {
       "path": "apps/mobile/src/features/chat/ChatHub.tsx",
       "reason": "Guide grid shows 'Sắp ra mắt' for Premium guides.",
-      "sha256": "c5ce6cbc041ca2c402ae2bbaa85458a4bedd4f999fcf451ed34b0658bb5acdec"
+      "sha256": "8887dbf06c75883abea37a055ee6052c0296f74723557243a733ac7d8dafcadf"
     },
     {
       "path": "apps/mobile/src/features/tarot/TarotAskStep.tsx",

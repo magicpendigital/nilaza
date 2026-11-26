@@ -1,4 +1,13 @@
 export const MAX_AI_REQUEST_BYTES = 32 * 1024;
+/** Largest body any function may opt into: the Content-Length check accepts at most 5 digits. */
+export const MAX_AI_REQUEST_BYTES_CEILING = 99_999;
+
+/** A function's own body cap (persona chat sends up to 12 history turns of 2,500 characters); default 32 KB. */
+export function aiRequestByteLimit(maxBytes?: number) {
+  return typeof maxBytes === "number" && Number.isInteger(maxBytes) && maxBytes > 0
+    ? Math.min(maxBytes, MAX_AI_REQUEST_BYTES_CEILING)
+    : MAX_AI_REQUEST_BYTES;
+}
 export const AI_BODY_READ_TIMEOUT_MS = 5000;
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -14,6 +23,8 @@ type Dependencies = {
   authenticate: (token: string) => Promise<{ id: string; isAnonymous?: boolean } | null>;
   // Server-owned clock seam for deterministic late-read tests, never request data.
   bodyClock?: () => number;
+  /** Body cap in bytes for this function (aiRequestByteLimit); unset keeps MAX_AI_REQUEST_BYTES. */
+  maxBytes?: number;
 };
 
 export function aiAuthUserOrUnavailable(user: unknown, error: unknown) {
@@ -29,7 +40,8 @@ export function aiAuthUserOrUnavailable(user: unknown, error: unknown) {
 }
 
 /** Reads a size and time bounded JSON object body. Exported for the public guest draw, which has no user to authenticate. */
-export async function readBoundedJson(req: Request, now: () => number): Promise<Record<string, unknown>> {
+export async function readBoundedJson(req: Request, now: () => number, maxBytes?: number): Promise<Record<string, unknown>> {
+  const limit = aiRequestByteLimit(maxBytes);
   const mediaType = req.headers.get("Content-Type")?.split(";")[0].trim().toLowerCase();
   if (mediaType !== "application/json") throw new AiRequestError(415, "json_content_type_required");
   const declared = req.headers.get("Content-Length");
@@ -37,7 +49,7 @@ export async function readBoundedJson(req: Request, now: () => number): Promise<
     if (declared.length > 5) throw new AiRequestError(413, "request_too_large");
     if (!/^(0|[1-9][0-9]*)$/.test(declared)) throw new AiRequestError(400, "invalid_content_length");
     const length = Number(declared);
-    if (!Number.isSafeInteger(length) || length > MAX_AI_REQUEST_BYTES) throw new AiRequestError(413, "request_too_large");
+    if (!Number.isSafeInteger(length) || length > limit) throw new AiRequestError(413, "request_too_large");
   }
   if (!req.body) throw new AiRequestError(400, "invalid_json_body");
 
@@ -57,7 +69,7 @@ export async function readBoundedJson(req: Request, now: () => number): Promise<
         if (chunk.done) break;
         if (!(chunk.value instanceof Uint8Array)) throw new AiRequestError(400, "invalid_json_body");
         bytes += chunk.value.byteLength;
-        if (bytes > MAX_AI_REQUEST_BYTES) throw new AiRequestError(413, "request_too_large");
+        if (bytes > limit) throw new AiRequestError(413, "request_too_large");
         if (chunk.value.byteLength) chunks.push(chunk.value);
       }
     };
@@ -111,6 +123,6 @@ export async function authenticateAiRequest(req: Request, deps: Omit<Dependencie
 export async function guardAiJsonRequest(req: Request, deps: Dependencies) {
   const { userId } = await authenticateAiRequest(req, deps);
   // No body read/parse, prompt lookup or provider work before verified auth.
-  const input = await readBoundedJson(req, deps.bodyClock ?? (() => performance.now()));
+  const input = await readBoundedJson(req, deps.bodyClock ?? (() => performance.now()), deps.maxBytes);
   return { userId, input };
 }

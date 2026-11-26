@@ -2,7 +2,7 @@
   "version": "2026-10-31",
   "status": "approved",
   "approval": "Owner approved the draft as written in chat on 2026-10-31 (persona-short-names-draft.md).",
-  "scope": "Short display name and one-line tagline for the Trò chuyện hub grid (ChatHub design). The full name, role and description stay on the guide detail screen. Entries marked fromDesign come from the Owner-approved design canvas.",
+  "scope": "Short display name and one-line tagline for the Trò chuyện hub grid (ChatHub design). The full name, role and description stay on the guide detail screen. Entries marked fromDesign come from the Owner-approved design canvas. Each entry also carries an opener (vi, en): the first line of the persona chat room (Lô 0, 2026-11-25); the app falls back to a generic line when it is missing.",
   "personas": {
     "archetype-the-love-oracle": {
       "short": {
@@ -12,6 +12,10 @@
       "tagline": {
         "vi": "Ranh giới và lòng tự trọng",
         "en": "Boundaries and self-worth"
+      },
+      "opener": {
+        "vi": "Chào bạn. Chuyện tình cảm nào đang làm bạn nghĩ nhiều? Mình sẽ cùng bạn nhìn vào nhu cầu và ranh giới của chính bạn trước.",
+        "en": "Hello. What in your love life is on your mind? We will start with your own needs and boundaries."
       }
     },
     "archetype-inner-child-healer": {
@@ -22,6 +26,10 @@
       "tagline": {
         "vi": "Khi cần được dịu lại",
         "en": "When you need soothing"
+      },
+      "opener": {
+        "vi": "Mình ở đây, không vội đâu. Hôm nay phần nhỏ bé trong bạn đang cần điều gì?",
+        "en": "I am here, no rush. What does the younger part of you need today?"
       }
     },
     "archetype-the-mystic": {
@@ -32,6 +40,10 @@
       "tagline": {
         "vi": "Đọc sâu lá bài",
         "en": "Reading the cards deeply"
+      },
+      "opener": {
+        "vi": "Chào bạn. Hãy kể câu hỏi hoặc lá bài đang theo bạn; mình sẽ cùng bạn đọc biểu tượng như một chiếc gương.",
+        "en": "Hello. Tell me the question or card that is following you; we will read its symbols like a mirror."
       }
     },
     "archetype-the-astrologer": {
@@ -42,6 +54,10 @@
       "tagline": {
         "vi": "Hỏi về lá số",
         "en": "Questions about your chart"
+      },
+      "opener": {
+        "vi": "Chào bạn. Bạn muốn hỏi về lá số, chuyển động của bầu trời hay một mùa đang diễn ra bên trong? Mình sẽ tách phần đã tính khỏi phần diễn giải.",
+        "en": "Hello. Do you want to ask about your chart, the moving sky, or an inner season? I will keep the calculated part apart from interpretation."
       }
     },
     "book-communication-mentor": {
@@ -52,6 +68,10 @@
       "tagline": {
         "vi": "Nói điều khó nói",
         "en": "Saying the hard thing"
+      },
+      "opener": {
+        "vi": "Chào bạn. Bạn muốn nói điều gì, với ai? Mình sẽ giúp chọn lời ấm áp, rõ ràng và có ranh giới.",
+        "en": "Hello. What do you want to say, and to whom? I will help you choose words that are warm, clear and bounded."
       }
     },
     "figure-aristotle": {
@@ -62,6 +82,10 @@
       "tagline": {
         "vi": "Lý trí và đức hạnh",
         "en": "Reason and virtue"
+      },
+      "opener": {
+        "vi": "Chào bạn. Hãy kể điều bạn đang cân nhắc; mình sẽ cùng hỏi mục đích là gì và lựa chọn nào nuôi dưỡng phẩm chất bạn muốn có.",
+        "en": "Hello. Tell me what you are weighing; we will ask what the purpose is and which choice builds the character you want."
       }
     },
     "figure-confucius": {
@@ -72,6 +96,10 @@
       "tagline": {
         "vi": "Hòa hợp các mối quan hệ",
         "en": "Harmony in relationships"
+      },
+      "opener": {
+        "vi": "Chào bạn. Có mối quan hệ hay lời khó nói nào bạn đang mang? Mình sẽ cùng nghĩ cách giữ sự tôn trọng cho cả hai phía.",
+        "en": "Hello. Is there a relationship or hard word you are carrying? We will think about keeping respect on both sides."
       }
     },
     "figure-laozi": {
@@ -82,6 +110,10 @@
       "tagline": {
         "vi": "Sống giản dị, thuận tự nhiên",
         "en": "Simple living, with the flow"
+      },
+      "opener": {
+        "vi": "Chào bạn. Ngồi xuống một chút đã. Điều gì bạn đang cố nắm quá chặt?",
+        "en": "Hello. Sit for a moment first. What are you trying to hold too tightly?"
       }
     },
     "archetype-the-shadow-mirror": {
@@ -92,6 +124,10 @@
       "tagline": {
         "vi": "Nhìn phần mình đang né",
         "en": "Seeing what you avoid"
+      },
+      "opener": {
+        "vi": "Mình ở đây, nói thẳng nhưng không phán xét. Điều gì bạn đang né, hoặc cứ lặp lại mà chưa hiểu vì sao?",
+        "en": "I am here, direct but not judging. What are you avoiding, or repeating without knowing why?"
       }
     },
     "archetype-the-clear-strategist": {
@@ -102,6 +138,10 @@
       "tagline": {
         "vi": "Chọn bước tiếp theo",
         "en": "Choosing the next step"
+      },
+      "opener": {
+        "vi": "Chào bạn. Quyết định nào đang làm bạn rối? Mình sẽ cùng bạn liệt kê tiêu chí và hệ quả trước khi chọn.",
+        "en": "Hello. Which decision is tangling you up? We will list criteria and consequences before choosing."
       }
     },
     "archetype-the-star-weaver": {
@@ -112,6 +152,10 @@
       "tagline": {
         "vi": "Bản sắc và ước mơ",
         "en": "Identity and dreams"
+      },
+      "opener": {
+        "vi": "Chào bạn. Giấc mơ, danh tính hay hướng đi nào đang lấp lánh trong bạn? Kể bằng hình ảnh cũng được.",
+        "en": "Hello. Which dream, identity or direction is glimmering in you? You can describe it in images."
       }
     },
     "figure-marcus-aurelius": {
@@ -122,6 +166,10 @@
       "tagline": {
         "vi": "Bình tâm và kỷ luật",
         "en": "Calm and self-discipline"
+      },
+      "opener": {
+        "vi": "Chào bạn. Điều gì đang kéo bạn phản ứng? Mình sẽ cùng tách phần bạn kiểm soát được khỏi phần cần chấp nhận.",
+        "en": "Hello. What is pulling you into reaction? We will separate what you can control from what you need to accept."
       }
     },
     "figure-sun-tzu": {
@@ -132,6 +180,10 @@
       "tagline": {
         "vi": "Chiến lược và thời điểm",
         "en": "Strategy and timing"
+      },
+      "opener": {
+        "vi": "Chào bạn. Bạn đang đứng trước tình huống nào? Mình sẽ cùng nhìn thế, thời điểm và cái giá của từng bước trước khi bạn hành động.",
+        "en": "Hello. What situation are you facing? We will look at position, timing and the cost of each step before you act."
       }
     },
     "book-calm-living-mentor": {
@@ -142,6 +194,10 @@
       "tagline": {
         "vi": "Dịu bớt lo âu",
         "en": "Easing worry"
+      },
+      "opener": {
+        "vi": "Chào bạn. Hôm nay điều gì đang làm nhịp sống của bạn gấp lên? Mình sẽ cùng làm rõ một việc nhỏ trước mặt.",
+        "en": "Hello. What is speeding up your day? We will clarify one small thing in front of you."
       }
     },
     "book-strategic-thinker": {
@@ -152,6 +208,10 @@
       "tagline": {
         "vi": "Nhìn rõ thế cục",
         "en": "Seeing the whole board"
+      },
+      "opener": {
+        "vi": "Chào bạn. Hãy mô tả trận bạn đang cân nhắc; mình sẽ giúp xem nó có đáng đánh không và đánh vào lúc nào.",
+        "en": "Hello. Describe the battle you are weighing; I will help you see whether it is worth fighting and when."
       }
     },
     "book-harmony-guide": {
@@ -162,6 +222,10 @@
       "tagline": {
         "vi": "Bớt gồng, bớt cưỡng cầu",
         "en": "Less forcing, more ease"
+      },
+      "opener": {
+        "vi": "Chào bạn. Mình ở đây, ít lời thôi. Điều gì trong bạn đang muốn được nới lỏng?",
+        "en": "Hello. I am here, with few words. What in you wants to loosen?"
       }
     },
     "book-stoic-journal": {
@@ -172,6 +236,38 @@
       "tagline": {
         "vi": "Viết để vững lòng",
         "en": "Writing to steady yourself"
+      },
+      "opener": {
+        "vi": "Chào bạn. Hôm nay có chuyện gì cần viết ra? Mình sẽ giúp tách sự kiện, cảm xúc và bước đúng tiếp theo.",
+        "en": "Hello. What happened today that needs writing down? I will help separate the event, the feeling and the next right step."
+      }
+    },
+    "book-dhammapada": {
+      "short": {
+        "vi": "Kinh Pháp Cú",
+        "en": "Dhammapada"
+      },
+      "tagline": {
+        "vi": "Làm lắng tâm, sống tử tế",
+        "en": "A steady mind, kind acts"
+      },
+      "opener": {
+        "vi": "Chào bạn. Mình sẽ cùng đọc chậm các chủ đề của Kinh Pháp Cú: tâm, lời nói và việc làm. Hôm nay bạn muốn nhìn điều gì trong tâm mình?",
+        "en": "Hello. We will read the Dhammapada themes slowly: mind, speech and action. What would you like to look at in your mind today?"
+      }
+    },
+    "book-i-ching": {
+      "short": {
+        "vi": "Kinh Dịch",
+        "en": "I Ching"
+      },
+      "tagline": {
+        "vi": "Nhìn thay đổi như chu kỳ",
+        "en": "Seeing change as a cycle"
+      },
+      "opener": {
+        "vi": "Chào bạn. Bạn đang đứng trước thay đổi nào? Mình sẽ cùng nhìn nó như một chu kỳ, không đoán trước điều gì.",
+        "en": "Hello. What change are you facing? We will see it as a cycle, without predicting anything."
       }
     }
   }
