@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "title": "Chat with knowledge (Lots 0-2): persona model tiers migration applied, two-book seed subset applied, two functions deployed",
+  "date": "2026-11-26",
+  "target": {
+    "projectRef": "etfajmrwyywokgafzxsb",
+    "label": "production (Owner decision 2026-11-12)"
+  },
+  "ownerApproval": "Owner approved in chat on 2026-11-25: apply the persona model tiers migration (sha256 d2f78a08...), apply the seed to add the two new books, deploy ai-persona-chat and ai-oracle-turn ('Đồng ý gộp và deploy'). After PR 72 landed on main the full seed.generated.sql also carried the numerology private-message prompt and route (not approved), so on 2026-11-26 the Owner approved applying only the two-book subset ('Đồng ý tệp 2 sách', sha256 bccca534...). The migration was renamed from 20261125090000 to 20261125100000 because PR 72 took that version; its content and sha256 are unchanged.",
+  "records": [
+    "docs/feature-plans/chat-knowledge-tiers-streaming-2026-11-25.json",
+    "docs/feature-plans/chat-knowledge-lo0-quick-fixes-2026-11-25.json",
+    "docs/feature-plans/chat-knowledge-mobile-streaming-2026-11-25.json",
+    "docs/feature-plans/chat-knowledge-admin-tiers-2026-11-25.json",
+    "docs/feature-plans/chat-knowledge-ui-polish-2026-11-25.json"
+  ],
+  "sourceCommit": "741ef1d",
+  "sourceNote": "Merge of PR 71 on main. The functions were deployed from aace784 (PR 71 head), whose tree is identical to 741ef1d (git diff empty).",
+  "migrations": {
+    "method": "npx --yes supabase@3.1.0 db query --yes --remote=etfajmrwyywokgafzxsb -f <file> (run by Claude), exited 0. Then npx supabase@3.1.0 migration repair --status applied 20261125100000 --remote=etfajmrwyywokgafzxsb --yes.",
+    "files": [
+      { "file": "supabase/migrations/20261125100000_persona_model_tiers.sql", "sha256": "d2f78a08d0a8755d69559f74956749e0eaef410a0cfa94039ff0ed09835ac640" }
+    ]
+  },
+  "seed": {
+    "method": "npx --yes supabase@3.1.0 db query --yes --remote=etfajmrwyywokgafzxsb -f <file> (run by Claude), exited 0. The file is the added lines of supabase/seed.generated.sql for slugs dhammapada and i-ching only (2 persona upserts, 4 prompt_versions deletes, 4 archives, 4 inserts, 2 active pointer updates). The rest of seed.generated.sql, including the numerology private-message prompt and model route from PR 72, was NOT applied.",
+    "files": [
+      { "file": "docs/release/chat-knowledge-2026-11-25/seed-two-books.sql", "sha256": "bccca534fcf8b4f9742270b56cc50978a2738ab075b5db718b57f498d103c3b7" }
+    ]
+  },
+  "postApplyChecks": {
+    "readOnlyQuery": "Table public.ai_persona_model_tiers exists with RLS on and 0 rows (runtime uses the code default until the Owner saves and publishes a version in Admin); public functions get_ai_persona_model_tiers, save_ai_persona_model_tiers_draft, publish_ai_persona_model_tiers exist. Before the seed, personas dhammapada and i-ching did not exist; after it both are status active, access_tier premium-preview, with 2 active persona_chat prompt versions (vi, en) and an active prompt pointer.",
+    "securityAdvisor": "not run"
+  },
+  "functions": {
+    "method": "npx --yes supabase@3.1.0 functions deploy ai-persona-chat ai-oracle-turn --remote=etfajmrwyywokgafzxsb --use-api --yes (run by Claude)",
+    "deployed": [
+      { "name": "ai-persona-chat", "version": 12, "verifyJwt": true },
+      { "name": "ai-oracle-turn", "version": 11, "verifyJwt": true }
+    ]
+  },
+  "verification": {
+    "done": [
+      "migration and seed exited 0 and the read-only checks above passed",
+      "functions list shows both functions ACTIVE at the versions above",
+      "unauthenticated POST to each function returns 401 (2026-11-26T06:48Z)"
+    ],
+    "notDone": [
+      "signed-in chat with the 5 books, streaming over Supabase on a phone (needs a new Android build)",
+      "live reasoning call of the deep_knowledge tier on OpenRouter",
+      "Admin 'Hạng model người dẫn' page against the live database",
+      "Supabase security advisor after this rollout"
+    ]
+  },
+  "rollback": "Functions: redeploy ai-persona-chat and ai-oracle-turn from the previous main commit e1b3daa. SQL: the tiers table and functions are additive and empty; with no published row the runtime uses the default in packages/agent-config/persona-model-tiers.json. The two books can be hidden by changing personas.status for slugs dhammapada and i-ching (needs Owner approval)."
+}
