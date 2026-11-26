@@ -24,6 +24,14 @@
     "production": {
       "environment": "production",
       "autoIncrement": true
+    },
+    "play-internal": {
+      "environment": "preview",
+      "distribution": "store",
+      "autoIncrement": true,
+      "android": {
+        "buildType": "app-bundle"
+      }
     }
   },
   "submit": {
