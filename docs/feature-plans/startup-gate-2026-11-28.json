@@ -45,8 +45,8 @@
     "backendContract": "New RPC public.get_app_bootstrap() (anon + authenticated, read-only, no personal data) and public.set_app_release_policy(...) (ai.manage = Owner).",
     "adminVisibility": "Owner sees current minimum version, grace days, who set it, when and why; history in admin_audit_logs.",
     "privacySafety": "Bootstrap returns only public configuration and server time; no user identifiers are sent or stored. Offline mode never opens AI.",
-    "analyticsObservability": "Blind spot: no counter yet for blocked-offline or update-required screens.",
-    "rollbackFallback": "Clearing the minimum version disables reminders and blocks. If the RPC breaks, users inside 24 hours keep offline mode; an outage longer than 24 hours blocks new launches (accepted cost of the Owner decision); a hotfix build can widen the window."
+    "observability": "Blind spot: no counter yet for blocked-offline or update-required screens.",
+    "rollback": "Clearing the minimum version disables reminders and blocks. If the RPC breaks, users inside 24 hours keep offline mode; an outage longer than 24 hours blocks new launches (accepted cost of the Owner decision); a hotfix build can widen the window."
   },
   "canonicalContracts": [
     "supabase/migrations/20261128090000_app_release_policy.sql",
@@ -90,6 +90,11 @@
       "path": "supabase/migrations/20261127090000_feature_access_configs.sql",
       "reason": "Pattern for an Owner-only versioned config with audit and an anon-readable getter.",
       "sha256": "c1156e0d9e618bcfdbf22623804f54bca2d1302d692073b3e7913423a3b08cf8"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Record fields, preflight rules and validation commands.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
     }
   ],
   "skillReview": [
@@ -106,6 +111,12 @@
   "externalSourceReview": [],
   "securityReview": {
     "authzRls": "New table RLS on, privileges revoked from public/anon/authenticated; writes only through a security definer RPC with set search_path = '' checking nilaza_private.has_capability('ai.manage'); getter returns public config only.",
+    "sensitiveData": "None: the bootstrap carries public configuration and server time only; no user id, token contents or device id is sent or stored by the new code.",
+    "secretsLogging": "No secrets in the app or migration; the anon key already in the app is the only credential used for guests; nothing new is logged.",
+    "externalInput": "set_app_release_policy validates min_version against a strict semver pattern, grace_days 0-30 and reason 10-500 characters; the app validates the bootstrap shape and falls back to cache/defaults on anything unexpected.",
+    "dependencies": "No new npm package or native module; expo-constants is already part of expo.",
+    "migrationRelease": "Additive migration (new table, two functions, grants). Applied only after Owner approval of its exact SHA-256; the app tolerates the RPC being absent (treated as unreachable, so the 24h window applies), so the build must not ship before the SQL is applied.",
+    "stopCondition": "Stop and ask the Owner if the gate would block Play review flows, if an existing screen depends on startup order in a way the gate breaks, or if the SQL needs anything beyond additive objects.",
     "unresolvedHighRisks": []
   },
   "workingTreeReview": {
