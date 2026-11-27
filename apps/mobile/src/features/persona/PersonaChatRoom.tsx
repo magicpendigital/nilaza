@@ -258,7 +258,7 @@ export function PersonaChatRoom({
         {handoffContext ? (
           <View style={styles.handoffPanel}>
             <Ionicons
-              name={handoffContext.sourceType === "tarot_reading" || handoffContext.sourceType === "tarot_card" ? "sparkles-outline" : handoffContext.sourceType === "oracle_reflection" ? "diamond-outline" : "planet-outline"}
+              name={handoffContext.sourceType === "tarot_reading" || handoffContext.sourceType === "tarot_card" ? "sparkles-outline" : handoffContext.sourceType === "oracle_reflection" ? "diamond-outline" : handoffContext.sourceType === "book_quote" ? "book-outline" : "planet-outline"}
               size={18}
               color={colors.gold}
             />
@@ -269,7 +269,8 @@ export function PersonaChatRoom({
                   tarot_card: language === "vi" ? "Đang tiếp nối từ một lá bài" : "Continuing from a tarot card",
                   astrology_report: language === "vi" ? "Đang tiếp nối bản xem trước chiêm tinh" : "Continuing your astrology preview",
                   daily_zodiac_pulse: language === "vi" ? "Đang tiếp nối lời nhắn theo cung hôm nay" : "Continuing today's sign message",
-                  oracle_reflection: language === "vi" ? "Đang tiếp nối từ Oracle" : "Continuing from Oracle"
+                  oracle_reflection: language === "vi" ? "Đang tiếp nối từ Oracle" : "Continuing from Oracle",
+                  book_quote: language === "vi" ? "Đang tiếp nối từ một câu cho hôm nay" : "Continuing from today's line"
                 }[handoffContext.sourceType]}
               </Text>
               <Text style={styles.handoffBody}>{handoffContext.safeSummary}</Text>

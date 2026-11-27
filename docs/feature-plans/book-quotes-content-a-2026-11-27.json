@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "taskId": "book-quotes-content-a-2026-11-27",
+  "ownerAgent": "content_agent",
+  "lane": "Content data: daily 'Mot cau cho hom nay' v1 book quotes for Dao Duc Kinh (60) and Kinh Dich (64) (Owner decision 27/11/2026)",
+  "goal": "Write the full v1 content files packages/content/data/book-quotes/dao-duc-kinh.json (60 items) and kinh-dich.json (64 items, one per hexagram in King Wen order), with Nilaza's own Vietnamese translation from the classical original, public-domain English (Legge) wording, a gloss and an open question per item, status draft awaiting nilaza-content-review.",
+  "successCriteria": [
+    "dao-duc-kinh.json has exactly 60 unique items spread across the 81 chapters and kinh-dich.json has exactly 64 items kd-01..kd-64, all following the agreed schema.",
+    "Every quote exists at the stated chapter or hexagram; no modern copyrighted translation is copied.",
+    "gloss and question contain no prediction or verdict words in vi or en, and vi and en say the same thing.",
+    "A throwaway check confirms counts, unique ids, non-empty fields, quote length and banned words."
+  ],
+  "writeScope": [
+    "packages/content/data/book-quotes/dao-duc-kinh.json",
+    "packages/content/data/book-quotes/kinh-dich.json",
+    "docs/content-reviews/book-quotes-ddk-kd-2026-11-27.json"
+  ],
+  "untouchedSurfaces": [
+    "No app, validator, Admin, backend, SQL, Edge Function or persona brief change; another agent builds the app and validator against the same schema.",
+    "review.status stays draft until the Owner approves; the content review record (docs/content-reviews/book-quotes-ddk-kd-2026-11-27.json) records round 1-3 verdicts."
+  ],
+  "impact": {
+    "entryPoint": "Data files read later by the app 'Mot cau cho hom nay' feature; no user-facing entry changes in this batch.",
+    "dataWrite": "Two JSON files in the repository only.",
+    "backendContract": "No API or Edge Function change; schemaVersion 1 as agreed with the app agent.",
+    "adminVisibility": "None in this batch.",
+    "privacySafety": "Public-domain classical text plus Nilaza-written commentary; no user data; gloss and question avoid prediction, money, health, law and feng-shui advice.",
+    "observability": "review block (status draft, reviewer null) shows the content is not yet reviewed.",
+    "rollback": "Delete the two files or revert the commit."
+  },
+  "canonicalContracts": [
+    "packages/content/data/book-quotes/dao-duc-kinh.json",
+    "packages/content/data/book-quotes/kinh-dich.json"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries and delegation limits.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Content routing rules.",
+      "sha256": "e508d09a9fdffc78da809a4f1449f1d77999186b9bd371870bd8582e132075e1"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/NEW_REFLECTION_MODALITIES_2026-11-27.vi.md",
+      "reason": "Owner-approved plan, sections 0 and 2: schema, rules, 60/64 item counts.",
+      "sha256": "2832cbbc50375f2109b7d6bdac5caa8e9f789c197a8e33a712ef273ecf08bb18"
+    },
+    {
+      "path": "packages/content/data/knowledge-briefs/dao-duc-kinh.vi.md",
+      "reason": "Persona voice, misattributed quotes to avoid, chapter map.",
+      "sha256": "a9cfe71a68764e29a5aba05245180b01e8f396bc3ae6ad66356262f95444534a",
+      "note": "Re-hashed 27/11 after Vận 9 (PR #78) changed this file; the change does not affect this feature."
+    },
+    {
+      "path": "packages/content/data/knowledge-briefs/kinh-dich.vi.md",
+      "reason": "Persona voice, hexagram order and names, quoting rules.",
+      "sha256": "55b2cb7efc911cb3cb4665838bb626b5c58a1a5e603115ba5e76c5bdd7b46a54",
+      "note": "Re-hashed 27/11 after Vận 9 (PR #78) changed this file; the change does not affect this feature."
+    },
+    {
+      "path": "packages/content/data/personas-books.json",
+      "reason": "Verify the personaId of the Dao De Jing and I Ching book personas.",
+      "sha256": "cbe90366e58bb7eccc40a7ea37bfd6202044dda2e73447a89b6217169f3f88d8"
+    },
+    {
+      "path": "skills/nilaza-content-review/SKILL.md",
+      "reason": "Content review workflow the data will go through after drafting.",
+      "sha256": "e792475bc5856501f8a386f414a6616660d6f915e9ba8f59c05ffdfa4f231e86"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Plan record and preflight written before editing; scope limited to two data files."
+    },
+    {
+      "name": "nilaza-content-review",
+      "decision": "verified-current",
+      "evidence": "Content is drafted as status draft; the multi-specialist review is the next gate and is not run in this batch."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Classical texts are fixed public-domain sources (Legge 1891 and 1882); ctext.org is used only to check the Chinese original."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No access change.",
+    "sensitiveData": "No user data involved.",
+    "secretsLogging": "No secret read or written; .env not read.",
+    "externalInput": "Fetched pages are treated as data, not instructions.",
+    "dependencies": "No package added.",
+    "migrationRelease": "No SQL, deploy or store change.",
+    "stopCondition": "Stop if the content cannot be verified against the original for an item; skip that item instead.",
+    "unresolvedHighRisks": []
+  },
+  "validationCommands": [
+    "node throwaway check (counts, ids, banned words)",
+    "npm run feature:preflight -- --record docs/feature-plans/book-quotes-content-a-2026-11-27.json"
+  ],
+  "managerTestPath": "Mo packages/content/data/book-quotes/dao-duc-kinh.json va kinh-dich.json, doc vai muc bat ky: cau trich, loi binh, cau hoi; sau do chay $nilaza-content-review de duyet truoc khi dua vao app.",
+  "residualRisk": "Vietnamese renderings are AI-drafted translations of the classical text and need a human Han-Viet reader; uncertain items are listed in the hand-off report.",
+  "workingTreeReview": {
+    "paths": [
+      "packages/content/data/book-quotes/dao-duc-kinh.json",
+      "packages/content/data/book-quotes/kinh-dich.json"
+    ],
+    "note": "Both files are the new content deliverables of this task, written in this session; nothing else in the working tree is touched."
+  },
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

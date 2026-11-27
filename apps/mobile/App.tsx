@@ -172,6 +172,8 @@ import { previousDayKey, visibleStreak } from "./src/features/home/streak";
 import { CardLibrary } from "./src/features/tarot/CardLibrary";
 import { ExploreHome } from "./src/features/explore/ExploreHome";
 import { NumerologyScreen } from "./src/features/numerology/NumerologyScreen";
+import { BookQuoteScreen } from "./src/features/bookQuote/BookQuoteScreen";
+import { BOOK_QUOTE_FEATURE_ID, availableBookQuoteBooks, bookQuoteBookForPersona, bookQuoteHandoff, bookQuoteText, bookQuoteTitle, homeBookQuote, type BookQuoteBookId, type BookQuoteOfDay } from "./src/features/bookQuote/content";
 import personaShortNamesData from "../../packages/content/data/persona-short-names.json";
 import knowledgeBriefIndex from "../../packages/content/data/knowledge-briefs/index.json";
 
@@ -301,7 +303,7 @@ type ImageRequire = {
 declare const require: ImageRequire;
 
 type Tab = "home" | "explore" | "chat" | "journal" | "profile";
-type Screen = Tab | "tarot" | "astrology" | "numerology" | "inbox";
+type Screen = Tab | "tarot" | "astrology" | "numerology" | "bookQuote" | "inbox";
 type AdminView = "dashboard" | "prompts" | "content" | "localization" | "jobs" | "notifications" | "safety";
 type ChatMode = "oracle" | "list" | "detail" | "room" | "council" | "councilHub";
 type PersonalSyncArea = "chat" | "journal";
@@ -2292,6 +2294,7 @@ function buildHandoffPrompt(context: ChatHandoffContext, language: Language) {
   if (context.sourceType === "tarot_reading") return vi ? "Mình muốn hỏi sâu hơn về trải bài vừa rồi." : "I'd like to go deeper into this reading.";
   if (context.sourceType === "astrology_report") return vi ? "Mình muốn hỏi thêm về lá số của mình." : "I'd like to ask more about my chart.";
   if (context.sourceType === "daily_zodiac_pulse") return vi ? "Mình muốn hỏi thêm về bầu trời hôm nay." : "I'd like to ask more about today's sky.";
+  if (context.sourceType === "book_quote") return vi ? `Mình muốn nói thêm về câu này trong ${context.sourceLabel}.` : `I'd like to talk more about this line from ${context.sourceLabel}.`;
   return vi ? "Mình muốn nói thêm về điều này." : "I'd like to talk more about this.";
 }
 
@@ -2322,6 +2325,12 @@ function buildHandoffReplyPrefix(persona: Persona, context: ChatHandoffContext, 
     return language === "vi"
       ? `${personaName} đang đọc Zodiac Pulse hôm nay${context.zodiacPulse.sign ? ` qua ${context.zodiacPulse.sign}` : ""}. Mình sẽ giữ đây là một khoảnh khắc phản chiếu, không phải dự đoán chắc chắn.`
       : `${personaName} is reading today's Zodiac Pulse${context.zodiacPulse.sign ? ` through ${context.zodiacPulse.sign}` : ""}. I will keep this as a reflective moment, not a certain prediction.`;
+  }
+
+  if (context.sourceType === "book_quote") {
+    return language === "vi"
+      ? `${personaName} đang đọc cùng bạn một câu trong ${context.sourceLabel}. Mình sẽ giữ đây là một gợi ý để tự soi, không phải lời phán.`
+      : `${personaName} is reading a line from ${context.sourceLabel} with you. I will keep it as a prompt for reflection, not a verdict.`;
   }
 
   return language === "vi"
@@ -3159,6 +3168,9 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   // Bumped after a saved chart changes outside Chiêm tinh so Tôi là ai reads the store again.
   const [savedChartsRevision, setSavedChartsRevision] = useState(0);
   const [astrologyReturnScreen, setAstrologyReturnScreen] = useState<Tab>("home");
+  // "Một câu cho hôm nay": the book to open on, and where Back returns (Home, Explore or a persona page).
+  const [bookQuoteBook, setBookQuoteBook] = useState<BookQuoteBookId | undefined>(undefined);
+  const [bookQuoteReturnScreen, setBookQuoteReturnScreen] = useState<Tab>("home");
   const [astrologyFocus, setAstrologyFocus] = useState<AstrologyFocus>("soul");
   const [astrologyReport, setAstrologyReport] = useState<AstrologyReport | null>(null);
   const [astrologyGenerating, setAstrologyGenerating] = useState(false);
@@ -4244,6 +4256,10 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       navigate("explore");
       return true;
     }
+    if (screen === "bookQuote") {
+      navigate(bookQuoteReturnScreen);
+      return true;
+    }
     if (screen === "tarot") {
       handleTarotBack();
       return true;
@@ -4323,6 +4339,24 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     if (handoffContext) setChatInput(buildHandoffPrompt(handoffContext, language));
     setChatMode(mode);
     navigate("chat");
+  };
+
+  // Opens "Một câu cho hôm nay" on a book (or the Home book of the day); Back returns to the tab it came from.
+  const openBookQuote = (book?: BookQuoteBookId) => {
+    setBookQuoteReturnScreen(currentTabOrHome());
+    // Null-safe: with nothing visible the screen shows its calm empty state and Back still works.
+    setBookQuoteBook(book ?? homeBookQuote(currentDateKey)?.book ?? undefined);
+    navigate("bookQuote");
+  };
+  const askBookQuoteGuide = (quote: BookQuoteOfDay) => {
+    recordEvent("book_quote_chat_opened", { book: quote.book, feature: BOOK_QUOTE_FEATURE_ID });
+    openChat("room", quote.file.personaId, bookQuoteHandoff(quote, language));
+  };
+  const writeBookQuoteJournal = (quote: BookQuoteOfDay) => {
+    recordEvent("book_quote_journal_opened", { book: quote.book, feature: BOOK_QUOTE_FEATURE_ID });
+    setJournalPrompt(bookQuoteText(quote.item, "question", language));
+    setJournalEntryToOpen(null);
+    navigate("journal");
   };
 
   const toggleFavoritePersona = (personaId: string) => {
@@ -5886,6 +5920,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       onResumePersonaSession={resumePersonaSession}
       onStartPersonaSession={startPersonaSession}
       onToggleFavoritePersona={toggleFavoritePersona}
+      onOpenBookQuote={openBookQuote}
       onReport={(summary, sourceId) => {
         recordSafetyEvent({
           feature: "chat",
@@ -6095,6 +6130,15 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
               onRequestPrivateMessage={tarotServerMode ? (payload) => requestNumerologyMessage(payload, backendOptions) : undefined}
               onBack={() => navigate("explore")} />
           </ScrollView>
+        ) : screen === "bookQuote" ? (
+          <BookQuoteScreen key={`${scope.key}:${bookQuoteBook ?? ""}`} language={language} dateKey={currentDateKey} initialBook={bookQuoteBook}
+            storage={scope.userId ? storage : undefined}
+            personaName={(personaId) => { const persona = personasById[personaId]; return persona ? personaShortName(persona, language) : (language === "vi" ? "người dẫn" : "the guide"); }}
+            onAskPersona={askBookQuoteGuide}
+            onWriteJournal={writeBookQuoteJournal}
+            onEvent={(name, metadata) => recordEvent(name, { ...metadata, feature: BOOK_QUOTE_FEATURE_ID })}
+            onBack={() => navigate(bookQuoteReturnScreen)}
+            contentContainerStyle={[styles.screen, { paddingHorizontal: adaptiveLayout.gutter }]} />
         ) : (
           <ScrollView
             testID="main-screen-scroll"
@@ -6144,6 +6188,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                 onWritePrompt={(prompt) => { setJournalPrompt(prompt); setJournalEntryToOpen(null); navigate("journal"); }}
                 onAstrology={() => startAstrology("hub")}
                 onSky={() => startAstrology("sky")}
+                onBookQuote={openBookQuote}
               />
             )}
 
@@ -6156,6 +6201,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                 onAstrology={() => startAstrology("hub")}
                 onSky={() => startAstrology("sky")}
                 onNumerology={() => navigate("numerology")}
+                onBookQuote={availableBookQuoteBooks().length > 0 ? () => openBookQuote() : undefined}
                 onAllDecks={() => startTarot("deck")}
                 decks={[
                   { id: "rose-mirror", mood: language === "vi" ? "Tình yêu" : "Love" },
@@ -6586,7 +6632,8 @@ function HomeScreen({
   onShareTodayCard,
   onWritePrompt,
   dailyReminderOn,
-  onOpenReminder
+  onOpenReminder,
+  onBookQuote
 }: {
   c: Copy;
   currentDateKey: string;
@@ -6625,8 +6672,10 @@ function HomeScreen({
   onWritePrompt: (prompt: string) => void;
   dailyReminderOn: boolean;
   onOpenReminder: () => void;
+  onBookQuote?: (book: BookQuoteBookId) => void;
 }) {
   const card = todayPulse.card;
+  const todayBookQuote = onBookQuote ? homeBookQuote(currentDateKey) : null;
   const savedTodayEntry = journalEntries.find((entry) => entry.sourceType === "daily" && entry.sourceId === todayCardSourceId(currentDateKey));
   const cardSaved = Boolean(savedTodayEntry);
   const todayMood = journalEntries.find((entry) => !entry.sourceId && entry.sourceSnapshot?.type === "today_pulse" && entry.sourceSnapshot?.dateKey === currentDateKey)?.mood;
@@ -6643,6 +6692,11 @@ function HomeScreen({
     onJournal={onJournal} onNotifications={onNotifications} unread={unreadNotificationCount}
     latest={homeLatestEntry(journalEntries, currentTime, language)} deckCover={getDeckThumbnailImage(selectedDeck.id)}
     onOpenRecent={onOpenRecent} onWritePrompt={onWritePrompt}
+    bookQuote={todayBookQuote && onBookQuote ? {
+      book: bookQuoteTitle(todayBookQuote.book, language),
+      quote: bookQuoteText(todayBookQuote.item, "quote", language),
+      onPress: () => onBookQuote(todayBookQuote.book)
+    } : undefined}
     continuation={councilSession || guestCarry ? <>
       {guestCarry && guestCarry.cards[0] && onOpenGuestCarry ? (() => {
         const first = guestCarry.cards[0];
@@ -7040,6 +7094,7 @@ function ChatScreen({
   onResumePersonaSession,
   onStartPersonaSession,
   onToggleFavoritePersona,
+  onOpenBookQuote,
   onReport,
   onRetry,
   onSave,
@@ -7084,6 +7139,8 @@ function ChatScreen({
   onTrack: (name: string, metadata?: Record<string, string | number | boolean>) => void;
   /** Only while the purchase screen may be shown (paywallEnabled). */
   onOpenPremium?: () => void;
+  /** Book personas only: opens "Một câu cho hôm nay" on that persona's book. Free, so shown even when the guide is locked. */
+  onOpenBookQuote?: (book: BookQuoteBookId) => void;
 }) {
   const [detailTab, setDetailTab] = useState<PersonaDetailTab>("reflections");
   const intro = language === "vi"
@@ -7192,6 +7249,7 @@ function ChatScreen({
     const role = personaRoleLabel(selectedPersona, language);
     const detailTraits = personaTraitPreview(selectedPersona, language, 5);
     const personaLocked = !canViewContentTier(selectedPersona.accessTier, displayedTier);
+    const detailQuoteBook = bookQuoteBookForPersona(selectedPersona.id);
     const personaFavorite = favoritePersonaIds.includes(selectedPersona.id);
     const personaSections = getContentSections("persona", selectedPersona.id);
     const reflectionSection = personaSections.find((section) => section.sectionKey === "reflections");
@@ -7294,6 +7352,20 @@ function ChatScreen({
             <Text style={styles.editorialPersonaSubtitle}>{heroSubtitle}</Text>
           </View>
         </View>
+
+        {detailQuoteBook && onOpenBookQuote ? (
+          <Pressable
+            testID="persona-book-quote"
+            accessibilityRole="button"
+            accessibilityLabel={language === "vi" ? `Một câu cho hôm nay từ ${bookQuoteTitle(detailQuoteBook, language)}` : `A line for today from ${bookQuoteTitle(detailQuoteBook, language)}`}
+            style={styles.personaBookQuoteButton}
+            onPress={() => onOpenBookQuote(detailQuoteBook)}
+          >
+            <Ionicons name="book-outline" size={18} color={colors.gold} />
+            <Text style={styles.personaBookQuoteText}>{language === "vi" ? "Một câu cho hôm nay" : "A line for today"}</Text>
+            <Ionicons name="chevron-forward" size={16} color={colors.gold} />
+          </Pressable>
+        ) : null}
 
         <View accessibilityRole="tablist" style={styles.editorialPersonaTabs}>
           <Pressable accessibilityRole="tab" accessibilityState={{ selected: detailTab === "reflections" }} hitSlop={8} style={styles.editorialPersonaTab} onPress={() => setDetailTab("reflections")}>
@@ -10400,6 +10472,26 @@ zodiacProfilePrompt: {
     fontWeight: "800",
     lineHeight: 20,
     textTransform: "uppercase"
+  },
+  personaBookQuoteButton: {
+    alignSelf: "center",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    minHeight: layout.minimumTouchTarget,
+    marginTop: 16,
+    paddingHorizontal: 18,
+    paddingVertical: 10,
+    borderRadius: radius.pill,
+    borderWidth: 1,
+    borderColor: "rgba(201, 164, 92, 0.45)"
+  },
+  personaBookQuoteText: {
+    flexShrink: 1,
+    color: colors.ivory,
+    fontFamily: typography.bodySemiBoldFontFamily,
+    fontSize: 14,
+    lineHeight: 20
   },
   lockedPanel: {
     backgroundColor: "rgba(201, 164, 92, 0.10)",

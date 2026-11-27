@@ -1,4 +1,5 @@
 import blocks from "../../../../../packages/content/data/numerology-blocks.json";
+import extraBlocks from "../../../../../packages/content/data/numerology-reading-extra.json";
 import type { Language } from "../../types";
 import type { ArrowId, NumerologyNumber } from "./calc";
 import type { CompatRelation } from "./compat";
@@ -95,7 +96,48 @@ export function privateMessageCard(language: Language): PrivateMessageCopy {
   return Object.fromEntries(PRIVATE_MESSAGE_KEYS.map((key) => [key, pick(card[key], language)])) as PrivateMessageCopy;
 }
 
-/** Every string in the store, for the banned-word test. */
+// 2026-11-26: richer chart and Hợp số copy, in its own file so the Owner-approved store (which the deployed
+// private-message function bundles) stays untouched. It carries its own review block.
+type ExtraStore = {
+  review: { status?: unknown; reviewer?: unknown };
+  chart: Record<"presentCount" | "strongest" | "noRepeat" | "row" | "repeatHint" | "emptyHint" | "times", Text>;
+  digits: Record<Digits, { title: Text; present: Text; many: Text; absent: Text }>;
+  relationship: {
+    you: Text; other: Text; needsTitle: Text; questionTitle: Text; summary: Text; summaryItem: Text;
+    badges: Record<CompatRelation, Text>;
+    needs: Record<Digits, Text>;
+    questions: Record<CompatRelation, Text>;
+  };
+};
+const extra = extraBlocks as unknown as ExtraStore;
+export const numerologyExtraReviewed = extra.review.status === "approved" && typeof extra.review.reviewer === "string" && extra.review.reviewer.trim().length > 0;
+
+/** Fills "{name}" slots. */
+export const fill = (template: string, values: Record<string, string | number>) =>
+  template.replace(/\{(\w+)\}/g, (whole, key: string) => (key in values ? String(values[key]) : whole));
+
+export type ChartCopyKey = keyof ExtraStore["chart"];
+export const chartCopy = (key: ChartCopyKey, language: Language) => pick(extra.chart[key], language);
+/** Title and the reading that fits the count: present once, repeated, or absent. */
+export function digitReading(digit: number, count: number, language: Language) {
+  const block = extra.digits[digitKey(digit)];
+  return {
+    title: pick(block.title, language),
+    body: pick(count === 0 ? block.absent : block.present, language),
+    many: count > 1 ? pick(block.many, language) : undefined
+  };
+}
+export function relationshipExtra(language: Language) {
+  const r = extra.relationship;
+  return { you: pick(r.you, language), other: pick(r.other, language), needsTitle: pick(r.needsTitle, language), questionTitle: pick(r.questionTitle, language),
+    summary: pick(r.summary, language), summaryItem: pick(r.summaryItem, language) };
+}
+export const relationBadge = (relation: CompatRelation, language: Language) => pick(extra.relationship.badges[relation], language);
+export const relationQuestion = (relation: CompatRelation, language: Language) => pick(extra.relationship.questions[relation], language);
+/** What a person with this number needs from the other; 11 and 22 read as their root. */
+export const relationshipNeed = (number: NumerologyNumber, language: Language) => pick(extra.relationship.needs[digitKey(number.root)], language);
+
+/** Every string in both stores, for the banned-word test. */
 export const allNumerologyText = (): string[] => {
   const out: string[] = [];
   const walk = (value: unknown) => {
@@ -104,5 +146,6 @@ export const allNumerologyText = (): string[] => {
   };
   const { review: _review, version: _version, ...text } = blocks;
   walk(text);
+  walk({ chart: extra.chart, digits: extra.digits, relationship: extra.relationship });
   return out;
 };

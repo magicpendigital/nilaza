@@ -9,7 +9,7 @@ const targetRoots=[process.env.CODEX_HOME||path.join(os.homedir(),'.codex'),proc
 const manifest=JSON.parse(await fs.readFile(repoPath('skills/manifest.json'),'utf8'));
 const changes=[];const failures=[];
 for(const skill of manifest.skills){
- if(!['nilaza-plan-qc','nilaza-ai-runtime','nilaza-brand-experience','nilaza-tarot-deck-production','nilaza-tarot-content-qc','nilaza-tarot-art-qc'].includes(skill.name))throw Error('Unsupported sync target');
+ if(!['nilaza-plan-qc','nilaza-ai-runtime','nilaza-brand-experience','nilaza-tarot-deck-production','nilaza-tarot-content-qc','nilaza-tarot-art-qc','nilaza-content-review'].includes(skill.name))throw Error('Unsupported sync target');
  for(const f of skill.files){
   if(f.path.includes('..')||path.isAbsolute(f.path))throw Error('Invalid skill path');
   const source=await fs.readFile(path.join(repoRoot,'skills',skill.name,f.path));

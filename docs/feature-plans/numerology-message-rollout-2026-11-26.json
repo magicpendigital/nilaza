@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "taskId": "numerology-message-rollout-2026-11-26",
+  "ownerAgent": "backend_ai_agent",
+  "lane": "Release: Bản đồ số “Lời nhắn riêng” rollout receipt (Owner approved SQL apply and function deploy on 26/11/2026)",
+  "goal": "Record the Owner-approved apply of migration 20261125090000 (sha256 0b382247…54fbf3) and deploy of ai-numerology-message on Singapore, and update PLAN.md and the proposal. Docs only.",
+  "successCriteria": [
+    "Receipt lists method, hash, post-apply checks, deployed version, what is verified and not verified, rollback.",
+    "PLAN.md and the proposal show SQL applied and function deployed; switch still off."
+  ],
+  "writeScope": [
+    "docs/release/singapore-edge-functions-2026-11-09/numerology-message-rollout-2026-11-26.json",
+    "PLAN.md",
+    "docs/proposals/NUMEROLOGY_AI_PRIVATE_MESSAGE_BACKEND_2026-11-25.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "No code change; this PR writes no database (the Owner-approved apply and deploy were done before it and are recorded in the receipt).",
+    "Switch numerology_private_message stays off; admin-model-router-config not redeployed; no secret set or read."
+  ],
+  "impact": {
+    "entryPoint": "Khám phá -> Bản đồ số -> result -> “Lời nhắn riêng” card: button opens a consent box, then shows the message or stays “Sắp có” when the server says the feature is off.",
+    "dataWrite": "No new table. usage_events rows numerology_message_attempted / numerology_message_generated (no content); traces redacted strictly. Migration seeds config rows only.",
+    "backendContract": "New Edge Function ai-numerology-message and gateway path /ai/numerology-message; shared ai-request-guard gains an additive auth-only export.",
+    "adminVisibility": "Feature switch row, AI feature card, route editor entry, overview and workflow catalog graph for numerology_private_message.",
+    "privacySafety": "Only computed numbers and block ids leave the phone; raw birth date and names are rejected server-side; sensitive data class routes only; Data safety and privacy text drafted for Owner review.",
+    "observability": "Router traces with cost, usage events, safety events on blocked output.",
+    "rollback": "Switch stays off; revert the commit; migration includes rollback SQL comment removing seeded rows and restoring allowlists."
+  },
+  "canonicalContracts": [
+    "docs/proposals/NUMEROLOGY_AI_PRIVATE_MESSAGE_BACKEND_2026-11-25.vi.md",
+    "apps/mobile/src/features/numerology/aiPayload.ts",
+    "packages/agent-config/model-routing.json",
+    "packages/agent-config/prompt-library.json",
+    "packages/agent-config/account-tier-policy.json"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Rollout evidence and receipt template.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Rollout evidence and receipt template.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Rollout evidence and receipt template.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "supabase/migrations/20261125090000_numerology_private_message.sql",
+      "reason": "Rollout evidence and receipt template.",
+      "sha256": "0b382247985f4443f431cf9eddc67f80f6d1e7e09697322e30ea8907f654fbf3"
+    },
+    {
+      "path": "supabase/functions/ai-numerology-message/handler.ts",
+      "reason": "Rollout evidence and receipt template.",
+      "sha256": "6f27c82c6a8545618fc7ca5558ff873617b1d47d8bf76a48084ab209e3ddeb52"
+    },
+    {
+      "path": "docs/release/singapore-edge-functions-2026-11-09/tarot-batch-c2-rollout-2026-11-24.json",
+      "reason": "Rollout evidence and receipt template.",
+      "sha256": "cc0619a87a9c187d37ce46d47a96795083464b2b2b0da672ff11b3f93aa4e27b"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before code edits; delivery rule followed."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Sign-in, quota and switch on every model call; output validated inside the router; sensitive route with zdr/data_collection deny; only used context sent."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Public privacy page and in-app consent copy only: plain accented Vietnamese and English, no command tone, checked with validate:brand and validate:public-content."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Reuses repository router, providers and price book; no new package or provider."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "verify_jwt plus in-handler auth; Premium checked server-side from subscriptions; no RLS change.",
+    "sensitiveData": "Body whitelist rejects names and birth dates; second person's data never sent; strict trace redaction.",
+    "secretsLogging": "No secret read or written; .env not read; request body not logged.",
+    "externalInput": "Bounded JSON read after gates; every number validated against allowed values; block ids validated against grammar and numbers.",
+    "dependencies": "No package added.",
+    "migrationRelease": "Migration file written and statically tested only; applying it, deploying the function and enabling the switch are separate Owner approvals by hash.",
+    "stopCondition": "Stop if the shared ai-request-guard change cannot stay additive or if any existing AI function test breaks.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record written after the Owner-approved apply and deploy, before committing the receipt (26/11/2026, branch from origin/main 741ef1d).",
+    "paths": [
+      "docs/release/singapore-edge-functions-2026-11-09/numerology-message-rollout-2026-11-26.json",
+      "PLAN.md",
+      "docs/proposals/NUMEROLOGY_AI_PRIVATE_MESSAGE_BACKEND_2026-11-25.vi.md"
+    ]
+  },
+  "validationCommands": [
+    "npm run validate:governance",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Mở biên nhận và PLAN.md mục 7 hàng 5: SQL đã áp, hàm v1 ACTIVE, công tắc tắt.",
+  "residualRisk": "Signed-in call and live model cost not verified (switch off, needs new Android build); Admin route page not updated until admin-model-router-config is redeployed.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

@@ -1,0 +1,5795 @@
+{
+  "schemaVersion": 1,
+  "batchId": "book-quotes-b2-2026-11-27",
+  "feature": "Một câu cho hôm nay: Suy tưởng (59), Kinh Pháp Cú (60), Binh pháp Tôn Tử (60)",
+  "dataFiles": [
+    "packages/content/data/book-quotes/suy-tuong.json",
+    "packages/content/data/book-quotes/kinh-phap-cu.json",
+    "packages/content/data/book-quotes/binh-phap-ton-tu.json"
+  ],
+  "reviewedAt": "2026-11-27",
+  "editor": "editor-in-chief agent (Claude Code, Opus 5.5)",
+  "drafter": "AI (Claude Sonnet 5.5 subagent); fixes applied by drafter (round 2) and editor (round 3)",
+  "contentHashMethod": "sha256 of the item object as JSON with sorted keys, no spaces, UTF-8",
+  "panel": [
+    {
+      "role": "western-philosophy",
+      "engine": "claude-subagent (Sonnet 5.5)"
+    },
+    {
+      "role": "buddhist-texts",
+      "engine": "claude-subagent (Sonnet 5.5)"
+    },
+    {
+      "role": "east-asian-classics",
+      "engine": "claude-subagent (Sonnet 5.5)"
+    },
+    {
+      "role": "safety-ethics",
+      "engine": "claude-subagent (Sonnet 5.5)"
+    },
+    {
+      "role": "sources-rights",
+      "engine": "claude-subagent (Sonnet 5.5)"
+    },
+    {
+      "role": "language-translation",
+      "engine": "claude-subagent (Sonnet 5.5)"
+    },
+    {
+      "role": "round2-combined per book (field expert, safety, sources, language)",
+      "engine": "claude-subagent (Sonnet 5.5)"
+    }
+  ],
+  "droppedItems": [
+    {
+      "id": "st-05-28",
+      "reason": "Người duyệt đề nghị đổi lời câu trích vì an toàn; quy tắc cứng: không đổi nghĩa kinh điển vì an toàn, nên bỏ mục."
+    }
+  ],
+  "editorDecisions": [
+    "bp-09-41, bp-11-30: giữ nguyên câu trích; phần giải thích nói rõ đây là hình ảnh chiến trận, không phải lời tiên đoán, và 越 là nước Việt cổ (Chiết Giang), không phải Việt Nam.",
+    "pc-184: quote.en giữ nguyên Müller; quote.vi theo Pāli; phần giải thích nói rõ chỗ khác nhau.",
+    "bp-01-17, bp-08-12: trả lại chính tả Anh của Giles (favourable, honour) để quote.en đúng nguyên văn.",
+    "st-05-01, st-08-36: thêm một câu hỗ trợ ngắn với số 115."
+  ],
+  "items": [
+    {
+      "id": "st-01-07",
+      "file": "suy-tuong",
+      "contentSha256": "5e1d214d3142eb5f1258d17d933bdf8e54a9a816461b466cd88d0f1d0ed55409",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Question presupposes the user is clinging to anger and that the other side is safe to reconcile with.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Question now conditional and neutral; quote.en verbatim Long 1.7; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-01-12",
+      "file": "suy-tuong",
+      "contentSha256": "a465cf0ffca1f479e429ce026da7b33d42de80b5a1165f44efafab41f4145b38",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Question forces a binary that presupposes avoidance; a person who is simply exhausted has no answer.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Third option (rest) added to question; gloss and quote unchanged and faithful."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-01-13",
+      "file": "suy-tuong",
+      "contentSha256": "a3d4b3afdac3bd8d015a181d87f5badb4c13b602e7b944d20c7a420ecb9d2196",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Gloss: \"lời trách của bạn\" mơ hồ (bạn = friend hay you). Question: \"bạn\" bạn bè và \"bạn\" ngôi hai đứng cạnh nhau.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gloss now names \"một người bạn\"; no ambiguity; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-02-01",
+      "file": "suy-tuong",
+      "contentSha256": "c45767ea5506279b0e43ca1c62b0fd4e45719e86e0f5e2826cb303d8e4718514",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Quote frames being vexed and turning away as against nature; a person distancing from someone harmful could feel shamed. Gloss needs an explicit safety line; question presupposes a daily irritant.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Boundary line added in gloss, calque fixed; quote verbatim Long 2.1; question conditional with boundaries clause."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-02-05",
+      "file": "suy-tuong",
+      "contentSha256": "8b7a7f0ca4967edab29d521d9bebdc765697327941db5b3093a9374be28bf2ae",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "REVISE",
+          "note": "Gloss turns the passage into single-tasking: Long 2.5 says the relief comes from acting as if each act were the last and laying aside carelessness, hypocrisy, self-love and discontent with one's portion, and the quote asks for dignity, justice and freedom, not focus.",
+          "evidence": "Long 1862, Meditations 2.5 (Project Gutenberg #15877)"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gloss restored to Long 2.5 (each act as the last, drop carelessness, hypocrisy, self-love, discontent); no single-tasking drift."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-02-07",
+      "file": "suy-tuong",
+      "contentSha256": "3c53e53e81c9eda1c44182d26dcd39567bfbb1689c301d7ee44e9099ed7f113b",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "REVISE",
+          "note": "Gloss says \"something that feels right\" for Long's \"something new and good\", which swaps a Stoic good for a feeling.",
+          "evidence": "Long 1862, Meditations 2.7 (Project Gutenberg #15877)"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Quote.vi \"cuốn xoay quanh\" gượng so với \"whirled around\".",
+          "evidence": "Long 1862, Meditations 2.7"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gloss now says \"học một điều tốt và mới\" as in Long; \"quay cuồng\" natural; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-02-08",
+      "file": "suy-tuong",
+      "contentSha256": "08ee9c61d19866fcd402aeec30dab263025063814a9e24ac527b2cca759faca7",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-02-13",
+      "file": "suy-tuong",
+      "contentSha256": "f3bfd2dbc045e918b48a2c8882018e29f9bab8b239fa663a1dff2e5563a3821e",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "REVISE",
+          "note": "vi drops the clause \"pries into the things beneath the earth, as the poet says\" that en keeps, so vi and en differ with no mark. Both now carry \"…\" for the omission.",
+          "evidence": "Long 1862, Meditations 2.13 (Project Gutenberg #15877)"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Quote.vi bỏ mất vế \"pries into the things beneath the earth, as the poet says\" có trong quote.en; vi và en không khớp.",
+          "evidence": "Long 1862, Meditations 2.13"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Both vi and en carry the same \"…\" for the omitted \"pries into things beneath the earth\" clause; restoring it would exceed 220 chars, so the ellipsis is the right call."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": true
+    },
+    {
+      "id": "st-03-04",
+      "file": "suy-tuong",
+      "contentSha256": "9094e06e69e138d0ab1067057048995cf84cee4e81dff4f6b9b862213936a0f2",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "REVISE",
+          "note": "Quote stops mid-sentence (\"such thoughts as these,--What is such a person doing…\") with no \"…\"; the gloss draws on the omitted list.",
+          "evidence": "Long 1862, Meditations 3.4 (Project Gutenberg #15877)"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Question presupposes that thoughts about another person are wasted; for someone grieving or missing a loved one this reads as a rebuke.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Trailing ellipsis in both languages; gloss names the omitted list and adds the grief/remembering line; question is neutral."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-03-07",
+      "file": "suy-tuong",
+      "contentSha256": "286339dc8cb6bb79c7e7f08e3f643074e7a9f057b3279018fd9f2d3ada075a87",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "REVISE",
+          "note": "Quote stops before the colon and the reason (he who prefers his own intelligence and daemon) with no \"…\".",
+          "evidence": "Long 1862, Meditations 3.7 (Project Gutenberg #15877)"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Question presupposes secrecy and shame; hiding something for safety (e.g. from an abusive person) is legitimate.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Trailing ellipsis in both; question allows hiding for safety; no blame."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-03-12",
+      "file": "suy-tuong",
+      "contentSha256": "291b2ffe9d44c5ea0ef759f4ace70c1916aa5f0c2608c63f592f52f72b5943c9",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "REVISE",
+          "note": "vi renders \"right reason\" (orthos logos) as \"lẽ phải\", which reads as moral rightness and loses logos; gloss then reduces the passage to \"quality of attention\" and skips reason. Fix vi quote and gloss.",
+          "evidence": "Long 1862, Meditations 3.12 (Project Gutenberg #15877)"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "\"Lý trí đúng đắn\" keeps logos; gloss now about reason, not just attention; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-03-13",
+      "file": "suy-tuong",
+      "contentSha256": "fee94afbe1493cab9d987e24912f93d57ebda6154f72203bb59399d4b004714f",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "REVISE",
+          "note": "Quote stops mid-sentence before \"with a recollection of the bond which unites the divine and human\", which the gloss then relies on; no \"…\". Mark the omission (vi cannot take the clause within 220 chars).",
+          "evidence": "Long 1862, Meditations 3.13 (Project Gutenberg #15877)"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Trailing ellipsis in both; gloss states the omitted clause (bond between divine and human) accurately."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-04-03",
+      "file": "suy-tuong",
+      "contentSha256": "90c77e36abc9bbd0bf748f048e3e25143fe0a228295f96108b67ffe5c8edc02a",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "REVISE",
+          "note": "Quote stops mid-sentence with no \"…\"; gloss says Marcus \"does not deny the pleasure\" of retreats, which is not in the text, and omits that Long 4.3 calls seeking retreats a mark of the most common sort of men.",
+          "evidence": "Long 1862, Meditations 4.3 (Project Gutenberg #15877)"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gloss now carries Long 4.3 (\"most common sort of men\", \"thou too art wont\", good ordering of the mind, return with less discontent); ellipses in both languages."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-04-07",
+      "file": "suy-tuong",
+      "contentSha256": "2e81b2d16ff795140b24e29ba42dda8eb53df70a226aecb62dbc5cbac6d44568",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Quote says harm vanishes with the opinion; the question implies the user embellished their hurt, which can read as victim-blaming.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Question now neutral, no victim-blame; gloss states harm is real; quote verbatim."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-04-11",
+      "file": "suy-tuong",
+      "contentSha256": "3770a9b23841328e5d953e63564267e1c97085848833c7c15120d94fc20f9578",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Question.vi: \"khi tách ra\" mơ hồ so với \"step back\".",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "\"Lùi lại một bước\" matches en \"step back\"; no other change needed."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-04-13",
+      "file": "suy-tuong",
+      "contentSha256": "6ebe6963e6e22c7bf7b2a7afa0e029a112598f6a4e9c6bdae0f0c20f6897f0b9",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Quote scolds (“why do you not use reason”); gloss and question assume the reader lets feeling lead, which can shame someone who is confused or low.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Rebuke removed by the gloss and the question; Stoic point (reason does its work) kept; en spells \"judgement\" where other glosses use \"judgment\" (trivial, not blocking)."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-04-18",
+      "file": "suy-tuong",
+      "contentSha256": "1f8e9040a86b9d659afdca924f2029aeb52eb69548f18c05bb0d7eff445216a4",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-04-22",
+      "file": "suy-tuong",
+      "contentSha256": "9c8ab9374782f6b919132ca4abd4242de5ff373fb988593867197ccb38c92208",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-04-24",
+      "file": "suy-tuong",
+      "contentSha256": "231a83241cbd931342d43a1dc89ad7ff80d314d27a3b357b7f05cc10736289e0",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "REVISE",
+          "note": "Gloss drops what Long means by \"necessary\": what the reason of the naturally social animal requires; without it the passage reads as decluttering advice.",
+          "evidence": "Long 1862, Meditations 4.24 (Project Gutenberg #15877)"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gloss now says \"necessary\" = what reason and social nature require (Long 4.24); no decluttering drift."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-04-31",
+      "file": "suy-tuong",
+      "contentSha256": "1acc2421cf6eab499998f3312a16dd13bbfc692595fe4b86e6d2e09d6371af65",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-04-49",
+      "file": "suy-tuong",
+      "contentSha256": "9c671c5551534f91cea4839767924496f9a71fa09ae5f82a8cb23af0536a785d",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-05-01",
+      "file": "suy-tuong",
+      "contentSha256": "724fa64184d33e876f1bfc0e086c259353bfef21453727f227b8427074783cc0",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "REVISE",
+          "note": "Quote.en begins \"IN the morning\" (stray capital); Long has \"In the morning\".",
+          "evidence": "Long 1862, Meditations 5.1 (Project Gutenberg #15877)"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Not wanting to get up may signal depression or illness; the question offers only body-rest or avoidance as causes and the quote ridicules staying in bed.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Stray capital fixed (verified verbatim); gloss keeps \"rest is necessary\", adds support line and 115 only, short; question has a third option; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": true
+    },
+    {
+      "id": "st-05-06",
+      "file": "suy-tuong",
+      "contentSha256": "b325bb684803863cbae6a6036899ec59e22ff25f5d88d66ea75d1673c5804810",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-05-09",
+      "file": "suy-tuong",
+      "contentSha256": "8944ac27b99e20c03bfeab123129b32ec3d53e0472d8d34fcbfd3d346d6071db",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "REVISE",
+          "note": "vi gives two states for Long's three (\"disgusted, discouraged, dissatisfied\"); \"disgusted\" is missing.",
+          "evidence": "Long 1862, Meditations 5.9 (Project Gutenberg #15877)"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Gloss.vi: \"không như đến gặp\" cứng, lệch \"reporting to a strict master\".",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "\"Ghê chán, nản lòng, bất mãn\" restores the three states; gloss reads naturally."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-05-16",
+      "file": "suy-tuong",
+      "contentSha256": "a38ba16868f584e77839a7d3f5d9effd21491af65093f812f7b2eb65638a011e",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Calque removed; gloss still says it is a belief he chooses, not a claim that everyone is fine."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-06-02",
+      "file": "suy-tuong",
+      "contentSha256": "8f00084d179da7850a9b39856daa055b3f0546c38f2fbb77f29f6ab3b39bc5af",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-06-06",
+      "file": "suy-tuong",
+      "contentSha256": "a7b3db97390f6872235ffcf69263128b787b063b5f521a9f3cd7caef9e7794da",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-06-11",
+      "file": "suy-tuong",
+      "contentSha256": "aaa3e85552592278b71856c0526bd4a015bb1a126fe9a21a05aabf3e1d71a092",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-06-19",
+      "file": "suy-tuong",
+      "contentSha256": "7dcc78d4ec3f7a34708a9b35738e7f28c294a14ea90cd49de6546ddac18bf192",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "REVISE",
+          "note": "Gloss drops Long's condition \"conformable to his nature\" and says \"something other people have done\", which is not in the text; this slides toward a growth-mindset reading.",
+          "evidence": "Long 1862, Meditations 6.19 (Project Gutenberg #15877)"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Gloss.vi: \"vì thế vẫn còn mở\" không rõ cái gì còn mở.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gloss now carries the condition \"conformable to his nature\" and drops the invented \"others have done it\"."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-06-21",
+      "file": "suy-tuong",
+      "contentSha256": "b0179bb42b9e82933ed87a6c63ac187a042f8cef0787b8bf6fedcc059b632871",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Calque removed; meaning unchanged."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-06-30",
+      "file": "suy-tuong",
+      "contentSha256": "4d405ba0f3e038176b4208cc984febef156174868c502c56cc6dbb9c981c6e56",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "REVISE",
+          "note": "Gloss puts \"dyed with Caesar's dye\" in quotation marks, but Long reads \"made into a Caesar\" and \"dyed with this dye\".",
+          "evidence": "Long 1862, Meditations 6.30 (Project Gutenberg #15877)"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gloss now says \"hóa thành một Caesar / made into a Caesar\" matching Long; calque removed; ellipsis for \"a worshipper of the gods\" is in both."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-06-48",
+      "file": "suy-tuong",
+      "contentSha256": "7d8b59f789c74fd1a2611c7653aa08ebce6bde6607fb238e2dface59baba99f9",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-06-53",
+      "file": "suy-tuong",
+      "contentSha256": "381d941f145286d08e9f081e01562e236bcbcae568324eaab065f5440164743d",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-07-07",
+      "file": "suy-tuong",
+      "contentSha256": "70e5d46f6296044c6616050f198c3bd5494e1f10f763daba6b4c6ca11ca84276",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-07-08",
+      "file": "suy-tuong",
+      "contentSha256": "49c77114a2d81250e747fdc8205aca621f5f19266cb4207a07bc174b95f807b9",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-07-26",
+      "file": "suy-tuong",
+      "contentSha256": "78c549758ffc880c11ad869a06c0694f066a87c0a5698bceb55282cad903b4d8",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Quote predicts the reader will pity the wrongdoer; question asks someone hurt to empathise with the person who hurt them, which can retraumatise and pressures forgiveness.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Question.vi: \"qua điều gì\" mơ hồ.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Safety line added, \"bạn không nợ ai sự thấu hiểu\"; question conditional on feeling safe and does not push forgiveness; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-07-27",
+      "file": "suy-tuong",
+      "contentSha256": "c848fc21cb7a3da577853385f0bc785c489c969da0d8bb719b6ccb16b45b1e81",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Gloss.en: \"lest you are thrown\" cổ và sai thức; dùng văn nói rõ.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "en wording fixed (\"so that you are not thrown\"); vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-07-29",
+      "file": "suy-tuong",
+      "contentSha256": "3103ef3f233b8b6f8edbc1ed52cde970c6359fe08a94a79c61ca966f040ff80f",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Question presupposes the user is choosing to carry a wrong and asks them to justify it, which blames those wronged.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Question no longer blames; the \"…\" matches Long 7.29; gloss says the last line is not a call to overlook the wrong."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-07-59",
+      "file": "suy-tuong",
+      "contentSha256": "5edc3c4a6cdadfdeff8255b7db0c6928d0af79827f390fd689a825d4654a00ae",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-07-61",
+      "file": "suy-tuong",
+      "contentSha256": "d9e1831c97409310ffc39a6536bac37b9627b96375634c248fd5880062d32406",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Gloss.vi: \"hiểu vũ công theo một bài\" khó đọc.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gloss vi readable; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-08-08",
+      "file": "suy-tuong",
+      "contentSha256": "23183af307c2cb581b77c33e7bf7fb263f70575a5ce8684957ef7729aecb4c2b",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "REVISE",
+          "note": "Quote ends after \"love of fame\" but Long continues \", and not to be vexed at stupid and ungrateful people, nay even to care for them\", with no \"…\".",
+          "evidence": "Long 1862, Meditations 8.8 (Project Gutenberg #15877)"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Trailing ellipsis in both languages; gloss still faithful."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-08-16",
+      "file": "suy-tuong",
+      "contentSha256": "6f1cc9b6182d27d0f73aab5ce4111dca41e35401a5dec7451ff115f3f794175a",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Calque removed; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-08-32",
+      "file": "suy-tuong",
+      "contentSha256": "af103f87025d9d58ebdc0ac7eaf00fb9d3bed8f98b554c9406af951970064fab",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "REVISE",
+          "note": "Second segment stops mid-sentence (\"…which was hindered, and one which will adapt itself…\") with no closing \"…\".",
+          "evidence": "Long 1862, Meditations 8.32 (Project Gutenberg #15877)"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Trailing ellipsis in both; gloss keeps \"this does not tell anyone to endure harm\"."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-08-36",
+      "file": "suy-tuong",
+      "contentSha256": "28c5797d479a79cab63a4d65867869601dd0110c010d93e49d367847547459ff",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "REVISE",
+          "note": "Quote cuts \"for thou wilt be ashamed to confess\", Marcus's own expectation that nothing proves unbearable. Gloss calls it \"a real question, not a way of saying all is fine\", which reverses his tone; restore the clause and state it as his discipline, keeping the safety frame.",
+          "evidence": "Long 1862, Meditations 8.36 (Project Gutenberg #15877)"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Quote and question about what is “unbearable” reach readers in crisis; the gloss mentions talking to someone but lacks a crisis pointer.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Clause \"ashamed to confess\" restored in both languages and the gloss says it is Marcus's own discipline, with a support line and 115 only, short. Residual risk: shame-adjacent clause for a reader in crisis; the gloss mitigates it. Owner can weigh this."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": true
+    },
+    {
+      "id": "st-08-49",
+      "file": "suy-tuong",
+      "contentSha256": "dc67e89b1c28d5a321a73d37571e9f89297a89cd6d3bdd90ba667ad7f1400b26",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-08-50",
+      "file": "suy-tuong",
+      "contentSha256": "eab1debf32d34396b1bcacb8dc947df66b1eb52737b713d62a1c7fbd2379440f",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-09-06",
+      "file": "suy-tuong",
+      "contentSha256": "a867d5847dfb711ea8e3927912a83e677a0eb266c047ecf99adaedd87a8cb604",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Calque removed; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-09-12",
+      "file": "suy-tuong",
+      "contentSha256": "2ea9d34facfa04b4e498442eb988832e762c7cd23a0e85ad90700f69dcbedbe7",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Question presupposes the user is performing for an audience.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Question no longer presupposes an audience; gloss unchanged and fine."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-09-13",
+      "file": "suy-tuong",
+      "contentSha256": "e3577db3b637fc0306f2fd569f8880855a325393212acefa56552223f2710eca",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Quote says trouble is inside one’s opinions; for grief, loss or abuse this can invalidate real pain. Gloss softens but does not state that loss is real.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gloss states loss, pain and injustice are real and are not merely opinion; calque fixed; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-09-42",
+      "file": "suy-tuong",
+      "contentSha256": "f7e2cff2b9f1c0d6501439365f45780ea53209bfe0c90cb7af5ec8c99d17a497",
+      "verdict": "PASS",
+      "round": 3,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Question frames the user’s anger as caused by their expectations, which can blame someone mistreated; “shameless” labels people.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Gloss.en: \"does not say... or asks\" sai song song.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "REVISE",
+          "note": "Content fine, but the question vi \"mong người khác khác đi\" doubles \"khác\" and reads awkwardly; replace with \"mong ai đó khác đi\"."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-10-04",
+      "file": "suy-tuong",
+      "contentSha256": "4c5f7c247b703a1c1f1fb32f79ac312d38cfc06061532a0cb01983291b22a83f",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-10-16",
+      "file": "suy-tuong",
+      "contentSha256": "045f400fbe2f34ff3bfb65d625d5836a099ee1c82b92dc785c74ce733558cb08",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Question presupposes the user talks about values without acting.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Question neutral; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-10-24",
+      "file": "suy-tuong",
+      "contentSha256": "3b2f04c57ca627cf2d6ab8238b9837db310f344035bef48e1331676d5694f847",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "REVISE",
+          "note": "Quote ends at the fifth question; Long's sixth (\"is it melted into and mixed with the poor flesh…\") is omitted with no \"…\".",
+          "evidence": "Long 1862, Meditations 10.24 (Project Gutenberg #15877)"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Question.vi: \"đó có là việc bạn chọn không\" là calque.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Trailing ellipsis in both; question wording equivalent."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-10-30",
+      "file": "suy-tuong",
+      "contentSha256": "b23f92317f030aa026cf865ab93b66323b0d981a2cb1e0b8f45b09e8bcd2c643",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Asking someone hurt to find the same fault in themselves can shame abuse survivors; scope is not limited to minor irritations.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gloss limits the reading to everyday irritations and does not ask a harmed reader to take on blame; question is small-scale and neutral."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-11-13",
+      "file": "suy-tuong",
+      "contentSha256": "a841b368a8a56d3d16d2a93c26e34f9ffb14346ff703b3b405705f11a10559bd",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "REVISE",
+          "note": "Quote stops mid-sentence before \", and ready to show even him his mistake, not reproachfully\" with no \"…\". Gloss reads \"mild\" only as inner heart-keeping, but Long has Marcus kindly correcting even the one who hates him.",
+          "evidence": "Long 1862, Meditations 11.13 (Project Gutenberg #15877)"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Trailing ellipsis in both; gloss names the omitted clause (show him his mistake without reproach) and keeps the safety line."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-11-29",
+      "file": "suy-tuong",
+      "contentSha256": "3d51787132e7403cecf5729da1ba845e201453f9235edeb664947a48deb90a22",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-12-04",
+      "file": "suy-tuong",
+      "contentSha256": "3a5bbf3a54914b8f63097039b2e0e5014d5ecd7f5d0482e03374da03171b0efb",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-12-17",
+      "file": "suy-tuong",
+      "contentSha256": "29fce9a01ad2b97a4bd41f1f3539be3de74ec9d11bfdd1f3b6323007611d65ef",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "st-12-22",
+      "file": "suy-tuong",
+      "contentSha256": "d687ffeac24bddcf4e7628b9b173b5176f5daa73ea4c5b3f25f79a24b80fd328",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "western-philosophy",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "“Everything is opinion” can invalidate real harm; gloss disclaims but does not name loss and injustice as real.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gloss says loss, hurt and injustice are real; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-001",
+      "file": "kinh-phap-cu",
+      "contentSha256": "37dddd6c749f1ed635398cd7c21d1225ee0d502e6954bba44f5b212710765196",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "REVISE",
+          "note": "Quote ends after Müller's first sentence with a full stop; the second half (pain follows an evil thought) is dropped unmarked. Add the ellipsis; the gloss is fine (small typo 'chỉ chỉ ra' optional).",
+          "evidence": "Müller v.1 (Wikisource Dhammapada (Muller)); Dhp 1"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Question presupposes the current feeling is built by the user’s own repeated thoughts, implying fault for distress.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Gloss.vi: \"chỉ chỉ ra\" lặp từ.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Ellipsis added in both languages; typo fixed; question now conditional and non-presupposing; gloss still states not all suffering is the sufferer's fault."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-005",
+      "file": "kinh-phap-cu",
+      "contentSha256": "1d1371789887b4871c2f265383e3a3dc17a25fc1a15276ca7926ef374826f3de",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Question presupposes the user feeds their own resentment; resentment after being wronged is not self-inflicted.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Question made conditional and neutral about resentment; quote and gloss faithful to Muller and the Pali sense; gloss keeps the safety line about distance."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-013",
+      "file": "kinh-phap-cu",
+      "contentSha256": "8c9c872934ad9772576d85643a7abe2a127037f568098c5fbef966a20a2e94e7",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-014",
+      "file": "kinh-phap-cu",
+      "contentSha256": "ec8d4f04fe99ff2274b569c3f81e36d974373863c4d9850490dd083e750350ba",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-025",
+      "file": "kinh-phap-cu",
+      "contentSha256": "5f1ecd47cd2af70982ec101e4e2bace6d2c9d53b5e0e681c3a06f79c88ae440c",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-033",
+      "file": "kinh-phap-cu",
+      "contentSha256": "b1181d42b0fdff2f208a668fad6e454ca710eb739c5bb78521900c271a59c753",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "“Already gently straightened it yet?” presupposes bent thoughts and a duty to fix them.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Calque removed, question no longer presupposes a bent mind; gloss and en consistent; no shame."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-035",
+      "file": "kinh-phap-cu",
+      "contentSha256": "30d8113344c75f677a385eb3bcdcd5ec5ba886ddf333966b1f04a5e35639806d",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-036",
+      "file": "kinh-phap-cu",
+      "contentSha256": "1856cc43bd7d4fd2fee48922320e6d5e9e8baaaf0fc91c64178b7d5719eea616",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Calque removed; guarding glossed as noticing, matching en."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-037",
+      "file": "kinh-phap-cu",
+      "contentSha256": "3e301095c80d774fb469c0d05f9b9317e6181670f96fe58194c3fb6803ff8b3a",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-043",
+      "file": "kinh-phap-cu",
+      "contentSha256": "512de673bc17a90080abb5e3c9852b329e75fd837cfd9899f0f69053981b232a",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Gloss.vi: \"nhấn rằng\" thiếu tự nhiên.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Wording fixed; responsibility framing does not set self against family; en matches."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-049",
+      "file": "kinh-phap-cu",
+      "contentSha256": "b3c164774d1f872cbcc2839052948126c41c68098f96a7de7dee3d0a254513c4",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-050",
+      "file": "kinh-phap-cu",
+      "contentSha256": "c9310ea7764b7ff691da4e8e8873c3ea7d66125ef05e54d1554a01f6341bd6c7",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-052",
+      "file": "kinh-phap-cu",
+      "contentSha256": "a5f68efb729b2e7031e0600d19d54cd4fbb38e89d2907f3d8330a12c67a359e9",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-053",
+      "file": "kinh-phap-cu",
+      "contentSha256": "4c1a060ac3a218f3550452d5ca4a89f51b76db4ff5d60046689b096004c69dbf",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "REVISE",
+          "note": "Pāli kattabbaṃ kusalaṃ bahuṃ says one should do much good; Müller softens it to 'may be achieved' and the gloss pushes further ('không là áp lực'), reversing the verse's sense. Rewrite the gloss to state the Pāli sense without making it a target.",
+          "evidence": "Dhp 53: kattabbaṁ kusalaṁ bahuṁ (SuttaCentral)"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gloss reconciles Muller 'may be achieved' with Pali kattabbam kusalam bahum and is not a target; Pali term correct; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-060",
+      "file": "kinh-phap-cu",
+      "contentSha256": "0ba11bd13dd97d27c5fd4ffd85becd3fb2ffee26182f061045a02e7ff6d98467",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "REVISE",
+          "note": "Quote cut at '…' drops the Buddhist point (saṃsāra is long for fools who do not know the true teaching), and the gloss says 'Kệ chỉ nói' that duration follows state, which misstates the verse. Gloss should say the omitted clause exists.",
+          "evidence": "Dhp 60 Pāli third line: dīgho bālāna saṁsāro, saddhammaṁ avijānataṁ"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gloss now says the clause after the ellipsis exists (samsara long for those not knowing the true teaching); vi/en match; no shame."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-079",
+      "file": "kinh-phap-cu",
+      "contentSha256": "b44f9f20c7f323a310de2028aefd4caa435a9957a3d052eaf1b344bf8b963cf4",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Calque removed; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-080",
+      "file": "kinh-phap-cu",
+      "contentSha256": "17ec159f43626c8554d9daa2079ad9da9e27dc981f97b24e0e72d8bc35305274",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Gloss.en: \"his material\" dùng giới tính cho người thợ nói chung.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gender-neutral 'their' in gloss.en; quote unchanged; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-081",
+      "file": "kinh-phap-cu",
+      "contentSha256": "27e4240fdaf0dfa6c6aa8af252c9a87c4ff23e4808b8f1b64ca50befd6e1e6a3",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-082",
+      "file": "kinh-phap-cu",
+      "contentSha256": "71dbee65c987f9e468167c0ed95adb6f2ce7c0deccd0450ac10b4b2038413903",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là do ai ép nó yên, mà vì\".",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Calque removed; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-083",
+      "file": "kinh-phap-cu",
+      "contentSha256": "f452f684ff8017d53ad0624f730e56b5da0a15123511805b2905f3dec9b09126",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "REVISE",
+          "note": "Müller's 'good people walk on whatever befall' misses Pāli sabbattha ve sappurisā cajanti (the good give up everything / let go everywhere). Keep the quote as Müller but let the gloss say what cajanti means.",
+          "evidence": "Dhp 83: sabbattha ve sappurisā cajanti (SuttaCentral)"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Ideal of never appearing depressed can shame the grieving; question presupposes something holds steady.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là vô cảm, mà là\" (cặp phủ định xếp chồng).",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gloss says cajanti = let go, keeps quote as Muller, states grief is a real response and that anyone sways; Pali term correct; no shame; 3 sentences, within 420 characters; vi/en match. Last clause 'quan sat muc dao dong' is slightly measuring but acceptable."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-100",
+      "file": "kinh-phap-cu",
+      "contentSha256": "56e6b26cdd2fea411cc1d5763a85c6ee425d2071a7195cb9a134eeb0bc5055d7",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "REVISE",
+          "note": "Vietnamese shares the five-word run “nhưng toàn lời vô nghĩa” and the “ngàn lời” opening with Thích Minh Châu v.100 (from memory, not verified).",
+          "evidence": "public-domain: F. Max Müller 1881, SBE vol. 10 (Müller d. 1900); Vietnamese is Nilaza wording"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "New vi no longer repeats the five-word run 'nhung toan loi vo nghia'; wording is distinct from Thich Minh Chau (compared from memory, not side by side); vi follows Muller; gloss calque fixed; low residual risk."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": true
+    },
+    {
+      "id": "pc-103",
+      "file": "kinh-phap-cu",
+      "contentSha256": "64128ebd6e64a435d62bc77c46c5eb450920a5104e212ef1d4151048b0798d67",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Calque removed; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-118",
+      "file": "kinh-phap-cu",
+      "contentSha256": "d2edeeb7172537b73579118671a0b12e139c5771cff61a4c39cff159cad3e416",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "REVISE",
+          "note": "Müller 'happiness is the outcome of good' vs Pāli sukho puññassa uccayo (piling up good is joyful). The gloss says joy is not a later reward, contradicting the displayed quote; reconcile in the gloss.",
+          "evidence": "Dhp 118: sukho puññassa uccayo (SuttaCentral)"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gloss reconciles Muller 'outcome' with Pali sukho punnassa uccayo; no merit-reward framing, no punishment; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-122",
+      "file": "kinh-phap-cu",
+      "contentSha256": "eb1b94a671ca49bae868b7d581142eac4a3502df232fb335e7e4cce8822c16a7",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-133",
+      "file": "kinh-phap-cu",
+      "contentSha256": "8048efcb5c04a151f2b05fecb88ba416aa12891c2d29660a13a6fb530a58d79f",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "REVISE",
+          "note": "Müller's second sentence ('Angry speech is painful, blows for blows will touch thee') is cut with no ellipsis; the Pāli half (dukkhā hi sārambhakathā) is dropped. Mark the omission with '…' in both languages.",
+          "evidence": "Müller v.133 second sentence; Dhp 133 lines 3-4"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Ellipsis in both languages; gloss says it is an observation, not a guarantee, and does not demand silence; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-157",
+      "file": "kinh-phap-cu",
+      "contentSha256": "ea8e5c1113d35830f4f57a3a51f98012bb3282dd2f184321f78e5b13f1f81468",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-158",
+      "file": "kinh-phap-cu",
+      "contentSha256": "ada865d73f0c19f0d260e351cf0168619450906ceb489ad66e66642feafd5714",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Calque removed; ellipsis already in both; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-160",
+      "file": "kinh-phap-cu",
+      "contentSha256": "fc7641f0f15a36152a76a51f85d9d5e6c1a9eb129c7c1cc945fd9d3e4d654bf2",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-172",
+      "file": "kinh-phap-cu",
+      "contentSha256": "e533b00e9680a582417c93d8bb12acaeb0cc8e3ad52cc1e5f59c4a09be58da3d",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là dấu ấn vĩnh viễn, mà là\".",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Calque removed; the past is not a mark; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-183",
+      "file": "kinh-phap-cu",
+      "contentSha256": "22e92fca1600b05abeb2574a33bc4c61fb2a26584ffd781e20638d0e20e5bc78",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-184",
+      "file": "kinh-phap-cu",
+      "contentSha256": "20eb23f89797a52345e1a78209c999b6f6200a7e68cabe06db80c7a2052a7873",
+      "verdict": "PASS",
+      "round": 3,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "REVISE",
+          "note": "Müller's 'long-suffering the highest Nirvana' garbles the Pāli: khantī paramaṃ tapo titikkhā = patience and forbearance are the highest austerity; Nibbāna is the highest, say the Buddhas. Quote (en and vi) needs correction; the gloss is fine.",
+          "evidence": "Dhp 184 Pāli (SuttaCentral, Sujato: Patient acceptance is the ultimate fervor. Extinguishment is the ultimate, say the Buddhas)"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là người xuất gia / người tu\" ở quote.vi và gloss.vi.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "REVISE",
+          "note": "quote.vi follows the Pali (khanti paramam tapo titikkha; nibbanam paramam) and quote.en stays Muller; both glosses flag that Muller blurs the first half, so the pair is workable and the safety line (verse does not ask anyone to endure violence) is kept. Residual: gloss.vi says 'ban Muller' without saying the Vietnamese line follows the Pali, so a reader seeing only vi cannot tell why the line differs; proposed gloss makes the departure explicit. Owner should accept this departure from pure Muller for vi, and the header label should mention it."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": true
+    },
+    {
+      "id": "pc-197",
+      "file": "kinh-phap-cu",
+      "contentSha256": "eac9885c79b088cce3bc8599910bd0060b8e3cafd22845e3376652bea2ab074e",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-201",
+      "file": "kinh-phap-cu",
+      "contentSha256": "aec08d89105b942be29482d81e160d24fd8179cea222a8d9bb94c9fe61090a21",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-217",
+      "file": "kinh-phap-cu",
+      "contentSha256": "246a517ddd7e0ac4448e1e405616a61e78196c253b8baf7a0318cedfa7a964e3",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"hệ quả phụ, không là điều để chạy theo\".",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Calque removed; by-product framing is fine; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-222",
+      "file": "kinh-phap-cu",
+      "contentSha256": "2984af2b622bbb3d242444ff2a0ac5119654ad08311800f2b2a3dafd692ccc4a",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Calque removed; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-223",
+      "file": "kinh-phap-cu",
+      "contentSha256": "2da788f63bc1c10dcd0618a6d09a7d57e815a0555d8662a13404818a23576509",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "REVISE",
+          "note": "Pāli akkodhena is 'by non-anger', not 'by love'; Müller's 'love' is loose and the gloss does not say so. Add that line to the gloss.",
+          "evidence": "Dhp 223: akkodhena jine kodhaṁ"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gloss states akkodha = non-anger (correct form) and keeps the boundary line; vi/en match; within limits."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-228",
+      "file": "kinh-phap-cu",
+      "contentSha256": "8d69f60a9f21d6cd9e7817ca8e553718b36a031bb50de7293f4851744389097d",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-232",
+      "file": "kinh-phap-cu",
+      "contentSha256": "f0181271fc1eb865f686e474164cd55c7f4757e6621756b4c06efeeada6067bf",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-233",
+      "file": "kinh-phap-cu",
+      "contentSha256": "88d12b088f7f230eaddb47c84bdd676c9762bd673bee183ab8cf7f9bd8d44401",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-239",
+      "file": "kinh-phap-cu",
+      "contentSha256": "18659a5f2162f354de0bbd0e0d0ae9259a0af7fdae2d7231f1836f074fd2e5f5",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Calque removed; impurities do not define the person; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-251",
+      "file": "kinh-phap-cu",
+      "contentSha256": "7530326d1ebba5f16da2fcf77143e43177e9d048f41399ed8e4fd88c47a6e019",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Calque removed; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-252",
+      "file": "kinh-phap-cu",
+      "contentSha256": "a96255887981277b75a744317b3531aca9c7de3386339b9c0e0547044d5ac685",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-253",
+      "file": "kinh-phap-cu",
+      "contentSha256": "e9b8ea61d6f067d993164be8c9c69fbba0cdc467fe6e3518b55f80cc940cc460",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Question labels the user “easily offended” and asks if the offence grows, a mild blame frame.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Question no longer labels the user easily offended; gloss keeps 'does not tell you to overlook harm'; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-258",
+      "file": "kinh-phap-cu",
+      "contentSha256": "c880f4d629a4c0e56d0dd85c5612160ee8b6f365ca0bf21afb2bff41aa2c0c4a",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "REVISE",
+          "note": "Pāli khemī means 'secure', not 'patient'; Müller's 'patient' leads the gloss to praise 'nhẫn nại'. Gloss should mention khemī and that the translation says 'patient'.",
+          "evidence": "Dhp 258: khemī averī abhayo"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Quote.vi: \"không là bậc học rộng chỉ vì nói nhiều\" là calque.",
+          "evidence": "Müller, Dhammapada 258"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gloss names khemi (secure) and that Muller says patient; quote.vi calque fixed; vi/en match. Pali says pandito (wise) where Muller says learned; left as Muller, low impact."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-261",
+      "file": "kinh-phap-cu",
+      "contentSha256": "5c27acaee031cdb7e417353eaa723b767b90c66a2b9cd262f6922d85bd0f63e9",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "REVISE",
+          "note": "Müller's 'love' translates ahiṃsā, which means non-harming. Add that to the gloss so the verse is not read as a demand to feel love.",
+          "evidence": "Dhp 261: ahiṁsā saṁyamo damo"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gloss names ahimsa = non-harming (correct) so the verse is not a demand to feel love; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-276",
+      "file": "kinh-phap-cu",
+      "contentSha256": "66b962ffa9088a382ae3bd34a73b7107847b3625c35160ad7bb9379930d12658",
+      "verdict": "PASS",
+      "round": 3,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Question presupposes the user is waiting for others, discouraging help-seeking.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "REVISE",
+          "note": "Question now allows help-seeking, but the gloss still closes with 'ban dang cho ai lam dieu...', which presupposes the reader waits on others (the issue the safety review raised for the question), and 'khong ai ganh thay ban' cuts against help-seeking. Both softened."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-281",
+      "file": "kinh-phap-cu",
+      "contentSha256": "19ec1cc12144eb1e6a2b311e41322e6e1ff40a48904737b10b1a997f54a8fdeb",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-290",
+      "file": "kinh-phap-cu",
+      "contentSha256": "376f4bb60b1bfa63e121570914cf4f80da5f3b5a770ce9adf64e99d4fba1151c",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-291",
+      "file": "kinh-phap-cu",
+      "contentSha256": "cfc41dd709c1e74d9b6147e58ec59a3475eba6bcbd50fe89aa2954e158fd2535",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Question presupposes the user’s pleasure costs others, inducing guilt.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Question rewritten in a positive, non-guilt form; gloss says it does not judge anyone; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-313",
+      "file": "kinh-phap-cu",
+      "contentSha256": "b8d11251e3a8c965183ff58cd09d2be8e29cef7af39b5050cd2f52d9c5b8ad57",
+      "verdict": "PASS",
+      "round": 3,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Question presupposes the user works half-heartedly; “do your utmost” can push overwork.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "REVISE",
+          "note": "Question now asks both what is present and what is elsewhere, but the gloss closes with 'ban dang lam do dang viec nao', which still presupposes unfinished work. Closing line made neutral."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-322",
+      "file": "kinh-phap-cu",
+      "contentSha256": "424ed987f57e8ac0965ddb687c48a9986682d707d52340036e77aae40a2db559",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là nhìn người khác từ trên xuống\".",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Calque removed; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-326",
+      "file": "kinh-phap-cu",
+      "contentSha256": "5aabc5000dcde2383ddaafb0e5cacb4de3a2da19bbb069111815f524cc2273a1",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Gloss.vi: calque \"không là bạo lực\". Gloss.en: \"his mind / his elephant\" gán giới tính cho người nói.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Calque removed and gender-neutral 'their' in gloss.en; the 'no violence' reading of the hook image is interpretive but offered as a suggestion; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-327",
+      "file": "kinh-phap-cu",
+      "contentSha256": "18c79816a0536f68cd88afd35926c0e22f5f91d067dbcf9adaa8d09520be5147",
+      "verdict": "PASS",
+      "round": 3,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Question presupposes the user is stuck in mud and should pull themselves out; someone depressed cannot always do so alone.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Gloss.vi gượng (\"mắc kẹt không nói gì xấu\"); question.en \"Where in your life is like mud\" sai ngữ pháp.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "REVISE",
+          "note": "Gloss says being stuck is not a flaw and asking for help is also a response, and the question offers a person as help; but 'khong ai mac ket cung tu thoat duoc mot minh' can be read as 'no one stuck can leave alone', the opposite of the intended 'not everyone'. Reworded without a banned word."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": true
+    },
+    {
+      "id": "pc-336",
+      "file": "kinh-phap-cu",
+      "contentSha256": "625f5f5f6ccfe3fe170b11d5a582948f7c62b063117bf142c1c67ceec75a7f3f",
+      "verdict": "PASS",
+      "round": 3,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Question presupposes clinging to a craving; risky for people with addictions.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "REVISE",
+          "note": "Question made less presupposing and gloss states it is not a reproach; but the gloss closing line 'ban dang bam vao dieu gi' still presupposes clinging (risk for addiction). Made conditional."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-365",
+      "file": "kinh-phap-cu",
+      "contentSha256": "2d06388e4383170aa643089b3a1454600c4c74e306aa8f7c2423924d9a546a5f",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là một lỗi để xấu hổ\"; gloss.en \"overlooking of what\" gượng.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Calque removed; awkward English fixed; envy not framed as shameful; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-369",
+      "file": "kinh-phap-cu",
+      "contentSha256": "c4fd2f35e58e3a7a73663d5fa7f70e4731e11ebb6ecfaf3498f44199c5443590",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-379",
+      "file": "kinh-phap-cu",
+      "contentSha256": "fdcacbb67a759ace40a7b464de551ef0d9b3c557970d70178d37a8ed2126a2ba",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "REVISE",
+          "note": "Gloss introduces 'tình bạn với chính mình' and a gentle tone not in the text (codayati is 'urge/reprove', fairly direct). Also vi 'tỉnh giác' is closer to sampajañña while Pāli satimā is niệm. Reword the gloss without presenting a friendship frame as the text's own.",
+          "evidence": "Dhp 379: so attagutto satimā"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gloss no longer presents friendship as the text's own: codayati is called direct in the Pali and the companion reading is offered as one option; sati correctly called niem; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-380",
+      "file": "kinh-phap-cu",
+      "contentSha256": "6ed6f81deefcbbb201903b4d9f040a520cd00639dfc8e91f38c3a85aeb3c1e21",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Yes/no question can leave someone in crisis feeling they have failed to be their own refuge.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Question.vi: \"bạn có là chỗ nương\" là calque.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gloss gives natha = protector/refuge (correct), 'curb' as care is offered as a reading; question is open, not yes/no, and allows other refuges; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-393",
+      "file": "kinh-phap-cu",
+      "contentSha256": "c2f88d25de46133442ff426b8bff8f63e0bab38b0d9388d5503919a7caca4397",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "REVISE",
+          "note": "Gloss calls Bà-la-môn 'a title of noble people' and omits that it is a birth-based priestly class which the verse redefines. Müller's 'blessed' for sucī (pure) is also off.",
+          "evidence": "Dhp 393: so sucī so ca brāhmaṇo"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Question presupposes the user judges others by birth or looks.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gloss explains Ba-la-mon as a birth-based priestly class and that suci (correct) means pure, 'duoc phuc' being Muller's; question has no presupposition; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "pc-408",
+      "file": "kinh-phap-cu",
+      "contentSha256": "02f80e136076a257af74321a25b58a7d941832a03fcc5d01a35d400d35620979",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "buddhist-texts",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là né tránh\"; \"ba chất của lời nói\" gượng.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Calque removed; gloss says care in speech, not avoiding hard things; vi/en match."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-01-17",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "ecc6b5b567f1778abab49e8572927737931f3ed36a6b768c619996725836e096",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-01-21",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "bf100ac929ebcbc6f028e2b74a8ba1f818f791fd1d574a47339ba6d32dadf206",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là bỏ cuộc, mà là\".",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Round-1 issue resolved; vi and en match; no new error found."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-01-26",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "632e2bc7aeff0b5b80fd2efe70a5e9a2ac5381b5aa1250953c2e3bc8b1504a8b",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Round-1 issue resolved; vi and en match; no new error found."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-02-05",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "d72348bac9eb9e5b52aacc32d3ccf2553c80b1d02a852f9e13374c735467ceca",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "Chinese 拙速 is 'clumsy speed'; old commentators (Ts'ao Kung, Chang Yu, quoted in Giles's note) read it as quick-but-clumsy beats slow-but-clever. Gloss says 'vội vàng thì dại' and 'Tôn Tử không bảo cứ nhanh' as if that were the text; that is only Giles's cautious reading.",
+          "evidence": "Giles 1910 ch.2 par.5 (Gutenberg #132); Chinese from memory and his note on the sentence"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Round-1 issue resolved: gloss gives 拙速 as clumsy speed and presents both the old-commentator and Giles readings. Quote matches Giles. Nit only: vi quote lacks a subject/\"nhưng\" (\"dù đã nghe nói..., chưa từng thấy\")."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-02-06",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "6ab1d076063137b04c52c351daac36d649c9b0c17b5e947c305c63d1513dfbb8",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Question presupposes the user stayed in a struggle longer than worth, which can shame caregivers or people in long illness or abusive situations.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Question now conditional (resolved). Gloss still lightly presupposes something is dragging on, but it is framed as an invitation; acceptable."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-02-19",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "0aa1b7f59ea173b77f711f5f867ac700fe994de6133a09047726d2792ae22e21",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là\" ở quote.vi và gloss.vi.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Round-1 issue resolved; vi and en match; no new error found."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-03-02",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "1523789352a841b7c5eb8c6bdd5b87f7edf086e36edb6ad029912ced46f17cfc",
+      "verdict": "PASS",
+      "round": 3,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "“Breaking the enemy’s resistance” read into daily life, with a nudge to confront; talking frankly is unsafe with an abusive person.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Quote.vi: \"chưa là sự giỏi tột bậc\" thiếu tự nhiên.",
+          "evidence": "Giles, Art of War 3.2"
+        },
+        {
+          "role": "round2-combined",
+          "result": "REVISE",
+          "note": "Gloss flatly denies the text: \"không liên quan đến mưu mẹo\", but in Sun Tzu ch.3 winning without fighting is exactly by thwarting plans and alliances. Say it is a point about war, name that method, then borrow only the idea of defusing early."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": true
+    },
+    {
+      "id": "bp-03-09",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "333bbcf731e24ae5b637000f34d49bacb193e000465fa355d068f160b2911719",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Round-1 issue resolved; vi and en match; no new error found."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-03-17",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "b77819310dafc2a7fea3b627f4a721ab2db30f16b3f911e9b4911dc247d75489",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-03-18",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "22aaea6f7040bf75919520f09213fe853c2c126b96371203518ec11598e5c540",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-04-01",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "d025c6e8a3b11b370aff32141c094353900c438eeeb6b1ef27c3d32383006b8a",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-04-02",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "3e7a275af34ee4f7527485f76de83490b61452605e0baf9106552234d7cae8bc",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-04-03",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "8fbd982f82720a07d31fe5bc044dc7ae8b547677beea0e2ee4b62d0d066984fc",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-04-04",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "e0a50b65e1a090665f2425ae1297504a82a5f069db25ae5db63eed6dde95a72c",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "Gloss turns the line into 'a gap between knowing and doing is normal' (self-help). In context (par.3, and Giles's note at 6.21 quoting Chang Yu) it says victory can be foreseen but not forced when the enemy is prepared. The question also follows the soft reading (break it into small steps); consider revising it to match.",
+          "evidence": "Giles 1910 ch.4 par.4 (Gutenberg #132); Chinese from memory; Giles note on ch.6 par.21"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"chưa là làm được\"; \"nhẹ nhõm cho ai\" gượng.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Resolved: gloss now follows the context (4.2-4.3: defeat-proofing is ours, the opening comes from the enemy) and cites the commentary honestly; question matches. Could not check the Chang Yu attribution against Giles text (Gutenberg unreachable)."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-04-09",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "5aaf4887919e40177ba9b08020240e5b299fbb2fb1c52265bb0d8c1e0db1d99b",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Round-1 issue resolved; vi and en match; no new error found."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-04-10",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "d201ea0005af07dede5f0ac7635506e8b0cae1c6ee208a303dee4639f6c64eef",
+      "verdict": "PASS",
+      "round": 3,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Gloss implies the reader is proud or self-blaming about trivial things, and the question asserts that the thing is hard for most people, which can invalidate.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"chẳng là dấu hiệu\" (quote.vi) và \"chưa là tài\" (gloss.vi).",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "REVISE",
+          "note": "Round-1 calque \"chưa là dấu hiệu của tài\" in gloss.vi is still there (the round-1 fix text repeated it); \"chưa phải\" is banned in the gloss, so use \"chưa nói lên tài năng\". Rest resolved."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-04-11",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "2a4b497bb37f09c22b22719748844fd81fa0308db294dbd9d5c0e528f349decc",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Quote.vi: \"gọi là ... là\" vụng; gloss.vi calque \"không là nhờ may rủi\".",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Round-1 issue resolved; vi and en match; no new error found."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-04-12",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "817dac4d3fa84708d1ce0aac973dae476f0d7ac192ff00fe8fb12669fb595e3e",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Quote.vi: \"tiếng là thông minh hay công là dũng cảm\" vụng, khó đọc.",
+          "evidence": "Giles, Art of War 4.12"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Round-1 issue resolved; vi and en match; no new error found."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-04-13",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "11a30c2ca16c1ee4989c71af488cf5643468f2522859c6359b451d48089db5cd",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "Quote is faithful and the cut is marked, but the gloss softens a flat claim ('wins by making no mistakes') into 'not a demand for perfection' and drops that the dropped half says this means beating an enemy already defeated.",
+          "evidence": "Giles 1910 ch.4 par.13 (Gutenberg #132); Chinese from memory"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "“Making no mistakes establishes certainty of victory” can read as blame for any loss and as a demand for perfection; gloss does not say outcomes also depend on things outside one’s control.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Gloss.vi: calque \"không là đòi hỏi\" và \"giúp đỡ sửa nhiều\" vụng.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Resolved: quote faithful with the cut marked, gloss says it is a military point, names the omitted clause (enemy already beaten) and adds the not-your-fault note. Dense but acceptable."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-05-07",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "f3da625b1d9cc1d88c10e48c843a838977fe472c4b0e5f41fa065a0c76f675c7",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "Quote matches Giles par.7. Gloss attributes to Sun Tzu 'do not think your resources small', which the text does not say; the original is about endless variation of direct and indirect methods.",
+          "evidence": "Giles 1910 ch.5 par.7 (Gutenberg #132); Chinese from memory"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Round-1 issue resolved; vi and en match; no new error found."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-05-11",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "66d81d5c63d3ebc1ab03546589a7b1e3147cbe95173f4e23e5616ea6ad1be06e",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-05-13",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "2d01fe36f1bbf5665a42a99573326164ec94ceea0b76eee74bbce4a40d241c19",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-05-21",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "3f9156154270dc962bb63e52acf0291f8f880e34875538ab57202324fe881401",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-05-22",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "88543d0216098ecb60cd063e2688e29acd0c7e13cd4df0ad2c6ed57cafc0b019",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-06-01",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "2ebe00f1a92b19cf6d21f482c8872e6fba5617b29f6dbdfe58719d0ff9d91e78",
+      "verdict": "PASS",
+      "round": 3,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là hơn thua với ai, mà là\".",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "REVISE",
+          "note": "Gloss says the point is \"không nằm ở chuyện hơn thua với ai\", which denies what the text says (being first in the field keeps you fresh for battle). Name the military point first, then borrow the image."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": true
+    },
+    {
+      "id": "bp-06-02",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "23a7bff8f6aed10781729ac421ae8410d30ab386e20491ed4d66b86b41faeb21",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-06-24",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "dc53d020486662c4e4cae3e4a225e508a536f303b8ae4b8e5f21736c9aa22646",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "Giles par.24 is about comparing the enemy with your army to find where strength is abundant or lacking; gloss says the aim is to 'understand yourself better' as if that were the text's aim.",
+          "evidence": "Giles 1910 ch.6 par.24 (Gutenberg #132); Chinese from memory"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Round-1 issue resolved; vi and en match; no new error found."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-06-27",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "525659fa57ac4dae81d8eef93653d87284b395227d3ea8b988001d9091023d73",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-06-28",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "03b03a3cbd3ae79af01e70231d16fc880081cac8b330f02316c84b51824d2b0c",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-06-31",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "cb96892ea64e426ad22f4b5a3cc3d9e4caa235e641f8afefa40e4c5465f03e9e",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "UNSURE",
+          "note": "Text matches Giles, but the paragraph number may be off by one (from memory Giles ch.6 puts the water passages at 30-31 and the five elements at 33); could not fetch the text to confirm.",
+          "evidence": "public-domain: Lionel Giles 1910 (Giles d. 1958; first published 1910, US PD); Vietnamese is Nilaza wording"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-06-32",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "98042d558216e38222403830136aa35fdb865e6167cf620c74c72a598a4aa6bb",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "Quote matches Giles par.32. Gloss adds a feeling the text does not mention ('understandable to feel uneasy that nothing stays still').",
+          "evidence": "Giles 1910 ch.6 par.32 (Gutenberg #132); Chinese from memory"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "UNSURE",
+          "note": "Same paragraph numbering doubt as bp-06-31.",
+          "evidence": "public-domain: Lionel Giles 1910 (Giles d. 1958; first published 1910, US PD); Vietnamese is Nilaza wording"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Round-1 issue resolved; vi and en match; no new error found."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-06-34",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "7a9a3e0c237b0681b831c7dc1ca3579c49365df4a63d3198a53c991dfdb5ad26",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Gloss states no state lasts forever, which reads as a forecast and can dismiss ongoing grief or illness.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "UNSURE",
+          "note": "Same paragraph numbering doubt (five elements may be ch.6 par.33).",
+          "evidence": "public-domain: Lionel Giles 1910 (Giles d. 1958; first published 1910, US PD); Vietnamese is Nilaza wording"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Round-1 issue resolved; vi and en match; no new error found."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-07-16",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "a30cece61874aab991c8e4a6e0a47dcb213868ddab0edfe9ee4dfacd2e1c3d79",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-07-17",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "8c4d3538fc6875b2de80336fc9c747be107a0c0762a8f017a1d7e5b58d64f36c",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "Chinese 其徐如林 is 'slow, measured like the forest'; 'compactness' is Giles's reading and vi 'gọn chắc' follows it, losing the fast/slow contrast of 疾/徐. Suggest a vi that keeps both; en stays Giles.",
+          "evidence": "Giles 1910 ch.7 par.17 (Gutenberg #132); Chinese from memory"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Resolved: vi keeps both 疾 and 徐 (nhanh / khoan thai gọn chắc), en stays Giles \"compactness\". Gloss reads it as a self-image rather than marching order; acceptable."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-07-21",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "667c5467a74750b9fc851eaed38e68d5e1b3a0f0a332718b066f7b4ed9a21241",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-07-27",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "9964a9f51b909e517475435f2f2af823be13cf85c6ddae195e0dcc563629b25b",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "Quote matches Giles par.27, but par.27-29 is about taking an opponent's morale (奪氣, 奪心). Gloss gives no hint of that military context and presents it only as a general human trait.",
+          "evidence": "Giles 1910 ch.7 par.27 (Gutenberg #132); Chinese from memory"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Round-1 issue resolved; vi and en match; no new error found."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-07-28",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "9b01bfdb5b9378f36ccfc095a6018f0b18f1dfaa60f0e239d474e564fac62cdc",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "Quote matches Giles par.28, but the gloss says 'each person has their own rhythm... not a common mould', the opposite of the text, which states a general rule about soldiers and uses it (par.29) to pick the moment to attack.",
+          "evidence": "Giles 1910 ch.7 par.28 (Gutenberg #132); Chinese from memory; par.29"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Round-1 issue resolved; vi and en match; no new error found."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-07-30",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "ab708621cff8d1cc2e6d6e5308dcec71eb850d5acda56d74f3c8f5668f2c99f5",
+      "verdict": "PASS",
+      "round": 3,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "REVISE",
+          "note": "The ellipsis hides that the omitted part is waiting for the enemy to fall into disorder; gloss only says \"chỉ giữ phần nội tâm\". Say what was cut, as the other cut items do."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-07-31",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "dabd2eea93f606f9e6b4515f4b2f42bb89107b54090aa4317298cc51a121f909",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-07-36",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "63f0d10a73519d3e5218c044d55f71567f6d3e4415de4dcdcc71f7d27a284caa",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-08-04",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "691827345f8d696858d62e63ab150b947214908fc0d19cfff52f46fbeafb8766",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Round-1 issue resolved; vi and en match; no new error found."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-08-07",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "0b34b7a15716ba59ba68b24854764ca9c32a702ff34d795dd08b64ed46f2575a",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-08-09",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "66f1dd4c9df9f2b90d631304e6eae996f1d1c6ecbedd89c2ed636455288b972f",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-08-11",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "a1f0f99224cb8f87d7f3bd14f323d492ca36695cf387d15865d94f86eb315d28",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "Quote matches Giles par.11. Gloss states 'preparation here is a steady ground for the mind', but in the text it is military readiness and an unassailable position.",
+          "evidence": "Giles 1910 ch.8 par.11 (Gutenberg #132); Chinese from memory"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Resolved. Nit only: quote.vi \"dựa không vào ... mà vào\" is stilted; \"không dựa vào ... mà dựa vào\" reads better. Not a defect."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-08-12",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "ee788e8ea3e0bce739ff5b7b298651d01c19f3b8fee761d0349837792b6e8493",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "Gloss reverses the tone: it says 'not a scolding', while the text calls these five faults dangerous and names them as the cause when an army falls and its leader dies (覆軍殺將，必以五危). Also in the quote: the second '…' sits between adjacent items (3) and (4), where nothing is cut, and no mark follows the end although (5) and the closing sentence are dropped. Fix the quote marks as well when editing.",
+          "evidence": "Giles 1910 ch.8 par.12 (Gutenberg #132); Chinese from memory"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là lời chê trách, mà là\".",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Resolved: gloss says these are named as the cause when an army is overthrown and the leader slain, and reads them as tender spots, not blame. Ellipses now sit correctly (none between items 3 and 4, one at each end). en uses American spelling (honor) where Giles has British; the file normalises spelling throughout."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-09-40",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "1e845f24c7c404ed2257e933ad2bd2441562f522be1e40102c2f6fbe4a4decf3",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "Quote begins at 'What we can do', dropping the sentence it depends on (if our troops are no more than the enemy's... no direct attack can be made) without a mark. Restore it.",
+          "evidence": "Giles 1910 ch.9 par.40 (Gutenberg #132); Chinese from memory"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Round-1 issue resolved; vi and en match; no new error found."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-09-41",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "13b318404e4f789c4a453c15a6a65162265b403ee98932c153da2ff5b123d4be",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "Quote matches Giles par.41 (必擒於人). Gloss softens a flat warning into 'a habit, not anyone's private failing' and adds 'when we think something familiar', which the text does not say.",
+          "evidence": "Giles 1910 ch.9 par.41 (Gutenberg #132); Chinese from memory"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Quote states a certainty (“chắc chắn bị bắt”), a forecast with a fear frame.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Quote kept faithful (certainty retained); gloss frames it as an image from war, a reminder not a forecast, no banned words. Optional polish only: the second vi sentence (\"Ở đây ta đọc thêm một lớp đời thường: ... là điều có thể nhận ra\") is clumsy."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": true
+    },
+    {
+      "id": "bp-09-45",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "c0b36819a86bf6e0543d7bdaa9681bcc4d7924e91d2955ecdf80ec2529c74a32",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "Quote matches Giles par.45 (his reading of 令素信者). Gloss turns 'insists on his orders being obeyed' into 'being plain about what you need', which softens the text without saying so.",
+          "evidence": "Giles 1910 ch.9 par.45 (Gutenberg #132); Chinese from memory"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Question.en: \"giving them trust or clarity more\" vụng.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Round-1 issue resolved; vi and en match; no new error found."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-10-24",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "a447161f49fb90e2a1d14b7a9ffe90a3abf778024e2a4765b39bd8892fb24361",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Question and gloss presuppose the user acts for fame.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Round-1 issue resolved; vi and en match; no new error found."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-10-27",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "098f859d0c47ab46aad195ed2c9c0586ecd20b03db6b391063811de9440aed54",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "Quote matches Giles par.27 but vi 'không để hở sơ hở' is clumsy (repeats the word); wording fix only.",
+          "evidence": "Giles 1910 ch.10 par.27 (Gutenberg #132); Chinese from memory"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Quote.vi: \"không để hở sơ hở\" lặp từ.",
+          "evidence": "Giles, Art of War 10.27"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Round-1 issue resolved; vi and en match; no new error found."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-10-30",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "2f919e4bd5d4f1e855a50086e561b8331e7a389eb22c2f5f2ced9b0066db4606",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-11-22",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "9e458a632926af33e011bec22f7936f83244632d5db3eb59725dff3294375a50",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "Quote matches Giles par.22 but drops the next sentence in the same paragraph ('Keep your army continually on the move, and devise unfathomable plans') without a mark; it cuts across 'do not overtax them', so mark the cut with a trailing '…'.",
+          "evidence": "Giles 1910 ch.11 par.22 (Gutenberg #132); Chinese from memory"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Quote.vi: \"người của mình\" mơ hồ so với \"your men\".",
+          "evidence": "Giles, Art of War 11.22"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Round-1 issue resolved; vi and en match; no new error found."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-11-30",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "b652289ab318fa22a57762f2d28f06e72ba6e6a42b828538f522e6d59cfd852a",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "“Men of Yueh (Việt) are enemies” can be read by Vietnamese readers as a claim about Vietnamese people; the state is the ancient Yue in China.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Quote faithful (Việt/Yueh retained); gloss states 越 is the ancient state in Zhejiang, Spring and Autumn period, not present-day Vietnam, in both languages. Resolved."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": true
+    },
+    {
+      "id": "bp-11-35",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "b5f7274bc46cbfc6fbfaba73ed292fe2295d6b041f2abb1a6ba945217656d6fe",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "The cut drops 'and thus ensure secrecy' (靜以幽), and the next line (par.36) says the general must mystify his own men with false reports. Gloss presents the passage as calm leadership and claims 'order comes from fairness, not fear', which is not in the text. Needs the gloss to say the military context.",
+          "evidence": "Giles 1910 ch.11 par.35 (Gutenberg #132); Chinese from memory; par.36"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Round-1 issue resolved; vi and en match; no new error found."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-12-16",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "ca9661f4ec651f6726a16daa5576f41da05d2838d77007ca5f91bcecbe5a1354",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-12-17",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "46c76105acf73f5a0cfd95e375426c76dd93cd84ab0f739ef41bf58bd6401886",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-12-18",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "ac82ad08d4e4caaa3d6eafad0c98bad385150a680062b4463c69285bac2fdc32",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-12-19",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "30ca53cfb07e13caad91c23d00d57862c34b5bbab6febca213d1e7bf0e1788bf",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Calque \"không là / chứ không là\" (không tự nhiên trong tiếng Việt); đổi sang cách nói tự nhiên, không dùng từ cấm.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Round-1 issue resolved; vi and en match; no new error found."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-12-20",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "1c675d06799c5d15946bbb1e623c3012d20fdcbcec4683a37cd9e9e4e4a52d7d",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "“Anger turns to gladness” is a forecast and can dismiss justified anger at injustice.",
+          "evidence": "safety-ethics checks 1-5"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Forecast framing resolved (\"không lúc nào cũng nhanh\", anger at injustice is legitimate). Gloss omits the following military warning (a destroyed state cannot return) but does not reverse the line; acceptable."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "bp-12-22",
+      "file": "binh-phap-ton-tu",
+      "contentSha256": "0a799a4152ed93ae1feea424d9670c1b703189ef1f17828e66377f5401c189ed",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    }
+  ],
+  "summary": {
+    "pass": 179,
+    "revise": 0,
+    "block": 0,
+    "unsure": 0,
+    "dropped": 1,
+    "round1NonPass": 113,
+    "round2Checked": 112,
+    "round2Revise": 10
+  },
+  "notVerified": [
+    "Vòng 3 là áp nguyên văn 10 đề xuất sửa của vòng 2; không chạy thêm người duyệt.",
+    "Suy tưởng: quote.en đã so với bản Long trên Gutenberg #15877; chưa có bằng chứng đối chiếu tiếng Hy Lạp.",
+    "Pháp Cú: lời Müller kiểm theo ghi chú vòng 1, chưa so lại Wikisource; pc-100 so với bản Thích Minh Châu theo trí nhớ.",
+    "Binh pháp: Gutenberg #132 bảo trì lúc vòng 2; quote.en so theo bản Giles lưu cục bộ ở vòng 1 và trí nhớ; chú thích Trương Dự (bp-04-04) chưa kiểm.",
+    "Kiểm tra trùng lời với bản dịch còn bản quyền (Hays, Hammond, Staniforth, Thích Minh Châu, Griffith, Cleary, Minford, Ngô Văn Triện) làm theo trí nhớ, không so văn bản.",
+    "st-08-36 vẫn có vế “xấu hổ khi thú nhận” cạnh dòng hỗ trợ 115; Owner quyết giữ hay bỏ.",
+    "Chưa xem trên điện thoại."
+  ],
+  "ownerDecision": {
+    "status": "approved",
+    "date": "2026-11-27",
+    "note": "Owner duyệt nội dung 5 cuốn trong phiên 27/11/2026 (\"Duyệt nội dung 5 cuốn\"), giữ cả các mục được đánh dấu xem lại (gồm kd-44 và st-08-36)."
+  }
+}

@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "batchId": "van9-kinh-dich-brief-2026-11-27",
+  "feature": "Vận 9 trong nhân vật Kinh Dịch (Lô 1)",
+  "dataFiles": [
+    "packages/content/data/knowledge-briefs/kinh-dich.vi.md"
+  ],
+  "reviewedAt": "2026-11-27",
+  "editor": "editor-in-chief agent (Claude Code, Opus 5.5)",
+  "drafter": "AI (Claude Sonnet 5.5 subagent), sửa bởi editor",
+  "panel": [
+    {
+      "role": "east-asian-classics",
+      "engine": "claude-subagent (Sonnet 5.5)"
+    },
+    {
+      "role": "safety-ethics",
+      "engine": "claude-subagent (Sonnet 5.5)"
+    },
+    {
+      "role": "persona-fidelity + language-translation",
+      "engine": "claude-subagent (Sonnet 5.5)"
+    },
+    {
+      "role": "round2-combined",
+      "engine": "claude-subagent (Sonnet 5.5)"
+    }
+  ],
+  "items": [
+    {
+      "id": "van9-section",
+      "contentSha256": "d121785307ec33397ea4df2d5a7fe0765eaf9158e6400e79f62946ffc6da8866",
+      "verdict": "PASS",
+      "round": 3,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "Vòng 1: sự kiện cốt lõi đúng; sửa mốc kết thúc (trước Lập Xuân 2044), nguồn gốc nói rộng là phong thủy (nhất là Huyền Không Phi Tinh), bớt lời thêm khi giảng quẻ Ly.",
+          "evidence": "Chu Dịch quẻ 30: 畜牝牛吉; Thoán 離麗也, 柔麗乎中正; Đại Tượng 明兩作離 大人以繼明照于四方"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Vòng 1: thêm khung 'theo phép này' và 'không có bằng chứng khoa học'; câu hỏi tự soi bớt hướng tương lai và bớt dẫn dắt.",
+          "evidence": ""
+        },
+        {
+          "role": "persona-fidelity",
+          "result": "REVISE",
+          "note": "Vòng 1: câu mở mang giọng nhân vật hơn; câu hỏi 1 bỏ '20 năm tới'.",
+          "evidence": ""
+        },
+        {
+          "role": "round2-combined",
+          "result": "REVISE",
+          "note": "Vòng 2: các sửa vòng 1 đã vào; làm rõ 'ba vòng Giáp Tý', bỏ 'có từ lịch pháp cổ', làm mềm câu hỏi 2 và 3. Editor đã áp dụng nguyên văn đề xuất ở vòng 3.",
+          "evidence": ""
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": true
+    },
+    {
+      "id": "rule-8-10",
+      "contentSha256": "b006dc79016f393ec53e154883b8867b67e0d068ad04948276f25641e681cf1b",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS",
+          "note": "Gợi ý thêm nhãn 'cách đọc của truyền thống phong thủy' (đã thêm).",
+          "evidence": ""
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS",
+          "note": "Gợi ý thêm 'không chấm tốt hay xấu' (đã thêm).",
+          "evidence": ""
+        },
+        {
+          "role": "persona-fidelity",
+          "result": "PASS",
+          "note": "Câu dài, đã tách.",
+          "evidence": ""
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Không có vấn đề mới.",
+          "evidence": ""
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "eval-21-24",
+      "contentSha256": "69c588b2607642a4e49302b531baf6cb657ac507bfecfb2d7bb8353c976190ba",
+      "verdict": "PASS",
+      "round": 3,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "Vòng 1: câu 24 sửa 'Ly ở Nam' là sơ đồ Hậu Thiên chung; câu 21 khớp mốc 2044.",
+          "evidence": ""
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Vòng 1: câu 21 thêm khung 'theo phép này' + không có bằng chứng; câu 24 không giảng phong thủy; tiêu chí đạt cấm chấm tốt/xấu.",
+          "evidence": ""
+        },
+        {
+          "role": "persona-fidelity",
+          "result": "REVISE",
+          "note": "Vòng 1: câu 21 gọn 150–300 từ.",
+          "evidence": ""
+        },
+        {
+          "role": "round2-combined",
+          "result": "REVISE",
+          "note": "Vòng 2: câu 23 nói 'mệnh' quá rộng (受命 có trong bản văn); editor đã thu hẹp thành 'mệnh Hỏa theo ngũ hành năm sinh'.",
+          "evidence": ""
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": true
+    }
+  ],
+  "summary": {
+    "pass": 3,
+    "revise": 0,
+    "block": 0,
+    "unsure": 0
+  },
+  "notVerified": [
+    "Vòng 3 là sửa câu chữ theo đúng đề xuất vòng 2; không chạy thêm người duyệt.",
+    "Chưa có người am hiểu Hán học đối chiếu bằng văn bản; người duyệt dựa trên kiến thức đã biết, chưa truy cập ctext.org trực tiếp.",
+    "Ngày Lập Xuân 4/2/2024 chưa đối chiếu với lịch vạn niên.",
+    "Chưa thử câu trả lời thật của AI (cần deploy ai-persona-chat lên staging, Owner duyệt riêng)."
+  ],
+  "ownerDecision": {
+    "status": "pending",
+    "date": null,
+    "note": null
+  }
+}

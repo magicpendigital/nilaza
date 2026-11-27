@@ -519,6 +519,22 @@ for (const pair of ["same", "sameParity", "differentParity"]) for (const field o
 for (const field of ["title", "soon", "body", "sends", "action", "consentTitle", "consentBody", "consentConfirm", "consentCancel", "loading",
   "resultTitle", "premiumNote", "dailyLimit", "unavailable", "retry", "blocked"]) assertNumText(numerologyBlocks.privateMessage?.[field], "privateMessage." + field);
 for (const key of ["personalYear", "personalMonth", "personalDay", "pinnacles", "challenges", "relationship", "privateMessage"]) scanSkyText(numerologyBlocks[key], "." + key, "numerology-blocks");
+// 2026-11-26: richer chart and Hợp số copy, kept apart from the approved store, with its own review block.
+const numerologyExtra = readJson("packages/content/data/numerology-reading-extra.json");
+const assertExtraText = (value, label) => assertViText(value, "numerology-reading-extra." + label);
+assert(["draft", "approved"].includes(numerologyExtra.review?.status), "numerology-reading-extra.review.status must be draft or approved");
+assert(numerologyExtra.review?.status !== "approved" || Boolean(numerologyExtra.review?.reviewer), "numerology-reading-extra approved without a reviewer");
+for (const key of ["presentCount", "strongest", "noRepeat", "row", "repeatHint", "emptyHint", "times"]) assertExtraText(numerologyExtra.chart?.[key], "chart." + key);
+for (const digit of nbDigits) {
+  for (const field of ["title", "present", "many", "absent"]) assertExtraText(numerologyExtra.digits?.[digit]?.[field], "digits." + digit + "." + field);
+  assertExtraText(numerologyExtra.relationship?.needs?.[digit], "relationship.needs." + digit);
+}
+for (const key of ["you", "other", "needsTitle", "questionTitle", "summary", "summaryItem"]) assertExtraText(numerologyExtra.relationship?.[key], "relationship." + key);
+for (const relation of ["same", "sameParity", "differentParity"]) {
+  assertExtraText(numerologyExtra.relationship?.badges?.[relation], "relationship.badges." + relation);
+  assertExtraText(numerologyExtra.relationship?.questions?.[relation], "relationship.questions." + relation);
+}
+for (const key of ["chart", "digits", "relationship"]) scanSkyText(numerologyExtra[key], "." + key, "numerology-reading-extra");
 const skyTopics = readJson("packages/content/data/astrology-topic-placements.json");
 for (const key of ["reminder", "birthTimeNote", "needsBirthTime"]) assertViText(skyTopics[key], `astrology-topic-placements.${key}`);
 for (const [topicId, topic] of Object.entries(skyTopics.topics)) {
@@ -770,6 +786,93 @@ for (const candidate of personaResearchQueue.nextCandidates) {
   assert(hasText(candidate.id), "Persona research candidate missing id");
   assertLocalized(candidate.name, `${candidate.id}.name`);
   assertLocalized(candidate.reason, `${candidate.id}.reason`);
+}
+
+// "Một câu cho hôm nay" (book_quote): one file per book in packages/content/data/book-quotes/.
+// Quotes are the source text and are exempt from the word list; the commentary (gloss) and the question are
+// Nilaza's own voice, so they must not predict, command or speak of luck.
+{
+  const bookQuoteDir = "packages/content/data/book-quotes";
+  const expectedBookQuoteFiles = {
+    "dao-duc-kinh": "book-harmony-guide",
+    "suy-tuong": "book-stoic-journal",
+    "kinh-phap-cu": "book-dhammapada",
+    "binh-phap-ton-tu": "book-strategic-thinker",
+    "kinh-dich": "book-i-ching"
+  };
+  const bookQuoteBanned = {
+    vi: ["sẽ", "hãy", "nên", "phải", "chắc chắn", "vận", "hợp", "khắc", "điềm", "may mắn", "xui"],
+    en: ["should", "must", "lucky", "unlucky", "omen", "omens", "destiny", "fate", "fated"]
+  };
+  const bookQuoteBannedPatterns = Object.fromEntries(Object.entries(bookQuoteBanned).map(([language, words]) =>
+    [language, words.map((word) => [word, new RegExp("(^|[^\\p{L}])" + word + "(?=$|[^\\p{L}])", "iu")])]));
+  // "approved" means content review passed AND the Owner approved; only approved files reach users (app draft gate).
+  const reviewStatuses = new Set(["draft", "reviewed", "approved"]);
+  const bookPersonaIds = new Set(books.map((persona) => persona.id));
+  const seenBookQuoteIds = new Set();
+  const presentFiles = fs.existsSync(path.join(root, bookQuoteDir))
+    ? fs.readdirSync(path.join(root, bookQuoteDir)).filter((name) => name.endsWith(".json"))
+    : [];
+  for (const name of presentFiles) {
+    assert(Object.hasOwn(expectedBookQuoteFiles, name.replace(/\.json$/, "")), `${bookQuoteDir}/${name} is not a known book (add it to the app loader and this check first)`);
+  }
+  for (const [book, personaId] of Object.entries(expectedBookQuoteFiles)) {
+    const relativePath = `${bookQuoteDir}/${book}.json`;
+    if (!fs.existsSync(path.join(root, relativePath))) {
+      assert(false, `${relativePath} is missing`);
+      continue;
+    }
+    const file = readJson(relativePath);
+    const label = `book-quotes/${book}`;
+    countMojibakeStrings(file);
+    assert(file.schemaVersion === 1, `${label}.schemaVersion must be 1`);
+    assert(file.book === book, `${label}.book must be "${book}"`);
+    assert(file.personaId === personaId, `${label}.personaId must be "${personaId}"`);
+    assert(bookPersonaIds.has(file.personaId), `${label}.personaId ${file.personaId} is not in personas-books.json`);
+    assertViText(file.title, `${label}.title`);
+    for (const key of ["original", "englishBase", "vietnamese"]) assert(hasText(file.source?.[key]), `${label}.source.${key} is required`);
+    const review = file.review;
+    assert(review && typeof review === "object", `${label}.review block is required`);
+    if (review && typeof review === "object") {
+      assert(reviewStatuses.has(review.status), `${label}.review.status must be draft, reviewed or approved`);
+      assert(review.reviewer === null || hasText(review.reviewer), `${label}.review.reviewer must be null or a name`);
+      assert(review.reviewedAt === null || hasText(review.reviewedAt), `${label}.review.reviewedAt must be null or a date`);
+      if (review.status === "approved") {
+        assert(hasText(review.reviewer) && hasText(review.reviewedAt), `${label} is approved without reviewer and reviewedAt`);
+      }
+    }
+    if (file.sample === true) {
+      assert(hasText(file.sampleNote), `${label} is a sample and needs sampleNote`);
+      assert(review?.status !== "approved", `${label} is a sample and cannot be approved (sample files are never shown to users)`);
+    } else {
+      assert(file.sample === undefined || file.sample === false, `${label}.sample must be true, false or absent`);
+    }
+    assert(Array.isArray(file.items) && file.items.length > 0, `${label}.items must be a non-empty list`);
+    const items = Array.isArray(file.items) ? file.items : [];
+    if (book === "kinh-dich" && file.sample !== true) {
+      assert(items.length === 64, `${label} must have 64 items (one per hexagram), found ${items.length}`);
+    }
+    items.forEach((item, index) => {
+      const itemLabel = `${label}.items[${index}]${hasText(item?.id) ? ` (${item.id})` : ""}`;
+      assert(hasText(item?.id) && /^[a-z0-9]+(-[a-z0-9]+)*$/.test(item.id), `${itemLabel}.id must be lowercase letters, digits and dashes`);
+      if (hasText(item?.id)) {
+        assert(!seenBookQuoteIds.has(item.id), `${itemLabel}.id is duplicated`);
+        seenBookQuoteIds.add(item.id);
+      }
+      for (const field of ["ref", "quote", "gloss", "question"]) assertViText(item?.[field], `${itemLabel}.${field}`);
+      assert(item?.tags === undefined || (Array.isArray(item.tags) && item.tags.every(hasText)), `${itemLabel}.tags must be a list of words`);
+      for (const field of ["gloss", "question"]) {
+        for (const language of ["vi", "en"]) {
+          const text = item?.[field]?.[language];
+          if (typeof text !== "string") continue;
+          for (const [word, pattern] of bookQuoteBannedPatterns[language]) {
+            assert(!pattern.test(text), `${itemLabel}.${field}.${language} uses the banned word "${word}"`);
+          }
+        }
+        scanContentSafety(item?.[field], `${itemLabel}.${field}`);
+      }
+    });
+  }
 }
 
 assert(legacyAsciiTarotViFields === 0, `Expected 0 legacy ASCII tarot fields, found ${legacyAsciiTarotViFields}`);

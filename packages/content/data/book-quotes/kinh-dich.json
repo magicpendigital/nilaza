@@ -1,0 +1,1558 @@
+{
+  "schemaVersion": 1,
+  "book": "kinh-dich",
+  "personaId": "book-i-ching",
+  "title": {
+    "vi": "Kinh Dịch",
+    "en": "I Ching"
+  },
+  "source": {
+    "original": "Chu Dịch, lời quẻ (quái từ / thoán từ) của 64 quẻ theo thứ tự Văn Vương",
+    "englishBase": "Nilaza's own English rendering from the Chinese, checked against James Legge 1882 (public domain)",
+    "vietnamese": "Nilaza dịch từ nguyên văn"
+  },
+  "review": {
+    "status": "approved",
+    "reviewer": "Owner (after nilaza-content-review panel)",
+    "reviewedAt": "2026-11-27"
+  },
+  "items": [
+    {
+      "id": "kd-01",
+      "ref": {
+        "vi": "Quẻ 1 · Thuần Càn",
+        "en": "Hexagram 1 · Qian, Heaven"
+      },
+      "quote": {
+        "vi": "Càn: nguyên, hanh, lợi, trinh — khởi đầu lớn, hanh thông, lợi ích, bền chính.",
+        "en": "Qian: supreme beginning, free passage, benefit, and firm constancy."
+      },
+      "gloss": {
+        "vi": "Quẻ Càn là sáu nét liền, hình ảnh của sức sáng tạo không ngừng. Lời quẻ chỉ có bốn chữ, gọi tên bốn phẩm chất: khởi nguồn, thông suốt, đem lại lợi ích, và bền chính. Bạn có thể dùng chúng như bốn câu hỏi về một việc đang khởi lên trong đời mình.",
+        "en": "The Qian hexagram is six unbroken lines, an image of ceaseless creative force. Its judgment is only four words, naming four qualities: origin, free passage, benefit, and firm constancy. You can use them as four questions about something beginning in your life."
+      },
+      "question": {
+        "vi": "Với việc đang bắt đầu trong bạn, phẩm chất nào trong bốn phẩm chất ấy đang rõ nhất, và phẩm chất nào còn mờ?",
+        "en": "For something beginning in you, which of those four qualities is clearest, and which is still faint?"
+      },
+      "tags": [
+        "creative",
+        "beginning",
+        "strength"
+      ]
+    },
+    {
+      "id": "kd-02",
+      "ref": {
+        "vi": "Quẻ 2 · Thuần Khôn",
+        "en": "Hexagram 2 · Kun, Earth"
+      },
+      "quote": {
+        "vi": "Khôn: khởi đầu lớn, hanh thông; lợi ở sự bền chính của ngựa cái. Người quân tử có nơi muốn đến: đi trước thì lạc, đi sau thì tìm được chủ. … Yên trong sự bền chính thì cát.",
+        "en": "Kun: supreme beginning and free passage; benefit in the firm constancy of a mare. The superior person sets out: going first, he loses his way; following, he finds his master. … Settled in firm constancy, there is good fortune."
+      },
+      "gloss": {
+        "vi": "Quẻ Khôn toàn nét đứt: đất mềm, nhận và nâng đỡ. Hình ảnh ngựa cái là sức bền biết thuận theo, không hề là sự yếu đuối. Câu \"đi sau thì tìm được chủ\" có thể đọc như lời nhắc về việc lắng nghe trước khi dẫn.",
+        "en": "The Kun hexagram is all broken lines: soft earth that receives and supports. The mare is an image of endurance that knows how to follow, not of weakness. The phrase \"following, he finds his master\" can be read as a reminder to listen before leading."
+      },
+      "question": {
+        "vi": "Có lúc nào đi sau, lắng nghe trước, lại giúp bạn thấy rõ hơn là đi trước?",
+        "en": "Has there been a time when following and listening first showed you more than going ahead would have?"
+      },
+      "tags": [
+        "receptive",
+        "following",
+        "nurture"
+      ]
+    },
+    {
+      "id": "kd-03",
+      "ref": {
+        "vi": "Quẻ 3 · Thủy Lôi Truân",
+        "en": "Hexagram 3 · Zhun, Sprouting"
+      },
+      "quote": {
+        "vi": "Truân: khởi đầu lớn, hanh thông, lợi ở sự bền chính. Chưa vội có nơi đi tới; lợi cho việc lập chư hầu.",
+        "en": "Zhun: supreme beginning and free passage; benefit in firm constancy. Not yet a time to go anywhere; it is advantageous to establish feudal lords."
+      },
+      "gloss": {
+        "vi": "Truân vẽ ra mầm cây vừa nứt khỏi đất: mới sinh, bởi vậy còn yếu và còn rối. Lời quẻ nói chưa vội đi xa mà dựng chỗ đứng trước, một ý khá gần với cảm giác của mọi khởi đầu. Bạn thử nhìn xem việc mới của mình cần gì ở nền trước khi cần thêm bước.",
+        "en": "Zhun pictures a sprout just breaking through the soil: newborn, so weak and tangled. The judgment says not to rush far but to set up a footing first, an idea close to the feeling of every beginning. You might look at what your new undertaking needs in its foundation before it needs more steps."
+      },
+      "question": {
+        "vi": "Việc mới của bạn đang cần một chỗ đứng vững hơn, hay đang cần thêm hành động?",
+        "en": "Does your new undertaking need a steadier footing, or does it need more action?"
+      },
+      "tags": [
+        "beginnings",
+        "difficulty",
+        "foundation"
+      ]
+    },
+    {
+      "id": "kd-04",
+      "ref": {
+        "vi": "Quẻ 4 · Sơn Thủy Mông",
+        "en": "Hexagram 4 · Meng, Youthful Inexperience"
+      },
+      "quote": {
+        "vi": "Mông: hanh thông. Không phải ta đi tìm kẻ non nớt, mà kẻ non nớt tìm ta. Lần hỏi đầu thì đáp; hỏi đi hỏi lại thì nhàm, nhàm thì không đáp. Lợi ở sự bền chính.",
+        "en": "Meng: free passage. It is not I who seek the inexperienced; the inexperienced seek me. At the first asking I answer; asking again and again is wearying, and when wearied I do not answer. Benefit in firm constancy."
+      },
+      "gloss": {
+        "vi": "Mông là thời của sự non nớt và của việc học. Lời quẻ nói về người học hỏi bằng lòng thật, chứ không bằng cách hỏi dồn cho tới khi nghe được điều mình muốn. Câu này nhắc về cách ta hỏi: thật sự muốn nghe, hay đang tìm sự xác nhận.",
+        "en": "Meng is the time of inexperience and of learning. The judgment speaks of learning with sincerity, not by asking over and over until we hear what we want. The line is a reminder about how we ask: truly wanting to listen, or looking for confirmation."
+      },
+      "question": {
+        "vi": "Có câu hỏi nào bạn đang hỏi đi hỏi lại, và nếu nó được trả lời, điều gì khác đi?",
+        "en": "Is there a question you keep asking, and if it were answered, what would be different?"
+      },
+      "tags": [
+        "learning",
+        "sincerity",
+        "asking"
+      ]
+    },
+    {
+      "id": "kd-05",
+      "ref": {
+        "vi": "Quẻ 5 · Thủy Thiên Nhu",
+        "en": "Hexagram 5 · Xu, Waiting"
+      },
+      "quote": {
+        "vi": "Nhu: có lòng thành, sáng rỡ hanh thông, bền chính thì cát. Thuận để qua sông lớn.",
+        "en": "Xu: sincerity, bright success, and firm constancy bring good fortune. It is advantageous to cross the great river."
+      },
+      "gloss": {
+        "vi": "Nhu là chờ đợi: mây đã kéo mà mưa chưa xuống. Quẻ gắn chờ đợi với lòng thành và sự bền, tức là chờ mà không bỏ ý. Chờ ở đây không bất động, mà là một cách chuẩn bị.",
+        "en": "Xu is waiting: the clouds have gathered but the rain has not fallen. The hexagram joins waiting with sincerity and constancy, which is waiting without letting go of one's aim. Here waiting is not inert; it is a way of preparing."
+      },
+      "question": {
+        "vi": "Bạn đang chờ điều gì, và trong lúc chờ bạn đang chuẩn bị điều gì?",
+        "en": "What are you waiting for, and what are you preparing while you wait?"
+      },
+      "tags": [
+        "waiting",
+        "patience",
+        "preparation"
+      ]
+    },
+    {
+      "id": "kd-06",
+      "ref": {
+        "vi": "Quẻ 6 · Thiên Thủy Tụng",
+        "en": "Hexagram 6 · Song, Dispute"
+      },
+      "quote": {
+        "vi": "Tụng: có lòng thành mà bị chặn, lo sợ; giữa chừng cát, đến cuối hung. Thuận để gặp bậc đại nhân, không thuận để qua sông lớn.",
+        "en": "Song: sincere yet obstructed, anxious; good fortune in the middle, misfortune at the end. It is advantageous to see the great person, not advantageous to cross the great river."
+      },
+      "gloss": {
+        "vi": "Tụng là tranh cãi. Lời quẻ nêu một điều đáng chú ý: người có lý thật sự vẫn thấy mình bị chặn và lo, và việc kéo dài đến cuối thì mệt. Quẻ mời nhìn xem cuộc bất đồng nào trong đời mình đang lấy đi nhiều sức hơn mức nó đáng.",
+        "en": "Song is dispute. The judgment notes something worth attention: even someone truly in the right feels blocked and anxious, and a matter dragged to the end is wearying. The hexagram invites you to see which disagreement in your life is taking more of your energy than it deserves."
+      },
+      "question": {
+        "vi": "Cuộc bất đồng nào đang lấy của bạn nhiều sức hơn điều bạn muốn dành cho nó?",
+        "en": "Which disagreement is taking more of your energy than you want to give it?"
+      },
+      "tags": [
+        "conflict",
+        "disagreement",
+        "energy"
+      ]
+    },
+    {
+      "id": "kd-07",
+      "ref": {
+        "vi": "Quẻ 7 · Địa Thủy Sư",
+        "en": "Hexagram 7 · Shi, The Multitude"
+      },
+      "quote": {
+        "vi": "Sư (đoàn đông người cùng đi): bền chính; có bậc trượng nhân dẫn thì cát, không lỗi.",
+        "en": "Shi (the multitude): firm constancy; with a mature leader, good fortune and no blame."
+      },
+      "gloss": {
+        "vi": "Sư nói về một đám đông cùng đi theo một nhịp. Lời quẻ đặt trọng tâm ở người dẫn: điều được nêu là sự chín chắn, không hề là sự to tiếng. Khi ở trong một nhóm, bạn có thể nhìn lại vai trò mình đang giữ.",
+        "en": "Shi speaks of a crowd moving together at one pace. The judgment puts the weight on the one who leads: what is named is maturity, not loudness. When you are in a group, you can look again at the role you are holding."
+      },
+      "question": {
+        "vi": "Trong nhóm hoặc gia đình của bạn, bạn đang giữ vai trò nào, và nó có vừa với sức bạn không?",
+        "en": "In your group or family, what role are you holding, and does it fit your strength?"
+      },
+      "tags": [
+        "group",
+        "leadership",
+        "order"
+      ]
+    },
+    {
+      "id": "kd-08",
+      "ref": {
+        "vi": "Quẻ 8 · Thủy Địa Tỷ",
+        "en": "Hexagram 8 · Bi, Holding Together"
+      },
+      "quote": {
+        "vi": "Tỷ (gắn bó): cát. Xét lại từ gốc: khởi đầu lớn, bền lâu, bền chính, thì không lỗi. Người chưa yên từ khắp nơi tìm đến; kẻ đến muộn thì hung.",
+        "en": "Bi (holding together): good fortune. Inquire again at the root: supreme, enduring, and constant, there is no blame. Those not yet at peace come from all sides; the latecomer meets misfortune."
+      },
+      "gloss": {
+        "vi": "Tỷ là sự gắn bó: nước nằm trên đất, hai thứ kề sát nhau. Lời quẻ mời xét lại từ gốc, nghĩa là hỏi vì sao ta gắn với ai đó trước khi hỏi gắn thế nào. Câu cuối là một hình ảnh về thời điểm, không hề là lời phán về ai.",
+        "en": "Bi is closeness: water lying upon earth, the two touching. The judgment invites us to inquire again at the root, asking why we are bound to someone before asking how. The last line is an image about timing, not a verdict on anyone."
+      },
+      "question": {
+        "vi": "Điều gì ở gốc đang gắn bạn với những người gần bạn nhất?",
+        "en": "What, at the root, binds you to the people closest to you?"
+      },
+      "tags": [
+        "bonds",
+        "closeness",
+        "roots"
+      ]
+    },
+    {
+      "id": "kd-09",
+      "ref": {
+        "vi": "Quẻ 9 · Phong Thiên Tiểu Súc",
+        "en": "Hexagram 9 · Xiao Chu, Small Accumulating"
+      },
+      "quote": {
+        "vi": "Tiểu Súc: hanh thông. Mây dày mà chưa mưa, từ cõi tây của ta kéo tới.",
+        "en": "Xiao Chu: free passage. Dense clouds but no rain, coming from our western region."
+      },
+      "gloss": {
+        "vi": "Mây dày đã kéo mà mưa chưa xuống: một bức tranh rất đẹp về sức tích lại nhưng chưa tỏa ra. Quẻ này nói về những lúc mọi thứ đang gom lại, chưa tới lúc bung. Có những việc cần thêm thời gian ở trạng thái ấy.",
+        "en": "Dense clouds have gathered but the rain has not fallen: a lovely picture of force gathering without yet releasing. The hexagram speaks of times when things are collecting and not yet ready to burst. Some matters need more time in that state."
+      },
+      "question": {
+        "vi": "Điều gì trong bạn đang dày lên như mây mà chưa tới lúc mưa?",
+        "en": "What in you is thickening like clouds, not yet ready to rain?"
+      },
+      "tags": [
+        "gathering",
+        "waiting",
+        "restraint"
+      ]
+    },
+    {
+      "id": "kd-10",
+      "ref": {
+        "vi": "Quẻ 10 · Thiên Trạch Lý",
+        "en": "Hexagram 10 · Lü, Treading Carefully"
+      },
+      "quote": {
+        "vi": "Lý: giẫm lên đuôi hổ mà hổ không cắn người, hanh thông.",
+        "en": "Lü: treading on the tiger's tail, it does not bite; free passage."
+      },
+      "gloss": {
+        "vi": "Hình ảnh giẫm lên đuôi hổ nói về những tình huống căng, nơi một bước chân cần sự tinh tế. Lời quẻ nói rằng đi nhẹ và đúng mực thì không bị cắn. Có thể bạn nhận ra một cuộc trò chuyện hay một nơi làm việc đang giống như vậy.",
+        "en": "The image of treading on a tiger's tail speaks of tense situations where each step needs delicacy. The judgment says that stepping lightly and fittingly, one is not bitten. You may recognize a conversation or a workplace right now that is like this."
+      },
+      "question": {
+        "vi": "Tình huống nào bây giờ khiến bạn bước rất nhẹ, và bước nhẹ giúp gì cho bạn?",
+        "en": "Which situation right now makes you step very lightly, and what does stepping lightly give you?"
+      },
+      "tags": [
+        "care",
+        "tension",
+        "tact"
+      ]
+    },
+    {
+      "id": "kd-11",
+      "ref": {
+        "vi": "Quẻ 11 · Địa Thiên Thái",
+        "en": "Hexagram 11 · Tai, Flowing Together"
+      },
+      "quote": {
+        "vi": "Thái: cái nhỏ đi, cái lớn đến; cát, hanh thông.",
+        "en": "Tai: the small goes, the great comes; good fortune and free passage."
+      },
+      "gloss": {
+        "vi": "Thái là lúc trời và đất giao nhau, trên dưới thông nhau. Lời quẻ dùng cặp \"nhỏ đi, lớn đến\" như một hình ảnh của dòng chảy đang mở. Điều này cũng có thể thấy ở một mối quan hệ khi hai bên bắt đầu nói chuyện thật.",
+        "en": "Tai is the time when heaven and earth meet and above and below communicate. The judgment uses the pair \"the small goes, the great comes\" as an image of a flow that is opening. It can also be seen in a relationship when two people begin to talk honestly."
+      },
+      "question": {
+        "vi": "Ở đâu trong đời bạn, hai bên đang bắt đầu thông với nhau, và bạn góp gì vào đó?",
+        "en": "Where in your life are two sides beginning to open to each other, and what are you contributing?"
+      },
+      "tags": [
+        "openness",
+        "exchange",
+        "harmony"
+      ]
+    },
+    {
+      "id": "kd-12",
+      "ref": {
+        "vi": "Quẻ 12 · Thiên Địa Bĩ",
+        "en": "Hexagram 12 · Pi, Standstill"
+      },
+      "quote": {
+        "vi": "Bĩ: bế tắc, không còn là đường của con người; không lợi cho sự bền chính của quân tử; cái lớn đi, cái nhỏ đến.",
+        "en": "Pi: standstill, not the way of human beings; not advantageous to the firm constancy of the superior person; the great goes, the small comes."
+      },
+      "gloss": {
+        "vi": "Bĩ là lúc trên dưới không còn thông nhau, như trời và đất tách ra. Quẻ không nói bế tắc là lỗi của ai, mà tả một thời khi giao tiếp bị đứt. Nhận ra mình đang ở thời ấy đã là một bước nhìn rõ hơn.",
+        "en": "Pi is the time when above and below no longer communicate, as heaven and earth draw apart. The hexagram does not say whose fault the standstill is; it describes a time when communication has broken. Recognizing you are in such a time is already a step toward seeing more clearly."
+      },
+      "question": {
+        "vi": "Mối nối nào trong đời bạn đang đứt, và điều gì nhỏ nhất có thể nối lại?",
+        "en": "Which connection in your life is broken, and what is the smallest thing that could reconnect it?"
+      },
+      "tags": [
+        "stagnation",
+        "communication",
+        "waiting"
+      ]
+    },
+    {
+      "id": "kd-13",
+      "ref": {
+        "vi": "Quẻ 13 · Thiên Hỏa Đồng Nhân",
+        "en": "Hexagram 13 · Tong Ren, Fellowship"
+      },
+      "quote": {
+        "vi": "Đồng Nhân: cùng người ở chốn đồng nội thì hanh thông. Thuận để qua sông lớn; lợi ở sự bền chính của quân tử.",
+        "en": "Tong Ren: fellowship in the open field, free passage. It is advantageous to cross the great river; benefit in the firm constancy of the superior person."
+      },
+      "gloss": {
+        "vi": "\"Chốn đồng nội\" là nơi không có tường ngăn: gặp nhau giữa trời, không riêng phe. Quẻ nói về một kiểu cùng nhau mở rộng, khác với kiểu cùng nhau khép kín. Bạn thử nghĩ nhóm của mình đang mở hay đang đóng.",
+        "en": "\"The open field\" is a place without walls: meeting under the sky, belonging to no faction. The hexagram speaks of a togetherness that opens outward, unlike one that closes in. You might think about whether your own group is open or closed."
+      },
+      "question": {
+        "vi": "Nhóm người mà bạn thuộc về đang mở cho người mới hay đang khép lại?",
+        "en": "Is the group you belong to open to newcomers, or closing in?"
+      },
+      "tags": [
+        "community",
+        "openness",
+        "belonging"
+      ]
+    },
+    {
+      "id": "kd-14",
+      "ref": {
+        "vi": "Quẻ 14 · Hỏa Thiên Đại Hữu",
+        "en": "Hexagram 14 · Da You, Great Possession"
+      },
+      "quote": {
+        "vi": "Đại Hữu: khởi đầu lớn, hanh thông.",
+        "en": "Da You: supreme beginning and free passage."
+      },
+      "gloss": {
+        "vi": "Đại Hữu có nghĩa là có nhiều, có lớn. Lời quẻ rất ngắn, và sự ngắn ấy gợi rằng khi có nhiều thì không cần thêm lời. Quẻ mời hỏi mình đang có gì, và đang giữ nó theo cách nào.",
+        "en": "Da You means having much, having greatly. The judgment is very short, and that brevity suggests that when there is plenty, few words are needed. The hexagram invites you to ask what you already have and how you are holding it."
+      },
+      "question": {
+        "vi": "Điều gì bạn đang có nhiều mà chưa gọi tên, và bạn đang giữ nó theo cách nào?",
+        "en": "What do you have in abundance without having named it, and how are you holding it?"
+      },
+      "tags": [
+        "abundance",
+        "stewardship",
+        "gratitude"
+      ]
+    },
+    {
+      "id": "kd-15",
+      "ref": {
+        "vi": "Quẻ 15 · Địa Sơn Khiêm",
+        "en": "Hexagram 15 · Qian, Modesty"
+      },
+      "quote": {
+        "vi": "Khiêm: hanh thông; người quân tử có kết thúc trọn vẹn.",
+        "en": "Qian: free passage; the superior person brings things to completion."
+      },
+      "gloss": {
+        "vi": "Khiêm là núi ở dưới đất: cái cao tự hạ xuống. Lời quẻ gắn khiêm nhường với việc đi đến cuối: người chịu lùi một bước có thể còn đường để đi tiếp. Ý này mời nhìn xem sự khiêm tốn của mình hôm nay đang thấy thoải mái ở đâu và còn gượng ở đâu.",
+        "en": "Qian (Modesty, a different word from the Qian of hexagram 1) is a mountain beneath the earth: the high lowers itself. The judgment links modesty with reaching the end: someone willing to step back may still have a path to continue. The idea invites you to notice where your modesty feels at ease today and where it feels a little forced."
+      },
+      "question": {
+        "vi": "Trong sự khiêm tốn hôm nay của bạn, chỗ nào thấy thoải mái và chỗ nào thấy hơi gượng?",
+        "en": "In your modesty today, where does it feel at ease and where does it feel a little forced?"
+      },
+      "tags": [
+        "humility",
+        "completion",
+        "authenticity"
+      ]
+    },
+    {
+      "id": "kd-16",
+      "ref": {
+        "vi": "Quẻ 16 · Lôi Địa Dự",
+        "en": "Hexagram 16 · Yu, Enthusiasm"
+      },
+      "quote": {
+        "vi": "Dự: lợi cho việc lập chư hầu và cho đoàn đông người lên đường.",
+        "en": "Yu: it is advantageous to establish feudal lords and to set the multitude in motion."
+      },
+      "gloss": {
+        "vi": "Dự gợi niềm hứng khởi: sấm trên đất, lòng người rộn ràng. Quẻ gắn hứng khởi với việc cùng đứng lên đi, tức là niềm vui kéo theo hành động của nhiều người. Bạn thử xem điều gì đang làm bạn hào hứng đủ để bắt đầu.",
+        "en": "Yu evokes enthusiasm: thunder over the earth, hearts stirring. The hexagram ties enthusiasm to rising and moving together, joy that draws many people into action. You might see what excites you enough to begin."
+      },
+      "question": {
+        "vi": "Điều gì đang làm bạn hào hứng, và bạn đã để niềm hào hứng ấy đi tới đâu?",
+        "en": "What is exciting you, and how far have you let that excitement go?"
+      },
+      "tags": [
+        "joy",
+        "enthusiasm",
+        "momentum"
+      ]
+    },
+    {
+      "id": "kd-17",
+      "ref": {
+        "vi": "Quẻ 17 · Trạch Lôi Tùy",
+        "en": "Hexagram 17 · Sui, Following"
+      },
+      "quote": {
+        "vi": "Tùy: khởi đầu lớn, hanh thông, lợi ở sự bền chính; không lỗi.",
+        "en": "Sui: supreme beginning, free passage, benefit in firm constancy; no blame."
+      },
+      "gloss": {
+        "vi": "Tùy là theo: theo thời, theo người, theo một nhịp đang đến. Lời quẻ kèm điều kiện \"bền chính\", tức là theo mà không đánh mất mình. Bạn thử xem mình đang theo ai hay theo điều gì, và có còn là mình không.",
+        "en": "Sui is following: following the time, a person, a rhythm that is arriving. The judgment attaches the condition \"firm constancy,\" which is following without losing oneself. You might see whom or what you are following, and whether you are still yourself."
+      },
+      "question": {
+        "vi": "Bạn đang đi theo điều gì lúc này, và trong lúc theo bạn còn giữ được điều gì của riêng mình?",
+        "en": "What are you following right now, and what of your own do you still keep while following?"
+      },
+      "tags": [
+        "following",
+        "adaptability",
+        "integrity"
+      ]
+    },
+    {
+      "id": "kd-18",
+      "ref": {
+        "vi": "Quẻ 18 · Sơn Phong Cổ",
+        "en": "Hexagram 18 · Gu, Repairing What Has Spoiled"
+      },
+      "quote": {
+        "vi": "Cổ: khởi đầu lớn, hanh thông; thuận để qua sông lớn. Trước ngày giáp ba ngày, sau ngày giáp ba ngày.",
+        "en": "Gu: supreme beginning and free passage; it is advantageous to cross the great river. Three days before the start day, three days after the start day."
+      },
+      "gloss": {
+        "vi": "Cổ là sửa lại điều đã hư. Lời quẻ nhắc việc chuẩn bị trước ba ngày và xem xét lại sau ba ngày: việc sửa không xong trong một lần, mà trải qua một khoảng thời gian. Bạn có thể nhìn một thói quen hay một mối quan hệ đang cần được dọn dẹp nhẹ.",
+        "en": "Gu is repairing what has spoiled. The judgment speaks of preparing three days before and reviewing three days after: repair is not a single stroke but a stretch of time. You can look at a habit or a relationship that is asking for gentle tidying."
+      },
+      "question": {
+        "vi": "Điều gì trong đời bạn đã cũ đi và đang chờ được sửa, kể cả những chỗ nhỏ?",
+        "en": "What in your life has worn out and is waiting to be repaired, even in small ways?"
+      },
+      "tags": [
+        "repair",
+        "renewal",
+        "habits"
+      ]
+    },
+    {
+      "id": "kd-19",
+      "ref": {
+        "vi": "Quẻ 19 · Địa Trạch Lâm",
+        "en": "Hexagram 19 · Lin, Approaching"
+      },
+      "quote": {
+        "vi": "Lâm: khởi đầu lớn, hanh thông, lợi ở sự bền chính. Đến tháng tám thì có hung.",
+        "en": "Lin: supreme beginning, free passage, benefit in firm constancy. By the eighth month there is misfortune."
+      },
+      "gloss": {
+        "vi": "Lâm là sự tiến đến gần, như người trên nhìn xuống người dưới bằng sự quan tâm. Câu về \"tháng tám\" thường được đọc là một hình ảnh về nhịp: đà tiến nào cũng có lúc đổi tốc độ, kể cả lúc đang lên. Đó không hề là một thời điểm cố định hay một lời báo trước.",
+        "en": "Lin is approaching, like someone above looking down with care. The line about the \"eighth month\" is often read as an image of rhythm: every advance changes pace at some point, even while rising. It is neither a fixed date nor a warning about what lies ahead."
+      },
+      "question": {
+        "vi": "Điều gì đang trên đà tiến, và bạn muốn giữ nhịp cho nó như thế nào?",
+        "en": "What is gaining momentum, and how would you like to pace it?"
+      },
+      "tags": [
+        "approach",
+        "cycles",
+        "attention"
+      ]
+    },
+    {
+      "id": "kd-20",
+      "ref": {
+        "vi": "Quẻ 20 · Phong Địa Quan",
+        "en": "Hexagram 20 · Guan, Contemplation"
+      },
+      "quote": {
+        "vi": "Quan: rửa tay xong mà chưa dâng lễ, lòng thành nghiêm trang ngẩng nhìn.",
+        "en": "Guan: the hands are washed but the offering is not yet made; sincere and solemn, one looks up."
+      },
+      "gloss": {
+        "vi": "Quan là nhìn, là chiêm ngưỡng. Hình ảnh rửa tay mà chưa dâng lễ là lúc trước hành động, khi lòng đã nghiêm mà tay chưa làm. Quẻ mời ta thử dừng ở lúc ấy, nhìn kỹ trước khi làm.",
+        "en": "Guan is looking, contemplating. The image of washed hands before the offering is the moment before action, when the heart is solemn and the hands have not yet moved. The hexagram invites us to pause in that moment and look closely before acting."
+      },
+      "question": {
+        "vi": "Việc nào đang cần bạn nhìn kỹ hơn trước khi bắt tay vào làm?",
+        "en": "Which matter is asking you to look more closely before you begin?"
+      },
+      "tags": [
+        "contemplation",
+        "attention",
+        "sincerity"
+      ]
+    },
+    {
+      "id": "kd-21",
+      "ref": {
+        "vi": "Quẻ 21 · Hỏa Lôi Phệ Hạp",
+        "en": "Hexagram 21 · Shi He, Biting Through"
+      },
+      "quote": {
+        "vi": "Phệ Hạp (cắn cho khớp lại): hanh thông. Lợi cho việc xét xử.",
+        "en": "Shi He (biting through): free passage. It is advantageous to administer justice."
+      },
+      "gloss": {
+        "vi": "Phệ Hạp gợi hình một thứ kẹt giữa hai hàm: cắn qua được nó thì răng mới khép lại. Quẻ vốn dùng hình ảnh ấy cho việc xét xử: gỡ cho rõ thì đường mới thông. Bạn có thể đọc rộng ra thành câu hỏi: điều gì đang nằm giữa mình và lời mình muốn nói, việc mình muốn làm?",
+        "en": "Shi He pictures something stuck between two jaws: only by biting through it can the teeth close. The hexagram originally uses this image for the administering of justice: make things clear, and the way opens. It can be read more widely as a question: what lies between you and the words you want to say, or the thing you want to do?"
+      },
+      "question": {
+        "vi": "Cái gì đang vướng giữa bạn và điều bạn muốn nói hoặc làm?",
+        "en": "What is stuck between you and what you want to say or do?"
+      },
+      "tags": [
+        "obstacle",
+        "communication",
+        "clearing"
+      ]
+    },
+    {
+      "id": "kd-22",
+      "ref": {
+        "vi": "Quẻ 22 · Sơn Hỏa Bí",
+        "en": "Hexagram 22 · Bi, Adornment"
+      },
+      "quote": {
+        "vi": "Bí: hanh thông. Chút lợi cho việc có nơi đi tới.",
+        "en": "Bi: free passage. A little benefit in setting out."
+      },
+      "gloss": {
+        "vi": "Bí là trang sức, là cái đẹp thêm vào bề mặt. Lời quẻ chỉ cho \"chút lợi\", như một lời nhắc rằng trang điểm làm đẹp nhưng không thay được phần lõi. Bạn có thể nhìn xem phần nào bạn đang dành cho dáng vẻ và phần nào cho nội dung.",
+        "en": "Bi is adornment, beauty added to the surface. The judgment grants only \"a little benefit,\" as a reminder that decoration beautifies but cannot replace the core. You can look at how much you give to appearance and how much to substance."
+      },
+      "question": {
+        "vi": "Hôm nay bạn đang dành nhiều công cho dáng vẻ hay cho nội dung của việc mình làm?",
+        "en": "Today, are you giving more effort to the look of what you do or to its substance?"
+      },
+      "tags": [
+        "beauty",
+        "appearance",
+        "substance"
+      ]
+    },
+    {
+      "id": "kd-23",
+      "ref": {
+        "vi": "Quẻ 23 · Sơn Địa Bác",
+        "en": "Hexagram 23 · Bo, Peeling Away"
+      },
+      "quote": {
+        "vi": "Bác: không thuận cho việc có nơi đi tới.",
+        "en": "Bo: it is not advantageous to set out."
+      },
+      "gloss": {
+        "vi": "Bác là sự bóc dần, như vỏ rụng, như cái cũ rơi khỏi thân. Lời quẻ chỉ một câu, và có thể đọc nó như lời mời nhìn lại chỗ mình đang đứng khi mọi thứ bên ngoài thay đổi. Đây là một hình ảnh để suy ngẫm, chứ không là chỉ dẫn về việc làm hay không làm.",
+        "en": "Bo is a peeling away, like bark falling, like the old dropping from the trunk. The line is a single sentence, and it can be read as an invitation to look at where you stand while things outside change. It is an image to reflect on, not an instruction about what to do or not do."
+      },
+      "question": {
+        "vi": "Có điều gì ở bạn đang thay đổi hoặc rời đi, và phần lõi nào vẫn ở lại?",
+        "en": "Is something in you changing or leaving, and what core remains?"
+      },
+      "tags": [
+        "loss",
+        "letting-go",
+        "stillness"
+      ]
+    },
+    {
+      "id": "kd-24",
+      "ref": {
+        "vi": "Quẻ 24 · Địa Lôi Phục",
+        "en": "Hexagram 24 · Fu, Return"
+      },
+      "quote": {
+        "vi": "Phục: hanh thông. Ra vào không bị hại, bạn bè đến không lỗi. Đi đi lại lại trên con đường của mình, bảy ngày thì quay lại; thuận cho việc có nơi đi tới.",
+        "en": "Fu: free passage. Going out and coming in bring no harm; friends arrive without blame. Going back and forth on its own path, in seven days it returns; it is advantageous to set out."
+      },
+      "gloss": {
+        "vi": "Phục là sự trở lại: một nét dương nhỏ xuất hiện từ dưới cùng sau một dãy âm. Con số \"bảy ngày\" ở đây là nhịp của một chu kỳ, không hề là lịch hẹn. Quẻ mời nhìn mầm nhỏ của sự quay lại trong một điều tưởng đã tắt.",
+        "en": "Fu is return: one small yang line appears at the bottom after a run of yin. The number \"seven days\" here is the beat of a cycle, not an appointment. The hexagram invites you to look for the small seed of return in something you thought had gone out."
+      },
+      "question": {
+        "vi": "Có mầm nhỏ nào của điều cũ đang quay lại trong bạn, và bạn đón nó thế nào?",
+        "en": "Is a small seed of something old returning in you, and how are you receiving it?"
+      },
+      "tags": [
+        "return",
+        "renewal",
+        "small-beginning"
+      ]
+    },
+    {
+      "id": "kd-25",
+      "ref": {
+        "vi": "Quẻ 25 · Thiên Lôi Vô Vọng",
+        "en": "Hexagram 25 · Wu Wang, Without Presumption"
+      },
+      "quote": {
+        "vi": "Vô Vọng: khởi đầu lớn, hanh thông, lợi ở sự bền chính. Nếu không ngay thẳng thì có tai họa; không thuận cho việc có nơi đi tới.",
+        "en": "Wu Wang: supreme beginning, free passage, benefit in firm constancy. If one is not upright there is calamity; it is not advantageous to set out."
+      },
+      "gloss": {
+        "vi": "Vô Vọng là không càn dại, sống chân thật theo lẽ tự nhiên. Quẻ đặt sự ngay thẳng làm điều kiện cho mọi bước đi. Bạn có thể dùng nó để hỏi mình đang làm điều này vì nó đúng với mình, hay vì mong một kết quả nào đó.",
+        "en": "Wu Wang is not acting rashly, living truthfully according to nature. The hexagram makes uprightness the condition for every step. You can use it to ask whether you are doing this because it is true to you, or because you hope for a certain result."
+      },
+      "question": {
+        "vi": "Việc bạn đang làm xuất phát từ điều bạn tin hay từ kết quả bạn mong?",
+        "en": "Does what you are doing come from what you believe, or from the result you hope for?"
+      },
+      "tags": [
+        "sincerity",
+        "naturalness",
+        "motive"
+      ]
+    },
+    {
+      "id": "kd-26",
+      "ref": {
+        "vi": "Quẻ 26 · Sơn Thiên Đại Súc",
+        "en": "Hexagram 26 · Da Chu, Great Accumulating"
+      },
+      "quote": {
+        "vi": "Đại Súc: lợi ở sự bền chính. Không ăn ở nhà thì cát. Thuận để qua sông lớn.",
+        "en": "Da Chu: benefit in firm constancy. Not eating at home brings good fortune. It is advantageous to cross the great river."
+      },
+      "gloss": {
+        "vi": "Đại Súc là sự tích tụ lớn, như núi chứa trời. Câu \"không ăn ở nhà\" theo truyền thống nói người tài đức được nuôi và dùng vào việc chung, không giữ riêng trong nhà; có thể đọc rộng là đem điều tích lũy được ra nuôi nhiều người. Đây là hình ảnh về sự chia sẻ, chứ không bàn chuyện làm giàu.",
+        "en": "Da Chu is great accumulation, like a mountain holding the sky. By tradition, \"not eating at home\" means that the able and virtuous are fed and put to work for the common good rather than kept within the household; it can be read more widely as taking what we have gathered out to feed many. It is an image of sharing, not a discussion of getting rich."
+      },
+      "question": {
+        "vi": "Điều bạn tích lũy được, từ kiến thức đến sự bình tĩnh, bạn đang chia cho ai?",
+        "en": "What you have gathered, from knowledge to calm, with whom are you sharing it?"
+      },
+      "tags": [
+        "sharing",
+        "gathering",
+        "generosity"
+      ]
+    },
+    {
+      "id": "kd-27",
+      "ref": {
+        "vi": "Quẻ 27 · Sơn Lôi Di",
+        "en": "Hexagram 27 · Yi, Nourishment"
+      },
+      "quote": {
+        "vi": "Di: bền chính thì cát. Xem cái hàm, xem người ta tự tìm lấy thức ăn.",
+        "en": "Yi: firm constancy brings good fortune. Observe the jaws, and observe how one seeks one's own food."
+      },
+      "gloss": {
+        "vi": "Di là cái hàm, là sự nuôi dưỡng. Lời quẻ mời nhìn hai điều: ta nhận gì vào, và ta tự tìm lấy gì. Nuôi ở đây gồm cả thức ăn, cả điều ta đọc, nghe, nói.",
+        "en": "Yi is the jaw, nourishment. The judgment invites us to observe two things: what we take in and what we seek for ourselves. Nourishment here covers food as well as what we read, hear, and say."
+      },
+      "question": {
+        "vi": "Điều gì bạn đang đưa vào mình mỗi ngày, từ thức ăn đến tin tức, và nó nuôi bạn hay làm bạn mệt?",
+        "en": "What do you take in each day, from food to news, and does it nourish you or tire you?"
+      },
+      "tags": [
+        "nourishment",
+        "attention",
+        "habits"
+      ]
+    },
+    {
+      "id": "kd-28",
+      "ref": {
+        "vi": "Quẻ 28 · Trạch Phong Đại Quá",
+        "en": "Hexagram 28 · Da Guo, Great Excess"
+      },
+      "quote": {
+        "vi": "Đại Quá: rường cột oằn xuống; thuận cho việc có nơi đi tới, hanh thông.",
+        "en": "Da Guo: the roof beam bends; it is advantageous to set out; free passage."
+      },
+      "gloss": {
+        "vi": "Đại Quá là sự quá tải: cây rường giữa mái cong xuống vì gánh nặng. Quẻ chỉ ra cảnh một cây cột đang oằn để ta tự hỏi mình đang gánh gì. Nhìn thấy gánh là bước đầu để xem điều nào có thể san bớt.",
+        "en": "Da Guo is overload: the main beam of the roof bends under the weight. The hexagram shows a beam bending so that we ask what we ourselves are carrying. Seeing the load is the first step toward seeing what could be shared out."
+      },
+      "question": {
+        "vi": "Gánh nặng nào đang làm bạn oằn xuống, và phần nào của nó có thể san ra?",
+        "en": "What burden is bending you down, and which part of it could be shared?"
+      },
+      "tags": [
+        "burden",
+        "overload",
+        "support"
+      ]
+    },
+    {
+      "id": "kd-29",
+      "ref": {
+        "vi": "Quẻ 29 · Thuần Khảm",
+        "en": "Hexagram 29 · Kan, The Abyss"
+      },
+      "quote": {
+        "vi": "Khảm (nước chồng nước): có lòng thành; trong lòng hanh thông; làm việc thì được quý trọng.",
+        "en": "Kan (water upon water): sincerity; the heart is open and free; action is valued."
+      },
+      "gloss": {
+        "vi": "Khảm là hố sâu, là nước chảy qua chỗ hiểm lần này đến lần khác. Quẻ không dừng ở chuyện thoát hiểm; điều nó giữ lại là \"lòng thành\" và \"trong lòng hanh thông\", tức là cách ta đứng giữa lúc khó. Bạn có thể nhìn lại một quãng trong đời mình cứ lặp đi lặp lại.",
+        "en": "Kan is a pit, water flowing through danger again and again. What the hexagram keeps is not escape but \"sincerity\" and \"an open heart,\" that is, how we stay in the midst of difficulty. You can look at a stretch of your life that keeps repeating."
+      },
+      "question": {
+        "vi": "Điều gì giữ cho lòng bạn thông, ngay cả khi cùng một khó khăn trở lại nhiều lần?",
+        "en": "What keeps your heart open, even when the same difficulty comes back many times?"
+      },
+      "tags": [
+        "difficulty",
+        "repetition",
+        "steadiness"
+      ]
+    },
+    {
+      "id": "kd-30",
+      "ref": {
+        "vi": "Quẻ 30 · Thuần Ly",
+        "en": "Hexagram 30 · Li, The Clinging"
+      },
+      "quote": {
+        "vi": "Ly: lợi ở sự bền chính, hanh thông. Nuôi bò cái thì cát.",
+        "en": "Li: benefit in firm constancy; free passage. Keeping a cow brings good fortune."
+      },
+      "gloss": {
+        "vi": "Ly là lửa chồng lửa, vừa có nghĩa là sáng, vừa có nghĩa là bám: ngọn lửa chỉ sáng khi có thứ để bám vào. Câu \"nuôi bò cái\" đặt cạnh ngọn lửa một hình ảnh hiền hòa và kiên nhẫn, như nhắc rằng ánh sáng cũng cần được nuôi bằng sự dịu dàng. Bạn có thể tự hỏi mình đang bám vào điều gì để giữ ngọn lửa.",
+        "en": "Li is fire upon fire, carrying two meanings, brightness and clinging: a flame shines only when it has something to cling to. The phrase \"keeping a cow\" sets a gentle, patient image beside the flame: brightness needs to be fed with gentleness. You can ask what you are clinging to in order to keep your flame."
+      },
+      "question": {
+        "vi": "Bạn đang bám vào điều gì để giữ ngọn lửa của mình, và điều đó có đang nuôi bạn không?",
+        "en": "What are you clinging to in order to keep your flame, and is it nourishing you?"
+      },
+      "tags": [
+        "fire",
+        "clarity",
+        "attachment",
+        "nurture"
+      ]
+    },
+    {
+      "id": "kd-31",
+      "ref": {
+        "vi": "Quẻ 31 · Trạch Sơn Hàm",
+        "en": "Hexagram 31 · Xian, Mutual Influence"
+      },
+      "quote": {
+        "vi": "Hàm (cảm ứng nhau): hanh thông, lợi ở sự bền chính. …",
+        "en": "Xian (mutual influence): free passage, benefit in firm constancy. …"
+      },
+      "gloss": {
+        "vi": "Hàm là cảm, là sự rung động giữa hai bên: đầm ở trên, núi ở dưới, nước đầm thấm vào đất núi. Quẻ nói về sự ảnh hưởng qua lại, không hề là sự áp đặt từ một phía. Bạn thử xem điều gì hoặc ai gần đây đã chạm tới mình.",
+        "en": "Xian is feeling, a resonance between two sides: the marsh above, the mountain below, the marsh water seeping into the mountain soil. The hexagram speaks of mutual influence, not imposition from one side. You might see what or who has recently touched you."
+      },
+      "question": {
+        "vi": "Điều gì hoặc ai gần đây đã chạm tới bạn, và bạn đáp lại thế nào?",
+        "en": "What or who has touched you lately, and how did you respond?"
+      },
+      "tags": [
+        "connection",
+        "sensitivity",
+        "influence"
+      ]
+    },
+    {
+      "id": "kd-32",
+      "ref": {
+        "vi": "Quẻ 32 · Lôi Phong Hằng",
+        "en": "Hexagram 32 · Heng, Endurance"
+      },
+      "quote": {
+        "vi": "Hằng: hanh thông, không lỗi, lợi ở sự bền chính; thuận cho việc có nơi đi tới.",
+        "en": "Heng: free passage, no blame, benefit in firm constancy; it is advantageous to set out."
+      },
+      "gloss": {
+        "vi": "Hằng là bền lâu, nhưng bền ở đây không có nghĩa là đứng yên: sấm và gió luôn động mà vẫn là một nhịp ổn định. Quẻ nói về sự kiên định đi cùng việc có nơi để đi. Đây là một câu hỏi về điều gì trong ta đáng giữ lâu.",
+        "en": "Heng is lasting, but lasting here does not mean standing still: thunder and wind are always moving and yet make one steady rhythm. The hexagram speaks of constancy that goes together with setting out. It is a question about what in us is worth keeping for long."
+      },
+      "question": {
+        "vi": "Điều gì trong cách sống của bạn đáng giữ lâu dài, và điều gì có thể đổi?",
+        "en": "What in the way you live is worth keeping for the long run, and what could change?"
+      },
+      "tags": [
+        "constancy",
+        "endurance",
+        "values"
+      ]
+    },
+    {
+      "id": "kd-33",
+      "ref": {
+        "vi": "Quẻ 33 · Thiên Sơn Độn",
+        "en": "Hexagram 33 · Dun, Retreat"
+      },
+      "quote": {
+        "vi": "Độn: hanh thông; chút lợi ở sự bền chính.",
+        "en": "Dun: free passage; a small benefit in firm constancy."
+      },
+      "gloss": {
+        "vi": "Độn là lùi, là lánh. Quẻ không coi lùi là thất bại mà là một cách giữ mình khi thời chưa thuận. Bạn có thể nhìn lại xem một lần lùi của mình là nhường chỗ hay là giữ lại sức.",
+        "en": "Dun is retreat, withdrawal. The hexagram does not treat retreat as failure but as a way of keeping oneself when the time is not yet ripe. You can look back at one of your own retreats and see whether it was giving way or conserving strength."
+      },
+      "question": {
+        "vi": "Lần gần nhất bạn lùi một bước, đó là nhường chỗ hay giữ sức, và nó cho bạn thấy điều gì?",
+        "en": "The last time you stepped back, was it giving way or conserving strength, and what did it show you?"
+      },
+      "tags": [
+        "retreat",
+        "withdrawal",
+        "self-protection"
+      ]
+    },
+    {
+      "id": "kd-34",
+      "ref": {
+        "vi": "Quẻ 34 · Lôi Thiên Đại Tráng",
+        "en": "Hexagram 34 · Da Zhuang, Great Vigor"
+      },
+      "quote": {
+        "vi": "Đại Tráng: lợi ở sự bền chính.",
+        "en": "Da Zhuang: benefit in firm constancy."
+      },
+      "gloss": {
+        "vi": "Đại Tráng là sức mạnh lớn: sấm vang trên trời. Lời quẻ chỉ có một điều kiện đi cùng sức mạnh, là sự bền chính, tức là có sức và biết dùng cho ngay thẳng. Câu này mời nhìn sức của mình đang dùng vào đâu.",
+        "en": "Da Zhuang is great vigor: thunder over heaven. The judgment gives only one condition to go with strength, firm constancy, which means having power and using it uprightly. The line invites you to see where your strength is going."
+      },
+      "question": {
+        "vi": "Sức mạnh của bạn lúc này đang được dùng vào việc gì, và nó có xứng với việc ấy không?",
+        "en": "What is your strength being used for right now, and is it worthy of that use?"
+      },
+      "tags": [
+        "strength",
+        "restraint",
+        "direction"
+      ]
+    },
+    {
+      "id": "kd-35",
+      "ref": {
+        "vi": "Quẻ 35 · Hỏa Địa Tấn",
+        "en": "Hexagram 35 · Jin, Advancing"
+      },
+      "quote": {
+        "vi": "Tấn: vị hầu giữ yên một cõi được ban nhiều ngựa; một ngày được tiếp kiến ba lần.",
+        "en": "Jin: the prince who brings peace to his realm is granted many horses and is received three times in a day."
+      },
+      "gloss": {
+        "vi": "Tấn là mặt trời mọc trên mặt đất, sự tiến lên rõ ràng. Hình ảnh được tiếp kiến nhiều lần trong ngày là hình ảnh của sự công nhận; ở đây nó gắn với người đã giữ yên được một cõi, tức là sự ghi nhận đến sau việc đã làm. Bạn thử xem sự công nhận có đang làm bạn vội không.",
+        "en": "Jin is the sun rising over the earth, a clear advance. Being received many times in a day is an image of recognition; here it belongs to one who has brought peace to a realm, recognition that comes after the work is done. You might see whether recognition is making you hurry."
+      },
+      "question": {
+        "vi": "Khi bạn được ghi nhận, bạn đón nó bình thản hay thấy mình bị thúc đi nhanh hơn?",
+        "en": "When you are acknowledged, do you receive it calmly or feel pushed to go faster?"
+      },
+      "tags": [
+        "advancing",
+        "recognition",
+        "calm"
+      ]
+    },
+    {
+      "id": "kd-36",
+      "ref": {
+        "vi": "Quẻ 36 · Địa Hỏa Minh Di",
+        "en": "Hexagram 36 · Ming Yi, Light Wounded"
+      },
+      "quote": {
+        "vi": "Minh Di: lợi cho việc giữ bền chính trong gian nan.",
+        "en": "Ming Yi: benefit in keeping firm constancy through hardship."
+      },
+      "gloss": {
+        "vi": "Minh Di là ánh sáng bị che lại: mặt trời lặn vào lòng đất. Quẻ nói về lúc cần giấu ánh sáng của mình để giữ nó, như ngọn nến trong gió. Đó không hề là sự đánh mất mà là một cách bảo vệ.",
+        "en": "Ming Yi is light covered over: the sun sinking into the earth. The hexagram speaks of times when one shelters one's light in order to keep it, like a candle in the wind. That is not a loss but a form of protection."
+      },
+      "question": {
+        "vi": "Điều gì trong bạn cần được che chắn khỏi gió lúc này, và bạn che chắn nó thế nào?",
+        "en": "What in you needs shelter from the wind right now, and how are you sheltering it?"
+      },
+      "tags": [
+        "hardship",
+        "protection",
+        "inner-light"
+      ]
+    },
+    {
+      "id": "kd-37",
+      "ref": {
+        "vi": "Quẻ 37 · Phong Hỏa Gia Nhân",
+        "en": "Hexagram 37 · Jia Ren, The Family"
+      },
+      "quote": {
+        "vi": "Gia Nhân (người trong nhà): lợi cho sự bền chính của người phụ nữ.",
+        "en": "Jia Ren (the family): benefit in the firm constancy of the woman."
+      },
+      "gloss": {
+        "vi": "Gia Nhân tả đời sống trong nhà, nơi mỗi người có một vị trí và một việc. Lời quẻ, theo bối cảnh xa xưa, gắn sự vững của nhà với người phụ nữ; Nilaza không lấy đó làm khuôn cho ai. Đọc rộng ra, đó là câu hỏi về sự vững của từng người trong nhà và phần việc mỗi người đang mang.",
+        "en": "Jia Ren describes life inside a household, where each person has a place and a task. The line reflects an older society that tied the household's steadiness to the woman; Nilaza does not take that as a mold for anyone. Read more widely, it asks about the steadiness of each person in the home and the share each carries."
+      },
+      "question": {
+        "vi": "Mỗi người trong nhà bạn đang giữ phần việc nào, và phần nào chưa được ai nhìn thấy?",
+        "en": "What part does each person in your home hold, and which part has not yet been seen by anyone?"
+      },
+      "tags": [
+        "family",
+        "roles",
+        "home"
+      ]
+    },
+    {
+      "id": "kd-38",
+      "ref": {
+        "vi": "Quẻ 38 · Hỏa Trạch Khuê",
+        "en": "Hexagram 38 · Kui, Opposition"
+      },
+      "quote": {
+        "vi": "Khuê (trái nhau): việc nhỏ thì cát.",
+        "en": "Kui (opposition): in small matters, good fortune."
+      },
+      "gloss": {
+        "vi": "Khuê là hai thứ quay lưng nhau: lửa bốc lên, đầm chảy xuống. Quẻ không nói rằng trái nhau thì hỏng; nó nói rằng trong những việc nhỏ vẫn có thể cùng nhau. Có thể nhìn bất đồng như một tình huống để thử những bước nhỏ.",
+        "en": "Kui is two things turning away from each other: fire rising, marsh sinking. The hexagram does not say that being opposed means failure; it says that in small matters people can still act together. Disagreement can be seen as a situation for trying small steps."
+      },
+      "question": {
+        "vi": "Với người đang khác ý bạn, đâu là một việc nhỏ mà hai bên vẫn làm cùng nhau được?",
+        "en": "With someone who differs from you, what is one small thing the two of you can still do together?"
+      },
+      "tags": [
+        "difference",
+        "disagreement",
+        "small-steps"
+      ]
+    },
+    {
+      "id": "kd-39",
+      "ref": {
+        "vi": "Quẻ 39 · Thủy Sơn Kiển",
+        "en": "Hexagram 39 · Jian, Obstruction"
+      },
+      "quote": {
+        "vi": "Kiển (bước khó): … thuận để gặp bậc đại nhân; bền chính thì cát.",
+        "en": "Jian (obstruction): … it is advantageous to see the great person; firm constancy brings good fortune."
+      },
+      "gloss": {
+        "vi": "Kiển là chân đi khập khiễng, núi chắn trước mặt nước. Phần lời quẻ được trích ở đây nhắc việc tìm người có tầm nhìn khi gặp chướng ngại. Quẻ mời nhìn chướng ngại như lúc ngừng lại và hỏi ý một người đáng tin.",
+        "en": "Jian is a limping foot, a mountain blocking the water. The part of the judgment quoted here speaks of seeking someone with wider sight when meeting an obstacle. The hexagram invites us to see an obstacle as a moment to stop and consult someone trustworthy."
+      },
+      "question": {
+        "vi": "Với trở ngại hiện tại, ai là người bạn có thể hỏi ý, và điều gì đang giữ bạn chưa hỏi?",
+        "en": "For your current obstacle, who could you ask, and what is holding you back from asking?"
+      },
+      "tags": [
+        "obstacle",
+        "asking-for-help",
+        "pause"
+      ]
+    },
+    {
+      "id": "kd-40",
+      "ref": {
+        "vi": "Quẻ 40 · Lôi Thủy Giải",
+        "en": "Hexagram 40 · Xie, Release"
+      },
+      "quote": {
+        "vi": "Giải (cởi gỡ): … nếu không có nơi cần đi thì quay về là cát; nếu có nơi cần đi thì đi sớm là cát.",
+        "en": "Xie (release): … if nothing further is called for, returning brings good fortune; if something is called for, going early brings good fortune."
+      },
+      "gloss": {
+        "vi": "Giải là cởi trói: sấm và mưa làm tan sự căng. Lời quẻ chia hai tình huống, quay về hoặc đi sớm, và đều gắn với việc không trì hoãn sau khi đã gỡ. Bạn thử xem điều gì mình vừa gỡ ra được, và việc kế tiếp là gì.",
+        "en": "Xie is untying: thunder and rain dissolving the tension. The judgment gives two cases, returning or setting out early, and both link to not delaying once the knot is loosed. You might see what you have just untied, and what comes next."
+      },
+      "question": {
+        "vi": "Điều gì bạn vừa cởi được, và việc kế tiếp bạn muốn làm với sự thoải mái ấy là gì?",
+        "en": "What have you just untied, and what do you want to do next with that relief?"
+      },
+      "tags": [
+        "release",
+        "relief",
+        "next-step"
+      ]
+    },
+    {
+      "id": "kd-41",
+      "ref": {
+        "vi": "Quẻ 41 · Sơn Trạch Tổn",
+        "en": "Hexagram 41 · Sun, Decrease"
+      },
+      "quote": {
+        "vi": "Tổn (bớt đi): có lòng thành thì rất cát, không lỗi, giữ bền chính được. … Dùng gì để dâng lễ? Hai bát đơn sơ cũng dùng được.",
+        "en": "Sun (decrease): with sincerity, great good fortune, no blame; firm constancy is possible. … What to use as offering? Two simple bowls are enough."
+      },
+      "gloss": {
+        "vi": "Tổn là bớt đi, và lời quẻ làm nổi lên điều quan trọng: lòng thành, không hề là số lượng. Hai bát đơn sơ cũng đủ để dâng, tức là sự giản dị không làm giảm giá trị của tấm lòng. Có thể nhìn xem điều bạn trao tặng hay điều bạn làm đang dựa vào lòng hay vào dáng vẻ.",
+        "en": "Sun is decrease, and the judgment brings forward what matters: sincerity, not quantity. Two simple bowls are enough to offer, which means simplicity does not lessen the value of the heart behind a gift. You can look at whether what you give or do rests on sincerity or on appearance."
+      },
+      "question": {
+        "vi": "Nếu chỉ có hai bát đơn sơ để trao, bạn chọn trao điều gì?",
+        "en": "If you had only two simple bowls to give, what would you choose to give?"
+      },
+      "tags": [
+        "simplicity",
+        "sincerity",
+        "letting-go"
+      ]
+    },
+    {
+      "id": "kd-42",
+      "ref": {
+        "vi": "Quẻ 42 · Phong Lôi Ích",
+        "en": "Hexagram 42 · Yi, Increase"
+      },
+      "quote": {
+        "vi": "Ích: thuận cho việc có nơi đi tới, thuận để qua sông lớn.",
+        "en": "Yi: it is advantageous to set out; advantageous to cross the great river."
+      },
+      "gloss": {
+        "vi": "Ích là thêm vào: gió và sấm tăng sức cho nhau. Quẻ đi sau Tổn trong thứ tự các quẻ, như thể bớt rồi thêm là một nhịp. Có thể thử hỏi mình đang thêm gì vào cuộc sống của người khác, và đang nhận gì.",
+        "en": "Yi is adding: wind and thunder strengthen each other. The hexagram follows Sun in the sequence, as if decreasing and then increasing were one rhythm. You can ask what you are adding to others' lives, and what you are receiving."
+      },
+      "question": {
+        "vi": "Gần đây bạn đã thêm điều gì vào đời một người khác, và họ đã thêm gì vào đời bạn?",
+        "en": "Lately, what have you added to someone else's life, and what have they added to yours?"
+      },
+      "tags": [
+        "giving",
+        "growth",
+        "reciprocity"
+      ]
+    },
+    {
+      "id": "kd-43",
+      "ref": {
+        "vi": "Quẻ 43 · Trạch Thiên Quải",
+        "en": "Hexagram 43 · Guai, Breakthrough"
+      },
+      "quote": {
+        "vi": "Quải (quyết đoán): tuyên bố giữa sân vua, kêu lên bằng lòng thành mà biết có hiểm nguy. Báo trước ở nơi mình ở; không lợi cho việc dùng binh đao; thuận cho việc có nơi đi tới.",
+        "en": "Guai (breakthrough): proclaimed in the royal court, calling out with sincerity, aware of danger. Announce it first in one's own town; it is not advantageous to take up arms; it is advantageous to set out."
+      },
+      "gloss": {
+        "vi": "Quải là sự quyết định, như hồ nước dâng cao sắp vỡ bờ. Lời quẻ nói đến việc nói thẳng, nói bằng lòng thật, và báo cho người gần trước. Câu về binh đao có thể đọc theo đời thường là không dùng sức mạnh để ép.",
+        "en": "Guai is decision, like a lake rising until it nearly breaks its banks. The judgment speaks of speaking plainly, speaking sincerely, and informing those close by first. The line about arms can be read in daily terms as not using force to compel."
+      },
+      "question": {
+        "vi": "Có điều gì bạn đã quyết trong lòng mà chưa nói thẳng với người gần mình?",
+        "en": "Is there something you have decided inside but not yet said plainly to someone close to you?"
+      },
+      "tags": [
+        "decision",
+        "speaking-out",
+        "gentleness"
+      ]
+    },
+    {
+      "id": "kd-44",
+      "ref": {
+        "vi": "Quẻ 44 · Thiên Phong Cấu (diễn ý)",
+        "en": "Hexagram 44 · Gou, Encounter (paraphrase)"
+      },
+      "quote": {
+        "vi": "Cấu (gặp gỡ bất ngờ): một nét âm nhỏ bất chợt hiện ở dưới cùng và tiến nhanh; chớ vội đón lấy.",
+        "en": "Gou (unexpected encounter): a small yin line suddenly appears at the bottom and advances quickly; do not rush to take it in."
+      },
+      "gloss": {
+        "vi": "Cấu là cuộc gặp bất chợt: một nét âm xuất hiện ở dưới cùng, nhỏ mà tiến nhanh. Lời quẻ gốc nói về chuyện cưới hỏi thời cổ và nhìn người nữ mạnh như điều cần dè chừng; Nilaza không đồng tình với cách nhìn ấy và không áp nó lên bất kỳ ai. Điều giữ lại là hình ảnh một điều mạnh và đột ngột, chưa vội đón vào đời khi chưa nhìn kỹ.",
+        "en": "Gou is a chance meeting: a yin line appears at the bottom, small but advancing fast. The original line speaks of ancient marriage customs and treats a strong woman as something to be wary of; Nilaza does not share that view and does not apply it to anyone. What remains is the image of something strong and sudden that is better looked at carefully before being welcomed into one's life."
+      },
+      "question": {
+        "vi": "Điều gì xuất hiện bất ngờ trong đời bạn gần đây, và bạn muốn nhìn nó kỹ thế nào trước khi để nó ở lại?",
+        "en": "What has appeared unexpectedly in your life lately, and how closely do you want to look at it before letting it stay?"
+      },
+      "tags": [
+        "encounter",
+        "surprise",
+        "discernment"
+      ]
+    },
+    {
+      "id": "kd-45",
+      "ref": {
+        "vi": "Quẻ 45 · Trạch Địa Tụy",
+        "en": "Hexagram 45 · Cui, Gathering"
+      },
+      "quote": {
+        "vi": "Tụy (tụ họp): hanh thông. Vua đến miếu tông; thuận để gặp bậc đại nhân, hanh thông, lợi ở sự bền chính. …",
+        "en": "Cui (gathering): free passage. The king comes to the ancestral temple; it is advantageous to see the great person, free passage, benefit in firm constancy. …"
+      },
+      "gloss": {
+        "vi": "Tụy là sự tụ lại: đầm trên đất, nước gom về chỗ trũng. Hình ảnh vua đến miếu tông là việc cả nhóm quy về một chỗ có ý nghĩa chung. Bạn có thể hỏi nhóm mình đang tụ lại quanh điều gì.",
+        "en": "Cui is gathering: a marsh upon the earth, water collecting in a hollow. The image of the king coming to the ancestral temple is of a whole group turning toward a place of shared meaning. You can ask what your own group is gathering around."
+      },
+      "question": {
+        "vi": "Nhóm của bạn, gia đình hay bạn bè, đang tụ lại quanh điều gì?",
+        "en": "What is your group, family or friends, gathering around?"
+      },
+      "tags": [
+        "gathering",
+        "shared-purpose",
+        "community"
+      ]
+    },
+    {
+      "id": "kd-46",
+      "ref": {
+        "vi": "Quẻ 46 · Địa Phong Thăng",
+        "en": "Hexagram 46 · Sheng, Rising"
+      },
+      "quote": {
+        "vi": "Thăng (lên dần): khởi đầu lớn, hanh thông; gặp bậc đại nhân, khỏi lo. …",
+        "en": "Sheng (rising): supreme beginning and free passage; seeing the great person, no cause for worry. …"
+      },
+      "gloss": {
+        "vi": "Thăng là cây mọc lên từ đất, từng chút một. Quẻ nói về sự lên từ từ, không nhảy vọt. Bạn có thể nhìn một việc đang lớn dần của mình như vậy: mỗi ngày một ít, không vội.",
+        "en": "Sheng is a tree growing up out of the earth, a little at a time. The hexagram speaks of a gradual rise, not a leap. You can look at something of yours that is growing in this way: a little each day, without hurry."
+      },
+      "question": {
+        "vi": "Việc nào của bạn đang lên từng chút một, và bạn có đủ kiên nhẫn với nhịp ấy không?",
+        "en": "Which of your undertakings is rising bit by bit, and do you have patience for that pace?"
+      },
+      "tags": [
+        "growth",
+        "gradual",
+        "patience"
+      ]
+    },
+    {
+      "id": "kd-47",
+      "ref": {
+        "vi": "Quẻ 47 · Trạch Thủy Khốn",
+        "en": "Hexagram 47 · Kun, Exhaustion"
+      },
+      "quote": {
+        "vi": "Khốn: hanh thông, bền chính; bậc đại nhân thì cát, không lỗi. Có nói ra cũng chẳng ai tin.",
+        "en": "Kun: free passage, firm constancy; for the great person, good fortune, no blame. What is said is not believed."
+      },
+      "gloss": {
+        "vi": "Khốn là bị bó: đầm cạn nước, nước chảy mất khỏi đầm. Lời quẻ có một chi tiết rất đời: nói mà không ai tin. Quẻ đặt ở đó sự bền chính của người không được nghe, một kiểu giữ mình khi lời không có chỗ đứng.",
+        "en": "Kun is being hemmed in: the marsh drained, its water gone. The judgment has a very human detail: speaking and not being believed. The hexagram places there the constancy of someone unheard, a way of keeping oneself when words have no standing."
+      },
+      "question": {
+        "vi": "Có điều nào bạn đã nói mà chưa được lắng nghe, và điều gì giúp bạn không đứng một mình với nó?",
+        "en": "Is there something you have said that has not been heard, and what helps you not stand alone with it?"
+      },
+      "tags": [
+        "hardship",
+        "being-unheard",
+        "integrity"
+      ]
+    },
+    {
+      "id": "kd-48",
+      "ref": {
+        "vi": "Quẻ 48 · Thủy Phong Tỉnh",
+        "en": "Hexagram 48 · Jing, The Well"
+      },
+      "quote": {
+        "vi": "Tỉnh (giếng): đổi làng mà không đổi giếng; không mất, không được; người qua kẻ lại đều dùng giếng. Gần tới nơi mà chưa thả dây, hay làm vỡ bình, thì hung.",
+        "en": "Jing (the well): the site of a town may change, but the well does not change; it neither loses nor gains. Those who come and go all draw from it. Just short of the water, the rope not yet let down, or the jar broken: misfortune."
+      },
+      "gloss": {
+        "vi": "Tỉnh là giếng: nguồn không đổi dù người dùng đổi, và giếng chỉ có ích khi nước được kéo lên tới nơi. Chữ \"hung\" ở cuối là hình ảnh của việc dừng ngay trước đích, chứ không là lời phán về bạn. Bạn có thể nhìn xem điều gì mình đã gần chạm tới mà vẫn còn dừng ở miệng giếng.",
+        "en": "Jing is the well: the source does not change though its users do, and a well helps only when the water is actually brought up. The word \"misfortune\" at the end is an image of halting right before the goal, not a verdict on you. You can look at what you have almost reached but still pause at the mouth of the well."
+      },
+      "question": {
+        "vi": "Điều gì bạn đã gần tới, mà còn chưa thả dây xuống?",
+        "en": "What have you almost reached, yet not lowered the rope for?"
+      },
+      "tags": [
+        "well",
+        "source",
+        "completion"
+      ]
+    },
+    {
+      "id": "kd-49",
+      "ref": {
+        "vi": "Quẻ 49 · Trạch Hỏa Cách",
+        "en": "Hexagram 49 · Ge, Renewal"
+      },
+      "quote": {
+        "vi": "Cách (đổi mới): đến đúng ngày của nó thì mới được tin; khởi đầu lớn, hanh thông, lợi, bền chính; điều hối hận tan đi.",
+        "en": "Ge (renewal): on its own day it is believed; supreme beginning, free passage, benefit, firm constancy; regret vanishes."
+      },
+      "gloss": {
+        "vi": "Cách là lột da, thay mới, như lửa đang nung đầm. Lời quẻ nói rằng lòng tin chỉ đến khi đã tới \"ngày\", tức là sự đổi mới có thời của nó. Bạn thử xem điều mình muốn đổi đã tới lúc người khác có thể tin vào sự thay đổi ấy chưa.",
+        "en": "Ge is shedding skin, making new, like fire heating the marsh. The judgment says belief comes only when the \"day\" has arrived, that renewal has its own time. You might see whether what you want to change has reached the point where others can trust the change."
+      },
+      "question": {
+        "vi": "Điều bạn muốn đổi đã đủ thời gian để người khác tin vào sự đổi ấy chưa?",
+        "en": "Has what you want to change had enough time for others to trust that change?"
+      },
+      "tags": [
+        "change",
+        "timing",
+        "trust"
+      ]
+    },
+    {
+      "id": "kd-50",
+      "ref": {
+        "vi": "Quẻ 50 · Hỏa Phong Đỉnh",
+        "en": "Hexagram 50 · Ding, The Cauldron"
+      },
+      "quote": {
+        "vi": "Đỉnh (cái vạc): rất cát, hanh thông.",
+        "en": "Ding (the cauldron): great good fortune, free passage."
+      },
+      "gloss": {
+        "vi": "Đỉnh là chiếc vạc nấu ăn, nơi lửa và gỗ làm ra bữa nuôi người. Lời quẻ rất ngắn, và hình ảnh cái vạc đã đủ nói về việc biến nguyên liệu thô thành bữa ăn nuôi người. Có thể hỏi mình đang biến điều gì thành nguồn nuôi dưỡng cho mình hoặc người khác.",
+        "en": "Ding is the cooking cauldron, where fire and wood make a meal that feeds people. The judgment is very short, and the image of the cauldron already speaks of turning raw material into nourishment. You can ask what you are turning into nourishment for yourself or others."
+      },
+      "question": {
+        "vi": "Bạn đang nấu chín điều gì, từ một trải nghiệm đến một ý tưởng, để nó nuôi được ai?",
+        "en": "What are you cooking down, from an experience to an idea, so that it can feed someone?"
+      },
+      "tags": [
+        "transformation",
+        "nourishment",
+        "craft"
+      ]
+    },
+    {
+      "id": "kd-51",
+      "ref": {
+        "vi": "Quẻ 51 · Thuần Chấn",
+        "en": "Hexagram 51 · Zhen, Thunder"
+      },
+      "quote": {
+        "vi": "Chấn: hanh thông. Sấm đến thì kinh sợ, rồi cười nói rộn ràng. Sấm làm chấn động trăm dặm mà không đánh rơi muỗng và rượu cúng.",
+        "en": "Zhen: free passage. When thunder comes, there is fear, then laughter and chatter. Thunder shakes a hundred miles, yet the ladle and libation are not dropped."
+      },
+      "gloss": {
+        "vi": "Chấn là sấm: tiếng động bất ngờ làm ta giật mình. Lời quẻ chọn hai thời điểm: lúc kinh sợ và lúc cười nói sau đó, cùng chi tiết người vẫn không đánh rơi muỗng. Đó là hình ảnh về việc vẫn giữ vững việc mình đang làm ngay khi bị giật mình.",
+        "en": "Zhen is thunder: a sudden sound that startles us. The judgment picks two moments, the fright and the laughter afterward, along with the detail that the person still does not drop the ladle. It is an image of holding on to one's task while being startled."
+      },
+      "question": {
+        "vi": "Khi điều bất ngờ làm bạn giật mình, bạn vẫn giữ được điều gì trong tay?",
+        "en": "When something unexpected startles you, what do you still keep hold of?"
+      },
+      "tags": [
+        "surprise",
+        "fear",
+        "composure"
+      ]
+    },
+    {
+      "id": "kd-52",
+      "ref": {
+        "vi": "Quẻ 52 · Thuần Cấn",
+        "en": "Hexagram 52 · Gen, Keeping Still"
+      },
+      "quote": {
+        "vi": "Cấn: dừng ở lưng, không thấy thân mình; đi trong sân, không thấy người; không lỗi.",
+        "en": "Gen: keeping the back still, one does not feel the self; walking in the courtyard, one does not see the people; no blame."
+      },
+      "gloss": {
+        "vi": "Cấn là núi, là dừng. Hình ảnh lưng đứng yên rất hiếm gặp: ta không nhìn thấy lưng mình, và chỗ yên ấy là chỗ không còn nhìn lại bản thân. Quẻ mời một lúc dừng, nơi cái \"tôi\" bớt ồn.",
+        "en": "Gen is the mountain, stopping. The image of a still back is rare: we cannot see our own back, and that stillness is a place where we no longer look back at ourselves. The hexagram invites a moment of pause where the \"I\" grows quieter."
+      },
+      "question": {
+        "vi": "Khi nào cái \"tôi\" của bạn yên nhất trong ngày, và bạn đang làm gì lúc đó?",
+        "en": "When is your \"I\" quietest in the day, and what are you doing then?"
+      },
+      "tags": [
+        "stillness",
+        "self",
+        "attention"
+      ]
+    },
+    {
+      "id": "kd-53",
+      "ref": {
+        "vi": "Quẻ 53 · Phong Sơn Tiệm",
+        "en": "Hexagram 53 · Jian, Gradual Progress"
+      },
+      "quote": {
+        "vi": "Tiệm (tiến dần): người nữ về nhà chồng thì cát; lợi ở sự bền chính.",
+        "en": "Jian (gradual progress): the maiden marries; good fortune; benefit in firm constancy."
+      },
+      "gloss": {
+        "vi": "Tiệm là cây mọc trên núi, lớn từng chút. Hình ảnh gả về nhà chồng là một tập tục xưa, đi qua nhiều lễ, nhiều bước, không bỏ qua bước nào; Nilaza không dùng nó để nói gì về chuyện hôn nhân của ai. Quẻ gợi một cách đi: đủ bước, đủ thời gian.",
+        "en": "Jian is a tree growing on a mountain, growing little by little. The image of a bride going to her husband's house is an old custom that passes through many rites and steps, none of them skipped; Nilaza does not use it to say anything about anyone's marriage. The hexagram suggests a way of going: enough steps, enough time."
+      },
+      "question": {
+        "vi": "Việc nào của bạn đang đòi đủ các bước, và bạn đang muốn nhảy qua bước nào?",
+        "en": "Which of your undertakings is asking for all its steps, and which step do you want to skip?"
+      },
+      "tags": [
+        "gradual",
+        "steps",
+        "patience"
+      ]
+    },
+    {
+      "id": "kd-54",
+      "ref": {
+        "vi": "Quẻ 54 · Lôi Trạch Quy Muội",
+        "en": "Hexagram 54 · Gui Mei, The Marrying Maiden"
+      },
+      "quote": {
+        "vi": "Quy Muội (người em gái về nhà chồng): đi tới thì hung, không có gì lợi.",
+        "en": "Gui Mei (the marrying maiden): to go forward brings misfortune; nothing is advantageous."
+      },
+      "gloss": {
+        "vi": "Quy Muội là hình ảnh một cô em gái theo chị về nhà chồng, đứng ở vị trí phụ theo tục xưa. Lời quẻ nói \"đi tới thì hung\" vì vị trí ấy chưa vững; chữ \"hung\" là cách sách cũ gọi một thế khó, chứ không là lời tiên đoán về ai. Quẻ nói về những lúc ta bước vào một chỗ mà vị trí của mình chưa rõ; bạn có thể đọc nó như lời nhắc xem mình đang bước vào đâu với vai gì.",
+        "en": "Gui Mei is the image of a younger sister following her elder sister to the husband's house, in a secondary position by old custom. The judgment says \"to go forward brings misfortune\" because that position is not yet settled; \"misfortune\" is how the old book names a difficult setting, not a prediction about anyone. The hexagram speaks of times when we step into a place where our position is unclear; you can read it as a reminder to ask where you are stepping and in what role."
+      },
+      "question": {
+        "vi": "Ở nơi bạn đang bước vào, vai của bạn đã rõ chưa, và bạn muốn nó là gì?",
+        "en": "In the place you are stepping into, is your role clear yet, and what do you want it to be?"
+      },
+      "tags": [
+        "role",
+        "position",
+        "transition"
+      ]
+    },
+    {
+      "id": "kd-55",
+      "ref": {
+        "vi": "Quẻ 55 · Lôi Hỏa Phong",
+        "en": "Hexagram 55 · Feng, Abundance"
+      },
+      "quote": {
+        "vi": "Phong: hanh thông; vua đến nơi này; chớ lo, hợp như lúc mặt trời giữa trưa.",
+        "en": "Feng: free passage; the king arrives; do not worry; it is fitting to be like the sun at noon."
+      },
+      "gloss": {
+        "vi": "Phong là sự dồi dào, đầy đặn như mặt trời giữa trưa. Quẻ nhắc việc không lo, nhưng hình ảnh giữa trưa cũng gợi rằng bóng bắt đầu dịch từ đó. Có thể dùng hình ảnh này để nhìn một lúc đầy đặn trong đời mà không bám chặt vào nó.",
+        "en": "Feng is abundance, fullness like the sun at noon. The hexagram speaks of not worrying, yet the image of noon also suggests that the shadows begin to shift from there. You can use the image to look at a full moment in life without clinging to it."
+      },
+      "question": {
+        "vi": "Khi mọi thứ đang dồi dào, bạn muốn nhìn nhịp của nó thế nào để thưởng thức mà không bám chặt?",
+        "en": "When things are abundant, how would you like to watch their rhythm so you can enjoy it without clinging?"
+      },
+      "tags": [
+        "fullness",
+        "peak",
+        "cycles"
+      ]
+    },
+    {
+      "id": "kd-56",
+      "ref": {
+        "vi": "Quẻ 56 · Hỏa Sơn Lữ",
+        "en": "Hexagram 56 · Lü, The Traveler"
+      },
+      "quote": {
+        "vi": "Lữ: hanh thông chút ít; người đi xa giữ bền chính thì cát.",
+        "en": "Lü: a little success; for the traveler, firm constancy brings good fortune."
+      },
+      "gloss": {
+        "vi": "Lữ là người đi xa, ở trọ, không có chỗ đứng cố định. Lời quẻ gắn bền chính với người lữ khách: ở nơi chưa thành nhà của mình, điều giữ ta lại là cách ta cư xử. Có thể nhìn lại một quãng đời mang tính tạm thời như vậy.",
+        "en": "Lü is the traveler, a lodger without a fixed place. The judgment ties constancy to the wayfarer: in a place that is not home, what holds us is how we conduct ourselves. You can look at a stretch of life that is temporary in this way."
+      },
+      "question": {
+        "vi": "Trong quãng chuyển tiếp hiện tại, điều gì giữ bạn đứng vững khi chưa có chỗ cố định?",
+        "en": "In your present time of transition, what keeps you steady when there is no fixed place yet?"
+      },
+      "tags": [
+        "travel",
+        "transition",
+        "conduct"
+      ]
+    },
+    {
+      "id": "kd-57",
+      "ref": {
+        "vi": "Quẻ 57 · Thuần Tốn",
+        "en": "Hexagram 57 · Xun, Gentle Wind"
+      },
+      "quote": {
+        "vi": "Tốn: hanh thông chút ít; thuận cho việc có nơi đi tới, thuận để gặp bậc đại nhân.",
+        "en": "Xun: a little success; it is advantageous to set out; advantageous to see the great person."
+      },
+      "gloss": {
+        "vi": "Tốn là gió, là thấm vào. Gió không đánh gãy mà đi qua từng kẽ nhỏ, và theo thời gian có thể mòn cả đá. Quẻ mời nhìn sức mạnh của cách làm nhẹ nhàng mà đều đặn.",
+        "en": "Xun is wind, penetrating. Wind does not break things but passes through every small gap, and over time can wear down even stone. The hexagram invites us to see the power of a gentle, repeated way."
+      },
+      "question": {
+        "vi": "Việc nào của bạn cần cách thấm dần hơn là cách đẩy mạnh?",
+        "en": "Which of your undertakings needs gradual seeping rather than a hard push?"
+      },
+      "tags": [
+        "gentleness",
+        "persistence",
+        "penetration"
+      ]
+    },
+    {
+      "id": "kd-58",
+      "ref": {
+        "vi": "Quẻ 58 · Thuần Đoài",
+        "en": "Hexagram 58 · Dui, Joy"
+      },
+      "quote": {
+        "vi": "Đoài: hanh thông, lợi ở sự bền chính.",
+        "en": "Dui: free passage, benefit in firm constancy."
+      },
+      "gloss": {
+        "vi": "Đoài là đầm nước, là niềm vui và cũng là lời nói. Lời quẻ không thêm điều kiện nào ngoài sự bền chính, như thể niềm vui chân thật không cần giải thích nhiều. Quẻ mời hỏi niềm vui của mình đang đến từ đâu.",
+        "en": "Dui is the marsh, joy, and also speech. The judgment adds no condition beyond firm constancy, as if genuine joy needs little explanation. The hexagram invites you to ask where your joy is coming from."
+      },
+      "question": {
+        "vi": "Niềm vui của bạn gần đây đến từ điều gì, và bạn đã dành chỗ cho nó chưa?",
+        "en": "Where has your joy come from lately, and have you made room for it?"
+      },
+      "tags": [
+        "joy",
+        "speech",
+        "exchange"
+      ]
+    },
+    {
+      "id": "kd-59",
+      "ref": {
+        "vi": "Quẻ 59 · Phong Thủy Hoán",
+        "en": "Hexagram 59 · Huan, Dispersal"
+      },
+      "quote": {
+        "vi": "Hoán: hanh thông. Vua đến miếu tông; thuận để qua sông lớn; lợi ở sự bền chính.",
+        "en": "Huan: free passage. The king comes to the ancestral temple; it is advantageous to cross the great river; benefit in firm constancy."
+      },
+      "gloss": {
+        "vi": "Hoán là sự tan ra, như băng gặp gió xuân. Cái tan ở đây có thể là sự cứng nhắc hay khoảng cách giữa người với người, và lời quẻ nhắc về việc hướng tới một điều chung. Có thể nhìn xem điều gì trong bạn đang cần tan bớt.",
+        "en": "Huan is dispersal, like ice meeting spring wind. What disperses here may be rigidity or the distance between people, and the judgment speaks of turning toward something shared. You can look at what in you needs to loosen."
+      },
+      "question": {
+        "vi": "Điều gì trong bạn đang đóng băng, và gió ấm nào có thể làm nó tan chậm rãi?",
+        "en": "What in you is frozen, and what warm wind could melt it slowly?"
+      },
+      "tags": [
+        "thawing",
+        "dissolving",
+        "shared-purpose"
+      ]
+    },
+    {
+      "id": "kd-60",
+      "ref": {
+        "vi": "Quẻ 60 · Thủy Trạch Tiết",
+        "en": "Hexagram 60 · Jie, Limits"
+      },
+      "quote": {
+        "vi": "Tiết: hanh thông. Tiết chế đến mức khổ sở thì không giữ bền chính được.",
+        "en": "Jie: free passage. Restraint that is bitter cannot be kept up with firm constancy."
+      },
+      "gloss": {
+        "vi": "Tiết là đốt tre, là giới hạn. Lời quẻ nói rằng giới hạn có ích nhưng giới hạn khắt khe quá thì không bền. Có thể nhìn các giới hạn mình tự đặt và xem cái nào đang nâng đỡ, cái nào đang đè nặng.",
+        "en": "Jie is the joint of bamboo, a limit. The judgment says limits are useful but limits too harsh do not last. You can look at the limits you have set for yourself and see which ones are supporting you and which are weighing on you."
+      },
+      "question": {
+        "vi": "Giới hạn nào bạn tự đặt cho mình đang đỡ bạn, và giới hạn nào đang làm bạn khổ?",
+        "en": "Which limit you set for yourself is supporting you, and which is making you suffer?"
+      },
+      "tags": [
+        "limits",
+        "restraint",
+        "balance"
+      ]
+    },
+    {
+      "id": "kd-61",
+      "ref": {
+        "vi": "Quẻ 61 · Phong Trạch Trung Phu",
+        "en": "Hexagram 61 · Zhong Fu, Inner Sincerity"
+      },
+      "quote": {
+        "vi": "Trung Phu: với heo và cá, cát; thuận để qua sông lớn; lợi ở sự bền chính.",
+        "en": "Zhong Fu: with pigs and fish, good fortune; it is advantageous to cross the great river; benefit in firm constancy."
+      },
+      "gloss": {
+        "vi": "Trung Phu là lòng thành ở bên trong: gió trên đầm, một cái chạm nhẹ làm mặt nước gợn. Lời quẻ nhắc heo và cá, những sinh vật nhỏ bé, như dấu hiệu rằng lòng thành chạm được cả những chỗ ít ai để ý. Có thể nhìn lòng thành của mình ở những chuyện nhỏ.",
+        "en": "Zhong Fu is sincerity within: wind over a marsh, a light touch rippling the water. The judgment mentions pigs and fish, humble creatures, as a sign that sincerity reaches even places few notice. You can look at your own sincerity in small matters."
+      },
+      "question": {
+        "vi": "Lòng thành của bạn hôm nay hiện ra ở việc nhỏ nào ít ai thấy?",
+        "en": "In which small act, seen by few, does your sincerity show today?"
+      },
+      "tags": [
+        "sincerity",
+        "small-things",
+        "trust"
+      ]
+    },
+    {
+      "id": "kd-62",
+      "ref": {
+        "vi": "Quẻ 62 · Lôi Sơn Tiểu Quá",
+        "en": "Hexagram 62 · Xiao Guo, Small Excess"
+      },
+      "quote": {
+        "vi": "Tiểu Quá: hanh thông, lợi ở sự bền chính. Làm được việc nhỏ, không làm được việc lớn. Chim bay để lại tiếng kêu: không hợp bay lên cao, hợp bay xuống thấp; rất cát.",
+        "en": "Xiao Guo: free passage, benefit in firm constancy. Small matters can be done, great ones cannot. A flying bird leaves its cry behind: it is not fitting to go up, it is fitting to go down; great good fortune."
+      },
+      "gloss": {
+        "vi": "Tiểu Quá là cái nhỏ vượt một chút: đức nhỏ, việc nhỏ, bước thấp. Hình ảnh chim bay để lại tiếng kêu mà không lên cao nói về sự khiêm tốn trong tầm với. Có thể nhìn việc nhỏ như nơi ta làm được trọn nhất.",
+        "en": "Xiao Guo is the small exceeding a little: small virtue, small tasks, a low step. The image of a bird leaving its cry behind rather than rising high speaks of modesty within reach. You can look at small tasks as the place where we do things most completely."
+      },
+      "question": {
+        "vi": "Việc nhỏ nào hôm nay nằm trong tầm tay bạn và đang chờ bạn làm trọn?",
+        "en": "Which small task lies within your reach today, waiting for you to do it fully?"
+      },
+      "tags": [
+        "modesty",
+        "small-matters",
+        "humility"
+      ]
+    },
+    {
+      "id": "kd-63",
+      "ref": {
+        "vi": "Quẻ 63 · Thủy Hỏa Ký Tế",
+        "en": "Hexagram 63 · Ji Ji, Already Across"
+      },
+      "quote": {
+        "vi": "Ký Tế (đã qua sông): hanh thông ở chỗ nhỏ, lợi ở sự bền chính. Đầu cát, cuối loạn.",
+        "en": "Ji Ji (already across): success in small things, benefit in firm constancy. Good fortune at the beginning, disorder at the end."
+      },
+      "gloss": {
+        "vi": "Ký Tế là mọi nét đều đã đúng chỗ: nước trên lửa, thế đã định. Lời quẻ nói một điều đáng chú ý về cái đã xong: đó là lúc dễ lơi. Có thể đọc nó như lời nhắc giữ sự chú ý khi một việc vừa hoàn tất.",
+        "en": "Ji Ji has every line in its place: water over fire, the arrangement settled. The judgment says something worth noticing about what is finished: this is a time when it is easy to relax. It can be read as a reminder to keep attention when something has just been completed."
+      },
+      "question": {
+        "vi": "Việc nào bạn vừa hoàn tất, và bạn giữ sự chú ý cho phần sau nó thế nào?",
+        "en": "What have you just completed, and how are you keeping attention for what comes after it?"
+      },
+      "tags": [
+        "completion",
+        "attention",
+        "finishing"
+      ]
+    },
+    {
+      "id": "kd-64",
+      "ref": {
+        "vi": "Quẻ 64 · Hỏa Thủy Vị Tế",
+        "en": "Hexagram 64 · Wei Ji, Not Yet Across"
+      },
+      "quote": {
+        "vi": "Vị Tế (chưa qua sông): hanh thông. Cáo con gần qua tới bờ thì ướt đuôi; chẳng có gì lợi.",
+        "en": "Wei Ji (not yet across): free passage. The little fox, nearly across, wets its tail; nothing is advantageous."
+      },
+      "gloss": {
+        "vi": "Vị Tế là điều chưa xong, nơi sách kết thúc: lửa trên nước, hai thứ chưa gặp nhau. Hình ảnh cáo con ướt đuôi gần bờ là một cảnh vừa đáng yêu vừa đáng nhớ, nói về sự non tay ngay lúc sắp tới nơi. Sách kết bằng điều chưa hoàn thành để chu kỳ có chỗ tiếp tục.",
+        "en": "Wei Ji is what is not yet finished, where the book ends: fire above water, the two not yet meeting. The image of the little fox wetting its tail near the bank is both endearing and memorable about inexperience just before arriving. The book ends on the unfinished so that the cycle has room to continue."
+      },
+      "question": {
+        "vi": "Việc nào của bạn còn dang dở và đang dạy bạn điều gì?",
+        "en": "Which of your undertakings is unfinished, and what is it teaching you?"
+      },
+      "tags": [
+        "unfinished",
+        "learning",
+        "cycle"
+      ]
+    }
+  ]
+}

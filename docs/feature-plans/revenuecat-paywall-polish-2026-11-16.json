@@ -57,7 +57,7 @@
     {
       "path": "docs/AGENT_TASK_ROUTER.md",
       "reason": "Mobile route and validation commands.",
-      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+      "sha256": "e508d09a9fdffc78da809a4f1449f1d77999186b9bd371870bd8582e132075e1"
     },
     {
       "path": "docs/PLAN_QC_PROTOCOL.md",
@@ -82,7 +82,7 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Locked deck and guide copy, lock panels and openPremium wiring.",
-      "sha256": "769fc0fcaf1b1e89224fd6bcb84a9c96c9672ef308f0921105900f73210922e9"
+      "sha256": "911965c4da9f08c184d4f7f07bdce7a767222ecac318719762642b1303c7d41f"
     },
     {
       "path": "apps/mobile/src/features/chat/ChatHub.tsx",

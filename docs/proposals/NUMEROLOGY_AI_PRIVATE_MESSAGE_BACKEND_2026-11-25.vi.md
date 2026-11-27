@@ -1,6 +1,6 @@
 # Bản đồ số: AI “Lời nhắn riêng” — gói việc backend chờ Owner duyệt (25/11/2026)
 
-> **Loại tài liệu:** đề xuất, **Owner duyệt gói B1–B8 ngày 25/11/2026; mã đã viết (nhánh `claude/numerology-ai-message-b1-b8`), chưa áp SQL, chưa deploy, công tắc tắt**. Thuộc Lô 5 ([đặc tả](ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md) mục 5 và 8). Tình trạng từng mục ở mục 4.
+> **Loại tài liệu:** đề xuất, **Owner duyệt gói B1–B8 ngày 25/11/2026; mã đã viết (nhánh `claude/numerology-ai-message-b1-b8`), đã gộp `main` (PR #72), áp SQL và deploy lên Singapore 26/11, công tắc tắt**. Thuộc Lô 5 ([đặc tả](ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md) mục 5 và 8). Tình trạng từng mục ở mục 4.
 > **Đã có trong app (Lô 5, chưa phát hành):** thẻ “Lời nhắn riêng · Sắp có” trên màn Bản đồ số (không gọi AI) và bộ dựng dữ liệu gửi đi `apps/mobile/src/features/numerology/aiPayload.ts`, có test chứng minh **không chứa họ tên, tên đã chuẩn hóa, ngày sinh, năm sinh hay tuổi**.
 > **Căn cứ mẫu:** hàm `ai-daily-insight` (đăng nhập → công tắc → hạn mức → prompt từ `prompt_versions` → `generateWithModelRoute`).
 
@@ -55,8 +55,8 @@ Thứ tự đề xuất: B1 → B2 → B3/B4 → viết mã B6 + test Deno (mộ
 | B2 | Prompt `numerology_private_message_system` (vi+en) trong `prompt-library.json`; Admin chưa sửa được prompt này | — |
 | B3 | Tuyến `numerology_private_message`: model rẻ không suy luận + 1 dự phòng, ~600 token, nhóm dữ liệu nhạy cảm (OpenRouter `zdr`, `data_collection: deny`) | đo chi phí thật sau khi chạy thử |
 | B4 | Premium, 1 lời nhắn/ngày giờ Việt Nam + 2 lần lỗi; công tắc đọc **chặt** (thiếu dòng hay lỗi = tắt) | Owner bật công tắc cho tài khoản thử |
-| B5 | File `supabase/migrations/20261125090000_numerology_private_message.sql`: mở danh sách cho phép, thêm tuyến, công tắc **tắt**, không bảng mới | **Owner duyệt áp SQL theo hash** |
-| B6 | Hàm `ai-numerology-message` + test Deno: kiểm đăng nhập → công tắc → nội dung → Premium → hạn mức **trước** khi đọc dữ liệu; từ chối mọi khóa lạ; kiểm đầu ra trong router để rơi sang model dự phòng; không lưu lời nhắn | **Owner duyệt deploy** |
+| B5 | File `supabase/migrations/20261125090000_numerology_private_message.sql`: mở danh sách cho phép, thêm tuyến, công tắc **tắt**, không bảng mới | ✅ Đã áp 26/11 (Owner duyệt, hash `0b382247…54fbf3`) |
+| B6 | Hàm `ai-numerology-message` + test Deno: kiểm đăng nhập → công tắc → nội dung → Premium → hạn mức **trước** khi đọc dữ liệu; từ chối mọi khóa lạ; kiểm đầu ra trong router để rơi sang model dự phòng; không lưu lời nhắn | ✅ Đã deploy v1 lên Singapore 26/11 (gọi không đăng nhập: 401) |
 | B7 | Bản nháp Data safety (mục 2.4 tài liệu Play) và chính sách quyền riêng tư vi/en | Owner điền form Play Console |
 | B8 | Hộp xác nhận trong thẻ: chỉ con số và mã khối được gửi, lượt chỉ tính khi lời nhắn đến tay. **Không trừ năng lượng** vì app chưa có cơ chế trừ năng lượng (Owner quyết 15/11 không hiện số Nil) | — |
 

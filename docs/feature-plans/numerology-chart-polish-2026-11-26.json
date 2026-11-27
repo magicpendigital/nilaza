@@ -1,0 +1,151 @@
+{
+  "schemaVersion": 1,
+  "taskId": "numerology-chart-polish-2026-11-26",
+  "ownerAgent": "mobile_agent",
+  "lane": "Mobile + content: Bản đồ số result polish after Owner phone test (26/11/2026)",
+  "goal": "Fix what the Owner saw on the phone on the Bản đồ số result: (1) the birth-date chart wrote a digit once per occurrence ('999', '11'), which reads like a wrong number; show the digit once with a count marker instead; (2) the chart and Hợp số readings were one-liners; add a richer per-digit reading (present, repeated, absent), a chart summary (how many cells, the strongest digit, the fullest row) and, for Hợp số, a two-person header with the relation of each compared number plus 'what each needs from the other' and a question for the two; (3) remove the 'chỉ lưu trên máy này / tính ngay trên máy' notices from the Bản đồ số screens, which the Owner says hurt trust in the result. Privacy behaviour (name in local storage only, the other person's data in memory only, no request) is unchanged; only the visible notices go.",
+  "successCriteria": [
+    "A digit that appears 3 times shows as one digit with a '×3' marker (never '999'); the accessibility label still says how many times.",
+    "Tapping a cell shows a titled reading: present, a repeated note when it appears 2+ times, or an absent note for an empty cell.",
+    "The chart shows a summary line (cells present out of 9, the most repeated digit, the fullest row).",
+    "Hợp số shows a two-person header (Bạn / Người ấy) with the life path numbers and a relation badge; each compared number shows both numbers side by side with the relation, what each needs from the other, and a question for the two; still no score, %, ranking or 'hợp/khắc' in the results.",
+    "No 'chỉ lưu trên máy này', 'tính ngay trên máy', 'chạy trên máy này' or compat privacy box remains on the Bản đồ số screens; the private-message consent box stays.",
+    "New copy lives in packages/content/data/numerology-reading-extra.json, bilingual with accented Vietnamese, passes the banned-word list, and carries its own review block (draft until the Owner approves it); numerology-blocks.json and the deployed private-message function are not changed.",
+    "tsc, mobile jest suite and validate:data pass."
+  ],
+  "writeScope": [
+    "apps/mobile/src/features/numerology/NumerologyScreen.tsx",
+    "apps/mobile/src/features/numerology/NumerologyCompat.tsx",
+    "apps/mobile/src/features/numerology/content.ts",
+    "apps/mobile/src/features/numerology/__tests__/NumerologyScreen.test.tsx",
+    "apps/mobile/src/features/numerology/__tests__/content.test.ts",
+    "packages/content/data/numerology-reading-extra.json",
+    "scripts/validate-data.mjs",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "packages/content/data/numerology-blocks.json (Owner-approved 25/11, bundled in the deployed ai-numerology-message function) is not edited.",
+    "No Edge Function, SQL, migration, Admin, share card or storage key change.",
+    "calc.ts and compat.ts logic unchanged (golden cases stay as they are).",
+    "The private-message consent box and its wording stay."
+  ],
+  "impact": {
+    "entryPoint": "Khám phá -> Bản đồ số -> nhập -> kết quả: lưới ngày sinh, phần Hợp số. Back behaviour unchanged.",
+    "dataWrite": "None new. Name storage and the in-memory second person are unchanged.",
+    "backendContract": "None. The private-message payload and the approved block store are untouched.",
+    "adminVisibility": "No Admin field.",
+    "privacySafety": "Only visible notices are removed; behaviour is unchanged and still covered by the existing tests (no storage, event, share or request carries the other person's data). Store Data safety wording is not affected because nothing new is collected or sent.",
+    "observability": "Events unchanged.",
+    "rollback": "Revert the commit; no data migration."
+  },
+  "canonicalContracts": [
+    "packages/content/data/numerology-blocks.json",
+    "packages/content/data/numerology-reading-extra.json"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile route and checks.",
+      "sha256": "b433c26478bb91a36889f443f848a718fad09241dc7541b02f9b0eb266567d3c"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "packages/content/data/numerology-blocks.json",
+      "reason": "Approved store and its review note ('any later edit needs a new Owner review'); left untouched, new copy goes to a sibling file.",
+      "sha256": "918d9cea12a8c34a18edd969c0a45f2b76507bf6c77206a5c929ba243f3d84a8"
+    },
+    {
+      "path": "apps/mobile/src/features/numerology/NumerologyScreen.tsx",
+      "reason": "Grid rendering ('String(digit).repeat(count)') and the on-device notices.",
+      "sha256": "ce865c2923be774f9425abf8598dfc836725ca12f804c54e70206500747539c1"
+    },
+    {
+      "path": "apps/mobile/src/features/numerology/NumerologyCompat.tsx",
+      "reason": "Hợp số layout and privacy box.",
+      "sha256": "73c3eb39a46e986f6181c2a7f8b48df192644ecdb75fe6c4cd57cacc034c6aaf"
+    },
+    {
+      "path": "apps/mobile/src/features/numerology/content.ts",
+      "reason": "Content accessors and banned-word text walk.",
+      "sha256": "4b3624cf9a5b2bae6d2fad3f7d7817377186aa654ef40911f191921d6d453007"
+    },
+    {
+      "path": "apps/mobile/src/features/numerology/__tests__/NumerologyScreen.test.tsx",
+      "reason": "Screen tests that reference the privacy box and grid labels.",
+      "sha256": "034434d86c0b1074c516cdfb959eb045865d2b76455323827e444943401fae78"
+    },
+    {
+      "path": "scripts/validate-data.mjs",
+      "reason": "Content validation to extend to the new file.",
+      "sha256": "e5c0d08622139c47abe69721a08ffa5920447871ffc09bdda645afae7807e217"
+    },
+    {
+      "path": "PLAN.md",
+      "reason": "Status update at the end.",
+      "sha256": "7db4d24201ca42f2e54977f053ea42e4231feae500a50d85040bf0dc3f08104f"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before code edits; verified vs not verified in handoff."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Reuses the existing screen palette and type scale; no new brand asset."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Pythagorean grid reading conventions already used in the approved store; no library or API change."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No access change.",
+    "sensitiveData": "No new data path; the other person's date and name stay in component state only, tests unchanged on that point.",
+    "secretsLogging": "No secret read, written or logged; .env not read.",
+    "externalInput": "No new input.",
+    "dependencies": "No package added or upgraded.",
+    "migrationRelease": "No SQL, no deploy, no store change.",
+    "stopCondition": "Stop if tsc or the mobile test suite fails and cannot be fixed inside the write scope.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record and preflight written on a clean worktree from origin/main before any edit (26/11/2026); the paths below are this task's own edits, reviewed by diff and covered by tsc, the mobile suite (1086/1086) and validate:data on 27/11/2026.",
+    "paths": [
+      "PLAN.md",
+      "apps/mobile/src/features/numerology/NumerologyCompat.tsx",
+      "apps/mobile/src/features/numerology/NumerologyScreen.tsx",
+      "apps/mobile/src/features/numerology/__tests__/NumerologyScreen.test.tsx",
+      "apps/mobile/src/features/numerology/__tests__/content.test.ts",
+      "apps/mobile/src/features/numerology/content.ts",
+      "packages/content/data/numerology-reading-extra.json",
+      "scripts/validate-data.mjs"
+    ]
+  },
+  "validationCommands": [
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "npm run validate:data"
+  ],
+  "managerTestPath": "Khám phá -> Bản đồ số -> ngày sinh có một chữ số lặp 3 lần (ví dụ 19/09/1999) -> ô số 9 hiện '9' với dấu '×3', không còn '999' -> chạm ô 9 và một ô trống để đọc -> Hợp số: nhập ngày sinh người ấy -> xem khung hai người và từng cặp số -> kiểm không còn dòng 'chỉ lưu trên máy này'.",
+  "residualRisk": "New copy is AI-drafted; the Owner read and approved it on 27/11/2026. Not tested on a phone (large text, TalkBack).",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
