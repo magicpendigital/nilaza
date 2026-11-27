@@ -140,11 +140,16 @@ export function StartupGate({
   const check = useCallback(() => {
     running.current ??= (async () => {
       try {
-        const service = featureAccess ?? sharedFeatureAccess(fetchBootstrap);
-        const [stored, result] = await Promise.all([
-          loadJson<unknown>(BOOTSTRAP_STORAGE_KEY, null).then(parseStoredBootstrap).catch(() => null),
-          fetchWithTimeout(fetchBootstrap, timeoutMs)
-        ]);
+        let stored: StoredBootstrap | null = null;
+        let result: BootstrapFetchResult = { ok: false };
+        try {
+          [stored, result] = await Promise.all([
+            loadJson<unknown>(BOOTSTRAP_STORAGE_KEY, null).then(parseStoredBootstrap).catch(() => null),
+            fetchWithTimeout(fetchBootstrap, timeoutMs)
+          ]);
+        } catch {
+          // Anything unexpected counts as a failed fetch: offline rules decide, never a stuck splash.
+        }
         const checkedAt = now();
         lastCheckAt.current = checkedAt;
         const decision = decideStartupState({
@@ -156,8 +161,13 @@ export function StartupGate({
           serverOffsetMs: stored?.serverOffsetMs
         });
         if (result.ok) {
-          await saveJson<StoredBootstrap>(BOOTSTRAP_STORAGE_KEY, storedFromSuccess(result.bootstrap, checkedAt));
-          await service.accept(result.bootstrap.featureAccess, checkedAt);
+          // Saving the answer must never decide what the user sees: each step may fail on its own.
+          try {
+            await saveJson<StoredBootstrap>(BOOTSTRAP_STORAGE_KEY, storedFromSuccess(result.bootstrap, checkedAt));
+          } catch { /* keep going */ }
+          try {
+            await (featureAccess ?? sharedFeatureAccess(fetchBootstrap)).accept(result.bootstrap.featureAccess, checkedAt);
+          } catch { /* keep going */ }
         }
         if (!alive.current) return;
         setView({ state: decision.state, deadline: decision.updateDeadline });

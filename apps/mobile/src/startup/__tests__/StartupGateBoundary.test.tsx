@@ -129,6 +129,20 @@ test("English copy", async () => {
   expect(screen.getByTestId("startup-gate-retry").props.accessibilityLabel).toBe(startupGateCopy.en.retry);
 });
 
+test("a failing storage write does not keep the splash: the app still opens", async () => {
+  jest.spyOn(AsyncStorage, "setItem").mockRejectedValueOnce(new Error("disk full"));
+  const { screen } = setup(jest.fn(async () => answer()));
+  await waitFor(() => expect(screen.getByText("APP CONTENT")).toBeTruthy());
+  expect(screen.queryByTestId("startup-gate-offline-banner")).toBeNull();
+});
+
+test("a failing feature-access cache does not keep the splash: the app still opens", async () => {
+  const { screen, featureAccess } = setup(jest.fn(async () => answer()));
+  jest.spyOn(featureAccess, "accept").mockRejectedValue(new Error("cache failed"));
+  await waitFor(() => expect(screen.getByText("APP CONTENT")).toBeTruthy());
+  expect(screen.queryByTestId("startup-gate-offline-banner")).toBeNull();
+});
+
 test("foreground recheck after more than 5 minutes keeps the app mounted", async () => {
   let clock = t0;
   const listeners: Array<(state: string) => void> = [];
