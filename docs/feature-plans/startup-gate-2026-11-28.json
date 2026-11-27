@@ -31,7 +31,9 @@
     "apps/admin/",
     "docs/NILAZA_ADMIN_AI_STUDIO_OWNER_GUIDE.md",
     "supabase/functions/admin-documentation/owner-guide.ts",
-    "docs/ADMIN_DATA_CONSOLE_ARCHITECTURE.md"
+    "docs/ADMIN_DATA_CONSOLE_ARCHITECTURE.md",
+    "scripts/admin-release-policy.test.mjs",
+    "scripts/admin-feature-access.test.mjs"
   ],
   "untouchedSurfaces": [
     "AI Edge Functions and their quotas: unchanged; they already refuse unauthenticated calls and fail offline.",
@@ -69,17 +71,17 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Startup order: PasswordRecoveryBoundary > EmailConfirmationBoundary > AccountBoundary; splash hide rules; guest preview and onboarding gates.",
-      "sha256": "c1029bd631572afced1f961e20af1e9baab21e60f0bc2c8e51ce8583ec1d917b"
+      "sha256": "bb5eda744f4b692b61dd0a2a755a1dce54001febcd872351b7b3c2b8a1d0ec3b"
     },
     {
       "path": "apps/mobile/src/backendClient.ts",
       "reason": "getPublishedFeatureAccess (anon + signed-in) and BackendUnavailableError offline/busy mapping reused by the bootstrap call.",
-      "sha256": "759f742c0751c7b8f2d9ef007d9374a50574c407bf88f51e7f3de2817f844489"
+      "sha256": "6fd5c5c21aa0bf2496e09f51a84fef4b0f7bca727ed31129cbbc7df857ee3389"
     },
     {
       "path": "apps/mobile/src/features/access/featureAccessService.ts",
       "reason": "Cache key nilaza.featureAccess.v1 and configureFeatureAccess (never called yet) that the bootstrap will feed.",
-      "sha256": "58421bd274adc6ebc25b145e9f1d82c88553d1e42a23d717855c65e4217f900d"
+      "sha256": "3000d0acf3b9b21480dbd5860b1a3d3ea82e8e223a4e53a31423e22e2e81a3d2"
     },
     {
       "path": "apps/mobile/src/runtimeConfig.ts",
@@ -106,7 +108,7 @@
   ],
   "dependencyReview": {
     "usesVolatileExternalKnowledge": false,
-    "evidence": "No new package: offline is detected from the failed bootstrap call (existing BackendUnavailableError mapping) and AppState; the version comes from expo-constants, already part of expo."
+    "evidence": "No new package: offline is detected from the failed or timed-out bootstrap call and AppState; the app version is read from apps/mobile/app.json expo.version (bundled at build time), because expo-constants is not a declared mobile dependency and no package may be added."
   },
   "externalSourceReview": [],
   "securityReview": {
@@ -121,7 +123,7 @@
   },
   "workingTreeReview": {
     "paths": [],
-    "note": "Record written 28/11/2026 on branch claude/startup-gate-plan cut from origin/main 78ce965 before any code edit. This first PR carries only the approved plan, the 27-28/11 rollout receipt and PLAN.md; code follows in a later PR under the same record."
+    "note": "Code on branch claude/startup-gate-impl cut from origin/claude/startup-gate-plan (28/11/2026). Commits: migration 20261128090000 + PGlite test; mobile StartupGate (apps/mobile/src/startup), getAppBootstrap, featureAccessService.accept, BookQuoteScreen Premium gate, App.tsx wrapper; Admin box 'Phiên bản app tối thiểu' (apps/admin/release-policy.js) mounted under Miễn phí / Premium, RPC allowlist, App.tsx digest re-pinned in workflow-catalog.js after checking the referenced face-reading card is unchanged; owner guide 4.4 + bundle regenerated; architecture doc entry. writeScope gained scripts/admin-release-policy.test.mjs (new Admin test in admin:test) and scripts/admin-feature-access.test.mjs (one wiring assertion: the Free / Premium module now mounts into its own box so the minimum-version box sits under it). sourceReview hashes refreshed for App.tsx, backendClient.ts and featureAccessService.ts (changed by this work); the other reviewed files are unchanged. Nothing applied to Supabase, nothing deployed, no package added. Not verified on a device: splash timing, Play listing intent, TalkBack reading, real offline/foreground transitions."
   },
   "validationCommands": [
     "node scripts/feature-preflight.mjs --ci --base origin/main",

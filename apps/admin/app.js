@@ -859,6 +859,7 @@ window.NilazaClearSensitiveAdminState = () => {
   window.NilazaContextConfig?.clear();
   window.NilazaPersonaModelTiers?.clear();
   window.NilazaFeatureAccess?.clear();
+  window.NilazaReleasePolicy?.clear();
   window.NilazaFeedbackInbox?.clear();
   window.NilazaFeatureSwitches?.clear();
   clearDraftsOnScopeChange();
@@ -1244,6 +1245,7 @@ function renderDetailPanel() {
   if (state.detail !== "contextConfig") window.NilazaContextConfig?.clear();
   if (state.detail !== "personaModelTiers") window.NilazaPersonaModelTiers?.clear();
   if (state.detail !== "featureAccess") window.NilazaFeatureAccess?.clear();
+  if (state.detail !== "featureAccess") window.NilazaReleasePolicy?.clear();
   if (!["versions", "prompt", "personaStudio"].includes(state.detail)) window.NilazaPromptVersions?.clear();
   if (state.detail !== "test") window.NilazaAiEvals?.clear();
   document.querySelectorAll("[data-panel]").forEach(button => button.classList.toggle("active", button.dataset.panel === (state.detail === "aiFeatures" || state.detail === "featureAccess" ? "features" : state.detail === "test" || state.detail === "versions" || state.detail === "audit" || state.detail === "feedback" || state.detail === "switches" ? state.detail : "workflow")));
@@ -1287,9 +1289,19 @@ function renderDetailPanel() {
   }
 
   // 27/11: Free / Premium switch and limits per on-device feature (apps/admin/feature-access.js, migration 20261127090000).
+  // 28/11: the Owner-set minimum app version sits under it (apps/admin/release-policy.js, migration 20261128090000).
   if (state.detail === "featureAccess") {
-    if (window.NilazaFeatureAccess) window.NilazaFeatureAccess.mount(detailPanel);
-    else detailPanel.innerHTML = renderNotAppliedNote("Miễn phí / Premium", "Không tải được mô-đun Miễn phí / Premium. Tải lại trang.");
+    let accessRoot = detailPanel.querySelector(":scope > #feature-access-root");
+    let releaseRoot = detailPanel.querySelector(":scope > #release-policy-root");
+    if (!accessRoot || !releaseRoot) {
+      detailPanel.innerHTML = '<div id="feature-access-root"></div><div id="release-policy-root"></div>';
+      accessRoot = detailPanel.querySelector("#feature-access-root");
+      releaseRoot = detailPanel.querySelector("#release-policy-root");
+    }
+    if (window.NilazaFeatureAccess) window.NilazaFeatureAccess.mount(accessRoot);
+    else accessRoot.innerHTML = renderNotAppliedNote("Miễn phí / Premium", "Không tải được mô-đun Miễn phí / Premium. Tải lại trang.");
+    if (window.NilazaReleasePolicy) window.NilazaReleasePolicy.mount(releaseRoot);
+    else releaseRoot.innerHTML = renderNotAppliedNote("Phiên bản app tối thiểu", "Không tải được mô-đun Phiên bản app tối thiểu. Tải lại trang.");
     return;
   }
 
