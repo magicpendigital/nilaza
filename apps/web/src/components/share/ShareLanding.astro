@@ -1,0 +1,281 @@
+---
+// One frame for every page a share link opens: what the friend shared, something the visitor can try right here,
+// then one call to action and the trust strip. Value comes first. Everything the visitor does stays in the browser.
+import WaitlistForm from "../WaitlistForm.astro";
+import ShareCta from "./ShareCta.astro";
+import ShareTrust from "./ShareTrust.astro";
+import { shareCtaOf } from "../../lib/shareCta";
+import { sharePhaseNames, zodiac, type ShareVariant } from "../../lib/shareLanding";
+import type { Locale } from "../../lib/site";
+import cards from "../../../../../packages/content/data/tarot-cards.json";
+import numerology from "../../../../../packages/content/data/numerology-blocks.json";
+import sky from "../../../../../packages/content/data/astrology-daily-sky.json";
+
+type Text = { vi: string; en: string };
+const { locale, variant } = Astro.props as { locale: Locale; variant: ShareVariant | "auto" };
+const vi = locale === "vi";
+const pick = (text: Text) => text[locale];
+const wants = (...names: ShareVariant[]) => variant === "auto" || names.includes(variant);
+const show = (...names: ShareVariant[]) => variant !== "auto" && names.includes(variant);
+
+// Only public library text for the visitor's locale is published: card names, three keywords and the card's question;
+// the approved life-path blocks; the sky line for each Moon sign. Nothing comes from the link except enumerated ids.
+const tarot = wants("card", "reading")
+  ? Object.fromEntries((cards as { id: string; name: Text; keywords: { vi: string[]; en: string[] }; reflectionQuestion: Text }[]).map((card) => [card.id, { name: pick(card.name), keywords: card.keywords[locale].slice(0, 3), question: pick(card.reflectionQuestion) }]))
+  : null;
+const numbers = wants("numbers")
+  ? {
+      title: pick(numerology.kinds.lifePath.title),
+      frame: pick(numerology.kinds.lifePath.frame),
+      blocks: Object.fromEntries(Object.entries(numerology.numbers as Record<string, { title: Text; leans: Text; question: Text }>).map(([key, block]) => [key, { title: pick(block.title), leans: pick(block.leans), question: pick(block.question) }])),
+      masters: Object.fromEntries(Object.entries(numerology.masters as Record<string, Text>).map(([key, note]) => [key, pick(note)]))
+    }
+  : null;
+const skyText = wants("sky")
+  ? {
+      signs: Object.fromEntries(zodiac.map((sign) => [sign.id, sign[locale]])),
+      phases: Object.fromEntries(Object.entries(sharePhaseNames).map(([id, name]) => [id, name[locale]])),
+      moon: Object.fromEntries(Object.entries(sky.moonSign as Record<string, { tone: Record<string, Text>; body: Text }>).map(([sign, entry]) => [sign, { tone: Object.fromEntries(Object.entries(entry.tone).map(([decan, text]) => [decan, pick(text)])), body: pick(entry.body) }]))
+    }
+  : null;
+const data = JSON.stringify({ locale, variant, tarot, numbers, sky: skyText }).replace(/</g, "\\u003c");
+const cta = shareCtaOf(locale);
+const heading = {
+  card: vi ? "Một lá bài để chậm lại một nhịp." : "One card to slow down for a moment.",
+  reading: vi ? "Một trải bài để ngồi nghĩ cùng nhau." : "A spread to think about together.",
+  numbers: vi ? "Con số chủ đạo của bạn là gì?" : "What is your life path number?",
+  sky: vi ? "Bầu trời của một ngày." : "The sky of one day."
+};
+---
+<section class="share-hero" data-share-root data-variant={variant}><div class="shell share-frame">
+  <p class="eyebrow">{vi ? "Từ một người bạn trên Nilaza" : "From a friend on Nilaza"}</p>
+
+  {wants("card", "reading") && (
+    <div class="panel" data-panel="tarot" hidden={!show("card", "reading")}>
+      <h1 class="display" data-tarot-heading data-card={heading.card} data-reading={heading.reading}>{variant === "reading" ? heading.reading : heading.card}</h1>
+      <div class="friend-cards" data-friend-cards hidden></div>
+      <p class="friend-question" data-friend-question hidden></p>
+      <p class="lead" data-tarot-lead>{vi ? "Tarot ở Nilaza là một cách nhìn bằng biểu tượng: mỗi lá gợi một câu hỏi để bạn tự soi chiếu, không là lời dự đoán." : "Tarot on Nilaza is a symbolic way of looking: each card opens a question to reflect on, not a prediction."}</p>
+      <div class="try">
+        <p class="eyebrow">{vi ? "Đến lượt bạn" : "Your turn"}</p>
+        <button class="button" type="button" data-draw>{vi ? "Rút lá của bạn" : "Draw your card"}</button>
+        <p class="note">{vi ? "Lá được rút ngẫu nhiên ngay trên trình duyệt này. Không có gì được gửi đi." : "The card is drawn at random in this browser. Nothing is sent."}</p>
+        <div class="drawn" data-drawn hidden aria-live="polite"></div>
+      </div>
+    </div>
+  )}
+
+  {wants("numbers") && numbers && (
+    <div class="panel" data-panel="numbers" hidden={!show("numbers")}>
+      <h1 class="display">{heading.numbers}</h1>
+      <p class="lead">{vi ? "Một người bạn vừa xem bản đồ số của họ trên Nilaza. Nhập ngày sinh để xem con số chủ đạo của bạn và một gợi ý để tự soi." : "A friend just looked at their number map on Nilaza. Enter a birth date to see your life path number and one thing to reflect on."}</p>
+      <form class="date-form" data-numbers-form novalidate>
+        <label><span>{vi ? "Ngày sinh của bạn" : "Your birth date"}</span><input type="date" name="birth" required min="1900-01-01" autocomplete="off" /></label>
+        <button class="button" type="submit">{vi ? "Xem con số của bạn" : "See your number"}</button>
+      </form>
+      <p class="privacy">{vi ? "Ngày sinh chỉ được tính ngay trên trình duyệt này. Nilaza không gửi đi, không lưu và không đưa ngày bạn nhập vào địa chỉ trang." : "Your birth date is calculated only in this browser. Nilaza does not send it, store it or put it in the page address."}</p>
+      <p class="try-status" role="status" aria-live="polite" data-numbers-status></p>
+      <div class="result" data-numbers-result hidden>
+        <p class="eyebrow">{numbers.title}</p>
+        <p class="big-number" data-number-label></p>
+        <h2 class="result-title" data-number-title></h2>
+        <p data-number-leans></p>
+        <p class="note" data-number-master hidden></p>
+        <p class="question" data-number-question></p>
+        <p class="note">{numbers.frame}</p>
+      </div>
+    </div>
+  )}
+
+  {wants("sky") && (
+    <div class="panel" data-panel="sky" hidden={!show("sky")}>
+      <h1 class="display" data-sky-heading>{heading.sky}</h1>
+      <p class="sky-meta" data-sky-meta hidden></p>
+      <p class="sky-line" data-sky-line hidden></p>
+      <p class="lead" data-sky-body>{vi ? "Một người bạn vừa chia sẻ bầu trời hôm nay từ Nilaza. Mỗi ngày, Nilaza đọc vị trí của Mặt Trăng để gợi một nhịp cho ngày của bạn." : "A friend just shared today's sky from Nilaza. Each day, Nilaza reads where the Moon is to suggest a pace for your day."}</p>
+      <p class="note">{vi ? "Trong ứng dụng, bầu trời mỗi ngày còn được đọc theo bản đồ sao của riêng bạn, tính ngay trên điện thoại." : "In the app, the daily sky is also read against your own chart, calculated on your phone."}</p>
+    </div>
+  )}
+
+  <ShareCta {locale} variant={variant === "auto" ? "share" : variant} />
+  <ShareTrust {locale} />
+</div></section>
+{cta.kind === "waitlist" && (
+  <section class="section" id="join"><div class="shell join">
+    <div><p class="eyebrow">{vi ? "Bản Android" : "Android app"}</p><h2 class="section-title">{vi ? "Đăng ký thử bản Android." : "Sign up to try the Android app."}</h2><p class="note">{cta.benefit}</p></div>
+    <WaitlistForm {locale} />
+  </div></section>
+)}
+<script is:inline type="application/json" id="share-landing-data" set:html={data}></script>
+<script>
+  import { trackPublicEvent } from "../../lib/analytics";
+  import { isShareVariant, parseCardIds, parseSharedSky, randomIndex, readShareArrival, variantFromSearch, type ShareVariant } from "../../lib/shareLanding";
+  import { lifePathNumber, parseBirthDate } from "../../../../mobile/src/features/numerology/calc";
+
+  type Card = { name: string; keywords: string[]; question: string };
+  type Data = {
+    locale: "vi" | "en";
+    variant: ShareVariant | "auto";
+    tarot: Record<string, Card> | null;
+    numbers: { blocks: Record<string, { title: string; leans: string; question: string }>; masters: Record<string, string> } | null;
+    sky: { signs: Record<string, string>; phases: Record<string, string>; moon: Record<string, { tone: Record<string, string>; body: string }> } | null;
+  };
+  const raw = document.getElementById("share-landing-data")?.textContent;
+  const data = raw ? (JSON.parse(raw) as Data) : null;
+  const root = document.querySelector<HTMLElement>("[data-share-root]");
+  if (data && root) {
+    const lang = data.locale;
+    const vi = lang === "vi";
+    const variant: ShareVariant = isShareVariant(data.variant) ? data.variant : variantFromSearch(location.search);
+    const panelName = variant === "card" || variant === "reading" ? "tarot" : variant;
+    for (const panel of root.querySelectorAll<HTMLElement>("[data-panel]")) panel.hidden = panel.dataset.panel !== panelName;
+    const ctaButton = root.querySelector<HTMLElement>(".share-cta-button");
+    if (ctaButton) ctaButton.dataset.analyticsTarget = variant;
+    const tried = () => trackPublicEvent("share_landing_try", { locale: lang, source: "share", variant });
+
+    const arrival = readShareArrival(location.search);
+    if (arrival.fromShare) trackPublicEvent("share_link_opened", { locale: lang, source: "share", surface: arrival.surface, medium: arrival.medium, variant });
+
+    // Every element below is built with textContent and fixed attributes: nothing from the address becomes markup.
+    const cardFigure = (id: string, card: Card, size: "small" | "large") => {
+      const figure = document.createElement("figure");
+      figure.className = `card-figure ${size}`;
+      const image = document.createElement("img");
+      image.src = `/share/cards/${id}.webp`;
+      image.alt = card.name;
+      image.width = 300;
+      image.height = 518;
+      image.decoding = "async";
+      const caption = document.createElement("figcaption");
+      caption.textContent = card.name;
+      figure.append(image, caption);
+      return figure;
+    };
+    const keywordList = (words: string[]) => {
+      const list = document.createElement("ul");
+      list.className = "keywords";
+      for (const word of words) { const item = document.createElement("li"); item.textContent = word; list.append(item); }
+      return list;
+    };
+
+    if (panelName === "tarot" && data.tarot) {
+      const tarot = data.tarot;
+      const heading = root.querySelector<HTMLElement>("[data-tarot-heading]");
+      if (heading) heading.textContent = (variant === "reading" ? heading.dataset.reading : heading.dataset.card) ?? heading.textContent;
+      const ids = parseCardIds(new URLSearchParams(location.search).get("c"), new Set(Object.keys(tarot)));
+      const friend = root.querySelector<HTMLElement>("[data-friend-cards]");
+      const friendQuestion = root.querySelector<HTMLElement>("[data-friend-question]");
+      if (ids.length && friend && heading) {
+        heading.textContent = ids.length === 1 ? (vi ? "Bạn của bạn vừa rút lá này." : "Your friend just drew this card.") : vi ? "Bạn của bạn vừa trải những lá này." : "Your friend just laid out these cards.";
+        friend.dataset.count = String(ids.length);
+        friend.replaceChildren(...ids.map((id) => {
+          const wrap = document.createElement("div");
+          wrap.className = "friend-card";
+          wrap.append(cardFigure(id, tarot[id], ids.length === 1 ? "large" : "small"), keywordList(tarot[id].keywords));
+          return wrap;
+        }));
+        friend.hidden = false;
+        if (friendQuestion) {
+          friendQuestion.textContent = `${vi ? "Câu hỏi của lá" : "The card's question"}: ${tarot[ids[0]].question}`;
+          friendQuestion.hidden = false;
+        }
+      }
+      const drawButton = root.querySelector<HTMLButtonElement>("[data-draw]");
+      const drawn = root.querySelector<HTMLElement>("[data-drawn]");
+      const allIds = Object.keys(tarot);
+      drawButton?.addEventListener("click", () => {
+        if (!drawn) return;
+        const pool = allIds.filter((id) => !ids.includes(id));
+        const id = pool[randomIndex(pool.length)];
+        const card = tarot[id];
+        const question = document.createElement("p");
+        question.className = "question";
+        question.textContent = card.question;
+        drawn.replaceChildren(cardFigure(id, card, "large"), keywordList(card.keywords), question);
+        drawn.hidden = false;
+        drawButton.textContent = vi ? "Rút lá khác" : "Draw another";
+        tried();
+      });
+    }
+
+    if (panelName === "numbers" && data.numbers) {
+      const numbers = data.numbers;
+      const form = root.querySelector<HTMLFormElement>("[data-numbers-form]");
+      const status = root.querySelector<HTMLElement>("[data-numbers-status]");
+      const result = root.querySelector<HTMLElement>("[data-numbers-result]");
+      form?.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (!status || !result) return;
+        const input = form.querySelector<HTMLInputElement>("input[name=birth]");
+        const birth = parseBirthDate(input?.value ?? "");
+        if (!birth || birth.year < 1900 || birth.year > new Date().getFullYear()) {
+          result.hidden = true;
+          status.textContent = vi ? "Hãy nhập một ngày sinh hợp lệ." : "Please enter a valid birth date.";
+          return;
+        }
+        status.textContent = "";
+        const life = lifePathNumber(birth);
+        const block = numbers.blocks[String(life.root)];
+        const set = (selector: string, text: string) => { const element = root.querySelector<HTMLElement>(selector); if (element) element.textContent = text; };
+        set("[data-number-label]", life.label);
+        set("[data-number-title]", block.title);
+        set("[data-number-leans]", block.leans);
+        set("[data-number-question]", block.question);
+        const master = root.querySelector<HTMLElement>("[data-number-master]");
+        if (master) { master.textContent = life.master ? numbers.masters[String(life.value)] ?? "" : ""; master.hidden = !master.textContent; }
+        result.hidden = false;
+        // The variant only: never the date or the number.
+        tried();
+      });
+    }
+
+    if (panelName === "sky" && data.sky) {
+      const shared = parseSharedSky(location.search);
+      if (shared) {
+        const entry = data.sky.moon[shared.moonSign];
+        const sign = data.sky.signs[shared.moonSign];
+        const pad = (value: number) => String(value).padStart(2, "0");
+        const date = `${pad(shared.date.day)}/${pad(shared.date.month)}/${shared.date.year}`;
+        const set = (selector: string, text: string) => { const element = root.querySelector<HTMLElement>(selector); if (element) { element.textContent = text; element.hidden = false; } };
+        set("[data-sky-heading]", vi ? `Trăng ở ${sign}` : `Moon in ${sign}`);
+        set("[data-sky-meta]", `${data.sky.phases[shared.phase]} · ${date}`);
+        set("[data-sky-line]", entry.tone[shared.decan]);
+        set("[data-sky-body]", entry.body);
+      }
+    }
+  }
+</script>
+<style>
+.share-hero{padding:72px 0 64px;background:radial-gradient(circle at 25% 12%,rgba(14,90,90,.45),transparent 34%)}
+.share-frame{max-width:760px}
+.share-hero h1{font-size:clamp(2.4rem,9vw,4.8rem);margin:14px 0 18px}
+.lead{max-width:620px;color:var(--moon);margin:0 0 22px}
+.note{max-width:62ch;color:var(--moon);font-size:.88rem;margin:8px 0 0}
+.friend-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:0 0 18px;max-width:640px}
+.friend-cards[data-count="1"]{grid-template-columns:minmax(0,220px)}
+.friend-cards[data-count="3"],.friend-cards[data-count="4"]{grid-template-columns:repeat(2,minmax(0,1fr))}
+.friend-question,.question{font:500 clamp(1.3rem,4.5vw,1.8rem)/1.25 var(--display);color:var(--gold);margin:0 0 18px;max-width:30ch}
+.try{margin:26px 0 0;padding:22px 0 0;border-top:1px solid var(--line)}
+.try .button{min-width:220px}
+.drawn{display:grid;grid-template-columns:minmax(0,180px);gap:12px;margin-top:20px}
+:global(.card-figure){margin:0}
+:global(.card-figure img){width:100%;height:auto;border-radius:10px;border:1px solid rgba(201,164,92,.4);background:#0f0e0d}
+:global(.card-figure figcaption){margin-top:8px;font:500 1.15rem/1.25 var(--display);color:var(--ivory)}
+:global(.keywords){display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0;padding:0;list-style:none}
+:global(.keywords li){border:1px solid var(--line);border-radius:99px;padding:.1rem .55rem;font-size:.78rem;color:var(--moon)}
+.date-form{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;max-width:620px}
+.date-form label{display:grid;gap:7px;flex:1 1 220px}
+.date-form label span{font-size:.85rem;color:var(--moon)}
+.date-form input{width:100%;min-height:48px;border:1px solid var(--line);border-radius:var(--radius);background:#0f0e0d;color:var(--ivory);padding:12px 14px;font-size:16px;color-scheme:dark}
+.date-form input:focus{border-color:var(--gold);outline:none}
+.privacy{max-width:620px;margin:14px 0 0;font-size:.85rem;color:var(--moon)}
+.try-status{min-height:1.5em;margin:8px 0 0;color:var(--gold);font-size:.9rem}
+.result{margin-top:26px;max-width:680px;border-top:1px solid var(--line);padding-top:22px}
+.big-number{font:500 clamp(3.4rem,14vw,5.4rem)/1 var(--display);color:var(--gold);margin:4px 0 6px}
+.result-title{font:500 clamp(1.7rem,5vw,2.4rem)/1.15 var(--display);margin:0 0 12px}
+.sky-meta{color:var(--moon);margin:0 0 12px;font-size:.92rem}
+.sky-line{font:500 clamp(1.5rem,5vw,2.2rem)/1.2 var(--display);color:var(--gold);margin:0 0 16px;max-width:28ch}
+.join{display:grid;grid-template-columns:1fr 1fr;gap:80px}
+@media(max-width:800px){.join{grid-template-columns:1fr;gap:32px}.share-hero{padding:56px 0 48px}.try .button{width:100%}}
+@media(min-width:801px){.friend-cards[data-count="3"]{grid-template-columns:repeat(3,minmax(0,1fr))}.friend-cards[data-count="4"]{grid-template-columns:repeat(4,minmax(0,1fr))}}
+</style>

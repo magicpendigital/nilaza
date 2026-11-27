@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { elementPairKey, isZodiacId, parseCardIds, readShareArrival, sunSignFromDateInput, sunSignOf, zodiac } from "../apps/web/src/lib/shareLanding.ts";
+import fs from "node:fs";
+import { elementPairKey, isShareVariant, isZodiacId, parseCardIds, parseSharedSky, randomIndex, readShareArrival, shareMeta, sharePhaseNames, shareSurfaces, shareVariants, sunSignFromDateInput, sunSignOf, variantFromSearch, zodiac } from "../apps/web/src/lib/shareLanding.ts";
+import { shareCtaOf } from "../apps/web/src/lib/shareCta.ts";
 
 test("finds the Sun sign on both sides of every boundary", () => {
   const cases = [
@@ -46,11 +48,11 @@ test("the pair keys match the published Owner-approved content", async () => {
   for (const a of zodiac) for (const b of zodiac) assert.ok(keys.has(elementPairKey(a.id, b.id)), `${a.id}-${b.id}`);
 });
 
-test("accepts only well formed, published card ids and at most three", () => {
+test("accepts only well formed, published card ids and at most four (the largest spread)", () => {
   const known = new Set(["major-00-fool", "major-17-the-star", "cups-02", "swords-03", "wands-01"]);
   assert.deepEqual(parseCardIds("major-00-fool,major-17-the-star", known), ["major-00-fool", "major-17-the-star"]);
   assert.deepEqual(parseCardIds("major-00-fool,<script>,unknown-card,major-00-fool", known), ["major-00-fool"]);
-  assert.deepEqual(parseCardIds("major-00-fool,major-17-the-star,cups-02,swords-03", known), ["major-00-fool", "major-17-the-star", "cups-02"]);
+  assert.deepEqual(parseCardIds("major-00-fool,major-17-the-star,cups-02,swords-03,wands-01", known), ["major-00-fool", "major-17-the-star", "cups-02", "swords-03"]);
   assert.deepEqual(parseCardIds(null, known), []);
   assert.deepEqual(parseCardIds("", known), []);
 });
@@ -60,6 +62,104 @@ test("reads a share arrival only from enumerated utm values", () => {
   assert.deepEqual(readShareArrival("?utm_source=share&utm_medium=<b>&utm_campaign=free text"), { fromShare: true, surface: null, medium: null });
   assert.deepEqual(readShareArrival("?utm_source=newsletter&utm_medium=card&utm_campaign=today_card"), { fromShare: false, surface: null, medium: null });
   assert.deepEqual(readShareArrival(""), { fromShare: false, surface: null, medium: null });
+  assert.deepEqual(readShareArrival("?utm_source=share&utm_medium=card&utm_campaign=numerology_map"), { fromShare: true, surface: "numerology_map", medium: "card" });
+  assert.deepEqual(readShareArrival("?utm_source=share&utm_medium=card&utm_campaign=daily_sky"), { fromShare: true, surface: "daily_sky", medium: "card" });
+});
+
+test("the website, the app and the share-events server list the same surfaces", () => {
+  const listIn = (file) => {
+    const match = /SHARE_SURFACES = (\[[^\]]+\])/.exec(fs.readFileSync(file, "utf8"));
+    assert.ok(match, file);
+    return JSON.parse(match[1]);
+  };
+  assert.deepEqual([...shareSurfaces], listIn("apps/mobile/src/features/share/shareEvents.ts"));
+  assert.deepEqual([...shareSurfaces], listIn("supabase/functions/share-events/handler.ts"));
+});
+
+test("the old /share address picks the variant from utm_campaign and falls back to the card", () => {
+  assert.equal(variantFromSearch("?utm_campaign=numerology_map"), "numbers");
+  assert.equal(variantFromSearch("?utm_campaign=daily_sky"), "sky");
+  assert.equal(variantFromSearch("?utm_campaign=tarot_reading"), "reading");
+  assert.equal(variantFromSearch("?utm_campaign=today_card"), "card");
+  assert.equal(variantFromSearch("?utm_campaign=<script>"), "card");
+  assert.equal(variantFromSearch(""), "card");
+  assert.ok(isShareVariant("sky"));
+  assert.ok(!isShareVariant("compare"));
+});
+
+test("the app's share paths open the website pages that exist", () => {
+  const app = fs.readFileSync("apps/mobile/src/features/share/shareLink.ts", "utf8");
+  for (const variant of shareVariants) assert.match(app, new RegExp(`"share/${variant}"`));
+});
+
+test("reads the public sky of a day only when all four values are valid", () => {
+  assert.deepEqual(parseSharedSky("?m=taurus&k=mid&p=full&d=2026-11-24"), { moonSign: "taurus", decan: "mid", phase: "full", date: { year: 2026, month: 11, day: 24 } });
+  for (const search of [
+    "?m=dragon&k=mid&p=full&d=2026-11-24",
+    "?m=taurus&k=middle&p=full&d=2026-11-24",
+    "?m=taurus&k=mid&p=blood&d=2026-11-24",
+    "?m=taurus&k=mid&p=full&d=2026-02-30",
+    "?m=taurus&k=mid&p=full&d=24/11/2026",
+    "?m=taurus&k=mid&p=full",
+    ""
+  ]) assert.equal(parseSharedSky(search), null, search);
+});
+
+test("the website phase names match the app", () => {
+  const app = fs.readFileSync("apps/mobile/src/features/home/moonPhase.ts", "utf8");
+  for (const [id, name] of Object.entries(sharePhaseNames)) {
+    assert.ok(app.includes(`${id}: { vi: "${name.vi}", en: "${name.en}"`), id);
+  }
+});
+
+test("every phase and decan in the sky content has text on the website", async () => {
+  const { default: sky } = await import("../packages/content/data/astrology-daily-sky.json", { with: { type: "json" } });
+  for (const sign of zodiac) for (const decan of ["early", "mid", "late"]) assert.ok(sky.moonSign[sign.id].tone[decan].vi && sky.moonSign[sign.id].tone[decan].en, `${sign.id} ${decan}`);
+});
+
+test("the visitor's own draw picks inside the deck", () => {
+  assert.equal(randomIndex(78, () => 0), 0);
+  assert.equal(randomIndex(78, () => 0.999999), 77);
+  for (let i = 0; i < 200; i += 1) { const index = randomIndex(78); assert.ok(index >= 0 && index < 78); }
+});
+
+test("every card has a small web image under 30 KB", async () => {
+  const { default: cards } = await import("../packages/content/data/tarot-cards.json", { with: { type: "json" } });
+  for (const card of cards) {
+    const file = `apps/web/public/share/cards/${card.id}.webp`;
+    assert.ok(fs.existsSync(file), file);
+    assert.ok(fs.statSync(file).size < 30 * 1024, file);
+  }
+});
+
+test("the call to action is the waitlist until a valid Play address is set", () => {
+  const waitlist = shareCtaOf("vi", "");
+  assert.equal(waitlist.kind, "waitlist");
+  assert.equal(waitlist.href, "#join");
+  assert.equal(waitlist.label, "Đăng ký thử bản Android");
+  assert.equal(shareCtaOf("vi", "https://evil.example/play.google.com").kind, "waitlist");
+  const play = shareCtaOf("en", "https://play.google.com/store/apps/details?id=com.example.app");
+  assert.equal(play.kind, "play");
+  assert.equal(play.href, "https://play.google.com/store/apps/details?id=com.example.app");
+});
+
+test("share page copy stays non-predictive and has a preview for each variant", () => {
+  const texts = [];
+  for (const locale of ["vi", "en"]) {
+    for (const variant of [...shareVariants, "auto"]) {
+      const meta = shareMeta(locale, variant);
+      assert.ok(meta.title.length > 10 && meta.title.length <= 70, `${locale} ${variant} title`);
+      assert.ok(meta.description.length > 40 && meta.description.length <= 200, `${locale} ${variant} description`);
+      texts.push(meta.title, meta.description);
+    }
+    const cta = shareCtaOf(locale, "");
+    texts.push(cta.label, cta.benefit, cta.privacy);
+  }
+  const page = fs.readFileSync("apps/web/src/components/share/ShareLanding.astro", "utf8") + fs.readFileSync("apps/web/src/components/share/ShareTrust.astro", "utf8");
+  texts.push(page);
+  for (const text of texts) {
+    assert.doesNotMatch(text, /(?<!\p{L})(sẽ|phải|chắc chắn)(?!\p{L})|\bwill (definitely|surely)\b|guarantee/iu);
+  }
 });
 
 test("public analytics accepts the two share events and drops free text and unknown properties", async () => {
@@ -73,5 +173,9 @@ test("public analytics accepts the two share events and drops free text and unkn
   trackPublicEvent("signup_from_share", { locale: "en", source: "share", surface: "astro_invite", medium: "invite" });
   assert.deepEqual(seen[0], { eventName: "share_link_opened", properties: { locale: "vi", source: "share", surface: "tarot_reading", medium: "card" } });
   assert.deepEqual(seen[1], { eventName: "signup_from_share", properties: { locale: "en", source: "share", surface: "astro_invite", medium: "invite" } });
+  assert.ok(isPublicAnalyticsEvent("share_landing_try"));
+  // Even if a caller passed the date or the number, only the allowed keys leave the page.
+  trackPublicEvent("share_landing_try", { locale: "vi", source: "share", variant: "numbers", birth: "1990-01-01", number: 7, card: "major-00-fool" });
+  assert.deepEqual(seen[2], { eventName: "share_landing_try", properties: { locale: "vi", source: "share", variant: "numbers" } });
   delete globalThis.window;
 });
