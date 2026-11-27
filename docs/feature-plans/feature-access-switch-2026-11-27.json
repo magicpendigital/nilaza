@@ -29,13 +29,14 @@
     "apps/mobile/src/backendClient.ts",
     "docs/NILAZA_ADMIN_AI_STUDIO_OWNER_GUIDE.md",
     "docs/ADMIN_DATA_CONSOLE_ARCHITECTURE.md",
-    "supabase/functions/admin-documentation/owner-guide.ts"
+    "supabase/functions/admin-documentation/owner-guide.ts",
+    "PLAN.md"
   ],
   "untouchedSurfaces": [
     "apps/mobile/App.tsx and every existing screen: nothing is wired, so the app behaves exactly as today; the five new features are built on other branches and will call useFeatureAccess later.",
     "Existing AI quotas (account-tier-policy.json, ai_feature_configs, claimDailyAttempt) and the emergency switches (ai_feature_switches) are not changed; the new tab shows existing AI features read-only and never re-enables a switched-off feature.",
     "No Edge Function code changes and no deploy: Admin reaches the new tables through SQL RPCs like feature switches and persona model tiers; admin-documentation only needs a redeploy for the Owner guide text to show.",
-    "PLAN.md is not edited in this branch (launching agent rule); no migration is applied, no SQL runs remotely, no cloud setting changes, no secrets read.",
+    "PLAN.md updated in this PR at merge time; no migration is applied, no SQL runs remotely, no cloud setting changes, no secrets read.",
     "Content Operations and AI Studio workspaces stay separate; the tab is additive inside AI Studio."
   ],
   "impact": {
