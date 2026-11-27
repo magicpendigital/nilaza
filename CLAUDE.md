@@ -1,7 +1,7 @@
 # Nilaza — hướng dẫn cho Agent (Claude Code)
 
 **Bắt đầu ở đây:** `git fetch` và làm trên `origin/main` mới nhất → [`PLAN.md`](PLAN.md) (đang ở đâu, còn gì, chờ ai) → chỉ khi cần: [`docs/HANDOFF_CURRENT_STATE.vi.md`](docs/HANDOFF_CURRENT_STATE.vi.md) (quyết định, bẫy môi trường, việc cấm tự làm), `AGENTS.md`, `docs/AGENT_TASK_ROUTER.md`, `docs/PLAN_QC_PROTOCOL.md`. Không quét toàn repo khi chưa cần.
-- **Skills:** dùng `nilaza-plan-qc` cho mọi việc không tầm thường, thêm `nilaza-ai-runtime` cho tính năng AI; bộ Tarot/brand khi đúng việc (xem `docs/SKILLS_REVIEW_2026-11-04.vi.md`). Sửa skill thì sửa ở `skills/`, cập nhật `skills/manifest.json`, chạy `npm run skills:validate` rồi `npm run skills:sync`.
+- **Skills:** dùng `nilaza-plan-qc` cho mọi việc không tầm thường, thêm `nilaza-ai-runtime` cho tính năng AI; `nilaza-content-review` (nhiều agent chuyên trách) trước khi đưa nội dung phản chiếu mới vào app; bộ Tarot/brand khi đúng việc (xem `docs/SKILLS_REVIEW_2026-11-04.vi.md`). Sửa skill thì sửa ở `skills/`, cập nhật `skills/manifest.json`, chạy `npm run skills:validate` rồi `npm run skills:sync`.
 - **Cuối mỗi PR/phiên: cập nhật `PLAN.md`** (và `docs/backlog/review-2026-10-30.json` nếu đóng một mục rà soát) trong cùng PR.
 
 - Owner không chuyên kỹ thuật và dùng **tiếng Việt**: trả lời bằng tiếng Việt, ngôn ngữ sản phẩm, nêu rõ cái gì *đã kiểm chứng* và cái gì *chưa*.

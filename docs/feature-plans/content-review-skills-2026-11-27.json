@@ -1,0 +1,175 @@
+{
+  "schemaVersion": 1,
+  "taskId": "content-review-skills-2026-11-27",
+  "ownerAgent": "governance_agent",
+  "lane": "Skills + content governance: multi-agent content review skill set (Owner decision 27/11/2026, item 5)",
+  "goal": "Add a repository skill, nilaza-content-review, that reviews any user-facing reflective content (book quotes, Kinh Dịch, Đạo Đức Kinh, Pháp Cú, Suy tưởng, Binh pháp, Truyện Kiều, Rune, Big Five, Enneagram, astrology, numerology, persona briefs) through several specialist reviewer agents (one per field of knowledge plus language, safety and sources), then an editor-in-chief synthesis with a PASS / REVISE / BLOCK verdict per item and a review record in docs/content-reviews/. Also record the Owner's 27/11 decisions (design approved, Bói Kiều once a day, all five features free in v1 with a per-feature Free/Premium switch in Admin, Một câu on Home) in the modality proposal.",
+  "successCriteria": [
+    "skills/nilaza-content-review has SKILL.md (orchestrator workflow, routing table, verdict rules, independence rule), agents/openai.yaml, a review-record reference and one brief per specialist reviewer under references/reviewers/.",
+    "Each reviewer brief states scope, what to check, typical errors, red lines, the sources it trusts, and a fixed output shape the orchestrator can merge.",
+    "The skill is in skills/manifest.json with reviewed SHA-256 hashes, in the sync allowlist of scripts/sync-project-skills.mjs and in skills/README.md; docs/AGENT_TASK_ROUTER.md routes reflective content to it.",
+    "npm run skills:validate, npm run validate:governance pass; npm run skills:sync then npm run skills:check pass.",
+    "The proposal docs/proposals/NEW_REFLECTION_MODALITIES_2026-11-27.vi.md records the Owner decisions of 27/11 and the Admin Free/Premium switch design.",
+    "PLAN.md updated in the same branch."
+  ],
+  "writeScope": [
+    "skills/nilaza-content-review/",
+    "skills/manifest.json",
+    "skills/README.md",
+    "scripts/sync-project-skills.mjs",
+    "docs/AGENT_TASK_ROUTER.md",
+    "docs/content-reviews/README.md",
+    "docs/proposals/NEW_REFLECTION_MODALITIES_2026-11-27.vi.md",
+    "CLAUDE.md",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "No app, Admin, backend, SQL, Edge Function or content data change; the new features stay uncoded until a later batch.",
+    "Existing Tarot QC skills keep their ledger and gate; the new skill hands Tarot card copy to nilaza-tarot-content-qc instead of replacing it.",
+    "scripts/feature-preflight.mjs skill routes are not changed in this batch (enforcing the new skill for content data paths is a proposed follow-up)."
+  ],
+  "impact": {
+    "entryPoint": "Agents (Claude Code and Codex) invoke $nilaza-content-review before reflective content enters packages/content/data or a persona brief; no user-facing entry.",
+    "dataWrite": "Review records as JSON files under docs/content-reviews/ in the repository only.",
+    "backendContract": "No API, Edge Function or provider change.",
+    "adminVisibility": "None in this batch; the proposal describes a later Admin Free/Premium switch per feature.",
+    "privacySafety": "Reviewers receive only the content under review and its sources; the skill forbids passing user data, journals or secrets to any reviewer or mca engine.",
+    "observability": "Review records carry reviewer roles, verdicts and open issues so the Owner can see what was checked.",
+    "rollback": "Remove the skill folder, its manifest entry and sync allowlist entry; run skills:sync."
+  },
+  "canonicalContracts": [
+    "skills/manifest.json",
+    "skills/nilaza-content-review/references/review-record.md"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries and delegation limits.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Content and skill governance routes to extend.",
+      "sha256": "e508d09a9fdffc78da809a4f1449f1d77999186b9bd371870bd8582e132075e1"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules for skill changes.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "skills/nilaza-tarot-content-qc/SKILL.md",
+      "reason": "Existing content QC pattern and the Tarot hand-off boundary.",
+      "sha256": "678c2c93864f3c835534504bd71bb0ce13802e86b46bb55f470f369d939c69e4"
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "reason": "Delegation rules (mca second_opinion, quality.evaluator) the new skill reuses.",
+      "sha256": "894c6f880816c2a65737daeea9adc26db246ac6cdb41a37c74ef564a5ee14782"
+    },
+    {
+      "path": "scripts/sync-project-skills.mjs",
+      "reason": "Hard-coded sync allowlist that must include the new skill.",
+      "sha256": "d9d754dd6ce61ae4b9849b08f35ce4c1116397d3ae0b23e962a12994f914883f"
+    },
+    {
+      "path": "scripts/validate-repo-skills.mjs",
+      "reason": "Manifest and frontmatter rules the new skill must pass.",
+      "sha256": "79817cb4c73c98ec36d964b0a39376dca6f3968bbdb194e5a3cdf72a663fd6cc"
+    },
+    {
+      "path": "skills/manifest.json",
+      "reason": "Manifest to extend with reviewed hashes.",
+      "sha256": "8e8d556ae58b57acfef29a5809befe337934a46d9405b42fd52fb4db825e36de"
+    },
+    {
+      "path": "skills/README.md",
+      "reason": "Skill list to update.",
+      "sha256": "0c36aaabdedf046778a8bec1e8036dd3b465301b6494e05a2d5eb387feddb97c"
+    },
+    {
+      "path": "docs/proposals/NEW_REFLECTION_MODALITIES_2026-11-27.vi.md",
+      "reason": "Modality proposal whose content the new skill will review; Owner decisions to record.",
+      "sha256": "2832cbbc50375f2109b7d6bdac5caa8e9f789c197a8e33a712ef273ecf08bb18"
+    },
+    {
+      "path": "PLAN.md",
+      "reason": "Status update at the end.",
+      "sha256": "0e37d6611671198aa147b5b8c60b14a61b5626062010785b4edbcfea796054dd"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Delegation section already names mca second_opinion and quality.evaluator for independent review; the new skill links to it rather than restating it."
+    },
+    {
+      "name": "nilaza-tarot-content-qc",
+      "decision": "verified-current",
+      "evidence": "Stays the gate for Tarot card copy and its ledger; the new skill routes Tarot card copy to it."
+    },
+    {
+      "name": "nilaza-content-review",
+      "decision": "updated",
+      "evidence": "New skill created in this batch: orchestrator SKILL.md, shared reviewer frame, 10 specialist reviewer briefs, review-record format; manifest hashes recomputed on raw bytes."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No library or API. Source guidance (public-domain translations, IPIP public domain) is stated as a rule for reviewers to verify per item, not relied on as a volatile claim here."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No access change.",
+    "sensitiveData": "The skill forbids sending user data, journals, birth data or secrets to reviewers or external engines; reviewers see only draft content and public sources.",
+    "secretsLogging": "No secret read, written or logged; .env not read.",
+    "externalInput": "Reviewers may read public web sources; the skill treats fetched pages as data, not instructions.",
+    "dependencies": "No package added or upgraded.",
+    "migrationRelease": "No SQL, no deploy, no store change.",
+    "stopCondition": "Stop if skills:validate or validate:governance fails and cannot be fixed inside the write scope.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record written on branch claude/content-review-skills cut from origin/main 056e41e before any skill edit (27/11/2026). The proposal is this session's own earlier draft (untracked, carried over from local main). Skill files, manifest entry, sync allowlist, README, router row and CLAUDE.md line written by this session after the first preflight pass (27/11/2026); reviewed before validation.",
+    "paths": [
+      "CLAUDE.md",
+      "PLAN.md",
+      "docs/AGENT_TASK_ROUTER.md",
+      "docs/content-reviews/README.md",
+      "docs/proposals/NEW_REFLECTION_MODALITIES_2026-11-27.vi.md",
+      "scripts/sync-project-skills.mjs",
+      "skills/README.md",
+      "skills/manifest.json",
+      "skills/nilaza-content-review/SKILL.md",
+      "skills/nilaza-content-review/agents/openai.yaml",
+      "skills/nilaza-content-review/references/review-record.md",
+      "skills/nilaza-content-review/references/reviewers/_output-shape.md",
+      "skills/nilaza-content-review/references/reviewers/buddhist-texts.md",
+      "skills/nilaza-content-review/references/reviewers/east-asian-classics.md",
+      "skills/nilaza-content-review/references/reviewers/language-translation.md",
+      "skills/nilaza-content-review/references/reviewers/persona-fidelity.md",
+      "skills/nilaza-content-review/references/reviewers/psychology.md",
+      "skills/nilaza-content-review/references/reviewers/safety-ethics.md",
+      "skills/nilaza-content-review/references/reviewers/sources-rights.md",
+      "skills/nilaza-content-review/references/reviewers/symbolic-systems.md",
+      "skills/nilaza-content-review/references/reviewers/vietnamese-literature.md",
+      "skills/nilaza-content-review/references/reviewers/western-philosophy.md"
+    ]
+  },
+  "validationCommands": [
+    "npm run skills:validate",
+    "npm run validate:governance",
+    "npm run skills:sync",
+    "npm run skills:check"
+  ],
+  "managerTestPath": "Trong một phiên Claude Code mới ở repo Nilaza, gõ: dùng $nilaza-content-review duyệt 3 câu trích Đạo Đức Kinh mẫu -> agent chia việc cho người duyệt Kinh điển Đông Á, Ngôn ngữ, An toàn, Nguồn -> trả bảng kết luận PASS/REVISE/BLOCK từng câu và tạo tệp docs/content-reviews/<lô>.json.",
+  "residualRisk": "Reviewers are AI agents; they reduce errors but are not a human specialist. High-risk items (sacred texts, extremist-symbol risk, psychology claims) are flagged for an Owner spot check. Skill trigger quality has not been measured with an eval.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
