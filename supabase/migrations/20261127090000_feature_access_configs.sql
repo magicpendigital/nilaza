@@ -4,8 +4,8 @@
 -- ai_persona_model_tiers (20261125100000), sees a change log and can roll back to the previous version in one step.
 -- Code defaults and bounds: packages/agent-config/feature-access.json. nilaza_private.feature_access_spec() mirrors them
 -- and scripts/admin-feature-access.test.mjs keeps the JSON, this SQL, the Admin copy and the app copy equal.
--- Signed-in accounts read only the active row through get_feature_access_config() (authenticated only: Owner decision
--- 27/11/2026, guests are not served and keep the app's built-in defaults; no user data in it). The app caches it and refreshes about every 5 minutes; no row, no function, offline or a malformed copy keeps the built-in
+-- The app reads only the active row through get_feature_access_config() (anon + authenticated, no user data in it),
+-- caches it and refreshes about every 5 minutes; no row, no function, offline or a malformed copy keeps the built-in
 -- defaults, so this migration changes nothing in the app until a version is published.
 -- Rules kept by the app, not by this table: switching a feature to Premium never deletes or hides what a user already
 -- saved; Premium accounts keep access; a feature turned off elsewhere (ai_feature_switches or a release flag) is never
@@ -302,8 +302,7 @@ end;
 $$;
 
 -- The published config for the app: {version, publishedAt, config} of the active row, or null when nothing is published.
--- Signed-in accounts only (Owner decision 27/11/2026): guests (anon) cannot call it and keep the app's built-in defaults.
--- The app validates it again and keeps its defaults otherwise.
+-- It holds no user data, so guests (anon) may read it too; the app validates it again and keeps its defaults otherwise.
 create function public.get_feature_access_config() returns jsonb
 language sql stable security definer set search_path = '' as $$
   select (select jsonb_build_object('version', t.version, 'publishedAt', t.published_at, 'config', t.config)
@@ -314,7 +313,7 @@ comment on function public.save_feature_access_draft(jsonb,text) is 'Saves the s
 comment on function public.publish_feature_access_config(integer,integer,text) is 'Publishes the feature access draft and archives the previous active version. ai.manage only; reason 10-500 characters; refused (40001) when the active version is not the expected one. Audited as feature_access.publish.';
 comment on function public.rollback_feature_access_config(integer,text) is 'Restores the previously active feature access config as a new active version. ai.manage only; reason 10-500 characters. Audited as feature_access.rollback.';
 comment on function public.get_feature_access_audience() is 'Counts all accounts and accounts with a paid Premium entitlement, for the Admin preview. ai.read only; counts, no personal data.';
-comment on function public.get_feature_access_config() is 'Active feature access config for signed-in app users (authenticated only); null when nothing is published.';
+comment on function public.get_feature_access_config() is 'Active feature access config for the app (anon and authenticated); null when nothing is published.';
 
 revoke all on function nilaza_private.feature_access_spec(), nilaza_private.feature_access_limit_errors(text,text,jsonb),
   nilaza_private.feature_access_errors(jsonb), nilaza_private.feature_access_json(public.feature_access_configs)
@@ -325,4 +324,4 @@ revoke all on function public.get_feature_access_configs(), public.save_feature_
 grant execute on function public.get_feature_access_configs(), public.save_feature_access_draft(jsonb,text),
   public.publish_feature_access_config(integer,integer,text), public.rollback_feature_access_config(integer,text),
   public.get_feature_access_audience() to authenticated;
-grant execute on function public.get_feature_access_config() to authenticated;
+grant execute on function public.get_feature_access_config() to anon, authenticated;

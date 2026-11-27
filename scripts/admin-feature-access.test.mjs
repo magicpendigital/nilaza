@@ -155,7 +155,7 @@ test("feature access: editor switches Rune to Premium, previews as a free user a
   assert.match($(h, '[data-fa-preview="rune_draw"]').textContent, /Mở: 1 lần mỗi ngày.*Khóa: thấy nhãn Premium/);
   assert.ok($(h, '[data-fa-preview="rune_draw"]').classList.contains("changed"));
   assert.match(preview.textContent, /120 tài khoản: 7 có Premium đã mua, 113 không có Premium đã mua/);
-  assert.match(preview.textContent, /khách chưa đăng nhập luôn dùng mặc định có sẵn, nên đặt Premium hiện chưa đổi gì cho người dùng/);
+  assert.match(preview.textContent, /chỉ đổi những gì khách chưa đăng nhập thấy/);
   assert.match(preview.textContent, /không bị xóa hay khóa/);
   click(h, "[data-fa-save]");
   await drain(h.dom);
