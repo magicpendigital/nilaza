@@ -1,6 +1,7 @@
 import { journalStateKey, readJournalState } from "../journal/journalRepository";
 import { journalDraftStorageKey, readJournalDraft } from "../journal/journalDraftStore";
 import { feedbackStorageKey, readFeedbackQueue } from "../feedback/feedbackQueue";
+import { bookQuoteSavedStorageKey } from "../bookQuote/savedQuotes";
 
 const sources = {
   profile: "nilaza.profile", birthProfile: "nilaza.birthProfile", journal: journalStateKey,
@@ -10,7 +11,8 @@ const sources = {
   astrology: "nilaza.astrology.v2", councilSessions: "nilaza.aiCouncilSessions.v2",
   savedArtifacts: "nilaza.generatedArtifacts", favorites: "nilaza.favoritePersonaIds",
   memoryConsent: "nilaza.oracleMemoryConsent", notificationPreferences: "nilaza.notificationPreferences",
-  learnedTarotCards: "nilaza.learnedTarotCards.v1", dailyReminder: "nilaza.dailyReminder.v1"
+  learnedTarotCards: "nilaza.learnedTarotCards.v1", dailyReminder: "nilaza.dailyReminder.v1",
+  bookQuotesSaved: bookQuoteSavedStorageKey
 } as const;
 const secretKey = /authorization|password|secret|token|api.?key|service.?role|credential|device.?push|grant/i;
 function exportValue(value: unknown, depth = 0): unknown {

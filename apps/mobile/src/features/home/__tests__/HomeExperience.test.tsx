@@ -114,3 +114,27 @@ it("shows one next step card that runs its action (analysis HO-05)", () => {
   screen.rerender(<HomeExperience {...baseProps} revealed />);
   expect(screen.queryByText("Bước tiếp theo")).toBeNull();
 });
+
+it("shows today's book quote card after the two tiles and the whole card opens it", () => {
+  const onPress = jest.fn();
+  const screen = render(<HomeExperience {...baseProps} bookQuote={{ book: "Suy tưởng", quote: "Bạn có quyền với tâm mình.", onPress }} />);
+  expect(screen.getByText("MỘT CÂU CHO HÔM NAY")).toBeTruthy();
+  expect(screen.getByText("Suy tưởng")).toBeTruthy();
+  expect(screen.getByText("“Bạn có quyền với tâm mình.”")).toBeTruthy();
+  expect(screen.getByText("Đọc lời bình và câu hỏi →")).toBeTruthy();
+  fireEvent.press(screen.getByLabelText("Một câu cho hôm nay. Suy tưởng. Bạn có quyền với tâm mình. Đọc lời bình và câu hỏi"));
+  expect(onPress).toHaveBeenCalledTimes(1);
+  expect(render(<HomeExperience {...baseProps} />).queryByTestId("home-book-quote")).toBeNull();
+});
+
+it("every Home card has a target and a visible action label", () => {
+  const onAstrology = jest.fn(), onWritePrompt = jest.fn();
+  const screen = render(<HomeExperience {...baseProps} onAstrology={onAstrology} onWritePrompt={onWritePrompt} primaryGoal="love" />);
+  fireEvent.press(screen.getByLabelText("Bầu trời của bạn. Thêm ngày sinh để nhận lời nhắn theo cung mỗi ngày. Xem bầu trời của bạn"));
+  expect(onAstrology).toHaveBeenCalledTimes(1);
+  expect(screen.getByText("Trải bài →")).toBeTruthy();
+  expect(screen.getByText("Hỏi Nilaza →")).toBeTruthy();
+  expect(screen.getByText("Viết →")).toBeTruthy();
+  fireEvent.press(screen.getByLabelText("Viết về một mối quan hệ. Viết vào nhật ký"));
+  expect(onWritePrompt).toHaveBeenCalledWith("Viết về một mối quan hệ");
+});
