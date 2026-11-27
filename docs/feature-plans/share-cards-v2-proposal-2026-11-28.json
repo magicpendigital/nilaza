@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "taskId": "share-cards-v2-proposal-2026-11-28",
+  "ownerAgent": "product_agent",
+  "lane": "Docs only: share cards v2 proposal (per-feature skins, 4:5 + 9:16, QR, invite lines) with mockups on a private design canvas; Owner approved merging the document 28/11/2026",
+  "goal": "Record the share cards v2 proposal in the repository and note it in PLAN.md so later sessions can pick up S0-S3 without redoing the analysis.",
+  "successCriteria": [
+    "docs/proposals/SHARE_CARDS_V2_2026-11-28.vi.md exists with current state, per-feature skins, formats, low-budget viral ideas, guardrails, S0-S3 roadmap, Owner decisions and unverified points.",
+    "PLAN.md header names the proposal, says no code was changed and lists the open Owner decisions."
+  ],
+  "writeScope": [
+    "docs/proposals/SHARE_CARDS_V2_2026-11-28.vi.md",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "No app, web, Admin, backend, SQL, Edge Function, secret or settings change.",
+    "Share card code in apps/mobile/src/features/share is only read, not changed."
+  ],
+  "impact": {
+    "entryPoint": "None for users; documentation only.",
+    "dataWrite": "Repository files only; no user data.",
+    "backendContract": "Unchanged; no Edge Function, table or API touched.",
+    "adminVisibility": "Push to main triggers the usual Admin staging deploy with no Admin change.",
+    "privacySafety": "Proposal keeps names, birth dates, questions and journal text off every card and forbids predictions or scores.",
+    "observability": "None added; the proposal suggests share funnel metrics for a later batch.",
+    "rollback": "Revert the commit."
+  },
+  "canonicalContracts": [
+    "apps/mobile/src/features/share/shareCardContent.ts"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Routes docs and brand work.",
+      "sha256": "e508d09a9fdffc78da809a4f1449f1d77999186b9bd371870bd8582e132075e1"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "reason": "Colours, fonts, corner radius and contrast used in the mockups.",
+      "sha256": "bce12144fa7d6074c3213c977b0bc0187e2c9fa2d43453fab81f1145fa0129de"
+    },
+    {
+      "path": "docs/proposals/SHARE_LANDING_REVIEW_2026-11-24.vi.md",
+      "reason": "Landing page review the proposal builds on.",
+      "sha256": "8e80f9a667e3eb9c843be66474bd31935af8f65a5bdd792114289b3faa90e7b3"
+    },
+    {
+      "path": "apps/mobile/src/features/share/shareCardContent.ts",
+      "reason": "Current share card builders and privacy rules.",
+      "sha256": "decddff315a613218c4b97c3631fa2d76047cf0d84d27974292162327a6049a2"
+    },
+    {
+      "path": "skills/nilaza-plan-qc/SKILL.md",
+      "reason": "Process skill followed.",
+      "sha256": "894c6f880816c2a65737daeea9adc26db246ac6cdb41a37c74ef564a5ee14782"
+    },
+    {
+      "path": "skills/nilaza-brand-experience/SKILL.md",
+      "reason": "Brand rules for mockups; mockups are not app screenshots.",
+      "sha256": "1e2acdfac537225ed366a78e6c28b6764a5fe2ac1a1434e583ba21349dee1928"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Docs-only record with scope, impact and validation."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Mockups use brand colours and fonts and are labelled as mockups, not app screenshots."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No library or API. Channel behaviour (story safe zones, image compression) is marked unverified in the proposal."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No access change.",
+    "sensitiveData": "No user data.",
+    "secretsLogging": "No secret read or written; .env not read.",
+    "externalInput": "No external input is read or processed.",
+    "dependencies": "No package added.",
+    "migrationRelease": "No SQL, deploy or release.",
+    "stopCondition": "Stop if a check fails for a reason outside the write scope.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Branch claude/share-cards-v2-proposal cut from origin/main fb847f6; only the write scope changed.",
+    "paths": []
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/share-cards-v2-proposal-2026-11-28.json"
+  ],
+  "managerTestPath": "Mở docs/proposals/SHARE_CARDS_V2_2026-11-28.vi.md và dòng 28/11 đầu PLAN.md; xem 6 mẫu trên canvas riêng tư của Owner.",
+  "residualRisk": "Channel and audience assumptions have no share data yet; mockups are not exported from the app.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
