@@ -1,0 +1,133 @@
+{
+  "schemaVersion": 1,
+  "taskId": "book-quotes-content-b-2026-11-27",
+  "ownerAgent": "content_agent",
+  "lane": "Content: v1 data for the daily 'Một câu cho hôm nay' feature, books Suy tưởng, Kinh Pháp Cú and Binh pháp Tôn Tử (Owner approved the plan 27/11/2026)",
+  "goal": "Write three bilingual data files (Meditations 59 items after round-1 review dropped st-05-28, Dhammapada 60, Art of War 60): a short quote translated by Nilaza into Vietnamese from the public-domain English (Long 1862, Müller 1881, Giles 1910) with a check against the original wording, a 2-3 sentence gloss and one open question per item, with a draft review block, so the app agent can load them and nilaza-content-review can review them. Round-1 content review fixes were applied on 27/11/2026.",
+  "successCriteria": [
+    "packages/content/data/book-quotes/suy-tuong.json (59 items), kinh-phap-cu.json (60) and binh-phap-ton-tu.json (60) exist with unique ids in the agreed format and the agreed schema.",
+    "Every quote is a real line at the stated reference in the public-domain text (Long 1862, Max Müller 1881, Lionel Giles 1910); the Vietnamese is Nilaza's own translation from that English base and no modern copyrighted translation is copied; the source label says so and does not claim a direct translation from the original language.",
+    "Gloss and question contain none of the banned prediction or verdict words, vi and en say the same thing, quote.vi is 220 characters or fewer.",
+    "Lines that are risky (killing, deception of close people, spies, burning, shaming verses, death standing alone) are skipped and listed in the handoff.",
+    "A throwaway check confirms counts, unique ids, non-empty fields and banned words; nothing else in the repository changes."
+  ],
+  "writeScope": [
+    "packages/content/data/book-quotes/suy-tuong.json",
+    "packages/content/data/book-quotes/kinh-phap-cu.json",
+    "packages/content/data/book-quotes/binh-phap-ton-tu.json",
+    "docs/content-reviews/book-quotes-b2-2026-11-27.json"
+  ],
+  "untouchedSurfaces": [
+    "No app, Admin, backend, SQL, Edge Function, validator or loader change; another agent builds those against the same schema.",
+    "PLAN.md, skills, knowledge briefs and personas-books.json are not edited.",
+    "No push, PR, merge or deploy from this task."
+  ],
+  "impact": {
+    "entryPoint": "Data files only; the 'Một câu cho hôm nay' feature built by the app agent reads them, there is no user-facing entry in this task.",
+    "dataWrite": "Three JSON files under packages/content/data/book-quotes/ in the repository; no database write.",
+    "backendContract": "No API, Edge Function or provider change; the files follow the agreed schemaVersion 1 shape.",
+    "adminVisibility": "None in this task; review.status stays draft until nilaza-content-review and the Owner read the items.",
+    "privacySafety": "Public-domain texts and Nilaza-written commentary only; no user data. Gloss and question avoid prediction and verdict words and advice on money, health or law; risky lines are skipped.",
+    "observability": "Each file carries a review block (draft, no reviewer) so the later review record can track status per file.",
+    "rollback": "Delete the three data files or revert the commit; nothing else depends on them until the app branch merges."
+  },
+  "canonicalContracts": [
+    "packages/content/data/personas-books.json",
+    "docs/proposals/NEW_REFLECTION_MODALITIES_2026-11-27.vi.md"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries and delegation limits.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Content routes and skill governance.",
+      "sha256": "e508d09a9fdffc78da809a4f1449f1d77999186b9bd371870bd8582e132075e1"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules for non-trivial changes.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/NEW_REFLECTION_MODALITIES_2026-11-27.vi.md",
+      "reason": "Sections 0 and 2 define the feature, the schema fields, safety filters and banned words.",
+      "sha256": "2832cbbc50375f2109b7d6bdac5caa8e9f789c197a8e33a712ef273ecf08bb18"
+    },
+    {
+      "path": "packages/content/data/personas-books.json",
+      "reason": "Source of the personaId for each book (book-stoic-journal, book-dhammapada, book-strategic-thinker).",
+      "sha256": "cbe90366e58bb7eccc40a7ea37bfd6202044dda2e73447a89b6217169f3f88d8"
+    },
+    {
+      "path": "packages/content/data/knowledge-briefs/suy-tuong.vi.md",
+      "reason": "Voice, boundaries and the list of misattributed Marcus quotes to avoid.",
+      "sha256": "4ab5054be58d6c3beaffaf0503cfca9c490f5032e5e3be8d32f5c43f6dbe7472"
+    },
+    {
+      "path": "packages/content/data/knowledge-briefs/kinh-phap-cu.vi.md",
+      "reason": "Voice, boundaries (karma never as blame) and the list of misattributed Buddha quotes to avoid.",
+      "sha256": "ec1fa00690ebded8a5d8fe29791d4d9def466a9a6d89d364f9bc6d6227dc0dcf"
+    },
+    {
+      "path": "packages/content/data/knowledge-briefs/binh-phap-ton-tu.vi.md",
+      "reason": "Voice, boundaries (no manipulation of others) and the list of misattributed Sun Tzu quotes to avoid.",
+      "sha256": "4c153002e7d720c9aeaa2e28de5fa6aa032505daed2a951e2535d6dda16db469"
+    },
+    {
+      "path": "skills/nilaza-content-review/SKILL.md",
+      "reason": "Review gate these drafts go through next; its reviewer rules shape the content rules.",
+      "sha256": "e792475bc5856501f8a386f414a6616660d6f915e9ba8f59c05ffdfa4f231e86"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Plan, impact map and validation steps follow the skill; no delegation to external engines is used in this task."
+    },
+    {
+      "name": "nilaza-content-review",
+      "decision": "verified-current",
+      "evidence": "Skill (PR 77) is the next gate; this task only produces drafts with review.status draft and does not change the skill."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No library or API. The source texts (George Long 1862, F. Max Müller 1881, Lionel Giles 1910 and the Greek, Pāli and Chinese originals) are public-domain and stable; they are read as data to verify wording and reference numbers."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No access change.",
+    "sensitiveData": "Only public-domain text and original commentary; no user data, journals or secrets.",
+    "secretsLogging": "No secret read or written; .env not read.",
+    "externalInput": "Public source pages are read as data only and never treated as instructions; nothing fetched is executed.",
+    "dependencies": "No package added or upgraded.",
+    "migrationRelease": "No SQL, no deploy, no store change.",
+    "stopCondition": "Stop and report if a line cannot be verified at its reference; skip it rather than guess.",
+    "unresolvedHighRisks": []
+  },
+  "validationCommands": [
+    "node throwaway check (not committed): counts, unique ids, non-empty vi/en, quote.vi length, banned words in gloss and question",
+    "npm run feature:preflight -- --record docs/feature-plans/book-quotes-content-b-2026-11-27.json"
+  ],
+  "managerTestPath": "Mở từng tệp trong packages/content/data/book-quotes/, chọn ngẫu nhiên 5 câu mỗi sách, tra số quyển/kệ/chương trên Gutenberg hoặc SuttaCentral và so với trường quote.en; đọc lời bình và câu hỏi xem có giọng soi chiếu, không phán, không khuyên.",
+  "residualRisk": "Translation and glosses are AI-drafted and unreviewed by a human specialist; review.status is draft. Section numbering differs between editions of Meditations; some items may need a spot check against the Greek. Run nilaza-content-review before the Owner reads.",
+  "workingTreeReview": {
+    "paths": [
+      "packages/content/data/book-quotes/binh-phap-ton-tu.json",
+      "packages/content/data/book-quotes/kinh-phap-cu.json",
+      "packages/content/data/book-quotes/suy-tuong.json"
+    ],
+    "note": "The three data files are the deliverable of this task (59, 60 and 60 items, draft review status) and carry the round-1 content review fixes; they were written by this agent and nothing else in the working tree was touched."
+  },
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

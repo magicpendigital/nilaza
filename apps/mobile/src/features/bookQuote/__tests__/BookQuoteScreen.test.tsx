@@ -4,6 +4,25 @@ import { BookQuoteScreen } from "../BookQuoteScreen";
 import { bookQuoteTitle, pickBookQuote } from "../content";
 import { bookQuoteSavedStorageKey } from "../savedQuotes";
 
+const bookQuoteDataDir = "../../../../../../packages/content/data/book-quotes";
+const bookQuoteDataFiles = ["dao-duc-kinh", "suy-tuong", "kinh-phap-cu", "binh-phap-ton-tu", "kinh-dich"];
+// Re-requires the module with every content file forced to draft, except the ones listed as approved.
+function withBookQuoteStatuses<T>(approved: string[], load: () => T): T {
+  let result: T | undefined;
+  jest.isolateModules(() => {
+    for (const book of bookQuoteDataFiles) {
+      jest.doMock(`${bookQuoteDataDir}/${book}.json`, () => {
+        const actual = jest.requireActual(`${bookQuoteDataDir}/${book}.json`);
+        return approved.includes(book)
+          ? { ...actual, review: { status: "approved", reviewer: "QA fixture", reviewedAt: "2026-11-27" } }
+          : { ...actual, review: { status: "draft", reviewer: null, reviewedAt: null } };
+      });
+    }
+    result = load();
+  });
+  return result as T;
+}
+
 const memoryStorage = (initial: Record<string, unknown> = {}) => {
   const data: Record<string, unknown> = { ...initial };
   return {
@@ -18,8 +37,7 @@ const names: Record<string, string> = { "book-stoic-journal": "Nhật ký khắc
 const baseProps = {
   language: "vi" as const, dateKey, personaName: (id: string) => names[id] ?? "người dẫn",
   onAskPersona: jest.fn(), onWriteJournal: jest.fn(), onEvent: jest.fn(), onBack: jest.fn(),
-  // The sample files are drafts and the gate is closed in the app; these tests open it to exercise the screen.
-  showDrafts: true
+  showDrafts: false
 };
 
 beforeEach(() => jest.clearAllMocks());
@@ -34,7 +52,7 @@ test("shows today's quote for the chosen book with commentary, question, actions
   expect(screen.getByText(expected.item.gloss.vi)).toBeTruthy();
   expect(screen.getByText("CÂU HỎI CHO BẠN")).toBeTruthy();
   expect(screen.getByText(expected.item.question.vi)).toBeTruthy();
-  expect(screen.getByText("Nilaza dịch từ nguyên văn")).toBeTruthy();
+  expect(screen.getByText(expected.file.source.vietnamese)).toBeTruthy();
   expect(screen.getByText("Mỗi sách một câu mỗi ngày; mở lại trong ngày vẫn là câu này.")).toBeTruthy();
   expect(screen.getByText("CÁC SÁCH KHÁC HÔM NAY")).toBeTruthy();
   // No draft badge is shown to users.
@@ -102,10 +120,17 @@ test("English labels", () => {
   expect(screen.getByText("COMMENTARY")).toBeTruthy();
   expect(screen.getByText("A QUESTION FOR YOU")).toBeTruthy();
   expect(screen.getByText("Ask Kinh Pháp Cú more")).toBeTruthy();
+  expect(screen.getByText("English: F. Max Müller 1881 (public domain)")).toBeTruthy();
 });
 
 test("with the gate closed and only draft files, a calm empty state shows and Back still works", () => {
-  const screen = render(<BookQuoteScreen {...baseProps} showDrafts={false} initialBook="suy-tuong" />);
+  // Share the test's React and React Native with the re-required screen, so hooks run in one renderer.
+  const Gated = withBookQuoteStatuses([], () => {
+    jest.doMock("react", () => React);
+    jest.doMock("react-native", () => jest.requireActual("react-native"));
+    return (require("../BookQuoteScreen") as typeof import("../BookQuoteScreen")).BookQuoteScreen;
+  });
+  const screen = render(<Gated {...baseProps} initialBook="suy-tuong" />);
   expect(screen.getByText("Nội dung đang được hoàn thiện.")).toBeTruthy();
   expect(screen.queryByTestId("book-quote-text")).toBeNull();
   expect(screen.queryAllByRole("tab")).toHaveLength(0);
@@ -113,6 +138,6 @@ test("with the gate closed and only draft files, a calm empty state shows and Ba
   expect(baseProps.onEvent).not.toHaveBeenCalled();
   fireEvent.press(screen.getByLabelText("Quay lại"));
   expect(baseProps.onBack).toHaveBeenCalledTimes(1);
-  const english = render(<BookQuoteScreen {...baseProps} language="en" showDrafts={false} />);
+  const english = render(<Gated {...baseProps} language="en" />);
   expect(english.getByText("This content is being finished.")).toBeTruthy();
 });

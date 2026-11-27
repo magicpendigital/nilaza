@@ -2,66 +2,1381 @@
   "schemaVersion": 1,
   "book": "suy-tuong",
   "personaId": "book-stoic-journal",
-  "title": { "vi": "Suy tưởng", "en": "Meditations" },
-  "source": {
-    "original": "Τὰ εἰς ἑαυτόν (Marcus Aurelius, Greek)",
-    "englishBase": "George Long 1862 (public domain)",
-    "vietnamese": "Nilaza dịch từ nguyên văn"
+  "title": {
+    "vi": "Suy tưởng",
+    "en": "Meditations"
   },
-  "review": { "status": "draft", "reviewer": null, "reviewedAt": null },
-  "sample": true,
-  "sampleNote": "SAMPLE ONLY (27/11/2026): 3 placeholder items so the app can be built; the content branch replaces this file with the reviewed set. st-04-03 uses the proposal's sample wording; its English line is a widely quoted paraphrase of Book 4, not George Long's wording, and needs source review.",
+  "source": {
+    "original": "Marcus Aurelius, Τὰ εἰς ἑαυτόν (Hy Lạp cổ)",
+    "englishBase": "George Long 1862 (public domain)",
+    "vietnamese": "Nilaza dịch sang tiếng Việt từ bản tiếng Anh của Long 1862, có đối chiếu nguyên văn"
+  },
+  "review": {
+    "status": "approved",
+    "reviewer": "Owner (after nilaza-content-review panel)",
+    "reviewedAt": "2026-11-27"
+  },
   "items": [
     {
-      "id": "st-04-03",
-      "ref": { "vi": "Quyển 4 · đoạn 3", "en": "Book 4 · 3" },
+      "id": "st-01-07",
+      "ref": {
+        "vi": "Quyển 1 · đoạn 7",
+        "en": "Book 1 · 7"
+      },
       "quote": {
-        "vi": "Bạn có quyền với tâm mình, không có quyền với các biến cố. Nhận ra điều đó, bạn sẽ thấy sức mạnh.",
-        "en": "You have power over your mind, not over outside events. Realise this, and you will find strength."
+        "vi": "Từ Rusticus, tôi học cách dễ nguôi giận và làm lành với người đã xúc phạm hay làm điều sai với mình, ngay khi họ tỏ ra sẵn lòng hòa giải.",
+        "en": "and with respect to those who have offended me by words, or done me wrong, to be easily disposed to be pacified and reconciled, as soon as they have shown a readiness to be reconciled"
       },
       "gloss": {
-        "vi": "Marcus viết câu này cho chính ông, giữa những ngày chiến dịch. Ý của ông không là buông xuôi, mà là dồn sức vào chỗ mình thật sự chạm tới.",
-        "en": "Marcus wrote this to himself in the middle of a military campaign. It is not about giving up; it is about putting your effort where you can actually reach."
+        "vi": "Marcus ghi lại điều ông học từ thầy Rusticus: giữ một cánh cửa mở cho việc làm lành, và cánh cửa ấy mở khi bên kia cũng sẵn lòng. Đây là chuyện nguôi giận ở bên trong mình, không có nghĩa là bỏ qua điều đã xảy ra hay ở lại nơi mình bị tổn thương. Nó là cách giữ cho lòng nhẹ hơn khi có người thật sự muốn sửa.",
+        "en": "Marcus records what he learned from his teacher Rusticus: keep a door open for making peace, and let it open when the other side is willing too. This is about easing resentment inside yourself, not about ignoring what happened or staying where you are hurt. It is a way of keeping the heart lighter once someone sincerely wants to repair things."
       },
       "question": {
-        "vi": "Hôm nay, việc nào trong tầm tay bạn đang bị bỏ quên vì bạn mải lo việc ngoài tầm tay?",
-        "en": "Today, which thing within your reach is being neglected while you worry about things beyond it?"
+        "vi": "Nếu có một mối quan hệ nơi cơn giận vẫn còn, bạn thấy cơn giận ấy đang bảo vệ điều gì cho bạn?",
+        "en": "If there is a relationship where anger is still present, what do you notice it is protecting for you?"
       },
-      "tags": ["control"]
+      "tags": [
+        "anger",
+        "others"
+      ]
+    },
+    {
+      "id": "st-01-12",
+      "ref": {
+        "vi": "Quyển 1 · đoạn 12",
+        "en": "Book 1 · 12"
+      },
+      "quote": {
+        "vi": "Từ Alexander, người theo Plato, tôi học đừng thường xuyên, khi không cần thiết, nói hay viết rằng mình không có thời gian; cũng đừng lấy việc gấp làm cớ để mãi bỏ bê bổn phận với những người sống quanh mình.",
+        "en": "From Alexander the Platonic, not frequently nor without necessity to say to any one, or to write in a letter, that I have no leisure; nor continually to excuse the neglect of duties required by our relation to those with whom we live, by alleging urgent occupations."
+      },
+      "gloss": {
+        "vi": "“Tôi bận lắm” là câu dễ nói và khó kiểm chứng. Marcus để ý đến cái giá của nó: những người sống gần ông là người nhận phần thời gian còn lại. Đoạn này mời nhìn xem việc bận có thật không, hay đã thành một cái cớ quen thuộc.",
+        "en": "“I’m busy” is an easy sentence to say and a hard one to check. Marcus notices what it costs: the people closest to him receive whatever time is left over. This passage invites you to look at whether the busyness is real, or has become a familiar excuse."
+      },
+      "question": {
+        "vi": "Câu “tôi bận” trong tuần qua của bạn nói lên điều gì: một việc thật sự gấp, một cuộc trò chuyện bạn còn ngại, hay nhu cầu được nghỉ?",
+        "en": "What did your “I am busy” of the past week say: a truly urgent task, a conversation you still hesitate over, or a need to rest?"
+      },
+      "tags": [
+        "others",
+        "duty",
+        "time"
+      ]
+    },
+    {
+      "id": "st-01-13",
+      "ref": {
+        "vi": "Quyển 1 · đoạn 13",
+        "en": "Book 1 · 13"
+      },
+      "quote": {
+        "vi": "Từ Catulus: đừng thờ ơ khi một người bạn trách mình, kể cả khi họ trách vô cớ, mà hãy cố giúp họ trở lại với tâm thế thường ngày.",
+        "en": "From Catulus, not to be indifferent when a friend finds fault, even if he should find fault without reason, but to try to restore him to his usual disposition"
+      },
+      "gloss": {
+        "vi": "Marcus học cách coi lời trách của một người bạn như một tín hiệu về mối quan hệ, không chỉ là chuyện đúng hay sai. Mục tiêu ông nêu là giúp bạn mình trở lại trạng thái bình thường, chứ không nhằm thắng một cuộc tranh luận. Đoạn này nói về sự quan tâm giữa những người bạn, không bắt ai ở lại một tình bạn gây tổn thương.",
+        "en": "Marcus learns to treat a friend’s complaint as a signal about the relationship, not only a matter of who is right. The goal he names is to bring his friend back to their usual state, not to win an argument. This is about care between friends, and it does not ask anyone to stay in a friendship that hurts."
+      },
+      "question": {
+        "vi": "Lần gần nhất một người thân thiết tỏ ra không hài lòng với bạn, bạn quan tâm đến điều gì trước: lý lẽ của mình hay cảm giác của họ?",
+        "en": "The last time someone close to you seemed unhappy with you, what did you attend to first: your own reasoning or how they felt?"
+      },
+      "tags": [
+        "others",
+        "kindness"
+      ]
     },
     {
       "id": "st-02-01",
-      "ref": { "vi": "Quyển 2 · đoạn 1", "en": "Book 2 · 1" },
+      "ref": {
+        "vi": "Quyển 2 · đoạn 1",
+        "en": "Book 2 · 1"
+      },
       "quote": {
-        "vi": "Mỗi sáng, hãy tự nhủ: hôm nay ta sẽ gặp kẻ tọc mạch, kẻ vô ơn, kẻ kiêu căng, kẻ dối trá, kẻ ganh ghét và kẻ khó gần.",
-        "en": "Begin the morning by saying to thyself, I shall meet with the busy-body, the ungrateful, arrogant, deceitful, envious, unsocial."
+        "vi": "Vì chúng ta sinh ra để cùng làm việc với nhau, như đôi chân, đôi tay, đôi mi mắt, như hai hàng răng trên và dưới. Chống lại nhau là trái với bản tính; mà bực bội và quay lưng cũng là chống lại nhau.",
+        "en": "For we are made for co-operation, like feet, like hands, like eyelids, like the rows of the upper and lower teeth. To act against one another, then, is contrary to nature; and it is acting against one another to be vexed and to turn away."
       },
       "gloss": {
-        "vi": "Marcus không chuẩn bị để ghét ai. Ông chuẩn bị để không bị bất ngờ, và để nhớ rằng người làm mình khó chịu cũng là người như mình.",
-        "en": "Marcus is not preparing to dislike anyone. He prepares so he is not caught off guard, and to remember that difficult people are people like him."
+        "vi": "Marcus mở đầu buổi sáng bằng cách nhắc mình rằng trong ngày có thể gặp người nhiều chuyện, vô ơn hay ganh tị. Từ đó ông chọn nhìn họ như những người cùng chung một cơ thể lớn, thiếu hiểu biết hơn là kẻ thù. Đoạn này nói về giữ lòng bình thản trước người khác; nó không đòi ai bỏ qua ranh giới của mình, và giữ khoảng cách với người làm hại mình vẫn là điều chính đáng.",
+        "en": "Marcus opens the morning by reminding himself that the day may bring meddlers, ungrateful people and envious ones. He chooses to see them as parts of one larger body, lacking understanding rather than being enemies. This is about keeping the heart calm around other people; it does not ask anyone to drop their boundaries, and keeping distance from someone who harms you remains legitimate."
       },
       "question": {
-        "vi": "Có ai hôm nay mà bạn muốn gặp với một chút chuẩn bị trong lòng?",
-        "en": "Is there someone you would like to meet today with a little inner preparation?"
+        "vi": "Nếu hôm nay có ai làm bạn khó chịu, bạn nhìn họ thế nào khi nghĩ rằng họ cũng thiếu hiểu biết về điều gì đó, và ranh giới của bạn nằm ở đâu?",
+        "en": "If someone irritates you today, how do you see them when you consider that they too may lack understanding about something, and where do your own boundaries lie?"
       },
-      "tags": ["people", "morning"]
+      "tags": [
+        "others",
+        "anger",
+        "community"
+      ]
+    },
+    {
+      "id": "st-02-05",
+      "ref": {
+        "vi": "Quyển 2 · đoạn 5",
+        "en": "Book 2 · 5"
+      },
+      "quote": {
+        "vi": "Mỗi khoảnh khắc, hãy nghĩ vững vàng như một người La Mã, một con người, để làm điều đang trong tay với phẩm giá trọn vẹn và giản dị, với tình thương, tự do và công bằng, và cho mình nghỉ khỏi mọi ý nghĩ khác.",
+        "en": "Every moment think steadily as a Roman and a man to do what thou hast in hand with perfect and simple dignity, and feeling of affection, and freedom, and justice, and to give thyself relief from all other thoughts."
+      },
+      "gloss": {
+        "vi": "Marcus nhắc mình đón từng lúc như một người La Mã và một con người: làm việc trong tay với phẩm giá, tình thương, tự do và công bằng, rồi đặt mọi ý nghĩ khác xuống. Ông nói sự nhẹ nhõm ấy đến từ việc làm mỗi việc như thể là việc cuối, bỏ cẩu thả, đạo đức giả, tự ái và bất mãn với phần của mình, chứ không chỉ từ việc làm một việc một lúc.",
+        "en": "Marcus tells himself to meet each moment as a Roman and a human being: do the task in hand with dignity, affection, freedom and justice, and set other thoughts down. He then says the relief comes from acting as if each act were the last and dropping carelessness, hypocrisy, self-love and discontent with his lot, not merely from doing one thing at a time."
+      },
+      "question": {
+        "vi": "Khi đang làm việc trước mặt, có ý nghĩ nào khác cứ kéo bạn đi, và nó thường là ý nghĩ gì?",
+        "en": "While you are doing the task in front of you, which other thought keeps pulling you away, and what is it usually about?"
+      },
+      "tags": [
+        "present",
+        "attention",
+        "work"
+      ]
+    },
+    {
+      "id": "st-02-07",
+      "ref": {
+        "vi": "Quyển 2 · đoạn 7",
+        "en": "Book 2 · 7"
+      },
+      "quote": {
+        "vi": "Những việc bên ngoài ập đến có làm bạn phân tâm không? Hãy cho mình thời gian học một điều mới và tốt đẹp, và thôi để mình bị cuốn quay cuồng.",
+        "en": "Do the things external which fall upon thee distract thee? Give thyself time to learn something new and good, and cease to be whirled around."
+      },
+      "gloss": {
+        "vi": "Marcus nhận ra rằng khi bị cuốn đi bởi biến cố bên ngoài, một lối ra là dành chút thời gian để học một điều tốt và mới, tức là nuôi phần suy xét của mình thay vì chạy theo từng việc ập đến. Ngay sau đó ông cũng cảnh giác với kiểu bận rộn không có hướng, vì nó mệt không kém. Đoạn này mời hỏi sự bận rộn của mình đang hướng về đâu.",
+        "en": "Marcus sees that when outside events sweep you along, one way out is to give yourself a little time to learn something good and new, feeding your own judgment instead of chasing each thing that arrives. Right after, he also warns against busyness with no direction, which is just as tiring. This passage invites you to ask where your busyness is actually pointing."
+      },
+      "question": {
+        "vi": "Khi mọi thứ bên ngoài dồn dập, có việc nhỏ nào bạn có thể cho mình thời gian làm để thấy mình đứng vững lại?",
+        "en": "When everything outside is coming at once, what small thing could you give yourself time for in order to feel steady again?"
+      },
+      "tags": [
+        "attention",
+        "purpose"
+      ]
+    },
+    {
+      "id": "st-02-08",
+      "ref": {
+        "vi": "Quyển 2 · đoạn 8",
+        "en": "Book 2 · 8"
+      },
+      "quote": {
+        "vi": "Hiếm ai thấy khổ vì không để ý xem trong lòng người khác có gì; nhưng ai không để ý những chuyển động trong tâm trí của chính mình thì ắt không hạnh phúc.",
+        "en": "Through not observing what is in the mind of another a man has seldom been seen to be unhappy; but those who do not observe the movements of their own minds must of necessity be unhappy."
+      },
+      "gloss": {
+        "vi": "Marcus đặt sự chú ý vào bên trong: biết mình đang nghĩ và cảm gì quan trọng hơn đoán xem người khác nghĩ gì. Ông nói mạnh, và có thể đọc nhẹ hơn: quan sát tâm trí mình là một nền tảng cho sự yên ổn. Điều này không bảo bạn thôi quan tâm đến người khác.",
+        "en": "Marcus puts attention on the inside: knowing what you think and feel matters more than guessing what others think. He speaks strongly, and it can be read more gently: watching your own mind is one foundation for steadiness. This does not tell you to stop caring about other people."
+      },
+      "question": {
+        "vi": "Trong ngày hôm nay, có lúc nào bạn dành nhiều sức để đoán ý người khác hơn là nhìn xem chính mình đang cảm thấy gì?",
+        "en": "Was there a moment today when you spent more energy guessing what someone else thought than noticing what you yourself were feeling?"
+      },
+      "tags": [
+        "self-knowledge",
+        "attention"
+      ]
+    },
+    {
+      "id": "st-02-13",
+      "ref": {
+        "vi": "Quyển 2 · đoạn 13",
+        "en": "Book 2 · 13"
+      },
+      "quote": {
+        "vi": "Không gì khốn khổ hơn kẻ cứ đi vòng quanh mọi thứ, … và đoán mò xem trong lòng hàng xóm có gì, mà không nhận ra rằng chỉ cần chăm lo phần thiêng liêng trong chính mình và kính trọng nó cho chân thành.",
+        "en": "Nothing is more wretched than a man who traverses everything in a round, … and seeks by conjecture what is in the minds of his neighbors, without perceiving that it is sufficient to attend to the daemon within him, and to reverence it sincerely."
+      },
+      "gloss": {
+        "vi": "Đoạn này đi cùng mạch với 2.8: Marcus nói về sự mệt mỏi của việc đoán suy nghĩ người khác. Điều ông gọi là “phần thiêng liêng bên trong” có thể hiểu là lương tâm và khả năng suy xét của mình. Ông gợi ý dồn sự chú ý về chỗ mình thật sự chăm sóc được.",
+        "en": "This runs alongside 2.8: Marcus speaks of how tiring it is to guess at other people’s thoughts. What he calls the “daemon within” can be read as one’s conscience and capacity for judgment. He suggests putting your attention where you can actually do some tending."
+      },
+      "question": {
+        "vi": "Điều gì trong cách bạn sống mà chỉ bạn chăm sóc được, và hiện nó đang nhận được bao nhiêu sự chú ý của bạn?",
+        "en": "What is there in the way you live that only you can tend, and how much of your attention is it getting right now?"
+      },
+      "tags": [
+        "attention",
+        "self-knowledge"
+      ]
+    },
+    {
+      "id": "st-03-04",
+      "ref": {
+        "vi": "Quyển 3 · đoạn 4",
+        "en": "Book 3 · 4"
+      },
+      "quote": {
+        "vi": "Đừng phí phần đời còn lại vào những ý nghĩ về người khác, khi những ý nghĩ ấy không hướng về điều gì có ích chung. Vì khi nghĩ như thế, bạn đánh mất cơ hội làm một việc khác…",
+        "en": "Do not waste the remainder of thy life in thoughts about others, when thou dost not refer thy thoughts to some object of common utility. For thou losest the opportunity of doing something else when thou hast such thoughts as these…"
+      },
+      "gloss": {
+        "vi": "Marcus nhận ra những ý nghĩ về việc người khác đang làm, nghĩ, định gì (phần liệt kê nằm sau dấu ba chấm) lấy đi thời gian mà không đem lại điều gì. Ông không bảo ngừng quan tâm; ông hỏi sự quan tâm ấy nhằm mục đích gì, và nhớ về người mình thương, kể cả người đã mất, là chuyện khác. Đoạn này mời nhận ra khi nào tò mò hóa thành lo lắng hay soi xét.",
+        "en": "Marcus notices that thoughts about what another person is doing, thinking or planning (the list lies after the ellipsis) take time and give nothing back. He does not say to stop caring; he asks what the caring is for, and remembering someone you love, including someone who has died, is a different matter. This passage invites you to notice when curiosity turns into worry or scrutiny."
+      },
+      "question": {
+        "vi": "Khi bạn nghĩ nhiều về một người khác, đó là sự tò mò, nỗi lo hay sự quan tâm, và bạn muốn làm gì với điều ấy?",
+        "en": "When you think a lot about another person, is it curiosity, worry or care, and what would you like to do with it?"
+      },
+      "tags": [
+        "attention",
+        "others"
+      ]
+    },
+    {
+      "id": "st-03-07",
+      "ref": {
+        "vi": "Quyển 3 · đoạn 7",
+        "en": "Book 3 · 7"
+      },
+      "quote": {
+        "vi": "Đừng bao giờ coi điều gì là có lợi cho mình nếu nó buộc bạn bội lời hứa, đánh mất lòng tự trọng, ghét ai, nghi kỵ, nguyền rủa, giả dối, hay ham muốn điều gì cần đến tường che và rèm kín…",
+        "en": "Never value anything as profitable to thyself which shall compel thee to break thy promise, to lose thy self-respect, to hate any man, to suspect, to curse, to act the hypocrite, to desire anything which needs walls and curtains…"
+      },
+      "gloss": {
+        "vi": "Marcus dùng một thước đo khác cho “lợi ích”: nếu thứ gì đó buộc ta đánh mất lòng tự trọng hoặc cần được che giấu, thì cái giá thật của nó cao hơn vẻ ngoài. Câu “cần tường và rèm” gợi đến những việc ta chỉ dám làm khi không ai thấy. Đoạn này mời nhìn lại những điều mình đang theo đuổi qua thước đo ấy.",
+        "en": "Marcus uses a different yardstick for “benefit”: if something costs you your self-respect or needs hiding, its real price is higher than it looks. The phrase “walls and curtains” points to things we only dare do when no one is watching. This passage invites you to look at what you are pursuing through that yardstick."
+      },
+      "question": {
+        "vi": "Nếu có điều bạn đang theo đuổi mà bạn muốn giấu ai đó, ý muốn giấu ấy cho bạn biết điều gì, kể cả khi lý do là để giữ an toàn?",
+        "en": "If there is something you pursue that you want to hide from someone, what does that wish to hide tell you, even when the reason is to stay safe?"
+      },
+      "tags": [
+        "integrity",
+        "self-respect"
+      ]
+    },
+    {
+      "id": "st-03-12",
+      "ref": {
+        "vi": "Quyển 3 · đoạn 12",
+        "en": "Book 3 · 12"
+      },
+      "quote": {
+        "vi": "Nếu bạn làm việc đang trước mặt, theo lý trí đúng đắn một cách nghiêm túc, mạnh mẽ và điềm tĩnh, không để điều gì khác làm xao nhãng, mà giữ cho phần thiêng liêng trong mình được trong sạch…",
+        "en": "If thou workest at that which is before thee, following right reason seriously, vigorously, calmly, without allowing anything else to distract thee, but keeping thy divine part pure…"
+      },
+      "gloss": {
+        "vi": "Marcus mô tả một cách làm việc: nghiêm túc, mạnh mẽ, bình tĩnh, theo lý trí đúng đắn (logos) và không bị kéo đi nơi khác. “Phần thiêng liêng” mà ông giữ cho sạch là phần lý trí dẫn dắt mọi lựa chọn của mình. Đoạn này nói về việc hành động từ lý trí với sự chú ý trọn vẹn, không đòi làm nhiều hơn.",
+        "en": "Marcus describes a way of working: seriously, vigorously and calmly, following right reason (logos), with nothing else allowed to pull him away. The divine part he keeps pure is, for a Stoic, the reasoning mind that guides each choice. This passage is about acting from reason with undivided attention, and it does not ask you to do more."
+      },
+      "question": {
+        "vi": "Trong việc đang làm của bạn lúc này, điều gì đang kéo sự chú ý của bạn ra khỏi nó, và bạn nhận ra điều đó bằng dấu hiệu nào?",
+        "en": "In the thing you are doing right now, what is pulling your attention away from it, and how do you notice it?"
+      },
+      "tags": [
+        "attention",
+        "work",
+        "calm"
+      ]
+    },
+    {
+      "id": "st-03-13",
+      "ref": {
+        "vi": "Quyển 3 · đoạn 13",
+        "en": "Book 3 · 13"
+      },
+      "quote": {
+        "vi": "Như thầy thuốc luôn có sẵn dụng cụ và dao cho những ca đột ngột cần đến tay nghề, bạn cũng hãy có sẵn các nguyên lý để hiểu mọi việc thuộc về thần linh và con người, và để làm mọi việc, dù nhỏ nhất…",
+        "en": "As physicians have always their instruments and knives ready for cases which suddenly require their skill, so do thou have principles ready for the understanding of things divine and human, and for doing everything, even the smallest…"
+      },
+      "gloss": {
+        "vi": "Marcus so sánh với người thầy thuốc luôn để dụng cụ trong tầm tay: những nguyên tắc sống cũng cần có sẵn trước khi tình huống ập đến. Phần lược sau dấu ba chấm nói thêm rằng ông muốn mọi việc, kể cả việc nhỏ, được làm với ý thức về mối liên hệ giữa con người và điều thiêng liêng. Đoạn này mời nhìn xem bạn có những nguyên tắc nào để dựa vào khi gặp điều bất ngờ.",
+        "en": "Marcus compares himself to a physician who keeps instruments within reach: the principles you live by need to be ready before the situation arrives. The omitted part after the ellipsis adds that he wants every act, even a small one, done with awareness of the link between human beings and the divine. This passage invites you to ask which principles you could lean on when something unexpected comes."
+      },
+      "question": {
+        "vi": "Khi gặp chuyện bất ngờ, bạn thường dựa vào nguyên tắc nào của riêng mình để quyết định?",
+        "en": "When something unexpected happens, which principle of your own do you usually lean on to decide?"
+      },
+      "tags": [
+        "principles",
+        "resilience"
+      ]
+    },
+    {
+      "id": "st-04-03",
+      "ref": {
+        "vi": "Quyển 4 · đoạn 3",
+        "en": "Book 4 · 3"
+      },
+      "quote": {
+        "vi": "Người ta tìm nơi ẩn dật: nhà ở quê, bờ biển, núi non… vì bất cứ lúc nào bạn chọn, bạn đều có thể lui về chính mình. Không nơi nào con người rút lui được yên tĩnh và ít phiền nhiễu hơn là vào chính tâm hồn mình…",
+        "en": "Men seek retreats for themselves, houses in the country, sea-shores, and mountains… for it is in thy power whenever thou shalt choose to retire into thyself. For nowhere either with more quiet or more freedom from trouble does a man retire than into his own soul…"
+      },
+      "gloss": {
+        "vi": "Marcus nhận xét rằng ta hay tìm sự yên tĩnh ở nơi chốn bên ngoài, trong khi nơi luôn gần tay là tâm trí mình; ông gọi thói ấy là thường tình của số đông và thừa nhận mình cũng bị cuốn theo. Sự lui về bên trong của ông dựng từ vài nguyên tắc ngắn gọn và một tâm trí sắp xếp ngăn nắp, rồi đưa ông trở lại với mọi người, bớt bất mãn.",
+        "en": "Marcus observes that we look for quiet in places outside us, while the place always within reach is our own mind; he calls the habit common and admits he feels the pull himself. His inward retreat is built from a few brief principles and a well-ordered mind, and it sends him back to other people with less discontent."
+      },
+      "question": {
+        "vi": "Khoảng lặng nhỏ nào trong ngày là chỗ bạn thật sự quay về chính mình, dù chỉ vài phút?",
+        "en": "Which small pause in your day is where you actually return to yourself, even if only for a few minutes?"
+      },
+      "tags": [
+        "calm",
+        "mind"
+      ]
+    },
+    {
+      "id": "st-04-07",
+      "ref": {
+        "vi": "Quyển 4 · đoạn 7",
+        "en": "Book 4 · 7"
+      },
+      "quote": {
+        "vi": "Bỏ đi ý kiến của bạn, thì lời than “tôi bị hại” cũng mất. Bỏ lời than “tôi bị hại”, thì sự tổn hại cũng mất.",
+        "en": "Take away thy opinion, and then there is taken away the complaint, “I have been harmed.” Take away the complaint, “I have been harmed,” and the harm is taken away."
+      },
+      "gloss": {
+        "vi": "Marcus muốn nói đến cách ta diễn giải điều đã xảy ra, như một lời xúc phạm hay một sự coi thường, và ông cho rằng phần diễn giải ấy có thể được xem xét lại. Câu này không phủ nhận nỗi đau hay tổn thương có thật, và không bảo ai gồng chịu điều bất công. Nó chỉ mời tách điều đã xảy ra khỏi câu chuyện mình kể về nó.",
+        "en": "Marcus is pointing at how we interpret what happened, such as an insult or a slight, and he suggests that the interpretation can be looked at again. The line does not deny real pain or real harm, and it does not tell anyone to grit their teeth through injustice. It only invites you to separate what happened from the story you tell about it."
+      },
+      "question": {
+        "vi": "Với chuyện gần đây khiến bạn thấy bị tổn thương, bạn có muốn nhìn riêng điều đã xảy ra và ý nghĩa nó có với bạn, khi cả hai đều đáng được lắng nghe?",
+        "en": "About the recent event that left you hurt, would you like to look separately at what happened and what it means to you, knowing both deserve to be heard?"
+      },
+      "tags": [
+        "opinion",
+        "anger"
+      ]
+    },
+    {
+      "id": "st-04-11",
+      "ref": {
+        "vi": "Quyển 4 · đoạn 11",
+        "en": "Book 4 · 11"
+      },
+      "quote": {
+        "vi": "Đừng nhìn sự việc như người làm sai với bạn đang nhìn, hay như người ấy muốn bạn nhìn, mà hãy nhìn chúng như chúng thật sự là.",
+        "en": "Do not have such an opinion of things as he has who does thee wrong, or such as he wishes thee to have, but look at them as they are in truth."
+      },
+      "gloss": {
+        "vi": "Câu này nói về việc giữ cái nhìn của riêng mình khi ai đó cố đặt cách nhìn của họ lên mình, chẳng hạn bằng lời chê, lời đổ lỗi hay lời hứa hẹn. Marcus chỉ mời dừng lại để xem sự việc thật sự ra sao. Điều đó không giống việc nghi ngờ mọi người.",
+        "en": "This line is about keeping your own view when someone tries to press theirs onto you, for example through criticism, blame or promises. Marcus only invites you to pause and see how things actually are. That is not the same as distrusting everyone."
+      },
+      "question": {
+        "vi": "Gần đây có ai cố khiến bạn nhìn một việc theo cách của họ không, và khi lùi lại một bước, bạn thấy việc ấy thế nào?",
+        "en": "Has anyone recently tried to make you see something their way, and when you step back, how does the matter look to you?"
+      },
+      "tags": [
+        "truth",
+        "opinion"
+      ]
+    },
+    {
+      "id": "st-04-13",
+      "ref": {
+        "vi": "Quyển 4 · đoạn 13",
+        "en": "Book 4 · 13"
+      },
+      "quote": {
+        "vi": "Bạn có lý trí không? Có.—Vậy sao bạn không dùng nó? Nếu nó làm tròn việc của mình, bạn còn muốn gì nữa?",
+        "en": "Hast thou reason? I have.—Why then dost not thou use it? For if this does its own work, what else dost thou wish?"
+      },
+      "gloss": {
+        "vi": "Marcus tự hỏi một cách giản dị, như người thợ kiểm tra dụng cụ của mình, và nhắc rằng khả năng suy xét có sẵn để giúp mình nhìn rõ. Câu hỏi này là lời tự nhắc của ông, không nhằm trách ai đang bối rối hay kiệt sức. Đoạn này mời nhìn xem khả năng suy xét của bạn cần được nghỉ hay được nghe lúc nào.",
+        "en": "Marcus asks himself plainly, like a craftsman checking his tools, and reminds himself that the capacity to reason is there to help him see clearly. The question is his own prompt, not a reproach to anyone who is confused or worn out. It invites you to notice when your own judgement needs rest and when it needs to be heard."
+      },
+      "question": {
+        "vi": "Trong chuyện gần đây khiến bạn bối rối, điều gì giúp bạn có thêm thời gian để suy xét trước khi hành động?",
+        "en": "In the recent matter that confused you, what helps you take more time to think before acting?"
+      },
+      "tags": [
+        "mind",
+        "reason"
+      ]
+    },
+    {
+      "id": "st-04-18",
+      "ref": {
+        "vi": "Quyển 4 · đoạn 18",
+        "en": "Book 4 · 18"
+      },
+      "quote": {
+        "vi": "Người không nhìn xem hàng xóm nói, làm hay nghĩ gì, mà chỉ nhìn việc mình làm có công bằng và trong sạch không, tránh được biết bao phiền phức.",
+        "en": "How much trouble he avoids who does not look to see what his neighbor says or does or thinks, but only to what he does himself, that it may be just and pure"
+      },
+      "gloss": {
+        "vi": "Marcus nói về sự nhẹ nhõm khi dồn chú ý vào phần mình làm chủ được. Ông không bảo đừng để ý đến ai, chỉ nhận ra rằng so đo và theo dõi người khác tiêu tốn nhiều sức. Đoạn này nằm cùng mạch với nhiều đoạn khác của ông về việc giữ tâm trí gọn gàng.",
+        "en": "Marcus speaks of the relief of putting attention on the part you can govern. He does not say to ignore everyone; he notices that comparing and monitoring others uses up a lot of energy. This passage runs in the same vein as many others of his about keeping the mind uncluttered."
+      },
+      "question": {
+        "vi": "Nếu bớt dõi theo người khác một ngày, bạn còn lại bao nhiêu sức cho việc của chính mình?",
+        "en": "If you watched other people a little less for a day, how much energy would you have left for your own work?"
+      },
+      "tags": [
+        "attention",
+        "others"
+      ]
+    },
+    {
+      "id": "st-04-22",
+      "ref": {
+        "vi": "Quyển 4 · đoạn 22",
+        "en": "Book 4 · 22"
+      },
+      "quote": {
+        "vi": "Đừng để mình bị quay cuồng, mà trong mọi chuyển động hãy giữ lòng công bằng, và trước mỗi ấn tượng đến với mình hãy giữ khả năng thấu hiểu.",
+        "en": "Do not be whirled about, but in every movement have respect to justice, and on the occasion of every impression maintain the faculty of comprehension"
+      },
+      "gloss": {
+        "vi": "“Ấn tượng” là điều ta thoáng thấy, thoáng nghe trước khi kịp hiểu. Marcus nhắc giữ lại một khoảng cho việc hiểu ra sao trước khi phản ứng. Điều này giống như hít một hơi trước khi trả lời.",
+        "en": "An “impression” is what we glimpse or overhear before we have had time to understand it. Marcus reminds himself to keep a little room for understanding before reacting. It is like taking a breath before answering."
+      },
+      "question": {
+        "vi": "Lần gần nhất bạn phản ứng nhanh trước một điều mới thấy, điều gì bạn nhận ra sau khi hiểu thêm?",
+        "en": "The last time you reacted quickly to something you had just seen, what did you realise once you understood more?"
+      },
+      "tags": [
+        "attention",
+        "calm"
+      ]
+    },
+    {
+      "id": "st-04-24",
+      "ref": {
+        "vi": "Quyển 4 · đoạn 24",
+        "en": "Book 4 · 24"
+      },
+      "quote": {
+        "vi": "Phần lớn điều ta nói và làm là không cần thiết; bỏ bớt đi, ta có thêm thời gian rảnh và bớt bất an. Vì vậy, trong mọi dịp, mỗi người nên tự hỏi: đây có phải một việc không cần thiết không?",
+        "en": "For the greatest part of what we say and do being unnecessary, if a man takes this away, he will have more leisure and less uneasiness. Accordingly, on every occasion a man should ask himself, Is this one of the unnecessary things?"
+      },
+      "gloss": {
+        "vi": "Marcus chỉnh lại lời khuyên “làm ít việc thôi”: điều quan trọng là việc ấy có cần hay không, và “cần” ở đây là điều lý trí cùng bản tính biết sống chung của con người đòi hỏi, không chỉ là đếm số lượng. Một câu hỏi ngắn có thể dùng cho lời nói, việc làm lẫn ý nghĩ. Đoạn này cho thấy sự bình tĩnh thường tăng lên khi bớt đi những thứ không đáng gánh.",
+        "en": "Marcus adjusts the advice “do fewer things”: what matters is whether the thing is necessary, and “necessary” here means what reason and our social nature call for, not just a smaller count. One short question can be used on words, actions and thoughts alike. This passage suggests calm often grows when you set down what is not worth carrying."
+      },
+      "question": {
+        "vi": "Nếu bỏ đi một việc không cần thiết trong ngày hôm nay, đó có thể là việc nào?",
+        "en": "If you dropped one unnecessary thing from today, what could it be?"
+      },
+      "tags": [
+        "simplicity",
+        "calm"
+      ]
+    },
+    {
+      "id": "st-04-31",
+      "ref": {
+        "vi": "Quyển 4 · đoạn 31",
+        "en": "Book 4 · 31"
+      },
+      "quote": {
+        "vi": "Hãy yêu nghề mình đã học, dù nó khiêm tốn, và bằng lòng với nó; rồi đi qua phần đời còn lại như người đã phó thác tất cả cho thần linh bằng cả tâm hồn, không làm kẻ bạo chúa hay nô lệ của ai.",
+        "en": "Love the art, poor as it may be, which thou hast learned, and be content with it; and pass through the rest of life like one who has intrusted to the gods with his whole soul all that he has, making thyself neither the tyrant nor the slave of any man."
+      },
+      "gloss": {
+        "vi": "Marcus nhắc về lòng quý trọng đối với nghề mình học, kể cả khi nó nhỏ bé. Vế cuối cho thấy một cách sống tự do: không bắt người khác phục tùng mình và cũng không cúi đầu trước ai. Đoạn này nói về phẩm giá trong công việc thường ngày.",
+        "en": "Marcus speaks of respect for the craft you have learned, even when it is modest. The last clause points to a free way of living: neither making others obey you nor bowing before anyone. This passage is about dignity in everyday work."
+      },
+      "question": {
+        "vi": "Có điều gì trong công việc hay kỹ năng của bạn mà bạn đang xem nhẹ, dù nó có giá trị với bạn?",
+        "en": "Is there something in your work or your skills that you are treating lightly, even though it matters to you?"
+      },
+      "tags": [
+        "work",
+        "dignity"
+      ]
+    },
+    {
+      "id": "st-04-49",
+      "ref": {
+        "vi": "Quyển 4 · đoạn 49",
+        "en": "Book 4 · 49"
+      },
+      "quote": {
+        "vi": "Hãy như mũi đất mà sóng không ngừng vỗ vào, nhưng nó đứng vững và làm dịu cơn dữ của nước quanh mình.",
+        "en": "Be like the promontory against which the waves continually break, but it stands firm and tames the fury of the water around it."
+      },
+      "gloss": {
+        "vi": "Hình ảnh mũi đất là một lời nhắc về sự vững vàng bên trong khi mọi thứ xô đẩy từ ngoài. Mũi đất vẫn chịu sóng vỗ; nó chỉ không để sóng quyết định mình là gì. Đoạn này không đòi ai tỏ ra không đau, mà mời để ý xem điều gì giúp mình đứng vững.",
+        "en": "The image of the headland is a reminder of inner steadiness while everything pushes from outside. The headland still takes the waves; it just does not let them decide what it is. This passage does not ask anyone to pretend they feel no pain, but invites you to notice what helps you stand firm."
+      },
+      "question": {
+        "vi": "Khi chuyện khó khăn dồn tới, điều gì trong bạn là phần vẫn đứng yên, dù cảm xúc lên xuống?",
+        "en": "When difficulties pile up, what part of you stays in place even as your feelings rise and fall?"
+      },
+      "tags": [
+        "resilience",
+        "calm"
+      ]
+    },
+    {
+      "id": "st-05-01",
+      "ref": {
+        "vi": "Quyển 5 · đoạn 1",
+        "en": "Book 5 · 1"
+      },
+      "quote": {
+        "vi": "Buổi sáng khi không muốn dậy, hãy nghĩ: tôi đang dậy để làm việc của một con người. Sao tôi lại bất mãn nếu sắp làm những việc mình sinh ra để làm? Hay tôi được tạo ra chỉ để nằm trong chăn cho ấm?",
+        "en": "In the morning when thou risest unwillingly, let this thought be present,—I am rising to the work of a human being. Why then am I dissatisfied if I am going to do the things for which I exist and for which I was brought into the world? Or have I been made for this, to lie in the bed-clothes and keep myself warm?"
+      },
+      "gloss": {
+        "vi": "Marcus tự nói với mình lúc không muốn dậy, rồi hỏi thật lòng mình sinh ra để làm gì; ông không phủ nhận nhu cầu nghỉ, và ngay trong đoạn này thừa nhận nghỉ ngơi là cần thiết. Nếu việc không muốn dậy kéo dài nhiều ngày hay đi kèm nỗi nặng nề, nói với người thân hoặc một chuyên gia là cách đáp lại thích đáng. Nếu bạn thấy không an toàn, bạn có thể gọi 115.",
+        "en": "Marcus talks to himself on a morning he does not want to rise, then asks honestly what he was made for; he does not deny the need for rest, and in this very passage admits rest is necessary. If not wanting to get up lasts for days or comes with a heavy feeling, talking to someone close or a professional is a reasonable response. If you feel unsafe, you can call 115."
+      },
+      "question": {
+        "vi": "Sáng nay, điều gì làm bạn chần chừ không muốn dậy: cơ thể cần nghỉ, việc đang chờ phía trước, hay một nỗi nặng lòng nào khác?",
+        "en": "This morning, what made you hesitate to get up: a body that needs rest, the work ahead, or some other heaviness?"
+      },
+      "tags": [
+        "work",
+        "self-knowledge"
+      ]
+    },
+    {
+      "id": "st-05-06",
+      "ref": {
+        "vi": "Quyển 5 · đoạn 6",
+        "en": "Book 5 · 6"
+      },
+      "quote": {
+        "vi": "Như con ngựa khi đã chạy, con chó khi đã đuổi được mồi, con ong khi đã làm xong mật, người làm xong một việc giúp ích cũng không gọi ai đến xem, mà sang việc kế tiếp, như cây nho lại ra trái đúng mùa.",
+        "en": "As a horse when he has run, a dog when he has tackled the game, a bee when it has made the honey, so a man when he has done a good act does not call out for others to come and see, but he goes on to another act, as a vine goes on to produce again the grapes in season."
+      },
+      "gloss": {
+        "vi": "Marcus mô tả ba kiểu người khi giúp ai đó, và kiểu thứ ba là làm xong rồi thôi, không cần ai thấy. Ông không bảo đừng nhận ra việc mình làm, mà chỉ ra rằng niềm vui của việc làm có thể nằm ngay trong chính nó. Đoạn này mời nhìn xem bao nhiêu điều ta làm là để được ghi nhận.",
+        "en": "Marcus describes three kinds of people who help someone, and the third simply does it and moves on without needing anyone to see. He does not suggest overlooking what you do; he points out that the satisfaction of an act can lie in the act itself. This passage invites you to see how much of what you do is for the sake of being noticed."
+      },
+      "question": {
+        "vi": "Gần đây bạn có làm điều gì cho người khác mà không mong ai biết đến, và cảm giác khi ấy ra sao?",
+        "en": "Have you recently done something for someone without hoping anyone would know, and how did it feel?"
+      },
+      "tags": [
+        "kindness",
+        "humility"
+      ]
+    },
+    {
+      "id": "st-05-09",
+      "ref": {
+        "vi": "Quyển 5 · đoạn 9",
+        "en": "Book 5 · 9"
+      },
+      "quote": {
+        "vi": "Đừng ghê chán, nản lòng hay bất mãn nếu bạn không làm được mọi việc theo đúng nguyên tắc; khi vấp ngã, hãy quay lại, và bằng lòng nếu phần lớn việc mình làm hợp với bản tính con người, và hãy yêu điều mình quay về.",
+        "en": "Be not disgusted, nor discouraged, nor dissatisfied, if thou dost not succeed in doing everything according to right principles, but when thou hast failed, return back again, and be content if the greater part of what thou doest is consistent with man's nature, and love this to which thou returnest"
+      },
+      "gloss": {
+        "vi": "Marcus để chỗ cho sự không hoàn hảo: điều quan trọng là quay lại sau mỗi lần chệch hướng, chứ không đòi chưa từng chệch. Ông ví việc quay về với triết học như người đau mắt dùng miếng bọt biển hay thuốc đắp, tức là một việc chăm sóc nhẹ nhàng, chứ không giống như đến trình diện một ông thầy nghiêm nghị. Đoạn này nói về cách ta đối xử với mình sau một lần vấp.",
+        "en": "Marcus leaves room for imperfection: what matters is returning after each drift, not never having drifted. He compares going back to philosophy to someone with sore eyes using a sponge or a poultice, a gentle act of care rather than reporting to a strict master. This passage is about how we treat ourselves after a stumble."
+      },
+      "question": {
+        "vi": "Sau lần gần nhất bạn không làm được điều mình định, bạn đã nói với bản thân điều gì, và lời ấy giúp hay cản việc quay lại?",
+        "en": "After the last time you did not manage what you had intended, what did you say to yourself, and did those words help or hinder returning?"
+      },
+      "tags": [
+        "resilience",
+        "self-compassion"
+      ]
     },
     {
       "id": "st-05-16",
-      "ref": { "vi": "Quyển 5 · đoạn 16", "en": "Book 5 · 16" },
+      "ref": {
+        "vi": "Quyển 5 · đoạn 16",
+        "en": "Book 5 · 16"
+      },
       "quote": {
-        "vi": "Những ý nghĩ quen thuộc của bạn thế nào thì tâm trí bạn sẽ mang màu như thế; vì tâm hồn được nhuộm bởi ý nghĩ.",
-        "en": "Such as are thy habitual thoughts, such also will be the character of thy mind; for the soul is dyed by the thoughts."
+        "vi": "Suy nghĩ quen thuộc của bạn thế nào, tâm trí bạn mang tính cách ấy, vì tâm hồn được nhuộm bởi ý nghĩ. Hãy nhuộm nó bằng một chuỗi ý nghĩ liên tục, chẳng hạn: nơi nào con người sống được, nơi đó cũng sống tốt được.",
+        "en": "Such as are thy habitual thoughts, such also will be the character of thy mind; for the soul is dyed by the thoughts. Dye it then with a continuous series of such thoughts as these: for instance, that where a man can live, there he can also live well."
       },
       "gloss": {
-        "vi": "Marcus coi suy nghĩ như thuốc nhuộm: một ý lặp lại đủ lâu thì thành màu của cả tâm trí. Câu này mời ta để ý những gì mình nghĩ đi nghĩ lại.",
-        "en": "Marcus treats thought like dye: an idea repeated long enough becomes the colour of the whole mind. It invites us to notice what we keep thinking."
+        "vi": "Marcus dùng hình ảnh nhuộm vải: những ý nghĩ lặp đi lặp lại để lại màu trên tâm trí. Ví dụ ông đưa ra là một niềm tin ông chọn cho mình, rằng nơi nào sống được thì nơi đó cũng có thể sống cho trọn vẹn; đó là cách ông chọn nhìn, không mang ý bảo ai cũng thấy ổn trong mọi hoàn cảnh. Đoạn này mời để ý những ý nghĩ bạn nhắc đi nhắc lại nhất, vì chúng đang nhuộm bạn.",
+        "en": "Marcus uses the image of dyeing cloth: thoughts repeated again and again leave their colour on the mind. His example is a belief he chooses for himself, that wherever one can live one can also live fully; it is not a claim that everyone is fine in every circumstance. This passage invites you to notice the thoughts you repeat most, since they are dyeing you."
       },
       "question": {
-        "vi": "Ý nghĩ nào bạn đã lặp lại nhiều nhất trong tuần này?",
-        "en": "Which thought have you repeated most this week?"
+        "vi": "Ý nghĩ nào bạn nhắc với chính mình nhiều nhất dạo này, và nó đang nhuộm tâm trí bạn thành màu gì?",
+        "en": "Which thought have you repeated to yourself most lately, and what colour is it dyeing your mind?"
       },
-      "tags": ["mind", "habit"]
+      "tags": [
+        "mind",
+        "attention"
+      ]
+    },
+    {
+      "id": "st-06-02",
+      "ref": {
+        "vi": "Quyển 6 · đoạn 2",
+        "en": "Book 6 · 2"
+      },
+      "quote": {
+        "vi": "Hãy để chuyện bạn lạnh hay ấm không thành khác biệt, nếu bạn đang làm bổn phận của mình; cũng vậy với buồn ngủ hay đã ngủ đủ, bị nói xấu hay được khen…",
+        "en": "Let it make no difference to thee whether thou art cold or warm, if thou art doing thy duty; and whether thou art drowsy or satisfied with sleep; and whether ill-spoken of or praised…"
+      },
+      "gloss": {
+        "vi": "Marcus nói về việc để điều kiện bên ngoài và trạng thái cơ thể không quyết định việc mình đang làm. Ông không bảo bỏ qua mệt mỏi hay lời chê; chỉ nêu một thước đo khác để đứng vững: bổn phận đang có trong tay. Đoạn này mời nhận ra điều gì đang ảnh hưởng nhiều nhất đến việc bạn làm.",
+        "en": "Marcus speaks of not letting outside conditions or the state of the body decide what he is doing. He does not say to ignore tiredness or criticism; he names another measure to stand on: the duty in hand. This passage invites you to notice what influences your work most."
+      },
+      "question": {
+        "vi": "Điều kiện nào, như thời tiết, giấc ngủ hay lời bình phẩm, thường làm bạn chệch khỏi việc mình muốn làm?",
+        "en": "Which condition, such as the weather, your sleep or other people’s comments, most often pulls you off what you meant to do?"
+      },
+      "tags": [
+        "duty",
+        "calm"
+      ]
+    },
+    {
+      "id": "st-06-06",
+      "ref": {
+        "vi": "Quyển 6 · đoạn 6",
+        "en": "Book 6 · 6"
+      },
+      "quote": {
+        "vi": "Cách trả đũa tốt nhất là đừng trở nên giống kẻ làm sai.",
+        "en": "The best way of avenging thyself is not to become like [the wrong-doer]."
+      },
+      "gloss": {
+        "vi": "Chỉ một câu ngắn, Marcus xem việc không để mình bị kéo xuống ngang với người làm sai là cách giữ lấy mình. Ông không nói về chuyện bỏ qua điều sai, mà về giữ nguyên con người mình khi bị đối xử tệ. Đoạn này mời nhìn xem điều gì đang giữ bạn là chính mình.",
+        "en": "In one short line, Marcus treats not being pulled down to the wrongdoer’s level as a way of keeping yourself. He is not speaking of overlooking the wrong, but of staying the person you are when treated badly. This passage invites you to see what is holding you to yourself."
+      },
+      "question": {
+        "vi": "Khi bị đối xử không công bằng, điều gì trong bạn muốn giữ nguyên dù người kia hành xử ra sao?",
+        "en": "When you are treated unfairly, what in you do you want to keep unchanged, however the other person behaves?"
+      },
+      "tags": [
+        "anger",
+        "integrity"
+      ]
+    },
+    {
+      "id": "st-06-11",
+      "ref": {
+        "vi": "Quyển 6 · đoạn 11",
+        "en": "Book 6 · 11"
+      },
+      "quote": {
+        "vi": "Khi hoàn cảnh buộc bạn bị xáo trộn, hãy nhanh chóng quay về chính mình, và đừng lạc điệu lâu hơn thời gian bị ép buộc; vì càng thường quay về với sự hòa điệu, bạn càng làm chủ được nó.",
+        "en": "When thou hast been compelled by circumstances to be disturbed in a manner, quickly return to thyself, and do not continue out of tune longer than the compulsion lasts; for thou wilt have more mastery over the harmony by continually recurring to it."
+      },
+      "gloss": {
+        "vi": "Hình ảnh âm nhạc ở đây cho thấy lạc điệu là điều có thể xảy ra, còn quay lại là việc mình làm được. Marcus không đòi không bao giờ bị xáo trộn, mà muốn rút ngắn thời gian ở lại trong đó. Đoạn này mời để ý mất bao lâu để bạn quay về.",
+        "en": "The musical image suggests that going out of tune can happen, while returning is something you can do. Marcus does not demand never being disturbed; he wants to shorten the time spent there. This passage invites you to notice how long it takes you to come back."
+      },
+      "question": {
+        "vi": "Sau một chuyện làm bạn xáo trộn, thường mất bao lâu để bạn quay về với chính mình, và điều gì giúp bạn quay lại nhanh hơn?",
+        "en": "After something unsettles you, how long does it usually take to come back to yourself, and what helps you return sooner?"
+      },
+      "tags": [
+        "calm",
+        "resilience"
+      ]
+    },
+    {
+      "id": "st-06-19",
+      "ref": {
+        "vi": "Quyển 6 · đoạn 19",
+        "en": "Book 6 · 19"
+      },
+      "quote": {
+        "vi": "Nếu một việc khó cho riêng bạn làm, đừng nghĩ nó là bất khả với con người; nhưng nếu điều gì con người làm được và hợp bản tính, hãy nghĩ bạn cũng có thể đạt được.",
+        "en": "If a thing is difficult to be accomplished by thyself, do not think that it is impossible for man: but if anything is possible for man and conformable to his nature, think that this can be attained by thyself too."
+      },
+      "gloss": {
+        "vi": "Marcus tách “khó với tôi” khỏi “không thể với con người”. Phép thử ông đưa ra là việc ấy có nằm trong điều bản tính con người cho phép hay không; nếu có, việc mình thấy khó chưa chứng tỏ nó ngoài tầm. Đoạn này không hứa hẹn kết quả và không bảo vượt qua giới hạn thật; nó chỉ mời xem lại chỗ mình đã vội đi từ “khó” sang “không thể”.",
+        "en": "Marcus separates “difficult for me” from “impossible for a human being”. His test is whether the thing lies within what human nature allows; if it does, finding it hard does not prove it out of reach. The passage promises no outcome and does not ask anyone to push past real limits; it invites you to look again at where you jumped from “hard” to “impossible”."
+      },
+      "question": {
+        "vi": "Có việc nào bạn đã nói “tôi không làm được” mà thật ra chỉ là “tôi thấy khó”?",
+        "en": "Is there something you have said “I can’t do” when it was really “I find it hard”?"
+      },
+      "tags": [
+        "resilience",
+        "mind"
+      ]
+    },
+    {
+      "id": "st-06-21",
+      "ref": {
+        "vi": "Quyển 6 · đoạn 21",
+        "en": "Book 6 · 21"
+      },
+      "quote": {
+        "vi": "Nếu ai thuyết phục được tôi và chỉ ra rằng tôi nghĩ hay làm chưa đúng, tôi sẵn lòng đổi; vì tôi tìm sự thật, mà sự thật chưa từng làm ai bị hại. Người bị hại là kẻ cứ ở mãi trong sai lầm và vô minh.",
+        "en": "If any man is able to convince me and show me that I do not think or act right, I will gladly change; for I seek the truth, by which no man was ever injured. But he is injured who abides in his error and ignorance."
+      },
+      "gloss": {
+        "vi": "Marcus coi việc được sửa là một món quà, vì ông đặt sự thật cao hơn cái tôi của mình. Ông nói “sẵn lòng”, và không mang ý chịu thua. Đoạn này mời nhìn cách bạn đón nhận phản hồi.",
+        "en": "Marcus treats being corrected as a gift, because he places truth above his own ego. He says “gladly”, not “in defeat”. This passage invites you to look at how you receive feedback."
+      },
+      "question": {
+        "vi": "Lần gần nhất ai đó chỉ ra điều bạn chưa thấy, phản ứng đầu tiên của bạn là gì, và sau đó ra sao?",
+        "en": "The last time someone pointed out something you had not seen, what was your first reaction, and what came after it?"
+      },
+      "tags": [
+        "truth",
+        "humility"
+      ]
+    },
+    {
+      "id": "st-06-30",
+      "ref": {
+        "vi": "Quyển 6 · đoạn 30",
+        "en": "Book 6 · 30"
+      },
+      "quote": {
+        "vi": "Hãy giữ mình giản dị, hiền hậu, trong sạch, nghiêm túc, không điệu bộ, là bạn của công lý, … tử tế, thương yêu, hăng hái trong mọi việc đáng làm.",
+        "en": "Keep thyself then simple, good, pure, serious, free from affectation, a friend of justice, … kind, affectionate, strenuous in all proper acts."
+      },
+      "gloss": {
+        "vi": "Marcus liệt kê những phẩm chất ông muốn giữ trong lúc quyền lực có thể làm đổi tính, và nhắc mình đừng “hóa thành một Caesar” hay bị nhuộm bởi màu ấy. Danh sách ấy là một chân dung ông mong muốn, không dùng làm một bài kiểm tra. Đoạn này mời nhìn xem điều gì có thể làm bạn đổi tính khi có thêm quyền hay áp lực.",
+        "en": "Marcus lists the qualities he wants to keep at a time when power can change a person, and reminds himself not to be “made into a Caesar” or dyed with that dye. The list is a portrait he hopes for, not an exam. This passage invites you to see what might change your character when you gain more authority or pressure."
+      },
+      "question": {
+        "vi": "Trong những phẩm chất kể trên, phẩm chất nào bạn muốn giữ nhất khi mệt hoặc bị áp lực?",
+        "en": "Of the qualities listed, which one do you most want to keep when you are tired or under pressure?"
+      },
+      "tags": [
+        "integrity",
+        "self-knowledge"
+      ]
+    },
+    {
+      "id": "st-06-48",
+      "ref": {
+        "vi": "Quyển 6 · đoạn 48",
+        "en": "Book 6 · 48"
+      },
+      "quote": {
+        "vi": "Khi muốn tự làm mình vui, hãy nghĩ đến đức tính của những người sống quanh bạn: sự năng nổ của người này, sự khiêm nhường của người kia, sự rộng rãi của người thứ ba… Không gì làm vui bằng tấm gương đức hạnh…",
+        "en": "When thou wishest to delight thyself, think of the virtues of those who live with thee; for instance, the activity of one, and the modesty of another, and the liberality of a third, … For nothing delights so much as the examples of the virtues…"
+      },
+      "gloss": {
+        "vi": "Marcus gợi một cách làm mình vui là để ý điều đáng quý ở người xung quanh. Đây là chọn chỗ đặt sự chú ý, chứ không phủ nhận những điều khó chịu. Đoạn này mời nhìn quanh mình bằng con mắt ấy.",
+        "en": "Marcus suggests one way to lift your spirits: notice what is admirable in the people around you. This is a choice about where to place attention, not a denial of what is hard. This passage invites you to look around you with that eye."
+      },
+      "question": {
+        "vi": "Một người sống quanh bạn có đức tính nào mà bạn ít khi nói ra là mình quý?",
+        "en": "What quality does someone around you have that you rarely say out loud you value?"
+      },
+      "tags": [
+        "others",
+        "kindness"
+      ]
+    },
+    {
+      "id": "st-06-53",
+      "ref": {
+        "vi": "Quyển 6 · đoạn 53",
+        "en": "Book 6 · 53"
+      },
+      "quote": {
+        "vi": "Hãy tập chú ý kỹ đến điều người khác nói, và càng nhiều càng tốt, hãy ở trong tâm trí người nói.",
+        "en": "Accustom thyself to attend carefully to what is said by another, and as much as it is possible, be in the speaker's mind."
+      },
+      "gloss": {
+        "vi": "Marcus gợi một cách lắng nghe: đặt mình vào chỗ người nói để hiểu điều họ muốn nói. Đây là lắng nghe để hiểu, không có nghĩa là đồng ý. Đoạn này mời nhận ra khi nào ta nghe để hiểu, khi nào ta nghe để chuẩn bị đáp lại.",
+        "en": "Marcus suggests a way of listening: place yourself where the speaker is, to understand what they mean. This is listening, not agreeing. This passage invites you to notice when you listen to understand and when you listen to prepare a reply."
+      },
+      "question": {
+        "vi": "Trong cuộc trò chuyện gần nhất, bạn nghe để hiểu hay để trả lời?",
+        "en": "In your most recent conversation, were you listening to understand or to reply?"
+      },
+      "tags": [
+        "attention",
+        "others"
+      ]
+    },
+    {
+      "id": "st-07-07",
+      "ref": {
+        "vi": "Quyển 7 · đoạn 7",
+        "en": "Book 7 · 7"
+      },
+      "quote": {
+        "vi": "Đừng xấu hổ vì được giúp đỡ; việc của bạn là làm bổn phận như người lính trong cuộc tấn công thành. Nếu chân bạn yếu, không tự leo lên được tường thành, nhưng có người đỡ thì làm được, thì sao?",
+        "en": "Be not ashamed to be helped; for it is thy business to do thy duty like a soldier in the assault on a town. How then, if being lame thou canst not mount up on the battlements alone, but with the help of another it is possible?"
+      },
+      "gloss": {
+        "vi": "Marcus đặt việc nhận giúp đỡ cùng chỗ với việc hoàn thành bổn phận: nếu cần người đỡ để làm được điều đáng làm thì không có gì đáng xấu hổ. Ông dùng hình ảnh người lính chân yếu ở chân tường thành. Đoạn này mời nhìn lại niềm tự hào hay sự ngại ngần khiến ta không mở lời nhờ ai.",
+        "en": "Marcus puts accepting help in the same place as doing your duty: if you need someone’s support to do what is worth doing, there is nothing to be ashamed of. He uses the image of a soldier with a weak leg at the foot of a city wall. This passage invites you to look at the pride or hesitation that keeps us from asking anyone."
+      },
+      "question": {
+        "vi": "Có việc nào bạn đang cố tự gánh mà một lời nhờ giúp có thể làm nhẹ đi?",
+        "en": "Is there something you are trying to carry alone that a request for help could lighten?"
+      },
+      "tags": [
+        "others",
+        "humility"
+      ]
+    },
+    {
+      "id": "st-07-08",
+      "ref": {
+        "vi": "Quyển 7 · đoạn 8",
+        "en": "Book 7 · 8"
+      },
+      "quote": {
+        "vi": "Đừng để những điều chưa đến làm bạn xáo trộn; nếu cần, bạn sẽ đến với chúng mang theo chính lý trí mà bây giờ bạn dùng cho hiện tại.",
+        "en": "Let not future things disturb thee, for thou wilt come to them, if it shall be necessary, having with thee the same reason which now thou usest for present things."
+      },
+      "gloss": {
+        "vi": "Marcus nhắc rằng lo trước ít giúp ích, vì khả năng suy xét hôm nay vẫn đi cùng ta khi ngày ấy đến. Đoạn này không bảo đừng chuẩn bị; nó chỉ mời tách sự lo toan hữu ích khỏi sự lo lắng lặp đi lặp lại.",
+        "en": "Marcus reminds himself that worrying in advance does little, because the capacity for judgment you have today goes with you when that day arrives. This passage does not say to skip preparing; it only invites you to separate useful planning from repeating worry."
+      },
+      "question": {
+        "vi": "Điều chưa xảy ra nào đang chiếm nhiều chỗ nhất trong đầu bạn, và việc nghĩ về nó có đưa bạn tới một việc làm cụ thể nào không?",
+        "en": "Which thing that has not happened yet takes up the most room in your head, and does thinking about it lead you to any concrete step?"
+      },
+      "tags": [
+        "present",
+        "calm"
+      ]
+    },
+    {
+      "id": "st-07-26",
+      "ref": {
+        "vi": "Quyển 7 · đoạn 26",
+        "en": "Book 7 · 26"
+      },
+      "quote": {
+        "vi": "Khi ai đó làm sai với bạn, hãy xét ngay xem họ nghĩ thế nào về điều thiện hay ác mà làm sai. Khi thấy điều đó, bạn sẽ thương họ, và không ngạc nhiên hay giận.",
+        "en": "When a man has done thee any wrong, immediately consider with what opinion about good or evil he has done wrong. For when thou hast seen this, thou wilt pity him, and wilt neither wonder nor be angry."
+      },
+      "gloss": {
+        "vi": "Marcus mời tìm hiểu cách nhìn đứng sau hành vi của người kia, để cơn giận có chỗ nguôi. Hiểu họ không có nghĩa là chấp nhận điều họ làm, và bạn không nợ ai sự thấu hiểu. Nếu có người đang làm hại bạn, an toàn của bạn đi trước; đoạn này nói về việc bạn giữ lòng mình thế nào.",
+        "en": "Marcus invites looking for the view behind the other person’s act, so that anger has room to ease. Understanding them does not mean accepting what they did, and you owe no one understanding. If someone is harming you, your safety comes first; this passage is about how you tend your own heart."
+      },
+      "question": {
+        "vi": "Nếu bạn thấy đủ an toàn để nghĩ về chuyện đó, điều gì giúp lòng bạn nguôi bớt, kể cả khi bạn không hiểu hay không tha thứ cho người kia?",
+        "en": "If you feel safe enough to think about it, what helps your heart ease, even if you do not understand or forgive the other person?"
+      },
+      "tags": [
+        "anger",
+        "others"
+      ]
+    },
+    {
+      "id": "st-07-27",
+      "ref": {
+        "vi": "Quyển 7 · đoạn 27",
+        "en": "Book 7 · 27"
+      },
+      "quote": {
+        "vi": "Đừng nghĩ nhiều đến điều mình chưa có bằng điều mình có: trong những thứ mình có, hãy chọn ra điều quý nhất, rồi nghĩ xem nếu chưa có, mình sẽ khao khát tìm nó đến mức nào.",
+        "en": "Think not so much of what thou hast not as of what thou hast: but of the things which thou hast select the best, and then reflect how eagerly they would have been sought, if thou hadst them not."
+      },
+      "gloss": {
+        "vi": "Marcus mời xoay sự chú ý từ cái thiếu sang cái đang có. Ngay sau đó ông thêm một lời dè dặt: đừng quý đến mức bám chặt, để khỏi rối loạn khi không còn chúng. Đoạn này là một bài tập về lòng biết ơn không bám víu.",
+        "en": "Marcus invites you to turn attention from what is missing to what is present. Right after, he adds a caution: do not value things so much that you cling, so that you are not thrown when they are gone. This passage is an exercise in gratitude without clinging."
+      },
+      "question": {
+        "vi": "Trong những điều bạn đang có, điều nào từng là điều bạn mong mỏi khi chưa có?",
+        "en": "Of the things you have now, which one did you once long for before you had it?"
+      },
+      "tags": [
+        "gratitude",
+        "simplicity"
+      ]
+    },
+    {
+      "id": "st-07-29",
+      "ref": {
+        "vi": "Quyển 7 · đoạn 29",
+        "en": "Book 7 · 29"
+      },
+      "quote": {
+        "vi": "Xóa bỏ tưởng tượng. Ngừng việc giật dây. Giữ mình trong hiện tại. Hiểu rõ điều xảy ra với mình hay với người khác. … Để điều sai do một người gây ra ở lại nơi nó đã xảy ra.",
+        "en": "Wipe out the imagination. Stop the pulling of the strings. Confine thyself to the present. Understand well what happens either to thee or to another. … Let the wrong which is done by a man stay there where the wrong was done"
+      },
+      "gloss": {
+        "vi": "Marcus liệt kê những bước ngắn để thoát khỏi vòng quay của tưởng tượng và xung động. “Giật dây” có thể hiểu là những thôi thúc kéo ta đi như con rối. Câu cuối không có nghĩa bỏ qua điều sai, mà là chọn không để nó chiếm cả ngày của mình.",
+        "en": "Marcus lists short steps for stepping out of the spin of imagination and impulse. “Pulling the strings” can be read as the urges that tug us like a puppet. The last line does not mean overlooking the wrong; it means choosing not to let it take over your whole day."
+      },
+      "question": {
+        "vi": "Điều gì từ hôm qua vẫn còn nặng với bạn, và bạn cần gì để thấy nhẹ hơn?",
+        "en": "What from yesterday is still heavy for you, and what do you need to feel lighter?"
+      },
+      "tags": [
+        "present",
+        "anger"
+      ]
+    },
+    {
+      "id": "st-07-59",
+      "ref": {
+        "vi": "Quyển 7 · đoạn 59",
+        "en": "Book 7 · 59"
+      },
+      "quote": {
+        "vi": "Hãy nhìn vào bên trong. Bên trong có mạch nguồn của điều lành, và nó luôn tuôn lên nếu bạn luôn chịu đào.",
+        "en": "Look within. Within is the fountain of good, and it will ever bubble up, if thou wilt ever dig."
+      },
+      "gloss": {
+        "vi": "Hình ảnh giếng nước cho thấy nguồn thì có sẵn, nhưng cần đào. Marcus ngụ ý rằng điều lành trong ta được nuôi bằng sự chú ý đều đặn, không chỉ chờ nó tự xuất hiện. Đoạn này mời tìm một chỗ trong ngày để “đào”.",
+        "en": "The image of a well shows that the spring is there but needs digging. Marcus implies that goodness in us is fed by steady attention and does not simply wait to appear. This passage invites you to find a place in your day to “dig”."
+      },
+      "question": {
+        "vi": "Việc nhỏ nào bạn làm đều đặn để nuôi điều bạn quý trong chính mình?",
+        "en": "What small thing do you do regularly to feed what you value in yourself?"
+      },
+      "tags": [
+        "self-knowledge",
+        "attention"
+      ]
+    },
+    {
+      "id": "st-07-61",
+      "ref": {
+        "vi": "Quyển 7 · đoạn 61",
+        "en": "Book 7 · 61"
+      },
+      "quote": {
+        "vi": "Nghệ thuật sống giống nghệ thuật của đô vật hơn nghệ thuật của vũ công, ở chỗ nó cần đứng sẵn và vững để đón những đòn bất ngờ.",
+        "en": "The art of life is more like the wrestler's art than the dancer's, in respect of this, that it should stand ready and firm to meet onsets which are sudden and unexpected."
+      },
+      "gloss": {
+        "vi": "Có thể hiểu hình ảnh vũ công là làm theo một bài đã soạn sẵn, còn đô vật cần ứng biến với đối thủ. Hình ảnh ấy nhắc rằng đời sống có nhiều điều không báo trước, và sự vững vàng là sự sẵn sàng bên trong. Đoạn này mời nhìn xem bạn chuẩn bị cho điều bất ngờ bằng cách nào.",
+        "en": "One can read the dancer as following a prepared piece, while the wrestler has to respond to an opponent. The image reminds us that life brings much that is not announced, and steadiness is readiness within. This passage invites you to look at how you prepare for the unexpected."
+      },
+      "question": {
+        "vi": "Khi một điều bất ngờ ập đến, điều gì trong bạn thường là chỗ dựa đầu tiên?",
+        "en": "When something unexpected arrives, what in you is usually the first thing you lean on?"
+      },
+      "tags": [
+        "resilience",
+        "present"
+      ]
+    },
+    {
+      "id": "st-08-08",
+      "ref": {
+        "vi": "Quyển 8 · đoạn 8",
+        "en": "Book 8 · 8"
+      },
+      "quote": {
+        "vi": "Bạn chẳng có thời gian [hay sức] để đọc. Nhưng bạn có thời gian để kiềm chế sự kiêu ngạo, để vượt lên trên khoái lạc và đau đớn, vượt lên trên lòng ham danh…",
+        "en": "Thou hast not leisure [or ability] to read. But thou hast leisure [or ability] to check arrogance: thou hast leisure to be superior to pleasure and pain: thou hast leisure to be superior to love of fame…"
+      },
+      "gloss": {
+        "vi": "Marcus tự nhắc mình trong lúc không đọc được, rồi chuyển sang điều vẫn làm ngay được: rèn tính. Ông cho thấy việc tu dưỡng bản thân không đợi đủ thời gian cho sách vở. Đoạn này mời nhìn xem điều gì có thể làm ngay giữa một ngày bận.",
+        "en": "Marcus reminds himself, at a time he cannot read, of what can still be done right away: working on character. He shows that tending yourself does not wait for enough time for books. This passage invites you to see what can be done right now in the middle of a busy day."
+      },
+      "question": {
+        "vi": "Giữa ngày bận, có việc nhỏ nào về cách bạn đối xử với chính mình hay người khác mà bạn làm được ngay, không cần thêm thời gian?",
+        "en": "In the middle of a busy day, what small thing about how you treat yourself or others could you do right now without extra time?"
+      },
+      "tags": [
+        "humility",
+        "attention"
+      ]
+    },
+    {
+      "id": "st-08-16",
+      "ref": {
+        "vi": "Quyển 8 · đoạn 16",
+        "en": "Book 8 · 16"
+      },
+      "quote": {
+        "vi": "Hãy nhớ rằng đổi ý và theo người sửa lỗi cho mình cũng tự do như cứ khư khư giữ lỗi. Vì đó vẫn là hành động của chính bạn, theo sự thúc đẩy và phán đoán của bạn, và theo sự hiểu biết của bạn.",
+        "en": "Remember that to change thy opinion and to follow him who corrects thy error is as consistent with freedom as it is to persist in thy error. For it is thy own, the activity which is exerted according to thy own movement and judgment, and indeed according to thy own understanding too."
+      },
+      "gloss": {
+        "vi": "Marcus nhìn việc đổi ý như một hành động tự do, không mang nghĩa thua cuộc. Ông cho rằng khi ta đổi vì thấy rõ hơn, quyết định vẫn là của ta. Đoạn này nói với những ai ngại thay đổi vì sợ mất mặt.",
+        "en": "Marcus sees changing your mind as an act of freedom, not a defeat. He holds that when we change because we see more clearly, the decision is still ours. This passage speaks to anyone reluctant to change for fear of losing face."
+      },
+      "question": {
+        "vi": "Có quan điểm nào bạn đang giữ chỉ vì ngại mất mặt khi đổi?",
+        "en": "Is there a view you are keeping only because you are reluctant to lose face by changing it?"
+      },
+      "tags": [
+        "truth",
+        "humility"
+      ]
+    },
+    {
+      "id": "st-08-32",
+      "ref": {
+        "vi": "Quyển 8 · đoạn 32",
+        "en": "Book 8 · 32"
+      },
+      "quote": {
+        "vi": "Không gì cản được bạn hành động công bằng, tỉnh táo và chu đáo. … Khi chấp nhận trở ngại và chuyển sức sang điều còn được phép, một cơ hội hành động khác lập tức hiện ra thay cho điều bị cản…",
+        "en": "Nothing will stand in the way of thy acting justly and soberly and considerately. … by acquiescing in the hindrance and by being content to transfer thy efforts to that which is allowed, another opportunity of action is immediately put before thee in place of that which was hindered…"
+      },
+      "gloss": {
+        "vi": "Marcus phân biệt việc kế hoạch bị cản với cách mình hành xử, và cách hành xử vẫn nằm trong tay mình. “Chấp nhận trở ngại” ở đây là một hành động: nhìn nhận nó, rồi chuyển sức sang phần còn làm được. Đoạn này không bảo ai chịu đựng điều gây hại; nó nói về những cánh cửa đóng mà ta không đổi được.",
+        "en": "Marcus distinguishes a plan being blocked from the way you conduct yourself, and the latter stays in your hands. “Acquiescing in the hindrance” is an action here: recognise it, then move your effort to what can still be done. This passage does not tell anyone to endure harm; it speaks of closed doors we cannot change."
+      },
+      "question": {
+        "vi": "Khi một kế hoạch bị cản, bạn thường làm gì với sức lực đã dồn vào nó?",
+        "en": "When a plan is blocked, what do you usually do with the energy you had put into it?"
+      },
+      "tags": [
+        "resilience",
+        "control"
+      ]
+    },
+    {
+      "id": "st-08-36",
+      "ref": {
+        "vi": "Quyển 8 · đoạn 36",
+        "en": "Book 8 · 36"
+      },
+      "quote": {
+        "vi": "Đừng làm mình xáo trộn khi nghĩ đến cả cuộc đời. Đừng để ý nghĩ ôm một lúc mọi khó khăn có thể đến; mà mỗi lần hãy tự hỏi: điều gì trong việc này là không thể chịu nổi? Vì bạn sẽ xấu hổ khi phải thú nhận.",
+        "en": "Do not disturb thyself by thinking of the whole of thy life. Let not thy thoughts at once embrace all the various troubles which thou mayest expect to befall thee: but on every occasion ask thyself, What is there in this which is intolerable and past bearing? for thou wilt be ashamed to confess."
+      },
+      "gloss": {
+        "vi": "Marcus gợi cách thu nhỏ phạm vi: gặp khó khăn từng lúc thay vì ôm cả cuộc đời, và ông kỳ vọng hỏi như vậy thì ít điều thật sự không chịu nổi; đó là kỷ luật ông tự đặt cho mình. Điều đó không có nghĩa điều nặng là nhỏ, hay bạn cứ tự gánh một mình; nói với một người bạn tin cũng là cách đáp lại. Nếu bạn thấy không an toàn, bạn có thể gọi 115.",
+        "en": "Marcus suggests narrowing the scope: meet difficulty one moment at a time, not a whole life at once, and he expects that, asked this way, little proves truly past bearing; it is a discipline he sets himself. It does not say heavy things are small or that you carry them alone; telling someone you trust is also a response. If you feel unsafe, you can call 115."
+      },
+      "question": {
+        "vi": "Trong điều đang làm bạn nặng lòng, phần nào thuộc về hôm nay, và phần nào thuộc về những ngày chưa đến?",
+        "en": "In what weighs on you, which part belongs to today, and which part to days that have not arrived?"
+      },
+      "tags": [
+        "present",
+        "calm"
+      ]
+    },
+    {
+      "id": "st-08-49",
+      "ref": {
+        "vi": "Quyển 8 · đoạn 49",
+        "en": "Book 8 · 49"
+      },
+      "quote": {
+        "vi": "Đừng nói với mình điều gì nhiều hơn những gì ấn tượng đầu tiên báo lại. Giả sử có người báo rằng ai đó nói xấu bạn. Điều được báo là thế; còn việc bạn bị hại thì không ai báo cả.",
+        "en": "Say nothing more to thyself than what the first appearances report. Suppose that it has been reported to thee that a certain person speaks ill of thee. This has been reported; but that thou hast been injured, that has not been reported."
+      },
+      "gloss": {
+        "vi": "Marcus tách điều mình nhận được khỏi ý nghĩa mình gán cho nó. Ví dụ của ông là chuyện nghe nói có người chê mình: điều ấy được báo, còn “tôi bị tổn hại” là phần mình thêm vào. Ông không bảo bỏ qua; ông bảo đừng thêm nhiều hơn những gì đã thấy.",
+        "en": "Marcus separates what he receives from the meaning he attaches to it. His example is hearing that someone speaks ill of him: that was reported, while “I have been harmed” is what he adds. He does not say to ignore it; he says not to add more than what was seen."
+      },
+      "question": {
+        "vi": "Trong chuyện gần đây làm bạn lo, đâu là điều bạn thật sự biết và đâu là điều bạn đã thêm vào?",
+        "en": "In something that recently worried you, what do you actually know, and what have you added?"
+      },
+      "tags": [
+        "opinion",
+        "truth"
+      ]
+    },
+    {
+      "id": "st-08-50",
+      "ref": {
+        "vi": "Quyển 8 · đoạn 50",
+        "en": "Book 8 · 50"
+      },
+      "quote": {
+        "vi": "Quả dưa chuột đắng — vứt đi. Có gai trên đường — tránh ra. Thế là đủ. Đừng thêm: sao thế gian lại có những thứ này?",
+        "en": "A cucumber is bitter—Throw it away.—There are briers in the road—Turn aside from them.—This is enough. Do not add, And why were such things made in the world?"
+      },
+      "gloss": {
+        "vi": "Marcus đáp lại điều khó chịu bằng một động tác gọn: nhận ra và xử lý, không cần thêm lời than. Ông nói về những chuyện nhỏ trong ngày, không nói rằng mọi đau khổ chỉ là chiếc gai bên đường. Đoạn này mời xem chỗ nào mình thêm lời than vào một việc chỉ cần tránh.",
+        "en": "Marcus answers what is unpleasant with a simple movement: notice it and deal with it, without adding complaint. He speaks of small matters of the day, not of all suffering being a mere thorn on the road. This passage invites you to see where you add complaint to something that only needed stepping around."
+      },
+      "question": {
+        "vi": "Có chuyện nhỏ nào hôm nay mà bạn đã tốn nhiều lời than hơn mức việc ấy đòi hỏi?",
+        "en": "Was there a small matter today on which you spent more complaint than it called for?"
+      },
+      "tags": [
+        "simplicity",
+        "calm"
+      ]
+    },
+    {
+      "id": "st-09-06",
+      "ref": {
+        "vi": "Quyển 9 · đoạn 6",
+        "en": "Book 9 · 6"
+      },
+      "quote": {
+        "vi": "Ý kiến hiện tại của bạn dựa trên hiểu biết, hành vi hiện tại hướng đến điều ích chung, và tâm thế hiện tại bằng lòng với mọi điều xảy ra — thế là đủ.",
+        "en": "Thy present opinion founded on understanding, and thy present conduct directed to social good, and thy present disposition of contentment with everything which happens—that is enough."
+      },
+      "gloss": {
+        "vi": "Marcus rút ra ba điều đủ cho một lúc: nhìn có hiểu biết, làm vì ích chung, giữ lòng bình thản trước điều xảy ra. “Bằng lòng” ở đây là thái độ bên trong, không mang ý bảo ai chấp nhận điều gây hại. Đoạn này mời tự hỏi bao nhiêu trong ba điều ấy đang có mặt.",
+        "en": "Marcus names three things that are enough at any one time: seeing with understanding, acting for the common good, keeping an even heart toward what happens. “Contentment” here is an inner attitude, not a call to accept what does harm. This passage invites you to ask how many of the three are present."
+      },
+      "question": {
+        "vi": "Ngay lúc này, trong ba điều ấy, điều nào đang hiện diện rõ nhất với bạn, và điều nào ít nhất?",
+        "en": "Right now, of those three, which is most present in you, and which least?"
+      },
+      "tags": [
+        "calm",
+        "purpose"
+      ]
+    },
+    {
+      "id": "st-09-12",
+      "ref": {
+        "vi": "Quyển 9 · đoạn 12",
+        "en": "Book 9 · 12"
+      },
+      "quote": {
+        "vi": "Đừng làm việc như người khốn khổ, cũng đừng như người muốn được thương hại hay ngưỡng mộ; chỉ hướng ý chí về một điều: tự đặt mình vào hành động và tự kiềm chế, như lý trí xã hội đòi hỏi.",
+        "en": "Labor not as one who is wretched, nor yet as one who would be pitied or admired; but direct thy will to one thing only—to put thyself in motion and to check thyself, as the social reason requires."
+      },
+      "gloss": {
+        "vi": "Marcus nhắc mình đừng làm việc để được thương hay được khen, mà để hành động và tự kiềm chế đúng lúc. Ông không bảo giấu nỗi mệt; ông chỉ hỏi về động lực. Đoạn này mời nhìn xem ai là “khán giả” trong đầu khi bạn làm việc.",
+        "en": "Marcus reminds himself not to work to be pitied or praised, but to act and to restrain himself at the right moments. He does not say to hide tiredness; he asks about motive. This passage invites you to see who the “audience” in your head is while you work."
+      },
+      "question": {
+        "vi": "Khi bạn làm việc cật lực, điều gì giữ bạn tiếp tục: chính việc ấy, một người nào đó, hay một điều khác?",
+        "en": "When you work hard, what keeps you going: the work itself, someone in particular, or something else?"
+      },
+      "tags": [
+        "work",
+        "humility"
+      ]
+    },
+    {
+      "id": "st-09-13",
+      "ref": {
+        "vi": "Quyển 9 · đoạn 13",
+        "en": "Book 9 · 13"
+      },
+      "quote": {
+        "vi": "Hôm nay tôi đã thoát khỏi mọi rắc rối, hay đúng hơn tôi đã gạt bỏ mọi rắc rối, vì nó không ở bên ngoài, mà ở bên trong, trong những ý kiến của tôi.",
+        "en": "To-day I have got out of all trouble, or rather I have cast out all trouble, for it was not outside, but within and in my opinions."
+      },
+      "gloss": {
+        "vi": "Marcus ghi lại một lúc nhẹ nhõm khi nhận ra điều làm mình nặng nề nằm ở cách mình nhìn. Đây là một ghi chú cá nhân về một ngày của ông, không mang ý một kết luận chung cho mọi nỗi khổ. Mất mát, nỗi đau và bất công là có thật, không chỉ là chuyện ý kiến; đoạn này mời xem phần nào của điều đang đè lên bạn đến từ cách bạn đang nhìn nó.",
+        "en": "Marcus records a moment of relief when he realises that what weighed on him lay in how he saw it. This is a personal note about one of his days, not a general conclusion for all suffering. Loss, pain and injustice are real, and they are not merely opinions; this passage invites you to see which part of what presses on you comes from how you are looking at it."
+      },
+      "question": {
+        "vi": "Điều làm bạn nặng lòng hôm nay, phần nào đến từ sự việc và phần nào từ cách bạn đang nhìn nó?",
+        "en": "Of what weighs on you today, which part comes from the situation and which from how you are looking at it?"
+      },
+      "tags": [
+        "opinion",
+        "calm"
+      ]
+    },
+    {
+      "id": "st-09-42",
+      "ref": {
+        "vi": "Quyển 9 · đoạn 42",
+        "en": "Book 9 · 42"
+      },
+      "quote": {
+        "vi": "Khi bạn bị xúc phạm bởi hành vi vô liêm sỉ của ai đó, hãy tự hỏi ngay: vậy thế gian có thể không có kẻ vô liêm sỉ sao? Không thể. Vậy đừng đòi điều bất khả.",
+        "en": "When thou art offended with any man's shameless conduct, immediately ask thyself, Is it possible, then, that shameless men should not be in the world? It is not possible. Do not, then, require what is impossible."
+      },
+      "gloss": {
+        "vi": "Marcus nhắc mình rằng có những kiểu người mà ta không thể đòi thế giới không có. Ông không bảo hành vi ấy chấp nhận được hay bảo ai ở lại bên người như vậy; ông chỉ hạ bớt kỳ vọng rằng đời không còn người như thế. Đoạn này mời xem phần giận đến từ kỳ vọng nào.",
+        "en": "Marcus reminds himself that there are kinds of people we cannot ask the world to be without. He does not say such conduct is acceptable or ask anyone to stay near such a person; he only lowers the expectation that life holds no one like that. This passage invites you to see which expectation part of your anger comes from."
+      },
+      "question": {
+        "vi": "Trong cơn giận gần đây của bạn, phần nào là giận trước điều thật sự sai, và phần nào là mong ai đó khác đi?",
+        "en": "In your recent anger, which part is anger at something truly wrong, and which part is wishing someone else were different?"
+      },
+      "tags": [
+        "anger",
+        "others"
+      ]
+    },
+    {
+      "id": "st-10-04",
+      "ref": {
+        "vi": "Quyển 10 · đoạn 4",
+        "en": "Book 10 · 4"
+      },
+      "quote": {
+        "vi": "Nếu ai đó nhầm, hãy chỉ cho họ thấy lỗi một cách tử tế. Nhưng nếu bạn không làm được, hãy tự trách mình, hoặc đừng trách cả chính mình.",
+        "en": "If a man is mistaken, instruct him kindly and show him his error. But if thou art not able, blame thyself, or blame not even thyself."
+      },
+      "gloss": {
+        "vi": "Marcus nêu hai điều: chỉ cho người khác thấy lỗi bằng sự tử tế, và nhìn lại khả năng của mình. Vế cuối lại buông cả lời trách bản thân, cho thấy ông không coi việc tự trách là bắt buộc. Đoạn này mời hạ giọng với cả người khác lẫn chính mình.",
+        "en": "Marcus names two things: showing others their error kindly, and looking at your own capacity. The last clause lets go even of blaming yourself, showing he does not treat self-blame as required. This passage invites you to lower your voice with others and with yourself."
+      },
+      "question": {
+        "vi": "Khi không thuyết phục được ai, bạn nói gì với chính mình sau đó?",
+        "en": "When you fail to persuade someone, what do you say to yourself afterwards?"
+      },
+      "tags": [
+        "kindness",
+        "self-compassion"
+      ]
+    },
+    {
+      "id": "st-10-16",
+      "ref": {
+        "vi": "Quyển 10 · đoạn 16",
+        "en": "Book 10 · 16"
+      },
+      "quote": {
+        "vi": "Đừng nói gì thêm về việc người tốt phải là người thế nào, mà hãy là người như thế.",
+        "en": "No longer talk at all about the kind of man that a good man ought to be, but be such."
+      },
+      "gloss": {
+        "vi": "Marcus tự nhắc mình thôi bàn luận mà bắt đầu sống. Câu này cho thấy nhiều khi ta tốn sức nói về điều mình quý hơn là làm nó. Đoạn này không bảo ngừng suy nghĩ; nó mời chuyển một phần sang hành động nhỏ.",
+        "en": "Marcus reminds himself to stop discussing and start living it. The line shows how often we spend more effort talking about what we value than doing it. This passage does not say to stop thinking; it invites moving part of it into small action."
+      },
+      "question": {
+        "vi": "Có điều gì bạn quý mà hôm nay có thể bắt đầu bằng một việc rất nhỏ?",
+        "en": "Is there something you value that you could begin today with one very small act?"
+      },
+      "tags": [
+        "integrity",
+        "action"
+      ]
+    },
+    {
+      "id": "st-10-24",
+      "ref": {
+        "vi": "Quyển 10 · đoạn 24",
+        "en": "Book 10 · 24"
+      },
+      "quote": {
+        "vi": "Phần chủ đạo của tôi bây giờ là gì đối với tôi? Tôi đang biến nó thành gì? Tôi đang dùng nó vào việc gì? Nó có trống rỗng hiểu biết không? Nó có đứt khỏi đời sống chung không?…",
+        "en": "What is my ruling faculty now to me? and of what nature am I now making it? and for what purpose am I now using it? is it void of understanding? is it loosed and rent asunder from social life?…"
+      },
+      "gloss": {
+        "vi": "Marcus tự kiểm tra tâm trí bằng một chuỗi câu hỏi, giống người thợ xem lại dụng cụ của mình. “Phần chủ đạo” là khả năng suy xét và lựa chọn của ông. Đoạn này mời dừng vài giây để hỏi tâm trí mình đang được dùng vào việc gì.",
+        "en": "Marcus checks his mind with a series of questions, like a craftsman looking over his tools. The “ruling faculty” is his capacity for judgment and choice. This passage invites you to pause for a few seconds and ask what your mind is being used for."
+      },
+      "question": {
+        "vi": "Ngay lúc này, tâm trí bạn đang được dùng vào việc gì, và bạn có chủ động chọn việc đó không?",
+        "en": "Right now, what is your mind being used for, and is it something you chose?"
+      },
+      "tags": [
+        "attention",
+        "self-knowledge"
+      ]
+    },
+    {
+      "id": "st-10-30",
+      "ref": {
+        "vi": "Quyển 10 · đoạn 30",
+        "en": "Book 10 · 30"
+      },
+      "quote": {
+        "vi": "Khi bạn bị xúc phạm vì lỗi của ai đó, hãy lập tức quay về mình và xét xem mình cũng sai theo cách tương tự thế nào; chẳng hạn khi nghĩ tiền bạc, lạc thú hay chút danh tiếng là điều tốt.",
+        "en": "When thou art offended at any man's fault, forthwith turn to thyself and reflect in what like manner thou dost err thyself; for example, in thinking that money is a good thing, or pleasure, or a bit of reputation, and the like."
+      },
+      "gloss": {
+        "vi": "Marcus dùng lỗi của người khác như tấm gương soi lại mình, không để so hơn thua mà để thấy điểm chung, như những điều ta cùng dễ coi trọng quá mức. Cách đọc này dành cho những khó chịu thường ngày; nó không áp cho người đã bị làm hại nặng, và không đòi bạn nhận phần lỗi của họ. Đoạn này mời nhìn điều làm bạn khó chịu ở người khác như một câu hỏi về chính bạn.",
+        "en": "Marcus uses another person’s fault as a mirror for himself, not to compare but to see what is shared, such as things we all tend to overvalue. This reading is for everyday irritations; it does not apply to someone who has been seriously harmed, and it does not ask you to take on their fault. It invites you to treat what bothers you in others as a question about yourself."
+      },
+      "question": {
+        "vi": "Với một điều khó chịu nhỏ gần đây ở một người, có điều gì trong đó giúp bạn hiểu thêm về chính mình không?",
+        "en": "With a small recent annoyance in someone, does anything in it help you understand yourself better?"
+      },
+      "tags": [
+        "humility",
+        "others"
+      ]
+    },
+    {
+      "id": "st-11-13",
+      "ref": {
+        "vi": "Quyển 11 · đoạn 13",
+        "en": "Book 11 · 13"
+      },
+      "quote": {
+        "vi": "Giả sử ai đó khinh tôi, đó là việc của họ. Còn tôi sẽ lo sao cho không bị bắt gặp làm hay nói điều gì đáng khinh. Giả sử ai ghét tôi, đó là việc của họ. Còn tôi sẽ hiền hòa và nhân ái với mọi người…",
+        "en": "Suppose any man shall despise me. Let him look to that himself. But I will look to this, that I be not discovered doing or saying anything deserving of contempt. Shall any man hate me? Let him look to it. But I will be mild and benevolent towards every man…"
+      },
+      "gloss": {
+        "vi": "Marcus chia việc rõ ràng: cách người khác nghĩ về mình là việc của họ, còn cách mình sống là việc của mình. “Hiền hòa và nhân ái” là thái độ ông giữ với cả người ghét mình, đến mức sẵn lòng chỉ cho họ thấy lỗi mà không trách móc (ở phần lược sau dấu ba chấm); điều đó không có nghĩa là cứ ở gần người làm hại mình. Đoạn này mời nhìn xem bạn đang dồn bao nhiêu sức vào điều không thuộc phần mình.",
+        "en": "Marcus divides the work clearly: what others think of him is their business, how he lives is his. “Mild and benevolent” is the stance he keeps even toward someone who hates him, even ready to show that person a mistake without reproach (in the part after the ellipsis); it does not mean staying close to someone who harms him. This passage invites you to see how much energy you spend on what is not your share."
+      },
+      "question": {
+        "vi": "Có ai đó có ý kiến về bạn mà bạn không đồng tình, và bạn đang tốn bao nhiêu sức để thay đổi cách họ nhìn?",
+        "en": "Is there someone whose view of you you disagree with, and how much energy are you spending trying to change how they see you?"
+      },
+      "tags": [
+        "control",
+        "others"
+      ]
+    },
+    {
+      "id": "st-11-29",
+      "ref": {
+        "vi": "Quyển 11 · đoạn 29",
+        "en": "Book 11 · 29"
+      },
+      "quote": {
+        "vi": "Dù viết hay đọc, bạn cũng chưa thể đặt ra quy tắc cho người khác trước khi tự học làm theo quy tắc. Trong đời sống còn đúng hơn thế.",
+        "en": "Neither in writing nor in reading wilt thou be able to lay down rules for others before thou shalt have first learned to obey rules thyself. Much more is this so in life."
+      },
+      "gloss": {
+        "vi": "Marcus nhắc mình: muốn nói với người khác điều gì, trước hết xem mình có sống điều ấy không. Ông nói với chính mình chứ không để phán xét ai. Đoạn này mời nhìn lại những lời khuyên ta hay trao đi.",
+        "en": "Marcus reminds himself: before telling others something, check whether you live it. He speaks to himself and not to judge anyone. This passage invites you to look back at the advice we often hand out."
+      },
+      "question": {
+        "vi": "Có điều gì bạn hay khuyên người khác mà bản thân đang tập làm?",
+        "en": "Is there something you often advise others that you are still practising yourself?"
+      },
+      "tags": [
+        "integrity",
+        "humility"
+      ]
+    },
+    {
+      "id": "st-12-04",
+      "ref": {
+        "vi": "Quyển 12 · đoạn 4",
+        "en": "Book 12 · 4"
+      },
+      "quote": {
+        "vi": "Tôi vẫn thường tự hỏi vì sao ai cũng yêu mình hơn mọi người, nhưng lại coi ý kiến của mình về mình nhẹ hơn ý kiến của người khác.",
+        "en": "I have often wondered how it is that every man loves himself more than all the rest of men, but yet sets less value on his own opinion of himself than on the opinion of others."
+      },
+      "gloss": {
+        "vi": "Marcus nêu một điều ông thấy lạ nơi con người, và ông cũng nằm trong đó. Ông mời nhìn xem ta cho chỗ nào trọng lượng lớn hơn: tiếng nói bên trong hay cái nhìn của người khác. Đoạn này không bảo bỏ qua ý kiến người khác, chỉ mời cân lại.",
+        "en": "Marcus notes something that puzzles him about people, himself included. He invites you to see where you place more weight: the inner voice or other people’s view. This passage does not say to ignore others’ opinions, only to weigh them again."
+      },
+      "question": {
+        "vi": "Việc nào bạn đang làm vì sợ người khác nghĩ gì hơn là vì bạn thật sự muốn?",
+        "en": "What are you doing more out of fear of what others think than because you truly want to?"
+      },
+      "tags": [
+        "self-knowledge",
+        "opinion"
+      ]
+    },
+    {
+      "id": "st-12-17",
+      "ref": {
+        "vi": "Quyển 12 · đoạn 17",
+        "en": "Book 12 · 17"
+      },
+      "quote": {
+        "vi": "Nếu không đúng thì đừng làm; nếu không thật thì đừng nói.",
+        "en": "If it is not right, do not do it: if it is not true, do not say it."
+      },
+      "gloss": {
+        "vi": "Hai câu, hai tiêu chuẩn: đúng với việc làm, thật với lời nói. Marcus giữ chúng giản dị để dùng được cả lúc vội. Đoạn này mời nhận ra những lúc ta nói điều mình không chắc là thật.",
+        "en": "Two lines, two standards: rightness for acts, truth for words. Marcus keeps them simple so they can be used even in a hurry. This passage invites you to notice the times you say things you are not sure are true."
+      },
+      "question": {
+        "vi": "Lần gần nhất bạn nói điều mà trong lòng không chắc là thật, điều gì khiến bạn nói như vậy?",
+        "en": "The last time you said something you were not sure was true, what led you to say it?"
+      },
+      "tags": [
+        "truth",
+        "integrity"
+      ]
+    },
+    {
+      "id": "st-12-22",
+      "ref": {
+        "vi": "Quyển 12 · đoạn 22",
+        "en": "Book 12 · 22"
+      },
+      "quote": {
+        "vi": "Hãy xem rằng mọi thứ là ý kiến, và ý kiến nằm trong quyền của bạn. Khi muốn, hãy bỏ ý kiến đi, và như người thủy thủ vòng qua mũi đất, bạn thấy lặng, mọi thứ ổn định, một vịnh không sóng.",
+        "en": "Consider that everything is opinion, and opinion is in thy power. Take away then, when thou choosest, thy opinion, and like a mariner who has doubled the promontory, thou wilt find calm, everything stable, and a waveless bay."
+      },
+      "gloss": {
+        "vi": "Ở đây Marcus nói về cách ta nhìn sự việc, chứ không về sự việc tự nó. Hình ảnh vịnh lặng là cảm giác khi ta buông một cách diễn giải đang làm mình căng. Mất mát, tổn thương và bất công là có thật, và đoạn này không đòi bạn xem chúng chỉ là ý kiến; nó mời xem lại phần diễn giải của mình.",
+        "en": "Here Marcus speaks about how we view events, not the events themselves. The calm bay is the feeling of letting go of an interpretation that keeps you tense. Loss, hurt and injustice are real, and this passage does not ask you to treat them as mere opinion; it invites you to look again at your own interpretation."
+      },
+      "question": {
+        "vi": "Cách nhìn nào của bạn gần đây, nếu nới ra một chút, có thể làm lòng bạn lặng hơn?",
+        "en": "Which view of yours lately, if loosened a little, might quiet your mind?"
+      },
+      "tags": [
+        "opinion",
+        "calm"
+      ]
     }
   ]
 }

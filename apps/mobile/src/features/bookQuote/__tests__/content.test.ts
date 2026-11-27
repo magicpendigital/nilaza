@@ -3,6 +3,25 @@ import {
   getBookQuoteFile, homeBookQuote, homeBookQuoteBook, isBookQuoteFileVisible, pickBookQuote, stableHash, visibleBookQuoteItems
 } from "../content";
 
+const bookQuoteDataDir = "../../../../../../packages/content/data/book-quotes";
+const bookQuoteDataFiles = ["dao-duc-kinh", "suy-tuong", "kinh-phap-cu", "binh-phap-ton-tu", "kinh-dich"];
+// Re-requires the module with every content file forced to draft, except the ones listed as approved.
+function withBookQuoteStatuses<T>(approved: string[], load: () => T): T {
+  let result: T | undefined;
+  jest.isolateModules(() => {
+    for (const book of bookQuoteDataFiles) {
+      jest.doMock(`${bookQuoteDataDir}/${book}.json`, () => {
+        const actual = jest.requireActual(`${bookQuoteDataDir}/${book}.json`);
+        return approved.includes(book)
+          ? { ...actual, review: { status: "approved", reviewer: "QA fixture", reviewedAt: "2026-11-27" } }
+          : { ...actual, review: { status: "draft", reviewer: null, reviewedAt: null } };
+      });
+    }
+    result = load();
+  });
+  return result as T;
+}
+
 test("feature id is one constant", () => {
   expect(BOOK_QUOTE_FEATURE_ID).toBe("book_quote");
 });
@@ -60,40 +79,45 @@ test("Home rotates one book per day through all five books", () => {
   expect(today?.item.id).toBe(pickBookQuote(shown[0]!, "2026-11-27", true)?.item.id);
 });
 
-test("draft gate is closed by default: with every file still draft nothing reaches users", () => {
+test("the shipped content is Owner-approved, so all five books reach users with the gate closed", () => {
   expect(SHOW_DRAFT_BOOK_QUOTES).toBe(false);
   for (const book of bookQuoteBookOrder) {
     const file = getBookQuoteFile(book);
-    expect(file.review.status).toBe("draft");
-    expect(isBookQuoteFileVisible(file)).toBe(false);
-    expect(visibleBookQuoteItems(file)).toEqual([]);
-    expect(pickBookQuote(book, "2026-11-27")).toBeNull();
-    // The persona page button has no book to open.
-    expect(bookQuoteBookForPersona(file.personaId)).toBeUndefined();
+    expect(file.review.status).toBe("approved");
+    expect(file.sample).toBeUndefined();
+    expect(isBookQuoteFileVisible(file)).toBe(true);
+    expect(pickBookQuote(book, "2026-11-27")).not.toBeNull();
+    expect(bookQuoteBookForPersona(file.personaId)).toBe(book);
+  }
+  expect(availableBookQuoteBooks()).toEqual(bookQuoteBookOrder);
+  expect(homeBookQuote("2026-11-27")).not.toBeNull();
+  expect(getBookQuoteFile("kinh-dich").items).toHaveLength(64);
+});
+
+test("draft gate: a file that is not approved never reaches users", () => {
+  const file = getBookQuoteFile("suy-tuong");
+  expect(isBookQuoteFileVisible({ ...file, review: { status: "draft", reviewer: null, reviewedAt: null } })).toBe(false);
+  expect(isBookQuoteFileVisible({ ...file, review: { status: "reviewed", reviewer: "QA", reviewedAt: "2026-11-27" } })).toBe(false);
+  expect(visibleBookQuoteItems({ ...file, review: { status: "reviewed", reviewer: "QA", reviewedAt: "2026-11-27" } })).toEqual([]);
+  const gated = withBookQuoteStatuses([], () => require("../content") as typeof import("../content"));
+  for (const book of gated.bookQuoteBookOrder) {
+    expect(gated.pickBookQuote(book, "2026-11-27")).toBeNull();
+    expect(gated.bookQuoteBookForPersona(gated.getBookQuoteFile(book).personaId)).toBeUndefined();
   }
   // No books: App passes no onBookQuote to Explore, and Home gets no card.
-  expect(availableBookQuoteBooks()).toEqual([]);
-  expect(homeBookQuoteBook("2026-11-27")).toBeNull();
-  expect(homeBookQuote("2026-11-27")).toBeNull();
-  const file = getBookQuoteFile("suy-tuong");
-  expect(isBookQuoteFileVisible({ ...file, review: { status: "reviewed", reviewer: "QA", reviewedAt: "2026-11-27" } })).toBe(false);
-  expect(isBookQuoteFileVisible({ ...file, review: { status: "approved", reviewer: "QA", reviewedAt: "2026-11-27" } })).toBe(true);
+  expect(gated.availableBookQuoteBooks()).toEqual([]);
+  expect(gated.homeBookQuoteBook("2026-11-27")).toBeNull();
+  expect(gated.homeBookQuote("2026-11-27")).toBeNull();
 });
 
 test("an approved file is the only one shown, on every entry point, with the gate closed", () => {
-  jest.isolateModules(() => {
-    jest.doMock("../../../../../../packages/content/data/book-quotes/suy-tuong.json", () => {
-      const actual = jest.requireActual("../../../../../../packages/content/data/book-quotes/suy-tuong.json");
-      return { ...actual, sample: false, review: { status: "approved", reviewer: "QA fixture", reviewedAt: "2026-11-27" } };
-    });
-    const gated = require("../content") as typeof import("../content");
-    expect(gated.availableBookQuoteBooks()).toEqual(["suy-tuong"]);
-    expect(gated.bookQuoteBookForPersona("book-stoic-journal")).toBe("suy-tuong");
-    expect(gated.bookQuoteBookForPersona("book-i-ching")).toBeUndefined();
-    expect(gated.homeBookQuote("2026-11-27")?.book).toBe("suy-tuong");
-    expect(gated.homeBookQuote("2026-11-28")?.book).toBe("suy-tuong");
-    expect(gated.pickBookQuote("kinh-dich", "2026-11-27")).toBeNull();
-  });
+  const gated = withBookQuoteStatuses(["suy-tuong"], () => require("../content") as typeof import("../content"));
+  expect(gated.availableBookQuoteBooks()).toEqual(["suy-tuong"]);
+  expect(gated.bookQuoteBookForPersona("book-stoic-journal")).toBe("suy-tuong");
+  expect(gated.bookQuoteBookForPersona("book-i-ching")).toBeUndefined();
+  expect(gated.homeBookQuote("2026-11-27")?.book).toBe("suy-tuong");
+  expect(gated.homeBookQuote("2026-11-28")?.book).toBe("suy-tuong");
+  expect(gated.pickBookQuote("kinh-dich", "2026-11-27")).toBeNull();
 });
 
 test("chat hand-off stays inside the server limits and carries the quote, not anything personal", () => {

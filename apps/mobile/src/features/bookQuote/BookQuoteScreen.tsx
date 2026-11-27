@@ -128,7 +128,7 @@ export function BookQuoteScreen({ language, dateKey, initialBook, storage, perso
       <Text style={s.ref}>{bookQuoteText(quote.item, "ref", language)}</Text>
       <Text testID="book-quote-text" style={s.quote}>{`“${bookQuoteText(quote.item, "quote", language)}”`}</Text>
       <Text style={s.attribution}>{`— ${attribution}`}</Text>
-      <Text style={s.translator}>{vi ? quote.file.source.vietnamese : `English after ${quote.file.source.englishBase}`}</Text>
+      <Text style={s.translator}>{vi ? quote.file.source.vietnamese : `English: ${quote.file.source.englishBase}`}</Text>
 
       <View style={s.section}>
         <Text accessibilityRole="header" style={s.kicker}>{vi ? "LỜI BÌNH" : "COMMENTARY"}</Text>

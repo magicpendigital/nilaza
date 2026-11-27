@@ -1,0 +1,3945 @@
+{
+  "schemaVersion": 1,
+  "batchId": "book-quotes-ddk-kd-2026-11-27",
+  "feature": "Một câu cho hôm nay: Đạo Đức Kinh (60) và Kinh Dịch (64)",
+  "dataFiles": [
+    "packages/content/data/book-quotes/dao-duc-kinh.json",
+    "packages/content/data/book-quotes/kinh-dich.json"
+  ],
+  "reviewedAt": "2026-11-27",
+  "editor": "editor-in-chief agent (Claude Code, Opus 5.5)",
+  "drafter": "AI (Claude Sonnet 5.5 subagent); fixes applied by drafter (round 2) and editor (round 3)",
+  "contentHashMethod": "sha256 of the item object as JSON with sorted keys, no spaces, UTF-8",
+  "panel": [
+    {
+      "role": "east-asian-classics",
+      "engine": "claude-subagent (Sonnet 5.5)"
+    },
+    {
+      "role": "east-asian-classics",
+      "engine": "claude-subagent (Sonnet 5.5)"
+    },
+    {
+      "role": "safety-ethics",
+      "engine": "claude-subagent (Sonnet 5.5)"
+    },
+    {
+      "role": "sources-rights",
+      "engine": "claude-subagent (Sonnet 5.5)"
+    },
+    {
+      "role": "language-translation",
+      "engine": "claude-subagent (Sonnet 5.5)"
+    },
+    {
+      "role": "round2-combined (classics, safety, sources, language)",
+      "engine": "claude-subagent (Sonnet 5.5)"
+    }
+  ],
+  "items": [
+    {
+      "id": "ddk-001",
+      "file": "dao-duc-kinh",
+      "contentSha256": "860609e2720b1fb5ccfc2bfad0813018ef8bedf77705a0e9ad5c170e031f86a9",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": true
+    },
+    {
+      "id": "ddk-002",
+      "file": "dao-duc-kinh",
+      "contentSha256": "b7edcc0949e452fd1951ae551de98b78ec786392f1ce1c090c4eb73cb0e0283a",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-004",
+      "file": "dao-duc-kinh",
+      "contentSha256": "9f04ac039f0b139a47673654ea0b085291f5df067857271b4ecd2795462f38b7",
+      "verdict": "PASS",
+      "round": 3,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "REVISE",
+          "note": "EN echoes modern renderings (empty vessel used but never filled; ancestor of all things, cf. Feng/English, Chan); replace with Nilaza-own wording.",
+          "evidence": "nilaza-translation; base public-domain (Legge). Checked from memory only, no text diff run"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "REVISE",
+          "note": "vi says 'như chiếc bình rỗng' and the gloss builds on the vessel image, but the new en drops the vessel ('The Tao is empty'); the Feng 'used but never filled' echo must not return."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-005",
+      "file": "dao-duc-kinh",
+      "contentSha256": "7a83c4b393f02b27a30bb8a4cfe5c868f17b0e7195992c8e20f8b661eab1e5da",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "English gloss ending is awkward ('the moment you spoke further than what you really think').",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gloss en now natural; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-006",
+      "file": "dao-duc-kinh",
+      "contentSha256": "a7d5983322b3613f43237560ef74ca69f61cb800b3366db80cc5d4679d1c8e00",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "'hang thung lũng' is wrong (谷 is a valley; 'hang' means cave) and 不死 is rendered 'không tắt' instead of 'không chết'. Otherwise faithful; 玄牝 as 'mẹ huyền diệu' is an acceptable gloss of 'mysterious female'.",
+          "evidence": "Wang Bi text, zh.wikisource.org 老子道德經注 (fetched), ch.6: 谷神不死，是謂玄牝。玄牝之門，是謂天地根。緜緜若存，用之不勤. Legge 1891 for English."
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Round-1 fix applied (thung lũng, không chết); vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-007",
+      "file": "dao-duc-kinh",
+      "contentSha256": "80c2b2dd27048f06028e09323676a12e19e3d369be2e5ffe764f4d0a36fc3c57",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-008",
+      "file": "dao-duc-kinh",
+      "contentSha256": "be87ed61a19c81469a6e423e0b9a0ee070a5137d3098fe60e1b9e26fcbcad442",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-009",
+      "file": "dao-duc-kinh",
+      "contentSha256": "7283ea8442f008dc80bec39ced3240cf725eac79039263b2571bad435b923eff",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "Two lines (金玉滿堂…自遺其咎) are silently dropped between the blade line and 功遂身退, so the quote implies continuity that is not in the text. Mark the omission with an ellipsis.",
+          "evidence": "Wang Bi text, zh.wikisource.org 老子道德經注 (fetched), ch.9: 持而盈之，不如其已；揣而梲之，不可長保。[金玉滿堂，莫之能守；富貴而驕，自遺其咎。]功遂身退，天之道. Legge 1891 for English."
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Question presupposes the user is acting on inertia (leading).",
+          "evidence": "gloss and question read in full"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Ellipsis marks the dropped lines; question no longer leading; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-010",
+      "file": "dao-duc-kinh",
+      "contentSha256": "e03d54e5921771fdbdcf23b7bff713ad8069aef6851a62005e5ed12eff274540",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Question presupposes difficulty letting go (leading).",
+          "evidence": "gloss and question read in full"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "English question is clunky and heavier than the Vietnamese.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Safety question version used; en no longer clunky; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-011",
+      "file": "dao-duc-kinh",
+      "contentSha256": "a34d88f047041b1a1e0ddaba3051d718b9e02a602d2c5cbdbc3fc6514cb5c77c",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "The room example (鑿戶牖以為室) is silently dropped, yet the gloss speaks of 'bức tường / the room's walls'; also 轂 is the hub (bầu xe), not a 'trục' (axle).",
+          "evidence": "Wang Bi text, zh.wikisource.org 老子道德經注 (fetched), ch.11: 三十輻共一轂，當其無，有車之用。埏埴以為器…鑿戶牖以為室…故有之以為利，無之以為用. Legge 1891 for English."
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "REVISE",
+          "note": "Opening 'Thirty spokes share one hub' mirrors Gia-fu Feng & English (in copyright); re-base on Legge.",
+          "evidence": "nilaza-translation; base public-domain (Legge). Checked from memory only, no text diff run"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "All three examples kept, vi is 212 chars (under 220); en is Legge-based, no Feng echo. Minor: vi says 'cửa', en 'doors and windows'; acceptable."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": true
+    },
+    {
+      "id": "ddk-012",
+      "file": "dao-duc-kinh",
+      "contentSha256": "e9e54979bae53956bd9fb7cbc11dc8105d3fb682a65867805742345a486dd747",
+      "verdict": "PASS",
+      "round": 3,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "REVISE",
+          "note": "Blind the eye / deafen the ear / dull the taste is the Feng/English and Lin Yutang triplet nearly word for word.",
+          "evidence": "nilaza-translation; base public-domain (Legge). Checked from memory only, no text diff run"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "REVISE",
+          "note": "en now says blind/deaf/lose taste while vi says mờ đi/nặng đi/tê đi (dim/heavy/numb): strength differs. en also uses British colours/flavours while the app uses US spelling."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-013",
+      "file": "dao-duc-kinh",
+      "contentSha256": "25e480cb919c1c8dbed6882b8c7f8df9ebfc880689bd7649855b0a98e33efa35",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-015",
+      "file": "dao-duc-kinh",
+      "contentSha256": "35f0453fc886cca7e372e84d5201f4aa640182c6b29cb98e871001f719cfd83d",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-016",
+      "file": "dao-duc-kinh",
+      "contentSha256": "33663a77f024db7cb49cfb8732b1c20c56b8e1ad83295bee71f6defac614a7fa",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-017",
+      "file": "dao-duc-kinh",
+      "contentSha256": "a6d36e641d153b5b88beee60e8d26a7d48d683853e2335ac1455d314afe01daa",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "REVISE",
+          "note": "'we did it ourselves' and 'best leaders...barely known' echo Feng/English and Mitchell; Legge reads 'We are as we are of ourselves'.",
+          "evidence": "nilaza-translation; base public-domain (Legge). Checked from memory only, no text diff run"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Legge-based en, no Mitchell echo; vi/en agree. Note: 'we are as we are of ourselves' is opaque English but faithful and rights-safe."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-019",
+      "file": "dao-duc-kinh",
+      "contentSha256": "92c2da81c6ebec91d3dbbebba8a806c9d0752c6e8a97752b22b8d4f029fe3dd2",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "'bớt riêng tư' reads in modern Vietnamese as 'less privacy'; 私 means self-interest/selfish desire. Also 素 (undyed silk) is flattened to 'mộc mạc' while the gloss speaks of 'tơ sống'. The gloss also uses 'Bớt riêng tư' and needs the same change.",
+          "evidence": "Wang Bi text, zh.wikisource.org 老子道德經注 (fetched), ch.19: 見素抱樸，少私寡欲. Legge 1891 for English."
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Question presupposes the user is performing for others and nudges self-judgement.",
+          "evidence": "gloss and question read in full"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "'hợp' replaced by 'vừa'; 私 now 'lòng riêng'/self-interest; question non-leading; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-020",
+      "file": "dao-duc-kinh",
+      "contentSha256": "866287d8d9d88f6e1e78cdd77dd8bb951494689f7a89a9b1a754f64f227cec59",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "English gloss gives the author 'himself'; the Vietnamese is neutral.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "'himself' removed; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-022",
+      "file": "dao-duc-kinh",
+      "contentSha256": "67db52623549b0ac075e08e4cf149d7fa4536a27ad62ffc10274e874aa8fe173",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "Quote is accurate. The gloss turns the chain of paradoxes into 'a flaw is room for something new', a self-help reading; the text says yielding/bending is the way to wholeness, and 少則得 / 多則惑 contrasts few and many.",
+          "evidence": "Wang Bi text, zh.wikisource.org 老子道德經注 (fetched), ch.22: 曲則全，枉則直，窪則盈，敝則新，少則得，多則惑. Legge 1891 for English."
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gloss now follows the text (yielding is the way to wholeness); closing application stays tentative."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-023",
+      "file": "dao-duc-kinh",
+      "contentSha256": "c687f20456ec15323c52db2bb620b0350dbe9dc0681b57150faf40201600e354",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Question implies the emotion was shorter than it felt; may invalidate persistent anxiety or low mood.",
+          "evidence": "gloss and question read in full"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Question rewritten, no presupposition that the emotion was shorter than it felt; gloss ok."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-024",
+      "file": "dao-duc-kinh",
+      "contentSha256": "4e755242221763041b393904e11d56272ab7eef13618c98b19ae6cc910fe10d3",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-025",
+      "file": "dao-duc-kinh",
+      "contentSha256": "a8cf7e61ad57466e2019ce0b33f7a996aaaf50932e385ce1bcbccbd0d73a012a",
+      "verdict": "PASS",
+      "round": 3,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "REVISE",
+          "note": "'the Tao follows what is natural' is Feng/English wording; Legge says 'takes its law'.",
+          "evidence": "nilaza-translation; base public-domain (Legge). Checked from memory only, no text diff run"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "REVISE",
+          "note": "Quote en now ends 'its being what it is', but gloss.en still speaks of 'what is natural', which no longer appears in the quote."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-026",
+      "file": "dao-duc-kinh",
+      "contentSha256": "8b2cabd1da9997c4b12f18993fba4b1f00ca61b09c70ae76b2c073de4d435356",
+      "verdict": "PASS",
+      "round": 3,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "REVISE",
+          "note": "'The heavy is the root of the light' matches Feng/English and Lin Yutang; Legge: gravity/lightness.",
+          "evidence": "nilaza-translation; base public-domain (Legge). Checked from memory only, no text diff run"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "REVISE",
+          "note": "New en 'ruler of movement' no longer matches vi 'chủ của vội vàng' (haste); the old 'master of haste' was right. gloss.en also still says heavy/light while the quote now says gravity/lightness; change those two words in the gloss."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-027",
+      "file": "dao-duc-kinh",
+      "contentSha256": "80f160b7dc36580d036a7ac3054b6154a79ff43700f46ec16367597f02f56918",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-028",
+      "file": "dao-duc-kinh",
+      "contentSha256": "7e6b8f0d6d687742cfac21180814cd937f131b6cc4ea4635940362f5847ce29e",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-029",
+      "file": "dao-duc-kinh",
+      "contentSha256": "8345ee45140c3d6a8c13616da38cc435e4bca5f9d373fad306d5b3d198227661",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-033",
+      "file": "dao-duc-kinh",
+      "contentSha256": "7883a7f5a7556bf37c1e172730327acaac134f58b9dc5678f94f614b49c92bfe",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "REVISE",
+          "note": "'enlightened', 'press on...will' track Lin Yutang and Feng/English; Legge: discerning / intelligent / firm will.",
+          "evidence": "nilaza-translation; base public-domain (Legge). Checked from memory only, no text diff run"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Legge-based en, meaning matches vi. Optional: generic 'he' in en while vi is neutral."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-034",
+      "file": "dao-duc-kinh",
+      "contentSha256": "778790f72fb1a9da30d6fda58d667e30cfe8a9622d5d5783fbfa0583a2aeb3d9",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-035",
+      "file": "dao-duc-kinh",
+      "contentSha256": "41eb83d439eb46507269957aaa4034f5aab22fa7fad6e0927ecd7d8d60592e5b",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-037",
+      "file": "dao-duc-kinh",
+      "contentSha256": "bdabee9bc5b26a0218bbda0262b00351f35e7991b84ea2ead91a930e2dac7e09",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-038",
+      "file": "dao-duc-kinh",
+      "contentSha256": "dd9f7a743b8e75f72d2a824701cabff083fba232ec8d676f2ffec223ca7259c1",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "Quote is accurate. The gloss says the line 'does not scorn beauty', but in ch.38 華 (flower, showiness) is exactly what is set aside, as the rest of the chapter shows; say it concerns showiness, not beauty.",
+          "evidence": "Wang Bi text, zh.wikisource.org 老子道德經注 (fetched), ch.38: 是以大丈夫處其厚，不居其薄；處其實，不居其華. Legge 1891 for English."
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gloss now says 'flower' = showiness, not beauty; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-039",
+      "file": "dao-duc-kinh",
+      "contentSha256": "40e726df955fd7a9cf946893757b783d74ef17be04973dc6277aa84a0d88615d",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-040",
+      "file": "dao-duc-kinh",
+      "contentSha256": "a6eb011b5b66403e51a031f1ba6f4c41f60819f7d7a85c2a411f38b8584fe084",
+      "verdict": "PASS",
+      "round": 3,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "UNSURE",
+          "note": "'Returning is the movement of the Tao' resembles Mitchell ('Return is the movement of the Tao'); Legge differs. Needs a text diff.",
+          "evidence": "nilaza-translation; base public-domain (Legge). Checked from memory only, no text diff run"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "English gloss writes 'fan' for the Chinese word, which reads as an English word; use pinyin with tone.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "REVISE",
+          "note": "New en 'sprang from it as existent, and that existence sprang from it as non-existent' is cryptic and differs from vi 'sinh từ có, có sinh từ không' (adds 'it'). Keep the Legge-based first half; put the second half in plain words matching vi."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-041",
+      "file": "dao-duc-kinh",
+      "contentSha256": "77f63303bd85fe65d573f601e11df347c1d6156585ad02d3657b12183cef07a4",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-042",
+      "file": "dao-duc-kinh",
+      "contentSha256": "0287e13639d35222c15cf22374800763f09b2935ee8936e3696252ec6c845123",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "沖氣 is the blending/harmonizing breath (Heshang Gong: 沖，和也), not 'khí trống rỗng ở giữa'; 'the breath of emptiness between them' imports a reading from ch.4/11 that this line does not state.",
+          "evidence": "Wang Bi text, zh.wikisource.org 老子道德經注 (fetched), ch.42: 道生一，一生二，二生三，三生萬物。萬物負陰而抱陽，沖氣以為和. Legge 1891 for English."
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "沖氣 now blending breath; new question is mild and abstract, no banned word; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-043",
+      "file": "dao-duc-kinh",
+      "contentSha256": "5cff1cadf5a3f4b10faaa63d679bdb32e860baf639afdb6da8b2f9d5edeceff8",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-044",
+      "file": "dao-duc-kinh",
+      "contentSha256": "67fbf47e0c41efeb9075058a64799f5001f02ab1d6cbf8e3a72ad912e12674d0",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "The third question (得與亡孰病) and the line 甚愛必大費，多藏必厚亡 are silently dropped, yet the gloss speaks of 'ba câu hỏi đầu' while the quote shows only two.",
+          "evidence": "Wang Bi text, zh.wikisource.org 老子道德經注 (fetched), ch.44: 名與身孰親？身與貨孰多？得與亡孰病？是故甚愛必大費，多藏必厚亡，知足不辱，知止不殆，可以長久. Legge 1891 for English."
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Gloss says 'Ba câu hỏi đầu' / 'The first questions' but the quote holds two questions.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Third question restored; ellipsis replaces 甚愛必大費…; gloss says three questions in both languages; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": true
+    },
+    {
+      "id": "ddk-045",
+      "file": "dao-duc-kinh",
+      "contentSha256": "c3e6d4278a92f1056f24293467b4b3ee3d0e42500734a65b6f88607cd5a9b15e",
+      "verdict": "PASS",
+      "round": 3,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "Quote accurate. The gloss and question turn the line into 'feeling you lack gives room to grow', a growth-mindset reading; the text says true greatness looks like its opposite and its use does not wear out.",
+          "evidence": "Wang Bi text, zh.wikisource.org 老子道德經注 (fetched), ch.45: 大成若缺，其用不弊。大盈若沖，其用不窮。大直若屈，大巧若拙，大辯若訥. Legge 1891 for English."
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "'chẳng luôn trùng nhau' is stilted (dodging 'không phải lúc nào cũng').",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "REVISE",
+          "note": "Classics asked that the question stop reading the line as 'lack leaves room to grow'; new question still says the lack is 'giữ chỗ cho một điều khác'. Low severity: the gloss now carries the disclaimer."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-046",
+      "file": "dao-duc-kinh",
+      "contentSha256": "36bb35293082771692231738c376cd8119ecc6bcd7692bc6c842a97ce3ce2a14",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-047",
+      "file": "dao-duc-kinh",
+      "contentSha256": "57d42c7a5a6507dc003668e6d6e8101231679f5c88c92ed5133bfa32e7b01982",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-048",
+      "file": "dao-duc-kinh",
+      "contentSha256": "3e5a156594a97ba390bce628fa38aefd2cf4bb3af22ed6db757cb530d8c7f61f",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-052",
+      "file": "dao-duc-kinh",
+      "contentSha256": "7d10792b008c83328ef2e537bc7079fdac2cde3f1b6eae8512d7ef04e86edcfa",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-054",
+      "file": "dao-duc-kinh",
+      "contentSha256": "158985f127208b59e123f7f94ef4582c7b9d9651993b79fae16a0f4a7c4cc218",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "The line 子孫以祭祀不輟 is dropped without a mark; add an ellipsis after the first sentence.",
+          "evidence": "Wang Bi text, zh.wikisource.org 老子道德經注 (fetched), ch.54: 善建者不拔，善抱者不脫，[子孫以祭祀不輟。]修之於身，其德乃真；修之於家，其德乃餘；修之於鄉，其德乃長. Legge 1891 for English."
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Ellipsis marks the dropped line; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-055",
+      "file": "dao-duc-kinh",
+      "contentSha256": "c684a2a971509e3b6d8b70fb900f6f2e7d01143db21efe1e76af8e0ef4c38403",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "Several lines between 比於赤子 and 終日號而不嗄 are dropped without a mark, making 'Nó gào cả ngày' read as the next sentence. Add an ellipsis.",
+          "evidence": "Wang Bi text, zh.wikisource.org 老子道德經注 (fetched), ch.55: 含德之厚，比於赤子。[蜂蠆虺蛇不螫…精之至也。]終日號而不嗄，和之至也. Legge 1891 for English."
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Ellipsis marks the dropped lines; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-056",
+      "file": "dao-duc-kinh",
+      "contentSha256": "bf897669ce90c64222381088bf2e26319fe54bccf01c56f2f6916ec11cecd532",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "塞其兌，閉其門 is dropped between the two halves without a mark. Add an ellipsis.",
+          "evidence": "Wang Bi text, zh.wikisource.org 老子道德經注 (fetched), ch.56: 知者不言，言者不知。[塞其兌，閉其門，]挫其銳，解其分，和其光，同其塵，是謂玄同. Legge 1891 for English."
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "REVISE",
+          "note": "'Blunt the sharpness, untie the tangles' is the Lin Yutang / Feng phrasing; Legge: temper brightness, 'mysterious agreement'.",
+          "evidence": "nilaza-translation; base public-domain (Legge). Checked from memory only, no text diff run"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Ellipsis added; en is Legge-leaning ('mysterious agreement'); 'blunt your own sharpness' is close to a common rendering but not a copy."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-057",
+      "file": "dao-duc-kinh",
+      "contentSha256": "4f5ef1e5518b65c6e09cee6cba6e22166dbcc6f49094bce1a9634580d27d20a0",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-058",
+      "file": "dao-duc-kinh",
+      "contentSha256": "172a4b9271855e9fc15aee1350fa465ba08c577c5c11a2bebc20c9e6734a6763",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-060",
+      "file": "dao-duc-kinh",
+      "contentSha256": "48fff78f128cdf96e2ed18acbc4ad0da6d9b017353a635a308dd342fe7143b72",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-062",
+      "file": "dao-duc-kinh",
+      "contentSha256": "397d3ca76ca6b3c2b256deef1d05efe742dacab6cb0454108e0ae3eba67462a6",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "不善人 is 'the not-good'; 'chưa hiền / not-yet-good' adds a hope of change the text does not state (and the English is inconsistent: 'not-yet-good' then 'the not-good'). Minor; keep only if the editors deliberately accept the softening.",
+          "evidence": "Wang Bi text, zh.wikisource.org 老子道德經注 (fetched), ch.62: 道者萬物之奧。善人之寶，不善人之所保…人之不善，何棄之有？. Legge 1891 for English."
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Gloss/question could push someone toward softening toward a person who harmed them; add a safety frame and make the question non-leading.",
+          "evidence": "gloss and question read in full"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "'chẳng hiền'/'not-good' consistent; gloss and question add a safety frame (does not replace keeping oneself safe); not leading."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": true
+    },
+    {
+      "id": "ddk-063",
+      "file": "dao-duc-kinh",
+      "contentSha256": "8772787bb3632a7ed483b59e232cb08730a86291712975f09e2cc91ff7d5c5d0",
+      "verdict": "PASS",
+      "round": 3,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Question is awkward in both languages ('có thể nhìn từ bước nhỏ nhất' / 'can be viewed from its smallest step').",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "REVISE",
+          "note": "Applied language fix is still awkward in vi and differs in strength from en ('can you name ... and what is it' sounds like a test)."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-064",
+      "file": "dao-duc-kinh",
+      "contentSha256": "11114989873b3d255486b3c770891543db9e3081ded853e06c6e974cd2bc3341",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-064b",
+      "file": "dao-duc-kinh",
+      "contentSha256": "c916a2e7d2a4141cede3f3f3beab9fd0d699ff6b621c0c6d8dd6f2841ae71a9a",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-066",
+      "file": "dao-duc-kinh",
+      "contentSha256": "1b1fdfacd03755e343b6cc0369029f3962f123222210ae05370740cf62c97d4a",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "After the ellipsis the subject of 以其不爭，故天下莫能與之爭 is the sage (聖人), but 'họ / them' reads as the rivers and seas. Name the subject.",
+          "evidence": "Wang Bi text, zh.wikisource.org 老子道德經注 (fetched), ch.66: 江海所以能為百谷王者，以其善下之…以其不爭，故天下莫能與之爭. Legge 1891 for English."
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "REVISE",
+          "note": "'good at keeping low' matches Feng/English; Legge: skill in being lower.",
+          "evidence": "nilaza-translation; base public-domain (Legge). Checked from memory only, no text diff run"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Subject now 'the sage' in both languages; Legge-based. Optional: 'lower than they' is stiff."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-067",
+      "file": "dao-duc-kinh",
+      "contentSha256": "2e37c01453061e3f957dea08fffac6dda9b2c5d73ed5208c217946cadd6a9f1d",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-070",
+      "file": "dao-duc-kinh",
+      "contentSha256": "87c28e5902efc38dbfcf5a0ebece2938957df99f64c282794313d308985f3f3d",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "Two lines (言有宗，事有君。夫唯無知，是以不我知) are dropped between 莫能行 and 知我者希 without a mark. Add an ellipsis.",
+          "evidence": "Wang Bi text, zh.wikisource.org 老子道德經注 (fetched), ch.70: 吾言甚易知，甚易行。天下莫能知，莫能行。[言有宗，事有君。夫唯無知，是以不我知。]知我者希，則我者貴。是以聖人被褐懷玉. Legge 1891 for English."
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "English gloss gives the author 'his words'; the Vietnamese is neutral.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Ellipsis added, 'his heart' gone; gloss en neutral; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-071",
+      "file": "dao-duc-kinh",
+      "contentSha256": "96f0fe471b31090dafee598679a759c73d0c3dc5db39485037a82a8f28a43119",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-073",
+      "file": "dao-duc-kinh",
+      "contentSha256": "e319b26dd865c36d53db61a767317daaee03a114fc9e46b7802d02dfd321df4c",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-077",
+      "file": "dao-duc-kinh",
+      "contentSha256": "d6e65788732c6d621cc182a9a3085b935376ff5ef45748f8203e36360c4fc67d",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-078",
+      "file": "dao-duc-kinh",
+      "contentSha256": "e23484d4baaf2cf628cdd90036a128d85877d21e121ae889b5933dd14e8df5a6",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Question presupposes that softening is lighter and the user knows it (leading).",
+          "evidence": "gloss and question read in full"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Question rewritten, no presupposition that softening is lighter; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-080",
+      "file": "dao-duc-kinh",
+      "contentSha256": "1e09792ced32c4fe0e2749e6e4d1ed64f56e7bd60f79287ac7716d092810ea07",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "ddk-081",
+      "file": "dao-duc-kinh",
+      "contentSha256": "7a95ae2a72394d9d0e062fcfafc62c7ca479fff740f48a10d36315f71ef6442f",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-01",
+      "file": "kinh-dich",
+      "contentSha256": "df60c6166f27b8e94ad7af385f8aa3d2e61e5794584905342b4c043c7ef45f87",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "[gloss] Name/number/trigrams right; 元亨利貞 rendered faithfully. Gloss says 'first four words' but the judgment IS only four words.",
+          "evidence": "卦辭 (own knowledge; ctext.org returned HTTP 403) + Tuan/Xiang; Legge 1882"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "'first four words' corrected to 'judgment is only four words'; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": true
+    },
+    {
+      "id": "kd-02",
+      "file": "kinh-dich",
+      "contentSha256": "ac1d9f7aaffffe6334aec9a5a179d376352a0cf822295c049f82a87bb2efc1d1",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "UNSURE",
+          "note": "'somewhere to go' is Wilhelm/Baynes' hallmark rendering of 有攸往 (literal, so low risk); recommend a global swap.",
+          "evidence": "nilaza-translation; base public-domain (Legge). Checked from memory only, no text diff run"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Legge-based 'sets out'; vi keeps 'có nơi muốn đến' (small nuance gap, acceptable)."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-03",
+      "file": "kinh-dich",
+      "contentSha256": "6a3e7a4056b0a90f886a4132aaa78af10ad16b3252f50ed1150477d4a35445dc",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-04",
+      "file": "kinh-dich",
+      "contentSha256": "cd36793c891836fcf8aa5bc7b354877c26bef5afb419e161020087fe2f289736",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Question frames re-asking as seeking confirmation (judgemental, binary); may shame anxious users.",
+          "evidence": "gloss and question read in full"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Question rewritten without the banned word and without the confirmation-seeking binary; meaning and frame kept. Gloss still names confirmation-seeking, but only as the text's reading."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-05",
+      "file": "kinh-dich",
+      "contentSha256": "1d1fa3a7a1250199d9b8c54c6fa5ad1dda0b2b839948a4e57a6cb439b8214037",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-06",
+      "file": "kinh-dich",
+      "contentSha256": "4a01c7f28fcbd51a911e25ae1813b3a0dcccfbc6c6b85953d62fbdf229f3c5f0",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-07",
+      "file": "kinh-dich",
+      "contentSha256": "da197fd1f5c51b84849ec0e780a815c1b72944b5ed195f0e8af2a16605efe1bc",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-08",
+      "file": "kinh-dich",
+      "contentSha256": "2d82f7b19672f342f2c7b25a5fff42cdc0c874ee180e6455e1196f71e7057716",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-09",
+      "file": "kinh-dich",
+      "contentSha256": "0fe39ded3ddff7a7e15418cfb1f5a297d481256534983b3e5cbd1e136980efe6",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-10",
+      "file": "kinh-dich",
+      "contentSha256": "d9a80a56471a46845ae34cc13498ad9600d8ea82de9192f0de3ad17ef9a77af2",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "'một chỗ làm hiện tại' is a calque of 'a workplace right now'.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Calque removed in vi; en still says 'right now' (vi dropped 'hiện tại'), trivial."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-11",
+      "file": "kinh-dich",
+      "contentSha256": "e7a05f4404f668278577ec1d0eadb6518d1a358384c6e79c622b68b31c7cc383",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "REVISE",
+          "note": "'small departs, great arrives' is one word from Wilhelm/Baynes 'small departs, great approaches'; Legge: goes/comes.",
+          "evidence": "nilaza-translation; base public-domain (Legge). Checked from memory only, no text diff run"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "gloss.en updated to follow the new quote.en ('goes/comes'); consistent with vi."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-12",
+      "file": "kinh-dich",
+      "contentSha256": "691a636a3a10cce9b4e4fbe1788834be040a2967bd3da722ca1a46e6f007b028",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "REVISE",
+          "note": "Pairs with kd-11; Wilhelm 'great departs, small approaches'.",
+          "evidence": "nilaza-translation; base public-domain (Legge). Checked from memory only, no text diff run"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "'goes/comes' consistent with kd-11; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-13",
+      "file": "kinh-dich",
+      "contentSha256": "34a7908aaa94e795f27c46a9eaf9ea0cedb945bc2bc48fa23b53f4c3d320010d",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-14",
+      "file": "kinh-dich",
+      "contentSha256": "60ac985474d8f1fd4726761e0e3e0399b4c5077e466925afb6f7824bcde7722f",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-15",
+      "file": "kinh-dich",
+      "contentSha256": "fb410d093b89e5f144ebffa0c5ea07e4970302cfb08581d84bafce67522dd278",
+      "verdict": "PASS",
+      "round": 3,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Binary question implies modesty may be a fake role (mildly shaming).",
+          "evidence": "gloss and question read in full"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "English 'Qian' (謙, Modesty) collides with 'Qian' of hexagram 1 (乾, Heaven); readers cannot tell them apart.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "REVISE",
+          "note": "Question was fixed, but the gloss still ends with the same real-or-pose binary the safety reviewer flagged as mildly shaming."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-16",
+      "file": "kinh-dich",
+      "contentSha256": "94fd725f4d12d3d26438dbac8989d40d3acb6dfc1c0c4d8fe326ea4e0930586e",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-17",
+      "file": "kinh-dich",
+      "contentSha256": "b57c7cacfa6056a5cec57aae555c09a8f086ab4206d82e1ebaf1ba4b59bb674f",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-18",
+      "file": "kinh-dich",
+      "contentSha256": "856554f2d24e4694dba9c649e63ae5f52241494a9257bd8102dcc54b16317e1a",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "'sửa không hề là một cú' is stilted; 'cú' is colloquial.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gloss vi no longer stilted; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-19",
+      "file": "kinh-dich",
+      "contentSha256": "9bddc79cba73c414ec239e3213122d6f20b2cf148fa2e88ea41389cee4f70f1f",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Gloss and question state/presuppose that momentum will slow, which reads as a forecast.",
+          "evidence": "gloss and question read in full"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Forecast wording gone; gloss says rhythm, 'neither a fixed date nor a warning'; question non-forecasting; vi/en agree. Residual 'every advance changes pace' is a general image, not a forecast about the user."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-20",
+      "file": "kinh-dich",
+      "contentSha256": "0009fc2aaae98583ca7ac56e18d007cee4ee68f73f257cf9b3fd8a2f72dcb7bf",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-21",
+      "file": "kinh-dich",
+      "contentSha256": "e4e7007d0224c2a352e9642abce379d41d43b904b60f9f98978e40ea1f3e5f31",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "[gloss] Quote faithful (利用獄), but the gloss never links the judgment's 'xét xử' (justice) to the image; add that so the classical meaning is kept. Optional polish of '(cắn cho khớp lại)'.",
+          "evidence": "卦辭 (own knowledge; ctext.org returned HTTP 403) + Tuan/Xiang; Legge 1882"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Drafter-flagged. 'vật chắn / vật vướng / vật cản' repeats and is stiff; rewritten without 'phải'.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Banned word gone; gloss links the image to xét xử as the classics reviewer asked; question links back to the user; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-22",
+      "file": "kinh-dich",
+      "contentSha256": "3fcc9c8c2a76effab3896246485b6c9449ff2fc55c13c4da652f0a93a2e864ab",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "UNSURE",
+          "note": "Same 'somewhere to go' phrase.",
+          "evidence": "nilaza-translation; base public-domain (Legge). Checked from memory only, no text diff run"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "'set out' swap; vi/en equivalent in sense."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-23",
+      "file": "kinh-dich",
+      "contentSha256": "aaff1719eaf3b67e583862ccd913d52bf095bc098eb13b9a1c28b31b7c87ff0d",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Gloss reads as an instruction to stay still; question presupposes loss.",
+          "evidence": "gloss and question read in full"
+        },
+        {
+          "role": "sources-rights",
+          "result": "UNSURE",
+          "note": "Same phrase.",
+          "evidence": "nilaza-translation; base public-domain (Legge). Checked from memory only, no text diff run"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Banned wording removed; gloss no longer reads as an instruction and keeps the frame 'not an instruction'; question without presupposed loss; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-24",
+      "file": "kinh-dich",
+      "contentSha256": "b6340f9b5e848a51480ba57a62834c5ce849d9de083710600f83f46d91f8cd75",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "[quote] vi 'bạn đến' (朋來) is ambiguous with the second-person 'bạn' used throughout the app; en 'friends arrive' is right. Replace with 'bạn bè đến'.",
+          "evidence": "卦辭 (own knowledge; ctext.org returned HTTP 403) + Tuan/Xiang; Legge 1882"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "REVISE",
+          "note": "'to and fro...seventh day' structure and 'somewhere to go' follow Wilhelm/Baynes; re-base on Legge.",
+          "evidence": "nilaza-translation; base public-domain (Legge). Checked from memory only, no text diff run"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Quote vi 'bạn đến' reads as 'you arrive' to a reader addressed as 'bạn'; the English says 'friends'.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "'bạn bè' fixes the 'bạn' ambiguity; en re-based on Legge; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-25",
+      "file": "kinh-dich",
+      "contentSha256": "dc1bd2be3762db6b15597dcb420c99ac3c90ef1f3d993277d6ade64556e8950c",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "UNSURE",
+          "note": "Same phrase.",
+          "evidence": "nilaza-translation; base public-domain (Legge). Checked from memory only, no text diff run"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "'set out' swap; vi/en equivalent."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-26",
+      "file": "kinh-dich",
+      "contentSha256": "5b706f43897dac66291e3201e3b85e95c0d91afedd255cba6aae8c175071c888",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "[quote] vi/en add 'riêng/alone' that is not in 不家食; Tuan reads it as the worthy being fed and employed publicly (養賢). Remove the addition and adjust gloss.",
+          "evidence": "卦辭 (own knowledge; ctext.org returned HTTP 403) + Tuan/Xiang; Legge 1882"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Drafter-flagged. 'Đây là hình ảnh về chia sẻ, không hề là lời khuyên về của cải' is stiff.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Merged gloss follows the classics reading (養賢) and keeps the language fix; quote lost the added riêng/alone; no banned words; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-27",
+      "file": "kinh-dich",
+      "contentSha256": "e6f07add640c9751fdc231203bbe13457dec737b365e80229e7b04832bfe6391",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-28",
+      "file": "kinh-dich",
+      "contentSha256": "464bfd39c198e70487401cf92bcdec8afbbd33128fba8322bd78966fa013338a",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "REVISE",
+          "note": "'The ridgepole sags' plus 'have somewhere to go' both appear in Wilhelm/Baynes (hex 28).",
+          "evidence": "nilaza-translation; base public-domain (Legge). Checked from memory only, no text diff run"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "'roof beam bends' consistent with the gloss; the gloss.en change is a legitimate follow-through of the quote change; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-29",
+      "file": "kinh-dich",
+      "contentSha256": "0785396b7ca0398209e11a1f00b5e412dbea37ba7c377bd255cef14ce30582f6",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Drafter-flagged. 'không hề là sự thoát hiểm mà là ...' and 'một đoạn đang lặp lại' are stiff.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Stiff phrases removed; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-30",
+      "file": "kinh-dich",
+      "contentSha256": "da5eb50fb62a9ba392906d763213f376fdd4642828d58d1a1989480fdaf0cc1e",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Drafter-flagged. 'mang hai nghĩa là sáng và bám vào' and 'sáng cần được nuôi bằng sự mềm' are stiff/obscure.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Stiff phrases removed in vi; en already close."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-31",
+      "file": "kinh-dich",
+      "contentSha256": "a1a974e0e9b77c2611f59540b2f7bbd2a378f4db67255440b51f2e5362327521",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Trailing ellipsis marks the omitted 'marry a woman' line; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-32",
+      "file": "kinh-dich",
+      "contentSha256": "5bb03a507d318dd59fde00ea9a317b57d3375d1c670557e953362528545c795e",
+      "verdict": "PASS",
+      "round": 3,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "UNSURE",
+          "note": "Same phrase.",
+          "evidence": "nilaza-translation; base public-domain (Legge). Checked from memory only, no text diff run"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "REVISE",
+          "note": "gloss.en was changed without a request to 'having a way to set out', which is not idiomatic and drifts from vi 'có nơi để đi'."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-33",
+      "file": "kinh-dich",
+      "contentSha256": "225e9b84d8a9f4a3ff9c51cef9d88612a3117d8981a93582f34eddb9669cba3f",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-34",
+      "file": "kinh-dich",
+      "contentSha256": "be4a9cd2ddc7b96c047972844f56a1c14bf9f1c08db9b2dcc57022ac1cad6ef2",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-35",
+      "file": "kinh-dich",
+      "contentSha256": "a8f397e7426499e98fd9c13578d5fa3ccf82cce31c07aa46eb8829799f41a056",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "[quote] 康侯 means the prince who brings peace to the realm (Legge/Kong Yingda/Zhu Xi), not a 'peaceful lord'; the gloss 'tiến lên mà không vội' rests on that misreading.",
+          "evidence": "卦辭 (own knowledge; ctext.org returned HTTP 403) + Tuan/Xiang; Legge 1882"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Merged: 康侯 as the prince who keeps the realm at peace; gloss says recognition comes after the work; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-36",
+      "file": "kinh-dich",
+      "contentSha256": "e9bcdd7b30136df5402a0100a9d920f216560e81c83fd53b2817cc9bbc984f12",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-37",
+      "file": "kinh-dich",
+      "contentSha256": "4ffa9fc283e6a8a115ca6833fac6b1cc4e86034d1b5374b4296a807772db7a6a",
+      "verdict": "PASS",
+      "round": 3,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Gender-sensitive: gloss states the woman-only claim but does not say Nilaza does not endorse it; quote is classical and may stay with this frame (Owner may prefer to drop the item).",
+          "evidence": "gloss and question read in full"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Clumsy word order ('theo bối cảnh xa xưa' dangling at sentence end).",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "REVISE",
+          "note": "gloss.en says the older society tied the household to 'the woman alone'; the merged vi has no 'riêng' and the quote has no 'alone'. vi and en differ."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": true
+    },
+    {
+      "id": "kd-38",
+      "file": "kinh-dich",
+      "contentSha256": "7cd9b6d598cc6dd96e9bbedaf4b776f925c1be7ace52b46eb76a643a29a7666f",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-39",
+      "file": "kinh-dich",
+      "contentSha256": "54273bca78a84e64015f4f2c359c00c4b5c8c6cdba95a3028879e6c02691c221",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "'Phần lời quẻ lấy ở đây' / 'taken here' is a calque; say 'quoted here'.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Ellipsis marks the dropped southwest clause; 'quoted here' fixes the calque; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-40",
+      "file": "kinh-dich",
+      "contentSha256": "9dc5954bf907002ef53b09470e6a45dea077f70a3c8cf5849d698bb292a3ec4e",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "REVISE",
+          "note": "'somewhere/nowhere to go' pair follows Wilhelm/Baynes; Legge reads no further operations / some operations.",
+          "evidence": "nilaza-translation; base public-domain (Legge). Checked from memory only, no text diff run"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Ellipsis added; en re-based on Legge ('nothing further is called for'), vi keeps 'nơi cần đi' (small nuance gap, acceptable)."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-41",
+      "file": "kinh-dich",
+      "contentSha256": "4c084835cfcb4f15f92595e2f14786fea807fe7d30a211bb03e67910c9d999d3",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Ellipsis marks the dropped 'set out' clause; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-42",
+      "file": "kinh-dich",
+      "contentSha256": "b4285d6e3665c27195c0c1132983bb480e7982d0ff7d66567ab554abd9aed679",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "UNSURE",
+          "note": "Same phrase.",
+          "evidence": "nilaza-translation; base public-domain (Legge). Checked from memory only, no text diff run"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "'set out' swap; vi/en equivalent."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-43",
+      "file": "kinh-dich",
+      "contentSha256": "1de156fec5ab48b42a0f63c1d79a201df20aa2dc51dfa699438431ea1b72977b",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "UNSURE",
+          "note": "Same phrase.",
+          "evidence": "nilaza-translation; base public-domain (Legge). Checked from memory only, no text diff run"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "'set out' swap; vi/en equivalent."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-44",
+      "file": "kinh-dich",
+      "contentSha256": "3ff2eeb70cedf7d178261338dac4a27567ab3e1918371c31e94d3d5946664e77",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "BLOCK",
+          "note": "Red line: the displayed quote says a strong woman should not be taken in (negative claim about a gender, marriage-like direction); the current gloss softens but does not disown it. Publishable only with the rewritten quote+gloss, or dropped.",
+          "evidence": "gloss and question read in full"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "PASS, not BLOCK. Ref is labelled (diễn ý)/(paraphrase), the displayed quote no longer carries the gender claim, and the gloss disowns the original and says it is not applied to anyone. Classics: honest labelled paraphrase of the image, not a fake quote. vi/en agree. Check that the app shows the ref label next to the quote."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": true
+    },
+    {
+      "id": "kd-45",
+      "file": "kinh-dich",
+      "contentSha256": "edc2204cba0246cbb2d94df82f3a5315e06c90c559d63e2538e70035a4f37fd1",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Trailing ellipsis marks the omitted sacrifice and set-out clauses; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-46",
+      "file": "kinh-dich",
+      "contentSha256": "06757bd0acabcf0a1b00c6d474b8ae18d9806d758ff5c8772c822de0c7c52ec0",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Trailing ellipsis marks the omitted southward-campaign clause; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-47",
+      "file": "kinh-dich",
+      "contentSha256": "9a3f4a06ff320339c34d6d6a7ecb723ffaebd1c9b2d640373b7d492303b88367",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Item touches being disbelieved (could include disclosure of harm); question should be supportive, not about enduring alone.",
+          "evidence": "gloss and question read in full"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Question now supportive (not standing alone with it), no presupposition of enduring alone; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-48",
+      "file": "kinh-dich",
+      "contentSha256": "21c7ec86f61b133e5beebe137fb707b8ad1616a5f2c029c1db2502d58689a3bd",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "[gloss] Quote faithful (繘 'lower rope' vs 'draw up' is a disputed reading; both attested). Quote has 'hung' but gloss does not frame it as image; add that.",
+          "evidence": "卦辭 (own knowledge; ctext.org returned HTTP 403) + Tuan/Xiang; Legge 1882"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "REVISE",
+          "note": "'come and go and draw from the well' and rope/jug closely follow Wilhelm/Baynes; re-base on Legge.",
+          "evidence": "nilaza-translation; base public-domain (Legge). Checked from memory only, no text diff run"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "'gần với tới' is ungrammatical.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "'rope not yet let down' matches vi 'chưa thả dây' and the question; gloss frames the misfortune word as an image, not a verdict; Wilhelm echo gone; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": true
+    },
+    {
+      "id": "kd-49",
+      "file": "kinh-dich",
+      "contentSha256": "7391754ad33e62f8cbb1f3aa1d7a2aeea277d0bd8ad01d767961614a4a3e17b4",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "[quote] vi 'ngày kỷ' (a stem name, reads as jargon and does not match en 'day of change'); 己日 is read as the day of completion/own day. Align vi and en.",
+          "evidence": "卦辭 (own knowledge; ctext.org returned HTTP 403) + Tuan/Xiang; Legge 1882"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "'ngày kỷ' replaced; vi and en now match ('its own day'); vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-50",
+      "file": "kinh-dich",
+      "contentSha256": "e73db5868e7a3a815792642adc4af4c0c980f38b91f7e914bbf8f80be99afc01",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "Drafter-flagged. 'biến đổi nguyên liệu thành thức nuôi' is stiff.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Stiff phrase fixed; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-51",
+      "file": "kinh-dich",
+      "contentSha256": "fbab0f9fac299ead8a0873839ce6c84af503340da2733313e5b7358ba36088f6",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "'giữ việc của mình giữa lúc bị làm giật mình' is awkward.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Awkward phrase fixed; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-52",
+      "file": "kinh-dich",
+      "contentSha256": "a32de861a2d0e43352c8858ce1d82da40d115f32f61fbf742e513f144043e96b",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-53",
+      "file": "kinh-dich",
+      "contentSha256": "e49b00b20fd7689748ccf725d96edb3fb6e45a8276bc094809496619c07a7299",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Marriage/gender-sensitive: cát for a woman marrying reads as marriage guidance; gloss should mark it as an old custom and not advice.",
+          "evidence": "gloss and question read in full"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "'nhảy cóc' is too colloquial for the reflective register.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gloss marks the bride image as an old custom and disclaims marriage guidance; 'nhảy cóc' removed; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": true
+    },
+    {
+      "id": "kd-54",
+      "file": "kinh-dich",
+      "contentSha256": "443a5afb2ce947e90dcc54872e38d644fcc76ad5b06de719a01f7e31d9806fad",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "[gloss] Quote faithful; 'đi tới thì hung' is shown without framing it as an image of position (Tuan: 位不當); add that so it is not read as a verdict.",
+          "evidence": "卦辭 (own knowledge; ctext.org returned HTTP 403) + Tuan/Xiang; Legge 1882"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Quote says hung about a marrying woman in a secondary role; gloss must say this is an old custom and that hung is not a forecast.",
+          "evidence": "gloss and question read in full"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Merged gloss frames the misfortune word as an image of an unsettled position, not a prediction; no banned words; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": true
+    },
+    {
+      "id": "kd-55",
+      "file": "kinh-dich",
+      "contentSha256": "fa76d1a695f8aeaf6639e5e74a60ade2a17b1de8dec820322c81d0b3dd308834",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "REVISE",
+          "note": "Question presupposes abundance will turn (forecast-leaning).",
+          "evidence": "gloss and question read in full"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Question no longer presupposes a turn; gloss keeps the noon image as an image; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-56",
+      "file": "kinh-dich",
+      "contentSha256": "676074b8d1014468c5d7be3bbbbe3bbb9c8235644b853e48d545b2c22831d4c2",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "'ở nơi chẳng là nhà' is archaic/stilted; 'tạm bợ' is more negative than 'temporary'.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Archaic/negative wording fixed; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-57",
+      "file": "kinh-dich",
+      "contentSha256": "ea13b92f7843f9f6ecd2328903aad42c14ce73e0254bf9dbf000812cc49f7781",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "UNSURE",
+          "note": "Same phrase.",
+          "evidence": "nilaza-translation; base public-domain (Legge). Checked from memory only, no text diff run"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "'sức của cách nhẹ nhàng và lặp lại' is awkward.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Gloss vi fixed; en quote 'set out'; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-58",
+      "file": "kinh-dich",
+      "contentSha256": "ee3234db66c696a4c415cc811fe8c869fd1e91ea90a309b8ba6db26bfd8fd9a1",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-59",
+      "file": "kinh-dich",
+      "contentSha256": "5fd9c1b5c00a14a6f111bd9443fbd84622b52cfc5eaf0ea01c085ea82dc395fd",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-60",
+      "file": "kinh-dich",
+      "contentSha256": "21789de9c700421af5e8ac318638b44bff0e85f1eb84c903b5e09b3b82d2ce7c",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-61",
+      "file": "kinh-dich",
+      "contentSha256": "222ebf9a596cc720c6035612514f8c8fbad0d6df7d4080839cb32b96939d776f",
+      "verdict": "PASS",
+      "round": 1,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-62",
+      "file": "kinh-dich",
+      "contentSha256": "674f927cb07a3861a329da832d7d55de29b7889058224b39186474a293a369d1",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "REVISE",
+          "note": "[quote] vi 'chưa làm được việc lớn' (not yet) contradicts 不可大事 and en 'cannot'; restore.",
+          "evidence": "卦辭 (own knowledge; ctext.org returned HTTP 403) + Tuan/Xiang; Legge 1882"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "PASS"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "vi 'không làm được việc lớn' restores the text and matches en 'cannot'; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-63",
+      "file": "kinh-dich",
+      "contentSha256": "bf213feee15d358e0bdbffe7e9656253fb8a8c373b0a827de90454c8c8ff3d3c",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "'điều thú vị' / 'something interesting' is too light for the register.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "'điều thú vị' replaced; vi/en agree."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    },
+    {
+      "id": "kd-64",
+      "file": "kinh-dich",
+      "contentSha256": "0dcb969e04ae6a158efccf583633a72f53de4d605b10b41e1ca5e6f70cfb5441",
+      "verdict": "PASS",
+      "round": 2,
+      "findings": [
+        {
+          "role": "east-asian-classics",
+          "result": "PASS"
+        },
+        {
+          "role": "safety-ethics",
+          "result": "PASS"
+        },
+        {
+          "role": "sources-rights",
+          "result": "PASS"
+        },
+        {
+          "role": "language-translation",
+          "result": "REVISE",
+          "note": "'đáng nhớ về sự non tay' is a calque and the sentence is tangled.",
+          "evidence": "none"
+        },
+        {
+          "role": "round2-combined",
+          "result": "PASS",
+          "note": "Calque fixed in vi; en gloss slightly clumsy but acceptable."
+        }
+      ],
+      "proposedFix": null,
+      "ownerSpotCheck": false
+    }
+  ],
+  "summary": {
+    "pass": 124,
+    "revise": 0,
+    "block": 0,
+    "unsure": 0,
+    "round1NonPass": 67,
+    "round2Revise": 10
+  },
+  "notVerified": [
+    "Vòng 3 là áp nguyên văn 10 đề xuất sửa của vòng 2; không chạy thêm người duyệt.",
+    "Chưa đối chiếu với sách in. Đạo Đức Kinh: người duyệt kinh điển so với bản Vương Bật trên zh.wikisource; Kinh Dịch: theo kiến thức người duyệt, ctext.org trả 403.",
+    "Kiểm tra trùng lời với bản dịch còn bản quyền (Feng & English, Lin Yutang, Mitchell, Wilhelm/Baynes) làm theo trí nhớ, không so văn bản.",
+    "Bản tiếng Việt chưa so với bản Nguyễn Hiến Lê / Nguyễn Duy Cần (ddk-033, 056, 060, 063, 064, 078 được nhắc là gần).",
+    "kd-44 (Quẻ Cấu) là diễn ý, không phải dịch sát; vòng 1 BLOCK, vòng 2 PASS sau khi viết lại. Owner quyết giữ hay bỏ.",
+    "Chưa xem trên điện thoại."
+  ],
+  "ownerDecision": {
+    "status": "approved",
+    "date": "2026-11-27",
+    "note": "Owner duyệt nội dung 5 cuốn trong phiên 27/11/2026 (\"Duyệt nội dung 5 cuốn\"), giữ cả các mục được đánh dấu xem lại (gồm kd-44 và st-08-36)."
+  }
+}

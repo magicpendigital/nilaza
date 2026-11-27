@@ -2,66 +2,1400 @@
   "schemaVersion": 1,
   "book": "binh-phap-ton-tu",
   "personaId": "book-strategic-thinker",
-  "title": { "vi": "Binh pháp Tôn Tử", "en": "The Art of War" },
-  "source": {
-    "original": "孫子兵法 (Tôn Vũ, chữ Hán)",
-    "englishBase": "Lionel Giles 1910 (public domain)",
-    "vietnamese": "Nilaza dịch từ nguyên văn"
+  "title": {
+    "vi": "Binh pháp Tôn Tử",
+    "en": "The Art of War"
   },
-  "review": { "status": "draft", "reviewer": null, "reviewedAt": null },
-  "sample": true,
-  "sampleNote": "SAMPLE ONLY (27/11/2026): 3 placeholder items so the app can be built; the content branch replaces this file with the reviewed set.",
+  "source": {
+    "original": "孫子兵法 (Hán văn cổ)",
+    "englishBase": "Lionel Giles 1910 (public domain)",
+    "vietnamese": "Nilaza dịch sang tiếng Việt từ bản tiếng Anh của Giles 1910, có đối chiếu nguyên văn"
+  },
+  "review": {
+    "status": "approved",
+    "reviewer": "Owner (after nilaza-content-review panel)",
+    "reviewedAt": "2026-11-27"
+  },
   "items": [
     {
-      "id": "bp-03-18",
-      "ref": { "vi": "Thiên 3 · đoạn 18", "en": "Chapter III · 18" },
+      "id": "bp-01-17",
+      "ref": {
+        "vi": "Chương 1 · đoạn 17",
+        "en": "Chapter 1 · 17"
+      },
       "quote": {
-        "vi": "Biết người biết ta, trăm trận cũng không phải sợ kết quả.",
-        "en": "If you know the enemy and know yourself, you need not fear the result of a hundred battles."
+        "vi": "Tùy theo hoàn cảnh thuận lợi hay không mà điều chỉnh kế hoạch của mình.",
+        "en": "According as circumstances are favourable, one should modify one’s plans."
       },
       "gloss": {
-        "vi": "Tôn Tử đặt hiểu biết lên trước sức mạnh. Đọc trong đời thường, đó là lời mời nhìn rõ cả tình huống lẫn giới hạn của chính mình.",
-        "en": "Sunzi puts understanding before force. Read in everyday life, it is an invitation to see both the situation and your own limits clearly."
+        "vi": "Một câu ngắn về sự linh hoạt: kế hoạch là công cụ, và khi hoàn cảnh đổi thì công cụ cũng được chỉnh theo. Điều này không bảo bỏ kế hoạch ngay khi gặp khó, mà là xem điều kiện hiện tại đã khác lúc lập kế hoạch chưa. Đoạn này mời xem bạn có đang giữ một kế hoạch cũ chỉ vì đã đặt ra nó.",
+        "en": "A short line on flexibility: a plan is a tool, and when circumstances change the tool is adjusted. It does not say to drop a plan at the first difficulty, but to check whether present conditions differ from when you made it. This passage invites you to see whether you are keeping an old plan only because you once set it."
       },
       "question": {
-        "vi": "Trong việc đang làm bạn lo, bạn đã hiểu mình rõ tới đâu?",
-        "en": "In the matter that worries you, how well do you understand your own part?"
+        "vi": "Có kế hoạch nào bạn đang giữ nguyên dù hoàn cảnh đã khác lúc bạn lập nó?",
+        "en": "Is there a plan you are keeping unchanged even though circumstances differ from when you made it?"
       },
-      "tags": ["clarity"]
+      "tags": [
+        "change",
+        "decision"
+      ]
     },
     {
-      "id": "bp-06-31",
-      "ref": { "vi": "Thiên 6 · đoạn 31", "en": "Chapter VI · 31" },
+      "id": "bp-01-21",
+      "ref": {
+        "vi": "Chương 1 · đoạn 21",
+        "en": "Chapter 1 · 21"
+      },
       "quote": {
-        "vi": "Nước đổi dòng theo thế đất nơi nó chảy qua.",
-        "en": "Water shapes its course according to the nature of the ground over which it flows."
+        "vi": "Nếu đối phương vững ở mọi mặt, hãy chuẩn bị cho họ. Nếu họ mạnh hơn, hãy tránh họ.",
+        "en": "If he is secure at all points, be prepared for him. If he is in superior strength, evade him."
       },
       "gloss": {
-        "vi": "Tôn Tử dùng hình ảnh nước để nói về sự linh hoạt: một kế hoạch tốt biết đổi hình theo hoàn cảnh mà không mất hướng.",
-        "en": "Sunzi uses water to speak of flexibility: a good plan changes shape with circumstances without losing its direction."
+        "vi": "Hai lời nhắc: chuẩn bị khi gặp một thế vững, và nhường đường khi gặp sức mạnh lớn hơn. Tránh ở đây là chọn không đối đầu trực diện lúc mình chưa đủ sức, không có nghĩa bỏ cuộc. Đoạn này mời nhìn xem lúc nào lùi một bước là sự tỉnh táo.",
+        "en": "Two reminders: prepare when facing a solid position, and step aside from greater strength. Evading here is not giving up but choosing not to meet something head-on when you are not yet ready. This passage invites you to see when stepping back is clear-headedness."
       },
       "question": {
-        "vi": "Ở đâu bạn đang giữ một cách làm cũ dù hoàn cảnh đã đổi?",
-        "en": "Where are you holding on to an old way of doing things although the situation has changed?"
+        "vi": "Có tình huống nào mà lùi một nhịp là lựa chọn tỉnh táo hơn đối đầu ngay?",
+        "en": "Is there a situation where stepping back a beat is the clearer choice than facing it at once?"
       },
-      "tags": ["flexibility", "water"]
+      "tags": [
+        "decision",
+        "calm"
+      ]
+    },
+    {
+      "id": "bp-01-26",
+      "ref": {
+        "vi": "Chương 1 · đoạn 26",
+        "en": "Chapter 1 · 26"
+      },
+      "quote": {
+        "vi": "Vị tướng thắng trận đã tính toán nhiều trong miếu đường trước khi trận đánh diễn ra… Tính nhiều thì thắng, tính ít thì bại: huống hồ là không tính gì!",
+        "en": "Now the general who wins a battle makes many calculations in his temple ere the battle is fought. … Thus do many calculations lead to victory, and few calculations to defeat: how much more no calculation at all!"
+      },
+      "gloss": {
+        "vi": "Tôn Tử nhấn mạnh việc suy nghĩ trước khi hành động. “Tính toán” ở đây là cân nhắc các điều kiện và lựa chọn, chứ không nhằm đoán trước kết cục. Đoạn này mời xem bạn cân nhắc trước một việc lớn như thế nào.",
+        "en": "Sun Tzu stresses thinking before acting. “Calculation” here means weighing conditions and options, not guessing the outcome. This passage invites you to see how you deliberate before something big."
+      },
+      "question": {
+        "vi": "Trước quyết định gần đây nhất của bạn, bạn đã dành bao nhiêu thời gian để cân nhắc điều kiện của mình?",
+        "en": "Before your most recent decision, how much time did you give to weighing your own conditions?"
+      },
+      "tags": [
+        "decision",
+        "attention"
+      ]
+    },
+    {
+      "id": "bp-02-05",
+      "ref": {
+        "vi": "Chương 2 · đoạn 5",
+        "en": "Chapter 2 · 5"
+      },
+      "quote": {
+        "vi": "Vậy nên, dù đã nghe nói đến sự vội vàng ngu dại trong chiến tranh, chưa từng thấy sự khéo léo đi cùng sự kéo dài lê thê.",
+        "en": "Thus, though we have heard of stupid haste in war, cleverness has never been seen associated with long delays."
+      },
+      "gloss": {
+        "vi": "Câu này nói về cái giá của sự kéo dài: chữ Hán là 拙速, nhanh mà vụng, và nhiều nhà chú giải cổ hiểu rằng nhanh dù vụng còn hơn chậm dù khéo. Giles đọc dè dặt hơn, là vội có thể dại nhưng lê thê thì không bao giờ khéo; cả hai cách đọc đều chê sự kéo dài vô ích. Đoạn này mời xem chỗ nào bạn đang vội và chỗ nào đang lần lữa.",
+        "en": "This line is about the cost of dragging on: the Chinese phrase 拙速 means clumsy speed, and many old commentators read it as quick even if clumsy beats slow even if clever. Giles reads it more cautiously, as haste may be foolish but delay is never clever; both readings fault pointless prolonging. This passage invites you to see where you are rushing and where you are delaying."
+      },
+      "question": {
+        "vi": "Việc nào bạn đang làm vội, và việc nào bạn đang để kéo dài?",
+        "en": "What are you doing in a hurry, and what are you letting drag on?"
+      },
+      "tags": [
+        "decision",
+        "time"
+      ]
+    },
+    {
+      "id": "bp-02-06",
+      "ref": {
+        "vi": "Chương 2 · đoạn 6",
+        "en": "Chapter 2 · 6"
+      },
+      "quote": {
+        "vi": "Chưa từng có nước nào được lợi từ chiến tranh kéo dài.",
+        "en": "There is no instance of a country having benefited from prolonged warfare."
+      },
+      "gloss": {
+        "vi": "Tôn Tử nhìn cái giá của sự kéo dài: sức người, sự chú ý và nguồn lực đều hao dần. Trong đời thường, điều đó có thể là một cuộc tranh cãi hay một mối bất hòa cứ nối dài mãi. Đoạn này mời nhìn xem điều gì đang kéo dài và đang lấy đi bao nhiêu sức của bạn.",
+        "en": "Sun Tzu looks at the cost of prolonging: people’s strength, attention and resources wear down. In daily life that could be an argument or a rift that keeps stretching. This passage invites you to see what is dragging on and how much of your energy it is taking."
+      },
+      "question": {
+        "vi": "Nếu có một cuộc giằng co đang kéo dài trong đời bạn, nó đang lấy đi những gì, và bạn muốn thay đổi điều gì?",
+        "en": "If there is a struggle dragging on in your life, what is it taking from you, and what would you like to change?"
+      },
+      "tags": [
+        "time",
+        "anger"
+      ]
+    },
+    {
+      "id": "bp-02-19",
+      "ref": {
+        "vi": "Chương 2 · đoạn 19",
+        "en": "Chapter 2 · 19"
+      },
+      "quote": {
+        "vi": "Trong chiến tranh, mục tiêu lớn của bạn là chiến thắng, chứ không phải những chiến dịch kéo dài.",
+        "en": "In war, then, let your great object be victory, not lengthy campaigns."
+      },
+      "gloss": {
+        "vi": "Câu nhấn vào mục đích hơn là quá trình: điều đáng đạt là kết quả, còn việc kéo dài cuộc theo đuổi thì không đáng kể. Trong đời thường, đó là việc nhìn lại mục tiêu thật khi một việc cứ nối dài. Đoạn này mời tách mục đích khỏi thói quen cứ làm tiếp.",
+        "en": "The line puts the aim ahead of the process: what is worth reaching is the result, not the prolonging of the pursuit. In daily life it means returning to the real goal when something keeps stretching on. This passage invites you to separate the purpose from the habit of carrying on."
+      },
+      "question": {
+        "vi": "Trong việc bạn đang theo đuổi, đâu là mục đích và đâu chỉ là quán tính kéo dài?",
+        "en": "In what you are pursuing, which part is the purpose and which part is just momentum?"
+      },
+      "tags": [
+        "purpose",
+        "decision"
+      ]
     },
     {
       "id": "bp-03-02",
-      "ref": { "vi": "Thiên 3 · đoạn 2", "en": "Chapter III · 2" },
+      "ref": {
+        "vi": "Chương 3 · đoạn 2",
+        "en": "Chapter 3 · 2"
+      },
       "quote": {
-        "vi": "Giỏi nhất là làm tan sự kháng cự mà không cần giao chiến.",
-        "en": "Supreme excellence consists in breaking the enemy's resistance without fighting."
+        "vi": "Đánh trăm trận thắng cả trăm vẫn chưa phải là sự giỏi tột bậc; giỏi tột bậc là làm tan sức kháng cự của đối phương mà không giao chiến.",
+        "en": "Hence to fight and conquer in all your battles is not supreme excellence; supreme excellence consists in breaking the enemy’s resistance without fighting."
       },
       "gloss": {
-        "vi": "Ý cốt lõi là đạt điều mình cần với ít tổn hại nhất. Trong đời thường, một lời nói đúng lúc đôi khi thay được cả một cuộc tranh cãi.",
-        "en": "The core idea is reaching what you need with the least harm. In daily life, a well-timed word can sometimes replace a whole argument."
+        "vi": "Tôn Tử nâng tầm của sự giỏi: thắng mà không cần giao chiến, chẳng hạn làm hỏng kế hoạch của đối phương từ sớm. Đây là lời bàn về chiến tranh; ở đây ta chỉ mượn ý tháo gỡ sớm, như một cuộc trò chuyện đúng lúc trước khi bất đồng thành xung đột. Đoạn này mời xem xung đột nào có thể được tháo ra sớm và rõ ràng.",
+        "en": "Sun Tzu raises the bar for skill: winning without fighting, for example by spoiling the enemy’s plans early. This is a point about war; here we borrow only the idea of untying things early, like a well-timed conversation before a disagreement becomes a conflict. This passage invites you to see which conflict could be untied early and clearly."
       },
       "question": {
-        "vi": "Có cuộc tranh cãi nào bạn có thể tháo gỡ bằng một cuộc trò chuyện?",
-        "en": "Is there an argument you could untangle with a conversation?"
+        "vi": "Nếu thấy an toàn, có xung đột nào bạn có thể tháo gỡ sớm bằng một cuộc trò chuyện thẳng thắn?",
+        "en": "If it feels safe, is there a conflict you could untangle early with a frank conversation?"
       },
-      "tags": ["conflict"]
+      "tags": [
+        "others",
+        "calm"
+      ]
+    },
+    {
+      "id": "bp-03-09",
+      "ref": {
+        "vi": "Chương 3 · đoạn 9",
+        "en": "Chapter 3 · 9"
+      },
+      "quote": {
+        "vi": "Nếu ngang sức, ta có thể giao chiến; nếu hơi kém về số lượng, ta có thể tránh đối phương; nếu kém hẳn về mọi mặt, ta có thể rút lui.",
+        "en": "If equally matched, we can offer battle; if slightly inferior in numbers, we can avoid the enemy; if quite unequal in every way, we can flee from him."
+      },
+      "gloss": {
+        "vi": "Câu nói về việc đo sức mình so với tình huống và chọn cách đáp cho tương xứng. Rút lui ở đây là một quyết định có chủ ý, không có gì đáng hổ thẹn. Đoạn này mời nhìn xem bạn đang đo sức mình trước thử thách bằng cách nào.",
+        "en": "The line is about measuring your strength against the situation and choosing a proportionate response. Withdrawing here is a deliberate decision, not something to be ashamed of. This passage invites you to see how you gauge your strength before a challenge."
+      },
+      "question": {
+        "vi": "Trước một thử thách lớn gần đây, bạn đã đo sức mình ra sao, và chọn đối đầu hay lùi lại?",
+        "en": "Before a recent big challenge, how did you gauge your strength, and did you face it or step back?"
+      },
+      "tags": [
+        "decision",
+        "self-knowledge"
+      ]
+    },
+    {
+      "id": "bp-03-17",
+      "ref": {
+        "vi": "Chương 3 · đoạn 17",
+        "en": "Chapter 3 · 17"
+      },
+      "quote": {
+        "vi": "Ai biết khi nào nên đánh và khi nào không nên đánh thì thắng. … Ai có quân lính cùng một tinh thần từ trên xuống dưới thì thắng.",
+        "en": "He will win who knows when to fight and when not to fight. … He will win whose army is animated by the same spirit throughout all its ranks."
+      },
+      "gloss": {
+        "vi": "Hai điều trong năm điều Tôn Tử nêu: biết khi nào đáng bước vào và khi nào thì không, và sự đồng lòng của cả nhóm. Trong đời thường, điều thứ nhất là chọn việc đáng để dồn sức, điều thứ hai là sự ăn ý trong gia đình hay đội nhóm. Đoạn này mời nhìn xem bạn đang chọn việc nào để dồn sức.",
+        "en": "Two of the five points Sun Tzu names: knowing when to enter and when not to, and a group moving as one. In daily life the first is choosing what is worth your effort, the second is the harmony of a family or team. This passage invites you to see which matters you are choosing to spend effort on."
+      },
+      "question": {
+        "vi": "Có cuộc tranh luận hay việc nào gần đây mà bạn biết nó không đáng để dồn sức, và bạn chọn thế nào?",
+        "en": "Was there a recent dispute or task you knew was not worth your effort, and what did you choose?"
+      },
+      "tags": [
+        "decision",
+        "community"
+      ]
+    },
+    {
+      "id": "bp-03-18",
+      "ref": {
+        "vi": "Chương 3 · đoạn 18",
+        "en": "Chapter 3 · 18"
+      },
+      "quote": {
+        "vi": "Cho nên có câu: biết người biết ta, trăm trận không sợ kết quả. Biết mình mà không biết người, mỗi lần thắng cũng sẽ nếm một lần bại.",
+        "en": "Hence the saying: If you know the enemy and know yourself, you need not fear the result of a hundred battles. If you know yourself but not the enemy, for every victory gained you will also suffer a defeat."
+      },
+      "gloss": {
+        "vi": "Câu nổi tiếng này đặt hiểu mình ngang với hiểu hoàn cảnh. “Người” ở đây có thể hiểu là bên kia của một vấn đề: người đối diện, hay điều kiện bạn đang đối diện. Đoạn này mời xem bạn hiểu mình đến đâu và hiểu tình huống đến đâu.",
+        "en": "This well-known line puts understanding yourself alongside understanding the situation. The “other” can be read as the other side of an issue: the person across from you, or the conditions you face. This passage invites you to see how well you know yourself and how well you know the situation."
+      },
+      "question": {
+        "vi": "Trong một việc đang làm bạn băn khoăn, bạn hiểu rõ mình hơn hay hiểu rõ hoàn cảnh hơn?",
+        "en": "In something currently troubling you, do you understand yourself better or the situation better?"
+      },
+      "tags": [
+        "self-knowledge",
+        "decision"
+      ]
+    },
+    {
+      "id": "bp-04-01",
+      "ref": {
+        "vi": "Chương 4 · đoạn 1",
+        "en": "Chapter 4 · 1"
+      },
+      "quote": {
+        "vi": "Những người giỏi chiến đấu ngày xưa trước hết đặt mình ngoài khả năng bị đánh bại, rồi chờ cơ hội thắng đối phương.",
+        "en": "The good fighters of old first put themselves beyond the possibility of defeat, and then waited for an opportunity of defeating the enemy."
+      },
+      "gloss": {
+        "vi": "Tôn Tử đặt thứ tự: vững nền trước, cơ hội sau. Điều ông gợi là sự kiên nhẫn của người đã lo phần mình và chờ thời điểm, không chạy theo cơ hội khi nền chưa vững. Đoạn này mời xem phần nền của bạn đã chắc đến đâu.",
+        "en": "Sun Tzu sets an order: foundation first, opportunity after. He suggests the patience of someone who has seen to their own side and waits for the moment, not chasing openings while unprepared. This passage invites you to see how firm your own groundwork is."
+      },
+      "question": {
+        "vi": "Trong việc bạn muốn làm, phần nền nào cần được chắc thêm trước khi bạn đón cơ hội?",
+        "en": "In what you want to do, which part of the groundwork needs firming up before you take the opportunity?"
+      },
+      "tags": [
+        "resilience",
+        "decision"
+      ]
+    },
+    {
+      "id": "bp-04-02",
+      "ref": {
+        "vi": "Chương 4 · đoạn 2",
+        "en": "Chapter 4 · 2"
+      },
+      "quote": {
+        "vi": "Việc giữ mình khỏi bị đánh bại nằm trong tay ta, nhưng cơ hội đánh bại đối phương lại do chính đối phương đưa ra.",
+        "en": "To secure ourselves against defeat lies in our own hands, but the opportunity of defeating the enemy is provided by the enemy himself."
+      },
+      "gloss": {
+        "vi": "Câu tách rõ hai phần: điều thuộc về mình và điều thuộc về bên kia. Phần vững vàng của mình là phần ta làm chủ được, còn cơ hội đến từ ngoài. Đoạn này mời nhìn xem bạn đang dồn sức vào phần nào.",
+        "en": "The line separates two parts: what belongs to you and what belongs to the other side. Your own steadiness is the part you can govern, while the opening comes from outside. This passage invites you to see which part you are putting your effort into."
+      },
+      "question": {
+        "vi": "Trong chuyện đang làm bạn lo, phần nào nằm trong tay bạn và phần nào do bên ngoài quyết định?",
+        "en": "In what is worrying you, which part is in your hands and which is decided by others?"
+      },
+      "tags": [
+        "control",
+        "resilience"
+      ]
+    },
+    {
+      "id": "bp-04-03",
+      "ref": {
+        "vi": "Chương 4 · đoạn 3",
+        "en": "Chapter 4 · 3"
+      },
+      "quote": {
+        "vi": "Vậy người giỏi chiến đấu giữ được mình khỏi bại, nhưng không thể chắc chắn thắng đối phương.",
+        "en": "Thus the good fighter is able to secure himself against defeat, but cannot make certain of defeating the enemy."
+      },
+      "gloss": {
+        "vi": "Tôn Tử thừa nhận giới hạn: ngay cả người giỏi cũng không làm chủ được kết quả. Sự khiêm tốn này gợi rằng làm hết phần mình không đồng nghĩa với bảo đảm điều mình muốn. Đoạn này mời nhìn lại cách bạn đón nhận những kết quả không như ý dù đã chuẩn bị kỹ.",
+        "en": "Sun Tzu admits a limit: even a skilled fighter cannot command the outcome. This humility suggests that doing your part is not the same as guaranteeing what you want. This passage invites you to look at how you receive results that fall short even after careful preparation."
+      },
+      "question": {
+        "vi": "Lần gần nhất bạn làm hết phần mình mà kết quả không như ý, bạn đã nói với mình điều gì?",
+        "en": "The last time you did your part and the result was not what you hoped, what did you tell yourself?"
+      },
+      "tags": [
+        "control",
+        "self-compassion"
+      ]
+    },
+    {
+      "id": "bp-04-04",
+      "ref": {
+        "vi": "Chương 4 · đoạn 4",
+        "en": "Chapter 4 · 4"
+      },
+      "quote": {
+        "vi": "Cho nên có câu: người ta có thể biết cách thắng mà không làm được điều đó.",
+        "en": "Hence the saying: One may know how to conquer without being able to do it."
+      },
+      "gloss": {
+        "vi": "Câu này đi liền với hai câu trước: người giỏi giữ được mình khỏi bại, nhưng không ép được cơ hội thắng, vì cơ hội còn do phía bên kia. Theo chú giải mà Giles dẫn (Trương Dụ), đây là chuyện thế công và thế thủ: khi đối phương đã chuẩn bị đầy đủ thì biết cách thắng cũng chưa đủ để thắng. Đoạn này mời nhìn xem trong việc của bạn, điều gì bạn đã thấy rõ nhưng chưa tự mình làm cho xảy ra được.",
+        "en": "This line follows the two before it: the skilled fighter can keep from defeat but cannot force an opening, since the opening comes from the other side. In the commentary Giles cites (Chang Yu), when the enemy is fully prepared, knowing how to win is not enough to win. This passage invites you to see what, in your own matter, you have clearly seen but cannot yet make happen alone."
+      },
+      "question": {
+        "vi": "Trong việc của bạn, điều gì đã rõ với bạn mà vẫn còn tùy vào những điều ngoài tầm tay, và phần thuộc về bạn là gì?",
+        "en": "In your own matter, what is already clear to you but still depends on things beyond your hands, and what is the part that is yours?"
+      },
+      "tags": [
+        "action",
+        "self-compassion"
+      ]
+    },
+    {
+      "id": "bp-04-09",
+      "ref": {
+        "vi": "Chương 4 · đoạn 9",
+        "en": "Chapter 4 · 9"
+      },
+      "quote": {
+        "vi": "Cũng chưa phải đỉnh cao của sự giỏi nếu bạn chiến đấu và thắng mà cả thiên hạ reo lên: “Hay lắm!”",
+        "en": "Neither is it the acme of excellence if you fight and conquer and the whole Empire says, “Well done!”"
+      },
+      "gloss": {
+        "vi": "Tôn Tử cho rằng tiếng vỗ tay không đủ để đo sự giỏi cao nhất. Một việc được làm xong lặng lẽ có thể giỏi hơn một việc làm ồn ào để ai cũng khen. Đoạn này mời nhìn xem bao nhiêu điều bạn làm là để được công nhận.",
+        "en": "Sun Tzu holds that applause is not the highest measure. A task done quietly can be more skilled than one done loudly so that all praise it. This passage invites you to see how much of what you do is for recognition."
+      },
+      "question": {
+        "vi": "Việc nào bạn làm gần đây mà bạn thấy tự hào dù không ai khen?",
+        "en": "What have you done lately that you feel proud of even though no one praised it?"
+      },
+      "tags": [
+        "humility",
+        "opinion"
+      ]
+    },
+    {
+      "id": "bp-04-10",
+      "ref": {
+        "vi": "Chương 4 · đoạn 10",
+        "en": "Chapter 4 · 10"
+      },
+      "quote": {
+        "vi": "Nhấc một sợi lông mùa thu không phải là dấu hiệu của sức mạnh lớn; thấy mặt trời và mặt trăng không phải là dấu hiệu của mắt tinh; nghe tiếng sấm không phải là dấu hiệu của tai thính.",
+        "en": "To lift an autumn hair is no sign of great strength; to see the sun and moon is no sign of sharp sight; to hear the noise of thunder is no sign of a quick ear."
+      },
+      "gloss": {
+        "vi": "Ba hình ảnh cùng một ý: điều ai cũng làm được hay ai cũng thấy được thì chưa nói lên tài năng. Tôn Tử đang nói về sự giỏi thật sự, thứ làm cho việc khó trông nhẹ nhàng. Đoạn này mời nhìn xem thước đo nào bạn đang dùng để đánh giá chính mình.",
+        "en": "Three images share one idea: what anyone can do or see is not yet a sign of talent. Sun Tzu is speaking of real skill, which makes hard things look light. This passage invites you to see which yardstick you use to judge yourself."
+      },
+      "question": {
+        "vi": "Thước đo nào bạn đang dùng để đánh giá mình dạo này, và thước đó có công bằng với bạn không?",
+        "en": "Which yardstick are you using to judge yourself lately, and is it fair to you?"
+      },
+      "tags": [
+        "humility",
+        "self-compassion"
+      ]
+    },
+    {
+      "id": "bp-04-11",
+      "ref": {
+        "vi": "Chương 4 · đoạn 11",
+        "en": "Chapter 4 · 11"
+      },
+      "quote": {
+        "vi": "Người xưa gọi người chiến đấu giỏi là người không chỉ thắng, mà còn thắng một cách nhẹ nhàng.",
+        "en": "What the ancients called a clever fighter is one who not only wins, but excels in winning with ease."
+      },
+      "gloss": {
+        "vi": "Thắng nhẹ nhàng ở đây là nhờ chọn chỗ và chọn lúc kỹ càng, cùng sự chuẩn bị đủ, chứ không dựa vào may rủi. Tôn Tử đề cao sự dễ dàng đến từ nền tảng. Đoạn này mời nhìn xem điều gì khiến một việc của bạn nhẹ nhàng.",
+        "en": "Winning with ease here comes from choosing place and time carefully and being well prepared, not from chance. Sun Tzu prizes the ease that comes from foundations. This passage invites you to see what makes one of your own tasks feel light."
+      },
+      "question": {
+        "vi": "Việc nào bạn làm gần đây trôi chảy nhẹ nhàng, và điều gì đã chuẩn bị cho điều đó?",
+        "en": "What task have you done lately that flowed with ease, and what had prepared the way for it?"
+      },
+      "tags": [
+        "work",
+        "simplicity"
+      ]
+    },
+    {
+      "id": "bp-04-12",
+      "ref": {
+        "vi": "Chương 4 · đoạn 12",
+        "en": "Chapter 4 · 12"
+      },
+      "quote": {
+        "vi": "Cho nên những chiến thắng của người ấy không đem lại danh tiếng thông minh hay công trạng dũng cảm.",
+        "en": "Hence his victories bring him neither reputation for wisdom nor credit for courage."
+      },
+      "gloss": {
+        "vi": "Chiến thắng lặng lẽ thì ít ai nhận ra sự khéo ở phía sau, vì khó khăn đã được gỡ từ sớm. Tôn Tử xem đó là dấu hiệu của sự giỏi. Đoạn này mời nhìn lại những việc bạn đã giải quyết êm đến mức không ai biết nó từng khó.",
+        "en": "A quiet victory leaves few seeing the skill behind it, since the difficulty was untied early. Sun Tzu takes that as a sign of mastery. This passage invites you to look back at things you resolved so smoothly that no one knows they were once hard."
+      },
+      "question": {
+        "vi": "Có điều gì bạn đã âm thầm làm cho êm xuôi mà chưa ai ghi nhận, và bạn thấy sao về việc đó?",
+        "en": "Is there something you quietly smoothed over that no one has acknowledged, and how do you feel about that?"
+      },
+      "tags": [
+        "humility",
+        "work"
+      ]
+    },
+    {
+      "id": "bp-04-13",
+      "ref": {
+        "vi": "Chương 4 · đoạn 13",
+        "en": "Chapter 4 · 13"
+      },
+      "quote": {
+        "vi": "Ông thắng trận vì không mắc sai lầm. Không mắc sai lầm là điều lập nên sự chắc thắng…",
+        "en": "He wins his battles by making no mistakes. Making no mistakes is what establishes the certainty of victory…"
+      },
+      "gloss": {
+        "vi": "Tôn Tử nói thẳng: thắng nhờ không mắc sai lầm, vì chỗ đứng đã được lo kỹ (phần lược cuối câu nói đó là đánh một đối thủ vốn đã ở thế bại). Đây là chuyện quân sự; ta đọc nó như lời nhắc về sự cẩn thận khi chuẩn bị, không đòi sự hoàn hảo; kết quả còn tùy nhiều điều ngoài tầm tay, và một kết quả không như ý không có nghĩa là bạn đã sai. Đoạn này mời xem bạn dành sự cẩn thận ở khâu nào.",
+        "en": "Sun Tzu says plainly that he wins by making no mistakes, his ground being so carefully secured (the omitted end says this is fighting an enemy already beaten). This is a military point; we read it as care in preparation, not perfection; outcomes also depend on much beyond your hands, so a poor result does not mean you were wrong. This passage invites you to see at which stage you spend your care."
+      },
+      "question": {
+        "vi": "Ở khâu nào trong việc bạn đang làm, một chút cẩn thận thêm giúp bạn đỡ sửa về sau?",
+        "en": "At which stage of what you are doing would a little more care save you repair later?"
+      },
+      "tags": [
+        "work",
+        "attention"
+      ]
+    },
+    {
+      "id": "bp-05-07",
+      "ref": {
+        "vi": "Chương 5 · đoạn 7",
+        "en": "Chapter 5 · 7"
+      },
+      "quote": {
+        "vi": "Chỉ có không quá năm nốt nhạc, thế mà những kết hợp của năm nốt ấy tạo ra nhiều giai điệu hơn ta có thể nghe hết.",
+        "en": "There are not more than five musical notes, yet the combinations of these five give rise to more melodies than can ever be heard."
+      },
+      "gloss": {
+        "vi": "Tôn Tử dùng âm nhạc để nói về khả năng biến hóa vô tận từ rất ít thứ cơ bản; trong đoạn gốc, đó là hai cách đánh trực tiếp và gián tiếp. Ở đây ta đọc nó như lời gợi rằng cách sắp xếp mới có thể tạo ra nhiều khả năng từ những gì đã có. Đoạn này mời xem bạn có thể xếp lại những điều mình đang có thành cách nào mới.",
+        "en": "Sun Tzu uses music to speak of endless variation from very few basic things; in the original, the things are the direct and the indirect methods of attack. Here we read it as a hint that new arrangements can yield many possibilities from what you already have. This passage invites you to see how you could rearrange what you already have in a new way."
+      },
+      "question": {
+        "vi": "Với những gì bạn đang có, có cách sắp xếp nào bạn chưa thử?",
+        "en": "With what you already have, is there an arrangement you have not tried?"
+      },
+      "tags": [
+        "simplicity",
+        "change"
+      ]
+    },
+    {
+      "id": "bp-05-11",
+      "ref": {
+        "vi": "Chương 5 · đoạn 11",
+        "en": "Chapter 5 · 11"
+      },
+      "quote": {
+        "vi": "Cái trực tiếp và cái gián tiếp sinh ra nhau lần lượt, như đi vòng tròn không bao giờ có điểm cuối. Ai có thể đếm hết các cách phối hợp của chúng?",
+        "en": "The direct and the indirect lead on to each other in turn. It is like moving in a circle—you never come to an end. Who can exhaust the possibilities of their combination?"
+      },
+      "gloss": {
+        "vi": "Tôn Tử nói về hai kiểu hành động, thẳng và vòng, thay nhau như một vòng tròn. Ý nghĩa với đời thường là khi cách này bế tắc thì có thể thử cách kia. Đoạn này mời nhìn xem bạn thường thiên về cách nào.",
+        "en": "Sun Tzu speaks of two kinds of action, direct and roundabout, taking turns like a circle. In daily life it means that when one way is stuck you can try the other. This passage invites you to see which way you tend to favour."
+      },
+      "question": {
+        "vi": "Khi một cách làm bế tắc, bạn thường cố thêm theo cách cũ hay thử một lối khác?",
+        "en": "When one approach gets stuck, do you usually push harder the same way or try another route?"
+      },
+      "tags": [
+        "change",
+        "decision"
+      ]
+    },
+    {
+      "id": "bp-05-13",
+      "ref": {
+        "vi": "Chương 5 · đoạn 13",
+        "en": "Chapter 5 · 13"
+      },
+      "quote": {
+        "vi": "Sự quyết đoán giống cú sà xuống đúng lúc của chim ưng…",
+        "en": "The quality of decision is like the well-timed swoop of a falcon…"
+      },
+      "gloss": {
+        "vi": "Hình ảnh chim ưng nói về sự chính xác của thời điểm: không vội, không trễ, rồi hành động gọn. Quyết đoán ở đây là quyết đoán sau khi đã quan sát. Đoạn này mời nhìn xem bạn đang quan sát hay đang đợi quá lâu.",
+        "en": "The falcon image speaks of precise timing: not early, not late, then a clean move. Decisiveness here is decisiveness after observing. This passage invites you to see whether you are observing or waiting too long."
+      },
+      "question": {
+        "vi": "Có quyết định nào bạn đã quan sát đủ lâu và có thể hành động gọn bây giờ?",
+        "en": "Is there a decision you have observed long enough and could now act on cleanly?"
+      },
+      "tags": [
+        "decision",
+        "attention"
+      ]
+    },
+    {
+      "id": "bp-05-21",
+      "ref": {
+        "vi": "Chương 5 · đoạn 21",
+        "en": "Chapter 5 · 21"
+      },
+      "quote": {
+        "vi": "Người chiến đấu khéo nhìn vào hiệu quả của sức mạnh chung, và không đòi hỏi quá nhiều ở từng cá nhân.",
+        "en": "The clever combatant looks to the effect of combined energy, and does not require too much from individuals."
+      },
+      "gloss": {
+        "vi": "Câu nói về việc dựa vào sức của cả nhóm, không đặt gánh quá nặng lên một người. Trong gia đình hay công việc, đó là một lời nhắc chia sẻ phần việc để cùng góp sức. Đoạn này mời nhìn xem bạn hay đòi hỏi quá nhiều ở ai, kể cả chính mình.",
+        "en": "The line speaks of relying on the energy of the whole group rather than loading one person too heavily. In a family or at work it is a reminder to share the load. This passage invites you to see whom you tend to demand too much of, yourself included."
+      },
+      "question": {
+        "vi": "Ai, kể cả chính bạn, đang gánh nhiều hơn sức một người gánh nổi?",
+        "en": "Who, yourself included, is carrying more than one person can bear?"
+      },
+      "tags": [
+        "community",
+        "work"
+      ]
+    },
+    {
+      "id": "bp-05-22",
+      "ref": {
+        "vi": "Chương 5 · đoạn 22",
+        "en": "Chapter 5 · 22"
+      },
+      "quote": {
+        "vi": "Vì bản tính của khúc gỗ hay hòn đá là đứng yên trên đất bằng, và lăn khi ở trên dốc; nếu có góc cạnh thì dừng lại, nếu tròn thì lăn xuống.",
+        "en": "For it is the nature of a log or stone to remain motionless on level ground, and to move when on a slope; if four-cornered, to come to a standstill, but if roundshaped, to go rolling down."
+      },
+      "gloss": {
+        "vi": "Tôn Tử nhìn thấy rằng chuyển động phụ thuộc vào địa thế và hình dạng, không chỉ vào sức đẩy. Trong đời thường, có khi đổi hoàn cảnh quanh mình dễ hơn là gắng sức thêm. Đoạn này mời nhìn xem bạn đang đẩy sức hay đang đứng trên đất bằng.",
+        "en": "Sun Tzu sees that movement depends on terrain and shape, not only on push. In daily life, changing your surroundings is sometimes easier than straining harder. This passage invites you to see whether you are pushing hard or standing on level ground."
+      },
+      "question": {
+        "vi": "Việc nào bạn đang gắng sức mà một thay đổi nhỏ quanh bạn có thể làm nó nhẹ đi?",
+        "en": "What are you straining at where a small change around you could make it lighter?"
+      },
+      "tags": [
+        "change",
+        "simplicity"
+      ]
+    },
+    {
+      "id": "bp-06-01",
+      "ref": {
+        "vi": "Chương 6 · đoạn 1",
+        "en": "Chapter 6 · 1"
+      },
+      "quote": {
+        "vi": "Ai đến chiến trường trước và chờ đối phương thì còn tươi sức khi giao chiến; ai đến sau và vội vã lao vào trận thì đến nơi đã kiệt sức.",
+        "en": "Whoever is first in the field and awaits the coming of the enemy, will be fresh for the fight; whoever is second in the field and has to hasten to battle will arrive exhausted."
+      },
+      "gloss": {
+        "vi": "Câu này nói về lợi thế của người đến trước và đến trong sự chuẩn bị: trong chiến trận, đó là còn tươi sức khi giao chiến thay vì chạy đuổi cho kịp. Ở đây ta mượn hình ảnh ấy để nhìn cảm giác khác nhau giữa bước vào một việc từ tốn và bước vào trong hối hả. Đoạn này mời nhìn xem bạn thường đến với việc quan trọng bằng nhịp nào.",
+        "en": "This line is about the advantage of arriving first and prepared: in battle, it means still being fresh when the fight begins, instead of rushing to catch up. Here we borrow that image to look at the different feeling of entering a task calmly and entering it in haste. This passage invites you to see at what pace you usually come to what matters."
+      },
+      "question": {
+        "vi": "Với việc quan trọng gần đây, bạn bước vào từ tốn hay trong lúc vội vã?",
+        "en": "With a recent important matter, did you step in calmly or in a rush?"
+      },
+      "tags": [
+        "time",
+        "calm"
+      ]
+    },
+    {
+      "id": "bp-06-02",
+      "ref": {
+        "vi": "Chương 6 · đoạn 2",
+        "en": "Chapter 6 · 2"
+      },
+      "quote": {
+        "vi": "… không để ý chí của đối phương bị áp đặt lên mình.",
+        "en": "… does not allow the enemy’s will to be imposed on him."
+      },
+      "gloss": {
+        "vi": "Chúng tôi chỉ giữ nửa sau của câu: giữ lấy ý chí của chính mình, không để ai dẫn mình đi. Nửa đầu, nói về việc áp đặt lên người khác, được lược bỏ vì nó không đi cùng tinh thần của Nilaza. Đoạn này mời nhìn xem bạn giữ quyền quyết định của mình trước áp lực ra sao.",
+        "en": "We keep only the second half of the sentence: holding on to your own intent and not letting anyone lead you away. The first half, about imposing on others, is left out because it does not go with the spirit of Nilaza. This passage invites you to see how you keep hold of your own decisions under pressure."
+      },
+      "question": {
+        "vi": "Có lúc nào gần đây bạn để áp lực bên ngoài quyết định thay bạn?",
+        "en": "Was there a recent moment when outside pressure decided in your place?"
+      },
+      "tags": [
+        "autonomy",
+        "decision"
+      ]
+    },
+    {
+      "id": "bp-06-24",
+      "ref": {
+        "vi": "Chương 6 · đoạn 24",
+        "en": "Chapter 6 · 24"
+      },
+      "quote": {
+        "vi": "So sánh kỹ quân đối phương với quân mình, để biết chỗ nào sức mạnh dư dật và chỗ nào còn thiếu.",
+        "en": "Carefully compare the opposing army with your own, so that you may know where strength is superabundant and where it is deficient."
+      },
+      "gloss": {
+        "vi": "Trong văn bản gốc, mục đích của việc so sánh là tìm ra chỗ mạnh và chỗ yếu của hai bên trước một trận đánh. Ở đây ta mượn cách nhìn ấy để nhìn mình: chỗ nào đang dư, chỗ nào còn thiếu, không để tự đánh giá thấp hay cao hơn mức cần. Đoạn này mời liệt kê điều bạn có và điều bạn đang cần thêm.",
+        "en": "In the original, the point of comparing is to find where each side is strong and where weak before a battle. Here we borrow that way of looking in order to look at yourself: where you have plenty and where you are short, without rating yourself lower or higher than needed. This passage invites you to list what you have and what you still need."
+      },
+      "question": {
+        "vi": "Với việc đang làm, bạn có dư điều gì và còn thiếu điều gì?",
+        "en": "For what you are working on, what do you have plenty of and what are you short of?"
+      },
+      "tags": [
+        "self-knowledge",
+        "work"
+      ]
+    },
+    {
+      "id": "bp-06-27",
+      "ref": {
+        "vi": "Chương 6 · đoạn 27",
+        "en": "Chapter 6 · 27"
+      },
+      "quote": {
+        "vi": "Ai cũng thấy được chiến thuật tôi dùng để thắng, nhưng không ai thấy được chiến lược mà chiến thắng từ đó được tạo ra.",
+        "en": "All men can see the tactics whereby I conquer, but what none can see is the strategy out of which victory is evolved."
+      },
+      "gloss": {
+        "vi": "Người ngoài thường chỉ thấy hành động bên ngoài, còn lý do và quá trình suy nghĩ phía sau thì ít ai thấy. Điều đó cũng đúng với chính bạn: người khác thấy việc bạn làm, nhưng không thấy bạn đã cân nhắc những gì. Đoạn này mời nhìn xem điều gì ở bạn mà người xung quanh chưa thấy.",
+        "en": "Outsiders usually see only the outward action, while the reasons and thinking behind it are seen by few. That holds for you too: others see what you do, but not what you weighed. This passage invites you to see what about you the people around you have not yet seen."
+      },
+      "question": {
+        "vi": "Có điều gì đằng sau một việc bạn làm mà người ngoài khó nhìn thấy?",
+        "en": "Is there something behind a thing you do that outsiders find hard to see?"
+      },
+      "tags": [
+        "self-knowledge",
+        "opinion"
+      ]
+    },
+    {
+      "id": "bp-06-28",
+      "ref": {
+        "vi": "Chương 6 · đoạn 28",
+        "en": "Chapter 6 · 28"
+      },
+      "quote": {
+        "vi": "Đừng lặp lại chiến thuật đã đem lại một chiến thắng, mà để phương pháp của bạn được điều chỉnh theo muôn vàn hoàn cảnh khác nhau.",
+        "en": "Do not repeat the tactics which have gained you one victory, but let your methods be regulated by the infinite variety of circumstances."
+      },
+      "gloss": {
+        "vi": "Một cách làm từng giúp ích chưa chắc còn thích ứng với lần sau. Câu này nhắc rằng mỗi hoàn cảnh có nét riêng, và thói quen cũ cần được xem lại. Đoạn này mời nhìn xem bạn có đang dùng một công thức cũ cho một tình huống mới.",
+        "en": "A method that once helped may not suit the next time. The line reminds that each situation has its own character, and old habits are worth a second look. This passage invites you to see whether you are using an old formula for a new situation."
+      },
+      "question": {
+        "vi": "Có cách làm quen thuộc nào của bạn đang tỏ ra kém hiệu quả trong hoàn cảnh hiện tại?",
+        "en": "Is there a familiar way of yours that is working less well in your present situation?"
+      },
+      "tags": [
+        "change",
+        "action"
+      ]
+    },
+    {
+      "id": "bp-06-31",
+      "ref": {
+        "vi": "Chương 6 · đoạn 31",
+        "en": "Chapter 6 · 31"
+      },
+      "quote": {
+        "vi": "Nước định hình dòng chảy theo địa thế nó đi qua; người lính tìm chiến thắng của mình tùy theo kẻ thù mà anh ta đối mặt.",
+        "en": "Water shapes its course according to the nature of the ground over which it flows; the soldier works out his victory in relation to the foe whom he is facing."
+      },
+      "gloss": {
+        "vi": "Hình ảnh nước nói về sự uyển chuyển: đi theo địa thế thay vì chống lại nó. Điều này khác với việc đánh mất mình, vì nước vẫn là nước dù hình dạng đổi. Đoạn này mời nhìn xem chỗ nào bạn có thể uyển chuyển hơn mà vẫn giữ được bản thân.",
+        "en": "The image of water speaks of suppleness: following the terrain rather than resisting it. This is different from losing yourself, since water remains water even as its shape changes. This passage invites you to see where you could be more supple while still keeping yourself."
+      },
+      "question": {
+        "vi": "Chỗ nào trong đời bạn có thể uyển chuyển hơn mà vẫn là chính mình?",
+        "en": "Where in your life could you be more supple while still being yourself?"
+      },
+      "tags": [
+        "change",
+        "calm"
+      ]
+    },
+    {
+      "id": "bp-06-32",
+      "ref": {
+        "vi": "Chương 6 · đoạn 32",
+        "en": "Chapter 6 · 32"
+      },
+      "quote": {
+        "vi": "Cho nên, như nước không giữ một hình dạng cố định, trong chiến tranh cũng không có điều kiện nào cố định.",
+        "en": "Therefore, just as water retains no constant shape, so in warfare there are no constant conditions."
+      },
+      "gloss": {
+        "vi": "Câu này xem đổi thay là bản chất của hoàn cảnh: nước không giữ một hình cố định, và tình thế trong chiến tranh cũng vậy. Ở đây ta đọc nó như lời nhắc rằng điều kiện quanh mình luôn dịch chuyển. Đoạn này mời nhìn xem điều gì quanh bạn đang đổi và bạn đón nhận sự đổi ấy ra sao.",
+        "en": "This line sees change as the nature of circumstances: water keeps no fixed shape, and neither do conditions in war. Here we read it as a reminder that the conditions around you keep shifting. This passage invites you to see what around you is changing and how you receive that change."
+      },
+      "question": {
+        "vi": "Điều gì quanh bạn đang đổi, và bạn đón nhận sự đổi ấy ra sao?",
+        "en": "What around you is changing, and how are you receiving that change?"
+      },
+      "tags": [
+        "change",
+        "acceptance"
+      ]
+    },
+    {
+      "id": "bp-06-34",
+      "ref": {
+        "vi": "Chương 6 · đoạn 34",
+        "en": "Chapter 6 · 34"
+      },
+      "quote": {
+        "vi": "Năm hành (nước, lửa, gỗ, kim, đất) không lúc nào cũng thịnh như nhau; bốn mùa nhường chỗ cho nhau lần lượt. Có ngày ngắn ngày dài; mặt trăng có lúc khuyết lúc tròn.",
+        "en": "The five elements (water, fire, wood, metal, earth) are not always equally predominant; the four seasons make way for each other in turn. There are short days and long; the moon has its periods of waning and waxing."
+      },
+      "gloss": {
+        "vi": "Tôn Tử nhìn các chu kỳ tự nhiên để nói rằng nhiều trạng thái đổi theo thời gian, dù không lúc nào cũng nhanh hay như ta mong. Mùa thay mùa, trăng khuyết rồi tròn, và đó là nhịp quen thuộc của nhiều thứ. Đoạn này mời nhìn xem bạn đang ở giai đoạn nào của một chu kỳ.",
+        "en": "Sun Tzu looks at natural cycles to say that many states change with time, though not always quickly or as we would wish. Seasons give way to each other, the moon wanes and fills, a familiar rhythm of many things. This passage invites you to see which phase of a cycle you are in."
+      },
+      "question": {
+        "vi": "Hiện giờ bạn đang ở giai đoạn nào của một chu kỳ trong đời mình?",
+        "en": "Which phase of a cycle in your life are you in right now?"
+      },
+      "tags": [
+        "change",
+        "time"
+      ]
+    },
+    {
+      "id": "bp-07-16",
+      "ref": {
+        "vi": "Chương 7 · đoạn 16",
+        "en": "Chapter 7 · 16"
+      },
+      "quote": {
+        "vi": "Tập trung hay chia nhỏ lực lượng đều do hoàn cảnh quyết định.",
+        "en": "Whether to concentrate or to divide your troops, must be decided by circumstances."
+      },
+      "gloss": {
+        "vi": "Có lúc dồn sức vào một việc là thích ứng, có lúc chia ra nhiều việc mới vừa sức, và câu này nhắc ta nhìn hoàn cảnh để chọn. Nó áp dụng được với sự chú ý của bạn, thời gian của bạn, và nhiều thứ khác. Đoạn này mời xem bạn đang dồn hay đang chia sức, và liệu hoàn cảnh có đòi điều đó không.",
+        "en": "Sometimes putting all effort into one thing fits, sometimes spreading it across several fits better, and this line reminds you to read the circumstances to choose. It applies to your attention, your time and more. This passage invites you to see whether you are concentrating or dividing your effort, and whether the situation calls for it."
+      },
+      "question": {
+        "vi": "Bạn đang dồn sức vào một việc hay chia ra nhiều việc, và hoàn cảnh nói gì về cách đó?",
+        "en": "Are you putting your effort into one thing or spreading it across several, and what does the situation say about that?"
+      },
+      "tags": [
+        "attention",
+        "decision"
+      ]
+    },
+    {
+      "id": "bp-07-17",
+      "ref": {
+        "vi": "Chương 7 · đoạn 17",
+        "en": "Chapter 7 · 17"
+      },
+      "quote": {
+        "vi": "Để sự nhanh của bạn như gió, sự khoan thai gọn chắc của bạn như rừng.",
+        "en": "Let your rapidity be that of the wind, your compactness that of the forest."
+      },
+      "gloss": {
+        "vi": "Hai hình ảnh gió và rừng đặt cạnh nhau: nhanh khi cần, vững khi cần. Điều đó gợi rằng có hai nhịp trong một con người, và mỗi nhịp có chỗ của nó. Đoạn này mời nhìn xem lúc nào bạn cần nhanh như gió và lúc nào cần vững như rừng.",
+        "en": "Two images, wind and forest, side by side: quick when needed, steady when needed. It suggests two tempos within one person, each with its place. This passage invites you to see when you need to be quick as wind and when steady as a forest."
+      },
+      "question": {
+        "vi": "Việc nào của bạn lúc này cần nhanh, và việc nào cần vững vàng?",
+        "en": "What of yours needs speed at this moment, and what needs steadiness?"
+      },
+      "tags": [
+        "calm",
+        "action"
+      ]
+    },
+    {
+      "id": "bp-07-21",
+      "ref": {
+        "vi": "Chương 7 · đoạn 21",
+        "en": "Chapter 7 · 21"
+      },
+      "quote": {
+        "vi": "Suy xét và cân nhắc trước khi hành động.",
+        "en": "Ponder and deliberate before you make a move."
+      },
+      "gloss": {
+        "vi": "Chỉ một câu ngắn, nhưng nó đặt khoảng dừng lên trước hành động. Khoảng dừng ấy có thể là vài hơi thở hay vài ngày, tùy việc. Đoạn này mời nhìn xem bạn đang cho mình khoảng dừng nào trước một quyết định.",
+        "en": "A single short line, yet it puts a pause before action. That pause might be a few breaths or a few days, depending on the matter. This passage invites you to see what pause you are giving yourself before a decision."
+      },
+      "question": {
+        "vi": "Trước quyết định sắp tới, bạn cho mình một khoảng dừng như thế nào?",
+        "en": "Before an upcoming decision, what kind of pause do you give yourself?"
+      },
+      "tags": [
+        "decision",
+        "calm"
+      ]
+    },
+    {
+      "id": "bp-07-27",
+      "ref": {
+        "vi": "Chương 7 · đoạn 27",
+        "en": "Chapter 7 · 27"
+      },
+      "quote": {
+        "vi": "Cả một đạo quân có thể bị cướp mất tinh thần; một vị chủ tướng có thể bị cướp mất sự tỉnh táo.",
+        "en": "A whole army may be robbed of its spirit; a commander-in-chief may be robbed of his presence of mind."
+      },
+      "gloss": {
+        "vi": "Trong văn bản gốc, đây là lời nói về việc một đạo quân và một vị tướng có thể bị đối phương làm mất tinh thần và sự tỉnh táo. Ở đây ta chỉ đọc phần ấy như một cách gọi tên: tinh thần và sự tỉnh táo dễ lung lay dưới áp lực, kể cả ở người dày dạn, và điều đó không đáng chê trách. Đoạn này mời nhìn xem điều gì thường làm bạn mất bình tĩnh nhất.",
+        "en": "In the original, this says that an army and a general can be robbed of spirit and presence of mind by an opponent. Here we read only that as a naming: spirit and presence of mind are easily shaken under pressure, even in the experienced, and that is nothing to blame. This passage invites you to see what most often costs you your composure."
+      },
+      "question": {
+        "vi": "Điều gì thường làm bạn mất bình tĩnh nhất, và bạn nhận ra nó lúc nào?",
+        "en": "What most often costs you your composure, and when do you notice it?"
+      },
+      "tags": [
+        "calm",
+        "self-knowledge"
+      ]
+    },
+    {
+      "id": "bp-07-28",
+      "ref": {
+        "vi": "Chương 7 · đoạn 28",
+        "en": "Chapter 7 · 28"
+      },
+      "quote": {
+        "vi": "Tinh thần người lính sắc nhất vào buổi sáng; đến trưa đã bắt đầu chùng xuống; và buổi tối, trong đầu anh ta chỉ còn nghĩ đến việc trở về doanh trại.",
+        "en": "Now a soldier’s spirit is keenest in the morning; by noonday it has begun to flag; and in the evening, his mind is bent only on returning to camp."
+      },
+      "gloss": {
+        "vi": "Tôn Tử nhận xét một nhịp thường thấy ở người lính: tinh thần sắc nhất lúc đầu ngày rồi lùi dần (trong văn bản gốc, nhận xét này dùng để biết lúc nào đối phương dễ bị đánh). Ở đây ta mượn nó chỉ để nhìn vào nhịp riêng của mình trong một ngày, mà không cho rằng ai cũng giống ai. Đoạn này mời nhìn xem tinh thần của bạn sắc nhất vào lúc nào.",
+        "en": "Sun Tzu notes a common rhythm in soldiers: spirit is keenest at the start of the day and then recedes (in the original, this is used to judge when an opponent is easiest to attack). Here we borrow it only to look at your own rhythm through a day, without assuming everyone is alike. This passage invites you to see when your spirit is keenest."
+      },
+      "question": {
+        "vi": "Trong một ngày của bạn, lúc nào tinh thần sắc nhất, và bạn đang dùng lúc ấy cho việc gì?",
+        "en": "In a day of yours, when is your spirit keenest, and what are you using that time for?"
+      },
+      "tags": [
+        "time",
+        "self-knowledge"
+      ]
+    },
+    {
+      "id": "bp-07-30",
+      "ref": {
+        "vi": "Chương 7 · đoạn 30",
+        "en": "Chapter 7 · 30"
+      },
+      "quote": {
+        "vi": "Có kỷ luật và bình tĩnh … đó là nghệ thuật giữ vững sự tự chủ.",
+        "en": "Disciplined and calm … this is the art of retaining self-possession."
+      },
+      "gloss": {
+        "vi": "Trong văn bản gốc, câu này nói về việc giữ kỷ luật và bình tĩnh để chờ lúc đối phương rối loạn ồn ào; chúng tôi chỉ giữ phần nói về nội tâm. Tự chủ ở đây là giữ được trục của mình, chứ không có nghĩa kìm nén cảm xúc. Đoạn này mời nhìn xem điều gì giúp bạn giữ trục khi xung quanh xáo trộn.",
+        "en": "In the original, this is about staying disciplined and calm while waiting for disorder and hubbub to appear among the enemy; we keep only the inward part. Self-possession here is keeping your own centre, not suppressing feeling. This passage invites you to see what helps you keep your centre when things around are unsettled."
+      },
+      "question": {
+        "vi": "Khi xung quanh xáo trộn, điều gì giúp bạn giữ được trục của mình?",
+        "en": "When things around you are unsettled, what helps you keep your centre?"
+      },
+      "tags": [
+        "calm",
+        "self-knowledge"
+      ]
+    },
+    {
+      "id": "bp-07-31",
+      "ref": {
+        "vi": "Chương 7 · đoạn 31",
+        "en": "Chapter 7 · 31"
+      },
+      "quote": {
+        "vi": "Ở gần đích trong khi đối phương còn xa … đó là nghệ thuật dành dụm sức lực của mình.",
+        "en": "To be near the goal while the enemy is still far from it, … this is the art of husbanding one’s strength."
+      },
+      "gloss": {
+        "vi": "Chúng tôi giữ ý về việc dành dụm sức lực, và đọc nó như việc tự điều tiết nhịp của mình. Đến gần đích nhờ biết khi nào dồn sức và khi nào nghỉ, không nhờ gắng liên tục. Đoạn này mời nhìn xem bạn đang chia sức ra sao trong một việc dài.",
+        "en": "We keep the idea of husbanding strength, and read it as pacing yourself. Coming near the goal comes from knowing when to push and when to rest, not from straining without pause. This passage invites you to see how you are spreading your effort across a long task."
+      },
+      "question": {
+        "vi": "Trong việc dài hơi bạn đang làm, bạn đang chia sức của mình ra sao?",
+        "en": "In the long task you are doing, how are you distributing your effort?"
+      },
+      "tags": [
+        "time",
+        "resilience"
+      ]
+    },
+    {
+      "id": "bp-07-36",
+      "ref": {
+        "vi": "Chương 7 · đoạn 36",
+        "en": "Chapter 7 · 36"
+      },
+      "quote": {
+        "vi": "Khi vây một đạo quân, hãy chừa một lối thoát. Đừng ép quá một kẻ đã tuyệt vọng.",
+        "en": "When you surround an army, leave an outlet free. Do not press a desperate foe too hard."
+      },
+      "gloss": {
+        "vi": "Chừa lối thoát cho người đang bí là cách tránh để họ bị dồn vào chỗ không còn gì để mất. Trong đời thường, đó có thể là cho ai đó một lối lui không mất thể diện giữa lúc căng thẳng. Đoạn này mời nhìn xem bạn có chừa chỗ cho người khác lùi bước không.",
+        "en": "Leaving an exit for someone who is cornered avoids pushing them to where they have nothing left to lose. In daily life that could be giving someone a way to step back without losing face in a tense moment. This passage invites you to see whether you leave room for others to step back."
+      },
+      "question": {
+        "vi": "Trong một cuộc tranh cãi gần đây, bạn có chừa cho người kia một lối lui không?",
+        "en": "In a recent disagreement, did you leave the other person a way to step back?"
+      },
+      "tags": [
+        "others",
+        "anger"
+      ]
+    },
+    {
+      "id": "bp-08-04",
+      "ref": {
+        "vi": "Chương 8 · đoạn 4",
+        "en": "Chapter 8 · 4"
+      },
+      "quote": {
+        "vi": "Vị tướng hiểu thấu những lợi thế đi cùng sự biến đổi chiến thuật thì biết cách điều khiển quân của mình.",
+        "en": "The general who thoroughly understands the advantages that accompany variation of tactics knows how to handle his troops."
+      },
+      "gloss": {
+        "vi": "Biết đổi cách làm là một năng lực đáng quý, nhất là khi người ta quen với một lối. Ở đây, sự biến đổi được coi như một phần của việc dẫn dắt, không bị coi là dấu hiệu thiếu nhất quán. Đoạn này mời nhìn xem bạn có đang sẵn lòng đổi cách khi cần.",
+        "en": "Knowing how to vary your approach is a valuable ability, especially when people grow used to one way. Here, variation is seen as part of leading, not a sign of inconsistency. This passage invites you to see whether you are willing to change your approach when needed."
+      },
+      "question": {
+        "vi": "Bạn có thể thử biến đổi điều gì trong một cách làm đã quen?",
+        "en": "What could you try varying in a way of working you are used to?"
+      },
+      "tags": [
+        "change",
+        "work"
+      ]
+    },
+    {
+      "id": "bp-08-07",
+      "ref": {
+        "vi": "Chương 8 · đoạn 7",
+        "en": "Chapter 8 · 7"
+      },
+      "quote": {
+        "vi": "Vì vậy, trong kế hoạch của nhà lãnh đạo sáng suốt, những cân nhắc về lợi và về hại được hòa trộn với nhau.",
+        "en": "Hence in the wise leader’s plans, considerations of advantage and of disadvantage will be blended together."
+      },
+      "gloss": {
+        "vi": "Người suy nghĩ cẩn thận nhìn cả hai mặt cùng lúc, thay vì chỉ thấy điều mình mong. Việc trộn lẫn lợi và hại giúp bức tranh đầy đủ hơn, và sự cân nhắc nhờ thế bớt lệch về một phía. Đoạn này mời nhìn xem bạn đang thiên về mặt nào khi nghĩ về một lựa chọn.",
+        "en": "A careful thinker sees both sides at once instead of only what they hope for. Blending advantage and disadvantage gives a fuller picture, and the weighing leans less to one side. This passage invites you to see which side you tilt towards when thinking about a choice."
+      },
+      "question": {
+        "vi": "Với lựa chọn đang cân nhắc, bạn đã nhìn cả mặt được lẫn mặt mất chưa?",
+        "en": "For a choice you are weighing, have you looked at both the gains and the losses?"
+      },
+      "tags": [
+        "decision",
+        "attention"
+      ]
+    },
+    {
+      "id": "bp-08-09",
+      "ref": {
+        "vi": "Chương 8 · đoạn 9",
+        "en": "Chapter 8 · 9"
+      },
+      "quote": {
+        "vi": "Ngược lại, giữa lúc khó khăn mà ta luôn sẵn sàng nắm lấy một điều thuận lợi, ta có thể tự gỡ mình khỏi nghịch cảnh.",
+        "en": "If, on the other hand, in the midst of difficulties we are always ready to seize an advantage, we may extricate ourselves from misfortune."
+      },
+      "gloss": {
+        "vi": "Câu này không phủ nhận khó khăn, mà chỉ nói rằng trong khó khăn vẫn có thể có một điều thuận lợi nhỏ. Việc nhận ra điều đó có thể mở ra một lối đi từng bước. Đoạn này mời nhìn xem trong chuyện đang khó của bạn còn điều gì đứng về phía bạn.",
+        "en": "The line does not deny difficulty, only says that within difficulty a small advantage may still exist. Noticing it can open a path step by step. This passage invites you to see what, in your present difficulty, is still on your side."
+      },
+      "question": {
+        "vi": "Giữa chuyện đang khó khăn, có điều nhỏ nào còn đứng về phía bạn?",
+        "en": "Amid what is hard right now, is there some small thing still on your side?"
+      },
+      "tags": [
+        "resilience",
+        "attention"
+      ]
+    },
+    {
+      "id": "bp-08-11",
+      "ref": {
+        "vi": "Chương 8 · đoạn 11",
+        "en": "Chapter 8 · 11"
+      },
+      "quote": {
+        "vi": "Nghệ thuật dụng binh dạy ta dựa không vào khả năng kẻ địch không đến, mà vào sự sẵn sàng đón họ của chính ta; không vào cơ hội họ không tấn công, mà vào việc ta đã làm cho vị thế của mình không thể bị công phá.",
+        "en": "The art of war teaches us to rely not on the likelihood of the enemy’s not coming, but on our own readiness to receive him; not on the chance of his not attacking, but rather on the fact that we have made our position unassailable."
+      },
+      "gloss": {
+        "vi": "Tôn Tử đặt sự sẵn sàng của mình lên trên việc mong điều khó khăn không đến. Trong văn bản gốc, đó là quân lực và thế trận không thể bị công phá; ở đây ta đọc nó như một nền vững cho tâm trí, không đồng nghĩa với lo lắng triền miên. Đoạn này mời nhìn xem phần chuẩn bị nào của bạn giúp bạn thấy vững hơn.",
+        "en": "Sun Tzu puts your own readiness above hoping that difficulty does not arrive. In the original this means forces and a position that cannot be broken; here we read it as steady ground for the mind, not endless worry. This passage invites you to see which part of your preparation helps you feel steadier."
+      },
+      "question": {
+        "vi": "Có điều gì bạn đang mong không xảy ra, và phần chuẩn bị nào của bạn có thể giúp bạn vững hơn?",
+        "en": "Is there something you are hoping does not happen, and what preparation of yours could help you feel steadier?"
+      },
+      "tags": [
+        "resilience",
+        "action"
+      ]
+    },
+    {
+      "id": "bp-08-12",
+      "ref": {
+        "vi": "Chương 8 · đoạn 12",
+        "en": "Chapter 8 · 12"
+      },
+      "quote": {
+        "vi": "Có năm khuyết điểm nguy hiểm có thể ảnh hưởng đến một vị tướng: … tính nóng nảy, dễ bị khiêu khích bởi lời lăng mạ; lòng tự trọng mỏng manh, nhạy cảm với sự xấu hổ …",
+        "en": "There are five dangerous faults which may affect a general: … a hasty temper, which can be provoked by insults; a delicacy of honour which is sensitive to shame …"
+      },
+      "gloss": {
+        "vi": "Trong văn bản gốc, đây là hai trong năm nhược điểm nguy hiểm của một vị tướng, và Tôn Tử xem chúng là nguyên nhân khi quân thua tướng chết. Chúng tôi chỉ giữ hai điều thuộc về nội tâm, dễ nổi nóng khi bị xúc phạm và dễ đau khi chạm vào lòng tự trọng, và đọc chúng như những chỗ dễ bị chạm vào trong mỗi người, để nhận ra, không nhằm tự trách. Đoạn này mời nhìn xem điều gì dễ khiến bạn phản ứng nhanh.",
+        "en": "In the original, these are two of five dangerous faults of a general, which Sun Tzu names as the cause when an army is overthrown and its leader slain. We keep only two inward ones, flaring up when insulted and hurting easily when pride is touched, and read them as tender spots in each person, to be noticed rather than used for self-blame. This passage invites you to see what tends to make you react quickly."
+      },
+      "question": {
+        "vi": "Điều gì dễ khiến bạn phản ứng nhanh khi lòng tự trọng bị chạm vào?",
+        "en": "What tends to make you react quickly when your pride is touched?"
+      },
+      "tags": [
+        "anger",
+        "self-knowledge"
+      ]
+    },
+    {
+      "id": "bp-09-40",
+      "ref": {
+        "vi": "Chương 9 · đoạn 40",
+        "en": "Chapter 9 · 40"
+      },
+      "quote": {
+        "vi": "Nếu quân ta không đông hơn quân địch thì như thế đã là đủ; chỉ có nghĩa là không thể tấn công trực diện. Điều ta có thể làm đơn giản là gom hết sức lực sẵn có, quan sát kỹ đối phương, và tìm thêm viện binh.",
+        "en": "If our troops are no more in number than the enemy, that is amply sufficient; it only means that no direct attack can be made. What we can do is simply to concentrate all our available strength, keep a close watch on the enemy, and obtain reinforcements."
+      },
+      "gloss": {
+        "vi": "Khi sức mình chỉ ngang với thử thách, câu này gợi ba việc đơn giản: gom sức, quan sát, và tìm thêm sự giúp đỡ. Việc nhờ người khác một tay được coi là một phần của sự chuẩn bị, không bị xem là dấu hiệu yếu. Đoạn này mời nhìn xem bạn có đang tìm sự hỗ trợ cho việc khó của mình.",
+        "en": "When your strength only equals the challenge, this line suggests three plain things: gather your strength, observe, and seek more help. Asking someone for a hand is treated as part of preparation, not a sign of weakness. This passage invites you to see whether you are seeking support for your hard task."
+      },
+      "question": {
+        "vi": "Với một việc khó đang đứng trước bạn, bạn có thể nhờ ai một tay?",
+        "en": "For a hard task standing before you, whom could you ask for a hand?"
+      },
+      "tags": [
+        "community",
+        "resilience"
+      ]
+    },
+    {
+      "id": "bp-09-41",
+      "ref": {
+        "vi": "Chương 9 · đoạn 41",
+        "en": "Chapter 9 · 41"
+      },
+      "quote": {
+        "vi": "Kẻ không suy tính trước mà xem nhẹ đối thủ của mình thì chắc chắn bị họ bắt được.",
+        "en": "He who exercises no forethought but makes light of his opponents is sure to be captured by them."
+      },
+      "gloss": {
+        "vi": "Đây là một hình ảnh từ chiến trận: Tôn Tử nói thẳng rằng ai không suy tính trước mà xem thường đối thủ thì bị họ bắt, và ta chỉ đọc nó như một lời nhắc về cái giá của sự coi nhẹ, không như một lời dự báo. Ở đây ta đọc thêm một lớp đời thường: thói bỏ qua bước cân nhắc khi một việc trông đã quen là điều có thể nhận ra. Đoạn này mời nhìn xem bạn có đang coi nhẹ điều gì chỉ vì nó đã quen.",
+        "en": "This is an image from war: Sun Tzu says plainly that one who makes no forethought and underrates opponents is captured by them, and we read it as a reminder, not a forecast. In everyday life, the habit of skipping the weighing when something looks familiar is one that can be noticed. This passage invites you to see whether you take something lightly only because it is familiar."
+      },
+      "question": {
+        "vi": "Có việc nào bạn đang coi nhẹ chỉ vì nghĩ mình đã quen với nó?",
+        "en": "Is there something you are taking lightly only because you think you are used to it?"
+      },
+      "tags": [
+        "attention",
+        "humility"
+      ]
+    },
+    {
+      "id": "bp-09-45",
+      "ref": {
+        "vi": "Chương 9 · đoạn 45",
+        "en": "Chapter 9 · 45"
+      },
+      "quote": {
+        "vi": "Nếu vị tướng tỏ lòng tin vào quân của mình nhưng luôn kiên quyết đòi mệnh lệnh được tuân theo, thì lợi ích là của cả hai bên.",
+        "en": "If a general shows confidence in his men but always insists on his orders being obeyed, the gain will be mutual."
+      },
+      "gloss": {
+        "vi": "Trong văn bản gốc, đây là một vị tướng vừa tin quân mình vừa kiên quyết đòi mệnh lệnh được tuân theo, và nhờ vậy lợi ích là của cả hai bên. Ở đây ta đọc nhẹ hơn, như lòng tin đặt cạnh sự rõ ràng: tin người cùng làm, và nói rõ điều mình cần. Đoạn này mời nhìn xem bạn đang cho người cùng làm lòng tin hay sự rõ ràng nhiều hơn.",
+        "en": "In the original, a general both shows confidence in his men and insists that his orders be obeyed, and the gain is mutual. Here we read it more lightly, as trust set beside clarity: trusting the people you work with and also being plain about what you need. This passage invites you to see whether you give trust or clarity more to the people you work with."
+      },
+      "question": {
+        "vi": "Với người cùng làm với bạn, bạn đang cho họ lòng tin hay sự rõ ràng nhiều hơn?",
+        "en": "With the people you work alongside, which do you give them more of, trust or clarity?"
+      },
+      "tags": [
+        "others",
+        "work"
+      ]
+    },
+    {
+      "id": "bp-10-24",
+      "ref": {
+        "vi": "Chương 10 · đoạn 24",
+        "en": "Chapter 10 · 24"
+      },
+      "quote": {
+        "vi": "Vị tướng tiến mà không tham danh, lui mà không sợ nhục, chỉ nghĩ đến việc bảo vệ đất nước và phụng sự chủ của mình, là viên ngọc của vương quốc.",
+        "en": "The general who advances without coveting fame and retreats without fearing disgrace, whose only thought is to protect his country and do good service for his sovereign, is the jewel of the kingdom."
+      },
+      "gloss": {
+        "vi": "Câu này mô tả một người hành động vì điều mình coi trọng, không để việc được khen hay bị chê dẫn đường. Ở đây, tiến và lui đều được quyết định bởi mục đích, không bởi cảm giác về hình ảnh của mình. Đoạn này mời nhìn xem điều gì thúc bạn làm một việc.",
+        "en": "This describes a person who acts for what they value, not letting praise or blame lead. Here advancing and retreating are both decided by purpose, not by feelings about one’s image. This passage invites you to see what drives you to do a thing."
+      },
+      "question": {
+        "vi": "Trong việc gần đây, điều gì thúc bạn làm nó: sự công nhận, một người nào đó, hay chính việc ấy?",
+        "en": "In a recent task, what drove you: recognition, a particular person, or the task itself?"
+      },
+      "tags": [
+        "purpose",
+        "humility"
+      ]
+    },
+    {
+      "id": "bp-10-27",
+      "ref": {
+        "vi": "Chương 10 · đoạn 27",
+        "en": "Chapter 10 · 27"
+      },
+      "quote": {
+        "vi": "Nếu ta biết quân mình sẵn sàng tấn công, nhưng không biết rằng đối phương không để lộ sơ hở nào để tấn công, thì ta mới đi được nửa đường đến chiến thắng.",
+        "en": "If we know that our own men are in a condition to attack, but are unaware that the enemy is not open to attack, we have gone only halfway towards victory."
+      },
+      "gloss": {
+        "vi": "Biết mình sẵn sàng là chưa đủ nếu chưa hiểu hoàn cảnh bên kia. Câu này nhắc rằng sự nhiệt tình của bản thân cần đi cùng việc nhìn thực tế xung quanh. Đoạn này mời nhìn xem bạn đã tìm hiểu hoàn cảnh đủ chưa, bên cạnh việc chuẩn bị chính mình.",
+        "en": "Knowing you are ready is not enough without understanding the other side’s situation. The line reminds that your own eagerness needs to travel with a look at the reality around you. This passage invites you to see whether you have studied the situation enough, beside preparing yourself."
+      },
+      "question": {
+        "vi": "Trong việc đang làm, bạn biết rõ mình sẵn sàng, nhưng đã tìm hiểu hoàn cảnh bên kia đủ chưa?",
+        "en": "In what you are doing, you know you are ready, but have you studied the other side’s situation enough?"
+      },
+      "tags": [
+        "self-knowledge",
+        "decision"
+      ]
+    },
+    {
+      "id": "bp-10-30",
+      "ref": {
+        "vi": "Chương 10 · đoạn 30",
+        "en": "Chapter 10 · 30"
+      },
+      "quote": {
+        "vi": "Vì thế người lính dày dạn, đã bắt đầu hành động thì không bối rối; đã nhổ trại rồi thì không lúng túng.",
+        "en": "Hence the experienced soldier, once in motion, is never bewildered; once he has broken camp, he is never at a loss."
+      },
+      "gloss": {
+        "vi": "Sự vững vàng của người dày dạn đến từ việc đã nghĩ trước, vì thế khi bắt đầu thì bước đi nhẹ hơn. Câu này nhắc rằng chuẩn bị là thứ làm cho lúc khởi hành bớt bối rối. Đoạn này mời nhìn xem điều gì giúp bạn bớt lúng túng khi bắt đầu một việc mới.",
+        "en": "The steadiness of the experienced comes from having thought ahead, so that once started, the steps are lighter. The line reminds that preparation is what makes the moment of setting out less bewildering. This passage invites you to see what helps you feel less at a loss when beginning something new."
+      },
+      "question": {
+        "vi": "Điều gì giúp bạn bớt bối rối khi bắt đầu một việc mới?",
+        "en": "What helps you feel less bewildered when you begin something new?"
+      },
+      "tags": [
+        "action",
+        "resilience"
+      ]
+    },
+    {
+      "id": "bp-11-22",
+      "ref": {
+        "vi": "Chương 11 · đoạn 22",
+        "en": "Chapter 11 · 22"
+      },
+      "quote": {
+        "vi": "Chăm chút kỹ lưỡng sự an lành của những người đi theo mình, và đừng bắt họ gánh quá sức. Dồn năng lượng và tích góp sức lực. …",
+        "en": "Carefully study the well-being of your men, and do not overtax them. Concentrate your energy and hoard your strength. …"
+      },
+      "gloss": {
+        "vi": "Hai ý đi cùng nhau: lo cho sức của những người đi cùng mình, và giữ gìn sức của chính mình. Gánh nặng quá mức làm hao mòn cả nhóm, và điều đó cũng đúng trong gia đình. Đoạn này mời nhìn xem bạn đang chăm chút cho ai và chăm chút cho mình ra sao.",
+        "en": "Two ideas go together: caring for the strength of those with you, and conserving your own. Too heavy a load wears down the whole group, and this holds in a family too. This passage invites you to see whom you are caring for and how you are caring for yourself."
+      },
+      "question": {
+        "vi": "Ai quanh bạn đang gánh nhiều, và bạn có thể chia bớt phần nào?",
+        "en": "Who around you is carrying a lot, and which part could you share?"
+      },
+      "tags": [
+        "community",
+        "self-compassion"
+      ]
+    },
+    {
+      "id": "bp-11-30",
+      "ref": {
+        "vi": "Chương 11 · đoạn 30",
+        "en": "Chapter 11 · 30"
+      },
+      "quote": {
+        "vi": "Người nước Ngô và người nước Việt vốn là kẻ thù; thế nhưng nếu họ cùng qua sông trên một con thuyền và gặp bão, họ giúp đỡ nhau như tay trái giúp tay phải.",
+        "en": "For the men of Wu and the men of Yueh are enemies; yet if they are crossing a river in the same boat and are caught by a storm, they will come to each other’s assistance just as the left hand helps the right."
+      },
+      "gloss": {
+        "vi": "Một cơn bão chung có thể làm mờ những khác biệt cũ, vì lúc đó điều quan trọng là cùng qua được, và người bất đồng vẫn có thể cùng nhau khi có một mục tiêu chung. “Việt” ở đây là chữ 越, một nước cổ ở vùng Chiết Giang (Trung Quốc) thời Xuân Thu, và không nói gì về Việt Nam ngày nay. Đoạn này mời nhìn xem bạn từng cùng ai vượt qua một lúc khó dù không thân thiết.",
+        "en": "A shared storm can blur old differences, because what matters then is getting across together. “Yueh” here is the character 越, an ancient state in the Zhejiang region of China in the Spring and Autumn period, and it says nothing about present-day Vietnam. This passage invites you to see with whom you once got through a hard time even though you were not close."
+      },
+      "question": {
+        "vi": "Có ai bạn từng bất hòa nhưng đã cùng bạn qua một lúc khó?",
+        "en": "Is there someone you once disagreed with but who got through a hard time alongside you?"
+      },
+      "tags": [
+        "community",
+        "others"
+      ]
+    },
+    {
+      "id": "bp-11-35",
+      "ref": {
+        "vi": "Chương 11 · đoạn 35",
+        "en": "Chapter 11 · 35"
+      },
+      "quote": {
+        "vi": "Việc của vị tướng là ở yên lặng … ngay thẳng và công bằng, và nhờ thế giữ được trật tự.",
+        "en": "It is the business of a general to be quiet … upright and just, and thus maintain order."
+      },
+      "gloss": {
+        "vi": "Trong văn bản gốc, giữ yên lặng gắn với giữ kín (câu liền sau nói đến việc làm quân lính không biết kế hoạch); đây là đoạn quân sự mà ta chỉ đọc một phần. Chúng tôi giữ hai phẩm chất, sự yên lặng của người dẫn dắt và sự ngay thẳng công bằng với người quanh mình, và đọc chúng như sự bình tĩnh và công bằng, không như sự giấu giếm. Đoạn này mời nhìn xem bạn mang sự yên lặng và công bằng đến đâu trong vai trò của mình.",
+        "en": "In the original, being quiet goes with keeping things secret (the next line speaks of keeping the troops in ignorance), so this is a military passage that we read only in part. We keep two qualities, the quiet of one who leads and uprightness and fairness towards those around, and read them as calm and fairness, not as concealment. This passage invites you to see how much quiet and fairness you bring to your role."
+      },
+      "question": {
+        "vi": "Trong vai trò của bạn ở nhà hay ở việc, lúc nào sự yên lặng và công bằng dễ mất đi?",
+        "en": "In your role at home or at work, when do quiet and fairness slip away most easily?"
+      },
+      "tags": [
+        "calm",
+        "others"
+      ]
+    },
+    {
+      "id": "bp-12-16",
+      "ref": {
+        "vi": "Chương 12 · đoạn 16",
+        "en": "Chapter 12 · 16"
+      },
+      "quote": {
+        "vi": "Cho nên có câu: bậc minh quân lập kế hoạch từ rất sớm; vị tướng giỏi vun bồi nguồn lực của mình.",
+        "en": "Hence the saying: The enlightened ruler lays his plans well ahead; the good general cultivates his resources."
+      },
+      "gloss": {
+        "vi": "Hai việc được ngợi khen ở đây là nghĩ trước và vun bồi từ từ, tức là việc kiên nhẫn và ít ồn ào. Nguồn lực có thể là thời gian, mối quan hệ, hay sự vững vàng bên trong của bạn. Đoạn này mời nhìn xem bạn đang vun bồi điều gì cho một ngày sau.",
+        "en": "The two things praised here are thinking ahead and cultivating gradually, a patient and quiet work. Resources could be time, relationships or your inner steadiness. This passage invites you to see what you are cultivating for a later day."
+      },
+      "question": {
+        "vi": "Bạn đang vun bồi điều gì hôm nay cho một ngày sau của mình?",
+        "en": "What are you cultivating today for a later day of yours?"
+      },
+      "tags": [
+        "time",
+        "purpose"
+      ]
+    },
+    {
+      "id": "bp-12-17",
+      "ref": {
+        "vi": "Chương 12 · đoạn 17",
+        "en": "Chapter 12 · 17"
+      },
+      "quote": {
+        "vi": "Không hành động nếu chưa thấy điều lợi; … không giao chiến nếu tình thế chưa thật nguy cấp.",
+        "en": "Move not unless you see an advantage; … fight not unless the position is critical."
+      },
+      "gloss": {
+        "vi": "Chúng tôi giữ phần nói về sự tiết chế: không dấn vào khi chưa rõ mình được gì, và không đối đầu khi chưa thật cần. Có những cuộc va chạm không đáng để mở ra, và nhận ra điều đó là một dạng sức mạnh. Đoạn này mời nhìn xem việc nào bạn đang vội dấn vào mà chưa rõ lý do.",
+        "en": "We keep the part about restraint: not stepping in without seeing what is to be gained, and not confronting unless truly needed. Some clashes are not worth opening, and recognising that is a kind of strength. This passage invites you to see which matter you are rushing into without a clear reason."
+      },
+      "question": {
+        "vi": "Có việc nào bạn đang vội dấn vào mà chưa rõ mình cần gì từ nó?",
+        "en": "Is there something you are rushing into without being clear what you need from it?"
+      },
+      "tags": [
+        "decision",
+        "calm"
+      ]
+    },
+    {
+      "id": "bp-12-18",
+      "ref": {
+        "vi": "Chương 12 · đoạn 18",
+        "en": "Chapter 12 · 18"
+      },
+      "quote": {
+        "vi": "Không vị vua nào nên đưa quân ra trận chỉ để xả cơn giận của mình; không vị tướng nào nên đánh một trận chỉ vì tự ái.",
+        "en": "No ruler should put troops into the field merely to gratify his own spleen; no general should fight a battle simply out of pique."
+      },
+      "gloss": {
+        "vi": "Câu này tách cơn giận khỏi quyết định lớn: giận là cảm xúc thật, nhưng việc dùng nó để dẫn đường thì cần dừng lại xem. Ở đây, sự giận không bị chê, chỉ được đặt cạnh một khoảng cách. Đoạn này mời nhìn xem lần nào bạn quyết định trong lúc đang giận.",
+        "en": "This line separates anger from big decisions: anger is a real feeling, but using it to steer is worth a pause. Anger here is not condemned, only set beside some distance. This passage invites you to see a time you decided while angry."
+      },
+      "question": {
+        "vi": "Lần gần nhất bạn quyết định điều gì đó lúc đang giận, và về sau bạn nhìn lại ra sao?",
+        "en": "The last time you decided something while angry, how did you look back on it later?"
+      },
+      "tags": [
+        "anger",
+        "decision"
+      ]
+    },
+    {
+      "id": "bp-12-19",
+      "ref": {
+        "vi": "Chương 12 · đoạn 19",
+        "en": "Chapter 12 · 19"
+      },
+      "quote": {
+        "vi": "Nếu có lợi cho bạn, hãy tiến; nếu không, ở yên đó.",
+        "en": "If it is to your advantage, make a forward move; if not, stay where you are."
+      },
+      "gloss": {
+        "vi": "Câu rất ngắn này nói rằng ở yên cũng là một lựa chọn, không đồng nghĩa với thiếu hành động. Khi chưa thấy điều gì đáng bước, dừng lại là cách giữ sức. Đoạn này mời nhìn xem bạn có cho phép mình đứng yên khi chưa thấy rõ.",
+        "en": "This very short line says that staying put is also a choice, not a lack of action. When nothing yet seems worth stepping toward, pausing keeps your strength. This passage invites you to see whether you allow yourself to stay still when things are not yet clear."
+      },
+      "question": {
+        "vi": "Có chuyện nào lúc này bạn chọn ở yên thay vì tiến, và bạn thấy sao về lựa chọn đó?",
+        "en": "Is there a matter where you are now choosing to stay put rather than advance, and how do you feel about that choice?"
+      },
+      "tags": [
+        "decision",
+        "calm"
+      ]
+    },
+    {
+      "id": "bp-12-20",
+      "ref": {
+        "vi": "Chương 12 · đoạn 20",
+        "en": "Chapter 12 · 20"
+      },
+      "quote": {
+        "vi": "Cơn giận theo thời gian có thể đổi thành niềm vui; nỗi bực bội có thể được nối tiếp bằng sự bằng lòng.",
+        "en": "Anger may in time change to gladness; vexation may be succeeded by content."
+      },
+      "gloss": {
+        "vi": "Cảm xúc thường đổi theo thời gian, kể cả những cảm xúc mạnh như giận dữ hay bực bội, dù không lúc nào cũng nhanh. Câu này không bảo bạn đừng giận; giận trước điều bất công vẫn có lý do chính đáng. Đoạn này mời nhìn xem điều gì từng giúp cơn giận của bạn lắng xuống.",
+        "en": "Feelings often change with time, even strong ones like anger or vexation, though not always quickly. This line does not tell you not to be angry; anger at injustice has good reason. This passage invites you to see what has helped your anger settle before."
+      },
+      "question": {
+        "vi": "Có cơn giận nào của bạn đã lắng xuống theo thời gian, và điều gì giúp nó lắng?",
+        "en": "Is there an anger of yours that settled with time, and what helped it settle?"
+      },
+      "tags": [
+        "anger",
+        "time"
+      ]
+    },
+    {
+      "id": "bp-12-22",
+      "ref": {
+        "vi": "Chương 12 · đoạn 22",
+        "en": "Chapter 12 · 22"
+      },
+      "quote": {
+        "vi": "Cho nên bậc minh quân thận trọng, và vị tướng giỏi đầy cẩn trọng. Đó là cách giữ cho một nước yên bình và một đạo quân nguyên vẹn.",
+        "en": "Hence the enlightened ruler is heedful and the good general full of caution. This is the way to keep a country at peace and an army intact."
+      },
+      "gloss": {
+        "vi": "Tôn Tử khép lại bằng ý về sự cẩn trọng như cách giữ bình yên, không như sự rụt rè. Nguyên vẹn ở đây là điều đáng gìn giữ: sức lực, mối quan hệ, sự yên ổn trong lòng. Đoạn này mời nhìn xem bạn đang gìn giữ điều gì bằng sự cẩn trọng.",
+        "en": "Sun Tzu closes with caution as a way of keeping peace, not as timidity. Staying intact here is something worth guarding: strength, relationships, inner calm. This passage invites you to see what you are guarding with caution."
+      },
+      "question": {
+        "vi": "Bạn đang gìn giữ điều gì bằng sự cẩn trọng, và điều đó đáng với bạn ra sao?",
+        "en": "What are you guarding with caution, and what is it worth to you?"
+      },
+      "tags": [
+        "calm",
+        "purpose"
+      ]
     }
   ]
 }
