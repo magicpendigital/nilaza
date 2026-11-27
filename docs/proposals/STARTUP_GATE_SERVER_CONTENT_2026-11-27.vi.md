@@ -14,7 +14,7 @@ Trạng thái: **Owner duyệt kế hoạch 28/11/2026, chưa code.** Owner đ�
 ## Việc 1 — Kiểm tra máy chủ khi mở app
 
 **Luồng:**
-1. Mở app → gọi một hàm máy chủ duy nhất “khởi động” (mới) trả về: phiên bản app tối thiểu, bảng công tắc Miễn phí/Premium đang phát hành, tình trạng tài khoản (hoặc “khách”), thời gian máy chủ.
+1. Mở app → gọi một lệnh đọc duy nhất trên máy chủ (hàm SQL `get_app_bootstrap`, mới; không cần Edge Function) trả về: phiên bản app tối thiểu, số ngày cho dùng tiếp, bảng công tắc Miễn phí/Premium đang phát hành, thời gian máy chủ. Tài khoản đăng nhập vẫn được kiểm như hiện nay khi khôi phục phiên.
 2. Trả lời được → lưu “lần kiểm tra thành công” kèm giờ, vào app.
 3. Bản app cũ hơn mức tối thiểu → lời nhắc cập nhật (nút mở Google Play), vẫn dùng tiếp trong số ngày Owner đặt; quá hạn mới hiện màn “Cần cập nhật”.
 4. Không trả lời được (mất mạng, máy chủ lỗi, quá 8 giây):
@@ -22,11 +22,11 @@ Trạng thái: **Owner duyệt kế hoạch 28/11/2026, chưa code.** Owner đ�
    - **quá 24 giờ hoặc chưa từng kiểm tra** → màn “Mất kết nối – Thử lại”, không vào được tính năng nào.
 5. Khi app trở lại từ nền: kiểm tra lại nếu lần trước đã quá 5 phút.
 
-**Phần việc:** hàm máy chủ `app-bootstrap` (không cần đăng nhập, chỉ trả cấu hình công khai, có giới hạn tần suất); bảng/cấu hình “phiên bản tối thiểu” sửa được trong Admin (chỉ Owner phát hành); thêm thư viện dò mạng vào app; màn “Mất kết nối”, “Cần cập nhật”, dải “Đang ngoại tuyến”; nối công tắc Miễn phí/Premium vào 5 tính năng (việc đang thiếu).
+**Phần việc:** hàm SQL `get_app_bootstrap` (không cần đăng nhập, chỉ trả cấu hình công khai); bảng “phiên bản tối thiểu + số ngày cho dùng tiếp” sửa được trong Admin (chỉ Owner phát hành, có lý do); nhận biết mất mạng từ lần gọi thất bại (không thêm thư viện mới); màn “Mất kết nối”, “Cần cập nhật”, dải “Đang ngoại tuyến”; nối công tắc Miễn phí/Premium vào 5 tính năng (việc đang thiếu).
 
 **Rủi ro và cách giảm:** máy chủ lỗi là chặn mọi người mới mở app → hàm phải rất nhẹ, có theo dõi lỗi; người duyệt Google Play có thể thử khi tắt mạng → màn báo lỗi rõ ràng, có nút thử lại; quy tắc 24 giờ dựa vào giờ máy nên người dùng chỉnh đồng hồ có thể kéo dài → chấp nhận (chỉ mở nội dung đã có trên máy, không mở AI).
 
-**Cần Owner duyệt riêng:** SQL (nếu thêm bảng phiên bản tối thiểu), deploy `app-bootstrap`, bản build Android mới.
+**Cần Owner duyệt riêng:** SQL (bảng phiên bản tối thiểu + hàm `get_app_bootstrap`), bản build Android mới. Không cần deploy Edge Function. Hồ sơ: [startup-gate-2026-11-28](../feature-plans/startup-gate-2026-11-28.json).
 
 ## Việc 2 — Nội dung Nilaza tự viết lên máy chủ
 

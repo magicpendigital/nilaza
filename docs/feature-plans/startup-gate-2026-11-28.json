@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "taskId": "startup-gate-2026-11-28",
+  "ownerAgent": "fullstack_agent",
+  "lane": "Mobile + backend + Admin: server check at app start with 24h offline grace and soft minimum version (Owner decisions 27-28/11/2026)",
+  "goal": "Every app start (guest or signed in) asks the server once for the release policy and the published Free/Premium switch before showing content. Success stores the time; failure within 24 hours of the last success opens an offline mode (journal and already-loaded content work, AI and server features say a connection is needed); beyond 24 hours or with no prior success a full-screen 'Mất kết nối – Thử lại' blocks the app. An app older than the Owner-set minimum version gets a reminder with a Google Play button and keeps working for the Owner-set number of days, then a 'Cần cập nhật' screen. The Free/Premium switch is fed into the app and wired to the one built feature (book_quote).",
+  "successCriteria": [
+    "Migration supabase/migrations/20261128090000_app_release_policy.sql: table public.app_release_policies (versioned, RLS on, no direct grants), Owner-only RPC set_app_release_policy(min_version, grace_days 0-30, reason 10-500) with audit, and get_app_bootstrap() granted to anon and authenticated returning only {serverTime, releasePolicy:{minVersion, graceDays, effectiveAt}|null, featureAccess:<active published config>|null}. PGlite test replays it.",
+    "No Edge Function: the bootstrap is one RPC, so no deploy is needed; the Owner still approves the SQL hash.",
+    "Mobile StartupGate wraps the app above AccountBoundary: states checking / online / offline-grace / offline-blocked / update-reminder / update-required; 8 second timeout; recheck on foreground when the last check is older than 5 minutes; device-level AsyncStorage key nilaza.bootstrap.v1 holds lastSuccessAt and the last policy.",
+    "Offline grace window is exactly 24 hours from lastSuccessAt on the device clock; offline mode shows a persistent banner; existing per-feature offline errors stay as they are.",
+    "Version comparison uses the app version string (expo-constants expoConfig.version, e.g. 0.1.3) with numeric segment compare; minimum version unset = no reminder.",
+    "featureAccessService is configured from the bootstrap payload (no second network call); BookQuoteScreen respects useFeatureAccess('book_quote') through PremiumGate.",
+    "Admin: Owner can view and set minimum version and grace days (Owner-only publish with reason) in the existing Switches area; non-Owner sees read-only.",
+    "Bilingual vi/en copy for all new screens; TalkBack labels on retry and Play buttons.",
+    "Checks: mobile tsc + jest (StartupGate tests for each state and the 24h edge), admin:check + admin:test, PGlite SQL test, validate:backend, supabase:check, migration-ledger check, feature preflight."
+  ],
+  "writeScope": [
+    "docs/proposals/STARTUP_GATE_SERVER_CONTENT_2026-11-27.vi.md",
+    "docs/release/singapore-edge-functions-2026-11-09/feature-access-van9-rollout-2026-11-27.json",
+    "PLAN.md",
+    "supabase/migrations/20261128090000_app_release_policy.sql",
+    "scripts/app-release-policy-sql.test.mjs",
+    "package.json",
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/backendClient.ts",
+    "apps/mobile/src/startup/",
+    "apps/mobile/src/features/access/",
+    "apps/mobile/src/features/bookQuote/",
+    "apps/mobile/__tests__/",
+    "apps/admin/",
+    "docs/NILAZA_ADMIN_AI_STUDIO_OWNER_GUIDE.md",
+    "supabase/functions/admin-documentation/owner-guide.ts",
+    "docs/ADMIN_DATA_CONSOLE_ARCHITECTURE.md"
+  ],
+  "untouchedSurfaces": [
+    "AI Edge Functions and their quotas: unchanged; they already refuse unauthenticated calls and fail offline.",
+    "Journal sync queue: unchanged; it already stores offline edits and syncs later.",
+    "Content files stay bundled in this task; moving content to the server is the separate approved task (book quotes first).",
+    "account-tier-policy.json stays all_premium during testing (Owner decision 27/11)."
+  ],
+  "impact": {
+    "entryPoint": "Every app launch and every return from background after 5 minutes. New full-screen states: Mất kết nối – Thử lại; Cần cập nhật. New banner: Đang ngoại tuyến; reminder for an old app version. Admin: Switches area > Phiên bản app tối thiểu.",
+    "dataWrite": "Device: nilaza.bootstrap.v1 (lastSuccessAt, last policy) and the existing nilaza.featureAccess.v1. Server: new table public.app_release_policies, admin_audit_logs rows on publish.",
+    "backendContract": "New RPC public.get_app_bootstrap() (anon + authenticated, read-only, no personal data) and public.set_app_release_policy(...) (ai.manage = Owner).",
+    "adminVisibility": "Owner sees current minimum version, grace days, who set it, when and why; history in admin_audit_logs.",
+    "privacySafety": "Bootstrap returns only public configuration and server time; no user identifiers are sent or stored. Offline mode never opens AI.",
+    "analyticsObservability": "Blind spot: no counter yet for blocked-offline or update-required screens.",
+    "rollbackFallback": "Clearing the minimum version disables reminders and blocks. If the RPC breaks, users inside 24 hours keep offline mode; an outage longer than 24 hours blocks new launches (accepted cost of the Owner decision); a hotfix build can widen the window."
+  },
+  "canonicalContracts": [
+    "supabase/migrations/20261128090000_app_release_policy.sql",
+    "apps/mobile/src/startup/startupGate.ts"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries: SQL, deploy, secrets and builds need the Owner.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Routes cross-cutting mobile + backend + Admin work.",
+      "sha256": "e508d09a9fdffc78da809a4f1449f1d77999186b9bd371870bd8582e132075e1"
+    },
+    {
+      "path": "apps/mobile/App.tsx",
+      "reason": "Startup order: PasswordRecoveryBoundary > EmailConfirmationBoundary > AccountBoundary; splash hide rules; guest preview and onboarding gates.",
+      "sha256": "c1029bd631572afced1f961e20af1e9baab21e60f0bc2c8e51ce8583ec1d917b"
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "reason": "getPublishedFeatureAccess (anon + signed-in) and BackendUnavailableError offline/busy mapping reused by the bootstrap call.",
+      "sha256": "759f742c0751c7b8f2d9ef007d9374a50574c407bf88f51e7f3de2817f844489"
+    },
+    {
+      "path": "apps/mobile/src/features/access/featureAccessService.ts",
+      "reason": "Cache key nilaza.featureAccess.v1 and configureFeatureAccess (never called yet) that the bootstrap will feed.",
+      "sha256": "58421bd274adc6ebc25b145e9f1d82c88553d1e42a23d717855c65e4217f900d"
+    },
+    {
+      "path": "apps/mobile/src/runtimeConfig.ts",
+      "reason": "onlineModeRequired / guestEntryEnabled flags the gate must respect.",
+      "sha256": "8cbbaa867a41d1631664c5c2e15eab9ba0f5ccc2ee59f1311fe308b64ca8cfaf"
+    },
+    {
+      "path": "supabase/migrations/20261127090000_feature_access_configs.sql",
+      "reason": "Pattern for an Owner-only versioned config with audit and an anon-readable getter.",
+      "sha256": "c1156e0d9e618bcfdbf22623804f54bca2d1302d692073b3e7913423a3b08cf8"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Impact brief written, Owner approvals for SQL and build listed; admin-runtime-parity: the new Admin field has a real consumer (StartupGate)."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No new package: offline is detected from the failed bootstrap call (existing BackendUnavailableError mapping) and AppState; the version comes from expo-constants, already part of expo."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "New table RLS on, privileges revoked from public/anon/authenticated; writes only through a security definer RPC with set search_path = '' checking nilaza_private.has_capability('ai.manage'); getter returns public config only.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "paths": [],
+    "note": "Record written 28/11/2026 on branch claude/startup-gate-plan cut from origin/main 78ce965 before any code edit. This first PR carries only the approved plan, the 27-28/11 rollout receipt and PLAN.md; code follows in a later PR under the same record."
+  },
+  "validationCommands": [
+    "node scripts/feature-preflight.mjs --ci --base origin/main",
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "npm run admin:check",
+    "npm run admin:test",
+    "npm run validate:backend",
+    "npm run supabase:check",
+    "npm run supabase:migration-ledger:check"
+  ],
+  "managerTestPath": "Sau khi Owner duyệt SQL và có bản build mới: mở app có mạng -> vào bình thường. Tắt mạng, mở lại trong 24 giờ -> vào được, thấy dải Đang ngoại tuyến, nhật ký đọc/viết được, Trò chuyện báo cần mạng. Cài mới khi không có mạng -> màn Mất kết nối, bấm Thử lại khi có mạng -> vào app. Admin đặt phiên bản tối thiểu cao hơn bản đang cài, 3 ngày -> app hiện lời nhắc có nút Google Play, vẫn dùng được; sau 3 ngày -> màn Cần cập nhật.",
+  "residualRisk": "Device clock changes can stretch the 24h window (accepted: only on-device content opens). A Supabase outage longer than 24 hours blocks app starts. Client-side gating can be bypassed by a modified app (accepted for on-device features).",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  },
+  "note": "Owner decisions: 27/11 guests read the switch; 28/11 plan approved, 24h offline kept, old app versions get a reminder and keep working for some days. The plan text first named an Edge Function app-bootstrap; the record uses one SQL RPC instead (same behaviour, no deploy, smaller surface)."
+}
