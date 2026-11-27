@@ -95,27 +95,27 @@
     {
       "path": "supabase/functions/share-events/handler.ts",
       "reason": "Server share surface allow-list.",
-      "sha256": "234f743dab1d054ca5bdb9e49967728dd5eeb730521c4090234bbfa128aa7eec"
+      "sha256": "982ac48d1c6de5fae94cc36c9a0ff514b6d24b3f1a2e87a2bf7f7c81e7f598ef"
     },
     {
       "path": "apps/mobile/src/features/share/shareEvents.ts",
       "reason": "App copy of the allow-list; drops numerology_map today.",
-      "sha256": "793f904f4d4c7b8909a1c05d974c22602eeb2b8d1d619fa1cfdcc16bd9d9baa2"
+      "sha256": "fd53095260e3dc486bb3e2b403505b8a0c87abcd2414d3b73c1bb90eb343b557"
     },
     {
       "path": "apps/mobile/src/features/share/shareLink.ts",
       "reason": "Share URL and message per surface.",
-      "sha256": "735a15a3a7822b5e5de35832ba588442e5c1f354e638c0b261e720b0f74df013"
+      "sha256": "4048ff0176463232eb7cfe4ae0b554f915e9a0b1d52280d5f26ab0130de9342a"
     },
     {
       "path": "apps/mobile/src/features/share/shareCardContent.ts",
       "reason": "Share card models.",
-      "sha256": "decddff315a613218c4b97c3631fa2d76047cf0d84d27974292162327a6049a2"
+      "sha256": "0b658a82105c72c1259ab8f72a34e57a919d74bdc47a5c02d7d908e54b1838e6"
     },
     {
       "path": "apps/mobile/src/features/astrology/DailySkyScreen.tsx",
       "reason": "Daily Sky screen gets the share entry.",
-      "sha256": "af1e8be3e9643cb61b4fb594a5a6191a56090a3ba38843e59e82282921ae9739"
+      "sha256": "b236aa06d65a81c4d81370a9b6dcc047561e4bc09328cb498261ee138ed87244"
     },
     {
       "path": "apps/mobile/src/features/numerology/calc.ts",
@@ -135,7 +135,7 @@
     {
       "path": "apps/web/src/lib/shareLanding.ts",
       "reason": "Landing logic.",
-      "sha256": "855bd826494bbc99e65e64c7e1b2e6d6da4136851d180b41113460b24b3bdbd9"
+      "sha256": "9022603fbfbcb564d247c3265de2a412af9324b6e836db2a61ee930782c22231"
     },
     {
       "path": "apps/web/src/components/WaitlistForm.astro",
@@ -145,7 +145,7 @@
     {
       "path": "apps/web/src/lib/analytics.ts",
       "reason": "Public analytics allow-list.",
-      "sha256": "1ae53c8d87d225d53bda6697d7e727fdfa60816ba97ff6d24934f023c953aa17"
+      "sha256": "e3d0257606cac00f575102a438d0455e0e9038565edec474ea76ffc3c4c4abe4"
     }
   ],
   "skillReview": [
