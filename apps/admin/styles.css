@@ -1516,3 +1516,15 @@ body[data-studio-section="audit"] #configuration-health { display: none; }
 [data-campaign-card] .table-scroll { overflow-x: auto; max-width: 100%; }
 .campaign-metrics caption { text-align: left; font-weight: 600; padding: 6px 0; }
 .campaign-metrics td, .campaign-metrics th { white-space: nowrap; }
+
+/* Miễn phí / Premium (feature-access.js, 27/11): segmented Free / Premium switch and compact limit editors. */
+.fa-table { width: 100%; }
+.fa-table tr.changed th { box-shadow: inset 3px 0 0 var(--gold); }
+.fa-segmented { display: inline-flex; border: 1px solid var(--border-strong); border-radius: 8px; padding: 2px; margin: 0; gap: 2px; }
+.fa-segment { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 4px 12px; border-radius: 6px; cursor: pointer; color: var(--muted); }
+.fa-segment input { margin: 0; }
+.fa-segment.selected { background: rgba(201, 164, 92, .18); color: var(--ivory); }
+.fa-segment:focus-within { outline: 2px solid var(--gold); outline-offset: 1px; }
+.fa-limit { display: grid; gap: 4px; min-width: 180px; }
+.fa-limit .fa-amount { max-width: 120px; }
+@media (max-width: 720px) { .fa-table thead { display: none; } .fa-table tr, .fa-table th, .fa-table td { display: block; width: 100%; } }

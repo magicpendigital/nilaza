@@ -444,6 +444,24 @@ Recommended `publish_releases` fields:
 - `published_at`
 - `rollback_release_id`
 
+### Feature Access (Free / Premium) — implemented 27/11/2026, migration not applied
+
+Owner decision 27/11/2026: a per-feature Free / Premium switch with limits for the on-device reflection features, managed in AI Studio → **Công tắc và hạn mức → Miễn phí / Premium** (`ai-studio.html#access`, `apps/admin/feature-access.js`). Canonical spec and v1 defaults: `packages/agent-config/feature-access.json` (copied, test-checked, into the migration, the Admin page and `apps/mobile/src/features/access/featureAccessConfig.ts`).
+
+Migration `supabase/migrations/20261127090000_feature_access_configs.sql` (**pending Owner approval to apply**; rollback statements in its header):
+
+- `public.feature_access_configs`: `version` (unique), `status` `draft | active | archived` (at most one draft and one active), `config` jsonb `{features: {<id>: {tier, free, premium}}}`, `note`, `restored_from_version`, `created_by/at`, `published_by/at`. RLS on with no policies; no direct table grants to clients (service_role select only).
+- Editable features: `book_quote`, `boi_kieu`, `rune_draw`, `big_five`, `enneagram`. Limit kinds: `unlimited`, `per_day` (count 1–100), `per_item_per_day` (count 1–100), `retake_after_days` (days 1–365), restricted per feature. `nilaza_private.feature_access_errors(config)` rejects anything else (same codes as the Admin and app validators).
+- RPCs (all `security definer`, writes audited in `admin_audit_logs`):
+  - `get_feature_access_configs()` — `ai.read`: active, draft and version history with creator / publisher emails.
+  - `save_feature_access_draft(config_input, note_input)` — `ai.manage`, or `ai.read` + `content.draft`; replaces the single draft.
+  - `publish_feature_access_config(version_input, expected_active_version, reason_input)` — `ai.manage` (Owner) only; reason 10–500 characters; `40001` when the active version changed meanwhile; audit keeps reason, config and previous config.
+  - `rollback_feature_access_config(expected_active_version, reason_input)` — `ai.manage`; inserts a new active version that copies the most recently archived published config (`restored_from_version`), archives the current one, leaves the draft alone; `P0002` when there is nothing to roll back to.
+  - `get_feature_access_audience()` — `ai.read`: total / Premium / non-Premium account counts with the same entitlement rule as `premium-entitlement.ts`.
+  - `get_feature_access_config()` — granted to `anon` and `authenticated` (Owner decision 27/11/2026: guests read the switch table too, so a Premium setting applies to guests as well): only the active published `{version, publishedAt, config}` or null. Drafts, notes and people are never returned.
+- Rules: switching a feature to Premium never deletes or hides saved content; Premium accounts keep access; a feature turned off by an existing release flag or AI switch stays off. AI features stay server-managed (read-only in this page); `ai_feature_switches` is not touched.
+- App: `useFeatureAccess(featureId, {isPremium, switchedOff})` + `PremiumBadge` / `PremiumGate` read through `backendClient.getPublishedFeatureAccess`, refresh about every 5 minutes and on foreground, cache the last valid copy (`nilaza.featureAccess.v1`), and fall back to the built-in defaults. Gating is client-side only (Owner decision 27/11/2026: the switch locks features in the app; Edge Functions do not enforce it). **Not yet wired into the five features** (later app release).
+
 ## API Surface
 
 Admin API:

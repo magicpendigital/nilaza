@@ -192,6 +192,13 @@
     get_ai_persona_model_tiers: "ai.read",
     save_ai_persona_model_tiers_draft: "ai.manage|ai.read+content.draft",
     publish_ai_persona_model_tiers: "ai.manage",
+    // Free / Premium per on-device feature (Owner decision 27/11, migration 20261127090000); the RPCs check the same
+    // rules. Editors save drafts; only ai.manage publishes or rolls back. The audience RPC returns counts only.
+    get_feature_access_configs: "ai.read",
+    save_feature_access_draft: "ai.manage|ai.read+content.draft",
+    publish_feature_access_config: "ai.manage",
+    rollback_feature_access_config: "ai.manage",
+    get_feature_access_audience: "ai.read",
     get_growth_waitlist_overview: "overview.read",
     // AI cost by feature (P1-C, migration 20261115120000); aggregates only, the RPC checks ai.read itself.
     get_ai_cost_summary: "ai.read",

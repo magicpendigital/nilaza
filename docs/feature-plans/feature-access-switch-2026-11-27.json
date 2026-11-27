@@ -1,0 +1,237 @@
+{
+  "schemaVersion": 1,
+  "taskId": "feature-access-switch-2026-11-27",
+  "ownerAgent": "fullstack_agent",
+  "lane": "Admin + backend + mobile foundation: per-feature Free / Premium switch with daily limits (Owner decision 27/11/2026, proposal NEW_REFLECTION_MODALITIES §10)",
+  "goal": "Give the Owner one Admin table (AI Studio > Tính năng AI > new tab 'Miễn phí / Premium') where each of the five new reflection features (book_quote, boi_kieu, rune_draw, big_five, enneagram) is set Free or Premium with a free limit and a Premium limit; edits are drafts, a preview explains what a free user sees and how many accounts are affected, only the Owner publishes with a required reason, every version is kept with who/when/before/after/reason and one-click rollback to the previous version. The app gets a read path, a cached config service, a useFeatureAccess hook and a reusable Premium badge/gate that opens the existing Premium screen, all unit-tested and not wired into any screen yet (the five features are built on other branches). v1 defaults: all five free; Bói Kiều and Rune 1 per day; Big Five and Enneagram retake after 30 days; book quote 1 per book per day; existing features keep their current behaviour.",
+  "successCriteria": [
+    "packages/agent-config/feature-access.json is the single source of the five editable features, limit kinds, bounds and v1 defaults; the SQL $spec$ literal, the Admin SPEC copy and the mobile defaults are test-checked equal to it.",
+    "Migration supabase/migrations/20261127090000_feature_access_configs.sql (timestamp after 20261125100000) adds public.feature_access_configs (draft/active/archived, one active, one draft, RLS on with no policies, no client table grants), a validator, get/save draft/publish/rollback/audience RPCs for Admin and get_feature_access_config for the app; publish and rollback need ai.manage (Owner), a 10-500 character reason and the expected active version; every write is audited with before and after config.",
+    "PGlite SQL test replays the migration: editor saves a draft but cannot publish, Owner publishes with reason, stale expected version is refused, rollback restores the previous config as a new version, anon and signed-in users read only the active config, the audience RPC returns counts only, direct table access is refused.",
+    "Admin tab renders the table with Free/Premium segmented switches and limit editors, saves a draft, shows the preview as a free user (changes, account counts, AI switch states), publishes only for ai.manage with a reason, shows the change log and rolls back; registered in shell nav, app.js routes, ai-studio.html, workspace-guard RPC allowlist and admin-capabilities.json; npm run admin:check and npm run admin:test pass.",
+    "Mobile: apps/mobile/src/features/access has the config parser, resolveFeatureAccess, a cached service (AsyncStorage, 5-minute refresh, built-in defaults offline), useFeatureAccess and PremiumBadge / PremiumGate; backendClient.getPublishedFeatureAccess reads the RPC; jest and tsc pass; App.tsx and existing features unchanged.",
+    "Owner guide and data console architecture document the tab, the SQL to approve and the deploy note; the bundled owner-guide.ts is regenerated so admin:check stays green."
+  ],
+  "writeScope": [
+    "packages/agent-config/feature-access.json",
+    "supabase/migrations/20261127090000_feature_access_configs.sql",
+    "scripts/feature-access-sql.test.mjs",
+    "scripts/admin-feature-access.test.mjs",
+    "package.json",
+    "apps/admin/feature-access.js",
+    "apps/admin/app.js",
+    "apps/admin/shell.js",
+    "apps/admin/ai-studio.html",
+    "apps/admin/admin-capabilities.json",
+    "apps/admin/workspace-guard.js",
+    "apps/admin/styles.css",
+    "apps/mobile/src/features/access/",
+    "apps/mobile/src/backendClient.ts",
+    "docs/NILAZA_ADMIN_AI_STUDIO_OWNER_GUIDE.md",
+    "docs/ADMIN_DATA_CONSOLE_ARCHITECTURE.md",
+    "supabase/functions/admin-documentation/owner-guide.ts",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "apps/mobile/App.tsx and every existing screen: nothing is wired, so the app behaves exactly as today; the five new features are built on other branches and will call useFeatureAccess later.",
+    "Existing AI quotas (account-tier-policy.json, ai_feature_configs, claimDailyAttempt) and the emergency switches (ai_feature_switches) are not changed; the new tab shows existing AI features read-only and never re-enables a switched-off feature.",
+    "No Edge Function code changes and no deploy: Admin reaches the new tables through SQL RPCs like feature switches and persona model tiers; admin-documentation only needs a redeploy for the Owner guide text to show.",
+    "PLAN.md updated in this PR at merge time; no migration is applied, no SQL runs remotely, no cloud setting changes, no secrets read.",
+    "Content Operations and AI Studio workspaces stay separate; the tab is additive inside AI Studio."
+  ],
+  "impact": {
+    "entryPoint": "Admin: AI Studio > Tính năng AI > tab 'Miễn phí / Premium' (route #/ai-studio/access). App: no entry point in this batch; useFeatureAccess(featureId) and PremiumGate are ready for the five new features.",
+    "dataWrite": "New table public.feature_access_configs (versioned config, no user data) and audit rows in public.admin_audit_logs (feature_access.draft / publish / rollback). App caches the published config in AsyncStorage key nilaza.featureAccess.v1 (no personal data).",
+    "backendContract": "New RPCs: get_feature_access_configs (ai.read), save_feature_access_draft (ai.manage or ai.read+content.draft), publish_feature_access_config and rollback_feature_access_config (ai.manage, reason 10-500, expected active version), get_feature_access_audience (ai.read, counts only), get_feature_access_config (anon + authenticated, active config only). No Edge Function contract change.",
+    "adminVisibility": "Owner sees the table, the draft, a free-user preview with affected account counts and AI switch states, the change log (who, when, before/after, reason) and a rollback button; editors can save drafts only; read-only roles see the table disabled with an explanation.",
+    "privacySafety": "Config holds feature ids and limits only. The audience RPC returns aggregate counts, never ids or emails; staff emails in the change log are visible only to ai.read staff (same precedent as get_admin_timeline). Switching a feature to Premium never deletes or hides saved results: the app gate only blocks starting a new use, and current Premium users keep access.",
+    "observability": "Every draft, publish and rollback writes admin_audit_logs with version, reason, config and previous config, visible in the tab's change log and the shared Lịch sử thao tác timeline.",
+    "rollback": "Product rollback: one click in the tab republishes the previous version. Code rollback: revert the branch; the migration is additive (one table, functions) and has a commented drop block in its header for an Owner-approved removal."
+  },
+  "canonicalContracts": [
+    "packages/agent-config/feature-access.json",
+    "supabase/migrations/20261127090000_feature_access_configs.sql",
+    "apps/mobile/src/features/access/featureAccessConfig.ts"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries: no SQL apply, deploy, secrets or cloud settings without the Owner.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Routes Admin + backend + mobile work and the checks each lane runs.",
+      "sha256": "e508d09a9fdffc78da809a4f1449f1d77999186b9bd371870bd8582e132075e1"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight and Whole-App Impact Brief rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "apps/admin/AGENTS.md",
+      "reason": "Admin changes must be additive; run admin:check, admin:test, validate:data; keep workspaces separate.",
+      "sha256": "663955235819b106e74b3aa100dae37e219feb82d2bf7306d4eb83e5a4c50bb8"
+    },
+    {
+      "path": "docs/proposals/NEW_REFLECTION_MODALITIES_2026-11-27.vi.md",
+      "reason": "Owner decisions of 27/11 and the §10 Free/Premium switch design this task implements.",
+      "sha256": "2832cbbc50375f2109b7d6bdac5caa8e9f789c197a8e33a712ef273ecf08bb18"
+    },
+    {
+      "path": "supabase/migrations/20261125100000_persona_model_tiers.sql",
+      "reason": "Pattern reused: versioned draft/active/archived config, RLS with no policies, $spec$ mirror, validator codes, Owner-only publish, advisory lock, audit with previous config. Latest migration timestamp.",
+      "sha256": "d2f78a08d0a8755d69559f74956749e0eaef410a0cfa94039ff0ed09835ac640"
+    },
+    {
+      "path": "supabase/migrations/20261031100000_ai_feature_switches.sql",
+      "reason": "Emergency on/off switches the new table must never override; read via get_ai_feature_switches for the preview.",
+      "sha256": "36122069b8fc6473f586b506399313225739151663310dd1680948d12c1f6c60"
+    },
+    {
+      "path": "supabase/migrations/20261115090000_owner_only_publish.sql",
+      "reason": "ai.manage is Owner-only since 15/11; editors hold ai.read + content.draft for drafts.",
+      "sha256": "a645540632c79f342d76d9fdd3199d27abf808f39ee1537b8f328e5eb689cd0a"
+    },
+    {
+      "path": "supabase/migrations/202606120001_mvp_schema.sql",
+      "reason": "public.subscriptions shape used to count Premium accounts in the preview.",
+      "sha256": "226e20601e094426e23170814fab3346eea953bf619d78b0ded153afa37559f5"
+    },
+    {
+      "path": "apps/admin/workspace-guard.js",
+      "reason": "NilazaAdminRpc allowlist with exact capability rules for each new RPC.",
+      "sha256": "0cb26af8a9f83a946406533ffef5567f5ff9a61661d62612a00b75f97bdf1adf"
+    },
+    {
+      "path": "apps/admin/feature-switches.js",
+      "reason": "Existing switch page: reason rules and the feature list shown read-only.",
+      "sha256": "40e0ce523bbd78bfafb68f481b7da4d2c4d57cfdb71500537c967a9d0fd7b1ce"
+    },
+    {
+      "path": "apps/admin/persona-model-tiers.js",
+      "reason": "Admin module pattern: scope/epoch guard, draft/publish dialog, escaping, clear on route change.",
+      "sha256": "37c9f4ed7ff836e93e65aea86e8795464cfbe05095d3a8c67d83e0bb9c0bf4c9"
+    },
+    {
+      "path": "apps/admin/app.js",
+      "reason": "AI Studio route -> detail mapping, mount/clear and publish-button rule to extend.",
+      "sha256": "18f970468f34c0e6bfc028405046b4765fec2f6ea927cbd8a7060555f0a6d785"
+    },
+    {
+      "path": "apps/admin/shell.js",
+      "reason": "Route labels and the Tính năng AI nav item tabs.",
+      "sha256": "7c71793958f68afdce9e5bf6c57418681f01c4d725e17a30021d58d7912ccc12"
+    },
+    {
+      "path": "apps/admin/ai-studio.html",
+      "reason": "Script load order for the new module.",
+      "sha256": "ac0240bd70d684c438a444b1b03521f1a3c5f72fdfaf219f7a5b692c1347944d"
+    },
+    {
+      "path": "apps/admin/admin-capabilities.json",
+      "reason": "AI Studio route list the shell checks.",
+      "sha256": "a53a1fa50d99a29ec0f8dccb1952980547921ba67d2e17a860050d14cc66dfd8"
+    },
+    {
+      "path": "apps/mobile/src/backendClient.ts",
+      "reason": "App read path pattern (personalClient + readPersonal RPC) for the published config.",
+      "sha256": "759f742c0751c7b8f2d9ef007d9374a50574c407bf88f51e7f3de2817f844489"
+    },
+    {
+      "path": "apps/mobile/src/features/billing/usePremium.ts",
+      "reason": "Existing Premium entitlement the hook combines with.",
+      "sha256": "21895dbf1ab7b5250ed3572bbb73bad9c3a89fddad984eb51a4d4c7084e615fa"
+    },
+    {
+      "path": "apps/mobile/src/features/billing/premiumEntitlement.ts",
+      "reason": "Entitlement rule mirrored by the audience count in SQL.",
+      "sha256": "24fc764cf8ce5815be1c9fc64e459755a5cf44af993ac3251bdc1f069dd5f117"
+    },
+    {
+      "path": "apps/mobile/src/features/owner/accountTierPolicy.ts",
+      "reason": "all_premium policy mode: every signed-in account is Premium today, which the preview must state.",
+      "sha256": "4f2a154dee0317e8b0bf51b8dd98ed75e54f54f17bedb95eec749707f08b8a2f"
+    },
+    {
+      "path": "packages/agent-config/account-tier-policy.json",
+      "reason": "Current AI limits shown read-only in the tab (not editable here).",
+      "sha256": "023bd1e36a97f97ba10f031026f37054e5a935d08cde321c5f6dd5dcb858c276"
+    },
+    {
+      "path": "docs/NILAZA_ADMIN_AI_STUDIO_OWNER_GUIDE.md",
+      "reason": "Owner guide to extend with the new tab and pending steps.",
+      "sha256": "17fbd0dd757315961797d3b33913069ea230137637b5eb05445049a3b6b6e8f4"
+    },
+    {
+      "path": "docs/ADMIN_DATA_CONSOLE_ARCHITECTURE.md",
+      "reason": "Tables, API surface and publishing rules to document.",
+      "sha256": "1de2c7620ab8faef9bc00ff58201b4b703f3384ee89b0f8fc19eb46d45f11918"
+    },
+    {
+      "path": "skills/nilaza-plan-qc/references/admin-runtime-parity.md",
+      "reason": "Trace config to its consumer, honest labels for read-only controls, expected-revision conflicts, audit and readback.",
+      "sha256": "c8233f41b579c278b3a9927cdacc6462a060c28fd367cca3e5deb650f1cc5dfd"
+    },
+    {
+      "path": "package.json",
+      "reason": "admin:test and ai-operations:test lists to extend.",
+      "sha256": "c2066fdbf671bdb28bc41cbd57a390f3592d7400d6e5cac12c311ab1e95ad130"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Followed: impact brief, admin-runtime-parity (consumer traced: app useFeatureAccess; existing AI limits labelled read-only because the server enforces them elsewhere), Owner-only publish with expected version, audit readback, validation matrix."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "No AI runtime change: Edge Function quotas, switches and routes are untouched; AI features stay listed read-only with their current server limits."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No new package. PGlite (already used by the repo's SQL tests through NILAZA_PGLITE_MODULE) is installed only in the session scratchpad for local replay, not added to package.json."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "feature_access_configs has RLS enabled and no policies; all table privileges revoked from public, anon, authenticated; select granted to service_role only. Writes only through security definer RPCs with set search_path = '' that check nilaza_private.has_capability: drafts need ai.manage or ai.read+content.draft, publish and rollback need ai.manage (Owner-only since 20261115090000). The app read RPC get_feature_access_config returns only the active row's version, publishedAt and config (no staff ids), granted to anon and authenticated because guests also see Premium labels. The audience RPC needs ai.read and returns counts only.",
+    "sensitiveData": "No user content. Config is feature ids and limits. Audience counts are aggregates. Staff emails appear only to ai.read staff in the change log, as get_admin_timeline already does.",
+    "secretsLogging": "No secret read, stored or logged; .env not read; no service key in the app (the app uses the existing anon key and user token).",
+    "externalInput": "Admin payloads are validated twice (client mirror and SQL validator with closed key lists, bounded integers) and refused with codes, never silently changed; the app parses the published config defensively and falls back to the cached or built-in config on any malformed value. Admin renders all server text escaped.",
+    "dependencies": "No package added or upgraded; PGlite only in the scratchpad for local SQL replay.",
+    "migrationRelease": "Migration file only; not applied anywhere. Applying it, and redeploying admin-documentation for the guide text, need separate Owner approval. Until applied, Admin shows 'chưa áp migration' and the app uses built-in defaults (all five free), which equals today's intended behaviour.",
+    "stopCondition": "Stop and report if any check fails outside the write scope, if the design would need an Edge Function deploy or a change to existing quotas, or if publishing could re-enable a feature turned off by the emergency switch.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record written on branch claude/feature-access-switch cut from main 9ddf635 before any code edit (27/11/2026). Pattern findings: Admin config reaches the app through versioned SQL tables edited by security definer RPCs (ai_feature_switches, ai_feature_configs, ai_context_configs, ai_persona_model_tiers) called from Admin with window.NilazaAdminRpc and an exact-capability allowlist in workspace-guard.js; Owner-only publish = ai.manage; audit in admin_audit_logs; the app reads published content with an RPC (get_published_content_bundle). This task reuses that pattern instead of a new Edge Function.",
+    "paths": []
+  },
+  "validationCommands": [
+    "npm run feature:preflight -- --record docs/feature-plans/feature-access-switch-2026-11-27.json",
+    "npm run validate:backend",
+    "npm run supabase:check",
+    "npm run supabase:migration-ledger:check",
+    "NILAZA_PGLITE_MODULE=<scratchpad pglite> node --test scripts/feature-access-sql.test.mjs",
+    "npm run ai-operations:test",
+    "npm run admin:check",
+    "npm run admin:test",
+    "npm run validate:data",
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent"
+  ],
+  "managerTestPath": "Sau khi Owner duyệt áp migration 20261127090000 trên staging: mở Admin staging > Tính năng AI > tab Miễn phí / Premium -> thấy 5 tính năng mới đều Miễn phí với hạn mức mặc định -> đổi Rune sang Premium, Lưu nháp -> bấm Xem trước như người dùng miễn phí, đọc số tài khoản bị ảnh hưởng -> Phát hành với lý do -> nhật ký hiện bản mới -> bấm Quay lại bản trước -> Rune về Miễn phí.",
+  "residualRisk": "App gating is client-side for on-device features (by design in proposal §10): a modified app could bypass it, acceptable because these features cost nothing server-side. While account-tier-policy mode is all_premium every signed-in account is Premium, so a Premium switch only affects guests until that policy changes. The hook is not wired into any screen yet, so the end-to-end path is verified by unit tests only. The migration is replayed in PGlite, not on a real Supabase project.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  },
+  "note": " 27/11/2026: Owner first chose signed-in-only reads, then (same day, after the trade-off was explained) chose guest reads too: execute stays granted to anon and authenticated, so the migration is back to the originally approved SHA-256 (LF) c1156e0d9e618bcfdbf22623804f54bca2d1302d692073b3e7913423a3b08cf8. all_premium only during testing; gating app-only."
+}
