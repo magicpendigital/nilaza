@@ -36,9 +36,11 @@ Owner duyệt 26/11: tạo app Nilaza trên tài khoản nhà phát triển "Mag
 7. Thử nghiệm khép kín: cần ≥ 12 người thử trong 14 ngày trước khi lên Production (tài khoản cá nhân).
 8. Lợi ích Premium trong mô tả còn chung chung; thanh toán chưa kiểm đầu cuối.
 
-## Bản build AAB (chưa có, chưa tải lên Play)
+## Bản build AAB và bản phát hành Thử nghiệm nội bộ (27/11)
 
-- Lệnh: `EAS_NO_VCS=1 EAS_PROJECT_ROOT=../.. eas build -p android --profile play-internal --non-interactive --no-wait` chạy trong `apps/mobile`. `EAS_NO_VCS=1` bỏ thư mục `.git` khỏi gói nén (440 MB còn 224 MB); đã kiểm gói không chứa `.env`, khóa hay chứng chỉ.
-- Kết quả 26–27/11: 5 lần đều đứt khi tải gói nén lên kho của EAS (Google Cloud Storage), lỗi `write ECONNRESET` ở 397/440, 159/440, 190/440, 80/224 và 92/224 MB. EAS chưa nhận gói nào nên **chưa có bản build, chưa tốn lượt build**.
-- Mỗi lần thử, EAS tự tăng versionCode trên máy chủ (nay khoảng 7). Không ảnh hưởng gì, bản build đầu tiên lên Play sẽ mang số đó.
-- Cách xử lý đề xuất: chạy lại lệnh trên ở mạng ổn định hơn (cáp, mạng khác hoặc giờ thấp điểm). Khi build xong: tải AAB về, tạo bản phát hành **Thử nghiệm nội bộ** trên Play Console, dán ghi chú phát hành trong [nội dung trang cửa hàng](PLAY_STORE_LISTING_2026-11-27.vi.md), rồi gửi xét duyệt (Owner đã duyệt 26/11).
+- **Build EAS:** `53865123-f57c-49dc-af90-78ae3ecb3519`, hồ sơ `play-internal`, môi trường preview (backend Singapore), từ commit `8698752`. Phiên bản 0.1.3, versionCode **8**. Lệnh: `EAS_NO_VCS=1 EAS_PROJECT_ROOT=../.. eas build -p android --profile play-internal --non-interactive --no-wait` trong `apps/mobile` (bỏ `.git` khỏi gói nén, 224 MB; đã kiểm không có `.env`, khóa hay chứng chỉ).
+- 5 lần đầu (26–27/11) đứt khi tải gói nén lên EAS (`write ECONNRESET`); lần 6 trên mạng mới của Owner tải lên trong 1 phút 34 giây.
+- **Tệp AAB:** 134.195.198 byte, sha256 `cce1830768e1a34c0f962b9bebdbcc7f46f1c04657df9575e16219809d0bdcee`.
+- **Play Console:** bản phát hành "8 (0.1.3)" ở kênh **Thử nghiệm nội bộ**, ghi chú phát hành tiếng Việt từ [nội dung trang cửa hàng](PLAY_STORE_LISTING_2026-11-27.vi.md). Play đọc được: API tối thiểu 24, SDK mục tiêu 36, kích thước cài mới 88,9 MB. Trạng thái 27/11 10:25: "Đã phát hành cho những người thử nghiệm nội bộ", "Chưa được xem xét"; tên tạm `app.nilaza.mobile (unreviewed)` cho đến khi Google duyệt xong.
+- 2 cảnh báo, không chặn: chưa có danh sách người thử (kênh hiện "Không hoạt động"); chưa tải tệp gỡ rối mã (R8/proguard).
+- **Còn cần Owner:** thêm email người thử ở thẻ "Nhân viên kiểm thử" của kênh Thử nghiệm nội bộ, rồi gửi đường liên kết tham gia cho họ. Chưa cài thử từ Google Play trên máy thật.
