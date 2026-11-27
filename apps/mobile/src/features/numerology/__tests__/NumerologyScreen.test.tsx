@@ -39,6 +39,7 @@ test("a guest with a date and no name sees life path 11/2 and the grid, with no 
   expect(screen.getByLabelText("Số ngày sinh 6")).toBeTruthy();
   expect(screen.queryByTestId("number-expression")).toBeNull();
   expect(screen.getByText(/Thêm họ tên để xem thêm 3 số/)).toBeTruthy();
+  fireEvent.press(screen.getByTestId("numerology-section-chart"));
   expect(screen.getByTestId("numerology-grid").props.accessibilityLabel).toContain("1 ×1");
   expect(screen.getByTestId("arrow-1-2-3")).toBeTruthy();
   expect(JSON.stringify(screen.getByTestId("arrows-empty-note").props.children)).toContain("7-8-9");
@@ -106,6 +107,7 @@ test("tapping a number tile opens its reading, and a grid cell opens its own lin
   expect(screen.queryByTestId("reading-birthday")).toBeNull();
   fireEvent.press(screen.getByLabelText("Số ngày sinh 6"));
   expect(screen.getByTestId("reading-birthday")).toBeTruthy();
+  fireEvent.press(screen.getByTestId("numerology-section-chart"));
   fireEvent.press(screen.getByLabelText("Ô số 7, trống"));
   expect(screen.getByText("Ô số 7 · trống")).toBeTruthy();
 });
@@ -113,6 +115,7 @@ test("tapping a number tile opens its reading, and a grid cell opens its own lin
 test("a repeated digit shows once with a count marker, never as '999', and its reading opens by default", () => {
   const screen = render(<NumerologyScreen language="vi" initialBirthDate="1999-09-19" onBack={jest.fn()} />);
   fireEvent.press(screen.getByText("Xem bản đồ số của mình"));
+  fireEvent.press(screen.getByTestId("numerology-section-chart"));
   const grid = screen.getByTestId("numerology-grid");
   expect(within(grid).queryByText("999")).toBeNull();
   expect(within(grid).queryByText("99999")).toBeNull();
@@ -128,6 +131,7 @@ test("a repeated digit shows once with a count marker, never as '999', and its r
 test("the result shows no 'only on this phone' notices", () => {
   const screen = render(<NumerologyScreen language="vi" initialBirthDate="2000-03-15" onBack={jest.fn()} />);
   fireEvent.press(screen.getByText("Xem bản đồ số của mình"));
+  fireEvent.press(screen.getByTestId("numerology-section-compat"));
   enter(screen, "15", "9", "1992");
   fireEvent.press(screen.getByText("So hai bản đồ"));
   for (const pattern of [/máy này/i, /trên máy/i, /chỉ lưu/i]) expect(screen.queryAllByText(pattern)).toHaveLength(0);
@@ -167,6 +171,7 @@ describe("Lô 5: Nhịp thời gian, Hợp số, Lời nhắn riêng", () => {
     jest.useFakeTimers({ now: new Date(2026, 10, 23, 12) });
     const screen = render(<NumerologyScreen language="vi" initialBirthDate="2000-03-15" onBack={jest.fn()} />);
     fireEvent.press(screen.getByText("Xem bản đồ số của mình"));
+    fireEvent.press(screen.getByTestId("numerology-section-time"));
     expect(screen.getByTestId("numerology-time")).toBeTruthy();
     expect(screen.getByText("Năm cá nhân 1 · 2026")).toBeTruthy();
     expect(screen.getByText("Tháng cá nhân 3")).toBeTruthy();
@@ -188,6 +193,7 @@ describe("Lô 5: Nhịp thời gian, Hợp số, Lời nhắn riêng", () => {
     const screen = render(<NumerologyScreen language="vi" storage={storage} initialBirthDate="2000-03-15" onEvent={onEvent} onOpenShare={onOpenShare} onBack={jest.fn()} />);
     fireEvent.changeText(screen.getByLabelText("Họ tên khai sinh"), "Phạm Gia Linh");
     fireEvent.press(screen.getByText("Xem bản đồ số của mình"));
+    fireEvent.press(screen.getByTestId("numerology-section-compat"));
     enter(screen, "29", "2", "1996");
     fireEvent.changeText(screen.getByLabelText("Họ tên khai sinh người ấy"), "Đỗ Ngọc Duy");
     fireEvent.press(screen.getByText("So hai bản đồ"));
@@ -223,11 +229,14 @@ describe("Lô 5: Nhịp thời gian, Hợp số, Lời nhắn riêng", () => {
   test("going back to the form drops the other person's date", () => {
     const screen = render(<NumerologyScreen language="vi" initialBirthDate="2000-03-15" onBack={jest.fn()} />);
     fireEvent.press(screen.getByText("Xem bản đồ số của mình"));
+    fireEvent.press(screen.getByTestId("numerology-section-compat"));
     enter(screen, "15", "9", "1992");
     fireEvent.press(screen.getByText("So hai bản đồ"));
     expect(screen.getByTestId("compat-results")).toBeTruthy();
     fireEvent.press(screen.getByLabelText("Quay lại"));
     fireEvent.press(screen.getByText("Xem bản đồ số của mình"));
+    expect(screen.queryByTestId("compat-results")).toBeNull();
+    fireEvent.press(screen.getByTestId("numerology-section-compat"));
     expect(screen.queryByTestId("compat-results")).toBeNull();
     expect(screen.getByLabelText("Năm").props.value).toBe("");
   });
@@ -287,5 +296,43 @@ describe("Lô 5: Nhịp thời gian, Hợp số, Lời nhắn riêng", () => {
     await act(async () => { fireEvent.press(other.getByTestId("private-message-send")); });
     expect(other.getByTestId("private-message-soon").props.children).toBe("Coming soon");
     expect(other.queryByTestId("private-message-action")).toBeNull();
+  });
+});
+
+describe("28/11: section bar and journal", () => {
+  test("the result opens on Bạn, and each section shows only its own part", () => {
+    const screen = render(<NumerologyScreen language="vi" initialBirthDate="2000-03-15" onBack={jest.fn()} />);
+    fireEvent.press(screen.getByText("Xem bản đồ số của mình"));
+    expect(screen.getByTestId("numerology-section-you").props.accessibilityState).toEqual({ selected: true });
+    expect(screen.getByTestId("number-lifePath")).toBeTruthy();
+    expect(screen.queryByTestId("numerology-grid")).toBeNull();
+    expect(screen.queryByTestId("numerology-time")).toBeNull();
+    fireEvent.press(screen.getByTestId("numerology-section-chart"));
+    expect(screen.getByTestId("numerology-grid")).toBeTruthy();
+    expect(screen.queryByTestId("number-lifePath")).toBeNull();
+    fireEvent.press(screen.getByTestId("numerology-section-time"));
+    expect(screen.getByTestId("numerology-time")).toBeTruthy();
+    fireEvent.press(screen.getByTestId("numerology-section-compat"));
+    expect(screen.getByText("So hai bản đồ")).toBeTruthy();
+  });
+
+  test("Viết vào Nhật ký passes the approved question only, never the date or name", () => {
+    const onWriteJournal = jest.fn();
+    const onEvent = jest.fn();
+    const screen = render(<NumerologyScreen language="vi" initialBirthDate="2000-03-15" onWriteJournal={onWriteJournal} onEvent={onEvent} onBack={jest.fn()} />);
+    fireEvent.changeText(screen.getByLabelText("Họ tên khai sinh"), "Nguyễn Văn An");
+    fireEvent.press(screen.getByText("Xem bản đồ số của mình"));
+    fireEvent.press(screen.getByTestId("numerology-write-journal"));
+    expect(onWriteJournal).toHaveBeenCalledTimes(1);
+    const prompt = (onWriteJournal.mock.calls[0] as unknown[])[0] as string;
+    expect(prompt.length).toBeGreaterThan(5);
+    expect(prompt).not.toMatch(/Nguy|Văn|2000|15\/03/);
+    expect(onEvent).toHaveBeenCalledWith("numerology_journal_opened");
+  });
+
+  test("without a journal handler there is no journal button", () => {
+    const screen = render(<NumerologyScreen language="vi" initialBirthDate="2000-03-15" onBack={jest.fn()} />);
+    fireEvent.press(screen.getByText("Xem bản đồ số của mình"));
+    expect(screen.queryByTestId("numerology-write-journal")).toBeNull();
   });
 });

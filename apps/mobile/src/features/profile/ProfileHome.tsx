@@ -116,7 +116,7 @@ export function ProfileHome(props: ProfileHomeProps) {
       <Section title={vi ? "Cá nhân hóa" : "Personalisation"}>
         <Row icon="sparkles-outline" title={vi ? "Mục tiêu" : "Goals"} detail={props.goals} onPress={props.onPreferences} />
         <Row icon="chatbubble-ellipses-outline" title={vi ? "Giọng trò chuyện" : "Conversation tone"} detail={props.tone} onPress={props.onPreferences} />
-        <Row icon="planet-outline" title={vi ? "Ngày sinh & lá số" : "Birth date & chart"} detail={props.birth} onPress={props.onBirth} />
+        <Row icon="planet-outline" title={vi ? "Ngày sinh, tên & bản đồ" : "Birth date, name & maps"} detail={props.birth} onPress={props.onBirth} />
         <Row icon="language-outline" title={vi ? "Ngôn ngữ" : "Language"} detail={props.languageLabel} onPress={props.onEdit} />
       </Section>
 

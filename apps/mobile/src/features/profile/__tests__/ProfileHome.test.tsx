@@ -41,7 +41,7 @@ test("the profile follows the design and hides account deletion until it is avai
   expect(screen.getByText("Mỗi ngày lúc 08:00")).toBeTruthy();
   expect(screen.queryByText("Xóa tài khoản")).toBeNull();
   expect(screen.getByText("Nilaza 0.1.3 · Nội dung để giải trí và tự phản chiếu")).toBeTruthy();
-  fireEvent.press(screen.getByText("Ngày sinh & lá số"));
+  fireEvent.press(screen.getByText("Ngày sinh, tên & bản đồ"));
   expect(props.onBirth).toHaveBeenCalled();
   fireEvent.press(screen.getByText("Điều khoản & Quyền riêng tư"));
   expect(props.onLegal).toHaveBeenCalled();
