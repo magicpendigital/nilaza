@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "taskId": "play-closed-test-review-2026-11-27",
+  "ownerAgent": "release_agent",
+  "lane": "Release: Google Play Console setup for Nilaza (Owner approved 26/11/2026: create app, free with in-app Premium, policy declarations, send build for review)",
+  "goal": "Record the Play Console closed testing release (Viet Nam, versionCode 8, 4 tester lists) and the submission of 14 changes for Google review, approved by the Owner on 27/11/2026.",
+  "successCriteria": [
+    "Receipt marks Owner items 1-4 done and has a section for the closed testing release and review submission, with verified and not-verified items.",
+    "PLAN.md shows the app submitted for Google review and the 12 testers x 14 days requirement."
+  ],
+  "writeScope": [
+    "docs/release/PLAY_CONSOLE_SETUP_2026-11-27.vi.md",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "No app, backend, Admin or database change; no secret set or read; .env not read.",
+    "No password or key typed on Play Console; App access left to the Owner."
+  ],
+  "impact": {
+    "entryPoint": "None in the app. Play Console store listing and declarations only.",
+    "dataWrite": "None in Nilaza systems. Play Console drafts saved under the Owner's developer account.",
+    "backendContract": "Unchanged. The AAB uses the EAS preview environment (Singapore backend URL and anon key).",
+    "adminVisibility": "No Admin page or field changes.",
+    "privacySafety": "Data safety answers follow docs/release/PLAY_DATA_SAFETY_BILLING_2026-11-16.vi.md; open questions (OpenRouter as sharing, push, health) listed for the Owner. Screenshots exclude the Owner's real name and birth date; AI-generated art in screenshots is labelled.",
+    "observability": "No new events or traces; Play Console shows review status.",
+    "rollback": "Play Console drafts can be edited or discarded before review; remove the play-internal profile to undo the eas.json change."
+  },
+  "canonicalContracts": [
+    "docs/release/PLAY_DATA_SAFETY_BILLING_2026-11-16.vi.md",
+    "apps/mobile/app.json"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Release workflow and approval boundary.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Release lane routing.",
+      "sha256": "e508d09a9fdffc78da809a4f1449f1d77999186b9bd371870bd8582e132075e1"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Record and preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/release/PLAY_DATA_SAFETY_BILLING_2026-11-16.vi.md",
+      "reason": "Data safety answers and Premium wording source.",
+      "sha256": "bac7bae1297770e5bf684cfe18df9d8d01b53751ca25d33902df11d318fb2ac7"
+    },
+    {
+      "path": "apps/mobile/app.json",
+      "reason": "Package name, version and icon for the store build.",
+      "sha256": "2985950ca2cf3feac49a781587425fb109c9be2544f8b581855acc7c7c781700"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Owner approval recorded per action; receipt lists verified and not verified; PLAN.md updated in the same PR."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Store listing copy avoids ranking claims and prediction promises; brand logo and approved icon used for listing images."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No package added; Play Console form choices recorded as observed on 26-27/11/2026."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No auth or RLS change in this PR.",
+    "sensitiveData": "Screenshots cropped to avoid the Owner's name, nickname and birth date; no credentials entered.",
+    "secretsLogging": "No secret read or written; EAS environment values not printed.",
+    "externalInput": "No new input path; documents and build config only.",
+    "dependencies": "No package added.",
+    "migrationRelease": "No migration. Sending the build for review was approved by the Owner on 26/11/2026; production release stays a separate Owner step.",
+    "stopCondition": "Stop before typing any password or reviewer credential.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Docs-only receipt update written after the Owner-approved Play Console actions on 27/11/2026, on a branch cut from origin/main.",
+    "paths": [
+      "docs/release/PLAY_CONSOLE_SETUP_2026-11-27.vi.md",
+      "PLAN.md"
+    ]
+  },
+  "validationCommands": [
+    "npm run validate:governance",
+    "npm run mobile:release:config:check",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Mở Play Console → Nilaza → Trang tổng quan: danh sách việc thiết lập; đọc biên nhận PLAY_CONSOLE_SETUP_2026-11-27.vi.md mục 'Còn lại, cần Owner'.",
+  "residualRisk": "Data safety not submitted until target audience is done; app access credentials, contact email and closed testing (12 testers × 14 days) still with the Owner; billing not verified end to end.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
