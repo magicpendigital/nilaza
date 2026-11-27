@@ -60,7 +60,8 @@
     ]
   });
   // packages/agent-config/account-tier-policy.json "mode" (test-checked): during closed testing every signed-in account
-  // is treated as Premium, so a Premium switch only changes what guests see.
+  // is treated as Premium. Guests do not read the config (Owner decision 27/11/2026) and keep the built-in defaults, so
+  // during closed testing a Premium switch changes nothing for users; it applies to signed-in free accounts after testing.
   const ACCOUNT_POLICY_MODE = "all_premium";
   const MIGRATION = "20261127090000_feature_access_configs.sql";
   const MIGRATION_NOTE = `Máy chủ chưa áp migration ${MIGRATION} nên chưa lưu hay phát hành được. App dùng mặc định có sẵn (bảng dưới đây).`;
@@ -278,7 +279,7 @@
     const audience = active.audience;
     if (active.audienceStatus !== "ok" || !isObject(audience)) return "Chưa đếm được số tài khoản.";
     const policy = ACCOUNT_POLICY_MODE === "all_premium"
-      ? " Đang thử nghiệm kín: mọi tài khoản đã đăng nhập được xem là Premium (công tắc hạng tài khoản), nên đặt Premium hiện chỉ đổi những gì khách chưa đăng nhập thấy."
+      ? " Đang thử nghiệm kín: mọi tài khoản đã đăng nhập được xem là Premium (công tắc hạng tài khoản), còn khách chưa đăng nhập luôn dùng mặc định có sẵn, nên đặt Premium hiện chưa đổi gì cho người dùng. Hết giai đoạn thử, chế độ này tắt và thay đổi áp cho tài khoản không có Premium."
       : "";
     return `${audience.totalAccounts} tài khoản: ${audience.premiumAccounts} có Premium đã mua, ${audience.freeAccounts} không có Premium đã mua.${policy}`;
   }

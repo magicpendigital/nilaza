@@ -26,7 +26,7 @@ test("migration text: SQL spec equals packages/agent-config/feature-access.json"
   });
 });
 
-test("migration text: RLS on, no policies, owner-only publish and rollback, anon reads only the published config", () => {
+test("migration text: RLS on, no policies, owner-only publish and rollback, only signed-in accounts read the published config", () => {
   assert.match(migration, /alter table public\.feature_access_configs enable row level security;/);
   assert.ok(!/create policy/i.test(migration));
   assert.match(migration, /revoke all on table public\.feature_access_configs from public, anon, authenticated, service_role;/);
@@ -37,9 +37,10 @@ test("migration text: RLS on, no policies, owner-only publish and rollback, anon
     assert.match(body.slice(0, 1200), /has_capability\('ai\.manage'\)/, name);
     assert.match(body.slice(0, 1200), /not between 10 and 500/, name);
   }
-  assert.match(migration, /grant execute on function public\.get_feature_access_config\(\) to anon, authenticated;/);
-  const anonGrants = migration.match(/grant execute on function [^;]*to anon[^;]*;/g) ?? [];
-  assert.equal(anonGrants.length, 1);
+  // Owner decision 27/11/2026: guests (anon) do not read the config; they keep the app's built-in defaults.
+  assert.match(migration, /grant execute on function public\.get_feature_access_config\(\) to authenticated;/);
+  const anonGrants = migration.match(/grant [^;]*to [^;]*anon[^;]*;/g) ?? [];
+  assert.equal(anonGrants.length, 0);
   assert.ok(!/delete from/i.test(migration));
   assert.ok(!/ai_feature_switches/.test(migration.replace(/^--.*$/gm, "")), "does not touch the existing on/off switches");
 });
@@ -61,7 +62,7 @@ grant execute on function auth.uid() to authenticated;
 
 const clone = (value) => JSON.parse(JSON.stringify(value));
 
-test("PGlite: validation, draft, owner publish with reason, conflict, rollback, audience, anon read", async (t) => {
+test("PGlite: validation, draft, owner publish with reason, conflict, rollback, audience, signed-in read, anon refused", async (t) => {
   const PGlite = await loadPglite();
   if (!PGlite) { t.skip("PGlite not installed; set NILAZA_PGLITE_MODULE to @electric-sql/pglite/dist/index.js"); return; }
   const owner = randomUUID(), editor = randomUUID(), viewer = randomUUID(), payer = randomUUID(), lapsed = randomUUID();
@@ -111,7 +112,8 @@ test("PGlite: validation, draft, owner publish with reason, conflict, rollback, 
     ]);
 
     // Nothing published yet: the app gets null and keeps its built-in defaults.
-    assert.equal((await asAnon("select public.get_feature_access_config() as c"))[0].c, null);
+    assert.equal((await asUser(viewer, "select public.get_feature_access_config() as c"))[0].c, null);
+    await assert.rejects(asAnon("select public.get_feature_access_config()"), (error) => error.code === "42501");
 
     // Viewers cannot read the Admin list or save; editors can save a draft but never publish.
     await assert.rejects(asUser(viewer, "select public.get_feature_access_configs()"), (error) => error.code === "42501");
@@ -150,7 +152,7 @@ test("PGlite: validation, draft, owner publish with reason, conflict, rollback, 
     await assert.rejects(asUser(owner, "select public.publish_feature_access_config(2, null, 'Rune goes Premium now')"), (error) => error.code === "40001");
     const v2 = (await asUser(owner, "select public.publish_feature_access_config(2, 1, 'Rune goes Premium now') as r"))[0].r;
     assert.equal(v2.archivedVersion, 1);
-    const published = (await asAnon("select public.get_feature_access_config() as c"))[0].c;
+    const published = (await asUser(viewer, "select public.get_feature_access_config() as c"))[0].c;
     assert.equal(published.version, 2);
     assert.equal(published.config.features.rune_draw.tier, "premium");
     assert.ok(published.publishedAt);
@@ -169,7 +171,7 @@ test("PGlite: validation, draft, owner publish with reason, conflict, rollback, 
     assert.equal(v4.restoredFromVersion, 1);
     assert.equal(v4.archivedVersion, 2);
     assert.deepEqual(v4.config, defaults);
-    assert.equal((await asAnon("select public.get_feature_access_config() as c"))[0].c.config.features.rune_draw.tier, "free");
+    assert.equal((await asUser(viewer, "select public.get_feature_access_config() as c"))[0].c.config.features.rune_draw.tier, "free");
     const rows = (await db.query("select version, status from public.feature_access_configs order by version")).rows;
     assert.deepEqual(rows, [
       { version: 1, status: "archived" }, { version: 2, status: "archived" }, { version: 3, status: "draft" }, { version: 4, status: "active" }

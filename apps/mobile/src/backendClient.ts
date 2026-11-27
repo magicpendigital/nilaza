@@ -1641,14 +1641,8 @@ export async function getPublishedContent(input: BackendOptions = {}): Promise<P
  */
 export async function getPublishedFeatureAccess(input: BackendOptions = {}): Promise<unknown> {
   const options = currentOptions(input);
-  if (options.authToken && options.userId) {
-    const { sb, options: personal } = personalClient(input);
-    return readPersonal<unknown>(sb.rpc("get_feature_access_config"), personal);
-  }
-  const url = options.supabaseUrl ?? options.baseUrl?.replace(/\/functions\/v1\/?$/, "");
-  if (!url || !options.apiKey) throw new Error("Backend is not configured");
-  const sb = createClient(url, options.apiKey, {
-    auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false }
-  });
-  return readPersonal<unknown>(sb.rpc("get_feature_access_config"), options);
+  // Signed-in accounts only (Owner decision 27/11/2026): a guest gets null and keeps the built-in defaults.
+  if (!options.authToken || !options.userId) return null;
+  const { sb, options: personal } = personalClient(input);
+  return readPersonal<unknown>(sb.rpc("get_feature_access_config"), personal);
 }
