@@ -1,4 +1,17 @@
-import { big3Model, numerologyModel, readingModel, singleSunSign, todayCardModel } from "../shareCardContent";
+import { big3Model, dailySkyModel, numerologyModel, readingModel, singleSunSign, todayCardModel } from "../shareCardContent";
+
+it("builds the daily-sky card from the public sky only", () => {
+  const model = dailySkyModel({ language: "vi", moonSign: "taurus", phaseName: "Trăng tròn", headline: "Một ngày để chậm lại. " + "x".repeat(300) });
+  expect(model.surface).toBe("daily_sky");
+  expect(model.eyebrow).toBe("Bầu trời hôm nay");
+  expect(model.title).toBe("Trăng ở Kim Ngưu");
+  expect(model.rows).toEqual([{ glyph: "☽", label: "Pha trăng", value: "Trăng tròn" }]);
+  expect(model.message.length).toBeLessThanOrEqual(150);
+  expect(model.images).toEqual([]);
+  expect(model.signName).toBeUndefined();
+  expect(model.cardNames).toBeUndefined();
+  expect(dailySkyModel({ language: "en", moonSign: "leo", phaseName: "", headline: "A slow day." }).title).toBe("Moon in Leo");
+});
 
 const image = { uri: "card" };
 const everyText = (model: ReturnType<typeof todayCardModel>) =>
