@@ -123,6 +123,68 @@
           "previousInstalledSha256": "ca56a1c6a05a2ebe3db1ce1ab052054d512803526d2cded37602a970f4ed8088"
         }
       ]
+    },
+    {
+      "name": "nilaza-content-review",
+      "version": "1.0.0",
+      "files": [
+        {
+          "path": "agents/openai.yaml",
+          "sha256": "c3392c1cf499a4b82f1938d528f81ea4597f48003914acf6d8270e13379e7d52"
+        },
+        {
+          "path": "references/review-record.md",
+          "sha256": "953d7f43857fc4e6c4d510f5934f77cd992d050bb7ed444e4bd294ad3de7d6c1"
+        },
+        {
+          "path": "references/reviewers/_output-shape.md",
+          "sha256": "175744ab826030487fc06f9b0b7c4e64bc0115ec5937510a9f673a3e4c325bcb"
+        },
+        {
+          "path": "references/reviewers/buddhist-texts.md",
+          "sha256": "aa9bfd877df74d7649dd2855e25c45168e4f497ae2f9bd82cde96c14c4f8e00c"
+        },
+        {
+          "path": "references/reviewers/east-asian-classics.md",
+          "sha256": "85bb9188286783e62fe796c6c5d44a9badee6bea721367234e642a72c3c8b513"
+        },
+        {
+          "path": "references/reviewers/language-translation.md",
+          "sha256": "4500760e313b71629ffbf06fc181d874f8045cfc61149a2bc3b10d85476e104e"
+        },
+        {
+          "path": "references/reviewers/persona-fidelity.md",
+          "sha256": "0d57dc358810f81ec64b111dc9c4401c76f7d3667a482f4d075e3e2571c2937d"
+        },
+        {
+          "path": "references/reviewers/psychology.md",
+          "sha256": "be8232e474c4d06f7d2ddba1e3177610661df5019b5574c2eb4de8dbf4bed11b"
+        },
+        {
+          "path": "references/reviewers/safety-ethics.md",
+          "sha256": "467fdbba37ddb6628ba35117fc0078204fab03ff9541e7bef9566369d5c0dfd7"
+        },
+        {
+          "path": "references/reviewers/sources-rights.md",
+          "sha256": "fc26f8cb292c3ffd37e0d34d3c028723d227b967fc5130a4492069ad17c33d5a"
+        },
+        {
+          "path": "references/reviewers/symbolic-systems.md",
+          "sha256": "1b2ff7301e5d3e235e29ac6db89f86f031f92fcfd2dd4bfbc0b95b8cf08ed5f8"
+        },
+        {
+          "path": "references/reviewers/vietnamese-literature.md",
+          "sha256": "a08ce5fd1226c5c9c7dd00e324906b70f4310ed3e26bb5a79eb2584e5a653bbd"
+        },
+        {
+          "path": "references/reviewers/western-philosophy.md",
+          "sha256": "6ff533a5014ec70ad1598b5c9e573e2543589af1295886376a968619cf89f5e8"
+        },
+        {
+          "path": "SKILL.md",
+          "sha256": "e792475bc5856501f8a386f414a6616660d6f915e9ba8f59c05ffdfa4f231e86"
+        }
+      ]
     }
   ]
 }

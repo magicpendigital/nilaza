@@ -1,0 +1,4 @@
+interface:
+  display_name: "Nilaza Content Review"
+  short_description: "Multi-specialist review of reflective content before it ships"
+  default_prompt: "Use $nilaza-content-review to route this Nilaza content batch to the specialist reviewers, merge their findings into PASS / REVISE / BLOCK per item, and write the review record."
