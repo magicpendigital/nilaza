@@ -59,12 +59,14 @@
     {
       "path": "packages/content/data/knowledge-briefs/dao-duc-kinh.vi.md",
       "reason": "Persona voice, misattributed quotes to avoid, chapter map.",
-      "sha256": "a9cfe71a68764e29a5aba05245180b01e8f396bc3ae6ad66356262f95444534a"
+      "sha256": "a9cfe71a68764e29a5aba05245180b01e8f396bc3ae6ad66356262f95444534a",
+      "note": "Re-hashed 27/11 after Vận 9 (PR #78) changed this file; the change does not affect this feature."
     },
     {
       "path": "packages/content/data/knowledge-briefs/kinh-dich.vi.md",
       "reason": "Persona voice, hexagram order and names, quoting rules.",
-      "sha256": "fb353ff090ff686ca4ca069f077849ef0248816a24e4422abe7f85fb541a876c"
+      "sha256": "55b2cb7efc911cb3cb4665838bb626b5c58a1a5e603115ba5e76c5bdd7b46a54",
+      "note": "Re-hashed 27/11 after Vận 9 (PR #78) changed this file; the change does not affect this feature."
     },
     {
       "path": "packages/content/data/personas-books.json",

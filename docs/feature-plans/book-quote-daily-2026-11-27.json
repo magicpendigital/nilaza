@@ -31,8 +31,6 @@
     "scripts/validate-data.mjs",
     "docs/content-reviews/book-quotes-ddk-kd-2026-11-27.json",
     "docs/content-reviews/book-quotes-b2-2026-11-27.json",
-    "docs/feature-plans/book-quotes-content-a-2026-11-27.json",
-    "docs/feature-plans/book-quotes-content-b-2026-11-27.json",
     "PLAN.md"
   ],
   "untouchedSurfaces": [
@@ -117,7 +115,8 @@
     {
       "path": "packages/content/data/knowledge-briefs/index.json",
       "reason": "Book slug to persona id mapping.",
-      "sha256": "1e5d9743cdab13aa6f6a2b98675ff0cda40a210397f9a6c4a58a24bfa33dc64b"
+      "sha256": "fb47a35ebb8ae2309ff08ea67433aae426c3747a43869c6c867a61e656dea4b2",
+      "note": "Re-hashed 27/11 after Vận 9 (PR #78) changed this file; the change does not affect this feature."
     },
     {
       "path": "packages/content/data/personas-books.json",
