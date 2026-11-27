@@ -4,7 +4,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors, layout, radius, typography } from "../../theme";
 import type { Language } from "../../types";
 import {
-  availableBookQuoteBooks, bookQuoteAuthor, bookQuoteTabLabel, bookQuoteText, bookQuoteTitle, pickBookQuote,
+  SHOW_DRAFT_BOOK_QUOTES, availableBookQuoteBooks, bookQuoteAuthor, bookQuoteTabLabel, bookQuoteText, bookQuoteTitle, pickBookQuote,
   type BookQuoteBookId, type BookQuoteOfDay
 } from "./content";
 import {
@@ -34,16 +34,18 @@ type Props = {
   onEvent?: (name: string, metadata?: Record<string, string | number | boolean>) => void;
   onBack: () => void;
   contentContainerStyle?: StyleProp<ViewStyle>;
+  /** Draft gate override; defaults to SHOW_DRAFT_BOOK_QUOTES (tests pass true to use the sample files). */
+  showDrafts?: boolean;
 };
 
-export function BookQuoteScreen({ language, dateKey, initialBook, storage, personaName, onAskPersona, onWriteJournal, onEvent, onBack, contentContainerStyle }: Props) {
+export function BookQuoteScreen({ language, dateKey, initialBook, storage, personaName, onAskPersona, onWriteJournal, onEvent, onBack, contentContainerStyle, showDrafts = SHOW_DRAFT_BOOK_QUOTES }: Props) {
   const vi = language === "vi";
-  const books = useMemo(() => availableBookQuoteBooks(), []);
+  const books = useMemo(() => availableBookQuoteBooks(showDrafts), [showDrafts]);
   const [book, setBook] = useState<BookQuoteBookId | undefined>(() => (initialBook && books.includes(initialBook) ? initialBook : books[0]));
   const [saved, setSaved] = useState<SavedBookQuote[]>([]);
   const savedTouched = useRef(false);
   const scrollRef = useRef<ScrollView>(null);
-  const quote = book ? pickBookQuote(book, dateKey) : null;
+  const quote = book ? pickBookQuote(book, dateKey, showDrafts) : null;
 
   useEffect(() => {
     if (book) onEvent?.("book_quote_opened", { book });
@@ -92,7 +94,8 @@ export function BookQuoteScreen({ language, dateKey, initialBook, storage, perso
     return (
       <ScrollView testID="book-quote-screen" style={s.flex} contentContainerStyle={[s.screen, contentContainerStyle]}>
         <Header language={language} onBack={onBack} />
-        <Text style={s.empty}>{vi ? "Chưa có câu nào cho hôm nay. Mời bạn quay lại sau." : "No quote is ready for today yet. Please come back later."}</Text>
+        <Text accessibilityRole="header" style={s.title}>{vi ? "Một câu cho hôm nay" : "A line for today"}</Text>
+        <Text testID="book-quote-empty" style={s.empty}>{vi ? "Nội dung đang được hoàn thiện." : "This content is being finished."}</Text>
       </ScrollView>
     );
   }
@@ -157,7 +160,7 @@ export function BookQuoteScreen({ language, dateKey, initialBook, storage, perso
         <View style={s.section}>
           <Text accessibilityRole="header" style={s.kicker}>{vi ? "CÁC SÁCH KHÁC HÔM NAY" : "OTHER BOOKS TODAY"}</Text>
           {otherBooks.map((id) => {
-            const other = pickBookQuote(id, dateKey);
+            const other = pickBookQuote(id, dateKey, showDrafts);
             if (!other) return null;
             const otherTitle = bookQuoteTitle(id, language);
             const otherQuote = bookQuoteText(other.item, "quote", language);

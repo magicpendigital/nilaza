@@ -173,7 +173,7 @@ import { CardLibrary } from "./src/features/tarot/CardLibrary";
 import { ExploreHome } from "./src/features/explore/ExploreHome";
 import { NumerologyScreen } from "./src/features/numerology/NumerologyScreen";
 import { BookQuoteScreen } from "./src/features/bookQuote/BookQuoteScreen";
-import { BOOK_QUOTE_FEATURE_ID, bookQuoteBookForPersona, bookQuoteHandoff, bookQuoteText, bookQuoteTitle, homeBookQuote, type BookQuoteBookId, type BookQuoteOfDay } from "./src/features/bookQuote/content";
+import { BOOK_QUOTE_FEATURE_ID, availableBookQuoteBooks, bookQuoteBookForPersona, bookQuoteHandoff, bookQuoteText, bookQuoteTitle, homeBookQuote, type BookQuoteBookId, type BookQuoteOfDay } from "./src/features/bookQuote/content";
 import personaShortNamesData from "../../packages/content/data/persona-short-names.json";
 import knowledgeBriefIndex from "../../packages/content/data/knowledge-briefs/index.json";
 
@@ -4343,7 +4343,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
   // Opens "Một câu cho hôm nay" on a book (or the Home book of the day); Back returns to the tab it came from.
   const openBookQuote = (book?: BookQuoteBookId) => {
     setBookQuoteReturnScreen(currentTabOrHome());
-    setBookQuoteBook(book ?? homeBookQuote(currentDateKey)?.book);
+    // Null-safe: with nothing visible the screen shows its calm empty state and Back still works.
+    setBookQuoteBook(book ?? homeBookQuote(currentDateKey)?.book ?? undefined);
     navigate("bookQuote");
   };
   const askBookQuoteGuide = (quote: BookQuoteOfDay) => {
@@ -6197,7 +6198,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
                 onAstrology={() => startAstrology("hub")}
                 onSky={() => startAstrology("sky")}
                 onNumerology={() => navigate("numerology")}
-                onBookQuote={() => openBookQuote()}
+                onBookQuote={availableBookQuoteBooks().length > 0 ? () => openBookQuote() : undefined}
                 onAllDecks={() => startTarot("deck")}
                 decks={[
                   { id: "rose-mirror", mood: language === "vi" ? "Tình yêu" : "Love" },

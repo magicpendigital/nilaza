@@ -17,13 +17,15 @@ const dateKey = "2026-11-27";
 const names: Record<string, string> = { "book-stoic-journal": "Nhật ký khắc kỷ", "book-dhammapada": "Kinh Pháp Cú" };
 const baseProps = {
   language: "vi" as const, dateKey, personaName: (id: string) => names[id] ?? "người dẫn",
-  onAskPersona: jest.fn(), onWriteJournal: jest.fn(), onEvent: jest.fn(), onBack: jest.fn()
+  onAskPersona: jest.fn(), onWriteJournal: jest.fn(), onEvent: jest.fn(), onBack: jest.fn(),
+  // The sample files are drafts and the gate is closed in the app; these tests open it to exercise the screen.
+  showDrafts: true
 };
 
 beforeEach(() => jest.clearAllMocks());
 
 test("shows today's quote for the chosen book with commentary, question, actions and footnote", () => {
-  const expected = pickBookQuote("suy-tuong", dateKey)!;
+  const expected = pickBookQuote("suy-tuong", dateKey, true)!;
   const screen = render(<BookQuoteScreen {...baseProps} initialBook="suy-tuong" />);
   expect(screen.getByText("Một câu cho hôm nay")).toBeTruthy();
   expect(screen.getByTestId("book-quote-text").props.children).toBe(`“${expected.item.quote.vi}”`);
@@ -50,9 +52,9 @@ test("tabs and the other-books list switch the book", () => {
   const screen = render(<BookQuoteScreen {...baseProps} initialBook="suy-tuong" />);
   const tab = screen.getByRole("tab", { name: bookQuoteTitle("kinh-phap-cu", "vi") });
   fireEvent.press(tab);
-  expect(screen.getByTestId("book-quote-text").props.children).toBe(`“${pickBookQuote("kinh-phap-cu", dateKey)!.item.quote.vi}”`);
+  expect(screen.getByTestId("book-quote-text").props.children).toBe(`“${pickBookQuote("kinh-phap-cu", dateKey, true)!.item.quote.vi}”`);
   expect(screen.getByRole("tab", { name: bookQuoteTitle("kinh-phap-cu", "vi") }).props.accessibilityState).toEqual({ selected: true });
-  const daoQuote = pickBookQuote("dao-duc-kinh", dateKey)!;
+  const daoQuote = pickBookQuote("dao-duc-kinh", dateKey, true)!;
   fireEvent.press(screen.getByLabelText(`${bookQuoteTitle("dao-duc-kinh", "vi")}. ${daoQuote.item.quote.vi}`));
   expect(screen.getByTestId("book-quote-text").props.children).toBe(`“${daoQuote.item.quote.vi}”`);
 });
@@ -69,7 +71,7 @@ test("ask, journal and back call through with today's quote", () => {
 
 test("save toggles, persists to account storage and lists the saved quote", async () => {
   const storage = memoryStorage();
-  const expected = pickBookQuote("suy-tuong", dateKey)!;
+  const expected = pickBookQuote("suy-tuong", dateKey, true)!;
   const screen = render(<BookQuoteScreen {...baseProps} initialBook="suy-tuong" storage={storage} />);
   await waitFor(() => expect(storage.loadJson).toHaveBeenCalled());
   fireEvent.press(screen.getByLabelText("Lưu câu này"));
@@ -100,4 +102,17 @@ test("English labels", () => {
   expect(screen.getByText("COMMENTARY")).toBeTruthy();
   expect(screen.getByText("A QUESTION FOR YOU")).toBeTruthy();
   expect(screen.getByText("Ask Kinh Pháp Cú more")).toBeTruthy();
+});
+
+test("with the gate closed and only draft files, a calm empty state shows and Back still works", () => {
+  const screen = render(<BookQuoteScreen {...baseProps} showDrafts={false} initialBook="suy-tuong" />);
+  expect(screen.getByText("Nội dung đang được hoàn thiện.")).toBeTruthy();
+  expect(screen.queryByTestId("book-quote-text")).toBeNull();
+  expect(screen.queryAllByRole("tab")).toHaveLength(0);
+  expect(screen.queryByText("Lưu câu này")).toBeNull();
+  expect(baseProps.onEvent).not.toHaveBeenCalled();
+  fireEvent.press(screen.getByLabelText("Quay lại"));
+  expect(baseProps.onBack).toHaveBeenCalledTimes(1);
+  const english = render(<BookQuoteScreen {...baseProps} language="en" showDrafts={false} />);
+  expect(english.getByText("This content is being finished.")).toBeTruthy();
 });

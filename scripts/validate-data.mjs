@@ -806,7 +806,8 @@ for (const candidate of personaResearchQueue.nextCandidates) {
   };
   const bookQuoteBannedPatterns = Object.fromEntries(Object.entries(bookQuoteBanned).map(([language, words]) =>
     [language, words.map((word) => [word, new RegExp("(^|[^\\p{L}])" + word + "(?=$|[^\\p{L}])", "iu")])]));
-  const reviewStatuses = new Set(["draft", "in_review", "approved"]);
+  // "approved" means content review passed AND the Owner approved; only approved files reach users (app draft gate).
+  const reviewStatuses = new Set(["draft", "reviewed", "approved"]);
   const bookPersonaIds = new Set(books.map((persona) => persona.id));
   const seenBookQuoteIds = new Set();
   const presentFiles = fs.existsSync(path.join(root, bookQuoteDir))
@@ -833,7 +834,7 @@ for (const candidate of personaResearchQueue.nextCandidates) {
     const review = file.review;
     assert(review && typeof review === "object", `${label}.review block is required`);
     if (review && typeof review === "object") {
-      assert(reviewStatuses.has(review.status), `${label}.review.status must be draft, in_review or approved`);
+      assert(reviewStatuses.has(review.status), `${label}.review.status must be draft, reviewed or approved`);
       assert(review.reviewer === null || hasText(review.reviewer), `${label}.review.reviewer must be null or a name`);
       assert(review.reviewedAt === null || hasText(review.reviewedAt), `${label}.review.reviewedAt must be null or a date`);
       if (review.status === "approved") {
@@ -842,7 +843,7 @@ for (const candidate of personaResearchQueue.nextCandidates) {
     }
     if (file.sample === true) {
       assert(hasText(file.sampleNote), `${label} is a sample and needs sampleNote`);
-      assert(review?.status !== "approved", `${label} is a sample and cannot be approved`);
+      assert(review?.status !== "approved", `${label} is a sample and cannot be approved (sample files are never shown to users)`);
     } else {
       assert(file.sample === undefined || file.sample === false, `${label}.sample must be true, false or absent`);
     }

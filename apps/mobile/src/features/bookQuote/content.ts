@@ -23,7 +23,7 @@ export type BookQuoteItem = {
   tags?: string[];
 };
 
-export type BookQuoteReviewStatus = "draft" | "in_review" | "approved";
+export type BookQuoteReviewStatus = "draft" | "reviewed" | "approved";
 
 export type BookQuoteFile = {
   schemaVersion: 1;
@@ -66,9 +66,11 @@ const authors: Record<BookQuoteBookId, Text2> = {
   "kinh-dich": { vi: "Kinh Dịch", en: "The I Ching" }
 };
 
-// Draft gate. Today every item shows (Owner approved sample content for build). When reviewed content lands,
-// flip this to false and only files whose review.status is "approved" are shown. No badge is shown to users either way.
-export const SHOW_DRAFT_BOOK_QUOTES = true;
+// Draft gate: only files whose review.status is "approved" are shown to users. A file becomes "approved" only
+// after it passes content review (nilaza-content-review) AND the Owner approves it. Sample files are never
+// approved (validate:data fails if one is), so with sample content every entry point stays hidden.
+// Tests pass showDrafts = true to exercise the screen with the sample files.
+export const SHOW_DRAFT_BOOK_QUOTES = false;
 
 export function isBookQuoteFileVisible(file: BookQuoteFile, showDrafts = SHOW_DRAFT_BOOK_QUOTES): boolean {
   return showDrafts || file.review.status === "approved";
@@ -86,9 +88,11 @@ export function availableBookQuoteBooks(showDrafts = SHOW_DRAFT_BOOK_QUOTES): Bo
   return bookQuoteBookOrder.filter((book) => visibleBookQuoteItems(files[book], showDrafts).length > 0);
 }
 
-export function bookQuoteBookForPersona(personaId: string | undefined): BookQuoteBookId | undefined {
+// The book whose guide this persona is, only when that book has visible quotes (so no button leads to an empty screen).
+export function bookQuoteBookForPersona(personaId: string | undefined, showDrafts = SHOW_DRAFT_BOOK_QUOTES): BookQuoteBookId | undefined {
   if (!personaId) return undefined;
-  return bookQuoteBookOrder.find((book) => files[book].personaId === personaId);
+  const book = bookQuoteBookOrder.find((id) => files[id].personaId === personaId);
+  return book && visibleBookQuoteItems(files[book], showDrafts).length > 0 ? book : undefined;
 }
 
 export const bookQuoteTabLabel = (book: BookQuoteBookId, language: Language) => localizedText(tabLabels[book], language);

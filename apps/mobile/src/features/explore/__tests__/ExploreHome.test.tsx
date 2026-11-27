@@ -1,6 +1,7 @@
 import React from "react";
 import { fireEvent, render } from "@testing-library/react-native";
 import { ExploreHome } from "../ExploreHome";
+import { availableBookQuoteBooks } from "../../bookQuote/content";
 
 const baseProps = {
   language: "vi" as const, deckCount: 8, onTarot: jest.fn(), onLibrary: jest.fn(), onAstrology: jest.fn(), onNumerology: jest.fn(),
@@ -19,4 +20,12 @@ test("without a target the group is hidden, so there is no dead tile", () => {
   const screen = render(<ExploreHome {...baseProps} />);
   expect(screen.queryByText("Soi chiếu")).toBeNull();
   expect(screen.queryByText("Một câu cho hôm nay")).toBeNull();
+});
+
+test("with only draft book quotes the App gate passes no target, so the card is hidden", () => {
+  // Same expression App.tsx uses for onBookQuote.
+  const onBookQuote = availableBookQuoteBooks().length > 0 ? jest.fn() : undefined;
+  expect(onBookQuote).toBeUndefined();
+  const screen = render(<ExploreHome {...baseProps} onBookQuote={onBookQuote} />);
+  expect(screen.queryByText("Soi chiếu")).toBeNull();
 });

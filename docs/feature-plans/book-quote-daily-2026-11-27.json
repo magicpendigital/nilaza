@@ -11,8 +11,8 @@
     "\"Hỏi tiếp\" opens the existing persona chat room for the book's guide with a book_quote hand-off context (sourceLabel, userQuestion, safeSummary only); no Edge Function changes.",
     "Saved quotes persist under nilaza.bookQuotes.saved.v1 in account storage, appear in the local export, and are removed by the existing account-prefix wipe (test).",
     "Every card-looking element on Home has a target and a visible action label; static info does not look like a card.",
-    "validate:data checks schema, unique ids, accented vi + en, review block, 64 Kinh Dịch items when not sample, persona ids, and the banned-word list on gloss and question (quotes exempt); the sample files pass.",
-    "Feature id book_quote lives in one exported constant; draft content is shown without a badge but passes through one gate function that can hide drafts later.",
+    "validate:data checks schema, unique ids, accented vi + en, review block (status draft | reviewed | approved; a sample file must not be approved), 64 Kinh Dịch items when not sample, persona ids, and the banned-word list on gloss and question (quotes exempt); the sample files pass.",
+    "Feature id book_quote lives in one exported constant. Draft gate closed (SHOW_DRAFT_BOOK_QUOTES = false, coordinator QA round 1): only files with review.status \"approved\" (content review passed AND Owner approved) reach users; samples are never approved. Every entry point respects the gate: no Home card, no Explore row, no persona-page button while nothing is approved; the screen itself shows a calm empty state with a working Back.",
     "Mobile tsc, mobile jest and validate:data pass."
   ],
   "writeScope": [
@@ -77,7 +77,7 @@
     {
       "path": "apps/mobile/App.tsx",
       "reason": "Screen routing, Android Back, openChat hand-off, journal prompt flow, persona detail page, export and delete wiring.",
-      "sha256": "0c5ba5bf2fcaa160540be2c51bfe6e1b433a6810cf22df101518eab8821e623d"
+      "sha256": "c1029bd631572afced1f961e20af1e9baab21e60f0bc2c8e51ce8583ec1d917b"
     },
     {
       "path": "apps/mobile/src/features/home/HomeExperience.tsx",
@@ -107,7 +107,7 @@
     {
       "path": "scripts/validate-data.mjs",
       "reason": "Existing data checks and banned-word pattern style to extend.",
-      "sha256": "02fb397b19d3ac54574d2900ca9fea64406b22d36a0c271bc30a6d1d222ee138"
+      "sha256": "90938ab66ea20664685df3af57dfd3a7f8bb92a2c8659b7378bf059d74c8076d"
     },
     {
       "path": "packages/content/data/knowledge-briefs/index.json",
@@ -168,28 +168,14 @@
     "unresolvedHighRisks": []
   },
   "workingTreeReview": {
-    "note": "Record written on branch claude/book-quote-daily cut from origin/main 9ddf635 before any feature edit (27/11/2026) and passed preflight then. During implementation the scope grew by one file, apps/mobile/src/features/persona/PersonaChatRoom.tsx (its hand-off banner map needs a book_quote entry or tsc fails); sourceReview hashes were refreshed to the final reviewed versions and preflight was rerun. The paths below are this batch's own edits.",
+    "note": "Record written on branch claude/book-quote-daily cut from origin/main 9ddf635 before any feature edit (27/11/2026) and passed preflight then. During implementation the scope grew by one file, apps/mobile/src/features/persona/PersonaChatRoom.tsx (its hand-off banner map needs a book_quote entry or tsc fails); sourceReview hashes were refreshed to the final reviewed versions and preflight was rerun. The paths below are this batch's own edits. QA round 1 (coordinator, 27/11/2026): draft gate closed, entry points gated, empty state, review statuses draft/reviewed/approved; hashes refreshed again and the paths below are the QA round 1 edits on top of commit 1639d48.",
     "paths": [
       "apps/mobile/App.tsx",
       "apps/mobile/src/features/bookQuote/BookQuoteScreen.tsx",
       "apps/mobile/src/features/bookQuote/__tests__/BookQuoteScreen.test.tsx",
       "apps/mobile/src/features/bookQuote/__tests__/content.test.ts",
-      "apps/mobile/src/features/bookQuote/__tests__/savedQuotes.test.ts",
       "apps/mobile/src/features/bookQuote/content.ts",
-      "apps/mobile/src/features/bookQuote/savedQuotes.ts",
-      "apps/mobile/src/features/explore/ExploreHome.tsx",
       "apps/mobile/src/features/explore/__tests__/ExploreHome.test.tsx",
-      "apps/mobile/src/features/home/HomeExperience.tsx",
-      "apps/mobile/src/features/home/__tests__/HomeExperience.test.tsx",
-      "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
-      "apps/mobile/src/features/privacy/__tests__/localExport.test.ts",
-      "apps/mobile/src/features/privacy/localExport.ts",
-      "apps/mobile/src/types.ts",
-      "packages/content/data/book-quotes/binh-phap-ton-tu.json",
-      "packages/content/data/book-quotes/dao-duc-kinh.json",
-      "packages/content/data/book-quotes/kinh-dich.json",
-      "packages/content/data/book-quotes/kinh-phap-cu.json",
-      "packages/content/data/book-quotes/suy-tuong.json",
       "scripts/validate-data.mjs"
     ]
   },
@@ -198,8 +184,8 @@
     "npm --prefix apps/mobile test -- --silent",
     "npm run validate:data"
   ],
-  "managerTestPath": "Mở app → Hôm nay → kéo xuống dưới hai ô Bầu trời/Cung → bấm thẻ \"Một câu cho hôm nay\" → thấy sách của hôm nay, câu trích, Lời bình, Câu hỏi → bấm tab sách khác → bấm \"Lưu câu này\" → bấm Back của Android quay về Hôm nay → mở lại thẻ: vẫn là câu cũ. Thử thêm: Trò chuyện → một người dẫn sách → nút \"Một câu cho hôm nay\"; Khám phá → Soi chiếu; Hồ sơ → Xuất dữ liệu có mục bookQuotesSaved.",
-  "residualRisk": "Sample quotes are placeholders until content review; device behaviour (Back, TalkBack, large text) is not verified on a phone in this batch; the pick changes when a book's item list grows, so the first day after a content update may show a different quote than earlier that day.",
+  "managerTestPath": "Bản hiện tại: nội dung mẫu chưa được duyệt nên người dùng KHÔNG thấy tính năng — Hôm nay không có thẻ \"Một câu cho hôm nay\", Khám phá không có nhóm Soi chiếu, trang người dẫn sách không có nút. Khi một sách được duyệt (review.status = approved sau content review và Owner duyệt): Hôm nay → thẻ \"Một câu cho hôm nay\" → câu trích, Lời bình, Câu hỏi → \"Lưu câu này\" → Back của Android về Hôm nay → mở lại: vẫn câu cũ; Trò chuyện → người dẫn sách đó → nút \"Một câu cho hôm nay\"; Khám phá → Soi chiếu; Hồ sơ → Xuất dữ liệu có mục bookQuotesSaved.",
+  "residualRisk": "Feature is invisible to users until real content is reviewed and Owner-approved; sample quotes stay draft. Device behaviour (Back, TalkBack, large text) is not verified on a phone; the pick changes when a book's item list grows, so the first day after a content update may show a different quote than earlier that day.",
   "externalActions": {
     "databaseWrite": false,
     "productionRelease": false
