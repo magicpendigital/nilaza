@@ -139,7 +139,7 @@
     {
       "path": "apps/mobile/src/backendClient.ts",
       "reason": "App read path pattern (personalClient + readPersonal RPC) for the published config.",
-      "sha256": "759f742c0751c7b8f2d9ef007d9374a50574c407bf88f51e7f3de2817f844489"
+      "sha256": "8b8c6d179b181634564cebac9e5a172362d18072ff5447756134a55087c6db3c"
     },
     {
       "path": "apps/mobile/src/features/billing/usePremium.ts",
@@ -164,12 +164,12 @@
     {
       "path": "docs/NILAZA_ADMIN_AI_STUDIO_OWNER_GUIDE.md",
       "reason": "Owner guide to extend with the new tab and pending steps.",
-      "sha256": "52d793aa87da770b0c809f55622d3bda71872f24672cbdfc92596743d24e6fe9"
+      "sha256": "bed2d187762fc68d05081c9a0153aaf4b3e92b1b3ef1b1ee50a4ba40d6715cbb"
     },
     {
       "path": "docs/ADMIN_DATA_CONSOLE_ARCHITECTURE.md",
       "reason": "Tables, API surface and publishing rules to document.",
-      "sha256": "248e020c01a64c9da0528287dea26bb266b8e29ebaf81b7281d14ecccb21b8eb"
+      "sha256": "90fae60e347b59906be7a1e5823e879dd571d0e38d5522325cc411c461e4affd"
     },
     {
       "path": "skills/nilaza-plan-qc/references/admin-runtime-parity.md",
@@ -231,5 +231,6 @@
   "externalActions": {
     "databaseWrite": false,
     "productionRelease": false
-  }
+  },
+  "note": " 27/11/2026: Owner decided config reads are signed-in only (no anon grant; guests keep built-in defaults), all_premium only during testing, gating app-only. Migration SHA-256 (LF) changed to 98ce4dc6239fb00e30e85105fa30c0c88f90f0d440d4e93a1d36d711eb063446; earlier approval for c1156e0d…3b08cf8 lapsed and must be re-approved."
 }
