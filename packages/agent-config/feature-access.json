@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "description": "Free / Premium switch and limits per on-device reflection feature (Owner decision 27/11/2026, docs/proposals/NEW_REFLECTION_MODALITIES_2026-11-27.vi.md section 10). These are the built-in defaults the app uses before any version is published, offline without a cached copy, or when the published copy is malformed. Admin may publish a replacement in public.feature_access_configs (migration 20261127090000). The SQL validator nilaza_private.feature_access_errors, the Admin copy (apps/admin/feature-access.js) and the app copy (apps/mobile/src/features/access/featureAccessConfig.ts) mirror this file; scripts/admin-feature-access.test.mjs keeps them equal. Existing AI features are not editable here: their quotas are enforced by Edge Functions (account-tier-policy.json, ai_feature_configs) and their on/off state by ai_feature_switches.",
+  "refreshMinutes": 5,
+  "dayOffsetMinutes": 420,
+  "tiers": ["free", "premium"],
+  "limitKinds": ["unlimited", "per_day", "per_item_per_day", "retake_after_days"],
+  "bounds": {
+    "count": { "min": 1, "max": 100 },
+    "days": { "min": 1, "max": 365 }
+  },
+  "editableFeatures": ["book_quote", "boi_kieu", "rune_draw", "big_five", "enneagram"],
+  "allowedKinds": {
+    "book_quote": ["per_item_per_day", "per_day", "unlimited"],
+    "boi_kieu": ["per_day", "unlimited"],
+    "rune_draw": ["per_day", "unlimited"],
+    "big_five": ["retake_after_days", "unlimited"],
+    "enneagram": ["retake_after_days", "unlimited"]
+  },
+  "labels": {
+    "book_quote": { "vi": "Một câu cho hôm nay", "en": "A line for today" },
+    "boi_kieu": { "vi": "Bói Kiều", "en": "Kieu verse reflection" },
+    "rune_draw": { "vi": "Rune", "en": "Rune draw" },
+    "big_five": { "vi": "Big Five", "en": "Big Five" },
+    "enneagram": { "vi": "Enneagram", "en": "Enneagram" }
+  },
+  "defaults": {
+    "features": {
+      "book_quote": {
+        "tier": "free",
+        "free": { "kind": "per_item_per_day", "count": 1 },
+        "premium": { "kind": "per_item_per_day", "count": 1 }
+      },
+      "boi_kieu": {
+        "tier": "free",
+        "free": { "kind": "per_day", "count": 1 },
+        "premium": { "kind": "per_day", "count": 1 }
+      },
+      "rune_draw": {
+        "tier": "free",
+        "free": { "kind": "per_day", "count": 1 },
+        "premium": { "kind": "per_day", "count": 1 }
+      },
+      "big_five": {
+        "tier": "free",
+        "free": { "kind": "retake_after_days", "days": 30 },
+        "premium": { "kind": "retake_after_days", "days": 30 }
+      },
+      "enneagram": {
+        "tier": "free",
+        "free": { "kind": "retake_after_days", "days": 30 },
+        "premium": { "kind": "retake_after_days", "days": 30 }
+      }
+    }
+  },
+  "serverManaged": [
+    { "id": "persona_chat", "label": "Trò chuyện với người dẫn" },
+    { "id": "oracle_router", "label": "Oracle" },
+    { "id": "tarot_reading", "label": "Giải bài Tarot" },
+    { "id": "daily_insight", "label": "Thông điệp hằng ngày" },
+    { "id": "astrology_insight", "label": "Đọc sâu Chiêm tinh" },
+    { "id": "ai_council", "label": "Hội đồng" },
+    { "id": "tarot_note", "label": "Ghi chú riêng Tarot" },
+    { "id": "reader_router", "label": "Gợi ý người đọc (tầng AI)" },
+    { "id": "numerology_private_message", "label": "Lời nhắn riêng Thần số học" }
+  ]
+}

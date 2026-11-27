@@ -217,6 +217,19 @@ Primary/fallback provider, model, temperature và output token limit là bản n
 #### Bước 7: Save & Audit Log (Locked)
 Trace mặc định đã redact có model spans và metadata finalization theo contract từng feature; không bảo đảm đủ evidence để graph xác nhận mọi bước validation/lưu/response. Audit AI hiện liệt kê publish route, publish Astrology prompt và Owner reveal QA; audit cấu hình không phải event thực thi workflow. Bản raw provider payload chỉ có trong capture QA Astrology riêng, cần consent riêng, staging, Owner và retention đã kiểm chứng; không xem raw như mặc định của mọi feature.
 
+### 4.3. Miễn phí / Premium: công tắc và hạn mức theo tính năng
+
+Vào **Công tắc và hạn mức → Miễn phí / Premium** (đường dẫn `#access`). Trang này quyết định từng tính năng chạy trên máy người dùng là **Miễn phí** hay **Premium**, và mỗi ngày dùng được bao nhiêu lần.
+
+- **Năm tính năng sửa được:** Câu sách (`book_quote`), Bói Kiều (`boi_kieu`), Rút rune (`rune_draw`), Big Five (`big_five`), Enneagram (`enneagram`). Mặc định v1: cả năm đều **Miễn phí**; Câu sách 1 lần mỗi cuốn mỗi ngày; Bói Kiều và Rút rune 1 lần mỗi ngày; Big Five và Enneagram làm lại sau 30 ngày.
+- **Các tính năng AI** (Oracle, Persona Chat, Tarot AI…) chỉ hiện để xem, kèm trạng thái công tắc bật/tắt hiện có. Hạn mức AI vẫn do máy chủ quản lý, không đổi ở trang này.
+- **Cách sửa:** mỗi dòng có công tắc Miễn phí / Premium, hạn mức cho tài khoản không có Premium và hạn mức cho tài khoản Premium. Sửa xong bấm **Lưu nháp**. Bản nháp chưa ảnh hưởng người dùng.
+- **Xem trước như người dùng miễn phí:** cho biết người dùng thấy gì ở từng tính năng và số tài khoản bị ảnh hưởng (tổng, có Premium đã mua, không có Premium đã mua). Lưu ý: chế độ tài khoản hiện là `all_premium` (mọi tài khoản đăng nhập đang được mở như Premium), nên lúc này chuyển sang Premium chủ yếu ảnh hưởng **khách chưa đăng nhập**.
+- **Phát hành:** chỉ **Owner** phát hành được, phải ghi **lý do** (10–500 ký tự). Nếu người khác vừa phát hành trước, trang báo xung đột và yêu cầu tải lại. App nhận bản mới trong khoảng **5 phút**; máy không có mạng dùng bản đã lưu gần nhất, hoặc mặc định có sẵn trong app.
+- **Lịch sử thay đổi:** ghi ai, khi nào, trước/sau và lý do. **Quay lại bản trước** (một lần bấm, cũng cần lý do) tạo một phiên bản mới chạy lại cấu hình trước đó; không xóa lịch sử, không đụng bản nháp đang có.
+- **Ba quy tắc cố định:** chuyển sang Premium **không bao giờ xóa hay khóa** nội dung người dùng đã lưu; tài khoản Premium luôn giữ quyền dùng; tính năng đã **tắt** ở công tắc bật/tắt hiện có thì không hiện lại vì trang này.
+- **Trạng thái hiện tại (27/11/2026):** trang Admin và bộ đọc cấu hình trong app đã có trong mã nguồn và đã chạy kiểm thử tự động. **Chưa** áp migration `20261127090000_feature_access_configs.sql` lên Supabase (khi chưa áp, trang báo thiếu bảng và chỉ hiện mặc định, không lưu được). Năm tính năng trong app **chưa** nối vào công tắc này: đổi sang Premium ở Admin chưa làm app thay đổi cho tới bản app sau. Áp migration và triển khai lại `admin-documentation` (để sổ tay này cập nhật trong Admin) là hai việc riêng, mỗi việc cần Owner duyệt.
+
 ---
 
 ## 5. Chuyên sâu Prompt Composer & Persona Prompt Studio
