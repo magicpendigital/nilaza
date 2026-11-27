@@ -31,13 +31,15 @@
     "scripts/validate-data.mjs",
     "docs/content-reviews/book-quotes-ddk-kd-2026-11-27.json",
     "docs/content-reviews/book-quotes-b2-2026-11-27.json",
-    "PLAN.md"
+    "PLAN.md",
+    "apps/admin/workflow-catalog.js"
   ],
   "untouchedSurfaces": [
     "No Edge Function, prompt, model route, SQL, migration, Admin or Supabase change; the hand-off uses the generic fields the existing chat-handoff block already reads.",
     "useFeatureAccess and the Admin Free/Premium switch are built by another agent; this batch only exports the feature id constant.",
     "Bói Kiều and Rune tiles are not added; Explore's Soi chiếu group has one item and a documented extension point.",
-    "Ship step (27/11/2026, Owner approved content and merge): the sample files are replaced by the 303 reviewed items from the content branches (book-quotes-content-a/-b), each file marked approved; both review records and both content plan records travel with this PR. No Edge Function, SQL or Admin change."
+    "Ship step (27/11/2026, Owner approved content and merge): the sample files are replaced by the 303 reviewed items from the content branches (book-quotes-content-a/-b), each file marked approved; both review records and both content plan records travel with this PR. No Edge Function, SQL or Admin change.",
+    "Admin: only the App.tsx source digest in apps/admin/workflow-catalog.js is refreshed (CI contract check); no Admin behaviour change."
   ],
   "impact": {
     "entryPoint": "Home card \"MỘT CÂU CHO HÔM NAY\" after the sky/sign tile row; a button on the five book guide detail pages; Explore → Soi chiếu → Một câu cho hôm nay. New Screen value bookQuote with its own return screen; Android Back and the on-screen back return there.",
