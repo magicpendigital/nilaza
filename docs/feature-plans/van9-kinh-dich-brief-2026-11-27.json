@@ -14,7 +14,8 @@
   "writeScope": [
     "packages/content/data/knowledge-briefs/kinh-dich.vi.md",
     "packages/content/data/knowledge-briefs/index.json",
-    "supabase/functions/_shared/knowledge-briefs.generated.ts"
+    "supabase/functions/_shared/knowledge-briefs.generated.ts",
+    "docs/content-reviews/van9-kinh-dich-brief-2026-11-27.json"
   ],
   "untouchedSurfaces": [
     "No Edge Function deploy, SQL, secret, Admin or app code change; the brief only takes effect after the Owner approves a separate ai-persona-chat deploy.",
@@ -61,12 +62,12 @@
     {
       "path": "packages/content/data/knowledge-briefs/kinh-dich.vi.md",
       "reason": "Brief to extend; boundary rules in sections 5, 7, 8 and eval list in section 10.",
-      "sha256": "fb353ff090ff686ca4ca069f077849ef0248816a24e4422abe7f85fb541a876c"
+      "sha256": "55b2cb7efc911cb3cb4665838bb626b5c58a1a5e603115ba5e76c5bdd7b46a54"
     },
     {
       "path": "packages/content/data/knowledge-briefs/index.json",
       "reason": "Holds version and evalQuestionCount.",
-      "sha256": "1e5d9743cdab13aa6f6a2b98675ff0cda40a210397f9a6c4a58a24bfa33dc64b"
+      "sha256": "fb47a35ebb8ae2309ff08ea67433aae426c3747a43869c6c867a61e656dea4b2"
     },
     {
       "path": "scripts/build-knowledge-briefs.mjs",
@@ -76,7 +77,7 @@
     {
       "path": "supabase/functions/_shared/knowledge-briefs.generated.ts",
       "reason": "Generated bundle to regenerate.",
-      "sha256": "62a5f5de9217e58e225580a940efcc9bde5550c19b27580f39309f129a759879"
+      "sha256": "0b8939d755b7a4ce5d405459fd10eba45e9752ef876dd75e131b581f76f64373"
     },
     {
       "path": "skills/nilaza-plan-qc/SKILL.md",
