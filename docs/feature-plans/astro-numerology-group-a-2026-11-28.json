@@ -62,17 +62,17 @@
     {
       "path": "apps/mobile/src/features/profile/ProfileHome.tsx",
       "reason": "Reviewed before editing (group A).",
-      "sha256": "9e39650251f3b48ebb373edb00c33d85dfadc5f0d2f91fb6dc3b8757b6d52bfe"
+      "sha256": "0c0546446d3e16650f3d29a8a024e249b3f61eae3ebdedd833a96c88178d112d"
     },
     {
       "path": "apps/mobile/src/features/profile/WhoAmI.tsx",
       "reason": "Reviewed before editing (group A).",
-      "sha256": "d35a3df9d676153cf999276d07c3f83b14299fb6e51d672ef500f310e3ac8db0"
+      "sha256": "edf8c9bccad6001931004d8a3065e1b78abc49bba6e456833e80a793d4547d38"
     },
     {
       "path": "apps/mobile/src/features/numerology/NumerologyScreen.tsx",
       "reason": "Reviewed before editing (group A).",
-      "sha256": "ce865c2923be774f9425abf8598dfc836725ca12f804c54e70206500747539c1"
+      "sha256": "eeacb062d977921164c1cd02cca934e8e1412888d333ed4af6c579e3323f0f45"
     },
     {
       "path": "docs/proposals/ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md",
