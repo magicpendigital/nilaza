@@ -1652,3 +1652,27 @@ export async function getPublishedFeatureAccess(input: BackendOptions = {}): Pro
   });
   return readPersonal<unknown>(sb.rpc("get_feature_access_config"), options);
 }
+
+/** Client patience for the start-up check (startup-gate-2026-11-28): after 8 seconds the server counts as unreachable. */
+export const appBootstrapTimeoutMs = 8000;
+
+/**
+ * Start-up check (SQL get_app_bootstrap, 20261128090000): server time, minimum app version policy and the published
+ * Free / Premium config in one read. Public data only, so it works for guests (anon key) and signed-in accounts alike.
+ * Throws on no connection, a server error or after `appBootstrapTimeoutMs`; the caller decides what offline means.
+ * The answer is unvalidated: src/startup/startupGate.ts parses it.
+ */
+export async function getAppBootstrap(input: BackendOptions = {}): Promise<unknown> {
+  const withTimeout: BackendOptions = { ...input, timeoutMs: input.timeoutMs ?? appBootstrapTimeoutMs };
+  const options = currentOptions(withTimeout);
+  if (options.authToken && options.userId) {
+    const { sb, options: personal } = personalClient(withTimeout);
+    return readPersonal<unknown>(sb.rpc("get_app_bootstrap"), personal);
+  }
+  const url = options.supabaseUrl ?? options.baseUrl?.replace(/\/functions\/v1\/?$/, "");
+  if (!url || !options.apiKey) throw new Error("Backend is not configured");
+  const sb = createClient(url, options.apiKey, {
+    auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false }
+  });
+  return readPersonal<unknown>(sb.rpc("get_app_bootstrap"), options);
+}

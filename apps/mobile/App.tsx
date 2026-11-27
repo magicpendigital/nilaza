@@ -259,6 +259,7 @@ import {
 import { useAccountSession } from "./src/auth/useAccountSession";
 import { PasswordRecoveryBoundary } from "./src/auth/PasswordRecoveryBoundary";
 import { EmailConfirmationBoundary } from "./src/auth/EmailConfirmationBoundary";
+import { StartupGate } from "./src/startup/StartupGateBoundary";
 import { useDailyInsight } from "./src/features/home/useDailyInsight";
 import { createAccountStorage } from "./src/auth/accountStorage";
 import { createJournalRepository, createJournalSaveCoordinator, journalStateKey } from "./src/features/journal/journalRepository";
@@ -2926,8 +2927,10 @@ function buildLocalAudit(language: Language) {
   };
 }
 
+// StartupGate asks the server once before anything else (startup-gate-2026-11-28): minimum app version, the
+// Free / Premium switch and the 24-hour offline window, for guests and accounts alike.
 export default function App() {
-  return <PasswordRecoveryBoundary><EmailConfirmationBoundary><AccountBoundary /></EmailConfirmationBoundary></PasswordRecoveryBoundary>;
+  return <StartupGate><PasswordRecoveryBoundary><EmailConfirmationBoundary><AccountBoundary /></EmailConfirmationBoundary></PasswordRecoveryBoundary></StartupGate>;
 }
 
 /** Guest preview before sign-in: the default deck's 78 cards with meanings and the 12 sign guides. */
@@ -6130,6 +6133,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         ) : screen === "bookQuote" ? (
           <BookQuoteScreen key={`${scope.key}:${bookQuoteBook ?? ""}`} language={language} dateKey={currentDateKey} initialBook={bookQuoteBook}
             storage={scope.userId ? storage : undefined}
+            isPremium={displayedTier === "premium"}
+            onOpenPremium={paywallEnabled ? openPremium : undefined}
             personaName={(personaId) => { const persona = personasById[personaId]; return persona ? personaShortName(persona, language) : (language === "vi" ? "người dẫn" : "the guide"); }}
             onAskPersona={askBookQuoteGuide}
             onWriteJournal={writeBookQuoteJournal}

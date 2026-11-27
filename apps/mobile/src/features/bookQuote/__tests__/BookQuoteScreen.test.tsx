@@ -4,6 +4,11 @@ import { BookQuoteScreen } from "../BookQuoteScreen";
 import { bookQuoteTitle, pickBookQuote } from "../content";
 import { bookQuoteSavedStorageKey } from "../savedQuotes";
 
+// The Free / Premium hook caches the published switch in device storage.
+jest.mock("@react-native-async-storage/async-storage", () =>
+  require("@react-native-async-storage/async-storage/jest/async-storage-mock")
+);
+
 const bookQuoteDataDir = "../../../../../../packages/content/data/book-quotes";
 const bookQuoteDataFiles = ["dao-duc-kinh", "suy-tuong", "kinh-phap-cu", "binh-phap-ton-tu", "kinh-dich"];
 // Re-requires the module with every content file forced to draft, except the ones listed as approved.
@@ -140,4 +145,41 @@ test("with the gate closed and only draft files, a calm empty state shows and Ba
   expect(baseProps.onBack).toHaveBeenCalledTimes(1);
   const english = render(<Gated {...baseProps} language="en" />);
   expect(english.getByText("This content is being finished.")).toBeTruthy();
+});
+
+describe("Free / Premium switch (book_quote)", () => {
+  const { createFeatureAccessService } = require("../../access/featureAccessService") as typeof import("../../access/featureAccessService");
+  const { defaultFeatureAccessConfig } = require("../../access/featureAccessConfig") as typeof import("../../access/featureAccessConfig");
+  const premiumBookQuote = () => {
+    const config = defaultFeatureAccessConfig();
+    config.features.book_quote = { ...config.features.book_quote, tier: "premium" };
+    return createFeatureAccessService({ fetcher: async () => ({ version: 2, publishedAt: null, config }), storageKey: "test.bookQuote.access" });
+  };
+
+  test("default config (Free): the quote shows for everyone", async () => {
+    const service = createFeatureAccessService({ fetcher: async () => null, storageKey: "test.bookQuote.access" });
+    const screen = render(<BookQuoteScreen {...baseProps} initialBook="suy-tuong" featureAccessService={service} />);
+    await waitFor(() => expect(service.get().source).toBe("remote"));
+    expect(screen.getByTestId("book-quote-text")).toBeTruthy();
+    expect(screen.queryByTestId("premium-gate-book_quote")).toBeNull();
+  });
+
+  test("published as Premium: locked for a free account, saved quotes stay visible, open for Premium", async () => {
+    const storage = memoryStorage({
+      [bookQuoteSavedStorageKey]: { schemaVersion: 1, items: [{ id: "saved-1", book: "suy-tuong", dateKey, savedAt: "2026-11-26T00:00:00Z", ref: "II.1", quote: "Câu đã lưu" }] }
+    });
+    const onOpenPremium = jest.fn();
+    const screen = render(<BookQuoteScreen {...baseProps} initialBook="suy-tuong" storage={storage} featureAccessService={premiumBookQuote()} onOpenPremium={onOpenPremium} />);
+    await waitFor(() => expect(screen.getByTestId("premium-gate-book_quote")).toBeTruthy());
+    expect(screen.queryByTestId("book-quote-text")).toBeNull();
+    await waitFor(() => expect(screen.getByText("Câu đã lưu")).toBeTruthy());
+    fireEvent.press(screen.getByTestId("premium-gate-open"));
+    expect(onOpenPremium).toHaveBeenCalledTimes(1);
+
+    const premiumService = premiumBookQuote();
+    const premium = render(<BookQuoteScreen {...baseProps} initialBook="suy-tuong" isPremium featureAccessService={premiumService} />);
+    await waitFor(() => expect(premiumService.get().version).toBe(2));
+    await waitFor(() => expect(premium.getByTestId("book-quote-text")).toBeTruthy());
+    expect(premium.queryByTestId("premium-gate-book_quote")).toBeNull();
+  });
 });
