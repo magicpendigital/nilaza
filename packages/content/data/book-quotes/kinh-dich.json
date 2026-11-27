@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "book": "kinh-dich",
+  "personaId": "book-i-ching",
+  "title": { "vi": "Kinh Dịch", "en": "I Ching" },
+  "source": {
+    "original": "易經 (chữ Hán), thoán từ",
+    "englishBase": "James Legge 1882 (public domain)",
+    "vietnamese": "Nilaza dịch từ nguyên văn"
+  },
+  "review": { "status": "draft", "reviewer": null, "reviewedAt": null },
+  "sample": true,
+  "sampleNote": "SAMPLE ONLY (27/11/2026): 3 of the 64 hexagrams so the app can be built; the content branch replaces this file with all 64 reviewed items (validate:data then requires exactly 64).",
+  "items": [
+    {
+      "id": "kd-01",
+      "ref": { "vi": "Quẻ 1 · Thuần Càn", "en": "Hexagram 1 · Qian" },
+      "quote": {
+        "vi": "Càn: lớn lao, hanh thông, lợi ích, chính bền.",
+        "en": "Qian represents what is great and originating, penetrating, advantageous, correct and firm."
+      },
+      "gloss": {
+        "vi": "Quẻ Càn gồm sáu hào liền, hình ảnh của trời chuyển động không nghỉ. Người xưa đọc nó như lời nhắc về sức bền của sự khởi đầu.",
+        "en": "Qian is six unbroken lines, the image of heaven moving without rest. Readers have long taken it as a reminder of the stamina a beginning asks for."
+      },
+      "question": {
+        "vi": "Điều gì bạn đang bắt đầu cần đến sức bền hơn là tốc độ?",
+        "en": "What are you starting that needs stamina more than speed?"
+      },
+      "tags": ["beginning"]
+    },
+    {
+      "id": "kd-02",
+      "ref": { "vi": "Quẻ 2 · Thuần Khôn", "en": "Hexagram 2 · Kun" },
+      "quote": {
+        "vi": "Khôn: lớn lao, hanh thông, lợi ở sự bền bỉ như ngựa cái.",
+        "en": "Kun represents what is great and originating, penetrating, advantageous, correct and having the firmness of a mare."
+      },
+      "gloss": {
+        "vi": "Khôn là đất, sáu hào đứt, hình ảnh của sự đón nhận và nâng đỡ. Sức của Khôn nằm ở việc chở được nhiều thứ mà không ồn ào.",
+        "en": "Kun is earth, six broken lines, the image of receiving and supporting. Its strength lies in carrying a great deal without noise."
+      },
+      "question": {
+        "vi": "Hôm nay bạn đang lặng lẽ nâng đỡ điều gì, và ai đang nâng đỡ bạn?",
+        "en": "What are you quietly supporting today, and who is supporting you?"
+      },
+      "tags": ["support"]
+    },
+    {
+      "id": "kd-15",
+      "ref": { "vi": "Quẻ 15 · Địa Sơn Khiêm", "en": "Hexagram 15 · Qian (Modesty)" },
+      "quote": {
+        "vi": "Khiêm: hanh thông. Người quân tử giữ được đến cuối.",
+        "en": "Qian indicates progress and success. The superior man, being humble, will have a good issue to his undertakings."
+      },
+      "gloss": {
+        "vi": "Khiêm là núi nằm dưới đất: cái cao tự đặt mình thấp. Người xưa xem đó là đức tính giữ cho mọi việc đi được đường dài.",
+        "en": "Modesty is a mountain beneath the earth: what is high places itself low. It was seen as the quality that lets things last."
+      },
+      "question": {
+        "vi": "Ở chỗ nào bạn có thể nhận phần thấp hơn mà không thấy mình nhỏ đi?",
+        "en": "Where could you take the lower place without feeling smaller?"
+      },
+      "tags": ["modesty"]
+    }
+  ]
+}

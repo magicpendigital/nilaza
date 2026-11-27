@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "book": "dao-duc-kinh",
+  "personaId": "book-harmony-guide",
+  "title": { "vi": "Đạo Đức Kinh", "en": "Tao Te Ching" },
+  "source": {
+    "original": "道德經 (Lão Tử, chữ Hán)",
+    "englishBase": "James Legge 1891 (public domain)",
+    "vietnamese": "Nilaza dịch từ nguyên văn"
+  },
+  "review": { "status": "draft", "reviewer": null, "reviewedAt": null },
+  "sample": true,
+  "sampleNote": "SAMPLE ONLY (27/11/2026): 3 placeholder items so the app can be built; the content branch replaces this file with the reviewed set.",
+  "items": [
+    {
+      "id": "ddk-08",
+      "ref": { "vi": "Chương 8", "en": "Chapter 8" },
+      "quote": {
+        "vi": "Điều thiện cao nhất giống như nước. Nước làm lợi cho muôn vật mà không tranh giành, ở chỗ thấp mà người đời chê.",
+        "en": "The highest excellence is like that of water. The excellence of water appears in its benefiting all things, and in its occupying, without striving, the low place which all men dislike."
+      },
+      "gloss": {
+        "vi": "Lão Tử lấy nước làm hình ảnh cho sức mạnh mềm: không ép, không giành phần, mà vẫn thấm tới nơi cần tới.",
+        "en": "Laozi uses water as an image of soft strength: it does not push or compete, yet it reaches where it is needed."
+      },
+      "question": {
+        "vi": "Hôm nay, ở đâu bạn có thể bớt giành phần mà vẫn giữ được điều mình coi trọng?",
+        "en": "Where today could you compete less and still keep what matters to you?"
+      },
+      "tags": ["softness", "water"]
+    },
+    {
+      "id": "ddk-33",
+      "ref": { "vi": "Chương 33", "en": "Chapter 33" },
+      "quote": {
+        "vi": "Biết người là khôn, biết mình là sáng. Thắng người là có sức, thắng mình mới là mạnh.",
+        "en": "He who knows other men is discerning; he who knows himself is intelligent. He who overcomes others is strong; he who overcomes himself is mighty."
+      },
+      "gloss": {
+        "vi": "Câu này đặt hai kiểu hiểu biết cạnh nhau. Hiểu người giúp ta xoay xở; hiểu mình giúp ta đứng vững khi mọi thứ đổi thay.",
+        "en": "The line sets two kinds of knowing side by side. Knowing others helps us manage; knowing ourselves keeps us steady when things change."
+      },
+      "question": {
+        "vi": "Điều gì về chính bạn mà gần đây bạn mới nhận ra?",
+        "en": "What have you only recently noticed about yourself?"
+      },
+      "tags": ["self-knowledge"]
+    },
+    {
+      "id": "ddk-64",
+      "ref": { "vi": "Chương 64", "en": "Chapter 64" },
+      "quote": {
+        "vi": "Đi nghìn dặm bắt đầu từ một bước dưới chân.",
+        "en": "The journey of a thousand li commenced with a single step."
+      },
+      "gloss": {
+        "vi": "Lão Tử nói về việc lớn thành hình từ những việc nhỏ được làm kịp lúc. Bước đầu không cần đẹp, chỉ cần có thật.",
+        "en": "Laozi speaks of large things taking shape from small things done in time. The first step does not need to be graceful, only real."
+      },
+      "question": {
+        "vi": "Bước nhỏ nhất bạn có thể làm hôm nay cho điều bạn đang trì hoãn là gì?",
+        "en": "What is the smallest step you could take today toward something you keep putting off?"
+      },
+      "tags": ["beginning", "small-steps"]
+    }
+  ]
+}

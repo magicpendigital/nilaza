@@ -290,7 +290,7 @@ export type ChatMessage = {
 };
 
 export type ChatHandoffContext = {
-  sourceType: "tarot_reading" | "tarot_card" | "astrology_report" | "daily_zodiac_pulse" | "oracle_reflection";
+  sourceType: "tarot_reading" | "tarot_card" | "astrology_report" | "daily_zodiac_pulse" | "oracle_reflection" | "book_quote";
   sourceId: string;
   sourceLabel: string;
   userQuestion?: string;

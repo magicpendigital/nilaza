@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "book": "binh-phap-ton-tu",
+  "personaId": "book-strategic-thinker",
+  "title": { "vi": "Binh pháp Tôn Tử", "en": "The Art of War" },
+  "source": {
+    "original": "孫子兵法 (Tôn Vũ, chữ Hán)",
+    "englishBase": "Lionel Giles 1910 (public domain)",
+    "vietnamese": "Nilaza dịch từ nguyên văn"
+  },
+  "review": { "status": "draft", "reviewer": null, "reviewedAt": null },
+  "sample": true,
+  "sampleNote": "SAMPLE ONLY (27/11/2026): 3 placeholder items so the app can be built; the content branch replaces this file with the reviewed set.",
+  "items": [
+    {
+      "id": "bp-03-18",
+      "ref": { "vi": "Thiên 3 · đoạn 18", "en": "Chapter III · 18" },
+      "quote": {
+        "vi": "Biết người biết ta, trăm trận cũng không phải sợ kết quả.",
+        "en": "If you know the enemy and know yourself, you need not fear the result of a hundred battles."
+      },
+      "gloss": {
+        "vi": "Tôn Tử đặt hiểu biết lên trước sức mạnh. Đọc trong đời thường, đó là lời mời nhìn rõ cả tình huống lẫn giới hạn của chính mình.",
+        "en": "Sunzi puts understanding before force. Read in everyday life, it is an invitation to see both the situation and your own limits clearly."
+      },
+      "question": {
+        "vi": "Trong việc đang làm bạn lo, bạn đã hiểu mình rõ tới đâu?",
+        "en": "In the matter that worries you, how well do you understand your own part?"
+      },
+      "tags": ["clarity"]
+    },
+    {
+      "id": "bp-06-31",
+      "ref": { "vi": "Thiên 6 · đoạn 31", "en": "Chapter VI · 31" },
+      "quote": {
+        "vi": "Nước đổi dòng theo thế đất nơi nó chảy qua.",
+        "en": "Water shapes its course according to the nature of the ground over which it flows."
+      },
+      "gloss": {
+        "vi": "Tôn Tử dùng hình ảnh nước để nói về sự linh hoạt: một kế hoạch tốt biết đổi hình theo hoàn cảnh mà không mất hướng.",
+        "en": "Sunzi uses water to speak of flexibility: a good plan changes shape with circumstances without losing its direction."
+      },
+      "question": {
+        "vi": "Ở đâu bạn đang giữ một cách làm cũ dù hoàn cảnh đã đổi?",
+        "en": "Where are you holding on to an old way of doing things although the situation has changed?"
+      },
+      "tags": ["flexibility", "water"]
+    },
+    {
+      "id": "bp-03-02",
+      "ref": { "vi": "Thiên 3 · đoạn 2", "en": "Chapter III · 2" },
+      "quote": {
+        "vi": "Giỏi nhất là làm tan sự kháng cự mà không cần giao chiến.",
+        "en": "Supreme excellence consists in breaking the enemy's resistance without fighting."
+      },
+      "gloss": {
+        "vi": "Ý cốt lõi là đạt điều mình cần với ít tổn hại nhất. Trong đời thường, một lời nói đúng lúc đôi khi thay được cả một cuộc tranh cãi.",
+        "en": "The core idea is reaching what you need with the least harm. In daily life, a well-timed word can sometimes replace a whole argument."
+      },
+      "question": {
+        "vi": "Có cuộc tranh cãi nào bạn có thể tháo gỡ bằng một cuộc trò chuyện?",
+        "en": "Is there an argument you could untangle with a conversation?"
+      },
+      "tags": ["conflict"]
+    }
+  ]
+}

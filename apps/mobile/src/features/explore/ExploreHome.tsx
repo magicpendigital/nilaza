@@ -10,8 +10,10 @@ import { moonPhaseLabel } from "../home/moonPhase";
 // Khám phá (design canvas Explore, 2026-10-31): Tarot, Astrology, decks by mood, guides, face reading soon.
 export type ExploreDeckTile = { mood: string; deckName: string; image: ImageSourcePropType; onPress: () => void };
 export type ExploreGuideRow = { key: string; title: string; detail: string; thumbnails: ImageSourcePropType[]; onPress: () => void };
+// "Soi chiếu" group. Extension point: add a row here only when its screen is live (no "soon" tiles in this group).
+export type ExploreReflectRow = { key: string; icon: keyof typeof Ionicons.glyphMap; title: string; detail: string; onPress: () => void };
 
-export function ExploreHome({ language, deckCount, onTarot, onLibrary, onAstrology, onSky, onNumerology, onAllDecks, decks, guides, onAllGuides, now }: {
+export function ExploreHome({ language, deckCount, onTarot, onLibrary, onAstrology, onSky, onNumerology, onAllDecks, decks, guides, onAllGuides, onBookQuote, now }: {
   language: Language;
   deckCount: number;
   onTarot: () => void;
@@ -25,10 +27,21 @@ export function ExploreHome({ language, deckCount, onTarot, onLibrary, onAstrolo
   decks: ExploreDeckTile[];
   guides: ExploreGuideRow[];
   onAllGuides: () => void;
+  /** Opens "Một câu cho hôm nay"; the "Soi chiếu" group is hidden when no row has a target. */
+  onBookQuote?: () => void;
 }) {
   const vi = language === "vi";
   const sky = onSky ? skyGlanceAt(now ?? new Date()) : null;
   const skySign = sky ? localizeAstrologySign(sky.sign, language) : "";
+  const reflectRows: ExploreReflectRow[] = [
+    ...(onBookQuote ? [{
+      key: "book_quote",
+      icon: "book-outline" as const,
+      title: vi ? "Một câu cho hôm nay" : "A line for today",
+      detail: vi ? "Một câu từ năm cuốn sách xưa, kèm lời bình và một câu hỏi." : "A line from five classic books, with commentary and a question.",
+      onPress: onBookQuote
+    }] : [])
+  ];
   const skyLine = sky ? `${moonPhaseLabel(sky.phase.id, language).name} · ${Math.round(sky.illumination * 100)}% ${vi ? "sáng" : "lit"}` : "";
   return (
     <View style={s.root}>
@@ -73,6 +86,21 @@ export function ExploreHome({ language, deckCount, onTarot, onLibrary, onAstrolo
         </View>
         <Ionicons name="keypad-outline" size={34} color={colors.gold} />
       </Pressable>
+
+      {reflectRows.length ? (
+        <View style={s.section}>
+          <Text accessibilityRole="header" style={s.kicker}>{vi ? "Soi chiếu" : "Reflect"}</Text>
+          {reflectRows.map((row) => (
+            <Pressable key={row.key} accessibilityRole="button" accessibilityLabel={`${row.title}. ${row.detail}`} onPress={row.onPress} style={s.astro}>
+              <View style={s.flex}>
+                <Text style={s.cardTitle}>{row.title}</Text>
+                <Text style={s.cardBody}>{row.detail}</Text>
+              </View>
+              <Ionicons name={row.icon} size={30} color={colors.gold} />
+            </Pressable>
+          ))}
+        </View>
+      ) : null}
 
       <View style={s.section}>
         <View style={s.sectionHead}>

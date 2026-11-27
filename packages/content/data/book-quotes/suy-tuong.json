@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "book": "suy-tuong",
+  "personaId": "book-stoic-journal",
+  "title": { "vi": "Suy tưởng", "en": "Meditations" },
+  "source": {
+    "original": "Τὰ εἰς ἑαυτόν (Marcus Aurelius, Greek)",
+    "englishBase": "George Long 1862 (public domain)",
+    "vietnamese": "Nilaza dịch từ nguyên văn"
+  },
+  "review": { "status": "draft", "reviewer": null, "reviewedAt": null },
+  "sample": true,
+  "sampleNote": "SAMPLE ONLY (27/11/2026): 3 placeholder items so the app can be built; the content branch replaces this file with the reviewed set. st-04-03 uses the proposal's sample wording; its English line is a widely quoted paraphrase of Book 4, not George Long's wording, and needs source review.",
+  "items": [
+    {
+      "id": "st-04-03",
+      "ref": { "vi": "Quyển 4 · đoạn 3", "en": "Book 4 · 3" },
+      "quote": {
+        "vi": "Bạn có quyền với tâm mình, không có quyền với các biến cố. Nhận ra điều đó, bạn sẽ thấy sức mạnh.",
+        "en": "You have power over your mind, not over outside events. Realise this, and you will find strength."
+      },
+      "gloss": {
+        "vi": "Marcus viết câu này cho chính ông, giữa những ngày chiến dịch. Ý của ông không là buông xuôi, mà là dồn sức vào chỗ mình thật sự chạm tới.",
+        "en": "Marcus wrote this to himself in the middle of a military campaign. It is not about giving up; it is about putting your effort where you can actually reach."
+      },
+      "question": {
+        "vi": "Hôm nay, việc nào trong tầm tay bạn đang bị bỏ quên vì bạn mải lo việc ngoài tầm tay?",
+        "en": "Today, which thing within your reach is being neglected while you worry about things beyond it?"
+      },
+      "tags": ["control"]
+    },
+    {
+      "id": "st-02-01",
+      "ref": { "vi": "Quyển 2 · đoạn 1", "en": "Book 2 · 1" },
+      "quote": {
+        "vi": "Mỗi sáng, hãy tự nhủ: hôm nay ta sẽ gặp kẻ tọc mạch, kẻ vô ơn, kẻ kiêu căng, kẻ dối trá, kẻ ganh ghét và kẻ khó gần.",
+        "en": "Begin the morning by saying to thyself, I shall meet with the busy-body, the ungrateful, arrogant, deceitful, envious, unsocial."
+      },
+      "gloss": {
+        "vi": "Marcus không chuẩn bị để ghét ai. Ông chuẩn bị để không bị bất ngờ, và để nhớ rằng người làm mình khó chịu cũng là người như mình.",
+        "en": "Marcus is not preparing to dislike anyone. He prepares so he is not caught off guard, and to remember that difficult people are people like him."
+      },
+      "question": {
+        "vi": "Có ai hôm nay mà bạn muốn gặp với một chút chuẩn bị trong lòng?",
+        "en": "Is there someone you would like to meet today with a little inner preparation?"
+      },
+      "tags": ["people", "morning"]
+    },
+    {
+      "id": "st-05-16",
+      "ref": { "vi": "Quyển 5 · đoạn 16", "en": "Book 5 · 16" },
+      "quote": {
+        "vi": "Những ý nghĩ quen thuộc của bạn thế nào thì tâm trí bạn sẽ mang màu như thế; vì tâm hồn được nhuộm bởi ý nghĩ.",
+        "en": "Such as are thy habitual thoughts, such also will be the character of thy mind; for the soul is dyed by the thoughts."
+      },
+      "gloss": {
+        "vi": "Marcus coi suy nghĩ như thuốc nhuộm: một ý lặp lại đủ lâu thì thành màu của cả tâm trí. Câu này mời ta để ý những gì mình nghĩ đi nghĩ lại.",
+        "en": "Marcus treats thought like dye: an idea repeated long enough becomes the colour of the whole mind. It invites us to notice what we keep thinking."
+      },
+      "question": {
+        "vi": "Ý nghĩ nào bạn đã lặp lại nhiều nhất trong tuần này?",
+        "en": "Which thought have you repeated most this week?"
+      },
+      "tags": ["mind", "habit"]
+    }
+  ]
+}

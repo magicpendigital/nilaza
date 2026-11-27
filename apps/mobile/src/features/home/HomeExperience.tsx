@@ -88,11 +88,14 @@ export function homeSubtitle(now: Date, language: Language) {
   return copy.subtitleEvening;
 }
 
+// Joins screen-reader label parts without doubled full stops.
+const a11ySentence = (parts: string[]) => parts.map((part) => part.trim().replace(/[.。]+$/, "")).filter(Boolean).join(". ");
+
 function signVisual(signId?: string): ImageSourcePropType {
   return (signId && getFeatureVisual(`astrology-${signId}-v2` as FeatureVisualId)) || getFeatureVisual("astrology-sanctuary");
 }
 
-export function HomeExperience({ language, greeting, now, revealed, streak, onReveal, onAsk, onAstrology, onSky, onGoalSuggestion, onWritePrompt, primaryGoal, zodiac, onJournal, onOpenRecent, onNotifications, unread, reflection, reflectionActions, preRevealHint, cardBack, deckCover, latest, continuation, nextStep }: {
+export function HomeExperience({ language, greeting, now, revealed, streak, onReveal, onAsk, onAstrology, onSky, onGoalSuggestion, onWritePrompt, primaryGoal, zodiac, onJournal, onOpenRecent, onNotifications, unread, reflection, reflectionActions, preRevealHint, cardBack, deckCover, latest, continuation, nextStep, bookQuote }: {
   language: Language; greeting: string; now: Date; revealed: boolean; streak: number; onReveal: () => void;
   onAsk: (text: string) => void; onAstrology: () => void;
   /** Opens "Bầu trời hôm nay"; without it the sky tile opens Astrology. */
@@ -103,6 +106,8 @@ export function HomeExperience({ language, greeting, now, revealed, streak, onRe
   latest?: HomeLatest; continuation?: ReactNode;
   /** The one suggested next step after today's card is revealed (analysis HO-05). */
   nextStep?: { title: string; body: string; cta: string; onPress: () => void };
+  /** "Một câu cho hôm nay": today's book and quote; the whole card opens the quote screen. */
+  bookQuote?: { book: string; quote: string; onPress: () => void };
 }) {
   const [open, setOpen] = useState(false);
   const [cardOpened, setCardOpened] = useState(false);
@@ -170,7 +175,8 @@ export function HomeExperience({ language, greeting, now, revealed, streak, onRe
         <Text style={s.tileBody}>{skyLine}</Text>
         <Text style={s.link}>{`${vi ? "Xem bầu trời" : "See the sky"} →`}</Text>
       </Pressable>
-      <Pressable accessibilityRole="button" onPress={onAstrology} style={[s.tile, s.mediaTile]}>
+      <Pressable accessibilityRole="button" accessibilityLabel={a11ySentence([zodiac.hasBirthDate ? copy.signToday.replace("{sign}", zodiac.sign) : copy.yourSky, zodiac.hasBirthDate ? zodiac.line : copy.addBirthDate, copy.openSky])}
+        onPress={onAstrology} style={[s.tile, s.mediaTile]}>
         <Image source={signVisual(zodiac.hasBirthDate ? zodiac.signId : undefined)} style={s.signImage} resizeMode="cover" accessible={false} />
         <View style={s.mediaCopy}>
           <Text style={s.tileKicker}>{zodiac.hasBirthDate ? copy.signToday.replace("{sign}", zodiac.sign) : copy.yourSky}</Text>
@@ -179,6 +185,14 @@ export function HomeExperience({ language, greeting, now, revealed, streak, onRe
         </View>
       </Pressable>
     </View>
+
+    {bookQuote ? <Pressable testID="home-book-quote" accessibilityRole="button" accessibilityLabel={a11ySentence([vi ? "Một câu cho hôm nay" : "A line for today", bookQuote.book, bookQuote.quote, vi ? "Đọc lời bình và câu hỏi" : "Read the commentary and question"])}
+      onPress={bookQuote.onPress} style={s.quoteCard}>
+      <Text style={s.tileKicker}>{vi ? "MỘT CÂU CHO HÔM NAY" : "A LINE FOR TODAY"}</Text>
+      <Text style={s.quoteBook}>{bookQuote.book}</Text>
+      <Text style={s.quoteText} numberOfLines={3}>{`“${bookQuote.quote}”`}</Text>
+      <Text style={s.link}>{`${vi ? "Đọc lời bình và câu hỏi" : "Read the commentary and question"} →`}</Text>
+    </Pressable> : null}
 
     <Text style={[s.kicker, s.sectionGap]}>{copy.askLabel}</Text>
     <View style={s.askRow}>
@@ -199,15 +213,16 @@ export function HomeExperience({ language, greeting, now, revealed, streak, onRe
     <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.rail}>
       <Pressable accessibilityRole="button" accessibilityLabel={`${goal.title}. ${goal.detail}`} onPress={() => onGoalSuggestion(goal.topic)} style={s.railCard}>
         <Image source={deckCover ?? getFeatureVisual("tarot")} style={s.railImage} resizeMode="cover" accessible={false} />
-        <View style={s.railCopy}><Text style={s.railTitle}>{goal.title}</Text><Text style={s.railBody}>{goal.detail}</Text></View>
+        <View style={s.railCopy}><Text style={s.railTitle}>{goal.title}</Text><Text style={s.railBody}>{goal.detail}</Text><Text style={s.link}>{`${vi ? "Trải bài" : "Start reading"} →`}</Text></View>
       </Pressable>
       <Pressable accessibilityRole="button" accessibilityLabel={`${goal.person.title}. ${goal.person.detail}`} onPress={() => onAsk(goal.person.prefill)} style={s.railCard}>
         <Image source={getFeatureVisual("oracle")} style={s.railImage} resizeMode="cover" accessible={false} />
-        <View style={s.railCopy}><Text style={s.railTitle}>{goal.person.title}</Text><Text style={s.railBody}>{goal.person.detail}</Text></View>
+        <View style={s.railCopy}><Text style={s.railTitle}>{goal.person.title}</Text><Text style={s.railBody}>{goal.person.detail}</Text><Text style={s.link}>{`${vi ? "Hỏi Nilaza" : "Ask Nilaza"} →`}</Text></View>
       </Pressable>
-      <Pressable accessibilityRole="button" onPress={() => onWritePrompt(goal.journalPrompt)} style={[s.railCard, s.railNote]}>
+      <Pressable accessibilityRole="button" accessibilityLabel={`${goal.journalPrompt}. ${vi ? "Viết vào nhật ký" : "Write in journal"}`} onPress={() => onWritePrompt(goal.journalPrompt)} style={[s.railCard, s.railNote]}>
         <Ionicons name="book-outline" size={28} color={colors.rose} accessible={false} />
         <Text style={s.railTitle}>{goal.journalPrompt}</Text>
+        <Text style={s.link}>{`${vi ? "Viết" : "Write"} →`}</Text>
       </Pressable>
     </ScrollView>
 
@@ -283,6 +298,9 @@ const s = StyleSheet.create({
   mediaTile: { padding: 0, overflow: "hidden", gap: 0 },
   signImage: { width: "100%", height: 70 },
   mediaCopy: { paddingHorizontal: 14, paddingTop: 12, paddingBottom: 14, gap: 6 },
+  quoteCard: { marginTop: 12, minHeight: 48, padding: 16, gap: 8, borderRadius: radius.card, backgroundColor: "#1F1C1E", borderWidth: 1, borderColor: "rgba(247, 241, 230, 0.08)" },
+  quoteBook: { color: "#B8B0A4", fontFamily: typography.bodySemiBoldFontFamily, fontSize: 12.5, lineHeight: 18 },
+  quoteText: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 20, lineHeight: 27 },
   link: { color: colors.gold, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 13, lineHeight: 19 },
   linkButton: { minHeight: 48, justifyContent: "center", paddingLeft: 12 },
   sectionGap: { marginTop: 26 },

@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "book": "kinh-phap-cu",
+  "personaId": "book-dhammapada",
+  "title": { "vi": "Kinh Pháp Cú", "en": "Dhammapada" },
+  "source": {
+    "original": "Dhammapada (Pāli)",
+    "englishBase": "F. Max Müller 1881 (public domain)",
+    "vietnamese": "Nilaza dịch từ nguyên văn"
+  },
+  "review": { "status": "draft", "reviewer": null, "reviewedAt": null },
+  "sample": true,
+  "sampleNote": "SAMPLE ONLY (27/11/2026): 3 placeholder items so the app can be built; the content branch replaces this file with the reviewed set.",
+  "items": [
+    {
+      "id": "pc-001",
+      "ref": { "vi": "Kệ 1", "en": "Verse 1" },
+      "quote": {
+        "vi": "Mọi điều ta là đều do ý nghĩ tạo thành: dựng trên ý nghĩ, làm nên từ ý nghĩ. Nếu nói hay làm với ý xấu, khổ đau theo sau như bánh xe theo chân con bò kéo xe.",
+        "en": "All that we are is the result of what we have thought: it is founded on our thoughts, it is made up of our thoughts. If a man speaks or acts with an evil thought, pain follows him, as the wheel follows the foot of the ox that draws the carriage."
+      },
+      "gloss": {
+        "vi": "Kệ mở đầu Pháp Cú đặt tâm ở trước lời nói và việc làm. Hình ảnh bánh xe cho thấy hệ quả đi liền sau, không cần ai đứng ra phán xét.",
+        "en": "The opening verse places the mind before speech and action. The wheel shows consequences following closely, with no judge needed."
+      },
+      "question": {
+        "vi": "Một ý nghĩ nào sáng nay đã đi trước lời nói của bạn?",
+        "en": "Which thought this morning went ahead of your words?"
+      },
+      "tags": ["mind"]
+    },
+    {
+      "id": "pc-005",
+      "ref": { "vi": "Kệ 5", "en": "Verse 5" },
+      "quote": {
+        "vi": "Hận thù không bao giờ dứt bởi hận thù; hận thù dứt bởi lòng thương. Đó là luật xưa.",
+        "en": "For hatred does not cease by hatred at any time: hatred ceases by love. This is an old rule."
+      },
+      "gloss": {
+        "vi": "Câu này không bảo bạn quên điều đã xảy ra. Nó chỉ ra rằng đáp trả bằng cùng một thứ chỉ kéo dài vòng lặp.",
+        "en": "This does not ask you to forget what happened. It points out that answering in kind only keeps the loop going."
+      },
+      "question": {
+        "vi": "Có một vòng lặp giận dữ nào bạn đang muốn đặt xuống?",
+        "en": "Is there a loop of anger you would like to set down?"
+      },
+      "tags": ["anger", "kindness"]
+    },
+    {
+      "id": "pc-183",
+      "ref": { "vi": "Kệ 183", "en": "Verse 183" },
+      "quote": {
+        "vi": "Không làm các điều ác, làm các điều lành, giữ tâm ý trong sạch: đó là lời dạy của chư Phật.",
+        "en": "Not to commit any sin, to do good, and to purify one's mind, that is the teaching of all the Awakened."
+      },
+      "gloss": {
+        "vi": "Ba vế ngắn gom cả con đường: bớt gây hại, thêm điều tốt, và chăm sóc chính tâm mình.",
+        "en": "Three short clauses hold the whole path: do less harm, do more good, and tend your own mind."
+      },
+      "question": {
+        "vi": "Hôm nay, một điều lành nhỏ nào nằm trong tầm tay bạn?",
+        "en": "What small good thing is within your reach today?"
+      },
+      "tags": ["practice"]
+    }
+  ]
+}
