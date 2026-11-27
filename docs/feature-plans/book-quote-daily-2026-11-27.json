@@ -13,7 +13,8 @@
     "Every card-looking element on Home has a target and a visible action label; static info does not look like a card.",
     "validate:data checks schema, unique ids, accented vi + en, review block (status draft | reviewed | approved; a sample file must not be approved), 64 Kinh Dịch items when not sample, persona ids, and the banned-word list on gloss and question (quotes exempt); the sample files pass.",
     "Feature id book_quote lives in one exported constant. Draft gate closed (SHOW_DRAFT_BOOK_QUOTES = false, coordinator QA round 1): only files with review.status \"approved\" (content review passed AND Owner approved) reach users; samples are never approved. Every entry point respects the gate: no Home card, no Explore row, no persona-page button while nothing is approved; the screen itself shows a calm empty state with a working Back.",
-    "Mobile tsc, mobile jest and validate:data pass."
+    "Mobile tsc, mobile jest and validate:data pass.",
+    "Ship step: the five files hold the reviewed content (DDK 60, Kinh Dịch 64, Suy tưởng 59, Pháp Cú 60, Binh pháp 60), review.status approved with reviewer and date, no sample flag; tests prove the shipped books are visible with the gate closed and that a non-approved file stays hidden on every entry point."
   ],
   "writeScope": [
     "packages/content/data/book-quotes/",
@@ -27,14 +28,18 @@
     "apps/mobile/src/types.ts",
     "apps/mobile/src/features/persona/PersonaChatRoom.tsx",
     "apps/mobile/App.tsx",
-    "scripts/validate-data.mjs"
+    "scripts/validate-data.mjs",
+    "docs/content-reviews/book-quotes-ddk-kd-2026-11-27.json",
+    "docs/content-reviews/book-quotes-b2-2026-11-27.json",
+    "docs/feature-plans/book-quotes-content-a-2026-11-27.json",
+    "docs/feature-plans/book-quotes-content-b-2026-11-27.json",
+    "PLAN.md"
   ],
   "untouchedSurfaces": [
     "No Edge Function, prompt, model route, SQL, migration, Admin or Supabase change; the hand-off uses the generic fields the existing chat-handoff block already reads.",
     "useFeatureAccess and the Admin Free/Premium switch are built by another agent; this batch only exports the feature id constant.",
-    "PLAN.md is not edited in this branch (the coordinating agent updates it).",
-    "Real quote content (60 per book, 64 hexagrams) comes from the content branches and nilaza-content-review; the sample items here are placeholders marked sample.",
-    "Bói Kiều and Rune tiles are not added; Explore's Soi chiếu group has one item and a documented extension point."
+    "Bói Kiều and Rune tiles are not added; Explore's Soi chiếu group has one item and a documented extension point.",
+    "Ship step (27/11/2026, Owner approved content and merge): the sample files are replaced by the 303 reviewed items from the content branches (book-quotes-content-a/-b), each file marked approved; both review records and both content plan records travel with this PR. No Edge Function, SQL or Admin change."
   ],
   "impact": {
     "entryPoint": "Home card \"MỘT CÂU CHO HÔM NAY\" after the sky/sign tile row; a button on the five book guide detail pages; Explore → Soi chiếu → Một câu cho hôm nay. New Screen value bookQuote with its own return screen; Android Back and the on-screen back return there.",
