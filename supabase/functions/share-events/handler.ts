@@ -3,7 +3,7 @@ import { AiRequestError, guardAiJsonRequest } from "../_shared/ai-request-guard.
 // Share measurement: the only values that can be stored. The mobile app builds its events from these same lists
 // (a mobile test compares them), so adding a value is a deliberate change in both places.
 export const SHARE_EVENT_NAMES = ["share_tapped", "share_completed"] as const;
-export const SHARE_SURFACES = ["today_card", "tarot_reading", "astro_big3", "astro_invite"] as const;
+export const SHARE_SURFACES = ["today_card", "tarot_reading", "astro_big3", "astro_invite", "numerology_map", "daily_sky"] as const;
 export const SHARE_ACTIONS = ["image", "link"] as const;
 export const SHARE_OUTCOMES = ["returned", "unavailable", "failed"] as const;
 // Product signals for model campaigns and the Tarot note / reader suggestion (proposal 2026-11-23). Stored with
