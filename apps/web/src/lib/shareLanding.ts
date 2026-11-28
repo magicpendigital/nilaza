@@ -68,6 +68,65 @@ export function parseCardIds(param: string | null, known: ReadonlySet<string>): 
   return result;
 }
 
+/** Per-card orientation from ?o= (one 0/1 per card, 1 = reversed). Anything else, or a missing value, reads as upright, so older links still open. */
+export function parseOrientations(param: string | null, count: number): boolean[] {
+  const valid = typeof param === "string" && /^[01]{1,4}$/.test(param);
+  return Array.from({ length: count }, (_, index) => (valid ? param[index] === "1" : false));
+}
+
+/** ?m=1 means the sharer chose to include the card meaning. */
+export const parseMeaningFlag = (param: string | null): boolean => param === "1";
+
+/** Vietnam calendar day (UTC+7) as YYYY-MM-DD, the day the app's daily draw uses. */
+export function vnDateKey(at: Date = new Date()): string {
+  return new Date(at.getTime() + 7 * 3600000).toISOString().slice(0, 10);
+}
+
+export type WebDraw = { id: string; reversed: boolean; day: string };
+
+/** The visitor's stored draw, only when it is well formed, a known card and from the given day; otherwise null. */
+export function readWebDraw(raw: string | null, day: string, known: ReadonlySet<string>): WebDraw | null {
+  if (!raw) return null;
+  try {
+    const value = JSON.parse(raw) as Partial<WebDraw>;
+    if (!value || typeof value.id !== "string" || !cardIdPattern.test(value.id) || !known.has(value.id)) return null;
+    if (typeof value.reversed !== "boolean" || value.day !== day) return null;
+    return { id: value.id, reversed: value.reversed, day };
+  } catch {
+    return null;
+  }
+}
+
+/** One draw for the day: a card not among the friend's, upright or reversed at even odds (as in the app). */
+export function drawWebCard(ids: readonly string[], exclude: readonly string[], day: string, random: () => number = defaultRandom): WebDraw {
+  const pool = ids.filter((id) => !exclude.includes(id));
+  const deck = pool.length ? pool : ids;
+  return { id: deck[randomIndex(deck.length, random)], reversed: random() < 0.5, day };
+}
+
+const meaningPrefixes = [/^Lá bài gợi\s+/, /^The card suggests\s+/];
+/** Library meaning shown under a label ("Hôm nay lá này gợi với bạn"): drop the "Lá bài gợi" opening so it does not repeat the label. */
+export function meaningBody(text: string): string {
+  for (const prefix of meaningPrefixes) {
+    if (prefix.test(text)) {
+      const rest = text.replace(prefix, "");
+      return rest.charAt(0).toLocaleUpperCase("vi") + rest.slice(1);
+    }
+  }
+  return text;
+}
+
+/** Google Play address with an install referrer: the surface, and the visitor's drawn card when there is one. Nothing else. */
+export function playReferrerUrl(playUrl: string, draw: WebDraw | null): string {
+  const referrer = new URLSearchParams({ utm_source: "share", utm_medium: "web", utm_campaign: "share_landing" });
+  if (draw) {
+    referrer.set("c", draw.id);
+    referrer.set("o", draw.reversed ? "1" : "0");
+    referrer.set("d", draw.day);
+  }
+  return `${playUrl}&referrer=${encodeURIComponent(referrer.toString())}`;
+}
+
 // Same list as the app (shareEvents.ts) and the share-events server function.
 // book_quote added 28/11/2026 (share cards v2, S1a); its own landing variant comes with S1b.
 export const shareSurfaces = ["today_card", "tarot_reading", "astro_big3", "astro_invite", "numerology_map", "daily_sky", "book_quote"] as const;
@@ -86,8 +145,8 @@ export function shareMeta(locale: "vi" | "en", variant: ShareVariant | "auto"): 
   switch (variant) {
     case "reading":
       return vi
-        ? { title: "Một trải bài từ người bạn trên Nilaza", description: "Xem những lá bạn của bạn vừa trải, rồi tự rút một lá ngay trên trình duyệt. Tarot để tự soi chiếu, không là lời dự đoán." }
-        : { title: "A card spread from a friend on Nilaza", description: "See the cards your friend laid out, then draw one yourself right in your browser. Tarot for reflection, not prediction." };
+        ? { title: "Một trải bài từ người bạn trên Nilaza", description: "Xem những lá bạn của bạn vừa trải, rồi rút lá của bạn hôm nay ngay trên trình duyệt. Tarot để tự soi chiếu, không là lời dự đoán." }
+        : { title: "A card spread from a friend on Nilaza", description: "See the cards your friend laid out, then draw your card for today right in your browser. Tarot for reflection, not prediction." };
     case "numbers":
       return vi
         ? { title: "Con số chủ đạo của bạn là gì? — Nilaza", description: "Một người bạn vừa xem bản đồ số trên Nilaza. Nhập ngày sinh để xem con số của bạn; ngày sinh chỉ được tính trên trình duyệt, không gửi đi." }
@@ -104,8 +163,8 @@ export function shareMeta(locale: "vi" | "en", variant: ShareVariant | "auto"): 
     case "auto":
     default:
       return vi
-        ? { title: "Một lá bài từ người bạn trên Nilaza", description: "Một người bạn vừa chia sẻ lá bài của họ. Xem lá đó, rồi tự rút một lá ngay trên trình duyệt để chậm lại một nhịp." }
-        : { title: "A card from a friend on Nilaza", description: "A friend just shared their card. See it, then draw your own right in your browser and slow down for a moment." };
+        ? { title: "Một lá bài từ người bạn trên Nilaza", description: "Một người bạn vừa chia sẻ lá bài của họ. Xem lá đó, rồi rút lá của bạn hôm nay ngay trên trình duyệt để chậm lại một nhịp." }
+        : { title: "A card from a friend on Nilaza", description: "A friend just shared their card. See it, then draw your card for today right in your browser and slow down for a moment." };
   }
 }
 
