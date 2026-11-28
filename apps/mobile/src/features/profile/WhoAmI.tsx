@@ -31,6 +31,8 @@ export type WhoAmIProps = {
   /** 2026-11-28: account storage holding the saved Number Map report (device only); a guest passes nothing. */
   reportStorage?: ReportStorage;
   onWriteJournal: () => void;
+  /** Opens "Hai hệ cùng nhìn bạn" from the Premium row. */
+  onOpenTwoSystems?: () => void;
   onEditBirth: () => void;
   onEditName: () => void;
   onExport: () => void;
@@ -224,9 +226,11 @@ export function WhoAmI(props: WhoAmIProps) {
       </Section>
 
       <Section title="Premium">
+        {/* Lô H1 (28/11): opens "Hai hệ cùng nhìn bạn"; stays "Sắp có" where no screen is wired. */}
         <Row icon="git-compare-outline" title={vi ? "Hai hệ cùng nhìn bạn" : "Two systems, one you"}
           detail={vi ? "Chiêm tinh và Bản đồ số đặt cạnh nhau." : "Astrology and numerology side by side."}
-          right={<View style={s.soon}><Text style={s.soonText}>{vi ? "Sắp có" : "Coming soon"}</Text></View>} />
+          onPress={props.onOpenTwoSystems}
+          right={props.onOpenTwoSystems ? undefined : <View style={s.soon}><Text style={s.soonText}>{vi ? "Sắp có" : "Coming soon"}</Text></View>} />
       </Section>
     </View>
   );

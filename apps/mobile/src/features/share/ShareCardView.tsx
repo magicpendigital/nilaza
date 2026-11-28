@@ -89,7 +89,8 @@ export const ShareCardView = forwardRef<View, Props>(function ShareCardView({ mo
         <Brand variant="horizontal" tone={palette.logo} width={u(story ? 92 : 78)} decorative />
         <Text style={[styles.eyebrow, { color: palette.accent, fontSize: u(10.5), letterSpacing: u(2) }]}>{model.eyebrow.toUpperCase()}</Text>
       </View>
-      <View style={styles.middle}>{body}</View>
+      {/* The numbers body fills the 4:5 card; keep it off the header eyebrow and the QR divider (found on the phone, 28/11). */}
+      <View style={[styles.middle, model.skin === "numbers" ? { marginVertical: u(story ? 6 : 10) } : null]}>{body}</View>
       <View style={[styles.frame, { gap: u(12), paddingTop: u(12), borderTopColor: palette.rule }]}>
         {qrUrl ? <ShareQr url={qrUrl} size={u(QR_SIZE[format])} /> : null}
         <View style={styles.frameText}>
@@ -132,12 +133,12 @@ function NumbersBody({ model, u, palette, story }: BodyProps) {
   const numbers = model.numbers!;
   const cell = u(story ? 24 : 20);
   return (
-    <View style={{ alignSelf: "stretch", gap: u(story ? 18 : 12) }}>
+    <View style={{ alignSelf: "stretch", gap: u(story ? 18 : 9) }}>
       <View style={[styles.numbersTop, { gap: u(14) }]}>
         <View style={styles.flex}>
           <Text style={[styles.kind, { color: palette.soft, fontSize: u(11), letterSpacing: u(1.2) }]}>{numbers.kindLabel.toUpperCase()}</Text>
-          <Text testID="share-card-number" style={[styles.bigNumber, { color: colors.gold, fontSize: u(story ? 72 : 58), lineHeight: u(story ? 78 : 62) }]}>{numbers.value}</Text>
-          <Text style={[styles.numbersTitle, { color: palette.text, fontSize: u(story ? 24 : 21), lineHeight: u(story ? 29 : 25) }]}>{model.title}</Text>
+          <Text testID="share-card-number" style={[styles.bigNumber, { color: colors.gold, fontSize: u(story ? 72 : 50), lineHeight: u(story ? 78 : 54) }]}>{numbers.value}</Text>
+          <Text style={[styles.numbersTitle, { color: palette.text, fontSize: u(story ? 24 : 20), lineHeight: u(story ? 29 : 24) }]}>{model.title}</Text>
         </View>
         {/* Decorative 1-9 grid: only the root digit is lit. It never shows the birth date. */}
         <View importantForAccessibility="no-hide-descendants" accessibilityElementsHidden style={{ width: cell * 3 + u(8), flexDirection: "row", flexWrap: "wrap", gap: u(4) }}>
@@ -152,7 +153,7 @@ function NumbersBody({ model, u, palette, story }: BodyProps) {
         </View>
       </View>
       {numbers.notes.map((note) => (
-        <View key={note.label} style={[styles.box, { backgroundColor: "rgba(247, 241, 230, 0.08)", borderRadius: u(8), padding: u(11) }]}>
+        <View key={note.label} style={[styles.box, { backgroundColor: "rgba(247, 241, 230, 0.08)", borderRadius: u(8), paddingHorizontal: u(11), paddingVertical: u(story ? 11 : 8) }]}>
           <Text style={[styles.boxLabel, { color: palette.accent, fontSize: u(9.5), letterSpacing: u(1.4) }]}>{note.label.toUpperCase()}</Text>
           <Text style={[styles.boxText, { color: palette.text, fontSize: u(story ? 13.5 : 12.5), lineHeight: u(story ? 19 : 17.5), marginTop: u(3) }]}>{note.text}</Text>
         </View>

@@ -176,12 +176,12 @@
     {
       "path": "apps/admin/workflow-catalog.js",
       "reason": "Feature graphs and App.tsx digest.",
-      "sha256": "b6ff6295dc0f2dce4add72d47254a77c6036366f5dbbbcb7ed4b0e8323895259"
+      "sha256": "7660e2e532851aa3575a1c1765cb38e85d82737d9a404603f0f2ed8e26420c5d"
     },
     {
       "path": "apps/mobile/src/features/profile/WhoAmI.tsx",
       "reason": "Shared file; edit confined to the saved-reports section.",
-      "sha256": "597bb9d4024ac73024a8db71744689600c82c8a8f4118dfa87a1e112a97262bd"
+      "sha256": "5cc963e26ca9152f137d4facd8d4160ac52f8f0a5a4c0fa7e44ef59513d918e9"
     }
   ],
   "skillReview": [

@@ -75,14 +75,17 @@ test("benefits only list what the code gives; planned features sit under Sắp c
   expect(screen.getByText("Đọc sâu lá số với Chiêm tinh AI")).toBeTruthy();
   expect(screen.getByTestId("paywall-coming-soon")).toBeTruthy();
   expect(screen.getByText("Sắp có")).toBeTruthy();
-  expect(paywallComingSoon.length).toBeGreaterThanOrEqual(3);
+  expect(paywallComingSoon.length).toBeGreaterThanOrEqual(2);
   for (const item of paywallComingSoon) {
     expect(screen.getByText(item.vi)).toBeTruthy();
     expect(screen.getByLabelText(`Sắp có: ${item.vi}`)).toBeTruthy();
     // Planned items are never in the benefit list and never pressable.
     expect(paywallBenefits.some((b) => b.vi === item.vi)).toBe(false);
   }
+  // Lô H1: Two systems is built, so it is a benefit now, not a planned item.
   expect(screen.getByText("Hai hệ cùng nhìn bạn: chiêm tinh và bản đồ số")).toBeTruthy();
+  expect(screen.queryByLabelText("Sắp có: Hai hệ cùng nhìn bạn: chiêm tinh và bản đồ số")).toBeNull();
+  expect(paywallComingSoon.some((item) => /Hai hệ/.test(item.vi))).toBe(false);
 });
 
 test("coming-soon group is labelled in English too", async () => {
@@ -90,7 +93,7 @@ test("coming-soon group is labelled in English too", async () => {
   const screen = render(<PaywallPanel language="en" userId="user-1" premium={premiumState(client)} />);
   await waitFor(() => expect(screen.getByTestId("paywall-plans")).toBeTruthy());
   expect(screen.getByText("Coming soon")).toBeTruthy();
-  expect(screen.getAllByLabelText(/^Coming soon: /)).toHaveLength(3);
+  expect(screen.getAllByLabelText(/^Coming soon: /)).toHaveLength(paywallComingSoon.length);
 });
 
 test("no saving label when the yearly plan is not cheaper", async () => {

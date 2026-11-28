@@ -11,6 +11,7 @@ declare const process: {
     EXPO_PUBLIC_NILAZA_ONLINE_REQUIRED?: string;
     EXPO_PUBLIC_AI_TRACE_QA_CAPTURE?: string;
     EXPO_PUBLIC_REVENUECAT_ANDROID_KEY?: string;
+    EXPO_PUBLIC_REVENUECAT_IOS_KEY?: string;
     EXPO_PUBLIC_BILLING_TEST?: string;
   };
 };
@@ -95,6 +96,20 @@ export const astrologyQaTraceCaptureEnabled = typeof process !== "undefined"
  */
 export const billingAndroidPublicKey =
   typeof process !== "undefined" ? process.env.EXPO_PUBLIC_REVENUECAT_ANDROID_KEY?.trim() || undefined : undefined;
+
+/** Public iOS SDK key (a client key, never a secret). Empty until the Owner sets it: iOS then sells nothing. */
+export const billingIosPublicKey =
+  typeof process !== "undefined" ? process.env.EXPO_PUBLIC_REVENUECAT_IOS_KEY?.trim() || undefined : undefined;
+
+/** The purchase SDK key for this platform; web and other platforms never get one. */
+export function billingPublicKeyForPlatform(
+  os: string,
+  keys: { android?: string; ios?: string } = { android: billingAndroidPublicKey, ios: billingIosPublicKey },
+): string | undefined {
+  if (os === "android") return keys.android?.trim() || undefined;
+  if (os === "ios") return keys.ios?.trim() || undefined;
+  return undefined;
+}
 
 /**
  * Closed-test build flag: shows the Premium purchase screen while Premium is not on sale so license

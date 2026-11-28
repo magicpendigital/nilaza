@@ -1,4 +1,5 @@
-import { billingAndroidPublicKey } from "../../runtimeConfig";
+import { Platform } from "react-native";
+import { billingPublicKeyForPlatform } from "../../runtimeConfig";
 import { loadPurchasesModule } from "./purchasesModule";
 
 /** Entitlement identifier configured in the store dashboard (one Premium for everything). */
@@ -83,7 +84,7 @@ export type PurchaseResult =
 export type RestoreResult = { status: "restored"; customer: BillingCustomer } | { status: "error"; code: BillingErrorCode };
 
 export type BillingClient = {
-  /** False on web, Expo Go, iOS (not sold yet), a build without the native module or without a key. */
+  /** False on web, Expo Go, a build without the native module or without a key. */
   readonly available: boolean;
   /** Ties the store customer to the signed-in account; undefined logs the previous account out. */
   identify(userId: string | undefined): Promise<BillingCustomer | null>;
@@ -269,6 +270,6 @@ let sharedClient: BillingClient | undefined;
 
 /** App-wide client: the SDK may be configured only once per process. */
 export function getBillingClient(): BillingClient {
-  sharedClient ??= createBillingClient({ loadModule: loadPurchasesModule, apiKey: billingAndroidPublicKey });
+  sharedClient ??= createBillingClient({ loadModule: loadPurchasesModule, apiKey: billingPublicKeyForPlatform(Platform.OS) });
   return sharedClient;
 }
