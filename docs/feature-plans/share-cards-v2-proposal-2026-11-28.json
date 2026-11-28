@@ -6,7 +6,8 @@
   "goal": "Record the share cards v2 proposal in the repository and note it in PLAN.md so later sessions can pick up S0-S3 without redoing the analysis.",
   "successCriteria": [
     "docs/proposals/SHARE_CARDS_V2_2026-11-28.vi.md exists with current state, per-feature skins, formats, low-budget viral ideas, guardrails, S0-S3 roadmap, Owner decisions and unverified points.",
-    "PLAN.md header names the proposal, says no code was changed and lists the open Owner decisions."
+    "PLAN.md header names the proposal, says no code was changed and lists the open Owner decisions.",
+    "Owner decisions of 28/11 (Facebook first then TikTok and Instagram, QR on cards, referral reward, new invite line for the quote card) are recorded in section 6 of the proposal and in PLAN.md."
   ],
   "writeScope": [
     "docs/proposals/SHARE_CARDS_V2_2026-11-28.vi.md",
@@ -60,7 +61,7 @@
     {
       "path": "apps/mobile/src/features/share/shareCardContent.ts",
       "reason": "Current share card builders and privacy rules.",
-      "sha256": "decddff315a613218c4b97c3631fa2d76047cf0d84d27974292162327a6049a2"
+      "sha256": "0b658a82105c72c1259ab8f72a34e57a919d74bdc47a5c02d7d908e54b1838e6"
     },
     {
       "path": "skills/nilaza-plan-qc/SKILL.md",
@@ -101,8 +102,11 @@
     "unresolvedHighRisks": []
   },
   "workingTreeReview": {
-    "note": "Branch claude/share-cards-v2-proposal cut from origin/main fb847f6; only the write scope changed.",
-    "paths": []
+    "note": "Branch claude/share-cards-v2-proposal cut from origin/main fb847f6; only the write scope changed. Follow-up branch claude/share-cards-v2-decisions cut from origin/main 778068c records the Owner decisions.",
+    "paths": [
+      "PLAN.md",
+      "docs/proposals/SHARE_CARDS_V2_2026-11-28.vi.md"
+    ]
   },
   "validationCommands": [
     "npm run feature:preflight -- --record docs/feature-plans/share-cards-v2-proposal-2026-11-28.json"
