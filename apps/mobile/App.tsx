@@ -285,6 +285,7 @@ import {
 import { premiumOnSale, resolveAccountTier } from "./src/features/owner/accountTierPolicy";
 import { PaywallPanel } from "./src/features/billing/PaywallPanel";
 import { paywallEnabled } from "./src/features/billing/paywallAccess";
+import { PremiumLockNotice, premiumLockCopy } from "./src/features/billing/PremiumLockNotice";
 import { usePremium, type PremiumState } from "./src/features/billing/usePremium";
 import { DeleteAccountBillingNotice } from "./src/features/billing/DeleteAccountBillingNotice";
 import { drawRandomCards } from "./src/features/tarot/randomDraw";
@@ -1119,7 +1120,7 @@ function getTarotDeckStory(deckId: string) {
 function getDeckExperience(deckId: string, language: Language, accessTier: TarotDeck["accessTier"]) {
   const premiumLabel = accessTier === "free"
     ? language === "vi" ? "Trải nghiệm đã gồm" : "Included experience"
-    : language === "vi" ? "Sắp ra mắt" : "Coming soon";
+    : language === "vi" ? premiumLockCopy.vi.label : premiumLockCopy.en.label;
   const sharedUnlocks = language === "vi"
     ? ["Giọng đọc riêng của bộ bài", "Chat với archetype từng lá", "Thẻ chia sẻ theo phong cách bộ bài"]
     : ["Deck-specific reading voice", "Chat with each card archetype", "Theme-matched share cards"];
@@ -1327,7 +1328,7 @@ const copy = {
     exportPreview: "Đây là số liệu đang lưu trên máy này.",
     adminTitle: "Thao tác Admin",
     premium: "Nilaza Premium",
-    upgrade: "Sắp ra mắt",
+    upgrade: premiumLockCopy.vi.label,
     restore: "Khôi phục giao dịch mua",
     missingNickname: "Hãy nhập tên hiển thị để Nilaza xưng hô tự nhiên hơn.",
     missingGoals: "Chọn ít nhất một điều bạn đang tìm kiếm hôm nay.",
@@ -1353,8 +1354,8 @@ const copy = {
     dailyLimit: "Giới hạn/ngày",
     freeCreditsReset: "Lượt trải bài làm mới vào đầu ngày mai.",
     creditLimitReached: "Bạn đã dùng hết lượt trải bài hôm nay. Lượt mới mở vào đầu ngày mai; trong lúc chờ, bạn có thể đọc thư viện 78 lá hoặc mở lại trải bài đã lưu.",
-    premiumDeckPreview: "Bộ bài này sẽ mở khi gói Premium ra mắt. Bạn vẫn xem được câu chuyện và tranh; hôm nay hãy chọn một bộ miễn phí để trải bài.",
-    premiumPersonaPreview: "Người dẫn đường này sẽ mở khi gói Premium ra mắt. Hôm nay hãy chọn một người dẫn đường miễn phí để trò chuyện.",
+    premiumDeckPreview: premiumLockCopy.vi.deck,
+    premiumPersonaPreview: premiumLockCopy.vi.guide,
     reported: "Đã ghi nhận. Nilaza sẽ xem lại nội dung này.",
     reportReading: "Báo cáo lượt trải bài",
     shareReading: "Tạo thẻ chia sẻ",
@@ -1430,7 +1431,7 @@ const copy = {
     exportPreview: "These are the counts stored on this device.",
     adminTitle: "Admin operations",
     premium: "Nilaza Premium",
-    upgrade: "Coming soon",
+    upgrade: premiumLockCopy.en.label,
     restore: "Restore purchases",
     missingNickname: "Enter a display name so Nilaza can address you naturally.",
     missingGoals: "Choose at least one thing you are seeking today.",
@@ -1456,8 +1457,8 @@ const copy = {
     dailyLimit: "Daily limit",
     freeCreditsReset: "Tarot readings reset at the start of tomorrow.",
     creditLimitReached: "You have used today's Tarot readings. New readings open at the start of tomorrow; meanwhile you can browse the 78-card library or reopen a saved reading.",
-    premiumDeckPreview: "This deck opens when Premium launches. You can still read its story and see the art; choose a Free deck to read today.",
-    premiumPersonaPreview: "This guide opens when Premium launches. Choose a Free guide to chat today.",
+    premiumDeckPreview: premiumLockCopy.en.deck,
+    premiumPersonaPreview: premiumLockCopy.en.guide,
     reported: "Saved for safety review.",
     reportReading: "Report reading",
     shareReading: "Create share card",
@@ -5492,7 +5493,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     if (!canViewContentTier(selectedDeck.accessTier, displayedTier)) {
       setTarotError(c.premiumDeckPreview);
       recordEvent("premium_deck_preview", { deckId: selectedDeck.id, accessTier: selectedDeck.accessTier });
-      showToast(c.upgradePreview);
+      showToast(c.premiumDeckPreview);
       return;
     }
     // P1-A: a signed-in account interprets only its server draw (the server keeps the allowance); a retry keeps the same drawId.
@@ -5941,6 +5942,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
       onSave={saveJournal}
       onSend={(text?: string) => sendMessage(text)}
       onTrack={recordEvent}
+      onOpenPremium={paywallEnabled ? openPremium : undefined}
       />
     )
   ) : null;
@@ -6035,6 +6037,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
         ) : screen === "tarot" ? (
           <TarotFlow
             c={c}
+            onOpenPremium={paywallEnabled ? openPremium : undefined}
             learnedCardIds={learnedCardIds}
             onCardLearned={markCardLearned}
             language={language}
@@ -6495,7 +6498,8 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
             ]}
             onPress={() => {
               if (!canViewContentTier(selectedPersona.accessTier, displayedTier)) {
-                showToast(c.upgradePreview);
+                if (paywallEnabled) openPremium();
+                else showToast(c.premiumPersonaPreview);
                 return;
               }
               setChatMode("room");
@@ -7107,7 +7111,8 @@ function ChatScreen({
   onRetry,
   onSave,
   onSend,
-  onTrack
+  onTrack,
+  onOpenPremium
 }: {
   backendOptions: BackendOptions;
   c: Copy;
@@ -7144,6 +7149,8 @@ function ChatScreen({
   onSave: (entry: Omit<JournalEntry, "id" | "createdAt">) => void;
   onSend: (preset?: string) => void;
   onTrack: (name: string, metadata?: Record<string, string | number | boolean>) => void;
+  /** Only while the purchase screen may be shown (paywallEnabled). */
+  onOpenPremium?: () => void;
   /** Book personas only: opens "Một câu cho hôm nay" on that persona's book. Free, so shown even when the guide is locked. */
   onOpenBookQuote?: (book: BookQuoteBookId) => void;
 }) {
@@ -7454,10 +7461,7 @@ function ChatScreen({
         )}
 
         {personaLocked && (
-          <View style={styles.lockedPanel}>
-            <Text style={styles.lockedTitle}>{language === "vi" ? "Mở khóa guide này" : "Unlock this guide"}</Text>
-            <Text style={styles.lockedBody}>{c.premiumPersonaPreview}</Text>
-          </View>
+          <PremiumLockNotice testID="persona-premium-lock" language={language} kind="guide" onOpenPremium={onOpenPremium} />
         )}
 
         <Text style={styles.editorialPersonaTransparency}>{personaTransparency}</Text>
@@ -7574,7 +7578,8 @@ export function TarotFlow({
   onSave,
   onSpreadChange,
   onTopicChange,
-  onWriteJournal
+  onWriteJournal,
+  onOpenPremium
 }: {
   c: Copy;
   language: Language;
@@ -7624,6 +7629,8 @@ export function TarotFlow({
   onSpreadChange: (spread: TarotSpread) => void;
   onTopicChange: (topic: TarotTopic) => void;
   onWriteJournal?: (prompt: string) => void;
+  /** Only while the purchase screen may be shown (paywallEnabled). */
+  onOpenPremium?: () => void;
 }) {
   const deckThemes = selectedDeck.theme
     .map((theme) => localizedText(tarotThemeLabels[theme], language, theme))
@@ -8327,7 +8334,7 @@ export function TarotFlow({
               <Text style={styles.editorialDisplayLeft}>{editorialDeckTitle}</Text>
               <Text style={styles.editorialSupportLeft}>{editorialDeckBody}</Text>
             </View>
-            {premiumDeckNotice ? <Text accessibilityLiveRegion="polite" style={styles.cardDescription}>{premiumDeckNotice}</Text> : null}
+            {premiumDeckNotice ? <PremiumLockNotice testID="deck-premium-lock" language={language} kind="deck" onOpenPremium={onOpenPremium} /> : null}
             <ResponsiveGrid minItemWidth={280} style={styles.editorialDeckStack}>
               {editorialDecks.map((deck) => {
                 const selected = deck.id === selectedDeckId;
@@ -8340,7 +8347,7 @@ export function TarotFlow({
                     accessibilityRole="radio"
                     accessibilityState={{ selected, checked: selected, disabled: !isFreeDeck }}
                     aria-checked={selected}
-                    accessibilityLabel={`${deckName}. ${isFreeDeck ? (language === "vi" ? "Đã gồm" : "Included") : (language === "vi" ? "Sắp ra mắt" : "Coming soon")}`}
+                    accessibilityLabel={`${deckName}. ${isFreeDeck ? (language === "vi" ? "Đã gồm" : "Included") : c.upgrade}`}
                     // Analysis TA-09 (Owner 2026-11-02): a Premium deck can be previewed (Learn) but not chosen
                     // on a Free account, so nobody walks four steps to a locked button.
                     onPress={() => {
@@ -8353,7 +8360,7 @@ export function TarotFlow({
                       <View pointerEvents="none" style={styles.editorialDeckShade} />
                       <View style={styles.editorialDeckBadgeRow}>
                         <Text style={[styles.editorialDeckBadge, !isFreeDeck && styles.editorialDeckBadgePremium]}>
-                          {isFreeDeck ? (language === "vi" ? "Đã gồm" : "Included") : (language === "vi" ? "Sắp ra mắt" : "Coming soon")}
+                          {isFreeDeck ? (language === "vi" ? "Đã gồm" : "Included") : c.upgrade}
                         </Text>
                         <View style={[styles.editorialDeckCheck, selected && styles.editorialDeckCheckActive]}>
                           {selected ? <Ionicons name="checkmark" size={14} color={colors.ink} /> : null}
@@ -8413,7 +8420,7 @@ export function TarotFlow({
           <View>
             <View style={styles.deckDetailHero}>
               <View style={styles.deckDetailHeroCopy}>
-                <Text style={styles.deckDetailAccess}>{canViewContentTier(selectedDeck.accessTier, displayedTier) ? (language === "vi" ? "Đã gồm" : "Included") : (language === "vi" ? "Sắp ra mắt" : "Coming soon")}</Text>
+                <Text style={styles.deckDetailAccess}>{canViewContentTier(selectedDeck.accessTier, displayedTier) ? (language === "vi" ? "Đã gồm" : "Included") : c.upgrade}</Text>
                 <Text style={styles.deckDetailTitle}>{localizedText(selectedDeck.name, language)}</Text>
                 <Text style={styles.deckDetailSubtitle}>{localizedText(selectedDeck.shortDescription, language)}</Text>
               </View>
@@ -8421,6 +8428,9 @@ export function TarotFlow({
                 <Image source={selectedDeckHeroImage} style={styles.deckDetailHeroImage} resizeMode="contain" />
               </View>
             </View>
+            {!canViewContentTier(selectedDeck.accessTier, displayedTier) ? (
+              <PremiumLockNotice testID="deck-detail-premium-lock" language={language} kind="deck" onOpenPremium={onOpenPremium} />
+            ) : null}
             <View style={styles.deckStoryPanel}>
               <View style={styles.deckStoryHeader}>
                 <Ionicons name="book-outline" size={18} color={colors.gold} />
@@ -8588,9 +8598,7 @@ export function TarotFlow({
             onFlightChange={setRitualFlightActive}
           >
             {!canViewContentTier(selectedDeck.accessTier, displayedTier) ? (
-              <View style={styles.errorPanel}>
-                <Text style={styles.errorText}>{c.premiumDeckPreview}</Text>
-              </View>
+              <PremiumLockNotice testID="draw-premium-lock" language={language} kind="deck" onOpenPremium={onOpenPremium} />
             ) : null}
             {tarotGenerating && <Text style={styles.disclaimer}>{c.generatingReading}</Text>}
             {tarotError && tarotError !== c.premiumDeckPreview ? (

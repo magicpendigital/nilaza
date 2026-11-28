@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { ActivityIndicator, Linking, Pressable, StyleSheet, Text, View } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import Svg, { Circle, Path } from "react-native-svg";
 import { colors, radius, typography } from "../../theme";
 import type { Language } from "../../types";
 import { nilazaLegalUrlFor } from "../../runtimeConfig";
@@ -31,7 +32,10 @@ export const paywallComingSoon = [
 const copy = {
   vi: {
     title: "Nilaza Premium",
+    eyebrow: "Premium",
     intro: "Một gói Premium, trả theo tháng hoặc theo năm.",
+    choosePlan: "Chọn gói",
+    billingPeriod: "Chu kỳ thanh toán",
     comingSoon: "Sắp có",
     comingSoonNote: "Chưa có trong gói hiện tại.",
     monthly: "Hằng tháng",
@@ -39,6 +43,7 @@ const copy = {
     perMonth: "/ tháng",
     perYear: "/ năm",
     save: (percent: number) => `Tiết kiệm khoảng ${percent}% so với trả theo tháng`,
+    saveShort: (percent: number) => `Tiết kiệm khoảng ${percent}%`,
     buy: (price: string, period: string) => `Đăng ký Premium · ${price} ${period}`,
     renewal: (price: string, period: string) =>
       `Thu ${price} ${period} qua tài khoản Google Play. Gói tự gia hạn cho đến khi bạn hủy. Hủy bất cứ lúc nào: Google Play → Thanh toán và gói đăng ký → Gói đăng ký; bạn vẫn dùng Premium đến hết kỳ đã trả.`,
@@ -46,16 +51,24 @@ const copy = {
     manage: "Quản lý gói",
     terms: "Điều khoản",
     privacy: "Quyền riêng tư",
+    stillFreeTitle: "Vẫn miễn phí",
+    stillFreeBody: "Lá bài hôm nay, Big 3 trong lá số và các bài đọc miễn phí vẫn dùng như trước. Premium thêm lớp đọc sâu bằng AI và các bộ bài, người dẫn đường riêng.",
     loading: "Đang tải gói từ Google Play…",
     retry: "Thử lại",
     purchasing: "Đang mở Google Play…",
     active: "Bạn đang dùng Premium",
+    badgeActive: "Đang dùng",
+    badgeEnding: "Sắp hết hạn",
+    badgePending: "Đang chờ",
+    badgeRestored: "Đã khôi phục",
     renewsOn: (date: string) => `Gia hạn vào ${date}.`,
     endsOn: (date: string) => `Premium dùng đến ${date}.`,
+    noRenew: "Gói sẽ không tự gia hạn.",
     activating: "Đang kích hoạt Premium cho tài khoản. Một số tính năng AI có thể cần thêm ít phút để mở.",
     pending: "Thanh toán đang chờ xử lý. Premium sẽ mở khi Google Play xác nhận.",
     restored: "Đã khôi phục. Premium đang mở cho tài khoản này.",
     nothingToRestore: "Không tìm thấy gói Premium nào để khôi phục trên tài khoản Google Play này.",
+    otherGoogleAccount: "Nếu bạn mua bằng tài khoản Google khác, hãy chuyển sang tài khoản đó trên Google Play rồi thử lại.",
     signIn: "Đăng nhập để mua hoặc khôi phục gói Premium. Gói gắn với tài khoản Nilaza của bạn.",
     signInButton: "Đăng nhập",
     unavailable: "Chưa thể mua gói trên thiết bị này. Hãy dùng bản Nilaza cài từ Google Play.",
@@ -74,7 +87,10 @@ const copy = {
   },
   en: {
     title: "Nilaza Premium",
+    eyebrow: "Premium",
     intro: "One Premium plan, paid monthly or yearly.",
+    choosePlan: "Choose a plan",
+    billingPeriod: "Billing period",
     comingSoon: "Coming soon",
     comingSoonNote: "Not part of the plan yet.",
     monthly: "Monthly",
@@ -82,6 +98,7 @@ const copy = {
     perMonth: "/ month",
     perYear: "/ year",
     save: (percent: number) => `Save about ${percent}% compared with paying monthly`,
+    saveShort: (percent: number) => `Save about ${percent}%`,
     buy: (price: string, period: string) => `Subscribe · ${price} ${period}`,
     renewal: (price: string, period: string) =>
       `${price} ${period}, charged to your Google Play account. Renews automatically until you cancel. Cancel anytime: Google Play → Payments & subscriptions → Subscriptions; Premium stays until the end of the paid period.`,
@@ -89,16 +106,24 @@ const copy = {
     manage: "Manage plan",
     terms: "Terms",
     privacy: "Privacy",
+    stillFreeTitle: "Still free",
+    stillFreeBody: "Today's card, the Big 3 in your chart and the free readings stay as they are. Premium adds deeper AI reads and its own decks and guides.",
     loading: "Loading plans from Google Play…",
     retry: "Try again",
     purchasing: "Opening Google Play…",
     active: "You have Premium",
+    badgeActive: "Active",
+    badgeEnding: "Ending soon",
+    badgePending: "Pending",
+    badgeRestored: "Restored",
     renewsOn: (date: string) => `Renews on ${date}.`,
     endsOn: (date: string) => `Premium until ${date}.`,
+    noRenew: "It will not renew.",
     activating: "Activating Premium for your account. Some AI features may take a few minutes to open.",
     pending: "Payment is pending. Premium opens once Google Play confirms it.",
     restored: "Restored. Premium is open for this account.",
     nothingToRestore: "No Premium plan was found to restore on this Google Play account.",
+    otherGoogleAccount: "If you bought with another Google account, switch to it in Google Play and try again.",
     signIn: "Sign in to buy or restore Premium. The plan is linked to your Nilaza account.",
     signInButton: "Sign in",
     unavailable: "Purchases are not available on this device. Use Nilaza installed from Google Play.",
@@ -118,13 +143,61 @@ const copy = {
 };
 
 type OfferState = { status: "loading" } | { status: "ready"; offer: BillingOffer } | { status: "error"; code: BillingErrorCode };
-type Notice = { tone: "info" | "error"; text: string } | null;
+type BadgeTone = "good" | "wait";
+type Notice = { tone: "info" | "error"; text: string; badge?: { label: string; tone: BadgeTone }; hint?: string } | null;
+
+// Approved Premium design (16/11): shades the shared theme does not name yet.
+const tone = {
+  panel: "#1F1C1E",
+  skeleton: "#2A2628",
+  body: "#E9E2D6",
+  muted: "#B8B0A4",
+  goldLight: "#E2C27F",
+  goldBusy: "#7A6640",
+  error: "#F0B0B0",
+  errorIcon: "#E89A9A",
+  hairline: "rgba(247, 241, 230, 0.06)",
+  line: "rgba(247, 241, 230, 0.18)",
+  goldWash: "rgba(201, 164, 92, 0.09)",
+};
 
 function formatDate(value: string | undefined, language: Language) {
   if (!value) return undefined;
   const date = new Date(value);
   if (!Number.isFinite(date.getTime())) return undefined;
   return date.toLocaleDateString(language === "vi" ? "vi-VN" : "en-GB", { day: "2-digit", month: "2-digit", year: "numeric" });
+}
+
+function Badge({ label, tone: kind }: { label: string; tone: BadgeTone }) {
+  return (
+    <View style={[s.badge, kind === "good" ? s.badgeGood : s.badgeWait]}>
+      <Text style={[s.badgeText, kind === "good" ? s.badgeGoodText : s.badgeWaitText]}>{label}</Text>
+    </View>
+  );
+}
+
+function Star({ size = 20 }: { size?: number }) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 24 24" accessibilityElementsHidden importantForAccessibility="no-hide-descendants">
+      <Path d="M12 3l2 7 7 2-7 2-2 7-2-7-7-2 7-2z" fill={colors.gold} />
+    </Svg>
+  );
+}
+
+function Constellation() {
+  return (
+    <View pointerEvents="none" accessibilityElementsHidden importantForAccessibility="no-hide-descendants" style={s.constellation}>
+      <Svg width={132} height={112} viewBox="0 0 132 112" fill="none">
+        <Path d="M14 94L46 64L74 74L104 36L66 16" stroke={colors.gold} strokeOpacity={0.45} strokeWidth={1} />
+        <Circle cx={14} cy={94} r={2.5} fill={colors.gold} fillOpacity={0.6} />
+        <Circle cx={46} cy={64} r={2.5} fill={colors.gold} fillOpacity={0.8} />
+        <Circle cx={74} cy={74} r={3} fill={colors.gold} />
+        <Circle cx={104} cy={36} r={2.5} fill={colors.gold} fillOpacity={0.8} />
+        <Circle cx={66} cy={16} r={2} fill={colors.gold} fillOpacity={0.6} />
+        <Path d="M120 78l1.6 4.4 4.4 1.6-4.4 1.6L120 90l-1.6-4.4-4.4-1.6 4.4-1.6z" fill={tone.goldLight} />
+      </Svg>
+    </View>
+  );
 }
 
 export function PaywallPanel({ language, userId, premium, onSignIn, openUrl = (url) => Linking.openURL(url) }: {
@@ -161,6 +234,7 @@ export function PaywallPanel({ language, userId, premium, onSignIn, openUrl = (u
   }, [loadOffer, showPlans]);
 
   const open = (url: string) => { void openUrl(url).catch(() => undefined); };
+  const openManage = () => open(premium.customer?.managementUrl || playSubscriptionsUrl);
 
   const buy = async () => {
     if (busy || offer.status !== "ready") return;
@@ -169,7 +243,7 @@ export function PaywallPanel({ language, userId, premium, onSignIn, openUrl = (u
     try {
       const result = await client.purchase(plan, userId);
       if (result.status === "purchased") premium.onStoreUpdate(result.customer);
-      else if (result.status === "pending") setNotice({ tone: "info", text: t.pending });
+      else if (result.status === "pending") setNotice({ tone: "info", text: t.pending, badge: { label: t.badgePending, tone: "wait" } });
       else if (result.status === "error") setNotice({ tone: "error", text: t.errors[result.code] });
       // A cancelled purchase is not an error: the screen simply stays as it was.
     } finally {
@@ -186,7 +260,9 @@ export function PaywallPanel({ language, userId, premium, onSignIn, openUrl = (u
       if (result.status === "restored") {
         premium.onStoreUpdate(result.customer);
         premium.refresh();
-        setNotice({ tone: "info", text: result.customer.premiumActive ? t.restored : t.nothingToRestore });
+        setNotice(result.customer.premiumActive
+          ? { tone: "info", text: t.restored, badge: { label: t.badgeRestored, tone: "good" } }
+          : { tone: "info", text: t.nothingToRestore, hint: t.otherGoogleAccount });
       } else {
         setNotice({ tone: "error", text: t.errors[result.code] });
       }
@@ -200,6 +276,7 @@ export function PaywallPanel({ language, userId, premium, onSignIn, openUrl = (u
       <Pressable accessibilityRole="link" accessibilityLabel={t.terms} hitSlop={8} onPress={() => open(nilazaLegalUrlFor("terms", language))} style={s.link}>
         <Text style={s.linkText}>{t.terms}</Text>
       </Pressable>
+      <Text style={s.legalDot} accessibilityElementsHidden importantForAccessibility="no">·</Text>
       <Pressable accessibilityRole="link" accessibilityLabel={t.privacy} hitSlop={8} onPress={() => open(nilazaLegalUrlFor("privacy", language))} style={s.link}>
         <Text style={s.linkText}>{t.privacy}</Text>
       </Pressable>
@@ -221,17 +298,27 @@ export function PaywallPanel({ language, userId, premium, onSignIn, openUrl = (u
     </Pressable>
   ) : null;
 
+  const manageButton = (
+    <Pressable accessibilityRole="button" accessibilityLabel={t.manage} onPress={openManage} style={s.secondary}>
+      <Text style={s.secondaryText}>{t.manage}</Text>
+    </Pressable>
+  );
+
   const noticeView = notice ? (
-    <Text accessibilityLiveRegion="polite" accessibilityRole={notice.tone === "error" ? "alert" : undefined} style={notice.tone === "error" ? s.error : s.note}>
-      {notice.text}
-    </Text>
+    <View style={s.notice} accessibilityLiveRegion="polite">
+      {notice.badge ? <Badge label={notice.badge.label} tone={notice.badge.tone} /> : null}
+      <Text accessibilityRole={notice.tone === "error" ? "alert" : undefined} style={notice.tone === "error" ? s.error : s.body}>
+        {notice.text}
+      </Text>
+      {notice.hint ? <Text style={s.note}>{notice.hint}</Text> : null}
+    </View>
   ) : null;
 
   if (!userId) {
     return (
       <View testID="paywall-sign-in" style={s.card}>
-        <Text style={s.title}>{t.title}</Text>
-        <Text style={s.body}>{t.signIn}</Text>
+        <Text style={s.cardTitle}>{t.title}</Text>
+        <Text style={s.muted}>{t.signIn}</Text>
         {onSignIn ? (
           <Pressable accessibilityRole="button" accessibilityLabel={t.signInButton} onPress={onSignIn} style={s.primary}>
             <Text style={s.primaryText}>{t.signInButton}</Text>
@@ -247,23 +334,21 @@ export function PaywallPanel({ language, userId, premium, onSignIn, openUrl = (u
     const renews = premium.customer ? premium.customer.willRenew : true;
     return (
       <View testID="paywall-active" style={s.card}>
-        <View style={s.head}>
-          <Ionicons name="sparkles" size={18} color={colors.gold} />
-          <Text style={s.title}>{t.active}</Text>
-        </View>
-        {date ? <Text style={s.body}>{renews ? t.renewsOn(date) : t.endsOn(date)}</Text> : null}
+        <Badge label={renews ? t.badgeActive : t.badgeEnding} tone={renews ? "good" : "wait"} />
+        <Text style={s.cardTitle}>{t.active}</Text>
+        {date ? <Text style={s.muted}>{renews ? t.renewsOn(date) : `${t.endsOn(date)} ${t.noRenew}`}</Text> : null}
         {premium.activating ? (
           <View testID="paywall-activating" style={s.inline}>
             <ActivityIndicator color={colors.gold} />
-            <Text accessibilityLiveRegion="polite" style={s.note}>{t.activating}</Text>
+            <Text accessibilityLiveRegion="polite" style={[s.note, s.grow]}>{t.activating}</Text>
           </View>
         ) : null}
-        {premium.billingAvailable ? (
-          <Pressable accessibilityRole="button" accessibilityLabel={t.manage} onPress={() => open(premium.customer?.managementUrl || playSubscriptionsUrl)} style={s.primary}>
-            <Text style={s.primaryText}>{t.manage}</Text>
-          </Pressable>
+        {premium.billingAvailable || restoreButton ? (
+          <View style={s.pair}>
+            {premium.billingAvailable ? <View style={s.pairItem}>{manageButton}</View> : null}
+            {restoreButton ? <View style={s.pairItem}>{restoreButton}</View> : null}
+          </View>
         ) : null}
-        {restoreButton}
         {noticeView}
         {legal}
       </View>
@@ -273,8 +358,8 @@ export function PaywallPanel({ language, userId, premium, onSignIn, openUrl = (u
   if (!premium.billingAvailable) {
     return (
       <View testID="paywall-unavailable" style={s.card}>
-        <Text style={s.title}>{t.title}</Text>
-        <Text style={s.body}>{t.unavailable}</Text>
+        <Text style={s.cardTitle}>{t.title}</Text>
+        <Text style={s.muted}>{t.unavailable}</Text>
         {legal}
       </View>
     );
@@ -283,10 +368,13 @@ export function PaywallPanel({ language, userId, premium, onSignIn, openUrl = (u
   if (offer.status === "loading") {
     return (
       <View testID="paywall-loading" style={s.card}>
-        <Text style={s.title}>{t.title}</Text>
+        <Text style={s.cardTitle}>{t.title}</Text>
+        <View style={[s.skeleton, { height: 64 }]} />
+        <View style={[s.skeleton, { height: 64 }]} />
+        <View style={[s.skeleton, { height: 48 }]} />
         <View style={s.inline}>
           <ActivityIndicator color={colors.gold} />
-          <Text style={s.note}>{t.loading}</Text>
+          <Text accessibilityLiveRegion="polite" style={[s.note, s.grow]}>{t.loading}</Text>
         </View>
       </View>
     );
@@ -295,10 +383,13 @@ export function PaywallPanel({ language, userId, premium, onSignIn, openUrl = (u
   if (offer.status === "error") {
     return (
       <View testID="paywall-error" style={s.card}>
-        <Text style={s.title}>{t.title}</Text>
-        <Text accessibilityRole="alert" style={s.error}>{t.errors[offer.code]}</Text>
-        <Pressable accessibilityRole="button" accessibilityLabel={t.retry} onPress={() => { void loadOffer(); }} style={s.secondary}>
-          <Text style={s.secondaryText}>{t.retry}</Text>
+        <Text style={s.cardTitle}>{t.title}</Text>
+        <View style={s.errorRow}>
+          <Ionicons name="alert-circle-outline" size={18} color={tone.errorIcon} style={s.errorIcon} />
+          <Text accessibilityRole="alert" style={s.error}>{t.errors[offer.code]}</Text>
+        </View>
+        <Pressable accessibilityRole="button" accessibilityLabel={t.retry} onPress={() => { void loadOffer(); }} style={s.primary}>
+          <Text style={s.primaryText}>{t.retry}</Text>
         </Pressable>
         {restoreButton}
         {noticeView}
@@ -319,15 +410,23 @@ export function PaywallPanel({ language, userId, premium, onSignIn, openUrl = (u
   const options = ([annual, monthly].filter(Boolean) as NonNullable<typeof monthly>[]);
 
   return (
-    <View testID="paywall-plans" style={s.card}>
-      <Text style={s.title}>{t.title}</Text>
-      <Text style={s.body}>{t.intro}</Text>
-      {paywallBenefits.map((item) => (
-        <View key={item.en} style={s.inline}>
-          <Ionicons name="checkmark-circle-outline" size={16} color={colors.gold} />
-          <Text style={s.benefit}>{language === "vi" ? item.vi : item.en}</Text>
-        </View>
-      ))}
+    <View testID="paywall-plans" style={s.screen}>
+      <View style={s.hero}>
+        <Constellation />
+        <Text style={s.eyebrow}>{t.eyebrow}</Text>
+        <Text accessibilityRole="header" style={s.heroTitle}>{t.title}</Text>
+        <Text style={s.heroIntro}>{t.intro}</Text>
+      </View>
+
+      <View style={s.benefits}>
+        {paywallBenefits.map((item, index) => (
+          <View key={item.en} style={[s.benefitRow, index < paywallBenefits.length - 1 && s.benefitDivider]}>
+            <Star />
+            <Text style={s.benefit}>{language === "vi" ? item.vi : item.en}</Text>
+          </View>
+        ))}
+      </View>
+
       <View testID="paywall-coming-soon" style={s.soon}>
         <View style={s.soonHead}>
           <Text style={s.soonPill}>{t.comingSoon}</Text>
@@ -336,14 +435,16 @@ export function PaywallPanel({ language, userId, premium, onSignIn, openUrl = (u
         {paywallComingSoon.map((item) => {
           const label = language === "vi" ? item.vi : item.en;
           return (
-            <View key={item.en} accessible accessibilityLabel={`${t.comingSoon}: ${label}`} style={s.inline}>
-              <Ionicons name="time-outline" size={16} color={colors.moon} />
+            <View key={item.en} accessible accessibilityLabel={`${t.comingSoon}: ${label}`} style={s.soonRow}>
+              <Ionicons name="time-outline" size={16} color={tone.muted} />
               <Text style={s.soonItem}>{label}</Text>
             </View>
           );
         })}
       </View>
-      <View accessibilityRole="radiogroup" style={s.options}>
+
+      <Text accessibilityRole="header" style={s.sectionLabel}>{t.choosePlan}</Text>
+      <View accessibilityRole="radiogroup" accessibilityLabel={t.billingPeriod} style={s.options}>
         {options.map((item) => {
           const isSelected = selected?.plan === item.plan;
           const name = item.plan === "monthly" ? t.monthly : t.annual;
@@ -359,17 +460,23 @@ export function PaywallPanel({ language, userId, premium, onSignIn, openUrl = (u
               onPress={() => setPlan(item.plan)}
               style={[s.option, isSelected && s.optionSelected]}
             >
-              <Ionicons name={isSelected ? "radio-button-on" : "radio-button-off"} size={20} color={isSelected ? colors.gold : colors.moon} />
+              <Ionicons name={isSelected ? "radio-button-on" : "radio-button-off"} size={22} color={isSelected ? colors.gold : colors.moon} />
               <View style={s.optionCopy}>
                 <Text style={s.optionName}>{name}</Text>
-                <Text style={s.optionPrice}>{item.priceString} {period(item.plan)}</Text>
-                {saving ? <Text style={s.saving}>{saving}</Text> : null}
+                <Text style={s.optionPrice}>
+                  {item.priceString} <Text style={s.optionPeriod}>{period(item.plan)}</Text>
+                </Text>
               </View>
+              {item.plan === "annual" && savings ? (
+                <View style={s.chip}>
+                  <Text style={s.chipText}>{t.saveShort(savings)}</Text>
+                </View>
+              ) : null}
             </Pressable>
           );
         })}
       </View>
-      {selected ? <Text style={s.note}>{t.renewal(selected.priceString, period(selected.plan))}</Text> : null}
+
       {selected ? (
         <Pressable
           testID="paywall-buy"
@@ -378,46 +485,93 @@ export function PaywallPanel({ language, userId, premium, onSignIn, openUrl = (u
           accessibilityState={{ disabled: Boolean(busy), busy: busy === "purchase" }}
           disabled={Boolean(busy)}
           onPress={() => { void buy(); }}
-          style={[s.primary, busy && s.disabled]}
+          style={[s.primary, s.buy, busy && s.primaryBusy]}
         >
           {busy === "purchase" ? <ActivityIndicator color={colors.charcoal} /> : null}
           <Text style={s.primaryText}>{busy === "purchase" ? t.purchasing : t.buy(selected.priceString, period(selected.plan))}</Text>
         </Pressable>
       ) : null}
-      {restoreButton}
-      {noticeView}
-      {legal}
+      {selected ? <Text style={s.renewal}>{t.renewal(selected.priceString, period(selected.plan))}</Text> : null}
+      {noticeView ? <View style={s.noticeSpaced}>{noticeView}</View> : null}
+
+      <View style={[s.pair, s.pairSpaced]}>
+        {restoreButton ? <View style={s.pairItem}>{restoreButton}</View> : null}
+        <View style={s.pairItem}>{manageButton}</View>
+      </View>
+
+      <View style={s.legalSpaced}>{legal}</View>
+
+      <View style={s.stillFree}>
+        <Text style={s.eyebrow}>{t.stillFreeTitle}</Text>
+        <Text style={s.body}>{t.stillFreeBody}</Text>
+      </View>
     </View>
   );
 }
 
 const s = StyleSheet.create({
-  card: { padding: 16, borderRadius: radius.card, backgroundColor: "#1F1C1E", borderWidth: 1, borderColor: "rgba(201, 164, 92, 0.4)", gap: 12 },
-  head: { flexDirection: "row", alignItems: "center", gap: 8 },
-  title: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 21, lineHeight: 26 },
-  body: { color: "#E9E2D6", fontFamily: typography.bodyFontFamily, fontSize: 14.5, lineHeight: 21 },
-  benefit: { flex: 1, color: "#E9E2D6", fontFamily: typography.bodyFontFamily, fontSize: 14, lineHeight: 20 },
-  soon: { gap: 8, padding: 12, borderRadius: radius.card, borderWidth: 1, borderColor: "rgba(247, 241, 230, 0.12)", opacity: 0.85 },
+  // Plan choice: full design without an outer card.
+  screen: { gap: 0 },
+  hero: { position: "relative", paddingTop: 4, minHeight: 112 },
+  constellation: { position: "absolute", right: 0, top: -6 },
+  eyebrow: { color: colors.gold, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase" },
+  heroTitle: { marginTop: 8, maxWidth: "70%", color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 40, lineHeight: 42 },
+  heroIntro: { marginTop: 12, maxWidth: "85%", color: tone.muted, fontFamily: typography.bodyFontFamily, fontSize: 15, lineHeight: 22 },
+  benefits: { marginTop: 24, borderRadius: radius.card, backgroundColor: tone.panel, overflow: "hidden" },
+  benefitRow: { minHeight: 56, flexDirection: "row", alignItems: "center", gap: 14, paddingHorizontal: 16, paddingVertical: 10 },
+  benefitDivider: { borderBottomWidth: 1, borderBottomColor: tone.hairline },
+  benefit: { flex: 1, color: colors.ivory, fontFamily: typography.bodyFontFamily, fontSize: 15, lineHeight: 21 },
+  sectionLabel: { marginTop: 28, marginBottom: 10, color: colors.gold, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase" },
+  // "Sắp có": planned items, muted, never pressable and never counted as part of the plan.
+  soon: { marginTop: 16, gap: 8, padding: 14, borderRadius: radius.card, borderWidth: 1, borderColor: colors.border },
   soonHead: { flexDirection: "row", alignItems: "center", gap: 8, flexWrap: "wrap" },
   soonPill: { color: colors.charcoal, backgroundColor: colors.moon, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 12, lineHeight: 16, paddingHorizontal: 10, paddingVertical: 2, borderRadius: radius.pill, overflow: "hidden" },
-  soonNote: { color: "#A8A096", fontFamily: typography.bodyFontFamily, fontSize: 12.5, lineHeight: 18 },
-  soonItem: { flex: 1, color: "#A8A096", fontFamily: typography.bodyFontFamily, fontSize: 13.5, lineHeight: 19 },
-  inline: { flexDirection: "row", alignItems: "center", gap: 8 },
+  soonNote: { flexShrink: 1, color: tone.muted, fontFamily: typography.bodyFontFamily, fontSize: 12.5, lineHeight: 18 },
+  soonRow: { flexDirection: "row", alignItems: "center", gap: 8 },
+  soonItem: { flex: 1, minWidth: 0, color: tone.muted, fontFamily: typography.bodyFontFamily, fontSize: 13.5, lineHeight: 19 },
   options: { gap: 10 },
-  option: { minHeight: 56, flexDirection: "row", alignItems: "center", gap: 12, paddingHorizontal: 14, paddingVertical: 10, borderRadius: radius.card, borderWidth: 1, borderColor: "rgba(247, 241, 230, 0.2)" },
-  optionSelected: { borderColor: colors.gold, backgroundColor: "rgba(201, 164, 92, 0.08)" },
-  optionCopy: { flex: 1, gap: 2 },
-  optionName: { color: colors.ivory, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 15 },
-  optionPrice: { color: "#E9E2D6", fontFamily: typography.bodyFontFamily, fontSize: 14 },
-  saving: { color: colors.gold, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 12.5 },
-  primary: { minHeight: 48, borderRadius: radius.pill, backgroundColor: colors.ivory, flexDirection: "row", gap: 8, alignItems: "center", justifyContent: "center", paddingHorizontal: 16 },
-  primaryText: { color: colors.charcoal, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 14.5, textAlign: "center" },
-  secondary: { minHeight: 48, borderRadius: radius.pill, borderWidth: 1, borderColor: "rgba(247, 241, 230, 0.2)", flexDirection: "row", gap: 8, alignItems: "center", justifyContent: "center", paddingHorizontal: 16 },
-  secondaryText: { color: colors.ivory, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 14.5 },
-  disabled: { opacity: 0.6 },
-  legalRow: { flexDirection: "row", gap: 16, justifyContent: "center" },
+  option: { minHeight: 76, flexDirection: "row", alignItems: "center", gap: 14, paddingHorizontal: 16, paddingVertical: 14, borderRadius: radius.card, borderWidth: 1.5, borderColor: colors.border, backgroundColor: tone.panel },
+  optionSelected: { borderColor: colors.gold, backgroundColor: tone.goldWash },
+  optionCopy: { flex: 1, minWidth: 0, gap: 2 },
+  optionName: { color: colors.ivory, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 16 },
+  optionPrice: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 22, lineHeight: 28 },
+  optionPeriod: { color: tone.muted, fontFamily: typography.bodyFontFamily, fontSize: 13.5 },
+  chip: { alignSelf: "flex-start", maxWidth: 96, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 6, backgroundColor: colors.gold },
+  chipText: { color: colors.charcoal, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 11.5, lineHeight: 14, textAlign: "center" },
+  buy: { marginTop: 18, minHeight: 52 },
+  renewal: { marginTop: 12, marginHorizontal: 2, color: tone.muted, fontFamily: typography.bodyFontFamily, fontSize: 12.5, lineHeight: 19 },
+  pair: { flexDirection: "row", gap: 10 },
+  pairSpaced: { marginTop: 20 },
+  pairItem: { flex: 1, minWidth: 0 },
+  stillFree: { marginTop: 24, padding: 16, gap: 8, borderRadius: radius.card, borderWidth: 1, borderColor: "rgba(247, 241, 230, 0.1)" },
+  // State cards (loading, signed out, active, error, unavailable).
+  card: { padding: 18, borderRadius: radius.card, backgroundColor: tone.panel, gap: 12 },
+  cardTitle: { color: colors.ivory, fontFamily: typography.headlineRegularFontFamily, fontSize: 24, lineHeight: 30 },
+  skeleton: { borderRadius: radius.card, backgroundColor: tone.skeleton },
+  badge: { alignSelf: "flex-start", paddingHorizontal: 10, paddingVertical: 4, borderRadius: radius.pill },
+  badgeGood: { backgroundColor: "rgba(143, 191, 154, 0.16)" },
+  badgeWait: { backgroundColor: "rgba(224, 177, 90, 0.16)" },
+  badgeText: { fontFamily: typography.bodySemiBoldFontFamily, fontSize: 12 },
+  badgeGoodText: { color: "#9CCBA7" },
+  badgeWaitText: { color: "#E8C27A" },
+  notice: { gap: 8 },
+  noticeSpaced: { marginTop: 12 },
+  body: { color: tone.body, fontFamily: typography.bodyFontFamily, fontSize: 14.5, lineHeight: 22 },
+  muted: { color: tone.muted, fontFamily: typography.bodyFontFamily, fontSize: 14.5, lineHeight: 22 },
+  inline: { flexDirection: "row", alignItems: "center", gap: 8 },
+  primary: { minHeight: 48, borderRadius: radius.pill, backgroundColor: colors.gold, flexDirection: "row", gap: 8, alignItems: "center", justifyContent: "center", paddingHorizontal: 16, paddingVertical: 10 },
+  primaryBusy: { backgroundColor: tone.goldBusy },
+  primaryText: { flexShrink: 1, color: colors.charcoal, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 15, textAlign: "center" },
+  secondary: { minHeight: 46, borderRadius: radius.pill, borderWidth: 1, borderColor: tone.line, flexDirection: "row", gap: 8, alignItems: "center", justifyContent: "center", paddingHorizontal: 10, paddingVertical: 8 },
+  secondaryText: { flexShrink: 1, color: tone.body, fontFamily: typography.bodyFontFamily, fontSize: 14, textAlign: "center" },
+  legalSpaced: { marginTop: 14 },
+  legalRow: { flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 4 },
+  legalDot: { color: tone.muted, fontSize: 13 },
   link: { minHeight: 44, minWidth: 44, alignItems: "center", justifyContent: "center", paddingHorizontal: 8 },
-  linkText: { color: colors.moon, fontFamily: typography.bodyFontFamily, fontSize: 13, textDecorationLine: "underline" },
-  note: { flex: 1, color: "#A8A096", fontFamily: typography.bodyFontFamily, fontSize: 12.5, lineHeight: 18 },
-  error: { color: "#E7B7BE", fontFamily: typography.bodyFontFamily, fontSize: 13.5, lineHeight: 19 },
+  linkText: { color: colors.gold, fontFamily: typography.bodyFontFamily, fontSize: 13, textDecorationLine: "underline" },
+  grow: { flex: 1 },
+  note: { color: tone.muted, fontFamily: typography.bodyFontFamily, fontSize: 13, lineHeight: 19 },
+  errorRow: { flexDirection: "row", alignItems: "flex-start", gap: 10 },
+  errorIcon: { marginTop: 2 },
+  error: { flex: 1, color: tone.error, fontFamily: typography.bodyFontFamily, fontSize: 14.5, lineHeight: 22 },
 });

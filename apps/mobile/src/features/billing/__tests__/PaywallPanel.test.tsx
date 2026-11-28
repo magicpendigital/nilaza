@@ -5,7 +5,7 @@ import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import { createBillingClient, type BillingClient } from "../billingClient";
 import { PaywallPanel, paywallBenefits, paywallComingSoon, playSubscriptionsUrl } from "../PaywallPanel";
 import type { PremiumState } from "../usePremium";
-import { fakePurchases, offering, pkg } from "../__fakes__/fakePurchases";
+import { customerInfo, fakePurchases, offering, pkg } from "../__fakes__/fakePurchases";
 
 const key = "goog_public_test_key";
 
@@ -54,7 +54,13 @@ test("plans show the store prices, renewal, cancel path and a computed saving", 
   await waitFor(() => expect(screen.getByTestId("paywall-plans")).toBeTruthy());
   expect(screen.getByText("799.000 ₫ / năm")).toBeTruthy();
   expect(screen.getByText("99.000 ₫ / tháng")).toBeTruthy();
-  expect(screen.getByText("Tiết kiệm khoảng 33% so với trả theo tháng")).toBeTruthy();
+  // Short chip on the card; the full comparison stays in the screen reader label.
+  expect(screen.getByText("Tiết kiệm khoảng 33%")).toBeTruthy();
+  expect(screen.getByTestId("paywall-plan-annual").props.accessibilityLabel).toContain("Tiết kiệm khoảng 33% so với trả theo tháng");
+  expect(screen.getByText("Chọn gói")).toBeTruthy();
+  expect(screen.getByText("Vẫn miễn phí")).toBeTruthy();
+  fireEvent.press(screen.getByText("Quản lý gói"));
+  expect(openUrl).toHaveBeenCalledWith(playSubscriptionsUrl);
   expect(screen.getByText(/tự gia hạn cho đến khi bạn hủy/)).toBeTruthy();
   expect(screen.getByText(/Google Play → Thanh toán và gói đăng ký → Gói đăng ký/)).toBeTruthy();
   expect(screen.getByText("Đăng ký Premium · 799.000 ₫ / năm")).toBeTruthy();
@@ -157,7 +163,17 @@ test("restore reports what it found", async () => {
   await waitFor(() => expect(screen.getByTestId("paywall-plans")).toBeTruthy());
   fireEvent.press(screen.getByTestId("paywall-restore"));
   await waitFor(() => expect(screen.getByText("Restored. Premium is open for this account.")).toBeTruthy());
+  expect(screen.getByText("Restored")).toBeTruthy();
   expect(premium.refresh).toHaveBeenCalled();
+});
+
+test("restore with nothing to find suggests the other Google account", async () => {
+  const { client } = storeClient({ restorePurchases: jest.fn(async () => customerInfo(false)) });
+  const screen = render(<PaywallPanel language="vi" userId="user-1" premium={premiumState(client)} />);
+  await waitFor(() => expect(screen.getByTestId("paywall-plans")).toBeTruthy());
+  fireEvent.press(screen.getByTestId("paywall-restore"));
+  await waitFor(() => expect(screen.getByText("Không tìm thấy gói Premium nào để khôi phục trên tài khoản Google Play này.")).toBeTruthy());
+  expect(screen.getByText(/tài khoản Google khác/)).toBeTruthy();
 });
 
 test("an active plan shows its date, activation note and Manage plan", () => {
@@ -171,7 +187,8 @@ test("an active plan shows its date, activation note and Manage plan", () => {
   });
   const screen = render(<PaywallPanel language="vi" userId="user-1" premium={premium} openUrl={openUrl} />);
   expect(screen.getByTestId("paywall-active")).toBeTruthy();
-  expect(screen.getByText("Premium dùng đến 15/12/2026.")).toBeTruthy();
+  expect(screen.getByText("Premium dùng đến 15/12/2026. Gói sẽ không tự gia hạn.")).toBeTruthy();
+  expect(screen.getByText("Sắp hết hạn")).toBeTruthy();
   expect(screen.getByTestId("paywall-activating")).toBeTruthy();
   expect(screen.queryByTestId("paywall-buy")).toBeNull();
   fireEvent.press(screen.getByText("Quản lý gói"));

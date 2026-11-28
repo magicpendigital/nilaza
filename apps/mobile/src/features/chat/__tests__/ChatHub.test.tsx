@@ -41,8 +41,9 @@ test("the hub follows the design: continue, Oracle, council and eight guides fir
   expect(screen.queryByText("Tôn Tử")).toBeNull();
   fireEvent.press(screen.getByText("Xem cả 10"));
   expect(screen.getByText("Tôn Tử")).toBeTruthy();
-  // A guide that is not yet available says so instead of its tagline.
-  expect(screen.getByText("Sắp ra mắt")).toBeTruthy();
+  // A Premium guide on a Free account says so instead of its tagline (Owner 16/11: no "Sắp ra mắt").
+  expect(screen.getByText("Dành cho Premium")).toBeTruthy();
+  expect(screen.queryByText("Sắp ra mắt")).toBeNull();
   fireEvent.press(screen.getByText("archetype-the-mystic"));
   expect(props.onOpenGuide).toHaveBeenCalledWith("archetype-the-mystic");
 });

@@ -3,6 +3,7 @@ import { Image, ImageSourcePropType, Pressable, StyleSheet, Text, TextInput, Vie
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors, layout, radius, typography } from "../../theme";
 import type { Language } from "../../types";
+import { premiumLockCopy } from "../billing/PremiumLockNotice";
 import { detectTarotTopic, suggestTarotQuestion, type AskTopic } from "./askHelpers";
 
 export type AskSpreadOption = { id: string; cards: number; title: string; detail: string };
@@ -128,7 +129,7 @@ export function TarotAskStep({ language, question, onQuestionChange, topic, topi
           <Image source={deck.cover} style={s.deckCover} resizeMode="cover" />
           <View style={s.deckCopy}>
             <Text style={s.deckName}>{deck.name}</Text>
-            <Text style={s.deckDetail} numberOfLines={2}>{deck.comingSoon ? (vi ? "Sắp ra mắt" : "Coming soon") : deck.detail}</Text>
+            <Text style={s.deckDetail} numberOfLines={2}>{deck.comingSoon ? premiumLockCopy[vi ? "vi" : "en"].label : deck.detail}</Text>
           </View>
           <Pressable accessibilityRole="button" accessibilityLabel={vi ? `Đổi bộ bài, đang chọn ${deck.name}` : `Change deck, ${deck.name} selected`} onPress={onChangeDeck} style={s.deckChange}>
             <Text style={s.deckChangeText}>{vi ? "Đổi" : "Change"}</Text>

@@ -3,6 +3,7 @@ import { Image, type ImageSourcePropType, Pressable, ScrollView, StyleSheet, Tex
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { colors, layout, radius, typography } from "../../theme";
 import type { Language } from "../../types";
+import { premiumLockText } from "../billing/PremiumLockNotice";
 
 // Trò chuyện hub (ChatHub design, 2026-10-31): continue, Oracle, Council, then the guide grid.
 export type HubCategory = "all" | "love" | "healing" | "sages" | "books";
@@ -146,7 +147,7 @@ export function ChatHub({ language, now, recent, councilThumbnails, guides, matc
         <View style={s.grid}>
           {visible.map((guide) => (
             <Pressable key={guide.id} accessibilityRole="button"
-              accessibilityLabel={`${guide.kind === "book" ? (vi ? "Sách: " : "Book: ") : ""}${guide.name}. ${guide.tagline}${guide.comingSoon ? (vi ? ". Sắp ra mắt" : ". Coming soon") : ""}`}
+              accessibilityLabel={`${guide.kind === "book" ? (vi ? "Sách: " : "Book: ") : ""}${guide.name}. ${guide.tagline}${guide.comingSoon ? `. ${premiumLockText(language).label}` : ""}`}
               onPress={() => onOpenGuide(guide.id)} style={s.cell}>
               <View style={[s.avatarWrap, guide.comingSoon && s.dim]}>
                 <Image source={guide.thumbnail} style={s.gridAvatar} />
@@ -158,7 +159,7 @@ export function ChatHub({ language, now, recent, councilThumbnails, guides, matc
                 ) : null}
               </View>
               <Text numberOfLines={2} style={s.gridName}>{guide.name}</Text>
-              <Text numberOfLines={2} style={s.gridTagline}>{guide.comingSoon ? (vi ? "Sắp ra mắt" : "Coming soon") : guide.tagline}</Text>
+              <Text numberOfLines={2} style={guide.comingSoon ? s.gridPremium : s.gridTagline}>{guide.comingSoon ? premiumLockText(language).label : guide.tagline}</Text>
             </Pressable>
           ))}
           {collapsed && guides.length > visible.length ? (
@@ -222,6 +223,7 @@ const s = StyleSheet.create({
   dim: { opacity: 0.55 },
   gridName: { color: colors.ivory, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 13.5, lineHeight: 17, textAlign: "center" },
   gridTagline: { color: "#B8B0A4", fontFamily: typography.bodyFontFamily, fontSize: 12, lineHeight: 16, textAlign: "center" },
+  gridPremium: { color: "#E2C27F", fontFamily: typography.bodySemiBoldFontFamily, fontSize: 12, lineHeight: 16, textAlign: "center" },
   moreCell: { minHeight: 140, justifyContent: "center", borderWidth: 1, borderStyle: "dashed", borderColor: "rgba(201, 164, 92, 0.5)", borderRadius: radius.card },
   moreTitle: { color: colors.gold, fontFamily: typography.bodySemiBoldFontFamily, fontSize: 13.5 },
   note: { color: "#8F877C", fontFamily: typography.bodyFontFamily, fontSize: 12, lineHeight: 18, marginTop: 8 }
