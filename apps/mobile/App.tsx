@@ -4676,7 +4676,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
     setShareSheet({
       model: request.model,
       primary: request.primary ?? "image",
-      url: buildShareUrl({ language, surface: request.model.surface, id: newShareId(), cardIds: request.cardIds, sunSign: request.sunSign })
+      url: buildShareUrl({ language, surface: request.model.surface, id: newShareId(), cardIds: request.cardIds, sunSign: request.sunSign, sky: request.sky })
     });
   };
   const recordShareEvent = (name: ShareEventName, meta: ShareEventMeta) => {

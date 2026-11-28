@@ -1,0 +1,203 @@
+{
+  "schemaVersion": 1,
+  "taskId": "share-numerology-landing-2026-11-28",
+  "ownerAgent": "mobile_agent",
+  "lane": "Cross-cutting: share surfaces (server allow-list, app numerology_map and new daily_sky share card) and the public share landing page redesign in apps/web (Owner approved 28/11/2026: Step A of docs/proposals/SHARE_LANDING_REVIEW_2026-11-24.vi.md plus the server part of Step B)",
+  "goal": "Fix the numerology_map share path end to end (app drops the server event, server rejects the surface, website drops the utm surface and shows tarot copy), add numerology_map and daily_sky to the share-events allow-list with Deno tests, add a Daily Sky share card in the app, and rebuild the public /share landing as one frame with variants (card, reading, numbers, sky) that each give the visitor something first (card image and question, a browser-only card draw, a browser-only life-path number, today's sky line), then one phase-aware CTA, a short trust strip, per-variant OG text and a share_landing_try event.",
+  "successCriteria": [
+    "share-events accepts numerology_map and daily_sky; Deno tests cover both and still reject unknown surfaces; the app list equals the server list (existing jest check).",
+    "No SQL constraint restricts share surfaces (usage_events.metadata is free jsonb), so no migration is needed; if one were needed it is written but not applied.",
+    "Daily Sky screen has a share button; the card shows only the public sky of the day (Moon sign, phase, the day's line) and never the user's chart, Sun sign, birth data or name; tests prove it.",
+    "Share links carry no name, birth date or personal number; the daily_sky link carries only public sky values (Moon sign, decan, phase id, sky date).",
+    "Each share variant has its own static route with its own OG title and description; old /share?utm_campaign=... links still show the right variant through the browser script.",
+    "Tarot variant shows the shared card art (small webp thumbnails under 30 KB each from the repo's own Moon Garden deck), keywords and one reflective question, and a 'Rút lá của bạn' draw that runs only in the browser.",
+    "Numbers variant computes the life-path number in the browser with the app's pure calc module and shows one Owner-approved block (numerology-blocks.json 2026-11-25-approved1); the date is never sent, put in a URL or in analytics.",
+    "One primary CTA per page: the waitlist ('Đăng ký thử bản Android') now, switched to a Google Play button by one config value once a Play URL exists.",
+    "Trust strip: computed on your device, reflection not prediction, 18+, links to Privacy and Safety; no fake counts, testimonials, countdowns or predictive claims.",
+    "Analytics keeps share_link_opened, waitlist_cta_click, signup_from_share and adds share_landing_try with the variant only.",
+    "apps/web build passes; share landing node tests pass; mobile tsc and jest pass; validate:data, validate:backend, validate:brand, feature preflight CI pass."
+  ],
+  "writeScope": [
+    "supabase/functions/share-events/handler.ts",
+    "supabase/functions/share-events/handler_test.ts",
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/features/share/shareEvents.ts",
+    "apps/mobile/src/features/share/shareLink.ts",
+    "apps/mobile/src/features/share/shareCardContent.ts",
+    "apps/mobile/src/features/share/__tests__/shareEvents.test.ts",
+    "apps/mobile/src/features/share/__tests__/shareLink.test.ts",
+    "apps/mobile/src/features/share/__tests__/shareCardContent.test.ts",
+    "apps/mobile/src/features/astrology/DailySkyScreen.tsx",
+    "apps/mobile/src/features/astrology/AstrologyExperience.tsx",
+    "apps/mobile/src/features/astrology/__tests__/DailySkyScreen.test.tsx",
+    "apps/web/src/pages/",
+    "apps/web/src/components/share/",
+    "apps/web/src/lib/shareLanding.ts",
+    "apps/web/src/lib/shareCta.ts",
+    "apps/web/src/lib/analytics.ts",
+    "apps/web/src/pages/sitemap.xml.ts",
+    "apps/web/public/share/",
+    "scripts/share-landing.test.mjs",
+    "scripts/build-share-card-thumbs.mjs",
+    "package.json",
+    "docs/release/share-numerology-landing-2026-11-28/HANDOFF.vi.md",
+    "packages/content/data/astrology-daily-sky.json",
+    "PLAN.md",
+    "apps/admin/workflow-catalog.js"
+  ],
+  "untouchedSurfaces": [
+    "No SQL applied, no Edge Function deployed, no secret read or set, no Supabase/Vercel/Cloudflare/EAS/Play setting changed; no supabase command against the remote project.",
+    "PLAN.md is updated by the main session in this same branch (28/11).",
+    "astrology-daily-sky.json: only the review header changes (Owner approved the content on 28/11); no text is edited.",
+    "Not touched (another session): ProfileHome.tsx, NumerologyScreen.tsx, WhoAmI files, astrology-topic-placements.json, zodiac guides, synastry data.",
+    "No per-card OG images (Step B), no A/B title test.",
+    "Waitlist function and its stored utm fields are unchanged."
+  ],
+  "impact": {
+    "entryPoint": "App: new share button at the end of Bầu trời hôm nay (Khám phá → Chiêm tinh → Bầu trời hôm nay) opens the existing share sheet. Web: /{vi,en}/share/{card,reading,numbers,sky} new static pages; /{vi,en}/share keeps working for links already sent.",
+    "dataWrite": "None on device beyond existing local usage events. Server: usage_events rows with feature 'share' may now carry surface numerology_map or daily_sky once the function is redeployed (Owner step).",
+    "backendContract": "share-events allow-list gains two enumerated surfaces; request shape unchanged. Needs an Owner-approved redeploy of share-events; until then the app keeps sending them and the deployed function answers 400, which the app ignores (fire-and-forget).",
+    "adminVisibility": "No Admin change; Admin share metrics, if any, read metadata.surface as text and will simply see new values.",
+    "privacySafety": "Daily sky card and link carry only public sky values; numerology link carries no number or name; the web life-path tool and card draw run in the browser and send nothing; analytics carries the variant only.",
+    "observability": "Web: share_landing_try (variant) added between share_link_opened and waitlist_cta_click. Server: share_tapped/share_completed for numerology_map and daily_sky after deploy.",
+    "rollback": "Revert the commits; old /share links keep working because /share stays. Server change is additive."
+  },
+  "canonicalContracts": [
+    "supabase/functions/share-events/handler.ts",
+    "apps/mobile/src/features/share/shareEvents.ts",
+    "docs/proposals/SHARE_LANDING_REVIEW_2026-11-24.vi.md"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile, backend and website routes and checks.",
+      "sha256": "e508d09a9fdffc78da809a4f1449f1d77999186b9bd371870bd8582e132075e1"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Record and preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "reason": "Website brand tokens and voice.",
+      "sha256": "bce12144fa7d6074c3213c977b0bc0187e2c9fa2d43453fab81f1145fa0129de"
+    },
+    {
+      "path": "docs/proposals/SHARE_LANDING_REVIEW_2026-11-24.vi.md",
+      "reason": "Spec for Step A and the server part of Step B.",
+      "sha256": "8e80f9a667e3eb9c843be66474bd31935af8f65a5bdd792114289b3faa90e7b3"
+    },
+    {
+      "path": "supabase/functions/share-events/handler.ts",
+      "reason": "Server share surface allow-list.",
+      "sha256": "982ac48d1c6de5fae94cc36c9a0ff514b6d24b3f1a2e87a2bf7f7c81e7f598ef"
+    },
+    {
+      "path": "apps/mobile/src/features/share/shareEvents.ts",
+      "reason": "App copy of the allow-list; drops numerology_map today.",
+      "sha256": "fd53095260e3dc486bb3e2b403505b8a0c87abcd2414d3b73c1bb90eb343b557"
+    },
+    {
+      "path": "apps/mobile/src/features/share/shareLink.ts",
+      "reason": "Share URL and message per surface.",
+      "sha256": "4048ff0176463232eb7cfe4ae0b554f915e9a0b1d52280d5f26ab0130de9342a"
+    },
+    {
+      "path": "apps/mobile/src/features/share/shareCardContent.ts",
+      "reason": "Share card models.",
+      "sha256": "0b658a82105c72c1259ab8f72a34e57a919d74bdc47a5c02d7d908e54b1838e6"
+    },
+    {
+      "path": "apps/mobile/src/features/astrology/DailySkyScreen.tsx",
+      "reason": "Daily Sky screen gets the share entry.",
+      "sha256": "b236aa06d65a81c4d81370a9b6dcc047561e4bc09328cb498261ee138ed87244"
+    },
+    {
+      "path": "apps/mobile/src/features/numerology/calc.ts",
+      "reason": "Pure life-path calculation reused in the browser.",
+      "sha256": "8965d234a138e9ce4f09ca1933d28b97343142615cf4e07b16aa891caf730bbc"
+    },
+    {
+      "path": "packages/content/data/numerology-blocks.json",
+      "reason": "Owner-approved number blocks (2026-11-25-approved1) shown on the numbers variant.",
+      "sha256": "918d9cea12a8c34a18edd969c0a45f2b76507bf6c77206a5c929ba243f3d84a8"
+    },
+    {
+      "path": "packages/content/data/astrology-daily-sky.json",
+      "reason": "Day line for the sky variant (read only; status draft, flagged for Owner).",
+      "sha256": "e685a41ed74ff4431b9dc764d8bfb98451b9944553c7539fb4823138dc385a9c"
+    },
+    {
+      "path": "apps/web/src/lib/shareLanding.ts",
+      "reason": "Landing logic.",
+      "sha256": "9022603fbfbcb564d247c3265de2a412af9324b6e836db2a61ee930782c22231"
+    },
+    {
+      "path": "apps/web/src/components/WaitlistForm.astro",
+      "reason": "CTA form and signup_from_share.",
+      "sha256": "5129eb990aec018c3e4a4f596d055e9236a0385f0b1050beddb4631fcfaf5177"
+    },
+    {
+      "path": "apps/web/src/lib/analytics.ts",
+      "reason": "Public analytics allow-list.",
+      "sha256": "e3d0257606cac00f575102a438d0455e0e9038565edec474ea76ffc3c4c4abe4"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before the first code edit; impact brief, verified vs not verified in the handoff; Owner-only steps (deploy share-events, website deploy) left to the main session."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Website work uses the existing tokens in apps/web/src/styles/global.css and BaseLayout, VI/EN routes kept, waitlist kept, validate:brand run; no mockup presented as verified behaviour."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No package added. Thumbnails are made with sharp already installed in the workspace; Astro 7.3.2 as pinned."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No auth or RLS change; share-events still authenticates before reading the body.",
+    "sensitiveData": "Birth date typed on the website stays in the browser; never in URL, analytics or network. Daily sky share has no chart data. Numerology link has no number or name.",
+    "secretsLogging": "No secret read or written; .env not read.",
+    "externalInput": "Every URL value on the landing is checked against enumerations (card ids from the published list, sign ids, decan, phase ids, ISO date) and rendered with textContent only. Pages touched: apps/web/src/pages/[locale]/share/index.astro (rewritten), share/[variant].astro (new), compare/index.astro (CTA and trust strip); the bracket paths cannot be listed one by one, so the scope is the pages directory.",
+    "dependencies": "No package added.",
+    "migrationRelease": "No migration needed (usage_events.metadata is unconstrained jsonb). share-events redeploy and website deploy are Owner steps.",
+    "stopCondition": "Stop if a SQL constraint on surfaces is found that needs applying, or if the numerology content to show is not Owner-approved.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record written before any code edit on branch claude/share-numerology-landing cut from origin/main fb847f6 (28/11/2026); worktree was clean then. Every changed path is inside writeScope; deno.lock touched by the Deno test run was reverted and is not committed.",
+    "paths": []
+  },
+  "validationCommands": [
+    "npx --yes deno@2 test --allow-all supabase/functions/share-events",
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "npm run validate:data",
+    "npm run validate:backend",
+    "npm run validate:brand",
+    "node --test scripts/share-landing.test.mjs",
+    "npm run web:build",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Trên điện thoại: Khám phá → Chiêm tinh → Bầu trời hôm nay → cuối trang bấm 'Chia sẻ bầu trời hôm nay' → xem thẻ không có tên hay ngày sinh. Mở link vừa tạo trên điện thoại: thấy dòng bầu trời của ngày đó và nút đăng ký. Mở /vi/share/numbers: nhập ngày sinh → thấy số chủ đạo và một đoạn ngắn, có dòng 'ngày sinh không được gửi đi'. Mở /vi/share/card?c=major-17-star: thấy hình lá, từ khóa, câu hỏi, nút 'Rút lá của bạn'.",
+  "residualRisk": "astrology-daily-sky.json is still marked draft (AI-drafted, not read by the Owner); the sky variant shows its day line publicly, so the Owner should read it before the website deploy. share-events must be redeployed (Owner) before server counts include numerology_map and daily_sky. Website deploy path (Cloudflare Pages via wrangler, project name in script) is not verified on the cloud. Device behaviour and real Zalo/Messenger previews not verified.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
