@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "taskId": "share-numerology-card-layout-2026-11-28",
+  "ownerAgent": "mobile_agent (share card layout)",
+  "lane": "Mobile share cards v2 follow-up. Owner approved on 28/11/2026: 'Đồng ý Sửa 2 lỗi bố cục thẻ Bản đồ số 4:5 và thêm `.claude/` vào `.easignore` luôn.'",
+  "goal": "Fix the two layout bugs found on the phone (EAS 2b10c936) on the Bản đồ số 4:5 share card: the header eyebrow nearly touching the SỐ CHỦ ĐẠO label, and the number chips touching the divider above the QR. Add .claude/ to the root .easignore so EAS archives from the main checkout stay under 2 GB.",
+  "successCriteria": [
+    "Numerology 4:5 card: a clear gap (at least 10 design units) between the header eyebrow and the SỐ CHỦ ĐẠO label, and between the chips row and the QR divider; content never overlaps the frame.",
+    "Story format and the other skins keep their layout (only spacing in the numbers body and the header-to-body gap change).",
+    "Root .easignore ignores .claude/ (local worktrees and agent state); the release-candidate tests still pass.",
+    "tsc and the share tests pass."
+  ],
+  "writeScope": [
+    "apps/mobile/src/features/share/ShareCardView.tsx",
+    "apps/mobile/src/features/share/__tests__/",
+    ".easignore",
+    "PLAN.md",
+    "reports/2026-11-28-android-share-cards-v2-test.md",
+    "docs/proposals/SHARE_TAROT_LANDING_FLOW_2026-11-28.vi.md"
+  ],
+  "untouchedSurfaces": [
+    "Card content, QR address, share events and web pages are unchanged.",
+    "No SQL, Edge Function, EAS, Vercel or Cloudflare setting change.",
+    "The Tarot share landing redesign is a proposal document only; no web or app code for it in this PR."
+  ],
+  "impact": {
+    "entryPoint": "Bản đồ số → Chia sẻ → Bài đăng 4:5 preview and captured image.",
+    "dataWrite": "None: layout spacing only, nothing stored.",
+    "backendContract": "Unchanged: no API or Edge Function touched.",
+    "adminVisibility": "Unchanged: no Admin field or metric touched.",
+    "privacySafety": "Unchanged: the card still shows only numbers and approved copy, no name or birth date.",
+    "rollback": "Revert the commit; the card returns to the previous spacing.",
+    "observability": "Unchanged: share events keep the same fields."
+  },
+  "canonicalContracts": [
+    "apps/mobile/src/features/share/ShareCardView.tsx"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Mobile route and checks.",
+      "sha256": "e508d09a9fdffc78da809a4f1449f1d77999186b9bd371870bd8582e132075e1"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Record and preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/BRAND_GUIDELINES.md",
+      "reason": "Spacing and typography of brand cards.",
+      "sha256": "bce12144fa7d6074c3213c977b0bc0187e2c9fa2d43453fab81f1145fa0129de"
+    },
+    {
+      "path": "apps/mobile/src/features/share/ShareCardView.tsx",
+      "reason": "Card frame and the numbers body being fixed.",
+      "sha256": "149791a1eff158e140d4fdcab455852b91d3d512db3b90833caf3f67b9182b7e"
+    },
+    {
+      "path": "apps/mobile/src/features/share/shareCardContent.ts",
+      "reason": "Numbers card model (notes, chips) that drive the body height.",
+      "sha256": "20e60b2e68f10ed63fdfdf1fe6c40a2e28569dc1ce39662aa08ce70fad591a9d"
+    },
+    {
+      "path": "reports/2026-11-28-android-share-cards-v2-test.md",
+      "reason": "Device findings being fixed.",
+      "sha256": "2cf47182099cfa2fb456bea6609c19440ddf8f6cbd2234de9e53281cfc6804c6"
+    },
+    {
+      "path": ".easignore",
+      "reason": "Root EAS archive ignore list.",
+      "sha256": "6ad93ec73fd5725938252672c54211d6dfc4ba7cc01b376a357ae3e3704d4aef"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before edits; merge only after the Owner approves this feature."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Spacing-only change; palette, fonts and logo unchanged."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "No dependency change."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "No auth or RLS change.",
+    "sensitiveData": "No new data on the card.",
+    "secretsLogging": "No secret read or written; .env not opened.",
+    "unresolvedHighRisks": [],
+    "externalInput": "None: the card reads only the local numbers model.",
+    "dependencies": "None: no package added or updated.",
+    "migrationRelease": "No migration or release. A new APK build is needed to check the fix on the phone (separate Owner approval).",
+    "stopCondition": "Stop if the spacing fix would cut off the notes or chips on the 4:5 card."
+  },
+  "workingTreeReview": {
+    "note": "Record written before any edit on branch claude/share-numerology-card-layout cut from origin/main f86460c.",
+    "paths": []
+  },
+  "validationCommands": [
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent src/features/share",
+    "node --test scripts/nilaza-release-candidate.test.mjs",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Cài bản Android mới → Bản đồ số → Chia sẻ → Bài đăng 4:5: dòng 'BẢN ĐỒ SỐ CỦA MÌNH' và 'SỐ CHỦ ĐẠO' có khoảng cách rõ; hai chip Ngày sinh/Biểu đạt cách vạch kẻ phía trên QR.",
+  "residualRisk": "Very long notes in another language could still fill the 4:5 body; the body clips rather than overlapping the frame.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
