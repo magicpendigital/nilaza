@@ -81,7 +81,8 @@
     "apps/web/src/content/legal/en/privacy.md",
     "packages/content/generated/public-help-corpus/manifest.json",
     "packages/content/generated/public-help-corpus/corpus.jsonl",
-    "apps/mobile/src/features/numerology/SavedReportRow.tsx"
+    "apps/mobile/src/features/numerology/SavedReportRow.tsx",
+    "PLAN.md"
   ],
   "untouchedSurfaces": [
     "No SQL applied, no Edge Function deployed, no secret set or read, no switch enabled, no Play Console change: each is a separate Owner approval by hash.",

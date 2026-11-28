@@ -41,8 +41,8 @@ Nhắc: mỗi lần push lên `main` sẽ tự deploy Admin staging.
 
 ## 3. Đã kiểm chứng (trên máy, 28/11)
 
-- Mobile jest toàn bộ: 134 bộ, 1189 test; 1188 qua, 1 lỗi ở `AstrologyExperience.test.tsx` do quá thời gian khi chạy cả bộ (chạy riêng: 18/18 qua; không liên quan tính năng này).
-- Mobile `tsc`: không lỗi trong các file của tính năng; còn 13 lỗi môi trường có sẵn (thiếu `react-native-reanimated`, kiểu ScrollView, kiểu jest trong `billing/__fakes__`).
+- Mobile jest toàn bộ (lead chạy lại 28/11 với `node_modules` đầy đủ): 134 bộ, 1189/1189 test qua.
+- Mobile `tsc` (lead chạy lại với `node_modules` đầy đủ): 0 lỗi. 13 lỗi agent thấy trước đó là do worktree thiếu thư viện.
 - Deno `supabase/functions`: 499 qua, 0 lỗi (`deno.lock` đã trả lại như cũ).
 - `ai-operations:test` có PGlite: 49 test, 44 qua, 0 lỗi (còn lại bỏ qua); riêng bản phát lại migration báo cáo bằng PGlite: 4/4 qua. Lưu ý: máy này không có PGlite trong worktree, đã mượn tạm thư viện từ thư mục khác rồi gỡ.
 - `validate:data`, `validate:backend`, `validate:public-content`, `admin:check`, `admin:test` (338 qua, 0 lỗi), `council:contract:check`, `prompt:consumers:check`, `supabase:check` (83 qua, 15 cảnh báo môi trường, 0 lỗi), `supabase:migration-ledger:check` (vẫn ở trạng thái "chờ đối soát" như trước — không chạy db push/repair).
