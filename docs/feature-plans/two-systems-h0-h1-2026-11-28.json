@@ -92,7 +92,7 @@
     {
       "path": "scripts/validate-data.mjs",
       "reason": "Data checks to extend.",
-      "sha256": "90938ab66ea20664685df3af57dfd3a7f8bb92a2c8659b7378bf059d74c8076d"
+      "sha256": "5ff823a92c3a08ab7d23b45610c3d5326450d467a32525bf6a293f2a6bb4f865"
     },
     {
       "path": "packages/content/data/numerology-blocks.json",
