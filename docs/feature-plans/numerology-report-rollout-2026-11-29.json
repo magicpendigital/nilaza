@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "taskId": "numerology-report-rollout-2026-11-29",
+  "ownerAgent": "backend_ai_agent",
+  "lane": "Release: Báo cáo tổng hợp Bản đồ số rollout receipt (Owner approved SQL apply and two function deploys on 29/11/2026)",
+  "goal": "Record the Owner-approved apply of migration 20261128100000 (sha256 dc9806fd…62a3d649), the deploy of ai-numerology-report and the redeploy of admin-model-router-config on Singapore, and update PLAN.md. Docs only.",
+  "successCriteria": [
+    "Receipt lists method, hash, post-apply checks, deployed versions, what is verified and not verified, rollback.",
+    "PLAN.md shows SQL applied, functions deployed, route and switch waiting on the Owner in Admin."
+  ],
+  "writeScope": [
+    "docs/release/singapore-edge-functions-2026-11-09/numerology-report-rollout-2026-11-29.json",
+    "PLAN.md"
+  ],
+  "untouchedSurfaces": [
+    "No code change; this PR writes no database (apply and deploys were done before it and are recorded in the receipt).",
+    "Switch numerology_report stays off; no route published; no secret set or read."
+  ],
+  "impact": {
+    "entryPoint": "Bản đồ số -> “Báo cáo tổng hợp” card under Lời nhắn riêng; “Tôi là ai” lists saved reports.",
+    "dataWrite": "No new table. usage_events rows numerology_message_attempted / numerology_message_generated (no content); traces redacted strictly. Migration seeds config rows only.",
+    "backendContract": "Edge Function ai-numerology-report (new, v1) and admin-model-router-config (v10, lists numerology_report).",
+    "adminVisibility": "Feature switch row, AI feature card, route editor entry, overview and workflow catalog graph for numerology_private_message.",
+    "privacySafety": "Only computed numbers and block ids leave the phone; raw birth date and names are rejected server-side; sensitive data class routes only; Data safety and privacy text drafted for Owner review.",
+    "observability": "Router traces with cost, usage events, safety events on blocked output.",
+    "rollback": "Switch stays off; delete ai-numerology-report; SQL is additive."
+  },
+  "canonicalContracts": [
+    "docs/release/numerology-report-r0-r2-2026-11-28/HANDOFF.vi.md",
+    "packages/agent-config/model-routing.json",
+    "packages/content/data/numerology-report.json"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Rollout evidence and receipt template.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Rollout evidence and receipt template.",
+      "sha256": "e508d09a9fdffc78da809a4f1449f1d77999186b9bd371870bd8582e132075e1"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Rollout evidence and receipt template.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "supabase/migrations/20261128100000_numerology_report.sql",
+      "reason": "Rollout evidence and receipt template.",
+      "sha256": "dc9806fd990485caf4ef214280f630fef0b2ea4b751a7e0af037a14a62a3d649"
+    },
+    {
+      "path": "supabase/functions/ai-numerology-report/handler.ts",
+      "reason": "Rollout evidence and receipt template.",
+      "sha256": "17151ec2636f15b0bf383c7e535887858f08cdc8c4d9e53402c9f2f1a72318a8"
+    },
+    {
+      "path": "docs/release/singapore-edge-functions-2026-11-09/numerology-message-rollout-2026-11-26.json",
+      "reason": "Rollout evidence and receipt template.",
+      "sha256": "b8c3d8f2ead67cbbb4327a176147d16f046e87af523b6791525bbe7207f7b9da"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before code edits; delivery rule followed."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Sign-in, quota and switch on every model call; output validated inside the router; sensitive route with zdr/data_collection deny; only used context sent."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Public privacy page and in-app consent copy only: plain accented Vietnamese and English, no command tone, checked with validate:brand and validate:public-content."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Reuses repository router, providers and price book; no new package or provider."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "verify_jwt plus in-handler auth; Premium checked server-side from subscriptions; no RLS change.",
+    "sensitiveData": "Body whitelist rejects names and birth dates; second person's data never sent; strict trace redaction.",
+    "secretsLogging": "No secret read or written; .env not read; request body not logged.",
+    "externalInput": "Bounded JSON read after gates; every number validated against allowed values; block ids validated against grammar and numbers.",
+    "dependencies": "No package added.",
+    "migrationRelease": "Migration applied and functions deployed under the Owner approval of 29/11 by hash; route publish and switch remain Owner actions in Admin.",
+    "stopCondition": "Stop if the shared ai-request-guard change cannot stay additive or if any existing AI function test breaks.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record written after the Owner-approved apply and deploys, before committing the receipt (29/11/2026, branch from origin/main 335d61d).",
+    "paths": [
+      "docs/release/singapore-edge-functions-2026-11-09/numerology-report-rollout-2026-11-29.json",
+      "PLAN.md"
+    ]
+  },
+  "validationCommands": [
+    "npm run validate:governance",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Mở biên nhận và PLAN.md mục 7: SQL đã áp, hai hàm ACTIVE, công tắc tắt, chờ Owner đăng tuyến trong Admin.",
+  "residualRisk": "Live model call, cost and quality not verified; Sonnet runs only after the Owner adds the Anthropic key and allows sensitive data.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}
