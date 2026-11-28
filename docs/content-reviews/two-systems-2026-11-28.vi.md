@@ -1,6 +1,6 @@
 # Biên bản duyệt nội dung: "Hai hệ cùng nhìn bạn" (28/11/2026)
 
-- **Tệp dữ liệu:** `packages/content/data/two-systems-blocks.json`, phiên bản `2026-11-28-draft1`, SHA-256 sau vòng 2: `01b4d0279372456a6f4c2e72bd8da4c5294eec93f42a99476b736a0145aec207`.
+- **Tệp dữ liệu:** `packages/content/data/two-systems-blocks.json`, phiên bản `2026-11-28-draft1`, SHA-256 sau vòng 2 (28/11): `2432f84efb4c2014fc768de575c743fb522e368266522446c6b7c055b34fbc2a`.
 - **Phạm vi:** 36 khối trục Mặt Trời (nguyên tố cung Mặt Trời × số chủ đạo gốc 1–9) + 36 khối trục Mặt Trăng (nguyên tố cung Mặt Trăng × số linh hồn gốc 1–9) + 4 khung nguyên tố (mỗi khung có `sunFrame`, `moonFrame`) + 16 chuỗi giao diện. Mỗi khối có `meet`, `differ`, `question`, song ngữ vi + en. Số 11/22 do app ánh xạ về 2/4, không có khối riêng.
 - **Người soạn:** AI (phiên Claude Sonnet 5.5). **Người duyệt:** bốn reviewer độc lập (subagent chạy riêng, chỉ nhận brief và tệp): chiêm tinh, thần số học (cả hai theo brief `symbolic-systems`), ngôn ngữ, an toàn. Người soạn không tự chấm.
 - **Trạng thái:** `draft`. Chờ Owner duyệt; mọi sửa sau đó cần Owner duyệt lại. Tệp không có ghi chú "chưa có chuyên gia ngoài" (Owner quyết 28/11, mục 3); validate chặn cả cụm này.
@@ -74,5 +74,44 @@ Tổng 72 khối: BLOCK 0. Khối cần sửa 18. Mục UNSURE: tên "Bọ Cạp
 ## 7. Cần Owner đọc kiểm (spot check)
 
 Ít nhất: moon.air.9, moon.water.9, moon.fire.6, sun.air.6, sun.water.2, moon.earth.9 (các khối viết lại), cùng 10% ngẫu nhiên còn lại; và ba chuỗi giao diện needSun, needMoon, sourceNote.
+
+## 8. Vòng 2 (28/11)
+
+Biên tập viên (AI) tự đọc lại toàn tệp theo từng lăng kính, ghi rõ từng lăng kính; chưa có reviewer độc lập thứ hai và chưa có chuyên gia người. Các mục "PASS chờ xác nhận vòng 2" ở mục 5 được xác nhận theo kết quả dưới đây.
+
+### 8.1 Đã đổi
+
+- **Khuôn câu lặp:** bỏ hẳn "Ở chỗ gặp nhau" (18 khối moon air và water; tiếng Anh "Where they meet"). Viết lại `meet` của cả 36 khối moon theo 8 kiểu câu mở khác nhau (mỗi kiểu 4 đến 5 khối), thay khuôn "Nhu cầu cảm xúc kiểu X là..., còn mong muốn bên trong của số linh hồn N là..." đang có ở 36/36. Mở `differ` của moon theo 5 kiểu (cảm xúc X ... còn số linh hồn N / trong khi / nhưng / đảo vế / một bên... bên kia / dấu chấm phẩy); mỗi kiểu 4 đến 9 khối. Thêm biến thể câu thứ hai ("Lòng bạn có thể", "Có thể bạn", "Đôi khi", "Thỉnh thoảng") để "Bạn có thể" không còn mở câu thứ hai ở mọi khối. Với sun: đổi nối "cùng nhau, chúng gợi một người" (16 khối) còn 6, "hai hệ cùng gợi một người" (8) còn 7; 13 câu thứ hai của `meet` mở bằng "Có thể bạn" hoặc "Lòng bạn có thể". Đếm sau sửa: không khuôn câu nào quá 7 khối ở cùng một trường; riêng "Bạn có thể" (đệm giảm nhẹ, không phải khuôn) còn 17 khối `meet` mỗi trục.
+- **An toàn, đổi câu hỏi/diễn đạt (24 mục):** moon.fire.2 (q), fire.3, fire.4, fire.6, fire.9 (differ: thêm "có thể", "dễ cạn sức" thay "dễ kiệt"), earth.2, earth.4 (q + differ), earth.5 (bỏ "lo mất nền"), earth.6 (q + differ), earth.9 (q + differ), air.1 (q), air.3, air.6 ("có thể thấy có lỗi"), air.7 (q), air.8 (bỏ "gồng lên" và "lý lẽ đứng trước cảm giác"), water.1 (q), water.2 (q + differ), water.7 (q + differ), water.8 (q, "lặng lẽ" thay "kín đáo"), water.9 (q, differ "cảm xúc nặng" thay "nỗi buồn"); sun.fire.2 (q), sun.fire.9 (q), sun.air.9 (q), sun.water.9 (differ).
+- **Tiếng Anh:** sửa "The Earth part of your feelings ..." cho đúng chia động từ; dịch song song mọi câu đã viết lại; không còn "Where they meet".
+- Không đổi: `elements`, `ui`, các khối ngoài danh sách trên.
+
+### 8.2 Lăng kính (a): an toàn và giọng
+
+Đọc lại mọi khối từng có REVISE ở vòng 1 và 24 khối vừa sửa, cộng quét từ khóa toàn tệp:
+
+- Không còn lời gọi tên cơ chế tâm lý như sự thật ("nén", "nuốt", "tránh", "che", "lý luận cho trôi", "gồng lên"); các chỗ nói về khuynh hướng đều có "có thể", "có lúc", "nếu có".
+- Không giả định người dùng đang buồn hay đang giấu: mọi câu hỏi nhắc nỗi buồn, tan vào người khác, chờ người đoán, giữ kín nay ở dạng "nếu có lúc/nếu có điều". Còn 1 câu nhắc "đang buồn" (moon.air.9) nhưng là một người bạn giả định, giữ.
+- Không "sẽ", "chắc chắn", "định mệnh", "số phận", "nên", "phải" (quét 0 kết quả; tiếng Anh: không "will/must/should/never/fate/destiny"). Không sức khỏe, tiền, kết quả. `validate:data`: 0 lỗi lint an toàn.
+
+### 8.3 Lăng kính (b): phép thử đổi số và đổi nguyên tố
+
+Đọc lại từng khối sửa: đổi số khác thì phần số (ví dụ "chứng kiến", "đứng không cần ai gật đầu", "nền vững có trật tự", "hoàn tất") không còn khớp; đổi nguyên tố thì phần nhu cầu cảm xúc ("xả bằng hành động", "mở lòng chậm", "đổi góc nhìn", "dâng không theo lịch") không còn khớp. Kết quả sau sửa: đổi nguyên tố 72/72 đạt; đổi số 72/72 đạt (sun.air.6, sun.water.2, moon.earth.9 giữ phần đã sửa ở vòng 1 và vẫn đạt). Lưu ý có chủ ý: moon.earth.4 (Đất 4) và sun.earth.4 vẫn nghiêng cùng ý "nền vững"; `differ` mang phần phân biệt.
+
+### 8.4 Tiếng Anh
+
+Đọc lại 72 khối: nghĩa khớp tiếng Việt, câu đủ tự nhiên, thay "Whom" và "see both systems look at you" từ vòng 1, các chuỗi mới viết lại đều có bản en riêng, không dịch sát chữ. "Soul urge", "life path" nhất quán.
+
+### 8.5 Kết luận sau vòng 2
+
+| Nhóm | Kết luận |
+|---|---|
+| elements (4), ui (16) | PASS (không đổi, đã xác nhận) |
+| sun.fire / earth / air / water | PASS (các khối từng REVISE đã đọc lại, đạt cả hai lăng kính) |
+| moon.fire / earth / air / water | PASS (viết lại `meet` 36/36, sửa an toàn và khuôn; đã đọc lại) |
+
+BLOCK: 0. Còn mở (để Owner): tên "Bọ Cạp"/"Thiên Yết"; các mục ở mục 6 (câu hỏi gói hai ý, vài "muốn/cần" trong `differ` của sun); chưa có reviewer độc lập đọc lại các câu viết lại ở vòng 2 (đây là tự rà của biên tập viên, không phải duyệt độc lập); chưa kiểm cách app ghép chuỗi; chưa có Owner đọc. Mục spot-check (mục 7) nay thêm: 6 khối moon `meet` mẫu (fire.3, earth.4, air.2, air.6, water.1, water.5).
+
+`validate:data` đạt sau vòng 2.
 
 `ownerDecision`: pending.
