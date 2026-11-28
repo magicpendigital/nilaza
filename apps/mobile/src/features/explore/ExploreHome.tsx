@@ -27,7 +27,7 @@ export function ExploreHome({ language, deckCount, onTarot, onLibrary, onAstrolo
   decks: ExploreDeckTile[];
   guides: ExploreGuideRow[];
   onAllGuides: () => void;
-  /** Opens "Một câu cho hôm nay"; the "Soi chiếu" group is hidden when no row has a target. */
+  /** Opens "Lời người xưa" (one line a day from the whole library); the "Soi chiếu" group is hidden when no row has a target. */
   onBookQuote?: () => void;
 }) {
   const vi = language === "vi";
@@ -37,8 +37,9 @@ export function ExploreHome({ language, deckCount, onTarot, onLibrary, onAstrolo
     ...(onBookQuote ? [{
       key: "book_quote",
       icon: "book-outline" as const,
-      title: vi ? "Một câu cho hôm nay" : "A line for today",
-      detail: vi ? "Một câu từ năm cuốn sách xưa, kèm lời bình và một câu hỏi." : "A line from five classic books, with commentary and a question.",
+      title: vi ? "Lời người xưa" : "Words of the ancients",
+      // No book count: the library grows (Owner 28/11/2026).
+      detail: vi ? "Mỗi ngày một câu từ kho sách xưa, kèm lời bình và một câu hỏi để lặng ngẫm." : "One line a day from the old books, with commentary and a question to sit with.",
       onPress: onBookQuote
     }] : [])
   ];

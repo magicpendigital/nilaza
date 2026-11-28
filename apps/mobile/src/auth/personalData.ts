@@ -25,6 +25,22 @@ export function mapProfileSnapshot(value: { profile: unknown; birth: unknown }, 
   };
 }
 
+/** Signed-in start-up reads the server profile when the device copy is missing or still says "not onboarded". */
+export function shouldReadRemoteProfile(saved: Profile | null | undefined) {
+  return !saved || saved.onboarded !== true;
+}
+
+/**
+ * Which profile the app starts with. The device copy wins for everyday fields, but onboarding is one-way:
+ * if the account's own server profile says it finished onboarding, a stale device copy (saved at sign-in
+ * before onboarding, or by an older build) must not send the person back to "BƯỚC 2/2" (device test 28/11).
+ */
+export function resolveRestoredProfile(saved: Profile | null | undefined, remote: Profile | null | undefined, fallback: Profile): Profile {
+  if (!saved) return remote ?? fallback;
+  if (saved.onboarded === true || remote?.onboarded !== true) return saved;
+  return { ...saved, onboarded: true, goals: saved.goals?.length ? saved.goals : remote.goals };
+}
+
 function record(value: unknown): Record<string, unknown> {
   if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error("Invalid personal data");
   return value as Record<string, unknown>;

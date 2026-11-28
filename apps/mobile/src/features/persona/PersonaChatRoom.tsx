@@ -148,12 +148,16 @@ export function PersonaChatRoom({
     && !chatGenerating
     && !streamingReply);
   const deepenLabel = language === "vi" ? "Đào sâu" : "Go deeper";
-  const quickReplies = personaPrompts.slice(0, 3).map((prompt, index) => ({
-    id: `${index}-${prompt}`,
-    label: prompt
-  }));
+  // A suggestion the reader already sent leaves the list (device test 28/11: used chips stayed on screen).
+  const sentTexts = new Set(messages.filter((message) => message.role === "user").map((message) => message.text.trim()));
+  const quickReplies = personaPrompts.slice(0, 3)
+    .filter((prompt) => !sentTexts.has(prompt.trim()))
+    .map((prompt, index) => ({ id: `${index}-${prompt}`, label: prompt }));
+  const showThreadReplies = messages.length > 0 && !chatGenerating && !streamingReply;
   const titlePrefix = language === "vi" ? "Người dẫn đường AI lấy cảm hứng từ" : "AI guide inspired by";
   const inspiration = personaInspiration || personaName;
+  // The header line stays short so it fits beside the buttons; the full brief is in the notice below it.
+  const headerSubtitle = language === "vi" ? `AI · lấy cảm hứng từ ${inspiration}` : `AI · inspired by ${inspiration}`;
   const transparencyBrief = language === "vi"
     ? `${titlePrefix} ${inspiration}. Không phải ${personaInspiration ? "tác giả, cuốn sách" : "người thật"} hay đại diện chính thức.`
     : `${titlePrefix} ${inspiration}. Not ${personaInspiration ? "the author, the book" : "the real person"} or an official representative.`;
@@ -218,7 +222,7 @@ export function PersonaChatRoom({
             onBack={onBack}
             onResumeSession={onResumeSession}
             sessions={sessionSummaries}
-            subtitle={`${titlePrefix} ${inspiration}`}
+            subtitle={headerSubtitle}
             title={personaName}
           />
         }
@@ -236,7 +240,7 @@ export function PersonaChatRoom({
                 <Text style={styles.jumpText}>{language === "vi" ? "Xem phần mới nhất" : "Show newest"}</Text>
               </Pressable>
             ) : null}
-            {messages.length > 0 ? <QuickReplyRail prompts={quickReplies} onSelect={(prompt) => onSend(prompt.label)} /> : null}
+            {showThreadReplies ? <QuickReplyRail wrap prompts={quickReplies.slice(0, 2)} onSelect={(prompt) => onSend(prompt.label)} /> : null}
             <ChatComposer
               sendLabel={language === "vi" ? "Gửi" : "Send"}
               disabled={chatGenerating}
@@ -270,7 +274,7 @@ export function PersonaChatRoom({
                   astrology_report: language === "vi" ? "Đang tiếp nối bản xem trước chiêm tinh" : "Continuing your astrology preview",
                   daily_zodiac_pulse: language === "vi" ? "Đang tiếp nối lời nhắn theo cung hôm nay" : "Continuing today's sign message",
                   oracle_reflection: language === "vi" ? "Đang tiếp nối từ Oracle" : "Continuing from Oracle",
-                  book_quote: language === "vi" ? "Đang tiếp nối từ một câu cho hôm nay" : "Continuing from today's line"
+                  book_quote: language === "vi" ? "Đang tiếp nối từ lời người xưa" : "Continuing from the words of the ancients"
                 }[handoffContext.sourceType]}
               </Text>
               <Text style={styles.handoffBody}>{handoffContext.safeSummary}</Text>
@@ -285,7 +289,7 @@ export function PersonaChatRoom({
                 ? "Mình đang ở đây. Hãy chọn một gợi ý hoặc viết điều bạn muốn nhìn rõ hơn."
                 : "I am here. Choose a prompt or write what you want to see more clearly.")}
             </ChatMessageBubble>
-            <QuickReplyRail prompts={quickReplies} onSelect={(prompt) => onSend(prompt.label)} />
+            <QuickReplyRail wrap prompts={quickReplies} onSelect={(prompt) => onSend(prompt.label)} />
           </View>
         ) : null}
 

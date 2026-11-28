@@ -1,7 +1,7 @@
 import React from "react";
 import { fireEvent, render, waitFor } from "@testing-library/react-native";
 import { BookQuoteScreen } from "../BookQuoteScreen";
-import { bookQuoteTitle, pickBookQuote } from "../content";
+import { bookQuoteAuthor, bookQuoteTitle, dailyBookQuote, pickBookQuote } from "../content";
 import { bookQuoteSavedStorageKey } from "../savedQuotes";
 
 // The Free / Premium hook caches the published switch in device storage.
@@ -49,8 +49,8 @@ beforeEach(() => jest.clearAllMocks());
 
 test("shows today's quote for the chosen book with commentary, question, actions and footnote", () => {
   const expected = pickBookQuote("suy-tuong", dateKey, true)!;
-  const screen = render(<BookQuoteScreen {...baseProps} initialBook="suy-tuong" />);
-  expect(screen.getByText("Một câu cho hôm nay")).toBeTruthy();
+  const screen = render(<BookQuoteScreen {...baseProps} book="suy-tuong" />);
+  expect(screen.getByText("Lời người xưa")).toBeTruthy();
   expect(screen.getByTestId("book-quote-text").props.children).toBe(`“${expected.item.quote.vi}”`);
   expect(screen.getByText(expected.item.ref.vi)).toBeTruthy();
   expect(screen.getByText("LỜI BÌNH")).toBeTruthy();
@@ -58,32 +58,32 @@ test("shows today's quote for the chosen book with commentary, question, actions
   expect(screen.getByText("CÂU HỎI CHO BẠN")).toBeTruthy();
   expect(screen.getByText(expected.item.question.vi)).toBeTruthy();
   expect(screen.getByText(expected.file.source.vietnamese)).toBeTruthy();
-  expect(screen.getByText("Mỗi sách một câu mỗi ngày; mở lại trong ngày vẫn là câu này.")).toBeTruthy();
-  expect(screen.getByText("CÁC SÁCH KHÁC HÔM NAY")).toBeTruthy();
+  expect(screen.getByText("Mỗi ngày chỉ một câu, chọn từ kho sách xưa. Ngày mai sẽ là một câu khác.")).toBeTruthy();
+  // One line only: no per-book tabs and no other-books list (Owner 28/11/2026).
+  expect(screen.queryByRole("tab")).toBeNull();
+  expect(screen.queryByText("CÁC SÁCH KHÁC HÔM NAY")).toBeNull();
+  expect(screen.queryByText(/năm cuốn/)).toBeNull();
   // No draft badge is shown to users.
   expect(screen.queryByText(/bản thử|draft|sample/i)).toBeNull();
   expect(baseProps.onEvent).toHaveBeenCalledWith("book_quote_opened", { book: "suy-tuong" });
 });
 
 test("reopening the same day shows the same quote", () => {
-  const first = render(<BookQuoteScreen {...baseProps} initialBook="kinh-dich" />).getByTestId("book-quote-text").props.children;
-  const second = render(<BookQuoteScreen {...baseProps} initialBook="kinh-dich" />).getByTestId("book-quote-text").props.children;
+  const first = render(<BookQuoteScreen {...baseProps} book="kinh-dich" />).getByTestId("book-quote-text").props.children;
+  const second = render(<BookQuoteScreen {...baseProps} book="kinh-dich" />).getByTestId("book-quote-text").props.children;
   expect(second).toBe(first);
 });
 
-test("tabs and the other-books list switch the book", () => {
-  const screen = render(<BookQuoteScreen {...baseProps} initialBook="suy-tuong" />);
-  const tab = screen.getByRole("tab", { name: bookQuoteTitle("kinh-phap-cu", "vi") });
-  fireEvent.press(tab);
-  expect(screen.getByTestId("book-quote-text").props.children).toBe(`“${pickBookQuote("kinh-phap-cu", dateKey, true)!.item.quote.vi}”`);
-  expect(screen.getByRole("tab", { name: bookQuoteTitle("kinh-phap-cu", "vi") }).props.accessibilityState).toEqual({ selected: true });
-  const daoQuote = pickBookQuote("dao-duc-kinh", dateKey, true)!;
-  fireEvent.press(screen.getByLabelText(`${bookQuoteTitle("dao-duc-kinh", "vi")}. ${daoQuote.item.quote.vi}`));
-  expect(screen.getByTestId("book-quote-text").props.children).toBe(`“${daoQuote.item.quote.vi}”`);
+test("opened without a book (Home, Explore) it shows the one line of the day from the whole library", () => {
+  const expected = dailyBookQuote(dateKey)!;
+  const screen = render(<BookQuoteScreen {...baseProps} />);
+  expect(screen.getByTestId("book-quote-text").props.children).toBe(`“${expected.item.quote.vi}”`);
+  expect(screen.getByText(`— ${bookQuoteAuthor(expected.book, "vi") === bookQuoteTitle(expected.book, "vi") ? bookQuoteTitle(expected.book, "vi") : `${bookQuoteAuthor(expected.book, "vi")} · ${bookQuoteTitle(expected.book, "vi")}`}`)).toBeTruthy();
+  expect(baseProps.onEvent).toHaveBeenCalledWith("book_quote_opened", { book: expected.book });
 });
 
 test("ask, journal and back call through with today's quote", () => {
-  const screen = render(<BookQuoteScreen {...baseProps} initialBook="suy-tuong" />);
+  const screen = render(<BookQuoteScreen {...baseProps} book="suy-tuong" />);
   fireEvent.press(screen.getByText("Hỏi tiếp Nhật ký khắc kỷ"));
   expect(baseProps.onAskPersona).toHaveBeenCalledWith(expect.objectContaining({ book: "suy-tuong", dateKey }));
   fireEvent.press(screen.getByText("Viết vào nhật ký"));
@@ -94,7 +94,7 @@ test("ask, journal and back call through with today's quote", () => {
 
 test("share opens the quote card with only the quote, its source and its question", () => {
   const onOpenShare = jest.fn();
-  const screen = render(<BookQuoteScreen {...baseProps} initialBook="dao-duc-kinh" onOpenShare={onOpenShare} />);
+  const screen = render(<BookQuoteScreen {...baseProps} book="dao-duc-kinh" onOpenShare={onOpenShare} />);
   fireEvent.press(screen.getByText("Chia sẻ câu này"));
   const quote = pickBookQuote("dao-duc-kinh", dateKey, false)!;
   const request = onOpenShare.mock.calls[0][0];
@@ -106,14 +106,14 @@ test("share opens the quote card with only the quote, its source and its questio
 });
 
 test("without a share handler there is no share button", () => {
-  const screen = render(<BookQuoteScreen {...baseProps} initialBook="dao-duc-kinh" />);
+  const screen = render(<BookQuoteScreen {...baseProps} book="dao-duc-kinh" />);
   expect(screen.queryByText("Chia sẻ câu này")).toBeNull();
 });
 
 test("save toggles, persists to account storage and lists the saved quote", async () => {
   const storage = memoryStorage();
   const expected = pickBookQuote("suy-tuong", dateKey, true)!;
-  const screen = render(<BookQuoteScreen {...baseProps} initialBook="suy-tuong" storage={storage} />);
+  const screen = render(<BookQuoteScreen {...baseProps} book="suy-tuong" storage={storage} />);
   await waitFor(() => expect(storage.loadJson).toHaveBeenCalled());
   fireEvent.press(screen.getByLabelText("Lưu câu này"));
   expect(screen.getByLabelText("Đã lưu. Bỏ lưu câu này")).toBeTruthy();
@@ -129,17 +129,18 @@ test("loads previously saved quotes; a guest keeps them in memory with a note", 
   const storage = memoryStorage({ [bookQuoteSavedStorageKey]: { schemaVersion: 1, items: [
     { id: "pc-005", book: "kinh-phap-cu", dateKey: "2026-11-20", savedAt: "2026-11-20T08:00:00.000Z", ref: "Kệ 5", quote: "Câu đã lưu trước" }
   ] } });
-  const signedIn = render(<BookQuoteScreen {...baseProps} initialBook="suy-tuong" storage={storage} />);
+  const signedIn = render(<BookQuoteScreen {...baseProps} book="suy-tuong" storage={storage} />);
   expect(await signedIn.findByText("Câu đã lưu trước")).toBeTruthy();
   signedIn.unmount();
-  const guest = render(<BookQuoteScreen {...baseProps} initialBook="suy-tuong" />);
+  const guest = render(<BookQuoteScreen {...baseProps} book="suy-tuong" />);
   fireEvent.press(guest.getByLabelText("Lưu câu này"));
   expect(guest.getByText("Bạn đang dùng thử: câu đã lưu chỉ giữ đến khi đóng ứng dụng.")).toBeTruthy();
 });
 
 test("English labels", () => {
-  const screen = render(<BookQuoteScreen {...baseProps} language="en" initialBook="kinh-phap-cu" />);
-  expect(screen.getByText("A line for today")).toBeTruthy();
+  const screen = render(<BookQuoteScreen {...baseProps} language="en" book="kinh-phap-cu" />);
+  expect(screen.getByText("Words of the ancients")).toBeTruthy();
+  expect(screen.getByText("Just one line a day, drawn from the old books. Tomorrow brings another.")).toBeTruthy();
   expect(screen.getByText("COMMENTARY")).toBeTruthy();
   expect(screen.getByText("A QUESTION FOR YOU")).toBeTruthy();
   expect(screen.getByText("Ask Kinh Pháp Cú more")).toBeTruthy();
@@ -153,7 +154,7 @@ test("with the gate closed and only draft files, a calm empty state shows and Ba
     jest.doMock("react-native", () => jest.requireActual("react-native"));
     return (require("../BookQuoteScreen") as typeof import("../BookQuoteScreen")).BookQuoteScreen;
   });
-  const screen = render(<Gated {...baseProps} initialBook="suy-tuong" />);
+  const screen = render(<Gated {...baseProps} book="suy-tuong" />);
   expect(screen.getByText("Nội dung đang được hoàn thiện.")).toBeTruthy();
   expect(screen.queryByTestId("book-quote-text")).toBeNull();
   expect(screen.queryAllByRole("tab")).toHaveLength(0);
@@ -176,7 +177,7 @@ describe("Free / Premium switch (book_quote)", () => {
 
   test("default config (Free): the quote shows for everyone", async () => {
     const service = createFeatureAccessService({ fetcher: async () => null, storageKey: "test.bookQuote.access" });
-    const screen = render(<BookQuoteScreen {...baseProps} initialBook="suy-tuong" featureAccessService={service} />);
+    const screen = render(<BookQuoteScreen {...baseProps} book="suy-tuong" featureAccessService={service} />);
     await waitFor(() => expect(service.get().source).toBe("remote"));
     expect(screen.getByTestId("book-quote-text")).toBeTruthy();
     expect(screen.queryByTestId("premium-gate-book_quote")).toBeNull();
@@ -187,7 +188,7 @@ describe("Free / Premium switch (book_quote)", () => {
       [bookQuoteSavedStorageKey]: { schemaVersion: 1, items: [{ id: "saved-1", book: "suy-tuong", dateKey, savedAt: "2026-11-26T00:00:00Z", ref: "II.1", quote: "Câu đã lưu" }] }
     });
     const onOpenPremium = jest.fn();
-    const screen = render(<BookQuoteScreen {...baseProps} initialBook="suy-tuong" storage={storage} featureAccessService={premiumBookQuote()} onOpenPremium={onOpenPremium} />);
+    const screen = render(<BookQuoteScreen {...baseProps} book="suy-tuong" storage={storage} featureAccessService={premiumBookQuote()} onOpenPremium={onOpenPremium} />);
     await waitFor(() => expect(screen.getByTestId("premium-gate-book_quote")).toBeTruthy());
     expect(screen.queryByTestId("book-quote-text")).toBeNull();
     await waitFor(() => expect(screen.getByText("Câu đã lưu")).toBeTruthy());
@@ -195,7 +196,7 @@ describe("Free / Premium switch (book_quote)", () => {
     expect(onOpenPremium).toHaveBeenCalledTimes(1);
 
     const premiumService = premiumBookQuote();
-    const premium = render(<BookQuoteScreen {...baseProps} initialBook="suy-tuong" isPremium featureAccessService={premiumService} />);
+    const premium = render(<BookQuoteScreen {...baseProps} book="suy-tuong" isPremium featureAccessService={premiumService} />);
     await waitFor(() => expect(premiumService.get().version).toBe(2));
     await waitFor(() => expect(premium.getByTestId("book-quote-text")).toBeTruthy());
     expect(premium.queryByTestId("premium-gate-book_quote")).toBeNull();

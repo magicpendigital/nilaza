@@ -146,7 +146,7 @@ const heading = {
 <script is:inline type="application/json" id="share-landing-data" set:html={data}></script>
 <script>
   import { trackPublicEvent } from "../../lib/analytics";
-  import { drawWebCard, isShareVariant, meaningBody, parseCardIds, parseMeaningFlag, parseOrientations, parseSharedSky, playReferrerUrl, quoteBookIndex, quoteDateKey, quoteItemIndex, readShareArrival, readWebDraw, variantFromSearch, vnDateKey, type ShareVariant, type WebDraw } from "../../lib/shareLanding";
+  import { drawWebCard, isShareVariant, meaningBody, parseCardIds, parseMeaningFlag, parseOrientations, parseSharedSky, playReferrerUrl, quoteDateKey, quoteItemIndex, quoteLibraryPick, readShareArrival, readWebDraw, variantFromSearch, vnDateKey, type ShareVariant, type WebDraw } from "../../lib/shareLanding";
   import { lifePathNumber, parseBirthDate } from "../../../../mobile/src/features/numerology/calc";
 
   type Card = { name: string; keywords: string[]; upright: string; reversed: string; question: string };
@@ -328,16 +328,18 @@ const heading = {
       const block = root.querySelector<HTMLElement>("[data-quote]");
       const tabs = [...root.querySelectorAll<HTMLButtonElement>("[data-quote-books] [data-book]")];
       const set = (selector: string, text: string) => { const element = root.querySelector<HTMLElement>(selector); if (element) element.textContent = text; };
-      const showBook = (index: number) => {
+      // First the app's line of the day from the whole library; a book tab then shows that book's own line of the day.
+      const showBook = (index: number, itemIndex = quoteItemIndex(books[index].id, dateKey, books[index].items.length)) => {
         const book = books[index];
-        const [text, ref, question] = book.items[quoteItemIndex(book.id, dateKey, book.items.length)];
+        const [text, ref, question] = book.items[itemIndex];
         set("[data-quote-text]", text);
         set("[data-quote-source]", `${book.author} · ${ref}`);
         set("[data-quote-question]", question);
         for (const tab of tabs) tab.setAttribute("aria-pressed", String(tab.dataset.book === book.id));
         if (block) block.hidden = false;
       };
-      showBook(quoteBookIndex(dateKey, books.length));
+      const daily = quoteLibraryPick(dateKey, books.map((book) => book.items.length));
+      if (daily) showBook(daily.bookIndex, daily.itemIndex);
       for (const tab of tabs) {
         tab.addEventListener("click", () => {
           const index = books.findIndex((book) => book.id === tab.dataset.book);

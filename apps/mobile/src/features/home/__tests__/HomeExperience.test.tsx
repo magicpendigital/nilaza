@@ -118,11 +118,11 @@ it("shows one next step card that runs its action (analysis HO-05)", () => {
 it("shows today's book quote card after the two tiles and the whole card opens it", () => {
   const onPress = jest.fn();
   const screen = render(<HomeExperience {...baseProps} bookQuote={{ book: "Suy tưởng", quote: "Bạn có quyền với tâm mình.", onPress }} />);
-  expect(screen.getByText("MỘT CÂU CHO HÔM NAY")).toBeTruthy();
+  expect(screen.getByText("LỜI NGƯỜI XƯA")).toBeTruthy();
   expect(screen.getByText("Suy tưởng")).toBeTruthy();
   expect(screen.getByText("“Bạn có quyền với tâm mình.”")).toBeTruthy();
   expect(screen.getByText("Đọc lời bình và câu hỏi →")).toBeTruthy();
-  fireEvent.press(screen.getByLabelText("Một câu cho hôm nay. Suy tưởng. Bạn có quyền với tâm mình. Đọc lời bình và câu hỏi"));
+  fireEvent.press(screen.getByLabelText("Lời người xưa. Suy tưởng. Bạn có quyền với tâm mình. Đọc lời bình và câu hỏi"));
   expect(onPress).toHaveBeenCalledTimes(1);
   expect(render(<HomeExperience {...baseProps} />).queryByTestId("home-book-quote")).toBeNull();
 });

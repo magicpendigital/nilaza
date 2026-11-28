@@ -1,6 +1,6 @@
 import React from "react";
 import { fireEvent, render } from "@testing-library/react-native";
-import { ChatHub, hubFeaturedIds, relativeDayLabel, type HubGuide } from "../ChatHub";
+import { ChatHub, hubFeaturedIds, relativeDayLabel, resetChatHubMemory, type HubGuide } from "../ChatHub";
 
 const extra = ["archetype-the-shadow-mirror", "figure-sun-tzu"];
 const guides: HubGuide[] = [...hubFeaturedIds, ...extra].map((id) => ({
@@ -11,6 +11,8 @@ const guides: HubGuide[] = [...hubFeaturedIds, ...extra].map((id) => ({
   comingSoon: id === "figure-sun-tzu"
 }));
 const love = new Set(["archetype-the-love-oracle", "book-communication-mentor"]);
+
+beforeEach(() => resetChatHubMemory());
 
 function renderHub(overrides: Partial<React.ComponentProps<typeof ChatHub>> = {}) {
   const props: React.ComponentProps<typeof ChatHub> = {
@@ -99,4 +101,14 @@ test("the Books chip has its own empty message", () => {
   const { screen } = renderHub({ matches: (id, category) => category === "all" });
   fireEvent.press(screen.getByText("Sách"));
   expect(screen.getByText("Chưa có sách phù hợp. Thử từ khóa khác hoặc xem Tất cả.")).toBeTruthy();
+});
+
+test("the chosen filter survives leaving the hub and coming back (device test 28/11)", () => {
+  const first = renderHub();
+  fireEvent.press(first.screen.getByText("Tình cảm"));
+  expect(first.screen.queryByText("archetype-the-mystic")).toBeNull();
+  first.screen.unmount();
+  const second = renderHub();
+  expect(second.screen.getByText("archetype-the-love-oracle")).toBeTruthy();
+  expect(second.screen.queryByText("archetype-the-mystic")).toBeNull();
 });

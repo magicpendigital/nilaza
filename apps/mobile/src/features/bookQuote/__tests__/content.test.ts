@@ -1,6 +1,6 @@
 import {
   BOOK_QUOTE_FEATURE_ID, SHOW_DRAFT_BOOK_QUOTES, availableBookQuoteBooks, bookQuoteBookForPersona, bookQuoteBookOrder, bookQuoteDateKey, bookQuoteHandoff,
-  getBookQuoteFile, homeBookQuote, homeBookQuoteBook, isBookQuoteFileVisible, pickBookQuote, stableHash, visibleBookQuoteItems
+  bookQuoteFeatureTitle, dailyBookQuote, getBookQuoteFile, isBookQuoteFileVisible, pickBookQuote, stableHash, visibleBookQuoteItems
 } from "../content";
 import type { BookQuoteBookId } from "../content";
 
@@ -70,14 +70,21 @@ test("the local calendar date is used, not UTC", () => {
   expect(bookQuoteDateKey(new Date(2026, 0, 5, 0, 1))).toBe("2026-01-05");
 });
 
-test("Home rotates one book per day through all five books", () => {
-  const days = ["2026-11-27", "2026-11-28", "2026-11-29", "2026-11-30", "2026-12-01"];
-  const shown = days.map((day) => homeBookQuoteBook(day, true));
-  expect(new Set(shown).size).toBe(5);
-  expect(homeBookQuoteBook("2026-12-02", true)).toBe(shown[0]);
-  const today = homeBookQuote("2026-11-27", true);
-  expect(today?.book).toBe(shown[0]);
-  expect(today?.item.id).toBe(pickBookQuote(shown[0]!, "2026-11-27", true)?.item.id);
+test("the line of the day is one item drawn from the whole library, stable for the day", () => {
+  const today = dailyBookQuote("2026-11-27", true)!;
+  expect(today.dateKey).toBe("2026-11-27");
+  expect(dailyBookQuote("2026-11-27", true)?.item.id).toBe(today.item.id);
+  expect(getBookQuoteFile(today.book).items.some((item) => item.id === today.item.id)).toBe(true);
+  // Over two months the pick reaches several books and many lines, not one per book in turn.
+  const days = Array.from({ length: 60 }, (_, day) => bookQuoteDateKey(new Date(2026, 11, day + 1)));
+  const picks = days.map((day) => dailyBookQuote(day, true)!);
+  expect(new Set(picks.map((pick) => pick.book)).size).toBeGreaterThan(2);
+  expect(new Set(picks.map((pick) => pick.item.id)).size).toBeGreaterThan(40);
+});
+
+test("the feature has one refined title, with no book count", () => {
+  expect(bookQuoteFeatureTitle("vi")).toBe("Lời người xưa");
+  expect(bookQuoteFeatureTitle("en")).toBe("Words of the ancients");
 });
 
 test("the shipped content is Owner-approved, so all five books reach users with the gate closed", () => {
@@ -91,7 +98,7 @@ test("the shipped content is Owner-approved, so all five books reach users with 
     expect(bookQuoteBookForPersona(file.personaId)).toBe(book);
   }
   expect(availableBookQuoteBooks()).toEqual(bookQuoteBookOrder);
-  expect(homeBookQuote("2026-11-27")).not.toBeNull();
+  expect(dailyBookQuote("2026-11-27")).not.toBeNull();
   expect(getBookQuoteFile("kinh-dich").items).toHaveLength(64);
 });
 
@@ -107,8 +114,7 @@ test("draft gate: a file that is not approved never reaches users", () => {
   }
   // No books: App passes no onBookQuote to Explore, and Home gets no card.
   expect(gated.availableBookQuoteBooks()).toEqual([]);
-  expect(gated.homeBookQuoteBook("2026-11-27")).toBeNull();
-  expect(gated.homeBookQuote("2026-11-27")).toBeNull();
+  expect(gated.dailyBookQuote("2026-11-27")).toBeNull();
 });
 
 test("an approved file is the only one shown, on every entry point, with the gate closed", () => {
@@ -116,8 +122,8 @@ test("an approved file is the only one shown, on every entry point, with the gat
   expect(gated.availableBookQuoteBooks()).toEqual(["suy-tuong"]);
   expect(gated.bookQuoteBookForPersona("book-stoic-journal")).toBe("suy-tuong");
   expect(gated.bookQuoteBookForPersona("book-i-ching")).toBeUndefined();
-  expect(gated.homeBookQuote("2026-11-27")?.book).toBe("suy-tuong");
-  expect(gated.homeBookQuote("2026-11-28")?.book).toBe("suy-tuong");
+  expect(gated.dailyBookQuote("2026-11-27")?.book).toBe("suy-tuong");
+  expect(gated.dailyBookQuote("2026-11-28")?.book).toBe("suy-tuong");
   expect(gated.pickBookQuote("kinh-dich", "2026-11-27")).toBeNull();
 });
 
@@ -138,14 +144,14 @@ test("chat hand-off stays inside the server limits and carries the quote, not an
 // was shared opens the same line. scripts/share-landing.test.mjs pins the same table; change both together.
 describe("daily rotation shared with the website", () => {
   const table: [string, string, string, string, string][] = [
-    ["2026-11-28", "dao-duc-kinh", "ddk-042", "kinh-phap-cu", "pc-025"],
-    ["2026-12-31", "binh-phap-ton-tu", "bp-10-27", "dao-duc-kinh", "ddk-004"],
-    ["2027-01-01", "kinh-dich", "kd-22", "suy-tuong", "st-02-05"],
-    ["2027-02-28", "kinh-phap-cu", "pc-380", "kinh-dich", "kd-12"],
-    ["2028-02-29", "binh-phap-ton-tu", "bp-11-35", "dao-duc-kinh", "ddk-023"]
+    ["2026-11-28", "kinh-dich", "kd-09", "kinh-phap-cu", "pc-025"],
+    ["2026-12-31", "suy-tuong", "st-07-61", "dao-duc-kinh", "ddk-004"],
+    ["2027-01-01", "kinh-dich", "kd-07", "suy-tuong", "st-02-05"],
+    ["2027-02-28", "suy-tuong", "st-07-26", "kinh-dich", "kd-12"],
+    ["2028-02-29", "binh-phap-ton-tu", "bp-08-04", "dao-duc-kinh", "ddk-023"]
   ];
   it.each(table)("%s", (dateKey, book, itemId, otherBook, otherItemId) => {
-    const home = homeBookQuote(dateKey);
+    const home = dailyBookQuote(dateKey);
     expect(home?.book).toBe(book);
     expect(home?.item.id).toBe(itemId);
     expect(pickBookQuote(otherBook as BookQuoteBookId, dateKey)?.item.id).toBe(otherItemId);

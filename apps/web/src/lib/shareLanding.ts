@@ -235,8 +235,8 @@ export function readShareArrival(search: string): ShareArrival {
   };
 }
 
-// "Một câu cho hôm nay": the same daily line as the app (apps/mobile/src/features/bookQuote/content.ts), so a QR
-// scanned on the day it was shared opens the line on the card. A test keeps the two rotations in step.
+// "Lời người xưa": the same daily line as the app (dailyBookQuote in apps/mobile/src/features/bookQuote/content.ts), one
+// line drawn from the whole library, so a QR scanned on the day it was shared opens that line. A test keeps both in step.
 
 /** Local calendar date as YYYY-MM-DD, like the app's bookQuoteDateKey. */
 export function quoteDateKey(at: Date = new Date()): string {
@@ -254,19 +254,25 @@ export function quoteHash(input: string): number {
   return hash >>> 0;
 }
 
-function quoteDayNumber(dateKey: string): number {
-  const [year, month, day] = dateKey.split("-").map(Number);
-  return Math.floor(Date.UTC(year, (month || 1) - 1, day || 1) / 86400000);
-}
-
 /** Index of the line a book shows on a date (the app's pickBookQuote). */
 export function quoteItemIndex(book: string, dateKey: string, count: number): number {
   return count > 0 ? quoteHash(`${dateKey}|${book}`) % count : -1;
 }
 
-/** Index of the book shown first on a date, from the books in app order that have approved lines (the app's homeBookQuoteBook). */
-export function quoteBookIndex(dateKey: string, count: number): number {
-  return count > 0 ? ((quoteDayNumber(dateKey) % count) + count) % count : -1;
+/**
+ * The one line of the day from the whole library (the app's dailyBookQuote, Owner 28/11/2026): every approved line of
+ * every book, in app book order, picked by one hash of the date. `counts` is the number of lines of each book shown.
+ */
+export function quoteLibraryPick(dateKey: string, counts: readonly number[]): { bookIndex: number; itemIndex: number } | null {
+  const total = counts.reduce((sum, count) => sum + Math.max(0, count), 0);
+  if (!total) return null;
+  let index = quoteHash(`${dateKey}|library`) % total;
+  for (let bookIndex = 0; bookIndex < counts.length; bookIndex += 1) {
+    const count = Math.max(0, counts[bookIndex]);
+    if (index < count) return { bookIndex, itemIndex: index };
+    index -= count;
+  }
+  return null;
 }
 
 /** Books in the app's order (bookQuoteBookOrder), with the app's short tab labels and author lines. */

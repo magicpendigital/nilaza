@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import fs from "node:fs";
-import { drawWebCard, elementPairKey, isShareVariant, meaningBody, parseMeaningFlag, parseOrientations, playReferrerUrl, readWebDraw, vnDateKey, quoteBookIndex, quoteBooks, quoteDateKey, quoteHash, quoteItemIndex, isZodiacId, parseCardIds, parseSharedSky, randomIndex, readShareArrival, shareMeta, sharePhaseNames, shareSurfaces, shareVariants, sunSignFromDateInput, sunSignOf, variantFromSearch, zodiac } from "../apps/web/src/lib/shareLanding.ts";
+import { drawWebCard, elementPairKey, isShareVariant, meaningBody, parseMeaningFlag, parseOrientations, playReferrerUrl, readWebDraw, vnDateKey, quoteBooks, quoteLibraryPick, quoteDateKey, quoteHash, quoteItemIndex, isZodiacId, parseCardIds, parseSharedSky, randomIndex, readShareArrival, shareMeta, sharePhaseNames, shareSurfaces, shareVariants, sunSignFromDateInput, sunSignOf, variantFromSearch, zodiac } from "../apps/web/src/lib/shareLanding.ts";
 import { shareCtaOf } from "../apps/web/src/lib/shareCta.ts";
 
 test("finds the Sun sign on both sides of every boundary", () => {
@@ -191,23 +191,23 @@ test("public analytics accepts the two share events and drops free text and unkn
 test("the quote page picks the same daily line as the app", () => {
   const files = quoteBooks.map((book) => JSON.parse(fs.readFileSync(`packages/content/data/book-quotes/${book.id}.json`, "utf8"))).filter((file) => file.review.status === "approved" && file.items.length);
   const table = [
-    ["2026-11-28", "dao-duc-kinh", "ddk-042", "kinh-phap-cu", "pc-025"],
-    ["2026-12-31", "binh-phap-ton-tu", "bp-10-27", "dao-duc-kinh", "ddk-004"],
-    ["2027-01-01", "kinh-dich", "kd-22", "suy-tuong", "st-02-05"],
-    ["2027-02-28", "kinh-phap-cu", "pc-380", "kinh-dich", "kd-12"],
-    ["2028-02-29", "binh-phap-ton-tu", "bp-11-35", "dao-duc-kinh", "ddk-023"]
+    ["2026-11-28", "kinh-dich", "kd-09", "kinh-phap-cu", "pc-025"],
+    ["2026-12-31", "suy-tuong", "st-07-61", "dao-duc-kinh", "ddk-004"],
+    ["2027-01-01", "kinh-dich", "kd-07", "suy-tuong", "st-02-05"],
+    ["2027-02-28", "suy-tuong", "st-07-26", "kinh-dich", "kd-12"],
+    ["2028-02-29", "binh-phap-ton-tu", "bp-08-04", "dao-duc-kinh", "ddk-023"]
   ];
   const lineOf = (file, dateKey) => file.items[quoteItemIndex(file.book, dateKey, file.items.length)].id;
   for (const [dateKey, book, itemId, otherBook, otherItemId] of table) {
-    const home = files[quoteBookIndex(dateKey, files.length)];
-    assert.equal(home.book, book, dateKey);
-    assert.equal(lineOf(home, dateKey), itemId, dateKey);
+    const pick = quoteLibraryPick(dateKey, files.map((file) => file.items.length));
+    assert.equal(files[pick.bookIndex].book, book, dateKey);
+    assert.equal(files[pick.bookIndex].items[pick.itemIndex].id, itemId, dateKey);
     assert.equal(lineOf(files.find((file) => file.book === otherBook), dateKey), otherItemId, dateKey);
   }
   assert.equal(quoteHash(""), 0x811c9dc5);
   assert.equal(quoteDateKey(new Date(2027, 0, 5, 23, 30)), "2027-01-05");
   assert.equal(quoteItemIndex("kinh-dich", "2027-01-01", 0), -1);
-  assert.equal(quoteBookIndex("2027-01-01", 0), -1);
+  assert.equal(quoteLibraryPick("2027-01-01", []), null);
 });
 
 test("the quote page lists the app's books in the app's order and publishes only approved lines", () => {

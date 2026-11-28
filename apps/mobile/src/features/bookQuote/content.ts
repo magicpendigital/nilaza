@@ -1,4 +1,4 @@
-// "Một câu cho hôm nay" (daily book quote). Version 1 runs fully on the device: no request, no AI call, no SQL.
+// "Lời người xưa" (book_quote; Admin label "Một câu cho hôm nay"): one line a day from the whole library. Version 1 runs fully on the device: no request, no AI call, no SQL.
 // One JSON file per book in packages/content/data/book-quotes/; `npm run validate:data` checks them.
 import daoDucKinh from "../../../../../packages/content/data/book-quotes/dao-duc-kinh.json";
 import suyTuong from "../../../../../packages/content/data/book-quotes/suy-tuong.json";
@@ -115,11 +115,6 @@ export function stableHash(input: string): number {
   return hash >>> 0;
 }
 
-function dayNumber(dateKey: string): number {
-  const [year, month, day] = dateKey.split("-").map(Number);
-  return Math.floor(Date.UTC(year, (month || 1) - 1, day || 1) / 86400000);
-}
-
 export type BookQuoteOfDay = { book: BookQuoteBookId; dateKey: string; item: BookQuoteItem; file: BookQuoteFile };
 
 // Same date + same book => same item, every time. Different books hash differently, so they can differ.
@@ -131,18 +126,18 @@ export function pickBookQuote(book: BookQuoteBookId, dateKey: string, showDrafts
   return { book, dateKey, item, file };
 }
 
-// Home shows one book per day, rotating through the books in a fixed order.
-export function homeBookQuoteBook(dateKey: string, showDrafts = SHOW_DRAFT_BOOK_QUOTES): BookQuoteBookId | null {
-  const books = availableBookQuoteBooks(showDrafts);
-  if (!books.length) return null;
-  const index = ((dayNumber(dateKey) % books.length) + books.length) % books.length;
-  return books[index];
+// Owner decision 28/11/2026: one line a day, drawn from the whole library (every visible book together), not one per
+// book. The same date gives the same line on Home and on the screen; the library can grow without a fixed book count.
+export function dailyBookQuote(dateKey: string, showDrafts = SHOW_DRAFT_BOOK_QUOTES): BookQuoteOfDay | null {
+  const pool = availableBookQuoteBooks(showDrafts)
+    .flatMap((book) => visibleBookQuoteItems(files[book], showDrafts).map((item) => ({ book, item })));
+  if (!pool.length) return null;
+  const { book, item } = pool[stableHash(`${dateKey}|library`) % pool.length];
+  return { book, dateKey, item, file: files[book] };
 }
 
-export function homeBookQuote(dateKey: string, showDrafts = SHOW_DRAFT_BOOK_QUOTES): BookQuoteOfDay | null {
-  const book = homeBookQuoteBook(dateKey, showDrafts);
-  return book ? pickBookQuote(book, dateKey, showDrafts) : null;
-}
+/** Name of the daily line across the app (Home, Explore, the screen). Admin keeps the internal label "Một câu cho hôm nay". */
+export const bookQuoteFeatureTitle = (language: Language) => (language === "vi" ? "Lời người xưa" : "Words of the ancients");
 
 export const bookQuoteText = (item: BookQuoteItem, field: "ref" | "quote" | "gloss" | "question", language: Language) =>
   localizedText(item[field], language);
