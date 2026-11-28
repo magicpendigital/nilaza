@@ -5,7 +5,7 @@
 import promptLibrary from "../../../packages/agent-config/prompt-library.json" with { type: "json" };
 
 export type PromptLanguage = "vi" | "en";
-export type GlobalPromptFeature = "daily_insight" | "ai_council" | "numerology_private_message";
+export type GlobalPromptFeature = "daily_insight" | "ai_council" | "numerology_private_message" | "numerology_report";
 export type GlobalPromptFallbackReason = "missing_active" | "invalid_active" | "ambiguous_active" | "lookup_unavailable";
 export type GlobalPrompt = {
   feature: GlobalPromptFeature;
@@ -23,7 +23,9 @@ const VERSION = /^[a-zA-Z0-9][a-zA-Z0-9_.:-]{0,159}$/;
 const LIBRARY_IDS: Record<GlobalPromptFeature, string> = {
   daily_insight: "daily_insight_system", ai_council: "ai_council_system",
   // 2026-11-25: the numerology private message guide. Not Admin-editable in this batch; the row is seeded by migration.
-  numerology_private_message: "numerology_private_message_system"
+  numerology_private_message: "numerology_private_message_system",
+  // 2026-11-28: the numerology full report guide (draft until the Owner approves it); not Admin-editable.
+  numerology_report: "numerology_report_system"
 };
 
 /**

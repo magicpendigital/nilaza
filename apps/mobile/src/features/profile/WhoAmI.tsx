@@ -6,6 +6,8 @@ import type { JournalEntry, Language } from "../../types";
 import type { SavedChart } from "../astrology/persistence";
 import type { SavedChartsState } from "./useSavedCharts";
 import { certainSigns, displayBirthDate, identityChips, lifePathLabel, oneSentence, recordedSummary, type IdentityChip } from "./whoAmIModel";
+import { useSavedNumerologyReport, type ReportStorage } from "../numerology/reportStore";
+import { SavedNumerologyReportRow } from "../numerology/SavedReportRow";
 
 // "Tôi là ai" (Lô 4). Opened from the name card on the Tôi tab. Reads only what is already saved;
 // the one-line summary is joined from Owner-approved templates, never written by AI.
@@ -26,6 +28,8 @@ export type WhoAmIProps = {
   onMakeChart: () => void;
   /** Opens the Number Map. It is worked out from the profile birth date (and the saved birth name), so it has no separate copy to delete. */
   onOpenNumerology?: () => void;
+  /** 2026-11-28: account storage holding the saved Number Map report (device only); a guest passes nothing. */
+  reportStorage?: ReportStorage;
   onWriteJournal: () => void;
   onEditBirth: () => void;
   onEditName: () => void;
@@ -74,6 +78,7 @@ function SmallButton({ label, accessibilityLabel, onPress, danger }: { label: st
 export function WhoAmI(props: WhoAmIProps) {
   const { language } = props;
   const vi = language === "vi";
+  const numerologyReport = useSavedNumerologyReport(props.reportStorage);
   const now = props.now ?? new Date();
   const ownChart = props.savedCharts.charts[0];
   const signs = certainSigns(ownChart?.chart);
@@ -168,7 +173,7 @@ export function WhoAmI(props: WhoAmIProps) {
           <Text style={[s.detail, s.pad]}>
             {vi ? "Chưa đọc được lá số đã lưu. Dữ liệu không bị thay đổi; hãy mở lại màn hình." : "Saved charts could not be read. Nothing was changed; reopen this screen."}
           </Text>
-        ) : props.savedCharts.charts.length === 0 && !(props.birthDate && props.onOpenNumerology) ? (
+        ) : props.savedCharts.charts.length === 0 && !(props.birthDate && props.onOpenNumerology) && !numerologyReport.report ? (
           <Text style={[s.detail, s.pad]}>{vi ? "Chưa có báo cáo nào được lưu trên máy." : "No reports saved on this device yet."}</Text>
         ) : (
           props.savedCharts.charts.map((chart) => {
@@ -196,6 +201,9 @@ export function WhoAmI(props: WhoAmIProps) {
             </View>
             <SmallButton label={vi ? "Xem" : "View"} accessibilityLabel={vi ? "Xem Bản đồ số" : "View number map"} onPress={props.onOpenNumerology} />
           </View>
+        ) : null}
+        {props.savedCharts.status === "ready" && numerologyReport.report ? (
+          <SavedNumerologyReportRow report={numerologyReport.report} language={language} onDelete={numerologyReport.remove} />
         ) : null}
       </Section>
 

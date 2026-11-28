@@ -27,3 +27,8 @@ Deno.test("the strict switch (numerology_private_message) runs only on an explic
   assertEquals(await featureEnabledStrict(reader(new Error("network")), feature), false, "throws");
   assertEquals(await featureEnabledStrict(null, feature), false, "no client");
 });
+
+Deno.test("the strict switch also guards numerology_report (2026-11-28): no row means off", async () => {
+  assertEquals(await featureEnabledStrict(reader({ data: null, error: null }), "numerology_report"), false, "no row");
+  assertEquals(await featureEnabledStrict(reader({ data: { enabled: true }, error: null }), "numerology_report"), true, "on");
+});

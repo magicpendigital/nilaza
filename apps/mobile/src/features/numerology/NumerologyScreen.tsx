@@ -10,8 +10,10 @@ import { arrowLabel, arrowNotes, arrowText, chartCopy, digitReading, fill, kindF
 import { cleanName, loadSavedName, nameMaxLength, saveName, type NumerologyStorage } from "./store";
 import { NumerologyCompat, PrivateMessageSoon } from "./NumerologyCompat";
 import { NumerologyTime } from "./NumerologyTime";
-import { buildPrivateMessagePayload, type PrivateMessagePayload } from "./aiPayload";
-import type { NumerologyMessageOutcome } from "../../backendClient";
+import { buildPrivateMessagePayload, type PrivateMessagePayload, type ReportPayload } from "./aiPayload";
+import type { NumerologyMessageOutcome, NumerologyReportOutcome } from "../../backendClient";
+import { NumerologyReport } from "./NumerologyReport";
+import type { ReportStorage } from "./reportStore";
 
 // Layout follows the Design canvas screens "Bản đồ số, nhập thông tin" (NumInput) and "Bản đồ số" (NumMap),
 // sections "Bạn" and "Biểu đồ ngày sinh"; Lô 5 adds "Nhịp thời gian", "Hợp số" and the "Lời nhắn riêng · Sắp có" card.
@@ -37,6 +39,8 @@ type Props = {
   onEvent?: (name: string, metadata?: Record<string, string | number | boolean>) => void;
   /** Signed-in accounts only: sends the private-message payload (numbers and block ids, never the name or birth date). */
   onRequestPrivateMessage?: (payload: PrivateMessagePayload) => Promise<NumerologyMessageOutcome>;
+  /** 2026-11-28: signed-in accounts only: sends the report payload (numbers, digits present, arrows and block ids). */
+  onRequestReport?: (payload: ReportPayload) => Promise<NumerologyReportOutcome>;
   /** Opens the Journal pre-filled with an approved question; the name, date and numbers are not passed. */
   onWriteJournal?: (prompt: string) => void;
   onBack: () => void;
@@ -47,7 +51,7 @@ type ResultSection = "you" | "chart" | "time" | "compat";
 // Characters that are neither letters nor spaces: digits and symbols are skipped by the calculation, so say so.
 const oddNameChars = /[0-9_@#$%^&*()+=<>/\\|~`!?;:,"[\]{}]/;
 
-export function NumerologyScreen({ language, storage, initialBirthDate, onBirthDateChange, onOpenShare, onEvent, onRequestPrivateMessage, onWriteJournal, onBack }: Props) {
+export function NumerologyScreen({ language, storage, initialBirthDate, onBirthDateChange, onOpenShare, onEvent, onRequestPrivateMessage, onRequestReport, onWriteJournal, onBack }: Props) {
   const vi = language === "vi";
   const [birthDate, setBirthDate] = useState(initialBirthDate);
   const [name, setName] = useState("");
@@ -111,6 +115,7 @@ export function NumerologyScreen({ language, storage, initialBirthDate, onBirthD
         <Result map={map} name={shownName} language={language} onShare={share} onAddName={() => setMap(null)}
           // No metadata: the other person's date, name and numbers never reach an event.
           onCompared={() => onEvent?.("numerology_compat_compared")} onRequestPrivateMessage={onRequestPrivateMessage}
+          reportStorage={storage as ReportStorage | undefined} onRequestReport={onRequestReport}
           onWriteJournal={onWriteJournal ? (prompt) => { onEvent?.("numerology_journal_opened"); onWriteJournal(prompt); } : undefined} />
       ) : (
         <Input
@@ -258,8 +263,8 @@ function SectionBar({ value, onChange, language }: { value: ResultSection; onCha
   );
 }
 
-function Result({ map, name, language, onShare, onAddName, onCompared, onRequestPrivateMessage, onWriteJournal }: { map: NumerologyMap; name: string; language: Language; onShare?: () => void; onAddName: () => void; onCompared?: () => void;
-  onRequestPrivateMessage?: Props["onRequestPrivateMessage"]; onWriteJournal?: (prompt: string) => void }) {
+function Result({ map, name, language, onShare, onAddName, onCompared, onRequestPrivateMessage, reportStorage, onRequestReport, onWriteJournal }: { map: NumerologyMap; name: string; language: Language; onShare?: () => void; onAddName: () => void; onCompared?: () => void;
+  onRequestPrivateMessage?: Props["onRequestPrivateMessage"]; reportStorage?: ReportStorage; onRequestReport?: Props["onRequestReport"]; onWriteJournal?: (prompt: string) => void }) {
   const vi = language === "vi";
   const [section, setSection] = useState<ResultSection>("you");
   const [picked, setPicked] = useState<NumerologyKind | null>(null);
@@ -346,6 +351,7 @@ function Result({ map, name, language, onShare, onAddName, onCompared, onRequest
       </View>
       <PrivateMessageSoon language={language} onRequestMessage={onRequestPrivateMessage
         ? () => onRequestPrivateMessage(buildPrivateMessagePayload(map, localToday(), language)) : undefined} />
+      <NumerologyReport map={map} language={language} storage={reportStorage} onRequestReport={onRequestReport} />
       </>) : null}
 
       {section === "chart" ? (<>

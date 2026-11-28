@@ -1,6 +1,6 @@
 # Kế hoạch: “Báo cáo tổng hợp” (Bản đồ số) và “Hai hệ cùng nhìn bạn” (28/11/2026)
 
-> **Loại tài liệu:** kế hoạch, **chưa làm mã, chờ Owner duyệt**. Owner yêu cầu 28/11: “Hãy lập kế hoạch triển khai bổ sung Báo cáo tổng hợp và Hai hệ cùng nhìn bạn.”
+> **Loại tài liệu:** kế hoạch. **Owner đã chốt 8 câu ngày 28/11 (xem mục 8); bắt đầu làm H0, H1, R0–R2.** Áp SQL, deploy, chọn model, bật công tắc và Data safety vẫn cần Owner duyệt riêng từng lần. Owner yêu cầu 28/11: “Hãy lập kế hoạch triển khai bổ sung Báo cáo tổng hợp và Hai hệ cùng nhìn bạn.”
 > **Căn cứ:** [đặc tả Astro Numerology](ASTRO_NUMEROLOGY_IMPLEMENTATION_2026-11-23.vi.md) (mục 4, 5, 7, 8), [gói backend B1–B8 “Lời nhắn riêng”](NUMEROLOGY_AI_PRIVATE_MESSAGE_BACKEND_2026-11-25.vi.md), [báo cáo giá trị ba tầng](TAROT_ASTRO_VALUE_REPORT_2026-11-21.vi.md) (Q2, Q3, Q5), `PLAN.md` mục 1 và 7.
 > **Ký hiệu:** điều nào đặc tả chưa nói, kế hoạch này ghi **(đề xuất, chờ Owner)**.
 
@@ -133,3 +133,18 @@ Thứ tự khuyến nghị: H0 → H1 (giao giá trị sớm, không backend) so
 - **Khóa Premium của Hai hệ chỉ ở giao diện** (nội dung có trong app).
 - **Chưa kiểm chứng:** chi phí thật mỗi báo cáo; chất lượng tiếng Việt; bố cục phần mờ, chữ lớn 150–200%, TalkBack và hiệu năng trên **máy Android thật**; hành vi người dùng với phần mờ; Data safety trên Play Console. Mọi điều trên giữ “chưa kiểm” cho tới khi Owner thử APK và có trace thật.
 - **Đã kiểm chứng (đọc mã 28/11):** hàng “Hai hệ” đang là hàng tĩnh “Sắp có” (`WhoAmI.tsx`); hai dòng “Sắp có” ở `PaywallPanel.tsx`; `aiPayload.ts` không chứa họ tên/ngày sinh; `ai-numerology-message/handler.ts` có đủ 5 cổng trước khi đọc body; `numerology-blocks.json` và `astrology-big3.json` đều ở trạng thái `approved`; tuyến `numerology_private_message` dùng `deepseek/deepseek-v4.1-flash` → `xiaomi/mimo-v2.6-flash`, 600 token; tài khoản đang `all_premium`.
+
+## 8. Owner quyết ngày 28/11/2026
+
+| # | Câu hỏi | Owner trả lời | Ảnh hưởng tới kế hoạch |
+|---|---|---|---|
+| 1 | Hai hệ bản đầu chỉ dùng mẫu, không AI | Đồng ý | Không SQL, không deploy cho Hai hệ |
+| 2 | Trục ghép | **Làm cả hai trục ngay:** nguyên tố Mặt Trời × số chủ đạo gốc **và** nguyên tố Mặt Trăng × số linh hồn | Không để Mặt Trăng sang v1.1. Khối lượng H0 tăng từ ~42 lên ~80 khối (36 cặp Mặt Trời + 36 cặp Mặt Trăng + 2 × 4 khung nguyên tố + lời mở đầu + ghi chú nguồn). Trục Mặt Trăng chỉ hiện khi cung Mặt Trăng **chắc chắn** và người dùng đã nhập họ tên (số linh hồn cần tên); thiếu thì mời nhập, không đoán |
+| 3 | Người duyệt nội dung | Đồng ý Owner duyệt cuối sau các agent chuyên trách; **bỏ ghi chú “chưa có chuyên gia ngoài”** | Màn Hai hệ và trường `review.note` của tệp mới không ghi câu đó |
+| 4 | Free thấy gì | Đồng ý: cặp chip + “Điểm gặp”, phần còn lại mờ, không đếm ngược | Như mục 1.1 |
+| 5 | Báo cáo tổng hợp chỉ là Bản đồ số | Có | Như mục 1.2 |
+| 6 | Hạn mức báo cáo | Có: 1 báo cáo/ngày + 2 lần lỗi, dùng lại báo cáo đã lưu khi bộ số không đổi | Như mục 4 |
+| 7 | Model | Có: bắt đầu bằng cặp model rẻ hiện tại, chạy thử mù so với model cỡ Haiku rồi mới chốt | Như mục 4 và lô R4 |
+| 8 | Lưu báo cáo chỉ trên máy | Có | Như mục 2 |
+
+Thứ tự làm sau khi chốt: H0 (soạn ~80 khối, rà bằng `nilaza-content-review`, Owner duyệt nội dung) và H1 (màn Hai hệ) trên một nhánh; R0–R2 (chữ giao diện, prompt nháp, app và mã backend, **chưa áp SQL, chưa deploy**) trên nhánh khác. Mỗi nhánh xin Owner duyệt gộp `main` một lần.

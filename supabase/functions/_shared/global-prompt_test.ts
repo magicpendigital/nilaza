@@ -53,8 +53,8 @@ Deno.test("A5: missing, ambiguous, unsafe or unreadable rows fall back to the pr
   equal((await resolveGlobalPrompt(null, "daily_insight", "en")).fallbackReason, "lookup_unavailable", "no client");
 });
 
-Deno.test("A5: the prompt library has usable VI and EN text for Council, Daily and the numerology private message", () => {
-  for (const feature of ["ai_council", "daily_insight", "numerology_private_message"] as const) for (const locale of ["vi", "en"]) {
+Deno.test("A5: the prompt library has usable VI and EN text for Council, Daily and the numerology message and report", () => {
+  for (const feature of ["ai_council", "daily_insight", "numerology_private_message", "numerology_report"] as const) for (const locale of ["vi", "en"]) {
     const prompt = localCanonicalPrompt(feature, locale, "missing_active");
     assert(isUsablePromptText(prompt.text) && prompt.locale === locale, `${feature} ${locale}`);
   }

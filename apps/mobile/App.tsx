@@ -156,7 +156,7 @@ import { JournalHome } from "./src/features/journal/JournalHome";
 import { savedReadingCards } from "./src/features/journal/savedReading";
 import { cardInline, cardSubtitle, cardTitle } from "./src/features/tarot/cardName";
 import { composeLocalReading, deepReadingHook } from "./src/features/tarot/localReading";
-import { requestNumerologyMessage, requestTarotNote, requestTarotReaderSuggestion, sendProductEvent, type ProductEventName } from "./src/backendClient";
+import { requestNumerologyMessage, requestNumerologyReport, requestTarotNote, requestTarotReaderSuggestion, sendProductEvent, type ProductEventName } from "./src/backendClient";
 import { ReaderSuggestPanel, useReaderSuggestion, type ReaderOption, type ReaderSuggestReading } from "./src/features/tarot/ReaderSuggestPanel";
 import { markReaderMismatchShown, ReaderMismatchSheet, readerMismatchAlreadyShown } from "./src/features/tarot/ReaderMismatchSheet";
 import { TarotFreeNote, useTarotFreeNote } from "./src/features/tarot/TarotFreeNote";
@@ -172,6 +172,7 @@ import { previousDayKey, visibleStreak } from "./src/features/home/streak";
 import { CardLibrary } from "./src/features/tarot/CardLibrary";
 import { ExploreHome } from "./src/features/explore/ExploreHome";
 import { NumerologyScreen } from "./src/features/numerology/NumerologyScreen";
+import type { ReportStorage } from "./src/features/numerology/reportStore";
 import { BookQuoteScreen } from "./src/features/bookQuote/BookQuoteScreen";
 import { BOOK_QUOTE_FEATURE_ID, availableBookQuoteBooks, bookQuoteBookForPersona, bookQuoteHandoff, bookQuoteText, bookQuoteTitle, homeBookQuote, type BookQuoteBookId, type BookQuoteOfDay } from "./src/features/bookQuote/content";
 import personaShortNamesData from "../../packages/content/data/persona-short-names.json";
@@ -6128,6 +6129,7 @@ function AccountApp({ session }: { session: ReturnType<typeof useAccountSession>
               initialBirthDate={birthDate} onBirthDateChange={setBirthDate} onOpenShare={openShareSheet}
               onEvent={(name, metadata) => recordEvent(name, metadata)}
               onRequestPrivateMessage={tarotServerMode ? (payload) => requestNumerologyMessage(payload, backendOptions) : undefined}
+              onRequestReport={tarotServerMode ? (payload) => requestNumerologyReport(payload, backendOptions) : undefined}
               onWriteJournal={(prompt) => { setJournalPrompt(prompt); setJournalEntryToOpen(null); navigate("journal"); }}
               onBack={() => navigate("explore")} />
           </ScrollView>
@@ -9177,7 +9179,7 @@ function ProfileScreen({
   /** Opens a section directly, e.g. Premium from a locked feature. */
   initialSection?: "premium";
   /** Tôi là ai (Lô 4): saved charts are read from this account's device store. */
-  storage: AstrologyPersistence;
+  storage: AstrologyPersistence & ReportStorage;
   journalEntries: JournalEntry[];
   savedChartsRevision: number;
   onOpenSavedChart: (chart: SavedChart) => void;
@@ -9355,6 +9357,7 @@ function ProfileScreen({
           onDeleteChart={onDeleteSavedChart}
           onMakeChart={onMakeChart}
           onOpenNumerology={onOpenNumerology}
+          reportStorage={storage}
           onWriteJournal={onWriteJournal}
           onEditBirth={() => openFromWhoAmI("birth")}
           onEditName={() => openFromWhoAmI("identity")}

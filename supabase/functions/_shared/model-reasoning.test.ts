@@ -38,7 +38,9 @@ Deno.test("Default routes use 2000 tokens, light reasoning for Council and Astro
     // Batch C (2026-11-24): the private note is short (700) and the reader suggestion returns a slug (200).
     // 2026-11-25: the numerology private message is at most 120 words of JSON (600).
     const limit = route.feature === "tarot_note" ? 700 : route.feature === "reader_router" ? 200
-      : route.feature === "numerology_private_message" ? 600 : 2000;
+      : route.feature === "numerology_private_message" ? 600
+      // 2026-11-28: the numerology full report is up to seven sections of JSON (4000).
+      : route.feature === "numerology_report" ? 4000 : 2000;
     assertEquals(route.maxOutputTokens, limit, `${route.feature} limit`);
     const light = route.feature === "ai_council" || route.feature === "astrology_report";
     assertEquals(routeReasoning(route.safetyPolicy), light ? { mode: "low", maxTokens: 512 } : { mode: "off" }, `${route.feature} reasoning`);

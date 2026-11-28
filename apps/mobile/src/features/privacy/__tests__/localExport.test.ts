@@ -50,3 +50,11 @@ test("includes saved book quotes (Một câu cho hôm nay)", async () => {
   expect(JSON.parse(json).data.bookQuotesSaved).toEqual(saved);
   expect(read.mock.calls.map(([key]) => key)).toContain("nilaza.bookQuotes.saved.v1");
 });
+
+test("includes the saved Number Map report (kept on this device only)", async () => {
+  const saved = { schemaVersion: 1, numbersHash: "0a1b2c3d", createdAt: "2026-11-28T08:00:00.000Z", language: "vi", promptVersion: "2026-11-28-numerology-report-v1",
+    sections: [{ id: "you", title: "Con người bạn", body: "Đoạn thử.", blockIds: ["numbers.7"] }], questions: ["Câu một?", "Câu hai?", "Câu ba?"] };
+  const read = jest.fn(async (key: string) => key === "nilaza.numerology.report.v1" ? saved : null);
+  const json = await buildLocalExport({ userId: "qa", active: () => true, read: read as any, journalSnapshot: journal });
+  expect(JSON.parse(json).data.numerologyReport).toEqual(saved);
+});

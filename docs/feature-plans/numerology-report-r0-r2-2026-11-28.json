@@ -1,0 +1,244 @@
+{
+  "schemaVersion": 1,
+  "taskId": "numerology-report-r0-r2-2026-11-28",
+  "ownerAgent": "backend_ai_agent",
+  "lane": "Content + mobile + backend/AI: Bản đồ số “Báo cáo tổng hợp”, lots R0-R2 of docs/proposals/ASTRO_NUMEROLOGY_SYNTHESIS_TWO_SYSTEMS_PLAN_2026-11-28.vi.md (Owner decisions 28/11/2026)",
+  "goal": "R0: draft UI strings for the synthesis report (7 sections, table of contents, consent box, errors, coming soon, saved-report row, regenerate rules) in a new store packages/content/data/numerology-report.json with its own draft review block (the Owner-approved numerology-blocks.json is not edited, so the approved screens and the deployed ai-numerology-message content gate keep working), and a draft prompt numerology_report_system (vi+en). R1: app payload buildReportPayload (computed numbers and block ids only) with privacy tests, the report screen with table of contents, part 1 built locally for Free, parts 2-7 dimmed for Free, Premium consent box and call, saved on device under nilaza.numerology.report.v1 keyed by a hash of the number set, reuse when unchanged, regenerate only when the personal year or the birth date/name changed, a card under the private-message card, a saved-report row in Tôi là ai, inclusion in Export data. R2 (code only): Edge Function ai-numerology-report with the plan section 4 gate order, shared report payload validation, route numerology_report, quota numerologyReport 1/day + 2 failures, output check inside the router, migration file (switch OFF, route row, allowlists; no new table), Admin catalog and contract entries, Data safety and privacy drafts. Nothing is applied, deployed or switched on.",
+  "successCriteria": [
+    "Report payload holds no name, normalized name, birth day/month/year, age, age range or letter totals; tests prove it.",
+    "Function order: auth 401 -> strict switch 503 feature_paused -> approved content (numerology-blocks.json and numerology-report.json, named reviewer) 503 content_not_approved -> Premium 403 -> quota 429 -> bounded body; unknown keys 400; tests show the body is not read before the quota.",
+    "Model output is checked inside the router: 7 fixed section ids (name section only when name numbers were sent), blockIds subset of the sent ids and of the right section, <=350 words per section, banned words, no 'sẽ'/'will', no 4-digit number; failure is 503 report_unavailable, not counted as delivered, no canned text.",
+    "ai-numerology-message handler, index and its tests are unchanged and stay green.",
+    "Migration only widens allowlists and inserts the switch (enabled=false) and route rows; static SQL test asserts this.",
+    "App: Free sees TOC and part 1 without any network call; Premium consent box says only numbers and block codes are sent; saved report reused while the number set is unchanged; Tôi là ai shows View/Delete; Export data includes the report.",
+    "All checks in validationCommands pass."
+  ],
+  "writeScope": [
+    "docs/proposals/ASTRO_NUMEROLOGY_SYNTHESIS_TWO_SYSTEMS_PLAN_2026-11-28.vi.md",
+    "docs/release/numerology-report-r0-r2-2026-11-28/HANDOFF.vi.md",
+    "packages/content/data/numerology-report.json",
+    "packages/agent-config/prompt-library.json",
+    "packages/agent-config/model-routing.json",
+    "packages/agent-config/account-tier-policy.json",
+    "packages/agent-config/feature-access.json",
+    "scripts/validate-data.mjs",
+    "apps/mobile/App.tsx",
+    "apps/mobile/src/backendClient.ts",
+    "apps/mobile/src/__tests__/backendClient.test.ts",
+    "apps/mobile/src/features/numerology/aiPayload.ts",
+    "apps/mobile/src/features/numerology/reportStore.ts",
+    "apps/mobile/src/features/numerology/reportContent.ts",
+    "apps/mobile/src/features/numerology/NumerologyReport.tsx",
+    "apps/mobile/src/features/numerology/NumerologyScreen.tsx",
+    "apps/mobile/src/features/numerology/__tests__/aiPayload.test.ts",
+    "apps/mobile/src/features/numerology/__tests__/NumerologyReport.test.tsx",
+    "apps/mobile/src/features/profile/WhoAmI.tsx",
+    "apps/mobile/src/features/profile/__tests__/WhoAmI.test.tsx",
+    "apps/mobile/src/features/privacy/localExport.ts",
+    "apps/mobile/src/features/privacy/__tests__/localExport.test.ts",
+    "supabase/functions/_shared/numerology-payload.ts",
+    "supabase/functions/_shared/numerology-payload_test.ts",
+    "supabase/functions/_shared/numerology-report-prompt.ts",
+    "supabase/functions/_shared/numerology-report-prompt_test.ts",
+    "supabase/functions/_shared/global-prompt.ts",
+    "supabase/functions/_shared/global-prompt_test.ts",
+    "supabase/functions/_shared/model-router.ts",
+    "supabase/functions/_shared/model-reasoning.test.ts",
+    "supabase/functions/_shared/provider-registry.ts",
+    "supabase/functions/_shared/feature-switch.ts",
+    "supabase/functions/_shared/feature-switch_test.ts",
+    "supabase/functions/_shared/account-tier-policy.ts",
+    "supabase/functions/_shared/account-tier-policy.test.ts",
+    "supabase/functions/ai-numerology-report/index.ts",
+    "supabase/functions/ai-numerology-report/handler.ts",
+    "supabase/functions/ai-numerology-report/handler_test.ts",
+    "supabase/functions/admin-model-router-config/contract.ts",
+    "supabase/functions/admin-model-router-config/contract_test.ts",
+    "supabase/functions/README.md",
+    "supabase/migrations/20261128100000_numerology_report.sql",
+    "supabase/seed.generated.sql",
+    "supabase/config.toml",
+    "scripts/numerology-report-sql.test.mjs",
+    "scripts/check-supabase-readiness.mjs",
+    "scripts/check-supabase-migration-ledger.mjs",
+    "scripts/validate-backend-contracts.mjs",
+    "scripts/validate-admin-workflow-catalog.mjs",
+    "scripts/admin-workflow-catalog.test.mjs",
+    "scripts/admin-ai-studio-render.test.mjs",
+    "scripts/admin-feature-switches.test.mjs",
+    "scripts/admin-a2-navigation.test.mjs",
+    "scripts/admin-feature-access.test.mjs",
+    "package.json",
+    "apps/admin/feature-switches.js",
+    "apps/admin/ai-features.js",
+    "apps/admin/model-providers.js",
+    "apps/admin/overview.js",
+    "apps/admin/app.js",
+    "apps/admin/feature-access.js",
+    "apps/admin/workflow-catalog.js",
+    "docs/release/PLAY_DATA_SAFETY_BILLING_2026-11-16.vi.md",
+    "apps/web/src/content/legal/vi/privacy.md",
+    "apps/web/src/content/legal/en/privacy.md",
+    "packages/content/generated/public-help-corpus/manifest.json",
+    "packages/content/generated/public-help-corpus/corpus.jsonl",
+    "apps/mobile/src/features/numerology/SavedReportRow.tsx"
+  ],
+  "untouchedSurfaces": [
+    "No SQL applied, no Edge Function deployed, no secret set or read, no switch enabled, no Play Console change: each is a separate Owner approval by hash.",
+    "ai-numerology-message (handler, index, tests) and _shared/numerology-blocks.ts / numerology-message-prompt.ts are not edited, so the running function needs no redeploy.",
+    "packages/content/data/numerology-blocks.json stays approved and unchanged; the new strings live in numerology-report.json (draft).",
+    "PLAN.md, TwoSystems*, twoSystemsModel*, PaywallPanel.tsx belong to other work and are not touched.",
+    "Prompt is not Admin-editable; feature not added to model campaigns."
+  ],
+  "impact": {
+    "entryPoint": "Khám phá -> Bản đồ số -> result -> card “Báo cáo tổng hợp” under “Lời nhắn riêng” -> report screen; Tôi là ai -> Báo cáo đã lưu -> Xem/Xóa.",
+    "dataWrite": "Device only: nilaza.numerology.report.v1 (report text, section ids, number-set hash, created time) in the signed-in account namespace; included in Export data; removed by Delete and by clearing account data. Server: usage_events counts only, strict trace redaction, no report text.",
+    "backendContract": "New Edge Function ai-numerology-report, gateway path /ai/numerology-report, route numerology_report, switch numerology_report (missing row = off), quota numerologyReport.",
+    "adminVisibility": "Feature switch label, AI feature card, route editor entry, overview and workflow catalog graph for numerology_report; prompt shown as not Admin-editable.",
+    "privacySafety": "Only computed numbers, digits present (no counts), arrow ids and block ids leave the phone after consent; server rejects any other key; sensitive data class; OpenRouter zdr + data_collection deny on every route.",
+    "observability": "Router traces with cost, usage events numerology_report_attempted / numerology_report_generated, safety events on blocked output.",
+    "rollback": "Switch stays off; card shows “Sắp có”; saved reports stay readable; migration has a rollback comment."
+  },
+  "canonicalContracts": [
+    "docs/proposals/ASTRO_NUMEROLOGY_SYNTHESIS_TWO_SYSTEMS_PLAN_2026-11-28.vi.md",
+    "apps/mobile/src/features/numerology/aiPayload.ts",
+    "packages/agent-config/model-routing.json",
+    "packages/agent-config/prompt-library.json",
+    "packages/agent-config/account-tier-policy.json"
+  ],
+  "allowedDataClasses": [
+    "sanitized_project_context"
+  ],
+  "sourceReview": [
+    {
+      "path": "AGENTS.md",
+      "reason": "Approval boundaries.",
+      "sha256": "ff21becbcc436980d3262022e54ff801dbf16bd5eb5fcd6a5712f05f0f8d66b5"
+    },
+    {
+      "path": "docs/AGENT_TASK_ROUTER.md",
+      "reason": "Backend/AI route and checks.",
+      "sha256": "e508d09a9fdffc78da809a4f1449f1d77999186b9bd371870bd8582e132075e1"
+    },
+    {
+      "path": "docs/PLAN_QC_PROTOCOL.md",
+      "reason": "Preflight rules.",
+      "sha256": "5480428c010680cfd9103da052f702d2695f7d25a2dc38bb99d7484b11a19db2"
+    },
+    {
+      "path": "docs/proposals/ASTRO_NUMEROLOGY_SYNTHESIS_TWO_SYSTEMS_PLAN_2026-11-28.vi.md",
+      "reason": "Plan with the Owner's 28/11 decisions (sections 1.2, 2, 3.3, 4, 5, 7, 8).",
+      "sha256": "e0b7af1bec7bfa771cd8897649c963c46936548ab412d22c76d66b358dc878a4"
+    },
+    {
+      "path": "docs/proposals/NUMEROLOGY_AI_PRIVATE_MESSAGE_BACKEND_2026-11-25.vi.md",
+      "reason": "B1-B8 pattern mirrored here.",
+      "sha256": "c9a1e95a0fa43ceaa3ddd272572719a26a0fad6ec28bcda636d936feab90c757"
+    },
+    {
+      "path": "apps/mobile/src/features/numerology/aiPayload.ts",
+      "reason": "Private-message payload contract extended for the report.",
+      "sha256": "fdb8d938b3132da27f9f10bbc14d94df0fcaebf2d1eaa99189b1920ab6f3008b"
+    },
+    {
+      "path": "supabase/functions/ai-numerology-message/handler.ts",
+      "reason": "Gate order and failure handling template (not edited).",
+      "sha256": "6f27c82c6a8545618fc7ca5558ff873617b1d47d8bf76a48084ab209e3ddeb52"
+    },
+    {
+      "path": "supabase/functions/_shared/numerology-blocks.ts",
+      "reason": "Content gate and block text lookup reused read-only.",
+      "sha256": "afa58748e822b7b27a0fa94d639f154324f696bf5d70008c07ed2973ce71b059"
+    },
+    {
+      "path": "supabase/functions/_shared/numerology-message-prompt.ts",
+      "reason": "Banned word lists and output check pattern.",
+      "sha256": "7363accc84bd37c274bbfc0bbb3f2be7541c8b455b42f97b40be487160abfe6b"
+    },
+    {
+      "path": "supabase/functions/_shared/model-router.ts",
+      "reason": "Route defaults mirrored from model-routing.json.",
+      "sha256": "e91eee46a3888a08fe198d18abc63068cb15c5a613d694b12cd68aafc0543b42"
+    },
+    {
+      "path": "supabase/migrations/20261125090000_numerology_private_message.sql",
+      "reason": "Latest allowlist definitions to widen.",
+      "sha256": "0b382247985f4443f431cf9eddc67f80f6d1e7e09697322e30ea8907f654fbf3"
+    },
+    {
+      "path": "packages/content/data/numerology-blocks.json",
+      "reason": "Owner-approved store; flipping it to draft would close ai-numerology-message's content gate, so new strings go to a separate file.",
+      "sha256": "918d9cea12a8c34a18edd969c0a45f2b76507bf6c77206a5c929ba243f3d84a8"
+    },
+    {
+      "path": "apps/admin/workflow-catalog.js",
+      "reason": "Feature graphs and App.tsx digest.",
+      "sha256": "694e2d969cb6407f4320303cd07ea0f9ea5499b088170d00d092d7b4a1a9f7c1"
+    },
+    {
+      "path": "apps/mobile/src/features/profile/WhoAmI.tsx",
+      "reason": "Shared file; edit confined to the saved-reports section.",
+      "sha256": "597bb9d4024ac73024a8db71744689600c82c8a8f4118dfa87a1e112a97262bd"
+    }
+  ],
+  "skillReview": [
+    {
+      "name": "nilaza-plan-qc",
+      "decision": "verified-current",
+      "evidence": "Record and preflight before code edits; PLAN.md left to the coordinating agent as instructed."
+    },
+    {
+      "name": "nilaza-ai-runtime",
+      "decision": "verified-current",
+      "evidence": "Sign-in, switch and quota before the body; output validated inside the router; sensitive route with zdr/data_collection deny; only used context sent; no canned text."
+    },
+    {
+      "name": "nilaza-brand-experience",
+      "decision": "verified-current",
+      "evidence": "Only the legal privacy pages under apps/web are touched, to name the report next to “Lời nhắn riêng” in the AI-sharing paragraph; no visual or brand change. New app strings follow the Open Reflection tone and avoid the banned sky-text list."
+    }
+  ],
+  "dependencyReview": {
+    "usesVolatileExternalKnowledge": false,
+    "evidence": "Reuses repository router, providers and price book; no new package or provider."
+  },
+  "externalSourceReview": [],
+  "securityReview": {
+    "authzRls": "verify_jwt plus in-handler auth; Premium checked server-side from subscriptions; no RLS change.",
+    "sensitiveData": "Body whitelist rejects names, birth dates, ages and digit counts; strict trace redaction; report text never stored on the server.",
+    "secretsLogging": "No secret read or written; .env not read; request body not logged.",
+    "externalInput": "Bounded JSON read after gates; every number and digit validated; block ids validated against grammar and the numbers sent.",
+    "dependencies": "No package added.",
+    "migrationRelease": "Migration file written and statically tested only; applying it, deploying the function and enabling the switch are separate Owner approvals by hash.",
+    "stopCondition": "Stop if ai-numerology-message tests break or if the change would require redeploying it.",
+    "unresolvedHighRisks": []
+  },
+  "workingTreeReview": {
+    "note": "Record written before code edits (28/11/2026, branch claude/numerology-report-r0-r2 cut from origin/main 66a0792). The only pre-existing change is the plan document copied from commit ba8448c as instructed.",
+    "paths": [
+      "docs/proposals/ASTRO_NUMEROLOGY_SYNTHESIS_TWO_SYSTEMS_PLAN_2026-11-28.vi.md"
+    ]
+  },
+  "validationCommands": [
+    "npx --yes deno@2 test supabase/functions/ai-numerology-report supabase/functions/ai-numerology-message supabase/functions/_shared",
+    "npm run validate:data",
+    "npm run validate:backend",
+    "npm run supabase:check",
+    "npm run supabase:migration-ledger:check",
+    "npm run admin:check",
+    "npm run admin:test",
+    "npm run council:contract:check",
+    "npm run prompt:consumers:check",
+    "npm run ai-operations:test",
+    "npx --prefix apps/mobile tsc --noEmit -p apps/mobile",
+    "npm --prefix apps/mobile test -- --silent",
+    "npm run validate:public-content",
+    "node scripts/feature-preflight.mjs --ci --base origin/main"
+  ],
+  "managerTestPath": "Sau khi Owner duyệt nội dung, SQL, deploy và bật công tắc cho tài khoản thử: Khám phá -> Bản đồ số -> nhập ngày sinh -> thẻ “Báo cáo tổng hợp” -> xem mục lục và phần 1 -> Tạo báo cáo -> đọc hộp xác nhận -> nhận 7 phần; mở lại thấy báo cáo đã lưu, không tạo lại; Tôi là ai -> Báo cáo đã lưu -> Xem/Xóa; Xuất dữ liệu có báo cáo.",
+  "residualRisk": "Content strings and prompt are drafts awaiting Owner review; per-report cost, Vietnamese quality and run time not measured; not tested on a phone or against a deployed function.",
+  "externalActions": {
+    "databaseWrite": false,
+    "productionRelease": false
+  }
+}

@@ -4,8 +4,9 @@ export const MODEL_ROUTE_PUBLISH_CONTRACT = "model_route_publish_v2";
 const providers = new Set(["openai", "openrouter", "gemini", "anthropic", "deepseek"]);
 // Batch C (2026-11-24): tarot_note and reader_router; migration 20261124090000 extends the SQL checks the same way.
 // 2026-11-25: numerology_private_message; migration 20261125090000 extends the SQL checks the same way.
+// 2026-11-28: numerology_report; migration 20261128100000 extends the SQL checks the same way.
 const features = new Set(["oracle_router", "persona_chat", "ai_council", "tarot_reading", "daily_insight", "astrology_report", "tarot_note", "reader_router",
-  "numerology_private_message"]);
+  "numerology_private_message", "numerology_report"]);
 // Decision APIs return one choice and no text: valid only as steps of a reader_router chain, never as primary/fallback.
 export const DECISION_PROVIDERS = new Set(["openrouter_decisions", "openai_decisions", "gemini_decisions"]);
 export const DECISION_FEATURES = new Set(["reader_router"]);

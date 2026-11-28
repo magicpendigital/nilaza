@@ -24,7 +24,9 @@ export const FEATURE_DATA_CLASS: Record<string, DataClass> = {
   tarot_note: "personal",
   reader_router: "personal",
   // 2026-11-25: computed numerology numbers and approved block ids only (no name, no birth date); kept sensitive.
-  numerology_private_message: "sensitive"
+  numerology_private_message: "sensitive",
+  // 2026-11-28: the full report sends the same kind of data plus digits present (no counts) and arrow ids; sensitive.
+  numerology_report: "sensitive"
 };
 export function featureDataClass(feature: string): DataClass {
   return FEATURE_DATA_CLASS[feature] ?? "sensitive";

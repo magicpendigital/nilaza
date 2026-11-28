@@ -1,0 +1,117 @@
+{
+  "version": "2026-11-28-draft1",
+  "review": {
+    "status": "draft",
+    "reviewer": null,
+    "reviewedAt": null,
+    "note": "AI-drafted 28/11/2026 for the Number Map synthesis report (plan ASTRO_NUMEROLOGY_SYNTHESIS_TWO_SYSTEMS_PLAN_2026-11-28, lot R0). Kept apart from the Owner-approved numerology-blocks.json so that store and the running private-message function stay approved. The ai-numerology-report function refuses (content_not_approved) until this block says approved with a named reviewer. Any later edit needs a new Owner review."
+  },
+  "sections": {
+    "you": {
+      "title": { "vi": "Con người bạn", "en": "Who you are" },
+      "hint": { "vi": "Số chủ đạo và số ngày sinh.", "en": "Life path and birthday numbers." }
+    },
+    "name": {
+      "title": { "vi": "Họ tên của bạn", "en": "Your name" },
+      "hint": { "vi": "Số sứ mệnh, số linh hồn và số nhân cách.", "en": "Expression, soul urge and personality numbers." }
+    },
+    "chart": {
+      "title": { "vi": "Biểu đồ ngày sinh", "en": "Birth chart" },
+      "hint": { "vi": "Những chữ số có mặt và các đường đầy hoặc trống.", "en": "Digits present and the full or empty lines." }
+    },
+    "year": {
+      "title": { "vi": "Năm nay và tháng này", "en": "This year and this month" },
+      "hint": { "vi": "Năm cá nhân và tháng cá nhân.", "en": "Personal year and personal month." }
+    },
+    "pinnacle": {
+      "title": { "vi": "Chặng đang đi", "en": "The stage you are in" },
+      "hint": { "vi": "Đỉnh cao và thử thách của chặng hiện tại.", "en": "Pinnacle and challenge of the current stage." }
+    },
+    "relationship": {
+      "title": { "vi": "Trong các mối quan hệ", "en": "In relationships" },
+      "hint": { "vi": "Cách bạn có thể đi cùng người khác.", "en": "How you may relate to other people." }
+    },
+    "questions": {
+      "title": { "vi": "Ba câu hỏi để viết", "en": "Three questions to write about" },
+      "hint": { "vi": "Gợi ý cho nhật ký của bạn.", "en": "Prompts for your journal." }
+    }
+  },
+  "report": {
+    "title": { "vi": "Báo cáo tổng hợp", "en": "Full report" },
+    "teaser": {
+      "vi": "Một bản đọc dài ghép các con số của bạn thành bảy phần, từ số chủ đạo đến ba câu hỏi để viết nhật ký.",
+      "en": "A longer reading that brings your numbers together in seven parts, from your life path to three journal questions."
+    },
+    "open": { "vi": "Mở báo cáo", "en": "Open the report" },
+    "back": { "vi": "Quay lại Bản đồ số", "en": "Back to the Number Map" },
+    "tocTitle": { "vi": "Mục lục", "en": "Contents" },
+    "partLabel": { "vi": "Phần {n}", "en": "Part {n}" },
+    "localNote": {
+      "vi": "Phần 1 được ghép ngay trên điện thoại từ nội dung đã duyệt, không dùng AI.",
+      "en": "Part 1 is put together on this phone from reviewed content, without AI."
+    },
+    "lockedNote": { "vi": "Các phần 2 đến 7 nằm trong gói Premium.", "en": "Parts 2 to 7 are part of Premium." },
+    "noName": {
+      "vi": "Phần họ tên chỉ có khi bạn nhập họ tên trong Bản đồ số.",
+      "en": "The name part appears only when you enter a name in the Number Map."
+    },
+    "action": { "vi": "Tạo báo cáo", "en": "Create report" },
+    "consentTitle": { "vi": "Trước khi gửi", "en": "Before sending" },
+    "consentBody": {
+      "vi": "Chỉ các con số đã tính và mã khối nội dung được gửi đi. Họ tên và ngày sinh của bạn ở lại trên điện thoại này. Báo cáo được lưu trên máy này; máy chủ không giữ nội dung. Lượt hôm nay chỉ được tính khi báo cáo đến tay bạn.",
+      "en": "Only the computed numbers and content block codes are sent. Your name and birth date stay on this phone. The report is saved on this phone; the server keeps no copy of its text. Today's turn counts only when the report reaches you."
+    },
+    "consentConfirm": { "vi": "Gửi", "en": "Send" },
+    "consentCancel": { "vi": "Để sau", "en": "Not now" },
+    "loading": {
+      "vi": "Đang ghép báo cáo, có thể mất khoảng một phút...",
+      "en": "Putting your report together; this can take about a minute..."
+    },
+    "aiLabel": {
+      "vi": "Các phần dưới đây do AI ghép từ nội dung đã duyệt, để tự soi chứ không là kết luận về bạn.",
+      "en": "The parts below were put together by AI from reviewed content, for self-reflection rather than as a conclusion about you."
+    },
+    "premiumNote": { "vi": "Báo cáo tổng hợp nằm trong gói Premium.", "en": "The full report is part of Premium." },
+    "dailyLimit": {
+      "vi": "Hôm nay đã hết lượt tạo báo cáo. Ngày mai bạn có thể tạo lại.",
+      "en": "Today's turns for a report are used. You can create one again tomorrow."
+    },
+    "unavailable": {
+      "vi": "Chưa ghép được báo cáo lúc này. Bạn có thể thử lại sau một chút.",
+      "en": "The report could not be put together right now. You can try again in a moment."
+    },
+    "retry": { "vi": "Thử lại", "en": "Try again" },
+    "blocked": {
+      "vi": "Hôm nay Nilaza chưa ghép được một báo cáo đủ nhẹ nhàng để gửi. Ngày mai bạn có thể thử lại.",
+      "en": "Today Nilaza could not put together a report gentle enough to send. You can try again tomorrow."
+    },
+    "soon": { "vi": "Sắp có", "en": "Coming soon" },
+    "soonBody": {
+      "vi": "Báo cáo tổng hợp đang được chuẩn bị. Phần 1 vẫn đọc được ngay bây giờ.",
+      "en": "The full report is being prepared. Part 1 can be read right now."
+    },
+    "savedTitle": { "vi": "Báo cáo đã lưu", "en": "Saved report" },
+    "savedAt": { "vi": "Tạo lúc {date}", "en": "Created {date}" },
+    "savedNote": {
+      "vi": "Báo cáo này nằm trên điện thoại của bạn và được dùng lại khi các con số chưa đổi.",
+      "en": "This report is kept on your phone and reused while your numbers stay the same."
+    },
+    "regenerate": { "vi": "Tạo lại", "en": "Create again" },
+    "regenerateHint": {
+      "vi": "Năm cá nhân, ngày sinh hoặc họ tên đã đổi kể từ lần tạo trước. Bạn có thể tạo một báo cáo mới.",
+      "en": "Your personal year, birth date or name changed since the last report. You can create a new one."
+    },
+    "view": { "vi": "Xem lại", "en": "View" },
+    "delete": { "vi": "Xóa", "en": "Delete" },
+    "deleteTitle": { "vi": "Xóa báo cáo đã lưu?", "en": "Delete the saved report?" },
+    "deleteBody": {
+      "vi": "Báo cáo chỉ nằm trên điện thoại này. Xóa rồi thì không khôi phục được.",
+      "en": "The report exists only on this phone. Once deleted it cannot be restored."
+    },
+    "rowLabel": { "vi": "Báo cáo tổng hợp Bản đồ số", "en": "Number Map full report" },
+    "draftNote": {
+      "vi": "Bản thử: lời văn của báo cáo đang chờ duyệt.",
+      "en": "Draft: the report wording is waiting for review."
+    }
+  }
+}

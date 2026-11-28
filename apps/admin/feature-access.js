@@ -56,7 +56,8 @@
       { "id": "ai_council", "label": "Hội đồng" },
       { "id": "tarot_note", "label": "Ghi chú riêng Tarot" },
       { "id": "reader_router", "label": "Gợi ý người đọc (tầng AI)" },
-      { "id": "numerology_private_message", "label": "Lời nhắn riêng Thần số học" }
+      { "id": "numerology_private_message", "label": "Lời nhắn riêng Thần số học" },
+      { "id": "numerology_report", "label": "Báo cáo tổng hợp Thần số học" }
     ]
   });
   // packages/agent-config/account-tier-policy.json "mode" (test-checked): during closed testing every signed-in account

@@ -8,6 +8,7 @@ import {
   requestTarotClarifier,
   requestTarotNote,
   requestNumerologyMessage,
+  requestNumerologyReport,
   requestTarotReaderSuggestion,
   sendProductEvent,
   requestGuestTarotDraw,
@@ -754,6 +755,59 @@ describe("backendClient", () => {
       await expect(requestNumerologyMessage(payload, signedIn)).resolves.toEqual({ kind: "unavailable", reason: "offline" });
       mockFetch.mockClear();
       await expect(requestNumerologyMessage(payload, backendOptions)).resolves.toEqual({ kind: "unavailable", reason: "auth" });
+      expect(mockFetch).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("requestNumerologyReport (2026-11-28)", () => {
+    const signedIn = { baseUrl: "https://project.supabase.co/functions/v1", timeoutMs: 1000, authToken: "fake-test-token" };
+    const ok = (body: unknown, status = 200) => ({ ok: status < 300, status, json: async () => body });
+    const payload = {
+      version: 1 as const, feature: "numerology_report" as const, language: "vi" as const,
+      numbers: { lifePath: "7", birthday: "3", personalYear: "1", personalMonth: "2", pinnacle: { stage: 1 as const, number: "5" }, challenge: "2" },
+      chart: { digits: [1, 3, 7], fullArrows: [], emptyArrows: ["4-5-6" as const] },
+      blockIds: ["numbers.7", "numbers.3"]
+    };
+    const report = {
+      sections: [{ id: "you", title: "Con người bạn", body: "  Đoạn một.  ", blockIds: ["numbers.7"] }, { id: "questions", title: "Ba câu hỏi", body: "Mở đầu.", blockIds: ["numbers.7.question"] }],
+      questions: [" Một? ", "Hai?", "Ba?"], language: "vi", source: "backend", promptVersion: "2026-11-28-numerology-report-v1",
+      createdAt: "2026-11-28T03:00:00.000Z", nextReportAt: "2026-11-28T17:00:00.000Z"
+    };
+
+    it("posts only the payload to ai-numerology-report and maps the sections and questions", async () => {
+      mockFetch.mockResolvedValueOnce(ok(report));
+      await expect(requestNumerologyReport(payload, signedIn)).resolves.toEqual({
+        kind: "report", nextReportAt: "2026-11-28T17:00:00.000Z",
+        report: {
+          sections: [{ id: "you", title: "Con người bạn", body: "Đoạn một.", blockIds: ["numbers.7"] }, { id: "questions", title: "Ba câu hỏi", body: "Mở đầu.", blockIds: ["numbers.7.question"] }],
+          questions: ["Một?", "Hai?", "Ba?"], language: "vi", promptVersion: "2026-11-28-numerology-report-v1", createdAt: "2026-11-28T03:00:00.000Z"
+        }
+      });
+      expect(String(mockFetch.mock.calls[0][0])).toBe("https://project.supabase.co/functions/v1/ai-numerology-report");
+      expect(JSON.parse(String((mockFetch.mock.calls[0][1] as RequestInit).body))).toEqual(payload);
+    });
+
+    it("maps pauses, Premium, limits, blocks, malformed answers and failures without inventing text", async () => {
+      const cases: Array<[unknown, number, unknown]> = [
+        [{ error: "feature_paused" }, 503, { kind: "soon" }],
+        [{ error: "content_not_approved" }, 503, { kind: "soon" }],
+        [{ error: "premium_required" }, 403, { kind: "premium_required" }],
+        [{ error: "daily_limit_reached", nextReportAt: "2026-11-28T17:00:00.000Z" }, 429, { kind: "daily_limit", nextReportAt: "2026-11-28T17:00:00.000Z" }],
+        [{ error: "report_unavailable", moderationStatus: "blocked", retryable: false }, 503, { kind: "blocked" }],
+        [{ error: "report_unavailable", retryable: true }, 503, { kind: "unavailable", reason: "busy" }],
+        [{ error: "invalid_jwt" }, 401, { kind: "unavailable", reason: "auth" }],
+        [{ ...report, sections: [] }, 200, { kind: "unavailable", reason: "busy" }],
+        [{ ...report, sections: [{ id: "horoscope", title: "x", body: "y", blockIds: [] }] }, 200, { kind: "unavailable", reason: "busy" }],
+        [{ ...report, questions: [] }, 200, { kind: "unavailable", reason: "busy" }]
+      ];
+      for (const [body, status, expected] of cases) {
+        mockFetch.mockResolvedValueOnce(ok(body, status));
+        await expect(requestNumerologyReport(payload, signedIn)).resolves.toEqual(expected);
+      }
+      mockFetch.mockRejectedValueOnce(new TypeError("Network request failed"));
+      await expect(requestNumerologyReport(payload, signedIn)).resolves.toEqual({ kind: "unavailable", reason: "offline" });
+      mockFetch.mockClear();
+      await expect(requestNumerologyReport(payload, backendOptions)).resolves.toEqual({ kind: "unavailable", reason: "auth" });
       expect(mockFetch).not.toHaveBeenCalled();
     });
   });

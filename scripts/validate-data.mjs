@@ -535,6 +535,23 @@ for (const relation of ["same", "sameParity", "differentParity"]) {
   assertExtraText(numerologyExtra.relationship?.questions?.[relation], "relationship.questions." + relation);
 }
 for (const key of ["chart", "digits", "relationship"]) scanSkyText(numerologyExtra[key], "." + key, "numerology-reading-extra");
+// 2026-11-28 (R0): Báo cáo tổng hợp strings, kept apart from the approved store with their own review block. The
+// ai-numerology-report function refuses while this review is a draft.
+const numerologyReport = readJson("packages/content/data/numerology-report.json");
+const assertReportText = (value, label) => assertViText(value, "numerology-report." + label);
+assert(["draft", "approved"].includes(numerologyReport.review?.status), "numerology-report.review.status must be draft or approved");
+assert(numerologyReport.review?.status !== "approved" || Boolean(numerologyReport.review?.reviewer), "numerology-report approved without a reviewer");
+for (const section of ["you", "name", "chart", "year", "pinnacle", "relationship", "questions"]) {
+  for (const field of ["title", "hint"]) assertReportText(numerologyReport.sections?.[section]?.[field], "sections." + section + "." + field);
+}
+assert(Object.keys(numerologyReport.sections ?? {}).length === 7, "numerology-report.sections must hold exactly 7 sections");
+for (const key of ["title", "teaser", "open", "back", "tocTitle", "partLabel", "localNote", "lockedNote", "noName", "action", "consentTitle",
+  "consentBody", "consentConfirm", "consentCancel", "loading", "aiLabel", "premiumNote", "dailyLimit", "unavailable", "retry", "blocked", "soon",
+  "soonBody", "savedTitle", "savedAt", "savedNote", "regenerate", "regenerateHint", "view", "delete", "deleteTitle", "deleteBody", "rowLabel",
+  "draftNote"]) assertReportText(numerologyReport.report?.[key], "report." + key);
+assert(/\{n\}/.test(numerologyReport.report?.partLabel?.vi ?? "") && /\{n\}/.test(numerologyReport.report?.partLabel?.en ?? ""), "numerology-report.report.partLabel needs {n}");
+assert(/\{date\}/.test(numerologyReport.report?.savedAt?.vi ?? "") && /\{date\}/.test(numerologyReport.report?.savedAt?.en ?? ""), "numerology-report.report.savedAt needs {date}");
+for (const key of ["sections", "report"]) scanSkyText(numerologyReport[key], "." + key, "numerology-report");
 const skyTopics = readJson("packages/content/data/astrology-topic-placements.json");
 for (const key of ["reminder", "birthTimeNote", "needsBirthTime"]) assertViText(skyTopics[key], `astrology-topic-placements.${key}`);
 for (const [topicId, topic] of Object.entries(skyTopics.topics)) {
